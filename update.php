@@ -1316,7 +1316,7 @@ function upgrade_db()
 	$req = mysql_query("ALTER TABLE " . $db_prefix . "_vote ADD PRIMARY KEY ( `id` ) ");
 	$req = mysql_query("ALTER TABLE " . $db_prefix . "_vote ADD INDEX ( `vid` ) ");
 
-	$sql = mysql_query("ALTER TABLE  " . $db_prefix . "_games ADD `map` TEXT NOT NULL;");
+	$req = mysql_query("ALTER TABLE  " . $db_prefix . "_games ADD `map` TEXT NOT NULL;");
 	// BLOCKS
 	$del = mysql_query("DELETE FROM " . $db_prefix . "_block WHERE type = 'who_on_line'");
 	$del = mysql_query("DELETE FROM " . $db_prefix . "_block WHERE module = 'Calendar'");
@@ -1502,15 +1502,15 @@ function edit_config_assistant($op)
     . "<tr><td colspan=\"2\" align=\"center\"><b>" . _CONFIG . "</b></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></td></tr>\n"
     . "<tr><td>" . _DBHOST . " :</td><td><input type=\"text\" name=\"db_host\" size=\"40\" value=\""  . $global['db_host'] . "\" /></td></tr>\n"
-	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBUSER . " : </td><td><input type=\"text\" name=\"db_user\" size=\"40\" value=\"" . $global['db_user'] . "\" /></td></tr>\n"
-	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBPASS . " :</td><td><input type=\"password\" name=\"db_pass\" size=\"10\" /></td></tr>\n"
-	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBPREFIX . " :</td><td><input type=\"text\" name=\"prefix\" size=\"10\" value=\"" . $db_prefix . "\" /></td></tr>\n"
-	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBNAME . " :</td><td><input type=\"text\" name=\"db_name\" size=\"10\" value=\"" . $global['db_name'] . "\" /></td></tr>\n"
-	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
 	. "</table>\n"
     . "<div style=\"text-align: center;\"><br />" . _CHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _NEXT . "\" /></div></form></body></html>";
 	}
