@@ -1,0 +1,28 @@
+<?php 
+header('Content-type: text/html; charset=iso-8859-1');
+?><html>
+<head>
+<title>Aides Administration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
+<center><big><b>Aide générale</b></big></center><br>
+
+<li><b>Panneau</b> : Depuis cette page vous pouvez avoir une aperçu global de votre administration, le menu rapide à gauche,
+ le sous menu rapide à droite, les notifications, les actions, les erreurs sql, les messages nuked-klan.org, les discussions administrateurs...</li><br>
+<li><b>Notification</b> : Ce nouveau système vous permet d'être informer rapidement des actions que le site effectue automatiquement comme la suppression de vieille erreur sql
+ou encore l'arrivé d'une suggestion ou d'un mail contact et même la fin d'un ban temporaire. Il y a 4 sortes de notifications, erreur, succès, informations, alertes...</li><br>
+<li><b>Erreur sql</b> : Ce système permet de voir les erreurs sql sur lequel sont tombé les utilisateurs de votre site, ils sont alors redirigés vers une page d'excuse et un
+détail de l'erreur est alors envoyé dans cette section.</li><br>
+<li><b>Discussion</b> : Ce chat disponible uniquement depuis l'administration permettra de discuter entre administrateurs, modérateurs et autres parties du staff.</li><br>
+<li><b>Action</b> : Ce système permet de savoir ce que font les membres du staff, afin de contrôler ou même de ne pas refaire une action déjà effectué.
+Les actions enregistrés sont diverses, connexion et déconnexion de l'administration, et même ajout, suppression, modification de n'importe quel partie d'un module.</li><br>
+<li><b>Annonce de nuked-klan.org</b> : Ce système nous permet d'envoyer un message rapidement à l'ensemble des sites nuked-klan, afin de vous informer, avertir, ou même proposer.
+Il permet uniquement d'envoyer un message à votre site, mais on ne peut modifier votre site... Vous restez donc 100% libre mais avertie.</li><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</body></html>

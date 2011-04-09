@@ -1,0 +1,81 @@
+<?php
+if (!defined("INDEX_CHECK"))
+{
+	exit('You can\'t run this file alone.');
+}
+define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
+define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
+define("_ON","sur");
+define("_MOREINFOS","+ d'infos");
+define("_SEVERDOWN","Serveur Down...");
+define("_NAME","Nom");
+define("_SERVIP","Adresse Ip :");
+define("_SERVPORT","Port :");
+define("_SERVERGAME","Type de serveur :");
+define("_TYPE","Type");
+define("_MAP","Map");
+define("_PLAYER","Joueurs");
+define("_NOSERVER","Aucun serveur pour cette catégorie");
+define("_SERVERINFOS","Infos sur un serveur");
+define("_SEARCH","Chercher");
+define("_EXECTHISFILE","Cochez Exécutez ce programme à partir de son emplacement actuel et cliquez sur ok pour rejoindre le serveur");
+define("_BACK","Retour");
+define("_SERVERDETAIL","Serveur en détails");
+define("_ADDRESS","Adresse");
+define("_NBPLAYER","Nb de joueurs");
+define("_SERVERPASS","Password");
+define("_GAME","Game");
+define("_SYSTEMOS","Système Os");
+define("_SERVERTYPE","Type de serveur");
+define("_SERVERRULES","Serveur Rules");
+define("_SERVERVERSION","Version");
+define("_PLAYERID","Id");
+define("_NICK","Pseudo");
+define("_SCORE","Score");
+define("_FRAG","Frags");
+define("_HONOR","Honeur");
+define("_DEATHS","Morts");
+define("_PING","Ping");
+define("_NOPLAYERS","Aucun joueur sur ce serveur");
+
+define("_ADMINSERVER","Administration Serveurs");
+define("_SERVER","Serveurs");
+define("_HELP","Aides");
+define("_DELETESERV","Vous êtes sur le point de supprimer");
+define("_CONFIRM","Continuer ?");
+define("_CAT","Catégorie");
+define("_EDIT","Editer");
+define("_DEL","Supprimer");
+define("_EDITTHISCAT","Editer cette Catégorie");
+define("_DELTHISCAT","Supprimer cette Catégorie");
+define("_ADDCAT","Ajouter une Catégorie");
+define("_TITLE","Titre");
+define("_DESCR","Description");
+define("_CREATECAT","Créer une Catégorie");
+define("_CATADD","Catégorie ajoutée avec succès.");
+define("_MODIFTHISCAT","Modifier cette Catégorie");
+define("_CATMODIF","Catégorie modifiée avec succès.");
+define("_CATDEL","Catégorie supprimée avec succès.");
+define("_ADDTHISSERV","Ajouter ce Serveur");
+define("_SERVERADD","Serveur ajouté avec succès.");
+define("_SERVERDEL","Serveur supprimé avec succès.");
+define("_MODIFTHISSERV","Modifier ce Serveur");
+define("_SERVERMODIF","Serveur modifié avec succès.");
+define("_EDITTHISSERV","Editer ce Serveur");
+define("_NONE","N/A");
+define("_DELTHISSERV","Supprimer ce Serveur");
+define("_ADDSERVER","Ajouter un Serveur");
+define("_CATMANAGEMENT","Gestion des catégories");
+define("_NOSERV","Aucun serveur dans la base de données");
+define("_SERVERPREF","Aucun serveur dans la base de données");
+define("_PREFUPDATED","Préférences modifiées avec succès.");
+define("_NONECATINDATABASE","Aucune catégorie dans la base de données");
+
+define("_ACTIONADDCATSER","a ajouté la catégorie serveur");
+define("_ACTIONMODIFCATSER","a modifié la catégorie serveur");
+define("_ACTIONDELCATSER","a supprimé la catégorie serveur");
+define("_ACTIONADDSER","a ajouté le serveur");
+define("_ACTIONDELSER","a supprimé le serveur");
+define("_ACTIONMODIFSER","a modifié le serveur");
+define("_ACTIONCONFIGSER","a modifié les préférences du module serveur");
+?>

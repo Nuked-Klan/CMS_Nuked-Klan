@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>gsQuery Readme</title>
+  </head>
+
+  <body>
+    <h2>General Notes</h2>
+
+    <p>gsQuery is a PHP library that allows you to query various game servers for things like number of players, the players itself, current map etc. The main goal of this class is to support as many games as possible. So some game specific thinks cannot be fetched with this class yet.</p>
+    <p>The current version of gsQuery is 0.1.2. You can get it <a href="http://www.terragate.net/~jr/gsQuery/downloads/gsQuery-0.1.2.tar.gz">here</a>. The API documentation and an example is included.</p>
+    <p>The previous release is 0.1.1. You can get it <a href="http://www.terragate.net/~jr/gsQuery/downloads/gsQuery-0.1.1.tar.gz">here</a>.</p>
+    <p>The unstable version can be downloaded from cvs.terragate.net. You can do this with the CVS command: <code>cvs -d:pserver:anonymous@cvs.terragate.net:/var/lib/cvs co gsQuery</code> or with <a href="http://www.wincvs.org/index.html">WinCVS</a> (<a href="submit_patch_howto.html">here</a> is a small howto). You can browse the CVS <a href="http://dev.terragate.net/cgi-bin/viewcvs.cgi">here</a>.</p>
+
+    <p>This library was part of the <a href="http://gameservermodule.terragate.net">PHPNuke Gameserver module</a>, but has been seperated from it with version 0.0.4</p>
+    <p>Please post any suggestions, comments, and bug reports 
+      to the gsQuery <a href="http://forum.terragate.net">Forum</a> on this site.</p>
+      
+    <h2>License</h2>
+    This library is free Software. It is licensed under the GNU Lesser General Public License (LGPL).
+
+    <h2>Supported games</h2>
+    
+    <p>Currently the following games are known to work:</p>
+    <ul>
+      <li>Unreal Tournamnet and most mods (gameSpy)</li>
+      <li>Unreal Tournamnet 200x and most mods (gameSpy)</li>
+      <li>Battlefield 1942 and most mods (gameSpy)</li>
+      <li>Halflife and most Mods (hlife)</li>
+      <li>America's Army (armyGame)</li>
+      <li>Quake 3 and some Mods (q3a)</li>
+      <li>Star Trek: Elite Force (q3a)</li>
+      <li>Medal of Honor Allied Assault (q3a)</li>
+      <li>MoHAA: Spearhead/Breakthrough (mohs)</li>
+      <li>Return to Castle Wolfenstein (q3a)</li>
+      <li>Vietkong (vietkong)</li>
+      <li>Rainbow Six: Raven Shield (rvnshld)</li>
+      <li>Call of Duty (q3a)</li>
+      <li>Battlefield Vietnam (gameSpyQ)</li>
+      <li>Quake 2 and most mods (q2)</li>
+      <li>Kingpin (q2)</li>
+      <li>Sin (q2)</li>
+      <li>Farcry (farCry)</li>
+      <li>IGI2: Covert Strike (igi2)</li>
+      <li>Jedi Knight 3 (q3a)</li>
+      <li>Solider of Fortune 2 (sof2)</li>
+      <li>Far Cry (farCry)</li>
+      <li>Quake 2 (q2)</li>
+      <li>Kingpin (q2)</li>
+      <li>Heretic 2 (q2)</li>
+      <li>Halo (halo)</li>
+      <li>Deus Ex (deuxEX)</li>
+      <li>Doom 3 (d3)</li>
+      <li>Halflife 2 (hlife2)</li>
+      <li>CS:Source (hlife2)</li>
+      <li>Savage: The Battle For Newerth (savage)</li>
+      <li>StarWars BattleFront (gameSpy)</li>
+      <li>And probably more</li>
+    </ul>
+    <p>If your game isn't listed here but is based on the same engine as one of the above chances are good that it can be queried with this library. Futhermore you can try it with the gameSpy protocol which many games support.</p> 
+
+    <h2>Requirements</h2>
+    <ul>
+      <li>PHP >= 4.2</li>
+      <li>PHP Socket support</li>
+      <li>A provider that allows inbound/outbound UDP traffic</li>
+    </ul>
+    <p>If your provider does not allow UDP traffic but HTTP is allowed (often the case) try out <a href="http://www.terragate.net/services/gsQuery/">TerraGate's game server query service</a></p>
+
+    <h2>Installation</h2>
+    Upload the contents of the src folder to your desired location on your web server (e.g. /gsQuery). You can test gsQuery with the example ( http://mydomain.com/path/to/gsQuery/examples/ ).
+
+    <h2>Usage</h2>
+    For infos about how to use gsQuery take a look into the API documentation which can be found in the doc directory of the gsQuery package. An example is also included. Alternativly you can use the example and adjust the HTML and CSS to fit your needs.
+
+    <h2>About the query port</h2>
+    If you want to add a server that is talking the gsqp (Game Server Query Protocol) you have to know the query port for it. Sometimes it can be hard to figure out that. Here is a small overview of games where the query port is known:
+    <table>
+	<tr><th>Game name</th><th>Rule</th></tr>
+	<tr><td>Unreal Tournament</td><td>queryport=gameport+1 (e.g. 7777+1=7778)</td></tr>
+	<tr><td>Unreal Tournament 200x</td><td>queryport=gameport+10 (e.g. 7777+10=7787)</td></tr>
+	<tr><td>Battlefield 1942</td><td>Default queryport is 23000 (no rule found yet)</td></tr>
+	<tr><td>America's Army</td><td>queryport=gameport+1 (e.g. 1716+1=1717)</td></tr>
+	<tr><td>Ravenshield</td><td>queryport=gameport+1000</td></tr></table>
+    <p>In most cases you can use the same query port (or better: the same rule) for games based on the same engine, but not always e.g. Americas Army is based on the UT2003 Engine and is using gameport+1 (1716+1=1717) as the default query port (UT2003 has changed the default query port after the first patch from 7778 to 7787). If you figure out more query ports please let us know about it and post them to the mailing list.</p>  
+    In case of the Halflife (hlife) and the Quake III (q3a) protocol the query port is identicial to the game port. 
+
+    <h2>Donation</h2>
+
+      <p>You can make a donation for this project to help paying web server costs if you like</p>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+          <input type="hidden" name="cmd" value="_xclick"/>
+          <input type="hidden" name="business" value="jr@terragate.net"/>
+          <input type="hidden" name="no_note" value="1"/>
+          <input type="hidden" name="currency_code" value="EUR"/>
+          <input type="hidden" name="tax" value="0"/>
+          <input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but
+04.gif" border="0" name="submit" alt="Donate"/>
+        </form>
+ 
+    
+    <h2>Changelog</h2>
+    <h3>Changes in 0.1.2:</h3>
+    <ul>
+      <li>Native Support for MoHAA: SpearHead added</li>
+      <li>Support for Quake 2 added</li>
+      <li>Support for Farcry added</li>
+      <li>Support for IGI2 added</li>
+      <li>Support for Halo added</li>
+      <li>Support for Deus Ex added</li>
+      <li>Support for Doom 3 added</li>
+      <li>Support for Halflife 2 / CS:Source added</li>
+      <li>Support for Savage added</li>
+      <li>rvnshld: More data fetched</li>
+      <li>hlife: Process more than one packet</li>
+      <li>hlife: player code clean up</li>
+      <li>Instance can be used for multiple querys now</li>
+      <li>Hex dump generation of received data possible</li>
+      <li>Various other minor fixes</li>
+    </ul>    
+
+    <h3>Changes in 0.1.1:</h3>
+    <ul>
+      <li>Support for Call of Duty added</li>
+      <li>Support for Battlefield Vietnam added</li>
+      <li>Support for Solider of Fortune 2 added</li>
+      <li>Colortags in the q3a protocol can be converted to html</li>
+      <li>UT2004 colortags can be converted to html</li>
+      <li>hlife nextmap does work now</li>
+      <li>hlife gameversion added</li>
+      <li>q2a maplist fix</li>
+      <li>q3a and hlife rcon command support</li>
+      <li>Preventing some uninitialized values</li>
+      <li>Added a simple example</li>
+      <li>Added serialization/deserialization methods</li>
+      <li>Fetching serialized objects via HTTP</li>
+      <li>Various other minor fixes</li>
+    </ul>    
+
+    <h3>Changes in 0.1.0:</h3>
+    <ul>
+      <li>New API</li>
+      <li>Completly Refactored</li>
+      <li>Library can be easily extended now</li>
+      <li>Support for Vietkong added</li>
+      <li>Support for Rainbow Six: Raven Shield added</li>
+      <li>Support for America's Army new protocol added</li>
+      <li>GameJoiner link creation (allows to join the game)</li>
+      <li>Nextmap should work for hlife now</li>
+      <li>API documentation written</li>
+      <li>Added an example</li>
+    </ul>    
+    <h3>Changes in 0.0.5:</h3>
+    <ul>
+      <li>Added support for games based on the q3a engine (including MoHAA and RtCW)</li>
+      <li>Sorting incoming gsqp packets now</li>
+      <li>Support for more player infos like deaths, team, frags, score, time etc...</li>
+      <li>password has 3 states at least (-1=unknown, 0/False=no password, 1/True=locked)</li>
+      <li>sortPlayers added (You can sort by various keys)</li>
+      <li>All available gsqp player infos are fetched</li>
+      <li>Fixed hlife maxplayers bug</li>
+      <li>Removed deprecated fsockopen call</li>
+    </ul>
+    <h3>Changes in 0.0.4:</h3>
+    <ul>
+      <li>Public/Private state is correctly returned</li>
+    </ul>
+  </body>
+</html>
