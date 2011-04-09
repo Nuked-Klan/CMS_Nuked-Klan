@@ -55,6 +55,10 @@ if ($visiteur >= $level_access && $level_access > -1)
             $nb_nul = 0;
 	}
 
+	$nb_wars = $nuked['max_wars'];
+  if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
+  $start = $_REQUEST['p'] * $nb_wars - $nb_wars;
+
         if ($nb_matchs == 0)
         {
             echo"<br /><div style=\"text-align: center;\"><big><b>" . _MATCHES . " - " . $nuked['name'] . "</b></big></div>\n"
@@ -594,7 +598,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _MAPS . "</b> :<br/><br/>";
             for ($nbr=1; $nbr <= count($map); $nbr++)
 			{
-				echo "<br /><u>Map n°".$nbr.":</u> ".$map[$nbr-1]."<br />";
+				echo "<br /><u>Map nÂ°".$nbr.":</u> ".$map[$nbr-1]."<br />";
 				echo "". _SCORE .": ";
 				if ($score_team[$nbr-1] < $score_adv[$nbr-1])
 				{
