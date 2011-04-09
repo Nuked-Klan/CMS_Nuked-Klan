@@ -82,18 +82,13 @@ foreach ($_FILES as $k=>$v)
 	if(!empty($_FILES[$k]['name']))
 	{
 		$_FILES[$k]['name'] = substr(md5(uniqid()), rand(0, 20), 10) . strrchr($_FILES[$k]['name'], '.');
-		if (($_REQUEST['file'] == 'Gallery' || $_REQUEST['file'] == 'User') && !is_file($_FILES[$k]['name']))
-			die ('Upload this file isn\'t autorised !!');
-		else
+		$sfile = new finfo(FILEINFO_MIME);
+		if (strpos(strtolower(strrchr($_FILES[$k]['name'], '.')), 'php') !== false
+			|| strpos(strtolower($sfile->file($_FILES[$k]['tmp_name'])), 'php') !== false)
 		{
-			$sfile = new finfo(FILEINFO_MIME);
-			if (strpos(strtolower(strrchr($_FILES[$k]['name'], '.')), 'php') !== false
-				|| strpos(strtolower($sfile->file($_FILES[$k]['tmp_name'])), 'php') !== false)
-			{
-				die ('Upload a PHP file isn\'t autorised !!');
-			}
-			unset($sfile);
+			die ('Upload a PHP file isn\'t autorised !!');
 		}
+		unset($sfile);
 	}
 }
 
