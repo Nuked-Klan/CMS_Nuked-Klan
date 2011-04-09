@@ -295,7 +295,7 @@ if ($visiteur == 9)
         echo"<option value=\"\">" . _NORANK . "</option></select></td></tr>\n"
 	. "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
 	. "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $avatar . "\" /></td></tr>\n"
-	. "<tr><td><b>" . _SIGN . " :</b></td><td><textarea name=\"signature\" rows=\"10\" cols=\"55\">" . $signature . "</textarea></td></tr>\n"
+	. "<tr><td><b>" . _SIGN . " :</b></td><td><textarea name=\"signature\" rows=\"10\" cols=\"55\">" . $signature . "</textarea></td></tr>\n"
 	. "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"id_user\" value=\"" . $id_user . "\" /><input type=\"hidden\" name=\"pass\" value=\"" . $pass . "\" /></td></tr>\n"
 	. "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _MODIFUSER . "\" /></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=user\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
