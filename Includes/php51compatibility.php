@@ -40,6 +40,7 @@ if (!class_exists('finfo'))
 		class finfo{
 			function file($file)
 			{
+				return 'other';
 				$is = false;
 				$nb_crochet_open = 0;
 				$nb_crochet_close = 0;
