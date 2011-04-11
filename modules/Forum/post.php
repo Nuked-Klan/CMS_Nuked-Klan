@@ -17,7 +17,7 @@ global $user, $language, $nuked, $cookie_captcha, $random_code;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 include("modules/Forum/template.php");
 
-// Inclusion système Captcha
+// Inclusion systÃ¨me Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -143,7 +143,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else if ($_REQUEST['do'] == "quote")
         {
-            $ftexte = "[quote=" . $author . "]" . $e_txt . " [/quote]";
+            $ftexte = "<blockquote>" . $e_txt . " </blockquote>";
         }
 
         echo "<br /><br /><textarea class=\"editoradvanced\" id=\"forum_texte\" name=\"texte\" cols=\"70\" rows=\"15\">" . $ftexte . "</textarea>";
