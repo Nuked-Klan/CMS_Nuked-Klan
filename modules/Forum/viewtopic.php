@@ -236,7 +236,9 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "</td></tr>\n";
         } 
 
-        echo "<tr " . $background . "><td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td><td style=\"width: 75%;\" align=\"center\"><b>" . _MESSAGE . "</b></td></tr>\n";
+        echo "<tr " . $background . "><td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td><td style=\"width: 75%;\" align=\"center\" id=\"forum-table\"><b>" . _MESSAGE . "</b></td></tr>\n";
+
+	echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('forum-table').offsetWidth - 40;\n</script>\n";
 
         $sql4 = mysql_query("SELECT id, titre, auteur, auteur_id, auteur_ip, txt, date, edition, usersig, file  FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' ORDER BY date ASC limit " . $start . ", " . $nb_mess_for_mess."");
         while (list($mess_id, $title, $auteur, $auteur_id, $auteur_ip, $txt, $date, $edition, $usersig, $fichier) = mysql_fetch_row($sql4))
@@ -542,10 +544,10 @@ if ($visiteur >= $level_access && $level_access > -1)
 	echo '<script type="text/javascript">
 for(var i = 0; i < document.images.length; i++)
 {
-  if (document.images[i].width > 600)
+  if (document.images[i].width > MaxWidth)
   {
-    document.images[i].height = document.images[i].height * 600 / document.images[i].width;
-    document.images[i].width = 600;
+    document.images[i].height = document.images[i].height * MaxWidth / document.images[i].width;
+    document.images[i].width = MaxWidth;
   }
 }
 </script>';
