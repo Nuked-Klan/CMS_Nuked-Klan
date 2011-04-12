@@ -29,10 +29,12 @@ include(dirname(__FILE__) . '/admin/logo.php');
     <meta name="keywords" content="<?php echo $nuked['keyword'] ?>" />
     <meta name="Description" content="<?php echo $nuked['description'] ?>" />
 	<meta http-equiv="content-style-type" content="text/css" />
-	<title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>
-	<link rel="shortcut icon"  href="images/favicon.ico" />
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<meta http-equiv="content-style-type" content="text/css" />
+
+	<title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>
+
+	<link rel="search" type="application/opensearchdescription+xml" title="<?php echo $nuked['name']; ?>" href="opensearch.php" />
 	<link rel="shortcut icon"  type="image/x-icon" href="/images/favicon.ico" />
 	<link title="css" rel="stylesheet" type="text/css" href="themes/<?php echo $theme; ?>/style.css" media="screen" />
 </head>
