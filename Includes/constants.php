@@ -61,6 +61,7 @@ define("SURVEY_TABLE", $nuked['prefix'] . "_sondage");
 define("SURVEY_CHECK_TABLE", $nuked['prefix'] . "_sondage_check");
 define("SURVEY_DATA_TABLE", $nuked['prefix'] . "_sondage_data");
 define("TEAM_TABLE", $nuked['prefix'] . "_team");
+define("TMPSES_TABLE", $nuked['prefix'] . "_tmpses");
 define("TEAM_RANK_TABLE", $nuked['prefix'] . "_team_rank");
 define("TEXTBOX_TABLE", $nuked['prefix'] . "_shoutbox");
 define("USERBOX_TABLE", $nuked['prefix'] . "_userbox");
