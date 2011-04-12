@@ -14,11 +14,6 @@ if (!defined("INDEX_CHECK"))
 
 
 connect();
-@session_name('nuked');
-@session_start();
-if (session_id() == '') {
-	exit('Erreur dans la création de la session annonyme');
-}
 
 $nuked = array();
 
@@ -35,6 +30,14 @@ $nuked['inscription_mail'] = secu_html(html_entity_decode($nuked['inscription_ma
 $nuked['footmessage'] = secu_html(html_entity_decode($nuked['footmessage']));
 $nuked['defie_charte'] = secu_html(html_entity_decode($nuked['defie_charte']));
 $nuked['recrute_charte'] = secu_html(html_entity_decode($nuked['recrute_charte']));
+
+session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
+
+@session_name('nuked');
+@session_start();
+if (session_id() == '') {
+	exit('Erreur dans la création de la session annonyme');
+}
 
 include ("Includes/constants.php");
 include ("Includes/nkSessions.php");
@@ -74,6 +77,76 @@ if (!isset($_REQUEST['nuked_nude']))
 	else if ($language == "french" && preg_match("`BSD`", PHP_OS)) setlocale (LC_TIME, "fr_FR.ISO8859-1");
 	else if ($language == "french") setlocale (LC_TIME, "fr_FR");
 	else setlocale (LC_TIME, $language);
+}
+
+function session_open($path, $name)
+{
+  return true;
+}
+
+function session_close()
+{
+  return true;
+}
+
+function session_read($id)
+{
+  global $nuked;
+
+  connect();
+
+  $sql = mysql_query("SELECT session_vars FROM `$nuked[prefix]_tmpses` WHERE session_id = '$id'");
+
+  if ($sql === false)
+  {
+    return '';
+  }
+  else
+  {
+    return mysql_result($sql, 0);
+  }
+}
+
+function session_write($id, $data)
+{
+  global $nuked;
+  $id = mysql_escape_string($id);
+  $data = mysql_escape_string($data);
+
+  connect();
+
+  $sql = mysql_query("INSERT INTO $nuked[prefix]_tmpses (session_id, session_start, session_vars) VALUES ('$id', " . time() . ", \"$data\")");
+
+
+  if ($sql === false || mysql_affected_rows() == 0)
+    $sql = mysql_query("UPDATE `$nuked[prefix]_tmpses` SET session_vars = \"$data\" WHERE session_id = '$id'");
+
+  return $sql !== false;
+}
+
+function session_delete($id)
+{
+  global $nuked;
+  $id = mysql_escape_string($id);
+
+  connect();
+
+  $sql = mysql_query("DELETE FROM $nuked[prefix]_tmpses WHERE session_id = '$id'");
+
+  return $sql;
+}
+
+function session_gc($maxlife)
+{
+  global $nuked;
+  $id = mysql_escape_string($id);
+  $time = time() - $maxlife;
+
+  connect();
+
+  mysql_query("DELETE FROM $nuked[prefix]_tmpses WHERE session_start < $time");
+
+  return true;
 }
 
 function connect()

@@ -568,6 +568,14 @@ echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_banned</b>" . 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_banned";
 $req = mysql_query($sql);
 
+$sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_tmpses` (
+  `session_id` varchar(64) NOT NULL,
+  `session_vars` text NOT NULL,
+  `session_start` bigint(20) NOT NULL,
+  PRIMARY KEY (`session_id`)
+  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+$req = mysql_query($sql);
+
 $sql = "CREATE TABLE " . $db_prefix . "_banned (
   `id` int(11) NOT NULL auto_increment,
   `ip` varchar(50) NOT NULL default '',

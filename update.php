@@ -594,6 +594,15 @@ function upgrade_db()
 		  PRIMARY KEY (`file`)
 		) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
 		$req = mysql_query($sql);
+
+
+		$sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_tmpses` (
+		  `session_id` varchar(64) NOT NULL,
+		  `session_vars` text NOT NULL,
+		  `session_start` bigint(20) NOT NULL,
+		  PRIMARY KEY (`session_id`)
+		  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+		$req = mysql_query($sql);
 		}
 	// FIN DE L'UPDATE
 	$error = 0;
@@ -704,6 +713,14 @@ function upgrade_db()
 	  KEY `titre` (`titre`)
 	) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 	$req = mysql_query($sql);
+
+		$sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_tmpses` (
+		  `session_id` varchar(64) NOT NULL,
+		  `session_vars` text NOT NULL,
+		  `session_start` bigint(20) NOT NULL,
+		  PRIMARY KEY (`session_id`)
+		  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;";
+		$req = mysql_query($sql);
 
 		$sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_packages` (
 		  `file` varchar(100) NOT NULL,
