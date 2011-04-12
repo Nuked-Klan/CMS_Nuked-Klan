@@ -2423,7 +2423,6 @@ function save_config($vars)
 	    fwrite($fp, $content);
 	    fclose($fp);
 	    @chmod ($path, 0644);
-	    @chmod ('./', 0555);
 
 		copy("conf.inc.php", "extra/conf" . date('%Y%m%d%H%i') . '.php');
 
