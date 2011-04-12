@@ -35,7 +35,7 @@ session_set_save_handler('session_open', 'session_close', 'session_read', 'sessi
 @session_name('nuked');
 @session_start();
 if (session_id() == '') {
-	exit('Erreur dans la cr�ation de la session annonyme');
+	exit('Erreur dans la création de la session annonyme');
 }
 
 include ("Includes/constants.php");
@@ -94,7 +94,7 @@ function session_read($id)
 
   connect();
 
-  $sql = mysql_query("SELECT session_vars FROM `$nuked[prefix]_tmpses` WHERE session_id = '$id'");
+  $sql = mysql_query("SELECT session_vars FROM " . TMPSES_TABLE . " WHERE session_id = '$id'");
 
   if ($sql === false)
   {
@@ -114,11 +114,11 @@ function session_write($id, $data)
 
   connect();
 
-  $sql = mysql_query("INSERT INTO $nuked[prefix]_tmpses (session_id, session_start, session_vars) VALUES ('$id', " . time() . ", \"$data\")");
+  $sql = mysql_query("INSERT INTO " . TMPSES_TABLE . " (session_id, session_start, session_vars) VALUES ('$id', " . time() . ", \"$data\")");
 
 
   if ($sql === false || mysql_affected_rows() == 0)
-    $sql = mysql_query("UPDATE `$nuked[prefix]_tmpses` SET session_vars = \"$data\" WHERE session_id = '$id'");
+    $sql = mysql_query("UPDATE " . TMPSES_TABLE . " SET session_vars = \"$data\" WHERE session_id = '$id'");
 
   return $sql !== false;
 }
@@ -130,7 +130,7 @@ function session_delete($id)
 
   connect();
 
-  $sql = mysql_query("DELETE FROM $nuked[prefix]_tmpses WHERE session_id = '$id'");
+  $sql = mysql_query("DELETE FROM " . TMPSES_TABLE . " WHERE session_id = '$id'");
 
   return $sql;
 }
@@ -143,7 +143,7 @@ function session_gc($maxlife)
 
   connect();
 
-  mysql_query("DELETE FROM $nuked[prefix]_tmpses WHERE session_start < $time");
+  mysql_query("DELETE FROM " . TMPSES_TABLE . " WHERE session_start < $time");
 
   return true;
 }
@@ -158,7 +158,7 @@ function autolink($text)
     $pos = strpos($text, '<', $index);
     if ($pos === false)
       $pos = strlen($text);
-    $txt .= preg_replace('`http://[^ <]+`i', '<a href="$0" target="_blank">$0</a>', substr($text, $index, $pos - $index));
+    $txt .= preg_replace('`http://[^ <]+`i', '<a href="$0" onclick="window.open(this.href); return false;">$0</a>', substr($text, $index, $pos - $index));
     $index = $pos;
 
     $pos = strpos($text, '>', $index);
@@ -186,7 +186,7 @@ function connect()
 	  if (!$connect)
 	  {
 		echo "<div style=\"text-align: center;\">Veulliez nous excuser, le site web est actuellement indisponible!<br /></div>";
-		echo "<div>Information:<br />Nom de base de donnée sql incorrect.</div>";
+		echo "<div>Information:<br />Nom de base de donnÃ©e sql incorrect.</div>";
 		exit();
 	  }
 	}
@@ -220,7 +220,7 @@ function banip()
             $del1 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
 			if($language == "french")
 			{
-				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." n\'est plus banni, sa période est arrivé à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." n\'est plus banni, sa pÃ©riode est arrivÃ© Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 			}
 			else
 			{
@@ -244,7 +244,7 @@ function banip()
 				{
 					if($language == "french")
 					{
-						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." n\'est plus banni, sa période est arrivé à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." n\'est plus banni, sa pÃ©riode est arrivÃ© Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 					}
 					else
 					{
@@ -269,7 +269,7 @@ function banip()
 				{
 					if($language == "french")
 					{
-						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." n\'est plus banni, sa période est arrivé à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." n\'est plus banni, sa pÃ©riode est arrivÃ© Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 					}
 					else
 					{
@@ -763,9 +763,9 @@ function number($count, $each, $link) {
 		if (empty($current)) $current = 1; // On renormalise la page courante...
 
 		// Calcul du nombre de pages
-		$n = ceil($count / intval($each)); // on arrondit à l'entier sup.
+		$n = ceil($count / intval($each)); // on arrondit à  l'entier sup.
 
-		// Début de la chaîne d'affichage
+		// Début de la chaine d'affichage
 		$output = "<b>" . _PAGE . " :</b> ";
 
 		for ($i = 1; $i <= $n; $i++) {
