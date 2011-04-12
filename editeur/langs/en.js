@@ -9,11 +9,56 @@ close:"Close",
 browse:"Browse",
 class_name:"Class",
 not_set:"-- Not set --",
-clipboard_msg:"Copy/Cut/Paste is not available for Mozilla and Firefox.\nDo you want more information about this issue?",
-clipboard_no_support:"Currently not supported by your browser, use the keyboard shortcuts instead.",
-popup_blocked:"Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable the popup blocking service of your browser on this website in order to fully use this tool.",
-invalid_data:"Error: Invalid values have been entered, these are marked in red.",
+clipboard_msg:"Copy/Cut/Paste is not available in Mozilla and Firefox.\nDo you want more information about this issue?",
+clipboard_no_support:"Currently not supported by your browser, use keyboard shortcuts instead.",
+popup_blocked:"Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.",
+invalid_data:"{#field} is invalid",
+invalid_data_number:"{#field} must be a number",
+invalid_data_min:"{#field} must be a number greater than {#min}",
+invalid_data_size:"{#field} must be a number or percentage",
 more_colors:"More colors"
+},
+colors:{
+'000000':'Black',
+'993300':'Burnt orange',
+'333300':'Dark olive',
+'003300':'Dark green',
+'003366':'Dark azure',
+'000080':'Navy Blue',
+'333399':'Indigo',
+'333333':'Very dark gray',
+'800000':'Maroon',
+'FF6600':'Orange',
+'808000':'Olive',
+'008000':'Green',
+'008080':'Teal',
+'0000FF':'Blue',
+'666699':'Grayish blue',
+'808080':'Gray',
+'FF0000':'Red',
+'FF9900':'Amber',
+'99CC00':'Yellow green',
+'339966':'Sea green',
+'33CCCC':'Turquoise',
+'3366FF':'Royal blue',
+'800080':'Purple',
+'999999':'Medium gray',
+'FF00FF':'Magenta',
+'FFCC00':'Gold',
+'FFFF00':'Yellow',
+'00FF00':'Lime',
+'00FFFF':'Aqua',
+'00CCFF':'Sky blue',
+'993366':'Brown',
+'C0C0C0':'Silver',
+'FF99CC':'Pink',
+'FFCC99':'Peach',
+'FFFF99':'Light yellow',
+'CCFFCC':'Pale green',
+'CCFFFF':'Pale cyan',
+'99CCFF':'Light sky blue',
+'CC99FF':'Plum',
+'FFFFFF':'White'
 },
 contextmenu:{
 align:"Alignment",
@@ -91,8 +136,8 @@ paste:{
 paste_text_desc:"Paste as Plain Text",
 paste_word_desc:"Paste from Word",
 selectall_desc:"Select All",
-plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to the regular paste mode. After pasting something you will be returned to the regular paste mode.",
-plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to get the regular paste mode."
+plaintext_mode_sticky:"Paste is now in plain text mode. Click again to toggle back to regular paste mode. After you paste something you will be returned to regular paste mode.",
+plaintext_mode:"Paste is now in plain text mode. Click again to toggle back to regular paste mode."
 },
 paste_dlg:{
 text_title:"Use CTRL+V on your keyboard to paste the text into the window.",
@@ -151,7 +196,8 @@ langs:"Languages",
 wait:"Please wait...",
 sug:"Suggestions",
 no_sug:"No suggestions",
-no_mpell:"No misspellings found."
+no_mpell:"No misspellings found.",
+learn_word:"Learn word" 
 },
 pagebreak:{
 desc:"Insert page break."
@@ -167,4 +213,11 @@ upper_roman:"Upper roman",
 circle:"Circle",
 disc:"Disc",
 square:"Square"
-}}});
+},
+aria:{
+rich_text_area:"Rich Text Area"
+},
+wordcount:{
+words: 'Words: '
+}
+}});

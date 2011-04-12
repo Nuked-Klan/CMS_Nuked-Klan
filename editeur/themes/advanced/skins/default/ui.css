@@ -2,50 +2,10 @@
 .defaultSkin table, .defaultSkin tbody, .defaultSkin a, .defaultSkin img, .defaultSkin tr, .defaultSkin div, .defaultSkin td, .defaultSkin iframe, .defaultSkin span, .defaultSkin *, .defaultSkin .mceText {border:0; margin:0; padding:0; background:transparent; white-space:nowrap; text-decoration:none; font-weight:normal; cursor:default; color:#000; vertical-align:baseline; width:auto; border-collapse:separate; text-align:left}
 .defaultSkin a:hover, .defaultSkin a:link, .defaultSkin a:visited, .defaultSkin a:active {text-decoration:none; font-weight:normal; cursor:default; color:#000}
 .defaultSkin table td {vertical-align:middle}
-.defaultSkintable {
-width: 50%;
-max-width: 90%;
-}
-.defaultSkintable textarea {
-width: 50%;
-max-width: 90%;
-}
 
-.defaultSkintable table{
-                width: 50%;
-				max-width: 90%;
-                border: none;
-                }
-                
-.defaultSkin table thead th {
-                font-weight: normal;
-                font-size: 12px;
-                border-bottom: 0px;
-                }
-                
-.defaultSkin tbody {
-                border-bottom: 0px;
-                }
-                
-            
-                
-.defaultSkin table td,
-.defaultSkin table th {
-                padding: 0px;
-                line-height: 0px;
-                }        
-				
-.defaultSkin table tfoot td .bulk-actions {
-                padding: 0px 0 0px 0;
-                } 
-				
-.defaultSkin table tfoot td .bulk-actions select {
-                padding: 0px;
-				border: 0px;
-                }      
 /* Containers */
-.defaultSkin table {direction:ltr; background:#F0F0EE}
-.defaultSkin iframe {display:block; background:#FFF}
+.defaultSkin table {direction:ltr;background:transparent}
+.defaultSkin iframe {display:block;}
 .defaultSkin .mceToolbar {height:26px}
 .defaultSkin .mceLeft {text-align:left}
 .defaultSkin .mceRight {text-align:right}
@@ -56,31 +16,15 @@ max-width: 90%;
 .defaultSkin .mceExternalClose {position:absolute; top:3px; right:3px; width:7px; height:7px; background:url(../../img/icons.gif) -820px 0}
 
 /* Layout */
-.defaultSkin table.mceLayout {border:0; border-top-left-radius: 6px 6px;
-border-top-left-radius: 10px 10px;
-border-top-left-radius: 10px 10px;
-border-top-right-radius: 10px 10px;
-border-top-right-radius: 10px 10px;
-border-top-right-radius: 10px 10px; border-left:1px solid #CCC; border-right:1px solid #CCC}
-.defaultSkin table.mceLayout tr.mceFirst td {border-top-left-radius: 6px 6px;
-border-top-left-radius: 10px 10px;
-border-top-left-radius: 10px 10px;
-border-top-right-radius: 10px 10px;
-border-top-right-radius: 10px 10px;
-border-top-right-radius: 10px 10px;border-top:1px solid #CCC}
+.defaultSkin table.mceLayout {border:0; border-left:1px solid #CCC; border-right:1px solid #CCC}
+.defaultSkin table.mceLayout tr.mceFirst td {border-top:1px solid #CCC}
 .defaultSkin table.mceLayout tr.mceLast td {border-bottom:1px solid #CCC}
-
-.defaultSkin table.mceLayout tr.mceFirst table
-{
-background:transparent;
-}
-
 .defaultSkin table.mceToolbar, .defaultSkin tr.mceFirst .mceToolbar tr td, .defaultSkin tr.mceLast .mceToolbar tr td {border:0; margin:0; padding:0;}
-.defaultSkin td.mceToolbar {padding-top:1px; vertical-align:top}
+.defaultSkin td.mceToolbar {background:#F0F0EE; padding-top:1px; vertical-align:top}
 .defaultSkin .mceIframeContainer {border-top:1px solid #CCC; border-bottom:1px solid #CCC}
-.defaultSkin .mceStatusbar {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; display:block; height:20px}
+.defaultSkin .mceStatusbar {background:#F0F0EE; font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:9pt; line-height:16px; overflow:visible; color:#000; display:block; height:20px}
 .defaultSkin .mceStatusbar div {float:left; margin:2px}
-.defaultSkin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../img/icons.gif) -800px 0; width:23px; height:22px; cursor:se-resize; outline:0}
+.defaultSkin .mceStatusbar a.mceResize {display:block; float:right; background:url(../../img/icons.gif) -800px 0; width:20px; height:20px; cursor:se-resize; outline:0}
 .defaultSkin .mceStatusbar a:hover {text-decoration:underline}
 .defaultSkin table.mceToolbar {margin-left:3px}
 .defaultSkin span.mceIcon, .defaultSkin img.mceIcon {display:block; width:20px; height:20px}
@@ -90,8 +34,8 @@ background:transparent;
 .defaultSkin td.mceRight table {margin:0 0 0 auto;}
 
 /* Button */
-.defaultSkin .mceButton {display:block; width:23px; height:22px; text-align:center;padding-left:3px; margin-right:2px;margin-left:1px;}
-.defaultSkin a.mceButtonEnabled:hover {border:1px solid #0A246A; background-color:#f0f0ee; margin-right:1px; margin-left:0px;}
+.defaultSkin .mceButton {display:block; border:1px solid #F0F0EE; width:20px; height:20px; margin-right:1px}
+.defaultSkin a.mceButtonEnabled:hover {border:1px solid #0A246A; background-color:#B2BBD0}
 .defaultSkin a.mceButtonActive, .defaultSkin a.mceButtonSelected {border:1px solid #0A246A; background-color:#C2CBE0}
 .defaultSkin .mceButtonDisabled .mceIcon {opacity:0.3; -ms-filter:'alpha(opacity=30)'; filter:alpha(opacity=30)}
 .defaultSkin .mceButtonLabeled {width:auto}
@@ -112,7 +56,7 @@ background:transparent;
 .defaultSkin .mceListBoxMenu {overflow:auto; overflow-x:hidden}
 .defaultSkin .mceOldBoxModel .mceListBox .mceText {height:22px}
 .defaultSkin .mceOldBoxModel .mceListBox .mceOpen {width:11px; height:22px;}
-.defaultSkin select.mceNativeListBox {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:7pt; margin-right:2px;}
+.defaultSkin select.mceNativeListBox {font-family:'MS Sans Serif',sans-serif,Verdana,Arial; font-size:7pt; background:#F0F0EE; border:1px solid gray; margin-right:2px;}
 
 /* SplitButton */
 .defaultSkin .mceSplitButton {width:32px; height:20px; direction:ltr}

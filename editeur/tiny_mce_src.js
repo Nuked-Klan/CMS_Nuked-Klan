@@ -15809,3 +15809,4 @@ tinymce.onAddEditor.add(function(tinymce, ed) {
 		});
 	}
 });
+

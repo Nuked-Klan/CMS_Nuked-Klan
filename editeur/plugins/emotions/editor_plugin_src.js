@@ -14,7 +14,7 @@
 			// Register commands
 			ed.addCommand('mceEmotion', function() {
 				ed.windowManager.open({
-					file : url + '/emotions.php',
+					file : url + '/emotions.htm',
 					width : 250 + parseInt(ed.getLang('emotions.delta_width', 0)),
 					height : 160 + parseInt(ed.getLang('emotions.delta_height', 0)),
 					inline : 1
