@@ -168,7 +168,12 @@ function index()
 
 function install()
 {
-    include("lang/" . $_REQUEST['langue'] . ".lang.php");
+	if (isset($_REQUEST['langue'])) include("lang/" . $_REQUEST['langue'] . ".lang.php");
+	else
+	{
+		echo 'Veuillez sélectionner une langue !<br />Please select a language!<br /><br /><a href="install.php">Retour / Back</a>';
+		exit();
+	}
 
     style(2,$_REQUEST['langue']);
 

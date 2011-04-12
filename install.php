@@ -124,10 +124,9 @@ function install()
 	}
 	else
 	{
-		$langue = $_REQUEST['langue'];
     include("lang/" . $_REQUEST['langue'] . ".lang.php");
 	}
-    style(2,$langue);
+    style(2,$_REQUEST['langue']);
 
     echo "<div style=\"text-align: center;\"><br /><br /><br /><br /><h3>" . _WELCOMEINSTALL . "</h3><br />" . _GUIDEINSTALL . "<br /><br /><br />\n"
     . "<input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config_assistant&amp;op=info&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._INSTALLPASPAS."\" />"
