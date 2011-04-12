@@ -60,9 +60,8 @@ function RequirementFalse($type)
 
 function RequirementTest($text, $condition, $langue, $errormsg = null)
 {
-	$chaine = ini_get('session.save_path');
 	include("lang/" . $langue . ".lang.php");
-	if ($condition > 0 || ($chaine[0] == 't' && $chaine[1] == 'c' && $chaine[2] == 'p' && $text == _DIRECTORY))
+	if ($condition > 0)
 	{
 		RequirementTrue($text);
 	}
@@ -88,11 +87,15 @@ function Requirement()
 	RequirementTest(_PHPVERSION, version_compare(phpversion(), '5.1'), $_REQUEST['langue'], _QUESPHPVERSION);
 	RequirementTest(_MYSQLEXT, extension_loaded('mysql'), $_REQUEST['langue']);
 	RequirementTest(_EXTENSIONLOAD, extension_loaded('session'), $_REQUEST['langue']);
-	if (!file_exists(ini_get('session.save_path')) && substr(ini_get('session.save_path'), 0, 3) != 'tcp')
-		@mkdir(ini_get('session.save_path'), 777, true);
-	RequirementTest(_DIRECTORY, file_exists(ini_get('session.save_path')), $_REQUEST['langue'], _SESSIONPATH.''.ini_get('session.save_path'));
 	RequirementTest('extention zip', extension_loaded('zip'), $_REQUEST['langue']);
 	RequirementTest('Check chmod', is_writable(dirname(__FILE__)), $_REQUEST['langue']);
+	if (extension_loaded('fileinfo'))
+		RequirementTrue('extension File Info');
+	else
+		RequirementWarn('extension File Info');
+	RequirementTest('extention GD', extension_loaded('gd'), $_REQUEST['langue']);
+	RequirementTest('extention Hash', function_exists('hash'), $_REQUEST['langue']);
+
 	echo "</div>\n";
 	echo "<div style=\"border:double 3px black;width:250px;margin:20px auto;padding: 10px;\">\n";
 	if ($Test == true)
@@ -2412,13 +2415,15 @@ function save_config($vars)
 
 	$path = "conf.inc.php";
 	@chmod ($path, 0666);
+	@chmod ('./', 0777);
 
-	if (!file_exists($path) || is_writable($path))
+	if (is_writable($path) || (!file_exists($path) && is_writable('./')))
 	{
 	    $fp = @fopen("conf.inc.php", w);
 	    fwrite($fp, $content);
 	    fclose($fp);
-	    @chmod($path, 0644);
+	    @chmod ($path, 0644);
+	    @chmod ('./', 0555);
 
 		copy("conf.inc.php", "extra/conf" . date('%Y%m%d%H%i') . '.php');
 
