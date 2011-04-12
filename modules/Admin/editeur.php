@@ -23,7 +23,7 @@ else
 {
     $visiteur = $user[1];
 }
-if ($visiteur >= 2)
+if ($visiteur == 9)
 {
     function main()
     {

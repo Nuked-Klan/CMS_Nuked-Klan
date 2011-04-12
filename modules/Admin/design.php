@@ -574,7 +574,7 @@ redirect("index.php?file=User",0);
 									<a class="current" href="index.php?file=Admin&amp;page=editeur">
 								<?php
 								}
-								else
+								elseif ($user[1] == 9)
 								{
 								?>
 									<a href="index.php?file=Admin&amp;page=editeur">
