@@ -12,7 +12,6 @@ if (!defined("INDEX_CHECK"))
 	exit('You can\'t run this file alone.');
 }
 
-
 connect();
 
 $nuked = array();
@@ -147,6 +146,28 @@ function session_gc($maxlife)
   mysql_query("DELETE FROM $nuked[prefix]_tmpses WHERE session_start < $time");
 
   return true;
+}
+
+function autolink($text)
+{
+  $txt = '';
+  $index = 0;
+
+  while($index < strlen($text))
+  {
+    $pos = strpos($text, '<', $index);
+    if ($pos === false)
+      $pos = strlen($text);
+    $txt .= preg_replace('`http://[^ <]+`i', '<a href="$0" target="_blank">$0</a>', substr($text, $index, $pos - $index));
+    $index = $pos;
+
+    $pos = strpos($text, '>', $index);
+    if ($pos === false)
+      $pos = strlen($text);
+    $txt .= substr($text, $index, $pos - $index);
+    $index = $pos;
+  }
+  return $txt;
 }
 
 function connect()

@@ -92,6 +92,8 @@ if ($visiteur >= $level_access && $level_access > -1)
             $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
             $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
 
+	    $_REQUEST['texte'] = autolink($_REQUEST['texte']);
+
             if (!is_numeric($_REQUEST['usersig'])) $_REQUEST['usersig'] = 0;
             if (!is_numeric($_REQUEST['emailnotify'])) $_REQUEST['emailnotify'] = 0;
 
@@ -610,6 +612,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 		$_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
+
+	    $_REQUEST['texte'] = autolink($_REQUEST['texte']);
+
         $autor = mysql_real_escape_string(stripslashes($autor));
 
         if (!is_numeric($_REQUEST['usersig'])) $_REQUEST['usersig'] = 0;
@@ -795,6 +800,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
         $autor = mysql_real_escape_string(stripslashes($autor));
+
+	    $_REQUEST['texte'] = autolink($_REQUEST['texte']);
 
         if (!is_numeric($_REQUEST['usersig'])) $_REQUEST['usersig'] = 0;
         if (!is_numeric($_REQUEST['emailnotify'])) $_REQUEST['emailnotify'] = 0;
