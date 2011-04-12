@@ -9,17 +9,12 @@ CONSEIL DE SECURITE :
     administrateur.
 
 2 - Vérifiez réguliérement qu'un patch de sécurité ou une mise à jour n'est pas disponible, une 
-   fonction de vérification existe dans l'administration de votre portail, cliquez sur l'icone
-   a côté de la version qui se trouve en dessous du menu principale de l'administration.
+   fonction de vérification existe dans l'administration de votre portail.
 
 3 - Faites des sauvegarde réguliére via votre phpmyadmin sur votre hebergement (demandez a votre 
     hebergeur en cas de besoin).
 
-4 - Allez consultez la FAQ sur le site officiel nuked-klan.org, catégorie : nuked-klan (conseil 
-    de sécurité), vous y trouvez des informations trés interessante et utile.
-
-5 - Dans ce Dossier "extra" vous y trouvez un fichier ".htaccess", si votre hebergeur le permet, nous
-    vous conseillons de copier ce fichier dans tous les repertoires upload (ex : /upload/download/)
-    Il empechera l'upload et l'execution de fichier dangereux sur votre FTP.
+4 - Allez consultez la FAQ sur le site officiel nuked-klan.org, vous y trouvez des informations
+    trés interessante et utile.
 
 ****************************************************************************************************

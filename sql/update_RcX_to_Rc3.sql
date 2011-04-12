@@ -21,3 +21,21 @@ CREATE TABLE nuked_contact (
 
 /* Rc3.3 -> rc3.4 */
 ALTER TABLE  `nuked_games` ADD  `map` TEXT NOT NULL;
+
+/* Rc3.4 -> rc3.5 */
+CREATE TABLE IF NOT EXISTS `nuked_packages` (
+		  `file` varchar(100) NOT NULL,
+		  `name` varchar(255) NOT NULL,
+		  `author` varchar(255) NOT NULL,
+		  `link` varchar(255) NOT NULL,
+		  `active` tinyint(1) NOT NULL,
+		  PRIMARY KEY (`file`)
+		) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE IF NOT EXISTS `nuked_tmpses` (
+		  `session_id` varchar(64) NOT NULL,
+		  `session_vars` text NOT NULL,
+		  `session_start` bigint(20) NOT NULL,
+		  PRIMARY KEY (`session_id`)
+		  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
