@@ -539,6 +539,17 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td></tr></table>\n";
 
+	echo '<script type="text/javascript">
+for(var i = 0; i < document.images.length; i++)
+{
+  if (document.images[i].width > 600)
+  {
+    document.images[i].height = document.images[i].height * 600 / document.images[i].width;
+    document.images[i].width = 600;
+  }
+}
+</script>';
+
         if ($visiteur >= admin_mod("Forum") || $administrator == 1)
         {
             echo "<br /><a href=\"index.php?file=Forum&amp;op=del_topic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/topic_delete.gif\" alt=\"\" title=\"" . _TOPICDEL . "\" /></a>"
