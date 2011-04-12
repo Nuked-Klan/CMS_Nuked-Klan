@@ -116,15 +116,16 @@ function Requirement()
 
 function install()
 {
-    include("lang/" . $_REQUEST['langue'] . ".lang.php");
 
 	if(!isset($_REQUEST['langue']))
 	{
-		$langue = "inconnu";
+     echo 'Veuillez sélectionner une langue !<br />Please select a language!<br /><br /><a href="install.php">Retour / Back</a>';
+     exit();
 	}
 	else
 	{
 		$langue = $_REQUEST['langue'];
+    include("lang/" . $_REQUEST['langue'] . ".lang.php");
 	}
     style(2,$langue);
 
