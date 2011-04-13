@@ -625,14 +625,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($visiteur >= $nuked['forum_file_level'] && $filename != "" && $nuked['forum_file'] == "on" && $nuked['forum_file_maxsize'] >= $filesize)
         {
-            $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-            if (preg_match("`php`i", $ext) || preg_match("`htm`i", $ext)) $type = "txt";
-            else $type = $ext;
-
-            $file_name = $date . "." . $type;
-            $url_file = "upload/Forum/" . $file_name;
-            if (!preg_match("`swf`i", $type)) move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
+            $url_file = "upload/Forum/" . $filename;
+            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
             @chmod ($url_file, 0644);
         }
         else
@@ -826,10 +820,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($visiteur >= $nuked['forum_file_level'] && $filename != "" && $nuked['forum_file'] == "on" && $nuked['forum_file_maxsize'] >= $filesize)
         {
-				
-            $file_name = $filename;
-            $url_file = "upload/Forum/" . $file_name;
-            if (!preg_match("`swf`i", $type)) move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
+            $url_file = "upload/Forum/" . $filename;
+            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
             @chmod ($url_file, 0644);
         }
         else
