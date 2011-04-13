@@ -141,7 +141,6 @@ if ($visiteur == 9)
 		<input style="margin-left:13px;"  type="button" class="separator"/><input type="checkbox" name="ligne2[7]" value="|" <?php echo $ligne2[7]; ?> /><br />
 		<input style="margin-left:5px;"  type="button" class="mce_emotions"/><input type="checkbox" name="ligne2[8]" value="emotions" <?php echo $ligne2[8]; ?> /><br />
 		<input style="margin-left:5px;"  type="button" class="mce_image"/><input type="checkbox" name="ligne2[9]" value="image" <?php echo $ligne2[9]; ?> /><br />
-		<input style="margin-left:5px;"  type="button" class="mce_media"/><input type="checkbox" name="ligne2[10]" value="media" <?php echo $ligne2[10]; ?> /><br />
 		<input style="margin-left:5px;"  type="button" class="mce_forecolor"/><input type="checkbox" name="ligne2[11]" value="forecolor" <?php echo $ligne2[11]; ?> /><br />
 		<input style="margin-left:5px;"  type="button" class="mce_backcolor"/><input type="checkbox" name="ligne2[12]" value="backcolor" <?php echo $ligne2[12]; ?> /><br />
 		</td><td width="25%">

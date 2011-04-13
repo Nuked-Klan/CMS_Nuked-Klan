@@ -218,7 +218,7 @@ redirect("index.php?file=User",0);
 		<?php
 		}
 		?>
-		plugins : "pagebreak,layer,table,insertcode,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,media,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
+		plugins : "pagebreak,layer,table,insertcode,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
 		editor_deselector : "noediteur",
 		// Theme options
 		theme_advanced_buttons1 : "save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help",
