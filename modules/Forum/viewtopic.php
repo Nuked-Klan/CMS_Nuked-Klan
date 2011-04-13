@@ -154,7 +154,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             list($poll_id, $question) = mysql_fetch_array($sql_poll);
             $question = htmlentities($question);
 
-            if ($user && $topic_aid == $user[0] || $visiteur >= admin_mod("Forum") || $administrator == 1)
+            if ($user && $topic_aid == $user[0] && $closed == 0 || $visiteur >= admin_mod("Forum") || $administrator == 1)
             {
                 echo "<div style=\"text-align: right;\"><a href=\"index.php?file=Forum&amp;op=edit_poll&amp;poll_id=" . $poll_id . "&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/buttons/" . $language . "/edit.gif\" alt=\"\" title=\"" . _EDITPOLL . "\" /></a>&nbsp;<a href=\"index.php?file=Forum&amp;op=del_poll&amp;poll_id=" . $poll_id . "&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/delete.gif\" alt=\"\" title=\"" . _DELPOLL . "\" /></a>&nbsp;</div>\n";
             } 
@@ -411,7 +411,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 echo "<a href=\"index.php?file=Forum&amp;page=post&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "&amp;mess_id=" . $mess_id . "&amp;do=quote\"><img style=\"border: 0;\" src=\"modules/Forum/images/buttons/" . $language . "/quote.gif\" alt=\"\" title=\"" . _REPLYQUOTE . "\" /></a>";
             } 
 
-            if ($user && $auteur_id == $user[0] || $visiteur >= admin_mod("Forum") || $administrator == 1)
+            if ($user && $auteur_id == $user[0] && $closed == 0 || $visiteur >= admin_mod("Forum") || $administrator == 1)
             {
                 echo "&nbsp;<a href=\"index.php?file=Forum&amp;page=post&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;mess_id=" . $mess_id . "&amp;do=edit\"><img style=\"border: 0;\" src=\"modules/Forum/images/buttons/" . $language . "/edit.gif\" title=\"" . _EDITMESSAGE . "\" alt=\"\" /></a>";
             } 

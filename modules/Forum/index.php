@@ -106,6 +106,16 @@ if ($visiteur >= $level_access && $level_access > -1)
             $sql3 = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' ORDER BY id LIMIT 0, 1");
             list($mid) = mysql_fetch_row($sql3);
 
+            $sql4 = mysql_query("SELECT closed FROM " . FORUM_THREADS_TABLE . " WHERE thread_id = '" . $thread_id . "'");
+            list($closed) = mysql_fetch_row($sql4);
+
+			if ($closed == 1)
+			{
+				echo '<div style="text-align: center">' . _NOENTRANCE . '</div>';
+				closetable();
+				exit();
+			}
+
             if ($mid == $mess_id)
             {
                 $upd = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET titre = '" . $_REQUEST['titre'] . "' WHERE id = '" . $thread_id . "'");
