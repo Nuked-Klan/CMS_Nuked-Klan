@@ -30,6 +30,8 @@ $nuked['footmessage'] = secu_html(html_entity_decode($nuked['footmessage']));
 $nuked['defie_charte'] = secu_html(html_entity_decode($nuked['defie_charte']));
 $nuked['recrute_charte'] = secu_html(html_entity_decode($nuked['recrute_charte']));
 
+
+include ("Includes/constants.php");
 session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
 
 @session_name('nuked');
@@ -38,7 +40,6 @@ if (session_id() == '') {
 	exit('Erreur dans la création de la session annonyme');
 }
 
-include ("Includes/constants.php");
 include ("Includes/nkSessions.php");
 
 
