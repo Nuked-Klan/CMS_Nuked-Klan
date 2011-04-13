@@ -168,7 +168,7 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 		<?php
 		}
 		?>
-		plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,media,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
+		plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
 		editor_selector : "editoradvanced",
 		// Theme options
 		<?php
@@ -236,7 +236,7 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 		<?php
 		}
 		?>
-		plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,media,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
+		plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
 		editor_selector : "editorsimpla",
 		// Theme options
 		theme_advanced_buttons1 : "bold,italic,underline,|,justifycenter,|,emotions,forecolor,|,removeformat,|,spellchecker",

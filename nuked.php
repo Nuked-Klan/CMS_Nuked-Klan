@@ -485,6 +485,11 @@ function secu_url($url){
 
 function secu_css($Style){
 	$AllowedProprieties = array(
+		'display',
+		'margin-left',
+		'margin-right',
+		'float',
+		'padding',
 		'text-decoration',
 		'text-align',
 		'color',

@@ -19,7 +19,7 @@
  * @var string The absolute path to your geshi main file
  * e.g. /var/www/my_site/classes/
  */
-define('IC_GESHI_PATH', 'nk/editeur/geshi/');
+define('IC_GESHI_PATH', 'editeur/utils/geshi/');
 
 /**
  * @var array The languages that can be inserted in your editor.

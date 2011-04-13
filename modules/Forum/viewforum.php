@@ -201,7 +201,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 $user_visitx = 0;
             }
-            if ($user && $closed == 1 && ($user_visitx > 0))
+            if ($user && $closed == 1 && ($user_visitx == 0))
             {
                 $img = "<img src=\"modules/Forum/images/folder_new_lock.gif\" alt=\"\" />";
             }
@@ -209,11 +209,11 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 $img = "<img src=\"modules/Forum/images/folder_lock.gif\" alt=\"\" />";
             }
-            else if ($user && $nb_rep >= $nuked['hot_topic'] && ($user_visitx > 0))
+            else if ($user && $nb_rep >= $nuked['hot_topic'] && ($user_visitx == 0))
             {
                 $img = "<img src=\"modules/Forum/images/folder_new_hot.gif\" alt=\"\" />";
             }
-            else if ($user && ($user_visitx == 0) && $nb_rep >= $nuked['hot_topic'])
+            else if ($user && ($user_visitx >= 0) && $nb_rep >= $nuked['hot_topic'])
             {
                 $img = "<img src=\"modules/Forum/images/folder_hot.gif\" alt=\"\" />";
             }
