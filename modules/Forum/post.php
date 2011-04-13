@@ -87,7 +87,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $action_name = _POSTNEWTOPIC;
         }
 
-        echo "<br /><form method=\"post\" action=\"" . $action . "\" onsubmit=\"backslash('forum_texte');\">\n"
+        echo "<br /><form method=\"post\" action=\"" . $action . "\" enctype=\"multipart/form-data\" onsubmit=\"backslash('forum_texte');\">\n"
 	. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
 	. "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><b>" . $nom . "</b></a></td></tr></table>\n"
 	. "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n"

@@ -639,7 +639,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 		$sql3 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
         if (mysql_affected_rows() > 0) 
 		{
-			$sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $file_name . "' )");
+			$sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
 
 			$notify = mysql_query("SELECT auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND emailnotify = 1 GROUP BY auteur_id");
 			$nbusers = mysql_num_rows($notify);
@@ -815,6 +815,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $idmax = mysql_result($req4, 0, "MAX(id)");
 
         $_REQUEST['thread_id'] = $idmax;
+
         $filename = $_FILES['fichiernom']['name'];
 		$filesize = $_FILES['fichiernom']['size'] / 1000;
 
@@ -829,7 +830,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $url_file = "";
         }
 
-        $sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $file_name . "' )");
+        $sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
 
         if ($user)
         {
