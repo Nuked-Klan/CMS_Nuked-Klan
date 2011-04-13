@@ -602,11 +602,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 				echo "". _SCORE .": ";
 				if ($score_team[$nbr-1] < $score_adv[$nbr-1])
 				{
-					echo "&nbsp;<span style=\"color: #990000;\"><b>" . $score_team[$nbr-1] . "</b></span> - <span style=\"color: #009900;\"><b>" . $score_adv[$nbr-1] . "</b></span><br />\n";
+					echo "&nbsp;<span style=\"color: #990000;\"><b>" . $score_adv[$nbr-1] . "</b></span> - <span style=\"color: #009900;\"><b>" . $score_team[$nbr-1] . "</b></span><br />\n";
 				} 
 				else if ($score_team[$nbr-1] > $score_adv[$nbr-1])
 				{
-					echo "&nbsp;<span style=\"color: #009900;\"><b>" . $score_team[$nbr-1] . "</b></span> - <span style=\"color: #990000;\"><b>" . $score_adv[$nbr-1] . "</b></span><br />\n";
+					echo "&nbsp;<span style=\"color: #009900;\"><b>" . $score_adv[$nbr-1] . "</b></span> - <span style=\"color: #990000;\"><b>" . $score_team[$nbr-1] . "</b></span><br />\n";
 				} 
 				else
 				{
