@@ -33,7 +33,7 @@ function index()
     else if ($_REQUEST['limit'] == 100) $checked6 = "checked=\"checked\"";
     else $checked5 = "checked=\"checked\"";
 
-	. "<br /><form method=\"post\" action=\"index.php?file=Search&amp;op=mod_search\">\n"
+	echo "<br /><form method=\"post\" action=\"index.php?file=Search&amp;op=mod_search\">\n"
     . "<table style=\"background: " . $bgcolor3 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
     . "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" align=\"center\"><big><b>" . _SEARCHFOR . "</b></big></td></tr>\n"
     . "<tr style=\"background: " . $bgcolor2 . ";\"><td><b>" . _KEYWORDS . " :</b></td>\n"
