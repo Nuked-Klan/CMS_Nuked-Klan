@@ -2353,7 +2353,7 @@ function edit_config_assistant($op)
     . "<form method=\"post\" action=\"install.php?action=" . $op . "\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
     . "<tr><td colspan=\"2\" align=\"center\"><b>" . _CONFIG . "</b></td></tr>\n"
-    . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"langue\" /></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></td></tr>\n"
     . "<tr><td>" . _DBHOST . " :</td><td><input type=\"text\" name=\"db_host\" size=\"40\" /></td></tr>\n"
 	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLHOST."</td></tr>\n"
     . "<tr><td>" . _DBUSER . " : </td><td><input type=\"text\" name=\"db_user\" size=\"40\" /></td></tr>\n"
@@ -2364,7 +2364,6 @@ function edit_config_assistant($op)
 	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBPREFIX."</td></tr>\n"
     . "<tr><td>" . _DBNAME . " :</td><td><input type=\"text\" name=\"db_name\" size=\"10\" /></td></tr>\n"
 	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBDBNAME."</td></tr></table>\n"
-	. "<p style=\"display: hidden\"><input type=\"text\" name\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></p>\n"
     . "<div style=\"text-align: center;\"><br />" . _CHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _NEXT . "\" /></div></form></body></html>";
 	}
 }

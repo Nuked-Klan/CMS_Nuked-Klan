@@ -1534,7 +1534,6 @@ function edit_config_assistant($op)
     . "<tr><td>" . _DBNAME . " :</td><td><input type=\"text\" name=\"db_name\" size=\"10\" value=\"" . $global['db_name'] . "\" /></td></tr>\n"
 	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
 	. "</table>\n"
-	. "<p style=\"display: hidden\"><input type=\"text\" name\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></p>\n"
     . "<div style=\"text-align: center;\"><br />" . _CHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _NEXT . "\" /></div></form></body></html>";
 	}
 }
