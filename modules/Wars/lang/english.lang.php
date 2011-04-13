@@ -29,6 +29,8 @@ define("_REPLACEIT","To overwrite it please check the box \""._REPLACE."\"");
 define("_NOMBRE","Numbers of map");
 define("_SCORE","Score of map");
 define("_NEXTMATCHES","Next Wars");
+define("_DETAILS2","Comment");
+define("_FROM","from");
 define("_ADMINMATCH","Matches Administration");
 define("_HELP","Help");
 define("_DELETEMATCH","You are about to remove the match vs");

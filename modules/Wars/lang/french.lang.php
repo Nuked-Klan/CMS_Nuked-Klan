@@ -31,6 +31,8 @@ define("_REPLACEIT","Pour le(s) remplacer veuillez cocher la case \""._REPLACE."
 define("_MATCHDAY","Il y a un match aujourd'hui !!!");
 define("_GOWARS","voir tous les matches");
 define("_GOCALENDAR","voir le calendrier");
+define("_DETAILS2","Commentaire");
+define("_FROM","de");
 
 define("_ADMINMATCH","Administration des Matches");
 define("_HELP","Aides");
