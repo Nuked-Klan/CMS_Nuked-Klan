@@ -1277,7 +1277,7 @@ $req = mysql_query($sql);
 
 echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_games</b>" . _CREATES . "&nbsp;');</script>";
 
-$sql = "INSERT INTO " . $db_prefix . "_games (id, name, titre, icon, pref_1, pref_2, pref_3, pref_4, pref_5) VALUES (1, 'Counter-Strike', '" . _PREFCS . "', 'images/games/cs.gif', '" . _OTHERNICK . "', '" . _FAVMAP . "', '" . _FAVWEAPON . "', '" . _SKINT . "', '" . _SKINCT . "');";
+$sql = "INSERT INTO " . $db_prefix . "_games (id, name, titre, icon, pref_1, pref_2, pref_3, pref_4, pref_5, map) VALUES (1, 'Counter-Strike', '" . _PREFCS . "', 'images/games/cs.gif', '" . _OTHERNICK . "', '" . _FAVMAP . "', '" . _FAVWEAPON . "', '" . _SKINT . "', '" . _SKINCT . "', 'de_dust|de_inferno');";
 $req = mysql_query($sql);
 
 
