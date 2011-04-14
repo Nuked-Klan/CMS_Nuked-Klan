@@ -836,7 +836,7 @@ function upgrade_db()
 	('bouton', 'top'),
 	('status', 'bottom'),
 	('ligne1', 'save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help'),
-	('ligne2', 'styleselect,fontselect,fontsizeselect,|,link,unlink,anchor,|,emotions,image,media,forecolor,backcolor'),
+	('ligne2', 'styleselect,fontselect,fontsizeselect,|,link,unlink,anchor,|,emotions,image,forecolor,backcolor'),
 	('ligne3', 'bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,hr,|,outdent,indent,|,removeformat,|,spellchecker'),
 	('ligne4', 'tablecontrols,|,blockquote,sub,sup,|,charmap,pagebreak'),
 	('ligne2b', 'styleselect,fontselect,fontsizeselect,barre,link,unlink,anchor,barre,emotions,image,forecolor,backcolor'),
