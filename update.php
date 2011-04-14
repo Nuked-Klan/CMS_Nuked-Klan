@@ -1344,7 +1344,7 @@ function upgrade_db()
 	$del = mysql_query("DELETE FROM " . $db_prefix . "_block WHERE module = 'Calendar'");
 	$del = mysql_query("DELETE FROM " . $db_prefix . "_block WHERE module = 'User'");
 
-	$sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, titre, content, type, nivo, page) VALUES ('', 1, 4, '', '" . _BLOKPARTNERS . "', '<div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nuked-klan.org\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"http://www.nuked-klan.org/ban.gif\" alt=\"\" title=\"Nuked-klaN CMS\" /></a></div><div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nitroserv.fr\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"http://www.nitroserv.com/images/logo_88x31.jpg\" alt=\"\" title=\"Location de serveurs de jeux\" /></a></div>', 'html', 0, 'Tous');";
+	$sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, titre, content, type, nivo, page) VALUES ('', 1, 4, '', '" . _BLOKPARTNERS . "', '<div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nuked-klan.org\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/ban.png\" alt=\"\" title=\"Nuked-klaN CMS\" /></a></div><div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nitroserv.fr\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"http://www.nitroserv.com/images/logo_88x31.jpg\" alt=\"\" title=\"Location de serveurs de jeux\" /></a></div>', 'html', 0, 'Tous');";
 	$req = mysql_query($sql);
 
 		if (is_file("modules/Search/rubriques/Articles.php"))
