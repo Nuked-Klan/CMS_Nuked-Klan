@@ -612,6 +612,8 @@ function upgrade_db()
 	// FIN DE L'UPDATE
 	$error = 0;
 
+	mysql_query('INSERT INTO ' . $db_prefix . '_modules (`nom`, `niveau`, `admin`) VALUES (\'PackageMgr\', 9, 9)');
+
 	if (is_file("modules/404/lang/turskish.lang.php"))
 	{
 	    $path_3 = "modules/404/lang/turskish.lang.php";
@@ -694,6 +696,7 @@ function upgrade_db()
 
 	mysql_query('INSERT INTO ' . $db_prefix . '_modules (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)');
 	mysql_query('INSERT INTO ' . $db_prefix . '_modules (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)');
+	mysql_query('INSERT INTO ' . $db_prefix . '_modules (`nom`, `niveau`, `admin`) VALUES (\'PackageMgr\', 9, 9)');
 
 	mysql_query('ALTER TABLE ' . $db_prefix . '_banned ADD `date` VARCHAR(20)  NULL AFTER `email`');
 	mysql_query('ALTER TABLE ' . $db_prefix . '_banned ADD `dure` VARCHAR(20)  NULL AFTER `date`');
