@@ -600,10 +600,10 @@ if ($visiteur >= $level_access && $level_access > -1)
 	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _MAPS . "</b> :<br/><br/>";
             for ($nbr=1; $nbr <= count($map); $nbr++)
 			{
-				echo "<br /><u>Map n&deg; ".$nbr." :</u> ".$map[$nbr-1]."";
+				echo "<br /><u>Map n&deg; " . $nbr . " :</u> " . $map[$nbr-1];
 				if ($etat != 0)
 				{
-					echo _SCORE . " : ";
+					echo "<br />" . _SCORE . " : ";
 					if ($score_team[$nbr-1] < $score_adv[$nbr-1])
 					{
 						echo "&nbsp;<span style=\"color: #990000;\"><b>" . $score_adv[$nbr-1] . "</b></span> - <span style=\"color: #009900;\"><b>" . $score_team[$nbr-1] . "</b></span><br />\n";
