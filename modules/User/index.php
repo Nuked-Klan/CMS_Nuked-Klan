@@ -16,7 +16,7 @@ global $language, $user, $cookie_captcha;
 translate("modules/User/lang/" . $language . ".lang.php");
 translate("modules/Members/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
+// Inclusion systÃ¨me Captcha
 include_once("Includes/nkCaptcha.php");
 include_once("Includes/hash.php");
 
@@ -1150,7 +1150,6 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country)
 		$country = "France.gif";
 	}
 	$date2 = strftime("%x %H:%M", time());
-	echo $user_id;
 	$add = mysql_query("INSERT INTO " . USER_TABLE . " ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` ) VALUES ( '" . $user_id . "' , '' , '' , '' , '' , '' , '" . $pseudo . "' , '" . $mail . "' , '" . $email . "' , '' , '' , '' , '' , '' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '' , '' , '' , '' , '" . $game . "' , '" . $country . "' , '' )");
 
 	if ($nuked['validation'] == "mail" && $nuked['inscription'] == "on")
