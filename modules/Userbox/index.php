@@ -183,6 +183,10 @@ if ($user)
         list($titre, $message, $user_from, $date) = mysql_fetch_array($sql2);
 
         $date = strftime("%x %H:%M", $date);
+        
+        if(strlen($titre) >= 50){
+           $titre = substr($titre, 0, 47)."...";
+        }
 
 		$sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $user_from . "'");
         list($pseudo) = mysql_fetch_array($sql_member);
@@ -281,7 +285,7 @@ if ($user)
 			$sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $user_from . "'");
         		list($pseudo) = mysql_fetch_array($sql_member);
 
-                    echo "<b><big>·</big></b>&nbsp;" . _OF ."&nbsp;" . $pseudo. " ( " . $date . " )<br />\n"
+                    echo "<b><big>Â·</big></b>&nbsp;" . _OF ."&nbsp;" . $pseudo. " ( " . $date . " )<br />\n"
                     . "<input type=\"hidden\" name=\"mid[]\" value=\"" . $titi . "\" />\n";
                 } 
             } 
@@ -354,6 +358,10 @@ if ($user)
                 $bg = $bgcolor1;
                 $j = 0;
             } 
+            
+            if(strlen($titre) >= 50){
+              $titre = substr($titre, 0, 47)."...";
+            }
 
 		 	echo "<tr style=\"background: " . $bg . ";\">\n"
 			. "<td><input id=\"box" . $i . "\" type=\"checkbox\" class=\"checkbox\" name=\"mid[]\" value=\"" . $mid . "\" /></td>\n"
