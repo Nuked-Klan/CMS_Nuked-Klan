@@ -1167,7 +1167,7 @@ function getOS() {
 
 	foreach( $list_os as $k => $v ) {
 
-		if (strpos(strtolower($k), strtolower($user_agent)))
+     if (preg_match("#".strtolower($k)."#", strtolower($user_agent)))
 		{
 			$os = $v;
 			break;
