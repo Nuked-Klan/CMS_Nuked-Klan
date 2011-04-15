@@ -133,6 +133,7 @@ if ($user)
 
 				if ($date < $anti_flood)
 				{
+					opentable();
 					echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
 					$url = "index.php?file=Userbox";
 					redirect($url, 2);
