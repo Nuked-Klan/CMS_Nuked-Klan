@@ -699,7 +699,7 @@ function secu_args($matches){
 
 function secu_html($texte)
 {
-	global $bgcolor3;
+	global $bgcolor3, $nuked;
 	/* balise html interdit*/
 	$texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
 	$texte = stripslashes($texte);
@@ -725,9 +725,9 @@ function secu_html($texte)
 
     if ($_REQUEST['mess_id'])
     {
-        $result = mysql_query("SELECT auteur FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $_REQUEST['mess_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
-        list($author) = mysql_fetch_array($result);
-        $f_quote = _QUOTE . ' ' . _BY . ' ' . $author;
+        $f_sql = mysql_query("SELECT auteur FROM " . $nuked['prefix'] . "_forums_messages WHERE id = '" . $_REQUEST['mess_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'") or die (mysql_error());
+        list($f_author) = mysql_fetch_array($f_sql);
+        $f_quote = _QUOTE . ' ' . _BY . ' ' . $f_author;
     }
     else $f_quote = _QUOTE;
             
@@ -1197,7 +1197,7 @@ function getBrowser() {
 
 	foreach( $list_browser as $k => $v ) {
 
-		if (strpos(strtolower($k ), strtolower($user_agent)))
+     if (preg_match("#".strtolower($k)."#", strtolower($user_agent)))
 		{
 			$browser = $v;
 			break;
