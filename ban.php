@@ -35,7 +35,6 @@ if ($count > 0)
 {
     list($texte_ban, $dure) = mysql_fetch_array($sql);
     $texte_ban = htmlentities($texte_ban);
-    $texte_ban = BBcode($texte_ban);
 
     setcookie("ip_ban", "$ip_ban", time() + 9999999, "", "", "");
 
