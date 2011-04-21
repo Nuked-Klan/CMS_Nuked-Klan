@@ -315,7 +315,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                         $attach_file = "";
                     } 
 
-                    if ($modos != "" && strpos($auteur_id, $modos))
+                    if ($modos != "" && is_numeric(strpos($modos, $auteur_id)))
                     {
                         $auteur_modo = 1;
                     } 
