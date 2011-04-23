@@ -42,7 +42,7 @@ function index()
 		list($pseudo, $url, $mail, $date, $avatar, $nb_REQUEST, $last_used) = mysql_fetch_array($sql3);
 
 		$date = strftime("%x", $date);
-		$last_used > 0 ? $last_used=strftime("%x %X", $last_used) : $last_used='';
+		$last_used > 0 ? $last_used=strftime("%x %X", $last_used) : $last_used='N/A';
 
 		if ($url != "")
 		{
