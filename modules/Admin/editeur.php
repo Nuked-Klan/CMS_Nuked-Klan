@@ -71,7 +71,7 @@ if ($visiteur == 9)
 		$sql3 = mysql_query("SELECT value FROM " . $nuked['prefix'] . "_editeur WHERE name = 'ligne1b'");
 		list($ligne1b) = mysql_fetch_array($sql3);
 		$ligne1b = explode(",",$ligne1b);
-		for($nbr =0; $nbr <=19; $nbr++)
+		for($nbr =0; $nbr <=20; $nbr++)
 		{
 			if($ligne1b[$nbr] != "")
 			{
@@ -129,6 +129,7 @@ if ($visiteur == 9)
 		<input type="button" class="mce_preview"/><input type="checkbox" name="ligne1[17]" value="preview" <?php echo $ligne1[17]; ?> /><br />
 		<input type="button" class="separator"/><input type="checkbox" name="ligne1[18]" value="|" <?php echo $ligne1[18]; ?> /><br />
 		<input type="button" class="mce_help"/><input type="checkbox" name="ligne1[19]" value="help" <?php echo $ligne1[19]; ?> /><br />
+		<input type="button" class="mce_code"/><input type="checkbox" name="ligne1[20]" value="code" <?php echo $ligne1[20]; ?> /><br />
 		</td><td width="25%">
 		<?php echo _LIGNE2; ?><br />
 		<span style="font-size:9px;margin-left:3px;">Style</span><input type="checkbox" name="ligne2[0]" value="styleselect" <?php echo $ligne2[0]; ?> /><br />
@@ -252,7 +253,7 @@ if ($visiteur == 9)
 		}
 		$barre4 = substr($barre4, 0,count($barre4)-2);
 		
-		for($nbr = 0; $nbr<20; $nbr++)
+		for($nbr = 0; $nbr<21; $nbr++)
 		{
 			if($_REQUEST['ligne1'][$nbr] == "|")
 			{

@@ -835,14 +835,14 @@ function upgrade_db()
 	('couleur', ''),
 	('bouton', 'top'),
 	('status', 'bottom'),
-	('ligne1', 'save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help'),
+	('ligne1', 'save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help,code'),
 	('ligne2', 'styleselect,fontselect,fontsizeselect,|,link,unlink,anchor,|,emotions,image,forecolor,backcolor'),
 	('ligne3', 'bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,hr,|,outdent,indent,|,removeformat,|,spellchecker'),
 	('ligne4', 'tablecontrols,|,blockquote,sub,sup,|,charmap,pagebreak'),
 	('ligne2b', 'styleselect,fontselect,fontsizeselect,barre,link,unlink,anchor,barre,emotions,image,forecolor,backcolor'),
 	('ligne3b', 'bold,italic,underline,strikethrough,barre,justifyleft,justifycenter,justifyright,justifyfull,barre,bullist,numlist,hr,barre,outdent,indent,barre,removeformat,barre,spellchecker'),
 	('ligne4b', 'tablecontrols,barre,blockquote,sub,sup,barre,charmap,pagebreak'),
-	('ligne1b', 'save,newdocument,restoredraft,barre,cut,copy,paste,pastetext,pasteword,barre,undo,redo,barre,print,barre,fullscreen,barre,preview,barre,help');";
+	('ligne1b', 'save,newdocument,restoredraft,barre,cut,copy,paste,pastetext,pasteword,barre,undo,redo,barre,print,barre,fullscreen,barre,preview,barre,help,code');";
 	$req = mysql_query($sql);
 
 	$sql = "DROP TABLE IF EXISTS " . $db_prefix . "_match";
