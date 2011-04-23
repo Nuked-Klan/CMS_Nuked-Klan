@@ -35,7 +35,7 @@ include(dirname(__FILE__) . '/admin/logo.php');
 	<title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>
 
 	<link rel="search" type="application/opensearchdescription+xml" title="<?php echo $nuked['name']; ?>" href="opensearch.php" />
-	<link rel="shortcut icon"  type="image/x-icon" href="/images/favicon.ico" />
+	<link rel="shortcut icon"  type="image/x-icon" href="images/favicon.ico" />
 	<link title="css" rel="stylesheet" type="text/css" href="themes/<?php echo $theme; ?>/style.css" media="screen" />
 </head>
 <body>
