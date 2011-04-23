@@ -11,9 +11,9 @@ if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
-global $user,$user_ip, $nuked, $language, $cookie_captcha;
+
 translate("modules/Textbox/lang/" . $language . ".lang.php");
-include("Includes/nkCaptcha.php");
+require_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
 if ($user[1] > 0)  $captcha = 0;
@@ -57,7 +57,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         $pseudo = $user[2];
     }
     else
-    {	$_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
+    {	
+    	$_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
         $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES);
         $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
