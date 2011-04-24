@@ -8,13 +8,11 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 
-//fonction captcha (auto | on | off)
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
+if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 
+//réglage captcha (auto | on | off)
 define("_NKCAPTCHA","auto");
+
 include_once (dirname(__FILE__) . '/hash.php');
 
 /**

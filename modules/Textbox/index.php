@@ -166,7 +166,6 @@ function index()
        . "\n"
        . "// -->\n"
        . "</script>\n";
-	   echo "<script type=\"text/javascript\" src=\"js/bbcode.js\"></script>\n";
 
        echo "<div style=\"text-align: center;\"><big><b>" . _LISTSMILIES . "</b></big></div>\n"
        . "<table width=\"100%\" cellpadding=\"3\" cellspacing=\"0\"><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
@@ -228,19 +227,10 @@ function index()
 		{
 			if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . "...";
 
-			if ($language == "french")
-			{
-			$date = strftime("Le %d/%m à %H:%M", $date);
-			} 
-			else
-			{
-			$date = strftime("%m/%d %H:%M", $date);
-			} 
+			if ($language == "french") $date = strftime("Le %d/%m à %H:%M", $date);
+			else $date = strftime("%m/%d %H:%M", $date);
 
-			$texte = htmlentities($texte, ENT_NOQUOTES);
-			$texte = nk_CSS($texte);
-			
-			$block_text = "";
+			$block_text = '';
 
 			$text = explode(' ', $texte);
 			for($i = 0;$i < count($text);$i++)
@@ -249,6 +239,9 @@ function index()
 			if (strlen($text[$i]) > $max_chars && !preg_match("`http:`i", $text[$i]) && !preg_match("`www\.`i", $text[$i]) && !preg_match("`@`i", $text[$i]) && !preg_match("`ftp\.`i", $text[$i])) $text[$i] = "<span title=\"" . $text[$i] . "\">" . substr($text[$i], 0, $max_chars) . "...</span>";
 			$block_text .= $text[$i];
 			}
+
+			$texte = htmlentities($texte, ENT_NOQUOTES);
+			$texte = nk_CSS($texte);
 
 			if (strlen($auteur) > $pseudo_max) $auteur = "<span title=\"" . nk_CSS($auteur) . "\">" . nk_CSS(substr($auteur, 0, $pseudo_max)) . "...</span>";
 

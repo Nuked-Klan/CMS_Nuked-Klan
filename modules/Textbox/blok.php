@@ -154,10 +154,10 @@ else
 
 echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"98%\" cellspacing=\"1\" cellpadding=\"2\"><tr><td>\n"
 . "<div id=\"textbox\" style=\"width: " . $width . "; height: " . $height . "; overflow: auto;\">\n"
-. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n"
+. "<p>\n"
 . "<img src=\"images/loading.gif\" alt=\"Loading\" /><br />\n"
 . "Chargement en cours...\n"
-. "</table></div></td></tr></table>\n"
+. "</p></div></td></tr></table>\n"
 . "<script>maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
 if ($active == 3 || $active == 4)
@@ -175,10 +175,10 @@ if ($active == 3 || $active == 4)
             echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
         }
 
-        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"50\" value=\"" . _YOURMESS . "\"  onclick=\"this.value=''\"/>\n";
+        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"50\" value=\"" . _YOURMESS . "\"  onclick=\"this.value=''\"/><br />\n";
 
-		if ($captcha == 1) create_captcha(1);
-	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
+		if ($captcha == 1) create_captcha(3);
+		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "<br /><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
 	. "<a href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\">\n"
@@ -202,7 +202,7 @@ else
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"25\" value=\"" . _YOURMESS . "\"  onclick=\"this.value=''\" /><br /><table>\n";
 
-	if ($captcha == 1) create_captcha(1);
+	if ($captcha == 1) create_captcha(3);
 	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"

@@ -7,12 +7,10 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
+if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
+
 //Update param
-define ('UPDATE_URL', 'http://nuked-klan.org/');
+define('UPDATE_URL', 'http://nuked-klan.org/');
 
 // Table names
 define("BANNED_TABLE", $nuked['prefix'] . "_banned");
@@ -69,8 +67,6 @@ define("USER_TABLE", $nuked['prefix'] . "_users");
 define("USER_DETAIL_TABLE", $nuked['prefix'] . "_users_detail");
 define("VOTE_TABLE", $nuked['prefix'] . "_vote");
 define("WARS_TABLE", $nuked['prefix'] . "_match");
-define("THEME_TABLE", $nuked['prefix'] . "_themes");
-define("THEME_CAT_TABLE", $nuked['prefix'] . "_themes_cat");
 define("CONTACT_TABLE", $nuked['prefix'] . "_contact");
 define("PAGE_TABLE", $nuked['prefix'] . "_page");
 

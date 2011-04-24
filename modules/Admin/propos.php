@@ -33,10 +33,10 @@ if ($visiteur == 9)
     . "<div class=\"tab-content\" id=\"tab2\"><div style=\"width:90%; margin-left:5%;\">\n";
 	?>
 	<br /><br /><b>Informations générales:</b><br /><br />
-	Version Nk1.7.9 RC4.<br />
+	Version <?php echo $nuked['version']; ?> RC5<br />
 	Développer par http://www.nuked-klan.org.<br />
 	Développement géré par: fce.<br />
-	Développeur: bontiv, fce, xplosive, oeildefeu.<br /><br />
+	Développeur: bontiv, fce, xpLosIve, oeildefeu, akred, Samoth, Sekuline, PooG.<br /><br />
 	
 	<b>Contact nuked-klan:</b><br /><br />
 	Contact: http://www.nuked-klan.org/index.php?file=Contact<br />

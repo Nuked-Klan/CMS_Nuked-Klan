@@ -44,7 +44,7 @@ $max_mpseudo = 20;
 
 
 // nombre de caractéres maximal par message (côté)
-$max_texte = 600;
+$max_texte = 400;
 
 
 //  nombre de caractéres maximal par message (centre)

@@ -1,8 +1,5 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
+if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 
 /**
  * Securised hash for NK
@@ -71,27 +68,6 @@ function Module_Hash($module){
 		{
 			unset($files[$id]);
 		}
-		/*
-		* This part don't work.
-
-		else
-		{
-			$f = file($file);
-			$delete = true;
-			foreach ($f as $row){
-				if (!preg_match('`^([[:space:]]*(define[[:space:]]*\([[:space:]]*(\'[a-zA-Z0-9_]+\'|"[a-zA-Z0-9_]+")[[:space:]]*,[[:space:]]*(\'([^\']|\\\\\')+\'|"([^"]|\\\\")+")[[:space:]]*\)[[:space:]]*;|<\?php|\?>)[[:space:]]*)$`',
-					$row, $m))
-				{
-					$delete = false;
-					break;
-				}
-			}
-			if ($delete)
-			{
-				echo "/deled:".$file;
-				unset($f, $a, $files[$id]);
-			}
-		}*/
 	}
 
 	$hash = array_map('md5_file', $files, array_fill(0, count($files), true));
