@@ -59,7 +59,7 @@ function create_captcha($style)
 		if (@extension_loaded('gd')) echo "<img src=\"captcha.php\" alt=\"\" title=\"" . _SECURITYCODE . "\" />";
 		else echo "<big><i>" . $random_code . "</i></big>";
 
-		echo "</td></tr><tr><td><b>" . _TYPESECCODE . " :</b></td><td><input type=\"text\" name=\"code_confirm\" size=\"6\" maxlength=\"5\" /></td></tr>\n"
+		echo "</td></tr><tr><td><b>" . _TYPESECCODE . " :</b></td><td><input type=\"text\" id=\"code\" name=\"code_confirm\" size=\"6\" maxlength=\"5\" /></td></tr>\n"
 		. "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
     }
     else
@@ -67,7 +67,7 @@ function create_captcha($style)
 		echo "<br />";
 		if (@extension_loaded('gd')) echo "<img src=\"captcha.php\" alt=\"\" title=\"" . _SECURITYCODE . "\" />";
 		else echo "<big><i>" . $random_code . "</i></big>";
-		echo "<br />" . _TYPESECCODE . " : <br /><input type=\"text\" name=\"code_confirm\" size=\"7\" maxlength=\"6\" /><br /><br />";
+		echo "<br />" . _TYPESECCODE . " : <br /><input type=\"text\" name=\"code_confirm\" id=\"code\" size=\"7\" maxlength=\"6\" /><br /><br />";
     }
 	return($random_code);
 }

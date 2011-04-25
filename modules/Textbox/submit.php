@@ -53,7 +53,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 		exit();
     }
 
-    if ($user)
+    if (isset($user[2]))
     {
         $pseudo = $user[2];
     }
