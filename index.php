@@ -251,6 +251,14 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 	});
 		</script>
 		<?php
+		$sql = mysql_query("SELECT value FROM " . $nuked['prefix'] . "_editeur WHERE name='couleur'");
+		?>
+		<style type="text/css">
+		#forum_texte_toolbargroup {
+			background-color: #<?php echo mysql_result($sql, 0); ?>;
+		}
+		</style>
+		<?php
 		if ($couleur != "")
 		{
 		?>
