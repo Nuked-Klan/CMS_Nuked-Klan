@@ -163,7 +163,7 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 echo "<div id=\"affichetextbox\"></div><div>\n";
 if ($active == 3 || $active == 4)
 {
-    if ($visiteur >= nivo_mod("Textbox"))
+    if ($visiteur > 0 && $visiteur >= nivo_mod("Textbox"))
     {
         echo "<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
 
