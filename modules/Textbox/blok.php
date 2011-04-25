@@ -16,7 +16,7 @@ global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cooki
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 include("modules/Textbox/config.php");
 
-// Inclusion système Captcha
+// Inclusion systÃ¨me Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -47,6 +47,7 @@ function maj_shoutbox() {
 	}
 
 	var fichier = 'index.php?file=Textbox&op=ajax&nuked_nude=index';
+  var requete;
 
 	if (window.XMLHttpRequest) requete = new XMLHttpRequest();
 	else if (window.ActiveXObject) requete = new ActiveXObject("Microsoft.XMLHTTP");
