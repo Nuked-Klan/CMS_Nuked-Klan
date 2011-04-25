@@ -101,7 +101,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
 	    $subjet = $sujet . ", " . $date;
 	    $corp = $corps . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
-	    $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail;
+	    $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
+	    $from.= "Content-Type: text/html\r\n\r\n";
 
 	    if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
 	    else $email = $nuked['mail'];	
