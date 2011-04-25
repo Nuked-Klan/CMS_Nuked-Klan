@@ -184,7 +184,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             break;
 
         case"chat":
-            chat($_REQUEST['$nick']);
+            chat($_REQUEST['nick']);
             break;
 
         case"awards":
