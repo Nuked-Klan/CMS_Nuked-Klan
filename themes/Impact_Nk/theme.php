@@ -176,7 +176,7 @@ $comment = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $
 		<div class="bottom">
 			<table>
 				<tr>
-					<td>
+					<td width="100%">
 						<h2><?php echo $data['titre']; ?></h2>
 						<br />
 						<span style="color: #ffffff;"><?php echo $data['texte']; ?></span>

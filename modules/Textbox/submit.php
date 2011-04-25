@@ -16,7 +16,8 @@ translate("modules/Textbox/lang/" . $language . ".lang.php");
 require_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
-if ($user[1] > 0)  $captcha = 0;
+if (_NKCAPTCHA == "off") $captcha = 0;
+else if (_NKCAPTCHA == "auto" && $user[1] > 0)  $captcha = 0;
 else $captcha = 1;
 
 if ($user)
