@@ -225,26 +225,9 @@ if ($visiteur >= 2)
 
 					</div> <!-- End #tab3 -->
 <?php
-$sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE);
-$signs = array();
-while($row = mysql_fetch_assoc($sql)){
-	$signs[] = "'".Module_Hash($row['nom'])."'";
-}
-echo "<script type=\"text/javascript\" src=\"js/update.js\"></script>\n"
-	. "<script type=\"text/javascript\">\n"
-	. "NKUpdate.lng = '$language';\n"
-	. "NKUpdate.UpdateUrl = '" . UPDATE_URL . "';\n"
-	. "</script>\n"
-	. "<script type=\"text/javascript\">\nNKUpdate.SetNKorgMessById('NKmess');\n"
-	. "NKMessState = 0;NKMessUpdate = 0;\nNKUpdate.SetModCallback(function(tab){\n"
-	. "if ((tab['State'] == 'pirate' || tab['State'] == 'faille') && NKMessState == 0) {\n"
-	. "document.getElementById('NKUpdate').innerHTML = document.getElementById('NKUpdate').innerHTML + '<br />Un ou plusieurs de vos modules présentent des failles !';\n"
-	. "NKMessState = 1;\n}\n if (tab['UpdateFile'] != null) {"
-	. "document.getElementById('NKUpdate').innerHTML = document.getElementById('NKUpdate').innerHTML + '<br />Des mises à jour sont disponible pour un ou plusieurs de vos modules';\n"
-	. "NKMessUpdate = 1;\n}\n}, new Array(".implode(', ', $signs)."));\n"
-	. "</script>\n";
+include_once "Includes/version.php";
+echo "<script type=\"text/javascript\" src=\"http://www.nuked-klan.org/extra/message.php?version=$nk_version&lang=$language\"></script>\n";
 ?>
-
 				</div> <!-- End .content-box-content -->
 
 			</div> <!-- End .content-box -->
