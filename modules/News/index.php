@@ -15,7 +15,7 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user;
 translate("modules/News/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
+// Inclusion systÃ¨me Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -373,7 +373,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 		. "<b>" . $title . "</b><br /><br /></td></tr><tr><td align=\"left\">\n"
 		. "<b>" . _YNICK . " : </b>&nbsp;<input type=\"text\" id=\"sf_pseudo\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
 		. "<tr><td><b>" . _FMAIL . " : </b>&nbsp;<input type=\"text\" id=\"sf_mail\" name=\"mail\" value=\"mail@gmail.com\" size=\"25\" /></td></tr>\n"
-		. "<tr><td><b>" . _YCOMMENT . " : </b><br /><textarea name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr>\n";
+    . "<tr><td><b>" . _YCOMMENT . " : </b><br /><textarea name=\"comment\" style=\"width:100%;\" rows=\"10\"></textarea></td></tr>\n";
 
 		if ($captcha == 1) create_captcha(1);
 
