@@ -151,7 +151,8 @@ function index()
        . "<head><title>" . _SMILEY . "</title>\n"
        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-       . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+       . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" />\n"
+         . "<script type=\"text/javascript\" src=\"js/smilies.js\"></script></head>\n"
        . "<body style=\"background: " . $bgcolor2 . ";\">\n";
 
        echo "<script type=\"text/javascript\">\n"
@@ -227,7 +228,7 @@ function index()
 		{
 			if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . "...";
 
-			if ($language == "french") $date = strftime("Le %d/%m à %H:%M", $date);
+			if ($language == "french") $date = strftime("Le %d/%m Ã  %H:%M", $date);
 			else $date = strftime("%m/%d %H:%M", $date);
 
 			$block_text = '';
