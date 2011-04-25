@@ -61,7 +61,7 @@ else
 {
     echo "<form method=\"post\" action=\"index.php?file=Search&amp;op=mod_search\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n"
-    . "<tr><td align=\"center\"><input type=\"hidden\" name=\"module\" value=\"\" /><input type=\"text\" name=\"main\" size=\"20\" /></td></tr>\n"
+    . "<tr><td align=\"center\"><input type=\"hidden\" name=\"module\" value=\"\" /><input type=\"text\" name=\"main\" size=\"25\" /></td></tr>\n"
     . "<tr><td align=\"center\"><input type=\"submit\" class=\"button\" name=\"submit\" value=\"" . _SEARCHFOR . "\" /></td></tr>\n"
     . "<tr><td align=\"center\"><a href=\"index.php?file=Search\">" . _ADVANCEDSEARCH . "</a></td></tr></table></form>\n";
 }
