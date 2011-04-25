@@ -36,7 +36,7 @@ if ($visiteur == 9)
 	Version <?php echo $nuked['version']; ?> RC5<br />
 	Développer par http://www.nuked-klan.org.<br />
 	Développement géré par: fce.<br />
-	Développeur: bontiv, fce, xpLosIve, oeildefeu, akred, Samoth, Sekuline, PooG.
+	Développeur: bontiv, fce, xpLosIve, oeildefeu, akred, Samoth, Sekuline, PooG.<br />
 	Responsable Qualité: Lypso21<br /><br />
 	
 	<b>Contact nuked-klan:</b><br /><br />
