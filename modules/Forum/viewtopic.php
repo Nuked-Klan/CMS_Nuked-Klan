@@ -75,7 +75,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         list($cat_name) = mysql_fetch_array($sql_cat);
         $cat_name = htmlentities($cat_name);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]))
         {
             $administrator = 1;
         } 
