@@ -15,7 +15,7 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
+// Inclusion systÃ¨me Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -811,7 +811,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         if (!is_numeric($_REQUEST['emailnotify'])) $_REQUEST['emailnotify'] = 0;
         if (($visiteur < admin_mod("Forum") && $administrator == 0) || !is_numeric($_REQUEST['annonce'])) $_REQUEST['annonce'] = 0;
 
-        if ($_REQUEST['survey'] == 1 && $_REQUEST['survey'] > 0 && $visiteur >= $level_poll)
+        if ($_REQUEST['survey'] == 1 && $_REQUEST['survey_field'] > 0 && $visiteur >= $level_poll)
         {
             $sondage = 1;
         }
@@ -850,9 +850,9 @@ if ($visiteur >= $level_access && $level_access > -1)
             $upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $user[0] . "'");
         }
 
-        if ($_REQUEST['survey'] == 1 && $_REQUEST['survey'] > 0 && $visiteur >= $level_poll)
+        if ($_REQUEST['survey'] == 1 && $_REQUEST['survey_field'] > 0 && $visiteur >= $level_poll)
         {
-            $url = "index.php?file=Forum&op=add_poll&survey_field=" . $_REQUEST['survey'] . "&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
+            $url = "index.php?file=Forum&op=add_poll&survey_field=" . $_REQUEST['survey_field'] . "&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
         }
         else
         {
@@ -996,13 +996,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($user && $user[0] == $auteur_id && $sondage == 1 && $visiteur >= $level_poll)
         {
-            if ($_REQUEST['survey'] > $nuked['forum_field_max'])
+            if ($_REQUEST['survey_field'] > $nuked['forum_field_max'])
             {
                 $max = $nuked['forum_field_max'];
             }
             else
             {
-                $max = $_REQUEST['survey'];
+                $max = $_REQUEST['survey_field'];
             }
 
             echo "<br /><div style=\"text-align: center;\"><big><b>" . _POSTSURVEY . "</b></big></div><br />\n"
