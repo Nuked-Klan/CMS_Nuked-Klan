@@ -561,7 +561,7 @@ function upgrade_db()
      {
 		$sql = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name='screen'");
 		$number = mysql_num_rows($sql);
-		if ($number == 0)
+		if ($number == 1)
 		{
 			$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('screen', 'on');";
 			$req = mysql_query($sql);
@@ -575,7 +575,7 @@ function upgrade_db()
 		}
 		$sql = mysql_query("ALTER TABLE  " . $db_prefix . "_games ADD `map` TEXT NOT NULL;");
 		
-		if ($number == 0)
+		if ($number == 1)
 		{
 		$sql = "CREATE TABLE " . $db_prefix . "_contact (
 		  `id` int(11) NOT NULL auto_increment,
