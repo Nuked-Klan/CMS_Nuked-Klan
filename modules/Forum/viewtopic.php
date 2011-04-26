@@ -75,7 +75,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         list($cat_name) = mysql_fetch_array($sql_cat);
         $cat_name = htmlentities($cat_name);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         } 
@@ -315,7 +315,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                         $attach_file = "";
                     } 
 
-                    if ($modos != "" && is_numeric(strpos($modos, $auteur_id)))
+                    if ($modos != "" && strpos($modos, $auteur_id) !== false)
                     {
                         $auteur_modo = 1;
                     } 
