@@ -83,8 +83,8 @@ foreach ($_FILES as $k=>$v)
 	{
 		$_FILES[$k]['name'] = substr(md5(uniqid()), rand(0, 20), 10) . strrchr($_FILES[$k]['name'], '.');
 		$sfile = new finfo(FILEINFO_MIME);
-		if (stripos(strtolower(strrchr($_FILES[$k]['name'], '.')), 'php') !== false
-			|| stripos(strtolower($sfile->file($_FILES[$k]['tmp_name'])), 'php') !== false)
+		if (stripos(strrchr($_FILES[$k]['name'], '.'), 'php') !== false
+			|| stripos($sfile->file($_FILES[$k]['tmp_name']), 'php') !== false)
 		{
 			die ('Upload a PHP file isn\'t autorised !!');
 		}
