@@ -11,7 +11,6 @@
 define ("INDEX_CHECK", 1);
 $mtime = microtime();
 include_once ('Includes/php51compatibility.php');
-include_once ('Includes/is_image.php');
 include ("globals.php");
 @include ("conf.inc.php");
 //For compatibility with all old module and theme
