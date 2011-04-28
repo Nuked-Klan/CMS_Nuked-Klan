@@ -692,6 +692,8 @@ function upgrade_db()
 
 	mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9\' WHERE name = \'version\'');
 	mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'Impact_Nk\' WHERE name = \'theme\'');
+	mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'quakenet.org\' WHERE name = \'irc_serv\'');
+
 	mysql_query('ALTER TABLE ' . $db_prefix . '_users ADD  erreur INT(10) NOT NULL default \'0\'');
 
 	mysql_query('INSERT INTO ' . $db_prefix . '_modules (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)');
@@ -1583,6 +1585,7 @@ function update_config($vars)
 	. "define('NK_INSTALLED', true);\n"
 	. "define('NK_OPEN', true);\n"
 	. "define('NK_GZIP', true);\n"
+	. "// NE PAS SUPPRIMER! / DO NOT DELETE\n"
 	. "define('HASHKEY', '".addslashes(sha1(uniqid(), true))."');\n"
 	. "\n"
 	. "?>";

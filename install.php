@@ -2411,6 +2411,7 @@ function save_config($vars)
 	. "define('NK_INSTALLED', true);\n"
 	. "define('NK_OPEN', true);\n"
 	. "define('NK_GZIP', true);\n"
+	. "// NE PAS SUPPRIMER! / DO NOT DELETE\n"
 	. "define('HASHKEY', '".addslashes(@sha1(uniqid(''), true))."');\n"
 	. "\n"
 	. "?>";
