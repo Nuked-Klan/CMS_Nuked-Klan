@@ -228,7 +228,7 @@ function index()
 		{
 			if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . "...";
 
-			if ($language == "french") $date = strftime("Le %d/%m à %H:%M", $date);
+			if ($language == "french") $date = strftime("Le %d/%m &agrave; %H:%M", $date);
 			else $date = strftime("%m/%d %H:%M", $date);
 
 			$block_text = '';
