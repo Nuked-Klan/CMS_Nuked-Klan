@@ -79,7 +79,7 @@ define("_DBPASS","Password");
 define("_DBPREFIX","Prefix");
 define("_DBNAME","Nom de la Base");
 define("_SITEURL","URL du Site");
-define("_CHMOD","Avant de continuer, assurez-vous d'avoir accordé les droits en écriture<br />sur les fichiers conf.inc.php, install.php et update.php");
+define("_CHMOD","Avant de continuer, assurez-vous d'avoir accordé les droits en écriture<br />sur les fichiers install.php ou update.php");
 define("_NEXT","Suivant");
 define("_RETRY","Réessayer");
 define("_CONFIGSAVE","Configuration sauvegardée");
