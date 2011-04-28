@@ -171,6 +171,20 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		footer();
 		exit();
 	    }
+
+	if($nom == $code)
+	 {
+		echo "<div class=\"notification error png_bg\">\n"
+		. "<div>\n"
+		. "Change code of smilie!\n"
+		. "</div>\n"
+		. "</div>\n";
+		redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
+		adminfoot();
+		footer();
+		exit();
+	}
+
 	}
 	else
 	{
