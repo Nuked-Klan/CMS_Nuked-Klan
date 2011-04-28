@@ -7,10 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 
 global $nuked, $language, $user;
 translate("modules/Search/lang/" . $language . ".lang.php");
@@ -60,10 +57,9 @@ if ($active == 3 || $active == 4)
 else
 {
     echo "<form method=\"post\" action=\"index.php?file=Search&amp;op=mod_search\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n"
-    . "<tr><td align=\"center\"><input type=\"hidden\" name=\"module\" value=\"\" /><input type=\"text\" name=\"main\" size=\"25\" /></td></tr>\n"
-    . "<tr><td align=\"center\"><input type=\"submit\" class=\"button\" name=\"submit\" value=\"" . _SEARCHFOR . "\" /></td></tr>\n"
-    . "<tr><td align=\"center\"><a href=\"index.php?file=Search\">" . _ADVANCEDSEARCH . "</a></td></tr></table></form>\n";
+    . "<p style=\"text-align: center\"><input type=\"hidden\" name=\"module\" value=\"\" /><input type=\"text\" name=\"main\" size=\"25\" /><br />\n"
+    . "<input type=\"submit\" class=\"button\" name=\"submit\" value=\"" . _SEARCHFOR . "\" /><br />\n"
+    . "<a href=\"index.php?file=Search\">" . _ADVANCEDSEARCH . "</a></p></form>\n";
 }
 
 ?>

@@ -7,10 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
+if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 
 function affich_block_menu($blok)
 {
@@ -23,7 +20,7 @@ function block_link($content)
     global $user;
 
     $link = explode('NEWLINE', $content);
-    $screen = "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\n";
+    $screen = '<ul style="list-style: none; padding: 0">';
 
     foreach ($link as $link)
     {
@@ -34,22 +31,22 @@ function block_link($content)
         $title = preg_replace("`&lt;`i", "<", $title);
         $title = preg_replace("`&gt;`i", ">", $title);
         $comment = htmlentities($comment);
-	$url = htmlentities($url);
+        $url = htmlentities($url);
 
         if (!$nivuser)$nivuser = 0;
         if ($nivuser >= $nivo)
         {
             if ($url <> "" && $title <> "" && $blank == 0)
-                $screen .= "<tr><td><a href=\"" . $url . "\" title=\"" . $comment . "\" style=\"padding-left: 10px;\" class=\"menu\">" . $title . "</a></td></tr>\n";
+                $screen .= '<li><a href="' . $url . '" title="' . $comment . '" style="padding-left: 10px" class="menu">' . $title . '</a></li>';
 
             if ($url <> "" && $title <> "" && $blank == 1)
-                $screen .= "<tr><td><a href=\"" . $url . "\" title=\"" . $comment . "\" class=\"menu\" style=\"padding-left: 10px;\" onclick=\"window.open(this.href); return false;\">" . $title . "</a></td></tr>\n";
+                $screen .= '<li><a href="' . $url . '" title="' . $comment . '" class="menu" style="padding-left: 10px" onclick="window.open(this.href); return false;">' . $title . '</a></li>';
 
             if ($url == "" && $title <> "" && $comment == "")
-                $screen .= "<tr><td><div style=\"padding-left: 20px;\" class=\"titlemenu\">" . $title . "</div></td></tr>\n";
+                $screen .= '<li style="padding-left: 20px" class="titlemenu">' . $title . '</li>';
         }
     }
-    $screen .= "</table>\n";
+    $screen .= '</ul>';
     return $screen;
 }
 
