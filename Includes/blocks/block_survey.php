@@ -40,21 +40,21 @@ function affich_block_survey($blok)
         $titre = htmlentities($titre);
 
         $blok['content'] = "<form action=\"index.php?file=Survey&amp;nuked_nude=index&amp;op=update_sondage\" method=\"post\">\n"
-        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\">\n"
-        . "<tr><td><b>" . $titre . "</b></td></tr><tr><td><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n";
+        . "<div style=\"text-align: center\">\n"
+        . "<b>" . $titre . "</b><br /><p style=\"text-align: left\">\n";
 
         $sql2 = mysql_query("SELECT voteID, optionText FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' ORDER BY voteID ASC");
         while (list($voteid, $optiontext) = mysql_fetch_array($sql2))
         {
             $optiontext = htmlentities($optiontext);
 
-            $blok['content'] .= "<tr><td><input type=\"radio\" class=\"checkbox\" name=\"voteID\" value=\"" . $voteid . "\" />&nbsp;" . $optiontext . "</td></tr>\n";
+            $blok['content'] .= "<input type=\"radio\" class=\"checkbox\" name=\"voteID\" value=\"" . $voteid . "\" />&nbsp;" . $optiontext . "<br />\n";
         }
 
-        $blok['content'] .= "<tr><td align=\"center\"><input type=\"hidden\" name=\"poll_id\" value=\"" . $poll_id . "\" />\n"
+        $blok['content'] .= "</p><p style=\"text-align: center\"><input type=\"hidden\" name=\"poll_id\" value=\"" . $poll_id . "\" />\n"
         . "<br /><input type=\"submit\" value=\"" . _TOVOTE . "\" />&nbsp;"
         . "<input type=\"button\" value=\"" . _RESULT . "\" onclick=\"document.location='index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $poll_id . "'\" />\n"
-        . "</td></tr></table></td></tr><tr><td align=\"center\"><a href=\"index.php?file=Survey\"><b>" . _OTHERPOLL . "</b></a></td></tr></table></form>\n";
+        . "<br /><a href=\"index.php?file=Survey\"><b>" . _OTHERPOLL . "</b></a></div></form>\n";
     }
     return $blok;
 }
