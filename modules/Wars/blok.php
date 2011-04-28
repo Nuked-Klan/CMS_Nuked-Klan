@@ -119,6 +119,8 @@ else
 	. "<td style=\"width: 100px;background: " . $color . ";\" align=\"center\"><b>" . $score_team . "/" . $score_adv . "</b></td></tr>\n";
     }
 
+	if ($nbwar == 0) echo "<tr><td colspan=\"2\" align=\"center\"><em>" . _NOMATCH . "</em></td></tr>\n";
+
     $sql2 = mysql_query("SELECT warid, pays_adv, adversaire, date_jour, date_mois, date_an FROM " . WARS_TABLE . " WHERE etat = 0 ORDER BY date_an, date_mois, date_jour LIMIT 0, 5");
     $do_affich_bl = mysql_num_rows($sql2);
 
