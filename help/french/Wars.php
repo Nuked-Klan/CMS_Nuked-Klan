@@ -6,7 +6,7 @@
 
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Gestion des Matches</b></big></center><br>
-<li><b>Index</b> : Affiche la liste des matches en fonction de leur date et leur statut, Il permet d'éditer, de supprimer 
+<li><b>Index</b> : Affiche la liste des matches en fonction de leur date et leur statut, il permet d'éditer, de supprimer 
 ou d'ajouter un match et de se rendre dans les préférences.<br>
 <br>
 <li><b>Ajouter un match</b> : Ce formulaire est utilisé aussi bien pour rentrer un match "A jouer" qu'un match "Terminé". 

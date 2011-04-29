@@ -13,5 +13,5 @@
 <li><b>Préférences</b> : Vous permet d'être averti par email des nouvelles suggestions<br>
 <br>
 <br>
-<i><b>Note :</b> Les notifications des suggestions sont envoyés sur l'email de l'administrateur (voir préférences générales).<i>
+<i><b>Note :</b> Les notifications des suggestions sont envoyées sur l'email de l'administrateur (voir préférences générales).<i>
 </body></html>

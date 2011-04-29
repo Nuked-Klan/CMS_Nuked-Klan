@@ -16,5 +16,5 @@
 <li><b>Smiley </b> : Sélectionnez l'image correspondante a votre smiley.<br>
 <br>
 <br>
-<i><b>Note :</b> Les images de smiley doivent être rajoutées dans le répertoire "images/icones/" de Nuked-klan.<i><br>
+<i><b>Note :</b> Les images de smileys doivent être rajoutées dans le répertoire "images/icones/" de Nuked-klan.<i><br>
 </body></html>

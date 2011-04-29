@@ -16,8 +16,8 @@ régler l'accès et le statut.</i><br>
 <li><b>Désactiver/Activer</b> : Cliquez sur ce bouton pour désactiver ou activer un module.<br>
 <br>
 <br>
-<i><b>Note :</b> Il existe 9 niveau d'admin, le "0" étant le visiteur, "1" et "2" les membres du site et a partir de "3" les
+<i><b>Note :</b> Il existe 9 niveau d'admin, le "0" étant le visiteur, "1" et "2" les membres du site et à partir de "3" les
 administrateurs (webmaster, admin suprême : niveau 9).<br><br>
-Lorsque le module est désactivé son administration n'apparaît plus dans la liste "Administration des modules" et "Module" 
-du menu et n'est plus accessible..</i>
+Lorsque le module est désactivé, son administration n'apparaît plus dans la liste "Administration des modules" et "Module" 
+du menu et n'est plus accessible.</i>
 </body></html>

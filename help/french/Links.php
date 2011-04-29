@@ -6,7 +6,7 @@
 
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Administration des Liens</b></big></center><br>
-<li><b>Index</b> : Affiche la liste des liens avec options de classement, Il permet d'éditer, de supprimer ou d'ajouter un lien 
+<li><b>Index</b> : Affiche la liste des liens avec options de classement, il permet d'éditer, de supprimer ou d'ajouter un lien 
 au module Links et de se rendre dans la gestion des catégories, les liens morts et les préférences. Le titre du
 lien est également un lien ce qui permet de vérifier sa validité.<br>
 <br>

@@ -8,7 +8,7 @@
 <center><big><b>Erreurs sql</b></big></center><br>
 
 <li><b>Index</b> : Dans cette partie, vous avez la liste des erreurs sql sous forme d'un
-tableau. Vous pouvez voir où vos utilisateurs sont tombés sur une erreur sql, à quel heure, dans quel fichier, sur quel ligne...</li><br>
+tableau. Vous pouvez voir où vos utilisateurs sont tombés sur une erreur sql, à quelle heure, dans quel fichier, sur quelle ligne...</li><br>
 <br>
 <li><b>Supprimer la liste</b> : Afin de ne pas engorger votre base sql penser à vider de temps en temps la liste des erreurs sql.</li><br>
 <br>

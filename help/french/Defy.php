@@ -9,13 +9,13 @@
 <li><b>Index</b> : Affiche la liste des demandes de match, pour en consulter une, 
 cliquez sur le pseudo de l'auteur. Vous pouvez également accéder aux préférences.<br>
 <br>
-<li><b>Préférences</b> : Vous permet de régler les préférences des défies. Vous pouvez être avertie 
-par mail en ajoutant le ou les emails a contacter (séparé par une virgule), être avertie par message privée en 
+<li><b>Préférences</b> : Vous permet de régler les préférences des défies. Vous pouvez être averti 
+par mail en ajoutant le ou les emails à contacter (séparé par une virgule), être averti par message privé en 
 selectionnant le membre a contacter ou encore ajouter une charte avant d'avoir accès au formulaire 
-(laisser vide pour désactivé cette fonction).<br>
+(laisser vide pour désactiver cette fonction).<br>
 <br>
 <br>
 
 <br>
-<i><b>Note :</b> Lors de la consultation, vous pouvez transferer ce défi dans le module Wars (Matches) en cliquant sur "Ajouter ce match".<i><br>
+<i><b>Note :</b> Lors de la consultation, vous pouvez transférer ce défi dans le module Wars (Matches) en cliquant sur "Ajouter ce match".<i><br>
 <br></body></html>

@@ -51,7 +51,7 @@ envoyer un mail de bienvenue aux nouveaux membres (laissez vide pour désactiver 
 <li><b>Durée en minutes...</b> : La durée de validité en minutes d'une session provisoire par IP. Mettre à "0" 
 pour désactiver cette option (pour les partages de connexion ou les réseaux local par exemple)<br> 
 <br>
-<li><b>Durée en seconde...</b> : La durée maximale pendant laquelle un visiteur ou un membre sont considérés comme connectés. (Qui est en ligne)<br> 
+<li><b>Durée en secondes...</b> : La durée maximale pendant laquelle un visiteur ou un membre sont considérés comme connectés. (Qui est en ligne)<br> 
 <br>
 <li><b>Mots Clefs</b> : Les mots clef de votre site (metatags) pour les moteurs de recherche.<br> 
 <br>

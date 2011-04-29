@@ -6,7 +6,7 @@
 
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Administration Gallery</b></big></center><br>
-<li><b>Index</b> : Affiche la liste des images avec options de classement, Il permet d'éditer, de supprimer ou d'ajouter une image au module 
+<li><b>Index</b> : Affiche la liste des images avec options de classement, il permet d'éditer, de supprimer ou d'ajouter une image au module 
 Gallery et de se rendre dans la gestion des catégories ou les préférences.<br>
 <br>
 <li><b>Ajouter une image</b> : Ce formulaire vous permet d'ajouter une image en remplissant simplement les

@@ -7,7 +7,7 @@
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Administration des Sondages</b></big></center>
 <br>
-<li><b>Index</b> : Affiche la liste des sondages, Il permet d'éditer, de supprimer ou d'ajouter 
+<li><b>Index</b> : Affiche la liste des sondages, il permet d'éditer, de supprimer ou d'ajouter 
 un sondage et de se rendre dans les préférences.<br>
 <br>
 <li><b>Ajouter un sondage</b> : Pour ajouter un sondage, indiquez le titre (question), 
@@ -18,5 +18,5 @@ les choix (réponse possible, max 13) et le niveau requis pour voter à ce sondage
 <li><b>Préférences</b> : Vous permet de régler le délai entre 2 votes d'un même visiteur/membre.<br>
 <br>
 <br>
-<i><b>Note :</b> Seul le dernier sondage crée est affiché dans le block prévus a cette effet.<i><br>
+<i><b>Note :</b> Seul le dernier sondage crée est affiché dans le block prévu à cet effet.<i><br>
 </body></html>

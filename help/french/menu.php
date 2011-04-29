@@ -10,7 +10,7 @@
 <li><b>Index</b> : Affiche la liste des menus disponibles (blocks menu) et permet de les éditer par le bouton éditer ou en cliquant sur le titre du menu.<br>
 <br>
 <li><b>Edition du menu</b> : Affiche la liste des liens du menu, vous pouvez monter ou descendre un lien grâce aux flèches, 
-sélectionner un ou plusieurs liens pour les effacer a l'aide du bouton "Supprimer", ajouter un lien ou tout simplement aller 
+sélectionner un ou plusieurs liens pour les effacer à l'aide du bouton "Supprimer", ajouter un lien ou tout simplement aller 
 dans l'édition d'un lien grâce au bouton d'édition ou en cliquant sur le titre du lien.<br>
 <br>
 <li><b>Ajouter un lien</b> : Dans ce Formulaire vous pourrez choisir le titre, le lien ou le module, la position et le niveau. 

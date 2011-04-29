@@ -10,9 +10,9 @@
 cliquez sur le pseudo de l'auteur. Vous pouvez également accéder aux préférences des recrutements.<br>
 <br>
 <li><b>Modifier les préférences</b> : Ici, vous pouvez régler les préférences des recrutements. Vous pouvez fermer 
-le recrutement, être avertie par mail en ajoutant le ou les emails a contacter (séparé par une virgule), être
-avertie par message privée en selectionnant le membre a contacter ou encore ajouter une charte avant d'avoir accés
-au formulaire (laisser vide pour désactivé cette fonction).<br>
+le recrutement, être averti par mail en ajoutant le ou les emails a contacter (séparé par une virgule), être
+avertie par message privée en selectionnant le membre a contacter ou encore ajouter une charte avant d'avoir accès
+au formulaire (laisser vide pour désactiver cette fonction).<br>
 <br>
 <br>
 

@@ -8,8 +8,7 @@
 <center><big><b>Action</b></big></center><br>
 
 <li><b>Index</b> : Dans cette partie, vous avez la liste de toutes les modifications ou connexion ou déconnexion que les administrateurs ont effectué sur le site...
-Cette liste se vide automatiquement dès qu'une action dépasse les 2 semaines depuis sa création, afin d'empécher un administrateur de
-vider les actions.</li><br>
+Cette liste se vide automatiquement dès qu'une action dépasse les 2 semaines depuis sa création, afin d'empêcher un administrateur de vider les actions.</li><br>
 <br>
 <br>
 <br>

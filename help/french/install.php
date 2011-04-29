@@ -7,16 +7,16 @@
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Installation</b></big></center>
 <br>
-<li><b>Host MySQL</b> : L'adresse de votre serveur MySQL, c'est dans la plus part des cas <b><i>localhost</i></b> quelques exceptions courantes :<br>
+<li><b>Host MySQL</b> : L'adresse de votre serveur MySQL, c'est dans la plupart des cas <b><i>localhost</i></b> quelques exceptions courantes :<br>
 <b><i>Free.fr :</b></i> sql.free.fr<br>
 <b><i>HLexpert</i> :</b> mysqlbox<br>
 Autre cas consultez l'aide de votre hebergeur.<br>
 <br>
 <li><b>User</b> : C'est le login qui vous permet de vous connecter à la base MySQL, il est presque toujours le même que votre login FTP.<br>
 <br>
-<li><b>Password</b> : C'est le mot de passe qui vous permet de vous connecter à la base MySQL,  il est preque toujours le même que votre mot de passe FTP.<br>
+<li><b>Password</b> : C'est le mot de passe qui vous permet de vous connecter à la base MySQL,  il est presque toujours le même que votre mot de passe FTP.<br>
 <br>
-<li><b>Prefix</b> :  C'est le prefix des tables sql, vous pouvez mettre ce que vous voulez, sauf dans le cas d'une update.<br>
+<li><b>Prefix</b> :  C'est le préfixe des tables sql, vous pouvez mettre ce que vous voulez, sauf dans le cas d'une update.<br>
 <br>
 <li><b>Nom de la Base</b> : C'est le nom de la base MySQL, il est preque toujours le même que votre login FTP.<br> 
 <br>
