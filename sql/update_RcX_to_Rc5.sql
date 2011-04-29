@@ -22,7 +22,7 @@ CREATE TABLE nuked_contact (
 /* RC3.3 -> RC4 */
 ALTER TABLE  `nuked_games` ADD  `map` TEXT NOT NULL;
 
-/* RC3.4 -> RC5 */
+/* RC4 -> RC5 */
 CREATE TABLE IF NOT EXISTS `nuked_packages` (
 		  `file` varchar(100) NOT NULL,
 		  `name` varchar(255) NOT NULL,
