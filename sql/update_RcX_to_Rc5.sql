@@ -19,10 +19,10 @@ CREATE TABLE nuked_contact (
 	  KEY `titre` (`titre`)
 	) TYPE=MyISAM;
 
-/* Rc3.3 -> rc3.4 */
+/* RC3.3 -> RC4 */
 ALTER TABLE  `nuked_games` ADD  `map` TEXT NOT NULL;
 
-/* Rc3.4 -> rc3.5 */
+/* RC3.4 -> RC5 */
 CREATE TABLE IF NOT EXISTS `nuked_packages` (
 		  `file` varchar(100) NOT NULL,
 		  `name` varchar(255) NOT NULL,
@@ -39,3 +39,5 @@ CREATE TABLE IF NOT EXISTS `nuked_tmpses` (
 		  `session_start` bigint(20) NOT NULL,
 		  PRIMARY KEY (`session_id`)
 		  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+UPDATE nuked_config SET value = 'quakenet.org' WHERE name = 'irc_serv'
