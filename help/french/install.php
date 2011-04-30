@@ -10,7 +10,7 @@
 <li><b>Host MySQL</b> : L'adresse de votre serveur MySQL, c'est dans la plupart des cas <b><i>localhost</i></b> quelques exceptions courantes :<br>
 <b><i>Free.fr :</b></i> sql.free.fr<br>
 <b><i>HLexpert</i> :</b> mysqlbox<br>
-Autre cas consultez l'aide de votre hebergeur.<br>
+Autre cas consultez l'aide de votre hébergeur.<br>
 <br>
 <li><b>User</b> : C'est le login qui vous permet de vous connecter à la base MySQL, il est presque toujours le même que votre login FTP.<br>
 <br>
@@ -24,5 +24,5 @@ Autre cas consultez l'aide de votre hebergeur.<br>
 <br>
 <br>
 <i><b>Note :</b> N'oubliez pas de modifier les attributs des fichiers conf.inc.php et install.php (ou update.php) en chmod666 avant
-de lancer l'installation. Plus d'infos sur les CHMOD sur <a href=http://www.phpdebutant.org/article50.php target=_blank>PHP Débutant</a></i><br>
+de lancer l'installation. Plus d'infos sur les CHMOD sur <a href="http://www.phpdebutant.org/article50.php" target="_blank">PHP Débutant</a></i><br>
 </body></html>

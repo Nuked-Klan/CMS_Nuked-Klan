@@ -279,16 +279,16 @@ define("_PROCHE","Un site officiel proche de sa communautée");
 define("_SIMPLIFIE","Une installation simplifiée");
 define("_DECOUVERTE1","Vous allez installer Nuked-Klan 1.7.9, cette version orientée gamers permettra à votre team de bénéficier rapidement d'un site web à votre image.<p>Vous pourrez créer une vie à votre groupe, le rassembler facilement, gérer des recrutements, des matchs ou un serveur très facilement.</p>");
 define("_NEWSADMIN1","Pour cette nouvelle version, nous avons réalisé une nouvelle administration plus intuitive et plus agréable.<p>Vous pourrez suivre les actions des administrateurs, voir les notifications, accéder à un chat privé entre admininistrateurs et découvrir de multiples nouvelles fonctionnalités comme le bannissement temporaire.</p>");
-define("_PROCHE1","Connecter 24h/24h avec Nuked-Klan.org, nous pouvons vous envoyer des messages, des avertissements sur certains modules et même des mises à jours automatiques de votre site.<br />Notre support est disponible quelque soit votre problème.");
+define("_PROCHE1","Connecter 24h/24h avec Nuked-Klan.org, nous pouvons vous envoyer des messages, des avertissements sur certains modules et même des mises à jour automatiques de votre site.<br />Notre support est disponible quelque soit votre problème.");
 define("_SIMPLIFIE1","Une installation plus design, plus intuitive, mais surtout une nouvelle installation avec assistance. Si vous avez déjà manié l'installation d'un CMS tel que Nuked-Klan alors choisissez l'installation rapide sauf si vous voulez voir les nouvelles fonctionnalités.<p>Cependant avec l'installation avec assistance, nous vous détaillons et accompagnons étape par étape pour chaque case de formulaire, et si malgré cela, vous n'y arrivez pas, pas de soucis, nous sommes là pour vous aider !</p>");
 
 define("_NEWNK179","Nouveautés Nuked Klan 1.7.9");
-define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et hexadecimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br /> De plus, un système de signature a été mise en place, ainsi si vous installez un module dangereux, nous pourrons vous avertir. Nous avons mis en place aussi un système de mise à jour automatique. Dès qu'une faille est découverte, elle est corrigée immédiatement sans que vous vous en aperceviez.<br /> Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
+define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et héxadecimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br /> De plus, un système de signature a été mise en place, ainsi si vous installez un module dangereux, nous pourrons vous avertir. Nous avons mis en place aussi un système de mise à jour automatique. Dès qu'une faille est découverte, elle est corrigée immédiatement sans que vous vous en aperceviez.<br /> Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPIMISATION","Optimisation");
-define("_OPIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre légérement moins lourd votre site, cependant nous n'avons pu optimisé tous le code ne s'agissant que d'une mise à jour 1.7.X.");
+define("_OPIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre légérement moins lourd votre site, cependant nous n'avons pu optimisé tout le code ne s'agissant que d'une mise à jour 1.7.X.");
 define("_ADMINNISTRATION","Administration");
 define("_ADMINNISTRATION1","Afin de réaliser une administration de notre époque, nous avons préféré repartir de zéro, et concevoir un système dans lequel administrateurs, utilisateurs,
-		marchines, et sites officielles seraient reliés.
+		machines, et sites officiels seraient reliés.
 		Pour cela, nous avons mis en place des systèmes de communication comme les notifications, les actions, les discussions admin, mais aussi les signatures des modules
 		les mises à jour, les messages.
 		Cette administration possède un panneau capable de vous transporter n'importe où dans votre administration mais aussi de vous avertir.");
@@ -298,7 +298,7 @@ define("_SHOUTBOX","Shoutbox ajax");
 define("_SHOUTBOX1","Un nouveau bloc textbox a été développé, il est capable de dire qui est en ligne, il est en ajax, c'est à dire que vous pouvez envoyer des messages sans rechargement de
 		la page. De plus, le bloc affiche les nouveaux messages sans rechargement de la page.");
 define("_ERORSQL","Gestions des erreurs SQL");
-define("_ERORSQL1","Ce système est à double sens, lorsqu'un visiteur tombe sur un erreur sql, plutôt que de voir l'erreur, il est redirigé vers une page d'excuse, et un
+define("_ERORSQL1","Ce système est à double sens, lorsqu'un visiteur tombe sur une erreur SQL, plutôt que de voir l'erreur, il est redirigé vers une page d'excuse, et un
 		rapport de l'erreur SQL est envoyé dans l'administration.");
 define("_MULTIWARS","Multi-map module wars");
 define("_MULTIWARS1","Le nouveau module permet de visionner les prochains matchs mais aussi il permet de choisir le nombre de maps, il y a alors un score par map, puis un score final
@@ -315,17 +315,17 @@ define("_CONT1","Nous avons ajouté le module contact indispensable au fonctionne
 define("_ERREURPASS","Erreur mot de passe");
 define("_ERREURPASS1","Lorsqu'un utilisateur se trompe de mot de passe 3 fois de suite, il doit alors recopier un code de sécurité en plus de son login afin de se connecter à son compte.");
 define("_DIFFMODIF","Différentes modifications");
-define("_DIFFMODIF1","En plus des modifications précédentes, nous avons effectué diverses modifications comme la page 404, où même des modifications non visible comme le captcha.");
+define("_DIFFMODIF1","En plus des modifications précédentes, nous avons effectué diverses modifications comme la page 404, où même des modifications non visibles comme le captcha.");
 define("_INSTALLHOST","Il s'agit ici de l'adresse du serveur MySQL de votre hébergement, celui-ci contient toutes vos données textes, membres, messages... En général, il s'agit de localhost, mais dans tous les cas, l'adresse est indiquée dans votre mail d'inscription de votre hébergeur ou dans l'administration de votre hébergement.");
 define("_INSTALLDBUSER","Il s'agit de votre identifiant qui vous permet de vous connecter à votre base SQL.");
 define("_INSTALLDBPASS","Il s'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base SQL.");
 define("_INSTALLDBPREFIX", "Le prefix permet d'installer plusieurs fois nuked-klan sur une seule base SQL en utilisant un prefix différent à chaque fois, par défaut, il s'agit de nuked, mais vous pouvez le changer comme vous le voulez.");
 define("_INSTALLDBDBNAME","Il s'agit du nom de votre base de donnée MySQL, souvent vous devez vous rendre dans l'administration de votre hébergement pour créer une base de données, mais quelques fois celle-ci vous est déjà fournie dans le mail d'inscription à votre hébergement.");
 // Check installation:
-define("_CHECKCURRING", "<p>Vérification de la compatibilitée ...<br /></p>\n");
+define("_CHECKCURRING", "<p>Vérification de la compatibilité...<br /></p>\n");
 define("_PHPVERSION", 'PHP version > 5.1');
 define("_MYSQLEXT", 'Extention MySQL');
-define("_EXTENSIONLOAD", 'Extention des session');
+define("_EXTENSIONLOAD", 'Extension des sessions');
 define("_QUESPHPVERSION", 'Veuillez demander à votre hébergeur de passer en PHP 5.1. Certains hébergeurs demande un .htaccess ou autres.');
 define("_SESSIONPATH", 'Veulliez créer un répertoire nommée: ');
 define("_DIRECTORY", 'Chemin des sessions');

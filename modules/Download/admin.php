@@ -1041,7 +1041,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "</div></div>\n"
 	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Download&amp;page=admin\">" . _DOWNLOAD . "</a> | "
 	. "<a href=\"index.php?file=Download&amp;page=admin&amp;op=add_file\">" . _ADDFILE . "</a> | "
-	. "<a href=\"index.php?file=Download&page=admin&op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
+	. "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
 	. "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_broken\">" . _BROKENLINKS . "</a> | </b>"
 	. "" . _PREFS . "</div><br />\n"
 	. "<form method=\"post\" action=\"index.php?file=Download&amp;page=admin&amp;op=change_pref\">\n"

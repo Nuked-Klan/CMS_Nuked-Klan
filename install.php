@@ -2349,23 +2349,23 @@ function edit_config_assistant($op)
 
     @include("conf.inc.php");
 
-    echo "<div><a href=\"#\" onclick=\"javascript:window.open('help/" . $_REQUEST['langue'] . "/install.html','Help','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=300');return(false)\">\n"
+    echo "<div><a href=\"#\" onclick=\"javascript:window.open('help/" . $_REQUEST['langue'] . "/install.php','Help','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=300');return(false)\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
     . "<div style=\"text-align: center;\"><br /><br /><h3>" . _INSTALLNK . "</h3></div>\n"
     . "<form method=\"post\" action=\"install.php?action=" . $op . "\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-    . "<tr><td colspan=\"2\" align=\"center\"><b>" . _CONFIG . "</b></td></tr>\n"
-    . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></td></tr>\n"
-    . "<tr><td>" . _DBHOST . " :</td><td><input type=\"text\" name=\"db_host\" size=\"40\" /></td></tr>\n"
+	."<input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" />\n"
+    . "<table class=\"sqlInfos\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
+    . "<thead><tr><td colspan=\"2\" align=\"center\"><b>" . _CONFIG . "</b></td></tr></thead>\n"
+    . "<tbody><tr><td class=\"sqlInfosTitle\">" . _DBHOST . " :</td><td><input type=\"text\" name=\"db_host\" size=\"40\" /></td></tr>\n"
 	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLHOST."</td></tr>\n"
-    . "<tr><td>" . _DBUSER . " : </td><td><input type=\"text\" name=\"db_user\" size=\"40\" /></td></tr>\n"
+    . "<tr><td class=\"sqlInfosTitle\">" . _DBUSER . " : </td><td><input type=\"text\" name=\"db_user\" size=\"40\" /></td></tr>\n"
 	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBUSER."</td></tr>\n"
-    . "<tr><td>" . _DBPASS . " :</td><td><input type=\"password\" name=\"db_pass\" size=\"10\" /></td></tr>\n"
+    . "<tr><td class=\"sqlInfosTitle\">" . _DBPASS . " :</td><td><input type=\"password\" name=\"db_pass\" size=\"10\" /></td></tr>\n"
 	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBPASS."</td></tr>\n"
-    . "<tr><td>" . _DBPREFIX . " :</td><td><input type=\"text\" name=\"prefix\" size=\"10\" /></td></tr>\n"
+    . "<tr><td class=\"sqlInfosTitle\">" . _DBPREFIX . " :</td><td><input type=\"text\" name=\"prefix\" size=\"10\" /></td></tr>\n"
 	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBPREFIX."</td></tr>\n"
-    . "<tr><td>" . _DBNAME . " :</td><td><input type=\"text\" name=\"db_name\" size=\"10\" /></td></tr>\n"
-	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBDBNAME."</td></tr></table>\n"
+    . "<tr><td class=\"sqlInfosTitle\">" . _DBNAME . " :</td><td><input type=\"text\" name=\"db_name\" size=\"10\" /></td></tr>\n"
+	. "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBDBNAME."</td></tr></tbody></table>\n"
     . "<div style=\"text-align: center;\"><br />" . _CHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _NEXT . "\" /></div></form></body></html>";
 	}
 }

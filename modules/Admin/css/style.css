@@ -364,7 +364,17 @@ table td,
 table th {
                 padding: 10px;
                 line-height: 1.3em;
-                }        
+                }
+table.sqlInfos
+{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+}
+table.sqlInfos tbody td.sqlInfosTitle
+{
+	white-space:nowrap;
+}
 				
 table tfoot td .bulk-actions {
                 padding: 15px 0 5px 0;
