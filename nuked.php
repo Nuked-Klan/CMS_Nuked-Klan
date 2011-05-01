@@ -173,23 +173,39 @@ function autolink($text)
 
 function connect()
 {
-	global $global, $db;
+	global $global, $db, $language;
 	$db = @mysql_connect($global['db_host'], $global['db_user'], $global['db_pass']);
 	if (!$db)
 	{
-		echo "<div style=\"text-align: center;\">Veulliez nous excuser, le site web est actuellement indisponible!<br /></div>";
-		echo "<div>Information:<br />Connexion sql impossible.</div>";
+		if($language == "french")
+		{
+			echo "<div style=\"text-align: center;\">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>";
+			echo "<div>Information :<br />Connexion SQL impossible.</div>";
+		}
+		else
+		{
+			echo "<div style=\"text-align: center;\">Sorry but the website is not available !<br /></div>";
+			echo "<div>Information :<br />SQL connection impossible.</div>";
+		}
 		exit();
 	}
 	else
 	{
 		$connect = @mysql_select_db($global['db_name'], $db);
-	  if (!$connect)
-	  {
-		echo "<div style=\"text-align: center;\">Veulliez nous excuser, le site web est actuellement indisponible!<br /></div>";
-		echo "<div>Information:<br />Nom de base de donnÃ©e sql incorrect.</div>";
-		exit();
-	  }
+		if (!$connect)
+		{
+			if($language == "french")
+			{
+				echo "<div style=\"text-align: center;\">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>";
+				echo "<div>Information :<br />Nom de base de données sql incorrect.</div>";
+			}
+			else
+			{
+				echo "<div style=\"text-align: center;\">Sorry but the website is not available !<br /></div>";
+				echo "<div>Information :<br />Database SQL name incorrect.</div>";
+			}
+			exit();
+		}
 	}
 }
 
@@ -221,11 +237,11 @@ function banip()
             $del1 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
 			if($language == "french")
 			{
-				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." n\'est plus banni, sa pÃ©riode est arrivÃ© Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Lien</a>].')");
 			}
 			else
 			{
-				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." isn\'t ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." isn\'t ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Link</a>].')");
 			}
 			$not = true;
 			if(isset($_COOKIE['ip_ban']))
@@ -270,11 +286,11 @@ function banip()
 				{
 					if($language == "french")
 					{
-						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." n\'est plus banni, sa pÃ©riode est arrivÃ© Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 					}
 					else
 					{
-						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." isn\'t ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." isn\'t ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Link</a>].')");
 					}
 					$not = true;
 				}
@@ -414,14 +430,18 @@ function get_blok($side)
 
 function checkimg($url)
 {
-	$url = rtrim($url);
-	$ext = strrchr($url, ".");
-	$ext = substr($ext, 1);
+	$url = rtrim( $url );
+	$ext = strrchr( $url, '.' );
+	$ext = substr( $ext, 1 );
 
-	if (!preg_match("`\.php`i", $url) && !preg_match("`\.htm`i", $url) && !preg_match("`\.[a-z]htm`i", $url) && substr($url, -1) != "/" && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`", $ext) || preg_match("`png`i", $ext) || preg_match("`bmp`i", $ext))) $img = $url;
-	else $img = "images/noimagefile.gif";
-
-	return($img);
+	if ( !preg_match( '#\.(([a-z]?)htm|php)#i', $url ) && substr( $url, -1 ) != '/' && preg_match( '#jpg|jpeg|gif|png|bmp#i', $ext ) )
+	{
+		return $url;
+	}
+	else
+	{
+		return 'images/noimagefile.gif';
+	}
 }
 
 function icon($texte)
@@ -700,13 +720,13 @@ function secu_args($matches){
 function secu_html($texte)
 {
 	global $bgcolor3, $nuked;
-	/* balise html interdit*/
+	/* balise html interdite*/
 	$texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
 	$texte = stripslashes($texte);
 	$texte = htmlspecialchars($texte);
 	$texte = str_replace('&amp;', '&', $texte);
 	
-	/*balise autorisé*/
+	/*balise autorisée*/
 	$texte = preg_replace_callback('/&lt;([^ &]+)[[:blank:]]?((.(?<!&gt;))*)&gt;/', 'secu_args', $texte);
 
 	preg_match_all('`<(/?)([^/ >]+)(| [^>]*([^/]))>`', $texte, $Tags, PREG_SET_ORDER);
@@ -1193,11 +1213,9 @@ function getBrowser() {
 		'Mozilla'   => 'Mozilla'
 	);
 
-	$user_agent = strtolower( $user_agent );
-
-	foreach( $list_browser as $k => $v ) {
-
-     if (preg_match("#".strtolower($k)."#", strtolower($user_agent)))
+	foreach( $list_browser as $k => $v )
+	{
+		 if (preg_match("#".$k."#i", $user_agent))
 		{
 			$browser = $v;
 			break;
@@ -1212,38 +1230,38 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext)
 
 
     switch ($errno) {
-	case E_WARNING:
-		break;
-	case 8192:
-	break;
-	case 8:
-	break;
-    default:
+		case E_WARNING:
+			break;
+		case 8192:
+			break;
+		case 8:
+			break;
+		default:
 			$content = ob_get_clean();
 			@include ("conf.inc.php");
 			connect();
 			@session_name('nuked');
 			@session_start();
 			if (session_id() == '') {
-				exit('Erreur dans la création de la session annonyme');
+				exit('Erreur dans la création de la session anonyme');
 			}
 			$date = time();
 			$content = "<b>Veuilliez nous excuser une erreur a été détecté, nous la corrigerons le plus rapidement possible, merci. <br /><br /><b>Information:</b><br /><br /><b>Mon ERREUR</b> [$errno] $errstr<br /> Erreur fatale sur la ligne $errline dans le fichier $errfile, PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />Arrêt...<br />";
 
 			echo $content;
 
-		$texte = "Type: ".$errno." Fichier: ".$errfile." Ligne: ".$errline."";
-		$upd = mysql_query("INSERT INTO " . $db_prefix . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('".$date."', '".mysql_escape_string($_SERVER["REQUEST_URI"])."', '".$texte."')");
-		if($language == "french")
-		{
-			$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'Une erreur sql a été détecté: [<a href=\"index.php?file=Admin&page=erreursql\">lien</a>].')");
-		}
-		else
-		{
-			$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'A sql error have been detected: [<a href=\"index.php?file=Admin&page=erreursql\">lien</a>].')");
-		}
-		exit();
-        break;
+			$texte = "Type: ".$errno." Fichier: ".$errfile." Ligne: ".$errline."";
+			$upd = mysql_query("INSERT INTO " . $db_prefix . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('".$date."', '".mysql_escape_string($_SERVER["REQUEST_URI"])."', '".$texte."')");
+			if($language == "french")
+			{
+				$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'Une erreur sql a été détecté: [<a href=\"index.php?file=Admin&page=erreursql\">Lien</a>].')");
+			}
+			else
+			{
+				$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'A sql error have been detected: [<a href=\"index.php?file=Admin&page=erreursql\">Link</a>].')");
+			}
+			exit();
+			break;
     }
 
     /* Ne pas exécuter le gestionnaire interne de PHP */

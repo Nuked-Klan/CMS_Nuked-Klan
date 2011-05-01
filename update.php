@@ -151,16 +151,16 @@ function index()
 
     if ($handle = opendir("lang/"))
     {
-	while ($f = readdir($handle))
-	{
-	    if ($f != ".." && $f != "." && $f != "index.html")
-	    {
-	        list ($langfile, ,) = explode ('.', $f);
-	        echo "<option value=\"" . $langfile . "\">" . $langfile . "</option>\n";
-            }
-	}
+		while ($f = readdir($handle))
+		{
+			if ($f != ".." && $f != "." && $f != "index.html")
+			{
+				list ($langfile, ,) = explode ('.', $f);
+				echo "<option value=\"" . $langfile . "\">" . $langfile . "</option>\n";
+			}
+		}
 
-	closedir($handle);
+		closedir($handle);
     }
 
     echo "</select>&nbsp;&nbsp;<input type=\"submit\" name=\"ok\" value=\"send\" /><br /><br /></div></form></body></html>";
