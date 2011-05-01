@@ -73,9 +73,7 @@ else
 
 if (!isset($_REQUEST['nuked_nude']))
 {
-	if ($language == "french" && preg_match("`WIN`", PHP_OS)) setlocale (LC_TIME, "french");
-	else if ($language == "french" && preg_match("`BSD`", PHP_OS)) setlocale (LC_TIME, "fr_FR.ISO8859-1");
-	else if ($language == "french") setlocale (LC_TIME, "fr_FR");
+	if ($language == "french") setlocale(LC_TIME, 'fr', 'fr_FR', 'fr_FR.ISO8859-1', 'fra', 'france');
 	else setlocale (LC_TIME, $language);
 }
 
