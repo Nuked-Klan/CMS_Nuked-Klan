@@ -273,7 +273,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
             else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);	
-            else $date = _THE . "&nbsp;" . strftime("%d %m %Y %H:%M", $date);
+            else $date = _THE . "&nbsp;" . strftime("%d-%m-%Y %H:%M", $date);
 
             $tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
 

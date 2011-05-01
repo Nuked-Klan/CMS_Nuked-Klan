@@ -306,7 +306,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $last_date)) $last_date = _FTODAY . "&nbsp;" . strftime("%H:%M", $last_date);
             else if (strftime("%d", $last_date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $last_date)) $last_date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $last_date);
-            else $last_date = strftime("%x %H:%M", $last_date);
+            else $last_date = strftime("%d-%m-%Y %H:%M", $last_date);
 
             echo "<td style=\"width: 25%;\" align=\"center\">" . $last_date . "<br />\n";
 
