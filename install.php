@@ -2418,6 +2418,7 @@ function save_config($vars)
 
 	$path = "conf.inc.php";
 	@chmod ($path, 0666);
+  @chmod (dirname(__PATH__), 0755);
 
 	if (is_writable($path) || (!file_exists($path) && is_writable('./')))
 	{
