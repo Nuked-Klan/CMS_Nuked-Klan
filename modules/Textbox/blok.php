@@ -42,7 +42,7 @@ function maj_shoutbox() {
 	if(document.getElementById("textbox").style.paddingTop != "0px")
 	{
 	document.getElementById("textbox").style.textAlign = "center";
-	document.getElementById("textbox").innerHTML = "<img src=\"images/loading.gif\" alt=\"Loading\" /><br />Chargement en cours...";
+	document.getElementById("textbox").innerHTML = "<img src=\"images/loading.gif\" alt=\"Loading\" /><br /><?php echo _LOADINPLSWAIT; ?>";
 	document.getElementById("textbox").style.paddingTop = "150px";
 	}
 
@@ -51,7 +51,7 @@ function maj_shoutbox() {
 
 	if (window.XMLHttpRequest) requete = new XMLHttpRequest();
 	else if (window.ActiveXObject) requete = new ActiveXObject("Microsoft.XMLHTTP");
-	else alert('Impossible de charger le block.');
+	else alert('<?php echo _LOADINGERRORS; ?>');
 	requete.open('get',fichier,true);
 	requete.onreadystatechange = function()  {
 		if(requete.readyState == 4 && requete.status==200 && requete.responseText != "")
@@ -101,14 +101,14 @@ function maFonctionAjax(auteur,texte,code)
  if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
  else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP');
  OAjax.open('POST',"index.php?file=Textbox&page=submit",true);
- document.getElementById("affichetextbox").innerHTML = "<div style=\"text-align:center;\"><b>Veulliez patienter...</b></div>";
+ document.getElementById("affichetextbox").innerHTML = "<div style=\"text-align:center;\"><b><?php echo _PLEASEWAIT; ?></b></div>";
   OAjax.onreadystatechange = function()
   {
 	if (OAjax.readyState == 4 && OAjax.status==200)
 	{
 		if (document.getElementById)
 		{
-			document.getElementById("affichetextbox").innerHTML = "<div style=\"text-align:center;\"><b>Merci de votre participation!</b></div>";
+			document.getElementById("affichetextbox").innerHTML = "<div style=\"text-align:center;\"><b><?php echo _THANKSFORPOST; ?></b></div>";
 			document.getElementById("textbox_texte").value = "<?php echo _YOURMESS; ?>";
 			maj_shoutbox();
 		}
@@ -158,7 +158,7 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "<div id=\"textbox\" style=\"width: " . $width . "; height: " . $height . "; overflow: auto;\">\n"
 . "<p>\n"
 . "<img src=\"images/loading.gif\" alt=\"Loading\" /><br />\n"
-. "Chargement en cours...\n"
+_LOADINPLSWAIT. "\n"
 . "</p></div></td></tr></table>\n"
 . "<script>maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";

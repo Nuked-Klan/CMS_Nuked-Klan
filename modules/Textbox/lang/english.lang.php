@@ -60,4 +60,9 @@ define("_UNITED-KINGDOM", "United-Kingdom");
 define("_GREECE", "Greece");
 define("_TUNISIA", "Tunisia");
 define("_MOROCCO", "Morocco");
+
+define("_LOADINPLSWAIT", "Loading ...");
+define("_PLEASEWAIT","Please wait ...");
+define("_THANKSFORPOST","Thank you for your participation!");
+define("_LOADINGERRORS","Unable to load the block!");
 ?>
