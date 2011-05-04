@@ -289,7 +289,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "</b>" . _PREFS . "</div><br />\n"
 	. "<form method=\"post\" action=\"index.php?file=Survey&amp;page=admin&amp;op=change_pref\">\n"
 	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-	. "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
+	. "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
 	. "<tr><td>" . _POLLTIME . " :</td><td><input type=\"text\" name=\"sond_delay\" size=\"2\" value=\"" . $nuked['sond_delay'] . "\" /></td></tr>\n"
 	. "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Survey&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
