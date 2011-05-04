@@ -1,6 +1,6 @@
 <?php
-$couleur[1] = "#7ec0ff";
-$couleur[2] = "#989898";
+$couleur[1] = "#9bceff";
+$couleur[2] = "#bbbbbb";
 $couleur[3] = "#107cc5";
 $couleur[4] = "";
 ?>
