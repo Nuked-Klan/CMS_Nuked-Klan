@@ -49,7 +49,7 @@ if ($active == 3 || $active == 4)
 	. "<td style=\"width: 40%;background: $color;color: #FFFFFF;\" align=\"center\"><b>" . $score_team . "/" . $score_adv . "</b></td></tr>\n";
     }
 
-	if ($nbwar == 0) echo "<tr><td colspan=\"2\" align=\"center\">" . _NOMATCH . "</td></tr>\n";
+	if (mysql_num_rows($sql) == NULL) echo "<tr><td colspan=\"2\" align=\"center\">" . _NOMATCH . "</td></tr>\n";
 
     echo "</table></td><td style=\"width: 10%;\">&nbsp;</td><td style=\"width: 45%;\" valign=\"top\"><a href=\"index.php?file=Calendar\"><b><big>" . _NEXTWAR . "</big></b></a>\n"
     . "<br /><br /><table width=\"180\" cellspacing=\"1\" cellpadding=\"0\">\n";
@@ -84,7 +84,7 @@ if ($active == 3 || $active == 4)
 	 . "<td style=\"width: 40%;\" align=\"center\">" . $date . "</td></tr>\n";
     }
 
-    if ($nbwar2 == 0) echo "<tr><td colspan=\"2\" align=\"center\">" . _NOMATCH . "</td></tr>\n";
+	if (mysql_num_rows($sql2) == NULL) echo "<tr><td colspan=\"2\" align=\"center\">" . _NOMATCH . "</td></tr>\n";
 
     echo "</table></td></tr><tr><td style=\"width: 45%;\" align=\"right\"><a href=\"index.php?file=Wars\"><small>+ " . _GOWARS . "</small></a></td>\n"
     .  "<td style=\"width: 10%;\"></td><td style=\"width: 45%;\" align=\"right\"><a href=\"index.php?file=Calendar\"><small>+ " . _GOCALENDAR . "</small></a></td></tr></table><br />\n";
@@ -119,7 +119,7 @@ else
 	. "<td style=\"width: 100px;background: " . $color . ";\" align=\"center\"><b>" . $score_team . "/" . $score_adv . "</b></td></tr>\n";
     }
 
-	if ($nbwar == 0) echo "<tr><td colspan=\"2\" align=\"center\"><em>" . _NOMATCH . "</em></td></tr>\n";
+	if (mysql_num_rows($sql) == NULL) echo "<tr><td colspan=\"2\" align=\"center\"><em>" . _NOMATCH . "</em></td></tr>\n";
 
     $sql2 = mysql_query("SELECT warid, pays_adv, adversaire, date_jour, date_mois, date_an FROM " . WARS_TABLE . " WHERE etat = 0 ORDER BY date_an, date_mois, date_jour LIMIT 0, 5");
     $do_affich_bl = mysql_num_rows($sql2);

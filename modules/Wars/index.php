@@ -412,24 +412,27 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
 	    if ($nb_matchs > 1) $war = _MATCHES; else $war = _MATCH;
             echo "<br /><div style=\"text-align: center;\"><small><b>" . $nb_matchs . "</b> " . $war . " : <b><span style=\"color: #009900;\">" . $nb_victory . "</span></b> " . _WIN . " - <b><span style=\"color: #990000;\">" . $nb_defeat . "</span></b> " . _LOST . " - <b><span style=\"color: #3333FF;\">" . $nb_nul . "</span></b> " . _DRAW . "</small></div><br />\n";
-        } 
-		$sql = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE etat = 0");
-        $nb_matchs = mysql_num_rows($sql);
+        }
 
-		if ($nb_matchs > 0)
-        {
-			echo"<br /><div style=\"text-align: center;\"><big><b>" . _NEXTMATCHES . "</b></big></div><br />\n";
-			echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-		. "<tr style=\"background: " . $bgcolor3 . "\">\n"
-		. "<td style=\"width: 5%;\">&nbsp;</td>\n"
-		. "<td style=\"width: 10%;\"><b>" . _DATE . "</b></td>"
-		. "<td style=\"width: 30%;\" align=\"center\"><b>" . _OPPONENT . "</b></td>\n"
-		. "<td style=\"width: 20%;\" align=\"center\"><b>" . _TYPE . "</b></td>\n"
-		. "<td style=\"width: 20%;\" align=\"center\"><b>" . _STYLE . "</b></td>\n"
-		. "<td style=\"width: 15%;\" align=\"center\"><b>" . _DETAILS2 . "</b></td>\n";
+		if ($_REQUEST['p'] == 1 OR !isset($_REQUEST['p']))
+		{
+			$sqlx = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE etat = 0");
+			$nb_matchs2 = mysql_num_rows($sqlx);
 
-                $sql4 = mysql_query("SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM " . WARS_TABLE . " WHERE etat = 0 " . $and . $order . " LIMIT " . $start . "," . $nb_wars."");
-                while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4))
+			if ($nb_matchs2 > 0)
+			{
+				echo"<br /><div style=\"text-align: center;\"><big><b>" . _NEXTMATCHES . "</b></big></div><br />\n";
+				echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+				. "<tr style=\"background: " . $bgcolor3 . "\">\n"
+				. "<td style=\"width: 5%;\">&nbsp;</td>\n"
+				. "<td style=\"width: 10%;\"><b>" . _DATE . "</b></td>"
+				. "<td style=\"width: 30%;\" align=\"center\"><b>" . _OPPONENT . "</b></td>\n"
+				. "<td style=\"width: 20%;\" align=\"center\"><b>" . _TYPE . "</b></td>\n"
+				. "<td style=\"width: 20%;\" align=\"center\"><b>" . _STYLE . "</b></td>\n"
+				. "<td style=\"width: 15%;\" align=\"center\"><b>" . _DETAILS2 . "</b></td>\n";
+
+                $sql4x = mysql_query("SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM " . WARS_TABLE . " WHERE etat = 0 " . $and . $order . " LIMIT " . $start . "," . $nb_wars."");
+                while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4x))
                 {
 
                     $adv_name = htmlentities($adv_name);
@@ -512,6 +515,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 					. "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Wars&amp;op=detail&amp;war_id=" . $war_id . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" /></a></td>\n";
                     } 
                     echo "</table>\n";
+			}
 		}
         closetable();
     } 
