@@ -424,7 +424,7 @@ function edit_account()
 		list($nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $avatar, $signature, $pays, $jeu) = mysql_fetch_array($sql);
 
 		echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
-			. "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> |"
+			. "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
 			. "</b>" . _PROFIL . "<b> | "
 			. "<a href=\"index.php?file=User&amp;op=edit_pref\">" . _PREF . "</a> | "
 			. "<a href=\"index.php?file=User&amp;op=change_theme\">" . _THEMESELECT . "</a> | "
@@ -576,7 +576,7 @@ function edit_pref()
 		}
 
 		echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
-		. "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> |"
+		. "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
 		. "<a href=\"index.php?file=User&amp;op=edit_account\">" . _PROFIL . "</a> | "
 		. "</b>" . _PREF . "<b> | "
 		. "<a href=\"index.php?file=User&amp;op=change_theme\">" . _THEMESELECT . "</a> | "
@@ -2030,7 +2030,7 @@ function change_theme()
 	$cookietheme = $_COOKIE[$cookie_theme];
 
 	echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
-	. "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> |"
+	. "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
 	. "<a href=\"index.php?file=User&amp;op=edit_account\">" . _PROFIL . "</a> | "
 	. "<a href=\"index.php?file=User&amp;op=edit_pref\">" . _PREF . "</a> | "
 	. "</b>" . _THEMESELECT . "<b> | "
