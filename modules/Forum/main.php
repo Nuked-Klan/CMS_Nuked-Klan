@@ -224,7 +224,9 @@ while (list($name) = mysql_fetch_row($online))
     } 
 
     echo "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($name) . "\">" . $name . "</a>" . $sep;
-} 
+}
+
+if (mysql_num_rows($online) == NULL) echo '<em>' . _NONE . '</em>';
 
 echo "</td></tr></table><div style=\"text-align: right;\">";
 
