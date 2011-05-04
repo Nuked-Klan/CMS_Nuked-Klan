@@ -114,11 +114,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if ($language == "french")
             {
-                $data['date'] = strftime("%d-%m-%Y %H:%M", $date);
+                $data['date'] = strftime("%d-%m-%Y", $date);
             }
             else
             {
-                $data['date'] = strftime("%Y-%m-%d %H:%M", $date);
+                $data['date'] = strftime("%Y-%m-%d", $date);
             }
 			$data['cat'] = $categorie;
 			$data['catid'] = $cid;
