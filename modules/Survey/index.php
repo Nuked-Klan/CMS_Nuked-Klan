@@ -127,24 +127,23 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function vote_message()
     {
-        global $poll_id, $error;
 
-        if ($error == 1)
+        if ($_REQUEST['error'] == 1)
         {
             $texte_vote = _ONLYMEMBERS;
             $url_redirect = "index.php?file=User";
         } 
-        else if ($error == 2)
+        else if ($_REQUEST['error'] == 2)
         {
             $texte_vote = _NOLEVEL;
             $url_redirect = "index.php?file=Survey&op=affich_res&poll_id=" . $_REQUEST['poll_id'];
         } 
-        else if ($error == 3)
+        else if ($_REQUEST['error'] == 3)
         {
             $texte_vote = _ALREADYVOTE;
             $url_redirect = "index.php?file=Survey&op=affich_res&poll_id=" . $_REQUEST['poll_id'];
         } 
-        else if ($error == 4)
+        else if ($_REQUEST['error'] == 4)
         {
             $texte_vote = _NOOPTION;
             $url_redirect = "index.php?file=Survey&op=sondage&poll_id=" . $_REQUEST['poll_id'];
