@@ -204,7 +204,7 @@ else
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"25\" value=\"" . _YOURMESS . "\"  onclick=\"this.value=''\" /><br /><table>\n";
 
-	if ($captcha == 1) create_captcha(3);
+	if ($captcha == 1) create_captcha(2);
 	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"
