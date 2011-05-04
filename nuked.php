@@ -577,6 +577,8 @@ function secu_args($matches){
 		),
 		'li' => array(
 		),
+		'pre' => array(
+		),
 		'blockquote' => array(
 		),
 		'hr' => array(
