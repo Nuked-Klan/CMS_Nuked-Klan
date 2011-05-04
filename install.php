@@ -2169,6 +2169,9 @@ function add_god($data)
 	$sql3 = "INSERT INTO " . $db_prefix . "_shoutbox VALUES (1, '" . $pseudo . "', '" . $ip . "', '" . _FIRSTNEWSTITLE . "', '" . $date . "');";
 	$req3 = mysql_query($sql3);
 
+	$sql4 = "UPDATE " . $db_prefix . "_config SET value = '" . $data['email'] . "' WHERE name = 'contact_mail'";
+	$req4 = mysql_query($sql4);
+
 	$error = 0;
 
 	$path1 = "upload/Download/";

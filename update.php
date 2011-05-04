@@ -557,6 +557,9 @@ function upgrade_db()
     list($nk_version) = mysql_fetch_array($test_version);
     $v = explode(".", $nk_version);
 
+	$recup_mail = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name = 'mail'");
+    list($mail_admin) = mysql_fetch_array($recup_mail);
+
     if ($v[2] == 9)
      {
 		$sql = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name='screen'");
@@ -565,7 +568,7 @@ function upgrade_db()
 		{
 			$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('screen', 'on');";
 			$req = mysql_query($sql);
-			$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('contact_mail', '');";
+			$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('contact_mail', '" . $mail_admin . "');";
 			$req = mysql_query($sql);
 			$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('contact_flood', '60');";
 			$req = mysql_query($sql);
