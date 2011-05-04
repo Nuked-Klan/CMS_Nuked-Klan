@@ -19,6 +19,7 @@ define("_IRCAWARD","Irc Awards");
 define("_SERVERMONITOR","Server monitor");
 define("_PREFS","Preferences");
 define("_LOGOUT","Logout");
+define("_BLOGIN","Connect");
 define("_NAV","Menu");
 define("_NAVHOME","Home");
 define("_NAVNEWS","News");
