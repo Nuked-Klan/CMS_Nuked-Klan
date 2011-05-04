@@ -33,10 +33,10 @@ echo "<div style=\"text-align: center;\"><br /><big><b>" . _STATSSITE . "&nbsp;"
 }
 if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys'] != -1)
 {
-    echo "[<a href=\"index.php?file=Stats&amp;page=visits\">" . _ANALYS . "</a> | ";
+    echo "[ <a href=\"index.php?file=Stats&amp;page=visits\">" . _ANALYS . "</a> ] - ";
 }
 
-echo "[<a href=\"index.php?file=Stats&amp;page=top\">" . _TOP . "</a> ]</div>";
+echo "[ <a href=\"index.php?file=Stats&amp;page=top\">" . _TOP . "</a> ]</div>";
 
 $sql = mysql_query("SELECT count FROM " . STATS_TABLE . " WHERE type = 'pages'");
 while (list($count) = mysql_fetch_array($sql))

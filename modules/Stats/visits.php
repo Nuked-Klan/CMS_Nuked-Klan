@@ -182,11 +182,15 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1)
                     . "<td align=\"center\">" . $v_hours . "</td></tr>\n";
                 }
 
-                echo "</table><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n"
-                . "<td align=\"right\"><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Stats&amp;nuked_nude=visits&amp;op=view_all&amp;oday=" . $_REQUEST['oday'] . "&amp;omonth=" . $_REQUEST['omonth'] . "&amp;oyear=" . $_REQUEST['oyear'] . "','visitors','toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=800,height=600,top=30,left=0')\">" . _VIEWALL . "</a></td></tr></table><br />\n";
-            }
+                echo "</table>\n";
+				if ($imembers >= 10)
+				{
+					echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" cellpadding=\"0\" cellspacing=\"0\"><tr>\n"
+					. "<td align=\"right\"><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Stats&amp;nuked_nude=visits&amp;op=view_all&amp;oday=" . $_REQUEST['oday'] . "&amp;omonth=" . $_REQUEST['omonth'] . "&amp;oyear=" . $_REQUEST['oyear'] . "','visitors','toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=800,height=600,top=30,left=0')\">" . _VIEWALL . "</a></td></tr></table>\n";
+				}
+			}
 
-            echo "<div style=\"text-align: center;\"><big>" . _BROWSER . "</big></div>\n"
+            echo "<br /><div style=\"text-align: center;\"><big>" . _BROWSER . "</big></div>\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . "; border: 1px solid " . $bgcolor3 . ";\" width=\"80%\" cellpadding=\"2\" cellspacing=\"1\">\n"
             . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
             . "<td style=\"width: 5%;\" align=\"center\"><b>#</b></td>\n"
