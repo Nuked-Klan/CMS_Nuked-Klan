@@ -106,6 +106,22 @@ if ($visiteur == 9)
 	
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _PREFGEN . "</h3>\n";
+?>
+<script type="text/javascript">
+<!--
+// Interdire les caractères spéciaux (pour le nom des cookies)
+function special_caract(evt) {
+  var keyCode = evt.which ? evt.which : evt.keyCode;
+  if (keyCode==9) return true;
+  var interdit = 'ààâäãçéèêëìîïòôöõµùûüñ &\?!:\.;,\t#~"^¨@%\$£?²¤§%\*()[]{}-_=+<>|\\/`\'';
+   if (interdit.indexOf(String.fromCharCode(keyCode)) >= 0) {
+    alert('Caractères spéciaux interdit pour le nom des cookies !');
+    return false;
+}
+}
+-->
+</script>
+<?php
 		
         echo "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/preference.php\"  rel=\"modal\">\n"
 	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
@@ -242,7 +258,7 @@ if ($visiteur == 9)
 	. "<option>8</option>\n"
 	. "<option>9</option></select></td></tr>\n"
 	. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _OPTIONCONNEX . "</b></big></td></tr>\n"
-	. "<tr><td>" . _COOKIENAME . " :</td><td><input type=\"text\" name=\"cookiename\" size=\"20\" value=\"" . $nuked['cookiename'] . "\" /></td></tr>\n"
+	. "<tr><td>" . _COOKIENAME . " :</td><td><input type=\"text\" name=\"cookiename\" size=\"20\" value=\"" . $nuked['cookiename'] . "\" onkeypress=\"return special_caract(event);\" /></td></tr>\n"
 	. "<tr><td>" . _CONNEXMIN . " :</td><td><input type=\"text\" name=\"sess_inactivemins\" size=\"2\" value=\"" . $nuked['sess_inactivemins'] . "\" /></td></tr>\n"
 	. "<tr><td>" . _CONNEXDAY . " :</td><td><input type=\"text\" name=\"sess_days_limit\" size=\"3\" value=\"" . $nuked['sess_days_limit'] . "\" /></td></tr>\n"
 	. "<tr><td>" . _CONNEXSEC . " :</td><td><input type=\"text\" name=\"nbc_timeout\" size=\"3\" value=\"" . $nuked['nbc_timeout'] . "\" /></td></tr>\n"
