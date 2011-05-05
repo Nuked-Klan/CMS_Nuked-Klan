@@ -4,7 +4,7 @@ if (!defined("INDEX_CHECK"))
 	exit('You can\'t run this file alone.');
 }
 define("_WELCOMEINSTALL","Welcome to the 1.7.9 version of nuked-klan ");
-define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation……<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b> ");
+define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creationÂ…Â…<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b> ");
 define("_TYPEINSTALL","What do you want to do?");
 define("_INSTALL","Speed Installation");
 define("_INSTALLPASPAS","Installation with assistance");
@@ -313,7 +313,7 @@ define("_INSTALLDBUSER","This is the username used to connect onto the sql datab
 define("_INSTALLDBPASS","This is the password that allows you to connect onto the sql database.");
 define("_INSTALLDBPREFIX", "The prefix gives you the possibility to create two installs on the same sql database. The default value is nuked, if however you already have an nuked klan install, we suggest you change it into whatever pleases you.");
 define("_INSTALLDBDBNAME","This is the name of database where all the data will be. You have to create it/or use an existing one. You may create one on the webhost admin panel.
-Il s'agit du nom de votre base de donnée msql, souvent vous devez vous rendre dans l'administration de votre hébegrement pour créer une base de donné, mais quelques fois celle-ci vous est déjà fourni dans le mail d'inscription à votre hébergement.");
+Il s'agit du nom de votre base de donnÃ©e msql, souvent vous devez vous rendre dans l'administration de votre hÃ©begrement pour crÃ©er une base de donnÃ©, mais quelques fois celle-ci vous est dÃ©jÃ  fourni dans le mail d'inscription Ã  votre hÃ©bergement.");
 // Check installation:
 define("_CHECKCURRING", "<p>Check system requirement ...<br /></p>\n");
 define("_PHPVERSION", 'PHP version > 5.1');
@@ -328,4 +328,5 @@ define("_FORCE", "They are one or more fatal error in your configuration. We can
 define("_NEXTLANG", "<p>You can force install on click <a href=\"?action=install&amp;langue=french\">there</a></p>\n");
 define("_SYSTEMINSTALL","Your system is ready to start installation. <a href=\"?action=install&amp;langue=french\">Next step !</a><br />\n");
 define("_NEXTSTEP", "Next Step");
+define("_PLEASESELECTTHEME","The field \"theme\" is empty, display the default theme: Impact_Nk");
 ?>
