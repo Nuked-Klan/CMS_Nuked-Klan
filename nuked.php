@@ -37,7 +37,7 @@ session_set_save_handler('session_open', 'session_close', 'session_read', 'sessi
 @session_name('nuked');
 @session_start();
 if (session_id() == '') {
-	exit('Erreur dans la crÃ©ation de la session annonyme');
+	exit('Erreur dans la création de la session annonyme');
 }
 
 include ("Includes/nkSessions.php");
@@ -200,7 +200,7 @@ function connect()
 			if($language == "french")
 			{
 				echo "<div style=\"text-align: center;\">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>";
-				echo "<div>Information :<br />Nom de base de donnÃ©es sql incorrect.</div>";
+				echo "<div>Information :<br />Nom de base de données sql incorrect.</div>";
 			}
 			else
 			{
@@ -240,7 +240,7 @@ function banip()
             $del1 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
 			if($language == "french")
 			{
-				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." n\'est plus banni, sa pÃ©riode est arrivÃ©e Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Lien</a>].')");
+				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Lien</a>].')");
 			}
 			else
 			{
@@ -264,7 +264,7 @@ function banip()
 				{
 					if($language == "french")
 					{
-						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." n\'est plus banni, sa pÃƒÂ©riode est arrivÃƒÂ© Ãƒ  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." n\'est plus banni, sa pÃ©riode est arrivÃ© Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 					}
 					else
 					{
@@ -289,7 +289,7 @@ function banip()
 				{
 					if($language == "french")
 					{
-						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." n\'est plus banni, sa pÃ©riode est arrivÃ©e Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 					}
 					else
 					{
@@ -455,12 +455,12 @@ function icon($texte)
 	$texte = str_replace("http://", "_http_", $texte);
 	$texte = str_replace("&quot;", "_QUOT_", $texte);
 	$texte = str_replace("&#039;", "_SQUOT_", $texte);
-	$texte = str_replace("&agrave;", "Ã ", $texte);
-	$texte = str_replace("&acirc;", "Ã¢", $texte);
-	$texte = str_replace("&eacute;", "Ã©", $texte);
-	$texte = str_replace("&egrave;", "Ã¨", $texte);
-	$texte = str_replace("&ecirc;", "Ãª", $texte);
-	$texte = str_replace("&ucirc;", "Ã»", $texte);
+	$texte = str_replace("&agrave;", "à", $texte);
+	$texte = str_replace("&acirc;", "â", $texte);
+	$texte = str_replace("&eacute;", "é", $texte);
+	$texte = str_replace("&egrave;", "è", $texte);
+	$texte = str_replace("&ecirc;", "ê", $texte);
+	$texte = str_replace("&ucirc;", "û", $texte);
 
 	$sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
 	while (list($code, $url, $name) = mysql_fetch_array($sql))
@@ -472,12 +472,12 @@ function icon($texte)
 	$texte = str_replace("_http_", "http://", $texte);
 	$texte = str_replace("_QUOT_", "&quot;", $texte);
 	$texte = str_replace("_SQUOT_", "&#039;", $texte);
-	$texte = str_replace("Ã ", "&agrave;", $texte);
-	$texte = str_replace("Ã¢", "&acirc;", $texte);
-	$texte = str_replace("Ã©", "&eacute;", $texte);
-	$texte = str_replace("Ã¨", "&egrave;", $texte);
-	$texte = str_replace("Ãª", "&ecirc;", $texte);
-	$texte = str_replace("Ã»", "&ucirc;", $texte);
+	$texte = str_replace("à", "&agrave;", $texte);
+	$texte = str_replace("â", "&acirc;", $texte);
+	$texte = str_replace("é", "&eacute;", $texte);
+	$texte = str_replace("è", "&egrave;", $texte);
+	$texte = str_replace("ê", "&ecirc;", $texte);
+	$texte = str_replace("û", "&ucirc;", $texte);
 
 	return($texte);
 }
@@ -732,7 +732,7 @@ function secu_html($texte)
 	$texte = htmlspecialchars($texte);
 	$texte = str_replace('&amp;', '&', $texte);
 	
-	/*balise autorisÃ©e*/
+	/*balise autorisée*/
 	$texte = preg_replace_callback('/&lt;([^ &]+)[[:blank:]]?((.(?<!&gt;))*)&gt;/', 'secu_args', $texte);
 
 	preg_match_all('`<(/?)([^/ >]+)(| [^>]*([^/]))>`', $texte, $Tags, PREG_SET_ORDER);
@@ -762,7 +762,7 @@ function secu_html($texte)
      $texte = str_replace("</blockquote>", "</div></td></tr></table><br />", $texte);
 
 	if ($bad) {
-		return('Le code HTML est mal formatÃ©');
+		return('Le code HTML est mal formaté');
 	} else{
 		return $texte;
 	}
@@ -795,9 +795,9 @@ function number($count, $each, $link) {
 		if (empty($current)) $current = 1; // On renormalise la page courante...
 
 		// Calcul du nombre de pages
-		$n = ceil($count / intval($each)); // on arrondit Ã   l'entier sup.
+		$n = ceil($count / intval($each)); // on arrondit à  l'entier sup.
 
-		// DÃ©but de la chaine d'affichage
+		// Début de la chaine d'affichage
 		$output = "<b>" . _PAGE . " :</b> ";
 
 		for ($i = 1; $i <= $n; $i++) {
@@ -836,7 +836,7 @@ function number($count, $each, $link) {
 					$first_done = true;
 
 				}
-				// AprÃ¨s la page courante
+				// Après la page courante
 				elseif (!isset($last_done) && $i > $current) {
 
 					$output .= sprintf
@@ -848,7 +848,7 @@ function number($count, $each, $link) {
 					$last_done = true;
 
 				}
-				// On a dÃ©passÃ© les cas qui nous intÃ©ressent : inutile de continuer
+				// On a dépassé les cas qui nous intéressent : inutile de continuer
 				elseif ($i > $current)
 					break;
 
@@ -1249,10 +1249,10 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext)
 			@session_name('nuked');
 			@session_start();
 			if (session_id() == '') {
-				exit('Erreur dans la crÃ©ation de la session anonyme');
+				exit('Erreur dans la création de la session anonyme');
 			}
 			$date = time();
-			$content = "<b>Veuilliez nous excuser une erreur a Ã©tÃ© dÃ©tectÃ©, nous la corrigerons le plus rapidement possible, merci. <br /><br /><b>Information:</b><br /><br /><b>Mon ERREUR</b> [$errno] $errstr<br /> Erreur fatale sur la ligne $errline dans le fichier $errfile, PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />ArrÃªt...<br />";
+			$content = "<b>Veuilliez nous excuser une erreur a été détecté, nous la corrigerons le plus rapidement possible, merci. <br /><br /><b>Information:</b><br /><br /><b>Mon ERREUR</b> [$errno] $errstr<br /> Erreur fatale sur la ligne $errline dans le fichier $errfile, PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />Arrêt...<br />";
 
 			echo $content;
 
@@ -1260,7 +1260,7 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext)
 			$upd = mysql_query("INSERT INTO " . $db_prefix . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('".$date."', '".mysql_escape_string($_SERVER["REQUEST_URI"])."', '".$texte."')");
 			if($language == "french")
 			{
-				$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'Une erreur sql a Ã©tÃ© dÃ©tectÃ©: [<a href=\"index.php?file=Admin&page=erreursql\">Lien</a>].')");
+				$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'Une erreur sql a été détecté: [<a href=\"index.php?file=Admin&page=erreursql\">Lien</a>].')");
 			}
 			else
 			{
@@ -1270,7 +1270,7 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext)
 			break;
     }
 
-    /* Ne pas exÃ©cuter le gestionnaire interne de PHP */
+    /* Ne pas exécuter le gestionnaire interne de PHP */
     return true;
 }
 ?>
