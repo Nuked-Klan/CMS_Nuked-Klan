@@ -522,6 +522,7 @@ function secu_css($Style){
 		'margin',
 		'border',
 		'background-color',
+    'background',
 		'width',
 		'height',
 		'border-color',
