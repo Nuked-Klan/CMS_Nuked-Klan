@@ -3,6 +3,7 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
+define("_SPECCNOTALLOW","No special characters for the name of cookies!");
 define("_PAGEACCESS","You cannot open this page directly");
 define("_NOENTRANCE","Sorry you do not have the permissions to access this page");
 define("_ZONEADMIN","This zone is reserved for the Admins, sorry...");

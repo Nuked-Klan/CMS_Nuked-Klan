@@ -109,13 +109,13 @@ if ($visiteur == 9)
 ?>
 <script type="text/javascript">
 <!--
-// Interdire les caractÃ¨res spÃ©ciaux (pour le nom des cookies)
+// Interdire les caractères spéciaux (pour le nom des cookies)
 function special_caract(evt) {
   var keyCode = evt.which ? evt.which : evt.keyCode;
   if (keyCode==9) return true;
-  var interdit = 'Ã Ã Ã¢Ã¤Ã£Ã§Ã©Ã¨ÃªÃ«Ã¬Ã®Ã¯Ã²Ã´Ã¶ÃµÂµÃ¹Ã»Ã¼Ã± &\?!:\.;,\t#~"^Â¨@%\$Â£?Â²Â¤Â§%\*()[]{}-_=+<>|\\/`\'';
+  var interdit = 'ààâäãçéèêëìîïòôöõµùûüñ &\?!:\.;,\t#~"^¨@%\$£?²¤§%\*()[]{}-_=+<>|\\/`\'';
    if (interdit.indexOf(String.fromCharCode(keyCode)) >= 0) {
-    alert('CaractÃ¨res spÃ©ciaux interdit pour le nom des cookies !');
+    alert('<?php echo _SPECCNOTALLOW; ?>');
     return false;
 }
 }

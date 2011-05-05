@@ -3,6 +3,7 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
+define("_SPECCNOTALLOW","Caractères spéciaux interdit pour le nom des cookies !");
 define("_WAIT", "non catalogué");
 define("_FAILLE", "faille détéctée");
 define("_PIRATE", "tentative de piratage");
