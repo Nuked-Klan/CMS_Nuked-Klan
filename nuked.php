@@ -61,7 +61,11 @@ elseif (is_file("themes/" . $nuked['theme'] . "/theme.php"))
 {
 	$theme = $nuked['theme'];
 }
-else exit(_PLEASESELECTTHEME);
+else
+{
+  if (is_file("themes/Impact_Nk/theme.php")) $theme = 'Impact_Nk';
+  else exit(_PLEASESELECTTHEME);
+}
 
 if ($_REQUEST[$nuked['cookiename'] . '_user_langue'] != "" && is_file("lang/" . $_REQUEST[$nuked['cookiename'] . '_user_langue'] . ".lang.php"))
 {
