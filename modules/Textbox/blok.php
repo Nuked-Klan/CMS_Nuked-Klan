@@ -158,7 +158,7 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "<div id=\"textbox\" style=\"width: " . $width . "; height: " . $height . "; overflow: auto;\">\n"
 . "<p>\n"
 . "<img src=\"images/loading.gif\" alt=\"Loading\" /><br />\n"
-. _LOADINPLSWAIT. "\n"
+. _LOADINPLSWAIT . "\n"
 . "</p></div></td></tr></table>\n"
 . "<script>maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
