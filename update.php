@@ -693,7 +693,7 @@ function upgrade_db()
 	$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('screen', 'on');";
 	$req = mysql_query($sql);
 
-	mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9\' WHERE name = \'version\'');
+	mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9 RC5.3\' WHERE name = \'version\'');
 	mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'Impact_Nk\' WHERE name = \'theme\'');
 	mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'quakenet.org\' WHERE name = \'irc_serv\'');
 

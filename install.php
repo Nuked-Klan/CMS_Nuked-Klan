@@ -727,7 +727,7 @@ $date = time();
 $siteurl = "http://" . $_SERVER['SERVER_NAME'] . str_replace("install.php", "", $_SERVER['SCRIPT_NAME']);
 if (substr($siteurl, -1) == "/") $siteurl = substr($siteurl, 0, -1);
 
-$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('version', '1.7.9');";
+$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('version', '1.7.9 RC5.3');";
 $req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('date_install', '" . $date. "');";
 $req = mysql_query($sql);
