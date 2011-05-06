@@ -12,7 +12,7 @@ define ("INDEX_CHECK", 1);
 $mtime = microtime();
 include_once ('Includes/php51compatibility.php');
 include ("globals.php");
-@include ("conf.inc.php");
+include ("conf.inc.php");
 //For compatibility with all old module and theme
 if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true)
 	extract($_REQUEST);
@@ -136,7 +136,6 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 		if (defined("NK_GZIP") && @extension_loaded('zlib') && !@ini_get('zlib.output_compression') && @phpversion() >= "4.0.4" && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false)
 		{
 			ob_start("ob_gzhandler");
-			header('Content-Encoding: gzip');
 		}
 		else
 		{
@@ -196,7 +195,7 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 		theme_advanced_resizing : true,
 
 		// Example content CSS (should be your site CSS)
-		content_css : "themes/<?php echo $theme; ?>/editeur.css",
+		<?php if(is_file('themes/' . $theme . '/editeur.css')) echo 'content_css : "themes/' . $theme. '/editeur.css",'; ?>
 
 		// Drop lists for link/image/media/template dialogs
 		external_link_list_url : "lists/link_list.js",
@@ -372,6 +371,6 @@ else
 	closetable();
 	footer();
 }
-mysql_close($db);
 
+mysql_close($db);
 ?>

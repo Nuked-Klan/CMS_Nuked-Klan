@@ -1606,7 +1606,7 @@ function update_config($vars)
 		    @chmod ($path, 0444);
 	    }
 
-		copy("conf.inc.php", "extra/conf" . date('%Y%m%d%H%i') . '.php');
+		copy("conf.inc.php", "extra/config_save" . date('%Y%m%d%H%i') . '.php');
 
 	    style(3,$vars['langue']);
 		echo "<div class=\"notification success png_bg\">\n"

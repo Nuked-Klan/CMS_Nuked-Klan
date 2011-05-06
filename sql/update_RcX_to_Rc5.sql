@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `nuked_tmpses` (
 
 UPDATE nuked_config SET value = 'quakenet.org' WHERE name = 'irc_serv'
 
-/* RC5 > FINAL */
+/* RC5 > RC5.3 */
 
 UPDATE nuked_config SET value = '1.7.9' WHERE name = 'version'
 INSERT INTO nuked_modules (`nom`, `niveau`, `admin`) VALUES ('PackageMgr', 9, 9)

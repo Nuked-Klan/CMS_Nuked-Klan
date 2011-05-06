@@ -88,6 +88,11 @@ foreach ($_FILES as $k=>$v)
 		{
 			die ('Upload a PHP file isn\'t autorised !!');
 		}
+		elseif (stripos(strrchr($_FILES[$k]['name'], '.'), 'htaccess') !== false
+			|| stripos($sfile->file($_FILES[$k]['tmp_name']), 'htaccess') !== false)
+		{
+			die ('Upload a HTACCESS file isn\'t autorised !!');
+		}
 		unset($sfile);
 	}
 }

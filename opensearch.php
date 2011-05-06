@@ -9,14 +9,16 @@
 //-------------------------------------------------------------------------//
 header('Content-type: text/html; charset=iso-8859-1');
 define ("INDEX_CHECK", 1);
-@include("globals.php");
-@include("conf.inc.php");
-@include("nuked.php");
-@include("Includes/constants.php");
+
+include("globals.php");
+include("conf.inc.php");
+include("nuked.php");
+include("Includes/constants.php");
+
 $sitename = utf8_encode($nuked['name']);
 $sitedesc = utf8_encode($nuked['slogan']);
-$sitename = @html_entity_decode($nuked['name']);
-$sitedesc = @html_entity_decode($nuked['slogan']);
+$sitename = html_entity_decode($nuked['name']);
+$sitedesc = html_entity_decode($nuked['slogan']);
 $sitename = str_replace("&amp;", "&", $sitename);
 $sitedesc = str_replace("&amp;", "&", $sitedesc);
 $sitename = htmlspecialchars($sitename);

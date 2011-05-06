@@ -2430,7 +2430,7 @@ function save_config($vars)
 	    fclose($fp);
 	    @chmod ($path, 0644);
 
-		copy("conf.inc.php", "extra/conf" . date('%Y%m%d%H%i') . '.php');
+		copy("conf.inc.php", "extra/config_save_" . date('%Y%m%d%H%i') . '.php');
 
 	    style(3,$vars['langue']);
 

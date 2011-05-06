@@ -522,7 +522,7 @@ function secu_css($Style){
 		'margin',
 		'border',
 		'background-color',
-    'background',
+		'background',
 		'width',
 		'height',
 		'border-color',
@@ -582,6 +582,8 @@ function secu_args($matches){
 		'sup' => array(
 		),
 		'li' => array(
+		),
+		'big' => array(
 		),
 		'pre' => array(
 		),
@@ -712,12 +714,12 @@ function secu_args($matches){
 		}
 		return $RetStr;
 
-		//Balises de fermeture
+	// Balise de fermeture
 	} else if (substr($matches[1], 0, 1) == '/'
 	&& in_array(strtolower(substr($matches[1], 1)), array_keys($allowedTags))) {
 		return '<' . $matches[1] . '>';
 
-		//Balses interdites
+	// Balises interdites
 	} else {
 		return $matches[0];
 	}
@@ -726,17 +728,16 @@ function secu_args($matches){
 function secu_html($texte)
 {
 	global $bgcolor3, $nuked;
-	/* balise html interdite*/
+	// Balise HTML interdite
 	$texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
 	$texte = stripslashes($texte);
 	$texte = htmlspecialchars($texte);
 	$texte = str_replace('&amp;', '&', $texte);
 	
-	/*balise autorisée*/
+	// Balise autorisée
 	$texte = preg_replace_callback('/&lt;([^ &]+)[[:blank:]]?((.(?<!&gt;))*)&gt;/', 'secu_args', $texte);
 
 	preg_match_all('`<(/?)([^/ >]+)(| [^>]*([^/]))>`', $texte, $Tags, PREG_SET_ORDER);
-	//preg_match_all('`</([^/ >]+)(| [^>/]*)>`', $texte, $CloseTag, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
 
 	$TagList = array();
 	$bad = false;
