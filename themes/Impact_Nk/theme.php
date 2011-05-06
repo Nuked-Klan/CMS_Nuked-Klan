@@ -154,7 +154,7 @@ function footer()
 					<div id="b-bottom">
 						<div id="bottom">
 							<div id="footer">
-								<div class="copyright1"></div><div class="copyright"><a href="http://www.design-impacts.fr" alt="impact-design" style="text-decoration:none;color:#ffffff;">Design by DjGr!m &amp; Codage by fce/G4V</a></div>
+								<div class="copyright1"></div><div class="copyright"><a href="http://www.design-impacts.fr" style="text-decoration:none;color:#ffffff;">Design by DjGr!m &amp; Codage by fce/G4V</a></div>
 							</div>
 						</div>
 					</div>
