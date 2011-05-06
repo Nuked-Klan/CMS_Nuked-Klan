@@ -1,11 +1,11 @@
 <?php
 /************************************************
-*	Thème Impact_Nk pour Nuked Klan	*
+*	ThÃ¨me Impact_Nk pour Nuked Klan	*
 *	Design :  djGrim (http://www.impact-design.fr/)	*
 *	Codage : fce & huge (http://www.impact-design.fr/)			*
 ************************************************/
 
-defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Accès interdit</div>");
+defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">AccÃ¨s interdit</div>");
 include(dirname(__FILE__) . "/block-best.php");
 include(dirname(__FILE__) . '/admin/config_best_unique.php');
 $module_2 = explode('|', $config_best['affiche-block-unique']);
@@ -176,7 +176,7 @@ $comment = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $
 		<div class="bottom">
 			<table>
 				<tr>
-					<td width="100%">
+          <td style="width:100%;">
 						<h2><?php echo $data['titre']; ?></h2>
 						<br />
 						<span style="color: #ffffff;"><?php echo $data['texte']; ?></span>
