@@ -90,8 +90,6 @@ function session_read($id)
 {
   global $nuked;
 
-  connect();
-
   $sql = mysql_query("SELECT session_vars FROM " . TMPSES_TABLE . " WHERE session_id = '$id'");
 
   if ($sql === false)
@@ -109,9 +107,7 @@ function session_write($id, $data)
   global $nuked;
   $id = mysql_escape_string($id);
   $data = mysql_escape_string($data);
-
-  connect();
-
+  
   $sql = mysql_query("INSERT INTO " . TMPSES_TABLE . " (session_id, session_start, session_vars) VALUES ('$id', " . time() . ", \"$data\")");
 
 
@@ -125,9 +121,7 @@ function session_delete($id)
 {
   global $nuked;
   $id = mysql_escape_string($id);
-
-  connect();
-
+  
   $sql = mysql_query("DELETE FROM " . TMPSES_TABLE . " WHERE session_id = '$id'");
 
   return $sql;
@@ -138,9 +132,7 @@ function session_gc($maxlife)
   global $nuked;
   $id = mysql_escape_string($id);
   $time = time() - $maxlife;
-
-  connect();
-
+  
   mysql_query("DELETE FROM " . TMPSES_TABLE . " WHERE session_start < $time");
 
   return true;
