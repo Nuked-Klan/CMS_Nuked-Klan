@@ -12,7 +12,7 @@ define ("INDEX_CHECK", 1);
 $mtime = microtime();
 include_once ('Includes/php51compatibility.php');
 include ("globals.php");
-include ("conf.inc.php");
+@include ("conf.inc.php");
 //For compatibility with all old module and theme
 if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true)
 	extract($_REQUEST);

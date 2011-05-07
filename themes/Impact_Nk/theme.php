@@ -1,11 +1,11 @@
 <?php
 /************************************************
-*	ThÃ¨me Impact_Nk pour Nuked Klan	*
+*	Thème Impact_Nk pour Nuked Klan	*
 *	Design :  djGrim (http://www.impact-design.fr/)	*
 *	Codage : fce & huge (http://www.impact-design.fr/)			*
 ************************************************/
 
-defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">AccÃ¨s interdit</div>");
+defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Accès interdit</div>");
 include(dirname(__FILE__) . "/block-best.php");
 include(dirname(__FILE__) . '/admin/config_best_unique.php');
 $module_2 = explode('|', $config_best['affiche-block-unique']);
