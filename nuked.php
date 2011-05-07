@@ -53,18 +53,12 @@ if (!isset($_REQUEST['op']) || $_REQUEST['op'] == null)
 	$_REQUEST['op'] = "index";
 }
 
-if ($_REQUEST[$nuked['cookiename'] . '_user_theme'] != "" && is_file("themes/" . $_REQUEST[$nuked['cookiename'] . '_user_theme'] . "/theme.php"))
-{
-	$theme = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
-}
-elseif (is_file("themes/" . $nuked['theme'] . "/theme.php"))
-{
-	$theme = $nuked['theme'];
-}
-else
+if ($_REQUEST[$nuked['cookiename'] . '_user_theme'] != "" && is_file("themes/" . $_REQUEST[$nuked['cookiename'] . '_user_theme'] . "/theme.php")) $theme = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
+elseif (is_file("themes/" . $nuked['theme'] . "/theme.php")) $theme = $nuked['theme'];
+elseif (empty($nuked['theme']))
 {
   if (is_file("themes/Impact_Nk/theme.php")) $theme = 'Impact_Nk';
-  else exit(_PLEASESELECTTHEME);
+  else exit('The field \"theme\" is empty, display the default theme: Impact_Nk (Please upload a theme)');
 }
 
 if ($_REQUEST[$nuked['cookiename'] . '_user_langue'] != "" && is_file("lang/" . $_REQUEST[$nuked['cookiename'] . '_user_langue'] . ".lang.php"))

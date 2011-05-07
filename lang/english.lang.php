@@ -328,5 +328,4 @@ define("_FORCE", "They are one or more fatal error in your configuration. We can
 define("_NEXTLANG", "<p>You can force install on click <a href=\"?action=install&amp;langue=french\">there</a></p>\n");
 define("_SYSTEMINSTALL","Your system is ready to start installation. <a href=\"?action=install&amp;langue=french\">Next step !</a><br />\n");
 define("_NEXTSTEP", "Next Step");
-define("_PLEASESELECTTHEME","The field \"theme\" is empty, display the default theme: Impact_Nk");
 ?>

@@ -336,5 +336,4 @@ define("_FORCE", "Il y a une ou plusieurs erreurs fatales de compatibilitées. No
 define("_NEXTLANG", "<p>Tu peux forcer l'installation de nuked-klan <a href=\"?action=install&amp;langue=french\">ici</a></p>\n");
 define("_SYSTEMINSTALL","Votre site est prêt a être installé. <a href=\"?action=install&amp;langue=french\">Etape suivante!</a><br />\n");
 define("_NEXTSTEP", "Etape suivante");
-define("_PLEASESELECTTHEME","Le champ \"theme\" est vide, affichage du thème par défaut : Impact_Nk");
 ?>
