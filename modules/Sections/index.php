@@ -587,13 +587,13 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sitename  = @html_entity_decode($sitename);
 
 		$texte = "<h1>".$title."</h1><hr />".$text."<hr />".$sitename."<br />".$articleurl;
-		$file = $sitename."_".$title;
-		$file = str_replace(' ','_',$file);
-		$file .= ".pdf";
+		$_REQUEST['file'] = $sitename."_".$title;
+		$_REQUEST['file'] = str_replace(' ','_',$file);
+		$_REQUEST['file'] .= ".pdf";
 		
         $pdf = new HTML2PDF('P','A4','fr');
 		$pdf->WriteHTML($texte);
-		$pdf->Output($file);
+		$pdf->Output($_REQUEST['file']);
     } 
 
     switch ($_REQUEST['op'])
