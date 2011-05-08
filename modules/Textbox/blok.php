@@ -195,14 +195,14 @@ else
 
         if (!$user)
         {
-            echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" size=\"20\" maxlength=\"100\" value=\"" . _NICKNAME . "\" onclick=\"this.value=''\" /><br />\n";
+            echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" maxlength=\"100\" value=\"" . _NICKNAME . "\" style=\"width:70%;\" onclick=\"this.value=''\" /><br />\n";
         }
         else
         {
             echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
         }
 
-        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"25\" value=\"" . _YOURMESS . "\"  onclick=\"this.value=''\" /><br /><table>\n";
+        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"this.value=''\" /><br /><table>\n";
 
 	if ($captcha == 1) create_captcha(2);
 	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
