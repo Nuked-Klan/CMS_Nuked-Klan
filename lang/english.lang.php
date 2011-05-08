@@ -317,12 +317,12 @@ Il s'agit du nom de votre base de donnée msql, souvent vous devez vous rendre d
 // Check installation:
 define("_CHECKCURRING", "<p>Check system requirement ...<br /></p>\n");
 define("_PHPVERSION", 'PHP version > 5.1');
-define("_MYSQLEXT", 'extention MySQL');
-define("_EXTENSIONLOAD", 'extention session');
+define("_MYSQLEXT", 'Extension MySQL');
+define("_EXTENSIONLOAD", 'Extension session');
 define("_QUESPHPVERSION", 'You have to ask your hosting service for PHP 5.1. Have you a .htaccess ?');
 define("_SESSIONPATH", 'You have to make this directory : ');
 define("_DIRECTORY", 'Session directory');
-define("_MHASH", 'extention mhash');
+define("_MHASH", 'Extension mhash');
 define("_FINFO", "<p>Try to use mimetype to replace finfo</p>");
 define("_FORCE", "They are one or more fatal error in your configuration. We can't install Nuked-Klan.\n");
 define("_NEXTLANG", "<p>You can force install on click <a href=\"?action=install&amp;langue=french\">there</a></p>\n");

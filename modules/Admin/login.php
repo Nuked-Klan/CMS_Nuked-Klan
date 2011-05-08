@@ -77,13 +77,20 @@ if ($user && isset($_POST['admin_password']) && $_POST['admin_password'] != "")
 }
 else
 {
-    if (!$user) redirect("index.php?file=User&op=login_screen", 0);
-	else if ($_REQUEST['nuked_nude'])
+	
+    if (!$user)
+	{
+		
+		redirect("index.php?file=User&op=login_screen", 0);
+	}
+	else if (1)//$_REQUEST['nuked_nude'])
     {
+		
 		redirect("index.php?file=Admin", 0);
     }
     else
     {
+		//echo var_dump($user);exit();
 		if ($_POST) $check = 1;
 		else $check = 0;
 

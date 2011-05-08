@@ -325,12 +325,12 @@ define("_INSTALLDBDBNAME","Il s'agit du nom de votre base de donnée MySQL, souve
 // Check installation:
 define("_CHECKCURRING", "<p>Vérification de la compatibilité...<br /></p>\n");
 define("_PHPVERSION", 'PHP version > 5.1');
-define("_MYSQLEXT", 'Extention MySQL');
+define("_MYSQLEXT", 'Extension MySQL');
 define("_EXTENSIONLOAD", 'Extension des sessions');
 define("_QUESPHPVERSION", 'Veuillez demander à votre hébergeur de passer en PHP 5.1. Certains hébergeurs demande un .htaccess ou autres.');
 define("_SESSIONPATH", 'Veulliez créer un répertoire nommée: ');
 define("_DIRECTORY", 'Chemin des sessions');
-define("_MHASH", 'Extention mhash');
+define("_MHASH", 'Extension mhash');
 define("_FINFO", "<p>Nous essayons d'utiliser mime à la place de finfo pour la sécurité:</p>");
 define("_FORCE", "Il y a une ou plusieurs erreurs fatales de compatibilitées. Nous ne pouvons installer Nuked-Klan.\n");
 define("_NEXTLANG", "<p>Tu peux forcer l'installation de nuked-klan <a href=\"?action=install&amp;langue=french\">ici</a></p>\n");
