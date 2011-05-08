@@ -57,7 +57,7 @@ if ($active == 3 || $active == 4)
 else
 {
     echo "<form method=\"post\" action=\"index.php?file=Search&amp;op=mod_search\">\n"
-    . "<p style=\"text-align: center\"><input type=\"hidden\" name=\"module\" value=\"\" /><input type=\"text\" name=\"main\" size=\"25\" /><br />\n"
+    . "<p style=\"text-align: center\"><input type=\"hidden\" name=\"module\" value=\"\" /><input type=\"text\" name=\"main\" style=\"width:90%;\" /><br />\n"
     . "<input type=\"submit\" class=\"button\" name=\"submit\" value=\"" . _SEARCHFOR . "\" /><br />\n"
     . "<a href=\"index.php?file=Search\">" . _ADVANCEDSEARCH . "</a></p></form>\n";
 }
