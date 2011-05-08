@@ -17,7 +17,7 @@ require_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == "off") $captcha = 0;
-else if (_NKCAPTCHA == "auto" && $user[1] > 0)  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
 else $captcha = 1;
 
 if ($user)
@@ -97,7 +97,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     $sql2 = mysql_query("SELECT auteur, ip, date FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT 0, 1");
     list($author, $flood_ip, $flood_date) = mysql_fetch_array($sql2);
 
-    $anti_flood = $flood_date + 60;
+    $anti_flood = $flood_date + 5;
 
     $date = time();
 

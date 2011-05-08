@@ -13,7 +13,7 @@ if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 //réglage captcha (auto | on | off)
 define("_NKCAPTCHA","auto");
 
-include_once (dirname(__FILE__) . '/hash.php');
+require_once (dirname(__FILE__) . '/hash.php');
 
 /**
 * Create a Captcha code
