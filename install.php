@@ -2381,6 +2381,9 @@ function save_config($vars)
     $db = @mysql_connect($vars['db_host'], $vars['db_user'], $vars['db_pass']);
     $connect= @mysql_select_db($vars['db_name'], $db);
 
+	if (@extension_loaded('zlib') && !@ini_get('zlib.output_compression') && @phpversion() >= "4.0.4" && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') define('GZIP_COMPRESS', 'true');
+	else define('GZIP_COMPRESS', 'false');
+
     if(!$db || !$connect)
     {
 	style(3,$vars['langue']);
@@ -2413,7 +2416,7 @@ function save_config($vars)
 	. "\n"
 	. "define('NK_INSTALLED', true);\n"
 	. "define('NK_OPEN', true);\n"
-	. "define('NK_GZIP', true);\n"
+	. "define('NK_GZIP', " . GZIP_COMPRESS . ");\n"
 	. "// NE PAS SUPPRIMER! / DO NOT DELETE\n"
 	. "define('HASHKEY', '".addslashes(@sha1(uniqid(''), true))."');\n"
 	. "\n"
