@@ -1188,8 +1188,10 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country)
 			}
 
 			$subject = _USERREGISTER . ", " .$date2;
-			$corps = $inscription_mail . "\r\n" . _NICK . " : " . $pseudo . "\r\n" . _PASSWORD . " : " . $pass_reg . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+			$corps = $inscription_mail . "<br /><br />" . _NICK . " : " . $pseudo . "<br /><br />" . _PASSWORD . " : " . $pass_reg . "<br /><br /><br /><br />" . $nuked['name'] . " - " . $nuked['slogan'];
 			$from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+			$from .= 'MIME-Version: 1.0' . "\r\n";
+			$from .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
 			$subject = @html_entity_decode($subject);
 			$corps = @html_entity_decode($corps);
