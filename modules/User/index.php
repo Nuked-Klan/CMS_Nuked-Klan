@@ -716,8 +716,6 @@ function edit_pref()
 		. "<option>4 Go</option>\n"
 		. "<option>8 Go</option>\n"
 		. "<option>+ 8 Go</option>\n"
-		. "<option>3 Go</option>\n"
-		. "<option>4 Go +</option>\n"
 		. "</select></td></tr>\n"
 		. "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _VIDEOCARD . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"video\" value=\"" . $video . "\" size=\"25\" /></td></tr>\n"
 		. "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _RESOLUTION . " :</b></td><td style=\"width: 70%;\" align=\"left\"><select name=\"resolution\"><option>" . $resolution . "</option>\n"

@@ -588,7 +588,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
 		$texte = "<h1>".$title."</h1><hr />".$text."<hr />".$sitename."<br />".$articleurl;
 		$_REQUEST['file'] = $sitename."_".$title;
-		$_REQUEST['file'] = str_replace(' ','_',$file);
+		$_REQUEST['file'] = str_replace(' ','_',$_REQUEST['file']);
 		$_REQUEST['file'] .= ".pdf";
 		
         $pdf = new HTML2PDF('P','A4','fr');
