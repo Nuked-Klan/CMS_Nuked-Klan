@@ -576,6 +576,7 @@ function secu_css($Style){
 		'border-color',
 		'background-image',
 		'border-width',
+		'border-style',
 		'padding-left',
 		'padding-right',
 		'font-size',
