@@ -173,7 +173,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
             if (!is_file($url_screen) || $ecrase_screen == 1)
             {
-                if (!preg_match("`\.php`i", $screenname) && !preg_match("`\.htm`i", $screenname) && !preg_match("`\.[a-z]htm`i", $screenname) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext)))
+				if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
                 {
                     move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen) or die ("Upload screen failed !!!");
                     @chmod ($url_screen, 0644);

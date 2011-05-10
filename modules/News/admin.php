@@ -546,11 +546,11 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	{
 	    $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-	    if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext)))
+		if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
 	    {
-		$url_image = "upload/News/" . $filename;
-		move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
-		@chmod ($url_image, 0644);
+			$url_image = "upload/News/" . $filename;
+			move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+			@chmod ($url_image, 0644);
 	    }
 	    else
 	    {

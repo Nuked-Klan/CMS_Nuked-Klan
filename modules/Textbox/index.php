@@ -267,7 +267,8 @@ function index()
 
 			$sql_on = mysql_query("SELECT user_id FROM " . NBCONNECTE_TABLE . " WHERE username = '" . $auteur . "' ORDER BY date");
 			$count_ok = mysql_num_rows($sql_on);
-			$online = '<img src="modules/Textbox/images/' . (($count_ok == 1) ? 'on.jpg' : 'off.jpg') . '" title="' . (($count_ok == 1) ? $auteur.' | En ligne' : $auteur.' | Hors ligne') . '" alt="" />';
+			if(isset($user_id)) $online = '<img src="modules/Textbox/images/' . (($count_ok == 1) ? 'on.jpg' : 'off.jpg') . '" title="' . (($count_ok == 1) ? $auteur.' | En ligne' : $auteur.' | Hors ligne') . '" alt="" />';
+			else $online = NULL;
 						$sql2 = mysql_query("SELECT niveau FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
 				list($niveau) = mysql_fetch_array($sql2);
 				  if ($niveau >= 2)
