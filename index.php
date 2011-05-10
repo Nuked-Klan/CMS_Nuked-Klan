@@ -99,7 +99,7 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
 	<h2 style="margin: 0">' . $nuked['name'] . ' - ' . $nuked['slogan'] . '</h2>
 	' . _SITECLOSED . '</div></body></html>';
 }
-else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) && $_SESSION['admin'] == '')
+else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) && $_SESSION['admin'] == 0)
 {
 	include ('themes/' . $theme . '/theme.php');
 
