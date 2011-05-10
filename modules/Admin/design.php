@@ -210,26 +210,32 @@ redirect("index.php?file=User",0);
 		// General options
 		mode : "textareas",
 		theme : "advanced",
-		<?php
-		if($language == "french") 
-		{
-		?>
-		language : "fr",
-		<?php
-		}
-		?>
-		plugins : "pagebreak,layer,table,insertcode,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
+
+		<?php if ($language == "french") { echo "language : \"fr\",\n"; }
+		if($_REQUEST['file'] == 'Forum' && $_REQUEST['page'] == 'admin' && $_REQUEST['op'] == 'add_forum') { ?>
+					forced_root_block : false,
+					force_br_newlines : true,
+					force_p_newlines : false,
+		<?php } ?>
+
+		plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
 		editor_deselector : "noediteur",
 		// Theme options
-		theme_advanced_buttons1 : "save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help",
-		theme_advanced_buttons2 : "styleselect,fontselect,fontsizeselect,|,link,unlink,anchor,|,emotions,image,media,forecolor,backcolor",
-		theme_advanced_buttons3 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,hr,|,outdent,indent,|,removeformat,|,spellchecker",
-		theme_advanced_buttons4 : "tablecontrols,|cite,abbr|,blockquote,insertcode,sub,sup,|,charmap,pagebreak",
-		theme_advanced_toolbar_location : "top",
+		<?php $editeur = array();
+		$sql_editeur = mysql_query("SELECT name, value FROM " . $nuked['prefix'] . "_editeur");
+		while ($row = mysql_fetch_array($sql_editeur))
+		{
+			$editeur[$row['name']] = $row['value'];
+		}
+		unset($sql_editeur, $row); ?>
+		theme_advanced_buttons1 : "<?php echo $editeur['ligne1']; ?>",
+		theme_advanced_buttons2 : "<?php echo $editeur['ligne2']; ?>",
+		theme_advanced_buttons3 : "<?php echo $editeur['ligne3']; ?>",
+		theme_advanced_buttons4 : "<?php echo $editeur['ligne4']; ?>",
+		theme_advanced_toolbar_location : "<?php echo $editeur['bouton']; ?>",
 		theme_advanced_toolbar_align : "left",
-		theme_advanced_statusbar_location : "bottom",
+		theme_advanced_statusbar_location : "<?php echo $editeur['status']; ?>",
 		theme_advanced_resizing : true,
-		content_css : "editeur/plugins/insertcode/insertcode.css",
 		// Drop lists for link/image/media/template dialogs
 		external_link_list_url : "lists/link_list.js",
 		external_image_list_url : "lists/image_list.js",
@@ -242,18 +248,15 @@ redirect("index.php?file=User",0);
 			$nbr = mysql_num_rows($sql);
 			$compteur = 0;
 			while (list($texte) = mysql_fetch_array($sql))
-			{	$compteur++;
-				if($compteur != $nbr)
-				{
-					echo "".$texte.",\n";
-				}
-				else
-				{
-					echo "".$texte."\n";
-				}
+			{
+				$compteur++;
+
+				if($compteur != $nbr) echo "".$texte.",\n";
+				else echo "".$texte."\n";
+
 			}
 			?>
-			]
+		]
 		});
 		</script>
 		<style>
