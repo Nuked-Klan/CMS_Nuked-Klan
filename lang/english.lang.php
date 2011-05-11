@@ -254,6 +254,7 @@ define("_OPTIONAL","optional");
 define("_SECURITYCODE","Security code");
 define("_TYPESECCODE","Retype the security code");
 define("_BADCODECONFIRM","Error : the Security Code is not correct !");
+define('_MSGCAPTCHA', 'You have made ​​too many attempts, you must enter a captcha!');
 
 define("_DURE","During");
 define("_1JOUR","1 day");

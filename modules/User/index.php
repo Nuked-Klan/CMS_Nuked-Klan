@@ -1258,9 +1258,12 @@ function login($pseudo, $pass, $remember_me)
 		list($id_user, $dbpass, $usertheme, $userlang, $niveau, $count) = mysql_fetch_array($sql);
 
 		// Verification code captcha
-		if ( !ValidCaptchaCode($_REQUEST['code_confirm']) && $count >= 3)
+		if (!ValidCaptchaCode($_REQUEST['code_confirm']) && $count >= 3)
 		{
-			echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+			if (!isset($_REQUEST['code_confirm'])) $msg_error = _MSGCAPTCHA;
+			else $msg_error = _BADCODECONFIRM;
+
+				echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
 				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
 				. "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
 				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
@@ -1268,13 +1271,12 @@ function login($pseudo, $pass, $remember_me)
 				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
 				. "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
 				. "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-				. "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>Vous avez fait trop de tentatives, vous devez entrer un captcha !</td></tr></table></body></html>";
+				. "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . $msg_error . "</td></tr></table></body></html>";
+	
 			$url = "index.php?file=User&op=login_screen&captcha=true";
+			$captcha = '&captcha=true';
 			redirect($url, 2);
 			exit();
-		}
-		else if ($count >= 3) {
-			$captcha = '&captcha=true';
 		}
 		else
 		{

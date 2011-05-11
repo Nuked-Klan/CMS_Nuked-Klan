@@ -256,6 +256,7 @@ define("_OPTIONAL","optionnel");
 define("_SECURITYCODE","Code de sécurité");
 define("_TYPESECCODE","Recopiez le code ci-dessus");
 define("_BADCODECONFIRM","Le code de sécurité ne correspond pas !");
+define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, vous devez entrer un captcha !');
 
 define("_DURE","Durée");
 define("_1JOUR","1 jour");
