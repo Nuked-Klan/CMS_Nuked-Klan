@@ -14,7 +14,6 @@ if (!defined("INDEX_CHECK"))
 
 global $language, $user, $nuked;
 translate("modules/Admin/lang/" . $language . ".lang.php");
-include("Includes/version.php");
 include("modules/Admin/design.php");
 
 if (!$user)
@@ -225,8 +224,7 @@ if ($visiteur >= 2)
 
 					</div> <!-- End #tab3 -->
 <?php
-include_once "Includes/version.php";
-echo "<script type=\"text/javascript\" src=\"http://www.nuked-klan.org/extra/message.php?version=$nk_version&lang=$language\"></script>\n";
+echo "<script type=\"text/javascript\" src=\"http://www.nuked-klan.org/extra/message.php?version=" . $nuked['version'] . "&lang=" . $language . "\"></script>\n";
 ?>
 				</div> <!-- End .content-box-content -->
 
