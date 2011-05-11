@@ -482,7 +482,6 @@ if ($visiteur >= $level_access && $level_access > -1)
                         if (strlen($texte) > 150)
                         {
                             $texte = substr($texte, 0, 150) . "...";
-							$texte = htmlentities($texte);
                         } 
 
                         

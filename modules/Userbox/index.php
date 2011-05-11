@@ -286,7 +286,7 @@ if ($user)
 			$sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $user_from . "'");
         		list($pseudo) = mysql_fetch_array($sql_member);
 
-                    echo "<b><big>Â·</big></b>&nbsp;" . _OF ."&nbsp;" . $pseudo. " ( " . $date . " )<br />\n"
+                    echo "<b><big>·</big></b>&nbsp;" . _OF ."&nbsp;" . $pseudo. " ( " . $date . " )<br />\n"
                     . "<input type=\"hidden\" name=\"mid[]\" value=\"" . $titi . "\" />\n";
                 } 
             } 
