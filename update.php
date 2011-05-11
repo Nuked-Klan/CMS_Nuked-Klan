@@ -560,6 +560,7 @@ function upgrade_db()
 	$recup_mail = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name = 'mail'");
     list($mail_admin) = mysql_fetch_array($recup_mail);
 
+	//if($nk_version == '1.7.9 RC5.3') Si modification BDD pour RC5.3 only.
     if ($v[2] == 9)
      {
 		$sql = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name='screen'");
