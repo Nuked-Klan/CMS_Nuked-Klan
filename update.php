@@ -1368,28 +1368,22 @@ function upgrade_db()
 	if (is_file("modules/404/lang/turskish.lang.php"))
 	{
 	    $path_3 = "modules/404/lang/turskish.lang.php";
-	    $filesys3 = str_replace("/", "\\", $path_3);
 	    @chmod ($path_3, 0775);
 	    @unlink($path_3);
-	    @system("del $filesys3");
 	}
 	if (is_file("update.php"))
 	{
 	    $path_1 = "update.php";
-	    $filesys1 = str_replace("/", "\\", $path_1);
 	    @chmod ($path_1, 0775);
 	    @unlink($path_1);
-	    @system("del $filesys1");
 	    if (is_file($path_1)) $error++;
 	}
 
 	if (is_file("install.php"))
 	{
 	    $path_2="install.php";
-	    $filesys2 = str_replace("/", "\\", $path_2);
 	    @chmod ($path_2, 0775);
 	    @unlink($path_2);
-	    @system("del $filesys2");
 	    if (is_file($path_2)) $error++;
 	}
 

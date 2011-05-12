@@ -2213,7 +2213,6 @@ function add_god($data)
 	if (file_exists("update.php"))
 	{
 	    $path = "update.php";
-	    $filesys = str_replace("/", "\\", $path);
 	    @chmod($path, 0775);
 	    @unlink($path);
 	    if (file_exists($path)) $error++;
@@ -2222,7 +2221,6 @@ function add_god($data)
 	if (file_exists("install.php"))
 	{
 	    $path_2="install.php";
-	    $filesys2 = str_replace("/", "\\", $path_2);
 	    @chmod($path_2, 0775);
 	    @unlink($path_2);
 	    if (file_exists($path_2)) $error++;
