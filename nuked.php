@@ -542,6 +542,18 @@ function secu_args($matches){
 		'span' => array(
 			'style'
 		),
+		'h1' => array(
+		),
+		'h2' => array(
+		),
+		'h3' => array(
+		),
+		'h4' => array(
+		),
+		'h5' => array(
+		),
+		'h6' => array(
+		),
 		'div' => array(
 		),
 		'br' => array(
