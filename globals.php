@@ -7,8 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
+if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
@@ -22,7 +21,7 @@ function DeleteGlobalVars(){
 	$NoDelete = array('GLOBALS', '_POST', '_GET', '_COOKIE', '_FILES', '_SERVER', '_ENV', '_REQUEST', '_SESSION');
 
 	foreach ($GLOBALS as $k=>$v){
-		if (in_array($k, $NoDelete) === false) {
+		if (in_array($k, $NoDelete) === false){
 			$GLOBALS[$k] = NULL;
 			unset($GLOBALS[$k]);
 		}
@@ -38,14 +37,13 @@ function DeleteGlobalVars(){
 */
 
 function SecureVar($value){
-	if (is_array($value)) {
+	if (is_array($value)){
 		foreach ($value as $k=>$v){
 			$value[$k] = SecureVar($value[$k]);
 		}
 		return $value;
 	}
-	else
-	{
+	else{
 		return str_replace(array('<', '>', '0x'), array('&lt;', '&gt;', '\0x'), addslashes($value)) ;
 	}
 }
@@ -55,42 +53,35 @@ set_magic_quotes_runtime(0);
 // ANTI INJECTION SQL (UNION) et XSS/CSS
 $query_string = strtolower(rawurldecode($_SERVER['QUERY_STRING']));
 $bad_string = array("%20union%20", "/*", "*/union/*", "+union+", "load_file", "outfile", "document.cookie", "onmouse", "<script", "<iframe", "<applet", "<meta", "<style", "<form", "<img", "<body", "<link");
-foreach ($bad_string as $string_value)
-{
-    if (strpos($query_string, $string_value)) die("<br /><br /><br /><div style=\"text-align: center;\"><big>What are you trying to do ?</big></div>");
+$size = count($bad_string);
+for($i=0; $i<$size; $i++){
+	 if (strpos($query_string, $bad_string[$i])) die("<br /><br /><br /><div style=\"text-align: center;\"><big>What are you trying to do ?</big></div>");
 }
 unset($query_string, $bad_string, $string_value);
 
 $get_id = array("news_id", "cat_id", "cat", "forum_id", "thread_id", "dl_id", "link_id", "cid", "secid", "artid", "poll_id", "sid", "vid", "im_id", "tid", "game", "war_id", "server_id", "mid", "p", "m", "y", "mo", "ye", "oday", "omonth", "oyear");
-foreach ($get_id as $int_id)
-{
-    if (isset($_GET[$int_id]) && $_GET[$int_id] != "" && !is_numeric($_GET[$int_id])) die("<br /><br /><br /><div style=\"text-align: center;\"><big>Error : ID must be a number !</big></div>");
+$size = count($get_id);
+for($i=0; $i<$size; $i++){
+	  if (isset($_GET[$get_id[$i]]) && $_GET[$get_id[$i]] != "" && !is_numeric($_GET[$get_id[$i]])) die("<br /><br /><br /><div style=\"text-align: center;\"><big>Error : ID must be a number !</big></div>");
 }
 unset($get_id, $int_id);
 
 // FONCTION DE SUBSTITUTION POUR MAGIC_QUOTE_GPC
 DeleteGlobalVars();
-if (!get_magic_quotes_gpc())
-{
+if (!get_magic_quotes_gpc()){
 	$_GET = array_map('SecureVar', $_GET);
 	$_POST = array_map('SecureVar', $_POST);
 	$_COOKIE = array_map('SecureVar', $_COOKIE);
 }
 $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
-foreach ($_FILES as $k=>$v)
-{
-	if(!empty($_FILES[$k]['name']))
-	{
+foreach ($_FILES as $k=>$v){
+	if(!empty($_FILES[$k]['name'])){
 		$_FILES[$k]['name'] = substr(md5(uniqid()), rand(0, 20), 10) . strrchr($_FILES[$k]['name'], '.');
 		$sfile = new finfo(FILEINFO_MIME);
-		if (stripos(strrchr($_FILES[$k]['name'], '.'), 'php') !== false
-			|| stripos($sfile->file($_FILES[$k]['tmp_name']), 'php') !== false)
-		{
+		if (stripos(strrchr($_FILES[$k]['name'], '.'), 'php') !== false || stripos($sfile->file($_FILES[$k]['tmp_name']), 'php') !== false){
 			die ('Upload a PHP file isn\'t autorised !!');
 		}
-		elseif (stripos(strrchr($_FILES[$k]['name'], '.'), 'htaccess') !== false
-			|| stripos($sfile->file($_FILES[$k]['tmp_name']), 'htaccess') !== false)
-		{
+		elseif (stripos(strrchr($_FILES[$k]['name'], '.'), 'htaccess') !== false || stripos($sfile->file($_FILES[$k]['tmp_name']), 'htaccess') !== false){
 			die ('Upload a HTACCESS file isn\'t autorised !!');
 		}
 		unset($sfile);
