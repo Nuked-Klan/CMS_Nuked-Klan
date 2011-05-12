@@ -35,10 +35,9 @@ $nuked['recrute_charte'] = secu_html(html_entity_decode($nuked['recrute_charte']
 
 include ("Includes/constants.php");
 
-if(ini_get('session.save_handler') == "files")){
+if(ini_get('session.save_handler') == "files"){
 	session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
 }
-
 @session_name('nuked');
 @session_start();
 if (session_id() == '') {
