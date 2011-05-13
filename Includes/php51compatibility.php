@@ -8,10 +8,8 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 
-if (!class_exists('finfo'))
-{
-	if (extension_loaded('mime_magic') || extension_loaded('finfo'))
-	{
+if (!class_exists('finfo')){
+	if (extension_loaded('mime_magic') || extension_loaded('finfo')){
 		class finfo{
 			private $type;
 			/**
@@ -21,10 +19,8 @@ if (!class_exists('finfo'))
 				$this->type = $type;
 			}
 
-			function file($file)
-			{
-				if (extension_loaded('finfo'))
-				{
+			function file($file){
+				if (extension_loaded('finfo')){
 					$f = finfo_open($this->type);
 					$r = finfo_file($f, $file);
 					finfo_close($f);
@@ -35,11 +31,9 @@ if (!class_exists('finfo'))
 			}
 		}
 	}
-	else
-	{
+	else{
 		class finfo{
-			function file($file)
-			{
+			function file($file){
 				return 'other';
 				$is = false;
 				$nb_crochet_open = 0;
@@ -52,19 +46,15 @@ if (!class_exists('finfo'))
 				$handle = fopen($file, "r");
 				$contents = fread($handle, $lenght);
 				fclose($handle);
-				for ($i = 0; $i < $lenght && $is == false; $i++)
-				{
+				for ($i = 0; $i < $lenght && $is == false; $i++){
 					if ($contents[$i] == '<' && ($contents[$i + 1] == '?' || $contents[$i + 1] == '%'))
 						$is = true;
-					else
-					{
+					else{
 						if ($contents[$i] == 'e' && $contents[$i + 1] == 'c' && $contents[$i + 2] == 'h' && $contents[$i + 3] == 'o'
 							&& $contents[$i + 4] == ' ')
 							$is = true;
-						else
-						{
-							if ($contents[$i] == '{')
-							{
+						else{
+							if ($contents[$i] == '{'){
 								$nb_crochet_open++;
 								$ordre_crochet++;
 							}
@@ -72,8 +62,7 @@ if (!class_exists('finfo'))
 								$nb_crochet_close++;
 							if ($contents[$i] == '}' && $ordre_crochet >= 0)
 								$ordre_crochet--;
-							if ($contents[$i] == '(')
-							{
+							if ($contents[$i] == '('){
 								$nb_parent_open++;
 								$ordre_parent++;
 							}
@@ -94,5 +83,4 @@ if (!class_exists('finfo'))
 		}
 	}
 }
-
 ?>

@@ -36,49 +36,40 @@ function ValidCaptchaCode($code){
 	return _NKCAPTCHA == "off" || ($user != null && $user[1] > 0) || strtolower($_SESSION['captcha']) == strtolower($code);
 }
 
-
-function create_captcha($style)
-{
+function create_captcha($style){
     $random_code = Captcha_Generator();
 
-    if ($style == 1)
-    {
-		echo "<tr><td>&nbsp;</td></tr><tr><td><b>" . _SECURITYCODE . " :</b>";
+    if ($style == 1){
+		echo '<tr><td>&nbsp;</td></tr><tr><td><b>' , _SECURITYCODE , ' :</b>';
 
-		if (@extension_loaded('gd')) echo "&nbsp;<img src=\"captcha.php\" alt=\"\" title=\"" . _SECURITYCODE . "\" />";
-		else echo "&nbsp;<big><i>" . $random_code . "</i></big>";
+		if (@extension_loaded('gd')) echo '&nbsp;<img src="captcha.php" alt="" title="' , _SECURITYCODE '" />';
+		else echo '&nbsp;<big><i>' , $random_code , '</i></big>';
 
-		echo "</td></tr><tr><td><b>" . _TYPESECCODE . " :</b>&nbsp;<input type=\"text\" id=\"code\" name=\"code_confirm\" size=\"7\" maxlength=\"6\" /></td></tr>\n"
-		. "<tr><td>&nbsp;</td></tr>\n";
+		echo '</td></tr><tr><td><b>' , _TYPESECCODE , ' :</b>&nbsp;<input type="text" id="code" name="code_confirm" size="7" maxlength="6" /></td></tr>',"\n"
+		, '<tr><td>&nbsp;</td></tr>',"\n";
 
     }
-    else if ($style == 2)
-    {
-		echo "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td><b>" . _SECURITYCODE . " :</b></td><td>";
+    else if ($style == 2){
+		echo '<tr><td colspan="2">&nbsp;</td></tr><tr><td><b>' , _SECURITYCODE , ' :</b></td><td>';
 
-		if (@extension_loaded('gd')) echo "<img src=\"captcha.php\" alt=\"\" title=\"" . _SECURITYCODE . "\" />";
-		else echo "<big><i>" . $random_code . "</i></big>";
+		if (@extension_loaded('gd')) echo '<img src="captcha.php" alt="" title="' , _SECURITYCODE , '" />';
+		else echo '<big><i>' , $random_code , '</i></big>';
 
-		echo "</td></tr><tr><td><b>" . _TYPESECCODE . " :</b></td><td><input type=\"text\" id=\"code\" name=\"code_confirm\" size=\"6\" maxlength=\"5\" /></td></tr>\n"
-		. "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+		echo '</td></tr><tr><td><b>' , _TYPESECCODE ,' :</b></td><td><input type="text" id="code" name="code_confirm" size="6" maxlength="5" /></td></tr>',"\n"
+		, '<tr><td colspan="2">&nbsp;</td></tr>',"\n";
     }
-    else
-    {
-		echo "<br />";
-		if (@extension_loaded('gd')) echo "<img src=\"captcha.php\" alt=\"\" title=\"" . _SECURITYCODE . "\" />";
-		else echo "<big><i>" . $random_code . "</i></big>";
-		echo "<br />" . _TYPESECCODE . " : <br /><input type=\"text\" name=\"code_confirm\" id=\"code\" size=\"7\" maxlength=\"6\" /><br /><br />";
+    else{
+		echo '<br />';
+		if (@extension_loaded('gd')) echo '<img src="captcha.php" alt="" title="' , _SECURITYCODE , '" />';
+		else echo '<big><i>' , $random_code , '</i></big>';
+		echo '<br />' , _TYPESECCODE , ' : <br /><input type="text" name="code_confirm" id="code" size="7" maxlength="6" /><br /><br />';
     }
 	return($random_code);
 }
 
-
-function crypt_captcha($code)
-{
+function crypt_captcha($code){
     $temp_code = hexdec(md5($_SERVER['REMOTE_ADDR'] . $code));
     $confirm_code = substr($temp_code, 2, 5);
     return($confirm_code);
 }
-
-
 ?>

@@ -2,8 +2,7 @@
 // Redimensionnement
 // Proposé par cknight le 19/08/2005
 // http://www.asp-php.net/ressources/bouts_de_code.aspx?id=465
-if (!defined("INDEX_CHECK"))
-{
+if (!defined("INDEX_CHECK")){
 exit('You can\'t run this file alone.');
 }
 
@@ -129,7 +128,8 @@ class thb extends Img{
    function doThb(){
       if($this->Resize()){
          return true;
-      }else{
+      }
+      else{
          return false;
       }
    }
@@ -153,10 +153,10 @@ class thb extends Img{
       $destination = $this->GetThbName();
 
       if (!file_exists($source)){
-         $this->error = "Erreur : Le Fichier n'existe pas !";
+         $this->error = 'Erreur : Le Fichier n\'existe pas !';
       }
       if(!function_exists("Imagecreatefromjpeg")){
-         $this->error = "Erreur : La Librairie GD n'est pas instal&eacute;e !";
+         $this->error = 'Erreur : La Librairie GD n\'est pas instal&eacute;e !';
       }
 
       switch($this->ext){
@@ -172,12 +172,12 @@ class thb extends Img{
             $src_img=imagecreatefromgif($source);
             break;
          default:
-            $this->error = "Erreur: Extension non autoris&eacute;e";
+            $this->error = 'Erreur: Extension non autoris&eacute;e';
             break;
       }
 
       if(!$src_img){
-         $this->error = "Erreur : Lecture impossible de l'image ".$source." !";
+         $this->error = 'Erreur : Lecture impossible de l\'image '.$source.' !';
       }
 
       //Taille de l'image originale
@@ -189,7 +189,8 @@ class thb extends Img{
          $p = $w / $h;
          $height = $this->size;
          $width = $p * $height;
-      }else{
+      }
+      else{
          $p = $h / $w;
          $width = $this->size;
          $height = $p * $width;
@@ -197,14 +198,15 @@ class thb extends Img{
 
       $dst_img = ImageCreateTrueColor($width, $height);
       if(!$dst_img){
-           $this->error = "Erreur : Buffer non cr&eacute;&eacute; : ".$dst_img;
+           $this->error = 'Erreur : Buffer non cr&eacute;&eacute; : '.$dst_img;
        }
 
       imagecopyresampled($dst_img,$src_img,0,0,0,0,$width,$height,$w,$h);
 
        if(imagejpeg($dst_img,$destination,$this->quality)){
           return true;
-       }else{
+       }
+       else{
           return false;
        }
    }

@@ -69,5 +69,4 @@ define("VOTE_TABLE", $nuked['prefix'] . "_vote");
 define("WARS_TABLE", $nuked['prefix'] . "_match");
 define("CONTACT_TABLE", $nuked['prefix'] . "_contact");
 define("PAGE_TABLE", $nuked['prefix'] . "_page");
-
 ?>
