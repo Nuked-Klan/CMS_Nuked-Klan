@@ -184,7 +184,7 @@ function edit_block_center($bid){
 
     select_mod2($pages);
 
-    echo '</select></td></tr><tr><td colspan="4" style="text-align:center;><br />'
+    echo '</select></td></tr><tr><td colspan="4" style="text-align:center;"><br />'
 			, '<input type="hidden" name="type" value="' , $type , '" />',"\n"
 			, '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
 			, '<input type="submit" value="' , _MODIFBLOCK , '" /></td></tr></table>',"\n"
