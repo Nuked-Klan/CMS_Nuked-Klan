@@ -74,7 +74,7 @@ if ($active == 3 || $active == 4)
 
         $i++;
 
-        echo "<b>" . $i . " . <a href=\"index.php?file=Download&amp;op=description&amp;dl_id=" . $dl_id\ . "\" style=\"text-decoration: underline\">" . $titre . "</a></b><br />\n";
+        echo "<b>" . $i . " . <a href=\"index.php?file=Download&amp;op=description&amp;dl_id=" . $dl_id . "\" style=\"text-decoration: underline\">" . $titre . "</a></b><br />\n";
 
         if ($category != "") echo $category . "<br />\n";
     }
