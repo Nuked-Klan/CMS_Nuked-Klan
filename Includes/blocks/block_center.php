@@ -126,7 +126,7 @@ function affich_block_center($blok){
         $blok['content'] .= '</td></tr></table></td>'."\n";
     }
 
-    $blok['content'] .= '</tr></table>\n';
+    $blok['content'] .= '</tr></table>'."\n";
     return $blok;
 }
 
