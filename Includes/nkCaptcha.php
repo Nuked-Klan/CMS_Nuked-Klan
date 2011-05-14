@@ -33,7 +33,7 @@ function Captcha_Generator(){
 **/
 function ValidCaptchaCode($code){
 	global $user;
-	return _NKCAPTCHA == "off" || ($user != null && $user[1] > 0) || strtolower($_SESSION['captcha']) == strtolower($code);
+	return _NKCAPTCHA == 'off' || ($user != null && $user[1] > 0) || strtolower($_SESSION['captcha']) == strtolower($code);
 }
 
 function create_captcha($style){
@@ -42,7 +42,7 @@ function create_captcha($style){
     if ($style == 1){
 		echo '<tr><td>&nbsp;</td></tr><tr><td><b>' , _SECURITYCODE , ' :</b>';
 
-		if (@extension_loaded('gd')) echo '&nbsp;<img src="captcha.php" alt="" title="' , _SECURITYCODE '" />';
+		if (@extension_loaded('gd')) echo '&nbsp;<img src="captcha.php" alt="" title="' , _SECURITYCODE ,'" />';
 		else echo '&nbsp;<big><i>' , $random_code , '</i></big>';
 
 		echo '</td></tr><tr><td><b>' , _TYPESECCODE , ' :</b>&nbsp;<input type="text" id="code" name="code_confirm" size="7" maxlength="6" /></td></tr>',"\n"

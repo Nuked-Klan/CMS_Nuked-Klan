@@ -13,90 +13,90 @@ if (!defined("INDEX_CHECK")){
 
 function affich_block_center($blok){
 
-    $mod = explode("|", $blok['content']);
+    $mod = explode('|', $blok['content']);
     $mod1 = $mod[0];
     $mod2 = $mod[1];
 
-    if ($mod1 == "Gallery"){
+    if ($mod1 == 'Gallery'){
         $modname1 = _NAVGALLERY;
     }
-    else if ($mod1 == "Calendar"){
+    else if ($mod1 == 'Calendar'){
         $modname1 = _NEXTWAR;
     }
-    else if ($mod1 == "Download"){
+    else if ($mod1 == 'Download'){
         $modname1 = _NAVDOWNLOAD;
     }
-    else if ($mod1 == "Irc"){
+    else if ($mod1 == 'Irc'){
         $modname1 = _IRCAWARD;
     }
-    else if ($mod1 == "Links"){
+    else if ($mod1 == 'Links'){
         $modname1 = _NAVLINKS;
     }
-    else if ($mod1 == "Wars"){
+    else if ($mod1 == 'Wars'){
         $modname1 = _LATESTWAR;
     }
-    else if ($mod1 == "News"){
+    else if ($mod1 == 'News'){
         $modname1 = _NAVNEWS;
     }
-    else if ($mod1 == "Sections"){
+    else if ($mod1 == 'Sections'){
         $modname1 = _NAVART;
     }
-    else if ($mod1 == "Server"){
+    else if ($mod1 == 'Server'){
         $modname1 = _SERVERMONITOR;
     }
-    else if ($mod1 == "Forum"){
+    else if ($mod1 == 'Forum'){
         $modname1 = _NAVFORUM;
     }
-    else if ($mod1 == "Textbox"){
+    else if ($mod1 == 'Textbox'){
         $modname1 = _BLOKSHOUT;
     }
-    else if ($mod1 == "Stats"){
+    else if ($mod1 == 'Stats'){
         $modname1 = _BLOKSTATS;
     }
-    else if ($mod1 == "Search"){
+    else if ($mod1 == 'Search'){
         $modname1 = _BLOKSEARCH;
     }
     else{
         $modname1 = $mod1;
     }
 
-    if ($mod2 == "Gallery"){
+    if ($mod2 == 'Gallery'){
         $modname2 = _NAVGALLERY;
     }
-    else if ($mod2 == "Calendar"){
+    else if ($mod2 == 'Calendar'){
         $modname2 = _NEXTWAR;
     }
-    else if ($mod2 == "Download"){
+    else if ($mod2 == 'Download'){
         $modname2 = _NAVDOWNLOAD;
     }
-    else if ($mod2 == "Irc"){
+    else if ($mod2 == 'Irc'){
         $modname2 = _IRCAWARD;
     }
-    else if ($mod2 == "Links"){
+    else if ($mod2 == 'Links'){
         $modname2 = _NAVLINKS;
     }
-    else if ($mod2 == "Wars"){
+    else if ($mod2 == 'Wars'){
         $modname2 = _LATESTWAR;
     }
-    else if ($mod2 == "News"){
+    else if ($mod2 == 'News'){
         $modname2 = _NAVNEWS;
     }
-    else if ($mod2 == "Sections"){
+    else if ($mod2 == 'Sections'){
         $modname2 = _NAVART;
     }
-    else if ($mod2 == "Server"){
+    else if ($mod2 == 'Server'){
         $modname2 = _SERVERMONITOR;
     }
-    else if ($mod2 == "Forum"){
+    else if ($mod2 == 'Forum'){
         $modname2 = _NAVFORUM;
     }
-    else if ($mod2 == "Textbox"){
+    else if ($mod2 == 'Textbox'){
         $modname2 = _BLOKSHOUT;
     }
-    else if ($mod2 == "Stats"){
+    else if ($mod2 == 'Stats'){
         $modname2 = _BLOKSTATS;
     }
-    else if ($mod2 == "Search"){
+    else if ($mod2 == 'Search'){
         $modname2 = _BLOKSEARCH;
     }
     else{
@@ -134,7 +134,7 @@ function affich_block_center($blok){
 function edit_block_center($bid){
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT active, position, titre, module, content, type, nivo, page FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+    $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     $titre = htmlentities($titre);
 
@@ -147,30 +147,30 @@ function edit_block_center($bid){
     $mod2 = $mod[1];
 
     echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
-		, '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"
-		, '<a href="help/' , $language , '/block.html" rel="modal">',"\n"
-		, '<img style="border: 0;" src="help/help.gif" alt="" title="' , _HELP , '" /></a>',"\n"
-		, '</div>',"\n"
-		, '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
-		, '<table style="margin-left: auto;margin-right: auto;text-align: left;border: none;" cellspacing="0" cellpadding="2" >',"\n"
-		, '<tr><td><b>' , _TITLE , '</b></td><td><b>' , _BLOCK , '</b></td><td><b>' , _POSITION , '</b></td><td><b>' , _LEVEL , '</b></td></tr>',"\n"
-		, '<tr><td style="text-align:center;" ><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
-		, '<td align="center"><select name="active">',"\n"
-		, '<option value="3" ' , $checked3 , '>' , _CENTERBLOCK , '</option>',"\n"
-		, '<option value="4" ' , $checked4 , '>' , _FOOTERBLOCK , '</option>',"\n"
-		, '<option value="0" ' , $checked0 , '>' , _OFF , '</option></select></td>',"\n"
-		, '<td style="text-align:center;" ><input type="text" name="position" size="2" value="' , $position , '" /></td>',"\n"
-		, '<td align="center"><select name="nivo"><option>' , $nivo , '</option>',"\n"
-		, '<option>0</option>',"\n"
-		, '<option>1</option>',"\n"
-		, '<option>2</option>',"\n"
-		, '<option>3</option>',"\n"
-		, '<option>4</option>',"\n"
-		, '<option>5</option>',"\n"
-		, '<option>6</option>',"\n"
-		, '<option>7</option>',"\n"
-		, '<option>8</option>',"\n"
-		, '<option>9</option></select></td></tr><tr><td colspan="4"><b>' , _MODULE , ' 1 :</b> <select name="content[1]"><option value="">' , _NORANK , '</option>',"\n";
+			, '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"
+			, '<a href="help/' , $language , '/block.html" rel="modal">',"\n"
+			, '<img style="border: 0;" src="help/help.gif" alt="" title="' , _HELP , '" /></a>',"\n"
+			, '</div>',"\n"
+			, '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
+			, '<table style="margin-left: auto;margin-right: auto;text-align: left;border: none;" cellspacing="0" cellpadding="2" >',"\n"
+			, '<tr><td><b>' , _TITLE , '</b></td><td><b>' , _BLOCK , '</b></td><td><b>' , _POSITION , '</b></td><td><b>' , _LEVEL , '</b></td></tr>',"\n"
+			, '<tr><td style="text-align:center;" ><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
+			, '<td align="center"><select name="active">',"\n"
+			, '<option value="3" ' , $checked3 , '>' , _CENTERBLOCK , '</option>',"\n"
+			, '<option value="4" ' , $checked4 , '>' , _FOOTERBLOCK , '</option>',"\n"
+			, '<option value="0" ' , $checked0 , '>' , _OFF , '</option></select></td>',"\n"
+			, '<td style="text-align:center;" ><input type="text" name="position" size="2" value="' , $position , '" /></td>',"\n"
+			, '<td align="center"><select name="nivo"><option>' , $nivo , '</option>',"\n"
+			, '<option>0</option>',"\n"
+			, '<option>1</option>',"\n"
+			, '<option>2</option>',"\n"
+			, '<option>3</option>',"\n"
+			, '<option>4</option>',"\n"
+			, '<option>5</option>',"\n"
+			, '<option>6</option>',"\n"
+			, '<option>7</option>',"\n"
+			, '<option>8</option>',"\n"
+			, '<option>9</option></select></td></tr><tr><td colspan="4"><b>' , _MODULE , ' 1 :</b> <select name="content[1]"><option value="">' , _NORANK , '</option>',"\n";
 
     select_module($mod1);
 
@@ -179,24 +179,24 @@ function edit_block_center($bid){
     select_module($mod2);
 
     echo '</select></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
-    , '<tr><td colspan="4" style="text-align:center;" ><b>' ,  _PAGESELECT , ' : </b></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
-    , '<tr><td colspan="4" style="text-align:center;" ><select name="pages[]" size="8" multiple="multiple">',"\n";
+			, '<tr><td colspan="4" style="text-align:center;" ><b>' ,  _PAGESELECT , ' : </b></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
+			, '<tr><td colspan="4" style="text-align:center;" ><select name="pages[]" size="8" multiple="multiple">',"\n";
 
     select_mod2($pages);
 
     echo '</select></td></tr><tr><td colspan="4" style="text-align:center;><br />'
-    , '<input type="hidden" name="type" value="' , $type , '" />',"\n"
-    , '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
-    , '<input type="submit" value="' , _MODIFBLOCK , '" /></td></tr></table>',"\n"
-    , '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
+			, '<input type="hidden" name="type" value="' , $type , '" />',"\n"
+			, '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
+			, '<input type="submit" value="' , _MODIFBLOCK , '" /></td></tr></table>',"\n"
+			, '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
 }
 
 function modif_advanced_center($data){
-    if ($data['content'][1] != "" && $data['content'][2] != ""){
-        $sep = "|";
+    if ($data['content'][1] != '' && $data['content'][2] != ''){
+        $sep = '|';
     }
     else{
-        $sep = "";
+        $sep = '';
     }
 
     $content = $data['content'][1] . $sep . $data['content'][2];
@@ -207,11 +207,11 @@ function modif_advanced_center($data){
 function select_module($mod){
     $handle = opendir('modules');
     while (false !== ($f = readdir($handle))){
-        if ($f != "." && $f != ".." && $f != "CVS" && $f != "index.html"  && !preg_match("[.]", $f)){
+        if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html'  && !preg_match("/\./", $f)){
             if ($mod == $f) $checked = 'selected="selected"';
             else $checked = '';
 
-            if (is_file("modules/" . $f . "/blok.php")) echo '<option value="' , $f , '" ' , $checked , '>' , $f , '</option>',"\n";
+            if (is_file('modules/' . $f . '/blok.php')) echo '<option value="' , $f , '" ' , $checked , '>' , $f , '</option>',"\n";
         }
     }
     closedir($handle);
