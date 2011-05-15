@@ -15,6 +15,14 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user;
 translate("modules/Survey/lang/" . $language . ".lang.php");
 
+// Inclusion système Captcha
+include_once("Includes/nkCaptcha.php");
+
+// On determine si le captcha est actif ou non
+if (_NKCAPTCHA == "off") $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+else $captcha = 1;
+
 if (!$user)
 {
     $visiteur = 0;
