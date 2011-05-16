@@ -49,9 +49,6 @@ while (list($did, $titre, $texte, $date) = mysql_fetch_array($result))
 
     if ($texte != "")
     {
-	$texte  = str_replace("\r", "", $texte);
-	$texte  = str_replace("\n", " ", $texte);
-	$texte = BBcode($texte);
 	$description = strip_tags($texte);
 
 	if (strlen($description) > 300)
