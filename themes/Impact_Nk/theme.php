@@ -4,7 +4,6 @@
 *	Design :  djGrim (http://www.impact-design.fr/)	*
 *	Codage : fce & huge (http://www.impact-design.fr/)			*
 ************************************************/
-
 defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Accès interdit</div>");
 include(dirname(__FILE__) . "/block-best.php");
 include(dirname(__FILE__) . '/admin/config_best_unique.php');
@@ -138,10 +137,9 @@ function top(){
 																		<?php get_blok('gauche'); ?>
 																		<div style="height:30px;">&nbsp;</div>
 																</div>
-																<div id="blocks-center"></div>
-																<?php get_blok('centre'); ?>
-														</div>
-														<div class="open1nn"></div>
+																<div id="blocks-center">
+																<?php get_blok('centre'); ?>														
+																		<div class="open1nn"></div>
 <?php
 		}
 }
@@ -149,7 +147,7 @@ function top(){
 function footer(){
 	global $nuked, $theme;
 ?>
-														<div>
+																<div>
 																<?php get_blok('bas'); ?>
 														</div>
 														<div style="height:30px;">&nbsp;</div>
