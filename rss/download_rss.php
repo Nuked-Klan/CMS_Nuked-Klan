@@ -14,8 +14,8 @@ include("../nuked.php");
 include ("../Includes/constants.php");
 include ("../lang/" . $nuked['langue'] . ".lang.php");
 
-if ($nuked['langue'] == "french") $rsslang = "fr";
-else $rsslang = "en-us";
+if ($nuked['langue'] == 'french') $rsslang = 'fr';
+else $rsslang = 'en-us';
 
 $sitename = @html_entity_decode($nuked['name']);
 $sitedesc = @html_entity_decode($nuked['slogan']);
@@ -25,54 +25,48 @@ $sitename = htmlspecialchars($sitename);
 $sitedesc = htmlspecialchars($sitedesc);
 
 header("Content-Type: text/xml");
-echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n\n"
-. "<rss version=\"2.0\">\n\n"
-. "<channel>\n"
-. "<title>" . $sitename . "</title>\n"
-. "<link>" . $nuked['url'] . "</link>\n"
-. "<image>\n"
-. "<url>" . $nuked['url'] . "/images/ban.gif</url>\n"
-. "<title>" . $sitename . "</title>\n"
-. "<link>" . $nuked['url'] . "</link>\n"
-. "<width>88</width>\n"
-. "<height>31</height>\n"
-. "</image>\n"
-. "<description>" . $sitedesc . "</description>\n"
-. "<language>" . $rsslang . "</language>\n"
-. "<webMaster>" . $nuked['mail'] . "</webMaster>\n";
+echo '<?xml version="1,0" encoding="ISO-8859-1"?>',"\n\n"
+		, '<rss version="2,0">',"\n\n"
+		, '<channel>',"\n"
+		, '<title>' , $sitename , '</title>',"\n"
+		, '<link>' , $nuked['url'] , '</link>',"\n"
+		, '<image>\n'
+		, '<url>' , $nuked['url'] , '/images/ban,gif</url>',"\n"
+		, '<title>' , $sitename , '</title>',"\n"
+		, '<link>' , $nuked['url'] , '</link>',"\n"
+		, '<width>88</width>',"\n"
+		, '<height>31</height>',"\n"
+		, '</image>',"\n"
+		, '<description>' , $sitedesc , '</description>',"\n"
+		, '<language>' , $rsslang , '</language>',"\n"
+		, '<webMaster>' , $nuked['mail'] , '</webMaster>',"\n";
 
-$result = mysql_query("SELECT id, titre, description, date FROM " . DOWNLOAD_TABLE . " WHERE level = 0 ORDER BY date DESC LIMIT 0, 20");
-while (list($did, $titre, $texte, $date) = mysql_fetch_array($result))
-{
+$result = mysql_query('SELECT id, titre, description, date FROM ' . DOWNLOAD_TABLE . ' WHERE level = 0 ORDER BY date DESC LIMIT 0, 20');
+while (list($did, $titre, $texte, $date) = mysql_fetch_array($result)){
     $pubdate = date("r", $date);
     $titre = htmlspecialchars($titre);
 
-    if ($texte != "")
-    {
-	$description = strip_tags($texte);
+    if ($texte != ''){
+		$description = strip_tags($texte);
 
-	if (strlen($description) > 300)
-	{
-	    $description = substr($description, 0, 300) . "...";
-	}
-
-	$description = htmlspecialchars($description);
-
+		if (strlen($description) > 300){
+			$description = substr($description, 0, 300) . '...';
+		}
+		
+		$description = htmlspecialchars($description);
     }
-    else
-    {
-	$description = "";
+    else{}
+		$description = '';
     }
 
-    echo"<item>\n"
-    ."<title>" . $titre . "</title>\n"
-    ."<link>" . $nuked['url'] . "/index.php?file=Download&amp;op=description&amp;dl_id=" . $did . "</link>\n"
-    ."<pubDate>" . $pubdate . "</pubDate>\n"
-    ."<description>" . $description . "</description>\n"
-    ."</item>\n\n";
+    echo '<item>',"\n"
+			, '<title>' , $titre , '</title>',"\n"
+			, '<link>' , $nuked['url'] , '/index,php?file=Download&amp;op=description&amp;dl_id=' , $did , '</link>',"\n"
+			, '<pubDate>' , $pubdate , '</pubDate>',"\n"
+			, '<description>' , $description , '</description>',"\n"
+			, '</item>',"\n\n";
 }
 
-echo "</channel>\n\n"
-."</rss>";
-
+echo '</channel>',"\n\n"
+		, '</rss>';
 ?>
