@@ -4,7 +4,6 @@
 *	Design :  (http://www.best-creative.fr/)	*
 *	Codage : fce (http://www.best-creative.fr/)			*
 ************************************************/
-
 defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Accès interdit</div>");
 include('themes/Impact_Nk/admin/couleur.php');
 

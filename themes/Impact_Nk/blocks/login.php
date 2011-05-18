@@ -18,7 +18,3 @@ defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Accès interdi
 									<input type="submit" class="submit" value="<?php echo _INCONECT; ?>" />
 									</div>
 								</form>
-								
-								
-
-		

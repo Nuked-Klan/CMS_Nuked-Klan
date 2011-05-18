@@ -1,10 +1,8 @@
-#weak, #medium
-{
+#weak, #medium{
 	border-right:solid 1px #DEDEDE;
 }
 
-#sm
-{
+#sm{
 	margin:0px;
 	padding:0px;
 	height:14px;
@@ -12,8 +10,7 @@
 	font-size:10px;
 }
 
-#sm ul
-{
+#sm ul{
 	border:0px;
 	margin:0px;
 	padding:0px;
@@ -21,8 +18,7 @@
 	text-align:center;
 }
 
-#sm ul li
-{
+#sm ul li{
 	display:block;
 	float:left;
 	text-align:center;
@@ -32,8 +28,7 @@
 	font-size:9px;
 }
 
-.nrm
-{
+.nrm{
 	width:60px;
 	color:#adadad;
 	text-align:center;
@@ -43,8 +38,7 @@
 	vertical-align:middle;
 }
 
-.red
-{
+.red{
 	width:60px;
 	color:#FFFFFF;
 	text-align:center;
@@ -54,8 +48,7 @@
 	vertical-align:top;
 }
 
-.yellow
-{
+.yellow{
 	width:60px;
 	color:#FFFFFF;
 	text-align:center;
@@ -65,8 +58,7 @@
 	vertical-align:top;
 }
 
-.green
-{
+.green{
 	width:60px;
 	color:#FFFFFF;
 	text-align:center;

@@ -1,8 +1,8 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
+if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
+
 define("_INCONTACT","Contact");
 define("_ININSCRIPT","Inscription");
 define("_INADMIN","Administration");

@@ -1,3 +1,3 @@
 <?php
-$config_best["complet"] = "Admin|Download|Forum|";
+ $config_best['complet'] = 'Admin|Download|Forum|';
 ?>

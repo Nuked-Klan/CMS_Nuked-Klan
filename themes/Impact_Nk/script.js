@@ -1,12 +1,7 @@
-
-
 $(document).ready(function(){
 	initNavigatorDate();
 });
-
 /*** JQuery Based timer ***/
-
-
 var dayNames = Array(
 	'dimanche',
 	'lundi',
@@ -32,27 +27,20 @@ var monthNames = Array(
 	'décembre'
 );
 
-
-function formatSeconds( value )
-{
-	if( value < 10 )
-	{
+function formatSeconds( value ){
+	if( value < 10 ){
 		value = '0' + value ;
 	}
 	return value;
 }
 
-function initNavigatorDate()
-{
+function initNavigatorDate(){
 	$('#dateContent').html('Nous sommes le <span id="date"></span>&nbsp;- il est actuellement &nbsp;	<span id="time"></span>');
-
 	updateNavigatorDate();
-
 	setInterval( 'updateNavigatorDate()', 1000 );
 }
 
-function updateNavigatorDate()
-{
+function updateNavigatorDate(){
 	myDate = new Date;
 
 	$('#date').text(
