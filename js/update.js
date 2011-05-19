@@ -5,7 +5,7 @@ NKUpdate = {
 	NKmod : null,
 	NKmodThread : null,
 	NKmodCallback : null,
-	UpdateUrl : 'http://127.0.0.1/nuked_klan/',
+	UpdateUrl : '',
 	lng : 'french',
 
 	GetAjax : function(){

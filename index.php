@@ -107,13 +107,13 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 
 	if (!isset($_REQUEST['nuked_nude'])){
 		if (defined("NK_GZIP") && @extension_loaded('zlib') && @phpversion() >= "4.0.4" && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false){
-			//ob_start("ob_gzhandler");
+			ob_start('ob_gzhandler');
 		}
-		elseif (!@ini_get('zlib.output_compression')) ob_start();
+		if (defined("NK_GZIP") && substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') && ini_get('zlib.output_compression'))
+			ob_start("ob_gzhandler");
+		else ob_start();
 
-		if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login'){
-			top();
-		}
+		if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
 
 		echo '<script type="text/javascript" src="js/infobulle.js"></script>
 		<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>
@@ -128,11 +128,11 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 					mode : "textareas",
 					theme : "advanced",
 					<?php if ($language == "french") { echo 'language : "fr",',"\n"; } ?>
-					plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
+					plugins : "pagebreak,layer,table,save,advimage,advlink,advlist,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,autosave,autolink",
 					editor_selector : "editoradvanced",
 
 					// Theme options
-		<?php
+					<?php
 					$editeur = array();
 					$sql_editeur = mysql_query("SELECT name, value FROM " . $nuked['prefix'] . "_editeur");
 					while ($row = mysql_fetch_array($sql_editeur)){
@@ -166,7 +166,7 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 						if($compteur != $nbr) echo "",$texte,",\n";
 						else echo "",$texte,"\n";
 					}
-		?>
+					?>
 					]
 				});
 
@@ -242,9 +242,7 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 	if (is_file("modules/" . $_REQUEST['file'] . "/" . $_REQUEST['im_file'] . ".php")){
 		include("modules/" . $_REQUEST['file'] . "/" . $_REQUEST['im_file'] . ".php");
 	}
-	else{
-		include("modules/404/index.php");
-	}
+	else include("modules/404/index.php");
 
 	if (!isset($_REQUEST['nuked_nude'])){
 		if ($user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != "User" && $_REQUEST['file'] != "Userbox"){

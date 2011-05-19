@@ -1,69 +1,8 @@
-#weak, #medium{
-	border-right:solid 1px #DEDEDE;
-}
-
-#sm{
-	margin:0px;
-	padding:0px;
-	height:14px;
-	font-family:Tahoma, Arial, sans-serif;
-	font-size:10px;
-}
-
-#sm ul{
-	border:0px;
-	margin:0px;
-	padding:0px;
-	list-style-type:none;
-	text-align:center;
-}
-
-#sm ul li{
-	display:block;
-	float:left;
-	text-align:center;
-	padding:0px 0px 0px 0px;
-	margin:0px;
-	height:13px;
-	font-size:9px;
-}
-
-.nrm{
-	width:60px;
-	color:#adadad;
-	text-align:center;
-	padding:2px;
-	background-color:#F1F1F1;
-	display:block;
-	vertical-align:middle;
-}
-
-.red{
-	width:60px;
-	color:#FFFFFF;
-	text-align:center;
-	padding:2px;
-	background-color:#FF6F6F;
-	display:block;
-	vertical-align:top;
-}
-
-.yellow{
-	width:60px;
-	color:#FFFFFF;
-	text-align:center;
-	padding:2px;
-	background-color:#FDB14D;
-	display:block;
-	vertical-align:top;
-}
-
-.green{
-	width:60px;
-	color:#FFFFFF;
-	text-align:center;
-	padding:2px;
-	background-color:#A0DA54;
-	display:block;
-	vertical-align:top;
-}
+#weak, #medium{border-right:solid 1px #DEDEDE}
+#sm{margin:0;padding:0;height:14px;font-family:Tahoma, Arial, sans-serif;font-size:10px}
+#sm ul{border:0;margin:0;padding:0;list-style-type:none;text-align:center}
+#sm ul li{display:block;float:left;text-align:center;padding:0;margin:0;height:13px;font-size:9px}
+.nrm{width:60px;color:#adadad;text-align:center;padding:2px;background-color:#F1F1F1;display:block;vertical-align:middle}
+.red{width:60px;color:#FFFFFF;text-align:center;padding:2px;background-color:#FF6F6F;display:block;vertical-align:top}
+.yellow{width:60px;color:#FFFFFF;text-align:center;padding:2px;background-color:#FDB14D;display:block;vertical-align:top}
+.green{width:60px;color:#FFFFFF;text-align:center;padding:2px;background-color:#A0DA54;display:block;vertical-align:top}

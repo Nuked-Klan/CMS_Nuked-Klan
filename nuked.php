@@ -182,25 +182,6 @@ function session_gc($maxlife){
   return true;
 }
 
-function autolink($text){
-  $txt = '';
-  $index = 0;
-
-  while($index < strlen($text)){
-    $pos = strpos($text, '<', $index);
-	
-    if ($pos === false) $pos = strlen($text);
-	$txt .= preg_replace('`http://[^ <]+`i', '<a href="$0" onclick="window.open(this.href); return false;">$0</a>', substr($text, $index, $pos - $index));
-	$index = $pos;
-    $pos = strpos($text, '>', $index);
-	
-    if ($pos === false) $pos = strlen($text);
-	$txt .= substr($text, $index, $pos - $index);
-	$index = $pos;
-  }
-  return $txt;
-}
-
 function connect(){
 	global $global, $db, $language;
 	$db = @mysql_connect($global['db_host'], $global['db_user'], $global['db_pass']);
