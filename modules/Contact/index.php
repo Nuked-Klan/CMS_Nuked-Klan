@@ -7,77 +7,83 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user;
-translate("modules/Contact/lang/" . $language . ".lang.php");
+global $nuked, $language, $user, $cookie_captcha;
+translate('modules/Contact/lang/' . $language . '.lang.php');
+
+// Inclusion système Captcha
+include_once('Includes/nkCaptcha.php');
+
+// On determine si le captcha est actif ou non
+if (_NKCAPTCHA == 'off') $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+else $captcha = 1;
 
 opentable();
 
-if (!$user)
-{
-    $visiteur = 0;
-} 
-else
-{
-    $visiteur = $user[1];
-} 
+$visiteur = ($user) ? $user[1] : 0;
 
-$ModName = basename(dirname(__FILE__));
-$level_access = nivo_mod($ModName);
+$level_access = nivo_mod(basename(dirname(__FILE__)));
 if ($visiteur >= $level_access && $level_access > -1)
 {
-    function index()
-    {
-	echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	. "function verifchamps()\n"
-	. "{\n"
-	. "if (document.getElementById('ns_pseudo').value.length == 0)\n"
-	. "{\n"
-	. "alert('" . _NONICK . "');\n"
-	. "return false;\n"
-	. "}\n"
-	. "if (document.getElementById('ns_email').value.indexOf('@') == -1)\n"
-	. "{\n"
-	. "alert('" . _BADMAIL . "');\n"
-	. "return false;\n"
-	. "}\n"
-	. "if (document.getElementById('ns_sujet').value.length == 0)\n"
-	. "{\n"
-	. "alert('" . _NOSUBJECT . "');\n"
-	. "return false;\n"
-	. "}\n"
-	. "if (document.getElementById('ns_corps').value.length == 0)\n"
-	. "{\n"
-	. "alert('" . _NOTEXTMAIL . "');\n"
-	. "return false;\n"
-	. "}\n"
-	. "return true;\n"
-	. "}\n"
-	. "\n"
-	. "// -->\n"
-	."</script>\n";
+	function index()
+	{
+		global $captcha, $user;
 
-	echo "<br /><form method=\"post\" action=\"index.php?file=Contact&amp;op=sendmail\" onsubmit=\"return verifchamps()\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"3\" border=\"0\">\n"
-	. "<tr><td align=\"center\"><big><b>" . _CONTACT . "</b></big><br /><br />" . _CONTACTFORM . "</td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _YNICK . " : </b>&nbsp;<input id=\"ns_pseudo\" type=\"text\" name=\"nom\" size=\"26\" value=\"" . $user[2]. "\" /></td></tr>\n"
-	. "<tr><td><b>" . _YMAIL . " : </b>&nbsp;<input id=\"ns_email\" type=\"text\" name=\"mail\" value=\"\" size=\"30\" /></td></tr>\n"
-	. "<tr><td><b>" . _YSUBJECT . " : </b>&nbsp;<input id=\"ns_sujet\" type=\"text\" name=\"sujet\" value=\"\" size=\"36\" /></td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _YCOMMENT . " : </b><br /><textarea class=\"editorsimpla\" id=\"ns_corps\" name=\"corps\" cols=\"60\" rows=\"12\"></textarea></td></tr>\n"
-	. "<tr><td align=\"center\"><br /><input type=\"submit\" class=\"bouton\" value=\"" . _SEND . "\" /></td></tr></table></form><br />\n";
+		echo '<script type="text/javascript">
+		<!--
+		function verifchamps()
+		{
+			if (document.getElementById(\'ns_pseudo\').value.length == 0)
+			{
+				alert(\'' . _NONICK . '\');
+				return false;
+			}
+			if (document.getElementById(\'ns_email\').value.indexOf(\'@\') == -1)
+			{
+				alert(\'' . _BADMAIL . '\');
+				return false;
+			}
+			if (document.getElementById(\'ns_sujet\').value.length == 0)
+			{
+				alert(\'' . _NOSUBJECT . '\');
+				return false;
+			}
+
+			return true;
+		}
+		-->
+		</script>';
+
+		echo '<div style="width: 70%; margin: auto">
+		<form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
+		<p style="text-align: center"><big><b>' . _CONTACT . '</b></big><br /><br />' . _CONTACTFORM . '</p>
+		<p><label for="ns_pseudo" style="float: left; width: 20%">' . _YNICK . ' : </label>&nbsp;<input id="ns_pseudo" type="text" name="nom" value="" style="width: 50%" /></p>
+		<p><label for="ns_email" style="float: left; width: 20%">' . _YMAIL . ' : </label>&nbsp;<input id="ns_email" type="text" name="mail" value="" style="width: 50%" /></p>
+		<p><label for="ns_sujet" style="float: left; width: 20%">' . _YSUBJECT . ' : </label>&nbsp;<input id="ns_sujet" type="text" name="sujet" value="" style="width: 50%" /></p>
+		<p>' . _YCOMMENT . ' : <br /><textarea class="editorsimpla" id="ns_corp" name="corps" cols="60" rows="12"></textarea></p>';
+
+		// Affichage du Captcha.
+		if ($captcha == 1) create_captcha(3);
+
+		echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
     }
 
 
 
-    function sendmail($nom, $mail, $sujet, $corps)
+    function sendmail()
     {
-	global $nuked, $user_ip, $nuked;
+		global $nuked, $user_ip, $captcha;
+
+		// Verification code captcha
+		if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm']))
+		{
+			echo '<div style="text-align: center; padding: 20px 0;">' . _BADCODECONFIRM . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></div>';
+		    closetable();
+		    footer();
+		    exit();
+		}
 
     	$time = time();
     	$date = strftime("%x %H:%M", $time);
@@ -90,67 +96,58 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     	if ($count > 0 && $time < $anti_flood)
     	{
-	    echo "<br /><br /><div style=\"text-align: center;\">" . _FLOODCMAIL . "</big></div><br /><br />";
-	    redirect("index.php", 3);
+			echo '<div style="text-align: center; padding: 20px 0;">' . _FLOODCMAIL . '</div>';
+			redirect("index.php", 3);
     	}
     	else
     	{
-	    $nom = trim($nom);
-	    $mail = trim($mail);
-	    $sujet = trim($sujet);
+			$nom = trim($_REQUEST['nom']);
+			$mail = trim($_REQUEST['mail']);
+			$sujet = trim($_REQUEST['sujet']);
+			$corps = $_REQUEST['corps'];
 
-	    $subjet = $sujet . ", " . $date;
-	    $corp = $corps . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
-	    $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
-	    $from.= "Content-Type: text/html\r\n\r\n";
+			$subjet = $sujet . ", " . $date;
+			$corp = $corps . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+			$from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
+			$from.= "Content-Type: text/html\r\n\r\n";
 
-	    if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
-	    else $email = $nuked['mail'];	
-		$corp = secu_html(html_entity_decode($corp));
+			if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
+			else $email = $nuked['mail'];	
+			$corp = secu_html(html_entity_decode($corp));
 		
-	    mail($email, $subjet, $corp, $from);
+			mail($email, $subjet, $corp, $from);
 
-	    $name = htmlentities($nom, ENT_QUOTES);
-	    $email = htmlentities($mail, ENT_QUOTES);
-	    $subject = htmlentities($sujet, ENT_QUOTES);
-	    $text = secu_html(html_entity_decode($corps, ENT_QUOTES));
+			$name = htmlentities($nom, ENT_QUOTES);
+			$email = htmlentities($mail, ENT_QUOTES);
+			$subject = htmlentities($sujet, ENT_QUOTES);
+			$text = secu_html(html_entity_decode($corps, ENT_QUOTES));
 
-	    $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
-		$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTCON.": [<a href=\"index.php?file=Contact&page=admin\">lien</a>].')");
-	    echo "<br /><br /><div style=\"text-align: center;\">" . _SENDCMAIL . "</div><br /><br />";
-	    redirect("index.php", 3);
+			$add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
+			$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTCON.": [<a href=\"index.php?file=Contact&page=admin\">lien</a>].')");
+
+			echo '<div style="text-align: center; padding: 20px 0">' . _SENDCMAIL . '</div>';
+			redirect("index.php", 3);
     	}
     }
 
-    switch($_REQUEST['op']){
+	switch($_REQUEST['op'])
+	{
+		case 'sendmail':
+		sendmail($_REQUEST);
+		break;
 
-	case"sendmail":
-	sendmail($_REQUEST['nom'], $_REQUEST['mail'], $_REQUEST['sujet'], $_REQUEST['corps']);
-	break;
+		case 'index':
+		index();
+		break;
 
-	case"index":
-	index();
-	break;
-
-	default:
-	index();
-	break;
-    }
-
-} 
-else if ($level_access == -1)
-{
-    echo "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
-} 
-else if ($level_access == 1 && $visiteur == 0)
-{
-    echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b><br /><br /></div>";
-} 
-else
-{
-    echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
-} 
+		default:
+		index();
+		break;
+	}
+}
+else if ($level_access == -1) echo "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
+else if ($level_access == 1 && $visiteur == 0) echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b><br /><br /></div>";
+else echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
 
 closetable();
-
 ?>
