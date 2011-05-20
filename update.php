@@ -30,6 +30,25 @@ function UpdatePassCrypt($pass){
 	return '%'.dechex($decal).md5($builder);
 }
 
+function deltree($dossier){
+	if(($dir=opendir($dossier))===false)
+	return;
+ 
+	while($name=readdir($dir)){
+		if($name==='.' or $name==='..')
+		continue;
+		$full_name=$dossier.'/'.$name;
+ 
+		if(is_dir($full_name))
+			deltree($full_name);
+		else unlink($full_name);
+	}
+ 
+	closedir($dir);
+ 
+	@rmdir($dossier);
+}
+
 function checkimg($url)
 {
 	$url = rtrim($url);
@@ -293,7 +312,7 @@ function style($etape, $langue)
 		<!--                       Javascripts                       -->
 
 		<!-- jQuery -->
-		<script type="text/javascript" src="modules/Admin/scripts/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="modules/Admin/scripts/jquery-1.6.1.min.js"></script>
 
 		<!-- jQuery Configuration -->
 		<script type="text/javascript" src="modules/Admin/scripts/simpla.jquery.configuration.js"></script>
@@ -1414,6 +1433,9 @@ function upgrade_db()
 	    @unlink($path_2);
 	    if (is_file($path_2)) $error++;
 	}
+
+	// Suppresion du dossier "img"
+	deltree('img/');
 
 	if ($error > 0)
 	{

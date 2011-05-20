@@ -38,6 +38,25 @@ function index()
     echo "</select>&nbsp;&nbsp;<input type=\"submit\" name=\"ok\" value=\"send\" /><br /><br /></div></form></div></div></body></html>";
 }
 
+function deltree($dossier){
+	if(($dir=opendir($dossier))===false)
+	return;
+ 
+	while($name=readdir($dir)){
+		if($name==='.' or $name==='..')
+		continue;
+		$full_name=$dossier.'/'.$name;
+ 
+		if(is_dir($full_name))
+			deltree($full_name);
+		else unlink($full_name);
+	}
+ 
+	closedir($dir);
+ 
+	@rmdir($dossier);
+}
+
 function RequirementTrue($type)
 {
 	echo "<div style=\"float:right\">[&nbsp;&nbsp;<span style=\"color:#00FF00\">OK</span>&nbsp;&nbsp;]</div>";
@@ -245,7 +264,7 @@ function style($etape, $langue)
 		<!--                       Javascripts                       -->
 
 		<!-- jQuery -->
-		<script type="text/javascript" src="modules/Admin/scripts/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="modules/Admin/scripts/jquery-1.6.1.min.js"></script>
 
 		<!-- jQuery Configuration -->
 		<script type="text/javascript" src="modules/Admin/scripts/simpla.jquery.configuration.js"></script>
@@ -2209,6 +2228,9 @@ function add_god($data)
 	$path9 = "upload/Suggest/";
 	if (is_dir($path9)) @chmod($path9, 0777);
 	if (!is_writable($path9)) $error++;
+
+	// Suppresion du dossier "img"
+	deltree('img/');
 
 	if (file_exists("update.php"))
 	{
