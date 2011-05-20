@@ -13,7 +13,7 @@ header('Content-type: text/html; charset=iso-8859-1');
  le sous menu rapide à droite, les notifications, les actions, les erreurs sql, les messages nuked-klan.org, les discussions administrateurs...</li><br>
 <li><b>Notification</b> : Ce nouveau système vous permet d'être informer rapidement des actions que le site effectue automatiquement comme la suppression de vieille erreur sql
 ou encore l'arrivé d'une suggestion ou d'un mail contact et même la fin d'un ban temporaire. Il y a 4 sortes de notifications, erreur, succès, informations, alertes...</li><br>
-<li><b>Erreur sql</b> : Ce système permet de voir les erreurs sql sur lequel sont tombé les utilisateurs de votre site, ils sont alors redirigés vers une page d'excuse et un
+<li><b>Erreur SQL</b> : Ce système permet de voir les erreurs sql sur lequel sont tombé les utilisateurs de votre site, ils sont alors redirigés vers une page d'excuse et un
 détail de l'erreur est alors envoyé dans cette section.</li><br>
 <li><b>Discussion</b> : Ce chat disponible uniquement depuis l'administration permettra de discuter entre administrateurs, modérateurs et autres parties du staff.</li><br>
 <li><b>Action</b> : Ce système permet de savoir ce que font les membres du staff, afin de contrôler ou même de ne pas refaire une action déjà effectué.

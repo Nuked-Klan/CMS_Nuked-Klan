@@ -7,38 +7,31 @@
 //  it under the terms of the GNU General Public License as published by   //
 //  the Free Software Foundation; either version 2 of the License.         //
 //-------------------------------------------------------------------------//
-
-if (!defined("INDEX_CHECK")) 
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $nuked, $language;
-translate("modules/Search/lang/" . $language . ".lang.php");
-translate("modules/404/lang/" . $language . ".lang.php");
+translate('modules/Search/lang/' . $language . '.lang.php');
+translate('modules/404/lang/' . $language . '.lang.php');
 
 opentable();
 
-if($_REQUEST['op'] != "sql")
+if($_REQUEST['op'] != 'sql')
 {
-	echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\"><tr>\n"
-	. "<td><br /><div style=\"text-align: center;\"><big><b>" . $nuked['name'] . "</b></big></div><br />\n"
-	. _NOEXIST . "<br /><br /><div style=\"text-align: center;\"><a href=\"index.php\"><b>"._BACK."</b></a></div></td></tr></table><br />\n";
-echo "<div style=\"text-align:center;\"><form method=\"post\" action=\"index.php?file=Search&amp;op=mod_search\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n"
-    . "<tr><td align=\"center\"><input type=\"hidden\" name=\"module\" value=\"\" /><input type=\"text\" name=\"main\" size=\"25\" /></td></tr>\n"
-    . "<tr><td align=\"center\"><input type=\"submit\" class=\"button\" name=\"submit\" value=\"" . _SEARCHFOR . "\" /></td></tr>\n"
-    . "<tr><td align=\"center\"><a href=\"index.php?file=Search\">" . _ADVANCEDSEARCH . "</a></td></tr></table></form></div>\n";
-	}
+	echo '<div style="text-align: center; padding-top: 10px"><big><b>' . $nuked['name'] . '</b></big><br /><br />
+	' . _NOEXIST . '<br /><br />
+	<form method="post" action="index.php?file=Search&amp;op=mod_search">
+	<p><input type="hidden" name="module" value="" /><input type="text" name="main" size="25" /></p>
+	<p><input type="submit" class="button" name="submit" value="' . _SEARCHFOR . '" /></p>
+	<p><a href="index.php?file=Search"><b>' . _ADVANCEDSEARCH . '</b></a> - <a href="javascript:history.back()"><b>' . _BACK . '</b></a></form></div>';
+}
 else
 {
-echo "<br /><div style=\"text-align:center;\">Veulliez nous excuser, la page demandée est actuellement indisponible, l'administrateur a été averti! Merci<br />";
-echo "<br /><form method=\"post\" action=\"index.php?file=Search&amp;op=mod_search\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n"
-    . "<tr><td align=\"center\"><input type=\"hidden\" name=\"module\" value=\"\" /><input type=\"text\" name=\"main\" size=\"25\" /></td></tr>\n"
-    . "<tr><td align=\"center\"><input type=\"submit\" class=\"button\" name=\"submit\" value=\"" . _SEARCHFOR . "\" /></td></tr>\n"
-    . "<tr><td align=\"center\"><a href=\"index.php?file=Search\">" . _ADVANCEDSEARCH . "</a></td></tr></table></form></div>\n";
+	echo '<div style="text-align: center; padding-top: 10px">' . _ERROR404SQL . '<br /><br />
+	<form method="post" action="index.php?file=Search&amp;op=mod_search">
+	<input type="hidden" name="module" value="" /><input type="text" name="main" size="25" />
+	<input type="submit" class="button" name="submit" value="' . _SEARCHFOR . '" />
+	<a href="index.php?file=Search">' . _ADVANCEDSEARCH . '</a></form></div>';
 }
-closetable();
 
+closetable();
 ?>

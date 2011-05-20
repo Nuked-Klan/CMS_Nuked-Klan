@@ -14,7 +14,7 @@ header('Content-type: text/html; charset=iso-8859-1');
 				
 				<li><a class="shortcut-button" href="index.php?file=Admin&amp;page=erreursql"><span>
 					<img src="modules/Admin/images/icons/erreur.png" alt="icon" /><br />
-					Error sql found
+					Error SQL found
 				</span></a></li>
 				
 				<li><a class="shortcut-button" href="#notification" rel="modal"><span>

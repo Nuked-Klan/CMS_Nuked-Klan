@@ -18,10 +18,7 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *  Lesser General Public License for more details.
  */
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 
 /**
@@ -414,7 +411,7 @@ class iam_backup
             {
                  echo "<html><body><pre>";
                  echo htmlspecialchars($this->_backup());
-                 echo "</PRE></BODY></HTML>";
+                 echo "</pre></body></html>";
             }
     }
 }

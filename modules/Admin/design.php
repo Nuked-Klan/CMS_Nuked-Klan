@@ -38,12 +38,10 @@ redirect("index.php?file=User",0);
     <head>
     <meta name="keywords" content="<?php echo $nuked['keyword'] ?>" />
     <meta name="Description" content="<?php echo $nuked['description'] ?>" />
-	<meta http-equiv="content-style-type" content="text/css" />
 	<title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>
 	<link rel="shortcut icon"  href="images/favicon.ico" />
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta http-equiv="content-style-type" content="text/css" />
-		<!--                       CSS                       -->
+	<!--                       CSS                       -->
 		<!-- Reset Stylesheet -->
 		<link rel="stylesheet" href="modules/Admin/css/reset.css" type="text/css" media="screen" />
 		<!-- Main Stylesheet -->
@@ -55,7 +53,7 @@ redirect("index.php?file=User",0);
 		<!--                       Javascripts                       -->
   
 		<!-- jQuery -->
-		<script type="text/javascript" src="modules/Admin/scripts/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="modules/Admin/scripts/jquery-1.6.1.min.js"></script>
 		
 		<!-- jQuery Configuration -->
 		<script type="text/javascript" src="modules/Admin/scripts/simpla.jquery.configuration.js"></script>

@@ -12,7 +12,7 @@ header('Content-type: text/html; charset=iso-8859-1');
 <li><b>Index</b> : On this page you can see all of your administration, on the left a speed menu,
  on the right a speed under menu, the notification, the action, the sql error, the message of nuked-klan.org,and the discussion begin administrator...</li><br>
 <li><b>Notification</b> : This new system is capable to inform you about a automatique action of your website, or it is capable to inform if you received a contact mail or a suggest.</li><br>
-<li><b>Sql Error</b> : When a visitor arrived on a sql error, he is redirect on a page of sorry, and a detail of this error is enjoy on the zadministration.</li><br>
+<li><b>SQL Error</b> : When a visitor arrived on a sql error, he is redirect on a page of sorry, and a detail of this error is enjoy on the zadministration.</li><br>
 <li><b>Discussion</b> : It's a chat begin administrator, or other people of staff.</li><br>
 <li><b>Action</b> : This system is rec when you do something on the administration, delete, modification, or add anything. You can see what they do.</li><br>
 <li><b>Message of nuked-klan.org</b> : This system enjoy a message of nuked-klan.org on your website if a problem is detect.</li><br>
