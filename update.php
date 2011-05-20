@@ -560,8 +560,36 @@ function upgrade_db()
 	$recup_mail = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name = 'mail'");
     list($mail_admin) = mysql_fetch_array($recup_mail);
 
-	//if($nk_version == '1.7.9 RC5.3') Si modification BDD pour RC5.3 only.
-    if ($v[2] == 9)
+	if($nk_version == '1.7.9 RC5.3')
+	{
+
+		mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9 RC5.4\' WHERE name = \'version\'');
+
+		$sql = "DROP TABLE IF EXISTS " . $db_prefix . "_editeur";
+		$req = mysql_query($sql);
+
+		$sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_editeur` (
+		`name` varchar(255) COLLATE latin1_german2_ci NOT NULL DEFAULT '',
+		`value` text COLLATE latin1_german2_ci NOT NULL,
+		PRIMARY KEY (`name`)
+		) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
+		$req = mysql_query($sql);
+
+		$sql = "INSERT INTO `" . $db_prefix . "_editeur` (`name`, `value`) VALUES
+		('couleur', ''),
+		('bouton', 'top'),
+		('status', 'bottom'),
+		('ligne1', 'save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help,code'),
+		('ligne2', 'styleselect,fontselect,fontsizeselect,|,link,unlink,anchor,|,emotions,image,forecolor,backcolor'),
+		('ligne3', 'bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,hr,|,outdent,indent,|,removeformat,|,spellchecker'),
+		('ligne4', 'tablecontrols,|,blockquote,sub,sup,|,charmap,pagebreak'),
+		('ligne2b', 'styleselect,fontselect,fontsizeselect,barre,link,unlink,anchor,barre,emotions,image,forecolor,backcolor'),
+		('ligne3b', 'bold,italic,underline,strikethrough,barre,justifyleft,justifycenter,justifyright,justifyfull,barre,bullist,numlist,hr,barre,outdent,indent,barre,removeformat,barre,spellchecker'),
+		('ligne4b', 'tablecontrols,barre,blockquote,sub,sup,barre,charmap,pagebreak'),
+		('ligne1b', 'save,newdocument,restoredraft,barre,cut,copy,paste,pastetext,pasteword,barre,undo,redo,barre,print,barre,fullscreen,barre,preview,barre,help,code');";
+		$req = mysql_query($sql);
+	}
+    if ($nk_version != '1.7.9 RC5.3' && $v[2] == 9)
      {
 		$sql = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name='screen'");
 		$number = mysql_num_rows($sql);
@@ -669,7 +697,7 @@ function upgrade_db()
 
 	echo "<script>show_progress('&nbsp;&nbsp;&nbsp;','upgrade');</script>";
 
-	if ($v[2] != 9)
+	if ($v[2] != 9 && $nk_version != '1.7.9 RC5.3')
 	{
 		$sql_user = mysql_query("SELECT id, pass FROM " . $db_prefix . "_users");
 		while (list($userid, $userpass) = mysql_fetch_row($sql_user))
