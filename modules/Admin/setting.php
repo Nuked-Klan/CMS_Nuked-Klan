@@ -7,156 +7,126 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $language;
-translate("modules/Admin/lang/" . $language . ".lang.php");
-include("modules/Admin/design.php");
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+translate('modules/Admin/lang/' . $language . '.lang.php');
+include('modules/Admin/design.php');
+
+$visiteur = ($user) ? $user[1] : 0;
 
 if ($visiteur == 9)
 {
-    function select_theme($mod)
-    {
-        $handle = @opendir("themes/");
-        while (false !== ($f = readdir($handle)))
-        {
-            if ($f != "." && $f != ".." && $f != "CVS" && $f != "index.html" && !preg_match("`[.]`", $f))
-            {
-                if ($mod == $f)
-                {
-                    $checked = "selected=\"selected\"";
-                }
-                else
-                {
-                    $checked = "";
-                }
+	function select_theme($mod)
+	{
+		$handle = @opendir('themes/');
+		while (false !== ($f = readdir($handle)))
+		{
+			if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html' && !preg_match('`[.]`', $f))
+			{
+				if ($mod == $f) $checked = 'selected="selected"';
+				else $checked = '';
 
-                if (is_file("themes/" . $f . "/theme.php"))
-                {
-                    echo "<option value=\"" . $f . "\" " . $checked . ">" . $f . "</option>\n";
-                }
-            }
-        }
-        closedir($handle);
-    }
+				if (is_file('themes/' . $f . '/theme.php')) echo '<option value="' . $f . '" ' . $checked . '>' . $f . '</option>';
+			}
+		}
+		closedir($handle);
+	}
 
-    function select_langue($mod)
-    {
-        if ($rep = @opendir("lang/"))
-        {
-            while (false !== ($f = readdir($rep)))
-            {
-                if ($f != ".." && $f != "." && $f != "index.html")
-                {
-                    list ($langfile, ,) = explode ('.', $f);
+	function select_langue($mod)
+	{
+		if ($rep = @opendir('lang/'))
+		{
+			while (false !== ($f = readdir($rep)))
+			{
+				if ($f != '..' && $f != '.' && $f != 'index.html')
+				{
+					list ($langfile, ,) = explode ('.', $f);
 
-                    if ($mod == $langfile)
-                    {
-                        $checked = "selected=\"selected\"";
-                    }
-                    else
-                    {
-                        $checked = "";
-                    }
-                        echo "<option value=\"" . $langfile . "\" " . $checked . ">" . $langfile . "</option>\n";
-                }
-            }
+					if ($mod == $langfile) $checked = "selected=\"selected\"";
+					else $checked = "";
 
-            closedir($rep);
-        }
-    }
+					echo "<option value=\"" . $langfile . "\" " . $checked . ">" . $langfile . "</option>\n";
+				}
+			}
+			closedir($rep);
+		}
+	}
 
-    function select_mod($mod)
-    {
-        global $nuked;
+	function select_mod($mod)
+	{
+		global $nuked;
 
-        $sql = mysql_query("SELECT nom FROM " . MODULES_TABLE . " ORDER BY nom");
-        while (list($nom) = mysql_fetch_array($sql))
-        {
-            if ($mod == $nom)
-            {
-                $checked = "selected=\"selected\"";
-            }
-            else
-            {
-                $checked = "";
-            }
+		$sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE . ' ORDER BY nom');
+		while (list($nom) = mysql_fetch_array($sql))
+		{
+			if ($mod == $nom) $checked = 'selected="selected"';
+			else $checked = '';
 
-            if (is_file("modules/" . $nom . "/index.php")) echo "<option value=\"" . $nom . "\" " . $checked . ">" . $nom . "</option>\n";
-        }
-    }
+			if (is_file("modules/" . $nom . "/index.php")) echo "<option value=\"" . $nom . "\" " . $checked . ">" . $nom . "</option>\n";
+		}
+	}
 
-    function edit_config()
-    {
-        global $nuked, $language;
+	function edit_config()
+	{
+		global $nuked, $language;
 
-        admintop();
+		admintop();
 	
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _PREFGEN . "</h3>\n";
-?>
-<script type="text/javascript">
-<!--
-// Interdire les caractères spéciaux (pour le nom des cookies)
-function special_caract(evt) {
-  var keyCode = evt.which ? evt.which : evt.keyCode;
-  if (keyCode==9) return true;
-  var interdit = 'ààâäãçéèêëìîïòôöõµùûüñ &\?!:\.;,\t#~"^¨@%\$£?²¤§%\*()[]{}-_=+<>|\\/`\'';
-   if (interdit.indexOf(String.fromCharCode(keyCode)) >= 0) {
-    alert('<?php echo _SPECCNOTALLOW; ?>');
-    return false;
-}
-}
--->
-</script>
-<?php
-		
-        echo "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/preference.php\"  rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
-	. "</div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><br/>\n"
-	."<div style=\"width:80%; margin:auto;\">\n"
-	. "<div class=\"notification attention png_bg\">\n"
-	. "<div>".stripslashes(_INFOSETTING)."</div></div></div><br/>\n"
-	. "<form method=\"post\" action=\"index.php?file=Admin&amp;page=setting&amp;op=save_config\">\n"
-	. "<div style=\"width:96%\"><table style=\"margin-left: 2%;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr><td colspan=\"2\"><big><b>" . _GENERAL . "</b></big></td></tr>\n"
-	. "<tr><td>" . _SITENAME . " :</td><td><input type=\"text\" name=\"name\" size=\"40\" value=\"" . $nuked['name'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _SLOGAN . " : </td><td><input type=\"text\" name=\"slogan\" size=\"40\" value=\"" . $nuked['slogan'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _TAGPRE . " :</td><td><input type=\"text\" name=\"tag_pre\" size=\"10\" value=\"" . $nuked['tag_pre'] . "\" />&nbsp;" . _TAGSUF . " :<input type=\"text\" name=\"tag_suf\" size=\"10\" value=\"" . $nuked['tag_suf'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _SITEURL . " :</td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $nuked['url'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _FOOTMESS . " :</td><td><textarea name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"
-	. "<tr><td>" . _SITESTATUS . " :</td><td><select name=\"nk_status\">\n";
+		?>
+		<script type="text/javascript">
+		<!--
+		// Interdire les caractères spéciaux (pour le nom des cookies)
+		function special_caract(evt) {
+			var keyCode = evt.which ? evt.which : evt.keyCode;
+			if (keyCode==9) return true;
+			var interdit = 'ààâäãçéèêëìîïòôöõµùûüñ &\?!:\.;,\t#~"^¨@%\$£?²¤§%\*()[]{}-_=+<>|\\/`\'';
+			if (interdit.indexOf(String.fromCharCode(keyCode)) >= 0) {
+				alert('<?php echo _SPECCNOTALLOW; ?>');
+				return false;
+			}
+		}
+		-->
+		</script>
+		<?php
+
+		echo "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/preference.php\"  rel=\"modal\">\n"
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
+		. "</div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\"><br/>\n"
+		."<div style=\"width:80%; margin:auto;\">\n"
+		. "<div class=\"notification attention png_bg\">\n"
+		. "<div>".stripslashes(_INFOSETTING)."</div></div></div><br/>\n"
+		. "<form method=\"post\" action=\"index.php?file=Admin&amp;page=setting&amp;op=save_config\">\n"
+		. "<div style=\"width:96%\"><table style=\"margin-left: 2%;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+		. "<tr><td colspan=\"2\"><big><b>" . _GENERAL . "</b></big></td></tr>\n"
+		. "<tr><td>" . _SITENAME . " :</td><td><input type=\"text\" name=\"name\" size=\"40\" value=\"" . $nuked['name'] . "\" /></td></tr>\n"
+		. "<tr><td>" . _SLOGAN . " : </td><td><input type=\"text\" name=\"slogan\" size=\"40\" value=\"" . $nuked['slogan'] . "\" /></td></tr>\n"
+		. "<tr><td>" . _TAGPRE . " :</td><td><input type=\"text\" name=\"tag_pre\" size=\"10\" value=\"" . $nuked['tag_pre'] . "\" />&nbsp;" . _TAGSUF . " :<input type=\"text\" name=\"tag_suf\" size=\"10\" value=\"" . $nuked['tag_suf'] . "\" /></td></tr>\n"
+		. "<tr><td>" . _SITEURL . " :</td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $nuked['url'] . "\" /></td></tr>\n"
+		. "<tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
+		. "<tr><td>" . _FOOTMESS . " :</td><td><textarea name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"	
+		. "<tr><td>" . _SITESTATUS . " :</td><td><select name=\"nk_status\">\n";
 
         if ($nuked['nk_status'] == "open")
-	{
+		{
             $checked11 = "selected=\"selected\"";
             $checked12 = "";
-	}
+		}
         else if ($nuked['nk_status'] == "closed")
-	{
+		{
             $checked12 = "selected=\"selected\"";
             $checked11 = "";
-	}
-	if ($nuked['screen'] == "on") $screen = "checked=\"checked\"";
+		}
+		if ($nuked['screen'] == "on") $screen = "checked=\"checked\"";
         else $screen = "";
 
-	echo "<option value=\"open\" " . $checked11 . ">" . _OPENED . "</option>\n"
-	. "<option value=\"closed\" " . $checked12 . ">" . _CLOSED . "</option>\n"
-	. "</select></td></tr><tr><td>" . _SITEINDEX . " :</td><td><select name=\"index_site\">\n";
+		echo "<option value=\"open\" " . $checked11 . ">" . _OPENED . "</option>\n"
+		. "<option value=\"closed\" " . $checked12 . ">" . _CLOSED . "</option>\n"
+		. "</select></td></tr><tr><td>" . _SITEINDEX . " :</td><td><select name=\"index_site\">\n";
 
         select_mod($nuked['index_site']);
 

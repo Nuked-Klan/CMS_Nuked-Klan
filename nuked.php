@@ -1152,17 +1152,17 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
 				exit('Erreur dans la création de la session anonyme');
 			}
 			$date = time();
-			$content = "<b>Une erreur SQL a été dédecté.<br /><br /><b>Information:</b><br /><br /><b>Mon ERREUR</b> [$errno] $errstr<br /> Erreur fatale sur la ligne $errline dans le fichier $errfile, PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />Arrêt...<br />";
+			$content = "<b>Une erreur SQL a été dédectée.<br /><br /><b>Information:</b><br /><br /><b>Mon ERREUR</b> [$errno] $errstr<br /> Erreur fatale sur la ligne $errline dans le fichier $errfile, PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />Arrêt...<br />";
 
 			echo $content;
 
 			$texte = "Type: ".$errno." Fichier: ".$errfile." Ligne: ".$errline."";
 			$upd = mysql_query("INSERT INTO " . $db_prefix . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('".$date."', '".mysql_escape_string($_SERVER["REQUEST_URI"])."', '".$texte."')");
 			if($language == "french"){
-				$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'Une erreur sql a été détecté: [<a href=\"index.php?file=Admin&page=erreursql\">Lien</a>].')");
+				$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'Une erreur SQL a été détectée : [<a href=\"index.php?file=Admin&page=erreursql\">Lien</a>].')");
 			}
 			else{
-				$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'A sql error have been detected: [<a href=\"index.php?file=Admin&page=erreursql\">Link</a>].')");
+				$upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'A SQL error have been detected: [<a href=\"index.php?file=Admin&page=erreursql\">Link</a>].')");
 			}
 			exit();
 			break;
