@@ -115,7 +115,7 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 
 		if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
 
-		echo '<script type="text/javascript" src="js/infobulle.js"></script>
+		echo '<script type="text/javascript" src="media/js/infobulle.js"></script>
 		<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>
 		<link rel="stylesheet" href="editeur/plugins/insertcode/insertcode.css" type="text/css" media="screen" />';
 
@@ -217,7 +217,7 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 			$signs[] = "'".Module_Hash($row['nom'])."'";
 		}
 		if (($_REQUEST['op'] == 'index' || $_REQUEST['op'] == '') && $_REQUEST['im_file'] == 'index' && $_REQUEST['file'] != 'Admin' && $visiteur == 9)
-		echo '<script type="text/javascript" src="js/update.js"></script>',"\n"
+		echo '<script type="text/javascript" src="media/js/update.js"></script>',"\n"
 			, '<script type="text/javascript">',"\n"
 			, 'NKUpdate.lng = \'',$language,"';\n"
 			, 'NKUpdate.UpdateUrl = \'' , UPDATE_URL , "';\n"
@@ -247,7 +247,7 @@ else if (($_REQUEST['file'] != "Admin" AND $_REQUEST['page'] != "admin") || ( ni
 	if (!isset($_REQUEST['nuked_nude'])){
 		if ($user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != "User" && $_REQUEST['file'] != "Userbox"){
 			echo '<div id="popup_dhtml" style="position:absolute;top:0;left:0;visibility:visible;z-index:10"></div>',"\n"
-			, '<script type="text/javascript" src="js/popup.js"></script>',"\n"
+			, '<script type="text/javascript" src="media/js/popup.js"></script>',"\n"
 			, '<script type="text/javascript">popup("' , $bgcolor2 , '", "' , $bgcolor3 , '", "' , _NEWMESSAGESTART , '&nbsp;' , $user[5] , '&nbsp;' , _NEWMESSAGEEND , '", "' , _CLOSEWINDOW , '", "index.php?file=Userbox", 350, 100);</script>',"\n";
 		}
 		

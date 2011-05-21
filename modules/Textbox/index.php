@@ -152,7 +152,7 @@ function index()
        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" />\n"
-         . "<script type=\"text/javascript\" src=\"js/smilies.js\"></script></head>\n"
+         . "<script type=\"text/javascript\" src=\"media/js/smilies.js\"></script></head>\n"
        . "<body style=\"background: " . $bgcolor2 . ";\">\n";
 
        echo "<script type=\"text/javascript\">\n"

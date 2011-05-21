@@ -338,8 +338,8 @@ function reg_screen()
 			. "// -->\n"
 			. "</script>\n";
 
-			echo "<link rel=\"stylesheet\" href=\"css/checkSecurityPass.css\" type=\"text/css\" media=\"screen\" />\n"
-				. "<script type=\"text/javascript\" src=\"js/checkSecurityPass.js\"></script>\n"
+			echo "<link rel=\"stylesheet\" href=\"media/css/checkSecurityPass.css\" type=\"text/css\" media=\"screen\" />\n"
+				. "<script type=\"text/javascript\" src=\"media/js/checkSecurityPass.js\"></script>\n"
 				. "<br /><div style=\"text-align: center;\"><big><b>" . _NEWUSERREGISTRATION . "</b></big></div><br /><br />\n"
 			. "<form method=\"post\" action=\"index.php?file=User&amp;op=reg\" onsubmit=\"return verifchamps();\">\n"
 			. "<table style=\"margin-left:auto;margin-right:auto;text-align:left;width:70%;\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"

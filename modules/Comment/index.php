@@ -311,7 +311,7 @@ function view_com($module, $im_id)
 
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
     . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    . "<head><title>" . _COMMENTS . " ::</title>\n"
+    . "<head><title>" . _COMMENTS . "</title>\n"
     . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
     . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
     . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -397,7 +397,7 @@ function post_com($module, $im_id)
     {
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
     . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    . "<head><title>" . _POSTCOMMENT . " ::</title>\n"
+    . "<head><title>" . _POSTCOMMENT . "</title>\n"
     . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
     . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n";
 	?>
@@ -491,7 +491,7 @@ function post_com($module, $im_id)
     {
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _POSTCOMMENT . " ::</title>\n"
+        . "<head><title>" . _POSTCOMMENT . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -518,7 +518,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo)
     {
     	echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
     	. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    	. "<head><title>" . _POSTCOMMENT . " ::</title>\n"
+    	. "<head><title>" . _POSTCOMMENT . "</title>\n"
     	. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
     	. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
     	. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -605,7 +605,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo)
     {
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _POSTCOMMENT . " ::</title>\n"
+        . "<head><title>" . _POSTCOMMENT . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -630,7 +630,7 @@ function del_comment($cid)
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _COMMENTS . " ::</title>\n"
+        . "<head><title>" . _COMMENTS . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -645,7 +645,7 @@ function del_comment($cid)
     {
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _COMMENTS . " ::</title>\n"
+        . "<head><title>" . _COMMENTS . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -674,7 +674,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id)
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _COMMENTS . " ::</title>\n"
+        . "<head><title>" . _COMMENTS . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -689,7 +689,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id)
     {
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _COMMENTS . " ::</title>\n"
+        . "<head><title>" . _COMMENTS . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -712,7 +712,7 @@ function edit_comment($cid)
     {
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _POSTCOMMENT . " ::</title>\n"
+        . "<head><title>" . _POSTCOMMENT . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
@@ -751,7 +751,7 @@ function edit_comment($cid)
     {
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _COMMENTS . " ::</title>\n"
+        . "<head><title>" . _COMMENTS . "</title>\n"
         . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
         . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
