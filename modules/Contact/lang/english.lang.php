@@ -11,7 +11,7 @@ define("_NOSUBJECT","Please enter the topic !");
 define("_NOTEXTMAIL","Your message is empty !");
 define("_BADMAIL","Your email is incorrect or hasn't been filled out !");
 define("_SENDCMAIL","Your email was successfully sent, we will answer you as soon as possible.");
-define("_FLOODCMAIL","You have already sent an email less than " . $nuked['contact_flood'] . " minutes ago, please wait before you retry...");
+define("_FLOODCMAIL","You have already sent an mail less than " . $nuked['contact_flood'] . " minutes ago, please wait before you retry...");
 
 define("_NOENTRANCE","Sorry you haven't got the permissions to open this page");
 define("_ZONEADMIN","This zone is reserved for Admins, sorry...");

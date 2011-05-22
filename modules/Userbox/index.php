@@ -59,7 +59,9 @@ if ($user)
         if ($_REQUEST['titre'] != "")
         {
             $_REQUEST['titre'] = stripslashes($_REQUEST['titre']);
-            $title = "RE:" . htmlentities($_REQUEST['titre']);
+
+			if (!preg_match("/\bRE:\b/i", $_REQUEST['titre'])) $title = "RE:" . $_REQUEST['titre'];
+			else $title = $_REQUEST['titre'];
         }
 
         if ($_REQUEST['message'] != "")

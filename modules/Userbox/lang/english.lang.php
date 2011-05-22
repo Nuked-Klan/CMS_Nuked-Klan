@@ -41,4 +41,6 @@ define("_CHECKALL","Check All");
 define("_UNCHECKALL","Uncheck All");
 define("_NOMESSPV","you have no message...");
 define("_SENDNEWMESS","New message");
+define("_NOFLOOD","You have already posted a message there 's less than " . $nuked['post_flood'] . " seconds, please wait before sending another message ...");
+
 ?>
