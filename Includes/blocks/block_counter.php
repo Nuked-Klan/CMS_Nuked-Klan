@@ -7,30 +7,32 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 function affich_block_counter($blok){
     global $nuked;
 
-    $sql = mysql_query("SELECT id FROM " . STATS_VISITOR_TABLE);
-    $visites = mysql_num_rows($sql);
+    $sql = mysql_query('SELECT count FROM ' . STATS_TABLE . ' WHERE type = "pages"');
+    while (list($count) = mysql_fetch_array($sql))
+    {
+        $visites = $visites + $count;
+    }
+
     $nb_digits = max(strlen($visites), 8);
-    $visites = substr("0000000000" . $visites, - $nb_digits);
+    $visites = substr('0000000000' . $visites, - $nb_digits);
 
-    $visites = str_replace("0", "<img src=\"modules/Stats/images/compteur/0.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("1", "<img src=\"modules/Stats/images/compteur/1.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("2", "<img src=\"modules/Stats/images/compteur/2.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("3", "<img src=\"modules/Stats/images/compteur/3.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("4", "<img src=\"modules/Stats/images/compteur/4.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("5", "<img src=\"modules/Stats/images/compteur/5.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("6", "<img src=\"modules/Stats/images/compteur/6.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("7", "<img src=\"modules/Stats/images/compteur/7.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("8", "<img src=\"modules/Stats/images/compteur/8.jpg\" alt=\"\" />", "$visites");
-    $visites = str_replace("9", "<img src=\"modules/Stats/images/compteur/9.jpg\" alt=\"\" />", "$visites");
+    $visites = str_replace('0', '<img src="modules/Stats/images/compteur/0.jpg" alt="" />', $visites);
+    $visites = str_replace('1', '<img src="modules/Stats/images/compteur/1.jpg" alt="" />', $visites);
+    $visites = str_replace('2', '<img src="modules/Stats/images/compteur/2.jpg" alt="" />', $visites);
+    $visites = str_replace('3', '<img src="modules/Stats/images/compteur/3.jpg" alt="" />', $visites);
+    $visites = str_replace('4', '<img src="modules/Stats/images/compteur/4.jpg" alt="" />', $visites);
+    $visites = str_replace('5', '<img src="modules/Stats/images/compteur/5.jpg" alt="" />', $visites);
+    $visites = str_replace('6', '<img src="modules/Stats/images/compteur/6.jpg" alt="" />', $visites);
+    $visites = str_replace('7', '<img src="modules/Stats/images/compteur/7.jpg" alt="" />', $visites);
+    $visites = str_replace('8', '<img src="modules/Stats/images/compteur/8.jpg" alt="" />', $visites);
+    $visites = str_replace('9', '<img src="modules/Stats/images/compteur/9.jpg" alt="" />', $visites);
 
-    $blok['content'] = '<br /><div style="text-align: center;">' . $visites . '</div><br />'."\n";
+    $blok['content'] = '<div style="text-align: center; padding-top: 10px">' . $visites . '</div><br />'."\n";
 
     return $blok;
 }

@@ -7,9 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 function affich_block_center($blok){
 
@@ -17,116 +15,59 @@ function affich_block_center($blok){
     $mod1 = $mod[0];
     $mod2 = $mod[1];
 
-    if ($mod1 == 'Gallery'){
-        $modname1 = _NAVGALLERY;
-    }
-    else if ($mod1 == 'Calendar'){
-        $modname1 = _NEXTWAR;
-    }
-    else if ($mod1 == 'Download'){
-        $modname1 = _NAVDOWNLOAD;
-    }
-    else if ($mod1 == 'Irc'){
-        $modname1 = _IRCAWARD;
-    }
-    else if ($mod1 == 'Links'){
-        $modname1 = _NAVLINKS;
-    }
-    else if ($mod1 == 'Wars'){
-        $modname1 = _LATESTWAR;
-    }
-    else if ($mod1 == 'News'){
-        $modname1 = _NAVNEWS;
-    }
-    else if ($mod1 == 'Sections'){
-        $modname1 = _NAVART;
-    }
-    else if ($mod1 == 'Server'){
-        $modname1 = _SERVERMONITOR;
-    }
-    else if ($mod1 == 'Forum'){
-        $modname1 = _NAVFORUM;
-    }
-    else if ($mod1 == 'Textbox'){
-        $modname1 = _BLOKSHOUT;
-    }
-    else if ($mod1 == 'Stats'){
-        $modname1 = _BLOKSTATS;
-    }
-    else if ($mod1 == 'Search'){
-        $modname1 = _BLOKSEARCH;
-    }
-    else{
-        $modname1 = $mod1;
-    }
+    if ($mod1 == 'Gallery') $modname1 = _NAVGALLERY;
+    else if ($mod1 == 'Calendar') $modname1 = _NEXTWAR;
+    else if ($mod1 == 'Download') $modname1 = _NAVDOWNLOAD;
+    else if ($mod1 == 'Irc') $modname1 = _IRCAWARD;
+    else if ($mod1 == 'Links') $modname1 = _NAVLINKS;
+    else if ($mod1 == 'Wars') $modname1 = _LATESTWAR;
+    else if ($mod1 == 'News') $modname1 = _NAVNEWS;
+    else if ($mod1 == 'Sections') $modname1 = _NAVART;
+    else if ($mod1 == 'Server') $modname1 = _SERVERMONITOR;
+    else if ($mod1 == 'Forum') $modname1 = _NAVFORUM;
+    else if ($mod1 == 'Textbox') $modname1 = _BLOKSHOUT;
+    else if ($mod1 == 'Stats') $modname1 = _BLOKSTATS;
+    else if ($mod1 == 'Search') $modname1 = _BLOKSEARCH;
+    else $modname1 = $mod1;
 
-    if ($mod2 == 'Gallery'){
-        $modname2 = _NAVGALLERY;
-    }
-    else if ($mod2 == 'Calendar'){
-        $modname2 = _NEXTWAR;
-    }
-    else if ($mod2 == 'Download'){
-        $modname2 = _NAVDOWNLOAD;
-    }
-    else if ($mod2 == 'Irc'){
-        $modname2 = _IRCAWARD;
-    }
-    else if ($mod2 == 'Links'){
-        $modname2 = _NAVLINKS;
-    }
-    else if ($mod2 == 'Wars'){
-        $modname2 = _LATESTWAR;
-    }
-    else if ($mod2 == 'News'){
-        $modname2 = _NAVNEWS;
-    }
-    else if ($mod2 == 'Sections'){
-        $modname2 = _NAVART;
-    }
-    else if ($mod2 == 'Server'){
-        $modname2 = _SERVERMONITOR;
-    }
-    else if ($mod2 == 'Forum'){
-        $modname2 = _NAVFORUM;
-    }
-    else if ($mod2 == 'Textbox'){
-        $modname2 = _BLOKSHOUT;
-    }
-    else if ($mod2 == 'Stats'){
-        $modname2 = _BLOKSTATS;
-    }
-    else if ($mod2 == 'Search'){
-        $modname2 = _BLOKSEARCH;
-    }
-    else{
-        $modname2 = $mod2;
-    }
+    if ($mod2 == 'Gallery') $modname2 = _NAVGALLERY;
+    else if ($mod2 == 'Calendar') $modname2 = _NEXTWAR;
+    else if ($mod2 == 'Download') $modname2 = _NAVDOWNLOAD;
+    else if ($mod2 == 'Irc') $modname2 = _IRCAWARD;
+    else if ($mod2 == 'Links') $modname2 = _NAVLINKS;
+    else if ($mod2 == 'Wars') $modname2 = _LATESTWAR;
+    else if ($mod2 == 'News') $modname2 = _NAVNEWS;
+    else if ($mod2 == 'Sections') $modname2 = _NAVART;
+    else if ($mod2 == 'Server') $modname2 = _SERVERMONITOR;
+    else if ($mod2 == 'Forum') $modname2 = _NAVFORUM;
+    else if ($mod2 == 'Textbox') $modname2 = _BLOKSHOUT;
+    else if ($mod2 == 'Stats') $modname2 = _BLOKSTATS;
+    else if ($mod2 == 'Search') $modname2 = _BLOKSEARCH;
+    else $modname2 = $mod2;
 
     $blok['content'] = '';
-    $blok['content'] .= '<table style="margin-left: auto;margin-right: auto;text-align: left;width:100%;"><tr>'."\n";
 
     if ($mod2 != ""){
-        $blok['content'] .= '<td style="width: 45%;text-align:left;vertical-align:top" ><table style="width:100%;"><tr><td><b>' . $modname1 . '</b></td></tr><tr><td style="vertical-align:top;" >'."\n";
+        $blok['content'] .= '<div style="width: 48%; float: left" ><h3 style="text-align: center">' . $modname1 . '</h3>'."\n";
         $bid = '';
     }
 	else{
-        $blok['content'] .= '<td style="width: 100%;text-align:left;vertical-align:top;" >'."\n";
+        $blok['content'] .= '<div style="width: 100%">'."\n";
         $bid = $blok['bid'];
     }
 
     $blok['content'] .= inc_bl1($mod1, $bid);
 
-    $blok['content'] .= '</td>'."\n";
+    $blok['content'] .= '</div>'."\n";
 
     if ($mod2 != ""){
-        $blok['content'] .= '</tr></table></td><td style="width: 10%;">&nbsp;</td><td style="width: 45%;text-align:left;vertical-align:top;" ><table style="width:100%;" ><tr><td><b>' . $modname2 . '</b></td></tr><tr><td style="width: 45%;text-align:left;vertical-align:top;" >'."\n";
+        $blok['content'] .= '<div style="float: left; width: 4%">&nbsp;</div><div style="float: left; width: 48%"><h3 style="text-align: center">' . $modname2 . '</h3>'."\n";
         $b = 1;
         $blok['content'] .= inc_bl2($mod2);
-        $blok['content'] .= '</td></tr></table></td>'."\n";
+        $blok['content'] .= '</div>'."\n";
     }
 
-    $blok['content'] .= '</tr></table>'."\n";
+    $blok['content'] .= '<div style="clear: both"></div>'."\n";
     return $blok;
 }
 

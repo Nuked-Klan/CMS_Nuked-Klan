@@ -7,9 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
-}
+defined("INDEX_CHECK") or die ('You can\'t run this file alone.');
 
 global $nuked, $language;
 translate('modules/Calendar/lang/' . $language . '.lang.php');
@@ -20,7 +18,7 @@ function affich_block_event($blok){
     define ('ADAY', (61 * 60 * 24));
     $datearray = getdate();
 
-    if ($_REQUEST['mo'] == '' && $_REQUEST['ye'] == ''){
+    if (empty($_REQUEST['mo']) && empty($_REQUEST['ye'])){
         $month = $datearray['mon'];
         $year = $datearray['year'];
         $nextmonth = $month + 1;
@@ -30,17 +28,13 @@ function affich_block_event($blok){
             $nextmonth = 1;
             $nextyear = $year + 1;
         }
-        else{
-            $nextyear = $year;
-        }
+        else $nextyear = $year;
 
         if ($prevmonth < 1){
             $prevmonth = 12;
             $prevyear = $year-1;
         }
-        else{
-            $prevyear = $year;
-        }
+        else $prevyear = $year;
 
     }
     else{
@@ -53,17 +47,14 @@ function affich_block_event($blok){
             $nextmonth = 1;
             $nextyear = $year + 1;
         }
-        else{
-            $nextyear = $year;
-        }
+        else $nextyear = $year;
 
         if ($prevmonth < 1){
             $prevmonth = 12;
             $prevyear = $year - 1;
         }
-        else{
-            $prevyear = $year;
-        }
+        else $prevyear = $year;
+
     }
 
     $start = mktime(0, 0, 0, $month, 1, $year);
