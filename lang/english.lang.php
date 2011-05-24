@@ -250,6 +250,7 @@ define("_TMAIL","Mail");
 define("_SHOWAVATAR","Show avatar");
 define("_REQUIRED","reiquired");
 define("_OPTIONAL","optional");
+define("_THEMESELECT", "Choose");
 
 // PATCH CAPTCHA
 define("_SECURITYCODE","Security code");

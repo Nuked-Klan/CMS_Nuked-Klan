@@ -252,6 +252,7 @@ define("_TMAIL","Email");
 define("_SHOWAVATAR","Voir l'avatar");
 define("_REQUIRED","obligatoire");
 define("_OPTIONAL","optionnel");
+define("_THEMESELECT", "Faites votre choix");
 
 // PATCH CAPTCHA
 define("_SECURITYCODE","Code de sécurité");

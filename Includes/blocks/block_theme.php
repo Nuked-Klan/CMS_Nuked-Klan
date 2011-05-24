@@ -7,26 +7,21 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 function affich_block_theme($blok){
     global $cookie_theme;
 
     $blok['content'] .= '<form method="post" action="index.php?file=User&amp;nuked_nude=index&amp;op=modif_theme">'."\n"
-							. '<div style="text-align: center;"><select name="user_theme" onchange="submit();" >'."\n"
-							. '<option value="">--------^--------</option>'."\n";
+    . '<div style="text-align: center"><select name="user_theme" onchange="submit();">'."\n"
+    . '<option value="">' . _THEMESELECT . '</option>'."\n";
 
     $handle = @opendir('themes');
     while (false !== ($f = readdir($handle))){
         if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html' && !preg_match(".", $f)){
-            if ($cookie_theme == $f){
-                $checked = 'selected="selected"';
-            }
-            else{
-                $checked = '';
-            }
+
+            if ($cookie_theme == $f) $checked = 'selected="selected"';
+            else $checked = '';
 
             $blok['content'] .= '<option value="' . $f . '" ' . $checked . '>' . $f . '</option>'."\n";
         }
