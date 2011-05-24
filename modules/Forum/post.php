@@ -40,7 +40,7 @@ $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
 {
 
-    $sql = mysql_query("SELECT nom,level_poll FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
+    $sql = mysql_query("SELECT nom, cat, level_poll FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
     $level_ok = mysql_num_rows($sql);
 
     if ($level_ok == 0)
@@ -49,10 +49,13 @@ if ($visiteur >= $level_access && $level_access > -1)
     }
     else
     {
-        list($nom, $level_poll) = mysql_fetch_array($sql);
+        list($nom, $cat, $level_poll) = mysql_fetch_array($sql);
 
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
+
+		$select_cat = mysql_query('SELECT nom FROM ' . FORUM_CAT_TABLE . ' WHERE id = ' . $cat);
+		list($nom2) = mysql_fetch_array($select_cat);
 
         if ($user && $modos != "" && strpos($user[0], $modos))
         {
@@ -89,7 +92,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "<br /><form method=\"post\" action=\"" . $action . "\" enctype=\"multipart/form-data\" onsubmit=\"backslash('forum_texte');\">\n"
 	. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-	. "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><b>" . $nom . "</b></a></td></tr></table>\n"
+	. "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;cat=" . $cat . "\"><b>" . $nom2 . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><b>" . $nom . "</b></a></td></tr></table>\n"
 	. "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n"
 	. "<tr " . $background . "><td colspan=\"2\" align=\"center\"><b>" . $action_name . "</b></td></tr>\n"
 	. "<tr><td style=\"width: 25%;background: " . $color1 . ";\"><big><b>" . _PSEUDO . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\">";
