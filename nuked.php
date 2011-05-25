@@ -188,12 +188,12 @@ function connect(){
 	
 	if (!$db){
 		if($language == "french"){
-			echo '<div style="text-align: center;">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>';
-			echo '<div>Information :<br />Connexion SQL impossible.</div>';
+			echo '<div style="text-align: center;">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>'
+			. '<div>Information :<br />Connexion SQL impossible.</div>';
 		}
 		else{
-			echo '<div style=\"text-align: center;\">Sorry but the website is not available !<br /></div>';
-			echo '<div>Information :<br />SQL connection impossible.</div>';
+			echo '<div style="text-align: center">Sorry but the website is not available !<br /></div>'
+			. '<div>Information :<br />SQL connection impossible.</div>';
 		}
 		exit();
 	}
@@ -202,12 +202,12 @@ function connect(){
 		
 		if (!$connect){
 			if($language == "french"){
-				echo '<div style=\"text-align: center;\">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>';
-				echo '<div>Information :<br />Nom de base de données sql incorrect.</div>';
+				echo '<div style="text-align: center">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>'
+				. '<div>Information :<br />Nom de base de données sql incorrect.</div>';
 			}
 			else{
-				echo '<div style=\"text-align: center;\">Sorry but the website is not available !<br /></div>';
-				echo '<div>Information :<br />Database SQL name incorrect.</div>';
+				echo '<div style="text-align: center">Sorry but the website is not available !<br /></div>'
+				. '<div>Information :<br />Database SQL name incorrect.</div>';
 			}
 			exit();
 		}
@@ -261,7 +261,7 @@ function banip(){
 				
 				if($not ==false){
 					if($language == "french"){
-						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." n\'est plus banni, sa pÃ©riode est arrivÃ© Ã  expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
+						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 					}
 					else{
 						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." isn\'t ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
