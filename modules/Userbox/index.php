@@ -325,7 +325,7 @@ if ($user)
 		. "<div style=\"text-align: center;\"><br /><big><b>" . _PRIVATEMESS . "</b></big><br /></div>\n"
 		. "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
 		. "<tr style=\"background: " . $bgcolor3 . ";\">\n"
-		. "<td style=\"width: 3%;\" align=\"center\">&nbsp;<b>" . _DELBOX . "</b></td>\n"
+		. "<td style=\"width: 3%;\" align=\"center\">&nbsp;</td>\n"
 		. "<td align=\"center\"><b>" . _FROM . "</b></td>\n"
 		. "<td align=\"center\"><b>" . _SUBJECT . "</b></td>\n"
 		. "<td align=\"center\"><b>" . _DATE . "</b></td>\n"
@@ -386,7 +386,7 @@ if ($user)
 
         if ($nb_mess > 1)
         {
-            echo "<div style=\"text-align: left;\">&nbsp;<img src=\"images/flech_coch.png\" alt=\"\" />\n"
+            echo "<div style=\"text-align: left;\">&nbsp;<img src=\"modules/Userbox/images/flech_coch.png\" alt=\"\" style=\"margin-top: 4px\" />\n"
             . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $nb_mess . "', true);\">" . _CHECKALL . "</a> / " 
             . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $nb_mess . "', false);\">" . _UNCHECKALL . "</a><br /></div>\n";
         } 
