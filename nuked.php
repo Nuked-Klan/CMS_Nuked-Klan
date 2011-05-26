@@ -7,9 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 connect();
 
@@ -17,7 +15,7 @@ date_default_timezone_set(getLocalTimezone());
 
 $nuked = array();
 
-$sql_conf = mysql_query("SELECT name, value FROM " . $db_prefix . "_config");
+$sql_conf = mysql_query('SELECT name, value FROM ' . $db_prefix . '_config');
 while ($row = mysql_fetch_array($sql_conf)){
 	$nuked[$row['name']] = htmlentities($row['value'], ENT_NOQUOTES);
 }
@@ -31,8 +29,8 @@ $nuked['defie_charte'] = secu_html(html_entity_decode($nuked['defie_charte']));
 $nuked['recrute_charte'] = secu_html(html_entity_decode($nuked['recrute_charte']));
 
 
-include ("Includes/constants.php");
-if(ini_get('session.save_handler') == "files"){
+include ('Includes/constants.php');
+if(ini_get('session.save_handler') == 'files'){
 session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
 }
 @session_name('nuked');
@@ -41,24 +39,24 @@ if (session_id() == ''){
 	exit('Erreur dans la création de la session annonyme');
 }
 
-include ("Includes/nkSessions.php");
+include ('Includes/nkSessions.php');
 
 if (!isset($_REQUEST['file']) || $_REQUEST['file'] == null){
 	$_REQUEST['file'] = $nuked['index_site'];
 }
 
 if (!isset($_REQUEST['op']) || $_REQUEST['op'] == null){
-	$_REQUEST['op'] = "index";
+	$_REQUEST['op'] = 'index';
 }
 
-if ($_REQUEST[$nuked['cookiename'] . '_user_theme'] != "" && is_file("themes/" . $_REQUEST[$nuked['cookiename'] . '_user_theme'] . "/theme.php")) $theme = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
-elseif (is_file("themes/" . $nuked['theme'] . "/theme.php")) $theme = $nuked['theme'];
+if (isset($_REQUEST[$nuked['cookiename'] . '_user_theme']) && is_file('themes/' . $_REQUEST[$nuked['cookiename'] . '_user_theme'] . '/theme.php')) $theme = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
+elseif (is_file('themes/' . $nuked['theme'] . '/theme.php')) $theme = $nuked['theme'];
 elseif (empty($nuked['theme'])){
-  if (is_file("themes/Impact_Nk/theme.php")) $theme = 'Impact_Nk';
-  else exit('The field \"theme\" is empty, display the default theme: Impact_Nk (Please upload a theme)');
+  if (is_file('themes/Impact_Nk/theme.php')) $theme = 'Impact_Nk';
+  else exit('The field "theme" is empty, display the default theme: Impact_Nk (Please upload a theme)');
 }
 
-if ($_REQUEST[$nuked['cookiename'] . '_user_langue'] != "" && is_file("lang/" . $_REQUEST[$nuked['cookiename'] . '_user_langue'] . ".lang.php")){
+if (isset($_REQUEST[$nuked['cookiename'] . '_user_langue']) && is_file('lang/' . $_REQUEST[$nuked['cookiename'] . '_user_langue'] . '.lang.php')){
 	$language = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
 }
 else{
@@ -66,7 +64,7 @@ else{
 }
 
 if (!isset($_REQUEST['nuked_nude'])){
-	if ($language == "french") setlocale(LC_TIME, 'fr', 'fr_FR', 'fr_FR.ISO8859-1', 'fra', 'france');
+	if ($language == 'french') setlocale(LC_TIME, 'fr', 'fr_FR', 'fr_FR.ISO8859-1', 'fra', 'france');
 	else setlocale (LC_TIME, $language);
 }
 
@@ -187,7 +185,7 @@ function connect(){
 	$db = @mysql_connect($global['db_host'], $global['db_user'], $global['db_pass']);
 	
 	if (!$db){
-		if($language == "french"){
+		if($language == 'french'){
 			echo '<div style="text-align: center;">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>'
 			. '<div>Information :<br />Connexion SQL impossible.</div>';
 		}
@@ -201,7 +199,7 @@ function connect(){
 		$connect = @mysql_select_db($global['db_name'], $db);
 		
 		if (!$connect){
-			if($language == "french"){
+			if($language == 'french'){
 				echo '<div style="text-align: center">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>'
 				. '<div>Information :<br />Nom de base de données sql incorrect.</div>';
 			}
@@ -222,7 +220,7 @@ function banip(){
 	$verif1 = mysql_query("SELECT id, pseudo, date, dure FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
 	list($id1, $pseudo1, $date1, $dure1) = mysql_fetch_array($verif1);
 	
-	if(isset($user[2]) && $user[2] != ""){
+	if(isset($user[2])){
 		$verif2 = mysql_query("SELECT id, pseudo, date, dure FROM " . BANNED_TABLE . " WHERE pseudo = '" . $user[2] . "'");
 		list($id2, $pseudo2, $date2, $dure2) = mysql_fetch_array($verif2);
 	}
@@ -240,7 +238,7 @@ function banip(){
         if ($limit_time < $theday AND $dure1 > 0){
             $del1 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
 			
-			if($language == "french"){
+			if($language == 'french'){
 				$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Lien</a>].')");
 			}
 			else{
@@ -249,18 +247,18 @@ function banip(){
 			$not = true;
 			
 			if(isset($_COOKIE['ip_ban'])){
-				$_COOKIE['ip_ban'] = "";
+				$_COOKIE['ip_ban'] = '';
 			}
         }
 	}
-	if(isset($verif2) && mysql_num_rows($verif2) > 0 AND $user[2] != ""){
+	if(isset($verif2) && mysql_num_rows($verif2) > 0 AND isset($user[2])){
 			$limit_time = $date2 + $dure2;
 
 			if ($limit_time < $theday AND $dure2 > 0){
 				$del2 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE pseudo = '" . $user[2] . "'");
 				
 				if($not ==false){
-					if($language == "french"){
+					if($language == 'french'){
 						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 					}
 					else{
@@ -269,7 +267,7 @@ function banip(){
 					$not = true;
 				}
 				if(isset($_COOKIE['ip_ban'])){
-					$_COOKIE['ip_ban'] = "";
+					$_COOKIE['ip_ban'] = '';
 				}
 			}
 		}
@@ -279,7 +277,7 @@ function banip(){
 			if ($limit_time < $theday AND $dure3 > 0){
 				$del3 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $_COOKIE['ip_ban'] . "'");
 				if($not ==false){
-					if($language == "french"){
+					if($language == 'french'){
 						$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
 					}
 					else{
@@ -290,17 +288,17 @@ function banip(){
 			}
 		}
 		else{
-			$_COOKIE['ip_ban'] = "";
+			$_COOKIE['ip_ban'] = '';
 		}
 		
 	if(!isset($_COOKIE['ip_ban'])){
-		$ip_ban = "";
+		$ip_ban = '';
 	}
 	else{
 		$ip_ban = $_COOKIE['ip_ban'];
 	}
 	
-	if ($ip_ban != ""){
+	if (isset($ip_ban)){
 		if ($ip_ban != $user_ip){
 			$sql = mysql_query("SELECT pseudo, email, texte FROM " . BANNED_TABLE . " WHERE ip = '" . $ip_ban . "'");
 			$nb_ban = mysql_num_rows($sql);
@@ -317,7 +315,7 @@ function banip(){
 				$ip_ban = $user_ip;
 			}
 			else{
-				$ip_ban = "";
+				$ip_ban = '';
 			}
 		}
 	}
@@ -327,15 +325,15 @@ function banip(){
 		
 		while (list($ip_banned, $pseudo_banned) = mysql_fetch_array($sql)){
 			if ($nb_ban == 0){
-				$bip = explode(".", $ip_banned);
+				$bip = explode('.', $ip_banned);
 
-				if (isset($bip[3]) && $bip[3] != ""){
+				if (isset($bip[3]) && !empty($bip[3])){
 					$banlist = $ip_banned;
 					$verif_ip = $user_ip;
 				}
 				else{
 					$banlist = $bip[0] . $bip[1] . $bip[2];
-					$uip = explode(".", $user_ip);
+					$uip = explode('.', $user_ip);
 					$verif_ip = $uip[0] . $uip[1] . $uip[2];
 				}
 
@@ -343,12 +341,12 @@ function banip(){
 					$ip_ban = $ip_banned;
 					$nb_ban++;
 				}
-				else if ($user[2] != "" && $pseudo_banned == $user[2]){
+				else if (isset($user[2]) && $pseudo_banned == $user[2]){
 					$ip_ban = $ip_banned;
 					$nb_ban++;
 				}
 				else{
-					$ip_ban = "";
+					$ip_ban = '';
 				}
 			}
 		}
@@ -359,41 +357,41 @@ function banip(){
 function get_blok($side){
 	global $user, $nuked;
 
-	if ($side == "gauche"){
+	if ($side == 'gauche'){
 		$active = 1;
 	}
-	else if ($side == "droite"){
+	else if ($side == 'droite'){
 		$active = 2;
 	}
-	else if ($side == "centre"){
+	else if ($side == 'centre'){
 		$active = 3;
 	}
-	else if ($side == "bas"){
+	else if ($side == 'bas'){
 		$active = 4;
 	}
 
-	$aff_good_bl = "block_" . $side;
+	$aff_good_bl = 'block_' . $side;
 
 	$sql = mysql_query("SELECT * FROM " . BLOCK_TABLE . " WHERE active = '" . $active . "' ORDER BY position");
 	while ($blok = mysql_fetch_array($sql)){
 		$blok['titre'] = htmlentities($blok['titre']);
-		$test_page = "";
+		$test_page = '';
 		$bl_nivo = $blok['nivo'];
-		$blok['page'] = explode("|", $blok['page']);
+		$blok['page'] = explode('|', $blok['page']);
 		$size = count($blok['page']);
 		for($i=0; $i<$size; $i++){
-			if (isset($_REQUEST['file']) && $_REQUEST['file'] == $blok['page'][$i] || $blok['page'][$i] == "Tous") $test_page = "ok";
+			if (isset($_REQUEST['file']) && $_REQUEST['file'] == $blok['page'][$i] || $blok['page'][$i] == 'Tous') $test_page = 'ok';
 		}
 
 		if ($user) $visiteur = $user[1];
 		else $visiteur = 0;
 
-		if ($visiteur >= $bl_nivo && $test_page == "ok"){
-			include_once("Includes/blocks/block_" . $blok['type'] . ".php");
-			$function = "affich_block_" . $blok['type'];
+		if ($visiteur >= $bl_nivo && $test_page == 'ok'){
+			include_once('Includes/blocks/block_' . $blok['type'] . '.php');
+			$function = 'affich_block_' . $blok['type'];
 			$blok = $function($blok);
 
-			if ($blok['content'] != "") $aff_good_bl($blok);
+			if (!empty($blok['content'])) $aff_good_bl($blok);
 		}
 	}
 }
@@ -414,32 +412,32 @@ function checkimg($url){
 function icon($texte){
 	global $nuked;
 
-	$texte = str_replace("mailto:", "mailto!", $texte);
-	$texte = str_replace("http://", "_http_", $texte);
-	$texte = str_replace("&quot;", "_QUOT_", $texte);
-	$texte = str_replace("&#039;", "_SQUOT_", $texte);
-	$texte = str_replace("&agrave;", "à", $texte);
-	$texte = str_replace("&acirc;", "â", $texte);
-	$texte = str_replace("&eacute;", "é", $texte);
-	$texte = str_replace("&egrave;", "è", $texte);
-	$texte = str_replace("&ecirc;", "ê", $texte);
-	$texte = str_replace("&ucirc;", "û", $texte);
+	$texte = str_replace('mailto:', 'mailto!', $texte);
+	$texte = str_replace('http://', '_http_', $texte);
+	$texte = str_replace('&quot;', '_QUOT_', $texte);
+	$texte = str_replace('&#039;', '_SQUOT_', $texte);
+	$texte = str_replace('&agrave;', 'à', $texte);
+	$texte = str_replace('&acirc;', 'â', $texte);
+	$texte = str_replace('&eacute;', 'é', $texte);
+	$texte = str_replace('&egrave;', 'è', $texte);
+	$texte = str_replace('&ecirc;', 'ê', $texte);
+	$texte = str_replace('&ucirc;', 'û', $texte);
 
 	$sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
 	while (list($code, $url, $name) = mysql_fetch_array($sql)){
-		$texte = str_replace($code, "<img src=\"images/icones/" . $url . "\" alt=\"\" title=\"$name\" />", $texte);
+		$texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . $name . '" />', $texte);
 	}
 
-	$texte = str_replace("mailto!", "mailto:", $texte);
-	$texte = str_replace("_http_", "http://", $texte);
-	$texte = str_replace("_QUOT_", "&quot;", $texte);
-	$texte = str_replace("_SQUOT_", "&#039;", $texte);
-	$texte = str_replace("à", "&agrave;", $texte);
-	$texte = str_replace("â", "&acirc;", $texte);
-	$texte = str_replace("é", "&eacute;", $texte);
-	$texte = str_replace("è", "&egrave;", $texte);
-	$texte = str_replace("ê", "&ecirc;", $texte);
-	$texte = str_replace("û", "&ucirc;", $texte);
+	$texte = str_replace('mailto!', 'mailto:', $texte);
+	$texte = str_replace('_http_', 'http://', $texte);
+	$texte = str_replace('_QUOT_', '&quot;', $texte);
+	$texte = str_replace('_SQUOT_', '&#039;', $texte);
+	$texte = str_replace('à', '&agrave;', $texte);
+	$texte = str_replace('â', '&acirc;', $texte);
+	$texte = str_replace('é', '&eacute;', $texte);
+	$texte = str_replace('è', '&egrave;', $texte);
+	$texte = str_replace('ê', '&ecirc;', $texte);
+	$texte = str_replace('û', '&ucirc;', $texte);
 
 	return($texte);
 }
@@ -734,8 +732,8 @@ function secu_html($texte){
     else $f_quote = _QUOTE;
             
     $bad = $bad | count($TagList) > 0;
-    $texte = str_replace("<blockquote>", "<br /><table style=\"background: " . $bgcolor3 . ";\" cellpadding=\"3\" cellspacing=\"1\" width=\"100%\" border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"quote\" style=\"border: 0; overflow: auto;\"><b>" . $f_quote . " :</b><br />", $texte);
-    $texte = str_replace("</blockquote>", "</div></td></tr></table><br />", $texte);
+    $texte = str_replace('<blockquote>', '<br /><table style="background: ' . $bgcolor3 . '" cellpadding="3" cellspacing="1" width="100%" border="0"><tr><td style="background: #FFFFFF;color: #000000"><div id="quote" style="border: 0; overflow: auto"><b>' . $f_quote . ' :</b><br />', $texte);
+    $texte = str_replace('</blockquote>', '</div></td></tr></table><br />', $texte);
 
 	if ($bad){
 		return('Le code HTML est mal formaté');
@@ -770,7 +768,7 @@ function number($count, $each, $link){
 		// Calcul du nombre de pages
 		$n = ceil($count / intval($each)); // on arrondit à  l'entier sup.
 		// Début de la chaine d'affichage
-		$output = "<b>" . _PAGE . " :</b> ";
+		$output = '<b>' . _PAGE . ' :</b> ';
 		
 		for ($i = 1; $i <= $n; $i++){
 			if ($i == $current){
@@ -778,7 +776,7 @@ function number($count, $each, $link){
 			}
 			// On est autour de la page actuelle : on affiche
 			elseif (abs($i - $current) <= 4){
-				$output .= sprintf("<a href=\"" . $link . "&amp;p=%d\">%d</a> ",$i, $i);
+				$output .= sprintf('<a href="' . $link . '&amp;p=%d">%d</a> ',$i, $i);
 			}
 			// On affiche quelque chose avant d'omettre les pages inutiles
 			else{
@@ -810,8 +808,8 @@ function nbvisiteur(){
 
 	$req = mysql_query("DELETE FROM " . NBCONNECTE_TABLE . " WHERE date < '" . $time."'");
 
-	if ($user_ip != ""){
-		if ($user[0] != ""){
+	if (isset($user_ip)){
+		if (isset($user[0])){
 			$where = "WHERE user_id='" . $user[0] . "'";
 		}
 		else{
@@ -821,7 +819,7 @@ function nbvisiteur(){
 		$query = mysql_num_rows($req);
 
 		if ($query > 0){
-			if ($user[0] != ""){
+			if (isset($user[0])){
 				$req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '" . $user[1] . "', IP = '" . $user_ip . "', username = '" . $user[2] . "' WHERE user_id = '" . $user[0] . "'");
 			}
 			else{
@@ -869,8 +867,8 @@ function translate($file_lang){
 	print eval(" include ('$file_lang'); ");
 	$lang_define = ob_get_contents();
 	$lang_define = htmlentities($lang_define, ENT_NOQUOTES);
-	$lang_define = str_replace("&lt;", "<", $lang_define);
-	$lang_define = str_replace("&gt;", ">", $lang_define);
+	$lang_define = str_replace('&lt;', '<', $lang_define);
+	$lang_define = str_replace('&gt;', '>', $lang_define);
 	ob_end_clean();
 	return $lang_define;
 }
@@ -881,50 +879,50 @@ function compteur($file){
 
 function nk_CSS($str){
 	if ($str != ""){
-		$str = str_replace("content-disposition:","&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#100;&#105;&#115;&#112;&#111;&#115;&#105;&#116;&#105;&#111;&#110;&#58;",$str);
-		$str = str_replace("content-type:","&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#116;&#121;&#112;&#101;&#58;",$str);
-		$str = str_replace("content-transfer-encoding:","&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#116;&#114;&#97;&#110;&#115;&#102;&#101;&#114;&#45;&#101;&#110;&#99;&#111;&#100;&#105;&#110;&#103;&#58;",$str);
-		$str = str_replace("include","&#105;&#110;&#99;&#108;&#117;&#100;&#101;",$str);
-		$str = str_replace("\<\?","&lt;?",$str);
-		$str = str_replace("<\?php","&lt;?php",$str);
-		$str = str_replace("\?\>","?&gt;",$str);
-		$str = str_replace("script","&#115;&#99;&#114;&#105;&#112;&#116;",$str);
-		$str = str_replace("eval","&#101;&#118;&#97;&#108;",$str);
-		$str = str_replace("javascript","&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;",$str);
-		$str = str_replace("embed","&#101;&#109;&#98;&#101;&#100;",$str);
-		$str = str_replace("iframe","&#105;&#102;&#114;&#97;&#109;&#101;",$str);
-		$str = str_replace("refresh", "&#114;&#101;&#102;&#114;&#101;&#115;&#104;", $str);
-		$str = str_replace("onload", "&#111;&#110;&#108;&#111;&#97;&#100;", $str);
-		$str = str_replace("onstart", "&#111;&#110;&#115;&#116;&#97;&#114;&#116;", $str);
-		$str = str_replace("onerror", "&#111;&#110;&#101;&#114;&#114;&#111;&#114;", $str);
-		$str = str_replace("onabort", "&#111;&#110;&#97;&#98;&#111;&#114;&#116;", $str);
-		$str = str_replace("onblur", "&#111;&#110;&#98;&#108;&#117;&#114;", $str);
-		$str = str_replace("onchange", "&#111;&#110;&#99;&#104;&#97;&#110;&#103;&#101;", $str);
-		$str = str_replace("onclick", "&#111;&#110;&#99;&#108;&#105;&#99;&#107;", $str);
-		$str = str_replace("ondblclick", "&#111;&#110;&#100;&#98;&#108;&#99;&#108;&#105;&#99;&#107;", $str);
-		$str = str_replace("onfocus", "&#111;&#110;&#102;&#111;&#99;&#117;&#115;", $str);
-		$str = str_replace("onkeydown", "&#111;&#110;&#107;&#101;&#121;&#100;&#111;&#119;&#110;", $str);
-		$str = str_replace("onkeypress", "&#111;&#110;&#107;&#101;&#121;&#112;&#114;&#101;&#115;&#115;", $str);
-		$str = str_replace("onkeyup", "&#111;&#110;&#107;&#101;&#121;&#117;&#112;", $str);
-		$str = str_replace("onmousedown", "&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#100;&#111;&#119;&#110;", $str);
-		$str = str_replace("onmousemove", "&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#109;&#111;&#118;&#101;", $str);
-		$str = str_replace("onmouseover", "&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#111;&#118;&#101;&#114;", $str);
-		$str = str_replace("onmouseout", "&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#111;&#117;&#116;", $str);
-		$str = str_replace("onmouseup", "&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#117;&#112;", $str);
-		$str = str_replace("onreset", "&#111;&#110;&#114;&#101;&#115;&#101;&#116;", $str);
-		$str = str_replace("onselect", "&#111;&#110;&#115;&#101;&#108;&#101;&#99;&#116;", $str);
-		$str = str_replace("onsubmit", "&#111;&#110;&#115;&#117;&#98;&#109;&#105;&#116;", $str);
-		$str = str_replace("onunload", "&#111;&#110;&#117;&#110;&#108;&#111;&#97;&#100;", $str);
-		$str = str_replace("document", "&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;", $str);
-		$str = str_replace("cookie", "&#99;&#111;&#111;&#107;&#105;&#101;", $str);
-		$str = str_replace("vbscript", "&#118;&#98;&#115;&#99;&#114;&#105;&#112;&#116;", $str);
-		$str = str_replace("location", "&#108;&#111;&#99;&#97;&#116;&#105;&#111;&#110;", $str);
-		$str = str_replace("object", "&#111;&#98;&#106;&#101;&#99;&#116;", $str);
-		$str = str_replace("vbs", "&#118;&#98;&#115;", $str);
-		$str = str_replace("href", "&#104;&#114;&#101;&#102;", $str);
-		$str = str_replace("src", "&#115;&#114;&#99;", $str);
-		$str = str_replace("expression", "&#101;&#120;&#112;&#114;&#101;&#115;&#115;&#105;&#111;&#110;", $str);
-		$str = str_replace("alert", "&#97;&#108;&#101;&#114;&#116;", $str);
+		$str = str_replace('content-disposition:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#100;&#105;&#115;&#112;&#111;&#115;&#105;&#116;&#105;&#111;&#110;&#58;',$str);
+		$str = str_replace('content-type:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#116;&#121;&#112;&#101;&#58;',$str);
+		$str = str_replace('content-transfer-encoding:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#116;&#114;&#97;&#110;&#115;&#102;&#101;&#114;&#45;&#101;&#110;&#99;&#111;&#100;&#105;&#110;&#103;&#58;',$str);
+		$str = str_replace('include','&#105;&#110;&#99;&#108;&#117;&#100;&#101;',$str);
+		$str = str_replace('\<\?','&lt;?',$str);
+		$str = str_replace('<\?php','&lt;?php',$str);
+		$str = str_replace('\?\>','?&gt;',$str);
+		$str = str_replace('script','&#115;&#99;&#114;&#105;&#112;&#116;',$str);
+		$str = str_replace('eval','&#101;&#118;&#97;&#108;',$str);
+		$str = str_replace('javascript','&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;',$str);
+		$str = str_replace('embed','&#101;&#109;&#98;&#101;&#100;',$str);
+		$str = str_replace('iframe','&#105;&#102;&#114;&#97;&#109;&#101;',$str);
+		$str = str_replace('refresh', '&#114;&#101;&#102;&#114;&#101;&#115;&#104;', $str);
+		$str = str_replace('onload', '&#111;&#110;&#108;&#111;&#97;&#100;', $str);
+		$str = str_replace('onstart', '&#111;&#110;&#115;&#116;&#97;&#114;&#116;', $str);
+		$str = str_replace('onerror', '&#111;&#110;&#101;&#114;&#114;&#111;&#114;', $str);
+		$str = str_replace('onabort', '&#111;&#110;&#97;&#98;&#111;&#114;&#116;', $str);
+		$str = str_replace('onblur', '&#111;&#110;&#98;&#108;&#117;&#114;', $str);
+		$str = str_replace('onchange', '&#111;&#110;&#99;&#104;&#97;&#110;&#103;&#101;', $str);
+		$str = str_replace('onclick', '&#111;&#110;&#99;&#108;&#105;&#99;&#107;', $str);
+		$str = str_replace('ondblclick', '&#111;&#110;&#100;&#98;&#108;&#99;&#108;&#105;&#99;&#107;', $str);
+		$str = str_replace('onfocus', '&#111;&#110;&#102;&#111;&#99;&#117;&#115;', $str);
+		$str = str_replace('onkeydown', '&#111;&#110;&#107;&#101;&#121;&#100;&#111;&#119;&#110;', $str);
+		$str = str_replace('onkeypress', '&#111;&#110;&#107;&#101;&#121;&#112;&#114;&#101;&#115;&#115;', $str);
+		$str = str_replace('onkeyup', '&#111;&#110;&#107;&#101;&#121;&#117;&#112;', $str);
+		$str = str_replace('onmousedown', '&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#100;&#111;&#119;&#110;', $str);
+		$str = str_replace('onmousemove', '&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#109;&#111;&#118;&#101;', $str);
+		$str = str_replace('onmouseover', '&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#111;&#118;&#101;&#114;', $str);
+		$str = str_replace('onmouseout', '&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#111;&#117;&#116;', $str);
+		$str = str_replace('onmouseup', '&#111;&#110;&#109;&#111;&#117;&#115;&#101;&#117;&#112;', $str);
+		$str = str_replace('onreset', '&#111;&#110;&#114;&#101;&#115;&#101;&#116;', $str);
+		$str = str_replace('onselect', '&#111;&#110;&#115;&#101;&#108;&#101;&#99;&#116;', $str);
+		$str = str_replace('onsubmit', '&#111;&#110;&#115;&#117;&#98;&#109;&#105;&#116;', $str);
+		$str = str_replace('onunload', '&#111;&#110;&#117;&#110;&#108;&#111;&#97;&#100;', $str);
+		$str = str_replace('document', '&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;', $str);
+		$str = str_replace('cookie', '&#99;&#111;&#111;&#107;&#105;&#101;', $str);
+		$str = str_replace('vbscript', '&#118;&#98;&#115;&#99;&#114;&#105;&#112;&#116;', $str);
+		$str = str_replace('location', '&#108;&#111;&#99;&#97;&#116;&#105;&#111;&#110;', $str);
+		$str = str_replace('object', '&#111;&#98;&#106;&#101;&#99;&#116;', $str);
+		$str = str_replace('vbs', '&#118;&#98;&#115;', $str);
+		$str = str_replace('href', '&#104;&#114;&#101;&#102;', $str);
+		$str = str_replace('src', '&#115;&#114;&#99;', $str);
+		$str = str_replace('expression', '&#101;&#120;&#112;&#114;&#101;&#115;&#115;&#105;&#111;&#110;', $str);
+		$str = str_replace('alert', '&#97;&#108;&#101;&#114;&#116;', $str);
 	}
 	return($str);
 }
@@ -945,20 +943,20 @@ function visits(){
 
 	list($id, $date) = mysql_fetch_array($sql);
 
-	if ($id != "" && $date > $time){
+	if (isset($id) && $date > $time){
 		$upd = mysql_query("UPDATE " . STATS_VISITOR_TABLE . " SET  date = '" . $limite . "' WHERE id = '" . $id . "'");
 	}
 	else{
-		$month = strftime("%m", $time);
-		$year = strftime("%Y", $time);
-		$day = strftime("%d", $time);
-		$hour = strftime("%H", $time);
+		$month = strftime('%m', $time);
+		$year = strftime('%Y', $time);
+		$day = strftime('%d', $time);
+		$hour = strftime('%H', $time);
 		$user_referer = mysql_escape_string($_SERVER['HTTP_REFERER']);
 		$user_host = strtolower(@gethostbyaddr($user_ip));
 		$user_agent = mysql_escape_string($_SERVER['HTTP_USER_AGENT']);
 
 		if ($user_host == $user_ip){
-			$host = "";
+			$host = '';
 		}
 		else{
 			if (preg_match('`([^.]{1,})((\.(co|com|net|org|edu|gov|mil))|())((\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|fi|fj|fk|fm|fo|fr|fx|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nt|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zr|zw))|())$`', $user_host, $res))
