@@ -1,5 +1,7 @@
 <?php
-define("_CONTACT","Contact Us");
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+
+define("_CONTACT","Contact Form");
 define("_CONTACTFORM","Please fill out the form in order to contact us.");
 define("_YNICK","Your name");
 define("_YMAIL","Your E-mail");

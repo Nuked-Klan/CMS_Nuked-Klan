@@ -1,8 +1,5 @@
 <?php
-
-if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 define("_WELCOMEINSTALL","Bienvenue sur Nuked-Klan 1.7.9");
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");

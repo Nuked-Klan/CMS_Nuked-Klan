@@ -58,11 +58,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
 		echo '<div style="width: 50%; margin: auto">
 		<form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
-		<p style="text-align: center"><big><b>' . _CONTACT . '</b></big><br /><br />' . _CONTACTFORM . '</p>
-		<p><label for="ns_pseudo" style="float: left; width: 20%">' . _YNICK . ' : </label>&nbsp;<input id="ns_pseudo" type="text" name="nom" value="" style="width: 50%" /></p>
-		<p><label for="ns_email" style="float: left; width: 20%">' . _YMAIL . ' : </label>&nbsp;<input id="ns_email" type="text" name="mail" value="" style="width: 50%" /></p>
-		<p><label for="ns_sujet" style="float: left; width: 20%">' . _YSUBJECT . ' : </label>&nbsp;<input id="ns_sujet" type="text" name="sujet" value="" style="width: 50%" /></p>
-		<p>' . _YCOMMENT . ' : <br /><textarea class="editorsimpla" id="ns_corp" name="corps" cols="60" rows="12"></textarea></p>';
+		<p style="text-align: center; margin-bottom: 20px"><big><b>' . _CONTACT . '</b></big><br /><em>' . _CONTACTFORM . '</em></p>
+		<p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _YNICK . ' : </label>&nbsp;<input id="ns_pseudo" type="text" name="nom" value="" style="width: 50%" /></p>
+		<p><label for="ns_email" style="float: left; width: 20%; font-weight: bold">' . _YMAIL . ' : </label>&nbsp;<input id="ns_email" type="text" name="mail" value="" style="width: 50%" /></p>
+		<p><label for="ns_sujet" style="float: left; width: 20%; font-weight: bold">' . _YSUBJECT . ' : </label>&nbsp;<input id="ns_sujet" type="text" name="sujet" value="" style="width: 50%" /></p>
+		<p style="font-weight: bold; margin-top: 10px">' . _YCOMMENT . ' : <br /><textarea class="editorsimpla" id="ns_corp" name="corps" cols="60" rows="12"></textarea></p>';
 
 		// Affichage du Captcha.
 		if ($captcha == 1) create_captcha(3);
