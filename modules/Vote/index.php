@@ -46,19 +46,19 @@ function vote_index($module, $vid)
 
         for ($i = 2;$i <= $note;$i += 2)
         {
-            echo "<img style=\"border: 0;\" src=\"modules/Vote/images/z1.gif\" alt=\"\" title=\"" . $note . "/10 (" . $count . "&nbsp;" . _VOTES . ")\" />";
+            echo "<img style=\"border: 0;\" src=\"modules/Vote/images/z1.png\" alt=\"\" title=\"" . $note . "/10 (" . $count . "&nbsp;" . _VOTES . ")\" />";
             $n++;
         } 
 
         if (($note - $i) != -2)
         {
-            echo "<img style=\"border: 0;\" src=\"modules/Vote/images/z2.gif\" alt=\"\" title=\"" . $note . "/10 (" . $count . "&nbsp;" . _VOTES . ")\" />";
+            echo "<img style=\"border: 0;\" src=\"modules/Vote/images/z2.png\" alt=\"\" title=\"" . $note . "/10 (" . $count . "&nbsp;" . _VOTES . ")\" />";
             $n++;
         } 
 
         for ($z = $n;$z < 5;$z++)
         {
-            echo "<img style=\"border: 0;\" src=\"modules/Vote/images/z3.gif\" alt=\"\" title=\"" . $note . "/10 (". $count . "&nbsp;" . _VOTES . ")\" />";
+            echo "<img style=\"border: 0;\" src=\"modules/Vote/images/z3.png\" alt=\"\" title=\"" . $note . "/10 (". $count . "&nbsp;" . _VOTES . ")\" />";
         } 
     } 
     else

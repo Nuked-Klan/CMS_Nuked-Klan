@@ -72,7 +72,7 @@ function index()
 		}
 		else
 		{
-			echo "<img src=\"modules/User/images/noavatar.gif\" alt=\"\" />";
+			echo "<img src=\"modules/User/images/noavatar.png\" alt=\"\" />";
 		}
 
 		echo "</td></tr></table><br />\n"

@@ -52,7 +52,7 @@ echo "<div style=\"text-align: center;\"><br />" . _WERECEICED . "&nbsp;" . $cou
 . "<td style=\"width: 20%;\" align=\"center\"><b>" . _VISITCOUNT . "</b></td>\n"
 . "<td style=\"width: 50%;\">\n"
 . "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n"
-. "<tr><td style=\"width: 25%;\">&nbsp;<b>0%</b></td>\n"
+. "<tr style=\"background: " . $bgcolor2 . "\"><td style=\"width: 25%;\">&nbsp;<b>0%</b></td>\n"
 . "<td style=\"width: 25%;\"><b>25%</b></td>\n"
 . "<td style=\"width: 25%;\"><b>50%</b></td>\n"
 ." <td style=\"width: 25%;\"><b>75%</b></td>\n"
@@ -259,10 +259,9 @@ function show_etat($etat)
         $img = "modules/Stats/images/bar.gif";
     } 
 
-    echo "<table  width=\"100%\" border=\"0\"  cellspacing=\"0\" cellpadding=\"0\"><tr><td>\n"
-    . "<table width=\"" . $width . "%\" border=\"0\"  cellspacing=\"0\" cellpadding=\"0\">\n"
-    . "<tr><td style=\"width: " . $width . "%;height: 10px;background-image: url(" . $img . ");\"></td></tr>\n"
-    ."</table></td></tr></table>\n";
+    echo "<table width=\"" . $width . "%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n"
+    . "<tr><td style=\"width: " . $width . "%;height: 10px;background-image: url(" . $img . ");margin:0;padding:0\"></td></tr>\n"
+    ."</table>\n";
 } 
 
 ?>

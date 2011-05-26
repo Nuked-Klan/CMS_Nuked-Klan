@@ -372,7 +372,7 @@ if ($user)
 			. "<td align=\"center\">" . $titre . "</td>\n"
 			. "<td align=\"center\">" . $date . "</td>\n"
 			. "<td align=\"center\">" . $etat . "</td>\n"
-			. "<td align=\"center\"><a href=\"index.php?file=Userbox&amp;op=show_message&amp;mid=" . $mid . "\"><img style=\"border: 0;\" src=\"modules/Userbox/images/read.gif\" alt=\"\" /></a></td></tr>\n";
+			. "<td align=\"center\"><a href=\"index.php?file=Userbox&amp;op=show_message&amp;mid=" . $mid . "\"><img style=\"border: 0;\" src=\"modules/Userbox/images/read.png\" alt=\"\" /></a></td></tr>\n";
 
 			$i++;
         } 
@@ -386,7 +386,7 @@ if ($user)
 
         if ($nb_mess > 1)
         {
-            echo "<div style=\"text-align: left;\">&nbsp;<img src=\"images/flech_coch.gif\" alt=\"\" />\n"
+            echo "<div style=\"text-align: left;\">&nbsp;<img src=\"images/flech_coch.png\" alt=\"\" />\n"
             . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $nb_mess . "', true);\">" . _CHECKALL . "</a> / " 
             . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $nb_mess . "', false);\">" . _UNCHECKALL . "</a><br /></div>\n";
         } 

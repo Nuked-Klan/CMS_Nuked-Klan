@@ -165,13 +165,13 @@ if ($visiteur >= $level_access && $level_access > -1)
                             echo $adv_name;
                         } 
 
-                        if (is_file("themes/" . $theme . "/images/report.gif"))
+                        if (is_file("themes/" . $theme . "/images/report.png"))
                         {
-                            $img = "themes/" . $theme . "/images/report.gif";
+                            $img = "themes/" . $theme . "/images/report.png";
                         } 
                         else
                         {
-                            $img = "modules/Wars/images/report.gif";
+                            $img = "modules/Wars/images/report.png";
                         } 
 
                         echo "</td><td style=\"width: 15%;\" align=\"center\">" . $type . "</td>\n"
@@ -384,13 +384,13 @@ if ($visiteur >= $level_access && $level_access > -1)
                         echo $adv_name;
                     } 
 
-                    if (is_file("themes/" . $theme . "/images/report.gif"))
+                    if (is_file("themes/" . $theme . "/images/report.png"))
                     {
-                        $img = "themes/" . $theme . "/images/report.gif";
+                        $img = "themes/" . $theme . "/images/report.png";
                     } 
                     else
                     {
-                        $img = "modules/Wars/images/report.gif";
+                        $img = "modules/Wars/images/report.png";
                     } 
 
                     echo "</td><td style=\"width: 15%;\" align=\"center\">" . $type . "</td>\n"
@@ -501,13 +501,13 @@ if ($visiteur >= $level_access && $level_access > -1)
                         echo $adv_name;
                     } 
 
-                    if (is_file("themes/" . $theme . "/images/report.gif"))
+                    if (is_file("themes/" . $theme . "/images/report.png"))
                     {
-                        $img = "themes/" . $theme . "/images/report.gif";
+                        $img = "themes/" . $theme . "/images/report.png";
                     } 
                     else
                     {
-                        $img = "modules/Wars/images/report.gif";
+                        $img = "modules/Wars/images/report.png";
                     } 
 
                     echo "</td><td style=\"width: 20%;\" align=\"center\">" . $type . "</td>\n"
@@ -693,7 +693,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $demos = "";
                 } 
                 $l++;
-                echo "<tr><td><img src=\"modules/Wars/images/demo.gif\" alt=\"\" /></td><td><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . _DOWNLOADDEMO . " " . $demos . "</a></td></tr>\n";
+                echo "<tr><td><img src=\"modules/Wars/images/demo.png\" alt=\"\" /></td><td><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . _DOWNLOADDEMO . " " . $demos . "</a></td></tr>\n";
             } 
             echo "</table></td></tr>\n";
         } 
