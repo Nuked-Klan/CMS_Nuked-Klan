@@ -9,6 +9,9 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
+// SET PHP PARAMETERS
+@ini_set('register_globals', 'off');
+
 connect();
 
 date_default_timezone_set(getLocalTimezone());
