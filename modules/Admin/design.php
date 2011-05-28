@@ -816,8 +816,7 @@ redirect("index.php?file=User",0);
 function adminfoot()
 {
 ?>
-</div></div></body>
-</html>
+</div></div>
 <?php
 }
 ?>
