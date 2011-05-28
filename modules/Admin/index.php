@@ -142,7 +142,7 @@ if ($visiteur >= 2)
 					<?php echo _AIDE; ?>
 				</span></a></li>
 
-				<li><a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;nuked_nude"><span>
+				<li><a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;nuked_nude=index"><span>
 					<img src="modules/Admin/images/icons/statistiques.png" alt="icon" /><br /><br />
 					<?php echo _STATS; ?>
 				</span></a></li>
