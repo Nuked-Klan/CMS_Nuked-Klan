@@ -12,11 +12,12 @@ define('INDEX_CHECK', 1);
 
 $mtime = microtime();
 
-include_once ('Includes/php51compatibility.php');
-include ('globals.php');
-@include ('conf.inc.php');
+include_once('Includes/php51compatibility.php');
+include('globals.php');
+if(file_exists('conf.inc.php')) include('conf.inc.php');
+
 // POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
-if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true) extract($_REQUEST);
+if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == TRUE) extract($_REQUEST);
 
 if (!defined('NK_INSTALLED')){
     if (file_exists('install.php')){
@@ -36,8 +37,8 @@ if (!defined('NK_OPEN')){
     exit();
 }
 
-include ('nuked.php');
-include_once ('Includes/hash.php');
+include('nuked.php');
+include_once('Includes/hash.php');
 
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
 set_error_handler('erreursql');
@@ -68,7 +69,7 @@ $_REQUEST['im_file'] = basename(trim($_REQUEST['im_file']));
 $_REQUEST['page'] = basename(trim($_REQUEST['im_file']));
 $theme = trim($theme);
 $language = trim($language);
-// Fin
+
 if (!$user){
     $visiteur = 0;
     $_SESSION['admin'] = false;
@@ -85,9 +86,9 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <link title="style" type="text/css" rel="stylesheet" href="themes/' , $theme , '/style.css" />
     <body style="background: ' , $bgcolor2 , '">
-    <div style="width: 600px; padding: 25px; margin: 40px auto; border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor1 , '; text-align: center">
+    <div style="width: 600px; padding: 25px; margin: 200px auto; border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor1 , '; text-align: center">
     <h2 style="margin: 0">' , $nuked['name'] , ' - ' , $nuked['slogan'] , '</h2>
-    ' , _SITECLOSED , '</div></body></html>';
+    ' , _SITECLOSED , '<br/><br /><a href="index.php?file=User&amp;op=login_screen"><b>' . _LOGINUSER . '</b></a></div></body></html>';
 }
 else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) && $_SESSION['admin'] == 0){
     include ('themes/' . $theme . '/theme.php');
@@ -106,18 +107,14 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     if ($nuked['level_analys'] != -1) visits();
 
     if (!isset($_REQUEST['nuked_nude'])){
-        if (defined('NK_GZIP') && @extension_loaded('zlib') && @phpversion() >= '4.0.4' && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false){
+        if (defined('NK_GZIP') && ini_get('zlib_output') && phpversion() >= '4.0.4' && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false){
             ob_start('ob_gzhandler');
         }
-        if (defined('NK_GZIP') && substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') && ini_get('zlib.output_compression'))
-            ob_start('ob_gzhandler');
-        else ob_start();
 
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
 
         echo '<script type="text/javascript" src="media/js/infobulle.js"></script>
-        <script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>
-        <link rel="stylesheet" href="editeur/plugins/insertcode/insertcode.css" type="text/css" media="screen" />';
+        <script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>';
 
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login'){
         ?>
@@ -149,7 +146,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                     theme_advanced_resizing : true,
 
                     // Example content CSS (should be your site CSS)
-                    <?php if(is_file('themes/' . $theme . '/editeur.css')) echo 'content_css : "themes/' . $theme. '/editeur.css",'; ?>
+                    <?php if(file_exists('themes/' . $theme . '/editeur.css')) echo 'content_css : "themes/' . $theme. '/editeur.css",'; ?>
 
                     // Drop lists for link/image/media/template dialogs
                     external_link_list_url : "lists/link_list.js",
@@ -186,27 +183,27 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                     theme_advanced_toolbar_align : "left",
                     theme_advanced_statusbar_location : "none",
                     theme_advanced_resizing : true,
-                    <?php if(is_file('themes/' . $theme . '/editeur.css')) echo 'content_css : "themes/' . $theme. '/editeur.css",'; ?>
+                    <?php if(file_exists('themes/' . $theme . '/editeur.css')) echo 'content_css : "themes/' . $theme. '/editeur.css",'; ?>
                 });
-            </script>
 
-            <style type="text/css">
-            #forum_texte_toolbargroup { background-color: #<?php echo $editeur['couleur']; ?>; }
-            <?php if (!empty($editeur['couleur'])){ ?>
-                            .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background-color: #<?php echo $editeur['couleur']; ?>; border: 1px solid #d5d5d5 }
-                            .defaultSkin table.mceLayout tr.mceLast { background-color: #<?php echo $editeur['couleur']; ?> }
-            <?php }
-                        else if(!empty($bgcolor4)){
-            ?>
-                            .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background-color: <?php echo $bgcolor4; ?>;    border: 1px solid #d5d5d5 }
-                            .defaultSkin table.mceLayout tr.mceLast { background-color: <?php echo $bgcolor4; ?> }
-            <?php
-                        }
-                        else{
-            ?>
-                            .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background: #fff url('modules/Admin/images/bg-form-field.gif') top left repeat-x; border: 1px solid #d5d5d5 }
-            <?php }
-                        echo '</style>';
+				<!--
+				document.write('<style type="text/css">
+				<?php if (!empty($editeur['couleur'])){ ?>
+                    #forum_texte_toolbargroup { background-color: #<?php echo $editeur['couleur']; ?>; }
+                    .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background-color: #<?php echo $editeur['couleur']; ?>; border: 1px solid #d5d5d5 }
+                    .defaultSkin table.mceLayout tr.mceLast { background-color: #<?php echo $editeur['couleur']; ?> }
+                <?php }
+                else if(!empty($bgcolor4)){
+                ?>
+                    .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background-color: <?php echo $bgcolor4; ?>;    border: 1px solid #d5d5d5 }
+                    .defaultSkin table.mceLayout tr.mceLast { background-color: <?php echo $bgcolor4; ?> }
+                <?php
+                }
+                else{
+				?>
+                    .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background: #fff url('modules/Admin/images/bg-form-field.gif') top left repeat-x; border: 1px solid #d5d5d5 }
+                <?php }
+                echo '</style></script>';
         }
         // End TinyMCE Configuration
 
@@ -232,9 +229,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             , '</script>',"\n";
 
 
-        if ($nuked['nk_status'] == 'closed' && $user[1] == 9){
-            echo '<table style="background: ' , $bgcolor3 , ';width:100%;" cellspacing="1" cellpadding="8">',"\n"
-            ,'<tr><td style="background: ' , $bgcolor2 , ';" ><big><b>' , _YOURSITEISCLOSED , ' :<br /><br/ >' , $nuked['url'] , '/index.php?file=User&amp;op=login_screen</b></big></td></tr></table><br />',"\n";
+        if ($nuked['nk_status'] == 'closed' && $user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
+            echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , _YOURSITEISCLOSED , ' :<br /><br/ >' , $nuked['url'] , '/index.php?file=User&amp;op=login_screen</b></div>',"\n";
         }
     }
 
