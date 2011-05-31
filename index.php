@@ -203,7 +203,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 				?>
                     .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background: #fff url('modules/Admin/images/bg-form-field.gif') top left repeat-x; border: 1px solid #d5d5d5 }
                 <?php }
-                echo '</style></script>';
+                echo '</style>\'); -->
+				</script>';
         }
         // End TinyMCE Configuration
 
