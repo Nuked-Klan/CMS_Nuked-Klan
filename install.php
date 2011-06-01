@@ -2209,10 +2209,6 @@ function add_god($data)
 	if (is_dir($path4)) @chmod($path4, 0777);
 	if (!is_writable($path4)) $error++;
 
-	$path5 = "upload/PDF/";
-	if (is_dir($path5)) @chmod($path5, 0777);
-	if (!is_writable($path5)) $error++;
-
 	$path6 = "upload/User/";
 	if (is_dir($path6)) @chmod($path6, 0777);
 	if (!is_writable($path6)) $error++;
