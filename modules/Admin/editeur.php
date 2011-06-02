@@ -212,51 +212,49 @@ if ($visiteur == 9)
 		$barre2 = "";
 		$barre3 = "";
 		$barre4 = "";
-		
-		for($nbr = 0; $nbr<sizeof($_REQUEST['ligne1']); $nbr++)
-		{
-			$barre1 .= $_REQUEST['ligne1'][$nbr];
-			if($_REQUEST['ligne1'][$nbr] != "")
+
+		$size1 = count($_REQUEST['ligne1']);
+		$i = 1;
+		foreach($_REQUEST['ligne1'] as $k => $v){
+			$barre1 .= $v;
+			if($i != $size1)
 			{
 				$barre1 .=",";
 			}
 		}
-		$barre1 = substr($barre1, 0,count($barre1)-2);
 		
-		for($nbr = 0; $nbr<sizeof($_REQUEST['ligne2']); $nbr++)
-		{
-			$barre2 .= $_REQUEST['ligne2'][$nbr];
-			if($_REQUEST['ligne2'][$nbr] != "")
+		$size2 = count($_REQUEST['ligne2']);
+		$i = 1;
+		foreach($_REQUEST['ligne2'] as $k => $v){
+			$barre2 .= $v;
+			if($i != $size2)
 			{
 				$barre2 .=",";
 			}
 		}
-		$barre2 = substr($barre2, 0,count($barre2)-2);
 		
-		for($nbr = 0; $nbr<sizeof($_REQUEST['ligne3']); $nbr++)
-		{
-			$barre3 .= $_REQUEST['ligne3'][$nbr];
-			if($_REQUEST['ligne3'][$nbr] != "")
+		$size3 = count($_REQUEST['ligne3']);
+		$i = 1;
+		foreach($_REQUEST['ligne3'] as $k => $v){
+			$barre3 .= $v;
+			if($i != $size3)
 			{
 				$barre3 .=",";
 			}
 		}
-		$barre3 = substr($barre3, 0,count($barre2)-2);
 		
-		for($nbr = 0; $nbr<sizeof($_REQUEST['ligne4']); $nbr++)
-		{
-			$barre4 .= $_REQUEST['ligne4'][$nbr];
-			if($_REQUEST['ligne4'][$nbr] != "")
+		$size4 = count($_REQUEST['ligne4']);
+		$i = 1;
+		foreach($_REQUEST['ligne4'] as $k => $v){
+			$barre4 .= $v;
+			if($i != $size4)
 			{
 				$barre4 .=",";
 			}
 		}
-		$barre4 = substr($barre4, 0,count($barre4)-2);
 		
-		for($nbr = 0; $nbr<21; $nbr++)
-		{
-			if($_REQUEST['ligne1'][$nbr] == "|")
-			{
+		for($nbr = 0; $nbr<21; $nbr++){
+			if($_REQUEST['ligne1'][$nbr] == "|"){
 				$_REQUEST['ligne1'][$nbr] = "barre";
 			}
 			$ligne1b .= $_REQUEST['ligne1'][$nbr];
@@ -265,10 +263,8 @@ if ($visiteur == 9)
 		}
 		$ligne1b = substr($ligne1b, 0,count($ligne1b)-2);
 		
-		for($nbr = 0; $nbr<13; $nbr++)
-		{
-			if($_REQUEST['ligne2'][$nbr] == "|")
-			{
+		for($nbr = 0; $nbr<13; $nbr++){
+			if($_REQUEST['ligne2'][$nbr] == "|"){
 				$_REQUEST['ligne2'][$nbr] = "barre";
 			}
 			$ligne2b .= $_REQUEST['ligne2'][$nbr];
@@ -276,10 +272,8 @@ if ($visiteur == 9)
 		}
 		$ligne2b = substr($ligne2b, 0,count($ligne2b)-2);
 		
-		for($nbr = 0; $nbr<20; $nbr++)
-		{
-			if($_REQUEST['ligne3'][$nbr] == "|")
-			{
+		for($nbr = 0; $nbr<20; $nbr++){
+			if($_REQUEST['ligne3'][$nbr] == "|"){
 				$_REQUEST['ligne3'][$nbr] = "barre";
 			}
 			$ligne3b .= $_REQUEST['ligne3'][$nbr];
@@ -287,10 +281,8 @@ if ($visiteur == 9)
 		}
 		$ligne3b = substr($ligne3b, 0,count($ligne3b)-2);
 		
-		for($nbr = 0; $nbr<8; $nbr++)
-		{
-			if($_REQUEST['ligne4'][$nbr] == "|")
-			{
+		for($nbr = 0; $nbr<8; $nbr++){
+			if($_REQUEST['ligne4'][$nbr] == "|"){
 				$_REQUEST['ligne4'][$nbr] = "barre";
 			}
 			$ligne4b .= $_REQUEST['ligne4'][$nbr];
