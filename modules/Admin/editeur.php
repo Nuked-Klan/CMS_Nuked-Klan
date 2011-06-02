@@ -221,6 +221,7 @@ if ($visiteur == 9)
 			{
 				$barre1 .=",";
 			}
+			$i++;
 		}
 		
 		$size2 = count($_REQUEST['ligne2']);
@@ -231,6 +232,7 @@ if ($visiteur == 9)
 			{
 				$barre2 .=",";
 			}
+			$i++;
 		}
 		
 		$size3 = count($_REQUEST['ligne3']);
@@ -241,6 +243,7 @@ if ($visiteur == 9)
 			{
 				$barre3 .=",";
 			}
+			$i++;
 		}
 		
 		$size4 = count($_REQUEST['ligne4']);
@@ -251,6 +254,7 @@ if ($visiteur == 9)
 			{
 				$barre4 .=",";
 			}
+			$i++;
 		}
 		
 		for($nbr = 0; $nbr<21; $nbr++){
