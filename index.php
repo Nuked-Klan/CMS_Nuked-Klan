@@ -185,10 +185,11 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                     theme_advanced_resizing : true,
                     <?php if(file_exists('themes/' . $theme . '/editeur.css')) echo 'content_css : "themes/' . $theme. '/editeur.css",'; ?>
                 });
-
-				<!--
-				document.write('<style type="text/css">
-				<?php if (!empty($editeur['couleur'])){ ?>
+            </script>
+            <script type="text/javascript">
+                <!--
+                document.write('<style type="text/css">
+                <?php if (!empty($editeur['couleur'])){ ?>
                     #forum_texte_toolbargroup { background-color: #<?php echo $editeur['couleur']; ?>; }
                     .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background-color: #<?php echo $editeur['couleur']; ?>; border: 1px solid #d5d5d5 }
                     .defaultSkin table.mceLayout tr.mceLast { background-color: #<?php echo $editeur['couleur']; ?> }
@@ -200,11 +201,11 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                 <?php
                 }
                 else{
-				?>
+                ?>
                     .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background: #fff url('modules/Admin/images/bg-form-field.gif') top left repeat-x; border: 1px solid #d5d5d5 }
                 <?php }
                 echo '</style>\'); -->
-				</script>';
+                </script>';
         }
         // End TinyMCE Configuration
 
