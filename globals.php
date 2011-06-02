@@ -42,7 +42,7 @@ function SecureVar($value){
         return $value;
     }
     else{
-        return str_replace(array('<', '>', '0x'), array('&lt;', '&gt;', '\0x'), addslashes($value)) ;
+        return str_replace(array('<', '>', '0x', '&'), array('&lt;', '&gt;', '\0x', '&amp;'), addslashes($value)) ;
     }
 }
 error_reporting (E_ERROR | E_WARNING | E_PARSE);
