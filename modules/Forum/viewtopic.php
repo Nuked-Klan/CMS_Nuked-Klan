@@ -42,7 +42,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     if ($level_ok == 0)
     {
-		if ($user)
+        if ($user)
         {
             $visit = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' AND user_id = '" . $user[0] . "'");
             $user_visit = mysql_num_rows($visit);
@@ -55,7 +55,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     } 
     else if ($topic_ok == 0)
     {
-		if ($user)
+        if ($user)
         {
             $visit = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' AND user_id = '" . $user[0] . "'");
             $user_visit = mysql_num_rows($visit);
@@ -107,8 +107,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "<br /><a name=\"top\"></a><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-		. "<tr><td><big><b>" . $titre . "</b></big></td><td align=\"right\">" . $prev . "&nbsp;" . $next . "</td></tr>\n"
-		. "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;cat=" . $cat . "\"><b>" . $cat_name . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><b>" . $nom . "</b></a>\n";
+        . "<tr><td><big><b>" . $titre . "</b></big></td><td align=\"right\">" . $prev . "&nbsp;" . $next . "</td></tr>\n"
+        . "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;cat=" . $cat . "\"><b>" . $cat_name . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><b>" . $nom . "</b></a>\n";
 
         $sql3 = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
         $count = mysql_num_rows($sql3);
@@ -144,7 +144,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "</td></tr></table>\n"
-	. "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n";
+    . "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n";
 
         if ($sondage == 1)
         {
@@ -236,7 +236,9 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "</td></tr>\n";
         } 
 
-        echo "<tr " . $background . "><td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td><td style=\"width: 75%;\" align=\"center\"><b>" . _MESSAGE . "</b></td></tr>\n";
+        echo "<tr " . $background . "><td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td><td style=\"width: 75%;\" align=\"center\" id=\"forum-table\"><b>" . _MESSAGE . "</b></td></tr>\n";
+
+		echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('forum-table').offsetWidth - 40;\n</script>\n";
 
         $sql4 = mysql_query("SELECT id, titre, auteur, auteur_id, auteur_ip, txt, date, edition, usersig, file  FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' ORDER BY date ASC limit " . $start . ", " . $nb_mess_for_mess."");
         while (list($mess_id, $title, $auteur, $auteur_id, $auteur_ip, $txt, $date, $edition, $usersig, $fichier) = mysql_fetch_row($sql4))
@@ -261,8 +263,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     foreach ($tab as $key=>$val)
                     {
-						if (preg_match("`^<\w+`", $val)) $tab[$key] = $val;
-						else $tab[$key] = preg_replace("/$search[$i]/","<span style=\"color: #FF0000;\"><b>$0</b></span>", $val);
+                        if (preg_match("`^<\w+`", $val)) $tab[$key] = $val;
+                        else $tab[$key] = preg_replace("/$search[$i]/","<span style=\"color: #FF0000;\"><b>$0</b></span>", $val);
                     }
 
                     $txt = implode($tab);
@@ -270,7 +272,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
 
             if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
-            else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);	
+            else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
             else $date = _THE . "&nbsp;" . strftime("%d-%m-%Y %H:%M", $date);
 
             $tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
@@ -362,13 +364,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     if ($avatar != "")
                     {
-						if ($avatar_resize == "off") $ar_ok = 0;
-						else if (preg_match("`http://`i", $avatar) && $avatar_resize == "local") $ar_ok = 0;
-						else  $ar_ok = 1;	
-						
-						if ($ar_ok == 1) $style = "style=\"border: 0; overflow: auto; max-width: " . $avatar_width . "px;  width: expression(this.scrollWidth >= " . $avatar_width . "? '" . $avatar_width . "px' : 'auto');\"";
-						else $style = "style=\"boder:0;\"";
-						
+                        if ($avatar_resize == "off") $ar_ok = 0;
+                        else if (preg_match("`http://`i", $avatar) && $avatar_resize == "local") $ar_ok = 0;
+                        else  $ar_ok = 1;    
+                        
+                        if ($ar_ok == 1) $style = "style=\"border: 0; overflow: auto; max-width: " . $avatar_width . "px;  width: expression(this.scrollWidth >= " . $avatar_width . "? '" . $avatar_width . "px' : 'auto');\"";
+                        else $style = "style=\"boder:0;\"";
+                        
                         echo "<img src=\"" . checkimg($avatar) . "\" " . $style . "alt=\"\" /><br />\n";
                     } 
 
@@ -419,16 +421,14 @@ if ($visiteur >= $level_access && $level_access > -1)
                 echo "&nbsp;<a href=\"index.php?file=Forum&amp;op=del&amp;mess_id=" . $mess_id . "&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/delete.gif\" alt=\"\" title=\"" . _DELMESSAGE . "\" /></a>";
             } 
 
-			echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('txt-content-forum').offsetWidth - 10;\n</script>\n";
-
             echo "</td></tr><tr style=\"background: " . $color . ";\"><td colspan=\"2\"><b>" . $title . "</b></td></tr>\n"
-            . "<tr style=\"background: " . $color . ";\"><td colspan=\"2\" id=\"txt-content-forum\">" . $txt . "<br /><br /></td></tr>\n";
+            . "<tr style=\"background: " . $color . ";\"><td colspan=\"2\">" . $txt . "<br /><br /></td></tr>\n";
 
             if ($edition != "")
             {
                 echo "<tr style=\"background: " . $color . ";\"><td colspan=\"2\"><small><i>" . $edition . "</i></small></td></tr>\n";
             } 
-		
+        
             if ($auteur_id != "" && $signature != "" && $usersig == 1)
             {
                 echo "<tr style=\"background: " . $color . ";\"><td style=\"border-top: 1px dashed " . $color3 . ";\" colspan=\"2\">" . $signature . "</td></tr>\n";
@@ -497,7 +497,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "</td><td align=\"right\" valign=\"top\">";
-	
+    
         if ($user[0] != "")
         {
             $sql_notify = mysql_query("SELECT emailnotify FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND auteur_id = '" . $user[0] . "'");
@@ -505,28 +505,28 @@ if ($visiteur >= $level_access && $level_access > -1)
             
             if ($user_notify > 0)
             {
-				$inotify = 0;
-            	while(list($notify) = mysql_fetch_array($sql_notify))
-				{
-            	    if ($notify == 1)
-            	    {
-						$inotify++;
-            	    }
+                $inotify = 0;
+                while(list($notify) = mysql_fetch_array($sql_notify))
+                {
+                    if ($notify == 1)
+                    {
+                        $inotify++;
+                    }
 
-		}
+        }
 
-		if ($inotify > 0)
-		{
-            	    echo "<a href=\"index.php?file=Forum&amp;op=notify&amp;do=off&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\">" . _NOTIFYOFF . "</a><br />\n";
-		}
-		else
-		{
-            	    echo "<a href=\"index.php?file=Forum&amp;op=notify&amp;do=on&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\">" . _NOTIFYON . "</a><br />\n";
-		}
+        if ($inotify > 0)
+        {
+                    echo "<a href=\"index.php?file=Forum&amp;op=notify&amp;do=off&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\">" . _NOTIFYOFF . "</a><br />\n";
+        }
+        else
+        {
+                    echo "<a href=\"index.php?file=Forum&amp;op=notify&amp;do=on&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\">" . _NOTIFYON . "</a><br />\n";
+        }
 
             }
 
-	}
+    }
 
         if ($level == 0 || $visiteur >= $level || $administrator == 1)
         {
@@ -541,16 +541,16 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td></tr></table>\n";
 
-		echo '<script type="text/javascript">
-		for(var i = 0; i < document.images.length; i++)
-		{
-			if (document.images[i].width > MaxWidth)
-			{
-				document.images[i].height = document.images[i].height * MaxWidth / document.images[i].width;
-				document.images[i].width = MaxWidth;
-			}
-		}
-		</script>';
+    echo '<script type="text/javascript">
+        for(var i = 0; i < document.images.length; i++)
+        {
+            if (document.images[i].width > MaxWidth)
+            {
+                document.images[i].height = document.images[i].height * MaxWidth / document.images[i].width;
+                document.images[i].width = MaxWidth;
+            }
+        }
+    </script>';
 
         if ($visiteur >= admin_mod("Forum") || $administrator == 1)
         {
@@ -575,7 +575,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 echo "&nbsp;<a href=\"index.php?file=Forum&amp;op=announce&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "&amp;do=up\"><img style=\"border: 0;\" src=\"modules/Forum/images/topic_up.gif\" alt=\"\" title=\"" . _TOPICUP . "\" /></a>";
             } 
         }
-		if ($user)
+        if ($user)
         {
             $visit = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' AND user_id = '" . $user[0] . "'");
             $user_visit = mysql_num_rows($visit);
