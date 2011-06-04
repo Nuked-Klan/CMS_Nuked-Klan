@@ -249,7 +249,7 @@ define("_TMAIL","Email");
 define("_SHOWAVATAR","Voir l'avatar");
 define("_REQUIRED","obligatoire");
 define("_OPTIONAL","optionnel");
-define("_BTHEMESELECT", "Faites votre choix");
+define("_BTHEMESELECT", "Choix du thème");
 
 // PATCH CAPTCHA
 define("_SECURITYCODE","Code de sécurité");
