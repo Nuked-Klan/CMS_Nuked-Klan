@@ -284,7 +284,7 @@ define("_PROCHE1","Connecter 24h/24h avec Nuked-Klan.org, nous pouvons vous envo
 define("_SIMPLIFIE1","Une installation plus design, plus intuitive, mais surtout une nouvelle installation avec assistance. Si vous avez déjà manié l'installation d'un CMS tel que Nuked-Klan alors choisissez l'installation rapide sauf si vous voulez voir les nouvelles fonctionnalités.<p>Cependant avec l'installation avec assistance, nous vous détaillons et accompagnons étape par étape pour chaque case de formulaire, et si malgré cela, vous n'y arrivez pas, pas de soucis, nous sommes là pour vous aider !</p>");
 
 define("_NEWNK179","Nouveautés Nuked Klan 1.7.9");
-define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et héxadecimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br /> De plus, un système de signature a été mise en place, ainsi si vous installez un module dangereux, nous pourrons vous avertir. Nous avons mis en place aussi un système de mise à jour automatique. Dès qu'une faille est découverte, elle est corrigée immédiatement sans que vous vous en aperceviez.<br /> Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
+define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et hexadecimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br /> De plus, un système de signature a été mise en place, ainsi si vous installez un module dangereux, nous pourrons vous avertir. Nous avons mis en place aussi un système de mise à jour automatique. Dès qu'une faille est découverte, elle est corrigée immédiatement sans que vous vous en aperceviez.<br /> Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPIMISATION","Optimisation");
 define("_OPIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre légérement moins lourd votre site, cependant nous n'avons pu optimisé tout le code ne s'agissant que d'une mise à jour 1.7.X.");
 define("_ADMINNISTRATION","Administration");
@@ -332,7 +332,7 @@ define("_SESSIONPATH", 'Veulliez créer un répertoire nommée: ');
 define("_DIRECTORY", 'Chemin des sessions');
 define("_MHASH", 'Extension mhash');
 define("_FINFO", "<p>Nous essayons d'utiliser mime à la place de finfo pour la sécurité:</p>");
-define("_FORCE", "Il y a une ou plusieurs erreurs fatales de compatibilitées. Nous ne pouvons installer Nuked-Klan.\n");
+define("_FORCE", "Il y a une ou plusieurs erreurs fatales de compatibilités. Nous ne pouvons installer Nuked-Klan.\n");
 define("_NEXTLANG", "<p>Tu peux forcer l'installation de nuked-klan <a href=\"?action=install&amp;langue=french\">ici</a></p>\n");
 define("_SYSTEMINSTALL","Votre site est prêt a être installé. <a href=\"?action=install&amp;langue=french\">Etape suivante!</a><br />\n");
 define("_NEXTSTEP", "Etape suivante");

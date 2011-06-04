@@ -248,9 +248,9 @@ define("_BLOKPARTNERS","Partners");
 define("_TLINK","Links");
 define("_TMAIL","Mail");
 define("_SHOWAVATAR","Show avatar");
-define("_REQUIRED","reiquired");
+define("_REQUIRED","required");
 define("_OPTIONAL","optional");
-define("_BTHEMESELECT", "Choose");
+define("_BTHEMESELECT", "Choice of theme");
 
 // PATCH CAPTCHA
 define("_SECURITYCODE","Security code");
@@ -286,7 +286,7 @@ define("_PROCHE1","Connect onto nuked-klan.org, that way we can send you news, w
 define("_SIMPLIFIE1","The install is not only more logical and much simpler due to it's light design but you will even be assisted with help and conotations. If you already know how to handle a CMS such as nuked klan then chose the quick install. <p> However, if you chose the normal install with the installation assistance, we detail and accompany every step of your installation. </ p>");
 
 define("_NEWNK179","New stuff from nuked klan 1.7.9");
-define("_SECURITE1","This new version has renewed it's security systeme. We have modernised everything between uploads, password encryption and cookies. <br /> In addition, a signature system has been established, so if you install a dangerous module, we will notify you. We also set up a automatic update system that downloads and installs nuked klan patches whenever a vulnerability is discovered. <br /> We also inform you of the latest news on nuked klan without sending you an email if you chose to accept it ...");
+define("_SECURITE1","This new version has renewed it's security system. We have modernised everything between uploads, password encryption and cookies. <br /> In addition, a signature system has been established, so if you install a dangerous module, we will notify you. We also set up a automatic update system that downloads and installs nuked klan patches whenever a vulnerability is discovered. <br /> We also inform you of the latest news on nuked klan without sending you an email if you chose to accept it ...");
 define("_OPIMISATION","Optimisation");
 define("_OPIMISATION1","Some other features have been added but as we didn't want to make a major update you will have to wait for our next version (which will be released soon)");
 define("_ADMINNISTRATION","Administration");
@@ -315,8 +315,7 @@ define("_INSTALLHOST","This is the MYSQL host server adress, it is where all the
 define("_INSTALLDBUSER","This is the username used to connect onto the sql database.");
 define("_INSTALLDBPASS","This is the password that allows you to connect onto the sql database.");
 define("_INSTALLDBPREFIX", "The prefix gives you the possibility to create two installs on the same sql database. The default value is nuked, if however you already have an nuked klan install, we suggest you change it into whatever pleases you.");
-define("_INSTALLDBDBNAME","This is the name of database where all the data will be. You have to create it/or use an existing one. You may create one on the webhost admin panel.
-Il s'agit du nom de votre base de donnée msql, souvent vous devez vous rendre dans l'administration de votre hébegrement pour créer une base de donné, mais quelques fois celle-ci vous est déjà fourni dans le mail d'inscription à votre hébergement.");
+define("_INSTALLDBDBNAME","This is the name of database where all the data will be. You have to create it/or use an existing one. You may create one on the webhost admin panel.");
 // Check installation:
 define("_CHECKCURRING", "<p>Check system requirement ...<br /></p>\n");
 define("_PHPVERSION", 'PHP version > 5.1');
@@ -328,7 +327,7 @@ define("_DIRECTORY", 'Session directory');
 define("_MHASH", 'Extension mhash');
 define("_FINFO", "<p>Try to use mimetype to replace finfo</p>");
 define("_FORCE", "They are one or more fatal error in your configuration. We can't install Nuked-Klan.\n");
-define("_NEXTLANG", "<p>You can force install on click <a href=\"?action=install&amp;langue=french\">there</a></p>\n");
-define("_SYSTEMINSTALL","Your system is ready to start installation. <a href=\"?action=install&amp;langue=french\">Next step !</a><br />\n");
+define("_NEXTLANG", "<p>You can force install on click <a href=\"?action=install&amp;langue=english\">there</a></p>\n");
+define("_SYSTEMINSTALL","Your system is ready to start installation. <a href=\"?action=install&amp;langue=english\">Next step !</a><br />\n");
 define("_NEXTSTEP", "Next Step");
 ?>
