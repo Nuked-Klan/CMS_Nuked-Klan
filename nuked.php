@@ -512,144 +512,114 @@ function secu_css($Style){
 
 function secu_args($matches){
 	$allowedTags = array(
-		'a' => array(
-			'href',
-			'name',
-			'target',
-			'title'
-		),
 		'p' => array(
-			'style'
-		),
-		'span' => array(
-			'style'
+			'style',
+			'dir',
 		),
 		'h1' => array(
+			'style',
 		),
 		'h2' => array(
+			'style',
 		),
 		'h3' => array(
+			'style',
 		),
 		'h4' => array(
+			'style',
 		),
 		'h5' => array(
+			'style',
 		),
 		'h6' => array(
-		),
-		'div' => array(
-		),
-		'br' => array(
-		),
-		'b' => array(
-		),
-		'u' => array(
-		),
-		'i' => array(
-		),
-		'ul' => array(
-		),
-		'ol' => array(
-		),
-		'sub' => array(
-		),
-		'sup' => array(
-		),
-		'li' => array(
-		),
-		'big' => array(
-		),
-		'pre' => array(
-		),
-		'blockquote' => array(
-		),
-		'hr' => array(
-		),
-		'em' => array(
-		),
-		'strong' => array(
-		),
-		'table' => array(
-			'dir',
-			'lang',
-			'border',
-			'cellspacing',
-			'cellpadding',
-			'frame',
-			'rules',
-			'align',
-			'summary',
-			'width',
 			'style',
-			'valign'
-		),
-		'tbody' => array(
-			'dir',
-			'lang',
-			'border',
-			'cellspacing',
-			'cellpadding',
-			'frame',
-			'rules',
-			'align',
-			'summary',
-			'width',
-			'style',
-			'valign'
-		),
-		'tr' => array(
-			'dir',
-			'lang',
-			'border',
-			'cellspacing',
-			'cellpadding',
-			'frame',
-			'rules',
-			'align',
-			'summary',
-			'width',
-			'style',
-			'valign'
-		),
-		'td' => array(
-			'dir',
-			'lang',
-			'border',
-			'cellspacing',
-			'cellpadding',
-			'frame',
-			'rules',
-			'align',
-			'summary',
-			'width',
-			'style',
-			'valign'
-		),
-		'th' => array(
-			'dir',
-			'lang',
-			'border',
-			'cellspacing',
-			'cellpadding',
-			'frame',
-			'rules',
-			'align',
-			'summary',
-			'width',
-			'style',
-			'valign'
-		),
-		'caption' => array(
 		),
 		'img' => array(
+			'alt',
+			'class',
+			'dir',
+			'id',
+			'lang',
+			'longdesc',
 			'src',
 			'style',
 			'title',
-			'dir',
-			'lang',
-			'alt',
 			'width',
-			'height'
+			'height',
+			'border',
 		),
+		'strong' => array(),
+		'em' => array(),
+		'u' => array(),
+		'strike' => array(),
+		'sub' => array(),
+		'sup' => array(),
+		'ol' => array(),
+		'ul' => array(),
+		'li' => array(),
+		'blockquote' => array(),
+		'div' => array(
+			'class',
+			'id',
+			'lang',
+			'style',
+			'title',
+			'align',
+		),
+		'br' => array(),
+		'a' => array(
+			'accesskey',
+			'charset',
+			'class',
+			'dir',
+			'href',
+			'id',
+			'lang',
+			'name',
+			'rel',
+			'style',
+			'tabindex',
+			'target',
+			'title',
+			'type',
+		),
+		'table' => array(
+			'align',
+			'border',
+			'cellpadding',
+			'cellspacing',
+			'class',
+			'dir',
+			'id',
+			'style',
+			'summary',
+		),
+		'caption' => array(),
+		'thead' => array(),
+		'tr' => array(),
+		'th' => array(
+			'scope',
+		),
+		'tbody' => array(),
+		'hr' => array(),
+		'span' => array(
+			'id',
+			'style',
+			'dir',
+		),
+		'big' => array(),
+		'small' => array(),
+		'tt' => array(),
+		'code' => array(),
+		'kbd' => array(),
+		'samp' => array(),
+		'var' => array(),
+		'del' => array(),
+		'ins' => array(),
+		'cite' => array(),
+		'q' => array(),
+		'pre' => array(),
+		'address' => array(),
 	);
 	if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
 		preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);
