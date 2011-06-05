@@ -112,102 +112,12 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         }
 
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
-
-        echo '<script type="text/javascript" src="media/js/infobulle.js"></script>
-        <script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>';
-
-        if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login'){
-        ?>
-            <script type="text/javascript" src="editeur/tiny_mce.js"></script>
-            <script type="text/javascript">
-                tinyMCE.init({
-                    // General options
-                    mode : "textareas",
-                    theme : "advanced",
-                    <?php if ($language == 'french') { echo 'language : "fr",',"\n"; } ?>
-                    plugins : "pagebreak,layer,table,save,advimage,advlink,advlist,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,autosave,autolink",
-                    editor_selector : "editoradvanced",
-
-                    // Theme options
-                    <?php
-                    $editeur = array();
-                    $sql_editeur = mysql_query('SELECT name, value FROM ' . $nuked['prefix'] . '_editeur');
-                    while ($row = mysql_fetch_array($sql_editeur)){
-                        $editeur[$row['name']] = $row['value'];
-                    }
-                    unset($sql_editeur, $row); ?>
-                    theme_advanced_buttons1 : "<?php echo $editeur['ligne1']; ?>",
-                    theme_advanced_buttons2 : "<?php echo $editeur['ligne2']; ?>",
-                    theme_advanced_buttons3 : "<?php echo $editeur['ligne3']; ?>",
-                    theme_advanced_buttons4 : "<?php echo $editeur['ligne4']; ?>",
-                    theme_advanced_toolbar_location : "<?php echo $editeur['bouton']; ?>",
-                    theme_advanced_toolbar_align : "left",
-                    theme_advanced_statusbar_location : "<?php echo $editeur['status']; ?>",
-                    theme_advanced_resizing : true,
-
-                    // Example content CSS (should be your site CSS)
-                    <?php if(file_exists('themes/' . $theme . '/editeur.css')) echo 'content_css : "themes/' . $theme. '/editeur.css",'; ?>
-
-                    // Drop lists for link/image/media/template dialogs
-                    external_link_list_url : "lists/link_list.js",
-                    external_image_list_url : "lists/image_list.js",
-
-                    // Style formats
-                    style_formats : [
-                    <?php
-                    $sql = mysql_query('SELECT texte FROM ' . $nuked['prefix'] . '_style ORDER BY id DESC');
-                    $nbr = mysql_num_rows($sql);
-                    $compteur = 0;
-                    while (list($texte) = mysql_fetch_array($sql)){
-                        $compteur++;
-                        echo $texte;
-                    }
-                    ?>
-                    ]
-                });
-
-                tinyMCE.init({
-                    // General options
-                    mode : "textareas",
-                    theme : "advanced",
-                    <?php if($language == 'french') { ?>language : "fr",<?php } ?>
-                    plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
-                    editor_selector : "editorsimpla",
-
-                    // Theme options
-                    theme_advanced_buttons1 : "bold,italic,underline,|,justifycenter,|,emotions,forecolor,|,removeformat,|,spellchecker",
-                    theme_advanced_buttons2 : "",
-                    theme_advanced_buttons3 : "",
-                    theme_advanced_buttons4 : "",
-                    theme_advanced_toolbar_location : "<?php echo $editeur['bouton']; ?>",
-                    theme_advanced_toolbar_align : "left",
-                    theme_advanced_statusbar_location : "none",
-                    theme_advanced_resizing : true,
-                    <?php if(file_exists('themes/' . $theme . '/editeur.css')) echo 'content_css : "themes/' . $theme. '/editeur.css",'; ?>
-                });
-            </script>
-            <script type="text/javascript">
-                <!--
-                document.write('<style type="text/css">
-                <?php if (!empty($editeur['couleur'])){ ?>
-                    #forum_texte_toolbargroup { background-color: #<?php echo $editeur['couleur']; ?>; }
-                    .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background-color: #<?php echo $editeur['couleur']; ?>; border: 1px solid #d5d5d5 }
-                    .defaultSkin table.mceLayout tr.mceLast { background-color: #<?php echo $editeur['couleur']; ?> }
-                <?php }
-                else if(!empty($bgcolor4)){
-                ?>
-                    .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background-color: <?php echo $bgcolor4; ?>;    border: 1px solid #d5d5d5 }
-                    .defaultSkin table.mceLayout tr.mceLast { background-color: <?php echo $bgcolor4; ?> }
-                <?php
-                }
-                else{
-                ?>
-                    .defaultSkin table.mceLayout tr.mceFirst { font-size: 13px; background: #fff url('modules/Admin/images/bg-form-field.gif') top left repeat-x; border: 1px solid #d5d5d5 }
-                <?php }
-                echo '</style>\'); -->
-                </script>';
-        }
-        // End TinyMCE Configuration
+		echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
+		, '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n"
+		, '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
+		, '<script type="text/javascript">',"\n"
+		, 'CKEDITOR.replaceClass = \'editoradvanced\';',"\n"
+		, '</script>',"\n";
 
         $sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE);
         $signs = array();
