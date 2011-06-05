@@ -1597,7 +1597,7 @@ function update_config($vars)
     $db = @mysql_connect($vars['db_host'], $vars['db_user'], $vars['db_pass']);
     $connect= @mysql_select_db($vars['db_name'], $db);
 
-	if (@extension_loaded('zlib') && !@ini_get('zlib.output_compression') && @phpversion() >= "4.0.4" && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) define('GZIP_COMPRESS', 'true');
+	if (@extension_loaded('zlib') && !@ini_get('zlib.output_compression')) define('GZIP_COMPRESS', 'true');
 	else define('GZIP_COMPRESS', 'false');
 
     if(!$db || !$connect)
