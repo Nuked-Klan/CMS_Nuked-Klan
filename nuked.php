@@ -188,7 +188,7 @@ function connect(){
 	$db = @mysql_connect($global['db_host'], $global['db_user'], $global['db_pass']);
 	
 	if (!$db){
-		if($language == 'french'){
+		if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0,2) == 'fr'){
 			echo '<div style="text-align: center;">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>'
 			. '<div>Information :<br />Connexion SQL impossible.</div>';
 		}
@@ -202,7 +202,7 @@ function connect(){
 		$connect = @mysql_select_db($global['db_name'], $db);
 		
 		if (!$connect){
-			if($language == 'french'){
+			if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0,2) == 'fr'){
 				echo '<div style="text-align: center">Veuillez nous excuser, le site web est actuellement indisponible !<br /></div>'
 				. '<div>Information :<br />Nom de base de données sql incorrect.</div>';
 			}
