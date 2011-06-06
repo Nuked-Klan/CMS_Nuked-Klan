@@ -15,23 +15,14 @@ translate('modules/404/lang/' . $language . '.lang.php');
 
 opentable();
 
-if($_REQUEST['op'] != 'sql')
-{
-	echo '<div style="text-align: center; padding-top: 10px"><big><b>' . $nuked['name'] . '</b></big><br /><br />
-	' . _NOEXIST . '<br /><br />
-	<form method="post" action="index.php?file=Search&amp;op=mod_search">
-	<p><input type="hidden" name="module" value="" /><input type="text" name="main" size="25" /></p>
-	<p><input type="submit" class="button" name="submit" value="' . _SEARCHFOR . '" /></p>
-	<p><a href="index.php?file=Search"><b>' . _ADVANCEDSEARCH . '</b></a> - <a href="javascript:history.back()"><b>' . _BACK . '</b></a></form></div>';
-}
-else
-{
-	echo '<div style="text-align: center; padding-top: 10px">' . _ERROR404SQL . '<br /><br />
-	<form method="post" action="index.php?file=Search&amp;op=mod_search">
-	<input type="hidden" name="module" value="" /><input type="text" name="main" size="25" />
-	<input type="submit" class="button" name="submit" value="' . _SEARCHFOR . '" />
-	<a href="index.php?file=Search">' . _ADVANCEDSEARCH . '</a></form></div>';
-}
+if($_REQUEST['op'] != 'sql') $error_title = '<big><b>' . $nuked['name'] . '</b></big><br /><br />' . _NOEXIST . '<br /><br />';
+else $error_title = _ERROR404SQL . '<br /><br />';
+
+    echo '<div style="text-align: center; padding: 0 10px">' . $error_title . '
+    <form method="post" action="index.php?file=Search&amp;op=mod_search">
+    <p><input type="hidden" name="module" value="" /><input type="text" name="main" size="25" /></p>
+    <p><input type="submit" class="button" name="submit" value="' . _SEARCHFOR . '" /></p>
+    <p><a href="index.php?file=Search"><b>' . _ADVANCEDSEARCH . '</b></a> - <a href="javascript:history.back()"><b>' . _BACK . '</b></a></form></div>';
 
 closetable();
 ?>
