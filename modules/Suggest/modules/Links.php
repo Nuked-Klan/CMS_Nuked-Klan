@@ -121,7 +121,7 @@ function form($content, $sug_id)
     echo "</select></td></tr>\n";
 
 
-	if($_REQUEST['op'] == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]', 'screen','width=800,height=600,resizable=yes,status=no,location=yes,toolbar=yes,menubar=no');\" /></input>";}
+	if($_REQUEST['op'] == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]');\" /></input>";}
 
     echo "<tr><td><b>" . _DESCR . " : </b></td></tr>\n"
     . "<tr><td><textarea class=\"editoradvanced\" id=\"link_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n"
