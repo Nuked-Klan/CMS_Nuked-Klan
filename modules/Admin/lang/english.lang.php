@@ -102,6 +102,8 @@ define("_SLOGAN","Slogan");
 define("_TAGPRE","Tag Prefix");
 define("_TAGSUF","Tag Suffix");
 define("_SITEURL","Website's Url");
+define("_DATEFORMAT","Date format (see <a href=\"http://php.net/manual/en/function.strftime.php\" target=\"_blank\">strftime</a>)");
+define("_DATEZONE","Server time interval (in hours)");
 define("_ADMINMAIL","Admin's email");
 define("_FOOTMESS","Footer message");
 define("_SITEINDEX","Website's index");

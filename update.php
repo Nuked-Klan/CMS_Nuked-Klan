@@ -578,6 +578,13 @@ function upgrade_db()
 
 	$recup_mail = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name = 'mail'");
     list($mail_admin) = mysql_fetch_array($recup_mail);
+    
+    /* Update commun à toutes les versions précédentes : */
+	$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%Y');";
+	$req = mysql_query($sql);		
+
+	$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
+	$req = mysql_query($sql);		
 
 	if($nk_version == '1.7.9 RC5.3')
 	{

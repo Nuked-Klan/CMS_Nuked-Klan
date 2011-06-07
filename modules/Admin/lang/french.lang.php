@@ -106,6 +106,8 @@ define("_SLOGAN","Slogan");
 define("_TAGPRE","Tag Préfixe");
 define("_TAGSUF","Tag Suffixe");
 define("_SITEURL","URL du Site");
+define("_DATEFORMAT","Format de la date (voir <a href=\"http://fr.php.net/manual/fr/function.strftime.php\" target=\"_blank\">strftime</a>)");
+define("_DATEZONE","Décalage (en heure) du temps du serveur");
 define("_ADMINMAIL","Email de l'admin");
 define("_FOOTMESS","Message de bas de page");
 define("_SITEINDEX","Index du site");
