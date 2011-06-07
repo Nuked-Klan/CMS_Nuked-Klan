@@ -107,7 +107,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     if ($nuked['level_analys'] != -1) visits();
 
     if (!isset($_REQUEST['nuked_nude'])){
-        if (defined('NK_GZIP') && ini_get('zlib_output') && phpversion() >= '4.0.4' && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false){
+        if (defined('NK_GZIP') && ini_get('zlib_output')){
             ob_start('ob_gzhandler');
         }
 
