@@ -20,7 +20,7 @@ include_once(dirname(__FILE__) . '/../../Includes/hash.php');
 $url = "index.php";
 $message = '';
 
-$visiteur = ($user) ? $user[0] : 0;
+$visiteur = ($user) ? $user[1] : 0;
 
 if ($visiteur >= 2)
 {
