@@ -1,0 +1,50 @@
+html {
+	background: #ECEADB
+}
+body {
+	width: 800px;
+	margin: 10px auto;
+	padding: 0 30px;
+
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+
+	border:1px solid #d0cec1;
+
+	background: white;
+
+	color: #454545;
+	font: 12px 'Trebuchet MS', Helvetica, Jamrul, sans-serif
+}
+a {
+	color: #8da13e;
+	text-decoration: none
+}
+a:hover {
+	text-decoration: underline
+}
+h1#logo {
+	text-align: center;
+	border: 0
+}
+h1 {
+	font-size: 20px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #cacaca
+}
+p {
+	color: #545454;
+	padding: 0 5px;
+	margin-bottom: 10px
+}
+p .right {
+	float: right;
+}
+a img {
+	border: 0
+}
+p#copyright {
+	text-align: center
+}
