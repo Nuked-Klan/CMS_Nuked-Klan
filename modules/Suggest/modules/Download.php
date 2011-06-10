@@ -58,7 +58,7 @@ function form($content, $sug_id)
 	$refuse = "</div></form><br />\n";
     }
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
-    . "<form method=\"post\" action=\"" . $action . "\"  enctype=\"multipart/form-data\" onsubmit=\"backslash('download_texte');\">\n"
+    . "<form method=\"post\" action=\"" . $action . "\"  enctype=\"multipart/form-data\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" value=\"" . $content[0] . "\" /></td></tr>"
     . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
@@ -99,7 +99,7 @@ function form($content, $sug_id)
 
 
     echo "<tr><td><b>" . _DESCR . " :</b><br />\n";
-    echo "<textarea class=\"editoradvanced\" id=\"download_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n";
+    echo "<textarea id=\"e_advanced\" id=\"download_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n";
     if ($upload_dl_ext == "on" || $upload_dl == "off") echo "<tr><td><b>" . _SIZE . " :</b> <input type=\"text\" name=\"taille\" size=\"10\" value=\"" . $content[3] . "\" /> (" . _KO . ")</td></tr>\n";
     echo "<tr><td><b>" . _COMPATIBLE . " :</b> <input type=\"text\" name=\"comp\" size=\"45\" value=\"" . $content[8] . "\" /></td></tr>\n";
 

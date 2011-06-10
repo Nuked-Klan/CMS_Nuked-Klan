@@ -112,12 +112,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         }
 
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
-		echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
-		, '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n"
-		, '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
-		, '<script type="text/javascript">',"\n"
-		, 'CKEDITOR.replaceClass = \'editoradvanced\';',"\n"
-		, '</script>',"\n";
+        echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
+        , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n";
 
         $sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE);
         $signs = array();
@@ -150,6 +146,28 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         include('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php');
     }
     else include('modules/404/index.php');
+
+	echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
+    , '<script type="text/javascript">',"\n"
+    , '//<![CDATA[',"\n"
+    , '    CKEDITOR.replace( \'e_basic\',',"\n"
+    , '    {',"\n"
+    , '        toolbar : \'Basic\',',"\n"
+    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
+    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
+    echo '    });',"\n"
+    , '//]]>',"\n"
+    , '</script>',"\n"
+    , '<script type="text/javascript">',"\n"
+    , '//<![CDATA[',"\n"
+    , '    CKEDITOR.replace( \'e_advanced\',',"\n"
+    , '    {',"\n"
+    , '        toolbar : \'Full\',',"\n"
+    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
+    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
+    echo '    });',"\n"
+    , '//]]>',"\n"
+    , '</script>',"\n";
 
     if (!isset($_REQUEST['nuked_nude'])){
         if ($user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox'){

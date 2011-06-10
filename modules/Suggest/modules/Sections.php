@@ -56,7 +56,7 @@ function form($content, $sug_id)
     }
 
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
-    . "<form method=\"post\" action=\"$action\" onsubmit=\"backslash('art_texte');\">\n"
+    . "<form method=\"post\" action=\"$action\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
     . "<tr><td><b>" . _TITLE . "</b> : <input type=\"text\" name=\"title\" size=\"45\" value=\"" . $content[0] . "\" /></td></tr>\n"
     . "<tr><td><b>" . _CAT . " :</b> <select name=\"secid\"><option value=\"0\">* " . _NONE . "</option>\n";
@@ -90,7 +90,7 @@ function form($content, $sug_id)
     echo "</select></td></tr>\n";
 
     echo "<tr><td><b>" . _TEXT . "</b></td></tr>\n"
-    . "<tr><td><textarea class=\"editoradvanced\" id=\"art_texte\" name=\"texte\" cols=\"65\" rows=\"12\">" .  $content[2] . "</textarea></td></tr>\n";
+    . "<tr><td><textarea id=\"e_advanced\" name=\"texte\" cols=\"65\" rows=\"12\">" .  $content[2] . "</textarea></td></tr>\n";
 
 	if ($captcha == 1) create_captcha(1);
 

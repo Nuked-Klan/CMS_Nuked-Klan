@@ -598,7 +598,7 @@ function secu_args($matches){
 			}
 			elseif ($args[1][$id] == 'src'){
 				if(!secu_url($args[2][$id]))
-					$args[2][$id] = 'images/_blank.jpg';
+					$args[2][$id] = 'images/noimagefile.gif';
 			}
 		}
 

@@ -171,7 +171,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     echo "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _SERVER . " : </b></td><td><input type=\"text\" name=\"serveur\" value=\"" . $server_ip . "\" size=\"30\" /></td></tr>\n"
 	. "<tr><td style=\"width: 20%;\"><b>" . _TYPE . " : </b></td><td><input type=\"text\" name=\"type\" value=\"\" size=\"20\" /></td></tr>\n"
 	. "<tr><td style=\"width: 20%;\"><b>" . _MAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea class=\"editorsimpla\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+	. "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
 	if ($captcha == 1) create_captcha(2);
 

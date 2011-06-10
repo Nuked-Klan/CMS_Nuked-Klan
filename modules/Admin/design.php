@@ -142,26 +142,6 @@ redirect("index.php?file=User",0);
 			  OAjax.send('texte='+texte+'&type='+type+'');
 			  $(document).trigger('close.facebox')
 			}
-			function styling(name,taille,couleur,gras,italique,souligne)
-			{
-			  var OAjax;
-			  if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
-			  else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP'); 
-			  OAjax.open('POST',"index.php?file=Admin&page=editeur&op=style",true);
-			  OAjax.onreadystatechange = function()
-			  {
-				  if (OAjax.readyState == 4 && OAjax.status==200)
-				  {
-					  if (document.getElementById) 
-					  {  
-						document.getElementById("couleur2").value = "";
-					  }     
-				  }
-			  }
-			  OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-			  OAjax.send('name='+name+'&taille='+taille+'&couleur='+couleur+'&gras='+gras+'&italique='+italique+'&souligne='+souligne+'');
-			  document.location = document.location;
-			}
 			function maFonctionAjax3(texte)
 			{
 			  var OAjax;
@@ -201,72 +181,6 @@ redirect("index.php?file=User",0);
 			  OAjax.send('id='+id+'');
 			} 
 		</script>
-		<!-- TinyMCE -->
-		<script type="text/javascript" src="editeur/tiny_mce.js"></script>
-		<script type="text/javascript"> 
-			tinyMCE.init({
-		// General options
-		mode : "textareas",
-		theme : "advanced",
-
-		<?php if ($language == "french") { echo "language : \"fr\",\n"; }
-		if($_REQUEST['file'] == 'Forum' && $_REQUEST['page'] == 'admin' && $_REQUEST['op'] == 'add_forum') { ?>
-					forced_root_block : false,
-					force_br_newlines : true,
-					force_p_newlines : false,
-		<?php } ?>
-
-		plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
-		editor_deselector : "noediteur",
-		// Theme options
-		<?php $editeur = array();
-		$sql_editeur = mysql_query("SELECT name, value FROM " . $nuked['prefix'] . "_editeur");
-		while ($row = mysql_fetch_array($sql_editeur))
-		{
-			$editeur[$row['name']] = $row['value'];
-		}
-		unset($sql_editeur, $row); ?>
-		theme_advanced_buttons1 : "<?php echo $editeur['ligne1']; ?>",
-		theme_advanced_buttons2 : "<?php echo $editeur['ligne2']; ?>",
-		theme_advanced_buttons3 : "<?php echo $editeur['ligne3']; ?>",
-		theme_advanced_buttons4 : "<?php echo $editeur['ligne4']; ?>",
-		theme_advanced_toolbar_location : "<?php echo $editeur['bouton']; ?>",
-		theme_advanced_toolbar_align : "left",
-		theme_advanced_statusbar_location : "<?php echo $editeur['status']; ?>",
-		theme_advanced_resizing : true,
-		// Drop lists for link/image/media/template dialogs
-		external_link_list_url : "lists/link_list.js",
-		external_image_list_url : "lists/image_list.js",
-		media_external_list_url : "lists/media_list.js",
-
-		// Style formats
-		style_formats : [
-			<?php
-			$sql = mysql_query("SELECT texte FROM " . $nuked['prefix'] . "_style ORDER BY id DESC");
-			$nbr = mysql_num_rows($sql);
-			$compteur = 0;
-			while (list($texte) = mysql_fetch_array($sql))
-			{
-				$compteur++;
-
-				if($compteur != $nbr) echo "".$texte.",\n";
-				else echo "".$texte."\n";
-
-			}
-			?>
-		]
-		});
-		</script>
-		<style>
-		.defaultSkin table.mceLayout tr.mceFirst
-		{
-		font-size: 13px;
-		background: #fff  url('modules/Admin/images/bg-form-field.gif') top left repeat-x;
-		border: 1px solid #d5d5d5;
-		}
-		</style>
-		<!-- /TinyMCE -->
-		
 	</head>
 	<body>
 	<div id="screen" onclick="screenoff()" style="display:none;position:absolute;width:100%;height:100%;background:  url(modules/Admin/images/bg.png) repeat;z-index:10000;">
@@ -436,7 +350,7 @@ redirect("index.php?file=User",0);
 				<li>
 					<?php
 					if($_REQUEST['file'] == "Admin" && ($_REQUEST['page'] == "user" || $_REQUEST['page'] == "theme" || $_REQUEST['page'] == "modules" || 
-					 $_REQUEST['page'] == "block" || $_REQUEST['page'] == "menu" || $_REQUEST['page'] == "smilies" || $_REQUEST['page'] == "games" || $_REQUEST['page'] == "editeur"))
+					 $_REQUEST['page'] == "block" || $_REQUEST['page'] == "menu" || $_REQUEST['page'] == "smilies" || $_REQUEST['page'] == "games"))
 					{
 					?>
 					<a href="#" class="nav-top-item current">
@@ -565,24 +479,6 @@ redirect("index.php?file=User",0);
 								<?php
 								} 
 								echo _JEUX; ?>
-								</a>
-							</li>
-							<li>
-								<?php
-								if($_REQUEST['file'] == "Admin" && $_REQUEST['page'] == "editeur")
-								{
-								?>
-									<a class="current" href="index.php?file=Admin&amp;page=editeur">
-								<?php
-								}
-								elseif ($user[1] == 9)
-								{
-								?>
-									<a href="index.php?file=Admin&amp;page=editeur">
-								<?php
-								} 
-								echo _EDITEUR; 
-								?>
 								</a>
 							</li>
 						</ul>
@@ -792,7 +688,7 @@ redirect("index.php?file=User",0);
 			<form method="post" onsubmit="maFonctionAjax(this.texte.value);return false" action="">
 				<h4><?php echo _NEWMSG; ?>:</h4>
 				<fieldset>
-					<textarea class="noediteur" name="texte" cols="79" rows="5"></textarea>
+					<textarea name="texte" cols="79" rows="5"></textarea>
 				</fieldset>
 				<fieldset>
 					<input class="button" type="submit" value="Send" />
@@ -816,6 +712,25 @@ redirect("index.php?file=User",0);
 function adminfoot()
 {
 ?>
+<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+    CKEDITOR.replace( 'e_basic',
+    {
+        toolbar : 'Basic',
+		language : '<?php echo substr($language, 0,2); ?>'
+    });
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+    CKEDITOR.replace( 'e_advanced',
+    {
+        toolbar : 'Full',
+		language : '<?php echo substr($language, 0,2); ?>'
+    });
+//]]>
+</script>
 </div></div>
 <?php
 }

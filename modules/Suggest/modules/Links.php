@@ -63,7 +63,7 @@ function form($content, $sug_id)
     }
 
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
-    . "<form method=\"post\" action=\"" . $action . "\" onsubmit=\"backslash('link_texte');\">\n"
+    . "<form method=\"post\" action=\"" . $action . "\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" value=\"" . $content[0] . "\" size=\"40\" /></td></tr>\n"
     . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
@@ -124,7 +124,7 @@ function form($content, $sug_id)
 	if($_REQUEST['op'] == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]');\" /></input>";}
 
     echo "<tr><td><b>" . _DESCR . " : </b></td></tr>\n"
-    . "<tr><td><textarea class=\"editoradvanced\" id=\"link_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n"
+    . "<tr><td><textarea id=\"e_advanced\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n"
     . "<tr><td><b>" . _URL . " :</b> <input type=\"text\" name=\"url\" value=\"" . $content[1] . "\" size=\"55\" /> " . $button . "</td></tr>\n"
     . "<tr><td><b>" . _WEBMASTER . " :</b>  <input type=\"text\" name=\"webmaster\" value=\"" . $content[4] . "\" size=\"30\" /></td></tr>\n";
 

@@ -66,15 +66,6 @@ if ($visiteur >= $level_access && $level_access > -1)
    	. "return false;\n"
 	. "}\n"
 	. "\n"
-	. "if (trim(document.getElementById('guestbooktext').value) == \"\")\n"
-	. "{\n"
-	. "alert('" . _NOTEXT . "');\n"
-   	. "return false;\n"
-	. "}\n"
-	. "\n"
-	. "return true;\n"
-	. "}\n"
-    	. "\n"
 	. "// -->\n"
 	. "</script>\n";
 
@@ -85,7 +76,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big></div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Guestbook&amp;op=send_book\" onsubmit=\"backslash('guestbooktext');return verifchamps();\">\n"
+	. "<form method=\"post\" action=\"index.php?file=Guestbook&amp;op=send_book\">\n"
 	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
 	. "<tr><td><b>" . _AUTHOR . " :</b></td><td>";
 	if ($user) echo '<b>' . $user[2] . '</b></td></tr>'; else echo "<input id=\"guest_name\" type=\"text\" name=\"name\" value=\"\" size=\"20\" maxlength=\"30\" /></td></tr>\n";
@@ -96,7 +87,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
 
         echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
-	. "<tr><td colspan=\"2\"><textarea class=\"editorsimpla\" id=\"guestbooktext\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
+	. "<tr><td colspan=\"2\"><textarea id=\"e_basic\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
 	. "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"javascript:history.back()\" /></td></tr></table></form><br />\n";
 
         closetable();

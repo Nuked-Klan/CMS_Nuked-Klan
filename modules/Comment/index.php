@@ -133,9 +133,14 @@ function com_index($module, $im_id)
 		}
 		function remplir()
 		{
-			var ed = window.tinyMCE.get("comtexte");
-			document.getElementById("comtexte").innerHTML = ed.getContent();
-			return (false);
+			var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText() ;
+
+			if (editor_val == '') {
+				alert('Editor value cannot be empty!') ;
+				return false;
+			}
+    
+			return true;
 		}
 	</script>
 	<?php
@@ -161,7 +166,7 @@ function com_index($module, $im_id)
     . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
 
 	. "<tr><td width=\"400\"><b>" . _MESSAGE . " :</b><br />"
-    . "<textarea class=\"editorsimpla\" id=\"comtexte\" name=\"texte\" cols=\"40\" rows=\"3\"></textarea></td>\n"
+    . "<textarea id=\"e_basic\" name=\"texte\" cols=\"40\" rows=\"3\"></textarea></td>\n"
 	. "<td valign=\"left\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr>\n"
     . "<tr><td><b>" . _NICK . " :</b>";
 
@@ -385,7 +390,7 @@ function view_com($module, $im_id)
 
 function post_com($module, $im_id)
 {
-    global $user, $nuked, $bgcolor2, $theme, $visiteur, $captcha;
+    global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur, $captcha;
 
     $level_access = nivo_mod("Comment");
 
@@ -400,36 +405,7 @@ function post_com($module, $im_id)
     . "<head><title>" . _POSTCOMMENT . "</title>\n"
     . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
     . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n";
-	?>
-		<script type="text/javascript" src="editeur/tiny_mce.js"></script>
-		<script type="text/javascript">
-		tinyMCE.init({
-		// General options
-		mode : "textareas",
-		theme : "advanced",
-		<?php
-		if($language == "french")
-		{
-		?>
-		language : "fr",
-		<?php
-		}
-		?>
-		plugins : "pagebreak,layer,table,save,advimage,advlink,emotions,spellchecker,inlinepopups,preview,media,print,contextmenu,paste,directionality,fullscreen,wordcount,advlist,autosave",
-		editor_selector : "editorsimpla",
-		// Theme options
-		theme_advanced_buttons1 : "bold,italic,underline,|,justifycenter,|,emotions,forecolor,|,removeformat,|,spellchecker",
-		theme_advanced_buttons2 : "",
-		theme_advanced_buttons3 : "",
-		theme_advanced_buttons4 : "",
-		theme_advanced_toolbar_location : "top",
-		theme_advanced_toolbar_align : "left",
-		theme_advanced_statusbar_location : "none",
-		theme_advanced_resizing : true
-	});
-		</script>
-		<?php
-    echo "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
     . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
     echo "<script type=\"text/javascript\">\n"
@@ -438,14 +414,6 @@ function post_com($module, $im_id)
     . "function trim(string)\n"
     . "{"
     . "return string.replace(/(^\s*)|(\s*$)/g,'');"
-    . "}\n"
-    . "\n"
-    . "function verifchamps()\n"
-    . "{\n"
-    . "if (trim(document.getElementById('com_texte').value) == \"\")\n"
-    . "{\n"
-    . "alert('" . _NOTEXT . "');\n"
-    . "return false;\n"
     . "}\n"
     . "\n"
     . "if (trim(document.getElementById('com_pseudo').value) == \"\")\n"
@@ -459,11 +427,11 @@ function post_com($module, $im_id)
     . "// -->\n"
     . "</script>\n";
 
-    echo "<form method=\"post\" action=\"index.php?file=Comment&nuked_nude=index&op=post_comment\" onsubmit=\"backslash('com_texte'); return verifchamps();\">\n"
+    echo "<form method=\"post\" action=\"index.php?file=Comment&nuked_nude=index&op=post_comment\" return verifchamps();\">\n"
     . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" maxlength=\"40\" /><br /><br /></td></tr>\n"
     . "<tr><td><b>" . _MESSAGE . " :</b><br />"
-    . "<textarea id=\"com_texte\" class=\"editorsimpla\" name=\"texte\" cols=\"40\" rows=\"10\"></textarea></td></tr>\n"
+    . "<textarea id=\"e_basic\" name=\"texte\" cols=\"40\" rows=\"10\"></textarea></td></tr>\n"
     . "<tr><td><b>" . _NICK . " :</b>";
 
     if ($user)
@@ -484,7 +452,20 @@ function post_com($module, $im_id)
     . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
 	. "<input type=\"hidden\" name=\"noajax\" value=\"true\" />\n"
     . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-    . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form></body></html>";
+    . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
+
+	echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
+    , '<script type="text/javascript">',"\n"
+    , '//<![CDATA[',"\n"
+    , '    CKEDITOR.replace( \'e_basic\',',"\n"
+    , '    {',"\n"
+    , '        toolbar : \'Basic\',',"\n"
+    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
+    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
+    echo '    });',"\n"
+    , '//]]>',"\n"
+    , '</script>',"\n"
+	, '</body></html>',"\n";
 
     }
     else

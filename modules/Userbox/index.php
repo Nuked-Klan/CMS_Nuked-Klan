@@ -73,8 +73,8 @@ if ($user)
 
         opentable();
 
-        echo "<br /><form method=\"post\" action=\"index.php?file=Userbox&amp;op=send_message\" onsubmit=\"backslash('mess_pv');\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
+        echo "<br /><form method=\"post\" action=\"index.php?file=Userbox&amp;op=send_message\">\n"
+	. "<table style=\"margin: auto;text-align: left;width: 98%\">\n"
 	. "<tr><td align=\"center\"><big><b>" . _POSTMESS . "</b></big><br /><br /></td></tr>\n"
 	. "<tr><td><b>" . _AUTHOR . " :</b> " . $user[2] . "</td></tr>\n"
 	. "<tr><td><b>" . _USERFOR . " :</b> ";
@@ -91,7 +91,7 @@ if ($user)
 	}
 
 	echo "</td></tr><tr><td><b>" . _SUBJECT . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $title . "\" /></td></tr>\n"
-	. "<tr><td><b>" . _USERMESS . " :</b><br /><textarea class=\"editoradvanced\" id=\"mess_pv\" name=\"message\" cols=\"65\" rows=\"10\">" . $reply . "</textarea></td></tr>\n"
+	. "<tr><td><b>" . _USERMESS . " :</b><br /><textarea id=\"e_basic\" name=\"message\" cols=\"65\" rows=\"10\">" . $reply . "</textarea></td></tr>\n"
 	. "<tr><td align=\"center\"><br /><input type=\"submit\" name=\"send\" value=\"" . _SEND . "\" />&nbsp;<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"javascript:history.back()\" /></td></tr></table></form><br />\n";
 	
         closetable();

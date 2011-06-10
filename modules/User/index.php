@@ -516,7 +516,7 @@ function edit_account()
             }
         }
 
-        echo "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editoradvanced\" name=\"signature\" rows=\"10\" cols=\"60\">" . $signature . "</textarea></td></tr>\n";
+        echo "<tr><td><b>" . _SIGN . " :</b></td><td><textarea id=\"e_advanced\" name=\"signature\" rows=\"10\" cols=\"60\">" . $signature . "</textarea></td></tr>\n";
 
 
         if ($nuked['user_delete'] == "on")
