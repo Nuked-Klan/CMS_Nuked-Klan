@@ -74,6 +74,7 @@ define("_SECTIONSPG","Nombre d'articles par page");
 define("_PREFUPDATED","Préférences modifiées avec succès.");
 define("_ORDERBY","Classer par");
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> saut de page </i>-----</b><br />");
+define("_CATERRORPOS","La position est déjà à 0, Impossible de monter la position");
 
 define("_ACTIONADDSEC","a ajouté l\'article");
 define("_ACTIONMODIFSEC","a modifié l\'article");
