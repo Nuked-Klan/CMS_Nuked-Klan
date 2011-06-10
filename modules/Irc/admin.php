@@ -107,7 +107,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<form method=\"post\" action=\"index.php?file=Irc&amp;page=admin&amp;op=do_add\">\n"
 	. "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 	. "<tr><td align=\"center\"><b>" . _TEXT . "</b></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea name=\"text\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
+	. "<tr><td align=\"center\"><textarea class=\"editor\" name=\"text\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _ADDTHISAWARD . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Irc&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     } 
@@ -155,7 +155,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Irc&amp;page=admin&amp;op=do_edit\">\n"
 	. "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 	. "<tr><td align=\"center\"><b>" . _TEXT . "</b></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea name=\"text\" cols=\"60\" rows=\"10\">" . $text . "</textarea></td></tr></table>\n"
+	. "<tr><td align=\"center\"><textarea  class=\"editor\" name=\"text\" cols=\"60\" rows=\"10\">" . $text . "</textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"irc_id\" value=\"" . $irc_id . "\" /><input type=\"submit\" value=\"" . _MODIFTHISAWARD . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Irc&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     } 

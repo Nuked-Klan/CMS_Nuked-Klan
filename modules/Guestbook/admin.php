@@ -50,7 +50,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<tr><td><b>" . _URL . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $url . "\" /></td></tr>\n";
 	
         echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
-	. "<tr><td colspan=\"2\"><textarea id=\"guest_text\" name=\"comment\" cols=\"65\" rows=\"12\">" . $comment . "</textarea></td></tr>\n"
+	. "<tr><td colspan=\"2\"><textarea class=\"editor\" id=\"guest_text\" name=\"comment\" cols=\"65\" rows=\"12\">" . $comment . "</textarea></td></tr>\n"
 	. "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><input type=\"hidden\" name=\"gid\" value=\"" . $gid . "\" /></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Guestbook&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>\n";
     } 

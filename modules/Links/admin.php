@@ -88,7 +88,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
 	echo "</select></td></tr>\n";
 
-        echo "<tr><td><b>" . _DESCR . " : </b><br /><textarea id=\"link_texte\" name=\"description\" rows=\"10\" cols=\"65\"></textarea></td></tr>\n"
+        echo "<tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" id=\"link_texte\" name=\"description\" rows=\"10\" cols=\"65\"></textarea></td></tr>\n"
 	. "<tr><td><b>" . _URL . " :</b>  <input type=\"text\" name=\"url\" size=\"55\" value=\"http://\" /></td></tr>\n"
 	. "<tr><td><b>" . _WEBMASTER . " :</b>  <input type=\"text\" name=\"webmaster\" size=\"30\" /></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDTHISLINK . "\" /></td></tr></table>\n"
@@ -225,7 +225,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         
 
-        echo "<tr><td><b>" . _DESCR . " : </b><br /><textarea id=\"link_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $description . "</textarea></td></tr>\n"
+        echo "<tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" id=\"link_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $description . "</textarea></td></tr>\n"
 	. "<tr><td><b>" . _URL . " :</b>  <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $url . "\" /></td></tr>\n"
 	. "<tr><td><b>" . _WEBMASTER . " :</b>  <input type=\"text\" name=\"webmaster\" size=\"30\" value=\"" . $webmaster . "\" /></td></tr>\n"
 	. "<tr><td><b>" . _VISIT . "</b> : <input type=\"text\" name=\"count\" size=\"7\" value=\"" . $count . "\" /></td></tr>\n"
@@ -523,7 +523,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
 	. "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
+	. "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     } 
@@ -601,7 +601,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
 	. "<tr><td><b>" . _DESCR . " :</b><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
+	. "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
 

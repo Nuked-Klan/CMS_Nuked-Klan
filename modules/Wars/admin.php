@@ -375,7 +375,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	
 	echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
 	. "<tr><td align=\"center\"><big>" . _REPORT . "</big></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea name=\"report\" cols=\"60\" rows=\"10\">" . $report . "</textarea></td></tr>\n"
+	. "<tr><td align=\"center\"><textarea class=\"editor\" name=\"report\" cols=\"60\" rows=\"10\">" . $report . "</textarea></td></tr>\n"
 	. "<tr><td align=\"center\"><b>" . _URLREPORT . " :</b> <input type=\"text\" name=\"url_league\" size=\"35\" maxlength=\"200\" value=\"" . $url_league . "\" /></td></tr></table>\n";
 
         if ($_REQUEST['do'] == "edit")

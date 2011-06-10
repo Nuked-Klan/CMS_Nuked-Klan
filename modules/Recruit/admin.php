@@ -122,7 +122,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         
 
-        echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea id=\"charte_recruit\" name=\"recrute_charte\" cols=\"65\" rows=\"15\">" . $charte . "</textarea></td></tr></table>\n"
+        echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" id=\"charte_recruit\" name=\"recrute_charte\" cols=\"65\" rows=\"15\">" . $charte . "</textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Recruit&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     } 

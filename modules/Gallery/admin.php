@@ -52,7 +52,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         echo "</select></td></tr><tr><td><b>" . _AUTHOR . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" /></td></tr>\n";
 
         echo "</td></tr><tr><td><b>" . _DESCR . " :</b></td></tr>\n"
-	. "<tr><td><textarea id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\"></textarea></td></tr>\n"
+	. "<tr><td><textarea class=\"editor\" id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\"></textarea></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr>\n"
 	. "<tr><td><b>" . _URLIMG . " :</b> <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
 	. "<tr><td><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . _REPLACE . "</td></tr>\n"
@@ -530,7 +530,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         echo "</select></td></tr><tr><td><b>" . _AUTHOR . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" value=\"" . $autor . "\" /></td></tr>\n";
 
         echo "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
-	. "<tr><td><textarea id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\" onselect=\"storeCaret('img_texte');\" onclick=\"storeCaret('img_texte');\" onkeyup=\"storeCaret('img_texte');\">" . $description . "</textarea></td></tr>\n"
+	. "<tr><td><textarea class=\"editor\" id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\" onselect=\"storeCaret('img_texte');\" onclick=\"storeCaret('img_texte');\" onkeyup=\"storeCaret('img_texte');\">" . $description . "</textarea></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr>\n"
 	. "<tr><td><b>" . _URLIMG . " :</b> <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"200\" value=\"" . $url . "\" /></td></tr>\n"
 	. "<tr><td><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . _REPLACE . "</td></tr>\n"
@@ -639,7 +639,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
 	. "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
+	. "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     } 
@@ -715,7 +715,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
 	. "<tr><td><b>" . _DESCR . " :</b><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
+	. "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     } 

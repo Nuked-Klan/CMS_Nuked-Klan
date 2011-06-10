@@ -278,12 +278,12 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<tr><td align=\"center\"><big><b>" . _TEXT . " :</b></big></td></tr>\n";
 
 
-        echo "<tr><td align=\"center\"><textarea id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
+        echo "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><big><b>" . _MORE . " :</b></big></td></tr>\n";
 
 
 
-        echo "<tr><td align=\"center\"><textarea id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
+        echo "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDNEWS . "\" />\n"
 	. "</td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td align=\"center\">[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main\"><b>" . _BACK . "</b></a> ]</td></tr></table></form><br /></div></div>\n";
@@ -406,11 +406,11 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n"
 	. "<tr><td align=\"center\"><big><b>" . _TEXT . " :</b></big></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\">".$texte."</textarea></td></tr>\n"
+	. "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\">".$texte."</textarea></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><big><b>" . _MORE . " :</b></big></td></tr><tr><td align=\"center\">\n";
 
 
-        echo "</td></tr><tr><td align=\"center\"><textarea id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\">".$suite."</textarea></td></tr>\n"
+        echo "</td></tr><tr><td align=\"center\"><textarea class=\"editor\" id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\">".$suite."</textarea></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFTHISNEWS . "\" />\n"
 	. "</td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td align=\"center\">[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main\"><b>" . _BACK . "</b></a> ]</td></tr></table></form><br /></div></div>\n";
@@ -532,7 +532,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<tr><td><b>" . _TITLE . " : </b><input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" /></td></tr>\n"
 	. "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea name=\"description\" cols=\"65\" rows=\"10\"></textarea></td></tr>\n"
+	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\"></textarea></td></tr>\n"
 	. "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
@@ -605,7 +605,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<tr><td><b>" . _TITLE . " : </b><input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" value=\"" . $image . "\" /></td></tr>\n"
 	. "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea name=\"description\" cols=\"65\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
+	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
 	. "</table><div style=\"text-align: center;\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>\n";
 

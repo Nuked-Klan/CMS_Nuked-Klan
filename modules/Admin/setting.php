@@ -110,7 +110,7 @@ if ($visiteur == 9)
 		. "<tr><td>" . _DATEFORMAT . " :</td><td><input type=\"text\" name=\"dateformat\" size=\"40\" value=\"" . $nuked['dateformat'] . "\" /></td></tr>\n"
 		. "<tr><td>" . _DATEZONE . " :</td><td><input type=\"text\" name=\"dateformat\" size=\"40\" value=\"" . $nuked['datezone'] . "\" /></td></tr>\n"
 		. "<tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
-		. "<tr><td>" . _FOOTMESS . " :</td><td><textarea name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"	
+		. "<tr><td>" . _FOOTMESS . " :</td><td><textarea class=\"editor\" name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"	
 		. "<tr><td>" . _SITESTATUS . " :</td><td><select name=\"nk_status\">\n";
 
         if ($nuked['nk_status'] == "open")
@@ -213,8 +213,8 @@ if ($visiteur == 9)
 	. "<tr><td>" . _AVATARURL . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"avatar_url\" value=\"on\" " . $checked9 . " /></td></tr>\n"
 	. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _REGISTRATION . "</b></big></td></tr>"
 	. "<tr><td>" . _REGISTERMAIL . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"inscription_avert\" value=\"on\" " . $checked4 . " /></td></tr>\n"
-	. "<tr><td>" . _REGISTERDISC . " :</td><td><textarea name=\"inscription_charte\" cols=\"50\" rows=\"6\">" . $nuked['inscription_charte'] . "</textarea></td></tr>\n"
-	. "<tr><td>" . _REGISTERTXT . " :</td><td><textarea name=\"inscription_mail\" cols=\"50\" rows=\"6\">" . $nuked['inscription_mail'] . "</textarea></td></tr>\n"
+	. "<tr><td>" . _REGISTERDISC . " :</td><td><textarea class=\"editor\" name=\"inscription_charte\" cols=\"50\" rows=\"6\">" . $nuked['inscription_charte'] . "</textarea></td></tr>\n"
+	. "<tr><td>" . _REGISTERTXT . " :</td><td><textarea class=\"editor\" name=\"inscription_mail\" cols=\"50\" rows=\"6\">" . $nuked['inscription_mail'] . "</textarea></td></tr>\n"
 	. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _STATS . "</b></big></td></tr>\n"
 	. "<tr><td>" . _VISITTIME . " :</td><td><input type=\"text\" name=\"visit_delay\" size=\"2\" value=\"" . $nuked['visit_delay'] . "\" /></td></tr>\n"
 	. "<tr><td>" . _LEVELANALYS . " :</td><td><select name=\"level_analys\"><option value=\"" . $nuked['level_analys'] . "\">" . $level_analys . "</option>\n"
@@ -236,7 +236,7 @@ if ($visiteur == 9)
 	. "<tr><td>" . _CONNEXSEC . " :</td><td><input type=\"text\" name=\"nbc_timeout\" size=\"3\" value=\"" . $nuked['nbc_timeout'] . "\" /></td></tr>\n"
 	. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _METATAG . "</b></big></td></tr>\n"
 	. "<tr><td>" . _METAWORDS . " :</td><td><input type=\"text\" name=\"keyword\" size=\"40\" value=\"" . $nuked['keyword'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _METADESC . " :</td><td><textarea class=\"noediteur\" name=\"description\" cols=\"50\" rows=\"6\">" . $nuked['description'] . "</textarea></td></tr>\n"
+	. "<tr><td>" . _METADESC . " :</td><td><textarea name=\"description\" cols=\"50\" rows=\"6\">" . $nuked['description'] . "</textarea></td></tr>\n"
 	. "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"ok\" value=\"" . _MODIF . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
 	echo "</div></div></div>\n";

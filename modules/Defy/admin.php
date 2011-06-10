@@ -185,7 +185,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "</div></div>\n"
 	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Defy&amp;page=admin\">" . _DEFY . "</a> | "
 	. "</b>" . _PREFS . "</div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Defy&amp;page=admin&amp;op=update_pref\" onsubmit=\"backslash('charte_defi');\">\n"
+	. "<form method=\"post\" action=\"index.php?file=Defy&amp;page=admin&amp;op=update_pref\">\n"
 	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 	. "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
 	. "<tr><td><b>" . _MAILAVERT . "</b> : <input type=\"text\" size=\"30\" name=\"defie_mail\" value=\"" . $nuked['defie_mail'] . "\" /></td></tr>\n"
@@ -206,7 +206,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
         echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n";
 
-        echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea id=\"charte_defi\" name=\"defie_charte\" cols=\"65\" rows=\"15\"\">" . $charte . "</textarea></td></tr></table>\n"
+        echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" name=\"defie_charte\" cols=\"65\" rows=\"15\"\">" . $charte . "</textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Defy&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }

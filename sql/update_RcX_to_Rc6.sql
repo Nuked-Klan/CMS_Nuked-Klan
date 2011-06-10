@@ -44,5 +44,9 @@ UPDATE nuked_config SET value = 'quakenet.org' WHERE name = 'irc_serv'
 
 /* RC5 > RC5.3 */
 
-UPDATE nuked_config SET value = '1.7.9' WHERE name = 'version'
+UPDATE nuked_config SET value = '1.7.9 RC5.3' WHERE name = 'version'
 INSERT INTO nuked_modules (`nom`, `niveau`, `admin`) VALUES ('PackageMgr', 9, 9)
+
+/* R5.3 > RC6 */
+UPDATE nuked_config SET value = '1.7.9 RC6' WHERE name = 'version'
+DROP TABLE nuked_editeur

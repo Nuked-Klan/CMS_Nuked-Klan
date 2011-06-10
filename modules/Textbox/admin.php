@@ -46,7 +46,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"60%\" border=\"0\">\n"
 	. "<tr><td><b>" . _NICKNAME . " :</b> " . $pseudo . " ( " . $ip . " )</td></tr>\n"
 	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _SHOUT . " :</b></td></tr>\n"
-	. "<tr><td><textarea class=\"noediteur\" name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
+	. "<tr><td><textarea name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
 	. "<tr><td align=\"center\"><input type=\"hidden\" name=\"mid\" value=\"" . $mid . "\" />&nbsp;</td></tr>\n"
 	. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIF . "\" /></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";

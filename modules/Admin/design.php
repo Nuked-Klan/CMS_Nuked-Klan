@@ -712,23 +712,10 @@ redirect("index.php?file=User",0);
 function adminfoot()
 {
 ?>
-<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="media/ckeditor/ckeditor_basic.js"></script>
 <script type="text/javascript">
 //<![CDATA[
-    CKEDITOR.replace( 'e_basic',
-    {
-        toolbar : 'Basic',
-		language : '<?php echo substr($language, 0,2); ?>'
-    });
-//]]>
-</script>
-<script type="text/javascript">
-//<![CDATA[
-    CKEDITOR.replace( 'e_advanced',
-    {
-        toolbar : 'Full',
-		language : '<?php echo substr($language, 0,2); ?>'
-    });
+CKEDITOR.replaceAll( 'editor' );
 //]]>
 </script>
 </div></div>

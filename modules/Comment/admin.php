@@ -66,7 +66,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<tr><td><b>" . _NICK . " :</b> " . $autor . " ( " . $ip . " )</td></tr>\n"
 	. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" value=\"" . $titre . "\" size=\"40\" /></td></tr>\n"
 	. "<tr><td><br /><b>" . _MESSAGE . " :</b></td></tr>\n"
-	. "<tr><td><textarea class=\"editorsimpla\" name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
+	. "<tr><td><textarea class=\"editor\" name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
 	. "<tr><td align=\"center\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
 	. "<br /><input type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";

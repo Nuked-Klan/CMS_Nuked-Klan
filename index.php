@@ -147,6 +147,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     }
     else include('modules/404/index.php');
 
+	if (($_REQUEST['op'] == 'index' || $_REQUEST['op'] == '') && $_REQUEST['im_file'] == 'index' && $_REQUEST['file'] != 'Admin' && $visiteur == 9) {
 	echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
@@ -168,6 +169,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     echo '    });',"\n"
     , '//]]>',"\n"
     , '</script>',"\n";
+	}
 
     if (!isset($_REQUEST['nuked_nude'])){
         if ($user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox'){

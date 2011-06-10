@@ -199,7 +199,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 			<td align=\"left\"><b>"._RSUBJECT."</b> : </td><td><input type=\"text\" name=\"subject\" maxlength=\"100\" value=\"" . _REFUS2 . "\" size=\"45\"></td>
 		</tr>
 		<tr>
-			<td align=\"left\" valign=\"top\"><b>"._RCORPS."</b> : </td><td><textarea id=\"raison\" name=\"corps\" rows=\"10\" cols=\"39\" />" . _REFUS . "\n" . $user[2] . "</textarea></td>
+			<td align=\"left\" valign=\"top\"><b>"._RCORPS."</b> : </td><td><textarea class=\"editor\" id=\"raison\" name=\"corps\" rows=\"10\" cols=\"39\" />" . _REFUS . "\n" . $user[2] . "</textarea></td>
 		</tr>
 		<tr><td colspan=\"2\"><p align=\"center\">&nbsp;<input type=\"submit\" value=\""._SEND."\"> <input type=\"button\" value=\""._CANCEL."\" onclick=\"document.location.href='index.php?file=Suggest&page=admin&op=del&sug_id=" . $sug_id . "';\"></td></tr>
 		</form></table><br><center>[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>"._BACK."</b></a> ]</center><br></div></div>";

@@ -252,7 +252,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         select_forum_cat();
 
         echo"</select></td></tr>\n"
-	. "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea name=\"description\" rows=\"10\" cols=\"69\"></textarea></td></tr>\n"
+	. "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" rows=\"10\" cols=\"69\"></textarea></td></tr>\n"
 	. "<tr><td><b>" . _LEVELACCES . " :</b> <select name=\"niveau\">\n"
 	. "<option>0</option>\n"
 	. "<option>1</option>\n"
@@ -421,7 +421,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         select_forum_cat();
 
         echo"</select></td></tr>\n"
-	. "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea name=\"description\" rows=\"10\" cols=\"69\">" . $description . "</textarea></td></tr>\n"
+	. "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" rows=\"10\" cols=\"69\">" . $description . "</textarea></td></tr>\n"
 	. "<tr><td><b>" . _LEVELACCES . " :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
 	. "<option>0</option>\n"
 	. "<option>1</option>\n"
@@ -937,7 +937,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 	. "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
 	. "<tr><td colspan=\"2\"><b>" . _FORUMTITLE . " :</b> <input type=\"text\" name=\"forum_title\" size=\"40\" value=\"" . $nuked['forum_title'] . "\" /></td></tr>\n"
-	. "<tr><td colspan=\"2\"><b>" . _FORUMDESC . " :</b><br /><textarea class=\"noediteur\" name=\"forum_desc\" cols=\"55\" rows=\"5\">" . $nuked['forum_desc'] . "</textarea></td></tr>\n"
+	. "<tr><td colspan=\"2\"><b>" . _FORUMDESC . " :</b><br /><textarea name=\"forum_desc\" cols=\"55\" rows=\"5\">" . $nuked['forum_desc'] . "</textarea></td></tr>\n"
 	. "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
 	. "<tr><td>" . _USERANKTEAM . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"forum_rank_team\" value=\"on\" " . $checked2 . " /></td></tr>\n"
 	. "<tr><td>" . _NUMBERTHREAD . " :</td><td><input type=\"text\" name=\"thread_forum_page\" size=\"2\" value=\"" . $nuked['thread_forum_page'] . "\" /></td></tr>\n"

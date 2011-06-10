@@ -184,7 +184,7 @@ if ($visiteur >= 2)
 				<form method="post" onsubmit="maFonctionAjax2(this.texte.value,this.type.value);return false" action="">
 					<h4><?php echo _MESSAGE; ?>:</h4>
 					<fieldset>
-						<textarea class="noediteur" name="texte" cols="79" rows="5"></textarea>
+						<textarea name="texte" cols="79" rows="5"></textarea>
 					</fieldset>
 
 					<fieldset>
