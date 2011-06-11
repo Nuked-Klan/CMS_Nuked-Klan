@@ -392,6 +392,8 @@ function edit_account()
 {
     global $nuked, $user;
 
+	define('EDITOR_CHECK', 1);
+
     if ($user)
     {
         $sql = mysql_query("SELECT pseudo, pass, url, mail, email, icq, msn, aim, yim, avatar, signature, country, game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
@@ -1851,7 +1853,6 @@ function logout()
 {
     global $nuked, $user, $cookie_theme, $cookie_langue, $cookie_session, $cookie_userid, $cookie_forum;
 
-    //$del = mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE user_id = '" . $user[0] . "'");
     $del = mysql_query("UPDATE " . SESSIONS_TABLE . " SET ip = '' WHERE user_id = '" . $user[0] . "'");
 
     setcookie($cookie_session, "");

@@ -33,141 +33,142 @@ else
 }
 function verification($module, $im_id)
 {
-	global $nuked;
+    global $nuked;
 
-	if($module =="")
-	{
-		$module = $_REQUEST['file'];
-	}
-	if ($module == "News" || $module == "news")
-	{
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'news'");
-		$sqlverif = "news";
-		$specification = "id";
-	}
-	else if ($module == "Download" || $module == "download")
-	{
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'download'");
-		$sqlverif = "downloads";
-		$specification = "id";
-	}
-	else if ($module == "Sections" || $module == "sections")
-	{
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'sections'");
-		$sqlverif = "sections";
-		$specification = "artid";
-	}
-	else if ($module == "Links" || $module == "links")
-	{
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'links'");
-		$sqlverif = "liens";
-		$specification = "id";
-	}
-	else if ($module == "Wars" || $module == "match")
-	{
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'wars'");
-		$sqlverif = "match";
-		$specification = "warid";
-	}
-	else if ($module == "Gallery" || $module == "gallery")
-	{
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'gallery'");
-		$sqlverif = "gallery";
-		$specification = "sid";
-	}
-	else if ($module == "Survey" || $module == "survey")
-	{
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'survey'");
-		$sqlverif = "sondage";
-		$specification = "sid";
-	}
-	list($active) = mysql_fetch_array($sql);
+    if($module =="")
+    {
+        $module = $_REQUEST['file'];
+    }
+    if ($module == "News" || $module == "news")
+    {
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'news'");
+        $sqlverif = "news";
+        $specification = "id";
+    }
+    else if ($module == "Download" || $module == "download")
+    {
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'download'");
+        $sqlverif = "downloads";
+        $specification = "id";
+    }
+    else if ($module == "Sections" || $module == "sections")
+    {
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'sections'");
+        $sqlverif = "sections";
+        $specification = "artid";
+    }
+    else if ($module == "Links" || $module == "links")
+    {
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'links'");
+        $sqlverif = "liens";
+        $specification = "id";
+    }
+    else if ($module == "Wars" || $module == "match")
+    {
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'wars'");
+        $sqlverif = "match";
+        $specification = "warid";
+    }
+    else if ($module == "Gallery" || $module == "gallery")
+    {
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'gallery'");
+        $sqlverif = "gallery";
+        $specification = "sid";
+    }
+    else if ($module == "Survey" || $module == "survey")
+    {
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'survey'");
+        $sqlverif = "sondage";
+        $specification = "sid";
+    }
+    list($active) = mysql_fetch_array($sql);
 
-	$sqlreq = mysql_query("SELECT * FROM " . $nuked['prefix'] . "_" . $sqlverif . " WHERE ". $specification ." = '".$im_id."'");
+    $sqlreq = mysql_query("SELECT * FROM " . $nuked['prefix'] . "_" . $sqlverif . " WHERE ". $specification ." = '".$im_id."'");
 
-	return (mysql_num_rows($sqlreq) > 0 && $active == 1);
+    return (mysql_num_rows($sqlreq) > 0 && $active == 1);
 
 }
 function com_index($module, $im_id)
 {
     global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language, $captcha;
 
-	?>
-	<script  type="text/javascript">
-		function sent(texte, pseudo, module, im_id, code)
-		{
-			if (texte == "")
-			{
-				alert('<?php echo _NOTEXT; ?>');
-				return false;
-			}
-			else
-			{
-			if (pseudo == "")
-			{
-				alert('<?php echo _NONICK; ?>');
-				return false;
-			}
-			else
-			{
-				var OAjax;
-				if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
-				else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP');
-				OAjax.open('POST',"index.php?file=Comment&nuked_nude=index&op=post_comment",true);
-				OAjax.onreadystatechange = function()
-			{
-				if (OAjax.readyState == 4 && OAjax.status==200)
-				{
-					if (document.getElementById)
-					{
-						 document.getElementById("message").innerHTML = "<br /><div style=\"text-align:center;\"><b>Merci de votre participation<b></div>";
-						 document.location = document.location;
-					}
-				}
-			}
-			OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-			OAjax.send('texte='+texte+'&pseudo='+pseudo+'&module='+module+'&im_id='+im_id+'&ajax=1&code_confirm='+code+'');
-			return true;
-			}
-			}
-		}
-		function remplir()
-		{
-			var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText() ;
+    define('EDITOR_CHECK', 1);
+    ?>
+    <script  type="text/javascript">
+        function sent(texte, pseudo, module, im_id, code)
+        {
+            if (texte == "")
+            {
+                alert('<?php echo _NOTEXT; ?>');
+                return false;
+            }
+            else
+            {
+            if (pseudo == "")
+            {
+                alert('<?php echo _NONICK; ?>');
+                return false;
+            }
+            else
+            {
+                var OAjax;
+                if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
+                else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP');
+                OAjax.open('POST',"index.php?file=Comment&nuked_nude=index&op=post_comment",true);
+                OAjax.onreadystatechange = function()
+            {
+                if (OAjax.readyState == 4 && OAjax.status==200)
+                {
+                    if (document.getElementById)
+                    {
+                         document.getElementById("message").innerHTML = "<br /><div style=\"text-align:center;\"><b>Merci de votre participation<b></div>";
+                         document.location = document.location;
+                    }
+                }
+            }
+            OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+            OAjax.send('texte='+texte+'&pseudo='+pseudo+'&module='+module+'&im_id='+im_id+'&ajax=1&code_confirm='+code+'');
+            return true;
+            }
+            }
+        }
+        function remplir()
+        {
+            var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText() ;
 
-			if (editor_val == '') {
-				alert('Editor value cannot be empty!') ;
-				return false;
-			}
+            if (editor_val == '') {
+                alert('Editor value cannot be empty!') ;
+                return false;
+            }
     
-			return true;
-		}
-	</script>
-	<?php
+            return true;
+        }
+    </script>
+    <?php
 
     $level_access = nivo_mod("Comment");
     $level_admin = admin_mod("Comment");
     $module = mysql_real_escape_string(stripslashes($module));
-	if (!verification($_REQUEST['file'],$im_id))
-	{
+    if (!verification($_REQUEST['file'],$im_id))
+    {
 
-	}
+    }
     else
     {
-		echo "<b>" . _COMMENTS . " :</b>";
-		$sql2 = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE im_id = '" . $im_id . "' AND module = '" . $module . "'");
+        echo "<b>" . _COMMENTS . " :</b>";
+        $sql2 = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE im_id = '" . $im_id . "' AND module = '" . $module . "'");
         $nb_comment = mysql_num_rows($sql2);
         echo "&nbsp;" . $nb_comment . " ";
         if ($visiteur >= $level_access && $level_access > -1)
         {
         echo "<small>[ <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Comment&amp;nuked_nude=index&amp;op=view_com&amp;im_id=" . $im_id . "&amp;module=" . $module . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=360,height=380,top=100,left=100');return(false)\">" . _VIEWCOMMENT . "</a> ]</small>\n";
         }
-		echo "<div id=\"message\"><form method=\"post\" onsubmit=\"remplir();sent(this.comtexte.value, this.compseudo.value, this.module.value, this.imid.value, this.code.value); return false;\" action=\"\">\n"
+        echo "<div id=\"message\"><form method=\"post\" onsubmit=\"remplir();sent(this.comtexte.value, this.compseudo.value, this.module.value, this.imid.value, this.code.value); return false;\" action=\"\">\n"
     . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
 
-	. "<tr><td width=\"400\"><b>" . _MESSAGE . " :</b><br />"
+    . "<tr><td width=\"400\"><b>" . _MESSAGE . " :</b><br />"
     . "<textarea id=\"e_basic\" name=\"texte\" cols=\"40\" rows=\"3\"></textarea></td>\n"
-	. "<td valign=\"left\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr>\n"
+    . "<td valign=\"left\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr>\n"
     . "<tr><td><b>" . _NICK . " :</b>";
 
     if ($user)
@@ -181,10 +182,10 @@ function com_index($module, $im_id)
 
     echo "</tr>";
 
-	if ($captcha == 1) create_captcha(1);
-	else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
+    if ($captcha == 1) create_captcha(1);
+    else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
 
-	echo "<tr><td align=\"right\" colspan=\"2\">\n"
+    echo "<tr><td align=\"right\" colspan=\"2\">\n"
     . "<input type=\"hidden\" id=\"imid\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
     . "<input type=\"hidden\" id=\"module\" name=\"module\" value=\"" . $module . "\" />\n"
     . "</td></tr></table></form></div>\n";
@@ -194,10 +195,10 @@ function com_index($module, $im_id)
       . "<td style=\"width : 70%;\" align=\"center\"><b>" . _COMMENT . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM " . COMMENT_TABLE . " WHERE im_id = '" . $im_id . "' AND module = '" . $module . "' ORDER BY id DESC LIMIT 0, 4");
-    	$count = mysql_num_rows($sql);
+        $count = mysql_num_rows($sql);
             while (list($cid, $titre, $com, $auteur, $autor_id, $date, $auteur_ip) = mysql_fetch_array($sql))
             {
-				$test = 0;
+                $test = 0;
                 $date = strftime("%x %H:%M", $date);
 
                 $titre = htmlentities($titre);
@@ -208,36 +209,36 @@ function com_index($module, $im_id)
                 if($titre != "")
                 {
                     $texte = "<b>" . $titre . "</b><br /><br />" .$com;
-		}
-		else
-		{
-		    $texte = $com;
-		}
+        }
+        else
+        {
+            $texte = $com;
+        }
 
-		if($autor_id != "")
-		{
-			$sql_member = mysql_query("SELECT pseudo, avatar, country FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-			$test = mysql_num_rows($sql_member);
-		}
+        if($autor_id != "")
+        {
+            $sql_member = mysql_query("SELECT pseudo, avatar, country FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+            $test = mysql_num_rows($sql_member);
+        }
 
-		if($autor_id != "" && $test > 0)
-			list($autor, $avatar, $country) = mysql_fetch_array($sql_member);
-		else
-		    $autor = $auteur;
-		if($avatar == "")
-			$avatar = "modules/Comment/images/noavatar.png";
-		if ($country == "")
-			$country = "France.gif";
-		if ($j == 0)
-		{
+        if($autor_id != "" && $test > 0)
+            list($autor, $avatar, $country) = mysql_fetch_array($sql_member);
+        else
+            $autor = $auteur;
+        if($avatar == "")
+            $avatar = "modules/Comment/images/noavatar.png";
+        if ($country == "")
+            $country = "France.gif";
+        if ($j == 0)
+        {
                     $bg = $bgcolor2;
                     $j++;
-		}
-		else
-		{
+        }
+        else
+        {
                     $bg = $bgcolor1;
                     $j = 0;
-		}
+        }
 
             if ($visiteur >= $level_admin && $level_admin > -1)
             {
@@ -268,7 +269,7 @@ function com_index($module, $im_id)
             {
                 echo"<br />Ip : " . $auteur_ip;
             }
-			echo"<br /><br /><img src=\"".$avatar."\" style=\"width:100px; height:100px;\"/>";
+            echo"<br /><br /><img src=\"".$avatar."\" style=\"width:100px; height:100px;\"/>";
 
 
 
@@ -276,12 +277,12 @@ function com_index($module, $im_id)
             {
                 $profil = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($autor) . "\"><img style=\"border : 0;\" src=\"modules/Forum/images/buttons/" . $language . "/profile.gif\" alt=\"\" /></a>";
             }
-			else
+            else
             {
                 $profil = "";
             }
 
-			$texte = trunc_hyperlink($texte);
+            $texte = trunc_hyperlink($texte);
             $texte = icon($texte);
 
             echo "</td><td style=\"width : 70%;\" valign=\"top\"><img src=\"images/posticon.gif\" alt=\"\" /><small> " . _POSTED . " : " . $date . "</small>"
@@ -301,10 +302,10 @@ function view_com($module, $im_id)
 {
     global $user, $bgcolor2, $bgcolor3, $theme, $nuked, $language, $visiteur;
 
-	if(!verification($module,$im_id))
-	{
-		exit();
-	}
+    if(!verification($module,$im_id))
+    {
+        exit();
+    }
     if ($language == "french" && strpos("WIN", PHP_OS)) setlocale (LC_TIME, "french");
     else if ($language == "french" && strpos("BSD", PHP_OS)) setlocale (LC_TIME, "fr_FR.ISO8859-1");
     else if ($language == "french") setlocale (LC_TIME, "fr_FR");
@@ -346,7 +347,7 @@ function view_com($module, $im_id)
             $titre = nk_CSS($titre);
             $auteur = nk_CSS($auteur);
 
-			$com = trunc_hyperlink($com);
+            $com = trunc_hyperlink($com);
 
             if($autor_id != "")
             {
@@ -382,8 +383,8 @@ function view_com($module, $im_id)
 
     if ($visiteur >= $level_access && $level_access > -1)
     {
-		echo "<div style=\"text-align: center;\"><br /><input type=\"button\" value=\"" . _POSTCOMMENT . "\" onclick=\"document.location='index.php?file=Comment&amp;nuked_nude=index&amp;op=post_com&amp;im_id=" . $im_id . "&amp;module=" . $module . "'\" /></div>\n";
-	}
+        echo "<div style=\"text-align: center;\"><br /><input type=\"button\" value=\"" . _POSTCOMMENT . "\" onclick=\"document.location='index.php?file=Comment&amp;nuked_nude=index&amp;op=post_com&amp;im_id=" . $im_id . "&amp;module=" . $module . "'\" /></div>\n";
+    }
 
     echo "<div style=\"text-align: center;\"><br />[ <a href=\"#\" onclick=\"javascript:window.close();\"><b>" . _CLOSEWINDOW . "</b></a> ]</div></body></html>";
 }
@@ -392,12 +393,14 @@ function post_com($module, $im_id)
 {
     global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur, $captcha;
 
+    define('EDITOR_CHECK', 1);
+
     $level_access = nivo_mod("Comment");
 
-	if (!verification($module,$im_id))
-	{
+    if (!verification($module,$im_id))
+    {
 
-	}
+    }
     else if ($visiteur >= $level_access && $level_access > -1)
     {
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
@@ -445,16 +448,16 @@ function post_com($module, $im_id)
 
     echo "</tr>";
 
-	if ($captcha == 1) create_captcha(1);
-	else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
-	
-	echo "<tr><td align=\"right\" colspan=\"2\">\n"
+    if ($captcha == 1) create_captcha(1);
+    else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
+    
+    echo "<tr><td align=\"right\" colspan=\"2\">\n"
     . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
-	. "<input type=\"hidden\" name=\"noajax\" value=\"true\" />\n"
+    . "<input type=\"hidden\" name=\"noajax\" value=\"true\" />\n"
     . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
     . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
 
-	echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
+    echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
     , '    CKEDITOR.replace( \'e_basic\',',"\n"
@@ -465,7 +468,7 @@ function post_com($module, $im_id)
     echo '    });',"\n"
     , '//]]>',"\n"
     , '</script>',"\n"
-	, '</body></html>',"\n";
+    , '</body></html>',"\n";
 
     }
     else
@@ -485,60 +488,60 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo)
 {
     global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur, $captcha;
 
-	if(!isset($_REQUEST['noajax']))
-	{
-		$titre = utf8_decode($titre);
-		$texte = utf8_decode($texte);
-		$pseudo = utf8_decode($pseudo);
-	}
+    if(!isset($_REQUEST['noajax']))
+    {
+        $titre = utf8_decode($titre);
+        $texte = utf8_decode($texte);
+        $pseudo = utf8_decode($pseudo);
+    }
     $level_access = nivo_mod("Comment");
-	if (!verification($module,$im_id))
-	{
-	}
+    if (!verification($module,$im_id))
+    {
+    }
     else if ($visiteur >= $level_access && $level_access > -1)
     {
-    	echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-    	. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    	. "<head><title>" . _POSTCOMMENT . "</title>\n"
-    	. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-    	. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-    	. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-    	. "<body style=\"background : " . $bgcolor2 . ";\">\n";
+        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+        . "<head><title>" . _POSTCOMMENT . "</title>\n"
+        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+        . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
-		if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-		{
-			die ("<div style=\"text-align: center;\"><br /><br />" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div>");
-		}
+        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
+        {
+            die ("<div style=\"text-align: center;\"><br /><br />" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div>");
+        }
 
-    	if ($visiteur > 0)
-    	{
-    	    $autor = $user[2];
-    	    $autor_id = $user[0];
-    	}
-    	else
-    	{
+        if ($visiteur > 0)
+        {
+            $autor = $user[2];
+            $autor_id = $user[0];
+        }
+        else
+        {
             $pseudo = htmlentities($pseudo, ENT_QUOTES);
             $pseudo = verif_pseudo($pseudo);
             if ($pseudo == "error1")
             {
-            	die ("<div style=\"text-align: center;\"><br /><br />" . _PSEUDOFAILDED . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
+                die ("<div style=\"text-align: center;\"><br /><br />" . _PSEUDOFAILDED . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
             }
             else if ($pseudo == "error2")
             {
-            	die ("<div style=\"text-align: center;\"><br /><br />" . _RESERVNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
+                die ("<div style=\"text-align: center;\"><br /><br />" . _RESERVNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
             }
             else if ($pseudo == "error3")
             {
-            	die ("<div style=\"text-align: center;\"><br /><br />" . _BANNEDNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
+                die ("<div style=\"text-align: center;\"><br /><br />" . _BANNEDNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
             }
             else
             {
-	            $autor = $pseudo;
-	            $autor_id="";
+                $autor = $pseudo;
+                $autor_id="";
             }
-    	}
+        }
 
-		$flood = mysql_query("SELECT date FROM " . COMMENT_TABLE . " WHERE autor = '" . $autor . "' OR autor_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
+        $flood = mysql_query("SELECT date FROM " . COMMENT_TABLE . " WHERE autor = '" . $autor . "' OR autor_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
         list($flood_date) = mysql_fetch_row($flood);
         $anti_flood = $flood_date + $nuked['post_flood'];
 
@@ -553,33 +556,33 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo)
             footer();
             exit();
         }
-		$texte = secu_html(html_entity_decode($texte));
-    	$titre = mysql_real_escape_string(stripslashes($titre));
-    	$texte = stripslashes($texte);
-    	$module = mysql_real_escape_string(stripslashes($module));
+        $texte = secu_html(html_entity_decode($texte));
+        $titre = mysql_real_escape_string(stripslashes($titre));
+        $texte = stripslashes($texte);
+        $module = mysql_real_escape_string(stripslashes($module));
 
-    	if (strlen($titre) > 40)
-    	{
+        if (strlen($titre) > 40)
+        {
              $titre = substr($titre, 0, 40) . "...";
-    	}
+        }
 
-    	$add = mysql_query("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . mysql_real_escape_string($texte) . "' , '" . $date . "' , '" . $user_ip . "')");
-    	echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTADD . "</b>";
+        $add = mysql_query("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . mysql_real_escape_string($texte) . "' , '" . $date . "' , '" . $user_ip . "')");
+        echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTADD . "</b>";
 
-    	if ($module == "news")
-    	{
+        if ($module == "news")
+        {
             echo "<br /><br />[ <a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\">" . _CLOSEWINDOW . "</a> ]</div></body></html>";
-    	}
-    	else
-    	{
+        }
+        else
+        {
             echo "</div>";
             $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
-			if ($_REQUEST['ajax'] != 1)
-			{
+            if ($_REQUEST['ajax'] != 1)
+            {
             redirect($url_redir, 2);
-			}
+            }
             echo "</body></html>";
-    	}
+        }
 
     }
     else
@@ -633,7 +636,7 @@ function del_comment($cid)
         . "<body style=\"background : " . $bgcolor2 . ";\">\n"
         . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
 
-	$url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+    $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);
         echo "</body></html>";
     }
@@ -644,11 +647,11 @@ function modif_comment($cid, $titre, $texte, $module, $im_id)
     global $nuked, $user, $theme, $bgcolor2, $visiteur;
 
     $level_admin = admin_mod("Comment");
-	$texte = secu_html(html_entity_decode($texte));
-	if(!verification($module,$im_id))
-	{
-		exit();
-	}
+    $texte = secu_html(html_entity_decode($texte));
+    if(!verification($module,$im_id))
+    {
+        exit();
+    }
     if ($visiteur >= $level_admin)
     {
         $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
@@ -662,7 +665,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id)
         . "<body style=\"background : " . $bgcolor2 . ";\">\n"
         . "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTMODIF . "</b></div>\n";
 
-	$url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+    $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 2);
         echo "</body></html>";
     }
@@ -677,7 +680,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id)
         . "<body style=\"background : " . $bgcolor2 . ";\">\n"
         . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
 
-	$url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&amp;module=" . $module;
+    $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&amp;module=" . $module;
         redirect($url_redir, 5);
         echo "</body></html>";
     }
@@ -686,6 +689,8 @@ function modif_comment($cid, $titre, $texte, $module, $im_id)
 function edit_comment($cid)
 {
     global $user, $nuked, $bgcolor2, $theme, $visiteur;
+
+    define('EDITOR_CHECK', 1);
 
     $level_admin = admin_mod("Comment");
 
@@ -704,15 +709,15 @@ function edit_comment($cid)
 
         $titre = htmlentities($titre);
 
-	if($autor_id != "")
-	{
-	    $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-	    list($autor) = mysql_fetch_array($sql_member);
-	}
-	else
-	{
-	    $autor = $auteur;
-	}
+    if($autor_id != "")
+    {
+        $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+        list($autor) = mysql_fetch_array($sql_member);
+    }
+    else
+    {
+        $autor = $auteur;
+    }
 
         echo "<form method=\"post\" action=\"index.php?file=Comment&amp;nuked_nude=index&amp;op=modif_comment\" onsubmit=\"backslash('com_texte');\">\n"
         . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
@@ -739,9 +744,9 @@ function edit_comment($cid)
         . "<body style=\"background : " . $bgcolor2 . ";\">\n"
         . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
 
-	$url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+    $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);
-	echo "</body></html>";
+    echo "</body></html>";
     }
 }
 
@@ -768,7 +773,7 @@ switch ($_REQUEST['op'])
         break;
 
     case "post_comment":
-    	post_comment($_REQUEST['im_id'], $_REQUEST['module'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['pseudo']);
+        post_comment($_REQUEST['im_id'], $_REQUEST['module'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['pseudo']);
         break;
 
     case "edit_comment":

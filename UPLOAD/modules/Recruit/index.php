@@ -66,6 +66,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             global $nuked, $user, $language, $captcha;
 
+			define('EDITOR_CHECK', 1);
+
         echo "<script type=\"text/javascript\">\n"
         ."<!--\n"
         ."\n"

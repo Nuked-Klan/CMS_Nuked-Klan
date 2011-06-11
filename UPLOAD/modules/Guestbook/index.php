@@ -41,6 +41,8 @@ if ($visiteur >= $level_access && $level_access > -1)
     {
         global $user, $nuked, $captcha;
 
+		define('EDITOR_CHECK', 1);
+
         opentable();
 
         echo "<script type=\"text/javascript\">\n"

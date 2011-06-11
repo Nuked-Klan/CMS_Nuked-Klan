@@ -9,12 +9,14 @@
 // -------------------------------------------------------------------------//
 if (!defined("INDEX_CHECK"))
 {
-	exit('You can\'t run this file alone.');
+    exit('You can\'t run this file alone.');
 }
 
 function form($content, $sug_id)
 {
     global $nuked, $user, $captcha;
+
+    define('EDITOR_CHECK', 1);
 
     if ($content != "")
     {
@@ -22,22 +24,22 @@ function form($content, $sug_id)
         $action = "index.php?file=Suggest&amp;page=admin&amp;op=valid_suggest&amp;module=News";
         $autor = $content[2];
         $autor_id = $content[3];
-	$date = $content[4];
+    $date = $content[4];
 
-	echo "<script type=\"text/javascript\">\n"
-	. "<!--\n"
-	. "\n"
-	. "function del_sug(id)\n"
-	. "{\n"
-	. "if (confirm('" . _DELETESUG . " '+id+' ! " . _CONFIRM . "'))\n"
-	. "{document.location.href = 'index.php?file=Suggest&page=admin&op=raison&sug_id='+id;}\n"
-	. "}\n"
-	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+    echo "<script type=\"text/javascript\">\n"
+    . "<!--\n"
+    . "\n"
+    . "function del_sug(id)\n"
+    . "{\n"
+    . "if (confirm('" . _DELETESUG . " '+id+' ! " . _CONFIRM . "'))\n"
+    . "{document.location.href = 'index.php?file=Suggest&page=admin&op=raison&sug_id='+id;}\n"
+    . "}\n"
+    . "\n"
+    . "// -->\n"
+    . "</script>\n";
 
         $refuse = "&nbsp;<input type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
     }
     else
     {
@@ -46,7 +48,7 @@ function form($content, $sug_id)
         $autor = $user[2];
         $autor_id = $user[0];
         $date = time();
-	$refuse = "</div></form><br />\n";
+    $refuse = "</div></form><br />\n";
     }
 
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
@@ -73,9 +75,9 @@ function form($content, $sug_id)
     . "<tr><td><b>" . _TEXT . " :</b></td></tr>\n"
     . "<tr><td><textarea id=\"e_advanced\" name=\"texte\" cols=\"65\" rows=\"12\">" . $content[1] . "</textarea></td></tr>\n";
 
-	if ($captcha == 1) create_captcha(1);
+    if ($captcha == 1) create_captcha(1);
 
-	echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
+    echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
     . "<input type=\"hidden\" name=\"auteur\" value=\"" . $autor . "\" />\n"
     . "<input type=\"hidden\" name=\"auteur_id\" value=\"" . $autor_id . "\" />\n"
     . "<input type=\"hidden\" name=\"date\" value=\"" . $date . "\" /></td></tr>\n"
@@ -119,19 +121,19 @@ function send($data)
         $autor_id = $user[0];
     }
 
-	$data['texte'] = secu_html(html_entity_decode($data['texte']));
+    $data['texte'] = secu_html(html_entity_decode($data['texte']));
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
 
     $add = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '' , '" . $data['cat'] . "' , '" . $data['titre'] . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $data['texte'] . "' , '' , '" . $data['date'] . "')");
-	$sqls = mysql_query("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date = '".$data['date']."'");
+    $sqls = mysql_query("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date = '".$data['date']."'");
         list($news_id) = mysql_fetch_array($sqls);
-		echo "<script>\n"
-		."setTimeout('screen()','3000');\n"
-		."function screen() { \n"
-		."screenon('index.php?file=News&op=suite&news_id=".$news_id."', 'index.php?file=Suggest&page=admin');\n"
-		."}\n"
-		."</script>\n";
+        echo "<script>\n"
+        ."setTimeout('screen()','3000');\n"
+        ."function screen() { \n"
+        ."screenon('index.php?file=News&op=suite&news_id=".$news_id."', 'index.php?file=Suggest&page=admin');\n"
+        ."}\n"
+        ."</script>\n";
 }
 
 

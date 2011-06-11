@@ -39,6 +39,7 @@ $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
 {
+    define('EDITOR_CHECK', 1);
 
     $sql = mysql_query("SELECT nom, cat, level_poll FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
     $level_ok = mysql_num_rows($sql);
@@ -54,8 +55,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-		$select_cat = mysql_query('SELECT nom FROM ' . FORUM_CAT_TABLE . ' WHERE id = ' . $cat);
-		list($nom2) = mysql_fetch_array($select_cat);
+        $select_cat = mysql_query('SELECT nom FROM ' . FORUM_CAT_TABLE . ' WHERE id = ' . $cat);
+        list($nom2) = mysql_fetch_array($select_cat);
 
         if ($user && $modos != "" && strpos($user[0], $modos))
         {
@@ -91,16 +92,16 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "<br /><form method=\"post\" action=\"" . $action . "\" enctype=\"multipart/form-data\">\n"
-	. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-	. "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;cat=" . $cat . "\"><b>" . $nom2 . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><b>" . $nom . "</b></a></td></tr></table>\n"
-	. "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n"
-	. "<tr " . $background . "><td colspan=\"2\" align=\"center\"><b>" . $action_name . "</b></td></tr>\n"
-	. "<tr><td style=\"width: 25%;background: " . $color1 . ";\"><big><b>" . _PSEUDO . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\">";
+    . "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
+    . "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;cat=" . $cat . "\"><b>" . $nom2 . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><b>" . $nom . "</b></a></td></tr></table>\n"
+    . "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n"
+    . "<tr " . $background . "><td colspan=\"2\" align=\"center\"><b>" . $action_name . "</b></td></tr>\n"
+    . "<tr><td style=\"width: 25%;background: " . $color1 . ";\"><big><b>" . _PSEUDO . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\">";
 
         if ($_REQUEST['do'] == "edit")
         {
             echo $author;
-	}
+    }
         else if ($user[2] != "")
         {
             echo $user[2] . "&nbsp;[<a href=\"index.php?file=User&amp;nuked_nude=index&amp;op=logout\">" . _FLOGOUT . "</a>]"
@@ -138,7 +139,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "</td></tr><tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _MESSAGE . "</b></big><br /><br />\n"
-		. "</td><td style=\"width: 75%;background: " . $color2 . ";\">";
+        . "</td><td style=\"width: 75%;background: " . $color2 . ";\">";
 
         if ($_REQUEST['do'] == "edit")
         {
@@ -169,19 +170,19 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $checked2 = "checked=\"checked\"";
         }
-		else
-		{
-	            $checked2 = "";
-		}
+        else
+        {
+                $checked2 = "";
+        }
 
         if ($annonce == 1)
         {
             $checked3 = "checked=\"checked\"";
         }
-		else
-		{
-	            $checked3 = "";
-		}
+        else
+        {
+                $checked3 = "";
+        }
 
 
         echo "<br /></td></tr><tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _OPTIONS . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\">";
@@ -193,17 +194,17 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         if ($_REQUEST['do'] == "edit")
-		{
-			if ($force_edit_message == 'on') $checked5 = 'checked=\"checked\"';
-			else $checked5 = '';
-			if ($user[1] >= admin_mod("Forum") || $administrator == 1) $forced5 = '';
-			else
-			{
-				$forced5 = 'disabled=\"disabled\"';
-				echo "<input type=\"hidden\" name=\"edit_text\" value=\"1\" />\n";
-			}
+        {
+            if ($force_edit_message == 'on') $checked5 = 'checked=\"checked\"';
+            else $checked5 = '';
+            if ($user[1] >= admin_mod("Forum") || $administrator == 1) $forced5 = '';
+            else
+            {
+                $forced5 = 'disabled=\"disabled\"';
+                echo "<input type=\"hidden\" name=\"edit_text\" value=\"1\" />\n";
+            }
             echo "<input type=\"checkbox\" class=\"checkbox\" name=\"edit_text\" value=\"1\" " . $checked5 . " " . $forced5 . " />&nbsp;" . _EDITTEXT . "\n";
-		}
+        }
 
         if ($_REQUEST['thread_id'] != "" || $_REQUEST['do'] == "edit")
         {
@@ -250,21 +251,21 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td></tr>\n";
 
-		if ($captcha == 1)
-		{
-	            echo "<tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _SECURITYCODE . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\"><table>";
-				
-	            create_captcha(1);
+        if ($captcha == 1)
+        {
+                echo "<tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _SECURITYCODE . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\"><table>";
+                
+                create_captcha(1);
 
-	            echo "</table><br /></td></tr>\n";
-		}
+                echo "</table><br /></td></tr>\n";
+        }
 
-		echo" <tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">"
-		. "<input type=\"submit\" value=\"" . _SEND . "\" />\n"
-		. "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
-		. "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
-		. "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n"
-		. "</td></tr></table></form>\n";
+        echo" <tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">"
+        . "<input type=\"submit\" value=\"" . _SEND . "\" />\n"
+        . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
+        . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
+        . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n"
+        . "</td></tr></table></form>\n";
 
         if ($_REQUEST['thread_id'] != "")
         {

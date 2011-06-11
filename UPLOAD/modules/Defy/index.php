@@ -64,6 +64,8 @@ if ($visiteur >= $level_access && $level_access > -1)
     {
         global $nuked, $user, $language, $captcha;
 
+        define('EDITOR_CHECK', 1);
+
         $date = date("d-m-Y");
         $hour = date("H:i");
 
@@ -92,31 +94,31 @@ if ($visiteur >= $level_access && $level_access > -1)
         . "alert('" . _NOCLAN . "');\n"
         . "return false;\n"
         . "}\n"
-    	."\n"
-    	."if (document.getElementById('defy_mail').value.indexOf('@') == -1)\n"
-    	."{\n"
-    	."alert('" . _BADMAIL . "');\n"
-    	."return false;\n"
-    	."}\n"
-    	."\n"
-	. "if (document.getElementById('defy_icq').value.length == 0)\n"
-	. "{\n"
-	. "alert('" . _NOICQ . "');\n"
-   	. "return false;\n"
-	. "}\n"
-    	."\n"
+        ."\n"
+        ."if (document.getElementById('defy_mail').value.indexOf('@') == -1)\n"
+        ."{\n"
+        ."alert('" . _BADMAIL . "');\n"
+        ."return false;\n"
+        ."}\n"
+        ."\n"
+    . "if (document.getElementById('defy_icq').value.length == 0)\n"
+    . "{\n"
+    . "alert('" . _NOICQ . "');\n"
+       . "return false;\n"
+    . "}\n"
+        ."\n"
         . "return true;\n"
         . "}\n"
-    	."\n"
-    	. "// -->\n"
-    	. "</script>\n";
+        ."\n"
+        . "// -->\n"
+        . "</script>\n";
 
-	echo "<br /><form method=\"post\" action=\"index.php?file=Defy\" onsubmit=\"return verifchamps();\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
-	. "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"defy_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _CLAN . " : </b></td><td><input id=\"defy_clan\" type=\"text\" name=\"clan\" size=\"20\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
+    echo "<br /><form method=\"post\" action=\"index.php?file=Defy\" onsubmit=\"return verifchamps();\">\n"
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
+    . "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"defy_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _CLAN . " : </b></td><td><input id=\"defy_clan\" type=\"text\" name=\"clan\" size=\"20\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
 
         if ($language == "french")
         {
@@ -131,14 +133,14 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 $rep[] = $f;
             }
-	}
+    }
 
         closedir($handle);
-	sort ($rep);
-	reset ($rep);
+    sort ($rep);
+    reset ($rep);
 
-	while (list ($key, $filename) = each ($rep))
-	{
+    while (list ($key, $filename) = each ($rep))
+    {
             if ($filename == $pays)
             {
                 $checked = "selected=\"selected\"";
@@ -150,16 +152,16 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             list ($country, $ext) = explode ('.', $filename);
             echo "<option value=\"" . $filename . "\" " . $checked . ">" . $country . "</option>\n";
-	}
+    }
 
         echo "</select></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _MAIL . " : </b></td><td><input id=\"defy_mail\" type=\"text\" name=\"mail\" size=\"25\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _ICQMSN . " : </b></td><td><input id=\"defy_icq\" type=\"text\" name=\"icq\" size=\"25\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _CHANIRC . " : </b></td><td><input type=\"text\" name=\"irc\" size=\"25\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _WEBSITE . " : </b></td><td><input type=\"text\" name=\"url\" value=\"http://\" size=\"30\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _DATE . " : </b></td><td><input type=\"text\" name=\"date\" value=\"" . $date . "\" size=\"15\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _HOUR . " : </b></td><td><input type=\"text\" name=\"heure\" value=\"" . $hour . "\" size=\"6\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _GAME . " : </b></td><td><select name=\"game\">\n";
+    . "<tr><td style=\"width: 20%;\"><b>" . _MAIL . " : </b></td><td><input id=\"defy_mail\" type=\"text\" name=\"mail\" size=\"25\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _ICQMSN . " : </b></td><td><input id=\"defy_icq\" type=\"text\" name=\"icq\" size=\"25\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _CHANIRC . " : </b></td><td><input type=\"text\" name=\"irc\" size=\"25\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _WEBSITE . " : </b></td><td><input type=\"text\" name=\"url\" value=\"http://\" size=\"30\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _DATE . " : </b></td><td><input type=\"text\" name=\"date\" value=\"" . $date . "\" size=\"15\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _HOUR . " : </b></td><td><input type=\"text\" name=\"heure\" value=\"" . $hour . "\" size=\"6\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _GAME . " : </b></td><td><select name=\"game\">\n";
 
         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($game_id, $nom) = mysql_fetch_array($sql))
@@ -169,34 +171,34 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
     echo "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _SERVER . " : </b></td><td><input type=\"text\" name=\"serveur\" value=\"" . $server_ip . "\" size=\"30\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _TYPE . " : </b></td><td><input type=\"text\" name=\"type\" value=\"\" size=\"20\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _MAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+    . "<tr><td style=\"width: 20%;\"><b>" . _TYPE . " : </b></td><td><input type=\"text\" name=\"type\" value=\"\" size=\"20\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _MAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
+    . "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
-	if ($captcha == 1) create_captcha(2);
+    if ($captcha == 1) create_captcha(2);
 
-	echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
+    echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
     }
 
     function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $heure, $game, $serveur, $type, $map, $comment)
     {
         global $nuked, $captcha;
 
-		// Verification code captcha
-		if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm']))
-		{
-			echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a><br /><br /></div>";
-		    closetable();
-		    footer();
-		    exit();
-		}
+        // Verification code captcha
+        if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm']))
+        {
+            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a><br /><br /></div>";
+            closetable();
+            footer();
+            exit();
+        }
 
         $email = $nuked['defie_mail'];
         $inbox = $nuked['defie_inbox'];
         $time = time();
         $date2 = strftime("%x %H:%M", $time);
 
-		$comment = secu_html(html_entity_decode($comment));
+        $comment = secu_html(html_entity_decode($comment));
 
         $pseudo = mysql_real_escape_string(stripslashes($pseudo));
         $clan = mysql_real_escape_string(stripslashes($clan));
@@ -229,14 +231,14 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $sql = mysql_query("INSERT INTO " . DEFY_TABLE . " ( `id` , `send` , `pseudo` , `clan` , `mail` , `icq` , `irc` , `url` , `pays` , `date` , `heure` , `serveur` , `game` , `type` , `map` , `comment` ) VALUES ( '' , '" . $time . "' , '" . $pseudo . "' , '" . $clan . "' , '" . $mail . "' , '" . $icq . "' , '" . $irc . "' , '" . $url . "' , '" . $country . "' , '" . $date . "' , '" . $heure . "' , '" . $serveur . "' , '" . $game . "' , '" . $type . "' , '" . $map . "' , '" . $comment . "' )");
 
-		$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTDEF.": [<a href=\"index.php?file=Defy&page=admin\">lien</a>].')");
+        $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTDEF.": [<a href=\"index.php?file=Defy&page=admin\">lien</a>].')");
         $subject = _DEFY . ", " .$date2;
         $corps = $pseudo . " " . _NEWDEFY . "\r\n" . $nuked['url'] . "/index.php?file=Defy&page=admin\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
-		$from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
+        $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
 
-		$subject = @html_entity_decode($subject);
-		$corps = @html_entity_decode($corps);
-		$from = @html_entity_decode($from);
+        $subject = @html_entity_decode($subject);
+        $corps = @html_entity_decode($corps);
+        $from = @html_entity_decode($from);
 
         if ($email != "")
         {

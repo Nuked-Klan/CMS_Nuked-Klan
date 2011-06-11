@@ -147,7 +147,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     }
     else include('modules/404/index.php');
 
-	if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
+	if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
 	echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"

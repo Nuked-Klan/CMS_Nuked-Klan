@@ -9,12 +9,14 @@
 // -------------------------------------------------------------------------//
 if (!defined("INDEX_CHECK"))
 {
-	exit('You can\'t run this file alone.');
+    exit('You can\'t run this file alone.');
 }
 
 function form($content, $sug_id)
 {
     global $nuked, $user, $language, $captcha;
+
+    define('EDITOR_CHECK', 1);
 
     translate("modules/Links/lang/" . $language . ".lang.php");
 
@@ -22,34 +24,34 @@ function form($content, $sug_id)
     {
         $titre = "<big><b>" . _VALIDLINK . "</b></big>";
         $action = "index.php?file=Suggest&amp;page=admin&amp;op=valid_suggest&amp;module=Links";
- 	$pays = $content[5];
+     $pays = $content[5];
 
-	echo "<script type=\"text/javascript\">\n"
-	. "<!--\n"
-	. "\n"
-	. "function del_sug(id)\n"
-	. "{\n"
-	. "if (confirm('" . _DELETESUG . " '+id+' ! " . _CONFIRM . "'))\n"
-	. "{document.location.href = 'index.php?file=Suggest&page=admin&op=raison&sug_id='+id;}\n"
-	. "}\n"
-	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+    echo "<script type=\"text/javascript\">\n"
+    . "<!--\n"
+    . "\n"
+    . "function del_sug(id)\n"
+    . "{\n"
+    . "if (confirm('" . _DELETESUG . " '+id+' ! " . _CONFIRM . "'))\n"
+    . "{document.location.href = 'index.php?file=Suggest&page=admin&op=raison&sug_id='+id;}\n"
+    . "}\n"
+    . "\n"
+    . "// -->\n"
+    . "</script>\n";
 
         $refuse = "&nbsp;<input type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
     }
     else
     {
         $titre = "<big><b> " . _WEBLINKS . " </b></big></div>\n"
-	. "<div style=\"text-align: center;\"><br />\n"
-	. "[ <a href=\"index.php?file=Links\" style=\"text-decoration: underline\">" . _INDEXLINKS . "</a> | "
-	. "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=news\" style=\"text-decoration: underline\">" . _NEWSLINK . "</a> | "
-	. "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPLINKS . "</a> | "
-	. _SUGGESTLINK . " ]";
+    . "<div style=\"text-align: center;\"><br />\n"
+    . "[ <a href=\"index.php?file=Links\" style=\"text-decoration: underline\">" . _INDEXLINKS . "</a> | "
+    . "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=news\" style=\"text-decoration: underline\">" . _NEWSLINK . "</a> | "
+    . "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPLINKS . "</a> | "
+    . _SUGGESTLINK . " ]";
 
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=Links";
-	$refuse = "</div></form><br />\n";
+    $refuse = "</div></form><br />\n";
 
             if ($language == "french")
             {
@@ -121,16 +123,16 @@ function form($content, $sug_id)
     echo "</select></td></tr>\n";
 
 
-	if($_REQUEST['op'] == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]');\" /></input>";}
+    if($_REQUEST['op'] == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]');\" /></input>";}
 
     echo "<tr><td><b>" . _DESCR . " : </b></td></tr>\n"
     . "<tr><td><textarea id=\"e_advanced\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n"
     . "<tr><td><b>" . _URL . " :</b> <input type=\"text\" name=\"url\" value=\"" . $content[1] . "\" size=\"55\" /> " . $button . "</td></tr>\n"
     . "<tr><td><b>" . _WEBMASTER . " :</b>  <input type=\"text\" name=\"webmaster\" value=\"" . $content[4] . "\" size=\"30\" /></td></tr>\n";
 
-	if ($captcha == 1) create_captcha(1);
+    if ($captcha == 1) create_captcha(1);
 
-	echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" /></td></tr>\n"
+    echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" /></td></tr>\n"
     . "</table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
 }
 
@@ -155,20 +157,20 @@ function send($data)
     global $nuked;
 
     $date = time();
-	$data['description'] = secu_html(html_entity_decode($data['description']));
+    $data['description'] = secu_html(html_entity_decode($data['description']));
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
     $data['webmaster'] = mysql_real_escape_string(stripslashes($data['webmaster']));
 
     $upd = mysql_query("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` ) VALUES ( '' , '" . $date . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['url'] . "' , '" . $data['cat'] . "' , '" . $data['webmaster'] . "' , ' " . $data['country'] . "' , '' )");
-	$sql = mysql_query("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date='".$date."'");
+    $sql = mysql_query("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date='".$date."'");
         list($link_id) = mysql_fetch_array($sql);
-		echo "<script>\n"
-			."setTimeout('screen()','3000');\n"
-			."function screen() { \n"
-			."screenon('index.php?file=Links&op=description&link_id=".$link_id."', 'index.php?file=Suggest&page=admin');\n"
-			."}\n"
-			."</script>\n";
+        echo "<script>\n"
+            ."setTimeout('screen()','3000');\n"
+            ."function screen() { \n"
+            ."screenon('index.php?file=Links&op=description&link_id=".$link_id."', 'index.php?file=Suggest&page=admin');\n"
+            ."}\n"
+            ."</script>\n";
 }
 
 ?>
