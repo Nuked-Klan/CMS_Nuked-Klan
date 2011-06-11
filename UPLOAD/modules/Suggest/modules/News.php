@@ -16,8 +16,6 @@ function form($content, $sug_id)
 {
     global $nuked, $user, $captcha;
 
-    define('EDITOR_CHECK', 1);
-
     if ($content != "")
     {
         $titre = "<big><b>" . _VALIDNEWS . "</big></b>";

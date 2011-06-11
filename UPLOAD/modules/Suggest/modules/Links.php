@@ -16,8 +16,6 @@ function form($content, $sug_id)
 {
     global $nuked, $user, $language, $captcha;
 
-    define('EDITOR_CHECK', 1);
-
     translate("modules/Links/lang/" . $language . ".lang.php");
 
     if ($content != "")

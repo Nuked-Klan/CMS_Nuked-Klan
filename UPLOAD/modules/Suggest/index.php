@@ -62,6 +62,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if ($visiteur >= $niveau)
             {
+				define('EDITOR_CHECK', 1);
                 include("modules/Suggest/modules/" . $_REQUEST['module'] . ".php");
                 form(0, 0);
             }
