@@ -700,11 +700,13 @@ redirect("index.php?file=User",0);
 }
 function adminfoot()
 {
+global $language;
 ?>
 <script type="text/javascript" src="media/ckeditor/ckeditor_basic.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 CKEDITOR.replaceAll( 'editor' );
+CKEDITOR.config.scayt_sLang = "<?php echo ($language == 'french') ? 'fr_FR' : 'en_US'; ?>";
 //]]>
 </script>
 </div></div>

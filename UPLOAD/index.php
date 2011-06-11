@@ -167,6 +167,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     , '        language : \'' . substr($language, 0,2) . '\',',"\n";
     if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
     echo '    });',"\n"
+    , '    CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
     , '//]]>',"\n"
     , '</script>',"\n";
 	}
