@@ -1,7 +1,6 @@
 Options -Indexes
 FileETag none
 RewriteBase /
-AddDefaultCharset UTF-8
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-d
