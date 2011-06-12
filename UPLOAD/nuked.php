@@ -155,6 +155,7 @@ function connect(){
 	}
 	else{
 		$connect = @mysql_select_db($global['db_name'], $db);
+		mysql_query("SET NAMES 'latin1'");
 		
 		if (!$connect){
 			if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0,2) == 'fr'){
