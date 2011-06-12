@@ -82,16 +82,6 @@ deny from all
 deny from all
 </Files>
 
-# ON ÉVITE LE VOL D’IMAGES, VIDÉO, SON, FEUILLE DE STYLE, PDF ET ZIP
-# LES VISITEURS DOIVENT PASSER PAR LE SITE.
-RewriteEngine on
-RewriteCond %{HTTP_REFERER} !^$
-RewriteCond %{HTTP_REFERER} !^http://(www.)?turf-a-cheval.fr(/)?.*$ [NC]
-RewriteCond %{HTTP_REFERER} !^http://(blog.)?turf-a-cheval.fr(/)?.*$ [NC]
-RewriteCond %{HTTP_REFERER} !^http://(www.)?google. [NC]
-RewriteRule .(gif|jpe?g?|jp2|png|svgz?|ico|css|pdf|zip|gz|js|mp3|m4a|mp4|mov|divx|avi|wma?v?|wmp|swf|flv|docx?|xlsx?|pptx?|vbs|rtf|asf?x?|odt|ods|odp|odg|odb)$ /antivolimage.jpr [L,NC]
-
-
 # DES FAUX URLS, ON LES NEUTRALISE
 RedirectMatch gone ^/_vti.*
 RedirectMatch gone ^/MSOffice.*
