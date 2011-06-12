@@ -44,9 +44,7 @@ include_once('Includes/hash.php');
 set_error_handler('erreursql');
 
 $session = session_check();
-if ($session == 1) $user = secure();
-else $user = array();
-
+$user = ($session == 1) ? secure() : array();
 $session_admin = admin_check();
 $check_ip = banip();
 
