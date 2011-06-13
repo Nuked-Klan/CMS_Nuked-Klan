@@ -190,7 +190,7 @@ function install()
     if (isset($_REQUEST['langue'])) include("lang/" . $_REQUEST['langue'] . ".lang.php");
     else
     {
-        echo 'Veuillez sÃ©lectionner une langue !<br />Please select a language!<br /><br /><a href="install.php">Retour / Back</a>';
+        echo 'Veuillez sélectionner une langue !<br />Please select a language!<br /><br /><a href="install.php">Retour / Back</a>';
         exit();
     }
 
@@ -553,7 +553,7 @@ function upgrade_db()
     $recup_mail = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name = 'mail'");
     list($mail_admin) = mysql_fetch_array($recup_mail);
     
-    /* Update commun Ã  toutes les versions prÃ©cÃ©dentes : */
+    /* Update commun à toutes les versions précédentes : */
     $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%Y');";
     $req = mysql_query($sql);        
 
@@ -1555,15 +1555,15 @@ function edit_config_assistant($op)
     . "<tr><td colspan=\"2\" align=\"center\"><b>" . _CONFIG . "</b></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></td></tr>\n"
     . "<tr><td>" . _DBHOST . " :</td><td><input type=\"text\" name=\"db_host\" size=\"40\" value=\""  . $global['db_host'] . "\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBUSER . " : </td><td><input type=\"text\" name=\"db_user\" size=\"40\" value=\"" . $global['db_user'] . "\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBPASS . " :</td><td><input type=\"password\" name=\"db_pass\" size=\"10\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBPREFIX . " :</td><td><input type=\"text\" name=\"prefix\" size=\"10\" value=\"" . $db_prefix . "\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBNAME . " :</td><td><input type=\"text\" name=\"db_name\" size=\"10\" value=\"" . $global['db_name'] . "\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond Ã  l'url du serveur msql, du genre nuked-klan.org. Souvent les hÃ©bergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "</table>\n"
     . "<div style=\"text-align: center;\"><br />" . _CHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _NEXT . "\" /></div></form></body></html>";
     }
