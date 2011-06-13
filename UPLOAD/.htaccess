@@ -1,19 +1,6 @@
 Options -Indexes
 FileETag none
-RewriteBase /
-
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{HTTP:VIA}                 !^$ [OR]
-RewriteCond %{HTTP:FORWARDED}           !^$ [OR]
-RewriteCond %{HTTP:USERAGENT_VIA}       !^$ [OR]
-RewriteCond %{HTTP:X_FORWARDED_FOR}     !^$ [OR]
-RewriteCond %{HTTP:PROXY_CONNECTION}    !^$ [OR]
-RewriteCond %{HTTP:XPROXY_CONNECTION}   !^$ [OR]
-RewriteCond %{HTTP:HTTP_PC_REMOTE_ADDR} !^$ [OR]
-RewriteCond %{HTTP:HTTP_CLIENT_IP}      !^$
-RewriteRule ^(.*)$ - [F]
+AddDefaultCharset iso-8859-1
 
 #=============================================================================#
 #          HEADERS, CACHING AND OPTIMIZATION                                  #
@@ -66,7 +53,7 @@ Header unset Cache-Control
 # END Cache-Control Headers
 
 #=============================================================================#
-#          Filtre                                                             #
+#          Filtre sans mod_rewrite                                            #
 #=============================================================================#
 
 # INTERDIRE LES AUTRES TYPES DE FICHIER INDEX
@@ -86,6 +73,27 @@ RedirectMatch gone ^/_vti.*
 RedirectMatch gone ^/MSOffice.*
 RedirectMatch gone ^[-_a-z0-9/\.]*//.*
 RedirectMatch gone ^.*/etc/passwd.*
+
+#=============================================================================#
+#          Filtre avec mod_rewrite                                            #
+#=============================================================================#
+
+<IfModule mod_rewrite.c>
+
+RewriteBase /
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{HTTP:VIA}                 !^$ [OR]
+RewriteCond %{HTTP:FORWARDED}           !^$ [OR]
+RewriteCond %{HTTP:USERAGENT_VIA}       !^$ [OR]
+RewriteCond %{HTTP:X_FORWARDED_FOR}     !^$ [OR]
+RewriteCond %{HTTP:PROXY_CONNECTION}    !^$ [OR]
+RewriteCond %{HTTP:XPROXY_CONNECTION}   !^$ [OR]
+RewriteCond %{HTTP:HTTP_PC_REMOTE_ADDR} !^$ [OR]
+RewriteCond %{HTTP:HTTP_CLIENT_IP}      !^$
+RewriteRule ^(.*)$ - [F]
 
 # FILTRE CONTRE XSS, REDIRECTIONS HTTP, base64_encode, VARIABLE PHP GLOBALS VIA URL, MODIFIER VARIABLE _REQUEST VIA URL, TEST DE FAILLE PHP, INJECTION SQL SIMPLE
 RewriteEngine On
@@ -115,3 +123,5 @@ RewriteCond %{QUERY_STRING} ^&?c=(l?v?i?&d=|v&fnot=|setup&ref=|l&r=|d&d=|tree&d|
 RewriteCond %{QUERY_STRING} ^(.*)([-_a-z]{1,15})=(ls|cd|cat|rm|mv|vim|chmod|chdir|mkdir|rmdir|pwd|clear|whoami|uname|tar|zip|unzip|tar|gzip|gunzip|grep|more|ln|umask|telnet|ssh|ftp|head|tail|which|mkmode|touch|logname|edit_file|search_text|find_text|php_eval|download_file|ftp_file_down|ftp_file_up|ftp_brute|mail_file|mysql|mysql_dump|db_query)([^a-zA-Z0-9].+)*$ [OR]
 RewriteCond %{QUERY_STRING} ^(.*)(wget|shell_exec|passthru|system|exec|popen|proc_open)(.*)$
 RewriteRule (.*) – [F]
+
+</IfModule>
