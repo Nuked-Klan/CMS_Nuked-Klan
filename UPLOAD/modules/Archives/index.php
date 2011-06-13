@@ -7,8 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
+if (!defined("INDEX_CHECK")){
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
@@ -20,12 +19,11 @@ compteur("Archives");
 
 opentable();
 
-if (!$user)
-{
+$visiteur = !$user : 0 ? $user[1];
+if (!$user){
     $visiteur = 0;
 }
-else
-{
+else{
     $visiteur = $user[1];
 }
 $level_access = nivo_mod("News");
