@@ -170,12 +170,11 @@ if ($visiteur == 9)
 	. "</div></div>\n"
 	. "<div class=\"tab-content\" id=\"tab2\"><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 	. "<tr>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _STATUS . "</b></td>\n"
+	. "<td style=\"width: 30%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
+	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _STATUS . "</b></td>\n"
 	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _LEVELACCES . "</b></td>\n"
 	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _LEVELADMIN . "</b></td>\n"
-	. "<td style=\"width: 30%;\" align=\"center\"><b>" . 'Sign' . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
+	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
 
         $mod = array();
         $sql = mysql_query("SELECT id, nom, niveau, admin FROM " . MODULES_TABLE . " ORDER BY nom");
@@ -275,7 +274,7 @@ if ($visiteur == 9)
                 $status = _DISABLED;
             }
 
-            array_push($mod, $name . "|" . $mid . "|" . $niveau . "|" . $admin . "|" . $status . '|' . Module_Hash($nom));
+            array_push($mod, $name . "|" . $mid . "|" . $niveau . "|" . $admin . "|" . $status);
         }
         natcasesort($mod);
         foreach($mod as $value)
@@ -284,36 +283,13 @@ if ($visiteur == 9)
 
 
             echo "<tr>\n"
-            . "<td style=\"width: 20%;\">&nbsp;" . $temp[0] . "</td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\">" . $temp[4] . "</td>\n"
-            . "<td style=\"width: 20%;\" align=\"center\">" . $temp[2] . "</td>\n"
-            . "<td style=\"width: 20%;\" align=\"center\">" . $temp[3] . "</td>\n"
-            . "<td style=\"width: 30%;\" align=\"center\"><span id=\"Sign_" . $temp[5] . "\"></span></td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=modules&amp;op=edit_module&amp;mid=" . $temp[1] . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _MODULEEDIT . "\" /></a></td></tr>\n";
-        	$sign[] = "'" . $temp[5] . "'";
+            . "<td style=\"width: 30%;\">&nbsp;" . $temp[0] . "</td>\n"
+            . "<td style=\"width: 20%;\" align=\"center\">" . $temp[4] . "</td>\n"
+            . "<td style=\"width: 15%;\" align=\"center\">" . $temp[2] . "</td>\n"
+            . "<td style=\"width: 15%;\" align=\"center\">" . $temp[3] . "</td>\n"
+            . "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=modules&amp;op=edit_module&amp;mid=" . $temp[1] . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _MODULEEDIT . "\" /></a></td></tr>\n";
         }
         echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br />\n";
-    	echo "<script type=\"text/javascript\">\n"
-    		. "NKUpdate.SetModCallback(function(tab){\n"
-    		. "var dc = document.getElementById('Sign_' + tab['Sign']);\n"
-    		. "switch (tab['State']){\n"
-    		. "case \"wait\":\n"
-    		. "dc.innerHTML = '"._WAIT."'\n"
-    		. "break;\n"
-    		. "case \"verified\":\n"
-    		. "dc.innerHTML = '"._VALID."'\n"
-    		. "break;\n"
-    		. "case \"pirate\":\n"
-    		. "dc.innerHTML = '"._PIRATE."'\n"
-    		. "break;\n"
-    		. "case \"faille\":\n"
-    		. "dc.innerHTML = '"._FAILLE."'\n"
-    		. "break;\n"
-    		. "}\n"
-    		. "if (tab['UpdateFile'] != null) dc.innerHTML += '<br /><a href=\"' + tab['UpdateFile'] + '\">"._UPDATE."</a>';\n"
-    		. "},\n"
-    		. "new Array(" . implode(', ', $sign) . "));\n"
-    		. "</script></div></div>\n";
     }
 
     switch ($_REQUEST['op'])

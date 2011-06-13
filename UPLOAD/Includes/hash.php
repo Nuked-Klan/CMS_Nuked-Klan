@@ -53,24 +53,4 @@ function FileList($dir){
 	}
 	return $return;
 }
-
-function Module_Hash($module){
-	if (!is_dir($module)){
-		$files = FileList(dirname(__FILE__) . '/../modules/' . $module);
-	}
-	else{
-		$files = FileList($module);
-	}
-
-	foreach ($files as $id=>$file){
-		if (stripos(strrchr($file, '.'), 'php') === false){
-			unset($files[$id]);
-		}
-	}
-
-	$hash = array_map('md5_file', $files, array_fill(0, count($files), true));
-	sort($hash);
-	$hash = implode('', $hash);
-	return hash('sha256', $hash);
-}
 ?>
