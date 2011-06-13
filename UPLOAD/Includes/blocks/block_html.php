@@ -12,7 +12,12 @@ if (!defined("INDEX_CHECK")){
 }
 
 function affich_block_html($blok){
-    $blok['content'] = html_entity_decode($blok['content']);	
+	
+	if(!function_exists('htmlspecialchars_decode'))
+		$blok['content'] = strtr($blok['content'], array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
+	else
+		$blok['content'] = htmlspecialchars_decode(html_entity_decode($blok['content']));
+	
     return $blok;
 }
 
@@ -22,6 +27,7 @@ function edit_block_html($bid){
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     $titre = htmlentities($titre);
+	$content = html_entity_decode($content);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';
