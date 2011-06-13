@@ -117,7 +117,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $user;
 
         $date = time();
-		$text = secu_html(html_entity_decode($text));
+		$text = html_entity_decode($text);
         $text = mysql_real_escape_string(stripslashes($text));
 
         $sql = mysql_query("INSERT INTO " . IRC_AWARDS_TABLE . " ( `id` , `text` , `date` ) VALUES ( '' , '" . $text . "' , '" . $date . "' )");

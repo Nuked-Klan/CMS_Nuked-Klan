@@ -59,7 +59,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-		$comment = secu_html(html_entity_decode($comment));
+		$comment = html_entity_decode($comment);
         $comment = mysql_real_escape_string(stripslashes($comment));
 
         if ($url != "" && !preg_match("`http://`i", $url))

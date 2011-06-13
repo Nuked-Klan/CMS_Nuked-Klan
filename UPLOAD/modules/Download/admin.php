@@ -103,7 +103,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked;
 
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $autor = mysql_real_escape_string(stripslashes($autor));
@@ -355,7 +355,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $autor = mysql_real_escape_string(stripslashes($autor));
@@ -867,7 +867,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 
@@ -954,7 +954,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 

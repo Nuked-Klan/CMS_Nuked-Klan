@@ -37,7 +37,6 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         list($auteur, $autor_id, $titre, $texte, $ip) = mysql_fetch_array($sql);
         $auteur = htmlspecialchars($auteur);
 		
-        $texte = secu_html($texte);
         $titre = htmlentities($titre);
 
         if($autor_id != "")

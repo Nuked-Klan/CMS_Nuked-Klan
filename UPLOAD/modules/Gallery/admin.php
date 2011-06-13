@@ -149,7 +149,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		}	
 				
 		$titre = mysql_real_escape_string(stripslashes($titre));
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 		$auteur = mysql_real_escape_string(stripslashes($auteur));
 		$date = time();
@@ -229,7 +229,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		include("modules/Gallery/config.php");
 
         $titre = mysql_real_escape_string(stripslashes($titre));
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $description = mysql_real_escape_string(stripslashes($description));
 		$auteur = mysql_real_escape_string(stripslashes($auteur));
 
@@ -649,7 +649,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $user;
 
         $titre = mysql_real_escape_string(stripslashes($titre));
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $description = mysql_real_escape_string(stripslashes($description));
 
         $sql = mysql_query("INSERT INTO " . GALLERY_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ('" . $parentid . "', '" . $titre . "', '" . $description . "', '" . $position . "')");
@@ -725,7 +725,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $user;
 
         $titre = mysql_real_escape_string(stripslashes($titre));
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $description = mysql_real_escape_string(stripslashes($description));
 
         $sql = mysql_query("UPDATE " . GALLERY_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");

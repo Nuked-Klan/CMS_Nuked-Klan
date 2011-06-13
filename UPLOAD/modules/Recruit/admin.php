@@ -131,7 +131,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-		$recrute_charte = secu_html(html_entity_decode($recrute_charte));
+		$recrute_charte = html_entity_decode($recrute_charte);
         $recrute_charte = mysql_real_escape_string(stripslashes($recrute_charte));
 
         $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute . "' WHERE name = 'recrute'");

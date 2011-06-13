@@ -404,7 +404,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $user;
 
         $autor = $user[2];
-		$report = secu_html(html_entity_decode($report));
+		$report = html_entity_decode($report);
         $adversaire = mysql_real_escape_string(stripslashes($adversaire));
         $report = mysql_real_escape_string(stripslashes($report));
         $type = mysql_real_escape_string(stripslashes($type));
@@ -486,7 +486,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-		$report = secu_html(html_entity_decode($report));
+		$report = html_entity_decode($report);
         $adversaire = mysql_real_escape_string(stripslashes($adversaire));
         $report = mysql_real_escape_string(stripslashes($report));
         $type = mysql_real_escape_string(stripslashes($type));

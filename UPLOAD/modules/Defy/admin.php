@@ -215,7 +215,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-		$defie_charte = secu_html(html_entity_decode($defie_charte));
+		$defie_charte = html_entity_decode($defie_charte);
         $defie_charte = mysql_real_escape_string(stripslashes($defie_charte));
 		
         $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");

@@ -255,9 +255,9 @@ if ($visiteur == 9)
 		if (substr($_REQUEST['url'], -1) == "/") $_REQUEST['url'] = substr($_REQUEST['url'], 0, -1);
 		$_REQUEST['cookiename'] = str_replace(' ','',$_REQUEST['cookiename']);
 		
-		$_REQUEST['inscription_charte'] = secu_html(html_entity_decode($_REQUEST['inscription_charte']));
-		$_REQUEST['inscription_mail'] = secu_html(html_entity_decode($_REQUEST['inscription_mail']));
-		$_REQUEST['footmessage'] = secu_html(html_entity_decode($_REQUEST['footmessage']));
+		$_REQUEST['inscription_charte'] = html_entity_decode($_REQUEST['inscription_charte']);
+		$_REQUEST['inscription_mail'] = html_entity_decode($_REQUEST['inscription_mail']);
+		$_REQUEST['footmessage'] = html_entity_decode($_REQUEST['footmessage']);
 		
         $sql = mysql_query("SELECT name, value  FROM " . CONFIG_TABLE);
         while (list($config_name, $config_value) = mysql_fetch_array($sql))

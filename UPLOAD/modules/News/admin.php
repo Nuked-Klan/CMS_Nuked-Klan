@@ -298,8 +298,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
-		$texte = secu_html(html_entity_decode($texte));
-		$suite = secu_html(html_entity_decode($suite));
+		$texte = html_entity_decode($texte);
+		$suite = html_entity_decode($suite);
 
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = mysql_real_escape_string(stripslashes($texte));
@@ -423,10 +423,10 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $table = explode(':', $heure, 2);
         $date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
-		$texte = secu_html(html_entity_decode($texte));
+		$texte = html_entity_decode($texte);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = mysql_real_escape_string(stripslashes($texte));
-		$suite = secu_html(html_entity_decode($suite));
+		$suite = html_entity_decode($suite);
         $suite = mysql_real_escape_string(stripslashes($suite));
 
         $upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
@@ -571,7 +571,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	}
 
         $titre = mysql_real_escape_string(stripslashes($titre));
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $description = mysql_real_escape_string(stripslashes($description));
 
         $sql = mysql_query("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url_image . "' )");
@@ -646,7 +646,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	}
 
         $titre = mysql_real_escape_string(stripslashes($titre));
-		$description = secu_html(html_entity_decode($description));
+		$description = html_entity_decode($description);
         $description = mysql_real_escape_string(stripslashes($description));
 
         $sql = mysql_query("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $url_image . "' WHERE nid = '" . $cid . "'");
