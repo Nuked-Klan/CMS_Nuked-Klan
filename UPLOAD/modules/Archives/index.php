@@ -19,7 +19,7 @@ compteur("Archives");
 
 opentable();
 
-$visiteur = !$user : 0 ? $user[1];
+
 if (!$user){
     $visiteur = 0;
 }
