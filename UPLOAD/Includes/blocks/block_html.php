@@ -34,7 +34,7 @@ function edit_block_html($bid){
 			, '<a href="help/' , $language , '/block,html" rel="modal">',"\n"
 			, '<img style="border: 0;" src="help/help,gif" alt="" title="' , _HELP , '" /></a>',"\n"
 			, '</div>',"\n"
-			, '<div class="tab-content" id="tab2"><form method="post" action="index,php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
+			, '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
 			, '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellspacing="0" cellpadding="2" border="0">',"\n"
 			, '<tr><td><b>' , _TITLE , '</b></td><td><b>' , _BLOCK , '</b></td><td><b>' , _POSITION , '</b></td><td><b>' , _LEVEL , '</b></td></tr>',"\n"
 			, '<tr><td style="text-align:center;" ><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
