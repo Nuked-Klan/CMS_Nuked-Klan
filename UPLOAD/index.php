@@ -113,28 +113,6 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
         , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n";
 
-        $sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE);
-        $signs = array();
-        while($row = mysql_fetch_assoc($sql)){
-            $signs[] = "'".Module_Hash($row['nom'])."'";
-        }
-        if (($_REQUEST['op'] == 'index' || $_REQUEST['op'] == '') && $_REQUEST['im_file'] == 'index' && $_REQUEST['file'] != 'Admin' && $visiteur == 9)
-        echo '<script type="text/javascript" src="media/js/update.js"></script>',"\n"
-            , '<script type="text/javascript">',"\n"
-            , 'NKUpdate.lng = \'',$language,"';\n"
-            , 'NKUpdate.UpdateUrl = \'' , UPDATE_URL , "';\n"
-            , '</script>',"\n"
-            , '<div style="background-color:',$bgcolor1,';padding:10px;border:double 4px ',$bgcolor3,';width:auto;text-align:center;display:none;" id="NKmess"></div>',"\n"
-            , '<script type="text/javascript">',"\n"
-            , 'NKMessState = 0;NKMessUpdate = 0;',"\n",'NKUpdate.SetModCallback(function(tab){',"\n"
-            , 'if ((tab[\'State\'] == \'pirate\' || tab[\'State\'] == \'faille\') && NKMessState == 0) {',"\n"
-            , 'document.getElementById(\'NKmess\').innerHTML = document.getElementById(\'NKmess\').innerHTML + \'<br />Un ou plusieurs de vos modules présentent des failles ! \';',"\n"
-            , 'NKMessState = 1;',"\n}\n",' if (tab[\'UpdateFile\'] != null) {'
-            , 'document.getElementById(\'NKmess\').innerHTML = document.getElementById(\'NKmess\').innerHTML + \'<br />Des mises à jour sont disponible pour un ou plusieurs de vos modules\';',"\n"
-            , 'NKMessUpdate = 1;',"\n}\n",' if (((tab[\'State\'] != \'pirate\' || tab[\'State\'] != \'faille\') && NKMessState != 0 )||(tab[\'UpdateFile\'] == null)) {',"\n",' document.getElementById(\'NKmess\').style.display=\'none\';',"\n}\n}\n, new Array(".implode(', ', $signs)."));\n"
-            , '</script>',"\n";
-
-
         if ($nuked['nk_status'] == 'closed' && $user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
             echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , _YOURSITEISCLOSED , ' :<br /><br/ >' , $nuked['url'] , '/index.php?file=User&amp;op=login_screen</b></div>',"\n";
         }
