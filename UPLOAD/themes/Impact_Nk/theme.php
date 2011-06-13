@@ -47,7 +47,7 @@ function top(){
 												<div id="c-center">
 														<div id="ban">
 																<div style="margin-left:30px;float:left;">
-																		<img src="<?php echo $logo; ?>" alt="logotitre"/>
+																		<img src="<?php echo $logo; ?>" alt="logotitre" width="121" height="108" />
 																</div>
 																<div style="float:left;">
 																		<h1><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></h1>

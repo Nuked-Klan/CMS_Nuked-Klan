@@ -16,9 +16,11 @@ Header set Cache-Control "max-age=2592000, public"
 </FilesMatch>
 <FilesMatch "\\.(css)$">
 Header set Cache-Control "max-age=2592000, public"
+Header append Vary Accept-Encoding
 </FilesMatch>
 <FilesMatch "\\.(js)$">
 Header set Cache-Control "max-age=2592000, private"
+Header append Vary Accept-Encoding
 </FilesMatch>
 <filesMatch "\\.(html|htm)$">
 Header set Cache-Control "max-age=7200, public"

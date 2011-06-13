@@ -127,12 +127,12 @@ if ($visiteur >= $level_access && $level_access > -1)
             $data['auteur'] = $auteur;
             $data['heure'] = strftime("%H:%M", $date);
             $data['nb_comment'] = $nb_comment;
-            $data['printpage'] = "<a href=\"index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id=" . $nid . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>";
-            $data['friend'] = "<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $nid . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a>";
+            $data['printpage'] = "<a href=\"index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id=" . $nid . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" width=\"16\" height=\"16\" /></a>";
+            $data['friend'] = "<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $nid . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" width=\"16\" height=\"16\" /></a>";
 
             if ($image != "")
             {
-                $data['image'] = "<a href=\"index.php?file=News&amp;op=categorie&amp;cat_id=" . $cid . "\"><img style=\"float: right;border: 0;\" src=\"" . $image . "\" alt=\"\" title=\"" . $categorie . "\" /></a>";
+                $data['image'] = "<a href=\"index.php?file=News&amp;op=categorie&amp;cat_id=" . $cid . "\"><img style=\"float: right;border: 0;\" src=\"" . $image . "\" alt=\"\" title=\"" . $categorie . "\" width=\"30\" height=\"32\" /></a>";
             }
             else
             {

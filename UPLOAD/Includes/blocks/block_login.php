@@ -48,7 +48,7 @@ function affich_block_login($blok){
 		$sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
 		$nb_mess_lu = mysql_num_rows($sql2);
 	
-		$blok['content'] .= '&nbsp;<img src="images/message.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MESSPV . '</b></span><br />'."\n";
+		$blok['content'] .= '&nbsp;<img width="14" height="12" src="images/message.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MESSPV . '</b></span><br />'."\n";
 	
 		if ($user[5] > 0){
 			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>'."\n";
@@ -70,7 +70,7 @@ function affich_block_login($blok){
 	if ($members != 'off'){
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
 
-    	$blok['content'] .= '&nbsp;<img src="images/memberslist.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MEMBERS . '</b></span><br />'."\n";
+    	$blok['content'] .= '&nbsp;<img width="16" height="13" src="images/memberslist.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MEMBERS . '</b></span><br />'."\n";
 
     	$sql_users = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau < 3');
     	$nb_users = mysql_num_rows($sql_users);
@@ -91,7 +91,7 @@ function affich_block_login($blok){
 	if ($online != 'off'){
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
 
-    	$blok['content'] .= '&nbsp;<img src="images/online.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _WHOISONLINE . '</b></span><br />'."\n";
+    	$blok['content'] .= '&nbsp;<img width="16" height="13" src="images/online.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _WHOISONLINE . '</b></span><br />'."\n";
 
     	$nb = nbvisiteur();
 

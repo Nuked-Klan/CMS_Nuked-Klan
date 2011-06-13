@@ -12,12 +12,10 @@ if (!defined("INDEX_CHECK")){
 }
 
 function affich_block_html($blok){
-	
-	if(!function_exists('htmlspecialchars_decode'))
+    if(!function_exists('htmlspecialchars_decode'))
 		$blok['content'] = strtr($blok['content'], array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
 	else
 		$blok['content'] = htmlspecialchars_decode(html_entity_decode($blok['content']));
-	
     return $blok;
 }
 

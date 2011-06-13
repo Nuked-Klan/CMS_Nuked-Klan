@@ -64,10 +64,10 @@ function affich_block_event($blok){
     $this_month = $month - 1;
     $days = Array(_SUN, _MON, _TUE, _WEN, _THR, _FRI, _SAT);
 
-    $blok['content'] .= '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellpadding="0" cellspacing="0"><tr><td>'."\n"
-							. '<a href="index,php?file=' . $file . '&amp;mo=' . $prevmonth . '&amp;ye=' . $prevyear . '" title="' . _PREVMONTH . '"><small>&lt;&lt;</small></a>&nbsp;<b>' . $months[$this_month] . '&nbsp;' . $year . '</b>&nbsp;'."\n"
-							. '<a href="index,php?file=' . $file . '&amp;mo=' . $nextmonth . '&amp;ye=' . $nextyear . '" title="' . _NEXTMONTH . '"><small>&gt;&gt;</small></a></td></tr></table>'."\n"
-							. '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellpadding="2" cellspacing="1"><tr>'."\n";
+    $blok['content'] ,= '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellpadding="0" cellspacing="0"><tr><td>',"\n"
+							, '<a href="index,php?file=' , $file , '&amp;mo=' , $prevmonth , '&amp;ye=' , $prevyear , '" title="' , _PREVMONTH , '"><small>&lt;&lt;</small></a>&nbsp;<b>' , $months[$this_month] , '&nbsp;' , $year , '</b>&nbsp;',"\n"
+							, '<a href="index,php?file=' , $file , '&amp;mo=' , $nextmonth , '&amp;ye=' , $nextyear , '" title="' , _NEXTMONTH , '"><small>&gt;&gt;</small></a></td></tr></table>',"\n"
+							, '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellpadding="2" cellspacing="1"><tr>',"\n";
 
 	$size = count($days);
 	for($i=0; $i<$size; $i++){
@@ -260,10 +260,10 @@ function edit_block_event($bid){
 
     echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
 			, '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"
-			, '<a href="help/' , $language , '/block.html" rel="modal">',"\n"
-			, '<img style="border: 0;" src="help/help.gif" alt="" title="' , _HELP , '" /></a>',"\n"
+			, '<a href="help/' , $language , '/block,html" rel="modal">',"\n"
+			, '<img style="border: 0;" src="help/help,gif" alt="" title="' , _HELP , '" /></a>',"\n"
 			, '</div>',"\n"
-			, '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
+			, '<div class="tab-content" id="tab2"><form method="post" action="index,php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
 			, '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellspacing="0" cellpadding="2" border="0">',"\n"
 			, '<tr><td><b>' , _TITLE , '</b></td><td><b>' , _BLOCK , '</b></td><td><b>' , _POSITION , '</b></td><td><b>' , _LEVEL , '</b></td></tr>',"\n"
 			, '<tr><td style="text-align:center;" ><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
@@ -292,7 +292,7 @@ function edit_block_event($bid){
 			, '<input type="hidden" name="bid" value="' , $bid , '" />',"n"
 			, '<input type="submit" name="send" value="' , _MODIFBLOCK , '" />',"\n"
 			, '</td></tr></table>'
-			, '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
+			, '<div style="text-align: center;"><br />[ <a href="index,php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
 
 }
 ?>
