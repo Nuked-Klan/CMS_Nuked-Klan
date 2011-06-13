@@ -558,39 +558,17 @@ function upgrade_db()
     $req = mysql_query($sql);        
 
     $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
-    $req = mysql_query($sql);        
+    $req = mysql_query($sql);
 
-    if($nk_version == '1.7.9 RC5.3')
+    mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9 RC6\' WHERE name = \'version\'');
+
+    $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_editeur";
+    $req = mysql_query($sql);
+    $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_style";
+    $req = mysql_query($sql);    
+
+    if ($nk_version != '1.7.9 RC5.3' && $v[2] == 9) // MAJ pour 1.7.9 RC5.2 et plus petit
     {
-
-        mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9 RC5.4\' WHERE name = \'version\'');
-
-        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_editeur";
-        $req = mysql_query($sql);
-
-        $sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_editeur` (
-        `name` varchar(255) COLLATE latin1_german2_ci NOT NULL DEFAULT '',
-        `value` text COLLATE latin1_german2_ci NOT NULL,
-        PRIMARY KEY (`name`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
-        $req = mysql_query($sql);
-
-        $sql = "INSERT INTO `" . $db_prefix . "_editeur` (`name`, `value`) VALUES
-        ('couleur', ''),
-        ('bouton', 'top'),
-        ('status', 'bottom'),
-        ('ligne1', 'save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help,code'),
-        ('ligne2', 'styleselect,fontselect,fontsizeselect,|,link,unlink,anchor,|,emotions,image,forecolor,backcolor'),
-        ('ligne3', 'bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,hr,|,outdent,indent,|,removeformat,|,spellchecker'),
-        ('ligne4', 'tablecontrols,|,blockquote,sub,sup,|,charmap,pagebreak'),
-        ('ligne2b', 'styleselect,fontselect,fontsizeselect,barre,link,unlink,anchor,barre,emotions,image,forecolor,backcolor'),
-        ('ligne3b', 'bold,italic,underline,strikethrough,barre,justifyleft,justifycenter,justifyright,justifyfull,barre,bullist,numlist,hr,barre,outdent,indent,barre,removeformat,barre,spellchecker'),
-        ('ligne4b', 'tablecontrols,barre,blockquote,sub,sup,barre,charmap,pagebreak'),
-        ('ligne1b', 'save,newdocument,restoredraft,barre,cut,copy,paste,pastetext,pasteword,barre,undo,redo,barre,print,barre,fullscreen,barre,preview,barre,help,code');";
-        $req = mysql_query($sql);
-    }
-    if ($nk_version != '1.7.9 RC5.3' && $v[2] == 9)
-     {
         $sql = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name='screen'");
         $number = mysql_num_rows($sql);
         if ($number == 1)
@@ -690,14 +668,14 @@ function upgrade_db()
         echo "</body></html>";
         redirect("index.php", 5);
     }
-     }
-     else if ($v[1] == 6 || $v[1] == 7)
+    }
+    else if ($v[1] == 6 || $v[1] == 7) // 1.6 & 1.7
     {
     progress();
 
     echo "<script>show_progress('&nbsp;&nbsp;&nbsp;','upgrade');</script>";
 
-    if ($v[2] != 9 && $nk_version != '1.7.9 RC5.3')
+    if ($v[2] != 9) // Tout sauf 1.7.9
     {
         $sql_user = mysql_query("SELECT id, pass FROM " . $db_prefix . "_users");
         while (list($userid, $userpass) = mysql_fetch_row($sql_user))
@@ -719,7 +697,7 @@ function upgrade_db()
     $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('screen', 'on');";
     $req = mysql_query($sql);
 
-    mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9 RC5.3\' WHERE name = \'version\'');
+    mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9 RC6\' WHERE name = \'version\'');
     mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'Impact_Nk\' WHERE name = \'theme\'');
     mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'quakenet.org\' WHERE name = \'irc_serv\'');
 
@@ -842,40 +820,6 @@ function upgrade_db()
     (7, 'sections', 1);";
     $req = mysql_query($sql);
 
-    $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_style";
-    $req = mysql_query($sql);
-
-    $sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_style` (
-      `id` int(11) NOT NULL AUTO_INCREMENT,
-      `texte` text COLLATE latin1_german2_ci NOT NULL,
-      PRIMARY KEY (`id`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci AUTO_INCREMENT=1 ;";
-    $req = mysql_query($sql);
-
-    $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_editeur";
-    $req = mysql_query($sql);
-
-    $sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_editeur` (
-      `name` varchar(255) COLLATE latin1_german2_ci NOT NULL DEFAULT '',
-      `value` text COLLATE latin1_german2_ci NOT NULL,
-      PRIMARY KEY (`name`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
-    $req = mysql_query($sql);
-
-    $sql = "INSERT INTO `" . $db_prefix . "_editeur` (`name`, `value`) VALUES
-    ('couleur', ''),
-    ('bouton', 'top'),
-    ('status', 'bottom'),
-    ('ligne1', 'save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help,code'),
-    ('ligne2', 'styleselect,fontselect,fontsizeselect,|,link,unlink,anchor,|,emotions,image,forecolor,backcolor'),
-    ('ligne3', 'bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,hr,|,outdent,indent,|,removeformat,|,spellchecker'),
-    ('ligne4', 'tablecontrols,|,blockquote,sub,sup,|,charmap,pagebreak'),
-    ('ligne2b', 'styleselect,fontselect,fontsizeselect,barre,link,unlink,anchor,barre,emotions,image,forecolor,backcolor'),
-    ('ligne3b', 'bold,italic,underline,strikethrough,barre,justifyleft,justifycenter,justifyright,justifyfull,barre,bullist,numlist,hr,barre,outdent,indent,barre,removeformat,barre,spellchecker'),
-    ('ligne4b', 'tablecontrols,barre,blockquote,sub,sup,barre,charmap,pagebreak'),
-    ('ligne1b', 'save,newdocument,restoredraft,barre,cut,copy,paste,pastetext,pasteword,barre,undo,redo,barre,print,barre,fullscreen,barre,preview,barre,help,code');";
-    $req = mysql_query($sql);
-
     $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_match";
     $req = mysql_query($sql);
 
@@ -909,7 +853,7 @@ function upgrade_db()
 
     //SPECIAL 1.7.6 => 1.7.9
 
-    if ($v[1] == 6)
+    if ($v[1] == 6) // 1.6
     {
         //MODULE USER, COMMENT & USERBOX
     $sql = mysql_query("ALTER TABLE " . $db_prefix . "_news ADD `auteur_id` varchar (20) not null AFTER `auteur`;");

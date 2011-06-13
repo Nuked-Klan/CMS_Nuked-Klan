@@ -732,7 +732,7 @@ else
 
 $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
 $req = mysql_query($sql);        
-$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('version', '1.7.9 RC5.3');";
+$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('version', '1.7.9 RC6');";
 $req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('date_install', '" . $date. "');";
 $req = mysql_query($sql);
@@ -2055,41 +2055,6 @@ $sql="CREATE TABLE " . $db_prefix . "_vote (
 $req = mysql_query($sql);
 
 echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_vote</b>" . _CREATES . "&nbsp;');</script>";
-
-
-$sql = "DROP TABLE IF EXISTS " . $db_prefix . "_style";
-    $req = mysql_query($sql);
-
-    $sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_style` (
-      `id` int(11) NOT NULL AUTO_INCREMENT,
-      `texte` text COLLATE latin1_german2_ci NOT NULL,
-      PRIMARY KEY (`id`)
-    ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci AUTO_INCREMENT=1;";
-    $req = mysql_query($sql);
-
-    $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_editeur";
-    $req = mysql_query($sql);
-
-    $sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_editeur` (
-      `name` varchar(255) COLLATE latin1_german2_ci NOT NULL DEFAULT '',
-      `value` text COLLATE latin1_german2_ci NOT NULL,
-      PRIMARY KEY (`name`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
-    $req = mysql_query($sql);
-
-    $sql = "INSERT INTO `" . $db_prefix . "_editeur` (`name`, `value`) VALUES
-    ('couleur', ''),
-    ('bouton', 'top'),
-    ('status', 'bottom'),
-    ('ligne1', 'save,newdocument,restoredraft,|,cut,copy,paste,pastetext,pasteword,|,undo,redo,|,print,|,fullscreen,|,preview,|,help,code'),
-    ('ligne2', 'styleselect,fontselect,fontsizeselect,|,link,unlink,anchor,|,emotions,image,forecolor,backcolor'),
-    ('ligne3', 'bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,hr,|,outdent,indent,|,removeformat,|,spellchecker'),
-    ('ligne4', 'tablecontrols,|,blockquote,sub,sup,|,charmap,pagebreak'),
-    ('ligne2b', 'styleselect,fontselect,fontsizeselect,barre,link,unlink,anchor,barre,emotions,image,forecolor,backcolor'),
-    ('ligne3b', 'bold,italic,underline,strikethrough,barre,justifyleft,justifycenter,justifyright,justifyfull,barre,bullist,numlist,hr,barre,outdent,indent,barre,removeformat,barre,spellchecker'),
-    ('ligne4b', 'tablecontrols,barre,blockquote,sub,sup,barre,charmap,pagebreak'),
-    ('ligne1b', 'save,newdocument,restoredraft,barre,cut,copy,paste,pastetext,pasteword,barre,undo,redo,barre,print,barre,fullscreen,barre,preview,barre,help,code');";
-    $req = mysql_query($sql);
 
 
 echo "<script>show_progress('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;','<b>" . _INSERTFIELD . "</b>.....Ok');</script>";
