@@ -98,7 +98,7 @@ function session_delete($id){
     return $sql;
 }
 
-function session_gc($maxlife){
+function session_gc($maxlife, $id){
     $time = time() - $maxlife;
 
     connect();
