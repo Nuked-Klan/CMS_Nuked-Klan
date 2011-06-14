@@ -98,12 +98,12 @@ function session_delete($id){
     return $sql;
 }
 
-function session_gc($maxlife, $id){
+function session_gc($maxlife){
     $time = time() - $maxlife;
 
     connect();
 
-    mysql_query('DELETE FROM ' . TMPSES_TABLE . ' WHERE session_start < ' . $time . ', session_id = "' . mysql_escape_string($id) . '"');
+    mysql_query('DELETE FROM ' . TMPSES_TABLE . ' WHERE session_start < ' . $time);
 
     return true;
 }
