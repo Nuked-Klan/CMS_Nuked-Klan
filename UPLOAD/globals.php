@@ -41,9 +41,13 @@ function SecureVar($value){
         }
         return $value;
     }
-    else{
-        return str_replace(array('<', '>', '0x', '&'), array('&lt;', '&gt;', '\0x', '&amp;'), addslashes($value)) ;
+    elseif (!get_magic_quotes_gpc()){
+        return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '\0x'), addslashes($value)) ;
     }
+    else
+    {
+		return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '\0x'), $value);
+	}
 }
 error_reporting (E_ERROR | E_WARNING | E_PARSE);
 set_magic_quotes_runtime(0);
@@ -66,11 +70,10 @@ unset($get_id, $int_id);
 
 // FONCTION DE SUBSTITUTION POUR MAGIC_QUOTE_GPC
 DeleteGlobalVars();
-if (!get_magic_quotes_gpc()){
-    $_GET = array_map('SecureVar', $_GET);
-    $_POST = array_map('SecureVar', $_POST);
-    $_COOKIE = array_map('SecureVar', $_COOKIE);
-}
+$_GET = array_map('SecureVar', $_GET);
+$_POST = array_map('SecureVar', $_POST);
+$_COOKIE = array_map('SecureVar', $_COOKIE);
+
 $_REQUEST = array_merge($_COOKIE, $_POST, $_GET);
 foreach ($_FILES as $k=>$v){
     if(!empty($_FILES[$k]['name'])){
