@@ -108,7 +108,7 @@ if ($visiteur == 9)
 		. "<tr><td>" . _TAGPRE . " :</td><td><input type=\"text\" name=\"tag_pre\" size=\"10\" value=\"" . $nuked['tag_pre'] . "\" />&nbsp;" . _TAGSUF . " :<input type=\"text\" name=\"tag_suf\" size=\"10\" value=\"" . $nuked['tag_suf'] . "\" /></td></tr>\n"
 		. "<tr><td>" . _SITEURL . " :</td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $nuked['url'] . "\" /></td></tr>\n"
 		. "<tr><td>" . _DATEFORMAT . " :</td><td><input type=\"text\" name=\"dateformat\" size=\"40\" value=\"" . $nuked['dateformat'] . "\" /></td></tr>\n"
-		. "<tr><td>" . _DATEZONE . " :</td><td><input type=\"text\" name=\"dateformat\" size=\"40\" value=\"" . $nuked['datezone'] . "\" /></td></tr>\n"
+		. "<tr><td>" . _DATEZONE . " :</td><td><input type=\"text\" name=\"datezone\" size=\"40\" value=\"" . $nuked['datezone'] . "\" /></td></tr>\n"
 		. "<tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
 		. "<tr><td>" . _FOOTMESS . " :</td><td><textarea class=\"editor\" name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"	
 		. "<tr><td>" . _SITESTATUS . " :</td><td><select name=\"nk_status\">\n";
