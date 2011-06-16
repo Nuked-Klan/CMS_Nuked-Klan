@@ -34,7 +34,7 @@ if ($visiteur == 9)
 	?>
 	<br /><br /><b>Informations générales:</b><br /><br />
 	Version <?php echo $nuked['version']; ?><br />
-	Développer par http://www.nuked-klan.org.<br />
+	Développée par http://www.nuked-klan.org.<br />
 	Développement géré par: fce.<br />
 	Développeur: bontiv, fce, xpLosIve, oeildefeu, akred, Samoth, Sekuline, PooG.<br />
 	Responsable Qualité: Lypso21<br /><br />
