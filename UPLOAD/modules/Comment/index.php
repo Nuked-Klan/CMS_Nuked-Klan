@@ -155,40 +155,36 @@ function com_index($module, $im_id)
     }
     else
     {
-        echo "<b>" . _COMMENTS . " :</b>";
-        $sql2 = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE im_id = '" . $im_id . "' AND module = '" . $module . "'");
-        $nb_comment = mysql_num_rows($sql2);
-        echo "&nbsp;" . $nb_comment . " ";
-        if ($visiteur >= $level_access && $level_access > -1)
-        {
-        echo "<small>[ <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Comment&amp;nuked_nude=index&amp;op=view_com&amp;im_id=" . $im_id . "&amp;module=" . $module . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=360,height=380,top=100,left=100');return(false)\">" . _VIEWCOMMENT . "</a> ]</small>\n";
-        }
         echo "<div id=\"message\"><form method=\"post\" onsubmit=\"remplir();sent(this.comtexte.value, this.compseudo.value, this.module.value, this.imid.value, this.code.value); return false;\" action=\"\">\n"
-    . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
+		. "<b>" . _NICK . " :</b>\n";
 
-    . "<tr><td width=\"400\"><b>" . _MESSAGE . " :</b><br />"
-    . "<textarea id=\"e_basic\" name=\"texte\" cols=\"40\" rows=\"3\"></textarea></td>\n"
-    . "<td valign=\"left\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _NICK . " :</b>";
+		if ($user) echo "&nbsp;&nbsp;<b>" . $user[2] . "</b><input id=\"compseudo\" type=\"hidden\" name=\"pseudo\" value=\"" . $user[2] . "\" />\n";
+		else echo "<input id=\"compseudo\" type=\"text\" size=\"30\" name=\"pseudo\" maxlength=\"30\" />\n";
 
-    if ($user)
-    {
-        echo "&nbsp;&nbsp;<b>" . $user[2] . "</b><input id=\"compseudo\" type=\"hidden\" name=\"pseudo\" value=\"" . $user[2] . "\" /></td>\n";
-    }
-    else
-    {
-        echo "<input id=\"compseudo\" type=\"text\" size=\"30\" name=\"pseudo\" maxlength=\"30\" /></td>\n";
-    }
+    echo "<br />"
+    . "<b>" . _MESSAGE . " :</b><br />\n"
+    . "<textarea id=\"e_basic\" name=\"texte\" cols=\"40\" rows=\"3\"></textarea>\n";
 
-    echo "</tr>";
-
-    if ($captcha == 1) create_captcha(1);
+    if ($captcha == 1){
+	echo "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">\n";
+	create_captcha(2);
+	echo "</table>";
+	}
     else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
 
-    echo "<tr><td align=\"right\" colspan=\"2\">\n"
-    . "<input type=\"hidden\" id=\"imid\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
+    echo "<input type=\"hidden\" id=\"imid\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
     . "<input type=\"hidden\" id=\"module\" name=\"module\" value=\"" . $module . "\" />\n"
-    . "</td></tr></table></form></div>\n";
+    . "<input type=\"submit\" value=\"" . _SEND . "\" />\n"
+    . "</form></div>\n";
+
+    echo "<b>" . _COMMENTS . " :</b>";
+    $sql2 = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE im_id = '" . $im_id . "' AND module = '" . $module . "'");
+    $nb_comment = mysql_num_rows($sql2);
+    echo "&nbsp;" . $nb_comment . " ";
+    if ($visiteur >= $level_access && $level_access > -1)
+    {
+        echo "<small>[ <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Comment&amp;nuked_nude=index&amp;op=view_com&amp;im_id=" . $im_id . "&amp;module=" . $module . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=360,height=380,top=100,left=100');return(false)\">" . _VIEWCOMMENT . "</a> ]</small>\n";
+    }
 
       echo "<br /><br /><table style=\"background: " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"3\" cellspacing=\"1\">\n"
       . "<tr style=\"background: " . $bgcolor3 . ";\"><td style=\"width : 30%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"

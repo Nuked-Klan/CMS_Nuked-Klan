@@ -58,7 +58,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         -->
         </script>';
 
-        echo '<div style="width: 50%; margin: auto">
+        echo '<div style="width: 98%; margin: auto">
         <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
         <p style="text-align: center; margin-bottom: 20px"><big><b>' . _CONTACT . '</b></big><br /><em>' . _CONTACTFORM . '</em></p>
         <p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _YNICK . ' : </label>&nbsp;<input id="ns_pseudo" type="text" name="nom" value="" style="width: 50%" /></p>
