@@ -97,6 +97,10 @@ define("_MOVEDOWN","Descendre");
 define("_BBCLOSE","Fermer&nbsp;les&nbsp;balises");
 define("_BBHELP","Aides BBcode");
 
+define("_ERRORSQLDEDECTED","Une erreur SQL a été détectée");
+define("_SQLFILE",", fichier :");
+define("_SQLLINE",", ligne :");
+
 define("_JAN","Janvier");
 define("_FEB","Février");
 define("_MAR","Mars");

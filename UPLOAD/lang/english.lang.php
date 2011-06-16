@@ -100,6 +100,10 @@ define("_MOVEDOWN","Move down");
 define("_BBCLOSE","close tags");
 define("_BBHELP","BBcode Help");
 
+define("_ERRORSQLDEDECTED","A SQL error have been detected");
+define("_SQLFILE",", file :");
+define("_SQLLINE",", line :");
+
 define("_JAN","January");
 define("_FEB","February");
 define("_MAR","March");
