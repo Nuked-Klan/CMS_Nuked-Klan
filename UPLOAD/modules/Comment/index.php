@@ -155,7 +155,7 @@ function com_index($module, $im_id)
     }
     else
     {
-        echo "<div id=\"message\"><form method=\"post\" onsubmit=\"remplir();sent(this.comtexte.value, this.compseudo.value, this.module.value, this.imid.value, this.code.value); return false;\" action=\"\">\n"
+        echo "<div id=\"message\"><form method=\"post\" onsubmit=\"sent(this.comtexte.value, this.compseudo.value, this.module.value, this.imid.value, this.code.value); return false;\" action=\"\">\n"
 		. "<b>" . _NICK . " :</b>\n";
 
 		if ($user) echo "&nbsp;&nbsp;<b>" . $user[2] . "</b><input id=\"compseudo\" type=\"hidden\" name=\"pseudo\" value=\"" . $user[2] . "\" />\n";
