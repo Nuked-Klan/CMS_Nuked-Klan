@@ -69,7 +69,7 @@ function form($content, $sug_id)
 
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
     . "<form method=\"post\" action=\"" . $action . "\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
+    . "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" value=\"" . $content[0] . "\" size=\"40\" /></td></tr>\n"
     . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
 

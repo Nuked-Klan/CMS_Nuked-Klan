@@ -57,7 +57,7 @@ function form($content, $sug_id)
 
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
     . "<form method=\"post\" action=\"$action\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
+    . "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
     . "<tr><td><b>" . _TITLE . "</b> : <input type=\"text\" name=\"title\" size=\"45\" value=\"" . $content[0] . "\" /></td></tr>\n"
     . "<tr><td><b>" . _CAT . " :</b> <select name=\"secid\"><option value=\"0\">* " . _NONE . "</option>\n";
 
