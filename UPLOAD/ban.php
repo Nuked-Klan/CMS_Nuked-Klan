@@ -34,8 +34,6 @@ $count = mysql_num_rows($sql);
 if ($count > 0)
 {
     list($texte_ban, $dure) = mysql_fetch_array($sql);
-    $texte_ban = htmlentities($texte_ban);
-
     setcookie('ip_ban', $ip_ban, time() + 9999999, '', '', '');
 
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -44,7 +42,7 @@ if ($count > 0)
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta http-equiv="content-style-type" content="text/css" />
     <link title="style" type="text/css" rel="stylesheet" href="themes/' . $theme . '/style.css" /></head>
-    <body style="background : ' . $bgcolor2 . '"><div style="margin: auto 200px; width: 250px; border: 1px solid ' . $bgcolor3 . '; background: ' . $bgcolor1 . '; text-align: center">
+    <body style="background : ' . $bgcolor2 . '"><div style="margin: 200px auto; width: 800px; border: 1px solid ' . $bgcolor3 . '; background: ' . $bgcolor1 . '; text-align: center">
     <big><b>' . $nuked['name'] . ' - ' . $nuked['slogan'] . '</b><br /><br />
     ' . _IPBANNED . '</big>';
 
