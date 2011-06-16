@@ -144,7 +144,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "</td></tr></table>\n"
-    . "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n";
+    . "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\" id=\"img_resize_forum\">\n";
 
         if ($sondage == 1)
         {
@@ -542,15 +542,17 @@ if ($visiteur >= $level_access && $level_access > -1)
         echo "</td></tr></table>\n";
 
     echo '<script type="text/javascript">
-        for(var i = 0; i < document.images.length; i++)
-        {
-            if (document.images[i].width > MaxWidth)
-            {
-                document.images[i].height = document.images[i].height * MaxWidth / document.images[i].width;
-                document.images[i].width = MaxWidth;
-            }
-        }
-    </script>';
+		  var Img = document.getElementById("img_resize_forum").getElementsByTagName("img");
+		  var NbrImg = Img.length;
+		  for(var i = 0; i < NbrImg; i++)
+		  {
+			  if (Img[i].width > MaxWidth){
+			       Img[i].style.height = Img[i].height * MaxWidth / Img[i].width+"px";
+			       Img[i].style.width = MaxWidth+"px";
+			  }
+			
+		  }
+		  </script>';
 
         if ($visiteur >= admin_mod("Forum") || $administrator == 1)
         {
