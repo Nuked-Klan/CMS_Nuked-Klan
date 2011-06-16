@@ -117,6 +117,7 @@ define("_BY","par");
 define("_NEWSCOMMENT","Commentaires");
 define("_PSEUDOFAILDED","Pseudo invalide");
 define("_RESERVNICK","Ce pseudo est déjà réservé");
+define("_BANFINISHED"," n'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Lien</a>].");
 define("_IPBANNED","Vous avez été banni de ce site et n'êtes donc plus autorisé à y accéder.");
 define("_REASON","Raison :");
 define("_CONTACTWEBMASTER","Pour toutes contestations, veuillez contacter le webmaster");

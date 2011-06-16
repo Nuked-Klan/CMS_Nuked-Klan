@@ -13,7 +13,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 connect();
 
 // INCLUDE FATAL ERROR LANG
-include('lang/fatal_errors.php');
+include('Includes/fatal_errors.php');
 
 // QUERY NUKED CONFIG_TABLE.
 $nuked = array();
@@ -43,7 +43,7 @@ include ('Includes/nkSessions.php');
 if (!isset($_REQUEST['file']) || $_REQUEST['file'] == null) $_REQUEST['file'] = $nuked['index_site'];
 if (!isset($_REQUEST['op']) || $_REQUEST['op'] == null) $_REQUEST['op'] = 'index';
 
-// SELECT THEME, USER THEME, DISPLAY DEFAULT THEME 
+// SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
 $nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
 if (isset($nuked['user_theme']) && is_file('themes/' . $nuked['user_theme'] . '/theme.php')) $theme = $nuked['user_theme'];
 elseif (is_file('themes/' . $nuked['theme'] . '/theme.php')) $theme = $nuked['theme'];
@@ -53,6 +53,7 @@ else exit(THEME_NOTFOUND);
 $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
 $language = (isset($nuked['user_lang']) && is_file('lang' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
 
+// DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 function nkDate($timestamp)
 {
     global $nuked;
@@ -60,23 +61,31 @@ function nkDate($timestamp)
     return strftime($nuked['dateformat'], $timestamp);
 }
 
+// OPEN PHP SESSION
 function session_open($path, $name){
     return true;
 }
 
+// CLOSE PHP SESSION
 function session_close(){
     return true;
 }
 
+// READ PHP SESSION
 function session_read($id){
     connect();
 
     $sql = mysql_query('SELECT session_vars FROM ' . TMPSES_TABLE . ' WHERE session_id = "' . $id . '"');
 
-    if ($sql === false) return '';
-    else return mysql_result($sql, 0);
+    if ($sql === false){
+	return '';
+	}
+    else{
+	return mysql_result($sql, 0);
+	}
 }
 
+// WRITE PHP SESSION
 function session_write($id, $data){
     $id = mysql_escape_string($id);
     $data = mysql_escape_string($data);
@@ -90,6 +99,7 @@ function session_write($id, $data){
     return $sql !== false;
 }
 
+// DELETE PHP SESSION
 function session_delete($id){
     connect();
 
@@ -98,6 +108,7 @@ function session_delete($id){
     return $sql;
 }
 
+// KILL DEAD SESSION
 function session_gc($maxlife){
     $time = time() - $maxlife;
 
@@ -108,6 +119,7 @@ function session_gc($maxlife){
     return true;
 }
 
+// CONNECT TO DB.
 function connect(){
     global $global, $db, $language;
 
@@ -127,142 +139,94 @@ function connect(){
     }
 }
 
+// SEARCH BAN FOR USER AND ERROR BAN FOR BANNED USER.
 function banip(){
     global $nuked, $user_ip, $user, $language;
 
     $theday = time();
 
-    $verif1 = mysql_query("SELECT id, pseudo, date, dure FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
-    list($id1, $pseudo1, $date1, $dure1) = mysql_fetch_array($verif1);
-    
-    if(isset($user[2])){
-        $verif2 = mysql_query("SELECT id, pseudo, date, dure FROM " . BANNED_TABLE . " WHERE pseudo = '" . $user[2] . "'");
-        list($id2, $pseudo2, $date2, $dure2) = mysql_fetch_array($verif2);
-    }
-    
-    if(isset($_COOKIE['ip_ban'])){
-        $verif3 = mysql_query("SELECT id, pseudo, date, dure FROM " . BANNED_TABLE . " WHERE ip = '" . $_COOKIE['ip_ban'] . "'");
-        list($id3, $pseudo3, $date3, $dure3) = mysql_fetch_array($verif3);
-    }
-    
-    $not = false;
-    
-    if(mysql_num_rows($verif1) > 0){
+    $ip_search = $_COOKIE['ip_ban'] ? $_COOKIE['ip_ban'] : $user_ip;
+    $where_pseudo = $user[2] ? 'OR pseudo \'' . $user[2] . '\'' : '';
+
+    $query_ban = mysql_query("SELECT id, pseudo, date, dure FROM " . BANNED_TABLE . " WHERE ip = '" . $ip_search . "' " . $where_pseudo . "");
+    $ban = mysql_fetch_array($query_ban);
+
+    $not = FALSE;
+
+    if(mysql_num_rows($query_ban) > 0)
+    {
         $limit_time = $date1 + $dure1;
 
-        if ($limit_time < $theday AND $dure1 > 0){
-            $del1 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
-            
-            if($language == 'french'){
-                $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Lien</a>].')");
-            }
-            else{
-                $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo1." isn\'t ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Link</a>].')");
-            }
+        if ($limit_time < $theday AND $dure1 > 0)
+        {
+            $del1 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $ip_search . "' " . $where_pseudo . "");
+            $upd = mysql_query('INSERT INTO ' . $nuked['prefix'] . '_notification (`date`, `type`, `texte`) VALUES (\'' . $theday . '\', \'4\', \'' . $ban['pseudo'] . _BANFINISHED . '\')');
+
             $not = true;
-            
-            if(isset($_COOKIE['ip_ban'])){
-                $_COOKIE['ip_ban'] = '';
-            }
-        }
-    }
-    if(isset($verif2) && mysql_num_rows($verif2) > 0 AND isset($user[2])){
-            $limit_time = $date2 + $dure2;
 
-            if ($limit_time < $theday AND $dure2 > 0){
-                $del2 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE pseudo = '" . $user[2] . "'");
-                
-                if($not ==false){
-                    if($language == 'french'){
-                        $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
-                    }
-                    else{
-                        $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo2." isn\'t ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
-                    }
-                    $not = true;
-                }
-                if(isset($_COOKIE['ip_ban'])){
-                    $_COOKIE['ip_ban'] = '';
-                }
-            }
+            if($_COOKIE['ip_ban']) $_COOKIE['ip_ban'] = '';
         }
-    if(isset($verif3) && mysql_num_rows($verif3) > 0 AND isset($_COOKIE['ip_ban'])){
-            $limit_time = $date3 + $dure3;
+    }
+    else $_COOKIE['ip_ban'] = '';
 
-            if ($limit_time < $theday AND $dure3 > 0){
-                $del3 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $_COOKIE['ip_ban'] . "'");
-                if($not ==false){
-                    if($language == 'french'){
-                        $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." n\'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">lien</a>].')");
-                    }
-                    else{
-                        $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '4', '".$pseudo3." isn\'t ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Link</a>].')");
-                    }
-                    $not = true;
-                }
-            }
-        }
-        else{
-            $_COOKIE['ip_ban'] = '';
-        }
-        
-    if(!isset($_COOKIE['ip_ban'])){
-        $ip_ban = '';
-    }
-    else{
-        $ip_ban = $_COOKIE['ip_ban'];
-    }
+    $ip_ban = $_COOKIE['ip_ban'] ? $_COOKIE['ip_ban'] : '';
     
-    if (isset($ip_ban)){
-        if ($ip_ban != $user_ip){
+    if ($ip_ban)
+    {
+        if ($ip_ban != $user_ip)
+        {
             $sql = mysql_query("SELECT pseudo, email, texte FROM " . BANNED_TABLE . " WHERE ip = '" . $ip_ban . "'");
             $nb_ban = mysql_num_rows($sql);
 
-            if ($nb_ban > 0){
+            if ($nb_ban > 0)
+            {
                 $sql2 = mysql_query("SELECT id FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
                 $check_ban = mysql_num_rows($sql2);
 
-                if ($check_ban == 0){
+                if ($check_ban == 0)
+                {
                     list($pseudo_ban, $email_ban, $texte_ban) = mysql_fetch_array($sql);
                     $insert = mysql_query("INSERT INTO " . BANNED_TABLE . " ( `id` , `ip` , `pseudo`, `email`, `texte` ) VALUES ('', '" . $user_ip . "', '" . $pseudo_ban . "', '" . $email_ban . "', '" . $texte_ban . "')");
                 }
 
                 $ip_ban = $user_ip;
             }
-            else{
-                $ip_ban = '';
-            }
+            else $ip_ban = '';
         }
     }
-    else{
+    else
+    {
         $nb_ban = 0;
         $sql = mysql_query("SELECT ip, pseudo FROM " . BANNED_TABLE . " ORDER BY id");
         
-        while (list($ip_banned, $pseudo_banned) = mysql_fetch_array($sql)){
-            if ($nb_ban == 0){
-                $bip = explode('.', $ip_banned);
+        while ($ban2 = mysql_fetch_array($sql)){
+            if ($nb_ban == 0)
+            {
+                $bip = explode('.', $ban2['ip']);
 
-                if (isset($bip[3]) && !empty($bip[3])){
-                    $banlist = $ip_banned;
+                if ($bip[3] && !empty($bip[3]))
+                {
+                    $banlist = $ban2['ip'];
                     $verif_ip = $user_ip;
                 }
-                else{
+                else
+                {
                     $banlist = $bip[0] . $bip[1] . $bip[2];
                     $uip = explode('.', $user_ip);
                     $verif_ip = $uip[0] . $uip[1] . $uip[2];
                 }
 
-                if ($verif_ip == $banlist){
-                    $ip_ban = $ip_banned;
+                if ($verif_ip == $banlist)
+                {
+                    $ip_ban = $ban2['ip'];
                     $nb_ban++;
                 }
-                else if (isset($user[2]) && $pseudo_banned == $user[2]){
-                    $ip_ban = $ip_banned;
+                else if (isset($user[2]) && $ban2['pseudo'] == $user[2])
+                {
+                    $ip_ban = $ban2['ip'];
                     $nb_ban++;
                 }
-                else{
-                    $ip_ban = '';
-                }
+                else $ip_ban = '';
             }
         }
     }

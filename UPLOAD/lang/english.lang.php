@@ -120,6 +120,7 @@ define("_BY","by");
 define("_NEWSCOMMENT","Comments");
 define("_PSEUDOFAILDED","Invalid Nickname");
 define("_RESERVNICK","This Nick is already used");
+define("_BANFINISHED"," isn't ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Link</a>].");
 define("_IPBANNED","You are banned. The access of the website you had has been restrained.");
 define("_REASON","Reason :");
 define("_CONTACTWEBMASTER","For more information, please contact the webmaster");
