@@ -1480,7 +1480,7 @@ $sql = "INSERT INTO " . $db_prefix . "_modules (id, nom, niveau, admin) VALUES (
 $req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_modules (id, nom, niveau, admin) VALUES (22, 'Contact', 0, 3);";
 $req = mysql_query($sql);
-$sql = "INSERT INTO " . $db_prefix . "_modules (id, nom, niveau, admin) VALUES (22, 'PackageMgr', 9, 9);";
+$sql = "INSERT INTO " . $db_prefix . "_modules (id, nom, niveau, admin) VALUES (23, 'PackageMgr', 9, 9);";
 $req = mysql_query($sql);
 
 
