@@ -33,5 +33,5 @@ if($_REQUEST['file'] == 'Admin' && $_REQUEST['page'] == 'admin') {
     <p><input type="submit" class="button" name="submit" value="' . _SEARCHFOR . '" /></p>
     <p><a href="index.php?file=Search"><b>' . _ADVANCEDSEARCH . '</b></a> - <a href="javascript:history.back()"><b>' . _BACK . '</b></a></form></div>';
 
-	print $closetable();
+	print $closetable;
 ?>
