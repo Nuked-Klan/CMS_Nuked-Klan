@@ -1287,16 +1287,13 @@ function login($pseudo, $pass, $remember_me)
 
                 $referer = $_SERVER['HTTP_REFERER'];
 
-                list($url_ref, $redirect) = explode('\?', $referer);
-
-                if (!empty($redirect) && !strpos("User", $redirect))
+                if (!empty($referer) && !strpos("User", $referer))
                 {
+					list($url_ref, $redirect) = explode('?', $referer);
                     $redirect = '&referer=' . base64_encode($redirect);
                 }
-                else
-                {
-                    $redirect = "";
-                }
+                else $redirect = '';
+
                 $_SESSION['admin'] = false;
                 $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $id_user . $redirect;
                 redirect($url, 0);
@@ -1347,7 +1344,7 @@ function login_message()
         $test_cookie = "";
     }
 
-    $referer = base64_decode($referer);
+    $referer = base64_decode($_REQUEST['redirect']);
 
     if ($referer != "")
     {
