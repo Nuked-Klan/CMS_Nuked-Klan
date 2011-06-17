@@ -496,6 +496,24 @@ function secu_args($matches){
         'q' => array(),
         'pre' => array(),
         'address' => array(),
+		// FOR YOUTUBE PLUGIN -- POUR PLUGIN YOUTUBE
+/*		'object' => array(
+			'width',
+			'height',
+		),
+		'param' => array (
+			'name',
+			'value'
+		),
+		'embed' => array (
+			'allowfullscreen',
+			'allowscriptaccess',
+			'height',
+			'src',
+			'type',
+			'width',
+		),
+*/
     );
     if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
         preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);
