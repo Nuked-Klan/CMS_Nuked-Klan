@@ -16,7 +16,7 @@ define("_COMMENTS","Commentaires");
 define("_TITLE","Titre");
 define("_MESSAGE","Message");
 define("_NICK","Pseudo");
-define("_SEND","Envoyer");
+define("_SEND_COM","Soumettre votre commentaire");
 define("_CLOSEWINDOW","Fermer la fenêtre");
 define("_BACK","Retour");
 define("_RESERVNICK","Ce pseudo est déjà réservé");
@@ -25,6 +25,8 @@ define("_NONICK","Vous devez rentrer un pseudo");
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
 define("_COMMENTADD","Votre commentaire a bien été enregistré");
+define("_CAPTCHACOM", "Vous n\'avez pas recopié le code de sécurité !");
+define("_THXCOM", "Merci de votre participation");
 
 define("_ADMINCOMMENT","Administration des Commentaires");
 define("_DATE","Date");

@@ -16,7 +16,7 @@ define("_COMMENTS","Comments");
 define("_TITLE","Title");
 define("_MESSAGE","Message");
 define("_NICK","Nick");
-define("_SEND","Send");
+define("_SEND_COM","Submit your comment");
 define("_CLOSEWINDOW","Close Window");
 define("_BACK","Back");
 define("_RESERVNICK","This Nick is already used");
@@ -25,6 +25,8 @@ define("_NONICK","You must enter your Nick");
 define("_NOTITLE","Please enter a title!");
 define("_NOTEXT","Please enter a text!");
 define("_COMMENTADD","Your comment was successfully added.");
+define("_CAPTCHACOM", "You do not copy the security code");
+define("_THXCOM", "Thank you for your participation");
 
 define("_ADMINCOMMENT","Comments Administration");
 define("_DATE","Date");

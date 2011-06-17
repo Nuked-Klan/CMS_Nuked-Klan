@@ -127,8 +127,9 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 	echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
-	, '    if(document.getElementById(\'e_basic\')){',"\n"
-    , '    CKEDITOR.replace( \'e_basic\',',"\n"
+	, '    if(document.getElementById(\'e_basic\')){',"\n";
+	echo ConfigSmileyCkeditor().'',"\n";
+	echo ' CKEDITOR.replace( \'e_basic\',',"\n"
     , '    {',"\n"
     , '        toolbar : \'Basic\',',"\n"
     , '        language : \'' . substr($language, 0,2) . '\',',"\n";
@@ -138,8 +139,9 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     , '</script>',"\n"
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
-	, '    if(document.getElementById(\'e_advanced\')){',"\n"
-    , '    CKEDITOR.replace( \'e_advanced\',',"\n"
+	, '    if(document.getElementById(\'e_advanced\')){',"\n";
+	echo ConfigSmileyCkeditor().'',"\n";
+    echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
     , '    {',"\n"
     , '        toolbar : \'Full\',',"\n"
     , '        language : \'' . substr($language, 0,2) . '\',',"\n";

@@ -40,18 +40,18 @@ if (session_id() == '') exit(ERROR_SESSION);
 include ('Includes/nkSessions.php');
 
 // $_REQUEST['file'] & $_REQUEST['op'] DEFAULT VALUE.
-if (!$_REQUEST['file'] || $_REQUEST['file'] == null) $_REQUEST['file'] = $nuked['index_site'];
-if (!$_REQUEST['op'] || $_REQUEST['op'] == null) $_REQUEST['op'] = 'index';
+if (!isset($_REQUEST['file']) || $_REQUEST['file'] == null) $_REQUEST['file'] = $nuked['index_site'];
+if (!isset($_REQUEST['op']) || $_REQUEST['op'] == null) $_REQUEST['op'] = 'index';
 
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
 $nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
-if ($nuked['user_theme'] && is_file('themes/' . $nuked['user_theme'] . '/theme.php')) $theme = $nuked['user_theme'];
+if (isset($nuked['user_theme']) && is_file('themes/' . $nuked['user_theme'] . '/theme.php')) $theme = $nuked['user_theme'];
 elseif (is_file('themes/' . $nuked['theme'] . '/theme.php')) $theme = $nuked['theme'];
 else exit(THEME_NOTFOUND);
 
 // SELECT LANGUAGE AND USER LANGUAGE
 $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
-$language = ($nuked['user_lang'] && is_file('lang' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
+$language = (isset($nuked['user_lang']) && is_file('lang' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 function nkDate($timestamp)
@@ -78,11 +78,11 @@ function session_read($id){
     $sql = mysql_query('SELECT session_vars FROM ' . TMPSES_TABLE . ' WHERE session_id = "' . $id . '"');
 
     if ($sql === false){
-    return '';
-    }
+	return '';
+	}
     else{
-    return mysql_result($sql, 0);
-    }
+	return mysql_result($sql, 0);
+	}
 }
 
 // WRITE PHP SESSION
@@ -333,6 +333,39 @@ function smiley($textarea){
     echo '<br />[ <a href="#" onclick="javascript:window.open(\'index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=', $textarea , '\',\'smilies\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470\');return(false)">', _MORESMILIES , '</a> ]',"\n";
 }
 
+function ConfigSmileyCkeditor(){
+	
+	$donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
+	
+	$Sql = mysql_query("SELECT code, url FROM ".SMILIES_TABLE." ORDER BY id");
+    while($row = mysql_fetch_array($Sql)){
+		$TabCode[] = $row['code'];
+		$TabUrl[] = $row['url'];
+    }
+	
+	$IUrl = 0;
+	$CompteurUrl = count($TabUrl);
+	$donnee .= 'CKEDITOR.config.smiley_images=[';
+	foreach( $TabUrl as $VUrl ){
+		$IUrl++;
+		$VirguleUrl = ($IUrl == $CompteurUrl) ? '' : ', ';
+		$donnee .= "'$VUrl'$VirguleUrl";
+	}
+	$donnee .= '];';
+	
+	$ICode = 0;
+	$CompteurCode = count($TabCode);
+	$donnee .= 'CKEDITOR.config.smiley_descriptions=[';
+	foreach( $TabCode as $VCode ){
+		$ICode++;
+		$VirguleCode = ($ICode == $CompteurCode) ? '' : ', ';
+		$donnee .= "'$VCode'$VirguleCode";
+	}
+	$donnee .= '];';
+	
+	return $donnee;
+}
+
 function secu_url($url){
     $info = parse_url(strtolower($url));
     if ($info !== false){
@@ -496,24 +529,6 @@ function secu_args($matches){
         'q' => array(),
         'pre' => array(),
         'address' => array(),
-		// FOR YOUTUBE PLUGIN -- POUR PLUGIN YOUTUBE
-/*		'object' => array(
-			'width',
-			'height',
-		),
-		'param' => array (
-			'name',
-			'value'
-		),
-		'embed' => array (
-			'allowfullscreen',
-			'allowscriptaccess',
-			'height',
-			'src',
-			'type',
-			'width',
-		),
-*/
     );
     if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
         preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);
@@ -1001,21 +1016,26 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
             break;
         default:
             $content = ob_get_clean();
-
-            // CONNECT TO DB AND OPEN SESSION PHP
-            if(file_exists('conf.inc.php')) include ("conf.inc.php");
+            @include ("conf.inc.php");
             connect();
-            session_name('nuked');
-            session_start();
-            if (session_id() == '') exit(ERROR_SESSION);
-
+            @session_name('nuked');
+            @session_start();
+            if (session_id() == ''){
+                exit('Erreur dans la création de la session anonyme');
+            }
             $date = time();
+            $content = "<b>Une erreur SQL a été dédectée.<br /><br /><b>Information:</b><br /><br /><b>Mon ERREUR</b> [$errno] $errstr<br /> Erreur fatale sur la ligne $errline dans le fichier $errfile, PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />Arrêt...<br />";
 
-            echo ERROR_SQL;
+            echo $content;
 
-            $texte = _TYPE . ": " . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
-            $upd = mysql_query("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
-            $upd2 = mysql_query("INSERT INTO " . $nuked['prefix'] . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', '" . _ERRORSQLDEDECTED . " : [<a href=\"index.php?file=Admin&page=erreursql\">" . _TLINK . "</a>].')");
+            $texte = "Type: ".$errno." Fichier: ".$errfile." Ligne: ".$errline."";
+            $upd = mysql_query("INSERT INTO " . $db_prefix . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('".$date."', '".mysql_escape_string($_SERVER["REQUEST_URI"])."', '".$texte."')");
+            if($language == "french"){
+                $upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'Une erreur SQL a été détectée : [<a href=\"index.php?file=Admin&page=erreursql\">Lien</a>].')");
+            }
+            else{
+                $upd2 = mysql_query("INSERT INTO " . $db_prefix . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', 'A SQL error have been detected: [<a href=\"index.php?file=Admin&page=erreursql\">Link</a>].')");
+            }
             exit();
             break;
     }
