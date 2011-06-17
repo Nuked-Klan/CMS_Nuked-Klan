@@ -150,7 +150,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $ftexte = "<blockquote>" . $e_txt . " </blockquote>";
         }
 
-        echo "<br /><br /><textarea id=\"e_advanced\" name=\"texte\" cols=\"70\" rows=\"15\">" . $ftexte . "</textarea>";
+        echo "<textarea id=\"e_advanced\" name=\"texte\" cols=\"70\" rows=\"15\">" . $ftexte . "</textarea>";
 
 
         if ($_REQUEST['do'] == "edit" && $usersig == 1)
@@ -185,7 +185,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
 
-        echo "<br /></td></tr><tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _OPTIONS . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\">";
+        echo "</td></tr><tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _OPTIONS . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\">";
 
         if ($visiteur > 0)
         {
