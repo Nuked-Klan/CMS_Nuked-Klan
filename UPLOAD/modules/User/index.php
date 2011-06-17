@@ -1344,7 +1344,7 @@ function login_message()
         $test_cookie = "";
     }
 
-    $referer = base64_decode($_REQUEST['redirect']);
+    $referer = base64_decode($_REQUEST['referer']);
 
     if ($referer != "")
     {
