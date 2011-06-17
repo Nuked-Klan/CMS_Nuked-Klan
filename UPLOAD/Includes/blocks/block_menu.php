@@ -26,8 +26,8 @@ function block_link($content){
         $url = preg_replace("/\[(.*?)\]/si", "index.php?file=\\1", $url);
         $nivuser = $user[1];
         $title = htmlentities($title, ENT_NOQUOTES);
-        $title = preg_replace("`&lt;`i", "<", $title);
-        $title = preg_replace("`&gt;`i", ">", $title);
+        $title = preg_replace("`&amp;lt;`i", "<", $title);
+        $title = preg_replace("`&amp;gt;`i", ">", $title);
         $comment = htmlentities($comment);
         $url = htmlentities($url);
 
@@ -53,9 +53,6 @@ function edit_block_menu($bid){
 
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
-
-    $titre = htmlentities($titre);
-    $content = htmlentities($content);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';
@@ -95,7 +92,7 @@ function edit_block_menu($bid){
     echo '</select></td></tr><tr><td colspan="4" align="center"><br />',"\n"
 		, '<input type="hidden" name="type" value="' , $type , '" />',"\n"
 		, '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
-		, '<input type="hidden" name="content" value="' . , $content , '" />',"\n"
+		, '<input type="hidden" name="content" value="' , $content , '" />',"\n"
 		, '<input type="submit" name="send" value="' , _MODIFBLOCK , '" />',"\n"
 		, '</td></tr></table>',"\n"
 		, '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
