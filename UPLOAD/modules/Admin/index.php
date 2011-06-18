@@ -171,16 +171,13 @@ if ($visiteur >= 2)
                         $sql_act = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT 0, 3");
                         while ($action = mysql_fetch_array($sql_act))
                         {
-                            $users = mysql_real_escape_string($action['pseudo']);
-                            $date = $action['date'];
+                            $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $action['pseudo'] . "'");
+                            $action['pseudo'] = mysql_fetch_array($sql);
 
-                            $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $users . "'");
-                            $pseudo = mysql_fetch_array($sql);
+                            $action['action'] = $action['pseudo'] . ' ' . $action['action'];
+							$action['date'] = strftime('%x '._A.' %H:%M', $action['date']);
 
-                            $date = strftime('%x', $date) . ' ' . _A . ' ' . strftime('%H', $date) . ':' . strftime('%M', $date);
-                            $action['action'] = $pseudo .' ' . $action['action'];
-
-                            echo '<div style="font-size: 12px"><em>' . $date . '</em></div>
+                            echo '<div style="font-size: 12px"><em>' . $action['date'] . '</em></div>
                             <div style="font-size: 12px; margin-bottom: 4px">' . $action['action'] . '</div>';
                         }
                         ?>
