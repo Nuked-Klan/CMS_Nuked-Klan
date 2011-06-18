@@ -150,9 +150,9 @@ function banip(){
     $theday = time();
 
     $ip_search = $_COOKIE['ip_ban'] ? $_COOKIE['ip_ban'] : $user_ip;
-    $where_pseudo = $user[2] ? 'OR pseudo \'' . $user[2] . '\'' : '';
+    $where_pseudo = $user[2] ? 'OR pseudo = \'' . $user[2] . '\'' : '';
 
-    $query_ban = mysql_query("SELECT id, pseudo, date, dure FROM " . BANNED_TABLE . " WHERE ip = '" . $ip_search . "' " . $where_pseudo . "");
+    $query_ban = mysql_query('SELECT id, pseudo, date, dure FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_search . '" ' . $where_pseudo);
     $ban = mysql_fetch_array($query_ban);
 
     $not = FALSE;
