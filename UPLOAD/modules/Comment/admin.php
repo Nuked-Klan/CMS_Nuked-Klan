@@ -16,17 +16,10 @@ global $user, $language;
 translate("modules/Comment/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 admintop();
-
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+$visiteur = (!$user) ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
+
 if ($visiteur >= $level_admin && $level_admin > -1)
 {
     function edit_com($cid)
@@ -74,7 +67,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     function modif_com($cid, $titre, $texte)
     {
         global $nuked, $user;
-
+		
+		$texte = secu_html(html_entity_decode($texte));
         $texte = mysql_real_escape_string(stripslashes($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
 
@@ -160,7 +154,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT id, im_id, date, autor, autor_id, module FROM " . COMMENT_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_com);
         while (list($id, $im_id, $date, $auteur, $autor_id, $module) = mysql_fetch_array($sql))
         {
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
             $auteur = htmlspecialchars($auteur);
 
             if($autor_id != "")
