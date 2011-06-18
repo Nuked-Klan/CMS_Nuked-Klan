@@ -339,7 +339,7 @@ function ConfigSmileyCkeditor(){
 	$donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
 	
 	$Sql = mysql_query("SELECT code, url FROM ".SMILIES_TABLE." ORDER BY id");
-    while($row = mysql_fetch_array($Sql)){
+    while($row = mysql_fetch_assoc($Sql)){
 		$TabCode[] = $row['code'];
 		$TabUrl[] = $row['url'];
     }
