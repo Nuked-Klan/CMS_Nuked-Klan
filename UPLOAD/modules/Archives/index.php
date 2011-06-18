@@ -124,7 +124,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         while (list($news_id, $titre, $autor, $autor_id, $date, $cat) = mysql_fetch_array($sql2))
         {
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
 
             if (strlen($titre) > 25)
             {
@@ -280,7 +280,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         while (list($news_id, $titre, $autor, $autor_id, $date, $cat) = mysql_fetch_array($sql2))
         {
 
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
 
             if (strlen($titre) > 25)
             {

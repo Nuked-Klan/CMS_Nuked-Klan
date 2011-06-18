@@ -7,8 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
+if (!defined("INDEX_CHECK")){
 	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
@@ -44,5 +43,4 @@ $file_filter = "on";
 
 // Liste des extentions autorisé
 $file_filtre = array("zip", "rar", "7z", "gz", "mpg", "mpeg", "avi", "wmv", "mov", "wav", "mp3", "jpg", "jpeg", "bmp", "gif", "png", "doc", "xls", "ptt", "rtf", "txt", "docx", "xlsx", "pptx", "odt", "ods", "odp");
-
 ?>

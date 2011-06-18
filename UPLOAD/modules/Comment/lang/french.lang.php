@@ -5,7 +5,7 @@ if (!defined("INDEX_CHECK"))
 }
 define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_POSTCOMMENT","Poster un commentaire");
-define("_VIEWCOMMENT","Voir les commentaires");
+define("_VIEWCOMMENT","Consulter tous les commentaires");
 define("_NOCOMMENT","Aucun commentaire dans la base de données");
 define("_POSTEDBY","Posté par");
 define("_POSTED","Posté");

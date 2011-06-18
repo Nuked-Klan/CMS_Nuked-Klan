@@ -146,7 +146,7 @@ function com_index($module, $im_id)
         while($row = mysql_fetch_assoc($sql))
         {
             $test = 0;
-            $row['date'] = strftime("%x %H:%M", $row['date']);
+            $row['date'] = nkDate($row['date']);
             $row['titre'] = htmlentities($row['titre']);
             $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);
@@ -240,14 +240,11 @@ function com_index($module, $im_id)
     }
 }
 
-function view_com($module, $im_id)
-{
+function view_com($module, $im_id){
+	
     global $user, $bgcolor2, $bgcolor3, $theme, $nuked, $language, $visiteur;
 
-    if(!verification($module,$im_id))
-    {
-        exit();
-    }
+    if(!verification($module,$im_id)) exit();
     if ($language == "french" && strpos("WIN", PHP_OS)) setlocale (LC_TIME, "french");
     else if ($language == "french" && strpos("BSD", PHP_OS)) setlocale (LC_TIME, "fr_FR.ISO8859-1");
     else if ($language == "french") setlocale (LC_TIME, "fr_FR");
@@ -257,93 +254,66 @@ function view_com($module, $im_id)
     $level_admin = admin_mod("Comment");
     $module = mysql_real_escape_string(stripslashes($module));
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    . "<head><title>" . _COMMENTS . "</title>\n"
-    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-    . "<body style=\"background : " . $bgcolor2 . ";\">\n";
+    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	      <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+	      <head><title>'._COMMENTS.'</title>
+	      <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	      <meta http-equiv="content-style-type" content="text/css" />
+	      <link title="style" type="text/css" rel="stylesheet" href="themes/'.$theme.'/style.css" /></head>
+	      <body style="background:'.$bgcolor2.';">
+	      <script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&nuked_nude=index&op=del_comment&cid=\'+id;}}</script>';
 
-    echo "<script type=\"text/javascript\">\n"
-    ."<!--\n"
-    ."\n"
-    . "function delmess(autor, id)\n"
-    ." {\n"
-    . "if (confirm('" . _DELCOMMENT . " '+autor+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Comment&nuked_nude=index&op=del_comment&cid='+id;}\n"
-    . "}\n"
-    ."\n"
-    . "// -->\n"
-    . "</script>\n";
-
-    $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM " . COMMENT_TABLE . " WHERE im_id = '" . $im_id . "' AND module = '" . $module . "' ORDER BY id DESC");
-    if (mysql_num_rows($sql) != 0)
-    {
-        while (list($cid, $titre, $com, $auteur, $autor_id, $date, $auteur_ip) = mysql_fetch_array($sql))
-        {
-            $date = strftime("%x %H:%M", $date);
-
-            $titre = htmlentities($titre);
-
-            $titre = nk_CSS($titre);
-            $auteur = nk_CSS($auteur);
-
-            //$com = trunc_hyperlink($com);
-
-            if($autor_id != "")
-            {
-                $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id='" . $autor_id . "'");
+    $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC");
+    if (mysql_num_rows($sql) != 0){
+		
+        while($row = mysql_fetch_assoc($sql)):
+            
+			$row['date'] = nkDate($row['date']);
+			$row['titre'] = htmlentities($row['titre']);
+			$row['titre'] = nk_CSS($row['titre']);
+            $row['autor'] = nk_CSS($row['autor']);
+			
+			if(!empty($row['autor_id'])){
+                $sql_member = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id ='{$row['autor_id']}'");
                 $test = mysql_num_rows($sql_member);
             }
 
-            if($autor_id != "" && $test > 0)
-            {
+            if(!empty($row['autor_id']) && $test > 0){
                 list($author) = mysql_fetch_array($sql_member);
-                $autor = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($author) . "\" onclick=\"window.open(this.href); return false;\">" . $author . "</a>";
-            }
-            else
-            {
-                $autor = $auteur;
-            }
+                $autor = '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($author).'" onclick="window.open(this.href);return false;">'.$author.'</a>';
+            }else $autor = $row['autor'];
 
-            echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"width: 100%;\"><b>" . $titre . "</b>";
+            echo '<table width="100%" cellspacing="0" cellpadding="0"><tr><td style="width:100%;"><b>'.$titre.'</b>';
 
-            if ($visiteur >= $level_admin && $level_admin > -1)
-            {
-                echo "&nbsp;(" . $auteur_ip . ") <a href=\"index.php?file=Comment&amp;nuked_nude=index&amp;op=edit_comment&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCOM . "\" /></a>"
-                . "<a href=\"javascript:delmess('" . mysql_real_escape_string($auteur) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCOM . "\"></a>";
+            if ($visiteur >= $level_admin && $level_admin > -1){
+                echo '&nbsp;('.$row['autor_ip'].') <a href="index.php?file=Comment&amp;nuked_nude=index&amp;op=edit_comment&amp;cid='.$row['id'].'"><img style="border:none;" src="images/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a><a href="javascript:delmess(\''.mysql_real_escape_string($row['autor']).'\', \''.$row['id'].'\');"><img style="border:none;" src="images/del.gif" alt="" title="'._DELTHISCOM.'"></a>';
             }
 
-            echo "</td></tr><tr><td><img src=\"images/posticon.gif\" alt=\"\" />&nbsp;" . _POSTEDBY . "&nbsp;" . $autor . "&nbsp;" . _THE . "&nbsp;" . $date . "<br /><br />" . $com . "<br /><hr style=\"height: 1px;color : " . $bgcolor3 . ";\" /></td></tr></table>\n";
-        }
-    }
-    else
-    {
-        echo "<div style=\"text-align: center;\"><br /><br />" . _NOCOMMENT . "<br /></div>\n";
-    }
-
-    if ($visiteur >= $level_access && $level_access > -1)
-    {
-        echo "<div style=\"text-align: center;\"><br /><input type=\"button\" value=\"" . _POSTCOMMENT . "\" onclick=\"document.location='index.php?file=Comment&amp;nuked_nude=index&amp;op=post_com&amp;im_id=" . $im_id . "&amp;module=" . $module . "'\" /></div>\n";
+            echo '</td></tr><tr><td><img src="images/posticon.gif" alt="" />&nbsp;'._POSTEDBY.'&nbsp;'.$autor.'&nbsp;'._THE.'&nbsp;'.$row['date'].'<br /><br />'.$row['comment'].'<br /><hr style="height:1px;color:'.$bgcolor3.';" /></td></tr></table>';
+        
+		endwhile;
+    
+	}else{
+	    echo '<div style="text-align:center;"><br /><br />'._NOCOMMENT.'<br /></div>';
     }
 
-    echo "<div style=\"text-align: center;\"><br />[ <a href=\"#\" onclick=\"javascript:window.close();\"><b>" . _CLOSEWINDOW . "</b></a> ]</div></body></html>";
+    if ($visiteur >= $level_access && $level_access > -1){
+        echo '<div style="text-align:center;"><br /><input type="button" value="'._POSTCOMMENT.'" onclick="document.location=\'index.php?file=Comment&amp;nuked_nude=index&amp;op=post_com&amp;im_id='.$im_id.'&amp;module='.$module.'\'" /></div>';
+    }
+
+    echo '<div style="text-align:center;"><br />[ <a href="#" onclick="javascript:window.close();"><b>'._CLOSEWINDOW.'</b></a> ]</div></body></html>';
 }
 
-function post_com($module, $im_id)
-{
+function post_com($module, $im_id){
+	
     global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur, $captcha;
 
     define('EDITOR_CHECK', 1);
 
     $level_access = nivo_mod("Comment");
 
-    if (!verification($module,$im_id))
-    {
-
-    }
-    else if ($visiteur >= $level_access && $level_access > -1)
+    if(!verification($module,$im_id)){}
+	elseif($visiteur >= $level_access && $level_access > -1)
     {
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
     . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
@@ -401,8 +371,9 @@ function post_com($module, $im_id)
 
     echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    CKEDITOR.replace( \'e_basic\',',"\n"
+    , '//<![CDATA[',"\n";
+	echo ConfigSmileyCkeditor().'',"\n";
+    echo ' CKEDITOR.replace( \'e_basic\',',"\n"
     , '    {',"\n"
     , '        toolbar : \'Basic\',',"\n"
     , '        language : \'' . substr($language, 0,2) . '\',',"\n";

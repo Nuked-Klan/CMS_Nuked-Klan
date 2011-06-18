@@ -65,8 +65,8 @@ function affich_block_event($blok){
     $days = Array(_SUN, _MON, _TUE, _WEN, _THR, _FRI, _SAT);
 
     $blok['content'] .= '<table style="margin:0 auto;text-align:left" cellpadding="0" cellspacing="0"><tr><td>'."\n"
-					 . '<a href="index.php?file='.$file.'&amp;mo=' , $prevmonth . '&amp;ye='.$prevyear.'" title="'._PREVMONTH.'"><small>&lt;&lt;</small></a>&nbsp;<b>'.$months[$this_month].'&nbsp;'.$year.'</b>&nbsp;',"\n"
-					 . '<a href="index,php?file='.$file.'&amp;mo='.$nextmonth.'&amp;ye='.$nextyear.'" title="'._NEXTMONTH.'"><small>&gt;&gt;</small></a></td></tr></table>'."\n"
+					 . '<a href="index.php?file='.$file.'&amp;mo=' . $prevmonth . '&amp;ye='.$prevyear.'" title="'._PREVMONTH.'"><small>&lt;&lt;</small></a>&nbsp;<b>'.$months[$this_month].'&nbsp;'.$year.'</b>&nbsp;'."\n"
+					 . '<a href="index.php?file='.$file.'&amp;mo='.$nextmonth.'&amp;ye='.$nextyear.'" title="'._NEXTMONTH.'"><small>&gt;&gt;</small></a></td></tr></table>'."\n"
 					 . '<table style="margin:0 auto;text-align:left" cellpadding="2" cellspacing="1"><tr>'."\n";
 
 	$size = count($days);
@@ -268,8 +268,8 @@ function edit_block_event($bid){
 	   . '<tr><td><b>'._TITLE.'</b></td><td><b>'._BLOCK.'</b></td><td><b>'._POSITION.'</b></td><td><b>'._LEVEL.'</b></td></tr>'."\n"
 	   . '<tr><td style="text-align:center;" ><input type="text" name="titre" size="40" value="'.$titre.'" /></td>'."\n"
 	   . '<td style="text-align:center;"><select name="active">'."\n"
-	   . '<option value="1" '.$checked1.'>'._LEFT.'</option>',"\n"
-	   . '<option value="2" '.$checked2.'>'._RIGHT.'</option>',"\n"
+	   . '<option value="1" '.$checked1.'>'._LEFT.'</option>'."\n"
+	   . '<option value="2" '.$checked2.'>'._RIGHT.'</option>'."\n"
 	   . '<option value="0" '.$checked0.'>'._OFF.'</option></select></td>'."\n"
 	   . '<td style="text-align:center;" ><input type="text" name="position" size="2" value="'.$position.'" /></td>'."\n"
 	   . '<td style="text-align:center;" ><select name="nivo"><option>'.$nivo.'</option>'."\n"

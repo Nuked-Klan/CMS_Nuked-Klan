@@ -7,24 +7,14 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+if (!defined("INDEX_CHECK")) die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
 global $nuked, $language, $user;
 translate("modules/Irc/lang/" . $language . ".lang.php");
-
-if (!$user)
-{
-    $visiteur = 0;
-} 
-else
-{
-    $visiteur = $user[1];
-} 
+$visiteur = (!$user) ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
+
 if ($visiteur >= $level_access && $level_access > -1)
 {
     compteur("Irc");
@@ -153,7 +143,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $count = mysql_num_rows($sql);
         while (list($date, $txt) = mysql_fetch_array($sql))
         {
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
             $i++;
 
             echo "&nbsp;<b><big>&middot;</big></b>&nbsp;<b>" . $date . "</b><br />" . $txt . "<br /><br />\n";

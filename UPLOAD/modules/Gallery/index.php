@@ -126,7 +126,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                 if ($date)
                 {
-                    $date = strftime("%x", $date);
+                    $date = nkDate($date);
                     $last_date = _LASTADD . "&nbsp;" . $date;
                 } 
                 else
@@ -284,7 +284,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if (!$name) $name = "N/A";
 
-        if ($date) $date = strftime("%x %H:%M", $date);
+        if ($date) $date = nkDate($date);
         else $date = "N/A";
 
         if ($url_file != "")
@@ -494,7 +494,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                 if ($date != "")
                 {
-                    $date = strftime("%x", $date);
+                    $date = nkDate($date);
                     $last_date = "" . _LASTADD . " $date";
                 } 
                 else
@@ -726,7 +726,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     $titre = htmlentities($titre);
 
-                    if ($date != "") $alt = _ADDTHE . "&nbsp;" . strftime("%x %H:%M", $date);
+                    if ($date != "") $alt = _ADDTHE . "&nbsp;" . nkDate($date);
                     else $alt = $titre;
 
                     if ($sid != $last_sid)

@@ -1,8 +1,8 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
+if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
+
 define("_NOENTRANCE","Sorry you hav no permission to access this page");
 define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
 define("_SUGGEST","Suggestions");

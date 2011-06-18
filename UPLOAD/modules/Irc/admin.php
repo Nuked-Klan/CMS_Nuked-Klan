@@ -64,7 +64,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $count = mysql_num_rows($sql);
         while (list($irc_id, $date, $text) = mysql_fetch_array($sql))
         {
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
 
             if (strlen($text) > 50)
             {

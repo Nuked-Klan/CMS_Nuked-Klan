@@ -4,7 +4,7 @@ if (!defined("INDEX_CHECK"))
 	exit('You can\'t run this file alone.');
 }
 define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
-define("_VIEWCOMMENT","View comments");
+define("_VIEWCOMMENT","View all comments");
 define("_POSTCOMMENT","Post a comment");
 define("_NOCOMMENT","No comments in the database");
 define("_POSTEDBY","Posted by");
