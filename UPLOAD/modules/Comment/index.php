@@ -72,7 +72,7 @@ function verification($module, $im_id)
     $Sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = '$WhereModule'");
     list($active) = mysql_fetch_array($Sql);
 
-    $Str = mysql_query("SELECT * FROM " . $nuked['prefix'] . "_$sqlverif WHERE $specification = '$im_id'");
+    $Str = mysql_query("SELECT * FROM " . $nuked['prefix'] . "_$sqlverif WHERE $specification = '" . intval($im_id) . "'");
 
     return (mysql_num_rows($Str) > 0 && $active == 1);
 }
