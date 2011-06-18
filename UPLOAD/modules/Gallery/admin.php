@@ -121,7 +121,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 				$f = explode(".", $filename);
 				$end = count($f) - 1;
 				$ext = $f[$end];
-				$file_name = preg_replace("." . $ext, "", $filename);
+				$file_name = str_ireplace("." . $ext, "", $filename);
 
 				if (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext)) $src = @imagecreatefromjpeg($url);
 				if (preg_match("`png`i", $ext)) $src = @imagecreatefrompng($url);
@@ -432,7 +432,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
             $titre = htmlentities($titre);
 
-            $date = strftime("%x", $date);
+            $date = nkDate($date);
 
 
             if ($cat == "0")
