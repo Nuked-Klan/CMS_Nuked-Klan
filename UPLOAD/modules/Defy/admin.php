@@ -42,7 +42,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $sql = mysql_query("SELECT id, pseudo, send, mail, clan, game FROM " . DEFY_TABLE . " ORDER BY id DESC");
         $count = mysql_num_rows($sql);
         while (list($did, $pseudo, $date, $mail, $clan, $game) = mysql_fetch_array($sql)){
-            $date = strftime("%x", $date);
+            $date = nkDate($date);
 			
             $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id='".$game."'");
             list($game_name) = mysql_fetch_array($sql2);
