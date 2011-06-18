@@ -7,10 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $nuked, $language;
 
@@ -20,87 +17,59 @@ function admintop()
 global $user, $nuked, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
-if($visiteur < 2)
-{
-redirect("index.php?file=User",0);
-}
+$visiteur = $user ? $user[1] : 0;
+
+if($visiteur < 2) redirect('index.php?file=404', 0);
 ?>
- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
     <head>
-    <meta name="keywords" content="<?php echo $nuked['keyword'] ?>" />
-    <meta name="Description" content="<?php echo $nuked['description'] ?>" />
-    <title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>
-    <link rel="shortcut icon"  href="images/favicon.ico" />
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <!--                       CSS                       -->
-        <!-- Reset Stylesheet -->
+		<meta name="keywords" content="<?php echo $nuked['keyword'] ?>" />
+		<meta name="Description" content="<?php echo $nuked['description'] ?>" />
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+		<title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>
+
+		<link rel="shortcut icon"  href="images/favicon.ico" />
         <link rel="stylesheet" href="modules/Admin/css/reset.css" type="text/css" media="screen" />
-        <!-- Main Stylesheet -->
         <link rel="stylesheet" href="modules/Admin/css/style.css" type="text/css" media="screen" />
-        <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
         <link rel="stylesheet" href="modules/Admin/css/invalid.css" type="text/css" media="screen" />    
 
-        <!--                       Javascripts                       -->
-  
-        <!-- jQuery -->
         <script type="text/javascript" src="modules/Admin/scripts/jquery-1.6.1.min.js"></script>
-        
-        <!-- jQuery Configuration -->
         <script type="text/javascript" src="modules/Admin/scripts/simpla.jquery.configuration.js"></script>
-        
-        <!-- Facebox jQuery Plugin -->
         <script type="text/javascript" src="modules/Admin/scripts/facebox.js"></script>
 
         <script type="text/javascript">
             function maFonctionAjax(texte)
             {
-              var OAjax;
-              if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
-              else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP'); 
-              OAjax.open('POST',"index.php?file=Admin&page=discussion",true);
-              OAjax.onreadystatechange = function()
-              {
-                  if (OAjax.readyState == 4 && OAjax.status==200)
-                  {
-                      if (document.getElementById) 
-                      {    
-                         document.getElementById("affichefichier").innerHTML = OAjax.responseText;
-                         document.getElementById("texte").value = "";
-                      }     
-                  }
-              }
-              OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-              OAjax.send('texte='+texte+'');
-              $(document).trigger('close.facebox')
+				var OAjax;
+				if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
+				else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP'); 
+				OAjax.open('POST','index.php?file=Admin&page=discussion',true);
+				OAjax.onreadystatechange = function()
+				{
+					if (OAjax.readyState == 4 && OAjax.status==200)
+					{
+						if (document.getElementById) 
+						{    
+							document.getElementById('affichefichier').innerHTML = OAjax.responseText;
+							document.getElementById('texte').value = '';
+						}     
+					}
+				}
+
+				OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+				OAjax.send('texte='+texte+'');
+				$(document).trigger('close.facebox')
             }
-            var xtralink = "non";
+
+            var xtralink = 'non';
+
             function screenon(lien,lien2)
             {
-                xtralink = lien2;
-                document.getElementById("iframe").innerHTML = "<iframe style=\"border:0px;\" width=\"100%\" height=\"80%\" src=\""+lien+"\"></iframe>";
-                <?php
-                    if ($nuked['screen'] == "off")
-                    {
-                ?>
-                        screenoff();
-                <?php
-                    }
-                    else
-                    {
-                ?>
-                        document.getElementById("screen").style.display="block";
-                <?php
-                    }
-                ?>
+				xtralink = lien2;
+				document.getElementById('iframe').innerHTML = '<iframe style="border: 0" width="100%" height="80%" src="' +lien+ '"></iframe>';
+                <?php $nuked['screen'] == 'off' ? 'screenoff();' : 'document.getElementById(\'screen\').style.display=\'block\''; ?>
             }
             function screenoff()
             {
