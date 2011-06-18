@@ -17,7 +17,7 @@ translate("modules/Irc/lang/" . $language . ".lang.php");
 
 $sql = mysql_query("SELECT date, text FROM " . IRC_AWARDS_TABLE . " ORDER BY id DESC LIMIT 0, 1");
 list($date, $txt) = mysql_fetch_array($sql);
-$date = strftime("%x %H:%M", $date);
+$date = nkDate($date);
 
 echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
 . "<tr><td align=\"left\">" . $txt . "</td></tr>\n"
