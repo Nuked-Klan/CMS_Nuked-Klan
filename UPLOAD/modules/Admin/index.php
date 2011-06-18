@@ -172,9 +172,9 @@ if ($visiteur >= 2)
                         while ($action = mysql_fetch_array($sql_act))
                         {
                             $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $action['pseudo'] . "'");
-                            $action['pseudo'] = mysql_fetch_array($sql);
+                            list($pseudo) = mysql_fetch_array($sql);
 
-                            $action['action'] = $action['pseudo'] . ' ' . $action['action'];
+                            $action['action'] = $pseudo . ' ' . $action['action'];
 							$action['date'] = strftime('%x '._A.' %H:%M', $action['date']);
 
                             echo '<div style="font-size: 12px"><em>' . $action['date'] . '</em></div>
