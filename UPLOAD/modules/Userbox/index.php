@@ -303,112 +303,115 @@ if ($user)
 
     function index()
     {
-        global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
-
-        opentable();
-
-        echo "<script type=\"text/javascript\">\n"
-        ."<!--\n"
-        ."\n"
-        ."function setCheckboxes(checkbox, nbcheck, do_check)\n"
-        ."{\n"
-        ."for (var i = 0; i < nbcheck; i++)\n"
-        ."{\n"
-        ."cbox = checkbox + i;\n"
-        ."document.getElementById(cbox).checked = do_check;\n"
-        ."}\n"
-        ."return true;\n"
-        ."}\n"
-        ."\n"
-        . "// -->\n"
-        . "</script>\n";
-
-        echo "<form method=\"post\" action=\"index.php?file=Userbox&amp;op=del_message_form\">\n"
-        . "<div style=\"text-align: center;\"><br /><big><b>" . _PRIVATEMESS . "</b></big><br /></div>\n"
-        . "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-        . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
-        . "<td style=\"width: 3%;\" align=\"center\">&nbsp;</td>\n"
-        . "<td align=\"center\"><b>" . _FROM . "</b></td>\n"
-        . "<td align=\"center\"><b>" . _SUBJECT . "</b></td>\n"
-        . "<td align=\"center\"><b>" . _DATE . "</b></td>\n"
-        . "<td align=\"center\"><b>" . _STATUS . "</b></td>\n"
-        . "<td align=\"center\"><b>" . _READMESS . "</b></td></tr>\n";
-
-        $sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '" . $user[0] . "' ORDER BY date DESC");
-        $nb_mess = mysql_num_rows($sql);
-        $i = 0;
-        while (list($mid, $titre, $user_from, $date, $status) = mysql_fetch_array($sql))
-        {
-            $date = strftime("%x %H:%M", $date);
-
-            $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $user_from . "'");
-            list($pseudo) = mysql_fetch_array($sql_member);
-
-            if ($status == 0)
+        // Condition pour ne pas afficher l'index lors de l'envoi de mp via l'admin (inclusion du fichier qui génère l'affichage)
+        if($_REQUEST['page'] != 'admin'){
+            global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
+    
+            opentable();
+    
+            echo "<script type=\"text/javascript\">\n"
+            ."<!--\n"
+            ."\n"
+            ."function setCheckboxes(checkbox, nbcheck, do_check)\n"
+            ."{\n"
+            ."for (var i = 0; i < nbcheck; i++)\n"
+            ."{\n"
+            ."cbox = checkbox + i;\n"
+            ."document.getElementById(cbox).checked = do_check;\n"
+            ."}\n"
+            ."return true;\n"
+            ."}\n"
+            ."\n"
+            . "// -->\n"
+            . "</script>\n";
+    
+            echo "<form method=\"post\" action=\"index.php?file=Userbox&amp;op=del_message_form\">\n"
+            . "<div style=\"text-align: center;\"><br /><big><b>" . _PRIVATEMESS . "</b></big><br /></div>\n"
+            . "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+            . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
+            . "<td style=\"width: 3%;\" align=\"center\">&nbsp;</td>\n"
+            . "<td align=\"center\"><b>" . _FROM . "</b></td>\n"
+            . "<td align=\"center\"><b>" . _SUBJECT . "</b></td>\n"
+            . "<td align=\"center\"><b>" . _DATE . "</b></td>\n"
+            . "<td align=\"center\"><b>" . _STATUS . "</b></td>\n"
+            . "<td align=\"center\"><b>" . _READMESS . "</b></td></tr>\n";
+    
+            $sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '" . $user[0] . "' ORDER BY date DESC");
+            $nb_mess = mysql_num_rows($sql);
+            $i = 0;
+            while (list($mid, $titre, $user_from, $date, $status) = mysql_fetch_array($sql))
             {
-                $etat = _NOTREAD;
+                $date = strftime("%x %H:%M", $date);
+    
+                $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $user_from . "'");
+                list($pseudo) = mysql_fetch_array($sql_member);
+    
+                if ($status == 0)
+                {
+                    $etat = _NOTREAD;
+                } 
+                else
+                {
+                    $etat = _READ;
+                } 
+    
+                if ($j == 0)
+                {
+                    $bg = $bgcolor2;
+                    $j++;
+                } 
+                else
+                {
+                    $bg = $bgcolor1;
+                    $j = 0;
+                } 
+                
+                if(strlen($titre) >= 50){
+                  $titre = substr($titre, 0, 47)."...";
+                }
+    
+                 echo "<tr style=\"background: " . $bg . ";\">\n"
+                . "<td><input id=\"box" . $i . "\" type=\"checkbox\" class=\"checkbox\" name=\"mid[]\" value=\"" . $mid . "\" /></td>\n"
+                . "<td align=\"center\">" . $pseudo . "</td>\n"
+                . "<td align=\"center\">" . $titre . "</td>\n"
+                . "<td align=\"center\">" . $date . "</td>\n"
+                . "<td align=\"center\">" . $etat . "</td>\n"
+                . "<td align=\"center\"><a href=\"index.php?file=Userbox&amp;op=show_message&amp;mid=" . $mid . "\"><img style=\"border: 0;\" src=\"modules/Userbox/images/read.png\" alt=\"\" /></a></td></tr>\n";
+    
+                $i++;
+            } 
+    
+            if ($nb_mess == 0)
+            {
+                echo "<tr style=\"background: " . $bgcolor2 . ";\"><td colspan=\"6\" align=\"center\">" . _NOMESSPV . "</td></tr>\n";
+            } 
+    
+            echo"</table>";
+    
+            if ($nb_mess > 1)
+            {
+                echo "<div style=\"text-align: left;\">&nbsp;<img src=\"modules/Userbox/images/flech_coch.png\" alt=\"\" style=\"margin-top: 4px\" />\n"
+                . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $nb_mess . "', true);\">" . _CHECKALL . "</a> / " 
+                . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $nb_mess . "', false);\">" . _UNCHECKALL . "</a><br /></div>\n";
+            } 
+    
+            echo "<div style=\"text-align: center;\"><br />\n";
+    
+            if ($nb_mess > 0)
+            {
+                $button = _SENDNEWMESS;                    
+                echo "<input type=\"submit\" value=\"" . _DEL . "\" />&nbsp;";
             } 
             else
             {
-                $etat = _READ;
-            } 
-
-            if ($j == 0)
-            {
-                $bg = $bgcolor2;
-                $j++;
-            } 
-            else
-            {
-                $bg = $bgcolor1;
-                $j = 0;
-            } 
-            
-            if(strlen($titre) >= 50){
-              $titre = substr($titre, 0, 47)."...";
+                $button = _POSTMESS;    
             }
-
-             echo "<tr style=\"background: " . $bg . ";\">\n"
-            . "<td><input id=\"box" . $i . "\" type=\"checkbox\" class=\"checkbox\" name=\"mid[]\" value=\"" . $mid . "\" /></td>\n"
-            . "<td align=\"center\">" . $pseudo . "</td>\n"
-            . "<td align=\"center\">" . $titre . "</td>\n"
-            . "<td align=\"center\">" . $date . "</td>\n"
-            . "<td align=\"center\">" . $etat . "</td>\n"
-            . "<td align=\"center\"><a href=\"index.php?file=Userbox&amp;op=show_message&amp;mid=" . $mid . "\"><img style=\"border: 0;\" src=\"modules/Userbox/images/read.png\" alt=\"\" /></a></td></tr>\n";
-
-            $i++;
-        } 
-
-        if ($nb_mess == 0)
-        {
-            echo "<tr style=\"background: " . $bgcolor2 . ";\"><td colspan=\"6\" align=\"center\">" . _NOMESSPV . "</td></tr>\n";
-        } 
-
-        echo"</table>";
-
-        if ($nb_mess > 1)
-        {
-            echo "<div style=\"text-align: left;\">&nbsp;<img src=\"modules/Userbox/images/flech_coch.png\" alt=\"\" style=\"margin-top: 4px\" />\n"
-            . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $nb_mess . "', true);\">" . _CHECKALL . "</a> / " 
-            . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $nb_mess . "', false);\">" . _UNCHECKALL . "</a><br /></div>\n";
-        } 
-
-        echo "<div style=\"text-align: center;\"><br />\n";
-
-        if ($nb_mess > 0)
-        {
-            $button = _SENDNEWMESS;                    
-            echo "<input type=\"submit\" value=\"" . _DEL . "\" />&nbsp;";
-        } 
-        else
-        {
-            $button = _POSTMESS;    
+                echo "<input type=\"button\" value=\"" . $button . "\" onclick=\"document.location='index.php?file=Userbox&amp;op=post_message'\" />\n"
+                    . "<br /><br />[ <a href=\"index.php?file=User\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
+            
+    
+            closetable();
         }
-            echo "<input type=\"button\" value=\"" . $button . "\" onclick=\"document.location='index.php?file=Userbox&amp;op=post_message'\" />\n"
-                . "<br /><br />[ <a href=\"index.php?file=User\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
-        
-
-        closetable();
     } 
 
  if (isset($_REQUEST['op'])){
@@ -446,6 +449,6 @@ else
     echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><a href=\"index.php?file=User&amp;op=login_screen\"><b>" . _LOGINUSER . "</b></a> | " 
     . "<a href=\"index.php?file=User&amp;op=reg_screen\"><b>" . _REGISTERUSER . "</b></a></div><br /><br />";
     closetable();
-} 
+}
 
 ?>

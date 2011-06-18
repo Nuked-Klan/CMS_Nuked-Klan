@@ -90,7 +90,11 @@ function form($content, $sug_id)
     echo "</select></td></tr>\n";
 
     echo "<tr><td><b>" . _TEXT . "</b></td></tr>\n"
-    . "<tr><td><textarea id=\"e_advanced\" name=\"texte\" cols=\"65\" rows=\"12\">" .  $content[2] . "</textarea></td></tr>\n";
+    . "<tr><td><textarea ";
+    
+    echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
+    
+    echo "name=\"texte\" cols=\"65\" rows=\"12\">" .  $content[2] . "</textarea></td></tr>\n";
 
     if ($captcha == 1) create_captcha(1);
 
