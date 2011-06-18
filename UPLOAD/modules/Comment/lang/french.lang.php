@@ -27,6 +27,7 @@ define("_NOTEXT","Vous n\'avez pas entré de texte !");
 define("_COMMENTADD","Votre commentaire a bien été enregistré");
 define("_CAPTCHACOM", "Vous n\'avez pas recopié le code de sécurité !");
 define("_THXCOM", "Merci de votre participation");
+define("_LAST4COMS","Les 4 derniers commentaires");
 
 define("_ADMINCOMMENT","Administration des Commentaires");
 define("_DATE","Date");

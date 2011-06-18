@@ -27,6 +27,7 @@ define("_NOTEXT","Please enter a text!");
 define("_COMMENTADD","Your comment was successfully added.");
 define("_CAPTCHACOM", "You do not copy the security code");
 define("_THXCOM", "Thank you for your participation");
+define("_LAST4COMS","The last 4 comments");
 
 define("_ADMINCOMMENT","Comments Administration");
 define("_DATE","Date");
