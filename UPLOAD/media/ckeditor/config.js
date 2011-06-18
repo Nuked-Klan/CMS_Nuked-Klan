@@ -7,9 +7,6 @@ CKEDITOR.editorConfig = function( config )
 {
 	config.resize_enabled = false;
 	config.width = '96%';
-	// Décommentez la ligne ci-dessous pour activer les vidéos YouTube
-	// Uncomment the line below to enable YouTube Video
-	//config.extraPlugins = 'youtube';
 
 	// ADVANCED EDITOR || DESACTIVED : SAVE - FORM,CHECKBOX,RADIO,TEXTFILED,TEXTAREA,SELECT,BUTTON,IMAGEBUTTON,HIDDENFIELD - FLASH
 	config.toolbar_Full =
@@ -25,7 +22,7 @@ CKEDITOR.editorConfig = function( config )
 		'/',
 		{ name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
 		{ name: 'colors',      items : [ 'TextColor','BGColor' ] },
-		//{ name: 'insert',      items : [ 'Image','Youtube','Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] }, // Pour YouTube - For YouTube
+		{ name: 'insert',      items : [ 'Youtube','Dailymotion' ] }, // For Youtube, For Dailymotion
 		{ name: 'insert',      items : [ 'Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] },
 	];
 

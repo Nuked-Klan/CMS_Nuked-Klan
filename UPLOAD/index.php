@@ -122,7 +122,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         include('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php');
     }
     else include('modules/404/index.php');
-
+	
 	if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
 	echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
@@ -140,6 +140,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
 	, '    if(document.getElementById(\'e_advanced\')){',"\n";
+	if($ActiveVideoCkeditor === true) echo 'CKEDITOR.config.extraPlugins = \'youtube,dailymotion\';';
 	echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
     , '    {',"\n"

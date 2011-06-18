@@ -54,6 +54,9 @@ else exit(THEME_NOTFOUND);
 $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
 $language = ($nuked['user_lang'] && is_file('lang' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
 
+// INCLUSION DES VIDEOS DANS L'EDITEUR
+$ActiveVideoCkeditor = true;
+
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 function nkDate($timestamp)
 {
@@ -421,6 +424,8 @@ function secu_css($Style){
 }
 
 function secu_args($matches){
+	global $ActiveVideoCkeditor;
+			  
     $allowedTags = array(
         'p' => array(
             'style',
@@ -530,12 +535,33 @@ function secu_args($matches){
         'q' => array(),
         'pre' => array(),
         'address' => array(),
-		// FOR YOUTUBE PLUGIN -- POUR PLUGIN YOUTUBE
-/*		'object' => array('width','height',),
-		'param' => array ('name','value'),
-		'embed' => array ('allowfullscreen','allowscriptaccess','height','src','type','width',),
-*/
+	);
+
+		// FOR VIDEO PLUGIN -- POUR PLUGIN VIDEO
+    $TabVideo = array(
+		'object' => array(
+					'width',
+					'height',
+		),
+		'param' => array (
+					'name',
+					'value',
+		),
+		'embed' => array (
+					'allowfullscreen',
+					'allowscriptaccess',
+					'height',
+					'src',
+					'type',
+					'width',
+		),
+
     );
+	
+	$allowedTags = ($ActiveVideoCkeditor === true) ? array_merge($allowedTags, $TabVideo) : $allowedTags;
+	
+	print_r($allowedTags);
+	
     if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
         preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);
 
