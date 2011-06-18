@@ -148,7 +148,7 @@ if ($visiteur >= 2)
                     <div class="content-box-content">
                         <div class="tab-content default-tab" id="NKmess">
                             <p>
-                                <?php echo _CONNECTONK; ?>
+                                <?php echo _CONNECTNK; ?>
                             </p>
                         </div><!-- End #tab3 -->
                         <div class="tab-content default-tab" id="NKUpdate">
