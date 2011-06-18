@@ -41,7 +41,7 @@ include('nuked.php');
 include_once('Includes/hash.php');
 
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
-set_error_handler('erreursql');
+if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
 $session = session_check();
 $user = ($session == 1) ? secure() : array();
