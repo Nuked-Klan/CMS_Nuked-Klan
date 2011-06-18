@@ -134,41 +134,12 @@ function com_index($module, $im_id)
     
     if(verification($_REQUEST['file'],$im_id)){
 
-        $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value, this.code.value);return false;';
-
-        echo '<div id="message">
-                <form method="post" onsubmit="'.$Soumission.'" action="">
-                <table width="100%" cellspacing="5" cellpadding="0" border="0" style="padding-top:15px">';
-                if($user) echo '<tr style="display: none"><td colspan="2"><input id="compseudo" type="hidden" name="pseudo" value="'.$user[2].'" /></td></tr>';
-                else {
-                    echo '<tr>
-                        <td style="padding-left:5px;width:15%"><b>'._NICK.' :</b></td>
-                        <td><input id="compseudo" type="text" size="30" name="pseudo" maxlength="30" /></td>
-                    </tr>';
-                }
-                    echo '<tr>
-                        <td colspan="2" align="center"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
-                    </tr>';
-
-                    if ($captcha == 1) create_captcha(1);
-                    else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
-
-        echo '        <tr>
-                        <td colspan="2">
-                            <input type="hidden" id="imid" name="im_id" value="'.$im_id.'" />
-                            <input type="hidden" id="module" name="module" value="'.$module.'" />
-                            <input type="submit" value="'._SEND_COM.'" />
-                        </td>
-                    </tr>
-                </table>
-                </form>
-              </div>
-              <h3 style="text-align: center">' . _LAST4COMS . '</h3>
-              <table style="background:'.$bgcolor3.';margin-top:5px" width="100%" cellpadding="3" cellspacing="1">
-                  <tr style="background:'.$bgcolor3.';">
-                    <td style="width:30%;text-align:center"><b>'._AUTHOR.'</b></td>
-                    <td style="width:70%;text-align:center"><b>'._COMMENT.'</b></td>
-                </tr>';
+        echo '<h3 style="text-align: center">' . _LAST4COMS . '</h3>
+        <table style="background:'.$bgcolor3.';margin: 5px" width="98%" cellpadding="3" cellspacing="1">
+            <tr style="background:'.$bgcolor3.';">
+                <td style="width:30%;text-align:center"><b>'._AUTHOR.'</b></td>
+                <td style="width:70%;text-align:center"><b>'._COMMENT.'</b></td>
+            </tr>';
 
         $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
         $count = mysql_num_rows($sql);
@@ -237,6 +208,35 @@ function com_index($module, $im_id)
             echo '</div>';
         }
 
+        $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value, this.code.value);return false;';
+
+        echo '<div id="message">
+                <form method="post" onsubmit="'.$Soumission.'" action="">
+                <table width="100%" cellspacing="5" cellpadding="0" border="0" style="padding-top:15px">';
+                if($user) echo '<tr style="display: none"><td colspan="2"><input id="compseudo" type="hidden" name="pseudo" value="'.$user[2].'" /></td></tr>';
+                else {
+                    echo '<tr>
+                        <td style="padding-left:5px;width:15%"><b>'._NICK.' :</b></td>
+                        <td><input id="compseudo" type="text" size="30" name="pseudo" maxlength="30" /></td>
+                    </tr>';
+                }
+                    echo '<tr>
+                        <td colspan="2" align="center"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
+                    </tr>';
+
+                    if ($captcha == 1) create_captcha(1);
+                    else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
+
+        echo '        <tr>
+                        <td colspan="2">
+                            <input type="hidden" id="imid" name="im_id" value="'.$im_id.'" />
+                            <input type="hidden" id="module" name="module" value="'.$module.'" />
+                            <input type="submit" value="'._SEND_COM.'" />
+                        </td>
+                    </tr>
+                </table>
+                </form>
+              </div>';
     }
 }
 
