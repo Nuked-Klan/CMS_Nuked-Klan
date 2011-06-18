@@ -152,7 +152,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 		echo "<br /><br /><div style=\"text-align: center;\">" . _YOURSUGGEST . "<br>" . _THXPART . "</div><br /><br />";
 
         if ($nuked['suggest_avert'] == "on"){
-            $date2 = strftime("%x %H:%M", $date);
+            $date2 = nkDate($date);
 
             if ($user[2] != ""){
                 $pseudo = $user[2];

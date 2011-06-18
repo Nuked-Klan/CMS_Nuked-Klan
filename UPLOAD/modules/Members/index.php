@@ -173,7 +173,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             number($count, $nb_membres, $url_members);
         } 
 
-        $date_install = strftime("%x", $nuked['date_install']);
+        $date_install = nkDate($nuked['date_install']);
 
         if ($_REQUEST['letter'] != ""){
             $_REQUEST['letter'] = htmlentities($_REQUEST['letter']);
@@ -224,8 +224,8 @@ if ($visiteur >= $level_access && $level_access > -1){
             $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
             list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
 	    
-			$date = strftime("%x", $date);
-			$last_used > 0 ? $last_used=strftime("%x %X", $last_used) : $last_used='';            
+			$date = nkDate($date);
+			$last_used > 0 ? $last_used=nkDate($last_used) : $last_used='';            
 
             $titre = htmlentities($titre);
             $pref_1 = htmlentities($pref_1);

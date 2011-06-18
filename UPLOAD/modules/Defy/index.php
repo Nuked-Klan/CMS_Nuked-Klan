@@ -171,7 +171,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         $email = $nuked['defie_mail'];
         $inbox = $nuked['defie_inbox'];
         $time = time();
-        $date2 = strftime("%x %H:%M", $time);
+        $date2 = nkDate($time);
         $comment = secu_html(html_entity_decode($comment));
         
         $pseudo = mysql_real_escape_string(stripslashes($pseudo));

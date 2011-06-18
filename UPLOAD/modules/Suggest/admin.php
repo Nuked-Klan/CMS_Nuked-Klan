@@ -51,7 +51,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $count = mysql_num_rows($sql);
 		
         while (list($sug_id, $mod_name, $date, $id_user) = mysql_fetch_array($sql)){
-            $date = strftime("%x", $date);
+            $date = nkDate($date);
 
             $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
             $nb_user = mysql_num_rows($sql2);
@@ -83,7 +83,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         $sql = mysql_query("SELECT module, date, user_id, proposition FROM " . SUGGEST_TABLE . " WHERE id = '" . $sug_id . "'");
         list($mod_name, $date, $id_user, $proposition) = mysql_fetch_array($sql);
-        $date = strftime("%x %H:%M", $date);
+        $date = nkDate($date);
         $content = explode('|', $proposition);
 
         $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
