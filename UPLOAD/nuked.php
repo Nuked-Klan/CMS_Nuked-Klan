@@ -54,6 +54,10 @@ else exit(THEME_NOTFOUND);
 $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
 $language = ($nuked['user_lang'] && is_file('lang' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
 
+// FORMAT DATE FR/EN
+if($language == 'french') setlocale(LC_ALL, "fr_FR");
+elseif($language == 'english') setlocale(LC_ALL, "en_US");
+
 // INCLUSION DES VIDEOS DANS L'EDITEUR
 $ActiveVideoCkeditor = true;
 
