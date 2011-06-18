@@ -1,8 +1,6 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
+defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+
 define("_NEWSFILE","Nouveaux");
 define("_POPULAR","Populaires");
 define("_TOPFILE","Popularité");
