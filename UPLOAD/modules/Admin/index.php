@@ -169,7 +169,7 @@ if ($visiteur >= 2)
                         <p>
                         <?php
                         $sql_act = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT 0, 3");
-                        while ($action = mysql_fetch_array($sql_act)
+                        while ($action = mysql_fetch_array($sql_act))
                         {
                             $users = mysql_real_escape_string($action['pseudo']);
                             $date = $action['date'];
