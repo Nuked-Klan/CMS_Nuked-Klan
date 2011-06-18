@@ -500,7 +500,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo)
             footer();
             exit();
         }
-        $texte = html_entity_decode($texte);
+        $texte = secu_html(html_entity_decode($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = stripslashes($texte);
         $module = mysql_real_escape_string(stripslashes($module));
