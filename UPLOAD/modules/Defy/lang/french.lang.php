@@ -1,8 +1,8 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
+if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
+
 define("_DEFY","Demande de Match");
 define("_IAGREE","J'accepte");
 define("_IDESAGREE","Je refuse");
