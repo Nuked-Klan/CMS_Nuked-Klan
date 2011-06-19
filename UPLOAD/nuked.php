@@ -84,12 +84,8 @@ function session_read($id){
     connect();
 
     $sql = mysql_query('SELECT session_vars FROM ' . TMPSES_TABLE . ' WHERE session_id = "' . $id . '"');
-
-    if ($sql === false){
-	return '';
-	}
-    else{
-	return mysql_result($sql, 0);
+	if(mysql_num_rows($sql) > 0){
+		return ($sql === false) ? '' : mysql_result($sql, 0);
 	}
 }
 
