@@ -308,16 +308,16 @@ if ($visiteur >= $level_access && $level_access > -1)
             if ($id_user != $user[0])
             {
                 echo "<script type=\"text/javascript\">\n"
-        ."<!--\n"
-        ."\n"
-        . "function deluser(pseudo, id)\n"
-        . "{\n"
-        . "if (confirm('" . _DELETEUSER . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-        . "{document.location.href = 'index.php?file=Admin&page=user&op=del_user&id_user='+id;}\n"
-        . "}\n"
-        . "\n"
-        . "// -->\n"
-        . "</script>\n";
+                ."<!--\n"
+                ."\n"
+                . "function deluser(pseudo, id)\n"
+                . "{\n"
+                . "if (confirm('" . _DELETEUSER . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+                . "{document.location.href = 'index.php?file=Admin&page=user&op=del_user&id_user='+id;}\n"
+                . "}\n"
+                . "\n"
+                . "// -->\n"
+                . "</script>\n";
 
                 echo "<a href=\"javascript:deluser('" . mysql_real_escape_string(stripslashes($autor)) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a>";
             }

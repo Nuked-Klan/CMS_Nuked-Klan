@@ -71,9 +71,9 @@ if ($active == 3 || $active == 4)
         }
 
         echo "<tr style=\"background: " . $bg . ";\">\n"
-	. "<td style=\"width: 35%;\" align=\"left\">&nbsp;&nbsp;<a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $nick_team . "</b></a></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><a href=\"mailto:" . $mail . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $mail . "\" /></a></td>\n"
-	." <td style=\"width: 10%;\" align=\"center\">\n";
+        . "<td style=\"width: 35%;\" align=\"left\">&nbsp;&nbsp;<a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $nick_team . "</b></a></td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><a href=\"mailto:" . $mail . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $mail . "\" /></a></td>\n"
+        ." <td style=\"width: 10%;\" align=\"center\">\n";
 
         if ($icq != "")
         {
@@ -147,8 +147,8 @@ else
         }
 
         echo "<tr><td style=\"width: 20%;\" align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
-	. "<td style=\"width: 60%;\"><a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\"><b>" . $nick_team . "</b></a></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><a href=\"mailto:" . $mail . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $mail . "\" /></a></td></tr>\n";
+        . "<td style=\"width: 60%;\"><a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\"><b>" . $nick_team . "</b></a></td>\n"
+        . "<td style=\"width: 20%;\" align=\"center\"><a href=\"mailto:" . $mail . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $mail . "\" /></a></td></tr>\n";
     }
     echo "</table>\n";
 }
