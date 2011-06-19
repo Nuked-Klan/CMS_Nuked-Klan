@@ -72,7 +72,7 @@ class replace {
 		{
 			$eol = $this->nextEOL($str, $to);
 			$sub = substr($str, $from, $eol - $from);
-			$sub = preg_replace('`' . $this->match . '`i', str_replace('ยง', '$', addcslashes($this->content, '$')), $sub);
+			$sub = preg_replace('`' . $this->match . '`i', str_replace('ง', '$', addcslashes($this->content, '$')), $sub);
 			return substr($str, 0, $from) . $sub . substr($str, $eol);
 		}
 	}

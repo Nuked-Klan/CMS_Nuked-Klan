@@ -45,7 +45,7 @@ class Manager {
 			echo '<p>Activation termin&#233;e !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		} catch (PackageException $error)
 		{
-			echo '<p>Oups ! Je n\'ai pas r&#233;ussi Ã  activer ce patch...</p>'
+			echo '<p>Oups ! Je n\'ai pas r&#233;ussi à activer ce patch...</p>'
 				. '<p>' . $error->getMessage() . '</p>';
 			echo '<br /><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		}
@@ -59,7 +59,7 @@ class Manager {
 			echo '<p>D&#233;sactivation termin&#233;e !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		} catch (PackageException $error)
 		{
-			echo '<p>Oups ! Je n\'ai pas r&#233;ussi Ã  d&#233;sactiver ce patch...</p>'
+			echo '<p>Oups ! Je n\'ai pas r&#233;ussi à d&#233;sactiver ce patch...</p>'
 				. '<p>' . $error->getMessage() . '</p>';
 			echo '<br /><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		}
@@ -81,7 +81,7 @@ class Manager {
 				$package->install();
 				echo '<p>Installation termin&#233;e !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 			} catch (PackageException $error) {
-				echo '<p>Oups ! Je n\'ai pas r&#233;ussi Ã  installer ce patch...</p>'
+				echo '<p>Oups ! Je n\'ai pas r&#233;ussi à installer ce patch...</p>'
 					. '<p>' . $error->getMessage() . '</p>';
 				echo '<br /><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 			}
@@ -95,7 +95,7 @@ class Manager {
 			$package->uninstall();
 			echo '<p>D&#233;sinstallation termin&#233; !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		} catch (PackageException $error) {
-			echo '<p>Oups ! Je n\'ai pas r&#233;ussi Ã  installer ce patch...</p>'
+			echo '<p>Oups ! Je n\'ai pas r&#233;ussi à installer ce patch...</p>'
 				. '<p>' . $error->getMessage() . '</p>';
 			echo '<br /><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		}

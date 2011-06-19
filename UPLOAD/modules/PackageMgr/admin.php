@@ -33,7 +33,7 @@ else if ($level_admin == -1)
 {
     echo "<div class=\"notification error png_bg\">\n"
 	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">Ce module n'est pas activÃ©<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+	. "<br /><br /><div style=\"text-align: center;\">Ce module n'est pas activé<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
 }
@@ -41,7 +41,7 @@ else if ($visiteur > 1)
 {
     echo "<div class=\"notification error png_bg\">\n"
 	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">Vous n'avez pas le droit d'accÃ©der Ã  cette page.<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+	. "<br /><br /><div style=\"text-align: center;\">Vous n'avez pas le droit d'accéder à cette page.<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
 }
