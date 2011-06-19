@@ -203,14 +203,14 @@ if ($visiteur >= $level_access && $level_access > -1) {
 		   . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
 		   . "<body style=\"background: " . $bgcolor2 . ";\">" . _PLEASEWAIT . "<br />\n"
 		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"95%\" cellspacing=\"3\" cellpadding=\"3\">\n"
-		   . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "\"><b>" . _LIEN1 . "</b></a></td></tr>\n";
+		   . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>Â·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "\"><b>" . _LIEN1 . "</b></a></td></tr>\n";
 
 		if ($dl_url2 != "") {
-			echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=2\"><b>" . _LIEN2 . "</b></a></td></tr>\n";
+			echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>Â·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=2\"><b>" . _LIEN2 . "</b></a></td></tr>\n";
 		}
 
 		if ($dl_url3 != "") {
-			echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=3\"><b>" . _LIEN3 . "</b></a></td></tr>\n";
+			echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>Â·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=3\"><b>" . _LIEN3 . "</b></a></td></tr>\n";
 		}
 
 		echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"#\" onclick=\"javascript:window.close();\">" . _CLOSEWINDOW . "</a> ]<br /></div>";
@@ -226,7 +226,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 		$sql = mysql_query("SELECT url, url2, url3, count, level FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
 		if(mysql_num_rows($sql) <= 0) {
 			redirect("index.php?file=404", 0);
-			die
+			die;
 		}
 		list($dl_url1, $dl_url2, $dl_url3, $count, $level) = mysql_fetch_array($sql);
 
@@ -569,12 +569,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
 					   . "<tr style=\"background: " . $bgcolor1 . ";height: 140px;text-align: center;\"><td style=\"width: 170px;vertical-align: middle;\">" . $box . "</td><td style=\"vertical-align: top;\">\n"
 					   . "<table style=\"text-align: left;\" width=\"100%\" cellspacing=\"1\" cellpadding=\"1\">\n"
 					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;</td></tr>\n"
-					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _ADDTHE . " :</b> " . nkDate($date) . "</td></tr>\n"
-					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _CAT . " :</b> " . $category . "</td></tr>\n"
-					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _SIZE . " :</b> " . $taille . "</td></tr>\n"
-					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _FILECOMMENT . " :</b> " . $nb_comment . "</td></tr>\n"
-					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
-					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»\n";
+					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;Â»&nbsp;<b>" . _ADDTHE . " :</b> " . nkDate($date) . "</td></tr>\n"
+					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;Â»&nbsp;<b>" . _CAT . " :</b> " . $category . "</td></tr>\n"
+					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;Â»&nbsp;<b>" . _SIZE . " :</b> " . $taille . "</td></tr>\n"
+					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;Â»&nbsp;<b>" . _FILECOMMENT . " :</b> " . $nb_comment . "</td></tr>\n"
+					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;Â»&nbsp;<b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
+					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;Â»\n";
 					
 					vote_index("Download", $dl_id);
 					
