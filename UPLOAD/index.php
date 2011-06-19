@@ -89,15 +89,7 @@ if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login
     ' , _SITECLOSED , '<br/><br /><a href="index.php?file=User&amp;op=login_screen"><b>' . _LOGINUSER . '</b></a></div></body></html>';
 }
 else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) && $_SESSION['admin'] == 0){
-    include ('themes/' . $theme . '/theme.php');
-
-    if (!isset($_REQUEST['nuked_nude'])) top();
     include('modules/Admin/login.php');
-
-    if (!isset($_REQUEST['nuked_nude'])){
-        footer();
-        include('Includes/copyleft.php');
-    }
 }
 else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( nivo_mod($_REQUEST['file']) === false || (nivo_mod($_REQUEST['file']) > -1 && (nivo_mod($_REQUEST['file']) <= $visiteur))) ){
     include ('themes/' . $theme . '/theme.php');

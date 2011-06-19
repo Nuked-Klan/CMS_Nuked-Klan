@@ -175,7 +175,7 @@ if ($visiteur >= 2)
                             list($pseudo) = mysql_fetch_array($sql);
 
                             $action['action'] = $pseudo . ' ' . $action['action'];
-							$action['date'] = strftime('%x '._A.' %H:%M', $action['date']);
+							$action['date'] = nkDate($action['date']);
 
                             echo '<div style="font-size: 12px"><em>' . $action['date'] . '</em></div>
                             <div style="font-size: 12px; margin-bottom: 4px">' . $action['action'] . '</div>';

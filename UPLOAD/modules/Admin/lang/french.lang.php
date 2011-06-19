@@ -361,6 +361,7 @@ define("_URL","URL");
 define("_INFORMATION","Information");
 define("_DELETEFILE","Vous êtes sur le point de supprimer");
 define("_ERRORBDD","Erreurs SQL");
+define("_SQLERRORDELETED","La liste des erreurs SQL repérées a été détruite.");
 
 define("_ACTIONCONNECT","s\'est connecté à l\'administration");
 define("_ACTIONDECONNECT","s\'est déconnecté de l\'administration");

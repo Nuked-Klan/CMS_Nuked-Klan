@@ -7,20 +7,12 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+
 global $user, $nuked, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+
+$visiteur = $user ? $user[1] : 0;
 
 if ($visiteur  >= 2)
 {
@@ -28,7 +20,7 @@ if ($visiteur  >= 2)
     {
         global $user, $nuked;
 		$date = time();
-		if ($_REQUEST['texte'] != "")
+		if ($_REQUEST['texte'] != '')
 		{
 			$_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
 			$_REQUEST['texte'] = htmlentities($_REQUEST['texte']);
