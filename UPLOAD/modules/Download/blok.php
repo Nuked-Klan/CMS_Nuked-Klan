@@ -31,7 +31,7 @@ if ($active == 3 || $active == 4) {
 	$sql = mysql_query("SELECT id, titre, date, type FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY id DESC LIMIT 0, 10");
 	while (list($dl_id, $titre, $date, $cat) = mysql_fetch_array($sql)) {
 		$titre = htmlentities($titre);
-		$date = strftime("%x", $date);
+		$date = nkDate($date);
 
 		$sql4 = mysql_query("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
 		list($cat_name, $parentid) = mysql_fetch_array($sql4);
@@ -91,7 +91,7 @@ if ($active == 3 || $active == 4) {
 	$sql = mysql_query("SELECT id, titre, date FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY date DESC LIMIT 0, 10");
 	while (list($dl_id, $titre, $date) = mysql_fetch_array($sql)) {
 		$titre = htmlentities($titre);
-		$date = strftime("%x", $date);
+		$date = nkDate($date);
 		$i++;
 
 		echo "<div><b>" . $i . " . <a href=\"index.php?file=Download&amp;op=description&amp;dl_id=" . $dl_id . "\">" . $titre . "</a></b> (" . $date . ")</div>\n";

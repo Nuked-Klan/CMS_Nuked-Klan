@@ -275,9 +275,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
 		$comment = icon($comment);
 
-		$date = strftime("%x %H:%M", $date);
+		$date = nkDate($date);
 
-		if ($edit != "") $edition = strftime("%x %H:%M", $edit);
+		if ($edit != "") $edition = nkDate($edit);
 		else $edition = "N/A";
 
 		if ($screen != "") $capture = "<a href=\"" . $screen . "\" class=\"thickbox\" title=\"" . $titre . "\">" . _CLICHERE . "</a>";
@@ -569,7 +569,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 					   . "<tr style=\"background: " . $bgcolor1 . ";height: 140px;text-align: center;\"><td style=\"width: 170px;vertical-align: middle;\">" . $box . "</td><td style=\"vertical-align: top;\">\n"
 					   . "<table style=\"text-align: left;\" width=\"100%\" cellspacing=\"1\" cellpadding=\"1\">\n"
 					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;</td></tr>\n"
-					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _ADDTHE . " :</b> " . strftime("%x à %H:%M", $date) . "</td></tr>\n"
+					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _ADDTHE . " :</b> " . nkDate($date) . "</td></tr>\n"
 					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _CAT . " :</b> " . $category . "</td></tr>\n"
 					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _SIZE . " :</b> " . $taille . "</td></tr>\n"
 					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _FILECOMMENT . " :</b> " . $nb_comment . "</td></tr>\n"

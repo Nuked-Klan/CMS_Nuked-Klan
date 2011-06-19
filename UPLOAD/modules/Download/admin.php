@@ -609,7 +609,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		while (list($did, $cat, $titre, $url, $date, $parentid, $namecat) = mysql_fetch_array($sql)) {
 			$titre = htmlentities($titre);
 
-			$date = strftime("%x", $date);
+			$date = nkDate($date);
 
 			if ($cat == 0) {
 				$categorie = _NONE;
