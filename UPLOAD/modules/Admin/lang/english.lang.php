@@ -297,6 +297,7 @@ define("_BADLOGADMIN","Bad login / password. Please retry");
 define("_ADMINSESSION","Administration Session");
 define("_LOSTPASS","Lost Password?");
 define("_TOLOG","Login");
+define("_TOBACK","Back");
 
 define("_BONJOUR","Hello");
 define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.7.9 admin panel!");

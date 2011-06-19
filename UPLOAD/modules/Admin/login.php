@@ -114,6 +114,7 @@ if ($visiteur >= 2)
                     <div class="clear"></div>
                     <p>
                         <input class="button" type="submit" value="' . _TOLOG . '" />
+						<input class="button" type="button" value="' . _TOBACK . '" style="margin-right: 10px" onclick="javascript:history.back()" />
                         <input type="hidden" name="formulaire" value="' . $check  . '" />
                     </p>
                 </form>';

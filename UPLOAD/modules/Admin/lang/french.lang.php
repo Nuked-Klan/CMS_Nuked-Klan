@@ -298,10 +298,11 @@ define("_INFOENVIRONMENT","Environnement");
 define("_INFOVARIABLES","Variables");
 
 define("_ADMINPROGRESS","Merci de patienter quelques secondes, vérification en cours...");
-define("_BADLOGADMIN","Erreur, mot de passe ou pseudo incorrect !!!");
+define("_BADLOGADMIN","Erreur, mot de passe ou pseudo incorrect !");
 define("_ADMINSESSION","Session Administration");
 define("_LOSTPASS","Perdu votre Password ?");
 define("_TOLOG","S'identifier");
+define("_TOBACK","Retour");
 
 define("_BONJOUR","Bonjour");
 define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.7.9 !");
