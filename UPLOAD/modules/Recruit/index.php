@@ -7,37 +7,28 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<center>You cannot open this page directly</center>");
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $nuked, $language, $user, $cookie_captcha;
-translate("modules/Recruit/lang/" . $language . ".lang.php");
+translate('modules/Recruit/lang/' . $language . '.lang.php');
 
 // Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
+include_once('Includes/nkCaptcha.php');
 
 // On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
+if (_NKCAPTCHA == 'off') $captcha = 0;
 else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
 else $captcha = 1;
 
 opentable();
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+$visiteur = $user ? $user[1] : 0;
+
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
 {
-    compteur("Recruit");
+    compteur('Recruit');
 
     if ($nuked['recrute'] > 0)
     {
@@ -45,16 +36,14 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             global $nuked;
 
-            if ($nuked['recrute_charte'] != "")
+            if ($nuked['recrute_charte'] != '')
             {
-
-            echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
-            . "<tr><td align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr>\n"
-            . "<tr><td>&nbsp;</td></tr><tr><td>" . $nuked['recrute_charte'] . "</td></tr></table>\n"
-            . "<form method=\"post\" action=\"index.php?file=Recruit\">\n"
-            . "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
-            . "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
-
+				echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
+				. "<tr><td align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr>\n"
+				. "<tr><td>&nbsp;</td></tr><tr><td>" . $nuked['recrute_charte'] . "</td></tr></table>\n"
+				. "<form method=\"post\" action=\"index.php?file=Recruit\">\n"
+				. "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
+				. "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
             }
             else
             {
@@ -68,120 +57,120 @@ if ($visiteur >= $level_access && $level_access > -1)
 
 			define('EDITOR_CHECK', 1);
 
-        echo "<script type=\"text/javascript\">\n"
-        ."<!--\n"
-        ."\n"
-        . "function verifchamps()\n"
-        . "{\n"
-        . "if (document.getElementById('recruit_pseudo').value.length == 0)\n"
-        . "{\n"
-        . "alert('" . _NONICK . "');\n"
-        . "return false;\n"
-        . "}\n"
-        . "\n"
-        . "if (document.getElementById('recruit_lastname').value.length == 0)\n"
-        . "{\n"
-        . "alert('" . _NOLASTNAME . "');\n"
-        . "return false;\n"
-        . "}\n"
-        . "\n"
-        . "if (document.getElementById('recruit_age').value.length == 0)\n"
-        . "{\n"
-        . "alert('" . _NOAGE . "');\n"
-        . "return false;\n"
-        . "}\n"
-    	."\n"
-    	."if (document.getElementById('recruit_mail').value.indexOf('@') == -1)\n"
-    	."{\n"
-    	."alert('" . _BADMAIL . "');\n"
-    	."return false;\n"
-    	."}\n"
-    	."\n"
-	. "if (document.getElementById('recruit_icq').value.length == 0)\n"
-	. "{\n"
-	. "alert('" . _NOICQ . "');\n"
-   	. "return false;\n"
-	. "}\n"
-    	."\n"
-        . "return true;\n"
-        . "}\n"
-    	."\n"
-    	. "// -->\n"
-    	. "</script>\n";
+			echo "<script type=\"text/javascript\">\n"
+			."<!--\n"
+			."\n"
+			. "function verifchamps()\n"
+			. "{\n"
+			. "if (document.getElementById('recruit_pseudo').value.length == 0)\n"
+			. "{\n"
+			. "alert('" . _NONICK . "');\n"
+			. "return false;\n"
+			. "}\n"
+			. "\n"
+			. "if (document.getElementById('recruit_lastname').value.length == 0)\n"
+			. "{\n"
+			. "alert('" . _NOLASTNAME . "');\n"
+			. "return false;\n"
+			. "}\n"
+			. "\n"
+			. "if (document.getElementById('recruit_age').value.length == 0)\n"
+			. "{\n"
+			. "alert('" . _NOAGE . "');\n"
+			. "return false;\n"
+			. "}\n"
+			."\n"
+			."if (document.getElementById('recruit_mail').value.indexOf('@') == -1)\n"
+			."{\n"
+			."alert('" . _BADMAIL . "');\n"
+			."return false;\n"
+			."}\n"
+			."\n"
+			. "if (document.getElementById('recruit_icq').value.length == 0)\n"
+			. "{\n"
+			. "alert('" . _NOICQ . "');\n"
+			. "return false;\n"
+			. "}\n"
+			."\n"
+			. "return true;\n"
+			. "}\n"
+			."\n"
+			. "// -->\n"
+			. "</script>\n";
 
 
-	echo "<br /><form method=\"post\" action=\"index.php?file=Recruit\" onsubmit=\"return verifchamps();\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
-	. "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"recruit_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _FIRSTNAME . " : </b></td><td><input id=\"recruit_lastname\" type=\"text\" name=\"prenom\" size=\"20\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _AGE . " : </b></td><td><input id=\"recruit_age\" type=\"text\" name=\"age\" size=\"3\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _MAIL . " : </b></td><td><input id=\"recruit_mail\" type=\"text\" name=\"mail\" size=\"25\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _ICQMSN . " : </b></td><td><input id=\"recruit_icq\" type=\"text\" name=\"icq\" size=\"25\" /></td></tr>\n"
-	. "<tr><td style=\"width: 20%;\"><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
+			echo "<br /><form method=\"post\" action=\"index.php?file=Recruit\" onsubmit=\"return verifchamps();\">\n"
+			. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
+			. "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
+			. "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"recruit_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
+			. "<tr><td style=\"width: 20%;\"><b>" . _FIRSTNAME . " : </b></td><td><input id=\"recruit_lastname\" type=\"text\" name=\"prenom\" size=\"20\" /></td></tr>\n"
+			. "<tr><td style=\"width: 20%;\"><b>" . _AGE . " : </b></td><td><input id=\"recruit_age\" type=\"text\" name=\"age\" size=\"3\" /></td></tr>\n"
+			. "<tr><td style=\"width: 20%;\"><b>" . _MAIL . " : </b></td><td><input id=\"recruit_mail\" type=\"text\" name=\"mail\" size=\"25\" /></td></tr>\n"
+			. "<tr><td style=\"width: 20%;\"><b>" . _ICQMSN . " : </b></td><td><input id=\"recruit_icq\" type=\"text\" name=\"icq\" size=\"25\" /></td></tr>\n"
+			. "<tr><td style=\"width: 20%;\"><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
 
-        if ($language == "french")
-        {
-            $pays = "France.gif";
-        }
+			if ($language == "french")
+			{
+				$pays = "France.gif";
+			}
 
-        $rep = Array();
-        $handle = @opendir("images/flags");
-        while (false !== ($f = readdir($handle)))
-        {
-            if ($f != ".." && $f != "." && $f != "index.html" && $f != "Thumbs.db")
-            {
-                $rep[] = $f;
-            }
-	}
+			$rep = Array();
+			$handle = @opendir("images/flags");
+			while (false !== ($f = readdir($handle)))
+			{
+				if ($f != ".." && $f != "." && $f != "index.html" && $f != "Thumbs.db")
+				{
+					$rep[] = $f;
+				}
+			}
 
-        closedir($handle);
-	sort ($rep);
-	reset ($rep);
+			closedir($handle);
+			sort ($rep);
+			reset ($rep);
 
-	while (list ($key, $filename) = each ($rep))
-	{
-            if ($filename == $pays)
-            {
-                $checked = "selected=\"selected\"";
-            }
-            else
-            {
-                $checked = "";
-            }
+			while (list ($key, $filename) = each ($rep))
+			{
+				if ($filename == $pays)
+				{
+					$checked = "selected=\"selected\"";
+				}
+				else
+				{
+					$checked = "";
+				}
 
-            list ($country, $ext) = explode ('.', $filename);
-            echo "<option value=\"" . $filename . "\" " . $checked . ">" . $country . "</option>\n";
-	}
+				list ($country, $ext) = explode ('.', $filename);
+				echo "<option value=\"" . $filename . "\" " . $checked . ">" . $country . "</option>\n";
+			}
 
-            echo "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _GAME . " : </b></td><td><select name=\"game\">\n";
+			echo "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _GAME . " : </b></td><td><select name=\"game\">\n";
 
-            $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-            while (list($game_id, $nom) = mysql_fetch_array($sql))
-            {
-                $nom = htmlentities($nom);
-                echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
-            }
+			$sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+			while (list($game_id, $nom) = mysql_fetch_array($sql))
+			{
+				$nom = htmlentities($nom);
+				echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
+			}
 
-            echo "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _CONNECT . " : </b></td><td><select name=\"connex\">\n"
-            . "<option>" . _56K . "</option>\n"
-            . "<option>" . _NUMERIS . "</option>\n"
-            . "<option>" . _ADSL . "</option>\n"
-            . "<option>" . _CABLE . "</option>\n"
-            . "<option>" . _T1 . "</option>\n"
-            . "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _EXPERIENCE . " : </b></td><td><select name=\"exp\">\n"
-            . "<option>" . _LESS1MONTH . "</option>\n"
-            . "<option>" . _LESS6MONTH . "</option>\n"
-            . "<option>" . _LESS1YEAR . "</option>\n"
-            . "<option>" . _MORE1YEAR . "</option>\n"
-            . "<option>" . _MORE2YEAR . "</option>\n"
-            . "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _AVAILABLE . " : </b></td><td><select name=\"dispo\">\n"
-            . "<option>" . _EVENING . "</option>\n"
-            . "<option>" . _WEEKEND . "</option>\n"
-            . "<option>" . _HOLIDAY . "</option>\n"
-            . "<option>" . _THREE . "</option>\n"
-            . "<option>" . _OTHER . "</option>\n"
-            . "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+			echo "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _CONNECT . " : </b></td><td><select name=\"connex\">\n"
+			. "<option>" . _56K . "</option>\n"
+			. "<option>" . _NUMERIS . "</option>\n"
+			. "<option>" . _ADSL . "</option>\n"
+			. "<option>" . _CABLE . "</option>\n"
+			. "<option>" . _T1 . "</option>\n"
+			. "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _EXPERIENCE . " : </b></td><td><select name=\"exp\">\n"
+			. "<option>" . _LESS1MONTH . "</option>\n"
+			. "<option>" . _LESS6MONTH . "</option>\n"
+			. "<option>" . _LESS1YEAR . "</option>\n"
+			. "<option>" . _MORE1YEAR . "</option>\n"
+			. "<option>" . _MORE2YEAR . "</option>\n"
+			. "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _AVAILABLE . " : </b></td><td><select name=\"dispo\">\n"
+			. "<option>" . _EVENING . "</option>\n"
+			. "<option>" . _WEEKEND . "</option>\n"
+			. "<option>" . _HOLIDAY . "</option>\n"
+			. "<option>" . _THREE . "</option>\n"
+			. "<option>" . _OTHER . "</option>\n"
+			. "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
 			if ($captcha == 1) create_captcha(2);
 
@@ -204,7 +193,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $inbox = $nuked['recrute_inbox'];
             $email = $nuked['recrute_mail'];
             $date = time();
-            $date2 = strftime("%x %H:%M", $date);
+            $date2 = nkDate($date);
 
 			$comment = secu_html(html_entity_decode($comment));
 

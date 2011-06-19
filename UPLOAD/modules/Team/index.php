@@ -7,28 +7,18 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $language, $user;
 translate("modules/Team/lang/" . $language . ".lang.php");
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+$visiteur = $user ? $user[1] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
 {
-    compteur("Team");
+    compteur('Team');
 
     function index()
     {
@@ -36,179 +26,179 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        echo "<br />";
+        echo '<br />';
 
-	if ($_REQUEST['cid'] != "") $where2 = "WHERE cid = '" . $_REQUEST['cid'] . "'"; else $where2 = "";
-	$sql = mysql_query("SELECT cid, titre, tag, tag2, game FROM " . TEAM_TABLE . " " . $where2 . " ORDER BY ordre, titre");
-	$nb_team = mysql_num_rows($sql);
-	$res = mysql_fetch_row($sql);
-	$where = "";
+        if ($_REQUEST['cid'] != '') $where2 = "WHERE cid = '" . $_REQUEST['cid'] . "'"; else $where2 = '';
+        $sql = mysql_query("SELECT cid, titre, tag, tag2, game FROM " . TEAM_TABLE . " " . $where2 . " ORDER BY ordre, titre");
+        $nb_team = mysql_num_rows($sql);
+        $res = mysql_fetch_row($sql);
+        $where = '';
 
-            if ($nb_team == 0)
+        if ($nb_team == 0)
+        {
+            $titre = @html_entity_decode($nuked['name']);
+            $team_tag = @html_entity_decode($nuked['tag_pre']);
+            $tag2 = @html_entity_decode($nuked['tag_suf']);
+            $res = array ('', "$titre", "$team_tag", "$tag2", '0');
+        }
+
+
+
+        while (is_array($res))
+        {
+            list($team, $titre, $team_tag, $tag2, $_REQUEST['game']) = $res;
+
+            $titre = htmlentities($titre);
+            $team_tag = htmlentities($team_tag);
+            $tag2 = htmlentities($tag2);
+
+            if ($team != '') $link_titre = '<a href="index.php?file=Team&amp;cid=' . urlencode(html_entity_decode($team)) . '"><big><b>' . $titre . '</b></big></a>';
+            else $link_titre = '<big><b>' . $titre . '</b></big>';
+
+            echo "<div style=\"text-align: center;\">$link_titre</div>"
+            . "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+            . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
+            . "<td style=\"width: 5%;\">&nbsp;</td>\n"
+            . "<td style=\"width: 30%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
+            . "<td style=\"width: 10%;\" align=\"center\"><b>" . _MAIL . "</b></td>\n"
+            . "<td style=\"width: 10%;\" align=\"center\"><b>" . _ICQ . "</b></td>\n"
+            . "<td style=\"width: 10%;\" align=\"center\"><b>" . _MSN . "</b></td>\n"
+            . "<td style=\"width: 10%;\" align=\"center\"><b>" . _AIM . "</b></td>\n"
+            . "<td style=\"width: 10%;\" align=\"center\"><b>" . _YIM . "</b></td>\n"
+            . "<td style=\"width: 15%;\" align=\"center\"><b>" . _RANK . "</b></td></tr>\n";
+
+            if($team != "") $where="WHERE team = '" . $team . "' OR team2 = '" . $team . "' OR team3 = '" . $team . "'"; else $where = "WHERE niveau > 1";
+
+            $sql2 = mysql_query("SELECT id, pseudo, email, icq, msn, aim, yim, rang, country FROM " . USER_TABLE . " " . $where . " AND niveau > 0 ORDER BY ordre, pseudo");
+            $nb_members = mysql_num_rows($sql2);
+            if ($nb_members > 0)
             {
-                $titre = @html_entity_decode($nuked['name']);
-                $team_tag = @html_entity_decode($nuked['tag_pre']);
-                $tag2 = @html_entity_decode($nuked['tag_suf']);
-                $res = array ('', "$titre", "$team_tag", "$tag2", '0');
-            }
-
-
-
-            while (is_array($res))
-            {
-		list($team, $titre, $team_tag, $tag2, $_REQUEST['game']) = $res;
-
-                $titre = htmlentities($titre);
-                $team_tag = htmlentities($team_tag);
-                $tag2 = htmlentities($tag2);
-
-		if ($team != "") $link_titre = "<a href=\"index.php?file=Team&amp;cid=" . urlencode(html_entity_decode($team)) . "\"><big><b>" . $titre . "</b></big></a>";
-		else $link_titre = "<big><b>" . $titre . "</b></big>";
-
-        echo "<div style=\"text-align: center;\">$link_titre</div>"
-	. "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-	. "<tr style=\"background: " . $bgcolor3 . ";\">\n"
-	. "<td style=\"width: 5%;\">&nbsp;</td>\n"
-	. "<td style=\"width: 30%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _MAIL . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _ICQ . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _MSN . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _AIM . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _YIM . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _RANK . "</b></td></tr>\n";
-
-	if($team != "") $where="WHERE team = '" . $team . "' OR team2 = '" . $team . "' OR team3 = '" . $team . "'"; else $where = "WHERE niveau > 1";
-
-                $sql2 = mysql_query("SELECT id, pseudo, email, icq, msn, aim, yim, rang, country FROM " . USER_TABLE . " " . $where . " AND niveau > 0 ORDER BY ordre, pseudo");
-                $nb_members = mysql_num_rows($sql2);
-                if ($nb_members > 0)
+                while (list($id_user, $pseudo, $email, $icq, $msn, $aim, $yim, $rang, $country) = mysql_fetch_array($sql2))
                 {
-                    while (list($id_user, $pseudo, $email, $icq, $msn, $aim, $yim, $rang, $country) = mysql_fetch_array($sql2))
+                    list ($pays, $ext) = explode ('.', $country);
+                    $temp = $team_tag . $pseudo . $tag2;
+                    $pseudo = html_entity_decode($pseudo);
+
+                    if (is_file("themes/" . $theme . "/images/mail.gif"))
                     {
-                        list ($pays, $ext) = explode ('.', $country);
-                        $temp = $team_tag . $pseudo . $tag2;
-                    	$pseudo = html_entity_decode($pseudo);
+                        $img = "themes/" . $theme . "/images/mail.gif";
+                    }
+                    else
+                    {
+                        $img = "modules/Team/images/mail.gif";
+                    }
 
-                        if (is_file("themes/" . $theme . "/images/mail.gif"))
-                        {
-                            $img = "themes/" . $theme . "/images/mail.gif";
-                        }
-                        else
-                        {
-                            $img = "modules/Team/images/mail.gif";
-                        }
+                    if ($rang != "" && $rang > 0)
+                    {
+                        $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
+                        list($rank_name) = mysql_fetch_array($sql_rank);
+                        $rank_name = htmlentities($rank_name);
+                    }
+                    else
+                    {
+                        $rank_name = "N/A";
+                    }
 
-                        if ($rang != "" && $rang > 0)
-                        {
-                            $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
-                            list($rank_name) = mysql_fetch_array($sql_rank);
-                            $rank_name = htmlentities($rank_name);
-                        }
-                        else
-                        {
-                            $rank_name = "N/A";
-                        }
+                    if ($j == 0)
+                    {
+                        $bg = $bgcolor2;
+                        $j++;
+                    }
+                    else
+                    {
+                        $bg = $bgcolor1;
+                        $j = 0;
+                    }
 
-                        if ($j == 0)
-                        {
-                            $bg = $bgcolor2;
-                            $j++;
-                        }
-                        else
-                        {
-                            $bg = $bgcolor1;
-                            $j = 0;
-                        }
+                    if ($_REQUEST['game'] > 0)
+                    {
+                        $sql3 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE game = '" . $_REQUEST['game'] . "' AND user_id = '" . $id_user . "'");
+                        $test = mysql_num_rows($sql3);
 
-                        if ($_REQUEST['game'] > 0)
+                        if ($test > 0)
                         {
-                            $sql3 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE game = '" . $_REQUEST['game'] . "' AND user_id = '" . $id_user . "'");
-                            $test = mysql_num_rows($sql3);
-
-                            if ($test > 0)
-                            {
-                                $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo) . "&amp;game=" . $_REQUEST['game'];
-                            }
-                            else
-                            {
-                                $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo);
-                            }
+                            $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo) . "&amp;game=" . $_REQUEST['game'];
                         }
                         else
                         {
                             $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo);
                         }
-
-                        echo "<tr style=\"background: " . $bg . ";\">\n"
-                        . "<td style=\"width: 5%;\" align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
-                        . "<td style=\"width: 25%;\"><a href=\"" . $url_member . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $temp . "</b></a></td>\n"
-                        . "<td style=\"width: 10%;\" align=\"center\">\n";
-
-                        if ($email != "")
-                        {
-                            echo "<a href=\"mailto:" . $email . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $email . "\" /></a>";
-                        }
-                        else
-                        {
-                            echo "N/A";
-                        }
-
-                        echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
-
-                        if ($icq != "")
-                        {
-                            echo "<a href=\"http://web.icq.com/whitepages/add_me?uin=" . $icq . "&amp;action=add\"><img style=\"border: 0;\" src=\"modules/Team/images/icq.gif\" alt=\"\" title=\"" . $icq . "\" /></a>";
-                        }
-                        else
-                        {
-                            echo "N/A";
-                        }
-
-                        echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
-
-                        if ($msn != "")
-                        {
-                            echo "<a href=\"mailto:" . $msn . "\"><img style=\"border: 0;\" src=\"modules/Team/images/msn.gif\" alt=\"\" title=\"" . $msn . "\" /></a>";
-                        }
-                        else
-                        {
-                            echo "N/A";
-                        }
-
-                        echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
-
-                        if ($aim != "")
-                        {
-                            echo "<a href=\"aim:goim?screenname=" . $aim . "&amp;message=Hi+" . $aim . "+Are+you+there+?\"><img style=\"border: 0;\" src=\"modules/Team/images/aim.gif\" alt=\"\" title=\"" . $aim . "\" /></a>";
-                        }
-                        else
-                        {
-                            echo "N/A";
-                        }
-
-                        echo"</td><td style=\"width: 10%;\" align=\"center\">\n";
-
-                        if ($yim != "")
-                        {
-                            echo "<a href=\"http://edit.yahoo.com/config/send_webmesg?.target=" . $yim . "&amp;.src=pg\"><img style=\"border: 0;\" src=\"modules/Team/images/yim.gif\" alt=\"\" title=\"" . $yim . "\" /></a>";
-                        }
-                        else
-                        {
-                            echo "N/A";
-                        }
-
-                        echo "</td><td style=\"width: 20%;\" align=\"center\">" . $rank_name . "</td></tr>\n";
                     }
-                }
-                else
-                {
-                    echo "<tr><td align=\"center\" colspan=\"8\">" . _NOMEMBERS . "</td></tr>\n";
-                }
+                    else
+                    {
+                        $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo);
+                    }
 
-                echo "</table><br /><br />\n";
-                $j = 0;
-                $res = mysql_fetch_row($sql);
+                    echo "<tr style=\"background: " . $bg . ";\">\n"
+                    . "<td style=\"width: 5%;\" align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
+                    . "<td style=\"width: 25%;\"><a href=\"" . $url_member . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $temp . "</b></a></td>\n"
+                    . "<td style=\"width: 10%;\" align=\"center\">\n";
+
+                    if ($email != "")
+                    {
+                        echo "<a href=\"mailto:" . $email . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $email . "\" /></a>";
+                    }
+                    else
+                    {
+                        echo "N/A";
+                    }
+
+                    echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
+
+                    if ($icq != "")
+                    {
+                        echo "<a href=\"http://web.icq.com/whitepages/add_me?uin=" . $icq . "&amp;action=add\"><img style=\"border: 0;\" src=\"modules/Team/images/icq.gif\" alt=\"\" title=\"" . $icq . "\" /></a>";
+                    }
+                    else
+                    {
+                        echo "N/A";
+                    }
+
+                    echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
+
+                    if ($msn != "")
+                    {
+                        echo "<a href=\"mailto:" . $msn . "\"><img style=\"border: 0;\" src=\"modules/Team/images/msn.gif\" alt=\"\" title=\"" . $msn . "\" /></a>";
+                    }
+                    else
+                    {
+                        echo "N/A";
+                    }
+
+                    echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
+
+                    if ($aim != "")
+                    {
+                        echo "<a href=\"aim:goim?screenname=" . $aim . "&amp;message=Hi+" . $aim . "+Are+you+there+?\"><img style=\"border: 0;\" src=\"modules/Team/images/aim.gif\" alt=\"\" title=\"" . $aim . "\" /></a>";
+                    }
+                    else
+                    {
+                        echo "N/A";
+                    }
+
+                    echo"</td><td style=\"width: 10%;\" align=\"center\">\n";
+
+                    if ($yim != "")
+                    {
+                        echo "<a href=\"http://edit.yahoo.com/config/send_webmesg?.target=" . $yim . "&amp;.src=pg\"><img style=\"border: 0;\" src=\"modules/Team/images/yim.gif\" alt=\"\" title=\"" . $yim . "\" /></a>";
+                    }
+                    else
+                    {
+                        echo "N/A";
+                    }
+
+                    echo "</td><td style=\"width: 20%;\" align=\"center\">" . $rank_name . "</td></tr>\n";
+                }
             }
+            else
+            {
+                echo "<tr><td align=\"center\" colspan=\"8\">" . _NOMEMBERS . "</td></tr>\n";
+            }
+
+            echo "</table><br /><br />\n";
+            $j = 0;
+            $res = mysql_fetch_row($sql);
+        }
         closetable();
     }
 
@@ -318,21 +308,21 @@ if ($visiteur >= $level_access && $level_access > -1)
             if ($id_user != $user[0])
             {
                 echo "<script type=\"text/javascript\">\n"
-		."<!--\n"
-		."\n"
-		. "function deluser(pseudo, id)\n"
-		. "{\n"
-		. "if (confirm('" . _DELETEUSER . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-		. "{document.location.href = 'index.php?file=Admin&page=user&op=del_user&id_user='+id;}\n"
-		. "}\n"
-		. "\n"
-		. "// -->\n"
-		. "</script>\n";
+        ."<!--\n"
+        ."\n"
+        . "function deluser(pseudo, id)\n"
+        . "{\n"
+        . "if (confirm('" . _DELETEUSER . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+        . "{document.location.href = 'index.php?file=Admin&page=user&op=del_user&id_user='+id;}\n"
+        . "}\n"
+        . "\n"
+        . "// -->\n"
+        . "</script>\n";
 
-            	echo "<a href=\"javascript:deluser('" . mysql_real_escape_string(stripslashes($autor)) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a>";
+                echo "<a href=\"javascript:deluser('" . mysql_real_escape_string(stripslashes($autor)) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a>";
             }
-		echo "&nbsp;</div>\n";
-		}
+        echo "&nbsp;</div>\n";
+        }
 
             $a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
             $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
