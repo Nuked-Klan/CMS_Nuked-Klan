@@ -48,7 +48,7 @@ if (!$_REQUEST['op'] || $_REQUEST['op'] == null) $_REQUEST['op'] = 'index';
 $nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
 if ($nuked['user_theme'] && is_file(dirname(__FILE__) . '/themes/' . $nuked['user_theme'] . '/theme.php')) $theme = $nuked['user_theme'];
 elseif (is_file(dirname(__FILE__) . '/themes/' . $nuked['theme'] . '/theme.php')) $theme = $nuked['theme'];
-else exit($nuked['theme'] . THEME_NOTFOUND);
+else exit(THEME_NOTFOUND);
 
 // SELECT LANGUAGE AND USER LANGUAGE
 $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
