@@ -7,50 +7,39 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+if (!defined('INDEX_CHECK')) die ('<div style="text-align: center;">You cannot open this page directly</div>'); 
 
 global $nuked, $language, $user;
 translate("modules/Server/lang/" . $language . ".lang.php");
-
-compteur("Server");
-
 opentable();
-
-if (!$user)
-{
-    $visiteur = 0;
-} 
-else
-{
-    $visiteur = $user[1];
-} 
+$visiteur = (!$user) ? 0 : $user[1]; 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
+
 if ($visiteur >= $level_access && $level_access > -1)
 {
+	compteur("Server");
+	
     function index()
     {
         global $bgcolor1, $bgcolor2, $bgcolor3, $nuked;
 
         $sql = mysql_query("SELECT cid, titre, description FROM " . SERVER_CAT_TABLE . " ORDER BY titre");
-        while (list($cid, $titre, $description) = mysql_fetch_row($sql))
+        while($row = mysql_fetch_assoc($sql))
         {
-            $titre = htmlentities($titre);
+            $row['titre'] = htmlentities($row['titre']);
             $serverlist = "";
 
             echo "<br /><table width=\"100%\" cellspacing=\"5\" cellpadding=\"0\">\n"
-            . "<tr><td align=\"center\"><big><b>" . $titre . "</b></big></td></tr>\n"
-            . "<tr><td align=\"center\">" . $description . "</td></tr></table>\n";
+            . "<tr><td align=\"center\"><big><b>" . $row['titre'] . "</b></big></td></tr>\n"
+            . "<tr><td align=\"center\">" . $row['description'] . "</td></tr></table>\n";
 
             $test = 0;
-            $sql2 = mysql_query("SELECT sid, game, ip, port, pass, cat FROM " . SERVER_TABLE . " WHERE cat = '" . $cid . "' ORDER BY sid");
-            while (list($server_id, $server_game, $serv_ip, $server_port, $pass, $cat) = mysql_fetch_row($sql2))
+            $sql2 = mysql_query("SELECT sid, game, ip, port, pass FROM " . SERVER_TABLE . " WHERE cat = '" . $row['cid'] . "' ORDER BY sid");
+            while($raw = mysql_fetch_assoc($sql2))
             {
                 $test++;
-                $serverlist[] = array($serv_ip, $server_port, $pass, $server_id, $server_game);
+                $serverlist[] = array($raw['ip'], $raw['port'], $raw['pass'], $raw['sid'], $raw['game']);
             } 
 
             if ($test <> 0)
@@ -63,7 +52,8 @@ if ($visiteur >= $level_access && $level_access > -1)
                 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _MAP . "</b></td>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _PLAYER . "</b></td></tr>\n";
 
-                for ($i = 0; $i <= sizeof($serverlist)-1; $i++)
+                $CountServerList = sizeof($serverlist);
+				for ($i = 0; $i <= $CountServerList-1; $i++)
                 {
                     $address = $serverlist[$i][0];
                     $port = $serverlist[$i][1];
@@ -224,15 +214,15 @@ if ($visiteur >= $level_access && $level_access > -1)
     {
         global $nuked, $address, $port, $game, $sgame, $sortby, $bgcolor1, $bgcolor2, $bgcolor3;
 
-        if ($server_id != "")
+        if (!empty($server_id))
         {
             $sql = mysql_query("SELECT game, ip, port, pass FROM " . SERVER_TABLE . " WHERE sid = '" . $server_id . "'");
-            list($game, $address, $port, $password) = mysql_fetch_row($sql);
+            $row = mysql_fetch_assoc($sql);
         } 
-        else if ($address != "" && $port != "")
+        else if (!empty($address) && !empty($port))
         {
-            $address = htmlentities($address);
-            $port = htmlentities($port);
+            $address = htmlentities($row['ip']);
+            $port = htmlentities($row['port']);
             $address = nk_CSS($address);
             $port = nk_CSS($port);
         } 
@@ -243,8 +233,11 @@ if ($visiteur >= $level_access && $level_access > -1)
             $game = $nuked['server_game'];
             $password = $nuked['server_pass'];
         } 
+		
+		$game = $row['game'];
+		$password = $row['pass'];
 
-	if ($sgame != "") $game = $sgame;
+	if (!empty($sgame)) $game = $sgame;
 
 	if ($game == "HL" || $game == "CSS" || $game == "HL2")
 	{
