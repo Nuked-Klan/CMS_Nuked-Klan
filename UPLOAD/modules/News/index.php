@@ -48,13 +48,13 @@ if ($visiteur >= $level_access && $level_access > -1) {
 		if(!$_REQUEST['p']) $_REQUEST['p'] = 1;
 		$start = $_REQUEST['p'] * $max_news - $max_news;
 
-		if ($_REQUEST['op'] == 'categorie'):
+		if ($_REQUEST['op'] == 'categorie') {
 			$WhereNews = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date ORDER BY date DESC LIMIT $start, $max_news";
-		elseif ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment'):
+		} elseif ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment') {
 			$WhereNews = "WHERE id = '{$_REQUEST['news_id']}'";
-		else:
+		} else {
 			$WhereNews = "WHERE $day >= date ORDER BY date DESC LIMIT $start, $max_news";
-		endif;
+		}
 		
 		$sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
 		
