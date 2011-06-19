@@ -31,3 +31,5 @@ class GzExtractor /*implements extractor*/ {
 		}
 	}	
 }
+
+?>
