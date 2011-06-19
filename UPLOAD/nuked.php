@@ -84,9 +84,9 @@ function session_read($id){
     connect();
 
     $sql = mysql_query('SELECT session_vars FROM ' . TMPSES_TABLE . ' WHERE session_id = "' . $id . '"');
-	if(mysql_num_rows($sql) > 0){
-		return ($sql === false) ? '' : mysql_result($sql, 0);
-	}
+    if(mysql_num_rows($sql) > 0){
+        return ($sql === false) ? '' : mysql_result($sql, 0);
+    }
 }
 
 // WRITE PHP SESSION
@@ -338,36 +338,36 @@ function smiley($textarea){
 }
 
 function ConfigSmileyCkeditor(){
-	
-	$donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
-	
-	$Sql = mysql_query("SELECT code, url FROM ".SMILIES_TABLE." ORDER BY id");
+    
+    $donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
+    
+    $Sql = mysql_query("SELECT code, url FROM ".SMILIES_TABLE." ORDER BY id");
     while($row = mysql_fetch_assoc($Sql)){
-		$TabCode[] = $row['code'];
-		$TabUrl[] = $row['url'];
+        $TabCode[] = $row['code'];
+        $TabUrl[] = $row['url'];
     }
-	
-	$IUrl = 0;
-	$CompteurUrl = count($TabUrl);
-	$donnee .= 'CKEDITOR.config.smiley_images=[';
-	foreach( $TabUrl as $VUrl ){
-		$IUrl++;
-		$VirguleUrl = ($IUrl == $CompteurUrl) ? '' : ', ';
-		$donnee .= "'$VUrl'$VirguleUrl";
-	}
-	$donnee .= '];';
-	
-	$ICode = 0;
-	$CompteurCode = count($TabCode);
-	$donnee .= 'CKEDITOR.config.smiley_descriptions=[';
-	foreach( $TabCode as $VCode ){
-		$ICode++;
-		$VirguleCode = ($ICode == $CompteurCode) ? '' : ', ';
-		$donnee .= "'$VCode'$VirguleCode";
-	}
-	$donnee .= '];';
-	
-	return $donnee;
+    
+    $IUrl = 0;
+    $CompteurUrl = count($TabUrl);
+    $donnee .= 'CKEDITOR.config.smiley_images=[';
+    foreach( $TabUrl as $VUrl ){
+        $IUrl++;
+        $VirguleUrl = ($IUrl == $CompteurUrl) ? '' : ', ';
+        $donnee .= "'$VUrl'$VirguleUrl";
+    }
+    $donnee .= '];';
+    
+    $ICode = 0;
+    $CompteurCode = count($TabCode);
+    $donnee .= 'CKEDITOR.config.smiley_descriptions=[';
+    foreach( $TabCode as $VCode ){
+        $ICode++;
+        $VirguleCode = ($ICode == $CompteurCode) ? '' : ', ';
+        $donnee .= "'$VCode'$VirguleCode";
+    }
+    $donnee .= '];';
+    
+    return $donnee;
 }
 
 function secu_url($url){
@@ -424,8 +424,8 @@ function secu_css($Style){
 }
 
 function secu_args($matches){
-	global $ActiveVideoCkeditor;
-			  
+    global $ActiveVideoCkeditor;
+              
     $allowedTags = array(
         'p' => array(
             'style',
@@ -464,6 +464,7 @@ function secu_args($matches){
             'border',
         ),
         'strong' => array(),
+        'b', => array(),
         'em' => array(),
         'u' => array(),
         'strike' => array(),
@@ -472,7 +473,9 @@ function secu_args($matches){
         'ol' => array(),
         'ul' => array(),
         'li' => array(),
-        'blockquote' => array(),
+        'blockquote' => array(
+            'style',
+        ),
         'div' => array(
             'class',
             'id',
@@ -535,31 +538,31 @@ function secu_args($matches){
         'q' => array(),
         'pre' => array(),
         'address' => array(),
-	);
+    );
 
-		// FOR VIDEO PLUGIN -- POUR PLUGIN VIDEO
+        // FOR VIDEO PLUGIN -- POUR PLUGIN VIDEO
     $TabVideo = array(
-		'object' => array(
-					'width',
-					'height',
-		),
-		'param' => array (
-					'name',
-					'value',
-		),
-		'embed' => array (
-					'allowfullscreen',
-					'allowscriptaccess',
-					'height',
-					'src',
-					'type',
-					'width',
-		),
+        'object' => array(
+                    'width',
+                    'height',
+        ),
+        'param' => array (
+                    'name',
+                    'value',
+        ),
+        'embed' => array (
+                    'allowfullscreen',
+                    'allowscriptaccess',
+                    'height',
+                    'src',
+                    'type',
+                    'width',
+        ),
 
     );
-	
-	$allowedTags = ($ActiveVideoCkeditor === true) ? array_merge($allowedTags, $TabVideo) : $allowedTags;
-	
+    
+    $allowedTags = ($ActiveVideoCkeditor === true) ? array_merge($allowedTags, $TabVideo) : $allowedTags;
+    
     if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
         preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);
 
@@ -610,7 +613,7 @@ function secu_args($matches){
 }
 
 function secu_html($texte){
-    global $bgcolor3, $nuked;
+    global $bgcolor3, $nuked, $f_quote;
     
     // Balise HTML interdite
     $texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
@@ -636,16 +639,7 @@ function secu_html($texte){
         }
     }
 
-    if ($_REQUEST['mess_id']){
-        $f_sql = mysql_query("SELECT auteur FROM " . $nuked['prefix'] . "_forums_messages WHERE id = '" . $_REQUEST['mess_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'") or die (mysql_error());
-        list($f_author) = mysql_fetch_array($f_sql);
-        $f_quote = _QUOTE . ' ' . _BY . ' ' . $f_author;
-    }
-    else $f_quote = _QUOTE;
-            
     $bad = $bad | count($TagList) > 0;
-    $texte = str_replace('<blockquote>', '<br /><table style="background: ' . $bgcolor3 . '" cellpadding="3" cellspacing="1" width="100%" border="0"><tr><td style="background: #FFFFFF;color: #000000"><div id="quote" style="border: 0; overflow: auto"><b>' . $f_quote . ' :</b><br />', $texte);
-    $texte = str_replace('</blockquote>', '</div></td></tr></table><br />', $texte);
 
     if ($bad){
         return('Le code HTML est mal formaté');
@@ -1047,16 +1041,16 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
         default:
             $content = ob_get_clean();
             // CONNECT TO DB AND OPEN SESSION PHP
-			if(file_exists('conf.inc.php')) include ("conf.inc.php");
+            if(file_exists('conf.inc.php')) include ("conf.inc.php");
             connect();
             session_name('nuked');
-			session_start();
-			if (session_id() == '') exit(ERROR_SESSION);
+            session_start();
+            if (session_id() == '') exit(ERROR_SESSION);
             $date = time();
             echo ERROR_SQL;
-			$texte = _TYPE . ": " . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
-			$upd = mysql_query("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
-			$upd2 = mysql_query("INSERT INTO " . $nuked['prefix'] . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', '" . _ERRORSQLDEDECTED . " : [<a href=\"index.php?file=Admin&page=erreursql\">" . _TLINK . "</a>].')");
+            $texte = _TYPE . ": " . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
+            $upd = mysql_query("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
+            $upd2 = mysql_query("INSERT INTO " . $nuked['prefix'] . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', '" . _ERRORSQLDEDECTED . " : [<a href=\"index.php?file=Admin&page=erreursql\">" . _TLINK . "</a>].')");
             exit();
             break;
     }

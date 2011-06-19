@@ -68,6 +68,8 @@ define("_TOPICMOVE","Déplacer ce sujet");
 define("_TOPICLOCK","Fermer le sujet");
 define("_TOPICUNLOCK","Ouvrir le sujet");
 define("_REPLYQUOTE","Répondre en citant");
+define("_QUOTE","Citation");
+define("_BY","par");
 define("_EDITMESSAGE","Editer ce message");
 define("_DELMESSAGE","Supprimer ce message");
 define("_TITLE","Titre");

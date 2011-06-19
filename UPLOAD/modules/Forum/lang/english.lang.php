@@ -68,6 +68,8 @@ define("_TOPICMOVE","Move this topic");
 define("_TOPICLOCK","Close this topic");
 define("_TOPICUNLOCK","Open this topic");
 define("_REPLYQUOTE","Reply with quote");
+define("_QUOTE","Quote");
+define("_BY","by");
 define("_EDITMESSAGE","Edit this post");
 define("_DELMESSAGE","Remove this post");
 define("_TOPICUP","Sticky Thread");

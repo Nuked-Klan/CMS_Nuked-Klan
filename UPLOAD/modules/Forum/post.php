@@ -12,12 +12,12 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $user, $language, $nuked, $cookie_captcha, $random_code;
+global $user, $language, $nuked, $cookie_captcha, $random_code, $bgcolor3;
 
 translate("modules/Forum/lang/" . $language . ".lang.php");
 include("modules/Forum/template.php");
 
-// Inclusion systÃ¨me Captcha
+// Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -147,7 +147,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else if ($_REQUEST['do'] == "quote")
         {
-            $ftexte = "<blockquote>" . $e_txt . " </blockquote>";
+            $ftexte = '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' ' . _BY . ' ' . $author . ' :</strong><br />' . $e_txt . '</blockquote>';
         }
 
         echo "<textarea id=\"e_advanced\" name=\"texte\" cols=\"70\" rows=\"15\">" . $ftexte . "</textarea>";

@@ -15,7 +15,7 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 
-// Inclusion systÃ¨me Captcha
+// Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -88,7 +88,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $edition = "";
             }
 
-			$_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+            $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
             $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
             $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
 
@@ -107,12 +107,12 @@ if ($visiteur >= $level_access && $level_access > -1)
             $sql4 = mysql_query("SELECT closed FROM " . FORUM_THREADS_TABLE . " WHERE thread_id = '" . $thread_id . "'");
             list($closed) = mysql_fetch_row($sql4);
 
-			if ($closed == 1)
-			{
-				echo '<div style="text-align: center">' . _NOENTRANCE . '</div>';
-				closetable();
-				exit();
-			}
+            if ($closed == 1)
+            {
+                echo '<div style="text-align: center">' . _NOENTRANCE . '</div>';
+                closetable();
+                exit();
+            }
 
             if ($mid == $mess_id)
             {
@@ -505,7 +505,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function reply()
     {
-        global $user, $nuked, $captcha,$visiteur,$user_ip;
+        global $user, $nuked, $captcha,$visiteur,$user_ip, $bgcolor3;
 
         opentable();
 
@@ -617,9 +617,10 @@ if ($visiteur >= $level_access && $level_access > -1)
             exit();
         }
 
-		$_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+        $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
+        $_REQUEST['texte'] = str_replace('<blockquote>', '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' :</strong><br />', $_REQUEST['texte']);
 
         $autor = mysql_real_escape_string(stripslashes($autor));
 
@@ -627,16 +628,16 @@ if ($visiteur >= $level_access && $level_access > -1)
         if (!is_numeric($_REQUEST['emailnotify'])) $_REQUEST['emailnotify'] = 0;
 
         $filename = $_FILES['fichiernom']['name'];
-		$filesize = $_FILES['fichiernom']['size'] / 1000;
+        $filesize = $_FILES['fichiernom']['size'] / 1000;
 
         if ($visiteur >= $nuked['forum_file_level'] && $filename != "" && $nuked['forum_file'] == "on" && $nuked['forum_file_maxsize'] >= $filesize)
         {
             if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess")
             {
-				$url_file = "upload/Forum/" . $filename;
-				move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
-				@chmod ($url_file, 0644);
-			}
+                $url_file = "upload/Forum/" . $filename;
+                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
+                @chmod ($url_file, 0644);
+            }
         }
         else
         {
@@ -645,68 +646,68 @@ if ($visiteur >= $level_access && $level_access > -1)
 
 
         $sql1 = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET last_post = '" . $date . "' WHERE id = '" . $_REQUEST['thread_id'] . "'");
-		$sql3 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
+        $sql3 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
         if (mysql_affected_rows() > 0) 
-		{
-			$sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
+        {
+            $sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
 
-			$notify = mysql_query("SELECT auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND emailnotify = 1 GROUP BY auteur_id");
-			$nbusers = mysql_num_rows($notify);
+            $notify = mysql_query("SELECT auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND emailnotify = 1 GROUP BY auteur_id");
+            $nbusers = mysql_num_rows($notify);
 
-			if ($nbusers > 0)
-			{
-				while (list($usermail) = mysql_fetch_row($notify))
-				{
-					if($usermail != $auteur_id)
-					{
-								$getmail = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE id = '" . $usermail . "'");
-								list($email) = mysql_fetch_row($getmail);
-								$subject = _MESSAGE . " : " . $_REQUEST['titre'];
-								$corps = _EMAILNOTIFYMAIL . "\r\n" . $nuked['url'] . "/index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
-								$from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+            if ($nbusers > 0)
+            {
+                while (list($usermail) = mysql_fetch_row($notify))
+                {
+                    if($usermail != $auteur_id)
+                    {
+                                $getmail = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE id = '" . $usermail . "'");
+                                list($email) = mysql_fetch_row($getmail);
+                                $subject = _MESSAGE . " : " . $_REQUEST['titre'];
+                                $corps = _EMAILNOTIFYMAIL . "\r\n" . $nuked['url'] . "/index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+                                $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
-								$subject = @html_entity_decode($subject);
-								$corps = @html_entity_decode($corps);
-								$from = @html_entity_decode($from);
+                                $subject = @html_entity_decode($subject);
+                                $corps = @html_entity_decode($corps);
+                                $from = @html_entity_decode($from);
 
-								mail($email, $subject, $corps, $from);
-					}
-				}
-			}
+                                mail($email, $subject, $corps, $from);
+                    }
+                }
+            }
 
-			if ($user)
-			{
-				$sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-				list($count) = mysql_fetch_row($sql_count);
-				$newcount = $count + 1;
-				$upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $user[0] . "'");
-			}
+            if ($user)
+            {
+                $sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+                list($count) = mysql_fetch_row($sql_count);
+                $newcount = $count + 1;
+                $upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $user[0] . "'");
+            }
 
-			$sql_page = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
-			list($mess_id) = mysql_fetch_row($sql_page);
-			$nb_rep = mysql_num_rows($sql_page);
+            $sql_page = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
+            list($mess_id) = mysql_fetch_row($sql_page);
+            $nb_rep = mysql_num_rows($sql_page);
 
-			if ($nb_rep > $nuked['mess_forum_page'])
-			{
-				$topicpages = $nb_rep / $nuked['mess_forum_page'];
-				$topicpages = ceil($topicpages);
-				$link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "&p=" . $topicpages . "#" . $mess_id;
-			}
-			else
-			{
-				$link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "#" . $mess_id;
-			}
+            if ($nb_rep > $nuked['mess_forum_page'])
+            {
+                $topicpages = $nb_rep / $nuked['mess_forum_page'];
+                $topicpages = ceil($topicpages);
+                $link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "&p=" . $topicpages . "#" . $mess_id;
+            }
+            else
+            {
+                $link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "#" . $mess_id;
+            }
 
-			echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESEND . "</div><br /><br />";
-		    redirect($link_post, 2);
-		}
-		else echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
+            echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESEND . "</div><br /><br />";
+            redirect($link_post, 2);
+        }
+        else echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
         closetable();
     }
 
     function post()
     {
-        global $user, $nuked,$captcha,$user_ip, $visiteur;
+        global $user, $nuked,$captcha,$user_ip, $visiteur, $bgcolor3;
 
         opentable();
 
@@ -799,9 +800,11 @@ if ($visiteur >= $level_access && $level_access > -1)
             footer();
             exit();
         }
-		$_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+        $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
+        $_REQUEST['texte'] = str_replace('<blockquote>', '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' :</strong><br />', $_REQUEST['texte']);
+
         $autor = mysql_real_escape_string(stripslashes($autor));
 
         if (!is_numeric($_REQUEST['usersig'])) $_REQUEST['usersig'] = 0;
@@ -824,16 +827,16 @@ if ($visiteur >= $level_access && $level_access > -1)
         $_REQUEST['thread_id'] = $idmax;
 
         $filename = $_FILES['fichiernom']['name'];
-		$filesize = $_FILES['fichiernom']['size'] / 1000;
+        $filesize = $_FILES['fichiernom']['size'] / 1000;
 
         if ($visiteur >= $nuked['forum_file_level'] && $filename != "" && $nuked['forum_file'] == "on" && $nuked['forum_file_maxsize'] >= $filesize)
         {
-			if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess")
-			{
-				$url_file = "upload/Forum/" . $filename;
-				move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
-				@chmod ($url_file, 0644);
-			}
+            if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess")
+            {
+                $url_file = "upload/Forum/" . $filename;
+                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
+                @chmod ($url_file, 0644);
+            }
         }
         else
         {
@@ -872,64 +875,64 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($user)
         {
-			if ($_REQUEST['forum_id'] > 0)
-			{
-				$new_id = '';
-				$table_read_forum = array();
-				$id_read_forum = '';
+            if ($_REQUEST['forum_id'] > 0)
+            {
+                $new_id = '';
+                $table_read_forum = array();
+                $id_read_forum = '';
 
-				if (isset($_COOKIE[$cookie_forum]) && $_COOKIE[$cookie_forum] != "")
-				{
-					$id_read_forum = $_COOKIE[$cookie_forum];
-					if (preg_match("`[^0-9,]`i", $id_read_forum)) $id_read_forum = "";
-					$table_read_forum = explode(',',$id_read_forum);
-				}
+                if (isset($_COOKIE[$cookie_forum]) && $_COOKIE[$cookie_forum] != "")
+                {
+                    $id_read_forum = $_COOKIE[$cookie_forum];
+                    if (preg_match("`[^0-9,]`i", $id_read_forum)) $id_read_forum = "";
+                    $table_read_forum = explode(',',$id_read_forum);
+                }
 
-				$req = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND date > '" . $user[4] . "' GROUP BY thread_id";
-				$sql = mysql_query($req);
-				while (list($max_id) = mysql_fetch_array($sql))
-				{
-					if (!in_array($max_id,$table_read_forum))
-					{
-						if ($new_id != '')  $new_id .= ',';
-						$new_id .= $max_id;
-					}
-				}
+                $req = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND date > '" . $user[4] . "' GROUP BY thread_id";
+                $sql = mysql_query($req);
+                while (list($max_id) = mysql_fetch_array($sql))
+                {
+                    if (!in_array($max_id,$table_read_forum))
+                    {
+                        if ($new_id != '')  $new_id .= ',';
+                        $new_id .= $max_id;
+                    }
+                }
 
-				if ($id_read_forum != '' && $new_id != '') $id_read_forum .= ',';
-				setcookie($cookie_forum, $id_read_forum . $new_id, $timelimit);
-			}
-			else
-			{
-				setcookie($cookie_forum, "");
-				$req = "UPDATE " . SESSIONS_TABLE . " SET last_used = date WHERE user_id = '" . $user[0] . "'";
-				$sql = mysql_query($req);
-			}
-			if ($user)
-			{
-				if ($_REQUEST['forum_id'] != "")
-				{
-					$where = "WHERE forum_id = '" . $_REQUEST['forum_id'] . "'";
-				} 
-				else
-				{
-					$del = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'");
-					$where = "";
-				} 
+                if ($id_read_forum != '' && $new_id != '') $id_read_forum .= ',';
+                setcookie($cookie_forum, $id_read_forum . $new_id, $timelimit);
+            }
+            else
+            {
+                setcookie($cookie_forum, "");
+                $req = "UPDATE " . SESSIONS_TABLE . " SET last_used = date WHERE user_id = '" . $user[0] . "'";
+                $sql = mysql_query($req);
+            }
+            if ($user)
+            {
+                if ($_REQUEST['forum_id'] != "")
+                {
+                    $where = "WHERE forum_id = '" . $_REQUEST['forum_id'] . "'";
+                } 
+                else
+                {
+                    $del = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'");
+                    $where = "";
+                } 
 
-				$result = mysql_query("SELECT id, forum_id FROM " . FORUM_THREADS_TABLE . " " . $where);
-				$nbtopics = mysql_num_rows($result);
+                $result = mysql_query("SELECT id, forum_id FROM " . FORUM_THREADS_TABLE . " " . $where);
+                $nbtopics = mysql_num_rows($result);
 
-				if ($nbtopics > 0)
-				{
-					while (list($thread_id, $forum_id) = mysql_fetch_row($result))
-					{
-						$sql = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user[0] . "' , '" . $thread_id . "' , '" . $forum_id . "' )");
-					} 
-				} 
-			} 
+                if ($nbtopics > 0)
+                {
+                    while (list($thread_id, $forum_id) = mysql_fetch_row($result))
+                    {
+                        $sql = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user[0] . "' , '" . $thread_id . "' , '" . $forum_id . "' )");
+                    } 
+                } 
+            } 
         }
-		opentable();
+        opentable();
         echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESMARK . "</div><br /><br />";
         redirect("index.php?file=Forum", 2);
         closetable();
@@ -1351,8 +1354,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-	if ($user[0] != "")
-	{
+    if ($user[0] != "")
+    {
 
             if ($_REQUEST['do'] == "on")
             {
@@ -1365,15 +1368,15 @@ if ($visiteur >= $level_access && $level_access > -1)
             $notify_texte = _NOTIFYISOFF;
             }
 
-		$upd = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET emailnotify = '" . $notify . "' WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND auteur_id = '" . $user[0] . "'");
+        $upd = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET emailnotify = '" . $notify . "' WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND auteur_id = '" . $user[0] . "'");
 
-		echo "<br /><br /><div style=\"text-align: center;\">" . $notify_texte . "</div><br /><br />";
+        echo "<br /><br /><div style=\"text-align: center;\">" . $notify_texte . "</div><br /><br />";
 
-	}
-	else
-	{
+    }
+    else
+    {
             echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
-	}
+    }
 
         $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
         redirect($url, 2);
