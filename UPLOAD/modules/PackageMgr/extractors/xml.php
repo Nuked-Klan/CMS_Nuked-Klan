@@ -1,4 +1,8 @@
 <?php
+if (!defined("INDEX_CHECK"))
+{
+    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+} 
 
 class XmlExtractor /*implements extractor*/ {
 	protected $file;
