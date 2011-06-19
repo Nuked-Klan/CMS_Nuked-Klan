@@ -9,6 +9,10 @@
  * je vous demanderez de respecter mon travail en ne
  * supprimant pas mon pseudo.
  ***********************************************/
+if (!defined("INDEX_CHECK"))
+{
+    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+} 
 
 require_once 'package.php';
 class Manager {
@@ -18,7 +22,7 @@ class Manager {
 			case 'ins':
 				$this->Installation();
 				break;
-			case 'del';
+        case 'del':
 				$this->Desinstallation();
 				break;
 			case 'act':
