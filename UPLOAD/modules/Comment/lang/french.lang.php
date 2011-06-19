@@ -16,6 +16,7 @@ define("_COMMENTS","Commentaires");
 define("_TITLE","Titre");
 define("_MESSAGE","Message");
 define("_NICK","Pseudo");
+define("_AUTHOR","Auteur");
 define("_SEND_COM","Soumettre votre commentaire");
 define("_CLOSEWINDOW","Fermer la fenêtre");
 define("_BACK","Retour");

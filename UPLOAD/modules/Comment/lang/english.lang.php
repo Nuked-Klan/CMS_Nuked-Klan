@@ -16,6 +16,7 @@ define("_COMMENTS","Comments");
 define("_TITLE","Title");
 define("_MESSAGE","Message");
 define("_NICK","Nick");
+define("_AUTHOR","Author");
 define("_SEND_COM","Submit your comment");
 define("_CLOSEWINDOW","Close Window");
 define("_BACK","Back");
