@@ -52,7 +52,7 @@ class PackageException extends Exception
 				$this->message = 'Format non pris en charge';
 				break;
 			default:
-				$this->message = 'Erreur inconnu';
+				$this->message = 'Erreur inconnue';
 				break;
 		}
 	}
@@ -201,7 +201,6 @@ class Package
 	
 	protected function exec($list)
 	{
-		//var_dump($list);
 		if ($list !== null)
 		{
 			foreach ($list->children() as $action => $content)

@@ -178,7 +178,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $email = mysql_real_escape_string(stripslashes($email));
             
-            if (!empty($url) && !is_int(stripos('http://', $url)))
+            if (!empty($url) && !is_int(stripos($url, 'http://')))
             {
                 $url = "http://" . mysql_real_escape_string(stripslashes($url));
             }

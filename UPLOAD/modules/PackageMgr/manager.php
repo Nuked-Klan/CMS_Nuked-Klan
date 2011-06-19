@@ -22,7 +22,7 @@ class Manager {
 			case 'ins':
 				$this->Installation();
 				break;
-        case 'del':
+            case 'del':
 				$this->Desinstallation();
 				break;
 			case 'act':
@@ -42,7 +42,7 @@ class Manager {
 		try {
 			$package = new Package ($_REQUEST['f']);
 			$package->activate();
-			echo '<p>Activation termin&#233; !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
+			echo '<p>Activation termin&#233;e !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		} catch (PackageException $error)
 		{
 			echo '<p>Oups ! Je n\'ai pas r&#233;ussi à activer ce patch...</p>'
@@ -56,7 +56,7 @@ class Manager {
 		try {
 			$package = new Package ($_REQUEST['f']);
 			$package->deactivate();
-			echo '<p>D&#233;sactivation termin&#233; !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
+			echo '<p>D&#233;sactivation termin&#233;e !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		} catch (PackageException $error)
 		{
 			echo '<p>Oups ! Je n\'ai pas r&#233;ussi à d&#233;sactiver ce patch...</p>'
@@ -69,8 +69,8 @@ class Manager {
 		if (!isset($_FILES['package']))
 		{
 			echo '<p>Installation d\'un patch. Envoyez le fichier de votre patch :</p>'
-				. '<form method="POST" action="?a=ins&file=PackageMgr&page=admin" enctype="multipart/form-data"><input type="file" name="package" />'
-				. '<br /><input type="submit" value="Installer" /></form>';
+            . '<form method="POST" action="?a=ins&file=PackageMgr&page=admin" enctype="multipart/form-data"><input type="file" name="package" />'
+            . '<br /><input type="submit" value="Installer" /></form>';
 			echo '<br /><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
 		}
 		else
@@ -79,9 +79,8 @@ class Manager {
 			try {
 				$package = new Package ($_FILES["package"]['name']);
 				$package->install();
-				echo '<p>Installation termin&#233; !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
-			} catch (PackageException $error)
-			{
+				echo '<p>Installation termin&#233;e !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
+			} catch (PackageException $error) {
 				echo '<p>Oups ! Je n\'ai pas r&#233;ussi à installer ce patch...</p>'
 					. '<p>' . $error->getMessage() . '</p>';
 				echo '<br /><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
@@ -95,8 +94,7 @@ class Manager {
 			$package = new Package ($_REQUEST['f']);
 			$package->uninstall();
 			echo '<p>D&#233;sinstallation termin&#233; !</p><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
-		} catch (PackageException $error)
-		{
+		} catch (PackageException $error) {
 			echo '<p>Oups ! Je n\'ai pas r&#233;ussi à installer ce patch...</p>'
 				. '<p>' . $error->getMessage() . '</p>';
 			echo '<br /><p><a href="?a=index&file=PackageMgr&page=admin">Retour</a></p>';
@@ -117,7 +115,7 @@ class Manager {
 			while ($package = mysql_fetch_assoc($packages)) {
 				$package['url'] = htmlentities($package['link']);
 				$package['author'] = preg_replace('`\b([a-zA-Z0-9._-]@[a-zA-Z0-9._-].[a-zA-Z])`', '<a href="mailto:$1">s</a>', $package['author']);
-				$package['option'] = $package['active'] == 0 ? '<a href="?a=act&f=' . $package['file'] . '&file=PackageMgr&page=admin">Activer</a>' : '<a href="?a=des&f=' . $package['file'] . '&file=PackageMgr&page=admin">Desactiver</a>';
+				$package['option'] = $package['active'] == 0 ? '<a href="?a=act&f=' . $package['file'] . '&file=PackageMgr&page=admin">Activer</a>' : '<a href="?a=des&f=' . $package['file'] . '&file=PackageMgr&page=admin">D&#233;sactiver</a>';
 				echo "<tr><td>$package[name]</td><td><a href=\"$package[link]\" target=\"_blank\">$package[url]</a></td><td>$package[author]</td><td>$package[option] <a href=\"?a=del&f=$package[file]&file=PackageMgr&page=admin\">Supprimer</a></td></tr>";
 			}
 			echo '</tbody></table>';

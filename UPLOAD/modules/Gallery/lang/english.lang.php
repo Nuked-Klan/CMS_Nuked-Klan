@@ -77,6 +77,7 @@ define("_UPIMG","Upload the image onto the server");
 define("_REPLACE","Overwrite");
 define("_DEJASCREEN","A image with the same name already exists on your ftp");
 define("_REPLACEIT","To overwrite it please check the box \""._REPLACE."\"");
+define('_TITLECATFORGOT', 'The title of the category is missing');
 
 define("_ACTIONADDGAL","has added in the gallery the image");
 define("_ACTIONDELGAL","has deleted in the gallery the image");

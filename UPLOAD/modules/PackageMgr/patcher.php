@@ -110,7 +110,6 @@ class Patch
 	{
 		$pattern = str_replace(array("\n", "\r", "\t"), ' ', $pattern);
 		$pattern = trim(addcslashes($pattern, "$.*+()[]|?^{}\\!<>=:"));
-		$pile = array();
 		$pattern = str_replace(' ', '[\\t\\r\\n ]+', $pattern);
 		return '`' . $pattern . '`i';
 	}

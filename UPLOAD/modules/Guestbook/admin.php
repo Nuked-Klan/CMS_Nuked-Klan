@@ -55,7 +55,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $comment = html_entity_decode($comment);
         $comment = mysql_real_escape_string(stripslashes($comment));
 
-        if (!empty($url) && !is_int(stripos('http://', $url)))
+        if (!empty($url) && !is_int(stripos($url, 'http://')))
         {
             $url = "http://" . $url;
         } 

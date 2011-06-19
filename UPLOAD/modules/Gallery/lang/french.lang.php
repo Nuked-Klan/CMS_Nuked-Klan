@@ -77,6 +77,7 @@ define("_UPIMG","Uploader l'image sur le serveur");
 define("_REPLACE","Ecraser");
 define("_DEJASCREEN","Une image portant le même nom est déjà présente sur votre ftp");
 define("_REPLACEIT","Pour la remplacer veuillez cocher la case \""._REPLACE."\"");
+define('_TITLECATFORGOT', 'Le titre de la catégorie est manquant');
 
 define("_ACTIONADDGAL","a ajouté dans la galerie l\'image:");
 define("_ACTIONDELGAL","a supprimé dans la galerie l\'image");

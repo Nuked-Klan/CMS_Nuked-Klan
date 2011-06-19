@@ -35,11 +35,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         global $nuked;
 
         $sql = mysql_query("SELECT titre, url FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
-		if(mysql_num_rows($sql) <= 0)
-		{
-			redirect("index.php?file=404", 0);
-			exit();
-		}
+        if(mysql_num_rows($sql) <= 0)
+        {
+            redirect("index.php?file=404", 0);
+            exit();
+        }
         list($titre, $url) = mysql_fetch_array($sql);
         $titre = htmlentities($titre);
 
@@ -48,14 +48,14 @@ if ($visiteur >= $level_access && $level_access > -1)
         $name_enc = rawurlencode($name);
         $url = str_replace($name, $name_enc, $url);
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    . "<head><title>" . $titre . "</title>\n"
-    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-    . "<body style=\"background: " . $bgcolor2 . ";margin-top: 0px;margin-bottom: 0px;margin-left: 0px;margin-right: 0px;\">\n"
-    . "<div style=\"text-align: center;\"><a href=\"javascript: self.close()\"><img style=\"border: 0;\" src=\"" . $url . "\" alt=\"\" title=\"" . _CLICTOCLOSE . "\" /></a></div></body></html>";
+        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+        . "<head><title>" . $titre . "</title>\n"
+        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+        . "<body style=\"background: " . $bgcolor2 . ";margin-top: 0px;margin-bottom: 0px;margin-left: 0px;margin-right: 0px;\">\n"
+        . "<div style=\"text-align: center;\"><a href=\"javascript: self.close()\"><img style=\"border: 0;\" src=\"" . $url . "\" alt=\"\" title=\"" . _CLICTOCLOSE . "\" /></a></div></body></html>";
 
     } 
 
@@ -66,7 +66,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $counter = 0;
 
         $sql = mysql_query("SELECT cid, titre, description FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "'");
-	$nb_subcat = mysql_num_rows($sql);
+        $nb_subcat = mysql_num_rows($sql);
 
         if ($nb_subcat > 0)
         {
@@ -77,7 +77,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
 
                 $parentcat = htmlentities($parentcat);
-				
+                
                 $parentdesc = icon($parentdesc);
 
                 $sql_img = mysql_query("SELECT sid, url, url2, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $catid . "' ORDER BY sid DESC");
@@ -88,35 +88,35 @@ if ($visiteur >= $level_access && $level_access > -1)
                 {
                     $image = $url2;
                 } 
-				else if ($url2 == "" && $image_gd == "on" && @extension_loaded('gd') && !preg_match("`http://`i", $url) && is_file($url))
-				{			
-					$org = $rep_img;
-					$dest = $rep_img_gd;
-					$name = str_replace ($org,'',$url);
-					
-					// instanciation de l'objet
-					$thb = new thb;
-					// appel du constructeur
-					// nim de la source: image.jpeg
-					// chemin source: ./ (dossier courant)
-					// destianation: ./ (dossier courant)
-					$thb->doImg($name, $org, $dest);
-					// Config des parametres
-					// prefix
-					// taille du + grd coté
-					// qualité
-					$thb->SetParam('_tmb', $img_screen1, 90);
-					// pour connaitre le nom et chemin de l'image réduite
-					// résultat: ./image_thb.jpeg
-					$thumb = $thb->GetThbName();
-					// pour connaitre le nom et chemin de l'image d'origine
-					// résultat: ./image.jpeg
-					$source = $thb->GetOrigine();
-					// Lance le redimensionenemt
-					$thb->doThb();
-					if ($thumb) $sql_insert = mysql_query ("UPDATE " . $nuked['prefix'] . "_gallery SET url2 = '" . $thumb . "' WHERE sid = '" . $sid . "'");
-					$image = $thumb;			
-				} 
+                else if ($url2 == "" && $image_gd == "on" && @extension_loaded('gd') && !preg_match("`http://`i", $url) && is_file($url))
+                {
+                    $org = $rep_img;
+                    $dest = $rep_img_gd;
+                    $name = str_replace ($org,'',$url);
+                    
+                    // instanciation de l'objet
+                    $thb = new thb;
+                    // appel du constructeur
+                    // nim de la source: image.jpeg
+                    // chemin source: ./ (dossier courant)
+                    // destianation: ./ (dossier courant)
+                    $thb->doImg($name, $org, $dest);
+                    // Config des parametres
+                    // prefix
+                    // taille du + grd coté
+                    // qualité
+                    $thb->SetParam('_tmb', $img_screen1, 90);
+                    // pour connaitre le nom et chemin de l'image réduite
+                    // résultat: ./image_thb.jpeg
+                    $thumb = $thb->GetThbName();
+                    // pour connaitre le nom et chemin de l'image d'origine
+                    // résultat: ./image.jpeg
+                    $source = $thb->GetOrigine();
+                    // Lance le redimensionenemt
+                    $thb->doThb();
+                    if ($thumb) $sql_insert = mysql_query ("UPDATE " . $nuked['prefix'] . "_gallery SET url2 = '" . $thumb . "' WHERE sid = '" . $sid . "'");
+                    $image = $thumb;			
+                } 
                 if (!$image) $image = $url; 
 
                 $name = strrchr($image, '/');
@@ -130,9 +130,9 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $last_date = _LASTADD . "&nbsp;" . $date;
                 } 
                 else
-		{
+                {
                     $last_date = "";
-		}
+                }
 
                 if ($catid != $last_catid)
                 {
@@ -201,11 +201,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         $sql = mysql_query("SELECT titre, description, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
-		if(mysql_num_rows($sql) <= 0)
-		{
-			redirect("index.php?file=404", 0);
-			exit();
-		}
+        if(mysql_num_rows($sql) <= 0)
+        {
+            redirect("index.php?file=404", 0);
+            exit();
+        }
         list($cat_titre, $cat_desc, $parentid) = mysql_fetch_array($sql);
 
         $cat_titre = htmlentities($cat_titre);
@@ -227,13 +227,13 @@ if ($visiteur >= $level_access && $level_access > -1)
         if ($cat_desc != "")
         {
             echo "<div style=\"text-align: center;\">" . $cat_desc . "</div><br />\n";
-        } 
-		
+        }
+        
         cat($cat);
         classe($cat);
         
         closetable();
-    } 
+    }
 
     function description($sid)
     {
@@ -249,29 +249,31 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         opentable();
-		?>
-		<script>
-		var xtralink = "non";
-			function screenon(lien,lien2)
-			{
-				xtralink = lien2;
-				document.getElementById("iframe").innerHTML = "<iframe style=\"border:0px;\" width=\"100%\" height=\"80%\" src=\""+lien+"\"></iframe>";
-				document.getElementById("screen").style.display="block";
-			}
-			function screenoff()
-			{
-				document.getElementById("screen").style.display="none";
-			}
-		</script>
-		<?php
+        ?>
+        <script type="text/javascript">
+        //<![CDATA[
+        var xtralink = "non";
+            function screenon(lien,lien2)
+            {
+                xtralink = lien2;
+                document.getElementById("iframe").innerHTML = "<iframe style=\"border:0px;\" width=\"100%\" height=\"80%\" src=\""+lien+"\"></iframe>";
+                document.getElementById("screen").style.display="block";
+            }
+            function screenoff()
+            {
+                document.getElementById("screen").style.display="none";
+            }
+        //]]>
+        </script>
+        <?php
         $upd = mysql_query("UPDATE " . GALLERY_TABLE . " SET count = count + 1 WHERE sid = '" . $sid . "'");
 
         $sql = mysql_query("SELECT cat, titre, description, autor, url, url_file, date, count FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
-		if(mysql_num_rows($sql) <= 0)
-		{
-			redirect("index.php?file=404", 0);
-			exit();
-		}
+        if(mysql_num_rows($sql) <= 0)
+        {
+            redirect("index.php?file=404", 0);
+            exit();
+        }
         list($cat, $titre, $description, $autor, $url, $url_file, $date, $count) = mysql_fetch_array($sql);
 
         $titre = htmlentities($titre);
@@ -317,7 +319,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $category = "<a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $cat . "\">" . $cat_name . "</a>";
         } 
 
-		
+        
         if ($_REQUEST['orderby'] == "name")
         {
             $sql_next = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND titre > '" . $titre . "' ORDER BY titre LIMIT 0, 1");
@@ -389,14 +391,14 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Gallery\" style=\"text-decoration:none\"><big><b>" . $title . "</b></big></a></div><br />\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellpadding=\"20\" cellspacing=\"0\" border=\"0\">\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">"
-	.  "<a href=\"#\" onclick=\"screenon('" . $url . "','oui');return false;\" title=\"" . $titre . "\">"
-	. img_size($url, $img_width, _CLICTOSCREEN, $image_resize) . "</a></td></tr></table><br />\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellpadding=\"3\" cellspacing=\"0\">\n"
-	. "<tr><td align=\"left\">" . $prev . "</td><td align=\"right\">" . $next . "</td></tr></table>\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";\" width=\"90%\" cellpadding=\"3\" cellspacing=\"3\" border=\"0\">\n"
-	. "<tr style=\"background: " . $bgcolor2 . ";\"><td style=\"border: 1px solid " . $bgcolor3 . ";\" align=\"center\"><big><b>" . $titre . "</b></big></td></tr>\n";
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellpadding=\"20\" cellspacing=\"0\" border=\"0\">\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">"
+        .  "<a href=\"#\" onclick=\"screenon('" . $url . "','oui');return false;\" title=\"" . $titre . "\">"
+        . img_size($url, $img_width, _CLICTOSCREEN, $image_resize) . "</a></td></tr></table><br />\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellpadding=\"3\" cellspacing=\"0\">\n"
+        . "<tr><td align=\"left\">" . $prev . "</td><td align=\"right\">" . $next . "</td></tr></table>\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";\" width=\"90%\" cellpadding=\"3\" cellspacing=\"3\" border=\"0\">\n"
+        . "<tr style=\"background: " . $bgcolor2 . ";\"><td style=\"border: 1px solid " . $bgcolor3 . ";\" align=\"center\"><big><b>" . $titre . "</b></big></td></tr>\n";
 
         if ($description != "")
         {
@@ -411,35 +413,35 @@ if ($visiteur >= $level_access && $level_access > -1)
         if ($autor != "")
         {
             echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _AUTHOR . " :</b>  " . $autor . "</td></tr>\n";
-	}
+        }
 
         echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _ADDTHE . " :</b>  " . $date . "</td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _FILENAME . " :</b> " . $name . "</td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SEEN . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _FILENAME . " :</b> " . $name . "</td></tr>\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SEEN . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
 
         include ("modules/Vote/index.php");
         vote_index("Gallery", $sid);
 
         echo "</td></tr></table>" . $button."\n";
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'gallery'");
-		list($active) = mysql_fetch_array($sql);
-			
-		if($active ==1)
-		{
-			echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'gallery'");
+        list($active) = mysql_fetch_array($sql);
+            
+        if($active ==1)
+        {
+            echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
 
             include ("modules/Comment/index.php");
             com_index("Gallery", $sid);
 
             echo "</td></tr></table>\n";
-		}
-		echo '<div id="screen" onclick="screenoff()" style="display:none;position:absolute;width:100%;height:100%;background:  url(modules/Admin/images/bg.png) repeat;z-index:10000;top:0px; left:0px;">
-		<div id="iframe" style="margin-left:5%;margin-top:5%; width:90%;height:90%;">
-			
-		</div>
-		<div style="display:block;width:295px;height:25px;background:url(images/croix.png) no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000;">&nbsp;</div>
-		</div>';
+        }
+        echo '<div id="screen" onclick="screenoff()" style="display:none;position:absolute;width:100%;height:100%;background:  url(modules/Admin/images/bg.png) repeat;z-index:10000;top:0px; left:0px;">
+        <div id="iframe" style="margin-left:5%;margin-top:5%; width:90%;height:90%;">
+            
+        </div>
+        <div style="display:block;width:295px;height:25px;background:url(images/croix.png) no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000;">&nbsp;</div>
+        </div>';
         closetable();
     } 
 
@@ -461,9 +463,9 @@ if ($visiteur >= $level_access && $level_access > -1)
         echo "<br /><div style=\"text-align: center;\"><big><b>" . $title . "</b></big></div>\n"
         . "<div style=\"text-align: center;\"><br />\n"
         . "[  " . _INDEXGALLERY . " | "
-	. "<a href=\"index.php?file=Gallery&amp;op=classe&amp;orderby=news\" style=\"text-decoration: underline\">" . _NEWSIMG . "</a> | "
-	. "<a href=\"index.php?file=Gallery&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPIMG . "</a> | "
-	. "<a href=\"index.php?file=Suggest&amp;module=Gallery\" style=\"text-decoration: underline\">" . _SUGGESTIMG . "</a> ]</div><br />\n";
+        . "<a href=\"index.php?file=Gallery&amp;op=classe&amp;orderby=news\" style=\"text-decoration: underline\">" . _NEWSIMG . "</a> | "
+        . "<a href=\"index.php?file=Gallery&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPIMG . "</a> | "
+        . "<a href=\"index.php?file=Suggest&amp;module=Gallery\" style=\"text-decoration: underline\">" . _SUGGESTIMG . "</a> ]</div><br />\n";
 
         $sql_nbimages = mysql_query("SELECT sid FROM " . GALLERY_TABLE . "");
         $nb_images = mysql_num_rows($sql_nbimages);
@@ -529,9 +531,9 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "</td></tr></table>\n";
         }
         else
-	{
+        {
             echo "<br />";
-	}
+        }
 
         classe("0");
          
@@ -543,24 +545,23 @@ if ($visiteur >= $level_access && $level_access > -1)
     
     function classe($cat)
     {
-    global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $img_screen1, $img_screen2, $img_screen3, $image_resize;
-    
-	$nb_img_guest = $nuked['max_img'];
-	$nb_img_line = $nuked['max_img_line'];
-	
-	if ($cat > 0)
-	{
+        global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $img_screen1, $img_screen2, $img_screen3, $image_resize;
+        
+        $nb_img_guest = $nuked['max_img'];
+        $nb_img_line = $nuked['max_img_line'];
+        
+        if ($cat > 0)
+        {
             $sql = mysql_query("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "'");
             $nb_subcat = mysql_num_rows($sql);
-	}
-	else
-	{
+        }
+        else
+        {
             $nb_subcat = 0;
-	}
+        }
         
         if ($_REQUEST['op'] == "classe")
         {
-	
             if ($nuked['gallery_title'] != "")
             {
                 $title = $nuked['gallery_title'];
@@ -596,7 +597,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
         
         if ($cat != "") $where = "WHERE L.cat = '" . $cat . "'";
-	else $where = "";
+        else $where = "";
 
 
         if ($_REQUEST['orderby'] == "name")
@@ -696,7 +697,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 if (list($sid, $titre, $url, $url2, $date) = mysql_fetch_row($sql))
                 {
-
                     if ($url2 != "" && $url2 != "http://")
                     {
                         $img = $url2;
@@ -789,15 +789,15 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function img_size($image, $largeur, $title, $image_resize)
     {
-		if ($image_resize == "off") $test = 0;
-		else if (preg_match("`http://`i", $image) && $image_resize == "local") $test = 0;
-		else  $test = 1;
+        if ($image_resize == "off") $test = 0;
+        else if (preg_match("`http://`i", $image) && $image_resize == "local") $test = 0;
+        else  $test = 1;
 
-		if ($test == 1) $style = "style=\"border: 1px solid #000000; overflow: auto; max-width: " . $largeur . "px;  width: expression(this.scrollWidth >= " . $largeur . "? '" . $largeur . "px' : 'auto');\"";
-		else $style = "style=\"border: 1px solid #000000;\"";
-		
-		$image_resize = "<img " . $style . " src=\"" . checkimg($image) . "\" alt=\"\" title=\"" . $title . "\" />";
-		return($image_resize);
+        if ($test == 1) $style = "style=\"border: 1px solid #000000; overflow: auto; max-width: " . $largeur . "px;  width: expression(this.scrollWidth >= " . $largeur . "? '" . $largeur . "px' : 'auto');\"";
+        else $style = "style=\"border: 1px solid #000000;\"";
+        
+        $image_resize = "<img " . $style . " src=\"" . checkimg($image) . "\" alt=\"\" title=\"" . $title . "\" />";
+        return($image_resize);
     }
 
     switch ($_REQUEST['op'])

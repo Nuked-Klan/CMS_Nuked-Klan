@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 if (!defined("INDEX_CHECK"))
 {
-	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
 
@@ -36,18 +36,18 @@ if ($active == 3 || $active == 4)
             $img = $url;
         }
 
-	if (!preg_match("`%20`i", $img)) list($w, $h, $t, $a) = @getimagesize($img);
-	if ($w != "" && $w <= $img_screen1) $width = "width=\"" . $w . "\"";
-	else $width = "width=\"" . $img_screen1 . "\"";
-	$image = "<img style=\"border: 1px solid #000000;\" src=\"" . $img . "\" " . $width . " alt=\"" . $titre . "\" title=\"" .  _CLICTOSCREEN . "\" />";
+        if (!preg_match("`%20`i", $img)) list($w, $h, $t, $a) = @getimagesize($img);
+        if ($w != "" && $w <= $img_screen1) $width = "width=\"" . $w . "\"";
+        else $width = "width=\"" . $img_screen1 . "\"";
+        $image = "<img style=\"border: 1px solid #000000;\" src=\"" . $img . "\" " . $width . " alt=\"" . $titre . "\" title=\"" .  _CLICTOSCREEN . "\" />";
 
         $titre = htmlentities($titre);
 
-	if ($img != "")
-	{
+        if ($img != "")
+        {
             echo" <td style=\"border: 1px dashed " . $bgcolor3 . ";\" align=\"center\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a><br />\n"
             . "<a href=\"" . $url . "\" class=\"thickbox\" title=\"" . $titre . "\">" . $image . "</a></td>\n";
-	}
+        }
     }
     echo "</tr></table>\n";
 }
@@ -71,11 +71,11 @@ else
     else $width = "width=\"" . $img_screen1 . "\"";
     $image = "<img style=\"border: 1px solid #000000;\" src=\"" . $img . "\" " . $width . " alt=\"" . $titre . "\" title=\"" .  _CLICTOSCREEN . "\" />";
 
-	if ( $img != "")
-	{
-            echo "<div style=\"text-align: center;\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a></div>\n"
-            . "<div style=\"text-align: center;\"><a href=\"" . $url . "\" class=\"thickbox\" title=\"" . $titre . "\">" . $image . "</a></div>\n";
-	}
+    if ( $img != "")
+    {
+        echo "<div style=\"text-align: center;\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a></div>\n"
+        . "<div style=\"text-align: center;\"><a href=\"" . $url . "\" class=\"thickbox\" title=\"" . $titre . "\">" . $image . "</a></div>\n";
+    }
 }
 
 ?>
