@@ -11,16 +11,15 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $nuked, $language;
 
-
 function admintop()
 {
-global $user, $nuked, $language;
-translate("modules/Admin/lang/" . $language . ".lang.php");
+	global $user, $nuked, $language;
+	translate("modules/Admin/lang/" . $language . ".lang.php");
 
-$visiteur = $user ? $user[1] : 0;
+	$visiteur = $user ? $user[1] : 0;
 
-$condition_js = ($nuked['screen']) == 'off' ? 'screenoff();' : 'document.getElementById("screen").style.display="block";';
-if($visiteur < 2) redirect('index.php?file=404', 0);
+	$condition_js = ($nuked['screen']) == 'off' ? 'screenoff();' : 'document.getElementById("screen").style.display="block";';
+	if($visiteur < 2) redirect('index.php?file=404', 0);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
