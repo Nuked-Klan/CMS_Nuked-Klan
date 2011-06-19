@@ -9,6 +9,10 @@
  * je vous demanderez de respecter mon travail en ne
  * supprimant pas mon pseudo.
  ***********************************************/
+if (!defined("INDEX_CHECK"))
+{
+    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+} 
 
 class nline {
 	private $content;
@@ -64,3 +68,5 @@ class nline {
 		return substr($str, 0, $pos) . substr($str, $pos + strlen($this->content));
 	}
 }
+
+?>
