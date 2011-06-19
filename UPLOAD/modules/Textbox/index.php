@@ -64,7 +64,7 @@ function index()
             $texte = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $texte);
 
 	    $texte = icon($texte);
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
 
             $auteur = nk_CSS($auteur);
 		
@@ -228,9 +228,8 @@ function index()
 		{
 			if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . "...";
 
-			if ($language == "french") $date = strftime("Le %d/%m &agrave; %H:%M", $date);
-			else $date = strftime("%m/%d %H:%M", $date);
-
+			$date = nkDate($date);
+			
 			$block_text = '';
 
 			$text = explode(' ', $texte);

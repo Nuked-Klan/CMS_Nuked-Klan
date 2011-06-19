@@ -163,7 +163,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT id, date, auteur, ip FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
         while (list($id, $date, $auteur, $ip) = mysql_fetch_array($sql))
         {
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
 
 
             echo "<tr>\n"
