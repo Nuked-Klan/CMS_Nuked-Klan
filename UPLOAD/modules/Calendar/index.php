@@ -15,14 +15,7 @@ if (!defined("INDEX_CHECK"))
 global $language, $user;
 translate("modules/Calendar/lang/" . $language . ".lang.php");
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+$visiteur = (!$user) ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
@@ -151,15 +144,15 @@ if ($visiteur >= $level_access && $level_access > -1)
                 {
                     if ($nuked['birthday'] == "team")
                     {
-			$where = "WHERE team > 0";
+                        $where = "WHERE team > 0";
                     }
                     else if ($nuked['birthday'] == "admin")
                     {
-			$where = "WHERE niveau > 1";
+                        $where = "WHERE niveau > 1";
                     }
                     else
                     {
-			$where = "";
+                        $where = "";
                     }
 
                     $query3 = "SELECT user_id, age, pseudo FROM " . USER_DETAIL_TABLE . " INNER JOIN " . USER_TABLE . " ON user_id = id " . $where;
@@ -204,11 +197,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             function days_in_month($month, $year)
             {
-                if ($month == "01")
+                $months30 = array("04", "06", "09", "11");
+                
+                if (in_array($month, $months30))
                 {
-                    $days_in_month = 31;
+                    $days_in_month = 30;
                 }
-                if ($month == "02" && $year % 4 == 0 && ($year % 100 != 0 || $year % 1000 == 0))
+                else if ($month == "02" && $year % 4 == 0 && ($year % 100 != 0 || $year % 1000 == 0))
                 {
                     $days_in_month = 29;
                 }
@@ -216,58 +211,24 @@ if ($visiteur >= $level_access && $level_access > -1)
                 {
                     $days_in_month = 28;
                 }
-
-                if ($month == "03")
+                else
                 {
                     $days_in_month = 31;
                 }
-                if ($month == "04")
-                {
-                    $days_in_month = 30;
-                }
-                if ($month == "05")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "06")
-                {
-                    $days_in_month = 30;
-                }
-                if ($month == "07")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "08")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "09")
-                {
-                    $days_in_month = 30;
-                }
-                if ($month == "10")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "11")
-                {
-                    $days_in_month = 30;
-                }
-                if ($month == "12")
-                {
-                    $days_in_month = 31;
-                }
+                
                 return $days_in_month;
             }
 
             function _get_date_by_counter($i, $month, $year)
             {
                 $first_day = date("w" , mktime(0, 0, 0, $month, 1, $year));
-                if ($month == "01")
+                $months30 = array("04", "06", "09", "11");
+                
+                if (in_array($month, $months30))
                 {
-                    $days_in_month = 31;
+                    $days_in_month = 30;
                 }
-                if ($month == "02" && $year % 4 == 0 && ($year % 100 != 0 || $year % 1000 == 0))
+                else if ($month == "02" && $year % 4 == 0 && ($year % 100 != 0 || $year % 1000 == 0))
                 {
                     $days_in_month = 29;
                 }
@@ -275,52 +236,12 @@ if ($visiteur >= $level_access && $level_access > -1)
                 {
                     $days_in_month = 28;
                 }
-                if ($month == "03")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "04")
-                {
-                    $days_in_month = 30;
-                }
-                if ($month == "05")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "06")
-                {
-                    $days_in_month = 30;
-                }
-                if ($month == "07")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "08")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "09")
-                {
-                    $days_in_month = 30;
-                }
-                if ($month == "10")
-                {
-                    $days_in_month = 31;
-                }
-                if ($month == "11")
-                {
-                    $days_in_month = 30;
-                }
-                if ($month == "12")
+                else
                 {
                     $days_in_month = 31;
                 }
 
-                if ($i < $first_day)
-                {
-                    return "&nbsp;";
-                }
-                if ($i >= $days_in_month + $first_day)
+                if  ( ($i < $first_day) || ($i >= $days_in_month + $first_day) )
                 {
                     return "&nbsp;";
                 }
@@ -516,21 +437,21 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     if (is_numeric($theday))
                     {
-			$dd=date(d);
-			$mm=date(m);
-			$yyyy=date(Y);
-			if ($theday == $dd && $this->month_number == $mm && $this->year == $yyyy) $border = "border: 1px solid red;";
-			else if ($theevent) $border = "border: 1px solid " . $bgcolor3 . ";";
-			else $border = "";
+                        $dd=date(d);
+                        $mm=date(m);
+                        $yyyy=date(Y);
+                        if ($theday == $dd && $this->month_number == $mm && $this->year == $yyyy) $border = "border: 1px solid red;";
+                        else if ($theevent) $border = "border: 1px solid " . $bgcolor3 . ";";
+                        else $border = "";
 
-			echo "<td style=\"background: " . $color1 . ";width: " . $dates_cell_width . ";height: " . $dates_cell_height. "px;" . $border . "\"  align=\"$table_row_align\" valign=\"$table_row_valign\">\n"
-			. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"" . $cellpadding . "\" border=\"0\">\n"
-			. "<tr><td style=\"background: " . $bgcolor1 . ";\">" . $theday . "</td></tr>\n"
-			. "<tr><td style=\"background: " . $bgcolor2 . ";\">" . $theevent . "</td></tr></table></td>";
+                        echo "<td style=\"background: " . $color1 . ";width: " . $dates_cell_width . ";height: " . $dates_cell_height. "px;" . $border . "\"  align=\"$table_row_align\" valign=\"$table_row_valign\">\n"
+                        . "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"" . $cellpadding . "\" border=\"0\">\n"
+                        . "<tr><td style=\"background: " . $bgcolor1 . ";\">" . $theday . "</td></tr>\n"
+                        . "<tr><td style=\"background: " . $bgcolor2 . ";\">" . $theevent . "</td></tr></table></td>";
                     }
                     else
                     {
-			echo "<td style=\"background: " . $bgcolor3 . ";width: " . $dates_cell_width . ";height: " . $dates_cell_height. "px;\" align=\"$table_row_align\" valign=\"$table_row_valign\"></td>";
+                        echo "<td style=\"background: " . $bgcolor3 . ";width: " . $dates_cell_width . ";height: " . $dates_cell_height. "px;\" align=\"$table_row_align\" valign=\"$table_row_valign\"></td>";
                     }
 
                     $theevent = "";
@@ -558,57 +479,57 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _CALENDARFOR . " : " . $mymonth->month_name . "&nbsp;" . $mymonth->year . "</b></big><br /><br /><small><i>" . _CLICKON . "</i></small></div><br />\n";
 
-	echo "<form method=\"post\" action=\"index.php?file=Calendar\"><div style=\"text-align: center;\"><select name=\"m\">\n";
+        echo "<form method=\"post\" action=\"index.php?file=Calendar\"><div style=\"text-align: center;\"><select name=\"m\">\n";
 
-		$omonth = 1;
-       		while ($omonth < 13)
-        	{
-			if ($omonth < 10)
-			{
-			$omonth0 = "0" . $omonth;
-			}
-			else
-			{
-			$omonth0 = $omonth;
-			}
+        $omonth = 1;
+        while ($omonth < 13)
+        {
+            if ($omonth < 10)
+            {
+                $omonth0 = "0" . $omonth;
+            }
+            else
+            {
+                $omonth0 = $omonth;
+            }
 
-			if ($omonth0 == $_REQUEST['m'])
-                        {
-                            $selected = "selected=\"selected\"";
-                        }
-                        else
-                        {
-                            $selected = "";
-                        }
-                        echo "<option value=\"" . $omonth0 . "\" " . $selected . ">" . $omonth0 . "</option>\n";
-           	 	$omonth++;
-                    }
-                    echo "</select> / <select name=\"y\">\n";
+            if ($omonth0 == $_REQUEST['m'])
+            {
+                $selected = "selected=\"selected\"";
+            }
+            else
+            {
+                $selected = "";
+            }
+            echo "<option value=\"" . $omonth0 . "\" " . $selected . ">" . $omonth0 . "</option>\n";
+            $omonth++;
+        }
+        echo "</select> / <select name=\"y\">\n";
 
-  		$oyear = $_REQUEST['y'] -10;
-		$maxyear = $_REQUEST['y'] + 10;
-                while ($oyear < $maxyear)
-                {
-                    if ($oyear == $_REQUEST['y'])
-                    {
-                        $selected = "selected=\"selected\"";
-                    }
-                    else
-                    {
-                        $selected = "";
-                    }
-                    echo "<option value=\"" . $oyear . "\" " . $selected . ">" . $oyear . "</option>\n";
-                    $oyear++;
-                }
-                echo "</select>&nbsp;&nbsp;<input type=\"submit\" value=\"" . _SUBMIT . "\" /></div></form>\n";
+        $oyear = $_REQUEST['y'] -10;
+        $maxyear = $_REQUEST['y'] + 10;
+        while ($oyear < $maxyear)
+        {
+            if ($oyear == $_REQUEST['y'])
+            {
+                $selected = "selected=\"selected\"";
+            }
+            else
+            {
+                $selected = "";
+            }
+            echo "<option value=\"" . $oyear . "\" " . $selected . ">" . $oyear . "</option>\n";
+            $oyear++;
+        }
+        echo "</select>&nbsp;&nbsp;<input type=\"submit\" value=\"" . _SUBMIT . "\" /></div></form>\n";
 
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;border: 1px solid " . $bgcolor3 . ";\" width=\"95%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
-	. "<tr><td><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"><tr><td style=\"background: #FFFFFF;\">\n";
+        . "<tr><td><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"><tr><td style=\"background: #FFFFFF;\">\n";
 
         $mymonth->draw(array("cellspacing" => "1" , "cellpadding" => "2" , "top_row_align" => "center" , "table_height" => "400px" , "top_row_cell_height" => 20 , "bgcolor" => "$bgcolor2" , "row_align" => "left" , "row_valign" => "top" , "font_size" => "-1"));
 
         echo "</td></tr></table></td></tr></table><div style=\"text-align: center;\"><br />\n"
-	. "<input type=\"button\" onclick=\"document.location='index.php?file=Calendar&amp;m=" . $mymonth->prevmonth . "&amp;y=" . $mymonth->prevyear . "'\" value=\"" . _PREVMONTH . "\" />&nbsp;"
+        . "<input type=\"button\" onclick=\"document.location='index.php?file=Calendar&amp;m=" . $mymonth->prevmonth . "&amp;y=" . $mymonth->prevyear . "'\" value=\"" . _PREVMONTH . "\" />&nbsp;"
         . "<input type=\"button\" onclick=\"document.location='index.php?file=Calendar&amp;m=" . $mymonth->nextmonth . "&amp;y=" . $mymonth->nextyear . "'\" value=\"" . _NEXTMONTH . "\" /></div><br />\n";
 
         closetable();
@@ -830,7 +751,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($selected != "1" && $user[0] != "")
         {
-            echo "</small><form method=\"post\" action=\"index.php?file=Calendar&amp;nuked_nude=index&amp;op=add_dispo&amp;warid=" . $warid . "\">\n"
+            echo "</small><form method=\"post\" action=\"index.php?file=Calendar&amp;nuked_nude=index&amp;op=add_dispo&amp;war_id=" . $warid . "\">\n"
             . "<div style=\"text-align: center;\"><select name=\"dispo\">\n"
             . "<option value=\"1\">" . _IPLAY . "</option>\n"
             . "<option value=\"2\">" . _ICANT . "</option></select>\n"
@@ -840,17 +761,17 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         else
         {
-            echo "</small><br /><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Calendar&amp;nuked_nude=index&amp;op=del_dispo&amp;warid=" . $warid . "&amp;type=" . $type . "\">" . _DELAVAILLABLE . "</a> ]</div><br />\n";
+            echo "</small><br /><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Calendar&amp;nuked_nude=index&amp;op=del_dispo&amp;war_id=" . $warid . "&amp;type=" . $type . "\">" . _DELAVAILLABLE . "</a> ]</div><br />\n";
         }
 
-	echo "</td></tr>\n";
+        echo "</td></tr>\n";
     }
 
     function add_dispo($dispo)
     {
         global $user, $nuked, $bgcolor2, $theme;
 
-        $sql = "SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['warid'] . "'";
+        $sql = "SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
         $req = mysql_query($sql);
         $data = mysql_fetch_assoc($req);
 
@@ -860,21 +781,21 @@ if ($visiteur >= $level_access && $level_access > -1)
         $new_dispo = $data['dispo'] . $sep1 . $user[0];
         $new_pas_dispo = $data['pas_dispo'] . $sep2 . $user[0];
 
-        if ($dispo == 1) $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "' WHERE warid = '" . $_REQUEST['warid'] . "'";
-        else if ($dispo == 2) $sql = "UPDATE " . WARS_TABLE . " SET pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['warid'] ."'";
+        if ($dispo == 1) $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] . "'";
+        else if ($dispo == 2) $sql = "UPDATE " . WARS_TABLE . " SET pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] ."'";
 
         mysql_query($sql);
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-	. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-	. "<head><title>" . _MATCH . "</title>\n"
-	. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-	. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-	. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-	. "<body style=\"background: " . $bgcolor2 . ";\">\n"
-	. "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div></body></html>";
+        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+        . "<head><title>" . _MATCH . "</title>\n"
+        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+        . "<body style=\"background: " . $bgcolor2 . ";\">\n"
+        . "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div></body></html>";
 
-	$url_redirect = "index.php?file=Calendar&nuked_nude=index&op=show_event&eid=" . $_REQUEST['warid'] . "&type=" . $_REQUEST['type'];
+        $url_redirect = "index.php?file=Calendar&nuked_nude=index&op=show_event&eid=" . $_REQUEST['war_id'] . "&type=" . $_REQUEST['type'];
         redirect($url_redirect, 2);
     }
 
@@ -882,7 +803,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     {
         global $user, $nuked, $bgcolor2, $theme;
 
-        $sql = "SELECT * FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['warid'] . "'";
+        $sql = "SELECT * FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
         $req = mysql_query($sql);
         $data = mysql_fetch_array($req);
 
@@ -892,19 +813,19 @@ if ($visiteur >= $level_access && $level_access > -1)
         $list = explode("|", $data['pas_dispo']);
         $new_pas_dispo = cleanList($user[0], $list);
 
-        $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "', pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['warid'] . "'";
+        $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "', pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] . "'";
         mysql_query($sql);
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-	. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-	. "<head><title>" . _MATCH . "</title>\n"
-	. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-	. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-	. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-	. "<body style=\"background: " . $bgcolor2 . ";\">\n"
-	. "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div></body></html>";
+        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+        . "<head><title>" . _MATCH . "</title>\n"
+        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+        . "<body style=\"background: " . $bgcolor2 . ";\">\n"
+        . "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div></body></html>";
 
-	$url_redirect = "index.php?file=Calendar&nuked_nude=index&op=show_event&eid=" . $_REQUEST['warid'] . "&type=" . $_REQUEST['type'];
+        $url_redirect = "index.php?file=Calendar&nuked_nude=index&op=show_event&eid=" . $_REQUEST['war_id'] . "&type=" . $_REQUEST['type'];
         redirect($url_redirect, 2);
     }
 
@@ -940,7 +861,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             break;
 
         case"add_dispo":
-            add_dispo($_REQUEST['dispo'], $_REQUEST['war_id']);
+            add_dispo($_REQUEST['dispo']);
             break;
 
         case"del_dispo":

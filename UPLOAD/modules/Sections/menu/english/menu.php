@@ -9,7 +9,7 @@ header('Content-type: text/html; charset=iso-8859-1');
 				
 				<li><a class="shortcut-button" href="index.php?file=Sections&amp;page=admin&amp;op=add"><span>
 					<img src="modules/Admin/images/icons/pencil_48.png" alt="icon" /><br />
-					Write a article
+					Write an article
 				<br />&nbsp;</span></a></li>
 				
 				<li><a class="shortcut-button" href="index.php?file=Sections&amp;page=admin&amp;op=main_cat"><span>
@@ -24,6 +24,6 @@ header('Content-type: text/html; charset=iso-8859-1');
 				
 				<li><a class="shortcut-button" href="index.php?file=Sections&amp;page=admin&amp;op=main_pref"><span>
 					<img src="modules/Admin/images/icons/preference.png" alt="icon" /><br />
-					Preference
+					Settings
 				<br />&nbsp;</span></a></li>
 </body></html>

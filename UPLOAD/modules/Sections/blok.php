@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 if (!defined("INDEX_CHECK"))
 {
-	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
 global $nuked, $language, $theme;
@@ -21,11 +21,11 @@ if ($active == 3 || $active == 4)
 {
     if (is_file("themes/" . $theme . "/images/articles.gif"))
     {
-	$img = "<img src=\"themes/" . $theme . "/images/articles.gif\" alt=\"\" />";
+        $img = "<img src=\"themes/" . $theme . "/images/articles.gif\" alt=\"\" />";
     }
     else
     {
-	$img = "<img src=\"modules/Sections/images/articles.gif\" alt=\"\" />";
+        $img = "<img src=\"modules/Sections/images/articles.gif\" alt=\"\" />";
     }
 
     echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\">\n"
@@ -43,9 +43,9 @@ if ($active == 3 || $active == 4)
         $cat_name = htmlentities($cat_name);
 
         if ($cat == 0)
-	{
+        {
             $category = "";
-	}
+        }
         else if ($parentid > 0)
         {
             $sql5 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
@@ -78,10 +78,10 @@ if ($active == 3 || $active == 4)
         $tcat_name = htmlentities($tcat_name);
 
         if ($tcat == 0)
-	{
+        {
             $tcategory = "";
         }
-	else if ($tparentid > 0)
+        else if ($tparentid > 0)
         {
             $sql5 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $tparentid . "'");
             list($tparent_name) = mysql_fetch_array($sql5);

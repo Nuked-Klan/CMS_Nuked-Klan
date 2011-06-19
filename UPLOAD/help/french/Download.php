@@ -6,7 +6,7 @@
 
 <body style="font-family: Verdana; font-size: 10px" link="#000000" vlink="#000000" alink="#000000" bgcolor="#FFFFFF">
 <center><big><b>Administration Téléchargements</b></big></center><br>
-<li><b>Index</b> : Affiche la liste des téléchargements avec options de classement, il permet d'éditer, de supprimer ou d'ajouter un fichier au module
+<li><b>Index</b> : Affiche la liste des téléchargements avec options de classement, Il permet d'éditer, de supprimer ou d'ajouter un fichier au module
  download et de se rendre dans la gestion des catégories, les liens morts et les préférences. Le titre du
 fichier est également un lien vers la description du fichier et l'icône un lien directe vers ce fichier ce qui permet de vérifier sa validité.<br>
 <br>

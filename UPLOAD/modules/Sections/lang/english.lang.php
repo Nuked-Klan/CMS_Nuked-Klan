@@ -75,6 +75,8 @@ define("_PREFUPDATED","Preferences were successfully modified.");
 define("_ORDERBY","Order by");
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> pagebreak </i>-----</b></div>");
 define("_CATERRORPOS","The position is already at 0, Unable to mount position");
+define('_TITLECATFORGOT', 'The title of the category is missing');
+define('_TITLEARTFORGOT', 'The title of the article is missing');
 
 define("_ACTIONADDSEC","has added the article");
 define("_ACTIONMODIFSEC","has modified the article");

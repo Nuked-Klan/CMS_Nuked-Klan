@@ -89,14 +89,14 @@ function index()
         $nb_suggest = mysql_num_rows($sql5);
 
         echo "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _MESSINFORUM . "</td><td align=\"center\">" . $nb_REQUEST . "</td></tr>\n"
-            . "<tr style=\"background: ". $bgcolor1 . "\"><td>" . _USERCOMMENT . "</td><td align=\"center\">" . $nb_comment . "</td></tr>\n"
-            . "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _USERSUGGEST . "</td><td align=\"center\">" . $nb_suggest . "</td></tr>\n"
-            . "</table><br /><div style=\"text-align: center;\"><big>" . _LASTUSERMESS . "</big></div>\n"
-            . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"75%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-            . "<tr style=\"background: ". $bgcolor3 . "\">\n"
-            . "<td style=\"width: 10%;\" align=\"center\"><b>#</b></td>\n"
-            . "<td style=\"width: 50%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-            . "<td style=\"width: 40%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
+        . "<tr style=\"background: ". $bgcolor1 . "\"><td>" . _USERCOMMENT . "</td><td align=\"center\">" . $nb_comment . "</td></tr>\n"
+        . "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _USERSUGGEST . "</td><td align=\"center\">" . $nb_suggest . "</td></tr>\n"
+        . "</table><br /><div style=\"text-align: center;\"><big>" . _LASTUSERMESS . "</big></div>\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"75%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+        . "<tr style=\"background: ". $bgcolor3 . "\">\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>#</b></td>\n"
+        . "<td style=\"width: 50%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
+        . "<td style=\"width: 40%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
         if ($nb_REQUEST == 0)
         {
@@ -152,11 +152,11 @@ function index()
         }
 
         echo "</table><br /><div style=\"text-align: center;\"><big>" . _LASTUSERCOMMENT . "</big></div>\n"
-            . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"75%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-            . "<tr style=\"background: ". $bgcolor3 . "\">\n"
-            . "<td style=\"width: 10%;\" align=\"center\"><b>#</b></td>\n"
-            . "<td style=\"width: 50%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-            . "<td style=\"width: 40%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"75%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+        . "<tr style=\"background: ". $bgcolor3 . "\">\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>#</b></td>\n"
+        . "<td style=\"width: 50%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
+        . "<td style=\"width: 40%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
         if ($nb_comment == 0)
         {
@@ -225,9 +225,9 @@ function index()
                 }
 
                 echo "<tr style=\"background: ". $bg1 . "\">\n"
-                    . "<td style=\"width: 10%;\" align=\"center\">" . $icom . "</td>\n"
-                    . "<td style=\"width: 50%;\">" . $link_title . "</td>\n"
-                    . "<td style=\"width: 40%;\" align=\"center\">" . $date . "</td></tr>\n";
+                . "<td style=\"width: 10%;\" align=\"center\">" . $icom . "</td>\n"
+                . "<td style=\"width: 50%;\">" . $link_title . "</td>\n"
+                . "<td style=\"width: 40%;\" align=\"center\">" . $date . "</td></tr>\n";
             }
         }
 
@@ -268,10 +268,10 @@ function reg_screen()
             echo "<script type=\"text/javascript\">\n"
             ."<!--\n"
             . "\n"
-                ."function trim(string)\n"
-                ."{"
-                ."return string.replace(/(^\s*)|(\s*$)/g,'');"
-                ."}\n"
+            ."function trim(string)\n"
+            ."{"
+            ."return string.replace(/(^\s*)|(\s*$)/g,'');"
+            ."}\n"
             ."\n"
             . "function verifchamps()\n"
             . "{\n"
@@ -286,7 +286,7 @@ function reg_screen()
             if ($nuked['inscription'] != "mail")
             {
                 echo "\n"
-                    . "pass = trim(document.getElementById('reg_pass').value);\n"
+                . "pass = trim(document.getElementById('reg_pass').value);\n"
                 . "if (pass.length < 4)\n"
                 . "{\n"
                 . "alert('" . _4TYPEMIN . "');\n"
@@ -313,8 +313,8 @@ function reg_screen()
             . "</script>\n";
 
             echo "<link rel=\"stylesheet\" href=\"media/css/checkSecurityPass.css\" type=\"text/css\" media=\"screen\" />\n"
-                . "<script type=\"text/javascript\" src=\"media/js/checkSecurityPass.js\"></script>\n"
-                . "<br /><div style=\"text-align: center;\"><big><b>" . _NEWUSERREGISTRATION . "</b></big></div><br /><br />\n"
+            . "<script type=\"text/javascript\" src=\"media/js/checkSecurityPass.js\"></script>\n"
+            . "<br /><div style=\"text-align: center;\"><big><b>" . _NEWUSERREGISTRATION . "</b></big></div><br /><br />\n"
             . "<form method=\"post\" action=\"index.php?file=User&amp;op=reg\" onsubmit=\"return verifchamps();\">\n"
             . "<table style=\"margin-left:auto;margin-right:auto;text-align:left;width:70%;\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
             . "<tr><td><b>" . _NICK . "</b> (" . _REQUIRED . ")</td><td><input id=\"reg_pseudo\" type=\"text\" name=\"pseudo\" size=\"30\" maxlength=\"30\" /> *</td></tr>\n";
@@ -322,8 +322,8 @@ function reg_screen()
             if ($nuked['inscription'] != "mail")
             {
                 echo "<tr><td><b>" . _USERPASSWORD . "</b> (" . _REQUIRED . ")</td><td><input id=\"reg_pass\" type=\"password\" onkeyup=\"evalPwd(this.value);\" name=\"pass_reg\" size=\"10\" maxlength=\"15\" /> * \n"
-                    . "<div id=\"sm\">" . _PASSCHECK ." <ul><li id=\"weak\" class=\"nrm\">" ._PASSWEAK . "</li><li id=\"medium\" class=\"nrm\">" ._PASSMEDIUM . "</li><li id=\"strong\" class=\"nrm\">" ._PASSHIGH . "</li></ul></div></td></tr>\n"
-                    . "<tr><td><b>" . _PASSCONFIRM . "</b> (" . _REQUIRED . ")</td><td><input id=\"conf_pass\" type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n";
+                . "<div id=\"sm\">" . _PASSCHECK ." <ul><li id=\"weak\" class=\"nrm\">" ._PASSWEAK . "</li><li id=\"medium\" class=\"nrm\">" ._PASSMEDIUM . "</li><li id=\"strong\" class=\"nrm\">" ._PASSHIGH . "</li></ul></div></td></tr>\n"
+                . "<tr><td><b>" . _PASSCONFIRM . "</b> (" . _REQUIRED . ")</td><td><input id=\"conf_pass\" type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n";
             }
 
             echo "<tr><td><b>" . _MAIL . " " . _PRIVATE . "</b> (" . _REQUIRED . ")</td><td><input id=\"reg_mail\" type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" /> *</td></tr>\n"
@@ -400,53 +400,53 @@ function edit_account()
         list($nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $avatar, $signature, $pays, $jeu) = mysql_fetch_array($sql);
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
-            . "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
-            . "</b>" . _PROFIL . "<b> | "
-            . "<a href=\"index.php?file=User&amp;op=edit_pref\">" . _PREF . "</a> | "
-            . "<a href=\"index.php?file=User&amp;op=change_theme\">" . _THEMESELECT . "</a> | "
-            . "<a href=\"index.php?file=User&amp;nuked_nude=index&amp;op=logout\">" . _USERLOGOUT . "</a></b></div><br />\n";
+        . "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
+        . "</b>" . _PROFIL . "<b> | "
+        . "<a href=\"index.php?file=User&amp;op=edit_pref\">" . _PREF . "</a> | "
+        . "<a href=\"index.php?file=User&amp;op=change_theme\">" . _THEMESELECT . "</a> | "
+        . "<a href=\"index.php?file=User&amp;nuked_nude=index&amp;op=logout\">" . _USERLOGOUT . "</a></b></div><br />\n";
 
         echo "<script type=\"text/javascript\">\n"
-            ."<!--\n"
-            ."\n"
-            . "function verifchamps()\n"
-            . "{\n"
-            . "\n"
-            . "if (document.getElementById('edit_pseudo').value.length < 3)\n"
-            . "{\n"
-            . "alert('" . _3TYPEMIN . "');\n"
-            . "return false;\n"
-            . "}\n"
-            . "\n"
-            . "if (document.getElementById('edit_mail').value.indexOf('@') == -1)\n"
-            . "{\n"
-            . "alert('" . _MAILFAILED . "');\n"
-            . "return false;\n"
-            . "}\n"
-            . "\n"
-            . "return true;\n"
-            . "}\n"
-            ."\n"
-            . "// -->\n"
-            . "</script>\n";
+        ."<!--\n"
+        ."\n"
+        . "function verifchamps()\n"
+        . "{\n"
+        . "\n"
+        . "if (document.getElementById('edit_pseudo').value.length < 3)\n"
+        . "{\n"
+        . "alert('" . _3TYPEMIN . "');\n"
+        . "return false;\n"
+        . "}\n"
+        . "\n"
+        . "if (document.getElementById('edit_mail').value.indexOf('@') == -1)\n"
+        . "{\n"
+        . "alert('" . _MAILFAILED . "');\n"
+        . "return false;\n"
+        . "}\n"
+        . "\n"
+        . "return true;\n"
+        . "}\n"
+        ."\n"
+        . "// -->\n"
+        . "</script>\n";
 
         echo "<div style=\"text-align: center;\"><small><i>" . _PASSFIELD . "</i></small></div><br />\n"
-            . "<form method=\"post\" action=\"index.php?file=User&amp;op=update\" enctype=\"multipart/form-data\" onsubmit=\"return verifchamps();\">\n"
-            . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\">\n"
-            . "<tr><td><b>" . _NICK . " : </b></td><td><input id=\"edit_pseudo\" type=\"text\" name=\"nick\" size=\"30\" maxlength=\"30\" value=\"" . $nick . "\" /> *</td></tr>\n"
-            . "<tr><td><b>" . _USERPASSWORD . " : </b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"15\" autocomplete=\"off\" /> *</td></tr>\n"
-            . "<tr><td><b>" . _PASSCONFIRM . " : </b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n"
-            . "<tr><td><b>" . _MAIL . " " . _PRIVATE . " : </b></td><td><input id=\"edit_mail\" type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail. "\" /> *</td></tr>\n"
-            . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-            . "<tr><td><b>" . _USERPASSWORD . " (" . _PASSOLD . ") :</b></td><td><input type=\"password\" name=\"pass_old\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n"
-            . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-            . "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n"
-            . "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n"
-            . "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n"
-            . "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n"
-            . "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n"
-            . "<tr><td><b>" . _WEBSITE . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
-            . "<tr><td><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
+        . "<form method=\"post\" action=\"index.php?file=User&amp;op=update\" enctype=\"multipart/form-data\" onsubmit=\"return verifchamps();\">\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<tr><td><b>" . _NICK . " : </b></td><td><input id=\"edit_pseudo\" type=\"text\" name=\"nick\" size=\"30\" maxlength=\"30\" value=\"" . $nick . "\" /> *</td></tr>\n"
+        . "<tr><td><b>" . _USERPASSWORD . " : </b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"15\" autocomplete=\"off\" /> *</td></tr>\n"
+        . "<tr><td><b>" . _PASSCONFIRM . " : </b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n"
+        . "<tr><td><b>" . _MAIL . " " . _PRIVATE . " : </b></td><td><input id=\"edit_mail\" type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail. "\" /> *</td></tr>\n"
+        . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
+        . "<tr><td><b>" . _USERPASSWORD . " (" . _PASSOLD . ") :</b></td><td><input type=\"password\" name=\"pass_old\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n"
+        . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
+        . "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _WEBSITE . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
 
         $rep = Array();
         $handle = @opendir("images/flags");
@@ -478,7 +478,7 @@ function edit_account()
         }
 
         echo "</select></td></tr>"
-            . "<tr><td><b>" . _GAME . " :</b></td><td><select name=\"game\">\n";
+        . "<tr><td><b>" . _GAME . " :</b></td><td><select name=\"game\">\n";
 
         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($game_id, $nom) = mysql_fetch_array($sql))
@@ -505,7 +505,7 @@ function edit_account()
             else $disable = "";
 
             echo"<td><input type=\"text\" id=\"edit_avatar\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $avatar . "\" ".$disable." />"
-                . "&nbsp;[ <a  href=\"#\" onclick=\"javascript:window.open('index.php?file=User&amp;nuked_nude=index&amp;op=show_avatar','Avatar','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=450,top=30,left=0');return(false)\">" . _SEEAVATAR . "</a> ]</td></tr><tr><td>&nbsp;</td>\n";
+            . "&nbsp;[ <a  href=\"#\" onclick=\"javascript:window.open('index.php?file=User&amp;nuked_nude=index&amp;op=show_avatar','Avatar','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=450,top=30,left=0');return(false)\">" . _SEEAVATAR . "</a> ]</td></tr><tr><td>&nbsp;</td>\n";
 
 
             if ($nuked['avatar_upload'] == "on")
@@ -527,7 +527,7 @@ function edit_account()
         }
 
         echo"<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" name=\"Submit\" value=\"" . _MODIF . "\" />\n"
-            . "<input type=\"hidden\" name=\"pass\" value=\"" . $pass . "\" /></td></tr></table></form><br />\n";
+        . "<input type=\"hidden\" name=\"pass\" value=\"" . $pass . "\" /></td></tr></table></form><br />\n";
     }
     else
     {
@@ -663,9 +663,7 @@ function edit_pref()
         {
 
             echo "<tr><td><b>" . _PHOTO . " (100x100) : </b></td>\n";
-
-
-
+            
             if($nuked['avatar_url'] != "on") $disable = "DISABLED=\"DISABLED\"";
             else $disable = "";
 
@@ -750,9 +748,7 @@ function edit_pref()
         $detected_os = getOS();
 
         foreach( $list_os as $os ) {
-
             echo "    <option" . (($os == $osystem OR $os == $detected_os) ? ' selected="selected"' : '') . ">" . $os . "</option>\n";
-
         }
 
         echo "</select></td></tr>\n";
@@ -773,7 +769,6 @@ function edit_pref()
                 {
                     $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game1 . "'");
                     list($g1_titre, $g1_pref_1, $g1_pref_2, $g1_pref_3, $g1_pref_4, $g1_pref_5) = mysql_fetch_array($sql3);
-
 
                     $g1_titre = htmlentities($g1_titre);
                     $g1_pref_1 = htmlentities($g1_pref_1);
@@ -823,7 +818,6 @@ function edit_pref()
                     $sql5 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game2 . "'");
                     list($g2_titre, $g2_pref_1, $g2_pref_2, $g2_pref_3, $g2_pref_4, $g2_pref_5) = mysql_fetch_array($sql5);
 
-
                     $g2_titre = htmlentities($g2_titre);
                     $g2_pref_1 = htmlentities($g2_pref_1);
                     $g2_pref_2 = htmlentities($g2_pref_2);
@@ -846,7 +840,6 @@ function edit_pref()
                         $g2_pref4 = $pref4;
                         $g2_pref5 = $pref5;
                     }
-
 
                     echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $g2_titre . "</b></td></tr>\n"
                     . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g2_pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1[" . $i . "]\" value=\"" . $g2_pref1 . "\" size=\"25\" /></td></tr>\n"
@@ -873,7 +866,6 @@ function edit_pref()
                     $sql7 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game3 . "'");
                     list($g3_titre, $g3_pref_1, $g3_pref_2, $g3_pref_3, $g3_pref_4, $g3_pref_5) = mysql_fetch_array($sql7);
 
-
                     $g3_titre = htmlentities($g3_titre);
                     $g3_pref_1 = htmlentities($g3_pref_1);
                     $g3_pref_2 = htmlentities($g3_pref_2);
@@ -897,7 +889,6 @@ function edit_pref()
                         $g3_pref5 = $pref5;
                     }
 
-
                     echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $g3_titre . "</b></td></tr>\n"
                     . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g3_pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1[" . $i . "]\" value=\"" . $g3_pref1 . "\" size=\"25\" /></td></tr>\n"
                     . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g3_pref_2 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref2[" . $i . "]\" value=\"" . $g3_pref2 . "\" size=\"25\" /></td></tr>\n"
@@ -917,7 +908,6 @@ function edit_pref()
             {
                 $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
                 list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
-
 
                 $titre = htmlentities($titre);
                 $pref_1 = htmlentities($pref_1);
@@ -939,7 +929,6 @@ function edit_pref()
         {
             $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
             list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
-
 
             $titre = htmlentities($titre);
             $pref_1 = htmlentities($pref_1);
@@ -1178,7 +1167,6 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country)
 
     if ($nuked['inscription_avert'] == "on" || $nuked['validation'] == "admin")
     {
-
         $subject = _NEWUSER . " : " . $pseudo . ", " .$date2;
         $corps =  $pseudo . " " . _NEWREGISTRATION . " " . $nuked['name'] . " " . _NEWREGSUITE . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
@@ -1289,7 +1277,7 @@ function login($pseudo, $pass, $remember_me)
 
                 if (!empty($referer) && !strpos("User", $referer))
                 {
-					list($url_ref, $redirect) = explode('?', $referer);
+                    list($url_ref, $redirect) = explode('?', $referer);
                     $redirect = '&referer=' . base64_encode($redirect);
                 }
                 else $redirect = '';
@@ -1381,14 +1369,14 @@ function login_message()
         }
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-            . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
-            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-            . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-            . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-            . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-            . "<table width=\"80%\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-            . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . $login_text . "</b></big></td></tr></table></body></html>";
+        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+        . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
+        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+        . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
+        . "<table width=\"80%\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
+        . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . $login_text . "</b></big></td></tr></table></body></html>";
 
         redirect($url, 10);
     }
@@ -1557,7 +1545,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         $country = htmlentities($country);
         $avatar = htmlentities($avatar);
 
-        if ($url != "" && !preg_match("`http://`i", $url))
+        if (!empty($url) && !is_int(stripos("http://", $url)))
         {
             $url = "http://" . $url;
         }

@@ -18,14 +18,8 @@ translate("modules/Archives/lang/" . $language . ".lang.php");
 compteur("Archives");
 
 opentable();
-
-
-if (!$user){
-    $visiteur = 0;
-}
-else{
-    $visiteur = $user[1];
-}
+ 
+$visiteur = (!$user) ? 0 : $user[1];
 $level_access = nivo_mod("News");
 if ($visiteur >= $level_access && $level_access > -1)
 {
@@ -43,7 +37,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $start = $_REQUEST['p'] * $nb_news - $nb_news;
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _ARCHIVE . "</b></big></div><br />\n"
-	. "<table width=\"100%\"><tr><td align=\"right\">" . _ORDERBY . " : ";
+        . "<table width=\"100%\"><tr><td align=\"right\">" . _ORDERBY . " : ";
 
         if (!$_REQUEST['orderby'])
         {
@@ -91,12 +85,12 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-	. "<tr style=\"background: ". $bgcolor3 . "\">\n"
-	. "<td style=\"width: 30%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _SUBJET . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _OPTION . "&nbsp;</b></td></tr>\n";
+        . "<tr style=\"background: ". $bgcolor3 . "\">\n"
+        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SUBJET . "</b></td>\n"
+        . "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>" . _OPTION . "&nbsp;</b></td></tr>\n";
 
         $sql_nb = mysql_query("SELECT nid FROM " . NEWS_CAT_TABLE);
         $nbsujet = mysql_num_rows($sql_nb);
@@ -138,13 +132,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if ($autor_id != "")
             {
-            $sql4 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-            $test = mysql_num_rows($sql4);
+                $sql4 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+                $test = mysql_num_rows($sql4);
             }
 
             if ($autor_id != "" && $test > 0)
             {
-            list($auteur) = mysql_fetch_array($sql4);
+                list($auteur) = mysql_fetch_array($sql4);
             }
             else
             {
@@ -213,7 +207,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $start = $_REQUEST['p'] * $nb_news - $nb_news;
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _ARCHIVE . "</b></big></div><br />\n"
-	. "<table width=\"100%\"><tr><td align=\"right\">" . _ORDERBY . " : ";
+        . "<table width=\"100%\"><tr><td align=\"right\">" . _ORDERBY . " : ";
 
         if (!$_REQUEST['orderby'])
         {
@@ -253,12 +247,12 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-	. "<tr style=\"background: ". $bgcolor3 . "\">\n"
-	. "<td style=\"width: 30%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _SUBJET . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _OPTION . "&nbsp;</b></td></tr>\n";
+        . "<tr style=\"background: ". $bgcolor3 . "\">\n"
+        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SUBJET . "</b></td>\n"
+        . "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>" . _OPTION . "&nbsp;</b></td></tr>\n";
 
         if ($_REQUEST['orderby'] == "titre")
         {

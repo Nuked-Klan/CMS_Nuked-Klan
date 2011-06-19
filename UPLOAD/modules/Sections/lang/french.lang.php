@@ -75,6 +75,8 @@ define("_PREFUPDATED","Préférences modifiées avec succès.");
 define("_ORDERBY","Classer par");
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> saut de page </i>-----</b><br />");
 define("_CATERRORPOS","La position est déjà à 0, Impossible de monter la position");
+define('_TITLECATFORGOT', 'Le titre de la catégorie est manquant');
+define('_TITLEARTFORGOT', 'Le titre de l\'article est manquant');
 
 define("_ACTIONADDSEC","a ajouté l\'article");
 define("_ACTIONMODIFSEC","a modifié l\'article");
@@ -84,4 +86,6 @@ define("_ACTIONMODIFCATSEC","a modifié la catégorie article");
 define("_ACTIONDELCATSEC","a supprimé la catégorie article");
 define("_ACTIONCONFSEC","a modifié les préférences du module Sections");
 define("_ACTIONPOSSEC","a modifié la position de la catégorie article");
+
+
 ?>

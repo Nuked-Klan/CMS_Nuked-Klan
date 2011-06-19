@@ -23,14 +23,7 @@ if (_NKCAPTCHA == "off") $captcha = 0;
 else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
 else $captcha = 1;
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+$visiteur = (!$user) ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
@@ -46,29 +39,29 @@ if ($visiteur >= $level_access && $level_access > -1)
         opentable();
 
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	. "\n"
-    ."function trim(string)\n"
-    ."{"
-    ."return string.replace(/(^\s*)|(\s*$)/g,'');"
-    ."}\n"
-	."\n"
-	. "function verifchamps()\n"
-	. "{\n"
-	. "\n"
-	. "if (trim(document.getElementById('guest_name').value) == \"\")\n"
-	. "{\n"
-	. "alert('" . _NONICK . "');\n"
-	. "return false;\n"
-	. "}\n"
-	. "\n"
-	. "if (document.getElementById('guest_mail').value.indexOf('@') == -1)\n"
-	. "{\n"
-	. "alert('" . _ERRORMAIL . "');\n"
-   	. "return false;\n"
-	. "}\n"
-	. "\n"
-	. "// -->\n"
+		."<!--\n"
+		. "\n"
+		."function trim(string)\n"
+		."{"
+		."return string.replace(/(^\s*)|(\s*$)/g,'');"
+		."}\n"
+		."\n"
+		. "function verifchamps()\n"
+		. "{\n"
+		. "\n"
+		. "if (trim(document.getElementById('guest_name').value) == \"\")\n"
+		. "{\n"
+		. "alert('" . _NONICK . "');\n"
+		. "return false;\n"
+		. "}\n"
+		. "\n"
+		. "if (document.getElementById('guest_mail').value.indexOf('@') == -1)\n"
+		. "{\n"
+		. "alert('" . _ERRORMAIL . "');\n"
+		. "return false;\n"
+		. "}\n"
+		. "\n"
+		. "// -->\n"
 	. "</script>\n";
 
         if ($user)
@@ -77,20 +70,20 @@ if ($visiteur >= $level_access && $level_access > -1)
             list($url, $mail) = mysql_fetch_array($sql);
         }
 
-        echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big></div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Guestbook&amp;op=send_book\">\n"
-	. "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
-	. "<tr><td><b>" . _AUTHOR . " :</b></td><td>";
-	if ($user) echo '<b>' . $user[2] . '</b></td></tr>'; else echo "<input id=\"guest_name\" type=\"text\" name=\"name\" value=\"\" size=\"20\" maxlength=\"30\" /></td></tr>\n";
-	echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
-	echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
+		echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big></div><br />\n"
+		. "<form method=\"post\" action=\"index.php?file=Guestbook&amp;op=send_book\">\n"
+		. "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
+		. "<tr><td><b>" . _AUTHOR . " :</b></td><td>";
+		if ($user) echo '<b>' . $user[2] . '</b></td></tr>'; else echo "<input id=\"guest_name\" type=\"text\" name=\"name\" value=\"\" size=\"20\" maxlength=\"30\" /></td></tr>\n";
+		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
+		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
-	if ($captcha == 1) create_captcha(2);
+		if ($captcha == 1) create_captcha(2);
 
 
-        echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
-	. "<tr><td colspan=\"2\"><textarea id=\"e_basic\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
-	. "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"javascript:history.back()\" /></td></tr></table></form><br />\n";
+		echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
+		. "<tr><td colspan=\"2\"><textarea id=\"e_basic\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
+		. "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"javascript:history.back()\" /></td></tr></table></form><br />\n";
 
         closetable();
     }
@@ -101,14 +94,14 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-		// Verification code captcha
-		if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-		{
-	            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-	            closetable();
-	            footer();
-	            exit();
-		}
+        // Verification code captcha
+        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
+        {
+            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+            closetable();
+            footer();
+            exit();
+        }
 
         if ($user[2] != "")
         {
@@ -177,16 +170,15 @@ if ($visiteur >= $level_access && $level_access > -1)
             footer();
             exit();
         }
-
         else if ($comment != "")
         {
             $date = time();
-			$comment = secu_html(html_entity_decode($comment));
+            $comment = secu_html(html_entity_decode($comment));
             $comment = mysql_real_escape_string(stripslashes($comment));
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $email = mysql_real_escape_string(stripslashes($email));
-
-            if ($url != "" && !preg_match("`http://`i", $url))
+            
+            if (!empty($url) && !is_int(stripos('http://', $url)))
             {
                 $url = "http://" . mysql_real_escape_string(stripslashes($url));
             }
@@ -195,6 +187,14 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "<br /><br /><div style=\"text-align: center;\">" . _POSTADD . "</div><br /><br />";
             redirect("index.php?file=Guestbook", 2);
             closetable();
+        }
+        else
+        {
+            echo "<br /><br /><div style=\"text-align: center;\">" . _NOTEXT . "</div><br /><br />";
+            redirect("index.php?file=Guestbook", 2);
+            closetable();
+            footer();
+            exit();
         }
     }
 
@@ -213,7 +213,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $start = $_REQUEST['p'] * $nb_mess_guest - $nb_mess_guest;
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big>\n"
-	. "<br /><br />[ <a href=\"index.php?file=Guestbook&amp;op=post_book\">" . _SIGNGUESTBOOK . "</a> ]</div><br />\n";
+        . "<br /><br />[ <a href=\"index.php?file=Guestbook&amp;op=post_book\">" . _SIGNGUESTBOOK . "</a> ]</div><br />\n";
 
         if ($count > $nb_mess_guest)
         {
@@ -221,9 +221,9 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "<table style=\"background: " . $bgcolor3 . ";margin:auto\" width=\"98%\" cellpadding=\"3\" cellspacing=\"1\">\n"
-	. "<tr style=\"background: " . $bgcolor3 . ";\">\n"
-	. "<td style=\"width: 30%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
-	. "<td style=\"width: 70%;\" align=\"center\"><b>" . _COMMENT . "</b></td></tr>\n";
+        . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
+        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+        . "<td style=\"width: 70%;\" align=\"center\"><b>" . _COMMENT . "</b></td></tr>\n";
 
         $sql2 = mysql_query("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
         while (list($id, $name, $comment, $email, $url, $date, $ip) = mysql_fetch_array($sql2))
