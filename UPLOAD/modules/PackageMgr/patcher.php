@@ -9,6 +9,10 @@
  * je vous demanderez de respecter mon travail en ne
  * supprimant pas mon pseudo.
  ***********************************************/
+if (!defined("INDEX_CHECK"))
+{
+    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+} 
 
 class PatchError extends PackageException
 {
@@ -111,3 +115,5 @@ class Patch
 		return '`' . $pattern . '`i';
 	}
 }
+
+?>
