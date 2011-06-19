@@ -7,26 +7,16 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+if (!defined("INDEX_CHECK")) die('<div style="text-align: center;">You cannot open this page directly</div>'); 
 
 global $user, $language;
 translate("modules/Server/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 admintop();
-
-if (!$user)
-{
-    $visiteur = 0;
-} 
-else
-{
-    $visiteur = $user[1];
-} 
+$visiteur = (!$user) ? 0 : $user[1]; 
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
+
 if ($visiteur >= $level_admin && $level_admin > -1)
 {
     function main_cat()
