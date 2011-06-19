@@ -31,3 +31,6 @@ class Bz2Extractor /*implements extractor*/ {
 		}
 	}	
 }
+
+?>
+
