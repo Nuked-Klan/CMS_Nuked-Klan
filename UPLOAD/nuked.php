@@ -46,13 +46,13 @@ if (!$_REQUEST['op'] || $_REQUEST['op'] == null) $_REQUEST['op'] = 'index';
 
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
 $nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
-if ($nuked['user_theme'] && is_file('themes/' . $nuked['user_theme'] . '/theme.php')) $theme = $nuked['user_theme'];
-elseif (is_file('themes/' . $nuked['theme'] . '/theme.php')) $theme = $nuked['theme'];
-else exit(THEME_NOTFOUND);
+if ($nuked['user_theme'] && is_file(dirname(__FILE__) . '/themes/' . $nuked['user_theme'] . '/theme.php')) $theme = $nuked['user_theme'];
+elseif (is_file(dirname(__FILE__) . '/themes/' . $nuked['theme'] . '/theme.php')) $theme = $nuked['theme'];
+else exit($nuked['theme'] . THEME_NOTFOUND);
 
 // SELECT LANGUAGE AND USER LANGUAGE
 $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
-$language = ($nuked['user_lang'] && is_file('lang' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
+$language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
 
 // FORMAT DATE FR/EN
 if($language == 'french') setlocale(LC_ALL, "fr_FR");
