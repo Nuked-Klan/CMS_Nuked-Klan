@@ -353,7 +353,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'links'");
 		list($active) = mysql_fetch_array($sql);
 			
-		if($active == 1)
+		if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
 		{
 		
 		echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";

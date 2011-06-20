@@ -169,7 +169,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function affich_res($poll_id)
     {
-        global $nuked, $theme;
+        global $nuked, $theme, $visiteur;
 
         opentable();
 
@@ -232,7 +232,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 	$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'survey'");
 	list($active) = mysql_fetch_array($sql);
 			
-	if($active ==1)
+	if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
 	{
 	echo "<tr><td>";
     include ("modules/Comment/index.php");
