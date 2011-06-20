@@ -721,12 +721,12 @@ if (substr($siteurl, -1) == "/") $siteurl = substr($siteurl, 0, -1);
 
 if ($_REQUEST['langue'] == 'french')
 {
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%y');";
+    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%y %H:%M');";
     $req = mysql_query($sql);
 }
 else
 {
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%m/%d/%y');";
+    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%m/%d/%y %H:%M');";
     $req = mysql_query($sql);
 }
 

@@ -554,20 +554,18 @@ function upgrade_db()
     list($mail_admin) = mysql_fetch_array($recup_mail);
     
     /* Update commun à toutes les versions précédentes : */
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%Y');";
+    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%Y %H:%M');";
     $req = mysql_query($sql);        
 
     $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
     $req = mysql_query($sql);
-
-    mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9 RC6\' WHERE name = \'version\'');
 
     $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_editeur";
     $req = mysql_query($sql);
     $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_style";
     $req = mysql_query($sql);    
 
-    if ($nk_version != '1.7.9 RC5.3' && $v[2] == 9) // MAJ pour 1.7.9 RC5.2 et plus petit
+    if ($v[2] == '9 RC5.3' || $v[2] == '9') // MAJ pour 1.7.9 RC5.3 et plus petit
     {
         $sql = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name='screen'");
         $number = mysql_num_rows($sql);
@@ -675,7 +673,7 @@ function upgrade_db()
 
     echo "<script>show_progress('&nbsp;&nbsp;&nbsp;','upgrade');</script>";
 
-    if ($v[2] != 9) // Tout sauf 1.7.9
+    if ($v[2] != 9 || $v[2] != '9 RC5.3') // Tout sauf 1.7.9
     {
         $sql_user = mysql_query("SELECT id, pass FROM " . $db_prefix . "_users");
         while (list($userid, $userpass) = mysql_fetch_row($sql_user))
