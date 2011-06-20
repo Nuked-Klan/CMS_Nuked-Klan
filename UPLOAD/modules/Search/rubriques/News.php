@@ -55,7 +55,7 @@ if ($nb_news > 0)
 {
     while (list($news_id, $news_auteur, $news_titre, $news_date) = mysql_fetch_array($sql_news))
     {
-        $news_date = strftime("%x %H:%M", $news_date);
+        $news_date = nkDate($news_date);
         $news_titre = htmlentities($news_titre);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $news_titre . "</b> - " . _BY . "&nbsp;" . $news_auteur . "&nbsp;" . _THE . "&nbsp;" . $news_date;

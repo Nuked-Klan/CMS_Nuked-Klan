@@ -37,7 +37,7 @@ if ($active == 3 || $active == 4)
     while (list($link_id, $titre, $date, $cat) = mysql_fetch_array($sql))
     {
         $titre = htmlentities($titre);
-        $date = strftime("%x", $date);
+        $date = nkDate($date);
 
         $sql4 = mysql_query("SELECT titre, parentid FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cat . "'");
         list($cat_name, $parentid) = mysql_fetch_array($sql4);
@@ -114,7 +114,7 @@ else
     while (list($link_id, $titre, $date) = mysql_fetch_array($sql))
     {
         $titre = htmlentities($titre);
-        $date = strftime("%x", $date);
+        $date = nkDate($date);
         $i++;
 
         echo "<div><b>" . $i . " . <a href=\"index.php?file=Links&amp;op=description&amp;link_id=" . $link_id . "\">" . $titre . "</a></b> (" . $date . ")</div>\n";

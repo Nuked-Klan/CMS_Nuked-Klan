@@ -370,7 +370,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT L.id, L.titre, L.cat, L.url, L.date, LC.titre, LC.parentid FROM " . LINKS_TABLE . " AS L LEFT JOIN " . LINKS_CAT_TABLE . " AS LC ON LC.cid = L.cat ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_liens."");
         while (list($link_id, $titre, $cat, $url, $date, $namecat, $parentid) = mysql_fetch_array($sql))
         {
-            $date = strftime("%x", $date);
+            $date = nkDate($date);
 
             if ($cat == 0)
             {

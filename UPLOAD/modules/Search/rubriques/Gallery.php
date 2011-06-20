@@ -54,7 +54,7 @@ if ($nb_img > 0)
     while (list($img_id, $img_titre, $img_date) = mysql_fetch_array($sql_img))
     {
         $img_titre = htmlentities($img_titre);
-        $img_date = strftime("%x", $img_date);
+        $img_date = nkDate($img_date);
         if ($img_date) $img_date = " - " . _ADDED . " " . $img_date;
         $tab['module'][] = "$modname";
         $tab['title'][] = "<b>" . $img_titre . "</b>" . $img_date;

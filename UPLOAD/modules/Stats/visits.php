@@ -98,7 +98,8 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1)
         {
             $where = "";
             $where2 = "WHERE referer NOT LIKE '" . $nuked['url'] . "%' AND referer != ''";
-            $otext = strftime(_VISITORS . "&nbsp;" . _SINCE . " %x", $nuked['date_install']);
+			$odate = nkDate($nuked['date_install']);
+            $otext = _VISITORS . "&nbsp;" . _SINCE . " " . $odate;
         }
 
         $sql = mysql_query("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $where);

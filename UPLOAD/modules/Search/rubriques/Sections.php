@@ -55,7 +55,7 @@ if ($nb_art > 0)
     while (list($art_id, $art_titre, $art_date) = mysql_fetch_array($sql_art))
     {
         $art_titre = htmlentities($art_titre);
-        $art_date = strftime("%x", $art_date);
+        $art_date = nkDate($art_date);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $art_titre . "</b> - " . _ADDED . "&nbsp;" . $art_date;
         $tab['link'][] = "index.php?file=Sections&amp;op=article&amp;artid=" . $art_id;

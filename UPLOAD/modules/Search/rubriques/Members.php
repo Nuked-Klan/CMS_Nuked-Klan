@@ -45,7 +45,7 @@ if ($nb_mb > 0)
 {
     while (list($pseudo, $mb_date) = mysql_fetch_array($sql_mb))
     {
-        $mb_date = strftime("%x", $mb_date);
+        $mb_date = nkDate($mb_date);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $pseudo . "</b> - " . _MEMBERREG . "&nbsp;" . $mb_date;
         $tab['link'][] = "index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($pseudo);

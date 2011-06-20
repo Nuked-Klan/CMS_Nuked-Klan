@@ -39,8 +39,8 @@ function index()
         $sql3 = mysql_query('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $user[0] . '"');
         list($pseudo, $url, $mail, $date, $avatar, $nb_REQUEST, $last_used) = mysql_fetch_array($sql3);
 
-        $date = strftime('%x', $date);
-        $last_used = ($last_used > 0) ? strftime('%x %X', $last_used) : 'N/A';
+        $date = nkDate($date);
+        $last_used = ($last_used > 0) ? nkDate($last_used) : 'N/A';
         $website = (empty($url)) ? 'N/A' : $url;
 
         echo '<table style="margin-left:auto; margin-right:auto; text-align:left; background:' . $bgcolor2 . '; border:1px solid ' . $bgcolor3 . '; width:75%;" cellpadding="0" cellspacing="1">',"\n"
@@ -110,7 +110,7 @@ function index()
             {
                 $subject = htmlentities($subject);
                 $subject = nk_CSS($subject);
-                $date = strftime("%x %H:%M", $date);
+                $date = nkDate($date);
 
                 $iforum++;
 
@@ -180,7 +180,7 @@ function index()
                     $title = $module;
                 }
 
-                $date = strftime("%x %H:%M", $date);
+                $date = nkDate($date);
 
                 $icom++;
 
@@ -1122,7 +1122,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country)
     {
         $country = "France.gif";
     }
-    $date2 = strftime("%x %H:%M", time());
+    $date2 = nkDate(time());
     $add = mysql_query("INSERT INTO " . USER_TABLE . " ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` ) VALUES ( '" . $user_id . "' , '' , '' , '' , '' , '' , '" . $pseudo . "' , '" . $mail . "' , '" . $email . "' , '' , '' , '' , '' , '' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '' , '' , '' , '' , '" . $game . "' , '" . $country . "' , '' )");
 
     if ($nuked['validation'] == "mail" && $nuked['inscription'] == "on")

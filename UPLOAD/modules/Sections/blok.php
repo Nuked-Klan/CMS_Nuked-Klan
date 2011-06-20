@@ -36,7 +36,7 @@ if ($active == 3 || $active == 4)
     while (list($id, $titre, $date, $cat) = mysql_fetch_array($sql))
     {
         $titre = htmlentities($titre);
-        $date = strftime("%x", $date);
+        $date = nkDate($date);
 
         $sql4 = mysql_query("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cat . "'");
         list($cat_name, $parentid) = mysql_fetch_array($sql4);

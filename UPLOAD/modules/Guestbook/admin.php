@@ -155,7 +155,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT id, date, name, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
         while (list($id, $date, $name, $ip) = mysql_fetch_array($sql))
         {
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
             $name = nk_CSS($name);
             
             echo "<tr>\n"

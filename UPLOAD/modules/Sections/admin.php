@@ -137,7 +137,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         while (list($art_id, $titre, $autor, $autor_id, $cat, $date, $parentid, $namecat) = mysql_fetch_row($sql))
         {
 
-            if ($date) $date = strftime("%x", $date);
+            if ($date) $date = nkDate($date);
         
             if($autor=="")
             {

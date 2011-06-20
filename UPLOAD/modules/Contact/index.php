@@ -88,7 +88,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         $time = time();
-        $date = strftime("%x %H:%M", $time);
+        $date = nkDate($time);
         $contact_flood = $nuked['contact_flood'] * 60;
 
         $sql = mysql_query("SELECT date FROM " . CONTACT_TABLE . " WHERE ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");

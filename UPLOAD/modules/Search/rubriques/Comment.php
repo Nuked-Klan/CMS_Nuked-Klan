@@ -63,7 +63,7 @@ if ($nb_com > 0)
             }
 
 
-	$com_date = strftime("%x", $com_date);
+	$com_date = nkDate($com_date);
 	$tab['module'][] = $modname;
 	$tab['title'][] = "<b>" . $com_titre . "</b> - " . _BY . "&nbsp;" . $com_autor . "&nbsp;" . _THE . "&nbsp;" . $com_date;
 

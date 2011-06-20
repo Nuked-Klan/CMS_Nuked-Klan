@@ -18,7 +18,7 @@ if (!isset($_REQUEST['nuked_nude']))
 {
 opentable();
 }
-$date_install = strftime("%x", $nuked['date_install']);
+$date_install = nkDate($nuked['date_install']);
 if (!$user)
 {
     $visiteur = 0;

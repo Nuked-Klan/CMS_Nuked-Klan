@@ -258,7 +258,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $description = icon($description);
 
-        $date = strftime("%x %H:%M", $date);
+        $date = nkDate($date);
 
         $sql2 = mysql_query("SELECT titre, parentid FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cat . "'");
         list($cat_name, $parentid) = mysql_fetch_array($sql2);
@@ -497,7 +497,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                         if ($link_id == $id_hot && $nb_lk > 1 && $count > 9) $att .= "&nbsp;&nbsp;" . _HOT;
                     } 
 
-                    if ($date != "") $alt = "title=\"" . _ADDTHE . "&nbsp;" . strftime("%x %H:%M", $date) . "\"";
+                    if ($date != "") $alt = "title=\"" . _ADDTHE . "&nbsp;" . nkDate($date) . "\"";
                     else $alt = "";
 
                     if (is_file("themes/" . $theme . "/images/liens.gif"))

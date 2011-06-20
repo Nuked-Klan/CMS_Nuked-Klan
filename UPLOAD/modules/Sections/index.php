@@ -272,7 +272,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $arrayelement = (int)$_REQUEST['p'];
         $arrayelement --;
 
-        if ($date != "") $date = strftime("%x %H:%M", $date);
+        if ($date != "") $date = nkDate($date);
 
         if ($visiteur >= admin_mod("Sections"))
         {
@@ -503,7 +503,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                         if ($artid == $id_hot && $nb_art > 1 && $counter > 9) $att .= "&nbsp;&nbsp;" . _HOT;
                     } 
 
-                    if ($date != "") $alt = "title=\"" . _ADDTHE . "&nbsp;" . strftime("%x %H:%M", $date) . "\"";
+                    if ($date != "") $alt = "title=\"" . _ADDTHE . "&nbsp;" . nkDate($date) . "\"";
                     else $alt = "";
 
                     if (is_file("themes/" . $theme . "/images/articles.gif"))

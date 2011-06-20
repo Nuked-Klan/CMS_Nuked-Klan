@@ -55,7 +55,7 @@ if ($nb_lk > 0)
     while (list($link_id, $link_titre, $lk_date) = mysql_fetch_array($sql_lk))
     {
         $link_titre = htmlentities($link_titre);
-        $lk_date = strftime("%x", $lk_date);
+        $lk_date = nkDate($lk_date);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $link_titre . "</b> - " . _ADDED . "&nbsp;" . $lk_date;
         $tab['link'][] = "index.php?file=Links&amp;op=description&amp;link_id=" . $link_id;

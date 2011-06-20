@@ -228,7 +228,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql2 = mysql_query("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
         while (list($id, $name, $comment, $email, $url, $date, $ip) = mysql_fetch_array($sql2))
         {
-            $date = strftime("%x %H:%M", $date);
+            $date = nkDate($date);
 
             $url = htmlentities($url);
 

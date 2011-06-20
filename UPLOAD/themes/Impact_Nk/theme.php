@@ -95,7 +95,7 @@ function top(){
 ?>
                                                                 </div>
                                                                 <div id="dateContent">
-                                                                        <?php echo _INSOMMES; ?><?php echo strftime("%A", time()); ?> <?php echo strftime("%d", time()); ?> <?php echo strftime("%B", time()); ?><?php echo _INACTU; ?><?php echo strftime("%H", time()); ?>:<?php echo strftime("%M", time()); ?> min
+                                                                        <?php echo _INSOMMES; ?><?php echo nkDate(time()); ?>
                                                                 </div>
                                                         </div>
                                                 </div>

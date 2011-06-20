@@ -61,7 +61,7 @@ if ($nb_mess > 0)
 {
     while (list($mid, $tid, $subject, $fid, $mess_date, $author) = mysql_fetch_array($sql_forum))
     {
-        $mess_date = strftime("%x %H:%M", $mess_date);
+        $mess_date = nkDate($mess_date);
         $subject = htmlentities($subject);
         $subject = nk_CSS($subject);
 

@@ -25,7 +25,7 @@ if ($active == 3 || $active == 4)
         $counter = $counter + $count;
     }
 
-    $date_install = strftime("%x", $nuked['date_install']);
+    $date_install = nkDate($nuked['date_install']);
 
     echo "<div style=\"text-align: center;\">" . _WERECEICED . "&nbsp;" . $counter . "&nbsp;" . _PAGESEE . "&nbsp;" . $date_install . ".</div><br />\n";
 
@@ -65,7 +65,7 @@ else
         $counter = $counter + $count;
     }
 
-    $date_install = strftime("%x", $nuked['date_install']);
+    $date_install = nkDate($nuked['date_install']);
 
     $sql_users = mysql_query("SELECT id FROM " . USER_TABLE);
     $nb_users = mysql_num_rows($sql_users);

@@ -68,7 +68,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
 	while (list($id, $titre, $nom, $email, $date) = mysql_fetch_array($sql))
 	{
-	    $day = strftime("%d/%m/%Y %H:%M", $date);
+	    $day = nkDate($date);
 	    $l++;
 
 	    if (strlen($titre) > 45) $title = substr($titre, 0, 45) . "...";
@@ -97,7 +97,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	$sql = mysql_query("SELECT titre, message, nom, ip, email, date FROM " . CONTACT_TABLE . " WHERE id = '" . $mid . "'");
 	list($titre, $message, $nom, $ip, $email, $date) = mysql_fetch_array($sql);
 
-	$day = strftime("%x %H:%M", $date);
+	$day = nkDate($date);
 
 	$message = str_replace("\r", "", $message);
 	$message = str_replace("\n", "<br />", $message);

@@ -263,7 +263,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         while (list($poll_id, $titre, $date) = mysql_fetch_array($sql))
         {
             $titre = htmlentities($titre);
-            $date = strftime("%x", $date);
+            $date = nkDate($date);
 
             $sql2 = mysql_query("SELECT optionCount FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "'");
             $nbvote = 0;

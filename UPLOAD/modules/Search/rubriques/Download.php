@@ -61,7 +61,7 @@ if ($nb_dl > 0)
     while (list($dl_id, $dl_titre, $dl_date) = mysql_fetch_array($sql_dl))
     {
         $dl_titre = htmlentities($dl_titre);
-        $dl_date = strftime("%x", $dl_date);
+        $dl_date = nkDate($dl_date);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $dl_titre . "</b> - " . _ADDED . "&nbsp;" . $dl_date;
         $tab['link'][] = "index.php?file=Download&amp;op=description&amp;dl_id=" . $dl_id;
