@@ -9,7 +9,8 @@
 // -------------------------------------------------------------------------//
 
 define('INDEX_CHECK', 1);
-
+ error_reporting(E_ALL);
+ ini_set("display_errors", 1); 
 $mtime = microtime();
 
 include_once('Includes/php51compatibility.php');
@@ -41,7 +42,7 @@ include('nuked.php');
 include_once('Includes/hash.php');
 
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
-if(ini_get('set_error_handler')) set_error_handler('erreursql');
+//if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
 $session = session_check();
 $user = ($session == 1) ? secure() : array();

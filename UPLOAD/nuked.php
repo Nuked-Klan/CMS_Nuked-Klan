@@ -464,7 +464,6 @@ function secu_args($matches){
             'border',
         ),
         'strong' => array(),
-        'b', => array(),
         'em' => array(),
         'u' => array(),
         'strike' => array(),
