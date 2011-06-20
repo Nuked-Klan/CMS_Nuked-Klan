@@ -292,7 +292,7 @@ define("_INFOMODULES","Modules");
 define("_INFOENVIRONMENT","Environment");
 define("_INFOVARIABLES","Variables");
 
-define("_ADMINPROGRESS","Please wait a few second, Check in progress...");
+define("_ADMINPROGRESS","Please wait a few second<br />Check in progress...");
 define("_BADLOGADMIN","Bad login / password. Please retry");
 define("_ADMINSESSION","Administration Session");
 define("_LOSTPASS","Lost Password?");

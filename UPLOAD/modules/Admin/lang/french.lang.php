@@ -297,7 +297,7 @@ define("_INFOMODULES","Modules");
 define("_INFOENVIRONMENT","Environnement");
 define("_INFOVARIABLES","Variables");
 
-define("_ADMINPROGRESS","Merci de patienter quelques secondes, vérification en cours...");
+define("_ADMINPROGRESS","Merci de patienter quelques secondes<br />Vérification en cours...");
 define("_BADLOGADMIN","Erreur, mot de passe ou pseudo incorrect !");
 define("_ADMINSESSION","Session Administration");
 define("_LOSTPASS","Perdu votre Password ?");
