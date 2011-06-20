@@ -1357,8 +1357,11 @@ function upgrade_db()
         if (is_file($path_2)) $error++;
     }
 
-    // Suppresion du dossier "img"
-    deltree('img/');
+    // Suppresion des dossiers inutiles
+    @deltree('img/');
+	@deltree('js/');
+	@deltree('css/');
+	@deltree('editeur/');
 
     if ($error > 0)
     {
