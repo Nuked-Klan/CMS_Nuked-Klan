@@ -121,7 +121,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
 		if( $visiteur >= admin_mod("News")){
 			echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
-				  <div style="text-align:right;position:relative;z-index:201;">
+				  <div style="text-align:right;">
 					<a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
 						<img style="border:none;" src="images/edition.gif" alt="" title="'._EDIT.'" />
 					</a>&nbsp;
@@ -147,7 +147,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
 		if ($visiteur >= admin_mod("News")) {
 			echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
-				  <div style="text-align:right;position:relative;z-index:201;">
+				  <div style="text-align:right;">
 					<a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
 						<img style="border:none;" src="images/edition.gif" alt="" title="'._EDIT.'" />
 					</a>&nbsp;
