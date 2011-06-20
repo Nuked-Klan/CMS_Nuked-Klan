@@ -7,24 +7,22 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")){
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $language;
-translate("modules/Suggest/lang/" . $language . ".lang.php");
-include("modules/Admin/design.php");
+translate('modules/Suggest/lang/' . $language . '.lang.php');
+include('modules/Admin/design.php');
 admintop();
 
 echo "<script type=\"text/javascript\">\n"
-		. "<!--\n"
-		. "\n"
-		."function trim(string)\n"
-		."{"
-		."return string.replace(/(^\s*)|(\s*$)/g,'');"
-		."}\n"
-		. "// -->\n"
-		. "</script>\n";
+. "<!--\n"
+. "\n"
+."function trim(string)\n"
+."{"
+."return string.replace(/(^\s*)|(\s*$)/g,'');"
+."}\n"
+. "// -->\n"
+. "</script>\n";
 
 $visiteur = !$user ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
@@ -34,18 +32,18 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         global $nuked, $language;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
-				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
-				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _SUGGEST . "<b> | "
-				. "<a href=\"index.php?file=Suggest&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-				. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-				. "<tr>\n"
-				. "<td style=\"width: 10%;\" align=\"center\"><b>" . _SUGGESTID . "</b></td>\n"
-				. "<td style=\"width: 30%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-				. "<td style=\"width: 30%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
-				. "<td style=\"width: 30%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
+		. "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
+		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		. "</div></div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _SUGGEST . "<b> | "
+		. "<a href=\"index.php?file=Suggest&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+		. "<tr>\n"
+		. "<td style=\"width: 10%;\" align=\"center\"><b>" . _SUGGESTID . "</b></td>\n"
+		. "<td style=\"width: 30%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
+		. "<td style=\"width: 30%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
+		. "<td style=\"width: 30%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT id, module, date, user_id FROM " . SUGGEST_TABLE . " ORDER BY module, date");
         $count = mysql_num_rows($sql);
@@ -60,19 +58,19 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 list($user_for, $pseudo) = mysql_fetch_array($sql2);
             }
             else{
-                $pseudo = _VISITOR . " (" . $id_user . ")";
+                $pseudo = _VISITOR . ' (' . $id_user . ')';
 				$user_for = 0;
             }
 
             echo "<tr>\n"
-					. "<td style=\"width: 10%;\" align=\"center\">" . $sug_id . "</td>\n"
-					. "<td style=\"width: 30%;\" align=\"center\"><a href=\"index.php?file=Suggest&amp;page=admin&amp;op=show_suggest&amp;sug_id=" . $sug_id . "\" title=\"" . _SEESUGGEST . "\">" . $mod_name . "</a></td>\n"
-					. "<td style=\"width: 30%;\" align=\"center\">" . $pseudo . "</td>\n"
-					. "<td style=\"width: 30%;\" align=\"center\">" . $date . "</td></tr>\n";
+			. "<td style=\"width: 10%;\" align=\"center\">" . $sug_id . "</td>\n"
+			. "<td style=\"width: 30%;\" align=\"center\"><a href=\"index.php?file=Suggest&amp;page=admin&amp;op=show_suggest&amp;sug_id=" . $sug_id . "\" title=\"" . _SEESUGGEST . "\">" . $mod_name . "</a></td>\n"
+			. "<td style=\"width: 30%;\" align=\"center\">" . $pseudo . "</td>\n"
+			. "<td style=\"width: 30%;\" align=\"center\">" . $date . "</td></tr>\n";
         }
 
         if ($count == 0){
-            echo "<tr><td colspan=\"4\" align=\"center\">" . _NOSUGGEST . "</td></tr>";
+            echo '<tr><td colspan="4" align="center">' . _NOSUGGEST . '</td></tr>';
         }
 
         echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
@@ -81,7 +79,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function show_suggest($sug_id){
         global $nuked, $language;
 
-        $sql = mysql_query("SELECT module, date, user_id, proposition FROM " . SUGGEST_TABLE . " WHERE id = '" . $sug_id . "'");
+        $sql = mysql_query("SELECT module, date, user_id, proposition FROM " . SUGGEST_TABLE . " WHERE id = '" . intval($sug_id) . "'");
         list($mod_name, $date, $id_user, $proposition) = mysql_fetch_array($sql);
         $date = nkDate($date);
         $content = explode('|', $proposition);
@@ -131,7 +129,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function del($sug_id){
         global $nuked, $user;
 
-        $sql = mysql_query("SELECT user_id, module, proposition FROM " . SUGGEST_TABLE . " WHERE id='" . $sug_id . "' ");
+        $sql = mysql_query("SELECT user_id, module, proposition FROM " . SUGGEST_TABLE . " WHERE id='" . intval($sug_id) . "' ");
 		list($for, $module, $data) = @mysql_fetch_array($sql);
 
     	include("modules/Suggest/modules/" . $module . ".php");

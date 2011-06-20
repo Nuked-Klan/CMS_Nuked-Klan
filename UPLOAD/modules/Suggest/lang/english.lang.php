@@ -59,7 +59,7 @@ define("_RCORPS","Reason");
 define("_RSUBJECT","Title");
 define("_RMOTIF","Page denied a suggestion");
 define("_REFUS2","Refusal to your suggestion");
-define("_REFUS","Your suggestion was regrettably refused.\nThank you for your participation.");
+define("_REFUS","Your suggestion was regrettably refused.<br />Thank you for your participation.<br />");
 define("_CANCEL","Cancel");
 define("_NOTSUG","You have received a suggest");
 

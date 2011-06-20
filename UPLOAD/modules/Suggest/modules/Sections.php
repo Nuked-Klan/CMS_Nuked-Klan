@@ -142,7 +142,7 @@ function send($data)
     }
 
     $data['title'] = mysql_real_escape_string(stripslashes($data['title']));
-    $data['texte'] = secu_html(html_entity_decode($data['texte']));
+    $data['texte'] = html_entity_decode($data['texte']);
     $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
     $date = time();
 

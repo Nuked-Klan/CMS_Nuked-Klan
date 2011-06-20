@@ -142,7 +142,7 @@ function send($data){
     global $nuked;
 
     $date = time();
-    $data['description'] = secu_html(html_entity_decode($data['description']));
+    $data['description'] = html_entity_decode($data['description']);
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
     $data['webmaster'] = mysql_real_escape_string(stripslashes($data['webmaster']));

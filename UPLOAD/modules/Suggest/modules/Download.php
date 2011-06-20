@@ -84,7 +84,7 @@ function form($content, $sug_id){
         }
     }
 
-    if($_REQUEST['op'] == "show_suggest" && $content[9] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[9]', 'screen','width=800,height=600');\" /></input>";}
+    if($_REQUEST['op'] == "show_suggest" && $content[9] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[9]', 'screen','width=1024,height=768');\" /></input>";}
     if($_REQUEST['op'] == "show_suggest" && $content[4] != ""){$botton = "<input type=\"button\" name=\"bscreen\" value=\"" . _DOWNLOAD . "\" Onclick=\"window.open('$content[4]', 'download','width=100,height=100');\" /></input>";}
 
     echo "</select></td></tr>\n"
@@ -225,7 +225,7 @@ function send($data){
 
     include("modules/Suggest/config.php");
 
-    $data['description'] = secu_html(html_entity_decode($data['description']));
+    $data['description'] = html_entity_decode($data['description']);
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
     $data['autor'] = mysql_real_escape_string(stripslashes($data['autor']));

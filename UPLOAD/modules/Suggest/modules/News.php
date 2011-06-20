@@ -111,7 +111,7 @@ function send($data){
         $autor_id = $user[0];
     }
 
-    $data['texte'] = secu_html(html_entity_decode($data['texte']));
+    $data['texte'] = html_entity_decode($data['texte']);
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
 
