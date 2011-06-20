@@ -88,6 +88,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
 
             $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+            $_REQUEST['texte'] = icon($_REQUEST['texte']);
             $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
             $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
 
@@ -617,6 +618,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+        $_REQUEST['texte'] = icon($_REQUEST['texte']);
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
         $_REQUEST['texte'] = str_replace('<blockquote>', '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' :</strong><br />', $_REQUEST['texte']);
@@ -800,6 +802,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             exit();
         }
         $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+        $_REQUEST['texte'] = icon($_REQUEST['texte']);
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
         $_REQUEST['texte'] = str_replace('<blockquote>', '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' :</strong><br />', $_REQUEST['texte']);
