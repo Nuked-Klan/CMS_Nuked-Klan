@@ -308,12 +308,17 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _AUTHOR . " :</b> " . $auteur . "</td></tr>\n";
         }
 
-        echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _READSART . " :</b> " . $counter . "</td></tr>\n"
-        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+        echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _READSART . " :</b> " . $counter . "</td></tr>\n";
+        
+        
 
-        vote_index("Sections", $artid);
+        if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
+            echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+            vote_index("Sections", $artid);
+            echo "</td></tr>";
+        }
 
-        echo "</td></tr><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+        echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
 
         if ($pageno > 1)
         {
@@ -446,10 +451,10 @@ if ($visiteur >= $level_access && $level_access > -1)
             else echo "<a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=count&amp;secid=" . $sid . "\">" . _TOPFILE . "</a> | ";
 
             if ($_REQUEST['orderby'] == "name") echo "<b>" . _NAME . "</b> | ";
-            else echo"	<a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=name&amp;secid=" . $sid . "\">" . _NAME . "</a> | ";
+            else echo"    <a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=name&amp;secid=" . $sid . "\">" . _NAME . "</a> | ";
 
             if ($_REQUEST['orderby'] == "note") echo"<b>" . _NOTE . "</b>";
-            else echo"	<a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=note&amp;secid=" . $sid . "\">" . _NOTE . "</a>";
+            else echo"    <a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=note&amp;secid=" . $sid . "\">" . _NOTE . "</a>";
 
             echo "</small></td></tr></table>\n";
         } 
@@ -528,6 +533,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     echo "<tr style=\"background: " . $bgcolor1 . ";\"><td colspan=\"2\">&nbsp;<b>" . _READSART . " :</b> " . $counter . "&nbsp;";
 
+                    if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1)
                     vote_index("Sections", $artid);
 
                     echo "</td></tr></table></td></tr></table><br />\n";

@@ -115,7 +115,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     // Lance le redimensionenemt
                     $thb->doThb();
                     if ($thumb) $sql_insert = mysql_query ("UPDATE " . $nuked['prefix'] . "_gallery SET url2 = '" . $thumb . "' WHERE sid = '" . $sid . "'");
-                    $image = $thumb;			
+                    $image = $thumb;            
                 } 
                 if (!$image) $image = $url; 
 
@@ -336,7 +336,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $sql_last = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND count > '" . $count . "' ORDER BY count LIMIT 0, 1");
             list($lastid) = mysql_fetch_array($sql_last);
         } 
-        else if ($_REQUEST['orderby'] == "note")
+        else if ($_REQUEST['orderby'] == "note" && nivo_mod('Vote') > -1)
         {
             $sql_note = mysql_query("SELECT AVG(vote) FROM " . VOTE_TABLE . " WHERE vid = '" . $sid . "' AND module = 'Gallery'");
             list($note) = mysql_fetch_array($sql_note);
@@ -417,13 +417,16 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _ADDTHE . " :</b>  " . $date . "</td></tr>\n"
         . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _FILENAME . " :</b> " . $name . "</td></tr>\n"
-        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SEEN . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
-        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SEEN . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n";
 
-        include ("modules/Vote/index.php");
-        vote_index("Gallery", $sid);
+        if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
+            echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+            include ("modules/Vote/index.php");
+            vote_index("Gallery", $sid);
+            echo "</td></tr>";
+        }
 
-        echo "</td></tr></table>" . $button."\n";
+        echo "</table>" . $button."\n";
         $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'gallery'");
         list($active) = mysql_fetch_array($sql);
             
@@ -610,7 +613,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $order = "ORDER BY L.count DESC";
         }
  
-        else if ($_REQUEST['orderby'] == "note")
+        else if ($_REQUEST['orderby'] == "note" && nivo_mod('Vote') > -1)
         {
             $order = "ORDER BY note DESC";
         } 
@@ -657,11 +660,11 @@ if ($visiteur >= $level_access && $level_access > -1)
                 echo "<a href=\"index.php?file=Gallery&amp;op=" . $_REQUEST['op'] . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _TOPFILE . "</a> | ";
             }
 
-            if ($_REQUEST['orderby'] == "note")
+            if ($_REQUEST['orderby'] == "note" && nivo_mod('Vote') > -1)
             {
                 echo "<b>" . _NOTE . "</b>&nbsp;";
             }
-            else
+            elseif (nivo_mod('Vote') > -1)
             {
                 echo "<a href=\"index.php?file=Gallery&amp;op=" . $_REQUEST['op'] . "&amp;orderby=note&amp;cat=" . $cat . "\">" . _NOTE . "</a>&nbsp;";
             }
@@ -772,7 +775,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 number($count, $nb_img_guest, $url_page);
             } 
             else
-            {		 
+            {         
                 echo "&nbsp;";
             }
 

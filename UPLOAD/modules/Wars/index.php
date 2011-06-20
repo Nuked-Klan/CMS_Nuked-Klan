@@ -38,7 +38,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE etat = 1");
         $nb_matchs = mysql_num_rows($sql);
 
-	if ($nb_matchs > 0)
+    if ($nb_matchs > 0)
         {
             $sql_victory = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE etat = 1 AND tscore_team > tscore_adv");
             $nb_victory = mysql_num_rows($sql_victory);
@@ -47,15 +47,15 @@ if ($visiteur >= $level_access && $level_access > -1)
             $nb_defeat = mysql_num_rows($sql_defeat);
 
             $nb_nul = $nb_matchs - ($nb_victory + $nb_defeat);
-	}
-	else
-	{
+    }
+    else
+    {
             $nb_victory = 0;
             $nb_defeat = 0;
             $nb_nul = 0;
-	}
+    }
 
-	$nb_wars = $nuked['max_wars'];
+    $nb_wars = $nuked['max_wars'];
   if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
   $start = $_REQUEST['p'] * $nb_wars - $nb_wars;
 
@@ -303,16 +303,16 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $url_page = "index.php?file=Wars&amp;tid=" . $_REQUEST['tid'] . "&amp;orderby=" . $_REQUEST['orderby'];
                     number($count, $nb_wars, $url_page);
                 } 
-	
-		echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-		. "<tr style=\"background: " . $bgcolor3 . "\">\n"
-		. "<td style=\"width: 5%;\">&nbsp;</td>\n"
-		. "<td style=\"width: 10%;\"><b>" . _DATE . "</b></td>"
-		. "<td style=\"width: 30%;\" align=\"center\"><b>" . _OPPONENT . "</b></td>\n"
-		. "<td style=\"width: 15%;\" align=\"center\"><b>" . _TYPE . "</b></td>\n"
-		. "<td style=\"width: 15%;\" align=\"center\"><b>" . _STYLE . "</b></td>\n"
-		. "<td style=\"width: 15%;\" align=\"center\"><b>" . _RESULT . "</b></td>\n"
-		. "<td style=\"width: 10%;\" align=\"center\"><b>" . _DETAILS . "</b></td></tr>\n";
+    
+        echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+        . "<tr style=\"background: " . $bgcolor3 . "\">\n"
+        . "<td style=\"width: 5%;\">&nbsp;</td>\n"
+        . "<td style=\"width: 10%;\"><b>" . _DATE . "</b></td>"
+        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _OPPONENT . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _TYPE . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _STYLE . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _RESULT . "</b></td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DETAILS . "</b></td></tr>\n";
 
                 $sql4 = mysql_query("SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM " . WARS_TABLE . " WHERE etat = 1 " . $and . $order . " LIMIT " . $start . "," . $nb_wars."");
                 while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4))
@@ -410,26 +410,26 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($nb_matchs > 0)
         {
-	    if ($nb_matchs > 1) $war = _MATCHES; else $war = _MATCH;
+        if ($nb_matchs > 1) $war = _MATCHES; else $war = _MATCH;
             echo "<br /><div style=\"text-align: center;\"><small><b>" . $nb_matchs . "</b> " . $war . " : <b><span style=\"color: #009900;\">" . $nb_victory . "</span></b> " . _WIN . " - <b><span style=\"color: #990000;\">" . $nb_defeat . "</span></b> " . _LOST . " - <b><span style=\"color: #3333FF;\">" . $nb_nul . "</span></b> " . _DRAW . "</small></div><br />\n";
         }
 
-		if ($_REQUEST['p'] == 1 OR !isset($_REQUEST['p']))
-		{
-			$sqlx = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE etat = 0");
-			$nb_matchs2 = mysql_num_rows($sqlx);
+        if ($_REQUEST['p'] == 1 OR !isset($_REQUEST['p']))
+        {
+            $sqlx = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE etat = 0");
+            $nb_matchs2 = mysql_num_rows($sqlx);
 
-			if ($nb_matchs2 > 0)
-			{
-				echo"<br /><div style=\"text-align: center;\"><big><b>" . _NEXTMATCHES . "</b></big></div><br />\n";
-				echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-				. "<tr style=\"background: " . $bgcolor3 . "\">\n"
-				. "<td style=\"width: 5%;\">&nbsp;</td>\n"
-				. "<td style=\"width: 10%;\"><b>" . _DATE . "</b></td>"
-				. "<td style=\"width: 30%;\" align=\"center\"><b>" . _OPPONENT . "</b></td>\n"
-				. "<td style=\"width: 20%;\" align=\"center\"><b>" . _TYPE . "</b></td>\n"
-				. "<td style=\"width: 20%;\" align=\"center\"><b>" . _STYLE . "</b></td>\n"
-				. "<td style=\"width: 15%;\" align=\"center\"><b>" . _DETAILS2 . "</b></td>\n";
+            if ($nb_matchs2 > 0)
+            {
+                echo"<br /><div style=\"text-align: center;\"><big><b>" . _NEXTMATCHES . "</b></big></div><br />\n";
+                echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+                . "<tr style=\"background: " . $bgcolor3 . "\">\n"
+                . "<td style=\"width: 5%;\">&nbsp;</td>\n"
+                . "<td style=\"width: 10%;\"><b>" . _DATE . "</b></td>"
+                . "<td style=\"width: 30%;\" align=\"center\"><b>" . _OPPONENT . "</b></td>\n"
+                . "<td style=\"width: 20%;\" align=\"center\"><b>" . _TYPE . "</b></td>\n"
+                . "<td style=\"width: 20%;\" align=\"center\"><b>" . _STYLE . "</b></td>\n"
+                . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DETAILS2 . "</b></td>\n";
 
                 $sql4x = mysql_query("SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM " . WARS_TABLE . " WHERE etat = 0 " . $and . $order . " LIMIT " . $start . "," . $nb_wars."");
                 while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4x))
@@ -512,11 +512,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     echo "</td><td style=\"width: 20%;\" align=\"center\">" . $type . "</td>\n"
                     . "<td style=\"width: 20%;\" align=\"center\">" . $style . "</td>\n"
-					. "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Wars&amp;op=detail&amp;war_id=" . $war_id . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" /></a></td>\n";
+                    . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Wars&amp;op=detail&amp;war_id=" . $war_id . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" /></a></td>\n";
                     } 
                     echo "</table>\n";
-			}
-		}
+            }
+        }
         closetable();
     } 
 
@@ -528,11 +528,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $sql = mysql_query("SELECT team, adversaire, url_adv, pays_adv, date_jour, date_mois, date_an, type, style, tscore_team, tscore_adv, map, score_adv, score_team, report, auteur, url_league, etat FROM " . WARS_TABLE . " WHERE warid = '" . $war_id . "'");
         if(mysql_num_rows($sql) <= 0)
-		{
-			redirect("index.php?file=404", 0);
-			exit();
-		}
-		list($team, $adv_name, $adv_url, $pays_adv, $jour, $mois, $an, $type, $style, $tscore_team, $tscore_adv, $map, $score_team, $score_adv, $report, $auteur, $url_league, $etat) = mysql_fetch_array($sql);
+        {
+            redirect("index.php?file=404", 0);
+            exit();
+        }
+        list($team, $adv_name, $adv_url, $pays_adv, $jour, $mois, $an, $type, $style, $tscore_team, $tscore_adv, $map, $score_team, $score_adv, $report, $auteur, $url_league, $etat) = mysql_fetch_array($sql);
         list ($pays, $ext) = explode ('.', $pays_adv);
 
         
@@ -542,9 +542,9 @@ if ($visiteur >= $level_access && $level_access > -1)
         $style = htmlentities($style);
         $score_adv = htmlentities($score_adv);
         $score_team = htmlentities($score_team);
-		$map = explode('|', $map);;
-		$score_team = explode('|', $score_team);;
-		$score_adv = explode('|', $score_adv);;
+        $map = explode('|', $map);;
+        $score_team = explode('|', $score_team);;
+        $score_adv = explode('|', $score_adv);;
 
         if ($language == "french")
         {
@@ -585,8 +585,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";\" width=\"90%\" border=\"0\" cellpadding=\"3\" cellspacing=\"3\">\n"
-	. "<tr><td style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" align=\"center\" colspan=\"2\"><big><b>" . $team_name . "</b> " . _VS . " <b>" . $adv_name . "</b></big></td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _OPPONENT . "</b> :&nbsp;";
+    . "<tr><td style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" align=\"center\" colspan=\"2\"><big><b>" . $team_name . "</b> " . _VS . " <b>" . $adv_name . "</b></big></td></tr>\n"
+    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _OPPONENT . "</b> :&nbsp;";
 
         if ($adv_url != "")
         {
@@ -598,56 +598,56 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "&nbsp;<img src=\"images/flags/" . $pays_adv . "\" alt=\"\" title=\"" . $pays . "\" /></td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _DATE . "</b> : " . $date . "</td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _TYPE . "</b> : " . $type . "</td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _STYLE . "</b> : " . $style . "</td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _MAPS . "</b> :<br/><br/>";
+    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _DATE . "</b> : " . $date . "</td></tr>\n"
+    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _TYPE . "</b> : " . $type . "</td></tr>\n"
+    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _STYLE . "</b> : " . $style . "</td></tr>\n"
+    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _MAPS . "</b> :<br/><br/>";
             for ($nbr=1; $nbr <= count($map); $nbr++)
-			{
-				echo "<br /><u>Map n&deg; " . $nbr . " :</u> " . $map[$nbr-1];
-				if ($etat != 0)
-				{
-					echo "<br />" . _SCORE . " : ";
-					if ($score_team[$nbr-1] < $score_adv[$nbr-1])
-					{
-						echo "&nbsp;<span style=\"color: #990000;\"><b>" . $score_adv[$nbr-1] . "</b></span> - <span style=\"color: #009900;\"><b>" . $score_team[$nbr-1] . "</b></span><br />\n";
-					} 
-					else if ($score_team[$nbr-1] > $score_adv[$nbr-1])
-					{
-						echo "&nbsp;<span style=\"color: #009900;\"><b>" . $score_adv[$nbr-1] . "</b></span> - <span style=\"color: #990000;\"><b>" . $score_team[$nbr-1] . "</b></span><br />\n";
-					} 
-					else
-					{
-						echo "&nbsp;<b>" . $score_team[$nbr-1] . " - " . $score_adv[$nbr-1] . "</b><br />\n";
-					} 
-				}
-			}
+            {
+                echo "<br /><u>Map n&deg; " . $nbr . " :</u> " . $map[$nbr-1];
+                if ($etat != 0)
+                {
+                    echo "<br />" . _SCORE . " : ";
+                    if ($score_team[$nbr-1] < $score_adv[$nbr-1])
+                    {
+                        echo "&nbsp;<span style=\"color: #990000;\"><b>" . $score_adv[$nbr-1] . "</b></span> - <span style=\"color: #009900;\"><b>" . $score_team[$nbr-1] . "</b></span><br />\n";
+                    } 
+                    else if ($score_team[$nbr-1] > $score_adv[$nbr-1])
+                    {
+                        echo "&nbsp;<span style=\"color: #009900;\"><b>" . $score_adv[$nbr-1] . "</b></span> - <span style=\"color: #990000;\"><b>" . $score_team[$nbr-1] . "</b></span><br />\n";
+                    } 
+                    else
+                    {
+                        echo "&nbsp;<b>" . $score_team[$nbr-1] . " - " . $score_adv[$nbr-1] . "</b><br />\n";
+                    } 
+                }
+            }
         
-		
-		if($etat != 0)
+        
+        if($etat != 0)
         {
-			echo "</td></tr><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _RESULT . "</b> :";
+            echo "</td></tr><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _RESULT . "</b> :";
 
-			if ($tscore_team < $tscore_adv)
-			{
-				echo "&nbsp;<span style=\"color: #990000;\"><b>" . $tscore_team . "</b></span> - <span style=\"color: #009900;\"><b>" . $tscore_adv . "</b></span></td></tr>\n";
-			} 
-			else if ($tscore_team > $tscore_adv)
-			{
-				echo "&nbsp;<span style=\"color: #009900;\"><b>" . $tscore_team . "</b></span> - <span style=\"color: #990000;\"><b>" . $tscore_adv . "</b></span></td></tr>\n";
-			} 
-			else
-			{
-				echo "&nbsp;<b>" . $tscore_team . " - " . $tscore_adv . "</b></td></tr>\n";
-			}
-		}
+            if ($tscore_team < $tscore_adv)
+            {
+                echo "&nbsp;<span style=\"color: #990000;\"><b>" . $tscore_team . "</b></span> - <span style=\"color: #009900;\"><b>" . $tscore_adv . "</b></span></td></tr>\n";
+            } 
+            else if ($tscore_team > $tscore_adv)
+            {
+                echo "&nbsp;<span style=\"color: #009900;\"><b>" . $tscore_team . "</b></span> - <span style=\"color: #990000;\"><b>" . $tscore_adv . "</b></span></td></tr>\n";
+            } 
+            else
+            {
+                echo "&nbsp;<b>" . $tscore_team . " - " . $tscore_adv . "</b></td></tr>\n";
+            }
+        }
 
         echo "<tr style=\"background: " . $bgcolor2 . ";\"><td>&nbsp;</td></tr>\n";
         
 
         if ($report != "")
         {
-			if ($etat == 0) $xtitle = _DETAILS2 . ' ' . _FROM; else $xtitle = _REPORTBY;
+            if ($etat == 0) $xtitle = _DETAILS2 . ' ' . _FROM; else $xtitle = _REPORTBY;
             echo "<tr><td style=\"background: " . $bgcolor2 . ";border: 1px dashed " . $bgcolor3 . ";\"><b>" . $xtitle . " <a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($auteur) . "\">" . $auteur . "</a> : </b></td></tr>\n"
             . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">" . $report;
      
@@ -657,7 +657,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             } 
 
             echo "</td></tr><tr style=\"background: " . $bgcolor2 . ";\"><td>&nbsp;</td></tr>\n";
-	}
+    }
 
         $sql_screen = mysql_query("SELECT url FROM " . JOIN_FILES_TABLE . " WHERE module = 'Wars' AND type = 'screen' AND im_id = '" . $war_id . "'");
         $nb_screen = mysql_num_rows($sql_screen);
@@ -698,18 +698,18 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "</table></td></tr>\n";
         } 
         echo "</table><br />\n";
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'wars'");
-		list($active) = mysql_fetch_array($sql);
-				
-		if($active ==1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
-		{
-			echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'wars'");
+        list($active) = mysql_fetch_array($sql);
+                
+        if($active ==1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
+        {
+            echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
 
             include ("modules/Comment/index.php");
             com_index("match", $war_id);
 
             echo "</td></tr></table>\n";
-		}
+        }
         closetable();
     } 
 

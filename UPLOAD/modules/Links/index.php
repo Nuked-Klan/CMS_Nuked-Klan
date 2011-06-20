@@ -38,11 +38,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         opentable();
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _WEBLINKS . "</b></big></div>\n"
-	. "<div style=\"text-align: center;\"><br />\n"
-	. "[ " . _INDEXLINKS . " | "
-	. "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=news\" style=\"text-decoration: underline\">" . _NEWSLINK . "</a> | "
-	. "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPLINKS . "</a> | "
-	. "<a href=\"index.php?file=Suggest&amp;module=Links\" style=\"text-decoration: underline\">" . _SUGGESTLINK . "</a> ]</div>\n";
+    . "<div style=\"text-align: center;\"><br />\n"
+    . "[ " . _INDEXLINKS . " | "
+    . "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=news\" style=\"text-decoration: underline\">" . _NEWSLINK . "</a> | "
+    . "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPLINKS . "</a> | "
+    . "<a href=\"index.php?file=Suggest&amp;module=Links\" style=\"text-decoration: underline\">" . _SUGGESTLINK . "</a> ]</div>\n";
 
         $sql = mysql_query("SELECT id FROM " . LINKS_TABLE);
         $nb_links = mysql_num_rows($sql);
@@ -78,7 +78,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     {
                         echo "<small>&nbsp;(" . $nb_lk . ")</small>\n";
                     } 
-		    
+            
                     if ($description != "")
                     {
                         echo "<div style=\"width: 225px;\">" . $description . "</div>\n";
@@ -113,9 +113,9 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "</table>\n";
         } 
         else
-	{
+    {
             echo "<br />\n";
-	}
+    }
 
         classe("0", "0");
 
@@ -132,11 +132,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         opentable();
 
         $sql = mysql_query("SELECT titre, description, parentid FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cat . "'");
-		if(mysql_num_rows($sql) <= 0)
-		{
-			redirect("index.php?file=404", 0);
-			exit();
-		}
+        if(mysql_num_rows($sql) <= 0)
+        {
+            redirect("index.php?file=404", 0);
+            exit();
+        }
         list($cat_titre, $cat_desc, $parentid) = mysql_fetch_array($sql);
 
         $cat_titre = htmlentities($cat_titre);
@@ -168,7 +168,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
 
             $parentcat = htmlentities($parentcat);
-			
+            
             $parentdesc = icon($parentdesc);
 
             $sql_nbcat = mysql_query("SELECT id FROM " . LINKS_TABLE . " WHERE cat = '" . $catid . "'");
@@ -201,7 +201,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     }
     else
     {
-	echo "<div style=\"text-align: center;\">" . $cat_desc . "</div><br />\n";
+    echo "<div style=\"text-align: center;\">" . $cat_desc . "</div><br />\n";
     } 
 
         classe($cat, $nb_subcat);
@@ -216,11 +216,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         global $nuked;
 
         $sql = mysql_query("SELECT url, count FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
-		if(mysql_num_rows($sql) <= 0)
-		{
-			redirect("index.php?file=404", 0);
-			exit();
-		}
+        if(mysql_num_rows($sql) <= 0)
+        {
+            redirect("index.php?file=404", 0);
+            exit();
+        }
         list($link_url, $count) = mysql_fetch_array($sql);
         $new_count = $count + 1;
 
@@ -246,11 +246,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3;
 
         $sql = mysql_query("SELECT id, date, titre, description, webmaster, country, cat, count FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
-		if(mysql_num_rows($sql) <= 0)
-		{
-			redirect("index.php?file=404", 0);
-			exit();
-		}
+        if(mysql_num_rows($sql) <= 0)
+        {
+            redirect("index.php?file=404", 0);
+            exit();
+        }
         list($link_id, $date, $titre, $description, $webmaster, $country, $cat, $count) = mysql_fetch_array($sql);
 
         $titre = htmlentities($titre);
@@ -281,16 +281,16 @@ if ($visiteur >= $level_access && $level_access > -1)
             $category = "<a href=\"index.php?file=Links&amp;op=categorie&amp;cat=" . $cat . "\">" . $cat_name . "</a>";
         } 
 
-	if ($country != "" && is_file("images/flags/" . $country))
-	{
+    if ($country != "" && is_file("images/flags/" . $country))
+    {
             list ($pays, $ext) = explode ('.', $country);
             $link_pays = "<img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" />";
-	}
-	else
-	{
+    }
+    else
+    {
             $pays = "";
             $link_pays = "&nbsp;";
-	}
+    }
 
         opentable();
 
@@ -313,12 +313,12 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Links\" style=\"text-decoration:none\"><big><b> " . _WEBLINKS . " </b></big></a></div><br />\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\">\n"
-	. "<tr><td style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" align=\"center\">\n"
-	. "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n"
-	. "<tr><td style=\"width: 5%;\">&nbsp;</td>\n"
-	. "<td style=\"width: 90%;\" align=\"center\"><big><b>" . $titre . "</b></big></td>\n"
-	. "<td style=\"width: 5%;\" align=\"center\">" . $link_pays . "</td></tr></table></td></tr>\n";
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\">\n"
+    . "<tr><td style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" align=\"center\">\n"
+    . "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n"
+    . "<tr><td style=\"width: 5%;\">&nbsp;</td>\n"
+    . "<td style=\"width: 90%;\" align=\"center\"><big><b>" . $titre . "</b></big></td>\n"
+    . "<td style=\"width: 5%;\" align=\"center\">" . $link_pays . "</td></tr></table></td></tr>\n";
 
         if ($description != "")
         {
@@ -327,42 +327,44 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _CAT . " :</b> " . $category . "</td></tr>\n" 
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _ADDTHE . " :</b> " . $date . "</td></tr>\n";
+    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _ADDTHE . " :</b> " . $date . "</td></tr>\n";
 
         if ($webmaster != "")
         {
             echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _WEBMASTER . " :</b> " . $webmaster . "</td></tr>\n";
-	}
+    }
 
         if ($country != "" && $pays != "")
         {
             echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _COUNTRY . " :</b> " . $pays . "</td></tr>\n";
-	}
+    }
 
-	echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _VISIT . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
-	. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+    echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _VISIT . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n";
+    
 
-        vote_index("Links", $link_id);
-
-        echo "</td></tr>\n";
-		if ($visiteur > 0) echo "<tr style=\"background: " . $bgcolor2 . ";\"><td>&nbsp;</td></tr>\n"
-		. "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><img src=\"modules/Links/images/warning.gif\" alt=\"\" /> [ <a href=\"index.php?file=Links&amp;op=broken&amp;link_id=" . $link_id . "\">" . _INDICATELINK . "</a> ]</td></tr>";
-		echo "</table>\n"
-		. "<div style=\"text-align: center;\"><br /><input type=\"button\" value=\"" . _VISITTHISSITE . "\" onclick=\"window.open('index.php?file=Links&amp;nuked_nude=index&amp;op=do_link&amp;link_id=" . $link_id . "')\" /></div><br />";
-		
-		$sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'links'");
-		list($active) = mysql_fetch_array($sql);
-			
-		if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
-		{
-		
-		echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+        if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
+            echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+            vote_index("Links", $link_id);
+            echo "</td></tr>\n";
+        }
+        if ($visiteur > 0) echo "<tr style=\"background: " . $bgcolor2 . ";\"><td>&nbsp;</td></tr>\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><img src=\"modules/Links/images/warning.gif\" alt=\"\" /> [ <a href=\"index.php?file=Links&amp;op=broken&amp;link_id=" . $link_id . "\">" . _INDICATELINK . "</a> ]</td></tr>";
+        echo "</table>\n"
+        . "<div style=\"text-align: center;\"><br /><input type=\"button\" value=\"" . _VISITTHISSITE . "\" onclick=\"window.open('index.php?file=Links&amp;nuked_nude=index&amp;op=do_link&amp;link_id=" . $link_id . "')\" /></div><br />";
+        
+        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'links'");
+        list($active) = mysql_fetch_array($sql);
+            
+        if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
+        {
+        
+        echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
 
             include ("modules/Comment/index.php");
             com_index("Links", $link_id);
 
             echo "</td></tr></table>\n";
-		}
+        }
         closetable();
     } 
 
@@ -401,7 +403,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $start = $_REQUEST['p'] * $nb_liens - $nb_liens;
 
         if ($cat != "") $where = "WHERE L.cat = '" . $cat . "'";
-	else $where = "";
+    else $where = "";
 
         if ($_REQUEST['orderby'] == "name")
         {
@@ -436,7 +438,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             else echo "<a href=\"index.php?file=Links&amp;op=" . $_REQUEST['op'] . "&amp;orderby=news&amp;cat=" . $cat . "\">" . _DATE . "</a> | ";
 
             if ($_REQUEST['orderby'] == "count") echo "<b>" . _TOPFILE . "</b> | ";
-            else echo"	<a href=\"index.php?file=Links&amp;op=" . $_REQUEST['op'] . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _TOPFILE . "</a> | ";
+            else echo"    <a href=\"index.php?file=Links&amp;op=" . $_REQUEST['op'] . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _TOPFILE . "</a> | ";
 
             if ($_REQUEST['orderby'] == "name") echo "<b>" . _NAME . "</b> | ";
             else echo "<a href=\"index.php?file=Links&amp;op=" . $_REQUEST['op'] . "&amp;orderby=name&amp;cat=" . $cat . "\">" . _NAME . "</a> | ";
@@ -517,7 +519,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     else
                     {
                         $link_pays = "&nbsp;";
-                    }			
+                    }            
 
                     echo "<table style=\"background: " . $bgcolor3 . ";margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"0\">\n"
                     . "<tr><td><table style=\"background: " . $bgcolor2 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
@@ -530,6 +532,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     } 
 
                     echo "<tr style=\"background: " . $bgcolor1 . ";\"><td colspan=\"2\">&nbsp;<b>" . _HITS . " :</b> " . $count . " &nbsp;";
+                    if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1)
                     vote_index("Links", $link_id);
 
                     echo "</td></tr></table></td></tr></table><br />\n";
