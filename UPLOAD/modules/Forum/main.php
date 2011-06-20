@@ -30,13 +30,13 @@ else
 
 if ($language == "french")
 {
-    $date_jour = strftime("%A %d %B %Y, %H:%M", time());
-    $your_last_visite = @strftime("%A %d %B %Y, %H:%M", $user_last_visit);
+    $date_jour = nkDate(time());
+    $your_last_visite = nkDate($user_last_visit);
 } 
 else
 {
-    $date_jour = strftime("%A %B %d %Y, %H:%M", time());
-    $your_last_visite = strftime("%A %B %d %Y, %H:%M", $user_last_visit);
+    $date_jour = nkDate(time());
+    $your_last_visite = nkDate($user_last_visit);
 } 
 
 if ($nuked['forum_title'] != "")
@@ -53,7 +53,7 @@ if ($_REQUEST['cat'] != "")
     $sql_cat = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $_REQUEST['cat'] . "'");
     list($cat_name) = mysql_fetch_row($sql_cat);
     $cat_name = htmlentities($cat_name); 
-    $nav = "&nbsp;-&gt; <b>" . $cat_name . "</b>";	
+    $nav = "&nbsp;-&gt; <b>" . $cat_name . "</b>";    
 } 
 
 echo "<br /><form method=\"get\" action=\"index.php\">\n"
@@ -118,7 +118,7 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
 
         if ($user)
         {
-			$visits = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE forum_id = '" . $forum_id . "' AND user_id = '" . $user[0] . "'");
+            $visits = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE forum_id = '" . $forum_id . "' AND user_id = '" . $user[0] . "'");
             $user_visits = mysql_num_rows($visits);
             if ($user_visits < $num_post)
             {
@@ -135,8 +135,8 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
         } 
 
         echo "<tr style=\"background: " . $color2 . ";\">\n"
-		. "<td  style=\"width: 5%;\" align=\"center\">" . $img . "</td>\n"
-		. "<td style=\"width: 40%;\" onmouseover=\"this.style.backgroundColor='" . $color1 . "'; this.style.cursor='hand';\" onmouseout=\"this.style.backgroundColor='" . $color2 . "'\" onclick=\"document.location='index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "'\"><a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "\"><big><b>&nbsp;" . $nom ." </b></big></a><br />" . $comment . "</td>\n";
+        . "<td  style=\"width: 5%;\" align=\"center\">" . $img . "</td>\n"
+        . "<td style=\"width: 40%;\" onmouseover=\"this.style.backgroundColor='" . $color1 . "'; this.style.cursor='hand';\" onmouseout=\"this.style.backgroundColor='" . $color2 . "'\" onclick=\"document.location='index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "'\"><a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "\"><big><b>&nbsp;" . $nom ." </b></big></a><br />" . $comment . "</td>\n";
 
         $sql_page = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thid . "'");
         $nb_rep = mysql_num_rows($sql_page);
@@ -153,8 +153,8 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
         } 
 
         echo "<td style=\"width: 15%;\" align=\"center\">" . $num_post . "</td>\n"
-    	. "<td style=\"width: 15%;\" align=\"center\">" . $num_mess . "</td>\n"
-    	. "<td style=\"width: 25%;\" align=\"center\"> ";
+        . "<td style=\"width: 15%;\" align=\"center\">" . $num_mess . "</td>\n"
+        . "<td style=\"width: 25%;\" align=\"center\"> ";
 
         if ($num_mess > 0)
         {
@@ -178,9 +178,10 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
                 $autor = $auteur;
             } 
 
-            if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
-            else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);	
-            else $date = strftime("%d-%m-%Y %H:%M", $date);
+            //if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
+            //else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
+            //else $date = strftime("%d-%m-%Y %H:%M", $date);
+            $date = nkDate($date);
 
             echo $date . "<br />";
 

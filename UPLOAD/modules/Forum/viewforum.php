@@ -95,8 +95,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "<br /><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-	 ."<tr><td><big><b>" . $nom . "</b></big><small> -  " . _MODO . " : " . $modo . "</small></td></tr>\n"
-	. "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;cat=" . $cat . "\"><b>" . $cat_name . "</b></a> -&gt; <b>" . $nom . "</b>\n";
+     ."<tr><td><big><b>" . $nom . "</b></big><small> -  " . _MODO . " : " . $modo . "</small></td></tr>\n"
+    . "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;cat=" . $cat . "\"><b>" . $cat_name . "</b></a> -&gt; <b>" . $nom . "</b>\n";
 
         if ($count > $nb_mess_for)
         {
@@ -118,13 +118,13 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "</td></tr></table>\n"
-	. "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n"
-	. "<tr " . $background . "><td style=\"width: 4%;\">&nbsp;</td>\n"
-    	. "<td style=\"width: 40%;\" align=\"center\"><b>" . _SUBJECTS . "</b></td>\n"
-    	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
-	. "<td style=\"width: 8%;\" align=\"center\"><b>" . _ANSWERS . "</b></td>\n"
-	. "<td style=\"width: 8%;\" align=\"center\"><b>" . _VIEWS . "</b></td>\n"
-    	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _LASTPOST . "</b></td></tr>\n";
+    . "<table style=\"background: " . $color3 . ";\" width=\"100%\" cellspacing=\"1\" cellpadding=\"4\" border=\"0\">\n"
+    . "<tr " . $background . "><td style=\"width: 4%;\">&nbsp;</td>\n"
+        . "<td style=\"width: 40%;\" align=\"center\"><b>" . _SUBJECTS . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+    . "<td style=\"width: 8%;\" align=\"center\"><b>" . _ANSWERS . "</b></td>\n"
+    . "<td style=\"width: 8%;\" align=\"center\"><b>" . _VIEWS . "</b></td>\n"
+        . "<td style=\"width: 25%;\" align=\"center\"><b>" . _LASTPOST . "</b></td></tr>\n";
 
         if ($count == 0)
         {
@@ -152,6 +152,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             $texte = strip_tags($txt);
             $title = strip_tags(htmlentities($titre));
+            $titre = htmlentities($titre);
+            $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
+            $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
 
             if (!preg_match("`[a-zA-Z0-9\?\.]`i", $texte))
             {
@@ -168,11 +171,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if (strlen($titre) > 30)
             {
-                $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . htmlentities(substr($titre, 0, 30)) . "...</b></a>";
+                $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . substr($titre, 0, 30) . "...</b></a>";
             }
             else
             {
-                $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . htmlentities($titre) . "</b></a>";
+                $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . $titre . "</b></a>";
             }
 
             $sql4 = mysql_query("SELECT file FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
@@ -192,7 +195,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $last_auteur = nk_CSS($last_auteur);
 
             
-			if ($user)
+            if ($user)
             {
                 $visitx = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $thread_id . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' AND user_id = '" . $user[0] . "'");
                 $user_visitx = mysql_num_rows($visitx);
@@ -304,9 +307,11 @@ if ($visiteur >= $level_access && $level_access > -1)
             . "<td style=\"width: 8%;\" align=\"center\">" . $nb_rep . "</td>\n"
             . "<td style=\"width: 8%;\" align=\"center\">" . $nb_read . "</td>\n";
 
-            if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $last_date)) $last_date = _FTODAY . "&nbsp;" . strftime("%H:%M", $last_date);
-            else if (strftime("%d", $last_date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $last_date)) $last_date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $last_date);
-            else $last_date = strftime("%d-%m-%Y %H:%M", $last_date);
+            //if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $last_date)) $last_date = _FTODAY . "&nbsp;" . strftime("%H:%M", $last_date);
+            //else if (strftime("%d", $last_date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $last_date)) $last_date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $last_date);
+            //else $last_date = strftime("%d-%m-%Y %H:%M", $last_date);
+
+            $last_date = nkDate($last_date);
 
             echo "<td style=\"width: 25%;\" align=\"center\">" . $last_date . "<br />\n";
 
@@ -356,9 +361,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td></tr></table>\n"
         . "<table cellspacing=\"0\" cellpadding=\"1\" border=\"0\">\n"
-	. "<tr><td><img src=\"modules/Forum/images/folder_new.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _POSTNEW . "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Forum/images/folder_lock.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _SUBJECTCLOSE . "</td></tr>\n"
-	. "<tr><td><img src=\"modules/Forum/images/folder.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _NOPOSTNEW . "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Forum/images/folder_new_hot.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _POSTNEWHOT . "</td></tr>\n"
-	. "<tr><td><img src=\"modules/Forum/images/folder_new_lock.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _POSTNEWCLOSE . "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Forum/images/folder_hot.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _NOPOSTNEWHOT . "</td></tr></table><br />\n"
+    . "<tr><td><img src=\"modules/Forum/images/folder_new.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _POSTNEW . "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Forum/images/folder_lock.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _SUBJECTCLOSE . "</td></tr>\n"
+    . "<tr><td><img src=\"modules/Forum/images/folder.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _NOPOSTNEW . "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Forum/images/folder_new_hot.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _POSTNEWHOT . "</td></tr>\n"
+    . "<tr><td><img src=\"modules/Forum/images/folder_new_lock.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _POSTNEWCLOSE . "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Forum/images/folder_hot.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _NOPOSTNEWHOT . "</td></tr></table><br />\n"
         . "<table cellspacing=\"0\" cellpadding=\"1\" border=\"0\">\n"
         . "<tr><td><form method=\"post\" action=\"index.php?file=Forum&amp;page=viewforum\">\n"
         . "<div>" . _JUMPTO . " : <select name=\"forum_id\" onchange=\"submit();\">\n"
@@ -374,13 +379,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</select></div></form></td><td>"
         . "<form method=\"post\" action=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\">\n"
-   	. "<div>&nbsp;&nbsp;" . _SEETHETOPIC . " : <select name=\"date_max\" onchange=\"submit();\">\n"
-	. "<option>" . _THEFIRST . "</option>\n"
-	. "<option value=\"86400\">" . _ONEDAY . "</option>\n"
-	. "<option value=\"604800\">" . _ONEWEEK . "</option>\n"
-	. "<option value=\"2592000\">" . _ONEMONTH . "</option>\n"
-	. "<option value=\"15552000\">" . _SIXMONTH . "</option>\n"
-	. "<option value=\"31104000\">" . _ONEYEAR . "</option></select></div></form></td></tr></table><br />\n";
+       . "<div>&nbsp;&nbsp;" . _SEETHETOPIC . " : <select name=\"date_max\" onchange=\"submit();\">\n"
+    . "<option>" . _THEFIRST . "</option>\n"
+    . "<option value=\"86400\">" . _ONEDAY . "</option>\n"
+    . "<option value=\"604800\">" . _ONEWEEK . "</option>\n"
+    . "<option value=\"2592000\">" . _ONEMONTH . "</option>\n"
+    . "<option value=\"15552000\">" . _SIXMONTH . "</option>\n"
+    . "<option value=\"31104000\">" . _ONEYEAR . "</option></select></div></form></td></tr></table><br />\n";
     }
 
 }

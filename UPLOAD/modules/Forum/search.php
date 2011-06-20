@@ -35,20 +35,20 @@ if ($visiteur >= $level_access && $level_access > -1)
     {
         $where = "AS M , " . FORUM_TABLE . " AS F , " . FORUM_CAT_TABLE . " AS C WHERE";
 
-	if (strpos("cat_", $_REQUEST['id_forum']))
-	{
+    if (strpos("cat_", $_REQUEST['id_forum']))
+    {
             $cat = preg_replace("`cat_`i", "", $_REQUEST['id_forum']);
             $where .= " F.cat = '" . $cat . "' AND";
-	}
+    }
         else if ($_REQUEST['id_forum'] != "")
         {
             $cat = $_REQUEST['id_forum'];
             $where .= " M.forum_id = '" . $cat . "' AND";
         }
-	else
-	{
+    else
+    {
             $cat = 0;
-	}
+    }
 
         $where .= " F.cat = C.id AND '" . $visiteur . "' >= C.niveau AND M.forum_id = F.id AND '" . $visiteur . "' >= F.niveau AND";
 
@@ -59,13 +59,13 @@ if ($visiteur >= $level_access && $level_access > -1)
         $_REQUEST['autor'] = trim($_REQUEST['autor']);
 
         if (preg_match("`%20union%20`i", $_REQUEST['query']) ||preg_match("` union `i", $_REQUEST['query']) || preg_match("`\*union\*`i", $_REQUEST['query']) || preg_match("`\+union\+`i", $_REQUEST['query']) || preg_match("`\*`i", $_REQUEST['query']) || !is_numeric($cat))
-	{
+    {
             echo "<br /><br /><div style=\"text-align: center;\"><big>What are you trying to do ?</big></div><br /><br />";
             redirect("index.php?file=Forum&page=search", 2);
             closetable();
             footer();
             exit();
-	}
+    }
 
         $_REQUEST['query'] = mysql_real_escape_string(stripslashes($_REQUEST['query']));
         $_REQUEST['query'] = trim($_REQUEST['query']);
@@ -156,17 +156,17 @@ if ($visiteur >= $level_access && $level_access > -1)
         $nb_result = mysql_num_rows($result);
 
         echo "<br /><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-	. "<tr><td><big><b>" . _FSEARCHRESULT . "</b></big> - " . $nb_result . "&nbsp;" . _FSEARCHFOUND . "</td></tr>\n"
-	. "<tr><td><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=search\"><b>" . _SEARCH . "</b></a></td></tr></table>\n";
-	
-	$url = "index.php?file=Forum&amp;page=search&amp;op=" . $op . "&amp;query=" . urlencode($_REQUEST['query']) . "&amp;autor=" . urlencode($_REQUEST['autor']) . "&amp;do=" . $_REQUEST['do'] . "&amp;into=" . $_REQUEST['into'] . "&amp;searchtype=" . $_REQUEST['searchtype'] . "&amp;id_forum=" . $_REQUEST['id_forum'] . "&amp;limit=" . $_REQUEST['limit'] . "&amp;date_max=" . $_REQUEST['date_max'];
+    . "<tr><td><big><b>" . _FSEARCHRESULT . "</b></big> - " . $nb_result . "&nbsp;" . _FSEARCHFOUND . "</td></tr>\n"
+    . "<tr><td><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=search\"><b>" . _SEARCH . "</b></a></td></tr></table>\n";
+    
+    $url = "index.php?file=Forum&amp;page=search&amp;op=" . $op . "&amp;query=" . urlencode($_REQUEST['query']) . "&amp;autor=" . urlencode($_REQUEST['autor']) . "&amp;do=" . $_REQUEST['do'] . "&amp;into=" . $_REQUEST['into'] . "&amp;searchtype=" . $_REQUEST['searchtype'] . "&amp;id_forum=" . $_REQUEST['id_forum'] . "&amp;limit=" . $_REQUEST['limit'] . "&amp;date_max=" . $_REQUEST['date_max'];
         if ($nb_result > $_REQUEST['limit']) number($nb_result, $_REQUEST['limit'], $url);
 
         echo "<table style=\"background: " . $color3 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
-	. "<tr " . $background . "><td style=\"width: 20%;\" align=\"center\"><b>" . _FORUMS . "</b></td>\n"
-    	. "<td style=\"width: 30%;\" align=\"center\"><b>" . _SUBJECTS . "</b></td>\n"
-    	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
+    . "<tr " . $background . "><td style=\"width: 20%;\" align=\"center\"><b>" . _FORUMS . "</b></td>\n"
+        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _SUBJECTS . "</b></td>\n"
+        . "<td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+    . "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
         if ($nb_result > 0)
         {
@@ -177,7 +177,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 {
                     $sql_forum = mysql_query("SELECT nom, niveau FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
                     list($forum_name, $forum_level) = mysql_fetch_row($sql_forum);
-                    $date = strftime("%x %H:%M", $date);
+                    $date = nkDate($date);
                     $forum_name = htmlentities($forum_name);
 
                     $auteur = nk_CSS($auteur);
@@ -281,38 +281,38 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</table>\n";
 
-	$url = "index.php?file=Forum&amp;page=search&amp;op=" . $op . "&amp;query=" . urlencode($_REQUEST['query']) . "&amp;autor=" . urlencode($_REQUEST['autor']) . "&amp;do=" . $_REQUEST['do'] . "&amp;into=" . $_REQUEST['into'] . "&amp;searchtype=" . $_REQUEST['searchtype'] . "&amp;id_forum=" . $_REQUEST['id_forum'] . "&amp;limit=" . $_REQUEST['limit'] . "&amp;date_max=" . $_REQUEST['date_max'];
+    $url = "index.php?file=Forum&amp;page=search&amp;op=" . $op . "&amp;query=" . urlencode($_REQUEST['query']) . "&amp;autor=" . urlencode($_REQUEST['autor']) . "&amp;do=" . $_REQUEST['do'] . "&amp;into=" . $_REQUEST['into'] . "&amp;searchtype=" . $_REQUEST['searchtype'] . "&amp;id_forum=" . $_REQUEST['id_forum'] . "&amp;limit=" . $_REQUEST['limit'] . "&amp;date_max=" . $_REQUEST['date_max'];
         if ($nb_result > $_REQUEST['limit']) number($nb_result, $_REQUEST['limit'], $url);
 
         echo "<br /><form method=\"get\" action=\"index.php\">\n"
-		. "<div style=\"text-align: center;\">\n"
-		. "<input type=\"hidden\" name=\"file\" value=\"Forum\" />\n"
-		. "<input type=\"hidden\" name=\"page\" value=\"search\" />\n"
-		. "<input type=\"hidden\" name=\"do\" value=\"search\" />\n"
-		. "<input type=\"hidden\" name=\"into\" value=\"all\" />\n"
-		. "<b>" . _SEARCH . " :</b> <input type=\"text\" name=\"query\" size=\"25\" />&nbsp;<input type=\"submit\" value=\"" . _SEND . "\" /></div></form><br />\n";
-	} 
+        . "<div style=\"text-align: center;\">\n"
+        . "<input type=\"hidden\" name=\"file\" value=\"Forum\" />\n"
+        . "<input type=\"hidden\" name=\"page\" value=\"search\" />\n"
+        . "<input type=\"hidden\" name=\"do\" value=\"search\" />\n"
+        . "<input type=\"hidden\" name=\"into\" value=\"all\" />\n"
+        . "<b>" . _SEARCH . " :</b> <input type=\"text\" name=\"query\" size=\"25\" />&nbsp;<input type=\"submit\" value=\"" . _SEND . "\" /></div></form><br />\n";
+    } 
     else
     {
         echo "<script type=\"text/javascript\">\n"
-			. "	$(document).ready(function() {\n"
-			. "		$(\"#autor\").autocomplete(\"index.php?file=Members&op=list&nuked_nude=index\",{
-				minChars:2,
-				max:200
-			});
-				});\n"
-			. "	</script>\n"
-		. "<br /><form method=\"post\" action=\"index.php?file=Forum&amp;page=search&amp;do=search\">\n"
-		. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-		. "<tr><td><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <b>" . _SEARCH . "</b></td></tr></table>\n"
-		. "<table style=\"background: " . $color3 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
-		. "<tr " . $background . "><td align=\"center\" colspan=\"2\"><b>" . _SEARCHING . "</b></td></tr>\n"
-		. "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _KEYWORDS . " :</b></td><td>&nbsp;<input type=\"text\" name=\"query\" size=\"30\" /><br />\n"
-		. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchor\" />" . _MATCHOR . "<br />\n"
-		. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchand\" checked=\"checked\" />" . _MATCHAND . "<br />\n"
-		. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchexact\" />" . _MATCHEXACT . "</td></tr>\n"
-		. "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _AUTHOR . " :</b></td><td>&nbsp;<input type=\"text\" name=\"autor\" id=\"autor\" size=\"30\" /></td></tr>\n"
-		. "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _FORUM . " :</b></td><td>&nbsp;<select name=\"id_forum\"><option value=\"\">" . _ALL . "</option>\n";
+            . "    $(document).ready(function() {\n"
+            . "        $(\"#autor\").autocomplete(\"index.php?file=Members&op=list&nuked_nude=index\",{
+                minChars:2,
+                max:200
+            });
+                });\n"
+            . "    </script>\n"
+        . "<br /><form method=\"post\" action=\"index.php?file=Forum&amp;page=search&amp;do=search\">\n"
+        . "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
+        . "<tr><td><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <b>" . _SEARCH . "</b></td></tr></table>\n"
+        . "<table style=\"background: " . $color3 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
+        . "<tr " . $background . "><td align=\"center\" colspan=\"2\"><b>" . _SEARCHING . "</b></td></tr>\n"
+        . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _KEYWORDS . " :</b></td><td>&nbsp;<input type=\"text\" name=\"query\" size=\"30\" /><br />\n"
+        . "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchor\" />" . _MATCHOR . "<br />\n"
+        . "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchand\" checked=\"checked\" />" . _MATCHAND . "<br />\n"
+        . "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchexact\" />" . _MATCHEXACT . "</td></tr>\n"
+        . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _AUTHOR . " :</b></td><td>&nbsp;<input type=\"text\" name=\"autor\" id=\"autor\" size=\"30\" /></td></tr>\n"
+        . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _FORUM . " :</b></td><td>&nbsp;<select name=\"id_forum\"><option value=\"\">" . _ALL . "</option>\n";
 
         $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
         while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
@@ -331,9 +331,9 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         echo "</select></td></tr>\n"
-	. "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _SEARCHINTO . " :</b></td><td>&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"subject\" />" . _SUBJECTS . "&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"message\" />" . _MESSAGES . "&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"all\" checked=\"checked\" />" . _BOTH . "</td></tr>\n"
-	. "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _NBANSWERS . " :</b></td><td>&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"limit\" value=\"10\" />10 &nbsp;<input type=\"radio\" name=\"limit\" class=\"checkbox\" value=\"50\" checked=\"checked\" />50&nbsp;<input type=\"radio\" name=\"limit\" class=\"checkbox\" value=\"100\" />100</td></tr>\n"
-	. "<tr style=\"background: " . $color2 . ";\"><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . _SEARCHING . "\" /></td></tr></table></form><br />\n";
+    . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _SEARCHINTO . " :</b></td><td>&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"subject\" />" . _SUBJECTS . "&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"message\" />" . _MESSAGES . "&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"all\" checked=\"checked\" />" . _BOTH . "</td></tr>\n"
+    . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _NBANSWERS . " :</b></td><td>&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"limit\" value=\"10\" />10 &nbsp;<input type=\"radio\" name=\"limit\" class=\"checkbox\" value=\"50\" checked=\"checked\" />50&nbsp;<input type=\"radio\" name=\"limit\" class=\"checkbox\" value=\"100\" />100</td></tr>\n"
+    . "<tr style=\"background: " . $color2 . ";\"><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . _SEARCHING . "\" /></td></tr></table></form><br />\n";
     } 
 
 } 

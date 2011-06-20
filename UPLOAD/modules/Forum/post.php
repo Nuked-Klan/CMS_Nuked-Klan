@@ -120,6 +120,8 @@ if ($visiteur >= $level_access && $level_access > -1)
             $sql1 = mysql_query("SELECT titre, annonce FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
             list($titre, $annonce) = mysql_fetch_array($sql1);
             $titre = htmlentities($titre);
+            $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
+            $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
             $re_titre = "RE : " . $titre;
 
             echo "<input id=\"forum_titre\" type=\"text\" size=\"70\"  maxlength=\"70\" name=\"titre\" value=\"" . $re_titre . "\" />";
@@ -275,7 +277,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $sql2 = mysql_query("SELECT txt, auteur, date FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' ORDER BY date DESC LIMIT 0, 20");
             while (list($txt, $auteur, $date) = mysql_fetch_row($sql2))
             {
-                $date = strftime("%x %H:%M", $date);
+                $date = nkDate($date);
                 $tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
                 $auteur = nk_CSS($auteur);
 

@@ -86,6 +86,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         list($titre, $read, $closed, $annonce, $lastpost, $topic_aid, $sondage) = mysql_fetch_array($sql2);
         $titre = htmlentities($titre);
+        $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
+        $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
         $titre = nk_CSS($titre);
 
         $upd = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET view = view + 1 WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND id = '" . $_REQUEST['thread_id'] . "'");
@@ -238,15 +240,15 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "<tr " . $background . "><td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td><td style=\"width: 75%;\" align=\"center\" id=\"forum-table\"><b>" . _MESSAGE . "</b></td></tr>\n";
 
-		echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('forum-table').offsetWidth - 40;\n</script>\n";
+        echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('forum-table').offsetWidth - 40;\n</script>\n";
 
         $sql4 = mysql_query("SELECT id, titre, auteur, auteur_id, auteur_ip, txt, date, edition, usersig, file  FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' ORDER BY date ASC limit " . $start . ", " . $nb_mess_for_mess."");
         while (list($mess_id, $title, $auteur, $auteur_id, $auteur_ip, $txt, $date, $edition, $usersig, $fichier) = mysql_fetch_row($sql4))
         {
 
-            $title = htmlentities($title, ENT_NOQUOTES);
-            $title = preg_replace("`&lt;`i", "<", $title);
-            $title = preg_replace("`&gt;`i", ">", $title);
+            $title = htmlentities($title);
+            $title = preg_replace("`&amp;lt;`i", "&lt;", $title);
+            $title = preg_replace("`&amp;gt;`i", "&gt;", $title);
 
             
 
@@ -271,9 +273,11 @@ if ($visiteur >= $level_access && $level_access > -1)
                 } 
             }
 
-            if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
-            else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
-            else $date = _THE . "&nbsp;" . strftime("%d-%m-%Y %H:%M", $date);
+            //if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
+            //else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
+            //else $date = _THE . "&nbsp;" . strftime("%d-%m-%Y %H:%M", $date);
+
+            $date = nkDate($date);
 
             $tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
 
@@ -287,7 +291,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                 if ($test > 0 && $autor != "")
                 {
-                    $date_member = strftime("%x", $date_member);
+                    $date_member = nkDate($date_member);
 
                      
 
@@ -542,17 +546,17 @@ if ($visiteur >= $level_access && $level_access > -1)
         echo "</td></tr></table>\n";
 
     echo '<script type="text/javascript">
-		  var Img = document.getElementById("img_resize_forum").getElementsByTagName("img");
-		  var NbrImg = Img.length;
-		  for(var i = 0; i < NbrImg; i++)
-		  {
-			  if (Img[i].width > MaxWidth){
-			       Img[i].style.height = Img[i].height * MaxWidth / Img[i].width+"px";
-			       Img[i].style.width = MaxWidth+"px";
-			  }
-			
-		  }
-		  </script>';
+          var Img = document.getElementById("img_resize_forum").getElementsByTagName("img");
+          var NbrImg = Img.length;
+          for(var i = 0; i < NbrImg; i++)
+          {
+              if (Img[i].width > MaxWidth){
+                   Img[i].style.height = Img[i].height * MaxWidth / Img[i].width+"px";
+                   Img[i].style.width = MaxWidth+"px";
+              }
+            
+          }
+          </script>';
 
         if ($visiteur >= admin_mod("Forum") || $administrator == 1)
         {

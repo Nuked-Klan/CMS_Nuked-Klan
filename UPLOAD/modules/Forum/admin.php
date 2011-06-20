@@ -34,34 +34,34 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $language;
 
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	. "function delcat(titre, id)\n"
-	. "{\n"
-	. "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-	. "{document.location.href = 'index.php?file=Forum&page=admin&op=del_cat&cid='+id;}\n"
-	. "}\n"
-    	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+    ."<!--\n"
+    ."\n"
+    . "function delcat(titre, id)\n"
+    . "{\n"
+    . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=del_cat&cid='+id;}\n"
+    . "}\n"
+        . "\n"
+    . "// -->\n"
+    . "</script>\n";
 
-	echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
-	. "</b>" . _CATMANAGEMENT . "<b><br />"
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 50%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
+    . "</b>" . _CATMANAGEMENT . "<b><br />"
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr>\n"
+    . "<td style=\"width: 50%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT id, nom, ordre FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
         while (list($cid, $nom, $ordre) = mysql_fetch_row($sql))
@@ -77,7 +77,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
 
         echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_cat\"><b>" . _ADDCAT . "</b></a> ]</div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
     }
 
     function add_cat()
@@ -85,27 +85,27 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $language;
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_cat\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-	. "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-	. "<tr><td><b>" . _NIVEAU . " :</b> <select name=\"niveau\">\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select>"
-	. "&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" value=\"0\" size=\"2\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_cat\">\n"
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
+    . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
+    . "<tr><td><b>" . _NIVEAU . " :</b> <select name=\"niveau\">\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select>"
+    . "&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" value=\"0\" size=\"2\" /></td></tr></table>\n"
+    . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function send_cat($nom, $niveau, $ordre)
@@ -116,47 +116,47 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $sql = mysql_query("INSERT INTO " . FORUM_CAT_TABLE . " ( `id` , `nom` , `ordre` , `niveau` ) VALUES ( '' , '" . $nom . "' , '" . $ordre . "' , '" . $niveau . "' )");
         // Action
-		$texteaction = "". _ACTIONADDCATFO .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _CATADD . "\n"
-		. "</div>\n"
-		. "</div>\n";
-		echo "<script>\n"
-			."setTimeout('screen()','3000');\n"
-			."function screen() { \n"
-			."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-			."}\n"
-			."</script>\n";
+        $texteaction = "". _ACTIONADDCATFO .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _CATADD . "\n"
+        . "</div>\n"
+        . "</div>\n";
+        echo "<script>\n"
+            ."setTimeout('screen()','3000');\n"
+            ."function screen() { \n"
+            ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
+            ."}\n"
+            ."</script>\n";
     }
 
     function del_cat($cid)
     {
         global $nuked, $user;
-		
-		$sql2 = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
+        
+        $sql2 = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
         list($nom) = mysql_fetch_array($sql2);
-		$nom = mysql_real_escape_string($nom);
+        $nom = mysql_real_escape_string($nom);
         $sql = mysql_query("DELETE FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
-		// Action
-		$texteaction = "". _ACTIONDELCATFO .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _CATDEL . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONDELCATFO .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _CATDEL . "\n"
+        . "</div>\n"
+        . "</div>\n";
         echo "<script>\n"
-			."setTimeout('screen()','3000');\n"
-			."function screen() { \n"
-			."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-			."}\n"
-			."</script>\n";
+            ."setTimeout('screen()','3000');\n"
+            ."function screen() { \n"
+            ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
+            ."}\n"
+            ."</script>\n";
     }
 
     function edit_cat($cid)
@@ -167,27 +167,27 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         list($nom, $niveau, $ordre) = mysql_fetch_array($sql);
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_cat\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-	. "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $nom . "\" /></td></tr>\n"
-	. "<tr><td><b>" . _NIVEAU . " :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select>"
-	. "&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" value=\"" . $ordre . "\" size=\"2\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_cat\">\n"
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
+    . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $nom . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _NIVEAU . " :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select>"
+    . "&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" value=\"" . $ordre . "\" size=\"2\" /></td></tr></table>\n"
+    . "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
     }
 
     function modif_cat($cid, $nom, $niveau, $ordre)
@@ -198,22 +198,22 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $sql = mysql_query("UPDATE " . FORUM_CAT_TABLE . " SET nom = '" . $nom . "', niveau = '" . $niveau . "', ordre = '" . $ordre . "' WHERE id = '" . $cid . "'");
         $sql_forum = mysql_query("UPDATE " . FORUM_TABLE . " SET niveau = '" . $niveau . "' WHERE cat = '" . $cid . "'");
-		// Action
-		$texteaction = "". _ACTIONMODIFCATFO .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _CATMODIF . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONMODIFCATFO .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _CATMODIF . "\n"
+        . "</div>\n"
+        . "</div>\n";
         echo "<script>\n"
-			."setTimeout('screen()','3000');\n"
-			."function screen() { \n"
-			."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-			."}\n"
-			."</script>\n";
+            ."setTimeout('screen()','3000');\n"
+            ."function screen() { \n"
+            ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
+            ."}\n"
+            ."</script>\n";
     }
 
     function select_forum_cat()
@@ -234,68 +234,68 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $language;
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
-	. "</b>" . _ADDFORUM . "<b> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_forum\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-	. "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
-	. "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\">\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
+    . "</b>" . _ADDFORUM . "<b> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+    . "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_forum\">\n"
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
+    . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
+    . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\">\n";
 
         select_forum_cat();
 
         echo"</select></td></tr>\n"
-	. "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" rows=\"10\" cols=\"69\"></textarea></td></tr>\n"
-	. "<tr><td><b>" . _LEVELACCES . " :</b> <select name=\"niveau\">\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select>&nbsp;<b>" . _LEVELPOST . " :</b> <select name=\"level\">\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select>&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"2\" value=\"0\" /></td></tr>\n"
-	. "<tr><td><b>" . _LEVELPOLL . " :</b> <select name=\"level_poll\">\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select>&nbsp;<b>" . _LEVELVOTE . " :</b> <select name=\"level_vote\">\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select></td></tr>\n"
-	. "<tr><td><b>" . _MODERATEUR . " :</b> <select name=\"modo\"><option value=\"\">" . _NONE . "</option>\n";
+    . "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" rows=\"10\" cols=\"69\"></textarea></td></tr>\n"
+    . "<tr><td><b>" . _LEVELACCES . " :</b> <select name=\"niveau\">\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select>&nbsp;<b>" . _LEVELPOST . " :</b> <select name=\"level\">\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select>&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"2\" value=\"0\" /></td></tr>\n"
+    . "<tr><td><b>" . _LEVELPOLL . " :</b> <select name=\"level_poll\">\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select>&nbsp;<b>" . _LEVELVOTE . " :</b> <select name=\"level_vote\">\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select></td></tr>\n"
+    . "<tr><td><b>" . _MODERATEUR . " :</b> <select name=\"modo\"><option value=\"\">" . _NONE . "</option>\n";
 
 
         $sql = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 0 ORDER BY niveau DESC, pseudo");
@@ -306,45 +306,45 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
 
 
-	echo "</select></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _ADDTHISFORUM . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>\n";
+    echo "</select></td></tr></table>\n"
+    . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _ADDTHISFORUM . "\" /></div>\n"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>\n";
     }
 
     function send_forum($titre, $description, $cat, $modo, $niveau, $level, $ordre, $level_poll, $level_vote)
     {
         global $nuked, $user;
 
-		$description = html_entity_decode($description);
+        $description = html_entity_decode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 
         $sql = mysql_query("INSERT INTO " . FORUM_TABLE . " ( `id` , `cat` , `nom` , `comment` , `moderateurs` , `niveau` , `level` , `ordre` , `level_poll` , `level_vote` ) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $description . "' , '" . $modo . "' , '" . $niveau . "' , '" . $level . "' , '" . $ordre . "' , '" . $level_poll . "' , '" . $level_vote . "' )");
         // Action
-		$texteaction = "". _ACTIONADDFO .": ".$titre."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _FORUMADD . "\n"
-		. "</div>\n"
-		. "</div>\n";
-		echo "<script>\n"
-			."setTimeout('screen()','3000');\n"
-			."function screen() { \n"
-			."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
-			."}\n"
-			."</script>\n";
+        $texteaction = "". _ACTIONADDFO .": ".$titre."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _FORUMADD . "\n"
+        . "</div>\n"
+        . "</div>\n";
+        echo "<script>\n"
+            ."setTimeout('screen()','3000');\n"
+            ."function screen() { \n"
+            ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
+            ."}\n"
+            ."</script>\n";
     }
 
     function del_forum($id)
     {
         global $nuked, $user;
 
-		$sqls = mysql_query("SELECT nom FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
+        $sqls = mysql_query("SELECT nom FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
         list($titre) = mysql_fetch_array($sqls);
-		$titre= mysql_real_escape_string($titre);
+        $titre= mysql_real_escape_string($titre);
         $sql = mysql_query("SELECT id, sondage FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
         while (list($thread_id, $sondage) = mysql_fetch_row($sql))
         {
@@ -363,22 +363,22 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $del_topic = mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
         $del_mess = mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $id . "'");
         $del_read = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE forum_id = '" . $id . "'");
-		// Action
-		$texteaction = "". _ACTIONDELFO .": ".$titre."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _FORUMDEL . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONDELFO .": ".$titre."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _FORUMDEL . "\n"
+        . "</div>\n"
+        . "</div>\n";
         echo "<script>\n"
-			."setTimeout('screen()','3000');\n"
-			."function screen() { \n"
-			."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
-			."}\n"
-			."</script>\n";
+            ."setTimeout('screen()','3000');\n"
+            ."function screen() { \n"
+            ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
+            ."}\n"
+            ."</script>\n";
     }
 
     function edit_forum($id)
@@ -409,63 +409,63 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_forum\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-	. "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
-	. "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"" . $cat . "\">" . $cat_name . "</option>\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_forum\">\n"
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
+    . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"" . $cat . "\">" . $cat_name . "</option>\n";
 
         select_forum_cat();
 
         echo"</select></td></tr>\n"
-	. "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" rows=\"10\" cols=\"69\">" . $description . "</textarea></td></tr>\n"
-	. "<tr><td><b>" . _LEVELACCES . " :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select>&nbsp;<b>" . _LEVELPOST . " :</b> <select name=\"level\"><option>" . $level . "</option>\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select>&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"2\" value=\"" . $ordre . "\" /></td></tr>\n"
-	. "<tr><td><b>" . _LEVELPOLL . " :</b> <select name=\"level_poll\"><option>" . $level_poll . "</option>\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select>&nbsp;<b>" . _LEVELVOTE . " :</b> <select name=\"level_vote\"><option>$level_vote</option>\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select></td></tr>\n"
-	. "<tr><td><b>" . _MODO . " :</b> " . $modos . "</td></tr>\n"
-	. "<tr><td><b>" . _ADDMODO . " :</b> <select name=\"modo\"><option value=\"\">" . _NONE . "</option>\n";
+    . "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" rows=\"10\" cols=\"69\">" . $description . "</textarea></td></tr>\n"
+    . "<tr><td><b>" . _LEVELACCES . " :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select>&nbsp;<b>" . _LEVELPOST . " :</b> <select name=\"level\"><option>" . $level . "</option>\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select>&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"2\" value=\"" . $ordre . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _LEVELPOLL . " :</b> <select name=\"level_poll\"><option>" . $level_poll . "</option>\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select>&nbsp;<b>" . _LEVELVOTE . " :</b> <select name=\"level_vote\"><option>$level_vote</option>\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select></td></tr>\n"
+    . "<tr><td><b>" . _MODO . " :</b> " . $modos . "</td></tr>\n"
+    . "<tr><td><b>" . _ADDMODO . " :</b> <select name=\"modo\"><option value=\"\">" . _NONE . "</option>\n";
 
         $sql = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 0 ORDER BY niveau DESC, pseudo");
         while (list($id_user, $pseudo) = mysql_fetch_row($sql))
@@ -476,16 +476,16 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             }
         }
 
-	echo "</select><input type=\"hidden\" name=\"id\" value=\"" . $id . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISFORUM . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    echo "</select><input type=\"hidden\" name=\"id\" value=\"" . $id . "\" /></td></tr></table>\n"
+    . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISFORUM . "\" /></div>\n"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function modif_forum($id, $titre, $cat, $description, $niveau, $level, $ordre, $level_poll, $level_vote, $modo)
     {
         global $nuked, $user;
 
-		$description = html_entity_decode($description);
+        $description = html_entity_decode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 
@@ -502,30 +502,30 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $upd = mysql_query("UPDATE " . FORUM_TABLE . " SET nom = '" . $titre . "', comment = '" . $description . "', cat = '" . $cat . "', niveau = '" . $niveau . "', level = '" . $level . "', ordre = '" . $ordre . "', level_poll = '" . $level_poll . "', level_vote = '" . $level_vote . "' WHERE id = '" . $id . "'");
         // Action
-		$texteaction = "". _ACTIONMODIFFO .": ".$titre."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _FORUMMODIF . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        $texteaction = "". _ACTIONMODIFFO .": ".$titre."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _FORUMMODIF . "\n"
+        . "</div>\n"
+        . "</div>\n";
         echo "<script>\n"
-			."setTimeout('screen()','3000');\n"
-			."function screen() { \n"
-			."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin');\n"
-			."}\n"
-			."</script>\n";
+            ."setTimeout('screen()','3000');\n"
+            ."function screen() { \n"
+            ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin');\n"
+            ."}\n"
+            ."</script>\n";
     }
 
     function del_modo($uid, $forum_id)
     {
         global $nuked, $user;
 
-		
-	$sql = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
-	list($listmodo) = mysql_fetch_row($sql);
+        
+    $sql = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
+    list($listmodo) = mysql_fetch_row($sql);
         $list = explode("|", $listmodo);
         for($i = 0; $i <= count($list)-1;$i++)
         {
@@ -545,22 +545,22 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
 
         $upd = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $modos . "' WHERE id = '" . $forum_id . "'");
-		
-		$sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '".$uid."'");
+        
+        $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '".$uid."'");
         list($pseudo) = mysql_fetch_array($sql);
-		$pseudo = mysql_real_escape_string($pseudo);
-		// Action
-		$texteaction = "". _ACTIONDELMODOFO .": ".$pseudo."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _MODODEL . "\n"
-		. "</div>\n"
-		. "</div>\n";
-		
-		$url = "index.php?file=Forum&page=admin&op=edit_forum&id=" . $forum_id;
+        $pseudo = mysql_real_escape_string($pseudo);
+        // Action
+        $texteaction = "". _ACTIONDELMODOFO .": ".$pseudo."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _MODODEL . "\n"
+        . "</div>\n"
+        . "</div>\n";
+        
+        $url = "index.php?file=Forum&page=admin&op=edit_forum&id=" . $forum_id;
         redirect($url, 2);
     }
 
@@ -569,36 +569,36 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $language;
 
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	. "function delforum(nom, id)\n"
-	. "{\n"
-	. "if (confirm('" . _DELETEFORUM . " '+nom+' ! " . _CONFIRM . "'))\n"
-	. "{document.location.href = 'index.php?file=Forum&page=admin&op=del_forum&id='+id;}\n"
-	. "}\n"
-    	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+    ."<!--\n"
+    ."\n"
+    . "function delforum(nom, id)\n"
+    . "{\n"
+    . "if (confirm('" . _DELETEFORUM . " '+nom+' ! " . _CONFIRM . "'))\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=del_forum&id='+id;}\n"
+    . "}\n"
+        . "\n"
+    . "// -->\n"
+    . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _FORUM . "<b> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-	. "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _LEVELACCES . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _LEVELPOST . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _FORUM . "<b> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+    . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _LEVELACCES . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _LEVELPOST . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT A.id, A.nom, A.niveau, A.level, A.cat, B.nom FROM " . FORUM_TABLE . " AS A LEFT JOIN " . FORUM_CAT_TABLE . " AS B ON B.id = A.cat ORDER BY B.ordre, B.nom, A.ordre, A.nom");
         while (list($id, $titre, $niveau, $level, $cat, $cat_name) = mysql_fetch_row($sql))
@@ -623,35 +623,35 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $language;
 
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	. "function delrank(titre, id)\n"
-	. "{\n"
-	. "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-	. "{document.location.href = 'index.php?file=Forum&page=admin&op=del_rank&rid='+id;}\n"
-	. "}\n"
-    	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+    ."<!--\n"
+    ."\n"
+    . "function delrank(titre, id)\n"
+    . "{\n"
+    . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=del_rank&rid='+id;}\n"
+    . "}\n"
+        . "\n"
+    . "// -->\n"
+    . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
-	. "</b>" . _RANKMANAGEMENT . "<b> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-	. "<td style=\"width: 25%;\"align=\"center\"><b>" . _TYPE . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _MESSAGES . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
+    . "</b>" . _RANKMANAGEMENT . "<b> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+    . "<tr>\n"
+    . "<td style=\"width: 25%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
+    . "<td style=\"width: 25%;\"align=\"center\"><b>" . _TYPE . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _MESSAGES . "</b></td>\n"
+    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
+    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT id, nom, type, post FROM " . FORUM_RANK_TABLE . " ORDER by type DESC, post");
         while (list($rid, $nom, $type, $nbpost) = mysql_fetch_row($sql))
@@ -689,7 +689,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
 
         echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_rank\"><b>" . _ADDRANK . "</b></a> ]</div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
     }
 
     function add_rank()
@@ -697,18 +697,18 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $language;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_rank\">\n"
-	. "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-	. "<tr><td><b>" . _NAME . " : </b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-	. "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"image\" value=\"http://\" size=\"38\" maxlength=\"200\" /></td></tr>\n"
-	. "<tr><td><b>" . _MESSAGES . " :</b> <input type=\"text\" name=\"post\" size=\"4\" value=\"0\" maxlength=\"5\" /></td></tr>\n"
-	. "<tr><td>&nbsp;<input type=\"hidden\" name=\"type\" value=\"0\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _CREATERANK . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_rank\">\n"
+    . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
+    . "<tr><td><b>" . _NAME . " : </b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
+    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"image\" value=\"http://\" size=\"38\" maxlength=\"200\" /></td></tr>\n"
+    . "<tr><td><b>" . _MESSAGES . " :</b> <input type=\"text\" name=\"post\" size=\"4\" value=\"0\" maxlength=\"5\" /></td></tr>\n"
+    . "<tr><td>&nbsp;<input type=\"hidden\" name=\"type\" value=\"0\" /></td></tr></table>\n"
+    . "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _CREATERANK . "\" /></div>\n"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function send_rank($nom, $type, $post, $image)
@@ -719,15 +719,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $sql = mysql_query("INSERT INTO " . FORUM_RANK_TABLE . " ( `id` , `nom` , `type` , `post` , `image` ) VALUES ( '' , '" . $nom . "' , '" . $type . "' , '" . $post . "' , '" . $image . "' )");
         // Action
-		$texteaction = "". _ACTIONADDRANKFO .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _RANKADD . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        $texteaction = "". _ACTIONADDRANKFO .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _RANKADD . "\n"
+        . "</div>\n"
+        . "</div>\n";
         redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
     }
 
@@ -737,18 +737,18 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $sqlr = mysql_query("SELECT nom FROM " . FORUM_RANK_TABLE . " WHERE id = '" . $rid . "'");
         list($nom) = mysql_fetch_array($sqlr);
-		$nom = mysql_real_escape_string($nom);
+        $nom = mysql_real_escape_string($nom);
         $sql = mysql_query("DELETE FROM " . FORUM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-		// Action
-		$texteaction = "". _ACTIONDELRANKFO .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _RANKDEL . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONDELRANKFO .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _RANKDEL . "\n"
+        . "</div>\n"
+        . "</div>\n";
         redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
     }
 
@@ -760,27 +760,27 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         list($nom, $type, $post, $image) = mysql_fetch_array($sql);
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_rank\">\n"
-	. "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-	. "<tr><td><b>" . _NAME . " : </b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $nom . "\" /></td></tr>\n"
-	. "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"image\" value=\"" . $image . "\" size=\"38\" maxlength=\"200\" />";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_rank\">\n"
+    . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
+    . "<tr><td><b>" . _NAME . " : </b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $nom . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"image\" value=\"" . $image . "\" size=\"38\" maxlength=\"200\" />";
 
         if ($type == 0)
         {
             echo "</td></tr><tr><td><b>" . _MESSAGES . " :</b> <input type=\"text\" name=\"post\" size=\"4\" value=\"" . $post . "\" maxlength=\"5\" /></td></tr>\n";
-	}
-	else
-	{
+    }
+    else
+    {
             echo "<input type=\"hidden\" name=\"post\" value=\"" . $post . "\" /></td></tr>\n";
-	}
+    }
 
-	echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"type\" value=\"" . $type . "\" /><input type=\"hidden\" name=\"rid\" value=\"" . $rid . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _MODIFTHISRANK . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"type\" value=\"" . $type . "\" /><input type=\"hidden\" name=\"rid\" value=\"" . $rid . "\" /></td></tr></table>\n"
+    . "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _MODIFTHISRANK . "\" /></div>\n"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function modif_rank($rid, $nom, $type, $post, $image)
@@ -791,16 +791,16 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $sql = mysql_query("UPDATE " . FORUM_RANK_TABLE . " SET nom = '" . $nom . "', type = '" . $type . "', post = '" . $post . "', image = '" . $image . "' WHERE id = '" . $rid . "'");
         
-		// Action
-		$texteaction = "". _ACTIONMODIFRANKFO .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _RANKMODIF . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONMODIFRANKFO .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _RANKMODIF . "\n"
+        . "</div>\n"
+        . "</div>\n";
         redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
     }
 
@@ -809,37 +809,37 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $language;
 
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	. "function verifchamps()\n"
-	. "{\n"
-	. "if (document.getElementById('prune_day').value.length == 0)\n"
-	. "{\n"
-	. "alert('" . _NODAY . "');\n"
-	. "return false;\n"
-	. "}\n"
-	. "return true;\n"
-	. "}\n"
-    	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+    ."<!--\n"
+    ."\n"
+    . "function verifchamps()\n"
+    . "{\n"
+    . "if (document.getElementById('prune_day').value.length == 0)\n"
+    . "{\n"
+    . "alert('" . _NODAY . "');\n"
+    . "return false;\n"
+    . "}\n"
+    . "return true;\n"
+    . "}\n"
+        . "\n"
+    . "// -->\n"
+    . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-	. "</b>" . _PRUNE . "<b> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=do_prune\" onsubmit=\"return verifchamps();\">\n"
-	. "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr><td>" . _DELOLDMESSAGES . "</td></tr>\n"
-	. "<tr><td><b>" . _NUMBEROFDAY . " :</b> <input id=\"prune_day\" type=\"text\" name=\"day\" size=\"3\" maxlength=\"3\" /></td></tr>\n"
-	. "<tr><td><b>" . _FORUM . " :</b> <select name=\"forum_id\"><option value=\"\">" . _ALL . "</option>\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
+    . "</b>" . _PRUNE . "<b> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+    . "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=do_prune\" onsubmit=\"return verifchamps();\">\n"
+    . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr><td>" . _DELOLDMESSAGES . "</td></tr>\n"
+    . "<tr><td><b>" . _NUMBEROFDAY . " :</b> <input id=\"prune_day\" type=\"text\" name=\"day\" size=\"3\" maxlength=\"3\" /></td></tr>\n"
+    . "<tr><td><b>" . _FORUM . " :</b> <select name=\"forum_id\"><option value=\"\">" . _ALL . "</option>\n";
 
         $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
         while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
@@ -858,33 +858,33 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
 
         echo "</select></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function do_prune($day, $forum_id)
     {
         global $nuked, $user;
 
-		
+        
         $sql_forum = mysql_query("SELECT nom FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
         list($nom) = mysql_fetch_array($sql_forum);
-		
+        
         $prunedate = time() - (86400 * $day);
 
-		if (strpos("cat_", $forum_id))
-		{
-				$cat = preg_replace("`cat_`i", "", $forum_id);
-				$and = "AND cat = '" . $cat . "'";
-		}
-		else if ($forum_id != "")
-		{
-			$and = "AND forum_id = '" . $forum_id . "'";
-		}
-		else
-		{
-				$and = "";
-		}
+        if (strpos("cat_", $forum_id))
+        {
+                $cat = preg_replace("`cat_`i", "", $forum_id);
+                $and = "AND cat = '" . $cat . "'";
+        }
+        else if ($forum_id != "")
+        {
+            $and = "AND forum_id = '" . $forum_id . "'";
+        }
+        else
+        {
+                $and = "";
+        }
 
         $sql = mysql_query("SELECT id, sondage FROM " . FORUM_THREADS_TABLE . " WHERE " . $prunedate . " >= last_post AND annonce = 0 " . $and);
         while (list($thread_id, $sondage) = mysql_fetch_row($sql))
@@ -902,16 +902,16 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             $sql3 = mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
             $sql4 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $thread_id . "'");
         }
-		// Action
-		$texteaction = "". _ACTIONPRUNEFO .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" .  _FORUMPRUNE . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONPRUNEFO .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" .  _FORUMPRUNE . "\n"
+        . "</div>\n"
+        . "</div>\n";
         redirect("index.php?file=Forum&page=admin", 2);
     }
 
@@ -923,43 +923,43 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         if ($nuked['forum_rank_team'] == "on") $checked2 = "checked=\"checked\"";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />\n"
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-	. "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
-	. "</b>" . _PREFS . "</div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=change_pref\">\n"
-	. "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
-	. "<tr><td colspan=\"2\"><b>" . _FORUMTITLE . " :</b> <input type=\"text\" name=\"forum_title\" size=\"40\" value=\"" . $nuked['forum_title'] . "\" /></td></tr>\n"
-	. "<tr><td colspan=\"2\"><b>" . _FORUMDESC . " :</b><br /><textarea name=\"forum_desc\" cols=\"55\" rows=\"5\">" . $nuked['forum_desc'] . "</textarea></td></tr>\n"
-	. "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-	. "<tr><td>" . _USERANKTEAM . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"forum_rank_team\" value=\"on\" " . $checked2 . " /></td></tr>\n"
-	. "<tr><td>" . _NUMBERTHREAD . " :</td><td><input type=\"text\" name=\"thread_forum_page\" size=\"2\" value=\"" . $nuked['thread_forum_page'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _NUMBERPOST . " :</td><td><input type=\"text\" name=\"mess_forum_page\" size=\"2\" value=\"" . $nuked['mess_forum_page'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _TOPICHOT . " :</td><td><input type=\"text\" name=\"hot_topic\" size=\"2\" value=\"" . $nuked['hot_topic'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _POSTFLOOD . " :</td><td><input type=\"text\" name=\"post_flood\" size=\"2\" value=\"" . $nuked['post_flood'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _MAXFIELD . " :</td><td><input type=\"text\" name=\"forum_field_max\" size=\"2\" value=\"" . $nuked['forum_field_max'] . "\" /></td></tr>\n"
-	. "<tr><td>" . _ATTACHFILES . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"forum_file\" value=\"on\" " . $checked1 . " /></td></tr>\n"
-	. "<tr><td>" . _FILELEVEL . " :</td><td><select name=\"forum_file_level\"><option>" . $nuked['forum_file_level'] . "</option>\n"
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	." <option>8</option>\n"
-	. "<option>9</option></select></td></tr>"
-	. "<tr><td>" . _MAXSIZEFILE . " :</td><td><input type=\"text\" name=\"forum_file_maxsize\" size=\"6\" value=\"" . $nuked['forum_file_maxsize'] . "\" /></td></tr>\n"
-	. "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Forum&amp;page=admin\">" . _FORUM . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=add_forum\">" . _ADDFORUM . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />\n"
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
+    . "<a href=\"index.php?file=Forum&amp;page=admin&amp;op=prune\">" . _PRUNE . "</a> | "
+    . "</b>" . _PREFS . "</div><br />\n"
+    . "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=change_pref\">\n"
+    . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
+    . "<tr><td colspan=\"2\"><b>" . _FORUMTITLE . " :</b> <input type=\"text\" name=\"forum_title\" size=\"40\" value=\"" . $nuked['forum_title'] . "\" /></td></tr>\n"
+    . "<tr><td colspan=\"2\"><b>" . _FORUMDESC . " :</b><br /><textarea name=\"forum_desc\" cols=\"55\" rows=\"5\">" . $nuked['forum_desc'] . "</textarea></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
+    . "<tr><td>" . _USERANKTEAM . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"forum_rank_team\" value=\"on\" " . $checked2 . " /></td></tr>\n"
+    . "<tr><td>" . _NUMBERTHREAD . " :</td><td><input type=\"text\" name=\"thread_forum_page\" size=\"2\" value=\"" . $nuked['thread_forum_page'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _NUMBERPOST . " :</td><td><input type=\"text\" name=\"mess_forum_page\" size=\"2\" value=\"" . $nuked['mess_forum_page'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _TOPICHOT . " :</td><td><input type=\"text\" name=\"hot_topic\" size=\"2\" value=\"" . $nuked['hot_topic'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _POSTFLOOD . " :</td><td><input type=\"text\" name=\"post_flood\" size=\"2\" value=\"" . $nuked['post_flood'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _MAXFIELD . " :</td><td><input type=\"text\" name=\"forum_field_max\" size=\"2\" value=\"" . $nuked['forum_field_max'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _ATTACHFILES . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"forum_file\" value=\"on\" " . $checked1 . " /></td></tr>\n"
+    . "<tr><td>" . _FILELEVEL . " :</td><td><select name=\"forum_file_level\"><option>" . $nuked['forum_file_level'] . "</option>\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    ." <option>8</option>\n"
+    . "<option>9</option></select></td></tr>"
+    . "<tr><td>" . _MAXSIZEFILE . " :</td><td><input type=\"text\" name=\"forum_file_maxsize\" size=\"6\" value=\"" . $nuked['forum_file_maxsize'] . "\" /></td></tr>\n"
+    . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Forum&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function change_pref($forum_title, $forum_desc, $forum_rank_team, $thread_forum_page, $mess_forum_page, $hot_topic, $post_flood, $forum_field_max, $forum_file, $forum_file_level, $forum_file_maxsize)
@@ -990,17 +990,17 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $upd9 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_file . "' WHERE name = 'forum_file'");
         $upd10 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_file_level . "' WHERE name = 'forum_file_level'");
         $upd11 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_file_maxsize . "' WHERE name = 'forum_file_maxsize'");
-		
-		// Action
-		$texteaction = "". _ACTIONPREFFO .".";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _PREFUPDATED . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        
+        // Action
+        $texteaction = "". _ACTIONPREFFO .".";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _PREFUPDATED . "\n"
+        . "</div>\n"
+        . "</div>\n";
         redirect("index.php?file=Forum&page=admin", 2);
     }
 
@@ -1083,7 +1083,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             break;
 
         case "do_prune":
-    		do_prune($_REQUEST['day'], $_REQUEST['forum_id']);
+            do_prune($_REQUEST['day'], $_REQUEST['forum_id']);
             break;
 
         case "main_pref":
@@ -1103,26 +1103,26 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 else if ($level_admin == -1)
 {
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
 }
 else if ($visiteur > 1)
 {
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
 }
 else
 {
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
 }
 
 adminfoot();

@@ -75,8 +75,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($_REQUEST['author'] == $user[2] || $visiteur >= admin_mod("Forum") || $administrator == 1)
         {
-            $date = time();
-            $date = strftime("%d/%m/%Y %H:%M", $date);
+            $date = nkDate(time());
 
             if ($_REQUEST['edit_text'] == 1)
             {

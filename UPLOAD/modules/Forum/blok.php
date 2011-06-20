@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 if (!defined("INDEX_CHECK"))
 {
-	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
 
@@ -43,8 +43,10 @@ if ($active == 3 || $active == 4)
     {
         $auteur = nk_CSS($auteur);
 
-		$title = htmlentities($titre);
-		$title = nk_CSS($title);
+        $title = htmlentities($titre);
+        $title = preg_replace("`&amp;lt;`i", "&lt;", $title);
+        $title = preg_replace("`&amp;gt;`i", "&gt;", $title);
+        $title = nk_CSS($title);
 
         $sql3 = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
         $nb_rep = mysql_num_rows($sql3) - 1;
@@ -54,7 +56,7 @@ if ($active == 3 || $active == 4)
 
         $sql5 = mysql_query("SELECT date, auteur, auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $idmax . "'");
         list($last_date, $last_auteur, $last_auteur_id) = mysql_fetch_array($sql5);
-        $last_date = strftime("%d/%m/%Y %H:%M", $last_date);
+        $last_date = nkDate($last_date);
 
         $last_auteur = nk_CSS($last_auteur);
 
@@ -121,12 +123,12 @@ if ($active == 3 || $active == 4)
         {
             $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "#" . $idmax;
         }
-		echo "<tr style=\"background: " . $bgcolor2 . ";\">\n"
-		. "<td style=\"width: 35%;\">&nbsp;" . $titre_topic . "</td>\n"
-		. "<td style=\"width: 15%;\" align=\"center\">" . $initiat . "</td>\n"
-		. "<td style=\"width: 10%;\" align=\"center\">" . $nb_rep . "</td>\n"
-		. "<td style=\"width: 10%;\" align=\"center\">" . $nb_read . "</td>\n"
-		. "<td style=\"width: 30%;\" align=\"center\">" . $last_date . "<br /><a href=\"" . $link_post . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/icon_latest_reply.gif\" alt=\"\" title=\"" . _SEELASTPOST . "\" /></a>" . $author . "</td></tr>\n";
+        echo "<tr style=\"background: " . $bgcolor2 . ";\">\n"
+        . "<td style=\"width: 35%;\">&nbsp;" . $titre_topic . "</td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\">" . $initiat . "</td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\">" . $nb_rep . "</td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\">" . $nb_read . "</td>\n"
+        . "<td style=\"width: 30%;\" align=\"center\">" . $last_date . "<br /><a href=\"" . $link_post . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/icon_latest_reply.gif\" alt=\"\" title=\"" . _SEELASTPOST . "\" /></a>" . $author . "</td></tr>\n";
     }
     echo "</table><div style=\"text-align: right;\">&#187; <a href=\"index.php?file=Forum\"><small>" . _VISITFORUMS . "</small></a></div>\n";
 }
@@ -135,17 +137,19 @@ else
     echo "<table width=\"100%\" cellspacing=\"5\" cellpadding=\"0\" border=\"0\">\n";
 
     $sql = mysql_query("SELECT FTT.id, FTT.titre, FTT.last_post, FTT.forum_id FROM " . FORUM_THREADS_TABLE . " AS FTT INNER JOIN " . FORUM_TABLE . " AS FT ON FT.id = FTT.forum_id WHERE FT.niveau <= '" . $visiteur . "' ORDER BY last_post DESC LIMIT 0, 10");
-	while (list($thread_id, $titre, $last_post, $forum_id) = mysql_fetch_row($sql))
+    while (list($thread_id, $titre, $last_post, $forum_id) = mysql_fetch_row($sql))
     {
-        $date = strftime("%d/%m/%Y " . _AT . " %H:%M", $last_post);
+        $date = nkDate($last_post);
 
         $sql2 = mysql_query("SELECT id, auteur, auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' ORDER BY id DESC LIMIT 0, 1");
         list($mess_id, $auteur, $auteur_id) = mysql_fetch_array($sql2);
 
         $auteur = nk_CSS($auteur);
 
-		$title = htmlentities($titre);
-		$title = nk_CSS($title);
+        $title = htmlentities($titre);
+        $title = preg_replace("`&amp;lt;`i", "&lt;", $title);
+        $title = preg_replace("`&amp;gt;`i", "&gt;", $title);
+        $title = nk_CSS($title);
 
         $sql3 = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
         $nb_rep = mysql_num_rows($sql3);
@@ -179,7 +183,7 @@ else
         {
             $titre_topic = "<a href=\"" . $link_post . "\" title=\"" . _BY . "&nbsp;" . $autor . "\"><b>" . $title . "</b></a>";
         }
-		echo "<tr><td><img src=\"images/posticon.gif\" alt=\"\" title=\"" . $date . "\" />&nbsp;" . $titre_topic . "</td></tr>\n";
+        echo "<tr><td><img src=\"images/posticon.gif\" alt=\"\" title=\"" . $date . "\" />&nbsp;" . $titre_topic . "</td></tr>\n";
     }
     echo "</table><div style=\"text-align: right;\">&#187; <a href=\"index.php?file=Forum\"><small>" . _VISITFORUMS . "</small></a></div>&nbsp;\n";
 }
