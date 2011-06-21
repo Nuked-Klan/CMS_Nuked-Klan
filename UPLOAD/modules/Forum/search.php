@@ -35,7 +35,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     {
         $where = "AS M , " . FORUM_TABLE . " AS F , " . FORUM_CAT_TABLE . " AS C WHERE";
 
-    if (strpos("cat_", $_REQUEST['id_forum']))
+    if (is_int(strpos($_REQUEST['id_forum'], 'cat_')))
     {
             $cat = preg_replace("`cat_`i", "", $_REQUEST['id_forum']);
             $where .= " F.cat = '" . $cat . "' AND";

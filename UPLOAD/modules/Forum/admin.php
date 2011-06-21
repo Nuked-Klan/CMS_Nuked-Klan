@@ -470,7 +470,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 0 ORDER BY niveau DESC, pseudo");
         while (list($id_user, $pseudo) = mysql_fetch_row($sql))
         {
-            if (!strpos($id_user, $modos))
+            if (!is_int(strpos($modos, $id_user)))
             {
                 echo "<option value=\"" . $id_user . "\">" . $pseudo . "</option>\n";
             }
