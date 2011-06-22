@@ -442,13 +442,13 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1)
                         $ref = htmlentities($referant);
                     }
 
-                    if ($referer != "" && !strpos("login", $referer))
+                    if ($referer != "" && !is_int(strpos($referer, 'login')))
                     {
-			$user_ref = "<a href=\"" . $referer . "\" onclick=\"window.open(this.href); return false;\" title=\"" . $referer ."\">" . $ref . "</a>";
+                        $user_ref = "<a href=\"" . $referer . "\" onclick=\"window.open(this.href); return false;\" title=\"" . $referer ."\">" . $ref . "</a>";
                     }
                     else
                     {
-			$user_ref = _UNKNOWN;
+                        $user_ref = _UNKNOWN;
                     }
 
                     echo "<tr style=\"background: " . $bg3 . ";\">\n"
@@ -650,14 +650,14 @@ function view_all()
             $ref = htmlentities($referant);
         }
 
-        if ($referer != "" && !strpos("login", $referer))
+        if ($referer != "" && !is_int(strpos($referer, 'login')))
         {
             $user_ref = "<a href=\"" . $referer . "\" onclick=\"window.open(this.href); return false;\" title=\"" . $referer ."\">" . $ref . "</a>";
-	}
-	else
-	{
-            $user_ref = _UNKNOWN;
-	}
+        }
+        else
+        {
+                $user_ref = _UNKNOWN;
+        }
 
         if ($j == 0)
         {
@@ -793,7 +793,7 @@ function view_referer()
 	    $ref = htmlentities($referant);
 	}
 
-	if ($referer != "" && !strpos("login", $referer))
+	if ($referer != "" && !is_int(strpos($referer, 'login')))
 	{
 	    $user_ref = "<a href=\"" . $referer . "\" onclick=\"window.open(this.href); return false;\" title=\"" . $referer ."\">" . $ref . "</a>";
 	}

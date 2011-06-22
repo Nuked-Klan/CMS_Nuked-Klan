@@ -236,7 +236,7 @@ define("_GAMEMODIF","Jeu modifié avec succès.");
 define("_GAMEDELETE","Jeu supprimé avec succès.");
 define("_SEEICON","Voir les icônes");
 define("_ICONLIST","Liste des icônes");
-define("_CLICICON","Cliquez sur une icone pour la sélectionner");
+define("_CLICICON","Cliquez sur une icône pour la sélectionner");
 define("_CLOSEWINDOWS","Fermer la fenêtre");
 define("_ERRORCHAMPS","Vous n\'avez pas rempli tous les champs du formulaire !");
 
@@ -405,7 +405,7 @@ define("_ACTIONMODIFMOD","a modifié le level d\'accès au module");
 define("_ACTIONMODIFMENU","a modifié le menu");
 define("_ADMINACTION","Administration des actions");
 define("_INFOACTION","Après votre lecture, les actions dépassant 2 semaines seront supprimées définitivement.");
-define("_INFOSETTING","Activer les statistiques consomment beaucoup de ressource sur votre base SQL ! <br />Pensez à vider les statistiques de temps en temps depuis l\'administration.");
+define("_INFOSETTING","Activer les statistiques consomment beaucoup de ressources sur votre base SQL ! <br />Pensez à vider les statistiques de temps en temps depuis l'administration.");
 define("_1NBRNOTACTION","action de plus de 2 semaines a été supprimée.");
 define("_NBRNOTACTION","actions de plus de 2 semaines ont été supprimées.");
 define("_1USNOTACTION","membre non validé a été supprimé.");
