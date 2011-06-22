@@ -1276,7 +1276,7 @@ function login($pseudo, $pass, $remember_me)
 
                 $referer = $_SERVER['HTTP_REFERER'];
 
-                if (!empty($referer) && !is_int(strpos($referer, 'User')))
+                if (!empty($referer) && strpos($referer, 'User'))
                 {
                     list($url_ref, $redirect) = explode('?', $referer);
                     $redirect = '&referer=' . base64_encode($redirect);
