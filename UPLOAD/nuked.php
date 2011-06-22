@@ -919,7 +919,7 @@ function UpdateSitmap(){
                 $Sitemap .= "\t\t<loc>$nuked[url]/index.php?file=$mod</loc>\r\n";
                 switch($mod){
                     case 'News':
-                        $Last = mysql_result(mysql_query('SELECT date FROM ' . NEWS_TABLE . 'ORDER BY date DESC LIMIT 1'), 0);
+                        $Last = mysql_query('SELECT date FROM ' . NEWS_TABLE . 'ORDER BY date DESC LIMIT 1');
                         $Last = date('Y-m-d');
                         $Sitemap .= "\t\t<priority>0.8</priority>\r\n";
                         $Sitemap .= "\t\t<lastmod>$Last</lastmod>\r\n";
@@ -931,7 +931,7 @@ function UpdateSitmap(){
                         $Sitemap .= "\t\t<changefreq>always</changefreq>\r\n";
                         break;
                     case 'Download':
-                        $Last = mysql_result(mysql_query('SELECT date FROM ' . DOWNLOAD_TABLE . 'ORDER BY date DESC LIMIT 1'), 0);
+                        $Last = mysql_query('SELECT date FROM ' . DOWNLOAD_TABLE . 'ORDER BY date DESC LIMIT 1');
                         $Last = date('Y-m-d');
                         $Sitemap .= "\t\t<priority>0.5</priority>\r\n";
                         $Sitemap .= "\t\t<lastmod>$Last</lastmod>\r\n";
