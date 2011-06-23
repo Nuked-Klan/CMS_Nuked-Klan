@@ -7,11 +7,8 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-header('Content-type: text/html; charset=iso-8859-1');
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+
 global $nuked, $user, $language, $bgcolor3, $bgcolor2, $bgcolor1;
 translate("modules/Stats/lang/" . $language . ".lang.php");
 if (!isset($_REQUEST['nuked_nude']))
