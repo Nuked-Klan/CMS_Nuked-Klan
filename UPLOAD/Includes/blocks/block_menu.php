@@ -17,7 +17,7 @@ function affich_block_menu($blok){
 function block_link($content){
     global $user;
 
-    $link = html_entity_decode($link);
+    $content = html_entity_decode($content);
     $link = explode('NEWLINE', $content);
     $screen = '<ul style="list-style: none; padding: 0">';
     $size = count($link);
