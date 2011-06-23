@@ -392,7 +392,7 @@ function edit_account()
 {
     global $nuked, $user;
 
-	define('EDITOR_CHECK', 1);
+    define('EDITOR_CHECK', 1);
 
     if ($user)
     {
@@ -1276,7 +1276,7 @@ function login($pseudo, $pass, $remember_me)
 
                 $referer = $_SERVER['HTTP_REFERER'];
 
-                if (!empty($referer) && strpos($referer, 'User'))
+                if (!empty($referer) && !strpos($referer, 'User'))
                 {
                     list($url_ref, $redirect) = explode('?', $referer);
                     $redirect = '&referer=' . base64_encode($redirect);
