@@ -58,8 +58,8 @@ $language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuke
 if($language == 'french') setlocale(LC_ALL, "fr_FR");
 elseif($language == 'english') setlocale(LC_ALL, "en_US");
 
-// INCLUSION DES VIDEOS DANS L'EDITEUR
-$ActiveVideoCkeditor = true;
+// INCLUSION DES VIDEOS DANS L'EDITEUR (TRUE | FALSE)
+$ActiveVideoCkeditor = FALSE;
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 function nkDate($timestamp)
@@ -135,7 +135,7 @@ function connect(){
     }
 
     $connect = mysql_select_db($global['db_name'], $db);
-    mysql_query("SET NAMES 'latin1'");
+    mysql_query('SET NAMES "latin1"');
         
     if (!$connect){
         echo '<div style="text-align: center;">' . ERROR_QUERYDB . '</div>';
@@ -143,14 +143,14 @@ function connect(){
     }
 }
 
-// SEARCH BAN FOR USER AND ERROR BAN FOR BANNED USER.
+// SEARCH BAN FOR USER, ERROR BAN FOR BANNED USER AND REMOVES EXPIRED BAN'S.
 function banip(){
     global $nuked, $user_ip, $user, $language;
 
     $theday = time();
 
     $ip_search = $_COOKIE['ip_ban'] ? $_COOKIE['ip_ban'] : $user_ip;
-    $where_pseudo = $user[2] ? 'OR pseudo = \'' . $user[2] . '\'' : '';
+    $where_pseudo = $user[2] ? 'OR pseudo = "' . $user[2] . '"' : '';
 
     $query_ban = mysql_query('SELECT id, pseudo, date, dure FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_search . '" ' . $where_pseudo);
     $ban = mysql_fetch_array($query_ban);
@@ -163,8 +163,8 @@ function banip(){
 
         if ($limit_time < $theday AND $dure1 > 0)
         {
-            $del1 = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE ip = '" . $ip_search . "' " . $where_pseudo . "");
-            $upd = mysql_query('INSERT INTO ' . $nuked['prefix'] . '_notification (`date`, `type`, `texte`) VALUES (\'' . $theday . '\', \'4\', \'' . $ban['pseudo'] . _BANFINISHED . '\')');
+            $del1 = mysql_query('DELETE FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_search . '" ' . $where_pseudo);
+            $upd = mysql_query('INSERT INTO ' . $nuked['prefix'] . '_notification (`date`, `type`, `texte`) VALUES ("' . $theday . '", "4", "' . $ban['pseudo'] . _BANFINISHED . '")');
 
             $not = true;
 
@@ -179,18 +179,18 @@ function banip(){
     {
         if ($ip_ban != $user_ip)
         {
-            $sql = mysql_query("SELECT pseudo, email, texte FROM " . BANNED_TABLE . " WHERE ip = '" . $ip_ban . "'");
+            $sql = mysql_query('SELECT pseudo, email, texte FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '"');
             $nb_ban = mysql_num_rows($sql);
 
             if ($nb_ban > 0)
             {
-                $sql2 = mysql_query("SELECT id FROM " . BANNED_TABLE . " WHERE ip = '" . $user_ip . "'");
+                $sql2 = mysql_query('SELECT id FROM ' . BANNED_TABLE . ' WHERE ip = "' . $user_ip . '"');
                 $check_ban = mysql_num_rows($sql2);
 
                 if ($check_ban == 0)
                 {
                     list($pseudo_ban, $email_ban, $texte_ban) = mysql_fetch_array($sql);
-                    $insert = mysql_query("INSERT INTO " . BANNED_TABLE . " ( `id` , `ip` , `pseudo`, `email`, `texte` ) VALUES ('', '" . $user_ip . "', '" . $pseudo_ban . "', '" . $email_ban . "', '" . $texte_ban . "')");
+                    $insert = mysql_query('INSERT INTO ' . BANNED_TABLE . ' ( `id` , `ip` , `pseudo`, `email`, `texte` ) VALUES ("", "' . $user_ip . '", "' . $pseudo_ban . '", "' . $email_ban . '", "' . $texte_ban . '")');
                 }
 
                 $ip_ban = $user_ip;
@@ -201,7 +201,7 @@ function banip(){
     else
     {
         $nb_ban = 0;
-        $sql = mysql_query("SELECT ip, pseudo FROM " . BANNED_TABLE . " ORDER BY id");
+        $sql = mysql_query('SELECT ip, pseudo FROM ' . BANNED_TABLE . ' ORDER BY id');
         
         while ($ban2 = mysql_fetch_array($sql)){
             if ($nb_ban == 0)
@@ -237,40 +237,36 @@ function banip(){
     return $ip_ban;
 }
 
+// DISPLAY ALL BLOCKS
 function get_blok($side){
     global $user, $nuked;
 
-    if ($side == 'gauche'){
+    if ($side == 'gauche')
         $active = 1;
-    }
-    else if ($side == 'droite'){
+    else if ($side == 'droite')
         $active = 2;
-    }
-    else if ($side == 'centre'){
+    else if ($side == 'centre')
         $active = 3;
-    }
-    else if ($side == 'bas'){
+    else if ($side == 'bas')
         $active = 4;
-    }
 
     $aff_good_bl = 'block_' . $side;
 
-    $sql = mysql_query("SELECT * FROM " . BLOCK_TABLE . " WHERE active = '" . $active . "' ORDER BY position");
+    $sql = mysql_query('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
     while ($blok = mysql_fetch_array($sql)){
         $blok['titre'] = htmlentities($blok['titre']);
         $test_page = '';
-        $bl_nivo = $blok['nivo'];
         $blok['page'] = explode('|', $blok['page']);
         $size = count($blok['page']);
         for($i=0; $i<$size; $i++){
             if (isset($_REQUEST['file']) && $_REQUEST['file'] == $blok['page'][$i] || $blok['page'][$i] == 'Tous') $test_page = 'ok';
         }
 
-        if ($user) $visiteur = $user[1];
-        else $visiteur = 0;
+        $visiteur = $user ? $user[1] : 0;
 
-        if ($visiteur >= $bl_nivo && $test_page == 'ok'){
-            include_once('Includes/blocks/block_' . $blok['type'] . '.php');
+        if ($visiteur >= $blok['nivo'] && $test_page == 'ok'){
+            if(file_exists('Includes/blocks/block_' . $blok['type'] . '.php'))
+				include_once('Includes/blocks/block_' . $blok['type'] . '.php');
             $function = 'affich_block_' . $blok['type'];
             $blok = $function($blok);
 
@@ -279,19 +275,19 @@ function get_blok($side){
     }
 }
 
+// QUERY IMAGE, BLOCK ALL IMAGE FILE (PHP, HTML ..)
 function checkimg($url){
-    $url = rtrim( $url );
-    $ext = strrchr( $url, '.' );
-    $ext = substr( $ext, 1 );
+    $url = rtrim($url);
+    $ext = strrchr($url, '.');
+    $ext = substr($ext, 1);
 
-    if (!preg_match('#\.(([a-z]?)htm|php)#i', $url) && substr($url, -1) != '/' && preg_match('#jpg|jpeg|gif|png|bmp#i', $ext) ){
+    if (!preg_match('#\.(([a-z]?)htm|php)#i', $url) && substr($url, -1) != '/' && preg_match('#jpg|jpeg|gif|png|bmp#i', $ext) )
         return $url;
-    }
-    else{
+    else
         return 'images/noimagefile.gif';
-    }
 }
 
+// DISPLAYS SMILEYS
 function icon($texte){
     global $nuked;
 
@@ -299,12 +295,6 @@ function icon($texte){
     $texte = str_replace('http://', '_http_', $texte);
     $texte = str_replace('&quot;', '_QUOT_', $texte);
     $texte = str_replace('&#039;', '_SQUOT_', $texte);
-    $texte = str_replace('&agrave;', 'à', $texte);
-    $texte = str_replace('&acirc;', 'â', $texte);
-    $texte = str_replace('&eacute;', 'é', $texte);
-    $texte = str_replace('&egrave;', 'è', $texte);
-    $texte = str_replace('&ecirc;', 'ê', $texte);
-    $texte = str_replace('&ucirc;', 'û', $texte);
 
     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql)){
@@ -315,38 +305,21 @@ function icon($texte){
     $texte = str_replace('_http_', 'http://', $texte);
     $texte = str_replace('_QUOT_', '&quot;', $texte);
     $texte = str_replace('_SQUOT_', '&#039;', $texte);
-    $texte = str_replace('à', '&agrave;', $texte);
-    $texte = str_replace('â', '&acirc;', $texte);
-    $texte = str_replace('é', '&eacute;', $texte);
-    $texte = str_replace('è', '&egrave;', $texte);
-    $texte = str_replace('ê', '&ecirc;', $texte);
-    $texte = str_replace('û', '&ucirc;', $texte);
 
     return($texte);
 }
 
-function smiley($textarea){
-    global $nuked;
-
-    $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id LIMIT 0, 15");
-    while (list($code, $url, $name) = mysql_fetch_array($sql)){
-        $name = htmlentities($name);
-        echo '&nbsp;<a href="javascript:insertAtCaret(\'' , $textarea ,'\', \'',$code,'\')"><img style="border: 0;" src="images/icones/' , $url , '" alt="" title="', $name ,'" /></a>';
-    }
-
-    echo '<br />[ <a href="#" onclick="javascript:window.open(\'index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=', $textarea , '\',\'smilies\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470\');return(false)">', _MORESMILIES , '</a> ]',"\n";
-}
-
+// SEARCH SMILIES FOR CKEDITOR.
 function ConfigSmileyCkeditor(){
-    
+
     $donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
-    
-    $Sql = mysql_query("SELECT code, url FROM ".SMILIES_TABLE." ORDER BY id");
-    while($row = mysql_fetch_assoc($Sql)){
+
+    $sql = mysql_query('SELECT code, url FROM ' . SMILIES_TABLE . ' ORDER BY id');
+    while($row = mysql_fetch_assoc($sql)){
         $TabCode[] = $row['code'];
         $TabUrl[] = $row['url'];
     }
-    
+
     $IUrl = 0;
     $CompteurUrl = count($TabUrl);
     $donnee .= 'CKEDITOR.config.smiley_images=[';
@@ -356,7 +329,7 @@ function ConfigSmileyCkeditor(){
         $donnee .= "'$VUrl'$VirguleUrl";
     }
     $donnee .= '];';
-    
+
     $ICode = 0;
     $CompteurCode = count($TabCode);
     $donnee .= 'CKEDITOR.config.smiley_descriptions=[';
@@ -366,10 +339,11 @@ function ConfigSmileyCkeditor(){
         $donnee .= "'$VCode'$VirguleCode";
     }
     $donnee .= '];';
-    
+
     return $donnee;
 }
 
+// SECURITY FOR HTTP LINKS.
 function secu_url($url){
     $info = parse_url(strtolower($url));
     if ($info !== false){
@@ -380,6 +354,7 @@ function secu_url($url){
     }
 }
 
+// CSS FILTER
 function secu_css($Style){
     $AllowedProprieties = array(
         'display',
@@ -423,9 +398,10 @@ function secu_css($Style){
     return implode(';', $Style);
 }
 
+// HTML FILTER
 function secu_args($matches){
     global $ActiveVideoCkeditor;
-              
+
     $allowedTags = array(
         'p' => array(
             'style',
@@ -542,26 +518,26 @@ function secu_args($matches){
         // FOR VIDEO PLUGIN -- POUR PLUGIN VIDEO
     $TabVideo = array(
         'object' => array(
-                    'width',
-                    'height',
+            'width',
+            'height',
         ),
         'param' => array (
-                    'name',
-                    'value',
+            'name',
+            'value',
         ),
         'embed' => array (
-                    'allowfullscreen',
-                    'allowscriptaccess',
-                    'height',
-                    'src',
-                    'type',
-                    'width',
+            'allowfullscreen',
+            'allowscriptaccess',
+            'height',
+            'src',
+            'type',
+            'width',
         ),
 
     );
-    
+
     $allowedTags = ($ActiveVideoCkeditor === true) ? array_merge($allowedTags, $TabVideo) : $allowedTags;
-    
+
     if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
         preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);
 
@@ -611,8 +587,9 @@ function secu_args($matches){
     }
 }
 
+// DISPLAY CONTENT WITH SECURITY CSS AND HTML ($texte)
 function secu_html($texte){
-    global $bgcolor3, $nuked, $f_quote;
+    global $bgcolor3, $nuked, $language;
     
     // Balise HTML interdite
     $texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
@@ -641,13 +618,14 @@ function secu_html($texte){
     $bad = $bad | count($TagList) > 0;
 
     if ($bad){
-        return('Le code HTML est mal formaté');
+        return(_HTMLNOCORRECT);
     }
     else{
         return $texte;
     }
 }
 
+// REDIRECT AFTER ($tps) SECONDS TO ($url)
 function redirect($url, $tps){
     $temps = $tps * 1000;
 
@@ -663,6 +641,7 @@ function redirect($url, $tps){
     , '</script>',"\n";
 }
 
+// DISPLAYS THE NUMBER OF PAGES
 function number($count, $each, $link){
 
     $current = $_REQUEST['p'];
@@ -673,26 +652,26 @@ function number($count, $each, $link){
         // Calcul du nombre de pages
         $n = ceil($count / intval($each)); // on arrondit à  l'entier sup.
         // Début de la chaine d'affichage
-        $output = '<b>' . _PAGE . ' :</b> ';
+        $output = '<b class="pgtitle">' . _PAGE . ' :</b> ';
         
         for ($i = 1; $i <= $n; $i++){
             if ($i == $current){
-                $output .= sprintf('<b>[%d]</b> ',$i    );
+                $output .= sprintf('<b class="pgactuel">[%d]</b> ',$i    );
             }
             // On est autour de la page actuelle : on affiche
             elseif (abs($i - $current) <= 4){
-                $output .= sprintf('<a href="' . $link . '&amp;p=%d">%d</a> ',$i, $i);
+                $output .= sprintf('<a href="' . $link . '&amp;p=%d" class="pgnumber">%d</a> ',$i, $i);
             }
             // On affiche quelque chose avant d'omettre les pages inutiles
             else{
                 // On est avant la page courante
                 if (!isset($first_done) && $i < $current){
-                    $output .= sprintf('...<a href="' . $link . '&amp;p=%d" title="' . _PREVIOUSPAGE . '">&laquo;</a> ',$current-1);
+                    $output .= sprintf('...<a href="' . $link . '&amp;p=%d" title="' . _PREVIOUSPAGE . '" class="pgback">&laquo;</a> ',$current-1);
                     $first_done = true;
                 }
                 // Après la page courante
                 elseif (!isset($last_done) && $i > $current){
-                    $output .= sprintf('<a href="' . $link . '&amp;p=%d" title="' . _NEXTPAGE . '">&raquo;</a>... ',$current+1);
+                    $output .= sprintf('<a href="' . $link . '&amp;p=%d" title="' . _NEXTPAGE . '" class="pgnext">&raquo;</a>... ',$current+1);
                     $last_done = true;
                 }
                 // On a dépassé les cas qui nous intéressent : inutile de continuer

@@ -42,14 +42,14 @@ if ($count > 0)
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta http-equiv="content-style-type" content="text/css" />
     <link title="style" type="text/css" rel="stylesheet" href="themes/' . $theme . '/style.css" /></head>
-    <body style="background : ' . $bgcolor2 . '"><div style="margin: 200px auto; width: 800px; border: 1px solid ' . $bgcolor3 . '; background: ' . $bgcolor1 . '; text-align: center">
+    <body style="background : ' . $bgcolor2 . '"><div style="margin: 200px auto; padding: 20px; width: 800px; border: 1px solid ' . $bgcolor3 . '; background: ' . $bgcolor1 . '; text-align: center">
     <big><b>' . $nuked['name'] . ' - ' . $nuked['slogan'] . '</b><br /><br />
     ' . _IPBANNED . '</big>';
 
     if (!empty($texte_ban))
     {
-        echo '<br /><p style="text-align: left"><hr style="color: ' . $bgcolor3 . ';height: 1px" />
-        <big><b>' . _REASON . '</b><br>' . $texte_ban . '</big></p>';
+        echo '<br /><p><hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" />
+        <big><b>' . _REASON . '</b><br>' . html_entity_decode($texte_ban) . '</big></p>';
     }
     
     if($dure == 0) $temps = _AVIE;
@@ -58,7 +58,7 @@ if ($count > 0)
     else if ($dure == 2678400) $temps = _1MOIS;
     else if ($dure == 31708800) $temps = _1AN;
 
-    echo '<br />' . _DURE . '&nbsp;
+    echo '<hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" /><br />' . _DURE . '
     ' . $temps . '<br />
     ' . _CONTACTWEBMASTER . ' : <a href="mailto:' . $nuked['mail'] . '">' . $nuked['mail'] . '</a></div></body></html>';
 }
