@@ -21,6 +21,7 @@ include_once('Includes/hash.php');
 if (_NKCAPTCHA == 'off') $captcha = 0;
 else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
 else $captcha = 1;
+
 function index()
 {
     global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -37,30 +38,26 @@ function index()
         . '<a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout">' . _USERLOGOUT . '</a></b></div><br />',"\n";
 
         $sql3 = mysql_query('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $user[0] . '"');
-        list($pseudo, $url, $mail, $date, $avatar, $nb_REQUEST, $last_used) = mysql_fetch_array($sql3);
+        $user_data = mysql_fetch_array($sql3);
 
-        $date = nkDate($date);
-        $last_used = ($last_used > 0) ? nkDate($last_used) : 'N/A';
-        $website = (empty($url)) ? 'N/A' : $url;
+        $last_used = $user_data['last_used'] > 0 ? nkDate($user_data['last_used']) : 'N/A';
+        $website = !$user_data['url'] ? 'N/A' : $user_data['url'];
+        $avatar = !$user_data['avatar'] ? 'modules/User/images/noavatar.png' : checkimg($user_data['avatar']);
 
-        echo '<table style="margin-left:auto; margin-right:auto; text-align:left; background:' . $bgcolor2 . '; border:1px solid ' . $bgcolor3 . '; width:75%;" cellpadding="0" cellspacing="1">',"\n"
+        echo '<table style="margin:auto; background:' . $bgcolor2 . '; border:1px solid ' . $bgcolor3 . '; width:75%;" cellpadding="0" cellspacing="1">',"\n"
         . '<tr style="background: '. $bgcolor3 . '"><td colspan="2" align="center" style="padding:2px"><b>' . _ACCOUNT . '</b></td></tr>',"\n"
         . '<tr style="background: '. $bgcolor1 . '"><td align="left" valign="top" style="width:100%">',"\n"
-        . '<table style="width:100%" cellpadding="2" cellspacing="0">',"\n"
-        . '<tr style="background: '. $bgcolor2 . '"><td>&nbsp;<b>' . _NICK . ' :</b> ' . $pseudo . '</td></tr>',"\n"
-        . '<tr style="background: '. $bgcolor1 . '"><td>&nbsp;<b>' . _WEBSITE . ' :</b> ' . $website . '</td></tr>',"\n"
-        . '<tr style="background: '. $bgcolor2 . '"><td>&nbsp;<b>' . _MAIL . ' :</b> ' . $mail . '</td></tr>',"\n"
-        . '<tr style="background: '. $bgcolor1 . '"><td>&nbsp;<b>' . _DATEUSER . ' : </b> ' . $date . '</td></tr>',"\n"
-        . '<tr style="background: '. $bgcolor2 . '"><td>&nbsp;<b>' . _LASTVISIT . ' : </b> ' . $last_used . '</td></tr>',"\n"
-        . '</table>',"\n"
+        . '<ul>',"\n"
+        . '<li><b>' . _NICK . ' :</b> ' . $user_data['pseudo'] . '</li>',"\n"
+        . '<li><b>' . _WEBSITE . ' :</b> ' . $website . '</li>',"\n"
+        . '<li><b>' . _MAIL . ' :</b> ' . $user_data['mail'] . '</li>',"\n"
+        . '<li><b>' . _DATEUSER . ' : </b> ' . nkDate($user_data['date']) . '</li>',"\n"
+        . '<li><b>' . _LASTVISIT . ' : </b> ' . $last_used . '</li>',"\n"
+        . '</ul>',"\n"
         . '</td>',"\n"
-        . '<td align="right" valign="middle" style="padding:5px">',"\n";
-
-        $avatar = (empty($avatar)) ? 'modules/User/images/noavatar.png' : checkimg($avatar);
-
-        echo '<img style="border: 0; overflow: auto; max-width: 100px;  width: expression(this.scrollWidth >= 100? \'100px\' : \'auto\');" src="' . $avatar . '" alt="" />',"\n";
-
-        echo '</td></tr></table><br />',"\n"
+        . '<td align="right" valign="middle" style="padding:5px">',"\n"
+        . '<img style="border: 0; overflow: auto; max-width: 100px; width: expression(this.scrollWidth >= 100? \'100px\' : \'auto\');" src="' . $avatar . '" alt="" />',"\n"
+        . '</td></tr></table><br />',"\n"
         . '<table style="margin: auto;text-align: left;background: ' . $bgcolor2 . ';border: 1px solid ' . $bgcolor3 . '" width="75%" cellpadding="2" cellspacing="1">',"\n"
         . '<tr style="background: '. $bgcolor3 . '"><td align="center"><b>' . _MESSPV . '</b></td></tr>',"\n";
 
@@ -88,7 +85,7 @@ function index()
         $sql5 = mysql_query("SELECT id FROM " . SUGGEST_TABLE . " WHERE user_id = '" . $user[0] . "'");
         $nb_suggest = mysql_num_rows($sql5);
 
-        echo "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _MESSINFORUM . "</td><td align=\"center\">" . $nb_REQUEST . "</td></tr>\n"
+        echo "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _MESSINFORUM . "</td><td align=\"center\">" . $user_data['count'] . "</td></tr>\n"
         . "<tr style=\"background: ". $bgcolor1 . "\"><td>" . _USERCOMMENT . "</td><td align=\"center\">" . $nb_comment . "</td></tr>\n"
         . "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _USERSUGGEST . "</td><td align=\"center\">" . $nb_suggest . "</td></tr>\n"
         . "</table><br /><div style=\"text-align: center;\"><big>" . _LASTUSERMESS . "</big></div>\n"
@@ -98,7 +95,7 @@ function index()
         . "<td style=\"width: 50%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
         . "<td style=\"width: 40%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
-        if ($nb_REQUEST == 0)
+        if ($user_data['count'] == 0)
         {
             echo "<tr><td align=\"center\" colspan=\"3\">" . _NOUSERMESS . "</td></tr>\n";
         }
@@ -1276,10 +1273,10 @@ function login($pseudo, $pass, $remember_me)
 
                 $referer = $_SERVER['HTTP_REFERER'];
 
-                if (!empty($referer) && !strpos($referer, 'User'))
+                if (!empty($referer) && !strpos($referer, 'User&op=reg'))
                 {
                     list($url_ref, $redirect) = explode('?', $referer);
-                    $redirect = '&referer=' . base64_encode($redirect);
+                    if(!empty($redirect)) $redirect = '&referer=' . base64_encode($redirect);
                 }
                 else $redirect = '';
 
@@ -1335,7 +1332,7 @@ function login_message()
 
     $referer = base64_decode($_REQUEST['referer']);
 
-    if (!empty($referer) && !is_int(stripos($referer, 'file=User&op=reg')))
+    if (!empty($referer) && !stripos($referer, 'User&op=reg'))
     {
         $url = "index.php?" . $referer;
     }
