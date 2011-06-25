@@ -37,6 +37,7 @@ list($id, $active) = mysql_fetch_array($sql2);
 
 ?>
 <script type="text/javascript">
+<!--
 function maj_shoutbox() {
 
 	if(document.getElementById("textbox").style.paddingTop != "0px")
@@ -119,6 +120,7 @@ function maFonctionAjax(auteur,texte,code)
 	OAjax.send('auteur='+auteur+'&texte='+texte+'&code_confirm='+code+'');
 	return true;
 }
+-->
 </script>
 
 <?php
@@ -160,7 +162,7 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "<img src=\"images/loading.gif\" alt=\"Loading\" /><br />\n"
 . _LOADINPLSWAIT . "\n"
 . "</p></div></td></tr></table>\n"
-. "<script>maj_shoutbox();</script>\n";
+. "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
 if ($active == 3 || $active == 4)
 {
