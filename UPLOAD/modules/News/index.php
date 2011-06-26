@@ -227,9 +227,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
 			$auteur = $row['auteur'];
 		}
 
-		$date = ($language == 'french') ? strftime("%A %d %B %Y", $row['date']) : strftime("%A %B %d %Y", $row['date']);
+		$date = nkDate($row['date']);
 
-		$posted = '<font size="1">'._NEWSPOSTBY.' <a href="'.$nuked['url'].'/index.php?file=Members&op=detail&autor='.$auteur.'">'.$auteur.'</a> '._THE.' '.$date.' '._AT.' '.$heure.'</font><br><br>';
+		$posted = '<font size="1">'._NEWSPOSTBY.' <a href="'.$nuked['url'].'/index.php?file=Members&op=detail&autor='.$auteur.'">'.$auteur.'</a> '.$date.'</font><br><br>';
 
 		$texte = $posted.$text;
 

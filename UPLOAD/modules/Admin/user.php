@@ -414,10 +414,11 @@ if ($visiteur == 9)
         else
         {
             $cryptpass = nk_hash($pass_reg);
+            
             do {
                 $id_user = sha1(uniqid());
-            } while ($sql = mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\'') && mysql_num_rows($sql) != 0);
-
+            } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
+            
             $date = time();
             $nick = htmlentities($nick, ENT_QUOTES);
 

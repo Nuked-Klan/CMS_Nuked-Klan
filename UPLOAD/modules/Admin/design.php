@@ -180,11 +180,6 @@ function admintop()
                                 echo _ADMINPHPINFO . '</a>',"\n"; ?>
                             </li>
                             <li>
-                                <?php if($_REQUEST['file'] == 'Admin' && $_REQUEST['page'] == 'maj') echo '<a class="current" href="index.php?file=Admin&amp;page=maj">';
-                                else echo '<a href="index.php?file=Admin&amp;page=maj">';
-                                echo _CHECKUPDATE . '</a>',"\n"; ?>
-                            </li>
-                            <li>
                                 <?php if($_REQUEST['file'] == 'Admin' && $_REQUEST['page'] == 'action') echo '<a class="current" href="index.php?file=Admin&amp;page=action">';
                                 else echo '<a href="index.php?file=Admin&amp;page=action">';
                                 echo _ACTIONM . '</a>',"\n"; ?>
