@@ -67,6 +67,111 @@ if ($visiteur == 9)
             if (is_file('modules/' . $nom . '/index.php')) echo '<option value="' . $nom . '" ' . $checked . '>' . $nom . '</option>',"\n";
         }
     }
+	
+	function select_timeformat($tft)
+	{
+		global $nuked;
+			
+			$timeformatTable = array(
+				"%A, %B %d, %Y - %H:%M:%S",
+				"%A, %d %B, %Y - %H:%M:%S",
+				"%A, %Y, %d %B  - %H:%M:%S",
+				"%A, %B %d, %Y  - %I:%M:%S %P",
+				"%A, %d %B, %Y  - %I:%M:%S %P",
+				"%A, %Y, %d %B  - %I:%M:%S %P",
+				"%A, %d. %B %Y  - %I:%M:%S %P",
+				"%a %Y-%m-%d %H:%M:%S",
+				"%a %m/%d/%Y %H:%M:%S",
+				"%a %d/%m/%Y %H:%M:%S",
+				"%a %Y/%m/%d %H:%M:%S",
+				"%B %d, %Y - %H:%M:%S",
+				"%d %B, %Y - %H:%M:%S",
+				"%Y, %B %d  - %H:%M:%S",
+				"%a %m/%d/%Y %I:%M:%S %P",
+				"%a %d/%m/%Y %I:%M:%S %P",
+				"%a %Y/%m/%d %I:%M:%S %P",
+				"%B %d, %Y - %I:%M:%S %P",
+				"%d %B, %Y - %I:%M:%S %P",
+				"%Y, %B %d  - %I:%M:%S %P",
+				"%d. %B %Y  - %I:%M:%S %P",
+				"%Y-%m-%d %H:%M:%S",
+				"%m/%d/%Y - %H:%M:%S",
+				"%d/%m/%Y - %H:%M:%S",
+				"%Y/%m/%d - %H:%M:%S",
+				"%d.%m.%Y - %H:%M:%S",
+				"%m/%d/%Y - %I:%M:%S %P",
+				"%d/%m/%Y - %I:%M:%S %P",
+				"%Y/%m/%d - %I:%M:%S %P",
+				"%b %d %Y - %H:%M:%S",
+				"%d %b %Y - %H:%M:%S",
+				"%Y %b %d - %H:%M:%S",
+				"%b %d %Y - %I:%M:%S %P",
+				"%d %b %Y - %I:%M:%S %P",
+				"%Y %b %d - %I:%M:%S %P",
+			);
+			foreach($timeformatTable as $key) 
+			{
+				if ($tft == $key) $checked = 'selected="selected"';
+				else $checked = '';
+				$day = time();
+				$echo = strftime($key, $day);
+				echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
+			}
+	}
+	
+	function select_timezone($tze)
+	{
+		global $nuked;
+			
+			$timezoneTable = array(
+				"-12" => "(GMT -12:00 heures) Eniwetok, Kwajalein",
+				"-11" => "(GMT -11:00 heures) Midway Island, Samoa",
+				"-10" => "(GMT -10:00 heures) Hawaii",
+				"-9.5" => "(GMT - 9:30 heures) Polynésie française",
+				"-9" => "(GMT -9:00 heures) Alaska",
+				"-8" => "(GMT -8:00 heures) Pacific Time (US &amp; Canada)",
+				"-7" => "(GMT -7:00 heures) Mountain Time (US &amp; Canada)",
+				"-6" => "(GMT -6:00 heures) Central Time (US &amp; Canada), Mexico City",
+				"-5" => "(GMT -5:00 heures) Eastern Time (US &amp; Canada), Bogota, Lima",
+				"-4.5" => "(GMT - 4:30 heures) Bolivarian Time",
+				"-4" => "(GMT -4:00 heures) Atlantic Time (Canada), Caracas, La Paz",
+				"-3.5" => "(GMT -3:30 heures) Newfoundland",
+				"-3" => "(GMT -3:00 heures) Brésil, Buenos Aires, Falkland Is",
+				"-2" => "(GMT -2:00 heures) Mid-Atlantic, Ascention Is., St Helena",
+				"-1" => "(GMT -1:00 heures) Les Açores, îles du Cap-Vert",
+				"0" => "(GMT) Casablanca, Dublin, Londres, Lisbonne, Monrovia",
+				"1" => "(GMT +1:00 heures) Bruxelles, Copenhagen, Madrid, Paris",
+				"2" => "(GMT +2:00 heures) Kaliningrad, Afrique du Sud",
+				"3" => "(GMT +3:00 heures) Baghdad, Riyadh, Moscow, Nairobi",
+				"3.5" => "(GMT +3:30 heures) Téhéran",
+				"4" => "(GMT +4:00 heures) Abu Dhabi, Muscat, Baku, Tbilisi",
+				"4.5" => "(GMT +4:30 heures) Kaboul",
+				"5" => "(GMT +5:00 heures) Ekaterinburg, Islamabad, Karachi, Tashkent",
+				"5.5" => "(GMT +5:30 heures) Bombay, Calcutta, Madras, New Delhi",
+				"5.45" => "(GMT + 5:45 heures) Kathmandu",
+				"6" => "(GMT +6:00 heures) Almaty, Dhaka, Colombo",
+				"6.5" => "(GMT + 6:30 heures) Yangon, Naypyidaw, Bantam",
+				"7" => "(GMT +7:00 heures) Bangkok, Hanoi, Jakarta",
+				"8" => "(GMT +8:00 heures) Hong Kong, Perth, Singapour, Taipei",
+				"8.45" => "(GMT + 8:45 heures) Caiguna, Eucla",
+				"9" => "(GMT +9:00 heures) Tokyo, Seoul, Osaka, Sapporo, Yakutsk",
+				"9.5" => "(GMT +9:30 heures) Adelaide, Darwin",
+				"10" => "(GMT +10:00 heures) Melbourne, Papouasie-Nouvelle-Guinée, Sydney",
+				"10.5" => "(GMT + 10:30 heures) îles Lord Howe",
+				"11" => "(GMT +11:00 heures) Magadan, Nouvelle Calédonie, îles Salomon",
+				"11.5" => "(GMT + 11:30 heures) Burnt Pine, Kingston",
+				"12" => "(GMT +12:00 heures) Auckland, Fiji, îles Marshall",
+				"12.75" => "(GMT + 12:45 heures) îles Chatham",
+				"13" => "(GMT + 13:00 heures) Kamchatka, Anadyr",
+				"14" => "(GMT + 14:00 heures) île Christmas",
+			);
+			foreach($timezoneTable as $cle=>$valeur) 
+			{
+				if ($tze == $cle) $checked = 'selected="selected"';
+				else $checked = '';
+				echo "<option value=\"" . $cle . "\" " . $checked . ">" . $valeur . "</option>\n";
+			}
+	}
 
     function edit_config()
     {
@@ -107,9 +212,17 @@ if ($visiteur == 9)
         . "<tr><td>" . _SLOGAN . " : </td><td><input type=\"text\" name=\"slogan\" size=\"40\" value=\"" . $nuked['slogan'] . "\" /></td></tr>\n"
         . "<tr><td>" . _TAGPRE . " :</td><td><input type=\"text\" name=\"tag_pre\" size=\"10\" value=\"" . $nuked['tag_pre'] . "\" />&nbsp;" . _TAGSUF . " :<input type=\"text\" name=\"tag_suf\" size=\"10\" value=\"" . $nuked['tag_suf'] . "\" /></td></tr>\n"
         . "<tr><td>" . _SITEURL . " :</td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $nuked['url'] . "\" /></td></tr>\n"
-        . "<tr><td>" . _DATEFORMAT . " :</td><td><input type=\"text\" name=\"dateformat\" size=\"40\" value=\"" . $nuked['dateformat'] . "\" /></td></tr>\n"
-        . "<tr><td>" . _DATEZONE . " :</td><td><input type=\"text\" name=\"datezone\" size=\"40\" value=\"" . $nuked['datezone'] . "\" /></td></tr>\n"
-        . "<tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
+        . "<tr><td>" . _DATEFORMAT . " :</td><td><select name=\"dateformat\">\n";
+
+        select_timeformat($nuked['dateformat']);
+		
+		echo "</select></td></td></tr>\n";
+        echo "<tr><td>" . _DATEZONE . " :</td><td><select name=\"datezone\">\n";
+
+        select_timezone($nuked['datezone']);
+		$time = time();
+		$date = nkDate($time);
+        echo "</select><br /><span>" . _DATEADJUST ."&nbsp;" . $date . " </span></td><tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
         . "<tr><td>" . _FOOTMESS . " :</td><td><textarea class=\"editor\" name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"    
         . "<tr><td>" . _SITESTATUS . " :</td><td><select name=\"nk_status\">\n";
 

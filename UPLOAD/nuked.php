@@ -55,7 +55,15 @@ $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
 $language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
 
 // FORMAT DATE FR/EN
-if($language == 'french') setlocale(LC_ALL, "fr_FR");
+if($language == 'french') {
+	// On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
+	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+		setlocale(LC_ALL, "fr_FR");
+	} 
+	else {
+		setlocale(LC_ALL, "fr_FR.utf8");
+	}	
+}
 elseif($language == 'english') setlocale(LC_ALL, "en_US");
 
 // INCLUSION DES VIDEOS DANS L'EDITEUR (TRUE | FALSE)
