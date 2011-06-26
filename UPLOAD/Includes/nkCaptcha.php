@@ -12,6 +12,8 @@ if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 
 //réglage captcha (auto | on | off)
 define("_NKCAPTCHA","auto");
+if (isset($_SESSION['captcha']))
+	$GLOBALS['nkCaptchaCache'] = $_SESSION['captcha'];
 
 require_once (dirname(__FILE__) . '/hash.php');
 
@@ -21,7 +23,9 @@ require_once (dirname(__FILE__) . '/hash.php');
 **/
 function Captcha_Generator(){
 	global $cookie_captcha;
-	$code = substr(md5(uniqid()), rand(0, 25), 5);
+	static $code = null;
+	if ($code == null)
+		$code = substr(md5(uniqid()), rand(0, 25), 5);
 	$_SESSION['captcha'] = $code;
 	return $code;
 }
@@ -33,7 +37,8 @@ function Captcha_Generator(){
 **/
 function ValidCaptchaCode($code){
 	global $user;
-	return _NKCAPTCHA == 'off' || ($user != null && $user[1] > 0) || strtolower($_SESSION['captcha']) == strtolower($code);
+	var_dump($GLOBALS['nkCaptchaCache'], $code);
+	return _NKCAPTCHA == 'off' || ($user != null && $user[1] > 0) || strtolower($GLOBALS['nkCaptchaCache']) == strtolower($code);
 }
 
 function create_captcha($style){
