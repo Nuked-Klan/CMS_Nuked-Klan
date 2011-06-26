@@ -74,6 +74,9 @@ function nkDate($timestamp)
 {
     global $nuked;
     $timestamp += $nuked['datezone'] * 3600;
+    if(idate('I', $timestamp) == 1){
+		$timestamp -= 3600;
+	}
     return strftime($nuked['dateformat'], $timestamp);
 }
 
