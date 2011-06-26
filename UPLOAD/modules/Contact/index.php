@@ -25,30 +25,24 @@ opentable();
 $visiteur = ($user) ? $user[1] : 0;
 
 $level_access = nivo_mod(basename(dirname(__FILE__)));
-if ($visiteur >= $level_access && $level_access > -1)
-{
-    function index()
-    {
+if ($visiteur >= $level_access && $level_access > -1){
+    function index(){
         global $captcha, $user;
 
         define('EDITOR_CHECK', 1);
 
         echo '<script type="text/javascript">
         <!--
-        function verifchamps()
-        {
-            if (document.getElementById(\'ns_pseudo\').value.length == 0)
-            {
+        function verifchamps(){
+            if (document.getElementById(\'ns_pseudo\').value.length == 0){
                 alert(\'' . _NONICK . '\');
                 return false;
             }
-            if (document.getElementById(\'ns_email\').value.indexOf(\'@\') == -1)
-            {
+            if (document.getElementById(\'ns_email\').value.indexOf(\'@\') == -1){
                 alert(\'' . _BADMAIL . '\');
                 return false;
             }
-            if (document.getElementById(\'ns_sujet\').value.length == 0)
-            {
+            if (document.getElementById(\'ns_sujet\').value.length == 0){
                 alert(\'' . _NOSUBJECT . '\');
                 return false;
             }
@@ -74,15 +68,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
     }
 
-
-
-    function sendmail()
-    {
+    function sendmail(){
         global $nuked, $user_ip, $captcha;
 
         // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm']))
-        {
+        if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm'])){
             echo '<div style="text-align: center; padding: 20px 0;">' . _BADCODECONFIRM . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></div>';
             closetable();
             footer();
@@ -98,13 +88,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         list($flood_date) = mysql_fetch_array($sql);
         $anti_flood = $flood_date + $contact_flood;
 
-        if ($count > 0 && $time < $anti_flood)
-        {
+        if ($count > 0 && $time < $anti_flood){
             echo '<div style="text-align: center; padding: 20px 0;">' . _FLOODCMAIL . '</div>';
             redirect("index.php", 3);
         }
-        else
-        {
+        else{
             $nom = trim($_REQUEST['nom']);
             $mail = trim($_REQUEST['mail']);
             $sujet = trim($_REQUEST['sujet']);
@@ -134,8 +122,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
     }
 
-    switch($_REQUEST['op'])
-    {
+    switch($_REQUEST['op']){
         case 'sendmail':
         sendmail($_REQUEST);
         break;
@@ -149,10 +136,12 @@ if ($visiteur >= $level_access && $level_access > -1)
         break;
     }
 }
-else if ($level_access == -1) echo '<br /><br /><div style="text-align: center">' . _MODULEOFF . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a><br /><br /></div>';
+else if ($level_access == -1)
+    echo '<br /><br /><div style="text-align: center">' . _MODULEOFF . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a><br /><br /></div>';
 else if ($level_access == 1 && $visiteur == 0)
     echo '<div style="text-align: center; margin: 10px 0">' . _USERENTRANCE . '<br /><br /><b><a href="index.php?file=User&amp;op=login_screen">' . _LOGINUSER . '</a> | <a href="index.php?file=User&amp;op=reg_screen">' . _REGISTERUSER . '</a></b></div>';
-else echo '<br /><br /><div style="text-align: center">' . _NOENTRANCE . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a><br /><br /></div>';
+else
+    echo '<br /><br /><div style="text-align: center">' . _NOENTRANCE . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a><br /><br /></div>';
 
 closetable();
 ?>
