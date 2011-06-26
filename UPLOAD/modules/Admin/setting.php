@@ -114,6 +114,10 @@ if ($visiteur == 9)
 				if ($tft == $key) $checked = 'selected="selected"';
 				else $checked = '';
 				$day = time();
+				$day += $nuked['datezone'] * 3600;
+				if(idate('I', $day) == 1){
+				$day -= 3600;
+				}
 				$echo = strftime($key, $day);
 				echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
 			}
