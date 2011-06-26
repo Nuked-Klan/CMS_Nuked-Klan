@@ -37,7 +37,6 @@ function Captcha_Generator(){
 **/
 function ValidCaptchaCode($code){
 	global $user;
-	var_dump($GLOBALS['nkCaptchaCache'], $code);
 	return _NKCAPTCHA == 'off' || ($user != null && $user[1] > 0) || strtolower($GLOBALS['nkCaptchaCache']) == strtolower($code);
 }
 
