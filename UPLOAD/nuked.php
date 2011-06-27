@@ -56,13 +56,13 @@ $language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuke
 
 // FORMAT DATE FR/EN
 if($language == 'french') {
-	// On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
-	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-		setlocale(LC_ALL, "fr_FR");
-	} 
-	else {
-		setlocale(LC_ALL, "fr_FR.utf8");
-	}	
+    // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        setlocale(LC_ALL, "fr_FR");
+    } 
+    else {
+        setlocale(LC_ALL, "fr_FR.utf8");
+    }    
 }
 elseif($language == 'english') setlocale(LC_ALL, "en_US");
 
@@ -75,8 +75,8 @@ function nkDate($timestamp)
     global $nuked;
     $timestamp += $nuked['datezone'] * 3600;
     if(idate('I', $timestamp) == 1){
-		$timestamp -= 3600;
-	}
+        $timestamp -= 3600;
+    }
     return strftime($nuked['dateformat'], $timestamp);
 }
 
@@ -277,7 +277,7 @@ function get_blok($side){
 
         if ($visiteur >= $blok['nivo'] && $test_page == 'ok'){
             if(file_exists('Includes/blocks/block_' . $blok['type'] . '.php'))
-				include_once('Includes/blocks/block_' . $blok['type'] . '.php');
+                include_once('Includes/blocks/block_' . $blok['type'] . '.php');
             $function = 'affich_block_' . $blok['type'];
             $blok = $function($blok);
 
@@ -500,7 +500,12 @@ function secu_args($matches){
         ),
         'caption' => array(),
         'thead' => array(),
-        'tr' => array(),
+        'tr' => array(
+            'style',
+        ),
+        'td' => array(
+            'style',
+        ),
         'th' => array(
             'scope',
         ),
