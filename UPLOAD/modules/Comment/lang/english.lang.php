@@ -53,5 +53,4 @@ define("_ACTIVER","Active");
 define("_LISTI","List of modules where the comments are authorised.<br /><br />");
 define("_COMMENTMOD","Comment module list");
 define("_COMMENTINDEX","Comment list");
-
 ?>
