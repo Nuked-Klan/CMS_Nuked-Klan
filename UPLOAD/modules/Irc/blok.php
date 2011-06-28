@@ -7,10 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+if (!defined("INDEX_CHECK")) die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
 global $nuked, $language;
 translate("modules/Irc/lang/" . $language . ".lang.php");
@@ -20,8 +17,8 @@ list($date, $txt) = mysql_fetch_array($sql);
 $date = nkDate($date);
 
 echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-. "<tr><td align=\"left\">" . $txt . "</td></tr>\n"
-. "<tr><td align=\"center\"><hr style=\"width: 60%;height: 1px;\" />" . _JOINUS . " : <a href=\"irc://irc." . $nuked['irc_serv'] . "/" . $nuked['irc_chan'] . "\">#" . $nuked['irc_chan'] . "</a></td></tr>\n"
-. "<tr><td align=\"center\"><a href=\"index.php?file=Irc&amp;op=awards\">" . _MOREAWARDS . "</a></td></tr></table>\n";
+		. "<tr><td align=\"left\">" . $txt . "</td></tr>\n"
+		. "<tr><td align=\"center\"><hr style=\"width: 60%;height: 1px;\" />" . _JOINUS . " : <a href=\"irc://irc." . $nuked['irc_serv'] . "/" . $nuked['irc_chan'] . "\">#" . $nuked['irc_chan'] . "</a></td></tr>\n"
+		. "<tr><td align=\"center\"><a href=\"index.php?file=Irc&amp;op=awards\">" . _MOREAWARDS . "</a></td></tr></table>\n";
 
 ?>
