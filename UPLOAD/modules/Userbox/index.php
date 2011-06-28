@@ -48,10 +48,10 @@ function post_message(){
 	}
 	
 	echo '<br /><form method="post" action="index.php?file=Userbox&amp;op=send_message">
-	<table style="margin: auto;text-align:left;width: 98%">
-	<tr><td align="center"><big><b>'._POSTMESS.'</b></big><br /><br /></td></tr>
-	<tr><td><b>'._AUTHOR.' :</b> '.$user[2].'</td></tr>
-	<tr><td><b>'._USERFOR.' :</b> ';
+            <table style="margin: auto;text-align:left;width: 98%">
+            <tr><td align="center"><big><b>'._POSTMESS.'</b></big><br /><br /></td></tr>
+            <tr><td><b>'._AUTHOR.' :</b> '.$user[2].'</td></tr>
+            <tr><td><b>'._USERFOR.' :</b> ';
 	
 	if (!empty($_REQUEST['for']) && !empty($pseudo)){
 		echo '<i>'.$pseudo.'</i><input type="hidden" name="user_for" value="'.$_REQUEST['for'].'" />';
@@ -62,8 +62,8 @@ function post_message(){
 	}
 
     echo '</td></tr><tr><td><b>'._SUBJECT.' :</b> <input type="text" name="titre" size="30" value="'.$title.'" /></td></tr>
-	<tr><td><b>'._USERMESS.' :</b><br /><textarea id="e_basic" name="message" cols="65" rows="10">'.$reply.'</textarea></td></tr>
-	<tr><td align="center"><br /><input type="submit" name="send" value="'._SEND.'" />&nbsp;<input type="button" value="'._CANCEL.'" onclick="javascript:history.back()" /></td></tr></table></form><br />';
+            <tr><td><b>'._USERMESS.' :</b><br /><textarea id="e_basic" name="message" cols="65" rows="10">'.$reply.'</textarea></td></tr>
+            <tr><td align="center"><br /><input type="submit" name="send" value="'._SEND.'" />&nbsp;<input type="button" value="'._CANCEL.'" onclick="javascript:history.back()" /></td></tr></table></form><br />';
 }
 
 function send_message($titre, $user_for, $message){
@@ -128,16 +128,16 @@ function show_message($mid){
 	list($pseudo) = mysql_fetch_array($sql_member);
 	
 	echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
-	<tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
-	<tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.$row['titre'].'</td></tr>
-	<tr style="background:'.$bgcolor2.';"><td>'.$row['message'].'</td></tr></table>
-	<br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
-	<div style="text-align:center;">
-	<input type="hidden" name="message" value="'.htmlentities($row['message']).'" />
-	<input type="hidden" name="titre" value="'.htmlentities($row['titre']).'" />
-	<input type="submit" value="'._REPLY.'" />&nbsp;
-	<input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
-	<br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
+            <tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
+            <tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.$row['titre'].'</td></tr>
+            <tr style="background:'.$bgcolor2.';"><td>'.$row['message'].'</td></tr></table>
+            <br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
+            <div style="text-align:center;">
+            <input type="hidden" name="message" value="'.htmlentities($row['message']).'" />
+            <input type="hidden" name="titre" value="'.htmlentities($row['titre']).'" />
+            <input type="submit" value="'._REPLY.'" />&nbsp;
+            <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
+            <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
 }
 
 function del_message($mid){
@@ -190,7 +190,7 @@ function del_message_form($mid, $del_oui){
 		$nb_mess = mysql_num_rows($sql);
 		
 		echo '<form method="post" action="index.php?file=Userbox&amp;op=del_message_form&amp;del_oui=ok">
-		<div style="text-align:center;"><br /><br /><b>'._DELETEMESSAGES.' :</b><br /><br />';
+                <div style="text-align:center;"><br /><br /><b>'._DELETEMESSAGES.' :</b><br /><br />';
 		
 		$get_mid = 0;
 		while ($nb_mess > $get_mid && $nb_mess <> ""){
@@ -211,7 +211,7 @@ function del_message_form($mid, $del_oui){
 		}
 		
 		echo '<br /><br /><input type="submit" value="'._DELCONFIRM.'" />
-		&nbsp;<input type="button" value="'._CANCEL.'" onclick="document.location=\'index.php?file=Userbox\'" /></div></form><br />';
+                &nbsp;<input type="button" value="'._CANCEL.'" onclick="document.location=\'index.php?file=Userbox\'" /></div></form><br />';
 	}
 }
 
@@ -220,16 +220,16 @@ function index(){
 		global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
 		
 		echo '<script type="text/javascript">function setCheckboxes(checkbox, nbcheck, do_check){for (var i = 0; i < nbcheck; i++){cbox = checkbox + i;document.getElementById(cbox).checked = do_check;}return true;}</script>
-		<form method="post" action="index.php?file=Userbox&amp;op=del_message_form">
-		<div style="text-align:center;"><br /><big><b>'._PRIVATEMESS.'</b></big><br /></div>
-		<table style="background:'.$bgcolor2.';border:1px solid '.$bgcolor3.';" width="100%" cellpadding="2" cellspacing="1">
-		<tr style="background:'.$bgcolor3.';">
-		<td style="width:3%;" align="center">&nbsp;</td>
-		<td align="center"><b>'._FROM.'</b></td>
-		<td align="center"><b>'._SUBJECT.'</b></td>
-		<td align="center"><b>'._DATE.'</b></td>
-		<td align="center"><b>'._STATUS.'</b></td>
-		<td align="center"><b>'._READMESS.'</b></td></tr>';
+                <form method="post" action="index.php?file=Userbox&amp;op=del_message_form">
+                <div style="text-align:center;"><br /><big><b>'._PRIVATEMESS.'</b></big><br /></div>
+                <table style="background:'.$bgcolor2.';border:1px solid '.$bgcolor3.';" width="100%" cellpadding="2" cellspacing="1">
+                <tr style="background:'.$bgcolor3.';">
+                <td style="width:3%;" align="center">&nbsp;</td>
+                <td align="center"><b>'._FROM.'</b></td>
+                <td align="center"><b>'._SUBJECT.'</b></td>
+                <td align="center"><b>'._DATE.'</b></td>
+                <td align="center"><b>'._STATUS.'</b></td>
+                <td align="center"><b>'._READMESS.'</b></td></tr>';
 		
 		$sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY date DESC");
 		$nb_mess = mysql_num_rows($sql);
@@ -254,13 +254,13 @@ function index(){
 			if(strlen($row['titre']) >= 50) $row['titre'] = substr($row['titre'], 0, 47)."...";
 			
 			echo '<tr style="background:'.$bg.';">
-			<td><input id="box'.$i.'" type="checkbox" class="checkbox" name="mid[]" value="'.$row['mid'].'" /></td>
-			<td align="center">'.$pseudo.'</td>
-			<td align="center">'.$row['titre'].'</td>
-			<td align="center">'.$row['date'].'</td>
-			<td align="center">'.$etat.'</td>
-			<td align="center"><a href="index.php?file=Userbox&amp;op=show_message&amp;mid='.$row['mid'].'"><img style="border:none;" src="modules/Userbox/images/read.png" alt="" /></a></td></tr>';
-			
+                    <td><input id="box'.$i.'" type="checkbox" class="checkbox" name="mid[]" value="'.$row['mid'].'" /></td>
+                    <td align="center">'.$pseudo.'</td>
+                    <td align="center">'.$row['titre'].'</td>
+                    <td align="center">'.$row['date'].'</td>
+                    <td align="center">'.$etat.'</td>
+                    <td align="center"><a href="index.php?file=Userbox&amp;op=show_message&amp;mid='.$row['mid'].'"><img style="border:none;" src="modules/Userbox/images/read.png" alt="" /></a></td></tr>';
+                    
 			$i++;
 		}
 		
@@ -270,8 +270,8 @@ function index(){
 		
 		if ($nb_mess > 1){
 			echo '<div style="text-align:left;">&nbsp;<img src="modules/Userbox/images/flech_coch.png" alt="" style="margin-top:4px" />
-			<a href="#" onclick="setCheckboxes(\'box\', \''.$nb_mess.'\', true);">'._CHECKALL.'</a> / 
-			<a href="#" onclick="setCheckboxes(\'box\', \''.$nb_mess.'\', false);">'._UNCHECKALL.'</a><br /></div>';
+                    <a href="#" onclick="setCheckboxes(\'box\', \''.$nb_mess.'\', true);">'._CHECKALL.'</a> / 
+                    <a href="#" onclick="setCheckboxes(\'box\', \''.$nb_mess.'\', false);">'._UNCHECKALL.'</a><br /></div>';
 		}
 		
 		echo '<div style="text-align:center;"><br />';
@@ -283,7 +283,7 @@ function index(){
 		else $button = _POSTMESS;
 		
 		echo '<input type="button" value="'.$button.'" onclick="document.location=\'index.php?file=Userbox&amp;op=post_message\'" />
-		<br /><br />[ <a href="index.php?file=User"><b>'._BACK.'</b></a> ]</div></form><br />';
+                <br /><br />[ <a href="index.php?file=User"><b>'._BACK.'</b></a> ]</div></form><br />';
 	}
 } 
 
@@ -333,5 +333,4 @@ if($user){
     echo '<br /><br /><div style="text-align:center;">'._USERENTRANCE.'<br /><br /><a href="index.php?file=User&amp;op=login_screen"><b>'._LOGINUSER.'</b></a> | <a href="index.php?file=User&amp;op=reg_screen"><b>'._REGISTERUSER.'</b></a></div><br /><br />';
     closetable();
 }
-
 ?>

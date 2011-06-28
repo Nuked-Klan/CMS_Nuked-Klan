@@ -42,5 +42,4 @@ define("_UNCHECKALL","Tout Décocher");
 define("_NOMESSPV","Vous n'avez pas de message...");
 define("_SENDNEWMESS","Nouveau");
 define("_NOFLOOD","Vous avez déja posté un email il y'a moins de " . $nuked['post_flood'] . " secondes,<br />veuillez patienter avant de renvoyer un autre email...");
-
 ?>
