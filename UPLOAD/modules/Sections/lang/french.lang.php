@@ -86,6 +86,4 @@ define("_ACTIONMODIFCATSEC","a modifié la catégorie article");
 define("_ACTIONDELCATSEC","a supprimé la catégorie article");
 define("_ACTIONCONFSEC","a modifié les préférences du module Sections");
 define("_ACTIONPOSSEC","a modifié la position de la catégorie article");
-
-
 ?>
