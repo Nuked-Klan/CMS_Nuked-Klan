@@ -196,7 +196,7 @@ function com_index($module, $im_id){
             echo '<div style="text-align:center;padding:10px 10px 0 0"><b>'._COMMENTS.' :</b>&nbsp;'.$NbComment.'&nbsp;';
 
             if ($visiteur >= $level_access && $level_access > -1){
-                echo '<br />[ <a href="#" onclick="javascript:window.open(\'index.php?file=Comment&amp;nuked_nude=index&amp;op=view_com&amp;im_id='.$im_id.'&amp;module='.$module.'\',\'popup\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=360,height=380,top=100,left=100\');return(false)">'._VIEWCOMMENT.'</a> ]';
+                echo '<br />[ <a href="#" onclick="javascript:window.open(\'index.php?file=Comment&amp;nuked_nude=index&amp;op=view_com&amp;im_id='.$im_id.'&amp;module='.$module.'\',\'popup\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=600,height=480,top=100,left=100\');return(false)">'._VIEWCOMMENT.'</a> ]';
             }
             echo '</div>';
         }
@@ -276,7 +276,7 @@ function view_com($module, $im_id){
                 $autor = '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($author).'" onclick="window.open(this.href);return false;">'.$author.'</a>';
             }else $autor = $row['autor'];
 
-            echo '<table width="100%" cellspacing="0" cellpadding="0"><tr><td style="width:100%;"><b>'.$titre.'</b>';
+            echo '<table style="width:90%;margin:0px auto;" cellspacing="0" cellpadding="0"><tr><td style="width:90%;"><b>'.$titre.'</b>';
 
             if ($visiteur >= $level_admin && $level_admin > -1){
                 echo '&nbsp;('.$row['autor_ip'].') <a href="index.php?file=Comment&amp;nuked_nude=index&amp;op=edit_comment&amp;cid='.$row['id'].'"><img style="border:none;" src="images/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a><a href="javascript:delmess(\''.mysql_real_escape_string($row['autor']).'\', \''.$row['id'].'\');"><img style="border:none;" src="images/del.gif" alt="" title="'._DELTHISCOM.'"></a>';
@@ -592,11 +592,11 @@ function edit_comment($cid){
 			$autor = $auteur;
 		}
 
-        echo "<form method=\"post\" action=\"index.php?file=Comment&amp;nuked_nude=index&amp;op=modif_comment\" onsubmit=\"backslash('com_texte');\">\n"
+        echo "<form method=\"post\" action=\"index.php?file=Comment&amp;nuked_nude=index&amp;op=modif_comment\" >\n"
 				. "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
 				. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" maxlength=\"40\" value=\"" . $titre . "\" /><br /><br /></td></tr>\n"
 				. "<tr><td><b>" . _MESSAGE . " :</b><br />\n"
-				. "<textarea id=\"com_texte\" name=\"texte\" cols=\"58\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
+				. "<textarea id=\"e_basic\" name=\"texte\" cols=\"58\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
 				. "<tr><td><b>" . _NICK . " :</b> " . $autor ." ( " . $ip . " )</td></tr>\n"
 				. "<tr><td align=\"right\" colspan=\"2\">\n"
 				. "<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
