@@ -7,8 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
+if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
@@ -16,32 +15,26 @@ global $nuked, $user;
 
 $and = "";
 
-
-if ($autor != "" && $main != "")
-{
+if ($autor != "" && $main != ""){
     $and .= "(autor LIKE '%" . $autor . "%') AND ";
 }
-else if ($autor != "")
-{
+else if ($autor != ""){
     $and .= "(autor LIKE '%" . $autor . "%')";
 }
 
-
-if ($searchtype == "matchexact" && $main != "")
-{
+if ($searchtype == "matchexact" && $main != ""){
     $and .= "(title LIKE '%" . $main . "%' OR content LIKE '%" . $main . "%')";
 }
-
-else if ($main != "")
-{
+else if ($main != ""){
     $sep = "";
     $and .= "(";
-    for($i = 0; $i < count($search); $i++)
-    {
+	
+    for($i = 0; $i < count($search); $i++){
         $and .= $sep . "(title LIKE '%" . $search[$i] . "%' OR content LIKE '%" . $search[$i] . "%')";
         if ($searchtype == "matchor") $sep = " OR ";
         else $sep = " AND ";
     }
+	
     $and .= ")";
 }
 
@@ -50,10 +43,8 @@ $sql_art = mysql_query($req);
 
 $nb_art = mysql_num_rows($sql_art);
 
-if ($nb_art > 0)
-{
-    while (list($art_id, $art_titre, $art_date) = mysql_fetch_array($sql_art))
-    {
+if ($nb_art > 0){
+    while (list($art_id, $art_titre, $art_date) = mysql_fetch_array($sql_art)){
         $art_titre = htmlentities($art_titre);
         $art_date = nkDate($art_date);
         $tab['module'][] = $modname;
@@ -61,5 +52,4 @@ if ($nb_art > 0)
         $tab['link'][] = "index.php?file=Sections&amp;op=article&amp;artid=" . $art_id;
     }
 }
-
 ?>
