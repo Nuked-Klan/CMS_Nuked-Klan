@@ -23,7 +23,7 @@ CKEDITOR.editorConfig = function( config )
 		{ name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
 		{ name: 'colors',      items : [ 'TextColor','BGColor' ] },
 		{ name: 'insert',      items : [ 'Youtube','Dailymotion' ] }, // For Youtube, For Dailymotion
-		{ name: 'insert',      items : [ 'Image','Table','HorizontalRule','Smiley','SpecialChar' ] },
+		{ name: 'insert',      items : [ 'Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] },
 	];
 
 	// BASIC EDITOR
