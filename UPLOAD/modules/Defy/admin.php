@@ -8,7 +8,6 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
-}
 
 translate('modules/Defy/lang/' . $language . '.lang.php');
 
