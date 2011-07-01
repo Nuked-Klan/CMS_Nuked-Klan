@@ -360,13 +360,18 @@ function admintop()
 }
 function adminfoot()
 {
-global $language;
+global $language, $ActiveVideoCkeditor;
 ?>
-                <script type="text/javascript" src="media/ckeditor/ckeditor_basic.js"></script>
+                <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
                 <script type="text/javascript">
                 //<![CDATA[
                     CKEDITOR.replaceAll( 'editor' );
                     CKEDITOR.config.scayt_sLang = "<?php echo ($language == 'french') ? 'fr_FR' : 'en_US'; ?>";
+					<?php 
+					echo ConfigSmileyCkeditor();
+					if($ActiveVideoCkeditor === true) echo 'CKEDITOR.config.extraPlugins = \'youtube,dailymotion\';';
+					?>
+					
                 //]]>
                 </script>
             </div>
