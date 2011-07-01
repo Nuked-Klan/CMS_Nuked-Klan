@@ -59,7 +59,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
 				. "<body style=\"background: " . $bgcolor2 . ";\">\n"
 				. "<div style=\"text-align: center;\"><br />\n"
-				. "<object name=\"applet\" codetype=\"application/java\" classid=\"clsid:8AD9C840-044E-11D1-B3E9-00805F499D93\" width=\"100%\" height=\"80%\">\n"
+				. "<applet name=\"applet\" code=IRCApplet.class archive=\"irc.jar,pixx.jar\" width=\"100%\" height=\"80%\">\n"
 				. "<param name=\"CABINETS\" value=\"irc.cab,securedirc.cab,pixx.cab\" />\n"
 				. "<param name=\"code\" value=\"IRCApplet.class\" />\n"
 				. "<param name=\"archive\" value=\"irc.jar,pixx.jar\" />\n"
@@ -102,7 +102,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 				. "<param name=\"style:smiley21\" value=\":@ img/enerve2.gif\" />\n"
 				. "<param name=\"style:smiley22\" value=\":-S img/roll-eyes.gif\" />\n"
 				. "<param name=\"style:smiley23\" value=\":s img/roll-eyes.gif\" />\n"
-				. "</object>\n";
+				. "</applet>\n";
 
         $smiley[':)'] = "sourire.gif";
         $smiley[':d'] = "content.gif";
