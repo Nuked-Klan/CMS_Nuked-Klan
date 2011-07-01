@@ -130,7 +130,7 @@ function show_message($mid){
 	echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
             <tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
             <tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.$row['titre'].'</td></tr>
-            <tr style="background:'.$bgcolor2.';"><td>'.$row['message'].'</td></tr></table>
+            <tr style="background:'.$bgcolor2.';"><td>'.html_entity_decode($row['message']).'</td></tr></table>
             <br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
             <div style="text-align:center;">
             <input type="hidden" name="message" value="'.htmlentities($row['message']).'" />
