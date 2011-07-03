@@ -186,6 +186,9 @@ define("_SEND","Send");
 define("_BACK","Back");
 define("_HELP","Help");
 define("_ADMINBLOCK","Manage Blocks");
+define("_TITREACTU","View the feed title");
+define("_NBRRSS","Number of links displayed");
+
 define("_TITLE","Title");
 define("_BLOCK","Block");
 define("_POSITION","Position");

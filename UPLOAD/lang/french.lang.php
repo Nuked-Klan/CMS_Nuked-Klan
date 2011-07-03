@@ -183,6 +183,9 @@ define("_BACK","Retour");
 define("_SEND","Envoyer");
 define("_HELP","Aides");
 define("_ADMINBLOCK","Gestion des Blocks");
+define("_TITREACTU","Afficher le titre du flux");
+define("_NBRRSS","Nombre de lien affiché");
+
 define("_TITLE","Titre");
 define("_BLOCK","Block");
 define("_POSITION","Position");
