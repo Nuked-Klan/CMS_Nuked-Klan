@@ -5,6 +5,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 CKEDITOR.editorConfig = function( config )
 {
+	config.font_names =
+	'Arial/Arial, Helvetica, sans-serif;' +
+	'Courier New/Courier New, Courier, monospace;' +
+	'Times New Roman/Times New Roman, Times, serif;';
 	config.resize_enabled = false;
 	config.width = '96%';
 
