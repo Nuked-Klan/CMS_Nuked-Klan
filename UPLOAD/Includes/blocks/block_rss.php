@@ -161,8 +161,8 @@ function edit_block_rss($bid){
 					      <td colspan="4"><b>' . _NBRRSS . ' : </b>
 						      <select name="nbr">';
 							      
-							  if (!empty($nbrRss)) {
-							      echo '<option>' . $nbrRss . '</option>
+							  if (!empty($nbr)) {
+							      echo '<option>' . $nbr . '</option>
 								        <option disabled="disabled"> --- </option>';
 							  }
 							      
