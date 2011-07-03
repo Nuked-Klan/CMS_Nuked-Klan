@@ -7,51 +7,53 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-defined("INDEX_CHECK")) or die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
-translate("modules/News/lang/" . $language . ".lang.php");
+translate("modules/News/lang/$language.lang.php");
 
 $day = time();
 
-$sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
-list($active) = mysql_fetch_array($sql2);
-if ($active == 3 || $active == 4) {
-	echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n";
+$Str = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '$bid'");
+list($active) = mysql_fetch_array($Str);
 
-	$sql = mysql_query("SELECT id, titre, date, auteur, auteur_id FROM " . NEWS_TABLE . " WHERE '" . $day . "' >= date ORDER BY date DESC LIMIT 0, 5");
-	while (list($news_id, $titre, $date, $autor, $autor_id) = mysql_fetch_array($sql)) {
-		$date = nkDate($date);
-		$titre = htmlentities($titre);
+$listStyle = ($active == 3 or $active == 4) ? 'list-style:none' : 'list-style:inline';
+$margin = ($active == 3 or $active == 4) ? '5px' : '11px';
 
-			if ($autor_id != "") {
-				$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-				list($auteur) = mysql_fetch_array($sql2);
-			} else {
-				$auteur = $autor;
-			}
+echo '<ul style="margin:5px ' . $margin . ';padding:5px;' . $listStyle . '">';
 
-		echo "<tr><td>&nbsp;<b><big>&middot;</big></b>&nbsp;<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\"><b>" . $titre . "</b></a> " . _BY . " <a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($auteur) . "\">" . $auteur . "</a> ( " . $date . " )</td></tr>\n";
+$Sql = mysql_query("SELECT N.id, N.titre, N.date, N.auteur, N.auteur_id, U.pseudo FROM " . NEWS_TABLE . " N, " . USER_TABLE . " U WHERE '$day' >= N.date AND U.id = N.auteur_id ORDER BY date DESC LIMIT 0, 5");
+while ($row = mysql_fetch_assoc($Sql)) {
+	
+	$row['date'] = nkDate($row['date']);
+	$row['titre'] = htmlentities($row['titre']);
+	$titre = (strlen($row['titre']) > 30) ? substr($row['titre'],0,30).'...' : $row['titre'];
+	$auteur = (!empty($row['auteur_id'])) ? $row['pseudo'] : $row['auteur'];
+	$title = _BY . ' ' . $auteur . ' ( ' . $row['date'] . ' )';
+	
+	if ($active == 3 or $active == 4) {
+		
+		echo '<li>
+	              <img src="modules/News/images/folder.png" witdh="22" height="22" alt="Folder" style="float:left;margin-top:4px" />
+			      <div style="float:left;padding:0 0 2px 3px">
+		              <h2 style="font-size:12px;margin:0;padding:0">
+				          <a href="index.php?file=News&amp;op=index_comment&amp;news_id=' . $row['id'] . '" title="' . $row['titre'] . '"><b>' . $row['titre'] . '</b></a>
+				      </h2>
+				      <p style="margin:0;padding:0">
+					      ' . _BY . ' <a href="index.php?file=Team&amp;op=detail&amp;autor=' . urlencode($auteur) . '" title="">' . $auteur . '</a> ( ' . $row['date'] . ' )
+					  </p>
+				  </div>
+				  <hr style="color: ' . $bgcolor3 . ';height:1px;clear:both" />
+			 </li>';
+		
+	} else {
+	    
+		echo '<li>
+	              <a href="index.php?file=News&amp;op=index_comment&amp;news_id=' . $row['id'] . '" title="' . $title . '"><b>' . $titre . '</b></a>
+				  <hr style="color: ' . $bgcolor3 . ';height:1px" />
+			 </li>';
+	    
 	}
-	echo "</table><br />\n";
-} else {
-	echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n";
-
-	$sql = mysql_query("SELECT id, titre, date, auteur, auteur_id FROM " . NEWS_TABLE . " WHERE " . $day . " >= date ORDER BY date DESC LIMIT 0, 5");
-	while (list($news_id, $titre, $date, $autor, $autor_id) = mysql_fetch_array($sql)) {
-		$date = nkDate($date);
-		$titre = htmlentities($titre);
-
-			if ($autor_id != "") {
-				$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-				list($auteur) = mysql_fetch_array($sql2);
-			} else {
-				$auteur = $autor;
-			}
-
-		echo "<tr><td>&nbsp;<b><big>&middot;</big></b>&nbsp;<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\"><b>" . $titre . "</b></a></td></tr>\n"
-		   . "<tr><td>" . _BY . " <a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($auteur) . "\">" . $auteur . "</a> ( $date )<hr style=\"color: " . $bgcolor3 . ";height: 1px;\" /></td></tr>\n";
-	}
-	echo "</table><br />\n";
 }
 
+echo '</ul>';
 ?>
