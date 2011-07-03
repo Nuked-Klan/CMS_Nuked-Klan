@@ -80,14 +80,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
 			if (!empty($autor_id) && $test > 0) list($auteur) = mysql_fetch_array($sql4);
 			else $auteur = $TabNews['auteur'];
 			
-			$data['date'] = ($language == 'french') ? strftime("%d-%m-%Y", $TabNews['date']) : strftime("%Y-%m-%d", $TabNews['date']);
-
+			$data['date'] = nkDate($TabNews['date']);
 			$data['cat'] = $TabCat['titre'];
 			$data['catid'] = $TabNews['cat'];
 			$data['id'] = $TabNews['id'];
 			$data['titre'] = $TabNews['titre'];
 			$data['auteur'] = $auteur;
-			$data['heure'] = nkDate($TabNews['date']);
 			$data['nb_comment'] = $nb_comment;
 			$data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
 			$data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
