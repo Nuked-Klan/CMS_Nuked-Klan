@@ -177,7 +177,7 @@ function footer(){
 function news($data){
         global $theme;
         
-        $posted = _NEWSPOSTBY . "&nbsp;<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($data['auteur']) . "\">" . $data['auteur'] . "</a>&nbsp;" . _THE . "&nbsp;". $data['date']. "&nbsp;" . _AT . "&nbsp;" . $data['heure'];
+        $posted = _NEWSPOSTBY . "&nbsp;<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($data['auteur']) . "\">" . $data['auteur'] . "</a>&nbsp;" . _THE . "&nbsp;". $data['date'];
         $comment = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $data['id'] . "\">" . _NEWSCOMMENT . "</a>&nbsp;(" . $data['nb_comment'] . ")";
 ?>
 <div class="block center">
