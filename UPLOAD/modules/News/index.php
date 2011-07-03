@@ -92,7 +92,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 			$data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
 			$data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
 			
-			$data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=News&amp;op=categorie&amp;cat_id='.$TabNews['id'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" width="30" height="32" /></a>' : '';
+			$data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=News&amp;op=categorie&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" width="30" height="32" /></a>' : '';
 
 			if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
 				$data['texte'] = $TabNews['texte'].'<br /><br />'.$TabNews['suite'];
