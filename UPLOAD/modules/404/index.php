@@ -13,7 +13,7 @@ global $nuked, $language;
 translate('modules/Search/lang/' . $language . '.lang.php');
 translate('modules/404/lang/' . $language . '.lang.php');
 
-if($_REQUEST['file'] == 'Admin'){
+if($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin'){
 	include('modules/Admin/design.php');
 	$opentable = admintop();
 	$closetable = adminfoot();

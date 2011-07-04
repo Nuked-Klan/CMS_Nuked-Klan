@@ -192,7 +192,7 @@ function admintop(){
 									
                                 } else {
 									
-									echo '<li><a href="index.php?file=<' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a><li>';
+									echo '<li><a href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a><li>';
 									
 								} // END if/else
 								
