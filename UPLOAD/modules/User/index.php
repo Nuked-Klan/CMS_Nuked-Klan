@@ -460,7 +460,7 @@ function edit_account(){
             }
         }
 
-        echo "<tr><td><b>" . _SIGN . " :</b></td><td><textarea id=\"e_advanced\" name=\"signature\" rows=\"10\" cols=\"60\">" . $signature . "</textarea></td></tr>\n";
+        echo "<tr><td><b>" . _SIGN . " :</b></td><td><textarea id=\"e_basic\" name=\"signature\" rows=\"10\" cols=\"60\">" . $signature . "</textarea></td></tr>\n";
 
         if ($nuked['user_delete'] == "on"){
             echo "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\">"._DELMYACCOUNT." <input class=\"checkbox\" type=\"checkbox\" name=\"remove\" value=\"ok\" /></td></tr>\n";
