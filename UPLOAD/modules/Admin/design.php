@@ -73,10 +73,11 @@ function admintop(){
         <div id="iframe"></div>
         <div id="iframe_close">&nbsp;</div>
     </div>
-    
+	
+    <div id="Frame">
     <!-- Wrapper for the radial gradient background -->
     <div id="body-wrapper">
-    
+    	
         <div id="sidebar">
             
             <!-- Sidebar with logo and menu -->
@@ -133,9 +134,9 @@ function admintop(){
                         </ul>
                     </li>
                     
-                    <li>
                         <!-- SUB MENU : CONTENU -->
                         <?php
+						echo '<li>';
                         $modules = array();
                         $Sql = mysql_query("SELECT `nom` FROM `" . MODULES_TABLE . "` WHERE '".$visiteur."' >= admin AND niveau > -1 AND admin > -1 ORDER BY nom");
                         while ($mod = mysql_fetch_assoc($Sql)) {
@@ -176,11 +177,7 @@ function admintop(){
                         } // END foreach
 						
 						$CurrentModule = ($modulecur == true) ? ' current' : '';
-                        
-						?>
-                        <a href="#" class="nav-top-item<?php echo $CurrentModule; ?>"><?php echo _CONTENU; ?></a>
-                        <ul>
-                        <?php
+						echo '<a href="#" class="nav-top-item' . $CurrentModule . '">' . _CONTENU . '</a><ul>';
 						
                         foreach ($modules as $value) {
                             
@@ -190,12 +187,12 @@ function admintop(){
                                 
 								if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') {
                                     
-									?><li><a class="current" href="index.php?file=<?php echo $temp[1]; ?>&amp;page=admin"><?php echo $temp[0]; ?></a><li><?php
+									echo '<li><a class="current" href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a><li>';
                                     $modulecur = true;
 									
                                 } else {
 									
-									?><li><a href="index.php?file=<?php echo $temp[1]; ?>&amp;page=admin"><?php echo $temp[0]; ?></a><li><?php
+									echo '<li><a href="index.php?file=<' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a><li>';
 									
 								} // END if/else
 								
@@ -203,10 +200,9 @@ function admintop(){
 							
 						} // END foreach
 						
+						echo '</ul></li>';
+						
 						?>
-                        </ul>
-                    </li>
-                    
                     <li>
                         <!-- SUB MENU : DIVERS -->
                         <a href="#" class="nav-top-item<?php echo $MenuDivers; ?>"><?php echo _DIVERS; ?></a>
@@ -253,11 +249,12 @@ function admintop(){
             <!-- End #sidebar-wrapper -->
         
         </div>
+        
         <!-- End #sidebar -->
         
         <!-- Main Content Section with everything -->
         <div id="main-content">
-            <div style="width:100%;">
+            <div style="width:100%;height:100%;display:block">
                 <!-- Show a notification if the user has disabled javascript -->
                 <noscript>
                     <div class="notification error png_bg">
@@ -279,7 +276,7 @@ function adminfoot(){
                     CKEDITOR.config.scayt_sLang = "<?php echo ($language == 'french') ? 'fr_FR' : 'en_US'; ?>";
                     <?php 
                     echo ConfigSmileyCkeditor();
-                    if($ActiveVideoCkeditor === TRUE) echo "CKEDITOR.config.extraPlugins = 'youtube,dailymotion';";
+                    if($ActiveVideoCkeditor === TRUE) echo "CKEDITOR.config.extraPlugins = 'Video';";
                     ?>
                     //]]>
                 </script>
@@ -289,6 +286,7 @@ function adminfoot(){
         
     </div>
     <!-- End #body-wrapper -->
+    </div>
     <?php
 }
 ?>

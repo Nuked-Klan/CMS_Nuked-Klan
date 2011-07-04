@@ -133,7 +133,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
 	, '    if(document.getElementById(\'e_advanced\')){',"\n";
-	if($ActiveVideoCkeditor === true) echo 'CKEDITOR.config.extraPlugins = \'youtube,dailymotion\';';
+	if($ActiveVideoCkeditor === true) echo 'CKEDITOR.config.extraPlugins = \'Video\';';
 	echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
     , '    {',"\n"
