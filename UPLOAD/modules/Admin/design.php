@@ -288,5 +288,6 @@ function adminfoot(){
     <!-- End #body-wrapper -->
     </div>
     <?php
+	exit();
 }
 ?>

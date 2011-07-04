@@ -1,5 +1,5 @@
 html{font-size:100%;margin-bottom:1px}
-body{marign:0 auto;font-family:Arial,Helvetica,sans-serif;color:#555;font-size:12px;background:url('../images/bg-body.gif') repeat-y top left #f0f0f0;height:100%}
+body{margin:0 auto;font-family:Arial,Helvetica,sans-serif;color:#555;font-size:12px;background:url('../images/bg-body.gif') repeat-y top left #f0f0f0;height:100%}
 #Frame{background:url('../images/bg-body.gif') top left repeat-y #f0f0f0;}
 #body-wrapper{background:url('../images/bg-radial-gradient.gif') 230px top no-repeat}
 h1,h2,h3,h4,h5,h6{font-family:Helvetica,Arial,sans-serif;color:#222;font-weight:bold}
@@ -89,7 +89,6 @@ form label{display:block;padding:0 0 10px;font-weight:bold}
 form fieldset legend{font-weight:bold;margin-bottom:10px;padding-top:10px}
 form p small{font-size:.75em;color:#777}
 form input.text-input,form select,form textarea,form .wysiwyg{padding:6px;font-size:13px;background:#fff url('../images/bg-form-field.gif') top left repeat-x;border:1px solid #d5d5d5;color:#333}
-.noediteur,##noediteur{padding:6px;font-size:13px;background:#fff url('../images/bg-form-field.gif') top left repeat-x;border:1px solid #d5d5d5;color:#333}
 form .small-input{width:25%!important}
 form .medium-input{width:50%!important}
 form .large-input{width:97.5%!important;font-size:16px!important;padding:8px!important}
@@ -129,39 +128,8 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 #facebox_overlay{position:fixed;top:0;left:0;height:100%;width:100%}
 .facebox_hide{z-index:-100}
 .facebox_overlayBG{background-color:#000;z-index:99}
-
-#messages
-{
-	display: none
-}
-
+#messages{display:none}
 /* CSS FOR PREVIEW WEBSITE */
-#screen
-{
-	display:none;
-	position:fixed;
-	width:100%;
-	height:100%;
-	background:url('../images/bg.png') repeat;
-	z-index:10000
-}
-
-#iframe
-{
-	margin-left:5%;
-	margin-top:5%;
-	width:90%;
-	height:100%
-}
-
-#iframe_close
-{
-	display:block;
-	width:295px;
-	height:25px;
-	background:url('../../../images/croix.png') no-repeat;
-	position:absolute;
-	right:3%;
-	bottom:3%;
-	z-index:20000
-}
+#screen{display:none;position:fixed;width:100%;height:100%;background:url('../images/bg.png') repeat;z-index:10000}
+#iframe{margin-left:5%;margin-top:5%;width:90%;height:100%}
+#iframe_close{display:block;width:295px;height:25px;background:url('../../../images/croix.png') no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000}
