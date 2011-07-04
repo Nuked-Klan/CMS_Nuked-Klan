@@ -554,10 +554,20 @@ function upgrade_db()
     list($mail_admin) = mysql_fetch_array($recup_mail);
     
     /* Update commun à toutes les versions précédentes : */
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%Y %H:%M');";
-    $req = mysql_query($sql);        
-
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
+    if ($_REQUEST['langue'] == 'french'){
+    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%A, %d %B, %Y - %H:%M:%S');";
+    }
+    else{
+        $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%A, %B %d, %Y  - %I:%M:%S %p');";
+    }
+    $req = mysql_query($sql);
+    
+    if ($_REQUEST['langue'] == 'french'){
+        $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '1');";
+    }
+    else{
+        $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
+    }
     $req = mysql_query($sql);
 
     $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_editeur";
