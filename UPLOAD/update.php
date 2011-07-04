@@ -555,10 +555,10 @@ function upgrade_db()
     
     /* Update commun à toutes les versions précédentes : */
     if ($_REQUEST['langue'] == 'french'){
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%A, %d %B, %Y - %H:%M:%S');";
+    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%Y - %H:%M:%S');";
     }
     else{
-        $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%A, %B %d, %Y  - %I:%M:%S %p');";
+        $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%m/%d/%Y - %H:%M:%S');";
     }
     $req = mysql_query($sql);
     
