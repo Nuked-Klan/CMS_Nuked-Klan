@@ -57,27 +57,71 @@ $language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuke
 // FORMAT DATE FR/EN
 if($language == 'french') {
     // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        setlocale(LC_ALL, "fr_FR");
-    } 
-    else {
-        setlocale(LC_ALL, "fr_FR.utf8");
-    }    
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') setlocale (LC_ALL, 'fr_FR','fra');
+    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');    
 }
 elseif($language == 'english') setlocale(LC_ALL, "en_US");
 
-// INCLUSION DES VIDEOS DANS L'EDITEUR (TRUE | FALSE)
+// INCLUSION OF VIDEOS IN THE EDITOR (TRUE | FALSE)
 $ActiveVideoCkeditor = FALSE;
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
-function nkDate($timestamp)
-{
-    global $nuked;
-    $timestamp += $nuked['datezone'] * 3600;
-    if(idate('I', $timestamp) == 1){
-        $timestamp -= 3600;
-    }
-    return strftime($nuked['dateformat'], $timestamp);
+function nkDate($timestamp) {
+	global $nuked;
+	$DefZone = getTimeZoneDateTime($nuked['datezone']);
+	date_default_timezone_set($DefZone);
+	$formatedTime = str_split($nuked['datezone']);
+	$Symbol = $formatedTime[0];
+	$First = $formatedTime[1];
+	$Second= $formatedTime[2];
+	$Third= $formatedTime[3];
+	$Fourth= $formatedTime[4];
+	if($Third == "3") {$Third = 5;}
+	$timezone_local = $Symbol.$First.$Second.".".$Third.$Fourth;
+	$time = $timestamp;
+	$timezone_offset = date("Z");
+	$timezone_add = round($timezone_local*60*60);
+	$ar = localtime($time,true);
+	if($ar['tm_isdst']){$time += 3600;}
+	$time = round($time-$timezone_offset+$timezone_add);
+	return strftime($nuked['dateformat'], $time);
+}
+
+
+// Current annual DATEZONE TIME TABLE
+function getTimeZoneDateTime($GMT) {
+    $timezones = array( '-1200'=>'Pacific/Kwajalein',
+					    '-1100'=>'Pacific/Samoa',
+						'-1000'=>'Pacific/Honolulu',
+						'-0900'=>'America/Juneau',
+						'-0800'=>'America/Los_Angeles',
+						'-0700'=>'America/Denver',
+						'-0600'=>'America/Mexico_City',
+						'-050000'=>'America/New_York',
+						'-0400'=>'America/Caracas',
+						'-0330'=>'America/St_Johns',
+						'-0300'=>'America/Argentina/Buenos_Aires',
+						'-0200'=>'Atlantic/Azores',
+						'-0100'=>'Atlantic/Azores',
+						'+0000'=>'Europe/London',
+						'+0100'=>'Europe/Paris',
+						'+0200'=>'Europe/Helsinki',
+						'+0300'=>'Europe/Moscow',
+						'+0330'=>'Asia/Tehran',
+						'+0400'=>'Asia/Baku',
+						'+0430'=>'Asia/Kabul',
+						'+0500'=>'Asia/Karachi',
+						'+0530'=>'Asia/Calcutta',
+						'+0600'=>'Asia/Colombo',
+						'+0700'=>'Asia/Bangkok',
+						'+0800'=>'Asia/Singapore',
+						'+0900'=>'Asia/Tokyo',
+						'+0930'=>'Australia/Darwin',
+						'+1000'=>'Pacific/Guam',
+						'+1100'=>'Asia/Magadan',
+						'+1200'=>'Asia/Kamchatka'
+					  );
+    return $timezones[$GMT];
 }
 
 // OPEN PHP SESSION

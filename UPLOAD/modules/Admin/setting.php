@@ -111,13 +111,9 @@ if ($visiteur == 9)
 			);
 			foreach($timeformatTable as $key) 
 			{
-				if ($tft == $key) $checked = 'selected="selected"';
-				else $checked = '';
+				$checked = ($tft == $key) ? 'selected="selected"' : '';
 				$day = time();
-				$day += $nuked['datezone'] * 3600;
-				if(idate('I', $day) == 1){
-				$day -= 3600;
-				}
+				date_default_timezone_set($nuked['datezone']);
 				$echo = strftime($key, $day);
 				echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
 			}
@@ -127,53 +123,41 @@ if ($visiteur == 9)
 	{
 		global $nuked;
 			
-			$timezoneTable = array(
-				"-12" => "(GMT -12:00 heures) Eniwetok, Kwajalein",
-				"-11" => "(GMT -11:00 heures) Midway Island, Samoa",
-				"-10" => "(GMT -10:00 heures) Hawaii",
-				"-9.5" => "(GMT - 9:30 heures) Polynésie française",
-				"-9" => "(GMT -9:00 heures) Alaska",
-				"-8" => "(GMT -8:00 heures) Pacific Time (US &amp; Canada)",
-				"-7" => "(GMT -7:00 heures) Mountain Time (US &amp; Canada)",
-				"-6" => "(GMT -6:00 heures) Central Time (US &amp; Canada), Mexico City",
-				"-5" => "(GMT -5:00 heures) Eastern Time (US &amp; Canada), Bogota, Lima",
-				"-4.5" => "(GMT - 4:30 heures) Bolivarian Time",
-				"-4" => "(GMT -4:00 heures) Atlantic Time (Canada), Caracas, La Paz",
-				"-3.5" => "(GMT -3:30 heures) Newfoundland",
-				"-3" => "(GMT -3:00 heures) Brésil, Buenos Aires, Falkland Is",
-				"-2" => "(GMT -2:00 heures) Mid-Atlantic, Ascention Is., St Helena",
-				"-1" => "(GMT -1:00 heures) Les Açores, îles du Cap-Vert",
-				"0" => "(GMT) Casablanca, Dublin, Londres, Lisbonne, Monrovia",
-				"1" => "(GMT +1:00 heures) Bruxelles, Copenhagen, Madrid, Paris",
-				"2" => "(GMT +2:00 heures) Kaliningrad, Afrique du Sud",
-				"3" => "(GMT +3:00 heures) Baghdad, Riyadh, Moscow, Nairobi",
-				"3.5" => "(GMT +3:30 heures) Téhéran",
-				"4" => "(GMT +4:00 heures) Abu Dhabi, Muscat, Baku, Tbilisi",
-				"4.5" => "(GMT +4:30 heures) Kaboul",
-				"5" => "(GMT +5:00 heures) Ekaterinburg, Islamabad, Karachi, Tashkent",
-				"5.5" => "(GMT +5:30 heures) Bombay, Calcutta, Madras, New Delhi",
-				"5.45" => "(GMT + 5:45 heures) Kathmandu",
-				"6" => "(GMT +6:00 heures) Almaty, Dhaka, Colombo",
-				"6.5" => "(GMT + 6:30 heures) Yangon, Naypyidaw, Bantam",
-				"7" => "(GMT +7:00 heures) Bangkok, Hanoi, Jakarta",
-				"8" => "(GMT +8:00 heures) Hong Kong, Perth, Singapour, Taipei",
-				"8.45" => "(GMT + 8:45 heures) Caiguna, Eucla",
-				"9" => "(GMT +9:00 heures) Tokyo, Seoul, Osaka, Sapporo, Yakutsk",
-				"9.5" => "(GMT +9:30 heures) Adelaide, Darwin",
-				"10" => "(GMT +10:00 heures) Melbourne, Papouasie-Nouvelle-Guinée, Sydney",
-				"10.5" => "(GMT + 10:30 heures) îles Lord Howe",
-				"11" => "(GMT +11:00 heures) Magadan, Nouvelle Calédonie, îles Salomon",
-				"11.5" => "(GMT + 11:30 heures) Burnt Pine, Kingston",
-				"12" => "(GMT +12:00 heures) Auckland, Fiji, îles Marshall",
-				"12.75" => "(GMT + 12:45 heures) îles Chatham",
-				"13" => "(GMT + 13:00 heures) Kamchatka, Anadyr",
-				"14" => "(GMT + 14:00 heures) île Christmas",
-			);
+			$timezoneTable = array( "-1200" => "(GMT -12:00) Eniwetok, Kwajalein",
+									"-1100" => "(GMT -11:00) Midway Island, Samoa",
+									"-1000" => "(GMT -10:00) Hawaii",
+									"-0900" => "(GMT -9:00) Alaska",
+									"-0800" => "(GMT -8:00) Pacific Time (US & Canada)",
+									"-0700" => "(GMT -7:00) Mountain Time (US & Canada)",
+									"-0600" => "(GMT -6:00) Central Time (US & Canada), Mexico City",
+									"-0500" => "(GMT -5:00) Eastern Time (US & Canada), Bogota, Lima",
+									"-0400" => "(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz",
+									"-0330" => "(GMT -3:30) Newfoundland",
+									"-0300" => "(GMT -3:00) Brazil, Buenos Aires, Georgetown",
+									"-0200" => "(GMT -2:00) Mid-Atlantic",
+									"-0100" => "(GMT -1:00 hour) Azores, Cape Verde Islands",
+									"+0000" => "(GMT) Western Europe Time, London, Lisbon, Casablanca",
+									"+0100" => "(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris",
+									"+0200" => "(GMT +2:00) Kaliningrad, South Africa",
+									"+0300" => "(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg",
+									"+0330" => "(GMT +3:30) Tehran",
+									"+0400" => "(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi",
+									"+0430" => "(GMT +4:30) Kabul",
+									"+0500" => "(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent",
+									"+0530" => "(GMT +5:30) Bombay, Calcutta, Madras, New Delhi",
+									"+0600" => "(GMT +6:00) Almaty, Dhaka, Colombo",
+									"+0700" => "(GMT +7:00) Bangkok, Hanoi, Jakarta",
+									"+0800" => "(GMT +8:00) Beijing, Perth, Singapore, Hong Kong",
+									"+0900" => "(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk",
+									"+0930" => "(GMT +9:30) Adelaide, Darwin",
+									"+1000" => "(GMT +10:00) Eastern Australia, Guam, Vladivostok",
+									"+1100" => "(GMT +11:00) Magadan, Solomon Islands, New Caledonia",
+									"+1200" => "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
+								   );
 			foreach($timezoneTable as $cle=>$valeur) 
 			{
-				if ($tze == $cle) $checked = 'selected="selected"';
-				else $checked = '';
-				echo "<option value=\"" . $cle . "\" " . $checked . ">" . $valeur . "</option>\n";
+				$checked = ($tze == $cle) ? 'selected="selected"' : '';
+				echo '<option value="' . $cle . '" ' . $checked . '>' . $valeur . '</option>';
 			}
 	}
 
