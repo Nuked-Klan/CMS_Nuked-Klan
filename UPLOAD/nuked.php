@@ -68,23 +68,9 @@ $ActiveVideoCkeditor = FALSE;
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 function nkDate($timestamp) {
 	global $nuked;
-	$DefZone = getTimeZoneDateTime($nuked['datezone']);
-	date_default_timezone_set($DefZone);
-	$formatedTime = str_split($nuked['datezone']);
-	$Symbol = $formatedTime[0];
-	$First = $formatedTime[1];
-	$Second= $formatedTime[2];
-	$Third= $formatedTime[3];
-	$Fourth= $formatedTime[4];
-	if($Third == "3") {$Third = 5;}
-	$timezone_local = $Symbol.$First.$Second.".".$Third.$Fourth;
-	$time = $timestamp;
-	$timezone_offset = date("Z");
-	$timezone_add = round($timezone_local*60*60);
-	$ar = localtime($time,true);
-	if($ar['tm_isdst']){$time += 3600;}
-	$time = round($time-$timezone_offset+$timezone_add);
-	return strftime($nuked['dateformat'], $time);
+	$dateZone = getTimeZoneDateTime($nuked['datezone']);
+	date_default_timezone_set($dateZone);
+	return strftime($nuked['dateformat'], $timestamp);
 }
 
 
