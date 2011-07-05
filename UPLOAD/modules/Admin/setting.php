@@ -95,6 +95,8 @@ if ($visiteur == 9)
 				"%Y, %B %d  - %I:%M:%S %p",
 				"%d. %B %Y  - %I:%M:%S %p",
 				"%Y-%m-%d %H:%M:%S",
+				"%m/%d/%Y",
+				"%d/%m/%Y",
 				"%m/%d/%Y - %H:%M:%S",
 				"%d/%m/%Y - %H:%M:%S",
 				"%Y/%m/%d - %H:%M:%S",
@@ -109,7 +111,8 @@ if ($visiteur == 9)
 				"%d %b %Y - %I:%M:%S %p",
 				"%Y %b %d - %I:%M:%S %p",
 			);
-			foreach($timeformatTable as $key) 
+			
+			foreach($timeformatTable as $key)
 			{
 				$checked = ($tft == $key) ? 'selected="selected"' : '';
 				$day = time();
