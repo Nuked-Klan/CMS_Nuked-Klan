@@ -720,21 +720,17 @@ $siteurl = "http://" . $_SERVER['SERVER_NAME'] . str_replace("install.php", "", 
 if (substr($siteurl, -1) == "/") $siteurl = substr($siteurl, 0, -1);
 
 if ($_REQUEST['langue'] == 'french'){
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%d/%m/%Y - %H:%M:%S');";
+	$dateFormat = '%d/%m/%Y';
+	$dateZone = '+0100';
+} else {
+	$dateFormat = '%m/%d/%Y';
+	$dateZone = '+0000';
 }
-else{
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '%m/%d/%Y - %H:%M:%S');";
-}
-$req = mysql_query($sql);
 
-if ($_REQUEST['langue'] == 'french'){
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '1');";
-}
-else{
-    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
-}
+$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '" . $dateFormat. "');";
 $req = mysql_query($sql);
-
+$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '" . $dateZone . "');";
+$req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
 $req = mysql_query($sql);        
 $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('version', '1.7.9 RC6');";
