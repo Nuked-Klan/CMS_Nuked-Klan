@@ -97,7 +97,7 @@ function getTimeZoneDateTime($GMT) {
 						'-0800'=>'America/Los_Angeles',
 						'-0700'=>'America/Denver',
 						'-0600'=>'America/Mexico_City',
-						'-050000'=>'America/New_York',
+						'-0500'=>'America/New_York',
 						'-0400'=>'America/Caracas',
 						'-0330'=>'America/St_Johns',
 						'-0300'=>'America/Argentina/Buenos_Aires',
