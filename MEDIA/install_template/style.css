@@ -1,9 +1,9 @@
 html {
-    background: #ECEADB
+    background: #f7f6ea
 }
 body {
     width: 800px;
-    margin: 10px auto;
+    margin: 50px auto;
     padding: 0 30px;
 
     -moz-border-radius: 10px;
@@ -11,7 +11,7 @@ body {
     -webkit-border-radius: 10px;
     border-radius: 10px;
 
-    border:1px solid #d0cec1;
+    border:1px solid #d7d5ca;
 
     background: white;
 
@@ -31,7 +31,7 @@ h1#logo {
     border: 0
 }
 h1 {
-    font-size: 20px;
+	font: 22px Georgia,"Times New Roman",Times,serif;
     padding-bottom: 5px;
     border-bottom: 1px solid #cacaca
 }
