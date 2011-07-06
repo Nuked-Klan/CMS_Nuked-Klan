@@ -232,7 +232,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
 
         $content = preg_replace('#\r\n#', '', $content);
-        $contentpages = explode('<div style="page-break-after: always;">    <span style="display: none;">&nbsp;</span></div>', $content);
+        $contentpages = explode('<div style="page-break-after: always;">	<span style="display: none;">&nbsp;</span></div>', $content);
         $pageno = count($contentpages);
         if ($_REQUEST['p'] == "" || $_REQUEST['p'] < 1) $_REQUEST['p'] = 1;
         if ($_REQUEST['p'] > $pageno) $_REQUEST['p'] = $pageno;
@@ -424,14 +424,12 @@ if ($visiteur >= $level_access && $level_access > -1){
                     if ($date != "" && $date > $newsdate) $att = "&nbsp;&nbsp;" . _NEW;
 
                     if ($content != ""){
-                        $content = str_replace("\r", "", $content);
-                        $content = str_replace("\n", " ", $content);
+                        $content = preg_replace('#\r\n#', '', $content);
                         $texte = strip_tags($content);
-                        $texte = str_replace("(--pagebreak--)", "", $texte);
 
                         if (strlen($texte) > 150){
+                            $texte = htmlspecialchars_decode($texte, ENT_NOQUOTES);
                             $texte = substr($texte, 0, 150) . "...";
-                            $texte = htmlentities($texte);
                         } 
                     } 
                     else{
@@ -495,7 +493,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         $text = "<br />" . $text;
 
         $text = str_replace("&quot;", "\"", $text);
-        $text = str_replace("&#039;", "\'", $text);
+        $text = str_replace("&#039;", "'", $text);
         $text = str_replace("&agrave;", "à", $text);
         $text = str_replace("&acirc;", "â", $text);
         $text = str_replace("&eacute;", "é", $text);
@@ -503,7 +501,9 @@ if ($visiteur >= $level_access && $level_access > -1){
         $text = str_replace("&ecirc;", "ê", $text);
         $text = str_replace("&ucirc;", "û", $text);
 
-        $text = str_replace("(--pagebreak--)", _PAGEB, $text);
+        $text = preg_replace('#\r\n#', '', $text);
+        $text = str_replace('<div style="page-break-after: always;">	<span style="display: none;">&nbsp;</span></div>', _PAGEB, $text);
+
         $articleurl = $nuked['url'] . "/index.php?file=Sections&op=article&artid=" . $artid;
 
         include ('Includes/html2pdf/html2pdf.class.php');
