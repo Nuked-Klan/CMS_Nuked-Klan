@@ -68,15 +68,16 @@ $ActiveVideoCkeditor = FALSE;
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 $dateZone = getTimeZoneDateTime($nuked['datezone']);
 date_default_timezone_set($dateZone);
-
-function nkDate($timestamp) {
-    global $nuked;
-    return strftime($nuked['dateformat'], $timestamp);
+	
+function nkDate($timestamp, $blok = FALSE) {
+    global $nuked, $language;
+	$format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
+    return strftime($format, $timestamp);
 }
 
 
 // Current annual DATEZONE TIME TABLE
-function getTimeZoneDateTime($GMT){
+function getTimeZoneDateTime($GMT) {
     $timezones = array(
         '-1200'=>'Pacific/Kwajalein',
         '-1100'=>'Pacific/Samoa',
@@ -283,16 +284,19 @@ function banip(){
 // DISPLAY ALL BLOCKS
 function get_blok($side){
     global $user, $nuked;
-
-    if ($side == 'gauche')
+    
+    if ($side == 'gauche') {
         $active = 1;
-    else if ($side == 'droite')
+		$nuked['IsBlok'] = TRUE;
+	} else if ($side == 'droite') {
         $active = 2;
-    else if ($side == 'centre')
+		$nuked['IsBlok'] = TRUE;
+	} else if ($side == 'centre') {
         $active = 3;
-    else if ($side == 'bas')
+	} else if ($side == 'bas') {
         $active = 4;
-
+	}
+	
     $aff_good_bl = 'block_' . $side;
 
     $sql = mysql_query('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
@@ -316,6 +320,7 @@ function get_blok($side){
             if (!empty($blok['content'])) $aff_good_bl($blok);
         }
     }
+    $nuked['IsBlok'] = FALSE;
 }
 
 // QUERY IMAGE, BLOCK ALL IMAGE FILE (PHP, HTML ..)
