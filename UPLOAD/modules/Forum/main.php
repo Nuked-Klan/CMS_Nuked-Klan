@@ -7,37 +7,17 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $nuked, $language, $cookie_forum;
 
-include("modules/Forum/template.php");
+include('modules/Forum/template.php');
 
-if (!$user)
-{
-    $visiteur = 0;
-    $user_last_visit = time();
-} 
-else
-{
-    $visiteur = $user[1];
-    $user_last_visit = $user[4];
-} 
+$visiteur = $user ? $user[1] : 0;
+$user_last_visit = (empty($user[4])) ? time() : $user[4];
 
-
-if ($language == "french")
-{
-    $date_jour = nkDate(time());
-    $your_last_visite = nkDate($user_last_visit);
-} 
-else
-{
-    $date_jour = nkDate(time());
-    $your_last_visite = nkDate($user_last_visit);
-} 
+$date_jour = nkDate(time());
+$your_last_visite = nkDate($user_last_visit);
 
 if ($nuked['forum_title'] != "")
 {
