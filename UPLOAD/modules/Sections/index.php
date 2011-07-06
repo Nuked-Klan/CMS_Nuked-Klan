@@ -231,8 +231,8 @@ if ($visiteur >= $level_access && $level_access > -1){
             $auteur = $autor;
         }
 
-        $content = preg_replace('#\r\n#', '', $content);
-        $contentpages = explode('<div style="page-break-after: always;">	<span style="display: none;">&nbsp;</span></div>', $content);
+        $content = preg_replace('#\r\n\t#', '', $content);
+        $contentpages = explode('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', $content);
         $pageno = count($contentpages);
         if ($_REQUEST['p'] == "" || $_REQUEST['p'] < 1) $_REQUEST['p'] = 1;
         if ($_REQUEST['p'] > $pageno) $_REQUEST['p'] = $pageno;
@@ -501,8 +501,8 @@ if ($visiteur >= $level_access && $level_access > -1){
         $text = str_replace("&ecirc;", "ê", $text);
         $text = str_replace("&ucirc;", "û", $text);
 
-        $text = preg_replace('#\r\n#', '', $text);
-        $text = str_replace('<div style="page-break-after: always;">	<span style="display: none;">&nbsp;</span></div>', _PAGEB, $text);
+        $text = preg_replace('#\r\n\t#', '', $text);
+        $text = str_replace('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', '</page><page>', $text);
 
         $articleurl = $nuked['url'] . "/index.php?file=Sections&op=article&artid=" . $artid;
 
@@ -510,10 +510,10 @@ if ($visiteur >= $level_access && $level_access > -1){
         $sitename = $nuked['name'] . " - " . $nuked['slogan'];
         $sitename  = @html_entity_decode($sitename);
 
-        $texte = "<h1>".$title."</h1><hr />".$text."<hr />".$sitename."<br />".$articleurl;
-        $_REQUEST['file'] = $sitename."_".$title;
+        $texte = '<page><h1>'.$title.'</h1><hr />'.$text.'<hr />'.$sitename.'<br />'.$articleurl.'</page>';
+        $_REQUEST['file'] = $sitename.'_'.$title;
         $_REQUEST['file'] = str_replace(' ','_',$_REQUEST['file']);
-        $_REQUEST['file'] .= ".pdf";
+        $_REQUEST['file'] .= '.pdf';
         
         $pdf = new HTML2PDF('P','A4','fr');
         $pdf->WriteHTML($texte);
