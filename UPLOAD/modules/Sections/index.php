@@ -231,7 +231,8 @@ if ($visiteur >= $level_access && $level_access > -1){
             $auteur = $autor;
         }
 
-        $contentpages = explode("(--pagebreak--)", $content);
+        $content = preg_replace('#\r\n#', '', $content);
+        $contentpages = explode('<div style="page-break-after: always;">    <span style="display: none;">&nbsp;</span></div>', $content);
         $pageno = count($contentpages);
         if ($_REQUEST['p'] == "" || $_REQUEST['p'] < 1) $_REQUEST['p'] = 1;
         if ($_REQUEST['p'] > $pageno) $_REQUEST['p'] = $pageno;
