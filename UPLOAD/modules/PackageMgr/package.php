@@ -137,7 +137,7 @@ class Package
 	{
 		$ext = substr(strtolower(strrchr($this->file, '.')), 1);
 		$driver = dirname(__FILE__) . '/extractors/' . $ext . '.php';
-		if(!extension_loaded('zip')){
+		if(!extension_loaded('zip') && $ext == 'zip'){
 			throw new PackageException(self::E_NOZIP);
 		}
 		$class = ucfirst($ext) . 'Extractor';
