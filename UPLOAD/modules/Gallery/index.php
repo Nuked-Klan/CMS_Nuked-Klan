@@ -237,7 +237,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function description($sid)
     {
-        global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3, $img_width, $image_resize;
+        global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3, $img_width, $image_resize, $language;
 
         if ($nuked['gallery_title'] != "")
         {
