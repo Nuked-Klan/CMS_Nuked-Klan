@@ -627,4 +627,8 @@ define("_DELALLMAP","Delete all maps");
 define("_ADDMAP","Add a map");
 define("_MANAGETEAMMAP","Manage games and maps.");
 define("_THEMEPANEL","Manage template.");
+define("_NICKINUSE","This Nickname is already taken");
+define("_BADUSERNAME","Invalid Nickname, some characters are prohibited.");
+define("_NICKTOLONG","Your Nickname is too long.");
+define("_NICKBANNED","This Nickname is banned");
 ?>

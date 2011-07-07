@@ -302,8 +302,42 @@ if ($visiteur == 9)
     function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature)
     {
         global $nuked, $user;
+        
+         $nick = verif_pseudo($nick);
+    
+        if ($nick == "error1"){
+            echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
+            redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
+            closetable();
+            footer();
+            exit();
+        }
+    
+        if ($nick == "error2"){
+            echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
+            redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
+            closetable();
+            footer();
+            exit();
+        }
+    
+        if ($nick == "error3"){
+            echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
+            redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
+            closetable();
+            footer();
+            exit();
+        }
+    
+        if (strlen($nick) > 30){
+            echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
+            redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
+            closetable();
+            footer();
+            exit();
+        }
 
-        if ($nick == "" || $mail == "")
+        if ($mail == "")
         {
             echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
