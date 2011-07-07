@@ -462,6 +462,6 @@ define("_ACTIONCHANGEDIT","a modifié l'éditeur.");
 define("_MAP","Gestions des maps");
 define("_DELALLMAP","Suprimer les maps");
 define("_ADDMAP","Ajouter une map");
-define("_MANAGETEAMMAP","Gestions des teams et des maps.");
+define("_MANAGETEAMMAP","Gestions des jeux et des maps.");
 define("_THEMEPANEL","Gestion du thème.");
 ?>

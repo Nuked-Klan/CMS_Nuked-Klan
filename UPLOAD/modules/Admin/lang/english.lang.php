@@ -625,6 +625,6 @@ define("_ACTIONCHANGEDIT","have modifie the editor.");
 define("_MAP","Maps management");
 define("_DELALLMAP","Delete all maps");
 define("_ADDMAP","Add a map");
-define("_MANAGETEAMMAP","Manage teams and maps.");
+define("_MANAGETEAMMAP","Manage games and maps.");
 define("_THEMEPANEL","Manage template.");
 ?>
