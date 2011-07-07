@@ -13,8 +13,9 @@ if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 } 
-
-require_once 'extractors/zip.php';
+if(extension_loaded('zip')){
+	require_once 'extractors/zip.php';
+}
 require_once 'patcher.php';
 
 class PackageException extends Exception
@@ -28,7 +29,7 @@ class PackageException extends Exception
 				$this->message = 'Nom de fichier incorrect';
 				break;
 			case Package::E_FILEEXIST:
-				$this->message = 'Fichier innexistant';
+				$this->message = 'Fichier inexistant';
 				break;
 			case Package::E_NOTINSTALLED:
 				$this->message = 'Patch non install&#233;';
@@ -50,6 +51,9 @@ class PackageException extends Exception
 				break;
 			case Package::E_NOCODEC:
 				$this->message = 'Format non pris en charge';
+				break;
+			case Package::E_NOZIP:
+				$this->message = 'Votre h&#233;bergement ne permet la gestion des fichiers zip.';
 				break;
 			default:
 				$this->message = 'Erreur inconnue';
@@ -102,6 +106,7 @@ class Package
 	const E_ISACTIVE = 7;
 	const E_NOTACTIVE = 8;
 	const E_NOCODEC = 9;
+	const E_NOZIP = 10;
 	
 	public function __construct ($file, $directory = null)
 	{
@@ -132,6 +137,9 @@ class Package
 	{
 		$ext = substr(strtolower(strrchr($this->file, '.')), 1);
 		$driver = dirname(__FILE__) . '/extractors/' . $ext . '.php';
+		if(!extension_loaded('zip')){
+			throw new PackageException(self::E_NOZIP);
+		}
 		$class = ucfirst($ext) . 'Extractor';
 		if (file_exists($driver) && is_file($driver))
 		{
