@@ -103,10 +103,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
         echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
         , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n"
-		, '<script type="text/javascript" src="media/ckeditor/plugins/syntaxhighlight/scripts/shCore.js"></script>',"\n"
 		, '<script type="text/javascript" src="media/ckeditor/plugins/syntaxhighlight/scripts/shBrush_min.js"></script>',"\n"
         , '<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shCore.css"/>',"\n"
-        , '<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shThemeDefault.css"/>',"\n"
         , '<script type="text/javascript">',"\n"
 		, 'SyntaxHighlighter.config.clipboardSwf = \'media/ckeditor/plugins/syntaxhighlight/scripts/clipboard.swf\';',"\n"
 		, 'SyntaxHighlighter.all();',"\n"
