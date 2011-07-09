@@ -18,12 +18,12 @@ function affich_block_theme($blok){
 
     $handle = @opendir('themes');
     while (false !== ($f = readdir($handle))){
-        if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html' && !preg_match(".", $f)){
+        if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html' && !preg_match('`[.]`', $f)){
 
             if ($cookie_theme == $f) $checked = 'selected="selected"';
             else $checked = '';
 
-            $blok['content'] .= '<option value="' . $f . '" ' . $checked . '>' . $f . '</option>'."\n";
+            $blok['content'] .= '<option value="' . $f . '" ' . $checked . '>' . $f . '</option>';
         }
     }
     closedir($handle);
