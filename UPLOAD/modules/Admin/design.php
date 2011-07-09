@@ -276,7 +276,8 @@ function adminfoot(){
                     CKEDITOR.config.scayt_sLang = "<?php echo ($language == 'french') ? 'fr_FR' : 'en_US'; ?>";
                     <?php 
                     echo ConfigSmileyCkeditor();
-                    if($ActiveVideoCkeditor === TRUE) echo "CKEDITOR.config.extraPlugins = 'Video';";
+                    $Video = ($ActiveVideoCkeditor === true) ? ',Video' : '';
+                    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
                     ?>
                     //]]>
                 </script>

@@ -564,7 +564,9 @@ function secu_args($matches){
         'ins' => array(),
         'cite' => array(),
         'q' => array(),
-        'pre' => array(),
+        'pre' => array(
+			'class'
+		),
         'address' => array(),
     );
 
@@ -585,6 +587,12 @@ function secu_args($matches){
             'src',
             'type',
             'width',
+        ),
+		'iframe' => array (
+            'src',
+            'width',
+            'height',
+            'frameborder',
         ),
 
     );
