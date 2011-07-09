@@ -931,6 +931,31 @@ function verif_pseudo($string = ''){
     return($string);
 }
 
+function verifPseudoAdmin($string = ''){
+    global $nuked, $user;
+
+    $string = trim($string);
+
+    if (!$string || ($string == '') || (preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $string))){
+        $string = 'error1';
+    }
+    if ($string != 'error1' && $string != $user[2]){
+        $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE pseudo = '" . $string . "'");
+        $is_reg = mysql_num_rows($sql);
+        if ($is_reg > 0){
+            $string = 'error2';
+        }
+    }
+    if ($string != 'error1' && $string != 'error2'){
+        $sql2 = mysql_query("SELECT pseudo FROM " . BANNED_TABLE . " WHERE pseudo = '" . $string . "'");
+        $is_reg2 = mysql_num_rows($sql2);
+        if ($is_reg2 > 0){
+            $string = 'error3';
+        }
+    }
+    return($string);
+}
+
 function UpdateSitmap(){
     global $nuked;
     $Disable = array('Suggest', 'Comment', 'Vote', 'Textbox', 'Members');
