@@ -935,19 +935,21 @@ function verifPseudoAdmin($string = ''){
 
     $string = trim($string);
 
-    if (empty($string) || preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $string)){
+    if (empty($string) || preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $string)) {
         return 'error1';
     }
 
-    $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE pseudo = '" . $string . "'");
-    $is_reg = mysql_num_rows($sql);
-    if ($is_reg > 0){
-        return 'error2';
+    if ($string != $user[2]) {
+        $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE pseudo = '" . $string . "'");
+        $is_reg = mysql_num_rows($sql);
+        if ($is_reg > 0){
+            return 'error2';
+        }
     }
 
     $sql2 = mysql_query("SELECT pseudo FROM " . BANNED_TABLE . " WHERE pseudo = '" . $string . "'");
     $is_reg2 = mysql_num_rows($sql2);
-    if ($is_reg2 > 0){
+    if ($is_reg2 > 0) {
         return 'error3';
     }
 
