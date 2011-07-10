@@ -13,7 +13,7 @@ defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open t
 
 translate('modules/News/lang/' . $language . '.lang.php');
 
-include 'Includes/nkCaptcha.php';
+include_once 'Includes/nkCaptcha.php';
 
 if (_NKCAPTCHA == 'off') $captcha = 0;
 else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0) $captcha = 0;
