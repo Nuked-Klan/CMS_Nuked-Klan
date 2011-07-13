@@ -193,8 +193,8 @@ if ($visiteur == 9)
         . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=update_user\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
         . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"nick\" size=\"30\" maxlength=\"80\" value=\"" . $nick . "\" /> *</td></tr>\n"
-        . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" /></td></tr>\n"
-        . "<tr><td><b>" . _PASSWORD . " (" . _CONFIRMPASS . ") :</b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"80\" /></td></tr>\n"
+        . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" autocomplete=\"off\" /></td></tr>\n"
+        . "<tr><td><b>" . _PASSWORD . " (" . _CONFIRMPASS . ") :</b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"80\" autocomplete=\"off\" /></td></tr>\n"
         . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail . "\" /> *</td></tr>\n"
         . "<tr><td><b>" . _MAIL . " (" . _PUBLIC . ") :</b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n"
         . "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n"
@@ -293,17 +293,17 @@ if ($visiteur == 9)
         . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
         . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $avatar . "\" /></td></tr>\n"
         . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\">" . $signature . "</textarea></td></tr>\n"
-        . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"id_user\" value=\"" . $id_user . "\" /><input type=\"hidden\" name=\"pass\" value=\"" . $pass . "\" /></td></tr>\n"
+        . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"id_user\" value=\"" . $id_user . "\" /><input type=\"hidden\" name=\"pass\" value=\"" . $pass . "\" /><input type=\"hidden\" name=\"old_nick\" value=\"".$nick."\" /></td></tr>\n"
         . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _MODIFUSER . "\" /></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=user\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
 
     }
 
-    function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature)
+    function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature, $old_nick)
     {
         global $nuked, $user;
         
-        $nick = verifPseudoAdmin($nick);
+        $nick = verif_pseudo($nick, $old_nick, true);
         
 		if ($nick == "error1"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
@@ -1388,7 +1388,7 @@ if ($visiteur == 9)
     switch ($_REQUEST['op'])
     {
         case "update_user":
-            update_user($_REQUEST['id_user'], $_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature']);
+            update_user($_REQUEST['id_user'], $_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature'], $_REQUEST['old_nick']);
             break;
 
         case "add_user":
