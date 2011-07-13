@@ -319,7 +319,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 
-        $sql = mysql_query("INSERT INTO " . FORUM_TABLE . " ( `id` , `cat` , `nom` , `comment` , `moderateurs` , `niveau` , `level` , `ordre` , `level_poll` , `level_vote` ) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $description . "' , '|" . $modo . "' , '" . $niveau . "' , '" . $level . "' , '" . $ordre . "' , '" . $level_poll . "' , '" . $level_vote . "' )");
+        $sql = mysql_query("INSERT INTO " . FORUM_TABLE . " ( `id` , `cat` , `nom` , `comment` , `moderateurs` , `niveau` , `level` , `ordre` , `level_poll` , `level_vote` ) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $description . "' , '" . $modo . "' , '" . $niveau . "' , '" . $level . "' , '" . $ordre . "' , '" . $level_poll . "' , '" . $level_vote . "' )");
         // Action
         $texteaction = "". _ACTIONADDFO .": ".$titre."";
         $acdate = time();
@@ -394,7 +394,6 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         if ($modo != "")
         {
-            $modo = substr($modo, 1);
             $moderateurs = explode('|', $modo);
             for ($i = 0;$i < count($moderateurs);$i++)
             {

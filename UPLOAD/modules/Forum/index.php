@@ -64,7 +64,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= level AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
