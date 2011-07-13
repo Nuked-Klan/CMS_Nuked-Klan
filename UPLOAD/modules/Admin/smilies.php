@@ -151,7 +151,7 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 	if ($filename != "")
 	{
 	    $ext = strrchr($filename, ".");
-	    $ext = substr($filename, 1);
+	    $ext = substr($ext, 1);
 
 		if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
 	    {
