@@ -919,7 +919,7 @@ function verif_pseudo($string = null, $old_string = null, $admin = false){
 
     $string = trim($string);
 
-    if (is_null($string) || empty($string) || preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $string)) {
+    if (empty($string) || preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $string)) {
         return 'error1';
     }
 	
