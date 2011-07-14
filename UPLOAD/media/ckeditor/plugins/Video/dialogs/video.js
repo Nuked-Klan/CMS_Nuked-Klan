@@ -18,44 +18,40 @@ CKEDITOR.dialog.add('Video',function(a) {
 			this.getContentElement('OngletVimeo','vimeo').getInputElement().setValue('');
 			this.getContentElement('OngletMegavideo','megavideo').getInputElement().setValue('');
 			this.getContentElement('OngletWat','wat').getInputElement().setValue('');
-		},
-		
+		},		
 		onOk: function() {
-			
 			var inputYoutube = trim(this.getContentElement('OngletYoutube','youtube').getInputElement().getValue());
 			var inputDailymotion = trim(this.getContentElement('OngletDailymotion','dailymotion').getInputElement().getValue());
 			var inputVimeo = trim(this.getContentElement('OngletVimeo','vimeo').getInputElement().getValue());
 			var inputMegavideo = trim(this.getContentElement('OngletMegavideo','megavideo').getInputElement().getValue());
 			var inputWattv = trim(this.getContentElement('OngletWat','wat').getInputElement().getValue());
+			var videoWidth = trim(this.getContentElement('Dimensions', 'dimWidth').getInputElement().getValue());
+			var videoHeight = trim(this.getContentElement('Dimensions','dimHeight').getInputElement().getValue());
 			
 			// Youtube
 			if (inputYoutube != '') {
 				var url = 'http://www.youtube.com/v/';
 				var text = '<div style="text-align:center"><object width="'+videoWidth+'" height="'+videoHeight+'"><param name="movie" value="'+url+inputYoutube+'"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="'+url+inputYoutube+'" type="application/x-shockwave-flash" width="'+videoWidth+'" height="'+videoHeight+'" allowscriptaccess="always" allowfullscreen="true"></embed></object></div>';
 				this.getParentEditor().insertHtml(text);
-			}
-			
+			}			
 			// Dailymotion
 			else if (inputDailymotion != '') {
 				var url = 'http://www.dailymotion.com/swf/video/';
 				var text = '<div style="text-align:center"><object width="'+videoWidth+'" height="'+videoHeight+'"><param name="movie" value="'+url+inputDailymotion+'"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="'+url+inputDailymotion+'" type="application/x-shockwave-flash" width="'+videoWidth+'" height="'+videoHeight+'" allowscriptaccess="always" allowfullscreen="true"></embed></object></div>';
 				this.getParentEditor().insertHtml(text);
-			}
-			
+			}			
 			// Vimeo
 			else if (inputVimeo != '') {
 				var url = 'http://player.vimeo.com/video/';
 				var text = '<iframe src="'+url+inputVimeo+'" width="'+videoWidth+'" height="'+videoHeight+'" frameborder="0"></iframe>';
 				this.getParentEditor().insertHtml(text); 
-			}
-			
+			}			
 			// Megavideo
 			else if (inputMegavideo != '') {
 				var url = 'http://www.megavideo.com/v/';
 				var text = '<div style="text-align:center"><object width="'+videoWidth+'" height="'+videoHeight+'"><param name="movie" value="'+url+inputMegavideo+'"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="'+url+inputMegavideo+'" type="application/x-shockwave-flash" width="'+videoWidth+'" height="'+videoHeight+'" allowscriptaccess="always" allowfullscreen="true"></embed></object></div>';
 				this.getParentEditor().insertHtml(text);
-			}
-			
+			}			
 			// Wat TV
 			else if (inputWattv != '') {
 				var url = 'http://www.wat.tv/swf2/';
@@ -76,10 +72,9 @@ CKEDITOR.dialog.add('Video',function(a) {
 			},{
 				type:'html',
 				id:'youtube',
-				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px">',
+				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px" />',
 				focus:function(){this.getElement().focus()}
-			}]
-		
+			}]		
 		},{
 			// Dailymotion
 			id: 'OngletDailymotion',
@@ -93,8 +88,7 @@ CKEDITOR.dialog.add('Video',function(a) {
 				id:'dailymotion',
 				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px">',
 				focus:function(){this.getElement().focus()}
-			}]
-			
+			}]			
         },
 		{
 			// Vimeo
@@ -109,8 +103,7 @@ CKEDITOR.dialog.add('Video',function(a) {
 				id:'vimeo',
 				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px">',
 				focus:function(){this.getElement().focus()}
-			}]
-			
+			}]			
         },
 		{
 			// Megavideo
@@ -125,8 +118,7 @@ CKEDITOR.dialog.add('Video',function(a) {
 				id:'megavideo',
 				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px">',
 				focus:function(){this.getElement().focus()}
-			}]
-			
+			}]			
         },
 		{
 			// Wat TV
@@ -141,14 +133,43 @@ CKEDITOR.dialog.add('Video',function(a) {
 				id:'wat',
 				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px">',
 				focus:function(){this.getElement().focus()}
+			}]			
+        },
+		{
+			// Dimensions
+			id:'Dimensions',
+			label:'<img src="'+CKEDITOR.getUrl(pluginUrl+'images/size.png')+'" /> Dimensions',
+			elements:[{
+				type:'hbox',
+				style:'margin:30px auto 0;width:125px;',
+				children:[{
+						type:'html',
+						html:'Largeur&nbsp;:&nbsp;'
+					},{
+						type:'html',
+						id:'dimWidth',
+						html:'<input size="4" value="480" style="border:1px solid gray;background:white;text-align:right;">'
+					},{
+						type:'html',
+						html:'px'
+					}]
+				},{
+					type:'hbox',
+					style:'margin:5px auto 0;width:125px;',
+					children:[{
+						type:'html',
+						html:'Hauteur&nbsp;:&nbsp;'
+					},{
+						type:'html',
+						id:'dimHeight',
+						html:'<input size="4" value="390" style="border:1px solid gray;background:white;text-align:right;">'
+					},{
+						type:'html',
+						html:'px'
+				}]
 			}]
-			
-        }
+		}
         ],
         buttons: [CKEDITOR.dialog.okButton, CKEDITOR.dialog.cancelButton]
     };
 });
-
-
-
-
