@@ -362,10 +362,11 @@ function ConfigSmileyCkeditor(){
 
     $donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
 
-    $sql = mysql_query('SELECT code, url FROM ' . SMILIES_TABLE . ' ORDER BY id');
+    $sql = mysql_query('SELECT code, url, name FROM ' . SMILIES_TABLE . ' ORDER BY id');
     while($row = mysql_fetch_assoc($sql)){
         $TabCode[] = $row['code'];
         $TabUrl[] = $row['url'];
+        $TabName[] = $row['name'];
     }
 
     $IUrl = 0;
@@ -385,6 +386,16 @@ function ConfigSmileyCkeditor(){
         $ICode++;
         $VirguleCode = ($ICode == $CompteurCode) ? '' : ', ';
         $donnee .= "'$VCode'$VirguleCode";
+    }
+    $donnee .= '];';
+    
+    $IName = 0;
+    $CompteurName = count($TabName);
+    $donnee .= 'CKEDITOR.config.smiley_titles=[';
+    foreach( $TabName as $VName ){
+        $IName++;
+        $VirguleName = ($IName == $CompteurName) ? '' : ', ';
+        $donnee .= "'$VName'$VirguleName";
     }
     $donnee .= '];';
 
