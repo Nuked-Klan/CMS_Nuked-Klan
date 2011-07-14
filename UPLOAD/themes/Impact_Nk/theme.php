@@ -183,33 +183,26 @@ function news($data){
 <div class="block center">
         <div class="top">
                 <div class="bottom">
-                    <table>
-                        <tr>
-                                <td style="width:100%;">
-                                        <h2><?php echo $data['titre']; ?></h2>
-                                        <br />
-                                        <span style="color: #ffffff;"><?php echo $data['texte']; ?></span>
-                                </td>
-                                <td style="text-align:right;">
-                                        <?php echo $data['image']; ?>                        
-                                </td>
-                        </tr>
-                </table>
-            <div style="width:100%;">
-                <div style="text-align:right;">
-                        <?php echo $data['friend']; ?> <?php echo $data['printpage']; ?>
-                </div>
-            </div>
-            <div>
-                <?php echo $comment; ?> - <?php echo _INPUBL; ?>
-                <a href="index.php?file=News&amp;op=categorie&amp;cat_id=<?php echo $data['catid']; ?>">
-                        <?php echo $data['cat']; ?>
-                </a>
-            </div>
-            <?php echo $posted; ?>
-            <br />
-        </div>
-    </div>
+                    	<h2><?php echo $data['titre']; ?></h2>
+						<div style="padding:5px;">
+								<div style="float:right;"><?php echo $data['image']; ?></div>
+								<span style="color: #ffffff;"><?php echo $data['texte']; ?></span>                                        
+						</div>
+						<div style="width:100%;">
+								<div style="text-align:right;">
+										<?php echo $data['friend']; ?> <?php echo $data['printpage']; ?>
+								</div>
+						</div>
+						<div>
+							<?php echo $comment; ?> - <?php echo _INPUBL; ?>
+							<a href="index.php?file=News&amp;op=categorie&amp;cat_id=<?php echo $data['catid']; ?>">
+									<?php echo $data['cat']; ?>
+							</a>
+						</div>
+						<?php echo $posted; ?>
+						<br />
+				</div>
+		 </div>
 </div>
 <?php
 }
