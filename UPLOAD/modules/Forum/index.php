@@ -153,7 +153,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -250,7 +250,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -338,7 +338,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -415,7 +415,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -465,7 +465,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -528,7 +528,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -949,7 +949,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -1170,7 +1170,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $forum_id . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -1232,7 +1232,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
@@ -1291,7 +1291,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $forum_id . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
             $administrator = 1;
         }
