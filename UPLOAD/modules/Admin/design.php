@@ -274,7 +274,11 @@ function adminfoot(){
                     //<![CDATA[
                     CKEDITOR.replaceAll( 'editor' );
                     CKEDITOR.config.scayt_sLang = "<?php echo ($language == 'french') ? 'fr_FR' : 'en_US'; ?>";
-                    <?php 
+                    <?php
+					if($_REQUEST['file'] == 'Forum' && ($_REQUEST['op'] == 'edit_forum' || $_REQUEST['op'] == 'add_forum')){
+						echo 'CKEDITOR.config.autoParagraph = false;
+								CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;';
+					}
                     echo ConfigSmileyCkeditor();
                     $Video = ($ActiveVideoCkeditor === true) ? ',Video' : '';
                     echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
