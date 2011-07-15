@@ -795,8 +795,15 @@ if ($visiteur >= $level_access && $level_access > -1)
         if ($image_resize == "off") $test = 0;
         else if (preg_match("`http://`i", $image) && $image_resize == "local") $test = 0;
         else  $test = 1;
+        
+        if(strpos($_SERVER['HTTP_USER_AGENT'], 'compatible; MSIE 8.0;') !== false){
+            $prop_width = 'width';
+        }
+        else{
+            $prop_width = 'max-width';
+        }
 
-        if ($test == 1) $style = "style=\"border: 1px solid #000000; overflow: auto; max-width: " . $largeur . "px;  width: expression(this.scrollWidth >= " . $largeur . "? '" . $largeur . "px' : 'auto');\"";
+        if ($test == 1) $style = "style=\"border: 1px solid #000000; overflow: auto; ".$prop_width.": " . $largeur . "px;  width: expression(this.scrollWidth >= " . $largeur . "? '" . $largeur . "px' : 'auto');\"";
         else $style = "style=\"border: 1px solid #000000;\"";
         
         $image_resize = "<img " . $style . " src=\"" . checkimg($image) . "\" alt=\"\" title=\"" . $title . "\" />";
