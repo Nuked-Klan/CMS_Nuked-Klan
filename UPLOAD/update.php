@@ -569,7 +569,10 @@ function upgrade_db()
         $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '0');";
     }
     $req = mysql_query($sql);
-
+    
+    $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('video_editeur', 'on');";
+    $req = mysql_query($sql);
+    
     $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_editeur";
     $req = mysql_query($sql);
     $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_style";

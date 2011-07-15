@@ -62,9 +62,6 @@ if($language == 'french') {
 }
 elseif($language == 'english') setlocale(LC_ALL, 'en_US');
 
-// INCLUSION OF VIDEOS IN THE EDITOR (TRUE | FALSE)
-$ActiveVideoCkeditor = FALSE;
-
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 $dateZone = getTimeZoneDateTime($nuked['datezone']);
 date_default_timezone_set($dateZone);
@@ -459,7 +456,7 @@ function secu_css($Style){
 
 // HTML FILTER
 function secu_args($matches){
-    global $ActiveVideoCkeditor;
+	global $nuked;
 
     $allowedTags = array(
         'p' => array(
@@ -608,7 +605,7 @@ function secu_args($matches){
 
     );
 
-    $allowedTags = ($ActiveVideoCkeditor === true) ? array_merge($allowedTags, $TabVideo) : $allowedTags;
+    $allowedTags = ($nuked['video_editeur'] == 'on') ? array_merge($allowedTags, $TabVideo) : $allowedTags;
 
     if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
         preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);

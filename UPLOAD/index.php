@@ -139,7 +139,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
 	, '    if(document.getElementById(\'e_advanced\')){',"\n";
-	$Video = ($ActiveVideoCkeditor === true) ? ',Video' : '';
+	$Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
 	echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
 	echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_advanced\',',"\n"

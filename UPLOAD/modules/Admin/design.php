@@ -266,7 +266,7 @@ function admintop(){
 
 function adminfoot(){
 	
-	global $language, $ActiveVideoCkeditor;
+	global $language, $nuked;
 	
 	?>
                 <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
@@ -280,7 +280,7 @@ function adminfoot(){
 								CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;';
 					}
                     echo ConfigSmileyCkeditor();
-                    $Video = ($ActiveVideoCkeditor === true) ? ',Video' : '';
+                    $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
                     echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
                     ?>
                     //]]>
