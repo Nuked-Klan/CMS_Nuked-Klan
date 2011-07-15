@@ -46,7 +46,7 @@ if ($active == 3 || $active == 4)
         if ($img != "")
         {
             echo" <td style=\"border: 1px dashed " . $bgcolor3 . ";\" align=\"center\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a><br />\n"
-            . "<a href=\"" . $url . "\" class=\"thickbox\" title=\"" . $titre . "\">" . $image . "</a></td>\n";
+            . "<a href=\"" . $url . "\" onclick=\"screenon('" . $url . "','oui');return false;\" title=\"" . $titre . "\">" . $image . "</a></td>\n";
         }
     }
     echo "</tr></table>\n";
@@ -74,7 +74,7 @@ else
     if ( $img != "")
     {
         echo "<div style=\"text-align: center;\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a></div>\n"
-        . "<div style=\"text-align: center;\"><a href=\"" . $url . "\" class=\"thickbox\" title=\"" . $titre . "\">" . $image . "</a></div>\n";
+        . "<div style=\"text-align: center;\"><a href=\"" . $url . "\" onclick=\"screenon('" . $url . "','oui');return false;\" title=\"" . $titre . "\">" . $image . "</a></div>\n";
     }
 }
 ?>
