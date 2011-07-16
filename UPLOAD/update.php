@@ -8,10 +8,10 @@
 //  the Free Software Foundation; either version 2 of the License.         //
 //-------------------------------------------------------------------------//
 
-define ("INDEX_CHECK", 1);
+define('INDEX_CHECK', 1);
 
-include ("globals.php");
-@include ("conf.inc.php");
+include('globals.php');
+@include('conf.inc.php');
 
 function UpdatePassCrypt($pass){
     $bulder = '';
@@ -1372,9 +1372,9 @@ function upgrade_db()
 
     // Suppresion des dossiers inutiles
     @deltree('img/');
-	@deltree('js/');
-	@deltree('css/');
-	@deltree('editeur/');
+    @deltree('js/');
+    @deltree('css/');
+    @deltree('editeur/');
 
     if ($error > 0)
     {

@@ -65,15 +65,14 @@ elseif($language == 'english') setlocale(LC_ALL, 'en_US');
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 $dateZone = getTimeZoneDateTime($nuked['datezone']);
 date_default_timezone_set($dateZone);
-	
+    
 function nkDate($timestamp, $blok = FALSE) {
     global $nuked, $language;
-	$format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
+    $format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
     return strftime($format, $timestamp);
 }
 
-
-// Current annual DATEZONE TIME TABLE
+// CURRENT ANNUAL DATEZONE TIME TABLE
 function getTimeZoneDateTime($GMT) {
     $timezones = array(
         '-1200'=>'Pacific/Kwajalein',
@@ -284,16 +283,16 @@ function get_blok($side){
     
     if ($side == 'gauche') {
         $active = 1;
-		$nuked['IsBlok'] = TRUE;
-	} else if ($side == 'droite') {
+        $nuked['IsBlok'] = TRUE;
+    } else if ($side == 'droite') {
         $active = 2;
-		$nuked['IsBlok'] = TRUE;
-	} else if ($side == 'centre') {
+        $nuked['IsBlok'] = TRUE;
+    } else if ($side == 'centre') {
         $active = 3;
-	} else if ($side == 'bas') {
+    } else if ($side == 'bas') {
         $active = 4;
-	}
-	
+    }
+    
     $aff_good_bl = 'block_' . $side;
 
     $sql = mysql_query('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
@@ -456,7 +455,7 @@ function secu_css($Style){
 
 // HTML FILTER
 function secu_args($matches){
-	global $nuked;
+    global $nuked;
 
     $allowedTags = array(
         'p' => array(
@@ -573,8 +572,8 @@ function secu_args($matches){
         'cite' => array(),
         'q' => array(),
         'pre' => array(
-			'class'
-		),
+            'class'
+        ),
         'address' => array(),
     );
 
@@ -596,7 +595,7 @@ function secu_args($matches){
             'type',
             'width',
         ),
-		'iframe' => array (
+        'iframe' => array (
             'src',
             'width',
             'height',
@@ -827,7 +826,7 @@ function translate($file_lang){
 }
 
 function compteur($file){
-    $upd = mysql_query("UPDATE " . STATS_TABLE . " SET count = count + 1 WHERE type = 'pages' AND nom = '" . $_GET['file'] . "'");
+    $upd = mysql_query('UPDATE ' . STATS_TABLE . ' SET count = count + 1 WHERE type = "pages" AND nom = "' . $_GET['file'] . '"');
 }
 
 function nk_CSS($str){
@@ -887,12 +886,8 @@ function visits(){
     $timevisit = $nuked['visit_delay'] * 60;
     $limite = $time + $timevisit;
 
-    if ($user){
-        $sql = mysql_query("SELECT id, date FROM " . STATS_VISITOR_TABLE . " WHERE user_id = '" . $user[0] . "' ORDER by date DESC LIMIT 0, 1");
-    }
-    else{
-        $sql = mysql_query("SELECT id, date FROM " . STATS_VISITOR_TABLE . " WHERE ip = '" . $user_ip . "' ORDER by date DESC LIMIT 0, 1");
-    }
+    $sql_where = ($user) ? 'user_id = "' . $user[0] : 'ip = "' . $user_ip;
+    $sql = mysql_query('SELECT id, date FROM ' . STATS_VISITOR_TABLE . ' WHERE ' . $sql_where . '" ORDER by date DESC LIMIT 0, 1');
 
     list($id, $date) = mysql_fetch_array($sql);
 
@@ -908,9 +903,7 @@ function visits(){
         $user_host = strtolower(@gethostbyaddr($user_ip));
         $user_agent = mysql_escape_string($_SERVER['HTTP_USER_AGENT']);
 
-        if ($user_host == $user_ip){
-            $host = '';
-        }
+        if ($user_host == $user_ip) $host = '';
         else{
             if (preg_match('`([^.]{1,})((\.(co|com|net|org|edu|gov|mil))|())((\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|fi|fj|fk|fm|fo|fr|fx|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nt|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zr|zw))|())$`', $user_host, $res))
                 $host = $res[0];
@@ -930,16 +923,16 @@ function verif_pseudo($string = null, $old_string = null, $admin = false){
     if (empty($string) || preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $string)) {
         return 'error1';
     }
-	
-	if($admin === true && $string != $old_string){
-		$sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE pseudo = '" . $string . "'");
-		$is_reg = mysql_num_rows($sql);
-		if ($is_reg > 0) {
-			return 'error2';
-		}
-	}
 
-    $sql2 = mysql_query("SELECT pseudo FROM " . BANNED_TABLE . " WHERE pseudo = '" . $string . "'");
+    if($admin === true && $string != $old_string){
+        $sql = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' WHERE pseudo = "' . $string . '"');
+        $is_reg = mysql_num_rows($sql);
+        if ($is_reg > 0) {
+            return 'error2';
+        }
+    }
+
+    $sql2 = mysql_query('SELECT pseudo FROM ' . BANNED_TABLE . ' WHERE pseudo = "' . $string . '"');
     $is_reg2 = mysql_num_rows($sql2);
     if ($is_reg2 > 0) {
         return 'error3';
@@ -959,7 +952,7 @@ function UpdateSitmap(){
         $Sitemap .= "xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\"\r\n";
         $Sitemap .= "xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\r\n";
 
-        $sql = "SELECT nom FROM " . MODULES_TABLE . " WHERE niveau = 0";
+        $sql = 'SELECT nom FROM ' . MODULES_TABLE . ' WHERE niveau = 0';
         $mods = mysql_query($sql);
 
         while(list($mod) = mysql_fetch_row($mods)){
@@ -1089,14 +1082,14 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
         default:
             $content = ob_get_clean();
             // CONNECT TO DB AND OPEN SESSION PHP
-            if(file_exists('conf.inc.php')) include ("conf.inc.php");
+            if(file_exists('conf.inc.php')) include ('conf.inc.php');
             connect();
             session_name('nuked');
             session_start();
             if (session_id() == '') exit(ERROR_SESSION);
             $date = time();
             echo ERROR_SQL;
-            $texte = _TYPE . ": " . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
+            $texte = _TYPE . ': ' . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
             $upd = mysql_query("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
             $upd2 = mysql_query("INSERT INTO " . $nuked['prefix'] . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', '" . _ERRORSQLDEDECTED . " : [<a href=\"index.php?file=Admin&page=erreursql\">" . _TLINK . "</a>].')");
             exit();
