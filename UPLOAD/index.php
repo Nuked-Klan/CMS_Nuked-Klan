@@ -15,6 +15,9 @@ include_once('Includes/php51compatibility.php');
 include('globals.php');
 if(file_exists('conf.inc.php')) include('conf.inc.php');
 
+// INCLUDE FATAL ERROR LANG
+include('Includes/fatal_errors.php');
+
 // POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
 if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == TRUE) extract($_REQUEST);
 
@@ -26,13 +29,13 @@ if (!defined('NK_INSTALLED')){
 }
 else{
     if (file_exists('update.php') && file_exists('install.php') || file_exists('update.php') || file_exists('install.php')){
-        echo '<div style="text-align: center; margin-top: 15px"><big>Warning ! <b>install.php</b> and <b>update.php</b> must be removed before continuing !</big></div>';
+        echo REMOVE_INSTUPD;
         exit();
     }
 }
 
 if (!defined('NK_OPEN')){
-    echo '<div style="text-align: center; margin-top: 15px"><big>Sorry, this website is momently closed, Please try again later.</big></div>';
+    echo WBSITE_CLOSED;
     exit();
 }
 
@@ -58,7 +61,7 @@ else if (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) $_REQUEST['im_fi
 else $_REQUEST['im_file'] = 'index';
 
 if (preg_match('`\.\.`', $theme) || preg_match('`\.\.`', $language) || preg_match('`\.\.`', $_REQUEST['file']) || preg_match('`\.\.`', $_REQUEST['im_file']) || preg_match('`http\:\/\/`i', $_REQUEST['file']) || preg_match('`http\:\/\/`i', $_REQUEST['im_file']) || is_int(strpos( $_SERVER['QUERY_STRING'], '..' )) || is_int(strpos( $_SERVER['QUERY_STRING'], 'http://' )) || is_int(strpos( $_SERVER['QUERY_STRING'], '%3C%3F' ))){
-    die('<div style="text-align: center; margin-top: 15px"><big>What are you trying to do ?</big></div>');
+    die(WAYTODO);
 }
 
 $_REQUEST['file'] = basename(trim($_REQUEST['file']));

@@ -12,9 +12,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 // CONNECT TO DB.
 connect();
 
-// INCLUDE FATAL ERROR LANG
-include('Includes/fatal_errors.php');
-
 // QUERY NUKED CONFIG_TABLE.
 $nuked = array();
 $sql_conf = mysql_query('SELECT name, value FROM ' . $db_prefix . '_config');
