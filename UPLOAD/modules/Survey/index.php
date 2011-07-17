@@ -175,7 +175,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             echo '<img src="' . $img . '" width="' . $width . '" height="10" alt="" />&nbsp;' . $pourcent_arrondi . '% (' . $optioncount . ')</td></tr>';
         }
 
-        echo "</table><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\">\n"
+        echo "</table><table style=\"margin-left: auto;margin-right: auto;text-align: left;width:60%;\" border=\"0\">\n"
            . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _TOTALVOTE . " : </b>" . $nbcount . "</td></tr>\n";
 
         $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'survey\'');
