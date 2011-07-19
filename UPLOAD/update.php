@@ -14,7 +14,7 @@ include('globals.php');
 @include('conf.inc.php');
 
 function UpdatePassCrypt($pass){
-    $bulder = '';
+    $builder = '';
     $decal = $decal === null?rand(0, 15):$decal;
     $pass = sha1($pass);
     for ($i = 0; $i < strlen($pass) * 2; $i++)
