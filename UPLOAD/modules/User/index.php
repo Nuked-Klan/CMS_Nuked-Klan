@@ -992,7 +992,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     else{
         $niveau = 0;
     }
-    if (!(file_exists("images/flags/".$country.""))){
+    if (!(file_exists("images/flags/".basename($country).""))){
         $country = "France.gif";
     }
     $date2 = nkDate(time());
