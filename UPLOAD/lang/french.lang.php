@@ -51,7 +51,7 @@ define("_ROXX","Ca déchire, continuez !");
 define("_NOTBAD","Mouais, pas mal...");
 define("_SHIET","C\'est naze, arrêtez-vous !");
 define("_WHATSNK","C\'est quoi Nuked-Klan ?");
-define("_INSERTFIELD","Insertion du contenu par défaut des tables");
+define("_INSERTFIELD","Installation de la base de données terminée !");
 define("_INSERTFINISH","Terminé !");
 define("_GODCONF","Configuration de l'administrateur");
 define("_CONFIG","Configuration");
@@ -315,9 +315,9 @@ define("_MULTIWARS1","Le nouveau module permet de visionner les prochains matchs
 define("_COMSYS","Système commentaires");
 define("_COMSYS1","Le nouveau système de commentaires permet rapidement d'envoyer un commentaire en ajax et de visionner les 4 derniers commentaires.");
 define("_EDITWYS","Editeur WYSIWYG");
-define("_EDITWYS1","Ce nouveau système permet d'avoir une visualisation rapide de votre message, news ou autre en BBcode.");
+define("_EDITWYS1","Ce nouveau système permet d'avoir une visualisation rapide de votre message, news ou autre après mise en forme.");
 define("_MISAJ","Mise à jour automatique");
-define("_MISAJ1","Si une faille est détectée, nous pouvons mettre à jour rapidement tous les sites depuis Nuked-Klan.org, et ainsi sécurisé votre site sans effectuer
+define("_MISAJ1","Si une faille est détectée, nous pouvons mettre à jour rapidement tous les sites depuis Nuked-Klan.org, et ainsi sécuriser votre site sans effectuer
 		de modifications et sans interrompre votre navigation.");
 define("_CONT","Module Contact");
 define("_CONT1","Nous avons ajouté le module contact indispensable au fonctionnement d'un site web.");
@@ -329,7 +329,7 @@ define("_INSTALLHOST","Il s'agit ici de l'adresse du serveur MySQL de votre hébe
 define("_INSTALLDBUSER","Il s'agit de votre identifiant qui vous permet de vous connecter à votre base SQL.");
 define("_INSTALLDBPASS","Il s'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base SQL.");
 define("_INSTALLDBPREFIX", "Le prefix permet d'installer plusieurs fois nuked-klan sur une seule base SQL en utilisant un prefix différent à chaque fois, par défaut, il s'agit de nuked, mais vous pouvez le changer comme vous le voulez.");
-define("_INSTALLDBDBNAME","Il s'agit du nom de votre base de donnée MySQL, souvent vous devez vous rendre dans l'administration de votre hébergement pour créer une base de données, mais quelques fois celle-ci vous est déjà fournie dans le mail d'inscription à votre hébergement.");
+define("_INSTALLDBDBNAME","Il s'agit du nom de votre base de données MySQL, souvent vous devez vous rendre dans l'administration de votre hébergement pour créer une base de données, mais quelques fois celle-ci vous est déjà fournie dans le mail d'inscription à votre hébergement.");
 // Check installation:
 define("_CHECKCURRING", "<p>Vérification de la compatibilité...<br /></p>\n");
 define("_PHPVERSION", 'PHP version > 5.1');

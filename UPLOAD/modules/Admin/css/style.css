@@ -74,6 +74,7 @@ table.sqlInfos{margin-left:auto;margin-right:auto;text-align:left}
 table.sqlInfos tbody td.sqlInfosTitle{white-space:nowrap}
 table tfoot td .bulk-actions{padding:15px 0 5px 0}
 table tfoot td .bulk-actions select{padding:4px;border:1px solid #ccc}
+#install-nk-infos{background: #F3F3F3;padding: 10px;text-align: left;font-style:italic;}
 #main-content .pagination{text-align:right;padding:20px 0 5px 0;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px}
 .pagination a{margin:0 5px 0 0;padding:3px 6px}
 .pagination a.number{border:1px solid #ddd}

@@ -54,7 +54,7 @@ define("_ROXX","it's great, carry on!");
 define("_NOTBAD","I guess it\'s alright");
 define("_SHIET","it sucks, stop it!");
 define("_WHATSNK","What's nuked-klan?");
-define("_INSERTFIELD","Insertion of the database contents");
+define("_INSERTFIELD","Database installation finished !");
 define("_INSERTFINISH","Finished!");
 define("_GODCONF","Administrator's configuration");
 define("_CONFIG","Configuration");

@@ -150,10 +150,10 @@ function install()
     echo "<div style=\"text-align: center;\"><br /><br /><br /><br /><h3>" . _WELCOMEINSTALL . "</h3><br />" . _GUIDEINSTALL . "<br /><br /><br />\n"
     . "<input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config_assistant&amp;op=info&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._INSTALLPASPAS."\" />"
     . "&nbsp;<input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config&amp;op=save_config&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._INSTALL."\" />"
-    . "&nbsp;<input type=\"button\" name=\"upgrade\" onclick=\"document.location='update.php?action=install&langue=" . $_REQUEST['langue'] . "';\" value=\"" . _UPGRADE . "\" /></div>";
+    . "&nbsp;<input type=\"button\" name=\"upgrade\" onclick=\"document.location='update.php?action=install&amp;langue=" . $_REQUEST['langue'] . "';\" value=\"" . _UPGRADE . "\" /></div>";
 
     ?>
-        <script>
+        <script type=\"text/javascript\">
         interval = setInterval(suivant, 6000);
         compteur = 2;
         function suivant()
@@ -219,7 +219,7 @@ function style($etape, $langue)
     if($langue == "inconnu" && $etape !=1)
     {
         ?>
-        <script>
+        <script type=\"text/javascript\">
         window.location='install.php';
         </script>
         <?php
@@ -259,7 +259,7 @@ function style($etape, $langue)
         <script type="text/javascript">
             <!--
             function show_progress(val, msg){
-            document.getElementById('infos').innerHTML = msg;
+            document.getElementById('install-nk-infos').innerHTML = msg;
             }
             //-->
         </script>
@@ -335,13 +335,13 @@ function style($etape, $langue)
                             if ($_REQUEST['action'] == "install")
                             {
                             ?>
-                            <a href="install.php?action=install&langue=<?php echo $langue; ?>" class="current">
+                            <a href="install.php?action=install&amp;langue=<?php echo $langue; ?>" class="current">
                             <?php
                             }
                             else
                             {
                             ?>
-                            <a href="install.php?action=install&langue=<?php echo $langue; ?>">
+                            <a href="install.php?action=install&amp;langue=<?php echo $langue; ?>">
                             <?php
                             }
                             ?>
@@ -450,10 +450,7 @@ function style($etape, $langue)
 
 function progress()
 {
-    echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"350\" border=\"0\"><tr><td>\n"
-    . "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n"
-    . "<tr><td><div id=\"infos\">" . _INSTALLPROGRESS . "</div></td></tr>\n"
-    . "</table></td></tr></table>\n";
+    echo "<div id=\"install-nk-infos\">" . _INSTALLPROGRESS . "</div>\n";
 }
 
 if (isset($_GET['action']) && $_GET['action'] != "check" && $_GET['action'] != "save_config" && $_GET['action'] != "update_config"&& $_GET['action'] != "language" && $_GET['action'] != "edit_config" && $_GET['action'] != "edit_config_assistant" && $_GET['action'] != "install")
@@ -496,7 +493,7 @@ function create_db()
 
     style(4,$_REQUEST['langue']);
 
-    echo "<div style=\"text-align: center;\"><br /><br /><h3>" . _INSTALLNK . "</h3><br />\n";
+    echo "<div style=\"text-align: center;\"><br /><br /><h3>" . _INSTALLNK . "</h3><br /></div>\n";
 
     progress();
     // Config de God
@@ -537,9 +534,8 @@ echo "<div style=\"text-align: center;\"><br /><br /><h3>" . _GODCONF . "</h3></
 . "<tr><td>" . _GODNICK . " * :</td><td><input id=\"install_pseudo\" type=\"text\" name=\"pseudo\" size=\"30\" value=\"\" /></td></tr>\n"
 . "<tr><td>" . _GODPASS . " * :</td><td><input id=\"install_pass\" type=\"password\" name=\"pass\" size=\"30\" value=\"\" /></td></tr>\n"
 . "<tr><td>" . _GODPASS . " (" . _PASSCONFIRM . ") * :</td><td><input id=\"install_passconf\" type=\"password\" name=\"passconf\" size=\"30\" value=\"\" /></td></tr>\n"
-. "<tr><td>" . _GODMAIL . " :</td><td><input type=\"text\" name=\"email\" size=\"40\" value=\"\" /></td></tr>\n"
-. "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></td></tr>\n"
-. "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" name=\"ok\" value=\"Install\" /></td></tr></table></form>\n";
+. "<tr><td>" . _GODMAIL . " :</td><td><input type=\"text\" name=\"email\" size=\"40\" value=\"\" /><input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></td></tr></table>\n"
+."<div style=\"text-align:center;background: #F3F3F3;padding: 10px;\"><input type=\"submit\" name=\"ok\" value=\"Installation\" /></div></form>\n";
     $time = time();
 
 ///////////////////////////////////////////////////////
@@ -558,7 +554,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_action (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_banned</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_banned</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_banned";
 $req = mysql_query($sql);
@@ -583,7 +579,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_banned (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_banned</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_banned</b>" . _CREATES . "&nbsp;');</script>";
 
         $sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_packages` (
           `file` varchar(100) NOT NULL,
@@ -613,7 +609,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_block (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_block</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_block</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, titre, content, type, nivo, page) VALUES (1, 2, 1, '', '" . _BLOKLOGIN . "', '', 'login', 0, 'Tous');";
 $req = mysql_query($sql);
@@ -654,7 +650,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_calendar (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_calendar</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_calendar</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -677,7 +673,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_comment (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_comment</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_comment</b>" . _CREATES . "&nbsp;');</script>";
 
 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_comment_mod";
@@ -691,7 +687,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_comment_mod (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_comment_mod</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_comment_mod</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_comment_mod (`id`, `module`, `active`) VALUES
 (1, 'news', 1),
@@ -713,7 +709,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_config (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_config</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_config</b>" . _CREATES . "&nbsp;');</script>";
 
 $date = time();
 $siteurl = "http://" . $_SERVER['SERVER_NAME'] . str_replace("install.php", "", $_SERVER['SCRIPT_NAME']);
@@ -920,7 +916,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_defie (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_defie</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_defie</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_discussion";
 $req= mysql_query($sql);
@@ -934,7 +930,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_discussion (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_discussion</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_discussion</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_downloads";
 $req = mysql_query($sql);
@@ -963,7 +959,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_downloads (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_downloads</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_downloads</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -982,7 +978,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_downloads_cat (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_downloads_cat</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_downloads_cat</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_erreursql";
 $req = mysql_query($sql);
@@ -996,7 +992,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_erreursql (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_ErreurSql</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_ErreurSql</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_fichiers_joins";
 $req = mysql_query($sql);
@@ -1012,7 +1008,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_fichiers_joins (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_fichiers_joins</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_fichiers_joins</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1038,7 +1034,7 @@ $req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_forums (id, cat, nom, comment, moderateurs, niveau, level, ordre, level_poll, level_vote) VALUES (1, 1, 'Forum', 'Test Forum', '', 0, 0, 0, 1 ,1);";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1057,7 +1053,7 @@ $req = mysql_query($sql);
 $sql="INSERT INTO " . $db_prefix . "_forums_cat (id, nom, ordre, niveau) VALUES (1, 'Categorie 1', 0, 0);";
 $req=mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_cat</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_cat</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1088,7 +1084,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_forums_messages (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_messages</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_messages</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1114,7 +1110,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_forums_threads (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_threads</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_threads</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1147,7 +1143,7 @@ $req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_forums_rank (id, nom, type, post, image) VALUES (7, 'Administrator', 2, 0, 'modules/Forum/images/rank/mod.gif');";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_rank</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_rank</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1167,7 +1163,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_forums_read (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_read</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_read</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1184,7 +1180,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_forums_poll (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_poll</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_poll</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1201,7 +1197,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_forums_options (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_options</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_options</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1217,7 +1213,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_forums_vote (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_vote</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_forums_vote</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1241,7 +1237,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_gallery (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_gallery</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_gallery</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1260,7 +1256,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_gallery_cat (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_gallery_cat</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_gallery_cat</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1283,7 +1279,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_games (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_games</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_games</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_games (id, name, titre, icon, pref_1, pref_2, pref_3, pref_4, pref_5, map) VALUES (1, 'Counter-Strike', '" . _PREFCS . "', 'images/games/cs.gif', '" . _OTHERNICK . "', '" . _FAVMAP . "', '" . _FAVWEAPON . "', '" . _SKINT . "', '" . _SKINCT . "', 'de_dust|de_inferno');";
 $req = mysql_query($sql);
@@ -1306,7 +1302,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_games_prefs (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_games_prefs</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_games_prefs</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1325,7 +1321,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_guestbook (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_guestbook</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_guestbook</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1341,7 +1337,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_irc_awards (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_irc_awards</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_irc_awards</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1365,7 +1361,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_liens (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_liens</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_liens</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1384,7 +1380,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_liens_cat (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_liens_cat</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_liens_cat</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1420,7 +1416,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_match (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req  =mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_match</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_match</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1437,7 +1433,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_modules (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_modules</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_modules</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_modules (id, nom, niveau, admin) VALUES (1, 'News', 0, 2);";
 $req = mysql_query($sql);
@@ -1500,7 +1496,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_nbconnecte (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_nbconnecte</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_nbconnecte</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1524,7 +1520,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_news (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_news</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_news</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1541,7 +1537,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_news_cat (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_news_cat</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_news_cat</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_news_cat VALUES ('1', 'Counter-Strike', '" . _BESTMOD . "', 'modules/News/images/cs.gif');";
 $req = mysql_query($sql);
@@ -1558,7 +1554,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_notification (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_notification</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_notification</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_recrute";
 $req = mysql_query($sql);
@@ -1582,7 +1578,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_recrute (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_recrute</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_recrute</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1606,7 +1602,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_sections (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sections</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sections</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1625,7 +1621,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_sections_cat (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sections_cat</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sections_cat</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1646,7 +1642,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_serveur (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_serveur</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_serveur</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1662,7 +1658,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_serveur_cat (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_serveur_cat</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_serveur_cat</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1682,7 +1678,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_sessions (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sessions</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sessions</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1699,7 +1695,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_smilies (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_smilies</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_smilies</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_smilies (id, code, url, name) VALUES (1, ':D', 'biggrin.gif', 'Very Happy');";
 $req = mysql_query($sql);
@@ -1739,7 +1735,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_sondage (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sondage</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sondage</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_sondage VALUES (1, '" . _LIKENK . "', '" . $time . "', 0);";
 $req = mysql_query($sql);
@@ -1759,7 +1755,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_sondage_check (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sondage_check</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sondage_check</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1776,7 +1772,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_sondage_data (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sondage_data</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_sondage_data</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_sondage_data VALUES (1, '" . _ROXX . "', 0, 1);";
 $req = mysql_query($sql);
@@ -1802,7 +1798,7 @@ $sql="CREATE TABLE " . $db_prefix . "_stats (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_stats</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_stats</b>" . _CREATES . "&nbsp;');</script>";
 
 $sql = "INSERT INTO " . $db_prefix . "_stats (nom, type, count) VALUES ('Gallery', 'pages', 0);";
 $req = mysql_query($sql);
@@ -1868,7 +1864,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_stats_visitor (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_stats_visitor</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_stats_visitor</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1887,7 +1883,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_suggest (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_suggest</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_suggest</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1905,7 +1901,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_shoutbox (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo"<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_shoutbox</b>" . _CREATES . "&nbsp;');</script>";
+echo"<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_shoutbox</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1924,7 +1920,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_team (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_team</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_team</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -1960,7 +1956,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_userbox (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_userbox</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_userbox</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -2003,7 +1999,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_users (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_users</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_users</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -2038,7 +2034,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_users_detail (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_users_detail</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_users_detail</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
@@ -2057,14 +2053,11 @@ $sql="CREATE TABLE " . $db_prefix . "_vote (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script>show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_vote</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_vote</b>" . _CREATES . "&nbsp;');</script>";
 
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;','<b>" . _INSERTFIELD . "</b>');</script>";
 
-echo "<script>show_progress('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;','<b>" . _INSERTFIELD . "</b>.....Ok');</script>";
-echo "<script>show_progress('&nbsp;&nbsp;&nbsp;','<b>" . _INSERTFINISH . "</b><br />');</script></div>";
-
-
-echo "</body></html>";
+echo "</div></div></body></html>";
 }
 
 function add_god($data)
@@ -2411,7 +2404,7 @@ function save_config($vars)
         . "</div>\n"
         . "</div>\n";
         echo "<form method=\"post\" action=\"install.php?action=create_db&amp;langue=" . $vars['langue'] . "\" onsubmit=\"this.goButton.disabled=true; return true\">\n"
-        . "<div style=\"text-align: center;\"><input type=\"submit\" name=\"goButton\" value=\"" . _NEXT . "\" /></div></form></body></html>";
+        . "<div style=\"text-align: center;\"><input type=\"submit\" name=\"goButton\" value=\"" . _NEXT . "\" /></div></form></div></div></body></html>";
    }
    else
    {
