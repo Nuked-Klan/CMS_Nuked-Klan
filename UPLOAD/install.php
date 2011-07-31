@@ -98,7 +98,6 @@ function Requirement()
 {
     Global $Test;
     include("lang/" . $_REQUEST['langue'] . ".lang.php");
-    echo $_REQUEST['langue'];
     $Test = true;
     style(1,$_REQUEST['langue']);
     echo "<div style=\"font-family: Courier, 'Courier New';border:solid 1px black; width: 400px; margin:auto;padding:15px;\">\n";
@@ -116,21 +115,19 @@ function Requirement()
     RequirementTest('extention Hash', function_exists('hash'), $_REQUEST['langue']);
 
     echo "</div>\n";
-    echo "<div style=\"border:double 3px black;width:250px;margin:20px auto;padding: 10px;\">\n";
+    echo "<div style=\"border:double 3px black;width:250px;margin:20px auto;padding: 10px;text-align:center;\">\n";
     if ($Test == true)
     {
-        echo _SYSTEMINSTALL;
-        echo "<center><form>
-        <input type=\"hidden\" name=\"action\" value=\"install\"/>
-        <input type=\"hidden\" name=\"langue\" value=\"".$_REQUEST['langue']."\"/>
-        <input type=\"submit\" value=\""._NEXTSTEP."\"/></form></center>";
+        echo _SYSTEMINSTALL
+        ."<form method=\"post\" action=\"install.php?action=install&amp;langue=".$_REQUEST['langue']."\">\n"
+        ."<fieldset><input type=\"submit\" value=\""._NEXTSTEP."\" /></fieldset></form></div>\n";
     }
     else
     {
         echo _FORCE;
         echo _NEXTLANG;
     }
-    echo "</div></div></div></body></html>";
+    echo "</div></div></body></html>";
 }
 
 function install()
@@ -148,12 +145,12 @@ function install()
     style(2,$_REQUEST['langue']);
 
     echo "<div style=\"text-align: center;\"><br /><br /><br /><br /><h3>" . _WELCOMEINSTALL . "</h3><br />" . _GUIDEINSTALL . "<br /><br /><br />\n"
-    . "<input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config_assistant&amp;op=info&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._INSTALLPASPAS."\" />"
-    . "&nbsp;<input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config&amp;op=save_config&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._INSTALL."\" />"
-    . "&nbsp;<input type=\"button\" name=\"upgrade\" onclick=\"document.location='update.php?action=install&amp;langue=" . $_REQUEST['langue'] . "';\" value=\"" . _UPGRADE . "\" /></div>";
+    . "<input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config_assistant&amp;op=info&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._INSTALLPASPAS."\" />\n"
+    . "&nbsp;<input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config&amp;op=save_config&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._INSTALL."\" />\n"
+    . "&nbsp;<input type=\"button\" name=\"upgrade\" onclick=\"document.location='update.php?action=install&amp;langue=" . $_REQUEST['langue'] . "';\" value=\"" . _UPGRADE . "\" />\n</div>\n";
 
     ?>
-        <script type=\"text/javascript\">
+        <script type="text/javascript">
         interval = setInterval(suivant, 6000);
         compteur = 2;
         function suivant()
@@ -181,21 +178,21 @@ function install()
       <div id="slide1" style="display:block;width:560px;height:263px;">
         <h2><?php echo _DECOUVERTE; ?></h2>
         <p>
-            <img src="img/img_slide_01.jpg" alt="Page d'accueil de Snoupix" style=" float:right;" width="215" height="145" />
+            <img src="img/img_slide_01.jpg" alt="Page d'accueil de NK" style=" float:right;" width="215" height="145" />
             <?php echo _DECOUVERTE1; ?>
         </p>
       </div>
       <div id="slide2" style="display:none;">
          <h2><?php echo _NEWSADMIN; ?></h2>
         <p>
-            <img src="img/img_slide_02.jpg" alt="Page d'accueil de Snoupix" style=" float:left;margin-right:5px;" width="215" height="145" />
+            <img src="img/img_slide_02.jpg" alt="Page d'accueil de NK" style=" float:left;margin-right:5px;" width="215" height="145" />
             <?php echo _NEWSADMIN1; ?>
         </p>
       </div>
       <div id="slide3" style="display:none;">
          <h2><?php echo _PROCHE; ?></h2>
         <p>
-            <img src="img/img_slide_03.jpg" alt="Page d'accueil de Snoupix" style="float:right;" width="215" height="145" />
+            <img src="img/img_slide_03.jpg" alt="Page d'accueil de NK" style="float:right;" width="215" height="145" />
             <?php echo _PROCHE1; ?>
         </p>
 
@@ -203,7 +200,7 @@ function install()
       <div id="slide4" style="display:none;">
         <h2><?php echo _SIMPLIFIE; ?></h2>
         <p>
-            <img src="img/img_slide_04.jpg" alt="Page d'accueil de Snoupix" style=" float:left;margin-right:5px;" width="215" height="145" />
+            <img src="img/img_slide_04.jpg" alt="Page d'accueil de NK" style="float:left;margin-right:5px;" width="215" height="145" />
             <?php echo _SIMPLIFIE1; ?>
         </p>
     </div>
@@ -219,7 +216,7 @@ function style($etape, $langue)
     if($langue == "inconnu" && $etape !=1)
     {
         ?>
-        <script type=\"text/javascript\">
+        <script type="text/javascript">
         window.location='install.php';
         </script>
         <?php
@@ -2248,7 +2245,7 @@ function edit_config_assistant($op)
         style(3,$_REQUEST['langue']);
 
         ?>
-        <div style="text-align:center;"><img src="img/nk.png"/><h2><b><?php echo _NEWNK179; ?></b></h2></div>
+        <div style="text-align:center;"><img src="img/nk.png" alt="nk" /><h2><b><?php echo _NEWNK179; ?></b></h2></div>
         <br />
         <p><b><?php echo _SECURITE; ?>:</b><br />
         <?php echo _SECURITE1; ?>
@@ -2301,7 +2298,7 @@ function edit_config_assistant($op)
         <?php echo _DIFFMODIF1; ?>
         <br /></p><br />
         <?php
-        echo "<div style=\"text-align:center;\"><input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config_assistant&amp;op=save_config&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._NEXT."\" /></div>\n";
+        echo "<div style=\"text-align:center;\"><input type=\"button\" name=\"install\" onclick=\"document.location='install.php?action=edit_config_assistant&amp;op=save_config&amp;langue=" . $_REQUEST['langue'] . "';\" value=\""._NEXT."\" /></div></div></div></body></html>\n";
     }
     else if($op == "save_config")
     {
@@ -2316,21 +2313,21 @@ function edit_config_assistant($op)
     echo "<div><a href=\"#\" onclick=\"javascript:window.open('help/" . $_REQUEST['langue'] . "/install.php','Help','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=300');return(false)\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
     . "<div style=\"text-align: center;\"><br /><br /><h3>" . _INSTALLNK . "</h3></div>\n"
-    . "<form method=\"post\" action=\"install.php?action=" . $op . "\">\n"
+    . "<form method=\"post\" action=\"install.php?action=" . $op . "\"><fieldset>\n"
     ."<input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" />\n"
     . "<table class=\"sqlInfos\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
     . "<thead><tr><td colspan=\"2\" align=\"center\"><b>" . _CONFIG . "</b></td></tr></thead>\n"
     . "<tbody><tr><td class=\"sqlInfosTitle\">" . _DBHOST . " :</td><td><input type=\"text\" name=\"db_host\" size=\"40\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLHOST."</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\" alt=\"tuyau\" /></td><td>"._INSTALLHOST."</td></tr>\n"
     . "<tr><td class=\"sqlInfosTitle\">" . _DBUSER . " : </td><td><input type=\"text\" name=\"db_user\" size=\"40\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBUSER."</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\" alt=\"tuyau\" /></td><td>"._INSTALLDBUSER."</td></tr>\n"
     . "<tr><td class=\"sqlInfosTitle\">" . _DBPASS . " :</td><td><input type=\"password\" name=\"db_pass\" size=\"10\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBPASS."</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\" alt=\"tuyau\" /></td><td>"._INSTALLDBPASS."</td></tr>\n"
     . "<tr><td class=\"sqlInfosTitle\">" . _DBPREFIX . " :</td><td><input type=\"text\" name=\"prefix\" size=\"10\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBPREFIX."</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\" alt=\"tuyau\" /></td><td>"._INSTALLDBPREFIX."</td></tr>\n"
     . "<tr><td class=\"sqlInfosTitle\">" . _DBNAME . " :</td><td><input type=\"text\" name=\"db_name\" size=\"10\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>"._INSTALLDBDBNAME."</td></tr></tbody></table>\n"
-    . "<div style=\"text-align: center;\"><br />" . _CHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _NEXT . "\" /></div></form></body></html>";
+    . "<tr><td><img src=\"img/tuyau.png\" alt=\"tuyau\" /></td><td>"._INSTALLDBDBNAME."</td></tr></tbody></table>\n"
+    . "<div style=\"text-align: center;\"><br />" . _CHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _NEXT . "\" /></div></fieldset></form></div></div></body></html>";
     }
 }
 
@@ -2413,7 +2410,7 @@ function save_config($vars)
         echo "<div><a href=\"#\" onclick=\"javascript:window.open('help/" . $vars['langue'] . "/install.html','Help','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=300');return(false)\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
         . "<div style=\"text-align: center;\"><br /><br /><h3>" . _INSTALLNK . "</h3></div>\n"
-        . "<form method=\"post\" action=\"install.php?action=save_config\">\n"
+        . "<form method=\"post\" action=\"install.php?action=save_config\"><fieldset>\n"
         . "<div style=\"text-align: center;\">\n"
         . "<input type=\"hidden\" name=\"langue\" value=\"" . $vars['langue'] . "\" />\n"
         . "<input type=\"hidden\" name=\"db_host\" value=\""  . $vars['db_host'] . "\" />\n"
@@ -2421,7 +2418,7 @@ function save_config($vars)
         . "<input type=\"hidden\" name=\"db_pass\" value=\"" . $vars['db_pass'] . "\" />\n"
         . "<input type=\"hidden\" name=\"prefix\" value=\"" . $vars['prefix'] . "\" />\n"
         . "<input type=\"hidden\" name=\"db_name\" value=\"" . $vars['db_name'] . "\" />\n"
-        . "<br />" . _BADCHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _RETRY . "\" /></div></form></body></html>";
+        . "<br />" . _BADCHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _RETRY . "\" /></div></fieldset></form></body></html>";
         }
     }
 }

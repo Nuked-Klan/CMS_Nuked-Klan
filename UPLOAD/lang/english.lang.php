@@ -5,7 +5,7 @@ if (!defined("INDEX_CHECK")){
 }
 
 define("_WELCOMEINSTALL","Welcome to the 1.7.9 version of nuked-klan ");
-define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b> ");
+define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b> ");
 define("_TYPEINSTALL","What do you want to do?");
 define("_INSTALL","Speed Installation");
 define("_INSTALLPASPAS","Installation with assistance");
@@ -336,7 +336,7 @@ define("_MHASH", 'Extension mhash');
 define("_FINFO", "<p>Try to use mimetype to replace finfo</p>");
 define("_FORCE", "They are one or more fatal error in your configuration. We can't install Nuked-Klan.\n");
 define("_NEXTLANG", "<p>You can force install on click <a href=\"?action=install&amp;langue=english\">there</a></p>\n");
-define("_SYSTEMINSTALL","Your system is ready to start installation. <a href=\"?action=install&amp;langue=english\">Next step !</a><br />\n");
+define("_SYSTEMINSTALL","Your system is ready to start installation.<br />\n");
 define("_NEXTSTEP", "Next Step");
 
 define('_HTMLNOCORRECT', 'HTML code is incorrectly formatted');
