@@ -55,7 +55,14 @@ if ($visiteur >= $level_access && $level_access > -1){
         echo '<div style="width: 98%; margin: auto">
         <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
         <p style="text-align: center; margin-bottom: 20px"><big><b>' . _CONTACT . '</b></big><br /><em>' . _CONTACTFORM . '</em></p>
-        <p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _YNICK . ' : </label>&nbsp;<input id="ns_pseudo" type="text" name="nom" value="" style="width: 50%" /></p>
+        <p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _YNICK . ' : </label>&nbsp;<input id="ns_pseudo" type="text" name="nom" style="width: 50%" ';
+        if($user){
+            echo 'value="'.$user[2].'" readonly="readonly" ';
+        }
+        else{
+            echo 'value="" ';
+        }
+        echo '/></p>
         <p><label for="ns_email" style="float: left; width: 20%; font-weight: bold">' . _YMAIL . ' : </label>&nbsp;<input id="ns_email" type="text" name="mail" value="" style="width: 50%" /></p>
         <p><label for="ns_sujet" style="float: left; width: 20%; font-weight: bold">' . _YSUBJECT . ' : </label>&nbsp;<input id="ns_sujet" type="text" name="sujet" value="" style="width: 50%" /></p>
         <p style="font-weight: bold; margin-top: 10px">' . _YCOMMENT . ' : <br /><textarea id="e_basic" name="corps" cols="60" rows="12"></textarea></p>';
@@ -69,7 +76,7 @@ if ($visiteur >= $level_access && $level_access > -1){
     }
 
     function sendmail(){
-        global $nuked, $user_ip, $captcha;
+        global $nuked, $user_ip, $captcha, $user;
 
         // Verification code captcha
         if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm'])){
@@ -97,7 +104,8 @@ if ($visiteur >= $level_access && $level_access > -1){
             $mail = trim($_REQUEST['mail']);
             $sujet = trim($_REQUEST['sujet']);
             $corps = $_REQUEST['corps'];
-
+            if($user) $nom = $user[2];
+            
             $subjet = $sujet . ", " . $date;
             $corp = $corps . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
             $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
@@ -113,7 +121,8 @@ if ($visiteur >= $level_access && $level_access > -1){
             $email = htmlentities($mail, ENT_QUOTES);
             $subject = htmlentities($sujet, ENT_QUOTES);
             $text = secu_html(html_entity_decode($corps, ENT_QUOTES));
-
+            if($user) $name = $user[2];
+            
             $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
             $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTCON.": [<a href=\"index.php?file=Contact&page=admin\">lien</a>].')");
 
