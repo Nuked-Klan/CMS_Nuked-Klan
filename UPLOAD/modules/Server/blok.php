@@ -9,6 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
+global $language;
 translate('modules/Server/lang/' . $language . '.lang.php');
 include 'modules/Server/includes/gsQuery.php';
 
