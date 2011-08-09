@@ -130,7 +130,7 @@ function admintop(){
                             <li><a <?php echo $SubMenuGestion4; ?> href="index.php?file=Admin&amp;page=block"><?php echo _BLOCK; ?></a></li>
                             <li><a <?php echo $SubMenuGestion5; ?> href="index.php?file=Admin&amp;page=menu"><?php echo _MENU; ?></a></li>
                             <li><a <?php echo $SubMenuGestion6; ?> href="index.php?file=Admin&amp;page=smilies"><?php echo _SMILEY; ?></a></li>
-                            <li><a <?php echo $SubMenuGestion6; ?> href="index.php?file=Admin&amp;page=games"><?php echo _JEUX; ?></a></li>
+                            <li><a <?php echo $SubMenuGestion7; ?> href="index.php?file=Admin&amp;page=games"><?php echo _JEUX; ?></a></li>
                         </ul>
                     </li>
                     
