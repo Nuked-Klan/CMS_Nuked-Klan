@@ -12,7 +12,7 @@ defined('INDEX_CHECK') or die('<div style="text-align: center;">You cannot open 
 translate('modules/Survey/lang/' . $language . '.lang.php');
 
 // Inclusion système Captcha
-include 'Includes/nkCaptcha.php';
+include_once 'Includes/nkCaptcha.php';
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
