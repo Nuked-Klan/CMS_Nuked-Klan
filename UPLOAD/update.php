@@ -148,6 +148,7 @@ $bbUpdate = array(
     '_liens' => 'description',
     '_liens_cat' => 'description',
     '_news' => 'texte',
+    '_news' => 'suite',
     '_recrute' => 'connection',
     '_recrute' => 'experience',
     '_recrute' => 'dispo',
