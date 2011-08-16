@@ -45,7 +45,7 @@ function index(){
         echo '<table style="margin:auto; background:' . $bgcolor2 . '; border:1px solid ' . $bgcolor3 . '; width:75%;" cellpadding="0" cellspacing="1">',"\n"
                 . '<tr style="background: '. $bgcolor3 . '"><td colspan="2" align="center" style="padding:2px"><b>' . _ACCOUNT . '</b></td></tr>',"\n"
                 . '<tr style="background: '. $bgcolor1 . '"><td align="left" valign="middle" style="width:100%; background:' . $bgcolor1 . '">',"\n"
-                . '<ul style="list-style-type:square">',"\n"
+                . '<ul style="list-style-type:square;margin-left:25px">',"\n"
                 . '<li><b>' . _NICK . ' :</b> ' . $user_data['pseudo'] . '</li>',"\n"
                 . '<li><b>' . _WEBSITE . ' :</b> ' . $website . '</li>',"\n"
                 . '<li><b>' . _MAIL . ' :</b> ' . $user_data['mail'] . '</li>',"\n"
