@@ -151,10 +151,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             $txt = str_replace("\n", " ", $txt);
 
             $texte = strip_tags($txt);
-            $title = strip_tags(htmlentities($titre));
-            $titre = htmlentities($titre);
-            $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
-            $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
 
             if (!preg_match("`[a-zA-Z0-9\?\.]`i", $texte))
             {
@@ -177,6 +173,11 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . $titre . "</b></a>";
             }
+
+            $title = strip_tags(htmlentities($titre));
+            $titre = htmlentities($titre);
+            $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
+            $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
 
             $sql4 = mysql_query("SELECT file FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
             $nb_rep = mysql_num_rows($sql4) - 1;
