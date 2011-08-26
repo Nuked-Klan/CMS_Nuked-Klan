@@ -165,19 +165,19 @@ if ($visiteur >= $level_access && $level_access > -1)
             $texte = htmlentities($texte);
             $texte = nk_CSS($texte);
 
+            $title = strip_tags(htmlentities($titre));
+
             if (strlen($titre) > 30)
             {
-                $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . substr($titre, 0, 30) . "...</b></a>";
+                $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . htmlentities(substr($titre, 0, 30)) . "...</b></a>";
             }
             else
             {
-                $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . $titre . "</b></a>";
+                $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . htmlentities($titre) . "</b></a>";
             }
 
-            $title = strip_tags(htmlentities($titre));
-            $titre = htmlentities($titre);
-            $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
-            $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
+            $titre_topic = preg_replace("`&amp;lt;`i", "&lt;", $titre_topic);
+            $titre_topic = preg_replace("`&amp;gt;`i", "&gt;", $titre_topic);
 
             $sql4 = mysql_query("SELECT file FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
             $nb_rep = mysql_num_rows($sql4) - 1;
