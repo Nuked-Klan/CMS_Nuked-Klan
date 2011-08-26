@@ -408,7 +408,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             echo "</td><td style=\"width: 75%;\" valign=\"top\">\n"
             . "<table width=\"100%\" cellpadding=\"5\" cellspacing=\"1\" border=\"0\">\n"
-            . "<tr><td><a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "&amp;p=" . $_REQUEST['p'] . "#" . $mess_id . "\" title=\"" . _PERMALINK_TITLE . "\"><img src=\"images/posticon.gif\" style=\"border:0px;\" alt=\"\" /></a>" . _POSTEDON . "&nbsp;" . $date . "&nbsp;&nbsp;" . $attach_file . "</td><td align=\"right\">";
+            . "<tr><td><a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "&amp;p=" . $_REQUEST['p'] . "#" . $mess_id . "\" title=\"" . _PERMALINK_TITLE . "\"><img src=\"images/posticon.gif\" style=\"border:0px;\" alt=\"\" /></a>" . _POSTEDON . " " . _THE . " " . $date . "&nbsp;&nbsp;" . $attach_file . "</td><td align=\"right\">";
 
             if ($closed == 0 && $administrator == 1 || $visiteur >= admin_mod("Forum") || $visiteur >= $level)
             {
