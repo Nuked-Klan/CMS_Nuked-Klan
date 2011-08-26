@@ -77,7 +77,7 @@ if ($visiteur >= 2)
             </li>
 
             <li>
-                <a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;nuked_nude=index">
+                <a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;nuked_nude=admin">
                     <span><img src="modules/Admin/images/icons/statistiques.png" alt="icon" /><br /><br /><?php echo _STATS; ?></span>
                 </a>
             </li>
