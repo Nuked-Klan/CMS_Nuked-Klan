@@ -579,6 +579,8 @@ function secu_args($matches){
         'object' => array(
             'width',
             'height',
+            'data',
+            'type',
         ),
         'param' => array (
             'name',

@@ -7,10 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 require_once("Includes/nkCaptcha.php");
@@ -20,26 +17,9 @@ if (_NKCAPTCHA == "off") $captcha = 0;
 else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
 else $captcha = 1;
 
-if ($user)
-{
-    $visiteur = $user[1];
-}
-else
-{
-    $visiteur = 0;
-}
-
+$visiteur = $user ? $user[1] : 0;
+$redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
 $level_access = nivo_mod("Textbox");
-
-if ($_SERVER['HTTP_REFERER'])
-{
-    $redirection = $_SERVER['HTTP_REFERER'];
-}
-else
-{
-    $redirection = "index.php";
-}
-
 
 if ($visiteur >= $level_access && $level_access > -1)
 {

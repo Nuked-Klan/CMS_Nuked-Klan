@@ -1,10 +1,10 @@
 <?php
-define ('INDEX_CHECK', 1);
-include ('globals.php');
-include ('conf.inc.php');
-include ('nuked.php');
-include_once ('Includes/hash.php');
-include_once ('Includes/nkCaptcha.php');
+define('INDEX_CHECK', 1);
+include('globals.php');
+include('conf.inc.php');
+include('nuked.php');
+include_once('Includes/hash.php');
+include_once('Includes/nkCaptcha.php');
 
 session_name('nuked');
 session_start();
@@ -26,7 +26,7 @@ for($i=0;$i<5;$i++)
     imagettftext($im, 12, $angle, 10+(22*$i), 16, $black, $font, substr($text,$i,1));
 }
 
-imagecopymerge ( $im, $id, 0, 0, 0, 0, 120, 30, 50 );
+imagecopymerge ($im, $id, 0, 0, 0, 0, 120, 30, 50);
 imagepng($im);
 imagedestroy($im);
 imagedestroy($id);

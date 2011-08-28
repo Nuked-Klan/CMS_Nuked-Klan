@@ -7,11 +7,11 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-define ('INDEX_CHECK', 1);
-include ('globals.php');
-include ('conf.inc.php');
-include ('nuked.php');
-include ('Includes/constants.php');
+define('INDEX_CHECK', 1);
+include('globals.php');
+include('conf.inc.php');
+include('nuked.php');
+include('Includes/constants.php');
 
 global $nuked, $language, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
 
