@@ -7,9 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")){
-	exit('You can\'t run this file alone.');
-}
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 $lifetime = $nuked['sess_days_limit'] * 86400;
 $timesession = $nuked['sess_inactivemins'] * 60;
@@ -17,24 +15,23 @@ $time = time();
 $timelimit = $time + $lifetime;
 $sessionlimit = $time + $timesession;
 
-$cookie_session = $nuked['cookiename'] . "_sess_id";
-$cookie_theme = $nuked['cookiename'] . "_user_theme";
-$cookie_langue = $nuked['cookiename'] . "_user_langue";
-$cookie_visit = $nuked['cookiename'] . "_last_visit";
-$cookie_admin = $nuked['cookiename'] . "_admin_session";
-$cookie_forum = $nuked['cookiename'] . "_forum_read";
-$cookie_userid = $nuked['cookiename'] . "_userid";
+$cookie_session = $nuked['cookiename'] . '_sess_id';
+$cookie_theme = $nuked['cookiename'] . '_user_theme';
+$cookie_langue = $nuked['cookiename'] . '_user_langue';
+$cookie_visit = $nuked['cookiename'] . '_last_visit';
+$cookie_admin = $nuked['cookiename'] . '_admin_session';
+$cookie_forum = $nuked['cookiename'] . '_forum_read';
+$cookie_userid = $nuked['cookiename'] . '_userid';
 
 // Création d'un cookie captcha
-$cookie_captcha = $nuked['cookiename'] . "_captcha";
+$cookie_captcha = $nuked['cookiename'] . '_captcha';
 setcookie($cookie_captcha, 1);
 
 if ($_SERVER['HTTP_CLIENT_IP']) $uip = $_SERVER['HTTP_CLIENT_IP'];
 else if ($_SERVER['HTTP_X_FORWARDED_FOR']) $uip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 else if ($_SERVER['REMOTE_ADDR']) $uip = $_SERVER['REMOTE_ADDR'];
-if (isset($uip) && $uip != "" && preg_match("`^(((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]{1}[0-9]|[1-9])\.){1}((25[0-5]|2[0-4][0-9]|[1]{1}[0-9]{2}|[1-9]{1}[0-9]|[0-9])\.){2}((25[0-5]|2[0-4][0-9]|[1]{1}[0-9]{2}|[1-9]{1}[0-9]|[0-9]){1}))$`", $uip)) $user_ip = $uip;
-else $user_ip = '';
-$user_ip = addslashes($user_ip);
+
+$user_ip = (isset($uip) && !empty($uip) && filter_var($uip, FILTER_VALIDATE_IP)) ? $uip : '';
 
 function secure(){
     global $nuked, $user_ip, $time, $cookie_visit, $cookie_session, $cookie_userid, $cookie_forum, $sessionlimit, $timesession, $timelimit;
