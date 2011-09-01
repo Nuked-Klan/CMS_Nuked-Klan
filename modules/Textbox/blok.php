@@ -109,7 +109,9 @@ function maFonctionAjax(auteur,texte,code)
 	{
 		if (document.getElementById)
 		{
-			document.getElementById("affichetextbox").innerHTML = "<div style=\"text-align:center;\"><b><?php echo _THANKSFORPOST; ?></b></div>";
+			var message = OAjax.responseText.substr(OAjax.responseText.search(/<div id="ajax_message"[^>]*>/));
+			message = message.substr(0, message.search(/<\/div>/) + 6);
+			document.getElementById("affichetextbox").innerHTML = "<b>" + message + "</b>";
 			document.getElementById("textbox_texte").value = "<?php echo _YOURMESS; ?>";
 			maj_shoutbox();
 		}

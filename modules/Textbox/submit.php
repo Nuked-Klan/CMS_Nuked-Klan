@@ -8,6 +8,7 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+header('Content-type: text/html; charset=iso-8859-1');
 
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 require_once("Includes/nkCaptcha.php");
@@ -27,7 +28,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
 	{
-		echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+		echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_BADCODECONFIRM) . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
 		closetable();
 		footer();
 		exit();
@@ -43,9 +44,17 @@ if ($visiteur >= $level_access && $level_access > -1)
         $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES);
         $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
-        if ($_REQUEST['auteur'] == "error1")
+        if (mysql_result(mysql_query('SELECT COUNT(*) FROM ' . USER_TABLE . ' WHERE pseudo LIKE \'' . mysql_real_escape_string($_REQUEST['auteur']) . '\''), 0))
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _PSEUDOFAILDED . "</div><br /><br />";
+            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_PSEUDOFAILDED) . "</div><br /><br />";
+            redirect($redirection, 2);
+            closetable();
+            footer();
+            exit();
+		}
+        elseif ($_REQUEST['auteur'] == "error1")
+        {
+            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_PSEUDOFAILDED) . "</div><br /><br />";
             redirect($redirection, 2);
             closetable();
             footer();
@@ -54,7 +63,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else if ($_REQUEST['auteur'] == "error2")
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _RESERVNICK . "</div><br /><br />";
+            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_RESERVNICK) . "</div><br /><br />";
             redirect($redirection, 2);
             closetable();
             footer();
@@ -62,7 +71,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else if ($_REQUEST['auteur'] == "error3")
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BANNEDNICK . "</div><br /><br />";
+            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_BANNEDNICK) . "</div><br /><br />";
             redirect($redirection, 2);
             closetable();
             footer();
@@ -88,26 +97,26 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     if ($user_ip == $flood_ip && $date < $anti_flood && $visiteur == 0)
     {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
+        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_NOFLOOD) . "</div><br /><br />";
         redirect($redirection, 2);
     }
 
     else if ($_REQUEST['texte'] != "")
     {
         $sql = mysql_query("INSERT INTO " . TEXTBOX_TABLE . " ( `id` , `auteur` , `ip` , `texte` , `date` ) VALUES ( '' , '" . $pseudo . "' ,'" . $user_ip . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' )");
-        echo "<br /><br /><div style=\"text-align: center;\">" . _SHOUTSUCCES . "</div><br /><br />";
+        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_SHOUTSUCCES) . "</div><br /><br />";
         redirect($redirection, 2);
     }
 
     else
     {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOTEXT . "</div><br /><br />";
+        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_NOTEXT) . "</div><br /><br />";
         redirect($redirection, 2);
     }
 }
 else
 {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "</div><br /><br />";
+        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_NOENTRANCE) . "</div><br /><br />";
         redirect($redirection, 2);
 }
 
