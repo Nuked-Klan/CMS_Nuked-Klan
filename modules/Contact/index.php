@@ -35,15 +35,15 @@ if ($visiteur >= $level_access && $level_access > -1){
         <!--
         function verifchamps(){
             if (document.getElementById(\'ns_pseudo\').value.length == 0){
-                alert(\'' . _NONICK . '\');
+                alert(\'' . addslashes(_NONICK) . '\');
                 return false;
             }
             if (document.getElementById(\'ns_email\').value.indexOf(\'@\') == -1){
-                alert(\'' . _BADMAIL . '\');
+                alert(\'' . addslashes(_BADMAIL) . '\');
                 return false;
             }
             if (document.getElementById(\'ns_sujet\').value.length == 0){
-                alert(\'' . _NOSUBJECT . '\');
+                alert(\'' . addslashes(_NOSUBJECT) . '\');
                 return false;
             }
 
