@@ -40,8 +40,8 @@ function deltree($dossier){
         $full_name=$dossier.'/'.$name;
  
         if(is_dir($full_name))
-            deltree($full_name);
-        else unlink($full_name);
+            @deltree($full_name);
+        else @unlink($full_name);
     }
  
     closedir($dir);
