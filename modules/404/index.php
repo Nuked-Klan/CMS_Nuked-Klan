@@ -15,14 +15,10 @@ translate('modules/404/lang/' . $language . '.lang.php');
 
 if($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin'){
 	include('modules/Admin/design.php');
-	$opentable = admintop();
-	$closetable = adminfoot();
+	admintop();
 }else{
-	$opentable = opentable();
-	$closetable = closetable();
+	opentable();
 }
-
-print $opentable;
 
 $error_title = ($_REQUEST['op'] != 'sql') ? '<big><b>' . $nuked['name'] . '</b></big><br /><br />' . _NOEXIST . '<br /><br />' : _ERROR404SQL . '<br /><br />';
 
@@ -34,5 +30,11 @@ echo '<div style="text-align: center; padding: 0 10px">' . $error_title . '
 		  </form>
 	  </div>';
 
-print $closetable;
+if($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin'){
+	include('modules/Admin/design.php');
+	adminfoot();
+}else{
+	closetable();
+}
+
 ?>
