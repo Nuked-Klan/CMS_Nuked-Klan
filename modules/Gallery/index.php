@@ -7,57 +7,27 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $nuked, $language, $user;
-translate("modules/Gallery/lang/" . $language . ".lang.php");
-include("modules/Gallery/config.php");
+translate('modules/Gallery/lang/' . $language . '.lang.php');
+include('modules/Gallery/config.php');
 
-if (!$user)
-{
-    $visiteur = 0;
-} 
-else
-{
-    $visiteur = $user[1];
-} 
+$visiteur = $user ? $user[1] : 0;
+
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
 {
-    compteur("Gallery");
+    compteur('Gallery');
 
-    function view_screen($sid)
-    {
-        global $nuked;
-
-        $sql = mysql_query("SELECT titre, url FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
-        if(mysql_num_rows($sql) <= 0)
-        {
-            redirect("index.php?file=404", 0);
-            exit();
-        }
-        list($titre, $url) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
-
-        $name = strrchr($url, '/');
-        $name = substr($name, 1);
-        $name_enc = rawurlencode($name);
-        $url = str_replace($name, $name_enc, $url);
-
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . $titre . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background: " . $bgcolor2 . ";margin-top: 0px;margin-bottom: 0px;margin-left: 0px;margin-right: 0px;\">\n"
-        . "<div style=\"text-align: center;\"><a href=\"javascript: self.close()\"><img style=\"border: 0;\" src=\"" . $url . "\" alt=\"\" title=\"" . _CLICTOCLOSE . "\" /></a></div></body></html>";
-
-    } 
+	echo '<script type="text/javascript"><!--'."\n"
+	. 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
+	. '--></script>'."\n"
+	. '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
+	. '<script type="text/javascript">'."\n"
+	. 'Shadowbox.init();'."\n"
+	. '</script>'."\n";
 
     function cat($cat)
     {
@@ -65,7 +35,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $counter = 0;
 
-        $sql = mysql_query("SELECT cid, titre, description FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "'");
+        $sql = mysql_query('SELECT cid, titre, description FROM ' . GALLERY_CAT_TABLE . ' WHERE parentid = ' . $cat);
         $nb_subcat = mysql_num_rows($sql);
 
         if ($nb_subcat > 0)
@@ -87,6 +57,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 if ($url2 != "" && $url2 != "http://")
                 {
                     $image = $url2;
+					$link_img = $url2;
                 } 
                 else if ($url2 == "" && $image_gd == "on" && @extension_loaded('gd') && !preg_match("`http://`i", $url) && is_file($url))
                 {
@@ -150,7 +121,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     if ($image != "")
                     {
-                        echo "<a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $catid . "\">" . img_size($image, $img_cat, $parentcat, $image_resize) . "</a>";
+							echo "<a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $catid . "\">" . img_size($image, $img_cat, $parentcat, $image_resize) . "</a>";
                     } 
                     else
                     {
@@ -249,23 +220,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         opentable();
-        ?>
-        <script type="text/javascript">
-        //<![CDATA[
-        var xtralink = "non";
-            function screenon(lien,lien2)
-            {
-                xtralink = lien2;
-                document.getElementById("iframe").innerHTML = "<iframe style=\"border:0px;\" width=\"100%\" height=\"80%\" src=\""+lien+"\"></iframe>";
-                document.getElementById("screen").style.display="block";
-            }
-            function screenoff()
-            {
-                document.getElementById("screen").style.display="none";
-            }
-        //]]>
-        </script>
-        <?php
+
         $upd = mysql_query("UPDATE " . GALLERY_TABLE . " SET count = count + 1 WHERE sid = '" . $sid . "'");
 
         $sql = mysql_query("SELECT cat, titre, description, autor, url, url_file, date, count FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
@@ -393,7 +348,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Gallery\" style=\"text-decoration:none\"><big><b>" . $title . "</b></big></a></div><br />\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellpadding=\"20\" cellspacing=\"0\" border=\"0\">\n"
         . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">"
-        .  "<a href=\"#\" onclick=\"screenon('" . $url . "','oui');return false;\" title=\"" . $titre . "\">"
+        .  "<a href=\"" . $url . "\" rel=\"shadowbox\" title=\"" . $titre . "\">"
         . img_size($url, $img_width, _CLICTOSCREEN, $image_resize) . "</a></td></tr></table><br />\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellpadding=\"3\" cellspacing=\"0\">\n"
         . "<tr><td align=\"left\">" . $prev . "</td><td align=\"right\">" . $next . "</td></tr></table>\n"
@@ -439,12 +394,6 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             echo "</td></tr></table>\n";
         }
-        echo '<div id="screen" onclick="screenoff()" style="display:none;position:absolute;width:100%;height:100%;background:  url(modules/Admin/images/bg.png) repeat;z-index:10000;top:0px; left:0px;">
-        <div id="iframe" style="margin-left:5%;margin-top:5%; width:90%;height:90%;">
-            
-        </div>
-        <div style="display:block;width:295px;height:25px;background:url(images/croix.png) no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000;">&nbsp;</div>
-        </div>';
         closetable();
     } 
 
@@ -741,7 +690,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                         } 
 
                         echo "<td style=\"width: " . $pourcent . "%;background: " . $bgcolor1 . ";border: 1px solid $bgcolor3;\" align=\"center\">"               
-                        . "<a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "&amp;orderby=" . $_REQUEST['orderby'] . "\">" . img_size($img, $img_w, $alt, $image_resize) . "</a><br />\n"
+                        . "<a href=\"" . $url . "\" rel=\"shadowbox\">" . img_size($img, $img_w, $alt, $image_resize) . "</a><br />\n"
                         . "<a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "&amp;orderby=" . $_REQUEST['orderby'] . "\"><b>" . $titre . "</b></a></td>\n";
 
                         if ($l == $nb_img_line)
@@ -812,10 +761,6 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     switch ($_REQUEST['op'])
     {
-        case "view_screen":
-            view_screen($_REQUEST['sid']);
-            break;
-
         case "description":
             description($_REQUEST['sid']);
             break;
