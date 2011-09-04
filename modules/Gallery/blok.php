@@ -17,6 +17,14 @@ global $language, $nuked, $bgcolor1, $bgcolor3;
 translate("modules/Gallery/lang/" . $language . ".lang.php");
 include("modules/Gallery/config.php");
 
+echo '<script type="text/javascript"><!--'."\n"
+. 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
+. '--></script>'."\n"
+. '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
+. '<script type="text/javascript">'."\n"
+. 'Shadowbox.init();'."\n"
+. '</script>'."\n";
+
 $sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
 list($active) = mysql_fetch_array($sql2);
 if ($active == 3 || $active == 4)
@@ -46,7 +54,7 @@ if ($active == 3 || $active == 4)
         if ($img != "")
         {
             echo" <td style=\"border: 1px dashed " . $bgcolor3 . ";\" align=\"center\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a><br />\n"
-            . "<a href=\"" . $url . "\" onclick=\"screenon('" . $url . "','oui');return false;\" title=\"" . $titre . "\">" . $image . "</a></td>\n";
+            . "<a href=\"" . $url . "\" rel=\"shadowbox\" title=\"" . $titre . "\">" . $image . "</a></td>\n";
         }
     }
     echo "</tr></table>\n";
@@ -74,33 +82,7 @@ else
     if ( $img != "")
     {
         echo "<div style=\"text-align: center;\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a></div>\n"
-        . "<div style=\"text-align: center;\"><a href=\"" . $url . "\" onclick=\"screenon('" . $url . "','oui');return false;\" title=\"" . $titre . "\">" . $image . "</a></div>\n";
+        . "<div style=\"text-align: center;\"><a href=\"" . $url . "\" rel=\"shadowbox\" title=\"" . $titre . "\">" . $image . "</a></div>\n";
     }
-}
-?>
-<script type="text/javascript">
-        //<![CDATA[
-        var xtralink = "non";
-            function screenon(lien,lien2)
-            {
-                xtralink = lien2;
-                document.getElementById("iframe").innerHTML = "<iframe style=\"border:0px;\" width=\"100%\" height=\"80%\" src=\""+lien+"\"></iframe>";
-                document.getElementById("screen").style.display="block";
-            }
-            function screenoff()
-            {
-                document.getElementById("screen").style.display="none";
-            }
-        //]]>
-</script>
-<?php
-
-if($_REQUEST['file'] != 'Gallery' || ($_REQUEST['file'] == 'Gallery' && isset($_REQUEST['op']) && $_REQUEST['op'] != 'description')){
-    echo '<div id="screen" onclick="screenoff()" style="display:none;position:absolute;width:100%;height:100%;background:  url(modules/Admin/images/bg.png) repeat;z-index:10000;top:0px; left:0px;">
-        <div id="iframe" style="margin-left:5%;margin-top:5%; width:90%;height:90%;">
-            
-        </div>
-        <div style="display:block;width:295px;height:25px;background:url(images/croix.png) no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000;">&nbsp;</div>
-        </div>';
 }
 ?>
