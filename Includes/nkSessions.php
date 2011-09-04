@@ -31,7 +31,7 @@ if ($_SERVER['HTTP_CLIENT_IP']) $uip = $_SERVER['HTTP_CLIENT_IP'];
 else if ($_SERVER['HTTP_X_FORWARDED_FOR']) $uip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 else if ($_SERVER['REMOTE_ADDR']) $uip = $_SERVER['REMOTE_ADDR'];
 
-$user_ip = (isset($uip) && !empty($uip) && filter_var($uip, FILTER_VALIDATE_IP)) ? $uip : '';
+$user_ip = (isset($uip) && !empty($uip) && (preg_match( '/^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/', $uip))) ? $uip : '';
 
 function secure(){
     global $nuked, $user_ip, $time, $cookie_visit, $cookie_session, $cookie_userid, $cookie_forum, $sessionlimit, $timesession, $timelimit;
