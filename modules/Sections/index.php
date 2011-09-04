@@ -516,7 +516,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         $_REQUEST['file'] .= '.pdf';
         
         $pdf = new HTML2PDF('P','A4','fr');
-        $pdf->WriteHTML($texte);
+        $pdf->WriteHTML(utf8_encode($texte));
         $pdf->Output($_REQUEST['file']);
     } 
 
