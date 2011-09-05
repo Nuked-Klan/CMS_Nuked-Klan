@@ -64,7 +64,7 @@ function admintop(){
         <script type="text/javascript">
             var condition_js = '<?php echo $condition_js; ?>';
             var lang_nuked = '<?php echo $language; ?>';
-        </script>
+          </script>
         <script type="text/javascript" src="modules/Admin/scripts/config.js"></script>
         </head>
     <body>
@@ -187,12 +187,12 @@ function admintop(){
                                 
 								if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') {
                                     
-									echo '<li><a class="current" href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a><li>';
+									echo '<li><a class="current" href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a></li>';
                                     $modulecur = true;
 									
                                 } else {
 									
-									echo '<li><a href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a><li>';
+									echo '<li><a href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a></li>';
 									
 								} // END if/else
 								

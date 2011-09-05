@@ -165,7 +165,7 @@ if ($visiteur >= 2)
 
                 <div class="content-box-content">
                     <div class="tab-content default-tab">
-                        <h4><a href="index.php?file=Admin&page=action"><?php echo _VIEWACTIONS; ?></a></h4>
+                        <h4><a href="index.php?file=Admin&amp;page=action"><?php echo _VIEWACTIONS; ?></a></h4>
                         <p>
                         <?php
                         $sql_act = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT 0, 3");

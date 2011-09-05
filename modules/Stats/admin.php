@@ -287,8 +287,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             $img = "modules/Stats/images/bar.gif";
         } 
 
-        echo "<div style=\"width: " . $width . "%\">\n"
-        . "<div style=\"width: " . $width . "%;height: 10px;background-image: url(" . $img . ");margin:0;padding:0\">&nbsp;</div>\n"
+        echo "<div style=\"width: " . round($width) . "%\">\n"
+        . "<div style=\"width: " . round($width) . "%;height: 10px;background-image: url(" . $img . ");margin:0;padding:0\">&nbsp;</div>\n"
         ."</div>\n";
     }
     
@@ -298,15 +298,12 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             admintop();
             del();
             adminfoot();
-        break;
-        case "show_etat":
-            show_etat();
-        break;
+            break;
         default:
             if (!isset($_REQUEST['nuked_nude'])) admintop();
             main();
             if (!isset($_REQUEST['nuked_nude'])) adminfoot();
-        break;
+            break;
     }
 
 }
