@@ -264,7 +264,7 @@ define("_BTHEMESELECT", "Choice of theme");
 define("_SECURITYCODE","Security code");
 define("_TYPESECCODE","Retype the security code");
 define("_BADCODECONFIRM","Error : the Security Code is not correct !");
-define('_MSGCAPTCHA', 'You have made ​​too many attempts, you must enter a captcha!');
+define('_MSGCAPTCHA', 'You have made ??too many attempts, you must enter a captcha!');
 
 define("_DURE","During");
 define("_1JOUR","1 day");
@@ -335,7 +335,7 @@ define("_DIRECTORY", 'Session directory');
 define("_MHASH", 'Extension mhash');
 define("_FINFO", "<p>Try to use mimetype to replace finfo</p>");
 define("_FORCE", "They are one or more fatal error in your configuration. We can't install Nuked-Klan.\n");
-define("_NEXTLANG", "<p>You can force install on click <a href=\"?action=install&amp;langue=english\">there</a></p>\n");
+define("_NEXTLANG", "<p>You can force install on click</p>\n");
 define("_SYSTEMINSTALL","Your system is ready to start installation.<br />\n");
 define("_NEXTSTEP", "Next Step");
 

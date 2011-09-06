@@ -8,44 +8,50 @@
 //  the Free Software Foundation; either version 2 of the License.         //
 //-------------------------------------------------------------------------//
 
-define ("INDEX_CHECK", 1);
+define('INDEX_CHECK', 1);
 
-include ("globals.php");
-include ('Includes/hash.php');
+include('globals.php');
+include('Includes/hash.php');
 
 function index()
 {
     style(1,0);
-
-    echo "<div style=\"text-align: center;\"><br /><br /><br /><br /><h3>Select your language : </h3></div><br />\n"
-    . "<form method=\"post\" action=\"install.php?action=check\">\n"
-    . "<div style=\"text-align: center;\"><select name=\"langue\">\n";
-
-    if ($handle = opendir("lang/"))
+?>
+    <div style="text-align: center; margin-top: 150px">
+        <h3>Language :</h3>
+        <form method="post" action="install.php?action=check">
+            <p>
+                <select name="langue">
+<?php
+    if ($handle = opendir('lang/'))
     {
-    while ($f = readdir($handle))
-    {
-        if ($f != ".." && $f != "." && $f != "index.html")
+        while ($f = readdir($handle))
         {
-            list ($langfile, ,) = explode ('.', $f);
-            echo "<option value=\"" . $langfile . "\">" . $langfile . "</option>\n";
+            if ($f != ".." && $f != "." && $f != "index.html")
+            {
+                list ($langfile, ,) = explode ('.', $f);
+
+                if ($langfile == 'english') $langname = 'English';
+                elseif ($langfile == 'french') $langname = 'Francais';
+                else $langname = $langfile;
+
+                echo '<option value="' . $langfile . '">' . $langname . '</option>'."\n";
             }
+        }
+        closedir($handle);
     }
 
-    closedir($handle);
-    }
-
-    echo "</select>&nbsp;&nbsp;<input type=\"submit\" name=\"ok\" value=\"send\" /><br /><br /></div></form></div></div></body></html>";
+    echo '</select></p><p><input type="submit" name="ok" value="OK" /></p></form></div></body></html>';
 }
 
 function deltree($dossier){
-    if(($dir=opendir($dossier))===false)
+    if(($dir = opendir($dossier)) === false)
     return;
  
-    while($name=readdir($dir)){
-        if($name==='.' or $name==='..')
+    while($name = readdir($dir)){
+        if($name === '.' or $name === '..')
         continue;
-        $full_name=$dossier.'/'.$name;
+        $full_name = $dossier . '/' . $name;
  
         if(is_dir($full_name))
             deltree($full_name);
@@ -133,15 +139,14 @@ function Requirement()
 function install()
 {
 
-    if(!isset($_REQUEST['langue']))
-    {
-     echo 'Veuillez sélectionner une langue !<br />Please select a language!<br /><br /><a href="install.php">Retour / Back</a>';
-     exit();
+    if(!isset($_REQUEST['langue'])){
+        echo 'Veuillez sélectionner une langue !<br />Please select a language!<br /><br /><a href="install.php">Retour / Back</a>';
+        exit();
     }
-    else
-    {
-    include("lang/" . $_REQUEST['langue'] . ".lang.php");
+    else{
+        include("lang/" . $_REQUEST['langue'] . ".lang.php");
     }
+
     style(2,$_REQUEST['langue']);
 
     echo "<div style=\"text-align: center;\"><br /><br /><br /><br /><h3>" . _WELCOMEINSTALL . "</h3><br />" . _GUIDEINSTALL . "<br /><br /><br />\n"
@@ -213,58 +218,55 @@ function install()
 function style($etape, $langue)
 {
 
-    if($langue == "inconnu" && $etape !=1)
+    if($langue == 'inconnu' && $etape !=1)
     {
-        ?>
+    ?>
         <script type="text/javascript">
         window.location='install.php';
         </script>
-        <?php
+    <?php
     }
     if($langue != 0 && $etape != 1)
     {
-        include("lang/" . $langue . ".lang.php");
+        include('lang/' . $langue . '.lang.php');
     }
     ?>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
     <head>
-    <meta http-equiv="content-style-type" content="text/css" />
-    <title>Installation Nuked-klan</title>
-    <link rel="shortcut icon"  href="images/favicon.ico" />
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <meta http-equiv="content-style-type" content="text/css" />
-    <link rel="shortcut icon"  type="image/x-icon" href="/images/favicon.ico" />
-        <!--                       CSS                       -->
-        <!-- Reset Stylesheet -->
-        <link rel="stylesheet" href="modules/Admin/css/reset.css" type="text/css" media="screen" />
-        <!-- Main Stylesheet -->
-        <link rel="stylesheet" href="modules/Admin/css/style.css" type="text/css" media="screen" />
-        <!-- Invalid Stylesheet. This makes stuff look pretty. Remove it if you want the CSS completely valid -->
-        <link rel="stylesheet" href="modules/Admin/css/invalid.css" type="text/css" media="screen" />
-        <!--                       Javascripts                       -->
+        <meta http-equiv="content-style-type" content="text/css" />
+        <title>Installation de Nuked-klaN || Install Nuked-KlaN</title>
+        <link rel="shortcut icon"  href="images/favicon.ico" />
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta http-equiv="content-style-type" content="text/css" />
+        <link rel="shortcut icon"  type="image/x-icon" href="/images/favicon.ico" />
 
-        <!-- jQuery -->
+        <link rel="stylesheet" href="modules/Admin/css/reset.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="modules/Admin/css/style.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="modules/Admin/css/invalid.css" type="text/css" media="screen" />
+
+    
         <script type="text/javascript" src="modules/Admin/scripts/jquery-1.6.1.min.js"></script>
 
-        <!-- jQuery Configuration -->
+    
         <script type="text/javascript" src="modules/Admin/scripts/simpla.jquery.configuration.js"></script>
 
-        <!-- Facebox jQuery Plugin -->
         <script type="text/javascript" src="modules/Admin/scripts/facebox.js"></script>
 
         <script type="text/javascript">
-            <!--
+        <!--
             function show_progress(val, msg){
-            document.getElementById('install-nk-infos').innerHTML = msg;
+                document.getElementById('install-nk-infos').innerHTML = msg;
             }
-            //-->
+        //-->
         </script>
     </head>
-    <body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
-        <div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+    <body>
+        <div id="body-wrapper">
+        <div id="sidebar">
+        <div id="sidebar-wrapper">
             <!-- Logo (221px wide) -->
-            <a href="http://www.nuked-klan.org"><img id="logo" src="modules/Admin/images/logo.png" alt="Simpla Admin logo" /></a>
+            <a href="http://www.nuked-klan.org"><img id="logo" src="modules/Admin/images/logo.png" alt="Nuked-KlaN" /></a>
 
             <ul id="main-nav">  <!-- Accordion Menu -->
                 <li>
@@ -713,11 +715,11 @@ $siteurl = "http://" . $_SERVER['SERVER_NAME'] . str_replace("install.php", "", 
 if (substr($siteurl, -1) == "/") $siteurl = substr($siteurl, 0, -1);
 
 if ($_REQUEST['langue'] == 'french'){
-	$dateFormat = '%d/%m/%Y';
-	$dateZone = '+0100';
+    $dateFormat = '%d/%m/%Y';
+    $dateZone = '+0100';
 } else {
-	$dateFormat = '%m/%d/%Y';
-	$dateZone = '+0000';
+    $dateFormat = '%m/%d/%Y';
+    $dateZone = '+0000';
 }
 
 $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '" . $dateFormat. "');";
