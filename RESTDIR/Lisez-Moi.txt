@@ -1,0 +1,22 @@
+****** [nuked-klan] ******
+****** Que faut-il pour installer Nuked-KlaN ? ******
+- Un serveur web Apache
+- Le langage de script PHP (configuration minimum) :
+    * Version 5.1 (ou plus)
+    * Les extensions file_info, zip, gd sont optionnelles
+    * Les extensions mysql, session, hash sont obligatoires
+    * Les droits d'écritures (CHMOD) doivent être activés
+- Un système de gestion de bases de données MySQL
+****** Procédure d'installation ******
+   1. Ouvrir l'archive NK1.7.9.zip et sélectionner son contenu
+   2. Uploader le contenu du dossier "UPLOAD" de l'archive NK1.7.9.zip sur
+      votre FTP en utilisant un client FTP tel que FileZilla
+   3. Lancer l'installation en tapant dans la barre d'adresse internet : http:/
+      /www.votresite.com/install.php (remplacer "votresite.com" par votre
+      adresse web)
+   4. Selectionner la langue puis « send »
+   5. Choisir le mode d'installation,"installation avec assistance" (recommandé
+      pour débutant) ou "installation rapide".
+Pour plus d'informations concernant votre installation, aller sur le_wiki
+Nuked-Klan
+© 2001 - 2011 Nuked-KlaN
