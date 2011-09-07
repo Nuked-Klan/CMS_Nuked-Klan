@@ -4,26 +4,28 @@
 *	Design :  djGrim (http://www.impact-design.fr/)	*
 *	Codage : fce & huge (http://www.impact-design.fr/)			*
 ************************************************/
-defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Accès interdit</div>");
+defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Access deny</div>");
 
 include('themes/Impact_Nk/block-best.php');
+global $language;
+translate("themes/Impact_Nk/lang/" . $language . ".lang.php");
 if ($user[1] < 9){
-	echo '<div style="text-align: center;margin:30px 0;">Seuls les administrateurs suprême peuvent modifier le thème.</div>';
+	echo '<div style="text-align: center;margin:30px 0;">'._INWARNINGMODTHEME.'</div>';
 }
 else{
 	function index() {
 ?>
 		<div style="text-align: center;margin:20px 0;">
-			<a style="display:block;" href="index.php?file=Admin&page=theme&sub=menu">
+			<a style="display:block;" href="index.php?file=Admin&amp;page=theme&amp;sub=menu">
 				<img src="themes/Impact_Nk/admin/images/menu.png" alt="menu"/>
 			</a>
-			<a style="display:block;" href="index.php?file=Admin&page=theme&sub=cat_colonne">
+			<a style="display:block;" href="index.php?file=Admin&amp;page=theme&amp;sub=cat_colonne">
 				<img src="themes/Impact_Nk/admin/images/colonne.png" alt="colonne"/>
 			</a>
-			<a style="display:block;" href="index.php?file=Admin&page=theme&sub=logo">
+			<a style="display:block;" href="index.php?file=Admin&amp;page=theme&amp;sub=logo">
 				<img src="themes/Impact_Nk/admin/images/logo.png" alt="logo"/>
 			</a>
-			<a style="display:block;" href="index.php?file=Admin&page=theme&sub=couleur">
+			<a style="display:block;" href="index.php?file=Admin&amp;page=theme&amp;sub=couleur">
 				<img src="themes/Impact_Nk/admin/images/couleur.png" alt="logo"/>
 			</a>
 		</div>
@@ -40,11 +42,11 @@ else{
 			</div>
 		</div>
 		<div style="text-align: center;margin: 20px 0;">
-			<a style="display:block;font-size: 16px;margin-bottom:15px;" href="index.php?file=Admin&page=theme&sub=module_complet" >Module en 100%</a>
-			<a style="display:block;font-size: 16px;" href="index.php?file=Admin&page=theme&sub=module_gauche" >Module en 75%</a>
+			<a style="display:block;font-size: 16px;margin-bottom:15px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_complet" ><?php echo _INMODULEAT; ?> 100%</a>
+			<a style="display:block;font-size: 16px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche" ><?php echo _INMODULEAT; ?> 75%</a>
 		</div>		
 <?php
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
 	
 	function menu(){
@@ -54,7 +56,7 @@ else{
 			$ecriretexte = '<?php';
 			$nbr = 1;
 			while ($nbr <= $nbr_menu){		
-				$ecriretexte .= "\n".'$menu['.$nbr.'] = "'.$_POST['menu'.$nbr].'";'."\n".'$menu1['.$nbr.'] = "'.$_POST['menu1'.$nbr].'";';				
+				$ecriretexte .= "\n".'$menu['.$nbr.'] = "'.$_POST['menu'.$nbr].'";'."\n".'$menu1['.$nbr.'] = "'.$_POST['menu1'.$nbr].'";';
 				$nbr++;
 			}
 		
@@ -63,7 +65,7 @@ else{
 			fwrite($ecrire, $ecriretexte."\n?>");
 			fclose($ecrire);
 			
-			echo '<div style="text-align: center;margin:20px 0;">Modifications enregistrées avec succès !</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'. _INSAVEMOD .'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 
 		}
@@ -71,33 +73,35 @@ else{
 			include('themes/Impact_Nk/admin/menu.php');
 ?>
 			<div style="text-align: center;margin:20px 0;">
-				<h3>Gestion du menu</h3>
-				<form method="post" name="menu" action="index.php?file=Admin&amp;page=theme&amp;sub=menu&amp;action=save<?php echo $iframe ;?>">
+				<h3><?php echo _INMANAGEMENU;?></h3>
+				<form method="post" action="index.php?file=Admin&amp;page=theme&amp;sub=menu&amp;action=save<?php echo $iframe ;?>">
+                <fieldset>
 <?php
 			$nbr = 1;
 			while ($nbr <= $nbr_menu){
 ?>		
 					<p style="font-weight: bold; text-decoration: underline;">Menu n°<?php echo $nbr ;?></p>
 					<div style="margin-bottom:10px;">
-						<label for="menu<?php echo $nbr; ?>">
+						<label for="lmenu<?php echo $nbr; ?>">
 							Titre : 
-							<input type="text" name="menu<?php echo $nbr ;?>" value="<?php echo stripslashes($menu[$nbr]) ;?>" />
+							<input type="text" id="lmenu<?php echo $nbr ;?>" name="menu<?php echo $nbr ;?>" value="<?php echo stripslashes($menu[$nbr]) ;?>" />
 						</label>
-						<label for="menu1<?php echo $nbr; ?>">
+						<label for="lmenu1<?php echo $nbr; ?>">
 							Url :
-							<input type="text" name="menu1<?php echo $nbr ;?>" value="<?php echo stripslashes($menu1[$nbr]) ;?>" />
+							<input type="text" id="lmenu1<?php echo $nbr ;?>" name="menu1<?php echo $nbr ;?>" value="<?php echo stripslashes($menu1[$nbr]) ;?>" />
 						</label>		
 					</div>
 <?php
 				$nbr++;
 			}
 ?>
-					<input type="submit" value="Enregistrer les modifications" />
+					<input type="submit" value="<?php echo _INSAVEMOD; ?>" />
+                </fieldset>
 				</form>
 			</div>
 <?php
 		}		
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
 
 	function couleur(){
@@ -116,34 +120,34 @@ else{
 			fwrite($ecrire, $ecriretexte."\n?>");
 			fclose($ecrire);
 			
-			echo '<div style="text-align: center;margin:20px 0;">Modifications enregistrées avec succès !</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'._INMODSUCESS.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
 		else{
 			include('themes/Impact_Nk/admin/couleur.php');
 ?>
 			<div style="text-align: center;margin:20px 0;">
-				<h3>Gestion du couleur</h3>
+				<h3><?php echo _INMANAGECOLOR; ?></h3>
 				<form method="post" name="couleur" action="index.php?file=Admin&amp;page=theme&amp;sub=couleur&amp;action=save<?php echo $iframe ;?>">
 					<div style="margin:20px 0;">
 <?php
 			$nbr = 1;
 			while ($nbr <= $nbr_couleur){
 ?>
-						<label for="couleur<?php echo $nbr; ?>" >Couleur n°<?php echo $nbr ;?>
-							<input type="text" name="couleur<?php echo $nbr ;?>" value="<?php echo stripslashes($couleur[$nbr]) ;?>" />
+						<label for="ccouleur<?php echo $nbr; ?>" ><?php echo _INCOLOR; ?> n°<?php echo $nbr ;?>
+							<input type="text" id="ccouleur<?php echo $nbr; ?>" name="couleur<?php echo $nbr ;?>" value="<?php echo stripslashes($couleur[$nbr]) ;?>" />
 						</label>
 <?php
 				$nbr++;
 			}
 ?>
 					</div>
-					<input type="submit" value="Enregistrer les modifications" />
+					<input type="submit" value="<?php echo _INSAVEMOD; ?>" />
 				</form>
 				</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
 	
 	function module_gauche(){
@@ -162,7 +166,7 @@ else{
 			fwrite($ecrire, $ecriretexte);
 			fclose($ecrire);
 	
-			echo '<div style="text-align: center;margin:20px 0;">Modifications enregistrées avec succès !</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'._INWARNINGMODTHEME.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
 		else{
@@ -185,16 +189,16 @@ else{
 				}
 			</script>
 			<div style="text-align: center; margin:20px 0;">
-				<h3>Gestion des Colonnes de blocks</h3>
+				<h3><?php echo _INMANAGECOLUMNBLOCS; ?></h3>
 				<form method="post" name="block_aff" action="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche&amp;action=save">			
 					<table style="margin:20px auto;">
 						<tr>
 							<td></td>
-							<td colspan="2">Afficher à :</td>
+							<td colspan="2"><?php echo _INDISPLAYAT;?></td>
 						</tr>
 						<tr>
 							<td style="text-align: left; width: 150px; padding-left: 20px;">
-								<u>Blocs</u>
+								<u><?php echo _INBLOCS;?></u>
 							</td>
 							<td style="width: 100px;">
 								unique
@@ -215,21 +219,21 @@ else{
 ?>
 						<tr>
 							<td>
-								Selectionner à :
+								<?php echo _INSELECTAT; ?>
 							</td>
 							<td>
-								pleine page
+								<?php echo _INFULLPAGE; ?>
 								<br/>
-								<a href="javascript:check(document.forms.block_aff.elements['droite[]'])">Tous - Aucun</a>
+								<a href="javascript:check(document.forms.block_aff.elements['droite[]'])"><?php echo _INALLNONE; ?></a>
 							</td>
 						</tr>
 					</table>
-					<input type="submit" value="Enregistrer les modifications" /><br/><br/><br/><br/>
+					<input type="submit" value="<?php echo _INSAVEMOD; ?>" /><br/><br/><br/><br/>
 				</form>
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
 	
 	function module_complet(){
@@ -248,7 +252,7 @@ else{
 			fwrite($ecrire, $ecriretexte);
 			fclose($ecrire);
 			
-			echo '<div style="text-align: center;margin:20px 0;">Modifications enregistrées avec succès !</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'._INMODSUCESS.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
 		else{
@@ -271,18 +275,18 @@ else{
 				}
 			</script>
 			<div style="text-align: center;margin:20px 0;">
-				<h3>Gestion des Colonnes de blocks</h3>
+				<h3><?php echo _INMANAGECOLUMNBLOCS;?></h3>
 				<form method="post" name="block_aff" action="index.php?file=Admin&amp;page=theme&amp;sub=module_complet&amp;action=save">			
 					<table style="margin: 20px auto;">
 						<tr>
 							<td></td>
 							<td colspan="2">
-								Afficher à :
+								<?php echo _INDISPLAYAT;?>
 							</td>
 						</tr>
 						<tr>
 							<td style="text-align: left; width: 150px; padding-left: 20px;">
-								<u>Blocs</u>
+								<u><?php echo _INBLOCS;?></u>
 							</td>
 							<td style="width: 100px;">
 								unique
@@ -304,21 +308,21 @@ else{
 ?>
 						<tr>
 							<td>
-								Selectionner à :
+								<?php echo _INSELECTAT; ?>
 							</td>
 							<td>
-								pleine page
+								<?php echo _INFULLPAGE; ?>
 								<br/>
-								<a href="javascript:check(document.forms.block_aff.elements['droite[]'])">Tous - Aucun</a>
+								<a href="javascript:check(document.forms.block_aff.elements['droite[]'])"><?php echo _INALLNONE; ?></a>
 							</td>
 						</tr>
 					</table>
-					<input type="submit" value="Enregistrer les modifications" /><br/><br/><br/><br/>
+					<input type="submit" value="<?php echo _INSAVEMOD; ?>" /><br/><br/><br/><br/>
 				</form>
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
 	
 	function logo(){
@@ -331,28 +335,30 @@ else{
 			$ecrire = fopen($fichier, "w+");
 			fwrite($ecrire, $ecriretexte."\n?>");
 			fclose($ecrire);
-			echo '<div style="text-align: center;margin:20px 0;">Modifications enregistrées avec succès !</div>';
+			echo '<div style="text-align: center;margin:20px 0;">'._INMODSUCESS.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
 		else{
 			include('themes/Impact_Nk/admin/logo.php');
 ?>
 			<div style="text-align: center;margin:20px 0;">
-				<h3>Gestion du logo</h3>
+				<h3><?php echo _INMANAGELOGO; ?></h3>
 				<p>
-					<i>L'image du logo doit avoir 121px de largeur exactement, la hauteur est de 108px.</i>
+					<i><?php echo _INSIZEDESC; ?></i>
 				</p>
 				<form method="post" name="logo" action="index.php?file=Admin&amp;page=theme&amp;sub=logo&amp;action=save<?php echo $iframe ;?>">
-					<label for="logo">
+                <fieldset>
+					<label for="llogo">
 						Url du logo:
-						<input type="text" name="logo" value="<?php echo stripslashes($logo) ;?>" />
+						<input type="text" id="llogo" name="logo" value="<?php echo stripslashes($logo) ;?>" />
 					</label>
-					<input type="submit" value="Enregistrer les modifications" />
+					<input type="submit" value="<?php echo _INSAVEMOD; ?>" />
+                </fieldset>
 				</form>
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
 	
 	switch ($_REQUEST['sub']){

@@ -207,13 +207,13 @@ if ($visiteur == 9)
 
         select_timeformat($nuked['dateformat']);
 		
-		echo "</select></td></td></tr>\n";
+		echo "</select></td></tr>\n";
         echo "<tr><td>" . _DATEZONE . " :</td><td><select name=\"datezone\">\n";
 
         select_timezone($nuked['datezone']);
 		$time = time();
 		$date = nkDate($time);
-        echo "</select><br /><span>" . _DATEADJUST ."&nbsp;" . $date . " </span></td><tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
+        echo "</select><br /><span>" . _DATEADJUST ."&nbsp;" . $date . " </span></td></tr><tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
         . "<tr><td>" . _FOOTMESS . " :</td><td><textarea class=\"editor\" name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"    
         . "<tr><td>" . _SITESTATUS . " :</td><td><select name=\"nk_status\">\n";
 

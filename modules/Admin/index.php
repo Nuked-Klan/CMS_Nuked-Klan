@@ -25,6 +25,7 @@ if ($visiteur >= 2)
     <p id="page-intro"><?php echo _MESSAGEDEBIENVENUE; ?></p>
         <div style="text-align: right">
         <form method="post" onsubmit="maFonctionAjax3(this.module.value);return false" action="">
+            <fieldset>
             <select id="module" name="module">
                 <option value="Admin"><?php echo _PANNEAU; ?></option>
                 <?php
@@ -67,6 +68,7 @@ if ($visiteur >= 2)
                 ?>
             </select>
             <input class="button" type="submit" value="Send" />
+            </fieldset>
         </form>
         </div>
         <ul class="shortcut-buttons-set" id="1">

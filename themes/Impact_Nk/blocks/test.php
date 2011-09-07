@@ -4,7 +4,7 @@
 *	Design :  Djgrim (http://www.impact-design.fr/)	*
 *	Codage : fce (http://www.impact-design.fr/)			*
 ************************************************/
-defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Accès interdit</div>");
+defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Access deny</div>");
 
 $nb=nbvisiteur();
 if($nb[0]>1){$s0="s";}

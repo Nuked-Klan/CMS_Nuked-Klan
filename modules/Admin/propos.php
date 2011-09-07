@@ -26,8 +26,8 @@ if ($visiteur >= 2)
     Version <?php echo $nuked['version']; ?><br />
     Développée par toute l'équipe Nuked-KlaN<br />
     Développement géré par : fce.<br />
-    Développeur : bontiv, fce, xpLosIve, oeildefeu, akred, Samoth, Sekuline, PooG, H@D3S, BaHaMuT.<br />
-    Responsable Qualité : Lypso21<br /><br /><br />
+    Développeurs : bontiv, fce, xpLosIve, oeildefeu, Akred, Samoth, Sekuline, PooG, H@D3S, BaHaMuT.<br />
+    Responsables Qualité : Lypso21, Zdav<br /><br /><br />
     
     <h3>Contact Nuked-KlaN :</h3>
     <a href="http://www.nuked-klan.org/index.php?file=Contact">Formulaire de contact</a><br />
@@ -35,11 +35,11 @@ if ($visiteur >= 2)
     Community Manager : bankai et perperpervers<br />
     Responsable : oobahamutoo@nuked-klan.org<br /><br /><br />
     
-    <h3>Remerciement:</h3>
-    A toute l'équipe nuked-klan.org, ainsi qu'a sa communauté qui nous a permit de vite corriger les principales bugs<br /><br /><br />
+    <h3>Remerciements:</h3>
+    A toute l'équipe nuked-klan.org, ainsi qu'à sa communauté qui nous a permis de corriger rapidement les principaux bugs<br /><br /><br />
     
     <h3>Licence GNU:</h3>
-    Merci de ne pas supprimer le copyright par respect pour le cms et respecter la licence GNU.<br />
+    Merci de ne pas supprimer le copyleft par respect pour le cms et respecter la licence GNU.<br />
     </div>
     <div style="text-align: center"><br />[ <a href="index.php?file=Admin"><b><?php echo _BACK; ?></b></a> ]</div><br /></div></div>
     <?php
