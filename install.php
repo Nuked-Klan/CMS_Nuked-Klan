@@ -722,6 +722,8 @@ if ($_REQUEST['langue'] == 'french'){
     $dateZone = '+0000';
 }
 
+$sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('time_generate', 'on');";
+$req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('dateformat', '" . $dateFormat. "');";
 $req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_config (name, value) VALUES ('datezone', '" . $dateZone . "');";

@@ -302,6 +302,8 @@ if ($visiteur == 9)
 	if ($nuked['video_editeur'] == "on") $checked11 = "checked=\"checked\"";
         else $checked11 = "";
 
+	$checked12 = ($nuked['time_generate'] == 'on') ? 'checked="checked"' : '';
+
     $nuked['level_analys']==-1?$level_analys=_OFFMODULE:$level_analys=$nuked['level_analys'];
     echo "<tr><td>" . _SCREENHOT . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"screen\" value=\"on\" " . $screen . " /></td></tr>\n"
     . "<tr><td>" . _REGISTRATION . " :</td><td><select name=\"inscription\">\n"
@@ -326,6 +328,7 @@ if ($visiteur == 9)
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _STATS . "</b></big></td></tr>\n"
     . "<tr><td>" . _VISITTIME . " :</td><td><input type=\"text\" name=\"visit_delay\" size=\"2\" value=\"" . $nuked['visit_delay'] . "\" /></td></tr>\n"
     . "<tr><td>" . _LEVELANALYS . " :</td><td><select name=\"level_analys\"><option value=\"" . $nuked['level_analys'] . "\">" . $level_analys . "</option>\n"
+    . "<tr><td>" . _DISPLYGNRATETME . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"time_generate\" value=\"on\" " . $checked12 . " /></td></tr>\n"
     . "<option value='-1'>" . _OFFMODULE . "</option>\n"
     . "<option>0</option>\n"
     . "<option>1</option>\n"

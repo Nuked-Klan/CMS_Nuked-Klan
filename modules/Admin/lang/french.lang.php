@@ -139,6 +139,7 @@ define("_ADMINISTRATOR","Administrateur");
 define("_STATS","Statistiques");
 define("_VISITTIME","Durée en minutes d'une visite");
 define("_LEVELANALYS","Niveau requis pour voir l'analyse des visites");
+define('_DISPLYGNRATETME','Afficher le temps de génération en bas de page');
 define("_AVATARS","Avatars");
 define("_AVATARUPLOAD","Autoriser l'upload d'avatars");
 define("_AVATARURL","Autoriser les avatars externes (liens)");

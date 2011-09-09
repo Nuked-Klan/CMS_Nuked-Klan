@@ -134,6 +134,7 @@ define("_ADMINISTRATOR","Administrator");
 define("_STATS","Statistics");
 define("_VISITTIME","Duration in minutes for visit");
 define("_LEVELANALYS","Level required to view the analyze of the visits");
+define('_DISPLYGNRATETME','Display generated time in footer');
 define("_AVATARS","Avatars");
 define("_AVATARUPLOAD","Allow uploads");
 define("_AVATARURL","Allow website uploads (link)");
