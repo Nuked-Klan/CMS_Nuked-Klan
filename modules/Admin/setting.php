@@ -67,102 +67,102 @@ if ($visiteur == 9)
             if (is_file('modules/' . $nom . '/index.php')) echo '<option value="' . $nom . '" ' . $checked . '>' . $nom . '</option>',"\n";
         }
     }
-	
-	function select_timeformat($tft)
-	{
-		global $nuked;
-			
-			$timeformatTable = array(
-				"%A, %B %d, %Y - %H:%M:%S",
-				"%A, %d %B, %Y - %H:%M:%S",
-				"%A, %Y, %d %B  - %H:%M:%S",
-				"%A, %B %d, %Y  - %I:%M:%S %p",
-				"%A, %d %B, %Y  - %I:%M:%S %p",
-				"%A, %Y, %d %B  - %I:%M:%S %p",
-				"%A, %d. %B %Y  - %I:%M:%S %p",
-				"%a %Y-%m-%d %H:%M:%S",
-				"%a %m/%d/%Y %H:%M:%S",
-				"%a %d/%m/%Y %H:%M:%S",
-				"%a %Y/%m/%d %H:%M:%S",
-				"%B %d, %Y - %H:%M:%S",
-				"%d %B, %Y - %H:%M:%S",
-				"%Y, %B %d  - %H:%M:%S",
-				"%a %m/%d/%Y %I:%M:%S %p",
-				"%a %d/%m/%Y %I:%M:%S %p",
-				"%a %Y/%m/%d %I:%M:%S %p",
-				"%B %d, %Y - %I:%M:%S %p",
-				"%d %B, %Y - %I:%M:%S %p",
-				"%Y, %B %d  - %I:%M:%S %p",
-				"%d. %B %Y  - %I:%M:%S %p",
-				"%Y-%m-%d %H:%M:%S",
-				"%m/%d/%Y",
-				"%d/%m/%Y",
-				"%m/%d/%Y - %H:%M:%S",
-				"%d/%m/%Y - %H:%M:%S",
-				"%Y/%m/%d - %H:%M:%S",
-				"%d.%m.%Y - %H:%M:%S",
-				"%m/%d/%Y - %I:%M:%S %p",
-				"%d/%m/%Y - %I:%M:%S %p",
-				"%Y/%m/%d - %I:%M:%S %p",
-				"%b %d %Y - %H:%M:%S",
-				"%d %b %Y - %H:%M:%S",
-				"%Y %b %d - %H:%M:%S",
-				"%b %d %Y - %I:%M:%S %p",
-				"%d %b %Y - %I:%M:%S %p",
-				"%Y %b %d - %I:%M:%S %p",
-			);
-			
-			foreach($timeformatTable as $key)
-			{
-				$checked = ($tft == $key) ? 'selected="selected"' : '';
-				$day = time();
-				date_default_timezone_set($nuked['datezone']);
-				$echo = strftime($key, $day);
-				echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
-			}
-	}
-	
-	function select_timezone($tze)
-	{
-		global $nuked;
-			
-			$timezoneTable = array( "-1200" => "(GMT -12:00) Eniwetok, Kwajalein",
-									"-1100" => "(GMT -11:00) Midway Island, Samoa",
-									"-1000" => "(GMT -10:00) Hawaii",
-									"-0900" => "(GMT -9:00) Alaska",
-									"-0800" => "(GMT -8:00) Pacific Time (US & Canada)",
-									"-0700" => "(GMT -7:00) Mountain Time (US & Canada)",
-									"-0600" => "(GMT -6:00) Central Time (US & Canada), Mexico City",
-									"-0500" => "(GMT -5:00) Eastern Time (US & Canada), Bogota, Lima",
-									"-0400" => "(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz",
-									"-0330" => "(GMT -3:30) Newfoundland",
-									"-0300" => "(GMT -3:00) Brazil, Buenos Aires, Georgetown",
-									"-0200" => "(GMT -2:00) Mid-Atlantic",
-									"-0100" => "(GMT -1:00 hour) Azores, Cape Verde Islands",
-									"+0000" => "(GMT) Western Europe Time, London, Lisbon, Casablanca",
-									"+0100" => "(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris",
-									"+0200" => "(GMT +2:00) Kaliningrad, South Africa",
-									"+0300" => "(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg",
-									"+0330" => "(GMT +3:30) Tehran",
-									"+0400" => "(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi",
-									"+0430" => "(GMT +4:30) Kabul",
-									"+0500" => "(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent",
-									"+0530" => "(GMT +5:30) Bombay, Calcutta, Madras, New Delhi",
-									"+0600" => "(GMT +6:00) Almaty, Dhaka, Colombo",
-									"+0700" => "(GMT +7:00) Bangkok, Hanoi, Jakarta",
-									"+0800" => "(GMT +8:00) Beijing, Perth, Singapore, Hong Kong",
-									"+0900" => "(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk",
-									"+0930" => "(GMT +9:30) Adelaide, Darwin",
-									"+1000" => "(GMT +10:00) Eastern Australia, Guam, Vladivostok",
-									"+1100" => "(GMT +11:00) Magadan, Solomon Islands, New Caledonia",
-									"+1200" => "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
-								   );
-			foreach($timezoneTable as $cle=>$valeur) 
-			{
-				$checked = ($tze == $cle) ? 'selected="selected"' : '';
-				echo '<option value="' . $cle . '" ' . $checked . '>' . $valeur . '</option>';
-			}
-	}
+    
+    function select_timeformat($tft)
+    {
+        global $nuked;
+            
+            $timeformatTable = array(
+                "%A, %B %d, %Y - %H:%M:%S",
+                "%A, %d %B, %Y - %H:%M:%S",
+                "%A, %Y, %d %B  - %H:%M:%S",
+                "%A, %B %d, %Y  - %I:%M:%S %p",
+                "%A, %d %B, %Y  - %I:%M:%S %p",
+                "%A, %Y, %d %B  - %I:%M:%S %p",
+                "%A, %d. %B %Y  - %I:%M:%S %p",
+                "%a %Y-%m-%d %H:%M:%S",
+                "%a %m/%d/%Y %H:%M:%S",
+                "%a %d/%m/%Y %H:%M:%S",
+                "%a %Y/%m/%d %H:%M:%S",
+                "%B %d, %Y - %H:%M:%S",
+                "%d %B, %Y - %H:%M:%S",
+                "%Y, %B %d  - %H:%M:%S",
+                "%a %m/%d/%Y %I:%M:%S %p",
+                "%a %d/%m/%Y %I:%M:%S %p",
+                "%a %Y/%m/%d %I:%M:%S %p",
+                "%B %d, %Y - %I:%M:%S %p",
+                "%d %B, %Y - %I:%M:%S %p",
+                "%Y, %B %d  - %I:%M:%S %p",
+                "%d. %B %Y  - %I:%M:%S %p",
+                "%Y-%m-%d %H:%M:%S",
+                "%m/%d/%Y",
+                "%d/%m/%Y",
+                "%m/%d/%Y - %H:%M:%S",
+                "%d/%m/%Y - %H:%M:%S",
+                "%Y/%m/%d - %H:%M:%S",
+                "%d.%m.%Y - %H:%M:%S",
+                "%m/%d/%Y - %I:%M:%S %p",
+                "%d/%m/%Y - %I:%M:%S %p",
+                "%Y/%m/%d - %I:%M:%S %p",
+                "%b %d %Y - %H:%M:%S",
+                "%d %b %Y - %H:%M:%S",
+                "%Y %b %d - %H:%M:%S",
+                "%b %d %Y - %I:%M:%S %p",
+                "%d %b %Y - %I:%M:%S %p",
+                "%Y %b %d - %I:%M:%S %p",
+            );
+            
+            foreach($timeformatTable as $key)
+            {
+                $checked = ($tft == $key) ? 'selected="selected"' : '';
+                $day = time();
+                date_default_timezone_set($nuked['datezone']);
+                $echo = strftime($key, $day);
+                echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
+            }
+    }
+    
+    function select_timezone($tze)
+    {
+        global $nuked;
+            
+            $timezoneTable = array( "-1200" => "(GMT -12:00) Eniwetok, Kwajalein",
+                                    "-1100" => "(GMT -11:00) Midway Island, Samoa",
+                                    "-1000" => "(GMT -10:00) Hawaii",
+                                    "-0900" => "(GMT -9:00) Alaska",
+                                    "-0800" => "(GMT -8:00) Pacific Time (US & Canada)",
+                                    "-0700" => "(GMT -7:00) Mountain Time (US & Canada)",
+                                    "-0600" => "(GMT -6:00) Central Time (US & Canada), Mexico City",
+                                    "-0500" => "(GMT -5:00) Eastern Time (US & Canada), Bogota, Lima",
+                                    "-0400" => "(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz",
+                                    "-0330" => "(GMT -3:30) Newfoundland",
+                                    "-0300" => "(GMT -3:00) Brazil, Buenos Aires, Georgetown",
+                                    "-0200" => "(GMT -2:00) Mid-Atlantic",
+                                    "-0100" => "(GMT -1:00 hour) Azores, Cape Verde Islands",
+                                    "+0000" => "(GMT) Western Europe Time, London, Lisbon, Casablanca",
+                                    "+0100" => "(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris",
+                                    "+0200" => "(GMT +2:00) Kaliningrad, South Africa",
+                                    "+0300" => "(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg",
+                                    "+0330" => "(GMT +3:30) Tehran",
+                                    "+0400" => "(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi",
+                                    "+0430" => "(GMT +4:30) Kabul",
+                                    "+0500" => "(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent",
+                                    "+0530" => "(GMT +5:30) Bombay, Calcutta, Madras, New Delhi",
+                                    "+0600" => "(GMT +6:00) Almaty, Dhaka, Colombo",
+                                    "+0700" => "(GMT +7:00) Bangkok, Hanoi, Jakarta",
+                                    "+0800" => "(GMT +8:00) Beijing, Perth, Singapore, Hong Kong",
+                                    "+0900" => "(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk",
+                                    "+0930" => "(GMT +9:30) Adelaide, Darwin",
+                                    "+1000" => "(GMT +10:00) Eastern Australia, Guam, Vladivostok",
+                                    "+1100" => "(GMT +11:00) Magadan, Solomon Islands, New Caledonia",
+                                    "+1200" => "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
+                                   );
+            foreach($timezoneTable as $cle=>$valeur) 
+            {
+                $checked = ($tze == $cle) ? 'selected="selected"' : '';
+                echo '<option value="' . $cle . '" ' . $checked . '>' . $valeur . '</option>';
+            }
+    }
 
     function edit_config()
     {
@@ -206,13 +206,13 @@ if ($visiteur == 9)
         . "<tr><td>" . _DATEFORMAT . " :</td><td><select name=\"dateformat\">\n";
 
         select_timeformat($nuked['dateformat']);
-		
-		echo "</select></td></tr>\n";
+        
+        echo "</select></td></tr>\n";
         echo "<tr><td>" . _DATEZONE . " :</td><td><select name=\"datezone\">\n";
 
         select_timezone($nuked['datezone']);
-		$time = time();
-		$date = nkDate($time);
+        $time = time();
+        $date = nkDate($time);
         echo "</select><br /><span>" . _DATEADJUST ."&nbsp;" . $date . " </span></td></tr><tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
         . "<tr><td>" . _FOOTMESS . " :</td><td><textarea class=\"editor\" name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"    
         . "<tr><td>" . _SITESTATUS . " :</td><td><select name=\"nk_status\">\n";
@@ -298,11 +298,11 @@ if ($visiteur == 9)
 
     if ($nuked['user_delete'] == "on") $checked10 = "checked=\"checked\"";
         else $checked10 = "";
-		
-	if ($nuked['video_editeur'] == "on") $checked11 = "checked=\"checked\"";
+        
+    if ($nuked['video_editeur'] == "on") $checked11 = "checked=\"checked\"";
         else $checked11 = "";
 
-	$checked12 = ($nuked['time_generate'] == 'on') ? 'checked="checked"' : '';
+    $checked12 = ($nuked['time_generate'] == 'on') ? 'checked="checked"' : '';
 
     $nuked['level_analys']==-1?$level_analys=_OFFMODULE:$level_analys=$nuked['level_analys'];
     echo "<tr><td>" . _SCREENHOT . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"screen\" value=\"on\" " . $screen . " /></td></tr>\n"
@@ -315,7 +315,7 @@ if ($visiteur == 9)
     . "<option value=\"admin\" " . $checked6 . ">" . _ADMINISTRATOR . "</option>\n"
     . "<option value=\"mail\" " . $checked7 . ">" . _BYMAIL . "</option></select></td></tr>\n"
     . "<tr><td>" . _USERDELETE . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"user_delete\" value=\"on\" " . $checked10 . " /></td></tr>\n"
-	. "<tr><td>" . _VIDEOEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"video_editeur\" value=\"on\" " . $checked11 . " /></td></tr>\n"
+    . "<tr><td>" . _VIDEOEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"video_editeur\" value=\"on\" " . $checked11 . " /></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _SITEMEMBERS . "</b></big></td></tr>\n"
     . "<tr><td>" . _NUMBERMEMBER . " :</td><td><input type=\"text\" name=\"max_members\" size=\"2\" value=\"" . $nuked['max_members'] . "\" /></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _AVATARS . "</b></big></td></tr>\n"
@@ -359,10 +359,11 @@ if ($visiteur == 9)
         global $nuked, $user;
         
         if ($_REQUEST['inscription_avert'] != "on") $_REQUEST['inscription_avert'] = "off";
+        if ($_REQUEST['time_generate'] != 'on') $_REQUEST['time_generate'] = 'off';
         if ($_REQUEST['avatar_upload'] != "on") $_REQUEST['avatar_upload'] = "off";
         if ($_REQUEST['avatar_url'] != "on") $_REQUEST['avatar_url'] = "off";
         if ($_REQUEST['user_delete'] != "on") $_REQUEST['user_delete'] = "off";
-		if ($_REQUEST['video_editeur'] != "on") $_REQUEST['video_editeur'] = "off";
+        if ($_REQUEST['video_editeur'] != "on") $_REQUEST['video_editeur'] = "off";
         if ($_REQUEST['screen'] != "on") $_REQUEST['screen'] = "off";
         if (substr($_REQUEST['url'], -1) == "/") $_REQUEST['url'] = substr($_REQUEST['url'], 0, -1);
         $_REQUEST['cookiename'] = str_replace(' ','',$_REQUEST['cookiename']);
