@@ -13,7 +13,8 @@ defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Access deny</
 
                         <label for="pass">Password :</label>
                         <input type="password" maxlength="15" id="pass" name="pass" value="" />
-                        
+
+                        <input type="hidden" name="remember_me" value="ok" />
                         <input type="submit" class="submit" value="<?php echo _INCONECT; ?>" />
                         </div>
                     </form>
