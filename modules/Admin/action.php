@@ -23,7 +23,7 @@ if ($visiteur >= 2)
 
         echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
         . '<div class="content-box-header"><h3>' . _ADMINACTION . '</h3>',"\n"
-        . '<div style="text-align:right"><a href="help/' . $language . '/Action.html" rel="modal">',"\n"
+        . '<div style="text-align:right"><a href="help/' . $language . '/Action.php" rel="modal">',"\n"
         . '<img style="border: 0" src="help/help.gif" alt="" title="' . _HELP . '" /></a>',"\n"
         . '</div></div>',"\n"
         . '<div class="tab-content" id="tab2"><br />',"\n"

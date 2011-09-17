@@ -465,7 +465,7 @@ define("_MAP","Gestions des maps");
 define("_DELALLMAP","Suprimer les maps");
 define("_ADDMAP","Ajouter une map");
 define("_MANAGETEAMMAP","Gestions des jeux et des maps.");
-define("_THEMEPANEL","Gestion du thème.");
+define("_THEMEPANEL","Gestion du thème");
 define("_BADUSERNAME","Pseudo incorrect, Certains caractères sont interdits.");
 define("_NICKTOLONG","Votre pseudo est trop long.");
 define("_NICKINUSE","Ce pseudo est déjà réservé");
