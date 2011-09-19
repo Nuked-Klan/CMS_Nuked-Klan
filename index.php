@@ -9,9 +9,6 @@
 // -------------------------------------------------------------------------//
 
 define('INDEX_CHECK', 1);
-if ($nuked['time_generate'] == 'on'){
-    $mtime = microtime();
-}
 
 include_once('Includes/php51compatibility.php');
 include('globals.php');
@@ -43,6 +40,10 @@ if (!defined('NK_OPEN')){
 
 include('nuked.php');
 include_once('Includes/hash.php');
+
+if ($nuked['time_generate'] == 'on'){
+    $mtime = microtime();
+}
 
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
 if(ini_get('set_error_handler')) set_error_handler('erreursql');
