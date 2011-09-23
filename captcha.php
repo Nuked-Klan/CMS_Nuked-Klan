@@ -9,7 +9,7 @@ include_once('Includes/nkCaptcha.php');
 session_name('nuked');
 session_start();
 
-$text = $_SESSION['captcha'];
+$text = strtoupper($_SESSION['captcha']);
 
 header('Content-type: image/png');
 $im = imagecreatefromjpeg('images/captcha.jpg');

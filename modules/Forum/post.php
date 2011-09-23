@@ -152,7 +152,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $ftexte = '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' ' . _BY . ' ' . $author . ' :</strong><br />' . $e_txt . '</blockquote>';
         }
 
-        echo "<textarea id=\"e_advanced\" name=\"texte\" cols=\"70\" rows=\"15\">" . $ftexte . "</textarea>";
+        echo "<textarea id=\"e_advanced\" name=\"texte\" cols=\"70\" rows=\"15\">" . $ftexte . "<p></p></textarea>";
 
 
         if ($_REQUEST['do'] == "edit" && $usersig == 1)
