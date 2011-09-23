@@ -37,11 +37,11 @@ function Captcha_Generator(){
 **/
 function ValidCaptchaCode($code){
 	global $user;
-	return _NKCAPTCHA == 'off' || ($user != null && $user[1] > 0) || strtoupper($GLOBALS['nkCaptchaCache']) == strtoupper($code);
+	return _NKCAPTCHA == 'off' || ($user != null && $user[1] > 0) || strtolower($GLOBALS['nkCaptchaCache']) == strtolower($code);
 }
 
 function create_captcha($style){
-    $random_code = strtoupper(Captcha_Generator());
+    $random_code = Captcha_Generator();
 
     if ($style == 1){
 		echo '<tr><td>&nbsp;</td></tr><tr><td><b>' , _SECURITYCODE , ' :</b>';
