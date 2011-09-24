@@ -1,6 +1,6 @@
 nuked-klan GD miniature
 By MaStErPsX
-http://www.nuked-klan.org
+http://www.nuked-klan.eu
 
 ****************************************************************************************************
 ENGLISH
@@ -32,4 +32,4 @@ INSTALLATION :
 
 *****************************************************************************************************************
 COPYRIGHT : 
-http://www.nuked-klan.org
+http://www.nuked-klan.eu

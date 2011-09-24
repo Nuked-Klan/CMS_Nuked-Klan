@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN 1.7 - PHP Portal                                              //
-// http://www.nuked-klan.org                                                //
+// http://www.nuked-klan.eu                                                //
 // -------------------------------------------------------------------------//
 // This program is free software. you can redistribute it and/or modify     //
 // it under the terms of the GNU General Public License as published by     //

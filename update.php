@@ -1,7 +1,7 @@
 <?php
 //-------------------------------------------------------------------------//
 //  Nuked-KlaN 1.7 - Portal PHP                                            //
-//  http://www.nuked-klan.org                                              //
+//  http://www.nuked-klan.eu                                              //
 //-------------------------------------------------------------------------//
 //  This program is free software. you can redistribute it and/or modify   //
 //  it under the terms of the GNU General Public License as published by   //
@@ -317,7 +317,7 @@ function style($etape, $langue)
     <body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
         <div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
             <!-- Logo (221px wide) -->
-            <a href="http://www.nuked-klan.org"><img id="logo" src="modules/Admin/images/logo.png" alt="Simpla Admin logo" /></a>
+            <a href="http://www.nuked-klan.eu"><img id="logo" src="modules/Admin/images/logo.png" alt="Simpla Admin logo" /></a>
 
             <ul id="main-nav">  <!-- Accordion Menu -->
                 <li>
@@ -1337,7 +1337,7 @@ function upgrade_db()
     $del = mysql_query("DELETE FROM " . $db_prefix . "_block WHERE module = 'Calendar'");
     $del = mysql_query("DELETE FROM " . $db_prefix . "_block WHERE module = 'User'");
 
-    $sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, titre, content, type, nivo, page) VALUES ('', 1, 4, '', '" . _BLOKPARTNERS . "', '<div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nuked-klan.org\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/ban.png\" alt=\"\" title=\"Nuked-klaN CMS\" /></a></div><div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nitroserv.fr\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"http://www.nitroserv.com/images/logo_88x31.jpg\" alt=\"\" title=\"Location de serveurs de jeux\" /></a></div>', 'html', 0, 'Tous');";
+    $sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, titre, content, type, nivo, page) VALUES ('', 1, 4, '', '" . _BLOKPARTNERS . "', '<div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nuked-klan.eu\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/ban.png\" alt=\"\" title=\"Nuked-klaN CMS\" /></a></div><div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nitroserv.fr\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"http://www.nitroserv.com/images/logo_88x31.jpg\" alt=\"\" title=\"Location de serveurs de jeux\" /></a></div>', 'html', 0, 'Tous');";
     $req = mysql_query($sql);
 
         if (is_file("modules/Search/rubriques/Articles.php"))
@@ -1517,15 +1517,15 @@ function edit_config_assistant($op)
     . "<tr><td colspan=\"2\" align=\"center\"><b>" . _CONFIG . "</b></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"langue\" value=\"" . $_REQUEST['langue'] . "\" /></td></tr>\n"
     . "<tr><td>" . _DBHOST . " :</td><td><input type=\"text\" name=\"db_host\" size=\"40\" value=\""  . $global['db_host'] . "\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.eu. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBUSER . " : </td><td><input type=\"text\" name=\"db_user\" size=\"40\" value=\"" . $global['db_user'] . "\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.eu. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBPASS . " :</td><td><input type=\"password\" name=\"db_pass\" size=\"10\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.eu. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBPREFIX . " :</td><td><input type=\"text\" name=\"prefix\" size=\"10\" value=\"" . $db_prefix . "\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.eu. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "<tr><td>" . _DBNAME . " :</td><td><input type=\"text\" name=\"db_name\" size=\"10\" value=\"" . $global['db_name'] . "\" /></td></tr>\n"
-    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.org. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
+    . "<tr><td><img src=\"img/tuyau.png\"/></td><td>L'host mysql correspond à l'url du serveur msql, du genre nuked-klan.eu. Souvent les hébergeurs utilisent comme adresse msql localhost.</td></tr>\n"
     . "</table>\n"
     . "<div style=\"text-align: center;\"><br />" . _CHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _NEXT . "\" /></div></form></body></html>";
     }
@@ -1560,7 +1560,7 @@ function update_config($vars)
     $content="<?php\n"
     . "//-------------------------------------------------------------------------//\n"
     . "//  Nuked-KlaN - PHP Portal                                                //\n"
-    . "//  http://www.nuked-klan.org                                              //\n"
+    . "//  http://www.nuked-klan.eu                                              //\n"
     . "//-------------------------------------------------------------------------//\n"
     . "//  This program is free software. you can redistribute it and/or modify   //\n"
     . "//  it under the terms of the GNU General Public License as published by   //\n"
