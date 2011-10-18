@@ -690,7 +690,7 @@ function upgrade_db()
 
     echo "<script>show_progress('&nbsp;&nbsp;&nbsp;','upgrade');</script>";
 
-    if ($v[2] != 9 || $v[2] != '9 RC5.3') // Tout sauf 1.7.9
+    if ($v[2] != 9 || $v[2] != '9 RC5.3' || $v[2] != '9 RC6') // Tout sauf 1.7.9
     {
         $sql_user = mysql_query("SELECT id, pass FROM " . $db_prefix . "_users");
         while (list($userid, $userpass) = mysql_fetch_row($sql_user))
