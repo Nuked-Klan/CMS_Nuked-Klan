@@ -15,14 +15,14 @@ CKEDITOR.dialog.add('Video',function(a) {
 		onShow:function(){
 			this.getContentElement('OngletYoutube','youtube').getInputElement().setValue('');
 			this.getContentElement('OngletDailymotion','dailymotion').getInputElement().setValue('');
-			this.getContentElement('OngletVimeo','vimeo').getInputElement().setValue('');
+			//this.getContentElement('OngletVimeo','vimeo').getInputElement().setValue('');
 			this.getContentElement('OngletMegavideo','megavideo').getInputElement().setValue('');
 			this.getContentElement('OngletWat','wat').getInputElement().setValue('');
 		},		
 		onOk: function() {
 			var inputYoutube = trim(this.getContentElement('OngletYoutube','youtube').getInputElement().getValue());
 			var inputDailymotion = trim(this.getContentElement('OngletDailymotion','dailymotion').getInputElement().getValue());
-			var inputVimeo = trim(this.getContentElement('OngletVimeo','vimeo').getInputElement().getValue());
+			//var inputVimeo = trim(this.getContentElement('OngletVimeo','vimeo').getInputElement().getValue());
 			var inputMegavideo = trim(this.getContentElement('OngletMegavideo','megavideo').getInputElement().getValue());
 			var inputWattv = trim(this.getContentElement('OngletWat','wat').getInputElement().getValue());
 			var videoWidth = trim(this.getContentElement('Dimensions', 'dimWidth').getInputElement().getValue());
@@ -41,11 +41,11 @@ CKEDITOR.dialog.add('Video',function(a) {
 				this.getParentEditor().insertHtml(text);
 			}			
 			// Vimeo
-			else if (inputVimeo != '') {
+			/*else if (inputVimeo != '') {
 				var url = 'http://player.vimeo.com/video/';
 				var text = '<iframe src="'+url+inputVimeo+'" width="'+videoWidth+'" height="'+videoHeight+'" frameborder="0"></iframe>';
 				this.getParentEditor().insertHtml(text); 
-			}			
+			}*/			
 			// Megavideo
 			else if (inputMegavideo != '') {
 				var url = 'http://www.megavideo.com/v/';
@@ -89,7 +89,7 @@ CKEDITOR.dialog.add('Video',function(a) {
 				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px">',
 				focus:function(){this.getElement().focus()}
 			}]			
-        },
+        },/*
 		{
 			// Vimeo
 			id: 'OngletVimeo',
@@ -104,7 +104,7 @@ CKEDITOR.dialog.add('Video',function(a) {
 				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px">',
 				focus:function(){this.getElement().focus()}
 			}]			
-        },
+        },*/
 		{
 			// Megavideo
 			id: 'OngletMegavideo',

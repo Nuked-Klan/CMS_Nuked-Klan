@@ -1,4 +1,3 @@
 User-agent: *
 Disallow: /upload/
-Disallow: /extra/
 Sitemap: /sitemap.xml

@@ -594,12 +594,12 @@ function secu_args($matches){
             'type',
             'width',
         ),
-        'iframe' => array (
+        /*'iframe' => array (
             'src',
             'width',
             'height',
             'frameborder',
-        ),
+        ),*/
 
     );
 
