@@ -996,7 +996,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			break;
 
 		case "send_file":
-			send_file($_REQUEST['date'], $_REQUEST['taille'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['cat'], $_REQUEST['url'], $_REQUEST['url2'], $_REQUEST['url3'], $_REQUEST['level'], $_REQUEST['autor'], $_REQUEST['site'], $_REQUEST['comp'], $_REQUEST['screen'], $_REQUEST['screen2'], $_REQUEST['copy'], $_REQUEST['ecrase_file'], $_REQUEST['ecrase_screen']);
+			send_file($_REQUEST['date'], $_REQUEST['size'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['cat'], $_REQUEST['url'], $_REQUEST['url2'], $_REQUEST['url3'], $_REQUEST['level'], $_REQUEST['autor'], $_REQUEST['site'], $_REQUEST['comp'], $_REQUEST['screen'], $_REQUEST['screen2'], $_REQUEST['copy'], $_REQUEST['ecrase_file'], $_REQUEST['ecrase_screen']);
 			UpdateSitmap();
 			break;
 
