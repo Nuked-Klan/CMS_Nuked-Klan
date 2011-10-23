@@ -241,7 +241,7 @@ function index(){
 			$sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
 			list($pseudo) = mysql_fetch_array($sql_member);
 			
-			$etat = ($status == 1) ? _NOTREAD : _READ;
+			$etat = ($row['status'] == 1) ? _READ : _NOTREAD;
 			
 			if ($j == 0){
 				$bg = $bgcolor2;
