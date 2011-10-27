@@ -12,6 +12,8 @@ define("_INSTALLPASPAS","Installation with assistance");
 define("_UPGRADE","Upgrade with assistance 1.7.7/1.7.8 => 1.7.9");
 define("_INSTALLNK","Nuked-Klan 1.7.9 Installation");
 define("_INSTALLPROGRESS","Installation in progress...");
+define('_UNABLE_TO_SAVE_CONFIG_FILE', 'Unable to save your configuration file. Please verify that %s is writeable');
+define('_DIRECTORY_NOT_WRITEABLE', '%s is no writeable. Please verify its permissions');
 define("_CREATES",".....Created");
 define("_MODIFS",".....Modified");
 define("_LATESTWAR","Latest wars");

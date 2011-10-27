@@ -2174,7 +2174,7 @@ function add_god($data)
     if (!is_writable($path9)) $error++;
 
     // Suppresion du dossier "img"
-    deltree('img/');
+    @deltree('img/');
 
     if (file_exists("update.php"))
     {
@@ -2404,8 +2404,37 @@ function save_config($vars)
         . "<big>" . _CONFIGSAVE . "<br />" . _CLICNEXTTOINSTALL . "</big>\n"
         . "</div>\n"
         . "</div>\n";
-        echo "<form method=\"post\" action=\"install.php?action=create_db&amp;langue=" . $vars['langue'] . "\" onsubmit=\"this.goButton.disabled=true; return true\">\n"
-        . "<div style=\"text-align: center;\"><input type=\"submit\" name=\"goButton\" value=\"" . _NEXT . "\" /></div></form></div></div></body></html>";
+
+        $upload_directory_path = dirname(__FILE__) . '/upload';
+        $saved_filename = $path . '_save_' . date('YmdHi') . '.php';
+        $config_error = null;
+
+        // should we force chmod(0777) operation for this directory? maybe unsecure
+        if (! is_writable($upload_directory_path)) {
+            $config_error = sprintf(_DIRECTORY_NOT_WRITEABLE, $upload_directory_path);
+        }
+
+        if (false === copy($path, $upload_directory_path . '/' . $saved_filename)) {
+            $config_error = sprintf(_UNABLE_TO_SAVE_CONFIG_FILE, $upload_directory_path);
+        }
+
+        if (isset($config_error)) {
+            echo "<div class=\"notification error png_bg\">\n"
+                 . "<div>\n"
+                 . "" . $config_error . ""
+                 . "</div>\n"
+                 . "</div>\n";
+            echo "</body></html>";
+
+        } else {
+            echo "<div class=\"notification success png_bg\">\n"
+                 . "<div>\n"
+                 . "<big>" . _CONFIGSAVE . "<br />" . _CLICNEXTTOINSTALL . "</big>\n"
+                 . "</div>\n"
+                 . "</div>\n";
+            echo "<form method=\"post\" action=\"install.php?action=create_db&amp;langue=" . $vars['langue'] . "\" onsubmit=\"this.goButton.disabled=true; return true\">\n"
+                 . "<div style=\"text-align: center;\"><input type=\"submit\" name=\"goButton\" value=\"" . _NEXT . "\" /></div></form></div></div></body></html>";
+        }
    }
    else
    {

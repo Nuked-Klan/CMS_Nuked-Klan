@@ -1557,70 +1557,98 @@ function update_config($vars)
     else
     {
 
-    $content="<?php\n"
-    . "//-------------------------------------------------------------------------//\n"
-    . "//  Nuked-KlaN - PHP Portal                                                //\n"
-    . "//  http://www.nuked-klan.eu                                              //\n"
-    . "//-------------------------------------------------------------------------//\n"
-    . "//  This program is free software. you can redistribute it and/or modify   //\n"
-    . "//  it under the terms of the GNU General Public License as published by   //\n"
-    . "//  the Free Software Foundation; either version 2 of the License.         //\n"
-    . "//-------------------------------------------------------------------------//\n"
-    . "\n"
-    . "\$global['db_host']  = '" . $vars['db_host'] . "';\n"
-    . "\$global['db_user']  = '" . $vars['db_user'] . "';\n"
-    . "\$global['db_pass']  = '" . $vars['db_pass'] . "';\n"
-    . "\$global['db_name'] = '" . $vars['db_name'] . "';\n"
-    . "\$db_prefix = '" . $vars['prefix'] . "';\n"
-    . "\n"
-    . "define('NK_INSTALLED', true);\n"
-    . "define('NK_OPEN', true);\n"
-    . "define('NK_GZIP', " . GZIP_COMPRESS . ");\n"
-    . "// NE PAS SUPPRIMER! / DO NOT DELETE\n"
-    . "define('HASHKEY', '".addslashes(sha1(uniqid(), true))."');\n"
-    . "\n"
-    . "?>";
+        $content="<?php\n"
+        . "//-------------------------------------------------------------------------//\n"
+        . "//  Nuked-KlaN - PHP Portal                                                //\n"
+        . "//  http://www.nuked-klan.eu                                              //\n"
+        . "//-------------------------------------------------------------------------//\n"
+        . "//  This program is free software. you can redistribute it and/or modify   //\n"
+        . "//  it under the terms of the GNU General Public License as published by   //\n"
+        . "//  the Free Software Foundation; either version 2 of the License.         //\n"
+        . "//-------------------------------------------------------------------------//\n"
+        . "\n"
+        . "\$global['db_host']  = '" . $vars['db_host'] . "';\n"
+        . "\$global['db_user']  = '" . $vars['db_user'] . "';\n"
+        . "\$global['db_pass']  = '" . $vars['db_pass'] . "';\n"
+        . "\$global['db_name'] = '" . $vars['db_name'] . "';\n"
+        . "\$db_prefix = '" . $vars['prefix'] . "';\n"
+        . "\n"
+        . "define('NK_INSTALLED', true);\n"
+        . "define('NK_OPEN', true);\n"
+        . "define('NK_GZIP', " . GZIP_COMPRESS . ");\n"
+        . "// NE PAS SUPPRIMER! / DO NOT DELETE\n"
+        . "define('HASHKEY', '".addslashes(sha1(uniqid(), true))."');\n"
+        . "\n"
+        . "?>";
 
-    $path = "conf.inc.php";
-    @chmod ($path, 0666);
+        $path = "conf.inc.php";
+        @chmod ($path, 0666);
 
-    if (is_writable($path))
-    {
-        if(!defined("HASHKEY"))
+        if (is_writable($path))
         {
-            $fp = @fopen("conf.inc.php", w);
-            fwrite($fp, $content);
-            fclose($fp);
-            @chmod ($path, 0444);
-        }
+            if(!defined("HASHKEY"))
+            {
+                $fp = @fopen("conf.inc.php", w);
+                fwrite($fp, $content);
+                fclose($fp);
+                @chmod ($path, 0444);
+            }
 
-        copy("conf.inc.php", "upload/config_save" . date('%Y%m%d%H%i') . '.php');
+            copy("conf.inc.php", "upload/config_save" . date('%Y%m%d%H%i') . '.php');
 
-        style(3,$vars['langue']);
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "<big>" . _CONFIGSAVE . "<br />" . _CLICNEXTTOUPGRADE . "</big>\n"
-        . "</div>\n"
-        . "</div>\n";
-        echo "<form method=\"post\" action=\"update.php?action=upgrade_db&amp;langue=" . $vars['langue'] . "\" onsubmit=\"this.goButton.disabled=true; return true\">\n"
-        . "<div style=\"text-align: center;\"><input type=\"submit\" name=\"goButton\" value=\"" . _NEXT . "\" /></div></form></body></html>";
+            style(3,$vars['langue']);
+            echo "<div class=\"notification success png_bg\">\n"
+            . "<div>\n"
+            . "<big>" . _CONFIGSAVE . "<br />" . _CLICNEXTTOUPGRADE . "</big>\n"
+            . "</div>\n"
+            . "</div>\n";
+            $upload_directory_path = dirname(__FILE__) . '/upload';
+            $saved_filename = $path . '_save_' . date('YmdHi') . '.php';
+            $config_error = null;
+
+            // should we force chmod(0777) operation for this directory? maybe unsecure
+            if (! is_writable($upload_directory_path)) {
+                $config_error = sprintf(_DIRECTORY_NOT_WRITEABLE, $upload_directory_path);
+            }
+
+            if (false === copy($path, $upload_directory_path . '/' . $saved_filename)) {
+                $config_error = sprintf(_UNABLE_TO_SAVE_CONFIG_FILE, $upload_directory_path);
+            }
+
+            if (isset($config_error)) {
+                echo "<div class=\"notification error png_bg\">\n"
+                     . "<div>\n"
+                     . "" . $config_error . ""
+                     . "</div>\n"
+                     . "</div>\n";
+                echo "</body></html>";
+
+            } else {
+                echo "<div class=\"notification success png_bg\">\n"
+                     . "<div>\n"
+                     . "<big>" . _CONFIGSAVE . "<br />" . _CLICNEXTTOINSTALL . "</big>\n"
+                     . "</div>\n"
+                     . "</div>\n";
+                echo "<form method=\"post\" action=\"install.php?action=create_db&amp;langue=" . $vars['langue'] . "\" onsubmit=\"this.goButton.disabled=true; return true\">\n"
+                     . "<div style=\"text-align: center;\"><input type=\"submit\" name=\"goButton\" value=\"" . _NEXT . "\" /></div></form></div></div></body></html>";
+            }
         }
         else
         {
-        style(3,$vars['langue']);
+            style(3,$vars['langue']);
 
-        echo "<div><a href=\"#\" onclick=\"javascript:window.open('help/" . $vars['langue'] . "/install.html','Help','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=300');return(false)\">\n"
-        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
-        . "<div style=\"text-align: center;\"><br /><br /><h3>" . _UPGRADE . "</h3></div>\n"
-        . "<form method=\"post\" action=\"update.php?action=update_config\">\n"
-        . "<div style=\"text-align: center;\">\n"
-        . "<input type=\"hidden\" name=\"langue\" value=\"" . $vars['langue'] . "\" />\n"
-        . "<input type=\"hidden\" name=\"db_host\" value=\""  . $vars['db_host'] . "\" />\n"
-        . "<input type=\"hidden\" name=\"db_user\" value=\"" . $vars['db_user'] . "\" />\n"
-        . "<input type=\"hidden\" name=\"db_pass\" value=\"" . $vars['db_pass'] . "\" />\n"
-        . "<input type=\"hidden\" name=\"prefix\" value=\"" . $vars['prefix'] . "\" />\n"
-        . "<input type=\"hidden\" name=\"db_name\" value=\"" . $vars['db_name'] . "\" />\n"
-        . "<br />" . _BADCHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _RETRY . "\" /></div></form></body></html>";
+            echo "<div><a href=\"#\" onclick=\"javascript:window.open('help/" . $vars['langue'] . "/install.html','Help','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=300');return(false)\">\n"
+            . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
+            . "<div style=\"text-align: center;\"><br /><br /><h3>" . _UPGRADE . "</h3></div>\n"
+            . "<form method=\"post\" action=\"update.php?action=update_config\">\n"
+            . "<div style=\"text-align: center;\">\n"
+            . "<input type=\"hidden\" name=\"langue\" value=\"" . $vars['langue'] . "\" />\n"
+            . "<input type=\"hidden\" name=\"db_host\" value=\""  . $vars['db_host'] . "\" />\n"
+            . "<input type=\"hidden\" name=\"db_user\" value=\"" . $vars['db_user'] . "\" />\n"
+            . "<input type=\"hidden\" name=\"db_pass\" value=\"" . $vars['db_pass'] . "\" />\n"
+            . "<input type=\"hidden\" name=\"prefix\" value=\"" . $vars['prefix'] . "\" />\n"
+            . "<input type=\"hidden\" name=\"db_name\" value=\"" . $vars['db_name'] . "\" />\n"
+            . "<br />" . _BADCHMOD . "<br /><br /><input type=\"submit\" name=\"ok\" value=\"" . _RETRY . "\" /></div></form></body></html>";
         }
     }
 }

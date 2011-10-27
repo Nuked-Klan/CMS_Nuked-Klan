@@ -8,6 +8,8 @@ define("_INSTALLPASPAS","Installation avec assistance");
 define("_INSTALL","Installation rapide");
 define("_UPGRADE","Mise à jour avec informations 1.7.7/1.7.8 => 1.7.9");
 define("_INSTALLNK","Installation de Nuked-Klan 1.7.9");
+define('_UNABLE_TO_SAVE_CONFIG_FILE', 'Sauvegarde de votre fichier de configuration impossible.V&eacute;rifiez les permissions du r&eacute;pertoire %s');
+define('_DIRECTORY_NOT_WRITEABLE', "Impossible d'&eacute;crire dans le r&eacute;peretoire %s. V&eacute;rifiez ses permissions");
 define("_INSTALLPROGRESS","Installation en cours...");
 define("_CREATES",".....Crée");
 define("_MODIFS",".....Modifiée");
