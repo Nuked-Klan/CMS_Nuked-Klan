@@ -1594,14 +1594,8 @@ function update_config($vars)
                 @chmod ($path, 0444);
             }
 
-            copy("conf.inc.php", "upload/config_save" . date('%Y%m%d%H%i') . '.php');
-
             style(3,$vars['langue']);
-            echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "<big>" . _CONFIGSAVE . "<br />" . _CLICNEXTTOUPGRADE . "</big>\n"
-            . "</div>\n"
-            . "</div>\n";
+
             $upload_directory_path = dirname(__FILE__) . '/upload';
             $saved_filename = $path . '_save_' . date('YmdHi') . '.php';
             $config_error = null;

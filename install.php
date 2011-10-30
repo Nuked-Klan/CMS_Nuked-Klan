@@ -2386,7 +2386,7 @@ function save_config($vars)
 
     $path = "conf.inc.php";
     @chmod ($path, 0666);
-  @chmod (dirname(__PATH__), 0755);
+    @chmod (dirname(__PATH__), 0755);
 
     if (is_writable($path) || (!file_exists($path) && is_writable('./')))
     {
@@ -2395,15 +2395,7 @@ function save_config($vars)
         fclose($fp);
         @chmod ($path, 0644);
 
-        copy("conf.inc.php", "upload/config_save_" . date('%Y%m%d%H%i') . '.php');
-
         style(3,$vars['langue']);
-
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "<big>" . _CONFIGSAVE . "<br />" . _CLICNEXTTOINSTALL . "</big>\n"
-        . "</div>\n"
-        . "</div>\n";
 
         $upload_directory_path = dirname(__FILE__) . '/upload';
         $saved_filename = $path . '_save_' . date('YmdHi') . '.php';
