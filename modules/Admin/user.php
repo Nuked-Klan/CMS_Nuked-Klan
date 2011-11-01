@@ -1387,7 +1387,7 @@ if ($visiteur == 9)
 
     /**
      * Delete moderator from FORUM_TABLE with a user ID
-     * @param idUser : a user ID
+     * @param integer $idUser : a user ID
      * @return bool : true if delete success, false if not
      */
     function delModerator($idUser)
