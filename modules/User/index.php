@@ -1847,16 +1847,54 @@ function validation($id_user){
     }
 }
 
+/**
+ * Delete moderator from FORUM_TABLE with a user ID
+ * @param idUser : a user ID
+ * @return bool : true if delete success, false if not
+ */
+function delModerator($idUser)
+{
+    $resultQuery = mysql_query("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $idUser . "%'");
+    while (list($forumID, $listModos) = mysql_fetch_row($resultQuery))
+    {
+        if (is_int(strpos($listModos, '|'))) //Multiple moderators in this category
+        {
+            var_dump($listModos);
+            $tmpListModos = explode('|', $listModos);
+            $tmpKey = array_search($idUser, $tmpListModos);
+            if ($tmpKey !== false)
+            {
+                unset($tmpListModos[$tmpKey]);
+                $tmpListModos = implode('|', $tmpListModos);
+                $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $tmpListModos . "' WHERE id = '" . $forumID . "'");
+            }
+        }
+        else
+        {
+            if ($idUser == $listModos) // Only one moderator in this category
+            {
+                $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '' WHERE id = '" . $forumID . "'");
+            }
+            // Else, no moderator in this category
+        }
+    }
+    if ($resultQuery)
+        return true;
+    else
+        return false;
+}
+    
+
 function del_account($pass){
     global $user, $nuked;
 
     if ($pass != "" && $nuked[user_delete] == "on"){
         $sql = mysql_query("SELECT pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-        list($dbpass) = mysql_fetch_array($sql);
-
-        if (Check_Hash($pass, $dbpass)){
-            $del1 = mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE user_id = '" . $user[0] . "'");
-            $del = mysql_query("DELETE FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+        $dbpass = mysql_fetch_row($sql);
+        if (Check_Hash($pass, $dbpass[0])){
+            $del1 = delModerator($user[0]);
+            $del2 = mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE user_id = '" . $user[0] . "'");
+            $del3 = mysql_query("DELETE FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
             echo "<br /><br /><div style=\"text-align: center;\">" . _ACCOUNTDELETE . "</div><br /><br />";
             redirect("index.php", 2);
         }

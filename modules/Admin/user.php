@@ -132,9 +132,8 @@ if ($visiteur == 9)
         echo"</select></td></tr>\n"
         . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" /></td></tr>\n"
         . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" /></td></tr>\n"
-        . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\"></textarea></td></tr>\n"
-        . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-        . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _ADDUSER . "\" /></td></tr></table>\n"
+        . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\"></textarea></td></tr></table>\n"
+        . "<div style=\"text-align:center;padding-top:10px;\"><input type=\"submit\" value=\"" . _ADDUSER . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=user\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
@@ -499,6 +498,7 @@ if ($visiteur == 9)
         $del1 = mysql_query("DELETE FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
         $del2 = mysql_query("DELETE FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $id_user . "'");
         $del3 = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE user_for = '" . $id_user . "'");
+        $del4 = delModerator($id_user);
         // Action
         $texteaction = "". _ACTIONDELUSER .": ".$nick."";
         $acdate = time();
@@ -1385,6 +1385,42 @@ if ($visiteur == 9)
         echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=user\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
     }
 
+    /**
+     * Delete moderator from FORUM_TABLE with a user ID
+     * @param idUser : a user ID
+     * @return bool : true if delete success, false if not
+     */
+    function delModerator($idUser)
+    {
+        $resultQuery = mysql_query("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $idUser . "%'");
+        while (list($forumID, $listModos) = mysql_fetch_row($resultQuery))
+        {
+            if (is_int(strpos($listModos, '|'))) //Multiple moderators in this category
+            {
+                $tmpListModos = explode('|', $listModos);
+                $tmpKey = array_search($idUser, $tmpListModos);
+                if ($tmpKey !== false)
+                {
+                    unset($tmpListModos[$tmpKey]);
+                    $tmpListModos = implode('|', $tmpListModos);
+                    $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $tmpListModos . "' WHERE id = '" . $forumID . "'");
+                }
+            }
+            else
+            {
+                if ($idUser == $listModos) // Only one moderator in this category
+                {
+                    $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '' WHERE id = '" . $forumID . "'");
+                }
+                // Else, no moderator in this category
+            }
+        }
+        if ($resultQuery)
+            return true;
+        else
+            return false;
+    }
+    
     switch ($_REQUEST['op'])
     {
         case "update_user":

@@ -522,10 +522,9 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     function del_modo($uid, $forum_id)
     {
         global $nuked, $user;
-
         
-    $sql = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
-    list($listmodo) = mysql_fetch_row($sql);
+        $sql = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
+        list($listmodo) = mysql_fetch_row($sql);
         $list = explode("|", $listmodo);
         for($i = 0; $i <= count($list)-1;$i++)
         {
