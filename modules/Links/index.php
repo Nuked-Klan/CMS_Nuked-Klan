@@ -325,7 +325,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
         $start = $_REQUEST['p'] * $nb_liens - $nb_liens;
 
-		$where = $cat ? 'WHERE L.cat = ' . $cat : '';
+        $where = isset($cat) ? 'WHERE L.cat = ' . $cat : '';
 
         if ($_REQUEST['orderby'] == 'name')
             $order = 'ORDER BY L.titre';
