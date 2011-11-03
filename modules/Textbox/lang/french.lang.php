@@ -62,7 +62,7 @@ define("_TUNISIA", "Tunisie");
 define("_MOROCCO", "Maroc");
 
 define("_LOADINPLSWAIT", "Chargement en cours...");
-define("_PLEASEWAIT","Veuillez patienter...");
+define("_PLEASEWAITTXTBOX","Veuillez patienter...");
 define("_THANKSFORPOST","Merci de votre participation !");
 define("_LOADINGERRORS","Impossible de charger le block !");
 ?>
