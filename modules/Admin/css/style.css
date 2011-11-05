@@ -133,4 +133,4 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 /* CSS FOR PREVIEW WEBSITE */
 #screen{display:none;position:fixed;width:100%;height:100%;background:url('../images/bg.png') repeat;z-index:10000}
 #iframe{margin-left:5%;margin-top:5%;width:90%;height:100%}
-#iframe_close{display:block;width:295px;height:25px;background:url('../../../images/croix.png') no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000}
+#iframe_close{display:block;width:66px;height:22px;background:url('../../../images/closelabel.gif') no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000}
