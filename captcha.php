@@ -16,7 +16,7 @@ $im = imagecreatefromjpeg('images/captcha.jpg');
 $id = imagecreatefromjpeg('images/captcha.jpg');
 $grey = imagecolorallocate($im, 0, 0, 0);
 $black = imagecolorallocate($im, 200, 200, 200);
-$font = 'Includes/font/eurof75.ttf';
+$font = 'Includes/font/LondonBetween.ttf';
 
 for($i=0;$i<5;$i++)
 {
@@ -26,7 +26,7 @@ for($i=0;$i<5;$i++)
     imagettftext($im, 12, $angle, 10+(22*$i), 16, $black, $font, substr($text,$i,1));
 }
 
-imagecopymerge ($im, $id, 0, 0, 0, 0, 120, 30, 50);
+imagecopymerge ($im, $id, 0, 0, 0, 0, 120, 20, 40);
 imagepng($im);
 imagedestroy($im);
 imagedestroy($id);
