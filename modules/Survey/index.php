@@ -29,25 +29,32 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         opentable();
 
-        echo '<br /><div style="text-align: center;"><big><b>' . _POLLOF . '</b></big></div><br />';
+        if(!empty($poll_id) && is_numeric($poll_id)) {
 
-        $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
-        list($titre) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
+            echo '<br /><div style="text-align: center;"><big><b>' . _POLLOF . '</b></big></div><br />';
 
-        echo "<form method=\"post\" action=\"index.php?file=Survey&amp;nuked_nude=index&amp;op=update_sondage\">\n"
-           . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-           . "<tr><td align=\"center\"><b>" . $titre . "</b></td></tr>\n";
+            $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
+            list($titre) = mysql_fetch_array($sql);
+            $titre = htmlentities($titre);
 
-        $sql2 = mysql_query('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
-        while (list($voteid, $optiontext) = mysql_fetch_array($sql2)) {
-            $optiontext = htmlentities($optiontext);
+            echo "<form method=\"post\" action=\"index.php?file=Survey&amp;nuked_nude=index&amp;op=update_sondage\">\n"
+               . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
+               . "<tr><td align=\"center\"><b>" . $titre . "</b></td></tr>\n";
 
-            echo '<tr><td><input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '</td></tr>';
-        } 
-        echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"poll_id\" value=\"" . $poll_id . "\" /></td></tr>\n"
-           . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _TOVOTE . "\" />"
-           . "&nbsp;<input type=\"button\" value=\"" . _RESULT . "\" onclick=\"document.location='index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $poll_id . "'\" /></td></tr></table></form><br />\n";
+            $sql2 = mysql_query('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
+            while (list($voteid, $optiontext) = mysql_fetch_array($sql2)) {
+                $optiontext = htmlentities($optiontext);
+
+                echo '<tr><td><input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '</td></tr>';
+            } 
+            echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"poll_id\" value=\"" . $poll_id . "\" /></td></tr>\n"
+               . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _TOVOTE . "\" />"
+               . "&nbsp;<input type=\"button\" value=\"" . _RESULT . "\" onclick=\"document.location='index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $poll_id . "'\" /></td></tr></table></form><br />\n";
+        }
+        else {
+            echo '<div style="text-align: center; padding: 10px">' . _NOENTRANCE . '</div>';
+            redirect('index.php?file=Survey' 0);
+        }
 
         closetable();
     } 
@@ -133,62 +140,70 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         opentable();
 
-        $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid=' . $poll_id);
-        list($titre) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
+        if(!empty($poll_id) && is_numeric($poll_id)) {
 
-        echo "<br /><div style=\"text-align: center;\"><big><b>" . _POLLOF . "</b></big></div>\n"
-           . "<div style=\"text-align: center;\"><br /><b>$titre</b></div><br />\n"
-           . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n";
+            $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid=' . $poll_id);
+            list($titre) = mysql_fetch_array($sql);
+            $titre = htmlentities($titre);
 
-        $sql2 = mysql_query('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
-        $nbcount = 0;
-        while (list($option_count) = mysql_fetch_array($sql2)) {
-            $nbcount = $nbcount + $option_count;
-        } 
+            echo "<br /><div style=\"text-align: center;\"><big><b>" . _POLLOF . "</b></big></div>\n"
+               . "<div style=\"text-align: center;\"><br /><b>$titre</b></div><br />\n"
+               . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n";
 
-        $sql3 = mysql_query('SELECT optionCount, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
-        while (list($optioncount, $optiontext) = mysql_fetch_array($sql3)) {
-            $optiontext = htmlentities($optiontext);
-
-            if ($nbcount <> 0) {
-                $etat = ($optioncount * 100) / $nbcount;
-            } else {
-                $etat = 0;
-            } 
-            $pourcent_arrondi = round($etat);
-
-            echo '<tr><td>' . $optiontext . '</td><td>';
-
-            if ($etat < 1) {
-                $width = 2;
-            } else {
-                $width = $etat * 2;
-                $width = round($width);
-            } 
-            if (is_file('themes/" . $theme . "/images/bar.gif')) {
-                $img = 'themes/" . $theme . "/images/bar.gif';
-            } else {
-                $img = 'modules/Survey/images/bar.gif';
+            $sql2 = mysql_query('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
+            $nbcount = 0;
+            while (list($option_count) = mysql_fetch_array($sql2)) {
+                $nbcount = $nbcount + $option_count;
             } 
 
-            echo '<img src="' . $img . '" width="' . $width . '" height="10" alt="" />&nbsp;' . $pourcent_arrondi . '% (' . $optioncount . ')</td></tr>';
+            $sql3 = mysql_query('SELECT optionCount, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
+            while (list($optioncount, $optiontext) = mysql_fetch_array($sql3)) {
+                $optiontext = htmlentities($optiontext);
+
+                if ($nbcount <> 0) {
+                    $etat = ($optioncount * 100) / $nbcount;
+                } else {
+                    $etat = 0;
+                } 
+                $pourcent_arrondi = round($etat);
+
+                echo '<tr><td>' . $optiontext . '</td><td>';
+
+                if ($etat < 1) {
+                    $width = 2;
+                } else {
+                    $width = $etat * 2;
+                    $width = round($width);
+                } 
+                if (is_file('themes/" . $theme . "/images/bar.gif')) {
+                    $img = 'themes/" . $theme . "/images/bar.gif';
+                } else {
+                    $img = 'modules/Survey/images/bar.gif';
+                } 
+
+                echo '<img src="' . $img . '" width="' . $width . '" height="10" alt="" />&nbsp;' . $pourcent_arrondi . '% (' . $optioncount . ')</td></tr>';
+            }
+
+            echo "</table><table style=\"margin-left: auto;margin-right: auto;text-align: left;width:90%;\" border=\"0\">\n"
+               . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _TOTALVOTE . " : </b>" . $nbcount . "</td></tr>\n";
+
+            $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'survey\'');
+            list($active) = mysql_fetch_array($sql);
+
+            if ($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
+                echo '<tr><td>';
+                include 'modules/Comment/index.php';
+                com_index('Survey', $poll_id);
+                echo '</td></tr>';
+            }
+
+            echo '</table><div style="text-align: center;"><br />[ <a href=\"index.php?file=Survey&amp;op=sondage&amp;poll_id=' . $poll_id . '">' . _SENDVOTE . '</a> | <a href="index.php?file=Survey">' . _OTHERPOLL . '</a> ]</div><br />';
+
         }
-
-        echo "</table><table style=\"margin-left: auto;margin-right: auto;text-align: left;width:90%;\" border=\"0\">\n"
-           . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _TOTALVOTE . " : </b>" . $nbcount . "</td></tr>\n";
-
-        $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'survey\'');
-        list($active) = mysql_fetch_array($sql);
-
-        if ($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
-            echo '<tr><td>';
-            include 'modules/Comment/index.php';
-            com_index('Survey', $poll_id);
-            echo '</td></tr>';
+        else {
+            echo '<div style="text-align: center; padding: 10px">' . _NOENTRANCE . '</div>';
+            redirect('index.php?file=Survey' 0);
         }
-
-        echo '</table><div style="text-align: center;"><br />[ <a href=\"index.php?file=Survey&amp;op=sondage&amp;poll_id=' . $poll_id . '">' . _SENDVOTE . '</a> | <a href="index.php?file=Survey">' . _OTHERPOLL . '</a> ]</div><br />';
 
         closetable();
     } 
