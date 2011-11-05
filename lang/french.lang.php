@@ -336,7 +336,7 @@ define("_INSTALLDBDBNAME","Il s'agit du nom de votre base de données MySQL, souv
 define("_CHECKCURRING", "<p>Vérification de la compatibilité...<br /></p>\n");
 define("_PHPVERSION", 'PHP version > 5.1');
 define("_MYSQLEXT", 'Extension MySQL');
-define("_EXTENSIONLOAD", 'Extension des sessions');
+define("_SESSIONSEXT", 'Extension des sessions');
 define("_QUESPHPVERSION", 'Veuillez demander à votre hébergeur de passer en PHP 5.1. Certains hébergeurs demande un .htaccess ou autres.');
 define("_SESSIONPATH", 'Veulliez créer un répertoire nommée: ');
 define("_DIRECTORY", 'Chemin des sessions');
@@ -346,6 +346,28 @@ define("_FORCE", "Il y a une ou plusieurs erreurs fatales de compatibilités. Nou
 define("_NEXTLANG", "<p>Tu peux forcer l'installation de nuked-klan <a href=\"?action=install&amp;langue=french\">ici</a></p>\n");
 define("_SYSTEMINSTALL","Votre site est prêt a être installé.<br />\n");
 define("_NEXTSTEP", "Etape suivante");
+// new update
+define('_SELECTLANG', 'Seléction de la langue');
+define('_CHECKVERSION', 'Vérification de la version installée');
+define('_CHECKCOMPATIBILITY', 'Vérification de la compatibilité');
+define('_CHECKACTIVATION', 'Activation des Statistiques');
+define('_DBSAVE', 'Sauvegarde de la Base de données');
+define('_CHECKTYPEUPDATE', 'Choix du type de Mise à jour');
+define('_CURRENTVERSIONUSED', 'Vous utilisez actuellement la version');
+define('_CONFIRM', 'Confirmer');
+define('_NOOTHERVERSION', 'Non! J\'utilise une autre version');
+define('_PLSSELECTVERSION', 'Veuillez choisir votre version de NK');
+define('_WARNCHANGEVERSION', '<b>ATTENTION !!!</b> Modifer votre version uniquement si vous savez ce que vous faites.<br/>Toutes erreurs pourrait entraîner la suppression de vos données.');
+define('_CHECKCOMPATIBILITYHOSTING', 'Vérification de la compatibilité avec votre hebergement');
+define('_ZIPEXT', 'Extension Zip');
+define('_FILEINFOEXT', 'Extension File Info');
+define('_HASHEXT', 'Extension Hash');
+define('_GDEXT', 'Extension GD');
+define('_TESTCHMOD', 'Test du CHMOD');
+define('_COMPOSANT', 'Composant');
+define('_COMPATIBILITY', 'Compatibilité');
+define('_BADHOSTING', 'Votre hébergement n\'est pas compatible avec la nouvelle version de Nuked-Klan.');
+define('_CONTINUE', 'Continuer');
 
 define('_HTMLNOCORRECT', 'Le code HTML est mal formaté');
 ?>

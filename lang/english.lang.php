@@ -330,7 +330,7 @@ define("_INSTALLDBDBNAME","This is the name of database where all the data will 
 define("_CHECKCURRING", "<p>Check system requirement ...<br /></p>\n");
 define("_PHPVERSION", 'PHP version > 5.1');
 define("_MYSQLEXT", 'Extension MySQL');
-define("_EXTENSIONLOAD", 'Extension session');
+define("_SESSIONSEXT", 'Extension session');
 define("_QUESPHPVERSION", 'You have to ask your hosting service for PHP 5.1. Have you a .htaccess ?');
 define("_SESSIONPATH", 'You have to make this directory : ');
 define("_DIRECTORY", 'Session directory');
@@ -340,6 +340,29 @@ define("_FORCE", "They are one or more fatal error in your configuration. We can
 define("_NEXTLANG", "<p>You can force install on click</p>\n");
 define("_SYSTEMINSTALL","Your system is ready to start installation.<br />\n");
 define("_NEXTSTEP", "Next Step");
+// new update
+define('_SELECTLANG', 'Choose language');
+define('_CHECKVERSION', 'Check current version');
+define('_CHECKCOMPATIBILITY', 'Check compatibility');
+define('_CHECKACTIVATION', 'Stats\'s activation');
+define('_DBSAVE', 'Database\'s save');
+define('_CHECKTYPEUPDATE', 'Check type of update');
+define('_CURRENTVERSIONUSED', 'Version you actually in use is');
+define('_CONFIRM', 'Confirm');
+define('_NOOTHERVERSION', 'No! I\'m using another version');
+define('_PLSSELECTVERSION', 'Please choose your version of Nuked-klan');
+define('_WARNCHANGEVERSION', '<b>WARNING !!!</b> Change your version only if you know what you do.<br/>Every mistakes could remove your data.');
+define('_CHECKCOMPATIBILITYHOSTING', 'Check your hosting\'s compatibility');
+define('_ZIPEXT', 'Zip Extension');
+define('_FILEINFOEXT', 'File Info Extension');
+define('_HASHEXT', 'Hash Extension');
+define('_GDEXT', 'GD Extension');
+define('_TESTCHMOD', 'Check CHMOD');
+define('_COMPOSANT', 'Composant');
+define('_COMPATIBILITY', 'Compatibility');
+define('_BADHOSTING', 'Your hosting isn\'t compatible with the new version of Nuked-Klan.');
+define('_CONTINUE', 'Continue');
+
 
 define('_HTMLNOCORRECT', 'HTML code is incorrectly formatted');
 ?>
