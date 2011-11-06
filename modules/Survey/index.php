@@ -53,7 +53,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
         else {
             echo '<div style="text-align: center; padding: 10px">' . _NOENTRANCE . '</div>';
-            redirect('index.php?file=Survey' 0);
+            redirect('index.php?file=Survey' , 0);
         }
 
         closetable();
@@ -202,7 +202,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
         else {
             echo '<div style="text-align: center; padding: 10px">' . _NOENTRANCE . '</div>';
-            redirect('index.php?file=Survey' 0);
+            redirect('index.php?file=Survey' , 0);
         }
 
         closetable();
