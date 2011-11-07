@@ -6,7 +6,7 @@ define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'ins
 define("_TYPEINSTALL","Que voulez-vous faire ?");
 define("_INSTALLPASPAS","Installation avec assistance");
 define("_INSTALL","Installation rapide");
-define("_UPGRADE","Mise à jour avec informations 1.7.7/1.7.8 => 1.7.9");
+define("_UPGRADE","Mise à jour avec informations");
 define("_INSTALLNK","Installation de Nuked-Klan 1.7.9");
 define('_UNABLE_TO_SAVE_CONFIG_FILE', 'Sauvegarde de votre fichier de configuration impossible.V&eacute;rifiez les permissions du r&eacute;pertoire %s');
 define('_DIRECTORY_NOT_WRITEABLE', "Impossible d'&eacute;crire dans le r&eacute;peretoire %s. V&eacute;rifiez ses permissions");
@@ -281,7 +281,7 @@ define("_ETAPE3","Etape 3");
 define("_CONFIGSQL", "Configuration SQL");
 define("_CONFIGSQLASSIS", "Configuration SQL avec explication");
 define("_ETAPE4","Etape 4");
-define("_UPGRADESPEED","Mise à jour rapide 1.7.7/1.7.8 => 1.7.9");
+define("_UPGRADESPEED","Mise à jour rapide");
 
 define("_SECURITE","Sécurité");
 define("_DECOUVERTE","Nuked-klan 1.7.9: la découverte");
@@ -295,10 +295,10 @@ define("_SIMPLIFIE1","Une installation plus design, plus intuitive, mais surtout
 
 define("_NEWNK179","Nouveautés Nuked Klan 1.7.9");
 define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et hexadécimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br /> De plus, un système de signature a été mise en place, ainsi si vous installez un module dangereux, nous pourrons vous avertir. Nous avons mis en place aussi un système de mise à jour automatique. Dès qu'une faille est découverte, elle est corrigée immédiatement sans que vous vous en aperceviez.<br /> Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
-define("_OPIMISATION","Optimisation");
-define("_OPIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre légérement moins lourd votre site, cependant nous n'avons pu optimisé tout le code ne s'agissant que d'une mise à jour 1.7.X.");
-define("_ADMINNISTRATION","Administration");
-define("_ADMINNISTRATION1","Afin de réaliser une administration de notre époque, nous avons préféré repartir de zéro, et concevoir un système dans lequel administrateurs, utilisateurs,
+define("_OPTIMISATION","Optimisation");
+define("_OPTIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre légérement moins lourd votre site, cependant nous n'avons pu optimisé tout le code ne s'agissant que d'une mise à jour 1.7.X.");
+define("_ADMINISTRATION","Administration");
+define("_ADMINISTRATION1","Afin de réaliser une administration de notre époque, nous avons préféré repartir de zéro, et concevoir un système dans lequel administrateurs, utilisateurs,
 		machines, et sites officiels seraient reliés.
 		Pour cela, nous avons mis en place des systèmes de communication comme les notifications, les actions, les discussions admin, mais aussi les signatures des modules
 		les mises à jour, les messages.
@@ -308,8 +308,8 @@ define("_BANTEMP1","Un système de bannissement temporaire a été mise en place, v
 define("_SHOUTBOX","Shoutbox ajax");
 define("_SHOUTBOX1","Un nouveau bloc textbox a été développé, il est capable de dire qui est en ligne, il est en ajax, c'est à dire que vous pouvez envoyer des messages sans rechargement de
 		la page. De plus, le bloc affiche les nouveaux messages sans rechargement de la page.");
-define("_ERORSQL","Gestions des erreurs SQL");
-define("_ERORSQL1","Ce système est à double sens, lorsqu'un visiteur tombe sur une erreur SQL, plutôt que de voir l'erreur, il est redirigé vers une page d'excuse, et un
+define("_ERRORSQL","Gestions des erreurs SQL");
+define("_ERRORSQL1","Ce système est à double sens, lorsqu'un visiteur tombe sur une erreur SQL, plutôt que de voir l'erreur, il est redirigé vers une page d'excuse, et un
 		rapport de l'erreur SQL est envoyé dans l'administration.");
 define("_MULTIWARS","Multi-map module wars");
 define("_MULTIWARS1","Le nouveau module permet de visionner les prochains matchs mais aussi il permet de choisir le nombre de maps, il y a alors un score par map, puis un score final

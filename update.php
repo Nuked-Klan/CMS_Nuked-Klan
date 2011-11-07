@@ -2,12 +2,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //      Reste à faire :
-//          - Ajouter les 2 étapes intallation facile et avancée
 //          - Construction de la fonction de routage pour les commandes à executer suivants les versions à mettre à jour
 //          - Terminer la mise en place des langues
 //          - Rajouter les infos sur les erreurs du check de l'hebergement
 //          - Ajouter la possibilité de forcer l'installation en cas de warning sur l'extension file info
-//          - Corriger le problème d'encodage de la sauvegarde SQL
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -25,7 +23,8 @@ include('conf.inc.php');
                                                                     3 => array('_CHECKCOMPATIBILITY' => 'update.php?action=checkCompatibility'),
                                                                     4 => array('_CHECKACTIVATION' => 'update.php?action=checkStats'),
                                                                     5 => array('_DBSAVE' => 'update.php?action=checkSave'),
-                                                                    6 => array('_CHECKTYPEUPDATE' => 'update.php?action=checkTypeUpdate')
+                                                                    6 => array('_CHECKTYPEUPDATE' => 'update.php?action=checkTypeUpdate'),
+                                                                    7 => array('_EDITCONFIG' => 'update.php?action=editConfig')
                                                                 );
         private $array_version = array('1.7.6', '1.7.7', '1.7.8', '1.7.9 RC1', '1.7.9 RC2', '1.7.9 RC3', '1.7.9 RC4', '1.7.9 RC5', '1.7.9 RC5.3');
         
@@ -96,7 +95,9 @@ include('conf.inc.php');
                 $_SESSION['version'] = $this->data['version'] = $version;
             }
             echo '<div style="text-align: center;padding:40px;">
-                        <h3 style="margin-bottom:30px;" >'. _CURRENTVERSIONUSED .' : '.$this->data['version'].'</h3>
+                        <h3>'._WELCOMEINSTALL.'</h3>
+                        <p>'._GUIDEINSTALL.'</p>
+                        <h3 style="margin: 20px auto 30px;" >'. _CURRENTVERSIONUSED .' : '.$this->data['version'].'</h3>
                         <form action="update.php?action=setVersion" method="post" >
                             <input type="button" name="conf_version" value="'. _CONFIRM .'" onclick="document.location=\'update.php?action=checkCompatibility\';" />
                             <input type="button" name="another_version" value="'. _NOOTHERVERSION .'" onclick="document.location=\'update.php?action=setVersion\';" />
@@ -252,13 +253,154 @@ include('conf.inc.php');
             self::viewTop();
             $this->viewMenu($this->step);            
             echo '<div style="text-align: center;padding:40px;">
-                        <h3>'._WELCOMEINSTALL.'</h3>
-                        <p>'._GUIDEINSTALL.'</p>
+                        <h3 style="margin-bottom:30px;" >'. _CHECKTYPEUPDATE .'</h3>
                         <form action="update.php?action=setLang" method="post" >
-                            <input type="button" name="upgradespeed" value="'._UPGRADESPEED.'" onclick="document.location=\'update.php?action=edit_config\';" />
-                            <input type="button" name="upgrade" value="'._UPGRADE.'" onclick="document.location=\'update.php?action=edit_config_assistant\';" />
+                            <input type="button" name="upgradespeed" value="'._UPGRADESPEED.'" onclick="document.location=\'update.php?action=editConfig\';" />
+                            <input type="button" name="upgrade" value="'._UPGRADE.'" onclick="document.location=\'update.php?action=editConfigAssistant\';" />
                         </form>
                     </div>';
+            self::viewInfos($this->step);
+            self::viewBottom();
+        }
+        
+        private function editConfig(){
+            global $global, $db_prefix;
+            
+            $this->step = $this->checkStep(7);
+            self::viewTop();
+            $this->viewMenu($this->step);
+            echo '<div style="text-align: center;margin:30px auto;">
+                            <a href="#" onclick="javascript:window.open(\'help/' . $this->data['lang_install']. '/install.html\',\'Help\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=300\');return(false)\'>
+                                <img style="border: 0;" src="help/help.gif" alt="" title="' . _HELP . '" />
+                            </a>
+                        </div>
+                        <div style="text-align: center;">
+                            <h3>' . _UPGRADE . '</h3>
+                        </div>
+                        <form method="post" action="update.php?action=updateConfig">
+                            <table style="margin:0 auto;text-align: left;width:100%;" cellspacing="1" cellpadding="2" border="0">
+                                <tr>
+                                    <td colspan="2" style="text-align:center;" ><b>' . _CONFIG . '</b></td>
+                                </tr>
+                                <tr style="height:40px;">
+                                    <td colspan="2" ><!-- ligne de séparation --></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;" >' . _DBHOST . ' :</td>
+                                    <td><input type="text" name="db_host" size="40" value="'  . $global['db_host'] . '" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;"  >' . _DBUSER . ' : </td>
+                                    <td><input type="text" name="db_user" size="40" value="' . $global['db_user'] . '" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;"  >' . _DBPASS . ' :</td>
+                                    <td><input type="password" name="db_pass" size="10" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;"  >' . _DBPREFIX . ' :</td>
+                                    <td><input type="text" name="prefix" size="10" value="' . $db_prefix . '" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;"  >' . _DBNAME . ' :</td>
+                                    <td><input type="text" name="db_name" size="10" value="' . $global['db_name'] . '" /></td>
+                                </tr>
+                            </table>
+                            <div style="text-align: center;">
+                                <p>' . _CHMOD . '</p>
+                                <input type="submit" name="ok" value="' . _NEXT . '" />
+                            </div>
+                        </form>';
+            self::viewInfos($this->step);
+            self::viewBottom();
+        }
+        
+        private function editConfigAssistant(){
+            $this->step = $this->checkStep(7);
+            self::viewTop();
+            $this->viewMenu($this->step);
+            $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : null;
+            if($page == 'edit'){
+                global $global, $db_prefix;
+                
+                echo '<div style="text-align: center;margin:30px auto;">
+                            <a href="#" onclick="javascript:window.open(\'help/' . $this->data['lang_install']. '/install.html\',\'Help\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=300\');return(false)\'>
+                                <img style="border: 0;" src="help/help.gif" alt="" title="' . _HELP . '" />
+                            </a>
+                        </div>
+                        <div style="text-align: center;">
+                            <h3>' . _UPGRADE . '</h3>
+                        </div>
+                        <form method="post" action="update.php?action=updateConfig">
+                            <table style="margin:10px auto;text-align: left;width:100%;" cellspacing="1" cellpadding="2" border="0">
+                                <tr>
+                                    <td colspan="2" style="text-align:center;" ><b>' . _CONFIG . '</b></td>
+                                </tr>
+                                <tr style="height:40px;">
+                                    <td colspan="2" ><!-- ligne de séparation --></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;" >' . _DBHOST . ' :</td>
+                                    <td><input type="text" name="db_host" size="40" value="'  . $global['db_host'] . '" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 5px 20%;"><img src="img/tuyau.png" style="float:left;"/>'._INSTALLHOST.'</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;"  >' . _DBUSER . ' : </td>
+                                    <td><input type="text" name="db_user" size="40" value="' . $global['db_user'] . '" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 5px 20%;"><img src="img/tuyau.png"/>'._INSTALLDBUSER.'</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;"  >' . _DBPASS . ' :</td>
+                                    <td><input type="password" name="db_pass" size="10" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 5px 20%;"><img src="img/tuyau.png"/>'._INSTALLDBUSER.'</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;"  >' . _DBPREFIX . ' :</td>
+                                    <td><input type="text" name="prefix" size="10" value="' . $db_prefix . '" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 5px 20%;"><img src="img/tuyau.png"/>'._INSTALLDBPREFIX.'</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right;width:50%;"  >' . _DBNAME . ' :</td>
+                                    <td><input type="text" name="db_name" size="10" value="' . $global['db_name'] . '" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 5px 20%;"><img src="img/tuyau.png"/>'._INSTALLDBDBNAME.'</td>
+                                </tr>
+                            </table>
+                            <div style="text-align: center;">
+                                <p>' . _CHMOD . '</p>
+                                <input type="submit" name="ok" value="' . _NEXT . '" />
+                            </div>
+                        </form>';
+            }
+            else{
+                echo '<div style="text-align:center;">
+                                <img src="img/nk.png"/>
+                                <h2><b>'. _NEWNK179.'</b></h2>
+                            </div>
+                            <div style="width:90%;margin: 20px auto;">';                            
+                $array_infos = array('_SECURITE', '_OPTIMISATION', '_ADMINISTRATION', '_BANTEMP', '_SHOUTBOX', '_ERRORSQL', '_MULTIWARS', '_COMSYS', '_EDITWYS', '_MISAJ', '_CONT', '_ERREURPASS', '_DIFFMODIF');
+                foreach($array_infos as $k){
+                    echo '<p>
+                                    <b>'.constant($k).':</b>
+                                    <br />
+                                    '.constant($k.'1').'
+                                    <br />
+                                </p>';
+                }                
+                echo '</div>
+                            <div style="text-align: center;">
+                                <input type="button" onclick="document.location=\'update.php?action=editConfigAssistant&page=edit\';" name="ok" value="' . _NEXT . '" />
+                            </div>';
+            }
             self::viewInfos($this->step);
             self::viewBottom();
         }
@@ -292,18 +434,19 @@ include('conf.inc.php');
                 or die ('<div style="text-align: center;">Error ! Database connexion failed<br />Check your user\'s name/password</div>');
             $connect= mysql_select_db($global['db_name'], $db)
                 or die ('<div style="text-align: center;">Error ! Database connexion failed<br />Check your database\'s name</div>');
+            mysql_set_charset('latin1',$db); 
         }
         
         private function requirements(){
             $array_requirements = array();
             $array_requirements['_PHPVERSION'] = version_compare(phpversion() > 0, '5.1') ? 1 : 3;
-            $array_requirements['_MYSQLEXT'] = extension_loaded('mysql') > 0 ? 1 : 3;
-            $array_requirements['_SESSIONSEXT'] = extension_loaded('session') > 0 ? 1 : 3;
-            $array_requirements['_ZIPEXT'] = extension_loaded('zip') > 0 ? 1 : 3;
-            $array_requirements['_FILEINFOEXT'] = extension_loaded('fileinfo') > 0 ? 1 : 2;
-            $array_requirements['_HASHEXT'] = function_exists('hash') > 0 ? 1 : 3;
-            $array_requirements['_GDEXT'] = extension_loaded('gd') > 0 ? 1 : 3;
-            $array_requirements['_TESTCHMOD'] = is_writable(dirname(__FILE__)) > 0 ? 1 : 3;
+            $array_requirements['_MYSQLEXT'] = extension_loaded('mysql') ? 1 : 3;
+            $array_requirements['_SESSIONSEXT'] = extension_loaded('session') ? 1 : 3;
+            $array_requirements['_ZIPEXT'] = extension_loaded('zip') ? 1 : 3;
+            $array_requirements['_FILEINFOEXT'] = extension_loaded('fileinfo') ? 1 : 2;
+            $array_requirements['_HASHEXT'] = function_exists('hash') ? 1 : 3;
+            $array_requirements['_GDEXT'] = extension_loaded('gd') ? 1 : 3;
+            $array_requirements['_TESTCHMOD'] = is_writable(dirname(__FILE__)) ? 1 : 3;
             return $array_requirements;
         }
         
@@ -352,6 +495,14 @@ include('conf.inc.php');
             $handle = fopen($this->db_save_name, 'w+');
             fwrite($handle,$return);
             fclose($handle);
+            if(extension_loaded('zip') === true){
+                $zip = new ZipArchive;
+                if($zip->open('Save_'.$global['db_name'].'_'.time().'.zip', ZipArchive::CREATE) === true){
+                    $zip->addFile($this->db_save_name, $global['db_name'].'.sql');
+                    $zip->close();
+                    $this->db_save_name = 'Save_'.$global['db_name'].'_'.time().'.zip';
+                }
+            }
             return  true;
         }        
         
@@ -374,7 +525,8 @@ include('conf.inc.php');
                             <script type="text/javascript" src="modules/Admin/scripts/facebox.js"></script>
                         </head>
                         <body>
-                                <div id="sidebar" style="float:left;position:inherit;">
+                            <div id="body-wrapper" style="padding-left:230px;">
+                                <div id="sidebar" >
                                     <div id="sidebar-wrapper">
                                         <a href="http://www.nuked-klan.org">
                                             <img id="logo" src="modules/Admin/images/logo.png" alt="Simpla Admin logo" />
@@ -402,7 +554,7 @@ include('conf.inc.php');
                 } 
                 echo '</li>';
             }
-            echo '</ul></div></div><div style="float:left;width:70%;" >';
+            echo '</ul></div></div>';
         }
         
         static function viewInfos($step){
@@ -480,6 +632,12 @@ include('conf.inc.php');
                 break;
                 case'checkTypeUpdate':
                 $this->checkTypeUpdate();
+                break;
+                case'editConfig':
+                $this->editConfig();
+                break;
+                case'editConfigAssistant':
+                $this->editConfigAssistant();
                 break;
                 default:
                 $this->checkLang();
