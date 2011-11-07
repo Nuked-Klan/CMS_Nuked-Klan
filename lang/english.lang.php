@@ -328,7 +328,7 @@ define("_INSTALLDBPREFIX", "The prefix gives you the possibility to create two i
 define("_INSTALLDBDBNAME","This is the name of database where all the data will be. You have to create it/or use an existing one. You may create one on the webhost admin panel.");
 // Check installation:
 define("_CHECKCURRING", "<p>Check system requirement ...<br /></p>\n");
-define("_PHPVERSION", 'PHP version > 5.1');
+define("_PHPVERSION", 'PHP version &ge; 5.1');
 define("_MYSQLEXT", 'Extension MySQL');
 define("_SESSIONSEXT", 'Extension session');
 define("_QUESPHPVERSION", 'You have to ask your hosting service for PHP 5.1. Have you a .htaccess ?');
@@ -362,7 +362,7 @@ define('_COMPOSANT', 'Composant');
 define('_COMPATIBILITY', 'Compatibility');
 define('_BADHOSTING', 'Your hosting isn\'t compatible with the new version of Nuked-Klan.');
 define('_CONTINUE', 'Continue');
-
+define('_EDITCONFIG', 'Configuration\'s update');
 
 define('_HTMLNOCORRECT', 'HTML code is incorrectly formatted');
 ?>

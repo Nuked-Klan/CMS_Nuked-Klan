@@ -334,7 +334,7 @@ define("_INSTALLDBPREFIX", "Le prefix permet d'installer plusieurs fois nuked-kl
 define("_INSTALLDBDBNAME","Il s'agit du nom de votre base de données MySQL, souvent vous devez vous rendre dans l'administration de votre hébergement pour créer une base de données, mais quelques fois celle-ci vous est déjà fournie dans le mail d'inscription à votre hébergement.");
 // Check installation:
 define("_CHECKCURRING", "<p>Vérification de la compatibilité...<br /></p>\n");
-define("_PHPVERSION", 'PHP version > 5.1');
+define("_PHPVERSION", 'PHP version &ge; 5.1');
 define("_MYSQLEXT", 'Extension MySQL');
 define("_SESSIONSEXT", 'Extension des sessions');
 define("_QUESPHPVERSION", 'Veuillez demander à votre hébergeur de passer en PHP 5.1. Certains hébergeurs demande un .htaccess ou autres.');
@@ -368,6 +368,7 @@ define('_COMPOSANT', 'Composant');
 define('_COMPATIBILITY', 'Compatibilité');
 define('_BADHOSTING', 'Votre hébergement n\'est pas compatible avec la nouvelle version de Nuked-Klan.');
 define('_CONTINUE', 'Continuer');
+define('_EDITCONFIG', 'Mise à jour de la configuration');
 
 define('_HTMLNOCORRECT', 'Le code HTML est mal formaté');
 ?>
