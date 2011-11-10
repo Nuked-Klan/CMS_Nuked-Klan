@@ -884,7 +884,7 @@ function login_screen(){
 }
 
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
-    global $nuked, $captcha;
+    global $nuked, $captcha, $cookie_forum;
 
     // Verification code captcha
     if (!ValidCaptchaCode($_REQUEST['code_confirm'])){
@@ -997,6 +997,23 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     }
     $date2 = nkDate(time());
     $add = mysql_query("INSERT INTO " . USER_TABLE . " ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` ) VALUES ( '" . $user_id . "' , '' , '' , '' , '' , '' , '" . $pseudo . "' , '" . $mail . "' , '" . $email . "' , '' , '' , '' , '' , '' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '' , '' , '' , '' , '" . $game . "' , '" . $country . "' , '' )");
+
+    // Mark read all topics in the forum
+    setcookie($cookie_forum, '');
+    $req = 'UPDATE ' . SESSIONS_TABLE . ' SET last_used = date WHERE user_id = "' . $user_id . '"';
+    $sql = mysql_query($req);
+
+    $del = mysql_query('DELETE FROM ' . FORUM_READ_TABLE . ' WHERE user_id = "' . $user_id . '"');
+
+    $result = mysql_query('SELECT id, forum_id FROM ' . FORUM_THREADS_TABLE);
+    $nbtopics = mysql_num_rows($result);
+
+    if ($nbtopics > 0) {
+        while (list($thread_id, $forum_id) = mysql_fetch_row($result)) {
+            $sql = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user_id . "' , '" . $thread_id . "' , '" . $forum_id . "' )");
+        }
+    }
+    // End
 
     if ($nuked['validation'] == "mail" && $nuked['inscription'] == "on"){
         $subject = _USERREGISTER . ", " . $date2;
