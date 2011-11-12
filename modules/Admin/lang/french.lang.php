@@ -3,7 +3,7 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_SPECCNOTALLOW","Caractères spéciaux interdit pour le nom des cookies !");
+define("_SPECCNOTALLOW","Caractères spéciaux interdits pour le nom des cookies !");
 define("_WAIT", "non catalogué");
 define("_FAILLE", "faille détéctée");
 define("_PIRATE", "tentative de piratage");
@@ -124,7 +124,7 @@ define("_REGISTRATION","Inscription");
 define("_REGISTERMAIL","Etre averti par email des nouvelles inscriptions");
 define("_SUGGESTMAIL","Etre averti par email des nouvelles suggestions");
 define("_REGISTERTXT","Texte de l'email d'inscription");
-define("_REGISTERDISC","Charte - réglement de l'inscription");
+define("_REGISTERDISC","Charte - règlement de l'inscription");
 define("_OPTIONCONNEX","Option Connexion");
 define("_CONNEXMIN","Durée en minutes d'une session IP");
 define("_CONNEXDAY","Durée en jours d'une session cookie");
@@ -281,7 +281,7 @@ define("_ACTION","- ACTION -");
 define("_SAVEDB","Sauvegarder");
 define("_OPTIMIZEDB","Optimiser");
 define("_BACK","Retour");
-define("_SQLSEND","Requête SQL exécutée avec succés.");
+define("_SQLSEND","Requête SQL exécutée avec succès.");
 define("_OPTIMIZEDATABASE","Optimisation de la base de données");
 define("_TABLE","Table");
 define("_STATUT","Statut");

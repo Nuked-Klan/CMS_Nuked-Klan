@@ -12,10 +12,10 @@ if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0,2) == 'fr'){
 }
 else{
     define('ERROR_SESSION', 'Error in creating the anonymous session');
-    define('THEME_NOTFOUND','Fatal error: No theme found');
+    define('THEME_NOTFOUND','Fatal error : No theme found');
     define('ERROR_QUERY','Sorry but the website is not available !<br />Information :<br />SQL connection impossible.');
     define('ERROR_QUERYDB','Sorry but the website is not available !<br />Information :<br />Database SQL name incorrect.');
-    define('ERROR_SQL', '<b>A SQL error has been detected.<br /><br />Information:<br /><br />My ERREUR</b> [' . $errno . '] ' . $errstr . '<br />Fatal error on the line ' . $errline . ', file ' . $errfile . ', PHP ' . PHP_VERSION . ' (' . PHP_OS . ')<br />Stop ...<br />');
+    define('ERROR_SQL', '<b>A SQL error has been detected.<br /><br />Information:<br /><br />My ERROR</b> [' . $errno . '] ' . $errstr . '<br />Fatal error on the line ' . $errline . ', file ' . $errfile . ', PHP ' . PHP_VERSION . ' (' . PHP_OS . ')<br />Stop...<br />');
     define('REMOVE_INSTUPD', 'Warning ! install.php and update.php must be removed before continuing !');
     define('WBSITE_CLOSED', 'Sorry, this website is momently closed, Please try again later.');
     define('WAYTODO', 'What are you trying to do ?');

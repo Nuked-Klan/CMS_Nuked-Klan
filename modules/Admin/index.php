@@ -86,7 +86,7 @@ if ($visiteur >= 2)
 
             <li>
                 <a class="shortcut-button" href="index.php?file=Admin&amp;page=erreursql">
-                    <span><img src="modules/Admin/images/icons/erreur.png" alt="icon" /><br /><?php echo _SQL; ?></span>
+                    <span><img src="modules/Admin/images/icons/erreur.png" alt="icon" /><br /><?php if($language=='english'){echo '<br/>';} echo _SQL; ?></span>
                 </a>
             </li>
 
