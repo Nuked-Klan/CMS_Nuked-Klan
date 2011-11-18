@@ -107,7 +107,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $sql4 = mysql_query("SELECT closed FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
             list($closed) = mysql_fetch_row($sql4);
 
-            if ($closed == 1)
+            if ($closed == 1 && ($visiteur <= admin_mod("Forum") || $administrator == 0))
             {
                 echo '<div style="text-align: center">' . _NOENTRANCE . '</div>';
                 closetable();
