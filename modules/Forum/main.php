@@ -158,10 +158,10 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
                 $autor = $auteur;
             } 
 
-            //if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
-            //else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
+            if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
+            else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
+            else $date = nkDate($date);
             //else $date = strftime("%d-%m-%Y %H:%M", $date);
-            $date = nkDate($date);
 
             echo $date . "<br />";
 
