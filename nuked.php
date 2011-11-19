@@ -357,9 +357,9 @@ function ConfigSmileyCkeditor(){
 
     $sql = mysql_query('SELECT code, url, name FROM ' . SMILIES_TABLE . ' ORDER BY id');
     while($row = mysql_fetch_assoc($sql)){
-        $TabCode[] = $row['code'];
+        $TabCode[] = addslashes($row['code']);
         $TabUrl[] = $row['url'];
-        $TabName[] = $row['name'];
+        $TabName[] = htmlentities($row['name']);
     }
 
     $IUrl = 0;
