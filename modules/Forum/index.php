@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.eu                                                //
+// http://www.nuked-klan.org                                                //
 // -------------------------------------------------------------------------//
 // This program is free software. you can redistribute it and/or modify     //
 // it under the terms of the GNU General Public License as published by     //
@@ -872,9 +872,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     function mark()
     {
         global $user, $nuked, $cookie_forum;
-
-
-
+        
         if ($user)
         {
             if ($_REQUEST['forum_id'] > 0)
@@ -902,11 +900,11 @@ if ($visiteur >= $level_access && $level_access > -1)
                 }
 
                 if ($id_read_forum != '' && $new_id != '') $id_read_forum .= ',';
-                setcookie($cookie_forum, $id_read_forum . $new_id, $timelimit);
+                $_COOKIE['cookie_forum'] = $id_read_forum . $new_id;
             }
             else
             {
-                setcookie($cookie_forum, "");
+                $_COOKIE['cookie_forum'] = '';
                 $req = "UPDATE " . SESSIONS_TABLE . " SET last_used = date WHERE user_id = '" . $user[0] . "'";
                 $sql = mysql_query($req);
             }
