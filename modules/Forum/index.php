@@ -54,7 +54,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         if ($_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {
             echo "<br /><br /><div style=\"text-align: center;\">" . _FIELDEMPTY . "</div><br /><br />";
-            $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'] . "&mess_id=" . $mess_id. "&do=edit";
+            $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'] . "&mess_id=" . $_REQUEST['mess_id'] . "&do=edit";
             redirect($url, 2);
             closetable();
             footer();
@@ -64,14 +64,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= level AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
-        {
-            $administrator = 1;
-        }
-        else
-        {
-            $administrator = 0;
-        }
+        $administrator = ($user && $modos != "" && strpos($modos, $user[0]) !== false) ? 1 : 0;
 
         if ($_REQUEST['author'] == $user[2] || $visiteur >= admin_mod("Forum") || $administrator == 1)
         {
@@ -95,9 +88,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             if (!is_numeric($_REQUEST['usersig'])) $_REQUEST['usersig'] = 0;
             if (!is_numeric($_REQUEST['emailnotify'])) $_REQUEST['emailnotify'] = 0;
 
-
-            $sql = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET titre = '" . $_REQUEST['titre'] . "', txt = '" . $_REQUEST['texte'] . "'" . $edition . ", usersig = '" . $_REQUEST['usersig'] . "', emailnotify = '" . $_REQUEST['emailnotify'] . "' WHERE id = '" . $mess_id . "'");
-
             $sql2 = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $mess_id . "'");
             list($thread_id) = mysql_fetch_row($sql2);
 
@@ -107,12 +97,14 @@ if ($visiteur >= $level_access && $level_access > -1)
             $sql4 = mysql_query("SELECT closed FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
             list($closed) = mysql_fetch_row($sql4);
 
-            if ($closed == 1 && ($visiteur <= admin_mod("Forum") || $administrator == 0))
+            if ($closed == 1 && $_REQUEST['author'] == $user[2])
             {
                 echo '<div style="text-align: center">' . _NOENTRANCE . '</div>';
                 closetable();
                 exit();
             }
+
+            $sql = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET titre = '" . $_REQUEST['titre'] . "', txt = '" . $_REQUEST['texte'] . "'" . $edition . ", usersig = '" . $_REQUEST['usersig'] . "', emailnotify = '" . $_REQUEST['emailnotify'] . "' WHERE id = '" . $mess_id . "'");
 
             if ($mid == $mess_id)
             {
@@ -139,6 +131,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         else
         {
             echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            $url = 'index.php?file=Forum';
         }
         redirect($url, 2);
         closetable();
