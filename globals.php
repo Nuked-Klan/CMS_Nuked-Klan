@@ -90,4 +90,51 @@ foreach ($_FILES as $k=>$v){
 }
 
 //register_shutdown_function(create_function('', 'var_dump($_GET, $_POST, $_REQUEST);return false;'));
+
+function send_stats_nk() {
+	global $nuked;
+	
+	if($nuked['stats_share'] == "1")
+	{
+		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
+		if($timediff >= 60) 
+		{
+			include("Includes/nkStats.php");
+			$data = getStats($nuked);
+			
+			$string = "";
+			foreach($data as $donnee => $value)
+			{
+				$value = str_replace("&amp;", "+et+", $value);
+				$value = str_replace("&", "+et+", $value); 
+				$string .= $donnee ."=". $value ."&amp;";
+				
+				
+			}
+			$string = str_replace("%", "-", urlencode($string));
+			
+			?>
+           <div id=resultstat></div>
+            <script type="text/javascript" src="modules/Admin/scripts/jquery-1.6.1.min.js"></script>
+            <script type="text/javascript">
+			$(document).ready(function() {
+				data="nuked_nude=ajax&string=<?php echo $string; ?>";
+				$.ajax({url:'index.php', data:data, type: "GET", success: function(html) { //get the html source of this website
+					if(html.length>=40 && html.length<50) {
+					    data2="nuked_nude=index&file=sendstats&op=<?php echo sha1(HASHKEY); ?>&suc=true"; // Recupérer le hash du serveur NK
+				        $.ajax({url: "index.php",type: "GET",data: data2,cache: false,success: function () {}});
+					} else {
+						data2="nuked_nude=index&file=sendstats&op=<?php echo sha1(HASHKEY); ?>&suc=false"; // Recupérer le hash du serveur NK
+				        $.ajax({url: "index.php",type: "GET",data: data2,cache: false,success: function () {}});
+					}
+				 }, error: function(html){
+					 data2="nuked_nude=index&file=sendstats&op=<?php echo sha1(HASHKEY); ?>&suc=false"; // Recupérer le hash du serveur NK
+				     $.ajax({url: "index.php",type: "GET",data: data2,cache: false,success: function () {}});
+				}});
+			});
+			</script>
+            <?php
+		}
+	}
+}
 ?>

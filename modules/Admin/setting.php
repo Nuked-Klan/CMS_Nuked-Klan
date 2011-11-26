@@ -289,6 +289,8 @@ if ($visiteur == 9)
             $checked6 = "";
     }
 
+	if($nuked['stats_share'] == "1") $checkedstats = "checked=\"checked\"";
+	    else  $checkedstats = "";
 
     if ($nuked['avatar_upload'] == "on") $checked8 = "checked=\"checked\"";
         else $checked8 = "";
@@ -339,7 +341,17 @@ if ($visiteur == 9)
     . "<option>7</option>\n"
     . "<option>8</option>\n"
     . "<option>9</option></select></td></tr>\n"
-    . "<tr><td>" . _DISPLYGNRATETME . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"time_generate\" value=\"on\" " . $checked12 . " /></td></tr>\n"
+    . "<tr><td>" . _DISPLYGNRATETME . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"time_generate\" value=\"on\" " . $checked12 . " /></td></tr>\n";
+	include("Includes/nkStats.php");
+	$data = getStats($nuked);
+			
+	$string = "";
+	foreach($data as $donnee => $value)
+	{
+		$string .= "<div style='display:inline-block; width:300px;'><span style='font-weight:bold'>".$donnee ." : </span><span>". $value ."</span></div>";
+	}
+	echo "<tr><td>" . _SHARESTATS . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"stats_share\" value=\"1\" " . $checkedstats . " />  (<a href=\"index.php?file=Admin&page=setting\" id=seestats>" . _SEESHARE ."</a>)<br/><small>". _SHAREREASON."</small></td></tr>\n"
+	."<tr style='display:none' id=seestatsblock><td colspan=2>". $string ."</td></tr>\n"	
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _OPTIONCONNEX . "</b></big></td></tr>\n"
     . "<tr><td>" . _COOKIENAME . " :</td><td><input type=\"text\" name=\"cookiename\" size=\"20\" value=\"" . $nuked['cookiename'] . "\" onkeypress=\"return special_caract(event);\" /></td></tr>\n"
     . "<tr><td>" . _CONNEXMIN . " :</td><td><input type=\"text\" name=\"sess_inactivemins\" size=\"2\" value=\"" . $nuked['sess_inactivemins'] . "\" /></td></tr>\n"
@@ -358,6 +370,7 @@ if ($visiteur == 9)
     {
         global $nuked, $user;
         
+		if ($_REQUEST['stats_share'] != "1") $_REQUEST['stats_share'] = "0";
         if ($_REQUEST['inscription_avert'] != "on") $_REQUEST['inscription_avert'] = "off";
         if ($_REQUEST['time_generate'] != 'on') $_REQUEST['time_generate'] = 'off';
         if ($_REQUEST['avatar_upload'] != "on") $_REQUEST['avatar_upload'] = "off";

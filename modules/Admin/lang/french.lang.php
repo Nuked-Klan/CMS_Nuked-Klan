@@ -470,4 +470,7 @@ define("_BADUSERNAME","Pseudo incorrect, Certains caractères sont interdits.");
 define("_NICKTOLONG","Votre pseudo est trop long.");
 define("_NICKINUSE","Ce pseudo est déjà réservé");
 define("_NICKBANNED","Ce pseudo est banni");
+define("_SHARESTATS","Partager vos statistiques");
+define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat."); 
+define("_SEESHARE","voir les statistiques envoyés");
 ?>

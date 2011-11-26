@@ -633,4 +633,7 @@ define("_NICKINUSE","This Nickname is already taken");
 define("_BADUSERNAME","Invalid Nickname, some characters are prohibited.");
 define("_NICKTOLONG","Your Nickname is too long.");
 define("_NICKBANNED","This Nickname is banned");
+define("_SHARESTATS","Share your statistics");
+define("_SHAREREASON","The goal of this function is to help us create better Nuked Klan services and meet your needs while respecting your anonymity."); 
+define("_SEESHARE","see the sent stats");
 ?>

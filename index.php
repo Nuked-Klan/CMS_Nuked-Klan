@@ -59,6 +59,36 @@ if (!empty($check_ip)){
     exit();
 }
 
+if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude']=="ajax" && isset($_REQUEST['string'])) {
+	if($nuked['stats_share'] == "1")
+	{
+		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
+		if($timediff >= 60) 
+		{
+			header('Content-type: text/html');
+		
+			$string = str_replace("-", "%", $_REQUEST['string']);
+			$string = urldecode($string);
+			
+			// Website url to open
+			$daurl = 'http://stats.nuked-klan.org/?'.$string;
+			
+			// Get that website's content
+			$handle = fopen($daurl, "r");
+			
+			// If there is something, read and return
+			if ($handle) {
+				while (!feof($handle)) {
+					$buffer = fgets($handle, 4096);
+					echo $buffer;
+				}
+				fclose($handle);
+			}
+		}
+	} 
+	die();
+}
+
 if (isset($_REQUEST['nuked_nude']) && !empty($_REQUEST['nuked_nude'])) $_REQUEST['im_file'] = $_REQUEST['nuked_nude'];
 else if (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) $_REQUEST['im_file'] = $_REQUEST['page'];
 else $_REQUEST['im_file'] = 'index';
@@ -72,6 +102,15 @@ $_REQUEST['im_file'] = basename(trim($_REQUEST['im_file']));
 $_REQUEST['page'] = basename(trim($_REQUEST['im_file']));
 $theme = trim($theme);
 $language = trim($language);
+
+if(isset($_REQUEST['nuked_nude']) && isset($_REQUEST['file']) && $_REQUEST['file']=="sendstats" && isset($_REQUEST['op']) && $_REQUEST['op']==sha1(HASHKEY))
+{
+	if($_REQUEST['suc']=="true") $sql = mysql_query("UPDATE ". $nuked['prefix'] . "_config SET value='". mysql_real_escape_string(time()) ."' WHERE name='stats_timestamp'");
+	else { 
+		$sql = mysql_query("UPDATE ". $nuked['prefix'] . "_config SET value=value+86400 WHERE name='stats_timestamp'");
+	}
+	die();
+}
 
 if (!$user){
     $visiteur = 0;
@@ -191,6 +230,8 @@ else{
     closetable();
     footer();
 }
+
+send_stats_nk();
 
 mysql_close($db);
 ?>
