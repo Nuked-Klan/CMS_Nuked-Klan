@@ -64,26 +64,13 @@ if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude']=="ajax" && isset($_
 	{
 		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
 		if($timediff >= 60) 
-		{
-			header('Content-type: text/html');
-		
+		{		
 			$string = str_replace("-", "%", $_REQUEST['string']);
 			$string = urldecode($string);
 			
 			// Website url to open
 			$daurl = 'http://stats.nuked-klan.org/?'.$string;
-			
-			// Get that website's content
-			$handle = fopen($daurl, "r");
-			
-			// If there is something, read and return
-			if ($handle) {
-				while (!feof($handle)) {
-					$buffer = fgets($handle, 4096);
-					echo $buffer;
-				}
-				fclose($handle);
-			}
+			redirect($daurl, 0);
 		}
 	} 
 	die();
