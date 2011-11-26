@@ -94,16 +94,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             $sql3 = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' ORDER BY id LIMIT 0, 1");
             list($mid) = mysql_fetch_row($sql3);
 
-            $sql4 = mysql_query("SELECT closed FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
-            list($closed) = mysql_fetch_row($sql4);
-
-            if ($closed == 1 && $_REQUEST['author'] == $user[2])
-            {
-                echo '<div style="text-align: center">' . _NOENTRANCE . '</div>';
-                closetable();
-                exit();
-            }
-
             $sql = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET titre = '" . $_REQUEST['titre'] . "', txt = '" . $_REQUEST['texte'] . "'" . $edition . ", usersig = '" . $_REQUEST['usersig'] . "', emailnotify = '" . $_REQUEST['emailnotify'] . "' WHERE id = '" . $mess_id . "'");
 
             if ($mid == $mess_id)
