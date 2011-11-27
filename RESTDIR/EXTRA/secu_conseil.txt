@@ -1,5 +1,5 @@
 
-NUKED-KLAN  CMS - http://www.nuked-klan.eu
+NUKED-KLAN  CMS - http://www.nuked-klan.org
  
 ****************************************************************************************************
 
@@ -14,7 +14,7 @@ CONSEIL DE SECURITE :
 3 - Faites des sauvegarde régulière via votre phpmyadmin sur votre hebergement (demandez a votre 
     hebergeur en cas de besoin).
 
-4 - Allez consultez la documentation sur le site officiel nuked-klan.eu, vous y trouvez des informations
+4 - Allez consultez la documentation sur le site officiel nuked-klan.org, vous y trouvez des informations
     trés interessante et utile.
 
 ****************************************************************************************************

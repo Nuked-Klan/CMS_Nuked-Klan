@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.eu                                                //
+// http://www.nuked-klan.org                                                //
 // -------------------------------------------------------------------------//
 // This program is free software. you can redistribute it and/or modify     //
 // it under the terms of the GNU General Public License as published by     //
@@ -30,13 +30,13 @@ if ($visiteur >= 2)
     Responsables Qualité : Lypso21, Zdav<br /><br /><br />
     
     <h3>Contact Nuked-KlaN :</h3>
-    <a href="http://www.nuked-klan.eu/index.php?file=Contact">Formulaire de contact</a><br />
-    Administrateur : fce@nuked-klan.eu<br />
+    <a href="http://www.nuked-klan.org/index.php?file=Contact">Formulaire de contact</a><br />
+    Administrateur : fce@nuked-klan.org<br />
     Community Manager : bankai et perperpervers<br />
-    Responsable : oobahamutoo@nuked-klan.eu<br /><br /><br />
+    Responsable : oobahamutoo@nuked-klan.org<br /><br /><br />
     
     <h3>Remerciements:</h3>
-    A toute l'équipe nuked-klan.eu, ainsi qu'à sa communauté qui nous a permis de corriger rapidement les principaux bugs<br /><br /><br />
+    A toute l'équipe nuked-klan.org, ainsi qu'à sa communauté qui nous a permis de corriger rapidement les principaux bugs<br /><br /><br />
     
     <h3>Licence GNU:</h3>
     Merci de ne pas supprimer le copyleft par respect pour le cms et respecter la licence GNU.<br />

@@ -76,7 +76,7 @@ define("_CLICIFNO","Click here if nothing happens");
 define("_ERRORCHMOD","Please remove the <b>install.php</b> and the <b>update.php</b> files from your FTP !<br />change these following files's access permissions to CHMOD 777 :<br /><br /><b>- images/icones/<br />- upload/Download/<br />- upload/Forum/<br />- upload/Gallery/<br />- upload/News/<br />- upload/Suggest/<br />- upload/User/<br />- upload/Wars/</b>");
 define("_GOHOME","Click here to go to your website.");
 define("_FIRSTNEWSTITLE","Welcome to your NuKed-KlaN website");
-define("_FIRSTNEWSCONTENT","Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href=\"http://www.nuked-klan.eu\">http://www.nuked-klan.eu</a>.");
+define("_FIRSTNEWSCONTENT","Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a>.");
 define("_DBHOST","MySQL Host");
 define("_DBUSER","User");
 define("_DBPASS","Password");
@@ -292,7 +292,7 @@ define("_SIMPLIFIE","A simple installation");
 define("_DECOUVERTE1","You will install nuked-klan 1.7.9, this gamer version will help your team/clan to access a simple, secure, efficient and personal website.<p>You will be able to create activity, manage recruitments, plan wars or moderate your server easily.</p>");
 define("_NEWSADMIN1","On this new version we created an intuitive, more enjoyable and more useful administration panel. <p>You have the possibility of following the directors actions, seeing the notifications, accessing a private admin chat and you will discover uncountable new features such as temporary bans.</p>");
 // ICI
-define("_PROCHE1","Connect onto nuked-klan.eu, that way we can send you news, warn you for potential hackers and even automaticly update your site. <br /> In addition, our support is always available whenever you have a problem!");
+define("_PROCHE1","Connect onto nuked-klan.org, that way we can send you news, warn you for potential hackers and even automaticly update your site. <br /> In addition, our support is always available whenever you have a problem!");
 define("_SIMPLIFIE1","The install is not only more logical and much simpler due to it's light design but you will even be assisted with help and conotations. If you already know how to handle a CMS such as nuked klan then chose the quick install. <p> However, if you chose the normal install with the installation assistance, we detail and accompany every step of your installation. </ p>");
 
 define("_NEWNK179","New stuff from nuked klan 1.7.9");
@@ -306,7 +306,7 @@ define("_BANTEMP1","A system of temporary ban has been put in place, you get the
 define("_SHOUTBOX","Shoutbox ajax");
 define("_SHOUTBOX1","Our new shoutbox allows you to see live messages. No more page reloading : it's in real time!");
 define("_ERRORSQL","Management of sql errors");
-define("_ERRORSQL1","Whenever our C.M.S. has an error in it's SQL (database) commands, it will report them to you, to nuked-klan.eu and it will send an apology to the user, instead of showing the error to the user like our old versions used to do.");
+define("_ERRORSQL1","Whenever our C.M.S. has an error in it's SQL (database) commands, it will report them to you, to nuked-klan.org and it will send an apology to the user, instead of showing the error to the user like our old versions used to do.");
 define("_MULTIWARS","Multi-map wars module");
 define("_MULTIWARS1","At last we show you the incomming wars instead of only showing the played ones! We also allowed you to chose as many maps as you want instead of allowing you only three.");
 define("_COMSYS","Commenting system");

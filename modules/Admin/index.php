@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.eu                                                //
+// http://www.nuked-klan.org                                                //
 // -------------------------------------------------------------------------//
 // This program is free software. you can redistribute it and/or modify     //
 // it under the terms of the GNU General Public License as published by     //
@@ -156,7 +156,7 @@ if ($visiteur >= 2)
                         <div class="tab-content default-tab" id="NKUpdate">
                             <!-- NK.UPDATE CONTENT -->
                         </div><!-- End #tab3 -->
-                        <?php echo '<script type="text/javascript" src="http://www.nuked-klan.eu/extra/message.php?version=' . $nuked['version'] . '&lang=' . $language . '"></script>'; ?>
+                        <?php echo '<script type="text/javascript" src="http://www.nuked-klan.org/extra/message.php?version=' . $nuked['version'] . '&lang=' . $language . '"></script>'; ?>
                     </div><!-- End .content-box-content -->
                 </div><!-- End .content-box -->
 

@@ -1,7 +1,7 @@
 <?php
 //-------------------------------------------------------------------------//
 //  Nuked-KlaN 1.7 - Portal PHP                                            //
-//  http://www.nuked-klan.eu                                              //
+//  http://www.nuked-klan.org                                              //
 //-------------------------------------------------------------------------//
 //  This program is free software. you can redistribute it and/or modify   //
 //  it under the terms of the GNU General Public License as published by   //
@@ -266,7 +266,7 @@ function style($etape, $langue)
         <div id="sidebar">
         <div id="sidebar-wrapper">
             <!-- Logo (221px wide) -->
-            <a href="http://www.nuked-klan.eu"><img id="logo" src="modules/Admin/images/logo.png" alt="Nuked-KlaN" /></a>
+            <a href="http://www.nuked-klan.org"><img id="logo" src="modules/Admin/images/logo.png" alt="Nuked-KlaN" /></a>
 
             <ul id="main-nav">  <!-- Accordion Menu -->
                 <li>
@@ -630,7 +630,7 @@ $sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, tit
 $req = mysql_query($sql);
 $sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, titre, content, type, nivo, page) VALUES (10, 0, 0, 'Textbox', '" . _BLOKSHOUT . "', '', 'module', 0, 'Tous');";
 $req = mysql_query($sql);
-$sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, titre, content, type, nivo, page) VALUES (11, 1, 4, '', '" . _BLOKPARTNERS . "', '<div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nuked-klan.eu\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/ban.png\" alt=\"\" title=\"Nuked-klaN CMS\" /></a></div><div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nitroserv.fr\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"http://www.nitroserv.com/images/logo_88x31.jpg\" alt=\"\" title=\"Location de serveurs de jeux\" /></a></div>', 'html', 0, 'Tous');";
+$sql = "INSERT INTO " . $db_prefix . "_block (bid, active, position, module, titre, content, type, nivo, page) VALUES (11, 1, 4, '', '" . _BLOKPARTNERS . "', '<div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nuked-klan.org\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/ban.png\" alt=\"\" title=\"Nuked-klaN CMS\" /></a></div><div style=\"text-align: center;padding: 10px;\"><a href=\"http://www.nitroserv.fr\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"http://www.nitroserv.com/images/logo_88x31.jpg\" alt=\"\" title=\"Location de serveurs de jeux\" /></a></div>', 'html', 0, 'Tous');";
 $req = mysql_query($sql);
 
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_calendar";
@@ -2363,7 +2363,7 @@ function save_config($vars)
     $content="<?php\n"
     . "//-------------------------------------------------------------------------//\n"
     . "//  Nuked-KlaN - PHP Portal                                                //\n"
-    . "//  http://www.nuked-klan.eu                                              //\n"
+    . "//  http://www.nuked-klan.org                                              //\n"
     . "//-------------------------------------------------------------------------//\n"
     . "//  This program is free software. you can redistribute it and/or modify   //\n"
     . "//  it under the terms of the GNU General Public License as published by   //\n"

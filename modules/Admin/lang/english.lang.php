@@ -315,7 +315,7 @@ define("_INFO","Information");
 define("_ECHEC","Error");
 define("_REUSSITE","Success");
 define("_ALERTE","Attention");
-define("_ANNONCES","Information from nuked-klan.eu");
+define("_ANNONCES","Information from nuked-klan.org");
 define("_CONNECTNK","Please wait connecting to NK.org");
 define("_ACTIONS","Actions performed");
 define("_VIEWACTIONS","See all actions");

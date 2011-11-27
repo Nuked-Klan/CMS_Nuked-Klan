@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.eu                                                //
+// http://www.nuked-klan.org                                                //
 // -------------------------------------------------------------------------//
 // This program is free software. you can redistribute it and/or modify     //
 // it under the terms of the GNU General Public License as published by     //
@@ -84,7 +84,7 @@ function admintop(){
             <div id="sidebar-wrapper">
                 
                 <!-- Logo NK -->
-                <a href="http://www.nuked-klan.eu" target="_blank"><img id="logo" src="modules/Admin/images/logo.png" alt="Simpla Admin logo" /></a>
+                <a href="http://www.nuked-klan.org" target="_blank"><img id="logo" src="modules/Admin/images/logo.png" alt="Simpla Admin logo" /></a>
                 
                 <!-- Sidebar Profile links -->
                 <div id="profile-links">
@@ -208,7 +208,7 @@ function admintop(){
                         <a href="#" class="nav-top-item<?php echo $MenuDivers; ?>"><?php echo _DIVERS; ?></a>
                         
                         <ul>
-                            <li><a href="http://www.nuked-klan.eu/index.php?file=Forum" target="_blank"><?php echo _OFFICIEL; ?></a></li>
+                            <li><a href="http://www.nuked-klan.org/index.php?file=Forum" target="_blank"><?php echo _OFFICIEL; ?></a></li>
                             <li><a <?php echo $SubMenuDivers; ?> href="index.php?file=Admin&amp;page=licence"><?php echo _LICENCE; ?></a></li>
                             <li><a <?php echo $SubMenuDivers2; ?> href="index.php?file=Admin&amp;page=propos"><?php echo _PROPOS; ?></a></li>
                         </ul>

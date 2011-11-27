@@ -1,7 +1,7 @@
 <?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.eu                                                //
+// http://www.nuked-klan.org                                                //
 // -------------------------------------------------------------------------//
 // This program is free software. you can redistribute it and/or modify     //
 // it under the terms of the GNU General Public License as published by     //
@@ -10,7 +10,7 @@
 if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 
 //Update param
-define('UPDATE_URL', 'http://nuked-klan.eu/');
+define('UPDATE_URL', 'http://nuked-klan.org/');
 
 // Table names
 define("BANNED_TABLE", $nuked['prefix'] . "_banned");
