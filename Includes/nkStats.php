@@ -86,59 +86,40 @@ function getStats($nuked)
 				$data['user_count_'. $rep[1]] = $rep[0];
 			}
 			
-			$sql = mysql_query("SELECT count(id) FROM ". NEWS_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_news'] = $rep[0];
+			$sqlstring = "SELECT "
+			. "(SELECT count(id) FROM ". NEWS_TABLE .") as news,"
+			. "(SELECT count(id) FROM ". FORUM_CAT_TABLE .") as forumc,"
+			. "(SELECT count(id) FROM ". FORUM_TABLE .") as forum,"
+			. "(SELECT count(cid) FROM ". GALLERY_CAT_TABLE .") as galc,"
+			. "(SELECT count(sid) FROM ". GALLERY_TABLE .") as gal,"
+			. "(SELECT count(cid) FROM ". LINKS_CAT_TABLE .") as linkc,"
+			. "(SELECT count(id) FROM ". LINKS_TABLE .") as link,"
+			. "(SELECT count(warid) FROM ". WARS_TABLE .") as war,"
+			. "(SELECT count(cid) FROM ". DOWNLOAD_CAT_TABLE .") as dlc,"
+			. "(SELECT count(id) FROM ". DOWNLOAD_TABLE .") as dl,"
+			. "(SELECT count(cid) FROM ". TEAM_TABLE .") as team,"
+			. "(SELECT sum(count) FROM ". STATS_TABLE .") as pageview;";
 			
-			$sql = mysql_query("SELECT count(id) FROM ". FORUM_CAT_TABLE);
+			$sql = mysql_query($sqlstring);
 			$rep = mysql_fetch_array($sql);
-			$data['count_forum_cat'] = $rep[0];
-			
-			$sql = mysql_query("SELECT count(id) FROM ". FORUM_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_forum'] = $rep[0];
-			
-			$sql = mysql_query("SELECT count(cid) FROM ". GALLERY_CAT_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_cat_gallery'] = $rep[0];
-			
-			$sql = mysql_query("SELECT count(sid) FROM ". GALLERY_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_gallery'] = $rep[0];
-			
-			$sql = mysql_query("SELECT count(cid) FROM ". LINKS_CAT_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_cat_link'] = $rep[0];
-			
-			$sql = mysql_query("SELECT count(id) FROM ". LINKS_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_link'] = $rep[0];
-			
-			$sql = mysql_query("SELECT count(warid) FROM ". WARS_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_wars'] = $rep[0];
+			$data['count_news'] = $rep['news'];
+			$data['count_forum_cat'] = $rep['forumc'];
+			$data['count_forum'] = $rep['forum'];
+			$data['count_cat_gallery'] = $rep['galc'];
+			$data['count_gallery'] = $rep['gal'];
+			$data['count_cat_link'] = $rep['linkc'];
+			$data['count_link'] = $rep['link'];
+			$data['count_wars'] = $rep['war'];
+			$data['count_cat_download'] = $rep['dlc'];
+			$data['count_download'] = $rep['dl'];
+			$data['count_teams'] = $rep['team'];
+			$data['count_pagesee'] = $rep['pageview'];
 			
 			$sql = mysql_query("SELECT nom, niveau, admin FROM ". MODULES_TABLE);
 			while($rep = mysql_fetch_array($sql))
 			{
 				$data['module_'. $rep[0]] = $rep[1].'%'.$rep[2];
 			}
-			
-			$sql = mysql_query("SELECT count(cid) FROM ". DOWNLOAD_CAT_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_cat_download'] = $rep[0];
-			
-			$sql = mysql_query("SELECT count(id) FROM ". DOWNLOAD_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_download'] = $rep[0];
-			
-			$sql = mysql_query("SELECT count(cid) FROM ". TEAM_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_teams'] = $rep[0];
-			
-			$sql = mysql_query("SELECT sum(count) FROM ". STATS_TABLE);
-			$rep = mysql_fetch_array($sql);
-			$data['count_pagesee'] = $rep[0];
 			
 			return $data;
 }
