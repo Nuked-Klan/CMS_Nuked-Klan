@@ -116,7 +116,7 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
 
         echo "<tr style=\"background: " . $color2 . ";\">\n"
         . "<td  style=\"width: 5%;\" align=\"center\">" . $img . "</td>\n"
-        . "<td style=\"width: 40%;\" onmouseover=\"this.style.backgroundColor='" . $color1 . "'; this.style.cursor='hand';\" onmouseout=\"this.style.backgroundColor='" . $color2 . "'\" onclick=\"document.location='index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "'\"><a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "\"><big><b>&nbsp;" . $nom ." </b></big></a><br />" . $comment . "</td>\n";
+        . "<td style=\"width: 40%;\" onmouseover=\"this.style.backgroundColor='" . $color1 . "'; this.style.cursor='hand';\" onmouseout=\"this.style.backgroundColor='" . $color2 . "'\" onclick=\"document.location='index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "'\"><a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "\"><big><b>" . $nom ." </b></big></a><br />" . $comment . "</td>\n";
 
         $sql_page = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thid . "'");
         $nb_rep = mysql_num_rows($sql_page);
