@@ -186,7 +186,7 @@ function index()
     } 
 	
 	function cesure_href($matches) { 
-		return '<a href="' . $matches[1] . '" title="' . $matches[1] . '" >[lien]</a>';      
+		return '<a href="' . $matches[1] . '" title="' . $matches[1] . '" >['. _TLINK .']</a>';      
 	} 	
 	
 	function ajax() {
