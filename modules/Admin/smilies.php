@@ -172,18 +172,18 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		exit();
 	    }
 
-	if($nom == $code)
-	 {
-		echo "<div class=\"notification error png_bg\">\n"
-		. "<div>\n"
-		. "Change code of smilie!\n"
-		. "</div>\n"
-		. "</div>\n";
-		redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
-		adminfoot();
-		footer();
-		exit();
-	}
+        if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false))
+        {
+            echo "<div class=\"notification error png_bg\">\n"
+            . "<div>\n"
+            . "The smiley code is not authorized, please change it.\n"
+            . "</div>\n"
+            . "</div>\n";
+            redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
+            adminfoot();
+            footer();
+            exit();
+        }
 
 	}
 	else
@@ -274,37 +274,50 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     {
         global $nuked, $user;
 
-	$nom = mysql_real_escape_string(stripslashes($nom));
-	$filename = $_FILES['fichiernom']['name'];
+        $nom = mysql_real_escape_string(stripslashes($nom));
+        $filename = $_FILES['fichiernom']['name'];
+    
+        if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false))
+        {
+            echo "<div class=\"notification error png_bg\">\n"
+            . "<div>\n"
+            . "The smiley code is not authorized, please change it.\n"
+            . "</div>\n"
+            . "</div>\n";
+            redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
+            adminfoot();
+            footer();
+            exit();
+        }
 
-	if ($filename != "")
-	{
-	    $ext = strrchr($filename, ".");
-	    $ext = substr($filename, 1);
+        if ($filename != "")
+        {
+            $ext = strrchr($filename, ".");
+            $ext = substr($filename, 1);
 
-	    if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext)))
-	    {
-		$url_image = "images/icones/" . $filename;
-		move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
-		@chmod ($url_image, 0644);
-	    }
-	    else
-	    {
-		echo "<div class=\"notification error png_bg\">\n"
-		. "<div>\n"
-		. "No image file !"
-		. "</div>\n"
-		. "</div>\n";
-		redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
-		adminfoot();
-		footer();
-		exit();
-	    }
-	}
-	else
-	{
-	    $filename = $url;
-	}
+            if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext)))
+            {
+            $url_image = "images/icones/" . $filename;
+            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            @chmod ($url_image, 0644);
+            }
+            else
+            {
+            echo "<div class=\"notification error png_bg\">\n"
+            . "<div>\n"
+            . "No image file !"
+            . "</div>\n"
+            . "</div>\n";
+            redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
+            adminfoot();
+            footer();
+            exit();
+            }
+        }
+        else
+        {
+            $filename = $url;
+        }
 
         $sql = mysql_query("UPDATE " . SMILIES_TABLE . " SET code = '" . $code . "', url = '" . $filename . "', name = '" . $nom . "' WHERE id = '" . $smiley_id . "'");
        // Action
