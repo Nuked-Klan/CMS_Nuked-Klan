@@ -27,7 +27,7 @@ if (!defined('NK_INSTALLED')){
     }
 }
 else{
-    if (file_exists('update.php') && file_exists('install.php') || file_exists('update.php') || file_exists('install.php')){
+    if (file_exists('update.php') || file_exists('install.php')){
         echo REMOVE_INSTUPD;
         exit();
     }
@@ -59,35 +59,33 @@ if (!empty($check_ip)){
     exit();
 }
 
-if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude']=="ajax") {
-	if($nuked['stats_share'] == "1")
-	{
-		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
-		if($timediff >= 60) 
-		{			
-			include("Includes/nkStats.php");
-			$data = getStats($nuked);
-			
-			$string = serialize($data);
-			
-			$opts = array(
-			  'http'=>array(
-				'method'=>"POST",
-				'content'=>'data='.$string
-			  )
-			);
+if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
+    if($nuked['stats_share'] == 1) {
+        $timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // 60 Days
+        if($timediff >= 60) {
+            include('Includes/nkStats.php');
+            $data = getStats($nuked);
 
-			$context = stream_context_create($opts);
-			
-			$daurl = "http://stats.nuked-klan.org/";		
-			$retour = file_get_contents($daurl, false, $context);
-			
-			if($retour=="YES") $sql = mysql_query("UPDATE ". $nuked['prefix'] . "_config SET value='". mysql_real_escape_string(time()) ."' WHERE name='stats_timestamp'");
-			else $sql = mysql_query("UPDATE ". $nuked['prefix'] . "_config SET value=value+86400 WHERE name='stats_timestamp'");
-			
-		}
-	} 
-	die();
+            $string = serialize($data);
+
+            $opts = array(
+                'http' => array(
+                    'method' => "POST",
+                    'content' => 'data=' . $string
+                )
+            );
+
+            $context = stream_context_create($opts);
+
+            $daurl = 'http://stats.nuked-klan.org/';
+            $retour = file_get_contents($daurl, false, $context);
+
+            $value_sql = ($retour == 'YES') ? mysql_real_escape_string(time()) : 'value + 86400';
+            $sql = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = "' . $value_sql . '" WHERE name = "stats_timestamp"');
+
+        }
+    }
+    die();
 }
 
 if (isset($_REQUEST['nuked_nude']) && !empty($_REQUEST['nuked_nude'])) $_REQUEST['im_file'] = $_REQUEST['nuked_nude'];
@@ -141,7 +139,9 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
         , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n"
         , '<script type="text/javascript" src="media/ckeditor/plugins/syntaxhighlight/scripts/shBrush_min.js"></script>',"\n"
-        , '<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shCore.css"/>',"\n"
+        , '<script type="text/javascript"><!--',"\n"
+        , 'document.write(\'<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shCore.css"/>\');',"\n"
+        , '--></script>',"\n"
         , '<script type="text/javascript">',"\n"
         , 'SyntaxHighlighter.config.clipboardSwf = \'media/ckeditor/plugins/syntaxhighlight/scripts/clipboard.swf\';',"\n"
         , 'SyntaxHighlighter.all();',"\n"

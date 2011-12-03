@@ -145,7 +145,7 @@ function top(){
 }
 
 function footer(){
-    global $nuked, $theme;
+    global $nuked, $theme, $complet;
 ?>
                                                                 <div>
                                                                 <?php get_blok('bas'); ?>
@@ -155,7 +155,7 @@ function footer(){
                                         </div>
                                         <div style="clear: both;" ></div>
                                 </div>
-                        </div>
+                        <?php if($_REQUEST['file'] != $complet[$_REQUEST['file']]) echo '</div>'; ?>
                         <div id="b-bottom">
                                 <div id="bottom">
                                         <div id="footer">
@@ -168,8 +168,8 @@ function footer(){
                                         </div>
                                 </div>
                         </div>
-                </div>
 <?php
+    if ($_REQUEST['file'] != $complet[$_REQUEST['file']]) echo '</div>';
 }
 
 function news($data){

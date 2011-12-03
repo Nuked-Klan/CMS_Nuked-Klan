@@ -13,38 +13,38 @@ global $user, $nuked, $language;
 
 function admintop(){
     
-	global $user, $nuked, $language;
+    global $user, $nuked, $language;
     translate("modules/Admin/lang/$language.lang.php");
 
     $visiteur = $user ? $user[1] : 0;
     $condition_js = ($nuked['screen']) == 'off' ? 1 : 0;
     if($visiteur < 2) redirect('index.php?file=404', 0);
-	
-	// Tableau associé au condition sur la class du menu de navigation
-	$a = array('setting','maj','phpinfo','mysql','action','erreursql');
-	$b = array('user','theme','modules','block','menu','smilies','games');
-	
-	// Condition sur la class du menu de navigation
-	$Current = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'index') ? ' current' : '';
-	$MenuParameters = ($_REQUEST['file'] == 'Admin' and in_array($_REQUEST['page'], $a)) ? ' current' : '';
-	$SubMenuParameters = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'setting') ? 'class="current"' : '';
-	$SubMenuParameters2 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'mysql') ? 'class="current"' : '';
-	$SubMenuParameters3 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'phpinfo') ? 'class="current"' : '';
-	$SubMenuParameters4 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'action') ? 'class="current"' : '';
-	$SubMenuParameters5 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'erreursql') ? 'class="current"' : '';
-	$MenuGestion = ($_REQUEST['file'] == 'Admin' and in_array($_REQUEST['page'], $b)) ? ' current' : '';
-	$SubMenuGestion = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'user') ? 'class="current"' : '';
-	$SubMenuGestion2 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'theme') ? 'class="current"' : '';
-	$SubMenuGestion3 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'modules') ? 'class="current"' : '';
-	$SubMenuGestion4 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'block') ? 'class="current"' : '';
-	$SubMenuGestion5 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'menu') ? 'class="current"' : '';
-	$SubMenuGestion6 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'smilies') ? 'class="current"' : '';
-	$SubMenuGestion7 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'games') ? 'class="current"' : '';
-	$MenuDivers = ($_REQUEST['file'] == 'Admin' and ($_REQUEST['page'] == 'propos' or $_REQUEST['page'] == 'licence')) ? ' current' : '';
-	$SubMenuDivers = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'licence') ? 'class="current"' : '';
-	$SubMenuDivers2 = ($_REQUEST['file'] == 'Admin' && $_REQUEST['page'] == 'propos') ? 'class="current"' : '';
-	
-	?>
+    
+    // Tableau associé au condition sur la class du menu de navigation
+    $a = array('setting','maj','phpinfo','mysql','action','erreursql');
+    $b = array('user','theme','modules','block','menu','smilies','games');
+    
+    // Condition sur la class du menu de navigation
+    $Current = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'index') ? ' current' : '';
+    $MenuParameters = ($_REQUEST['file'] == 'Admin' and in_array($_REQUEST['page'], $a)) ? ' current' : '';
+    $SubMenuParameters = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'setting') ? 'class="current"' : '';
+    $SubMenuParameters2 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'mysql') ? 'class="current"' : '';
+    $SubMenuParameters3 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'phpinfo') ? 'class="current"' : '';
+    $SubMenuParameters4 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'action') ? 'class="current"' : '';
+    $SubMenuParameters5 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'erreursql') ? 'class="current"' : '';
+    $MenuGestion = ($_REQUEST['file'] == 'Admin' and in_array($_REQUEST['page'], $b)) ? ' current' : '';
+    $SubMenuGestion = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'user') ? 'class="current"' : '';
+    $SubMenuGestion2 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'theme') ? 'class="current"' : '';
+    $SubMenuGestion3 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'modules') ? 'class="current"' : '';
+    $SubMenuGestion4 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'block') ? 'class="current"' : '';
+    $SubMenuGestion5 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'menu') ? 'class="current"' : '';
+    $SubMenuGestion6 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'smilies') ? 'class="current"' : '';
+    $SubMenuGestion7 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'games') ? 'class="current"' : '';
+    $MenuDivers = ($_REQUEST['file'] == 'Admin' and ($_REQUEST['page'] == 'propos' or $_REQUEST['page'] == 'licence')) ? ' current' : '';
+    $SubMenuDivers = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'licence') ? 'class="current"' : '';
+    $SubMenuDivers2 = ($_REQUEST['file'] == 'Admin' && $_REQUEST['page'] == 'propos') ? 'class="current"' : '';
+    
+    ?>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
     <head>
@@ -73,11 +73,11 @@ function admintop(){
         <div id="iframe"></div>
         <div id="iframe_close">&nbsp;</div>
     </div>
-	
+    
     <div id="Frame">
     <!-- Wrapper for the radial gradient background -->
     <div id="body-wrapper">
-    	
+        
         <div id="sidebar">
             
             <!-- Sidebar with logo and menu -->
@@ -90,7 +90,7 @@ function admintop(){
                 <div id="profile-links">
                     <?php echo _BONJOUR; ?> 
                     <a href="index.php?file=User" title="<?php echo _EDIT; ?>"><?php echo $user[2];?></a>, 
-					<?php echo _VOIR; ?> 
+                    <?php echo _VOIR; ?> 
                     <a href="#messages" rel="modal"><?php echo _MESSAGES; ?></a><br /><br />
                     <a onclick="javascript:screenon('index.php', 'non');return false" href="#"><?php echo _VOIRSITE; ?></a> | 
                     <a href="index.php?file=Admin&amp;page=deconnexion"><?php echo _DECONNEXION; ?></a><br />
@@ -122,7 +122,7 @@ function admintop(){
                         <ul>
                             <li><a <?php echo $SubMenuGestion; ?> href="index.php?file=Admin&amp;page=user"><?php echo _UTILISATEURS; ?></a></li>
                             
-							<?php if(file_exists('themes/' . $nuked['theme'] . '/admin.php')) { ?>
+                            <?php if(file_exists('themes/' . $nuked['theme'] . '/admin.php')) { ?>
                                 <li><a <?php echo $SubMenuGestion2; ?> href="index.php?file=Admin&amp;page=theme"><?php echo _THEMIS; ?></a></li>
                             <?php } ?>
                             
@@ -136,11 +136,11 @@ function admintop(){
                     
                         <!-- SUB MENU : CONTENU -->
                         <?php
-						echo '<li>';
+                        echo '<li>';
                         $modules = array();
                         $Sql = mysql_query("SELECT `nom` FROM `" . MODULES_TABLE . "` WHERE '".$visiteur."' >= admin AND niveau > -1 AND admin > -1 ORDER BY nom");
                         while ($mod = mysql_fetch_assoc($Sql)) {
-							
+                            
                             if ($mod['nom'] == 'Gallery') $modname = _NAMEGALLERY;
                             else if ($mod['nom'] == 'Calendar') $modname = _NAMECALANDAR;
                             else if ($mod['nom'] == 'Defy') $modname = _NAMEDEFY;
@@ -164,45 +164,45 @@ function admintop(){
                         } // END while
 
                         natcasesort($modules);
-						
+                        
                         foreach ($modules as $value) {
-							
+                            
                             $temp = explode('|', $value);
 
                             if (is_file('modules/' . $temp[1] . '/admin.php'))
                             {
                                 if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') $modulecur = true;
                             } // END if
-							
+                            
                         } // END foreach
-						
-						$CurrentModule = ($modulecur == true) ? ' current' : '';
-						echo '<a href="#" class="nav-top-item' . $CurrentModule . '">' . _CONTENU . '</a><ul>';
-						
+                        
+                        $CurrentModule = ($modulecur == true) ? ' current' : '';
+                        echo '<a href="#" class="nav-top-item' . $CurrentModule . '">' . _CONTENU . '</a><ul>';
+                        
                         foreach ($modules as $value) {
                             
-							$temp = explode('|', $value);
+                            $temp = explode('|', $value);
 
                             if (is_file('modules/' . $temp[1] . '/admin.php')) {
                                 
-								if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') {
+                                if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') {
                                     
-									echo '<li><a class="current" href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a></li>';
+                                    echo '<li><a class="current" href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a></li>';
                                     $modulecur = true;
-									
+                                    
                                 } else {
-									
-									echo '<li><a href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a></li>';
-									
-								} // END if/else
-								
+                                    
+                                    echo '<li><a href="index.php?file=' . $temp[1] . '&amp;page=admin">' . $temp[0] . '</a></li>';
+                                    
+                                } // END if/else
+                                
                             } // END if
-							
-						} // END foreach
-						
-						echo '</ul></li>';
-						
-						?>
+                            
+                        } // END foreach
+                        
+                        echo '</ul></li>';
+                        
+                        ?>
                     <li>
                         <!-- SUB MENU : DIVERS -->
                         <a href="#" class="nav-top-item<?php echo $MenuDivers; ?>"><?php echo _DIVERS; ?></a>
@@ -221,15 +221,15 @@ function admintop(){
                     <h3><?php echo _DISCUADMIN; ?>:</h3>
                     <div id="content_messages">
                         
-						<?php
-						$Str = mysql_query("SELECT D.date, D.texte, U.pseudo FROM " . $nuked['prefix'] . "_discussion D, " . USER_TABLE . " U WHERE D.pseudo = U.id ORDER BY D.date DESC LIMIT 0, 16");
-						while ($row = mysql_fetch_assoc($Str)) {
-							
-							?>
+                        <?php
+                        $Str = mysql_query("SELECT D.date, D.texte, U.pseudo FROM " . $nuked['prefix'] . "_discussion D, " . USER_TABLE . " U WHERE D.pseudo = U.id ORDER BY D.date DESC LIMIT 0, 16");
+                        while ($row = mysql_fetch_assoc($Str)) {
+                            
+                            ?>
                             <p><strong><?php echo nkDate($row['date']); ?></strong> <?php echo _BY; ?> <?php echo $row['pseudo']; ?><br /><?php echo $row['texte']; ?></p>
                             <?php 
-						} // END while
-						?>
+                        } // END while
+                        ?>
                         
                     </div>
                     <form method="post" onsubmit="maFonctionAjax(this.texte.value);return false" action="">
@@ -265,20 +265,20 @@ function admintop(){
 }
 
 function adminfoot(){
-	
-	global $language, $nuked;
-	
-	?>
+    
+    global $language, $nuked;
+    
+    ?>
                 <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
                 <script type="text/javascript">
                     //<![CDATA[
                     CKEDITOR.replaceAll( 'editor' );
                     CKEDITOR.config.scayt_sLang = "<?php echo ($language == 'french') ? 'fr_FR' : 'en_US'; ?>";
                     <?php
-					if($_REQUEST['file'] == 'Forum' && ($_REQUEST['op'] == 'edit_forum' || $_REQUEST['op'] == 'add_forum')){
-						echo 'CKEDITOR.config.autoParagraph = false;
-								CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;';
-					}
+                    if($_REQUEST['file'] == 'Forum' && ($_REQUEST['op'] == 'edit_forum' || $_REQUEST['op'] == 'add_forum')){
+                        echo 'CKEDITOR.config.autoParagraph = false;
+                        CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;';
+                    }
                     echo ConfigSmileyCkeditor();
                     $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
                     echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
@@ -293,6 +293,6 @@ function adminfoot(){
     <!-- End #body-wrapper -->
     </div>
     <?php
-	exit();
+    exit();
 }
 ?>
