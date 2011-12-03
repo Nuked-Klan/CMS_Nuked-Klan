@@ -66,7 +66,8 @@ date_default_timezone_set($dateZone);
 function nkDate($timestamp, $blok = FALSE) {
     global $nuked, $language;
     $format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
-    return strftime($format, $timestamp);
+    // iconv pour éviter les caractère spéciaux dans la date
+    return iconv('UTF-8','ISO-8859-1',strftime($format, $timestamp));
 }
 
 // CURRENT ANNUAL DATEZONE TIME TABLE

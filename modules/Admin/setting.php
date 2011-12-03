@@ -117,7 +117,8 @@ if ($visiteur == 9)
                 $checked = ($tft == $key) ? 'selected="selected"' : '';
                 $day = time();
                 date_default_timezone_set($nuked['datezone']);
-                $echo = strftime($key, $day);
+                // iconv pour éviter les caractère spéciaux dans la date
+                $echo = iconv('UTF-8','ISO-8859-1',strftime($key, $day));
                 echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
             }
     }
