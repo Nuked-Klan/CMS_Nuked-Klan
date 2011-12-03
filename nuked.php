@@ -329,26 +329,46 @@ function checkimg($url){
         return 'images/noimagefile.gif';
 }
 
+/**
+ * Replace smilies in text
+ * @param array $matches : text to parse
+ * @return string : parsing text
+ */
+function replace_smilies($matches)
+{
+  $matches[0] = preg_replace('#<img src=\"(.*)\" alt=\"(.*)\" title=\"(.*)\" />#Usi', '$2', $matches[0]);
+  return $matches[0];
+}
+
 // DISPLAYS SMILEYS
 function icon($texte){
     global $nuked;
-
+    
     $texte = str_replace('mailto:', 'mailto!', $texte);
     $texte = str_replace('http://', '_http_', $texte);
+    $texte = str_replace('https://', '_https_', $texte);
     $texte = str_replace('&quot;', '_QUOT_', $texte);
     $texte = str_replace('&#039;', '_SQUOT_', $texte);
+    
 
     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql)){
-        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . $name . '" />', $texte);
+        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="'. $code .'" title="' . $name . '" />', $texte);
     }
 
     $texte = str_replace('mailto!', 'mailto:', $texte);
     $texte = str_replace('_http_', 'http://', $texte);
+    $texte = str_replace('_https_', 'https://', $texte);
     $texte = str_replace('_QUOT_', '&quot;', $texte);
     $texte = str_replace('_SQUOT_', '&#039;', $texte);
+    
+    // Light calculation if <pre> tag is not present in text
+    if (strpos($texte, '<pre') !== false)
+    {
+        $texte = preg_replace_callback('#<pre(.*)>(.*)<\/pre>#Uis','replace_smilies', $texte);
+    }
 
-    return($texte);
+    return $texte;
 }
 
 // SEARCH SMILIES FOR CKEDITOR.
