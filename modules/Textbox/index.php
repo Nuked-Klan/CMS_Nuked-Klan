@@ -183,7 +183,11 @@ function index()
         } 
 
         echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
-    }  
+    } 
+	
+	function cesure_href($matches) { 
+		return '<a href="' . $matches[1] . '" title="' . $matches[1] . '" >[lien]</a>';      
+	} 	
 	
 	function ajax() {
 	
@@ -237,8 +241,9 @@ function index()
 			{
 			$text[$i] = " " . $text[$i];
 			if (strlen($text[$i]) > $max_chars && !preg_match("`http:`i", $text[$i]) && !preg_match("`www\.`i", $text[$i]) && !preg_match("`@`i", $text[$i]) && !preg_match("`ftp\.`i", $text[$i])) $text[$i] = "<span title=\"" . $text[$i] . "\">" . substr($text[$i], 0, $max_chars) . "...</span>";
+			$text[$i] = preg_replace_callback('`((https?|ftp)://\S+)`', cesure_href,$text[$i]); 
 			$block_text .= $text[$i];
-			}
+			}			
 
 			$texte = htmlentities($texte, ENT_NOQUOTES);
 			$texte = nk_CSS($texte);
