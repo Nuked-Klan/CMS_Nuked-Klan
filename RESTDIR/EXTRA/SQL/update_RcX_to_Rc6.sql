@@ -51,3 +51,4 @@ INSERT INTO nuked_modules (`nom`, `niveau`, `admin`) VALUES ('PackageMgr', 9, 9)
 UPDATE nuked_config SET value = '1.7.9 RC6' WHERE name = 'version'
 DROP TABLE nuked_editeur
 DROP TABLE nuked_style
+DELETE FROM `nuked_modules` WHERE nom ='PackageMgr'
