@@ -1843,24 +1843,24 @@ function modif_langue(){
 function validation($id_user){
     global $user, $nuked;
 
-    if ($nuked['validation'] == "mail"){
-        $sql = mysql_query("SELECT niveau FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+    if ($nuked['validation'] == 'mail' && $id_user == $user[0]) {
+        $sql = mysql_query('SELECT niveau FROM ' . USER_TABLE . ' WHERE id = "' . $id_user . '"');
         list($niveau) = mysql_fetch_array($sql);
 
-        if ($niveau > 0){
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ALREADYVALID . "</div><br /><br />";
-            redirect("index.php?file=User", 3);
+        if ($niveau > 0) {
+            echo '<br /><br /><div style="text-align: center">' . _ALREADYVALID . '</div><br /><br />';
+            redirect('index.php?file=User', 3);
         }
-        else{
-            $upd = mysql_query("UPDATE " . USER_TABLE . " SET niveau = 1 WHERE id = '" . $id_user . "'");
+        else {
+            $upd = mysql_query('UPDATE ' . USER_TABLE . ' SET niveau = 1 WHERE id = "' . $id_user . '"');
 
-            echo "<br /><br /><div style=\"text-align: center;\">" . _VALIDUSER . "</div><br /><br />";
-            redirect("index.php?file=User&op=login_screen", 3);
+            echo '<br /><br /><div style="text-align: center">' . _VALIDUSER . '</div><br /><br />';
+            redirect('index.php?file=User&op=login_screen', 3);
         }
     }
-    else{
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "</div><br /><br />";
-        redirect("index.php?file=User&op=login_screen", 2);
+    else {
+        echo '<br /><br /><div style="text-align: center">' . _NOENTRANCE . '</div><br /><br />';
+        redirect('index.php?file=User&op=login_screen', 2);
     }
 }
 
