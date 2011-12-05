@@ -34,29 +34,29 @@ if ($visiteur == 9)
         global $nuked, $language;
 
         echo "<script type=\"text/javascript\">\n"
-	. "<!--\n"
-	. "\n"
-	. "function delsmiley(name, id)\n"
-	. "{\n"
-	. "if (confirm('" . _DELBLOCK . " '+name+' ! " . _CONFIRM . "'))\n"
-	. "{document.location.href = 'index.php?file=Admin&page=smilies&op=del_smiley&smiley_id='+id;}\n"
-	. "}\n"
-    	. "\n"
-	. "// -->\n"
-	. "</script>\n";
-echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
-		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=smilies&amp;op=add_smiley\"><b>" . _SMILEYADD . "</b></a> ]</div><br />\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _SMILEY . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _CODE . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
+        . "<!--\n"
+        . "\n"
+        . "function delsmiley(name, id)\n"
+        . "{\n"
+        . "if (confirm('" . _DELBLOCK . " '+name+' ! " . _CONFIRM . "'))\n"
+        . "{document.location.href = 'index.php?file=Admin&page=smilies&op=del_smiley&smiley_id='+id;}\n"
+        . "}\n"
+            . "\n"
+        . "// -->\n"
+        . "</script>\n";
+        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+        . "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
+        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=smilies&amp;op=add_smiley\"><b>" . _SMILEYADD . "</b></a> ]</div><br />\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<tr>\n"
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SMILEY . "</b></td>\n"
+        . "<td style=\"width: 25%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _CODE . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
+        . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT id, code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
         while (list($smiley_id, $code, $url, $name) = mysql_fetch_array($sql))
@@ -79,26 +79,26 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         global $language;
 
         echo "<script type=\"text/javascript\">\n"
-	. "<!--\n"
-	. "\n"
-	. "function update_smiley(newimage)\n"
-	. "{\n"
-	. "document.getElementById('smiley').src = 'images/icones/' + newimage;\n"
-	. "}\n"
-    	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+        . "<!--\n"
+        . "\n"
+        . "function update_smiley(newimage)\n"
+        . "{\n"
+        . "document.getElementById('smiley').src = 'images/icones/' + newimage;\n"
+        . "}\n"
+            . "\n"
+        . "// -->\n"
+        . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
-		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=smilies&amp;op=send_smiley\" enctype=\"multipart/form-data\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
-	. "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-	. "<tr><td><b>" . _CODE . " :</b> <input type=\"text\" name=\"code\" size=\"10\" /></td></tr><tr><td>&nbsp;</td></tr>\n"
-	. "<tr><td><b>" . _SMILEY . " :</b> <select name=\"url\" onchange=\"update_smiley(this.options[selectedIndex].value);\">";
+        . "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
+        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=smilies&amp;op=send_smiley\" enctype=\"multipart/form-data\">\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
+        . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
+        . "<tr><td><b>" . _CODE . " :</b> <input type=\"text\" name=\"code\" size=\"10\" /></td></tr><tr><td>&nbsp;</td></tr>\n"
+        . "<tr><td><b>" . _SMILEY . " :</b> <select name=\"url\" onchange=\"update_smiley(this.options[selectedIndex].value);\">";
 
         $i = 0;
         $rep = Array();
@@ -120,13 +120,13 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         }
 
         closedir($handle);
-	sort ($rep);
-	reset ($rep);
+        sort ($rep);
+        reset ($rep);
 
-	while (list ($key, $filename) = each ($rep))
-	{
-            echo "<option value=\"" . $filename . "\">" . $filename . "</option>\n";
-	}
+        while (list ($key, $filename) = each ($rep))
+        {
+                echo "<option value=\"" . $filename . "\">" . $filename . "</option>\n";
+        }
 
         echo "</select>&nbsp;&nbsp;";
 
@@ -136,47 +136,20 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         }
 
         echo "</td></tr><tr><td><b>" . _UPSMILEY . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr>\n"
-	. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "<tr><td>&nbsp;</td></tr>\n"
+        . "<tr><td style=\"text-align:center;\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function send_smiley($nom, $code, $url, $fichiernom)
     {
         global $nuked, $user;
-
-        $nom = mysql_real_escape_string(stripslashes($nom));
-	$filename = $_FILES['fichiernom']['name'];
-
-	if ($filename != "")
-	{
-	    $ext = strrchr($filename, ".");
-	    $ext = substr($ext, 1);
-
-		if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
-	    {
-			$url_image = "images/icones/" . $filename;
-			move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
-			@chmod ($url_image, 0644);
-	    }
-	    else
-	    {
-		echo "<div class=\"notification error png_bg\">\n"
-		. "<div>\n"
-		. "No image file !"
-		. "</div>\n"
-		. "</div>\n";
-		redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
-		adminfoot();
-		footer();
-		exit();
-	    }
-
+        
         if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false))
         {
             echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
-            . "The smiley code is not authorized, please change it.\n"
+            . _SMILEYNOTAUTHORIZE . ".\n"
             . "</div>\n"
             . "</div>\n";
             redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
@@ -185,23 +158,49 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             exit();
         }
 
-	}
-	else
-	{
-	    $filename = $url;
-	}
+        $nom = mysql_real_escape_string(stripslashes($nom));
+        $filename = $_FILES['fichiernom']['name'];
+        
+        if ($filename != "")
+        {
+            $ext = strrchr($filename, ".");
+            $ext = substr($ext, 1);
+
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
+            {
+                $url_image = "images/icones/" . $filename;
+                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+                @chmod ($url_image, 0644);
+            }
+            else
+            {
+                echo "<div class=\"notification error png_bg\">\n"
+                . "<div>\n"
+                . "No image file !"
+                . "</div>\n"
+                . "</div>\n";
+                redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
+                adminfoot();
+                footer();
+                exit();
+            }
+        }
+        else
+        {
+            $filename = $url;
+        }
 
         $sql = mysql_query("INSERT INTO " . SMILIES_TABLE . " ( `id` , `code` , `url` , `name` ) VALUES ( '' , '" . $code . "' , '" . $filename . "' , '" . $nom . "')");
         // Action
-		$texteaction = "". _ACTIONADDSMILEY .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _SMILEYSUCCES . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        $texteaction = "". _ACTIONADDSMILEY .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _SMILEYSUCCES . "\n"
+        . "</div>\n"
+        . "</div>\n";
         redirect("index.php?file=Admin&page=smilies", 2);
     }
 
@@ -213,26 +212,26 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         list($code, $url, $name) = mysql_fetch_array($sql);
 
         echo "<script type=\"text/javascript\">\n"
-	. "<!--\n"
-	. "\n"
-	. "function update_smiley(newimage)\n"
-	. "{\n"
-	. "document.getElementById('smiley').src = 'images/icones/' + newimage;\n"
-	. "}\n"
-    	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+        . "<!--\n"
+        . "\n"
+        . "function update_smiley(newimage)\n"
+        . "{\n"
+        . "document.getElementById('smiley').src = 'images/icones/' + newimage;\n"
+        . "}\n"
+            . "\n"
+        . "// -->\n"
+        . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
-		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=smilies&amp;op=modif_smiley\" enctype=\"multipart/form-data\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
-	. "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $name . "\" /></td></tr>\n"
-	. "<tr><td><b>" . _CODE . " :</b> <input type=\"text\" name=\"code\" size=\"10\" value=\"" . $code . "\" /></td></tr><tr><td>&nbsp;</td></tr>\n"
-	. "<tr><td><b>" . _SMILEY . " :</b> <select name=\"url\" onchange=\"update_smiley(this.options[selectedIndex].value);\">";
+        . "<div class=\"content-box-header\"><h3>" . _SMILIEADMIN . "</h3>\n"
+        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=smilies&amp;op=modif_smiley\" enctype=\"multipart/form-data\">\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
+        . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $name . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _CODE . " :</b> <input type=\"text\" name=\"code\" size=\"10\" value=\"" . $code . "\" /></td></tr><tr><td>&nbsp;</td></tr>\n"
+        . "<tr><td><b>" . _SMILEY . " :</b> <select name=\"url\" onchange=\"update_smiley(this.options[selectedIndex].value);\">";
 
         $rep = Array();
         $path = "images/icones";
@@ -246,28 +245,27 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         }
 
         closedir($handle);
-	sort ($rep);
-	reset ($rep);
+        sort ($rep);
+        reset ($rep);
 
-	while (list ($key, $filename) = each ($rep))
-	{
-                if ($url == $filename)
-                {
-                    $checked = "selected=\"selected\"";
-                }
-                else
-                {
-                    $checked = "";
-                }
+        while (list ($key, $filename) = each ($rep))
+        {
+            if ($url == $filename)
+            {
+                $checked = "selected=\"selected\"";
+            }
+            else
+            {
+                $checked = "";
+            }
 
             echo "<option value=\"" . $filename . "\" " . $checked . ">" . $filename . "</option>\n";
-	}
+        }
 
         echo "</select>&nbsp;&nbsp;<img id=\"smiley\" src=\"images/icones/" . $url . "\" alt=\"\" /></td></tr><tr><td><b>" . _UPSMILEY . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
-	. "<tr><td>&nbsp;<input type=\"hidden\" name=\"smiley_id\" value=\"" . $smiley_id . "\" /></td></tr>\n"
-	. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-
+        . "<tr><td>&nbsp;<input type=\"hidden\" name=\"smiley_id\" value=\"" . $smiley_id . "\" /></td></tr>\n"
+        . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
     function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
@@ -281,7 +279,7 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         {
             echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
-            . "The smiley code is not authorized, please change it.\n"
+            . _SMILEYNOTAUTHORIZE . ".\n"
             . "</div>\n"
             . "</div>\n";
             redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
@@ -297,21 +295,21 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 
             if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext)))
             {
-            $url_image = "images/icones/" . $filename;
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
-            @chmod ($url_image, 0644);
+                $url_image = "images/icones/" . $filename;
+                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+                @chmod ($url_image, 0644);
             }
             else
             {
-            echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n"
-            . "No image file !"
-            . "</div>\n"
-            . "</div>\n";
-            redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
-            adminfoot();
-            footer();
-            exit();
+                echo "<div class=\"notification error png_bg\">\n"
+                . "<div>\n"
+                . "No image file !"
+                . "</div>\n"
+                . "</div>\n";
+                redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
+                adminfoot();
+                footer();
+                exit();
             }
         }
         else
@@ -321,15 +319,15 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 
         $sql = mysql_query("UPDATE " . SMILIES_TABLE . " SET code = '" . $code . "', url = '" . $filename . "', name = '" . $nom . "' WHERE id = '" . $smiley_id . "'");
        // Action
-		$texteaction = "". _ACTIONMODIFSMILEY .": ".$nom."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _SMILEYMODIF . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        $texteaction = "". _ACTIONMODIFSMILEY .": ".$nom."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _SMILEYMODIF . "\n"
+        . "</div>\n"
+        . "</div>\n";
         redirect("index.php?file=Admin&page=smilies", 2);
     }
 
@@ -337,19 +335,19 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     {
         global $nuked,$user;
 
-		$sql2 = mysql_query("SELECT name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
+        $sql2 = mysql_query("SELECT name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
         list($name) = mysql_fetch_array($sql2);
         $sql = mysql_query("DELETE FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
-		// Action
-		$texteaction = "". _ACTIONDELSMILEY .": ".$name."";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _SMILEYDELETE . "\n"
-		. "</div>\n"
-		. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONDELSMILEY .": ".$name."";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+        . "<div>\n"
+        . "" . _SMILEYDELETE . "\n"
+        . "</div>\n"
+        . "</div>\n";
         redirect("index.php?file=Admin&page=smilies", 2);
     }
 
@@ -388,18 +386,18 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 else if ($visiteur > 1)
 {
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
 }
 else
 {
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
 }
 adminfoot();
 
