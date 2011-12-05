@@ -1840,11 +1840,11 @@ function modif_langue(){
     header("Location:index.php");
 }
 
-function validation($id_user){
+function validation() {
     global $user, $nuked;
 
-    if ($nuked['validation'] == 'mail' && $id_user == $user[0]) {
-        $sql = mysql_query('SELECT niveau FROM ' . USER_TABLE . ' WHERE id = "' . $id_user . '"');
+    if ($nuked['validation'] == 'mail') {
+        $sql = mysql_query('SELECT niveau FROM ' . USER_TABLE . ' WHERE id = "' . $_REQUEST['id_user'] . '"');
         list($niveau) = mysql_fetch_array($sql);
 
         if ($niveau > 0) {
@@ -1852,7 +1852,7 @@ function validation($id_user){
             redirect('index.php?file=User', 3);
         }
         else {
-            $upd = mysql_query('UPDATE ' . USER_TABLE . ' SET niveau = 1 WHERE id = "' . $id_user . '"');
+            $upd = mysql_query('UPDATE ' . USER_TABLE . ' SET niveau = 1 WHERE id = "' . $_REQUEST['id_user'] . '"');
 
             echo '<br /><br /><div style="text-align: center">' . _VALIDUSER . '</div><br /><br />';
             redirect('index.php?file=User&op=login_screen', 3);
@@ -1998,7 +1998,7 @@ switch ($_REQUEST['op']){
         break;
     case"validation":
         opentable();
-        validation($_REQUEST['id_user']);
+        validation();
         closetable();
         break;
     case"del_account":
