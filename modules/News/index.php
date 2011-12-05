@@ -29,7 +29,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
     function index(){
 
-        global $nuked, $language;
+        global $nuked, $language, $theme;
 
         $max_news = $nuked['max_news'];
         $day = time();
