@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 //Update param
 define('UPDATE_URL', 'http://nuked-klan.org/');
@@ -37,7 +37,6 @@ define("GAMES_TABLE", $nuked['prefix'] . "_games");
 define("GAMES_PREFS_TABLE", $nuked['prefix'] . "_games_prefs");
 define("GUESTBOOK_TABLE", $nuked['prefix'] . "_guestbook");
 define("IRC_AWARDS_TABLE", $nuked['prefix'] . "_irc_awards");
-define("JOIN_FILES_TABLE", $nuked['prefix'] . "_fichiers_joins");
 define("LINKS_TABLE", $nuked['prefix'] . "_liens");
 define("LINKS_CAT_TABLE", $nuked['prefix'] . "_liens_cat");
 define("MODULES_TABLE", $nuked['prefix'] . "_modules");
@@ -67,6 +66,7 @@ define("USER_TABLE", $nuked['prefix'] . "_users");
 define("USER_DETAIL_TABLE", $nuked['prefix'] . "_users_detail");
 define("VOTE_TABLE", $nuked['prefix'] . "_vote");
 define("WARS_TABLE", $nuked['prefix'] . "_match");
+define("WARS_FILES_TABLE", $nuked['prefix'] . "_match_files");
 define("CONTACT_TABLE", $nuked['prefix'] . "_contact");
 define("PAGE_TABLE", $nuked['prefix'] . "_page");
 ?>
