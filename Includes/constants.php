@@ -37,6 +37,7 @@ define("GAMES_TABLE", $nuked['prefix'] . "_games");
 define("GAMES_PREFS_TABLE", $nuked['prefix'] . "_games_prefs");
 define("GUESTBOOK_TABLE", $nuked['prefix'] . "_guestbook");
 define("IRC_AWARDS_TABLE", $nuked['prefix'] . "_irc_awards");
+define("JOIN_FILES_TABLE", $nuked['prefix'] . "_fichiers_joins");
 define("LINKS_TABLE", $nuked['prefix'] . "_liens");
 define("LINKS_CAT_TABLE", $nuked['prefix'] . "_liens_cat");
 define("MODULES_TABLE", $nuked['prefix'] . "_modules");

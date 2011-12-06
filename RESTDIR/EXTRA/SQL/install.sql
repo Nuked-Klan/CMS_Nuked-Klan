@@ -376,6 +376,23 @@ CREATE TABLE IF NOT EXISTS `nuked_erreursql` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `nuked_fichiers_joins`
+--
+
+DROP TABLE IF EXISTS `nuked_fichiers_joins`;
+CREATE TABLE IF NOT EXISTS `nuked_fichiers_joins` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `module` varchar(30) NOT NULL DEFAULT '',
+  `im_id` int(10) NOT NULL DEFAULT '0',
+  `type` varchar(30) NOT NULL DEFAULT '',
+  `url` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `im_id` (`im_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_forums`
 --
 
