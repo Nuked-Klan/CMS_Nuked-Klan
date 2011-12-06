@@ -137,15 +137,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
         echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
-        , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n"
-        , '<script type="text/javascript" src="media/ckeditor/plugins/syntaxhighlight/scripts/shBrush_min.js"></script>',"\n"
-        , '<script type="text/javascript"><!--',"\n"
-        , 'document.write(\'<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shCore.css"/>\');',"\n"
-        , '--></script>',"\n"
-        , '<script type="text/javascript">',"\n"
-        , 'SyntaxHighlighter.config.clipboardSwf = \'media/ckeditor/plugins/syntaxhighlight/scripts/clipboard.swf\';',"\n"
-        , 'SyntaxHighlighter.all();',"\n"
-        , '</script>',"\n";
+        , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n";
         
         if ($nuked['nk_status'] == 'closed' && $user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
             echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , _YOURSITEISCLOSED , ' :<br /><br/ >' , $nuked['url'] , '/index.php?file=User&amp;op=login_screen</b></div>',"\n";
@@ -160,34 +152,42 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     else include('modules/404/index.php');
     
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
-    echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
-    , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_basic\')){',"\n";
-    echo ConfigSmileyCkeditor().'',"\n";
-    echo ' CKEDITOR.replace( \'e_basic\',',"\n"
-    , '    {',"\n"
-    , '        toolbar : \'Basic\',',"\n"
-    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
-    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
-    echo '    }); }',"\n"
-    , '//]]>',"\n"
-    , '</script>',"\n"
-    , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_advanced\')){',"\n";
-    $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
-    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
-    echo ConfigSmileyCkeditor().'',"\n";
-    echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
-    , '    {',"\n"
-    , '        toolbar : \'Full\',',"\n"
-    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
-    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
-    echo '    }); }',"\n"
-    , '    CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
-    , '//]]>',"\n"
-    , '</script>',"\n";
+        echo '<script type="text/javascript" src="media/ckeditor/plugins/syntaxhighlight/scripts/shBrush_min.js"></script>',"\n"
+        , '<script type="text/javascript"><!--',"\n"
+        , 'document.write(\'<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shCore.css"/>\');',"\n"
+        , '--></script>',"\n"
+        , '<script type="text/javascript">',"\n"
+        , 'SyntaxHighlighter.config.clipboardSwf = \'media/ckeditor/plugins/syntaxhighlight/scripts/clipboard.swf\';',"\n"
+        , 'SyntaxHighlighter.all();',"\n"
+        , '</script>',"\n"
+        , '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
+        , '<script type="text/javascript">',"\n"
+        , '//<![CDATA[',"\n"
+        , '    if(document.getElementById(\'e_basic\')){',"\n";
+        echo ConfigSmileyCkeditor().'',"\n";
+        echo ' CKEDITOR.replace( \'e_basic\',',"\n"
+        , '    {',"\n"
+        , '        toolbar : \'Basic\',',"\n"
+        , '        language : \'' . substr($language, 0,2) . '\',',"\n";
+        if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
+        echo '    }); }',"\n"
+        , '//]]>',"\n"
+        , '</script>',"\n"
+        , '<script type="text/javascript">',"\n"
+        , '//<![CDATA[',"\n"
+        , '    if(document.getElementById(\'e_advanced\')){',"\n";
+        $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
+        echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
+        echo ConfigSmileyCkeditor().'',"\n";
+        echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
+        , '    {',"\n"
+        , '        toolbar : \'Full\',',"\n"
+        , '        language : \'' . substr($language, 0,2) . '\',',"\n";
+        if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
+        echo '    }); }',"\n"
+        , '    CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
+        , '//]]>',"\n"
+        , '</script>',"\n";
     
     }
 
