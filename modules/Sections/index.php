@@ -484,7 +484,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         } 
     } 
 
-    function pdf($artid){
+    function pdf($artid) {
         global $nuked;
 
         $sql = mysql_query("SELECT title, content FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
@@ -506,7 +506,6 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         $articleurl = $nuked['url'] . "/index.php?file=Sections&op=article&artid=" . $artid;
 
-        include ('Includes/html2pdf/html2pdf.class.php');
         $sitename = $nuked['name'] . " - " . $nuked['slogan'];
         $sitename  = @html_entity_decode($sitename);
 
@@ -514,10 +513,21 @@ if ($visiteur >= $level_access && $level_access > -1){
         $_REQUEST['file'] = $sitename.'_'.$title;
         $_REQUEST['file'] = str_replace(' ','_',$_REQUEST['file']);
         $_REQUEST['file'] .= '.pdf';
-        
-        $pdf = new HTML2PDF('P','A4','fr');
-        $pdf->WriteHTML(utf8_encode($texte));
-        $pdf->Output($_REQUEST['file']);
+
+        // convert in PDF
+        require_once('Includes/html2pdf/html2pdf.class.php');
+        try
+        {
+            $html2pdf = new HTML2PDF('P', 'A4', 'fr');
+            //$html2pdf->setModeDebug();
+            $html2pdf->setDefaultFont('Arial');
+            $html2pdf->writeHTML(utf8_encode($texte), isset($_GET['vuehtml']));
+            $html2pdf->Output('exemple00.pdf');
+        }
+        catch(HTML2PDF_exception $e) {
+            echo $e;
+            exit;
+        }
     } 
 
     switch ($_REQUEST['op']){
