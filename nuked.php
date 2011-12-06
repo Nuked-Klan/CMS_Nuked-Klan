@@ -935,7 +935,7 @@ function visits(){
     }
 }
 
-function verif_pseudo($string = null, $old_string = null, $admin = false){
+function verif_pseudo($string = null, $old_string = null) {
     global $nuked;
 
     $string = trim($string);
@@ -944,7 +944,7 @@ function verif_pseudo($string = null, $old_string = null, $admin = false){
         return 'error1';
     }
 
-    if($admin === true && $string != $old_string){
+    if($string != $old_string) {
         $sql = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' WHERE pseudo = "' . $string . '"');
         $is_reg = mysql_num_rows($sql);
         if ($is_reg > 0) {
@@ -958,7 +958,7 @@ function verif_pseudo($string = null, $old_string = null, $admin = false){
         return 'error3';
     }
 
-    return $string ;
+    return $string;
 }
 
 function UpdateSitmap(){

@@ -302,7 +302,7 @@ if ($visiteur == 9)
     {
         global $nuked, $user;
         
-        $nick = verif_pseudo($nick, $old_nick, true);
+        $nick = verif_pseudo($nick, $old_nick);
         
 		if ($nick == "error1"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
