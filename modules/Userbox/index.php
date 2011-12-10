@@ -117,27 +117,33 @@ function show_message($mid){
 	
 	echo '<br /><div style="text-align:center;"><big><b>'._PRIVATEMESS.'</b></big></div><br /><br />';
 	
-	$sql2 = mysql_query("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $mid . "' AND user_for = '" . $user[0] . "'");
+	$sql2 = mysql_query("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $_REQUEST['mid'] . "' AND user_for = '" . $user[0] . "'");
 	$row = mysql_fetch_assoc($sql2);
-	
-	$row['date'] = nkDate($row['date']);
-	
-	if(strlen($row['titre']) >= 50) $row['titre'] = substr($row['titre'], 0, 47)."...";
-	
-	$sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
-	list($pseudo) = mysql_fetch_array($sql_member);
-	
-	echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
-            <tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
-            <tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.$row['titre'].'</td></tr>
-            <tr style="background:'.$bgcolor2.';"><td>'.html_entity_decode($row['message']).'</td></tr></table>
-            <br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
-            <div style="text-align:center;">
-            <input type="hidden" name="message" value="'.htmlentities($row['message']).'" />
-            <input type="hidden" name="titre" value="'.htmlentities($row['titre']).'" />
-            <input type="submit" value="'._REPLY.'" />&nbsp;
-            <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
-            <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
+
+    if ($row > 1) {
+        
+        $row['date'] = nkDate($row['date']);
+        
+        if(strlen($row['titre']) >= 50) $row['titre'] = substr($row['titre'], 0, 47)."...";
+        
+        $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
+        list($pseudo) = mysql_fetch_array($sql_member);
+        
+        echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
+                <tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
+                <tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.$row['titre'].'</td></tr>
+                <tr style="background:'.$bgcolor2.';"><td>'.html_entity_decode($row['message']).'</td></tr></table>
+                <br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
+                <div style="text-align:center;">
+                <input type="hidden" name="message" value="'.htmlentities($row['message']).'" />
+                <input type="hidden" name="titre" value="'.htmlentities($row['titre']).'" />
+                <input type="submit" value="'._REPLY.'" />&nbsp;
+                <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
+                <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
+    }
+    else {
+        echo '<p style="text-align: center">' . _NOENTRANCE . '</p>';
+    }
 }
 
 function del_message($mid){
