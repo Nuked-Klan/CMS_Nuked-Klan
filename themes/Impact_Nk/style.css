@@ -7,8 +7,6 @@ div a{color:#025baf;text-decoration:none;}
 #ban{position:absolute;top:2px;width:984px;height:110px;margin:auto;}
 #b-top{height:219px;position:relative;z-index:120;background:transparent url(images/b-top.png) repeat-x scroll bottom left;}
 #c-center{height:96px;padding-top:125px;width:984px;margin:auto;background:transparent url(images/c-center.png) no-repeat scroll bottom center;position:relative;z-index:200;}
-.SousCCenterLeft{background:url(images/sous-c-center-left.png) no-repeat; width:27px;height:35px;position:relative;z-index:201px;margin-top:96px}
-.SousCCenterRight{background:url(images/sous-c-center-right.png) no-repeat; width:27px;height:35px;position:relative;z-index:202px;margin:-35px 0 0 959px}
 
 #nav{position:absolute;top:130px;margin:0 0 0 30px;}
 #content{width:928px;z-index:100;padding:12px 28px 0 28px;margin:-9px auto 0 auto;background:transparent url(images/hash.png) repeat-y scroll 0 0;}

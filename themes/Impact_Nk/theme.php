@@ -44,7 +44,6 @@ function top(){
                                                 <div id="c-right"></div>
                                                 <div id="c-left"></div>
                                                 <div id="c-center">
-                                                		<div class="SousCCenterLeft"></div>
                                                         <div id="ban">
                                                                 <div style="margin-left:30px;float:left;">
                                                                         <img src="<?php echo $logo; ?>" alt="logotitre" width="121" height="108" />
@@ -97,7 +96,6 @@ function top(){
                                                                         <?php echo _INSOMMES; ?><?php echo nkDate(time()); ?>
                                                                 </div>
                                                         </div>
-                                                        <div class="SousCCenterRight"></div>
                                                 </div>
                                         </div>
                                 </div>
