@@ -63,11 +63,11 @@ function index()
             $texte = preg_replace("#([\t\r\n ])(www|ftp)\.(([\w\-]+\.)*[\w]+(:[0-9]+)?(/[^ \"\n\r\t<]*)?)#i", '\1<a href="http://\2.\3" onclick="window.open(this.href); return false;">\2.\3</a>', $texte);
             $texte = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $texte);
 
-	        $texte = icon($texte);
+            $texte = icon($texte);
             $date = nkDate($date);
 
             $auteur = nk_CSS($auteur);
-		
+        
             if ($j == 0)
             {
                 $bg = $bgcolor2;
@@ -82,21 +82,21 @@ function index()
             if ($visiteur >= $level_admin && $level_admin > -1)
             {
                 echo "<script type=\"text/javascript\">\n"
-		. "<!--\n"
-		. "\n"
-		. "function del_shout(pseudo, id)\n"
-		. "{\n"
-		. "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-		. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
-		. "}\n"
-		. "\n"
-		. "// -->\n"
-		. "</script>\n";
+        . "<!--\n"
+        . "\n"
+        . "function del_shout(pseudo, id)\n"
+        . "{\n"
+        . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+        . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
+        . "}\n"
+        . "\n"
+        . "// -->\n"
+        . "</script>\n";
 
                 $admin = "<div style=\"text-align: right;\"><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $mid . "\"><img style=\"border: 0;\" src=\"images/edition.gif\" alt=\"\" title=\"" . _EDITTHISMESS . "\" /></a>"
-		. "&nbsp;<a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $mid . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELTHISMESS . "\"></a></div>";
+        . "&nbsp;<a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $mid . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELTHISMESS . "\"></a></div>";
              
-		$aff_ip = "( $ip )";
+        $aff_ip = "( $ip )";
             } 
             else
             {
@@ -131,7 +131,7 @@ function index()
     {
         opentable();
         echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | " 
-	. "<a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b></div><br /><br />";
+    . "<a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b></div><br /><br />";
         closetable();
     } 
     else
@@ -184,134 +184,114 @@ function index()
 
         echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
     } 
-	
-	function cesure_href($matches) { 
-		return '<a href="' . $matches[1] . '" title="' . $matches[1] . '" >['. _TLINK .']</a>';      
-	} 	
-	
-	function ajax() {
-	
-		header('Content-type: text/html; charset=iso-8859-1');
-		global $nuked,$user,$language, $bgcolor1, $bgcolor2;
+    
+    function cesure_href($matches) { 
+        return '<a href="' . $matches[1] . '" title="' . $matches[1] . '" >['. _TLINK .']</a>';      
+    }     
+    
+    function ajax() {
 
-		include("modules/Textbox/config.php");
-		
-		if ($user)
-		{
-			$visiteur = $user[1];
-		}
-		else
-		{
-			$visiteur = 0;
-		}
-		if ($visiteur >= 2)
-            {
-                echo "<script type=\"text/javascript\">\n"
-		. "<!--\n"
-		. "\n"
-		. "function del_shout(pseudo, id)\n"
-		. "{\n"
-		. "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-		. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
-		. "}\n"
-		. "\n"
-		. "// -->\n"
-		. "</script>\n";
-		}
-		$active = 2;
-		$width = $box_width;
-		$height = $box_height;
-		$max_chars = $max_string;
-		$mess_max = $max_texte;
-		$pseudo_max = $max_pseudo;
-		$level_admin = admin_mod("Textbox");
-		$level_mod = nivo_mod("Textbox");
+        header('Content-type: text/html; charset=iso-8859-1');
+        global $nuked,$user,$language, $bgcolor1, $bgcolor2;
 
-		$sql = mysql_query("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT 0, 20");
-		while (list($id, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql))
-		{
-			if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . "...";
+        require("modules/Textbox/config.php");
 
-			$date = nkDate($date);
-			
-			$block_text = '';
+        $visiteur = $user ? $user[1] : 0;
 
-			$text = explode(' ', $texte);
-			for($i = 0;$i < count($text);$i++)
-			{
-			$text[$i] = " " . $text[$i];
-			if (strlen($text[$i]) > $max_chars && !preg_match("`http:`i", $text[$i]) && !preg_match("`www\.`i", $text[$i]) && !preg_match("`@`i", $text[$i]) && !preg_match("`ftp\.`i", $text[$i])) $text[$i] = "<span title=\"" . $text[$i] . "\">" . substr($text[$i], 0, $max_chars) . "...</span>";
-			$text[$i] = preg_replace_callback('`((https?|ftp)://\S+)`', cesure_href,$text[$i]); 
-			$block_text .= $text[$i];
-			}			
+        if ($visiteur >= 2) {
+            echo "<script type=\"text/javascript\">\n"
+            . "<!--\n"
+            . "\n"
+            . "function del_shout(pseudo, id)\n"
+            . "{\n"
+            . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+            . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
+            . "}\n"
+            . "\n"
+            . "// -->\n"
+            . "</script>\n";
+        }
 
-			$texte = htmlentities($texte, ENT_NOQUOTES);
-			$texte = nk_CSS($texte);
+        $active = 2;
+        $width = $box_width;
+        $height = $box_height;
+        $max_chars = $max_string;
+        $mess_max = $max_texte;
+        $pseudo_max = $max_pseudo;
+        $level_admin = admin_mod('Textbox');
+        $level_mod = nivo_mod('Textbox');
 
-			if (strlen($auteur) > $pseudo_max) $auteur = "<span title=\"" . nk_CSS($auteur) . "\">" . nk_CSS(substr($auteur, 0, $pseudo_max)) . "...</span>";
+        $sql = mysql_query("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT 0, 20");
+        while (list($id, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql)) {
+            // On coupe le texte si trop long
+            if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . '...';
 
-			$block_text = icon($block_text);
-			
-			$sql_aut = mysql_query("SELECT id FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
-			list($user_id) = mysql_fetch_array($sql_aut);
-			$test_aut = mysql_num_rows($sql_aut);
+            $date = nkDate($date);
 
-			$sqlc = mysql_query("SELECT `country` FROM `" . USER_TABLE . "` WHERE pseudo = '" . $auteur . "'");
-			list($country) = mysql_fetch_array($sqlc);
-			
-			
-			if ($country)
-			{
-				$pays = "<img src=\"images/flags/" . $country . "\" title=\"" . constant('_' . strtoupper(substr($country,0,-4))) . "\" alt=\"" . $country . "\" />";
-			}
-			else
-			{
-				$pays = '';
-			}
+            $block_text = '';
 
-			$sql_on = mysql_query("SELECT user_id FROM " . NBCONNECTE_TABLE . " WHERE username = '" . $auteur . "' ORDER BY date");
-			$count_ok = mysql_num_rows($sql_on);
-			if(isset($user_id)) $online = '<img src="modules/Textbox/images/' . (($count_ok == 1) ? 'on.jpg' : 'off.jpg') . '" title="' . (($count_ok == 1) ? $auteur.' | En ligne' : $auteur.' | Hors ligne') . '" alt="" />';
-			else $online = NULL;
-						$sql2 = mysql_query("SELECT niveau FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
-				list($niveau) = mysql_fetch_array($sql2);
-				  if ($niveau >= 2)
-				{
-						$coloring = "fa1200";
-				} 
-				else{
-						$coloring = "8452bf";
-					} 
-				if($i2 == 0)
-			{
-				$bg = $bgcolor1;
-				$i2++;
-			}
-			else
-			{
-				$bg = $bgcolor2;
-				$i2 =0;
-			}
-			
-			if($test_aut == 1) $url_auteur = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($auteur) . "\" style=\"color: #" . $coloring . ";\">" . $auteur . "</a>";
-			else $url_auteur = $auteur;
-			
-			echo "<table width=\"100%\" style=\"background-color: #".$bg.";\" cellspacing=\"0\" cellpadding=\"0\">\n"
-			. "<tr><td width=\"95%\"><span style=\"margin-left: 2px;\">" . $pays . "&nbsp;<b>" . $url_auteur . "</b></span></td>\n";
-			if ($visiteur >= 2)
-			{
-			echo "<td width=\"5%\"><a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $id . "');\"><img style=\"margin-top: 5px; margin-left: 2px;\" src=\"modules/Textbox/images/delete.png\" alt=\"\" title=\"" . _DELTHISMESS . "\" /></a></td>\n";
-			}
-				
-			echo "<td width=\"5%\" style=\"padding-right: 2px;\">". $online ."\n"
-			. "</td></tr>\n"
-			. "<tr><td>" . $date . "</td></tr><tr><td>" . $block_text . "<br />&nbsp;</td></tr>\n"
-			. "</table>\n";
-			
-		} 
-		die;
+            // On coupe les mots trop longs
+            $text = explode(' ', $texte);
+            for($i = 0;$i < count($text);$i++) {
+                $text[$i] = " " . $text[$i];
 
-		}
+                if (strlen($text[$i]) > $max_chars && !preg_match("`http:`i", $text[$i]) && !preg_match("`www\.`i", $text[$i]) && !preg_match("`@`i", $text[$i]) && !preg_match("`ftp\.`i", $text[$i]))
+                $text[$i] = '<span title="' . $text[$i] . '">' . substr($text[$i], 0, $max_chars) . '...</span>';
+
+                $text[$i] = preg_replace_callback('`((https?|ftp)://\S+)`', cesure_href,$text[$i]); 
+                $block_text .= $text[$i];
+            }
+
+            $texte = htmlentities($texte, ENT_NOQUOTES);
+            $texte = nk_CSS($texte);
+
+            if (strlen($auteur) > $pseudo_max) $auteur = '<span title="' . nk_CSS($auteur) . '">' . nk_CSS(substr($auteur, 0, $pseudo_max)) . '...</span>';
+
+            $block_text = icon($block_text);
+
+            $sql_aut = mysql_query("SELECT id FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
+            list($user_id) = mysql_fetch_array($sql_aut);
+            $test_aut = mysql_num_rows($sql_aut);
+
+            $sqlc = mysql_query("SELECT `country` FROM `" . USER_TABLE . "` WHERE pseudo = '" . $auteur . "'");
+            list($country) = mysql_fetch_array($sqlc);
+
+            $pays = ($country) ? '<img src="images/flags/' . $country . '" alt="' . $country . '" />' : '';
+
+            $sql_on = mysql_query("SELECT user_id FROM " . NBCONNECTE_TABLE . " WHERE username = '" . $auteur . "' ORDER BY date");
+            $count_ok = mysql_num_rows($sql_on);
+
+            $online = (isset($user_id) && $count_ok == 1) ? '<img src="modules/Textbox/images/on.jpg" alt="online" />' : '<img src="modules/Textbox/off.jpg" alt="offline" />';
+
+            $sql2 = mysql_query("SELECT niveau FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
+            list($niveau) = mysql_fetch_array($sql2);
+
+            $coloring = ($niveau >= 2) ? 'fa1200' : '8452bf';
+
+            if($i2 == 0) {
+                $bg = $bgcolor1;
+                $i2++;
+            }
+            else {
+                $bg = $bgcolor2;
+                $i2 =0;
+            }
+
+            $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Membmers&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '">' . $auteur . '</a>' : $auteur;
+
+            echo "<table width=\"100%\" style=\"background: #" . $bg . "\" cellspacing=\"0\" cellpadding=\"0\">\n"
+            . "<tr>\n"
+            . "<td width=\"95%\"><span style=\"margin-left: 2px;\">" . $pays . "&nbsp;<b>" . $url_auteur . "</b></span></td>\n";
+            if ($visiteur >= 2) {
+                echo "<td width=\"5%\"><a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $id . "');\"><img style=\"margin-top: 5px; margin-left: 2px;\" src=\"modules/Textbox/images/delete.png\" alt=\"\" title=\"" . _DELTHISMESS . "\" /></a></td>\n";
+            }
+
+            echo "<td width=\"5%\" style=\"padding-right: 2px;\">". $online ."</td></tr>\n"
+            . "<tr><td>" . $date . "</td></tr><tr><td>" . $block_text . "<br />&nbsp;</td></tr>\n"
+            . "</table>\n";
+
+        }
+    }
 
 switch ($_REQUEST['op'])
 {
@@ -323,8 +303,8 @@ switch ($_REQUEST['op'])
     case"index":
         index();
         break;
-		
-	case"ajax":
+        
+    case"ajax":
         ajax();
         break;
 

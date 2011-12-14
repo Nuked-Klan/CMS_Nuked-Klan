@@ -59,8 +59,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
         
         if (mysql_num_rows($sql) <= 0) {
-            redirect('index.php?file=404', 0);
-            die;
+            echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
         }
         
         while ($TabNews = mysql_fetch_assoc($sql)) {

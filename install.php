@@ -995,10 +995,15 @@ $req = mysql_query($sql);
 
 echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_ErreurSql</b>" . _CREATES . "&nbsp;');</script>";
 
+// Suppression de l'ancienne table MySQL
 $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_fichiers_joins";
 $req = mysql_query($sql);
 
-$sql = "CREATE TABLE " . $db_prefix . "_fichiers_joins (
+// Rajout de la nouvelle table
+$sql = "DROP TABLE IF EXISTS " . $db_prefix . "_match_files";
+$req = mysql_query($sql);
+
+$sql = "CREATE TABLE " . $db_prefix . "_match_files (
   `id` int(10) NOT NULL auto_increment,
   `module` varchar(30) NOT NULL default '',
   `im_id` int(10) NOT NULL default '0',
@@ -1009,7 +1014,7 @@ $sql = "CREATE TABLE " . $db_prefix . "_fichiers_joins (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;";
 $req = mysql_query($sql);
 
-echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_fichiers_joins</b>" . _CREATES . "&nbsp;');</script>";
+echo "<script type=\"text/javascript\">show_progress('&nbsp;&nbsp;','<b>" . $db_prefix . "_match_files</b>" . _CREATES . "&nbsp;');</script>";
 
 
 
