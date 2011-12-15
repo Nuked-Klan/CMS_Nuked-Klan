@@ -7,10 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+defined('INDEX_CHECK') or die;
 
 global $nuked, $user, $language, $theme;
 
@@ -19,14 +16,8 @@ include("modules/Forum/template.php");
 
 opentable();
 
-if (!$user)
-{
-    $visiteur = 0;
-} 
-else
-{
-    $visiteur = $user[1];
-} 
+$visiteur = $user ? $user[1] : 0;
+
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
@@ -273,11 +264,9 @@ if ($visiteur >= $level_access && $level_access > -1)
                 } 
             }
 
-            //if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
-            //else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
-            //else $date = _THE . "&nbsp;" . strftime("%d-%m-%Y %H:%M", $date);
-
-            $date = nkDate($date);
+            if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
+            else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
+            else $date = nkDate($date);
 
             $tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
 
@@ -292,8 +281,6 @@ if ($visiteur >= $level_access && $level_access > -1)
                 if ($test > 0 && $autor != "")
                 {
                     $date_member = nkDate($date_member);
-
-                     
 
                     if ($fichier != "" && is_file("upload/Forum/" . $fichier))
                     {
