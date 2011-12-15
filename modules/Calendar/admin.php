@@ -54,7 +54,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-        $sql = mysql_query("SELECT id, titre, auteur, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " ORDER BY date_an DESC, date_mois ASC, date_jour ASC");
+        $sql = mysql_query("SELECT id, titre, auteur, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " ORDER BY date_an DESC, date_mois DESC, date_jour DESC");
         $count = mysql_num_rows($sql);
         while (list($eid, $titre, $auteur, $jour, $mois, $an, $heure) = mysql_fetch_array($sql))
         {
