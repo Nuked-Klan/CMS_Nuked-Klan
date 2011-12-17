@@ -28,9 +28,7 @@ $cookie_captcha = $nuked['cookiename'] . '_captcha';
 setcookie($cookie_captcha, 1);
 
 // Recherche de l'adresse IP
-if ($_SERVER['HTTP_CLIENT_IP']) $uip = $_SERVER['HTTP_CLIENT_IP'];
-else if ($_SERVER['HTTP_X_FORWARDED_FOR']) $uip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-else if ($_SERVER['REMOTE_ADDR']) $uip = $_SERVER['REMOTE_ADDR'];
+$uip = isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 
 // Validité adresse IP v4 / v6
 if(isset($uip) && !empty($uip)) {
