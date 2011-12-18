@@ -81,7 +81,7 @@ if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
             $retour = file_get_contents($daurl, false, $context);
 
             $value_sql = ($retour == 'YES') ? mysql_real_escape_string(time()) : 'value + 86400';
-            $sql = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = "' . $value_sql . '" WHERE name = "stats_timestamp"');
+            $sql = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = ' . mysql_real_escape_string($value_sql) . ' WHERE name = "stats_timestamp"');
 
         }
     }
