@@ -884,7 +884,7 @@ function login_screen(){
 }
 
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
-    global $nuked, $captcha, $cookie_forum;
+    global $nuked, $captcha, $cookie_forum, $user_ip;
 
     // Verification code captcha
     if (!ValidCaptchaCode($_REQUEST['code_confirm'])){
@@ -1053,7 +1053,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 
     if ($nuked['inscription_avert'] == "on" || $nuked['validation'] == "admin"){
         $subject = _NEWUSER . " : " . $pseudo . ", " .$date2;
-        $corps =  $pseudo . " " . _NEWREGISTRATION . " " . $nuked['name'] . " " . _NEWREGSUITE . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+        $corps =  $pseudo . " (IP : " . $user_ip . ") " . _NEWREGISTRATION . " " . $nuked['name'] . " " . _NEWREGSUITE . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
         $subject = @html_entity_decode($subject);
