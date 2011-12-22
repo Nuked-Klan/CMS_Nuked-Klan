@@ -261,7 +261,7 @@ function index()
             $sql_on = mysql_query("SELECT user_id FROM " . NBCONNECTE_TABLE . " WHERE username = '" . $auteur . "' ORDER BY date");
             $count_ok = mysql_num_rows($sql_on);
 
-            $online = (isset($user_id) && $count_ok == 1) ? '<img src="modules/Textbox/images/on.jpg" alt="online" />' : '<img src="modules/Textbox/off.jpg" alt="offline" />';
+            $online = (isset($user_id) && $count_ok == 1) ? '<img src="modules/Textbox/images/on.jpg" alt="online" />' : '<img src="modules/Textbox/images/off.jpg" alt="offline" />';
 
             $sql2 = mysql_query("SELECT niveau FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
             list($niveau) = mysql_fetch_array($sql2);
