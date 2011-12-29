@@ -52,17 +52,12 @@ if ($visiteur >= $level_access && $level_access > -1){
         -->
         </script>';
 
+        $input_user = ($user) ? $user[2] : '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />';
+
         echo '<div style="width: 98%; margin: auto">
         <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
         <p style="text-align: center; margin-bottom: 20px"><big><b>' . _CONTACT . '</b></big><br /><em>' . _CONTACTFORM . '</em></p>
-        <p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _YNICK . ' : </label>&nbsp;<input id="ns_pseudo" type="text" name="nom" style="width: 50%" ';
-        if($user){
-            echo 'value="'.$user[2].'" readonly="readonly" ';
-        }
-        else{
-            echo 'value="" ';
-        }
-        echo '/></p>
+        <p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _YNICK . ' : </label>&nbsp;' . $input_user . '</p>
         <p><label for="ns_email" style="float: left; width: 20%; font-weight: bold">' . _YMAIL . ' : </label>&nbsp;<input id="ns_email" type="text" name="mail" value="" style="width: 50%" /></p>
         <p><label for="ns_sujet" style="float: left; width: 20%; font-weight: bold">' . _YSUBJECT . ' : </label>&nbsp;<input id="ns_sujet" type="text" name="sujet" value="" style="width: 50%" /></p>
         <p style="font-weight: bold; margin-top: 10px">' . _YCOMMENT . ' : <br /><textarea id="e_basic" name="corps" cols="60" rows="12"></textarea></p>';
@@ -106,10 +101,10 @@ if ($visiteur >= $level_access && $level_access > -1){
             $corps = $_REQUEST['corps'];
             if($user) $nom = $user[2];
             
-            $subjet = $sujet . ", " . $date;
-            $corp = $corps . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+            $subjet = stripslashes($sujet) . ", " . $date;
+            $corp = $corps . "<p><em>IP : " . $user_ip . "</em><br />" . $nuked['name'] . " - " . $nuked['slogan'] . "</p>";
             $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
-            $from.= "Content-Type: text/html\r\n\r\n";
+            $from .= "Content-Type: text/html\r\n\r\n";
 
             if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
             else $email = $nuked['mail'];    
