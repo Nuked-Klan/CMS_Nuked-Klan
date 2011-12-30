@@ -234,7 +234,7 @@ function show_etat($etat)
 
     $width = ($etat < '1%') ? '1%' : $etat;
 
-    $img = (is_file('themes/' . $theme . '/images/bar.gif')) ? 'themes/' . $theme . '/images/bar/.gif' : 'modules/Stats/images/bar.gif';
+    $img = (is_file('themes/' . $theme . '/images/bar.gif')) ? 'themes/' . $theme . '/images/bar.gif' : 'modules/Stats/images/bar.gif';
 
     echo '<div style="width: ' . $width . '; height: 10px; background: url(' . $img . ')"></div>';
 }
