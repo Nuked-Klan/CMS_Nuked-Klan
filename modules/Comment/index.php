@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (!defined('INDEX_CHECK')) die('<div style="text-align:center;">You cannot open this page directly</div>');
+defined('INDEX_CHECK') or die;
 
 global $language, $user, $cookie_captcha;
 translate("modules/Comment/lang/$language.lang.php");
@@ -87,39 +87,41 @@ function com_index($module, $im_id){
     define('EDITOR_CHECK', 1);
     ?>
     <script  type="text/javascript">
-    function sent(pseudo, module, im_id, code){
-        var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText();
-        var editor_txt = CKEDITOR.instances.e_basic.getData();
-        if(editor_val == ''){
-            alert('<?php echo _NOTEXT; ?>');
-            return false;
-        }
-        else if(pseudo == ''){
-            alert('<?php echo _NONICK; ?>');
-            return false;
-        }
-        else if(code == ''){
-            alert('<?php echo _CAPTCHACOM; ?>');
-            return false;
-        }
-        else{
-            var OAjax;
-            if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
-            else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP');
-            OAjax.open('POST',"index.php?file=Comment&nuked_nude=index&op=post_comment",true);
-            OAjax.onreadystatechange = function(){
-                if (OAjax.readyState == 4 && OAjax.status==200){
-                    if (document.getElementById){
-                        document.getElementById("message").innerHTML = '<div style="margin:25px 5px;padding:10px 0;text-align:center;border:1px solid #e3e3e3;background:#edfff7;color:#333"><b><?php echo _THXCOM; ?></b></div>';
-                        document.location = document.location;
+    <!--
+        function sent(pseudo, module, im_id, code){
+            var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText();
+            var editor_txt = CKEDITOR.instances.e_basic.getData();
+            if(editor_val == ''){
+                alert('<?php echo _NOTEXT; ?>');
+                return false;
+            }
+            else if(pseudo == ''){
+                alert('<?php echo _NONICK; ?>');
+                return false;
+            }
+            else if(code == ''){
+                alert('<?php echo _CAPTCHACOM; ?>');
+                return false;
+            }
+            else{
+                var OAjax;
+                if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
+                else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP');
+                OAjax.open('POST',"index.php?file=Comment&nuked_nude=index&op=post_comment",true);
+                OAjax.onreadystatechange = function(){
+                    if (OAjax.readyState == 4 && OAjax.status==200){
+                        if (document.getElementById){
+                            document.getElementById("message").innerHTML = '<div style="margin:25px 5px;padding:10px 0;text-align:center;border:1px solid #e3e3e3;background:#edfff7;color:#333"><b><?php echo _THXCOM; ?></b></div>';
+                            document.location = document.location;
+                        }
                     }
                 }
+                OAjax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                OAjax.send("texte="+encodeURIComponent(editor_txt)+"&pseudo="+pseudo+"&module="+module+"&im_id="+im_id+"&ajax=1&code_confirm="+code+"");
+                return true;
             }
-            OAjax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            OAjax.send("texte="+encodeURIComponent(editor_txt)+"&pseudo="+pseudo+"&module="+module+"&im_id="+im_id+"&ajax=1&code_confirm="+code+"");
-            return true;
         }
-    }
+    -->
     </script>
     <?php
     $level_access = nivo_mod("Comment");
@@ -129,7 +131,7 @@ function com_index($module, $im_id){
     if(verification($_REQUEST['file'],$im_id)){
 
         echo '<h3 style="text-align: center">' . _LAST4COMS . '</h3>
-        <table style="background:'.$bgcolor3.';margin: 5px" width="98%" cellpadding="3" cellspacing="1">
+        <table style="background:'.$bgcolor3.';margin:5px" width="98%" cellpadding="3" cellspacing="1">
             <tr style="background:'.$bgcolor3.';">
                 <td style="width:30%;text-align:center"><b>'._AUTHOR.'</b></td>
                 <td style="width:70%;text-align:center"><b>'._COMMENT.'</b></td>
@@ -172,7 +174,7 @@ function com_index($module, $im_id){
 
                     if ($visiteur >= $level_admin && $level_admin > -1) echo '<br />Ip : '.$row['autor_ip'];
 
-                    echo '<br /><br /><img src="'.$avatar.'" style="width:100px;height:100px;"/>';
+                    echo '<br /><br /><img src="'.$avatar.'" style="max-width: 100px; max-height: 100px;" alt="" />';
 
                     $profil = ($test > 0) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($autor).'"><img style="border:none;" src="modules/Forum/images/buttons/'.$language.'/profile.gif" alt="" /></a>' : '';
 
@@ -186,6 +188,7 @@ function com_index($module, $im_id){
                       <td style="width:30%;">&nbsp;</td>
                     <td colspan="2">'.$profil.'&nbsp;'.$admin.'<br /></td>
                   </tr>';
+            unset($avatar, $autor, $country);
         }
 
         if ($count == "0") echo '<tr style="background:'.$bgcolor2.';"><td align="center" colspan="2">'._NOCOMMENT.'</td></tr>';
@@ -234,7 +237,7 @@ function com_index($module, $im_id){
 }
 
 function view_com($module, $im_id){
-	
+    
     global $user, $bgcolor2, $bgcolor3, $theme, $nuked, $language, $visiteur;
 
     if(!verification($module,$im_id)) exit();
@@ -248,25 +251,25 @@ function view_com($module, $im_id){
     $module = mysql_real_escape_string(stripslashes($module));
 
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-	      <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
-	      <head><title>'._COMMENTS.'</title>
-	      <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	      <meta http-equiv="content-style-type" content="text/css" />
-	      <link title="style" type="text/css" rel="stylesheet" href="themes/'.$theme.'/style.css" /></head>
-	      <body style="background:'.$bgcolor2.';">
-	      <script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&nuked_nude=index&op=del_comment&cid=\'+id;}}</script>';
+          <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+          <head><title>'._COMMENTS.'</title>
+          <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+          <meta http-equiv="content-style-type" content="text/css" />
+          <link title="style" type="text/css" rel="stylesheet" href="themes/'.$theme.'/style.css" /></head>
+          <body style="background:'.$bgcolor2.';">
+          <script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&nuked_nude=index&op=del_comment&cid=\'+id;}}</script>';
 
     $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC");
     if (mysql_num_rows($sql) != 0){
-		
+        
         while($row = mysql_fetch_assoc($sql)):
             
-			$row['date'] = nkDate($row['date']);
-			$row['titre'] = htmlentities($row['titre']);
-			$row['titre'] = nk_CSS($row['titre']);
+            $row['date'] = nkDate($row['date']);
+            $row['titre'] = htmlentities($row['titre']);
+            $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);
-			
-			if(!empty($row['autor_id'])){
+            
+            if(!empty($row['autor_id'])){
                 $sql_member = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id ='{$row['autor_id']}'");
                 $test = mysql_num_rows($sql_member);
             }
@@ -284,10 +287,10 @@ function view_com($module, $im_id){
 
             echo '</td></tr><tr><td><img src="images/posticon.gif" alt="" />&nbsp;'._POSTEDBY.'&nbsp;'.$autor.'&nbsp;'._THE.'&nbsp;'.$row['date'].'<br /><br />'.$row['comment'].'<br /><hr style="height:1px;color:'.$bgcolor3.';" /></td></tr></table>';
         
-		endwhile;
+        endwhile;
     
-	}else{
-	    echo '<div style="text-align:center;"><br /><br />'._NOCOMMENT.'<br /></div>';
+    }else{
+        echo '<div style="text-align:center;"><br /><br />'._NOCOMMENT.'<br /></div>';
     }
 
     if ($visiteur >= $level_access && $level_access > -1){
@@ -298,7 +301,7 @@ function view_com($module, $im_id){
 }
 
 function post_com($module, $im_id){
-	
+    
     global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur, $captcha;
 
     define('EDITOR_CHECK', 1);
@@ -306,40 +309,40 @@ function post_com($module, $im_id){
     $level_access = nivo_mod("Comment");
 
     if(!verification($module,$im_id)){}
-	elseif($visiteur >= $level_access && $level_access > -1){
+    elseif($visiteur >= $level_access && $level_access > -1){
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-			. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-			. "<head><title>" . _POSTCOMMENT . "</title>\n"
-			. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-			. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-			. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-			. "<body style=\"background : " . $bgcolor2 . ";\">\n";
+            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+            . "<head><title>" . _POSTCOMMENT . "</title>\n"
+            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+            . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+            . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+            . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
     echo "<script type=\"text/javascript\">\n"
-			."<!--\n"
-			. "\n"
-			. "function trim(string)\n"
-			. "{"
-			. "return string.replace(/(^\s*)|(\s*$)/g,'');"
-			. "}\n"
-			. "\n"
-			. "if (trim(document.getElementById('com_pseudo').value) == \"\")\n"
-			. "{\n"
-			. "alert('" . _NONICK . "');\n"
-			. "return false;\n"
-			. "}\n"
-			. "return true;\n"
-			. "}\n"
-			. "\n"
-			. "// -->\n"
-			. "</script>\n";
+            ."<!--\n"
+            . "\n"
+            . "function trim(string)\n"
+            . "{"
+            . "return string.replace(/(^\s*)|(\s*$)/g,'');"
+            . "}\n"
+            . "\n"
+            . "if (trim(document.getElementById('com_pseudo').value) == \"\")\n"
+            . "{\n"
+            . "alert('" . _NONICK . "');\n"
+            . "return false;\n"
+            . "}\n"
+            . "return true;\n"
+            . "}\n"
+            . "\n"
+            . "// -->\n"
+            . "</script>\n";
 
     echo "<form method=\"post\" action=\"index.php?file=Comment&nuked_nude=index&op=post_comment\" return verifchamps();\">\n"
-			. "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
-			. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" maxlength=\"40\" /><br /><br /></td></tr>\n"
-			. "<tr><td><b>" . _MESSAGE . " :</b><br />"
-			. "<textarea id=\"e_basic\" name=\"texte\" cols=\"40\" rows=\"10\"></textarea></td></tr>\n"
-			. "<tr><td><b>" . _NICK . " :</b>";
+            . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
+            . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" maxlength=\"40\" /><br /><br /></td></tr>\n"
+            . "<tr><td><b>" . _MESSAGE . " :</b><br />"
+            . "<textarea id=\"e_basic\" name=\"texte\" cols=\"40\" rows=\"10\"></textarea></td></tr>\n"
+            . "<tr><td><b>" . _NICK . " :</b>";
 
     if ($user){
         echo "&nbsp;&nbsp;<b>" . $user[2] . "</b><input id=\"com_pseudo\" type=\"hidden\" name=\"pseudo\" value=\"" . $user[2] . "\" /></td>\n";
@@ -354,35 +357,35 @@ function post_com($module, $im_id){
     else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
     
     echo "<tr><td align=\"right\" colspan=\"2\">\n"
-			. "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
-			. "<input type=\"hidden\" name=\"noajax\" value=\"true\" />\n"
-			. "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-			. "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
+            . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
+            . "<input type=\"hidden\" name=\"noajax\" value=\"true\" />\n"
+            . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
+            . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
 
     echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
-			, '<script type="text/javascript">',"\n"
-			, '//<![CDATA[',"\n";
-	echo ConfigSmileyCkeditor().'',"\n";
+            , '<script type="text/javascript">',"\n"
+            , '//<![CDATA[',"\n";
+    echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_basic\',',"\n"
-			, '    {',"\n"
-			, '        toolbar : \'Basic\',',"\n"
-			, '        language : \'' . substr($language, 0,2) . '\',',"\n";
+            , '    {',"\n"
+            , '        toolbar : \'Basic\',',"\n"
+            , '        language : \'' . substr($language, 0,2) . '\',',"\n";
     if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
     echo '    });',"\n"
-			, '//]]>',"\n"
-			, '</script>',"\n"
-			, '</body></html>',"\n";
+            , '//]]>',"\n"
+            , '</script>',"\n"
+            , '</body></html>',"\n";
 
     }
     else{
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _POSTCOMMENT . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n"
-				. "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /></div></body></html>";
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _POSTCOMMENT . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
+                . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /></div></body></html>";
     }
 }
 
@@ -398,12 +401,12 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
     if (!verification($module,$im_id)){}
     else if ($visiteur >= $level_access && $level_access > -1){
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _POSTCOMMENT . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n";
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _POSTCOMMENT . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
         if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm'])){
             die ("<div style=\"text-align: center;\"><br /><br />" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div>");
@@ -445,7 +448,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
             footer();
             exit();
         }
-		
+        
         $texte = secu_html(html_entity_decode($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = stripslashes($texte);
@@ -465,21 +468,21 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
             echo "</div>";
             $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
             if ($_REQUEST['ajax'] != 1){
-				redirect($url_redir, 2);
+                redirect($url_redir, 2);
             }
             echo "</body></html>";
         }
     }
     else{
-		echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _POSTCOMMENT . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n"
-				. "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /><br /><br />\n"
-				. "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
+        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _POSTCOMMENT . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
+                . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /><br /><br />\n"
+                . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
     }
 }
 
@@ -495,13 +498,13 @@ function del_comment($cid){
         $del = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _COMMENTS . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n"
-				. "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTDEL . "</b></div>\n";
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _COMMENTS . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
+                . "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTDEL . "</b></div>\n";
 
         $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 2);
@@ -509,15 +512,15 @@ function del_comment($cid){
     }
     else{
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _COMMENTS . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n"
-				. "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _COMMENTS . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
+                . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
 
-		$url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+        $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);
         echo "</body></html>";
     }
@@ -535,13 +538,13 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
         $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _COMMENTS . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n"
-				. "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTMODIF . "</b></div>\n";
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _COMMENTS . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
+                . "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTMODIF . "</b></div>\n";
 
     $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 2);
@@ -549,13 +552,13 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
     }
     else{
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _COMMENTS . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n"
-				. "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _COMMENTS . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
+                . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
 
     $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&amp;module=" . $module;
         redirect($url_redir, 5);
@@ -572,52 +575,52 @@ function edit_comment($cid){
 
     if ($visiteur >= $level_admin){
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _POSTCOMMENT . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n";
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _POSTCOMMENT . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
         $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip, module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
         list($auteur, $autor_id, $titre, $texte, $ip, $module, $im_id) = mysql_fetch_array($sql);
 
         $titre = htmlentities($titre);
 
-		if($autor_id != ""){
-			$sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-			list($autor) = mysql_fetch_array($sql_member);
-		}
-		else{
-			$autor = $auteur;
-		}
+        if($autor_id != ""){
+            $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+            list($autor) = mysql_fetch_array($sql_member);
+        }
+        else{
+            $autor = $auteur;
+        }
 
         echo "<form method=\"post\" action=\"index.php?file=Comment&amp;nuked_nude=index&amp;op=modif_comment\" >\n"
-				. "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
-				. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" maxlength=\"40\" value=\"" . $titre . "\" /><br /><br /></td></tr>\n"
-				. "<tr><td><b>" . _MESSAGE . " :</b><br />\n"
-				. "<textarea id=\"e_basic\" name=\"texte\" cols=\"58\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
-				. "<tr><td><b>" . _NICK . " :</b> " . $autor ." ( " . $ip . " )</td></tr>\n"
-				. "<tr><td align=\"right\" colspan=\"2\">\n"
-				. "<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
-				. "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
-				. "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-				. "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /><br />\n"
-				. "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form></body></html>";
+                . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
+                . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" maxlength=\"40\" value=\"" . $titre . "\" /><br /><br /></td></tr>\n"
+                . "<tr><td><b>" . _MESSAGE . " :</b><br />\n"
+                . "<textarea id=\"e_basic\" name=\"texte\" cols=\"58\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
+                . "<tr><td><b>" . _NICK . " :</b> " . $autor ." ( " . $ip . " )</td></tr>\n"
+                . "<tr><td align=\"right\" colspan=\"2\">\n"
+                . "<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
+                . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
+                . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
+                . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /><br />\n"
+                . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form></body></html>";
     }
     else{
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-				. "<head><title>" . _COMMENTS . "</title>\n"
-				. "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-				. "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-				. "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-				. "<body style=\"background : " . $bgcolor2 . ";\">\n"
-				. "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . "<head><title>" . _COMMENTS . "</title>\n"
+                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
+                . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
 
-		$url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+        $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);
-		echo "</body></html>";
+        echo "</body></html>";
     }
 }
 
