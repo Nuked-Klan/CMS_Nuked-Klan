@@ -224,7 +224,7 @@ function com_index($module, $im_id){
                     else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
 
         echo '        <tr>
-                        <td colspan="2">
+                        <td colspan="2" align="center">
                             <input type="hidden" id="imid" name="im_id" value="'.$im_id.'" />
                             <input type="hidden" id="module" name="module" value="'.$module.'" />
                             <input type="submit" value="'._SEND_COM.'" />
