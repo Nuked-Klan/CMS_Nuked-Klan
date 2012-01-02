@@ -81,6 +81,13 @@ if ($visiteur >= $level_access && $level_access > -1){
             exit();
         }
 
+        if (!$_REQUEST['mail'] || !$_REQUEST['sujet'] || !$_REQUEST['corps']){
+            echo '<p style="text-align: center">' . _NOCONTENT . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></p>';
+            closetable();
+            footer();
+            exit();
+        }
+
         $time = time();
         $date = nkDate($time);
         $contact_flood = $nuked['contact_flood'] * 60;
