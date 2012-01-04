@@ -75,7 +75,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         if (isset($user_pool_id) && $user_pool_id == $poll_id) {
             $verifip = 1;
         } else {
-            $sql = mysql_query('SELECT sid FROM ' . SURVEY_CHECK_TABLE . ' WHERE (pseudo = \'' . $username . '\' OR ip = \'' . $user_ip . '\') AND sid = ' . $poll_id);
+            $sql = mysql_query('SELECT sid FROM ' . SURVEY_CHECK_TABLE . ' WHERE (pseudo = "' . $username . '" OR ip = "' . $user_ip . '") AND sid = ' . $poll_id);
             $verifip = mysql_num_rows($sql);
         } 
         return $verifip;
@@ -94,7 +94,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
                 if ($visiteur >= $niveau) {
                     $upd = mysql_query('UPDATE ' . SURVEY_DATA_TABLE . ' SET optionCount = optionCount + 1 WHERE voteID = ' . $voteID . ' AND sid = ' . $poll_id);
-                    $sql = mysql_query('INSERT INTO ' . SURVEY_CHECK_TABLE . ' ( `ip` , `pseudo` , `heurelimite` , `sid` ) VALUES ( \'' . $user_ip . '\' , \'' . $user[2] . '\', \'' . $time . '\' , \'' . $poll_id . '\' )');
+                    $sql = mysql_query('INSERT INTO ' . SURVEY_CHECK_TABLE . ' ( `ip` , `pseudo` , `heurelimite` , `sid` ) VALUES ( "' . $user_ip . '" , "' . $user[2] . '", "' . $time . '" , "' . $poll_id . '")');
                     setcookie($cookiename . '_user_pool_' . $poll_id, $poll_id, $time);
 
                     redirect('index.php?file=Survey&op=vote_message&poll_id=' . $poll_id, 0);
@@ -197,7 +197,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 echo '</td></tr>';
             }
 
-            echo '</table><div style="text-align: center;"><br />[ <a href=\"index.php?file=Survey&amp;op=sondage&amp;poll_id=' . $poll_id . '">' . _SENDVOTE . '</a> | <a href="index.php?file=Survey">' . _OTHERPOLL . '</a> ]</div><br />';
+            echo '</table><div style="text-align: center;"><br />[ <a href="index.php?file=Survey&amp;op=sondage&amp;poll_id=' . $poll_id . '">' . _SENDVOTE . '</a> | <a href="index.php?file=Survey">' . _OTHERPOLL . '</a> ]</div><br />';
 
         }
         else {

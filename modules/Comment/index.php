@@ -212,15 +212,15 @@ function com_index($module, $im_id){
                 if($user) echo '<tr style="display: none"><td colspan="2"><input id="compseudo" type="hidden" name="pseudo" value="'.$user[2].'" /></td></tr>';
                 else {
                     echo '<tr>
-                        <td style="padding-left:5px;width:15%"><b>'._NICK.' :</b></td>
+                        <td style="padding-left:5px;width:30%"><b>'._NICK.' :</b></td>
                         <td><input id="compseudo" type="text" size="30" name="pseudo" maxlength="30" /></td>
                     </tr>';
                 }
                     echo '<tr>
-                        <td colspan="2" align="center"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
+                        <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
                     </tr>';
 
-                    if ($captcha == 1) create_captcha(1);
+                    if ($captcha == 1) create_captcha(2);
                     else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
 
         echo '        <tr>
