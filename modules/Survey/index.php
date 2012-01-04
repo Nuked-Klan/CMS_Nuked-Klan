@@ -130,7 +130,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
         } 
         opentable();
-        echo '<br /><br /><div style=\"text-align: center;\">' . $texte_vote . '</div><br /><br />';
+        echo '<br /><br /><div style="text-align: center">' . $texte_vote . '</div><br /><br />';
         closetable();
         redirect($url_redirect, 2);
     } 
