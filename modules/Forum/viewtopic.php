@@ -280,7 +280,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                 if ($test > 0 && $autor != "")
                 {
-                    $date_member = nkDate($date_member);
+                    // Valeur TRUE = Pas d'heure/minute.
+                    $date_member = nkDate($date_member, TRUE);
 
                     if ($fichier != "" && is_file("upload/Forum/" . $fichier))
                     {
