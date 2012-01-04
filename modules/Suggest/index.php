@@ -114,6 +114,13 @@ if ($visiteur >= $level_access && $level_access > -1){
             include('modules/Suggest/modules/' . $_REQUEST['module'] . '.php');
         }
 
+        if(strlen($data) <= 30){
+            echo '<br /><br /><div style="text-align: center">' . _NOCONTENT . '</div><br /><br />';
+            closetable();
+            footer();
+            die();
+        }
+
         // Verification code captcha
         if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm'])){
             echo '<br /><br /><div style="text-align: center">' . _BADCODECONFIRM . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></div><br /><br />';

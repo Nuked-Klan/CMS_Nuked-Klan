@@ -11,6 +11,7 @@ define("_YOURSUGGEST","Votre proposition a bien été enregistrée");
 define("_THXPART","Merci de votre participation");
 define("_NEWSUGGEST","Nouvelle suggestion");
 define("_NEWSUBMIT","vient d'envoyer une nouvelle suggestion :");
+define('_NOCONTENT','Vous avez oublié de remplir des champs obligatoires');
 
 define("_ADMINSUGGEST","Demande en Attente");
 define("_HELP","Aides");

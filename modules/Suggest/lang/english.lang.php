@@ -11,6 +11,7 @@ define("_YOURSUGGEST","Your suggestion was stored");
 define("_THXPART","Thank you for your participation");
 define("_NEWSUGGEST","New suggestion");
 define("_NEWSUBMIT","sent a new suggestion:");
+define('_NOCONTENT','You forgot to fill in required fields');
 
 define("_ADMINSUGGEST","Suggestions Administration");
 define("_HELP","Help");
