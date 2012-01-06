@@ -51,16 +51,6 @@ if(ini_get('set_error_handler')) set_error_handler('erreursql');
 $session = session_check();
 $user = ($session == 1) ? secure() : array();
 $session_admin = admin_check();
-$check_ip = banip();
-
-if (!empty($check_ip)){
-    $url_ban = 'ban.php?ip_ban=' . $check_ip;
-    if(!empty($user)){
-        $url_ban .= '&user=' . urlencode($user[2]);
-    }
-    redirect($url_ban, 0);
-    exit();
-}
 
 if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
     if($nuked['stats_share'] == 1) {
@@ -104,6 +94,9 @@ $_REQUEST['im_file'] = basename(trim($_REQUEST['im_file']));
 $_REQUEST['page'] = basename(trim($_REQUEST['im_file']));
 $theme = trim($theme);
 $language = trim($language);
+
+// Check Ban
+$check_ip = banip();
 
 if (!$user){
     $visiteur = 0;

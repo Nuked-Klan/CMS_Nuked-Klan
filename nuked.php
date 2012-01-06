@@ -185,9 +185,6 @@ function connect(){
 function banip() {
     global $user_ip, $user, $language;
 
-    // Aucune IP à bannir
-    $banned_ip = '';
-
     // On supprime nos 2 derniers chiffres pour les IP's dynamiques
     $ip_dyn = substr($user_ip, 0, -2);
 
@@ -195,7 +192,7 @@ function banip() {
     $where_query = ' WHERE (ip LIKE "%' . $ip_dyn . '%") OR pseudo = "' . $user[2] . '"';
 
     // Recherche d'un banissement
-    $query_ban = mysql_query('SELECT `id`, `ip`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $where_query);
+    $query_ban = mysql_query('SELECT `id`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $where_query);
     $ban = mysql_fetch_assoc($query_ban);
 
     // Si résultat positif à la recherche d'un bannissement
@@ -217,17 +214,20 @@ function banip() {
         if($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
             // Suppression bannissement
             $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . $where_query);
-            // Pas d'IP à bannir
-            $banned_ip = '';
+            // Notification dans l'administration
+            $notify = mysql_query("INSERT INTO " . NOTIFICATIONS_TABLE . " (`date` , `type` , `texte`)  VALUES ('" . time() . "', 4, '" . mysql_real_escape_string($pseudo) . mysql_real_escape_string(_BANFINISHED) . "')");
         }
         // Sinon on met à jour l'IP
         else {
             $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '" ' . $where_query);
+            // Redirection vers la page de banissement
+            $url_ban = 'ban.php?ip_ban=' . $banned_ip;
+            if(!empty($user)){
+                $url_ban .= '&user=' . urlencode($user[2]);
+            }
+            redirect($url_ban, 0);
         }
     }
-
-    # Return empty = not banned
-    return $banned_ip;
 }
 
 // DISPLAY ALL BLOCKS

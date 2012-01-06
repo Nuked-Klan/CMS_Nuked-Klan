@@ -28,14 +28,12 @@ translate ('lang/' . $language . '.lang.php');
 
 $ip_ban = mysql_real_escape_string($_GET['ip_ban']);
 $user_ban = mysql_real_escape_string($_GET['user']);
-$cookie_ban = mysql_real_escape_string($_COOKIE['ip_ban']);
 
-$sql = mysql_query('SELECT texte, date, dure FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '" OR pseudo = "' . $user_ban . '"');
+$sql = mysql_query('SELECT texte, date, dure, pseudo FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '" OR pseudo = "' . $user_ban . '"');
 $count = mysql_num_rows($sql);
 
-if ($count > 0)
-{
-    list($texte_ban, $date, $dure) = mysql_fetch_array($sql);
+if ($count > 0) {
+    list($texte_ban, $date, $dure, $pseudo) = mysql_fetch_array($sql);
 
     // On supprime les bans dépassés, 0 = A vie
     if($dure != 0 && ($date + $dure) < time()) {
@@ -43,6 +41,8 @@ if ($count > 0)
         $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '"');
         // On supprime le cookie
         $_COOKIE['ip_ban'] = '';
+        // On notifie dans l'administration
+        $notify = mysql_query("INSERT INTO " . NOTIFICATIONS_TABLE . " (`date` , `type` , `texte`)  VALUES ('" . time() . "', 4, '" . mysql_real_escape_string($pseudo) . mysql_real_escape_string(_BANFINISHED) . "')");
         // On redirige vers le site
         redirect('index.php', 0);
         die;
@@ -61,8 +61,7 @@ if ($count > 0)
     <big><b>' . $nuked['name'] . ' - ' . $nuked['slogan'] . '</b><br /><br />
     ' . _IPBANNED . '</big>';
 
-    if (!empty($texte_ban))
-    {
+    if (!empty($texte_ban)) {
         echo '<br /><p><hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" />
         <big><b>' . _REASON . '</b><br>' . html_entity_decode($texte_ban) . '</big></p>';
     }
@@ -76,5 +75,8 @@ if ($count > 0)
     echo '<hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" /><br />' . _DURE . '
     ' . strtolower($temps) . '<br />
     ' . _CONTACTWEBMASTER . ' : <a href="mailto:' . $nuked['mail'] . '">' . $nuked['mail'] . '</a></div></body></html>';
+}
+else {
+    redirect('index.php', 0);
 }
 ?>
