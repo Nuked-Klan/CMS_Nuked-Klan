@@ -398,7 +398,7 @@ function show_event(){
 		
 		$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos[$i] . "'");
 		
-		if($user){
+		if($user && $etat != 1){
 			$sql_dispo = mysql_query("SELECT team FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
 			list($user_team) = mysql_fetch_array($sql_dispo);
 			if ($user_team > 0 || $user[1] > 1) dispo($warid, $_REQUEST['type']);

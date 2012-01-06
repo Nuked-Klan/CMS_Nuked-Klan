@@ -31,23 +31,23 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function main(){
         global $nuked, $language;
 
-		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
-		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
-		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		. "</div></div>\n"
-		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _SUGGEST . "<b> | "
-		. "<a href=\"index.php?file=Suggest&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-		. "<tr>\n"
-		. "<td style=\"width: 10%;\" align=\"center\"><b>" . _SUGGESTID . "</b></td>\n"
-		. "<td style=\"width: 30%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-		. "<td style=\"width: 30%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
-		. "<td style=\"width: 30%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
+        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+        . "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
+        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _SUGGEST . "<b> | "
+        . "<a href=\"index.php?file=Suggest&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<tr>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>" . _SUGGESTID . "</b></td>\n"
+        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
+        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
+        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT id, module, date, user_id FROM " . SUGGEST_TABLE . " ORDER BY module, date");
         $count = mysql_num_rows($sql);
-		
+        
         while (list($sug_id, $mod_name, $date, $id_user) = mysql_fetch_array($sql)){
             $date = nkDate($date);
 
@@ -59,14 +59,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             }
             else{
                 $pseudo = _VISITOR . ' (' . $id_user . ')';
-				$user_for = 0;
+                $user_for = 0;
             }
 
             echo "<tr>\n"
-			. "<td style=\"width: 10%;\" align=\"center\">" . $sug_id . "</td>\n"
-			. "<td style=\"width: 30%;\" align=\"center\"><a href=\"index.php?file=Suggest&amp;page=admin&amp;op=show_suggest&amp;sug_id=" . $sug_id . "\" title=\"" . _SEESUGGEST . "\">" . $mod_name . "</a></td>\n"
-			. "<td style=\"width: 30%;\" align=\"center\">" . $pseudo . "</td>\n"
-			. "<td style=\"width: 30%;\" align=\"center\">" . $date . "</td></tr>\n";
+            . "<td style=\"width: 10%;\" align=\"center\">" . $sug_id . "</td>\n"
+            . "<td style=\"width: 30%;\" align=\"center\"><a href=\"index.php?file=Suggest&amp;page=admin&amp;op=show_suggest&amp;sug_id=" . $sug_id . "\" title=\"" . _SEESUGGEST . "\">" . $mod_name . "</a></td>\n"
+            . "<td style=\"width: 30%;\" align=\"center\">" . $pseudo . "</td>\n"
+            . "<td style=\"width: 30%;\" align=\"center\">" . $date . "</td></tr>\n";
         }
 
         if ($count == 0){
@@ -92,19 +92,19 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         }
         else{
             $pseudo = _VISITOR . " (" . $id_user . ")";
-			$user_for = 0;
+            $user_for = 0;
         }
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
-				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
-				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _SUGGESTBY . "&nbsp;" . $pseudo . "&nbsp;" . _THE . "&nbsp;" . $date . "</div>\n";
+                . "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
+                . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
+                . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+                . "</div></div>\n"
+                . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _SUGGESTBY . "&nbsp;" . $pseudo . "&nbsp;" . _THE . "&nbsp;" . $date . "</div>\n";
 
         require("modules/Suggest/modules/" . $mod_name . ".php");
         form($content, $sug_id, $user_for);
-		echo "</div></div>";
+        echo "</div></div>";
     }
 
     function valid_suggest($data){
@@ -114,65 +114,62 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         send($data);
 
         $del = mysql_query("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $data['sug_id'] . "'");
-		// Action
-		$texteaction = "". _ACTIONVALIDSUG .": ". $data['titre'] .".";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".mysql_real_escape_string(stripslashes($texteaction))."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-				. "<div>\n"
-				. "" . _SUGGESTADD . "\n"
-				. "</div>\n"
-				. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONVALIDSUG .": ". $data['titre'] .".";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".mysql_real_escape_string(stripslashes($texteaction))."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+                . "<div>\n"
+                . "" . _SUGGESTADD . "\n"
+                . "</div>\n"
+                . "</div>\n";
     }
 
     function del($sug_id){
-        global $nuked, $user;
+        global $nuked, $user, $language;
 
         $sql = mysql_query("SELECT user_id, module, proposition FROM " . SUGGEST_TABLE . " WHERE id='" . intval($sug_id) . "' ");
-		list($for, $module, $data) = @mysql_fetch_array($sql);
+        list($for, $module, $data) = mysql_fetch_array($sql);
 
-    	include("modules/Suggest/modules/" . $module . ".php");
-    	if (function_exists('del_suggest'))
-    		del_suggest($data);
+        if(!empty($module))
+            include("modules/Suggest/modules/" . $module . ".php");
 
-		$sql = mysql_query("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $sug_id . "'");
-		// Action
-		$texteaction = "". _ACTIONDELSUG .".";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
+        $sql = mysql_query("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $sug_id . "'");
+        // Action
+        $texteaction = _ACTIONDELSUG . '.';
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
 
-		//Envoi du MP de refus
-		if ($for != "" && preg_match("`^[a-zA-Z0-9]+$`", $for) && isset($_REQUEST['subject']) && isset($_REQUEST['corps'])){
-			require('modules/Userbox/index.php');
-			send_message($_REQUEST['subject'], $for, $_REQUEST['corps']);
-		}
-		else{
-			echo "<div class=\"notification success png_bg\">\n"
-					. "<div>\n"
-					. "" . _SUGGESTDEL . "\n"
-					. "</div>\n"
-					. "</div>\n";
-		}
+        //Envoi du MP de refus
+        if ($for != "" && preg_match("`^[a-zA-Z0-9]+$`", $for) && isset($_REQUEST['subject']) && isset($_REQUEST['corps'])){
+            $sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $user[0] . "' , '" . $for . "' , '" . $_REQUEST['subject'] . "' , '" . $_REQUEST['corps'] . "' , '" . time() . "' , '0' )");
+        }
 
-		redirect("index.php?file=Suggest&page=admin", 2);
+            echo "<div class=\"notification success png_bg\">\n"
+            . "<div>\n"
+            . _SUGGESTDEL . "\n"
+            . "</div>\n"
+            . "</div>\n";
+
+        redirect("index.php?file=Suggest&page=admin", 2);
     }
 
     function raison($sug_id){
         global $nuked, $user;
 
-		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
-				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
-				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><table style=\"width:50%; border:0; align:center; valign:top; margin-left:auto; margin-right:auto\" cellspacing=\"1\" cellpadding=\"1\"><tr>\n"
-				. "<td align=\"center\" colspan=\"2\"><form method=\"POST\" action=\"index.php?file=Suggest&page=admin&op=del&sug_id=" . $sug_id . "\"><br><h3>"._RMOTIF."</h3></td></tr>\n"
-				. "<tr><td align=\"left\"><b>"._RSUBJECT."</b> : </td><td><input type=\"text\" name=\"subject\" maxlength=\"100\" value=\"" . _REFUS2 . "\" size=\"45\"></td></tr>\n"
-				. "<tr><td align=\"left\" valign=\"top\"><b>"._RCORPS."</b> : </td><td><textarea class=\"editor\" id=\"raison\" name=\"corps\" rows=\"10\" cols=\"39\" />" . _REFUS . "\n" . $user[2] . "</textarea></td></tr>\n"
-				. "<tr><td colspan=\"2\"><p align=\"center\">&nbsp;<input type=\"submit\" value=\""._SEND."\"> <input type=\"button\" value=\""._CANCEL."\" onclick=\"document.location.href='index.php?file=Suggest&page=admin&op=show_suggest&sug_id=" . $sug_id . "';\"></td></tr>\n"
-				. "</form></table><br><center>[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>"._BACK."</b></a> ]</center><br></div></div>";
+        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+                . "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
+                . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
+                . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+                . "</div></div>\n"
+                . "<div class=\"tab-content\" id=\"tab2\"><table style=\"width:50%; border:0; align:center; valign:top; margin-left:auto; margin-right:auto\" cellspacing=\"1\" cellpadding=\"1\"><tr>\n"
+                . "<td align=\"center\" colspan=\"2\"><form method=\"POST\" action=\"index.php?file=Suggest&amp;page=admin&amp;op=del&amp;sug_id=" . $sug_id . "\"><br><h3>"._RMOTIF."</h3></td></tr>\n"
+                . "<tr><td align=\"left\"><b>"._RSUBJECT."</b> : </td><td><input type=\"text\" name=\"subject\" maxlength=\"100\" value=\"" . _REFUS2 . "\" size=\"45\"></td></tr>\n"
+                . "<tr><td align=\"left\" valign=\"top\"><b>"._RCORPS."</b> : </td><td><textarea class=\"editor\" id=\"raison\" name=\"corps\" rows=\"10\" cols=\"39\" />" . _REFUS . "\n" . $user[2] . "</textarea></td></tr>\n"
+                . "<tr><td colspan=\"2\"><p align=\"center\">&nbsp;<input type=\"submit\" value=\""._SEND."\"> <input type=\"button\" value=\""._CANCEL."\" onclick=\"document.location.href='index.php?file=Suggest&page=admin&op=show_suggest&sug_id=" . $sug_id . "';\"></td></tr>\n"
+                . "</form></table><br><center>[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>"._BACK."</b></a> ]</center><br></div></div>";
     }
 
     function main_pref(){
@@ -181,23 +178,23 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         if ($nuked['suggest_avert'] == "on"){
             $checked = "checked=\"checked\"";
         }
-		else{
-	            $checked = "";
-		}
+        else{
+                $checked = "";
+        }
 
-		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
-				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
-				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Suggest&amp;page=admin\">" . _SUGGEST . "</a> | "
-				. "</b>" . _PREFS . "</div><br />\n"
-				. "<form method=\"post\" action=\"index.php?file=Suggest&amp;page=admin&amp;op=change_pref\">\n"
-				. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-				. "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
-				. "<tr><td>" . _SUGGESTMAIL . " : <input class=\"checkbox\" type=\"checkbox\" name=\"suggest_avert\" value=\"on\" " . $checked. " /></td></tr>\n"
-				. "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-				. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
+        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+                . "<div class=\"content-box-header\"><h3>" . _ADMINSUGGEST . "</h3>\n"
+                . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Suggest.php\" rel=\"modal\">\n"
+                . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+                . "</div></div>\n"
+                . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Suggest&amp;page=admin\">" . _SUGGEST . "</a> | "
+                . "</b>" . _PREFS . "</div><br />\n"
+                . "<form method=\"post\" action=\"index.php?file=Suggest&amp;page=admin&amp;op=change_pref\">\n"
+                . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+                . "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
+                . "<tr><td>" . _SUGGESTMAIL . " : <input class=\"checkbox\" type=\"checkbox\" name=\"suggest_avert\" value=\"on\" " . $checked. " /></td></tr>\n"
+                . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
+                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
     }
 
     function change_pref($suggest_avert){
@@ -208,16 +205,16 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         }
 
         $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $suggest_avert . "' WHERE name = 'suggest_avert'");
-		// Action
-		$texteaction = "". _ACTIONCONFSUG .".";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
-		echo "<div class=\"notification success png_bg\">\n"
-				. "<div>\n"
-				. "" . _PREFUPDATED . "\n"
-				. "</div>\n"
-				. "</div>\n";
+        // Action
+        $texteaction = "". _ACTIONCONFSUG .".";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        //Fin action
+        echo "<div class=\"notification success png_bg\">\n"
+                . "<div>\n"
+                . "" . _PREFUPDATED . "\n"
+                . "</div>\n"
+                . "</div>\n";
         redirect("index.php?file=Suggest&page=admin", 2);
     }
 
@@ -235,8 +232,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         break;
 
         case"valid_suggest":
-            valid_suggest($_REQUEST);
-            break;
+        valid_suggest($_REQUEST);
+        break;
 
         case"del":
         del($_REQUEST['sug_id']);
@@ -261,24 +258,24 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 }
 else if ($level_admin == -1){
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
 }
 else if ($visiteur > 1){
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
 }
 else{
     echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+    . "<div>\n"
+    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "</div>\n"
+    . "</div>\n";
 }
 
 adminfoot();

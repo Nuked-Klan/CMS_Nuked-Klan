@@ -114,7 +114,10 @@ if ($visiteur >= $level_access && $level_access > -1){
             include('modules/Suggest/modules/' . $_REQUEST['module'] . '.php');
         }
 
-        if(strlen($data) <= 30){
+        $content = make_array($data);
+        $content = mysql_real_escape_string(stripslashes($content));
+
+        if(strlen($content) <= 30){
             echo '<br /><br /><div style="text-align: center">' . _NOCONTENT . '</div><br /><br />';
             closetable();
             footer();
@@ -130,8 +133,6 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
 
         $date = time();
-        $content = make_array($data);
-        $content = mysql_real_escape_string(stripslashes($content));
 
         if ($user){
             $author = $user[0];
