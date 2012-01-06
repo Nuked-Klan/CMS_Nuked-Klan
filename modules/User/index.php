@@ -49,7 +49,7 @@ function index(){
                 . '<li><b>' . _NICK . ' :</b> ' . $user_data['pseudo'] . '</li>',"\n"
                 . '<li><b>' . _WEBSITE . ' :</b> ' . $website . '</li>',"\n"
                 . '<li><b>' . _MAIL . ' :</b> ' . $user_data['mail'] . '</li>',"\n"
-                . '<li><b>' . _DATEUSER . ' : </b> ' . nkDate($user_data['date']) . '</li>',"\n"
+                . '<li><b>' . _DATEUSER . ' : </b> ' . nkDate($user_data['date'], TRUE) . '</li>',"\n"
                 . '<li><b>' . _LASTVISIT . ' : </b> ' . $last_used . '</li>',"\n"
                 . '</ul>',"\n"
                 . '</td>',"\n"

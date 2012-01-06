@@ -65,7 +65,7 @@ function secure(){
             
             $last_visite = $last_used;
             
-            $upd = mysql_query("UPDATE " . SESSIONS_TABLE . "  date = '" . $time . "' WHERE id = '" . $id_de_session . "'");
+            $upd = mysql_query("UPDATE " . SESSIONS_TABLE . "  last_used = '" . $time . "' WHERE id = '" . $id_de_session . "'");
 
             if (isset($_REQUEST['file']) && isset($_REQUEST['thread_id']) && $_REQUEST['file'] == 'Forum' && is_numeric($_REQUEST['thread_id']) && $_REQUEST['thread_id'] > 0 && $secu_user > 0) {
                 $select_thread = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE date > '" . $last_used . "' AND thread_id = '" . $_REQUEST['thread_id'] . "' ";

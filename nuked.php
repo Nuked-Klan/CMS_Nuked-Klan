@@ -1051,12 +1051,17 @@ function getOS(){
         'SunOS'                => 'SunOS',
         'Nintendo Wii'         => 'Nintendo Wii',
         'Mac'                  => 'Mac',
-        );
+
+        // Search Engines
+        'msnbot'               => 'Microsoft Bing',
+        'googlebot'            => 'Google Bot',
+        'yahoo'                => 'Yahoo Bot'
+    );
 
     $user_agent = strtolower( $user_agent );
 
     foreach( $list_os as $k => $v ){
-     if (preg_match("#".strtolower($k)."#", strtolower($user_agent))){
+        if (preg_match("#".strtolower($k)."#", strtolower($user_agent))){
             $os = $v;
             break;
         }
@@ -1078,10 +1083,15 @@ function getBrowser(){
         'Chrome'    => 'Google Chrome',
         'Safari'    => 'Apple Safari',
         'Mozilla'   => 'Mozilla'
+
+        // Search Engines
+        'msnbot'    => 'Microsoft Bing',
+        'googlebot' => 'Google Bot',
+        'yahoo'     => 'Yahoo Bot'
     );
 
     foreach( $list_browser as $k => $v ){
-         if (preg_match("#".$k."#i", $user_agent)){
+        if (preg_match("#".$k."#i", $user_agent)){
             $browser = $v;
             break;
         }
