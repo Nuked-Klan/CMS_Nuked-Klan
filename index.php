@@ -55,6 +55,9 @@ $check_ip = banip();
 
 if (!empty($check_ip)){
     $url_ban = 'ban.php?ip_ban=' . $check_ip;
+    if(!empty($user)){
+        $url_ban .= '&user=' . urlencode($user[2]);
+    }
     redirect($url_ban, 0);
     exit();
 }

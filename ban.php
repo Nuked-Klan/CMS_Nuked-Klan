@@ -26,14 +26,29 @@ $language = trim($language);
 include ('themes/' . $theme . '/colors.php');
 translate ('lang/' . $language . '.lang.php');
 
-$ip_ban = $_GET['ip_ban'];
+$ip_ban = mysql_real_escape_string($_GET['ip_ban']);
+$user_ban = mysql_real_escape_string($_GET['user']);
+$cookie_ban = mysql_real_escape_string($_COOKIE['ip_ban']);
 
-$sql = mysql_query('SELECT texte, dure FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '"');
+$sql = mysql_query('SELECT texte, date, dure FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '" OR pseudo = "' . $user_ban . '"');
 $count = mysql_num_rows($sql);
 
 if ($count > 0)
 {
-    list($texte_ban, $dure) = mysql_fetch_array($sql);
+    list($texte_ban, $date, $dure) = mysql_fetch_array($sql);
+
+    // On supprime les bans dépassés, 0 = A vie
+    if($dure != 0 && ($date + $dure) < time()) {
+        // On supprime l'entrée SQL
+        $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '"');
+        // On supprime le cookie
+        $_COOKIE['ip_ban'] = '';
+        // On redirige vers le site
+        redirect('index.php', 0);
+        die;
+    }
+
+    // Sinon on prolongue la durée de vie du cookie.
     setcookie('ip_ban', $ip_ban, time() + 9999999, '', '', '');
 
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -59,7 +74,7 @@ if ($count > 0)
     else if ($dure == 31708800) $temps = _1AN;
 
     echo '<hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" /><br />' . _DURE . '
-    ' . $temps . '<br />
+    ' . strtolower($temps) . '<br />
     ' . _CONTACTWEBMASTER . ' : <a href="mailto:' . $nuked['mail'] . '">' . $nuked['mail'] . '</a></div></body></html>';
 }
 ?>

@@ -181,98 +181,53 @@ function connect(){
     }
 }
 
-// SEARCH BAN FOR USER, ERROR BAN FOR BANNED USER AND REMOVES EXPIRED BAN'S.
-function banip(){
-    global $nuked, $user_ip, $user, $language;
+// QUERY BAN FOR USER / VISITOR
+function banip() {
+    global $user_ip, $user, $language;
 
-    $theday = time();
+    // Aucune IP à bannir
+    $banned_ip = '';
 
-    $ip_search = $_COOKIE['ip_ban'] ? $_COOKIE['ip_ban'] : $user_ip;
-    $where_pseudo = $user[2] ? 'OR pseudo = "' . $user[2] . '"' : '';
+    // On supprime nos 2 derniers chiffres pour les IP's dynamiques
+    $ip_dyn = substr($user_ip, 0, -2);
 
-    $query_ban = mysql_query('SELECT id, pseudo, date, dure FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_search . '" ' . $where_pseudo);
-    $ban = mysql_fetch_array($query_ban);
+    // Condition SQL : IP dynamique ou compte
+    $where_query = ' WHERE (ip LIKE "%' . $ip_dyn . '%") OR pseudo = "' . $user[2] . '"';
 
-    $not = FALSE;
+    // Recherche d'un banissement
+    $query_ban = mysql_query('SELECT `id`, `ip`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $where_query);
+    $ban = mysql_fetch_assoc($query_ban);
 
-    if(mysql_num_rows($query_ban) > 0)
-    {
-        $limit_time = $date1 + $dure1;
-
-        if ($limit_time < $theday AND $dure1 > 0)
-        {
-            $del1 = mysql_query('DELETE FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_search . '" ' . $where_pseudo);
-            $upd = mysql_query('INSERT INTO ' . $nuked['prefix'] . '_notification (`date`, `type`, `texte`) VALUES ("' . $theday . '", "4", "' . $ban['pseudo'] . _BANFINISHED . '")');
-
-            $not = true;
-
-            if($_COOKIE['ip_ban']) $_COOKIE['ip_ban'] = '';
+    // Si résultat positif à la recherche d'un bannissement
+    if(!empty($ban['id'])) {
+        // Nouvelle adresse IP
+        $banned_ip = $user_ip;
+    }
+    // Recherche d'un cookie de banissement
+    else if(isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) {
+        // On vérifie si l'adresse IP est différente
+        if($_COOKIE['ip_ban'] != $user_ip) {
+            $banned_ip = $user_ip;
         }
     }
-    else $_COOKIE['ip_ban'] = '';
 
-    $ip_ban = $_COOKIE['ip_ban'] ? $_COOKIE['ip_ban'] : '';
-    
-    if ($ip_ban)
-    {
-        if ($ip_ban != $user_ip)
-        {
-            $sql = mysql_query('SELECT pseudo, email, texte FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '"');
-            $nb_ban = mysql_num_rows($sql);
-
-            if ($nb_ban > 0)
-            {
-                $sql2 = mysql_query('SELECT id FROM ' . BANNED_TABLE . ' WHERE ip = "' . $user_ip . '"');
-                $check_ban = mysql_num_rows($sql2);
-
-                if ($check_ban == 0)
-                {
-                    list($pseudo_ban, $email_ban, $texte_ban) = mysql_fetch_array($sql);
-                    $insert = mysql_query('INSERT INTO ' . BANNED_TABLE . ' ( `id` , `ip` , `pseudo`, `email`, `texte` ) VALUES ("", "' . $user_ip . '", "' . $pseudo_ban . '", "' . $email_ban . '", "' . $texte_ban . '")');
-                }
-
-                $ip_ban = $user_ip;
-            }
-            else $ip_ban = '';
+    // Suppression des banissements dépassés ou mise à jour de l'IP
+    if(!empty($banned_ip)) {
+        // Recherche banissement dépassé
+        if($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
+            // Suppression bannissement
+            $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . $where_query);
+            // Pas d'IP à bannir
+            $banned_ip = '';
+        }
+        // Sinon on met à jour l'IP
+        else {
+            $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '" ' . $where_query);
         }
     }
-    else
-    {
-        $nb_ban = 0;
-        $sql = mysql_query('SELECT ip, pseudo FROM ' . BANNED_TABLE . ' ORDER BY id');
-        
-        while ($ban2 = mysql_fetch_array($sql)){
-            if ($nb_ban == 0)
-            {
-                $bip = explode('.', $ban2['ip']);
 
-                if ($bip[3] && !empty($bip[3]))
-                {
-                    $banlist = $ban2['ip'];
-                    $verif_ip = $user_ip;
-                }
-                else
-                {
-                    $banlist = $bip[0] . $bip[1] . $bip[2];
-                    $uip = explode('.', $user_ip);
-                    $verif_ip = $uip[0] . $uip[1] . $uip[2];
-                }
-
-                if ($verif_ip == $banlist)
-                {
-                    $ip_ban = $ban2['ip'];
-                    $nb_ban++;
-                }
-                else if (isset($user[2]) && $ban2['pseudo'] == $user[2])
-                {
-                    $ip_ban = $ban2['ip'];
-                    $nb_ban++;
-                }
-                else $ip_ban = '';
-            }
-        }
-    }
-    return $ip_ban;
+    # Return empty = not banned
+    return $banned_ip;
 }
 
 // DISPLAY ALL BLOCKS
@@ -1082,7 +1037,7 @@ function getBrowser(){
         'MSIE'      => 'Internet Explorer',
         'Chrome'    => 'Google Chrome',
         'Safari'    => 'Apple Safari',
-        'Mozilla'   => 'Mozilla'
+        'Mozilla'   => 'Mozilla',
 
         // Search Engines
         'msnbot'    => 'Microsoft Bing',
