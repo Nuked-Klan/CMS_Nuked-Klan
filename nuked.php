@@ -202,8 +202,9 @@ function banip() {
     }
     // Recherche d'un cookie de banissement
     else if(isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) {
-        // On vérifie si l'adresse IP est différente
-        if($_COOKIE['ip_ban'] != $user_ip) {
+        // On vérifie l'adresse IP du cookie et l'adresse IP actuelle
+        if(substr($_COOKIE['ip_ban'], 0, -2) == $ip_dyn) {
+            // Si résultat positif, on fait un nouveau ban
             $banned_ip = $user_ip;
         }
     }
@@ -601,7 +602,7 @@ function secu_args($matches){
             if ($args[1][$id] == 'style'){
                 $args[2][$id] = secu_css($args[2][$id]);
             }
-            elseif ($args[1][$id] == 'src'){
+            elseif ($matches[1] == 'img' && $args[1][$id] == 'src'){
                 if(!secu_url($args[2][$id]))
                     $args[2][$id] = 'images/noimagefile.gif';
             }
