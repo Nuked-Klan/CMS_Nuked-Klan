@@ -8,7 +8,7 @@ import os.path
 def _ignore(src, name ):
     if src == './UPLOAD/':
         print name
-        return ['RESTDIR', 'conf.inc.php', 'Nuked-Klan.zip', '.hg']
+        return ['RESTDIR', 'conf.inc.php', 'Nuked-Klan.zip', '.hg', 'make.py']
     else:
         return []
 
