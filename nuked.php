@@ -202,10 +202,16 @@ function banip() {
     }
     // Recherche d'un cookie de banissement
     else if(isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) {
+        // On supprime les 2 derniers chiffre de l'adresse IP contenu dans le cookie
+        $ip_dyn2 = substr($_COOKIE['ip_ban'], 0, -2);
+
         // On vérifie l'adresse IP du cookie et l'adresse IP actuelle
-        if(substr($_COOKIE['ip_ban'], 0, -2) == $ip_dyn) {
+        if($ip_dyn2 == $ip_dyn) {
+            // On vérifie l'existance du bannissement
+            $query_ban2 = mysql_query('SELECT `id` FROM ' . BANNED_TABLE . ' WHERE (ip LIKE "%' . $ip_dyn2 . '%")');
             // Si résultat positif, on fait un nouveau ban
-            $banned_ip = $user_ip;
+            if(mysql_num_rows($query_ban2) > 0)
+                $banned_ip = $user_ip;
         }
     }
 
