@@ -197,11 +197,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($_REQUEST['do'] == "edit")
         {
-            if ($force_edit_message == 'on') $checked5 = 'checked=\"checked\"';
-            else $checked5 = '';
+            $checked5 = ($force_edit_message == 'on') ? 'check=\"checked\"' : '';
             if ($user[1] >= admin_mod("Forum") || $administrator == 1) $forced5 = '';
-            else
-            {
+            else {
                 $forced5 = 'disabled=\"disabled\"';
                 echo "<input type=\"hidden\" name=\"edit_text\" value=\"1\" />\n";
             }
