@@ -37,8 +37,8 @@ if (session_id() == '') exit(ERROR_SESSION);
 include ('Includes/nkSessions.php');
 
 // $_REQUEST['file'] & $_REQUEST['op'] DEFAULT VALUE.
-if (!$_REQUEST['file'] || $_REQUEST['file'] == null) $_REQUEST['file'] = $nuked['index_site'];
-if (!$_REQUEST['op'] || $_REQUEST['op'] == null) $_REQUEST['op'] = 'index';
+if (empty($_REQUEST['file'])) $_REQUEST['file'] = $nuked['index_site'];
+if (empty($_REQUEST['op'])) $_REQUEST['op'] = 'index';
 
 
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
