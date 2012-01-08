@@ -631,61 +631,57 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $sql1 = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET last_post = '" . $date . "' WHERE id = '" . $_REQUEST['thread_id'] . "'");
         $sql3 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
-        if (mysql_affected_rows() > 0) 
-        {
-            $sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
+		$sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
 
-            $notify = mysql_query("SELECT auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND emailnotify = 1 GROUP BY auteur_id");
-            $nbusers = mysql_num_rows($notify);
+		$notify = mysql_query("SELECT auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND emailnotify = 1 GROUP BY auteur_id");
+		$nbusers = mysql_num_rows($notify);
 
-            if ($nbusers > 0)
-            {
-                while (list($usermail) = mysql_fetch_row($notify))
-                {
-                    if($usermail != $auteur_id)
-                    {
-                                $getmail = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE id = '" . $usermail . "'");
-                                list($email) = mysql_fetch_row($getmail);
-                                $subject = _MESSAGE . " : " . $_REQUEST['titre'];
-                                $corps = _EMAILNOTIFYMAIL . "\r\n" . $nuked['url'] . "/index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
-                                $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+		if ($nbusers > 0)
+		{
+			while (list($usermail) = mysql_fetch_row($notify))
+			{
+				if($usermail != $auteur_id)
+				{
+							$getmail = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE id = '" . $usermail . "'");
+							list($email) = mysql_fetch_row($getmail);
+							$subject = _MESSAGE . " : " . $_REQUEST['titre'];
+							$corps = _EMAILNOTIFYMAIL . "\r\n" . $nuked['url'] . "/index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+							$from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
-                                $subject = @html_entity_decode($subject);
-                                $corps = @html_entity_decode($corps);
-                                $from = @html_entity_decode($from);
+							$subject = @html_entity_decode($subject);
+							$corps = @html_entity_decode($corps);
+							$from = @html_entity_decode($from);
 
-                                mail($email, $subject, $corps, $from);
-                    }
-                }
-            }
+							mail($email, $subject, $corps, $from);
+				}
+			}
+		}
 
-            if ($user)
-            {
-                $sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-                list($count) = mysql_fetch_row($sql_count);
-                $newcount = $count + 1;
-                $upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $user[0] . "'");
-            }
+		if ($user)
+		{
+			$sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+			list($count) = mysql_fetch_row($sql_count);
+			$newcount = $count + 1;
+			$upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $user[0] . "'");
+		}
 
-            $sql_page = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
-            list($mess_id) = mysql_fetch_row($sql_page);
-            $nb_rep = mysql_num_rows($sql_page);
+		$sql_page = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
+		list($mess_id) = mysql_fetch_row($sql_page);
+		$nb_rep = mysql_num_rows($sql_page);
 
-            if ($nb_rep > $nuked['mess_forum_page'])
-            {
-                $topicpages = $nb_rep / $nuked['mess_forum_page'];
-                $topicpages = ceil($topicpages);
-                $link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "&p=" . $topicpages . "#" . $mess_id;
-            }
-            else
-            {
-                $link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "#" . $mess_id;
-            }
+		if ($nb_rep > $nuked['mess_forum_page'])
+		{
+			$topicpages = $nb_rep / $nuked['mess_forum_page'];
+			$topicpages = ceil($topicpages);
+			$link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "&p=" . $topicpages . "#" . $mess_id;
+		}
+		else
+		{
+			$link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "#" . $mess_id;
+		}
 
-            echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESEND . "</div><br /><br />";
-            redirect($link_post, 2);
-        }
-        else echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
+		echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESEND . "</div><br /><br />";
+		redirect($link_post, 2);
         closetable();
     }
 
