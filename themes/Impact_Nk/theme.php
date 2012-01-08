@@ -275,7 +275,7 @@ function opentable(){
         if($_REQUEST['file'] == $complet[$_REQUEST['file']] AND $_REQUEST['page'] != "admin"){
 ?>
                 <div id="open1cc">
-                        <h2><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?> - <?php echo $_REQUEST['file']; ?></h2>
+                        <h2><?php echo $_REQUEST['file']; ?></h2>
                 </div>
                 <div id="open2cc">
 <?php
@@ -283,7 +283,7 @@ function opentable(){
         elseif ($_REQUEST['file'] == $module_aff_unique[$_REQUEST['file']] || $_REQUEST['page'] == "admin"){
 ?>
                 <div id="open1ss">
-                        <h2><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?> - <?php echo $_REQUEST['file']; ?></h2>
+                        <h2><?php echo $_REQUEST['file']; ?></h2>
                 </div>
                 <div id="open2ss">
 <?php

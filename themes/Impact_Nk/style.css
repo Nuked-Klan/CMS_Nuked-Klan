@@ -66,11 +66,11 @@ form#search{}
 .copyright{text-align:center;}
 .copyright1{height:52px;}
 #open1cc{margin:auto;width:930px;height:64px;background:url(images/titreforum.png) no-repeat;}
-#open1cc h2{padding-top:5px;margin-top:0px;margin-bottom:0px;text-align:center;font-size:14px;color:#ffffff;}
-#open1ss h2{padding-top:5px;margin-top:0px;margin-bottom:0px;text-align:center;font-size:14px;color:#ffffff;}
-#open2cc{margin:auto;width:930px;background:url(images/centreforum.png) repeat-y;}
-#open3cc{margin:auto;width:930px;height:25px;background:url(images/footerforum.png) no-repeat;}
-#open1ss{margin:auto;width:695px;height:29px;background:url(images/centretitre.png) no-repeat;}
+#open1cc h2,#open1ss h2{padding-top:5px;margin:0;text-align:center;font-size:14px;color:#ffffff}
+#open2ss{padding:5px}
+#open2cc{padding:5px;width:920px;background:url(images/centreforum.png) repeat-y}
+#open3cc{width:930px;height:25px;background:url(images/footerforum.png) no-repeat}
+#open1ss{width:695px;height:29px;background:url(images/centretitre.png) no-repeat}
 .open1nn{margin:auto;width:487px;height:4px;background:url(images/newsstitre.png) no-repeat;}
 #site{margin:auto;width:932px;background:url(images/site.png) repeat-y;color:#ffffff;}
 #site a{color:#025baf;}
