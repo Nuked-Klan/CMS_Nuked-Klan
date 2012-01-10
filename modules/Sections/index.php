@@ -519,10 +519,9 @@ if ($visiteur >= $level_access && $level_access > -1){
         try
         {
             $html2pdf = new HTML2PDF('P', 'A4', 'fr');
-            //$html2pdf->setModeDebug();
-            $html2pdf->setDefaultFont('Arial');
+            $pdf->setDefaultFont('dejavusans');
             $html2pdf->writeHTML(utf8_encode($texte), isset($_GET['vuehtml']));
-            $html2pdf->Output('exemple00.pdf');
+            $html2pdf->Output($title.'.pdf');
         }
         catch(HTML2PDF_exception $e) {
             echo $e;
