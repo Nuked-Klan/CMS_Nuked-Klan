@@ -519,7 +519,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         try
         {
             $html2pdf = new HTML2PDF('P', 'A4', 'fr');
-            $pdf->setDefaultFont('dejavusans');
+            $html2pdf->setDefaultFont('dejavusans');
             $html2pdf->writeHTML(utf8_encode($texte), isset($_GET['vuehtml']));
             $html2pdf->Output($title.'.pdf');
         }
