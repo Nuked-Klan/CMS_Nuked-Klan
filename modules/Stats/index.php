@@ -143,7 +143,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             echo '<tr style="background: ' . $bg . '">'."\n"
             . '<td style="width : 5%" align="center">' . $nb . '</td>'."\n"
             . '<td style="width : 25%">' . $pagename . '</td>'."\n"
-            . '<td style="width : 20%" align="center">' . $count . ' (' . $etat . ')</td>'."\n"
+            . '<td style="width : 20%" align="center">' . $count . ' (' . $etat . '%)</td>'."\n"
             . '<td style="width : 50%">'."\n";
 
             show_etat($etat);

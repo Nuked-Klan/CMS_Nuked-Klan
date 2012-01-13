@@ -138,7 +138,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                 echo '<tr>'."\n"
                 . '<td style="width : 5%" align="center">' . $nb . '</td>'."\n"
                 . '<td style="width : 25%">' . $pagename . '</td>'."\n"
-                . '<td style="width : 20%" align="center">' . $count . ' (' . $etat . ')</td>'."\n"
+                . '<td style="width : 20%" align="center">' . $count . ' (' . $etat . '%)</td>'."\n"
                 . '<td style="width : 50%">'."\n";
 
                 show_etat($etat);
