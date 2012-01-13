@@ -25,7 +25,7 @@ function edit_block_module($bid){
     $handle = opendir('modules/');
 	
     while ($mod = readdir($handle)){
-        if(file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;             
+        if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;             
     }
 	
     if (false===array_search($modul, $autorized_modules)){
@@ -91,7 +91,7 @@ function inc_bl($modul, $bid){
     $handle = opendir('modules/');
 	
     while ($mod = readdir($handle)){
-        if(file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;             
+        if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;             
     }
 	
     if (false===array_search($modul, $autorized_modules)){
