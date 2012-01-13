@@ -22,11 +22,11 @@ CKEDITOR.editorConfig = function( config )
         '/',
         { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
         { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
-        { name: 'tools',       items : [ 'Maximize', 'ShowBlocks','-','About' ] },
+        { name: 'tools',       items : [ 'Maximize', 'ShowBlocks' ] },
+        { name: 'insert',      items : [ 'Video','syntaxhighlight' ] }, // For video, syntaxhightlight
         '/',
         { name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
         { name: 'colors',      items : [ 'TextColor','BGColor' ] },
-        { name: 'insert',      items : [ 'Video','syntaxhighlight' ] }, // For video, syntaxhightlight
         { name: 'insert',      items : [ 'Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] },
     ];
 
