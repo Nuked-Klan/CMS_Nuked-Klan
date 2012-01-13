@@ -205,6 +205,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             echo '<p style="color:#555555;text-align:center;width:100%;">Generated in ',${mtime},'s</p>';
         }
 
+        send_stats_nk();
+
         echo '</body></html>';
     }
 }
@@ -218,8 +220,6 @@ else{
     closetable();
     footer();
 }
-
-send_stats_nk();
 
 mysql_close($db);
 ?>
