@@ -21,8 +21,8 @@ include('Includes/fatal_errors.php');
 if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == TRUE) extract($_REQUEST);
 
 if (!defined('NK_INSTALLED')){
-    if (file_exists('install.php')){
-        header('location: install.php');
+    if (file_exists('INSTALL/index.php')){
+        header('location: INSTALL/index.php');
         exit();
     }
 }
