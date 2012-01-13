@@ -197,9 +197,12 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($_REQUEST['do'] == "edit")
         {
-            $disable_checkbox = ($force_edit_message == 'on' && $administrator != 1) ? 'disabled="disabled"' : '';
-
-            echo '<input type="checkbox" name="edit_text" value="1" ' . $disable_checkbox . ' checked="checked" />&nbsp;' . _EDITTEXT . "\n";
+            if($force_edit_message == 'on' && $administrator != 1){
+                echo '<input type="hidden" name="edit_text" value="1" />'."\n";
+            }
+            else{
+                echo '<input type="checkbox" name="edit_text" value="1" checked="checked" />&nbsp;' . _EDITTEXT . "\n";
+            }
         }
 
         if ($_REQUEST['thread_id'] != "" || $_REQUEST['do'] == "edit")
