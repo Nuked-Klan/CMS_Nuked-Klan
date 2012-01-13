@@ -33,7 +33,7 @@ function top(){
                         <meta http-equiv="content-style-type" content="text/css" />
                         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
                         <!-- IE Mode Compatibility -->
-                        <meta http-equiv="X-UA-Compatible" content="IE=8">
+                        <meta http-equiv="X-UA-Compatible" content="IE=8" />
                         <title><?php echo $nuked['name'] ?> - <?php echo $nuked['slogan'] ?></title>
                         <link rel="search" type="application/opensearchdescription+xml" title="<?php echo $nuked['name']; ?>" href="opensearch.php" />
                         <link rel="shortcut icon"  type="image/x-icon" href="images/favicon.ico" />
