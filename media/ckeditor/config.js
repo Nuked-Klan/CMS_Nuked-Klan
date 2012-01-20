@@ -11,8 +11,10 @@ CKEDITOR.editorConfig = function( config )
     'Times New Roman/Times New Roman, Times, serif;';
     config.resize_enabled = false;
     config.width = '96%';
+    config.scayt_autoStartup = true;
+    config.disableNativeSpellChecker = false;
 
-    // ADVANCED EDITOR || DESACTIVED : SAVE - FORM,CHECKBOX,RADIO,TEXTFILED,TEXTAREA,SELECT,BUTTON,IMAGEBUTTON,HIDDENFIELD - FLASH
+    // ADVANCED EDITOR || DESACTIVED : SAVE - FORM,CHECKBOX,RADIO,TEXTFILED,TEXTAREA,SELECT,BUTTON,IMAGEBUTTON,HIDDENFIELD - FLASH - ABOUT
     config.toolbar_Full =
     [
         { name: 'document',    items : [ 'Source','-','NewPage','DocProps','Preview','Print','-','Templates' ] },
@@ -23,7 +25,7 @@ CKEDITOR.editorConfig = function( config )
         { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
         { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
         { name: 'tools',       items : [ 'Maximize', 'ShowBlocks' ] },
-        { name: 'insert',      items : [ 'Video','syntaxhighlight' ] }, // For video, syntaxhightlight
+        { name: 'insert',      items : [ 'Video','syntaxhighlight' ] },
         '/',
         { name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
         { name: 'colors',      items : [ 'TextColor','BGColor' ] },
