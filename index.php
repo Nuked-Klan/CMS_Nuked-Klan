@@ -137,15 +137,17 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         , 'SyntaxHighlighter.config.clipboardSwf = \'media/ckeditor/plugins/syntaxhighlight/scripts/clipboard.swf\';',"\n"
         , 'SyntaxHighlighter.all();',"\n"
         , '</script>',"\n";
-        
-        if ($nuked['nk_status'] == 'closed' && $user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
-            echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , _YOURSITEISCLOSED , ' :<br /><br/ >' , $nuked['url'] , '/index.php?file=User&amp;op=login_screen</b></div>',"\n";
-        }
-        if (is_dir('INSTALL/')){
-            echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , REMOVEDIRINST , '</b></div>',"\n";
-        }
-        if (file_exists('install.php') || file_exists('update.php')){
-            echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , REMOVEINST , '</b></div>',"\n";
+
+        if($user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
+            if ($nuked['nk_status'] == 'closed'){
+                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , _YOURSITEISCLOSED , ' :<br /><br/ >' , $nuked['url'] , '/index.php?file=User&amp;op=login_screen</b></div>',"\n";
+            }
+            if (is_dir('INSTALL/')){
+                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , REMOVEDIRINST , '</b></div>',"\n";
+            }
+            if (file_exists('install.php') || file_exists('update.php')){
+                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , REMOVEINST , '</b></div>',"\n";
+            }
         }
     }
     else
