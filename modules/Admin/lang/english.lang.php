@@ -638,4 +638,17 @@ define("_SHARESTATS","Share your statistics");
 define("_SHAREREASON","The goal of this function is to help us create better Nuked Klan services and meet your needs while respecting your anonymity."); 
 define("_SEESHARE","see the sent stats");
 define("_SMILEYNOTAUTHORIZE","The smiley code is not authorized, please change it");
+# Page : About
+define('_INFOSPROPOS','<h3>General information:</h3>
+version ' . $nuked['version'] . '<br />
+Developed by Nuked-Klan Team<br /><br />
+
+<h3>Contact Nuked-Klan:</h3>
+<a href="http://www.nuked-klan.org/index.php?file=Contact">Contact form</a><br /><br />
+
+<h3>Acknowledgments:</h3>
+A whole team nuked-klan.org, and his community that has allowed us to quickly fix the main bugs<br /><br /><br />
+
+<h3>GNU Licence:</h3>
+Thank you not to remove the copyleft respect for the cms and follow the GNU.<br />');
 ?>

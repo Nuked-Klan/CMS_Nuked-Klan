@@ -475,4 +475,18 @@ define("_SHARESTATS","Partager vos statistiques");
 define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat."); 
 define("_SEESHARE","voir les statistiques envoyées");
 define("_SMILEYNOTAUTHORIZE","Le code du smiley n'est pas autorisé, merci de le changer");
+# Page : A propos
+define('_INFOSPROPOS', '<h3>Informations générales :</h3>
+Version ' . $nuked['version'] . '<br />
+Développée par toute <a href="http://www.nuked-klan.org/index.php?file=Equipe">l\'équipe Nuked-KlaN</a><br /><br />
+
+<h3>Contact Nuked-KlaN :</h3>
+<a href="http://www.nuked-klan.org/index.php?file=Contact">Formulaire de contact</a><br /><br />
+
+<h3>Remerciements :</h3>
+A toute l\'équipe nuked-klan.org, ainsi qu\'à sa communauté qui nous a permis de corriger rapidement les principaux bugs<br /><br /><br />
+
+<h3>Licence GNU :</h3>
+Merci de ne pas supprimer le <acronym title="Le terme copyleft est un double jeu de mots faisant référence au copyright traditionnel" style="text-decoration: underline">copyleft</acronym> par respect pour le cms et respecter la licence GNU.<br />');
+
 ?>
