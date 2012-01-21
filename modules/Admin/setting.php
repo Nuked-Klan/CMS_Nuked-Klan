@@ -302,8 +302,11 @@ if ($visiteur == 9)
     if ($nuked['user_delete'] == "on") $checked10 = "checked=\"checked\"";
         else $checked10 = "";
         
-    if ($nuked['video_editeur'] == "on") $checked11 = "checked=\"checked\"";
-        else $checked11 = "";
+    if ($nuked['video_editeur'] == "on") $checked14 = "checked=\"checked\"";
+        else $checked14 = "";
+
+    if ($nuked['scayt_editeur'] == "on") $checked13 = "checked=\"checked\"";
+        else $checked13 = "";
 
     $checked12 = ($nuked['time_generate'] == 'on') ? 'checked="checked"' : '';
 
@@ -318,7 +321,9 @@ if ($visiteur == 9)
     . "<option value=\"admin\" " . $checked6 . ">" . _ADMINISTRATOR . "</option>\n"
     . "<option value=\"mail\" " . $checked7 . ">" . _BYMAIL . "</option></select></td></tr>\n"
     . "<tr><td>" . _USERDELETE . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"user_delete\" value=\"on\" " . $checked10 . " /></td></tr>\n"
-    . "<tr><td>" . _VIDEOEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"video_editeur\" value=\"on\" " . $checked11 . " /></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _EDITEUR . "</b></big></td></tr>\n"
+    . "<tr><td>" . _VIDEOEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"video_editeur\" value=\"on\" " . $checked14 . " /></td></tr>\n"
+    . "<tr><td>" . _SCAYTEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"scayt_editeur\" value=\"on\" " . $checked13 . " /></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _SITEMEMBERS . "</b></big></td></tr>\n"
     . "<tr><td>" . _NUMBERMEMBER . " :</td><td><input type=\"text\" name=\"max_members\" size=\"2\" value=\"" . $nuked['max_members'] . "\" /></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _AVATARS . "</b></big></td></tr>\n"
@@ -378,6 +383,7 @@ if ($visiteur == 9)
         if ($_REQUEST['avatar_url'] != "on") $_REQUEST['avatar_url'] = "off";
         if ($_REQUEST['user_delete'] != "on") $_REQUEST['user_delete'] = "off";
         if ($_REQUEST['video_editeur'] != "on") $_REQUEST['video_editeur'] = "off";
+        if ($_REQUEST['scayt_editeur'] != "on") $_REQUEST['scayt_editeur'] = "off";
         if ($_REQUEST['screen'] != "on") $_REQUEST['screen'] = "off";
         if (substr($_REQUEST['url'], -1) == "/") $_REQUEST['url'] = substr($_REQUEST['url'], 0, -1);
         $_REQUEST['cookiename'] = str_replace(' ','',$_REQUEST['cookiename']);

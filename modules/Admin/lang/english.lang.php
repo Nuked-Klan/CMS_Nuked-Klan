@@ -140,6 +140,7 @@ define("_AVATARUPLOAD","Allow uploads");
 define("_AVATARURL","Allow website uploads (link)");
 define("_USERDELETE","Allow members to remove their account");
 define("_VIDEOEDITEUR","Allow adding videos to the editor (Youtube, Dailymotion, etc. ...)");
+define("_SCAYTEDITEUR","Enable spell checker SCAYT in the editor");
 define("_SITESTATUS","Website Status");
 define("_OPENED","Open");
 define("_CLOSED","Closed");

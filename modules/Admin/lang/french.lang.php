@@ -145,6 +145,7 @@ define("_AVATARUPLOAD","Autoriser l'upload d'avatars");
 define("_AVATARURL","Autoriser les avatars externes (liens)");
 define("_USERDELETE","Autoriser les membres à supprimer leur compte");
 define("_VIDEOEDITEUR","Autoriser l'ajout de vidéos dans l'éditeur (Youtube, Dailymotion, etc...)");
+define("_SCAYTEDITEUR","Activer le correcteur orthographique SCAYT dans l'éditeur");
 define("_SITESTATUS","Statut du site");
 define("_OPENED","Ouvert");
 define("_CLOSED","Fermé");

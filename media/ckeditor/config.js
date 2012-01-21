@@ -11,7 +11,6 @@ CKEDITOR.editorConfig = function( config )
     'Times New Roman/Times New Roman, Times, serif;';
     config.resize_enabled = false;
     config.width = '96%';
-    config.scayt_autoStartup = true;
     config.disableNativeSpellChecker = false;
 
     // ADVANCED EDITOR || DESACTIVED : SAVE - FORM,CHECKBOX,RADIO,TEXTFILED,TEXTAREA,SELECT,BUTTON,IMAGEBUTTON,HIDDENFIELD - FLASH - ABOUT
@@ -35,6 +34,6 @@ CKEDITOR.editorConfig = function( config )
     // BASIC EDITOR
     config.toolbar_Basic =
     [
-        [ 'Source', '-', 'Bold', 'Italic', 'Underline', '-', 'Image', 'Link', 'Smiley', '-', 'TextColor', 'RemoveFormat', '-', 'SpellChecker' ]
+        [ 'Source', '-', 'Bold', 'Italic', 'Underline', '-', 'Image', 'Link', 'Smiley', '-', 'TextColor', 'RemoveFormat', '-', 'Scayt' ]
     ];
 };

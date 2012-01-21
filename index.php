@@ -160,7 +160,9 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_basic\')){',"\n";
+    , '    if(document.getElementById(\'e_basic\')){',"\n"
+    , 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
+    , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
     echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_basic\',',"\n"
     , '    {',"\n"
@@ -174,7 +176,9 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     , '//<![CDATA[',"\n"
     , '    if(document.getElementById(\'e_advanced\')){',"\n";
     $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
-    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
+    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';'
+    , 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
+    , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
     echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
     , '    {',"\n"
@@ -182,7 +186,6 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     , '        language : \'' . substr($language, 0,2) . '\',',"\n";
     if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
     echo '    }); }',"\n"
-    , '    CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
     , '//]]>',"\n"
     , '</script>',"\n";
     
