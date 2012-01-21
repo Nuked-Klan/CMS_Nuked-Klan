@@ -8,7 +8,7 @@ if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0,2) == 'fr'){
     define('ERROR_SQL', '<b>Une erreur SQL a été détectée.<br /><br />Information :<br /><br />Mon ERREUR</b> [' . $errno . '] ' . $errstr . '<br />Erreur fatale sur la ligne ' . $errline . ' dans le fichier ' . $errfile . ', PHP ' . PHP_VERSION . ' (' . PHP_OS . ')<br />Arrêt...<br />');
     define('WBSITE_CLOSED','Ce site est momentanément fermé, merci de réessayer plus tard');
     define('WAYTODO', 'Qu\'essayez vous de faire ?');
-    define('REMOVEDIRINST', 'Veuillez supprimer le dossier d\'installation d\'NK (INSTALL/)');
+    define('REMOVEDIRINST', 'Veuillez supprimer le dossier d\'installation de Nuked-Klan (/INSTALL/)');
     define('REMOVEINST', 'Veuillez supprimer vos fichiers d\'installation de modules ou de patchs (install.php ou update.php)');
 }
 else{
@@ -19,7 +19,7 @@ else{
     define('ERROR_SQL', '<b>A SQL error has been detected.<br /><br />Information:<br /><br />My ERROR</b> [' . $errno . '] ' . $errstr . '<br />Fatal error on the line ' . $errline . ', file ' . $errfile . ', PHP ' . PHP_VERSION . ' (' . PHP_OS . ')<br />Stop...<br />');
     define('WBSITE_CLOSED', 'Sorry, this website is momently closed, Please try again later.');
     define('WAYTODO', 'What are you trying to do ?');
-    define('REMOVEDIRINST', 'Please delete the installation folder NK (INSTALL/)');
+    define('REMOVEDIRINST', 'Please delete Nuked-Klan\'s installation folder (/INSTALL/)');
     define('REMOVEINST', 'Please delete your installation files for modules or patches (install.php or update.php)');
 }
 ?>
