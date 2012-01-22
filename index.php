@@ -143,10 +143,10 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                 echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , _YOURSITEISCLOSED , ' :<br /><br/ >' , $nuked['url'] , '/index.php?file=User&amp;op=login_screen</b></div>',"\n";
             }
             if (is_dir('INSTALL/')){
-                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , REMOVEDIRINST , '</b></div>',"\n";
+                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px;text-align:center;font-size:18px;"><b>' , REMOVEDIRINST , '</b></div>',"\n";
             }
             if (file_exists('install.php') || file_exists('update.php')){
-                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , REMOVEINST , '</b></div>',"\n";
+                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px;text-align:center;font-size:18px;"><b>' , REMOVEINST , '</b></div>',"\n";
             }
         }
     }
