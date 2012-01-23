@@ -45,10 +45,26 @@ UPDATE nuked_config SET value = 'quakenet.org' WHERE name = 'irc_serv'
 /* RC5 > RC5.3 */
 
 UPDATE nuked_config SET value = '1.7.9 RC5.3' WHERE name = 'version'
-INSERT INTO nuked_modules (`nom`, `niveau`, `admin`) VALUES ('PackageMgr', 9, 9)
+INSERT INTO nuked_modules (`nom`, `niveau`, `admin`) VALUES ('PackageMgr', 9, 9);
 
 /* R5.3 > RC6 */
 UPDATE nuked_config SET value = '1.7.9 RC6' WHERE name = 'version'
-DROP TABLE nuked_editeur
-DROP TABLE nuked_style
+
+DROP TABLE IF EXISTS nuked_editeur
+DROP TABLE IF EXISTS nuked_packages
+DROP TABLE IF EXISTS nuked_style
+
 DELETE FROM `nuked_modules` WHERE nom ='PackageMgr'
+
+CREATE TABLE IF NOT EXISTS `nuked_tmpses` (
+`session_id` varchar(64) NOT NULL,
+`session_vars` text NOT NULL,
+`session_start` bigint(20) NOT NULL,
+PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+INSERT INTO nuked_config (name, value) VALUES ('dateformat', '%d/%m/%Y - %H:%M:%S');
+INSERT INTO nuked_config (name, value) VALUES ('datezone', '1');
+INSERT INTO nuked_config (name, value) VALUES ('time_generate', 'on');
+INSERT INTO nuked_config (name, value) VALUES ('video_editeur', 'on');
+INSERT INTO nuked_config (name, value) VALUES ('scayt_editeur', 'on');
+ALTER TABLE nuked_nbconnecte ALTER COLUMN `IP` varchar(30);

@@ -175,6 +175,8 @@ CREATE TABLE IF NOT EXISTS `nuked_config` (
 INSERT INTO `nuked_config` VALUES('time_generate', 'on');
 INSERT INTO `nuked_config` VALUES('dateformat', '%d/%m/%Y - %H:%M:%S');
 INSERT INTO `nuked_config` VALUES('datezone', '+0100');
+INSERT INTO `nuked_config` VALUES ('video_editeur', 'on');
+INSERT INTO `nuked_config` VALUES ('scayt_editeur', 'on');
 INSERT INTO `nuked_config` VALUES('version', '1.7.9 RC6');
 INSERT INTO `nuked_config` VALUES('date_install', '1323049522');
 INSERT INTO `nuked_config` VALUES('langue', 'french');
@@ -823,7 +825,7 @@ INSERT INTO `nuked_modules` VALUES(22, 'Contact', 0, 3);
 
 DROP TABLE IF EXISTS `nuked_nbconnecte`;
 CREATE TABLE IF NOT EXISTS `nuked_nbconnecte` (
-  `IP` varchar(15) NOT NULL DEFAULT '',
+  `IP` varchar(30) NOT NULL DEFAULT '',
   `type` int(10) NOT NULL DEFAULT '0',
   `date` int(14) NOT NULL DEFAULT '0',
   `user_id` varchar(20) NOT NULL DEFAULT '',
