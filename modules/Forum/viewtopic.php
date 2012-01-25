@@ -231,8 +231,6 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "<tr " . $background . "><td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td><td style=\"width: 75%;\" align=\"center\" id=\"forum-table\"><b>" . _MESSAGE . "</b></td></tr>\n";
 
-        echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('forum-table').offsetWidth - 40;\n</script>\n";
-
         $sql4 = mysql_query("SELECT id, titre, auteur, auteur_id, auteur_ip, txt, date, edition, usersig, file  FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' ORDER BY date ASC limit " . $start . ", " . $nb_mess_for_mess."");
         while (list($mess_id, $title, $auteur, $auteur_id, $auteur_ip, $txt, $date, $edition, $usersig, $fichier) = mysql_fetch_row($sql4))
         {
@@ -534,17 +532,17 @@ if ($visiteur >= $level_access && $level_access > -1)
         echo "</td></tr></table>\n";
 
     echo '<script type="text/javascript">
-          var Img = document.getElementById("img_resize_forum").getElementsByTagName("img");
-          var NbrImg = Img.length;
-          for(var i = 0; i < NbrImg; i++)
-          {
-              if (Img[i].width > MaxWidth){
-                   Img[i].style.height = Img[i].height * MaxWidth / Img[i].width+"px";
-                   Img[i].style.width = MaxWidth+"px";
-              }
-            
-          }
-          </script>';
+            <!--
+                var Img = document.getElementById("img_resize_forum").getElementsByTagName("img");
+                var NbrImg = Img.length;
+                for(var i = 0; i < NbrImg; i++){
+                    if (Img[i].width > MaxWidth){
+                        Img[i].style.height = Img[i].height * MaxWidth / Img[i].width+"px";
+                        Img[i].style.width = MaxWidth+"px";
+                    }
+                }
+            -->
+        </script>';
 
         if ($visiteur >= admin_mod("Forum") || $administrator == 1)
         {
@@ -578,6 +576,8 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $sql_visit = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user[0] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' )");
             } 
         }
+
+        echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('forum-table').offsetWidth - 40;\n</script>\n";
     } 
 } 
 else if ($level_access == -1)
