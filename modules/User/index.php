@@ -446,7 +446,7 @@ function edit_account(){
         if ($nuked['avatar_upload'] == "on" || $nuked['avatar_url'] == "on"){
             echo "<tr><td><b>" . _AVATAR . " : </b></td>\n";
 
-            if($nuked['avatar_url'] != "on") $disable = "DISABLED=\"DISABLED\"";
+            if($nuked['avatar_url'] != "on") $disable = 'disabled="disabled"';
             else $disable = "";
 
             echo "<td><input type=\"text\" id=\"edit_avatar\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $avatar . "\" ".$disable." />"
@@ -1427,12 +1427,14 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 exit();
             }
         }
+        else{
+            $url_avatar = '';
+        }
 
-        if ($avatar != "" OR $filename != "") $sqlset = 'avatar = \'' . $url_avatar . '\', ';
         if (!(file_exists("images/flags/".$country.""))){
             $country = "France.gif";
         }
-        $upd3 = mysql_query("UPDATE " . USER_TABLE . " SET icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', email = '" . $email . "', url = '" . $url . "', " . $sqlset . "signature = '" . $signature . "', game = '" . $game . "', country = '" . $country . "' WHERE id = '" . $user[0] . "'");
+        $upd3 = mysql_query("UPDATE " . USER_TABLE . " SET icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', email = '" . $email . "', url = '" . $url . "', avatar = '" . $url_avatar . "', signature = '" . $signature . "', game = '" . $game . "', country = '" . $country . "' WHERE id = '" . $user[0] . "'");
         echo "<br /><br /><div style=\"text-align: center;\">" . _INFOMODIF . "</div><br /><br />";
         redirect("index.php?file=User", 1);
     }
