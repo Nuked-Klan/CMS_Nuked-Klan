@@ -16,14 +16,12 @@ CKEDITOR.dialog.add('Video',function(a) {
 			this.getContentElement('OngletYoutube','youtube').getInputElement().setValue('');
 			this.getContentElement('OngletDailymotion','dailymotion').getInputElement().setValue('');
 			//this.getContentElement('OngletVimeo','vimeo').getInputElement().setValue('');
-			this.getContentElement('OngletMegavideo','megavideo').getInputElement().setValue('');
 			this.getContentElement('OngletWat','wat').getInputElement().setValue('');
 		},		
 		onOk: function() {
 			var inputYoutube = trim(this.getContentElement('OngletYoutube','youtube').getInputElement().getValue());
 			var inputDailymotion = trim(this.getContentElement('OngletDailymotion','dailymotion').getInputElement().getValue());
 			//var inputVimeo = trim(this.getContentElement('OngletVimeo','vimeo').getInputElement().getValue());
-			var inputMegavideo = trim(this.getContentElement('OngletMegavideo','megavideo').getInputElement().getValue());
 			var inputWattv = trim(this.getContentElement('OngletWat','wat').getInputElement().getValue());
 			var videoWidth = trim(this.getContentElement('Dimensions', 'dimWidth').getInputElement().getValue());
 			var videoHeight = trim(this.getContentElement('Dimensions','dimHeight').getInputElement().getValue());
@@ -47,11 +45,6 @@ CKEDITOR.dialog.add('Video',function(a) {
 				this.getParentEditor().insertHtml(text); 
 			}*/			
 			// Megavideo
-			else if (inputMegavideo != '') {
-				var url = 'http://www.megavideo.com/v/';
-				var text = '<div style="text-align:center"><object width="'+videoWidth+'" height="'+videoHeight+'"><param name="movie" value="'+url+inputMegavideo+'"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="'+url+inputMegavideo+'" type="application/x-shockwave-flash" width="'+videoWidth+'" height="'+videoHeight+'" allowscriptaccess="always" allowfullscreen="true"></embed></object></div>';
-				this.getParentEditor().insertHtml(text);
-			}			
 			// Wat TV
 			else if (inputWattv != '') {
 				var url = 'http://www.wat.tv/swf2/';
@@ -105,21 +98,6 @@ CKEDITOR.dialog.add('Video',function(a) {
 				focus:function(){this.getElement().focus()}
 			}]			
         },*/
-		{
-			// Megavideo
-			id: 'OngletMegavideo',
-			label: '<img src="'+CKEDITOR.getUrl(pluginUrl+'images/megavideo.png')+'" /> MégaVidéo',
-			elements:[{
-				type:'html',
-				id:'pasteMsg',
-				html:'<div style="margin:0 auto;width:280px"><img src="'+CKEDITOR.getUrl(pluginUrl+'images/megavideo_large.jpg')+'" /></div><br /><br /><h2 style="text-align:center;font-size:14px;font-weight:bold">Entrez l\'ID de la vidéo Mégavidéo</h2><p style="text-align:center">( ex. : http://www.megavideo.com/v/<span style="color:#f00;font-weight:bold">MEUDAU7Cbe0b26a0704b6e0c9be53f5f7b7679762</span> )</p>'
-			},{
-				type:'html',
-				id:'megavideo',
-				html:'<input size="25" style="border:1px solid gray;background:white;margin-left:220px">',
-				focus:function(){this.getElement().focus()}
-			}]			
-        },
 		{
 			// Wat TV
 			id: 'OngletWat',
