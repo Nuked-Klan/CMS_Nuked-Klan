@@ -1,0 +1,670 @@
+[24-Jan-2012 22:00:35] PHP Parse error:  syntax error, unexpected ')' in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 36
+[24-Jan-2012 22:00:35] PHP Stack trace:
+[24-Jan-2012 22:00:35] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 22:00:54] PHP Parse error:  syntax error, unexpected T_ECHO, expecting T_FUNCTION in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 49
+[24-Jan-2012 22:00:54] PHP Stack trace:
+[24-Jan-2012 22:00:54] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 22:18:33] PHP Notice:  Use of undefined constant _ENGLISH - assumed '_ENGLISH' in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 817
+[24-Jan-2012 22:18:33] PHP Stack trace:
+[24-Jan-2012 22:18:33] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 22:18:33] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 22:18:33] PHP Notice:  Use of undefined constant _FRENCH - assumed '_FRENCH' in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 817
+[24-Jan-2012 22:18:33] PHP Stack trace:
+[24-Jan-2012 22:18:33] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 22:18:33] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 22:59:53] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 22:59:53] PHP Stack trace:
+[24-Jan-2012 22:59:53] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 22:59:53] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 22:59:53] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 22:59:53] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 22:59:53] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 22:59:53] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 22:59:53] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _ in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 22:59:53] PHP Stack trace:
+[24-Jan-2012 22:59:53] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 22:59:53] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 22:59:53] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 22:59:53] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 22:59:53] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 22:59:53] PHP   6. constant('_') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:52] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _ in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:52] PHP Stack trace:
+[24-Jan-2012 23:00:52] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:52] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:52] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:52] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:52] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:52] PHP   6. constant('_') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:54] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _ in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:54] PHP Stack trace:
+[24-Jan-2012 23:00:54] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:54] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:54] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:54] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:54] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:54] PHP   6. constant('_') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:54] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _ in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:54] PHP Stack trace:
+[24-Jan-2012 23:00:54] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:54] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:54] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:54] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:54] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:54] PHP   6. constant('_') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:55] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _ in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:55] PHP Stack trace:
+[24-Jan-2012 23:00:55] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:55] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:55] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:55] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:55] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:55] PHP   6. constant('_') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:57] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:00:57] PHP Stack trace:
+[24-Jan-2012 23:00:57] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:57] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:57] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:57] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:57] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:57] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:00:57] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:57] PHP Stack trace:
+[24-Jan-2012 23:00:57] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:57] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:57] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:57] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:57] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:57] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:57] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:00:57] PHP Stack trace:
+[24-Jan-2012 23:00:57] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:57] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:57] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:57] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:57] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:57] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:00:58] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:58] PHP Stack trace:
+[24-Jan-2012 23:00:58] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:58] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:58] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:58] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:58] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:58] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:58] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:00:58] PHP Stack trace:
+[24-Jan-2012 23:00:58] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:58] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:58] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:58] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:58] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:58] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:00:58] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:58] PHP Stack trace:
+[24-Jan-2012 23:00:58] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:58] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:58] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:58] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:58] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:58] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:58] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:00:58] PHP Stack trace:
+[24-Jan-2012 23:00:58] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:58] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:58] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:58] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:58] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:58] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:00:59] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:59] PHP Stack trace:
+[24-Jan-2012 23:00:59] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:59] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:59] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:59] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:59] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:59] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:59] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:00:59] PHP Stack trace:
+[24-Jan-2012 23:00:59] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:59] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:59] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:59] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:59] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:59] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:00:59] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:59] PHP Stack trace:
+[24-Jan-2012 23:00:59] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:59] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:59] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:59] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:59] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:59] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:00:59] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:00:59] PHP Stack trace:
+[24-Jan-2012 23:00:59] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:59] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:59] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:59] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:59] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:59] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:00:59] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:00:59] PHP Stack trace:
+[24-Jan-2012 23:00:59] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:00:59] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:00:59] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:00:59] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:00:59] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:00:59] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:00] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:00] PHP Stack trace:
+[24-Jan-2012 23:01:00] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:00] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:00] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:00] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:00] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:00] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:00] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:00] PHP Stack trace:
+[24-Jan-2012 23:01:00] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:00] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:00] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:00] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:00] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:00] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:00] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:00] PHP Stack trace:
+[24-Jan-2012 23:01:00] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:00] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:00] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:00] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:00] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:00] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:00] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:00] PHP Stack trace:
+[24-Jan-2012 23:01:00] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:00] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:00] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:00] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:00] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:00] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:01] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:01] PHP Stack trace:
+[24-Jan-2012 23:01:01] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:01] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:01] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:01] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:01] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:01] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:01] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:01] PHP Stack trace:
+[24-Jan-2012 23:01:01] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:01] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:01] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:01] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:01] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:01] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:01] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:01] PHP Stack trace:
+[24-Jan-2012 23:01:01] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:01] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:01] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:01] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:01] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:01] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:01] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:01] PHP Stack trace:
+[24-Jan-2012 23:01:01] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:01] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:01] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:01] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:01] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:01] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:01] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:01] PHP Stack trace:
+[24-Jan-2012 23:01:01] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:01] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:01] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:01] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:01] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:01] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:02] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:02] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:02] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:02] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:02] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:02] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:02] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:02] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:02] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:02] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:02] PHP Stack trace:
+[24-Jan-2012 23:01:02] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:02] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:02] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:02] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:02] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:02] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:03] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:03] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:03] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:03] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:03] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:03] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:03] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:03] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:03] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:03] PHP Notice:  Use of undefined constant __PATH__ - assumed '__PATH__' in /home/samoth/public_html/nk_1.7.8/INSTALL/user.inc on line 70
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->updateConfig() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. saveConfig($type = 'update') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:491
+[24-Jan-2012 23:01:03] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:03] PHP Stack trace:
+[24-Jan-2012 23:01:03] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:03] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:03] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:03] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:03] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:03] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:48] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:48] PHP Stack trace:
+[24-Jan-2012 23:01:48] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:48] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:48] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:48] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:48] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:48] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:49] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:49] PHP Stack trace:
+[24-Jan-2012 23:01:49] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:49] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:49] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:49] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:49] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:49] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:50] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:50] PHP Stack trace:
+[24-Jan-2012 23:01:50] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:50] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:50] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:50] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:50] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:50] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:51] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:51] PHP Stack trace:
+[24-Jan-2012 23:01:51] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:51] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:51] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:51] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:51] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:51] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:51] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:51] PHP Stack trace:
+[24-Jan-2012 23:01:51] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:51] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:51] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:51] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:51] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:51] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:51] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:51] PHP Stack trace:
+[24-Jan-2012 23:01:51] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:51] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:51] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:51] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:51] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:51] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:51] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:51] PHP Stack trace:
+[24-Jan-2012 23:01:51] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:51] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:51] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:51] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:51] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:51] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:51] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:51] PHP Stack trace:
+[24-Jan-2012 23:01:51] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:51] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:51] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:51] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:51] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:51] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:52] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:52] PHP Stack trace:
+[24-Jan-2012 23:01:52] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:52] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:52] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:52] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:52] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:52] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:52] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:52] PHP Stack trace:
+[24-Jan-2012 23:01:52] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:52] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:52] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:52] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:52] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:52] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:52] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:52] PHP Stack trace:
+[24-Jan-2012 23:01:52] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:52] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:52] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:52] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:52] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:52] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:52] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:52] PHP Stack trace:
+[24-Jan-2012 23:01:52] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:52] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:52] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:52] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:52] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:52] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:52] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:52] PHP Stack trace:
+[24-Jan-2012 23:01:52] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:52] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:52] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:52] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:52] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:52] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:54] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:54] PHP Stack trace:
+[24-Jan-2012 23:01:54] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:54] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:54] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:54] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:54] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:54] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:54] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:54] PHP Stack trace:
+[24-Jan-2012 23:01:54] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:54] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:54] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:54] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:54] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:54] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:54] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:54] PHP Stack trace:
+[24-Jan-2012 23:01:54] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:54] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:54] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:54] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:54] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:54] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:55] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:55] PHP Stack trace:
+[24-Jan-2012 23:01:55] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:55] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:55] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:55] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:55] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:55] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:55] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:55] PHP Stack trace:
+[24-Jan-2012 23:01:55] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:55] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:55] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:55] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:55] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:55] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:55] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:55] PHP Stack trace:
+[24-Jan-2012 23:01:55] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:55] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:55] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:55] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:55] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:55] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:55] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:55] PHP Stack trace:
+[24-Jan-2012 23:01:55] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:55] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:55] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:55] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:55] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:55] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:55] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:55] PHP Stack trace:
+[24-Jan-2012 23:01:55] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:55] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:55] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:55] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:55] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:55] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:56] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:56] PHP Stack trace:
+[24-Jan-2012 23:01:56] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:56] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:56] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:56] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:56] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:56] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:01:56] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:01:56] PHP Stack trace:
+[24-Jan-2012 23:01:56] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:01:56] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:01:56] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:01:56] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:01:56] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:01:56] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:07] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:07] PHP Stack trace:
+[24-Jan-2012 23:02:07] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:07] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:07] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:07] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:07] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:07] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:30] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:30] PHP Stack trace:
+[24-Jan-2012 23:02:30] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:30] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:30] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:30] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:30] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:30] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:31] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:31] PHP Stack trace:
+[24-Jan-2012 23:02:31] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:31] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:31] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:31] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:31] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:31] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:31] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:31] PHP Stack trace:
+[24-Jan-2012 23:02:31] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:31] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:31] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:31] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:31] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:31] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:31] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:31] PHP Stack trace:
+[24-Jan-2012 23:02:31] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:31] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:31] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:31] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:31] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:31] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:46] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:46] PHP Stack trace:
+[24-Jan-2012 23:02:46] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:46] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:46] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:46] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:46] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:46] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:47] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:47] PHP Stack trace:
+[24-Jan-2012 23:02:47] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:47] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:47] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:47] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:47] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:47] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:47] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:47] PHP Stack trace:
+[24-Jan-2012 23:02:47] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:47] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:47] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:47] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:47] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:47] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:47] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:47] PHP Stack trace:
+[24-Jan-2012 23:02:47] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:47] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:47] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:47] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:47] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:47] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:47] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:47] PHP Stack trace:
+[24-Jan-2012 23:02:47] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:47] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:47] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:47] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:47] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:47] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
+[24-Jan-2012 23:02:47] PHP Warning:  constant() [<a href='function.constant'>function.constant</a>]: Couldn't find constant _dossier =. in /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php on line 505
+[24-Jan-2012 23:02:47] PHP Stack trace:
+[24-Jan-2012 23:02:47] PHP   1. {main}() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:0
+[24-Jan-2012 23:02:47] PHP   2. include() /home/samoth/public_html/nk_1.7.8/INSTALL/index.php:15
+[24-Jan-2012 23:02:47] PHP   3. install->__construct() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:818
+[24-Jan-2012 23:02:47] PHP   4. install->routeUser() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:10
+[24-Jan-2012 23:02:47] PHP   5. install->checkInstallFailure() /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:807
+[24-Jan-2012 23:02:47] PHP   6. constant('_dossier =.') /home/samoth/public_html/nk_1.7.8/INSTALL/class_install.php:505
