@@ -169,7 +169,7 @@
                                                                 ') or die(mysql_error());
                                 $i=0;
                                 foreach($array_matchs as $k){
-                                    mysql_query('UPDATE '.$db_prefix.'_match SET map = \''.$array_matchs[$i]['map'].'\',
+                                    mysql_query('UPDATE '.$db_prefix.'_match SET map = \''.mysql_real_escape_string($array_matchs[$i]['map']).'\',
                                                                         tscore_team = \''.$array_matchs[$i]['score_team'].'\',
                                                                         tscore_adv = \''.$array_matchs[$i]['score_adv'].'\'
                                                                         WHERE warid = \''.$array_matchs[$i]['id'].'\' ') or die(mysql_error());
@@ -380,7 +380,7 @@
                                 while(list($id, $comment) = mysql_fetch_array($sql)){
                                     $comment = str_replace('<p>', '', $comment);
                                     $comment = str_replace('</p>', '', $comment);
-                                    mysql_query('UPDATE '.$db_prefix.'_forums set comment = \''.$comment.'\' WHERE id=\''.$id.'\' ')or die(mysql_error());
+                                    mysql_query('UPDATE '.$db_prefix.'_forums set comment = \''.mysql_real_escape_string($comment).'\' WHERE id=\''.$id.'\' ')or die(mysql_error());
                                 }
                             }
                             echo 'OK';
