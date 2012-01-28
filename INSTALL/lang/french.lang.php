@@ -191,7 +191,7 @@ define('_ERROR_MAIL', 'Veuillez saisir un e-mail valide');
 /////// FIN INSTALLATION
 ///////////////////////////////////////////////
 define('_INSTALLSUCCESS', 'Installation terminée');
-define('_INFOPARTNERS', 'Retrouvez nos partneraires et leurs codes promotionnels,<br/>afin de profiter au mieux de leurs produits et/ou services.');
+define('_INFOPARTNERS', 'Retrouvez nos partenaires et leurs codes promotionnels,<br/>afin de profiter au mieux de leurs produits et/ou services.');
 define('_NOPARTNERS', 'Une erreur est survenue lors de la r&eacute;cup&eacute;ration de la liste des partenaires...');
 define('_ACCESS_SITE', 'Accèder à votre site');
 ///////////////////////////////////////////////
