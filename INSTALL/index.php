@@ -7,7 +7,7 @@
         exit();
     }
     else{
-        if(!extension_loaded('session')){
+        if(preg_match('#free\.fr#', $_SERVER['HTTP_HOST'])){
             if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/sessions')){
                 mkdir($_SERVER['DOCUMENT_ROOT'].'/sessions', 0700);
             }
