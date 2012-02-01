@@ -289,7 +289,7 @@ function edit_block_event($bid){
 
     echo '</select></td></tr><tr><td colspan="4" style="text-align:center;" ><br />'."\n"
 	   . '<input type="hidden" name="type" value="'.$type.'" />'."\n"
-	   . '<input type="hidden" name="bid" value="'.$bid.'" />'."n"
+	   . '<input type="hidden" name="bid" value="'.$bid.'" />'."\n"
 	   . '<input type="submit" name="send" value="'._MODIFBLOCK.'" />'."\n"
 	   . '</td></tr></table>'
 	   . '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>'._BACK.'</b></a> ]</div></form><br /></div></div>'."\n";

@@ -38,8 +38,8 @@ insérer une image (bannière) au besoin grâce au code html.<br>
 <br>
 <li><b>Avatars</b> : Vous permet d'autoriser ou pas les avatars externes (lien web) et par upload.<br> 
 <br>
-<li><b>Inscription</b> : Cochez "Etre avertie par mail" pour recevoir un email à chaque nouvelle inscription. Remplissez 
-la charte - réglement pour l'afficher à l'inscription (optionnel) et le texte de l'email d'inscription pour 
+<li><b>Inscription</b> : Cochez "Etre averti par mail" pour recevoir un email à chaque nouvelle inscription. Remplissez 
+la charte - règlement pour l'afficher à l'inscription (optionnel) et le texte de l'email d'inscription pour 
 envoyer un mail de bienvenue aux nouveaux membres (laissez vide pour désactiver ses fonctions).<br> 
 <br>
 <li><b>Statistiques </b> : Vous permet de régler le temps d'une visite et le niveau d'accès de l'analyse des visites.<br> 
@@ -51,10 +51,10 @@ envoyer un mail de bienvenue aux nouveaux membres (laissez vide pour désactiver 
 <li><b>Durée en minutes...</b> : La durée de validité en minutes d'une session provisoire par IP. Mettre à "0" 
 pour désactiver cette option (pour les partages de connexion ou les réseaux local par exemple)<br> 
 <br>
-<li><b>Durée en secondes...</b> : La durée maximale pendant laquelle un visiteur ou un membre sont considérés comme connectés. (Qui est en ligne)<br> 
+<li><b>Durée en secondes...</b> : La durée maximale pendant laquelle un visiteur ou un membre est considéré comme connecté. (Qui est en ligne)<br> 
 <br>
-<li><b>Mots Clefs</b> : Les mots clef de votre site (metatags) pour les moteurs de recherche.<br> 
+<li><b>Mots clés</b> : Les mot clés de votre site (metatags) pour les moteurs de recherche.<br> 
 <br>
-<li><b>Description...</b> : La Description de votre site (metatags) pour les moteurs de recherche.<br> 
+<li><b>Description...</b> : La description de votre site (metatags) pour les moteurs de recherche.<br> 
 <br>
 <br>
