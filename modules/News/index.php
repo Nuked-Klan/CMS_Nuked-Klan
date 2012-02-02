@@ -91,7 +91,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             
             if(!empty($TabCat['image'])) $infosImage = @getimagesize(urlencode($TabCat['image']));
             
-            $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=News&amp;op=categorie&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" width="'.$infosImage[0].'" height="'.$infosImage[1].'" /></a>' : '';
+            $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" width="'.$infosImage[0].'" height="'.$infosImage[1].'" /></a>' : '';
 
             if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
                 $data['texte'] = $TabNews['texte'].'<br /><br />'.$TabNews['suite'];
