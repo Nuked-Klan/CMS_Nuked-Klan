@@ -80,6 +80,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             else $auteur = $TabNews['auteur'];
             
             $data['date'] = nkDate($TabNews['date']);
+            $data['date_timespan'] = $TabNews['date']);
             $data['cat'] = $TabCat['titre'];
             $data['catid'] = $TabNews['cat'];
             $data['id'] = $TabNews['id'];
