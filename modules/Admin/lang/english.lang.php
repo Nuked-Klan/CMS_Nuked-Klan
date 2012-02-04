@@ -624,7 +624,7 @@ define("_CHANGEEDIT", "Success of modification.");
 define("_DELSTYLE","Success delete.");
 define("_ACTIONADDSTYLE","have add a style of editor.");
 define("_ACTIONDELSTYLE","have delete a style of editor.");
-define("_ACTIONCHANGEDIT","have modifie the editor.");
+define("_ACTIONCHANGEDIT","have modify the editor.");
 define("_MAP","Maps management");
 define("_DELALLMAP","Delete all maps");
 define("_ADDMAP","Add a map");
@@ -638,6 +638,8 @@ define("_SHARESTATS","Share your statistics");
 define("_SHAREREASON","The goal of this function is to help us create better Nuked Klan services and meet your needs while respecting your anonymity."); 
 define("_SEESHARE","see the sent stats");
 define("_SMILEYNOTAUTHORIZE","The smiley code is not authorized, please change it");
+define("_THANKSPARTICIPATION","Thanks for your participation.");
+define("_NOTIFICATIONNOTRECEIVED","The notification was not received.");
 # Page : About
 define('_INFOSPROPOS','<h3>General information:</h3>
 version ' . $nuked['version'] . '<br />

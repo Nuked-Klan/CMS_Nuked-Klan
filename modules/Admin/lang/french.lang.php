@@ -475,6 +475,8 @@ define("_SHARESTATS","Partager vos statistiques");
 define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat."); 
 define("_SEESHARE","voir les statistiques envoyées");
 define("_SMILEYNOTAUTHORIZE","Le code du smiley n'est pas autorisé, merci de le changer");
+define("_THANKSPARTICIPATION","Merci pour votre participation.");
+define("_NOTIFICATIONNOTRECEIVED","La notification n'a pas été reçue.");
 # Page : A propos
 define('_INFOSPROPOS', '<h3>Informations générales :</h3>
 Version ' . $nuked['version'] . '<br />

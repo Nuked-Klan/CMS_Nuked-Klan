@@ -33,11 +33,11 @@ if ($visiteur >= 2)
 			$_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
 			
 			$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '".mysql_real_escape_string(stripslashes($_REQUEST['type']))."', '".mysql_real_escape_string(stripslashes($_REQUEST['texte']))."')");
-			echo "Merci de votre participation!";
+			echo _THANKSPARTICIPATION;
 		}
 		else
 		{
-		echo "La notification n'a pas été recu!";
+		echo _NOTIFICATIONNOTRECEIVED;
 		}
 		exit();
     }
@@ -70,12 +70,8 @@ if ($visiteur >= 2)
     }
 
 }
-else if ($visiteur > 1)
-{
-echo "La notification n'a pas été recu!";
-}
 else
 {
-echo "La notification n'a pas été recu!";
+    echo _NOTIFICATIONNOTRECEIVED;
 }
 ?>
