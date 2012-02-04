@@ -173,7 +173,7 @@ define('_LOGUTXTERROR', 'An error occurred when editing the table');
 define('_LOGUTXTENDSUCCESS', 'The update is complete! All tables have been changed.');
 define('_LOGUTXTENDERRORSTART', 'The update is complete! But errors occurred, ');
 define('_LOGUTXTENDERROREND', ' tables have not changed.');
-define('_DELTURKISH', 'Can\'t delete file. Please delete it manually and restart the update.<br/>nbsp;file: / modules/404/lang.turskish.lang.php');
+define('_DELTURKISH', 'Can\'t delete file. Please delete it manually and restart the update.<br/>nbsp;file: / modules/404/lang.turkish.lang.php');
 ///////////////////////////////////////////////
 /////// CREATION COMPTE ADMIN
 ///////////////////////////////////////////////

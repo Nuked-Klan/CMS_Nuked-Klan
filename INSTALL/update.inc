@@ -390,8 +390,8 @@
                             echo 'OK';
         break;
         case'remove_turkish.lang.php':
-                            if (is_file('../modules/404/lang/turskish.lang.php')){
-                                $path = '../modules/404/lang/turskish.lang.php';
+                            if (is_file('../modules/404/lang/turkish.lang.php')){
+                                $path = '../modules/404/lang/turkish.lang.php';
                                 if(is_writeable($path)){
                                     @chmod ($path, 0755);
                                     @unlink($path);

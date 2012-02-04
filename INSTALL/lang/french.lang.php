@@ -173,7 +173,7 @@ define('_LOGUTXTERROR', 'Une erreur est survenue lors de la modification de la t
 define('_LOGUTXTENDSUCCESS', 'La mise à jour est terminée ! Toutes les tables ont bien été modifiées.');
 define('_LOGUTXTENDERRORSTART', 'La mise à jour est terminée ! Mais des erreurs sont survenues, ');
 define('_LOGUTXTENDERROREND', ' tables n\'ont pas été modifiées.');
-define('_DELTURKISH', 'Impossible de supprimer le fichier. Veuillez le supprimer manuellement et relancer la mise à jour.<br/>nbsp;&nbsp;Fichier : /modules/404/lang.turskish.lang.php');
+define('_DELTURKISH', 'Impossible de supprimer le fichier. Veuillez le supprimer manuellement et relancer la mise à jour.<br/>nbsp;&nbsp;Fichier : /modules/404/lang.turkish.lang.php');
 ///////////////////////////////////////////////
 /////// CREATION COMPTE ADMIN
 ///////////////////////////////////////////////
