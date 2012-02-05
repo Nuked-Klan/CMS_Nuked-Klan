@@ -369,6 +369,14 @@
 
                             echo 'OK';
         break;
+        case 'table_smilies' :
+            $sql = mysql_query('SELECT id FROM '.$db_prefix.'_smilies WHERE code LIKE \'%\\\'%\'') or die(mysql_error());
+            $i = 0;
+            while ( $idSmiley = mysql_fetch_row($sql) )
+            {
+                $i++;
+                mysql_query('UPDATE ' . $db_prefix . '_smilies SET code=\'#smiley' . $i . '#\'' . ' WHERE id = \'' . $idSmiley[0] . '\'') or die(mysql_error());
+            }
         case'remove_style':
                             mysql_query("DROP TABLE IF EXISTS  " . $db_prefix . "_style ")or die(mysql_error());
                             echo 'OK';

@@ -12,7 +12,7 @@ var arrayTablesInstall = new Array(
                         );
 var arrayTablesUpdate = new Array(
                             "table_action", "table_banned", "table_comment_mod", "table_contact", "table_discussion", "table_erreursql", "table_games", "table_match", "table_match_files",
-                            "table_notification", "table_tmpses", "table_users", "update_bbcode", "update_config", "update_pass", "remove_style", "remove_editeur", "remove_package_manager",
+                            "table_notification", "table_tmpses", "table_users", "table_smilies", "update_bbcode", "update_config", "update_pass", "remove_style", "remove_editeur", "remove_package_manager",
                             "remove_turkish.lang.php"
                         );
 var nbTablesInstall = arrayTablesInstall.length;
