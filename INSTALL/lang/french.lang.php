@@ -25,7 +25,7 @@ define('_ERRORTRY', 'Une erreur est survenue, veuillez réessayer.');
 ///////////////////////////////////////////////
 define("_DECOUVERTE","Nuked-klan 1.7.9: la découverte");
 define("_NEWSADMIN","Une nouvelle administration");
-define("_PROCHE","Un site officiel proche de sa communautée");
+define("_PROCHE","Un site officiel proche de sa communauté");
 define("_SIMPLIFIE","Une installation simplifiée");
 define("_DECOUVERTE1","Vous allez installer Nuked-Klan 1.7.9, cette version orientée gamers permettra à votre team de bénéficier rapidement d'un site web à votre image.</p><p>Vous pourrez créer une vie à votre groupe, le rassembler facilement, gérer des recrutements, des matchs ou un serveur très facilement.");
 define("_NEWSADMIN1","Pour cette nouvelle version, nous avons réalisé une nouvelle administration plus intuitive et plus agréable.</p><p>Vous pourrez suivre les actions des administrateurs, voir les notifications, accéder à un chat privé entre admininistrateurs et découvrir de multiples nouvelles fonctionnalités comme le bannissement temporaire.");
@@ -37,7 +37,7 @@ define("_SIMPLIFIE1","Une installation plus design, plus intuitive, mais surtout
 define('_SELECTLANG', 'Sélection de la langue');
 define('_SELECTTYPE', 'Type d\'installation');
 define('_SELECTSTATS', 'Activation des statistiques anonymes');
-define('_SELECTSAVE', 'Sauvegarde de la base de donnée');
+define('_SELECTSAVE', 'Sauvegarde de la base de données');
 define('_RESETSESSION', 'Réinitialiser');
 ///////////////////////////////////////////////
 /////// ACCUEIL
@@ -48,11 +48,11 @@ define('_STARTINSTALL', 'Démarrer l\'installation');
 define('_STARTUPDATE', 'Démarrer la mise à jour');
 define('_DETECTUPDATE', 'L\'assistant a détecté une installation de la version :');
 define('_DETECTUPDATEEND', 'de Nuked-Klan');
-define('_BADVERSION', 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers les version 1.7.8 ou 1.7.9 RC5.3');
+define('_BADVERSION', 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers les versions 1.7.8 ou 1.7.9 RC5.3');
 ///////////////////////////////////////////////
 /////// TEST DE COMPATIBILITE
 ///////////////////////////////////////////////
-define('_CHECKCOMPATIBILITYHOSTING', 'Vérification de la compatibilité avec votre hebergement');
+define('_CHECKCOMPATIBILITYHOSTING', 'Vérification de la compatibilité avec votre hébergement');
 define('_ZIPEXT', 'Extension Zip');
 define('_ZIPEXTERROR', 'Erreur zip');
 define('_FILEINFOEXT', 'Extension File Info');
@@ -84,8 +84,8 @@ define('_CONFIRMSTATS', 'Oui, j\'autorise l\'envoi de statistiques anonymes à Nu
 define('_TOSAVE', 'Sauvegarder');
 define('_SAVE', 'Sauvegarde');
 define('_NOTHANKS', 'Non merci!');
-define('_DBSAVED', 'Base de donnée sauvegardée');
-define('_DBSAVEDTXT', 'Votre base de donnée a bien été sauvegardée, vous pouvez la télécharger ici :');
+define('_DBSAVED', 'Base de données sauvegardée');
+define('_DBSAVEDTXT', 'Votre base de données a bien été sauvegardée, vous pouvez la télécharger ici :');
 ///////////////////////////////////////////////
 /////// CHOIX DU TYPE D'INSTALLATION
 ///////////////////////////////////////////////
@@ -103,8 +103,8 @@ define("_DBPASS","Mot de passe");
 define("_DBPREFIX","Prefix");
 define("_DBNAME","Nom de la Base");
 define("_CONFIG","Configuration");
-define('_ERROR_HOST', 'Connexion à la base de donnée impossible !<br/>Veuillez contrôler le nom du serveur mysql.');
-define('_ERROR_USER', 'Connexion à la base de donnée impossible !<br/>Veuillez contrôler le nom d\'utilisateur et le mot de passe.');
+define('_ERROR_HOST', 'Connexion à la base de données impossible !<br/>Veuillez contrôler le nom du serveur mysql.');
+define('_ERROR_USER', 'Connexion à la base de données impossible !<br/>Veuillez contrôler le nom d\'utilisateur et le mot de passe.');
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
@@ -147,9 +147,9 @@ define("_INSTALLDBNAME","Il s'agit du nom de votre base de données MySQL, souven
 ///////////////////////////////////////////////
 /////// CREATION BDD (INSTALLATION)
 ///////////////////////////////////////////////
-define('_CREATEDB', 'Création de la base de donnée');
+define('_CREATEDB', 'Création de la base de données');
 define('_STARTDB', 'Démarrer la création');
-define('_SQLCONNECTOK', 'La connexion à la base de donnée à été réalisée avec succès.');
+define('_SQLCONNECTOK', 'La connexion à la base de données a été réalisée avec succès.');
 define('_WAITING', 'Veuillez cliquer sur démarrer pour commencer...');
 define('_STARTINGINSTALL', 'Démarrage de l\'installation.');
 define('_LOGITXTSUCCESS', 'créée avec succès.');
@@ -162,7 +162,7 @@ define('_WRONGTABLENAME', 'Le nom de la table est erroné.');
 ///////////////////////////////////////////////
 /////// CREATION BDD (MISE A JOUR)
 ///////////////////////////////////////////////
-define('_UPDATEDB', 'Mise à jour de la Base de donnée');
+define('_UPDATEDB', 'Mise à jour de la base de données');
 define('_STARTINGUPDATE', 'Démarrage de la mise à jour.');
 define('_LOGUTXTSUCCESS', 'modifiée avec succès.');
 define('_LOGUTXTUPDATE', 'mis à jour avec succès.');
@@ -193,7 +193,7 @@ define('_ERROR_MAIL', 'Veuillez saisir un e-mail valide');
 define('_INSTALLSUCCESS', 'Installation terminée');
 define('_INFOPARTNERS', 'Retrouvez nos partenaires et leurs codes promotionnels,<br/>afin de profiter au mieux de leurs produits et/ou services.');
 define('_NOPARTNERS', 'Une erreur est survenue lors de la r&eacute;cup&eacute;ration de la liste des partenaires...');
-define('_ACCESS_SITE', 'Accèder à votre site');
+define('_ACCESS_SITE', 'Accéder à votre site');
 ///////////////////////////////////////////////
 /////// ERREUR CREATION FICHIER CONF.INC.PHP
 ///////////////////////////////////////////////
