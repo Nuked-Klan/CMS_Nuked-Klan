@@ -178,12 +178,12 @@
                             }
                             echo 'OK';
         break;
-	case'table_match_files':
-                            if(!tableExist('match_files', $db_prefix)){
-                                mysql_query('ALTER TABLE '.$db_prefix.'_fichiers_joins RENAME AS '.$db_prefix.'_match_files') or die (mysql_error());
-                            }
-                            echo 'OK';
-	break;
+    	case'table_match_files':
+                                if(!tableExist('match_files', $db_prefix)){
+                                    mysql_query('ALTER TABLE '.$db_prefix.'_fichiers_joins RENAME AS '.$db_prefix.'_match_files') or die (mysql_error());
+                                }
+                                echo 'OK';
+    	break;
         case'table_action':
                             if(!tableExist('action', $db_prefix)){
                                 mysql_query("CREATE TABLE " . $db_prefix . "_action (
@@ -372,11 +372,12 @@
         case 'table_smilies' :
             $sql = mysql_query('SELECT id FROM '.$db_prefix.'_smilies WHERE code LIKE \'%\\\'%\'') or die(mysql_error());
             $i = 0;
-            while ( $idSmiley = mysql_fetch_row($sql) )
-            {
+            while ( $idSmiley = mysql_fetch_row($sql)){
                 $i++;
                 mysql_query('UPDATE ' . $db_prefix . '_smilies SET code=\'#smiley' . $i . '#\'' . ' WHERE id = \'' . $idSmiley[0] . '\'') or die(mysql_error());
             }
+            echo 'OK';
+        break;
         case'remove_style':
                             mysql_query("DROP TABLE IF EXISTS  " . $db_prefix . "_style ")or die(mysql_error());
                             echo 'OK';
