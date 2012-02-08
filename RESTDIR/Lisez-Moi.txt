@@ -12,9 +12,9 @@
    2. Uploader le contenu du dossier "UPLOAD" de l'archive NK1.7.9.zip sur
       votre FTP en utilisant un client FTP tel que FileZilla
    3. Lancer l'installation en tapant dans la barre d'adresse internet : http:/
-      /www.votresite.com/install.php (remplacer "votresite.com" par votre
+      /www.votresite.com/INSTALL/ (remplacer "votresite.com" par votre
       adresse web)
-   4. Selectionner la langue puis « send »
+   4. Selectionner la langue puis cliquer sur « Valider »
    5. Choisir le mode d'installation,"installation avec assistance" (recommandé
       pour débutant) ou "installation rapide".
 Pour plus d'informations concernant votre installation, aller sur le_wiki

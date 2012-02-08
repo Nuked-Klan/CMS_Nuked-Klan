@@ -12,8 +12,8 @@
    2. Upload the "UPLOAD" folder's content into the selected archive onto your
       FTP using a FTP client such as FileZilla
    3. Start the installation with your web browser : http://
-      www.yourwebsite.com/install.php ("yoursite.com" replace your web address)
-   4. Select the language and press "send"
+      www.yourwebsite.com/INSTALL/ ("yoursite.com" replace your web address)
+   4. Select the language and press "Submit"
    5. Choose the desired installation mode “installation with assistance”
       (recommended for novices) or “speed installation”.
 For more information about your installation, go to the NK_support_forum

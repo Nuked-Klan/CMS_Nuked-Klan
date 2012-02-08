@@ -18,6 +18,9 @@ body {
     color: #454545;
     font: 12px 'Trebuchet MS', Helvetica, Jamrul, sans-serif
 }
+ol li {
+    margin-bottom: 5px
+}
 a {
     color: #8da13e;
     text-decoration: none
