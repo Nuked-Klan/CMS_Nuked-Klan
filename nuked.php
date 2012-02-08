@@ -315,7 +315,7 @@ function icon($texte){
 
     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql)){
-        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="'. $code .'" title="' . $name . '" />', $texte);
+        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . htmlentities($name) . '" />', $texte);
     }
 
     $texte = str_replace('mailto!', 'mailto:', $texte);
