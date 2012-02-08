@@ -82,7 +82,7 @@
                 else{
                     include('../conf.inc.php');
                     $this->bddConnect($global['db_host'], $global['db_user'], $global['db_pass'], $global['db_name']);
-                    $sql_version = mysql_query ('SELECT value FROM '.$db_prefix.'_config WHERE name=\'version\' ') or die (mysql_error());
+                    $sql_version = mysql_query ('SELECT value FROM `'.$db_prefix.'_config` WHERE name=\'version\' ') or die (mysql_error());
                     list($version) = mysql_fetch_array($sql_version);
                 }
                

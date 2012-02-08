@@ -137,13 +137,13 @@
     );
      
      function tableExist($tablename, $prefix){
-        $sql = mysql_query("SHOW TABLES FROM ".$_SESSION['db_name']." LIKE '".$prefix."_".$tablename."'") or die (mysql_error());
+        $sql = mysql_query("SHOW TABLES FROM `".$_SESSION['db_name']."` LIKE '".$prefix."_".$tablename."'") or die (mysql_error());
         $count = mysql_num_rows($sql);
         return $count == 0 ? false : true;
      }
      
      function fieldExist($tablename, $fieldname, $prefix){
-        $sql = mysql_query("SHOW COLUMNS FROM ".$prefix."_".$tablename." LIKE '".$fieldname."'") or die (mysql_error());
+        $sql = mysql_query("SHOW COLUMNS FROM `".$prefix."_".$tablename."` LIKE '".$fieldname."'") or die (mysql_error());
         $count = mysql_num_rows($sql);
         return $count == 0 ? false : true;
      }
@@ -152,7 +152,7 @@
     switch($table){
         case'table_match':
                             if(!fieldExist('match', 'map', $db_prefix)){
-                                $sql = mysql_query('SELECT warid, map_1, map_2, map_3, score_team, score_adv FROM '.$db_prefix.'_match') or die(mysql_error());
+                                $sql = mysql_query('SELECT warid, map_1, map_2, map_3, score_team, score_adv FROM `'.$db_prefix.'_match`') or die(mysql_error());
                                 $i=0;
                                 $array_matchs = array();
                                 while(list($id, $map_1, $map_2, $map_3, $score_team, $score_adv) = mysql_fetch_array($sql)){
@@ -162,14 +162,14 @@
                                     $array_matchs[$i]['score_adv'] = $score_adv;
                                     $i++;
                                 }
-                                mysql_query('ALTER TABLE '.$db_prefix.'_match DROP `map_1`, DROP `map_2`, DROP `map_3`') or die(mysql_error());
-                                mysql_query('ALTER TABLE '.$db_prefix.'_match ADD `map` TEXT NOT NULL ,
+                                mysql_query('ALTER TABLE `'.$db_prefix.'_match` DROP `map_1`, DROP `map_2`, DROP `map_3`') or die(mysql_error());
+                                mysql_query('ALTER TABLE `'.$db_prefix.'_match` ADD `map` TEXT NOT NULL ,
                                                                 ADD `tscore_team` FLOAT DEFAULT NULL ,
                                                                 ADD `tscore_adv` FLOAT DEFAULT NULL
                                                                 ') or die(mysql_error());
                                 $i=0;
                                 foreach($array_matchs as $k){
-                                    mysql_query('UPDATE '.$db_prefix.'_match SET map = \''.mysql_real_escape_string($array_matchs[$i]['map']).'\',
+                                    mysql_query('UPDATE `'.$db_prefix.'_match` SET map = \''.mysql_real_escape_string($array_matchs[$i]['map']).'\',
                                                                         tscore_team = \''.$array_matchs[$i]['score_team'].'\',
                                                                         tscore_adv = \''.$array_matchs[$i]['score_adv'].'\'
                                                                         WHERE warid = \''.$array_matchs[$i]['id'].'\' ') or die(mysql_error());
@@ -180,13 +180,13 @@
         break;
     	case'table_match_files':
                                 if(!tableExist('match_files', $db_prefix)){
-                                    mysql_query('ALTER TABLE '.$db_prefix.'_fichiers_joins RENAME AS '.$db_prefix.'_match_files') or die (mysql_error());
+                                    mysql_query('ALTER TABLE `'.$db_prefix.'_fichiers_joins` RENAME AS `'.$db_prefix.'_match_files`') or die (mysql_error());
                                 }
                                 echo 'OK';
     	break;
         case'table_action':
                             if(!tableExist('action', $db_prefix)){
-                                mysql_query("CREATE TABLE " . $db_prefix . "_action (
+                                mysql_query("CREATE TABLE `" . $db_prefix . "_action` (
                                     `id` int(11) NOT NULL auto_increment,
                                     `date` varchar(30) NOT NULL default '0',
                                     `pseudo`  text NOT NULL,
@@ -198,23 +198,23 @@
         break;
         case'table_banned':
                             if(!fieldExist('banned', 'date', $db_prefix)){
-                                mysql_query('ALTER TABLE ' . $db_prefix . '_banned ADD `date` VARCHAR(20)  NULL AFTER `email`')or die(mysql_error());
+                                mysql_query('ALTER TABLE `' . $db_prefix . '_banned` ADD `date` VARCHAR(20)  NULL AFTER `email`')or die(mysql_error());
                             }
                             if(!fieldExist('banned', 'dure', $db_prefix)){
-                                mysql_query('ALTER TABLE ' . $db_prefix . '_banned ADD `dure` VARCHAR(20)  NULL AFTER `date`')or die(mysql_error());
+                                mysql_query('ALTER TABLE `' . $db_prefix . '_banned` ADD `dure` VARCHAR(20)  NULL AFTER `date`')or die(mysql_error());
                             }
                             echo 'OK';
         break;
         case'table_comment_mod':
                             if(!tableExist('comment_mod', $db_prefix)){
-                                mysql_query("CREATE TABLE " . $db_prefix . "_comment_mod (
+                                mysql_query("CREATE TABLE `" . $db_prefix . "_comment_mod` (
                                     `id` int(11) NOT NULL auto_increment,
                                     `module` text NOT NULL,
                                     `active` int(1) NOT NULL,
                                     PRIMARY KEY  (`id`)
                                   ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;")or die(mysql_error());
                                 
-                                mysql_query("INSERT INTO " . $db_prefix . "_comment_mod (`id`, `module`, `active`) VALUES
+                                mysql_query("INSERT INTO `" . $db_prefix . "_comment_mod` (`id`, `module`, `active`) VALUES
                                     (1, 'news', 1),
                                     (2, 'download', 1),
                                     (3, 'links', 1),
@@ -232,7 +232,7 @@
                                     $array_db[] = $table_db;
                                 }
                                 if(!in_array($db_prefix.'contact', $array_db)){
-                                    mysql_query("CREATE TABLE " . $db_prefix . "_contact (
+                                    mysql_query("CREATE TABLE `" . $db_prefix . "_contact` (
                                         `id` int(11) NOT NULL auto_increment,
                                         `titre` varchar(200) NOT NULL default '',
                                         `message` text NOT NULL,
@@ -249,7 +249,7 @@
         break;
         case'table_discussion':
                             if(!tableExist('discussion', $db_prefix)){
-                                mysql_query("CREATE TABLE " . $db_prefix . "_discussion (
+                                mysql_query("CREATE TABLE `" . $db_prefix . "_discussion` (
                                     `id` int(11) NOT NULL auto_increment,
                                     `date` varchar(30) NOT NULL default '0',
                                     `pseudo`  text NOT NULL,
@@ -261,7 +261,7 @@
         break;
         case'table_erreursql':
                             if(!tableExist('erreursql', $db_prefix)){
-                                mysql_query("CREATE TABLE ".$db_prefix."_erreursql (
+                                mysql_query("CREATE TABLE `".$db_prefix."_erreursql` (
                                     `id` int(11) NOT NULL auto_increment,
                                     `date` varchar(30) NOT NULL default '0',
                                     `lien`  text NOT NULL,
@@ -273,13 +273,13 @@
         break;
         case'table_games':
                             if(!fieldExist('games', 'map', $db_prefix)){
-                                mysql_query("ALTER TABLE  " . $db_prefix . "_games ADD `map` TEXT NOT NULL;")or die(mysql_error());
+                                mysql_query("ALTER TABLE `" . $db_prefix . "_games` ADD `map` TEXT NOT NULL;")or die(mysql_error());
                             }
                             echo 'OK';
         break;
         case'table_notification':
                             if(!tableExist('notification', $db_prefix)){
-                                mysql_query("CREATE TABLE " . $db_prefix . "_notification (
+                                mysql_query("CREATE TABLE `" . $db_prefix . "_notification` (
                                     `id` int(11) NOT NULL auto_increment,
                                     `date` varchar(30) NOT NULL default '0',
                                     `type`  text NOT NULL,
@@ -302,7 +302,7 @@
         break;
         case'table_users':
                             if(!fieldExist('users', 'erreur', $db_prefix)){
-                                mysql_query("ALTER TABLE  " . $db_prefix . "_users ADD `erreur` INT(10) NOT NULL default '0'")or die(mysql_error());
+                                mysql_query("ALTER TABLE `" . $db_prefix . "_users` ADD `erreur` INT(10) NOT NULL default '0'")or die(mysql_error());
                             }
                             echo 'OK';
         break;
@@ -310,7 +310,7 @@
                             if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
                                 foreach($bbUpdate as $k => $v){
                                     if(preg_match('#_x[0-9]{1}#', $k)) $k = substr($k, 0, -3);
-                                    $select = $k == '_config' ? 'SELECT value FROM '.$db_prefix.'_config WHERE name=\''.$v[0].'\' ' : 'SELECT '.$v[0].', '.$v[1].' FROM '.$db_prefix.$k.' ';
+                                    $select = $k == '_config' ? 'SELECT value FROM `'.$db_prefix.'_config` WHERE name=\''.$v[0].'\' ' : 'SELECT '.$v[0].', '.$v[1].' FROM '.$db_prefix.$k.' ';
                                     $sql = mysql_query($select) or die(mysql_error());
                                     while($row = mysql_fetch_row($sql)){
                                         if(isset($row[1])){
@@ -319,7 +319,7 @@
                                         else{
                                             $row[0] = mysql_real_escape_string(bbcode(stripslashes($row[0]), $db_prefix));
                                         }
-                                        $update = $k == '_config' ? "UPDATE ".$db_prefix.$k." SET value='".$row[0]."' WHERE name='".$v[0]."' " : "UPDATE ".$db_prefix.$k." SET ".$v[1]."='".$row[1]."' WHERE ".$v[0]."='".$row[0]."' ";
+                                        $update = $k == '_config' ? "UPDATE `".$db_prefix.$k."` SET value='".$row[0]."' WHERE name='".$v[0]."' " : "UPDATE `".$db_prefix.$k."` SET ".$v[1]."='".$row[1]."' WHERE ".$v[0]."='".$row[0]."' ";
                                         mysql_query($update) or die (mysql_error());
                                     }
                                 }
@@ -327,75 +327,75 @@
                              echo 'OK';
         break;
         case'update_config':
-                            $sql = mysql_query('SELECT value FROM '.$db_prefix.'_config WHERE name=\'version\' ')or die (mysql_error());
+                            $sql = mysql_query('SELECT value FROM `'.$db_prefix.'_config` WHERE name=\'version\' ')or die (mysql_error());
                             list($old_version) = mysql_fetch_array($sql);
                             if($old_version != '1.7.9 RC6'){
-                                mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'1.7.9 RC6\' WHERE name = \'version\'')or die(mysql_error());
+                                mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'1.7.9 RC6\' WHERE name = \'version\'')or die(mysql_error());
                                 if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
                                     // version 1.7.7 ou 1.7.8                                
-                                    mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'Impact_Nk\' WHERE name = \'theme\'')or die(mysql_error());
-                                    mysql_query('UPDATE ' . $db_prefix . '_config SET value = \'quakenet.org\' WHERE name = \'irc_serv\'')or die(mysql_error());
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'screen\', \'on\')')or die(mysql_error());
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_modules (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)')or die(mysql_error());
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_modules (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)')or die(mysql_error());
-                                    $recup_mail = mysql_query("SELECT value FROM " . $db_prefix . "_config WHERE name = 'mail'")or die(mysql_error());
+                                    mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'Impact_Nk\' WHERE name = \'theme\'')or die(mysql_error());
+                                    mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'quakenet.org\' WHERE name = \'irc_serv\'')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'screen\', \'on\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)')or die(mysql_error());
+                                    $recup_mail = mysql_query("SELECT value FROM `" . $db_prefix . "_config` WHERE name = 'mail'")or die(mysql_error());
                                     list($mail_admin) = mysql_fetch_array($recup_mail)or die(mysql_error());
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'contact_mail\', \''.$mail_admin.'\')')or die(mysql_error());
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'contact_flood\', \'60\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_mail\', \''.$mail_admin.'\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_flood\', \'60\')')or die(mysql_error());
                                 }
                                 if ($this->data['lang_install'] == 'french'){
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'dateformat\', \'%d/%m/%Y - %H:%M:%S\')')or die(mysql_error());
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'datezone\', \'1\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%d/%m/%Y - %H:%M:%S\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'datezone\', \'1\')')or die(mysql_error());
                                 }
                                 else{
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'dateformat\', \'%m/%d/%Y - %H:%M:%S\')')or die(mysql_error());
-                                    mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'datezone\', \'0\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%m/%d/%Y - %H:%M:%S\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'datezone\', \'0\')')or die(mysql_error());
                                 }
-                                mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'time_generate\', \'on\')')or die(mysql_error());
-                                mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'video_editeur\', \'on\')')or die(mysql_error());
-                                mysql_query('INSERT INTO ' . $db_prefix . '_config (name, value) VALUES (\'scayt_editeur\', \'on\')')or die(mysql_error());
+                                mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'time_generate\', \'on\')')or die(mysql_error());
+                                mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'video_editeur\', \'on\')')or die(mysql_error());
+                                mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'scayt_editeur\', \'on\')')or die(mysql_error());
                             }
                             echo 'OK';
         break;
         case'update_pass':
-                            $sql = mysql_query('SELECT pass FROM '.$db_prefix.'_users ORDER BY RAND() LIMIT 1') or die(mysql_error());
+                            $sql = mysql_query('SELECT pass FROM `'.$db_prefix.'_users` ORDER BY RAND() LIMIT 1') or die(mysql_error());
                             list($result) = mysql_fetch_array($sql);
                             if(substr($result, 0, 1) != '%' && substr($result, 0, 1) != '#'){
-                                $sql_user = mysql_query("SELECT id, pass FROM " . $db_prefix . "_users");
+                                $sql_user = mysql_query("SELECT id, pass FROM `" . $db_prefix . "_users`");
                                 while (list($userid, $userpass) = mysql_fetch_row($sql_user)){
-                                    mysql_query('UPDATE ' . $db_prefix . '_users SET pass=\'' . UpdatePassCrypt($userpass) . '\' WHERE id = \'' . $userid . '\'')or die(mysql_error());
+                                    mysql_query('UPDATE `' . $db_prefix . '_users` SET pass=\'' . UpdatePassCrypt($userpass) . '\' WHERE id = \'' . $userid . '\'')or die(mysql_error());
                                 }
                             }
 
                             echo 'OK';
         break;
         case 'table_smilies' :
-            $sql = mysql_query('SELECT id FROM '.$db_prefix.'_smilies WHERE code LIKE \'%\\\'%\'') or die(mysql_error());
+            $sql = mysql_query('SELECT id FROM `'.$db_prefix.'_smilies` WHERE code LIKE \'%\\\'%\'') or die(mysql_error());
             $i = 0;
             while ( $idSmiley = mysql_fetch_row($sql)){
                 $i++;
-                mysql_query('UPDATE ' . $db_prefix . '_smilies SET code=\'#smiley' . $i . '#\'' . ' WHERE id = \'' . $idSmiley[0] . '\'') or die(mysql_error());
+                mysql_query('UPDATE `' . $db_prefix . '_smilies` SET code=\'#smiley' . $i . '#\'' . ' WHERE id = \'' . $idSmiley[0] . '\'') or die(mysql_error());
             }
             echo 'OK';
         break;
         case'remove_style':
-                            mysql_query("DROP TABLE IF EXISTS  " . $db_prefix . "_style ")or die(mysql_error());
+                            mysql_query("DROP TABLE IF EXISTS  `" . $db_prefix . "_style` ")or die(mysql_error());
                             echo 'OK';
         break;
         case'remove_editeur':
-                            mysql_query("DROP TABLE IF EXISTS " . $db_prefix . "_editeur ")or die(mysql_error());
+                            mysql_query("DROP TABLE IF EXISTS `" . $db_prefix . "_editeur` ")or die(mysql_error());
                             if($this->data['version']['rev'] == '9'){
-                                $sql = mysql_query('SELECT id, comment FROM '.$db_prefix.'_forums ')or die(mysql_error());
+                                $sql = mysql_query('SELECT id, comment FROM `'.$db_prefix.'_forums` ')or die(mysql_error());
                                 while(list($id, $comment) = mysql_fetch_array($sql)){
                                     $comment = str_replace('<p>', '', $comment);
                                     $comment = str_replace('</p>', '', $comment);
-                                    mysql_query('UPDATE '.$db_prefix.'_forums set comment = \''.mysql_real_escape_string($comment).'\' WHERE id=\''.$id.'\' ')or die(mysql_error());
+                                    mysql_query('UPDATE `'.$db_prefix.'_forums` set comment = \''.mysql_real_escape_string($comment).'\' WHERE id=\''.$id.'\' ')or die(mysql_error());
                                 }
                             }
                             echo 'OK';
         break;
         case'remove_package_manager':
-                            mysql_query("DROP TABLE IF EXISTS " . $db_prefix . "_packages ")or die(mysql_error());
+                            mysql_query("DROP TABLE IF EXISTS `" . $db_prefix . "_packages` ")or die(mysql_error());
                             echo 'OK';
         break;
         case'remove_turkish.lang.php':

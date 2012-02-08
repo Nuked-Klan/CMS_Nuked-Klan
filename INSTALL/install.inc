@@ -1,9 +1,9 @@
 <?php
     switch($table){
         case'action':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_action";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_action`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_action (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_action` (
                           `id` int(11) NOT NULL auto_increment,
                           `date` varchar(30) NOT NULL default '0',
                           `pseudo`  text NOT NULL,
@@ -14,9 +14,9 @@
                         echo 'OK';
         break;
         case'banned':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_banned";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_banned`";
                         $req = mysql_query($sql) or die (mysql_error());
-                        $sql = "CREATE TABLE " . $db_prefix . "_banned (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_banned` (
                             `id` int(11) NOT NULL auto_increment,
                             `ip` varchar(50) NOT NULL default '',
                             `pseudo` varchar(50) NOT NULL default '',
@@ -30,9 +30,9 @@
                           echo 'OK';
         break;
         case'block':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_block";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_block`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_block (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_block` (
                           `bid` int(10) NOT NULL auto_increment,
                           `active` int(1) NOT NULL default '0',
                           `position` int(2) NOT NULL default '0',
@@ -46,7 +46,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_block VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_block` VALUES
                             (1, 2, 1, '', '" . _BLOKLOGIN . "', '', 'login', 0, 'Tous'),
                             (2, 1, 1, '', '" . _NAV . "', '[News]|" . _NAVNEWS . "||0|NEWLINE[Archives]|" . _NAVARCHIV . "||0|NEWLINE[Forum]|" . _NAVFORUM . "||0|NEWLINE[Download]|" . _NAVDOWNLOAD . "||0|NEWLINE[Members]|" . _NAVMEMBERS . "||0|NEWLINE[Team]|" . _NAVTEAM . "||0|NEWLINE[Defy]|" . _NAVDEFY . "||0|NEWLINE[Recruit]|" . _NAVRECRUIT . "||0|NEWLINE[Sections]|" . _NAVART . "||0|NEWLINE[Server]|" . _NAVSERVER . "||0|NEWLINE[Links]|" . _NAVLINKS . "||0|NEWLINE[Calendar]|" . _NAVCALENDAR . "||0|NEWLINE[Gallery]|" . _NAVGALLERY . "||0|NEWLINE[Wars]|" . _NAVMATCHS . "||0|NEWLINE[Irc]|" . _NAVIRC . "||0|NEWLINE[Guestbook]|" . _NAVGUESTBOOK . "||0|NEWLINE[Search]|" . _NAVSEARCH . "||0|NEWLINE|<b>" . _MEMBER . "</b>||1|NEWLINE[User]|" . _NAVACCOUNT . "||1|NEWLINE|<b>" . _ADMIN . "</b>||2|NEWLINE[Admin]|" . _NAVADMIN . "||2|', 'menu', 0, 'Tous'),
                             (3, 1, 2, 'Search', '" . _BLOKSEARCH . "', '', 'module', 0, 'Tous'),
@@ -62,9 +62,9 @@
                         echo 'OK';
         break;
         case'calendar':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_calendar";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_calendar`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_calendar (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_calendar` (
                           `id` int(11) NOT NULL auto_increment,
                           `titre` text NOT NULL,
                           `description` text NOT NULL,
@@ -79,9 +79,9 @@
                         echo 'OK';
         break;
         case'comment':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_comment";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_comment`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_comment (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_comment` (
                           `id` int(10) NOT NULL auto_increment,
                           `module` varchar(30) NOT NULL default '0',
                           `im_id` int(100) default NULL,
@@ -98,9 +98,9 @@
                         echo 'OK';
         break;
         case'comment_mod':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_comment_mod";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_comment_mod`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_comment_mod (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_comment_mod` (
                           `id` int(11) NOT NULL auto_increment,
                           `module` text NOT NULL,
                           `active` int(1) NOT NULL,
@@ -108,7 +108,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_comment_mod VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_comment_mod` VALUES
                             (1, 'news', 1),
                             (2, 'download', 1),
                             (3, 'links', 1),
@@ -120,9 +120,9 @@
                         echo 'OK';
         break;
         case'config':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_config";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_config`";
                         $req = mysql_query($sql) or die (mysql_error());
-                        $sql = "CREATE TABLE " . $db_prefix . "_config (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_config` (
                           `name` varchar(255) NOT NULL default '',
                           `value` text NOT NULL,
                           PRIMARY KEY  (`name`)
@@ -142,7 +142,7 @@
                         }
                         $stats_share = $this->data['stats'] == 'no' ? 0 : 1;
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_config VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_config` VALUES
                             ('time_generate', 'on'),
                             ('dateformat', '" . $dateFormat. "'),
                             ('datezone', '" . $dateZone . "'),
@@ -226,9 +226,9 @@
                         echo 'OK';
         break;
         case'contact':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_contact";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_contact`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_contact (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_contact` (
                           `id` int(11) NOT NULL auto_increment,
                           `titre` varchar(200) NOT NULL default '',
                           `message` text NOT NULL,
@@ -243,9 +243,9 @@
                         echo 'OK';
         break;
         case'defie':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_defie";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_defie`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_defie (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_defie` (
                           `id` int(11) NOT NULL auto_increment,
                           `send` varchar(12) NOT NULL default '',
                           `pseudo` text NOT NULL,
@@ -268,9 +268,9 @@
                         echo 'OK';
         break;
         case'discussion':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_discussion";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_discussion`";
                         $req= mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_discussion (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_discussion` (
                           `id` int(11) NOT NULL auto_increment,
                           `date` varchar(30) NOT NULL default '0',
                           `pseudo`  text NOT NULL,
@@ -281,9 +281,9 @@
                         echo 'OK';
         break;
         case'downloads':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_downloads";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_downloads`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_downloads (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_downloads` (
                           `id` int(11) NOT NULL auto_increment,
                           `date` varchar(12) NOT NULL default '',
                           `taille` varchar(6) NOT NULL default '0',
@@ -309,9 +309,9 @@
                         echo 'OK';
         break;
         case'downloads_cat':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_downloads_cat";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_downloads_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_downloads_cat (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_downloads_cat` (
                           `cid` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
                           `titre` varchar(50) NOT NULL default '',
@@ -325,9 +325,9 @@
                         echo 'OK';
         break;
         case'erreursql':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_erreursql";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_erreursql`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_erreursql (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_erreursql` (
                           `id` int(11) NOT NULL auto_increment,
                           `date` varchar(30) NOT NULL default '0',
                           `lien`  text NOT NULL,
@@ -338,9 +338,9 @@
                         echo 'OK';
         break;
         case'forums':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums` (
                           `id` int(5) NOT NULL auto_increment,
                           `cat` int(11) NOT NULL default '0',
                           `nom` text NOT NULL,
@@ -356,14 +356,14 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_forums VALUES (1, 1, 'Forum', 'Test Forum', '', 0, 0, 0, 1 ,1);";
+                        $sql = "INSERT INTO `" . $db_prefix . "_forums` VALUES (1, 1, 'Forum', 'Test Forum', '', 0, 0, 0, 1 ,1);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
         case'forums_cat':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums_cat";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                    
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums_cat (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums_cat` (
                           `id` int(11) NOT NULL auto_increment,
                           `nom` varchar(100) default NULL,
                           `ordre` int(5) NOT NULL default '0',
@@ -372,14 +372,14 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                     
-                        $sql="INSERT INTO " . $db_prefix . "_forums_cat VALUES (1, 'Categorie 1', 0, 0);";
+                        $sql="INSERT INTO `" . $db_prefix . "_forums_cat` VALUES (1, 'Categorie 1', 0, 0);";
                         $req=mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
         case'forums_messages':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums_messages";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_messages`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums_messages (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums_messages` (
                           `id` int(5) NOT NULL auto_increment,
                           `titre` text NOT NULL,
                           `txt` text NOT NULL,
@@ -405,9 +405,9 @@
                         echo 'OK';
         break;
         case'forums_threads':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums_threads";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_threads`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums_threads (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums_threads` (
                           `id` int(5) NOT NULL auto_increment,
                           `titre` text NOT NULL,
                           `date` varchar(10) default NULL,
@@ -427,9 +427,9 @@
                         echo 'OK';
         break;
         case'forums_rank':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums_rank";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_rank`";
                         $req = mysql_query($sql) or die(mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums_rank (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums_rank` (
                           `id` int(10) NOT NULL auto_increment,
                           `nom` varchar(100) NOT NULL default '',
                           `type` int(1) NOT NULL default '0',
@@ -439,7 +439,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_forums_rank VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_forums_rank` VALUES
                             (1, '"._NEWBIE."', 0, 0, 'modules/Forum/images/rank/star1.gif'),
                             (2, '"._JUNIORMEMBER."', 0, 10, 'modules/Forum/images/rank/star2.gif'),
                             (3, '"._MEMBER."', 0, 100, 'modules/Forum/images/rank/star3.gif'),
@@ -451,9 +451,9 @@
                         echo 'OK';
         break;
         case'forums_reads':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums_read";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_read`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums_read (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums_read` (
                           `id` int(11) NOT NULL auto_increment,
                           `user_id` varchar(20) NOT NULL default '',
                           `thread_id` int(11) NOT NULL default '0',
@@ -467,9 +467,9 @@
                         echo 'OK';
         break;
         case'forums_poll':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums_poll";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_poll`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums_poll (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums_poll` (
                           `id` int(11) NOT NULL auto_increment,
                           `thread_id` int(11) NOT NULL default '0',
                           `titre` varchar(255) NOT NULL default '',
@@ -480,9 +480,9 @@
                         echo 'OK';
         break;
         case'forums_options':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums_options";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_options`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums_options (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums_options` (
                           `id` int(11) NOT NULL default '0',
                           `poll_id` int(11) NOT NULL default '0',
                           `option_text` varchar(255) NOT NULL default '',
@@ -493,9 +493,9 @@
                         echo 'OK';
         break;
         case'forums_vote':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_forums_vote";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_vote`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_forums_vote (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_forums_vote` (
                           `poll_id` int(11) NOT NULL default '0',
                           `auteur_id` varchar(20) NOT NULL default '',
                           `auteur_ip` varchar(20) NOT NULL default '',
@@ -505,9 +505,9 @@
                         echo 'OK';
         break;
         case'gallery':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_gallery";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_gallery`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_gallery (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_gallery` (
                           `sid` int(11) NOT NULL auto_increment,
                           `titre` text NOT NULL,
                           `description` text NOT NULL,
@@ -525,9 +525,9 @@
                         echo 'OK';
         break;
         case'gallery_cat':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_gallery_cat";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_gallery_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_gallery_cat (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_gallery_cat` (
                           `cid` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
                           `titre` varchar(50) NOT NULL default '',
@@ -540,9 +540,9 @@
                         echo 'OK';
         break;
         case'games':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_games";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_games`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_games (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_games` (
                           `id` int(11) NOT NULL auto_increment,
                           `name` varchar(50) NOT NULL default '',
                           `titre` varchar(50) NOT NULL default '',
@@ -557,15 +557,15 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_games VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_games` VALUES
                             (1, 'Counter Strike Source', '" . _PREFCS . "', 'images/games/cs.gif', '" . _OTHERNICK . "', '" . _FAVMAP . "', '" . _FAVWEAPON . "', '" . _SKINT . "', '" . _SKINCT . "', 'de_dust2|de_inferno');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
         case'games_prefs':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_games_prefs";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_games_prefs`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_games_prefs (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_games_prefs` (
                           `id` int(11) NOT NULL auto_increment,
                           `game` int(11) NOT NULL default '0',
                           `user_id` varchar(20) NOT NULL default '',
@@ -580,9 +580,9 @@
                         echo 'OK';
         break;
         case'guestbook':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_guestbook";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_guestbook`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_guestbook (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_guestbook` (
                           `id` int(9) NOT NULL auto_increment,
                           `name` varchar(50) NOT NULL default '',
                           `email` varchar(60) NOT NULL default '',
@@ -596,9 +596,9 @@
                         echo 'OK';
         break;
         case'irc_awards':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_irc_awards";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_irc_awards`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_irc_awards (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_irc_awards` (
                           `id` int(20) NOT NULL auto_increment,
                           `text` text NOT NULL,
                           `date` varchar(30) NOT NULL default '',
@@ -608,9 +608,9 @@
                         echo 'OK';
         break;
         case'liens':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_liens";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_liens`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_liens (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_liens` (
                           `id` int(10) NOT NULL auto_increment,
                           `date` varchar(12) NOT NULL default '',
                           `titre` text NOT NULL,
@@ -628,9 +628,9 @@
                         echo 'OK';
         break;
         case'liens_cat':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_liens_cat";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_liens_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_liens_cat (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_liens_cat` (
                           `cid` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
                           `titre` varchar(50) NOT NULL default '',
@@ -643,9 +643,9 @@
                         echo 'OK';
         break;
         case'match':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_match";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_match`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_match (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_match` (
                           `warid` int(10) NOT NULL auto_increment,
                           `etat` int(1) NOT NULL default '0',
                           `team` int(11) NOT NULL default '0',
@@ -675,9 +675,9 @@
                         echo 'OK';
         break;
         case'match_files':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_match_files";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_match_files`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_match_files (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_match_files` (
                           `id` int(10) NOT NULL auto_increment,
                           `module` varchar(30) NOT NULL default '',
                           `im_id` int(10) NOT NULL default '0',
@@ -690,9 +690,9 @@
                         echo 'OK';
         break;
         case'modules':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_modules";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_modules`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_modules (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_modules` (
                           `id` int(2) NOT NULL auto_increment,
                           `nom` varchar(50) NOT NULL default '',
                           `niveau` int(1) NOT NULL default '0',
@@ -701,7 +701,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_modules VALUES (1, 'News', 0, 2),
+                        $sql = "INSERT INTO `" . $db_prefix . "_modules` VALUES (1, 'News', 0, 2),
                             (2, 'Forum', 0, 2),
                             (3, 'Wars', 0, 2),
                             (4, 'Irc', 0, 2),
@@ -727,9 +727,9 @@
                         echo 'OK';
         break;
         case'nbconnecte':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_nbconnecte";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_nbconnecte`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_nbconnecte (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_nbconnecte` (
                           `IP` varchar(30) NOT NULL default '',
                           `type` int(10) NOT NULL default '0',
                           `date` int(14) NOT NULL default '0',
@@ -741,9 +741,9 @@
                         echo 'OK';
         break;
         case'news':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_news";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_news`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_news (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_news` (
                           `id` int(11) NOT NULL auto_increment,
                           `cat` varchar(30) NOT NULL default '',
                           `titre` text,
@@ -761,9 +761,9 @@
                         echo 'OK';
         break;
         case'news_cat':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_news_cat";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_news_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_news_cat (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_news_cat` (
                           `nid` int(11) NOT NULL auto_increment,
                           `titre` text,
                           `description` text,
@@ -772,15 +772,15 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_news_cat VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_news_cat` VALUES
                             ('1', 'Counter Strike Source', '" . _BESTMOD . "', 'modules/News/images/cs.gif');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
         case'notification':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_notification";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_notification`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_notification (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_notification` (
                           `id` int(11) NOT NULL auto_increment,
                           `date` varchar(30) NOT NULL default '0',
                           `type`  text NOT NULL,
@@ -791,9 +791,9 @@
                         echo 'OK';
         break;
         case'recrute':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_recrute";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_recrute`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_recrute (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_recrute` (
                           `id` int(11) NOT NULL auto_increment,
                           `date` varchar(12) NOT NULL default '',
                           `pseudo` text NOT NULL,
@@ -814,9 +814,9 @@
                         echo 'OK';
         break;
         case'sections':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_sections";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sections`";
                         $req = mysql_query($sql) or die (mysql_error());  
-                        $sql = "CREATE TABLE " . $db_prefix . "_sections (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_sections` (
                         `artid` int(11) NOT NULL auto_increment,
                         `secid` int(11) NOT NULL default '0',
                         `title` text NOT NULL,
@@ -834,9 +834,9 @@
                         echo 'OK';
         break;
         case'sections_cat':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_sections_cat";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sections_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_sections_cat (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_sections_cat` (
                           `secid` int(11) NOT NULL auto_increment,
                           `parentid` int(11) NOT NULL default '0',
                           `secname` varchar(40) NOT NULL default '',
@@ -849,9 +849,9 @@
                         echo 'OK';
         break;
         case'serveur':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_serveur";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_serveur`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_serveur (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_serveur` (
                           `sid` int(30) NOT NULL auto_increment,
                           `game` varchar(30) NOT NULL default '',
                           `ip` varchar(30) NOT NULL default '',
@@ -866,9 +866,9 @@
                         echo 'OK';
         break;
         case'serveur_cat':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_serveur_cat";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_serveur_cat`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_serveur_cat (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_serveur_cat` (
                           `cid` int(30) NOT NULL auto_increment,
                           `titre` varchar(30) NOT NULL default '',
                           `description` text NOT NULL,
@@ -878,9 +878,9 @@
                         echo 'OK';
         break;
         case'sessions':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_sessions";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sessions`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_sessions (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_sessions` (
                           `id` varchar(50) NOT NULL default '0',
                           `user_id` varchar(20) NOT NULL default '0',
                           `date` varchar(30) NOT NULL default '',
@@ -894,9 +894,9 @@
                         echo 'OK';
         break;
         case'smilies':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_smilies";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_smilies`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_smilies (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_smilies` (
                           `id` int(5) NOT NULL auto_increment,
                           `code` varchar(50) NOT NULL default '',
                           `url` varchar(100) NOT NULL default '',
@@ -905,7 +905,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_smilies VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_smilies` VALUES
                             (1, ':D', 'biggrin.gif', 'Very Happy'),
                             (2, ':)', 'smile.gif', 'Smile'),
                             (3, ':(', 'frown.gif', 'Sad'),
@@ -921,9 +921,9 @@
                         echo 'OK';
         break;
         case'sondage':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_sondage";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sondage`";
                         $req = mysql_query($sql) or die (mysql_error());
-                        $sql = "CREATE TABLE " . $db_prefix . "_sondage (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_sondage` (
                             `sid` int(11) NOT NULL auto_increment,
                             `titre` varchar(100) NOT NULL default '',
                             `date` varchar(15) NOT NULL default '0',
@@ -932,15 +932,15 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_sondage VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_sondage` VALUES
                             (1, '" . _LIKENK . "', '" . time() . "', 0);";
                         $req = mysql_query($sql);
                         echo 'OK';
         break;
         case'sondage_check':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_sondage_check";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sondage_check`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_sondage_check (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_sondage_check` (
                           `ip` varchar(20) NOT NULL default '',
                           `pseudo` varchar(50) NOT NULL default '',
                           `heurelimite` int(14) NOT NULL default '0',
@@ -951,9 +951,9 @@
                         echo 'OK';
         break;
         case'sondage_data':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_sondage_data";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_sondage_data`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_sondage_data (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_sondage_data` (
                           `sid` int(11) NOT NULL default '0',
                           `optionText` char(50) NOT NULL default '',
                           `optionCount` int(11) NOT NULL default '0',
@@ -962,7 +962,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_sondage_data VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_sondage_data` VALUES
                             (1, '" . _ROXX . "', 0, 1),
                             (1, '" . _NOTBAD . "', 0, 2),
                             (1, '" . _SHIET . "', 0, 3),
@@ -971,9 +971,9 @@
                         echo 'OK';
         break;
         case'stats':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_stats";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_stats`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql="CREATE TABLE " . $db_prefix . "_stats (
+                        $sql="CREATE TABLE `" . $db_prefix . "_stats` (
                           `nom` varchar(50) NOT NULL default '',
                           `type` varchar(50) NOT NULL default '',
                           `count` int(11) NOT NULL default '0',
@@ -981,7 +981,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO " . $db_prefix . "_stats VALUES
+                        $sql = "INSERT INTO `" . $db_prefix . "_stats` VALUES
                             ('Gallery', 'pages', 0),
                             ('Archives', 'pages', 0),
                             ('Calendar', 'pages', 0),
@@ -1003,9 +1003,9 @@
                         echo 'OK';
         break;
         case'stats_visitor':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_stats_visitor";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_stats_visitor`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_stats_visitor (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_stats_visitor` (
                             `id` int(11) NOT NULL auto_increment,
                             `user_id` varchar(20) NOT NULL default '',
                             `ip` varchar(15) NOT NULL default '',
@@ -1029,9 +1029,9 @@
                         echo 'OK';
         break;
         case'suggest':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_suggest";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_suggest`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_suggest (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_suggest` (
                           `id` int(11) NOT NULL auto_increment,
                           `module` mediumtext NOT NULL,
                           `user_id` varchar(20) NOT NULL default '',
@@ -1044,9 +1044,9 @@
                         echo 'OK';
         break;
         case'shoutbox':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_shoutbox";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_shoutbox`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_shoutbox (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_shoutbox` (
                           `id` int(11) NOT NULL auto_increment,
                           `auteur` text,
                           `ip` varchar(20) NOT NULL default '',
@@ -1058,9 +1058,9 @@
                         echo 'OK';
         break;
         case'team':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_team";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_team`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_team (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_team` (
                           `cid` int(11) NOT NULL auto_increment,
                           `titre` varchar(50) NOT NULL default '',
                           `tag` text NOT NULL,
@@ -1073,9 +1073,9 @@
                         echo 'OK';
         break;
         case'team_rank':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_team_rank";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_team_rank`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_team_rank (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_team_rank` (
                           `id` int(11) NOT NULL auto_increment,
                           `titre` varchar(80) NOT NULL default '',
                           `ordre` int(5) NOT NULL default '0',
@@ -1085,7 +1085,7 @@
                         echo 'OK';
         break;
         case'tmpses':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_tmpses";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_tmpses`";
                         $req = mysql_query($sql) or die (mysql_error());  
                         $sql = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_tmpses` (
                             `session_id` varchar(64) NOT NULL,
@@ -1097,9 +1097,9 @@
                         echo 'OK';
         break;
         case'userbox':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_userbox";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_userbox`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_userbox (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_userbox` (
                           `mid` int(50) NOT NULL auto_increment,
                           `user_from` varchar(30) NOT NULL default '',
                           `user_for` varchar(30) NOT NULL default '',
@@ -1115,9 +1115,9 @@
                         echo 'OK';
         break;
         case'users':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_users";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_users`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_users (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_users` (
                           `id` varchar(20) NOT NULL default '',
                           `team` varchar(80) NOT NULL default '',
                           `team2` varchar(80) NOT NULL default '',
@@ -1154,9 +1154,9 @@
                         echo 'OK';
         break;
         case'users_detail':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_users_detail";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_users_detail`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql = "CREATE TABLE " . $db_prefix . "_users_detail (
+                        $sql = "CREATE TABLE `" . $db_prefix . "_users_detail` (
                           `user_id` varchar(20) NOT NULL default '0',
                           `prenom` text,
                           `age` varchar(10) NOT NULL default '',
@@ -1185,9 +1185,9 @@
                         echo 'OK';
         break;
         case'vote':
-                        $sql = "DROP TABLE IF EXISTS " . $db_prefix . "_vote";
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_vote`";
                         $req = mysql_query($sql) or die (mysql_error());                        
-                        $sql="CREATE TABLE " . $db_prefix . "_vote (
+                        $sql="CREATE TABLE `" . $db_prefix . "_vote` (
                           `id` int(11) NOT NULL auto_increment,
                           `module` varchar(30) NOT NULL default '0',
                           `vid` int(100) default NULL,
