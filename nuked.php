@@ -185,8 +185,8 @@ function connect(){
 function banip() {
     global $user_ip, $user, $language;
 
-    // On supprime nos 2 derniers chiffres pour les IP's dynamiques
-    $ip_dyn = substr($user_ip, 0, -2);
+    // On supprime le dernier chiffre pour les IP's dynamiques
+    $ip_dyn = substr($user_ip, 0, -1);
 
     // Condition SQL : IP dynamique ou compte
     $where_query = ' WHERE (ip LIKE "%' . $ip_dyn . '%") OR pseudo = "' . $user[2] . '"';
@@ -202,8 +202,8 @@ function banip() {
     }
     // Recherche d'un cookie de banissement
     else if(isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) {
-        // On supprime les 2 derniers chiffre de l'adresse IP contenu dans le cookie
-        $ip_dyn2 = substr($_COOKIE['ip_ban'], 0, -2);
+        // On supprime le dernier chiffre de l'adresse IP contenu dans le cookie
+        $ip_dyn2 = substr($_COOKIE['ip_ban'], 0, -1);
 
         // On vérifie l'adresse IP du cookie et l'adresse IP actuelle
         if($ip_dyn2 == $ip_dyn) {
