@@ -277,7 +277,7 @@ function index()
                 $i2 =0;
             }
 
-            $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Membmers&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '">' . $auteur . '</a>' : $auteur;
+            $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '">' . $auteur . '</a>' : $auteur;
 
             echo "<table width=\"100%\" style=\"background: #" . $bg . "\" cellspacing=\"0\" cellpadding=\"0\">\n"
             . "<tr>\n"
