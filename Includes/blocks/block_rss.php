@@ -24,7 +24,7 @@ function affich_block_rss($blok){
 		$title = htmlentities($title, ENT_QUOTES, 'UTF-8');
 		
 		if($titreactu == 'Oui') $blok['content'] .= '<h3 style="text-align:center;padding:10px 0 0 0">'.$title.'</h3>';
-		
+
 		$blok['content'] .= '<ul style="margin:0 20px;padding:0;list-style:url(images/puces/'.$puce.')">';
 		
 		$i = 0;
@@ -40,11 +40,11 @@ function affich_block_rss($blok){
 			
 			if ($blok['active'] == 3 or $blok['active'] == 4) {
 				
-				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.$description.'">'.$titleActu.'</a> ( '.$pubDate.' )</li>';
+				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.htmlentities(utf8_decode($description)).'">'.utf8_decode($titleActu).'</a> ( '.$pubDate.' )</li>';
 				
 			} else {
 				
-				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.$texte.'">'.$titleActu.'</a></li>';
+				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.htmlentities(utf8_decode($texte)).'">'.utf8_decode($titleActu).'</a></li>';
 				
 			}
 			
