@@ -1,9 +1,9 @@
 <?php
     $bgcolor1 = '#FFF';
     $bgcolor3 = '#DDD';
-    
+
     $date = time();
-    
+
     include('../conf.inc.php');
     if($this->data['version']['rev'] == '7' || $this->data['version']['rev'] == '8'){
         if(!isset($_SESSION['hash'])){
@@ -13,7 +13,7 @@
     elseif($this->data['version']['rev'] == '9'){
         $_SESSION['hash'] = HASHKEY;
     }
-        
+
     function UpdatePassCrypt($pass, $decal = null){
         $builder = '';
         $decal = $decal === null ? rand(0, 15) :$decal;
@@ -28,7 +28,7 @@
         }
         return '%'.dechex($decal).md5($builder);
     }
-    
+
     function checkimg($url){
 	$url = rtrim($url);
 	$ext = strrchr($url, ".");
@@ -37,6 +37,7 @@
 	else $img = "images/noimagefile.gif";
 	return($img);
     }
+
     function BBcode($texte, $db_prefix, $imgMaxWidth = 0, $imgClic = FALSE){        
         global $bgcolor3, $bgcolor1;
         if ($texte != ""){    
@@ -135,18 +136,18 @@
         '_userbox' => array('mid', 'message'),
         '_users' => array('id', 'signature')
     );
-     
-     function tableExist($tablename, $prefix){
+
+    function tableExist($tablename, $prefix){
         $sql = mysql_query("SHOW TABLES FROM `".$_SESSION['db_name']."` LIKE '".$prefix."_".$tablename."'") or die (mysql_error());
         $count = mysql_num_rows($sql);
         return $count == 0 ? false : true;
-     }
-     
-     function fieldExist($tablename, $fieldname, $prefix){
+    }
+
+    function fieldExist($tablename, $fieldname, $prefix){
         $sql = mysql_query("SHOW COLUMNS FROM `".$prefix."_".$tablename."` LIKE '".$fieldname."'") or die (mysql_error());
         $count = mysql_num_rows($sql);
         return $count == 0 ? false : true;
-     }
+    }
 
     
     switch($table){
@@ -337,11 +338,13 @@
                                     mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'quakenet.org\' WHERE name = \'irc_serv\'')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'screen\', \'on\')')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)')or die(mysql_error());
-                                    mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)')or die(mysql_error());
-                                    $recup_mail = mysql_query("SELECT value FROM `" . $db_prefix . "_config` WHERE name = 'mail'")or die(mysql_error());
-                                    list($mail_admin) = mysql_fetch_array($recup_mail)or die(mysql_error());
-                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_mail\', \''.$mail_admin.'\')')or die(mysql_error());
-                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_flood\', \'60\')')or die(mysql_error());
+                                    if(!fieldExist('config', 'contact_mail', $db_prefix)){
+                                        mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)')or die(mysql_error());
+                                        $recup_mail = mysql_query("SELECT value FROM `" . $db_prefix . "_config` WHERE name = 'mail'")or die(mysql_error());
+                                        list($mail_admin) = mysql_fetch_array($recup_mail)or die(mysql_error());
+                                        mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_mail\', \''.$mail_admin.'\')')or die(mysql_error());
+                                        mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_flood\', \'60\')')or die(mysql_error());
+                                    }
                                 }
                                 if ($this->data['lang_install'] == 'french'){
                                     mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%d/%m/%Y - %H:%M:%S\')')or die(mysql_error());
