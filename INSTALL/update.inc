@@ -338,7 +338,7 @@
                                     mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'quakenet.org\' WHERE name = \'irc_serv\'')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'screen\', \'on\')')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)')or die(mysql_error());
-                                    if(!fieldExist('config', 'contact_mail', $db_prefix)){
+                                    if(!tableExist('contact', $db_prefix)){
                                         mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)')or die(mysql_error());
                                         $recup_mail = mysql_query("SELECT value FROM `" . $db_prefix . "_config` WHERE name = 'mail'")or die(mysql_error());
                                         list($mail_admin) = mysql_fetch_array($recup_mail)or die(mysql_error());
