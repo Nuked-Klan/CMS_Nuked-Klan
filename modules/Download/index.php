@@ -19,6 +19,14 @@ if ($visiteur >= $level_access && $level_access > -1) {
     compteur("Download");
     include 'modules/Vote/index.php';
 
+	echo '<script type="text/javascript"><!--'."\n"
+	. 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
+	. '--></script>'."\n"
+	. '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
+	. '<script type="text/javascript">'."\n"
+	. 'Shadowbox.init();'."\n"
+	. '</script>'."\n";
+
     function index()  {
 
         global $nuked, $visiteur;
@@ -280,7 +288,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         if ($edit != "") $edition = nkDate($edit);
         else $edition = "N/A";
 
-        if ($screen != "") $capture = "<a href=\"" . $screen . "\" class=\"thickbox\" title=\"" . $titre . "\">" . _CLICHERE . "</a>";
+        if ($screen != "") $capture = "<a href=\"" . $screen . "\" rel=\"shadowbox\" title=\"" . $titre . "\">" . _CLICHERE . "</a>";
         else $capture = "N/A";
 
         if ($autor != "") $author = $autor;
