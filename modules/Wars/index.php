@@ -440,6 +440,14 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         opentable();
 
+        echo '<script type="text/javascript"><!--'."\n"
+        . 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
+        . '--></script>'."\n"
+        . '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
+        . '<script type="text/javascript">'."\n"
+        . 'Shadowbox.init();'."\n"
+        . '</script>'."\n";
+
         $sql = mysql_query('SELECT team, adversaire, url_adv, pays_adv, date_jour, date_mois, date_an, type, style, tscore_team, tscore_adv, map, score_adv, score_team, report, auteur, url_league, etat FROM ' . WARS_TABLE . ' WHERE warid = \'' . $war_id . '\' ');
         if(mysql_num_rows($sql) <= 0){
             redirect('index.php?file=404', 0);
@@ -561,8 +569,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             echo '<tr style="background: ' . $bgcolor1 . ';"><td style="border: 1px dashed ' . $bgcolor3 . ';">';
 
             while (list($url) = mysql_fetch_array($sql_screen)){
-                echo '<a href="#" onclick="javascript:window.open(\'' . $url . '\',\'screen\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=800,height=600,top=30,left=0\');return(false)\">
-                        <img style="border: 1px solid #000000;" src="' . $url . '" width="150" alt="" /></a>';
+                echo '<a href="' . $url . '" rel="shadowbox"><img src="' . $url . '" alt="" style="max-width:150px;max-height:150px;margin:10px" /></a>';
             }
             
             echo '</td></tr><tr style="background: ' . $bgcolor2 . ';"><td>&nbsp;</td></tr>';
