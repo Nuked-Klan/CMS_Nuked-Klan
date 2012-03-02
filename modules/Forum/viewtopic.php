@@ -245,7 +245,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             { 
                 $string = trim($_REQUEST['highlight']);
                 $string = htmlentities($string);
-                $title = preg_replace($string, "`<span style=\"color: #FF0000;\">" . $string . "</span>`i", $title);
+                $title = str_replace($string, '<span style="color: #FF0000">' . $string . '</span>', $title);
 
                 $search = explode(" ", $string);
                 for($i = 0; $i < count($search); $i++)
