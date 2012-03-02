@@ -77,6 +77,9 @@ if ($count > 0) {
     ' . _CONTACTWEBMASTER . ' : <a href="mailto:' . $nuked['mail'] . '">' . $nuked['mail'] . '</a></div></body></html>';
 }
 else {
+    if(isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])){
+        $_COOKIE['ip_ban'] = '';
+    }
     redirect('index.php', 0);
 }
 ?>

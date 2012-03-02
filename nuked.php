@@ -196,7 +196,7 @@ function banip() {
     $ban = mysql_fetch_assoc($query_ban);
 
     // Si résultat positif à la recherche d'un bannissement
-    if(!empty($ban['id'])) {
+    if(mysql_num_rows($query_ban) > 0) {
         // Nouvelle adresse IP
         $banned_ip = $user_ip;
     }
@@ -214,6 +214,9 @@ function banip() {
                 $banned_ip = $user_ip;
         }
     }
+    else{
+        $banned_ip = '';
+    }
 
     // Suppression des banissements dépassés ou mise à jour de l'IP
     if(!empty($banned_ip)) {
@@ -226,7 +229,8 @@ function banip() {
         }
         // Sinon on met à jour l'IP
         else {
-            $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '" ' . $where_query);
+            $where_user = $user ? ', pseudo = "' . $user[2] . '"' : '';
+            $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '"' . $where_user . ' ' . $where_query);
             // Redirection vers la page de banissement
             $url_ban = 'ban.php?ip_ban=' . $banned_ip;
             if(!empty($user)){
