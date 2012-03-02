@@ -309,6 +309,9 @@
         break;
         case'update_bbcode':
                             if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
+                                if (!tableExist('contact', $db_prefix)) {
+                                    unset($bbUpdate['_contact']);
+                                }
                                 foreach($bbUpdate as $k => $v){
                                     if(preg_match('#_x[0-9]{1}#', $k)) $k = substr($k, 0, -3);
                                     $select = $k == '_config' ? 'SELECT value FROM `'.$db_prefix.'_config` WHERE name=\''.$v[0].'\' ' : 'SELECT '.$v[0].', '.$v[1].' FROM '.$db_prefix.$k.' ';
