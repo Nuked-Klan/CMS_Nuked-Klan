@@ -228,7 +228,7 @@
         break;
         case'table_contact':
                             if(!tableExist('contact', $db_prefix)){
-                                $sql = mysql_query('SHOW TABLES FROM '.$this->data['db_name'].' ') or die (mysql_error());
+                                $sql = mysql_query('SHOW TABLES FROM `'.$this->data['db_name'].'` ') or die (mysql_error());
                                 while(list($table_db) = mysql_fetch_array($sql)){
                                     $array_db[] = $table_db;
                                 }
