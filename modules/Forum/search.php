@@ -258,6 +258,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $rquery = htmlentities($_REQUEST['query']);
             $rquery = nk_CSS($rquery);
+            $rquery = stripslashes($rquery);
 
             if ($_REQUEST['query'] != "")
             {
