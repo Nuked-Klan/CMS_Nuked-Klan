@@ -42,11 +42,11 @@ function SecureVar($value){
         return $value;
     }
     elseif (!get_magic_quotes_gpc()){
-        return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '\0x'), addslashes($value)) ;
+        return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '0&#120;'), addslashes($value)) ;
     }
     else
     {
-		return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '\0x'), $value);
+		return str_replace(array('&', '<', '>', '0x'), array('&amp;', '&lt;', '&gt;', '0&#120;'), $value);
 	}
 }
 error_reporting (E_ERROR | E_WARNING | E_PARSE);
