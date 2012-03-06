@@ -78,13 +78,7 @@
             $texte = str_replace("[/quote]", "</div></td></tr></table><br />", $texte);
             $texte = str_replace("[code]", "<br /><table style=\"background: " . $bgcolor3 . ";width:100%;\" cellpadding=\"3\" cellspacing=\"1\" border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"code\" style=\"border: 0; overflow: auto;\"><strong>" . _CODE . " :</strong><pre class=\"brush:php;\" >", $texte);
             $texte = str_replace("[/code]", "</pre></div></td></tr></table>", $texte);
-            if ($imgMaxWidth>0){
-                if ($imgClic == TRUE) $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', create_function('$var', '$img = "<a href=\"" . checkimg($var[1]) . "\" class=\"thickbox\" alt=\"\"><img style=\"border: 0; overflow: auto; max-width: ' . $imgMaxWidth . 'px;  width: expression(this.scrollWidth >= ' . $imgMaxWidth . '? \'' . $imgMaxWidth . 'px\' : \'auto\');\" src=\"" . checkimg($var[1]) . "\" alt=\"\" /></a>";return $img;'), $texte);
-                else $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', create_function('$var', '$img = "<img style=\"border: 0; overflow: auto; max-width: ' . $imgMaxWidth . 'px;  width: expression(this.scrollWidth >= ' . $imgMaxWidth . '? \'' . $imgMaxWidth . 'px\' : \'auto\');\" src=\"" . checkimg($var[1]) . "\" alt=\"\" />";return $img;'), $texte);
-            }
-            else{
-                $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', create_function('$var', '$img = "<img style=\"border: 0;\" src=\"" . checkimg($var[1]) . "\" alt=\"\" />";return $img;'), $texte);
-            }
+            $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', create_function('$var', '$img = "<img style=\"border: 0;\" src=\"" . checkimg($var[1]) . "\" alt=\"\" />";return $img;'), $texte);
             $texte = preg_replace_callback('/\[img=(.*?)x(.*?)\](.*?)\[\/img\]/i', create_function('$var', '$img = "<a href=\"" . checkimg($var[3]) . "\" class=\"thickbox\" alt=\"\"><img style=\"border: 0;\" width=\"" . $var[1] . "\" height=\"" . $var[2] . "\" src=\"" . checkimg($var[3]) . "\" alt=\"\" /></a>";return $img;'), $texte);
             $texte = preg_replace("/\[flash\](.*?)\[\/flash\]/i", "<object type=\"application/x-shockwave-flash\" data=\"\\1\"><param name=\"movie\" value=\"\\1\" /><param name=\"pluginurl\" value=\"http://www.macromedia.com/go/getflashplayer\" /></object>", $texte);
             $texte = preg_replace("/\[flash=(.*?)x(.*?)\](.*?)\[\/flash\]/i", "<object type=\"application/x-shockwave-flash\" data=\"\\3\" width=\"\\1\" height=\"\\2\"><param name=\"movie\" value=\"\\3\" /><param name=\"pluginurl\" value=\"http://www.macromedia.com/go/getflashplayer\" /></object>", $texte);
