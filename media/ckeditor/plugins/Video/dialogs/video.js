@@ -29,7 +29,7 @@ CKEDITOR.dialog.add('Video',function(a) {
 			// Youtube
 			if (inputYoutube != '') {
 				var url = 'http://www.youtube.com/v/';
-				var text = '<div style="text-align:center"><object width="'+videoWidth+'" height="'+videoHeight+'"><param name="movie" value="'+url+inputYoutube+'"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="'+url+inputYoutube+'" type="application/x-shockwave-flash" width="'+videoWidth+'" height="'+videoHeight+'" allowscriptaccess="always" allowfullscreen="true"></embed></object></div>';
+				var text = '<div style="text-align:center"><object width="'+videoWidth+'" height="'+videoHeight+'"><param name="movie" value="'+url+inputYoutube+'?version=3"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="'+url+inputYoutube+'?version=3" type="application/x-shockwave-flash" width="'+videoWidth+'" height="'+videoHeight+'" allowscriptaccess="always" allowfullscreen="true"></embed></object></div>';
 				this.getParentEditor().insertHtml(text);
 			}			
 			// Dailymotion
