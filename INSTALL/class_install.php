@@ -514,11 +514,11 @@
                     echo '</div>';
                 }                
             }
-            if(!isset($_SESSION['contentweb']) && $error != 'CHMOD'){
-                echo '<a href="idnex.php?action=checkUserAdmin" class="button" >'._BACK.'</a>';
-            }
             if(isset($_SESSION['content_web']) && $error != 'CHMOD'){
                 echo '<a href="index.php?action=printConfig" class="button" >'._DOWNLOAD.'</a>';
+            }
+            else{
+                echo '<a href="index.php?action=checkUserAdmin" class="button" >'._BACK.'</a>';
             }
             if(isset($_SESSION['content_web'])){
                 echo '<a href="index.php?action=checkInstallSuccess" class="button" >' . _CONTINUE . '</a>
