@@ -19,14 +19,6 @@ if ($visiteur >= $level_access && $level_access > -1) {
     compteur("Download");
     include 'modules/Vote/index.php';
 
-	echo '<script type="text/javascript"><!--'."\n"
-	. 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
-	. '--></script>'."\n"
-	. '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
-	. '<script type="text/javascript">'."\n"
-	. 'Shadowbox.init();'."\n"
-	. '</script>'."\n";
-
     function index()  {
 
         global $nuked, $visiteur;
@@ -267,6 +259,15 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
     function description($dl_id) {
         global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3;
+
+        # include css and js library shadowbox
+        echo '<script type="text/javascript"><!--'."\n"
+        . 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
+        . '--></script>'."\n"
+        . '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
+        . '<script type="text/javascript">'."\n"
+        . 'Shadowbox.init();'."\n"
+        . '</script>'."\n";
 
         $upd = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET hit = hit + 1 WHERE id = '" . $dl_id . "'");
 
