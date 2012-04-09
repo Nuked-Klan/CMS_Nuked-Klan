@@ -14,7 +14,7 @@ connect();
 
 // QUERY NUKED CONFIG_TABLE.
 $nuked = array();
-$sql_conf = mysql_query('SELECT name, value FROM ' . $db_prefix . '_config');
+$sql_conf = initializeControlDB($db_prefix);
 while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = htmlentities($row['value'], ENT_NOQUOTES);
 unset($sql_conf, $row);
 
@@ -1113,5 +1113,19 @@ function send_stats_nk() {
             <?php
 		}
 	}
+}
+
+// Control valid DB prefix
+function initializeControlDB($prefixDB) {
+    if (!isset($prefixDB)) {
+        exit(DBPREFIX_ERROR);
+    } else {
+        $result = mysql_query('SELECT name, value FROM ' . $prefixDB . '_config');
+        if ($result == false) {
+            exit(DBPREFIX_ERROR);
+        } else {
+            return $result;
+        }
+    }
 }
 ?>
