@@ -84,7 +84,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $data['cat'] = $TabCat['titre'];
             $data['catid'] = $TabNews['cat'];
             $data['id'] = $TabNews['id'];
-            $data['titre'] = $TabNews['titre'];
+            $data['titre'] = @html_entity_decode($TabNews['titre']);
             $data['auteur'] = $auteur;
             $data['nb_comment'] = $nb_comment;
             $data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
