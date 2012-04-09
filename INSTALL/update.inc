@@ -37,6 +37,22 @@
 	else $img = "images/noimagefile.gif";
 	return($img);
     }
+    
+    function replaceBBCodeUpdate1($var) {
+        return '<a href=\"' . checkimg($var[1]) . '\" class=\"thickbox\" alt=\"\"><img style=\"border: 0; overflow: auto; max-width: ' . $imgMaxWidth . 'px;  width: expression(this.scrollWidth >= ' . $imgMaxWidth . '? \'' . $imgMaxWidth . 'px\' : \'auto\');\" src=\"' . checkimg($var[1]) . '\" alt=\"\" /></a>';
+    }
+    
+    function replaceBBCodeUpdate2($var) {
+        return '<img style=\"border: 0; overflow: auto; max-width: ' . $imgMaxWidth . 'px;  width: expression(this.scrollWidth >= ' . $imgMaxWidth . '? \'' . $imgMaxWidth . 'px\' : \'auto\');\" src=\"' . checkimg($var[1]) . '\" alt=\"\" />';
+    }
+    
+    function replaceBBCodeUpdate3($var) {
+        return '<img style=\"border: 0;\" src=\"' . checkimg($var[1]) . '\" alt=\"\" />';
+    }
+    
+    function replaceBBCodeUpdate4($var) {
+        return  '<a href=\"' . checkimg($var[3]) . '\" class=\"thickbox\" alt=\"\"><img style=\"border: 0;\" width=\"" . $var[1] . "\" height=\"' . $var[2] . '\" src=\"' . checkimg($var[3]) . '\" alt=\"\" /></a>';
+    }
 
     function BBcode($texte, $db_prefix, $imgMaxWidth = 0, $imgClic = FALSE){        
         global $bgcolor3, $bgcolor1;
@@ -78,8 +94,17 @@
             $texte = str_replace("[/quote]", "</div></td></tr></table><br />", $texte);
             $texte = str_replace("[code]", "<br /><table style=\"background: " . $bgcolor3 . ";width:100%;\" cellpadding=\"3\" cellspacing=\"1\" border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"code\" style=\"border: 0; overflow: auto;\"><strong>" . _CODE . " :</strong><pre class=\"brush:php;\" >", $texte);
             $texte = str_replace("[/code]", "</pre></div></td></tr></table>", $texte);
-            $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', create_function('$var', '$img = "<img style=\"border: 0;\" src=\"" . checkimg($var[1]) . "\" alt=\"\" />";return $img;'), $texte);
-            $texte = preg_replace_callback('/\[img=(.*?)x(.*?)\](.*?)\[\/img\]/i', create_function('$var', '$img = "<a href=\"" . checkimg($var[3]) . "\" class=\"thickbox\" alt=\"\"><img style=\"border: 0;\" width=\"" . $var[1] . "\" height=\"" . $var[2] . "\" src=\"" . checkimg($var[3]) . "\" alt=\"\" /></a>";return $img;'), $texte);
+            if ($imgMaxWidth>0){
+                if ($imgClic) {
+                    $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', 'replaceBBCodeUpdate1', $texte);
+                } else {
+                    $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', 'replaceBBCodeUpdate2', $texte);
+                }
+            }
+            else{
+                $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', 'replaceBBCodeUpdate3', $texte);
+            }
+            $texte = preg_replace_callback('/\[img=(.*?)x(.*?)\](.*?)\[\/img\]/i', 'replaceBBCodeUpdate4', $texte);
             $texte = preg_replace("/\[flash\](.*?)\[\/flash\]/i", "<object type=\"application/x-shockwave-flash\" data=\"\\1\"><param name=\"movie\" value=\"\\1\" /><param name=\"pluginurl\" value=\"http://www.macromedia.com/go/getflashplayer\" /></object>", $texte);
             $texte = preg_replace("/\[flash=(.*?)x(.*?)\](.*?)\[\/flash\]/i", "<object type=\"application/x-shockwave-flash\" data=\"\\3\" width=\"\\1\" height=\"\\2\"><param name=\"movie\" value=\"\\3\" /><param name=\"pluginurl\" value=\"http://www.macromedia.com/go/getflashplayer\" /></object>", $texte);
             $texte = preg_replace("/\[url\]www.(.*?)\[\/url\]/i", "<a href=\"http://www.\\1\" onclick=\"window.open(this.href); return false;\">\\1</a>", $texte);
@@ -87,7 +112,7 @@
             $texte = preg_replace("/\[url=(.*?)\](.*?)\[\/url\]/i", "<a href=\"\\1\" onclick=\"window.open(this.href); return false;\">\\2</a>", $texte);
             $texte = preg_replace("#\[s\](http://)?(.*?)\[/s\]#si", "<img style=\"border: 0;\" src=\"images/icones/\\2\" alt=\"\" />", $texte);    
             $texte = ltrim($texte);
-            $sql = mysql_query('SELECT code, url, name FROM '.$db_prefix.'_smilies') or die (mysql_error());
+            $sql = mysql_query('SELECT code, url, name FROM `'.$db_prefix.'_smilies`') or die (mysql_error());
             while(list($code, $url, $name) = mysql_fetch_array($sql)){
                 $texte = str_replace($code, '<img src="images/icones/'.$url.'" alt="'.$name.'" />', $texte);
             }
@@ -303,12 +328,13 @@
         break;
         case'update_bbcode':
                             if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
-                                if (!tableExist('contact', $db_prefix)) {
-                                    unset($bbUpdate['_contact']);
-                                }
                                 foreach($bbUpdate as $k => $v){
                                     if(preg_match('#_x[0-9]{1}#', $k)) $k = substr($k, 0, -3);
-                                    $select = $k == '_config' ? 'SELECT value FROM `'.$db_prefix.'_config` WHERE name=\''.$v[0].'\' ' : 'SELECT '.$v[0].', '.$v[1].' FROM '.$db_prefix.$k.' ';
+                                    if ($k == '_config') {
+                                        $select = 'SELECT value FROM `'.$db_prefix.'_config` WHERE name=\''.$v[0].'\' ';
+                                    } else {
+                                        $select = 'SELECT '.$v[0].', '.$v[1].' FROM '.$db_prefix.$k.' ';
+                                    }
                                     $sql = mysql_query($select) or die(mysql_error());
                                     while($row = mysql_fetch_row($sql)){
                                         if(isset($row[1])){
@@ -317,7 +343,11 @@
                                         else{
                                             $row[0] = mysql_real_escape_string(bbcode(stripslashes($row[0]), $db_prefix));
                                         }
-                                        $update = $k == '_config' ? "UPDATE `".$db_prefix.$k."` SET value='".$row[0]."' WHERE name='".$v[0]."' " : "UPDATE `".$db_prefix.$k."` SET ".$v[1]."='".$row[1]."' WHERE ".$v[0]."='".$row[0]."' ";
+                                        if ($k == '_config') {
+                                            $update = "UPDATE `".$db_prefix.$k."` SET value='".$row[0]."' WHERE name='".$v[0]."' ";
+                                        } else {
+                                            $update = "UPDATE `".$db_prefix.$k."` SET ".$v[1]."='".$row[1]."' WHERE ".$v[0]."='".$row[0]."' ";
+                                        }
                                         mysql_query($update) or die (mysql_error());
                                     }
                                 }
