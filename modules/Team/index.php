@@ -131,7 +131,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     echo "<tr style=\"background: " . $bg . ";\">\n"
                     . "<td style=\"width: 5%;\" align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
-                    . "<td style=\"width: 25%;\"><a href=\"" . $url_member . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $temp . "</b></a></td>\n"
+                    . "<td style=\"width: 25%;\"><a href=\"" . $url_member . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $pseudo . "</b></a></td>\n"
                     . "<td style=\"width: 10%;\" align=\"center\">\n";
 
                     if ($email != "")
