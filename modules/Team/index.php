@@ -47,7 +47,9 @@ if ($visiteur >= $level_access && $level_access > -1)
         while (is_array($res))
         {
             list($team, $titre, $team_tag, $tag2, $_REQUEST['game']) = $res;
-
+            $tagPre = $team_tag;
+            $tagSuf = $tag2;
+            
             $titre = htmlentities($titre);
             $team_tag = htmlentities($team_tag);
             $tag2 = htmlentities($tag2);
@@ -77,7 +79,10 @@ if ($visiteur >= $level_access && $level_access > -1)
                 {
                     list ($pays, $ext) = explode ('.', $country);
                     $temp = $team_tag . $pseudo . $tag2;
+                    $pseudoFix = html_entity_decode($tagPre) . $pseudo . html_entity_decode($tagSuf);
                     $pseudo = html_entity_decode($pseudo);
+                    
+                    
 
                     if (is_file("themes/" . $theme . "/images/mail.gif"))
                     {
@@ -131,7 +136,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     echo "<tr style=\"background: " . $bg . ";\">\n"
                     . "<td style=\"width: 5%;\" align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
-                    . "<td style=\"width: 25%;\"><a href=\"" . $url_member . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $pseudo . "</b></a></td>\n"
+                    . "<td style=\"width: 25%;\"><a href=\"" . $url_member . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $pseudoFix . "</b></a></td>\n"
                     . "<td style=\"width: 10%;\" align=\"center\">\n";
 
                     if ($email != "")
