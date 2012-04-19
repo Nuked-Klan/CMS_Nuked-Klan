@@ -143,7 +143,7 @@ function verifFormBDD(type, form, wait, error_host, error_login){
     var formErrors = 0;
    $('input[id]').each(function(){
         if($(this).attr('type') == 'text' || $(this).attr('type') == 'password'){
-            if(($(this).val() == '' && $(this).attr('name') != 'db_pass') || ($(this).attr('name') == 'db_pass' && user.val() != 'root' && $(this).val() == '')){
+            if(($(this).val() == '' && $(this).attr('name') != 'db_pass' && $(this).attr('name') != 'db_prefix') || ($(this).attr('name') == 'db_pass' && user.val() != 'root' && $(this).val() == '')){
                 $(this).addClass('error');
                 formErrors++;
             }
