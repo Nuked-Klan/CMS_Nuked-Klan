@@ -133,7 +133,11 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                     $pagename = $page;
                 }
 
-                $etat = round(($count * 100) / $counter);
+                if ($counter != 0) {
+                    $etat = round(($count * 100) / $counter);
+                } else {
+                    $etat = 0;
+                }
 
                 echo '<tr>'."\n"
                 . '<td style="width : 5%" align="center">' . $nb . '</td>'."\n"
