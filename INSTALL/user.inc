@@ -93,6 +93,7 @@
             }            
         }
         else{
+            $_SESSION['content_web'] = nl2br(htmlentities($content));
             return 'CONF.INC';
         }
     }   
