@@ -546,7 +546,7 @@
                             $(document).ready(ajaxPartners());
                         </script>';
                         
-            echo '<a href="../index.php" class="button" >' . _ACCESS_SITE . '</a>
+            echo '<a href="index.php?action=deleteSession" class="button" >' . _ACCESS_SITE . '</a>
                     </div>';
         }
         
@@ -568,6 +568,12 @@
             unset($_SESSION);
             session_destroy();
             self::redirect('index.php', 0);
+        }
+
+        private function deleteSession(){
+            unset($_SESSION);
+            session_destroy();
+            self::redirect('../index.php', 0);
         }
         
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
