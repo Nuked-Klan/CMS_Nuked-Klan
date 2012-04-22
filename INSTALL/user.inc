@@ -37,6 +37,7 @@
             mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_news` VALUES (1, 1, '"._FIRSTNEWSTITLE."', '".$pseudo."', '".$user_id."', '"._FIRSTNEWSCONTENT."', '', '".$date."', '', '')");    
             mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_shoutbox` VALUES (1, '".$pseudo. "', '".$ip."', '" . _FIRSTNEWSTITLE . "', '".$date."')");  
             mysql_query("UPDATE `".$_SESSION['db_prefix']."_config` SET value = '".$mail."' WHERE name = 'contact_mail'");
+            mysql_query("UPDATE `".$_SESSION['db_prefix']."_config` SET value = '".$mail."' WHERE name = 'mail'");
         }
         
         if (@extension_loaded('zlib') && !@ini_get('zlib.output_compression') && @phpversion() >= "4.0.4" && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) define('GZIP_COMPRESS', 'true');
