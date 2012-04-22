@@ -63,11 +63,11 @@ if ($visiteur >= $level_access && $level_access > -1)
     else
     {
         list($nom, $modos, $cat, $level) = mysql_fetch_array($sql);
-        $nom = htmlentities($nom);
+        $nom = printSecuTags($nom);
 
         $sql_cat = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cat . "'");
         list($cat_name) = mysql_fetch_array($sql_cat);
-        $cat_name = htmlentities($cat_name);
+        $cat_name = printSecuTags($cat_name);
 
         if ($modos != "")
         {
@@ -165,7 +165,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $texte = htmlentities($texte);
             $texte = nk_CSS($texte);
 
-            $title = strip_tags(htmlentities($titre));
+            $title = htmlentities(printSecuTags($titre));
 
             if (strlen($titre) > 30)
             {
@@ -175,9 +175,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "\" onmouseover=\"AffBulle('" . mysql_real_escape_string(stripslashes($title)) . "', '" . mysql_real_escape_string(stripslashes($texte)) . "', 400)\" onmouseout=\"HideBulle()\"><b>" . htmlentities($titre) . "</b></a>";
             }
-
-            $titre_topic = preg_replace("`&amp;lt;`i", "&lt;", $titre_topic);
-            $titre_topic = preg_replace("`&amp;gt;`i", "&gt;", $titre_topic);
 
             $sql4 = mysql_query("SELECT file FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
             $nb_rep = mysql_num_rows($sql4) - 1;
@@ -373,7 +370,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' ORDER BY ordre, nom");
         while (list($forum_name, $fid) = mysql_fetch_row($sql_forum))
         {
-            $forum_name = htmlentities($forum_name);
+            $forum_name = printSecuTags($forum_name);
 
             echo "<option value=\"" . $fid . "\">" . $forum_name . "</option>\n";
         }

@@ -20,11 +20,16 @@ unset($sql_conf, $row);
 
 // CONVERT ALL HTML ENTITIES TO THEIR APPLICABLE CHARACTERS
 $nuked['prefix'] = $db_prefix;
-$nuked['inscription_charte'] = html_entity_decode($nuked['inscription_charte']);
-$nuked['inscription_mail'] = html_entity_decode($nuked['inscription_mail']);
-$nuked['footmessage'] = html_entity_decode($nuked['footmessage']);
-$nuked['defie_charte'] = html_entity_decode($nuked['defie_charte']);
-$nuked['recrute_charte'] = html_entity_decode($nuked['recrute_charte']);
+
+// FUNCTION TO FIX PRINTING TAGS
+function printSecuTags($value){
+    $value = htmlentities(html_entity_decode(html_entity_decode($value)));
+    return $value;
+}
+// FIX TAGS IN NUKED ARRAY
+foreach($nuked as $k => $v){
+    $nuked[$k] = printSecuTags($v);
+}
 
 // INCLUDE CONSTANT TABLE
 include('Includes/constants.php');

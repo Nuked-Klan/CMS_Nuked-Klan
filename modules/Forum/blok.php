@@ -43,7 +43,7 @@ if ($active == 3 || $active == 4)
     {
         $auteur = nk_CSS($auteur);
 
-        $title = htmlentities($titre);
+        $title = printSecuTags($titre);
         $title = preg_replace("`&amp;lt;`i", "&lt;", $title);
         $title = preg_replace("`&amp;gt;`i", "&gt;", $title);
         $title = nk_CSS($title);
@@ -102,11 +102,11 @@ if ($active == 3 || $active == 4)
 
         if (strlen($titre) > 20 && $file == $nuked['index_site'])
         {
-            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "\" title=\"" . $title. "\"><b>" . htmlentities(substr($titre, 0, 20)) . "...</b></a>";
+            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "\" title=\"" . $title. "\"><b>" . printSecuTags(substr($titre, 0, 20)) . "...</b></a>";
         }
         else if (strlen($titre) > 30)
         {
-            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "\" title=\"" . $title. "\"><b>" . htmlentities(substr($titre, 0, 30)) . "...</b></a>";
+            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "\" title=\"" . $title. "\"><b>" . printSecuTags(substr($titre, 0, 30)) . "...</b></a>";
         }
         else
         {
@@ -146,9 +146,7 @@ else
 
         $auteur = nk_CSS($auteur);
 
-        $title = htmlentities($titre);
-        $title = preg_replace("`&amp;lt;`i", "&lt;", $title);
-        $title = preg_replace("`&amp;gt;`i", "&gt;", $title);
+        $title = printSecuTags($titre);
         $title = nk_CSS($title);
 
         $sql3 = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
@@ -177,7 +175,7 @@ else
 
         if (strlen($titre) > 40)
         {
-            $titre_topic = "<a href=\"" . $link_post . "\" title=\"" . $title . " ( " . $autor . " )\"><b>" . htmlentities(substr($titre, 0, 40)) . "...</b></a>";
+            $titre_topic = "<a href=\"" . $link_post . "\" title=\"" . $title . " ( " . $autor . " )\"><b>" . printSecuTags(substr($titre, 0, 40)) . "...</b></a>";
         }
         else
         {

@@ -32,7 +32,7 @@ if ($_REQUEST['cat'] != "")
 {
     $sql_cat = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $_REQUEST['cat'] . "'");
     list($cat_name) = mysql_fetch_row($sql_cat);
-    $cat_name = htmlentities($cat_name); 
+    $cat_name = printSecuTags($cat_name); 
     $nav = "&nbsp;-&gt; <b>" . $cat_name . "</b>";    
 } 
 
@@ -73,7 +73,7 @@ else
 
 while (list($nom_cat, $cid) = mysql_fetch_row($main))
 {
-    $nom_cat = htmlentities($nom_cat);
+    $nom_cat = printSecuTags($nom_cat);
 
     echo "<tr " . $background_cat . "><td colspan=\"5\">&nbsp;&nbsp;<a href=\"index.php?file=Forum&amp;cat=" . $cid . "\"><big><b>" . $nom_cat . "</b></big></a></td></tr>\n";
 
@@ -81,7 +81,7 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
     while (list($nom, $comment, $forum_id) = mysql_fetch_row($sql))
     {
 
-        $nom = htmlentities($nom);
+        $nom = printSecuTags($nom);
 
         $req2 = mysql_query("SELECT forum_id from " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $forum_id . "'");
         $num_post = mysql_num_rows($req2);

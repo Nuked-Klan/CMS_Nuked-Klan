@@ -48,9 +48,9 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             list($team, $titre, $team_tag, $tag2, $_REQUEST['game']) = $res;
 
-            $titre = htmlentities($titre);
-            $team_tag = htmlentities($team_tag);
-            $tag2 = htmlentities($tag2);
+            $titre = printSecuTags($titre);
+            $team_tag = printSecuTags($team_tag);
+            $tag2 = printSecuTags($tag2);
 
             if ($team != '') $link_titre = '<a href="index.php?file=Team&amp;cid=' . urlencode(html_entity_decode($team)) . '"><big><b>' . $titre . '</b></big></a>';
             else $link_titre = '<big><b>' . $titre . '</b></big>';
@@ -92,7 +92,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     {
                         $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
                         list($rank_name) = mysql_fetch_array($sql_rank);
-                        $rank_name = htmlentities($rank_name);
+                        $rank_name = printSecuTags($rank_name);
                     }
                     else
                     {
@@ -237,12 +237,12 @@ if ($visiteur >= $level_access && $level_access > -1)
                 list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
 
 
-                $titre = htmlentities($titre);
-                $pref_1 = htmlentities($pref_1);
-                $pref_2 = htmlentities($pref_2);
-                $pref_3 = htmlentities($pref_3);
-                $pref_4 = htmlentities($pref_4);
-                $pref_5 = htmlentities($pref_5);
+                $titre = printSecuTags($titre);
+                $pref_1 = printSecuTags($pref_1);
+                $pref_2 = printSecuTags($pref_2);
+                $pref_3 = printSecuTags($pref_3);
+                $pref_4 = printSecuTags($pref_4);
+                $pref_5 = printSecuTags($pref_5);
 
 
                 $sql4 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE game = '" . $_REQUEST['game'] . "' AND user_id = '" . $id_user . "'");
@@ -255,12 +255,12 @@ if ($visiteur >= $level_access && $level_access > -1)
                 list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
 
 
-                $titre = htmlentities($titre);
-                $pref_1 = htmlentities($pref_1);
-                $pref_2 = htmlentities($pref_2);
-                $pref_3 = htmlentities($pref_3);
-                $pref_4 = htmlentities($pref_4);
-                $pref_5 = htmlentities($pref_5);
+                $titre = printSecuTags($titre);
+                $pref_1 = printSecuTags($pref_1);
+                $pref_2 = printSecuTags($pref_2);
+                $pref_3 = printSecuTags($pref_3);
+                $pref_4 = printSecuTags($pref_4);
+                $pref_5 = printSecuTags($pref_5);
 
                 $gpref1 = $pref1;
                 $gpref2 = $pref2;

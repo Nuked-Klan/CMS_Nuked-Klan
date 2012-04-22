@@ -60,11 +60,11 @@ if ($visiteur >= $level_access && $level_access > -1)
     else
     {
         list($nom, $modos, $cat, $level) = mysql_fetch_array($sql);
-        $nom = htmlentities($nom);
+        $nom = printSecuTags($nom);
 
         $sql_cat = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cat . "'");
         list($cat_name) = mysql_fetch_array($sql_cat);
-        $cat_name = htmlentities($cat_name);
+        $cat_name = printSecuTags($cat_name);
 
         if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
         {
@@ -76,9 +76,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
 
         list($titre, $read, $closed, $annonce, $lastpost, $topic_aid, $sondage) = mysql_fetch_array($sql2);
-        $titre = htmlentities($titre);
-        $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
-        $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
+        $titre = printSecuTags($titre);
         $titre = nk_CSS($titre);
 
         $upd = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET view = view + 1 WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND id = '" . $_REQUEST['thread_id'] . "'");

@@ -43,7 +43,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $sql_cat = mysql_query("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = 0 ORDER BY position, secname");
             $test = 0;
             while (list($secid, $secname, $description) = mysql_fetch_array($sql_cat)){
-                $secname = htmlentities($secname);
+                $secname = printSecuTags($secname);
 
                 if ($secid != $last_cid){
                     $test++;
@@ -73,7 +73,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                     if ($nb_subcat > 0){
                         $t = 0;
                         while (list($sub_cat_id, $sub_cat_titre) = mysql_fetch_array($sql_subcat)){
-                            $sub_cat_titre = htmlentities($sub_cat_titre);
+                            $sub_cat_titre = printSecuTags($sub_cat_titre);
                             $t++;
                             if ($t <= 3) echo "<small><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $sub_cat_id . "\">" . $sub_cat_titre . "</a></small>&nbsp;&nbsp;";
                             else echo "<small><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\">...</a></small>";
@@ -117,7 +117,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
         list($secname, $description, $parentid) = mysql_fetch_row($sql);
 
-        $secname = htmlentities($secname);
+        $secname = printSecuTags($secname);
 
         $sql2 = mysql_query("SELECT * FROM " . SECTIONS_TABLE . " WHERE secid = '" . $secid . "'");
         $nb_art = mysql_num_rows($sql2);
@@ -125,7 +125,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         if ($parentid > 0){
             $sql_parent = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
             list($parent_titre) = mysql_fetch_array($sql_parent);
-            $parent_titre = htmlentities($parent_titre);
+            $parent_titre = printSecuTags($parent_titre);
 
             echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Sections\" style=\"text-decoration:none\"><big><b>" . _SECTIONS . "</b></big></b></a> &gt; <a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $parentid . "\" style=\"text-decoration:none\"><big><b>" . $parent_titre . "</b></big></a> &gt; <big><b>" . $secname . "</b></big></div><br />\n";
         } 
@@ -142,7 +142,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             while (list($catid, $parentcat, $parentdesc) = mysql_fetch_array($sql_subcat)){
 
-                $parentcat = htmlentities($parentcat);
+                $parentcat = printSecuTags($parentcat);
 
                 $sql_nbcat = mysql_query("SELECT secid FROM " . SECTIONS_TABLE . " WHERE secid = '" . $catid . "'");
                 $nb_artcat = mysql_num_rows($sql_nbcat);
@@ -196,7 +196,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         $sql2 = mysql_query("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . "  WHERE secid = '" . $secid . "'");
         list($secname, $parentid) = mysql_fetch_row($sql2);
-        $secname = htmlentities($secname);
+        $secname = printSecuTags($secname);
 
         if ($secid == 0){
             $category = _NONE;
@@ -205,7 +205,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         {
             $sql3 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
             list($parent_name) = mysql_fetch_array($sql3);
-            $parent_name = htmlentities($parent_name);
+            $parent_name = printSecuTags($parent_name);
 
             $category = "<a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $parentid . "\">" . $parent_name . "</a> -&gt; <a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\">" . $secname . "</a>";
         } 
@@ -213,7 +213,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $category = "<a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\">" . $secname . "</a>";
         } 
 
-        $title = htmlentities($title);
+        $title = printSecuTags($title);
         $autor = htmlentities($autor);
 
         $words = sizeof(explode(" ", $content));
@@ -417,7 +417,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $seek = mysql_data_seek($sql, $start);
             for($i = 0;$i < $nb_max;$i++){
                 if (list($artid, $title, $date, $counter, $content) = mysql_fetch_row($sql)){
-                    $title = htmlentities($title);
+                    $title = printSecuTags($title);
                     $newsdate = time() - 604800;
                     $att = "";
 
