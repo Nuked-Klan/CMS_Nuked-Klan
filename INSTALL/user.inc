@@ -69,7 +69,7 @@
                     . "?>";
         $path = dirname(dirname(__FILE__)).'/';
         @chmod ($path.'conf.inc.php', 0666);
-        @chmod ($path, 0733);
+        @chmod ($path, 0755);
         $errors = 0;
         $_SESSION['content'] = $content;
         if (is_writable($path.'conf.inc.php') || (!file_exists($path.'conf.inc.php') && is_writable($path))){               

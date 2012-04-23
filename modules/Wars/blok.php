@@ -23,7 +23,7 @@ if ($active == 3 || $active == 4){
     $nbwar = mysql_num_rows($sql);
 
     while (list($war_id, $pays_adv, $adv_name, $score_team, $score_adv) = mysql_fetch_array($sql)){
-        $adv_name = htmlentities($adv_name);
+        $adv_name = printSecuTags($adv_name);
         list ($pays, $ext) = explode ('.', $pays_adv);
 
         if ($score_team > $score_adv){
@@ -53,7 +53,7 @@ if ($active == 3 || $active == 4){
     $y = date('Y');
 
     while (list($war_id2, $pays_adv2, $adv_name2, $d2, $m2, $y2) = mysql_fetch_array($sql2)){
-		$adv_name2 = htmlentities($adv_name2);
+		$adv_name2 = printSecuTags($adv_name2);
 		list ($pays2, $ext2) = explode ('.', $pays_adv2);
 
 		if ($m2 < 10){
@@ -84,7 +84,7 @@ else{
 
     $sql = mysql_query('SELECT warid, pays_adv, adversaire, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 1 ORDER BY date_an DESC, date_mois DESC, date_jour DESC LIMIT 0, 5');
     while (list($war_id, $pays_adv, $adv_name, $score_team, $score_adv) = mysql_fetch_array($sql)){
-        $adv_name = htmlentities($adv_name);
+        $adv_name = printSecuTags($adv_name);
         list ($pays, $ext) = explode ('.', $pays_adv);
 
         if ($score_team > $score_adv){
@@ -114,7 +114,7 @@ else{
 		echo '<tr><td colspan="2">&nbsp;</td></tr><tr><td colspan="2"><span style="text-decoration: underline"><b>'._NEXTWAR.' :</b></span></td></tr><tr><td colspan="2">&nbsp;</td></tr>';
 
         while (list($war_id2, $pays_adv2, $adv_name2, $d2, $m2, $y2) = mysql_fetch_array($sql2)){
-            $adv_name2 = htmlentities($adv_name2);
+            $adv_name2 = printSecuTags($adv_name2);
             list ($pays2, $ext2) = explode ('.', $pays_adv2);
 
             if ($m2 < 10){

@@ -115,7 +115,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 			$sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat. "'");
 			list($categorie) = mysql_fetch_array($sql3);
-			$categorie = htmlentities($categorie);
+			$categorie = printSecuTags($categorie);
 
 			if ($autor_id != "") {
 				$sql4 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
@@ -129,9 +129,9 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			}
 
 			if (strlen($titre) > 25) {
-				$title = "<span style=\"cursor: hand\" title=\"" . htmlentities($titre) . "\">" . htmlentities(substr($titre, 0, 25)) . "...</span>";
+				$title = "<span style=\"cursor: hand\" title=\"" . printSecuTags($titre) . "\">" . printSecuTags(substr($titre, 0, 25)) . "...</span>";
 			} else {
-				$title = htmlentities($titre);
+				$title = printSecuTags($titre);
 			}
 
 			echo "<tr>\n"
@@ -436,7 +436,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$sql = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
 		while (list($cid, $titre) = mysql_fetch_array($sql)) {
-			$titre = htmlentities($titre);
+			$titre = printSecuTags($titre);
 
 		echo "<tr>\n"
 		   . "<td style=\"width: 60%;\" align=\"center\">" . $titre . "</td>\n"
@@ -584,7 +584,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$sql = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE);
 		while (list($cid, $titre) = mysql_fetch_array($sql)) {
-			$titre = htmlentities($titre);
+			$titre = printSecuTags($titre);
 			echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
 		}
 	}

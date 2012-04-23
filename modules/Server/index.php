@@ -23,7 +23,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         $sql = mysql_query("SELECT cid, titre, description FROM " . SERVER_CAT_TABLE . " ORDER BY titre");
         while ($row = mysql_fetch_assoc($sql)) {
-            $row['titre'] = htmlentities($row['titre']);
+            $row['titre'] = printSecuTags($row['titre']);
             $serverlist = null;
 
             echo "<br /><table width=\"100%\" cellspacing=\"5\" cellpadding=\"0\">\n"
@@ -120,16 +120,16 @@ if ($visiteur >= $level_access && $level_access > -1) {
                         . "<td style=\"width: 15%;\" align=\"center\">0/0</td></tr>\n";
                     } else {
                         echo "<tr style=\"background: ". $bg . "\">\n"
-                        . "<td style=\"width: 30%;\"><a href=\"index.php?file=Server&amp;op=server&amp;server_id=" . $id . "\">" . htmlentities($gameserver->servertitle) . "</a></td>\n"
+                        . "<td style=\"width: 30%;\"><a href=\"index.php?file=Server&amp;op=server&amp;server_id=" . $id . "\">" . printSecuTags($gameserver->servertitle) . "</a></td>\n"
                         . "<td style=\"width: 25%;\" align=\"center\">" . $address . ":" . $port . "</td>\n"
                         . "<td style=\"width: 15%;\" align=\"center\">" . $game . "</td>\n"
-                        . "<td style=\"width: 15%;\" align=\"center\">" . htmlentities($gameserver->mapname);
+                        . "<td style=\"width: 15%;\" align=\"center\">" . printSecuTags($gameserver->mapname);
 
                         if ($gameserver->maptitle) {
-                            echo htmlentities($gameserver->maptitle);
+                            echo printSecuTags($gameserver->maptitle);
                         } 
 
-                        echo "</td><td style=\"width: 15%;\" align=\"center\">" . htmlentities($gameserver->numplayers) . "/" . htmlentities($gameserver->maxplayers) . "</td></tr>\n";
+                        echo "</td><td style=\"width: 15%;\" align=\"center\">" . printSecuTags($gameserver->numplayers) . "/" . printSecuTags($gameserver->maxplayers) . "</td></tr>\n";
                     } 
                 } 
 
@@ -172,8 +172,8 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $sql = mysql_query("SELECT game, ip, port, pass FROM " . SERVER_TABLE . " WHERE sid = '" . $server_id . "'");
             $row = mysql_fetch_assoc($sql);
         } else if (!empty($address) && !empty($port)) {
-            $address = htmlentities($row['ip']);
-            $port = htmlentities($row['port']);
+            $address = printSecuTags($row['ip']);
+            $port = printSecuTags($row['port']);
             $address = nk_CSS($address);
             $port = nk_CSS($port);
         } else {
@@ -240,7 +240,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         if (!$gameserver) {
             echo '<br /><div style="text-align: center;"><big><b>' . $address . ':' . $port . '</b></big><br /><br /><br /><b>' . _SEVERDOWN . '</b></div><br /><br />';
         } else {
-            $screen = 'modules/Server/images/' . htmlentities($gameserver->mapname);
+            $screen = 'modules/Server/images/' . printSecuTags($gameserver->mapname);
             $screen = preg_replace("`$`", ".jpg", $screen);
 
             if (is_file($screen)) {
@@ -249,12 +249,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 $mapimage = 'modules/Server/images/nopicture.jpg';
             } 
 
-            echo "<br /><div style=\"text-align: center;\"><big><b>" . htmlentities($gameserver->servertitle) . "</b></big></div><br />\n"
-            . "<div style=\"text-align: center;\"><img src=\"$mapimage\" alt=\"\" title=\"" . htmlentities($gameserver->mapname) . "\" /></div><br />\n"
+            echo "<br /><div style=\"text-align: center;\"><big><b>" . printSecuTags($gameserver->servertitle) . "</b></big></div><br />\n"
+            . "<div style=\"text-align: center;\"><img src=\"$mapimage\" alt=\"\" title=\"" . printSecuTags($gameserver->mapname) . "\" /></div><br />\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"350\" cellpadding=\"2\" cellspacing=\"1\">\n"
             . "<tr style=\"background: ". $bgcolor3 . "\"><td align=\"center\" colspan=\"2\"><b>" . _SERVERDETAIL . "</b></td></tr>\n"
             . "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . _ADDRESS . " :</b></td><td>" . $address . ":" . $port . "</td></tr>\n"
-            . "<tr style=\"background: ". $bgcolor1 . "\"><td>&nbsp;<b>" . _NBPLAYER . " :</b></td><td>" . htmlentities($gameserver->numplayers) . "/" . htmlentities($gameserver->maxplayers) . "</td></tr>\n";
+            . "<tr style=\"background: ". $bgcolor1 . "\"><td>&nbsp;<b>" . _NBPLAYER . " :</b></td><td>" . printSecuTags($gameserver->numplayers) . "/" . printSecuTags($gameserver->maxplayers) . "</td></tr>\n";
 
             if (!empty($password)) {
                 echo "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . _SERVERPASS . " :</b></td><td>" . $password . "</td></tr>\n";
@@ -269,8 +269,8 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 echo "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . _SERVERPASS . " :</b></td><td>" . $pass . "</td></tr>\n";
             } 
 
-            echo "<tr style=\"background: ". $bgcolor1 . "\"><td>&nbsp;<b>" . _GAME . " :</b></td><td>" . htmlentities($gameserver->gametype) . "</td></tr>\n"
-            . "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . _MAP . " :</b></td><td>" . htmlentities($gameserver->mapname) . "</td></tr>\n"
+            echo "<tr style=\"background: ". $bgcolor1 . "\"><td>&nbsp;<b>" . _GAME . " :</b></td><td>" . printSecuTags($gameserver->gametype) . "</td></tr>\n"
+            . "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . _MAP . " :</b></td><td>" . printSecuTags($gameserver->mapname) . "</td></tr>\n"
             . "<tr style=\"background: ". $bgcolor1 . "\"><td>&nbsp;<b>" . _SERVERRULES . " :</b></td><td><select style=\"width: 200px\">\n";
 
             if (!count($gameserver->rules)) {
@@ -385,25 +385,25 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 } 
 
                 if ($player['name']) {
-                    $result .= "<tr style=\"background: ". $bg . "\"><td>" . htmlentities($player['name']) . "</td>\n";
+                    $result .= "<tr style=\"background: ". $bg . "\"><td>" . printSecuTags($player['name']) . "</td>\n";
                     if ($keys['score']) {
-                        $result .= "<td>" . htmlentities($player['score']) . "</td>\n";
+                        $result .= "<td>" . printSecuTags($player['score']) . "</td>\n";
                         $sumscore += $player['score'];
                     } 
                     if ($keys['honor']) {
-                        $result .= "<td>" . htmlentities($player['honor']) . "</td>\n";
+                        $result .= "<td>" . printSecuTags($player['honor']) . "</td>\n";
                         $sumhonor += $player['honor'];
                     } 
                     if ($keys['frags']) {
-                        $result .= "<td>" . htmlentities($player['frags']) . "</td>\n";
+                        $result .= "<td>" . printSecuTags($player['frags']) . "</td>\n";
                         $sumfrags += $player['frags'];
                     } 
                     if ($keys['deaths']) {
-                        $result .= "<td>" . htmlentities($player['deaths']) . "</td>\n";
+                        $result .= "<td>" . printSecuTags($player['deaths']) . "</td>\n";
                         $sumdeaths += $player['deaths'];
                     } 
                     if ($keys['ping']) {
-                        $result .= "<td>" . htmlentities($player['ping']) . "</td>\n";
+                        $result .= "<td>" . printSecuTags($player['ping']) . "</td>\n";
                     } 
                     $result .= "</tr>\n";
                 } 

@@ -49,7 +49,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                     $test++;
                     if ($test == 1) echo '<tr>';
 
-                    echo '<td valign="top"><img src="modules/Links/images/fleche.gif" alt="" /><a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $cid . '"><b>' . htmlentities($titre) . '</b></a>';
+                    echo '<td valign="top"><img src="modules/Links/images/fleche.gif" alt="" /><a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $cid . '"><b>' . printSecuTags($titre) . '</b></a>';
 
                     $sql2 = mysql_query('SELECT cat FROM ' . LINKS_TABLE . ' WHERE cat = ' . $cid);
                     $nb_lk = mysql_num_rows($sql2);
@@ -61,7 +61,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                     $t = 0;
                     $sql_subcat = mysql_query('SELECT cid, titre FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = ' . $cid . ' ORDER BY position, titre LIMIT 0, 4');
                     while (list($sub_cat_id, $sub_cat_titre) = mysql_fetch_array($sql_subcat)){
-                        $sub_cat_titre = htmlentities($sub_cat_titre);
+                        $sub_cat_titre = printSecuTags($sub_cat_titre);
                         $t++;
                         if ($t <= 3) echo '<small><a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $sub_cat_id . '">' . $sub_cat_titre . '</a></small>&nbsp;&nbsp;';
                         else echo '<a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $cid . '"><small>...</small></a>';
@@ -106,7 +106,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         list($cat_titre, $cat_desc, $parentid) = mysql_fetch_array($sql);
 
-        $cat_titre = htmlentities($cat_titre);
+        $cat_titre = printSecuTags($cat_titre);
         $cat_desc = icon($cat_desc);
 
         if ($parentid > 0){
@@ -138,7 +138,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 					if ($count == 1) echo '<tr>';
 
 					echo '<td valign="top">'."\n"
-					. '<img src="modules/Links/images/fleche.gif" alt="" /><a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $catid . '"><b>' . htmlentities($parentcat) . '</b></a> <small>(' . $nb_lkcat . ')</small><br />' . $parentdesc . ''."\n"
+					. '<img src="modules/Links/images/fleche.gif" alt="" /><a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $catid . '"><b>' . printSecuTags($parentcat) . '</b></a> <small>(' . $nb_lkcat . ')</small><br />' . $parentdesc . ''."\n"
 					. '</td>';
 
 					if ($count == 2){
@@ -202,18 +202,18 @@ if ($visiteur >= $level_access && $level_access > -1){
 		else{
 			list($link_id, $date, $titre, $description, $webmaster, $country, $cat, $count) = mysql_fetch_array($sql);
 
-			$titre = htmlentities($titre);
+			$titre = printSecuTags($titre);
 			$description = icon($description);
 
 			$sql2 = mysql_query('SELECT titre, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
 			list($cat_name, $parentid) = mysql_fetch_array($sql2);
-			$cat_name = htmlentities($cat_name);
+			$cat_name = printSecuTags($cat_name);
 
 			if ($cat == 0) $category = _NONE;
 			else if ($parentid > 0){
 				$sql3 = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
 				list($parent_name) = mysql_fetch_array($sql3);
-				$parent_name = htmlentities($parent_name);
+				$parent_name = printSecuTags($parent_name);
 
 				$category = '<a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '">' . $parent_name . '</a> -&gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $cat. '">' . $cat_name . '</a>';
 			}
@@ -264,7 +264,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 			. '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _ADDTHE . ' :</b> ' . nkDate($date) . '</td></tr>'."\n";
 
 			if (!empty($webmaster)){
-				echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _WEBMASTER . ' :</b> ' . htmlentities($webmaster) . '</td></tr>'."\n";
+				echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _WEBMASTER . ' :</b> ' . printSecuTags($webmaster) . '</td></tr>'."\n";
 			}
 
 			if (!empty($country) && !empty($pays)){
@@ -372,7 +372,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $seek = mysql_data_seek($sql, $start);
             for($i = 0;$i < $nb_liens;$i++){
                 if (list($link_id, $date, $titre, $description, $count, $country) = mysql_fetch_array($sql)){
-                    $titre = htmlentities($titre);
+                    $titre = printSecuTags($titre);
                     $newsdate = time() - 604800;
                     $att = '';
 

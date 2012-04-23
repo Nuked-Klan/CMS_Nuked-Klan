@@ -58,7 +58,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $count = mysql_num_rows($sql);
         while (list($eid, $titre, $auteur, $jour, $mois, $an, $heure) = mysql_fetch_array($sql))
         {
-            $titre = htmlentities($titre);
+            $titre = printSecuTags($titre);
 
             if ($language == "french")
             {

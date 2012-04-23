@@ -140,20 +140,20 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 $categorie = _NONE;
             } 
             else if ($parentid == 0){
-                $categorie = htmlentities($namecat);
+                $categorie = printSecuTags($namecat);
             } 
             else{
                 $sql3 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
                 list($parentcat) = mysql_fetch_array($sql3);
                 $categorie = $parentcat . "->" . $namecat;
-                $categorie = htmlentities($categorie);
+                $categorie = printSecuTags($categorie);
             } 
 
             if (strlen($titre) > 25){
-                $title = "<span style=\"cursor: hand\" title=\"" . htmlentities($titre) . "\">" . htmlentities(substr($titre, 0, 25)) . "...</span>";
+                $title = "<span style=\"cursor: hand\" title=\"" . printSecuTags($titre) . "\">" . printSecuTags(substr($titre, 0, 25)) . "...</span>";
             } 
             else{
-                $title = htmlentities($titre);
+                $title = printSecuTags($titre);
             } 
 
             echo "<tr>\n"
@@ -261,7 +261,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         
         $sql = mysql_query("SELECT title, content, secid FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
         list($titre, $texte, $cat) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
         
         if ($cat == 0 || !$cat){
             $cid = 0;
@@ -271,7 +271,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $cid = $cat;
             $sql2 = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cat . "'");
             list($cid, $categorie) = mysql_fetch_array($sql2);
-            $categorie = htmlentities($categorie);
+            $categorie = printSecuTags($categorie);
         }
         
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -396,7 +396,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         if ($nbcat > 0){
             while (list($cid, $titre, $parentid, $position) = mysql_fetch_row($sql))
             {
-                $titre = htmlentities($titre);
+                $titre = printSecuTags($titre);
 
                 echo "<tr>\n"
                         . "<td style=\"width: 35%;\" align=\"center\">" . $titre . "</td>\n"
@@ -405,7 +405,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 if ($parentid > 0){
                     $sql2 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
                     list($pnomcat) = mysql_fetch_array($sql2);
-                    $pnomcat = htmlentities($pnomcat);
+                    $pnomcat = printSecuTags($pnomcat);
 
                     echo "<i>" . $pnomcat . "</i>";
                 } 
@@ -443,7 +443,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         $sql = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " where parentid = 0 ORDER BY position, secname");
         while (list($secid, $nomcat) = mysql_fetch_array($sql)){
-            $nomcat = htmlentities($nomcat);
+            $nomcat = printSecuTags($nomcat);
 
             echo "<option value=\"" . $secid . "\">" . $nomcat . "</option>\n";
         } 
@@ -520,7 +520,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         if ($parentid > 0){
             $sql2 = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
             list($pcid, $pnomcat) = mysql_fetch_array($sql2);
-            $pnomcat = htmlentities($pnomcat);
+            $pnomcat = printSecuTags($pnomcat);
 
             echo "<option value=\"" . $pcid . "\">" . $pnomcat . "</option>\n";
         } 
@@ -529,7 +529,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         $sql3 = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, secname");
         while (list($catid, $nomcat) = mysql_fetch_array($sql3)){
-            $nomcat = htmlentities($nomcat);
+            $nomcat = printSecuTags($nomcat);
 
             if ($nomcat != $secname){
                 echo "<option value=\"" . $catid . "\">" . $nomcat . "</option>\n";
@@ -594,13 +594,13 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         $sql = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, secname");
         while (list($secid, $secname) = mysql_fetch_array($sql)){
-            $secname = htmlentities($secname);
+            $secname = printSecuTags($secname);
 
             echo "<option value=\"" . $secid . "\">* " . $secname . "</option>\n";
 
             $sql2 = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = '" . $secid . "' ORDER BY position, secname");
             while (list($s_secid, $s_titre) = mysql_fetch_array($sql2)){
-                $s_titre = htmlentities($s_titre);
+                $s_titre = printSecuTags($s_titre);
 
                 echo "<option value=\"" . $s_secid . "\">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
             } 

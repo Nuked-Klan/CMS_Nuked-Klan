@@ -49,7 +49,7 @@ if ($active == 3 || $active == 4)
         else $width = "width=\"" . $img_screen1 . "\"";
         $image = "<img style=\"border: 1px solid #000000;\" src=\"" . $img . "\" " . $width . " alt=\"" . $titre . "\" title=\"" .  _CLICTOSCREEN . "\" />";
 
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
 
         if ($img != "")
         {
@@ -63,7 +63,7 @@ else
 {
     $sql = mysql_query("SELECT sid, titre, url, url2 FROM " . GALLERY_TABLE . " ORDER BY sid DESC LIMIT 0, 1");
     list($sid, $titre, $url, $url2) = mysql_fetch_array($sql);
-    $titre = htmlentities($titre);
+    $titre = printSecuTags($titre);
 
     if ($url2 != "")
     {

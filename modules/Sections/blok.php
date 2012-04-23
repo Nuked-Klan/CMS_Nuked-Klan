@@ -28,12 +28,12 @@ if ($active == 3 || $active == 4){
     $i = 0;
     $sql = mysql_query("SELECT artid, title, date, secid FROM " . SECTIONS_TABLE . " ORDER BY artid DESC LIMIT 0, 10");
     while (list($id, $titre, $date, $cat) = mysql_fetch_array($sql)){
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
         $date = nkDate($date);
 
         $sql4 = mysql_query("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cat . "'");
         list($cat_name, $parentid) = mysql_fetch_array($sql4);
-        $cat_name = htmlentities($cat_name);
+        $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0){
             $category = "";
@@ -41,7 +41,7 @@ if ($active == 3 || $active == 4){
         else if ($parentid > 0){
             $sql5 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
             list($parent_name) = mysql_fetch_array($sql5);
-            $parent_name = htmlentities($parent_name);
+            $parent_name = printSecuTags($parent_name);
 
             $category = $parent_name . " - " . $cat_name;
         }
@@ -63,7 +63,7 @@ if ($active == 3 || $active == 4){
     while (list($tartid, $ttitre, $tcount, $tcat) = mysql_fetch_array($sql3)){
         $sql4 = mysql_query("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $tcat . "'");
         list($tcat_name, $tparentid) = mysql_fetch_array($sql4);
-        $tcat_name = htmlentities($tcat_name);
+        $tcat_name = printSecuTags($tcat_name);
 
         if ($tcat == 0){
             $tcategory = "";
@@ -71,7 +71,7 @@ if ($active == 3 || $active == 4){
         else if ($tparentid > 0){
             $sql5 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $tparentid . "'");
             list($tparent_name) = mysql_fetch_array($sql5);
-            $tparent_name = htmlentities($tparent_name);
+            $tparent_name = printSecuTags($tparent_name);
 
             $tcategory = $tparent_name . " - " . $tcat_name;
         }
@@ -92,7 +92,7 @@ else{
     $i = 0;
     $sql = mysql_query("SELECT artid, title, date FROM " . SECTIONS_TABLE . " ORDER BY date DESC LIMIT 0, 10");
     while (list($id, $titre, $date) = mysql_fetch_array($sql)){
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
         $date = strftime("%x", $date);
         $i++;
 

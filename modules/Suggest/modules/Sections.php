@@ -64,7 +64,7 @@ function form($content, $sug_id)
     $sql = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, secname");
     while (list($secid, $titre) = mysql_fetch_array($sql))
     {
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
 
         if ($content)
         {
@@ -76,7 +76,7 @@ function form($content, $sug_id)
         $sql2 = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = '" . $secid . "' ORDER BY position, secname");
         while (list($s_cid, $s_titre) = mysql_fetch_array($sql2))
         {
-            $s_titre = htmlentities($s_titre);
+            $s_titre = printSecuTags($s_titre);
 
             if ($content)
             {
@@ -107,7 +107,7 @@ function form($content, $sug_id)
 
 function make_array($data)
 {
-    $data['title'] = htmlentities($data['title']);
+    $data['title'] = printSecuTags($data['title']);
     $data['secid'] = htmlentities($data['secid']);
     $data['auteur'] = htmlentities($data['auteur']);
     $data['auteur_id'] = htmlentities($data['auteur_id']);

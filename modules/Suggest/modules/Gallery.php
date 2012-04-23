@@ -69,7 +69,7 @@ function form($content, $sug_id){
 
     $sql = mysql_query("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($cid, $titre) = mysql_fetch_array($sql)){
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
 
         if ($content){
             if ($cid == $content[4]) $selected = "selected=\"selected\"";
@@ -80,7 +80,7 @@ function form($content, $sug_id){
 
         $sql2 = mysql_query("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
         while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)){
-            $s_titre = htmlentities($s_titre);
+            $s_titre = printSecuTags($s_titre);
 
             if ($content){
                 if ($s_cid == $content[4]) $selected1 = "selected=\"selected\"";
@@ -124,12 +124,12 @@ function form($content, $sug_id){
 function make_array($data){
     include("modules/Suggest/config.php");
 
-    $data['titre'] = htmlentities($data['titre']);
+    $data['titre'] = printSecuTags($data['titre']);
     $data['auteur'] = htmlentities($data['auteur']);
     $data['url'] = htmlentities($data['url']);
     $data['url2'] = htmlentities($data['url2']);
     $data['url_file'] = htmlentities($data['url_file']);
-    $data['cat'] = htmlentities($data['cat']);
+    $data['cat'] = printSecuTags($data['cat']);
     
     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
     $data['description'] = str_replace("|", "&#124;", $data['description']);

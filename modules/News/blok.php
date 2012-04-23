@@ -25,7 +25,7 @@ $Sql = mysql_query("SELECT N.id, N.titre, N.date, N.auteur, N.auteur_id, U.pseud
 while ($row = mysql_fetch_assoc($Sql)) {
 	
 	$row['date'] = nkDate($row['date']);
-	$row['titre'] = htmlentities($row['titre']);
+	$row['titre'] = printSecuTags($row['titre']);
 	$titre = (strlen($row['titre']) > 30) ? substr($row['titre'],0,30).'...' : $row['titre'];
 	$auteur = (!empty($row['auteur_id'])) ? $row['pseudo'] : $row['auteur'];
 	$title = _BY . ' ' . $auteur . ' ( ' . $row['date'] . ' )';

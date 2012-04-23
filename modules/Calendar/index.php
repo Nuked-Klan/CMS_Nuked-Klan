@@ -84,7 +84,7 @@ function index(){
 			
 			while ($tmp = mysql_fetch_array($result)){
 				if (strcmp($tmp['adversaire'] , "") != 0){
-					$tmp['adversaire'] = htmlentities($tmp['adversaire']);
+					$tmp['adversaire'] = printSecuTags($tmp['adversaire']);
 					$this->month_data[$tmp['date_jour']]['id'][] = $tmp["warid"];
 					$this->month_data[$tmp['date_jour']]['event_title'][] = "<span title=\"" . _MATCH . "&nbsp;" . _VS . "&nbsp;" . $tmp['adversaire'] . "\">" . _MATCH . "</span>";
 					$this->month_data[$tmp['date_jour']]['event_type'][] = "match";
@@ -98,7 +98,7 @@ function index(){
 			
 			while ($cmp = mysql_fetch_array($data2)){
 				if (strcmp($cmp['titre'] , "") != 0){
-					$cmp['titre'] = htmlentities($cmp['titre']);
+					$cmp['titre'] = printSecuTags($cmp['titre']);
 					$this->month_data[$cmp['date_jour']]['id'][] = $cmp['id'];
 					$this->month_data[$cmp['date_jour']]['event_title'][] = "<span title=\"" . $cmp['titre'] . "\">" . _EVENT . "</span>";
 					$this->month_data[$cmp['date_jour']]['event_type'][] = "divers";
@@ -348,7 +348,7 @@ function show_event(){
 		$nb_match = mysql_num_rows($sql);
 		list($warid, $etat, $team, $adv_name, $type_match, $jour, $mois, $an, $heure, $style, $score_team, $score_adv, $report) = mysql_fetch_array($sql);
 		
-		$adv_name = htmlentities($adv_name);
+		$adv_name = printSecuTags($adv_name);
 		
 		if ($team > 0){
 			$sql2 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");

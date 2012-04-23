@@ -35,7 +35,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
             list($titre) = mysql_fetch_array($sql);
-            $titre = htmlentities($titre);
+            $titre = printSecuTags($titre);
 
             echo "<form method=\"post\" action=\"index.php?file=Survey&amp;nuked_nude=index&amp;op=update_sondage\">\n"
                . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
@@ -43,7 +43,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             $sql2 = mysql_query('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
             while (list($voteid, $optiontext) = mysql_fetch_array($sql2)) {
-                $optiontext = htmlentities($optiontext);
+                $optiontext = printSecuTags($optiontext);
 
                 echo '<tr><td><input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '</td></tr>';
             } 
@@ -144,7 +144,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid=' . $poll_id);
             list($titre) = mysql_fetch_array($sql);
-            $titre = htmlentities($titre);
+            $titre = printSecuTags($titre);
 
             echo "<br /><div style=\"text-align: center;\"><big><b>" . _POLLOF . "</b></big></div>\n"
                . "<div style=\"text-align: center;\"><br /><b>$titre</b></div><br />\n"
@@ -158,7 +158,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             $sql3 = mysql_query('SELECT optionCount, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
             while (list($optioncount, $optiontext) = mysql_fetch_array($sql3)) {
-                $optiontext = htmlentities($optiontext);
+                $optiontext = printSecuTags($optiontext);
 
                 if ($nbcount <> 0) {
                     $etat = ($optioncount * 100) / $nbcount;
@@ -223,7 +223,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         $sql = mysql_query('SELECT sid, titre, date FROM ' . SURVEY_TABLE . ' ORDER BY date DESC');
         while (list($poll_id, $titre, $date) = mysql_fetch_array($sql)) {
-            $titre = htmlentities($titre);
+            $titre = printSecuTags($titre);
             $date = nkDate($date);
 
             $sql2 = mysql_query('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);

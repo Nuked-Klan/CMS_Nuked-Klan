@@ -255,7 +255,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			$cid = $cat;
 			$sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
 			list($cat_name) = mysql_fetch_array($sql2);
-			$cat_name = htmlentities($cat_name);
+			$cat_name = printSecuTags($cat_name);
 		}
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -467,7 +467,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		if ($nb_broke > 0) {
 			while (list($did, $titre, $url, $broke) = mysql_fetch_array($sql)) {
-				$titre = htmlentities($titre);
+				$titre = printSecuTags($titre);
 				$l++;
 
 				echo "<tr>\n"
@@ -607,7 +607,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$i = 0;
 		$sql = mysql_query("SELECT D.id, D.type, D.titre, D.url, D.date, DC.parentid, DC.titre  FROM " . DOWNLOAD_TABLE . " AS D LEFT JOIN " . DOWNLOAD_CAT_TABLE . " AS DC ON DC.cid = D.type ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_download);
 		while (list($did, $cat, $titre, $url, $date, $parentid, $namecat) = mysql_fetch_array($sql)) {
-			$titre = htmlentities($titre);
+			$titre = printSecuTags($titre);
 
 			$date = nkDate($date);
 
@@ -619,7 +619,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 				$sql3 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
 				list($parentcat) = mysql_fetch_array($sql3);
 				$categorie = $parentcat . " -> " . $namecat;
-				$categorie = htmlentities($categorie);
+				$categorie = printSecuTags($categorie);
 			}
 
 			echo "<tr style=\"background: " . $bg . ";\">\n"
@@ -685,7 +685,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		if ($nbcat > 0) {
 			while (list($cid, $titre, $parentid, $position) = mysql_fetch_array($sql)) {
-				$titre = htmlentities($titre);
+				$titre = printSecuTags($titre);
 
 				echo "<tr>\n"
 				. "<td style=\"width: 35%;\" align=\"center\">" . $titre . "</td>\n"
@@ -694,7 +694,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 				if ($parentid > 0) {
 					$sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
 					list($pnomcat) = mysql_fetch_array($sql2);
-					$pnomcat = htmlentities($pnomcat);
+					$pnomcat = printSecuTags($pnomcat);
 
 					echo "<i>" . $pnomcat . "</i>";
 				} else {
@@ -729,7 +729,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$sql = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
 		while (list($cid, $nomcat) = mysql_fetch_array($sql)) {
-			$nomcat = htmlentities($nomcat);
+			$nomcat = printSecuTags($nomcat);
 
 			echo "<option value=\"" . $cid . "\">" . $nomcat . "</option>\n";
 		}
@@ -800,7 +800,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			$sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
 			list($pcid, $pnomcat) = mysql_fetch_array($sql2);
 
-			$pnomcat = htmlentities($pnomcat);
+			$pnomcat = printSecuTags($pnomcat);
 
 			echo "<option value=\"" . $pcid . "\">" . $pnomcat . "</option>\n";
 		}
@@ -809,7 +809,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$sql3 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
 		while (list($catid, $nomcat) = mysql_fetch_array($sql3)) {
-			$nomcat = htmlentities($nomcat);
+			$nomcat = printSecuTags($nomcat);
 
 			if ($nomcat != $titre) {
 				echo "<option value=\"" . $catid . "\">" . $nomcat . "</option>\n";
@@ -872,13 +872,13 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$sql = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
 		while (list($cid, $titre) = mysql_fetch_array($sql)) {
-			$titre = htmlentities($titre);
+			$titre = printSecuTags($titre);
 
 			echo "<option value=\"" . $cid . "\">* " . $titre . "</option>\n";
 
 			$sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
 			while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)) {
-				$s_titre = htmlentities($s_titre);
+				$s_titre = printSecuTags($s_titre);
 
 				echo "<option value=\"" . $s_cid . "\">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
 			}

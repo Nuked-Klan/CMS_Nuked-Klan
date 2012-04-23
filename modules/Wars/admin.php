@@ -54,7 +54,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $sql = mysql_query("SELECT warid, team, adversaire, url_adv, etat, date_jour, date_mois, date_an FROM " . WARS_TABLE . " ORDER BY etat, date_an DESC, date_mois DESC, date_jour DESC");
         $count = mysql_num_rows($sql);
         while (list($war_id, $team, $adv_name, $adv_url, $status, $jour, $mois, $an) = mysql_fetch_array($sql)){
-            $adv_name = htmlentities($adv_name);
+            $adv_name = printSecuTags($adv_name);
 
             if ($status > 0){
                 $etat = _FINISH;
@@ -66,7 +66,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             if ($team > 0){
                 $sql2 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
                 list($team_name) = mysql_fetch_array($sql2);
-                $team_name = htmlentities($team_name);
+                $team_name = printSecuTags($team_name);
             } 
             else{
                 $team_name = "N/A";
@@ -161,7 +161,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
             $sql3 = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
             while (list($id, $name) = mysql_fetch_array($sql3)){
-                $name = htmlentities($name);
+                $name = printSecuTags($name);
 
                 if ($id == $game){
                     $checked4 = "selected=\"selected\"";
@@ -311,7 +311,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $mapis = $mapss;
             echo "<tr><td><b>Map n° ".$maps.": </b></td></tr><tr><td><select name=\"map_".$maps."\">\n";
             foreach ($mapis as $mapping){
-                $mapping = htmlentities($mapping);
+                $mapping = printSecuTags($mapping);
 
                 if ($mapping == $map[$maps-1]){
                     $checked3 = "selected=\"selected\"";

@@ -143,7 +143,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             $sql_poll = mysql_query("SELECT id, titre FROM " . FORUM_POLL_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
             list($poll_id, $question) = mysql_fetch_array($sql_poll);
-            $question = htmlentities($question);
+            $question = printSecuTags($question);
 
             if ($user && $topic_aid == $user[0] && $closed == 0 || $visiteur >= admin_mod("Forum") || $administrator == 1)
             {
@@ -169,7 +169,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $sql_res = mysql_query("SELECT option_vote, option_text FROM " . FORUM_OPTIONS_TABLE . " WHERE poll_id = '" . $poll_id . "' ORDER BY id ASC");
                 while (list($optioncount, $option_text) = mysql_fetch_array($sql_res))
                 {
-                    $optiontext = htmlentities($option_text);
+                    $optiontext = printSecuTags($option_text);
 
                     if ($nbcount <> 0)
                     {
@@ -215,7 +215,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $sql_options = mysql_query("SELECT id, option_text FROM " . FORUM_OPTIONS_TABLE . " WHERE poll_id = '" . $poll_id . "' ORDER BY id ASC");
                 while (list($voteid, $optiontext) = mysql_fetch_array($sql_options))
                 {
-                    $optiontext = htmlentities($optiontext);
+                    $optiontext = printSecuTags($optiontext);
 
                     echo "<tr><td><input type=\"radio\" class=\"checkbox\" name=\"voteid\" value=\"" . $voteid . "\" />&nbsp;" . $optiontext . "</td></tr>\n";
                 } 
@@ -233,16 +233,12 @@ if ($visiteur >= $level_access && $level_access > -1)
         while (list($mess_id, $title, $auteur, $auteur_id, $auteur_ip, $txt, $date, $edition, $usersig, $fichier) = mysql_fetch_row($sql4))
         {
 
-            $title = htmlentities($title);
-            $title = preg_replace("`&amp;lt;`i", "&lt;", $title);
-            $title = preg_replace("`&amp;gt;`i", "&gt;", $title);
-
-            
+            $title = printSecuTags($title);            
 
             if ($_REQUEST['highlight'] != "")
             { 
                 $string = trim($_REQUEST['highlight']);
-                $string = htmlentities($string);
+                $string = printSecuTags($string);
                 $title = str_replace($string, '<span style="color: #FF0000">' . $string . '</span>', $title);
 
                 $search = explode(" ", $string);
@@ -316,7 +312,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     {
                         $sql_rank_team = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
                         list($rank_name) = mysql_fetch_array($sql_rank_team);
-                        $rank_name = htmlentities($rank_name);
+                        $rank_name = printSecuTags($rank_name);
                         $rank_image = "";
                     } 
                     else
@@ -335,7 +331,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                         } 
 
                         list($rank_name, $rank_image) = mysql_fetch_array($user_rank);
-                        $rank_name = htmlentities($rank_name);
+                        $rank_name = printSecuTags($rank_name);
                     } 
 
                     echo "<img src=\"images/flags/". $country ."\" alt=\"" . $country ."\" />&nbsp;<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($autor) . "\"><b>" . $autor . "</b></a><br />\n";

@@ -53,7 +53,7 @@ function form($content, $sug_id){
 
     $sql = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
     while (list($nid, $cat_name) = mysql_fetch_array($sql)){
-        $cat_name = htmlentities($cat_name);
+        $cat_name = printSecuTags($cat_name);
 
         if ($content){
             if ($cat_name == $content[5]) $selected = "selected=\"selected\"";
@@ -81,11 +81,11 @@ function form($content, $sug_id){
 }
 
 function make_array($data){
-    $data['titre'] = htmlentities($data['titre']);
+    $data['titre'] = printSecuTags($data['titre']);
     $data['auteur'] = htmlentities($data['auteur']);
     $data['auteur_id'] = htmlentities($data['auteur_id']);
     $data['date'] = htmlentities($data['date']);
-    $data['cat'] = htmlentities($data['cat']);
+    $data['cat'] = printSecuTags($data['cat']);
 
     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
     $data['texte'] = str_replace("|", "&#124;", $data['texte']);

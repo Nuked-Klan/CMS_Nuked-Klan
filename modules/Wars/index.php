@@ -58,7 +58,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             if (!$_REQUEST['tid'] && $nb_team > 1){
                 while (list($team_name, $team) = mysql_fetch_array($sql2)){
                     if ($team_name != ''){
-                        $team_name = htmlentities($team_name);
+                        $team_name = printSecuTags($team_name);
                     }
                     else{
                         $team_name = $nuked['name'];
@@ -80,9 +80,9 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                     $sql4 = mysql_query('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM '.WARS_TABLE.' WHERE etat = 1 AND team = '.$team.' ORDER BY date_an DESC, date_mois DESC, date_jour DESC LIMIT 0, 10');
                     while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4)){
-                        $adv_name = htmlentities($adv_name);
-                        $type = htmlentities($type);
-                        $style = htmlentities($style);
+                        $adv_name = printSecuTags($adv_name);
+                        $type = printSecuTags($type);
+                        $style = printSecuTags($style);
 
                         list ($pays, $ext) = explode ('.', $pays_adv);
 
@@ -114,7 +114,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                         $sql5 = mysql_query('SELECT name, icon FROM ' . GAMES_TABLE . ' WHERE id = \'' . $game . '\' ');
                         list($game_name, $icon) = mysql_fetch_array($sql5);
-                        $game_name = htmlentities($game_name);
+                        $game_name = printSecuTags($game_name);
 
                         if ($icon != '' && is_file($icon)){
                             $icone = $icon;
@@ -169,7 +169,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 if ($_REQUEST['tid'] != ''){
                     $sql6 = mysql_query('SELECT titre FROM ' . TEAM_TABLE . ' WHERE cid = \'' . $_REQUEST['tid'] . '\' ');
                     list($team_name, $team) = mysql_fetch_array($sql6);
-                    $team_name = htmlentities($team_name);
+                    $team_name = printSecuTags($team_name);
                     $and = 'AND team = \'' . $_REQUEST['tid'] . '\' ';
                     $sql7 = mysql_query('SELECT warid FROM ' . WARS_TABLE . ' WHERE etat = 1 AND team = \'' . $_REQUEST['tid'] . '\' ');
                     $count = mysql_num_rows($sql7);
@@ -263,9 +263,9 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                 $sql4 = mysql_query('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 1 ' . $and . $order . ' LIMIT ' . $start . ',' . $nb_wars.' ');
                 while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4)){
-                    $adv_name = htmlentities($adv_name);
-                    $type = htmlentities($type);
-                    $style = htmlentities($style);
+                    $adv_name = printSecuTags($adv_name);
+                    $type = printSecuTags($type);
+                    $style = printSecuTags($style);
                     
                     list ($pays, $ext) = explode ('.', $pays_adv);
 
@@ -297,7 +297,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                     $sql5 = mysql_query('SELECT name, icon FROM ' . GAMES_TABLE . ' WHERE id = \'' . $game . '\' ');
                     list($game_name, $icon) = mysql_fetch_array($sql5);
-                    $game_name = htmlentities($game_name);
+                    $game_name = printSecuTags($game_name);
 
                     if ($icon != '' && is_file($icon)){
                         $icone = $icon;
@@ -363,9 +363,9 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                 $sql4x = mysql_query('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 0 ' . $and . $order . ' LIMIT ' . $start . ',' . $nb_wars.' ');
                 while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4x)){
-                    $adv_name = htmlentities($adv_name);
-                    $type = htmlentities($type);
-                    $style = htmlentities($style);
+                    $adv_name = printSecuTags($adv_name);
+                    $type = printSecuTags($type);
+                    $style = printSecuTags($style);
 
                     list ($pays, $ext) = explode ('.', $pays_adv);
 
@@ -397,7 +397,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                     $sql5 = mysql_query('SELECT name, icon FROM ' . GAMES_TABLE . ' WHERE id = \'' . $game . '\' ');
                     list($game_name, $icon) = mysql_fetch_array($sql5);
-                    $game_name = htmlentities($game_name);
+                    $game_name = printSecuTags($game_name);
 
                     if ($icon != '' && is_file($icon)){
                         $icone = $icon;
@@ -457,11 +457,11 @@ if ($visiteur >= $level_access && $level_access > -1){
         list($team, $adv_name, $adv_url, $pays_adv, $jour, $mois, $an, $type, $style, $tscore_team, $tscore_adv, $map, $score_team, $score_adv, $report, $auteur, $url_league, $etat) = mysql_fetch_array($sql);
         list ($pays, $ext) = explode ('.', $pays_adv);       
 
-        $adv_name = htmlentities($adv_name);
-        $type = htmlentities($type);
-        $style = htmlentities($style);
-        $score_adv = htmlentities($score_adv);
-        $score_team = htmlentities($score_team);
+        $adv_name = printSecuTags($adv_name);
+        $type = printSecuTags($type);
+        $style = printSecuTags($style);
+        $score_adv = printSecuTags($score_adv);
+        $score_team = printSecuTags($score_team);
         $map = explode('|', $map);;
         $score_team = explode('|', $score_team);;
         $score_adv = explode('|', $score_adv);;
@@ -476,7 +476,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         if ($team > 0){
             $sql_team = mysql_query('SELECT titre FROM ' . TEAM_TABLE . ' WHERE cid = \'' . $team . '\' ');
             list($team_name) = mysql_fetch_array($sql_team);
-            $team_name = htmlentities($team_name);
+            $team_name = printSecuTags($team_name);
         } 
         else{
             $team_name = $nuked['name'];

@@ -45,7 +45,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
             
             $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id='" . $game . "'");
             list($game_name) = mysql_fetch_array($sql2);
-            $game_name = htmlentities($game_name);
+            $game_name = printSecuTags($game_name);
 
             echo "<tr>"
                . "<td style=\"width: 25%;\" align=\"center\"><a href=\"index.php?file=Defy&amp;page=admin&amp;op=view&amp;did=" . $did . "\">" . $pseudo . "</a></td>\n"
@@ -90,7 +90,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
         $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
         list($game_name) = mysql_fetch_array($sql2);
-        $game_name = htmlentities($game_name);
+        $game_name = printSecuTags($game_name);
 
         echo "<b>" . _NICK . " : </b>" . $pseudo . "<br />\n"
            . "<b>" . _CLAN . " : </b>" . $clan . "<br />\n"

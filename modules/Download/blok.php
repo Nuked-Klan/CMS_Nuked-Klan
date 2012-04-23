@@ -30,21 +30,21 @@ if ($active == 3 || $active == 4) {
     $i = 0;
     $sql = mysql_query("SELECT id, titre, date, type, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY id DESC LIMIT 0, 10");
     while (list($dl_id, $titre, $date, $cat, $description) = mysql_fetch_array($sql)) {
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
         $date = nkDate($date);
         $description = strip_tags($description);
         $description = strlen($description > 150) ? substr($description, 0, 147) . '..' : $description;
 
         $sql4 = mysql_query("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
         list($cat_name, $parentid) = mysql_fetch_array($sql4);
-        $cat_name = htmlentities($cat_name);
+        $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0) {
             $category = "";
         } else if ($parentid > 0) {
             $sql5 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($parent_name) = mysql_fetch_array($sql5);
-            $parent_name = htmlentities($parent_name);
+            $parent_name = printSecuTags($parent_name);
 
             $category = $parent_name . " - " . $cat_name;
         } else {
@@ -65,7 +65,7 @@ if ($active == 3 || $active == 4) {
     while (list($tdl_id, $ttitre, $tcount, $tcat, $tdesc) = mysql_fetch_array($sql3)) {
         $sql4 = mysql_query("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $tcat . "'");
         list($tcat_name, $tparentid) = mysql_fetch_array($sql4);
-        $tcat_name = htmlentities($tcat_name);
+        $tcat_name = printSecuTags($tcat_name);
         $tdesc = strip_tags($tdesc);
         $tdesc = strlen($tdesc > 150) ? substr($tdesc, 0, 147) . '..' : $tdesc;
 
@@ -74,7 +74,7 @@ if ($active == 3 || $active == 4) {
         } else if ($tparentid > 0) {
             $sql5 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $tparentid . "'");
             list($tparent_name) = mysql_fetch_array($sql5);
-            $tparent_name = htmlentities($tparent_name);
+            $tparent_name = printSecuTags($tparent_name);
 
             $tcategory = $tparent_name . " - " . $tcat_name;
         } else {
@@ -94,7 +94,7 @@ if ($active == 3 || $active == 4) {
     $i = 0;
     $sql = mysql_query("SELECT id, titre, date, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY date DESC LIMIT 0, 10");
     while (list($dl_id, $titre, $date, $description) = mysql_fetch_array($sql)) {
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
         $description = strip_tags($description);
         $description = strlen($description > 150) ? substr($description, 0, 147) . '..' : $description;
         $date = nkDate($date);

@@ -55,7 +55,7 @@ function index()
         $sql2 = mysql_query("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess."");
         while (list($mid, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql2))
         {
-            $texte = htmlentities($texte);
+            $texte = printSecuTags($texte);
             $texte = nk_CSS($texte);
 
             $texte = ' ' . $texte;
@@ -175,8 +175,8 @@ function index()
         $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
         while (list($code, $url, $name) = mysql_fetch_array($sql))
         {
-            $name = htmlentities($name);
-            $code = htmlentities($code);
+            $name = printSecuTags($name);
+            $code = printSecuTags($code);
 
             echo " <tr><td align=\"center\"><a href=\"javascript:eff();PopupinsertAtCaret('" . $_REQUEST['textarea'] . "', ' " . $code . " ', '')\" title=\"" . $name . "\">" . $code . "</a></td>\n"
             . "<td align=\"center\"><a href=\"javascript:eff();PopupinsertAtCaret('" . $_REQUEST['textarea'] . "', ' " . $code . " ')\"><img style=\"border: 0;\" src=\"images/icones/" . $url . "\" alt=\"\" title=\"" . $name . "\" /></a></td></tr>\n";

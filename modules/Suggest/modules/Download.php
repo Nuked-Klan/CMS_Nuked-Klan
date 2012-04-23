@@ -62,7 +62,7 @@ function form($content, $sug_id){
 
     $sql = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($cid, $titre) = mysql_fetch_array($sql)){
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
 
         if ($content){
             if ($cid == $content[1]) $selected = "selected=\"selected\"";
@@ -73,7 +73,7 @@ function form($content, $sug_id){
 
         $sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
         while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)){
-            $s_titre = htmlentities($s_titre);
+            $s_titre = printSecuTags($s_titre);
 
             if ($content){
                 if ($s_cid == $content[1]) $selected1 = "selected=\"selected\"";
@@ -132,14 +132,14 @@ function form($content, $sug_id){
 function make_array($data){
     include("modules/Suggest/config.php");
 
-    $data['titre'] = htmlentities($data['titre']);
-    $data['cat'] = htmlentities($data['cat']);
+    $data['titre'] = printSecuTags($data['titre']);
+    $data['cat'] = printSecuTags($data['cat']);
     $data['taille'] = htmlentities($data['taille']);
     $data['url'] = htmlentities($data['url']);
     $data['date'] = htmlentities($data['date']);
     $data['autor'] = htmlentities($data['autor']);
     $data['site'] = htmlentities($data['site']);
-    $data['comp'] = htmlentities($data['comp']);
+    $data['comp'] = printSecuTags($data['comp']);
     $data['screen'] = htmlentities($data['screen']);
     $data['taille'] = str_replace(",", ".", $data['taille']);
 

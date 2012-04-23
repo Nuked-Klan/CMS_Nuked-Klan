@@ -223,7 +223,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         $count = mysql_num_rows($sql);
         while (list($poll_id, $titre, $date, $niveau) = mysql_fetch_array($sql)) {
             $date = nkDate($date);
-            $titre = htmlentities($titre);
+            $titre = printSecuTags($titre);
 
 
             echo "<tr>\n"

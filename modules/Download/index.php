@@ -44,7 +44,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             $test = 0;
             while (list($cid, $titre, $description) = mysql_fetch_array($sql_cat)) {
-                $titre = htmlentities($titre);
+                $titre = printSecuTags($titre);
 
                 $description = icon($description);
 
@@ -74,7 +74,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     $sql_subcat = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' AND " . $visiteur . " >= level ORDER BY position, titre LIMIT 0, 4");
 
                     while (list($sub_cat_id, $sub_cat_titre) = mysql_fetch_array($sql_subcat)) {
-                        $sub_cat_titre = htmlentities($sub_cat_titre);
+                        $sub_cat_titre = printSecuTags($sub_cat_titre);
                         $t++;
                         if ($t <= 3) echo "<small><a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $sub_cat_id . "\">" . $sub_cat_titre . "</a></small>&nbsp;&nbsp;";
                         else echo "<a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $cid . "\"><small>...</small></a>";
@@ -121,7 +121,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
 
         list($cat_titre, $cat_desc, $parentid, $level) = mysql_fetch_array($sql);
-        $cat_titre = htmlentities($cat_titre);
+        $cat_titre = printSecuTags($cat_titre);
 
         $cat_desc = icon($cat_desc);
 
@@ -129,7 +129,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             if ($parentid > 0) {
                 $sql_parent = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
                 list($parent_titre) = mysql_fetch_array($sql_parent);
-                $parent_titre = htmlentities($parent_titre);
+                $parent_titre = printSecuTags($parent_titre);
 
                 echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b>" . _DOWNLOAD . "</b></big></a> &gt; <a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $parentid . "\" style=\"text-decoration:none\"><big><b>" . $parent_titre . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n";
             } else {
@@ -145,7 +145,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
                 while (list($catid, $parentcat, $parentdesc) = mysql_fetch_array($sql_subcat)) {
 
-                    $parentcat = htmlentities($parentcat);
+                    $parentcat = printSecuTags($parentcat);
 
                     $parentdesc = icon($parentdesc);
 
@@ -193,7 +193,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             die;
         }
         list($titre, $dl_url, $dl_url2, $dl_url3) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
 
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
@@ -278,9 +278,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
         list($dl_id, $titre, $date, $taille, $comment, $cat, $count, $level, $hit, $edit, $screen, $autor, $url_autor, $comp, $url) = mysql_fetch_array($sql);
  
-        $titre = htmlentities($titre);
-        $autor = htmlentities($autor);
-        $comp = htmlentities($comp);
+        $titre = printSecuTags($titre);
+        $autor = printSecuTags($autor);
+        $comp = printSecuTags($comp);
 
         $comment = icon($comment);
 
@@ -327,14 +327,14 @@ if ($visiteur >= $level_access && $level_access > -1) {
         if ($visiteur >= $level) {
             $sql2 = mysql_query("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
             list($cat_name, $parentid) = mysql_fetch_array($sql2);
-            $cat_name = htmlentities($cat_name);
+            $cat_name = printSecuTags($cat_name);
 
             if ($cat == 0) {
                 $category = "N/A";
             } else if ($parentid > 0) {
                 $sql3 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
                 list($parent_name) = mysql_fetch_array($sql3);
-                $parent_name = htmlentities($parent_name);
+                $parent_name = printSecuTags($parent_name);
 
                 $category = "<a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $parentid . "\">" . $parent_name . "</a> -&gt; <a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $cat . "\">" . $cat_name . "</a>";
             } else {
@@ -541,7 +541,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                             $texte = substr($texte, 0, 150) . "...";
                         }
 
-                        $texte = htmlentities($texte);
+                        $texte = printSecuTags($texte);
 
                     } else {
                         $texte = "";
@@ -564,7 +564,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     $sql_cat = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $type . "'");
                     list($name_cat_dl) = mysql_fetch_array($sql_cat);
                     $name_cat_dl = stripslashes($name_cat_dl);
-                    $name_cat_dl = htmlentities($name_cat_dl);
+                    $name_cat_dl = printSecuTags($name_cat_dl);
                     $category = "" . $name_cat_dl . "";
                     if($category == "") $category = "N/A";
                     

@@ -26,19 +26,19 @@ if ($active == 3 || $active == 4){
     $i = 0;
     $sql = mysql_query('SELECT id, titre, date, cat FROM ' . LINKS_TABLE . ' ORDER BY date DESC LIMIT 0, 10');
     while (list($link_id, $titre, $date, $cat) = mysql_fetch_array($sql)){
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
         $date = nkDate($date);
 
         $sql4 = mysql_query('SELECT titre, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
         list($cat_name, $parentid) = mysql_fetch_array($sql4);
-        $cat_name = htmlentities($cat_name);
+        $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0) $category = '';
         else if ($parentid > 0){
             $sql5 = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
             list($parent_name) = mysql_fetch_array($sql5);
 
-            $category = htmlentities($parent_name) . ' - ' . $cat_name;
+            $category = printSecuTags($parent_name) . ' - ' . $cat_name;
         }
         else $category = $cat_name;
 
@@ -56,13 +56,13 @@ if ($active == 3 || $active == 4){
     while (list($tlink_id, $ttitre, $tcat) = mysql_fetch_array($sql3)){
         $sql4 = mysql_query('SELECT titre, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $tcat);
         list($tcat_name, $tparentid) = mysql_fetch_array($sql4);
-        $tcat_name = htmlentities($tcat_name);
+        $tcat_name = printSecuTags($tcat_name);
 
         if ($tcat == 0) $tcategory = '';
         else if ($parentid > 0){
             $sql5 = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $tparentid);
             list($tparent_name) = mysql_fetch_array($sql5);
-            $tparent_name = htmlentities($tparent_name);
+            $tparent_name = printSecuTags($tparent_name);
 
             $tcategory = $tparent_name . ' - ' . $tcat_name;
         }
@@ -70,7 +70,7 @@ if ($active == 3 || $active == 4){
 
         $l++;
 
-        echo "<b>" . $l . " . <a href=\"index.php?file=Links&amp;op=description&amp;link_id=" . $tlink_id . "\" style=\"text-decoration: underline\">" . htmlentities($ttitre) . "</a></b><br />\n";
+        echo "<b>" . $l . " . <a href=\"index.php?file=Links&amp;op=description&amp;link_id=" . $tlink_id . "\" style=\"text-decoration: underline\">" . printSecuTags($ttitre) . "</a></b><br />\n";
 
         if (!empty($tcategory)) echo $tcategory . '<br />',"\n";
     }
@@ -84,7 +84,7 @@ else{
     $sql = mysql_query('SELECT id, titre, date FROM ' . LINKS_TABLE . ' ORDER BY date DESC LIMIT 0, 10');
     while (list($link_id, $titre, $date) = mysql_fetch_array($sql)){
         $i++;
-        echo '<b>' . $i . ' . <a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '">' . htmlentities($titre) . '</a></b> (' . nkDate($date) . ')<br />'."\n";
+        echo '<b>' . $i . ' . <a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '">' . printSecuTags($titre) . '</a></b> (' . nkDate($date) . ')<br />'."\n";
     }
 }
 ?>

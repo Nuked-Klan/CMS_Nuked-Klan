@@ -51,7 +51,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         $nbcat = mysql_num_rows($sql);
         if ($nbcat > 0) {
             while (list($cid, $titre) = mysql_fetch_row($sql)) {
-                $titre = htmlentities($titre);
+                $titre = printSecuTags($titre);
 
                 echo "<tr>\n"
                    . "<td align=\"center\">" . $titre . "</td>\n"
@@ -185,7 +185,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
         $sql = mysql_query("SELECT cid, titre FROM " . SERVER_CAT_TABLE . " ORDER BY titre");
         while (list($cid, $titre) = mysql_fetch_row($sql)) {
-            $titre = htmlentities($titre);
+            $titre = printSecuTags($titre);
 
             echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
         } 
@@ -285,7 +285,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
         $sql2 = mysql_query("SELECT cid, titre FROM " . SERVER_CAT_TABLE . " WHERE cid = '" . $cat . "'");
         list($cid, $categorie) = mysql_fetch_array($sql2);
-        $categorie = htmlentities($categorie);
+        $categorie = printSecuTags($categorie);
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
            . "<div class=\"content-box-header\"><h3>" . _ADMINSERVER . "</h3>\n"
@@ -382,7 +382,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         while (list($sid, $ip_serv, $port, $game, $cat) = mysql_fetch_row($sql)) {
             $sql2 = mysql_query("SELECT titre FROM " . SERVER_CAT_TABLE . " WHERE cid = '" . $cat . "'");
             list($categorie) = mysql_fetch_array($sql2);
-            $categorie = htmlentities($categorie);
+            $categorie = printSecuTags($categorie);
 
 
             echo "<tr>\n"

@@ -138,7 +138,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         $sql = mysql_query('SELECT id, name FROM ' . GAMES_TABLE . ' ORDER BY name');
         while (list($game_id, $nom) = mysql_fetch_array($sql)){
-            $nom = htmlentities($nom);
+            $nom = printSecuTags($nom);
             echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
         }
 
@@ -184,8 +184,8 @@ if ($visiteur >= $level_access && $level_access > -1){
         $map = mysql_real_escape_string(stripslashes($map));
         $comment = mysql_real_escape_string(stripslashes($comment));
         
-        $pseudo = htmlentities($pseudo);
-        $clan = htmlentities($clan);
+        $pseudo = printSecuTags($pseudo);
+        $clan = printSecuTags($clan);
         $country = htmlentities($country);
         $mail = htmlentities($mail);
         $icq = htmlentities($icq);
@@ -193,10 +193,10 @@ if ($visiteur >= $level_access && $level_access > -1){
         $url = htmlentities($url);
         $date = htmlentities($date);
         $heure = htmlentities($heure);
-        $game = htmlentities($game);
+        $game = printSecuTags($game);
         $serveur = htmlentities($serveur);
-        $type = htmlentities($type);
-        $map = htmlentities($map);
+        $type = printSecuTags($type);
+        $map = printSecuTags($map);
 
         $sql = mysql_query("INSERT INTO " . DEFY_TABLE . " ( `id` , `send` , `pseudo` , `clan` , `mail` , `icq` , `irc` , `url` , `pays` , `date` , `heure` , `serveur` , `game` , `type` , `map` , `comment` ) VALUES ( '' , '" . $time . "' , '" . $pseudo . "' , '" . $clan . "' , '" . $mail . "' , '" . $icq . "' , '" . $irc . "' , '" . $url . "' , '" . $country . "' , '" . $date . "' , '" . $heure . "' , '" . $serveur . "' , '" . $game . "' , '" . $type . "' , '" . $map . "' , '" . $comment . "' )");
 

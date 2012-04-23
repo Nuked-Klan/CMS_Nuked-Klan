@@ -63,7 +63,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
         
         while ($TabNews = mysql_fetch_assoc($sql)) {
-            $TabNews['titre'] = htmlentities($TabNews['titre']);
+            $TabNews['titre'] = printSecuTags($TabNews['titre']);
 
             $sql2 = mysql_query("SELECT im_id FROM ".COMMENT_TABLE." WHERE im_id = '{$TabNews['id']}' AND module = 'news'");
             $nb_comment = mysql_num_rows($sql2);
@@ -185,7 +185,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $sql = mysql_query("SELECT nid, titre, description, image FROM ".NEWS_CAT_TABLE." ORDER BY titre");
         while ($row = mysql_fetch_assoc($sql)) {
             
-            $row['titre'] = htmlentities($row['titre']);
+            $row['titre'] = printSecuTags($row['titre']);
 
             echo '<tr>';
 

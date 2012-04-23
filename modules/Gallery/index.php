@@ -46,7 +46,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             while (list($catid, $parentcat, $parentdesc) = mysql_fetch_array($sql))
             {
 
-                $parentcat = htmlentities($parentcat);
+                $parentcat = printSecuTags($parentcat);
                 
                 $parentdesc = icon($parentdesc);
 
@@ -179,14 +179,14 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         list($cat_titre, $cat_desc, $parentid) = mysql_fetch_array($sql);
 
-        $cat_titre = htmlentities($cat_titre);
+        $cat_titre = printSecuTags($cat_titre);
         $cat_desc = icon($cat_desc);
 
         if ($parentid > 0)
         {
             $sql_parent = mysql_query("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($parent_titre) = mysql_fetch_array($sql_parent);
-            $parent_titre = htmlentities($parent_titre);
+            $parent_titre = printSecuTags($parent_titre);
 
             echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Gallery\" style=\"text-decoration:none\"><big><b>" . $title . "</b></big></a> &gt; <a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $parentid . "\" style=\"text-decoration:none\"><big><b>" . $parent_titre . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n";
         } 
@@ -231,7 +231,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         list($cat, $titre, $description, $autor, $url, $url_file, $date, $count) = mysql_fetch_array($sql);
 
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
         $autor = htmlentities($autor);
 
         $name = strrchr($url, '/');
@@ -255,7 +255,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $sql2 = mysql_query("SELECT titre, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
         list($cat_name, $parentid) = mysql_fetch_array($sql2);
-        $cat_name = htmlentities($cat_name);
+        $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0)
         {
@@ -265,7 +265,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $sql3 = mysql_query("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($parent_name) = mysql_fetch_array($sql3);
-            $parent_name = htmlentities($parent_name);
+            $parent_name = printSecuTags($parent_name);
 
             $category = "<a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $parentid . "\">" . $parent_name . "</a> -&gt; <a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $cat . "\">" . $cat_name . "</a>";
         } 
@@ -433,7 +433,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             while (list($cid, $titre, $description) = mysql_fetch_array($sql_cat))
             {
 
-                $titre = htmlentities($titre);
+                $titre = printSecuTags($titre);
                 $description = icon($description);
 
                 $sql_img = mysql_query("SELECT sid, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $cid . "' ORDER BY sid DESC LIMIT 0, 1");
@@ -676,7 +676,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $name_enc = rawurlencode($name);
                     $img = str_replace($name, $name_enc, $img);
 
-                    $titre = htmlentities($titre);
+                    $titre = printSecuTags($titre);
 
                     if ($date != "") $alt = _ADDTHE . "&nbsp;" . nkDate($date);
                     else $alt = $titre;

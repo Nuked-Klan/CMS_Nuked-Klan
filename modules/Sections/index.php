@@ -507,7 +507,6 @@ if ($visiteur >= $level_access && $level_access > -1){
         $articleurl = $nuked['url'] . "/index.php?file=Sections&op=article&artid=" . $artid;
 
         $sitename = $nuked['name'] . " - " . $nuked['slogan'];
-        $sitename  = @html_entity_decode($sitename);
 
         $texte = '<page><h1>'.$title.'</h1><hr />'.$text.'<hr />'.$sitename.'<br />'.$articleurl.'</page>';
         $_REQUEST['file'] = $sitename.'_'.$title;

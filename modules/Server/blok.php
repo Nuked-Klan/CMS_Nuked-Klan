@@ -73,7 +73,7 @@ if ($active == 3 || $active == 4) {
     if (!$gameserver|| !$gameserver->query_server(TRUE, TRUE)) {
         echo '<br /><div style="text-align: center;">' . _SEVERDOWN . '</div><br />';
     } else {
-        $screen = 'modules/Server/images/' . htmlentities($gameserver->mapname);
+        $screen = 'modules/Server/images/' . printSecuTags($gameserver->mapname);
         $screen = preg_replace("`$`", ".jpg", $screen);
         if (is_file($screen)) {
             $mapimage = $screen;
@@ -82,8 +82,8 @@ if ($active == 3 || $active == 4) {
         }
 
         echo "<table width=\"100%\" cellspacing=\"5\" cellpadding=\"0\"><tr>\n"
-           . "<td valign=\"top\"><img width=\"120\" src=\"" . $mapimage . "\" alt=\"\" title=\"" . htmlentities($gameserver->mapname) . "\" /></td>\n"
-           . "<td valign=\"top\"><b>" . htmlentities($gameserver->servertitle) . "</b><br />" . _ADDRESS . " : " . $address . ":" . $port . "<br />" . _SERVERPASS . " :";
+           . "<td valign=\"top\"><img width=\"120\" src=\"" . $mapimage . "\" alt=\"\" title=\"" . printSecuTags($gameserver->mapname) . "\" /></td>\n"
+           . "<td valign=\"top\"><b>" . printSecuTags($gameserver->servertitle) . "</b><br />" . _ADDRESS . " : " . $address . ":" . $port . "<br />" . _SERVERPASS . " :";
 
         if (!empty($password)) {
             echo "&nbsp;" . $password . "<br />\n";
@@ -98,8 +98,8 @@ if ($active == 3 || $active == 4) {
             echo "&nbsp;" . $pass . "<br />\n";
         }
 
-        echo _NBPLAYER . " : " . htmlentities($gameserver->numplayers) . "/" . htmlentities($gameserver->maxplayers) . "<br />\n"
-           . _MAP . " : " . htmlentities($gameserver->mapname) . "<br />\n"
+        echo _NBPLAYER . " : " . printSecuTags($gameserver->numplayers) . "/" . printSecuTags($gameserver->maxplayers) . "<br />\n"
+           . _MAP . " : " . printSecuTags($gameserver->mapname) . "<br />\n"
            . "<a href=\"index.php?file=Server&amp;op=server\"><b>" . _MOREINFOS . "</b></a></td></tr></table>\n";
     }
 } else {
@@ -160,7 +160,7 @@ if ($active == 3 || $active == 4) {
     if (!$gameserver|| !$gameserver->query_server(TRUE, TRUE)) {
         echo '<br /><div style="text-align: center;">' . _SEVERDOWN . '</div><br />';
     } else {
-        $screen = 'modules/Server/images/' . htmlentities($gameserver->mapname);
+        $screen = 'modules/Server/images/' . printSecuTags($gameserver->mapname);
         $screen = preg_replace("`$`", ".jpg", $screen);
         if (is_file($screen)) {
             $mapimage = $screen;
@@ -168,8 +168,8 @@ if ($active == 3 || $active == 4) {
             $mapimage = 'modules/Server/images/nopicture.jpg';
         }
 
-        echo "<div style=\"text-align: center;\"><img width=\"120\" src=\"" . $mapimage . "\" alt=\"\" title=\"" . htmlentities($gameserver->mapname) . "\" /><br />\n"
-           . htmlentities($gameserver->numplayers) . "/" . htmlentities($gameserver->maxplayers) . "&nbsp;" . _ON . "&nbsp;" . htmlentities($gameserver->mapname) . "<br />\n"
+        echo "<div style=\"text-align: center;\"><img width=\"120\" src=\"" . $mapimage . "\" alt=\"\" title=\"" . printSecuTags($gameserver->mapname) . "\" /><br />\n"
+           . printSecuTags($gameserver->numplayers) . "/" . printSecuTags($gameserver->maxplayers) . "&nbsp;" . _ON . "&nbsp;" . printSecuTags($gameserver->mapname) . "<br />\n"
            . "<a href=\"index.php?file=Server&amp;op=server\"><b>" . _MOREINFOS . "</b></a></div>";
     }
 }
