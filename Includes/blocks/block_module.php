@@ -32,7 +32,7 @@ function edit_block_module($bid){
          die('<br /><br /><div style="text-align: center;"><big>Blok corrupted, lease delete it!</big></div><br /><br />');
     }
 	
-    $titre = htmlentities($titre);
+    $titre = printSecuTags($titre);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';

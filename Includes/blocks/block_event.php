@@ -136,7 +136,7 @@ function affich_block_event($blok){
 
             if ($nb_match > 0 || $nb_event > 0 || $nb_birthday > 0){
                 while (list($titre1, $jour1, $mois1, $an1, $heure1, $auteur1) = mysql_fetch_array($sql1)){
-                        $titre1 = htmlentities($titre1);
+                        $titre1 = printSecuTags($titre1);
 
                     if (defined("WARS_TABLE")){
                         $sql = mysql_query('SELECT etat, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \''. $month . '\' AND date_jour = \'' . $event_date . '\' AND heure >= \'' . $heure2 . '\' AND heure < \'' . $heure1 . '\' ORDER BY heure');
@@ -252,7 +252,7 @@ function edit_block_event($bid){
 
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
-    $titre = htmlentities($titre);
+    $titre = printSecuTags($titre);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';

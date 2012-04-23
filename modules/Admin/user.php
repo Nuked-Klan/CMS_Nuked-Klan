@@ -94,7 +94,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($game_id, $nom) = mysql_fetch_array($sql))
         {
-            $nom = htmlentities($nom);
+            $nom = printSecuTags($nom);
 
             echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
         }
@@ -236,7 +236,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($game_id, $nom) = mysql_fetch_array($sql))
         {
-            $nom = htmlentities($nom);
+            $nom = printSecuTags($nom);
 
             if ($game_id == $game)
             {
@@ -731,7 +731,7 @@ if ($visiteur == 9)
         {
             while (list($cid, $titre, $ordre, $game) = mysql_fetch_array($sql))
             {
-                $titre = htmlentities($titre);
+                $titre = printSecuTags($titre);
 
                 if ($game > 0)
                 {
@@ -779,7 +779,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($game_id, $nom) = mysql_fetch_array($sql))
         {
-            $nom = htmlentities($nom);
+            $nom = printSecuTags($nom);
 
             echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
         }
@@ -832,7 +832,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($game_id, $nom) = mysql_fetch_array($sql))
         {
-            $nom = htmlentities($nom);
+            $nom = printSecuTags($nom);
 
             if ($game == $game_id)
             {
@@ -876,7 +876,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
         while (list($cid, $titre) = mysql_fetch_array($sql))
         {
-            $titre = htmlentities($titre);
+            $titre = printSecuTags($titre);
 
             echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
         }
@@ -1140,7 +1140,7 @@ if ($visiteur == 9)
     {
             while (list($rid, $titre, $ordre) = mysql_fetch_array($sql))
             {
-                $titre = htmlentities($titre);
+                $titre = printSecuTags($titre);
 
 
                 echo "<tr>\n"
@@ -1183,7 +1183,7 @@ if ($visiteur == 9)
 
         $sql = mysql_query("SELECT titre, ordre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rid . "'");
         list($titre, $ordre) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"

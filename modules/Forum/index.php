@@ -360,14 +360,14 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
                 while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
                 {
-                    $cat_name = htmlentities($cat_name);
+                    $cat_name = printSecuTags($cat_name);
 
                     echo "<option value=\"\">* " . $cat_name . "</option>\n";
 
                     $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' AND '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
                     while (list($forum_name, $fid) = mysql_fetch_row($sql_forum))
                     {
-                        $forum_name = htmlentities($forum_name);
+                        $forum_name = printSecuTags($forum_name);
 
                         echo "<option value=\"" . $fid . "\">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
                     }

@@ -24,7 +24,7 @@ function edit_block_html($bid){
 
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
-    $titre = htmlentities($titre);
+    $titre = printSecuTags($titre);
 	$content = html_entity_decode($content);
 
     if ($active == 1) $checked1 = 'selected="selected"';

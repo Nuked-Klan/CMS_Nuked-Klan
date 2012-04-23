@@ -21,7 +21,7 @@ function affich_block_survey($blok){
 
         $sql = mysql_query('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ' . $where);
         list($poll_id, $titre) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
+        $titre = printSecuTags($titre);
 
         $blok['content'] = '<form action="index.php?file=Survey&amp;nuked_nude=index&amp;op=update_sondage" method="post">'."\n"
         . '<div style="text-align: center">'."\n"
@@ -29,7 +29,7 @@ function affich_block_survey($blok){
 
         $sql2 = mysql_query('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = \'' . $poll_id . '\' ORDER BY voteID ASC');
         while (list($voteid, $optiontext) = mysql_fetch_array($sql2)){
-            $optiontext = htmlentities($optiontext);
+            $optiontext = printSecuTags($optiontext);
 
             $blok['content'] .= '<input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '<br />'."\n";
         }
@@ -48,7 +48,7 @@ function edit_block_survey($bid){
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
 
-    $titre = htmlentities($titre);
+    $titre = printSecuTags($titre);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';
@@ -82,7 +82,7 @@ function edit_block_survey($bid){
 
     $sql2 = mysql_query('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
     while (list($survey_id, $survey_title) = mysql_fetch_array($sql2)){
-        $survey_title = htmlentities($survey_title);
+        $survey_title = printSecuTags($survey_title);
 
         if ($survey_id == $content) $checked3 = "selected=\"selected\"";
         else $checked3 = "";

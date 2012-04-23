@@ -58,7 +58,7 @@ function edit_block_roster($bid){
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     
-    $titre = htmlentities($titre);
+    $titre = printSecuTags($titre);
 
     if ($active == 1) $checked1 = "selected=\"selected\"";
     else if ($active == 2) $checked2 = "selected=\"selected\"";
@@ -92,7 +92,7 @@ function edit_block_roster($bid){
 
     $sql2 = mysql_query('SELECT cid, titre FROM ' . TEAM_TABLE . ' ORDER BY ordre, titre');
     while (list($team_id, $team) = mysql_fetch_array($sql2)){
-        $team = htmlentities($team);
+        $team = printSecuTags($team);
 
         if ($team_id == $content) $checked3 = 'selected="selected"';
         else $checked3 = '';

@@ -66,7 +66,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT id, nom, ordre FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
         while (list($cid, $nom, $ordre) = mysql_fetch_row($sql))
         {
-            $nom = htmlentities($nom);
+            $nom = printSecuTags($nom);
 
            
             echo "<tr>\n"
@@ -223,7 +223,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
         while (list($cid, $nom) = mysql_fetch_row($sql))
         {
-            $nom = htmlentities($nom);
+            $nom = printSecuTags($nom);
 
             echo "<option value=\"" . $cid . "\">" . $nom . "</option>\n";
         }
@@ -390,7 +390,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $categorie = mysql_query("select nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cat . "'");
         list($cat_name) = mysql_fetch_array($categorie);
-        $cat_name = htmlentities($cat_name);
+        $cat_name = printSecuTags($cat_name);
 
         if ($modo != "")
         {
@@ -603,8 +603,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         while (list($id, $titre, $niveau, $level, $cat, $cat_name) = mysql_fetch_row($sql))
         {
 
-            $titre = htmlentities($titre);
-            $cat_name = htmlentities($cat_name);
+            $titre = printSecuTags($titre);
+            $cat_name = printSecuTags($cat_name);
 
             echo "<tr>\n"
             . "<td style=\"width: 20%;\">" . $titre . "</td>\n"
@@ -655,7 +655,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT id, nom, type, post FROM " . FORUM_RANK_TABLE . " ORDER by type DESC, post");
         while (list($rid, $nom, $type, $nbpost) = mysql_fetch_row($sql))
         {
-            $nom = htmlentities($nom);
+            $nom = printSecuTags($nom);
 
             if ($type == 1)
             {
@@ -843,14 +843,14 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
         while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
         {
-            $cat_name = htmlentities($cat_name);
+            $cat_name = printSecuTags($cat_name);
 
             echo "<option value=\"cat_" . $cat . "\">* " . $cat_name . "</option>\n";
 
             $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' ORDER BY ordre, nom");
             while (list($forum_name, $fid) = mysql_fetch_row($sql_forum))
             {
-                $forum_name = htmlentities($forum_name);
+                $forum_name = printSecuTags($forum_name);
 
                 echo "<option value=\"" . $fid . "\">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
             }

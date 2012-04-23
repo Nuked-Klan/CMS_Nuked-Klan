@@ -77,7 +77,7 @@ function edit_block_center($bid){
 
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
-    $titre = htmlentities($titre);
+    $titre = printSecuTags($titre);
 
     if ($active == 3) $checked3 = 'selected="selected"';
     else if ($active == 4) $checked4 = 'selected="selected"';
