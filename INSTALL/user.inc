@@ -67,18 +67,18 @@
                     . "define('HASHKEY', '".$_SESSION['hash']."');\n"
                     . "\n"
                     . "?>";
-        $path = "../conf.inc.php";
-        @chmod ($path, 0666);
-        @chmod (dirname(__PATH__), 0755);
+        $path = dirname(dirname(__FILE__)).'/';
+        @chmod ($path.'conf.inc.php', 0666);
+        @chmod ($path, 0733);
         $errors = 0;
         $_SESSION['content'] = $content;
-        if (is_writable($path) || (!file_exists($path) && is_writable('.././'))){               
+        if (is_writable($path.'conf.inc.php') || (!file_exists($path.'conf.inc.php') && is_writable($path))){               
                 try{
-                    $fp = @fopen('../conf.inc.php', 'w');
+                    $fp = @fopen($path.'conf.inc.php', 'w');
                     if(!@fwrite($fp, $content)) $errors++;
                     if(!@fclose($fp)) $errors++;
-                    if(!@chmod($path, 0644)) throw new Exception ('CHMOD');
-                    if(!@copy('../conf.inc.php', '../config_save_'.date('%Y%m%d%H%i').'.php')) throw new Exception ('COPY');
+                    if(!@chmod($path.'conf.inc.php', 0644)) throw new Exception ('CHMOD');
+                    if(!@copy($path.'conf.inc.php', $path.'config_save_'.date('%Y%m%d%H%i').'.php')) throw new Exception ('COPY');
                 }
                 catch(exception $e){
                     $_SESSION['content_web'] = nl2br(htmlentities($content));

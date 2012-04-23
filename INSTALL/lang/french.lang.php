@@ -105,6 +105,8 @@ define("_DBNAME","Nom de la Base");
 define("_CONFIG","Configuration");
 define('_ERROR_HOST', 'Connexion à la base de données impossible !<br/>Veuillez contrôler le nom du serveur mysql.');
 define('_ERROR_USER', 'Connexion à la base de données impossible !<br/>Veuillez contrôler le nom d\'utilisateur et le mot de passe.');
+define('_ERROR_DB', 'Connexion à la base de données impossible !<br/>Veuillez contrôler le nom de la base de données.');
+define('_ERROR_PREFIX', 'Connexion à la base de données impossible !<br/>Le prefix est erroné, veuillez éditer le fichier conf.inc.php.');
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
@@ -198,7 +200,8 @@ define('_ACCESS_SITE', 'Accéder à votre site');
 /////// ERREUR CREATION FICHIER CONF.INC.PHP
 ///////////////////////////////////////////////
 define('_ERRORGENERATECONFINC', 'Une erreur est survenue dans la génération du fichier conf.inc.php');
-define('_CONF.INC', 'Veuillez télécharger le contenu ci-dessus et placer le fichier à la racine de votre site.');
+define('_CONF.INC', 'Impossible d\'écrire le fichier conf.inc.php. (Problème lié au CHMOD)');
+define('_CONF.INC2', 'Veuillez télécharger le contenu ci-dessus et placer le fichier à la racine de votre site.');
 define('_INFODLSAVECONFINC', 'Veuillez télécharger le contenu ci-dessus et conserver ce fichier (c\'est une sauvegarde).');
 define('_BADCHMOD', 'Impossible d\'écrire dans le fichier <b>conf.inc.php</b>, vérifiez les droits en écriture (CHMOD) !');
 define('_DOWNLOAD', 'Télécharger');

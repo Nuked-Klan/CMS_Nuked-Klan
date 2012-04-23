@@ -61,7 +61,7 @@ function writeInfo(type, prefix, table, txt, status){
         }
     }
     else{
-        txt_info = txt[0]+" "+prefix+"_"+table;
+        txt_info = txt+" "+prefix+"_"+table;
     }                                
     $("#log_install").append(txt_info);
     $("#log_install").append("<img src=\"images/loading.gif\" alt=\"\" id=\"loading_img\" />");  
@@ -133,7 +133,7 @@ function submit(type){
     }
 }
 
-function verifFormBDD(type, form, wait, error_host, error_login){
+function verifFormBDD(type, form, wait, error_host, error_login, error_db, error_prefix){
     var host = $('input[name="db_host"]');
     var user = $('input[name="db_user"]');
     var pass = $('input[name="db_pass"]');
@@ -155,11 +155,17 @@ function verifFormBDD(type, form, wait, error_host, error_login){
     else{
         $("#infos").text(wait+"  ");
         $("#infos").append("<img src=\"images/loading.gif\" alt=\"\" id=\"loading_img\" />");
+        if(type == 'update'){
+            var typeurl = "index.php?action=testBddConnect&type=update";
+        }
+        else{
+            var typeurl = "index.php?action=testBddConnect";
+        }
         password = encodeURIComponent(pass.val());
         $.ajax({
             async: false,
             type: "POST",
-            url: "index.php?action=testBddConnect",
+            url: typeurl,
             data: "db_host="+host.val()+"&db_user="+user.val()+"&db_pass="+password+"&db_name="+dbname.val()+"&db_prefix="+prefix.val()
         }).done(function(txt) {
             if(txt == "OK"){
@@ -179,6 +185,16 @@ function verifFormBDD(type, form, wait, error_host, error_login){
                         user.addClass('error');
                     }
                     pass.addClass('error');
+                }
+                else if(txt == 'error_db'){
+                    $('#infos').html(error_db);
+                    $("#loading_img").remove();
+                    dbname.addClass('error');
+                }
+                else if(txt == 'error_prefix'){
+                    $('#infos').html(error_prefix);
+                    $("#loading_img").remove();
+                    prefix.addClass('error');
                 }
                 else{
                     $('#infos').html(txt);

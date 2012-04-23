@@ -260,7 +260,7 @@
             echo '</div>
                             <div id="infos" style="text-align: center;margin:30px auto;color:#FF4040;"></div>
                             <div style="text-align: center;">
-                                <a href="#" id="submit" class="button" onclick="verifFormBDD(\''.$this->data['type'].'\', \'form_config\', \''.addslashes(_WAIT).'\', \''.addslashes(_ERROR_HOST).'\', \''.addslashes(_ERROR_USER).'\');"  >' . _SUBMIT . '</a>
+                                <a href="#" id="submit" class="button" onclick="verifFormBDD(\''.$this->data['type'].'\', \'form_config\', \''.addslashes(_WAIT).'\', \''.addslashes(_ERROR_HOST).'\', \''.addslashes(_ERROR_USER).'\', \''.addslashes(_ERROR_DB).'\', \''.addslashes(_ERROR_PREFIX).'\');"  >' . _SUBMIT . '</a>
                                 <a href="index.php?action=checkTypeInstall" class="button" >' . _BACK . '</a>
                             </div>
                         </form>
@@ -305,7 +305,7 @@
                 echo '</div>
                             <div id="infos" style="text-align: center;margin:30px auto;color:#FF4040;"></div>
                             <div style="text-align: center;">
-                                <a href="#" id="submit" class="button" onclick="verifFormBDD(\''.$this->data['type'].'\', \'form_config\', \''.addslashes(_WAIT).'\', \''.addslashes(_ERROR_HOST).'\', \''.addslashes(_ERROR_USER).'\');"  >' . _SUBMIT . '</a>';
+                                <a href="#" id="submit" class="button" onclick="verifFormBDD(\''.$this->data['type'].'\', \'form_config\', \''.addslashes(_WAIT).'\', \''.addslashes(_ERROR_HOST).'\', \''.addslashes(_ERROR_USER).'\', \''.addslashes(_ERROR_DB).'\', \''.addslashes(_ERROR_PREFIX).'\');"  >' . _SUBMIT . '</a>';
                 if($page == 'set'){
                     echo '<a href="index.php?action=checkTypeInstall" class="button" >' . _BACK . '</a>';
                 }
@@ -353,7 +353,7 @@
                 include('../conf.inc.php');
                 $_SESSION['host'] = $global['db_host'];
                 $_SESSION['user'] = $global['db_user'];
-                $_SESSION['pass'] = $global['db_pass'];
+                $_SESSION['pass'] = $_REQUEST['db_pass'];
                 $_SESSION['db_name'] = $global['db_name'];
                 $_SESSION['db_prefix'] = $db_prefix;
                 $array_text = array( _LOGUTXTSUCCESS, _LOGUTXTUPDATE, _LOGUTXTUPDATE2, _LOGUTXTREMOVE, _LOGUTXTREMOVE2);
@@ -429,6 +429,10 @@
                 elseif($this->data['type'] == 'update'){
                     include('update.inc');
                 }
+            }
+            else{
+                echo 'pass = '.$this->data['pass'].'<br/>';
+                echo $this->bddConnect($this->data['host'], $this->data['user'], $this->data['pass'], $this->data['db_name']);
             }
         }
         
@@ -506,7 +510,7 @@
                 echo '<div id="log_install">';
                 if(isset($_SESSION['content_web'])){
                     echo $_SESSION['content_web'];
-                    echo '</div>';
+                    echo '</div><p>'.constant('_'.$error.'2').'</p>';
                     
                 }
                 else{
@@ -515,10 +519,10 @@
                 }                
             }
             if(isset($_SESSION['content_web']) && $error != 'CHMOD'){
-                echo '<a href="index.php?action=printConfig" class="button" >'._DOWNLOAD.'</a>';
+                echo '<a href="index.php?action=printConfig" class="button" >'._DOWNLOAD.'</a>&nbsp;';
             }
             else{
-                echo '<a href="index.php?action=checkUserAdmin" class="button" >'._BACK.'</a>';
+                echo '<a href="index.php?action=checkUserAdmin" class="button" >'._BACK.'</a>&nbsp;';
             }
             if(isset($_SESSION['content_web'])){
                 echo '<a href="index.php?action=checkInstallSuccess" class="button" >' . _CONTINUE . '</a>
@@ -611,9 +615,29 @@
             else if(preg_match('#Access denied for user#', $connect)){
                 echo 'error_login';
             }
-            else if($connect == 'OK'){
-                echo 'OK';
+            else if(preg_match('#Unknown database#', $connect)){
+                echo 'error_db';
             }
+            else if($connect == 'OK'){
+                if(isset($_REQUEST['type'])){
+                    if($_REQUEST['type'] == 'update'){
+                        $result = mysql_query('SELECT name, value FROM '.$_REQUEST['db_prefix'].'_config');
+                        if ($result == false) {
+                            echo 'error_prefix';
+                        } else {
+                            echo 'OK';
+                        }
+
+                    }
+                    else{
+                        echo 'OK';
+                    }
+                }
+                else{
+                    echo 'OK';
+                }
+            }
+
             else{
                 echo $connect;
             }
@@ -628,7 +652,7 @@
             $array_requirements['_FILEINFOEXT'] = extension_loaded('fileinfo') ? 1 : 2;
             $array_requirements['_HASHEXT'] = function_exists('hash') ? 1 : 3;
             $array_requirements['_GDEXT'] = extension_loaded('gd') ? 1 : 3;
-            $array_requirements['_TESTCHMOD'] = is_writable(dirname('../..')) ? 1 : 3;
+            $array_requirements['_TESTCHMOD'] = is_writable(dirname(dirname(__FILE__)).'/') ? 1 : 3;
             return $array_requirements;
         }
         
