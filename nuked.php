@@ -266,7 +266,7 @@ function get_blok($side){
 
     $sql = mysql_query('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
     while ($blok = mysql_fetch_array($sql)){
-        $blok['titre'] = htmlentities($blok['titre']);
+        $blok['titre'] = printSecuTags($blok['titre']);
         $test_page = '';
         $blok['page'] = explode('|', $blok['page']);
         $size = count($blok['page']);

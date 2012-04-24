@@ -408,7 +408,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT active, position, titre, module, content, type, nivo, bid FROM " . BLOCK_TABLE . " ORDER BY active DESC, position, nivo");
         while (list($active, $position, $titre, $module, $content, $type, $nivo, $bid) = mysql_fetch_array($sql))
         {
-            $titre = htmlentities($titre);
+            $titre = printSecuTags($titre);
 
             if ($active == 1) $act = _LEFT;
             else if ($active == 2) $act = _RIGHT;
