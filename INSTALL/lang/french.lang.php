@@ -23,14 +23,15 @@ define('_ERRORTRY', 'Une erreur est survenue, veuillez réessayer.');
 ///////////////////////////////////////////////
 /////// TEXTES BAS DE PAGE 
 ///////////////////////////////////////////////
-define("_DECOUVERTE","Nuked-klan 1.7.9: la découverte");
+define("_DISCOVERY","Découvrer Nuked-Klan !");
 define("_NEWSADMIN","Une nouvelle administration");
-define("_PROCHE","Un site officiel proche de sa communauté");
-define("_SIMPLIFIE","Une installation simplifiée");
-define("_DECOUVERTE1","Vous allez installer Nuked-Klan 1.7.9, cette version orientée gamers permettra à votre team de bénéficier rapidement d'un site web à votre image.</p><p>Vous pourrez créer une vie à votre groupe, le rassembler facilement, gérer des recrutements, des matchs ou un serveur très facilement.");
-define("_NEWSADMIN1","Pour cette nouvelle version, nous avons réalisé une nouvelle administration plus intuitive et plus agréable.</p><p>Vous pourrez suivre les actions des administrateurs, voir les notifications, accéder à un chat privé entre admininistrateurs et découvrir de multiples nouvelles fonctionnalités comme le bannissement temporaire.");
-define("_PROCHE1","Connecter 24h/24h avec Nuked-Klan.org, nous pouvons vous envoyer des messages, des avertissements sur certains modules et vous prévenir des mises à jour disponibles pour votre site.<br />Notre support est disponible quelque soit votre problème.");
-define("_SIMPLIFIE1","Une installation plus design, plus intuitive, mais surtout une nouvelle installation avec assistance. Si vous avez déjà manié l'installation d'un CMS tel que Nuked-Klan alors choisissez l'installation rapide sauf si vous voulez voir les nouvelles fonctionnalités.</p><p>Cependant avec l'installation avec assistance, nous vous détaillons et accompagnons étape par étape pour chaque case de formulaire, et si malgré cela, vous n'y arrivez pas, pas de soucis, nous sommes là pour vous aider !");
+define("_INSTALL_AND_UPDATE","Installation et mise à jour");
+define("_COMMUNAUTY_NK","La communauté NK");
+define("_DISCOVERY_DESCR","Vous êtes sur le point d'installer votre site web sur base du CMS Nuked-Klan...</p><p>
+En quelques clics et en quelques minutes, offrez-vous la possibilité de gérer votre team, guilde ou clan, à l'aide d'outils spécialement conçus à cet effet !</p><p>Vous n'êtes pas un joueur mais vous désirez toutefois utiliser Nuked-Klan pour réaliser votre site web ?<br/><p>Aucun problème, une version généraliste (SP) a également été développée et vous est proposée, expressément dans cette optique.</p><p>Adopter un design plus adapté à l'esprit de votre activité (palette de couleurs, logos,...) devient, grâce à Nuked-Klan, un véritable jeu d'enfant. Avec une collection impressionante de graphismes et une modification (ainsi qu'une création) de thèmes certainement une des plus aisée du marché des CMS, vous aboutirez inévitablement à un site web qui vous ressemble.</p><p>Nous vous remercions pour l'intérêt et la confiance que vous nous apportez au quotidien... et depuis toutes ces années !</p>");
+define("_NEWSADMIN_DESCR","Plus ergonomique et plus complète, la nouvelle administration présente dans cette version comblera les plus pointilleux d'entre vous.</p><p>Des options indispensables comme le listage des erreurs SQL et des actions opérées sur le site, la possibilité de laisser des notifications entre administrateurs,... sont, dorénavant, directement intégrées dans le panneau d'administration.</p><p>Nous avons également pensé aux graphistes et développeurs de thèmes, en leur offrant la possibilité de définir une gestion précise des différents éléments du design, directement via l'administration interne du site.</p><p>Avec une sécurisation entièrement revue et corrigée, cette dernière version devrait assurer la pérénnité et la fiabilité de votre site web.</p><p>Toujours attentifs à vos attentes et vos besoins, quelques options très attendues voient le jour dans cette version. Ainsi, la possibilité de régler le fuseau horaire de votre site, ... (citer quelques améliorations).</p>");
+define("_INSTALL_AND_UPDATE_DESCR","Les procédures d'installation et de mise à jour ont été complètement revisitées et simplifiées.</p><p>Etape par étape, tout est maintenant commenté et dissocié afin de parer au moindre problème que vous pourriez rencontrer.</p><p>Plus de perte de données lors d'une mise à jour, une sauvegarde de votre base de donnée existante est automatiquement exécutée.</p><p>Durant l'installation et la mise à jour, toutes les étapes sont maintenant archivées dans un journal. En cas de souci, ce journal permettra à notre équipe de vous assister durant les procédures d'installation (ou de mise à jour) de façon optimale.</p><p>Nous vous proposons, dorénavant, de participer à l'évolution du CMS via l'envoi (anonyme) de statistiques. Grâce à cela, nous aurons la possibilité de répondre de façon précise et idéale à vos attentes, dès les prochaines versions.</p>");
+define("_COMMUNAUTY_NK_DESCR","Une communauté sans cesse florissante, avec des membres d'une grande serviabilité et possédant de nombreuses compétences.<br/>Voilà un des avantages non négligeable dont vous bénéficierez en adoptant Nuked-Klan et en rejoignant la dite communauté.<br/>Tout naturellement, vous intègrerez cette grande famille, toujours soucieuse du bien-être de ses membres.</p><p>De nombreux fan-sites gravitent autour du CMS. Preuve de l'enthousiasme et de l'engouement que procure l'utilisation de Nuked-Klan, ils représentent la colonne vertébrale du CMS.</p><p>Pour cette raison (et pour bien d'autres), ils apportent à notre équipe de développeurs et de communautaires l'envie d'avancer, main dans la main, dans la bonne humeur et avec un esprit assidu de communication.</p><p>C'est ainsi que nous évoluerons, au fil des années, toujours à l'écoute de vos attentes et de vos besoins.</p><p>Parce que Nuked-Klan est, avant tout, votre CMS !!</p>");
 ///////////////////////////////////////////////
 /////// MENU
 ///////////////////////////////////////////////
@@ -112,25 +113,19 @@ define('_ERROR_PREFIX', 'Connexion à la base de données impossible !<br/>Le pref
 ///////////////////////////////////////////////
 define("_NEWNK179","Nouveautés Nuked Klan 1.7.9");
 define("_SECURITE","Sécurité");
-define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et hexadécimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
+define("_SECURITE1","La sécurité a été entèrement revue.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPTIMISATION","Optimisation");
-define("_OPTIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre votre site légérement moins lourd. Cependant nous n'avons pu optimiser tout le code ne s'agissant que d'une mise à jour 1.7.X.");
+define("_OPTIMISATION1","Certaines parties de Nuked-Klan ont été optimisées comme le système de pagination afin de rendre votre site légérement moins lourd.");
 define("_ADMINISTRATION","Administration");
-define("_ADMINISTRATION1","Afin de réaliser une administration au goût du jour, nous avons préféré repartir de zéro, et concevoir un système dans lequel administrateurs, utilisateurs,
-		machines, et site officiel seraient reliés.
-		Pour cela, nous avons mis en place des systèmes de communication comme les notifications, les actions, les discussions admin.
-		Cette administration possède un panneau capable de vous transporter n'importe où dans votre administration mais aussi de vous avertir.");
+define("_ADMINISTRATION1","Afin de réaliser une administration au goût du jour, nous avons préféré repartir de zéro, et concevoir un système dans lequel administrateurs, utilisateurs, machines, et site officiel seraient reliés. Pour cela, nous avons mis en place des systèmes de communication comme les notifications, les actions, les discussions admin. Cette administration possède un panneau capable de vous transporter n'importe où dans votre administration mais aussi de vous avertir.");
 define("_BANTEMP","Ban temporaire");
 define("_BANTEMP1","Un système de bannissement temporaire a été mis en place, vous avez donc le choix de bannir l'utilisateur 1 jour, 7 jours, 1 mois, 1 an, ou définitivement.");
 define("_SHOUTBOX","Shoutbox ajax");
-define("_SHOUTBOX1","Un nouveau bloc textbox a été développé, il est capable de dire qui est en ligne, il est en ajax, c'est à dire que vous pouvez envoyer/afficher des nouveaux messages sans recharger
-		la page.");
+define("_SHOUTBOX1","Un nouveau bloc textbox en ajax a été développé. Celui-ci est capable d'afficher qui est en ligne, et d'envoyer/afficher des nouveaux messages sans recharger la page.");
 define("_ERRORSQL","Gestions des erreurs SQL");
-define("_ERRORSQL1","Ce système est à double sens, lorsqu'un visiteur tombe sur une erreur SQL, plutôt que de voir l'erreur, il est redirigé vers une page d'excuse, et un
-		rapport de l'erreur SQL est envoyé dans l'administration.");
+define("_ERRORSQL1","Ce système est à double sens, lorsqu'un visiteur tombe sur une erreur SQL, plutôt que de voir l'erreur, il est redirigé vers une page d'excuse, et un rapport de l'erreur SQL est envoyé dans l'administration.");
 define("_MULTIWARS","Multi-map module wars");
-define("_MULTIWARS1","Le nouveau module permet de visionner les prochains matchs, il permet aussi de choisir le nombre de maps, il y a alors un score par map, puis un score final
-		qui est la moyenne des scores par map.");
+define("_MULTIWARS1","Le nouveau module permet de visionner les prochains matchs, il permet aussi de choisir le nombre de maps, il y a alors un score par map, puis un score final qui est la moyenne des scores par map.");
 define("_COMSYS","Système commentaires");
 define("_COMSYS1","Le nouveau système de commentaires permet rapidement d'envoyer un commentaire en ajax et de visionner les 4 derniers commentaires.");
 define("_EDITWYS","Editeur WYSIWYG");
@@ -142,10 +137,10 @@ define("_ERREURPASS1","Lorsqu'un utilisateur se trompe de mot de passe 3 fois de
 define("_DIFFMODIF","Différentes modifications");
 define("_DIFFMODIF1","En plus des modifications précédentes, nous avons effectué diverses modifications comme la page 404, où même des modifications non visibles comme le captcha.");
 define("_INSTALLDBHOST","Il s'agit ici de l'adresse du serveur MySQL de votre hébergement, celui-ci contient toutes vos données textes, membres, messages... En général, il s'agit de localhost, mais dans tous les cas, l'adresse est indiquée dans votre mail d'inscription de votre hébergeur ou dans l'administration de votre hébergement.");
-define("_INSTALLDBUSER","Il s'agit de votre identifiant qui vous permet de vous connecter à votre base SQL.");
-define("_INSTALLDBPASS","Il s'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base SQL.");
-define("_INSTALLDBPREFIX", "Le prefix permet d'installer plusieurs fois nuked-klan sur une seule base SQL en utilisant un prefix différent à chaque fois, par défaut, il s'agit de nuked, mais vous pouvez le changer comme vous le voulez.");
-define("_INSTALLDBNAME","Il s'agit du nom de votre base de données MySQL, souvent vous devez vous rendre dans l'administration de votre hébergement pour créer une base de données, mais quelques fois celle-ci vous est déjà fournie dans le mail d'inscription à votre hébergement.");
+define("_INSTALLDBUSER","Il s'agit de votre identifiant qui vous permet de vous connecter à votre base MySQL.");
+define("_INSTALLDBPASS","Il s'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base MySQL.");
+define("_INSTALLDBPREFIX", "Le prefix permet d'installer plusieurs fois Nuked-Klan sur une seule base MySQL en utilisant un prefix différent à chaque fois, par défaut, il s'agit de 'nuked', mais vous pouvez le changer comme vous le voulez.");
+define("_INSTALLDBNAME","Il s'agit du nom de votre base de données MySQL, souvent vous devez vous rendre dans l'administration de votre hébergement pour créer une base de données, mais parfois celle-ci vous est déjà fournie dans le mail d'inscription de votre hébergement.");
 ///////////////////////////////////////////////
 /////// CREATION BDD (INSTALLATION)
 ///////////////////////////////////////////////
@@ -175,7 +170,7 @@ define('_LOGUTXTERROR', 'Une erreur est survenue lors de la modification de la t
 define('_LOGUTXTENDSUCCESS', 'La mise à jour est terminée ! Toutes les tables ont bien été modifiées.');
 define('_LOGUTXTENDERRORSTART', 'La mise à jour est terminée ! Mais des erreurs sont survenues, ');
 define('_LOGUTXTENDERROREND', ' tables n\'ont pas été modifiées.');
-define('_DELTURKISH', 'Impossible de supprimer le fichier. Veuillez le supprimer manuellement et relancer la mise à jour.<br/>nbsp;&nbsp;Fichier : /modules/404/lang.turkish.lang.php');
+define('_DELTURKISH', 'Impossible de supprimer le fichier. Veuillez le supprimer manuellement et relancer la mise à jour.<br/>&nbsp;Fichier : /modules/404/lang.turkish.lang.php');
 ///////////////////////////////////////////////
 /////// CREATION COMPTE ADMIN
 ///////////////////////////////////////////////

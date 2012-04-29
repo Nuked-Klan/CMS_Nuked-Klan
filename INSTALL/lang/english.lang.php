@@ -23,14 +23,14 @@ define('_ERRORTRY', 'An error has occured, please wait.');
 ///////////////////////////////////////////////
 /////// TEXTES BAS DE PAGE 
 ///////////////////////////////////////////////
-define("_DECOUVERTE","Nuked-klan 1.7.9: la découverte");
-define("_NEWSADMIN","Une nouvelle administration");
-define("_PROCHE","Un site officiel proche de sa communautée");
-define("_SIMPLIFIE","Une installation simplifiée");
-define("_DECOUVERTE1","Vous allez installer Nuked-Klan 1.7.9, cette version orientée gamers permettra à votre team de bénéficier rapidement d'un site web à votre image.</p><p>Vous pourrez créer une vie à votre groupe, le rassembler facilement, gérer des recrutements, des matchs ou un serveur très facilement.");
-define("_NEWSADMIN1","Pour cette nouvelle version, nous avons réalisé une nouvelle administration plus intuitive et plus agréable.</p><p>Vous pourrez suivre les actions des administrateurs, voir les notifications, accéder à un chat privé entre admininistrateurs et découvrir de multiples nouvelles fonctionnalités comme le bannissement temporaire.");
-define("_PROCHE1","Connecter 24h/24h avec Nuked-Klan.org, nous pouvons vous envoyer des messages, des avertissements sur certains modules et vous prévenir des mises à jour disponibles pour votre site.<br />Notre support est disponible quelque soit votre problème.");
-define("_SIMPLIFIE1","Une installation plus design, plus intuitive, mais surtout une nouvelle installation avec assistance. Si vous avez déjà manié l'installation d'un CMS tel que Nuked-Klan alors choisissez l'installation rapide sauf si vous voulez voir les nouvelles fonctionnalités.</p><p>Cependant avec l'installation avec assistance, nous vous détaillons et accompagnons étape par étape pour chaque case de formulaire, et si malgré cela, vous n'y arrivez pas, pas de soucis, nous sommes là pour vous aider !");
+define("_DISCOVERY","Discover Nuked-Klan !");
+define("_NEWSADMIN","A new administration");
+define("_INSTALL_AND_UPDATE","Installation and update");
+define("_COMMUNAUTY_NK","The NK community");
+define("_DISCOVERY_DESCR","You are about to install a web site based on the CMS Nuked-Klan ...</p><p>With a few clicks and within minutes, enjoy the opportunity to manage your team, guild or clan, using tools specifically designed for this purpose!</p><p>You are not a player but however you want to use Nuked-Klan to achieve your website?<br/>No problem, a general version of (SP) was also developed and is offered expressly for this purpose.</p><p>Adopt a design more suited to the spirit of your event (color palette, logos, ...) becomes, by Nuked-Klan, a veritable breeze. With an impressive collection of graphics and a change (and a creation) of themes certainly one of the easiest CMS market, inevitably you will come to a website that suits you.</p><p>Thank you for the interest and confidence you bring us everyday ... and all these years!</p>");
+define("_NEWSADMIN_DESCR","More ergonomic and more complete, the new administration has in this release will satisfy the most picky of you.</p><p>Options as indispensable listing of SQL errors and actions made on the website, the ability to leave notifications between administrators, ... are now directly integrated into the administration panel.</p><p>We also thought about the themes of designers and developers, offering them the possibility to define a precise management of the various elements of design, directly via the internal administration of the site.</p><p>With a security completely revised version, which should ensure the durability and reliability of your website.</p><p>Always attentive to your wants and needs, very few expected options are emerging in this version. Thus, the ability to adjust the time zone of your site, ... (Mention some improvements).</p>");
+define("_INSTALL_AND_UPDATE_DESCR","The procedures for installing and updating have been completely revisited and simplified.</p><p>Step by step, everything is now separeted and commented to deal with any problems you might encounter.</p><p>No more loss of data during an update, backup your existing database is automatically executed.</p><p>During installation and update, all steps are now archived in a log file. In case of trouble, this log file will allow our team to assist you during installation procedures (or update) optimally.</p><p>We propose, now, to participate in the evolution of the CMS by sending (anonymous) statistics. With this, we will be able to respond accurately and perfect your expectations, in the coming versions.</p>");
+define("_COMMUNAUTY_NK_DESCR","A thriving community ever, with members of helpfulness is deep and with many skills.<br/>This is a significant benefit which you will benefit by adopting Nuked-Klan and joining the said community.<br/>Naturally, you integrate this large family, always concerned for the welfare of its members.</p><p>Many fan-sites revolve around the CMS. Evidence of enthusiasm and excitement that comes from the use of Nuked-Klan, they represent the backbone of the CMS.</p><p>For this reason (and many others), they bring to our team of developers and the community want to move forward, together, in good humor and with a diligent mind communication.</p><p>This is how we will evolve over the years, always listening to your expectations and your needs.</p><p>Because Nuked-Klan is, above all, your CMS!</p>");
 ///////////////////////////////////////////////
 /////// MENU
 ///////////////////////////////////////////////
@@ -55,15 +55,15 @@ define('_BADVERSION', 'Your version of Nuked-Klan can not be updated directly. <
 define('_CHECKCOMPATIBILITYHOSTING', 'Compatibility check with your hosting');
 define('_ZIPEXT', 'Zip extension');
 define('_ZIPEXTERROR', 'Zip error');
-define('_FILEINFOEXT', 'File Info extension ');
-define('_FILEINFOEXTERROR', 'File Info error ');
+define('_FILEINFOEXT', 'File Info extension');
+define('_FILEINFOEXTERROR', 'File Info error');
 define('_HASHEXT', 'Hash extension');
 define('_HASHEXTERROR', 'Erreur hash');
 define('_GDEXT', 'GD extension');
 define('_GDEXTERROR', 'Erreur GD');
-define('_TESTCHMOD', 'Testing the CHMOD');
+define('_TESTCHMOD', 'Testing of CHMOD');
 define('_TESTCHMODERROR', 'Erreur chmod');
-define('_COMPOSANT', 'component');
+define('_COMPOSANT', 'Component');
 define('_COMPATIBILITY', 'compatibility');
 define('_BADHOSTING', 'Your hosting is not compatible with the new version of Nuked-Klan.');
 define('_PHPVERSION', 'PHP version &ge; 5.1');
@@ -103,47 +103,43 @@ define("_DBPASS","Password");
 define("_DBPREFIX","Prefix");
 define("_DBNAME","Database name");
 define("_CONFIG","Configuration");
-define('_ERROR_HOST', 'Database connection failed! <br/> Please check the server mysql name.');
-define('_ERROR_USER', 'Database connection failed! <br/> Please check the username and password.');
+define('_ERROR_HOST', 'Database connection failed ! <br/> Please check the server mysql name.');
+define('_ERROR_USER', 'Database connection failed ! <br/> Please check the username and password.');
+define('_ERROR_DB', 'Database connection failed !<br/> Control your database name.');
+define('_ERROR_PREFIX', 'Database connection failed !<br/>The prefix is incorrect, edit the conf.inc.php file.');
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
-define("_NEWNK179","Nouveautés Nuked Klan 1.7.9");
-define("_SECURITE","Sécurité");
-define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et hexadécimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
+define("_NEWNK179","New features Nuked Klan 1.7.9");
+define("_SECURITE","Security");
+define("_SECURITE1","The security was completely reviewed.<br />We can send messages since the official website to leave you some informations.");
 define("_OPTIMISATION","Optimisation");
-define("_OPTIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre votre site légérement moins lourd. Cependant nous n'avons pu optimiser tout le code ne s'agissant que d'une mise à jour 1.7.X.");
+define("_OPTIMISATION1","Some parts of Nuked-Klan were optimised like the pagination system to make your website lighter.");
 define("_ADMINISTRATION","Administration");
-define("_ADMINISTRATION1","Afin de réaliser une administration au goût du jour, nous avons préféré repartir de zéro, et concevoir un système dans lequel administrateurs, utilisateurs,
-		machines, et site officiel seraient reliés.
-		Pour cela, nous avons mis en place des systèmes de communication comme les notifications, les actions, les discussions admin.
-		Cette administration possède un panneau capable de vous transporter n'importe où dans votre administration mais aussi de vous avertir.");
-define("_BANTEMP","Ban temporaire");
-define("_BANTEMP1","Un système de bannissement temporaire a été mis en place, vous avez donc le choix de bannir l'utilisateur 1 jour, 7 jours, 1 mois, 1 an, ou définitivement.");
+define("_ADMINISTRATION1","To realize an administration up to date, we preferred to start from scratch and design a system in which administrators, users, machines, and official site would be connected. For this we have set up communication systems such as notifications, actions, discussions admin. This administration has a panel that can transport you anywhere in your administration but also to warn you.");
+define("_BANTEMP","Temporary ban");
+define("_BANTEMP1","A system of temporary ban was put in place, you have the choice to ban the user 1 day, 7 days, 1 month, 1 year, or permanently.");
 define("_SHOUTBOX","Shoutbox ajax");
-define("_SHOUTBOX1","Un nouveau bloc textbox a été développé, il est capable de dire qui est en ligne, il est en ajax, c'est à dire que vous pouvez envoyer/afficher des nouveaux messages sans recharger
-		la page.");
-define("_ERRORSQL","Gestions des erreurs SQL");
-define("_ERRORSQL1","Ce système est à double sens, lorsqu'un visiteur tombe sur une erreur SQL, plutôt que de voir l'erreur, il est redirigé vers une page d'excuse, et un
-		rapport de l'erreur SQL est envoyé dans l'administration.");
+define("_SHOUTBOX1","A new textbox in ajax block was developed. It is capable of displaying who is online, and send / view new messages without reloading the page.");
+define("_ERRORSQL","SQL error handling");
+define("_ERRORSQL1","This system works both ways, when a visitor lands on a SQL error, rather than seeing the error, it is redirected to a page of apology, and an error report is sent to SQL administration.");
 define("_MULTIWARS","Multi-map module wars");
-define("_MULTIWARS1","Le nouveau module permet de visionner les prochains matchs, il permet aussi de choisir le nombre de maps, il y a alors un score par map, puis un score final
-		qui est la moyenne des scores par map.");
-define("_COMSYS","Système commentaires");
-define("_COMSYS1","Le nouveau système de commentaires permet rapidement d'envoyer un commentaire en ajax et de visionner les 4 derniers commentaires.");
-define("_EDITWYS","Editeur WYSIWYG");
-define("_EDITWYS1","Ce nouveau système permet d'avoir une visualisation rapide de votre message, news ou autre après mise en forme.");
-define("_CONT","Module Contact");
-define("_CONT1","Nous avons ajouté le module contact indispensable au fonctionnement d'un site web.");
-define("_ERREURPASS","Erreur mot de passe");
-define("_ERREURPASS1","Lorsqu'un utilisateur se trompe de mot de passe 3 fois de suite, il doit alors recopier un code de sécurité en plus de son login afin de se connecter à son compte.");
-define("_DIFFMODIF","Différentes modifications");
-define("_DIFFMODIF1","En plus des modifications précédentes, nous avons effectué diverses modifications comme la page 404, où même des modifications non visibles comme le captcha.");
-define("_INSTALLDBHOST","Il s'agit ici de l'adresse du serveur MySQL de votre hébergement, celui-ci contient toutes vos données textes, membres, messages... En général, il s'agit de localhost, mais dans tous les cas, l'adresse est indiquée dans votre mail d'inscription de votre hébergeur ou dans l'administration de votre hébergement.");
-define("_INSTALLDBUSER","Il s'agit de votre identifiant qui vous permet de vous connecter à votre base SQL.");
-define("_INSTALLDBPASS","Il s'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base SQL.");
-define("_INSTALLDBPREFIX", "Le prefix permet d'installer plusieurs fois nuked-klan sur une seule base SQL en utilisant un prefix différent à chaque fois, par défaut, il s'agit de nuked, mais vous pouvez le changer comme vous le voulez.");
-define("_INSTALLDBNAME","Il s'agit du nom de votre base de données MySQL, souvent vous devez vous rendre dans l'administration de votre hébergement pour créer une base de données, mais quelques fois celle-ci vous est déjà fournie dans le mail d'inscription à votre hébergement.");
+define("_MULTIWARS1","The new module allows viewing upcoming games, it also allows to choose the number of maps, then there is one score per map, and then a final score is the average score per map.");
+define("_COMSYS","Comments system");
+define("_COMSYS1","The new comments system allows quickly to send a comment in ajax and watch the last 4 comments.");
+define("_EDITWYS","WYSIWYG Editor");
+define("_EDITWYS1","This new system provides a quick view of your message, or other news after shaping.");
+define("_CONT","Contact module");
+define("_CONT1","We have added the contact module essential to the operation of a website.");
+define("_ERREURPASS","Password error");
+define("_ERREURPASS1","When a user uses the wrong password three times, then it must copy the security code in addition to login to connect to their account.");
+define("_DIFFMODIF","Various modifications");
+define("_DIFFMODIF1","In addition to the above changes, we made several changes as page 404, where even non-visible changes such as captcha.");
+define("_INSTALLDBHOST","This is the MySQL server address of your hosting, it contains all your data texts, members, messages ... In general, it is localhost, but in all cases, the address indicated on your registration email your host or in the administration of your hosting.");
+define("_INSTALLDBUSER","This is your identifier allowing you to connect to your MySQL database.");
+define("_INSTALLDBPASS","This is the password for your login that lets you connect to your MySQL database.");
+define("_INSTALLDBPREFIX", "The prefix used to install several times Nuked-Klan on a single MySQL database using a prefix different each time, by default it is 'nuked', but you can change the way you want.");
+define("_INSTALLDBNAME","This is the name of your MySQL database, often you need to go in the administration of your hosting to create a database, but sometimes it sure is already provided in your registration email hosting .");
 ///////////////////////////////////////////////
 /////// CREATION BDD (INSTALLATION)
 ///////////////////////////////////////////////
@@ -173,7 +169,7 @@ define('_LOGUTXTERROR', 'An error occurred when editing the table');
 define('_LOGUTXTENDSUCCESS', 'The update is complete! All tables have been changed.');
 define('_LOGUTXTENDERRORSTART', 'The update is complete! But errors occurred, ');
 define('_LOGUTXTENDERROREND', ' tables have not changed.');
-define('_DELTURKISH', 'Can\'t delete file. Please delete it manually and restart the update.<br/>nbsp;file: / modules/404/lang.turkish.lang.php');
+define('_DELTURKISH', 'Can\'t delete file. Please delete it manually and restart the update.<br/>&nbsp;File: / modules/404/lang.turkish.lang.php');
 ///////////////////////////////////////////////
 /////// CREATION COMPTE ADMIN
 ///////////////////////////////////////////////
@@ -191,7 +187,7 @@ define('_ERROR_MAIL', 'Please enter a valid mail');
 /////// FIN INSTALLATION
 ///////////////////////////////////////////////
 define('_INSTALLSUCCESS', 'Installation is complete');
-define('_INFOPARTNERS', 'Find our partneraires and promotional codes, <br/> to make the most of their products/services.');
+define('_INFOPARTNERS', 'Find our partners and promotional codes, <br/> to make the most of their products/services.');
 define('_NOPARTNERS', 'An error occurred while retrieving the list of partners ...');
 define('_ACCESS_SITE', 'Access your website');
 ///////////////////////////////////////////////
@@ -199,6 +195,7 @@ define('_ACCESS_SITE', 'Access your website');
 ///////////////////////////////////////////////
 define('_ERRORGENERATECONFINC', 'There was an error in the file generation conf.inc.php');
 define('_CONF.INC', 'Please download the content above and place the file in the root of your website.');
+define('_CONF.INC2', 'Veuillez télécharger le contenu ci-dessus et placer le fichier à la racine de votre site.');
 define('_INFODLSAVECONFINC', 'Please download the content above and keep this file (it\'s a backup).');
 define('_BADCHMOD', 'Can\'t write file <b> conf.inc.php </ b>, check write permissions (CHMOD)!');
 define('_DOWNLOAD', 'Download');
