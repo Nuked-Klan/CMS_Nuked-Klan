@@ -72,7 +72,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $result = mysql_query("SELECT txt, titre, auteur, usersig, emailnotify FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $_REQUEST['mess_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
             list($e_txt, $e_titre, $author, $usersig, $emailnotify) = mysql_fetch_array($result);
 
-            $e_titre = htmlentities($e_titre);
+            $e_titre = printSecuTags($e_titre);
         }
 
         if ($_REQUEST['thread_id'] != "")
