@@ -92,7 +92,9 @@ function admintop(){
                     <a href="index.php?file=User" title="<?php echo _EDIT; ?>"><?php echo $user[2];?></a>, 
                     <?php echo _VOIR; ?> 
                     <a href="#messages" rel="modal"><?php echo _MESSAGES; ?></a><br /><br />
-                    <a onclick="javascript:screenon('index.php', 'non');return false" href="#"><?php echo _VOIRSITE; ?></a> | 
+                    <?php if ($nuked['screen'] == "on") : ?>
+                        <a onclick="javascript:screenon('index.php', 'non');return false" href="#"><?php echo _VOIRSITE; ?></a> | 
+                    <?php endif; ?>
                     <a href="index.php?file=Admin&amp;page=deconnexion"><?php echo _DECONNEXION; ?></a><br />
                     <a href="index.php"><?php echo _RETOURNER; ?></a>
                 </div>
