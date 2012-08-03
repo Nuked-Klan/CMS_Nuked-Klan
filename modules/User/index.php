@@ -222,7 +222,7 @@ function reg_screen(){
 
     if ($nuked['inscription'] != "off"){
         if ($nuked['inscription_charte'] != "" && !isset($_REQUEST['charte_agree'])){
-            $disclaimer = $nuked['inscription_charte'];
+            $disclaimer = html_entity_decode($nuked['inscription_charte']);
 
             echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
                     . "<tr><td align=\"center\"><big><b>" . _NEWUSERREGISTRATION . "</b></big></td></tr>\n"
