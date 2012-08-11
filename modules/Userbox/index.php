@@ -73,7 +73,7 @@ function send_message($titre, $user_for, $message){
             echo '<br /><br /><div style="text-align:center;">'._EMPTYFIELD.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a></div><br /><br />';
 	}else{
 		
-		if (!empty($user_for) && preg_match("`[a-zA-Z0-9]+$`", $user_for)){
+		if (!empty($user_for) && ctype_alnum($user_for)) {
 			$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '$user_for'");
 			$nb = mysql_num_rows($sql2);
 		}

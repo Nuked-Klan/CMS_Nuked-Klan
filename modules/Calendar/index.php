@@ -318,7 +318,7 @@ function index(){
 function show_event(){
 	global $bgcolor2, $user, $nuked, $theme, $language;
 	
-	if($_REQUEST['type'] == "birthday" && preg_match("`[a-zA-Z0-9]+$`", $_REQUEST['eid'])){
+	if ($_REQUEST['type'] == "birthday" && ctype_alnum($_REQUEST['eid'])) {
 		$sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $_REQUEST['eid'] . "'");
 		list($pseudo) = mysql_fetch_array($sql);
 		
