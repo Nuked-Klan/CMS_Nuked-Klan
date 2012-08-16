@@ -717,7 +717,7 @@
         private function validVersion($version){
             if($version['sub'] == '7' && ($version['rev'] == '7' || $version['rev'] == '8' || $version['rev'] == '9')){
                 if(isset($version['RC'])){
-                    if($version['RC'] == '5.3'){
+                    if($version['RC'] == '5.3' || $version['RC'] == '6'){
                         return true;                        
                     }
                     else
