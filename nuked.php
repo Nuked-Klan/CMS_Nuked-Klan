@@ -72,8 +72,9 @@ function nkDate($timestamp, $blok = FALSE) {
     global $nuked, $language;
     $format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
     // iconv pour éviter les caractères spéciaux dans la date
-    return iconv('UTF-8','ISO-8859-1', strftime($format, $timestamp));
+    return iconv('UTF-8','ISO-8859-1',strftime($format, $timestamp));
     //return iconv('UTF-8','ISO-8859-1',utf8_encode(strftime($format, $timestamp))); // For Windows servers
+
 }
 
 // CURRENT ANNUAL DATEZONE TIME TABLE
