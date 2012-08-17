@@ -607,7 +607,7 @@ if ($visiteur == 9)
 
         if ($_REQUEST['orderby'] == "date")
         {
-            echo "<b>" . _DATEUSER . "</b>";
+            echo "<b>" . _DATEUSER . "</b>  | ";
         }
         else
         {
