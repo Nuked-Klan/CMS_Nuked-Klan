@@ -34,13 +34,6 @@ foreach($nuked as $k => $v){
 // INCLUDE CONSTANT TABLE
 include('Includes/constants.php');
 
-// CONFIG PHP SESSION
-if(ini_get('session.save_handler') == 'files') session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
-session_name('nuked');
-session_start();
-if (session_id() == '') exit(ERROR_SESSION);
-include ('Includes/nkSessions.php');
-
 // $_REQUEST['file'] & $_REQUEST['op'] DEFAULT VALUE.
 if (empty($_REQUEST['file'])) $_REQUEST['file'] = $nuked['index_site'];
 if (empty($_REQUEST['op'])) $_REQUEST['op'] = 'index';
@@ -187,6 +180,13 @@ function connect(){
         exit();
     }
 }
+
+// CONFIG PHP SESSION
+if(ini_get('session.save_handler') == 'files') session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
+session_name('nuked');
+session_start();
+if (session_id() == '') exit(ERROR_SESSION);
+include ('Includes/nkSessions.php');
 
 // QUERY BAN FOR USER / VISITOR
 function banip() {

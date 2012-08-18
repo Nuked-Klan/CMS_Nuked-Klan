@@ -12,6 +12,9 @@ CKEDITOR.editorConfig = function( config )
     config.resize_enabled = false;
     config.width = '96%';
     config.disableNativeSpellChecker = false;
+    config.enterMode = CKEDITOR.ENTER_BR;
+    config.shiftEnterMode = CKEDITOR.ENTER_P;
+
 
     // ADVANCED EDITOR || DESACTIVED : SAVE - FORM,CHECKBOX,RADIO,TEXTFILED,TEXTAREA,SELECT,BUTTON,IMAGEBUTTON,HIDDENFIELD - FLASH - ABOUT
     config.toolbar_Full =
