@@ -1653,69 +1653,126 @@ function logout(){
 }
 
 function oubli_pass(){
-    echo "<br /><form action=\"index.php?file=User&amp;op=envoi_pass\" method=\"post\">\n"
+    echo "<br /><form action=\"index.php?file=User&amp;op=envoi_mail\" method=\"post\">\n"
             . "<div style=\"text-align: center;\"><big><b>" . _LOSTPASSWORD . "</b></big></div>\n"
             . "<div style=\"width: 70%;margin-left: auto;margin-right: auto;text-align: left;\"><br />" . _LOSTPASSTXT . "<br /><br /></div>\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\">\n"
             . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" /></td></tr>\n"
-            . "<tr><td><b>" . _CODE . " :</b></td><td><input type=\"text\" name=\"code_conf\" size=\"10\" maxlength=\"20\" /></td></tr>\n"
             . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table></form><br />\n";
 }
 
-function envoi_pass($email, $code_conf){
+function envoi_mail($email){
     global $nuked;
 
-    $email = mysql_real_escape_string(stripslashes($email));
-    $email = htmlentities($email);
+    $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9]+.[a-z0-9]{2,3}$#';
+    if(!preg_match($pattern, $email)){
+        echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
+        redirect("index.php?file=User&op=oubli_pass", 3);
+        closetable();
+        footer();
+        exit();
+    }
 
-    $sql = mysql_query("SELECT id, pass, pseudo FROM " . USER_TABLE . " WHERE mail = '" . $email . "'");
-    $nb_reponse = mysql_num_rows($sql);
-    list($id, $pass, $pseudo) = mysql_fetch_array($sql);
+    $sql = mysql_query('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
+    $count = mysql_num_rows($sql);
+    $data = mysql_fetch_assoc($sql);
 
-    if ($nb_reponse > 0){
-        $areyou = substr($pass, 0, 10);
-
-        if (!$code_conf){
-            echo "<br /><br /><div style=\"text-align: center;\">" . _MAILSEND . "</div><br /><br />";
-            $message = "\r\n" . _CODEIS . " : " . $areyou . "\r\n\r\n\r\n" . $nuked['name'] . "  - " . $nuked['slogan'];
-            $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
-
-            $subject = @html_entity_decode($subject);
-            $corps = @html_entity_decode($corps);
-            $from = @html_entity_decode($from);
-            $s_mail = @html_entity_decode($email);
-
-            mail($s_mail, _LOSTPASSWORD, $message, $from);
-
-            redirect("index.php?file=User&op=oubli_pass", 2);
+    if($count > 0){
+        if($data['token'] != null && (time() - $data['token_time']) < 3600){
+            echo '<div style="text-align:center;margin:30px;">'._LINKALWAYSACTIVE.'</div>';
+            redirect("index.php", 3);
+            closetable();
+            footer();
+            exit();
         }
-        else{
-            if ($code_conf == $areyou){
-                echo "<br><center>" . _MAILSEND . "</center><br>";
-                $new_pass = makePass();
-                $message = _NICK . " : " . $pseudo . "\r\n" . _NEWPASSIS . " : " . $new_pass . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
-                $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+        elseif($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)){
+            $new_token = uniqid();
+            mysql_query('UPDATE '.USER_TABLE.' SET token = \''.$new_token.'\', token_time = \''.time().'\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
 
-                $subject = @html_entity_decode($subject);
-                $corps = @html_entity_decode($corps);
-                $from = @html_entity_decode($from);
-                $s_mail = @html_entity_decode($email);
+            $link = '<a href="'.$nuked['url'].'/index.php?file=User&op=envoi_pass&email='.$email.'&token='.$new_token.'">'.$nuked['url'].'/index.php?file=User&op=envoi_pass&email='.$email.'&token='.$new_token.'</a>';
 
-                mail($s_mail, _LOSTPASSWORD, $message, $from);
+            $message = "\r\n"._HI." ".$data['pseudo'].",\r\n\r\n"._LINKTONEWPASSWORD." : \r\n\r\n".$link."\r\n\r\n"._LINKTIME."\r\n\r\n\r\n".$nuked['name']." - ".$nuked['slogan'];
+            $from = "From: ".$nuked['name']." ".$nuked['mail'].">\r\nReply-To: ".$nuked['mail'];
 
-                $new_pass = nk_hash($new_pass);
-                $upd = mysql_query("UPDATE " . USER_TABLE . " SET pass = '" . $new_pass . "' WHERE id = '" . $id . "'");
-                redirect("index.php?file=User&op=login_screen", 2);
-            }
-            else{
-                echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODE . "</div><br /><br />";
-                redirect("index.php?file=User&op=oubli_pass", 2);
-            }
+            $from = @html_entity_decode($from);
+            $message = @html_entity_decode($message);
+
+            mail($email, _LOSTPASSWORD, $message, $from);
+
+            echo '<div style="text-align:center;margin:30px;">'._MAILSEND.'</div>';
+            redirect("index.php", 3);
         }
     }
     else{
-        echo "<br /><br /><div style=\"text-align: center;\">" . _MAILNOEXIST . "</div><br /><br />";
-        redirect("index.php?file=User&op=oubli_pass", 2);
+        echo '<div style="text-align:center;margin:30px;">'._MAILNOEXIST.'</div>';
+        redirect("index.php?file=User&op=oubli_pass", 3);
+    }    
+}
+
+function envoi_pass($email, $token){
+    global $nuked;
+
+    $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9]+.[a-z0-9]{2,3}$#';
+    if(!preg_match($pattern, $email)){
+        echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
+        redirect("index.php", 3);
+        closetable();
+        footer();
+        exit();
+    }
+
+    $pattern = '#^[a-z0-9]{13}$#';
+    if(!preg_match($pattern, $token)){
+        echo '<div style="text-align:center;margin:30px;">'._WRONGTOKEN.'</div>';
+        redirect("index.php", 3);
+        closetable();
+        footer();
+        exit();
+    }
+
+    $sql = mysql_query('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
+    $count = mysql_num_rows($sql);
+    $data = mysql_fetch_assoc($sql);
+
+    if($count > 0){
+        if($data['token'] != null && (time() - $data['token_time']) < 3600){
+            if($token == $data['token']){
+                $new_pass = makePass();
+
+                $message = "\r\n"._HI." ".$data['pseudo'].",\r\n\r\n"._NEWPASSWORD." : \r\n\r\n".$new_pass."\r\n\r\n\r\n".$nuked['name']." - ".$nuked['slogan'];
+                $from = "From: ".$nuked['name']." ".$nuked['mail'].">\r\nReply-To: ".$nuked['mail'];
+
+                $from = @html_entity_decode($from);
+                $message = @html_entity_decode($message);
+
+                mail($email, _NEWPASSWORD, $message, $from);
+
+                $new_pass = nk_hash($new_pass);
+
+                mysql_query('UPDATE '.USER_TABLE.' SET pass = \''.$new_pass.'\', token = \'null\', token_time = \'0\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
+
+                echo '<div style="text-align:center;margin:30px;">'._NEWPASSSEND.'</div>';
+                redirect("index.php?file=User&op=login_screen", 3);
+            }
+            else{
+                echo '<div style="text-align:center;margin:30px;">'._WRONGTOKEN.'</div>';
+                redirect("index.php", 3);
+                closetable();
+                footer();
+                exit();
+            }
+        }
+        elseif($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)){
+            echo '<div style="text-align:center;margin:30px;">'._LINKNOACTIVE.'</div>';
+            redirect("index.php?file=User&op=oubli_pass", 3);
+            closetable();
+            footer();
+            exit();
+        }
+    }
+    else{
+        echo '<div style="text-align:center;margin:30px;">'._MAILNOEXIST.'</div>';
+        redirect("index.php?file=User&op=oubli_pass", 3);
     }
 }
 
@@ -1981,7 +2038,7 @@ switch ($_REQUEST['op']){
         break;
     case"envoi_pass":
         opentable();
-        envoi_pass($_REQUEST['email'], $_REQUEST['code_conf']);
+        envoi_pass($_REQUEST['email'], $_REQUEST['token']);
         closetable();
         break;
     case"show_avatar":
@@ -2006,6 +2063,11 @@ switch ($_REQUEST['op']){
     case"del_account":
         opentable();
         del_account($_REQUEST['pass']);
+        closetable();
+        break;
+    case"envoi_mail":
+        opentable();
+        envoi_mail($_REQUEST['email']);
         closetable();
         break;
     default:

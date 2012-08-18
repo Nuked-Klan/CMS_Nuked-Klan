@@ -1143,6 +1143,8 @@
                           `country` varchar(50) NOT NULL default '',
                           `count` int(10) NOT NULL default '0',
                           `erreur` INT(10) NOT NULL default '0',
+                          `token` varchar(13)  DEFAULT NULL,
+                          `token_time` varchar(10) NOT NULL DEFAULT '0',
                           PRIMARY KEY  (`id`),
                           KEY `team` (`team`),
                           KEY `team2` (`team2`),

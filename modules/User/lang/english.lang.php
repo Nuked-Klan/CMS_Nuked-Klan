@@ -122,7 +122,7 @@ define("_SESSIONIPOPEN","Warning, you are now set on a temporary session and wil
 define("_ERRORCOOKIE","Your internet browser does not allow cookies from this site to be stored. You must enable the option to accept cookies from this site. For more information go to this <a href=\"http://support.microsoft.com/default.aspx?scid=kb;en-us;175662\" target=\"_blank\"><b>Microsoft Website</b></a>");
 define("_INFOMODIF","Info was successfully updated");
 define("_LOSTPASSWORD","Lost Password");
-define("_LOSTPASSTXT","Please enter your email and click on the send button. We will send you an email with a code. You will have to enter your email address again with the code to receive another email with your new password.");
+define("_LOSTPASSTXT","Please enter your email and click the send button. You will receive an email containing a link to reset your password.");
 define("_CODE","Code");
 define("_SEND","Send");
 define("_MAILSEND","Email was successfully sent");
@@ -156,6 +156,14 @@ define("_DELMYACCOUNT","Remove my account");
 define("_REMOVECONFIRM","Are you sure you want to remove your account?");
 define("_BADPASSWORD","Bad password!");
 define("_ACCOUNTDELETE","Your account was successfully removed.");
+define('_HI', 'Hello');
+define('_LINKALWAYSACTIVE', 'We have already sent to you a token, please check your mails');
+define('_LINKTONEWPASSWORD', 'To regenerate your password please click on the link below :');
+define('_LINKTIME', 'This link is valid 1 hour, it will pass this time please repeat the procedure for the forgotten password.');
+define('_WRONGMAIL', 'The email address you entered is incorrect.');
+define('_WRONGTOKEN', 'The token you entered is incorrect.');
+define('_NEWPASSWORD', 'Please find your new password below.');
+define('_NEWPASSSEND', 'Your new password has been sent to your mailbox.');
 //Security pass check
 define("_PASSWEAK", "Weak");
 define("_PASSMEDIUM", "Medium");

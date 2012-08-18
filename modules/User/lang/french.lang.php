@@ -119,7 +119,7 @@ define("_SESSIONIPOPEN","Attention, vous êtes en session provisoire, vous serez 
 define("_ERRORCOOKIE","Votre navigateur n'autorise pas les cookies, veuillez régler vos paramètres de confidentialité sur <b>accepter tous les cookies</b>, pour plus d'information sur ce sujet, allez sur le site de <a href=\"http://support.microsoft.com/default.aspx?scid=kb;fr;175662&Product=ieINT\" target=\"_blank\"><b>Microsoft France</b></a>");
 define("_INFOMODIF","Infos modifiées avec succès");
 define("_LOSTPASSWORD","Mot de passe perdu");
-define("_LOSTPASSTXT","Veuillez entrer votre email et cliquez sur le bouton envoyer. Un email vous sera envoyé avec un code, entrez de nouveau votre email et ce code pour recevoir un autre email avec votre nouveau mot de passe.");
+define("_LOSTPASSTXT","Veuillez entrer votre email et cliquez sur le bouton envoyer. Vous recevrez un email contenant un lien vous permettant de réinitialiser votre mot de passe.");
 define("_CODE","Code");
 define("_SEND","Envoyer");
 define("_MAILSEND","Un email vient de vous être envoyé.");
@@ -152,6 +152,14 @@ define("_DELMYACCOUNT","Supprimer mon compte");
 define("_REMOVECONFIRM","Êtes vous sur de vouloir supprimer votre compte ?");
 define("_BADPASSWORD","Le mot de passe n'est pas bon !");
 define("_ACCOUNTDELETE","Votre compte a été supprimé avec succès.");
+define('_HI', 'Bonjour');
+define('_LINKALWAYSACTIVE', 'Un token vous a déjà été envoyé, veuillez vérifier votre boîte email.');
+define('_LINKTONEWPASSWORD', 'Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe');
+define('_LINKTIME', 'Ce lien est valide 1 Heure, passer ce délai il faudra recommencer la procédure de mot de passe oublié.');
+define('_WRONGMAIL', 'L\'adresse email que vous avez saisie est incorrect.');
+define('_WRONGTOKEN', 'Le token est incorrect.');
+define('_NEWPASSWORD', 'Veuillez trouver ci-dessous votre nouveau mot de passe.');
+define('_NEWPASSSEND', 'Votre nouveau mot de passe vient de vous être envoyé par mail.');
 //Security pass check
 define("_PASSWEAK", "Faible");
 define("_PASSMEDIUM", "Moyen");
