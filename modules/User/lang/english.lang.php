@@ -162,7 +162,8 @@ define('_LINKTONEWPASSWORD', 'To regenerate your password please click on the li
 define('_LINKTIME', 'This link is valid 1 hour, it will pass this time please repeat the procedure for the forgotten password.');
 define('_WRONGMAIL', 'The email address you entered is incorrect.');
 define('_WRONGTOKEN', 'The token you entered is incorrect.');
-define('_NEWPASSWORD', 'Please find your new password below.');
+define('_YOURNEWPASSWORD', 'Your new password !');
+define('_NEWPASSWORD', 'Please find your new password below');
 define('_NEWPASSSEND', 'Your new password has been sent to your mailbox.');
 //Security pass check
 define("_PASSWEAK", "Weak");

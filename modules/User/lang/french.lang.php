@@ -158,7 +158,8 @@ define('_LINKTONEWPASSWORD', 'Veuillez cliquer sur le lien suivant pour réinitia
 define('_LINKTIME', 'Ce lien est valide 1 Heure, passer ce délai il faudra recommencer la procédure de mot de passe oublié.');
 define('_WRONGMAIL', 'L\'adresse email que vous avez saisie est incorrect.');
 define('_WRONGTOKEN', 'Le token est incorrect.');
-define('_NEWPASSWORD', 'Veuillez trouver ci-dessous votre nouveau mot de passe.');
+define('_NEWPASSWORD', 'Veuillez trouver ci-dessous votre nouveau mot de passe');
+define('_YOURNEWPASSWORD', 'Votre nouveau mot de passe !');
 define('_NEWPASSSEND', 'Votre nouveau mot de passe vient de vous être envoyé par mail.');
 //Security pass check
 define("_PASSWEAK", "Faible");

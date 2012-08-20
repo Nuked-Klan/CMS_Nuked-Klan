@@ -1691,13 +1691,15 @@ function envoi_mail($email){
 
             $link = '<a href="'.$nuked['url'].'/index.php?file=User&op=envoi_pass&email='.$email.'&token='.$new_token.'">'.$nuked['url'].'/index.php?file=User&op=envoi_pass&email='.$email.'&token='.$new_token.'</a>';
 
-            $message = "\r\n"._HI." ".$data['pseudo'].",\r\n\r\n"._LINKTONEWPASSWORD." : \r\n\r\n".$link."\r\n\r\n"._LINKTIME."\r\n\r\n\r\n".$nuked['name']." - ".$nuked['slogan'];
-            $from = "From: ".$nuked['name']." ".$nuked['mail'].">\r\nReply-To: ".$nuked['mail'];
+            $message = "<html><body><p>"._HI." ".$data['pseudo'].",<br/><br/>"._LINKTONEWPASSWORD." : <br/><br/>".$link."<br/><br/>"._LINKTIME."</p><p>".$nuked['name']." - ".$nuked['slogan']."</p></body></html>";
+            $headers ='From: '.$nuked['name'].' <'.$nuked['mail'].'>'."\n";
+            $headers .='Reply-To: '.$nuked['mail']."\n";
+            $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
+            $headers .='Content-Transfer-Encoding: 8bit'; 
 
-            $from = @html_entity_decode($from);
             $message = @html_entity_decode($message);
 
-            mail($email, _LOSTPASSWORD, $message, $from);
+            mail($email, _LOSTPASSWORD, $message, $headers);
 
             echo '<div style="text-align:center;margin:30px;">'._MAILSEND.'</div>';
             redirect("index.php", 3);
@@ -1739,13 +1741,15 @@ function envoi_pass($email, $token){
             if($token == $data['token']){
                 $new_pass = makePass();
 
-                $message = "\r\n"._HI." ".$data['pseudo'].",\r\n\r\n"._NEWPASSWORD." : \r\n\r\n".$new_pass."\r\n\r\n\r\n".$nuked['name']." - ".$nuked['slogan'];
-                $from = "From: ".$nuked['name']." ".$nuked['mail'].">\r\nReply-To: ".$nuked['mail'];
+                $message = "<html><body><p>"._HI." ".$data['pseudo'].",<br/><br/>"._NEWPASSWORD." : <br/><br/><strong>".$new_pass."</strong><br/></p><p>".$nuked['name']." - ".$nuked['slogan']."</p></body></html>";
+                $headers ='From: '.$nuked['name'].' <'.$nuked['mail'].'>'."\n";
+                $headers .='Reply-To: '.$nuked['mail']."\n";
+                $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
+                $headers .='Content-Transfer-Encoding: 8bit'; 
 
-                $from = @html_entity_decode($from);
                 $message = @html_entity_decode($message);
 
-                mail($email, _NEWPASSWORD, $message, $from);
+                mail($email, _YOURNEWPASSWORD, $message, $headers);
 
                 $new_pass = nk_hash($new_pass);
 
