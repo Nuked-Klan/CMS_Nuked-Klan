@@ -454,11 +454,10 @@
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_forums_read`";
                         $req = mysql_query($sql) or die (mysql_error());                        
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_read` (
-                          `id` int(11) NOT NULL auto_increment,
                           `user_id` varchar(20) NOT NULL default '',
-                          `thread_id` int(11) NOT NULL default '0',
-                          `forum_id` int(11) NOT NULL default '0',
-                          PRIMARY KEY  (`id`),
+                          `thread_id` text NOT NULL default '0',
+                          `forum_id` text NOT NULL default '0',
+                          PRIMARY KEY  (`user_id`),
                           KEY `user_id` (`user_id`),
                           KEY `thread_id` (`thread_id`),
                           KEY `forum_id` (`forum_id`)

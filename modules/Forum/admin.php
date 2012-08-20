@@ -359,10 +359,9 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             }
         }
 
-        $del_forum = mysql_query("DELETE FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
-        $del_topic = mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
-        $del_mess = mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $id . "'");
-        $del_read = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE forum_id = '" . $id . "'");
+        mysql_query("DELETE FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
+        mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
+        mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $id . "'");
         // Action
         $texteaction = "". _ACTIONDELFO .": ".$titre."";
         $acdate = time();
@@ -897,9 +896,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                 $del3 = mysql_query("DELETE FROM " . FORUM_VOTE_TABLE . " WHERE poll_id = '" . $poll_id . "'");
             }
 
-            $sql2 = mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
-            $sql3 = mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
-            $sql4 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $thread_id . "'");
+            mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
+            mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
         }
         // Action
         $texteaction = "". _ACTIONPRUNEFO .": ".$nom."";

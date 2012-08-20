@@ -30,35 +30,50 @@ if ($visiteur >= $level_access && $level_access > -1)
     $sql2 = mysql_query("SELECT titre, view, closed, annonce, last_post, auteur_id, sondage FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND id = '" . $_REQUEST['thread_id'] . "'");
     $topic_ok = mysql_num_rows($sql2);
 
+     // No user access
+     if ($level_ok == 0) {
+          echo "<br /><br /><div style=\"text-align: center;\">" . _NOACCESSFORUM . "</div><br /><br />";
+     }
+     // No topic exists
+     else if ($topic_ok == 0) {
+          echo "<br /><br /><div style=\"text-align: center;\">" . _NOTOPICEXIST . "</div><br /><br />";
+     }
+     // User access
+     else {
 
-    if ($level_ok == 0)
-    {
-        if ($user)
-        {
-            $visit = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' AND user_id = '" . $user[0] . "'");
-            $user_visit = mysql_num_rows($visit);
-            if ($user_visit == 0)
-            {
-                $sql_visit = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user[0] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' )");
+          if ($user) {
+
+               $SQL = "SELECT id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = " . (int) $_GET['forum_id'] . " ";
+               $req = mysql_query($SQL) or die(mysql_error());
+               $thread_table = array();
+               while ($res = mysql_fetch_assoc($req)) {
+                    $thread_table[] = $res['id'];
+            } 
+
+               $visit = mysql_query("SELECT user_id, thread_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'") or die(mysql_error());
+               $user_visit = mysql_fetch_assoc($visit);
+               $tid = substr($user_visit['thread_id'], 1); // Thread ID
+               $fid = substr($user_visit['forum_id'], 1); // Forum ID
+               if (!$user_visit || strrpos($user_visit['thread_id'], ',' . $_GET['thread_id'] . ',') === false || strrpos($user_visit['forum_id'], ',' . $_GET['forum_id'] . ',') === false) {
+
+                    if (strrpos($user_visit['thread_id'], ',' . $_GET['thread_id'] . ',') === false)
+                         $tid .= $_GET['thread_id'] . ',';
+
+                    $read = false;
+                    foreach ($thread_table as $thread) {
+                         if (strrpos(',' . $tid, ',' . $thread . ',') === false){
+                              $read = true;
+        }
+    } 
+
+                    if (strrpos($user_visit['forum_id'], ',' . $_GET['forum_id'] . ',') === false && $read === false)
+                         $fid .= $_GET['forum_id'] . ',';
+
+                    // Insertion SQL du read
+                    mysql_query("REPLACE INTO " . FORUM_READ_TABLE . " ( `user_id` , `thread_id` , `forum_id` ) VALUES ( '" . $user[0] . "' , '," . $tid . "' , '," . $fid . "' )") or die(mysql_error());
             } 
         }
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOACCESSFORUM . "</div><br /><br />";
-    } 
-    else if ($topic_ok == 0)
-    {
-        if ($user)
-        {
-            $visit = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' AND user_id = '" . $user[0] . "'");
-            $user_visit = mysql_num_rows($visit);
-            if ($user_visit == 0)
-            {
-                $sql_visit = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user[0] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' )");
-            } 
-        }
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOTOPICEXIST . "</div><br /><br />";
-    } 
-    else
-    {
+
         list($nom, $modos, $cat, $level) = mysql_fetch_array($sql);
         $nom = printSecuTags($nom);
 
@@ -559,15 +574,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             else
             {
                 echo "&nbsp;<a href=\"index.php?file=Forum&amp;op=announce&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "&amp;do=up\"><img style=\"border: 0;\" src=\"modules/Forum/images/topic_up.gif\" alt=\"\" title=\"" . _TOPICUP . "\" /></a>";
-            } 
-        }
-        if ($user)
-        {
-            $visit = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' AND user_id = '" . $user[0] . "'");
-            $user_visit = mysql_num_rows($visit);
-            if ($user_visit == 0)
-            {
-                $sql_visit = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user[0] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' )");
             } 
         }
 

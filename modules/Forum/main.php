@@ -96,12 +96,10 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
         list($mess_id, $thid, $date, $auteur, $auteur_id) = mysql_fetch_array($req5);
         $auteur = nk_CSS($auteur);
 
-        if ($user)
-        {
-            $visits = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE forum_id = '" . $forum_id . "' AND user_id = '" . $user[0] . "'");
-            $user_visits = mysql_num_rows($visits);
-            if ($user_visits < $num_post)
-            {
+          if ($user) {
+               $visits = mysql_query("SELECT user_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "' AND forum_id LIKE '%" . ',' . $forum_id . ',' . "%' ");
+               $results = mysql_fetch_assoc($visits);
+               if ($num_post > 0 && strrpos($results['forum_id'], ',' . $forum_id . ',') === false) {
                 $img = "<img src=\"modules/Forum/images/forum_new.gif\" alt=\"\" />";
             } 
             else

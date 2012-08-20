@@ -180,14 +180,12 @@ if ($visiteur >= $level_access && $level_access > -1)
                         $sup3 = mysql_query("DELETE FROM " . FORUM_VOTE_TABLE . " WHERE poll_id = '" . $poll_id . "'");
                     }
 
-                    $del = mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $_REQUEST['thread_id'] . "'");
-                    $del2 = mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
-                    $del3 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
-                    $url = "index.php?file=Forum&page=viewforum&forum_id=" . $_REQUEST['forum_id'];
-                }
-                else
-                {
-                    $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
+                         mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . (int) $_REQUEST['thread_id'] . "'");
+                         mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . (int) $_REQUEST['thread_id'] . "'");
+
+                         $url = "index.php?file=Forum&page=viewforum&forum_id=" . (int) $_REQUEST['forum_id'];
+                    } else {
+                         $url = "index.php?file=Forum&page=viewtopic&forum_id=" . (int) $_REQUEST['forum_id'] . "&thread_id=" . (int) $_REQUEST['thread_id'];
                 }
 
                 $sql = mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $mess_id . "'");
@@ -275,9 +273,8 @@ if ($visiteur >= $level_access && $level_access > -1)
                     }
                 }
 
-                $del1 = mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
-                $del2 = mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
-                $del3 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $thread_id . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
+                    mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' AND forum_id = '" . (int) $_REQUEST['forum_id'] . "'");
+                    mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "' AND forum_id = '" . (int) $_REQUEST['forum_id'] . "'");
 
                 $url = "index.php?file=Forum&page=viewforum&forum_id=" . $_REQUEST['forum_id'];
                 echo "<br /><br /><div style=\"text-align: center;\">" . _TOPICDELETED . "</div><br /><br />";
@@ -336,16 +333,77 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 echo"<br /><br /><div style=\"text-align: center;\">" . _TOPICMOVED . "</div><br /><br />";
 
-                $sql1 = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET forum_id = '" . $_REQUEST['newforum'] . "' WHERE id = '" . $_REQUEST['thread_id'] . "'");
-                $sql2 = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET forum_id = '" . $_REQUEST['newforum'] . "' WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
-                $sql3 = mysql_query("UPDATE " . FORUM_READ_TABLE . " SET forum_id = '" . $_REQUEST['newforum'] . "' WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
+                    mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET forum_id = '" . $_REQUEST['newforum'] . "' WHERE id = '" . (int) $_REQUEST['thread_id'] . "'");
+                    mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET forum_id = '" . $_REQUEST['newforum'] . "' WHERE thread_id = '" . (int) $_REQUEST['thread_id'] . "'");
+                    $SQL = "SELECT thread_id, forum_id, user_id FROM " . FORUM_READ_TABLE . " WHERE forum_id LIKE '%," . $_REQUEST['forum_id'] . ",%' OR  forum_id LIKE '%," . $_REQUEST['newforum'] . ",%' ";
+                    $req = mysql_query($SQL);
+                    $update = '';
+                    // Liste des utilisateurs
+                    $userTMP = array();
+                    while ($data = mysql_fetch_assoc($req)) {
+                         $userTMP['user_id'] = array('forum_id' => $data['forum_id'], 'thread_id' => $data['thread_id']);
+                    }
+                    // Vieux forum
+                    $oldTMP = array();
+                    // Liste des threads de l'ancien forum
+                    $SQL = "SELECT id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = " . (int) $_REQUEST['forum_id'] . " ";
+                    $req = mysql_query($SQL);
+                    // On vérifie que tous les threads sont lus
+                    while ($data = mysql_fetch_assoc($req)) {
+                         $oldTMP[$data['id']] = $data['id'];
+                    }
+                    // Nouveau forum
+                    $newTMP = array();
+                    // Liste des threads du nouveau forum
+                    $SQL = "SELECT id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = " . (int) $_REQUEST['newforum'] . " ";
+                    $req = mysql_query($SQL);
+                    // On vérifie que tous les threads sont lus
+                    while ($data = mysql_fetch_assoc($req)) {
+                         $newTMP[$data['id']] = $data['id'];
+                    }
 
-                $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['newforum'] . "&thread_id=" . $_REQUEST['thread_id'];
-                redirect($url, 2);
+                    // On boucle les users
+                    foreach ($userTMP as $key => $member) {
+                         // On part du fait que tout les posts sont lu
+                         $read = true;
+                         foreach ($oldTMP as $old) {
+                              // Si au moins un post n'est pas lu
+                              if (strrpos($member['thread_id'], ',' . $old . ',') === false)
+                                   $read = false;
             }
+                         // Si ils sont tous lu, et que le forum est pas dans la liste on le rajoute
+                         if ($read === true && strrpos($member['forum_id'], ',' . $_REQUEST['forum_id'] . ', ') === false) {
+                              // Nouvelle liste des forums
+                              $fid = $member['forum_id'] . $_REQUEST['forum_id'] . ',';
+                              // Si aucun n'update n'a eu lieu avant
+                              $update .= (!empty($update) ? ' JOIN ' : '');
+                              $update .= "UPDATE " . FORUM_READ_TABLE . " SET forum_id = '" . $fid . "' WHERE user_id = '" . $key . "';";
+                         }
 
-            else if ($_REQUEST['confirm'] == _NO)
-            {
+                         // On part du fait que tout les posts sont lu
+                         $read = true;
+                         foreach($newTMP as $new){
+                              // Si au moins un post n'est pas lu
+                              if (strrpos($member['thread_id'], ',' . $new . ',') === false)
+                                   $read = false;
+                         }
+                         
+                         // Si tout n'est pas lu, et que le forum est présent dans la liste on le retire
+                         if ($read === false && strrpos($fid, ',' . $_REQUEST['newforum'] . ',') !== false) {
+                              // Nouvelle liste des forums
+                              $fid = preg_replace("#," . $_REQUEST['newforum'] . ",#is", ",", $fid);
+                              // Si aucun n'update n'a eu lieu avant
+                              $update .= (!empty($update) ? ' JOIN ' : '');
+                              $update .= "UPDATE " . FORUM_READ_TABLE . " SET forum_id = '" . $fid . "' WHERE user_id = '" . $key . "';";
+                         }
+                         
+                    }
+
+                    mysql_query($update);
+
+                    $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['newforum'] . "&thread_id=" . (int) $_REQUEST['thread_id'];
+                    redirect($url, 2);
+               } else if ($_REQUEST['confirm'] == _NO) {
                 echo "<br /><br /><div style=\"text-align: center;\">" . _DELCANCEL . "</div><br /><br />";
 
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
@@ -629,11 +687,28 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
 
-        $sql1 = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET last_post = '" . $date . "' WHERE id = '" . $_REQUEST['thread_id'] . "'");
-        $sql3 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
-		$sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
+          mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET last_post = '" . $date . "' WHERE id = '" . (int) $_REQUEST['thread_id'] . "'");
+          $SQL = "SELECT thread_id, forum_id, user_id FROM " . FORUM_READ_TABLE . "  WHERE thread_id LIKE '%," . (int) $_REQUEST['thread_id'] . ",%' OR forum_id LIKE '%," . (int) $_REQUEST['forum_id'] . ",%' ";
+          $req = mysql_query($SQL);
+          $update = "";
+          while ($results = mysql_fetch_assoc($req)) {
+               $tid = $results['thread_id'];
+               $fid = $results['forum_id'];
+               if (strrpos($fid, ',' . $_REQUEST['forum_id'] . ',') !== false) {
+                    $fid = preg_replace("#," . $_REQUEST['forum_id'] . ",#is", ",", $fid);
+               }
+               if (strrpos($tid, ',' . $_REQUEST['thread_id'] . ',') !== false) {
+                    $tid = preg_replace("#," . $_REQUEST['thread_id'] . ",#is", ",", $tid);
+               }
+               $update .= (!empty($update) ? ' JOIN ' : '' );
+               $update .= "UPDATE " . FORUM_READ_TABLE . " SET forum_id = '" . $fid . "', thread_id = '" . $tid . "' WHERE user_id = '" . $results['user_id'] . "'";
+          }
 
-		$notify = mysql_query("SELECT auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND emailnotify = 1 GROUP BY auteur_id");
+          mysql_query($update);
+
+          mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . (int) $_REQUEST['thread_id'] . "' , '" . (int) $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
+
+          $notify = mysql_query("SELECT auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . (int) $_REQUEST['thread_id'] . "' AND emailnotify = 1 GROUP BY auteur_id");
 		$nbusers = mysql_num_rows($notify);
 
 		if ($nbusers > 0)
@@ -887,27 +962,30 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $req = "UPDATE " . SESSIONS_TABLE . " SET last_used = date WHERE user_id = '" . $user[0] . "'";
                 $sql = mysql_query($req);
             }
-            if ($user)
-            {
-                if ($_REQUEST['forum_id'] != "")
-                {
-                    $where = "WHERE forum_id = '" . $_REQUEST['forum_id'] . "'";
-                } 
-                else
-                {
-                    $del = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'");
+               if ($user) {
+                    if ((int) $_REQUEST['forum_id'] != "") {
+                         $where = "WHERE forum_id = '" . (int) $_REQUEST['forum_id'] . "'";
+                    } else {
                     $where = "";
                 } 
+                    // On veut modifier la chaine thread_id et forum_id
+                    $req = mysql_query("SELECT thread_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'");
 
                 $result = mysql_query("SELECT id, forum_id FROM " . FORUM_THREADS_TABLE . " " . $where);
                 $nbtopics = mysql_num_rows($result);
 
-                if ($nbtopics > 0)
-                {
-                    while (list($thread_id, $forum_id) = mysql_fetch_row($result))
-                    {
-                        $sql = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user[0] . "' , '" . $thread_id . "' , '" . $forum_id . "' )");
+                    if ($nbtopics > 0) {
+                         $res = mysql_fetch_assoc($req);
+                         $tid = ',' . substr($res['thread_id'], 1);
+                         $fid = ',' . substr($res['forum_id'], 1);
+                         ;
+                         while (list($thread_id, $forum_id) = mysql_fetch_row($result)) {
+                              if (strrpos($tid, ',' . $thread_id . ',') === false)
+                                   $tid .= $thread_id . ',';
+                              if (strrpos($fid, ',' . $forum_id . ',') === false)
+                                   $fid .= $forum_id . ',';
                     } 
+                         $sql = mysql_query("REPLACE " . FORUM_READ_TABLE . " (`user_id` , `thread_id` , `forum_id` ) VALUES ('" . $user[0] . "' , '" . $tid . "' , '" . $fid . "' )");
                 } 
             } 
         }

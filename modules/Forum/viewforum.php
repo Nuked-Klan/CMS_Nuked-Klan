@@ -193,13 +193,11 @@ if ($visiteur >= $level_access && $level_access > -1)
             $last_auteur = nk_CSS($last_auteur);
 
             
-            if ($user)
-            {
-                $visitx = mysql_query("SELECT id FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $thread_id . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' AND user_id = '" . $user[0] . "'");
-                $user_visitx = mysql_num_rows($visitx);
-            }
-            else
-            {
+               if ($user) {
+                    $visitx = mysql_query("SELECT user_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "' AND `thread_id` LIKE '%" . ',' . $thread_id . ',' . "%' ");
+                    $results = mysql_num_rows($visitx);
+                         $user_visitx = $results;
+               } else {
                 $user_visitx = 0;
             }
             if ($user && $closed == 1 && ($user_visitx == 0))
