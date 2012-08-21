@@ -445,11 +445,14 @@
                             echo 'OK';
         break;
      case 'table_forums_read':
-          $req = mysql_query("SELECT id, user_id, forum_id, thread_id FROM `" . $db_prefix . "_forums_read` ") or die(mysql_error());
+          $req = mysql_query("SELECT * FROM `" . $db_prefix . "_forums_read` ") or die(mysql_error());
           if ($req) {
                $users = array();
                while ($data = mysql_fetch_assoc($req)) {
-
+                    if (!isset($data['id'])) {
+                         echo "OK";
+                         break;
+                    }
                     if (!isset($users[$data['user_id']]['thread_id']) || empty($users[$data['user_id']]['thread_id']))
                          $users[$data['user_id']]['thread_id'] = ',';
 
@@ -460,23 +463,24 @@
                     if (strrpos($users[$data['user_id']]['forum_id'], ',' . $data['forum_id'] . ',') === false)
                     $users[$data['user_id']]['forum_id'] .= $data['forum_id'] . ',';
                }
-
-               mysql_query("DROP TABLE IF EXISTS `" . $db_prefix . "_forums_read`") or die(mysql_error());
-               $SQL = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_forums_read`(
-                         `user_id` varchar(20) NOT NULL PRIMARY KEY,
-                         `forum_id` text NOT NULL,
-                         `thread_id` text NOT NULL
-                    ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
-               mysql_query($SQL) or die(mysql_error());
-               $SQL = "INSERT INTO `" . $db_prefix . "_forums_read` (user_id, forum_id, thread_id) VALUES ";
-               $i = 0;
-               foreach ($users as $key => $user) {
-                    if ($i > 0)
-                         $SQL .= ', ';
-                    $SQL .= "('" . $key . "', '" . $user['forum_id'] . "', '" . $user['thread_id'] . "') ";
-                    $i++;
+               if (sizeof($users)) {
+                    mysql_query("DROP TABLE IF EXISTS `" . $db_prefix . "_forums_read`") or die(mysql_error());
+                    $SQL = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_forums_read`(
+                              `user_id` varchar(20) NOT NULL PRIMARY KEY,
+                              `forum_id` text NOT NULL,
+                              `thread_id` text NOT NULL
+                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                    mysql_query($SQL) or die(mysql_error());
+                    $SQL = "INSERT INTO `" . $db_prefix . "_forums_read` (user_id, forum_id, thread_id) VALUES ";
+                    $i = 0;
+                    foreach ($users as $key => $user) {
+                         if ($i > 0)
+                              $SQL .= ', ';
+                         $SQL .= "('" . $key . "', '" . $user['forum_id'] . "', '" . $user['thread_id'] . "') ";
+                         $i++;
+                    }
+                    mysql_query($SQL) or die(mysql_error());
                }
-               mysql_query($SQL) or die(mysql_error());
           }
           echo "OK";
           break;

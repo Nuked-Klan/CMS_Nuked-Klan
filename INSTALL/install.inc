@@ -457,10 +457,7 @@
                           `user_id` varchar(20) NOT NULL default '',
                           `thread_id` text NOT NULL,
                           `forum_id` text NOT NULL,
-                          PRIMARY KEY  (`user_id`),
-                          KEY `user_id` (`user_id`),
-                          KEY `thread_id` (`thread_id`),
-                          KEY `forum_id` (`forum_id`)
+                          PRIMARY KEY  (`user_id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
