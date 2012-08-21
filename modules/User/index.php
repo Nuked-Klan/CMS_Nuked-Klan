@@ -1699,7 +1699,7 @@ function envoi_mail($email){
 
             $message = @html_entity_decode($message);
 
-            mail($email, _LOSTPASSWORD, $message, $headers);
+            @mail($email, _LOSTPASSWORD, $message, $headers);
 
             echo '<div style="text-align:center;margin:30px;">'._MAILSEND.'</div>';
             redirect("index.php", 3);
@@ -1749,7 +1749,7 @@ function envoi_pass($email, $token){
 
                 $message = @html_entity_decode($message);
 
-                mail($email, _YOURNEWPASSWORD, $message, $headers);
+                @mail($email, _YOURNEWPASSWORD, $message, $headers);
 
                 $new_pass = nk_hash($new_pass);
 
