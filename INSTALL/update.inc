@@ -308,7 +308,7 @@
                                 mysql_query("ALTER TABLE `" . $db_prefix . "_users` ADD `erreur` INT(10) NOT NULL default '0'")or die(mysql_error());
                             }
                             if(!fieldExist('users', 'token', $db_prefix)){
-                                mysql_query("ALTER TABLE `" . $db_prefix . "_users` ADD `token` VARCHAR(13) default NULL, `token_time` varchar(10) NOT NULL DEFAULT '0'")or die(mysql_error());
+                                mysql_query("ALTER TABLE `" . $db_prefix . "_users` ADD `token` VARCHAR(13) NULL DEFAULT NULL, ADD `token_time` varchar(10) NOT NULL DEFAULT '0'")or die(mysql_error());
                             }
                             echo 'OK';
         break;
