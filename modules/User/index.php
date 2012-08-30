@@ -1664,7 +1664,7 @@ function oubli_pass(){
 function envoi_mail($email){
     global $nuked;
 
-    $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9]+.[a-z0-9]{2,3}$#';
+    $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9.-]+.[a-z0-9]{2,3}$#';
     if(!preg_match($pattern, $email)){
         echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
         redirect("index.php?file=User&op=oubli_pass", 3);
@@ -1714,7 +1714,7 @@ function envoi_mail($email){
 function envoi_pass($email, $token){
     global $nuked;
 
-    $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9]+.[a-z0-9]{2,3}$#';
+    $pattern = '#^[a-z0-9]+[a-z0-9._-]*@[a-z0-9.-]+.[a-z0-9]{2,3}$#';
     if(!preg_match($pattern, $email)){
         echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
         redirect("index.php", 3);
