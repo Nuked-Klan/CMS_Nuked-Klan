@@ -183,6 +183,13 @@ function connect(){
 
 // CONFIG PHP SESSION
 if(ini_get('session.save_handler') == 'files') session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
+
+if(ini_get('suhosin.session.encrypt') == '1'){
+    @ini_set('session.gc_probability', 100);
+    @ini_set('session.gc_divisor', 100);
+    @ini_set('session.gc_maxlifetime', (1440));
+}
+
 session_name('nuked');
 session_start();
 if (session_id() == '') exit(ERROR_SESSION);
