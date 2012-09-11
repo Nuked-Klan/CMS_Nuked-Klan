@@ -245,7 +245,7 @@ function index()
             $texte = htmlentities($texte, ENT_NOQUOTES);
             $texte = nk_CSS($texte);
 
-            if (strlen($auteur) > $pseudo_max) $auteur = '<span title="' . nk_CSS($auteur) . '">' . nk_CSS(substr($auteur, 0, $pseudo_max)) . '...</span>';
+            if (strlen($auteur) > $pseudo_max) $auteurDisplay = '<span title="' . nk_CSS($auteur) . '">' . nk_CSS(substr($auteur, 0, $pseudo_max)) . '...</span>';
 
             $block_text = icon($block_text);
 
@@ -277,7 +277,7 @@ function index()
                 $i2 =0;
             }
 
-            $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '">' . $auteur . '</a>' : $auteur;
+            $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '">' . $auteurDisplay . '</a>' : $auteurDisplay;
 
             echo "<table width=\"100%\" style=\"background: #" . $bg . "\" cellspacing=\"0\" cellpadding=\"0\">\n"
             . "<tr>\n"
