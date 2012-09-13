@@ -245,7 +245,14 @@ function index()
             $texte = htmlentities($texte, ENT_NOQUOTES);
             $texte = nk_CSS($texte);
 
-            if (strlen($auteur) > $pseudo_max) $auteurDisplay = '<span title="' . nk_CSS($auteur) . '">' . nk_CSS(substr($auteur, 0, $pseudo_max)) . '...</span>';
+            if (strlen($auteur) > $pseudo_max)
+            {
+                $auteurDisplay = '<span title="' . nk_CSS($auteur) . '">' . nk_CSS(substr($auteur, 0, $pseudo_max)) . '...</span>';
+            }
+            else
+            {
+                $auteurDisplay = $auteur;
+            }
 
             $block_text = icon($block_text);
 
