@@ -17,7 +17,8 @@ function maFonctionAjax(texte){
 	}
 	OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	OAjax.send('texte='+texte+'');
-	$(document).trigger('close.facebox')
+	$(document).trigger('close.facebox');
+	redirect("index.php?file=Admin", 1);
 }
 
 function screenon(lien,lien2){
