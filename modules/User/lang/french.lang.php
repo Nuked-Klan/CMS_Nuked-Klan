@@ -153,15 +153,19 @@ define("_REMOVECONFIRM","Êtes vous sur de vouloir supprimer votre compte ?");
 define("_BADPASSWORD","Le mot de passe n'est pas bon !");
 define("_ACCOUNTDELETE","Votre compte a été supprimé avec succès.");
 define('_HI', 'Bonjour');
+
+// Lost Password
 define('_LINKALWAYSACTIVE', 'Un token vous a déjà été envoyé, veuillez vérifier votre boîte email.');
 define('_LINKTONEWPASSWORD', 'Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe');
-define('_LINKTIME', 'Ce lien est valide 1 Heure, passer ce délai il faudra recommencer la procédure de mot de passe oublié.');
+define('_LINKTIME', 'Ce lien est valide 1 heure, passer ce délai il faudra recommencer la procédure de mot de passe oublié.');
 define('_WRONGMAIL', 'L\'adresse email que vous avez saisie est incorrect.');
 define('_WRONGTOKEN', 'Le token est incorrect.');
 define('_NEWPASSWORD', 'Veuillez trouver ci-dessous votre nouveau mot de passe');
 define('_YOURNEWPASSWORD', 'Votre nouveau mot de passe !');
 define('_NEWPASSSEND', 'Votre nouveau mot de passe vient de vous être envoyé par mail.');
-//Security pass check
+define('_LINKNOACTIVE', 'Ce lien n\'est plus valable !');
+
+// Password Security Check
 define("_PASSWEAK", "Faible");
 define("_PASSMEDIUM", "Moyen");
 define("_PASSHIGH", "Elevé");

@@ -157,6 +157,7 @@ define("_REMOVECONFIRM","Are you sure you want to remove your account?");
 define("_BADPASSWORD","Bad password!");
 define("_ACCOUNTDELETE","Your account was successfully removed.");
 define('_HI', 'Hello');
+
 define('_LINKALWAYSACTIVE', 'We have already sent to you a token, please check your mails');
 define('_LINKTONEWPASSWORD', 'To regenerate your password please click on the link below :');
 define('_LINKTIME', 'This link is valid 1 hour, it will pass this time please repeat the procedure for the forgotten password.');
@@ -165,6 +166,8 @@ define('_WRONGTOKEN', 'The token you entered is incorrect.');
 define('_YOURNEWPASSWORD', 'Your new password !');
 define('_NEWPASSWORD', 'Please find your new password below');
 define('_NEWPASSSEND', 'Your new password has been sent to your mailbox.');
+define('_LINKNOACTIVE', 'This link is no longer valid!');
+
 //Security pass check
 define("_PASSWEAK", "Weak");
 define("_PASSMEDIUM", "Medium");
