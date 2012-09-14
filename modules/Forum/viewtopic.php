@@ -372,6 +372,9 @@ if ($visiteur >= $level_access && $level_access > -1)
                         
                         echo "<img src=\"" . checkimg($avatar) . "\" " . $style . "alt=\"\" /><br />\n";
                     } 
+                    else{
+                        echo '<img src="modules/User/images/noavatar.png" alt="" /><br />'."\n";
+                    }
 
                     echo _MESSAGES . " : " . $nb_post . "<br />" . _REGISTERED . ": " . $date_member . "<br />\n";
 
