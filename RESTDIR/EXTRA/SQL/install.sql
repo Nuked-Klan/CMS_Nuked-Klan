@@ -177,7 +177,7 @@ INSERT INTO `nuked_config` VALUES('dateformat', '%d/%m/%Y - %H:%M:%S');
 INSERT INTO `nuked_config` VALUES('datezone', '+0100');
 INSERT INTO `nuked_config` VALUES ('video_editeur', 'on');
 INSERT INTO `nuked_config` VALUES ('scayt_editeur', 'on');
-INSERT INTO `nuked_config` VALUES('version', '1.7.9 RC6');
+INSERT INTO `nuked_config` VALUES('version', '1.7.9');
 INSERT INTO `nuked_config` VALUES('date_install', '1323049522');
 INSERT INTO `nuked_config` VALUES('langue', 'french');
 INSERT INTO `nuked_config` VALUES('name', 'Nuked-klaN 1.7.9');

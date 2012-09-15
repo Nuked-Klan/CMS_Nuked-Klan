@@ -146,7 +146,7 @@
                             ('time_generate', 'on'),
                             ('dateformat', '" . $dateFormat. "'),
                             ('datezone', '" . $dateZone . "'),
-                            ('version', '1.7.9 RC6'),
+                            ('version', '1.7.9'),
                             ('date_install', '".$date."'),
                             ('langue', '".$this->data['lang_install']."'),
                             ('stats_share', '".$stats_share."'),
