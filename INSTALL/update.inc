@@ -371,17 +371,20 @@
                                         mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_flood\', \'60\')')or die(mysql_error());
                                     }
                                 }
-                                if ($this->data['lang_install'] == 'french'){
-                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%d/%m/%Y - %H:%M:%S\')')or die(mysql_error());
-                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'datezone\', \'1\')')or die(mysql_error());
+                                if($old_version != '1.7.9 RC6'){
+                                    // Tout sauf 1.7.9 RC6
+                                    if ($this->data['lang_install'] == 'french'){
+                                        mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%d/%m/%Y - %H:%M:%S\')')or die(mysql_error());
+                                        mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'datezone\', \'1\')')or die(mysql_error());
+                                    }
+                                    else{
+                                        mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%m/%d/%Y - %H:%M:%S\')')or die(mysql_error());
+                                        mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'datezone\', \'0\')')or die(mysql_error());
+                                    }
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'time_generate\', \'on\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'video_editeur\', \'on\')')or die(mysql_error());
+                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'scayt_editeur\', \'on\')')or die(mysql_error());
                                 }
-                                else{
-                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%m/%d/%Y - %H:%M:%S\')')or die(mysql_error());
-                                    mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'datezone\', \'0\')')or die(mysql_error());
-                                }
-                                mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'time_generate\', \'on\')')or die(mysql_error());
-                                mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'video_editeur\', \'on\')')or die(mysql_error());
-                                mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'scayt_editeur\', \'on\')')or die(mysql_error());
                             }
                             echo 'OK';
         break;
