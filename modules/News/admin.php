@@ -291,7 +291,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</div></div>\n"
 		   . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_edit&amp;news_id=" . $news_id . "\" onsubmit=\"backslash('news_texte');backslash('news_suite');\">\n"
 		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-		   . "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . $titre . "\" /></td></tr>\n"
+		   . "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . printSecuTags($titre) . "\" /></td></tr>\n"
 		   . "<tr><td align=\"center\"><b>" . _PUBLISH . "&nbsp;" . _THE ." :</b>&nbsp;<select id=\"news_jour\" name=\"jour\">\n";
 
 		$day = 1;
