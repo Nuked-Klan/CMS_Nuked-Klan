@@ -125,7 +125,7 @@ function index(){
 						
 						if ($mois == $thismonth){
 							$this->month_data[$jour]['id'][] = $amp['user_id'];
-							$this->month_data[$jour]['event_title'][] = "<span title=\"" . _BIRTHDAY . "&nbsp;" . $pseudo . "\">" ._BIRTHDAY . "</span>";
+							$this->month_data[$jour]['event_title'][] = "<span title=\"" . _BIRTHDAY . "&nbsp;" . $amp['pseudo'] . "\">" ._BIRTHDAY . "</span>";
 							$this->month_data[$jour]['event_type'][] = "birthday";
 						}
 					}
@@ -395,8 +395,6 @@ function show_event(){
 		if (!empty($report)) echo "</td></tr><tr><td>&nbsp;</td></tr><tr><td><b>" . _COMMENT . " : </b><br />" . $report;
 		
 		echo "</td></tr><tr><td>&nbsp;</td></tr>\n";
-		
-		$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos[$i] . "'");
 		
 		if($user && $etat != 1){
 			$sql_dispo = mysql_query("SELECT team FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
