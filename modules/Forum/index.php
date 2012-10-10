@@ -906,7 +906,25 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         $sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
-
+          $SQL = "SELECT thread_id, forum_id, user_id FROM " . FORUM_READ_TABLE . "  WHERE thread_id LIKE '%," . (int) $_REQUEST['thread_id'] . ",%' OR forum_id LIKE '%," . (int) $_REQUEST['forum_id'] . ",%' ";
+          $req = mysql_query($SQL);
+          $update = "";
+          while ($results = mysql_fetch_assoc($req)) {
+               $tid = $results['thread_id'];
+               $fid = $results['forum_id'];
+               if (strrpos($fid, ',' . $_REQUEST['forum_id'] . ',') !== false) {
+                    $fid = preg_replace("#," . $_REQUEST['forum_id'] . ",#is", ",", $fid);
+               }
+               if (strrpos($tid, ',' . $_REQUEST['thread_id'] . ',') !== false) {
+                    $tid = preg_replace("#," . $_REQUEST['thread_id'] . ",#is", ",", $tid);
+               }
+               $update .= (!empty($update) ? ', ' : '');
+               $update .= "('" . $fid . "', '" . $tid . "', '" . $results['user_id'] . "')";
+          }
+          if (!empty($update)) {
+               $update = "INSERT INTO `" . FORUM_READ_TABLE . "` (forum_id, thread_id, user_id) VALUES $update ON DUPLICATE KEY UPDATE forum_id=VALUES(forum_id), thread_id=VALUES(thread_id);";
+               mysql_query($update) or die(mysql_error());
+          }
         if ($user)
         {
             $sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
