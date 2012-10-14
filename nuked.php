@@ -547,6 +547,8 @@ function secu_args($matches){
         ),
         'td' => array(
             'style',
+            'colspan',
+            'rowspan'
         ),
         'th' => array(
             'scope',
