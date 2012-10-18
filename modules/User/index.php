@@ -1145,7 +1145,7 @@ function login($pseudo, $pass, $remember_me){
 
                 if (!empty($referer) && !strpos($referer, 'User&op=reg')){
                     list($url_ref, $redirect) = explode('?', $referer);
-                    if(!empty($redirect)) $redirect = '&referer=' . base64_encode($redirect);
+                    if(!empty($redirect)) $redirect = '&referer=' . urlencode($redirect);
                 }
                 else $redirect = '';
 
@@ -1193,7 +1193,7 @@ function login_message(){
         $test_cookie = "";
     }
 
-    $referer = base64_decode($_REQUEST['referer']);
+    $referer = urldecode($_REQUEST['referer']);
     $referer = str_replace('&amp;', '&', $referer); 
 
     if (!empty($referer) && !stripos($referer, 'User&op=reg')){
