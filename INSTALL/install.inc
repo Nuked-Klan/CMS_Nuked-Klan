@@ -784,6 +784,12 @@
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
+
+                        if(ini_get('suhosin.session.encrypt') == 1){
+                          $sql = "INSERT INTO `" . $db_prefix . "_notification` VALUES
+                              ('', '', '4', '"._SUHOSIN."');";
+                          $req = mysql_query($sql) or die (mysql_error());
+                        }
                         echo 'OK';
         break;
         case'recrute':
