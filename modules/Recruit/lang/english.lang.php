@@ -5,6 +5,7 @@ define("_IDESAGREE","I disagree");
 define("_NONICK","Please enter your nick!");
 define("_NOLASTNAME","Please enter your first name!");
 define("_NOAGE","Please enter your age!");
+define("_BADAGE","Age is invalid. Please enter a number !");
 define("_BADMAIL","Email address is invalid!");
 define("_NOICQ","Please enter your instant messenger address!");
 define("_NOCITY","Please enter your city!");

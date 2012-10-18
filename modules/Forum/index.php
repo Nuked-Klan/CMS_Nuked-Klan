@@ -341,7 +341,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     // Liste des utilisateurs
                     $userTMP = array();
                     while ($data = mysql_fetch_assoc($req)) {
-                         $userTMP['user_id'] = array('forum_id' => $data['forum_id'], 'thread_id' => $data['thread_id']);
+                         $userTMP[$data['user_id']] = array('forum_id' => $data['forum_id'], 'thread_id' => $data['thread_id']);
                     }
                     // Vieux forum
                     $oldTMP = array();
@@ -370,15 +370,16 @@ if ($visiteur >= $level_access && $level_access > -1)
                               // Si au moins un post n'est pas lu
                               if (strrpos($member['thread_id'], ',' . $old . ',') === false)
                                    $read = false;
-            }
+                         }
+                         
                          // Si ils sont tous lu, et que le forum est pas dans la liste on le rajoute
-                         if ($read === true && strrpos($member['forum_id'], ',' . $_REQUEST['forum_id'] . ', ') === false) {
+                         if ($read === true && strrpos($member['forum_id'], ',' . $_REQUEST['forum_id'] . ',') === false) {
                               // Nouvelle liste des forums
                               $fid = $member['forum_id'] . $_REQUEST['forum_id'] . ',';
-                              // Si aucun n'update n'a eu lieu avant
-                              $update .= (!empty($update) ? ' JOIN ' : '');
-                              $update .= "UPDATE " . FORUM_READ_TABLE . " SET forum_id = '" . $fid . "' WHERE user_id = '" . $key . "';";
-                         }
+                              // Si aucun update n'a eu lieu avant
+                              $update .= (!empty($update) ? ', ':'');
+                              $update .= "('" . $fid . "', '" . $key . "')";
+                              }
 
                          // On part du fait que tout les posts sont lu
                          $read = true;
@@ -393,13 +394,16 @@ if ($visiteur >= $level_access && $level_access > -1)
                               // Nouvelle liste des forums
                               $fid = preg_replace("#," . $_REQUEST['newforum'] . ",#is", ",", $fid);
                               // Si aucun n'update n'a eu lieu avant
-                              $update .= (!empty($update) ? ' JOIN ' : '');
-                              $update .= "UPDATE " . FORUM_READ_TABLE . " SET forum_id = '" . $fid . "' WHERE user_id = '" . $key . "';";
+                              $update .= (!empty($update) ? ', ':'');
+                              $update .= "('" . $fid . "', '" . $key . "')";
                          }
                          
                     }
-
-                    mysql_query($update);
+                    
+                    if(!empty($update)){
+                         $update = "INSERT INTO `" . FORUM_READ_TABLE . "` (forum_id, user_id) VALUES $update ON DUPLICATE KEY UPDATE forum_id=VALUES(forum_id);";
+                         mysql_query($update) or die(mysql_error());
+                    }
 
                     $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['newforum'] . "&thread_id=" . (int) $_REQUEST['thread_id'];
                     redirect($url, 2);
@@ -700,11 +704,13 @@ if ($visiteur >= $level_access && $level_access > -1)
                if (strrpos($tid, ',' . $_REQUEST['thread_id'] . ',') !== false) {
                     $tid = preg_replace("#," . $_REQUEST['thread_id'] . ",#is", ",", $tid);
                }
-               $update .= (!empty($update) ? ' JOIN ' : '' );
-               $update .= "UPDATE " . FORUM_READ_TABLE . " SET forum_id = '" . $fid . "', thread_id = '" . $tid . "' WHERE user_id = '" . $results['user_id'] . "'";
+                              $update .= (!empty($update) ? ', ':'');
+                              $update .= "('" . $fid . "', '" . $tid ."', '" . $results['user_id'] . "')";
           }
-
-          mysql_query($update);
+          if(!empty($update)){
+               $update = "INSERT INTO `" . FORUM_READ_TABLE . "` (forum_id, thread_id, user_id) VALUES $update ON DUPLICATE KEY UPDATE forum_id=VALUES(forum_id), thread_id=VALUES(thread_id);";
+               mysql_query($update) or die(mysql_error());
+          }
 
           mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . (int) $_REQUEST['thread_id'] . "' , '" . (int) $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
 

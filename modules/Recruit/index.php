@@ -40,7 +40,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
 				echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
 				. "<tr><td align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr>\n"
-				. "<tr><td>&nbsp;</td></tr><tr><td>" . $nuked['recrute_charte'] . "</td></tr></table>\n"
+				. "<tr><td>&nbsp;</td></tr><tr><td>" . html_entity_decode($nuked['recrute_charte']) . "</td></tr></table>\n"
 				. "<form method=\"post\" action=\"index.php?file=Recruit\">\n"
 				. "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
 				. "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
@@ -77,6 +77,12 @@ if ($visiteur >= $level_access && $level_access > -1)
 			. "if (document.getElementById('recruit_age').value.length == 0)\n"
 			. "{\n"
 			. "alert('" . _NOAGE . "');\n"
+			. "return false;\n"
+			. "}\n"
+			."\n"
+			. "if (isNaN(document.getElementById('recruit_age').value))\n"
+			. "{\n"
+			. "alert('" . _BADAGE . "');\n"
 			. "return false;\n"
 			. "}\n"
 			."\n"
@@ -189,6 +195,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 				footer();
 				exit();
             }
+            
+            if (!is_numeric($age)) {
+                echo "<br /><br /><div style=\"text-align: center;\">" . _BADAGE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+				closetable();
+				footer();
+				exit();
+            }
 
             $inbox = $nuked['recrute_inbox'];
             $email = $nuked['recrute_mail'];
@@ -199,7 +212,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $prenom = mysql_real_escape_string(stripslashes($prenom));
-            $age = mysql_real_escape_string(stripslashes($age));
+            $age = intval($age);
             $mail = mysql_real_escape_string(stripslashes($mail));
             $icq = mysql_real_escape_string(stripslashes($icq));
             $country = mysql_real_escape_string(stripslashes($country));
@@ -210,7 +223,6 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             $pseudo = htmlentities($pseudo);
             $prenom = htmlentities($prenom);
-            $age = htmlentities($age);
             $mail = htmlentities($mail);
             $icq = htmlentities($icq);
             $country = htmlentities($country);
