@@ -1194,6 +1194,7 @@ function login_message(){
     }
 
     $referer = base64_decode($_REQUEST['referer']);
+    $referer = str_replace('&amp;', '&', $referer); 
 
     if (!empty($referer) && !stripos($referer, 'User&op=reg')){
         $url = "index.php?" . $referer;
