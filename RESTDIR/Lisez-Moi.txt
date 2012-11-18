@@ -14,9 +14,9 @@
    3. Lancer l'installation en tapant dans la barre d'adresse internet : http:/
       /www.votresite.com/INSTALL/ (remplacer "votresite.com" par votre
       adresse web)
-   4. Selectionner la langue puis cliquer sur « Valider »
+   4. Sélectionner la langue puis cliquer sur « Valider »
    5. Choisir le mode d'installation,"installation avec assistance" (recommandé
       pour débutant) ou "installation rapide".
-Pour plus d'informations concernant votre installation, aller sur le_wiki
+Pour plus d'informations concernant votre installation, aller sur le wiki
 Nuked-Klan
-© 2001 - 2011 Nuked-KlaN
+© 2001 - 2012 Nuked-KlaN

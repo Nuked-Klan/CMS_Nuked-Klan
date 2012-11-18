@@ -17,4 +17,4 @@
    5. Choose the desired installation mode “installation with assistance”
       (recommended for novices) or “speed installation”.
 For more information about your installation, go to the NK_support_forum
-© 2001 - 2011 Nuked-KlaN
+© 2001 - 2012 Nuked-KlaN

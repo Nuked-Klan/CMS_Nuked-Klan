@@ -27,7 +27,7 @@ INSTALLATION :
 
 1 - Uploader le fichier "updateGD.php" sur votre FTP a côté de "nuked.php".
 
-2 - Lancer la mise a jour en tapant dans la barre d'adresse de votre navigateur :
+2 - Lancer la mise à jour en tapant dans la barre d'adresse de votre navigateur :
    http://www.yoursite.com/updateGD.php
 
 *****************************************************************************************************************
