@@ -460,7 +460,6 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         global $nuked, $user;
         
         $titre = mysql_real_escape_string(stripslashes($titre));
-        die($titre);
         
         if (empty($titre)){
             echo "<div class=\"notification error png_bg\">\n"
