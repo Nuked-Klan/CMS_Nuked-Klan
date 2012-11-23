@@ -117,7 +117,7 @@ function maFonctionAjax(auteur,texte,code)
 		}
 	}
   }
-
+  	texte = texte.replace("+","%2B");
 	OAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=iso-8859-1');
 	OAjax.send('auteur='+auteur+'&texte='+texte+'&code_confirm='+code+'');
 	return true;
