@@ -94,9 +94,9 @@ if ($visiteur == 9)
         $tot_data = 0;
         $tot_idx = 0;
         $tot_all = 0;
-        $local_query = "SHOW TABLE STATUS FROM " . $global['db_name'];
+        $local_query = 'SHOW TABLE STATUS FROM `' . $global['db_name'] . '`';
         $result = mysql_query($local_query);
-        if (mysql_num_rows($result))
+        if (is_resource($result) && mysql_num_rows($result))
         {
             while ($row = mysql_fetch_array($result))
             {
