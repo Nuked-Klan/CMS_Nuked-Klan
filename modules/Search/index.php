@@ -34,11 +34,11 @@ function index(){
 			. "<table style=\"background: " . $bgcolor3 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
 			. "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" align=\"center\"><big><b>" . _SEARCHFOR . "</b></big></td></tr>\n"
 			. "<tr style=\"background: " . $bgcolor2 . ";\"><td><b>" . _KEYWORDS . " :</b></td>\n"
-			. "<td>&nbsp;<input type=\"text\" name=\"main\" size=\"30\" value=\"" . htmlentities($_REQUEST['main']) . "\" /><br />\n"
+			. "<td>&nbsp;<input type=\"text\" name=\"main\" size=\"30\" value=\"" . printSecuTags($_REQUEST['main']) . "\" /><br />\n"
 			. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchor\" " . $checked1 . " />" . _MATCHOR . "<br />\n"
 			. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchand\" " . $checked2 . " />" . _MATCHAND . "<br />\n"
 			. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchexact\" " . $checked3 . " />" . _MATCHEXACT . "</td></tr>\n"
-			. "<tr style=\"background: " . $bgcolor2 . ";\"><td><b>" . _AUTHOR . " :</b></td><td>&nbsp;<input type=\"text\" size=\"30\" id=\"autor\" name=\"autor\"  value=\"" . htmlentities($_REQUEST['autor']) . "\" /></td></tr>\n"
+			. "<tr style=\"background: " . $bgcolor2 . ";\"><td><b>" . _AUTHOR . " :</b></td><td>&nbsp;<input type=\"text\" size=\"30\" id=\"autor\" name=\"autor\"  value=\"" . printSecuTags($_REQUEST['autor']) . "\" /></td></tr>\n"
 			. "<tr style=\"background: " . $bgcolor2 . ";\"><td><b>" . _COLUMN . " :</b> </td><td>&nbsp;<select name=\"module\"><option value=\"\">" . _SALL . "</option>\n";
 
     $path = "modules/Search/rubriques/";
