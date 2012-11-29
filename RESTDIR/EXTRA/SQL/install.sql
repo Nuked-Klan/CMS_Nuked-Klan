@@ -88,7 +88,7 @@ INSERT INTO `nuked_block` (`bid`, `active`, `position`, `module`, `titre`, `cont
 (8, 0, 0, 'Server', 'Serveur monitor', '', 'module', 0, 'Tous'),
 (9, 0, 0, '', 'Suggestion', '', 'suggest', 1, 'Tous'),
 (10, 0, 0, 'Textbox', 'Tribune libre', '', 'module', 0, 'Tous'),
-(11, 1, 4, '', 'Partenaires', '<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="http://www.nitroserv.com/images/logo_88x31.jpg" alt="" title="Location de serveurs de jeux" /></a></div>', 'html', 0, 'Tous');
+(11, 1, 4, '', 'Partenaires', '<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="Location de serveurs de jeux" /></a></div>', 'html', 0, 'Tous');
 
 -- --------------------------------------------------------
 
