@@ -112,7 +112,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $prev = "<small>&lt; <a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $lastid . "\">" . _LASTTHREAD . "</a>&nbsp;</small>";
         } 
 
-        echo "<br /><a name=\"top\"></a><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
+        echo "<br /><a name=\"top\"></a><table width=\"100%\" id=\"Forum\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
         . "<tr><td><big><b>" . $titre . "</b></big></td><td align=\"right\">" . $prev . "&nbsp;" . $next . "</td></tr>\n"
         . "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;cat=" . $cat . "\"><b>" . $cat_name . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><b>" . $nom . "</b></a>\n";
 
@@ -543,19 +543,6 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td></tr></table>\n";
 
-    echo '<script type="text/javascript">
-            <!--
-                var Img = document.getElementById("img_resize_forum").getElementsByTagName("img");
-                var NbrImg = Img.length;
-                for(var i = 0; i < NbrImg; i++){
-                    if (Img[i].width > MaxWidth){
-                        Img[i].style.height = Img[i].height * MaxWidth / Img[i].width+"px";
-                        Img[i].style.width = MaxWidth+"px";
-                    }
-                }
-            -->
-        </script>';
-
         if ($visiteur >= admin_mod("Forum") || $administrator == 1)
         {
             echo "<br /><a href=\"index.php?file=Forum&amp;op=del_topic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $_REQUEST['thread_id'] . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/topic_delete.gif\" alt=\"\" title=\"" . _TOPICDEL . "\" /></a>"
@@ -580,7 +567,20 @@ if ($visiteur >= $level_access && $level_access > -1)
             } 
         }
 
-        echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('forum-table').offsetWidth - 40;\n</script>\n";
+        echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('Forum').offsetWidth - 40;\n</script>\n";
+
+        echo '<script type="text/javascript">
+            <!--
+                var Img = document.getElementById("img_resize_forum").getElementsByTagName("img");
+                var NbrImg = Img.length;
+                for(var i = 0; i < NbrImg; i++){
+                    if (Img[i].width > MaxWidth){
+                        Img[i].style.height = Img[i].height * MaxWidth / Img[i].width+"px";
+                        Img[i].style.width = MaxWidth+"px";
+                    }
+                }
+            -->
+        </script>';
     } 
 } 
 else if ($level_access == -1)
