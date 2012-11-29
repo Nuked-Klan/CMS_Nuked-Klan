@@ -567,7 +567,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             } 
         }
 
-        echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('Forum').offsetWidth - 40;\n</script>\n";
+        echo "<script type=\"text/javascript\">\nMaxWidth = document.getElementById('Forum').offsetWidth - 300;\n</script>\n";
 
         echo '<script type="text/javascript">
             <!--
