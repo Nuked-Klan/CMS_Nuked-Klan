@@ -256,7 +256,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         } 
         else
         {
-            $rquery = htmlentities($_REQUEST['query']);
+            $rquery = printSecutags($_REQUEST['query']);
             $rquery = nk_CSS($rquery);
             $rquery = stripslashes($rquery);
 
@@ -266,7 +266,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             } 
             else if ($_REQUEST['autor'] != "")
             {
-                $result = _FNOSEARCHFOUND . " <b><i>" . $_REQUEST['autor'] . "</i></b>";
+                $result = _FNOSEARCHFOUND . " <b><i>" . printSecutags($_REQUEST['autor']) . "</i></b>";
             } 
             else if ($_REQUEST['date_max'] != "" && !preg_match("`[^0-9]`i", $_REQUEST['date_max']))
             {
