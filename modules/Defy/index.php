@@ -34,7 +34,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
                     . "<tr><td align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr>\n"
-                    . "<tr><td>&nbsp;</td></tr><tr><td>" . $nuked['defie_charte'] . "</td></tr></table>\n"
+                    . "<tr><td>&nbsp;</td></tr><tr><td>" . html_entity_decode($nuked['defie_charte']) . "</td></tr></table>\n"
                     . "<form method=\"post\" action=\"index.php?file=Defy\">\n"
                     . "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
                     . "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
