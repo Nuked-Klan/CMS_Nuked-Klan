@@ -1121,7 +1121,7 @@ function send_stats_nk() {
      <script type="text/javascript">
           if ( typeof jQuery == 'undefined' )
                {
-                    document.write('<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>');
+                    document.write('<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>');
                }
      </script>
             <script type="text/javascript">
