@@ -863,17 +863,16 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     function do_prune($day, $forum_id)
     {
         global $nuked, $user;
-
         
         $sql_forum = mysql_query("SELECT nom FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
         list($nom) = mysql_fetch_array($sql_forum);
         
         $prunedate = time() - (86400 * $day);
-
-        if (strpos("cat_", $forum_id))
+        
+        if (is_int(strpos($forum_id, "cat_")))
         {
-                $cat = preg_replace("`cat_`i", "", $forum_id);
-                $and = "AND cat = '" . $cat . "'";
+            $cat = preg_replace("`cat_`i", "", $forum_id);
+            $and = "AND cat = '" . $cat . "'";
         }
         else if ($forum_id != "")
         {
@@ -881,9 +880,9 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
         else
         {
-                $and = "";
+            $and = "";
         }
-
+        
         $sql = mysql_query("SELECT id, sondage FROM " . FORUM_THREADS_TABLE . " WHERE " . $prunedate . " >= last_post AND annonce = 0 " . $and);
         while (list($thread_id, $sondage) = mysql_fetch_row($sql))
         {
