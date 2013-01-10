@@ -14,6 +14,8 @@ if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 define("_NKCAPTCHA","auto");
 if (isset($_SESSION['captcha']))
 	$GLOBALS['nkCaptchaCache'] = $_SESSION['captcha'];
+else
+	$GLOBALS['nkCaptchaCache'] = uniqid();
 
 require_once (dirname(__FILE__) . '/hash.php');
 
