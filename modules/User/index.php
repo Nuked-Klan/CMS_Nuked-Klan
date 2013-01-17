@@ -886,6 +886,13 @@ function login_screen(){
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     global $nuked, $captcha, $cookie_forum, $user_ip;
 
+    // Vérification de l'ouverture des inscriptions
+    if($nuked['inscription'] == 'off'){
+        echo "<br /><br /><div style=\"text-align: center;\">" . _REGISTRATIONCLOSE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />\n";
+        closetable();
+        footer();
+        exit();
+    }
     // Verification code captcha
     if (!ValidCaptchaCode($_REQUEST['code_confirm'])){
         echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
