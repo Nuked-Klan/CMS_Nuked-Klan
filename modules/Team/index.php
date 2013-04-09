@@ -208,7 +208,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        $autor = nkHtmlEntities($autor, ENT_QUOTES);
+        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1');
 
         $sql = mysql_query("SELECT id, icq, msn, aim, yim, email, url, game, country FROM " . USER_TABLE . " WHERE pseudo = '" . $autor . "'");
         $test = mysql_num_rows($sql);

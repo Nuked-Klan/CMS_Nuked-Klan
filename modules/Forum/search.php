@@ -91,13 +91,13 @@ if ($visiteur >= $level_access && $level_access > -1)
             if ($_REQUEST['autor'] != "" && $_REQUEST['query'] != "")
             { 
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
-                $_REQUEST['autor'] = nkHtmlEntities($_REQUEST['autor'], ENT_QUOTES);
+                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%') AND ";
             }
             else if ($_REQUEST['autor'] != "")
             { 
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
-                $_REQUEST['autor'] = nkHtmlEntities($_REQUEST['autor'], ENT_QUOTES);
+                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%')";
             }
 

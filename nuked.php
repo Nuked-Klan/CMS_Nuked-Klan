@@ -15,7 +15,7 @@ connect();
 // QUERY NUKED CONFIG_TABLE.
 $nuked = array();
 $sql_conf = initializeControlDB($db_prefix);
-while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = nkHtmlEntities($row['value'], ENT_NOQUOTES);
+while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = htmlentities($row['value'], ENT_NOQUOTES, 'ISO-8859-1');
 unset($sql_conf, $row);
 
 // CONVERT ALL HTML ENTITIES TO THEIR APPLICABLE CHARACTERS
@@ -833,7 +833,7 @@ function translate($file_lang){
     ob_start();
     print eval(" include ('$file_lang'); ");
     $lang_define = ob_get_contents();
-    $lang_define = nkHtmlEntities($lang_define, ENT_NOQUOTES);
+    $lang_define = htmlentities($lang_define, ENT_NOQUOTES, 'ISO-8859-1');
     $lang_define = str_replace('&lt;', '<', $lang_define);
     $lang_define = str_replace('&gt;', '>', $lang_define);
     ob_end_clean();

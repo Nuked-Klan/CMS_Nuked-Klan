@@ -41,7 +41,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     else
     {	
     	$_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
-        $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
+        $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES, 'ISO-8859-1');
         $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
         if (mysql_result(mysql_query('SELECT COUNT(*) FROM ' . USER_TABLE . ' WHERE pseudo LIKE \'' . mysql_real_escape_string($_REQUEST['auteur']) . '\''), 0))

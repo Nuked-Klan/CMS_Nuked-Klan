@@ -231,7 +231,7 @@ function affich_block_event($blok){
                     }
                 }
 
-                $blok['content'] .= '<td style="background: ' . $bgcolor1 . ';border: 1px solid ' . $bgcolor3 . ';text-align:center;" onmouseover="AffBulle(\'&nbsp;&nbsp;&nbsp;&nbsp;' . $event_date . '&nbsp;' . $months[$this_month] . '&nbsp;' . $year . '\', \'' . nkHtmlEntities(mysql_real_escape_string($txt), ENT_NOQUOTES) . '\', 200)" onmouseout="HideBulle()">'."\n"
+                $blok['content'] .= '<td style="background: ' . $bgcolor1 . ';border: 1px solid ' . $bgcolor3 . ';text-align:center;" onmouseover="AffBulle(\'&nbsp;&nbsp;&nbsp;&nbsp;' . $event_date . '&nbsp;' . $months[$this_month] . '&nbsp;' . $year . '\', \'' . htmlentities(mysql_real_escape_string($txt), ENT_NOQUOTES, 'ISO-8859-1') . '\', 200)" onmouseout="HideBulle()">'."\n"
                 . '<a href="index.php?file=Calendar&amp;m=' . $month . '&amp;y=' . $year . '">'. $bd . $dayarray['mday'] . $bf . '</a></td>'."\n";
             }
             else{

@@ -901,7 +901,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         exit();
     }
     
-    $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
+    $pseudo = htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1');
     
     $pseudo = verif_pseudo($pseudo);
 
@@ -1258,7 +1258,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 ."<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"document.location='index.php?file=User&amp;op=edit_account'\" /></td></tr></table></form><br />\n";
     }
     else{
-        $nick = nkHtmlEntities($nick, ENT_QUOTES);
+        $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
 
         $mail = mysql_real_escape_string(stripslashes($mail));
         $mail = nkHtmlEntities($mail);

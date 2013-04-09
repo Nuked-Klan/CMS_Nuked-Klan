@@ -233,7 +233,7 @@ class HTML2PDF_parsingHtml
     {
         if ($spaces) $txt = preg_replace('/\s+/is', ' ', $txt);
         $txt = str_replace('&euro;', '€', $txt);
-        $txt = nkHtmlEntityDecode($txt, ENT_QUOTES, $this->_encoding);
+        $txt = html_entity_decode($txt, ENT_QUOTES, $this->_encoding);
         return $txt;
     }
 

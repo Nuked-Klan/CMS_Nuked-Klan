@@ -119,10 +119,10 @@ if ($visiteur >= $level_access && $level_access > -1){
         
             mail($email, $subjet, $corp, $from);
 
-            $name = nkHtmlEntities($nom, ENT_QUOTES);
-            $email = nkHtmlEntities($mail, ENT_QUOTES);
-            $subject = nkHtmlEntities($sujet, ENT_QUOTES);
-            $text = secu_html(nkHtmlEntityDecode($corps, ENT_QUOTES));
+            $name = htmlentities($nom, ENT_QUOTES, 'ISO-8859-1');
+            $email = htmlentities($mail, ENT_QUOTES, 'ISO-8859-1');
+            $subject = htmlentities($sujet, ENT_QUOTES, 'ISO-8859-1');
+            $text = secu_html(html_entity_decode($corps, ENT_QUOTES, 'ISO-8859-1'));
             if($user) $name = $user[2];
             
             $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");

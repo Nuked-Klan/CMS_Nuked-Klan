@@ -379,7 +379,7 @@ if ($visiteur == 9)
                 $ordre = 0;
             }
 
-            $nick = nkHtmlEntities($nick, ENT_QUOTES);
+            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -453,7 +453,7 @@ if ($visiteur == 9)
             } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
             
             $date = time();
-            $nick = nkHtmlEntities($nick, ENT_QUOTES);
+            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));

@@ -21,7 +21,7 @@ function affich_block_rss($blok){
 		$xml = simplexml_load_file($rssHost);	
 	
 		$title = (string) $xml->channel->title;
-		$title = nkHtmlEntities($title, ENT_QUOTES, 'UTF-8');
+		$title = htmlentities($title, ENT_QUOTES, 'UTF-8');
 		
 		if($titreactu == 'Oui') $blok['content'] .= '<h3 style="text-align:center;padding:10px 0 0 0">'.$title.'</h3>';
 
@@ -30,10 +30,10 @@ function affich_block_rss($blok){
 		$i = 0;
 		foreach ($xml->channel->item as $actu) {
 			
-			$href = nkHtmlEntities((string) $actu->link, ENT_QUOTES, 'UTF-8');
-			$titleActu = nkHtmlEntities((string) $actu->title, ENT_QUOTES, 'UTF-8');
+			$href = htmlentities((string) $actu->link, ENT_QUOTES, 'UTF-8');
+			$titleActu = htmlentities((string) $actu->title, ENT_QUOTES, 'UTF-8');
 			$description = ereg_replace("<[^>]*>", "", trim(strip_tags((string)$actu->description)));
-			$description = nkHtmlEntityDecode($description, ENT_QUOTES);
+			$description = html_entity_decode($description, ENT_QUOTES, 'ISO-8859-1');
 			$pubDate = (string) $actu->pubDate;
 			$description = (strlen($description) > 255) ? substr($description,0,255).'...' : $description;
 			$texte = $pubDate . ' : ' . $description;

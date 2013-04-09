@@ -110,7 +110,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         else
         {
             $name = verif_pseudo($name);
-            $name = nkHtmlEntities($name, ENT_QUOTES);
+            $name = htmlentities($name, ENT_QUOTES, 'ISO-8859-1');
 
             if ($name == "error1")
             {

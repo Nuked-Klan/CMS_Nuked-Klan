@@ -202,7 +202,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         opentable();
 
-        $autor = nkHtmlEntities($autor, ENT_QUOTES);
+        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1');
 
         $sql = mysql_query("SELECT U.id, U.icq, U.msn, U.aim, U.yim, U.email, U.url, U.date, U.game, U.country, S.date FROM " . USER_TABLE . " AS U LEFT OUTER JOIN " . SESSIONS_TABLE . " AS S ON U.id = S.user_id WHERE U.pseudo = '" . $autor . "'");
         $test = mysql_num_rows($sql);
@@ -377,7 +377,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 	function listing($q,$type='right',$limit=100){
 		$q	= strtolower($q);
 		$q = nk_CSS($q);
-		$q = nkHtmlEntities($q, ENT_QUOTES);	
+		$q = htmlentities($q, ENT_QUOTES, 'ISO-8859-1');	
 		if (!$q) return;
 		
 		if (!is_numeric($limit)) $limit = 0;
