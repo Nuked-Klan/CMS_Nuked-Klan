@@ -144,12 +144,14 @@ function init_cookie() {
 function session_new($userid, $remember_me) {
     global $nuked, $cookie_session, $cookie_userid, $cookie_theme, $cookie_langue, $cookie_forum, $user_ip, $timelimit, $sessionlimit, $time;
 
-    //On prend un ID de session unique
+    //On prend un ID de session unique 
+    
     do {
         $session_id = md5(uniqid());
+        $sql = mysql_query('SELECT id FROM ' . SESSIONS_TABLE . ' WHERE id = \'' . $session_id . '\'');
     }
-    while($sql = mysql_query('SELECT id FROM ' . SESSIONS_TABLE . ' WHERE id = \'' . $session_id . '\'') && mysql_num_rows($sql) != 0);
-
+    while(mysql_num_rows($sql) !== 0);
+    
     $test = init_cookie();
 
     $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET `id` = '" . $session_id . "', last_used = date, `date` =  '" . $time . "', `ip` = '" . $user_ip . "' WHERE user_id = '" . $userid . "'");
