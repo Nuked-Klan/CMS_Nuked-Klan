@@ -47,7 +47,7 @@ $nb_dl = mysql_num_rows($sql_dl);
 
 if ($nb_dl > 0){
     while (list($dl_id, $dl_titre, $dl_date) = mysql_fetch_array($sql_dl)){
-        $dl_titre = htmlentities($dl_titre);
+        $dl_titre = nkHtmlEntities($dl_titre);
         $dl_date = nkDate($dl_date);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $dl_titre . "</b> - " . _ADDED . "&nbsp;" . $dl_date;

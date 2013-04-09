@@ -379,7 +379,7 @@ if ($visiteur == 9)
                 $ordre = 0;
             }
 
-            $nick = htmlentities($nick, ENT_QUOTES);
+            $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -390,14 +390,14 @@ if ($visiteur == 9)
             $url = mysql_real_escape_string(stripslashes($url));
             $avatar = mysql_real_escape_string(stripslashes($avatar));
 
-            $signature = html_entity_decode($signature);
-            $email = htmlentities($email);
-            $icq = htmlentities($icq);
-            $msn = htmlentities($msn);
-            $aim = htmlentities($aim);
-            $yim = htmlentities($yim);
-            $url = htmlentities($url);
-            $avatar = htmlentities($avatar);
+            $signature = nkHtmlEntityDecode($signature);
+            $email = nkHtmlEntities($email);
+            $icq = nkHtmlEntities($icq);
+            $msn = nkHtmlEntities($msn);
+            $aim = nkHtmlEntities($aim);
+            $yim = nkHtmlEntities($yim);
+            $url = nkHtmlEntities($url);
+            $avatar = nkHtmlEntities($avatar);
 
             $sql = mysql_query("UPDATE " . USER_TABLE . " SET team = '" . $team . "', team2 = '" . $team2 . "', team3 = '" . $team3 . "', rang = '" . $rang . "', ordre = '" . $ordre . "', pseudo = '" . $nick . "', mail = '" . $mail . "', email = '" . $email . "', icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', url = '" . $url . "', country = '" . $country . "', niveau = '" . $niveau . "', " . $cryptpass . "game = '" . $game . "', avatar = '" . $avatar . "', signature = '" . $signature . "' WHERE id = '" . $id_user . "'");
 
@@ -453,7 +453,7 @@ if ($visiteur == 9)
             } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
             
             $date = time();
-            $nick = htmlentities($nick, ENT_QUOTES);
+            $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -464,14 +464,14 @@ if ($visiteur == 9)
             $url = mysql_real_escape_string(stripslashes($url));
             $avatar = mysql_real_escape_string(stripslashes($avatar));
 
-            $signature = html_entity_decode($signature);
-            $email = htmlentities($email);
-            $icq = htmlentities($icq);
-            $msn = htmlentities($msn);
-            $aim = htmlentities($aim);
-            $yim = htmlentities($yim);
-            $url = htmlentities($url);
-            $avatar = htmlentities($avatar);
+            $signature = nkHtmlEntityDecode($signature);
+            $email = nkHtmlEntities($email);
+            $icq = nkHtmlEntities($icq);
+            $msn = nkHtmlEntities($msn);
+            $aim = nkHtmlEntities($aim);
+            $yim = nkHtmlEntities($yim);
+            $url = nkHtmlEntities($url);
+            $avatar = nkHtmlEntities($avatar);
 
             $sql = mysql_query("INSERT INTO " . USER_TABLE . "  ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` ) VALUES ( '" . $id_user . "' , '" . $team . "' , '" . $team2 . "' , '" . $team3 . "' , '" . $rang . "' , '' , '" . $nick . "' , '" . $mail . "' , '" . $email . "' , '" . $icq . "' , '" . $msn . "' , '" . $aim . "' , '" . $yim . "' , '" . $url . "' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '" . $avatar . "' , '" . $signature . "' , '' , '' , '" . $game . "' , '" . $country . "' , '' )");
             // Action
@@ -737,7 +737,7 @@ if ($visiteur == 9)
                 {
                     $sql_game = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
                     list($game_name) = mysql_fetch_array($sql_game);
-                    $game_name = htmlentities($game_name);
+                    $game_name = nkHtmlEntities($game_name);
                 }
                 else
                 {
@@ -946,7 +946,7 @@ if ($visiteur == 9)
         {
             while (list($ip_id, $ip, $pseudo, $email) = mysql_fetch_array($sql))
             {
-                $pseudo = htmlentities($pseudo);
+                $pseudo = nkHtmlEntities($pseudo);
 
 
                 echo "<tr>\n"
@@ -1268,7 +1268,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT id, titre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
         while (list($rid, $titre) = mysql_fetch_array($sql))
         {
-            $titre = htmlentities($titre);
+            $titre = nkHtmlEntities($titre);
 
             echo "<option value=\"" . $rid . "\">" . $titre . "</option>\n";
         }
@@ -1288,9 +1288,9 @@ if ($visiteur == 9)
     $corps = $pseudo . ", " . _VALIDREGISTRATION . "\r\n" . $nuked['url'] . "/index.php?file=User&op=login_screen\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
     $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
-    $subject = @html_entity_decode($subject);
-    $corps = @html_entity_decode($corps);
-    $from = @html_entity_decode($from);
+    $subject = @nkHtmlEntityDecode($subject);
+    $corps = @nkHtmlEntityDecode($corps);
+    $from = @nkHtmlEntityDecode($from);
 
     mail($mail, $subject, $corps, $from);
 

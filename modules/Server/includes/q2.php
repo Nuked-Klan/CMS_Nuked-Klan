@@ -110,7 +110,7 @@ class q2 extends quake
 
   function htmlize($string)
   {
-    return htmlentities($this->textify($string));
+    return nkHtmlEntities($this->textify($string));
   }
 
   function textify($string)

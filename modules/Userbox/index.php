@@ -42,7 +42,7 @@ function post_message(){
 	}
 	
 	if (!empty($_REQUEST['message'])){
-		$_REQUEST['message'] = secu_html(html_entity_decode($_REQUEST['message']));
+		$_REQUEST['message'] = secu_html(nkHtmlEntityDecode($_REQUEST['message']));
 		$_REQUEST['message'] = stripslashes($_REQUEST['message']);
 		$reply = '<br /><table style="background:'.$bgcolor3.';" cellpadding="3" cellspacing="1" width="100%" border="0"><tr><td style="background: #FFF;color: #000"><b>'.$pseudo.' :</b><br />'.$_REQUEST['message'].'</td></tr></table><br />';
 	}
@@ -95,11 +95,11 @@ function send_message($titre, $user_for, $message){
 				exit();
 			}
 			
-			$message = secu_html(html_entity_decode($message));
+			$message = secu_html(nkHtmlEntityDecode($message));
 			$titre = mysql_real_escape_string(stripslashes($titre));
 			$message = mysql_real_escape_string(stripslashes($message));
 			$user_for = mysql_real_escape_string(stripslashes($user_for));
-			$titre = htmlentities($titre);
+			$titre = nkHtmlEntities($titre);
 			
 			$sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
 			echo '<br /><br /><div style="text-align:center;">'._MESSSEND.'</div><br /><br />';
@@ -132,11 +132,11 @@ function show_message($mid){
         echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
                 <tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
                 <tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.$row['titre'].'</td></tr>
-                <tr style="background:'.$bgcolor2.';"><td>'.html_entity_decode($row['message']).'</td></tr></table>
+                <tr style="background:'.$bgcolor2.';"><td>'.nkHtmlEntityDecode($row['message']).'</td></tr></table>
                 <br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
                 <div style="text-align:center;">
-                <input type="hidden" name="message" value="'.htmlentities($row['message']).'" />
-                <input type="hidden" name="titre" value="'.htmlentities($row['titre']).'" />
+                <input type="hidden" name="message" value="'.nkHtmlEntities($row['message']).'" />
+                <input type="hidden" name="titre" value="'.nkHtmlEntities($row['titre']).'" />
                 <input type="submit" value="'._REPLY.'" />&nbsp;
                 <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
                 <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';

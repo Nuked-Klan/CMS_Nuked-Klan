@@ -119,7 +119,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $sql1 = mysql_query("SELECT titre, annonce FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
             list($titre, $annonce) = mysql_fetch_array($sql1);
-            $titre = htmlentities($titre);
+            $titre = nkHtmlEntities($titre);
             $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
             $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
             $re_titre = "RE : " . $titre;

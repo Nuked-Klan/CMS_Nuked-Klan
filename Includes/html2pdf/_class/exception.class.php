@@ -99,7 +99,7 @@ class HTML2PDF_exception extends exception
 
         // add the optionnal html content
         if ($html) {
-            $this->_messageHtml.= "<br><br>HTML : ...".trim(htmlentities($html)).'...';
+            $this->_messageHtml.= "<br><br>HTML : ...".trim(nkHtmlEntities($html)).'...';
             $this->_html = $html;
             $msg.= ' HTML : ...'.trim($html).'...';
         }

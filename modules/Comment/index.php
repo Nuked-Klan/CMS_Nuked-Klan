@@ -142,7 +142,7 @@ function com_index($module, $im_id){
         while($row = mysql_fetch_assoc($sql)){
             $test = 0;
             $row['date'] = nkDate($row['date']);
-            $row['titre'] = htmlentities($row['titre']);
+            $row['titre'] = nkHtmlEntities($row['titre']);
             $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);
             $texte = (!empty($row['titre'])) ? '<b>'.$row['titre'].'</b><br /><br />'.$row['comment'] : $row['comment'];
@@ -265,7 +265,7 @@ function view_com($module, $im_id){
         while($row = mysql_fetch_assoc($sql)):
             
             $row['date'] = nkDate($row['date']);
-            $row['titre'] = htmlentities($row['titre']);
+            $row['titre'] = nkHtmlEntities($row['titre']);
             $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);
             
@@ -417,7 +417,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
             $autor_id = $user[0];
         }
         else{
-            $pseudo = htmlentities($pseudo, ENT_QUOTES);
+            $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
             $pseudo = verif_pseudo($pseudo);
             if ($pseudo == "error1"){
                 die ("<div style=\"text-align: center;\"><br /><br />" . _PSEUDOFAILDED . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
@@ -449,7 +449,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
             exit();
         }
         
-        $texte = secu_html(html_entity_decode($texte));
+        $texte = secu_html(nkHtmlEntityDecode($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = stripslashes($texte);
         $module = mysql_real_escape_string(stripslashes($module));
@@ -530,7 +530,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
     global $nuked, $user, $theme, $bgcolor2, $visiteur;
 
     $level_admin = admin_mod("Comment");
-    $texte = secu_html(html_entity_decode($texte));
+    $texte = secu_html(nkHtmlEntityDecode($texte));
     if(!verification($module,$im_id)){
         exit();
     }
@@ -585,7 +585,7 @@ function edit_comment($cid){
         $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip, module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
         list($auteur, $autor_id, $titre, $texte, $ip, $module, $im_id) = mysql_fetch_array($sql);
 
-        $titre = htmlentities($titre);
+        $titre = nkHtmlEntities($titre);
 
         if($autor_id != ""){
             $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");

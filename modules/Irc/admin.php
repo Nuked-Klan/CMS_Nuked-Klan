@@ -54,7 +54,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
             if (strlen($text) > 50){
                 $texte = substr($text, 0, 50) . "...";
-				$texte = htmlentities($texte);
+				$texte = nkHtmlEntities($texte);
             } 
             else{
                 $texte = $text;
@@ -98,7 +98,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         global $nuked, $user;
 
         $date = time();
-		$text = html_entity_decode($text);
+		$text = nkHtmlEntityDecode($text);
         $text = mysql_real_escape_string(stripslashes($text));
 
         $sql = mysql_query("INSERT INTO " . IRC_AWARDS_TABLE . " ( `id` , `text` , `date` ) VALUES ( '' , '" . $text . "' , '" . $date . "' )");
@@ -144,7 +144,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function do_edit($irc_id, $text){
         global $nuked, $user;
 
-		$text = secu_html(html_entity_decode($text));
+		$text = secu_html(nkHtmlEntityDecode($text));
         $text = mysql_real_escape_string(stripslashes($text));
 
         $upd = mysql_query("UPDATE " . IRC_AWARDS_TABLE . " SET text = '" . $text . "' WHERE id = '" . $irc_id . "'");

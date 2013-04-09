@@ -155,9 +155,9 @@ if ($visiteur >= $level_access && $level_access > -1){
             $corps = $pseudo . " " . _NEWSUBMIT . "\r\n" . $nuked['url'] . "/index.php?file=Suggest&page=admin\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
             $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
-            $subject = html_entity_decode($subject);
-            $corps = html_entity_decode($corps);
-            $from = html_entity_decode($from);
+            $subject = nkHtmlEntityDecode($subject);
+            $corps = nkHtmlEntityDecode($corps);
+            $from = nkHtmlEntityDecode($from);
 
             mail($nuked['mail'], $subject, $corps, $from);
         }

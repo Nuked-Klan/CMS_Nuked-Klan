@@ -35,7 +35,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $sql = mysql_query("SELECT auteur, texte, ip FROM " . TEXTBOX_TABLE . " WHERE id = '" . $mid . "'");
         list($pseudo, $texte, $ip) = mysql_fetch_array($sql);
-        $texte = htmlspecialchars($texte);
+        $texte = nkHtmlSpecialChars($texte);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _ADMINSHOUTBOX . "</h3>\n"

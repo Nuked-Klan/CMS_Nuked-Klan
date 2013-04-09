@@ -29,7 +29,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql = mysql_query("SELECT name, comment, email, url FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
         list($name, $comment, $email, $url) = mysql_fetch_array($sql);
 
-        $url = htmlentities($url);
+        $url = nkHtmlEntities($url);
         
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _ADMINGUESTBOOK . "</h3>\n"
@@ -52,7 +52,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-        $comment = html_entity_decode($comment);
+        $comment = nkHtmlEntityDecode($comment);
         $comment = mysql_real_escape_string(stripslashes($comment));
 
         if (!empty($url) && !is_int(stripos($url, 'http://')))

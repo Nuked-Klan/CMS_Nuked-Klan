@@ -78,7 +78,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         global $nuked, $user;
 
         $date = time();
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $webmaster = mysql_real_escape_string(stripslashes($webmaster));
@@ -199,7 +199,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function modif_link($link_id, $titre, $description, $webmaster, $country, $cat, $count, $url){
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $webmaster = mysql_real_escape_string(stripslashes($webmaster));
@@ -443,7 +443,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function send_cat($titre, $description, $parentid, $position){
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 
@@ -518,7 +518,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function modif_cat($cid, $titre, $description, $parentid, $position){
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 

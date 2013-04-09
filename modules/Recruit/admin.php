@@ -56,7 +56,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
             $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id='$game'");
             list($game_name) = mysql_fetch_array($sql2);
-            $game_name = htmlentities($game_name);
+            $game_name = nkHtmlEntities($game_name);
 
 
             echo "<tr>\n"
@@ -131,7 +131,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-		$recrute_charte = html_entity_decode($recrute_charte);
+		$recrute_charte = nkHtmlEntityDecode($recrute_charte);
         $recrute_charte = mysql_real_escape_string(stripslashes($recrute_charte));
 
         $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute . "' WHERE name = 'recrute'");
@@ -180,7 +180,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
         list($game_name) = mysql_fetch_array($sql2);
-        $game_name = htmlentities($game_name);
+        $game_name = nkHtmlEntities($game_name);
 
         echo "<b>" . _NICK . " : </b>" . $pseudo . "<br />\n"
 	. "<b>" . _FIRSTNAME . " : </b>" . $prenom . "<br />\n"

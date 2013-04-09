@@ -224,7 +224,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             redirect("index.php?file=Sections&page=admin&op=add", 4);
         }
         else {
-            $texte = html_entity_decode($texte);
+            $texte = nkHtmlEntityDecode($texte);
             $texte = mysql_real_escape_string(stripslashes($texte));
             $date = time();
             $auteur = $user[2];
@@ -310,7 +310,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             redirect("index.php?file=Sections&page=admin&op=add", 4);
         }
         else{
-            $texte = html_entity_decode($texte);
+            $texte = nkHtmlEntityDecode($texte);
             $texte = mysql_real_escape_string(stripslashes($texte));
         
             $upd = mysql_query("UPDATE " . SECTIONS_TABLE . " SET secid = '" . $cat . "', title = '" . $titre . "', content = '" . $texte . "' WHERE artid = '" . $art_id . "'");
@@ -471,7 +471,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
         }
         else{
-            $description = html_entity_decode($description);
+            $description = nkHtmlEntityDecode($description);
             $description = mysql_real_escape_string(stripslashes($description));
             $position = intval($position);
         
@@ -560,7 +560,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
         }
         else{
-            $description = html_entity_decode($description);
+            $description = nkHtmlEntityDecode($description);
             $description = mysql_real_escape_string(stripslashes($description));
             $position = intval($position);
         

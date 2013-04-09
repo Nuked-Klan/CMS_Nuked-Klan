@@ -21,7 +21,7 @@ function affich_block_rss($blok){
 		$xml = simplexml_load_file($rssHost);	
 	
 		$title = (string) $xml->channel->title;
-		$title = htmlentities($title, ENT_QUOTES, 'UTF-8');
+		$title = nkHtmlEntities($title, ENT_QUOTES, 'UTF-8');
 		
 		if($titreactu == 'Oui') $blok['content'] .= '<h3 style="text-align:center;padding:10px 0 0 0">'.$title.'</h3>';
 
@@ -30,21 +30,21 @@ function affich_block_rss($blok){
 		$i = 0;
 		foreach ($xml->channel->item as $actu) {
 			
-			$href = htmlentities((string) $actu->link, ENT_QUOTES, 'UTF-8');
-			$titleActu = htmlentities((string) $actu->title, ENT_QUOTES, 'UTF-8');
+			$href = nkHtmlEntities((string) $actu->link, ENT_QUOTES, 'UTF-8');
+			$titleActu = nkHtmlEntities((string) $actu->title, ENT_QUOTES, 'UTF-8');
 			$description = ereg_replace("<[^>]*>", "", trim(strip_tags((string)$actu->description)));
-			$description = html_entity_decode($description, ENT_QUOTES);
+			$description = nkHtmlEntityDecode($description, ENT_QUOTES);
 			$pubDate = (string) $actu->pubDate;
 			$description = (strlen($description) > 255) ? substr($description,0,255).'...' : $description;
 			$texte = $pubDate . ' : ' . $description;
 			
 			if ($blok['active'] == 3 or $blok['active'] == 4) {
 				
-				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.htmlentities(utf8_decode($description)).'">'.utf8_decode($titleActu).'</a> ( '.$pubDate.' )</li>';
+				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.nkHtmlEntities(utf8_decode($description)).'">'.utf8_decode($titleActu).'</a> ( '.$pubDate.' )</li>';
 				
 			} else {
 				
-				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.htmlentities(utf8_decode($texte)).'">'.utf8_decode($titleActu).'</a></li>';
+				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.nkHtmlEntities(utf8_decode($texte)).'">'.utf8_decode($titleActu).'</a></li>';
 				
 			}
 			

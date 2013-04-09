@@ -140,7 +140,7 @@ class savage extends gsQuery
   //strips color codes
   function htmlize($var)
   {
-    $var = htmlspecialchars($var);
+    $var = nkHtmlSpecialChars($var);
     while(preg_match('`\^([0-9][0-9][0-9])`', $var)) {
       $var = preg_replace("#\^([0-9][0-9][0-9])(.*)$#Usi", "$2", $var);
     }

@@ -110,7 +110,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         else
         {
             $name = verif_pseudo($name);
-            $name = htmlentities($name, ENT_QUOTES);
+            $name = nkHtmlEntities($name, ENT_QUOTES);
 
             if ($name == "error1")
             {
@@ -142,7 +142,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
         }
 
-        $email = htmlentities($email);
+        $email = nkHtmlEntities($email);
         $sql3 = mysql_query("SELECT email FROM " . BANNED_TABLE . " WHERE email = '" . $email . "'");
         $nb_ban = mysql_num_rows($sql3);
 
@@ -173,7 +173,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         else if ($comment != "")
         {
             $date = time();
-            $comment = secu_html(html_entity_decode($comment));
+            $comment = secu_html(nkHtmlEntityDecode($comment));
             $comment = mysql_real_escape_string(stripslashes($comment));
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -230,7 +230,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $date = nkDate($date);
 
-            $url = htmlentities($url);
+            $url = nkHtmlEntities($url);
 
             $url = nk_CSS($url);
             $email = nk_CSS($email);

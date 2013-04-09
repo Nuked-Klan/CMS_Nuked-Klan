@@ -48,7 +48,7 @@ $nb_mess = mysql_num_rows($sql_forum);
 if ($nb_mess > 0){
     while (list($mid, $tid, $subject, $fid, $mess_date, $author) = mysql_fetch_array($sql_forum)){
         $mess_date = nkDate($mess_date);
-        $subject = htmlentities($subject);
+        $subject = nkHtmlEntities($subject);
         $subject = nk_CSS($subject);
 
         $sql_page = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $tid . "'");

@@ -34,7 +34,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
                     . "<tr><td align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr>\n"
-                    . "<tr><td>&nbsp;</td></tr><tr><td>" . html_entity_decode($nuked['defie_charte']) . "</td></tr></table>\n"
+                    . "<tr><td>&nbsp;</td></tr><tr><td>" . nkHtmlEntityDecode($nuked['defie_charte']) . "</td></tr></table>\n"
                     . "<form method=\"post\" action=\"index.php?file=Defy\">\n"
                     . "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
                     . "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
@@ -167,7 +167,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         $inbox = $nuked['defie_inbox'];
         $time = time();
         $date2 = nkDate($time);
-        $comment = secu_html(html_entity_decode($comment));
+        $comment = secu_html(nkHtmlEntityDecode($comment));
         
         $pseudo = mysql_real_escape_string(stripslashes($pseudo));
         $clan = mysql_real_escape_string(stripslashes($clan));
@@ -186,15 +186,15 @@ if ($visiteur >= $level_access && $level_access > -1){
         
         $pseudo = printSecuTags($pseudo);
         $clan = printSecuTags($clan);
-        $country = htmlentities($country);
-        $mail = htmlentities($mail);
-        $icq = htmlentities($icq);
-        $irc = htmlentities($irc);
-        $url = htmlentities($url);
-        $date = htmlentities($date);
-        $heure = htmlentities($heure);
+        $country = nkHtmlEntities($country);
+        $mail = nkHtmlEntities($mail);
+        $icq = nkHtmlEntities($icq);
+        $irc = nkHtmlEntities($irc);
+        $url = nkHtmlEntities($url);
+        $date = nkHtmlEntities($date);
+        $heure = nkHtmlEntities($heure);
         $game = printSecuTags($game);
-        $serveur = htmlentities($serveur);
+        $serveur = nkHtmlEntities($serveur);
         $type = printSecuTags($type);
         $map = printSecuTags($map);
 
@@ -205,9 +205,9 @@ if ($visiteur >= $level_access && $level_access > -1){
         $corps = $pseudo . " " . _NEWDEFY . "\r\n" . $nuked['url'] . "/index.php?file=Defy&page=admin\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
 
-        $subject = @html_entity_decode($subject);
-        $corps = @html_entity_decode($corps);
-        $from = @html_entity_decode($from);
+        $subject = @nkHtmlEntityDecode($subject);
+        $corps = @nkHtmlEntityDecode($corps);
+        $from = @nkHtmlEntityDecode($from);
 
         if (!empty($email)){
             @mail($email, $subject, $corps, $from);

@@ -80,7 +80,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $edition = "";
             }
 
-            $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+            $_REQUEST['texte'] = secu_html(nkHtmlEntityDecode($_REQUEST['texte']));
             $_REQUEST['texte'] = icon($_REQUEST['texte']);
             $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
             $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
@@ -615,7 +615,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else
         {
-            $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES);
+            $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
             $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
             if ($_REQUEST['auteur'] == "error1")
@@ -662,7 +662,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             exit();
         }
 
-        $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+        $_REQUEST['texte'] = secu_html(nkHtmlEntityDecode($_REQUEST['texte']));
         $_REQUEST['texte'] = icon($_REQUEST['texte']);
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
@@ -729,9 +729,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 							$corps = _EMAILNOTIFYMAIL . "\r\n" . $nuked['url'] . "/index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
 							$from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
-							$subject = @html_entity_decode($subject);
-							$corps = @html_entity_decode($corps);
-							$from = @html_entity_decode($from);
+							$subject = @nkHtmlEntityDecode($subject);
+							$corps = @nkHtmlEntityDecode($corps);
+							$from = @nkHtmlEntityDecode($from);
 
 							mail($email, $subject, $corps, $from);
 				}
@@ -810,7 +810,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else
         {
-            $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES);
+            $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
             $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
             if ($_REQUEST['auteur'] == "error1")
@@ -861,7 +861,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             footer();
             exit();
         }
-        $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
+        $_REQUEST['texte'] = secu_html(nkHtmlEntityDecode($_REQUEST['texte']));
         $_REQUEST['texte'] = icon($_REQUEST['texte']);
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));

@@ -118,7 +118,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
         
@@ -149,7 +149,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         $sql = mysql_query("SELECT id, titre, description, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
         list($eid, $titre, $description, $jour, $mois, $an, $heure) = mysql_fetch_array($sql);
-        $titre = htmlspecialchars($titre);
+        $titre = nkHtmlSpecialChars($titre);
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _ADMINCAL . "</h3>\n"
@@ -173,7 +173,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
         
