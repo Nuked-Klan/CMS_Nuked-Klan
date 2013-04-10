@@ -23,15 +23,15 @@ $nuked['prefix'] = $db_prefix;
 
 // FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
 function nkHtmlEntityDecode($var){
-    return nkHtmlEntityDecode($var,ENT_XHTML,'ISO-8859-1');
+    return html_entity_decode($var,ENT_XHTML,'ISO-8859-1');
 }
 
 function nkHtmlSpecialChars($var){
-    return nkHtmlSpecialChars($vars,ENT_XHTML,'ISO-8859-1');
+    return htmlspecialchars($vars,ENT_XHTML,'ISO-8859-1');
 }
 
 function nkHtmlEntities($var){
-    return nkHtmlEntities($var,ENT_XHTML,'ISO-8859-1');
+    return htmlentities($var,ENT_XHTML,'ISO-8859-1');
 }
 
 // FUNCTION TO FIX PRINTING TAGS
@@ -77,7 +77,7 @@ date_default_timezone_set($dateZone);
 function nkDate($timestamp, $blok = FALSE) {
     global $nuked, $language;
     $format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
-    // iconv pour éviter les caractères spéciaux dans la date
+    // iconv pour ?viter les caract?res sp?ciaux dans la date
     return iconv('UTF-8','ISO-8859-1',strftime($format, $timestamp));
     //return iconv('UTF-8','ISO-8859-1',utf8_encode(strftime($format, $timestamp))); // For Windows servers
 
@@ -222,7 +222,7 @@ function banip() {
     $query_ban = mysql_query('SELECT `id`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $where_query);
     $ban = mysql_fetch_assoc($query_ban);
 
-    // Si résultat positif à la recherche d'un bannissement
+    // Si r?sultat positif ? la recherche d'un bannissement
     if(mysql_num_rows($query_ban) > 0) {
         // Nouvelle adresse IP
         $banned_ip = $user_ip;
@@ -232,11 +232,11 @@ function banip() {
         // On supprime le dernier chiffre de l'adresse IP contenu dans le cookie
         $ip_dyn2 = substr($_COOKIE['ip_ban'], 0, -1);
 
-        // On vérifie l'adresse IP du cookie et l'adresse IP actuelle
+        // On v?rifie l'adresse IP du cookie et l'adresse IP actuelle
         if($ip_dyn2 == $ip_dyn) {
-            // On vérifie l'existance du bannissement
+            // On v?rifie l'existance du bannissement
             $query_ban2 = mysql_query('SELECT `id` FROM ' . BANNED_TABLE . ' WHERE (ip LIKE "%' . $ip_dyn2 . '%")');
-            // Si résultat positif, on fait un nouveau ban
+            // Si r?sultat positif, on fait un nouveau ban
             if(mysql_num_rows($query_ban2) > 0)
                 $banned_ip = $user_ip;
         }
@@ -245,16 +245,16 @@ function banip() {
         $banned_ip = '';
     }
 
-    // Suppression des banissements dépassés ou mise à jour de l'IP
+    // Suppression des banissements d?pass?s ou mise ? jour de l'IP
     if(!empty($banned_ip)) {
-        // Recherche banissement dépassé
+        // Recherche banissement d?pass?
         if($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
             // Suppression bannissement
             $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . $where_query);
             // Notification dans l'administration
             $notify = mysql_query("INSERT INTO " . NOTIFICATIONS_TABLE . " (`date` , `type` , `texte`)  VALUES ('" . time() . "', 4, '" . mysql_real_escape_string($pseudo) . mysql_real_escape_string(_BANFINISHED) . "')");
         }
-        // Sinon on met à jour l'IP
+        // Sinon on met ? jour l'IP
         else {
             $where_user = $user ? ', pseudo = "' . $user[2] . '"' : '';
             $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '"' . $where_user . ' ' . $where_query);
@@ -680,7 +680,7 @@ function secu_html($texte){
     $texte = nkHtmlSpecialChars($texte);
     $texte = str_replace('&amp;', '&', $texte);
     
-    // Balise autorisée
+    // Balise autoris?e
     $texte = preg_replace_callback('/&lt;([^ &]+)[[:blank:]]?((.(?<!&gt;))*)&gt;/', 'secu_args', $texte);
 
     preg_match_all('`<(/?)([^/ >]+)(| [^>]*([^/]))>`', $texte, $Tags, PREG_SET_ORDER);
@@ -733,8 +733,8 @@ function number($count, $each, $link){
         if ($count <= 0)     $count   = 1;
         if (empty($current)) $current = 1; // On renormalise la page courante...
         // Calcul du nombre de pages
-        $n = ceil($count / intval($each)); // on arrondit à  l'entier sup.
-        // Début de la chaine d'affichage
+        $n = ceil($count / intval($each)); // on arrondit ?  l'entier sup.
+        // D?but de la chaine d'affichage
         $output = '<b class="pgtitle">' . _PAGE . ' :</b> ';
         
         for ($i = 1; $i <= $n; $i++){
@@ -752,12 +752,12 @@ function number($count, $each, $link){
                     $output .= sprintf('...<a href="' . $link . '&amp;p=%d" title="' . _PREVIOUSPAGE . '" class="pgback">&laquo;</a> ',$current-1);
                     $first_done = true;
                 }
-                // Après la page courante
+                // Apr?s la page courante
                 elseif (!isset($last_done) && $i > $current){
                     $output .= sprintf('<a href="' . $link . '&amp;p=%d" title="' . _NEXTPAGE . '" class="pgnext">&raquo;</a>... ',$current+1);
                     $last_done = true;
                 }
-                // On a dépassé les cas qui nous intéressent : inutile de continuer
+                // On a d?pass? les cas qui nous int?ressent : inutile de continuer
                 elseif ($i > $current)
                     break;
             }
@@ -1117,7 +1117,7 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
             exit();
             break;
     }
-    /* Ne pas exécuter le gestionnaire interne de PHP */
+    /* Ne pas ex?cuter le gestionnaire interne de PHP */
     return true;
 }
 
