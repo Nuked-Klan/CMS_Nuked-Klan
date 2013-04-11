@@ -356,11 +356,15 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             echo '</small></td></tr></table>'."\n";
         }
+		
+			if (!empty($cat)) {
+				$categorie = "&amp;cat=" . $cat;
+			}
 
         if ($nb_lk > 0){
             if ($nb_lk > $nb_liens){
                 echo '<table style="margin: auto" width="90%"><tr><td>';
-                $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . '&amp;cat=' . $cat . '&amp;orderby=' . $_REQUEST['orderby'];
+                $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
                 number($nb_lk, $nb_liens, $url_page);
                 echo '</td></tr></table>'."\n";
             } 
@@ -425,10 +429,14 @@ if ($visiteur >= $level_access && $level_access > -1){
                     echo '</td></tr></table></td></tr></table><br />'."\n";
                 } 
             } 
-
+			
+            if (!empty($cat)) {
+                $categorie = "&amp;cat=" . $cat;
+            }
+		
             if ($nb_lk > $nb_liens){
                 echo '<table style="margin: auto" width="90%"><tr><td>';
-                $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . '&amp;cat=' . $cat . '&amp;orderby=' . $_REQUEST['orderby'];
+                $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
                 number($nb_lk, $nb_liens, $url_page);
                 echo '</td></tr></table>'."\n";
             } 
