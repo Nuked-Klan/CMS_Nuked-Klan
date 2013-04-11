@@ -86,7 +86,7 @@ date_default_timezone_set($dateZone);
 function nkDate($timestamp, $blok = FALSE) {
     global $nuked, $language;
     $format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
-    // iconv pour éviter les caractères spéciaux dans la date
+    // iconv pour eviter les caracteres speciaux dans la date
     return iconv('UTF-8','ISO-8859-1',strftime($format, $timestamp));
     //return iconv('UTF-8','ISO-8859-1',utf8_encode(strftime($format, $timestamp))); // For Windows servers
 
@@ -231,7 +231,7 @@ function banip() {
     $query_ban = mysql_query('SELECT `id`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $where_query);
     $ban = mysql_fetch_assoc($query_ban);
 
-    // Si résultat positif à la recherche d'un bannissement
+    // Si resultat positif a la recherche d'un bannissement
     if(mysql_num_rows($query_ban) > 0) {
         // Nouvelle adresse IP
         $banned_ip = $user_ip;
@@ -241,11 +241,11 @@ function banip() {
         // On supprime le dernier chiffre de l'adresse IP contenu dans le cookie
         $ip_dyn2 = substr($_COOKIE['ip_ban'], 0, -1);
 
-        // On vérifie l'adresse IP du cookie et l'adresse IP actuelle
+        // On verifie l'adresse IP du cookie et l'adresse IP actuelle
         if($ip_dyn2 == $ip_dyn) {
-            // On vérifie l'existance du bannissement
+            // On verifie l'existance du bannissement
             $query_ban2 = mysql_query('SELECT `id` FROM ' . BANNED_TABLE . ' WHERE (ip LIKE "%' . $ip_dyn2 . '%")');
-            // Si résultat positif, on fait un nouveau ban
+            // Si resultat positif, on fait un nouveau ban
             if(mysql_num_rows($query_ban2) > 0)
                 $banned_ip = $user_ip;
         }
@@ -254,16 +254,16 @@ function banip() {
         $banned_ip = '';
     }
 
-    // Suppression des banissements dépassés ou mise à jour de l'IP
+    // Suppression des banissements depasses ou mise a jour de l'IP
     if(!empty($banned_ip)) {
-        // Recherche banissement dépassé
+        // Recherche banissement depasse
         if($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
             // Suppression bannissement
             $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . $where_query);
             // Notification dans l'administration
             $notify = mysql_query("INSERT INTO " . NOTIFICATIONS_TABLE . " (`date` , `type` , `texte`)  VALUES ('" . time() . "', 4, '" . mysql_real_escape_string($pseudo) . mysql_real_escape_string(_BANFINISHED) . "')");
         }
-        // Sinon on met à jour l'IP
+        // Sinon on met a jour l'IP
         else {
             $where_user = $user ? ', pseudo = "' . $user[2] . '"' : '';
             $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '"' . $where_user . ' ' . $where_query);
@@ -689,7 +689,7 @@ function secu_html($texte){
     $texte = nkHtmlSpecialChars($texte);
     $texte = str_replace('&amp;', '&', $texte);
     
-    // Balise autoris?e
+    // Balise autorisee
     $texte = preg_replace_callback('/&lt;([^ &]+)[[:blank:]]?((.(?<!&gt;))*)&gt;/', 'secu_args', $texte);
 
     preg_match_all('`<(/?)([^/ >]+)(| [^>]*([^/]))>`', $texte, $Tags, PREG_SET_ORDER);
@@ -742,8 +742,8 @@ function number($count, $each, $link){
         if ($count <= 0)     $count   = 1;
         if (empty($current)) $current = 1; // On renormalise la page courante...
         // Calcul du nombre de pages
-        $n = ceil($count / intval($each)); // on arrondit à  l'entier sup.
-        // D?but de la chaine d'affichage
+        $n = ceil($count / intval($each)); // on arrondit a  l'entier sup.
+        // Debut de la chaine d'affichage
         $output = '<b class="pgtitle">' . _PAGE . ' :</b> ';
         
         for ($i = 1; $i <= $n; $i++){
@@ -761,12 +761,12 @@ function number($count, $each, $link){
                     $output .= sprintf('...<a href="' . $link . '&amp;p=%d" title="' . _PREVIOUSPAGE . '" class="pgback">&laquo;</a> ',$current-1);
                     $first_done = true;
                 }
-                // Après la page courante
+                // Apres la page courante
                 elseif (!isset($last_done) && $i > $current){
                     $output .= sprintf('<a href="' . $link . '&amp;p=%d" title="' . _NEXTPAGE . '" class="pgnext">&raquo;</a>... ',$current+1);
                     $last_done = true;
                 }
-                // On a dépassé les cas qui nous intéressent : inutile de continuer
+                // On a depasse les cas qui nous interessent : inutile de continuer
                 elseif ($i > $current)
                     break;
             }
@@ -1126,7 +1126,7 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
             exit();
             break;
     }
-    /* Ne pas exécuter le gestionnaire interne de PHP */
+    /* Ne pas executer le gestionnaire interne de PHP */
     return true;
 }
 
@@ -1143,7 +1143,7 @@ function send_stats_nk() {
      <script type="text/javascript">
           if ( typeof jQuery == 'undefined' )
                {
-                    document.write('<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>');
+                    document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
                }
      </script>
             <script type="text/javascript">
