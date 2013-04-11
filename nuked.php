@@ -36,7 +36,7 @@ function nkHtmlEntityDecode($var){
 }
 
 function nkHtmlSpecialChars($var){
-    return htmlspecialchars($vars,HTML_FLAGS,'ISO-8859-1');
+    return htmlspecialchars($var,HTML_FLAGS,'ISO-8859-1');
 }
 
 function nkHtmlEntities($var){
