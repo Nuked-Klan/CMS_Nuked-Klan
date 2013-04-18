@@ -357,9 +357,12 @@ if ($visiteur >= $level_access && $level_access > -1){
             echo '</small></td></tr></table>'."\n";
         }
 		
-			if (!empty($cat)) {
-				$categorie = "&amp;cat=" . $cat;
-			}
+        if (!empty($cat)) {
+            $categorie = '&amp;cat=' . $cat;
+        }
+        else{
+            $categorie = '';
+        }
 
         if ($nb_lk > 0){
             if ($nb_lk > $nb_liens){
@@ -431,7 +434,10 @@ if ($visiteur >= $level_access && $level_access > -1){
             } 
 			
             if (!empty($cat)) {
-                $categorie = "&amp;cat=" . $cat;
+                $categorie = '&amp;cat=' . $cat;
+            }
+            else{
+                $categorie = '';
             }
 		
             if ($nb_lk > $nb_liens){
