@@ -369,6 +369,10 @@ function ConfigSmileyCkeditor(){
 
     $donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
 
+    $TabUrl = array();
+    $TabName = array();
+    $TabCode = array();
+
     $sql = mysql_query('SELECT code, url, name FROM ' . SMILIES_TABLE . ' ORDER BY id');
     while($row = mysql_fetch_assoc($sql)){
         $TabCode[] = addslashes($row['code']);
