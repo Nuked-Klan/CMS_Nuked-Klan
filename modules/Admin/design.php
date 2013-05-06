@@ -272,18 +272,22 @@ function adminfoot(){
     
     ?>
                 <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
+                <script type="text/javascript" src="media/ckeditor/config.js"></script>
+                <script type="text/javascript" src="media/js/syntaxhighlighter/shCore.js"></script>
+                <script type="text/javascript" src="media/js/syntaxhighlighter/shAutoloader.js"></script>
+                <script type="text/javascript" src="media/js/syntaxhighlighter.autoloader.js"></script>
+                <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shCore.css"/>
+                <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shThemeDefault.css"/>
                 <script type="text/javascript">
                     //<![CDATA[
                     CKEDITOR.replaceAll( 'editor' );
-                    CKEDITOR.config.scayt_sLang = "<?php echo ($language == 'french') ? 'fr_FR' : 'en_US'; ?>";
+                    CKEDITOR.config.scayt_sLang = "<?= ($language == 'french') ? 'fr_FR' : 'en_US'; ?>";
                     <?php
                     if($_REQUEST['file'] == 'Forum' && ($_REQUEST['op'] == 'edit_forum' || $_REQUEST['op'] == 'add_forum')){
                         echo 'CKEDITOR.config.autoParagraph = false;
                         CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;';
                     }
                     echo ConfigSmileyCkeditor();
-                    $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
-                    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
                     ?>
                     //]]>
                 </script>

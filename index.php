@@ -129,16 +129,17 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') {
 
             top();
-            echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
-            , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n"
-            , '<script type="text/javascript" src="media/ckeditor/plugins/syntaxhighlight/scripts/shBrush_min.js"></script>',"\n"
-            , '<script type="text/javascript"><!--',"\n"
-            , 'document.write(\'<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shCore.css"/>\');',"\n"
-            , '--></script>',"\n"
-            , '<script type="text/javascript">',"\n"
-            , 'SyntaxHighlighter.config.clipboardSwf = \'media/ckeditor/plugins/syntaxhighlight/scripts/clipboard.swf\';',"\n"
-            , 'SyntaxHighlighter.all();',"\n"
-            , '</script>',"\n";
+            ?>
+            <script type="text/javascript" src="media/js/infobulle.js"></script>
+            <script type="text/javascript">
+                InitBulle('<?= $bgcolor2; ?>','<?= $bgcolor3; ?>', 2);
+            </script>
+            <script type="text/javascript" src="media/js/syntaxhighlighter/shCore.js"></script>
+            <script type="text/javascript" src="media/js/syntaxhighlighter/shAutoloader.js"></script>
+            <script type="text/javascript" src="media/js/syntaxhighlighter.autoloader.js"></script>
+            <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shCoreMonokai.css"/>
+            <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shThemeMonokai.css"/>
+            <?php
         }
 
         if($user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
@@ -162,38 +163,31 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     else include('modules/404/index.php');
     
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
-    echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
-    , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_basic\')){',"\n"
-    , 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
-    , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
-    echo ConfigSmileyCkeditor().'',"\n";
-    echo ' CKEDITOR.replace( \'e_basic\',',"\n"
-    , '    {',"\n"
-    , '        toolbar : \'Basic\',',"\n"
-    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
-    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
-    echo '    }); }',"\n"
-    , '//]]>',"\n"
-    , '</script>',"\n"
-    , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_advanced\')){',"\n";
-    $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
-    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';'
-    , 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
-    , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
-    echo ConfigSmileyCkeditor().'',"\n";
-    echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
-    , '    {',"\n"
-    , '        toolbar : \'Full\',',"\n"
-    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
-    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
-    echo '    }); }',"\n"
-    , '//]]>',"\n"
-    , '</script>',"\n";
-    
+        ?>
+            <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
+            <script type="text/javascript" src="media/ckeditor/config.js"></script>
+            <script type="text/javascript">
+                //<![CDATA[
+                if(document.getElementById('e_basic')){
+                    CKEDITOR.replace('e_basic',{
+                        toolbar : 'Basic',
+                        language : '<?= substr($language, 0,2) ?>',
+                        <?= !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
+                    });
+                    <?= ConfigSmileyCkeditor(); ?>
+                }
+
+                if(document.getElementById('e_advanced')){
+                    CKEDITOR.replace('e_advanced',{
+                        toolbar : 'Full',
+                        language : '<?= substr($language, 0,2) ?>',
+                        <?= !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
+                    });
+                    <?= ConfigSmileyCkeditor(); ?>
+                }
+                //]]>
+            </script>
+        <?php    
     }
 
     if (!isset($_REQUEST['nuked_nude'])){
