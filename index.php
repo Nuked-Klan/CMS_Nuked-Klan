@@ -172,19 +172,19 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                 if(document.getElementById('e_basic')){
                     CKEDITOR.replace('e_basic',{
                         toolbar : 'Basic',
-                        language : '<?= substr($language, 0,2) ?>',
-                        <?= !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
+                        language : '<?php echo substr($language, 0,2) ?>',
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
                     });
-                    <?= ConfigSmileyCkeditor(); ?>
+                    <?php echo ConfigSmileyCkeditor(); ?>
                 }
 
                 if(document.getElementById('e_advanced')){
                     CKEDITOR.replace('e_advanced',{
                         toolbar : 'Full',
-                        language : '<?= substr($language, 0,2) ?>',
-                        <?= !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
+                        language : '<?php echo substr($language, 0,2) ?>',
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
                     });
-                    <?= ConfigSmileyCkeditor(); ?>
+                    <?php echo ConfigSmileyCkeditor(); ?>
                 }
                 //]]>
             </script>
