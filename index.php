@@ -134,6 +134,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             <script type="text/javascript">
                 InitBulle('<?= $bgcolor2; ?>','<?= $bgcolor3; ?>', 2);
             </script>
+            <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
             <script type="text/javascript" src="media/js/syntaxhighlighter/shCore.js"></script>
             <script type="text/javascript" src="media/js/syntaxhighlighter/shAutoloader.js"></script>
             <script type="text/javascript" src="media/js/syntaxhighlighter.autoloader.js"></script>
@@ -161,7 +162,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         include('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php');
     }
     else include('modules/404/index.php');
-    
+
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
         ?>
             <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
@@ -187,7 +188,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                 }
                 //]]>
             </script>
-        <?php    
+        <?php
     }
 
     if (!isset($_REQUEST['nuked_nude'])){
@@ -196,7 +197,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             , '<script type="text/javascript" src="media/js/popup.js"></script>',"\n"
             , '<script type="text/javascript">popup("' , $bgcolor2 , '", "' , $bgcolor3 , '", "' , _NEWMESSAGESTART , '&nbsp;' , $user[5] , '&nbsp;' , _NEWMESSAGEEND , '", "' , _CLOSEWINDOW , '", "index.php?file=Userbox", 350, 100);</script>',"\n";
         }
-        
+
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login'){
             footer();
         }

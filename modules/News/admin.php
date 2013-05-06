@@ -340,6 +340,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		select_news_cat();
 
+        $texte = editPhpCkeditor($texte);
+
 		echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n"
 		   . "<tr><td align=\"center\"><big><b>" . _TEXT . " :</b></big></td></tr>\n"
 		   . "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\">".$texte."</textarea></td></tr>\n"
@@ -517,6 +519,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$sql = mysql_query("SELECT titre, description, image FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
 		list($titre, $description, $image) = mysql_fetch_array($sql);
+
+        $description = editPhpCkeditor($description);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"

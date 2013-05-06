@@ -187,6 +187,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         echo "</select></td></tr>\n";
 
+        $description = editPhpCkeditor($description);
+
         echo "<tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" id=\"link_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $description . "</textarea></td></tr>\n"
                 . "<tr><td><b>" . _URL . " :</b>  <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $url . "\" /></td></tr>\n"
                 . "<tr><td><b>" . _WEBMASTER . " :</b>  <input type=\"text\" name=\"webmaster\" size=\"30\" value=\"" . $webmaster . "\" /></td></tr>\n"
@@ -507,6 +509,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 echo "<option value=\"" . $catid . "\">" . $nomcat . "</option>\n";
             }
         }
+
+        $description = editPhpCkeditor($description);
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
                 . "<tr><td><b>" . _DESCR . " :</b><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"

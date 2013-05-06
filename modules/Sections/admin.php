@@ -286,6 +286,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         select_art_cat();
 
+        $texte = editPhpCkeditor($texte);
+
         echo "</select></td></tr>\n";
 
         echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" id=\"art_texte\" name=\"texte\" cols=\"70\" rows=\"15\" >" . $texte . "</textarea></td></tr>\n"
@@ -535,6 +537,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 echo "<option value=\"" . $catid . "\">" . $nomcat . "</option>\n";
             }
         }
+
+        $description = editPhpCkeditor($description);
 
         echo "</select></td></tr>\n"
                 . "<tr><td><b>" . _POSITION . " :</b> <input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"

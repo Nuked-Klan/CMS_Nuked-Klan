@@ -66,14 +66,14 @@ $language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuke
 if($language == 'french') {
     // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') setlocale (LC_ALL, 'fr_FR','fra');
-    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');    
+    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');
 }
 elseif($language == 'english') setlocale(LC_ALL, 'en_US');
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 $dateZone = getTimeZoneDateTime($nuked['datezone']);
 date_default_timezone_set($dateZone);
-    
+
 function nkDate($timestamp, $blok = FALSE) {
     global $nuked, $language;
     $format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
@@ -187,7 +187,7 @@ function connect(){
 
     $connect = mysql_select_db($global['db_name'], $db);
     mysql_query('SET NAMES "latin1"');
-        
+
     if (!$connect){
         echo '<div style="text-align: center;">' . ERROR_QUERYDB . '</div>';
         exit();
@@ -271,7 +271,7 @@ function banip() {
 // DISPLAY ALL BLOCKS
 function get_blok($side){
     global $user, $nuked;
-    
+
     if ($side == 'gauche') {
         $active = 1;
         $nuked['IsBlok'] = TRUE;
@@ -283,7 +283,7 @@ function get_blok($side){
     } else if ($side == 'bas') {
         $active = 4;
     }
-    
+
     $aff_good_bl = 'block_' . $side;
 
     $sql = mysql_query('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
@@ -336,13 +336,13 @@ function replace_smilies($matches)
 // DISPLAYS SMILEYS
 function icon($texte){
     global $nuked;
-    
+
     $texte = str_replace('mailto:', 'mailto!', $texte);
     $texte = str_replace('http://', '_http_', $texte);
     $texte = str_replace('https://', '_https_', $texte);
     $texte = str_replace('&quot;', '_QUOT_', $texte);
     $texte = str_replace('&#039;', '_SQUOT_', $texte);
-    
+
 
     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql)){
@@ -354,7 +354,7 @@ function icon($texte){
     $texte = str_replace('_https_', 'https://', $texte);
     $texte = str_replace('_QUOT_', '&quot;', $texte);
     $texte = str_replace('_SQUOT_', '&#039;', $texte);
-    
+
     // Light calculation if <pre> tag is not present in text
     if (strpos($texte, '<pre') !== false)
     {
@@ -399,7 +399,7 @@ function ConfigSmileyCkeditor(){
         $donnee .= "'$VCode'$VirguleCode";
     }
     $donnee .= '];';
-    
+
     $IName = 0;
     $CompteurName = count($TabName);
     $donnee .= 'CKEDITOR.config.smiley_titles=[';
@@ -510,6 +510,7 @@ function secu_args($matches){
             'border',
         ),
         'strong' => array(),
+        's' => array(),
         'em' => array(),
         'u' => array(),
         'strike' => array(),
@@ -624,7 +625,6 @@ function secu_args($matches){
     );
 
     $allowedTags = ($nuked['video_editeur'] == 'on') ? array_merge($allowedTags, $TabVideo) : $allowedTags;
-
     if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
         preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);
 
@@ -677,39 +677,48 @@ function secu_args($matches){
 // DISPLAY CONTENT WITH SECURITY CSS AND HTML ($texte)
 function secu_html($texte){
     global $bgcolor3, $nuked, $language;
-    
+
     // Balise HTML interdite
     $texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
     $texte = stripslashes($texte);
     $texte = nkHtmlSpecialChars($texte);
     $texte = str_replace('&amp;', '&', $texte);
-    
+    $texte = str_replace('&lt;3', htmlentities('&lt;3'), $texte);
+
     // Balise autorisee
     $texte = preg_replace_callback('/&lt;([^ &]+)[[:blank:]]?((.(?<!&gt;))*)&gt;/', 'secu_args', $texte);
-
+    $texte = str_replace('&amp;lt;3', '&lt;3', $texte);
+    $arrayOnly1Tag = array('img', 'br', 'hr');
+    $allowedTags = array(
+        'p','h1','h2','h3','h4','h5','h6','img','strong','s','em','u','strike','sub','sup','ol','ul','li','blockquote','div','br','a','table','caption','thead','tr','td','th','tbody','hr','span','big','small','tt','code','kbd','samp','var','del','ins','cite','q','pre','address'
+        );
     preg_match_all('`<(/?)([^/ >]+)(| [^>]*([^/]))>`', $texte, $Tags, PREG_SET_ORDER);
 
     $TagList = array();
     $bad = false;
     $size = count($Tags);
     for($i=0; $i<$size; $i++){
-        $TagName = $Tags[$i][3] == ''?$Tags[$i][2].$Tags[$i][4]:$Tags[$i][2];
-        if ($Tags[$i][1] == '/'){
-            $bad = $bad | array_pop($TagList) != $TagName;
-        }
-        else{
-            array_push($TagList, $TagName);
+        $TagName = $Tags[$i][3] == '' ? $Tags[$i][2].$Tags[$i][4]:$Tags[$i][2];
+        if(!in_array($TagName, $arrayOnly1Tag) && in_array($TagName, $allowedTags)){
+            if ($Tags[$i][1] == '/'){
+                $bad = $bad | array_pop($TagList) != $TagName;
+            }
+            else{
+                array_push($TagList, $TagName);
+            }
         }
     }
-
-    $bad = $bad | count($TagList) > 0;
-
+    $bad = $bad | count($TagList) > 1;
     if ($bad){
-        return(_HTMLNOCORRECT);
+        return(htmlspecialchars($texte));
     }
     else{
         return $texte;
     }
+}
+
+function editPhpCkeditor($texte){
+    return str_replace('&lt;?php', htmlentities('&lt;?php'), $texte);
 }
 
 // REDIRECT AFTER ($tps) SECONDS TO ($url)
@@ -740,7 +749,7 @@ function number($count, $each, $link){
         $n = ceil($count / intval($each)); // on arrondit a  l'entier sup.
         // Debut de la chaine d'affichage
         $output = '<b class="pgtitle">' . _PAGE . ' :</b> ';
-        
+
         for ($i = 1; $i <= $n; $i++){
             if ($i == $current){
                 $output .= sprintf('<b class="pgactuel">[%d]</b> ',$i    );
@@ -1127,13 +1136,13 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
 
 function send_stats_nk() {
 	global $nuked;
-	
+
 	if($nuked['stats_share'] == "1")
 	{
 		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
-		if($timediff >= 60) 
+		if($timediff >= 60)
 		{
-			
+
 			?>
      <script type="text/javascript">
           if ( typeof jQuery == 'undefined' )
@@ -1144,7 +1153,7 @@ function send_stats_nk() {
             <script type="text/javascript">
 			$(document).ready(function() {
 				data="nuked_nude=ajax";
-				$.ajax({url:'index.php', data:data, type: "GET", success: function(html) { 
+				$.ajax({url:'index.php', data:data, type: "GET", success: function(html) {
 				 }});
 			});
 			</script>

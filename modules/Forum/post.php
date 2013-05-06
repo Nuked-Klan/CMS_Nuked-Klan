@@ -152,6 +152,8 @@ if ($visiteur >= $level_access && $level_access > -1)
             $ftexte = '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' ' . _BY . ' ' . $author . ' :</strong><br />' . $e_txt . '</blockquote>';
         }
 
+        $ftexte = editPhpCkeditor($ftexte);
+
         if ($_REQUEST['do'] == "quote")
         {
             echo "<textarea id=\"e_advanced\" name=\"texte\" cols=\"70\" rows=\"15\">" . $ftexte . "<p></p></textarea>";
@@ -260,7 +262,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         if ($captcha == 1)
         {
                 echo "<tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _SECURITYCODE . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\"><table>";
-                
+
                 create_captcha(1);
 
                 echo "</table><br /></td></tr>\n";

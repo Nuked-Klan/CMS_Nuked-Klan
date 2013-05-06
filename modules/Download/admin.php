@@ -241,6 +241,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$upload_max_filesize = @ini_get('upload_max_filesize');
 		$file_uploads = @ini_get('file_uploads');
 
+        $description = editPhpCkeditor($description);
+
 		if ($file_uploads == 1 && $upload_max_filesize != "") {
 			list($maxfilesize) = explode('M', $upload_max_filesize);
 			$upload_status = "(" . _MAX . " : " . $maxfilesize . "&nbsp;" . _MO . ")";
@@ -815,6 +817,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 				echo "<option value=\"" . $catid . "\">" . $nomcat . "</option>\n";
 			}
 		}
+
+        $description = editPhpCkeditor($description);
 
 		echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" />\n"
 		   . "&nbsp;<b>" . _LEVEL . " :</b> <select name=\"level\"><option>" . $level . "</option>\n"
