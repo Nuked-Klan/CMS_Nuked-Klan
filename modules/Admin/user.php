@@ -301,9 +301,9 @@ if ($visiteur == 9)
     function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature, $old_nick)
     {
         global $nuked, $user;
-        
+
         $nick = verif_pseudo($nick, $old_nick);
-        
+
 		if ($nick == "error1"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -311,7 +311,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-    
+
         if ($nick == "error2"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -319,7 +319,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-    
+
         if ($nick == "error3"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -327,7 +327,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-    
+
         if (strlen($nick) > 30){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -390,7 +390,7 @@ if ($visiteur == 9)
             $url = mysql_real_escape_string(stripslashes($url));
             $avatar = mysql_real_escape_string(stripslashes($avatar));
 
-            $signature = nkHtmlEntityDecode($signature);
+            $signature = secu_html(nkHtmlEntityDecode($signature));
             $email = nkHtmlEntities($email);
             $icq = nkHtmlEntities($icq);
             $msn = nkHtmlEntities($msn);
@@ -447,11 +447,11 @@ if ($visiteur == 9)
         else
         {
             $cryptpass = nk_hash($pass_reg);
-            
+
             do {
                 $id_user = sha1(uniqid());
             } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
-            
+
             $date = time();
             $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
 
@@ -464,7 +464,7 @@ if ($visiteur == 9)
             $url = mysql_real_escape_string(stripslashes($url));
             $avatar = mysql_real_escape_string(stripslashes($avatar));
 
-            $signature = nkHtmlEntityDecode($signature);
+            $signature = secu_html(nkHtmlEntityDecode($signature));
             $email = nkHtmlEntities($email);
             $icq = nkHtmlEntities($icq);
             $msn = nkHtmlEntities($msn);
@@ -1420,7 +1420,7 @@ if ($visiteur == 9)
         else
             return false;
     }
-    
+
     switch ($_REQUEST['op'])
     {
         case "update_user":

@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -21,7 +21,7 @@ $level_admin = admin_mod($ModName);
 if ($visiteur >= $level_admin && $level_admin > -1){
     function add_link(){
         global $nuked, $language;
-        
+
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
                 . "<div class=\"content-box-header\"><h3>" . _ADMINLINKS . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Links.php\" rel=\"modal\">\n"
@@ -71,21 +71,21 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<tr><td><b>" . _WEBMASTER . " :</b>  <input type=\"text\" name=\"webmaster\" size=\"30\" /></td></tr>\n"
                 . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDTHISLINK . "\" /></td></tr></table>\n"
                 . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
-    } 
+    }
 
 
     function add($titre, $description, $webmaster, $country, $cat, $url){
         global $nuked, $user;
 
         $date = time();
-        $description = nkHtmlEntityDecode($description);
+        $description = secu_html(nkHtmlEntityDecode($description));
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $webmaster = mysql_real_escape_string(stripslashes($webmaster));
 
         if ($url != "" && !preg_match("`http://`i", $url)){
             $url = "http://" . $url;
-        } 
+        }
 
         $sql = mysql_query("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` , `broke` ) VALUES ( '' , '" . $date . "' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $cat . "' , '" . $webmaster ."' , '" . $country . "' , '' , '' )");
         // Action
@@ -106,7 +106,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             ."screenon('index.php?file=Links&op=description&link_id=".$link_id."', 'index.php?file=Links&page=admin');\n"
             ."}\n"
             ."</script>\n";
-    } 
+    }
 
     function del($link_id){
         global $nuked, $user;
@@ -117,7 +117,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $sql = mysql_query("DELETE FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
         $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $link_id . "' AND module = 'Links'");
         $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $link_id . "' AND module = 'Links'");
-        
+
         // Action
         $texteaction = _ACTIONDELLINK . ': ' . $titre;
         $acdate = time();
@@ -129,14 +129,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "</div>\n"
                 . "</div>\n";
         redirect("index.php?file=Links&page=admin", 2);
-    } 
+    }
 
     function edit_link($link_id){
         global $nuked, $language;
 
         $sql = mysql_query("SELECT titre, description, webmaster, country, cat, url, count FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
         list($titre, $description, $webmaster, $pays, $cat, $url, $count) = mysql_fetch_array($sql);
-        
+
         if ($cat == 0 || !$cat){
             $cid = 0;
             $cat_name = _NONE;
@@ -149,7 +149,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         }
 
         if ($pays == '') $checked1 = 'selected="selected"';
-       
+
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
                 . "<div class=\"content-box-header\"><h3>" . _ADMINLINKS . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Links.php\" rel=\"modal\">\n"
@@ -183,9 +183,9 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
             list ($country, $ext) = explode ('.', $filename);
             echo '<option value="' . $filename . '" ' . $checked . '>' . $country . '</option>',"\n";
-        } 
+        }
 
-        echo "</select></td></tr>\n";     
+        echo "</select></td></tr>\n";
 
         echo "<tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" id=\"link_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $description . "</textarea></td></tr>\n"
                 . "<tr><td><b>" . _URL . " :</b>  <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $url . "\" /></td></tr>\n"
@@ -194,19 +194,19 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<tr><td>&nbsp;<input type=\"hidden\" name=\"link_id\" value=\"" . $link_id . "\" /></td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFTHISLINK . "\" /></td></tr></table>\n"
                 . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>";
 
-    } 
+    }
 
     function modif_link($link_id, $titre, $description, $webmaster, $country, $cat, $count, $url){
         global $nuked, $user;
 
-        $description = nkHtmlEntityDecode($description);
+        $description = secu_html(nkHtmlEntityDecode($description));
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $webmaster = mysql_real_escape_string(stripslashes($webmaster));
 
         if ($url != "" && !preg_match("`http://`i", $url)){
             $url = "http://" . $url;
-        } 
+        }
 
         $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', webmaster = '" . $webmaster . "', country = '" . $country . "', cat = '" . $cat . "', count = '" . $count. "', url = '" . $url . "' WHERE id = '" . $link_id . "'");
         // Action
@@ -225,7 +225,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 ."screenon('index.php?file=Links&op=description&link_id=".$link_id."', 'index.php?file=Links&page=admin');\n"
                 ."}\n"
                 ."</script>\n";
-    } 
+    }
 
     function main(){
         global $nuked, $language;
@@ -293,7 +293,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $url_page = "index.php?file=Links&amp;page=admin&amp;orderby=" . $_REQUEST['orderby'];
             number($nb_lk, $nb_liens, $url_page);
             echo "</div>\n";
-        } 
+        }
 
         echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
                 . "<tr>\n"
@@ -316,7 +316,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 list($parentcat) = mysql_fetch_array($sql3);
                 $categorie = $parentcat . "->" . $namecat;
                 $categorie = printSecuTags($categorie);
-            } 
+            }
 
             if (strlen($titre) > 25)
                 $title = "<a href=\"" . $url . "\" title=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . printSecuTags(substr($titre, 0, 25)) . "</a>...";
@@ -329,7 +329,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                     . "<td style=\"width: 25%;\" align=\"center\">" . $categorie . "</td>\n"
                     . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=edit_link&amp;link_id=" . $link_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISLINK . "\" /></a></td>\n"
                     . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_link('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $link_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISLINK . "\" /></a></td></tr>\n";
-        } 
+        }
 
         if ($nb_lk == 0)
             echo "<tr><td colspan=\"5\" align=\"center\">" . _NOLINKINDB . "</td></tr>\n";
@@ -341,10 +341,10 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $url_page = "index.php?file=Links&amp;page=admin&amp;orderby=" . $_REQUEST['orderby'];
             number($nb_lk, $nb_liens, $url_page);
             echo "</div>\n";
-        } 
+        }
 
         echo "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>";
-    } 
+    }
 
     function main_cat(){
         global $nuked, $language;
@@ -395,7 +395,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                     $pnomcat = printSecuTags($pnomcat);
 
                     echo "<i>" . $pnomcat . "</i>";
-                } 
+                }
                 else
                     echo _NONE;
 
@@ -403,7 +403,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                         . "&nbsp;" . $position . "&nbsp;<a href=\"index.php?file=Links&amp;page=admin&amp;op=modif_position&amp;cid=" . $cid . "&amp;method=up\" title=\"" . _MOVEUP . "\">&gt;</a></td>\n"
                         . "<td align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=edit_cat&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
                         . "<td align=\"center\"><a href=\"javascript:delcat('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
-            } 
+            }
         }
         else {
             echo "<tr><td align=\"center\" colspan=\"5\">" . _NONE . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
@@ -411,7 +411,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin&amp;op=add_cat\"><b>" . _ADDCAT . "</b></a> ]</div>\n"
                 . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function add_cat(){
         global $language, $nuked;
@@ -431,14 +431,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $nomcat = printSecuTags($nomcat);
 
             echo "<option value=\"" . $cid . "\">" . $nomcat . "</option>\n";
-        } 
+        }
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
                 . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
                 . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
                 . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
                 . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function send_cat($titre, $description, $parentid, $position){
         global $nuked, $user;
@@ -458,17 +458,17 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "" . _CATADD . "\n"
                 . "</div>\n"
                 . "</div>\n";
-                
+
         $sqlc = mysql_query("SELECT cid FROM " . LINKS_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
         list($cid) = mysql_fetch_array($sqlc);
-        
+
         echo "<script>\n"
                 ."setTimeout('screen()','3000');\n"
                 ."function screen() { \n"
                 ."screenon('index.php?file=Links&op=categorie&cat=".$cid."', 'index.php?file=Links&page=admin&op=main_cat');\n"
                 ."}\n"
                 ."</script>\n";
-    } 
+    }
 
     function edit_cat($cid){
         global $nuked, $language;
@@ -491,11 +491,11 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         if ($parentid > 0){
             $sql2 = mysql_query("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($pcid, $pnomcat) = mysql_fetch_array($sql2);
-            
+
             $pnomcat = printSecuTags($pnomcat);
 
             echo "<option value=\"" . $pcid . "\">" . $pnomcat . "</option>\n";
-        } 
+        }
 
         echo "<option value=\"0\">" . _NONE . "</option>\n";
 
@@ -505,15 +505,15 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
             if ($nomcat != $titre){
                 echo "<option value=\"" . $catid . "\">" . $nomcat . "</option>\n";
-            } 
-        } 
+            }
+        }
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
                 . "<tr><td><b>" . _DESCR . " :</b><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"
                 . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
                 . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
                 . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function modif_cat($cid, $titre, $description, $parentid, $position){
         global $nuked, $user;
@@ -533,14 +533,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "" . _CATMODIF . "\n"
                 . "</div>\n"
                 . "</div>\n";
-                
+
         echo "<script>\n"
                 ."setTimeout('screen()','3000');\n"
                 ."function screen() { \n"
                 ."screenon('index.php?file=Links&op=categorie&cat=".$cid."', 'index.php?file=Links&page=admin&op=main_cat');\n"
                 ."}\n"
                 ."</script>\n";
-    } 
+    }
 
     function select_cat(){
         global $nuked;
@@ -556,10 +556,10 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 $s_titre = printSecuTags($s_titre);
 
                 echo "<option value=\"" . $s_cid . "\">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
-            } 
+            }
         }
         echo "<option value=\"0\">* " . _NONE . "</option>\n";
-    } 
+    }
 
     function del_cat($cid){
         global $nuked, $user;
@@ -580,9 +580,9 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "" . _CATDEL . "\n"
                 . "</div>\n"
                 . "</div>\n";
-                
+
         redirect("index.php?file=Links&page=admin&op=main_cat", 2);
-    } 
+    }
 
     function main_pref(){
         global $nuked, $language;
@@ -603,7 +603,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<tr><td>" . _NUMBERLINK . " :</td><td><input type=\"text\" name=\"max_liens\" size=\"2\" value=\"" . $nuked['max_liens'] . "\" /></td></tr></table>\n"
                 . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
                 . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Links&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function change_pref($max_liens){
         global $nuked, $user;
@@ -619,9 +619,9 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "" . _PREFUPDATED . "\n"
                 . "</div>\n"
                 . "</div>\n";
-                
+
         redirect("index.php?file=Links&page=admin", 2);
-    } 
+    }
 
     function modif_position($cid, $method){
         global $nuked, $user;
@@ -635,7 +635,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                     . "" . _CATERRORPOS . "\n"
                     . "</div>\n"
                     . "</div>\n";
-                    
+
             redirect("index.php?file=Links&page=admin&op=main_cat", 2);
             exit();
         }
@@ -651,9 +651,9 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "" . _CATMODIF . "\n"
                 . "</div>\n"
                 . "</div>\n";
-                
+
         redirect("index.php?file=Links&page=admin&op=main_cat", 2);
-    } 
+    }
 
     function main_broken(){
         global $nuked, $language;
@@ -693,7 +693,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<td style=\"width: 10%;\" align=\"center\"><b>X</b></td>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _ERASE . "</b></td>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-                . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n"; 
+                . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
         $i = 0;
         $l = 0;
@@ -713,15 +713,15 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=del_broke&amp;link_id=" . $link_id. "\"><img style=\"border: 0;\" src=\"modules/Links/images/del.gif\" alt=\"\" title=\"" . _ERASEFROMLIST . "\" /></a></td>\n"
                         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=edit_link&amp;link_id=" . $link_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISLINK . "\" /></a></td>\n"
                         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_link('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $link_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISLINK . "\" /></a></td></tr>\n";
-            } 
-        } 
+            }
+        }
         else{
             echo "<tr><td align=\"center\" colspan=\"6\">" . _NOLINKINDB . "</td></tr>\n";
         }
 
         echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"javascript:delbroke();\"><b>" . _ERASELIST . "</b></a> ]</div>\n"
                 . "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Links&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function del_broke($link_id){
         global $nuked, $user;
@@ -737,13 +737,13 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "" . _LINKERASED . "\n"
                 . "</div>\n"
                 . "</div>\n";
-                
+
         redirect("index.php?file=Links&page=admin&op=main_broken", 2);
-    } 
+    }
 
     function del_broken(){
         global $nuked, $user;
-        
+
         $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET broke = 0");
         // Action
         $texteaction = _ACTIONALLBROKELINK;
@@ -755,9 +755,9 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "" . _LISTERASED . "\n"
                 . "</div>\n"
                 . "</div>\n";
-                
+
         redirect("index.php?file=Links&page=admin&op=main_broken", 2);
-    } 
+    }
 
     switch ($_REQUEST['op']){
         case "edit_link":
@@ -817,8 +817,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         default:
             main();
             break;
-    } 
-} 
+    }
+}
 else if ($level_admin == -1){
     echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
@@ -839,7 +839,7 @@ else{
             . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
             . "</div>\n"
             . "</div>\n";
-} 
+}
 
 adminfoot();
 ?>
