@@ -36,9 +36,10 @@ function post_message(){
 	}
 	
 	if (!empty($_REQUEST['titre'])){
+	    $_REQUEST['titre'] = nkHtmlEntityDecode($_REQUEST['titre']);
 		$_REQUEST['titre'] = stripslashes($_REQUEST['titre']);
 		if (!preg_match("/\bRE:\b/i", $_REQUEST['titre'])) $title = "RE:" . $_REQUEST['titre'];
-		else $title = $_REQUEST['titre'];
+		else $title = nkHtmlEntityDecode($_REQUEST['titre']);
 	}
 	
 	if (!empty($_REQUEST['message'])){
@@ -60,7 +61,7 @@ function post_message(){
 		select_user();
 		echo '</select>';
 	}
-
+	
     echo '</td></tr><tr><td><b>'._SUBJECT.' :</b> <input type="text" name="titre" size="30" value="'.$title.'" /></td></tr>
             <tr><td><b>'._USERMESS.' :</b><br /><textarea id="e_basic" name="message" cols="65" rows="10">'.$reply.'</textarea></td></tr>
             <tr><td align="center"><br /><input type="submit" name="send" value="'._SEND.'" />&nbsp;<input type="button" value="'._CANCEL.'" onclick="javascript:history.back()" /></td></tr></table></form><br />';
@@ -96,10 +97,10 @@ function send_message($titre, $user_for, $message){
 			}
 			
 			$message = secu_html(nkHtmlEntityDecode($message));
-			$titre = mysql_real_escape_string(stripslashes($titre));
 			$message = mysql_real_escape_string(stripslashes($message));
 			$user_for = mysql_real_escape_string(stripslashes($user_for));
-			$titre = nkHtmlEntities($titre);
+			$titre = mysql_real_escape_string(stripslashes($titre));
+			$titre = printSecuTags($titre);
 			
 			$sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
 			echo '<br /><br /><div style="text-align:center;">'._MESSSEND.'</div><br /><br />';
@@ -131,7 +132,7 @@ function show_message($mid){
         
         echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
                 <tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
-                <tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.$row['titre'].'</td></tr>
+                <tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.nkHtmlEntityDecode($row['titre']).'</td></tr>
                 <tr style="background:'.$bgcolor2.';"><td>'.nkHtmlEntityDecode($row['message']).'</td></tr></table>
                 <br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
                 <div style="text-align:center;">
@@ -243,6 +244,8 @@ function index(){
 		while($row = mysql_fetch_assoc($sql)){
 			
 			$row['date'] = nkDate($row['date']);
+			
+			$row['titre'] = nkHtmlEntityDecode($row['titre']);
 			
 			$sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
 			list($pseudo) = mysql_fetch_array($sql_member);
