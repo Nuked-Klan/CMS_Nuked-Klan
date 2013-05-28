@@ -164,12 +164,15 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     else include('modules/404/index.php');
 
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
+
         ?>
             <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
             <script type="text/javascript" src="media/ckeditor/config.js"></script>
             <script type="text/javascript">
                 //<![CDATA[
                 if(document.getElementById('e_basic')){
+                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
+                    CKEDITOR.config.scayt_autoStartup = "true";
                     CKEDITOR.replace('e_basic',{
                         toolbar : 'Basic',
                         language : '<?php echo substr($language, 0,2) ?>',
@@ -179,10 +182,29 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                 }
 
                 if(document.getElementById('e_advanced')){
+                    <?php echo ($nuked['video_editeur'] == 'on') ? 'CKEDITOR.config.extraPlugins = \'Video\';' : ''; ?>
+                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
+                    <?php echo ($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''; ?>
                     CKEDITOR.replace('e_advanced',{
                         toolbar : 'Full',
                         language : '<?php echo substr($language, 0,2) ?>',
-                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\',' : ''; ?>
+                        allowedContent:
+                            'p h1 h2 h3 h4 h5 h6 blockquote tr td div a span{text-align,font-size,font-family,font-style,color,background-color,display};' +
+                            'img[!src,alt,width,height,class,id,style,title,border];' +
+                            'strong s em u strike sub sup ol ul li br caption thead  hr big small tt code del ins cite q address section aside header;' +
+                            'div[class,id,style,title,align]{page-break-after,width,height,background};' +
+                            'a[!href,accesskey,class,id,name,rel,style,tabindex,target,title];' +
+                            'table[align,border,cellpadding,cellspacing,class,id,style];' +
+                            'td[colspan, rowspan];' +
+                            'th[scope];' +
+                            'pre(*);' +
+                            'span[id, style];'
+                            <?php if($nuked['video_editeur'] == 'on'){ ?>
+                                + 'object[width,height,data,type];'
+                                + 'param[name,value];'
+                                + 'embed[width,height,src,type,allowfullscreen,allowscriptaccess];'
+                            <?php } ?>
                     });
                     <?php echo ConfigSmileyCkeditor(); ?>
                 }
