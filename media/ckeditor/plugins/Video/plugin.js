@@ -1,0 +1,1 @@
+CKEDITOR.plugins.add('Video',{init:function(a){var b="Video";var c=a.addCommand(b,new CKEDITOR.dialogCommand(b));c.modes={wysiwyg:1,source:0};c.canUndo=false;a.ui.addButton("Video",{label:'Streaming Video',command:b,icon:this.path+"images/icon.png"});CKEDITOR.dialog.add(b,this.path+"dialogs/video.js")}});

@@ -475,25 +475,25 @@ function secu_args($matches){
     $allowedTags = array(
         'p' => array(
             'style',
-            'dir',
+            'dir'
         ),
         'h1' => array(
-            'style',
+            'style'
         ),
         'h2' => array(
-            'style',
+            'style'
         ),
         'h3' => array(
-            'style',
+            'style'
         ),
         'h4' => array(
-            'style',
+            'style'
         ),
         'h5' => array(
-            'style',
+            'style'
         ),
         'h6' => array(
-            'style',
+            'style'
         ),
         'img' => array(
             'alt',
@@ -507,7 +507,7 @@ function secu_args($matches){
             'title',
             'width',
             'height',
-            'border',
+            'border'
         ),
         'strong' => array(),
         's' => array(),
@@ -520,7 +520,7 @@ function secu_args($matches){
         'ul' => array(),
         'li' => array(),
         'blockquote' => array(
-            'style',
+            'style'
         ),
         'div' => array(
             'class',
@@ -528,7 +528,7 @@ function secu_args($matches){
             'lang',
             'style',
             'title',
-            'align',
+            'align'
         ),
         'br' => array(),
         'a' => array(
@@ -545,7 +545,7 @@ function secu_args($matches){
             'tabindex',
             'target',
             'title',
-            'type',
+            'type'
         ),
         'table' => array(
             'align',
@@ -556,12 +556,12 @@ function secu_args($matches){
             'dir',
             'id',
             'style',
-            'summary',
+            'summary'
         ),
         'caption' => array(),
         'thead' => array(),
         'tr' => array(
-            'style',
+            'style'
         ),
         'td' => array(
             'style',
@@ -569,14 +569,14 @@ function secu_args($matches){
             'rowspan'
         ),
         'th' => array(
-            'scope',
+            'scope'
         ),
         'tbody' => array(),
         'hr' => array(),
         'span' => array(
             'id',
             'style',
-            'dir',
+            'dir'
         ),
         'big' => array(),
         'small' => array(),
@@ -592,7 +592,7 @@ function secu_args($matches){
         'pre' => array(
             'class'
         ),
-        'address' => array(),
+        'address' => array()
     );
 
         // FOR VIDEO PLUGIN -- POUR PLUGIN VIDEO
@@ -601,19 +601,19 @@ function secu_args($matches){
             'width',
             'height',
             'data',
-            'type',
+            'type'
         ),
-        'param' => array (
+        'param' => array(
             'name',
-            'value',
+            'value'
         ),
-        'embed' => array (
+        'embed' => array(
             'allowfullscreen',
             'allowscriptaccess',
             'height',
             'src',
             'type',
-            'width',
+            'width'
         ),
         /*'iframe' => array (
             'src',
@@ -625,6 +625,7 @@ function secu_args($matches){
     );
 
     $allowedTags = ($nuked['video_editeur'] == 'on') ? array_merge($allowedTags, $TabVideo) : $allowedTags;
+
     if (in_array(strtolower($matches[1]), array_keys($allowedTags))) {
         preg_match_all('/([^ =]+)=(&quot;((.(?<!&quot;))*)|[^ ]+)/', $matches[2], $args);
 
@@ -683,15 +684,27 @@ function secu_html($texte){
     $texte = stripslashes($texte);
     $texte = nkHtmlSpecialChars($texte);
     $texte = str_replace('&amp;', '&', $texte);
-    $texte = str_replace('&lt;3', htmlentities('&lt;3'), $texte);
+    $texte = str_replace('&lt;3', nkHtmlEntities('&lt;3'), $texte);
 
     // Balise autorisee
     $texte = preg_replace_callback('/&lt;([^ &]+)[[:blank:]]?((.(?<!&gt;))*)&gt;/', 'secu_args', $texte);
     $texte = str_replace('&amp;lt;3', '&lt;3', $texte);
     $arrayOnly1Tag = array('img', 'br', 'hr');
+
+    if($nuked['video_editeur'] == 'on'){
+        $arrayOnly1Tag[] = 'param';
+    }
+
     $allowedTags = array(
-        'p','h1','h2','h3','h4','h5','h6','img','strong','s','em','u','strike','sub','sup','ol','ul','li','blockquote','div','br','a','table','caption','thead','tr','td','th','tbody','hr','span','big','small','tt','code','kbd','samp','var','del','ins','cite','q','pre','address'
+        'p','h1','h2','h3','h4','h5','h6','img','strong','s','em','u','strike','sub','sup','ol','ul','li','blockquote','div','br','a','table','caption','thead','tr','td','th','tbody','hr','span','big','small','tt','code','kbd','samp','var','del','ins','cite','q','pre','address', 'object', 'param', 'embed'
         );
+
+    if($nuked['video_editeur'] == 'on'){
+        $allowedTags[] = 'object';
+        $allowedTags[] = 'param';
+        $allowedTags[] = 'embed';
+    }
+
     preg_match_all('`<(/?)([^/ >]+)(| [^>]*([^/]))>`', $texte, $Tags, PREG_SET_ORDER);
 
     $TagList = array();
@@ -710,7 +723,7 @@ function secu_html($texte){
     }
     $bad = $bad | count($TagList) > 1;
     if ($bad){
-        return(htmlspecialchars($texte));
+        return(nkHtmlSpecialChars($texte));
     }
     else{
         return $texte;
@@ -718,7 +731,7 @@ function secu_html($texte){
 }
 
 function editPhpCkeditor($texte){
-    return str_replace('&lt;?php', htmlentities('&lt;?php'), $texte);
+    return str_replace('&lt;?php', nkHtmlEntities('&lt;?php'), $texte);
 }
 
 // REDIRECT AFTER ($tps) SECONDS TO ($url)
