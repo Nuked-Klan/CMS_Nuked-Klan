@@ -78,7 +78,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
-		if ($captcha == 1) create_captcha(2);
+		if ($captcha == 1) createCaptcha(2);
 
 
 		echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
@@ -177,7 +177,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $comment = mysql_real_escape_string(stripslashes($comment));
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $email = mysql_real_escape_string(stripslashes($email));
-            
+
             if (!empty($url) && !is_int(stripos($url, 'http://')))
             {
                 $url = "http://" . mysql_real_escape_string(stripslashes($url));

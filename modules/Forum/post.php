@@ -263,7 +263,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
                 echo "<tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _SECURITYCODE . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\"><table>";
 
-                create_captcha(1);
+                createCaptcha(1);
 
                 echo "</table><br /></td></tr>\n";
         }

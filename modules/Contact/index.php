@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -64,7 +64,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         // Affichage du Captcha.
         echo '<div style="text-align: center">',"\n";
-        if ($captcha == 1) create_captcha(3);
+        if ($captcha == 1) createCaptcha(3);
         echo '</div>',"\n";
 
         echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
@@ -107,16 +107,16 @@ if ($visiteur >= $level_access && $level_access > -1){
             $sujet = trim($_REQUEST['sujet']);
             $corps = $_REQUEST['corps'];
             if($user) $nom = $user[2];
-            
+
             $subjet = stripslashes($sujet) . ", " . $date;
             $corp = $corps . "<p><em>IP : " . $user_ip . "</em><br />" . $nuked['name'] . " - " . $nuked['slogan'] . "</p>";
             $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
             $from .= "Content-Type: text/html\r\n\r\n";
 
             if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
-            else $email = $nuked['mail'];    
+            else $email = $nuked['mail'];
             $corp = secu_html(nkHtmlEntityDecode($corp));
-        
+
             mail($email, $subjet, $corp, $from);
 
             $name = htmlentities($nom, ENT_QUOTES, 'ISO-8859-1');
@@ -124,7 +124,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $subject = htmlentities($sujet, ENT_QUOTES, 'ISO-8859-1');
             $text = secu_html(html_entity_decode($corps, ENT_QUOTES, 'ISO-8859-1'));
             if($user) $name = $user[2];
-            
+
             $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
             $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTCON.": [<a href=\"index.php?file=Contact&page=admin\">lien</a>].')");
 
