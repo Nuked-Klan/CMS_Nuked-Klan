@@ -38,31 +38,24 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        echo "<script type=\"text/javascript\">\n"
-		."<!--\n"
-		. "\n"
-		."function trim(string)\n"
-		."{"
-		."return string.replace(/(^\s*)|(\s*$)/g,'');"
-		."}\n"
-		."\n"
-		. "function verifchamps()\n"
-		. "{\n"
-		. "\n"
-		. "if (trim(document.getElementById('guest_name').value) == \"\")\n"
-		. "{\n"
-		. "alert('" . _NONICK . "');\n"
-		. "return false;\n"
-		. "}\n"
-		. "\n"
-		. "if (document.getElementById('guest_mail').value.indexOf('@') == -1)\n"
-		. "{\n"
-		. "alert('" . _ERRORMAIL . "');\n"
-		. "return false;\n"
-		. "}\n"
-		. "\n"
-		. "// -->\n"
-	. "</script>\n";
+        ?>
+        <script type="text/javascript">
+    		function trim(string){
+    		  return string.replace(/(^\s*)|(\s*$)/g,'');
+    		}
+
+    		function verifchamps(){
+        		if (trim(document.getElementById('guest_name').value) == ""){
+        		  alert('<?php echo _NONICK; ?>');
+        		  return false;
+        		}
+        		if (document.getElementById('guest_mail').value.indexOf('@') == -1){
+        		  alert('<?php echo _ERRORMAIL; ?>');
+        		  return false;
+        		}
+            }
+	   </script>
+        <?php
 
         if ($user)
         {
@@ -177,7 +170,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $comment = mysql_real_escape_string(stripslashes($comment));
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $email = mysql_real_escape_string(stripslashes($email));
-            
+
             if (!empty($url) && !is_int(stripos($url, 'http://')))
             {
                 $url = "http://" . mysql_real_escape_string(stripslashes($url));
