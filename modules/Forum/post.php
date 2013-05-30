@@ -259,21 +259,18 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td></tr>\n";
 
-        if ($captcha == 1)
-        {
-                echo "<tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _SECURITYCODE . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\"><table>";
-
-                create_captcha(1);
-
-                echo "</table><br /></td></tr>\n";
-        }
-
         echo" <tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">"
         . "<input type=\"submit\" value=\"" . _SEND . "\" />\n"
         . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
         . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
-        . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n"
-        . "</td></tr></table></form>\n";
+        . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n";
+
+        if ($captcha == 1){
+                create_captcha(0);
+        }
+
+        echo "</td></tr></table></form>\n";
+
 
         if ($_REQUEST['thread_id'] != "")
         {
