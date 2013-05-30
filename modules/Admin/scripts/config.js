@@ -11,14 +11,13 @@ function maFonctionAjax(texte){
 		if (OAjax.readyState == 4 && OAjax.status==200){
 			if (document.getElementById){
 				document.getElementById('affichefichier').innerHTML = OAjax.responseText;
-				document.getElementById('texte').value = '';
+                window.location = "index.php?file=Admin";
 			}
 		}
 	}
 	OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	OAjax.send('texte='+texte+'');
 	$(document).trigger('close.facebox');
-	redirect("index.php?file=Admin", 1);
 }
 
 function screenon(lien,lien2){
