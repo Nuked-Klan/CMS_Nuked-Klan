@@ -30,7 +30,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         opentable();
         $autorized_modules = array();
         $handle = opendir('modules/Suggest/modules/');
-        
+
         while ($mod = readdir($handle)){
             if ($mod != '.' && $mod != '..' && $mod != 'index.html'){
                  $mod = str_replace('.php', '', $mod);
@@ -96,7 +96,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                     echo '<option value="' . $temp[1] . '">' . $temp[0] . '</option>',"\n";
                 }
              }
-             
+
             echo '</select></td></tr><tr><td>&nbsp;</td></tr></table></form>';
         }
         closetable();
@@ -125,11 +125,8 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
 
         // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm'])){
-            echo '<br /><br /><div style="text-align: center">' . _BADCODECONFIRM . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></div><br /><br />';
-            closetable();
-            footer();
-            exit();
+        if ($captcha == 1){
+            ValidCaptchaCode();
         }
 
         $date = time();
