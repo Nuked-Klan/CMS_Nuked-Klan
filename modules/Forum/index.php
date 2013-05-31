@@ -371,7 +371,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                               if (strrpos($member['thread_id'], ',' . $old . ',') === false)
                                    $read = false;
                          }
-                         
+
                          // Si ils sont tous lu, et que le forum est pas dans la liste on le rajoute
                          if ($read === true && strrpos($member['forum_id'], ',' . $_REQUEST['forum_id'] . ',') === false) {
                               // Nouvelle liste des forums
@@ -388,7 +388,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                               if (strrpos($member['thread_id'], ',' . $new . ',') === false)
                                    $read = false;
                          }
-                         
+
                          // Si tout n'est pas lu, et que le forum est présent dans la liste on le retire
                          if ($read === false && strrpos($fid, ',' . $_REQUEST['newforum'] . ',') !== false) {
                               // Nouvelle liste des forums
@@ -397,9 +397,9 @@ if ($visiteur >= $level_access && $level_access > -1)
                               $update .= (!empty($update) ? ', ':'');
                               $update .= "('" . $fid . "', '" . $key . "')";
                          }
-                         
+
                     }
-                    
+
                     if(!empty($update)){
                          $update = "INSERT INTO `" . FORUM_READ_TABLE . "` (forum_id, user_id) VALUES $update ON DUPLICATE KEY UPDATE forum_id=VALUES(forum_id);";
                          mysql_query($update) or die(mysql_error());
@@ -554,12 +554,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-            closetable();
-            footer();
-            exit();
+        if ($captcha == 1){
+            ValidCaptchaCode();
         }
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
@@ -772,12 +768,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-            closetable();
-            footer();
-            exit();
+        if ($captcha == 1){
+            ValidCaptchaCode();
         }
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
@@ -950,7 +942,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     function mark()
     {
         global $user, $nuked, $cookie_forum;
-        
+
         if ($user)
         {
             if ($_REQUEST['forum_id'] > 0)
@@ -991,7 +983,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                          $where = "WHERE forum_id = '" . (int) $_REQUEST['forum_id'] . "'";
                     } else {
                     $where = "";
-                } 
+                }
                     // On veut modifier la chaine thread_id et forum_id
                     $req = mysql_query("SELECT thread_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'");
 
@@ -1008,10 +1000,10 @@ if ($visiteur >= $level_access && $level_access > -1)
                                    $tid .= $thread_id . ',';
                               if (strrpos($fid, ',' . $forum_id . ',') === false)
                                    $fid .= $forum_id . ',';
-                    } 
+                    }
                          $sql = mysql_query("REPLACE " . FORUM_READ_TABLE . " (`user_id` , `thread_id` , `forum_id` ) VALUES ('" . $user[0] . "' , '" . $tid . "' , '" . $fid . "' )");
-                } 
-            } 
+                }
+            }
         }
         opentable();
         echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESMARK . "</div><br /><br />";
