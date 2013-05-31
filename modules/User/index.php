@@ -1089,7 +1089,7 @@ function login($pseudo, $pass, $remember_me){
     global $captcha, $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
     $cookiename = $nuked['cookiename'];
 
-    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . nkHtmlEntities($pseudo, ENT_QUOTES) . "'");
+    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . "'");
     $check = mysql_num_rows($sql);
 
     if($check > 0){
@@ -1133,13 +1133,13 @@ function login($pseudo, $pass, $remember_me){
         if ($niveau > 0){
             if (!Check_Hash($pass, $dbpass)){
                 $error = 2;
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . nkHtmlEntities($pseudo, ENT_QUOTES) . '\'';
+                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . '\'';
                 $req = mysql_query($sql);
                 $url = "index.php?file=User&op=login_screen&error=" . $error;
                 redirect($url, 0);
             }
             else{
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . nkHtmlEntities($pseudo, ENT_QUOTES) . '\'';
+                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . '\'';
                 $req = mysql_query($sql);
                 session_new($id_user, $remember_me);
 
