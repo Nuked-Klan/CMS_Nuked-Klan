@@ -88,12 +88,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         opentable();
 
         // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-            closetable();
-            footer();
-            exit();
+        if ($captcha == 1){
+            ValidCaptchaCode();
         }
 
         if ($user[2] != "")

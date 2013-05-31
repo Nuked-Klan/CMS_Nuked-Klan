@@ -188,14 +188,10 @@ if ($visiteur >= $level_access && $level_access > -1)
             global $nuked, $captcha;
 
 			// Verification code captcha
-            if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm']))
-            {
-				echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-				closetable();
-				footer();
-				exit();
+            if ($captcha == 1){
+                ValidCaptchaCode();
             }
-            
+
             if (!is_numeric($age)) {
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADAGE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
 				closetable();

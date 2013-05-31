@@ -16,7 +16,7 @@ global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cooki
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 include("modules/Textbox/config.php");
 
-// Inclusion systÃ¨me Captcha
+// Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -76,8 +76,16 @@ function trim(string)
 {
 return string.replace(/(^\s*)|(\s*$)/g,'');
 }
-function maFonctionAjax(auteur,texte,code)
+function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail)
 {
+    <?php
+        if($captcha == 1){
+            echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
+        }
+        else{
+            echo 'var captchaData = ""';
+        }
+    ?>
 	if (trim(document.getElementById('textbox_auteur').value) == "")
 	{
 	alert('<?php echo _NONICKNAME; ?>');
@@ -119,7 +127,7 @@ function maFonctionAjax(auteur,texte,code)
   }
   	texte = encodeURIComponent(texte);
 	OAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=iso-8859-1');
-	OAjax.send('auteur='+auteur+'&texte='+texte+'&code_confirm='+code+'');
+	OAjax.send('auteur='+auteur+'&texte='+texte+captchaData);
 	return true;
 }
 -->
@@ -166,11 +174,19 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "</p></div></td></tr></table>\n"
 . "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
+
+if($captcha == 1){
+    $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.ct_token.value, this.ct_script.value, this.ct_email.value); return false;';
+}
+else{
+    $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value); return false;';
+}
+
 if ($active == 3 || $active == 4)
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo "<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo "<form method=\"post\" onsubmit=\"".$callAjax."\" action=\"\" ><div style=\"text-align: center;\">\n";
 
         if (!$user)
         {
@@ -195,7 +211,7 @@ else
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo"<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo"<form method=\"post\" onsubmit=\"".$callAjax."\" action=\"\" ><div style=\"text-align: center;\">\n";
 
         if (!$user)
         {
