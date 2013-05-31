@@ -134,7 +134,11 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             <script type="text/javascript">
                 InitBulle('<?= $bgcolor2; ?>','<?= $bgcolor3; ?>', 2);
             </script>
-            <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+            <script type="text/javascript">
+                if(typeof jQuery == 'undefined'){
+                    document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
+                }
+            </script>
             <script type="text/javascript" src="media/js/syntaxhighlighter/shCore.js"></script>
             <script type="text/javascript" src="media/js/syntaxhighlighter/shAutoloader.js"></script>
             <script type="text/javascript" src="media/js/syntaxhighlighter.autoloader.js"></script>
