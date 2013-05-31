@@ -9,7 +9,6 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 
 	// Default setting.
-
 	config.toolbar_Full = [
 	    { name: 'document', items: ['Source']},
 	    { name: 'clipboard', items: ['Undo', 'Redo', '-', 'Cut', 'Copy', 'Paste', '-',  'PasteText', 'PasteFromWord']},
@@ -19,7 +18,7 @@ CKEDITOR.editorConfig = function( config ) {
 	    '/',
 	    { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat']},
 	    { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
-	    { name: 'tools', items: ['Link', 'Unlink', 'Anchor', '-', 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Syntaxhighlight']},
+	    { name: 'tools', items: ['Link', 'Unlink', 'Anchor', '-', 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Video', 'Syntaxhighlight']},
 	    { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor']}
 	];
 
