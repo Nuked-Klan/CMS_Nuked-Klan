@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule biggrin.gif biggrin.png
+RewriteRule cf936a6809.gif love.png
+RewriteRule confused.gif confused.png
+RewriteRule cool.gif happy.png
+RewriteRule eek.gif eek.png
+RewriteRule frown.gif sad.png
+RewriteRule mad.gif mad.png
+RewriteRule redface.gif redface.png
+RewriteRule rolleyes.gif huh.png
+RewriteRule smile.gif smile.png
+RewriteRule tongue.gif tongue.png
+RewriteRule wink.gif wink.png
+</IfModule>
