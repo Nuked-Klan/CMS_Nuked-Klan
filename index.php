@@ -128,7 +128,35 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') {
 
-            top();
+            if(function_exists('head')){
+                // Si la function head est défini dans le theme.php (themes de la version 1.8)
+                head();
+
+                // Si le module requis contient un fichier css on l'inclus
+                $urlCssMod = 'modules/'.$_REQUEST['file'].'/'.$_REQUEST['file'].'.css';
+                if(file_exists($urlCssMod)){
+                    echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$urlCssMod.'" />';
+                }
+
+                // Si le thème utilisé contient un fichier css pour le module requis on l'inclut (Version 1.8)
+                $urlThemeCssMod = 'themes/'.$theme.'/css/modules/'.$_REQUEST['file'].'/'.$_REQUEST['file'].'.css';
+                if(file_exists($urlThemeCssMod)){
+                    echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$urlThemeCssMod.'" />';
+                }
+
+                top();
+            }
+            else{
+                // Sinon on conserve la compatibilité avec les anciens thèmes
+                top();
+
+                // Si le module requis contient un fichier css on l'inclus
+                $urlCssMod = 'modules/'.$_REQUEST['file'].'/'.$_REQUEST['file'].'.css';
+                if(file_exists($urlCssMod)){
+                    echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$urlCssMod.'" />';
+                }
+            }
+
             ?>
             <script type="text/javascript" src="media/js/infobulle.js"></script>
             <script type="text/javascript">
