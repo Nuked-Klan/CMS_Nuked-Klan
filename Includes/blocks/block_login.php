@@ -14,11 +14,17 @@ if (!defined("INDEX_CHECK")){
 function affich_block_login($blok){
     global $user, $nuked, $bgcolor3, $bgcolor1 ;
 
-    list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']);
+
+    if(!empty($blok['content'])){
+        list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']);
+    }
+    else{
+        $login = $messpv = $members = $online = $avatar = 'on';
+    }
     $blok['content'] = '';
 
 	$c = 0;
-	
+
 	if($login != 'off'){
 		if (!$user){
 			$blok['content'] = '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">'."\n"
@@ -44,26 +50,26 @@ function affich_block_login($blok){
 
     if($messpv != 'off' && $user[0] != ''){
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
-	
+
 		$sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
 		$nb_mess_lu = mysql_num_rows($sql2);
-	
+
 		$blok['content'] .= '&nbsp;<img width="14" height="12" src="images/message.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MESSPV . '</b></span><br />'."\n";
-	
+
 		if ($user[5] > 0){
 			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>'."\n";
 		}
 		else{
 			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <b>' . $user[5] . '</b>'."\n";
 		}
-	
+
 		if ($nb_mess_lu > 0){
 			$blok['content'] .= '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _READ . ' : <a href="index.php?file=Userbox"><b>' . $nb_mess_lu . '</b></a>'."\n";
 		}
 		else{
 			$blok['content'] .= '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _READ . ' : <b>' . $nb_mess_lu . '</b>'."\n";
 		}
-	
+
 		$c++;
     }
 
@@ -100,7 +106,7 @@ function affich_block_login($blok){
 			while (list($nom) = mysql_fetch_array($sql4)){
 				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';
 			}
-	
+
 			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($user_online), ENT_NOQUOTES, 'ISO-8859-1') . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 			}
     	else{
@@ -108,17 +114,18 @@ function affich_block_login($blok){
     	}
 
 		if ($nb[2] > 0){
+            $admin_online = '';
 			$sql5 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
 			while (list($name) = mysql_fetch_array($sql5)){
 				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
 			}
-	
+
 			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($admin_online), ENT_NOQUOTES, 'ISO-8859-1') . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 		}
 		else{
 			$admin_list = '';
 		}
-	
+
 		$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _VISITOR;
 		if ($nb[0] > 1) $blok['content'] .= 's';
 		$blok['content'] .= ' : <b>' . $nb[0] . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBER;
@@ -126,7 +133,7 @@ function affich_block_login($blok){
 		$blok['content'] .= ' : <b>' . $nb[1] . '</b>' . $user_list . '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _ADMIN;
 		if ($nb[2] > 1) $blok['content'] .= 's';
 		$blok['content'] .= ' : <b>' . $nb[2] . '</b>' . $admin_list . '<br />'."\n";
-	
+
 		$c++;
    }
 
@@ -139,7 +146,15 @@ function edit_block_login($bid){
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     $titre = printSecuTags($titre);
-    list($login, $messpv, $members, $online, $avatar) = explode('|', $content);
+
+    if(!empty($content)){
+        list($login, $messpv, $members, $online, $avatar) = explode('|', $content);
+    }
+    else{
+        $login = $messpv = $members = $online = $avatar = 'on';
+    }
+
+    $checked0 = $checked1 = $checked2 = '';
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';
