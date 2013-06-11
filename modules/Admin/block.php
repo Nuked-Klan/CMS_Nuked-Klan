@@ -182,7 +182,7 @@ if ($visiteur == 9)
         $mod = explode('|', $mod);
         while (list($nom) = mysql_fetch_array($sql))
         {
-            $checked = '';
+            $checked = $checked_tous = $checked_team = $checked_user = $checked_admin = '';
 
             foreach ($mod as $mod2)
             {
@@ -292,7 +292,7 @@ if ($visiteur == 9)
         $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
         $data['content'] = mysql_real_escape_string(stripslashes($data['content']));
 
-        if ($data['module'] != '')
+        if (array_key_exists('module', $data) && $data['module'] != '')
         {
             list ($t, $module) = explode ('|', $data['module']);
         }
