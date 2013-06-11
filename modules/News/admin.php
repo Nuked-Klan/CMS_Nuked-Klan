@@ -24,8 +24,13 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$sql = mysql_query("SELECT id FROM " . NEWS_TABLE);
 		$count = mysql_num_rows($sql);
 
-		if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-		$start = $_REQUEST['p'] * $nb_news - $nb_news;
+		if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+		$start = $page * $nb_news - $nb_news;
 
 		echo "<script type=\"text/javascript\">\n"
 		   . "<!--\n"
@@ -48,7 +53,9 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
         	nkAdminMenu(1);
 
-		if ($_REQUEST['orderby'] == "date") {
+        if(!array_key_exists('ordreby', $_REQUEST)){
+            $order_by = 'date DESC';
+        } else if ($_REQUEST['orderby'] == "date") {
 			$order_by = "date DESC";
 		} else if ($_REQUEST['orderby'] == "title") {
 			$order_by = "titre";
@@ -63,25 +70,25 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		echo "<table width=\"100%\" cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n"
 		   . "<tr><td align=\"right\">" . _ORDERBY . " : ";
 
-		if ($_REQUEST['orderby'] == "date" || !$_REQUEST['orderby']) {
+		if ((array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "date") || !array_key_exists('ordreby', $_REQUEST)) {
 			echo "<b>" . _DATE . "</b> | ";
 		} else {
 			echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=date\">" . _DATE . "</a> | ";
 		}
 
-		if ($_REQUEST['orderby'] == "title") {
+		if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "title") {
 			echo "<b>" . _TITLE . "</b> | ";
 		} else {
 			echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=title\">" . _TITLE . "</a> | ";
 		}
 
-		if ($_REQUEST['orderby'] == "author") {
+		if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "author") {
 			echo "<b>" . _AUTHOR . "</b> | ";
 		} else {
 			echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=author\">" . _AUTHOR . "</a> | ";
 		}
 
-		if ($_REQUEST['orderby'] == "cat") {
+		if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "cat") {
 			echo "<b>" . _CAT . "</b>";
 		} else {
 			echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=cat\">" . _CAT . "</a>";
@@ -197,12 +204,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		echo "</select>&nbsp;<select id=\"news_annee\" name=\"annee\">\n";
 
-		$prevprevprevyear = date(Y) -3;
-		$prevprevyear = date(Y) -2;
-		$prevyear = date(Y) -1;
-		$year = date(Y) ;
-		$nextyear = date(Y) + 1;
-		$nextnextyear = date(Y) + 2;
+		$prevprevprevyear = date("Y") -3;
+		$prevprevyear = date("Y") -2;
+		$prevyear = date("Y") -1;
+		$year = date("Y") ;
+		$nextyear = date("Y") + 1;
+		$nextnextyear = date("Y") + 2;
 		$check = "selected=\"selected\"";
 
 		echo "<option value=\"" . $prevprevprevyear . "\">" . $prevprevprevyear . "</option>\n"
@@ -784,7 +791,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		case "send_cat":
 			admintop();
-			send_cat($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_REQUEST['fichiernom']);
+			send_cat($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_FILES['fichiernom']);
 			adminfoot();
 			break;
 
@@ -808,7 +815,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		case "modif_cat":
 			admintop();
-			modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_REQUEST['fichiernom']);
+			modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_FILES['fichiernom']);
 			adminfoot();
 			break;
 
