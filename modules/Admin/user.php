@@ -15,25 +15,17 @@ if (!defined("INDEX_CHECK"))
 global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+
+$nkAccessModule = NkAccessModule('Admin', $user[1], true);
 
 if($_REQUEST['op'] != "menu")
 admintop();
 
-if ($visiteur == 9)
-{
-    function add_user()
-    {
+if($nkAccessModule === TRUE) {
+    function add_user() {
         global $nuked, $language;
 
-        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+        echo "<div class=\"content-box\">\n"
         . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
@@ -100,16 +92,7 @@ if ($visiteur == 9)
         }
 
         echo "</select></td></tr>\n"
-        . "<tr><td><b>" . _LEVEL . " :</b></td><td><select name=\"niveau\">\n"
-        . "<option>1</option>\n"
-        . "<option>2</option>\n"
-        . "<option>3</option>\n"
-        . "<option>4</option>\n"
-        . "<option>5</option>\n"
-        . "<option>6</option>\n"
-        . "<option>7</option>\n"
-        . "<option>8</option>\n"
-        . "<option>9</option></select></td></tr>\n"
+
         . "<tr><td><b>" . _TEAM . " : </b></td><td><select name=\"team\"><option value=\"\">" . _TEAMNONE . "</option>\n";
 
         select_cat();
@@ -130,6 +113,51 @@ if ($visiteur == 9)
         select_rank();
 
         echo"</select></td></tr>\n"
+
+        . "<tr><td><b>" . _GROUPS . " : </b></td>
+           <td>
+
+            <div class=\"userGroup300\">
+                <strong>" . _GROUPDISPO . "</strong>
+            </div>
+
+            <div class=\"userGroup300\">
+                <strong>" . _GROUPBELONGS . "</strong>
+            </div>
+
+            <div style=\"clear:both; margin: 5px 0;\"></div>
+
+            <div style=\"width: 300px;display:inline-block;\">
+
+                <select id=\"box1View\" multiple=\"multiple\">\n";
+                    select_group($idGroup, 0);
+         echo " </select>
+
+                <select id=\"box1Storage\">
+                </select>
+
+            </div>
+            <div class=\"userGroup300\">
+
+                <select name=\"group[]\" id=\"box2View\" multiple=\"multiple\" style=\"height:auto;width:300px;\">\n";
+         echo " </select>
+
+            </div>
+
+            <div style=\"clear:both; margin: 5px 0;\"></div>
+
+            <div class=\"userGroup600\">
+                <button id=\"to2\" type=\"button\">&nbsp; &gt; &nbsp;</button>
+                <button id=\"allTo2\" type=\"button\">&nbsp; &gt;&gt; &nbsp;</button>
+                <button id=\"allTo1\" type=\"button\">&nbsp; &lt;&lt; &nbsp;</button>
+                <button id=\"to1\" type=\"button\">&nbsp; &lt; &nbsp;</button>
+            </div>
+
+            <select id=\"box2Storage\">
+            </select>
+
+           </td></tr>\n"
+
         . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" /></td></tr>\n"
         . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" /></td></tr>\n"
         . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\"></textarea></td></tr></table>\n"
@@ -141,8 +169,12 @@ if ($visiteur == 9)
     {
         global $nuked, $language, $user;
 
-        $sql = mysql_query("SELECT niveau, pseudo, pass, url, mail, email, icq, msn, aim, yim, rang, team, team2, team3, country, game, avatar, signature FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-        list($niveau, $nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $rang, $team, $team2, $team3, $pays, $game, $avatar, $signature) = mysql_fetch_array($sql);
+        $dbuUser = ' SELECT niveau, pseudo, pass, url, mail, email, icq, msn, aim, yim, rang, team, team2, team3, country, game, avatar, signature, idGroup
+                     FROM ' . USER_TABLE . '
+                     WHERE id = "' . $id_user . '"';
+        $dbeUser = mysql_query($dbuUser);
+
+        list($niveau, $nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $rang, $team, $team2, $team3, $pays, $game, $avatar, $signature, $idGroup) = mysql_fetch_array($dbeUser);
 
         if ($team != "")
         {
@@ -250,25 +282,6 @@ if ($visiteur == 9)
             echo "<option value=\"" . $game_id . "\" " . $checked1 . ">" . $nom . "</option>\n";
         }
 
-        if ($user[0] == $id_user)
-        {
-            echo"</select><input type=\"hidden\" name=\"niveau\" value=\"" . $niveau . "\" /></td></tr>\n";
-        }
-        else
-        {
-            echo"</select></td></tr>\n"
-            . "<tr><td><b>" . _LEVEL . " :</b></td><td><select name=\"niveau\"><option>" . $niveau . "</option>\n"
-            . "<option>1</option>\n"
-            . "<option>2</option>\n"
-            . "<option>3</option>\n"
-            . "<option>4</option>\n"
-            . "<option>5</option>\n"
-            . "<option>6</option>\n"
-            . "<option>7</option>\n"
-            . "<option>8</option>\n"
-            . "<option>9</option></select></td></tr>\n";
-        }
-
         echo "<tr><td><b>" . _TEAM . " : </b></td><td><select name=\"team\"><option value=\"" . $team . "\">" . $user_team . "</option>\n";
 
         select_cat();
@@ -288,7 +301,59 @@ if ($visiteur == 9)
 
         select_rank();
 
-        echo"<option value=\"\">" . _NORANK . "</option></select></td></tr>\n"
+       echo "<option value=\"\">" . _NORANK . "</option></select></td></tr>\n"
+
+        . "<tr><td><b>" . _GROUPSMAIN . " : </b></td>
+               <td>
+                    <select name=\"groupMain\">\n";
+                    select_group($idGroup, 1);
+             echo " </select>
+               </td></tr>\n"
+        . "<tr><td><b>" . _GROUPS . " : </b></td>
+           <td>
+
+            <div class=\"userGroup300\">
+                <strong>" . _GROUPDISPO . "</strong>
+            </div>
+
+            <div class=\"userGroup300\">
+                <strong>" . _GROUPBELONGS . "</strong>
+            </div>
+
+            <div style=\"clear:both; margin: 5px 0;\"></div>
+
+            <div style=\"width: 300px;display:inline-block;\">
+
+                <select id=\"box1View\" multiple=\"multiple\">\n";
+                    select_group($idGroup, 0);
+         echo " </select>
+
+                <select id=\"box1Storage\">
+                </select>
+
+            </div>
+            <div class=\"userGroup300\">
+
+                <select name=\"group[]\" id=\"box2View\" multiple=\"multiple\" style=\"height:auto;width:300px;\">\n";
+                select_group($idGroup, 1);
+         echo " </select>
+
+            </div>
+
+            <div style=\"clear:both; margin: 5px 0;\"></div>
+
+            <div class=\"userGroup600\">
+                <button id=\"to2\" type=\"button\">&nbsp; &gt; &nbsp;</button>
+                <button id=\"allTo2\" type=\"button\">&nbsp; &gt;&gt; &nbsp;</button>
+                <button id=\"allTo1\" type=\"button\">&nbsp; &lt;&lt; &nbsp;</button>
+                <button id=\"to1\" type=\"button\">&nbsp; &lt; &nbsp;</button>
+            </div>
+
+            <select id=\"box2Storage\">
+            </select>
+
+           </td></tr>\n"
+
         . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
         . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $avatar . "\" /></td></tr>\n"
         . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\">" . $signature . "</textarea></td></tr>\n"
@@ -298,12 +363,11 @@ if ($visiteur == 9)
 
     }
 
-    function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature, $old_nick)
-    {
+    function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $groupMain, $group, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature, $old_nick) {
         global $nuked, $user;
-        
+
         $nick = verif_pseudo($nick, $old_nick);
-        
+
 		if ($nick == "error1"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -311,7 +375,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-    
+
         if ($nick == "error2"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -319,7 +383,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-    
+
         if ($nick == "error3"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -327,7 +391,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-    
+
         if (strlen($nick) > 30){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -399,7 +463,25 @@ if ($visiteur == 9)
             $url = htmlentities($url);
             $avatar = htmlentities($avatar);
 
-            $sql = mysql_query("UPDATE " . USER_TABLE . " SET team = '" . $team . "', team2 = '" . $team2 . "', team3 = '" . $team3 . "', rang = '" . $rang . "', ordre = '" . $ordre . "', pseudo = '" . $nick . "', mail = '" . $mail . "', email = '" . $email . "', icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', url = '" . $url . "', country = '" . $country . "', niveau = '" . $niveau . "', " . $cryptpass . "game = '" . $game . "', avatar = '" . $avatar . "', signature = '" . $signature . "' WHERE id = '" . $id_user . "'");
+            $userGroup = implode("|", $group);
+
+            if (is_numeric($groupMain)) {
+                $groupMain = $groupMain;
+            } else {
+                $groupMain = 1;
+            }
+
+            $dbuUserUpdate = ' UPDATE ' . USER_TABLE . '
+                               SET team = "' . $team . '", team2 = "' . $team2 . '", team3 = "' . $team3 . '",
+                                   rang = "' . $rang . '", ordre = "' . $ordre . '", pseudo = "' . $nick . '",
+                                   mail = "' . $mail . '", email = "' . $email . '", icq = "' . $icq . '",
+                                   msn = "' . $msn . '", aim = "' . $aim . '", yim = "' . $yim . '",
+                                   url = "' . $url . '", country = "' . $country . '", niveau = "' . $niveau . '",
+                                   ' . $cryptpass . ' game = "' . $game . '", avatar = "' . $avatar . '",
+                                   signature = "' . $signature . '", idGroup = "' . $userGroup . '",
+                                   groupMain = "' . $groupMain . '"
+                               WHERE id = "' . $id_user . '"';
+            $dbeUserUpdate = mysql_query($dbuUserUpdate);
 
             // Action
             $texteaction = "". _ACTIONMODIFUSER .": ".$nick."";
@@ -416,8 +498,7 @@ if ($visiteur == 9)
         }
     }
 
-    function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $game, $avatar, $signature)
-    {
+    function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $group, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $game, $avatar, $signature) {
         global $nuked, $user;
 
         if ($pass_reg == "" || $pass_conf == "" || $nick == "" || $mail == "")
@@ -447,11 +528,11 @@ if ($visiteur == 9)
         else
         {
             $cryptpass = nk_hash($pass_reg);
-            
+
             do {
                 $id_user = sha1(uniqid());
             } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
-            
+
             $date = time();
             $nick = htmlentities($nick, ENT_QUOTES);
 
@@ -473,7 +554,67 @@ if ($visiteur == 9)
             $url = htmlentities($url);
             $avatar = htmlentities($avatar);
 
-            $sql = mysql_query("INSERT INTO " . USER_TABLE . "  ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` ) VALUES ( '" . $id_user . "' , '" . $team . "' , '" . $team2 . "' , '" . $team3 . "' , '" . $rang . "' , '' , '" . $nick . "' , '" . $mail . "' , '" . $email . "' , '" . $icq . "' , '" . $msn . "' , '" . $aim . "' , '" . $yim . "' , '" . $url . "' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '" . $avatar . "' , '" . $signature . "' , '' , '' , '" . $game . "' , '" . $country . "' , '' )");
+            $userGroup = implode("|", $group);
+
+            $dbiUserInsert = ' INSERT INTO ' . USER_TABLE . '
+                                       (
+                                        `id` ,
+                                        `team` ,
+                                        `team2` ,
+                                        `team3` ,
+                                        `rang` ,
+                                        `ordre` ,
+                                        `pseudo` ,
+                                        `mail` ,
+                                        `email` ,
+                                        `icq` ,
+                                        `msn` ,
+                                        `aim` ,
+                                        `yim` ,
+                                        `url` ,
+                                        `pass` ,
+                                        `niveau` ,
+                                        `date` ,
+                                        `avatar` ,
+                                        `signature` ,
+                                        `user_theme` ,
+                                        `user_langue` ,
+                                        `game` ,
+                                        `country` ,
+                                        `count`,
+                                        `idGroup`,
+                                        `groupMain`
+                                       )
+                               VALUES (
+                                        "' . $id_user . '" ,
+                                        "' . $team  . '" ,
+                                        "' . $team2 . '" ,
+                                        "' . $team3 . '" ,
+                                        "' . $rang . '" ,
+                                        "" ,
+                                        "' . $nick . '",
+                                        "' . $mail . '" ,
+                                        "' . $email . '" ,
+                                        "' . $icq . '" ,
+                                        "' . $msn . '" ,
+                                        "' . $aim . '" ,
+                                        "' . $yim . '" ,
+                                        "' . $url . '" ,
+                                        "' . $cryptpass . '" ,
+                                        "' . $niveau . '" ,
+                                        "' . $date . '" ,
+                                        "' . $avatar . '" ,
+                                        "' . $signature . '" ,
+                                        "" ,
+                                        "" ,
+                                        "' . $game . '" ,
+                                        "' . $country . '" ,
+                                        "" ,
+                                        "' . $userGroup . '",
+                                        "1"
+                                       )';
+            $dbeUserInsert = mysql_query($dbiUserInsert);
+
             // Action
             $texteaction = "". _ACTIONADDUSER .": ".$nick."";
             $acdate = time();
@@ -512,8 +653,8 @@ if ($visiteur == 9)
         redirect("index.php?file=Admin&page=user", 2);
     }
 
-    function main()
-    {
+    function main() {
+
         global $nuked, $user, $language;
 
         if ($_REQUEST['query'] != "")
@@ -529,7 +670,7 @@ if ($visiteur == 9)
 
         $nb_membres = 30;
 
-        $sql3 = mysql_query("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
+        $sql3 = mysql_query("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.groupMain != 2 " . $and);
         $count = mysql_num_rows($sql3);
 
         if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
@@ -550,9 +691,9 @@ if ($visiteur == 9)
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"get\" action=\"index.php\">\n"
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><form method=\"get\" action=\"index.php\">\n"
         . "<div style=\"text-align: center;\"><b>" . _SEARCH . " : </b><input type=\"text\" id=\"query\" name=\"query\" size=\"25\" />&nbsp;<input type=\"submit\" value=\"ok\" />\n"
         . "<input type=\"hidden\" name=\"file\" value=\"Admin\" />\n"
         . "<input type=\"hidden\" name=\"page\" value=\"user\" /></div></form>\n"
@@ -568,9 +709,9 @@ if ($visiteur == 9)
         {
             $order_by = "UT.date DESC";
         }
-        else if ($_REQUEST['orderby'] == "level")
+        else if ($_REQUEST['orderby'] == "group")
         {
-            $order_by = "UT.niveau DESC, UT.date DESC";
+            $order_by = "UT.nameGroup ASC, UT.date DESC";
         }
         else if ($_REQUEST['orderby'] == "last_date")
         {
@@ -587,13 +728,13 @@ if ($visiteur == 9)
 
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" cellpadding=\"2\" cellspacing=\"0\" border=\"0\"><tr><td align=\"right\">" . _ORDERBY . " : ";
 
-        if ($_REQUEST['orderby'] == "level" || !$_REQUEST['orderby'])
+        if ($_REQUEST['orderby'] == "groupMain" || !$_REQUEST['orderby'])
         {
-            echo "<b>" . _LEVEL . "</b> | ";
+            echo "<b>" . _GROUPS . "</b> | ";
         }
         else
         {
-            echo "<a href=\"index.php?file=Admin&amp;page=user&amp;orderby=level\">" . _LEVEL . "</a> | ";
+            echo "<a href=\"index.php?file=Admin&amp;page=user&amp;orderby=group\">" . _GROUPS . "</a> | ";
         }
 
         if ($_REQUEST['orderby'] == "pseudo")
@@ -635,26 +776,34 @@ if ($visiteur == 9)
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
         . "<td style=\"width: 30%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
-        . "<td style=\"width: 10%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><b>" . _GROUPSMAIN . "</b></td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DATEUSER . "</b></td>\n"
         . "<td style=\"width: 25%;\" align=\"center\"><b>" . _LAST. " " ._VISIT . "</b></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
-        $req = "SELECT UT.id, UT.pseudo, UT.niveau, UT.date, ST.date FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 " . $and . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_membres;
-        $sql = mysql_query($req);
-        while (list($id_user, $pseudo, $niveau, $date, $last_used) = mysql_fetch_array($sql))
-        {
+        $dbuUserSelect = ' SELECT UT.id, UT.pseudo, UT.niveau, UT.date, UT.groupMain, ST.date, GR.nameGroup
+                           FROM ' . USER_TABLE . ' as UT
+                           LEFT OUTER JOIN ' . SESSIONS_TABLE . ' as ST
+                           ON UT.id = ST.user_id
+                           LEFT OUTER JOIN ' . GROUP . ' as GR
+                           ON UT.groupMain = GR.id
+                           WHERE UT.groupMain != 2 ' . $and . '
+                           ORDER BY "' . $order_by . '" LIMIT ' . $start . ', ' . $nb_membres . '';
+        $dbeUserSelect = mysql_query($dbuUserSelect);
+
+        while (list($id_user, $pseudo, $niveau, $date, $groupMain, $last_used, $nameGroup) = mysql_fetch_array($dbeUserSelect)) {
             $date = nkDate($date);
             $last_used == '' ? $last_used = '-' : $last_used = nkDate($last_used);
 
             echo "<tr>\n"
             . "<td>&nbsp;" . $pseudo . "</td>\n"
-            . "<td align=\"center\">" . $niveau . "</td>\n"
+            . "<td align=\"center\">" . traductNameGroup($nameGroup) . "</td>\n"
             . "<td align=\"center\">" . $date . "</td>\n"
             . "<td align=\"center\">" . $last_used . "</td>\n"
             . "<td align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITUSER . "\" /></a></td>\n"
             . "<td align=\"center\">";
+
 
             if ($user[0] == $id_user)
             {
@@ -880,6 +1029,36 @@ if ($visiteur == 9)
 
             echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
         }
+    }
+
+    function select_group($idGroup, $active)
+    {
+        global $nuked;
+
+            $idGroup = explode("|", $idGroup);
+
+            $dbsGroup = ' SELECT id, nameGroup
+                          FROM ' . GROUP;
+            $dbeGroup = mysql_query($dbsGroup);
+
+            while(list($id, $group) = mysql_fetch_array($dbeGroup)) {
+
+                $group = printSecuTags($group);
+
+                if ($active == 1) {
+                    if (in_array($id, $idGroup, true)) {
+?>
+                        <option value="<?php echo $id; ?>"><?php echo traductNameGroup($group); ?></option>
+<?php
+                    }
+                } else if ($active == 0) {
+                    if (!in_array($id, $idGroup, true)) {
+?>
+                        <option value="<?php echo $id; ?>"><?php echo traductNameGroup($group); ?></option>
+<?php
+                    }
+                }
+            }
     }
 
     function del_cat($cid)
@@ -1420,11 +1599,11 @@ if ($visiteur == 9)
         else
             return false;
     }
-    
+
     switch ($_REQUEST['op'])
     {
         case "update_user":
-            update_user($_REQUEST['id_user'], $_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature'], $_REQUEST['old_nick']);
+            update_user($_REQUEST['id_user'], $_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['groupMain'], $_REQUEST['group'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature'], $_REQUEST['old_nick']);
             break;
 
         case "add_user":
@@ -1432,7 +1611,7 @@ if ($visiteur == 9)
             break;
 
         case "do_user":
-            do_user($_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature']);
+            do_user($_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['group'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature']);
             break;
 
         case "edit_user":
@@ -1533,22 +1712,29 @@ if ($visiteur == 9)
     }
 
 }
-else if ($visiteur > 1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+else if($nkAccessModule === FALSE) {
+    debug($nkAccessModule);
+?>
+    <div class="notification error png_bg">
+        <div style="margin: 10px 0;">
+            <div style="text-align: center; margin: 10px 0;"><?php echo _NOENTRANCE; ?>
+                <a href="javascript:history.back()"><strong><?php echo _BACK; ?></strong></a>
+            </div>
+        </div>
+    </div>
+<?php
 }
-else
-{
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+else {
+    debug($nkAccessModule);
+?>
+    <div class="notification error png_bg">
+        <div style="margin: 10px 0;">
+            <div style="text-align: center; margin: 10px 0;"><?php echo _ZONEADMIN; ?>
+                <a href="javascript:history.back()"><strong><?php echo _BACK; ?></strong></a>
+            </div>
+        </div>
+    </div>
+<?php
 }
 adminfoot();
-
 ?>

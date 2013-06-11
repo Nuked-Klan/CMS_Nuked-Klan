@@ -44,7 +44,7 @@ if ($nuked['time_generate'] == 'on'){
 if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
 $session = session_check();
-$user = ($session == 1) ? secure() : array();
+$user = ($session == 1) ? secure() : array(0 => '', '1' => 2 ); //// Group array modifier
 $session_admin = admin_check();
 
 if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {

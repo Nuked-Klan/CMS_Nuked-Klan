@@ -18,9 +18,9 @@ function affich_block_login($blok){
     $blok['content'] = '';
 
 	$c = 0;
-	
-	if($login != 'off'){
-		if (!$user){
+
+    if($login != 'off'){
+        if ($user[1] == 2){
 			$blok['content'] = '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">'."\n"
 			. '<table style="margin-left: auto;margin-right: auto;text-align: left;">'."\n"
 			. '<tr><td>' . _NICK . ' :</td><td><input type="text" name="pseudo" size="10" maxlength="250" /></td></tr>'."\n"
@@ -44,26 +44,26 @@ function affich_block_login($blok){
 
     if($messpv != 'off' && $user[0] != ''){
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
-	
+
 		$sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
 		$nb_mess_lu = mysql_num_rows($sql2);
-	
+
 		$blok['content'] .= '&nbsp;<img width="14" height="12" src="images/message.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MESSPV . '</b></span><br />'."\n";
-	
+
 		if ($user[5] > 0){
 			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>'."\n";
 		}
 		else{
 			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <b>' . $user[5] . '</b>'."\n";
 		}
-	
+
 		if ($nb_mess_lu > 0){
 			$blok['content'] .= '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _READ . ' : <a href="index.php?file=Userbox"><b>' . $nb_mess_lu . '</b></a>'."\n";
 		}
 		else{
 			$blok['content'] .= '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _READ . ' : <b>' . $nb_mess_lu . '</b>'."\n";
 		}
-	
+
 		$c++;
     }
 
@@ -100,7 +100,7 @@ function affich_block_login($blok){
 			while (list($nom) = mysql_fetch_array($sql4)){
 				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';
 			}
-	
+
 			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 			}
     	else{
@@ -112,13 +112,13 @@ function affich_block_login($blok){
 			while (list($name) = mysql_fetch_array($sql5)){
 				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
 			}
-	
+
 			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 		}
 		else{
 			$admin_list = '';
 		}
-	
+
 		$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _VISITOR;
 		if ($nb[0] > 1) $blok['content'] .= 's';
 		$blok['content'] .= ' : <b>' . $nb[0] . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBER;
@@ -126,7 +126,7 @@ function affich_block_login($blok){
 		$blok['content'] .= ' : <b>' . $nb[1] . '</b>' . $user_list . '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _ADMIN;
 		if ($nb[2] > 1) $blok['content'] .= 's';
 		$blok['content'] .= ' : <b>' . $nb[2] . '</b>' . $admin_list . '<br />'."\n";
-	
+
 		$c++;
    }
 

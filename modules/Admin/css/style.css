@@ -134,3 +134,143 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 #screen{display:none;position:fixed;width:100%;height:100%;background:url('../images/bg.png') repeat;z-index:10000}
 #iframe{margin-left:5%;margin-top:5%;width:90%;height:100%}
 #iframe_close{display:block;width:66px;height:22px;background:url('../../../images/closelabel.gif') no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000}
+
+/* CSS FOR ADMIN GROUP */
+@media screen and (max-width: 800px) {
+        form#adminGroup {
+        width: 100%;
+        margin: 0 auto;
+    }
+    ul#userGroup li {
+        width: 100% !important;
+    }
+}
+@media screen and (min-width: 800px) and (max-width: 1250px) {
+        form#adminGroup {
+        width: 100%;
+        margin: 0 auto;
+    }
+    ul#userGroup li.quarter {
+        width: 40%;
+    }
+}
+@media screen and (min-width: 1250px) and (max-width: 1680px) {
+        form#adminGroup {
+        width: 84%;
+        margin: 0 auto;
+    }
+    ul#userGroup li.quarter {
+        width: 26%;
+    }
+}
+@media screen and (min-width: 1680px) {
+        form#adminGroup {
+        width: 84%;
+        margin: 0 auto;
+    }
+    ul#userGroup li.quarter {
+        width: 19%;
+    }
+}
+
+@media handheld {
+    ul#userGroup li {
+        width: 100% !important;
+    }
+}
+ul#userGroup {
+    display: block;
+    margin: 0;
+    padding: 0 10%;
+    text-align: center;
+}
+ul#userGroup li {
+    display: inline-block;
+    margin: 0;
+    padding: 5px 0;
+    list-style: none;
+    margin-right: -0.25em;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    border-radius: 7px;
+    margin: 10px 1%;
+}
+ul#userGroup li.half {
+    width: 41%;
+}
+ul#userGroup li.half span, ul#userGroup .full span, ul#userGroup .quarter span {
+    background:url("../images/bg-content-box.gif") repeat-x scroll left top rgb(229, 229, 229);
+    border-radius: 7px 7px 0 0;
+    display: block;
+    border: 1px solid #fff;
+    padding: 5px auto;
+    text-align: center;
+    color: #555;
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: bold;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+ul#userGroup li.half input {
+    display: block;
+    width: 80%;
+    margin: 5px auto;
+    background:#f3f3f3;
+    border: 1px solid #ccc;
+    padding: 2px 5px;
+}
+ul#userGroup li.full {
+    background:url("../images/bg-content-box.gif") repeat-x scroll left top rgb(229, 229, 229);
+    width: 84%;
+    margin: 0 auto;
+}
+ul#userGroup li.full span {
+    border: 0;
+    margin: auto;
+}
+
+ul#userGroup li.quarter div {
+    display: table;
+    width: 100%;
+}
+ul#userGroup li.quarter div span.title {
+    width: 75%;
+    display: table-cell;
+    font-weight: normal;
+    margin-top: 3px;
+    background: none;
+}
+ul#userGroup li.quarter div span.input {
+    width: 20%;
+    display: table-cell;
+    vertical-align: middle;
+    margin-top: 3px;
+    background: none;
+}
+/* CSS FOR ADMIN USER */
+#box1View {
+    height:auto;width:300px;
+}
+.userGroup300 {
+    width: 300px;display:inline-block;
+}
+.userGroup600 {
+    width: 600px;display:inline-block; text-align:center;
+}
+.countLabel
+{
+    color:Gray;
+    font-style:italic;
+}
+
+.storageBox
+{
+    display:none;
+}
+
+.copiedOption
+{
+    background-color:Yellow;
+}
