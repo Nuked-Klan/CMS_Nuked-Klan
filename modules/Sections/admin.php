@@ -23,8 +23,13 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $sql3 = mysql_query("SELECT artid FROM " . SECTIONS_TABLE);
         $nb_art = mysql_num_rows($sql3);
 
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_max - $nb_max;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $nb_max - $nb_max;
 
         echo "<script type=\"text/javascript\">\n"
                 ."<!--\n"
@@ -48,6 +53,10 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 nkAdminMenu(1);
 
                 echo "</div>\n";
+
+        if(!array_key_exists('orderby', $_REQUEST)){
+            $_REQUEST['orderby'] = '';
+        }
 
         if ($_REQUEST['orderby'] == "date"){
             $order_by = "S.artid DESC";

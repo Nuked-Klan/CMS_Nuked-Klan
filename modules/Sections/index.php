@@ -40,6 +40,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             $sql_cat = mysql_query("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = 0 ORDER BY position, secname");
             $test = 0;
+            $last_cid = '';
             while (list($secid, $secname, $description) = mysql_fetch_array($sql_cat)){
                 $secname = printSecuTags($secname);
 
@@ -47,7 +48,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                     $test++;
                     if ($test == 1){
                         echo "<tr>";
-                    } 
+                    }
 
                     echo "<td valign=\"top\"><img src=\"modules/Sections/images/fleche.gif\" alt=\"\" /><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\"><b>" . $secname . "</b></a>";
 
@@ -56,15 +57,15 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                     if ($nb_art > 0){
                         echo "<small>&nbsp;(" . $nb_art . ")</small>\n";
-                    } 
+                    }
 
                     if ($description != ""){
                         echo "<div style=\"width: 225px;\">" . $description . "</div>\n";
-                    } 
+                    }
                     else{
                         echo "<br />";
                     }
-                    
+
                     $sql_subcat = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname LIMIT 0, 4");
                     $nb_subcat = mysql_num_rows($sql_subcat);
 
@@ -75,22 +76,22 @@ if ($visiteur >= $level_access && $level_access > -1){
                             $t++;
                             if ($t <= 3) echo "<small><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $sub_cat_id . "\">" . $sub_cat_titre . "</a></small>&nbsp;&nbsp;";
                             else echo "<small><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\">...</a></small>";
-                        } 
-                    } 
+                        }
+                    }
 
                     echo "</td>\n";
 
                     if ($test == 2){
                         $test = 0;
                         echo "</tr>\n";
-                    } 
+                    }
                     $last_secid = $secid;
-                } 
-            } 
+                }
+            }
 
             if ($test == 1) echo "</tr>\n";
             echo "</table>\n";
-        } 
+        }
         else{
             echo "<br />\n";
         }
@@ -101,7 +102,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         else echo "<div style=\"text-align: center;\"><br />" . _NOARTINDB . "</div><br /><br />\n";
 
         closetable();
-    } 
+    }
 
     function categorie($secid){
         global $nuked;
@@ -126,10 +127,10 @@ if ($visiteur >= $level_access && $level_access > -1){
             $parent_titre = printSecuTags($parent_titre);
 
             echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Sections\" style=\"text-decoration:none\"><big><b>" . _SECTIONS . "</b></big></b></a> &gt; <a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $parentid . "\" style=\"text-decoration:none\"><big><b>" . $parent_titre . "</b></big></a> &gt; <big><b>" . $secname . "</b></big></div><br />\n";
-        } 
+        }
         else{
             echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Sections\" style=\"text-decoration:none\"><big><b>" . _SECTIONS . "</b></big></a> &gt; <big><b>" . $secname . "</b></big></div><br />\n";
-        } 
+        }
 
         $sql_subcat = mysql_query("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname");
         $nb_subcat = mysql_num_rows($sql_subcat);
@@ -149,17 +150,17 @@ if ($visiteur >= $level_access && $level_access > -1){
                     $count++;
                     if ($count == 1){
                         echo "<tr>";
-                    } 
+                    }
 
                     echo "<td style=\"width: 225px;\" valign=\"top\"><img src=\"modules/Sections/images/fleche.gif\" alt=\"\" /><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $catid . "\"><b>" . $parentcat . "</b></a> <small>(" . $nb_artcat . ")</small><br />" . $parentdesc . "</td>";
 
                     if ($count == 2){
                         $count = 0;
                         echo "</tr>\n";
-                    } 
+                    }
                     $last_catid = $catid;
-                } 
-            } 
+                }
+            }
 
             if ($count == 1) echo "</tr>\n";
             echo "</table>\n";
@@ -167,23 +168,23 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
         else{
             echo "<div style=\"text-align: center;\">" . $description . "</div><br />\n";
-        } 
+        }
 
         classe($secid, $nb_subcat);
 
         echo "<br />\n";
 
         closetable();
-    } 
+    }
 
     function article($artid){
         global $nuked, $user, $visiteur, $bgcolor3, $bgcolor2, $bgcolor1;
 
         opentable();
 
-        if (($_REQUEST['p'] == 1) OR ($_REQUEST['p'] == "")){
+        if ((array_key_exists('p', $_REQUEST) && $_REQUEST['p'] == 1) OR (array_key_exists('p', $_REQUEST) && $_REQUEST['p'] == "")){
             $upd = mysql_query("UPDATE " . SECTIONS_TABLE . "  SET counter = counter + 1 WHERE artid = '" . $artid . "'");
-        } 
+        }
 
         $sql = mysql_query("SELECT artid, secid, title, content, coverage, autor, autor_id, counter, date FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
         if(mysql_num_rows($sql) <= 0){
@@ -198,7 +199,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         if ($secid == 0){
             $category = _NONE;
-        } 
+        }
         else if ($parentid > 0)
         {
             $sql3 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
@@ -206,10 +207,10 @@ if ($visiteur >= $level_access && $level_access > -1){
             $parent_name = printSecuTags($parent_name);
 
             $category = "<a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $parentid . "\">" . $parent_name . "</a> -&gt; <a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\">" . $secname . "</a>";
-        } 
+        }
         else{
             $category = "<a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\">" . $secname . "</a>";
-        } 
+        }
 
         $title = printSecuTags($title);
         $autor = nkHtmlEntities($autor);
@@ -224,7 +225,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         if ($autor_id != "" && $test > 0){
             list($auteur) = mysql_fetch_array($sql4);
             $auteur = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($auteur) . "\">" . $auteur . "</a>";
-        } 
+        }
         else{
             $auteur = $autor;
         }
@@ -233,6 +234,9 @@ if ($visiteur >= $level_access && $level_access > -1){
         // $contentpages = explode('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', $content);
         $contentpages = explode('<div style="page-break-after: always"><span style="display:none">&nbsp;</span></div>', $content);
         $pageno = count($contentpages);
+        if(!array_key_exists('p', $_REQUEST)){
+            $_REQUEST['p'] = '';
+        }
         if ($_REQUEST['p'] == "" || $_REQUEST['p'] < 1) $_REQUEST['p'] = 1;
         if ($_REQUEST['p'] > $pageno) $_REQUEST['p'] = $pageno;
         $arrayelement = (int)$_REQUEST['p'];
@@ -255,7 +259,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             echo "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><a class=\"nkButton icon alone edit\" href=\"index.php?file=Sections&amp;page=admin&amp;op=edit&amp;artid=" . $artid . "\" title=\"" . _EDIT . "\" ></a>"
                     . "&nbsp;<a class=\"nkButton icon alone remove danger\" href=\"javascript:delart('" . mysql_real_escape_string(stripslashes($title)) . "','" . $artid . "');\" title=\"" . _DEL . "\"></a></div></div>\n";
-        } 
+        }
 
 
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Sections\" style=\"text-decoration:none\"><big><b>" . _SECTIONS . "</b></big></a></div><br />\n"
@@ -267,14 +271,14 @@ if ($visiteur >= $level_access && $level_access > -1){
                 . "<td style=\"width: 5%;\" align=\"center\"><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Sections&amp;nuked_nude=index&amp;op=pdf&amp;artid=" . $artid . "','projet','toolbar=yes,location=no,directories=no,scrollbars=yes,resizable=yes')\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a></td></tr></table></td></tr>\n"
                 . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _CAT . " :</b> " . $category . "</td></tr>\n"
                 . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _ADDTHE . " :</b> " . $date . "</td></tr>\n";
-       
+
         if ($auteur != ""){
             echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _AUTHOR . " :</b> " . $auteur . "</td></tr>\n";
         }
 
         echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _READSART . " :</b> " . $counter . "</td></tr>\n";
-        
-        
+
+
 
         if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
             echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
@@ -290,35 +294,35 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         if ($pageno > 1){
             echo _PAGE . " : " . $_REQUEST['p'] . "/" . $pageno . "<br /><br />";
-        } 
+        }
         else {
             echo "<br />";
-        } 
+        }
 
         echo $contentpages[$arrayelement];
 
         if ($_REQUEST['p'] >= $pageno){
             $next_page = "";
-        } 
+        }
         else{
             $next_pagenumber = $_REQUEST['p'] + 1;
 
             if ($_REQUEST['p'] != 1){
                 $next_page .= "";
-            } 
+            }
 
-            $next_page .= "<a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "&amp;p=" . $next_pagenumber . "\">" . _NEXTPAGE . " (" . $next_pagenumber . "/" . $pageno . ")</a>&nbsp;" 
+            $next_page .= "<a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "&amp;p=" . $next_pagenumber . "\">" . _NEXTPAGE . " (" . $next_pagenumber . "/" . $pageno . ")</a>&nbsp;"
                                 . "<a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "&amp;p=" . $next_pagenumber . "\"><img style=\"border: 0;\" src=\"modules/Sections/images/right.gif\" alt=\"\" title=\"" . _NEXTPAGE . "\" align=\"top\"></a>";
-        } 
+        }
 
         if ($_REQUEST['p'] <= 1){
             $previous_page = "";
-        } 
+        }
         else{
             $previous_pagenumber = $_REQUEST['p'] - 1;
             $previous_page = "<a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "&amp;p=" . $previous_pagenumber . "\"><img style=\"border: 0;\" src=\"modules/Sections/images/left.gif\" alt=\"\" title=\"" . _PREVIOUSPAGE . "\"></a>"
                                     . "&nbsp;<a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "&amp;p=" . $previous_pagenumber . "\">" . _PREVIOUSPAGE . " (" . $previous_pagenumber . "/" . $pageno . ")</a>";
-        } 
+        }
 
         echo "<br /><div style=\"text-align: center;\">" . $previous_page. "&nbsp;&nbsp;" . $next_page . "</div></td></tr></table><br />\n";
 
@@ -334,10 +338,21 @@ if ($visiteur >= $level_access && $level_access > -1){
             echo "</td></tr></table>\n";
         }
         closetable();
-    } 
+    }
 
-    function classe($sid, $nb_subcat){
-        global $nuked, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
+    function classe(){
+        global $nuked, $visiteur, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
+
+        $arrayRequest = array('sid', 'nb_subcat');
+
+        foreach ($arrayRequest as $key) {
+            if(array_key_exists($key, $_REQUEST)){
+                ${$key} = $_REQUEST[$key];
+            }
+            else{
+                ${$key} = '';
+            }
+        }
 
         if ($_REQUEST['op'] == "classe"){
             echo "<br /><div style=\"text-align: center;\"><big><b>" . _SECTIONS . "</b></big></div>\n"
@@ -346,41 +361,50 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             if ($_REQUEST['orderby'] == "news"){
                 echo _NEWSART . " | ";
-            } 
+            }
             else{
                 echo "<a href=\"index.php?file=Sections&amp;op=classe&amp;orderby=news\" style=\"text-decoration: underline\">" . _NEWSART . "</a> | ";
-            } 
+            }
 
             if ($_REQUEST['orderby'] == "count"){
                 echo _TOPART . " | ";
-            } 
+            }
             else{
                 echo "<a href=\"index.php?file=Sections&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPART . "</a> | ";
-            } 
+            }
 
             echo "<a href=\"index.php?file=Suggest&amp;module=Sections\" style=\"text-decoration: underline\">" . _SUGGESTART . "</a> ]</div><br />\n";
-        } 
+        }
 
         $nb_max = $nuked['max_sections'];
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_max - $nb_max;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $nb_max - $nb_max;
 
         if ($sid != "") $where = "WHERE S.secid = '" . $sid . "'";
         else $where = "";
 
+        if(!array_key_exists('orderby', $_REQUEST)){
+            $_REQUEST['orderby'] = '';
+        }
+
         if ($_REQUEST['orderby'] == "name"){
             $order = "ORDER BY S.title";
-        } 
+        }
         else if ($_REQUEST['orderby'] == "count"){
             $order = "ORDER BY S.counter DESC";
-        } 
+        }
         else if ($_REQUEST['orderby'] == "note"){
             $order = "ORDER BY note DESC";
-        } 
+        }
         else{
             $_REQUEST['orderby'] = "news";
             $order = "ORDER BY S.artid DESC";
-        } 
+        }
 
         $sql = mysql_query("SELECT S.artid, S.title, S.date, S.counter, S.content, S.coverage, AVG(V.vote) AS note  FROM " . SECTIONS_TABLE . " AS S LEFT JOIN " . VOTE_TABLE . " AS V ON S.artid = V.vid AND V.module = 'Sections' " . $where . " GROUP BY S.artid " . $order);
         
@@ -403,7 +427,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             else echo"    <a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=note&amp;secid=" . $sid . "\">" . _NOTE . "</a>";
 
             echo "</small></td></tr></table>\n";
-        } 
+        }
 
         if ($nb_art > 0){
             if ($nb_art > $nb_max){
@@ -411,7 +435,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 $url = "index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;secid=" . $sid . "&amp;orderby=" . $_REQUEST['orderby'];
                 number($nb_art, $nb_max, $url);
                 echo "</td></tr></table>\n";
-            } 
+            }
 
             echo "<br />";
 
@@ -433,26 +457,26 @@ if ($visiteur >= $level_access && $level_access > -1){
                         if (strlen($texte) > 150){
                             $texte = htmlspecialchars_decode($texte, ENT_NOQUOTES);
                             $texte = substr($texte, 0, 150) . "...";
-                        } 
-                    } 
+                        }
+                    }
                     else{
                         $texte = "";
-                    } 
+                    }
 
                     mysql_data_seek($sqlhot, 0);
                     while (list($id_hot) = mysql_fetch_array($sqlhot)){
                         if ($artid == $id_hot && $nb_art > 1 && $counter > 9) $att .= "&nbsp;&nbsp;" . _HOT;
-                    } 
+                    }
 
                     if ($date != "") $alt = "title=\"" . _ADDTHE . "&nbsp;" . nkDate($date) . "\"";
                     else $alt = "";
 
                     if (is_file("themes/" . $theme . "/images/articles.gif")){
                         $img = "<img src=\"themes/" . $theme . "/images/articles.gif\" alt=\"\" " . $alt . "/>";
-                    } 
+                    }
                     else{
                         $img = "<img src=\"modules/Sections/images/articles.gif\" alt=\"\" " . $alt . "/>";
-                    } 
+                    }
 
                     echo "<table style=\"background: " . $bgcolor3 . ";margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
                             . "<tr><td><table style=\"background: " . $bgcolor2 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
@@ -468,7 +492,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                     if ($texte != ""){
                         echo "<tr><td colspan=\"2\">" . $texte . "</td></tr>\n";
-                    } 
+                    }
 
                     echo "<tr style=\"background: " . $bgcolor1 . ";\"><td colspan=\"2\">&nbsp;<b>" . _READSART . " :</b> " . $counter . "&nbsp;";
 
@@ -476,22 +500,22 @@ if ($visiteur >= $level_access && $level_access > -1){
                     vote_index("Sections", $artid);
 
                     echo "</td></tr></table></td></tr></table><br />\n";
-                } 
-            } 
+                }
+            }
 
             if ($nb_art > $nb_max){
                 echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\"><tr><td>";
                 $url = "index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;secid=" . $sid . "&amp;orderby=" . $_REQUEST['orderby'];
                 number($nb_art, $nb_max, $url);
                 echo "</td></tr></table>\n";
-            } 
+            }
 
-        } 
+        }
         else{
             if ($nb_subcat == 0 && $sid > 0) echo "<div style=\"text-align: center;\"><br />" . _NOARTS . "</div><br /><br />\n";
             if ($_REQUEST['op'] == "classe") echo "<div style=\"text-align: center;\"><br />" . _NOARTINDB . "</div><br /><br />\n";
-        } 
-    } 
+        }
+    }
 
     function pdf($artid) {
         global $nuked;
@@ -536,7 +560,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             echo $e;
             exit;
         }
-    } 
+    }
 
     switch ($_REQUEST['op']){
         case "article":
@@ -544,7 +568,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             break;
         case "classe":
             opentable();
-            classe($_REQUEST['sid'], $_REQUEST['nb_subcat']);
+            classe();
             closetable();
             break;
         case "categorie":
@@ -556,21 +580,21 @@ if ($visiteur >= $level_access && $level_access > -1){
         default:
             index();
             break;
-    } 
-} 
+    }
+}
 else if ($level_access == -1){
     opentable();
     echo "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
     closetable();
-} 
+}
 else if ($level_access == 1 && $visiteur == 0){
     opentable();
     echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b><br /><br /></div>";
     closetable();
-} 
+}
 else{
     opentable();
     echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
     closetable();
-} 
+}
 ?>
