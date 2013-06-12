@@ -16,13 +16,15 @@ function admintop(){
     global $user, $nuked, $language;
     translate("modules/Admin/lang/$language.lang.php");
 
-    $visiteur = $user ? $user[1] : 0;
+    $nkAccessModule = nkAccessModule('Admin', $user[1], FALSE);
+
     $condition_js = ($nuked['screen']) == 'off' ? 1 : 0;
-    if($visiteur < 2) redirect('index.php?file=404', 0);
+
+    if($nkAccessModule === FALSE) { redirect('index.php?file=404', 0); }
 
     // Tableau associé au condition sur la class du menu de navigation
     $a = array('setting','maj','phpinfo','mysql','action','erreursql');
-    $b = array('user','theme','modules','block','menu','smilies','games');
+    $b = array('user','group','theme','modules','block','menu','smilies','games');
 
     // Condition sur la class du menu de navigation
     $Current = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'index') ? ' current' : '';
@@ -34,6 +36,7 @@ function admintop(){
     $SubMenuParameters5 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'erreursql') ? 'class="current"' : '';
     $MenuGestion = ($_REQUEST['file'] == 'Admin' and in_array($_REQUEST['page'], $b)) ? ' current' : '';
     $SubMenuGestion = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'user') ? 'class="current"' : '';
+    $SubMenuGestion1 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'group') ? 'class="current"' : '';
     $SubMenuGestion2 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'theme') ? 'class="current"' : '';
     $SubMenuGestion3 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'modules') ? 'class="current"' : '';
     $SubMenuGestion4 = ($_REQUEST['file'] == 'Admin' and $_REQUEST['page'] == 'block') ? 'class="current"' : '';
@@ -61,11 +64,23 @@ function admintop(){
         <script type="text/javascript" src="modules/Admin/scripts/jquery-1.6.1.min.js"></script>
         <script type="text/javascript" src="modules/Admin/scripts/simpla.jquery.configuration.js"></script>
         <script type="text/javascript" src="modules/Admin/scripts/facebox.js"></script>
+        <script type="text/javascript" src="modules/Admin/scripts/config.js"></script>
         <script type="text/javascript">
             var condition_js = '<?php echo $condition_js; ?>';
             var lang_nuked = '<?php echo $language; ?>';
-          </script>
-        <script type="text/javascript" src="modules/Admin/scripts/config.js"></script>
+        </script>
+<?php
+    if(array_key_exists('page', $_REQUEST) && $_REQUEST['page'] == 'user' or $_REQUEST['page'] == 'group'){
+?>
+        <script type="text/javascript" src="modules/Admin/scripts/groupManagement.js"></script>
+<?php
+    }
+    if(array_key_exists('page', $_REQUEST) && $_REQUEST['page'] == 'group'){
+?>
+        <script type="text/javascript" src="modules/Admin/scripts/colorPicker.js"></script>
+<?php
+    }
+?>
         </head>
     <body>
 
@@ -123,7 +138,7 @@ function admintop(){
 
                         <ul>
                             <li><a <?php echo $SubMenuGestion; ?> href="index.php?file=Admin&amp;page=user"><?php echo _UTILISATEURS; ?></a></li>
-
+                            <li><a <?php echo $SubMenuGestion1; ?> href="index.php?file=Admin&amp;page=group"><?php echo _GROUPS; ?></a></li>
                             <?php if(file_exists('themes/' . $nuked['theme'] . '/admin.php')) { ?>
                                 <li><a <?php echo $SubMenuGestion2; ?> href="index.php?file=Admin&amp;page=theme"><?php echo _THEMIS; ?></a></li>
                             <?php } ?>
@@ -140,7 +155,7 @@ function admintop(){
                         <?php
                         echo '<li>';
                         $modules = array();
-                        $Sql = mysql_query("SELECT `nom` FROM `" . MODULES_TABLE . "` WHERE '".$visiteur."' >= admin AND niveau > -1 AND admin > -1 ORDER BY nom");
+                        $Sql = mysql_query("SELECT `nom` FROM `" . MODULES_TABLE . "` WHERE niveau > -1 AND admin > -1 ORDER BY nom");
                         while ($mod = mysql_fetch_assoc($Sql)) {
 
                             if ($mod['nom'] == 'Gallery') $modname = _NAMEGALLERY;
@@ -162,10 +177,17 @@ function admintop(){
                             else if ($mod['nom'] == 'Comment') $modname = _NAMECOMMENT;
                             else $modname = $mod['nom'];
 
-                            array_push($modules, $modname . '|' . $mod['nom']);
+                            $nkAccessModuleAdmin = nkAccessModule($mod['nom'], $user[1], TRUE);
+
+
+                            if($nkAccessModuleAdmin === TRUE) {
+                                array_push($modules, $modname . '|' . $mod['nom']);
+                            }
                         } // END while
 
                         natcasesort($modules);
+
+                        $modulecur = '';
 
                         foreach ($modules as $value) {
 

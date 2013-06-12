@@ -1069,6 +1069,7 @@ function getOS(){
 
     $list_os = array(
         // Windows
+        'Windows NT 6.2'       => 'Windows 8',
         'Windows NT 6.1'       => 'Windows 7',
         'Windows NT 6.0'       => 'Windows Vista',
         'Windows NT 5.2'       => 'Windows Server 2003',
@@ -1210,7 +1211,8 @@ function send_stats_nk() {
 function initializeControlDB($prefixDB) {
     if (!isset($prefixDB)) {
         exit(DBPREFIX_ERROR);
-    } else {
+    }
+    else {
         $result = mysql_query('SELECT name, value FROM ' . $prefixDB . '_config');
         if ($result == false) {
             exit(DBPREFIX_ERROR);
@@ -1219,4 +1221,65 @@ function initializeControlDB($prefixDB) {
         }
     }
 }
+function nkAccessModule($module, $group, $access) {
+
+    if($access === true) {
+        $field = 'accessAdmin';
+    }
+    else if($access === false) {
+        $field = 'access';
+    }
+
+    $userGroup = explode("|", $group);  /// Transforme en tableaux les groupe ( ID ) => 0|1|2 ect...
+
+    $i = 0;
+    $arrayGroup = array();
+    $dbsGroup = " SELECT id, ".$field."
+                  FROM ".GROUP_TABLE." ";
+    $dbeGroup = mysql_query($dbsGroup) or die(mysql_error());
+
+    while ($data = mysql_fetch_assoc($dbeGroup)) {
+        if (in_array($data['id'], $userGroup)) {
+            $data[$field] = explode('|', $data[$field]);
+            foreach ($data[$field] as $moduleName) {
+                if (!in_array($moduleName, $arrayGroup)) {
+                    $arrayGroup[] = $moduleName;
+                }
+            }
+        }
+    }
+
+    if (in_array($module, $arrayGroup, true) || in_array(0, $userGroup)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+
+function translateGroupName($groupId, $groupName){
+    if($groupId == 0 || $groupId == 1 || $groupId == 2){
+        return constant($groupName);
+    } else{
+        return $groupName;
+    }
+}
+
+function colorGroup($userMainGroup) {
+    $dbsGroup = " SELECT color
+                  FROM ".GROUP_TABLE."
+                  WHERE id = ".$userMainGroup." ";
+    $dbeGroup = mysql_query($dbsGroup) or die(mysql_error());
+    while ($data = mysql_fetch_assoc($dbeGroup)) {
+        return $data['color'];
+    }
+}
+
+function debug($content) {
+    echo'<pre>';
+    var_dump($content);
+    echo'</pre>';
+}
+
 ?>
