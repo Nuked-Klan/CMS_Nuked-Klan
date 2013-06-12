@@ -31,7 +31,7 @@ else{
 		</div>
 <?php
 	}
-	
+
 	function cat_colonne(){
 ?>
 		<div style="width:80%; margin:auto;">
@@ -44,29 +44,29 @@ else{
 		<div style="text-align: center;margin: 20px 0;">
 			<a style="display:block;font-size: 16px;margin-bottom:15px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_complet" ><?php echo _INMODULEAT; ?> 100%</a>
 			<a style="display:block;font-size: 16px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche" ><?php echo _INMODULEAT; ?> 75%</a>
-		</div>		
+		</div>
 <?php
 		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
-	
+
 	function menu(){
 		global $nbr_menu;
 
-		if($_GET['action'] == 'save'){		
+		if(isset($_REQUEST['action']) &&  $_REQUEST['action'] == 'save'){
 			$ecriretexte = '<?php';
 			$nbr = 1;
-			while ($nbr <= $nbr_menu){		
+			while ($nbr <= $nbr_menu){
 				$ecriretexte .= "\n".'$menu['.$nbr.'] = "'.$_POST['menu'.$nbr].'";'."\n".'$menu1['.$nbr.'] = "'.$_POST['menu1'.$nbr].'";';
 				$nbr++;
 			}
-		
+
 			$fichier = 'themes/Impact_Nk/admin/menu.php';
 			$ecrire = fopen($fichier, "w+");
 			fwrite($ecrire, $ecriretexte."\n?>");
 			fclose($ecrire);
-			
+
 			echo '<div style="text-align: center;margin:20px 0;">'. _INSAVEMOD .'</div>';
-			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
+			redirect ("index.php?file=Admin&page=theme", 2);
 
 		}
 		else{
@@ -74,22 +74,22 @@ else{
 ?>
 			<div style="text-align: center;margin:20px 0;">
 				<h3><?php echo _INMANAGEMENU;?></h3>
-				<form method="post" action="index.php?file=Admin&amp;page=theme&amp;sub=menu&amp;action=save<?php echo $iframe ;?>">
+				<form method="post" action="index.php?file=Admin&amp;page=theme&amp;sub=menu&amp;action=save">
                 <fieldset>
 <?php
 			$nbr = 1;
 			while ($nbr <= $nbr_menu){
-?>		
+?>
 					<p style="font-weight: bold; text-decoration: underline;">Menu n°<?php echo $nbr ;?></p>
 					<div style="margin-bottom:10px;">
 						<label for="lmenu<?php echo $nbr; ?>">
-							Titre : 
+							Titre :
 							<input type="text" id="lmenu<?php echo $nbr ;?>" name="menu<?php echo $nbr ;?>" value="<?php echo stripslashes($menu[$nbr]) ;?>" />
 						</label>
 						<label for="lmenu1<?php echo $nbr; ?>">
 							Url :
 							<input type="text" id="lmenu1<?php echo $nbr ;?>" name="menu1<?php echo $nbr ;?>" value="<?php echo stripslashes($menu1[$nbr]) ;?>" />
-						</label>		
+						</label>
 					</div>
 <?php
 				$nbr++;
@@ -100,18 +100,18 @@ else{
 				</form>
 			</div>
 <?php
-		}		
+		}
 		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
 
 	function couleur(){
 		global $nbr_couleur;
-		
-		if($_GET['action'] == 'save'){		
+
+		if($_GET['action'] == 'save'){
 			$ecriretexte = '<?php';
 			$nbr = 1;
-			while ($nbr <= $nbr_couleur){			
-				$ecriretexte .= "\n".'$couleur['.$nbr.'] = \''.$_POST['couleur'.$nbr].'\';';				
+			while ($nbr <= $nbr_couleur){
+				$ecriretexte .= "\n".'$couleur['.$nbr.'] = \''.$_POST['couleur'.$nbr].'\';';
 				$nbr++;
 			}
 
@@ -119,7 +119,7 @@ else{
 			$ecrire = fopen($fichier, "w+");
 			fwrite($ecrire, $ecriretexte."\n?>");
 			fclose($ecrire);
-			
+
 			echo '<div style="text-align: center;margin:20px 0;">'._INMODSUCESS.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
@@ -149,7 +149,7 @@ else{
 		}
 		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
-	
+
 	function module_gauche(){
 		global $theme, $user, $module_aff_unique;
 
@@ -159,13 +159,13 @@ else{
 					$module_droite .= $module2.'|';
 				}
 			}
-		
+
 			$ecriretexte = '<?php'."\n".'$config_best["affiche-block-unique"] = "'.$module_droite.'"; '."\n".'?>';
 			$fichier = 'themes/'.$theme.'/admin/config_best_unique.php';
 			$ecrire = fopen($fichier, "w+");
 			fwrite($ecrire, $ecriretexte);
 			fclose($ecrire);
-	
+
 			echo '<div style="text-align: center;margin:20px 0;">'._INWARNINGMODTHEME.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
@@ -190,7 +190,7 @@ else{
 			</script>
 			<div style="text-align: center; margin:20px 0;">
 				<h3><?php echo _INMANAGECOLUMNBLOCS; ?></h3>
-				<form method="post" name="block_aff" action="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche&amp;action=save">			
+				<form method="post" name="block_aff" action="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche&amp;action=save">
 					<table style="margin:20px auto;">
 						<tr>
 							<td></td>
@@ -235,7 +235,7 @@ else{
 		}
 		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
-	
+
 	function module_complet(){
 		global $theme, $user, $complet;
 
@@ -245,13 +245,13 @@ else{
 					$module_droite .= $module2.'|';
 				}
 			}
-				
+
 			$ecriretexte = '<?php'."\n".'$config_best["complet"] = "'.$module_droite.'"; '."\n".'?>';
 			$fichier = 'themes/'.$theme.'/admin/complet.php';
 			$ecrire = fopen($fichier, "w+");
 			fwrite($ecrire, $ecriretexte);
 			fclose($ecrire);
-			
+
 			echo '<div style="text-align: center;margin:20px 0;">'._INMODSUCESS.'</div>';
 			redirect ("index.php?file=Admin&page=theme".$iframe, 2);
 		}
@@ -276,7 +276,7 @@ else{
 			</script>
 			<div style="text-align: center;margin:20px 0;">
 				<h3><?php echo _INMANAGECOLUMNBLOCS;?></h3>
-				<form method="post" name="block_aff" action="index.php?file=Admin&amp;page=theme&amp;sub=module_complet&amp;action=save">			
+				<form method="post" name="block_aff" action="index.php?file=Admin&amp;page=theme&amp;sub=module_complet&amp;action=save">
 					<table style="margin: 20px auto;">
 						<tr>
 							<td></td>
@@ -296,7 +296,7 @@ else{
 			include('themes/Impact_Nk/admin/complet.php');
 			$folder = "modules/";
 			$dossier = opendir($folder);
-			
+
 			while ($Fichier = readdir($dossier)){
 				if ($Fichier != "." && $Fichier != ".." AND !preg_match("#^[a-z0-9._-]*\.[a-z0-9._-]{3,}$#", $Fichier)){
 					echo '<tr><td>'.$Fichier.'</td>
@@ -324,7 +324,7 @@ else{
 		}
 		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
-	
+
 	function logo(){
 		global $theme;
 
@@ -360,8 +360,14 @@ else{
 		}
 		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
 	}
-	
-	switch ($_REQUEST['sub']){
+    if(isset($_REQUEST['sub'])){
+        $sub = $_REQUEST['sub'];
+    }
+    else{
+        $sub = '';
+    }
+
+	switch ($sub){
 		case"index":
 			index();
 			break;

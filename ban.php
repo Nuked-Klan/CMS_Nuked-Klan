@@ -26,7 +26,7 @@ if (preg_match('`\.\.`', $theme) || preg_match('`\.\.`', $language) || preg_matc
 $theme = trim($theme);
 $language = trim($language);
 
-include ('themes/' . $theme . '/colors.php');
+require_once ('themes/' . $theme . '/colors.php');
 translate ('lang/' . $language . '.lang.php');
 
 $ip_ban = mysql_real_escape_string($_GET['ip_ban']);
@@ -68,7 +68,7 @@ if ($count > 0) {
         echo '<br /><p><hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" />
         <big><b>' . _REASON . '</b><br>' . nkHtmlEntityDecode($texte_ban) . '</big></p>';
     }
-    
+
     if($dure == 0) $temps = _AVIE;
     else if ($dure == 86400) $temps = _1JOUR;
     else if ($dure == 604800) $temps = _7JOUR;

@@ -55,13 +55,23 @@ if (empty($_REQUEST['op'])) $_REQUEST['op'] = 'index';
 
 
 // SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
-$nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
+if(array_key_exists($nuked['cookiename'] . '_user_theme', $_REQUEST)){
+    $nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
+}
+else{
+    $nuked['user_theme'] = false;
+}
 if ($nuked['user_theme'] && is_file(dirname(__FILE__) . '/themes/' . $nuked['user_theme'] . '/theme.php')) $theme = $nuked['user_theme'];
 elseif (is_file(dirname(__FILE__) . '/themes/' . $nuked['theme'] . '/theme.php')) $theme = $nuked['theme'];
 else exit(THEME_NOTFOUND);
 
 // SELECT LANGUAGE AND USER LANGUAGE
-$nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
+if(array_key_exists($nuked['cookiename'] . '_user_langue', $_REQUEST)){
+    $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
+}
+else{
+    $nuked['user_lang'] = false;
+}
 $language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
 
 // FORMAT DATE FR/EN
@@ -76,9 +86,17 @@ elseif($language == 'english') setlocale(LC_ALL, 'en_US');
 $dateZone = getTimeZoneDateTime($nuked['datezone']);
 date_default_timezone_set($dateZone);
 
-function nkDate($timestamp, $blok = FALSE) {
+function nkDate($timestamp, $block = false) {
     global $nuked, $language;
-    $format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
+
+    if(array_key_exists('IsBlok', $nuked)){
+        $isBlock = $nuked['IsBlok'];
+    }
+    else{
+        $isBlock = false;
+    }
+
+    $format = ((($block === false) ? $isBlock : $block) === true) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
     // iconv pour eviter les caracteres speciaux dans la date
     return iconv('UTF-8','ISO-8859-1',strftime($format, $timestamp));
     //return iconv('UTF-8','ISO-8859-1',utf8_encode(strftime($format, $timestamp))); // For Windows servers
@@ -214,11 +232,18 @@ include ('Includes/nkSessions.php');
 function banip() {
     global $user_ip, $user, $language;
 
+    if(array_key_exists(2, $user)){
+        $userName = $user[2];
+    }
+    else{
+        $userName = '';
+    }
+
     // On supprime le dernier chiffre pour les IP's dynamiques
     $ip_dyn = substr($user_ip, 0, -1);
 
     // Condition SQL : IP dynamique ou compte
-    $where_query = ' WHERE (ip LIKE "%' . $ip_dyn . '%") OR pseudo = "' . $user[2] . '"';
+    $where_query = ' WHERE (ip LIKE "%' . $ip_dyn . '%") OR pseudo = "' . $userName . '"';
 
     // Recherche d'un banissement
     $query_ban = mysql_query('SELECT `id`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $where_query);
@@ -289,7 +314,7 @@ function get_blok($side){
     $aff_good_bl = 'block_' . $side;
 
     $sql = mysql_query('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
-    while ($blok = mysql_fetch_array($sql)){
+    while ($blok = mysql_fetch_assoc($sql)){
         $blok['titre'] = printSecuTags($blok['titre']);
         $test_page = '';
         $blok['page'] = explode('|', $blok['page']);
@@ -659,7 +684,7 @@ function secu_args($matches){
         foreach ($args[1] as $id=>$attribute){
             $RetStr .= ' ' . $attribute . '="' . $args[2][$id] . '"';
         }
-        if ($matches[3] == '/'){
+        if (array_key_exists(3,$matches) && $matches[3] == '/'){
             $RetStr .= ' />';
         }
         else{
@@ -756,7 +781,13 @@ function redirect($url, $tps){
 // DISPLAYS THE NUMBER OF PAGES
 function number($count, $each, $link){
 
-    $current = $_REQUEST['p'];
+    if(array_key_exists('p', $_REQUEST)){
+        $current = $_REQUEST['p'];
+    }
+    else{
+        $current = '';
+    }
+
 
     if ($each > 0){
         if ($count <= 0)     $count   = 1;
@@ -819,7 +850,7 @@ function nbvisiteur(){
                 $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '" . $user[1] . "', IP = '" . $user_ip . "', username = '" . $user[2] . "' WHERE user_id = '" . $user[0] . "'");
             }
             else{
-                $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '" . $user[1] . "', user_id = '" . $user[0] . "', username = '" . $user[2] . "' WHERE IP = '" . $user_ip . "'");
+                $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '', user_id = '', username = 'visitor' WHERE IP = '" . $user_ip . "'");
             }
         }
         else{
@@ -870,7 +901,7 @@ function translate($file_lang){
 }
 
 function compteur($file){
-    $upd = mysql_query('UPDATE ' . STATS_TABLE . ' SET count = count + 1 WHERE type = "pages" AND nom = "' . $_GET['file'] . '"');
+    $upd = mysql_query('UPDATE ' . STATS_TABLE . ' SET count = count + 1 WHERE type = "pages" AND nom = "' . $file . '"');
 }
 
 function nk_CSS($str){
@@ -1146,7 +1177,7 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
             exit();
             break;
     }
-    /* Ne pas executer le gestionnaire interne de PHP */
+    /* Ne pas exécuter le gestionnaire interne de PHP */
     return true;
 }
 

@@ -9,19 +9,23 @@ include(dirname(__FILE__) . "/block-best.php");
 include(dirname(__FILE__) . '/admin/config_best_unique.php');
 $module_2 = explode('|', $config_best['affiche-block-unique']);
 
-foreach ($module_2 as $module_2){
-        $module_aff_unique[$module_2] = $module_2;
+foreach ($module_2 as $module){
+    if(!empty($module)){
+        $module_aff_unique[] = $module;
+    }
 }
 include(dirname(__FILE__) . '/admin/complet.php');
 $module_2 = explode('|', $config_best['complet']);
 
-foreach ($module_2 as $module_2){
-        $complet[$module_2] = $module_2;
+foreach ($module_2 as $module){
+    if(!empty($module)){
+        $complet[] = $module;
+    }
 }
 
 function top(){
         global $nuked, $theme, $user, $language, $bgcolor2, $bgcolor1, $color1, $complet, $module_aff_unique;
-        
+
         translate("themes/Impact_Nk/lang/" . $language . ".lang.php");
         include(dirname(__FILE__) . '/admin/logo.php');
 ?>
@@ -105,14 +109,14 @@ function top(){
                                         <div id="b-right" class="blocks"></div>
                                         <div id="b-left" class="blocks"></div>
 <?php
-        if($_REQUEST['file'] == $complet[$_REQUEST['file']] AND $_REQUEST['page'] != "admin"){
+        if(in_array($_REQUEST['file'], $complet) AND $_REQUEST['page'] != "admin"){
 ?>
                                         <div id="blocks-center2"><div>
                                         <?php get_blok('centre'); ?>
                                 </div>
 <?php
         }
-        else if ($_REQUEST['file'] == $module_aff_unique[$_REQUEST['file']] || $_REQUEST['page'] == "admin"){
+        else if (in_array($_REQUEST['file'], $module_aff_unique) || $_REQUEST['page'] == "admin"){
 ?>
                                         <div id="site1">
                                                 <div id="b-center" class="blocks">
@@ -138,7 +142,7 @@ function top(){
                                                                         <div style="height:30px;">&nbsp;</div>
                                                                 </div>
                                                                 <div id="blocks-center">
-                                                                <?php get_blok('centre'); ?>                                                        
+                                                                <?php get_blok('centre'); ?>
                                                                         <div class="open1nn"></div>
 <?php
         }
@@ -155,7 +159,7 @@ function footer(){
                                         </div>
                                         <div style="clear: both;" ></div>
                                 </div>
-                        <?php if($_REQUEST['file'] != $complet[$_REQUEST['file']]) echo '</div>'; ?>
+                        <?php if(!in_array($_REQUEST['file'], $complet)) echo '</div>'; ?>
                         <div id="b-bottom">
                                 <div id="bottom">
                                         <div id="footer">
@@ -169,12 +173,12 @@ function footer(){
                                 </div>
                         </div>
 <?php
-    if ($_REQUEST['file'] != $complet[$_REQUEST['file']]) echo '</div>';
+    if (!in_array($_REQUEST['file'], $complet)) echo '</div>';
 }
 
 function news($data){
         global $theme;
-        
+
         $posted = _NEWSPOSTBY . "&nbsp;<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($data['auteur']) . "\">" . $data['auteur'] . "</a>&nbsp;" . _THE . "&nbsp;". $data['date'];
         $comment = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $data['id'] . "\">" . _NEWSCOMMENT . "</a>&nbsp;(" . $data['nb_comment'] . ")";
 ?>
@@ -184,7 +188,7 @@ function news($data){
                     	<h2><?php echo $data['titre']; ?></h2>
 						<div style="padding:5px;">
 								<div style="float:right;"><?php echo $data['image']; ?></div>
-								<span style="color: #ffffff;"><?php echo $data['texte']; ?></span>                                        
+								<span style="color: #ffffff;"><?php echo $data['texte']; ?></span>
 						</div>
 						<div style="width:100%;">
 								<div style="text-align:right;">
@@ -261,7 +265,7 @@ function block_droite($block){
         <div class="block right">
                 <div class="top">
                         <div class="bottom">
-                                <h2><?php echo $block[titre]; ?></h2>
+                                <h2><?php echo $block['titre']; ?></h2>
                                 <?php echo $block['content']; ?>
                         </div>
                 </div>
@@ -272,7 +276,7 @@ function block_droite($block){
 function opentable(){
         global $nuked, $theme, $nuked_nude, $module_aff_unique,$complet;
 
-        if($_REQUEST['file'] == $complet[$_REQUEST['file']] AND $_REQUEST['page'] != "admin"){
+        if(in_array($_REQUEST['file'], $complet) AND $_REQUEST['page'] != "admin"){
 ?>
                 <div id="open1cc">
                         <h2><?php echo $_REQUEST['file']; ?></h2>
@@ -280,7 +284,7 @@ function opentable(){
                 <div id="open2cc">
 <?php
         }
-        elseif ($_REQUEST['file'] == $module_aff_unique[$_REQUEST['file']] || $_REQUEST['page'] == "admin"){
+        elseif (in_array($_REQUEST['file'], $module_aff_unique) || $_REQUEST['page'] == "admin"){
 ?>
                 <div id="open1ss">
                         <h2><?php echo $_REQUEST['file']; ?></h2>
@@ -298,13 +302,13 @@ function opentable(){
 
 function closetable(){
         global $nuked, $theme, $module_aff_unique, $complet;
-        if($_REQUEST['file'] == $complet[$_REQUEST['file']] AND $_REQUEST['page'] != "admin"){
+        if(in_array($_REQUEST['file'], $complet) AND $_REQUEST['page'] != "admin"){
 ?>
                 </div>
                 <div id="open3cc"></div>
 <?php
         }
-        elseif ($_REQUEST['file'] == $module_aff_unique[$_REQUEST['file']] || $_REQUEST['page'] == "admin"){
+        elseif (in_array($_REQUEST['file'], $module_aff_unique) || $_REQUEST['page'] == "admin"){
 ?>
                 </div>
                 <div id="open3ss"></div>
