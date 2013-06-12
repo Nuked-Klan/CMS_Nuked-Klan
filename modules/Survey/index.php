@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -39,7 +39,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 $optiontext = printSecuTags($optiontext);
 
                 echo '<tr><td><input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '</td></tr>';
-            } 
+            }
             echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"poll_id\" value=\"" . $poll_id . "\" /></td></tr>\n"
                . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _TOVOTE . "\" />"
                . "&nbsp;<input type=\"button\" value=\"" . _RESULT . "\" onclick=\"document.location='index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $poll_id . "'\" /></td></tr></table></form><br />\n";
@@ -50,14 +50,20 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
 
         closetable();
-    } 
+    }
 
     function verif_check($poll_id) {
         global $nuked, $user_ip, $user;
 
         $time = time();
         $cookiename = $nuked['cookiename'];
-        $user_pool_id = $_COOKIE[$cookiename . '_user_pool_' . $poll_id];
+        if(array_key_exists($cookiename.'_user_pool_'.$poll_id, $_COOKIE)){
+
+        }
+        else{
+            $user_pool_id = '';
+        }
+
         $verifip = 0;
 
         if (!empty($user[2])) $username = $user[2];
@@ -70,9 +76,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
         } else {
             $sql = mysql_query('SELECT sid FROM ' . SURVEY_CHECK_TABLE . ' WHERE (pseudo = "' . $username . '" OR ip = "' . $user_ip . '") AND sid = ' . $poll_id);
             $verifip = mysql_num_rows($sql);
-        } 
+        }
         return $verifip;
-    } 
+    }
 
     function update_sondage($poll_id, $voteID) {
         global $nuked, $user_ip, $user, $visiteur, $theme, $bgcolor2, $bgcolor3;
@@ -98,35 +104,41 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 }
             } else {
                 redirect('index.php?file=Survey&op=vote_message&poll_id=' . $poll_id . '&error=3', 0);
-            } 
+            }
         } else {
             redirect('index.php?file=Survey&op=vote_message&poll_id=' . $poll_id . '&error=4', 0);
-        } 
-    } 
+        }
+    }
 
     function vote_message() {
 
-        if ($_REQUEST['error'] == 1) {
-            $texte_vote = _ONLYMEMBERS;
-            $url_redirect = 'index.php?file=User';
-        } else if ($_REQUEST['error'] == 2) {
-            $texte_vote = _NOLEVEL;
-            $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
-        } else if ($_REQUEST['error'] == 3) {
-            $texte_vote = _ALREADYVOTE;
-            $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
-        } else if ($_REQUEST['error'] == 4) {
-            $texte_vote = _NOOPTION;
-            $url_redirect = 'index.php?file=Survey&op=sondage&poll_id=' . $_REQUEST['poll_id'];
-        } else {
+        if(array_key_exists('error', $_REQUEST)){
+            if ($_REQUEST['error'] == 1) {
+                $texte_vote = _ONLYMEMBERS;
+                $url_redirect = 'index.php?file=User';
+            } else if ($_REQUEST['error'] == 2) {
+                $texte_vote = _NOLEVEL;
+                $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
+            } else if ($_REQUEST['error'] == 3) {
+                $texte_vote = _ALREADYVOTE;
+                $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
+            } else if ($_REQUEST['error'] == 4) {
+                $texte_vote = _NOOPTION;
+                $url_redirect = 'index.php?file=Survey&op=sondage&poll_id=' . $_REQUEST['poll_id'];
+            } else {
+                $texte_vote = _VOTESUCCES;
+                $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
+            }
+        }
+        else{
             $texte_vote = _VOTESUCCES;
             $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
-        } 
+        }
         opentable();
         echo '<br /><br /><div style="text-align: center">' . $texte_vote . '</div><br /><br />';
         closetable();
         redirect($url_redirect, 2);
-    } 
+    }
 
     function affich_res($poll_id) {
         global $nuked, $theme, $visiteur;
@@ -147,7 +159,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $nbcount = 0;
             while (list($option_count) = mysql_fetch_array($sql2)) {
                 $nbcount = $nbcount + $option_count;
-            } 
+            }
 
             $sql3 = mysql_query('SELECT optionCount, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
             while (list($optioncount, $optiontext) = mysql_fetch_array($sql3)) {
@@ -157,7 +169,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     $etat = ($optioncount * 100) / $nbcount;
                 } else {
                     $etat = 0;
-                } 
+                }
                 $pourcent_arrondi = round($etat);
 
                 echo '<tr><td>' . $optiontext . '</td><td>';
@@ -167,12 +179,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 } else {
                     $width = $etat * 2;
                     $width = round($width);
-                } 
+                }
                 if (is_file('themes/" . $theme . "/images/bar.gif')) {
                     $img = 'themes/" . $theme . "/images/bar.gif';
                 } else {
                     $img = 'modules/Survey/images/bar.gif';
-                } 
+                }
 
                 echo '<img src="' . $img . '" width="' . $width . '" height="10" alt="" />&nbsp;' . $pourcent_arrondi . '% (' . $optioncount . ')</td></tr>';
             }
@@ -199,7 +211,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
 
         closetable();
-    } 
+    }
 
     function index_sondage() {
         global $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -221,9 +233,10 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             $sql2 = mysql_query('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
             $nbvote = 0;
+            $j = 0;
             while (list($option_count) = mysql_fetch_array($sql2)) {
                 $nbvote = $nbvote + $option_count;
-            } 
+            }
 
             if ($j == 0) {
                 $bg = $bgcolor2;
@@ -231,18 +244,18 @@ if ($visiteur >= $level_access && $level_access > -1) {
             } else {
                 $bg = $bgcolor1;
                 $j = 0;
-            } 
+            }
 
             echo "<tr style=\"background: " . $bg . ";\">\n"
                . "<td>&nbsp;<a href=\"index.php?file=Survey&amp;op=sondage&amp;poll_id=" . $poll_id . "\"><b>" . $titre . "</b></a></td>\n"
                . "<td align=\"center\">" . $nbvote . "</td>\n"
                . "<td align=\"center\">" . $date . "</td>\n"
                . "<td align=\"center\"><a href=\"index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $poll_id . "\"><b>" . _RESULT . "</b></a></td></tr>\n";
-        } 
+        }
         echo '</table><br />';
 
         closetable();
-    } 
+    }
 
     switch ($_REQUEST['op']) {
         case 'sondage':
@@ -268,7 +281,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         default:
             index_sondage();
             break;
-    } 
+    }
 
 } else if ($level_access == -1) {
     opentable();

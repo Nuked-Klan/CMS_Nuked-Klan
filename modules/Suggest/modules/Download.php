@@ -51,7 +51,7 @@ function form($content, $sug_id){
 
         $refuse = "</div></form><br />\n";
     }
-    
+
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
             . "<form method=\"post\" action=\"" . $action . "\"  enctype=\"multipart/form-data\">\n"
             . "<table style=\"margin: auto; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
@@ -66,7 +66,7 @@ function form($content, $sug_id){
             if ($cid == $content[1]) $selected = "selected=\"selected\"";
             else $selected = "";
         }
-        
+
         echo "<option value=\"" . $cid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
         $sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
@@ -77,7 +77,7 @@ function form($content, $sug_id){
                 if ($s_cid == $content[1]) $selected1 = "selected=\"selected\"";
                 else $selected1 = "";
             }
-            
+
             echo "<option value=\"" . $s_cid . "\" " . $selected1 . ">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
         }
     }
@@ -91,12 +91,12 @@ function form($content, $sug_id){
 
     echo "<tr><td><b>" . _DESCR . " :</b><br />\n"
             . "<textarea ";
-    
+
     echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
-    
+
     echo " id=\"download_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n";
-    
-    if ($upload_dl_ext == "on" || $upload_dl == "off") echo "<tr><td><b>" . _SIZE . " :</b> <input type=\"text\" name=\"taille\" size=\"10\" value=\"" . $content[3] . "\" /> (" . _KO . ")</td></tr>\n";
+
+    if ($upload_dl == "off") echo "<tr><td><b>" . _SIZE . " :</b> <input type=\"text\" name=\"taille\" size=\"10\" value=\"" . $content[3] . "\" /> (" . _KO . ")</td></tr>\n";
     echo "<tr><td><b>" . _COMPATIBLE . " :</b> <input type=\"text\" name=\"comp\" size=\"45\" value=\"" . $content[8] . "\" /></td></tr>\n";
 
     if ($sug_id != ""){
@@ -104,10 +104,10 @@ function form($content, $sug_id){
     }
     else{
         echo "<tr><td>&nbsp;</td></tr>\n";
-        
+
         if ($upload_dl == "off") echo "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URL . " :</b> <input type=\"text\" name=\"url\" size=\"55\"value=\"http://\" /></td></tr>\n";
         else echo "<tr><td align=\"left\"><b>" . _UPFILE . " :</b> <input type=\"file\" name=\"fichiernom\" /></td></tr>\n";
-        
+
         echo "<tr><td>&nbsp;</td></tr>\n";
     }
     if ($sug_id != ""){
@@ -116,7 +116,7 @@ function form($content, $sug_id){
     else{
         if ($upload_img == "off") echo "<tr><td align=\"left\"><b>" . _CAPTURE . " :</b>  <input type=\"text\" name=\"screen\" size=\"45\" value=\"http://\" /></td></tr>\n";
         else echo "<tr><td align=\"left\"><b>" . _CAPTURE . " :</b>  <input type=\"file\" name=\"imagenom\" /></td></tr>\n";
-        
+
         echo "<tr><td>&nbsp;</td></tr>\n";
     }
 
@@ -187,7 +187,7 @@ function upload($file = "", $url = "", $upload_dl, $file_filter, $file_filtre, $
     else{
         $url_file = $url;
     }
-    
+
     return $url_file;
 }
 
@@ -208,13 +208,13 @@ function move($upload_dl, $url = "", $rep_dl, $rep_dl_ok){
         else{
             $url_file = $url;
         }
-        
+
         @chmod ($url_file, 0644);
     }
     else{
         $url_file = $url;
     }
-    
+
     return $url_file;
 }
 
