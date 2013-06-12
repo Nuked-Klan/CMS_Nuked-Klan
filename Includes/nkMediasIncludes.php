@@ -66,7 +66,7 @@ function printMedias($jQuery = false){
     $output = setBgColors();
 
     // On ajout le chargement de jquery avant les autres scripts
-    if($jQuery === false){
+    if ($jQuery === false){
         $output .= '<script type="text/javascript" src="media/js/jquery-min-1.8.3.js"></script>';
     }
 
@@ -81,7 +81,6 @@ function printMedias($jQuery = false){
             else{
                 $output .= setPath($path, $language);
             }
-
         }
     }
 
@@ -121,7 +120,7 @@ function setBgColors(){
 }
 
 function setPath($path, $language){
-    if(file_exists($path)){
+    if (file_exists($path)) {
         if(!is_array($GLOBALS['nuked']['mediasPrinted']) || !in_array($path, $GLOBALS['nuked']['mediasPrinted'])){
             if($language == 'CSS'){
                 return '<link rel="stylesheet" type="text/css" href="'.$path.'" />';
@@ -131,8 +130,22 @@ function setPath($path, $language){
             }
             $GLOBALS['nuked']['mediasPrinted'][] = $path;
         }
-    }
-    else{
+    } else {
         return null;
     }
 }
+
+function displayMedias(){
+    if (function_exists('head')) {
+        // Si la function head est défini dans le theme.php (themes de la version 1.8)
+        head();
+        echo printMedias();
+        top();
+    } else {
+        // Sinon on conserve la compatibilité avec les anciens thèmes
+        top();
+        echo printMedias();
+    }
+}
+?>
+
