@@ -62,9 +62,9 @@ function secure(){
             $last_used = $row['last_used'];
             $sql2 = mysql_query("SELECT niveau, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
             list($user_type, $user_name) = mysql_fetch_array($sql2);
-            
+
             $last_visite = $last_used;
-            
+
             $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET last_used = '" . $time . "' WHERE id = '" . $id_de_session . "'");
 
             if (isset($_REQUEST['file']) && isset($_REQUEST['thread_id']) && $_REQUEST['file'] == 'Forum' && is_numeric($_REQUEST['thread_id']) && $_REQUEST['thread_id'] > 0 && $secu_user > 0) {
@@ -144,17 +144,18 @@ function init_cookie() {
 function session_new($userid, $remember_me) {
     global $nuked, $cookie_session, $cookie_userid, $cookie_theme, $cookie_langue, $cookie_forum, $user_ip, $timelimit, $sessionlimit, $time;
 
-    //On prend un ID de session unique 
-    
+    //On prend un ID de session unique
+
     do {
         $session_id = md5(uniqid());
         $sql = mysql_query('SELECT id FROM ' . SESSIONS_TABLE . ' WHERE id = \'' . $session_id . '\'');
     }
     while(mysql_num_rows($sql) !== 0);
-    
+
     $test = init_cookie();
 
     $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET `id` = '" . $session_id . "', last_used = date, `date` =  '" . $time . "', `ip` = '" . $user_ip . "' WHERE user_id = '" . $userid . "'");
+    $ins = false;
     if (mysql_affected_rows() == 0)
         $ins = mysql_query("INSERT INTO " . SESSIONS_TABLE . " ( `id` , `user_id` , `date` , `ip` , `vars` ) VALUES( '" . $session_id . "' , '" . $userid . "' , '" . $time . "' , '" . $user_ip . "', '' )");
     if ($upd !== FALSE && $ins !== FALSE) {
