@@ -17,7 +17,7 @@ include_once('Includes/nkCaptcha.php');
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
 else $captcha = 1;
 
 opentable();
@@ -52,7 +52,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         -->
         </script>';
 
-        $input_user = ($user) ? $user[2] : '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />';
+        $input_user = ($user) ? '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />' : '';
 
         echo '<div style="width: 80%; margin: auto">
         <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">

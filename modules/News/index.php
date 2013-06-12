@@ -16,7 +16,7 @@ translate('modules/News/lang/' . $language . '.lang.php');
 include_once 'Includes/nkCaptcha.php';
 
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0) $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $user[1] > 0)) $captcha = 0;
 else $captcha = 1;
 
 $visiteur = $user ? $user[1] : 0;
@@ -45,8 +45,13 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $sql_nbnews = mysql_query("SELECT id FROM ".NEWS_TABLE." $where");
         $nb_news = mysql_num_rows($sql_nbnews);
 
-        if(!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $max_news - $max_news;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $max_news - $max_news;
 
         if ($_REQUEST['op'] == 'categorie') {
             $WhereNews = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date ORDER BY date DESC LIMIT $start, $max_news";
@@ -217,7 +222,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $text = $row['texte'].'<br><br>'.$row['suite'];
 
         if (!empty($row['auteur_id'])) {
-            $sql2 = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '$autor_id'");
+            $sql2 = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '".$row['auteur_id']."' ");
             $test = mysql_num_rows($sql2);
         }
 
@@ -241,7 +246,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $sitename  = @nkHtmlEntityDecode($sitename);
 
         $texte = "<h1>{$row['titre']}</h1><hr />$texte<hr />$sitename<br />$articleurl.";
-        $_REQUEST['file'] = $sitename.'_'.$title;
+        $_REQUEST['file'] = $sitename.'_'.$row['titre'];
         $_REQUEST['file'] = str_replace(' ','_',$_REQUEST['file']);
         $_REQUEST['file'] .= '.pdf';
 

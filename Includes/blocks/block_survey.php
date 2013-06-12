@@ -15,7 +15,7 @@ function affich_block_survey($blok){
     if ($file != 'Survey'){
         $survey_id = $blok['content'];
         $blok['content'] = '';
-    
+
         if ($survey_id != '') $where = 'WHERE sid = \'' . $survey_id . '\' ';
         else $where = 'ORDER BY sid DESC LIMIT 0, 1';
 
@@ -49,6 +49,8 @@ function edit_block_survey($bid){
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
 
     $titre = printSecuTags($titre);
+
+    $checked0 = $checked1 = $checked2 = '';
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';

@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -11,7 +11,7 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open
 
 translate('modules/Vote/lang/' . $language . '.lang.php');
 
-$visiteur = ($user) ? $user[1] : 0; 
+$visiteur = ($user) ? $user[1] : 0;
 
 function vote_index($module, $vid) {
     global $user, $nuked, $visiteur;
@@ -23,34 +23,36 @@ function vote_index($module, $vid) {
     $sql = mysql_query("SELECT id, ip, vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "'");
     $count = mysql_num_rows($sql);
 
+    $total = 0;
+    $n = 0;
     if ($count > 0) {
         while (list($id, $ip, $vote) = mysql_fetch_array($sql)) {
             $total = $total + $vote / $count;
             $pourcent_arrondi = ceil($total);
-        } 
+        }
         $note = $pourcent_arrondi;
 
         for ($i = 2;$i <= $note;$i += 2) {
             echo '<img style="border: 0;" src="modules/Vote/images/z1.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
             $n++;
-        } 
+        }
 
         if (($note - $i) != -2) {
             echo '<img style="border: 0;" src="modules/Vote/images/z2.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
             $n++;
-        } 
+        }
 
         for ($z = $n;$z < 5;$z++) {
             echo '<img style="border: 0;" src="modules/Vote/images/z3.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
-        } 
+        }
     } else {
         echo _NOTEVAL;
-    } 
+    }
 
     if ($visiteur >= $level_access && $level_access > -1) {
         echo '&nbsp;<small>[ <a href="#" onclick="javascript:window.open(\'index.php?file=Vote&amp;nuked_nude=index&amp;op=post_vote&amp;vid=' . $vid . '&amp;module=' . $module . '\',\'screen\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=350,height=150,top=30,left=0\');return(false)">' . _RATE . '</a> ]</small>'."\n";
-    } 
-} 
+    }
+}
 
 function post_vote($module, $vid) {
     global $user, $nuked, $bgcolor2, $theme, $visiteur,$user_ip;
@@ -63,7 +65,7 @@ function post_vote($module, $vid) {
             $author = $user[2];
         } else {
             $author = _VISITOR;
-        } 
+        }
 
         $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "' AND ip = '" . $user_ip . "'");
         $count = mysql_num_rows($sql);
@@ -105,8 +107,8 @@ function post_vote($module, $vid) {
            . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
            . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
     }
- 
-} 
+
+}
 
 function do_vote($vid, $module, $vote) {
     global $nuked, $user, $bgcolor2, $theme, $visiteur,$user_ip;
@@ -119,7 +121,7 @@ function do_vote($vid, $module, $vote) {
             $author = $user[2];
         } else {
             $author =  _VISITOR;
-        } 
+        }
 
         $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . $module . "' AND ip = '" . $user_ip . "'");
         $count = mysql_num_rows($sql);
@@ -158,7 +160,7 @@ function do_vote($vid, $module, $vote) {
         . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
         . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
     }
-} 
+}
 
 switch ($_REQUEST['op']) {
     case 'vote_index':
@@ -175,6 +177,6 @@ switch ($_REQUEST['op']) {
 
     default:
         break;
-} 
+}
 
 ?>

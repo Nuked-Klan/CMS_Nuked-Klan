@@ -36,7 +36,7 @@ function getStats($nuked)
     $data['irc_chan'] = (strlen($nuked['irc_chan'])>0 && $nuked['irc_chan'] != "nuked-klan") ? "1" : "0";
     $data['irc_serv'] = (strlen($nuked['irc_chan'])>0 && $nuked['irc_chan']!="nuked-klan") ? $nuked['irc_serv'] : "0";
     $data['server_ip'] = (strlen($nuked['server_ip'])>0) ? "1" : "0";
-    $data['server_game'] = ($server_ip == "set" && strlen($nuked['server_game'])>0) ? $nuked['server_game'] : "0";
+    $data['server_game'] = ($nuked['server_ip'] == "set" && strlen($nuked['server_game'])>0) ? $nuked['server_game'] : "0";
     $data['forum_title'] = strlen($nuked['forum_title']);
     $data['forum_desc'] = strlen($nuked['forum_desc']);
     $data['forum_rank_team'] = ($nuked['forum_rank_team']=="on") ? 1 : 0;
@@ -77,15 +77,14 @@ function getStats($nuked)
     $data['screen'] = $nuked['screen'];
     $data['contact_mail'] = (strlen($nuked['contact_mail'])>0) ? 1 : 0;
     $data['contact_flood'] = $nuked['contact_flood'];
-    $data['dernier_envois'] = round($timediff);
-    
+
     for($i=1; $i<=9; $i++) $data['user_count_'. $i] = 0;
     $sql = mysql_query("SELECT count(id),niveau FROM ". USER_TABLE ." GROUP BY niveau");
     while($rep = mysql_fetch_array($sql))
     {
         $data['user_count_'. $rep[1]] = $rep[0];
     }
-    
+
     $sqlstring = "SELECT "
     . "(SELECT count(id) FROM ". NEWS_TABLE .") as news,"
     . "(SELECT count(id) FROM ". FORUM_CAT_TABLE .") as forumc,"
@@ -99,7 +98,7 @@ function getStats($nuked)
     . "(SELECT count(id) FROM ". DOWNLOAD_TABLE .") as dl,"
     . "(SELECT count(cid) FROM ". TEAM_TABLE .") as team,"
     . "(SELECT sum(count) FROM ". STATS_TABLE .") as pageview;";
-    
+
     $sql = mysql_query($sqlstring);
     $rep = mysql_fetch_array($sql);
     $data['count_news'] = $rep['news'];
@@ -114,13 +113,13 @@ function getStats($nuked)
     $data['count_download'] = $rep['dl'];
     $data['count_teams'] = $rep['team'];
     $data['count_pagesee'] = $rep['pageview'];
-    
+
     $sql = mysql_query("SELECT nom, niveau, admin FROM ". MODULES_TABLE);
     while($rep = mysql_fetch_array($sql))
     {
         $data['module_'. $rep[0]] = $rep[1].'%'.$rep[2];
     }
-    
+
     return $data;
 }
 ?>

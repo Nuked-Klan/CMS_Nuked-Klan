@@ -56,7 +56,12 @@ function form($content, $sug_id){
                     . _SUGGESTIMG . " ]";
 
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=Gallery";
-        $autor = $user[2];
+        if(array_key_exists(2, $user)){
+            $autor = $user[2];
+        }
+        else{
+            $autor = '';
+        }
 
         $refuse = "</div></form><br />\n";
     }
@@ -71,10 +76,11 @@ function form($content, $sug_id){
     while (list($cid, $titre) = mysql_fetch_array($sql)){
         $titre = printSecuTags($titre);
 
-        if ($content){
-            if ($cid == $content[4]) $selected = "selected=\"selected\"";
-            else $selected = "";
+        if ($content && $cid == $content[4]){
+            $selected = "selected=\"selected\"";
+
         }
+        else $selected = "";
 
         echo "<option value=\"" . $cid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
@@ -93,15 +99,16 @@ function form($content, $sug_id){
     echo "</select></td></tr>\n"
             . "<tr><td><b>" . _AUTHOR . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" value=\"" . $autor . "\" /></td></tr>\n";
 
+    $button = $botton = '';
 
     if($_REQUEST['op'] == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]', 'screen','width=1024,height=768');\" /></input>";}
     if($_REQUEST['op'] == "show_suggest" && $content[5] != ""){$botton = "<input type=\"button\" name=\"bscreen\" value=\"" . _DOWNLOAD . "\" Onclick=\"window.open('$content[5]', 'download','width=100,height=100');\" /></input>";}
 
     echo "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
             . "<tr><td><textarea ";
-            
+
     echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
-    
+
     echo " name=\"description\" rows=\"10\" cols=\"65\">" . $content[3] . "</textarea></td></tr>\n";
 
     if ($sug_id != ""){
@@ -130,7 +137,7 @@ function make_array($data){
     $data['url2'] = nkHtmlEntities($data['url2']);
     $data['url_file'] = nkHtmlEntities($data['url_file']);
     $data['cat'] = printSecuTags($data['cat']);
-    
+
     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
     $data['description'] = str_replace("|", "&#124;", $data['description']);
     $data['auteur'] = str_replace("|", "&#124;", $data['auteur']);
@@ -143,11 +150,11 @@ function make_array($data){
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
             $url_file = $rep_img . time() . "." . $ext;
-    
+
             move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
             @chmod ($url_file, 0644);
         }
-        else{    
+        else{
             $url_file = "Error : no image file !";
         }
     }
@@ -178,15 +185,15 @@ function send($data){
     if ($upload_img == "on" && !preg_match("`http://`i", $data['url']) && $rep_img != $rep_img_ok && stripos($rep_img, $data['url'])){
         $url_ok = str_replace($rep_img, $rep_img_ok, $data['url']);
         $url_dest = $url_ok;
-    
+
         $is_ok = @rename($data['url'], $url_dest);
-    
+
         if ($is_ok){
             if (is_file($data['url'] )){
                 @chmod($data['url'], 0666);
                 @unlink($data['url']);
             }
-    
+
             $url_img = $url_dest;
         }
         else{

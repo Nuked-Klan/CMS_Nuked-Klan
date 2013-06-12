@@ -28,13 +28,13 @@ if ($searchtype == "matchexact" && $main != ""){
 else if ($main != ""){
     $sep = "";
     $and .= "(";
-	
+
     for($i = 0; $i < count($search); $i++){
         $and .= $sep . "(title LIKE '%" . $search[$i] . "%' OR content LIKE '%" . $search[$i] . "%')";
         if ($searchtype == "matchor") $sep = " OR ";
         else $sep = " AND ";
     }
-	
+
     $and .= ")";
 }
 
@@ -42,6 +42,8 @@ $req = "SELECT artid, title, date FROM " . SECTIONS_TABLE . " WHERE " . $and . "
 $sql_art = mysql_query($req);
 
 $nb_art = mysql_num_rows($sql_art);
+
+$tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_art > 0){
     while (list($art_id, $art_titre, $art_date) = mysql_fetch_array($sql_art)){

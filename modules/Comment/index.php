@@ -1,20 +1,28 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die;
+/**
+ * Index of Comment Module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2013 Nuked-Klan (Registred Trademark)
+ */
 
-global $language, $user, $cookie_captcha;
-translate("modules/Comment/lang/$language.lang.php");
+// v
+translate('modules/Comment/lang/'.$GLOBALS['language'].'.lang.php');
+//
 include_once('Includes/nkCaptcha.php');
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+
+global $user;
+
+if (_NKCAPTCHA == "off"){
+    $captcha = 0;
+}
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0)){
+    $captcha = 0;
+}
 else $captcha = 1;
+
 $visiteur = ($user) ? $user[1] : 0;
 
 function verification($module, $im_id){
@@ -143,9 +151,10 @@ function com_index($module, $im_id){
 
         $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
         $count = mysql_num_rows($sql);
+        $j = 0;
         while($row = mysql_fetch_assoc($sql)){
             $test = 0;
-            $row['date'] = nkDate($row['date']);
+            $row['date']  = nkDate($row['date']);
             $row['titre'] = nkHtmlEntities($row['titre']);
             $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);

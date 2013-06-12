@@ -28,13 +28,13 @@ if ($searchtype == "matchexact" && $main != ""){
 else if ($main != ""){
     $sep = "";
     $and .= "(";
-	
+
     for($i = 0; $i < count($search); $i++){
         $and .= $sep . "(titre LIKE '%" . $search[$i] . "%' OR description LIKE '%" . $search[$i] . "%')";
         if ($searchtype == "matchor") $sep = " OR ";
         else $sep = " AND ";
     }
-	
+
     $and .= ")";
 }
 
@@ -42,6 +42,8 @@ $req = "SELECT id, titre, date FROM " . LINKS_TABLE . " WHERE " . $and . " ORDER
 $sql_lk = mysql_query($req);
 
 $nb_lk = mysql_num_rows($sql_lk);
+
+$tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_lk > 0){
     while (list($link_id, $link_titre, $lk_date) = mysql_fetch_array($sql_lk)){

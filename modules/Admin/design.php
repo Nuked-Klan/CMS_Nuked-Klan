@@ -171,10 +171,17 @@ function admintop(){
 
                             $temp = explode('|', $value);
 
-                            if (is_file('modules/' . $temp[1] . '/admin.php'))
-                            {
-                                if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') $modulecur = true;
-                            } // END if
+                            if (is_file('modules/' . $temp[1] . '/admin.php')){
+                                if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') {
+                                    $modulecur = true;
+                                }
+                                else{
+                                    $modulecur = false;
+                                }
+                            }
+                            else{
+                                $modulecur = false;
+                            }
 
                         } // END foreach
 
@@ -290,11 +297,11 @@ function adminfoot(){
                         <?php echo !empty($bgcolor4) ? 'CKEDITOR.config.uiColor = \''.$bgcolor4.'\';' : ''; ?>
                         CKEDITOR.config.allowedContent=
                             'p h1 h2 h3 h4 h5 h6 blockquote tr td div a span{text-align,font-size,font-family,font-style,color,background-color,display};' +
-                            'img[!src,alt,width,height,class,id,style,title,border];' +
+                            'img[!src,alt,width,height,class,id,style,title,border,dir]{*}(*);' +
                             'strong s em u strike sub sup ol ul li br caption thead  hr big small tt code del ins cite q address section aside header;' +
                             'div[class,id,style,title,align]{page-break-after,width,height,background};' +
                             'a[!href,accesskey,class,id,name,rel,style,tabindex,target,title];' +
-                            'table[align,border,cellpadding,cellspacing,class,id,style];' +
+                            'table[align,border,cellpadding,cellspacing,class,id,style]{*}(*);' +
                             'td[colspan, rowspan];' +
                             'th[scope];' +
                             'pre(*);' +

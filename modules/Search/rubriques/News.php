@@ -30,13 +30,13 @@ if ($searchtype == "matchexact" && $main != ""){
 else if ($main != ""){
     $sep = "";
     $and .= "(";
-	
+
     for($i = 0; $i < count($search); $i++){
         $and .= $sep . "(titre LIKE '%" . $search[$i] . "%' OR texte LIKE '%" . $search[$i] . "%')";
         if ($searchtype == "matchor") $sep = " OR ";
         else $sep = " AND ";
     }
-	
+
     $and .= ")";
 }
 
@@ -44,6 +44,8 @@ $req = "SELECT id, auteur, titre, date FROM " . NEWS_TABLE . " WHERE '" . $day .
 $sql_news = mysql_query($req);
 
 $nb_news = mysql_num_rows($sql_news);
+
+$tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_news > 0){
     while (list($news_id, $news_auteur, $news_titre, $news_date) = mysql_fetch_array($sql_news)){
