@@ -16,7 +16,7 @@ include_once 'Includes/nkCaptcha.php';
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
 else $captcha = 1;
 
 opentable();
@@ -92,10 +92,17 @@ if ($visiteur >= $level_access && $level_access > -1){
                 . "// -->\n"
                 . "</script>\n";
 
+        if(array_key_exists(2, $user)){
+            $userName = $user[2];
+        }
+        else{
+            $userName = '';
+        }
+
         echo "<br /><form method=\"post\" action=\"index.php?file=Defy\" onsubmit=\"return verifchamps();\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-                . "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"defy_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
+                . "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"defy_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $userName . "\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _CLAN . " : </b></td><td><input id=\"defy_clan\" type=\"text\" name=\"clan\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
 

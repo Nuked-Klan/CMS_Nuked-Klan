@@ -16,7 +16,7 @@ translate('modules/News/lang/' . $language . '.lang.php');
 include_once 'Includes/nkCaptcha.php';
 
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0) $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $user[1] > 0)) $captcha = 0;
 else $captcha = 1;
 
 $visiteur = $user ? $user[1] : 0;

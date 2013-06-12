@@ -65,10 +65,11 @@ function form($content, $sug_id){
     while (list($cid, $titre) = mysql_fetch_array($sql)){
         $titre = printSecuTags($titre);
 
-        if ($content){
-            if ($cid == $content[3]) $selected = "selected=\"selected\"";
-            else $selected = "";
+        if ($content && $cid == $content[3]){
+            $selected = "selected=\"selected\"";
+
         }
+        else $selected = "";
 
         echo "<option value=\"" . $cid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
