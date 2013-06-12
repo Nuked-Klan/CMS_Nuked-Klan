@@ -237,8 +237,13 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $sql3 = mysql_query("SELECT id FROM " . LINKS_TABLE . "");
         $nb_lk = mysql_num_rows($sql3);
 
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_liens - $nb_liens;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $nb_liens - $nb_liens;
 
         echo "<script type=\"text/javascript\">\n"
                 ."<!--\n"
@@ -262,6 +267,10 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<a href=\"index.php?file=Links&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
                 . "<a href=\"index.php?file=Links&amp;page=admin&amp;op=main_broken\">" . _BROKENLINKS . "</a> | "
                 . "<a href=\"index.php?file=Links&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
+
+        if(!array_key_exists('orderby', $_REQUEST)){
+            $_REQUEST['orderby'] = '';
+        }
 
         if ($_REQUEST['orderby'] == 'date')
             $order_by = 'L.id DESC';
