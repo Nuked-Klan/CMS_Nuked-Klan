@@ -285,6 +285,7 @@ if ($visiteur == 9)
 		. "<tr><td><div id=\"listmap\">\n";
 
 		$map = explode('|', $maps);
+        $i = 0;
 		foreach($map as $mapping)
 		{
 			echo $mapping."</br/>";

@@ -192,8 +192,13 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql = mysql_query("SELECT id FROM " . GUESTBOOK_TABLE);
         $count = mysql_num_rows($sql);
 
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_mess_guest - $nb_mess_guest;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $nb_mess_guest - $nb_mess_guest;
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big>\n"
         . "<br /><br />[ <a href=\"index.php?file=Guestbook&amp;op=post_book\">" . _SIGNGUESTBOOK . "</a> ]</div><br />\n";
@@ -209,6 +214,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         . "<td style=\"width: 70%;\" align=\"center\"><b>" . _COMMENT . "</b></td></tr>\n";
 
         $sql2 = mysql_query("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
+        $j = 0;
         while (list($id, $name, $comment, $email, $url, $date, $ip) = mysql_fetch_array($sql2))
         {
             $date = nkDate($date);

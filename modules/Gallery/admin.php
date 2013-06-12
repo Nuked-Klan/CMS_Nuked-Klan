@@ -8,7 +8,7 @@
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+}
 
 global $user, $language;
 translate("modules/Gallery/lang/" . $language . ".lang.php");
@@ -18,11 +18,11 @@ admintop();
 if (!$user)
 {
     $visiteur = 0;
-} 
+}
 else
 {
     $visiteur = $user[1];
-} 
+}
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 if ($visiteur >= $level_admin && $level_admin > -1)
@@ -68,10 +68,10 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         if ($url == "http://") $url = "";
         if ($url2 == "http://") $url2 = "";
-        if ($url_file == "http://") $url_file = ""; 
+        if ($url_file == "http://") $url_file = "";
 
         if ($_FILES['fichiernom']['name'] != "" || $url != "")
-        {        
+        {
             if ($_FILES['fichiernom']['name'] != "")
             {
                 $filename = $_FILES['fichiernom']['name'];
@@ -83,8 +83,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             {
                 $filename = substr(strrchr($url, '/'), 1 );
             }
-                                
-                
+
+
             if (($_FILES['fichiernom']['name'] == "" && $url != "") || (!is_file($url_screen) || ( $ecrase_screen == 1 && is_file($url_screen))))
             {
                 if ($_FILES['fichiernom']['name'] != "" && (!is_file($url_screen) || ( $ecrase_screen == 1 && is_file($url_screen))))
@@ -103,7 +103,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                     . "No image file !"
                     . "</div>\n"
                     . "</div>\n";
-                    
+
                     redirect("index.php?file=Gallery&page=admin&op=add_screen", 2);
                     adminfoot();
                     exit();
@@ -145,7 +145,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                         if (is_file($miniature)) $url2 = $miniature;
                     }
                 }
-                        
+
                 $titre = mysql_real_escape_string(stripslashes($titre));
                 $description = nkHtmlEntityDecode($description);
                 $description = mysql_real_escape_string(stripslashes($description));
@@ -153,7 +153,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                 $date = time();
 
                 $sql = mysql_query("INSERT INTO " . GALLERY_TABLE . " ( `sid` , `titre` , `description` , `url` , `url2` , `url_file` , `cat` , `date` , `autor` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $url2 . "' , '" . $url_file . "' , '" . $cat . "' , '" . $date . "' , '" . $auteur . "')");
-                
+
                 // Action
                 $texteaction = "". _ACTIONADDGAL .": ".$titre."";
                 $acdate = time();
@@ -173,7 +173,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                 ."}\n"
                 ."</script>\n";
             }
-            else 
+            else
             {
                 echo "<div class=\"notification error png_bg\">\n"
                 . "<div>\n"
@@ -189,11 +189,11 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             . ""._SPECIFY.""
             . "</div>\n"
             . "</div>\n";
-            
+
             redirect("index.php?file=Gallery&page=admin&op=add_screen", 3);
         }
 
-    } 
+    }
 
     function del_screen($sid)
     {
@@ -210,14 +210,14 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $acdate = time();
         $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
-        
+
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _SCREENDEL . "\n"
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Gallery&page=admin", 1);
-    } 
+    }
 
 
     function modif_img($sid, $titre, $description, $auteur, $fichiernom, $maxi, $cat, $url, $url2, $url_file, $ecrase_screen)
@@ -232,7 +232,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $auteur = mysql_real_escape_string(stripslashes($auteur));
 
         if ($_FILES['fichiernom']['name'] != "")
-        {     
+        {
         $img_name = $_FILES['fichiernom']['name'];
         $img_name = str_replace(" ", "_", $img_name);
         $img_url = $rep_img . $img_name;
@@ -290,15 +290,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
             $temp = $rep_img_gd . $file_name . "_tmb." . $ext;
             if (is_file($temp)) $miniature = $rep_img_gd . time() . $file_name . "_tmb." . $ext;
-            else  $miniature = $temp;	
+            else  $miniature = $temp;
 
             if (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext)) @ImageJPEG($img, $miniature);
             if (preg_match("`png`i", $ext)) @ImagePNG($img, $miniature);
             if (preg_match("`bmp`i", $ext)) @imagewbmp($img, $miniature);
 
             if (preg_match("`gif`i", $ext) && @function_exists("imagegif")) @ImageGIF($img, $miniature);
-            else @ImageJPEG($img, $miniature);	
-     
+            else @ImageJPEG($img, $miniature);
+
             if (is_file($miniature)) $url2 = $miniature;
         }
     }
@@ -309,7 +309,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $acdate = time();
         $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
-        
+
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _SCREENMODIF . "\n"
@@ -321,7 +321,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         ."screenon('index.php?file=Gallery&op=description&sid=".$sid."&orderby=news', 'index.php?file=Gallery&page=admin');\n"
         ."}\n"
         ."</script>\n";
-    } 
+    }
 
 
 
@@ -334,8 +334,13 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql3 = mysql_query("SELECT sid FROM " . GALLERY_TABLE);
         $count = mysql_num_rows($sql3);
 
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_img_guest - $nb_img_guest;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $nb_img_guest - $nb_img_guest;
 
         echo"<script type=\"text/javascript\">\n"
         ."<!--\n"
@@ -358,22 +363,26 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         nkAdminMenu(1);
 
+        if(!array_key_exists('orderby', $_REQUEST)){
+            $_REQUEST['orderby'] = '';
+        }
+
         if ($_REQUEST['orderby'] == "date")
         {
             $order_by = "G.sid DESC";
-        } 
+        }
         else if ($_REQUEST['orderby'] == "name")
         {
             $order_by = "G.titre";
-        } 
+        }
         else if ($_REQUEST['orderby'] == "cat")
         {
             $order_by = "GC.titre, GC.parentid";
-        } 
+        }
         else
         {
             $order_by = "G.sid DESC";
-        } 
+        }
 
         echo "<table width=\"100%\" cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n"
     . "<tr><td align=\"right\">" . _ORDERBY . " : ";
@@ -381,29 +390,29 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         if ($_REQUEST['orderby'] == "date" || !$_REQUEST['orderby'])
         {
             echo "<b>" . _DATE . "</b> | ";
-        } 
+        }
         else
         {
             echo "<a href=\"index.php?file=Gallery&amp;page=admin&amp;orderby=date\">" . _DATE . "</a> | ";
-        } 
+        }
 
         if ($_REQUEST['orderby'] == "name")
         {
             echo "<b>" . _TITLE . "</b> | ";
-        } 
+        }
         else
         {
             echo "<a href=\"index.php?file=Gallery&amp;page=admin&amp;orderby=name\">" . _TITLE . "</a> | ";
-        } 
+        }
 
         if ($_REQUEST['orderby'] == "cat")
         {
             echo "<b>" . _CAT . "</b>";
-        } 
+        }
         else
         {
             echo "<a href=\"index.php?file=Gallery&amp;page=admin&amp;orderby=cat\">" . _CAT . "</a>";
-        } 
+        }
 
         echo "&nbsp;</td></tr></table>\n";
 
@@ -413,7 +422,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             $url_page = "index.php?file=Gallery&amp;page=admin&amp;orderby=" . $_REQUEST['orderby'];
             number($count, $nb_img_guest, $url_page);
             echo "</div>\n";
-        } 
+        }
 
         echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
@@ -433,26 +442,26 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             if ($cat == "0")
             {
                 $categorie = _NONE;
-            } 
+            }
             else if ($parentid == 0)
             {
                 $categorie = $namecat;
-            } 
+            }
             else
             {
                 $sql3 = mysql_query("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "' ORDER BY position, titre");
                 list($parentcat) = mysql_fetch_array($sql3);
                 $categorie = "$parentcat -> $namecat";
                 $categorie = printSecuTags($categorie);
-            } 
+            }
 
-            echo "<tr style=\"background: " . $bg . ";\">\n"
+            echo "<tr>\n"
             . "<td style=\"width: 20%;\"><a href=\"" . $url . "\" title=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $titre . "</a></td>\n"
             . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td>\n"
             . "<td style=\"width: 30%;\" align=\"center\">" . $categorie . "</td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Gallery&amp;page=admin&amp;op=edit_screen&amp;sid=" . $sid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISSCREEN . "\" /></a></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_img('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $sid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISSCREEN . "\" /></a></td></tr>\n";
-        } 
+        }
 
         if ($count == 0) echo "<tr><td colspan=\"5\" align=\"center\">" . _NOSCREENINDB . "</td></tr>\n";
 
@@ -464,7 +473,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             $url_page = "index.php?file=Gallery&amp;page=admin&amp;orderby=" . $_REQUEST['orderby'];
             number($count, $nb_img_guest, $url_page);
             echo "</div>\n";
-        } 
+        }
 
         echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     } 
@@ -481,11 +490,11 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         if ($url2 != "")
         {
             $img = $url2;
-        } 
+        }
         else
         {
             $img = $url;
-        } 
+        }
 
         if (!preg_match("`%20`i", $img)) list($w, $h, $t, $a) = @getimagesize($img);
         if ($w != "" && $w <= $img_screen1) $width = "width=\"" . $w . "\"";
@@ -496,7 +505,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $name = substr($name, 1);
         $name_enc = rawurlencode($name);
         $img = str_replace($name, $name_enc, $img);
-    
+
         if ($cat > 0)
         {
             $sql2 = mysql_query("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
@@ -517,7 +526,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellpadding=\"10\" cellspacing=\"0\" border=\"0\">\n"
         . "<tr><td>\n"
         . "<a href=\"#\" onclick=\"javascript:window.open('" . $url . "','Gallery','toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=800,height=600,top=30,left=0')\">" . $image . "</a></td></tr></table><br />\n"
-        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"	
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
         . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"44\" value=\"" . $titre . "\" /></td></tr>\n"
         . "<tr><td><b>" . _CAT . "</b>: <select name=\"cat\"><option value=\"" . $cat . "\">" . $cat_name . "</option>\n";
 
@@ -590,20 +599,20 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                     $pnomcat = printSecuTags($pnomcat);
 
                     echo "<i>" . $pnomcat . "</i>";
-                } 
+                }
                 else
                 {
                     echo _NONE;
-                } 
+                }
 
                 echo "</td><td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Gallery&amp;page=admin&amp;op=modif_position&amp;cid=" . $cid . "&amp;method=down\" title=\"" . _MOVEDOWN . "\">&lt;</a>"
                 . "&nbsp;" . $position . "&nbsp;<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=modif_position&amp;cid=" . $cid . "&amp;method=up\" title=\"" . _MOVEUP . "\">&gt;</a></td>\n"
                 . "<td align=\"center\"><a href=\"index.php?file=Gallery&amp;page=admin&amp;op=edit_cat&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
                 . "<td align=\"center\"><a href=\"javascript:delcat('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
-            } 
-        } 
+            }
+        }
         else
-        { 
+        {
             echo "<tr><td align=\"center\" colspan=\"5\">" . _NONE . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
         }
 
@@ -631,7 +640,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             $nomcat = printSecuTags($nomcat);
 
             echo "<option value=\"" . $cid . "\">" . $nomcat . "</option>\n";
-        } 
+        }
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
         . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
@@ -645,7 +654,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $user;
 
         $titre = mysql_real_escape_string(stripslashes($titre));
-        
+
         if (empty($titre))
         {
             echo "<div class=\"notification error png_bg\">\n"
@@ -659,7 +668,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         {
             $description = nkHtmlEntityDecode($description);
             $description = mysql_real_escape_string(stripslashes($description));
-        
+
             $sql = mysql_query("INSERT INTO " . GALLERY_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ('" . $parentid . "', '" . $titre . "', '" . $description . "', '" . $position . "')");
             // Action
             $texteaction = "". _ACTIONADDCATGAL .": ".$titre."";
@@ -680,7 +689,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             ."}\n"
             ."</script>\n";
         }
-    } 
+    }
 
     function edit_cat($cid)
     {
@@ -706,7 +715,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             $pnomcat = printSecuTags($pnomcat);
 
             echo "<option value=\"" . $parentid . "\">" . $pnomcat . "</option>\n";
-        } 
+        }
 
         echo "<option value=\"0\">" . _NONE . "</option>\n";
 
@@ -718,22 +727,22 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             if ($nomcat != $titre)
             {
                 echo "<option value=\"" . $catid . "\">" . $nomcat . "</option>\n";
-            } 
-        } 
+            }
+        }
 
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
         . "<tr><td><b>" . _DESCR . " :</b><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
         . "</form><br /></div></div>\n";
-    } 
+    }
 
     function modif_cat($cid, $titre, $description, $parentid, $position)
     {
         global $nuked, $user;
 
         $titre = mysql_real_escape_string(stripslashes($titre));
-        
+
         if (empty($titre))
         {
             echo "<div class=\"notification error png_bg\">\n"
@@ -747,7 +756,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         {
             $description = nkHtmlEntityDecode($description);
             $description = mysql_real_escape_string(stripslashes($description));
-        
+
             $sql = mysql_query("UPDATE " . GALLERY_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
             // Action
             $texteaction = "". _ACTIONMODIFCATGAL .": ".$titre."";
@@ -766,7 +775,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             ."}\n"
             ."</script>\n";
         }
-    } 
+    }
 
     function select_cat()
     {
@@ -785,10 +794,10 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                 $s_titre = printSecuTags($s_titre);
 
                 echo"<option value=\"" . $s_cid . "\">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
-            } 
-        } 
+            }
+        }
         echo "<option value=\"0\">* " . _NONE . "</option>\n";
-    } 
+    }
 
     function del_cat($cid)
     {
@@ -811,7 +820,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Gallery&page=admin&op=main_cat", 2);
-    } 
+    }
 
     function main_pref()
     {
@@ -833,7 +842,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<tr><td>" . _NUMBERIMG2 . " : </td><td><input type=\"text\" name=\"max_img_line\" size=\"2\" value=\"" . $nuked['max_img_line'] . "\" /></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div>\n"
         . "</form><br /></div></div>\n";
-    } 
+    }
 
     function change_pref($gallery_title, $max_img, $max_img_line)
     {
@@ -853,7 +862,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Gallery&page=admin", 2);
-    } 
+    }
 
     function modif_position($cid, $method)
     {
@@ -884,7 +893,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Gallery&page=admin&op=main_cat", 2);
-    } 
+    }
 
         function nkAdminMenu($tab = 1)
     {
@@ -985,8 +994,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         default:
             main();
             break;
-    } 
-
+    }
 } 
 else if ($level_admin == -1){
     printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
@@ -997,7 +1005,7 @@ else if ($visiteur > 1){
 else{
     printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-  
+
 
 adminfoot();
 
