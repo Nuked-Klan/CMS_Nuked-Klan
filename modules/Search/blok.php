@@ -25,14 +25,15 @@ if ($active == 3 || $active == 4){
     $path = "modules/Search/rubriques/";
     $modules = array();
     $handle = opendir($path);
-	
+
+    $i = 0;
     while ($mod = readdir($handle)){
         if ($mod != "." && $mod != ".." && $mod != "index.html"){
             $i++;
             $mod = str_replace(".php", "", $mod);
             $perm = nivo_mod($mod);
             if (!$perm) $perm = 0;
-			
+
             if ($user[1] >= $perm && $perm > -1){
                 $umod = strtoupper($mod);
                 $modname = "_S" . $umod;
@@ -42,16 +43,16 @@ if ($active == 3 || $active == 4){
             }
         }
     }
-	
+
     natcasesort($modules);
-	
+
     foreach($modules as $value){
 		$temp = explode("|", $value);
 		if ($temp[1] == $_REQUEST['file']) $selected = "selected=\"selected\"";
 		else $selected = "";
 		echo "<option value=\"" . $temp[1] . "\" " . $selected . ">" . $temp[0] . "</option>\n";
     }
-	
+
     echo "</select></td></tr></table></form>\n";
 }
 else{

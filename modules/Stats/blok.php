@@ -19,11 +19,8 @@ $sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bi
 list($active) = mysql_fetch_array($sql2);
 if ($active == 3 || $active == 4)
 {
-    $sql = mysql_query("SELECT count FROM " . STATS_TABLE . " WHERE type = 'pages'");
-    while (list($count) = mysql_fetch_array($sql))
-    {
-        $counter = $counter + $count;
-    }
+    $sql = mysql_query("SELECT SUM(count) FROM " . STATS_TABLE . " WHERE type = 'pages'");
+    list($counter) = mysql_fetch_array($sql);
 
     $date_install = nkDate($nuked['date_install']);
 
@@ -59,11 +56,8 @@ if ($active == 3 || $active == 4)
 }
 else
 {
-    $sql = mysql_query("SELECT count FROM " . STATS_TABLE . " WHERE type = 'pages'");
-    while (list($count) = mysql_fetch_array($sql))
-    {
-        $counter = $counter + $count;
-    }
+    $sql = mysql_query("SELECT SUM(count) FROM " . STATS_TABLE . " WHERE type = 'pages'");
+    list($counter) = mysql_fetch_array($sql);
 
     $date_install = nkDate($nuked['date_install']);
 
