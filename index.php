@@ -46,12 +46,13 @@ require_once 'Includes/hash.php';
 // Ouverture du buffer PHP
 $bufferMedias = ob_start();
 
-if ($nuked['time_generate'] == 'on'){
-    $mtime = microtime();
+if ($nuked['time_generate'] == 'on') {
+    $microTime = microtime();
 }
 
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
 if(ini_get('set_error_handler')) set_error_handler('erreursql');
+
 
 $session = session_check();
 $user = ($session == 1) ? secure() : array();
@@ -93,20 +94,25 @@ if (preg_match('`\.\.`', $theme) || preg_match('`\.\.`', $language) || preg_matc
     die(WAYTODO);
 }
 
-$_REQUEST['file'] = basename(trim($_REQUEST['file']));
+$_REQUEST['file']    = basename(trim($_REQUEST['file']));
 $_REQUEST['im_file'] = basename(trim($_REQUEST['im_file']));
-$_REQUEST['page'] = basename(trim($_REQUEST['im_file']));
-$theme = trim($theme);
-$language = trim($language);
+$_REQUEST['page']    = basename(trim($_REQUEST['im_file']));
+$theme               = trim($theme);
+$language            = trim($language);
 
 // Check Ban
 $check_ip = banip();
 
-if (!$user){
-    $visiteur = 0;
+if (!$user) {
+    $visiteur          = 0;
     $_SESSION['admin'] = false;
 }
-else $visiteur = $user[1];
+else {
+    $visiteur          = $user[1];
+}
+
+// Inclusion du fichier des couleurs
+require_once 'themes/'.$theme.'/colors.php';
 
 if ( $_REQUEST['file'] !== 'Admin'
     && $_REQUEST['page'] != 'admin'
@@ -146,6 +152,7 @@ if ($nuked['nk_status'] == 'closed'
     </html>
 <?php
 }
+
 else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) 
     && $_REQUEST['nuked_nude'] == 'admin')) 
     && $_SESSION['admin'] == 0){
@@ -155,14 +162,17 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     && (nivo_mod($_REQUEST['file']) <= $visiteur))) ){
     require_once ('themes/' . $theme . '/theme.php');
 
-    if ($nuked['level_analys'] != -1) visits();
+    if ($nuked['level_analys'] != -1) {
+        visits();
+    }
 
     if (!isset($_REQUEST['nuked_nude'])){
-        if (defined('NK_GZIP') && ini_get('zlib_output')){
+        if (defined('NK_GZIP') && ini_get('zlib_output')) {
             ob_start('ob_gzhandler');
         }
 
-        if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') {
+        if ( !($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin'))
+            || $_REQUEST['page'] == 'login') {
 
             top();
 
@@ -171,11 +181,6 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             <script type="text/javascript">
                 InitBulle('<?= $bgcolor2; ?>','<?= $bgcolor3; ?>', 2);
             </script>
-            <!--<script type="text/javascript">
-                if(typeof jQuery == 'undefined'){
-                    document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
-                }
-            </script>-->
 <?php
         }
 
@@ -214,13 +219,16 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 <?php
         }
     }
-    else
+    else {
         header('Content-Type: text/html;charset=ISO-8859-1');
-
-    if (is_file('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php')){
-        include('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php');
     }
-    else include('modules/404/index.php');
+
+    if (is_file('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php')) {
+        require_once 'modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php';
+    }
+    else {
+        require_once 'modules/404/index.php';
+    }
 
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
 
@@ -258,7 +266,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                         <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\',' : ''; ?>
                         allowedContent:
                             'p h1 h2 h3 h4 h5 h6 blockquote tr td div a span{text-align,font-size,font-family,font-style,color,background-color,display};' +
-                            'img[!src,alt,width,height,class,id,style,title,border];' +
+                            'img[!src,alt,width,height,class,id,style,title,border]{*}(*);' +
                             'strong s em u strike sub sup ol ul li br caption thead  hr big small tt code del ins cite q address section aside header;' +
                             'div[class,id,style,title,align]{page-break-after,width,height,background};' +
                             'a[!href,accesskey,class,id,name,rel,style,tabindex,target,title];' +
@@ -317,8 +325,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         }
     }
 
-    if (!isset($_REQUEST['nuked_nude'])){
-        if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login'){
+    if (!isset($_REQUEST['nuked_nude'])) {
+        if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login') {
             footer();
         require_once('Includes/copyleft.php');
         }
@@ -335,9 +343,9 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         echo '</body></html>';
     }
 }
-else{
-    include ('themes/' . $theme . '/colors.php');
-    include ('themes/' . $theme . '/theme.php');
+else {
+    require_once 'themes/'.$theme.'/colors.php';
+    require_once 'themes/'.$theme.'/theme.php';
     top();
     opentable();
     translate('lang/' . $language . '.lang.php');
