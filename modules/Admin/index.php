@@ -14,10 +14,9 @@ global $language, $user, $nuked;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $user[1] : 0;
+$nkAccessModule = nkAccessModule('Admin', $user[1], FALSE);
 
-if ($visiteur >= 2)
-{
+if ($nkAccessModule === TRUE) {
     admintop();
     ?>
     <!-- Page Head -->
