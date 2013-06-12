@@ -125,10 +125,10 @@ function form($content, $sug_id){
 
 function make_array($data){
     $data['titre'] = printSecuTags($data['titre']);
-    $data['url'] = htmlentities($data['url']);
+    $data['url'] = nkHtmlEntities($data['url']);
     $data['cat'] = printSecuTags($data['cat']);
-    $data['webmaster'] = htmlentities($data['webmaster']);
-    $data['country'] = htmlentities($data['country']);
+    $data['webmaster'] = nkHtmlEntities($data['webmaster']);
+    $data['country'] = nkHtmlEntities($data['country']);
 
     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
     $data['description'] = str_replace("|", "&#124;", $data['description']);
@@ -142,7 +142,7 @@ function send($data){
     global $nuked;
 
     $date = time();
-    $data['description'] = html_entity_decode($data['description']);
+    $data['description'] = nkHtmlEntityDecode($data['description']);
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
     $data['webmaster'] = mysql_real_escape_string(stripslashes($data['webmaster']));

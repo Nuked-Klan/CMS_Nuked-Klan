@@ -23,9 +23,9 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
         list($auteur, $autor_id, $titre, $texte, $ip) = mysql_fetch_array($sql);
-        $auteur = htmlspecialchars($auteur);
+        $auteur = nkHtmlSpecialChars($auteur);
 		
-        $titre = htmlentities($titre);
+        $titre = nkHtmlEntities($titre);
 
         if($autor_id != ""){
      	    $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
@@ -59,7 +59,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function modif_com($cid, $titre, $texte){
         global $nuked, $user;
 		
-		$texte = secu_html(html_entity_decode($texte));
+		$texte = secu_html(nkHtmlEntityDecode($texte));
         $texte = mysql_real_escape_string(stripslashes($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
 
@@ -144,7 +144,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $sql = mysql_query("SELECT id, im_id, date, autor, autor_id, module FROM " . COMMENT_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_com);
         while (list($id, $im_id, $date, $auteur, $autor_id, $module) = mysql_fetch_array($sql)){
             $date = nkDate($date);
-            $auteur = htmlspecialchars($auteur);
+            $auteur = nkHtmlSpecialChars($auteur);
 
             if($autor_id != ""){
                 $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");

@@ -114,7 +114,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $sql = mysql_query("SELECT etat, team, game, adversaire, url_adv, pays_adv, type, style, date_jour, date_mois, date_an, heure, map, score_team, score_adv, tscore_team, tscore_adv, report, url_league FROM " . WARS_TABLE . " WHERE warid='".$war_id."'");
             list($status, $team, $game, $adv_name, $adv_url, $pays_adv, $type, $style, $jour, $mois, $an, $heure, $map, $score_team, $score_adv, $tscore_team, $tscore_adv, $report, $url_league) = mysql_fetch_array($sql);
             
-            $adv_name = htmlspecialchars($adv_name);
+            $adv_name = nkHtmlSpecialChars($adv_name);
             $map = explode('|', $map);
             $score_team = explode('|', $score_team);
             $score_adv = explode('|', $score_adv);
@@ -190,7 +190,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         $sql2 = mysql_query("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
         while (list($cid, $titre) = mysql_fetch_array($sql2)){
-            $titre = htmlentities($titre);
+            $titre = nkHtmlEntities($titre);
 
             if ($cid == $team){
                 $checked3 = "selected=\"selected\"";
@@ -355,7 +355,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         global $nuked, $user;
 
         $autor = $user[2];
-        $report = html_entity_decode($report);
+        $report = nkHtmlEntityDecode($report);
         $adversaire = mysql_real_escape_string(stripslashes($adversaire));
         $report = mysql_real_escape_string(stripslashes($report));
         $type = mysql_real_escape_string(stripslashes($type));
@@ -437,7 +437,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league){
         global $nuked, $user;
 
-        $report = html_entity_decode($report);
+        $report = nkHtmlEntityDecode($report);
         $adversaire = mysql_real_escape_string(stripslashes($adversaire));
         $report = mysql_real_escape_string(stripslashes($report));
         $type = mysql_real_escape_string(stripslashes($type));

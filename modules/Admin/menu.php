@@ -46,7 +46,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT  bid, active, position, titre, nivo FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
         while (list($bid, $activ, $position, $titre, $nivo) = mysql_fetch_array($sql))
         {
-            $titre = htmlentities($titre);
+            $titre = nkHtmlEntities($titre);
 
             if ($activ == 1) $active = _LEFT;
             else if ($activ == 2) $active = _RIGHT;
@@ -70,7 +70,7 @@ if ($visiteur == 9)
 
         $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
         list($titre, $content) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
+        $titre = nkHtmlEntities($titre);
 
         echo "<script type=\"text/javascript\">\n"
 	."<!--\n"
@@ -115,15 +115,15 @@ if ($visiteur == 9)
             {
                 list($url, $title, $comment, $niveau, $blank) = explode('|', $link);
                 $title = strip_tags($title);
-                $title = htmlentities($title);
+                $title = nkHtmlEntities($title);
 
                 if ($comment !="" && strlen($comment) > 15)
                 {
-                    $comment = htmlentities(substr($comment, 0, 15)) . "...";
+                    $comment = nkHtmlEntities(substr($comment, 0, 15)) . "...";
                 }
 		else if ($comment != "")
 		{
-                    $comment = htmlentities($comment);
+                    $comment = nkHtmlEntities($comment);
 		}
 		else
 		{
@@ -210,7 +210,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
         list($titre, $content) = mysql_fetch_array($sql);
         $titre = strip_tags($titre);
-        $titre = htmlentities($titre);
+        $titre = nkHtmlEntities($titre);
 
         if ($content) $link = explode('NEWLINE', $content);
         list($module, $title, $comment, $niveau, $blank) = explode('|', $link[$lid]);
@@ -231,7 +231,7 @@ if ($visiteur == 9)
             $img = $matches[0];
             $puce = strrchr($img, '/');
             $puce = substr($puce, 1);
-            $puce = htmlentities($puce);
+            $puce = nkHtmlEntities($puce);
         }
 
         if (preg_match("`<span style=`i", $title) && preg_match("`color:`i", $title))
@@ -242,11 +242,11 @@ if ($visiteur == 9)
             $color = strrchr($font, '"');
             $color = substr($color, 1);
             $color= str_replace("color: #", "", $color);
-            $color = htmlentities($color);
+            $color = nkHtmlEntities($color);
         }
 
         $title = strip_tags($title);
-        $title = htmlentities($title);
+        $title = nkHtmlEntities($title);
 
         if (substr($module, 0, 1) == "[" || $module == "") $url = "http://";
         else $url = $module;
@@ -304,7 +304,7 @@ if ($visiteur == 9)
 
             list($url2, $title2, $comment2, $niveau2, $blank2) = explode('|', $link[$z]);
             $title2 = strip_tags($title2);
-            $title2 = htmlentities($title2);
+            $title2 = nkHtmlEntities($title2);
 
             echo "<option value=\"" . $z . "\" " . $selected . ">" . $z . "&nbsp;&nbsp;(" . $title2 . ")</option>\n";
         }

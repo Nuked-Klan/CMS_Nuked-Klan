@@ -245,8 +245,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
-		$texte = html_entity_decode($texte);
-		$suite = html_entity_decode($suite);
+		$texte = secu_html(nkHtmlEntityDecode($texte));
+		$suite = secu_html(nkHtmlEntityDecode($suite));
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$texte = mysql_real_escape_string(stripslashes($texte));
@@ -340,6 +340,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		select_news_cat();
 
+        $texte = editPhpCkeditor($texte);
+
 		echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n"
 		   . "<tr><td align=\"center\"><big><b>" . _TEXT . " :</b></big></td></tr>\n"
 		   . "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\">".$texte."</textarea></td></tr>\n"
@@ -358,10 +360,10 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$table = explode(':', $heure, 2);
 		$date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
-		$texte = html_entity_decode($texte);
+		$texte = secu_html(nkHtmlEntityDecode($texte));
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$texte = mysql_real_escape_string(stripslashes($texte));
-		$suite = html_entity_decode($suite);
+		$suite = secu_html(nkHtmlEntityDecode($suite));
 		$suite = mysql_real_escape_string(stripslashes($suite));
 
 		$upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
@@ -469,7 +471,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 	function send_cat($titre, $description, $image, $fichiernom) {
 		global $nuked, $user;
-		
+
 		$filename = $_FILES['fichiernom']['name'];
 
 		if ($filename != "") {
@@ -495,7 +497,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		}
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
-		$description = html_entity_decode($description);
+		$description = secu_html(nkHtmlEntityDecode($description));
 		$description = mysql_real_escape_string(stripslashes($description));
 
 		$sql = mysql_query("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url_image . "' )");
@@ -517,6 +519,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$sql = mysql_query("SELECT titre, description, image FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
 		list($titre, $description, $image) = mysql_fetch_array($sql);
+
+        $description = editPhpCkeditor($description);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
@@ -562,7 +566,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		}
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
-		$description = html_entity_decode($description);
+		$description = secu_html(nkHtmlEntityDecode($description));
 		$description = mysql_real_escape_string(stripslashes($description));
 
 		$sql = mysql_query("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $url_image . "' WHERE nid = '" . $cid . "'");

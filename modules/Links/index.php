@@ -113,7 +113,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $sql_parent = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
             list($parent_titre) = mysql_fetch_array($sql_parent);
 
-            echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '" style="text-decoration:none"><big><b>' . htmlentities($parent_titre) . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
+            echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '" style="text-decoration:none"><big><b>' . nkHtmlEntities($parent_titre) . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
         } 
         else{
             echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
@@ -356,11 +356,18 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             echo '</small></td></tr></table>'."\n";
         }
+		
+        if (!empty($cat)) {
+            $categorie = '&amp;cat=' . $cat;
+        }
+        else{
+            $categorie = '';
+        }
 
         if ($nb_lk > 0){
             if ($nb_lk > $nb_liens){
                 echo '<table style="margin: auto" width="90%"><tr><td>';
-                $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . '&amp;cat=' . $cat . '&amp;orderby=' . $_REQUEST['orderby'];
+                $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
                 number($nb_lk, $nb_liens, $url_page);
                 echo '</td></tr></table>'."\n";
             } 
@@ -425,10 +432,17 @@ if ($visiteur >= $level_access && $level_access > -1){
                     echo '</td></tr></table></td></tr></table><br />'."\n";
                 } 
             } 
-
+			
+            if (!empty($cat)) {
+                $categorie = '&amp;cat=' . $cat;
+            }
+            else{
+                $categorie = '';
+            }
+		
             if ($nb_lk > $nb_liens){
                 echo '<table style="margin: auto" width="90%"><tr><td>';
-                $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . '&amp;cat=' . $cat . '&amp;orderby=' . $_REQUEST['orderby'];
+                $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
                 number($nb_lk, $nb_liens, $url_page);
                 echo '</td></tr></table>'."\n";
             } 

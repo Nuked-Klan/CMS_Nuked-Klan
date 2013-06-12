@@ -214,7 +214,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         } 
 
         $title = printSecuTags($title);
-        $autor = htmlentities($autor);
+        $autor = nkHtmlEntities($autor);
 
         $words = sizeof(explode(" ", $content));
 

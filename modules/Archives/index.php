@@ -122,11 +122,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if (strlen($titre) > 25)
             {
-                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\" title=\"" . $titre . "\">" . htmlentities(substr($titre, 0, 25)) . "...</a>";
+                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\" title=\"" . $titre . "\">" . nkHtmlEntities(substr($titre, 0, 25)) . "...</a>";
             }
             else
             {
-                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . htmlentities($titre) . "</a>";
+                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . nkHtmlEntities($titre) . "</a>";
             }
 
 
@@ -163,7 +163,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 $sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
                 list($categorie) = mysql_fetch_array($sql3);
-                $categorie = htmlentities($categorie);
+                $categorie = nkHtmlEntities($categorie);
 
                 echo "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Archives&amp;op=sujet&amp;cat_id=" . $cat . "\" title= \"" . _SEENEWS . "&nbsp;" . $categorie . "\">" . $categorie . "</a></td>\n";
             }
@@ -278,11 +278,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if (strlen($titre) > 25)
             {
-                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\" title=\"" . $titre . "\">" . htmlentities(substr($titre, 0, 25)) . "...</a>";
+                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\" title=\"" . $titre . "\">" . nkHtmlEntities(substr($titre, 0, 25)) . "...</a>";
             }
             else
             {
-                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . htmlentities($titre) . "</a>";
+                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . nkHtmlEntities($titre) . "</a>";
             }
 
             if ($autor_id != "")
@@ -315,7 +315,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             $sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
             list($categorie) = mysql_fetch_array($sql3);
-            $categorie = htmlentities($categorie);
+            $categorie = nkHtmlEntities($categorie);
 
             echo "<td style=\"width: 20%;\" align=\"center\"><i>" . $categorie . "</i></td>\n"
             . "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td>\n"

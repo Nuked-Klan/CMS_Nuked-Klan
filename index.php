@@ -126,17 +126,26 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             ob_start('ob_gzhandler');
         }
 
-        if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
-        echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
-        , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n"
-        , '<script type="text/javascript" src="media/ckeditor/plugins/syntaxhighlight/scripts/shBrush_min.js"></script>',"\n"
-        , '<script type="text/javascript"><!--',"\n"
-        , 'document.write(\'<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shCore.css"/>\');',"\n"
-        , '--></script>',"\n"
-        , '<script type="text/javascript">',"\n"
-        , 'SyntaxHighlighter.config.clipboardSwf = \'media/ckeditor/plugins/syntaxhighlight/scripts/clipboard.swf\';',"\n"
-        , 'SyntaxHighlighter.all();',"\n"
-        , '</script>',"\n";
+        if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') {
+
+            top();
+            ?>
+            <script type="text/javascript" src="media/js/infobulle.js"></script>
+            <script type="text/javascript">
+                InitBulle('<?= $bgcolor2; ?>','<?= $bgcolor3; ?>', 2);
+            </script>
+            <script type="text/javascript">
+                if(typeof jQuery == 'undefined'){
+                    document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
+                }
+            </script>
+            <script type="text/javascript" src="media/js/syntaxhighlighter/shCore.js"></script>
+            <script type="text/javascript" src="media/js/syntaxhighlighter/shAutoloader.js"></script>
+            <script type="text/javascript" src="media/js/syntaxhighlighter.autoloader.js"></script>
+            <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shCoreMonokai.css"/>
+            <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shThemeMonokai.css"/>
+            <?php
+        }
 
         if($user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
             if ($nuked['nk_status'] == 'closed'){
@@ -157,40 +166,55 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         include('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php');
     }
     else include('modules/404/index.php');
-    
+
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
-    echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
-    , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_basic\')){',"\n"
-    , 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
-    , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
-    echo ConfigSmileyCkeditor().'',"\n";
-    echo ' CKEDITOR.replace( \'e_basic\',',"\n"
-    , '    {',"\n"
-    , '        toolbar : \'Basic\',',"\n"
-    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
-    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
-    echo '    }); }',"\n"
-    , '//]]>',"\n"
-    , '</script>',"\n"
-    , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_advanced\')){',"\n";
-    $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
-    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';'
-    , 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
-    , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
-    echo ConfigSmileyCkeditor().'',"\n";
-    echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
-    , '    {',"\n"
-    , '        toolbar : \'Full\',',"\n"
-    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
-    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
-    echo '    }); }',"\n"
-    , '//]]>',"\n"
-    , '</script>',"\n";
-    
+
+        ?>
+            <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
+            <script type="text/javascript" src="media/ckeditor/config.js"></script>
+            <script type="text/javascript">
+                //<![CDATA[
+                if(document.getElementById('e_basic')){
+                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
+                    CKEDITOR.config.scayt_autoStartup = "true";
+                    CKEDITOR.replace('e_basic',{
+                        toolbar : 'Basic',
+                        language : '<?php echo substr($language, 0,2) ?>',
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
+                    });
+                    <?php echo ConfigSmileyCkeditor(); ?>
+                }
+
+                if(document.getElementById('e_advanced')){
+                    <?php echo ($nuked['video_editeur'] == 'on') ? 'CKEDITOR.config.extraPlugins = \'Video\';' : ''; ?>
+                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
+                    <?php echo ($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''; ?>
+                    CKEDITOR.replace('e_advanced',{
+                        toolbar : 'Full',
+                        language : '<?php echo substr($language, 0,2) ?>',
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\',' : ''; ?>
+                        allowedContent:
+                            'p h1 h2 h3 h4 h5 h6 blockquote tr td div a span{text-align,font-size,font-family,font-style,color,background-color,display};' +
+                            'img[!src,alt,width,height,class,id,style,title,border];' +
+                            'strong s em u strike sub sup ol ul li br caption thead  hr big small tt code del ins cite q address section aside header;' +
+                            'div[class,id,style,title,align]{page-break-after,width,height,background};' +
+                            'a[!href,accesskey,class,id,name,rel,style,tabindex,target,title];' +
+                            'table[align,border,cellpadding,cellspacing,class,id,style];' +
+                            'td[colspan, rowspan];' +
+                            'th[scope];' +
+                            'pre(*);' +
+                            'span[id, style];'
+                            <?php if($nuked['video_editeur'] == 'on'){ ?>
+                                + 'object[width,height,data,type];'
+                                + 'param[name,value];'
+                                + 'embed[width,height,src,type,allowfullscreen,allowscriptaccess];'
+                            <?php } ?>
+                    });
+                    <?php echo ConfigSmileyCkeditor(); ?>
+                }
+                //]]>
+            </script>
+        <?php
     }
 
     if (!isset($_REQUEST['nuked_nude'])){
@@ -199,7 +223,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             , '<script type="text/javascript" src="media/js/popup.js"></script>',"\n"
             , '<script type="text/javascript">popup("' , $bgcolor2 , '", "' , $bgcolor3 , '", "' , _NEWMESSAGESTART , '&nbsp;' , $user[5] , '&nbsp;' , _NEWMESSAGEEND , '", "' , _CLOSEWINDOW , '", "index.php?file=Userbox", 350, 100);</script>',"\n";
         }
-        
+
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login'){
             footer();
         }

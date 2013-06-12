@@ -91,13 +91,13 @@ if ($visiteur >= $level_access && $level_access > -1)
             if ($_REQUEST['autor'] != "" && $_REQUEST['query'] != "")
             { 
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
-                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES);
+                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%') AND ";
             }
             else if ($_REQUEST['autor'] != "")
             { 
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
-                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES);
+                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%')";
             }
 
@@ -178,12 +178,12 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $sql_forum = mysql_query("SELECT nom, niveau FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
                     list($forum_name, $forum_level) = mysql_fetch_row($sql_forum);
                     $date = nkDate($date);
-                    $forum_name = htmlentities($forum_name);
+                    $forum_name = nkHtmlEntities($forum_name);
 
                     $auteur = nk_CSS($auteur);
 
                     $texte = strip_tags($txt);
-                    $title = htmlentities($titre);
+                    $title = nkHtmlEntities($titre);
                     $title = nk_CSS($title);
 
                     if (!preg_match("`[a-zA-Z0-9\?\.]`", $texte))
@@ -197,7 +197,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     } 
 
                     $texte = nk_CSS($texte);
-                    $texte = htmlentities($texte);
+                    $texte = nkHtmlEntities($texte);
                     
                     $sql_page = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
                     $nb_rep = mysql_num_rows($sql_page);
@@ -215,7 +215,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     if (strlen($titre) > 30)
                     {
-                        $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . htmlentities(substr($titre, 0, 30)) . "...</b></a>";
+                        $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . nkHtmlEntities(substr($titre, 0, 30)) . "...</b></a>";
                     } 
                     else
                     {
@@ -318,14 +318,14 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
         while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
         {
-            $cat_name = htmlentities($cat_name);
+            $cat_name = nkHtmlEntities($cat_name);
 
             echo "<option value=\"cat_" . $cat . "\">* " . $cat_name . "</option>\n";
 
             $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' AND '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
             while (list($forum_name, $fid) = mysql_fetch_row($sql_forum))
             {
-                $forum_name = htmlentities($forum_name);
+                $forum_name = nkHtmlEntities($forum_name);
 
                 echo "<option value=\"" . $fid . "\">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
             } 

@@ -176,7 +176,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         $date_install = nkDate($nuked['date_install']);
 
         if ($_REQUEST['letter'] != ""){
-            $_REQUEST['letter'] = htmlentities($_REQUEST['letter']);
+            $_REQUEST['letter'] = nkHtmlEntities($_REQUEST['letter']);
             $_REQUEST['letter'] = nk_CSS($_REQUEST['letter']);
 
             echo "<br /><div style=\"text-align: center;\">" . $count . "&nbsp;" . _MEMBERSFOUND . " <b>" . $_REQUEST['letter'] . "</b></div><br />\n";
@@ -202,7 +202,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         opentable();
 
-        $autor = htmlentities($autor, ENT_QUOTES);
+        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1');
 
         $sql = mysql_query("SELECT U.id, U.icq, U.msn, U.aim, U.yim, U.email, U.url, U.date, U.game, U.country, S.date FROM " . USER_TABLE . " AS U LEFT OUTER JOIN " . SESSIONS_TABLE . " AS S ON U.id = S.user_id WHERE U.pseudo = '" . $autor . "'");
         $test = mysql_num_rows($sql);
@@ -227,12 +227,12 @@ if ($visiteur >= $level_access && $level_access > -1){
 			$date = nkDate($date);
 			$last_used > 0 ? $last_used=nkDate($last_used) : $last_used='';            
 
-            $titre = htmlentities($titre);
-            $pref_1 = htmlentities($pref_1);
-            $pref_2 = htmlentities($pref_2);
-            $pref_3 = htmlentities($pref_3);
-            $pref_4 = htmlentities($pref_4);
-            $pref_5 = htmlentities($pref_5);
+            $titre = nkHtmlEntities($titre);
+            $pref_1 = nkHtmlEntities($pref_1);
+            $pref_2 = nkHtmlEntities($pref_2);
+            $pref_3 = nkHtmlEntities($pref_3);
+            $pref_4 = nkHtmlEntities($pref_4);
+            $pref_5 = nkHtmlEntities($pref_5);
 
             if ($birthday != ""){
                 list ($jour, $mois, $an) = explode ('/', $birthday);
@@ -284,7 +284,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             $a = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
             $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-            $flash_autor = @html_entity_decode($autor);
+            $flash_autor = @nkHtmlEntityDecode($autor);
             $flash_autor = strtr($flash_autor, $a, $b);
 
             echo "<br /><object type=\"application/x-shockwave-flash\" data=\"modules/Members/images/title.swf\" width=\"100%\" height=\"50\">\n"
@@ -377,7 +377,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 	function listing($q,$type='right',$limit=100){
 		$q	= strtolower($q);
 		$q = nk_CSS($q);
-		$q = htmlentities($q, ENT_QUOTES);	
+		$q = htmlentities($q, ENT_QUOTES, 'ISO-8859-1');	
 		if (!$q) return;
 		
 		if (!is_numeric($limit)) $limit = 0;

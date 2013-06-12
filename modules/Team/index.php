@@ -36,9 +36,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($nb_team == 0)
         {
-            $titre = @html_entity_decode($nuked['name']);
-            $team_tag = @html_entity_decode($nuked['tag_pre']);
-            $tag2 = @html_entity_decode($nuked['tag_suf']);
+            $titre = @nkHtmlEntityDecode($nuked['name']);
+            $team_tag = @nkHtmlEntityDecode($nuked['tag_pre']);
+            $tag2 = @nkHtmlEntityDecode($nuked['tag_suf']);
             $res = array ('', "$titre", "$team_tag", "$tag2", '0');
         }
 
@@ -52,7 +52,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $team_tag = printSecuTags($team_tag);
             $tag2 = printSecuTags($tag2);
 
-            if ($team != '') $link_titre = '<a href="index.php?file=Team&amp;cid=' . urlencode(html_entity_decode($team)) . '"><big><b>' . $titre . '</b></big></a>';
+            if ($team != '') $link_titre = '<a href="index.php?file=Team&amp;cid=' . urlencode(nkHtmlEntityDecode($team)) . '"><big><b>' . $titre . '</b></big></a>';
             else $link_titre = '<big><b>' . $titre . '</b></big>';
 
             echo "<div style=\"text-align: center;\">$link_titre</div>"
@@ -77,7 +77,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 {
                     list ($pays, $ext) = explode ('.', $country);
                     $temp = $team_tag . $pseudo . $tag2;
-                    $pseudo = html_entity_decode($pseudo);
+                    $pseudo = nkHtmlEntityDecode($pseudo);
 
                     if (is_file("themes/" . $theme . "/images/mail.gif"))
                     {
@@ -208,7 +208,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        $autor = htmlentities($autor, ENT_QUOTES);
+        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1');
 
         $sql = mysql_query("SELECT id, icq, msn, aim, yim, email, url, game, country FROM " . USER_TABLE . " WHERE pseudo = '" . $autor . "'");
         $test = mysql_num_rows($sql);
@@ -326,7 +326,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             $a = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
             $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-            $flash_autor = @html_entity_decode($autor);
+            $flash_autor = @nkHtmlEntityDecode($autor);
             $flash_autor = strtr($flash_autor, $a, $b);
 
             echo "<br /><object type=\"application/x-shockwave-flash\" data=\"modules/Members/images/title.swf\" width=\"100%\" height=\"50\">\n"

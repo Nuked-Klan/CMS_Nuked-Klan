@@ -17,12 +17,12 @@ include('Includes/constants.php');
 
 $sitename = utf8_encode($nuked['name']);
 $sitedesc = utf8_encode($nuked['slogan']);
-$sitename = html_entity_decode($nuked['name']);
-$sitedesc = html_entity_decode($nuked['slogan']);
+$sitename = nkHtmlEntityDecode($nuked['name']);
+$sitedesc = nkHtmlEntityDecode($nuked['slogan']);
 $sitename = str_replace('&amp;', '&', $sitename);
 $sitedesc = str_replace('&amp;', '&', $sitedesc);
-$sitename = htmlspecialchars($sitename);
-$sitedesc = htmlspecialchars($sitedesc);
+$sitename = nkHtmlSpecialChars($sitename);
+$sitedesc = nkHtmlSpecialChars($sitedesc);
 
 echo '<?xml version="1.0" ?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">

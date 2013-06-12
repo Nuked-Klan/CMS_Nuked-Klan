@@ -73,7 +73,7 @@ class ut2004 extends gameSpy
           break;
         }
       } else {
-        $result .= htmlspecialchars($string[$i]);
+        $result .= nkHtmlSpecialChars($string[$i]);
       }
     }
 

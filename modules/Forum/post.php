@@ -119,7 +119,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $sql1 = mysql_query("SELECT titre, annonce FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
             list($titre, $annonce) = mysql_fetch_array($sql1);
-            $titre = htmlentities($titre);
+            $titre = nkHtmlEntities($titre);
             $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
             $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
             $re_titre = "RE : " . $titre;
@@ -151,6 +151,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $ftexte = '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' ' . _BY . ' ' . $author . ' :</strong><br />' . $e_txt . '</blockquote>';
         }
+
+        $ftexte = editPhpCkeditor($ftexte);
 
         if ($_REQUEST['do'] == "quote")
         {
@@ -257,21 +259,17 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td></tr>\n";
 
-        if ($captcha == 1)
-        {
-                echo "<tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _SECURITYCODE . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\"><table>";
-                
-                create_captcha(1);
-
-                echo "</table><br /></td></tr>\n";
-        }
-
         echo" <tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">"
         . "<input type=\"submit\" value=\"" . _SEND . "\" />\n"
         . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
         . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
-        . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n"
-        . "</td></tr></table></form>\n";
+        . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n";
+
+        if ($captcha == 1){
+                create_captcha(0);
+        }
+
+        echo "</td></tr></table></form>\n";
 
         if ($_REQUEST['thread_id'] != "")
         {

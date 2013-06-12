@@ -17,7 +17,7 @@ function affich_block_menu($blok){
 function block_link($content){
     global $user;
 
-    $content = html_entity_decode($content);
+    $content = nkHtmlEntityDecode($content);
     $link = explode('NEWLINE', $content);
     $screen = '<ul style="list-style: none; padding: 0">';
     $size = count($link);
@@ -28,8 +28,8 @@ function block_link($content){
         $nivuser = $user[1];
         $title = preg_replace("`&amp;lt;`i", "<", $title);
         $title = preg_replace("`&amp;gt;`i", ">", $title);
-        $comment = htmlentities($comment);
-        $url = htmlentities($url);
+        $comment = nkHtmlEntities($comment);
+        $url = nkHtmlEntities($url);
 
         if (!$nivuser)$nivuser = 0;
         
@@ -54,7 +54,7 @@ function edit_block_menu($bid){
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
 
-    $content = htmlentities($content);
+    $content = nkHtmlEntities($content);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';

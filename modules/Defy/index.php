@@ -34,7 +34,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
                     . "<tr><td align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr>\n"
-                    . "<tr><td>&nbsp;</td></tr><tr><td>" . html_entity_decode($nuked['defie_charte']) . "</td></tr></table>\n"
+                    . "<tr><td>&nbsp;</td></tr><tr><td>" . nkHtmlEntityDecode($nuked['defie_charte']) . "</td></tr></table>\n"
                     . "<form method=\"post\" action=\"index.php?file=Defy\">\n"
                     . "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
                     . "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
@@ -114,7 +114,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         closedir($handle);
         sort($rep);
         reset($rep);
-    
+
         while (list($key, $filename) = each($rep)) {
                 if ($filename == $pays){
                     $checked = 'selected="selected"';
@@ -122,7 +122,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 else{
                     $checked = null;
                 }
-    
+
                 list ($country, $ext) = explode('.', $filename);
                 echo "<option value=\"" . $filename . "\" " . $checked . ">" . $country . "</option>\n";
         }
@@ -147,28 +147,27 @@ if ($visiteur >= $level_access && $level_access > -1){
                 . "<tr><td style=\"width: 20%;\"><b>" . _MAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
-        if ($captcha == 1) create_captcha(2);
+        echo "<tr><td colspan=\"2\" align=\"center\">";
 
-        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
+        if ($captcha == 1) create_captcha(0);
+
+        echo "<input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
     }
 
     function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $heure, $game, $serveur, $type, $map, $comment){
         global $nuked, $captcha;
 
         // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm'])){
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a><br /><br /></div>";
-            closetable();
-            footer();
-            exit();
+        if ($captcha == 1){
+            ValidCaptchaCode();
         }
 
         $email = $nuked['defie_mail'];
         $inbox = $nuked['defie_inbox'];
         $time = time();
         $date2 = nkDate($time);
-        $comment = secu_html(html_entity_decode($comment));
-        
+        $comment = secu_html(nkHtmlEntityDecode($comment));
+
         $pseudo = mysql_real_escape_string(stripslashes($pseudo));
         $clan = mysql_real_escape_string(stripslashes($clan));
         $country = mysql_real_escape_string(stripslashes($country));
@@ -183,18 +182,18 @@ if ($visiteur >= $level_access && $level_access > -1){
         $type = mysql_real_escape_string(stripslashes($type));
         $map = mysql_real_escape_string(stripslashes($map));
         $comment = mysql_real_escape_string(stripslashes($comment));
-        
+
         $pseudo = printSecuTags($pseudo);
         $clan = printSecuTags($clan);
-        $country = htmlentities($country);
-        $mail = htmlentities($mail);
-        $icq = htmlentities($icq);
-        $irc = htmlentities($irc);
-        $url = htmlentities($url);
-        $date = htmlentities($date);
-        $heure = htmlentities($heure);
+        $country = nkHtmlEntities($country);
+        $mail = nkHtmlEntities($mail);
+        $icq = nkHtmlEntities($icq);
+        $irc = nkHtmlEntities($irc);
+        $url = nkHtmlEntities($url);
+        $date = nkHtmlEntities($date);
+        $heure = nkHtmlEntities($heure);
         $game = printSecuTags($game);
-        $serveur = htmlentities($serveur);
+        $serveur = nkHtmlEntities($serveur);
         $type = printSecuTags($type);
         $map = printSecuTags($map);
 
@@ -205,14 +204,14 @@ if ($visiteur >= $level_access && $level_access > -1){
         $corps = $pseudo . " " . _NEWDEFY . "\r\n" . $nuked['url'] . "/index.php?file=Defy&page=admin\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
 
-        $subject = @html_entity_decode($subject);
-        $corps = @html_entity_decode($corps);
-        $from = @html_entity_decode($from);
+        $subject = @nkHtmlEntityDecode($subject);
+        $corps = @nkHtmlEntityDecode($corps);
+        $from = @nkHtmlEntityDecode($from);
 
         if (!empty($email)){
             @mail($email, $subject, $corps, $from);
         }
-        
+
         if (!empty($inbox)){
             $sql2 = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $time . "' , '0' )");
         }
@@ -221,7 +220,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         redirect('index.php', 2);
     }
 
-    switch ($_REQUEST['op']){        
+    switch ($_REQUEST['op']){
         case 'index':
         index();
         break;

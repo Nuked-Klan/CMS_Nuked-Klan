@@ -38,31 +38,24 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        echo "<script type=\"text/javascript\">\n"
-		."<!--\n"
-		. "\n"
-		."function trim(string)\n"
-		."{"
-		."return string.replace(/(^\s*)|(\s*$)/g,'');"
-		."}\n"
-		."\n"
-		. "function verifchamps()\n"
-		. "{\n"
-		. "\n"
-		. "if (trim(document.getElementById('guest_name').value) == \"\")\n"
-		. "{\n"
-		. "alert('" . _NONICK . "');\n"
-		. "return false;\n"
-		. "}\n"
-		. "\n"
-		. "if (document.getElementById('guest_mail').value.indexOf('@') == -1)\n"
-		. "{\n"
-		. "alert('" . _ERRORMAIL . "');\n"
-		. "return false;\n"
-		. "}\n"
-		. "\n"
-		. "// -->\n"
-	. "</script>\n";
+        ?>
+        <script type="text/javascript">
+            function trim(string){
+              return string.replace(/(^\s*)|(\s*$)/g,'');
+            }
+
+            function verifchamps(){
+                if (trim(document.getElementById('guest_name').value) == ""){
+                  alert('<?php echo _NONICK; ?>');
+                  return false;
+                }
+                if (document.getElementById('guest_mail').value.indexOf('@') == -1){
+                  alert('<?php echo _ERRORMAIL; ?>');
+                  return false;
+                }
+            }
+       </script>
+        <?php
 
         if ($user)
         {
@@ -95,12 +88,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         opentable();
 
         // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-            closetable();
-            footer();
-            exit();
+        if ($captcha == 1){
+            ValidCaptchaCode();
         }
 
         if ($user[2] != "")
@@ -110,7 +99,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         else
         {
             $name = verif_pseudo($name);
-            $name = htmlentities($name, ENT_QUOTES);
+            $name = htmlentities($name, ENT_QUOTES, 'ISO-8859-1');
 
             if ($name == "error1")
             {
@@ -142,7 +131,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
         }
 
-        $email = htmlentities($email);
+        $email = nkHtmlEntities($email);
         $sql3 = mysql_query("SELECT email FROM " . BANNED_TABLE . " WHERE email = '" . $email . "'");
         $nb_ban = mysql_num_rows($sql3);
 
@@ -173,11 +162,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         else if ($comment != "")
         {
             $date = time();
-            $comment = secu_html(html_entity_decode($comment));
+            $comment = secu_html(nkHtmlEntityDecode($comment));
             $comment = mysql_real_escape_string(stripslashes($comment));
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $email = mysql_real_escape_string(stripslashes($email));
-            
+
             if (!empty($url) && !is_int(stripos($url, 'http://')))
             {
                 $url = "http://" . mysql_real_escape_string(stripslashes($url));
@@ -230,7 +219,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $date = nkDate($date);
 
-            $url = htmlentities($url);
+            $url = nkHtmlEntities($url);
 
             $url = nk_CSS($url);
             $email = nk_CSS($email);

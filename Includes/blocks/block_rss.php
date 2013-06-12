@@ -33,18 +33,18 @@ function affich_block_rss($blok){
 			$href = htmlentities((string) $actu->link, ENT_QUOTES, 'UTF-8');
 			$titleActu = htmlentities((string) $actu->title, ENT_QUOTES, 'UTF-8');
 			$description = ereg_replace("<[^>]*>", "", trim(strip_tags((string)$actu->description)));
-			$description = html_entity_decode($description, ENT_QUOTES);
+			$description = html_entity_decode($description, ENT_QUOTES, 'ISO-8859-1');
 			$pubDate = (string) $actu->pubDate;
 			$description = (strlen($description) > 255) ? substr($description,0,255).'...' : $description;
 			$texte = $pubDate . ' : ' . $description;
 			
 			if ($blok['active'] == 3 or $blok['active'] == 4) {
 				
-				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.htmlentities(utf8_decode($description)).'">'.utf8_decode($titleActu).'</a> ( '.$pubDate.' )</li>';
+				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.nkHtmlEntities(utf8_decode($description)).'">'.utf8_decode($titleActu).'</a> ( '.$pubDate.' )</li>';
 				
 			} else {
 				
-				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.htmlentities(utf8_decode($texte)).'">'.utf8_decode($titleActu).'</a></li>';
+				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.nkHtmlEntities(utf8_decode($texte)).'">'.utf8_decode($titleActu).'</a></li>';
 				
 			}
 			

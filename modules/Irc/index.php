@@ -65,7 +65,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 				. "<param name=\"archive\" value=\"irc.jar,pixx.jar\" />\n"
 				. "<param name=\"codebase\" value=\"modules/Irc/pjirc/\" />\n"
 				. "<param name=\"nick\" value=\"" . $nick . "\" />\n"
-				. "<param name=\"alternatenick\" value=\"" . htmlentities($nick, ENT_QUOTES) . "\" />\n"
+				. "<param name=\"alternatenick\" value=\"" . htmlentities($nick, ENT_QUOTES, 'ISO-8859-1') . "\" />\n"
 				. "<param name=\"name\" value=\"Java User\" />\n"
 				. "<param name=\"host\" value=\"irc." . $nuked['irc_serv'] . "\" />\n"
 				. "<param name=\"port\" value=\"6667\" />\n"

@@ -50,7 +50,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
                 echo '<tr style="background: ' . $bg . '">'."\n"
                 . '<td style="width: 10%" align="center">' . $idl . '</td>'."\n"
-                . '<td style="width: 60%"><a href="index.php?file=Download&amp;op=description&amp;dl_id=' . $dl_id . '">' . htmlentities($dl_titre) . '</a></td>'."\n"
+                . '<td style="width: 60%"><a href="index.php?file=Download&amp;op=description&amp;dl_id=' . $dl_id . '">' . nkHtmlEntities($dl_titre) . '</a></td>'."\n"
                 . '<td style="width: 30%" align="center">' . $dl_count . '</td></tr>'."\n";
             }
         }
@@ -91,7 +91,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
                 echo '<tr style="background: ' . $bg1 . '">'."\n"
                 . '<td style="width: 10%" align="center">' . $ilink . '</td>'."\n"
-                . '<td style="width: 60%"><a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '">' . htmlentities($link_titre) . '</a></td>'."\n"
+                . '<td style="width: 60%"><a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '">' . nkHtmlEntities($link_titre) . '</a></td>'."\n"
                 . '<td style="width: 30%" align="center">' . $link_count . '</td></tr>'."\n";
             } 
         }
@@ -132,7 +132,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
                 echo '<tr style="background: ' . $bg2 . '">'."\n"
                 . '<td style="width: 10%" align="center">' . $iart . '</td>'."\n"
-                . '<td style="width: 60%"><a href="index.php?file=Sections&amp;op=article&amp;artid=' . $art_id . '">' . htmlentities($art_titre) . '</a></td>'."\n"
+                . '<td style="width: 60%"><a href="index.php?file=Sections&amp;op=article&amp;artid=' . $art_id . '">' . nkHtmlEntities($art_titre) . '</a></td>'."\n"
                 . '<td style="width: 30%" align="center">' . $art_count . '</td></tr>'."\n";
             } 
         }
@@ -173,7 +173,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
                 echo '<tr style="background: ' . $bg3 . '">'."\n"
                 . '<td style="width: 10%" align="center">' . $itopic . '</td>'."\n"
-                . '<td style="width: 60%"><a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=' . $fid . '&amp;thread_id=' . $tid . '">' . htmlentities($topic_titre) . '</a></td>'."\n"
+                . '<td style="width: 60%"><a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=' . $fid . '&amp;thread_id=' . $tid . '">' . nkHtmlEntities($topic_titre) . '</a></td>'."\n"
                 . '<td style="width: 30%" align="center">' . $views . '</td></tr>'."\n";
             }
         }
@@ -206,7 +206,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             echo '<tr style="background: ' . $bg4 . '">'."\n"
             . '<td style="width: 10%" align="center">' . $iuserf . '</td>'."\n"
-            . '<td style="width: 60%"><a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($pseudof) . '">' . htmlentities($pseudof) . '</a></td>'."\n"
+            . '<td style="width: 60%"><a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($pseudof) . '">' . nkHtmlEntities($pseudof) . '</a></td>'."\n"
             . '<td style="width: 30%" align="center">' . $userfcount . '</td></tr>'."\n";
         }
 

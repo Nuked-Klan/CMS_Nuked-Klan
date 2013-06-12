@@ -55,13 +55,13 @@ if ($visiteur >= $level_access && $level_access > -1) {
         } else {
             $WhereNews = "WHERE $day >= date ORDER BY date DESC LIMIT $start, $max_news";
         }
-        
+
         $sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
-        
+
         if (mysql_num_rows($sql) <= 0) {
             echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
         }
-        
+
         while ($TabNews = mysql_fetch_assoc($sql)) {
             $TabNews['titre'] = printSecuTags($TabNews['titre']);
 
@@ -78,7 +78,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             if (!empty($autor_id) && $test > 0) list($auteur) = mysql_fetch_array($sql4);
             else $auteur = $TabNews['auteur'];
-            
+
             $data['date'] = nkDate($TabNews['date']);
             $data['date_timestamp'] = $TabNews['date'];
             $data['cat'] = $TabCat['titre'];
@@ -89,7 +89,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $data['nb_comment'] = $nb_comment;
             $data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
             $data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
- 
+
             $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" /></a>' : '';
 
             if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
@@ -106,7 +106,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             news($data);
 
         }
-        
+
         $url = ($_REQUEST['op'] == 'categorie') ? 'index.php?file=News&amp;op=categorie&amp;cat_id='.$_REQUEST['cat_id'] : 'index.php?file=News';
 
         if ($nb_news > $max_news) {
@@ -131,9 +131,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     </a>
                   </div>';
         }
-        
+
         index();
-        
+
         $sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
         $row = mysql_fetch_array($sql);
 
@@ -159,7 +159,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
 
         index();
-        
+
         $sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
         $row = mysql_fetch_array($sql);
 
@@ -184,7 +184,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         $sql = mysql_query("SELECT nid, titre, description, image FROM ".NEWS_CAT_TABLE." ORDER BY titre");
         while ($row = mysql_fetch_assoc($sql)) {
-            
+
             $row['titre'] = printSecuTags($row['titre']);
 
             echo '<tr>';
@@ -196,7 +196,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             echo '<td><b>'.$row['titre'].' :</b><br />'.$row['description'].'</td></tr><tr><td colspan="2">&nbsp;</td></tr>';
         }
-        
+
         echo '</table><br /><br /><div style="text-align:center;"><small><i>( '._CLICSCREEN.' )</i></small></div><br />';
 
         closetable();
@@ -223,7 +223,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         if (!empty($row['auteur_id']) && $test > 0) {
             list($auteur) = mysql_fetch_array($sql2);
-            $auteur = @html_entity_decode($auteur);
+            $auteur = @nkHtmlEntityDecode($auteur);
         } else {
             $auteur = $row['auteur'];
         }
@@ -238,13 +238,13 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         include 'Includes/html2pdf/html2pdf.class.php';
         $sitename = $nuked['name'].' - '.$nuked['slogan'];
-        $sitename  = @html_entity_decode($sitename);
+        $sitename  = @nkHtmlEntityDecode($sitename);
 
         $texte = "<h1>{$row['titre']}</h1><hr />$texte<hr />$sitename<br />$articleurl.";
         $_REQUEST['file'] = $sitename.'_'.$title;
         $_REQUEST['file'] = str_replace(' ','_',$_REQUEST['file']);
         $_REQUEST['file'] .= '.pdf';
-        
+
         $pdf = new HTML2PDF('P','A4','fr');
 	$pdf->setDefaultFont('dejavusans');
         $pdf->WriteHTML(utf8_encode($texte));
@@ -285,9 +285,10 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         opentable();
 
-        if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm'])) {
-            echo '<div style="text-align:center;"><br /><br />'._BADCODECONFIRM.'<br /><br /><a href="javascript:history.back()">[ <b>'._BACK.'</b> ]</a></div>';
-        } else {
+        if ($captcha == 1){
+            ValidCaptchaCode();
+        }
+        else{
             $date2 = time();
             $date2 = nkDate($date2);
             $mail = trim($mail);
@@ -297,9 +298,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
             $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
 
-            $subject = @html_entity_decode($subject);
-            $corps = @html_entity_decode($corps);
-            $from = @html_entity_decode($from);
+            $subject = @nkHtmlEntityDecode($subject);
+            $corps = @nkHtmlEntityDecode($corps);
+            $from = @nkHtmlEntityDecode($from);
 
             mail($mail, $subject, $corps, $from);
 

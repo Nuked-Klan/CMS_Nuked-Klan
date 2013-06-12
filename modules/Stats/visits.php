@@ -262,7 +262,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                     $j2 = 0;
                 }
                 $hostname = (strlen($host) > 15) ? substr($host, 0, 15) . '...' : $host;
-                $host = empty($host) ? _UNKNOWN : '<a href="' . $host . '" onclick="window.open(this.href); return false;">' . htmlentities($hostname) . '</a>';
+                $host = empty($host) ? _UNKNOWN : '<a href="' . $host . '" onclick="window.open(this.href); return false;">' . nkHtmlEntities($hostname) . '</a>';
 
                 echo '<tr style="background: ' . $bg2 . '">'."\n"
                 . '<td style="width: 5%" align="center">' . $ihost . '</td>'."\n"
@@ -321,7 +321,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
                 $referant = preg_replace('`http://`i', '', $referer);
 
-                $ref = (strlen($referant) > 15) ? htmlentities(substr($referant, 0, 15)) . '...' : htmlentities($referant);
+                $ref = (strlen($referant) > 15) ? nkHtmlEntities(substr($referant, 0, 15)) . '...' : nkHtmlEntities($referant);
                 $user_ref = (!empty($referer) && !is_int(strpos($referer, 'login'))) ? '<a href="' . $referer . '" onclick="window.open(this.href); return false;" title="' . $referant .'">' . $ref . '</a>' : _UNKNOWN;
 
                 echo '<tr style="background: ' . $bg3 . '">'."\n"
@@ -441,7 +441,7 @@ function view_all() {
     $sql = mysql_query("SELECT ip, user_id, browser, host, referer, os, date FROM " . STATS_VISITOR_TABLE . " WHERE day = '" . $_REQUEST['oday'] . "' AND month = '" . $_REQUEST['omonth'] . "' AND year = '" . $_REQUEST['oyear'] . "' ORDER BY date");
     while (list($ip, $user_id, $browser, $host, $referer, $os, $date) = mysql_fetch_array($sql)) {
 
-        $host = htmlentities($host);
+        $host = nkHtmlEntities($host);
         $i++;
         $hours = strftime("%H:%M", $date);
 
@@ -449,7 +449,7 @@ function view_all() {
         $browsername = ($browser == 'Autres') ? _OTHERS : ($browser == 'Moteurs de recherche') ? _SEARCHENGINE : $browser;
 
         $referant = preg_replace("`http://`i", "", $referer);
-        $ref = (strlen($referant) > 20) ? htmlentities(substr($referant, 0, 20)) . '...' : htmlentities($referant);
+        $ref = (strlen($referant) > 20) ? nkHtmlEntities(substr($referant, 0, 20)) . '...' : nkHtmlEntities($referant);
         $uref_ref = (!empty($referer) && !is_int(strpos($referer, 'login'))) ? '<a href="' . $referer . '" onclick="window.open(this.href); return false;" title="' . $referer .'">' . $ref . '</a>' : _UNKNOWN;
 
         if ($j == 0) {
@@ -554,7 +554,7 @@ function view_referer()
 
         $referant = preg_replace('`http://`i', '', $referer);
         $ref = (strlen($referant) > 40) ? substr($referant, 0, 40) : $referant;
-        $user_ref = (empty($referer) && is_int(strpos($referer, 'login'))) ? _UNKNOWN : '<a href="' . $referer . '" onclick="window.open(this.href); return false;" title="' . $referer .'">' . htmlentities($ref) . '</a>';
+        $user_ref = (empty($referer) && is_int(strpos($referer, 'login'))) ? _UNKNOWN : '<a href="' . $referer . '" onclick="window.open(this.href); return false;" title="' . $referer .'">' . nkHtmlEntities($ref) . '</a>';
 
         echo '<tr style="background: ' . $bg . '">'."\n"
         . '<td style="width: 5%" align="center">' . $iref . '</td>'."\n"
@@ -633,7 +633,7 @@ function view_host()
             $j = 0;
         }
 
-        $hostname = (empty($host)) ? _UNKNOWN : '<a href="http://www.' . urlencode($host) . '" onclick="window.open(this.href); return false;">' . htmlentities($host) . '</a>';
+        $hostname = (empty($host)) ? _UNKNOWN : '<a href="http://www.' . urlencode($host) . '" onclick="window.open(this.href); return false;">' . nkHtmlEntities($host) . '</a>';
 
         echo '<tr style="background: ' . $bg . '">'."\n"
         . '<td style="width: 5%" align="center">' . $ihost . '</td>'."\n"

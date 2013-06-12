@@ -15,15 +15,28 @@ connect();
 // QUERY NUKED CONFIG_TABLE.
 $nuked = array();
 $sql_conf = initializeControlDB($db_prefix);
-while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = htmlentities($row['value'], ENT_NOQUOTES);
+while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = htmlentities($row['value'], ENT_NOQUOTES, 'ISO-8859-1');
 unset($sql_conf, $row);
 
 // CONVERT ALL HTML ENTITIES TO THEIR APPLICABLE CHARACTERS
 $nuked['prefix'] = $db_prefix;
 
+// FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
+function nkHtmlEntityDecode($var){
+    return html_entity_decode($var,ENT_QUOTES,'ISO-8859-1');
+}
+
+function nkHtmlSpecialChars($var){
+    return htmlspecialchars($var,ENT_QUOTES,'ISO-8859-1');
+}
+
+function nkHtmlEntities($var){
+    return htmlentities($var,ENT_QUOTES,'ISO-8859-1');
+}
+
 // FUNCTION TO FIX PRINTING TAGS
 function printSecuTags($value){
-    $value = htmlentities(html_entity_decode(html_entity_decode($value)));
+    $value = nkHtmlEntities(nkHtmlEntityDecode(nkHtmlEntityDecode($value)));
     return $value;
 }
 // FIX TAGS IN NUKED ARRAY
@@ -53,18 +66,18 @@ $language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuke
 if($language == 'french') {
     // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') setlocale (LC_ALL, 'fr_FR','fra');
-    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');    
+    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');
 }
 elseif($language == 'english') setlocale(LC_ALL, 'en_US');
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 $dateZone = getTimeZoneDateTime($nuked['datezone']);
 date_default_timezone_set($dateZone);
-    
+
 function nkDate($timestamp, $blok = FALSE) {
     global $nuked, $language;
     $format = ((($blok === FALSE) ? $nuked['IsBlok'] : $blok) === TRUE) ? ($language == 'french') ? '%d/%m/%Y' : '%m/%d/%Y' : $nuked['dateformat'];
-    // iconv pour éviter les caractères spéciaux dans la date
+    // iconv pour eviter les caracteres speciaux dans la date
     return iconv('UTF-8','ISO-8859-1',strftime($format, $timestamp));
     //return iconv('UTF-8','ISO-8859-1',utf8_encode(strftime($format, $timestamp))); // For Windows servers
 
@@ -174,7 +187,7 @@ function connect(){
 
     $connect = mysql_select_db($global['db_name'], $db);
     mysql_query('SET NAMES "latin1"');
-        
+
     if (!$connect){
         echo '<div style="text-align: center;">' . ERROR_QUERYDB . '</div>';
         exit();
@@ -209,7 +222,7 @@ function banip() {
     $query_ban = mysql_query('SELECT `id`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $where_query);
     $ban = mysql_fetch_assoc($query_ban);
 
-    // Si résultat positif à la recherche d'un bannissement
+    // Si resultat positif a la recherche d'un bannissement
     if(mysql_num_rows($query_ban) > 0) {
         // Nouvelle adresse IP
         $banned_ip = $user_ip;
@@ -219,11 +232,11 @@ function banip() {
         // On supprime le dernier chiffre de l'adresse IP contenu dans le cookie
         $ip_dyn2 = substr($_COOKIE['ip_ban'], 0, -1);
 
-        // On vérifie l'adresse IP du cookie et l'adresse IP actuelle
+        // On verifie l'adresse IP du cookie et l'adresse IP actuelle
         if($ip_dyn2 == $ip_dyn) {
-            // On vérifie l'existance du bannissement
+            // On verifie l'existance du bannissement
             $query_ban2 = mysql_query('SELECT `id` FROM ' . BANNED_TABLE . ' WHERE (ip LIKE "%' . $ip_dyn2 . '%")');
-            // Si résultat positif, on fait un nouveau ban
+            // Si resultat positif, on fait un nouveau ban
             if(mysql_num_rows($query_ban2) > 0)
                 $banned_ip = $user_ip;
         }
@@ -232,16 +245,16 @@ function banip() {
         $banned_ip = '';
     }
 
-    // Suppression des banissements dépassés ou mise à jour de l'IP
+    // Suppression des banissements depasses ou mise a jour de l'IP
     if(!empty($banned_ip)) {
-        // Recherche banissement dépassé
+        // Recherche banissement depasse
         if($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
             // Suppression bannissement
             $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . $where_query);
             // Notification dans l'administration
             $notify = mysql_query("INSERT INTO " . NOTIFICATIONS_TABLE . " (`date` , `type` , `texte`)  VALUES ('" . time() . "', 4, '" . mysql_real_escape_string($pseudo) . mysql_real_escape_string(_BANFINISHED) . "')");
         }
-        // Sinon on met à jour l'IP
+        // Sinon on met a jour l'IP
         else {
             $where_user = $user ? ', pseudo = "' . $user[2] . '"' : '';
             $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '"' . $where_user . ' ' . $where_query);
@@ -258,7 +271,7 @@ function banip() {
 // DISPLAY ALL BLOCKS
 function get_blok($side){
     global $user, $nuked;
-    
+
     if ($side == 'gauche') {
         $active = 1;
         $nuked['IsBlok'] = TRUE;
@@ -270,7 +283,7 @@ function get_blok($side){
     } else if ($side == 'bas') {
         $active = 4;
     }
-    
+
     $aff_good_bl = 'block_' . $side;
 
     $sql = mysql_query('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
@@ -323,17 +336,17 @@ function replace_smilies($matches)
 // DISPLAYS SMILEYS
 function icon($texte){
     global $nuked;
-    
+
     $texte = str_replace('mailto:', 'mailto!', $texte);
     $texte = str_replace('http://', '_http_', $texte);
     $texte = str_replace('https://', '_https_', $texte);
     $texte = str_replace('&quot;', '_QUOT_', $texte);
     $texte = str_replace('&#039;', '_SQUOT_', $texte);
-    
+
 
     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql)){
-        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . htmlentities($name) . '" />', $texte);
+        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . nkHtmlEntities($name) . '" />', $texte);
     }
 
     $texte = str_replace('mailto!', 'mailto:', $texte);
@@ -341,7 +354,7 @@ function icon($texte){
     $texte = str_replace('_https_', 'https://', $texte);
     $texte = str_replace('_QUOT_', '&quot;', $texte);
     $texte = str_replace('_SQUOT_', '&#039;', $texte);
-    
+
     // Light calculation if <pre> tag is not present in text
     if (strpos($texte, '<pre') !== false)
     {
@@ -356,11 +369,15 @@ function ConfigSmileyCkeditor(){
 
     $donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
 
+    $TabUrl = array();
+    $TabName = array();
+    $TabCode = array();
+
     $sql = mysql_query('SELECT code, url, name FROM ' . SMILIES_TABLE . ' ORDER BY id');
     while($row = mysql_fetch_assoc($sql)){
         $TabCode[] = addslashes($row['code']);
         $TabUrl[] = $row['url'];
-        $TabName[] = htmlentities($row['name']);
+        $TabName[] = nkHtmlEntities($row['name']);
     }
 
     $IUrl = 0;
@@ -382,7 +399,7 @@ function ConfigSmileyCkeditor(){
         $donnee .= "'$VCode'$VirguleCode";
     }
     $donnee .= '];';
-    
+
     $IName = 0;
     $CompteurName = count($TabName);
     $donnee .= 'CKEDITOR.config.smiley_titles=[';
@@ -458,25 +475,25 @@ function secu_args($matches){
     $allowedTags = array(
         'p' => array(
             'style',
-            'dir',
+            'dir'
         ),
         'h1' => array(
-            'style',
+            'style'
         ),
         'h2' => array(
-            'style',
+            'style'
         ),
         'h3' => array(
-            'style',
+            'style'
         ),
         'h4' => array(
-            'style',
+            'style'
         ),
         'h5' => array(
-            'style',
+            'style'
         ),
         'h6' => array(
-            'style',
+            'style'
         ),
         'img' => array(
             'alt',
@@ -490,9 +507,10 @@ function secu_args($matches){
             'title',
             'width',
             'height',
-            'border',
+            'border'
         ),
         'strong' => array(),
+        's' => array(),
         'em' => array(),
         'u' => array(),
         'strike' => array(),
@@ -502,7 +520,7 @@ function secu_args($matches){
         'ul' => array(),
         'li' => array(),
         'blockquote' => array(
-            'style',
+            'style'
         ),
         'div' => array(
             'class',
@@ -510,7 +528,7 @@ function secu_args($matches){
             'lang',
             'style',
             'title',
-            'align',
+            'align'
         ),
         'br' => array(),
         'a' => array(
@@ -527,7 +545,7 @@ function secu_args($matches){
             'tabindex',
             'target',
             'title',
-            'type',
+            'type'
         ),
         'table' => array(
             'align',
@@ -538,12 +556,12 @@ function secu_args($matches){
             'dir',
             'id',
             'style',
-            'summary',
+            'summary'
         ),
         'caption' => array(),
         'thead' => array(),
         'tr' => array(
-            'style',
+            'style'
         ),
         'td' => array(
             'style',
@@ -551,14 +569,14 @@ function secu_args($matches){
             'rowspan'
         ),
         'th' => array(
-            'scope',
+            'scope'
         ),
         'tbody' => array(),
         'hr' => array(),
         'span' => array(
             'id',
             'style',
-            'dir',
+            'dir'
         ),
         'big' => array(),
         'small' => array(),
@@ -574,7 +592,7 @@ function secu_args($matches){
         'pre' => array(
             'class'
         ),
-        'address' => array(),
+        'address' => array()
     );
 
         // FOR VIDEO PLUGIN -- POUR PLUGIN VIDEO
@@ -583,19 +601,19 @@ function secu_args($matches){
             'width',
             'height',
             'data',
-            'type',
+            'type'
         ),
-        'param' => array (
+        'param' => array(
             'name',
-            'value',
+            'value'
         ),
-        'embed' => array (
+        'embed' => array(
             'allowfullscreen',
             'allowscriptaccess',
             'height',
             'src',
             'type',
-            'width',
+            'width'
         ),
         /*'iframe' => array (
             'src',
@@ -624,7 +642,7 @@ function secu_args($matches){
             $val = trim($val);
             if (preg_match('/^&quot;/', $val, $g))
                 $val .= ';';
-            $args[2][$id] = trim(html_entity_decode($val), " \t\n\r\0\"");
+            $args[2][$id] = trim(nkHtmlEntityDecode($val), " \t\n\r\0\"");
             if ($args[1][$id] == 'style'){
                 $args[2][$id] = secu_css($args[2][$id]);
             }
@@ -660,15 +678,32 @@ function secu_args($matches){
 // DISPLAY CONTENT WITH SECURITY CSS AND HTML ($texte)
 function secu_html($texte){
     global $bgcolor3, $nuked, $language;
-    
+
     // Balise HTML interdite
     $texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
     $texte = stripslashes($texte);
-    $texte = htmlspecialchars($texte);
+    $texte = nkHtmlSpecialChars($texte);
     $texte = str_replace('&amp;', '&', $texte);
-    
-    // Balise autorisée
+    $texte = str_replace('&lt;3', nkHtmlEntities('&lt;3'), $texte);
+
+    // Balise autorisee
     $texte = preg_replace_callback('/&lt;([^ &]+)[[:blank:]]?((.(?<!&gt;))*)&gt;/', 'secu_args', $texte);
+    $texte = str_replace('&amp;lt;3', '&lt;3', $texte);
+    $arrayOnly1Tag = array('img', 'br', 'hr');
+
+    if($nuked['video_editeur'] == 'on'){
+        $arrayOnly1Tag[] = 'param';
+    }
+
+    $allowedTags = array(
+        'p','h1','h2','h3','h4','h5','h6','img','strong','s','em','u','strike','sub','sup','ol','ul','li','blockquote','div','br','a','table','caption','thead','tr','td','th','tbody','hr','span','big','small','tt','code','kbd','samp','var','del','ins','cite','q','pre','address', 'object', 'param', 'embed'
+        );
+
+    if($nuked['video_editeur'] == 'on'){
+        $allowedTags[] = 'object';
+        $allowedTags[] = 'param';
+        $allowedTags[] = 'embed';
+    }
 
     preg_match_all('`<(/?)([^/ >]+)(| [^>]*([^/]))>`', $texte, $Tags, PREG_SET_ORDER);
 
@@ -676,23 +711,27 @@ function secu_html($texte){
     $bad = false;
     $size = count($Tags);
     for($i=0; $i<$size; $i++){
-        $TagName = $Tags[$i][3] == ''?$Tags[$i][2].$Tags[$i][4]:$Tags[$i][2];
-        if ($Tags[$i][1] == '/'){
-            $bad = $bad | array_pop($TagList) != $TagName;
-        }
-        else{
-            array_push($TagList, $TagName);
+        $TagName = $Tags[$i][3] == '' ? $Tags[$i][2].$Tags[$i][4]:$Tags[$i][2];
+        if(!in_array($TagName, $arrayOnly1Tag) && in_array($TagName, $allowedTags)){
+            if ($Tags[$i][1] == '/'){
+                $bad = $bad | array_pop($TagList) != $TagName;
+            }
+            else{
+                array_push($TagList, $TagName);
+            }
         }
     }
-
-    $bad = $bad | count($TagList) > 0;
-
+    $bad = $bad | count($TagList) > 1;
     if ($bad){
-        return(_HTMLNOCORRECT);
+        return(nkHtmlSpecialChars($texte));
     }
     else{
         return $texte;
     }
+}
+
+function editPhpCkeditor($texte){
+    return str_replace('&lt;?php', nkHtmlEntities('&lt;?php'), $texte);
 }
 
 // REDIRECT AFTER ($tps) SECONDS TO ($url)
@@ -720,10 +759,10 @@ function number($count, $each, $link){
         if ($count <= 0)     $count   = 1;
         if (empty($current)) $current = 1; // On renormalise la page courante...
         // Calcul du nombre de pages
-        $n = ceil($count / intval($each)); // on arrondit à  l'entier sup.
-        // Début de la chaine d'affichage
+        $n = ceil($count / intval($each)); // on arrondit a  l'entier sup.
+        // Debut de la chaine d'affichage
         $output = '<b class="pgtitle">' . _PAGE . ' :</b> ';
-        
+
         for ($i = 1; $i <= $n; $i++){
             if ($i == $current){
                 $output .= sprintf('<b class="pgactuel">[%d]</b> ',$i    );
@@ -739,12 +778,12 @@ function number($count, $each, $link){
                     $output .= sprintf('...<a href="' . $link . '&amp;p=%d" title="' . _PREVIOUSPAGE . '" class="pgback">&laquo;</a> ',$current-1);
                     $first_done = true;
                 }
-                // Après la page courante
+                // Apres la page courante
                 elseif (!isset($last_done) && $i > $current){
                     $output .= sprintf('<a href="' . $link . '&amp;p=%d" title="' . _NEXTPAGE . '" class="pgnext">&raquo;</a>... ',$current+1);
                     $last_done = true;
                 }
-                // On a dépassé les cas qui nous intéressent : inutile de continuer
+                // On a depasse les cas qui nous interessent : inutile de continuer
                 elseif ($i > $current)
                     break;
             }
@@ -820,7 +859,7 @@ function translate($file_lang){
     ob_start();
     print eval(" include ('$file_lang'); ");
     $lang_define = ob_get_contents();
-    $lang_define = htmlentities($lang_define, ENT_NOQUOTES);
+    $lang_define = htmlentities($lang_define, ENT_NOQUOTES, 'ISO-8859-1');
     $lang_define = str_replace('&lt;', '<', $lang_define);
     $lang_define = str_replace('&gt;', '>', $lang_define);
     ob_end_clean();
@@ -999,6 +1038,7 @@ function getOS(){
 
     $list_os = array(
         // Windows
+        'Windows NT 6.2'       => 'Windows 8',
         'Windows NT 6.1'       => 'Windows 7',
         'Windows NT 6.0'       => 'Windows Vista',
         'Windows NT 5.2'       => 'Windows Server 2003',
@@ -1104,30 +1144,30 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
             exit();
             break;
     }
-    /* Ne pas exécuter le gestionnaire interne de PHP */
+    /* Ne pas executer le gestionnaire interne de PHP */
     return true;
 }
 
 function send_stats_nk() {
 	global $nuked;
-	
+
 	if($nuked['stats_share'] == "1")
 	{
 		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
-		if($timediff >= 60) 
+		if($timediff >= 60)
 		{
-			
+
 			?>
      <script type="text/javascript">
           if ( typeof jQuery == 'undefined' )
                {
-                    document.write('<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>');
+                    document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
                }
      </script>
             <script type="text/javascript">
 			$(document).ready(function() {
 				data="nuked_nude=ajax";
-				$.ajax({url:'index.php', data:data, type: "GET", success: function(html) { 
+				$.ajax({url:'index.php', data:data, type: "GET", success: function(html) {
 				 }});
 			});
 			</script>
@@ -1140,7 +1180,8 @@ function send_stats_nk() {
 function initializeControlDB($prefixDB) {
     if (!isset($prefixDB)) {
         exit(DBPREFIX_ERROR);
-    } else {
+    }
+    else {
         $result = mysql_query('SELECT name, value FROM ' . $prefixDB . '_config');
         if ($result == false) {
             exit(DBPREFIX_ERROR);
@@ -1149,4 +1190,65 @@ function initializeControlDB($prefixDB) {
         }
     }
 }
+function nkAccessModule($module, $group, $access) {
+
+    if($access === true) {
+        $field = 'accessAdmin';
+    }
+    else if($access === false) {
+        $field = 'access';
+    }
+
+    $userGroup = explode("|", $group);  /// Transforme en tableaux les groupe ( ID ) => 0|1|2 ect...
+
+    $i = 0;
+    $arrayGroup = array();
+    $dbsGroup = " SELECT id, ".$field."
+                  FROM ".GROUP_TABLE." ";
+    $dbeGroup = mysql_query($dbsGroup) or die(mysql_error());
+
+    while ($data = mysql_fetch_assoc($dbeGroup)) {
+        if (in_array($data['id'], $userGroup)) {
+            $data[$field] = explode('|', $data[$field]);
+            foreach ($data[$field] as $moduleName) {
+                if (!in_array($moduleName, $arrayGroup)) {
+                    $arrayGroup[] = $moduleName;
+                }
+            }
+        }
+    }
+
+    if (in_array($module, $arrayGroup, true) || in_array(0, $userGroup)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+
+function translateGroupName($groupId, $groupName){
+    if($groupId == 0 || $groupId == 1 || $groupId == 2){
+        return constant($groupName);
+    } else{
+        return $groupName;
+    }
+}
+
+function colorGroup($userMainGroup) {
+    $dbsGroup = " SELECT color
+                  FROM ".GROUP_TABLE."
+                  WHERE id = ".$userMainGroup." ";
+    $dbeGroup = mysql_query($dbsGroup) or die(mysql_error());
+    while ($data = mysql_fetch_assoc($dbeGroup)) {
+        return $data['color'];
+    }
+}
+
+function debug($content) {
+    echo'<pre>';
+    var_dump($content);
+    echo'</pre>';
+}
+
 ?>
