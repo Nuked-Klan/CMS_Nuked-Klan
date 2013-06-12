@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -42,6 +42,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             $sql_cat = mysql_query('SELECT cid, titre, description FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = 0 ORDER BY position, titre');
             $test = 0;
+            $last_cid = 0;
             while (list($cid, $titre, $description) = mysql_fetch_array($sql_cat)){
                 $description = icon($description);
 
@@ -80,7 +81,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             if ($test == 1) echo '</tr>'."\n";
             echo '</table>'."\n";
-        } 
+        }
         else{
             echo '<br />'."\n";
 		}
@@ -114,10 +115,10 @@ if ($visiteur >= $level_access && $level_access > -1){
             list($parent_titre) = mysql_fetch_array($sql_parent);
 
             echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '" style="text-decoration:none"><big><b>' . nkHtmlEntities($parent_titre) . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
-        } 
+        }
         else{
             echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
-        } 
+        }
 
         $sql3 = mysql_query('SELECT cid, titre, description  FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = ' . $cat . ' ORDER BY position, titre');
         $nb_subcat = mysql_num_rows($sql3);
@@ -144,7 +145,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 					if ($count == 2){
 						$count = 0;
 						echo '</tr>'."\n";
-					} 
+					}
 
 					$last_catid = $catid;
 				}
@@ -260,7 +261,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 				. '<tr style="background: ' . $bgcolor2 . '"><td>&nbsp;</td></tr>'."\n";
 			}
 
-			echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _CAT . ' :</b> ' . $category . '</td></tr>'."\n" 
+			echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _CAT . ' :</b> ' . $category . '</td></tr>'."\n"
 			. '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _ADDTHE . ' :</b> ' . nkDate($date) . '</td></tr>'."\n";
 
 			if (!empty($webmaster)){
@@ -283,7 +284,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 			. '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><img src="modules/Links/images/warning.gif" alt="" /> [ <a href="index.php?file=Links&amp;op=broken&amp;link_id=' . $link_id . '">' . _INDICATELINK . '</a> ]</td></tr>';
 			echo '</table>'."\n"
 			. '<div style="text-align: center"><br /><input type="button" value="' . _VISITTHISSITE . '" onclick="window.open(\'index.php?file=Links&amp;nuked_nude=index&amp;op=do_link&amp;link_id=' . $link_id . '\')" /></div><br />';
-			
+
 			$sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'links\'');
 			list($active) = mysql_fetch_array($sql);
 
@@ -300,8 +301,19 @@ if ($visiteur >= $level_access && $level_access > -1){
 		}
     }
 
-    function classe($cat, $nb_subcat){
+    function classe(){
         global $nuked, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $visiteur;
+
+        $arrayRequest = array('cat', 'nb_subcat');
+
+        foreach ($arrayRequest as $key) {
+            if(array_key_exists($key, $_REQUEST)){
+                ${$key} = $_REQUEST[$key];
+            }
+            else{
+                ${$key} = '';
+            }
+        }
 
         if ($_REQUEST['op'] == 'classe'){
             echo '<br /><div style="text-align: center"><big><b>' . _WEBLINKS . '</b></big></div>'."\n"
@@ -322,10 +334,19 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
 
         $nb_liens = $nuked['max_liens'];
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_liens - $nb_liens;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $nb_liens - $nb_liens;
 
-        $where = isset($cat) ? 'WHERE L.cat = ' . $cat : '';
+        $where = isset($cat) && $cat != '' ? 'WHERE L.cat = ' . $cat : '';
+
+        if(!array_key_exists('orderby', $_REQUEST)){
+            $_REQUEST['orderby'] = '';
+        }
 
         if ($_REQUEST['orderby'] == 'name')
             $order = 'ORDER BY L.titre';
@@ -335,7 +356,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $order = "ORDER BY note DESC";
         else{
             $_REQUEST['orderby'] = 'news';
-            $order = 'ORDER BY L.id DESC';
+            $order = ' ORDER BY L.id DESC ';
         }
 
         $sql = mysql_query('SELECT L.id, L.date, L.titre, L.description, L.count, L.country, AVG(V.vote) AS note  FROM ' . LINKS_TABLE . ' AS L LEFT JOIN ' . VOTE_TABLE . ' AS V ON L.id = V.vid AND V.module = \'Links\' ' . $where . ' GROUP BY L.id ' . $order);
@@ -356,7 +377,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             echo '</small></td></tr></table>'."\n";
         }
-		
+
         if (!empty($cat)) {
             $categorie = '&amp;cat=' . $cat;
         }
@@ -370,7 +391,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
                 number($nb_lk, $nb_liens, $url_page);
                 echo '</td></tr></table>'."\n";
-            } 
+            }
 
             echo '<br />';
 
@@ -392,15 +413,15 @@ if ($visiteur >= $level_access && $level_access > -1){
 
                         if (strlen($texte) > 150){
                             $texte = substr($texte, 0, 150) . '...';
-                        }                         
-                    } 
+                        }
+                    }
                     else
-                        $texte = ''; 
+                        $texte = '';
 
                     mysql_data_seek($sqlhot, 0);
                     while (list($id_hot) = mysql_fetch_array($sqlhot)){
                         if ($link_id == $id_hot && $nb_lk > 1 && $count > 9) $att .= '&nbsp;&nbsp;' . _HOT;
-                    } 
+                    }
 
                     if (!empty($date)) $alt = 'title="' . _ADDTHE . '&nbsp;' . nkDate($date) . '"';
                     else $alt = '';
@@ -415,7 +436,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                         $link_pays = '<img src="images/flags/' . $country . '" alt="" title="' . $pays . '" />';
                     }
                     else
-                        $link_pays = '&nbsp;';           
+                        $link_pays = '&nbsp;';
 
                     echo '<table style="background: ' . $bgcolor3 . ';margin: auto" width="90%" cellspacing="1" cellpadding="0">'."\n"
                     . '<tr><td><table style="background: ' . $bgcolor2 . '" width="100%" border="0" cellspacing="1" cellpadding="2">'."\n"
@@ -430,28 +451,28 @@ if ($visiteur >= $level_access && $level_access > -1){
                     vote_index('Links', $link_id);
 
                     echo '</td></tr></table></td></tr></table><br />'."\n";
-                } 
-            } 
-			
+                }
+            }
+
             if (!empty($cat)) {
                 $categorie = '&amp;cat=' . $cat;
             }
             else{
                 $categorie = '';
             }
-		
+
             if ($nb_lk > $nb_liens){
                 echo '<table style="margin: auto" width="90%"><tr><td>';
                 $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
                 number($nb_lk, $nb_liens, $url_page);
                 echo '</td></tr></table>'."\n";
-            } 
-        } 
+            }
+        }
         else{
             if ($nb_subcat == 0 && $cat > 0) echo '<div style="text-align: center"><br />' . _NOLINKS . '</div><br /><br />'."\n";
             if ($_REQUEST['op'] == 'classe') echo '<div style="text-align: center"><br />' . _NOLINKINDB . '</div><br /><br />'."\n";
-        } 
-    } 
+        }
+    }
 
     switch ($_REQUEST['op']){
         case 'categorie':
@@ -459,7 +480,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             break;
         case 'classe':
             opentable();
-            classe($_REQUEST['cat'], $_REQUEST['nb_subcat']);
+            classe();
             closetable();
             break;
         case 'do_link':
@@ -474,21 +495,21 @@ if ($visiteur >= $level_access && $level_access > -1){
         default:
             index();
             break;
-    } 
-} 
+    }
+}
 else if ($level_access == -1){
     opentable();
     echo '<br /><br /><div style="text-align: center">' . _MODULEOFF . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a><br /><br /></div>';
     closetable();
-} 
+}
 else if ($level_access == 1 && $visiteur == 0){
     opentable();
     echo '<div style="text-align: center; margin: 10px 0">' . _USERENTRANCE . '<br /><br /><b><a href="index.php?file=User&amp;op=login_screen">' . _LOGINUSER . '</a> | <a href="index.php?file=User&amp;op=reg_screen">' . _REGISTERUSER . '</a></b>/div>';
     closetable();
-} 
+}
 else{
     opentable();
     echo '<br /><br /><div style="text-align: center">' . _NOENTRANCE . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a><br /><br /></div>';
     closetable();
-} 
+}
 ?>

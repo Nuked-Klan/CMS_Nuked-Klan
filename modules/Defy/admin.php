@@ -42,7 +42,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         $count = mysql_num_rows($sql);
         while (list($did, $pseudo, $date, $mail, $clan, $game) = mysql_fetch_array($sql)){
             $date = nkDate($date);
-            
+
             $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id='" . $game . "'");
             list($game_name) = mysql_fetch_array($sql2);
             $game_name = printSecuTags($game_name);
@@ -54,7 +54,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
                . "<td style=\"width: 20%;\" align=\"center\"><a href=\"mailto:" . $mail . "\">" . $mail . "</a></td>\n"
                . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td></tr>\n";
         }
-        
+
         if ($count == 0) {
             echo "<tr><td colspan=\"5\" align=\"center\">" . _NODEFY . "</td></tr>\n";
         }
@@ -112,18 +112,18 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
     function del($did) {
         global $nuked, $user;
-        
+
         $sql = mysql_query("SELECT pseudo FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
         list($pseudo) = mysql_fetch_array($sql);
-        
+
         $del = mysql_query("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
-        
+
         // Action
         $texteaction = _ACTIONDELDEFY . ' ' . $pseudo;
         $acdate = time();
         $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`)  VALUES ('" . $acdate . "', '" . $user[0] . "', '" . $texteaction . "')");
         //Fin action
-        
+
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
            . _DEFIEDELETE . "\n"
@@ -150,7 +150,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         $acdate = time();
         $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
-        
+
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
            . _DEFIETRANSFERT . "\n"
@@ -181,6 +181,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<tr><td><b>" . _INBOXAVERT . "</b> : <select name=\"defie_inbox\"><option value=\"\">" . _OFF . "</option>\n";
 
         $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
+        $checked = '';
         while (list($id_user, $pseudo) = mysql_fetch_array($sql2)) {
             if ($nuked['defie_inbox'] == $id_user) {
                 $checked = "selected=\"selected\"";
@@ -199,7 +200,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
         $defie_charte = nkHtmlEntityDecode($defie_charte);
         $defie_charte = mysql_real_escape_string(stripslashes($defie_charte));
-        
+
         $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");
         $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_mail . "' WHERE name = 'defie_mail'");
         $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_inbox . "' WHERE name = 'defie_inbox'");
