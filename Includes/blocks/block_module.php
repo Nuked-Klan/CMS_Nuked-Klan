@@ -21,16 +21,18 @@ function edit_block_module($bid){
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     //check des modules
     $handle = opendir('modules/');
-	
+
     while ($mod = readdir($handle)){
-        if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;             
+        if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;
     }
-	
+
     if (false===array_search($modul, $autorized_modules)){
          die('<br /><br /><div style="text-align: center;"><big>Blok corrupted, lease delete it!</big></div><br /><br />');
     }
-	
+
     $titre = printSecuTags($titre);
+
+    $checked0 = $checked1 = $checked2 = $checked3 = $checked4 = '';
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';
@@ -86,11 +88,11 @@ function edit_block_module($bid){
 function inc_bl($modul, $bid){
     //check des modules
     $handle = opendir('modules/');
-	
+
     while ($mod = readdir($handle)){
-        if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;             
+        if($mod != 'index.html' && file_exists('modules/'.$mod.'/blok.php')) $autorized_modules[] = $mod;
     }
-	
+
     if (false===array_search($modul, $autorized_modules)){
          $blok_content = '';
     }

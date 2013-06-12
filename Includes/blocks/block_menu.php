@@ -19,18 +19,24 @@ function block_link($content){
     $link = explode('NEWLINE', $content);
     $screen = '<ul style="list-style: none; padding: 0">';
     $size = count($link);
-    
+
     for($i=0; $i<$size; $i++){
         list($url, $title, $comment, $nivo, $blank) = explode('|', $link[$i]);
         $url = preg_replace("/\[(.*?)\]/si", "index.php?file=\\1", $url);
-        $nivuser = $user[1];
+        if(array_key_exists(1, $user)){
+            $nivuser = $user[1];
+        }
+        else{
+            $nivuser = 0;
+        }
+
         $title = preg_replace("`&amp;lt;`i", "<", $title);
         $title = preg_replace("`&amp;gt;`i", ">", $title);
         $comment = nkHtmlEntities($comment);
         $url = nkHtmlEntities($url);
 
         if (!$nivuser)$nivuser = 0;
-        
+
         if ($nivuser >= $nivo){
             if ($url <> '' && $title <> '' && $blank == 0)
                 $screen .= '<li><a href="' . $url . '" title="' . $comment . '" style="padding-left: 10px" class="menu">' . $title . '</a></li>';
@@ -53,6 +59,8 @@ function edit_block_menu($bid){
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
 
     $content = nkHtmlEntities($content);
+
+    $checked0 = $checked1 = $checked2 = '';
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';

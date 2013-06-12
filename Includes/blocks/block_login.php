@@ -54,8 +54,8 @@ function affich_block_login($blok){
 		$c++;
 	}
 
-    if($messpv != 'off' && $user[0] != ''){
-        if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
+    if ($messpv != 'off' && (array_key_exists(0, $user) && $user[0] != '')) {
+		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
 
         $sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
         $nb_mess_lu = mysql_num_rows($sql2);
