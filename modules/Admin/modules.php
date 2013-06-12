@@ -161,7 +161,7 @@ if ($visiteur == 9)
         global $nuked, $language;
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _MODULE . "&nbsp;" . $nom . "</h3>\n";
+		. "<div class=\"content-box-header\"><h3>" . _MODULE . "</h3>\n";
 
         echo "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/modules.php\" rel=\"modal\">\n"
 	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"

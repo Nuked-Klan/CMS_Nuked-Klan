@@ -176,10 +176,17 @@ function admintop(){
 
                             $temp = explode('|', $value);
 
-                            if (is_file('modules/' . $temp[1] . '/admin.php'))
-                            {
-                                if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') $modulecur = true;
-                            } // END if
+                            if (is_file('modules/' . $temp[1] . '/admin.php')){
+                                if ($_REQUEST['file'] == $temp[1] and $_REQUEST['page'] == 'admin') {
+                                    $modulecur = true;
+                                }
+                                else{
+                                    $modulecur = false;
+                                }
+                            }
+                            else{
+                                $modulecur = false;
+                            }
 
                         } // END foreach
 

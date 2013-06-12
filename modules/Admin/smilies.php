@@ -107,7 +107,7 @@ if ($visiteur == 9)
         $handle = opendir($path);
         while (false !== ($ikon = readdir($handle)))
         {
-            if ($ikon != "." && $ikon != ".." && $ikon != "index.html" && $ikon != "Thumbs.db")
+            if ($ikon != "." && $ikon != ".." && $ikon != "index.html" && $ikon != "Thumbs.db" && $ikon != ".htaccess")
             {
                 $rep[] = $ikon;
 
@@ -145,7 +145,7 @@ if ($visiteur == 9)
     function send_smiley($nom, $code, $url, $fichiernom)
     {
         global $nuked, $user;
-        
+
         if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
         {
             echo "<div class=\"notification error png_bg\">\n"
@@ -161,7 +161,7 @@ if ($visiteur == 9)
 
         $nom = mysql_real_escape_string(stripslashes($nom));
         $filename = $_FILES['fichiernom']['name'];
-        
+
         if ($filename != "")
         {
             $ext = strrchr($filename, ".");
@@ -239,7 +239,7 @@ if ($visiteur == 9)
         $handle = opendir($path);
         while (false !== ($ikon = readdir($handle)))
         {
-            if ($ikon != "." && $ikon != ".." && $ikon != "index.html" && $ikon != "Thumbs.db")
+            if ($ikon != "." && $ikon != ".." && $ikon != "index.html" && $ikon != "Thumbs.db" && $ikon != ".htaccess")
             {
                 $rep[] = $ikon;
             }
@@ -275,7 +275,7 @@ if ($visiteur == 9)
 
         $nom = mysql_real_escape_string(stripslashes($nom));
         $filename = $_FILES['fichiernom']['name'];
-    
+        
         if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
         {
             echo "<div class=\"notification error png_bg\">\n"

@@ -114,7 +114,7 @@ if ($visiteur == 9)
             {
                 $checked = ($tft == $key) ? 'selected="selected"' : '';
                 $day = time();
-                date_default_timezone_set($nuked['datezone']);
+                date_default_timezone_set(getTimeZoneDateTime($nuked['datezone']));
                 // iconv pour éviter les caractère spéciaux dans la date
                 $echo = iconv('UTF-8','ISO-8859-1',strftime($key, $day));
                 echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
@@ -380,15 +380,15 @@ if ($visiteur == 9)
     {
         global $nuked, $user;
 
-		if ($_REQUEST['stats_share'] != "1") $_REQUEST['stats_share'] = "0";
-        if ($_REQUEST['inscription_avert'] != "on") $_REQUEST['inscription_avert'] = "off";
-        if ($_REQUEST['time_generate'] != 'on') $_REQUEST['time_generate'] = 'off';
-        if ($_REQUEST['avatar_upload'] != "on") $_REQUEST['avatar_upload'] = "off";
-        if ($_REQUEST['avatar_url'] != "on") $_REQUEST['avatar_url'] = "off";
-        if ($_REQUEST['user_delete'] != "on") $_REQUEST['user_delete'] = "off";
-        if ($_REQUEST['video_editeur'] != "on") $_REQUEST['video_editeur'] = "off";
-        if ($_REQUEST['scayt_editeur'] != "on") $_REQUEST['scayt_editeur'] = "off";
-        if ($_REQUEST['screen'] != "on") $_REQUEST['screen'] = "off";
+		if (isset($_REQUEST['stats_share']) && $_REQUEST['stats_share'] != "1") $_REQUEST['stats_share'] = "0";
+        if (isset($_REQUEST['inscription_avert']) && $_REQUEST['inscription_avert'] != "on") $_REQUEST['inscription_avert'] = "off";
+        if (isset($_REQUEST['time_generate']) && $_REQUEST['time_generate'] != 'on') $_REQUEST['time_generate'] = 'off';
+        if (isset($_REQUEST['avatar_upload']) && $_REQUEST['avatar_upload'] != "on") $_REQUEST['avatar_upload'] = "off";
+        if (isset($_REQUEST['avatar_url']) && $_REQUEST['avatar_url'] != "on") $_REQUEST['avatar_url'] = "off";
+        if (isset($_REQUEST['user_delete']) && $_REQUEST['user_delete'] != "on") $_REQUEST['user_delete'] = "off";
+        if (isset($_REQUEST['video_editeur']) && $_REQUEST['video_editeur'] != "on") $_REQUEST['video_editeur'] = "off";
+        if (isset($_REQUEST['scayt_editeur']) && $_REQUEST['scayt_editeur'] != "on") $_REQUEST['scayt_editeur'] = "off";
+        if (isset($_REQUEST['screen']) && $_REQUEST['screen'] != "on") $_REQUEST['screen'] = "off";
         if (substr($_REQUEST['url'], -1) == "/") $_REQUEST['url'] = substr($_REQUEST['url'], 0, -1);
         $_REQUEST['cookiename'] = str_replace(' ','',$_REQUEST['cookiename']);
         $_REQUEST['inscription_charte'] = nkHtmlEntityDecode($_REQUEST['inscription_charte']);

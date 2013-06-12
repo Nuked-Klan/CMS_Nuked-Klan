@@ -1571,7 +1571,7 @@ if ($visiteur == 9)
             return false;
     }
 
-      function main_config()
+    function main_config()
     {
         global $nuked, $language;
 
@@ -1589,7 +1589,7 @@ if ($visiteur == 9)
         if ($nuked['user_website'] == "on"){$checked_user_website = "checked=\"checked\"";}
 
 
-     echo "<div class=\"content-box\">\n"
+        echo "<div class=\"content-box\">\n"
         . "<div class=\"content-box-header\"><h3>" . _USERCONFIG . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
@@ -1630,7 +1630,7 @@ if ($visiteur == 9)
         . "<input class=\"button\" type=\"button\" value=\"" . _DECOTOUT . "\" onclick=\"toutdecocher();\"></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFCONFIG . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&page=user\">" . _BACK . "</a></div></form><br /></div></div>\n";
 
-     echo '<script language="javascript">
+        echo '<script language="javascript">
           function toutcocher()
           {
           for(i=0;i<document.selection.length;i++)
@@ -1650,7 +1650,8 @@ if ($visiteur == 9)
           </script>';
 
     }
-      function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $user_xfire, $user_facebook, $user_origin, $user_steam, $user_twitter, $user_skype, $user_website, $user_social_level)
+    
+    function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $user_xfire, $user_facebook, $user_origin, $user_steam, $user_twitter, $user_skype, $user_website, $user_social_level)
     {
         global $nuked, $user;
 
@@ -1693,7 +1694,7 @@ if ($visiteur == 9)
         redirect("index.php?file=Admin&page=user", 2);
     }
 
-        function nkAdminMenu($tab = 1)
+    function nkAdminMenu($tab = 1)
     {
         global $language, $user, $nuked;
 
