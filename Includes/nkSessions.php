@@ -41,7 +41,7 @@ function secure(){
     global $nuked, $user_ip, $time, $cookie_visit, $cookie_session, $cookie_userid, $cookie_forum, $sessionlimit, $timesession, $timelimit;
 
     $id_user = '';
-    $user_type = 0;
+    $idGroup = 2;
     $user_name = '';
     $last_visite = 0;
     $nb_mess = 0;
@@ -60,13 +60,15 @@ function secure(){
             $secu_user = 0;
         if ($secu_user  == 1) {
             $last_used = $row['last_used'];
-            $sql2 = mysql_query("SELECT niveau, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-            list($user_type, $user_name) = mysql_fetch_array($sql2);
+            $sql2 = mysql_query("SELECT pseudo, idGroup FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+            list($user_name, $idGroup) = mysql_fetch_array($sql2);
 
             $last_visite = $last_used;
 
-            $upd = mysql_query("UPDATE " . SESSIONS_TABLE . " SET last_used = '" . $time . "' WHERE id = '" . $id_de_session . "'");
+            // Add group management
+            $idGroup = ($idGroup == '') ? $idGroup = '2' : $idGroup = $idGroup;
 
+            $upd = mysql_query("UPDATE " . SESSIONS_TABLE . "  last_used = '" . $time . "' WHERE id = '" . $id_de_session . "'");
             if (isset($_REQUEST['file']) && isset($_REQUEST['thread_id']) && $_REQUEST['file'] == 'Forum' && is_numeric($_REQUEST['thread_id']) && $_REQUEST['thread_id'] > 0 && $secu_user > 0) {
                 $select_thread = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE date > '" . $last_used . "' AND thread_id = '" . $_REQUEST['thread_id'] . "' ";
                 $sql_thread = mysql_query($select_thread);
@@ -98,7 +100,7 @@ function secure(){
     if ($secu_user == 1) {
         $sql_mess = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '" . $id_user . "' AND status = 0");
         $nb_mess = mysql_num_rows($sql_mess);
-        $user = array($id_user, $user_type, mysql_real_escape_string($user_name), $user_ip, $last_visite, $nb_mess);
+        $user = array($id_user, $idGroup, mysql_real_escape_string($user_name), $user_ip, $last_visite, $nb_mess);
     }
     else {
         $user = array();
@@ -145,7 +147,6 @@ function session_new($userid, $remember_me) {
     global $nuked, $cookie_session, $cookie_userid, $cookie_theme, $cookie_langue, $cookie_forum, $user_ip, $timelimit, $sessionlimit, $time;
 
     //On prend un ID de session unique
-
     do {
         $session_id = md5(uniqid());
         $sql = mysql_query('SELECT id FROM ' . SESSIONS_TABLE . ' WHERE id = \'' . $session_id . '\'');
