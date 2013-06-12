@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -10,7 +10,7 @@
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+}
 
 global $user, $language;
 translate("modules/Guestbook/lang/" . $language . ".lang.php");
@@ -30,7 +30,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         list($name, $comment, $email, $url) = mysql_fetch_array($sql);
 
         $url = nkHtmlEntities($url);
-        
+
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _ADMINGUESTBOOK . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Guestbook.php\" rel=\"modal\">\n"
@@ -41,12 +41,12 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<tr><td><b>" . _AUTHOR . " :</b></td><td>" . $name . "</td></tr>\n"
         . "<tr><td><b>" . _MAIL . " : </b></td><td><input type=\"text\" name=\"email\" size=\"40\" value=\"" . $email . "\" /></td></tr>\n"
         . "<tr><td><b>" . _URL . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $url . "\" /></td></tr>\n";
-    
+
         echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
         . "<tr><td colspan=\"2\"><textarea class=\"editor\" id=\"guest_text\" name=\"comment\" cols=\"65\" rows=\"12\">" . $comment . "</textarea></td></tr>\n"
         . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><input type=\"hidden\" name=\"gid\" value=\"" . $gid . "\" /></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Guestbook&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>\n";
-    } 
+    }
 
     function modif_book($gid, $comment, $email, $url)
     {
@@ -58,8 +58,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         if (!empty($url) && !is_int(stripos($url, 'http://')))
         {
             $url = "http://" . $url;
-        } 
-        
+        }
+
         $sql = mysql_query("UPDATE " . GUESTBOOK_TABLE . " SET email = '" . $email . "', url = '" . $url . "', comment = '" . $comment . "' WHERE id = '" . $gid . "'");
         // Action
         $texteaction = "". _ACTIONMODIFBOOK .".";
@@ -79,7 +79,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         ."}\n"
         ."//]]>\n"
         ."</script>\n";
-    } 
+    }
 
     function del_book($gid)
     {
@@ -104,7 +104,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         ."}\n"
         ."//]]>\n"
         ."</script>\n";
-    } 
+    }
 
     function main()
     {
@@ -115,8 +115,13 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $sql2 = mysql_query("SELECT id FROM " . GUESTBOOK_TABLE);
         $count = mysql_num_rows($sql2);
 
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_mess_guest - $nb_mess_guest;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $nb_mess_guest - $nb_mess_guest;
 
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
@@ -141,7 +146,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         if ($count > $nb_mess_guest)
         {
             number($count, $nb_mess_guest, "index.php?file=Guestbook&amp;page=admin");
-        } 
+        }
 
 
         echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
@@ -157,29 +162,29 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         {
             $date = nkDate($date);
             $name = nk_CSS($name);
-            
+
             echo "<tr>\n"
             . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td>\n"
             . "<td style=\"width: 25%;\" align=\"center\">" . $name . "</td>\n"
             . "<td style=\"width: 25%;\" align=\"center\">" . $ip . "</td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Guestbook&amp;page=admin&amp;op=edit_book&amp;gid=" . $id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISPOST . "\" /></a></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delmess('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOST . "\" /></a></td></tr>\n";
-        } 
+        }
 
         if ($count == "0")
         {
             echo "<tr><td align=\"center\" colspan=\"5\">" . _NOSIGN . "</td></tr>\n";
-        } 
+        }
 
         echo "</table>";
 
         if ($count > $nb_mess_guest)
         {
             number($count, $nb_mess_guest, "index.php?file=Guestbook&amp;page=admin");
-        } 
+        }
 
         echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function main_pref()
     {
@@ -197,7 +202,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<tr><td>" . _GUESTBOOKPG . " :</td><td><input type=\"text\" name=\"mess_guest_page\" size=\"2\" value=\"" . $nuked['mess_guest_page'] . "\" /></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Guestbook&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function change_pref($mess_guest_page)
     {
@@ -215,7 +220,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Guestbook&page=admin", 2);
-    } 
+    }
 
     switch ($_REQUEST['op'])
     {
@@ -242,9 +247,9 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         default:
             main();
             break;
-    } 
+    }
 
-} 
+}
 else if ($level_admin == -1)
 {
     echo "<div class=\"notification error png_bg\">\n"
@@ -268,7 +273,7 @@ else
     . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
-}  
+}
 
 adminfoot();
 
