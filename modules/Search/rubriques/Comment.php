@@ -41,6 +41,8 @@ $sql_com = mysql_query($req);
 
 $nb_com = mysql_num_rows($sql_com);
 
+$tab = array('module' => array(), 'title' => array(), 'link' => array());
+
 if ($nb_com > 0){
     while (list($com_module, $im_id, $com_autor, $com_titre, $com_date) = mysql_fetch_array($sql_com)){
             if ($com_titre != ""){

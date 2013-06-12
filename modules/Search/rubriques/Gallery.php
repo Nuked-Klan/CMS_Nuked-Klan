@@ -43,6 +43,8 @@ $sql_img = mysql_query($req);
 
 $nb_img = mysql_num_rows($sql_img);
 
+$tab = array('module' => array(), 'title' => array(), 'link' => array());
+
 if ($nb_img > 0){
     while (list($img_id, $img_titre, $img_date) = mysql_fetch_array($sql_img)){
         $img_titre = nkHtmlEntities($img_titre);
