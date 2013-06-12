@@ -96,7 +96,7 @@ function form($content, $sug_id){
             else {
                 $checked = "";
             }
-            
+
             list ($country, $ext) = explode ('.', $f);
             echo "<option value=\"" . $f . "\" " . $checked . ">" . $country . "</option>\n";
         }
@@ -106,13 +106,15 @@ function form($content, $sug_id){
 
     echo "</select></td></tr>\n";
 
+    $button = '';
+
     if($_REQUEST['op'] == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]');\" /></input>";}
 
     echo "<tr><td><b>" . _DESCR . " : </b></td></tr>\n"
             . "<tr><td><textarea ";
-            
+
     echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
-    
+
     echo " name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n"
             . "<tr><td><b>" . _URL . " :</b> <input type=\"text\" name=\"url\" value=\"" . $content[1] . "\" size=\"55\" /> " . $button . "</td></tr>\n"
             . "<tr><td><b>" . _WEBMASTER . " :</b>  <input type=\"text\" name=\"webmaster\" value=\"" . $content[4] . "\" size=\"30\" /></td></tr>\n";

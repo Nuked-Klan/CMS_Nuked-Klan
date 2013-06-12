@@ -70,6 +70,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
     $nb = 0;
     $sql2 = mysql_query('SELECT nom, count FROM ' . STATS_TABLE . ' ORDER BY count DESC');
+    $j = 0;
     while (list($page, $count) = mysql_fetch_array($sql2)) {
         if (nivo_mod($page) != -1) {
             $nb++;
@@ -134,7 +135,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             if ($j == 0) {
                 $bg = $bgcolor2;
                 $j++;
-            } 
+            }
             else {
                 $bg = $bgcolor1;
                 $j = 0;
