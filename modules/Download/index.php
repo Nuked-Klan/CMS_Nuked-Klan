@@ -43,6 +43,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $nb_subcat = mysql_num_rows($sql_cat);
 
             $test = 0;
+            $last_cid = '';
             while (list($cid, $titre, $description) = mysql_fetch_array($sql_cat)) {
                 $titre = printSecuTags($titre);
 
@@ -277,7 +278,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             die;
         }
         list($dl_id, $titre, $date, $taille, $comment, $cat, $count, $level, $hit, $edit, $screen, $autor, $url_autor, $comp, $url) = mysql_fetch_array($sql);
- 
+
         $titre = printSecuTags($titre);
         $autor = printSecuTags($autor);
         $comp = printSecuTags($comp);
@@ -356,7 +357,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                    . "</script>\n";
 
                 echo "<div style=\"text-align: right;\"><a href=\"index.php?file=Download&amp;page=admin&amp;op=edit_file&amp;did=" . $dl_id . "\"><img style=\"border: 0;\" src=\"images/edition.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a>"
-                   . "&nbsp;<a href=\"javascript:deldown('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $dl_id . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DEL . "\" /></a></div>\n";
+                   . "&nbsp;<a href=\"javascript:deldown('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $dl_id . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a></div>\n";
             }
 
             echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b> " . _DOWNLOAD . " </b></big></a></div><br />\n"
@@ -406,10 +407,10 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             echo "</table>\n"
                . "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _DOWNFILE . "\" onclick=\"javascript:window.open('index.php?file=Download&amp;nuked_nude=index&amp;op=popup&amp;dl_id=" . $dl_id . "','download','toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=360,height=200,top=30,left=0')\" /></div><br />\n";
-            
+
             $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'download'");
             list($active) = mysql_fetch_array($sql);
-            
+
             if($active == 1  && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
                 echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
 
@@ -427,9 +428,20 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
     }
 
-    function classe($cat, $nb_subcat)
+    function classe()
     {
         global $nuked, $theme, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3;
+
+        $arrayRequest = array('cat', 'nb_subcat');
+
+        foreach($arrayRequest as $key){
+            if(array_key_exists($key, $_REQUEST)){
+                ${$key} = $_REQUEST[$key];
+            }
+            else{
+                ${$key} = '';
+            }
+        }
 
         if ($_REQUEST['op'] == "classe") {
 
@@ -453,8 +465,14 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
 
         $nb_download = $nuked['max_download'];
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_download - $nb_download;
+
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+        $start = $page * $nb_download - $nb_download;
 
         if ($cat != "") {
             $and = "AND type = '" . $cat . "'";
@@ -462,14 +480,20 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $and = '';
         }
 
-
-        if ($_REQUEST['orderby'] == "name") {
-            $order = "ORDER BY D.titre";
-        } else if ($_REQUEST['orderby'] == "count") {
-            $order = "ORDER BY D.count DESC";
-        } else if ($_REQUEST['orderby'] == "note") {
-            $order = "ORDER BY note DESC";
-        } else {
+        if(array_key_exists('orderby', $_REQUEST)){
+            if ($_REQUEST['orderby'] == "name") {
+                $order = "ORDER BY D.titre";
+            } else if ($_REQUEST['orderby'] == "count") {
+                $order = "ORDER BY D.count DESC";
+            } else if ($_REQUEST['orderby'] == "note") {
+                $order = "ORDER BY note DESC";
+            }
+            else {
+                $_REQUEST['orderby'] = "news";
+                $order = "ORDER BY D.date DESC";
+            }
+        }
+        else{
             $_REQUEST['orderby'] = "news";
             $order = "ORDER BY D.date DESC";
         }
@@ -556,24 +580,24 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     } else {
                         $taille = "N/A";
                     }
-                    
+
                     // ----- Affiche le nombre de commentaires -----
                     $sql_com_dl = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE im_id = '" . $dl_id . "' AND module = 'Download'");
                     $nb_comment = mysql_num_rows($sql_com_dl);
-                    
+
                     $sql_cat = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $type . "'");
                     list($name_cat_dl) = mysql_fetch_array($sql_cat);
                     $name_cat_dl = stripslashes($name_cat_dl);
                     $name_cat_dl = printSecuTags($name_cat_dl);
                     $category = "" . $name_cat_dl . "";
                     if($category == "") $category = "N/A";
-                    
+
                     if ($screen != "") {
                         $box = "<img style=\"cursor: pointer; overflow: auto; max-width: 160px; max-height: 120px; width: expression(this.scrollWidth >= 160? '160px' : 'auto'); height: expression(this.scrollHeight >= 120? '120px' : 'auto');\" src=\"" . checkimg($screen) . "\" onclick=\"document.location='index.php?file=Download&op=description&dl_id=" . $dl_id . "'\" border=\"0\" title=\"" . $titre . "\" alt=\"" . $titre . "\" />";
                     } else {
                         $box = "<img style=\"cursor: pointer; overflow: auto; max-width: 160px; max-height: 120px; width: expression(this.scrollWidth >= 160? '160px' : 'auto'); height: expression(this.scrollHeight >= 120? '120px' : 'auto');\" src=\"" . checkimg('images/noimagefile.gif') . "\" onclick=\"document.location='index.php?file=Download&op=description&dl_id=" . $dl_id . "'\" border=\"0\" title=\"" . $titre . "\" alt=\"" . $titre . "\" />";
                     }
-                    
+
                     echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
                        . "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\">" . $img . "&nbsp;<a href=\"index.php?file=Download&amp;op=description&amp;dl_id=" . $dl_id . "\"><big><b>" . $titre . "</b></big></a>" . $att . "</td></tr>\n"
                        . "<tr style=\"background: " . $bgcolor1 . ";height: 140px;text-align: center;\"><td style=\"width: 170px;vertical-align: middle;\">" . $box . "</td><td style=\"vertical-align: top;\">\n"
@@ -585,9 +609,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
                        . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _FILECOMMENT . " :</b> " . $nb_comment . "</td></tr>\n"
                        . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
                        . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»\n";
-                    
+
                     vote_index("Download", $dl_id);
-                    
+
                     echo "</td></tr>\n"
                        . "</td></tr></table>\n"
                        . "</td></tr></table><br />\n";
@@ -617,7 +641,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         case "classe":
             opentable();
-            classe($_REQUEST['cat'], $_REQUEST['nb_subcat']);
+            classe();
             closetable();
             break;
 

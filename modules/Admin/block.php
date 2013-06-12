@@ -69,7 +69,7 @@ if ($visiteur == 9)
         . '</div></div>',"\n"
         . '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=send_block">',"\n"
         . '<table style="margin: auto;text-align: left" cellspacing="0" cellpadding="2" border="0">',"\n"
-        . '<tr><td><b>' . _BLOCKTITLE . ' :</b> <input type="text" name="titre" size="40" value="' . $titre . '" /></td></tr>',"\n"
+        . '<tr><td><b>' . _BLOCKTITLE . ' :</b> <input type="text" name="titre" size="40" value="" /></td></tr>',"\n"
         . '<tr><td><b>' . _TYPE . ' : </b><select name="type">',"\n";
 
         sel_block();
@@ -184,7 +184,7 @@ if ($visiteur == 9)
         $mod = explode('|', $mod);
         while (list($nom) = mysql_fetch_array($sql))
         {
-            $checked = '';
+            $checked = $checked_tous = $checked_team = $checked_user = $checked_admin = '';
 
             foreach ($mod as $mod2)
             {
@@ -291,10 +291,14 @@ if ($visiteur == 9)
 
         if ($data['pages'] != '') $data['pages'] = implode('|', $data['pages']);
 
+        if(!isset($data['content'])){
+            $data['content'] = '';
+        }
+
         $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
         $data['content'] = mysql_real_escape_string(stripslashes($data['content']));
 
-        if ($data['module'] != '')
+        if (array_key_exists('module', $data) && $data['module'] != '')
         {
             list ($t, $module) = explode ('|', $data['module']);
         }

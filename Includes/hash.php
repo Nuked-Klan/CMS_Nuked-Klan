@@ -7,7 +7,7 @@ if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
  * @return string hashed pass
  **/
 function nk_hash($pass, $decal = null){
-	$bulder = '';
+	$builder = '';
 	$decal = $decal === null?rand(0, 15):$decal;
 	$pass = sha1($pass);
 	for ($i = 0; $i < strlen($pass) * 2; $i++){

@@ -27,7 +27,7 @@ function select_user(){
 }
 
 function post_message(){
-    global $user;
+    global $user, $bgcolor3;
     define('EDITOR_CHECK', 1);
 
     if (!empty($_REQUEST['for']) && preg_match("`^[a-zA-Z0-9]+$`", $_REQUEST['for'])){
@@ -243,6 +243,7 @@ function index(){
         $sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY date DESC");
         $nb_mess = mysql_num_rows($sql);
         $i = 0;
+        $j = 0;
         while($row = mysql_fetch_assoc($sql)){
 
             $row['date'] = nkDate($row['date']);

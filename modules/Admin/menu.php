@@ -29,7 +29,7 @@ if ($visiteur == 9)
     function index()
     {
         global $nuked, $language;
-		
+
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _MENUADMIN . "</h3>\n"
 		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
@@ -225,6 +225,8 @@ if ($visiteur == 9)
         if (preg_match("`<i>`i", $title)) $chk2 = "checked=\"checked\""; else $chk2 = "";
         if (preg_match("`underline`i", $title)) $chk3 = "checked=\"checked\""; else $chk3 = "";
 
+        $puce = '';
+        $color = '';
         if (preg_match("`<img src=`i", $title))
         {
             preg_match("/^(<img src=\")?([^\"]+)/i", $title, $matches);

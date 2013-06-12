@@ -27,7 +27,7 @@ else
 
 if ($visiteur == 9)
 {
-    if ($_REQUEST['what'] != "") $i = $_REQUEST['what'];
+    if (isset($_REQUEST['what']) && $_REQUEST['what'] != "") $i = $_REQUEST['what'];
     else $i = -1;
 
     if ($i == -1) $selected1 = "selected=\"selected\""; else $selected1 = "";

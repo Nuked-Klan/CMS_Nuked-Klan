@@ -516,7 +516,11 @@ if ($visiteur == 9)
     {
         global $nuked, $user, $language;
 
-        if ($_REQUEST['query'] != "")
+        if(!isset($_REQUEST['orderby'])){
+            $_REQUEST['orderby'] = '';
+        }
+
+        if (array_key_exists('query', $_REQUEST) && $_REQUEST['query'] != "")
         {
             $and = "AND (UT.pseudo LIKE '%" . $_REQUEST['query'] . "%')";
             $url_page = "index.php?file=Admin&amp;page=user&amp;query=" . $_REQUEST['query'] . "&amp;orderby=" . $_REQUEST['orderby'];
@@ -532,8 +536,14 @@ if ($visiteur == 9)
         $sql3 = mysql_query("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
         $count = mysql_num_rows($sql3);
 
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_membres - $nb_membres;
+        if(array_key_exists('p', $_REQUEST)){
+            $page = $_REQUEST['p'];
+        }
+        else{
+            $page = 1;
+        }
+
+        $start = $page * $nb_membres - $nb_membres;
         echo "<link rel=\"stylesheet\" href=\"css/jquery.autocomplete.css\" type=\"text/css\" media=\"screen\" />\n";
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"

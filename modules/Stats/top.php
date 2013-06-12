@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -33,6 +33,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $nb_dl = mysql_num_rows($sql);
         if ($nb_dl > 0) {
             $idl = 0;
+            $j = 0;
             while (list($dl_id, $dl_titre, $dl_count) = mysql_fetch_array($sql)) {
                 $idl++;
 
@@ -74,6 +75,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $nb_link = mysql_num_rows($sql2);
         if ($nb_link > 0) {
             $ilink = 0;
+            $j1 = 0;
             while (list($link_id, $link_titre, $link_count) = mysql_fetch_array($sql2)) {
                 $ilink++;
 
@@ -93,7 +95,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 . '<td style="width: 10%" align="center">' . $ilink . '</td>'."\n"
                 . '<td style="width: 60%"><a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '">' . nkHtmlEntities($link_titre) . '</a></td>'."\n"
                 . '<td style="width: 30%" align="center">' . $link_count . '</td></tr>'."\n";
-            } 
+            }
         }
         else {
             echo '<tr><td align="center" colspan="3">' . _NOLINK . '</td></tr>'."\n";
@@ -115,6 +117,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $nb_art = mysql_num_rows($sql3);
         if ($nb_art > 0) {
             $iart = 0;
+            $j2 = 0;
             while (list($art_id, $art_titre, $art_count) = mysql_fetch_array($sql3)) {
                 $iart++;
 
@@ -134,7 +137,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 . '<td style="width: 10%" align="center">' . $iart . '</td>'."\n"
                 . '<td style="width: 60%"><a href="index.php?file=Sections&amp;op=article&amp;artid=' . $art_id . '">' . nkHtmlEntities($art_titre) . '</a></td>'."\n"
                 . '<td style="width: 30%" align="center">' . $art_count . '</td></tr>'."\n";
-            } 
+            }
         }
         else {
             echo '<tr><td align="center" colspan="3">' . _NOART . '</td></tr>'."\n";
@@ -156,6 +159,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $nb_topic = mysql_num_rows($sql4);
         if ($nb_topic > 0) {
             $itopic = 0;
+            $j3 = 0;
             while (list($tid, $fid, $topic_titre, $views) = mysql_fetch_array($sql4)) {
                 $itopic++;
 
@@ -190,13 +194,14 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $sql5 = mysql_query("SELECT pseudo, count FROM " . USER_TABLE . " ORDER BY count DESC LIMIT 0, 10");
 
         $iuserf = 0;
+        $j4 = 0;
         while (list($pseudof, $userfcount) = mysql_fetch_array($sql5)) {
             $iuserf++;
 
             if ($j4 == 0) {
                 $bg4 = $bgcolor2;
                 $j4++;
-            } 
+            }
             else {
                 $bg4 = $bgcolor1;
                 $j4 = 0;

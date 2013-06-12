@@ -13,6 +13,8 @@ global $language;
 translate('modules/Server/lang/' . $language . '.lang.php');
 include 'modules/Server/includes/gsQuery.php';
 
+global $nuked;
+
 $sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
 list($active) = mysql_fetch_array($sql2);
 if ($active == 3 || $active == 4) {
@@ -66,6 +68,10 @@ if ($active == 3 || $active == 4) {
     } else if ($game == 'NWN') {
         $protocol = 'nwn';
         $queryport = $port;
+    }
+    else{
+        $protocol = '';
+        $queryport = '';
     }
 
     $gameserver = gsQuery::createInstance($protocol, $address, $queryport);
@@ -153,6 +159,10 @@ if ($active == 3 || $active == 4) {
     } else if ($game == 'NWN') {
         $protocol = 'nwn';
         $queryport = $port;
+    }
+    else{
+        $protocol = '';
+        $queryport = '';
     }
 
     $gameserver = gsQuery::createInstance($protocol, $address, $queryport);

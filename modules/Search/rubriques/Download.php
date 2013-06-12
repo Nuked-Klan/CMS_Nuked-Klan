@@ -30,13 +30,13 @@ if ($searchtype == "matchexact" && $main != ""){
 else if ($main != ""){
     $sep = "";
     $and .= "(";
-	
+
     for($i = 0; $i < count($search); $i++){
         $and .= $sep . "(titre LIKE '%" . $search[$i] . "%' OR description LIKE '%" . $search[$i] . "%')";
         if ($searchtype == "matchor") $sep = " OR ";
         else $sep = " AND ";
     }
-	
+
     $and .= ")";
 }
 
@@ -44,6 +44,8 @@ $req = "SELECT id, titre, date FROM " . DOWNLOAD_TABLE . " WHERE level <= '" . $
 $sql_dl = mysql_query($req);
 
 $nb_dl = mysql_num_rows($sql_dl);
+
+$tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_dl > 0){
     while (list($dl_id, $dl_titre, $dl_date) = mysql_fetch_array($sql_dl)){

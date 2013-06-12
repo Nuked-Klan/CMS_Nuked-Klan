@@ -22,13 +22,13 @@ else if ($searchtype == "matchexact"){
 else{
     $sep = "";
     $and = "(";
-	
+
     for($i = 0; $i < count($search); $i++){
         $and .= $sep . "(pseudo LIKE '%" . $search[$i] . "%')";
         if ($searchtype == "matchor") $sep = " OR ";
         else $sep = " AND ";
     }
-	
+
     $and .= ")";
 }
 
@@ -36,6 +36,8 @@ $req = "SELECT pseudo, date FROM " . USER_TABLE . " WHERE " . $and. " AND niveau
 $sql_mb = mysql_query($req);
 
 $nb_mb = mysql_num_rows($sql_mb);
+
+$tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_mb > 0){
     while (list($pseudo, $mb_date) = mysql_fetch_array($sql_mb)){

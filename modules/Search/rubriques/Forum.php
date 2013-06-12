@@ -30,13 +30,13 @@ if ($searchtype == "matchexact" && $main != ""){
 else if ($main != ""){
     $sep = "";
     $and .= "(";
-	
+
     for($i = 0; $i < count($search); $i++){
         $and .= $sep . "(M.titre LIKE '%" . $search[$i] . "%' OR M.txt LIKE '%" . $search[$i] . "%')";
         if ($searchtype == "matchor") $sep = " OR ";
         else $sep = " AND ";
     }
-	
+
     $and .= ")";
 }
 
@@ -44,6 +44,8 @@ $req = "SELECT M.id, M.thread_id, M.titre, M.forum_id, M.date, M.auteur FROM " .
 $sql_forum = mysql_query($req);
 
 $nb_mess = mysql_num_rows($sql_forum);
+
+$tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_mess > 0){
     while (list($mid, $tid, $subject, $fid, $mess_date, $author) = mysql_fetch_array($sql_forum)){
@@ -56,10 +58,10 @@ if ($nb_mess > 0){
         if ($nb_rep > $nuked['mess_forum_page']){
             $topicpages = $nb_rep / $nuked['mess_forum_page'];
             $topicpages = ceil($topicpages);
-            $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $fid . "&amp;thread_id=" . $tid . "&amp;p=" . $topicpages . "&amp;highlight=" . urlencode($string). "#" . $mid;
+            $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $fid . "&amp;thread_id=" . $tid . "&amp;p=" . $topicpages . "#" . $mid;
         }
         else{
-            $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $fid . "&amp;thread_id=" . $tid . "&amp;highlight=" . urlencode($string). "#" . $mid;
+            $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $fid . "&amp;thread_id=" . $tid . "#" . $mid;
         }
 
         $tab['module'][] = $modname;
