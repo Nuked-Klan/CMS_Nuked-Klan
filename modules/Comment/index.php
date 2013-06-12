@@ -1,4 +1,12 @@
 <?php
+/**
+ * Index of Comment Module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2013 Nuked-Klan (Registred Trademark)
+ */
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -13,6 +21,7 @@ global $language, $user, $cookie_captcha;
 translate("modules/Comment/lang/$language.lang.php");
 
 $captcha = initCaptcha();
+
 $visiteur = ($user) ? $user[1] : 0;
 
 function verification($module, $im_id){
@@ -160,9 +169,10 @@ function com_index($module, $im_id){
 
         $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
         $count = mysql_num_rows($sql);
+        $j = 0;
         while($row = mysql_fetch_assoc($sql)){
             $test = 0;
-            $row['date'] = nkDate($row['date']);
+            $row['date']  = nkDate($row['date']);
             $row['titre'] = nkHtmlEntities($row['titre']);
             $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);

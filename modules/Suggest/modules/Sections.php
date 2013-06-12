@@ -48,8 +48,15 @@ function form($content, $sug_id)
     . _SUGGESTART . " ]";
 
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=Sections";
-        $autor = $user[2];
-        $autor_id = $user[0];
+        if($user){
+            $autor = $user[2];
+            $autor_id = $user[0];
+        }
+        else{
+            $autor = '';
+            $autor_id = '';
+        }
+
     $refuse = "</div></form><br />\n";
     }
 
@@ -64,11 +71,12 @@ function form($content, $sug_id)
     {
         $titre = printSecuTags($titre);
 
-        if ($content)
-        {
-            if ($secid == $content[1]) $selected = "selected=\"selected\"";
-            else $selected = "";
+        if ($content && $secid == $content[1]){
+            $selected = "selected=\"selected\"";
+
         }
+        else $selected = "";
+
         echo "<option value=\"" . $secid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
         $sql2 = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = '" . $secid . "' ORDER BY position, secname");
@@ -89,9 +97,9 @@ function form($content, $sug_id)
 
     echo "<tr><td><b>" . _TEXT . "</b></td></tr>\n"
     . "<tr><td><textarea ";
-    
+
     echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
-    
+
     echo "name=\"texte\" cols=\"65\" rows=\"12\">" .  $content[2] . "</textarea></td></tr>\n";
 
     if ($GLOBALS['captcha'] === true) echo create_captcha();

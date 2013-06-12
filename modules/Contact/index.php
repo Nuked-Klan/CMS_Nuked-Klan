@@ -11,8 +11,8 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Contact/lang/' . $language . '.lang.php');
-
 $captcha = initCaptcha();
+
 
 opentable();
 
@@ -46,7 +46,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         -->
         </script>';
 
-        $input_user = ($user) ? $user[2] : '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />';
+        $input_user = ($user) ? '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />' : '';
 
         echo '<div style="width: 80%; margin: auto">
         <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">

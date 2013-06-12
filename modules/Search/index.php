@@ -63,7 +63,7 @@ function index(){
             $perm = nivo_mod($mod);
             if (!$perm) $perm = 0;
 
-            if ($user[1] >= $perm && $perm > -1){
+            if (($user && $user[1] >= $perm) && $perm > -1){
                 $umod = strtoupper($mod);
                 $modname = "_S" . $umod;
                 if (defined($modname)) $modname = constant($modname);
@@ -147,12 +147,15 @@ function mod_search(){
                 $perm = nivo_mod($mod);
                 if (!$perm) $perm = 0;
 
-                if ($user[1] >= $perm && $perm > -1 && ($module == $mod || $module == "")){
+                if (($user && $user[1] >= $perm) && $perm > -1 && ($module == $mod || $module == "")){
                     $umod = strtoupper($mod);
                     $modname = "_S" . $umod;
                     if (defined($modname)) $modname = constant($modname);
                     else $modname = $mod;
                     require("modules/Search/rubriques/" . $mod . ".php");
+                }
+                else{
+                    $tab = array('module' => array(), 'title' => array(), 'link' => array());
                 }
             }
         }

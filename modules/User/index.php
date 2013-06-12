@@ -12,7 +12,6 @@ translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
 include_once('Includes/hash.php');
-
 $captcha = initCaptcha();
 
 function index(){
@@ -92,6 +91,7 @@ function index(){
         else{
             $iforum = 0;
             $sql_forum = mysql_query("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
+            $j = 0;
             while (list($mid, $subject, $date, $tid, $fid) = mysql_fetch_array($sql_forum)){
                 $subject = nkHtmlEntities($subject);
                 $subject = nk_CSS($subject);
@@ -1156,10 +1156,10 @@ function login($pseudo, $pass, $remember_me){
             if(!empty($dbrLogin['userLang'])){
                 setcookie($GLOBALS['cookie_langue'], $dbrLogin['userLang'], $GLOBALS['timelimit']);
             }
-
+            
             $referer = $_SERVER['HTTP_REFERER'];
 
-            if (!empty($referer) && !strpos($referer, 'User&op=reg')){
+            if (!empty($referer) && !strpos($referer, 'User&op=reg') && is_array($referer)){
                 list($url_ref, $redirect) = explode('?', $referer);
                 if(!empty($redirect)) $redirect = '&referer=' . urlencode($redirect);
             }
@@ -1193,7 +1193,13 @@ function login_message(){
         $test_cookie = "";
     }
 
-    $referer = urldecode($_REQUEST['referer']);
+    if(array_key_exists('referer', $_REQUEST)){
+        $referer = urldecode($_REQUEST['referer']);
+    }
+    else{
+        $refere = '';
+    }
+
     $referer = str_replace('&amp;', '&', $referer);
 
     if (!empty($referer) && !stripos($referer, 'User&op=reg')){
@@ -1850,7 +1856,13 @@ function show_avatar(){
 function change_theme(){
     global $nuked, $cookie_theme;
 
-    $cookietheme = $_COOKIE[$cookie_theme];
+    if(array_key_exists($cookie_theme, $_COOKIE)){
+        $cookietheme = $_COOKIE[$cookie_theme];
+    }
+    else{
+        $cookietheme = '';
+    }
+
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
             . "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "

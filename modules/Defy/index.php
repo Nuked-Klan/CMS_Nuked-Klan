@@ -10,7 +10,6 @@
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
 translate('modules/Defy/lang/' . $language . '.lang.php');
-
 $captcha = initCaptcha();
 
 opentable();
@@ -86,10 +85,17 @@ if ($visiteur >= $level_access && $level_access > -1){
                 . "// -->\n"
                 . "</script>\n";
 
+        if(array_key_exists(2, $user)){
+            $userName = $user[2];
+        }
+        else{
+            $userName = '';
+        }
+
         echo "<br /><form method=\"post\" action=\"index.php?file=Defy\" onsubmit=\"return verifchamps();\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-                . "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"defy_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
+                . "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"defy_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $userName . "\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _CLAN . " : </b></td><td><input id=\"defy_clan\" type=\"text\" name=\"clan\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
 
