@@ -16,7 +16,7 @@ global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 
-$nkAccessModule = nkAccessModule('Admin', $user[1], true);
+$nkAccessModule = nkAccessModule('Users', $user[1], true);
 
 if($_REQUEST['op'] != "menu")
 admintop();
@@ -474,12 +474,30 @@ if($nkAccessModule === TRUE) {
             $url = nkHtmlEntities($url);
             $avatar = nkHtmlEntities($avatar);
 
-            $userGroup = implode("|", $group);
+            $userGroup = '';
+
+            if(isset($group) && is_array($group)){
+                $userGroup = implode("|", $group);
+            }
+
+            if(empty($userGroup)){
+                $userGroup = 2;
+            }
 
             if (is_numeric($groupMain)) {
-                $groupMain = $groupMain;
-            } else {
-                $groupMain = 1;
+                if(!in_array($groupMain, $group)){
+                    if(array_key_exists(0, $group) && !empty($group[0])){
+                        $groupMain = intval($group[0]);
+                    }
+
+                }
+                else{
+                    $groupMain = intval($groupMain);
+                }
+
+            }
+            else {
+                $groupMain = 2;
             }
 
             $dbuUserUpdate = ' UPDATE ' . USER_TABLE . '
@@ -875,19 +893,22 @@ if($nkAccessModule === TRUE) {
 
             while(list($id, $group) = mysql_fetch_array($dbeGroup)) {
 
-                $group = printSecuTags($group);
+                if($id != 3){
 
-                if ($active == 1) {
-                    if (in_array($id, $idGroup, true)) {
+                    $group = printSecuTags($group);
+
+                    if ($active == 1) {
+                        if (in_array($id, $idGroup, true)) {
 ?>
-                        <option value="<?php echo $id; ?>"><?php echo translateGroupName($id, $group); ?></option>
+                            <option value="<?php echo $id; ?>"><?php echo translateGroupName($id, $group); ?></option>
 <?php
-                    }
-                } else if ($active == 0) {
-                    if (!in_array($id, $idGroup, true)) {
+                        }
+                    } else if ($active == 0) {
+                        if (!in_array($id, $idGroup, true)) {
 ?>
-                        <option value="<?php echo $id; ?>"><?php echo translateGroupName($id, $group); ?></option>
+                            <option value="<?php echo $id; ?>"><?php echo translateGroupName($id, $group); ?></option>
 <?php
+                        }
                     }
                 }
             }

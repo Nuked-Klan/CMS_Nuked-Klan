@@ -20,8 +20,6 @@ function admintop(){
 
     $condition_js = ($nuked['screen']) == 'off' ? 1 : 0;
 
-    if($nkAccessModule === FALSE) { redirect('index.php?file=404', 0); }
-
     // Tableau associé au condition sur la class du menu de navigation
     $a = array('setting','maj','phpinfo','mysql','action','erreursql');
     $b = array('user','group','theme','modules','block','menu','smilies','games');
@@ -75,7 +73,7 @@ function admintop(){
         <script type="text/javascript" src="modules/Admin/scripts/groupManagement.js"></script>
 <?php
     }
-    if(array_key_exists('page', $_REQUEST) && $_REQUEST['page'] == 'group'){
+    if(array_key_exists('page', $_REQUEST) && $_REQUEST['page'] == 'group' && ($_REQUEST['op'] == 'editGroup' || $_REQUEST['op'] == 'addGroup')){
 ?>
         <script type="text/javascript" src="modules/Admin/scripts/colorPicker.js"></script>
 <?php

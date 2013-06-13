@@ -852,7 +852,9 @@ function nbvisiteur(){
         }
         else{
             $del = mysql_query("DELETE FROM " . NBCONNECTE_TABLE . " WHERE IP = '" . $user_ip . "'");
-            $req = mysql_query("INSERT INTO " . NBCONNECTE_TABLE . " ( `IP` , `type` , `date` , `user_id` , `username` ) VALUES ( '" . $user_ip . "' , '" . $user[1] . "' , '" . $limite . "' , '" . $user[0] . "' , '" . $user[2] . "' )");
+            if (isset($user[0])){
+                $req = mysql_query("INSERT INTO " . NBCONNECTE_TABLE . " ( `IP` , `type` , `date` , `user_id` , `username` ) VALUES ( '" . $user_ip . "' , '" . $user[1] . "' , '" . $limite . "' , '" . $user[0] . "' , '" . $user[2] . "' )");
+            }
         }
     }
 
@@ -1249,7 +1251,7 @@ function nkAccessModule($module, $group, $access) {
         }
     }
 
-    if (in_array($module, $arrayGroup, true) || in_array(0, $userGroup)) {
+    if (in_array($module, $arrayGroup, true) || in_array(1, $userGroup)) {
         return true;
     }
     else {
@@ -1259,7 +1261,7 @@ function nkAccessModule($module, $group, $access) {
 }
 
 function translateGroupName($groupId, $groupName){
-    if($groupId == 0 || $groupId == 1 || $groupId == 2){
+    if($groupId == 1 || $groupId == 2 || $groupId == 3){
         return constant($groupName);
     } else{
         return $groupName;

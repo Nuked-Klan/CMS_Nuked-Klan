@@ -15,11 +15,11 @@ if (!defined("INDEX_CHECK")) {
 translate("modules/Admin/lang/" . $GLOBALS['language'] . ".lang.php");
 include("modules/Admin/design.php");
 
-$nkAccessModule = nkAccessModule('Admin', $GLOBALS['user']['1'], TRUE);
+$nkAccessModule = nkAccessModule('Admin', $GLOBALS['user']['1'], true);
 
 admintop();
 
-if($nkAccessModule === TRUE) {
+if($nkAccessModule === true) {
 
     function mainGroup() {
         $dbsGroup = ' SELECT id, nameGroup, description
@@ -30,7 +30,7 @@ if($nkAccessModule === TRUE) {
         <!--
             function delgroup(name, id) {
                 if (confirm("<?php echo _FUNCDELGROUP; ?> " + name +" ! <?php echo _CONFIRM; ?>")) {
-                    document.location.href = "index.php?file=Admin&page=group&op=del_group&id="+id;
+                    document.location.href = "index.php?file=Admin&page=group&op=delGroup&id="+id;
                 }
             }
         // -->
@@ -71,7 +71,7 @@ if($nkAccessModule === TRUE) {
                                 $description = 'Aucune description';
                             }
 
-                            if ($id == 0 or $id == 1 or $id == 2) {
+                            if ($id == 1 or $id == 2 or $id == 3) {
                                 $linkDel = "<img src=\"modules/Admin/images/stop.png\" alt=\""._DELTHISGROUP."\" title=\""._DELETE."\" />";
                             }
                             else {
@@ -81,7 +81,7 @@ if($nkAccessModule === TRUE) {
                                 </a>";
                             }
 
-                            if ($id == 0) {
+                            if ($id == 1) {
                                 $linkEdit = "<img src=\"modules/Admin/images/stop.png\" alt=\""._EDITTHISGROUP."\" title=\""._EDIT."\" />";
                             }
                             else {
@@ -95,10 +95,10 @@ if($nkAccessModule === TRUE) {
                             <td><?php echo translateGroupName($id, $nameGroup); ?></td>
                             <td><?php echo translateGroupName($id, $description); ?></td>
                             <td># <?php echo $dbcUserCount; ?></td>
-                            <td style="<?php echo $center; ?>">
+                            <td class="nkCenter">
                                 <?php echo $linkEdit; ?>
                             </td>
-                            <td style="<?php echo $center; ?>">
+                            <td class="nkCenter">
                                 <?php echo $linkDel; ?>
                             </td>
                         </tr>
@@ -113,16 +113,29 @@ if($nkAccessModule === TRUE) {
     }
 
     function addGroup() {
-        $dbsModule = ' SELECT id, nom
-                       FROM ' . MODULES_TABLE . '
-                       WHERE niveau != "-1"
-                       AND admin != "-1"';
+        $dbsModule = ' SELECT id, nom AS name, niveau AS level
+                       FROM ' . MODULES_TABLE . ' ';
         $dbeModule = mysql_query($dbsModule);
+
+        $arrayModules = array();
+
+        while($data = mysql_fetch_assoc($dbeModule)) {
+            $arrayTmp = array('id', 'name', 'level');
+            foreach($arrayTmp as $field){
+                $arrayModules[$data['id']][$field] = $data[$field];
+            }
+        }
+
+        // Ajout des module Fake Users et Groups
+        $arrayUsers = array('id' => '', 'name' => 'Users', 'level' => 0);
+        $arrayGroups = array('id' => '', 'name' => 'Groups', 'level' => 0);
+        $arrayModules[] = $arrayUsers;
+        $arrayModules[] = $arrayGroups;
 ?>
             <div class="content-box">
                 <div class="content-box-header"><h3><?php echo _USERADMINGROUP; ?></h3>
                     <div style="text-align:right;">
-                        <a href="help<?php echo $language; ?>/group.php" rel="modal">
+                        <a href="help<?php echo $GLOBALS['language']; ?>/group.php" rel="modal">
                             <img src="help/help.gif" alt="" title="<?php echo _HELP; ?>" />
                         </a>
                     </div>
@@ -140,7 +153,7 @@ if($nkAccessModule === TRUE) {
                             </div>
                             <div class="three">
                                 <span><?php echo _DESCGROUP; ?></span>
-                                <input class="tableWidth50" type="text" name="description" required="required" />
+                                <input class="tableWidth50" type="text" name="description" />
                             </div>
                             <div class="three" id="colorPickerJquery">
                                 <span><?php echo _COLOR; ?></span>
@@ -149,22 +162,45 @@ if($nkAccessModule === TRUE) {
                             </div>
                             <div class="full"><span><?php echo _LISTMODULE; ?></span></div>
 <?php
-                            while(list($id, $name) = mysql_fetch_array($dbeModule)) {
+                            foreach($arrayModules as $module){
+                                if($module['level'] == '-1'){
+                                    $class = 'groupModDisabled';
+                                }
+                                else{
+                                    $class = 'groupModEnabled';
+                                }
+
+                                if($module['name'] == 'Users' || $module['name'] == 'Groups'){
+                                    $class2 = 'groupFakeMod';
+                                }
+                                else{
+                                    $class2 = '';
+                                }
 ?>
-                            <div class="quarter">
-                                <span><?php echo $name; ?></span>
+                            <div class="quarter <?php echo $class; ?>">
+                                <span><?php echo $module['name']; ?></span>
+<?php
+                                if($module['name'] != 'Users' && $module['name'] != 'Groups'){
+?>
                                 <div class="tableWidth90 nKcenter">
                                     <span class="title"><?php echo _ACCESMODULE; ?></span>
-                                    <span class="input"><input name="a<?php echo $id; ?>" type="checkbox" /></span>
+                                    <span class="input"><input name="<?php echo $module['name'].'Access'; ?>" type="checkbox" /></span>
                                 </div>
-                                <div class="tableWidth90 nKcenter">
+<?php
+                                }
+?>
+                                <div class="tableWidth90 nKcenter <?php echo $class2; ?>">
                                     <span class="title"><?php echo _ACCESADMIN; ?></span>
-                                    <span class="input"><input name="b<?php echo $id; ?>" type="checkbox" /></span>
+                                    <span class="input"><input name="<?php echo $module['name'].'AccessAdmin'; ?>" type="checkbox" /></span>
                                 </div>
                             </div>
 <?php
                             }
 ?>
+                            <div class="full">
+                                <p class="textModEnabled"><?php echo _COLOR_MOD_ENABLED; ?></p>&nbsp;|&nbsp;
+                                <p class="textModDisabled"><?php echo _COLOR_MOD_DISABLED; ?></p>
+                            </div>
                             <div class="full"><span><input type="submit" value="<?php echo _ADD; ?>" /></span></div>
                         </div>
                     </form>
@@ -178,69 +214,118 @@ if($nkAccessModule === TRUE) {
 
         $arrayRequest = array('name', 'description', 'color');
         foreach($arrayRequest as $key){
-            if(array_key_exists($key, $_REQUEST)){
-                ${$key} = $_REQUEST[$key];
-            }
-            else{
-                ${$key} = '';
+            if(!array_key_exists($key, $_REQUEST)){
+                $_REQUEST[$key] = '';
             }
         }
 
-        $dbsTestName = ' SELECT id, count(id) AS count
+        $dbsTestName = ' SELECT count(id) AS count
                          FROM '.GROUP_TABLE.'
-                         WHERE nameGroup = "' . $name . '"';
+                         WHERE nameGroup = "' . $_REQUEST['name'] . '"';
         $dbeTestName = mysql_query($dbsTestName);
         $testName = mysql_fetch_assoc($dbeTestName);
 
+        $errors = 0;
+        if(empty($_REQUEST['name'])){
+            $errorMsg = _ERROR_NO_GROUPNAME;
+            $errors++;
+        }
+
+        $arrayNameReserved = array('Visiteur', 'Guest', 'Membres', 'Members', 'Administrateur', 'Administrator');
+
+        if(in_array($_REQUEST['name'], $arrayNameReserved)){
+            $errorMsg = _GROUP_NAME_RESERVED;
+            $errors++;
+        }
+
+        if($errors > 0){
+            echo '<div class="notification error png_bg">
+                    <div>'.$errorMsg.'</div>
+                </div>';
+            redirect('index.php?file=Admin&page=group&op=addGroup', 3);
+            adminfoot();
+            exit();
+        }
+
         if($testName['count'] == 0) {
 
-            $dbsModule = ' SELECT id, nom
-                           FROM ' . MODULES_TABLE . '
-                           WHERE niveau != "-1"
-                           AND admin != "-1"';
+            $dbsModule = ' SELECT id, nom AS name, niveau AS level
+                       FROM ' . MODULES_TABLE . ' ';
             $dbeModule = mysql_query($dbsModule);
 
-            $i = 0;
-            $j = 0;
+            $arrayModules = array();
 
-            $groupForUser  = '';
-            $groupForAdmin = '';
-
-            while(list($idGroup, $moduleName) = mysql_fetch_array($dbeModule)) {
-                if (array_key_exists('a'.$idGroup, $_POST)) {
-                    if ($_POST['a'.$idGroup]) {
-                        if($i > 0) {
-                            $groupForUser .= '|';
-                        }
-                        $groupForUser .= $moduleName;
-                        $i++;
-                    }
-                }
-                if (array_key_exists('b'.$idGroup, $_POST)) {
-                    if ($_POST['b'.$idGroup]) {
-                        if($j > 0) {
-                            $groupForAdmin .= '|';
-                        }
-                        $groupForAdmin .= $moduleName;
-                        $j++;
-                    }
+            while($data = mysql_fetch_assoc($dbeModule)) {
+                $arrayTmp = array('id', 'name', 'level');
+                foreach($arrayTmp as $field){
+                    $arrayModules[$data['id']][$field] = $data[$field];
                 }
             }
 
-            if (!is_string($description)) {
-                $description = _DESCINVALID;
-?>
-                <div class="notification error png_bg">
-                    <div><?php echo _DESCINVALID; ?></div>
-                </div>
-<?php
+            // Ajout des module Fake Users et Groups
+            $arrayUsers = array('id' => '', 'name' => 'Users', 'level' => 0);
+            $arrayGroups = array('id' => '', 'name' => 'Groups', 'level' => 0);
+            $arrayModules[] = $arrayUsers;
+            $arrayModules[] = $arrayGroups;
+
+            $groupForUser = array();
+            $groupForAdmin = array();
+
+            foreach($arrayModules as $module) {
+                $inputAccess = $module['name'].'Access';
+                $inputAdmin  = $module['name'].'AccessAdmin';
+                if (array_key_exists($inputAccess, $_REQUEST) && !empty($_REQUEST[$inputAccess])) {
+                    $groupForUser[] = $module['name'];
+                }
+                if (array_key_exists($inputAdmin, $_REQUEST) && !empty($_REQUEST[$inputAdmin])) {
+                    $groupForAdmin[] = $module['name'];
+                }
             }
+
+            if(count($groupForAdmin) > 0){
+                if(!in_array('Admin', $groupForUser)){
+                    $groupForUser[] = 'Admin';
+                }
+            }
+
+            $groupForUser = implode('|', $groupForUser);
+            $groupForAdmin = implode('|', $groupForAdmin);
+
+            $pattern = '#[A-z0-9\(\) _éèëêâäàîïöôûü°\.\:\',-]{0,30}#';
+
+            $errors = 0;
+
+            if(!empty($_REQUEST['name']) && !preg_match($pattern, $_REQUEST['name'])){
+                $errors++;
+                $errorMsg = _NAMEINVALID;
+            }
+
+            if(!empty($_REQUEST['name']) && !preg_match($pattern, $_REQUEST['description'])){
+                $errors++;
+                $errorMsg = _DESCINVALID;
+            }
+
+            if(!empty($_REQUEST['name']) && !preg_match('#\#[0-9a-f]{6}#', $_REQUEST['color'])){
+                $errors++;
+                $errorMsg = _COLORINVALID;
+            }
+
+            if($errors > 0){
+                echo '<div class="notification error png_bg">
+                        <div>'.$errorMsg.'</div>
+                    </div>';
+                redirect('index.php?file=Admin&page=group&op=addGroup', 3);
+                adminfoot();
+                exit();
+            }
+
+            $name = mysql_real_escape_string($_REQUEST['name']);
+            $description = mysql_real_escape_string($_REQUEST['description']);
+            $color = mysql_real_escape_string($_REQUEST['color']);
 
             $dbiInsertGroup = 'INSERT INTO '.GROUP_TABLE.' (`id` , `nameGroup` , `access`, `accessAdmin`, `description`, `color` )
                                VALUES ("", "' . $name . '" , "' . $groupForUser . '", "' . $groupForAdmin . '", "' . $description . '", "' . $color . '")';
             $dbeInsertGroup = mysql_query($dbiInsertGroup);
-
-            debug($dbiInsertGroup);
 
             $texteaction = _ACTIONGROUPADD . $name;
             $acdate = time();
@@ -261,20 +346,36 @@ if($nkAccessModule === TRUE) {
             </div>
 <?php
         }
-    //redirect("index.php?file=Admin&page=group", 2);
+    redirect("index.php?file=Admin&page=group", 2);
     }
 
-    function editGroup($id) {
-        $dbsGroup = ' SELECT nameGroup, access, accessAdmin, description, color
+    function editGroup() {
+        if(array_key_exists('id', $_REQUEST)){
+            $id = intval($_REQUEST['id']);
+        }
+        else{
+            $id = 0;
+        }
+
+        $dbsGroup = ' SELECT nameGroup, access, accessAdmin, description, color, count(*) AS count
                       FROM '.GROUP_TABLE.'
                       WHERE id = "' . $id . '"';
         $dbeGroup = mysql_query($dbsGroup);
-        list($nameGroup, $access, $accessAdmin, $description, $color) = mysql_fetch_array($dbeGroup);
+        list($nameGroup, $access, $accessAdmin, $description, $color, $count) = mysql_fetch_array($dbeGroup);
+
+        if($count == 0){
+            echo '<div class="notification error png_bg">
+                    <div>'._BAD_GROUP_ID.'</div>
+                </div>';
+            redirect('index.php?file=Admin&page=group&op=addGroup', 3);
+            adminfoot();
+            exit();
+        }
 
         $access = explode('|', $access);
         $accessAdmin = explode('|', $accessAdmin);
 
-		if(!$description){
+		if(empty($description)){
 			$description = 'Aucune description';
 		}
 
@@ -296,6 +397,25 @@ if($nkAccessModule === TRUE) {
             $disabledAccess = '';
             $disabledAdmin = '';
         }
+
+        $dbsModule = ' SELECT id, nom AS name, niveau AS level
+                       FROM ' . MODULES_TABLE . ' ';
+        $dbeModule = mysql_query($dbsModule);
+
+        $arrayModules = array();
+
+        while($data = mysql_fetch_assoc($dbeModule)) {
+            $arrayTmp = array('id', 'name', 'level');
+            foreach($arrayTmp as $field){
+                $arrayModules[$data['id']][$field] = $data[$field];
+            }
+        }
+
+        // Ajout des module Fake Users et Groups
+        $arrayUsers = array('id' => '', 'name' => 'Users', 'level' => 0);
+        $arrayGroups = array('id' => '', 'name' => 'Groups', 'level' => 0);
+        $arrayModules[] = $arrayUsers;
+        $arrayModules[] = $arrayGroups;
 ?>
             <div class="content-box">
                 <div class="content-box-header"><h3><?php echo _USERADMINGROUP; ?></h3>
@@ -319,7 +439,7 @@ if($nkAccessModule === TRUE) {
                             </div>
                             <div class="three">
                                 <span><?php echo _DESCGROUP; ?></span>
-                                <input <?php echo $disabledName; ?> class="tableWidth50" type="text" name="description" value="<?php echo translateGroupName($id, $description); ?>" required="required" />
+                                <input <?php echo $disabledName; ?> class="tableWidth50" type="text" name="description" value="<?php echo translateGroupName($id, $description); ?>" />
                             </div>
                             <div class="three" id="colorPickerJquery">
                                 <span><?php echo _COLOR; ?></span>
@@ -328,38 +448,56 @@ if($nkAccessModule === TRUE) {
                             </div>
                             <div class="full"><span><?php echo _LISTMODULE; ?></span></div>
 <?php
-                            $dbsModule = ' SELECT id, nom
-                                           FROM ' . MODULES_TABLE . '
-                                           WHERE niveau != "-1"
-                                           AND admin != "-1"';
-                            $dbeModule = mysql_query($dbsModule);
+                            foreach($arrayModules as $module){
+                                if($module['level'] == '-1'){
+                                    $class = 'groupModDisabled';
+                                }
+                                else{
+                                    $class = 'groupModEnabled';
+                                }
 
-                            while(list($id, $name) = mysql_fetch_array($dbeModule)) {
-                                if (in_array($name, $access, true)) {
-									$checkedAcces = 'checked="checked"';
-                                    } else {
-                                        $checkedAcces = '';
-                                    }
-                                if (in_array($name, $accessAdmin, true)) {
-									$checkedAdmin = 'checked="checked"';
-                                    } else {
-                                        $checkedAdmin = '';
-                                    }
+                                if (in_array($module['name'], $access, true)) {
+								    $checkedAcces = 'checked="checked"';
+                                } else {
+                                    $checkedAcces = '';
+                                }
+                                if (in_array($module['name'], $accessAdmin, true)) {
+								    $checkedAdmin = 'checked="checked"';
+                                } else {
+                                    $checkedAdmin = '';
+                                }
+
+                                if($module['name'] == 'Users' || $module['name'] == 'Groups'){
+                                    $class2 = 'groupFakeMod';
+                                }
+                                else{
+                                    $class2 = '';
+                                }
 ?>
-                            <div class="quarter">
-                                <span><?php echo $name; ?></span>
+                            <div class="quarter <?php echo $class; ?>">
+                                <span><?php echo $module['name']; ?></span>
+<?php
+                                if($module['name'] != 'Users' && $module['name'] != 'Groups'){
+?>
                                 <div class="tableWidth90 nKcenter">
                                     <span class="title">Acc&egrave;s module</span>
-                                    <span class="input"><input <?php echo $disabledAccess . $checkedAcces; ?> name="a<?php echo $id; ?>" type="checkbox" value="1"></span>
+                                    <span class="input"><input <?php echo $disabledAccess . $checkedAcces; ?> name="<?php echo $module['name'].'Access'; ?>" type="checkbox" value="1"></span>
                                 </div>
-                                <div class="tableWidth90 nKcenter">
+<?php
+                                }
+?>
+                                <div class="tableWidth90 nKcenter <?php echo $class2; ?>">
                                     <span class="title">Acc&egrave;s Admin </span>
-                                    <span class="input"><input <?php echo $disabledAdmin  . $checkedAdmin; ?> name="b<?php echo $id; ?>" type="checkbox" value="1"></span>
+                                    <span class="input"><input <?php echo $disabledAdmin  . $checkedAdmin; ?> name="<?php echo $module['name'].'AccessAdmin'; ?>" type="checkbox" value="1"></span>
                                 </div>
                             </div>
 <?php
                             }
 ?>
+                            <div class="full">
+                                <p class="textModEnabled"><?php echo _COLOR_MOD_ENABLED; ?></p>&nbsp;|&nbsp;
+                                <p class="textModDisabled"><?php echo _COLOR_MOD_DISABLED; ?></p>
+                            </div>
                             <div class="full"><span><input type="submit" value="<?php echo _EDIT; ?>" /></span></div>
                         </div>
                     </form>
@@ -373,139 +511,217 @@ if($nkAccessModule === TRUE) {
         $arrayRequest = array('id', 'name', 'description', 'color');
         foreach($arrayRequest as $key){
             if(array_key_exists($key, $_REQUEST)){
-                ${$key} = $_REQUEST[$key];
+                $_REQUEST[$key] = $_REQUEST[$key];
             }
             else{
-                ${$key} = '';
+                $_REQUEST[$key] = '';
             }
         }
 
-        if($name == 'Visiteur' or $name == 'Guest') {
-            $name = '_VISITOR';
-        }
-        else if($name == 'Membres' or $name == 'Members') {
-            $name = '_MEMBERS';
-        }
+        $id = intval($_REQUEST['id']);
 
-        $dbsGroupName = ' SELECT id , count(id) AS count
+        $dbsGroupName = ' SELECT id , nameGroup, count(*) AS count
                           FROM '.GROUP_TABLE.'
-                          WHERE nameGroup = "' . $name . '"';
+                          WHERE id = "'.$id.'"';
         $dbeGroupName = mysql_query($dbsGroupName);
         $group = mysql_fetch_assoc($dbeGroupName);
 
-        if ($group['id'] == $id && $group['count'] == 1 && $id != 0) {
-
-            $dbsModule = 'SELECT id, nom
-                          FROM ' . MODULES_TABLE . '
-                          WHERE niveau != "-1"
-                          AND admin != "-1"';
-            $dbeModule = mysql_query($dbsModule);
-            $i = 0;
-            $j = 0;
-            $groupForUser = $groupForAdmin = '';
-            while(list($idGroup, $moduleName) = mysql_fetch_array($dbeModule)) {
-                if (array_key_exists('a'.$idGroup, $_POST)) {
-                    if($i > 0) {
-                        $groupForUser .= '|';
-                    }
-                    $groupForUser .= $moduleName;
-                    $i++;
-                }
-                if (array_key_exists('b'.$idGroup, $_POST)) {
-                    if($j > 0) {
-                        $groupForAdmin .= '|';
-                    }
-                    $groupForAdmin .= $moduleName;
-                    $j++;
-                }
-            }
-
-            $fields = '';
-
-            if($id != 0) {
-                $fields .= ' access = "'.$groupForUser.'" ';
-            }
-
-            if ($id != 0 && $id != 2) {
-                $fields .= ' , accessAdmin = "'.$groupForAdmin.'" ';
-            }
-
-            if($id != 0 && $id != 1 && $id != 2) {
-                $fields .= ', nameGroup = "'.$name.'", description = "'.$description.'" ';
-            }
-
-            if(!empty($fields)){
-                $fields .= ' , ';
-            }
-            $fields .= 'color = "'.$color.'" ';
-
-            if(!empty($fields)){
-                $dbuGroup = '   UPDATE '.GROUP_TABLE.'
-                                SET  '.$fields.'
-                                WHERE id = "' . $id . '"';
-                $dbeGroup = mysql_query($dbuGroup);
-
-                $texteaction = _ACTIONGROUPEDIT . $name;
-                $acdate = time();
-
-                $dbiAction = 'INSERT INTO '.ACTION_TABLE.' (`date`, `pseudo`, `action`)
-                              VALUES("' . $acdate . '", "' . $GLOBALS['user']['0'] . '", "' . $texteaction . '")';
-                $dbeAction = mysql_query($dbiAction);
-            }
-?>
-            <div class="notification success png_bg">
-                <div><?php echo _SUCCESGROUPEDIT; ?></div>
-            </div>
-<?php
+        if($group['count'] == 0){
+            echo '<div class="notification error png_bg">
+                    <div>'._BAD_GROUP_ID.'</div>
+                </div>';
+            redirect('index.php?file=Admin&page=group', 3);
+            adminfoot();
+            exit();
         }
-        else {
-?>
-            <div class="notification error png_bg">
-                <div><?php echo _ERRORGROUPEDIT; ?></div>
-            </div>
-<?php
+
+        $arrayPermGroup = array('1' => '_ADMINISTRATOR', '2' => '_MEMBERS', '3' => '_VISITOR');
+        $arrayPermGroupDesc = array('1' => '_DESCADMINISTRATOR', '2' => '_DESCMEMBERS', '3' => '_DESCVISITORPADMIN');
+
+        if($id == 1 || $id == 2 || $id == 3){
+            $_REQUEST['name'] = $arrayPermGroup[$id];
+            $_REQUEST['description'] = $arrayPermGroupDesc[$id];
         }
-    redirect("index.php?file=Admin&page=group", 2);
-    }
 
-    function del_group($id) {
+        $arrayNameReserved = array('Visiteur', 'Guest', 'Membres', 'Members', 'Administrateur', 'Administrator');
 
-        $dbsGroup = ' SELECT nameGroup
-                      FROM '.GROUP_TABLE.'
-                      WHERE id = "' . $id . '"';
-        $dbeGroup = mysql_query($dbsGroup);
-        list($nameGroup) = mysql_fetch_array($dbeGroup);
-
-        if ($nameGroup == "_ADMINISTRATOR" or $nameGroup == "_NAMEMEMBERS" or $nameGroup == "_VISITOR") {
-?>
-            <div class="notification error png_bg">
-                <div><?php echo _ERRORGROUPDEL; ?></div>
-            </div>
-<?php
+        if(in_array($_REQUEST['name'], $arrayNameReserved)){
+            echo '<div class="notification error png_bg">
+                    <div>'._GROUP_NAME_RESERVED.'</div>
+                </div>';
+            redirect('index.php?file=Admin&page=group&op=editGroup&id='.$id, 3);
+            adminfoot();
+            exit();
         }
-        else {
 
-            $del = mysql_query("DELETE FROM " . GROUP_TABLE . " WHERE id = '" . $id . "'");
+        $dbsModule = ' SELECT id, nom AS name, niveau AS level
+                       FROM ' . MODULES_TABLE . ' ';
+        $dbeModule = mysql_query($dbsModule);
 
-            $texteaction = _ACTIONGROUPDEL . $nameGroup;
+        $arrayModules = array();
+
+        while($data = mysql_fetch_assoc($dbeModule)) {
+            $arrayTmp = array('id', 'name', 'level');
+            foreach($arrayTmp as $field){
+                $arrayModules[$data['id']][$field] = $data[$field];
+            }
+        }
+
+        // Ajout des module Fake Users et Groups
+        $arrayUsers = array('id' => '', 'name' => 'Users', 'level' => 0);
+        $arrayGroups = array('id' => '', 'name' => 'Groups', 'level' => 0);
+        $arrayModules[] = $arrayUsers;
+        $arrayModules[] = $arrayGroups;
+
+        $groupForUser = array();
+        $groupForAdmin = array();
+
+        foreach($arrayModules as $module) {
+            $inputAccess = $module['name'].'Access';
+            $inputAdmin  = $module['name'].'AccessAdmin';
+            if (array_key_exists($inputAccess, $_REQUEST) && !empty($_REQUEST[$inputAccess])) {
+                $groupForUser[] = $module['name'];
+            }
+            if (array_key_exists($inputAdmin, $_REQUEST) && !empty($_REQUEST[$inputAdmin])) {
+                $groupForAdmin[] = $module['name'];
+            }
+        }
+
+        if(count($groupForAdmin) > 0){
+            if(!in_array('Admin', $groupForUser)){
+                $groupForUser[] = 'Admin';
+            }
+        }
+
+        $groupForUser = implode('|', $groupForUser);
+        $groupForAdmin = implode('|', $groupForAdmin);
+
+        $pattern = '#[A-z0-9\(\) _éèëêâäàîïöôûü°\.\:\',-]{0,30}#';
+
+        $errors = 0;
+
+        if(!empty($_REQUEST['name']) && !preg_match($pattern, $_REQUEST['name'])){
+            $errors++;
+            $errorMsg = _NAMEINVALID;
+        }
+
+        if(!empty($_REQUEST['name']) && !preg_match($pattern, $_REQUEST['description'])){
+            $errors++;
+            $errorMsg = _DESCINVALID;
+        }
+
+        if(!empty($_REQUEST['name']) && !preg_match('#\#[0-9a-f]{6}#', $_REQUEST['color'])){
+            $errors++;
+            $errorMsg = _COLORINVALID;
+        }
+
+        if($errors > 0){
+            echo '<div class="notification error png_bg">
+                    <div>'.$errorMsg.'</div>
+                </div>';
+            redirect('index.php?file=Admin&page=group&op=editGroup&id='.$id, 3);
+            adminfoot();
+            exit();
+        }
+
+        $name = mysql_real_escape_string($_REQUEST['name']);
+        $description = mysql_real_escape_string($_REQUEST['description']);
+        $color = mysql_real_escape_string($_REQUEST['color']);
+
+        $fields = '';
+
+        if($id != 1) {
+            $fields .= ' access = "'.$groupForUser.'" ';
+        }
+
+        if ($id != 1 && $id != 3) {
+            $fields .= ' , accessAdmin = "'.$groupForAdmin.'" ';
+        }
+
+        if($id != 1 && $id != 2 && $id != 3) {
+            $fields .= ', nameGroup = "'.$name.'", description = "'.$description.'" ';
+        }
+
+        if(!empty($fields)){
+            $fields .= ' , ';
+        }
+        $fields .= 'color = "'.$color.'" ';
+
+        if(!empty($fields)){
+            $dbuGroup = '   UPDATE '.GROUP_TABLE.'
+                            SET  '.$fields.'
+                            WHERE id = "' . $id . '"';
+            $dbeGroup = mysql_query($dbuGroup);
+
+            $texteaction = _ACTIONGROUPEDIT . $name;
             $acdate = time();
 
             $dbiAction = 'INSERT INTO '.ACTION_TABLE.' (`date`, `pseudo`, `action`)
                           VALUES("' . $acdate . '", "' . $GLOBALS['user']['0'] . '", "' . $texteaction . '")';
             $dbeAction = mysql_query($dbiAction);
+        }
 ?>
-            <div class="notification success png_bg">
-                <div><?php echo _SUCCESGROUPDEL; ?></div>
-            </div>
+        <div class="notification success png_bg">
+            <div><?php echo _SUCCESGROUPEDIT; ?></div>
+        </div>
 <?php
+    redirect("index.php?file=Admin&page=group", 2);
+    }
+
+    function delGroup() {
+        if(array_key_exists('id', $_REQUEST)){
+            $id = intval($_REQUEST['id']);
+        }
+        else{
+            $id = 0;
         }
 
+        if($id == 1 || $id == 2 || $id == 3){
+            echo '<div class="notification error png_bg">
+                    <div>'._NO_DELETE_GROUP.'</div>
+                </div>';
+            redirect('index.php?file=Admin&page=group', 3);
+            adminfoot();
+            exit();
+        }
+
+        $dbsGroupName = " SELECT id, nameGroup, count(*) AS count
+                          FROM ".GROUP_TABLE."
+                          WHERE id = '".$id."' ";
+        $dbeGroupName = mysql_query($dbsGroupName);
+        $group = mysql_fetch_assoc($dbeGroupName);
+
+        if($group['count'] == 0){
+            echo '<div class="notification error png_bg">
+                    <div>'._BAD_GROUP_ID.'</div>
+                </div>';
+            redirect('index.php?file=Admin&page=group', 3);
+            adminfoot();
+            exit();
+        }
+
+
+        $del = mysql_query("DELETE FROM " . GROUP_TABLE . " WHERE id = '" . $id . "'");
+
+        $texteaction = _ACTIONGROUPDEL . $group['nameGroup'];
+        $acdate = time();
+
+        $dbiAction = 'INSERT INTO '.ACTION_TABLE.' (`date`, `pseudo`, `action`)
+                      VALUES("' . $acdate . '", "' . $GLOBALS['user']['0'] . '", "' . $texteaction . '")';
+        $dbeAction = mysql_query($dbiAction);
+?>
+        <div class="notification success png_bg">
+            <div><?php echo _SUCCESGROUPDEL; ?></div>
+        </div>
+<?php
         redirect("index.php?file=Admin&page=group", 2);
     }
 
+    if(!array_key_exists('op', $_REQUEST)){
+        $_REQUEST['op'] = '';
+    }
 
-    switch ($_REQUEST['op'])
-    {
+    switch ($_REQUEST['op']){
         case "mainGroup":
             mainGroup();
             break;
@@ -515,11 +731,11 @@ if($nkAccessModule === TRUE) {
             break;
 
         case "editGroup":
-            editGroup($_REQUEST['id']);
+            editGroup();
             break;
 
-        case "del_group":
-            del_group($_REQUEST['id']);
+        case "delGroup":
+            delGroup();
             break;
 
         case "sendGroupAdd":
@@ -537,7 +753,7 @@ if($nkAccessModule === TRUE) {
 
 }
 
-else if($nkAccessModule === FALSE) {
+else if($nkAccessModule === false) {
     echo ' <div class="notification error png_bg">
                 <div style="margin:5x;">' . _NOENTRANCE . '</div>
                 <div style="margin:5x;"><a href="javascript:history.back()"><strong>' . _BACK . '</strong></a><div>

@@ -156,15 +156,21 @@ div#userGroup div.quarter { width: 19%; }
 div#userGroup div { width: 100% !important; }
 }
 div#userGroup { display: block; margin: 0; padding: 0 10%; text-align: center; }
-div#userGroup div.three, div#userGroup div.quarter, div#userGroup div.half, div#userGroup div.full { display: inline-block; margin: 0; padding: 5px 0; list-style: none; margin-right: -0.25em; border: 1px solid #ccc; background: #f7f7f7; border-radius: 7px; margin: 10px 1%; }
+div#userGroup div.three, div#userGroup div.quarter, div#userGroup div.half, div#userGroup div.full { display: inline-block; margin: 0; padding: 5px 0; list-style: none; margin-right: -0.25em; border: 1px solid #ccc; background: #f7f7f7; border-radius: 4px; margin: 10px 1%; }
 div#userGroup div.three { width: 26%; }
 div#userGroup div.half { width: 41%; }
-div#userGroup div.half span, div#userGroup .full span, div#userGroup .three span, div#userGroup .quarter span { background: url("../images/bg-content-box.gif") repeat-x scroll left top rgb(229, 229, 229); border-radius: 7px 7px 0 0; display: block; border: 1px solid #fff; padding: 5px auto; text-align: center; color: #555; font-size: 13px; line-height: 20px; font-weight: bold; margin-top: -5px; margin-bottom: 5px; }
+div#userGroup div.half span, div#userGroup .full span, div#userGroup .three span, div#userGroup .quarter > span { background: url("../images/bg-content-box.gif") repeat-x scroll left top rgb(229, 229, 229); border-radius: 4px 4px 0 0; display: block; border: 1px solid #fff; padding: 5px auto; text-align: center; color: #555; font-size: 13px; line-height: 20px; font-weight: bold; margin-top: -5px; margin-bottom: 5px; }
 div#div#userGroup li.half input { display: block; width: 80%; margin: 5px auto; background: #f3f3f3; border: 1px solid #ccc; padding: 2px 5px; }
-div#userGroup div.full { background: url("../images/bg-content-box.gif") repeat-x scroll left top rgb(229, 229, 229); width: 83%; margin: 0 auto; }
+div#userGroup div.full { background: url("../images/bg-content-box.gif") repeat-x scroll left top rgb(229, 229, 229); width: 83%; margin: 10px auto; }
 div#userGroup .full span { border: 0; margin: auto; }
 div#userGroup div.quarter div span.title { width: 75%; display: inline-block; font-weight: normal; margin-top: 3px; background: none; }
-div#userGroup div.quarter div span.input { width: 20%; display: inline-block; vertical-align: middle; margin-top: 3px; background: none; }
+div#userGroup div.quarter div span.input { width: 20%; display: inline-block; vertical-align: middle; margin-top: 3px; background: none;position:relative; }
+div.quarter {vertical-align: top !important;}
+.groupFakeMod{height:44px;vertical-align:top !important;}
+.groupModEnabled{border-bottom:3px solid #009B4E !important;}
+.groupModDisabled{border-bottom:3px solid #A60000 !important;}
+.textModEnabled{display: inline;color:#009B4E;}
+.textModDisabled{display: inline;color:#A60000;}
 .boldCenter { font-weight: bold;text-align: center; }
 .nKcenter { text-align: center; }
 .bold { font-weight: bold; }

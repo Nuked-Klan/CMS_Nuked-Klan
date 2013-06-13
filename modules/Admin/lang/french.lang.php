@@ -472,7 +472,7 @@ define("_NICKTOLONG","Votre pseudo est trop long.");
 define("_NICKINUSE","Ce pseudo est déjà réservé");
 define("_NICKBANNED","Ce pseudo est banni");
 define("_SHARESTATS","Partager vos statistiques");
-define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat."); 
+define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat.");
 define("_SEESHARE","voir les statistiques envoyées");
 define("_SMILEYNOTAUTHORIZE","Le code du smiley n'est pas autorisé, merci de le changer");
 define("_THANKSPARTICIPATION","Merci pour votre participation.");
@@ -491,4 +491,60 @@ A toute l\'équipe nuked-klan.org, ainsi qu\'à sa communauté qui nous a permis de
 <h3>Licence GNU :</h3>
 Merci de ne pas supprimer le <acronym title="Le terme copyleft est un double jeu de mots faisant référence au copyright traditionnel" style="text-decoration: underline">copyleft</acronym> par respect pour le cms et respecter la licence GNU.<br />');
 
+# Page user group
+define("_FUNCDELGROUP","Supprimer ce groupe :");
+define("_MENUADDGROUP","Ajouter un Groupe");
+define("_EDITTHISGROUP","Editer ce groupe");
+define("_DELTHISGROUP","Supprimer ce groupe");
+
+define("_TITLEWORDING","Libellé");
+define("_TITLEDESCGROUP","Description");
+define("_TITLEGESTGROUP","Gestion des Groupe");
+define("_NBUTILISATEURS","Nombre Utilisateurs");
+
+define("_DESCGROUP","Description du groupe");
+define("_LISTMODULE","Liste des modules");
+define("_NAMEGROUP","Nom du groupe");
+define("_COLOR_MOD_ENABLED", "Les modules activés sont en vert");
+define("_COLOR_MOD_DISABLED", "Les modules désactivés sont en rouge");
+
+define("_ACTIONGROUPADD","a ajouté le groupe : ");
+define("_ACTIONGROUPEDIT","a modifié le groupe : ");
+define("_ACTIONGROUPDEL","a supprimé le groupe : ");
+define("_ERRORGROUPEXIST","Le groupe existe déjà");
+
+define("_SUCCESGROUPADD","Groupe ajouté avec succès.");
+define("_SUCCESGROUPEDIT","Groupe modifié avec succès.");
+define("_SUCCESGROUPDEL","Groupe effacé avec succès.");
+define("_ERRORGROUPDEL","Impossible de supprimer ce groupe.");
+define("_ERRORGROUPEDIT","Impossible d'avoir le même nom.");
+
+define("_DESCADMINISTRATOR","Suprême Administrateur");
+define("_DESCMEMBERS","Membres Inscrit");
+
+define("_USERADMINGROUP","Gestion des Groupes");
+define("_GROUPS","Groupes");
+define("_DESCVISITORPADMIN","Visiteur non inscrit");
+define("_VISITOR","Visiteur");
+
+define("_GROUPDISPO","Groupe Disponible");
+define("_GROUPBELONGS","Appartient au groupe");
+define("_GROUPCURRENT","Groupe actuel");
+define("_GROUPACCES","Groupe d'acces");
+define("_GROUPUSE","Groupe d'utilisation");
+define("_GROUPSURVEY","Groupe Sondage");
+define("_GROUPVOTE","Groupe Vote");
+define("_VIEW","Voir");
+
+define("_ACCESMODULE","Accès Module");
+define("_ACCESADMIN","Accès Admin");
+define("_GROUPSMAIN","Groupe Principal");
+define("_DESCINVALID","Description invalide");
+define("_NAMEINVALID","Nom invalide");
+define("_COLORINVALID","Couleur invalide");
+define("_BAD_GROUP_ID","Aucun groupe ne correspond &agrave; cet ID");
+define("_GROUP_NAME_RESERVED", "Ce nom de groupe est r&eacute;serv&eacute;");
+define("_NO_DELETE_GROUP", "Ce groupe ne peut pas &ecirc;tre supprim&eacute;");
+
+define("_ERROR_NO_GROUPNAME", "Vous n'avez pas saisi de nom pour le groupe");
 ?>
