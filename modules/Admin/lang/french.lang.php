@@ -537,7 +537,7 @@ define("_GROUPVOTE","Groupe Vote");
 define("_VIEW","Voir");
 
 define("_ACCESMODULE","Accès Module");
-define("_ACCESADMIN","Accès Admin");
+define("_ACCESADMIN","Administration");
 define("_GROUPSMAIN","Groupe Principal");
 define("_DESCINVALID","Description invalide");
 define("_NAMEINVALID","Nom invalide");

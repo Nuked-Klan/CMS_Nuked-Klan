@@ -145,7 +145,7 @@ if($nkAccessModule === true) {
                         <a href="index.php?file=Admin&amp;page=group&amp;op=mainGroup"><?php echo _TITLEGESTGROUP; ?></a> |
                             </strong><?php echo _MENUADDGROUP; ?>
                     </div>
-                    <form method="post" action="index.php?file=Admin&amp;page=group&amp;op=sendGroupAdd">
+                    <form id="adminGroup" method="post" action="index.php?file=Admin&amp;page=group&amp;op=sendGroupAdd">
                         <div id="userGroup">
                             <div class="three">
                                 <span><?php echo _NAMEGROUP; ?></span>
@@ -182,16 +182,22 @@ if($nkAccessModule === true) {
 <?php
                                 if($module['name'] != 'Users' && $module['name'] != 'Groups'){
 ?>
-                                <div class="tableWidth90 nKcenter">
-                                    <span class="title"><?php echo _ACCESMODULE; ?></span>
-                                    <span class="input"><input name="<?php echo $module['name'].'Access'; ?>" type="checkbox" /></span>
+                                <div class="tableWidth80 nKcenter">
+                                    <label for="<?php echo $module['name'].'Access'; ?>">
+                                        <span class="title"><?php echo _ACCESMODULE; ?></span>
+                                        <input id="<?php echo $module['name'].'Access'; ?>" name="<?php echo $module['name'].'Access'; ?>" type="checkbox" />
+                                        <span class="checkboxSlider"></span>
+                                    </label>
                                 </div>
 <?php
                                 }
 ?>
-                                <div class="tableWidth90 nKcenter <?php echo $class2; ?>">
-                                    <span class="title"><?php echo _ACCESADMIN; ?></span>
-                                    <span class="input"><input name="<?php echo $module['name'].'AccessAdmin'; ?>" type="checkbox" /></span>
+                                <div class="tableWidth80 nKcenter <?php echo $class2; ?>">
+                                    <label for="<?php echo $module['name'].'AccessAdmin'; ?>">
+                                        <span class="title"><?php echo _ACCESADMIN; ?></span>
+                                        <input id="<?php echo $module['name'].'AccessAdmin'; ?>" name="<?php echo $module['name'].'AccessAdmin'; ?>" type="checkbox" />
+                                        <span class="checkboxSlider"></span>
+                                    </label>
                                 </div>
                             </div>
 <?php
@@ -479,16 +485,22 @@ if($nkAccessModule === true) {
 <?php
                                 if($module['name'] != 'Users' && $module['name'] != 'Groups'){
 ?>
-                                <div class="tableWidth90 nKcenter">
-                                    <span class="title">Acc&egrave;s module</span>
-                                    <span class="input"><input <?php echo $disabledAccess . $checkedAcces; ?> name="<?php echo $module['name'].'Access'; ?>" type="checkbox" value="1"></span>
+                            <div class="tableWidth80 nKcenter">
+                                    <label for="<?php echo $module['name'].'Access'; ?>">
+                                        <span class="title"><?php echo _ACCESMODULE; ?></span>
+                                        <input id="<?php echo $module['name'].'Access'; ?>" <?php echo $disabledAccess . $checkedAcces; ?> name="<?php echo $module['name'].'Access'; ?>" type="checkbox" />
+                                        <span class="checkboxSlider"></span>
+                                    </label>
                                 </div>
 <?php
                                 }
 ?>
-                                <div class="tableWidth90 nKcenter <?php echo $class2; ?>">
-                                    <span class="title">Acc&egrave;s Admin </span>
-                                    <span class="input"><input <?php echo $disabledAdmin  . $checkedAdmin; ?> name="<?php echo $module['name'].'AccessAdmin'; ?>" type="checkbox" value="1"></span>
+                                <div class="tableWidth80 nKcenter <?php echo $class2; ?>">
+                                    <label for="<?php echo $module['name'].'AccessAdmin'; ?>">
+                                        <span class="title"><?php echo _ACCESADMIN; ?></span>
+                                        <input id="<?php echo $module['name'].'AccessAdmin'; ?>" <?php echo $disabledAdmin  . $checkedAdmin; ?> name="<?php echo $module['name'].'AccessAdmin'; ?>" type="checkbox" />
+                                        <span class="checkboxSlider"></span>
+                                    </label>
                                 </div>
                             </div>
 <?php
