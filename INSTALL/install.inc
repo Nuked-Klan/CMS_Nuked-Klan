@@ -1156,7 +1156,7 @@
                           `token` varchar(13)  DEFAULT NULL,
                           `token_time` varchar(10) NOT NULL DEFAULT '0',
                           `idGroup` text NOT NULL,
-                          `groupMain` varchar(1) NOT NULL default '2',
+                          `groupMain` varchar(1) NOT NULL default '2'
                           PRIMARY KEY  (`id`),
                           KEY `team` (`team`),
                           KEY `team2` (`team2`),
@@ -1222,16 +1222,16 @@
                           `access` text NOT NULL,
                           `accessAdmin` text NOT NULL,
                           `description` text NOT NULL,
-                          `color` varchar(6) NOT NULL,
+                          `color` varchar(7) NOT NULL
                           PRIMARY KEY  (`id`),
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
 
                         $sql = "INSERT INTO `" . $db_prefix . "_group`
                         VALUES
-                        (0, '_ADMINISTRATOR', '', '', '_DESCADMINISTRATOR', '#000000'),
-                        (1, '_MEMBERS', 'News|Forum|Wars|Irc|Survey|Links|Server|Gallery|Guestbook|Suggest|Textbox|Calendar|Members|Team|Defy|Recruit|Comment|Vote|Stats|Contact', '', '_DESCMEMBERS', '#000000'),
-                        (2, '_VISITOR', 'News|Forum|Wars|Irc|Survey|Links|Server|Download|Gallery|Suggest|Textbox|Calendar|Team|Defy|Recruit|Comment|Vote|Stats|Contact', '', '_DESCVISITORPADMIN', '#000000');";
+                        ('', '_ADMINISTRATOR', '', '', '_DESCADMINISTRATOR', '#B70000'),
+                        ('', '_MEMBERS', 'News|Forum|Wars|Irc|Survey|Links|Server|Gallery|Guestbook|Suggest|Textbox|Calendar|Members|Team|Defy|Recruit|Comment|Vote|Stats|Contact', '', '_DESCMEMBERS', '#0071E1'),
+                        ('', '_VISITOR', 'News|Forum|Wars|Irc|Survey|Links|Server|Download|Gallery|Suggest|Textbox|Calendar|Team|Defy|Recruit|Comment|Vote|Stats|Contact', '', '_DESCVISITORPADMIN', '');";
                         $req = mysql_query($sql) or die (mysql_error());
 
                         echo 'OK';
