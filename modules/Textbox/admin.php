@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -10,7 +10,7 @@
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+}
 
 global $user, $language;
 translate("modules/Textbox/lang/" . $language . ".lang.php");
@@ -20,11 +20,11 @@ admintop();
 if (!$user)
 {
     $visiteur = 0;
-} 
+}
 else
 {
-    $visiteur = $user[1];
-} 
+    $visiteur = $GLOBALS['user']['idGroup'];
+}
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 if ($visiteur >= $level_admin && $level_admin > -1)
@@ -50,7 +50,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<tr><td align=\"center\"><input type=\"hidden\" name=\"mid\" value=\"" . $mid . "\" />&nbsp;</td></tr>\n"
 	. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIF . "\" /></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function modif_shout($mid, $texte)
     {
@@ -62,7 +62,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		// Action
 		$texteaction = "". _ACTIONMODIFSHO .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
@@ -70,7 +70,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		. "</div>\n"
 		. "</div>\n";
         redirect("index.php?file=Textbox&page=admin", 2);
-    } 
+    }
 
     function del_shout($mid)
     {
@@ -80,7 +80,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		// Action
 		$texteaction = "". _ACTIONDELSHO .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
@@ -88,7 +88,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		. "</div>\n"
 		. "</div>\n";
         redirect("index.php?file=Textbox&page=admin", 2);
-    } 
+    }
 
     function del_all_shout()
     {
@@ -98,7 +98,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		// Action
 		$texteaction = "". _ACTIONALLDELSHO .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
@@ -106,7 +106,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		. "</div>\n"
 		. "</div>\n";
         redirect("index.php?file=Textbox&page=admin", 2);
-    } 
+    }
 
     function main()
     {
@@ -150,7 +150,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         if ($count > $nb_mess_guest)
         {
             number($count, $nb_mess_guest, "index.php?file=Textbox&page=admin");
-        } 
+        }
 
         echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 	. "<tr>\n"
@@ -172,22 +172,22 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             . "<td style=\"width: 25%;\" align=\"center\">" . $ip . "</td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISMESS . "\" /></a></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISMESS . "\" /></a></td></tr>\n";
-        } 
+        }
 
         if ($count == "0")
         {
             echo "<tr><td align=\"center\" colspan=\"5\">" . _NOMESS . "</td></tr>\n";
-        } 
+        }
 
         echo "</table>";
 
         if ($count > $nb_mess_guest)
         {
             number($count, $nb_mess_guest, "index.php?file=Textbox&amp;page=admin");
-        } 
+        }
 
         echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function main_pref()
     {
@@ -219,7 +219,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<tr><td>" . _NUMBERSHOUT . " :</td><td> <input type=\"text\" name=\"max_shout\" size=\"2\" value=\"" . $nuked['max_shout'] . "\" /></td></tr>\n"
 	. "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function change_pref($max_shout)
     {
@@ -229,7 +229,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		// Action
 		$texteaction = "". _ACTIONCONFSHO .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
@@ -237,7 +237,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		. "</div>\n"
 		. "</div>\n";
         redirect("index.php?file=Textbox&page=admin", 2);
-    } 
+    }
 
     switch ($_REQUEST['op'])
     {
@@ -268,8 +268,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         default:
             main();
             break;
-    } 
-} 
+    }
+}
 else if ($level_admin == -1)
 {
     echo "<div class=\"notification error png_bg\">\n"

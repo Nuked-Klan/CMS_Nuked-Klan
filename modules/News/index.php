@@ -16,10 +16,10 @@ translate('modules/News/lang/' . $language . '.lang.php');
 include_once 'Includes/nkCaptcha.php';
 
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $user[1] > 0)) $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $GLOBALS['user']['idGroup'] > 0)) $captcha = 0;
 else $captcha = 1;
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -271,7 +271,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
               <table style="margin:0 auto;text-align:left;" width="60%" cellspacing="1" cellpadding="1" border="0">
               <tr><td align="center"><br /><big><b>'._FSEND.'</b></big><br /><br />'._YOUSUBMIT.' :<br /><br />
               <b>'.$title.'</b><br /><br /></td></tr><tr><td align="left">
-              <b>'._YNICK.' : </b>&nbsp;<input type="text" id="sf_pseudo" name="pseudo" value=""'.$user[2].'" size="20" /></td></tr>
+              <b>'._YNICK.' : </b>&nbsp;<input type="text" id="sf_pseudo" name="pseudo" value=""'.$GLOBALS['user']['nickName'].'" size="20" /></td></tr>
               <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
               <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
 
@@ -286,7 +286,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
     }
 
     function sendnews($title, $news_id, $comment, $mail, $pseudo) {
-        global $nuked, $captcha,$user_ip;
+        global $nuked, $captcha,$userIp;
 
         opentable();
 
@@ -300,7 +300,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $pseudo = trim($pseudo);
 
             $subject = $nuked['name'].', '.$date2;
-            $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
+            $corps = $pseudo." (IP : $userIp) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
             $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
 
             $subject = @nkHtmlEntityDecode($subject);

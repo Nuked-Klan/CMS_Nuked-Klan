@@ -19,7 +19,7 @@ if (!$user)
 }
 else
 {
-    $visiteur = $user[1];
+    $visiteur = $GLOBALS['user']['idGroup'];
 }
 
 if ($visiteur >= 2)
@@ -31,7 +31,7 @@ if ($visiteur >= 2)
 		if ($_REQUEST['texte'] != "" AND $_REQUEST['type'] != "" AND $_REQUEST['type'] != "0")
 		{
 			$_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
-			
+
 			$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '".mysql_real_escape_string(stripslashes($_REQUEST['type']))."', '".mysql_real_escape_string(stripslashes($_REQUEST['texte']))."')");
 			echo _THANKSPARTICIPATION;
 		}
@@ -44,7 +44,7 @@ if ($visiteur >= 2)
 	function delete()
 	{
 		global $nuked, $visiteur, $user;
-		
+
 		if ($visiteur == "9" AND $_REQUEST['id'] != "")
 		{
 			$_REQUEST['id'] = mysql_real_escape_string(stripslashes($_REQUEST['id']));
@@ -52,7 +52,7 @@ if ($visiteur >= 2)
 			// Action
 			$texteaction = "". _ACTIONDELNOT .".";
 			$acdate = time();
-			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 			//Fin action
 		}
 	}

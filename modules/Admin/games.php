@@ -13,7 +13,7 @@ global $user, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 if ($visiteur == 9)
 {
@@ -175,7 +175,7 @@ if ($visiteur == 9)
         // Action
 		$texteaction = _ACTIONADDGAME . ': ' . $nom;
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 
 		echo "<div class=\"notification success png_bg\">\n"
@@ -316,7 +316,7 @@ if ($visiteur == 9)
         // Action
 		$texteaction = _ACTIONMODIFGAME . ': ' . $nom;
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 
 		echo "<div class=\"notification success png_bg\">\n"
@@ -339,7 +339,7 @@ if ($visiteur == 9)
 		// Action
 		$texteaction = "". _ACTIONDELGAME .": ".$name."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 
 		echo "<div class=\"notification success png_bg\">\n"

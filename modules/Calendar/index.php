@@ -11,7 +11,7 @@ defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open t
 
 global $language, $user;
 translate("modules/Calendar/lang/" . $language . ".lang.php");
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 
@@ -397,9 +397,9 @@ function show_event(){
 		echo "</td></tr><tr><td>&nbsp;</td></tr>\n";
 
 		if($user && $etat != 1){
-			$sql_dispo = mysql_query("SELECT team FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+			$sql_dispo = mysql_query("SELECT team FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
 			list($user_team) = mysql_fetch_array($sql_dispo);
-			if ($user_team > 0 || $user[1] > 1) dispo($warid, $_REQUEST['type']);
+			if ($user_team > 0 || $GLOBALS['user']['idGroup'] > 1) dispo($warid, $_REQUEST['type']);
 		}
 
 		echo "</table><div style=\"text-align: center;\"><a href=\"#\" onclick=\"self.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
@@ -443,7 +443,7 @@ function dispo($warid, $type){
 	$pseudos = explode('|', $actual_dispo);
 
 	for($i = 0;$i <= $nb_dispo;$i++){
-		if ($pseudos[$i] == $user[0]) $selected = 1;
+		if ($pseudos[$i] == $GLOBALS['user']['id']) $selected = 1;
 		$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos[$i] . "'");
 		list($pseudo) = mysql_fetch_array($sql2);
 		if ($i > 0) echo ", ";
@@ -456,14 +456,14 @@ function dispo($warid, $type){
 	$pseudos2 = explode('|', $not_dipso);
 
 	for($l = 0;$l <= $nb_no_dispo;$l++){
-		if ($pseudos2[$l] == $user[0]) $selected = 1;
+		if ($pseudos2[$l] == $GLOBALS['user']['id']) $selected = 1;
 		$sql3 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos2[$l] . "'");
 		list($pseudo2) = mysql_fetch_array($sql3);
 		if ($l > 0) echo ", ";
 		echo "<b>" . $pseudo2 . "</b>";
 	}
 
-	if ($selected != "1" && !empty($user[0])){
+	if ($selected != "1" && !empty($GLOBALS['user']['id'])){
 		echo "</small><form method=\"post\" action=\"index.php?file=Calendar&amp;nuked_nude=index&amp;op=add_dispo&amp;war_id=" . $warid . "\">\n"
 		. "<div style=\"text-align: center;\"><select name=\"dispo\">\n"
 		. "<option value=\"1\">" . _IPLAY . "</option>\n"
@@ -486,8 +486,8 @@ function add_dispo($dispo){
 	if ($data['dispo'] != "") $sep1 = "|";
 	if ($data['pas_dispo'] != "") $sep2 = "|";
 
-	$new_dispo = $data['dispo'] . $sep1 . $user[0];
-	$new_pas_dispo = $data['pas_dispo'] . $sep2 . $user[0];
+	$new_dispo = $data['dispo'] . $sep1 . $GLOBALS['user']['id'];
+	$new_pas_dispo = $data['pas_dispo'] . $sep2 . $GLOBALS['user']['id'];
 
 	if ($dispo == 1) $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] . "'";
 	else if ($dispo == 2) $sql = "UPDATE " . WARS_TABLE . " SET pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] ."'";
@@ -515,10 +515,10 @@ function del_dispo(){
 	$data = mysql_fetch_array($req);
 
 	$list = explode("|", $data['dispo']);
-	$new_dispo = cleanList($user[0], $list);
+	$new_dispo = cleanList($GLOBALS['user']['id'], $list);
 
 	$list = explode("|", $data['pas_dispo']);
-	$new_pas_dispo = cleanList($user[0], $list);
+	$new_pas_dispo = cleanList($GLOBALS['user']['id'], $list);
 
 	$sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "', pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] . "'";
 	mysql_query($sql);

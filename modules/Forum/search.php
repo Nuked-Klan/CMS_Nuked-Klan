@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -10,7 +10,7 @@
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+}
 
 global $nuked, $language;
 
@@ -22,11 +22,11 @@ opentable();
 if (!$user)
 {
     $visiteur = 0;
-} 
+}
 else
 {
-    $visiteur = $user[1];
-} 
+    $visiteur = $GLOBALS['user']['idGroup'];
+}
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
@@ -74,7 +74,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $req = "SELECT M.id, M.auteur, M.auteur_id, M.titre, M.txt, M.thread_id, M.forum_id, M.date FROM " . FORUM_MESSAGES_TABLE . " " . $where . " M.date > '" . $_REQUEST['date_max'] . "' ORDER BY M.date DESC";
             $result = mysql_query($req);
-        } 
+        }
         else if (($_REQUEST['query'] != "" && strlen($_REQUEST['query']) < 3) || ($_REQUEST['autor'] != "" && strlen($_REQUEST['autor']) < 3))
         {
             echo "<br /><br /><div style=\"text-align: center;\">" . _3CHARSMIN . "</div><br /><br />";
@@ -82,20 +82,20 @@ if ($visiteur >= $level_access && $level_access > -1)
             closetable();
             footer();
             exit();
-        } 
+        }
 
         else if ($_REQUEST['query'] != "" || $_REQUEST['autor'] != "")
         {
             $and = "";
 
             if ($_REQUEST['autor'] != "" && $_REQUEST['query'] != "")
-            { 
+            {
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
                 $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%') AND ";
             }
             else if ($_REQUEST['autor'] != "")
-            { 
+            {
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
                 $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%')";
@@ -106,16 +106,16 @@ if ($visiteur >= $level_access && $level_access > -1)
                 if ($_REQUEST['into'] == "message")
                 {
                     $and .= "(M.txt LIKE '%" . $_REQUEST['query'] . "%')";
-                } 
+                }
                 else if ($_REQUEST['into'] == "subject")
                 {
                     $and .= "(M.titre LIKE '%" . $_REQUEST['query'] . "%')";
-                } 
+                }
                 else
                 {
                     $and .= "(M.txt LIKE '%" . $_REQUEST['query'] . "%' OR M.titre LIKE '%" . $_REQUEST['query'] . "%')";
-                } 
-            } 
+                }
+            }
             else if ($_REQUEST['query'] != "")
             {
                 $search = explode(" ", $_REQUEST['query']);
@@ -126,24 +126,24 @@ if ($visiteur >= $level_access && $level_access > -1)
                     if ($_REQUEST['into'] == "message")
                     {
                         $and .= $sep . "M.txt LIKE '%" . $search[$i] . "%'";
-                    } 
+                    }
                     else if ($_REQUEST['into'] == "subject")
                     {
                         $and .= $sep . "M.titre LIKE '%" . $search[$i] . "%'";
-                    } 
+                    }
                     else
                     {
                         $and .= $sep . "(M.txt LIKE '%" . $search[$i] . "%' OR M.titre LIKE '%" . $search[$i] . "%')";
-                    } 
+                    }
                     if ($_REQUEST['searchtype'] == "matchor") $sep = " OR ";
                     else $sep = " AND ";
-                } 
+                }
                 $and .= ")";
-            } 
+            }
 
             $req = "SELECT M.id, M.auteur, M.auteur_id, M.titre, M.txt, M.thread_id, M.forum_id, M.date FROM " . FORUM_MESSAGES_TABLE . " " . $where . " " . $and . " ORDER BY M.date DESC";
             $result = mysql_query($req);
-        } 
+        }
         else
         {
             echo"<br /><br /><div style=\"text-align: center;\">" . _NOWORDSTOSEARCH . "</div><br /><br />";
@@ -151,14 +151,14 @@ if ($visiteur >= $level_access && $level_access > -1)
             closetable();
             footer();
             exit();
-        } 
+        }
 
         $nb_result = mysql_num_rows($result);
 
         echo "<br /><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
     . "<tr><td><big><b>" . _FSEARCHRESULT . "</b></big> - " . $nb_result . "&nbsp;" . _FSEARCHFOUND . "</td></tr>\n"
     . "<tr><td><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=search\"><b>" . _SEARCH . "</b></a></td></tr></table>\n";
-    
+
     $url = "index.php?file=Forum&amp;page=search&amp;op=" . $op . "&amp;query=" . urlencode($_REQUEST['query']) . "&amp;autor=" . urlencode($_REQUEST['autor']) . "&amp;do=" . $_REQUEST['do'] . "&amp;into=" . $_REQUEST['into'] . "&amp;searchtype=" . $_REQUEST['searchtype'] . "&amp;id_forum=" . $_REQUEST['id_forum'] . "&amp;limit=" . $_REQUEST['limit'] . "&amp;date_max=" . $_REQUEST['date_max'];
         if ($nb_result > $_REQUEST['limit']) number($nb_result, $_REQUEST['limit'], $url);
 
@@ -189,16 +189,16 @@ if ($visiteur >= $level_access && $level_access > -1)
                     if (!preg_match("`[a-zA-Z0-9\?\.]`", $texte))
                     {
                         $texte = _NOTEXTRESUME;
-                    } 
+                    }
 
                     if (strlen($texte) > 150)
                     {
                         $texte = substr($texte, 0, 150) . "...";
-                    } 
+                    }
 
                     $texte = nk_CSS($texte);
                     $texte = nkHtmlEntities($texte);
-                    
+
                     $sql_page = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
                     $nb_rep = mysql_num_rows($sql_page);
 
@@ -207,20 +207,20 @@ if ($visiteur >= $level_access && $level_access > -1)
                         $topicpages = $nb_rep / $nuked['mess_forum_page'];
                         $topicpages = ceil($topicpages);
                         $page_num = "&amp;p=" . $topicpages . "#" . $mess_id;
-                    } 
+                    }
                     else
                     {
                         $page_num = "#" . $mess_id;
-                    } 
+                    }
 
                     if (strlen($titre) > 30)
                     {
                         $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . nkHtmlEntities(substr($titre, 0, 30)) . "...</b></a>";
-                    } 
+                    }
                     else
                     {
                         $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . $title . "</b></a>";
-                    } 
+                    }
 
                     if ($auteur_id != "")
                     {
@@ -231,16 +231,16 @@ if ($visiteur >= $level_access && $level_access > -1)
                         if ($test > 0 && $autors != "")
                         {
                             $author = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($autors) . "\">" . $autors . "</a>";
-                        } 
+                        }
                         else
                         {
                             $author = $auteur;
-                        } 
-                    } 
+                        }
+                    }
                     else
                     {
                         $author = $auteur;
-                    } 
+                    }
 
 
                     if ($visiteur >= $forum_level)
@@ -250,10 +250,10 @@ if ($visiteur >= $level_access && $level_access > -1)
                         . "<td style=\"width: 30%;\" align=\"center\">" . $titre_topic . "</td>\n"
                         . "<td style=\"width: 25%;\" align=\"center\">" . $author . "</td>\n"
                         . "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td></tr>\n";
-                    } 
-                } 
-            } 
-        } 
+                    }
+                }
+            }
+        }
         else
         {
             $rquery = printSecutags($_REQUEST['query']);
@@ -263,22 +263,22 @@ if ($visiteur >= $level_access && $level_access > -1)
             if ($_REQUEST['query'] != "")
             {
                 $result = _FNOSEARCHFOUND . " <b><i>" . $rquery . "</i></b>";
-            } 
+            }
             else if ($_REQUEST['autor'] != "")
             {
                 $result = _FNOSEARCHFOUND . " <b><i>" . printSecutags($_REQUEST['autor']) . "</i></b>";
-            } 
+            }
             else if ($_REQUEST['date_max'] != "" && !preg_match("`[^0-9]`i", $_REQUEST['date_max']))
             {
                 $result = _FNOLASTVISITMESS;
-            } 
+            }
             else
             {
                 $result = _FNOSEARCHRESULT;
-            } 
+            }
 
             echo "<tr style=\"background: " . $color2 . ";\"><td align=\"center\" colspan=\"4\">" . $result . "</td></tr>\n";
-        } 
+        }
 
         echo "</table>\n";
 
@@ -292,7 +292,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         . "<input type=\"hidden\" name=\"do\" value=\"search\" />\n"
         . "<input type=\"hidden\" name=\"into\" value=\"all\" />\n"
         . "<b>" . _SEARCH . " :</b> <input type=\"text\" name=\"query\" size=\"25\" />&nbsp;<input type=\"submit\" value=\"" . _SEND . "\" /></div></form><br />\n";
-    } 
+    }
     else
     {
         echo "<script type=\"text/javascript\">\n"
@@ -328,28 +328,28 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $forum_name = nkHtmlEntities($forum_name);
 
                 echo "<option value=\"" . $fid . "\">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
-            } 
-        } 
+            }
+        }
 
         echo "</select></td></tr>\n"
     . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _SEARCHINTO . " :</b></td><td>&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"subject\" />" . _SUBJECTS . "&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"message\" />" . _MESSAGES . "&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"all\" checked=\"checked\" />" . _BOTH . "</td></tr>\n"
     . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _NBANSWERS . " :</b></td><td>&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"limit\" value=\"10\" />10 &nbsp;<input type=\"radio\" name=\"limit\" class=\"checkbox\" value=\"50\" checked=\"checked\" />50&nbsp;<input type=\"radio\" name=\"limit\" class=\"checkbox\" value=\"100\" />100</td></tr>\n"
     . "<tr style=\"background: " . $color2 . ";\"><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . _SEARCHING . "\" /></td></tr></table></form><br />\n";
-    } 
+    }
 
-} 
+}
 else if ($level_access == -1)
 {
     echo "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />";
-} 
+}
 else if ($level_access == 1 && $visiteur == 0)
 {
     echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b></div><br /><br />";
-} 
+}
 else
 {
     echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />";
-} 
+}
 
 closetable();
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -13,7 +13,7 @@ translate("modules/Irc/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 admintop();
 
-$visiteur = !$user ? 0 : $user[1];
+$visiteur = !$user ? 0 : $GLOBALS['user']['idGroup'];
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 if ($visiteur >= $level_admin && $level_admin > -1){
@@ -55,7 +55,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             if (strlen($text) > 50){
                 $texte = substr($text, 0, 50) . "...";
 				$texte = nkHtmlEntities($texte);
-            } 
+            }
             else{
                 $texte = $text;
             }
@@ -66,14 +66,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 					. "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Irc&amp;page=admin&amp;op=edit&amp;irc_id=" . $irc_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISAWARD . "\" /></a></td>\n"
 					. "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_irc('" . $irc_id . "','" . $irc_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISAWARD . "\" /></a></td></tr>\n";
 
-        } 
+        }
 
         if ($count == 0){
             echo "<tr><td colspan=\"4\" align=\"center\">" . _NOAWARD . "</td></tr>\n";
         }
-		
+
         echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function add(){
         global $language;
@@ -92,7 +92,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				. "<tr><td align=\"center\"><textarea class=\"editor\" name=\"text\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
 				. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _ADDTHISAWARD . "\" /></div>\n"
 				. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Irc&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function do_add($text){
         global $nuked, $user;
@@ -102,25 +102,25 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $text = mysql_real_escape_string(stripslashes($text));
 
         $sql = mysql_query("INSERT INTO " . IRC_AWARDS_TABLE . " ( `id` , `text` , `date` ) VALUES ( '' , '" . $text . "' , '" . $date . "' )");
-		
+
 		// Action
 		$texteaction = "". _ACTIONADDIRC .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 				. "<div>\n"
 				. "" . _AWARDADD . "\n"
 				. "</div>\n"
 				. "</div>\n";
-				
+
 		 echo "<script>\n"
 				."setTimeout('screen()','3000');\n"
 				."function screen() { \n"
 				."screenon('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');\n"
 				."}\n"
 				."</script>\n";
-    } 
+    }
 
     function edit($irc_id){
         global $nuked, $language;
@@ -139,7 +139,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				. "<tr><td align=\"center\"><textarea  class=\"editor\" name=\"text\" cols=\"60\" rows=\"10\">" . $text . "</textarea></td></tr></table>\n"
 				. "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"irc_id\" value=\"" . $irc_id . "\" /><input type=\"submit\" value=\"" . _MODIFTHISAWARD . "\" /></div>\n"
 				. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Irc&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function do_edit($irc_id, $text){
         global $nuked, $user;
@@ -151,21 +151,21 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 		// Action
 		$texteaction = "". _ACTIONMODIFIRC .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 				. "<div>\n"
 				. "" . _AWARDMODIF . "\n"
 				. "</div>\n"
 				. "</div>\n";
-				
+
         echo "<script>\n"
 				."setTimeout('screen()','3000');\n"
 				."function screen() { \n"
 				."screenon('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');\n"
 				."}\n"
 				."</script>\n";
-    } 
+    }
 
     function del($irc_id){
         global $nuked, $user;
@@ -174,7 +174,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 		// Action
 		$texteaction = "". _ACTIONDELIRC .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 				. "<div>\n"
@@ -187,7 +187,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				."screenon('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');\n"
 				."}\n"
 				."</script>\n";
-    } 
+    }
 
     function main_pref(){
         global $nuked, $language;
@@ -206,7 +206,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				. "<tr><td><b>" . _IRCHAN . " : #</b><input type=\"text\" name=\"irc_chan\" size=\"15\" value=\"" . $nuked['irc_chan'] . "\" /> <b>" . _IRCSERV . " :</b> <input type=\"text\" name=\"irc_serv\" size=\"20\" value=\"" . $nuked['irc_serv'] . "\" /></td></tr>\n"
 				. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
 				. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Irc&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function change_pref($irc_chan, $irc_serv){
         global $nuked, $user;
@@ -216,16 +216,16 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 		// Action
 		$texteaction = "". _ACTIONPREFIRC .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 				. "<div>\n"
 				. "" . _PREFUPDATED . "\n"
 				. "</div>\n"
 				. "</div>\n";
-				
+
         redirect("index.php?file=Irc&page=admin", 2);
-    } 
+    }
 
     switch ($_REQUEST['op']){
         case "add":
@@ -259,8 +259,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         default:
             main();
             break;
-    } 
-} 
+    }
+}
 else if ($level_admin == -1){
     echo "<div class=\"notification error png_bg\">\n"
 			. "<div>\n"

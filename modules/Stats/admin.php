@@ -14,7 +14,7 @@ global $user, $nuked, $language;
 translate('modules/Stats/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
@@ -212,7 +212,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         // Action
         $texteaction = _ACTIONDELSTATS;
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
 
         echo "<div class=\"notification success png_bg\">\n"
@@ -223,7 +223,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         redirect("index.php?file=Stats&page=admin", 2);
     }
-    
+
     switch($_REQUEST['op'])
     {
         case "del":
@@ -246,7 +246,7 @@ else if ($level_admin == -1){
     . "</div>\n"
     . "</div>\n";
     adminfoot();
-} 
+}
 else if ($visiteur > 1){
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
@@ -254,7 +254,7 @@ else if ($visiteur > 1){
     . "</div>\n"
     . "</div>\n";
     adminfoot();
-} 
+}
 else
 {
     echo "<div class=\"notification error png_bg\">\n"

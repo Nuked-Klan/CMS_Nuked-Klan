@@ -12,7 +12,6 @@ if (!defined("INDEX_CHECK")){
 }
 
 function affich_block_language($blok){
-    global $cookie_langue;
 
     $blok['content'] .= "<form method=\"post\" action=\"index.php?file=User&amp;nuked_nude=index&amp;op=modif_langue\">\n"
     . "<div style=\"text-align: center;\"><select name=\"user_langue\" onchange=\"submit();\">\n"
@@ -22,8 +21,8 @@ function affich_block_language($blok){
         while (false !== ($f = readdir($rep))){
             if ($f != '..' && $f != '.' && $f != 'index.html'){
 				list ($langfile, ,) = explode ('.', $f);
-				
-                if ($cookie_langue == $langfile){
+
+                if ($GLOBALS['cookieLang'] == $langfile){
                     $checked = 'selected="selected"';
                 }
                 else{

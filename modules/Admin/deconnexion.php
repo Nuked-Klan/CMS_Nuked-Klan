@@ -20,21 +20,21 @@ if ($nkAccessModule === true)
     function main()
     {
         global $user, $nuked;
-		
+
 		$_SESSION['admin'] = false;
-		
+
 		?>
-		
+
 			<!-- Page Head -->
-			<h2><?php echo _BIENTOT; ?> <?php echo $user[2]; ?></h2>
-			
-			<?php 
+			<h2><?php echo _BIENTOT; ?> <?php echo $GLOBALS['user']['nickName']; ?></h2>
+
+			<?php
 			if ($_SESSION['admin'] == false)
 			{
 			// Action
 			$texteaction = _ACTIONDECONNECT;
 			$acdate = time();
-			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 			//Fin action
 			?>
 			<div class="notification success png_bg">

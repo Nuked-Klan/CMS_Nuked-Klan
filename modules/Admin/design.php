@@ -16,8 +16,6 @@ function admintop(){
     global $user, $nuked, $language;
     translate("modules/Admin/lang/$language.lang.php");
 
-    $nkAccessModule = nkAccessModule('Admin', $user[1], FALSE);
-
     $condition_js = ($nuked['screen']) == 'off' ? 1 : 0;
 
     // Tableau associé au condition sur la class du menu de navigation
@@ -102,7 +100,7 @@ function admintop(){
                 <!-- Sidebar Profile links -->
                 <div id="profile-links">
                     <?php echo _BONJOUR; ?>
-                    <a href="index.php?file=User" title="<?php echo _EDIT; ?>"><?php echo $user[2];?></a>,
+                    <a href="index.php?file=User" title="<?php echo _EDIT; ?>"><?php echo $GLOBALS['user']['nickName'];?></a>,
                     <?php echo _VOIR; ?>
                     <a href="#messages" rel="modal"><?php echo _MESSAGES; ?></a><br /><br />
                     <?php if ($nuked['screen'] == "on") : ?>

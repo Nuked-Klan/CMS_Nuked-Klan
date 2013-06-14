@@ -16,8 +16,8 @@ global $user, $language;
 translate("modules/Calendar/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 admintop();
- 
-$visiteur = (!$user) ? 0 : $user[1];
+
+$visiteur = (!$user) ? 0 : $GLOBALS['user']['idGroup'];
 
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
@@ -121,12 +121,12 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $description = nkHtmlEntityDecode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
-        
-        $sql = mysql_query("INSERT INTO " . CALENDAR_TABLE . " ( `id` , `titre` , `description` , `date_jour` , `date_mois` , `date_an` , `heure` , `auteur` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $date_jour . "' , '" . $date_mois . "' , '" . $date_an . "' , '" . $heure . "' , '" . $user[2] . "' )");
+
+        $sql = mysql_query("INSERT INTO " . CALENDAR_TABLE . " ( `id` , `titre` , `description` , `date_jour` , `date_mois` , `date_an` , `heure` , `auteur` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $date_jour . "' , '" . $date_mois . "' , '" . $date_an . "' , '" . $heure . "' , '" . $GLOBALS['user']['nickName'] . "' )");
        // Action
         $texteaction = "". _ACTIONADDCAL .": ".$titre."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -176,12 +176,12 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $description = nkHtmlEntityDecode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
-        
+
         $upd = mysql_query("UPDATE " . CALENDAR_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', date_jour = '" . $date_jour . "', date_mois = '" . $date_mois . "', date_an = '" . $date_an . "', heure = '" . $heure . "' WHERE id = '" . $eid . "'");
         // Action
         $texteaction = "". _ACTIONMODIFCAL .": ".$titre."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -208,7 +208,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         // Action
         $texteaction = "". _ACTIONDELCAL .": ".$titre."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -283,7 +283,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         // Action
         $texteaction = "". _ACTIONPREFUPCAL .".";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"

@@ -63,7 +63,7 @@ function index(){
             $perm = nivo_mod($mod);
             if (!$perm) $perm = 0;
 
-            if (($user && $user[1] >= $perm) && $perm > -1){
+            if (($user && $GLOBALS['user']['idGroup'] >= $perm) && $perm > -1){
                 $umod = strtoupper($mod);
                 $modname = "_S" . $umod;
                 if (defined($modname)) $modname = constant($modname);
@@ -147,7 +147,7 @@ function mod_search(){
                 $perm = nivo_mod($mod);
                 if (!$perm) $perm = 0;
 
-                if (($user && $user[1] >= $perm) && $perm > -1 && ($module == $mod || $module == "")){
+                if (($user && $GLOBALS['user']['idGroup'] >= $perm) && $perm > -1 && ($module == $mod || $module == "")){
                     $umod = strtoupper($mod);
                     $modname = "_S" . $umod;
                     if (defined($modname)) $modname = constant($modname);

@@ -11,7 +11,7 @@ defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">You cannot op
 global $language, $user;
 translate("modules/Download/lang/" . $language . ".lang.php");
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 $sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid='$bid'");
 list($active) = mysql_fetch_array($sql2);

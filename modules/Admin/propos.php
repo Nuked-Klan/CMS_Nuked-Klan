@@ -13,7 +13,7 @@ global $user, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 admintop();
 

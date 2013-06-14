@@ -86,7 +86,7 @@ function top(){
                                                                         <a href="index.php?file=User&amp;op=reg_screen"><?php echo _ININSCRIPT; ?></a>
 <?php
                                                                         }
-                                                                        elseif ($user[1] > 2){
+                                                                        elseif ($GLOBALS['user']['idGroup'] > 2){
 ?>
                                                                         <a href="index.php?file=Admin"><?php echo _INADMIN; ?></a>
 <?php

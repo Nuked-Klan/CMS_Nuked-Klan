@@ -17,7 +17,7 @@ translate("modules/Guestbook/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 admintop();
 
-$visiteur = (!$user) ? 0 : $user[1];
+$visiteur = (!$user) ? 0 : $GLOBALS['user']['idGroup'];
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 if ($visiteur >= $level_admin && $level_admin > -1)
@@ -64,7 +64,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         // Action
         $texteaction = "". _ACTIONMODIFBOOK .".";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -89,7 +89,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         // Action
         $texteaction = "". _ACTIONDELBOOK .".";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -212,7 +212,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         // Action
         $texteaction = "". _ACTIONPREFBOOK .".";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"

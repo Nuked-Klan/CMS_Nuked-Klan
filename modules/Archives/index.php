@@ -19,7 +19,7 @@ compteur("Archives");
 
 opentable();
 
-$visiteur = (!$user) ? 0 : $user[1];
+$visiteur = (!$user) ? 0 : $GLOBALS['user']['idGroup'];
 $level_access = nivo_mod("News");
 if ($visiteur >= $level_access && $level_access > -1)
 {

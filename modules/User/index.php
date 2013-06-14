@@ -9,9 +9,8 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $language, $user, $cookie_captcha;
+global $language, $user;
 translate('modules/User/lang/' . $language . '.lang.php');
-translate('modules/Members/lang/' . $language . '.lang.php');
 
 // Inclusion système Captcha
 include_once('Includes/nkCaptcha.php');
@@ -19,7 +18,7 @@ include_once('Includes/hash.php');
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $user[1] > 0))  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $GLOBALS['user']['idGroup'] > 0))  $captcha = 0;
 else $captcha = 1;
 
 function index(){
@@ -35,7 +34,7 @@ function index(){
                 . '<a href="index.php?file=User&amp;op=change_theme">' . _THEMESELECT . '</a> | ',"\n"
                 . '<a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout">' . _USERLOGOUT . '</a></b></div><br />',"\n";
 
-        $sql3 = mysql_query('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $user[0] . '"');
+        $sql3 = mysql_query('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $GLOBALS['user']['id'] . '"');
         $user_data = mysql_fetch_array($sql3);
 
         $last_used = $user_data['last_used'] > 0 ? nkDate($user_data['last_used']) : 'N/A';
@@ -59,10 +58,10 @@ function index(){
                 . '<table style="margin: auto;text-align: left;background: ' . $bgcolor2 . ';border: 1px solid ' . $bgcolor3 . '" width="75%" cellpadding="2" cellspacing="1">',"\n"
                 . '<tr style="background: '. $bgcolor3 . '"><td align="center"><b>' . _MESSPV . '</b></td></tr>',"\n";
 
-        $sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = "' . $user[0] . '" AND status = 1');
+        $sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = "' . $GLOBALS['user']['id'] . '" AND status = 1');
         $nb_mess_lu = mysql_num_rows($sql2);
 
-        $msg_not_read = ($user[5] > 0) ? '<a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>' : '<b>' . $user[5] . '</b>';
+        $msg_not_read = ($GLOBALS['user']['nbMess'] > 0) ? '<a href="index.php?file=Userbox"><b>' . $GLOBALS['user']['nbMess'] . '</b></a>' : '<b>' . $GLOBALS['user']['nbMess'] . '</b>';
 
         echo '<tr style="background: ' . $bgcolor2 . '"><td>' . _NOTREAD . ' : ' . $msg_not_read . '</td></tr>',"\n";
 
@@ -77,10 +76,10 @@ function index(){
                 . '<table style="margin: auto;text-align: left;background: ' . $bgcolor2 . ';border: 1px solid ' . $bgcolor3 . '" width="75%" cellpadding="2" cellspacing="1">',"\n"
                 . '<tr style="background: '. $bgcolor3 . '"><td align="center"><b>' . _NAME . '</b></td><td align="center"><b>' . _COUNT . '</b></td></tr>',"\n";
 
-        $sql4 = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "'");
+        $sql4 = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $GLOBALS['user']['id'] . "'");
         $nb_comment = mysql_num_rows($sql4);
 
-        $sql5 = mysql_query("SELECT id FROM " . SUGGEST_TABLE . " WHERE user_id = '" . $user[0] . "'");
+        $sql5 = mysql_query("SELECT id FROM " . SUGGEST_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
         $nb_suggest = mysql_num_rows($sql5);
 
         echo "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _MESSINFORUM . "</td><td align=\"center\">" . $user_data['count'] . "</td></tr>\n"
@@ -98,7 +97,7 @@ function index(){
         }
         else{
             $iforum = 0;
-            $sql_forum = mysql_query("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
+            $sql_forum = mysql_query("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $GLOBALS['user']['id'] . "' ORDER BY id DESC LIMIT 0, 10");
             $j = 0;
             while (list($mid, $subject, $date, $tid, $fid) = mysql_fetch_array($sql_forum)){
                 $subject = nkHtmlEntities($subject);
@@ -151,7 +150,7 @@ function index(){
         }
         else{
             $icom = 0;
-            $sql_com = mysql_query("SELECT im_id, titre, module, date FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
+            $sql_com = mysql_query("SELECT im_id, titre, module, date FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $GLOBALS['user']['id'] . "' ORDER BY id DESC LIMIT 0, 10");
             while (list($im_id, $titre, $module, $date) = mysql_fetch_array($sql_com)){
                 $titre = nkHtmlEntities($titre);
                 $titre = nk_CSS($titre);
@@ -352,7 +351,7 @@ function edit_account(){
     define('EDITOR_CHECK', 1);
 
     if ($user){
-        $sql = mysql_query("SELECT pseudo, pass, url, mail, email, icq, msn, aim, yim, avatar, signature, country, game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+        $sql = mysql_query("SELECT pseudo, pass, url, mail, email, icq, msn, aim, yim, avatar, signature, country, game FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
         list($nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $avatar, $signature, $pays, $jeu) = mysql_fetch_array($sql);
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
@@ -480,8 +479,10 @@ function edit_pref(){
     global $user, $nuked, $bgcolor3, $bgcolor2, $bgcolor1;
 
     if ($user){
-        $sql = mysql_query("SELECT prenom, age, sexe, ville, motherboard, cpu, ram, video, resolution, son, ecran, souris, clavier, connexion, system, photo, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $user[0] . "'");
+        $sql = mysql_query("SELECT prenom, age, sexe, ville, motherboard, cpu, ram, video, resolution, son, ecran, souris, clavier, connexion, system, photo, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
         list($prenom, $age, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $pref1, $pref2, $pref3, $pref4, $pref5) = mysql_fetch_array($sql);
+
+        $jour = $mois = $an = '';
 
         if ($age != ""){
             list ($jour, $mois, $an) = explode ('/', $age);
@@ -667,7 +668,7 @@ function edit_pref(){
 
         echo "</select></td></tr>\n";
 
-        $sql2 = mysql_query("SELECT team, team2, team3, game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+        $sql2 = mysql_query("SELECT team, team2, team3, game FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
         list($team, $team2, $team3, $game_id) = mysql_fetch_array($sql2);
 
         if ($team != "" || $team2 != "" || $team3 != ""){
@@ -688,7 +689,7 @@ function edit_pref(){
                     $g1_pref_4 = nkHtmlEntities($g1_pref_4);
                     $g1_pref_5 = nkHtmlEntities($g1_pref_5);
 
-                    $sql4 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game1 . "' AND user_id = '" . $user[0] . "'");
+                    $sql4 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game1 . "' AND user_id = '" . $GLOBALS['user']['id'] . "'");
                     $test1 = mysql_num_rows($sql4);
 
                     if ($test1 > 0){
@@ -731,7 +732,7 @@ function edit_pref(){
                     $g2_pref_4 = nkHtmlEntities($g2_pref_4);
                     $g2_pref_5 = nkHtmlEntities($g2_pref_5);
 
-                    $sql6 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game2 . "' AND user_id = '" . $user[0] . "'");
+                    $sql6 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game2 . "' AND user_id = '" . $GLOBALS['user']['id'] . "'");
                     $test2 = mysql_num_rows($sql6);
 
                     if ($test2 > 0){
@@ -774,7 +775,7 @@ function edit_pref(){
                     $g3_pref_4 = nkHtmlEntities($g3_pref_4);
                     $g3_pref_5 = nkHtmlEntities($g3_pref_5);
 
-                    $sql8 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game3 . "' AND user_id = '" . $user[0] . "'");
+                    $sql8 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game3 . "' AND user_id = '" . $GLOBALS['user']['id'] . "'");
                     $test3 = mysql_num_rows($sql8);
 
                     if ($test3 > 0){
@@ -890,7 +891,7 @@ function login_screen(){
 }
 
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
-    global $nuked, $captcha, $cookie_forum, $user_ip;
+    global $nuked, $captcha, $userIp;
 
     // Vérification de l'ouverture des inscriptions
     if($nuked['inscription'] == 'off'){
@@ -1061,7 +1062,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 
     if ($nuked['inscription_avert'] == "on" || $nuked['validation'] == "admin"){
         $subject = _NEWUSER . " : " . $pseudo . ", " .$date2;
-        $corps =  $pseudo . " (IP : " . $user_ip . ") " . _NEWREGISTRATION . " " . $nuked['name'] . " " . _NEWREGSUITE . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+        $corps =  $pseudo . " (IP : " . $userIp . ") " . _NEWREGISTRATION . " " . $nuked['name'] . " " . _NEWREGSUITE . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
         $subject = @nkHtmlEntityDecode($subject);
@@ -1090,7 +1091,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 }
 
 function login($pseudo, $pass, $remember_me){
-    global $captcha, $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
+    global $captcha, $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $timelimit;
     $cookiename = $nuked['cookiename'];
 
     $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . "'");
@@ -1145,14 +1146,14 @@ function login($pseudo, $pass, $remember_me){
             else{
                 $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . '\'';
                 $req = mysql_query($sql);
-                session_new($id_user, $remember_me);
+                sessionNew($id_user, $remember_me);
 
                 if ($usertheme != ""){
-                    setcookie($cookie_theme, $usertheme, $timelimit);
+                    setcookie($GLOBALS['cookieTheme'], $usertheme, $timelimit);
                 }
 
                 if ($userlang != ""){
-                    setcookie($cookie_langue, $userlang, $timelimit);
+                    setcookie($GLOBALS['cookieLang'], $userlang, $timelimit);
                 }
 
                 $referer = $_SERVER['HTTP_REFERER'];
@@ -1198,10 +1199,10 @@ function login($pseudo, $pass, $remember_me){
 }
 
 function login_message(){
-    global $nuked, $theme,  $bgcolor1, $bgcolor2, $bgcolor3, $cookie_session, $sessionlimit, $referer, $user_ip, $uid;
+    global $nuked, $theme,  $bgcolor1, $bgcolor2, $bgcolor3, $sessionlimit, $referer, $userIp, $uid;
 
-    if (isset($_COOKIE[$cookie_session]) && $_COOKIE[$cookie_session] != ""){
-        $test_cookie = $_COOKIE[$cookie_session];
+    if (isset($_COOKIE[$GLOBALS['cookieSession']]) && $_COOKIE[$GLOBALS['cookieSession']] != ""){
+        $test_cookie = $_COOKIE[$GLOBALS['cookieSession']];
     }
     else{
         $test_cookie = "";
@@ -1237,7 +1238,7 @@ function login_message(){
         redirect($url, 2);
     }
     else{
-        if ($nuked['sess_inactivemins'] > 0 && $user_ip != "" && $user_ip != "127.0.0.1"){
+        if ($nuked['sess_inactivemins'] > 0 && $userIp != "" && $userIp != "127.0.0.1"){
             $login_text = _LOGINPROGRESS . "<br /><br />" . _SESSIONIPOPEN . "<br /><br />" . _ERRORCOOKIE;
         }
         else{
@@ -1276,14 +1277,14 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         $mail = mysql_real_escape_string(stripslashes($mail));
         $mail = nkHtmlEntities($mail);
 
-        $sql = mysql_query("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+        $sql = mysql_query("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
         list($old_pseudo, $old_mail, $old_pass) = mysql_fetch_array($sql);
 
         if ($nick != $old_pseudo){
             $sql1 = mysql_query("SELECT pseudo FROM " . BANNED_TABLE . " WHERE pseudo = '" . $nick . "'");
             $banned_nick = mysql_num_rows($sql1);
 
-            $sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE pseudo = '" . $nick . "' AND id != '" . $user[0] . "'");
+            $sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE pseudo = '" . $nick . "' AND id != '" . $GLOBALS['user']['id'] . "'");
             $reserved_name = mysql_num_rows($sql2);
 
             if (!$nick || ($nick == "") || (preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $nick))){
@@ -1322,12 +1323,12 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 exit();
             }
             else{
-                $upd = mysql_query("UPDATE " . USER_TABLE . " SET pseudo = '" . $nick . "' WHERE id = '" . $user[0] . "'");
+                $upd = mysql_query("UPDATE " . USER_TABLE . " SET pseudo = '" . $nick . "' WHERE id = '" . $GLOBALS['user']['id'] . "'");
             }
         }
 
         if ($mail != $old_mail){
-            $sql3 = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE mail = '" . $mail . "' AND id != '" .$user[0] . "'");
+            $sql3 = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE mail = '" . $mail . "' AND id != '" .$GLOBALS['user']['id'] . "'");
             $reserved_email = mysql_num_rows($sql3);
 
             $sql4 = mysql_query("SELECT email FROM " . BANNED_TABLE . " WHERE email = '" . $mail . "'");
@@ -1356,7 +1357,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 exit();
             }
             else{
-                $upd1 = mysql_query("UPDATE " . USER_TABLE . " SET mail = '" . $mail . "' WHERE id = '" . $user[0] . "'");
+                $upd1 = mysql_query("UPDATE " . USER_TABLE . " SET mail = '" . $mail . "' WHERE id = '" . $GLOBALS['user']['id'] . "'");
             }
         }
 
@@ -1377,7 +1378,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
             }
             else{
                 $cryptpass = nk_hash($pass_reg);
-                $upd2 = mysql_query("UPDATE " . USER_TABLE . " SET pass = '" . $cryptpass . "' WHERE id = '" . $user[0] . "'");
+                $upd2 = mysql_query("UPDATE " . USER_TABLE . " SET pass = '" . $cryptpass . "' WHERE id = '" . $GLOBALS['user']['id'] . "'");
             }
         }
 
@@ -1455,7 +1456,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         if (!(file_exists("images/flags/".$country.""))){
             $country = "France.gif";
         }
-        $upd3 = mysql_query("UPDATE " . USER_TABLE . " SET icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', email = '" . $email . "', url = '" . $url . "', avatar = '" . $url_avatar . "', signature = '" . $signature . "', game = '" . $game . "', country = '" . $country . "' WHERE id = '" . $user[0] . "'");
+        $upd3 = mysql_query("UPDATE " . USER_TABLE . " SET icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', email = '" . $email . "', url = '" . $url . "', avatar = '" . $url_avatar . "', signature = '" . $signature . "', game = '" . $game . "', country = '" . $country . "' WHERE id = '" . $GLOBALS['user']['id'] . "'");
         echo "<br /><br /><div style=\"text-align: center;\">" . _INFOMODIF . "</div><br /><br />";
         redirect("index.php?file=User", 1);
     }
@@ -1539,17 +1540,17 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
         $age = "";
     }
 
-    $verif = mysql_query("SELECT user_id FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $user[0] . "'");
+    $verif = mysql_query("SELECT user_id FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
     $res = mysql_num_rows($verif);
 
     if ($res > 0){
-        $upd = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET prenom = '" . $prenom . "', age = '" . $age . "', sexe = '" . $sexe . "', ville = '" . $ville . "', motherboard = '" . $motherboard . "', cpu = '" . $cpu . "', ram = '" . $ram . "', video = '" . $video . "', resolution = '" . $resolution . "', son = '" . $sons . "', ecran = '" . $ecran . "', souris = '" . $souris . "', clavier = '" . $clavier . "', connexion = '" . $connexion . "', system = '" . $osystem . "', photo = '" . $url_photo . "' WHERE user_id = '" . $user[0] . "'");
+        $upd = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET prenom = '" . $prenom . "', age = '" . $age . "', sexe = '" . $sexe . "', ville = '" . $ville . "', motherboard = '" . $motherboard . "', cpu = '" . $cpu . "', ram = '" . $ram . "', video = '" . $video . "', resolution = '" . $resolution . "', son = '" . $sons . "', ecran = '" . $ecran . "', souris = '" . $souris . "', clavier = '" . $clavier . "', connexion = '" . $connexion . "', system = '" . $osystem . "', photo = '" . $url_photo . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
     }
     else{
-        $sql = mysql_query("INSERT INTO " . USER_DETAIL_TABLE . " ( `user_id` , `prenom` , `age` , `sexe` , `ville` , `photo` , `motherboard` , `cpu` , `ram` , `video` , `resolution` , `son` , `ecran` , `souris` , `clavier` , `connexion` , `system` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '" . $user[0] . "' , '" . $prenom . "' , '" . $age . "' , '" . $sexe . "' , '" . $ville . "' , '" . $url_photo . "' , '" . $motherboard . "' , '" . $cpu . "' , '" . $ram . "' , '" . $video . "' , '" . $resolution . "' , '" . $sons . "' , '" . $ecran . "' , '" . $souris . "' , '" . $clavier . "' , '" . $connexion . "' , '" . $osystem . "' , '' , '' , '' , '' , '' )");
+        $sql = mysql_query("INSERT INTO " . USER_DETAIL_TABLE . " ( `user_id` , `prenom` , `age` , `sexe` , `ville` , `photo` , `motherboard` , `cpu` , `ram` , `video` , `resolution` , `son` , `ecran` , `souris` , `clavier` , `connexion` , `system` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '" . $GLOBALS['user']['id'] . "' , '" . $prenom . "' , '" . $age . "' , '" . $sexe . "' , '" . $ville . "' , '" . $url_photo . "' , '" . $motherboard . "' , '" . $cpu . "' , '" . $ram . "' , '" . $video . "' , '" . $resolution . "' , '" . $sons . "' , '" . $ecran . "' , '" . $souris . "' , '" . $clavier . "' , '" . $connexion . "' , '" . $osystem . "' , '' , '' , '' , '' , '' )");
     }
 
-    $sql_game = mysql_query("SELECT game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+    $sql_game = mysql_query("SELECT game FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
     list($game) = mysql_fetch_array($sql_game);
 
     if (!$game_id){
@@ -1565,7 +1566,7 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
         $pref4 = mysql_real_escape_string(stripslashes($pref4));
         $pref5 = mysql_real_escape_string(stripslashes($pref5));
 
-        $upd1 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1 . "', pref_2 = '" . $pref2 . "' , pref_3 = '" . $pref3 . "', pref_4 = '" . $pref4 . "', pref_5 = '" . $pref5 . "' WHERE user_id = '" . $user[0] . "'");
+        $upd1 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1 . "', pref_2 = '" . $pref2 . "' , pref_3 = '" . $pref3 . "', pref_4 = '" . $pref4 . "', pref_5 = '" . $pref5 . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
     }
     else{
         if ($game_id[0] != ""){
@@ -1581,18 +1582,18 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
             $pref4[0] = mysql_real_escape_string(stripslashes($pref4[0]));
             $pref5[0] = mysql_real_escape_string(stripslashes($pref5[0]));
 
-            $verif_game1 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[0] . "'");
+            $verif_game1 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "' AND game = '" . $game_id[0] . "'");
             $res1 = mysql_num_rows($verif_game1);
 
             if ($res1 > 0){
-                $upd2 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[0] . "', pref_2 = '" . $pref2[0] . "', pref_3 = '" . $pref3[0] . "', pref_4 = '" . $pref4[0] . "', pref_5 = '" . $pref5[0] . "' WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[0] . "'");
+                $upd2 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[0] . "', pref_2 = '" . $pref2[0] . "', pref_3 = '" . $pref3[0] . "', pref_4 = '" . $pref4[0] . "', pref_5 = '" . $pref5[0] . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "' AND game = '" . $game_id[0] . "'");
             }
             else{
-                $sql1 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[0] . "' , '" . $user[0] . "' , '" . $pref1[0] . "' , '" . $pref2[0] . "' , '" . $pref3[0] . "' , '" . $pref4[0] . "' , '" . $pref5[0] . "' )");
+                $sql1 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[0] . "' , '" . $GLOBALS['user']['id'] . "' , '" . $pref1[0] . "' , '" . $pref2[0] . "' , '" . $pref3[0] . "' , '" . $pref4[0] . "' , '" . $pref5[0] . "' )");
             }
 
             if ($game_id[0] == $game){
-                $upd3 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[0] . "', pref_2 = '" . $pref2[0] . "', pref_3 = '" . $pref3[0]. "', pref_4 = '" . $pref4[0] . "', pref_5 = '" . $pref5[0] . "' WHERE user_id = '" . $user[0] . "'");
+                $upd3 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[0] . "', pref_2 = '" . $pref2[0] . "', pref_3 = '" . $pref3[0]. "', pref_4 = '" . $pref4[0] . "', pref_5 = '" . $pref5[0] . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
             }
         }
 
@@ -1609,18 +1610,18 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
             $pref4[1] = mysql_real_escape_string(stripslashes($pref4[1]));
             $pref5[1] = mysql_real_escape_string(stripslashes($pref5[1]));
 
-            $verif_game2 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[1] . "'");
+            $verif_game2 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "' AND game = '" . $game_id[1] . "'");
             $res2 = mysql_num_rows($verif_game2);
 
             if ($res2 > 0){
-                $upd4 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[1] . "', pref_2 = '" . $pref2[1] . "', pref_3 = '" . $pref3[1] . "', pref_4 = '" . $pref4[1] . "', pref_5 = '" . $pref5[1] . "' WHERE user_id = '" . $user[0] . "' AND game='" . $game_id[1] . "'");
+                $upd4 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[1] . "', pref_2 = '" . $pref2[1] . "', pref_3 = '" . $pref3[1] . "', pref_4 = '" . $pref4[1] . "', pref_5 = '" . $pref5[1] . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "' AND game='" . $game_id[1] . "'");
             }
             else{
-                $sql2 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[1] . "' , '" . $user[0] . "' , '" . $pref1[1] . "' , '" . $pref2[1] . "' , '" . $pref3[1] . "' , '" . $pref4[1] . "' , '" . $pref5[1] . "' )");
+                $sql2 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[1] . "' , '" . $GLOBALS['user']['id'] . "' , '" . $pref1[1] . "' , '" . $pref2[1] . "' , '" . $pref3[1] . "' , '" . $pref4[1] . "' , '" . $pref5[1] . "' )");
             }
 
             if ($game_id[1] == $game){
-                $upd5 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[1] . "', pref_2 = '" . $pref2[1] . "', pref_3 = '" . $pref3[1] . "', pref_4 = '" . $pref4[1] . "', pref_5 = '" . $pref5[1] . "' WHERE user_id = '" . $user[0] . "'");
+                $upd5 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[1] . "', pref_2 = '" . $pref2[1] . "', pref_3 = '" . $pref3[1] . "', pref_4 = '" . $pref4[1] . "', pref_5 = '" . $pref5[1] . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
             }
         }
 
@@ -1637,18 +1638,18 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
             $pref4[2] = mysql_real_escape_string(stripslashes($pref4[2]));
             $pref5[2] = mysql_real_escape_string(stripslashes($pref5[2]));
 
-            $verif_game3 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[2] . "'");
+            $verif_game3 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "' AND game = '" . $game_id[2] . "'");
             $res3 = mysql_num_rows($verif_game3);
 
             if ($res3 > 0){
-                $upd6 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[2] . "', pref_2 = '" . $pref2[2] . "', pref_3 = '" . $pref3[2] . "', pref_4 = '" . $pref4[2] . "', pref_5 = '" . $pref5[2] . "' WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[2] . "'");
+                $upd6 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[2] . "', pref_2 = '" . $pref2[2] . "', pref_3 = '" . $pref3[2] . "', pref_4 = '" . $pref4[2] . "', pref_5 = '" . $pref5[2] . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "' AND game = '" . $game_id[2] . "'");
             }
             else{
-                $sql3 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[2] . "' , '" . $user[0] . "' , '" . $pref1[2] . "' , '" . $pref2[2] . "' , '" . $pref3[2] . "' , '" . $pref4[2] . "' , '" . $pref5[2] . "' )");
+                $sql3 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[2] . "' , '" . $GLOBALS['user']['id'] . "' , '" . $pref1[2] . "' , '" . $pref2[2] . "' , '" . $pref3[2] . "' , '" . $pref4[2] . "' , '" . $pref5[2] . "' )");
             }
 
             if ($game_id[2] == $game){
-                $upd7 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[2] . "', pref_2 = '" . $pref2[2] . "', pref_3 = '" . $pref3[2] . "', pref_4 = '" . $pref4[2] . "', pref_5 = '" . $pref5[2] . "' WHERE user_id = '" . $user[0] . "'");
+                $upd7 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[2] . "', pref_2 = '" . $pref2[2] . "', pref_3 = '" . $pref3[2] . "', pref_4 = '" . $pref4[2] . "', pref_5 = '" . $pref5[2] . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
             }
         }
     }
@@ -1658,15 +1659,15 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
 }
 
 function logout(){
-    global $nuked, $user, $cookie_theme, $cookie_langue, $cookie_session, $cookie_userid, $cookie_forum;
+    global $nuked, $user;
 
-    $del = mysql_query("UPDATE " . SESSIONS_TABLE . " SET ip = '' WHERE user_id = '" . $user[0] . "'");
+    $del = mysql_query("UPDATE " . SESSIONS_TABLE . " SET ip = '' WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
 
-    setcookie($cookie_session, "");
-    setcookie($cookie_userid, "");
-    setcookie($cookie_theme, "");
-    setcookie($cookie_langue, "");
-    setcookie($cookie_forum, "");
+    setcookie($GLOBALS['cookieSession'], "");
+    setcookie($GLOBALS['cookieUserId'], "");
+    setcookie($GLOBALS['cookieTheme'], "");
+    setcookie($GLOBALS['cookieLang'], "");
+    setcookie($GLOBALS['cookieForum'], "");
 
     $_SESSION['admin'] = false;
 
@@ -1855,10 +1856,10 @@ function show_avatar(){
 }
 
 function change_theme(){
-    global $nuked, $cookie_theme;
+    global $nuked;
 
-    if(array_key_exists($cookie_theme, $_COOKIE)){
-        $cookietheme = $_COOKIE[$cookie_theme];
+    if(array_key_exists($GLOBALS['cookieTheme'], $_COOKIE)){
+        $cookietheme = $_COOKIE[$GLOBALS['cookieTheme']];
     }
     else{
         $cookietheme = '';
@@ -1901,15 +1902,15 @@ function change_theme(){
 }
 
 function modif_theme(){
-    global $user, $nuked, $cookie_theme, $timelimit;
+    global $user, $nuked, $timelimit;
 
     $dir = "themes/" . $_REQUEST['user_theme'];
 
     if (is_dir($dir) && $_REQUEST['user_theme']){
-        setcookie($cookie_theme, $_REQUEST['user_theme'], $timelimit);
+        setcookie($GLOBALS['cookieTheme'], $_REQUEST['user_theme'], $timelimit);
 
         if ($user){
-            $upd = mysql_query("UPDATE " . USER_TABLE . " SET user_theme = '" . $_REQUEST['user_theme'] . "' WHERE id = '" . $user[0] . "'");
+            $upd = mysql_query("UPDATE " . USER_TABLE . " SET user_theme = '" . $_REQUEST['user_theme'] . "' WHERE id = '" . $GLOBALS['user']['id'] . "'");
         }
     }
 
@@ -1917,13 +1918,13 @@ function modif_theme(){
 }
 
 function modif_langue(){
-    global $user, $nuked, $cookie_langue, $timelimit;
+    global $user, $nuked, $timelimit;
 
     if ($_REQUEST['user_langue'] != ""){
-        setcookie($cookie_langue, $_REQUEST['user_langue'], $timelimit);
+        setcookie($GLOBALS['cookieLang'], $_REQUEST['user_langue'], $timelimit);
 
         if ($user){
-            $upd = mysql_query("UPDATE " . USER_TABLE . " SET user_langue = '" . $_REQUEST['user_langue'] . "' WHERE id = '" . $user[0] . "'");
+            $upd = mysql_query("UPDATE " . USER_TABLE . " SET user_langue = '" . $_REQUEST['user_langue'] . "' WHERE id = '" . $GLOBALS['user']['id'] . "'");
         }
     }
 
@@ -1996,12 +1997,12 @@ function del_account($pass){
     global $user, $nuked;
 
     if ($pass != "" && $nuked[user_delete] == "on"){
-        $sql = mysql_query("SELECT pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+        $sql = mysql_query("SELECT pass FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
         $dbpass = mysql_fetch_row($sql);
         if (Check_Hash($pass, $dbpass[0])){
-            $del1 = delModerator($user[0]);
-            $del2 = mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE user_id = '" . $user[0] . "'");
-            $del3 = mysql_query("DELETE FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+            $del1 = delModerator($GLOBALS['user']['id']);
+            $del2 = mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
+            $del3 = mysql_query("DELETE FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
             echo "<br /><br /><div style=\"text-align: center;\">" . _ACCOUNTDELETE . "</div><br /><br />";
             redirect("index.php", 2);
         }

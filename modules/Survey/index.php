@@ -16,10 +16,10 @@ include_once 'Includes/nkCaptcha.php';
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $GLOBALS['user']['idGroup'] > 0)  $captcha = 0;
 else $captcha = 1;
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -60,7 +60,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
     }
 
     function verif_check($poll_id) {
-        global $nuked, $user_ip, $user;
+        global $nuked, $userIp, $user;
 
         $time = time();
         $cookiename = $nuked['cookiename'];
@@ -73,7 +73,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         $verifip = 0;
 
-        if (!empty($user[2])) $username = $user[2];
+        if (!empty($GLOBALS['user']['nickName'])) $username = $GLOBALS['user']['nickName'];
         else $username = 'not_member';
 
         $del = mysql_query('DELETE FROM ' . SURVEY_CHECK_TABLE . ' WHERE heurelimite < ' . $time);
@@ -81,14 +81,14 @@ if ($visiteur >= $level_access && $level_access > -1) {
         if (isset($user_pool_id) && $user_pool_id == $poll_id) {
             $verifip = 1;
         } else {
-            $sql = mysql_query('SELECT sid FROM ' . SURVEY_CHECK_TABLE . ' WHERE (pseudo = "' . $username . '" OR ip = "' . $user_ip . '") AND sid = ' . $poll_id);
+            $sql = mysql_query('SELECT sid FROM ' . SURVEY_CHECK_TABLE . ' WHERE (pseudo = "' . $username . '" OR ip = "' . $userIp . '") AND sid = ' . $poll_id);
             $verifip = mysql_num_rows($sql);
         }
         return $verifip;
     }
 
     function update_sondage($poll_id, $voteID) {
-        global $nuked, $user_ip, $user, $visiteur, $theme, $bgcolor2, $bgcolor3;
+        global $nuked, $userIp, $user, $visiteur, $theme, $bgcolor2, $bgcolor3;
 
         $time = time() + $nuked['sond_delay'] * 3600;
         $cookiename = $nuked['cookiename'];
@@ -100,7 +100,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
                 if ($visiteur >= $niveau) {
                     $upd = mysql_query('UPDATE ' . SURVEY_DATA_TABLE . ' SET optionCount = optionCount + 1 WHERE voteID = ' . $voteID . ' AND sid = ' . $poll_id);
-                    $sql = mysql_query('INSERT INTO ' . SURVEY_CHECK_TABLE . ' ( `ip` , `pseudo` , `heurelimite` , `sid` ) VALUES ( "' . $user_ip . '" , "' . $user[2] . '", "' . $time . '" , "' . $poll_id . '")');
+                    $sql = mysql_query('INSERT INTO ' . SURVEY_CHECK_TABLE . ' ( `ip` , `pseudo` , `heurelimite` , `sid` ) VALUES ( "' . $userIp . '" , "' . $GLOBALS['user']['nickName'] . '", "' . $time . '" , "' . $poll_id . '")');
                     setcookie($cookiename . '_user_pool_' . $poll_id, $poll_id, $time);
 
                     redirect('index.php?file=Survey&op=vote_message&poll_id=' . $poll_id, 0);

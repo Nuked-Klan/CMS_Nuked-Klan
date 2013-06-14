@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -20,7 +20,7 @@ if (!$user)
 }
 else
 {
-    $visiteur = $user[1];
+    $visiteur = $GLOBALS['user']['idGroup'];
 }
 
 if ($visiteur == 9)
@@ -30,12 +30,12 @@ if ($visiteur == 9)
         global $user, $nuked;
 		if(file_exists("themes/".$nuked['theme']."/admin.php"))
 		{
-		
+
 			echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _GESTEMPLATE . "</h3>\n"
 	. "</div>\n"
 	. "<div class=\"tab-content\" id=\"tab2\">\n";
-		
+
 			include("themes/".$nuked['theme']."/admin.php");
 			echo "</div>";
 		}

@@ -12,7 +12,7 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate("modules/Guestbook/lang/" . $language . ".lang.php");
 
 // Inclusion système Captcha
@@ -20,10 +20,10 @@ include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $GLOBALS['user']['idGroup'] > 0))  $captcha = 0;
 else $captcha = 1;
 
-$visiteur = (!$user) ? 0 : $user[1];
+$visiteur = (!$user) ? 0 : $GLOBALS['user']['idGroup'];
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1)
@@ -59,7 +59,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($user)
         {
-            $sql = mysql_query("SELECT url, email FROM " . USER_TABLE . " WHERE pseudo = '" . $user[2] . "'");
+            $sql = mysql_query("SELECT url, email FROM " . USER_TABLE . " WHERE pseudo = '" . $GLOBALS['user']['nickName'] . "'");
             list($url, $mail) = mysql_fetch_array($sql);
         }
 
@@ -67,7 +67,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 		. "<form method=\"post\" action=\"index.php?file=Guestbook&amp;op=send_book\">\n"
 		. "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
 		. "<tr><td><b>" . _AUTHOR . " :</b></td><td>";
-		if ($user) echo '<b>' . $user[2] . '</b></td></tr>'; else echo "<input id=\"guest_name\" type=\"text\" name=\"name\" value=\"\" size=\"20\" maxlength=\"30\" /></td></tr>\n";
+		if ($user) echo '<b>' . $GLOBALS['user']['nickName'] . '</b></td></tr>'; else echo "<input id=\"guest_name\" type=\"text\" name=\"name\" value=\"\" size=\"20\" maxlength=\"30\" /></td></tr>\n";
 		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
@@ -83,7 +83,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function send_book($name, $email, $url, $comment)
     {
-        global $user, $nuked, $user_ip, $captcha;
+        global $user, $nuked, $userIp, $captcha;
 
         opentable();
 
@@ -92,9 +92,9 @@ if ($visiteur >= $level_access && $level_access > -1)
             ValidCaptchaCode();
         }
 
-        if ($user[2] != "")
+        if ($GLOBALS['user']['nickName'] != "")
         {
-            $pseudo = $user[2];
+            $pseudo = $GLOBALS['user']['nickName'];
         }
         else
         {
@@ -151,7 +151,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $date = time();
 
-        if ($user_ip == $flood_ip && $date < $anti_flood)
+        if ($userIp == $flood_ip && $date < $anti_flood)
         {
             echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
             redirect("index.php?file=Guestbook", 2);
@@ -172,7 +172,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $url = "http://" . mysql_real_escape_string(stripslashes($url));
             }
 
-            $sql = mysql_query("INSERT INTO " . GUESTBOOK_TABLE . " ( `id` , `name` , `email` , `url` , `date` , `host` , `comment` ) VALUES ( '' , '" . $pseudo . "' , '" . $email . "' , '" . $url . "' , '" . $date . "' , '" . $user_ip . "' , '" . $comment . "' )");
+            $sql = mysql_query("INSERT INTO " . GUESTBOOK_TABLE . " ( `id` , `name` , `email` , `url` , `date` , `host` , `comment` ) VALUES ( '' , '" . $pseudo . "' , '" . $email . "' , '" . $url . "' , '" . $date . "' , '" . $userIp . "' , '" . $comment . "' )");
             echo "<br /><br /><div style=\"text-align: center;\">" . _POSTADD . "</div><br /><br />";
             redirect("index.php?file=Guestbook", 2);
             closetable();

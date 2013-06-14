@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate('modules/Recruit/lang/' . $language . '.lang.php');
 
 // Inclusion système Captcha
@@ -17,12 +17,12 @@ include_once('Includes/nkCaptcha.php');
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $GLOBALS['user']['idGroup'] > 0))  $captcha = 0;
 else $captcha = 1;
 
 opentable();
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -105,7 +105,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 			. "</script>\n";
 
             if(array_key_exists(2, $user)){
-                $userName = $user[2];
+                $userName = $GLOBALS['user']['nickName'];
             }
             else{
                 $userName = '';

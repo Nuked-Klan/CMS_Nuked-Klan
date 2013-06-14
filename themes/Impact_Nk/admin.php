@@ -9,7 +9,7 @@ defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Access deny</
 include('themes/Impact_Nk/block-best.php');
 global $language;
 translate("themes/Impact_Nk/lang/" . $language . ".lang.php");
-if ($user[1] < 9){
+if ($GLOBALS['user']['idGroup'] < 9){
 	echo '<div style="text-align: center;margin:30px 0;">'._INWARNINGMODTHEME.'</div>';
 }
 else{

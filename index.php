@@ -2,7 +2,7 @@
 /**
  * Index of CMS Nuked-Klan
  *
- * @version     1.8
+ * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2013 Nuked-Klan (Registred Trademark)
@@ -49,9 +49,9 @@ if ($nuked['time_generate'] == 'on') {
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
 if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
-$session       = session_check();
+$session       = sessionCheck();
 $user          = ($session == 1) ? secure() : array();
-$session_admin = admin_check();
+$session_admin = adminCheck();
 
 if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
     if ($nuked['stats_share'] == 1) {
@@ -111,7 +111,7 @@ if (!$user) {
     $_SESSION['admin'] = false;
 }
 else {
-    $visiteur          = $user[1];
+    $visiteur          = $GLOBALS['user']['idGroup'];
 }
 
 // Inclusion du fichier des couleurs
@@ -122,7 +122,7 @@ translate('lang/'.$language.'.lang.php');
 
 // Si le site est fermé
 if ($nuked['nk_status'] == 'closed'
-    && (!$user || ($user && $user[1] < 9))
+    && (!$user || ($user && $GLOBALS['user']['idGroup'] < 9))
     && $_REQUEST['op'] != 'login_screen'
     && $_REQUEST['op'] != 'login_message'
     && $_REQUEST['op'] != 'login') {
@@ -149,7 +149,7 @@ else if ( ($_REQUEST['file'] == 'Admin'
             || $_REQUEST['page'] == 'admin'
             || ( isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin' )
           )
-            && $_SESSION['admin'] == 0) {
+            && (isset($_SESSION['admin']) && $_SESSION['admin'] == 0)) {
     require_once 'modules/Admin/login.php';
 }
 else if ( ( $_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin' )
@@ -186,7 +186,7 @@ else if ( ( $_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin' )
 <?php
         }
 
-        if((array_key_exists(1, $user) && $user[1] == 9) && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
+        if((array_key_exists(1, $user) && $GLOBALS['user']['idGroup'] == 9) && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
             if ($nuked['nk_status'] == 'closed') {
 ?>
                 <div id="nkSiteClosedLogged" class="nkAlert">
@@ -211,10 +211,10 @@ else if ( ( $_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin' )
             }
         }
 
-        if (($user && $user[5] > 0) && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox' && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
+        if (($user && $GLOBALS['user']['nbMess'] > 0) && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox' && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
 ?>
                 <div id="nkNewPrivateMsg" class="nkAlert">
-                    <strong><?php echo _NEWMESSAGESTART; ?>&nbsp;<?php echo $user[5]; ?>&nbsp;<?php echo _NEWMESSAGEEND; ?></strong>
+                    <strong><?php echo _NEWMESSAGESTART; ?>&nbsp;<?php echo $GLOBALS['user']['nbMess']; ?>&nbsp;<?php echo _NEWMESSAGEEND; ?></strong>
                     <a href="index.php?file=Userbox"><?php echo _GOTO_PRIVATE_MESSAGES; ?></a>
                     <a id="nkNewPrivateMsgClose" href="#" title="<?php echo _CLICK_TO_CLOSE; ?>"><span><?php echo _CLICK_TO_CLOSE; ?></span></a>
                 </div>

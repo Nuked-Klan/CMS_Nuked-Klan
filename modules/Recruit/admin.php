@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -10,7 +10,7 @@
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+}
 
 global $user, $language;
 translate("modules/Recruit/lang/" . $language . ".lang.php");
@@ -20,11 +20,11 @@ admintop();
 if (!$user)
 {
     $visiteur = 0;
-} 
+}
 else
 {
-    $visiteur = $user[1];
-} 
+    $visiteur = $GLOBALS['user']['idGroup'];
+}
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 if ($visiteur >= $level_admin && $level_admin > -1)
@@ -65,13 +65,13 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             . "<td style=\"width: 15%;\" align=\"center\">" . $game_name . "</td>\n"
             . "<td style=\"width: 20%;\" align=\"center\"><a href=\"mailto:" . $mail . "\">" . $mail . "</a></td>\n"
             . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td></tr>\n";
-        } 
+        }
         if ($count == 0)
         {
             echo "<tr><td colspan=\"5\" align=\"center\">" . _NORECRUIT . "</td></tr>\n";
-        } 
+        }
         echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function edit_pref()
     {
@@ -82,12 +82,12 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         if ($nuked['recrute'] == 1)
         {
             $etat = _OPEN;
-        } 
+        }
         else
         {
             $etat = _CLOSE;
-        } 
-        
+        }
+
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _RECRUIT . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Recruit.php\" rel=\"modal\">\n"
@@ -110,22 +110,22 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             if ($nuked['recrute_inbox'] == $id_user)
             {
                 $checked = "selected=\"selected\"";
-            } 
+            }
             else
             {
                 $checked = "";
-            } 
+            }
 
             echo "<option value=\"" . $id_user . "\" " . $checked . ">" . $pseudo . "</option>\n";
-        } 
+        }
         echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n";
 
-        
+
 
         echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" id=\"charte_recruit\" name=\"recrute_charte\" cols=\"65\" rows=\"15\">" . $charte . "</textarea></td></tr></table>\n"
 	. "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Recruit&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
     {
@@ -141,7 +141,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		// Action
 		$texteaction = "". _ACTIONPREFREC .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
@@ -149,7 +149,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		. "</div>\n"
 		. "</div>\n";
         redirect("index.php?file=Recruit&page=admin", 2);
-    } 
+    }
 
     function view($rid)
     {
@@ -196,7 +196,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         echo "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_recruit('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $rid . "');\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br /><br />[ <a href=\"index.php?file=Recruit&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function del($rid)
     {
@@ -206,7 +206,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		// Action
 		$texteaction = "". _ACTIONDELREC .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
@@ -214,7 +214,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		. "</div>\n"
 		. "</div>\n";
         redirect("index.php?file=Recruit&page=admin", 2);
-    } 
+    }
 
     switch ($_REQUEST['op'])
     {
@@ -237,9 +237,9 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         default:
             main();
             break;
-    } 
+    }
 
-} 
+}
 else if ($level_admin == -1)
 {
     echo "<div class=\"notification error png_bg\">\n"
@@ -263,7 +263,7 @@ else
 	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
-} 
+}
 
 adminfoot();
 

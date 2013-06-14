@@ -10,7 +10,6 @@
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 function affich_block_theme($blok){
-    global $cookie_theme;
 
     $blok['content'] .= '<form method="post" action="index.php?file=User&amp;nuked_nude=index&amp;op=modif_theme">'."\n"
     . '<div style="text-align: center"><select name="user_theme" onchange="submit();">'."\n"
@@ -20,7 +19,7 @@ function affich_block_theme($blok){
     while (false !== ($f = readdir($handle))){
         if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html' && !preg_match('`[.]`', $f)){
 
-            if ($cookie_theme == $f) $checked = 'selected="selected"';
+            if ($GLOBALS['cookieTheme'] == $f) $checked = 'selected="selected"';
             else $checked = '';
 
             $blok['content'] .= '<option value="' . $f . '" ' . $checked . '>' . $f . '</option>';
@@ -80,6 +79,6 @@ function edit_block_theme($bid){
 			, '<input type="submit" name="send" value="' , _MODIFBLOCK , '" />',"\n"
 			, '</td></tr></table>',"\n"
 			, '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
-	
+
 }
 ?>
