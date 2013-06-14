@@ -39,8 +39,8 @@ function form($content, $sug_id){
     else{
         $titre = "<a href=\"index.php?file=News\" style=\"text-decoration:none\"><big><b>" . _NEWS . "</b></big></a> &gt; <big><b>" . _SUG . "</b></big>";
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=News";
-        $autor = $user[2];
-        $autor_id = $user[0];
+        $autor = $GLOBALS['user']['nickName'];
+        $autor_id = $GLOBALS['user']['id'];
         $date = time();
         $refuse = "</div></form><br />\n";
     }
@@ -66,9 +66,9 @@ function form($content, $sug_id){
     echo "</select></td></tr>\n"
             . "<tr><td><b>" . _TEXT . " :</b></td></tr>\n"
             . "<tr><td><textarea ";
-    
+
     echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
-    
+
     echo " name=\"texte\" cols=\"65\" rows=\"12\">" . $content[1] . "</textarea></td></tr>\n";
 
     if ($captcha == 1) create_captcha(1);
@@ -101,14 +101,14 @@ function send($data){
         $autor = $data['auteur'];
     }
     else{
-        $autor = $user[2];
+        $autor = $GLOBALS['user']['nickName'];
     }
 
     if ($data['auteur_id'] != ""){
         $autor_id = $data['auteur_id'];
     }
     else{
-        $autor_id = $user[0];
+        $autor_id = $GLOBALS['user']['id'];
     }
 
     $data['texte'] = nkHtmlEntityDecode($data['texte']);

@@ -15,16 +15,10 @@ if (!defined("INDEX_CHECK"))
 global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
 
-if ($visiteur == 9)
+$hasAdminAccess = nkAccessAdmin('Menu');
+
+if ($hasAdminAccess === true)
 {
     function index()
     {
@@ -376,7 +370,7 @@ if ($visiteur == 9)
 		// Action
 		$texteaction = "". _ACTIONMODIFMENU .": ".$titre."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
         if ($_REQUEST['cid'])
         {

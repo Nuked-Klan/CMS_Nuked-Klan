@@ -26,7 +26,7 @@ function block_link($content){
         list($url, $title, $comment, $nivo, $blank) = explode('|', $link[$i]);
         $url = preg_replace("/\[(.*?)\]/si", "index.php?file=\\1", $url);
         if(array_key_exists(1, $user)){
-            $nivuser = $user[1];
+            $nivuser = $GLOBALS['user']['idGroup'];
         }
         else{
             $nivuser = 0;

@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate('modules/Contact/lang/' . $language . '.lang.php');
 
 // Inclusion système Captcha
@@ -17,12 +17,12 @@ include_once('Includes/nkCaptcha.php');
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $GLOBALS['user']['idGroup'] > 0))  $captcha = 0;
 else $captcha = 1;
 
 opentable();
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 $level_access = nivo_mod(basename(dirname(__FILE__)));
 if ($visiteur >= $level_access && $level_access > -1){
@@ -52,7 +52,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         -->
         </script>';
 
-        $input_user = ($user) ? '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />' : '';
+        $input_user = ($user) ? '<input id="ns_pseudo" type="text" name="nom" value="' . $GLOBALS['user']['nickName'] . '" style="width: 50%" />' : '';
 
         echo '<div style="width: 80%; margin: auto">
         <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
@@ -71,7 +71,7 @@ if ($visiteur >= $level_access && $level_access > -1){
     }
 
     function sendmail(){
-        global $nuked, $user_ip, $captcha, $user;
+        global $nuked, $userIp, $captcha, $user;
 
         // Verification code captcha
         if ($captcha == 1){
@@ -89,7 +89,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         $date = nkDate($time);
         $contact_flood = $nuked['contact_flood'] * 60;
 
-        $sql = mysql_query("SELECT date FROM " . CONTACT_TABLE . " WHERE ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
+        $sql = mysql_query("SELECT date FROM " . CONTACT_TABLE . " WHERE ip = '" . $userIp . "' ORDER BY date DESC LIMIT 0, 1");
         $count = mysql_num_rows($sql);
         list($flood_date) = mysql_fetch_array($sql);
         $anti_flood = $flood_date + $contact_flood;
@@ -103,10 +103,10 @@ if ($visiteur >= $level_access && $level_access > -1){
             $mail = trim($_REQUEST['mail']);
             $sujet = trim($_REQUEST['sujet']);
             $corps = $_REQUEST['corps'];
-            if($user) $nom = $user[2];
+            if($user) $nom = $GLOBALS['user']['nickName'];
 
             $subjet = stripslashes($sujet) . ", " . $date;
-            $corp = $corps . "<p><em>IP : " . $user_ip . "</em><br />" . $nuked['name'] . " - " . $nuked['slogan'] . "</p>";
+            $corp = $corps . "<p><em>IP : " . $userIp . "</em><br />" . $nuked['name'] . " - " . $nuked['slogan'] . "</p>";
             $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
             $from .= "Content-Type: text/html\r\n\r\n";
 
@@ -120,9 +120,9 @@ if ($visiteur >= $level_access && $level_access > -1){
             $email = htmlentities($mail, ENT_QUOTES, 'ISO-8859-1');
             $subject = htmlentities($sujet, ENT_QUOTES, 'ISO-8859-1');
             $text = secu_html(html_entity_decode($corps, ENT_QUOTES, 'ISO-8859-1'));
-            if($user) $name = $user[2];
+            if($user) $name = $GLOBALS['user']['nickName'];
 
-            $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
+            $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $userIp . "' , '" . $time . "' )");
             $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTCON.": [<a href=\"index.php?file=Contact&page=admin\">lien</a>].')");
 
             echo '<div style="text-align: center; padding: 20px 0">' . _SENDCMAIL . '</div>';

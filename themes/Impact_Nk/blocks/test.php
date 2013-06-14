@@ -12,7 +12,7 @@ if($nb[1]>1){$s1="s";}
 if($nb[2]>1){$s2="s";}
 
 if($user){
-    $sql2 = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '" . $user[0] . "' AND status = 0");
+    $sql2 = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '" . $GLOBALS['user']['id'] . "' AND status = 0");
     $nb_mess_lu = mysql_num_rows($sql2);
     list($mid) = mysql_fetch_array($sql2);
 

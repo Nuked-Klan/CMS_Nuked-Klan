@@ -18,12 +18,12 @@ global $user;
 if (_NKCAPTCHA == "off"){
     $captcha = 0;
 }
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0)){
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $GLOBALS['user']['idGroup'] > 0)){
     $captcha = 0;
 }
 else $captcha = 1;
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 function verification($module, $im_id){
     global $nuked;
@@ -228,7 +228,7 @@ function com_index($module, $im_id){
         echo '<div id="message">
                 <form method="post" onsubmit="'.$Soumission.'" action="">
                 <table width="100%" cellspacing="5" cellpadding="0" border="0" style="padding-top:15px">';
-                if($user) echo '<tr style="display: none"><td colspan="2"><input id="compseudo" type="hidden" name="pseudo" value="'.$user[2].'" /></td></tr>';
+                if($user) echo '<tr style="display: none"><td colspan="2"><input id="compseudo" type="hidden" name="pseudo" value="'.$GLOBALS['user']['nickName'].'" /></td></tr>';
                 else {
                     echo '<tr>
                         <td style="padding-left:5px;width:30%"><b>'._NICK.' :</b></td>
@@ -364,7 +364,7 @@ function post_com($module, $im_id){
             . "<tr><td><b>" . _NICK . " :</b>";
 
     if ($user){
-        echo "&nbsp;&nbsp;<b>" . $user[2] . "</b><input id=\"com_pseudo\" type=\"hidden\" name=\"pseudo\" value=\"" . $user[2] . "\" /></td>\n";
+        echo "&nbsp;&nbsp;<b>" . $GLOBALS['user']['nickName'] . "</b><input id=\"com_pseudo\" type=\"hidden\" name=\"pseudo\" value=\"" . $GLOBALS['user']['nickName'] . "\" /></td>\n";
     }
     else{
         echo "<input id=\"com_pseudo\" type=\"text\" size=\"30\" name=\"pseudo\" maxlength=\"30\" /></td>\n";
@@ -409,7 +409,7 @@ function post_com($module, $im_id){
 }
 
 function post_comment($im_id, $module, $titre, $texte, $pseudo){
-    global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur, $captcha;
+    global $user, $nuked, $bgcolor2, $theme, $userIp, $visiteur, $captcha;
 
     if(!isset($_REQUEST['noajax'])){
         $titre = utf8_decode($titre);
@@ -432,8 +432,8 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
         }
 
         if ($visiteur > 0){
-            $autor = $user[2];
-            $autor_id = $user[0];
+            $autor = $GLOBALS['user']['nickName'];
+            $autor_id = $GLOBALS['user']['id'];
         }
         else{
             $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
@@ -453,13 +453,13 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
             }
         }
 
-        $flood = mysql_query("SELECT date FROM " . COMMENT_TABLE . " WHERE autor = '" . $autor . "' OR autor_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
+        $flood = mysql_query("SELECT date FROM " . COMMENT_TABLE . " WHERE autor = '" . $autor . "' OR autor_ip = '" . $userIp . "' ORDER BY date DESC LIMIT 0, 1");
         list($flood_date) = mysql_fetch_row($flood);
         $anti_flood = $flood_date + $nuked['post_flood'];
 
         $date = time();
 
-        if ($date < $anti_flood && $user[1] < admin_mod("Comment")){
+        if ($date < $anti_flood && $GLOBALS['user']['idGroup'] < admin_mod("Comment")){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
             $url = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
             redirect($url, 2);
@@ -477,7 +477,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
              $titre = substr($titre, 0, 40) . "...";
         }
 
-        $add = mysql_query("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . mysql_real_escape_string($texte) . "' , '" . $date . "' , '" . $user_ip . "')");
+        $add = mysql_query("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . mysql_real_escape_string($texte) . "' , '" . $date . "' , '" . $userIp . "')");
         echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTADD . "</b>";
 
         if ($module == "news"){

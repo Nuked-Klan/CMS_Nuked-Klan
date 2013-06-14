@@ -15,7 +15,7 @@ include 'modules/Admin/design.php';
 
 admintop();
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 
@@ -121,7 +121,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONDELDEFY . ' ' . $pseudo;
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`)  VALUES ('" . $acdate . "', '" . $user[0] . "', '" . $texteaction . "')");
+        $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`)  VALUES ('" . $acdate . "', '" . $GLOBALS['user']['id'] . "', '" . $texteaction . "')");
         //Fin action
 
         echo "<div class=\"notification success png_bg\">\n"
@@ -139,7 +139,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         list($pseudo, $clan, $url, $pays, $date, $heure, $game, $type, $map) = mysql_fetch_array($sql);
         list($date_jour, $date_mois, $date_an) = explode('-', $date);
 
-        $insert = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` , `tscore_team` , `tscore_adv` , `score_team` , `score_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '0' , '' , '" . mysql_real_escape_string($game) . "' , '" . mysql_real_escape_string($clan) . "' , '" . mysql_real_escape_string($url) . "' , '" . mysql_real_escape_string($pays) . "' , '" . mysql_real_escape_string($type) . "' , '' , '" . mysql_real_escape_string($date_jour) . "' , '" .mysql_real_escape_string($date_mois) . "' , '" . mysql_real_escape_string($date_an) . "' , '" . mysql_real_escape_string($heure) . "' , '" . mysql_real_escape_string($map) . "' , '' , '' , '' , '' , '' , '" . $user[2] . "' , '' , '' , '' )");
+        $insert = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` , `tscore_team` , `tscore_adv` , `score_team` , `score_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '0' , '' , '" . mysql_real_escape_string($game) . "' , '" . mysql_real_escape_string($clan) . "' , '" . mysql_real_escape_string($url) . "' , '" . mysql_real_escape_string($pays) . "' , '" . mysql_real_escape_string($type) . "' , '' , '" . mysql_real_escape_string($date_jour) . "' , '" .mysql_real_escape_string($date_mois) . "' , '" . mysql_real_escape_string($date_an) . "' , '" . mysql_real_escape_string($heure) . "' , '" . mysql_real_escape_string($map) . "' , '' , '' , '' , '' , '' , '" . $GLOBALS['user']['nickName'] . "' , '' , '' , '' )");
 
         $sql_match = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE adversaire = '" . $clan . "'");
         list($warid) = mysql_fetch_array($sql_match);
@@ -148,7 +148,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONTRANDEFY . ' ' . $pseudo;
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
 
         echo "<div class=\"notification success png_bg\">\n"
@@ -206,7 +206,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONPREFDEFY . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"

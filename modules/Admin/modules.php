@@ -16,18 +16,12 @@ global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include_once ('Includes/hash.php');
 include("modules/Admin/design.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+
+$hasAdminAccess = nkAccessAdmin('Mods');
 
 admintop();
 
-if ($visiteur == 9)
+if ($hasAdminAccess === true)
 {
     function edit_module($mid)
     {
@@ -103,7 +97,7 @@ if ($visiteur == 9)
 		// Action
 		$texteaction = "". _ACTIONDESMOD .": ".$nom."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
@@ -124,7 +118,7 @@ if ($visiteur == 9)
 		// Action
 		$texteaction = "". _ACTIONACTMOD .": ".$nom."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
@@ -148,7 +142,7 @@ if ($visiteur == 9)
 		// Action
 		$texteaction = "". _ACTIONMODIFMOD .": ".$nom."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"

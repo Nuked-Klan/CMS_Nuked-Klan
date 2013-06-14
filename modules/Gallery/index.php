@@ -13,7 +13,7 @@ global $nuked, $language, $user;
 translate('modules/Gallery/lang/' . $language . '.lang.php');
 include('modules/Gallery/config.php');
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);

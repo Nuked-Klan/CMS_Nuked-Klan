@@ -51,7 +51,7 @@ function post_message(){
     echo '<br /><form method="post" action="index.php?file=Userbox&amp;op=send_message">
             <table style="margin: auto;text-align:left;width: 98%">
             <tr><td align="center"><big><b>'._POSTMESS.'</b></big><br /><br /></td></tr>
-            <tr><td><b>'._AUTHOR.' :</b> '.$user[2].'</td></tr>
+            <tr><td><b>'._AUTHOR.' :</b> '.$GLOBALS['user']['nickName'].'</td></tr>
             <tr><td><b>'._USERFOR.' :</b> ';
 
     if (!empty($_REQUEST['for']) && !empty($pseudo)){
@@ -83,7 +83,7 @@ function send_message($titre, $user_for, $message){
         if ($nb == 0){
             echo '<br /><br /><div style="text-align:center;\">'._UNKNOWMEMBER.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a></div><br /><br />';
         }else{
-            $flood = mysql_query("SELECT date FROM " . USERBOX_TABLE . " WHERE user_from = '" . $user[0] . "' ORDER BY date DESC LIMIT 0, 1");
+            $flood = mysql_query("SELECT date FROM " . USERBOX_TABLE . " WHERE user_from = '" . $GLOBALS['user']['id'] . "' ORDER BY date DESC LIMIT 0, 1");
             list($flood_date) = mysql_fetch_array($flood);
             $anti_flood = $flood_date + $nuked['post_flood'];
             $date = time();
@@ -102,7 +102,7 @@ function send_message($titre, $user_for, $message){
             $message = mysql_real_escape_string(stripslashes($message));
             $user_for = mysql_real_escape_string(stripslashes($user_for));
 
-            $sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
+            $sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$GLOBALS['user']['id']}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
             echo '<br /><br /><div style="text-align:center;">'._MESSSEND.'</div><br /><br />';
             redirect("index.php?file=Userbox", 2);
         }
@@ -114,11 +114,11 @@ function show_message($mid){
 
     echo '<script type="text/javascript">function del_mess(pseudo, id){if (confirm(\''._DELETEMESS.' \'+pseudo+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Userbox&op=del_message&mid=\'+id;}}</script>';
 
-    $sql = mysql_query("UPDATE " . USERBOX_TABLE . " SET status = 1 WHERE mid = '$mid' AND user_for = '{$user[0]}'");
+    $sql = mysql_query("UPDATE " . USERBOX_TABLE . " SET status = 1 WHERE mid = '$mid' AND user_for = '{$GLOBALS['user']['id']}'");
 
     echo '<br /><div style="text-align:center;"><big><b>'._PRIVATEMESS.'</b></big></div><br /><br />';
 
-    $sql2 = mysql_query("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $_REQUEST['mid'] . "' AND user_for = '" . $user[0] . "'");
+    $sql2 = mysql_query("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $_REQUEST['mid'] . "' AND user_for = '" . $GLOBALS['user']['id'] . "'");
     $row = mysql_fetch_assoc($sql2);
 
     $row['titre'] = printSecuTags($row['titre']);
@@ -152,11 +152,11 @@ function show_message($mid){
 function del_message($mid){
     global $user, $nuked;
 
-    $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE  mid = '$mid' AND user_for = '{$user[0]}'");
+    $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE  mid = '$mid' AND user_for = '{$GLOBALS['user']['id']}'");
     $nbr = mysql_num_rows($sql);
 
     if($nbr > 0){
-        $sql = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '$mid' AND user_for = '{$user[0]}'");
+        $sql = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '$mid' AND user_for = '{$GLOBALS['user']['id']}'");
         $MessConf = _MESSDEL;
     }
     else $MessConf = 'Failed...';
@@ -170,7 +170,7 @@ function del_message_form($mid, $del_oui){
 
     if ($del_oui == 'ok'){
 
-        $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");
+        $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$GLOBALS['user']['id']}' ORDER BY mid");
         $nb_mess = mysql_num_rows($sql);
         $get_mid = 0;
 
@@ -195,7 +195,7 @@ function del_message_form($mid, $del_oui){
             exit();
         }
 
-        $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");
+        $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$GLOBALS['user']['id']}' ORDER BY mid");
         $nb_mess = mysql_num_rows($sql);
 
         echo '<form method="post" action="index.php?file=Userbox&amp;op=del_message_form&amp;del_oui=ok">
@@ -207,7 +207,7 @@ function del_message_form($mid, $del_oui){
             $get_mid++;
 
             if ($titi){
-                $sql_mess = mysql_query("SELECT user_from, date FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' AND mid = '{$titi}'");
+                $sql_mess = mysql_query("SELECT user_from, date FROM " . USERBOX_TABLE . " WHERE user_for = '{$GLOBALS['user']['id']}' AND mid = '{$titi}'");
                 $row = mysql_fetch_assoc($sql_mess);
                 $row['date'] = nkDate($row['date']);
 
@@ -240,7 +240,7 @@ function index(){
                 <td align="center"><b>'._STATUS.'</b></td>
                 <td align="center"><b>'._READMESS.'</b></td></tr>';
 
-        $sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY date DESC");
+        $sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '{$GLOBALS['user']['id']}' ORDER BY date DESC");
         $nb_mess = mysql_num_rows($sql);
         $i = 0;
         $j = 0;

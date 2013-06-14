@@ -15,7 +15,7 @@ if (!defined("INDEX_CHECK")) {
 translate("modules/Admin/lang/" . $GLOBALS['language'] . ".lang.php");
 include("modules/Admin/design.php");
 
-$nkAccessModule = nkAccessModule('Admin', $GLOBALS['user']['1'], true);
+$nkAccessModule = nkAccessAdmin('Groups');
 
 admintop();
 

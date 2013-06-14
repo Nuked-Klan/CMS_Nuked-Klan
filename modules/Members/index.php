@@ -14,7 +14,7 @@ if (!defined("INDEX_CHECK")){
 global $language, $user;
 translate("modules/Members/lang/" . $language . ".lang.php");
 
-$visiteur = !$user ? 0 : $user[1];
+$visiteur = !$user ? 0 : $GLOBALS['user']['idGroup'];
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -269,7 +269,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             if ($visiteur == 9){
                echo "<div style=\"text-align: right;\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/edition.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a>";
 
-	            if ($id_user != $user[0]){
+	            if ($id_user != $GLOBALS['user']['id']){
 	                echo "<script type=\"text/javascript\">\n"
 							."<!--\n"
 							."\n"

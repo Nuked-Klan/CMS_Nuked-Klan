@@ -15,7 +15,7 @@ global $user, $nuked, $language, $bgcolor3, $bgcolor2, $bgcolor1;
 translate("modules/Stats/lang/" . $language . ".lang.php");
 
 $level_access = nivo_mod('Stats');
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 if ($visiteur >= $level_access && $level_access > -1) {
 

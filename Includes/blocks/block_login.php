@@ -37,30 +37,30 @@ function affich_block_login($blok){
 			. '<a href="index.php?file=User&amp;op=oubli_pass">' . _FORGETPASS . '</a> ?</td></tr></table></form>'."\n";
 		}
 		else{
-			$blok['content'] = '<div style="text-align: center;">' . _WELCOME . ', <b>' . $user[2] . '</b><br /><br />'."\n";
+			$blok['content'] = '<div style="text-align: center;">' . _WELCOME . ', <b>' . $GLOBALS['user']['nickName'] . '</b><br /><br />'."\n";
 			if ($avatar != 'off'){
-				$sql_avatar=mysql_query('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $user[0] . '\' ');
+				$sql_avatar=mysql_query('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $GLOBALS['user']['id'] . '\' ');
 				list($avatar_url) = mysql_fetch_array($sql_avatar);
-				if($avatar_url) $blok['content'] .= '<img src="' . $avatar_url . '" style="border:1px ' . $bgcolor3 . ' dashed; width:100px; background:' . $bgcolor1 . '; padding:2px;" alt="' . $user[2] . ' avatar" /><br /><br />';
+				if($avatar_url) $blok['content'] .= '<img src="' . $avatar_url . '" style="border:1px ' . $bgcolor3 . ' dashed; width:100px; background:' . $bgcolor1 . '; padding:2px;" alt="' . $GLOBALS['user']['nickName'] . ' avatar" /><br /><br />';
 			}
 			$blok['content'] .= '<a href="index.php?file=User">' . _ACCOUNT . '</a> / <a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout">' . _LOGOUT . '</a></div>'."\n";
 		}
 		$c++;
 	}
 
-    if($messpv != 'off' && (array_key_exists(0, $user) && $user[0] != '')){
+    if($messpv != 'off' && (array_key_exists(0, $user) && $GLOBALS['user']['id'] != '')){
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
 
-		$sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
+		$sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $GLOBALS['user']['id'] . '\' AND status = 1');
 		$nb_mess_lu = mysql_num_rows($sql2);
 
 		$blok['content'] .= '&nbsp;<img width="14" height="12" src="images/message.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MESSPV . '</b></span><br />'."\n";
 
-		if ($user[5] > 0){
-			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>'."\n";
+		if ($GLOBALS['user']['nbMess'] > 0){
+			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <a href="index.php?file=Userbox"><b>' . $GLOBALS['user']['nbMess'] . '</b></a>'."\n";
 		}
 		else{
-			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <b>' . $user[5] . '</b>'."\n";
+			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <b>' . $GLOBALS['user']['nbMess'] . '</b>'."\n";
 		}
 
 		if ($nb_mess_lu > 0){
@@ -102,6 +102,7 @@ function affich_block_login($blok){
     	$nb = nbvisiteur();
 
     	if ($nb[1] > 0){
+            $user_online = '';
 			$sql4 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type BETWEEN 1 AND 2 ORDER BY date');
 			while (list($nom) = mysql_fetch_array($sql4)){
 				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';

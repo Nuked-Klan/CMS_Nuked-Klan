@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -13,7 +13,7 @@ translate('modules/Survey/lang/' . $language . '.lang.php');
 include 'modules/Admin/design.php';
 admintop();
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
@@ -36,7 +36,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
         for ($r = 0; $r < 13; $r++) {
             echo "<tr><td align=\"right\">" . _CHOICE . "&nbsp;" . $r . " : <input type=\"text\" name=\"option[]\" size=\"40\" /></td></tr>\n";
-        } 
+        }
 
         echo "<tr><td>&nbsp;</td></tr>\n"
            . "<tr><td><b>" . _LEVEL . " :</b> <select name=\"niveau\">\n"
@@ -46,7 +46,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<option>9</option></select></td></tr>\n"
            . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _ADDTHISPOLL . "\" /></div>\n"
            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Survey&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function send_sondage($titre, $option, $niveau) {
         global $nuked, $user;
@@ -65,12 +65,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
             if (!empty($options)) {
                 $sql3 = mysql_query("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $options . "' , '' , '" . $vid . "' )");
-            } 
-        } 
+            }
+        }
         // Action
         $texteaction = _ACTIONADDSUR . ': ' . $titre . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -85,7 +85,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "screenon('index.php?file=Survey&op=sondage&poll_id=".$poll_id."', 'index.php?file=Survey&page=admin');\n"
            . "}\n"
            . "</script>\n";
-    } 
+    }
 
     function del_sondage($poll_id) {
         global $nuked, $user;
@@ -99,7 +99,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONDELSUR . ': ' . $titre . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`)  VALUES ('" . $acdate . "', '" . $user[0] . "', '" . $texteaction . "')");
+        $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`)  VALUES ('" . $acdate . "', '" . $GLOBALS['user']['id'] . "', '" . $texteaction . "')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -107,7 +107,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "</div>\n"
            . "</div>\n";
         redirect('index.php?file=Survey&page=admin', 2);
-    } 
+    }
 
     function edit_sondage($poll_id) {
         global $nuked, $language;
@@ -130,7 +130,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         while (list($optiontext) = mysql_fetch_array($sql2)) {
             $r++;
             echo "<tr><td align=\"right\">" . _CHOICE . "&nbsp;" . $r . " : <input type=\"text\" name=\"option[" . $r . "]\" size=\"40\" value=\"" . $optiontext . "\" /></td></tr>\n";
-        } 
+        }
 
         $r++;
 
@@ -143,7 +143,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<option>9</option></select></td></tr>\n"
            . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISPOLL . "\" /></div>\n"
            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Survey&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
         global $nuked, $user;
@@ -160,8 +160,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
                 $upd = mysql_query("UPDATE " . SURVEY_DATA_TABLE . " SET optionText = '" . $options . "' WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
             } else {
                 $del = mysql_query("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
-            } 
-        } 
+            }
+        }
 
         if (!empty($newoption)) {
             $newoption = mysql_real_escape_string(stripslashes($newoption));
@@ -173,7 +173,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONMODIFSUR . ': ' . $titre . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`) VALUES ('" . $acdate . "', '" . $user[0]."', '" . $texteaction . "')");
+        $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`) VALUES ('" . $acdate . "', '" . $GLOBALS['user']['id']."', '" . $texteaction . "')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -186,7 +186,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "screenon('index.php?file=Survey&op=sondage&poll_id=" . $poll_id . "', 'index.php?file=Survey&page=admin');\n"
            . "}\n"
            . "</script>\n";
-    } 
+    }
 
     function main(){
         global $nuked, $language;
@@ -232,14 +232,14 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
                . "<td align=\"center\">" . $niveau . "</td>\n"
                . "<td align=\"center\"><a href=\"index.php?file=Survey&amp;page=admin&amp;op=edit_sondage&amp;poll_id=" . $poll_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISPOLL . "\" /></a></td>\n"
                . "<td align=\"center\"><a href=\"javascript:del_poll('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $poll_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOLL . "\" /></a></td></tr>\n";
-        } 
+        }
 
         if ($count == 0) {
             echo "<tr><td colspan=\"5\" align=\"center\">" . _NOPOOL . "</td></tr>\n";
-        } 
+        }
 
         echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>";
-    } 
+    }
 
     function main_pref() {
         global $nuked, $language;
@@ -258,7 +258,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<tr><td>" . _POLLTIME . " :</td><td><input type=\"text\" name=\"sond_delay\" size=\"2\" value=\"" . $nuked['sond_delay'] . "\" /></td></tr>\n"
            . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Survey&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function change_pref($sond_delay) {
         global $nuked, $user;
@@ -267,7 +267,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONCONFSUR . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -275,7 +275,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "</div>\n"
            . "</div>\n";
         redirect('index.php?file=Survey&page=admin', 2);
-    } 
+    }
 
     switch ($_REQUEST['op']) {
         case 'add_sondage':
@@ -309,7 +309,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         default:
             main();
             break;
-    } 
+    }
 
 } else if ($level_admin == -1) {
     echo "<div class=\"notification error png_bg\">\n"

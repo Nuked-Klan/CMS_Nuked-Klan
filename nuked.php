@@ -160,8 +160,8 @@ function session_read($id){
 
 // WRITE PHP SESSION
 function session_write($id, $data){
-    $id = mysql_escape_string($id);
-    $data = mysql_escape_string($data);
+    $id = mysql_real_escape_string($id);
+    $data = mysql_real_escape_string($data);
 
     connect();
 
@@ -176,7 +176,7 @@ function session_write($id, $data){
 function session_delete($id){
     connect();
 
-    $sql = mysql_query('DELETE FROM ' . TMPSES_TABLE . ' WHERE session_id = "' . mysql_escape_string($id) . '"');
+    $sql = mysql_query('DELETE FROM ' . TMPSES_TABLE . ' WHERE session_id = "' . mysql_real_escape_string($id) . '"');
 
     return $sql;
 }
@@ -228,17 +228,17 @@ include ('Includes/nkSessions.php');
 
 // QUERY BAN FOR USER / VISITOR
 function banip() {
-    global $user_ip, $user, $language;
+    global $userIp, $user, $language;
 
     if(array_key_exists(2, $user)){
-        $userName = $user[2];
+        $userName = $GLOBALS['user']['nickName'];
     }
     else{
         $userName = '';
     }
 
     // On supprime le dernier chiffre pour les IP's dynamiques
-    $ip_dyn = substr($user_ip, 0, -1);
+    $ip_dyn = substr($userIp, 0, -1);
 
     // Condition SQL : IP dynamique ou compte
     $where_query = ' WHERE (ip LIKE "%' . $ip_dyn . '%") OR pseudo = "' . $userName . '"';
@@ -250,7 +250,7 @@ function banip() {
     // Si resultat positif a la recherche d'un bannissement
     if(mysql_num_rows($query_ban) > 0) {
         // Nouvelle adresse IP
-        $banned_ip = $user_ip;
+        $banned_ip = $userIp;
     }
     // Recherche d'un cookie de banissement
     else if(isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) {
@@ -263,7 +263,7 @@ function banip() {
             $query_ban2 = mysql_query('SELECT `id` FROM ' . BANNED_TABLE . ' WHERE (ip LIKE "%' . $ip_dyn2 . '%")');
             // Si resultat positif, on fait un nouveau ban
             if(mysql_num_rows($query_ban2) > 0)
-                $banned_ip = $user_ip;
+                $banned_ip = $userIp;
         }
     }
     else{
@@ -281,12 +281,12 @@ function banip() {
         }
         // Sinon on met a jour l'IP
         else {
-            $where_user = $user ? ', pseudo = "' . $user[2] . '"' : '';
-            $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '"' . $where_user . ' ' . $where_query);
+            $where_user = $user ? ', pseudo = "' . $GLOBALS['user']['nickName'] . '"' : '';
+            $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $userIp . '"' . $where_user . ' ' . $where_query);
             // Redirection vers la page de banissement
             $url_ban = 'ban.php?ip_ban=' . $banned_ip;
             if(!empty($user)){
-                $url_ban .= '&user=' . urlencode($user[2]);
+                $url_ban .= '&user=' . urlencode($GLOBALS['user']['nickName']);
             }
             redirect($url_ban, 0);
         }
@@ -321,7 +321,7 @@ function get_blok($side){
             if (isset($_REQUEST['file']) && $_REQUEST['file'] == $blok['page'][$i] || $blok['page'][$i] == 'Tous') $test_page = 'ok';
         }
 
-        $visiteur = $user ? $user[1] : 0;
+        $visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
         if ($visiteur >= $blok['nivo'] && $test_page == 'ok'){
             if(file_exists('Includes/blocks/block_' . $blok['type'] . '.php'))
@@ -825,35 +825,35 @@ function number($count, $each, $link){
 }
 
 function nbvisiteur(){
-    global $user, $nuked, $user_ip;
+    global $user, $nuked, $userIp;
 
     $limite = time() + $nuked['nbc_timeout'];
     $time = time();
 
     $req = mysql_query("DELETE FROM " . NBCONNECTE_TABLE . " WHERE date < '" . $time."'");
 
-    if (isset($user_ip)){
-        if (isset($user[0])){
-            $where = "WHERE user_id='" . $user[0] . "'";
+    if (isset($userIp)){
+        if (isset($GLOBALS['user']['id'])){
+            $where = "WHERE user_id='" . $GLOBALS['user']['id'] . "'";
         }
         else{
-            $where = "WHERE IP='" . $user_ip . "'";
+            $where = "WHERE IP='" . $userIp . "'";
         }
         $req = mysql_query("SELECT IP FROM " . NBCONNECTE_TABLE . " " . $where);
         $query = mysql_num_rows($req);
 
         if ($query > 0){
-            if (isset($user[0])){
-                $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '" . $user[1] . "', IP = '" . $user_ip . "', username = '" . $user[2] . "' WHERE user_id = '" . $user[0] . "'");
+            if (isset($GLOBALS['user']['id'])){
+                $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '" . $GLOBALS['user']['idGroup'] . "', IP = '" . $userIp . "', username = '" . $GLOBALS['user']['nickName'] . "' WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
             }
             else{
-                $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '', user_id = '', username = 'visitor' WHERE IP = '" . $user_ip . "'");
+                $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '', user_id = '', username = 'visitor' WHERE IP = '" . $userIp . "'");
             }
         }
         else{
-            $del = mysql_query("DELETE FROM " . NBCONNECTE_TABLE . " WHERE IP = '" . $user_ip . "'");
-            if (isset($user[0])){
-                $req = mysql_query("INSERT INTO " . NBCONNECTE_TABLE . " ( `IP` , `type` , `date` , `user_id` , `username` ) VALUES ( '" . $user_ip . "' , '" . $user[1] . "' , '" . $limite . "' , '" . $user[0] . "' , '" . $user[2] . "' )");
+            $del = mysql_query("DELETE FROM " . NBCONNECTE_TABLE . " WHERE IP = '" . $userIp . "'");
+            if (isset($GLOBALS['user']['id'])){
+                $req = mysql_query("INSERT INTO " . NBCONNECTE_TABLE . " ( `IP` , `type` , `date` , `user_id` , `username` ) VALUES ( '" . $userIp . "' , '" . $GLOBALS['user']['idGroup'] . "' , '" . $limite . "' , '" . $GLOBALS['user']['id'] . "' , '" . $GLOBALS['user']['nickName'] . "' )");
             }
         }
     }
@@ -951,13 +951,13 @@ function nk_CSS($str){
 }
 
 function visits(){
-    global $nuked, $user_ip, $user;
+    global $nuked, $userIp, $user;
 
     $time = time();
     $timevisit = $nuked['visit_delay'] * 60;
     $limite = $time + $timevisit;
 
-    $sql_where = ($user) ? 'user_id = "' . $user[0] : 'ip = "' . $user_ip;
+    $sql_where = ($user) ? 'user_id = "' . $GLOBALS['user']['id'] : 'ip = "' . $userIp;
     $sql = mysql_query('SELECT id, date FROM ' . STATS_VISITOR_TABLE . ' WHERE ' . $sql_where . '" ORDER by date DESC LIMIT 0, 1');
 
     list($id, $date) = mysql_fetch_array($sql);
@@ -971,10 +971,10 @@ function visits(){
         $day = strftime('%d', $time);
         $hour = strftime('%H', $time);
         $user_referer = mysql_escape_string($_SERVER['HTTP_REFERER']);
-        $user_host = strtolower(@gethostbyaddr($user_ip));
+        $user_host = strtolower(@gethostbyaddr($userIp));
         $user_agent = mysql_escape_string($_SERVER['HTTP_USER_AGENT']);
 
-        if ($user_host == $user_ip) $host = '';
+        if ($user_host == $userIp) $host = '';
         else{
             if (preg_match('`([^.]{1,})((\.(co|com|net|org|edu|gov|mil))|())((\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|fi|fj|fk|fm|fo|fr|fx|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nt|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zr|zw))|())$`', $user_host, $res))
                 $host = $res[0];
@@ -982,7 +982,7 @@ function visits(){
 
         $browser = getBrowser();
         $os = getOS();
-        $sql2 = mysql_query("INSERT INTO " . STATS_VISITOR_TABLE . " ( `id` , `user_id` , `ip` , `host` , `browser` , `os` , `referer` , `day` , `month` , `year` , `hour` , `date` ) VALUES ( '' , '" . $user[0] . "' , '" . $user_ip . "' , '" . $host . "' , '" . $browser . "' , '" . $os . "' , '" . $user_referer . "' , '" . $day . "' , '" . $month . "' , '" . $year . "' , '" . $hour . "' , '" . $limite . "' )");
+        $sql2 = mysql_query("INSERT INTO " . STATS_VISITOR_TABLE . " ( `id` , `user_id` , `ip` , `host` , `browser` , `os` , `referer` , `day` , `month` , `year` , `hour` , `date` ) VALUES ( '' , '" . $GLOBALS['user']['id'] . "' , '" . $userIp . "' , '" . $host . "' , '" . $browser . "' , '" . $os . "' , '" . $user_referer . "' , '" . $day . "' , '" . $month . "' , '" . $year . "' , '" . $hour . "' , '" . $limite . "' )");
     }
 }
 
@@ -1223,42 +1223,73 @@ function initializeControlDB($prefixDB) {
         }
     }
 }
-function nkAccessModule($module, $group, $access) {
 
-    if($access === true) {
-        $field = 'accessAdmin';
+function nkAccessAdmin($module) {
+    if(array_key_exists('accessAdmin', $GLOBALS['user'])){
+        $arrayUserAccessAdmin = explode('|', $GLOBALS['user']['accessAdmin']);
     }
-    else if($access === false) {
-        $field = 'access';
+    else{
+        $arrayUserAccessAdmin = array();
+    }
+    if(in_array($module, $arrayUserAccessAdmin) || in_array('ALL', $arrayUserAccessAdmin)){
+        return true;
     }
 
-    $userGroup = explode("|", $group);  /// Transforme en tableaux les groupe ( ID ) => 0|1|2 ect...
+    return false;
+}
 
-    $i = 0;
-    $arrayGroup = array();
-    $dbsGroup = " SELECT id, ".$field."
-                  FROM ".GROUP_TABLE." ";
-    $dbeGroup = mysql_query($dbsGroup) or die(mysql_error());
+function nkAccessModule($module) {
+    if(array_key_exists('accessMods', $GLOBALS['user'])){
+        $arrayUserAccessMods = explode('|', $GLOBALS['user']['accessMods']);
+    }
+    else{
+        $arrayUserAccessMods = array();
+    }
+    if(in_array($module, $arrayUserAccessMods) || in_array('ALL', $arrayUserAccessMods)){
+        return true;
+    }
 
-    while ($data = mysql_fetch_assoc($dbeGroup)) {
-        if (in_array($data['id'], $userGroup)) {
-            $data[$field] = explode('|', $data[$field]);
-            foreach ($data[$field] as $moduleName) {
-                if (!in_array($moduleName, $arrayGroup)) {
-                    $arrayGroup[] = $moduleName;
-                }
-            }
+    return false;
+}
+
+function nkHasAdmin(){
+    if(array_key_exists('accessMods', $GLOBALS['user'])){
+        $arrayUserAccessMods = explode('|', $GLOBALS['user']['accessMods']);
+    }
+    else{
+        $arrayUserAccessMods = array();
+    }
+
+    if(in_array('Admin', $arrayUserAccessMods) || in_array('ALL', $arrayUserAccessMods)){
+        return true;
+    }
+
+    return false;
+}
+
+function nkHasMember(){
+    if(array_key_exists('userType', $GLOBALS['user']) && is_array($GLOBALS['user']['userType'])){
+        $userType = explode('|', $GLOBALS['user']['userType']);
+        if(in_array('2', $userType)){
+            return true;
         }
     }
 
-    if (in_array($module, $arrayGroup, true) || in_array(1, $userGroup)) {
+    if($GLOBALS['user']['userType'] == '2'){
         return true;
     }
-    else {
-        return false;
+
+    return false;
+}
+
+function nkHasVisitor(){
+    if(!array_key_exists('userType', $GLOBALS['user'])){
+        return true;
     }
 
+    return false;
 }
+
 
 function translateGroupName($groupId, $groupName){
     if($groupId == 1 || $groupId == 2 || $groupId == 3){
@@ -1279,7 +1310,7 @@ function colorGroup($userMainGroup) {
 }
 
 function debug($content) {
-    echo'<pre>';
+    echo'<pre style="background:#fff;color:#000;font-size:12px !important;">';
     var_dump($content);
     echo'</pre>';
 }

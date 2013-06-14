@@ -51,8 +51,8 @@ function form($content, $sug_id)
 
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=Sections";
         if($user){
-            $autor = $user[2];
-            $autor_id = $user[0];
+            $autor = $GLOBALS['user']['nickName'];
+            $autor_id = $GLOBALS['user']['id'];
         }
         else{
             $autor = '';
@@ -137,7 +137,7 @@ function send($data)
     }
     else
     {
-        $autor = $user[2];
+        $autor = $GLOBALS['user']['nickName'];
     }
 
     if ($data['auteur_id'] != "")
@@ -146,7 +146,7 @@ function send($data)
     }
     else
     {
-        $autor_id = $user[0];
+        $autor_id = $GLOBALS['user']['id'];
     }
 
     $data['title'] = mysql_real_escape_string(stripslashes($data['title']));

@@ -11,7 +11,7 @@ defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">You cannot op
 
 translate("modules/Download/lang/" . $language . ".lang.php");
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);

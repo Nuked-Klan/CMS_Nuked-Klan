@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -7,12 +7,12 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die('<div style="text-align: center;">You cannot open this page directly</div>'); 
+defined('INDEX_CHECK') or die('<div style="text-align: center;">You cannot open this page directly</div>');
 
 translate('modules/Server/lang/' . $language . '.lang.php');
 include 'modules/Admin/design.php';
 admintop();
-$visiteur = $user ? $user[1] : 0; 
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 
@@ -59,12 +59,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
                    . "<td align=\"center\"><a href=\"javascript:del_cat('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
         }
     } else  {
-        echo "<tr><td align=\"center\" colspan=\"3\">" . _NONECATINDATABASE . "</td></tr>\n"; 
+        echo "<tr><td align=\"center\" colspan=\"3\">" . _NONECATINDATABASE . "</td></tr>\n";
     }
 
     echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Server&amp;page=admin&amp;op=add_cat\"><b>" . _ADDCAT . "</b></a> ]</div>\n"
        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Server&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function add_cat() {
         global $language;
@@ -81,7 +81,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
            . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Server&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function send_cat($titre, $description) {
         global $nuked, $user;
@@ -89,12 +89,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         $description = nkHtmlEntityDecode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
-        
+
         $sql = mysql_query("INSERT INTO " . SERVER_CAT_TABLE . " ( `cid` , `titre` , `description` ) VALUES ( '" . $cid . "' , '" . $titre . "' , '" . $description . "' )");
         // Action
         $texteaction =  _ACTIONADDCATSER . ': ' . $titre . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -107,7 +107,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
            . "}\n"
            . "</script>\n";
-    } 
+    }
 
     function edit_cat($cid) {
         global $nuked, $language;
@@ -127,7 +127,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
            . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Server&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function modif_cat($cid, $titre, $description) {
         global $nuked, $user;
@@ -140,7 +140,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction =  _ACTIONMODIFCATSER . ': ' . $titre .' .';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -153,7 +153,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
            . "}\n"
            . "</script>\n";
-    } 
+    }
 
     function del_cat($cid) {
         global $nuked, $user;
@@ -165,7 +165,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONDELCATSER . ': ' . $titre . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -178,7 +178,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
            . "}\n"
            . "</script>\n";
-    } 
+    }
 
     function select_serv_cat() {
         global $nuked;
@@ -188,8 +188,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
             $titre = printSecuTags($titre);
 
             echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
-        } 
-    } 
+        }
+    }
 
     function add_serveur() {
         global $language;
@@ -231,7 +231,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         echo "</select></td></tr></table>\n"
            . "<div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"send\" value=\"" . _ADDTHISSERV . "\" /></div>\n"
            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Server&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
-    } 
+    }
 
     function send_serveur($ip_serv, $port, $game, $pass, $cat) {
         global $nuked, $user;
@@ -240,7 +240,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONADDSER . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -253,7 +253,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin');\n"
            . "}\n"
            . "</script>\n";
-    } 
+    }
 
     function del_serveur($sid) {
         global $nuked, $user;
@@ -262,7 +262,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONDELSER . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -275,7 +275,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin');\n"
            . "}\n"
            . "</script>\n";
-    } 
+    }
 
     function edit_serveur($sid) {
         global $nuked, $language;
@@ -320,7 +320,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         echo "</select><input type=\"hidden\" name=\"sid\" value=\"" . $sid . "\" /></td></tr></table>\n"
            . "<div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"send\" value=\"" . _MODIFTHISSERV . "\" /></div>\n"
            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Server&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
-    } 
+    }
 
     function modif_serveur($sid, $ip_serv, $port, $game, $pass, $cat) {
         global $nuked, $user;
@@ -329,7 +329,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction = _ACTIONMODIFSER . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -342,7 +342,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
            . "}\n"
            . "</script>\n";
-    } 
+    }
 
     function main() {
         global $nuked, $language;
@@ -391,14 +391,14 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
                . "<td style=\"width: 20%;\" align=\"center\">" . $categorie . "</td>\n"
                . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Server&amp;page=admin&amp;op=edit_serveur&amp;sid=" . $sid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISSERV . "\" /></a></td>\n"
                . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_server('" . $ip_serv . "', '" . $sid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISSERV . "\" /></a></td></tr>\n";
-        } 
+        }
 
         if ($count == 0) {
             echo "<tr><td colspan=\"5\" align=\"center\">" . _NOSERV . "</td></tr>\n";
-        } 
+        }
 
         echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
-    } 
+    }
 
     function main_pref() {
         global $nuked, $language;
@@ -436,7 +436,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "</select>&nbsp;<b>" . _SERVERPASS . " :</b> <input type=\"text\" name=\"server_pass\" size=\"10\" value=\"" . $nuked['server_pass'] . "\" /></td></tr>\n"
            . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Server&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-    } 
+    }
 
     function change_pref($server_ip, $server_port, $server_game, $server_pass) {
         global $nuked, $user;
@@ -448,7 +448,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         // Action
         $texteaction =  _ACTIONCONFIGSER . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
            . "<div>\n"
@@ -456,7 +456,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "</div>\n"
            . "</div>\n";
         redirect('index.php?file=Server&page=admin', 2);
-    } 
+    }
 
     switch ($_REQUEST['op'])
     {
@@ -515,7 +515,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         default:
             main();
             break;
-    } 
+    }
 
 } else if ($level_admin == -1) {
     echo "<div class=\"notification error png_bg\">\n"
@@ -535,7 +535,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
     . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
-}     
+}
 
 adminfoot();
 

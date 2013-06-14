@@ -13,7 +13,7 @@ global $user, $language;
 translate("modules/Comment/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 admintop();
-$visiteur = (!$user) ? 0 : $user[1];
+$visiteur = (!$user) ? 0 : $GLOBALS['user']['idGroup'];
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 
@@ -24,7 +24,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
         list($auteur, $autor_id, $titre, $texte, $ip) = mysql_fetch_array($sql);
         $auteur = nkHtmlSpecialChars($auteur);
-		
+
         $titre = nkHtmlEntities($titre);
 
         if($autor_id != ""){
@@ -58,7 +58,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
     function modif_com($cid, $titre, $texte){
         global $nuked, $user;
-		
+
 		$texte = secu_html(nkHtmlEntityDecode($texte));
         $texte = mysql_real_escape_string(stripslashes($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
@@ -67,14 +67,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 		// Action
 		$texteaction = "". _ACTIONMODIFCOM .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 				. "<div>\n"
 				. "" . _COMMENTMODIF . "\n"
 				. "</div>\n"
 				. "</div>\n";
-				
+
         redirect("index.php?file=Comment&page=admin", 2);
     }
 
@@ -85,14 +85,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 		// Action
 		$texteaction = "". _ACTIONDELCOM .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 				. "<div>\n"
 				. "" . _COMMENTDEL . "\n"
 				. "</div>\n"
 				. "</div>\n";
-				
+
         redirect("index.php?file=Comment&page=admin", 2);
     }
 
@@ -176,7 +176,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         }
         echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
     }
-	
+
 	function module_send_com($news, $download, $sections, $links, $wars, $gallery, $survey){
         global $nuked, $user;
 
@@ -190,20 +190,20 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 		// Action
 		$texteaction = "". _ACTIONMODIFCOMMOD .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 				. "<div>\n"
 				. "" . _COMMENTMODIFMOD . "\n"
 				. "</div>\n"
 				. "</div>\n";
-				
+
         redirect("index.php?file=Comment&page=admin&op=module_com", 2);
     }
-	
+
 	function module_com(){
         global $nuked, $language;
-        
+
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 				. "<div class=\"content-box-header\"><h3>" . _ADMINCOMMENT . "</h3>\n"
 				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Comment.php\" rel=\"modal\">\n"
@@ -213,7 +213,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				. "" . _COMMENTMOD . "</b></div><br />\n"
 				. "<form method=\"post\" action=\"index.php?file=Comment&amp;page=admin&amp;op=module_send_com\">\n"
 				. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">"._LISTI."\n";
-				
+
 		$sql = mysql_query("SELECT module, active FROM " . $nuked['prefix'] . "_comment_mod");
 		while(list($module, $active) = mysql_fetch_array($sql)){
 		?>
@@ -234,7 +234,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				</select></td></tr>
 		<?php
 			}
-		}	
+		}
 		echo "<tr><td align=\"center\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
 				. "<br /><input type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /></td></tr></table>\n"
 				. "<div style=\"text-align: center;\"><br />[ <a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
@@ -251,15 +251,15 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         case "del_com":
             del_com($_REQUEST['cid']);
             break;
-			
+
 		case "module_com":
             module_com();
             break;
-		
+
 		case "module_send_com":
             module_send_com($_REQUEST['news'],$_REQUEST['download'],$_REQUEST['sections'],$_REQUEST['links'],$_REQUEST['wars'],$_REQUEST['gallery'],$_REQUEST['survey']);
             break;
-		
+
         default:
             main();
             break;

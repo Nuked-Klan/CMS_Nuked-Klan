@@ -12,7 +12,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $language, $user;
 translate("modules/Team/lang/" . $language . ".lang.php");
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -310,7 +310,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                echo "<div style=\"text-align: right;\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/edition.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a>";
 
-            if ($id_user != $user[0])
+            if ($id_user != $GLOBALS['user']['id'])
             {
                 echo "<script type=\"text/javascript\">\n"
                 ."<!--\n"

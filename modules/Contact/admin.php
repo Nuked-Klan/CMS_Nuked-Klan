@@ -14,7 +14,7 @@ translate('modules/Contact/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 admintop();
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
@@ -121,7 +121,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         // Action
         $texteaction = _ACTIONDELCONTACT;
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
 
         echo '<div class="notification success png_bg">'."\n"
@@ -150,7 +150,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         . '<tr><td>' . _FLOODCONTACT . ' : <input type="text" name="contact_flood" size="2" value="' . $nuked['contact_flood'] . '" /></td></tr></table>',"\n"
         . '<div style="text-align: center"><br /><input type="submit" value="' . _SEND . '" /><br />',"\n"
         . '<br />[ <a href="index.php?file=Contact&amp;page=admin"><b>' . _BACK . '</b></a> ]</div></form><br /></div></div>',"\n";
-    } 
+    }
 
     function change_pref($contact_mail, $contact_flood){
         global $nuked, $user;
@@ -161,7 +161,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         // Action
         $texteaction = _ACTIONPREFCONT;
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
 
         echo '<div class="notification success png_bg">'."\n"
@@ -169,31 +169,31 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         . '</div>'."\n";
 
         redirect('index.php?file=Contact&page=admin', 2);
-    } 
+    }
 
     switch($_REQUEST['op']){
         case 'view':
         view($_REQUEST['mid']);
         break;
-    
+
         case 'del':
         del($_REQUEST['mid']);
         break;
-    
+
         case 'main_pref':
         main_pref();
         break;
-    
+
         case 'change_pref':
         change_pref($_REQUEST['contact_mail'], $_REQUEST['contact_flood']);
         break;
-    
+
         default:
         main();
         break;
     }
 
-} 
+}
 else if ($level_admin == -1){
     echo '<div class="notification error png_bg">'."\n"
     . '<div>'."\n"

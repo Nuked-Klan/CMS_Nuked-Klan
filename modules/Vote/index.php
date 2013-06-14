@@ -11,7 +11,7 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open
 
 translate('modules/Vote/lang/' . $language . '.lang.php');
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 function vote_index($module, $vid) {
     global $user, $nuked, $visiteur;
@@ -55,19 +55,19 @@ function vote_index($module, $vid) {
 }
 
 function post_vote($module, $vid) {
-    global $user, $nuked, $bgcolor2, $theme, $visiteur,$user_ip;
+    global $user, $nuked, $bgcolor2, $theme, $visiteur,$userIp;
 
     $level_access = nivo_mod('Vote');
 
     if ($visiteur >= $level_access) {
 
         if ($user) {
-            $author = $user[2];
+            $author = $GLOBALS['user']['nickName'];
         } else {
             $author = _VISITOR;
         }
 
-        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "' AND ip = '" . $user_ip . "'");
+        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "' AND ip = '" . $userIp . "'");
         $count = mysql_num_rows($sql);
 
         if ($count > 0) {
@@ -111,19 +111,19 @@ function post_vote($module, $vid) {
 }
 
 function do_vote($vid, $module, $vote) {
-    global $nuked, $user, $bgcolor2, $theme, $visiteur,$user_ip;
+    global $nuked, $user, $bgcolor2, $theme, $visiteur,$userIp;
 
     $level_access = nivo_mod('Vote');
     $module = mysql_real_escape_string(stripslashes($module));
 
     if ($visiteur >= $level_access && is_numeric($vote) && $vote<=10 && $vote>=0) {
         if ($user) {
-            $author = $user[2];
+            $author = $GLOBALS['user']['nickName'];
         } else {
             $author =  _VISITOR;
         }
 
-        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . $module . "' AND ip = '" . $user_ip . "'");
+        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . $module . "' AND ip = '" . $userIp . "'");
         $count = mysql_num_rows($sql);
 
         if ($count > 0) {
@@ -137,7 +137,7 @@ function do_vote($vid, $module, $vote) {
                . "<div style=\"text-align: center;\"><br /><br /><br />"  . _ALREADYVOTE .  "<br /><br /><br />\n"
                . "<a href=\"#\" onclick=\"javascript:window.close();\"><b>" . _CLOSEWINDOWS . "</b></a></b></div></body></html>";
         } else {
-            $sql = mysql_query("INSERT INTO " . VOTE_TABLE . " ( `id` , `module` , `vid` , `ip` , `vote` ) VALUES ( '' , '" . $module . "' , '" . $vid . "' , '" . $user_ip . "' , '" . $vote . "' )");
+            $sql = mysql_query("INSERT INTO " . VOTE_TABLE . " ( `id` , `module` , `vid` , `ip` , `vote` ) VALUES ( '' , '" . $module . "' , '" . $vid . "' , '" . $userIp . "' , '" . $vote . "' )");
 
             echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"

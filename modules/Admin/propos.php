@@ -13,11 +13,11 @@ global $user, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $user[1] : 0;
+$hasAdmin = nkHasAdmin();
 
 admintop();
 
-if ($visiteur >= 2) {
+if ($hasAdmin === true) {
     ?>
     <div class="content-box"><!-- Start Content Box -->
         <div class="content-box-header"><h3><?php echo _PROPOS; ?></h3></div>

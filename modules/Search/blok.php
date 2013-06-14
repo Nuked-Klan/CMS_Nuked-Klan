@@ -34,7 +34,7 @@ if ($active == 3 || $active == 4){
             $perm = nivo_mod($mod);
             if (!$perm) $perm = 0;
 
-            if ($user[1] >= $perm && $perm > -1){
+            if ($GLOBALS['user']['idGroup'] >= $perm && $perm > -1){
                 $umod = strtoupper($mod);
                 $modname = "_S" . $umod;
                 if (defined($modname)) $modname = constant($modname);

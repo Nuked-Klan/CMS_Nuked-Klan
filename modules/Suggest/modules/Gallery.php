@@ -57,7 +57,7 @@ function form($content, $sug_id){
 
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=Gallery";
         if(array_key_exists(2, $user)){
-            $autor = $user[2];
+            $autor = $GLOBALS['user']['nickName'];
         }
         else{
             $autor = '';

@@ -81,12 +81,14 @@ function top(){
                                                                 <div id="links">
                                                                         <a href="index.php?file=Contact"><?php echo _INCONTACT; ?></a> -
 <?php
-                                                                        if (!$user){
+                                                                        $hasVisitor = nkHasVisitor();
+                                                                        $hasAdmin = nkHasAdmin();
+                                                                        if ($hasVisitor === true){
 ?>
                                                                         <a href="index.php?file=User&amp;op=reg_screen"><?php echo _ININSCRIPT; ?></a>
 <?php
                                                                         }
-                                                                        elseif ($user[1] > 2){
+                                                                        elseif ($hasAdmin){
 ?>
                                                                         <a href="index.php?file=Admin"><?php echo _INADMIN; ?></a>
 <?php
