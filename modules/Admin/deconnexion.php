@@ -13,9 +13,9 @@ global $user, $nuked, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $user[1] : 0;
+$nkAccessModule = nkAccessModule('Admin');
 
-if ($visiteur >= 2)
+if ($nkAccessModule === true)
 {
     function main()
     {

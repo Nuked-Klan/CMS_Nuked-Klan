@@ -14,9 +14,9 @@ global $user, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = ($user) ? $user[1] : 0;
+$nkAccessAdmin = nkAccessAdmin('Admin');
 
-if ($visiteur == 9)
+if ($nkAccessAdmin === true)
 {
     function select_theme($mod)
     {
