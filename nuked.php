@@ -1225,7 +1225,12 @@ function initializeControlDB($prefixDB) {
 }
 
 function nkAccessAdmin($module) {
-    $arrayUserAccessAdmin = explode('|', $GLOBALS['user']['accessAdmin']);
+    if(array_key_exists('accessAdmin', $GLOBALS['user'])){
+        $arrayUserAccessAdmin = explode('|', $GLOBALS['user']['accessAdmin']);
+    }
+    else{
+        $arrayUserAccessAdmin = array();
+    }
     if(in_array($module, $arrayUserAccessAdmin) || in_array('ALL', $arrayUserAccessAdmin)){
         return true;
     }
@@ -1234,8 +1239,51 @@ function nkAccessAdmin($module) {
 }
 
 function nkAccessModule($module) {
-    $arrayUserAccessMods = explode('|', $GLOBALS['user']['accessMods']);
+    if(array_key_exists('accessMods', $GLOBALS['user'])){
+        $arrayUserAccessMods = explode('|', $GLOBALS['user']['accessMods']);
+    }
+    else{
+        $arrayUserAccessMods = array();
+    }
     if(in_array($module, $arrayUserAccessMods) || in_array('ALL', $arrayUserAccessMods)){
+        return true;
+    }
+
+    return false;
+}
+
+function nkHasAdmin(){
+    if(array_key_exists('accessMods', $GLOBALS['user'])){
+        $arrayUserAccessMods = explode('|', $GLOBALS['user']['accessMods']);
+    }
+    else{
+        $arrayUserAccessMods = array();
+    }
+
+    if(in_array('Admin', $arrayUserAccessMods) || in_array('ALL', $arrayUserAccessMods)){
+        return true;
+    }
+
+    return false;
+}
+
+function nkHasMember(){
+    if(array_key_exists('userType', $GLOBALS['user']) && is_array($GLOBALS['user']['userType'])){
+        $userType = explode('|', $GLOBALS['user']['userType']);
+        if(in_array('2', $userType)){
+            return true;
+        }
+    }
+
+    if($GLOBALS['user']['userType'] == '2'){
+        return true;
+    }
+
+    return false;
+}
+
+function nkHasVisitor(){
+    if(array_key_exists('userType', $GLOBALS['user']) && $GLOBALS['user']['userType'] == '1'){
         return true;
     }
 

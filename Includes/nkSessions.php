@@ -67,11 +67,26 @@ function secure(){
         }
 
         if ($dataSession['validSession']  == 1) {
-            $dbsUser = "SELECT pseudo AS nickName, idGroup FROM ".USER_TABLE." WHERE id = '".$userId."' ";
+            $dbsUser = "SELECT A.pseudo AS nickName, A.idGroup, A.groupMain, B.color AS nickColor
+                        FROM ".USER_TABLE." AS A
+                        LEFT JOIN ".GROUP_TABLE." AS B
+                        ON B.id = A.groupMain
+                        WHERE A.id = '".$userId."' ";
             $dbeUser = mysql_query($dbsUser);
             $dataUser = mysql_fetch_assoc($dbeUser);
 
             $lastVisit = $dataSession['lastConnect'];
+
+            $arrayGroupId = explode('|', $dataUser['idGroup']);
+            if(in_array('2', $arrayGroupId)){
+                $userType = '2';
+            }
+            else if(in_array('1', $arrayGroupId)){
+                $userType = '2|3';
+            }
+            else{
+                $userType = '2';
+            }
 
             if(!empty($dataUser['idGroup'])){
                 $dataUser['idGroup'] = explode('|', $dataUser['idGroup']);
@@ -94,17 +109,25 @@ function secure(){
                     $arrayAccessAdmin = array();
 
                     while($dataGroups = mysql_fetch_assoc($dbeGroups)){
+                        $dataGroups['access']      = explode('|', $dataGroups['access']);
+                        $dataGroups['accessAdmin'] = explode('|', $dataGroups['accessAdmin']);
+
                         if($dataGroups['id'] == '1'){
                             $arrayAccess[] = 'ALL';
                             $arrayAccessAdmin[] = 'ALL';
                         }
+                        else{
+                            foreach ($dataGroups['access'] as $mod) {
+                                if(!empty($mod) && !in_array($mod, $arrayAccess)){
+                                    $arrayAccess[] = $mod;
+                                }
+                            }
+                            foreach ($dataGroups['accessAdmin'] as $admin) {
+                                if(!empty($admin) && !in_array($admin, $arrayAccess)){
+                                    $arrayAccessAdmin[] = $admin;
+                                }
+                            }
 
-                        if(!empty($dataGroups['access'])){
-                            $arrayAccess[] = $dataGroups['access'];
-                        }
-
-                        if(!empty($dataGroups['accessAdmin'])){
-                            $arrayAccessAdmin[] = $dataGroups['accessAdmin'];
                         }
                     }
 
@@ -162,13 +185,15 @@ function secure(){
         $user = array(
                     'id' => $userId,
                     // On conserve la compatibilité $user[1] = 1 (level membre sur les anciens modules)
-                    'idGroup' => '1',
+                    'idGroup' => '0',
                     'nickName' => mysql_real_escape_string($dataUser['nickName']),
                     'ip' => $GLOBALS['userIp'],
                     'lastVisit' => $lastVisit,
                     'nbMess' => $nb_mess,
                     'accessMods' => $accessMods,
-                    'accessAdmin' => $accessAdmin
+                    'accessAdmin' => $accessAdmin,
+                    'userType' => $userType,
+                    'nickColor' => $dataUser['nickColor']
                 );
     }
     else {
