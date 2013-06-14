@@ -16,12 +16,12 @@ global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 
-$nkAccessModule = nkAccessAdmin('Users');
+$hasAdminAccess = nkAccessAdmin('Users');
 
 if($_REQUEST['op'] != "menu")
 admintop();
 
-if($nkAccessModule === true) {
+if($hasAdminAccess === true) {
     function add_user()
     {
         global $nuked, $language;

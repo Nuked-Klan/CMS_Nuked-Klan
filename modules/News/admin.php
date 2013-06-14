@@ -13,11 +13,13 @@ translate("modules/News/lang/" . $language . ".lang.php");
 
 include 'modules/Admin/design.php';
 
-$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
-
 $ModName = basename(dirname(__FILE__));
-$level_admin = admin_mod($ModName);
-if ($visiteur >= $level_admin && $level_admin > -1) {
+
+$hasAdminAccess = nkAccessAdmin($ModName);
+
+$levelAdmin = nivo_mod($ModName);
+
+if ($hasAdminAccess === true && $levelAdmin > -1) {
 	function main() {
 		global $nuked, $language;
 
@@ -751,13 +753,13 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			adminfoot();
 			break;
 	}
-} else if ($level_admin == -1) {
+} else if ($levelAdmin == -1) {
 	echo "<div class=\"notification error png_bg\">\n"
 	   . "<div>\n"
 	   . "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
 	   . "</div>\n"
 	   . "</div>\n";
-} else if ($visiteur > 1) {
+} else if ($hasAdminAccess === false) {
 	echo "<div class=\"notification error png_bg\">\n"
 	   . "<div>\n"
 	   . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"

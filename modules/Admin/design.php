@@ -173,10 +173,10 @@ function admintop(){
                             else if ($mod['nom'] == 'Comment') $modname = _NAMECOMMENT;
                             else $modname = $mod['nom'];
 
-                            $nkAccessModuleAdmin = nkAccessAdmin($mod['nom']);
+                            $hasAdminAccess = nkAccessAdmin($mod['nom']);
 
 
-                            if($nkAccessModuleAdmin === TRUE) {
+                            if($hasAdminAccess === TRUE) {
                                 array_push($modules, $modname . '|' . $mod['nom']);
                             }
                         } // END while

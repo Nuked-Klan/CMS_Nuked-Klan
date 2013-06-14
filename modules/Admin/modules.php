@@ -16,18 +16,12 @@ global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include_once ('Includes/hash.php');
 include("modules/Admin/design.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $GLOBALS['user']['idGroup'];
-}
+
+$hasAdminAccess = nkAccessAdmin('Mods');
 
 admintop();
 
-if ($visiteur == 9)
+if ($hasAdminAccess === true)
 {
     function edit_module($mid)
     {

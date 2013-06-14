@@ -13,9 +13,9 @@ global $user, $nuked, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
+$hasAdmin = nkHasAdmin();
 
-if ($visiteur >= 2)
+if ($hasAdmin === true)
 {
     function main()
     {

@@ -13,9 +13,9 @@ global $user, $nuked, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$nkAccessModule = nkAccessModule('Admin');
+$hasAdmin = nkHasAdmin();
 
-if ($nkAccessModule === true)
+if ($hasAdmin === true)
 {
     function main()
     {

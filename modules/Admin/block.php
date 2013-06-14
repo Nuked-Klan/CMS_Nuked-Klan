@@ -13,9 +13,9 @@ global $user, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
+$hasAdminAccess = nkAccessAdmin('block');
 
-if ($visiteur == 9)
+if ($hasAdminAccess === true)
 {
     function sel_block()
     {

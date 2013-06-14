@@ -19,9 +19,11 @@ compteur("Archives");
 
 opentable();
 
-$visiteur = (!$user) ? 0 : $GLOBALS['user']['idGroup'];
-$level_access = nivo_mod("News");
-if ($visiteur >= $level_access && $level_access > -1)
+$hasModAccess = nkAccessModule('News');
+
+$levelAccess = nivo_mod("News");
+
+if ($hasModAccess === true && $levelAccess > -1)
 {
     function index()
     {
@@ -360,11 +362,11 @@ if ($visiteur >= $level_access && $level_access > -1)
             break;
     }
 }
-else if ($level_access == -1)
+else if ($levelAccess == -1)
 {
     echo "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />";
 }
-else if ($level_access == 1 && $visiteur == 0)
+else if ($levelAccess == 1 && !$GLOBALS['user'])
 {
     echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b></div><br /><br />";
 }

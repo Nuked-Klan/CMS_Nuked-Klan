@@ -9,7 +9,10 @@ defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">Access deny</
 include('themes/Impact_Nk/block-best.php');
 global $language;
 translate("themes/Impact_Nk/lang/" . $language . ".lang.php");
-if ($GLOBALS['user']['idGroup'] < 9){
+
+$hasAdminAccess = nkAccessAdmin('AdminTheme');
+
+if ($hasAdminAccess === false){
 	echo '<div style="text-align: center;margin:30px 0;">'._INWARNINGMODTHEME.'</div>';
 }
 else{

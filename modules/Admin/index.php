@@ -14,13 +14,13 @@ global $language, $user, $nuked;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$nkAccessModule = nkAccessModule('Admin');
+$hasAdmin = nkHasAdmin();
 
 if(!isset($user)){
     redirect('index.php?file=404', 0);
 }
 
-if ($nkAccessModule === true) {
+if ($hasAdmin === true) {
     admintop();
     ?>
     <!-- Page Head -->

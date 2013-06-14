@@ -16,16 +16,9 @@ global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $GLOBALS['user']['idGroup'];
-}
+$hasAdminAccess = nkAccessAdmin('Maj');
 
-if ($visiteur == 9)
+if ($hasAdminAccess === true)
 {
     admintop();
 	echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->

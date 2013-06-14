@@ -18,7 +18,7 @@ include_once('Includes/hash.php');
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $GLOBALS['user']['idGroup'] > 0))  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && !nkHasVisitor())  $captcha = 0;
 else $captcha = 1;
 
 function index(){

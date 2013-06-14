@@ -19,12 +19,13 @@ if (_NKCAPTCHA == 'off') $captcha = 0;
 else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $GLOBALS['user']['idGroup'] > 0)) $captcha = 0;
 else $captcha = 1;
 
-$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
-
 $ModName = basename(dirname(__FILE__));
-$level_access = nivo_mod($ModName);
 
-if ($visiteur >= $level_access && $level_access > -1) {
+$hasModAccess = nkAccessModule($ModName);
+
+$levelAccess = nivo_mod($ModName);
+
+if ($hasModAccess === true && $levelAccess > -1) {
     compteur('News');
 
     function index(){
@@ -356,11 +357,11 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
     }
 
-} else if ($level_access == -1) {
+} else if ($levelAccess == -1) {
     opentable();
     echo '<br /><br /><div style="text-align:center;">'._MODULEOFF.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a><br /><br /></div>';
     closetable();
-} else if ($level_access == 1 && $visiteur == 0) {
+} else if ($levelAccess == 1 && !$GLOBALS['user']) {
     opentable();
     echo '<br /><br /><div style="text-align:center;">'._USERENTRANCE.'<br /><br /><b><a href="index.php?file=User&amp;op=login_screen">'._LOGINUSER.'</a> | <a href="index.php?file=User&amp;op=reg_screen">'._REGISTERUSER.'</a></b><br /><br /></div>';
     closetable();

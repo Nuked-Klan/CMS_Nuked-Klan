@@ -1283,7 +1283,7 @@ function nkHasMember(){
 }
 
 function nkHasVisitor(){
-    if(array_key_exists('userType', $GLOBALS['user']) && $GLOBALS['user']['userType'] == '1'){
+    if(!array_key_exists('userType', $GLOBALS['user'])){
         return true;
     }
 

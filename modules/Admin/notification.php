@@ -13,16 +13,9 @@ if (!defined("INDEX_CHECK"))
 }
 global $user, $nuked, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $GLOBALS['user']['idGroup'];
-}
+$hasAdmin = nkHasAdmin();
 
-if ($visiteur >= 2)
+if ($hasAdmin === true)
 {
     function main()
     {

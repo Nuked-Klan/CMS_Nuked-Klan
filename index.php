@@ -122,7 +122,7 @@ translate('lang/'.$language.'.lang.php');
 
 // Si le site est fermé
 if ($nuked['nk_status'] == 'closed'
-    && (!$user || ($user && $GLOBALS['user']['idGroup'] < 9))
+    && (!$user || !nkAccessAdmin('Admin'))
     && $_REQUEST['op'] != 'login_screen'
     && $_REQUEST['op'] != 'login_message'
     && $_REQUEST['op'] != 'login') {
@@ -153,7 +153,7 @@ else if ( ($_REQUEST['file'] == 'Admin'
     require_once 'modules/Admin/login.php';
 }
 else if ( ( $_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin' )
-            || ( nivo_mod($_REQUEST['file']) === false || ( nivo_mod($_REQUEST['file']) > -1 && nivo_mod($_REQUEST['file']) <= $visiteur ) ) ) {
+            || ( nivo_mod($_REQUEST['file']) === false || ( nivo_mod($_REQUEST['file']) > -1 && nkAccessAdmin($_REQUEST['file']) ) ) ) {
 
 
     require_once 'themes/'.$theme.'/theme.php';
@@ -186,7 +186,7 @@ else if ( ( $_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin' )
 <?php
         }
 
-        if((array_key_exists(1, $user) && $GLOBALS['user']['idGroup'] == 9) && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
+        if(nkAccessAdmin('Admin') && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
             if ($nuked['nk_status'] == 'closed') {
 ?>
                 <div id="nkSiteClosedLogged" class="nkAlert">

@@ -22,7 +22,7 @@ if(isset($user) && empty($user)){
     exit();
 }
 
-$nkAccessModule = nkAccessModule('Admin');
+$hasModAccess = nkAccessModule('Admin');
 
 function open_admin(){
     global $nuked;
@@ -52,7 +52,7 @@ function close_admin(){
     </html>';
 }
 
-if ($nkAccessModule === true)
+if ($hasModAccess === true)
 {
     if ($user && isset($_POST['admin_password']) && $_POST['admin_password'] != '')
     {
