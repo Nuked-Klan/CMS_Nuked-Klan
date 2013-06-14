@@ -24,7 +24,7 @@ echo "<script type=\"text/javascript\">\n"
 . "// -->\n"
 . "</script>\n";
 
-$visiteur = !$user ? 0 : $user[1];
+$visiteur = !$user ? 0 : $GLOBALS['user']['idGroup'];
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
 if ($visiteur >= $level_admin && $level_admin > -1){
@@ -47,7 +47,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         $sql = mysql_query("SELECT id, module, date, user_id FROM " . SUGGEST_TABLE . " ORDER BY module, date");
         $count = mysql_num_rows($sql);
-        
+
         while (list($sug_id, $mod_name, $date, $id_user) = mysql_fetch_array($sql)){
             $date = nkDate($date);
 
@@ -117,7 +117,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         // Action
         $texteaction = "". _ACTIONVALIDSUG .": ". $data['titre'] .".";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".mysql_real_escape_string(stripslashes($texteaction))."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".mysql_real_escape_string(stripslashes($texteaction))."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
                 . "<div>\n"
@@ -139,12 +139,12 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         // Action
         $texteaction = _ACTIONDELSUG . '.';
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
 
         //Envoi du MP de refus
         if ($for != "" && preg_match("`^[a-zA-Z0-9]+$`", $for) && isset($_REQUEST['subject']) && isset($_REQUEST['corps'])){
-            $sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $user[0] . "' , '" . $for . "' , '" . $_REQUEST['subject'] . "' , '" . $_REQUEST['corps'] . "' , '" . time() . "' , '0' )");
+            $sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $GLOBALS['user']['id'] . "' , '" . $for . "' , '" . $_REQUEST['subject'] . "' , '" . $_REQUEST['corps'] . "' , '" . time() . "' , '0' )");
         }
 
             echo "<div class=\"notification success png_bg\">\n"
@@ -167,7 +167,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<div class=\"tab-content\" id=\"tab2\"><table style=\"width:50%; border:0; align:center; valign:top; margin-left:auto; margin-right:auto\" cellspacing=\"1\" cellpadding=\"1\"><tr>\n"
                 . "<td align=\"center\" colspan=\"2\"><form method=\"POST\" action=\"index.php?file=Suggest&amp;page=admin&amp;op=del&amp;sug_id=" . $sug_id . "\"><br><h3>"._RMOTIF."</h3></td></tr>\n"
                 . "<tr><td align=\"left\"><b>"._RSUBJECT."</b> : </td><td><input type=\"text\" name=\"subject\" maxlength=\"100\" value=\"" . _REFUS2 . "\" size=\"45\"></td></tr>\n"
-                . "<tr><td align=\"left\" valign=\"top\"><b>"._RCORPS."</b> : </td><td><textarea class=\"editor\" id=\"raison\" name=\"corps\" rows=\"10\" cols=\"39\" />" . _REFUS . "\n" . $user[2] . "</textarea></td></tr>\n"
+                . "<tr><td align=\"left\" valign=\"top\"><b>"._RCORPS."</b> : </td><td><textarea class=\"editor\" id=\"raison\" name=\"corps\" rows=\"10\" cols=\"39\" />" . _REFUS . "\n" . $GLOBALS['user']['nickName'] . "</textarea></td></tr>\n"
                 . "<tr><td colspan=\"2\"><p align=\"center\">&nbsp;<input type=\"submit\" value=\""._SEND."\"> <input type=\"button\" value=\""._CANCEL."\" onclick=\"document.location.href='index.php?file=Suggest&page=admin&op=show_suggest&sug_id=" . $sug_id . "';\"></td></tr>\n"
                 . "</form></table><br><center>[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>"._BACK."</b></a> ]</center><br></div></div>";
     }
@@ -208,7 +208,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         // Action
         $texteaction = "". _ACTIONCONFSUG .".";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
                 . "<div>\n"

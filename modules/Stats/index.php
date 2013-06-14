@@ -13,7 +13,7 @@ global $nuked, $user, $language, $bgcolor3, $bgcolor2, $bgcolor1;
 translate('modules/Stats/lang/' . $language . '.lang.php');
 
 $level_access = nivo_mod('Stats');
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 if (!isset($_REQUEST['nuked_nude'])) {
     opentable();

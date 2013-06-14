@@ -16,16 +16,9 @@ global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+$hasAdminAccess = nkAccessAdmin('PhpInfo');
 
-if ($visiteur == 9)
+if ($hasAdminAccess === true)
 {
     if (isset($_REQUEST['what']) && $_REQUEST['what'] != "") $i = $_REQUEST['what'];
     else $i = -1;

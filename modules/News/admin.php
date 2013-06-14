@@ -13,11 +13,13 @@ translate("modules/News/lang/" . $language . ".lang.php");
 
 include 'modules/Admin/design.php';
 
-$visiteur = $user ? $user[1] : 0;
-
 $ModName = basename(dirname(__FILE__));
-$level_admin = admin_mod($ModName);
-if ($visiteur >= $level_admin && $level_admin > -1) {
+
+$hasAdminAccess = nkAccessAdmin($ModName);
+
+$levelAdmin = nivo_mod($ModName);
+
+if ($hasAdminAccess === true && $levelAdmin > -1) {
 	function main() {
 		global $nuked, $language;
 
@@ -258,14 +260,14 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$texte = mysql_real_escape_string(stripslashes($texte));
 		$suite = mysql_real_escape_string(stripslashes($suite));
-		$auteur = $user[2];
-		$auteur_id = $user[0];
+		$auteur = $GLOBALS['user']['nickName'];
+		$auteur_id = $GLOBALS['user']['id'];
 
 		$sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
 		// Action
 		$texteaction = "". _ACTIONADDNEWS .": ".$titre.".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -377,7 +379,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONMODIFNEWS .": ".$titre.".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -403,7 +405,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONDELNEWS .": ".$titre.".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -511,7 +513,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONADDCATNEWS .": ".$titre.".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -580,7 +582,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONEDITCATNEWS .": ".$titre.".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -610,7 +612,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONDELCATNEWS .": ".$titre.".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -649,7 +651,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONPREFNEWS .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -751,13 +753,13 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			adminfoot();
 			break;
 	}
-} else if ($level_admin == -1) {
+} else if ($levelAdmin == -1) {
 	echo "<div class=\"notification error png_bg\">\n"
 	   . "<div>\n"
 	   . "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
 	   . "</div>\n"
 	   . "</div>\n";
-} else if ($visiteur > 1) {
+} else if ($hasAdminAccess === false) {
 	echo "<div class=\"notification error png_bg\">\n"
 	   . "<div>\n"
 	   . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"

@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -9,12 +9,12 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $user, $nuked, $language, $cookie_forum;
+global $user, $nuked, $language;
 
 include('modules/Forum/template.php');
 
-$visiteur = $user ? $user[1] : 0;
-$user_last_visit = (empty($user[4])) ? time() : $user[4];
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
+$user_last_visit = (empty($GLOBALS['user']['lastVisit'])) ? time() : $GLOBALS['user']['lastVisit'];
 
 $date_jour = nkDate(time());
 $your_last_visite = nkDate($user_last_visit);
@@ -22,19 +22,21 @@ $your_last_visite = nkDate($user_last_visit);
 if ($nuked['forum_title'] != "")
 {
     $title = "<big><b>" . $nuked['forum_title'] . "</b></big><br />" . $nuked['forum_desc'];
-} 
+}
 else
 {
     $title = "<big><b>Forums " . $nuked['name'] . "</b></big><br />" . $nuked['slogan'];
-} 
+}
 
-if ($_REQUEST['cat'] != "")
+$nav = '';
+
+if (isset($_REQUEST['cat']) && $_REQUEST['cat'] != "")
 {
     $sql_cat = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $_REQUEST['cat'] . "'");
     list($cat_name) = mysql_fetch_row($sql_cat);
-    $cat_name = printSecuTags($cat_name); 
-    $nav = "&nbsp;-&gt; <b>" . $cat_name . "</b>";    
-} 
+    $cat_name = printSecuTags($cat_name);
+    $nav = "&nbsp;-&gt; <b>" . $cat_name . "</b>";
+}
 
 echo "<br /><form method=\"get\" action=\"index.php\">\n"
 . "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\">\n"
@@ -48,10 +50,10 @@ echo "<br /><form method=\"get\" action=\"index.php\">\n"
 . "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"4\" border=\"0\">\n"
 . "<tr><td valign=\"bottom\"><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a>" . $nav . "</td><td align=\"right\" valign=\"bottom\"><small>" . _DAYIS . " : " . $date_jour;
 
-if ($user && $user[4] != "")
+if ($user && $GLOBALS['user']['lastVisit'] != "")
 {
     echo "<br />" . _LASTVISIT . " : " . $your_last_visite;
-} 
+}
 
 echo "</small></td></tr></table>\n"
 . "<table style=\"background: " . $color3 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"4\">\n"
@@ -62,14 +64,14 @@ echo "</small></td></tr></table>\n"
 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _MESSAGES . "</b></td>\n"
 . "<td style=\"width: 25%;\" align=\"center\"><b>" . _LASTPOST . "</b></td></tr>\n";
 
-if ($_REQUEST['cat'] != "")
+if (isset($_REQUEST['cat']) && $_REQUEST['cat'] != "")
 {
     $main = mysql_query("SELECT nom, id FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['cat'] . "'");
-} 
+}
 else
 {
     $main = mysql_query("SELECT nom, id FROM " . FORUM_CAT_TABLE . " WHERE " . $visiteur . " >= niveau ORDER BY ordre, nom");
-} 
+}
 
 while (list($nom_cat, $cid) = mysql_fetch_row($main))
 {
@@ -97,20 +99,20 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
         $auteur = nk_CSS($auteur);
 
           if ($user) {
-               $visits = mysql_query("SELECT user_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "' AND forum_id LIKE '%" . ',' . $forum_id . ',' . "%' ");
+               $visits = mysql_query("SELECT user_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "' AND forum_id LIKE '%" . ',' . $forum_id . ',' . "%' ");
                $results = mysql_fetch_assoc($visits);
                if ($num_post > 0 && strrpos($results['forum_id'], ',' . $forum_id . ',') === false) {
                 $img = "<img src=\"modules/Forum/images/forum_new.gif\" alt=\"\" />";
-            } 
+            }
             else
             {
                 $img = "<img src=\"modules/Forum/images/forum.gif\" alt=\"\" />";
-            } 
-        } 
+            }
+        }
         else
         {
             $img = "<img src=\"modules/Forum/images/forum.gif\" alt=\"\" />";
-        } 
+        }
 
         echo "<tr style=\"background: " . $color2 . ";\">\n"
         . "<td  style=\"width: 5%;\" align=\"center\">" . $img . "</td>\n"
@@ -124,11 +126,11 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
             $topicpages = $nb_rep / $nuked['mess_forum_page'];
             $topicpages = ceil($topicpages);
             $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thid . "&amp;p=" . $topicpages . "#" . $mess_id;
-        } 
+        }
         else
         {
             $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thid . "#" . $mess_id;
-        } 
+        }
 
         echo "<td style=\"width: 15%;\" align=\"center\">" . $num_post . "</td>\n"
         . "<td style=\"width: 15%;\" align=\"center\">" . $num_mess . "</td>\n"
@@ -145,19 +147,19 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
                 if ($test > 0 && $author != "")
                 {
                     $autor = $author;
-                } 
+                }
                 else
                 {
                     $autor = $auteur;
-                } 
-            } 
+                }
+            }
             else
             {
                 $autor = $auteur;
-            } 
+            }
 
             if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
-            else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
+            else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);
             else $date = nkDate($date);
 
             echo $date . "<br />";
@@ -165,21 +167,21 @@ while (list($nom_cat, $cid) = mysql_fetch_row($main))
             if ($auteur_id != "")
             {
                 echo "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($autor) . "\"><b>" . $autor . "</b></a>";
-            } 
+            }
             else
             {
                 echo "<b>" . $autor . "</b>";
-            } 
+            }
 
             echo "&nbsp;<a href=\"" . $link_post . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/icon_latest_reply.gif\" alt=\"\" title=\"" . _SEELASTPOST . "\" /></a>";
-        } 
+        }
         else
         {
             echo _NOPOST;
-        } 
+        }
         echo "</td></tr>\n";
-    } 
-} 
+    }
+}
 
 $nb = nbvisiteur();
 
@@ -195,11 +197,11 @@ while (list($name) = mysql_fetch_row($online))
     if ($i == $nb[3])
     {
         $sep = "";
-    } 
+    }
     else
     {
         $sep = ", ";
-    } 
+    }
 
     echo "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($name) . "\">" . $name . "</a>" . $sep;
 }
@@ -211,11 +213,11 @@ echo "</td></tr></table><div style=\"text-align: right;\">";
 if ($user)
 {
     echo "<a href=\"index.php?file=Forum&amp;op=mark\">" . _MARKREAD . "</a>";
-} 
-if ($user && $user[4] != "")
+}
+if ($user && $GLOBALS['user']['lastVisit'] != "")
 {
-    echo "<br /><a href=\"index.php?file=Forum&amp;page=search&amp;do=search&amp;date_max=" . $user[4] . "\">" . _VIEWLASTVISITMESS . "</a>";
-} 
+    echo "<br /><a href=\"index.php?file=Forum&amp;page=search&amp;do=search&amp;date_max=" . $GLOBALS['user']['lastVisit'] . "\">" . _VIEWLASTVISITMESS . "</a>";
+}
 
 echo "</div><table cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
 . "<tr><td><img src=\"modules/Forum/images/forum_new.gif\" alt=\"\" /></td><td valign=\"middle\">&nbsp;" . _NEWSPOSTLASTVISIT . "</td></tr>\n"

@@ -13,9 +13,9 @@ global $user, $nuked, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = $user ? $user[1] : 0;
+$hasAdmin = nkHasAdmin();
 
-if ($visiteur >= 2)
+if ($hasAdmin === true)
 {
     function main()
     {
@@ -39,7 +39,7 @@ if ($visiteur >= 2)
             if($users != '')
             {
                 $users = mysql_real_escape_string($users);
-            
+
                 $sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $users . "'");
                 list($pseudo) = mysql_fetch_array($sql2);
             }

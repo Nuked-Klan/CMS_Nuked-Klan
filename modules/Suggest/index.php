@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate('modules/Suggest/lang/' . $language . '.lang.php');
 
 // Inclusion système Captcha
@@ -17,10 +17,10 @@ include_once('Includes/nkCaptcha.php');
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $GLOBALS['user']['idGroup'] > 0))  $captcha = 0;
 else $captcha = 1;
 
-$visiteur = !$user ? 0 : $user[1];
+$visiteur = !$user ? 0 : $GLOBALS['user']['idGroup'];
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1){
@@ -103,7 +103,7 @@ if ($visiteur >= $level_access && $level_access > -1){
     }
 
     function add_sug($data){
-        global $user, $nuked, $captcha,$user_ip;
+        global $user, $nuked, $captcha,$userIp;
 
         opentable();
 
@@ -132,10 +132,10 @@ if ($visiteur >= $level_access && $level_access > -1){
         $date = time();
 
         if ($user){
-            $author = $user[0];
+            $author = $GLOBALS['user']['id'];
         }
         else{
-            $author = $user_ip;
+            $author = $userIp;
         }
 
         $sql = mysql_query("INSERT INTO " . SUGGEST_TABLE . " ( `id` , `module` , `user_id` , `proposition` , `date` ) VALUES ( '' , '" . $_REQUEST['module'] . "' , '" . $author . "' , '" . $content . "' , '" . $date . "' )");
@@ -145,8 +145,8 @@ if ($visiteur >= $level_access && $level_access > -1){
         if ($nuked['suggest_avert'] == 'on'){
             $date2 = nkDate($date);
 
-            if (!empty($user[2])) $pseudo = $user[2];
-            else $pseudo = _VISITOR . ' (' . $user_ip . ')';
+            if (!empty($GLOBALS['user']['nickName'])) $pseudo = $GLOBALS['user']['nickName'];
+            else $pseudo = _VISITOR . ' (' . $userIp . ')';
 
             $subject = _NEWSUGGEST . ", " . $date2;
             $corps = $pseudo . " " . _NEWSUBMIT . "\r\n" . $nuked['url'] . "/index.php?file=Suggest&page=admin\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];

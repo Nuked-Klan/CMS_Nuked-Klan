@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -14,28 +14,22 @@ if (!defined("INDEX_CHECK"))
 global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
 
-if ($visiteur == 9)
+$hasAdminAccess = nkAccessAdmin('AdminTheme');
+
+if ($hasAdminAccess === true)
 {
     function main()
     {
         global $user, $nuked;
 		if(file_exists("themes/".$nuked['theme']."/admin.php"))
 		{
-		
+
 			echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _GESTEMPLATE . "</h3>\n"
 	. "</div>\n"
 	. "<div class=\"tab-content\" id=\"tab2\">\n";
-		
+
 			include("themes/".$nuked['theme']."/admin.php");
 			echo "</div>";
 		}

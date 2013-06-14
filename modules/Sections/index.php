@@ -12,7 +12,7 @@ if (!defined('INDEX_CHECK')) die('<div style="text-align:center;">You cannot ope
 global $user, $nuked, $language;
 translate("modules/Sections/lang/" . $language . ".lang.php");
 
-$visiteur = (!$user) ? 0 : $user[1];
+$visiteur = (!$user) ? 0 : $GLOBALS['user']['idGroup'];
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 if ($visiteur >= $level_access && $level_access > -1){

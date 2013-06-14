@@ -15,10 +15,10 @@ require_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $GLOBALS['user']['idGroup'] > 0)  $captcha = 0;
 else $captcha = 1;
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 $redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
 $level_access = nivo_mod("Textbox");
 
@@ -30,9 +30,9 @@ if ($visiteur >= $level_access && $level_access > -1)
         ValidCaptchaCode();
     }
 
-    if (isset($user[2]))
+    if (isset($GLOBALS['user']['nickName']))
     {
-        $pseudo = $user[2];
+        $pseudo = $GLOBALS['user']['nickName'];
     }
     else
     {
@@ -91,7 +91,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
     $pseudo = mysql_real_escape_string(stripslashes($pseudo));
 
-    if ($user_ip == $flood_ip && $date < $anti_flood && $visiteur == 0)
+    if ($userIp == $flood_ip && $date < $anti_flood && $visiteur == 0)
     {
         echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_NOFLOOD) . "</div><br /><br />";
         redirect($redirection, 2);
@@ -99,7 +99,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     else if ($_REQUEST['texte'] != "")
     {
-        $sql = mysql_query("INSERT INTO " . TEXTBOX_TABLE . " ( `id` , `auteur` , `ip` , `texte` , `date` ) VALUES ( '' , '" . $pseudo . "' ,'" . $user_ip . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' )");
+        $sql = mysql_query("INSERT INTO " . TEXTBOX_TABLE . " ( `id` , `auteur` , `ip` , `texte` , `date` ) VALUES ( '' , '" . $pseudo . "' ,'" . $userIp . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' )");
         echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_SHOUTSUCCES) . "</div><br /><br />";
         redirect($redirection, 2);
     }

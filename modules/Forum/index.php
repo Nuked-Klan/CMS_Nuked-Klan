@@ -12,7 +12,7 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 
 // Inclusion système Captcha
@@ -20,7 +20,7 @@ include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $GLOBALS['user']['idGroup'] > 0)  $captcha = 0;
 else $captcha = 1;
 
 
@@ -30,7 +30,7 @@ if (!$user)
 }
 else
 {
-    $visiteur = $user[1];
+    $visiteur = $GLOBALS['user']['idGroup'];
 }
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -64,15 +64,15 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= level AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        $administrator = ($user && $modos != "" && strpos($modos, $user[0]) !== false) ? 1 : 0;
+        $administrator = ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false) ? 1 : 0;
 
-        if ($_REQUEST['author'] == $user[2] || $visiteur >= admin_mod("Forum") || $administrator == 1)
+        if ($_REQUEST['author'] == $GLOBALS['user']['nickName'] || $visiteur >= admin_mod("Forum") || $administrator == 1)
         {
             $date = nkDate(time());
 
             if ($_REQUEST['edit_text'] == 1)
             {
-                $texte_edit = _EDITBY . "&nbsp;" . $user[2] . "&nbsp;" . _THE . "&nbsp;" . $date;
+                $texte_edit = _EDITBY . "&nbsp;" . $GLOBALS['user']['nickName'] . "&nbsp;" . _THE . "&nbsp;" . $date;
                 $edition = ", edition = '" . $texte_edit ."'";
             }
             else
@@ -136,7 +136,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -231,7 +231,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -318,7 +318,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -460,7 +460,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -510,7 +510,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -550,7 +550,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function reply()
     {
-        global $user, $nuked, $captcha,$visiteur,$user_ip, $bgcolor3;
+        global $user, $nuked, $captcha,$visiteur,$userIp, $bgcolor3;
 
         opentable();
 
@@ -569,7 +569,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -604,10 +604,10 @@ if ($visiteur >= $level_access && $level_access > -1)
             exit();
         }
 
-        if ($user[2] != "")
+        if ($GLOBALS['user']['nickName'] != "")
         {
-            $autor = $user[2];
-            $auteur_id = $user[0];
+            $autor = $GLOBALS['user']['nickName'];
+            $auteur_id = $GLOBALS['user']['id'];
         }
         else
         {
@@ -642,7 +642,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         }
 
-        $flood = mysql_query("SELECT date FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur = '" . $autor . "' OR auteur_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
+        $flood = mysql_query("SELECT date FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur = '" . $autor . "' OR auteur_ip = '" . $userIp . "' ORDER BY date DESC LIMIT 0, 1");
         list($flood_date) = mysql_fetch_row($flood);
         $anti_flood = $flood_date + $nuked['post_flood'];
 
@@ -708,7 +708,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                mysql_query($update) or die(mysql_error());
           }
 
-          mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . (int) $_REQUEST['thread_id'] . "' , '" . (int) $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
+          mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $userIp . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . (int) $_REQUEST['thread_id'] . "' , '" . (int) $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
 
           $notify = mysql_query("SELECT auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . (int) $_REQUEST['thread_id'] . "' AND emailnotify = 1 GROUP BY auteur_id");
 		$nbusers = mysql_num_rows($notify);
@@ -736,10 +736,10 @@ if ($visiteur >= $level_access && $level_access > -1)
 
 		if ($user)
 		{
-			$sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+			$sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
 			list($count) = mysql_fetch_row($sql_count);
 			$newcount = $count + 1;
-			$upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $user[0] . "'");
+			$upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $GLOBALS['user']['id'] . "'");
 		}
 
 		$sql_page = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
@@ -764,7 +764,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function post()
     {
-        global $user, $nuked,$captcha,$user_ip, $visiteur, $bgcolor3;
+        global $user, $nuked,$captcha,$userIp, $visiteur, $bgcolor3;
 
         opentable();
 
@@ -795,10 +795,10 @@ if ($visiteur >= $level_access && $level_access > -1)
             exit();
         }
 
-        if ($user[2] != "")
+        if ($GLOBALS['user']['nickName'] != "")
         {
-            $autor = $user[2];
-            $auteur_id = $user[0];
+            $autor = $GLOBALS['user']['nickName'];
+            $auteur_id = $GLOBALS['user']['id'];
         }
         else
         {
@@ -838,13 +838,13 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
         }
 
-        $flood = mysql_query("SELECT date FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur = '" . $autor . "' OR auteur_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
+        $flood = mysql_query("SELECT date FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur = '" . $autor . "' OR auteur_ip = '" . $userIp . "' ORDER BY date DESC LIMIT 0, 1");
         list($flood_date) = mysql_fetch_row($flood);
         $anti_flood = $flood_date + $nuked['post_flood'];
 
         $date = time();
 
-        if ($date < $anti_flood && $user[1] < admin_mod("Forum"))
+        if ($date < $anti_flood && $GLOBALS['user']['idGroup'] < admin_mod("Forum"))
         {
             echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
             $url = "index.php?file=Forum&page=viewforum&forum_id=" . $_REQUEST['forum_id'];
@@ -897,7 +897,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $url_file = "";
         }
 
-        $sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
+        $sql2 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $userIp . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . $_REQUEST['thread_id'] . "' , '" . $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
           $SQL = "SELECT thread_id, forum_id, user_id FROM " . FORUM_READ_TABLE . "  WHERE thread_id LIKE '%," . (int) $_REQUEST['thread_id'] . ",%' OR forum_id LIKE '%," . (int) $_REQUEST['forum_id'] . ",%' ";
           $req = mysql_query($SQL);
           $update = "";
@@ -919,10 +919,10 @@ if ($visiteur >= $level_access && $level_access > -1)
           }
         if ($user)
         {
-            $sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+            $sql_count = mysql_query("SELECT count FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
             list($count) = mysql_fetch_row($sql_count);
             $newcount = $count + 1;
-            $upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $user[0] . "'");
+            $upd = mysql_query("UPDATE " . USER_TABLE . " SET count = '" . $newcount . "' WHERE id = '" . $GLOBALS['user']['id'] . "'");
         }
 
         if ($_REQUEST['survey'] == 1 && $_REQUEST['survey_field'] > 0 && $visiteur >= $level_poll)
@@ -941,7 +941,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function mark()
     {
-        global $user, $nuked, $cookie_forum;
+        global $user, $nuked;
 
         if ($user)
         {
@@ -951,14 +951,14 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $table_read_forum = array();
                 $id_read_forum = '';
 
-                if (isset($_COOKIE[$cookie_forum]) && $_COOKIE[$cookie_forum] != "")
+                if (isset($_COOKIE[$GLOBALS['cookieForum']]) && $_COOKIE[$GLOBALS['cookieForum']] != "")
                 {
-                    $id_read_forum = $_COOKIE[$cookie_forum];
+                    $id_read_forum = $_COOKIE[$GLOBALS['cookieForum']];
                     if (preg_match("`[^0-9,]`i", $id_read_forum)) $id_read_forum = "";
                     $table_read_forum = explode(',',$id_read_forum);
                 }
 
-                $req = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND date > '" . $user[4] . "' GROUP BY thread_id";
+                $req = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND date > '" . $GLOBALS['user']['lastVisit'] . "' GROUP BY thread_id";
                 $sql = mysql_query($req);
                 while (list($max_id) = mysql_fetch_array($sql))
                 {
@@ -975,7 +975,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             else
             {
                 $_COOKIE['cookie_forum'] = '';
-                $req = "UPDATE " . SESSIONS_TABLE . " SET last_used = date WHERE user_id = '" . $user[0] . "'";
+                $req = "UPDATE " . SESSIONS_TABLE . " SET last_used = date WHERE user_id = '" . $GLOBALS['user']['id'] . "'";
                 $sql = mysql_query($req);
             }
                if ($user) {
@@ -985,7 +985,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $where = "";
                 }
                     // On veut modifier la chaine thread_id et forum_id
-                    $req = mysql_query("SELECT thread_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'");
+                    $req = mysql_query("SELECT thread_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "'");
 
                 $result = mysql_query("SELECT id, forum_id FROM " . FORUM_THREADS_TABLE . " " . $where);
                 $nbtopics = mysql_num_rows($result);
@@ -1001,7 +1001,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                               if (strrpos($fid, ',' . $forum_id . ',') === false)
                                    $fid .= $forum_id . ',';
                     }
-                         $sql = mysql_query("REPLACE " . FORUM_READ_TABLE . " (`user_id` , `thread_id` , `forum_id` ) VALUES ('" . $user[0] . "' , '" . $tid . "' , '" . $fid . "' )");
+                         $sql = mysql_query("REPLACE " . FORUM_READ_TABLE . " (`user_id` , `thread_id` , `forum_id` ) VALUES ('" . $GLOBALS['user']['id'] . "' , '" . $tid . "' , '" . $fid . "' )");
                 }
             }
         }
@@ -1020,7 +1020,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -1032,7 +1032,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql = mysql_query("SELECT file, auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $_REQUEST['mess_id'] . "'");
         list($filename, $auteur_id) = mysql_fetch_array($sql);
 
-        if ($user && $auteur_id == $user[0] || $visiteur >= admin_mod("Forum") || $administrator == 1)
+        if ($user && $auteur_id == $GLOBALS['user']['id'] || $visiteur >= admin_mod("Forum") || $administrator == 1)
         {
             $path = "upload/Forum/" . $filename;
             if (is_file($path))
@@ -1070,7 +1070,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql_poll = mysql_query("SELECT level_poll FROM " . FORUM_TABLE . " WHERE id = '" . $_REQUEST['forum_id'] . "'");
         list($level_poll) = mysql_fetch_array($sql_poll);
 
-        if ($user && $user[0] == $auteur_id && $sondage == 1 && $visiteur >= $level_poll)
+        if ($user && $GLOBALS['user']['id'] == $auteur_id && $sondage == 1 && $visiteur >= $level_poll)
         {
             if ($_REQUEST['survey_field'] > $nuked['forum_field_max'])
             {
@@ -1122,7 +1122,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql_poll = mysql_query("SELECT level_poll FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
         list($level_poll) = mysql_fetch_array($sql_poll);
 
-        if ($user && $user[0] == $auteur_id && $sondage == 1 && $visiteur >= $level_poll)
+        if ($user && $GLOBALS['user']['id'] == $auteur_id && $sondage == 1 && $visiteur >= $level_poll)
         {
             if ($option[1] != "")
             {
@@ -1180,7 +1180,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function vote($poll_id)
     {
-        global $visiteur, $user, $nuked,$user_ip;
+        global $visiteur, $user, $nuked,$userIp;
 
         opentable();
 
@@ -1193,13 +1193,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                 if ($visiteur >= $level_vote)
                 {
-                    $sql = mysql_query("SELECT auteur_ip FROM " . FORUM_VOTE_TABLE . " WHERE auteur_id = '" . $user[0] . "' AND poll_id = '" . $poll_id . "'");
+                    $sql = mysql_query("SELECT auteur_ip FROM " . FORUM_VOTE_TABLE . " WHERE auteur_id = '" . $GLOBALS['user']['id'] . "' AND poll_id = '" . $poll_id . "'");
                     $check = mysql_num_rows($sql);
 
                     if ($check == 0)
                     {
                         $upd = mysql_query("UPDATE " . FORUM_OPTIONS_TABLE . " SET option_vote = option_vote + 1 WHERE id = '" . $_REQUEST['voteid'] . "' AND poll_id = '" . $poll_id . "'");
-                        $insert = mysql_query("INSERT INTO " . FORUM_VOTE_TABLE . " ( `poll_id` , `auteur_id` , `auteur_ip` ) VALUES ( '" . $poll_id . "' , '" . $user[0] . "' , '" . $user_ip . "' )");
+                        $insert = mysql_query("INSERT INTO " . FORUM_VOTE_TABLE . " ( `poll_id` , `auteur_id` , `auteur_ip` ) VALUES ( '" . $poll_id . "' , '" . $GLOBALS['user']['id'] . "' , '" . $userIp . "' )");
 
                         echo  "<br /><br /><div style=\"text-align: center;\">" . _VOTESUCCES . "</div><br /><br />";
                     }
@@ -1241,7 +1241,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $forum_id . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -1253,7 +1253,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql = mysql_query("SELECT auteur_id FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
         list($auteur_id) = mysql_fetch_array($sql);
 
-        if ($user && $user[0] == $auteur_id || $visiteur >= admin_mod("Forum") || $administrator == 1)
+        if ($user && $GLOBALS['user']['id'] == $auteur_id || $visiteur >= admin_mod("Forum") || $administrator == 1)
         {
             if ($_REQUEST['confirm'] == _YES)
             {
@@ -1303,7 +1303,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -1315,7 +1315,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql = mysql_query("SELECT auteur_id FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $_REQUEST['thread_id'] . "'");
         list($auteur_id) = mysql_fetch_array($sql);
 
-        if ($user && $user[0] == $auteur_id || $visiteur >= admin_mod("Forum") || $administrator == 1)
+        if ($user && $GLOBALS['user']['id'] == $auteur_id || $visiteur >= admin_mod("Forum") || $administrator == 1)
         {
             $sql1 = mysql_query("SELECT titre FROM " . FORUM_POLL_TABLE . " WHERE id = '" . $poll_id . "'");
             list($titre) = mysql_fetch_array($sql1);
@@ -1362,7 +1362,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $forum_id . "'");
         list($modos) = mysql_fetch_array($result);
 
-        if ($user && $modos != "" && strpos($modos, $user[0]) !== false)
+        if ($user && $modos != "" && strpos($modos, $GLOBALS['user']['id']) !== false)
         {
             $administrator = 1;
         }
@@ -1374,7 +1374,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql = mysql_query("SELECT auteur_id FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
         list($auteur_id) = mysql_fetch_array($sql);
 
-        if ($user && $user[0] == $auteur_id || $visiteur >= admin_mod("Forum") || $administrator == 1)
+        if ($user && $GLOBALS['user']['id'] == $auteur_id || $visiteur >= admin_mod("Forum") || $administrator == 1)
         {
             $titre = mysql_real_escape_string(stripslashes($titre));
 
@@ -1427,7 +1427,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-    if ($user[0] != "")
+    if ($GLOBALS['user']['id'] != "")
     {
 
             if ($_REQUEST['do'] == "on")
@@ -1441,7 +1441,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $notify_texte = _NOTIFYISOFF;
             }
 
-        $upd = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET emailnotify = '" . $notify . "' WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND auteur_id = '" . $user[0] . "'");
+        $upd = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET emailnotify = '" . $notify . "' WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND auteur_id = '" . $GLOBALS['user']['id'] . "'");
 
         echo "<br /><br /><div style=\"text-align: center;\">" . $notify_texte . "</div><br /><br />";
 

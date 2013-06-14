@@ -22,7 +22,7 @@ if (!$user)
 }
 else
 {
-    $visiteur = $user[1];
+    $visiteur = $GLOBALS['user']['idGroup'];
 }
 
 $sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");

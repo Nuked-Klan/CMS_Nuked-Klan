@@ -12,7 +12,7 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $user, $language, $cookie_forum;
+global $nuked, $user, $language;
 
 translate("modules/Forum/lang/" . $language . ".lang.php");
 include("modules/Forum/template.php");
@@ -25,7 +25,7 @@ if (!$user)
 }
 else
 {
-    $visiteur = $user[1];
+    $visiteur = $GLOBALS['user']['idGroup'];
 }
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -33,13 +33,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 {
     $nb_mess_for = $nuked['thread_forum_page'];
 
-    if ($_REQUEST['date_max'] != "")
+    if (isset($_REQUEST['date_max']) && $_REQUEST['date_max'] != "")
     {
         $date_jour = time();
         $date_select = $date_jour - $_REQUEST['date_max'];
     }
 
-    if ($_REQUEST['date_max'] != "")
+    if (isset($_REQUEST['date_max']) && $_REQUEST['date_max'] != "")
     {
         $sql2 = mysql_query("SELECT forum_id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND date > '" . $date_select . "' ORDER BY last_post DESC");
     }
@@ -50,8 +50,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     $count = mysql_num_rows($sql2);
 
-    $p = !$_GET['p']?1:$_GET['p'];
-    $start = $p * $nb_mess_for - $nb_mess_for;
+    if(isset($_REQUEST['p'])){
+        $page = $_REQUEST['p'];
+    }
+    else{
+        $page = 1;
+    }
+    $start = $page * $nb_mess_for - $nb_mess_for;
 
     $sql = mysql_query("SELECT nom, moderateurs, cat, level FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
     $level_ok = mysql_num_rows($sql);
@@ -85,7 +90,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $modo = _NONE;
         }
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($GLOBALS['user']['id'], $modos))
         {
             $administrator = 1;
         }
@@ -107,7 +112,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td><td align=\"right\" valign=\"bottom\">";
 
-        if ($level == 0 || $user[1] >= $level || $administrator == 1)
+        if ($level == 0 || $GLOBALS['user']['idGroup'] >= $level || $administrator == 1)
         {
             echo "<a href=\"index.php?file=Forum&amp;page=post&amp;forum_id=" . $_REQUEST['forum_id'] . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/buttons/" . $language . "/newthread.gif\" alt=\"\" title=\"" . _NEWSTOPIC . "\" /></a>";
         }
@@ -131,7 +136,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "<tr style=\"background: " . $color2 . ";\"><td colspan=\"6\" align=\"center\">" . _NOPOSTFORUM . "</td></tr>\n";
         }
 
-        if ($_REQUEST['date_max'] != "")
+        if (isset($_REQUEST['date_max']) && $_REQUEST['date_max'] != "")
         {
             $sql3 = mysql_query("SELECT id, titre, auteur, view, closed, annonce, sondage FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND date > '" . $date_select . "' ORDER BY annonce DESC, last_post DESC LIMIT " . $start . ", " . $nb_mess_for."");
         }
@@ -192,9 +197,9 @@ if ($visiteur >= $level_access && $level_access > -1)
             list($mess_id, $last_date, $last_auteur, $last_auteur_id) = mysql_fetch_array($sql7);
             $last_auteur = nk_CSS($last_auteur);
 
-            
+
                if ($user) {
-                    $visitx = mysql_query("SELECT user_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "' AND `thread_id` LIKE '%" . ',' . $thread_id . ',' . "%' ");
+                    $visitx = mysql_query("SELECT user_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $GLOBALS['user']['id'] . "' AND `thread_id` LIKE '%" . ',' . $thread_id . ',' . "%' ");
                     $results = mysql_num_rows($visitx);
                          $user_visitx = $results;
                } else {
@@ -260,6 +265,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
                 $topicpages = $posts / $nuked['mess_forum_page'];
                 $topicpages = ceil($topicpages);
+                $pagelinks = "";
 
                 $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $_REQUEST['forum_id'] . "&amp;thread_id=" . $thread_id . "&amp;p=" . $topicpages . "#" . $mess_id;
 
@@ -307,7 +313,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             else if (strftime("%d", $last_date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $last_date)) $last_date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $last_date);
             else $last_date = nkDate($last_date);
 
-            
+
 
             echo "<td style=\"width: 25%;\" align=\"center\">" . $last_date . "<br />\n";
 
@@ -349,7 +355,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "<a href=\"index.php?file=Forum&amp;op=mark&amp;forum_id=" . $_REQUEST['forum_id'] . "\">" . _MARKSUBJECTREAD . "</a><br />\n";
         }
 
-        if ($level == 0 || $user[1] >= $level || $administrator == 1)
+        if ($level == 0 || $GLOBALS['user']['idGroup'] >= $level || $administrator == 1)
         {
             echo "<a href=\"index.php?file=Forum&amp;page=post&amp;forum_id=" . $_REQUEST['forum_id'] . "\">"
             . "<img style=\"border: 0;\" src=\"modules/Forum/images/buttons/" . $language . "/newthread.gif\" alt=\"\" title=\"" . _NEWSTOPIC . "\" /></a>";

@@ -11,7 +11,7 @@ defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">You cannot op
 
 translate("modules/Download/lang/" . $language . ".lang.php");
 
-$visiteur = $user ? $user[1] : 0;
+$visiteur = $user ? $GLOBALS['user']['idGroup'] : 0;
 
 include 'modules/Admin/design.php';
 admintop();
@@ -199,7 +199,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			// Action
 			$texteaction = "". _ACTIONADDDL .": ".$titre."";
 			$acdate = time();
-			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 			//Fin action
 			echo "<div class=\"notification success png_bg\">\n"
 			   . "<div>\n"
@@ -235,7 +235,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONDELDL .": ".$titre."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -428,7 +428,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			// Action
 			$texteaction = "". _ACTIONMODIFDL .": ".$titre."";
 			$acdate = time();
-			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 			//Fin action
 			echo "<div class=\"notification success png_bg\">\n"
 			   . "<div>\n"
@@ -522,7 +522,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTION1BROKEDL .": ".$titre."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -538,7 +538,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONALLBROKEDL .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -805,7 +805,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONADDCATDL .": ".$titre."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -896,7 +896,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONMODIFCATDL .": ".$titre."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -940,7 +940,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONDELCATDL .": ".$titre."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -984,7 +984,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = _ACTIONMODIFPREFDL .".";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
@@ -1016,7 +1016,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		// Action
 		$texteaction = "". _ACTIONPOSMODIFCATDL .": ".$titre."";
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '". mysql_real_escape_string($texteaction) ."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '". mysql_real_escape_string($texteaction) ."')");
 		//Fin action
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"

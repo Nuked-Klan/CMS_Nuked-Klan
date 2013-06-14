@@ -12,7 +12,7 @@ defined('INDEX_CHECK') or die;
 global $nuked, $user, $language, $bgcolor3, $bgcolor2, $bgcolor1;
 translate('modules/Stats/lang/' . $language . '.lang.php');
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
     if ($_REQUEST['op'] == 'view_all') {

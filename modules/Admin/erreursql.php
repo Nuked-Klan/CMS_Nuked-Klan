@@ -13,9 +13,9 @@ global $user, $nuked, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 
-$visiteur = $user ? $user[1] : 0;
+$hasAdmin = nkHasAdmin();
 
-if ($visiteur >= 2)
+if ($hasAdmin === true)
 {
     function main()
     {
@@ -60,14 +60,14 @@ if ($visiteur >= 2)
 	function delete()
 	{
 		global $user, $nuked, $visiteur;
-		
+
 		if ($visiteur == '9')
 		$sql3 = mysql_query("DELETE FROM ". $nuked['prefix'] ."_erreursql");
-		
+
 		// Action
 		$texteaction = _ACTIONVIDERSQL;
 		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 		//Fin action
 		?>
 		<div class="notification success png_bg">

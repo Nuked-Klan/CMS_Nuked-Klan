@@ -13,16 +13,9 @@ if (!defined("INDEX_CHECK"))
 }
 global $user, $nuked, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+$hasAdmin = nkHasAdmin();
 
-if ($visiteur >= 2)
+if ($hasAdmin === true)
 {
     function main()
     {
@@ -31,7 +24,7 @@ if ($visiteur >= 2)
 		if ($_REQUEST['texte'] != "" AND $_REQUEST['type'] != "" AND $_REQUEST['type'] != "0")
 		{
 			$_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
-			
+
 			$upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '".mysql_real_escape_string(stripslashes($_REQUEST['type']))."', '".mysql_real_escape_string(stripslashes($_REQUEST['texte']))."')");
 			echo _THANKSPARTICIPATION;
 		}
@@ -44,7 +37,7 @@ if ($visiteur >= 2)
 	function delete()
 	{
 		global $nuked, $visiteur, $user;
-		
+
 		if ($visiteur == "9" AND $_REQUEST['id'] != "")
 		{
 			$_REQUEST['id'] = mysql_real_escape_string(stripslashes($_REQUEST['id']));
@@ -52,7 +45,7 @@ if ($visiteur >= 2)
 			// Action
 			$texteaction = "". _ACTIONDELNOT .".";
 			$acdate = time();
-			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+			$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
 			//Fin action
 		}
 	}

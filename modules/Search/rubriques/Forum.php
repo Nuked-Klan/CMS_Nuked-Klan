@@ -13,7 +13,7 @@ if (!defined("INDEX_CHECK")){
 
 global $nuked, $user;
 
-$visiteur = !$user ? 0 : $user[1];
+$visiteur = !$user ? 0 : $GLOBALS['user']['idGroup'];
 
 $and = "";
 

@@ -15,18 +15,12 @@ if (!defined("INDEX_CHECK"))
 global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+
+$hasAdminAccess = nkAccessAdmin('Smilies');
 
 admintop();
 
-if ($visiteur == 9)
+if ($hasAdminAccess === true)
 {
 
     function main()
@@ -194,7 +188,7 @@ if ($visiteur == 9)
         // Action
         $texteaction = "". _ACTIONADDSMILEY .": ".$nom."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -321,7 +315,7 @@ if ($visiteur == 9)
        // Action
         $texteaction = "". _ACTIONMODIFSMILEY .": ".$nom."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -341,7 +335,7 @@ if ($visiteur == 9)
         // Action
         $texteaction = "". _ACTIONDELSMILEY .": ".$name."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"

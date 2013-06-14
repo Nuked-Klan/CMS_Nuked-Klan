@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -11,7 +11,7 @@ if (!defined("INDEX_CHECK")) die ('<div style="text-align: center;">You cannot o
 
 global $nuked, $language, $user;
 translate("modules/Irc/lang/" . $language . ".lang.php");
-$visiteur = (!$user) ? 0 : $user[1];
+$visiteur = (!$user) ? 0 : $GLOBALS['user']['idGroup'];
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
 
@@ -30,7 +30,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 				. "<br /><br />[ <a href=\"index.php?file=Irc&amp;op=awards\">" . _SEEAWARDS . "</a> ]</div><br />\n";
 
         closetable();
-    } 
+    }
 
     function join_chan(){
         global $user, $theme, $bgcolor2, $bgcolor3;
@@ -44,9 +44,9 @@ if ($visiteur >= $level_access && $level_access > -1){
 				. "<body style=\"background: " . $bgcolor2 . ";\">\n"
 				. "<form method=\"post\" action=\"index.php?file=Irc&amp;nuked_nude=index&amp;op=chat\">\n"
 				. "<table style=\"height: 370px;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\">\n"
-				. "<tr><td align=\"center\" valign=\"middle\"><table><tr><td><b>" . _YOURNICK . " :</b> <input type=\"text\" name=\"nick\" size=\"20\" value=\"" . $user[2] . "\" /></td></tr>\n"
+				. "<tr><td align=\"center\" valign=\"middle\"><table><tr><td><b>" . _YOURNICK . " :</b> <input type=\"text\" name=\"nick\" size=\"20\" value=\"" . $GLOBALS['user']['nickName'] . "\" /></td></tr>\n"
 				. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _ENTER . "\" /></td></tr></table></td></tr></table></form></body></html>";
-    } 
+    }
 
     function chat($nick){
         global $bgcolor2, $nuked, $language, $theme;
@@ -121,9 +121,9 @@ if ($visiteur >= $level_access && $level_access > -1){
         foreach ($smiley as $i => $sm){
             echo "<a href=\"javascript:document.applet.setFieldText(document.applet.getFieldText()+'" . $i . "');document.applet.requestSourceFocus()\" title=\"" . $i . "\"><img style=\"border: 0;\" src=\"modules/Irc/pjirc/img/" . $sm . "\" alt=\"\" /></a>&nbsp;";
         }
-		
+
 		echo "</div></body></html>";
-    } 
+    }
 
     function awards(){
         opentable();
@@ -144,16 +144,16 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             if ($count > $i){
                 echo "<hr style=\"height: 1px;\" />\n";
-            } 
-        } 
+            }
+        }
 
         if ($count == 0){
             echo "<div style=\"width: 100%;text-align: center;\">" . _NOAWARD . "</div>";
-        } 
+        }
 
         echo "</div><br /><br />\n";
         closetable();
-    } 
+    }
 
     switch ($_REQUEST['op']){
         case"index":
@@ -175,21 +175,21 @@ if ($visiteur >= $level_access && $level_access > -1){
         default:
             index();
             break;
-    } 
-} 
+    }
+}
 else if ($level_access == -1){
     opentable();
     echo "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />";
     closetable();
-} 
+}
 else if ($level_access == 1 && $visiteur == 0){
     opentable();
     echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b></div><br /><br />";
     closetable();
-} 
+}
 else{
     opentable();
     echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />";
     closetable();
-} 
+}
 ?>

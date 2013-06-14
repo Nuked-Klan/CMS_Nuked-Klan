@@ -16,16 +16,9 @@ global $user, $language;
 translate("modules/Admin/lang/" . $language . ".lang.php");
 include("modules/Admin/design.php");
 
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+$hasAdminAccess = nkAccessAdmin('Maj');
 
-if ($visiteur == 9)
+if ($hasAdminAccess === true)
 {
     admintop();
 	echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -33,14 +26,14 @@ if ($visiteur == 9)
     . "<div class=\"tab-content\" id=\"tab2\"><div style=\"width:90%; margin-left:5%;\">\n";
 	?>
 	<br /><br /><div class="notification information png_bg">
-				
+
 				<div>
 	<?php echo _MAJEXPLI; ?>:<br /><br />
 	<a href="index.php?file=Admin&amp;page=modules"><?php echo _MAJMAIN; ?></a>
 				</div>
 	</div>
-	
-	
+
+
 	<?php
 	echo "</div>\n"
     . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";

@@ -17,7 +17,12 @@ include_once(dirname(__FILE__) . '/../../Includes/hash.php');
 $url = 'index.php';
 $message = '';
 
-$visiteur = ($user) ? $user[1] : 0;
+if(isset($user) && empty($user)){
+    redirect('index.php?file=404', 0);
+    exit();
+}
+
+$hasModAccess = nkAccessModule('Admin');
 
 function open_admin(){
     global $nuked;
@@ -47,13 +52,13 @@ function close_admin(){
     </html>';
 }
 
-if ($visiteur >= 2)
+if ($hasModAccess === true)
 {
     if ($user && isset($_POST['admin_password']) && $_POST['admin_password'] != '')
     {
-        $cookie_admin = $nuked['cookiename'] . '_admin_session';
+        // $GLOBALS['cookieAdmin'] = $nuked['cookiename'] . '_admin_session';
 
-        $sql = mysql_query("SELECT pseudo, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+        $sql = mysql_query("SELECT pseudo, pass FROM " . USER_TABLE . " WHERE id = '" . $GLOBALS['user']['id'] . "'");
         list($pseudo, $hash) = mysql_fetch_array($sql);
         $check = mysql_num_rows($sql);
 
@@ -73,10 +78,10 @@ if ($visiteur >= 2)
             // Action
             $texteaction = _ACTIONCONNECT;
             $acdate = time();
-            $action = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date` , `pseudo` , `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+            $action = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date` , `pseudo` , `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
             //Fin action
 
-            $message = (isset($_COOKIE[$cookie_session])) ? _ADMINPROGRESS : _ERRORCOOKIE;
+            $message = (isset($_COOKIE[$GLOBALS['cookieSession']])) ? _ADMINPROGRESS : _ERRORCOOKIE;
         }
         else
         {
@@ -103,7 +108,7 @@ if ($visiteur >= 2)
             echo '<form action="index.php?file=Admin&amp;nuked_nude=login" method="post">
                     <p>
                         <label>' . _NICK . '</label>
-                        <input class="text-input" type="text" name="admin_pseudo" value="' . $user[2] . '" maxlenght="180" />
+                        <input class="text-input" type="text" name="admin_pseudo" value="' . $GLOBALS['user']['nickName'] . '" maxlenght="180" />
                     </p>
                     <div class="clear"></div>
                     <p>

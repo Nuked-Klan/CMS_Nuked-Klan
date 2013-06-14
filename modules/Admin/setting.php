@@ -14,9 +14,9 @@ global $user, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
-$visiteur = ($user) ? $user[1] : 0;
+$nkAccessAdmin = nkAccessAdmin('Admin');
 
-if ($visiteur == 9)
+if ($nkAccessAdmin === true)
 {
     function select_theme($mod)
     {
@@ -408,7 +408,7 @@ if ($visiteur == 9)
         // Action
         $texteaction = "". _ACTIONSETTING ."";
         $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$GLOBALS['user']['id']."', '".$texteaction."')");
         //Fin action
         admintop();
         echo "<div class=\"notification success png_bg\">\n"

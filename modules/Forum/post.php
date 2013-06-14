@@ -12,7 +12,7 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $user, $language, $nuked, $cookie_captcha, $random_code, $bgcolor3;
+global $user, $language, $nuked, $random_code, $bgcolor3;
 
 translate("modules/Forum/lang/" . $language . ".lang.php");
 include("modules/Forum/template.php");
@@ -22,7 +22,7 @@ include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
+else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $GLOBALS['user']['idGroup'] > 0)  $captcha = 0;
 else $captcha = 1;
 
 opentable();
@@ -33,7 +33,7 @@ if (!$user)
 }
 else
 {
-    $visiteur = $user[1];
+    $visiteur = $GLOBALS['user']['idGroup'];
 }
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
@@ -58,7 +58,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $select_cat = mysql_query('SELECT nom FROM ' . FORUM_CAT_TABLE . ' WHERE id = ' . $cat);
         list($nom2) = mysql_fetch_array($select_cat);
 
-        if ($user && $modos != "" && strpos($user[0], $modos))
+        if ($user && $modos != "" && strpos($GLOBALS['user']['id'], $modos))
         {
             $administrator = 1;
         }
@@ -102,10 +102,10 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             echo $author;
     }
-        else if ($user[2] != "")
+        else if ($GLOBALS['user']['nickName'] != "")
         {
-            echo $user[2] . "&nbsp;[<a href=\"index.php?file=User&amp;nuked_nude=index&amp;op=logout\">" . _FLOGOUT . "</a>]"
-            . "<input type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />";
+            echo $GLOBALS['user']['nickName'] . "&nbsp;[<a href=\"index.php?file=User&amp;nuked_nude=index&amp;op=logout\">" . _FLOGOUT . "</a>]"
+            . "<input type=\"hidden\" name=\"auteur\" value=\"" . $GLOBALS['user']['nickName'] . "\" />";
         }
         else
         {
@@ -221,7 +221,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         else
         {
 
-            if ($user[1] >= admin_mod("Forum") || $administrator == 1)
+            if ($GLOBALS['user']['idGroup'] >= admin_mod("Forum") || $administrator == 1)
             {
                 echo "<input type=\"checkbox\" class=\"checkbox\" name=\"annonce\" value=\"1\" " . $checked3 . " />&nbsp;" . _ANNONCE . "<br />\n";
             }

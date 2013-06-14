@@ -12,7 +12,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $nuked, $language, $user;
 translate('modules/Links/lang/' . $language . '.lang.php');
 
-$visiteur = ($user) ? $user[1] : 0;
+$visiteur = ($user) ? $GLOBALS['user']['idGroup'] : 0;
 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
