@@ -72,12 +72,6 @@ function create_captcha($style){
                 <input type="hidden" name="ct_token" value="<?php echo $token; ?>" />
                 <input type="hidden" id="ct_script" name="ct_script" value="nuked" />
                 <input type="hidden" name="ct_email" value="" />
-                <script type="text/javascript">
-                    if(typeof jQuery == 'undefined'){
-                        document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
-                    }
-                </script>
-                <script type="text/javascript" src="media/js/captcha.js"></script>
             </td>
         </tr>
     <?php
@@ -87,13 +81,12 @@ function create_captcha($style){
         <input type="hidden" name="ct_token" value="<?php echo $token; ?>" />
         <input type="hidden" id="ct_script" name="ct_script" value="nuked" />
         <input type="hidden" name="ct_email" value="" />
-        <script type="text/javascript">
-                    if(typeof jQuery == 'undefined'){
-                        document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
-                    }
-                </script>
-        <script type="text/javascript" src="media/js/captcha.js"></script>
     <?php
+    }
+
+    if(!array_key_exists('captchaJS', $GLOBALS['nuked']) || empty($GLOBALS['nuked']['captchaJS'])){
+        echo '<script type="text/javascript" src="media/js/captcha.js"></script>';
+        $GLOBALS['nuked']['captchaJS'] = 1;
     }
 }
 
