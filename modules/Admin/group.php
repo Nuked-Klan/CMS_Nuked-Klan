@@ -337,7 +337,7 @@ if($nkAccessModule === true) {
             $acdate = time();
 
             $dbiAction = 'INSERT INTO '.ACTION_TABLE.' (`date`, `pseudo`, `action`)
-                          VALUES("' . $acdate . '", "' . $GLOBALS['user']['0'] . '", "' . $texteaction . '")';
+                          VALUES("' . $acdate . '", "' . $GLOBALS['user']['id'] . '", "' . $texteaction . '")';
             $dbeAction = mysql_query($dbiAction);
 ?>
             <div class="notification success png_bg">
@@ -669,7 +669,7 @@ if($nkAccessModule === true) {
             $acdate = time();
 
             $dbiAction = 'INSERT INTO '.ACTION_TABLE.' (`date`, `pseudo`, `action`)
-                          VALUES("' . $acdate . '", "' . $GLOBALS['user']['0'] . '", "' . $texteaction . '")';
+                          VALUES("' . $acdate . '", "' . $GLOBALS['user']['id'] . '", "' . $texteaction . '")';
             $dbeAction = mysql_query($dbiAction);
         }
 ?>
@@ -719,7 +719,7 @@ if($nkAccessModule === true) {
         $acdate = time();
 
         $dbiAction = 'INSERT INTO '.ACTION_TABLE.' (`date`, `pseudo`, `action`)
-                      VALUES("' . $acdate . '", "' . $GLOBALS['user']['0'] . '", "' . $texteaction . '")';
+                      VALUES("' . $acdate . '", "' . $GLOBALS['user']['id'] . '", "' . $texteaction . '")';
         $dbeAction = mysql_query($dbiAction);
 ?>
         <div class="notification success png_bg">
