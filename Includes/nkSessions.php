@@ -82,7 +82,7 @@ function secure(){
                 $userType = '2';
             }
             else if(in_array('1', $arrayGroupId)){
-                $userType = '2|3';
+                $userType = '1|2';
             }
             else{
                 $userType = '2';

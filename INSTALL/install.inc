@@ -1156,7 +1156,7 @@
                           `token` varchar(13)  DEFAULT NULL,
                           `token_time` varchar(10) NOT NULL DEFAULT '0',
                           `idGroup` text NOT NULL,
-                          `groupMain` varchar(1) NOT NULL default '2'
+                          `groupMain` varchar(1) NOT NULL default '2',
                           PRIMARY KEY  (`id`),
                           KEY `team` (`team`),
                           KEY `team2` (`team2`),
@@ -1207,7 +1207,7 @@
                           `vid` int(100) default NULL,
                           `ip` varchar(20) NOT NULL default '',
                           `vote` int(2) default NULL,
-                          PRIMARY KEY  (`id`),
+                          PRIMARY KEY  (`id`)
                           KEY `vid` (`vid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -1222,8 +1222,8 @@
                           `access` text NOT NULL,
                           `accessAdmin` text NOT NULL,
                           `description` text NOT NULL,
-                          `color` varchar(7) NOT NULL
-                          PRIMARY KEY  (`id`),
+                          `color` varchar(7) NOT NULL,
+                          PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
 
