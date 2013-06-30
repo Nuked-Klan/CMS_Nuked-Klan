@@ -33,25 +33,36 @@
             $mail = $_REQUEST['mail'];
 
             mysql_query('TRUNCATE TABLE `'.$_SESSION['db_prefix'].'_users`');
-            mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_users` VALUES ('".$user_id."', '', '', '', '', '', '" .$pseudo."', '".$mail."', '', '', '', '', '', '', '".$pass."', 9, '".$date."', '', '', '', '', 1, 'France.gif', '', '', '', '0', '1', '1')");
+            mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_users` VALUES ('".$user_id."', '', '', '', '', '', '" .$pseudo."', '".$mail."', '', '', '', '', '', '', '".$pass."', '".$date."', '', '', '', '', 1, 'Belgium.gif', '', '', '', '0', '1', '1','')");
+            mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_users_detail` VALUES ('".$user_id."', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')");
             mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_news` VALUES (1, 1, '"._FIRSTNEWSTITLE."', '".$pseudo."', '".$user_id."', '"._FIRSTNEWSCONTENT."', '', '".$date."', '', '')");
             mysql_query("INSERT INTO `".$_SESSION['db_prefix']."_shoutbox` VALUES (1, '".$pseudo. "', '".$ip."', '" . _FIRSTNEWSTITLE . "', '".$date."')");
             mysql_query("UPDATE `".$_SESSION['db_prefix']."_config` SET value = '".$mail."' WHERE name = 'contact_mail'");
             mysql_query("UPDATE `".$_SESSION['db_prefix']."_config` SET value = '".$mail."' WHERE name = 'mail'");
         }
 
+/**
+*    [A DELETE]
+**/
+            mysql_query("ALTER TABLE `nuked_users` ADD `niveau` VARCHAR(1) NOT NULL");
+            mysql_query("UPDATE `".$_SESSION['db_prefix']."_users` SET niveau = '9' WHERE id = '".$user_id."' ");
+/**
+*    [A DELETE]
+**/
+
         if (@extension_loaded('zlib') && !@ini_get('zlib.output_compression') && @phpversion() >= "4.0.4" && stripos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip')) define('GZIP_COMPRESS', 'true');
         else define('GZIP_COMPRESS', 'false');
 
         $content="<?php\n"
-                    . "//-------------------------------------------------------------------------//\n"
-                    . "//  Nuked-KlaN - PHP Portal                                                //\n"
-                    . "//  http://www.nuked-klan.org                                              //\n"
-                    . "//-------------------------------------------------------------------------//\n"
-                    . "//  This program is free software. you can redistribute it and/or modify   //\n"
-                    . "//  it under the terms of the GNU General Public License as published by   //\n"
-                    . "//  the Free Software Foundation; either version 2 of the License.         //\n"
-                    . "//-------------------------------------------------------------------------//\n"
+                    . "/**\n"
+                    . "*   [conf.inc.php]\n"
+                    . "*\n"
+                    . "*   @version 1.8\n"
+                    . "*   @link http://www.nuked-klan.org Clan Management System 4 Gamers NK CMS\n"
+                    . "*   @license http://opensource.org/licenses/gpl-license.php GNU Public License\n"
+                    . "*   @copyright 2001-2013 Nuked Klan\n"
+                    . "*\n"
+                    . "*/\n"
                     . "\$nk_version = '1.8';\n"
                     . "\n"
                     . "\$global['db_host']  = '".$_SESSION['host']."';\n"
