@@ -575,6 +575,31 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
+
+        case'group':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_group`";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        $sql="CREATE TABLE `" . $db_prefix . "_group` (
+                          `id` int(11) NOT NULL auto_increment,
+                          `nameGroup` varchar(20) NOT NULL,
+                          `access` text NOT NULL,
+                          `accessAdmin` text NOT NULL,
+                          `description` text NOT NULL,
+                          `color` varchar(7) NOT NULL,
+                          PRIMARY KEY  (`id`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+
+                        $sql = "INSERT INTO `" . $db_prefix . "_group`
+                        VALUES
+                        ('', '_ADMINISTRATOR', '', '', '_DESCADMINISTRATOR', '#B70000'),
+                        ('', '_MEMBERS', 'News|Forum|Wars|Irc|Survey|Links|Server|Gallery|Guestbook|Suggest|Textbox|Calendar|Members|Team|Defy|Recruit|Comment|Vote|Stats|Contact', '', '_DESCMEMBERS', '#0071E1'),
+                        ('', '_VISITOR', 'News|Forum|Wars|Irc|Survey|Links|Server|Download|Gallery|Suggest|Textbox|Calendar|Team|Defy|Recruit|Comment|Vote|Stats|Contact', '', '_DESCVISITORPADMIN', '');";
+                        $req = mysql_query($sql) or die (mysql_error());
+
+                        echo 'OK';
+        break;
+
         case'guestbook':
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_guestbook`";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -591,6 +616,7 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
+
         case'irc_awards':
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_irc_awards`";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -1143,7 +1169,6 @@
                           `yim` varchar(50) NOT NULL default '',
                           `url` varchar(150) NOT NULL default '',
                           `pass` varchar(80) NOT NULL default '',
-                          `niveau` int(1) NOT NULL default '0',
                           `date` varchar(30) NOT NULL default '',
                           `avatar` varchar(100) NOT NULL default '',
                           `signature` text NOT NULL,
@@ -1156,7 +1181,8 @@
                           `token` varchar(13)  DEFAULT NULL,
                           `token_time` varchar(10) NOT NULL DEFAULT '0',
                           `idGroup` text NOT NULL,
-                          `groupMain` varchar(1) NOT NULL default '2'
+                          `groupMain` varchar(1) NOT NULL default '2',
+                          `visitedProfil` int(5) NOT NULL,
                           PRIMARY KEY  (`id`),
                           KEY `team` (`team`),
                           KEY `team2` (`team2`),
@@ -1198,6 +1224,21 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
+
+        case'users_visitors':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_users_visitors`";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        $sql = "CREATE TABLE `" . $db_prefix . "_users_visitors` (
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          `idUser` varchar(20) NOT NULL default '',
+                          `fromIdUser` varchar(20) NOT NULL default '',
+                          `date` varchar(12) NOT NULL default '',
+                          PRIMARY KEY  (`id`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        echo 'OK';
+        break;
+
         case'vote':
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_vote`";
                         $req = mysql_query($sql) or die (mysql_error());
@@ -1211,29 +1252,6 @@
                           KEY `vid` (`vid`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
-                        echo 'OK';
-        break;
-        case'group':
-                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_group`";
-                        $req = mysql_query($sql) or die (mysql_error());
-                        $sql="CREATE TABLE `" . $db_prefix . "_group` (
-                          `id` int(11) NOT NULL auto_increment,
-                          `nameGroup` varchar(20) NOT NULL,
-                          `access` text NOT NULL,
-                          `accessAdmin` text NOT NULL,
-                          `description` text NOT NULL,
-                          `color` varchar(7) NOT NULL
-                          PRIMARY KEY  (`id`),
-                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
-                        $req = mysql_query($sql) or die (mysql_error());
-
-                        $sql = "INSERT INTO `" . $db_prefix . "_group`
-                        VALUES
-                        ('', '_ADMINISTRATOR', '', '', '_DESCADMINISTRATOR', '#B70000'),
-                        ('', '_MEMBERS', 'News|Forum|Wars|Irc|Survey|Links|Server|Gallery|Guestbook|Suggest|Textbox|Calendar|Members|Team|Defy|Recruit|Comment|Vote|Stats|Contact', '', '_DESCMEMBERS', '#0071E1'),
-                        ('', '_VISITOR', 'News|Forum|Wars|Irc|Survey|Links|Server|Download|Gallery|Suggest|Textbox|Calendar|Team|Defy|Recruit|Comment|Vote|Stats|Contact', '', '_DESCVISITORPADMIN', '');";
-                        $req = mysql_query($sql) or die (mysql_error());
-
                         echo 'OK';
         break;
         default:
