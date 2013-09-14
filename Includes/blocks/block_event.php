@@ -13,7 +13,7 @@ global $nuked, $language;
 translate('modules/Calendar/lang/' . $language . '.lang.php');
 
 function affich_block_event($blok){
-    global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $file;
+    global $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
 
     define ('ADAY', (61 * 60 * 24));
     $datearray = getdate();
@@ -65,8 +65,8 @@ function affich_block_event($blok){
     $days = Array(_SUN, _MON, _TUE, _WEN, _THR, _FRI, _SAT);
 
     $blok['content'] .= '<table style="margin:0 auto;text-align:left" cellpadding="0" cellspacing="0"><tr><td>'."\n"
-					 . '<a href="index.php?file='.$file.'&amp;mo=' . $prevmonth . '&amp;ye='.$prevyear.'" title="'._PREVMONTH.'"><small>&lt;&lt;</small></a>&nbsp;<b>'.$months[$this_month].'&nbsp;'.$year.'</b>&nbsp;'."\n"
-					 . '<a href="index.php?file='.$file.'&amp;mo='.$nextmonth.'&amp;ye='.$nextyear.'" title="'._NEXTMONTH.'"><small>&gt;&gt;</small></a></td></tr></table>'."\n"
+					 . '<a href="index.php?file=' . $_REQUEST['file'] . '&amp;mo=' . $prevmonth . '&amp;ye='.$prevyear.'" title="'._PREVMONTH.'"><small>&lt;&lt;</small></a>&nbsp;<b>'.$months[$this_month].'&nbsp;'.$year.'</b>&nbsp;'."\n"
+					 . '<a href="index.php?file=' . $_REQUEST['file'] . '&amp;mo='.$nextmonth.'&amp;ye='.$nextyear.'" title="'._NEXTMONTH.'"><small>&gt;&gt;</small></a></td></tr></table>'."\n"
 					 . '<table style="margin:0 auto;text-align:left" cellpadding="2" cellspacing="1"><tr>'."\n";
 
 	$size = count($days);
