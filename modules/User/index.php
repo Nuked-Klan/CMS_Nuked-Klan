@@ -13,7 +13,7 @@ global $language, $user, $cookie_captcha;
 translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
+// Inclusion systï¿½me Captcha
 include_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 
@@ -892,7 +892,7 @@ function login_screen(){
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     global $nuked, $captcha, $cookie_forum, $user_ip;
 
-    // Vérification de l'ouverture des inscriptions
+    // Vï¿½rification de l'ouverture des inscriptions
     if($nuked['inscription'] == 'off'){
         echo "<br /><br /><div style=\"text-align: center;\">" . _REGISTRATIONCLOSE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />\n";
         closetable();
@@ -1208,7 +1208,7 @@ function login_message(){
     }
 
     if(array_key_exists('referer', $_REQUEST)){
-        $referer = urldecode($_REQUEST['referer']);
+        $referer = $_REQUEST['referer'];
     }
     else{
         $refere = '';
