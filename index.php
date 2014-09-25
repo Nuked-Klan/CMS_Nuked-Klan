@@ -169,6 +169,10 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
 
+        // choix de l'éditeur
+
+        if($nuked['editor_type'] == "cke") //ckeditor
+        {
         ?>
             <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
             <script type="text/javascript" src="media/ckeditor/config.js"></script>
@@ -215,6 +219,43 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                 //]]>
             </script>
         <?php
+        }else if($nuked['editor_type'] == "tiny"){ //tinymce
+        ?>
+            <script type="text/javascript" src="media/tinymce/tinymce.min.js"></script>
+            <script type="text/javascript">
+                // for frontend
+                if(document.getElementById('e_basic')){
+                    tinymce.init({
+                        selector: "textarea#e_basic",
+                        language : 'fr_FR',
+                        plugins: [
+                            "autolink lists preview",
+                            "fullscreen",
+                            "table contextmenu directionality",
+                            "emoticons textcolor"
+                        ],
+                        toolbar1: "undo redo | styleselect | bold italic | bullist numlist outdent indent | link | emoticons "
+                    });
+                }
+                // for forum
+                if(document.getElementById('e_advanced')){
+                    tinymce.init({
+                        selector: "textarea#e_advanced",
+                        language : 'fr_FR',
+                        plugins: [
+                            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                            "searchreplace wordcount visualblocks visualchars code fullscreen",
+                            "insertdatetime nonbreaking save table contextmenu directionality",
+                            "emoticons paste textcolor youtube codemagic"
+                        ],
+                        toolbar1: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image youtube emoticons codemagic | preview",
+                        /* toolbar2: "print preview media | forecolor backcolor emoticons | link image", */
+                        image_advtab: true
+                     });
+                }
+            </script>
+        <?php
+        }else{}
     }
 
     if (!isset($_REQUEST['nuked_nude'])){

@@ -310,6 +310,12 @@ if ($visiteur == 9)
 
     $checked12 = ($nuked['time_generate'] == 'on') ? 'checked="checked"' : '';
 
+    if($nuked['editor_type'] == "cke") $ckeditor = "selected=\"selected\"";
+    else  $ckeditor = "";
+
+    if($nuked['editor_type'] == "tiny") $tinyeditor = "selected=\"selected\"";
+    else  $tinyeditor = "";
+
     $nuked['level_analys']==-1?$level_analys=_OFFMODULE:$level_analys=$nuked['level_analys'];
     echo "<tr><td>" . _SCREENHOT . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"screen\" value=\"on\" " . $screen . " /></td></tr>\n"
     . "<tr><td>" . _REGISTRATION . " :</td><td><select name=\"inscription\">\n"
@@ -322,6 +328,7 @@ if ($visiteur == 9)
     . "<option value=\"mail\" " . $checked7 . ">" . _BYMAIL . "</option></select></td></tr>\n"
     . "<tr><td>" . _USERDELETE . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"user_delete\" value=\"on\" " . $checked10 . " /></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _EDITEUR . "</b></big></td></tr>\n"
+    . "<tr><td>" . _TYPEEDITEUR . " :</td><td><select name=\"editor_type\"><option value=\"cke\" " . $ckeditor . ">" . _CKEDITOR . "</option><option value=\"tiny\" " . $tinyeditor . ">" . _TINYEDITOR . "</option></select></td></tr>\n"
     . "<tr><td>" . _VIDEOEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"video_editeur\" value=\"on\" " . $checked14 . " /></td></tr>\n"
     . "<tr><td>" . _SCAYTEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"scayt_editeur\" value=\"on\" " . $checked13 . " /></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _SITEMEMBERS . "</b></big></td></tr>\n"
