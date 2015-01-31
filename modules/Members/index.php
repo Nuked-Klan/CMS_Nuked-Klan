@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK")){
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 } 
@@ -75,32 +73,36 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
 				. "<tr style=\"background: " . $bgcolor3 . ";\">\n"
-				. "<td style=\"width: 5%;\" align=\"center\">&nbsp;</td>\n"
-				. "<td style=\"width: 20%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
-				. "<td style=\"width: 10%;\" align=\"center\"><b>" . _MAIL . "</b></td>\n"
-				. "<td style=\"width: 10%;\" align=\"center\"><b>" . _ICQ . "</b></td>\n"
-				. "<td style=\"width: 10%;\" align=\"center\"><b>" . _MSN . "</b></td>\n"
-				. "<td style=\"width: 10%;\" align=\"center\"><b>" . _AIM . "</b></td>\n"
-				. "<td style=\"width: 10%;\" align=\"center\"><b>" . _YIM . "</b></td>\n"
-				. "<td style=\"width: 25%;\" align=\"center\"><b>" . _URL . "</b></td></tr>\n";
+				. "<td align=\"center\">&nbsp;</td>\n"
+				. "<td align=\"center\"><b>" . _NICK . "</b></td>\n";
+				if ($nuked['user_email'] == 'on'){echo "<td align=\"center\"><b>" . _MAIL . "</b></td>\n";}
+				if ($nuked['user_icq'] == 'on'){echo "<td align=\"center\"><b>" . _ICQ . "</b></td>\n";}
+				if ($nuked['user_msn'] == 'on'){echo "<td align=\"center\"><b>" . _MSN . "</b></td>\n";}
+				if ($nuked['user_aim'] == 'on'){echo "<td align=\"center\"><b>" . _AIM . "</b></td>\n";}
+				if ($nuked['user_yim'] == 'on'){echo "<td align=\"center\"><b>" . _YIM . "</b></td>\n";}
+				if ($nuked['user_xfire'] == 'on'){echo "<td align=\"center\"><b>" . _XFIRE . "</b></td>\n";}
+				if ($nuked['user_facebook'] == 'on'){echo "<td align=\"center\"><b>" . _FACEBOOK . "</b></td>\n";}
+				if ($nuked['user_origin'] == 'on'){echo "<td align=\"center\"><b>" . _ORIGINEA . "</b></td>\n";}
+				if ($nuked['user_steam'] == 'on'){echo "<td align=\"center\"><b>" . _STEAM . "</b></td>\n";}
+				if ($nuked['user_twiter'] == 'on'){echo "<td align=\"center\"><b>" . _TWITER . "</b></td>\n";}
+				if ($nuked['user_skype'] == 'on'){echo "<td align=\"center\"><b>" . _SKYPE . "</b></td>\n";}
+				if ($nuked['user_website'] == 'on'){echo "<td style=\" width=\"5%\";\" align=\"center\"><b>" . _URL . "</b></td>\n";}
+				echo "</tr>\n";
 
-        $sql = mysql_query("SELECT pseudo, url, email, icq, msn, aim, yim, rang, country FROM " . USER_TABLE . " WHERE team = '' " . $and . " AND niveau > 0 ORDER BY pseudo LIMIT " . $start . ", " . $nb_membres);
-        while (list($pseudo, $url, $email, $icq, $msn, $aim, $yim, $rang, $country) = mysql_fetch_array($sql)){
+        $sql = mysql_query("SELECT pseudo, url, email, icq, msn, aim, yim, rang, country, xfire, facebook ,origin, steam, twitter, skype FROM " . USER_TABLE . " WHERE team = '' " . $and . " AND niveau > 0 ORDER BY pseudo LIMIT " . $start . ", " . $nb_membres);
+        while (list($pseudo, $url, $email, $icq, $msn, $aim, $yim, $rang, $country, $xfire, $facebook ,$origin, $steam, $twitter, $skype) = mysql_fetch_array($sql)){
             list ($pays, $ext) = explode ('.', $country);
 
             if ($url != "" && preg_match("`http://`i", $url)){
-                $home = "<a href=\"" . $url . "\" title=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $url . "</a>";
-            } 
-            else{
-                $home = "N/A";
+                $home = "<a href=\"" . $url . "\" title=\"" . $url . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/user/url.png\" alt=\"\" title=\"" . $url . "\" /></a>";
             } 
 
-            if (is_file("themes/" . $theme . "/images/mail.gif")){
-                $img = "themes/" . $theme . "/images/mail.gif";
+            if (is_file("themes/" . $theme . "/images/mail.png")){
+                $img = "themes/" . $theme . "/images/mail.png";
             } 
             else{
-                $img = "modules/Members/images/mail.gif";
-            } 
+                $img = "images/user/email.png";
+            }
 
             if ($j == 0){
                 $bg = $bgcolor2;
@@ -112,54 +114,148 @@ if ($visiteur >= $level_access && $level_access > -1){
             } 
 
             echo "<tr style=\"background: " . $bg . ";\">\n"
-					. "<td style=\"width: 5%;\" align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
-					. "<td style=\"width: 20%;\"><a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $pseudo . "</b></a></td>\n"
-					. "<td style=\"width: 10%;\" align=\"center\">\n";
+					. "<td align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
+					. "<td><a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $pseudo . "</b></a></td>\n";
+			if ($nuked['user_email'] == 'on')
+		{
+			echo "<td align=\"center\">\n";
 
             if ($email != ""){
-                echo "<a href=\"mailto:" . $email . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $email . "\" /></a>";
+                echo "<a href=\"mailto:" . $email . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $email . "\" /></a></td>";
             } 
             else{
-                echo "N/A";
+                echo "<img style=\"border: 0;\" src=\"images/user/emailna.png\" alt=\"\"/></td>";
             } 
-
-            echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
+		}
+            if ($nuked['user_icq'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
 
             if ($icq != ""){
-                echo "<a href=\"http://web.icq.com/whitepages/add_me?uin=" . $icq . "&amp;action=add\"><img style=\"border: 0;\" src=\"modules/Members/images/icq.gif\" alt=\"\" title=\"" . $icq . "\" /></a>";
+                echo "<a href=\"http://web.icq.com/whitepages/add_me?uin=" . $icq . "&amp;action=add\"><img style=\"border: 0;\" src=\"images/user/icq.png\" alt=\"\" title=\"" . $icq . "\" /></a></td>";
             } 
             else{
-                echo"N/A";
+                echo"<img style=\"border: 0;\" src=\"images/user/icqna.png\" alt=\"\"/></td>";
             } 
-
-            echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
+		}
+		    if ($nuked['user_msn'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
 
             if ($msn != ""){
-                echo "<a href=\"mailto:" . $msn . "\"><img style=\"border: 0;\" src=\"modules/Members/images/msn.gif\" alt=\"\" title=\"" . $msn . "\" /></a>";
+                echo "<a href=\"mailto:" . $msn . "\"><img style=\"border: 0;\" src=\"images/user/msn.png\" alt=\"\" title=\"" . $msn . "\" /></a></td>";
             } 
             else{
-                echo "N/A";
+                echo "<img style=\"border: 0;\" src=\"images/user/msnna.png\" alt=\"\"/></td>";
             } 
-
-            echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
+		}
+		    if ($nuked['user_aim'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
 
             if ($aim != ""){
-                echo "<a href=\"aim:goim?screenname=" . $aim . "&amp;message=Hi+" . $aim . "+Are+you+there+?\"><img style=\"border: 0;\" src=\"modules/Members/images/aim.gif\" alt=\"\" title=\"" . $aim . "\" /></a>";
+                echo "<a href=\"aim:goim?screenname=" . $aim . "&amp;message=Hi+" . $aim . "+Are+you+there+?\"><img style=\"border: 0;\" src=\"images/user/aim.png\" alt=\"\" title=\"" . $aim . "\" /></a></td>";
             } 
             else{
-                echo "N/A";
+                echo "<img style=\"border: 0;\" src=\"images/user/aimna.png\" alt=\"\"/></td>";
             } 
-
-            echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
+		}
+		    if ($nuked['user_yim'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
 
             if ($yim != ""){
-                echo "<a href=\"http://edit.yahoo.com/config/send_webmesg?.target=" . $yim . "&amp;.src=pg\"><img style=\"border: 0;\" src=\"modules/Members/images/yim.gif\" alt=\"\" title=\"" . $yim . "\" /></a>";
+                echo "<a href=\"http://edit.yahoo.com/config/send_webmesg?.target=" . $yim . "&amp;.src=pg\"><img style=\"border: 0;\" src=\"images/user/yahoo.png\" alt=\"\" title=\"" . $yim . "\" /></a></td>";
             } 
             else{
-                echo "N/A";
+                echo "<img style=\"border: 0;\" src=\"images/user/yahoona.png\" alt=\"\"/></td>";
             } 
+		}
+		
+			if ($nuked['user_xfire'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
 
-            echo "</td><td style=\"width: 25%;\" align=\"center\">" . $home . "</td></tr>\n";
+            if ($xfire != ""){
+                echo "<a href=\"xfire:add_friend?user=" . $xfire . "\"><img style=\"border: 0;\" src=\"images/user/xfire.png\" alt=\"\" title=\"" . $xfire . "\" /></a></td>";
+            } 
+            else{
+                echo "<img style=\"border: 0;\" src=\"images/user/xfirena.png\" alt=\"\"/></td>";
+            } 
+		}
+		
+			if ($nuked['user_facebook'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
+
+            if ($facebook != ""){
+                echo "<a href=\"http://www.facebook.com/" . $facebook . "\"><img style=\"border: 0;\" src=\"images/user/facebook.png\" alt=\"\" title=\"" . $facebook . "\" /></a></td>";
+            } 
+            else{
+                echo "<img style=\"border: 0;\" src=\"images/user/facebookna.png\" alt=\"\"/></td>";
+            } 
+		}
+		
+			if ($nuked['user_origin'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
+
+            if ($origin != ""){
+                echo "<img style=\"border: 0;\" src=\"images/user/origin.png\" alt=\"\" title=\"" . $origin . "\" /></td>";
+            } 
+            else{
+                echo "<img style=\"border: 0;\" src=\"images/user/originna.png\" alt=\"\"/></td>";
+            } 
+		}
+		
+			if ($nuked['user_steam'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
+
+            if ($steam != ""){
+                echo "<a href=\"http://steamcommunity.com/actions/AddFriend/" . $steam . "\"><img style=\"border: 0;\" src=\"images/user/steam.png\" alt=\"\" title=\"" . $steam . "\" /></a></td>";
+            } 
+            else{
+                echo "<img style=\"border: 0;\" src=\"images/user/steamna.png\" alt=\"\"/></td>";
+            } 
+		}
+		
+			if ($nuked['user_twiter'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
+
+            if ($twitter != ""){
+                echo "<a href=\"http://twitter.com/#!/" . $twitter . "\"><img style=\"border: 0;\" src=\"images/user/twitter.png\" alt=\"\" title=\"" . $twitter . "\" /></a></td>";
+            } 
+            else{
+                echo "<img style=\"border: 0;\" src=\"images/user/twitterna.png\" alt=\"\"/></td>";
+            } 
+		}
+		
+			if ($nuked['user_skype'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
+
+            if ($skype != ""){
+                echo "<a href=\"skype:" . $skype . "?call\"><img style=\"border: 0;\" src=\"images/user/skype.png\" alt=\"\" title=\"" . $skype . "\" /></a></td>";
+            } 
+            else{
+                echo "<img style=\"border: 0;\" src=\"images/user/skypena.png\" alt=\"\"/></td>";
+            } 
+		}
+		
+			if ($nuked['user_website'] == 'on')
+		{
+            echo "<td align=\"center\">\n";
+
+            if ($url != ""){
+				
+                echo "" . $home . "</td>";
+            } 
+            else{
+                echo "<img style=\"border: 0;\" src=\"images/user/urlna.png\" alt=\"\"/></td>";
+            } 
+		}
         } 
 
         if ($count == 0){
@@ -202,13 +298,13 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         opentable();
 
-        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1');
+        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1' );
 
-        $sql = mysql_query("SELECT U.id, U.icq, U.msn, U.aim, U.yim, U.email, U.url, U.date, U.game, U.country, S.date FROM " . USER_TABLE . " AS U LEFT OUTER JOIN " . SESSIONS_TABLE . " AS S ON U.id = S.user_id WHERE U.pseudo = '" . $autor . "'");
+        $sql = mysql_query("SELECT U.id, U.icq, U.msn, U.aim, U.yim, U.email, U.url, U.date, U.game, U.country, U.xfire, U.facebook , U.origin, U.steam, U.twitter, U.skype, S.date FROM " . USER_TABLE . " AS U LEFT OUTER JOIN " . SESSIONS_TABLE . " AS S ON U.id = S.user_id WHERE U.pseudo = '" . $autor . "'");
         $test = mysql_num_rows($sql);
 
         if ($test > 0){
-            list($id_user, $icq, $msn, $aim, $yim, $email, $url, $date, $game_id, $country, $last_used) = mysql_fetch_array($sql);
+            list($id_user, $icq, $msn, $aim, $yim, $email, $url, $date, $game_id, $country, $xfire, $facebook, $origin, $steam, $twitter, $skype, $last_used) = mysql_fetch_array($sql);
             list ($pays, $ext) = explode ('.', $country);
 
             if ($email != ""){
@@ -306,12 +402,22 @@ if ($visiteur >= $level_access && $level_access > -1){
 			if ($sex) echo "<tr><td><b>&nbsp;&nbsp;» " . _SEXE . "&nbsp;:&nbsp;</b></td><td>" . $sex . "</td></tr>\n";
 			if ($ville) echo "<tr><td><b>&nbsp;&nbsp;» " . _CITY . "&nbsp;:&nbsp;</b></td><td>" . $ville . "</td></tr>\n";
 			if ($pays) echo "<tr><td><b>&nbsp;&nbsp;» " . _COUNTRY . "&nbsp;:&nbsp;</b></td><td>" . $pays . "</td></tr>\n";
+			
+if ($visiteur >= $nuked['user_social_level'] )
+{			
 			if ($mail) echo "<tr><td><b>&nbsp;&nbsp;» " . _MAIL . "&nbsp;:&nbsp;</b></td><td>" . $mail . "</td></tr>\n";
 			if ($url && preg_match("`http://`i", $url)) echo "<tr><td><b>&nbsp;&nbsp;» " . _URL . "&nbsp;:&nbsp;</b></td><td><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $url . "</a></td></tr>\n";
 			if ($icq) echo "<tr><td><b>&nbsp;&nbsp;» " . _ICQ . "&nbsp;:&nbsp;</b></td><td><a href=\"http://web.icq.com/whitepages/add_me?uin=" . $icq . "&amp;action=add\">" . $icq . "</a></td></tr>"; 
 			if ($msn) echo "<tr><td><b>&nbsp;&nbsp;» " . _MSN . "&nbsp;:&nbsp;</b></td><td><a href=\"mailto:" . $msn . "\">" . $msn . "</a></td></tr>";
 			if ($aim) echo "<tr><td><b>&nbsp;&nbsp;» " . _AIM . "&nbsp;:&nbsp;</b></td><td><a href=\"aim:goim?screenname=" . $aim . "&amp;message=Hi+" . $aim . "+Are+you+there+?\">" . $aim . "</a></td></tr>";                
 			if ($yim) echo "<tr><td><b>&nbsp;&nbsp;» " . _YIM . "&nbsp;:&nbsp;</b></td><td><a href=\"http://edit.yahoo.com/config/send_webmesg?.target=" . $yim . "&amp;.src=pg\">" . $yim . "</a></td></tr>";
+			if ($xfire) echo "<tr><td><b>&nbsp;&nbsp;» " . _XFIRE . "&nbsp;:&nbsp;</b></td><td><a href=\"xfire:add_friend?user=" . $xfire . "\">" . $xfire . "</a></td></tr>";
+			if ($facebook) echo "<tr><td><b>&nbsp;&nbsp;» " . _FACEBOOK . "&nbsp;:&nbsp;</b></td><td><a href=\"http://www.facebook.com/" . $facebook . "\">" . $facebook . "</a></td></tr>";
+			if ($origin) echo "<tr><td><b>&nbsp;&nbsp;» " . _ORIGINEA . "&nbsp;:&nbsp;</b></td><td><a href=\"#\">" . $origin. "</a></td></tr>";
+			if ($steam) echo "<tr><td><b>&nbsp;&nbsp;» " . _STEAM . "&nbsp;:&nbsp;</b></td><td><a href=\"#\">" . $steam . "</a></td></tr>";
+			if ($twitter) echo "<tr><td><b>&nbsp;&nbsp;» " . _TWITER . "&nbsp;:&nbsp;</b></td><td><a href=\"http://twitter.com/#!/" . $twitter . "\">" . $twitter . "</a></td></tr>";
+			if ($skype) echo "<tr><td><b>&nbsp;&nbsp;» " . _SKYPE . "&nbsp;:&nbsp;</b></td><td><a href=\"skype:" . $skype . "?call\">" . $skype . "</a></td></tr>";
+ }
 			if ($date) echo "<tr><td><b>&nbsp;&nbsp;» " . _DATEUSER . "&nbsp;:&nbsp;</b></td><td>" . $date . "</td></tr>";
 			if ($last_used) echo "<tr><td><b>&nbsp;&nbsp;» " . _LASTVISIT . "&nbsp;:&nbsp;</b></td><td>" . $last_used . "</td></tr>";
 			
@@ -377,7 +483,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 	function listing($q,$type='right',$limit=100){
 		$q	= strtolower($q);
 		$q = nk_CSS($q);
-		$q = htmlentities($q, ENT_QUOTES, 'ISO-8859-1');	
+		$q = htmlentities($q, ENT_QUOTES, 'ISO-8859-1' );	
 		if (!$q) return;
 		
 		if (!is_numeric($limit)) $limit = 0;

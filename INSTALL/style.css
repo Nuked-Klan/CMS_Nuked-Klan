@@ -53,7 +53,7 @@ p{padding:5px 0 10px 0;line-height:1.6em}
     font-weight:bold;
 }
 #navigation a:hover{
-    color:#78b404;
+    color:#0077c9;
     font-weight:bold;
 }
 #navigation span{
@@ -113,7 +113,7 @@ p{padding:5px 0 10px 0;line-height:1.6em}
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
 }
 #config input:focus{
-	border: 1px solid #78b404;
+	border: 1px solid #0077c9;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;
     outline: medium none;
 }
@@ -124,7 +124,7 @@ p{padding:5px 0 10px 0;line-height:1.6em}
 	width:60%;
 	height:300px;
 	resize:none;
-	border: 1px solid #78b404;
+	border: 1px solid #0077c9;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;
     outline: medium none;
 	padding:2px;
@@ -196,7 +196,7 @@ a.button_disabled {
 a.button:hover {
     color: #fff;
     border-color: #777;
-    background:#78b404;
+    background:#0077c9;
     -moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
 	-webkit-box-shadow:0 2px 5px rgba(0, 0, 0, 0.5);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -237,17 +237,17 @@ a.button:active {
 	margin:0 auto;
 }
 .progress-bar{
-	background-color: #78b404;
+	background-color: #0077c9;
 	-webkit-background-size: 44px 44px;
-	background: -webkit-gradient(linear, 0 0, 44 44,color-stop(0.00, rgba(255,255,255,0.17)),color-stop(0.25, rgba(255,255,255,0.17)),color-stop(0.26, rgba(255,255,255,0)),color-stop(0.50, rgba(255,255,255,0)),color-stop(0.51, rgba(255,255,255,0.17)),color-stop(0.75, rgba(255,255,255,0.17)),color-stop(0.76, rgba(255,255,255,0)),color-stop(1.00, rgba(255,255,255,0))), -webkit-gradient(linear, left bottom, left top, color-stop(0, #89c515), color-stop(1, #67a303));
-	background: -moz-repeating-linear-gradient(left top -30deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.17) 15px, rgba(255, 255, 255, 0) 15px, rgba(255, 255, 255, 0) 30px) repeat scroll 0 0%, -moz-linear-gradient(#89c515 0%, #67a303 100%) repeat scroll 0 0 transparent;
-	border: 1px solid #78B404;
+	background: -webkit-gradient(linear, 0 0, 44 44,color-stop(0.00, rgba(255,255,255,0.17)),color-stop(0.25, rgba(255,255,255,0.17)),color-stop(0.26, rgba(255,255,255,0)),color-stop(0.50, rgba(255,255,255,0)),color-stop(0.51, rgba(255,255,255,0.17)),color-stop(0.75, rgba(255,255,255,0.17)),color-stop(0.76, rgba(255,255,255,0)),color-stop(1.00, rgba(255,255,255,0))), -webkit-gradient(linear, left bottom, left top, color-stop(0, #1589c5), color-stop(1, #0365a3));
+	background: -moz-repeating-linear-gradient(left top -30deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.17) 15px, rgba(255, 255, 255, 0) 15px, rgba(255, 255, 255, 0) 30px) repeat scroll 0 0%, -moz-linear-gradient(#1589c5 0%, #0365a3 100%) repeat scroll 0 0 transparent;
+	border: 1px solid #0077c9;
     border-radius: 3px;
 	-webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    box-shadow: 0 1px 0 0 #DBF383 inset, 0 -1px 1px #9ad626 inset;
-	-webkit-box-shadow: 0 1px 0 0 #DBF383 inset, 0 -1px 1px #9ad626 inset;
-    -moz-box-shadow: 0 1px 0 0 #DBF383 inset, 0 -1px 1px #9ad626 inset;
+    box-shadow: 0 1px 0 0 #83cff3 inset, 0 -1px 1px #26a6d6 inset;
+	-webkit-box-shadow: 0 1px 0 0 #83cff3 inset, 0 -1px 1px #26a6d6 inset;
+    -moz-box-shadow: 0 1px 0 0 #83cff3 inset, 0 -1px 1px #26a6d6 inset;
     display: block;
     height: 23px;
 	width:0%;

@@ -10,6 +10,12 @@ define("_ICQ","Icq");
 define("_MSN","Msn");
 define("_AIM","Aim");
 define("_YIM","Yim");
+define("_XFIRE","Xfire");
+define("_FACEBOOK","FaceBook");
+define("_ORIGINEA","Origin");
+define("_STEAM","Steam");
+define("_TWITER","Twiter");
+define("_SKYPE","Skype");
 define("_RANK","Rang");
 define("_VIEWPROFIL","Voir le profil");
 define("_URL","Url");
@@ -44,4 +50,5 @@ define("_DELETEUSER","Vous êtes sur le point de supprimer");
 define("_CONFIRM","Continuer ?");
 define("_EDIT","Editer");
 define("_DELETE","Supprimer");
+
 ?>
