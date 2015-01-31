@@ -9,7 +9,7 @@ h3{font-size:17px;padding:0 0 10px 0}
 h4{font-size:16px;padding:0 0 5px 0}
 h5{font-size:14px;padding:0 0 5px 0}
 h6{font-size:12px;padding:0 0 5px 0}
-a{color:#57a000;text-decoration:none}
+a{color:#0077c9;text-decoration:none}
 a:hover{color:#000}
 a:active{color:#777}
 a:focus{outline:1px}
@@ -20,7 +20,7 @@ p{padding:5px 0 10px 0;line-height:1.6em}
 .clear{clear:both}
 .align-left{float:left}
 .align-right{float:right}
-.button{font-family:Verdana,Arial,sans-serif;display:inline-block;background:#459300 url('../images/bg-button-green.gif') top left repeat-x!important;border:1px solid #459300!important;padding:4px 7px 4px 7px!important;color:#fff!important;font-size:11px!important;cursor:pointer}
+.button{font-family:Verdana,Arial,sans-serif;display:inline-block;background:#014995 url('../images/bg-button-blue.gif') top left repeat-x!important;border:1px solid #014995!important;padding:4px 7px 4px 7px!important;color:#fff!important;font-size:11px!important;cursor:pointer}
 .button:hover{text-decoration:underline}
 .button:active{padding:5px 7px 3px 7px!important}
 a.remove-link{color:#b00}
@@ -34,7 +34,7 @@ a.remove-link:hover{color:#000}
 #sidebar #profile-links{padding:0 15px 20px 15px;text-align:right;line-height:1.5em}
 #sidebar #main-nav{width:206px;padding:0;margin:0 0 0 15px;font-family:Helvetica,Arial,sans-serif;}
 #sidebar #main-nav li{list-style:none;padding-bottom:10px;text-align:right}
-#sidebar #main-nav li a.nav-top-item{background:transparent url('../images/bg-menu-item-green.gif') right center no-repeat;padding:10px 15px;color:#fff;font-size:14px;cursor:pointer;display:block;text-decoration:none}
+#sidebar #main-nav li a.nav-top-item{background:transparent url('../images/bg-menu-item-blue.gif') right center no-repeat;padding:10px 15px;color:#fff;font-size:14px;cursor:pointer;display:block;text-decoration:none}
 #sidebar #main-nav li a.current{background-image:url('../images/bg-menu-item-current.gif')!important;color:#333;font-weight:bold}
 #sidebar #main-nav li a.current:hover{color:#333}
 #sidebar #main-nav ul{padding:0;font-size:12px;margin:0}
@@ -61,7 +61,7 @@ a.remove-link:hover{color:#000}
 ul.content-box-tabs{float:right;padding:12px 15px 0 0!important;margin:0!important}
 ul.content-box-tabs li{float:left;margin:0;padding:0!important;background-image:none!important}
 ul.content-box-tabs li a{color:#333;padding:8px 10px;display:block;margin:1px;border-bottom:0}
-ul.content-box-tabs li a:hover{color:#57a000}
+ul.content-box-tabs li a:hover{color:#0077c9}
 ul.content-box-tabs li a.current{background:#fff;border:1px solid #ccc;border-bottom:0;margin:0}
 .content-box-content{padding:20px;font-size:13px;border-top:1px solid #ccc}
 table{width:100%;border-collapse:collapse}
@@ -78,13 +78,13 @@ table tfoot td .bulk-actions select{padding:4px;border:1px solid #ccc}
 #main-content .pagination{text-align:right;padding:20px 0 5px 0;font-family:Verdana,Arial,Helvetica,sans-serif;font-size:10px}
 .pagination a{margin:0 5px 0 0;padding:3px 6px}
 .pagination a.number{border:1px solid #ddd}
-.pagination a.current{background:#469400 url('../images/bg-button-green.gif') top left repeat-x!important;border-color:#459300!important;color:#fff!important}
+.pagination a.current{background:#469400 url('../images/bg-button-blue.gif') top left repeat-x!important;border-color:#014995!important;color:#fff!important}
 .pagination a.current:hover{text-decoration:underline}
 .shortcut-button{border:1px solid #ccc;background:#f7f7f7 url('../images/shortcut-button-bg.gif') top left no-repeat;display:block;width:120px;margin:0 0 20px 0}
 .shortcut-button span{border:1px solid #fff;display:block;padding:15px 10px 15px 10px;text-align:center;color:#555;font-size:13px;line-height:1.3em}
 .shortcut-button span img{margin-bottom:10px}
 .shortcut-button:hover{background:#fff}
-.shortcut-button span:hover{color:#57a000}
+.shortcut-button span:hover{color:#0077c9}
 ul.shortcut-buttons-set li{float:left;margin:0 15px 0 0;padding:0!important;background:0}
 form label{display:block;padding:0 0 10px;font-weight:bold}
 form fieldset legend{font-weight:bold;margin-bottom:10px;padding-top:10px}

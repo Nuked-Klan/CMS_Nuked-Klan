@@ -320,7 +320,7 @@ define("_TOLOG","Login");
 define("_TOBACK","Back");
 
 define("_BONJOUR","Hello");
-define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.7.9 admin panel!");
+define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.7.10 admin panel!");
 define("_AIDE","Help");
 define("_STATS","Stats");
 define("_SQL","SQL error found");
@@ -669,4 +669,7 @@ A whole team nuked-klan.org, and his community that has allowed us to quickly fi
 
 <h3>GNU Licence:</h3>
 Thank you not to remove the copyleft respect for the cms and follow the GNU.<br />');
+define("_TYPEEDITEUR","Choice of text editor");
+define("_CKEDITOR","CKEditor");
+define("_TINYEDITOR","TinyEditor");
 ?>

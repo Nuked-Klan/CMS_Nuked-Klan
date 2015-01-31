@@ -325,7 +325,7 @@ define("_TOLOG","S'identifier");
 define("_TOBACK","Retour");
 
 define("_BONJOUR","Bonjour");
-define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.7.9 !");
+define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.7.10 !");
 define("_AIDE","Aides");
 define("_STATS","Statistiques");
 define("_SQL","Erreurs SQL détectées");
@@ -506,5 +506,8 @@ A toute l\'équipe nuked-klan.org, ainsi qu\'à sa communauté qui nous a permis de
 
 <h3>Licence GNU :</h3>
 Merci de ne pas supprimer le <acronym title="Le terme copyleft est un double jeu de mots faisant référence au copyright traditionnel" style="text-decoration: underline">copyleft</acronym> par respect pour le cms et respecter la licence GNU.<br />');
+define("_TYPEEDITEUR","Choix de l'éditeur de texte");
+define("_CKEDITOR","CKEditor");
+define("_TINYEDITOR","TinyEditor");
 
 ?>
