@@ -222,6 +222,24 @@
                             ('screen', 'on'),
                             ('contact_mail', ''),
                             ('contact_flood', '60'),
+                            ('forum_image', 'on'),
+                            ('forum_cat_image', 'on'),
+                            ('forum_birthday', 'on'),
+                            ('forum_gamer_details', 'on'),
+                            ('forum_user_details', 'on'),
+                            ('user_email', 'on'),
+                            ('user_icq', 'off'),
+                            ('user_msn', 'off'),
+                            ('user_aim', 'off'),
+                            ('user_yim', 'off'),
+                            ('user_xfire', 'on'),
+                            ('user_facebook', 'on'),
+                            ('user_origin', 'on'),
+                            ('user_steam', 'on'),
+                            ('user_twiter', 'on'),
+                            ('user_skype', 'on'),
+                            ('user_website', 'on'),
+                            ('user_social_level', '0'),
                             ('editor_type', 'tiny');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -347,6 +365,7 @@
                           `nom` text NOT NULL,
                           `comment` text NOT NULL,
                           `moderateurs` text NOT NULL,
+                          `image` varchar(200) NOT NULL default '',
                           `niveau` int(1) NOT NULL default '0',
                           `level` int(1) NOT NULL default '0',
                           `ordre` int(5) NOT NULL default '0',
@@ -357,7 +376,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO `" . $db_prefix . "_forums` VALUES (1, 1, 'Forum', 'Test Forum', '', 0, 0, 0, 1 ,1);";
+                        $sql = "INSERT INTO `" . $db_prefix . "_forums` VALUES (1, 1, 'Forum', 'Test Forum', '', '', 0, 0, 0, 1 ,1);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -367,13 +386,14 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums_cat` (
                           `id` int(11) NOT NULL auto_increment,
                           `nom` varchar(100) default NULL,
+                          `image` varchar(200) NOT NULL default '',
                           `ordre` int(5) NOT NULL default '0',
                           `niveau` int(1) NOT NULL default '0',
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                     
-                        $sql="INSERT INTO `" . $db_prefix . "_forums_cat` VALUES (1, 'Categorie 1', 0, 0);";
+                        $sql="INSERT INTO `" . $db_prefix . "_forums_cat` VALUES (1, 'Categorie 1', '', 0, 0);";
                         $req=mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -719,7 +739,8 @@
                             (19, 'Comment', 0, 9),
                             (20, 'Vote', 0, 9),
                             (21, 'Stats', 0, 2),
-                            (22, 'Contact', 0, 3);";
+                            (22, 'Contact', 0, 3),
+                            (23, 'Equipe', 0, 2);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -973,6 +994,59 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
+        case'staff':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_staff`";
+                        $req = mysql_query($sql) or die (mysql_error());                        
+                        $sql = "CREATE TABLE `" . $db_prefix . "_staff` (
+                          `id` int(11) NOT NULL auto_increment,
+                          `membre_id` varchar(20) NOT NULL default '',
+                          `categorie_id` int(11) NOT NULL default '0',
+                          `date` int(11) NOT NULL default '0',
+                          `status_id` varchar(25) NOT NULL default '',
+                          `rang_id` varchar(25) NOT NULL default '',
+                          PRIMARY KEY  (`id`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        echo 'OK';
+        break;
+        case'staff_cat':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_staff_cat`";
+                        $req = mysql_query($sql) or die (mysql_error());                        
+                        $sql = "CREATE TABLE `" . $db_prefix . "_staff_cat` (
+                          `id` int(11) NOT NULL auto_increment,
+                          `nom` varchar(255) NOT NULL default '',
+                          `img` varchar(255) NOT NULL default '',
+                          `ordre` int(5) NOT NULL default '0',
+                          `tag` text NOT NULL,
+                          `tag2` text NOT NULL,
+                          PRIMARY KEY  (`id`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        echo 'OK';
+        break;
+        case'staff_rang':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_staff_rang`";
+                        $req = mysql_query($sql) or die (mysql_error());                        
+                        $sql = "CREATE TABLE `" . $db_prefix . "_staff_rang` (
+                          `id` int(11) NOT NULL auto_increment,
+                          `nom` varchar(25) NOT NULL default '',
+                          `ordre` int(5) NOT NULL default '0',
+                          PRIMARY KEY  (`id`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        echo 'OK';
+        break;
+        case'staff_status':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_staff_status`";
+                        $req = mysql_query($sql) or die (mysql_error());                        
+                        $sql = "CREATE TABLE `" . $db_prefix . "_staff_status` (
+                          `id` int(11) NOT NULL auto_increment,
+                          `nom` varchar(25) NOT NULL default '',
+                          PRIMARY KEY  (`id`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
+                        echo 'OK';
+        break;
         case'stats':
                         $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_stats`";
                         $req = mysql_query($sql) or die (mysql_error());                        
@@ -1081,6 +1155,8 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_team_rank` (
                           `id` int(11) NOT NULL auto_increment,
                           `titre` varchar(80) NOT NULL default '',
+                          `image` varchar(200) NOT NULL default '',
+                          `couleur` varchar(6) NOT NULL default '',
                           `ordre` int(5) NOT NULL default '0',
                           PRIMARY KEY  (`id`)
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
@@ -1134,6 +1210,12 @@
                           `msn` varchar(80) NOT NULL default '',
                           `aim` varchar(50) NOT NULL default '',
                           `yim` varchar(50) NOT NULL default '',
+                          `xfire` varchar(50) NOT NULL default '',
+                          `facebook` varchar(50) NOT NULL default '',
+                          `origin` varchar(50) NOT NULL default '',
+                          `steam` varchar(50) NOT NULL default '',
+                          `twitter` varchar(50) NOT NULL default '',
+                          `skype` varchar(50) NOT NULL default '',
                           `url` varchar(150) NOT NULL default '',
                           `pass` varchar(80) NOT NULL default '',
                           `niveau` int(1) NOT NULL default '0',

@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -40,7 +38,8 @@ if ($visiteur == 9)
         . "</div></div>\n"
         . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
         . "</b>" . _ADDUSER . "<b> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a><br />"
+        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
+        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
@@ -49,13 +48,19 @@ if ($visiteur == 9)
         . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"nick\" size=\"30\" maxlength=\"80\" /> *</td></tr>\n"
         . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" /> *</td></tr>\n"
         . "<tr><td><b>" . _PASSWORD . " (" . _CONFIRMPASS . ") :</b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"80\" /> *</td></tr>\n"
-        . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" /> *</td></tr>\n"
-        . "<tr><td><b>" . _MAIL . " (" . _PUBLIC . ") :</b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" /></td></tr>\n"
-        . "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" /></td></tr>\n"
-        . "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"40\" /></td></tr>\n"
-        . "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" /></td></tr>\n"
-        . "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" /></td></tr>\n"
-        . "<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
+        . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" /> *</td></tr>\n";
+		if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"80\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
+		if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n";}
+		if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
+		if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
+		if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
+		if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
+		if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
+		if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
+		if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
+		if ($nuked['user_twiter'] == 'on'){echo "<tr><td><b>" . _TWITER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
+		if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
+        echo "<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
 
         if ($language == "french") $pays = "France.gif";
 
@@ -141,8 +146,9 @@ if ($visiteur == 9)
     {
         global $nuked, $language, $user;
 
-        $sql = mysql_query("SELECT niveau, pseudo, pass, url, mail, email, icq, msn, aim, yim, rang, team, team2, team3, country, game, avatar, signature FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-        list($niveau, $nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $rang, $team, $team2, $team3, $pays, $game, $avatar, $signature) = mysql_fetch_array($sql);
+        $sql = mysql_query("SELECT niveau, pseudo, pass, url, mail, email, icq, msn, aim, yim, rang, team, team2, team3, country, game, avatar, signature, xfire, facebook ,origin, steam, twitter, skype FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+        list($niveau, $nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $rang, $team, $team2, $team3, $pays, $game, $avatar, $signature, $xfire, $facebook ,$origin, $steam, $twitter, $skype) = mysql_fetch_array($sql);
+
 
         if ($team != "")
         {
@@ -194,13 +200,19 @@ if ($visiteur == 9)
         . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"nick\" size=\"30\" maxlength=\"80\" value=\"" . $nick . "\" /> *</td></tr>\n"
         . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" autocomplete=\"off\" /></td></tr>\n"
         . "<tr><td><b>" . _PASSWORD . " (" . _CONFIRMPASS . ") :</b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"80\" autocomplete=\"off\" /></td></tr>\n"
-        . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail . "\" /> *</td></tr>\n"
-        . "<tr><td><b>" . _MAIL . " (" . _PUBLIC . ") :</b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"40\" value=\"" . $msn . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
+        . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail . "\" /> *</td></tr>\n";
+		if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
+		if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n";}
+		if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
+		if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
+		if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
+		if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
+		if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
+		if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
+		if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
+		if ($nuked['user_twiter'] == 'on'){echo "<tr><td><b>" . _TWITER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
+		if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
+        echo"<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
 
         $rep = Array();
         $handle = @opendir("images/flags");
@@ -298,7 +310,7 @@ if ($visiteur == 9)
 
     }
 
-    function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature, $old_nick)
+    function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature, $old_nick, $xfire, $facebook ,$origin, $steam, $twitter, $skype)
     {
         global $nuked, $user;
 
@@ -379,7 +391,7 @@ if ($visiteur == 9)
                 $ordre = 0;
             }
 
-            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
+            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1' );
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -387,6 +399,12 @@ if ($visiteur == 9)
             $msn = mysql_real_escape_string(stripslashes($msn));
             $aim = mysql_real_escape_string(stripslashes($aim));
             $yim = mysql_real_escape_string(stripslashes($yim));
+            $xfire = mysql_real_escape_string(stripslashes($xfire));
+            $facebook = mysql_real_escape_string(stripslashes($facebook));
+            $steam = mysql_real_escape_string(stripslashes($steam));
+            $origin = mysql_real_escape_string(stripslashes($origin));
+            $twitter = mysql_real_escape_string(stripslashes($twitter));
+            $skype = mysql_real_escape_string(stripslashes($skype));
             $url = mysql_real_escape_string(stripslashes($url));
             $avatar = mysql_real_escape_string(stripslashes($avatar));
 
@@ -396,10 +414,16 @@ if ($visiteur == 9)
             $msn = nkHtmlEntities($msn);
             $aim = nkHtmlEntities($aim);
             $yim = nkHtmlEntities($yim);
+            $xfire = nkHtmlEntities($xfire);
+            $facebook = nkHtmlEntities($facebook);
+            $steam = nkHtmlEntities($steam);
+            $origin = nkHtmlEntities($origin);
+            $twitter = nkHtmlEntities($twitter);
+            $skype = nkHtmlEntities($skype);
             $url = nkHtmlEntities($url);
             $avatar = nkHtmlEntities($avatar);
 
-            $sql = mysql_query("UPDATE " . USER_TABLE . " SET team = '" . $team . "', team2 = '" . $team2 . "', team3 = '" . $team3 . "', rang = '" . $rang . "', ordre = '" . $ordre . "', pseudo = '" . $nick . "', mail = '" . $mail . "', email = '" . $email . "', icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', url = '" . $url . "', country = '" . $country . "', niveau = '" . $niveau . "', " . $cryptpass . "game = '" . $game . "', avatar = '" . $avatar . "', signature = '" . $signature . "' WHERE id = '" . $id_user . "'");
+            $sql = mysql_query("UPDATE " . USER_TABLE . " SET team = '" . $team . "', team2 = '" . $team2 . "', team3 = '" . $team3 . "', rang = '" . $rang . "', ordre = '" . $ordre . "', pseudo = '" . $nick . "', mail = '" . $mail . "', email = '" . $email . "', icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', url = '" . $url . "', country = '" . $country . "', niveau = '" . $niveau . "', " . $cryptpass . "game = '" . $game . "', avatar = '" . $avatar . "', signature = '" . $signature . "', xfire = '" . $xfire . "', facebook = '" . $facebook . "', origin = '" . $origin . "', steam = '" . $steam . "', twitter = '" . $twitter . "' , skype = '" . $skype . "' WHERE id = '" . $id_user . "'");
 
             // Action
             $texteaction = "". _ACTIONMODIFUSER .": ".$nick."";
@@ -416,7 +440,7 @@ if ($visiteur == 9)
         }
     }
 
-    function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $game, $avatar, $signature)
+    function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $game, $avatar, $signature, $xfire, $facebook ,$origin, $steam, $twitter, $skype)
     {
         global $nuked, $user;
 
@@ -453,7 +477,7 @@ if ($visiteur == 9)
             } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
 
             $date = time();
-            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
+            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1' );
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -461,6 +485,12 @@ if ($visiteur == 9)
             $msn = mysql_real_escape_string(stripslashes($msn));
             $aim = mysql_real_escape_string(stripslashes($aim));
             $yim = mysql_real_escape_string(stripslashes($yim));
+            $xfire = mysql_real_escape_string(stripslashes($xfire));
+            $facebook = mysql_real_escape_string(stripslashes($facebook));
+            $steam = mysql_real_escape_string(stripslashes($steam));
+            $origin = mysql_real_escape_string(stripslashes($origin));
+            $twitter = mysql_real_escape_string(stripslashes($twitter));
+            $skype = mysql_real_escape_string(stripslashes($skype));
             $url = mysql_real_escape_string(stripslashes($url));
             $avatar = mysql_real_escape_string(stripslashes($avatar));
 
@@ -470,10 +500,16 @@ if ($visiteur == 9)
             $msn = nkHtmlEntities($msn);
             $aim = nkHtmlEntities($aim);
             $yim = nkHtmlEntities($yim);
+            $xfire = nkHtmlEntities($xfire);
+            $facebook = nkHtmlEntities($facebook);
+            $steam = nkHtmlEntities($steam);
+            $origin = nkHtmlEntities($origin);
+            $twitter = nkHtmlEntities($twitter);
+            $skype = nkHtmlEntities($skype);
             $url = nkHtmlEntities($url);
             $avatar = nkHtmlEntities($avatar);
 
-            $sql = mysql_query("INSERT INTO " . USER_TABLE . "  ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` ) VALUES ( '" . $id_user . "' , '" . $team . "' , '" . $team2 . "' , '" . $team3 . "' , '" . $rang . "' , '' , '" . $nick . "' , '" . $mail . "' , '" . $email . "' , '" . $icq . "' , '" . $msn . "' , '" . $aim . "' , '" . $yim . "' , '" . $url . "' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '" . $avatar . "' , '" . $signature . "' , '' , '' , '" . $game . "' , '" . $country . "' , '' )");
+            $sql = mysql_query("INSERT INTO " . USER_TABLE . "  ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` , `xfire` , `facebook` , `origin` , `steam` , `twitter` , `skype` ) VALUES ( '" . $id_user . "' , '" . $team . "' , '" . $team2 . "' , '" . $team3 . "' , '" . $rang . "' , '' , '" . $nick . "' , '" . $mail . "' , '" . $email . "' , '" . $icq . "' , '" . $msn . "' , '" . $aim . "' , '" . $yim . "' , '" . $url . "' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '" . $avatar . "' , '" . $signature . "' , '' , '' , '" . $game . "' , '" . $country . "' , '' , '" . $xfire . "' , '" . $facebook . "', '" . $origin . "' , '" . $steam . "' , '" . $twitter . "' , '" . $skype . "')");
             // Action
             $texteaction = "". _ACTIONADDUSER .": ".$nick."";
             $acdate = time();
@@ -558,7 +594,8 @@ if ($visiteur == 9)
         . "<input type=\"hidden\" name=\"page\" value=\"user\" /></div></form>\n"
         . "<div style=\"text-align: center;\">" . _NAMEMEMBERS . "<b> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a><br />"
+        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
+        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n";
@@ -712,7 +749,8 @@ if ($visiteur == 9)
         . "</div></div>\n"
         . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-        . "</b>" . _TEAMMANAGEMENT . "<b><br />"
+        . "</b>" . _TEAMMANAGEMENT . "<b> | "
+        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
@@ -927,7 +965,8 @@ if ($visiteur == 9)
         . "</div></div>\n"
         . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a><br />"
+        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
+        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
         . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
         . "</b>" . _BAN . "</div><br />\n"
@@ -1122,7 +1161,8 @@ if ($visiteur == 9)
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
     . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a><br />"
+    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
+    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
     . "</b>" . _RANKMANAGEMENT . "<b> | "
     . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
     . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
@@ -1162,15 +1202,18 @@ if ($visiteur == 9)
     function add_rank()
     {
         global $language;
-
+        echo"<script type=\"text/javascript\" src=\"modules/Admin/jscolor/jscolor.js\"></script>";
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_rank\">\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_rank\"enctype=\"multipart/form-data\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
+    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlimage\" size=\"42\" /></td></tr>\n"
+    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upimage\" /></td></tr>\n"
+    . "<tr><td><b>" . _COLOR . " :</b> <input class=\"color\"type=\"text\" name=\"color\" style=\"width:60px;\" value=\"" . $color . "\" /></td></tr>\n"
     . "<tr><td><b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"1\" value=\"0\" /></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr></table>\n"
     . "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _ADDRANK . "\" /></div>\n"
@@ -1180,9 +1223,10 @@ if ($visiteur == 9)
     function edit_rank($rid)
     {
         global $nuked, $language;
+        echo"<script type=\"text/javascript\" src=\"modules/Admin/jscolor/jscolor.js\"></script>";
 
-        $sql = mysql_query("SELECT titre, ordre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-        list($titre, $ordre) = mysql_fetch_array($sql);
+        $sql = mysql_query("SELECT titre, ordre, image, couleur FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rid . "'");
+        list($titre, $ordre, $image, $couleur) = mysql_fetch_array($sql);
         $titre = printSecuTags($titre);
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -1190,22 +1234,49 @@ if ($visiteur == 9)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_rank\">\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_rank\"enctype=\"multipart/form-data\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlimage\" size=\"42\" value=\"" . $image . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upimage\" /></td></tr>\n"
+    . "<tr><td><b>" . _COLOR . " :</b> <input class=\"color\"type=\"text\" name=\"color\" style=\"width:60px;\" value=\"" . $couleur . "\" /></td></tr>\n"
     . "<tr><td><b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"1\" value=\"" . $ordre . "\" /></td></tr>\n"
     . "<tr><td>&nbsp;<input type=\"hidden\" name=\"rid\" value=\"" . $rid . "\" /></td></tr></table>\n"
     . "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _MODIFTHISRANK . "\" /></div>\n"
     . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     }
 
-    function send_rank($titre, $ordre)
+   function send_rank($titre, $ordre, $urlimage, $upimage, $color)
     {
         global $nuked, $user;
 
+		$filename = $_FILES['upimage']['name'];
+
+		if ($filename != "") {
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+			if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+				$url_image = "upload/User/Rank/" . $filename;
+				move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+				@chmod ($url_image, 0644);
+			} else {
+				echo "<div class=\"notification error png_bg\">\n"
+				   . "<div>\n"
+				   . "No image file !"
+				   . "</div>\n"
+				   . "</div>\n";
+				redirect("index.php?file=News&page=admin", 2);
+				adminfoot();
+				footer();
+				die;
+			}
+		} else {
+			$url_image = $urlimage;
+		}
+
         $titre = mysql_real_escape_string(stripslashes($titre));
 
-        $sql = mysql_query("INSERT INTO " . TEAM_RANK_TABLE . " VALUES ( '' , '" . $titre . "' , '" . $ordre . "' )");
+        $sql = mysql_query("INSERT INTO " . TEAM_RANK_TABLE . " VALUES ( '' , '" . $titre . "' , '" . $ordre . "', '" . $url_image . "', '" . $color . "' )");
         // Action
         $texteaction = "". _ACTIONADDRANK .": ".$titre."";
         $acdate = time();
@@ -1218,14 +1289,37 @@ if ($visiteur == 9)
         . "</div>\n";
         redirect("index.php?file=Admin&page=user&op=main_rank", 2);
     }
-
-    function modif_rank($rid, $titre, $ordre)
+    function modif_rank($rid, $titre, $ordre, $urlimage, $upimage, $color)
     {
         global $nuked, $user;
 
         $titre = mysql_real_escape_string(stripslashes($titre));
 
-        $sql = mysql_query("UPDATE " . TEAM_RANK_TABLE . " SET titre = '" . $titre . "', ordre = '" . $ordre . "' WHERE id = '" . $rid . "'");
+        $filename = $_FILES['upimage']['name'];
+		if ($filename != "") {
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+			if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
+				$url_image = "upload/User/Rank/" . $filename;
+				move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+				@chmod ($url_image, 0644);
+			} else {
+				echo "<div class=\"notification error png_bg\">\n"
+				   . "<div>\n"
+				   . "No image file !"
+				   . "</div>\n"
+				   . "</div>\n";
+				redirect("index.php?file=News&page=admin", 2);
+				adminfoot();
+				footer();
+				die;
+			}
+		} else {
+			$url_image = $urlimage;
+		}
+
+
+        $sql = mysql_query("UPDATE " . TEAM_RANK_TABLE . " SET titre = '" . $titre . "', ordre = '" . $ordre . "', image = '" . $url_image . "', couleur = '" . $color . "' WHERE id = '" . $rid . "'");
         $sql2 = mysql_query("UPDATE " . USER_TABLE . " SET ordre = '" . $ordre . "' WHERE rang = '" . $rid . "'");
         // Action
         $texteaction = "". _ACTIONMODIFRANK .": ".$titre."";
@@ -1239,6 +1333,7 @@ if ($visiteur == 9)
         . "</div>\n";
         redirect("index.php?file=Admin&page=user&op=main_rank", 2);
     }
+
 
     function del_rank($rid)
     {
@@ -1320,7 +1415,8 @@ if ($visiteur == 9)
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
     . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a><br />"
+    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
+    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
     . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
     . "</b>" . _USERVALIDATION . "<b> | "
     . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
@@ -1421,10 +1517,144 @@ if ($visiteur == 9)
             return false;
     }
 
+	  function main_config()
+    {
+        global $nuked, $language;
+
+		if ($nuked['user_email'] == "on"){$checked_user_email = "checked=\"checked\"";}
+        if ($nuked['user_icq'] == "on"){$checked_user_icq = "checked=\"checked\"";}
+		if ($nuked['user_msn'] == "on"){$checked_user_msn = "checked=\"checked\"";}
+        if ($nuked['user_aim'] == "on"){$checked_user_aim = "checked=\"checked\"";}
+		if ($nuked['user_yim'] == "on"){$checked_user_yim = "checked=\"checked\"";}
+        if ($nuked['user_xfire'] == "on"){$checked_user_xfire = "checked=\"checked\"";}
+		if ($nuked['user_facebook'] == "on"){$checked_user_facebook = "checked=\"checked\"";}
+        if ($nuked['user_origin'] == "on"){$checked_user_origin = "checked=\"checked\"";}
+		if ($nuked['user_steam'] == "on"){$checked_user_steam = "checked=\"checked\"";}
+        if ($nuked['user_twiter'] == "on"){$checked_user_twiter = "checked=\"checked\"";}
+		if ($nuked['user_skype'] == "on"){$checked_user_skype = "checked=\"checked\"";}
+        if ($nuked['user_website'] == "on"){$checked_user_website = "checked=\"checked\"";}
+
+
+	 echo "<div class=\"content-box\">\n"
+        . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
+        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		. "</div></div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
+		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
+		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
+		. "</b>" . _USERCONFIG . "<b><br />"
+		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
+		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
+		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
+		. "<form method=\"post\" name=\"selection\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_config\"\">\n"
+		. "<table width=\"100\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+		. "<tr><td width=\"25%\"><b>" . _MAIL . " :</b></td><td width=\"75%\"><input type=\"checkbox\" name=\"user_email\" value=\"on\" " . $checked_user_email . "></td></tr>\n"
+		. "<tr><td><b>" . _ICQ . " :</b></td><td><input type=\"checkbox\" name=\"user_icq\" value=\"on\" " . $checked_user_icq . "></td></tr>\n"
+		. "<tr><td><b>" . _MSN . " :</b></td><td><input type=\"checkbox\" name=\"user_msn\" value=\"on\" " . $checked_user_msn . "></td></tr>\n"
+		. "<tr><td><b>" . _AIM . " :</b></td><td><input type=\"checkbox\" name=\"user_aim\" value=\"on\" " . $checked_user_aim . "></td></tr>\n"
+		. "<tr><td><b>" . _YIM . " :</b></td><td><input type=\"checkbox\" name=\"user_yim\" value=\"on\" " . $checked_user_yim . "></td></tr>\n"
+		. "<tr><td><b>" . _XFIRE . " :</b></td><td><input type=\"checkbox\" name=\"user_xfire\" value=\"on\" " . $checked_user_xfire . "></td></tr>\n"
+		. "<tr><td><b>" . _FACEBOOK . " :</b></td><td><input type=\"checkbox\" name=\"user_facebook\" value=\"on\" " . $checked_user_facebook . "></td></tr>\n"
+		. "<tr><td><b>" . _ORIGINEA . " :</b></td><td><input type=\"checkbox\" name=\"user_origin\" value=\"on\" " . $checked_user_origin . "></td></tr>\n"
+		. "<tr><td><b>" . _STEAM . " :</b></td><td><input type=\"checkbox\" name=\"user_steam\" value=\"on\" " . $checked_user_steam . "></td></tr>\n"
+		. "<tr><td><b>" . _TWITER . " :</b></td><td><input type=\"checkbox\" name=\"user_twiter\" value=\"on\" " . $checked_user_twiter . "></td></tr>\n"
+		. "<tr><td><b>" . _SKYPE . " :</b></td><td><input type=\"checkbox\" name=\"user_skype\" value=\"on\" " . $checked_user_skype . "></td></tr>\n"
+		. "<tr><td><b>" . _LINK . "</b> - " . _LINKCOM . " :</b></td><td><input type=\"checkbox\" name=\"user_website\" value=\"on\" " . $checked_user_website . "></td></tr>\n"
+		. "<tr><td><b>" . _LEVELREQUIRED . " :</b></td><td>\n"
+        . "<select name=\"user_social_level\" >\n"
+        . "<option>" . $nuked['user_social_level'] . "</option>\n"
+        . "<option>0</option>\n"
+        . "<option>1</option>\n"
+        . "<option>2</option>\n"
+        . "<option>3</option>\n"
+        . "<option>4</option>\n"
+        . "<option>5</option>\n"
+        . "<option>6</option>\n"
+        . "<option>7</option>\n"
+        . "<option>8</option>\n"
+        . "<option>9</option></select></td></tr>\n"
+
+		. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFCONFIG . "\" /></td><td><input type=\"button\" value=\"" . _COTOUT . "\" onclick=\"toutcocher();\"> - \n"
+        . "<input type=\"button\" value=\"" . _DECOTOUT . "\" onclick=\"toutdecocher();\"></td></tr>\n"
+		. "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&page=user\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+
+	 echo '<script language="javascript">
+		  function toutcocher()
+		  {
+		  for(i=0;i<document.selection.length;i++)
+		  {
+		  if(document.selection.elements[i].type=="checkbox")
+		  document.selection.elements[i].checked=true;
+		  }
+		  }
+		  function toutdecocher()
+		  {
+		  for(i=0;i<document.selection.length;i++)
+		  {
+		  if(document.selection.elements[i].type=="checkbox");
+		  document.selection.elements[i].checked=false;;
+		  }
+		  }
+		  </script>';
+
+	}
+	  function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $user_xfire, $user_facebook, $user_origin, $user_steam, $user_twiter, $user_skype, $user_website, $user_social_level)
+    {
+	    global $nuked, $user;
+
+	    if ($user_email != 'on'){$user_email = "off";}
+        if ($user_icq != 'on'){$user_icq = "off";}
+        if ($user_msn != 'on'){$user_msn = "off";}
+        if ($user_aim != 'on'){$user_aim = "off";}
+        if ($user_yim != 'on'){$user_yim = "off";}
+	    if ($user_xfire != 'on'){$user_xfire = "off";}
+        if ($user_facebook != 'on'){$user_facebook = "off";}
+        if ($user_origin != 'on'){$user_origin = "off";}
+        if ($user_steam != 'on'){$user_steam = "off";}
+		if ($user_twiter != 'on'){$user_twiter = "off";}
+        if ($user_skype != 'on'){$user_skype = "off";}
+        if ($user_website != 'on'){$user_website = "off";}
+        
+        $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_email . "' WHERE name = 'user_email'");
+        $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_icq . "' WHERE name = 'user_icq'");
+        $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_msn . "' WHERE name = 'user_msn'");
+        $upd4 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_aim . "' WHERE name = 'user_aim'");
+        $upd5 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_yim . "' WHERE name = 'user_yim'");
+        $upd6 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_xfire . "' WHERE name = 'user_xfire'");
+        $upd7 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_facebook . "' WHERE name = 'user_facebook'");
+        $upd8 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_origin . "' WHERE name = 'user_origin'");
+        $upd9 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_steam . "' WHERE name = 'user_steam'");
+        $upd10 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_twiter . "' WHERE name = 'user_twiter'");
+        $upd11 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_skype . "' WHERE name = 'user_skype'");
+        $upd12 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_website . "' WHERE name = 'user_website'");
+        $upd13 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_social_level . "' WHERE name = 'user_social_level'");
+
+		$texteaction = "". _ACTIONMODIFUSER .".";
+		$acdate = time();
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+
+		echo "<div class=\"notification success png_bg\">\n"
+				. "<div>\n"
+				. "" . _CONFIGUPDATED . "\n"
+				. "</div>\n"
+				. "</div>\n";
+        redirect("index.php?file=Admin&page=user", 2);
+	}
+
+
     switch ($_REQUEST['op'])
     {
+		    case "main_config":
+            main_config();
+            break;
+
+        case "send_config":
+        send_config($_REQUEST['user_email'], $_REQUEST['user_icq'], $_REQUEST['user_msn'], $_REQUEST['user_aim'], $_REQUEST['user_yim'], $_REQUEST['user_xfire'], $_REQUEST['user_facebook'], $_REQUEST['user_origin'], $_REQUEST['user_steam'], $_REQUEST['user_twiter'], $_REQUEST['user_skype'], $_REQUEST['user_website'], $_REQUEST['user_social_level']);
+        break;
+
         case "update_user":
-            update_user($_REQUEST['id_user'], $_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature'], $_REQUEST['old_nick']);
+            update_user($_REQUEST['id_user'], $_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature'], $_REQUEST['old_nick'], $_REQUEST['xfire'], $_REQUEST['facebook'], $_REQUEST['origin'], $_REQUEST['steam'], $_REQUEST['twitter'], $_REQUEST['skype']);
             break;
 
         case "add_user":
@@ -1432,7 +1662,7 @@ if ($visiteur == 9)
             break;
 
         case "do_user":
-            do_user($_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature']);
+            do_user($_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature'], $_REQUEST['xfire'], $_REQUEST['facebook'], $_REQUEST['origin'], $_REQUEST['steam'], $_REQUEST['twitter'], $_REQUEST['skype']);
             break;
 
         case "edit_user":
@@ -1504,11 +1734,11 @@ if ($visiteur == 9)
             break;
 
         case "send_rank":
-            send_rank($_REQUEST['titre'], $_REQUEST['ordre']);
+            send_rank($_REQUEST['titre'], $_REQUEST['ordre'], $_REQUEST['urlimage'], $_REQUEST['upimage'],  $_REQUEST['color']);
             break;
 
         case "modif_rank":
-            modif_rank($_REQUEST['rid'], $_REQUEST['titre'], $_REQUEST['ordre']);
+            modif_rank($_REQUEST['rid'], $_REQUEST['titre'], $_REQUEST['ordre'], $_REQUEST['urlimage'], $_REQUEST['upimage'], $_REQUEST['color']);
             break;
 
         case "del_rank":

@@ -7,7 +7,7 @@ var arrayTablesInstall = new Array(
                             "downloads_cat", "erreursql", "forums", "forums_cat", "forums_messages", "forums_threads", "forums_rank",
                             "forums_reads", "forums_poll", "forums_options", "forums_vote", "gallery", "gallery_cat", "games", "games_prefs", "guestbook",
                             "irc_awards", "liens", "liens_cat", "match", "match_files", "modules", "nbconnecte", "news", "news_cat", "notification", "recrute", "sections",
-                            "sections_cat", "serveur", "serveur_cat", "sessions", "smilies", "sondage", "sondage_check", "sondage_data", "stats", "stats_visitor",
+                            "sections_cat", "serveur", "serveur_cat", "sessions", "smilies", "sondage", "sondage_check", "sondage_data", "staff", "staff_cat", "staff_rang", "staff_status", "stats", "stats_visitor",
                             "suggest", "shoutbox", "team", "team_rank", "tmpses", "userbox", "users", "users_detail", "vote"
                         );
 var arrayTablesUpdate = new Array(

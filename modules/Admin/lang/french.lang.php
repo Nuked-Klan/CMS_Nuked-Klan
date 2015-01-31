@@ -160,6 +160,22 @@ define("_ICQ","ICQ");
 define("_MSN","MSN");
 define("_AIM","AIM");
 define("_YIM","Yim");
+define("_XFIRE","Xfire");
+define("_FACEBOOK","FaceBook");
+define("_ORIGINEA","Origin");
+define("_STEAM","Steam");
+define("_TWITER","Twiter");
+define("_SKYPE","Skype");
+define("_MODIFCONFIG","Modifier la config");
+define("_USERCONFIG","Config");
+define("_ACTIONMODIFUSER","a modifié la config de user");
+define("_CONFIGUPDATED","Config de User mise à jour");
+define("_COTOUT","Cocher tout");
+define("_DECOTOUT","Décocher tout");
+define("_LINKCOM","Uniquement Membres");
+define("_LEVELREQUIRED","Visible pour les utilisateurs rang");
+define("_IMAGE","Url de l'image");
+define("_UPLOADIMAGE","Uploader sur le serveur");
 define("_GAME","Jeu");
 define("_AVATAR","Avatar");
 define("_SIGN","Signature");
@@ -491,7 +507,4 @@ A toute l\'équipe nuked-klan.org, ainsi qu\'à sa communauté qui nous a permis de
 <h3>Licence GNU :</h3>
 Merci de ne pas supprimer le <acronym title="Le terme copyleft est un double jeu de mots faisant référence au copyright traditionnel" style="text-decoration: underline">copyleft</acronym> par respect pour le cms et respecter la licence GNU.<br />');
 
-define("_TYPEEDITEUR","Choix de l'éditeur");
-define("_CKEDITOR","CKEditor");
-define("_TINYEDITOR","TinyEditor");
 ?>
