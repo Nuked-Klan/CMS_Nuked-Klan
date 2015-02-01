@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $language;
@@ -194,11 +192,11 @@ if ($visiteur == 9)
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a></div>\n"
         . "</div>\n"
         . "<div class=\"tab-content\" id=\"tab2\"><br/>\n"
-        ."<div style=\"width:80%; margin:auto;\">\n"
+        . "<div style=\"width:95%; margin:auto;\">\n"
         . "<div class=\"notification attention png_bg\">\n"
         . "<div>" . _INFOSETTING . "</div></div></div><br/>\n"
         . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=setting&amp;op=save_config\">\n"
-        . "<div style=\"width:96%\"><table style=\"margin-left: 2%;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<div style=\"width:100%\"><table style=\"margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr><td colspan=\"2\"><big><b>" . _GENERAL . "</b></big></td></tr>\n"
         . "<tr><td>" . _SITENAME . " :</td><td><input type=\"text\" name=\"name\" size=\"40\" value=\"" . $nuked['name'] . "\" /></td></tr>\n"
         . "<tr><td>" . _SLOGAN . " : </td><td><input type=\"text\" name=\"slogan\" size=\"40\" value=\"" . $nuked['slogan'] . "\" /></td></tr>\n"
@@ -373,8 +371,7 @@ if ($visiteur == 9)
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _METATAG . "</b></big></td></tr>\n"
     . "<tr><td>" . _METAWORDS . " :</td><td><input type=\"text\" name=\"keyword\" size=\"40\" value=\"" . $nuked['keyword'] . "\" /></td></tr>\n"
     . "<tr><td>" . _METADESC . " :</td><td><textarea name=\"description\" cols=\"50\" rows=\"6\">" . $nuked['description'] . "</textarea></td></tr>\n"
-    . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"ok\" value=\"" . _MODIF . "\" /></div>\n"
-    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
+    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"ok\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br />\n";
     echo "</div></div></div>\n";
         adminfoot();
     }
@@ -449,7 +446,7 @@ else if ($visiteur > 1)
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
     adminfoot();
@@ -459,7 +456,7 @@ else
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
     adminfoot();

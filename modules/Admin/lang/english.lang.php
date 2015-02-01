@@ -191,6 +191,7 @@ define("_DATEUSER","Arrival date");
 define("_EDITUSER","Edit this member");
 define("_DELETEUSER","Remove this member");
 define("_TEAMMANAGEMENT","Teams Management");
+define("_WARNINGTEAM","The Team managementis now done in the new <a href=\"index.php?file=Equipe&page=admin\">Staff module</a> wich allow to manage an unlimited number of teams for a user.<br />The greater part of the modules of the site are using the new Staff module.<br />But you can continue to use the system of Team below for an another need.");
 define("_EDITTHISTEAM","Edit this Team");
 define("_DELTHISTEAM","Remove this Team");
 define("_ADDTEAM","Add Team");

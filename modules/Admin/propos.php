@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die;
 
 global $user, $language;
@@ -25,7 +23,7 @@ if ($visiteur >= 2) {
             <div style="margin:20px">
                 <?php echo _INFOSPROPOS; ?>
             </div>
-            <div style="text-align: center"><br />[ <a href="index.php?file=Admin"><b><?php echo _BACK; ?></b></a> ]<br /></div>
+            <div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin"><?php echo _BACK; ?></a><br /><br /><br /></div>
         </div>
     </div>
     <?php
@@ -33,14 +31,14 @@ if ($visiteur >= 2) {
 else if ($visiteur > 1) {
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
 }
 else {
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
 }

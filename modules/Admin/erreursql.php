@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $nuked, $language;
@@ -54,7 +52,7 @@ if ($visiteur >= 2)
 			. "<td><a href=\"" . $nuked['url'] . $lien . "\">" . $lien . "</a></td>\n"
 			. "<td>" . $texte . "</td></tr>\n";
 		}
-		echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
 	}
 
 	function delete()
@@ -103,7 +101,7 @@ else if ($visiteur > 1)
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
 	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
     adminfoot();
@@ -113,7 +111,7 @@ else
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
 	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
     adminfoot();

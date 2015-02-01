@@ -196,6 +196,7 @@ define("_DATEUSER","Date d'arrivée");
 define("_EDITUSER","Editer ce membre");
 define("_DELETEUSER","Supprimer ce membre");
 define("_TEAMMANAGEMENT","Gestion des Teams");
+define("_WARNINGTEAM","La Gestion des Teams se fait désormais dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permet de gérer un nombre infini de teams pour un utilisateur.<br />La pluspart des modules du site utilisent le nouveau module Equipe.<br />Toutefois vous pouvez continuer d'utiliser le système de Team ci dessous pour un autre besoin.");
 define("_EDITTHISTEAM","Editer cette Team");
 define("_DELTHISTEAM","Supprimer cette Team");
 define("_ADDTEAM","Ajouter une Team");

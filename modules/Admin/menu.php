@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -61,7 +59,7 @@ if ($visiteur == 9)
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a></td></tr>\n";
 
         }
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     }
 
     function edit_menu($bid)
@@ -192,15 +190,15 @@ if ($visiteur == 9)
             {
 
                 echo "</table><table width=\"100%\"><tr><td style=\"width: 7%;\">&nbsp;</td><td><img src=\"images/flech_coch.gif\" alt=\"\" />\n"
-                . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $r . "', true);\">" . _CHECKALL . "</a> / "
-                . "<a href=\"#\" onclick=\"setCheckboxes('box', '" . $r . "', false);\">" . _UNCHECKALL . "</a></td></tr>\n";
+                . "<a class=\"buttonLink\" href=\"#\" onclick=\"setCheckboxes('box', '" . $r . "', true);\">" . _CHECKALL . "</a>"
+                . "<a class=\"buttonLink\" href=\"#\" onclick=\"setCheckboxes('box', '" . $r . "', false);\">" . _UNCHECKALL . "</a></td></tr>\n";
             }
         }
 
         echo "</table><div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"bid\" value=\"" . $bid . "\" />\n"
-	. "<input type=\"button\" value=\"" . _DEL . "\" onclick=\"if (confirm('" . _SURDELLINE . "')) submit();\" />\n"
-        . "&nbsp;<input type=\"button\" value=\"" . _ADD . "\" onclick=\"document.location='index.php?file=Admin&amp;page=menu&amp;op=edit_line&amp;bid=" . $bid . "'\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=menu\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>";
+	. "<input class=\"button\" type=\"button\" value=\"" . _DEL . "\" onclick=\"if (confirm('" . _SURDELLINE . "')) submit();\" />\n"
+        . "&nbsp;<input class=\"button\" type=\"button\" value=\"" . _ADD . "\" onclick=\"document.location='index.php?file=Admin&amp;page=menu&amp;op=edit_line&amp;bid=" . $bid . "'\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=menu\">" . _BACK . "</a></div>\n"
+        . "</form><br /></div></div>";
     }
 
     function edit_line($bid, $lid)
@@ -323,8 +321,8 @@ if ($visiteur == 9)
 
         echo "</select></td></tr>\n"
 	. "<tr><td colspan=\"4\">" . _NEWPAGE . " : <input class=\"checkbox\" type=\"checkbox\" name=\"blank\" value=\"1\" " . $checked . " /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+	. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\">" . _BACK . "</a></div>\n"
+	. "</form><br /></div></div>\n";
     }
 
     function send_line($bid, $lid)
@@ -871,7 +869,7 @@ else if ($visiteur > 1)
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
 	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
     adminfoot();
@@ -881,7 +879,7 @@ else
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
 	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
     adminfoot();

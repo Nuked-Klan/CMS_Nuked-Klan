@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $language;
@@ -38,7 +36,7 @@ if ($visiteur == 9)
 		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/games.php\" rel=\"modal\">\n"
 		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		. "</div></div>\n"
-		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=games&amp;op=add_game\"><b>" . _GAMEADD . "</b></a> ]</div><br />\n"
+		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=games&amp;op=add_game\">" . _GAMEADD . "</a></div><br />\n"
 		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 		. "<tr>\n"
 		. "<td style=\"width: 50%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
@@ -56,7 +54,7 @@ if ($visiteur == 9)
             . "<td style=\"width: 25%;\" align=\"center\"><a href=\"javascript:delgame('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $game_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _GAMEDEL . "\" /></a></td></tr>\n";
         }
 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     }
 
     function add_game()
@@ -143,7 +141,7 @@ if ($visiteur == 9)
 		. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=games&amp;op=send_game\" onsubmit=\"return verifchamps();\">\n"
 		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
 		. "<tr><td><b>" . _NAME . " :</b> <input id=\"game_nom\" type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-		. "<tr><td><b>" . _ICON . " :</b> <input id=\"game_icon\" type=\"text\" name=\"icon\" size=\"49\" />&nbsp[ <a  href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=games&amp;nuked_nude=games&amp;op=show_icon','" . _ICON . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0');return(false)\">" . _SEEICON . "</a> ]</td></tr>\n"
+		. "<tr><td><b>" . _ICON . " :</b> <input id=\"game_icon\" type=\"text\" name=\"icon\" size=\"49\" />&nbsp<a class=\"buttonLink\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=games&amp;nuked_nude=games&amp;op=show_icon','" . _ICON . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0');return(false)\">" . _SEEICON . "</a></td></tr>\n"
 		. "<tr><td><b>" . _TITLE . " :</b> <input id=\"game_titre\" type=\"text\" name=\"titre\" size=\"50\" /></td></tr>\n"
 		. "<tr><td><b>" . _PREFNAME . " 1 :</b> <input id=\"game_pref1\" type=\"text\" name=\"pref1\" size=\"30\" /></td></tr>\n"
 		. "<tr><td><b>" . _PREFNAME . " 2 :</b> <input id=\"game_pref2\" type=\"text\" name=\"pref2\" size=\"30\" /></td></tr>\n"
@@ -151,11 +149,11 @@ if ($visiteur == 9)
 		. "<tr><td><b>" . _PREFNAME . " 4 :</b> <input id=\"game_pref4\" type=\"text\" name=\"pref4\" size=\"30\" /></td></tr>\n"
 		. "<tr><td><b>" . _PREFNAME . " 5 :</b> <input id=\"game_pref5\" type=\"text\" name=\"pref5\" size=\"30\" /></td></tr>\n"
 		. "<tr><td><b>" . _MAP . " :</b> <input type=\"text\" id=\"map\" name=\"map\" value=\"\" /></td></tr>\n"
-		. "<tr><td><input type=\"button\" value=\"". _ADDMAP ."\" onClick=\"javascript:nouveau(map.value);\" />&nbsp;<input type=\"button\" value=\"". _DELALLMAP ."\" onClick=\"javascript:reinitialiser();\" /></td></tr>\n"
+		. "<tr><td><input class=\"button\" type=\"button\" value=\"". _ADDMAP ."\" onClick=\"javascript:nouveau(map.value);\" />&nbsp;<input class=\"button\" type=\"button\" value=\"". _DELALLMAP ."\" onClick=\"javascript:reinitialiser();\" /></td></tr>\n"
 		. "<tr><td><div id=\"listmap\"></div></td></tr>\n"
 		. "<tr><td><input type=\"hidden\" id=\"maps\" name=\"maps\" value=\"\" /></td></tr>\n"
-		. "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-		. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=games\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		. "</table>\n"
+		. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=games\">" . _BACK . "</a></div></form><br /></div></div>\n";
     }
 
     function send_game($nom, $titre, $icon, $pref1, $pref2, $pref3, $pref4, $pref5, $maps)
@@ -272,7 +270,7 @@ if ($visiteur == 9)
 		. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=games&amp;op=modif_game\" onsubmit=\"return verifchamps();\">\n"
 		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
 		. "<tr><td><b>" . _NAME . " :</b> <input id=\"game_nom\" type=\"text\" name=\"nom\" size=\"30\" value=\"" . $name . "\" /></td></tr>\n"
-		. "<tr><td><b>" . _ICON . " :</b> <input id=\"game_icon\" type=\"text\" name=\"icon\" size=\"49\" value=\"" . $icon . "\" />&nbsp[ <a  href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=games&amp;nuked_nude=games&amp;op=show_icon','" . _ICON . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0');return(false)\">" . _SEEICON . "</a> ]</td></tr>\n"
+		. "<tr><td><b>" . _ICON . " :</b> <input id=\"game_icon\" type=\"text\" name=\"icon\" size=\"49\" value=\"" . $icon . "\" />&nbsp<a class=\"buttonLink\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=games&amp;nuked_nude=games&amp;op=show_icon','" . _ICON . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0');return(false)\">" . _SEEICON . "</a></td></tr>\n"
 		. "<tr><td><b>" . _TITLE . " :</b> <input id=\"game_titre\" type=\"text\" name=\"titre\" size=\"50\" value=\"" . $titre . "\" /></td></tr>\n"
 		. "<tr><td><b>" . _PREFNAME . " 1 :</b> <input id=\"game_pref1\" type=\"text\" name=\"pref1\" size=\"30\" value=\"" . $pref_1 . "\" /></td></tr>\n"
 		. "<tr><td><b>" . _PREFNAME . " 2 :</b> <input id=\"game_pref2\" type=\"text\" name=\"pref2\" size=\"30\" value=\"" . $pref_2 . "\" /></td></tr>\n"
@@ -280,7 +278,7 @@ if ($visiteur == 9)
 		. "<tr><td><b>" . _PREFNAME . " 4 :</b> <input id=\"game_pref4\" type=\"text\" name=\"pref4\" size=\"30\" value=\"" . $pref_4 . "\" /></td></tr>\n"
 		. "<tr><td><b>" . _PREFNAME . " 5 :</b> <input id=\"game_pref5\" type=\"text\" name=\"pref5\" size=\"30\" value=\"" . $pref_5 . "\" /></td></tr>\n"
 		. "<tr><td><b>" . _MAP . " :</b> <input type=\"text\" id=\"map\" name=\"map\" value=\"\" /></td></tr>\n"
-		. "<tr><td><input type=\"button\" value=\"". _ADDMAP ."\" onClick=\"javascript:nouveau(map.value);\" />&nbsp;<input type=\"button\" value=\"". _DELALLMAP ."\" onClick=\"javascript:reinitialiser();\" /></td></tr>\n"
+		. "<tr><td><input class=\"button\" type=\"button\" value=\"". _ADDMAP ."\" onClick=\"javascript:nouveau(map.value);\" />&nbsp;<input class=\"button\" type=\"button\" value=\"". _DELALLMAP ."\" onClick=\"javascript:reinitialiser();\" /></td></tr>\n"
 		. "<tr><td><div id=\"listmap\">\n";
 
 		$map = explode('|', $maps);
@@ -292,8 +290,8 @@ if ($visiteur == 9)
 		echo "</div></td></tr>\n"
 		. "<tr><td><input type=\"hidden\" id=\"maps\" name=\"maps\" value=\"".$maps."\" /></td></tr>\n"
 		. "<tr><td>&nbsp;<input type=\"hidden\" name=\"game_id\" value=\"" . $game_id . "\" /></td></tr>\n"
-		. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-		. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=games\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		. "</table>\n"
+		. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=games\">" . _BACK . "</a></div></form><br /></div></div>\n";
 
     }
 

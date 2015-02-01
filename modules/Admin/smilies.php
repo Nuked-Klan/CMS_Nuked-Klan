@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -49,7 +47,7 @@ if ($visiteur == 9)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=smilies&amp;op=add_smiley\"><b>" . _SMILEYADD . "</b></a> ]</div><br />\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=smilies&amp;op=add_smiley\">" . _SMILEYADD . "</a></div><br />\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SMILEY . "</b></td>\n"
@@ -71,7 +69,7 @@ if ($visiteur == 9)
             . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:delsmiley('" . mysql_real_escape_string($name) . "', '" . $smiley_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _SMILEYDEL . "\" /></a></td></tr>\n";
         }
 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     }
 
     function add_smiley()
@@ -137,8 +135,8 @@ if ($visiteur == 9)
 
         echo "</td></tr><tr><td><b>" . _UPSMILEY . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
-        . "<tr><td style=\"text-align:center;\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "</table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=smilies\">" . _BACK . "</a></div></form><br /></div></div>\n";
     }
 
     function send_smiley($nom, $code, $url, $fichiernom)
@@ -264,8 +262,8 @@ if ($visiteur == 9)
 
         echo "</select>&nbsp;&nbsp;<img id=\"smiley\" src=\"images/icones/" . $url . "\" alt=\"\" /></td></tr><tr><td><b>" . _UPSMILEY . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
         . "<tr><td>&nbsp;<input type=\"hidden\" name=\"smiley_id\" value=\"" . $smiley_id . "\" /></td></tr>\n"
-        . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=smilies\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "</table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=smilies\">" . _BACK . "</a></div></form><br /></div></div>\n";
     }
 
     function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
@@ -387,7 +385,7 @@ else if ($visiteur > 1)
 {
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
 }
@@ -395,7 +393,7 @@ else
 {
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
 }

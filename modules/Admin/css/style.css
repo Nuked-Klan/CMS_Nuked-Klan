@@ -21,8 +21,9 @@ p{padding:5px 0 10px 0;line-height:1.6em}
 .align-left{float:left}
 .align-right{float:right}
 .button{font-family:Verdana,Arial,sans-serif;display:inline-block;background:#014995 url('../images/bg-button-blue.gif') top left repeat-x!important;border:1px solid #014995!important;padding:4px 7px 4px 7px!important;color:#fff!important;font-size:11px!important;cursor:pointer}
-.button:hover{text-decoration:underline}
+.button:hover,.buttonLink:hover{text-decoration:underline}
 .button:active{padding:5px 7px 3px 7px!important}
+.buttonLink{font-family:Verdana,Arial,sans-serif;display:inline-block;background:#014995 url('../images/bg-button-blue.gif') top left repeat-x!important;border:1px solid #014995!important;padding:7px 7px 7px 7px!important;margin:0px 0px 0px 10px!important;color:#fff!important;font-size:11px!important;cursor:pointer}
 a.remove-link{color:#b00}
 a.remove-link:hover{color:#000}
 #sidebar{background:url('../images/bg-body.gif') top left repeat-y;width:230px;position:absolute;left:0;top:0;color:#888;font-size:11px;}
@@ -117,7 +118,7 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 #login-wrapper #login-content p .button{width:auto;margin-top:20px}
 #facebox{position:absolute;top:0;left:0;z-index:100;text-align:left}
 #facebox .popup{position:relative;border:3px solid rgba(0,0,0,0);-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 0 18px rgba(0,0,0,0.4);-moz-box-shadow:0 0 18px rgba(0,0,0,0.4);box-shadow:0 0 18px rgba(0,0,0,0.4)}
-#facebox .content{display:table;width:500px;padding:10px;background:#fff;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
+#facebox .content{display:table;width:500px;padding:20px;background:#fff;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
 #facebox .content>p:first-child{margin-top:0}
 #facebox .content>p:last-child{margin-bottom:0}
 #facebox .close{position:absolute;top:5px;right:5px;padding:2px;background:#fff}
