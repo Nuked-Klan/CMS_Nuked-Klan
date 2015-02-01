@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (preg_match("`block_roster.php`i", $_SERVER['PHP_SELF'])){
     die ("You cannot open this page directly");
 } 
@@ -66,19 +64,19 @@ function edit_block_roster($bid){
 
     echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
 			, '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"
-			, '<a href="help/' , $language , '/block.html" rel="modal">',"\n"
+			, '<div style="text-align:right;"><a href="help/' , $language , '/block.html" rel="modal">',"\n"
 			, '<img style="border: 0;" src="help/help.gif" alt="" title="' , _HELP , '" /></a>',"\n"
-			, '</div>',"\n"
+			, '</div></div>',"\n"
 			, '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
 			, '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellspacing="0" cellpadding="2" border="0">',"\n"
 			, '<tr><td><b>' , _TITLE , '</b></td><td><b>' , _BLOCK , '</b></td><td><b>' , _POSITION , '</b></td><td><b>' , _LEVEL , '</b></td></tr>',"\n"
-			, '<tr><td align="center"><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
-			, '<td align="center"><select name="active">',"\n"
+			, '<tr><td><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
+			, '<td><select name="active">',"\n"
 			, '<option value="1" ' , $checked1 , '>' , _LEFT , '</option>',"\n"
 			, '<option value="2" ' , $checked2 , '>' , _RIGHT , '</option>',"\n"
 			, '<option value="0" ' , $checked0 , '>' , _OFF , '</option></select></td>',"\n"
-			, '<td align="center"><input type="text" name="position" size="2" value="' , $position , '" /></td>',"\n"
-			, '<td align="center"><select name="nivo"><option>' , $nivo , '</option>',"\n"
+			, '<td><input type="text" name="position" size="2" value="' , $position , '" /></td>',"\n"
+			, '<td><select name="nivo"><option>' , $nivo , '</option>',"\n"
 			, '<option>0</option>',"\n"
 			, '<option>1</option>',"\n"
 			, '<option>2</option>',"\n"
@@ -101,17 +99,16 @@ function edit_block_roster($bid){
     }
 
     echo '</select></td></tr><tr><td colspan="4">&nbsp;</td></tr>'."\n"
-			. '<tr><td colspan="4" style="text-align:center;"><b>' . _PAGESELECT . ' :</b></td></tr><tr><td colspan="4">&nbsp;</td></tr>'."\n"
-			. '<tr><td colspan="4" style="text-align:center;"><select name="pages[]" size="8" multiple="multiple">'."\n";
+			. '<tr><td colspan="4"><b>' . _PAGESELECT . ' :</b></td></tr><tr><td colspan="4">&nbsp;</td></tr>'."\n"
+			. '<tr><td colspan="4"><select name="pages[]" size="8" multiple="multiple">'."\n";
 
     select_mod2($pages);
 
     echo '</select></td></tr><tr><td colspan="4" align="center"><br />',"\n"
 		, '<input type="hidden" name="type" value="' , $type , '" />',"\n"
 		, '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
-		, '<input type="submit" name="send" value="' , _MODIFBLOCK , '" />',"\n"
 		, '</td></tr></table>',"\n"
-		, '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
+		, '<div style="text-align: center;"><br /><input class="button" type="submit" name="send" value="' , _MODIFBLOCK , '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' , _BACK , '</a></div></form><br /></div></div>',"\n";
 
 }
 ?>

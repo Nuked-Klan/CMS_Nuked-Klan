@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $language;
@@ -94,8 +92,8 @@ if ($visiteur == 9)
         select_mod2('Tous');
 
         echo '</select></td></tr><tr><td>&nbsp;</td></tr>',"\n"
-        . '<tr><td align="center"><input type="submit" value="' . _CREATEBLOCK . '" /></td></tr></table>',"\n"
-        . '<div style="text-align: center"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' . _BACK . '</b></a> ]</div></form><br /></div></div>',"\n";
+        . '<tr><td align="center"></td></tr></table>',"\n"
+        . '<div style="text-align: center"><br /><input class="button" type="submit" value="' . _CREATEBLOCK . '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' . _BACK . '</a></div></form><br /></div></div>',"\n";
 
         adminfoot();
     }
@@ -394,8 +392,11 @@ if ($visiteur == 9)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/block.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin&amp;page=block&amp;op=add_block\"><b>" . _BLOCKADD . "</b></a> ]</div><br />\n"
-        . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu();
+
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _BLOCK . "</b></td>\n"
@@ -426,9 +427,26 @@ if ($visiteur == 9)
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delblock('" . mysql_real_escape_string(stripslashes($titre)) . "','" . $bid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _BLOCKDEL . "\" /></a></td></tr>\n";
         }
 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
 
         adminfoot();
+    }
+
+    function nkAdminMenu()
+    {
+        global $language, $user, $nuked;
+    ?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=block&amp;op=add_block">
+                        <span><img src="modules/Admin/images/icons/add.png" alt="icon" /><br /><br /><?php echo _BLOCKADD; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    <?php
     }
 
     switch ($_REQUEST['op'])
@@ -472,7 +490,7 @@ else if ($visiteur > 1)
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
     adminfoot();
@@ -482,7 +500,7 @@ else
     admintop();
     echo "<div class=\"notification error png_bg\">\n"
     . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
     . "</div>\n"
     . "</div>\n";
     adminfoot();

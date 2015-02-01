@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 function affich_block_rss($blok){
@@ -105,7 +103,9 @@ function edit_block_rss($bid){
 
     echo '<div class="content-box">
 	          <div class="content-box-header"><h3>' . _BLOCKADMIN . '</h3>
-			      <a href="help/' . $language . '/block.html" rel="modal"><img style="border: 0;" src="help/help.gif" alt="" title="' . _HELP . '" /></a>
+			      <div style="text-align:right;">
+			      	<a href="help/' . $language . '/block.html" rel="modal"><img style="border: 0;" src="help/help.gif" alt="" title="' . _HELP . '" /></a>
+			      </div>
 			  </div>
 			  <div class="tab-content" id="tab2">
 			      <form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">
@@ -117,8 +117,8 @@ function edit_block_rss($bid){
 						  <td><b>' . _LEVEL . '</b></td>
                       </tr>
 					  <tr>
-					      <td align="center"><input type="text" name="titre" size="40" value="' . $titre . '" /></td>
-						  <td align="center">
+					      <td><input type="text" name="titre" size="40" value="' . $titre . '" /></td>
+						  <td>
 						      <select name="active">
 							      <option value="1" ' . $checked1 . '>' . _LEFT . '</option>
 								  <option value="2" ' . $checked2 . '>' . _RIGHT . '</option>
@@ -127,8 +127,8 @@ function edit_block_rss($bid){
 								  <option value="0" ' . $checked0 . '>' . _OFF . '</option>
                               </select>
                           </td>
-						  <td align="center"><input type="text" name="position" size="2" value="' , $position , '" /></td>
-						  <td align="center">
+						  <td><input type="text" name="position" size="2" value="' , $position , '" /></td>
+						  <td>
 						      <select name="nivo">
 							      <option>' . $nivo . '</option>
 								  <option disabled="disabled"> -- </option>';
@@ -200,12 +200,14 @@ function edit_block_rss($bid){
 					      <td colspan="4" align="center"><br />
 						      <input type="hidden" name="type" value="' . $type . '" />
 							  <input type="hidden" name="bid" value="' . $bid . '" />
-							  <input type="submit" name="send" value="' . _MODIFBLOCK . '" />
 						  </td>
 					  </tr>
                   </table>
 				  </form>
-				  <div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' . _BACK . '</b></a> ]</div>
+				  <div style="text-align: center;"><br />
+				  	<input class="button" type="submit" name="send" value="' . _MODIFBLOCK . '" />
+				  	<a class="buttonLink" href="index.php?file=Admin&amp;page=block">' . _BACK . '</a>
+				  </div>
 				  <br />
               </div>
           </div>';

@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -38,12 +36,12 @@ if ($visiteur == 9)
 
         if ($niveau > -1 && $level > -1)
         {
-            $button = "&nbsp;<input type=\"button\" value=\"" . _OFFMODULE . "\" onclick=\"document.location='index.php?file=Admin&amp;page=modules&amp;op=desactive&amp;mid=" . $mid . "'\" />";
+            $button = "&nbsp;&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"" . _OFFMODULE . "\" onclick=\"document.location='index.php?file=Admin&amp;page=modules&amp;op=desactive&amp;mid=" . $mid . "'\" />";
             $read = "";
         }
         else
         {
-            $button = "&nbsp;<input type=\"button\" value=\"" . _ONMODULE . "\" onclick=\"document.location='index.php?file=Admin&amp;page=modules&amp;op=active&amp;mid=" . $mid . "'\" />"
+            $button = "&nbsp;&nbsp;&nbsp;<input class=\"button\" type=\"button\" value=\"" . _ONMODULE . "\" onclick=\"document.location='index.php?file=Admin&amp;page=modules&amp;op=active&amp;mid=" . $mid . "'\" />"
             . "<input type=\"hidden\" name=\"niveau\" value=\"-1\" /><input type=\"hidden\" name=\"level\" value=\"-1\" />";
             $read = "disabled";
         }
@@ -87,8 +85,8 @@ if ($visiteur == 9)
 
         echo "<tr><td colspan=\"2\"><small><b>" . _MEMBERS . " :</b> " . _LEVEL1 . "<br /><b> " . _ADMINFIRST . " :</b> " . _LEVEL2 . " <br /><b> " . _ADMINSUP . " :</b> " . _LEVEL9 . "</small></td></tr>\n"
 	. "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"mid\" value=\"" . $mid . "\" /></td></tr>\n"
-	. "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _EDITMODULE . "\" />" . $button . "</td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin&amp;page=modules\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+	. "<tr><td colspan=\"2\" align=\"center\"></td></tr></table>\n"
+	. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _EDITMODULE . "\" />" . $button . "<a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=modules\">" . _BACK . "</a></div></form><br /></div></div>\n";
     }
 
     function desactive($mid)
@@ -289,7 +287,7 @@ if ($visiteur == 9)
             . "<td style=\"width: 15%;\" align=\"center\">" . $temp[3] . "</td>\n"
             . "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=modules&amp;op=edit_module&amp;mid=" . $temp[1] . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _MODULEEDIT . "\" /></a></td></tr>\n";
         }
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br />\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br />\n";
     }
 
     switch ($_REQUEST['op'])
@@ -327,7 +325,7 @@ else if ($visiteur > 1)
 {
     echo "<div class=\"notification error png_bg\">\n"
 	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
 }
@@ -335,7 +333,7 @@ else
 {
     echo "<div class=\"notification error png_bg\">\n"
 	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
+	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back()\">" . _BACK . "</a></div><br /><br />"
 	. "</div>\n"
 	. "</div>\n";
 }
