@@ -36,7 +36,9 @@ if ($visiteur >= 2)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Erreursql.php\" rel=\"modal\">\n"
 		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		. "</div></div>\n"
-		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"javascript:delfile();\">" . _VIDERSQL . "</a></b></div><br />\n";
+		. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+		nkAdminMenu();
 
 		echo "<table><tr><td><b>" . _DATE . "</b>\n"
 		."</td><td><b>" . _URL . "</b>\n"
@@ -76,6 +78,24 @@ if ($visiteur >= 2)
 		<?php
 		redirect('index.php?file=Admin&page=erreursql', 1);
 	}
+
+        function nkAdminMenu()
+    {
+        global $language, $user, $nuked;
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li>
+                    <a class="shortcut-button" href="javascript:delfile();">
+                        <span><img src="modules/Admin/images/icons/remove_from_database.png" alt="icon" /><br /><?php echo _VIDERSQL; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
+
     switch ($_REQUEST['op'])
     {
         case 'main':

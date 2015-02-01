@@ -392,8 +392,11 @@ if ($visiteur == 9)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/block.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=block&amp;op=add_block\">" . _BLOCKADD . "</a></div><br />\n"
-        . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu();
+
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _BLOCK . "</b></td>\n"
@@ -427,6 +430,23 @@ if ($visiteur == 9)
         echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
 
         adminfoot();
+    }
+
+    function nkAdminMenu()
+    {
+        global $language, $user, $nuked;
+    ?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=block&amp;op=add_block">
+                        <span><img src="modules/Admin/images/icons/add.png" alt="icon" /><br /><br /><?php echo _BLOCKADD; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    <?php
     }
 
     switch ($_REQUEST['op'])

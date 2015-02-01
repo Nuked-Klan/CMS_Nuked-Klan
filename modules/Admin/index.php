@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $language, $user, $nuked;
@@ -92,7 +90,7 @@ if ($visiteur >= 2)
 
             <li>
                 <a class="shortcut-button" href="#notification" rel="modal">
-                    <span><img src="modules/Admin/images/icons/clock_48.png" alt="icon" /><br /><?php echo _NOTIFICATION; ?></span>
+                    <span><img src="modules/Admin/images/icons/megaphone.png" alt="icon" /><br /><?php echo _NOTIFICATION; ?></span>
                 </a>
             </li>
 

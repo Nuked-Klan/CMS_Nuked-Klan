@@ -31,19 +31,18 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
+        $classActive2 = "class=\"nkClassActive\"";
+
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADDUSER . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
-        . "</b>" . _ADDUSER . "<b> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
-        . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=do_user\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+
+        echo "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=do_user\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
         . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"nick\" size=\"30\" maxlength=\"80\" /> *</td></tr>\n"
         . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" /> *</td></tr>\n"
@@ -564,6 +563,7 @@ if ($visiteur == 9)
         }
 
         $nb_membres = 30;
+        $classActive1 = "class=\"nkClassActive\"";
 
         $sql3 = mysql_query("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
         $count = mysql_num_rows($sql3);
@@ -586,20 +586,15 @@ if ($visiteur == 9)
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"get\" action=\"index.php\">\n"
-        . "<div style=\"text-align: center;\"><b>" . _SEARCH . " : </b><input type=\"text\" id=\"query\" name=\"query\" size=\"25\" />&nbsp;<input class=\"button\" type=\"submit\" value=\"Ok\" />\n"
-        . "<input type=\"hidden\" name=\"file\" value=\"Admin\" />\n"
-        . "<input type=\"hidden\" name=\"page\" value=\"user\" /></div></form><br />\n"
-        . "<div style=\"text-align: center;\">" . _NAMEMEMBERS . "<b> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n";
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n";
 
+        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+
+        echo "<div class=\"tab-content\" id=\"tab2\"><form method=\"get\" action=\"index.php\">\n"
+        . "<div style=\"text-align: right; margin: 0 20px 0 0;\"><b>" . _SEARCH . " : </b><input type=\"text\" id=\"query\" name=\"query\" size=\"25\" />&nbsp;<input class=\"button\" type=\"submit\" value=\"Ok\" />\n"
+        . "<input type=\"hidden\" name=\"file\" value=\"Admin\" />\n"
+        . "<input type=\"hidden\" name=\"page\" value=\"user\" /></div></form><br />\n";
 
         if ($_REQUEST['orderby'] == "date")
         {
@@ -730,6 +725,8 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
+        $classActive3 = "class=\"nkClassActive\"";
+
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
         . "\n"
@@ -743,21 +740,17 @@ if ($visiteur == 9)
         . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _TEAMMANAGEMENT . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
         . "<div class=\"tab-content\" id=\"tab2\"><br />\n"
         . "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
-        . "<div>" . _WARNINGTEAM . "</div></div><br />\n"
-        . "<div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-        . "</b>" . _TEAMMANAGEMENT . "<b> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
-        . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<div>" . _WARNINGTEAM . "</div></div><br />\n";
+
+        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
         . "<td style=\"width: 30%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
         . "<td style=\"width: 30%;\" align=\"center\"><b>" . _GAME . "</b></td>\n"
@@ -959,6 +952,8 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
+        $classActive7 = "class=\"nkClassActive\"";
+
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
         . "\n"
@@ -972,18 +967,15 @@ if ($visiteur == 9)
         . "</script>\n";
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _BAN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
-        . "</b>" . _BAN . "</div><br />\n"
-        . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
         . "<td style=\"width: 25%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
         . "<td style=\"width: 25%;\" align=\"center\"><b>" . _MAIL . "</b></td>\n"
@@ -1155,6 +1147,8 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
+        $classActive5 = "class=\"nkClassActive\"";
+
         echo "<script type=\"text/javascript\">\n"
     . "<!--\n"
     . "\n"
@@ -1168,18 +1162,15 @@ if ($visiteur == 9)
     . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _RANKMANAGEMENT . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
-    . "</b>" . _RANKMANAGEMENT . "<b> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+    nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+
+    echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr>\n"
     . "<td style=\"width: 40%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
@@ -1410,6 +1401,8 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
+        $classActive6 = "class=\"nkClassActive\"";
+
         echo "<script type=\"text/javascript\">\n"
     . "<!--\n"
     . "\n"
@@ -1422,18 +1415,15 @@ if ($visiteur == 9)
     . "</script>\n";
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _USERVALIDATION . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_config\">" . _USERCONFIG . "</a><br />"
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-    . "</b>" . _USERVALIDATION . "<b> | "
-    . "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
-    . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+    nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+
+    echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr>\n"
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _MAIL . "</b></td>\n"
@@ -1534,6 +1524,8 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
+        $classActive4 = "class=\"nkClassActive\"";
+
 		if ($nuked['user_email'] == "on"){$checked_user_email = "checked=\"checked\"";}
         if ($nuked['user_icq'] == "on"){$checked_user_icq = "checked=\"checked\"";}
 		if ($nuked['user_msn'] == "on"){$checked_user_msn = "checked=\"checked\"";}
@@ -1549,18 +1541,15 @@ if ($visiteur == 9)
 
 
 	 echo "<div class=\"content-box\">\n"
-        . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _USERCONFIG . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
 		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		. "</div></div>\n"
-		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Admin&amp;page=user\">" . _NAMEMEMBERS . "</a> | "
-		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=add_user\">" . _ADDUSER . "</a> | "
-		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . _TEAMMANAGEMENT . "</a> | "
-		. "</b>" . _USERCONFIG . "<b><br />"
-		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . _RANKMANAGEMENT . "</a> | "
-		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_valid\">" . _USERVALIDATION . "</a> | "
-		. "<a href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BAN . "</a></b></div><br />\n"
-		. "<form method=\"post\" name=\"selection\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_config\"\">\n"
+		. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+
+		echo "<form method=\"post\" name=\"selection\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_config\"\">\n"
 		. "<table width=\"100\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 		. "<tr><td width=\"25%\"><b>" . _MAIL . " :</b></td><td width=\"75%\"><input type=\"checkbox\" name=\"user_email\" value=\"on\" " . $checked_user_email . "></td></tr>\n"
 		. "<tr><td><b>" . _ICQ . " :</b></td><td><input type=\"checkbox\" name=\"user_icq\" value=\"on\" " . $checked_user_icq . "></td></tr>\n"
@@ -1655,12 +1644,58 @@ if ($visiteur == 9)
         redirect("index.php?file=Admin&page=user", 2);
 	}
 
+        function nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7)
+    {
+        global $language, $user, $nuked;
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo $classActive1; ?>>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=user">
+                        <span><img src="modules/Admin/images/icons/members.png" alt="icon" /><br /><?php echo _USERADMIN; ?></span>
+                    </a>
+                </li>
+                <li <?php echo $classActive2; ?>>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=add_user">
+                        <span><img src="modules/Admin/images/icons/adduser.png" alt="icon" /><br /><?php echo _ADDUSER; ?></span>
+                    </a>
+                </li>
+                <li <?php echo $classActive3; ?>>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_cat">
+                        <span><img src="modules/Admin/images/icons/teamusers.png" alt="icon" /><br /><?php echo _TEAMMANAGEMENT; ?></span>
+                    </a>
+                </li>
+                <li <?php echo $classActive4; ?>>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_config">
+                        <span><img src="modules/Admin/images/icons/process.png" alt="icon" /><br /><?php echo _USERCONFIG; ?></span>
+                    </a>
+                </li>
+                <li <?php echo $classActive5; ?>>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_rank">
+                        <span><img src="modules/Admin/images/icons/ranks.png" alt="icon" /><br /><?php echo _RANKMANAGEMENT; ?></span>
+                    </a>
+                </li>
+                <li <?php echo $classActive6; ?>>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_valid">
+                        <span><img src="modules/Admin/images/icons/validuser.png" alt="icon" /><br /><?php echo _USERVALIDATION; ?></span>
+                    </a>
+                </li>
+                <li <?php echo $classActive7; ?>>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_ip">
+                        <span><img src="modules/Admin/images/icons/banuser.png" alt="icon" /><br /><br /><?php echo _BAN; ?></span>
+                    </a>
+                </li>               
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
     switch ($_REQUEST['op'])
     {
-		    case "main_config":
-            main_config();
-            break;
+		case "main_config":
+        main_config();
+        break;
 
         case "send_config":
         send_config($_REQUEST['user_email'], $_REQUEST['user_icq'], $_REQUEST['user_msn'], $_REQUEST['user_aim'], $_REQUEST['user_yim'], $_REQUEST['user_xfire'], $_REQUEST['user_facebook'], $_REQUEST['user_origin'], $_REQUEST['user_steam'], $_REQUEST['user_twiter'], $_REQUEST['user_skype'], $_REQUEST['user_website'], $_REQUEST['user_social_level']);

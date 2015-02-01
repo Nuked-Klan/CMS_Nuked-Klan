@@ -162,7 +162,7 @@ define("_STEAM","Steam");
 define("_TWITER","Twiter");
 define("_SKYPE","Skype");
 define("_MODIFCONFIG","Update Config");
-define("_USERCONFIG","Config");
+define("_USERCONFIG","Display parameters");
 define("_ACTIONMODIFUSER","has updates user config");
 define("_CONFIGUPDATED","Config user has been updated");
 define("_COTOUT","Check all");

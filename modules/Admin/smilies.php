@@ -47,8 +47,11 @@ if ($visiteur == 9)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/smilies.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=smilies&amp;op=add_smiley\">" . _SMILEYADD . "</a></div><br />\n"
-        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu();
+
+        echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SMILEY . "</b></td>\n"
         . "<td style=\"width: 25%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
@@ -347,6 +350,23 @@ if ($visiteur == 9)
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=smilies", 2);
+    }
+
+    function nkAdminMenu()
+    {
+        global $language, $user, $nuked;
+    ?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li>
+                    <a class="shortcut-button" href="index.php?file=Admin&amp;page=smilies&amp;op=add_smiley">
+                        <span><img src="modules/Admin/images/icons/add.png" alt="icon" /><br /><?php echo _SMILEYADD; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    <?php
     }
 
     switch ($_REQUEST['op'])

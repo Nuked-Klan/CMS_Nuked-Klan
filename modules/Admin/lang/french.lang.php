@@ -167,7 +167,7 @@ define("_STEAM","Steam");
 define("_TWITER","Twiter");
 define("_SKYPE","Skype");
 define("_MODIFCONFIG","Modifier la config");
-define("_USERCONFIG","Config");
+define("_USERCONFIG","Paramètres d'affichage");
 define("_ACTIONMODIFUSER","a modifié la config de user");
 define("_CONFIGUPDATED","Config de User mise à jour");
 define("_COTOUT","Cocher tout");
