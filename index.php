@@ -1,40 +1,49 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * Index of CMS Nuked-Klan
+ *
+ * @version 1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 
+// Permet de s'assurer que tous les scripts passe bien par l'index du CMS
 define('INDEX_CHECK', 1);
 
-include_once('Includes/php51compatibility.php');
-include('globals.php');
-if(file_exists('conf.inc.php')) include('conf.inc.php');
+require_once 'Includes/php51compatibility.php';
+require_once 'globals.php';
 
-// INCLUDE FATAL ERROR LANG
-include('Includes/fatal_errors.php');
+if (file_exists('conf.inc.php')) {
+    require_once 'conf.inc.php';
+}
+
+require_once 'Includes/fatal_errors.php';
 
 // POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
-if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == TRUE) extract($_REQUEST);
+if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == TRUE){
+    extract($_REQUEST);
+}
 
-# Redirect to INSTALL
-if (!defined('NK_INSTALLED')){
-    if (file_exists('INSTALL/index.php')){
+// Redirection vers l'installation si NK n'est pas installé
+if (!defined('NK_INSTALLED')) {
+    if (file_exists('INSTALL/index.php')) {
         header('location: INSTALL/index.php');
         exit();
     }
 }
 
-if (!defined('NK_OPEN')){
-    echo WBSITE_CLOSED;
+// Si le site est fermé on affiche le message de fermeture
+if (!defined('NK_OPEN')) {
+    echo WEBSITE_CLOSED;
     exit();
 }
 
-include('nuked.php');
-include_once('Includes/hash.php');
+require_once 'nuked.php';
+require_once 'Includes/hash.php';
+
+// Ouverture du buffer PHP
+$bufferMedias = ob_start();
 
 if ($nuked['time_generate'] == 'on'){
     $mtime = microtime();
@@ -45,17 +54,16 @@ if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
 $session = session_check();
 $user = ($session == 1) ? secure() : array();
+
 $session_admin = admin_check();
 
-if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
-    if($nuked['stats_share'] == 1) {
+if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
+    if ($nuked['stats_share'] == 1) {
         $timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // 60 Days
         if($timediff >= 60) {
-            include('Includes/nkStats.php');
+            require_once('Includes/nkStats.php');
             $data = getStats($nuked);
-
             $string = serialize($data);
-
             $opts = array(
                 'http' => array(
                     'method' => "POST",
@@ -64,22 +72,22 @@ if(isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
             );
 
             $context = stream_context_create($opts);
-
             $daurl = 'http://stats.nuked-klan.org/';
             $retour = file_get_contents($daurl, false, $context);
-
             $value_sql = ($retour == 'YES') ? mysql_real_escape_string(time()) : 'value + 86400';
-            $sql = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = ' . mysql_real_escape_string($value_sql) . ' WHERE name = "stats_timestamp"');
 
+            $sql = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = ' . mysql_real_escape_string($value_sql) . ' WHERE name = "stats_timestamp"');
         }
     }
-    die();
+    exit();
 }
 
+// Définition du type de page à afficher
 if (isset($_REQUEST['nuked_nude']) && !empty($_REQUEST['nuked_nude'])) $_REQUEST['im_file'] = $_REQUEST['nuked_nude'];
 else if (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) $_REQUEST['im_file'] = $_REQUEST['page'];
 else $_REQUEST['im_file'] = 'index';
 
+// Securisation des variables utilisateurs
 if (preg_match('`\.\.`', $theme) || preg_match('`\.\.`', $language) || preg_match('`\.\.`', $_REQUEST['file']) || preg_match('`\.\.`', $_REQUEST['im_file']) || preg_match('`http\:\/\/`i', $_REQUEST['file']) || preg_match('`http\:\/\/`i', $_REQUEST['im_file']) || is_int(strpos( $_SERVER['QUERY_STRING'], '..' )) || is_int(strpos( $_SERVER['QUERY_STRING'], 'http://' )) || is_int(strpos( $_SERVER['QUERY_STRING'], '%3C%3F' ))){
     die(WAYTODO);
 }
@@ -99,25 +107,44 @@ if (!$user){
 }
 else $visiteur = $user[1];
 
-include ('themes/' . $theme . '/colors.php');
+// Inclusion du fichier des couleurs
+require_once ('themes/' . $theme . '/colors.php');
+
+// Inclusion du fichier de langue général
 translate('lang/' . $language . '.lang.php');
 
-if ($nuked['nk_status'] == 'closed' && $user[1] < 9 && $_REQUEST['op'] != 'login_screen' && $_REQUEST['op'] != 'login_message' && $_REQUEST['op'] != 'login'){
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+// Si le site est fermé
+if ($nuked['nk_status'] == 'closed' 
+    && $user[1] < 9 && $_REQUEST['op'] != 'login_screen'
+    && $_REQUEST['op'] != 'login_message'
+    && $_REQUEST['op'] != 'login'){
+?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
-    <head><title>' , $nuked['name'] , ' - ' , $nuked['slogan'] , '</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <link title="style" type="text/css" rel="stylesheet" href="themes/' , $theme , '/style.css" />
-    <body style="background: ' , $bgcolor2 , '">
-    <div style="width: 600px; padding: 25px; margin: 200px auto; border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor1 , '; text-align: center">
-    <h2 style="margin: 0">' , $nuked['name'] , ' - ' , $nuked['slogan'] , '</h2>
-    ' , _SITECLOSED , '<br/><br /><a href="index.php?file=User&amp;op=login_screen"><b>' . _LOGINUSER . '</b></a></div></body></html>';
+        <head>
+            <title><?php echo $nuked['name']; ?> - <?php echo $nuked['slogan']; ?></title>
+            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+            <link type="text/css" rel="stylesheet" media="screen" href="assets/css/nkDefault.css" />
+            <link type="text/css" rel="stylesheet" media="screen" href="themes/<?php echo $theme; ?>/style.css" />
+        </head>
+        <body style="background:<?php echo $bgcolor2; ?>;">
+            <div id="nkSiteClosedWrapper" style=" border: 1px solid <?php echo $bgcolor3; ?>; background:<?php echo $bgcolor2; ?>;">
+                <h1><?php echo $nuked['name']; ?> - <?php echo $nuked['slogan']; ?></h1>
+                <p><?php echo _SITECLOSED; ?></p>
+                <a href="index.php?file=User&amp;op=login_screen"><strong><?php echo _LOGINUSER; ?></strong></a>
+            </div>
+        </body>
+    </html>
+<?php
 }
-else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) && $_SESSION['admin'] == 0){
-    include('modules/Admin/login.php');
+else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) 
+    && $_REQUEST['nuked_nude'] == 'admin')) 
+    && $_SESSION['admin'] == 0){
+    require_once('modules/Admin/login.php');
 }
-else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( nivo_mod($_REQUEST['file']) === false || (nivo_mod($_REQUEST['file']) > -1 && (nivo_mod($_REQUEST['file']) <= $visiteur))) ){
-    include ('themes/' . $theme . '/theme.php');
+else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( nivo_mod($_REQUEST['file']) === false || (nivo_mod($_REQUEST['file']) > -1 
+    && (nivo_mod($_REQUEST['file']) <= $visiteur))) ){
+    require_once ('themes/' . $theme . '/theme.php');
 
     if ($nuked['level_analys'] != -1) visits();
 
@@ -129,34 +156,76 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') {
 
             top();
-            ?>
+
+        require_once 'Includes/nkMediasIncludes.php';
+
+        $bufferEdited = ob_get_contents();
+
+        $findJquery = (boolean)preg_match('#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#', $bufferEdited);
+        $mediasToInclude = printMedias($findJquery);
+
+        if($findJquery === true){
+            $bufferEdited = preg_replace('#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#',
+                                      '<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js">',
+                                      $bufferEdited);
+        }
+
+        $bufferEdited = preg_replace('#</head>#', $mediasToInclude.'</head>', $bufferEdited);
+
+        ob_end_clean();
+
+        echo $bufferEdited;
+?>
             <script type="text/javascript" src="media/js/infobulle.js"></script>
             <script type="text/javascript">
                 InitBulle('<?= $bgcolor2; ?>','<?= $bgcolor3; ?>', 2);
             </script>
-            <script type="text/javascript">
+            <!--<script type="text/javascript">
                 if(typeof jQuery == 'undefined'){
                     document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
                 }
-            </script>
+            </script>-->
             <script type="text/javascript" src="media/js/syntaxhighlighter/shCore.js"></script>
             <script type="text/javascript" src="media/js/syntaxhighlighter/shAutoloader.js"></script>
             <script type="text/javascript" src="media/js/syntaxhighlighter.autoloader.js"></script>
             <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shCoreMonokai.css"/>
             <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shThemeMonokai.css"/>
-            <?php
+<?php
         }
 
         if($user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
             if ($nuked['nk_status'] == 'closed'){
-                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px"><b>' , _YOURSITEISCLOSED , ' :<br /><br/ >' , $nuked['url'] , '/index.php?file=User&amp;op=login_screen</b></div>',"\n";
+?>
+                <div id="nkSiteClosedLogged" class="nkAlert">
+                    <strong><?php echo _YOURSITEISCLOSED; ?></strong>
+                    <p><?php echo $nuked['url']; ?>/index.php?file=User&amp;op=login_screen</p>
+                </div>
+<?php
             }
             if (is_dir('INSTALL/')){
-                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px;text-align:center;font-size:18px;"><b>' , REMOVEDIRINST , '</b></div>',"\n";
+?>
+                <div id="nkInstallDirTrue" class="nkAlert">
+                    <strong><?php echo REMOVEDIRINST; ?></strong>
+                </div>
+<?php
             }
             if (file_exists('install.php') || file_exists('update.php')){
-                echo '<div style="border: 1px solid ' , $bgcolor3 , '; background: ' , $bgcolor2 , '; margin: 10px; padding: 10px;text-align:center;font-size:18px;"><b>' , REMOVEINST , '</b></div>',"\n";
+?>
+                <div id="nkInstallFileTrue" class="nkAlert">
+                    <strong><?php echo REMOVE_INSTALL_FILES; ?></strong>
+                </div>
+<?php
             }
+        }
+
+        if ($user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox' && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
+?>
+                <div id="nkNewPrivateMsg" class="nkAlert">
+                    <strong><?php echo _NEWMESSAGESTART; ?><?php echo $user[5]; ?>&nbsp;<?php echo _NEWMESSAGEEND; ?></strong>
+                    <a href="index.php?file=Userbox"><?php echo _GOTOPRIVATEMESSAGES; ?></a>
+                    <a id="nkNewPrivateMsgClose" href="#" title="<?php echo _CLOSEWINDOW; ?>"><span><?php echo _CLOSEWINDOW; ?></span></a>
+                </div>
+<?php
         }
     }
     else
@@ -259,21 +328,14 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     }
 
     if (!isset($_REQUEST['nuked_nude'])){
-        if ($user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox'){
-            echo '<div id="popup_dhtml" style="position:absolute;top:0;left:0;visibility:visible;z-index:10"></div>',"\n"
-            , '<script type="text/javascript" src="media/js/popup.js"></script>',"\n"
-            , '<script type="text/javascript">popup("' , $bgcolor2 , '", "' , $bgcolor3 , '", "' , _NEWMESSAGESTART , '&nbsp;' , $user[5] , '&nbsp;' , _NEWMESSAGEEND , '", "' , _CLOSEWINDOW , '", "index.php?file=Userbox", 350, 100);</script>',"\n";
-        }
-
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login'){
             footer();
+        require_once('Includes/copyleft.php');
         }
 
-        include('Includes/copyleft.php');
-
         if ($nuked['time_generate'] == 'on'){
-            $mtime = microtime() - $mtime;
-            echo '<p style="color:#555555;text-align:center;width:100%;">Generated in ',${mtime},'s</p>';
+            $microTime = microtime() - $microTime;
+            echo '<p class="nkGenerated">Generated in '.$microTime.'s</p>';
         }
 
         send_stats_nk();
@@ -287,7 +349,13 @@ else{
     top();
     opentable();
     translate('lang/' . $language . '.lang.php');
-    echo '<br /><br /><div style="text-align: center;">' , _NOENTRANCE , '<br /><br /><a href="javascript:history.back()"><b>' , _BACK , '</b></a></div><br /><br />';
+?>
+    <link type="text/css" rel="stylesheet" href="media/css/nkDefault.css" />
+    <div class="nkErrorMod">
+        <p><?php echo _NOENTRANCE; ?></p>
+        <a href="javascript:history.back()"><b><?php echo _BACK; ?></b></a>
+    </div>
+<?php
     closetable();
     footer();
 }

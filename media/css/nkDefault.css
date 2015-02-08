@@ -1,0 +1,163 @@
+.nkDebug{
+    background:#fff;
+    color:#000;
+    font-size:12px !important;
+}
+
+#nkSiteClosedWrapper{
+    width: 600px;
+    padding: 25px;
+    margin: 200px auto;
+    text-align: center
+}
+
+#nkSiteClosedWrapper > h1{
+    margin: 0;
+}
+
+.nkErrorMod{
+    margin:15px 0;
+    text-align: center;
+}
+
+.nkAlert{
+    position:relative;
+    text-align: center;
+   -webkit-background-size: 40px 40px;
+    -moz-background-size: 40px 40px;
+    background-size: 40px 40px;
+    background-image: -webkit-gradient(linear, left top, right bottom,
+                            color-stop(.25, rgba(255, 255, 255, .05)), color-stop(.25, transparent),
+                            color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .05)),
+                            color-stop(.75, rgba(255, 255, 255, .05)), color-stop(.75, transparent),
+                            to(transparent));
+    background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+    background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+    background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+    background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .05) 25%, transparent 25%,
+                        transparent 50%, rgba(255, 255, 255, .05) 50%, rgba(255, 255, 255, .05) 75%,
+                        transparent 75%, transparent);
+
+    -moz-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+    -webkit-box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+    box-shadow: inset 0 -1px 0 rgba(255,255,255,.4);
+    border: 1px solid;
+    color: #000;
+    padding: 15px;
+    z-index:1050000;
+    -webkit-animation: animate-bg 5s linear infinite;
+    -moz-animation: animate-bg 5s linear infinite;
+    animation: animate-bg 5s linear infinite;
+    min-height:28px;
+}
+
+.nkAlert:before{
+    content:'';
+    display: block;
+    position:absolute;
+    width:48px;
+    height:48px;
+    background:url('../images/spriteNkAlert.png') no-repeat;
+    top:15%;
+}
+
+.nkAlert > strong{
+    display: block;
+    font-size: 14px;
+    text-align: center;
+    padding-left:60px;
+}
+
+.nkAlert > a{
+    padding-left:60px;
+}
+
+#nkSiteClosedLogged{
+    background-color: #de4343;
+    border-color: #c43d3d;
+}
+
+#nkSiteClosedLogged:before{
+    background-position: 0 -48px;
+}
+
+#nkInstallDirTrue, #nkInstallFileTrue{
+    background-color: #FFAE35;
+    border-color: #FF9B04;
+}
+
+#nkNewPrivateMsg{
+    background-color: #0DC636;
+    border-color: #0BA62E;
+    font-size: 12px;
+}
+
+#nkNewPrivateMsg:before{
+    background-position: 0 -144px;
+}
+
+#nkNewPrivateMsg a{
+    color:#fff;
+}
+
+#nkNewPrivateMsgClose{
+    display: block;
+    position: absolute;
+    top:5px;
+    right:5px;
+    width:16px;
+    height:16px;
+    background:url('../images/spriteIcons.png') no-repeat 0 0;
+    padding-left: 0 !important;
+    cursor:pointer;
+}
+
+#nkNewPrivateMsgClose > span{
+    display: none;
+}
+
+#nkInstallDirTrue:before, #nkInstallFileTrue:before{
+    background-position: 0 -96px;
+}
+
+.nkGenerated{
+    color:#555555;
+    text-align:center;
+    width:100%;
+}
+
+@keyframes animate-bg {
+    from {
+        background-position: 0 0;
+    }
+    to {
+       background-position: -80px 0;
+    }
+}
+@-webkit-keyframes animate-bg {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -80px 0;
+    }
+}
+
+
+@-moz-keyframes animate-bg {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -80px 0;
+    }
+}
