@@ -161,3 +161,407 @@
         background-position: -80px 0;
     }
 }
+
+
+/* ------------------------------------------
+ * CSS3 GITHUB BUTTONS (Nicolas Gallagher)
+ * Licensed under Unlicense
+ * http://github.com/necolas/css3-github-buttons
+ * --------------------------------------- */
+
+
+/* =============================================================================
+   Base Button
+   ========================================================================== */
+
+.nkButton {
+    position: relative;
+    overflow: visible;
+    display: inline-block;
+    padding: 0.5em 1em;
+    border: 1px solid #d4d4d4;
+    margin: 0;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 1px 1px 0 #fff;
+    font:11px/normal sans-serif;
+    color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+    background-color: #ececec;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
+    background-image: -moz-linear-gradient(#f4f4f4, #ececec);
+    background-image: -ms-linear-gradient(#f4f4f4, #ececec);
+    background-image: -o-linear-gradient(#f4f4f4, #ececec);
+    background-image: linear-gradient(#f4f4f4, #ececec);
+    -moz-background-clip: padding; /* for Firefox 3.6 */
+    background-clip: padding-box;
+    border-radius: 0.2em;
+    /* IE hacks */
+    zoom: 1;
+    *display: inline;
+}
+
+.nkButton:hover,
+.nkButton:focus,
+.nkButton:active,
+.nkButton.active {
+    border-color: #3072b3;
+    border-bottom-color: #2a65a0;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+    color: #fff;
+    background-color: #3c8dde;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
+    background-image: -moz-linear-gradient(#599bdc, #3072b3);
+    background-image: -o-linear-gradient(#599bdc, #3072b3);
+    background-image: linear-gradient(#599bdc, #3072b3);
+}
+
+.nkButton:active,
+.nkButton.active {
+    border-color: #2a65a0;
+    border-bottom-color: #3884cd;
+    background-color: #3072b3;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3072b3), to(#599bdc));
+    background-image: -moz-linear-gradient(#3072b3, #599bdc);
+    background-image: -ms-linear-gradient(#3072b3, #599bdc);
+    background-image: -o-linear-gradient(#3072b3, #599bdc);
+    background-image: linear-gradient(#3072b3, #599bdc);
+}
+
+/* overrides extra padding on button elements in Firefox */
+.nkButton::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+
+/* =============================================================================
+   Button icons
+   ========================================================================== */
+
+.nkButton.icon:before {
+    content: "";
+    position: relative;
+    top: 1px;
+    float:left;
+    width: 12px;
+    height: 12px;
+    margin: 0 0.75em 0 -0.25em;
+    background: url('../images/gh-icons.png') 0 99px no-repeat;
+}
+
+.nkButton.arrowup.icon:before { background-position: 0 0; }
+.nkButton.arrowup.icon:hover:before,
+.nkButton.arrowup.icon:focus:before,
+.nkButton.arrowup.icon:active:before { background-position: -12px 0; }
+
+.nkButton.arrowdown.icon:before { background-position: 0 -12px; }
+.nkButton.arrowdown.icon:hover:before,
+.nkButton.arrowdown.icon:focus:before,
+.nkButton.arrowdown.icon:active:before { background-position: -12px -12px; }
+
+.nkButton.arrowleft.icon:before { background-position: 0 -24px; }
+.nkButton.arrowleft.icon:hover:before,
+.nkButton.arrowleft.icon:focus:before,
+.nkButton.arrowleft.icon:active:before { background-position: -12px -24px; }
+
+.nkButton.arrowright.icon:before { float:right; margin: 0 -0.25em 0 0.5em; background-position: 0 -36px; }
+.nkButton.arrowright.icon:hover:before,
+.nkButton.arrowright.icon:focus:before,
+.nkButton.arrowright.icon:active:before { background-position: -12px -36px; }
+
+.nkButton.approve.icon:before { background-position: 0 -48px; }
+.nkButton.approve.icon:hover:before,
+.nkButton.approve.icon:focus:before,
+.nkButton.approve.icon:active:before { background-position: -12px -48px; }
+
+.nkButton.add.icon:before { background-position: 0 -288px; }
+.nkButton.add.icon:hover:before,
+.nkButton.add.icon:focus:before,
+.nkButton.add.icon:active:before { background-position: -12px -288px; }
+
+.nkButton.remove.icon:before { background-position: 0 -60px; }
+.nkButton.remove.icon:hover:before,
+.nkButton.remove.icon:focus:before,
+.nkButton.remove.icon:active:before { background-position: -12px -60px; }
+
+.nkButton.log.icon:before { background-position: 0 -72px; }
+.nkButton.log.icon:hover:before,
+.nkButton.log.icon:focus:before,
+.nkButton.log.icon:active:before { background-position: -12px -72px; }
+
+.nkButton.calendar.icon:before { background-position: 0 -84px; }
+.nkButton.calendar.icon:hover:before,
+.nkButton.calendar.icon:focus:before,
+.nkButton.calendar.icon:active:before { background-position: -12px -84px; }
+
+.nkButton.chat.icon:before { background-position: 0 -96px; }
+.nkButton.chat.icon:hover:before,
+.nkButton.chat.icon:focus:before,
+.nkButton.chat.icon:active:before { background-position: -12px -96px; }
+
+.nkButton.clock.icon:before { background-position: 0 -108px; }
+.nkButton.clock.icon:hover:before,
+.nkButton.clock.icon:focus:before,
+.nkButton.clock.icon:active:before { background-position: -12px -108px; }
+
+.nkButton.settings.icon:before { background-position: 0 -120px; }
+.nkButton.settings.icon:hover:before,
+.nkButton.settings.icon:focus:before,
+.nkButton.settings.icon:active:before { background-position: -12px -120px; }
+
+.nkButton.comment.icon:before { background-position: 0 -132px; }
+.nkButton.comment.icon:hover:before,
+.nkButton.comment.icon:focus:before,
+.nkButton.comment.icon:active:before { background-position: -12px -132px; }
+
+.nkButton.fork.icon:before { background-position: 0 -144px; }
+.nkButton.fork.icon:hover:before,
+.nkButton.fork.icon:focus:before,
+.nkButton.fork.icon:active:before { background-position: -12px -144px; }
+
+.nkButton.like.icon:before { background-position: 0 -156px; }
+.nkButton.like.icon:hover:before,
+.nkButton.like.icon:focus:before,
+.nkButton.like.icon:active:before { background-position: -12px -156px; }
+
+.nkButton.favorite.icon:before { background-position: 0 -348px; }
+.nkButton.favorite.icon:hover:before,
+.nkButton.favorite.icon:focus:before,
+.nkButton.favorite.icon:active:before { background-position: -12px -348px; }
+
+.nkButton.home.icon:before { background-position: 0 -168px; }
+.nkButton.home.icon:hover:before,
+.nkButton.home.icon:focus:before,
+.nkButton.home.icon:active:before { background-position: -12px -168px; }
+
+.nkButton.key.icon:before { background-position: 0 -180px; }
+.nkButton.key.icon:hover:before,
+.nkButton.key.icon:focus:before,
+.nkButton.key.icon:active:before { background-position: -12px -180px; }
+
+.nkButton.lock.icon:before { background-position: 0 -192px; }
+.nkButton.lock.icon:hover:before,
+.nkButton.lock.icon:focus:before,
+.nkButton.lock.icon:active:before { background-position: -12px -192px; }
+
+.nkButton.unlock.icon:before { background-position: 0 -204px; }
+.nkButton.unlock.icon:hover:before,
+.nkButton.unlock.icon:focus:before,
+.nkButton.unlock.icon:active:before { background-position: -12px -204px; }
+
+.nkButton.loop.icon:before { background-position: 0 -216px; }
+.nkButton.loop.icon:hover:before,
+.nkButton.loop.icon:focus:before,
+.nkButton.loop.icon:active:before { background-position: -12px -216px; }
+
+.nkButton.search.icon:before { background-position: 0 -228px; }
+.nkButton.search.icon:hover:before,
+.nkButton.search.icon:focus:before,
+.nkButton.search.icon:active:before { background-position: -12px -228px; }
+
+.nkButton.mail.icon:before { background-position: 0 -240px; }
+.nkButton.mail.icon:hover:before,
+.nkButton.mail.icon:focus:before,
+.nkButton.mail.icon:active:before { background-position: -12px -240px; }
+
+.nkButton.move.icon:before { background-position: 0 -252px; }
+.nkButton.move.icon:hover:before,
+.nkButton.move.icon:focus:before,
+.nkButton.move.icon:active:before { background-position: -12px -252px; }
+
+.nkButton.edit.icon:before { background-position: 0 -264px; }
+.nkButton.edit.icon:hover:before,
+.nkButton.edit.icon:focus:before,
+.nkButton.edit.icon:active:before { background-position: -12px -264px; }
+
+.nkButton.pin.icon:before { background-position: 0 -276px; }
+.nkButton.pin.icon:hover:before,
+.nkButton.pin.icon:focus:before,
+.nkButton.pin.icon:active:before { background-position: -12px -276px; }
+
+.nkButton.reload.icon:before { background-position: 0 -300px; }
+.nkButton.reload.icon:hover:before,
+.nkButton.reload.icon:focus:before,
+.nkButton.reload.icon:active:before { background-position: -12px -300px; }
+
+.nkButton.rss.icon:before { background-position: 0 -312px; }
+.nkButton.rss.icon:hover:before,
+.nkButton.rss.icon:focus:before,
+.nkButton.rss.icon:active:before { background-position: -12px -312px; }
+
+.nkButton.tag.icon:before { background-position: 0 -324px; }
+.nkButton.tag.icon:hover:before,
+.nkButton.tag.icon:focus:before,
+.nkButton.tag.icon:active:before { background-position: -12px -324px; }
+
+.nkButton.trash.icon:before { background-position: 0 -336px; }
+.nkButton.trash.icon:hover:before,
+.nkButton.trash.icon:focus:before,
+.nkButton.trash.icon:active:before { background-position: -12px -336px; }
+
+.nkButton.user.icon:before { background-position: 0 -360px; }
+.nkButton.user.icon:hover:before,
+.nkButton.user.icon:focus:before,
+.nkButton.user.icon:active:before { background-position: -12px -360px; }
+
+
+/* =============================================================================
+   Button extensions
+   ========================================================================== */
+
+/* Primary button
+   ========================================================================== */
+
+.nkButton.primary {
+    font-weight: bold;
+}
+
+/* Danger button
+   ========================================================================== */
+
+.nkButton.danger {
+    color: #900;
+}
+
+.nkButton.danger:hover,
+.nkButton.danger:focus,
+.nkButton.danger:active {
+    border-color: #b53f3a;
+    border-bottom-color: #a0302a;
+    color: #fff;
+    background-color: #dc5f59;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dc5f59), to(#b33630));
+    background-image: -moz-linear-gradient(#dc5f59, #b33630);
+    background-image: -ms-linear-gradient(#dc5f59, #b33630);
+    background-image: -o-linear-gradient(#dc5f59, #b33630);
+    background-image: linear-gradient(#dc5f59, #b33630);
+}
+
+.nkButton.danger:active,
+.nkButton.danger.active {
+    border-color: #a0302a;
+    border-bottom-color: #bf4843;
+    background-color: #b33630;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b33630), to(#dc5f59));
+    background-image: -moz-linear-gradient(#b33630, #dc5f59);
+    background-image: -ms-linear-gradient(#b33630, #dc5f59);
+    background-image: -o-linear-gradient(#b33630, #dc5f59);
+    background-image: linear-gradient(#b33630, #dc5f59);
+}
+
+/* Pill button
+   ========================================================================== */
+
+.nkButton.pill {
+    border-radius: 50em;
+}
+
+/* Disabled button
+   ========================================================================== */
+
+.nkButton.disable {
+    opacity: 0.5;
+}
+
+/* Big button
+   ========================================================================== */
+
+.nkButton.big {
+    font-size: 14px;
+}
+
+.nkButton.big.icon:before {
+    top: 0;
+}
+
+
+/* =============================================================================
+   Button groups
+   ========================================================================== */
+
+/* Standard group
+   ========================================================================== */
+
+.nkButton-group {
+    display: inline-block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* IE hacks */
+    zoom: 1;
+    *display: inline;
+}
+
+.nkButton + .nkButton,
+.nkButton + .nkButton-group,
+.nkButton-group + .nkButton,
+.nkButton-group + .nkButton-group {
+    margin-left: 15px;
+}
+
+.nkButton-group li {
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+
+.nkButton-group .nkButton {
+    float: left;
+    margin-left: -1px;
+}
+
+.nkButton-group > .nkButton:not(:first-child):not(:last-child),
+.nkButton-group li:not(:first-child):not(:last-child) .nkButton {
+    border-radius: 0;
+}
+
+.nkButton-group > .nkButton:first-child,
+.nkButton-group li:first-child .nkButton {
+    margin-left: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.nkButton-group > .nkButton:last-child,
+.nkButton-group li:last-child > .nkButton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Minor group
+   ========================================================================== */
+
+.nkButton-group.minor-group .nkButton {
+    border: 1px solid #d4d4d4;
+    text-shadow: none;
+    background-image: none;
+    background-color: #fff;
+}
+
+.nkButton-group.minor-group .nkButton:hover,
+.nkButton-group.minor-group .nkButton:focus {
+    background-color: #599bdc;
+}
+
+.nkButton-group.minor-group .nkButton:active,
+.nkButton-group.minor-group .nkButton.active {
+    background-color: #3072b3;
+}
+
+.nkButton-group.minor-group .nkButton.icon:before {
+    opacity: 0.8;
+}
+
+/* =============================================================================
+   Button container (mixing buttons and groups, e.g., nav bar)
+   ========================================================================== */
+
+.nkButton-container .nkButton,
+.nkButton-container .nkButton-group {
+    vertical-align: top;
+}
+

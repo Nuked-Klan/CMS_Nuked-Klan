@@ -31,8 +31,6 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
-        $classActive2 = "class=\"nkClassActive\"";
-
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _ADDUSER . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
@@ -40,7 +38,7 @@ if ($visiteur == 9)
         . "</div></div>\n"
         . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+        nkAdminMenu(2);
 
         echo "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=do_user\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
@@ -563,7 +561,6 @@ if ($visiteur == 9)
         }
 
         $nb_membres = 30;
-        $classActive1 = "class=\"nkClassActive\"";
 
         $sql3 = mysql_query("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
         $count = mysql_num_rows($sql3);
@@ -589,7 +586,7 @@ if ($visiteur == 9)
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n";
 
-        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+        nkAdminMenu();
 
         echo "<div class=\"tab-content\" id=\"tab2\"><form method=\"get\" action=\"index.php\">\n"
         . "<div style=\"text-align: right; margin: 0 20px 0 0;\"><b>" . _SEARCH . " : </b><input type=\"text\" id=\"query\" name=\"query\" size=\"25\" />&nbsp;<input class=\"button\" type=\"submit\" value=\"Ok\" />\n"
@@ -725,8 +722,6 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
-        $classActive3 = "class=\"nkClassActive\"";
-
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
         . "\n"
@@ -748,7 +743,7 @@ if ($visiteur == 9)
         . "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
         . "<div>" . _WARNINGTEAM . "</div></div><br />\n";
 
-        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+        nkAdminMenu(3);
 
         echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
@@ -952,8 +947,6 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
-        $classActive7 = "class=\"nkClassActive\"";
-
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
         . "\n"
@@ -973,7 +966,7 @@ if ($visiteur == 9)
         . "</div></div>\n"
         . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+        nkAdminMenu(7);
 
         echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
@@ -1147,8 +1140,6 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
-        $classActive5 = "class=\"nkClassActive\"";
-
         echo "<script type=\"text/javascript\">\n"
     . "<!--\n"
     . "\n"
@@ -1168,7 +1159,7 @@ if ($visiteur == 9)
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-    nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+    nkAdminMenu(5);
 
     echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr>\n"
@@ -1280,7 +1271,7 @@ if ($visiteur == 9)
 
         $titre = mysql_real_escape_string(stripslashes($titre));
 
-        $sql = mysql_query("INSERT INTO " . TEAM_RANK_TABLE . " VALUES ( '' , '" . $titre . "' , '" . $ordre . "', '" . $url_image . "', '" . $color . "' )");
+        $sql = mysql_query("INSERT INTO " . TEAM_RANK_TABLE . " ( `id` , `titre` , `image` , `couleur` ,`ordre` ) VALUES ( '' , '" . $titre . "' , '" . $url_image . "', '" . $color . "', '" . $ordre . "' )");
         // Action
         $texteaction = "". _ACTIONADDRANK .": ".$titre."";
         $acdate = time();
@@ -1401,8 +1392,6 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
-        $classActive6 = "class=\"nkClassActive\"";
-
         echo "<script type=\"text/javascript\">\n"
     . "<!--\n"
     . "\n"
@@ -1421,7 +1410,7 @@ if ($visiteur == 9)
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-    nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+    nkAdminMenu(6);
 
     echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr>\n"
@@ -1524,8 +1513,6 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
-        $classActive4 = "class=\"nkClassActive\"";
-
 		if ($nuked['user_email'] == "on"){$checked_user_email = "checked=\"checked\"";}
         if ($nuked['user_icq'] == "on"){$checked_user_icq = "checked=\"checked\"";}
 		if ($nuked['user_msn'] == "on"){$checked_user_msn = "checked=\"checked\"";}
@@ -1547,7 +1534,7 @@ if ($visiteur == 9)
 		. "</div></div>\n"
 		. "<div class=\"tab-content\" id=\"tab2\">\n";
 
-        nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7);
+        nkAdminMenu(4);
 
 		echo "<form method=\"post\" name=\"selection\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_config\"\">\n"
 		. "<table width=\"100\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
@@ -1644,43 +1631,45 @@ if ($visiteur == 9)
         redirect("index.php?file=Admin&page=user", 2);
 	}
 
-        function nkAdminMenu($classActive1, $classActive2, $classActive3, $classActive4, $classActive5, $classActive6, $classActive7)
+        function nkAdminMenu($tab = 1)
     {
         global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
 ?>
         <div class= "nkAdminMenu">
             <ul class="shortcut-buttons-set" id="1">
-                <li <?php echo $classActive1; ?>>
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user">
                         <span><img src="modules/Admin/images/icons/members.png" alt="icon" /><br /><?php echo _USERADMIN; ?></span>
                     </a>
                 </li>
-                <li <?php echo $classActive2; ?>>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=add_user">
                         <span><img src="modules/Admin/images/icons/adduser.png" alt="icon" /><br /><?php echo _ADDUSER; ?></span>
                     </a>
                 </li>
-                <li <?php echo $classActive3; ?>>
+                <li <?php echo ($tab == 3 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_cat">
                         <span><img src="modules/Admin/images/icons/teamusers.png" alt="icon" /><br /><?php echo _TEAMMANAGEMENT; ?></span>
                     </a>
                 </li>
-                <li <?php echo $classActive4; ?>>
+                <li <?php echo ($tab == 4 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_config">
                         <span><img src="modules/Admin/images/icons/process.png" alt="icon" /><br /><?php echo _USERCONFIG; ?></span>
                     </a>
                 </li>
-                <li <?php echo $classActive5; ?>>
+                <li <?php echo ($tab == 5 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_rank">
                         <span><img src="modules/Admin/images/icons/ranks.png" alt="icon" /><br /><?php echo _RANKMANAGEMENT; ?></span>
                     </a>
                 </li>
-                <li <?php echo $classActive6; ?>>
+                <li <?php echo ($tab == 6 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_valid">
                         <span><img src="modules/Admin/images/icons/validuser.png" alt="icon" /><br /><?php echo _USERVALIDATION; ?></span>
                     </a>
                 </li>
-                <li <?php echo $classActive7; ?>>
+                <li <?php echo ($tab == 7 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_ip">
                         <span><img src="modules/Admin/images/icons/banuser.png" alt="icon" /><br /><br /><?php echo _BAN; ?></span>
                     </a>

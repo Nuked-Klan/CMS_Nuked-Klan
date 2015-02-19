@@ -227,6 +227,8 @@
                             ('forum_birthday', 'on'),
                             ('forum_gamer_details', 'on'),
                             ('forum_user_details', 'on'),
+                            ('forum_labels_active', 'on'),
+                            ('forum_display_modos', 'on'),
                             ('user_email', 'on'),
                             ('user_icq', 'off'),
                             ('user_msn', 'off'),
@@ -240,6 +242,7 @@
                             ('user_skype', 'on'),
                             ('user_website', 'on'),
                             ('user_social_level', '0'),
+                            ('sp_version', 'off'),
                             ('editor_type', 'tiny');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -362,6 +365,7 @@
                         $sql = "CREATE TABLE `" . $db_prefix . "_forums` (
                           `id` int(5) NOT NULL auto_increment,
                           `cat` int(11) NOT NULL default '0',
+                          `parentid` int(11) NOT NULL default '0',
                           `nom` text NOT NULL,
                           `comment` text NOT NULL,
                           `moderateurs` text NOT NULL,
