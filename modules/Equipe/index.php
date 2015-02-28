@@ -50,7 +50,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 	if ($nuked['user_facebook'] == 'on'){echo "<td align=\"center\"><b>" . _FACEBOOK . "</b></td>\n";}
 	if ($nuked['user_origin'] == 'on'){echo "<td align=\"center\"><b>" . _ORIGINEA . "</b></td>\n";}
 	if ($nuked['user_steam'] == 'on'){echo "<td align=\"center\"><b>" . _STEAM . "</b></td>\n";}
-	if ($nuked['user_twiter'] == 'on'){echo "<td align=\"center\"><b>" . _TWITER . "</b></td>\n";}	
+	if ($nuked['user_twitter'] == 'on'){echo "<td align=\"center\"><b>" . _TWITTER . "</b></td>\n";}	
 	if ($nuked['user_skype'] == 'on'){echo "<td align=\"center\"><b>" . _SKYPE . "</b></td>\n";}
    echo "<td style=\"width: 15%;\" align=\"center\"><b>" . _RANK . "</b></td></tr>\n";
 		
@@ -188,7 +188,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                             echo "<img style=\"border: 0;\" src=\"images/user/steamna.png\" alt=\"\"/></td>";
                         } 
                   }
-                        if ($nuked['user_twiter'] == 'on')
+                        if ($nuked['user_twitter'] == 'on')
                   {
                         echo "<td align=\"center\">\n";
 
