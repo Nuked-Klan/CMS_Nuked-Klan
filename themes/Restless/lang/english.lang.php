@@ -29,3 +29,5 @@ define('LOGOUTME'       , 'I disconnect Site');
 define('NODOWNLOAD'     , 'No donwloads availables.');
 define('REMEMBER_ME'    , 'Remember me');
 define('LOST_PASS'      , 'Password lost ?');
+define('BY'             , 'By ');
+define('THE'            , 'on ');

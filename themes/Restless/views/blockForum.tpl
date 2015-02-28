@@ -8,7 +8,7 @@
         <?php foreach($this->blockForumContent as $post): ?>
         <div class="RL_lastPost">
             <p><a href="<?php echo $post['lien']; ?>" ><?php echo $post['titre']; ?></a></p>
-            <p>par <?php echo $post['auteur']; ?> <?php echo $post['date']; ?></p>
+            <p><?php echo BY.$post['auteur']; ?> <?php echo THE.$post['date']; ?></p>
             <a href="<?php echo $post['lien']; ?>"><div></div><span>Lire</span><div></div></a>
         </div>
         <?php endforeach; ?>

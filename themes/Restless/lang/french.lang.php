@@ -29,3 +29,5 @@ define('LOGOUTME'       , 'Me d&eacute;connecter du site');
 define('NODOWNLOAD'     , 'Aucun t&eacute;l&eacute;chargements disponibles.');
 define('REMEMBER_ME'    , 'Se souvenir de moi');
 define('LOST_PASS'      , 'Mot de passe oubli&eacute; ?');
+define('BY'             , 'Par ');
+define('THE'            , 'le ');

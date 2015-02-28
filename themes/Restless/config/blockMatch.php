@@ -1,6 +1,6 @@
 <?php
 
-$this->blockMatchTitle = 'Matches'; // @TODO : A editer dans l'admin du thème
+$this->blockMatchTitle = 'Matches'; // TODO : A editer dans l'admin du thème
 
 $dbsMatch = 'SELECT A.warid, A.pays_adv AS country, A.adversaire AS opponentName, A.score_team AS teamScore, A.score_adv AS opponentScore, A.team, A.game, B.titre AS teamName, C.name AS gameName, C.icon
              FROM '.WARS_TABLE.' AS A
