@@ -84,7 +84,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 				if ($nuked['user_facebook'] == 'on'){echo "<td align=\"center\"><b>" . _FACEBOOK . "</b></td>\n";}
 				if ($nuked['user_origin'] == 'on'){echo "<td align=\"center\"><b>" . _ORIGINEA . "</b></td>\n";}
 				if ($nuked['user_steam'] == 'on'){echo "<td align=\"center\"><b>" . _STEAM . "</b></td>\n";}
-				if ($nuked['user_twiter'] == 'on'){echo "<td align=\"center\"><b>" . _TWITER . "</b></td>\n";}
+				if ($nuked['user_twitter'] == 'on'){echo "<td align=\"center\"><b>" . _TWITTER . "</b></td>\n";}
 				if ($nuked['user_skype'] == 'on'){echo "<td align=\"center\"><b>" . _SKYPE . "</b></td>\n";}
 				if ($nuked['user_website'] == 'on'){echo "<td style=\" width=\"5%\";\" align=\"center\"><b>" . _URL . "</b></td>\n";}
 				echo "</tr>\n";
@@ -220,7 +220,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             } 
 		}
 		
-			if ($nuked['user_twiter'] == 'on')
+			if ($nuked['user_twitter'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -415,7 +415,7 @@ if ($visiteur >= $nuked['user_social_level'] )
 			if ($facebook) echo "<tr><td><b>&nbsp;&nbsp;» " . _FACEBOOK . "&nbsp;:&nbsp;</b></td><td><a href=\"http://www.facebook.com/" . $facebook . "\">" . $facebook . "</a></td></tr>";
 			if ($origin) echo "<tr><td><b>&nbsp;&nbsp;» " . _ORIGINEA . "&nbsp;:&nbsp;</b></td><td><a href=\"#\">" . $origin. "</a></td></tr>";
 			if ($steam) echo "<tr><td><b>&nbsp;&nbsp;» " . _STEAM . "&nbsp;:&nbsp;</b></td><td><a href=\"#\">" . $steam . "</a></td></tr>";
-			if ($twitter) echo "<tr><td><b>&nbsp;&nbsp;» " . _TWITER . "&nbsp;:&nbsp;</b></td><td><a href=\"http://twitter.com/#!/" . $twitter . "\">" . $twitter . "</a></td></tr>";
+			if ($twitter) echo "<tr><td><b>&nbsp;&nbsp;» " . _TWITTER . "&nbsp;:&nbsp;</b></td><td><a href=\"http://twitter.com/#!/" . $twitter . "\">" . $twitter . "</a></td></tr>";
 			if ($skype) echo "<tr><td><b>&nbsp;&nbsp;» " . _SKYPE . "&nbsp;:&nbsp;</b></td><td><a href=\"skype:" . $skype . "?call\">" . $skype . "</a></td></tr>";
  }
 			if ($date) echo "<tr><td><b>&nbsp;&nbsp;» " . _DATEUSER . "&nbsp;:&nbsp;</b></td><td>" . $date . "</td></tr>";
