@@ -238,7 +238,7 @@
                             ('user_facebook', 'on'),
                             ('user_origin', 'on'),
                             ('user_steam', 'on'),
-                            ('user_twiter', 'on'),
+                            ('user_twitter', 'on'),
                             ('user_skype', 'on'),
                             ('user_website', 'on'),
                             ('user_social_level', '0'),

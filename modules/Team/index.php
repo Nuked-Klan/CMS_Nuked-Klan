@@ -68,7 +68,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 			if ($nuked['user_facebook'] == 'on'){echo "<td align=\"center\"><b>" . _FACEBOOK . "</b></td>\n";}
 			if ($nuked['user_origin'] == 'on'){echo "<td align=\"center\"><b>" . _ORIGINEA . "</b></td>\n";}
 			if ($nuked['user_steam'] == 'on'){echo "<td align=\"center\"><b>" . _STEAM . "</b></td>\n";}
-			if ($nuked['user_twiter'] == 'on'){echo "<td align=\"center\"><b>" . _TWITER . "</b></td>\n";}	
+			if ($nuked['user_twitter'] == 'on'){echo "<td align=\"center\"><b>" . _TWITTER . "</b></td>\n";}	
 			if ($nuked['user_skype'] == 'on'){echo "<td align=\"center\"><b>" . _SKYPE . "</b></td>\n";}	
 		  
             echo"<td style=\"width: 15%;\" align=\"center\"><b>" . _RANK . "</b></td></tr>\n";
@@ -243,7 +243,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             } 
 		}
 		
-			if ($nuked['user_twiter'] == 'on')
+			if ($nuked['user_twitter'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -445,7 +445,7 @@ if ($user[1] >= $nuked['user_social_level'])
 				if ($nuked['user_facebook'] == 'on'){ if ($facebook) echo "<tr><td><b>&nbsp;&nbsp;» " . _FACEBOOK . "&nbsp;:&nbsp;</b></td><td><a href=\"http://www.facebook.com/" . $facebook . "\">" . $facebook . "</a></td></tr>";}
 				if ($nuked['user_origin'] == 'on'){ if ($origin) echo "<tr><td><b>&nbsp;&nbsp;» " . _ORIGINEA . "&nbsp;:&nbsp;</b></td><td><a href=\"#\">" . $origin. "</a></td></tr>";}
 				if ($nuked['user_steam'] == 'on'){ if ($steam) echo "<tr><td><b>&nbsp;&nbsp;» " . _STEAM . "&nbsp;:&nbsp;</b></td><td><a href=\"#\">" . $steam . "</a></td></tr>";}
-				if ($nuked['user_twiter'] == 'on'){ if ($twitter) echo "<tr><td><b>&nbsp;&nbsp;» " . _TWITER . "&nbsp;:&nbsp;</b></td><td><a href=\"http://twitter.com/#!/" . $twitter . "\">" . $twitter . "</a></td></tr>";}
+				if ($nuked['user_twitter'] == 'on'){ if ($twitter) echo "<tr><td><b>&nbsp;&nbsp;» " . _TWITTER . "&nbsp;:&nbsp;</b></td><td><a href=\"http://twitter.com/#!/" . $twitter . "\">" . $twitter . "</a></td></tr>";}
 				if ($nuked['user_skype'] == 'on'){ if ($skype) echo "<tr><td><b>&nbsp;&nbsp;» " . _SKYPE . "&nbsp;:&nbsp;</b></td><td><a href=\"skype:" . $skype . "?call\">" . $skype . "</a></td></tr>";}
 }
     else
