@@ -170,7 +170,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                                       $bufferEdited);
         }
 
-        $bufferEdited = preg_replace('#</head>#', $mediasToInclude.'</head>', $bufferEdited);
+        $bufferEdited = preg_replace('#<head>#', '<head>'.$mediasToInclude, $bufferEdited);
 
         ob_end_clean();
 

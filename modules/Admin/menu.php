@@ -339,7 +339,7 @@ if ($visiteur == 9)
             if ($_REQUEST['u'] == 1) $_REQUEST['title'] = "<span style=\"text-decoration: underline;\">" . $_REQUEST['title'] . "</span>";
             if ($_REQUEST['color'] != "") $_REQUEST['title'] = "<span style=\"color: #" . $_REQUEST['color']. ";\">" . $_REQUEST['title'] . "</span>";
 
-            if ($_REQUEST['puce'] != "" && $puce != "none.gif") $_REQUEST['title'] = "<img src=\"images/puces/" . $_REQUEST['puce'] . "\" style=\"border: 0;\" alt=\"\" />" . $_REQUEST['title'];
+            if ($_REQUEST['puce'] != "" && $_REQUEST['puce'] != "none.gif") $_REQUEST['title'] = "<img src=\"images/puces/" . $_REQUEST['puce'] . "\" style=\"border: 0;\" alt=\"\" />" . $_REQUEST['title'];
 
             if ($content) $link = explode('NEWLINE', $content);
             if ($_REQUEST['url'] == "http://" || $_REQUEST['url'] == "") $_REQUEST['url'] = $_REQUEST['module'];
