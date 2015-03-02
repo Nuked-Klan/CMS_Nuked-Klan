@@ -50,11 +50,11 @@ function printMedias($jQuery = false){
                 );
 
     // On initialise la sortie
-    $output = '';
+    $output = setBgColors();
 
     // On ajout le chargement de jquery avant les autres scripts
     if($jQuery === false){
-        $output = '<script type="text/javascript" src="media/js/jquery-min-1.8.3.js"></script>';
+        $output .= '<script type="text/javascript" src="media/js/jquery-min-1.8.3.js"></script>';
     }
 
     // On parcours le tableaux des paths et on génère la sortie html
@@ -78,4 +78,33 @@ function printMedias($jQuery = false){
     return $output;
 }
 
-?>
+function setBgColors(){
+    // On définit les bgcolor par défaut s'il ne sont pas présent dans le thème
+    $arrayDefaultColor = array(
+        'bgcolor1' => '#666',
+        'bgcolor2' => '#777',
+        'bgcolor3' => '#444',
+        'bgcolor4' => '#999'
+    );
+
+    // On check si les bgcolor on été défini sinon on les défini
+    foreach ($arrayDefaultColor as $color => $value) {
+        if(!isset($GLOBALS[$color])){
+            $GLOBALS[$color] = $value;
+        }
+    }
+
+    // On créer une balise style avec toutes les classes pour les bgcolors
+    $output = '<style type="text/css">';
+
+    for ($i = 1;$i <= 4;$i++){
+        // On définit une classe pour une couleur de fond
+        $output .= '.nkBgColor'.$i.'{background:'.$GLOBALS['bgcolor'.$i].';}'."\n";
+        // On définit une class pour une couleur de bordure
+        $output .= '.nkBorderColor'.$i.'{border-color:'.$GLOBALS['bgcolor'.$i].' !important;}'."\n";
+    }
+
+    $output .= '</style>';
+
+    return $output;
+}
