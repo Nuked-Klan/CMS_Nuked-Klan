@@ -96,7 +96,7 @@ function form($content, $sug_id)
     
     echo "name=\"texte\" cols=\"65\" rows=\"12\">" .  $content[2] . "</textarea></td></tr>\n";
 
-    if ($captcha == 1) create_captcha(1);
+    if ($captcha == 1) echo create_captcha();
 
     echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
     . "<input type=\"hidden\" name=\"auteur\" value=\"" . $autor . "\" />\n"

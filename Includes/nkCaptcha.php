@@ -19,6 +19,9 @@ function ValidCaptchaCode($code = null){
     // Check valid token code
     if(!isset($_REQUEST['ct_token'])){
         $message = _CTNOTOKEN;
+        nkNotification($message);
+        login_screen();
+        exit();
     }
     else if($_REQUEST['ct_token'] != $_SESSION['CT_TOKEN']){
         $message = _CTBADTOKEN;
@@ -29,7 +32,7 @@ function ValidCaptchaCode($code = null){
     }
 
     // Check valid ct_script field edited via JS
-    if(!isset($_REQUEST['ct_script']) || $_REQUEST['ct_script'] != 'klan'){
+    if((!isset($_REQUEST['ct_script']) || $_REQUEST['ct_script'] != 'klan') && $message == null){
         $message = _CTBADJS;
     }
 
@@ -39,61 +42,33 @@ function ValidCaptchaCode($code = null){
     }
 
     if($message != null){
-        ?>
-        <div style="text-align:center;margin:15px 0;">
-            <?php echo $message; ?>
-        </div>
-        <div style="text-align:center;margin:15px 0;">
-            <a href="javascript:history.back();"><?php echo _BACK; ?></a>
-        </div>
-        <?php
-        closetable();
-        footer();
+        nkNotification($message, 'index.php?file=User&op=login_screen', 2);
         exit();
-
     }
 
     return true;
 }
 
-function create_captcha($style){
-
-    // Generate token code
-    $token = md5(uniqid(microtime(), true));
-
+function create_captcha(){
     // Save token in session
-    $_SESSION['CT_TOKEN'] = $token;
-
-    if($style == 1 || $style == 2){
-    ?>
-        <tr>
-            <td>
-                <input type="hidden" name="ct_token" value="<?php echo $token; ?>" />
-                <input type="hidden" id="ct_script" name="ct_script" value="nuked" />
-                <input type="hidden" name="ct_email" value="" />
-                <script type="text/javascript">
-                    if(typeof jQuery == 'undefined'){
-                        document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
-                    }
-                </script>
-                <script type="text/javascript" src="media/js/captcha.js"></script>
-            </td>
-        </tr>
-    <?php
+    if(!array_key_exists('CT_TOKEN', $_SESSION) || empty($_SESSION['CT_TOKEN'])){
+        // Generate token code
+        $token = md5(uniqid(microtime(), true));
+        $_SESSION['CT_TOKEN'] = $token;
     }
     else{
-    ?>
-        <input type="hidden" name="ct_token" value="<?php echo $token; ?>" />
-        <input type="hidden" id="ct_script" name="ct_script" value="nuked" />
-        <input type="hidden" name="ct_email" value="" />
-        <script type="text/javascript">
-                    if(typeof jQuery == 'undefined'){
-                        document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
-                    }
-                </script>
-        <script type="text/javascript" src="media/js/captcha.js"></script>
-    <?php
+        $token = $_SESSION['CT_TOKEN'];
     }
-}
 
-?>
+    $contentCaptcha = ' <input type="hidden" name="ct_token" value="'.$token.'" />
+                        <input type="hidden" id="ct_script" name="ct_script" value="nuked" />
+                        <input type="hidden" name="ct_email" value="" />
+                        <script type="text/javascript">
+                                    if(typeof jQuery == \'undefined\'){
+                                        document.write(\'\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>\');
+                                    }
+                                </script>
+                        <script type="text/javascript" src="media/js/captcha.js"></script>';
+
+    return $contentCaptcha;
+}

@@ -23,12 +23,9 @@ function printMedias($jQuery = false){
 
     // Vérification de la présence de marqueur de génération
     // Permet de ne pas recharger un css ou un js si un block le demande alors qu'ils ont déjà été chargés par le module
-    if(array_key_exists('mediaPrinted', $GLOBALS['nuked'])){
+    if(!array_key_exists('mediaPrinted', $GLOBALS['nuked'])){
         // Si le marqueur existe on le stocke temporairement
-        $mediasPrinted = $GLOBALS['mediaPrinted'];
-    }
-    else{
-        $mediasPrinted = array();
+        $GLOBALS['nuked']['mediaPrinted'] = array();
     }
 
     // Définition du chemin vers les fichiers de modules
@@ -39,14 +36,28 @@ function printMedias($jQuery = false){
     $pathJsTemplate = 'themes/'.$GLOBALS['theme'].'/js/modules/'.$file.'.js';
     $pathCssTemplate = 'themes/'.$GLOBALS['theme'].'/css/modules/'.$file.'.css';
 
-    // Définition des cheminds vers les fichiers par défaut
+    // Définition des chemins vers les fichiers par défaut
     $pathJsDefault = 'media/js/nkDefault.js';
     $pathCssDefault = 'media/css/nkDefault.css';
 
-    // On stocke les paths dans un ordre bien précis Default -> Mods -> Templates afin de permettre la surcharge des propriétés css
+    // Définition des chemins vers les scripts JS plugins
+    $arrayPathsPluginsJs = array(
+                            'media/js/infobulle.js',
+                            'media/js/syntaxhighlighter/shCore.js',
+                            'media/js/syntaxhighlighter/shAutoloader.js',
+                            'media/js/syntaxhighlighter.autoloader.js'
+                            );
+
+    // Définition des chemins vers les CSS plugins
+    $arrayPathsPluginsCss = array(
+                                'media/css/syntaxhighlighter/shCoreMonokai.css',
+                                'media/css/syntaxhighlighter/shThemeMonokai.css'
+                            );
+
+    // On stocke les paths dans un ordre bien précis Plugins -> Default -> Mods -> Templates afin de permettre la surcharge des propriétés css
     $arrayMedias = array(
-                    'CSS' => array($pathCssDefault, $pathCssMods, $pathCssTemplate),
-                    'JS'  => array($pathJsDefault, $pathJsMods, $pathJsTemplate)
+                    'CSS' => array($arrayPathsPluginsCss, $pathCssDefault, $pathCssMods, $pathCssTemplate),
+                    'JS'  => array($arrayPathsPluginsJs, $pathJsDefault, $pathJsMods, $pathJsTemplate)
                 );
 
     // On initialise la sortie
@@ -60,17 +71,15 @@ function printMedias($jQuery = false){
     // On parcours le tableaux des paths et on génère la sortie html
     foreach($arrayMedias as $language => $paths){
         foreach($paths as $path){
-            if(file_exists($path)){
-                if(!in_array($path, $mediasPrinted)){
-                    if($language == 'CSS'){
-                        $output .= '<link rel="stylesheet" type="text/css" href="'.$path.'" />';
-                    }
-                    else if($language == 'JS'){
-                        $output .= '<script type="text/javascript" src="'.$path.'"></script>';
-                    }
-                    $GLOBALS['nuked']['mediasPrinted'][] = $path;
+            if(is_array($path)){
+                foreach($path as $rowPath){
+                    $output .= setPath($rowPath, $language);
                 }
             }
+            else{
+                $output .= setPath($path, $language);
+            }
+
         }
     }
 
@@ -107,4 +116,21 @@ function setBgColors(){
     $output .= '</style>';
 
     return $output;
+}
+
+function setPath($path, $language){
+    if(file_exists($path)){
+        if(!is_array($GLOBALS['nuked']['mediasPrinted']) || !in_array($path, $GLOBALS['nuked']['mediasPrinted'])){
+            if($language == 'CSS'){
+                return '<link rel="stylesheet" type="text/css" href="'.$path.'" />';
+            }
+            else if($language == 'JS'){
+                return '<script type="text/javascript" src="'.$path.'"></script>';
+            }
+            $GLOBALS['nuked']['mediasPrinted'][] = $path;
+        }
+    }
+    else{
+        return null;
+    }
 }

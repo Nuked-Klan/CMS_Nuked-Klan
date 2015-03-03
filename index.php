@@ -157,26 +157,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 
             top();
 
-        require_once 'Includes/nkMediasIncludes.php';
-
-        $bufferEdited = ob_get_contents();
-
-        $findJquery = (boolean)preg_match('#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#', $bufferEdited);
-        $mediasToInclude = printMedias($findJquery);
-
-        if($findJquery === true){
-            $bufferEdited = preg_replace('#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#',
-                                      '<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js">',
-                                      $bufferEdited);
-        }
-
-        $bufferEdited = preg_replace('#<head>#', '<head>'.$mediasToInclude, $bufferEdited);
-
-        ob_end_clean();
-
-        echo $bufferEdited;
+            nkGetMedias();
 ?>
-            <script type="text/javascript" src="media/js/infobulle.js"></script>
             <script type="text/javascript">
                 InitBulle('<?= $bgcolor2; ?>','<?= $bgcolor3; ?>', 2);
             </script>
@@ -185,11 +167,6 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                     document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
                 }
             </script>-->
-            <script type="text/javascript" src="media/js/syntaxhighlighter/shCore.js"></script>
-            <script type="text/javascript" src="media/js/syntaxhighlighter/shAutoloader.js"></script>
-            <script type="text/javascript" src="media/js/syntaxhighlighter.autoloader.js"></script>
-            <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shCoreMonokai.css"/>
-            <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shThemeMonokai.css"/>
 <?php
         }
 

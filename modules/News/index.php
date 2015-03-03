@@ -270,7 +270,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
               <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
               <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
 
-        if ($captcha == 1) create_captcha(1);
+        if ($captcha == 1) echo create_captcha();
 
         echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
               <input type="hidden" name="news_id" value="'.$news_id.'" />

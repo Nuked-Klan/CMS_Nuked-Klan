@@ -149,7 +149,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         echo "<tr><td colspan=\"2\" align=\"center\">";
 
-        if ($captcha == 1) create_captcha(0);
+        if ($captcha == 1) echo create_captcha();
 
         echo "<input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
     }
