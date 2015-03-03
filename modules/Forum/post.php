@@ -20,10 +20,7 @@ include("modules/Forum/template.php");
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -265,7 +262,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
         . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n";
 
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
                 echo create_captcha();
         }
 

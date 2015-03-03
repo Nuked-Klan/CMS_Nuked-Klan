@@ -15,10 +15,7 @@ translate('modules/Members/lang/' . $language . '.lang.php');
 require_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 function index(){
     global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -212,7 +209,7 @@ function index(){
 }
 
 function reg_screen(){
-    global $nuked, $user, $language, $captcha;
+    global $nuked, $user, $language;
 
     if ($user){
         redirect("index.php?file=User&op=edit_account", 0);
@@ -332,7 +329,7 @@ function reg_screen(){
 
             echo "</select></td></tr>\n";
 
-            if ($captcha == 1) echo create_captcha();
+            if ($GLOBALS['captcha'] === true) echo create_captcha();
 
             echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                     . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _USERREGISTER . "\" /></td></tr></table></form><br />\n";
@@ -888,7 +885,7 @@ function login_screen(){
                         <input type="password" name="pass" required="required"/>
                     </p>
                     <?php
-                        if(isset($_SESSION['captcha']) && $_SESSION['captcha'] === true){
+                        if((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true)|| $GLOBALS['captcha'] === true){
                             echo create_captcha();
                         }
                     ?>
@@ -910,7 +907,7 @@ function login_screen(){
 }
 
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
-    global $nuked, $captcha, $cookie_forum, $user_ip;
+    global $nuked, $cookie_forum, $user_ip;
 
     // Verification code captcha
     ValidCaptchaCode();

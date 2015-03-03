@@ -11,10 +11,11 @@ defined('INDEX_CHECK') or die;
 
 global $language, $user, $cookie_captcha;
 translate("modules/Comment/lang/$language.lang.php");
-include_once('Includes/nkCaptcha.php');
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+
+require_once('Includes/nkCaptcha.php');
+
+$captcha = initCaptcha();
+
 $visiteur = ($user) ? $user[1] : 0;
 
 function verification($module, $im_id){
@@ -82,7 +83,7 @@ function NbComment($im_id, $module){
 }
 
 function com_index($module, $im_id){
-    global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language, $captcha;
+    global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language;
 
     define('EDITOR_CHECK', 1);
     ?>
@@ -90,7 +91,7 @@ function com_index($module, $im_id){
     <!--
         function sent(pseudo, module, im_id, ctToken, ctScript, ctEmail){
             <?php
-                if($captcha == 1){
+                if($GLOBALS['captcha'] === true){
                     echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
                 }
                 else{
@@ -208,7 +209,7 @@ function com_index($module, $im_id){
             echo '</div>';
         }
 
-        if($captcha == 1){
+        if($GLOBALS['captcha'] === true){
             $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value, this.ct_token.value, this.ct_script.value, this.ct_email.value);return false;';
         }
         else{
@@ -230,7 +231,7 @@ function com_index($module, $im_id){
                         <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
                     </tr>';
 
-                    if ($captcha == 1) echo create_captcha();
+                    if ($GLOBALS['captcha'] === true) echo create_captcha();
                     else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
 
         echo '        <tr>
@@ -312,7 +313,7 @@ function view_com($module, $im_id){
 
 function post_com($module, $im_id){
 
-    global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur, $captcha;
+    global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur;
 
     define('EDITOR_CHECK', 1);
 
@@ -363,7 +364,7 @@ function post_com($module, $im_id){
 
     echo "</tr>";
 
-    if ($captcha == 1) echo create_captcha();
+    if ($GLOBALS['captcha'] === true) echo create_captcha();
     else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
 
     echo "<tr><td align=\"right\" colspan=\"2\">\n"
@@ -400,7 +401,7 @@ function post_com($module, $im_id){
 }
 
 function post_comment($im_id, $module, $titre, $texte, $pseudo){
-    global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur, $captcha;
+    global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur;
 
     if(!isset($_REQUEST['noajax'])){
         $titre = utf8_decode($titre);
@@ -418,7 +419,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
                 . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                 . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }
 

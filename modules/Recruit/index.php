@@ -15,10 +15,7 @@ translate('modules/Recruit/lang/' . $language . '.lang.php');
 // Inclusion système Captcha
 include_once('Includes/nkCaptcha.php');
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -53,7 +50,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         function form()
         {
-            global $nuked, $user, $language, $captcha;
+            global $nuked, $user, $language;
 
 			define('EDITOR_CHECK', 1);
 
@@ -178,17 +175,17 @@ if ($visiteur >= $level_access && $level_access > -1)
 			. "<option>" . _OTHER . "</option>\n"
 			. "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
-			if ($captcha == 1) echo create_captcha();
+			if ($GLOBALS['captcha'] === true) echo create_captcha();
 
 			echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_recruit\" /></td></tr></table></form><br />\n";
         }
 
         function send_recruit($pseudo, $prenom, $age, $mail, $icq, $country, $game, $connex, $exp, $dispo, $comment)
         {
-            global $nuked, $captcha;
+            global $nuked;
 
 			// Verification code captcha
-            if ($captcha == 1){
+            if ($GLOBALS['captcha'] === true){
                 ValidCaptchaCode();
             }
 

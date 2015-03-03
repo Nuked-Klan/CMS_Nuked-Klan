@@ -18,10 +18,7 @@ translate("modules/Forum/lang/" . $language . ".lang.php");
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 
 if (!$user)
@@ -550,11 +547,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function reply()
     {
-        global $user, $nuked, $captcha,$visiteur,$user_ip, $bgcolor3;
+        global $user, $nuked, $visiteur,$user_ip, $bgcolor3;
 
         opentable();
 
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }
 
@@ -764,11 +761,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function post()
     {
-        global $user, $nuked,$captcha,$user_ip, $visiteur, $bgcolor3;
+        global $user, $nuked,$user_ip, $visiteur, $bgcolor3;
 
         opentable();
 
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }
 

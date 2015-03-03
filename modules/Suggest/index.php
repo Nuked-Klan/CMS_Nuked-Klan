@@ -15,10 +15,7 @@ translate('modules/Suggest/lang/' . $language . '.lang.php');
 // Inclusion système Captcha
 include_once('Includes/nkCaptcha.php');
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 $visiteur = !$user ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
@@ -103,7 +100,7 @@ if ($visiteur >= $level_access && $level_access > -1){
     }
 
     function add_sug($data){
-        global $user, $nuked, $captcha,$user_ip;
+        global $user, $nuked,$user_ip;
 
         opentable();
 
@@ -125,7 +122,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
 
         // Verification code captcha
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }
 
