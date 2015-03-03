@@ -81,12 +81,12 @@
     padding-left:60px;
 }
 
-#nkSiteClosedLogged{
+#nkSiteClosedLogged, .nkError{
     background-color: #de4343;
     border-color: #c43d3d;
 }
 
-#nkSiteClosedLogged:before{
+#nkSiteClosedLogged:before, .nkError:before{
     background-position: 0 -48px;
 }
 
@@ -563,5 +563,30 @@
 .nkButton-container .nkButton,
 .nkButton-container .nkButton-group {
     vertical-align: top;
+}
+
+
+.nkdefaultNotification{
+    width: 400px;
+    margin: 100px auto 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 20px 5px;
+    border: 1px solid;
+}
+
+.nkCenter{
+    text-align: center;
+}
+
+#nkLoginForm label[for=pseudo], #nkLoginForm label[for=pass]{
+    display: inline-block;
+    width: 60px;
+    text-align: left;
+}
+
+#nkLoginForm input[type=text], #nkLoginForm input[type=password]{
+    width: 150px;
 }
 
