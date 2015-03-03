@@ -60,7 +60,7 @@ function create_captcha(){
     }
 
     $contentCaptcha = ' <input type="hidden" name="ct_token" value="'.$token.'" />
-                        <input type="hidden" id="ct_script" name="ct_script" value="nuked" />
+                        <input type="hidden" class="ct_script" name="ct_script" value="nuked" />
                         <input type="hidden" name="ct_email" value="" />
                         <script type="text/javascript">
                                     if(typeof jQuery == \'undefined\'){

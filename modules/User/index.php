@@ -11,8 +11,6 @@ global $language, $user, $cookie_captcha;
 translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-require_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 
 $captcha = initCaptcha();
@@ -1168,6 +1166,7 @@ function login($pseudo, $pass, $remember_me){
             else $redirect = '';
 
             $_SESSION['admin'] = false;
+            unset($_SESSION['captcha']);
             $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $id_user . $redirect;
             redirect($url, 0);
         }
