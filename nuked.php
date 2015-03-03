@@ -1148,15 +1148,15 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
 }
 
 function send_stats_nk() {
-	global $nuked;
+    global $nuked;
 
-	if($nuked['stats_share'] == "1")
-	{
-		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
-		if($timediff >= 60)
-		{
+    if($nuked['stats_share'] == "1")
+    {
+        $timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
+        if($timediff >= 60)
+        {
 
-			?>
+            ?>
      <script type="text/javascript">
           if ( typeof jQuery == 'undefined' )
                {
@@ -1164,15 +1164,15 @@ function send_stats_nk() {
                }
      </script>
             <script type="text/javascript">
-			$(document).ready(function() {
-				data="nuked_nude=ajax";
-				$.ajax({url:'index.php', data:data, type: "GET", success: function(html) {
-				 }});
-			});
-			</script>
+            $(document).ready(function() {
+                data="nuked_nude=ajax";
+                $.ajax({url:'index.php', data:data, type: "GET", success: function(html) {
+                 }});
+            });
+            </script>
             <?php
-		}
-	}
+        }
+    }
 }
 
 // Control valid DB prefix
@@ -1188,4 +1188,58 @@ function initializeControlDB($prefixDB) {
         }
     }
 }
-?>
+
+function nkGetMedias(){
+    require_once 'Includes/nkMediasIncludes.php';
+
+    $bufferEdited = ob_get_contents();
+
+    $findJquery = (boolean)preg_match('#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#', $bufferEdited);
+    $mediasToInclude = printMedias($findJquery);
+
+    if($findJquery === true){
+        $bufferEdited = preg_replace('#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#',
+            '<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js">',
+            $bufferEdited);
+    }
+
+    $bufferEdited = preg_replace('#<head>#', '<head>'.$mediasToInclude, $bufferEdited);
+
+    ob_end_clean();
+
+    echo $bufferEdited;
+}
+
+function nkNotification($data, $redirectUrl = null, $redirectDelay = 0){
+    if(function_exists('setNotification')){
+        setNotification($data, $redirectUrl, $redirectDelay);
+    }
+    else{
+        defaultNotification($data, $redirectUrl, $redirectDelay);
+    }
+}
+
+function defaultNotification($data, $redirectUrl, $redirectDelay){
+    ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title><?php echo $GLOBALS['nuked']['name'] . ' :: ' . $GLOBALS['nuked']['slogan']; ?></title>
+            <meta http-equiv="content-type" content="text/html" charset="ISO-8859-1"/>
+            <link title="style" type="text/css" rel="stylesheet"
+                  href="themes/<?php echo $GLOBALS['theme']; ?>/style.css"/>
+        </head>
+        <body class="nkBgColor2">
+        <div class="nkBgColor1 nkBorderColor3 nkdefaultNotification">
+            <?php echo $data; ?>
+        </div>
+        </body>
+        </html>
+        <?php
+
+        nkGetMedias();
+
+        if(!empty($redirectUrl)){
+            redirect($redirectUrl, $redirectDelay);
+        }
+}

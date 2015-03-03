@@ -230,7 +230,7 @@ function com_index($module, $im_id){
                         <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
                     </tr>';
 
-                    if ($captcha == 1) create_captcha(2);
+                    if ($captcha == 1) echo create_captcha();
                     else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
 
         echo '        <tr>
@@ -363,7 +363,7 @@ function post_com($module, $im_id){
 
     echo "</tr>";
 
-    if ($captcha == 1) create_captcha(1);
+    if ($captcha == 1) echo create_captcha();
     else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
 
     echo "<tr><td align=\"right\" colspan=\"2\">\n"

@@ -266,7 +266,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n";
 
         if ($captcha == 1){
-                create_captcha(0);
+                echo create_captcha();
         }
 
         echo "</td></tr></table></form>\n";

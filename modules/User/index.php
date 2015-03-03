@@ -12,7 +12,7 @@ translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
 // Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
+require_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 
 // On determine si le captcha est actif ou non
@@ -332,7 +332,7 @@ function reg_screen(){
 
             echo "</select></td></tr>\n";
 
-            if ($captcha == 1) create_captcha(2);
+            if ($captcha == 1) echo create_captcha();
 
             echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                     . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _USERREGISTER . "\" /></td></tr></table></form><br />\n";
@@ -852,40 +852,60 @@ function edit_pref(){
 }
 
 function login_screen(){
-    global $nuked, $user;
 
-    if ($user){
+    if ($GLOBALS['user']){
         redirect("index.php?file=User", 0);
     }
     else{
-        opentable();
+        $arrayErrors = array(
+                            1 => _NOFIELD,
+                            2 => _BADLOG
+                        );
+        $printError = null;
 
-        if ($_REQUEST['error'] == 1){
-            $erreur = "<br /><div style=\"text-align: center;\">" . _NOFIELD . "</div><br />\n";
-        }
-        else if ($_REQUEST['error'] == 2){
-            $erreur = "<br /><div style=\"text-align: center;\">" . _BADLOG . "</div><br />\n";
-        }
-        else{
-            $erreur = "";
+        if(array_key_exists('error', $_REQUEST)){
+            $printError = $arrayErrors[$_REQUEST['error']];
         }
 
-        echo $erreur . "<br /><div style=\"text-align: center;\"><big><b>" . _LOGINUSER . "</b></big></div><br /><br />\n"
-                . "<form action=\"index.php?file=User&amp;nuked_nude=index&amp;op=login\" method=\"post\">\n"
-                . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
-                . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"pseudo\" size=\"15\" maxlength=\"180\" /></td></tr>\n"
-                . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass\" size=\"15\" maxlength=\"15\" /></td></tr>\n"
-                . "<input type=\"hidden\" name=\"erreurr\" value=\"".$error."\" size=\"15\" maxlength=\"15\" />\n";
-
-        if(isset($_SESSION['captcha']) && $_SESSION['captcha'] === true){
-            create_captcha(1);
+        if(!empty($printError)){
+            ?>
+                <div class="nkAlert nkError">
+                    <strong><?php echo $printError; ?></strong>
+                </div>
+            <?php
         }
 
-        echo "<tr><td colspan=\"2\"><input type=\"checkbox\" class=\"checkbox\" name=\"remember_me\" value=\"ok\" checked=\"checked\" /><small>&nbsp;" . _REMEMBERME . "</small></td></tr>\n"
-                . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _TOLOG . "\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-                . "<tr><td colspan=\"2\"><b><a href=\"index.php?file=User&amp;op=reg_screen\">" . _USERREGISTER . "</a> | <a href=\"index.php?file=User&amp;op=oubli_pass\">" . _LOSTPASS . "</a></b></td></tr></table></form><br />\n";
-
-        closetable();
+        ?>
+            <div id="nkLoginForm" class="nkCenter">
+                <h3><?php echo _LOGINUSER; ?></h3>
+                <form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">
+                    <p>
+                        <label for="pseudo"><?php echo _NICK; ?> :</label>
+                        <input type="text" name="pseudo" required="required"/>
+                    </p>
+                    <p>
+                        <label for="pass"><?php echo _PASSWORD; ?> :</label>
+                        <input type="password" name="pass" required="required"/>
+                    </p>
+                    <?php
+                        if(isset($_SESSION['captcha']) && $_SESSION['captcha'] === true){
+                            echo create_captcha();
+                        }
+                    ?>
+                    <p>
+                        <input type="checkbox" class="checkbox" name="remember_me" value="ok" checked="checked" />
+                        <label for="remember_me"><?php echo _REMEMBERME; ?></label>
+                    </p>
+                    <p>
+                        <input type="submit" value="<?php echo _TOLOG; ?>" />
+                    </p>
+                    <p>
+                        <a href="index.php?file=User&amp;op=reg_screen"><?php echo _USERREGISTER; ?></a> |
+                        <a href="index.php?file=User&amp;op=oubli_pass"><?php echo _LOSTPASS; ?></a>
+                    </p>
+                </form>
+            </div>
+        <?php
     }
 }
 
@@ -1084,110 +1104,86 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 }
 
 function login($pseudo, $pass, $remember_me){
-    global $captcha, $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
-    $cookiename = $nuked['cookiename'];
+    // Si il manque un champs on stop le script et on redirige vers le formulaire
+    if(empty($pseudo) || empty($pass)){
+        redirect('index.php?file=User&op=login_screen&error=1', 0);
+        exit();
+    }
 
-    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . "'");
-    $check = mysql_num_rows($sql);
+    $dbsLogin = 'SELECT id, pass AS dbPass, user_theme AS userTemplate, user_langue AS userLang, niveau AS level, erreur AS nbErrors
+                 FROM '.USER_TABLE.'
+                 WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
+    $dbeLogin = mysql_query($dbsLogin);
 
-    if($check > 0){
-        list($id_user, $dbpass, $usertheme, $userlang, $niveau, $count) = mysql_fetch_array($sql);
+    $checkLogin = mysql_num_rows($dbeLogin);
 
-        // Verification code captcha
-        if ($count >= 3){
+    if($checkLogin > 0){
+        // Un utilisateur pour ce pseudo a été trouvé
+        $dbrLogin = mysql_fetch_assoc($dbeLogin);
+
+        if($dbrLogin['nbErrors'] >= 2){
+            // Si un visiteur a fait 3 mauvais login
             if(!isset($_SESSION['captcha'])){
-                $msg_error = _MSGCAPTCHA;
-
-                echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                        . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
-                        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                        . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                        . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                        . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . $msg_error . "</td></tr></table></body></html>";
-
-                $url = "index.php?file=User&op=login_screen";
                 $_SESSION['captcha'] = true;
-                redirect($url, 2);
+                nkNotification(_MSGCAPTCHA, 'index.php?file=User&op=login_screen', 2);
                 exit();
             }
             else{
                 ValidCaptchaCode();
             }
         }
-        else{
-            if(isset($_SESSION['captcha'])){
-                unset($_SESSION['captcha']);
-            }
-        }
-        if ($pseudo == "" || $pass == ""){
-            $error = 1;
-            $url = "index.php?file=User&op=login_screen&error=" . $error;
-            redirect($url, 0);
-        }
 
-        if ($niveau > 0){
-            if (!Check_Hash($pass, $dbpass)){
-                $error = 2;
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . '\'';
-                $req = mysql_query($sql);
-                $url = "index.php?file=User&op=login_screen&error=" . $error;
-                redirect($url, 0);
+        if($dbrLogin['level'] > 0){
+            // Si le compte de l'utilisateur est validé
+            if(!Check_Hash($pass, $dbrLogin['dbPass'])){
+                $newNbErrors = $dbrLogin['nbErrors'] + 1;
+                // Si les pass ne correspondent pas
+                $dbuUser = 'UPDATE '.USER_TABLE.'
+                            SET erreur = "'.$newNbErrors.'"
+                            WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
+                mysql_query($dbuUser);
+                redirect('index.php?file=User&op=login_screen&error=2', 'index.php');
+                exit();
             }
             else{
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . '\'';
-                $req = mysql_query($sql);
-                session_new($id_user, $remember_me);
-
-                if ($usertheme != ""){
-                    setcookie($cookie_theme, $usertheme, $timelimit);
-                }
-
-                if ($userlang != ""){
-                    setcookie($cookie_langue, $userlang, $timelimit);
-                }
-
-                $referer = $_SERVER['HTTP_REFERER'];
-
-                if (!empty($referer) && !strpos($referer, 'User&op=reg')){
-                    list($url_ref, $redirect) = explode('?', $referer);
-                    if(!empty($redirect)) $redirect = '&referer=' . urlencode($redirect);
-                }
-                else $redirect = '';
-
-                $_SESSION['admin'] = false;
-                $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $id_user . $redirect;
-                redirect($url, 0);
+                // Si les identifiants sont bons
+                $dbuUser = 'UPDATE '.USER_TABLE.'
+                            SET erreur = "0"
+                            WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
+                mysql_query($dbuUser);
+                session_new($dbrLogin['id'], $remember_me);
             }
+
+            if(!empty($dbrLogin['userTemplate'])){
+                setcookie($GLOBALS['cookie_theme'], $dbrLogin['userTemplate'], $GLOBALS['timelimit']);
+            }
+
+            if(!empty($dbrLogin['userLang'])){
+                setcookie($GLOBALS['cookie_langue'], $dbrLogin['userLang'], $GLOBALS['timelimit']);
+            }
+
+            $referer = $_SERVER['HTTP_REFERER'];
+
+            if (!empty($referer) && !strpos($referer, 'User&op=reg')){
+                list($url_ref, $redirect) = explode('?', $referer);
+                if(!empty($redirect)) $redirect = '&referer=' . urlencode($redirect);
+            }
+            else $redirect = '';
+
+            $_SESSION['admin'] = false;
+            $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $id_user . $redirect;
+            redirect($url, 0);
         }
         else{
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                    . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
-                    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                    . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                    . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                    . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _NOVALIDUSER . "</td></tr></table></body></html>";
-
-            redirect("index.php", 2);
+            // Si le compte n'est pas validé
+            nkNotification(_NOVALIDUSER, 'index.php', 2);
+            exit();
         }
-    }
-    else{
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _UNKNOWNUSER . "</td></tr></table></body></html>";
 
-        redirect("index.php", 2);
+    }
+    else {
+        // Aucun utilisateur trouvé pour ce pseudo
+        nkNotification(_UNKNOWNUSER, 'index.php', 2);
     }
 }
 
