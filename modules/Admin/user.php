@@ -55,7 +55,7 @@ if ($visiteur == 9)
 		if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
 		if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
 		if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
-		if ($nuked['user_twiter'] == 'on'){echo "<tr><td><b>" . _TWITER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
+		if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
 		if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
         echo "<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
 
@@ -207,7 +207,7 @@ if ($visiteur == 9)
 		if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
 		if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
 		if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
-		if ($nuked['user_twiter'] == 'on'){echo "<tr><td><b>" . _TWITER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
+		if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
 		if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
         echo"<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
 
@@ -1522,7 +1522,7 @@ if ($visiteur == 9)
 		if ($nuked['user_facebook'] == "on"){$checked_user_facebook = "checked=\"checked\"";}
         if ($nuked['user_origin'] == "on"){$checked_user_origin = "checked=\"checked\"";}
 		if ($nuked['user_steam'] == "on"){$checked_user_steam = "checked=\"checked\"";}
-        if ($nuked['user_twiter'] == "on"){$checked_user_twiter = "checked=\"checked\"";}
+        if ($nuked['user_twitter'] == "on"){$checked_user_twitter = "checked=\"checked\"";}
 		if ($nuked['user_skype'] == "on"){$checked_user_skype = "checked=\"checked\"";}
         if ($nuked['user_website'] == "on"){$checked_user_website = "checked=\"checked\"";}
 
@@ -1547,7 +1547,7 @@ if ($visiteur == 9)
 		. "<tr><td><b>" . _FACEBOOK . " :</b></td><td><input type=\"checkbox\" name=\"user_facebook\" value=\"on\" " . $checked_user_facebook . "></td></tr>\n"
 		. "<tr><td><b>" . _ORIGINEA . " :</b></td><td><input type=\"checkbox\" name=\"user_origin\" value=\"on\" " . $checked_user_origin . "></td></tr>\n"
 		. "<tr><td><b>" . _STEAM . " :</b></td><td><input type=\"checkbox\" name=\"user_steam\" value=\"on\" " . $checked_user_steam . "></td></tr>\n"
-		. "<tr><td><b>" . _TWITER . " :</b></td><td><input type=\"checkbox\" name=\"user_twiter\" value=\"on\" " . $checked_user_twiter . "></td></tr>\n"
+		. "<tr><td><b>" . _TWITTER . " :</b></td><td><input type=\"checkbox\" name=\"user_twitter\" value=\"on\" " . $checked_user_twitter . "></td></tr>\n"
 		. "<tr><td><b>" . _SKYPE . " :</b></td><td><input type=\"checkbox\" name=\"user_skype\" value=\"on\" " . $checked_user_skype . "></td></tr>\n"
 		. "<tr><td><b>" . _LINK . "</b> - " . _LINKCOM . " :</b></td><td><input type=\"checkbox\" name=\"user_website\" value=\"on\" " . $checked_user_website . "></td></tr>\n"
 		. "<tr><td><b>" . _LEVELREQUIRED . " :</b></td><td>\n"
@@ -1588,7 +1588,7 @@ if ($visiteur == 9)
 		  </script>';
 
 	}
-	  function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $user_xfire, $user_facebook, $user_origin, $user_steam, $user_twiter, $user_skype, $user_website, $user_social_level)
+	  function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $user_xfire, $user_facebook, $user_origin, $user_steam, $user_twitter, $user_skype, $user_website, $user_social_level)
     {
 	    global $nuked, $user;
 
@@ -1601,7 +1601,7 @@ if ($visiteur == 9)
         if ($user_facebook != 'on'){$user_facebook = "off";}
         if ($user_origin != 'on'){$user_origin = "off";}
         if ($user_steam != 'on'){$user_steam = "off";}
-		if ($user_twiter != 'on'){$user_twiter = "off";}
+		if ($user_twitter != 'on'){$user_twitter = "off";}
         if ($user_skype != 'on'){$user_skype = "off";}
         if ($user_website != 'on'){$user_website = "off";}
         
@@ -1614,7 +1614,7 @@ if ($visiteur == 9)
         $upd7 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_facebook . "' WHERE name = 'user_facebook'");
         $upd8 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_origin . "' WHERE name = 'user_origin'");
         $upd9 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_steam . "' WHERE name = 'user_steam'");
-        $upd10 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_twiter . "' WHERE name = 'user_twiter'");
+        $upd10 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_twitter . "' WHERE name = 'user_twitter'");
         $upd11 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_skype . "' WHERE name = 'user_skype'");
         $upd12 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_website . "' WHERE name = 'user_website'");
         $upd13 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_social_level . "' WHERE name = 'user_social_level'");
@@ -1687,7 +1687,7 @@ if ($visiteur == 9)
         break;
 
         case "send_config":
-        send_config($_REQUEST['user_email'], $_REQUEST['user_icq'], $_REQUEST['user_msn'], $_REQUEST['user_aim'], $_REQUEST['user_yim'], $_REQUEST['user_xfire'], $_REQUEST['user_facebook'], $_REQUEST['user_origin'], $_REQUEST['user_steam'], $_REQUEST['user_twiter'], $_REQUEST['user_skype'], $_REQUEST['user_website'], $_REQUEST['user_social_level']);
+        send_config($_REQUEST['user_email'], $_REQUEST['user_icq'], $_REQUEST['user_msn'], $_REQUEST['user_aim'], $_REQUEST['user_yim'], $_REQUEST['user_xfire'], $_REQUEST['user_facebook'], $_REQUEST['user_origin'], $_REQUEST['user_steam'], $_REQUEST['user_twitter'], $_REQUEST['user_skype'], $_REQUEST['user_website'], $_REQUEST['user_social_level']);
         break;
 
         case "update_user":

@@ -71,7 +71,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
-		if ($captcha == 1) create_captcha(2);
+		if ($captcha == 1) echo create_captcha();
 
 
 		echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"

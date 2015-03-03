@@ -178,7 +178,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 			. "<option>" . _OTHER . "</option>\n"
 			. "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
-			if ($captcha == 1) create_captcha(2);
+			if ($captcha == 1) echo create_captcha();
 
 			echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_recruit\" /></td></tr></table></form><br />\n";
         }

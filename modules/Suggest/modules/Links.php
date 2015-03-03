@@ -117,7 +117,7 @@ function form($content, $sug_id){
             . "<tr><td><b>" . _URL . " :</b> <input type=\"text\" name=\"url\" value=\"" . $content[1] . "\" size=\"55\" /> " . $button . "</td></tr>\n"
             . "<tr><td><b>" . _WEBMASTER . " :</b>  <input type=\"text\" name=\"webmaster\" value=\"" . $content[4] . "\" size=\"30\" /></td></tr>\n";
 
-    if ($captcha == 1) create_captcha(1);
+    if ($captcha == 1) echo create_captcha();
 
     echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" /></td></tr>\n"
             . "</table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;

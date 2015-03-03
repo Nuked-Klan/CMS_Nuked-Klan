@@ -64,7 +64,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         // Affichage du Captcha.
         echo '<div style="text-align: center">',"\n";
-        if ($captcha == 1) create_captcha(3);
+        if ($captcha == 1) echo create_captcha();
         echo '</div>',"\n";
 
         echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
