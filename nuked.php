@@ -1243,3 +1243,21 @@ function defaultNotification($data, $redirectUrl, $redirectDelay){
             redirect($redirectUrl, $redirectDelay);
         }
 }
+
+function initCaptcha(){
+    // Inclusion système Captcha
+    require_once('Includes/nkCaptcha.php');
+
+    // On determine si le captcha est actif ou non
+    if(_NKCAPTCHA == 'off' || (_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] > 0)){
+        $captcha = false;
+    }
+    else if((_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] == 0) || _NKCAPTCHA == 'on'){
+        $captcha = true;
+    }
+    else {
+        $captcha = true;
+    }
+
+    return $captcha;
+}

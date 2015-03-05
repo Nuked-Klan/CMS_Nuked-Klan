@@ -19,10 +19,7 @@ include("modules/Textbox/config.php");
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 if ($user)
 {
@@ -79,11 +76,11 @@ return string.replace(/(^\s*)|(\s*$)/g,'');
 function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail)
 {
     <?php
-        if($captcha == 1){
+        if($GLOBALS['captcha'] === true){
             echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
         }
         else{
-            echo 'var captchaData = ""';
+            echo 'var captchaData = "";';
         }
     ?>
 	if (trim(document.getElementById('textbox_auteur').value) == "")
@@ -175,7 +172,7 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
 
-if($captcha == 1){
+if($GLOBALS['captcha'] === true){
     $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.ct_token.value, this.ct_script.value, this.ct_email.value); return false;';
 }
 else{
@@ -199,7 +196,7 @@ if ($active == 3 || $active == 4)
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"50\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br />\n";
 
-		if ($captcha == 1) echo create_captcha();
+		if ($GLOBALS['captcha'] === true) echo create_captcha();
 		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "<br /><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
@@ -224,7 +221,7 @@ else
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
 
-	if ($captcha == 1) echo create_captcha();
+	if ($GLOBALS['captcha'] === true) echo create_captcha();
 	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"
