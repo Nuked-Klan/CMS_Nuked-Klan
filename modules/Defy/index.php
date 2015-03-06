@@ -14,10 +14,7 @@ translate('modules/Defy/lang/' . $language . '.lang.php');
 // Inclusion système Captcha
 include_once 'Includes/nkCaptcha.php';
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -44,7 +41,7 @@ if ($visiteur >= $level_access && $level_access > -1){
     }
 
     function form(){
-        global $nuked, $user, $language, $captcha;
+        global $nuked, $user, $language;
 
         define('EDITOR_CHECK', 1);
 
@@ -149,16 +146,16 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         echo "<tr><td colspan=\"2\" align=\"center\">";
 
-        if ($captcha == 1) echo create_captcha();
+        if ($GLOBALS['captcha'] === true) echo create_captcha();
 
         echo "<input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
     }
 
     function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $heure, $game, $serveur, $type, $map, $comment){
-        global $nuked, $captcha;
+        global $nuked;
 
         // Verification code captcha
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }
 
