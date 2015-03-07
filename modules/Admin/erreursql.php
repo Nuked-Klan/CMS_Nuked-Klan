@@ -87,7 +87,8 @@ if ($visiteur >= 2)
             <ul class="shortcut-buttons-set" id="1">
                 <li>
                     <a class="shortcut-button" href="javascript:delfile();">
-                        <span><img src="modules/Admin/images/icons/remove_from_database.png" alt="icon" /><br /><?php echo _VIDERSQL; ?></span>
+                        <img src="modules/Admin/images/icons/remove_from_database.png" alt="icon" />
+                        <span><?php echo _VIDERSQL; ?></span>
                     </a>
                 </li>
             </ul>

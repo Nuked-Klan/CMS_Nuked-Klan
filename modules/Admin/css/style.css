@@ -82,8 +82,8 @@ table tfoot td .bulk-actions select{padding:4px;border:1px solid #ccc}
 .pagination a.current{background:#469400 url('../images/bg-button-blue.gif') top left repeat-x!important;border-color:#014995!important;color:#fff!important}
 .pagination a.current:hover{text-decoration:underline}
 .shortcut-button{border:1px solid #ccc;background:#f7f7f7 url('../images/shortcut-button-bg.gif') top left no-repeat;display:block;width:120px;margin:0 0 20px 0}
-.shortcut-button span{border:1px solid #fff;display:block;padding:15px 10px 15px 10px;text-align:center;color:#555;font-size:13px;line-height:1.3em}
-.shortcut-button span img{margin-bottom:10px}
+.shortcut-button span{display:block;text-align:center;color:#555;font-size:13px;height: 40px;margin: 15px auto;line-height: 20px;width: 90%;}
+.shortcut-button img{display:block;margin:10px auto 0;}
 .shortcut-button:hover{background:#fff}
 .shortcut-button span:hover{color:#0077c9}
 .shortcut-buttons-set a:active{border:1px solid #0077c9;background:#fff}

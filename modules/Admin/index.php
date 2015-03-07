@@ -72,31 +72,36 @@ if ($visiteur >= 2)
         <ul class="shortcut-buttons-set" id="1">
             <li>
                 <a class="shortcut-button" href="modules/Admin/menu/<?php echo $language; ?>/aide.php" rel="modal">
-                    <span><img src="modules/Admin/images/icons/aide.png" alt="icon" /><br /><br /><?php echo _AIDE; ?></span>
+                    <img src="modules/Admin/images/icons/aide.png" alt="icon" />
+                    <span><?php echo _AIDE; ?></span>
                 </a>
             </li>
 
             <li>
                 <a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;nuked_nude=admin">
-                    <span><img src="modules/Admin/images/icons/statistiques.png" alt="icon" /><br /><br /><?php echo _STATS; ?></span>
+                    <img src="modules/Admin/images/icons/statistiques.png" alt="icon" />
+                    <span><?php echo _STATS; ?></span>
                 </a>
             </li>
 
             <li>
                 <a class="shortcut-button" href="index.php?file=Admin&amp;page=erreursql">
-                    <span><img src="modules/Admin/images/icons/erreur.png" alt="icon" /><br /><?php if($language=='english'){echo '<br/>';} echo _SQL; ?></span>
+                    <img src="modules/Admin/images/icons/erreur.png" alt="icon" />
+                    <span><?php if($language=='english'){echo '<br/>';} echo _SQL; ?></span>
                 </a>
             </li>
 
             <li>
                 <a class="shortcut-button" href="#notification" rel="modal">
-                    <span><img src="modules/Admin/images/icons/megaphone.png" alt="icon" /><br /><?php echo _NOTIFICATION; ?></span>
+                    <img src="modules/Admin/images/icons/megaphone.png" alt="icon" />
+                    <span><?php echo _NOTIFICATION; ?></span>
                 </a>
             </li>
 
             <li>
                 <a class="shortcut-button" href="#messages" rel="modal">
-                    <span><img src="modules/Admin/images/icons/comment_48.png" alt="icon" /><br /><br /><?php echo _DISCUSSION; ?></span>
+                    <img src="modules/Admin/images/icons/comment_48.png" alt="icon" />
+                    <span><?php echo _DISCUSSION; ?></span>
                 </a>
             </li>
             <?php
@@ -108,7 +113,8 @@ if ($visiteur >= 2)
                 ?>
                 <li>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=theme">
-                        <span><img src="<?php echo $imagepanel; ?>" alt="icon" /><br /><?php echo _THEMEPANEL; ?></span>
+                        <img src="<?php echo $imagepanel; ?>" alt="icon" />
+                        <span><?php echo _THEMEPANEL; ?></span>
                     </a>
                 </li>
             <?php

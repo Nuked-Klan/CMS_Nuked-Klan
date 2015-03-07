@@ -1641,37 +1641,44 @@ if ($visiteur == 9)
             <ul class="shortcut-buttons-set" id="1">
                 <li <?php echo ($tab == 1 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user">
-                        <span><img src="modules/Admin/images/icons/members.png" alt="icon" /><br /><?php echo _USERADMIN; ?></span>
+                        <img src="modules/Admin/images/icons/members.png" alt="icon" />
+                        <span><?php echo _USERADMIN; ?></span>
                     </a>
                 </li>
                 <li <?php echo ($tab == 2 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=add_user">
-                        <span><img src="modules/Admin/images/icons/adduser.png" alt="icon" /><br /><?php echo _ADDUSER; ?></span>
+                        <img src="modules/Admin/images/icons/adduser.png" alt="icon" />
+                        <span><?php echo _ADDUSER; ?></span>
                     </a>
                 </li>
                 <li <?php echo ($tab == 3 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_cat">
-                        <span><img src="modules/Admin/images/icons/teamusers.png" alt="icon" /><br /><?php echo _TEAMMANAGEMENT; ?></span>
+                        <img src="modules/Admin/images/icons/teamusers.png" alt="icon" />
+                        <span><?php echo _TEAMMANAGEMENT; ?></span>
                     </a>
                 </li>
                 <li <?php echo ($tab == 4 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_config">
-                        <span><img src="modules/Admin/images/icons/process.png" alt="icon" /><br /><?php echo _USERCONFIG; ?></span>
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _USERCONFIG; ?></span>
                     </a>
                 </li>
                 <li <?php echo ($tab == 5 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_rank">
-                        <span><img src="modules/Admin/images/icons/ranks.png" alt="icon" /><br /><?php echo _RANKMANAGEMENT; ?></span>
+                        <img src="modules/Admin/images/icons/ranks.png" alt="icon" />
+                        <span><?php echo _RANKMANAGEMENT; ?></span>
                     </a>
                 </li>
                 <li <?php echo ($tab == 6 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_valid">
-                        <span><img src="modules/Admin/images/icons/validuser.png" alt="icon" /><br /><?php echo _USERVALIDATION; ?></span>
+                        <img src="modules/Admin/images/icons/validuser.png" alt="icon" />
+                        <span><?php echo _USERVALIDATION; ?></span>
                     </a>
                 </li>
                 <li <?php echo ($tab == 7 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_ip">
-                        <span><img src="modules/Admin/images/icons/banuser.png" alt="icon" /><br /><br /><?php echo _BAN; ?></span>
+                        <img src="modules/Admin/images/icons/banuser.png" alt="icon" />
+                        <span><?php echo _BAN; ?></span>
                     </a>
                 </li>               
             </ul>

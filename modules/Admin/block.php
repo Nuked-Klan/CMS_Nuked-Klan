@@ -440,7 +440,8 @@ if ($visiteur == 9)
             <ul class="shortcut-buttons-set" id="1">
                 <li>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=block&amp;op=add_block">
-                        <span><img src="modules/Admin/images/icons/add.png" alt="icon" /><br /><br /><?php echo _BLOCKADD; ?></span>
+                        <img src="modules/Admin/images/icons/add.png" alt="icon" />
+                        <span><?php echo _BLOCKADD; ?></span>
                     </a>
                 </li>
             </ul>

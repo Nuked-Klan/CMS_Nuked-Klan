@@ -360,7 +360,8 @@ if ($visiteur == 9)
             <ul class="shortcut-buttons-set" id="1">
                 <li>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=smilies&amp;op=add_smiley">
-                        <span><img src="modules/Admin/images/icons/add.png" alt="icon" /><br /><?php echo _SMILEYADD; ?></span>
+                        <img src="modules/Admin/images/icons/add.png" alt="icon" />
+                        <span><?php echo _SMILEYADD; ?></span>
                     </a>
                 </li>
             </ul>
