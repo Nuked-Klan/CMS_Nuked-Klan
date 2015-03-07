@@ -399,7 +399,8 @@ if ($visiteur == 9)
             <ul class="shortcut-buttons-set" id="1">
                 <li>
                     <a class="shortcut-button" href="index.php?file=Admin&amp;page=games&amp;op=add_game">
-                        <span><img src="modules/Admin/images/icons/chess.png" alt="icon" /><br /><br /><?php echo _GAMEADD; ?></span>
+                        <img src="modules/Admin/images/icons/chess.png" alt="icon" />
+                        <span><?php echo _GAMEADD; ?></span>
                     </a>
                 </li>
             </ul>
