@@ -99,7 +99,7 @@
     border-color: #FF9B04;
 }
 
-#nkNewPrivateMsg, #nkAlertSucces{
+#nkNewPrivateMsg, #nkAlertSuccess{
     background-color: #0DC636;
     border-color: #0BA62E;
     font-size: 12px;
@@ -109,7 +109,7 @@
     background-position: 0 -144px;
 }
 
-#nkAlertSucces:before{
+#nkAlertSuccess:before{
     background-position: 0 -192px;
 }
 
