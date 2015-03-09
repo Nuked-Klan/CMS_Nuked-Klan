@@ -83,18 +83,19 @@
 
 .nkAlert span{
     color: #fff;
+    font-size: 12px;
 }
 
-#nkSiteClosedLogged, .nkError{
+#nkSiteClosedLogged, .nkError, #nkAlertError{
     background-color: #de4343;
     border-color: #c43d3d;
 }
 
-#nkSiteClosedLogged:before, .nkError:before{
+#nkSiteClosedLogged:before, .nkError:before, #nkAlertError:before{
     background-position: 0 -48px;
 }
 
-#nkInstallDirTrue, #nkInstallFileTrue{
+#nkInstallDirTrue, #nkInstallFileTrue, #nkAlertWarning{
     background-color: #FFAE35;
     border-color: #FF9B04;
 }
@@ -103,6 +104,11 @@
     background-color: #0DC636;
     border-color: #0BA62E;
     font-size: 12px;
+}
+
+#nkAlertInfo{
+    background-color: #2ba6cb;
+    border-color: #2796b7;
 }
 
 #nkNewPrivateMsg:before{
@@ -129,7 +135,7 @@
     display: none;
 }
 
-#nkInstallDirTrue:before, #nkInstallFileTrue:before{
+#nkInstallDirTrue:before, #nkInstallFileTrue:before, #nkAlertWarning:before{
     background-position: 0 -96px;
 }
 
