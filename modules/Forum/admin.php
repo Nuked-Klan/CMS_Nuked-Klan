@@ -859,8 +859,10 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function main_pref(){
         global $nuked, $language;
 
-        if ($nuked['forum_file'] == "on") $checked1 = "checked=\"checked\"";
-        if ($nuked['forum_rank_team'] == "on") $checked2 = "checked=\"checked\"";
+        $checked1 = $checked2 = false;
+
+        if ($nuked['forum_file'] == "on") $checked1 = true;
+        if ($nuked['forum_rank_team'] == "on") $checked2 = true;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
@@ -879,13 +881,21 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         . "<tr><td colspan=\"2\"><b>" . _FORUMTITLE . " :</b> <input type=\"text\" name=\"forum_title\" size=\"40\" value=\"" . $nuked['forum_title'] . "\" /></td></tr>\n"
         . "<tr><td colspan=\"2\"><b>" . _FORUMDESC . " :</b><br /><textarea name=\"forum_desc\" cols=\"55\" rows=\"5\">" . $nuked['forum_desc'] . "</textarea></td></tr>\n"
         . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-        . "<tr><td>" . _USERANKTEAM . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"forum_rank_team\" value=\"on\" " . $checked2 . " /></td></tr>\n"
+        . "<tr><td>" . _USERANKTEAM . " :</td><td>";
+
+        checkboxButton('forum_rank_team', 'forum_rank_team', $checked2, false);
+
+        echo "</td></tr>\n"
         . "<tr><td>" . _NUMBERTHREAD . " :</td><td><input type=\"text\" name=\"thread_forum_page\" size=\"2\" value=\"" . $nuked['thread_forum_page'] . "\" /></td></tr>\n"
         . "<tr><td>" . _NUMBERPOST . " :</td><td><input type=\"text\" name=\"mess_forum_page\" size=\"2\" value=\"" . $nuked['mess_forum_page'] . "\" /></td></tr>\n"
         . "<tr><td>" . _TOPICHOT . " :</td><td><input type=\"text\" name=\"hot_topic\" size=\"2\" value=\"" . $nuked['hot_topic'] . "\" /></td></tr>\n"
         . "<tr><td>" . _POSTFLOOD . " :</td><td><input type=\"text\" name=\"post_flood\" size=\"2\" value=\"" . $nuked['post_flood'] . "\" /></td></tr>\n"
         . "<tr><td>" . _MAXFIELD . " :</td><td><input type=\"text\" name=\"forum_field_max\" size=\"2\" value=\"" . $nuked['forum_field_max'] . "\" /></td></tr>\n"
-        . "<tr><td>" . _ATTACHFILES . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"forum_file\" value=\"on\" " . $checked1 . " /></td></tr>\n"
+        . "<tr><td>" . _ATTACHFILES . " :</td><td>";
+
+            checkboxButton('forum_file', 'forum_file', $checked1, false);
+
+             echo "</td></tr>\n"
         . "<tr><td>" . _FILELEVEL . " :</td><td><select name=\"forum_file_level\"><option>" . $nuked['forum_file_level'] . "</option>\n"
         . "<option>0</option>\n"
         . "<option>1</option>\n"
