@@ -138,3 +138,19 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 #screen{display:none;position:fixed;width:100%;height:100%;background:url('../images/bg.png') repeat;z-index:10000}
 #iframe{margin-left:5%;margin-top:5%;width:90%;height:100%}
 #iframe_close{display:block;width:66px;height:22px;background:url('../../../images/closelabel.gif') no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000}
+/* CSS FOR CHECKBOX BUTTONS*/
+.checkboxSliderWrapper{display: inline-block; width:170px; position: relative; margin:0px 15px; padding:0 !important;text-align:left; }
+.checkboxSliderWrapper > span{display: inline-block; width: 105px; padding-left: 5px; line-height: 30px; vertical-align: middle; text-align: left; }
+.checkboxSliderWrapperAlone{display: inline-block; position: relative; padding:0 !important; text-align:left;}
+.onoffswitch {position: relative; width: 50px; -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none; display:inline-block; vertical-align: middle; }
+.onoffswitch-checkbox {display: none; }
+.onoffswitch-label {display: block; overflow: hidden; cursor: pointer; border: 1px solid #BBBBBB; border-radius: 3px; padding:0 !important; width: auto !important; position: static !important;}
+.onoffswitch-inner {width: 200%; margin-left: -100%; -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s; -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s; }
+.onoffswitch-inner:before, .onoffswitch-inner:after {float: left; width: 50%; height: 18px; padding: 0; line-height: 18px; font-size: 11px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+.onoffswitch-inner:before {content: "ON"; padding-left: 6px; background-image: -webkit-linear-gradient(bottom, #175C92 50%, #007CB9 50%); background-image:    -moz-linear-gradient(bottom, #175C92 50%, #007CB9 50%); background-image:     -ms-linear-gradient(bottom, #175C92 50%, #007CB9 50%); background-image:      -o-linear-gradient(bottom, #175C92 50%, #007CB9 50%); background-image:         linear-gradient(bottom, #175C92 50%, #007CB9 50%); color: #FFFFFF; }
+.onoffswitch-inner:after {content: "OFF"; padding-right: 3px; background-color: #BBBBBB; color: #777777; text-align: right; }
+.onoffswitch-switch {width: 20px; height:20px; margin: -1px; background: #F7F7F7; border: 1px solid #BBBBBB; border-radius: 2px; position: absolute; top: 0; bottom: 0; right: 29px; -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s; -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; }
+.onoffswitch-switch:before{content:'| | |'; font-size:5px; color:#555; display:block; text-align: center; line-height: 20px; }
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {margin-left: 0; }
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {right: 0px; }
+.inline{display:inline-block;vertical-align:middle;}

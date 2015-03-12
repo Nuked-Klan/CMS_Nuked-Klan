@@ -363,4 +363,44 @@ function adminfoot(){
     <?php
     exit();
 }
-?>
+
+function checkboxButton($name, $id, $checked = false, $inline = false) {
+    $check = null;
+    $classInline = null;
+    if ($checked === true) {
+        $check = 'checked="checked"';
+    }
+
+    if ($inline === true) {
+        $classInline = ' inline ';
+    }
+    ?>
+    <div class="onoffswitch <?php echo $classInline; ?> ">
+        <input id="<?php echo $id; ?>" type="checkbox" name="<?php echo $name; ?>"
+               class="onoffswitch-checkbox" <?php echo $check; ?> >
+        <label class="onoffswitch-label" for="<?php echo $id; ?>">
+            <div class="onoffswitch-inner"></div>
+            <div class="onoffswitch-switch"></div>
+        </label>
+    </div>
+<?php
+}
+
+function printNotification($message, $url, $type = 'information', $back = true, $redirect = false) {
+    ?>
+    <div class="notification <?php echo $type; ?> png_bg" style="width:98%;margin:10px;">
+        <div>
+            <?php echo $message; ?>
+        </div>
+    </div>
+    <?php if ($back === true): ?>
+        <span style="text-align: center;display:block;margin:10px auto;">
+            <a class="buttonLink" href="<?php echo $url; ?>"><?php echo BACK; ?></a>
+        </span>
+    <?php
+    endif;
+
+    if($redirect === true){
+        redirect($url, 2);
+    }
+}
