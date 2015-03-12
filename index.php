@@ -199,7 +199,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 ?>
                 <div id="nkNewPrivateMsg" class="nkAlert">
                     <strong><?php echo _NEWMESSAGESTART; ?><?php echo $user[5]; ?>&nbsp;<?php echo _NEWMESSAGEEND; ?></strong>
-                    <a href="index.php?file=Userbox"><?php echo _GOTOPRIVATEMESSAGES; ?></a>
+                    <a href="index.php?file=Userbox"><span><?php echo _GOTOPRIVATEMESSAGES; ?></span></a>
                     <a id="nkNewPrivateMsgClose" href="#" title="<?php echo _CLOSEWINDOW; ?>"><span><?php echo _CLOSEWINDOW; ?></span></a>
                 </div>
 <?php

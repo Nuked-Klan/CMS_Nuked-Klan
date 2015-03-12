@@ -81,32 +81,42 @@
     padding-left:60px;
 }
 
-#nkSiteClosedLogged, .nkError{
+.nkAlert span{
+    color: #fff;
+    font-size: 12px;
+}
+
+#nkSiteClosedLogged, .nkError, #nkAlertError{
     background-color: #de4343;
     border-color: #c43d3d;
 }
 
-#nkSiteClosedLogged:before, .nkError:before{
+#nkSiteClosedLogged:before, .nkError:before, #nkAlertError:before{
     background-position: 0 -48px;
 }
 
-#nkInstallDirTrue, #nkInstallFileTrue{
+#nkInstallDirTrue, #nkInstallFileTrue, #nkAlertWarning{
     background-color: #FFAE35;
     border-color: #FF9B04;
 }
 
-#nkNewPrivateMsg{
+#nkNewPrivateMsg, #nkAlertSuccess{
     background-color: #0DC636;
     border-color: #0BA62E;
     font-size: 12px;
+}
+
+#nkAlertInfo{
+    background-color: #2ba6cb;
+    border-color: #2796b7;
 }
 
 #nkNewPrivateMsg:before{
     background-position: 0 -144px;
 }
 
-#nkNewPrivateMsg a{
-    color:#fff;
+#nkAlertSuccess:before{
+    background-position: 0 -192px;
 }
 
 #nkNewPrivateMsgClose{
@@ -125,7 +135,7 @@
     display: none;
 }
 
-#nkInstallDirTrue:before, #nkInstallFileTrue:before{
+#nkInstallDirTrue:before, #nkInstallFileTrue:before, #nkAlertWarning:before{
     background-position: 0 -96px;
 }
 
@@ -251,6 +261,14 @@
     height: 12px;
     margin: 0 0.75em 0 -0.25em;
     background: url('../images/gh-icons.png') 0 99px no-repeat;
+}
+
+.nkButton.icon.alone:before {
+    margin:0 0 2px 0;
+}
+
+.nkButton.icon.small {
+    padding: 2px 6px;
 }
 
 .nkButton.arrowup.icon:before { background-position: 0 0; }
@@ -407,6 +425,71 @@
 .nkButton.user.icon:hover:before,
 .nkButton.user.icon:focus:before,
 .nkButton.user.icon:active:before { background-position: -12px -360px; }
+
+.nkButton.pm.icon:before { background-position: 0 -372px; }
+.nkButton.pm.icon:hover:before,
+.nkButton.pm.icon:focus:before,
+.nkButton.pm.icon:active:before { background-position: -12px -372px; }
+
+.nkButton.email.icon:before { background-position: 0 -384px; }
+.nkButton.email.icon:hover:before,
+.nkButton.email.icon:focus:before,
+.nkButton.email.icon:active:before { background-position: -12px -384px; }
+
+.nkButton.website.icon:before { background-position: 0 -396px; }
+.nkButton.website.icon:hover:before,
+.nkButton.website.icon:focus:before,
+.nkButton.website.icon:active:before { background-position: -12px -396px; }
+
+.nkButton.icq.icon:before { background-position: 0 -408px; }
+.nkButton.icq.icon:hover:before,
+.nkButton.icq.icon:focus:before,
+.nkButton.icq.icon:active:before { background-position: -12px -408px; }
+
+.nkButton.msn.icon:before { background-position: 0 -420px; }
+.nkButton.msn.icon:hover:before,
+.nkButton.msn.icon:focus:before,
+.nkButton.msn.icon:active:before { background-position: -12px -420px; }
+
+.nkButton.aim.icon:before { background-position: 0 -432px; }
+.nkButton.aim.icon:hover:before,
+.nkButton.aim.icon:focus:before,
+.nkButton.aim.icon:active:before { background-position: -12px -432px; }
+
+.nkButton.yim.icon:before { background-position: 0 -444px; }
+.nkButton.yim.icon:hover:before,
+.nkButton.yim.icon:focus:before,
+.nkButton.yim.icon:active:before { background-position: -12px -444px; }
+
+.nkButton.xfire.icon:before { background-position: 0 -456px; }
+.nkButton.xfire.icon:hover:before,
+.nkButton.xfire.icon:focus:before,
+.nkButton.xfire.icon:active:before { background-position: -12px -456px; }
+
+.nkButton.facebook.icon:before { background-position: 0 -468px; }
+.nkButton.facebook.icon:hover:before,
+.nkButton.facebook.icon:focus:before,
+.nkButton.facebook.icon:active:before { background-position: -12px -468px; }
+
+.nkButton.origin.icon:before { background-position: 0 -480px; }
+.nkButton.origin.icon:hover:before,
+.nkButton.origin.icon:focus:before,
+.nkButton.origin.icon:active:before { background-position: -12px -480px; }
+
+.nkButton.steam.icon:before { background-position: 0 -492px; }
+.nkButton.steam.icon:hover:before,
+.nkButton.steam.icon:focus:before,
+.nkButton.steam.icon:active:before { background-position: -12px -492px; }
+
+.nkButton.twitter.icon:before { background-position: 0 -504px; }
+.nkButton.twitter.icon:hover:before,
+.nkButton.twitter.icon:focus:before,
+.nkButton.twitter.icon:active:before { background-position: -12px -504px; }
+
+.nkButton.skype.icon:before { background-position: 0 -516px; }
+.nkButton.skype.icon:hover:before,
+.nkButton.skype.icon:focus:before,
+.nkButton.skype.icon:active:before { background-position: -12px -516px; }
 
 
 /* =============================================================================
