@@ -1,14 +1,11 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+if (!defined("INDEX_CHECK")) {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 } 
 
@@ -19,34 +16,27 @@ include("modules/Forum/template.php");
 
 opentable();
 
-if (!$user)
-{
+if (!$user) {
     $visiteur = 0;
 } 
-else
-{
+else {
     $visiteur = $user[1];
 } 
 $ModName = basename(dirname(__FILE__));
 $level_access = nivo_mod($ModName);
-if ($visiteur >= $level_access && $level_access > -1)
-{
-    if ($_REQUEST['do'] == "search")
-    {
+if ($visiteur >= $level_access && $level_access > -1) {
+    if ($_REQUEST['do'] == "search") {
         $where = "AS M , " . FORUM_TABLE . " AS F , " . FORUM_CAT_TABLE . " AS C WHERE";
 
-    if (is_int(strpos($_REQUEST['id_forum'], 'cat_')))
-    {
+    if (is_int(strpos($_REQUEST['id_forum'], 'cat_'))) {
             $cat = preg_replace("`cat_`i", "", $_REQUEST['id_forum']);
             $where .= " F.cat = '" . $cat . "' AND";
     }
-        else if ($_REQUEST['id_forum'] != "")
-        {
+        else if ($_REQUEST['id_forum'] != "") {
             $cat = $_REQUEST['id_forum'];
             $where .= " M.forum_id = '" . $cat . "' AND";
         }
-    else
-    {
+    else {
             $cat = 0;
     }
 
@@ -58,81 +48,66 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $_REQUEST['autor'] = trim($_REQUEST['autor']);
 
-        if (preg_match("`%20union%20`i", $_REQUEST['query']) ||preg_match("` union `i", $_REQUEST['query']) || preg_match("`\*union\*`i", $_REQUEST['query']) || preg_match("`\+union\+`i", $_REQUEST['query']) || preg_match("`\*`i", $_REQUEST['query']) || !is_numeric($cat))
-    {
-            echo "<br /><br /><div style=\"text-align: center;\"><big>What are you trying to do ?</big></div><br /><br />";
+        if (preg_match("`%20union%20`i", $_REQUEST['query']) ||preg_match("` union `i", $_REQUEST['query']) || preg_match("`\*union\*`i", $_REQUEST['query']) || preg_match("`\+union\+`i", $_REQUEST['query']) || preg_match("`\*`i", $_REQUEST['query']) || !is_numeric($cat)) {
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _NOENTRANCE . '</strong></div>';
             redirect("index.php?file=Forum&page=search", 2);
             closetable();
             footer();
             exit();
-    }
+        }
 
         $_REQUEST['query'] = mysql_real_escape_string(stripslashes($_REQUEST['query']));
         $_REQUEST['query'] = trim($_REQUEST['query']);
 
-        if ($_REQUEST['date_max'] != "" && !preg_match("`[^0-9]`i", $_REQUEST['date_max']))
-        {
+        if ($_REQUEST['date_max'] != "" && !preg_match("`[^0-9]`i", $_REQUEST['date_max'])) {
             $req = "SELECT M.id, M.auteur, M.auteur_id, M.titre, M.txt, M.thread_id, M.forum_id, M.date FROM " . FORUM_MESSAGES_TABLE . " " . $where . " M.date > '" . $_REQUEST['date_max'] . "' ORDER BY M.date DESC";
             $result = mysql_query($req);
         } 
-        else if (($_REQUEST['query'] != "" && strlen($_REQUEST['query']) < 3) || ($_REQUEST['autor'] != "" && strlen($_REQUEST['autor']) < 3))
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _3CHARSMIN . "</div><br /><br />";
+        else if (($_REQUEST['query'] != "" && strlen($_REQUEST['query']) < 3) || ($_REQUEST['autor'] != "" && strlen($_REQUEST['autor']) < 3)) {
+            echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _3CHARSMIN . '</strong></div>';
             redirect("index.php?file=Forum&page=search", 2);
             closetable();
             footer();
             exit();
         } 
 
-        else if ($_REQUEST['query'] != "" || $_REQUEST['autor'] != "")
-        {
+        else if ($_REQUEST['query'] != "" || $_REQUEST['autor'] != "") {
             $and = "";
 
-            if ($_REQUEST['autor'] != "" && $_REQUEST['query'] != "")
-            { 
+            if ($_REQUEST['autor'] != "" && $_REQUEST['query'] != "") { 
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
                 $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%') AND ";
             }
-            else if ($_REQUEST['autor'] != "")
-            { 
+            else if ($_REQUEST['autor'] != "") { 
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
                 $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%')";
             }
 
-            if ($_REQUEST['searchtype'] == "matchexact" && $_REQUEST['query'] != "")
-            {
-                if ($_REQUEST['into'] == "message")
-                {
+            if ($_REQUEST['searchtype'] == "matchexact" && $_REQUEST['query'] != "") {
+                if ($_REQUEST['into'] == "message") {
                     $and .= "(M.txt LIKE '%" . $_REQUEST['query'] . "%')";
                 } 
-                else if ($_REQUEST['into'] == "subject")
-                {
+                else if ($_REQUEST['into'] == "subject") {
                     $and .= "(M.titre LIKE '%" . $_REQUEST['query'] . "%')";
                 } 
-                else
-                {
+                else {
                     $and .= "(M.txt LIKE '%" . $_REQUEST['query'] . "%' OR M.titre LIKE '%" . $_REQUEST['query'] . "%')";
                 } 
             } 
-            else if ($_REQUEST['query'] != "")
-            {
+            else if ($_REQUEST['query'] != "") {
                 $search = explode(" ", $_REQUEST['query']);
                 $sep = "";
                 $and .= "(";
-                for($i = 0; $i < count($search); $i++)
-                {
-                    if ($_REQUEST['into'] == "message")
-                    {
+                for($i = 0; $i < count($search); $i++) {
+                    if ($_REQUEST['into'] == "message") {
                         $and .= $sep . "M.txt LIKE '%" . $search[$i] . "%'";
                     } 
-                    else if ($_REQUEST['into'] == "subject")
-                    {
+                    else if ($_REQUEST['into'] == "subject") {
                         $and .= $sep . "M.titre LIKE '%" . $search[$i] . "%'";
                     } 
-                    else
-                    {
+                    else {
                         $and .= $sep . "(M.txt LIKE '%" . $search[$i] . "%' OR M.titre LIKE '%" . $search[$i] . "%')";
                     } 
                     if ($_REQUEST['searchtype'] == "matchor") $sep = " OR ";
@@ -144,9 +119,8 @@ if ($visiteur >= $level_access && $level_access > -1)
             $req = "SELECT M.id, M.auteur, M.auteur_id, M.titre, M.txt, M.thread_id, M.forum_id, M.date FROM " . FORUM_MESSAGES_TABLE . " " . $where . " " . $and . " ORDER BY M.date DESC";
             $result = mysql_query($req);
         } 
-        else
-        {
-            echo"<br /><br /><div style=\"text-align: center;\">" . _NOWORDSTOSEARCH . "</div><br /><br />";
+        else {
+            echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _NOWORDSTOSEARCH . '</strong></div>';
             redirect("index.php?file=Forum&page=search", 2);
             closetable();
             footer();
@@ -155,19 +129,34 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $nb_result = mysql_num_rows($result);
 
-        echo "<br /><table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-    . "<tr><td><big><b>" . _FSEARCHRESULT . "</b></big> - " . $nb_result . "&nbsp;" . _FSEARCHFOUND . "</td></tr>\n"
-    . "<tr><td><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <a href=\"index.php?file=Forum&amp;page=search\"><b>" . _SEARCH . "</b></a></td></tr></table>\n";
-    
-    $url = "index.php?file=Forum&amp;page=search&amp;op=" . $op . "&amp;query=" . urlencode($_REQUEST['query']) . "&amp;autor=" . urlencode($_REQUEST['autor']) . "&amp;do=" . $_REQUEST['do'] . "&amp;into=" . $_REQUEST['into'] . "&amp;searchtype=" . $_REQUEST['searchtype'] . "&amp;id_forum=" . $_REQUEST['id_forum'] . "&amp;limit=" . $_REQUEST['limit'] . "&amp;date_max=" . $_REQUEST['date_max'];
-        if ($nb_result > $_REQUEST['limit']) number($nb_result, $_REQUEST['limit'], $url);
+        $url = "index.php?file=Forum&amp;page=search&amp;op=" . $op . "&amp;query=" . urlencode($_REQUEST['query']) . "&amp;autor=" . urlencode($_REQUEST['autor']) . "&amp;do=" . $_REQUEST['do'] . "&amp;into=" . $_REQUEST['into'] . "&amp;searchtype=" . $_REQUEST['searchtype'] . "&amp;id_forum=" . $_REQUEST['id_forum'] . "&amp;limit=" . $_REQUEST['limit'] . "&amp;date_max=" . $_REQUEST['date_max'];
+            if ($nb_result > $_REQUEST['limit']) number($nb_result, $_REQUEST['limit'], $url);
+?>
 
-        echo "<table style=\"background: " . $color3 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
-    . "<tr " . $background . "><td style=\"width: 20%;\" align=\"center\"><b>" . _FORUMS . "</b></td>\n"
-        . "<td style=\"width: 30%;\" align=\"center\"><b>" . _SUBJECTS . "</b></td>\n"
-        . "<td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
-    . "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
+    <div id="nkForumWrapper">
+        <div id="nkForumInfos">
+            <div>
+                <h2><?php echo _FSEARCHRESULT; ?></h2>
+                <p><?php echo $nb_result; ?>&nbsp;<?php echo _FSEARCHFOUND; ?>&nbsp;<strong><?php echo $_REQUEST['query']; ?></strong></p>
+            </div>
+        </div>
+        <div id="nkForumBreadcrumb">
+            <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM; ?></strong></a>&nbsp;->&nbsp;<a href="index.php?file=Forum&amp;page=search"><strong><?php echo _SEARCH; ?></strong></a>
+        </div>
+        <div class="nkForumCat">
+            <div class="nkForumCatWrapper">
+                <div class="nkForumCatHead nkBgColor3">
+                    <div>
+                        <div class="nkForumSearchCell"><?php echo _FORUMS; ?></div>
+                        <div class="nkForumSearchCell"><?php echo _SUBJECTS; ?></div>
+                        <div class="nkForumSearchCell"><?php echo _AUTHOR; ?></div>
+                        <div class="nkForumSearchCell"><?php echo _DATE; ?></div>
+                    </div>
+                </div>
+                <div class="nkForumCatContent nkBgColor2">
 
+
+<?php
         if ($nb_result > 0)
         {
             mysql_data_seek($result, $start);
@@ -245,11 +234,18 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                     if ($visiteur >= $forum_level)
                     {
-                        echo "<tr style=\"background: " . $color2 . ";\">\n"
-                        . "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Forum&amp;page=viewforum&amp;forum_id=" . $forum_id . "\"><b>" . $forum_name . "</b></a></td>\n"
-                        . "<td style=\"width: 30%;\" align=\"center\">" . $titre_topic . "</td>\n"
-                        . "<td style=\"width: 25%;\" align=\"center\">" . $author . "</td>\n"
-                        . "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td></tr>\n";
+?>
+                    <div>
+                        <div class="nkForumSearchForumCell nkBorderColor1">
+                            <a href="index.php?file=Forum&amp;page=viewforum&amp;forum_id=<?php echo $forum_id; ?>">
+                                <strong><?php echo $forum_name; ?></strong>
+                            </a>
+                        </div>
+                        <div class="nkForumSearchTopicCell nkBorderColor1"><?php echo $titre_topic; ?></div>
+                        <div class="nkForumSearchAuthorCell nkBorderColor1"><?php echo $author; ?></div>
+                        <div class="nkForumSearchDateCell nkBorderColor1"><?php echo $date; ?></div>
+                    </div>
+<?php
                     } 
                 } 
             } 
@@ -277,21 +273,48 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $result = _FNOSEARCHRESULT;
             } 
 
-            echo "<tr style=\"background: " . $color2 . ";\"><td align=\"center\" colspan=\"4\">" . $result . "</td></tr>\n";
+?>
+                    <div>
+                        <div class="nkForumSearchForumCell nkBorderColor1"></div>
+                        <div class="nkForumSearchTopicCell nkBorderColor1"><?php echo $result; ?></div>
+                        <div class="nkForumSearchAuthorCell nkBorderColor1"></div>
+                        <div class="nkForumSearchDateCell nkBorderColor1"></div>
+                    </div>
+<?php
         } 
-
-        echo "</table>\n";
+?>
+                </div>
+            </div>
+        </div>
+<?php
 
     $url = "index.php?file=Forum&amp;page=search&amp;op=" . $op . "&amp;query=" . urlencode($_REQUEST['query']) . "&amp;autor=" . urlencode($_REQUEST['autor']) . "&amp;do=" . $_REQUEST['do'] . "&amp;into=" . $_REQUEST['into'] . "&amp;searchtype=" . $_REQUEST['searchtype'] . "&amp;id_forum=" . $_REQUEST['id_forum'] . "&amp;limit=" . $_REQUEST['limit'] . "&amp;date_max=" . $_REQUEST['date_max'];
         if ($nb_result > $_REQUEST['limit']) number($nb_result, $_REQUEST['limit'], $url);
+?>
+        <div class="nkForumSearch">
+            <form method="get" action="index.php" >
+                <label for="forumSearch"><?php echo _SEARCH; ?> :</label>
+                <input id="forumSearch" type="text" name="query" size="25" />
+                <input type="hidden" name="file" value="Forum" />
+                <input type="hidden" name="page" value="search" />
+                <input type="hidden" name="do" value="search" />
+                <input type="hidden" name="into" value="all" />
+                <input type="submit" value="<?php echo _SEND; ?>" class="nkButton"/>
+            </form>
+        </div>
+<?php
+        // echo "<br /><form method=\"get\" action=\"index.php\">\n"
+        // . "<div style=\"text-align: center;\">\n"
+        // . "<input type=\"hidden\" name=\"file\" value=\"Forum\" />\n"
+        // . "<input type=\"hidden\" name=\"page\" value=\"search\" />\n"
+        // . "<input type=\"hidden\" name=\"do\" value=\"search\" />\n"
+        // . "<input type=\"hidden\" name=\"into\" value=\"all\" />\n"
+        // . "<b>" . _SEARCH . " :</b> <input type=\"text\" name=\"query\" size=\"25\" />&nbsp;<input type=\"submit\" value=\"" . _SEND . "\" /></div></form><br />\n";
 
-        echo "<br /><form method=\"get\" action=\"index.php\">\n"
-        . "<div style=\"text-align: center;\">\n"
-        . "<input type=\"hidden\" name=\"file\" value=\"Forum\" />\n"
-        . "<input type=\"hidden\" name=\"page\" value=\"search\" />\n"
-        . "<input type=\"hidden\" name=\"do\" value=\"search\" />\n"
-        . "<input type=\"hidden\" name=\"into\" value=\"all\" />\n"
-        . "<b>" . _SEARCH . " :</b> <input type=\"text\" name=\"query\" size=\"25\" />&nbsp;<input type=\"submit\" value=\"" . _SEND . "\" /></div></form><br />\n";
+?>
+    </div>
+<?php
+
     } 
     else
     {

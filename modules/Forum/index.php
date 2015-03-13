@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -18,6 +16,7 @@ translate("modules/Forum/lang/" . $language . ".lang.php");
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
+// On initialise le captcha
 $captcha = initCaptcha();
 
 
@@ -50,7 +49,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _FIELDEMPTY . "</div><br /><br />";
+            echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _FIELDEMPTY . '</strong></div>';
             $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'] . "&mess_id=" . $_REQUEST['mess_id'] . "&do=edit";
             redirect($url, 2);
             closetable();
@@ -113,11 +112,11 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $thread_id . "#" . $mess_id;
             }
 
-            echo "<br /><br /><div style=\"text-align: center;\">" . _MESSMODIF . "</div><br /><br />";
+            echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _MESSMODIF . '</strong></div>';
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             $url = 'index.php?file=Forum';
         }
         redirect($url, 2);
@@ -187,32 +186,38 @@ if ($visiteur >= $level_access && $level_access > -1)
 
                 $sql = mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $mess_id . "'");
 
-                echo "<br /><br /><div style=\"text-align: center;\">" . _MESSDELETED . "</div><br /><br />";
+                echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _MESSDELETED . '</strong></div>';
                 redirect($url, 2);
             }
 
             else if ($_REQUEST['confirm'] == _NO)
             {
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
-                echo "<br /><br /><div style=\"text-align: center;\">" . _DELCANCEL . "</div><br /><br />";
+                echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _DELCANCEL . '</strong></div>';
                 redirect($url, 2);
             }
 
             else
             {
-                echo "<form method=\"post\" action=\"index.php?file=Forum&amp;op=del\">\n"
-                . "<div style=\"text-align: center;\"><br /><br />" . _CONFIRMDELMESS . "<br />\n"
-                . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
-                . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
-                . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $mess_id . "\" />\n"
-                . "<input type=\"submit\" name=\"confirm\" value=\"" . _YES . "\" />"
-                . "&nbsp;<input type=\"submit\" name=\"confirm\" value=\"" . _NO . "\" /></div></form><br />\n";
+?>
+
+                <form method="post" action="index.php?file=Forum&amp;op=del">
+                    <div id="nkAlertWarning" class="nkAlert">
+                        <strong><?php echo _CONFIRMDELMESS; ?></strong><br />
+                        <input type="hidden" name="forum_id" value="<?php echo $_REQUEST['forum_id']; ?>" />
+                        <input type="hidden" name="thread_id" value="<?php echo $_REQUEST['thread_id']; ?>" />
+                        <input type="hidden" name="mess_id" value="<?php echo $mess_id; ?>" />
+                        <input type="submit" name="confirm" value="<?php echo _YES; ?>" class="nkButton" />
+                        <input type="submit" name="confirm" value="<?php echo _NO; ?>" class="nkButton" />
+                    </div>
+                </form>
+<?php
             }
         }
         else
         {
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             redirect($url, 2);
         }
 
@@ -274,32 +279,36 @@ if ($visiteur >= $level_access && $level_access > -1)
                     mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "' AND forum_id = '" . (int) $_REQUEST['forum_id'] . "'");
 
                 $url = "index.php?file=Forum&page=viewforum&forum_id=" . $_REQUEST['forum_id'];
-                echo "<br /><br /><div style=\"text-align: center;\">" . _TOPICDELETED . "</div><br /><br />";
+                echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _TOPICDELETED . '</strong></div>';
                 redirect($url, 2);
             }
 
             else if ($_REQUEST['confirm'] == _NO)
             {
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $thread_id;
-                echo "<br /><br /><div style=\"text-align: center;\">" . _DELCANCEL . "</div><br /><br />";
+                echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _DELCANCEL . '</strong></div>';
                 redirect($url, 2);
             }
 
             else
             {
-                echo "<form method=\"post\" action=\"index.php?file=Forum&amp;op=del_topic\">\n"
-                . "<div style=\"text-align: center;\"><br /><br />" . _CONFIRMDELTOPIC . "<br />\n"
-                . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
-                . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $thread_id . "\" />\n"
-                . "<input type=\"submit\" name=\"confirm\" value=\"" . _YES . "\" />"
-                . "&nbsp;<input type=\"submit\" name=\"confirm\" value=\"" . _NO . "\" /></div></form><br />\n";
+?>
+                <form method="post" action="index.php?file=Forum&amp;op=del_topic">
+                    <div id="nkAlertWarning" class="nkAlert">
+                        <strong><?php echo _CONFIRMDELTOPIC; ?></strong><br />
+                        <input type="hidden" name="forum_id" value="<?php echo $_REQUEST['forum_id']; ?>" />
+                        <input type="hidden" name="thread_id" value="<?php echo $thread_id; ?>" />
+                        <input type="submit" name="confirm" value="<?php echo _YES; ?>" class="nkButton" />
+                        <input type="submit" name="confirm" value="<?php echo _NO; ?>" class="nkButton" />
+                    </div>
+                </form>
+<?php
             }
-
         }
         else
         {
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $thread_id;
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             redirect($url, 2);
         }
 
@@ -328,7 +337,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             if ($_REQUEST['confirm'] == _YES && $_REQUEST['newforum'] != "")
             {
-                echo"<br /><br /><div style=\"text-align: center;\">" . _TOPICMOVED . "</div><br /><br />";
+                echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _TOPICMOVED . '</strong></div>';
 
                     mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET forum_id = '" . $_REQUEST['newforum'] . "' WHERE id = '" . (int) $_REQUEST['thread_id'] . "'");
                     mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET forum_id = '" . $_REQUEST['newforum'] . "' WHERE thread_id = '" . (int) $_REQUEST['thread_id'] . "'");
@@ -405,7 +414,7 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['newforum'] . "&thread_id=" . (int) $_REQUEST['thread_id'];
                     redirect($url, 2);
                } else if ($_REQUEST['confirm'] == _NO) {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _DELCANCEL . "</div><br /><br />";
+                echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _DELCANCEL . '</strong></div>';
 
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
                 redirect($url, 2);
@@ -414,7 +423,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             else
             {
                 echo "<form action=\"index.php?file=Forum&amp;op=move\" method=\"post\">\n"
-                . "<div style=\"text-align: center;\"><br /><br />" . _MOVETOPIC . " : <select name=\"newforum\">\n";
+                . "<div id=\"nkAlertWarning\" class=\"nkAlert\"><span class=\"nkAlertSubTitle\">" . _MOVETOPIC . " : </span><select name=\"newforum\">\n";
 
                 $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
                 while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
@@ -432,15 +441,15 @@ if ($visiteur >= $level_access && $level_access > -1)
                     }
                 }
 
-                echo "</select><br /><br /><input type=\"submit\" name=\"confirm\" value=\"" . _YES . "\" />"
-                . "&nbsp;<input type=\"submit\" name=\"confirm\" value=\"" . _NO . "\" />\n"
+                echo "</select><br /><br /><input type=\"submit\" name=\"confirm\" value=\"" . _YES . "\" class=\"nkButton\" />"
+                . "&nbsp;<input type=\"submit\" name=\"confirm\" value=\"" . _NO . "\" class=\"nkButton\" />\n"
                 . "<input type=\"hidden\" name=\"forum_id\" value=\"".$_REQUEST['forum_id']."\" />\n"
                 . "<input type=\"hidden\" name=\"thread_id\" value=\"".$_REQUEST['thread_id']."\" /></div></form><br />\n";
             }
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
             redirect($url, 2);
         }
@@ -480,7 +489,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($visiteur >= admin_mod("Forum") || $administrator == 1)
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . $lock_text . "</div><br /><br />";
+            echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . $lock_text . '</strong></div>';
 
             $sql = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET closed = '" . $lock_type . "' WHERE id = '" . $_REQUEST['thread_id'] . "'");
 
@@ -489,7 +498,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
 
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
             redirect($url, 2);
@@ -527,7 +536,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($visiteur >= admin_mod("Forum") || $administrator == 1)
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _TOPICMODIFIED . "</div><br /><br />";
+            echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _TOPICMODIFIED . '</strong></div>';
 
             $sql = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET annonce = '" . $announce . "' WHERE id = '" . $_REQUEST['thread_id'] . "'");
 
@@ -536,7 +545,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
 
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
             redirect($url, 2);
@@ -547,17 +556,20 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function reply()
     {
-        global $user, $nuked, $visiteur,$user_ip, $bgcolor3;
+        global $user, $nuked, $visiteur, $user_ip, $bgcolor3;
 
         opentable();
 
-        if ($GLOBALS['captcha'] === true){
+        if ($GLOBALS['captcha'] === true) {
             ValidCaptchaCode();
         }
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _FIELDEMPTY . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+            echo '<div id="nkAlertWarning" class="nkAlert">
+                    <strong>'._FIELDEMPTY.'</strong>
+                    <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+                </div>';            
             closetable();
             footer();
             exit();
@@ -592,7 +604,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($auth == "0")
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
 
             $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
             redirect($url, 2);
@@ -613,21 +625,30 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if ($_REQUEST['auteur'] == "error1")
             {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _PSEUDOFAILDED . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+                echo '<div id="nkAlertError" class="nkAlert">
+                        <strong>'._PSEUDOFAILDED.'</strong>
+                        <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+                    </div>';
                 closetable();
                 footer();
                 exit();
             }
             else if ($_REQUEST['auteur'] == "error2")
             {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _RESERVNICK . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+                echo '<div id="nkAlertError" class="nkAlert">
+                        <strong>'._RESERVNICK.'</strong>
+                        <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+                    </div>';
                 closetable();
                 footer();
                 exit();
             }
             else if ($_REQUEST['auteur'] == "error3")
             {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _BANNEDNICK . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+                echo '<div id="nkAlertError" class="nkAlert">
+                        <strong>'._BANNEDNICK.'</strong>
+                        <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+                    </div>';
                 closetable();
                 footer();
                 exit();
@@ -647,7 +668,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($date < $anti_flood && $visiteur < admin_mod("Forum"))
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _NOFLOOD . '</strong></div>';
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
             redirect($url, 2);
             closetable();
@@ -659,7 +680,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $_REQUEST['texte'] = icon($_REQUEST['texte']);
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
-        $_REQUEST['texte'] = str_replace('<blockquote>', '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' :</strong><br />', $_REQUEST['texte']);
+        $_REQUEST['texte'] = str_replace('<blockquote>', '<blockquote class="nkForumBlockQuote">', $_REQUEST['texte']);
 
         $autor = mysql_real_escape_string(stripslashes($autor));
 
@@ -674,7 +695,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess")
             {
                 $url_file = "upload/Forum/" . $filename;
-                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
+                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ('<div id="nkAlertError" class="nkAlert"><strong>' . _UPLOADFAILED . '</strong></div>');
                 @chmod ($url_file, 0644);
             }
         }
@@ -754,24 +775,24 @@ if ($visiteur >= $level_access && $level_access > -1)
 			$link_post = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "#" . $mess_id;
 		}
 
-		echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESEND . "</div><br /><br />";
+		echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _MESSAGESEND . '</strong></div>';
 		redirect($link_post, 2);
         closetable();
     }
 
     function post()
     {
-        global $user, $nuked,$user_ip, $visiteur, $bgcolor3;
+        global $user, $nuked, $user_ip, $visiteur, $bgcolor3;
 
         opentable();
 
-        if ($GLOBALS['captcha'] === true){
+        if ($GLOBALS['captcha'] === true) {
             ValidCaptchaCode();
         }
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _FIELDEMPTY . "</div><br /><br />";
+            echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _FIELDEMPTY . '</strong></div>';
             $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
             redirect($url, 2);
             closetable();
@@ -784,7 +805,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($level > $visiteur)
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
             redirect($url, 2);
             closetable();
@@ -804,7 +825,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if ($_REQUEST['auteur'] == "error1")
             {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _PSEUDOFAILDED . "</div><br /><br />";
+                echo '<div id="nkAlertError" class="nkAlert"><strong>' . _PSEUDOFAILDED . '</strong></div>';
                 $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
                 redirect($url, 2);
                 closetable();
@@ -813,7 +834,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
             else if ($_REQUEST['auteur'] == "error2")
             {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _RESERVNICK . "</div><br /><br />";
+                echo '<div id="nkAlertError" class="nkAlert"><strong>' . _RESERVNICK . '</strong></div>';
                 $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
                 redirect($url, 2);
                 closetable();
@@ -822,7 +843,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
             else if ($_REQUEST['auteur'] == "error3")
             {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _BANNEDNICK . "</div><br /><br />";
+                echo '<div id="nkAlertError" class="nkAlert"><strong>' . _BANNEDNICK . '</strong></div>';
                 $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
                 redirect($url, 2);
                 closetable();
@@ -843,7 +864,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         if ($date < $anti_flood && $user[1] < admin_mod("Forum"))
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _NOFLOOD . '</strong></div>';
             $url = "index.php?file=Forum&page=viewforum&forum_id=" . $_REQUEST['forum_id'];
             redirect($url, 2);
             closetable();
@@ -854,7 +875,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         $_REQUEST['texte'] = icon($_REQUEST['texte']);
         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
-        $_REQUEST['texte'] = str_replace('<blockquote>', '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' :</strong><br />', $_REQUEST['texte']);
+        $_REQUEST['texte'] = str_replace('<blockquote>', '<blockquote class="nkForumBlockQuote">', $_REQUEST['texte']);
 
         $autor = mysql_real_escape_string(stripslashes($autor));
 
@@ -885,7 +906,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess")
             {
                 $url_file = "upload/Forum/" . $filename;
-                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><big><b>" . _UPLOADFAILED . "</b></big></div><br /><br />");
+                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ('<div id="nkAlertError" class="nkAlert"><strong>' . _UPLOADFAILED . '</strong></div>');
                 @chmod ($url_file, 0644);
             }
         }
@@ -931,7 +952,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
         }
 
-        echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESEND . "</div><br /><br />";
+        echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _MESSAGESEND . '</strong></div>';
         redirect($url, 2);
         closetable();
     }
@@ -1003,7 +1024,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
         }
         opentable();
-        echo "<br /><br /><div style=\"text-align: center;\">" . _MESSAGESMARK . "</div><br /><br />";
+        echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _MESSAGESMARK . '</strong></div>';
         redirect("index.php?file=Forum", 2);
         closetable();
     }
@@ -1040,14 +1061,14 @@ if ($visiteur >= $level_access && $level_access > -1)
                 @system("del $filesys");
 
                 $upd = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET file = '' WHERE id = '" . $_REQUEST['mess_id'] . "'");
-                echo "<br /><br /><div style=\"text-align: center;\">" . _FILEDELETED . "</div><br /><br />";
+                echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _FILEDELETED . '</strong></div>';
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
                 redirect($url, 2);
             }
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
             redirect($url, 2);
         }
@@ -1078,28 +1099,46 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $max = $_REQUEST['survey_field'];
             }
 
-            echo "<br /><div style=\"text-align: center;\"><big><b>" . _POSTSURVEY . "</b></big></div><br />\n"
-            . "<form method=\"post\" action=\"index.php?file=Forum&amp;op=send_poll\">\n"
-            . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-            . "<tr><td align=\"right\"><b>" . _QUESTION . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" /></td></tr>\n"
-            . "<tr><td>&nbsp;</td></tr>\n";
-
+?>
+            <div id="nkForumViewMainPoll" class="nkBorderColor1">
+                <div class="nkForumViewPollBg"></div><!-- @whitespace
+             --><div class="nkForumViewPoll">
+                    <div class="nkForumPollTitle">
+                        <h3><?php echo _POSTSURVEY; ?></h3>
+                    </div>
+                    <form method="post" action="index.php?file=Forum&amp;op=send_poll">
+                        <div class="nkForumPollIniTable">
+                            <div class="nkForumPollOptionsIni">
+                                <div><strong><?php echo _QUESTION; ?></strong></div>
+                                <div><input type="text" name="titre" size="40" /></div>
+                            </div>
+<?php
             $r = 0;
-            while ($r < $max)
-            {
+            while ($r < $max) {
                 $r++;
-                echo "<tr><td align=\"right\">" . _OPTION . "&nbsp;" . $r . " : <input type=\"text\" name=\"option[]\" size=\"40\" /></td></tr>\n";
-
+?>
+                            <div class="nkForumPollOptionsIni">
+                                <div><span><?php echo _OPTION; ?>&nbsp;<?php echo $r; ?>&nbsp;:&nbsp;</span></div>
+                                <div><input type="text" name="option[]" size="40" /></div>
+                            </div>
+<?php
             }
-
-            echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
-            . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
-            . "<input type=\"hidden\" name=\"max_option\" value=\"" . $max . "\" /></td></tr>\n"
-            . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDTHISPOLL . "\" /></td></tr></table></form><br />\n";
+?>
+                        </div>
+                        <input type="hidden" name="thread_id" value="<?php echo $_REQUEST['thread_id']; ?>" />
+                        <input type="hidden" name="forum_id" value="<?php echo $_REQUEST['forum_id']; ?>" />
+                        <input type="hidden" name="max_option" value="<?php echo $max; ?>" />
+                        <div id="nkForumPollActionLinks">
+                            <input type="submit" value="<?php echo _ADDTHISPOLL; ?>" class="nkButton"  />
+                        </div>                    
+                    </form>
+                </div>
+            </div>
+<?php
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
             redirect($url, 2);
         }
@@ -1153,13 +1192,13 @@ if ($visiteur >= $level_access && $level_access > -1)
                     $r++;
                 }
 
-                echo "<br /><br /><div style=\"text-align: center;\">" . _POLLADD . "</div><br /><br />";
+                echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _POLLADD . '</strong></div>';
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $forum_id . "&thread_id=" . $thread_id;
                 redirect($url, 2);
             }
             else
             {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _2OPTIONMIN . "</div><br /><br />";
+                echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _2OPTIONMIN . '</strong></div>';
                 $url = "index.php?file=Forum&op=add_poll&survey_field=" . $max_option . "&forum_id=" . $forum_id . "&thread_id=" . $thread_id;
                 redirect($url, 2);
             }
@@ -1167,7 +1206,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $forum_id . "&thread_id=" . $thread_id;
             redirect($url, 2);
         }
@@ -1198,29 +1237,29 @@ if ($visiteur >= $level_access && $level_access > -1)
                         $upd = mysql_query("UPDATE " . FORUM_OPTIONS_TABLE . " SET option_vote = option_vote + 1 WHERE id = '" . $_REQUEST['voteid'] . "' AND poll_id = '" . $poll_id . "'");
                         $insert = mysql_query("INSERT INTO " . FORUM_VOTE_TABLE . " ( `poll_id` , `auteur_id` , `auteur_ip` ) VALUES ( '" . $poll_id . "' , '" . $user[0] . "' , '" . $user_ip . "' )");
 
-                        echo  "<br /><br /><div style=\"text-align: center;\">" . _VOTESUCCES . "</div><br /><br />";
+                        echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _VOTESUCCES . '</strong></div>';
                     }
                     else
                     {
-                        echo "<br /><br /><div style=\"text-align: center;\">" . _ALREADYVOTE . "</div><br /><br />";
+                        echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _ALREADYVOTE . '</strong></div>';
                     }
 
                 }
                 else
                 {
-                    echo "<br /><br /><div style=\"text-align: center;\">" . _BADLEVEL . "</div><br /><br />";
+                    echo '<div id="nkAlertError" class="nkAlert"><strong>' . _BADLEVEL . '</strong></div>';
                 }
 
             }
             else
             {
-                echo "<br /><br /><div style=\"text-align: center;\">" . _ONLYMEMBERSVOTE . "</div><br /><br />";
+                echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ONLYMEMBERSVOTE . '</strong></div>';
             }
 
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _NOOPTION . "</div><br /><br />";
+            echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _NOOPTION . '</strong></div>';
         }
 
         $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
@@ -1259,31 +1298,37 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $del2 = mysql_query("DELETE FROM " . FORUM_VOTE_TABLE . " WHERE poll_id = '" . $poll_id . "'");
                 $upd = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET sondage = 0 WHERE id = '" . $thread_id . "'");
 
-                echo "<br /><br /><div style=\"text-align: center;\">" . _POLLDELETE . "</div><br /><br />";
+                echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _POLLDELETE . '</strong></div>';
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $forum_id . "&thread_id=" . $thread_id;
                 redirect($url, 2);
             }
             else if ($_REQUEST['confirm'] == _NO)
             {
-                echo "<br /><br /><br><center>" . _CONFIRMDELPOLL . "" . _DELCANCEL . "</div><br /><br />";
+                
+                echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _DELCANCEL . '</strong></div>';
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $forum_id . "&thread_id=" . $thread_id;
                 redirect($url, 2);
             }
             else
             {
-                echo "<form method=\"post\" action=\"index.php?file=Forum&amp;op=del_poll\">\n"
-                 . "<div style=\"text-align: center;\"><br />" . _CONFIRMDELPOLL . "<br /><br />\n"
-                 . "<input type=\"hidden\" name=\"poll_id\" value=\"" . $poll_id . "\" />\n"
-                 . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $thread_id . "\" />\n"
-                 . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $forum_id . "\" />\n"
-                 . "<input type=\"submit\" name=\"confirm\" value=\"" . _YES . "\" />\n"
-                 . "&nbsp;<input type=\"submit\" name=\"confirm\" value=\"" . _NO . "\" /><br /></div></form>\n";
+?>
+                <form method="post" action="index.php?file=Forum&amp;op=del_poll">
+                    <div id="nkAlertWarning" class="nkAlert">
+                        <strong><?php echo _CONFIRMDELPOLL; ?></strong><br />
+                        <input type="hidden" name="poll_id" value="<?php echo $poll_id; ?>" />
+                        <input type="hidden" name="thread_id" value="<?php echo $thread_id; ?>" />
+                        <input type="hidden" name="forum_id" value="<?php echo $forum_id; ?>" />
+                        <input type="submit" name="confirm" value="<?php echo _YES; ?>" class="nkButton" />
+                        <input type="submit" name="confirm" value="<?php echo _NO; ?>" class="nkButton" />
+                    </div>
+                </form>
+<?php
             }
 
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $forum_id . "&thread_id=" . $thread_id;
             redirect($url, 2);
         }
@@ -1316,33 +1361,54 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             $sql1 = mysql_query("SELECT titre FROM " . FORUM_POLL_TABLE . " WHERE id = '" . $poll_id . "'");
             list($titre) = mysql_fetch_array($sql1);
-
-            echo "<br /><div style=\"text-align: center;\"><big><b>" . _POSTSURVEY . "</b></big></div><br />\n"
-            . "<form method=\"post\" action=\"index.php?file=Forum&amp;op=modif_poll\">\n"
-            . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-            . "<tr><td align=\"right\"><b>" . _QUESTION . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" value=\"" . $titre . "\" /></td></tr>\n"
-            . "<tr><td>&nbsp;</td></tr>\n";
-
+?>
+            <div id="nkForumViewMainPoll" class="nkBorderColor1">
+                <div class="nkForumViewPollBg"></div><!-- @whitespace
+             --><div class="nkForumViewPoll">
+                    <div class="nkForumPollTitle">
+                        <h3><?php echo _POSTSURVEY; ?></h3>
+                    </div>
+                    <form method="post" action="index.php?file=Forum&amp;op=modif_poll">
+                        <div class="nkForumPollIniTable">
+                            <div class="nkForumPollOptionsIni">
+                                <div><strong><?php echo _QUESTION; ?></strong></div>
+                                <div><input type="text" name="titre" size="40" value="<?php echo $titre; ?>"/></div>
+                            </div>
+<?php
             $sql2 = mysql_query("SELECT id, option_text FROM " . FORUM_OPTIONS_TABLE . " WHERE poll_id = '" . $poll_id . "' ORDER BY id ASC");
             $r = 0;
             while (list($option_id, $option_text) = mysql_fetch_array($sql2))
             {
                 $r++;
-                echo "<tr><td align=\"right\">" . _OPTION . "&nbsp;" . $r . " : <input type=\"text\" name=\"option[" . $r . "]\" size=\"40\" value=\"" . $option_text . "\" /></td></tr>\n";
+?>
+                            <div class="nkForumPollOptionsIni">
+                                <div><span><?php echo _OPTION; ?>&nbsp;<?php echo $r; ?>&nbsp;:&nbsp;</span></div>
+                                <div><input type="text" name="option[<?php echo $r; ?>]" size="40" value="<?php echo $option_text; ?>" /></div>
+                            </div>
+<?php
             }
 
             $r++;
-
-            echo "<tr><td align=\"right\">" . _OPTION . "&nbsp;" . $r . " : <input type=\"text\" name=\"newoption\" size=\"40\" /></td></tr>\n"
-            . "<tr><td>&nbsp;<input type=\"hidden\" name=\"poll_id\" value=\"" . $poll_id . "\" />\n"
-            . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
-            . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" /></td></tr>\n"
-            . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFTHISPOLL . "\" /></td></tr></table></form><br />\n";
-
+?>
+                            <div class="nkForumPollOptionsIni">
+                                <div><span><?php echo _OPTION; ?>&nbsp;<?php echo $r; ?>&nbsp;:&nbsp;</span></div>
+                                <div><input type="text" name="newoption" size="40" /></div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="poll_id" value="<?php echo $poll_id; ?>" />
+                        <input type="hidden" name="thread_id" value="<?php echo $_REQUEST['thread_id']; ?>" />
+                        <input type="hidden" name="forum_id" value="<?php echo $_REQUEST['forum_id']; ?>" />
+                        <div id="nkForumPollActionLinks">
+                            <input type="submit" value="<?php echo _MODIFTHISPOLL; ?>" class="nkButton"  />
+                        </div>                    
+                    </form>
+                </div>
+            </div>
+<?php
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
             $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
             redirect($url, 2);
         }
@@ -1405,11 +1471,11 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $sql3 = mysql_query("INSERT INTO " . FORUM_OPTIONS_TABLE . " ( `id` , `poll_id` , `option_text` , `option_vote` ) VALUES ( '" . $s . "' , '" . $poll_id . "' , '" . $newoption . "', '0')");
             }
 
-            echo "<br /><br /><div style=\"text-align: center;\">" . _POLLMODIF . "</div><br /><br />";
+            echo '<div id="nkAlertSuccess" class="nkAlert"><strong>' . _POLLMODIF . '</strong></div>';
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
         }
 
         $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $forum_id . "&thread_id=" . $thread_id;
@@ -1440,12 +1506,12 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         $upd = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET emailnotify = '" . $notify . "' WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND auteur_id = '" . $user[0] . "'");
 
-        echo "<br /><br /><div style=\"text-align: center;\">" . $notify_texte . "</div><br /><br />";
+        echo '<div id="nkAlertInfo" class="nkAlert"><strong>' . $notify_texte . '</strong></div>';
 
     }
     else
     {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+            echo '<div id="nkAlertError" class="nkAlert"><strong>' . _ZONEADMIN . '</strong></div>';
     }
 
         $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
@@ -1537,19 +1603,33 @@ if ($visiteur >= $level_access && $level_access > -1)
 else if ($level_access == -1)
 {
     opentable();
-    echo "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
+    // On affiche le message qui previent l'utilisateur que le module est désactivé
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._MODULEOFF.'</strong>
+            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+        </div>';
     closetable();
 }
 else if ($level_access == 1 && $visiteur == 0)
 {
     opentable();
-    echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b><br /><br /></div>";
+    // On affiche le message qui previent l'utilisateur qu'il n'as pas accès à ce module
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._USERENTRANCE.'</strong>
+            <a href="index.php?file=User&amp;op=login_screen"><span>'._LOGINUSER.'</span></a>
+            &nbsp;|&nbsp;
+            <a href="index.php?file=User&amp;op=reg_screen"><span>'._REGISTERUSER.'</span></a>
+        </div>';
     closetable();
 }
 else
 {
     opentable();
-    echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>";
+    // On affiche le message qui previent l'utilisateur que le module est désactivé
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._NOENTRANCE.'</strong>
+            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+        </div>';
     closetable();
 }
 
