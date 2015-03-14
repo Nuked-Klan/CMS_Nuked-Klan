@@ -1,4 +1,4 @@
-<section id="RL_<?php echo $this->module; ?>">
+<section id="RL_{{module}}">
     <header>
-        <h1 class="RL_modTitle"><?php echo $this->module; ?></h1>
+        <h1 class="RL_modTitle">{{module}}</h1>
     </header>

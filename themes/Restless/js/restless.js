@@ -15,4 +15,21 @@ $(document).ready(function() {
     $('#RL_loginPopupContainer>form').click(function(e){
         e.stopPropagation();
     });
+
+    if($('#RL_followContent').length == 0){
+        $('#RL_commentsContent').css('height', '278px');
+    }
+
+    if($('#RL_blockDownload').length == 0){
+        $('#RL_commentsContent').parent().parent().css('width', '100%');
+    }
+
+    if($('#RL_commentsContent').length == 0 && $('#RL_followContent').length == 0){
+        $('#RL_blockDownload').parent().parent().css('width', '100%');
+    }
+
+    if(RL_galleryLightbox === true){
+        //$('#RL_gallery').children('div').children('figure').children('a').attr('rel', 'shadowbox');
+    }
+
 });

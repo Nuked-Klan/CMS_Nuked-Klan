@@ -1,7 +1,7 @@
 <nav id="RL_mainNav">
     <ul id="RL_mainMenu">
         <?php foreach($this->mainNavContent as $row):
-            new viewTpl('navigation-item', $row);
+            $GLOBALS['tpl']->render('navigation-item', $row);
         endforeach; ?>
    	</ul>
     <form id="RL_navSearch" method="POST" action="index.php?file=Search&op=mod_search">
@@ -15,10 +15,10 @@
     <div id="RL_login">
         <?php
             if (array_key_exists(1, $GLOBALS['user'])) {
-                new viewTpl('userInfo');
+                $GLOBALS['tpl']->render('userInfo');
             }
             else {
-                new viewTpl('login');
+                $GLOBALS['tpl']->render('login');
             }
         ?>
     </div>

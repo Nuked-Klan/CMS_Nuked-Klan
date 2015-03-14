@@ -7,23 +7,23 @@
             <label class="RL_labelIcons" id="RL_inputNick" for="pseudo">
                 <span><?php echo _NICK; ?></span>
             </label>
-            <input type="text" name="pseudo" />
+            <input type="text" name="pseudo" required="required"/>
         </div>
         <div>
             <label class="RL_labelIcons" id="RL_inputPass" for="pass">
                 <span><?php echo _PASSWORD; ?></span>
             </label>
-            <input type="password" name="pass" />
+            <input type="password" name="pass" required="required" />
         </div>
 
         <?php
-            if($this->captcha){
-                create_captcha(1);
+            if($this->captcha === true){
+                echo create_captcha();
             }
         ?>
 
         <div>
-            <input type="checkbox" name="remember_me" />
+            <input type="checkbox" name="remember_me" value="ok" checked="checked" />
             <label for="remember_me">
                 <span><?php echo REMEMBER_ME; ?></span>
             </label>

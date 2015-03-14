@@ -455,7 +455,8 @@ a{
 }
 
 #RL_contentBig{
-    width:100%;
+    padding: 0 20px;
+    width: 96%;
 }
 
 #RL_content > section > header, #RL_contentBig > section > header {
@@ -846,6 +847,8 @@ a{
     padding:0 12px 0 20px;
     font-family: Aller, sans-serif;
     color:#616161;
+    height: 176px;
+    overflow: auto;
 }
 
 #RL_commentsContent > div{

@@ -1,3 +1,3 @@
 <body>
-    <?php new viewTpl('loginPopup'); ?>
+    <?php $GLOBALS['tpl']->render('loginPopup'); ?>
     <div id="RL_mainWrapper">

@@ -1,6 +1,6 @@
 <section id="RL_blockUnikTop">
     <?php 
-        new viewTpl('slider');
-        new viewTpl('blockTopMatch');
+        $GLOBALS['tpl']->render('slider');
+        $GLOBALS['tpl']->render('blockTopMatch');
     ?>
 </section>

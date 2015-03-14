@@ -1,9 +1,10 @@
+<?php if(count($this->get('blockTeamContent')) > 0 && $this->get('blockTeamActive') == true): ?>
 <section class="RL_blockRight">
     <header>
-        <h3><?php echo $this->blockEquipeTitle; ?></h3>
+        <h3>{{blockTeamTitle}}</h3>
     </header>
     <article>
-        <?php foreach($this->blockEquipeContent as $equipe): ?>
+        <?php foreach($this->get('blockTeamContent') as $equipe): ?>
         <figure class="RL_roster">
             <img src="<?php echo $equipe['image']; ?>" alt="#" />
             <figcaption><?php echo $equipe['title']; ?></figcaption>
@@ -11,3 +12,4 @@
         <?php endforeach; ?>
     </article>
 </section>
+<?php endif; ?>

@@ -1,22 +1,26 @@
 <?php
 
-$this->blockContent = array(
-                        array(
-                            'image' => 'themes/Restless/images/misc/article1.png',
-                            'title' => 'Meet your Makers',
-                            'postedBy' => 'Posté par Homax le 02.11.2012',
-                            'link' => '#'
-                        ),
-                        array(
-                            'image' => 'themes/Restless/images/misc/article2.png',
-                            'title' => 'Electronics Sports World Cup',
-                            'postedBy' => 'Posté par Homax le 02.11.2012',
-                            'link' => '#'
-                        ),
-                        array(
-                            'image' => 'themes/Restless/images/misc/article3.png',
-                            'title' => 'Th&egrave;me premium NK',
-                            'postedBy' => 'Posté par Homax le 02.11.2012',
-                            'link' => '#'
-                        )
-                    );
+$this->assign('blockArticleActive', $this->get('cfg')->get('blockArticle.active'));
+
+
+$dbsArticle = 'SELECT image, title, date, artid, autor
+                 FROM '.SECTIONS_TABLE.'
+                 ORDER BY date DESC
+                 LIMIT 0, 3';
+
+$dbeArticle = mysql_query($dbsArticle) or die(mysql_error());
+
+$arrayTemp = array();
+$i = 0;
+
+while ($dbrArticle = mysql_fetch_assoc($dbeArticle)) {
+    $arrayTemp[$i]['image'] = empty($dbrArticle['image']) ? 'themes/Restless/images/no_image_articles.png' : $dbrArticle['image'];
+    $arrayTemp[$i]['title'] = $dbrArticle['title'];
+    $arrayTemp[$i]['postedBy'] = POSTEDBY.' '.$dbrArticle['autor'].' '.THE.' '.date('d/m/Y', $dbrArticle['date']);
+    $arrayTemp[$i]['link'] = 'index.php?file=Sections&op=article&artid='.$dbrArticle['artid'];
+    $i++;
+}
+
+$this->assign('blockArticleContent', $arrayTemp);
+
+$this->assign('nbArticles', count($this->get('blockArticleContent')));

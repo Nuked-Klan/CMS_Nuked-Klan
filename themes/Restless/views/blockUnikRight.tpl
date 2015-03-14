@@ -1,11 +1,12 @@
-</div><aside id="RL_blockUnikRight">
+</div><!-- Hack inline-block
+--><aside id="RL_blockUnikRight">
     <?php
 
-    new viewTpl('blockMatch');
+    $GLOBALS['tpl']->render('blockMatch');
 
-    new viewTpl('blockEquipe');
+    $GLOBALS['tpl']->render('blockTeam');
 
-    new viewTpl('blockForum');
+    $GLOBALS['tpl']->render('blockForum');
 
     get_blok('gauche');
 

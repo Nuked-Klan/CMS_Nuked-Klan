@@ -1,11 +1,11 @@
-<?php if(count($this->blockMatchContent) > 0): ?>
+<?php if(count($this->get('blockMatchContent')) > 0 && $this->get('blockMatchActive') == true): ?>
 <section class="RL_blockRight">
     <header>
-        <h3><?php echo $this->blockMatchTitle; ?></h3>
+        <h3>{{blockMatchTitle}}</h3>
     </header>
     <article>
         <table class="RL_matchesTable" cellspacing="0" cellpadding="0">
-            <?php foreach($this->blockMatchContent as $match): ?>
+            <?php foreach($this->get('blockMatchContent') as $match): ?>
             <tr>
                 <td class="RL_matchesIcon">
                     <img src="<?php echo $match['icon']; ?>" alt="" />

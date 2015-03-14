@@ -1,8 +1,7 @@
 <?php
 
-if(in_array($_REQUEST['file'], $GLOBALS['arrayBigModules'])){
-    $this->bigClass = 'Big';
-}
-else{
-    $this->bigClass = '';
+$this->assign('bigClass', null);
+
+if (FULLPAGE === true) {
+    $this->assign('bigClass', 'Big');
 }

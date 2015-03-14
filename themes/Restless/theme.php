@@ -8,8 +8,16 @@
  * April 2013
  */
 
-// Include template generator
-require_once('librairy.php');
+// Include template engine
+require_once('librairies/templateEngine.php');
+// Include config ini tool
+require_once('librairies/iniConfigTool.php');
+
+$cfg = new iniConfigTool('themes/Restless/config.ini');
+
+$tpl = new tpl();
+
+$tpl->assign('cfg', $cfg);
 
 // Include language file
 require_once('themes/Restless/lang/'.$GLOBALS['language'].'.lang.php');
@@ -21,9 +29,9 @@ else{
     define('HOMEPAGE', false);
 }
 
-$arrayBigModules = array('Forum');
+$arrayBigModules = explode(',', $cfg->get('general.bigModules'));
 
-if(!in_array($_REQUEST['file'], $GLOBALS['arrayBigModules'])){
+if(!in_array($_REQUEST['file'], $arrayBigModules)){
     define('FULLPAGE', false);
 }
 else{
@@ -31,58 +39,64 @@ else{
 }
 
 function top(){
+    global $tpl;
 
-    new viewTpl('head');
+    $tpl->render('head');
 
-    new viewTpl('bodyTop');
+    $tpl->render('bodyTop');
 
-    new viewTpl('header');
+    $tpl->render('header');
 
-    new viewTpl('navigation');
-
-    if(HOMEPAGE){
-        new viewTpl('blockUnikTop');
-    }
-
-    new viewTpl('globalContainerTop');
+    $tpl->render('navigation');
 
     if(HOMEPAGE){
-        new viewTpl('blockUnikCenter');
+        $tpl->render('blockUnikTop');
     }
 
-    new viewTpl('contentTop');
+    $tpl->render('globalContainerTop');
+
+    if(HOMEPAGE){
+        $tpl->render('blockUnikCenter');
+    }
+
+    $tpl->render('contentTop');
 }
 
 function footer(){
+    global $tpl;
 
-    new viewTpl('contentBottom');
+    $tpl->render('contentBottom');
 
     if(HOMEPAGE){
-        new viewTpl('gallery');
-        new viewTpl('blockUnikBottom');
+        $tpl->render('blockGallery');
+        $tpl->render('blockUnikBottom');
     }
 
     if(!FULLPAGE){
-        new viewTpl('blockUnikRight');
+        $tpl->render('blockUnikRight');
     }
     else {
-        new viewTpl('bigpageBottom');
+        $tpl->render('bigpageBottom');
     }
 
-    new viewTpl('globalContainerBottom');
+    $tpl->render('globalContainerBottom');
 
-    new viewTpl('footer');
+    $tpl->render('footer');
 
-    new viewTpl('bodyBottom');
+    $tpl->render('bodyBottom');
 
 }
 
 function block_gauche($block){
-    new viewTpl('blockRight', $block);
+    global $tpl;
+
+    $tpl->render('blockRight', $block);
 }
 
 function block_droite($block){
-    new viewTpl('blockRight', $block);
+    global $tpl;
+
+    $tpl->render('blockRight', $block);
 }
 
 function block_centre($block){
@@ -94,7 +108,9 @@ function block_bas($block){
 }
 
 function news($data){
-   new viewTpl('news', $data);
+    global $tpl;
+
+    $tpl->render('news', $data);
 }
 
 function opentable(){
