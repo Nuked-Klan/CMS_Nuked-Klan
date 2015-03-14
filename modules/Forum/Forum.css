@@ -224,7 +224,7 @@
 
 /* VIEWFORUM */
 
-.nkForumViewTopic, .nkForumPost{
+.nkForumViewTopic, .nkForumPost, .nkForumSearchTable{
     width:100%;
     margin-bottom:10px;
 }
@@ -372,11 +372,11 @@
 }
 
 
-.nkForumViewContent, .nkForumPostContent, .nkForumPostReviewContent{
+.nkForumViewContent, .nkForumPostContent, .nkForumPostReviewContent, .nkForumSearchTableContent{
     display: table-row-group;
 }
 
-.nkForumViewContent > div, .nkForumPostContent > div, .nkForumPostReviewContent > div{
+.nkForumViewContent > div, .nkForumPostContent > div, .nkForumPostReviewContent > div, .nkForumSearchTableContent > div{
     display: table-row;
 }
 
@@ -386,7 +386,7 @@
     padding: 4px 8px 4px 8px;
 }
 
-.nkForumViewMessage, .nkForumPostInfos, .nkForumPostCatContent, .nkForumSearchDateCell{
+.nkForumViewMessage, .nkForumPostInfos, .nkForumPostCatContent, .nkForumSearchDateCell, .nkForumSearchContent{
     border-right: 4px solid;
 }
 
@@ -394,11 +394,11 @@
     vertical-align: middle !important;
 }
 
-.nkForumViewContent > div:last-child > div, .nkForumPostContent > div:last-child > div{
+.nkForumViewContent > div:last-child > div, .nkForumPostContent > div:last-child > div, .nkForumSearchTableContent > div:last-child > div{
     border-bottom: 4px solid;
 }
 
-.nkForumViewAuthor, .nkForumUserSocialLinks, .nkForumPostCat, .nkForumSearchForumCell{
+.nkForumViewAuthor, .nkForumUserSocialLinks, .nkForumPostCat, .nkForumSearchForumCell, .nkForumSearchCat{
     border-left: 4px solid;
 }
 
@@ -543,11 +543,11 @@
 
 /*POST*/
 
-.nkForumPostCat{
+.nkForumPostCat, .nkForumSearchCat{
     width: 25%;    
 }
 
-.nkForumPostCatContent{
+.nkForumPostCatContent, .nkForumSearchContent{
     width: 75%;    
 }
 
@@ -560,7 +560,6 @@
 .nkForumPostHead{
     line-height: 24px;
     padding: 4px 8px;
-    background: #444;
 }
 
 .nkForumPostReview{
@@ -573,7 +572,7 @@
     box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
 }
 
-.nkForumPostReviewContent > div > div, .nkForumPostContent > div > div{
+.nkForumPostReviewContent > div > div, .nkForumPostContent > div > div, .nkForumSearchTableContent > div > div{
     display: table-cell;
     padding: 4px 8px 4px 8px;    
 }

@@ -337,9 +337,6 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 <div class="nkForumCatWrapper">
                     <div class="nkForumPostReviewContent">            
 <?php
-                // echo "<div style=\"margin-left: auto;margin-right: auto;text-align: left;width: 100%; height: 200px; overflow: auto;\">\n"
-                // . "<table style=\"background: " . $color3 . ";\" cellspacing=\"1\" cellpadding=\"4\" width=\"96%\" border=\"0\">\n";
-
                 $sql2 = mysql_query("SELECT txt, auteur, date FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "' ORDER BY date DESC LIMIT 0, 20");
                 while (list($txt, $auteur, $date) = mysql_fetch_row($sql2)) {
                     
@@ -360,16 +357,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
                             </div>
                         </div>
 <?php
-
-
-                    // echo "<tr style=\"background: " . $color . ";\"><td style=\"width: 20%;\" valign=\"top\"><b>" . $auteur . "</b></td><td style=\"width: 80%;\"><img src=\"images/posticon.gif\" alt=\"\" />" . _POSTEDON . "&nbsp;" . $date . "<br /><br />" . $txt . "<br /><br /></td></tr>\n";
                 }
 ?>
                     </div>
                 </div>
             </div>
 <?php 
-                // echo "</table></div><br />\n";
             }
 ?>
     </div>

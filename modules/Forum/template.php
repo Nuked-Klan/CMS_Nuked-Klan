@@ -14,9 +14,9 @@ global $bgcolor1, $bgcolor2, $bgcolor3;
 // Definition des 3 couleurs, par defaut ceux de nuked-klan, vous pouvez les remplacer par un code couleur.
 // Exemple : $color1 = "#FFFFFF";
 
-$color1 = $bgcolor1;
-$color2 = $bgcolor2;
-$color3 = $bgcolor3;
+// $color1 = $bgcolor1;
+// $color2 = $bgcolor2;
+// $color3 = $bgcolor3;
 
 // Définition du background de la 1er cellule par defaut un bgcolor3, vous pouvez le remplacer par un background utilisant une image.
 // Exemple : $background = "style=\"background-image:url(images/img.gif);\"";

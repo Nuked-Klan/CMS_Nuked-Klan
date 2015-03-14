@@ -157,13 +157,10 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
 
 <?php
-        if ($nb_result > 0)
-        {
+        if ($nb_result > 0) {
             mysql_data_seek($result, $start);
-            for($i = 0;$i < $_REQUEST['limit'];$i++)
-            {
-                if (list($mess_id, $auteur, $auteur_id, $titre, $txt, $thread_id, $forum_id, $date) = mysql_fetch_row($result))
-                {
+            for($i = 0;$i < $_REQUEST['limit'];$i++) {
+                if (list($mess_id, $auteur, $auteur_id, $titre, $txt, $thread_id, $forum_id, $date) = mysql_fetch_row($result)) {
                     $sql_forum = mysql_query("SELECT nom, niveau FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
                     list($forum_name, $forum_level) = mysql_fetch_row($sql_forum);
                     $date = nkDate($date);
@@ -175,13 +172,11 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     $title = nkHtmlEntities($titre);
                     $title = nk_CSS($title);
 
-                    if (!preg_match("`[a-zA-Z0-9\?\.]`", $texte))
-                    {
+                    if (!preg_match("`[a-zA-Z0-9\?\.]`", $texte)) {
                         $texte = _NOTEXTRESUME;
                     } 
 
-                    if (strlen($texte) > 150)
-                    {
+                    if (strlen($texte) > 150) {
                         $texte = substr($texte, 0, 150) . "...";
                     } 
 
@@ -191,49 +186,40 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     $sql_page = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
                     $nb_rep = mysql_num_rows($sql_page);
 
-                    if ($nb_rep > $nuked['mess_forum_page'])
-                    {
+                    if ($nb_rep > $nuked['mess_forum_page']) {
                         $topicpages = $nb_rep / $nuked['mess_forum_page'];
                         $topicpages = ceil($topicpages);
                         $page_num = "&amp;p=" . $topicpages . "#" . $mess_id;
                     } 
-                    else
-                    {
+                    else {
                         $page_num = "#" . $mess_id;
                     } 
 
-                    if (strlen($titre) > 30)
-                    {
+                    if (strlen($titre) > 30) {
                         $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . nkHtmlEntities(substr($titre, 0, 30)) . "...</b></a>";
                     } 
-                    else
-                    {
+                    else {
                         $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . $title . "</b></a>";
                     } 
 
-                    if ($auteur_id != "")
-                    {
+                    if ($auteur_id != "") {
                         $sql_user = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $auteur_id . "'");
                         $test = mysql_num_rows($sql_user);
                         list($autors) = mysql_fetch_row($sql_user);
 
-                        if ($test > 0 && $autors != "")
-                        {
+                        if ($test > 0 && $autors != "") {
                             $author = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($autors) . "\">" . $autors . "</a>";
                         } 
-                        else
-                        {
+                        else {
                             $author = $auteur;
                         } 
                     } 
-                    else
-                    {
+                    else {
                         $author = $auteur;
                     } 
 
 
-                    if ($visiteur >= $forum_level)
-                    {
+                    if ($visiteur >= $forum_level) {
 ?>
                     <div>
                         <div class="nkForumSearchForumCell nkBorderColor1">
@@ -250,26 +236,21 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 } 
             } 
         } 
-        else
-        {
+        else {
             $rquery = printSecutags($_REQUEST['query']);
             $rquery = nk_CSS($rquery);
             $rquery = stripslashes($rquery);
 
-            if ($_REQUEST['query'] != "")
-            {
-                $result = _FNOSEARCHFOUND . " <b><i>" . $rquery . "</i></b>";
+            if ($_REQUEST['query'] != "") {
+                $result = _FNOSEARCHFOUND . " <strong><i>" . $rquery . "</i></strong>";
             } 
-            else if ($_REQUEST['autor'] != "")
-            {
-                $result = _FNOSEARCHFOUND . " <b><i>" . printSecutags($_REQUEST['autor']) . "</i></b>";
+            else if ($_REQUEST['autor'] != "") {
+                $result = _FNOSEARCHFOUND . " <strong><i>" . printSecutags($_REQUEST['autor']) . "</i></strong>";
             } 
-            else if ($_REQUEST['date_max'] != "" && !preg_match("`[^0-9]`i", $_REQUEST['date_max']))
-            {
+            else if ($_REQUEST['date_max'] != "" && !preg_match("`[^0-9]`i", $_REQUEST['date_max'])) {
                 $result = _FNOLASTVISITMESS;
             } 
-            else
-            {
+            else {
                 $result = _FNOSEARCHRESULT;
             } 
 
@@ -302,16 +283,6 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 <input type="submit" value="<?php echo _SEND; ?>" class="nkButton"/>
             </form>
         </div>
-<?php
-        // echo "<br /><form method=\"get\" action=\"index.php\">\n"
-        // . "<div style=\"text-align: center;\">\n"
-        // . "<input type=\"hidden\" name=\"file\" value=\"Forum\" />\n"
-        // . "<input type=\"hidden\" name=\"page\" value=\"search\" />\n"
-        // . "<input type=\"hidden\" name=\"do\" value=\"search\" />\n"
-        // . "<input type=\"hidden\" name=\"into\" value=\"all\" />\n"
-        // . "<b>" . _SEARCH . " :</b> <input type=\"text\" name=\"query\" size=\"25\" />&nbsp;<input type=\"submit\" value=\"" . _SEND . "\" /></div></form><br />\n";
-
-?>
     </div>
 <?php
 
@@ -325,55 +296,124 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 max:200
             });
                 });\n"
-            . "    </script>\n"
-        . "<br /><form method=\"post\" action=\"index.php?file=Forum&amp;page=search&amp;do=search\">\n"
-        . "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
-        . "<tr><td><a href=\"index.php?file=Forum\"><b>" . _INDEXFORUM . "</b></a> -&gt; <b>" . _SEARCH . "</b></td></tr></table>\n"
-        . "<table style=\"background: " . $color3 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
-        . "<tr " . $background . "><td align=\"center\" colspan=\"2\"><b>" . _SEARCHING . "</b></td></tr>\n"
-        . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _KEYWORDS . " :</b></td><td>&nbsp;<input type=\"text\" name=\"query\" size=\"30\" /><br />\n"
-        . "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchor\" />" . _MATCHOR . "<br />\n"
-        . "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchand\" checked=\"checked\" />" . _MATCHAND . "<br />\n"
-        . "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchexact\" />" . _MATCHEXACT . "</td></tr>\n"
-        . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _AUTHOR . " :</b></td><td>&nbsp;<input type=\"text\" name=\"autor\" id=\"autor\" size=\"30\" /></td></tr>\n"
-        . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _FORUM . " :</b></td><td>&nbsp;<select name=\"id_forum\"><option value=\"\">" . _ALL . "</option>\n";
+            . "</script>\n"
 
-        $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
-        while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
-        {
-            $cat_name = nkHtmlEntities($cat_name);
+?>
+        <div id="nkForumBreadcrumb">
+            <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM; ?></strong></a>&nbsp;->&nbsp;<strong><?php echo _SEARCH; ?></strong>
+        </div>
+        <div class ="nkForumPostHead nkForumSearchCell nkBgColor3">
+            <h3><?php echo _SEARCHING; ?></h3>
+        </div>
+            <form method="post" action="index.php?file=Forum&amp;page=search&amp;do=search">
+                <div class="nkForumSearchTable">
+                    <div class="nkForumCatWrapper nkBgColor2">
+                        <div class="nkForumSearchTableContent">
+                            <div>
+                                <div class="nkForumSearchCat nkBorderColor1">
+                                    <strong><?php echo _KEYWORDS; ?></strong>
+                                </div>
+                                <div class="nkForumSearchContent nkBorderColor1">
+                                    <div><input type="text" name="query" size="30" /></div>
+                                    <div><input type="radio" class="checkbox" name="searchtype" value="matchor" /><?php echo _MATCHOR; ?></div>
+                                    <div><input type="radio" class="checkbox" name="searchtype" value="matchand" checked="checked" /><?php echo _MATCHAND; ?></div>
+                                    <div><input type="radio" class="checkbox" name="searchtype" value="matchexact" /><?php echo _MATCHEXACT; ?></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="nkForumSearchCat nkBorderColor1">
+                                    <strong><?php echo _AUTHOR; ?></strong>
+                                </div>
+                                <div class="nkForumSearchContent nkBorderColor1">
+                                    <div><input type="text" name="autor" id="autor" size="30" /></div>
+                                </div>                               
+                            </div>
+                            <div>
+                                <div class="nkForumSearchCat nkBorderColor1">
+                                    <strong><?php echo _FORUM; ?></strong>
+                                </div>
+                                <div class="nkForumSearchContent nkBorderColor1">
+                                    <div>
+                                        <select name="id_forum"><option value=""><?php echo _ALL; ?></option>
 
-            echo "<option value=\"cat_" . $cat . "\">* " . $cat_name . "</option>\n";
+<?php
+                                        $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
+                                        while (list($cat, $cat_name) = mysql_fetch_row($sql_cat)) {
+                                            $cat_name = nkHtmlEntities($cat_name);
 
-            $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' AND '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
-            while (list($forum_name, $fid) = mysql_fetch_row($sql_forum))
-            {
-                $forum_name = nkHtmlEntities($forum_name);
+                                            echo "<option value=\"cat_" . $cat . "\">* " . $cat_name . "</option>\n";
 
-                echo "<option value=\"" . $fid . "\">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
-            } 
-        } 
+                                            $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' AND '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
+                                            while (list($forum_name, $fid) = mysql_fetch_row($sql_forum)) {
+                                                $forum_name = nkHtmlEntities($forum_name);
 
-        echo "</select></td></tr>\n"
-    . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _SEARCHINTO . " :</b></td><td>&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"subject\" />" . _SUBJECTS . "&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"message\" />" . _MESSAGES . "&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"into\" value=\"all\" checked=\"checked\" />" . _BOTH . "</td></tr>\n"
-    . "<tr style=\"background: " . $color2 . ";\"><td style=\"width: 25%;\"><b>" . _NBANSWERS . " :</b></td><td>&nbsp;<input type=\"radio\" class=\"checkbox\" name=\"limit\" value=\"10\" />10 &nbsp;<input type=\"radio\" name=\"limit\" class=\"checkbox\" value=\"50\" checked=\"checked\" />50&nbsp;<input type=\"radio\" name=\"limit\" class=\"checkbox\" value=\"100\" />100</td></tr>\n"
-    . "<tr style=\"background: " . $color2 . ";\"><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . _SEARCHING . "\" /></td></tr></table></form><br />\n";
+                                                echo "<option value=\"" . $fid . "\">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
+                                            } 
+                                        } 
+?>
+                                        </select>
+                                    </div>
+                                </div>                               
+                            </div>
+                            <div>
+                                <div class="nkForumSearchCat nkBorderColor1">
+                                    <strong><?php echo _SEARCHINTO; ?></strong>
+                                </div>
+                                <div class="nkForumSearchContent nkBorderColor1">
+                                    <div>
+                                        <input type="radio" class="checkbox" name="into" value="subject" /><?php echo _SUBJECTS; ?>&nbsp;
+                                        <input type="radio" class="checkbox" name="into" value="message" /><?php echo _MESSAGES; ?>&nbsp;
+                                        <input type="radio" class="checkbox" name="into" value="all" checked="checked" /><?php echo _BOTH; ?>
+                                    </div>
+                                </div>                               
+                            </div>
+                            <div>
+                                <div class="nkForumSearchCat nkBorderColor1">
+                                    <strong><?php echo _NBANSWERS; ?></strong>
+                                </div>
+                                <div class="nkForumSearchContent nkBorderColor1">
+                                    <div>
+                                        <input type="radio" class="checkbox" name="limit" value="10" />10 &nbsp;
+                                        <input type="radio" name="limit" class="checkbox" value="50" checked="checked" />50&nbsp;
+                                        <input type="radio" name="limit" class="checkbox" value="100" />100
+                                    </div>
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="nkForumPostbutton">
+                    <input type="submit" value="<?php echo _SEARCHING; ?>" class="nkButton" />
+                </div>                
+            </form>
+<?php
     } 
+} 
+else if ($level_access == -1) {
+    // On affiche le message qui previent l'utilisateur que le module est désactivé
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._MODULEOFF.'</strong>
+            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+        </div>';
+}
+else if ($level_access == 1 && $visiteur == 0) {
+    // On affiche le message qui previent l'utilisateur qu'il n'as pas accès à ce module
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._USERENTRANCE.'</strong>
+            <a href="index.php?file=User&amp;op=login_screen"><span>'._LOGINUSER.'</span></a>
+            &nbsp;|&nbsp;
+            <a href="index.php?file=User&amp;op=reg_screen"><span>'._REGISTERUSER.'</span></a>
+        </div>';
+}
+else {
+    // On affiche le message qui previent l'utilisateur que le module est désactivé
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._NOENTRANCE.'</strong>
+            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+        </div>';
+}
 
-} 
-else if ($level_access == -1)
-{
-    echo "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />";
-} 
-else if ($level_access == 1 && $visiteur == 0)
-{
-    echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b></div><br /><br />";
-} 
-else
-{
-    echo "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />";
-} 
-
+// Fermeture du conteneur de module
 closetable();
 
 ?>
