@@ -28,11 +28,4 @@
         <?php endforeach; ?>
     </div>
 </section>
-<?php
-    endif;
-    if($this->get('blockGalleryLightbox') == true):
-?>
-    <script type="text/javascript">
-        var RL_galleryLightbox = true;
-    </script>
 <?php endif; ?>
