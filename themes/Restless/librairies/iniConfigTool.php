@@ -24,7 +24,12 @@ class iniConfigTool {
      */
     protected $autoSave = false;
 
+    /**
+     * @var string ini file header
+     */
     protected $iniComment = ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n;;\n;;   NE PAS MODIFIER CE FICHIER\n;;   DON'T EDIT THIS FILE\n;;\n;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n";
+
+    protected $arrayToEscape = array('title', 'about');
 
     /**
      * Read ini file and parse it
@@ -37,6 +42,8 @@ class iniConfigTool {
 
         if ($this->content = parse_ini_file($this->filename, true)) {
             $this->parseMultiArrays();
+
+            $this->unEscapeString();
 
             return true;
         }
@@ -68,6 +75,19 @@ class iniConfigTool {
                 if (is_array($value)) {
                     $this->content[$section . 'Content'] = $value;
                     $this->content[$section][$row] = '{{' . $section . 'Content}}';
+                }
+            }
+        }
+    }
+
+    /**
+     * unescape set of strings
+     */
+    private function unEscapeString() {
+        foreach ($this->content as $section => $array) {
+            foreach ($array as $row => $value) {
+                if(in_array($row, $this->arrayToEscape)){
+                    $this->content[$section][$row] = stripslashes($value);
                 }
             }
         }
@@ -138,6 +158,7 @@ class iniConfigTool {
             foreach ($this->content as $section => $array) {
                 $buffer .= "[" . $section . "]\n";
                 foreach ($array as $key => $value) {
+                    $value = $this->escapeString($key, $value);
                     $buffer .= "$key = $value\n";
                 }
                 $buffer .= "\n";
@@ -159,6 +180,13 @@ class iniConfigTool {
         }
 
         return false;
+    }
+
+    private function escapeString($key, $value) {
+        if(in_array($key, $this->arrayToEscape)){
+            return '"'.addslashes($value).'"';
+        }
+        return $value;
     }
 
     public function debug() {

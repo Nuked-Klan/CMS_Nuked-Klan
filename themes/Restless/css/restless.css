@@ -860,6 +860,10 @@ a{
     margin:5px 0;
 }
 
+#RL_followContent{
+    padding: 0 12px 0 20px;
+}
+
 #RL_followContent > a{
     display: inline-block;
     font-family: Icons, sans-serif;
