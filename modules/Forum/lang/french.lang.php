@@ -251,6 +251,14 @@ define("_MAXSIZEFILE","Taille maximale pour les fichiers joints (en Ko)");
 define("_PREFUPDATED","Préférences modifiées avec succès.");
 define("_PERMALINK","Permalien");
 define("_PERMALINK_TITLE","Lien direct vers ce message");
+define("_NOTIFIMAGESIZE","Afin d'optimiser l'affichage de votre site, pensez à ajuster la taille de vos image à la largeur de votre thème.<br />Les images seront redimensionn&eacute;es automatiqueent à la largeur de votre site.");
+define("_DISPLAYFORUMIMAGE","Afficher les images pour chaques Forum");
+define("_DISPLAYCATIMAGE","Remplacer les titres des cat&eacute;gories par des images lorsque c'est possible");
+define("_DISPLAYBIRTHDAY","Afficher les anniversaires des membres sur la page d'accueil du forum");
+define("_DISPLAYGAMERDETAILS","Afficher le jeu de l'utilisateur et les préférences jeu");
+define("_DISPLAYUSERDETAILS","Afficher les couleurs des rangs team et la légende");
+define("_DISPLAYLABELS","Afficher les labels en CSS au lieu des images (fichiers joints, sondages et annonces");
+define("_DISPLAYMODOS","Afficher la liste des modérateurs sur chaque forum de la page d'accueil");
 
 define("_ACTIONADDCATFO","a ajouté la catégorie forum");
 define("_ACTIONDELCATFO","a supprimé la catégorie forum");

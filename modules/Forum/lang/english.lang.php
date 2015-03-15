@@ -251,6 +251,14 @@ define("_MAXSIZEFILE","Maximum attached file size (in KB)");
 define("_PREFUPDATED","Preferences were successfully modified.");
 define("_PERMALINK","Permalink");
 define("_PERMALINK_TITLE","Permanent link to this message");
+define("_NOTIFIMAGESIZE","In order to have a good display on your website, ensure to adjust image width with these of your template.<br />Images will be resized to the max width of your website.");
+define("_DISPLAYFORUMIMAGE","Diplay images for each forums");
+define("_DISPLAYCATIMAGE","Replace categories titles by an image when it is possible");
+define("_DISPLAYBIRTHDAY","Display members birthday on forum homepage");
+define("_DISPLAYGAMERDETAILS","Display user's games and preferences ");
+define("_DISPLAYUSERDETAILS","Display team user's rank colors and legend");
+define("_DISPLAYLABELS","Display CSS labels instead of images (attached files, poll and pined topic");
+define("_DISPLAYMODOS","Display list of moderators on the main page of forum");
 
 define("_ACTIONADDCATFO","has added the forum category");
 define("_ACTIONDELCATFO","has deleted the forum category");

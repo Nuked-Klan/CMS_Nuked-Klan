@@ -87,7 +87,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
     <div id="nkForumWrapper">
         <div id="nkForumInfos">
 <?php
-            if($image != "") {
+            if($nuked['forum_image'] == "on" && $image != "") {
                 echo '<img src="'.$image.'" alt="" />';
             }
 ?>

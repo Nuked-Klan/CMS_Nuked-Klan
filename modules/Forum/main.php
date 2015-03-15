@@ -71,13 +71,13 @@ $your_last_visite = nkDate($user_last_visit);
 
 <?php
     if ($_REQUEST['cat'] != "") {
-        $main = mysql_query("SELECT nom, id FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['cat'] . "'");
+        $main = mysql_query("SELECT nom, id, image FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['cat'] . "'");
     } 
     else {
-        $main = mysql_query("SELECT nom, id FROM " . FORUM_CAT_TABLE . " WHERE " . $visiteur . " >= niveau ORDER BY ordre, nom");
+        $main = mysql_query("SELECT nom, id, image FROM " . FORUM_CAT_TABLE . " WHERE " . $visiteur . " >= niveau ORDER BY ordre, nom");
     } 
 
-    while (list($nom_cat, $cid) = mysql_fetch_row($main)) {
+    while (list($nom_cat, $cid, $catImage) = mysql_fetch_row($main)) {
         $nom_cat = printSecuTags($nom_cat);
         $catLink = 'index.php?file=Forum&amp;cat='.$cid;
 
@@ -87,7 +87,20 @@ $your_last_visite = nkDate($user_last_visit);
 ?>
                 <div class="nkForumCat">
                     <div class="nkForumCatNameCell">
-                            <h2><a href="<?php echo $catLink; ?>"><?php echo $nom_cat; ?></a></h2>
+<?php
+                    if ($nuked['forum_cat_image'] == "on" && $catImage != "") {
+?>
+                        <a href="<?php echo $catLink; ?>">
+                            <img src="<?php echo $catImage; ?>" title="<?php echo $nom_cat; ?>" class="nkForumCatImage"/>
+                        </a>
+<?php
+                    }
+                    else {
+?>
+                        <h2><a href="<?php echo $catLink; ?>"><?php echo $nom_cat; ?></a></h2>
+<?php                       
+                    }
+?>
                     </div>
                     <div class="nkForumCatWrapper">
                         <div class="nkForumCatHead nkBgColor3">
@@ -170,7 +183,7 @@ $your_last_visite = nkDate($user_last_visit);
             }
 
             //Detection image forum
-            if($forumImage != '') {
+            if($nuked['forum_image'] == "on" && $forumImage != '') {
                 $classImage = '<img src="' .$forumImage. '" class="nkForumNameCellImage" alt="" title="' .$nom. '" />';
             }
             else {

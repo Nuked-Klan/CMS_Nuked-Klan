@@ -39,8 +39,14 @@
     line-height: 0;
 }
 
-.nkForumCatNameCell{
+.nkForumCatNameCell h2{
     padding:4px;
+}
+
+.nkForumCatImage{
+    max-width: 100%;
+    height: auto;
+    border: 0;
 }
 
 .nkForumCat{

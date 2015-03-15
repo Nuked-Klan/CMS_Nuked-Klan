@@ -511,4 +511,6 @@ define("_TYPEEDITEUR","Choix de l'éditeur de texte");
 define("_CKEDITOR","CKEditor");
 define("_TINYEDITOR","TinyEditor");
 
+define("_UPLOADFILEFAILED","Le T&eacute;l&eacute;chargement du fichier &agrave; &eacute;chou&eacute; !");
+define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
 ?>
