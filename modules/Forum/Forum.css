@@ -1,0 +1,680 @@
+#nkForumWrapper{
+    width:98%;
+    margin:0 auto;
+}
+
+/* MAIN */
+
+#nkForumHeader, #nkForumMainSearch ,#nkForumMainDates, .nkForumMainBreadcrumb{
+    display: inline-block;
+    width:50%;
+}
+
+#nkForumHeader{
+    text-align: center;
+}
+
+#nkForumHeader > h1, #nkForumHeader > p, #nkForumMainSearch p{
+    margin:0;
+}
+
+#nkForumMainSearch{
+    text-align: right;
+}
+
+#nkForumBreadcrumb, #nkForumMainDates{
+    margin:25px 0 5px 0;
+}
+
+#nkForumMainDates{
+    text-align: right;
+}
+
+#nkForumMainSearch label{
+    font-weight: bold;
+}
+
+#nkForumMainDates > span{
+    display: block;
+    line-height: 0;
+}
+
+.nkForumCatNameCell h2{
+    padding:4px;
+}
+
+.nkForumCatImage{
+    max-width: 100%;
+    height: auto;
+    border: 0;
+}
+
+.nkForumCat{
+    width:100%;
+    margin-bottom:10px;
+}
+
+.nkForumCatWrapper{
+    display: table;
+    width:100%;
+}
+
+.nkForumCatWrapper, #nkForumWhoIsOnline{
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
+}
+
+.nkForumCatNameCell h2, .nkForumCat h3, .nkForumCat p, .nkForumViewUserPseudo h3, .nkForumPostHead h3{
+    margin:0;
+}
+
+.nkForumCatHead, .nkForumPostHead{
+    font-weight: bold;
+    color: #fff;
+    line-height: 24px;
+}
+
+.nkForumCatHead, .nkForumCatContent{
+    display: table-row-group;
+}
+
+.nkForumCatHead > div, .nkForumCatContent > div{
+    display: table-row;
+}
+
+.nkForumCatHead > div > div, .nkForumCatContent > div > div{
+    display: table-cell;
+    vertical-align: middle;
+    padding:4px;
+}
+
+.nkForumCatContent > div > div, .nkForumPostReviewContent > div > div{
+    border-bottom: 1px solid;
+}
+
+.nkForumCatContent > div > div.nkForumDateCell, #nkForumWhoIsOnlineContent{
+    border-right: 4px solid;
+}
+
+.nkForumCatContent > div:last-child > div, #nkForumWhoIsOnlineIcon, #nkForumWhoIsOnlineContent{
+    border-bottom: 4px solid;
+}
+
+.nkForumIconCell, #nkForumWhoIsOnlineIcon{
+    border-left: 4px solid;
+}
+
+.nkForumIconCell, .nkForumBlankCell{
+    width:5%;
+    text-align: center;
+}
+
+
+.nkForumNameCell, .nkForumCell{
+    width:55%;
+    vertical-align: top !important;
+}
+
+.nkForumNameCell > span:after{
+    content:' |';
+}
+
+.nkForumNameCell > span:first-of-type:before{
+    content:'';
+    display: inline-block;
+    width:16px;
+    height:16px;
+    background: url(images/subForum.png);
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.nkForumNameCell > span:last-of-type:after{
+    content:'' !important;
+}
+
+.nkForumNameCellImage{
+    width:50px;
+    height:50px;
+    float:left;
+    margin-right: 5px;
+}
+
+.nkForumStatsCell{
+    width:15%;
+    text-align: right
+}
+
+.nkForumDateCell{
+    width:25%;
+}
+
+.nkForumDateCell > div{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.nkForumAuthorAvatar > img{
+    width:30px;
+    height:30px;
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #d1d1d1;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    padding: 1px;
+}
+
+#nkForumUserActionLink > a{
+    display: block;
+    text-align: right;
+}
+
+#nkForumWhoIsOnline{
+    width: 100%;
+    margin: 20px 0 10px 0;
+}
+
+.nkForumWhoIsOnlineTitle h3{
+    height: 24px;
+    line-height: 24px;
+    margin:0;
+    padding:4px;
+    color:#fff;
+}
+
+#nkForumWhoIsOnlineIcon{
+    height: 90px;
+    margin: 0 10px 0 1px;
+    padding: 0px 0 0 10px;
+    width: 90px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#nkForumWhoIsOnlineIcon:before{
+    background:url('images/whoisonline.png');
+    content: "";
+    display: block;
+    height: 80px;
+    width: 80px;
+}
+
+#nkForumWhoIsOnlineContent{
+    display: table-cell;
+    vertical-align: top;
+    padding:3px 0 0 10px;
+    width:100%;
+}
+
+#nkForumWhoIsOnlineContent > p{
+    margin:0 0 7px 0;
+}
+
+.nkForumOnlineFlag{
+    display: inline-block;
+    margin-right:2px;
+    vertical-align: middle;
+}
+
+.nkForumOnlineAdmin{
+    color:#C40000;
+}
+
+.nkForumOnlineMember{
+    color:#0080FF;
+}
+
+#nkForumReadLegend img {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right:5px;
+}
+
+/* VIEWFORUM */
+
+.nkForumViewTopic, .nkForumPost, .nkForumSearchTable{
+    width:100%;
+    margin-bottom:10px;
+}
+
+
+#nkForumInfos > img{
+    width:50px;
+    height:50px;
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #d1d1d1;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    padding: 1px;
+}
+
+#nkForumInfos > *{
+    display: inline-block;
+    vertical-align: top;
+}
+
+#nkForumInfos > div > h2, #nkForumInfos > div > p {
+    margin:0;
+}
+
+.nkForumNavPage, #nkForumUserActionLink, #nkForumPostOrReply{
+    margin:0 0 5px 0;
+    display: inline-block;
+    width:50%;
+}
+
+.nkForumTopicIcon{
+    display: inline-block;
+    width:24px;
+    height:24px;
+    background:url(images/spriteForum.png);
+}
+
+.nkForumNewTopic{
+    background-position:-48px 0;
+}
+
+.nkForumTopicLock{
+    background-position:-24px 0;
+}
+
+.nkForumNewTopicLock{
+    background-position:-72px 0;
+}
+
+.nkForumTopicPopular{
+    background-position:-96px 0;
+}
+
+.nkForumNewTopicPopular{
+    background-position:-120px 0;
+}
+
+#nkForumPostNewTopic{
+    text-align: right;
+    margin: 10px 0 10px 0;
+}
+
+.nkForumViewLegend{
+    display: inline-block;    
+}
+
+.nkForumViewLegend > div:before{
+    content: "";
+    width:24px;
+    height:24px;
+    display: inline-block;
+    vertical-align: middle;   
+}
+
+.nkForumNewTopicLegend:before{
+    background:url(images/spriteForum.png) repeat scroll -48px 0;
+}
+
+.nkForumNoNewTopicLegend:before{
+    background:url(images/spriteForum.png) repeat scroll 0 0;
+}
+
+.nkForumNewTopicLockLegend:before{
+    background:url(images/spriteForum.png) repeat scroll -72px 0;
+}
+
+.nkForumTopicLockLegend:before{
+    background:url(images/spriteForum.png) repeat scroll -24px 0;
+}
+
+.nkForumTopicPopularLegend:before{
+    background:url(images/spriteForum.png) repeat scroll -96px 0;
+}
+
+.nkForumNewTopicPopularLegend:before{
+    background:url(images/spriteForum.png) repeat scroll -120px 0;
+}
+
+.nkForumQuickShotcuts {
+    margin-top: 20px;
+}
+
+.nkForumQuickShotcuts > form {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.nkForumAlignImg {
+    vertical-align: middle;
+}
+
+.nkForumLabels {
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 9px;
+    font-weight: bold;
+    height: 16px;
+    line-height: 16px;
+    padding: 0 5px;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.nkForumOrangeColor {
+    background: none repeat scroll 0 0 #ed7710;
+}
+
+.nkForumGreyColor {
+    background: none repeat scroll 0 0 #b3b3b3;
+}
+
+.nkForumGreenColor {
+    background: none repeat scroll 0 0 #7ba60d;
+}
+
+.nkForumLinkMultipage2{
+    border: 1px solid #d3d3d3;
+    padding: 1px 3px;
+}
+
+/*VIEWTOPIC*/
+
+.nkForumNavTopics, #nkForumPostOrReply > div{
+    text-align: right;
+}
+
+
+.nkForumViewContent, .nkForumPostContent, .nkForumPostReviewContent, .nkForumSearchTableContent{
+    display: table-row-group;
+}
+
+.nkForumViewContent > div, .nkForumPostContent > div, .nkForumPostReviewContent > div, .nkForumSearchTableContent > div{
+    display: table-row;
+}
+
+.nkForumViewContent > div > div{
+    display: table-cell;
+    vertical-align: top;
+    padding: 4px 8px 4px 8px;
+}
+
+.nkForumViewMessage, .nkForumPostInfos, .nkForumPostCatContent, .nkForumSearchDateCell, .nkForumSearchContent{
+    border-right: 4px solid;
+}
+
+.nkForumPostInfos {
+    vertical-align: middle !important;
+}
+
+.nkForumViewContent > div:last-child > div, .nkForumPostContent > div:last-child > div, .nkForumSearchTableContent > div:last-child > div{
+    border-bottom: 4px solid;
+}
+
+.nkForumViewAuthor, .nkForumUserSocialLinks, .nkForumPostCat, .nkForumSearchForumCell, .nkForumSearchCat{
+    border-left: 4px solid;
+}
+
+.nkForumViewUserPseudo{
+    width:25%;
+    line-height: 24px;
+}
+
+.nkForumViewUserPseudo a{
+    color: #fff;
+}
+
+.nkForumViewPostHead{
+    width:75%;
+    line-height: 24px;
+    text-align: right;
+}
+
+.nkForumViewPostHead img{
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+
+#nkForumAdminLinks{
+    margin: 20px 0 0 0;
+}
+
+.nkForumViewTitle{
+    display: inline-block;
+}
+
+.nkForumViewAttachedFile {
+    display: block;
+    border-width : 1px 1px 1px 5px;
+    border-style: solid;
+    border-color: #d4d4d4;
+    border-radius:3px;
+    background: #ffffff url(images/download_file.png) no-repeat 10px 10px;
+    line-height: 60px;
+    margin : 30px;
+    padding : 0 0 0 60px;
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
+    font-size: 14px;
+    color: #a6a6a6;
+}
+
+.nkForumEditMessage{
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.nkForumViewSig{
+    margin: 30px 0 0 0;
+    border-top: 1px dashed #bcbcbc;
+    padding: 10px;
+}
+
+.nkForumUserSocialLinks img {
+    vertical-align: middle;
+}
+
+.nkForumPermalinks, .nkForumPostDate{
+    display: inline-block;
+    width: 50%;
+    font-style: italic;
+}
+
+.nkForumPermalinks{
+    text-align: right;
+}
+
+.nkOnlineIcon{
+    background-image: -moz-radial-gradient(5px 5px 45deg, circle farthest-corner, #90ee90 0%, #008000 100%, blue 5%);
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.nkForumUserGameIcon{
+    margin: 10px 0 10px 0;
+}
+
+.nkForumUserGameIcon img{
+    vertical-align: middle;
+    height:16px;
+}
+
+/*POLL*/
+
+#nkForumViewMainPoll{
+    border: 4px solid;
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
+    margin: 10px 0 20px 0;
+    padding: 10px;
+}
+
+.nkForumViewPollBg{
+    background: url("images/poll_80.png") no-repeat scroll 90% 50% rgba(0, 0, 0, 0);
+    display:inline-block;
+    vertical-align: top;
+    width: 25%;
+    min-height: 105px;
+}
+
+.nkForumViewPoll{
+    width: 75%;
+    display:inline-block;
+}
+
+.nkForumPollTitle{
+    display: inline-block;
+}
+
+.nkForumPollOptions{
+    height: 25px;
+}
+
+.nkForumPollStats, .nkForumPollOptionsTxt{
+    margin-top: 10px;
+}
+
+.nkForumPollIniTable{
+    display: table-row-group;
+}
+
+.nkForumPollOptionsIni{
+    display: table-row;
+    line-height: 30px;
+}
+
+.nkForumPollOptionsIni > div{
+    display: table-cell;
+}
+
+.nkForumPollIniTable > div:first-child{
+    height: 50px;
+}
+
+/*POST*/
+
+.nkForumPostCat, .nkForumSearchCat{
+    width: 25%;    
+}
+
+.nkForumPostCatContent, .nkForumSearchContent{
+    width: 75%;    
+}
+
+.nkForumPostbutton{
+    text-align: center;
+    margin: 15px 0;
+
+}
+
+.nkForumPostHead{
+    line-height: 24px;
+    padding: 4px 8px;
+}
+
+.nkForumPostReview{
+    height: 300px;
+    overflow: auto;
+    margin: 0 0 10px;
+    border-left: 4px solid;
+    border-right: 4px solid;
+    border-bottom: 4px solid;
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
+}
+
+.nkForumPostReviewContent > div > div, .nkForumPostContent > div > div, .nkForumSearchTableContent > div > div{
+    display: table-cell;
+    padding: 4px 8px 4px 8px;    
+}
+
+.nkForumPostReviewAuthor{
+    width: 20%;
+}
+
+.nkForumPostReviewAuthor h3{
+    margin: 0; 
+}
+
+.nkForumPostReviewMessage{
+    width: 80%;
+}
+/*SEARCH*/
+
+.nkForumSearchCell, .nkForumSearchForumCell, .nkForumSearchTopicCell, .nkForumSearchAuthorCell, .nkForumSearchDateCell{
+    text-align: center;
+}
+
+.nkForumSearchForumCell{
+    width:25%;
+    text-align: center;
+}
+
+.nkForumSearchTopicCell{
+    width:40%;
+    text-align: center;
+}
+
+.nkForumSearchAuthorCell{
+    width:15%;
+    text-align: center;
+}
+
+.nkForumSearchDateCell{
+    width:20%;
+    text-align: center;
+}
+
+.nkForumSearch{
+    text-align: center;
+    margin-top:30px;
+}
+
+.nkForumSearch label{
+    font-weight: bold;
+}
+
+/*INTERFACE*/
+
+.nkUserButton{
+    width: 24px;
+    height: 24px;
+    border: 0 none;
+}
+
+.nkUserButton.small{
+    width: 16px;
+    height: 16px;
+}
+
+#nkForumPollActionLinks{
+    margin-top:15px;
+}
+
+.nkForumViewActionLinks{
+    float: right;
+    margin-top: 5px;
+    text-align: right;   
+}
+
+.nkForumBlockQuote{
+    background: #fff url("images/quote.png") no-repeat scroll 97% 15px;
+    padding: 10px;
+    border-width : 1px 1px 1px 5px;
+    border-style: solid;
+    border-color: #d4d4d4;
+    border-radius:3px;
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
+}
+
+blockquote cite {
+    color: #999;
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+
+
+/*A PLACER DANS LE NK DEFAULT*/
+
+.nkAlertSubTitle{
+    font-size: 12px;
+    font-weight: bold;
+    color: #000 !important;  
+}

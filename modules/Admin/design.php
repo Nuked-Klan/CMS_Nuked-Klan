@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $nuked, $language;
@@ -388,14 +386,16 @@ function checkboxButton($name, $id, $checked = false, $inline = false) {
 
 function printNotification($message, $url, $type = 'information', $back = true, $redirect = false) {
     ?>
-    <div class="notification <?php echo $type; ?> png_bg" style="width:98%;margin:10px;">
-        <div>
-            <?php echo $message; ?>
+    <div style="margin:20px;">
+        <div class="notification <?php echo $type; ?> png_bg">
+            <div>
+                <?php echo $message; ?>
+            </div>
         </div>
     </div>
     <?php if ($back === true): ?>
         <span style="text-align: center;display:block;margin:10px auto;">
-            <a class="buttonLink" href="<?php echo $url; ?>"><?php echo BACK; ?></a>
+            <a class="buttonLink" href="<?php echo $url; ?>"><?php echo _BACK; ?></a>
         </span>
     <?php
     endif;

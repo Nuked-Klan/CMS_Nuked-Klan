@@ -180,7 +180,7 @@
                             ('server_game', ''),
                             ('forum_title', ''),
                             ('forum_desc', ''),
-                            ('forum_rank_team', 'off'),
+                            ('forum_rank_team', 'on'),
                             ('forum_field_max', '10'),
                             ('forum_file', 'on'),
                             ('forum_file_level', '1'),
@@ -229,7 +229,7 @@
                             ('forum_user_details', 'on'),
                             ('forum_labels_active', 'on'),
                             ('forum_display_modos', 'on'),
-                            ('user_email', 'on'),
+                            ('user_email', 'off'),
                             ('user_icq', 'off'),
                             ('user_msn', 'off'),
                             ('user_aim', 'off'),
@@ -238,7 +238,7 @@
                             ('user_facebook', 'on'),
                             ('user_origin', 'on'),
                             ('user_steam', 'on'),
-                            ('user_twitter', 'on'),
+                            ('user_twitter', 'off'),
                             ('user_skype', 'on'),
                             ('user_website', 'on'),
                             ('user_social_level', '0'),
@@ -380,7 +380,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO `" . $db_prefix . "_forums` VALUES (1, 1, 'Forum', 'Test Forum', '', '', 0, 0, 0, 1 ,1);";
+                        $sql = "INSERT INTO `" . $db_prefix . "_forums` VALUES (1, 1, 0, 'Forum', 'Test Forum', '', '', 0, 0, 0, 1 ,1);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -465,13 +465,13 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_forums_rank` VALUES
-                            (1, '"._NEWBIE."', 0, 0, 'modules/Forum/images/rank/star1.gif'),
-                            (2, '"._JUNIORMEMBER."', 0, 10, 'modules/Forum/images/rank/star2.gif'),
-                            (3, '"._MEMBER."', 0, 100, 'modules/Forum/images/rank/star3.gif'),
-                            (4, '"._SENIORMEMBER."', 0, 500, 'modules/Forum/images/rank/star4.gif'),
-                            (5, '"._POSTINGFREAK."', 0, 1000, 'modules/Forum/images/rank/star5.gif'),
-                            (6, '"._MODERATOR."', 1, 0, 'modules/Forum/images/rank/mod.gif'),
-                            (7, '"._ADMINISTRATOR."', 2, 0, 'modules/Forum/images/rank/mod.gif');";
+                            (1, '"._NEWBIE."', 0, 0, 'modules/Forum/images/rank/star1.png'),
+                            (2, '"._JUNIORMEMBER."', 0, 10, 'modules/Forum/images/rank/star2.png'),
+                            (3, '"._MEMBER."', 0, 100, 'modules/Forum/images/rank/star3.png'),
+                            (4, '"._SENIORMEMBER."', 0, 500, 'modules/Forum/images/rank/star4.png'),
+                            (5, '"._POSTINGFREAK."', 0, 1000, 'modules/Forum/images/rank/star5.png'),
+                            (6, '"._MODERATOR."', 1, 0, 'modules/Forum/images/rank/mod.png'),
+                            (7, '"._ADMINISTRATOR."', 2, 0, 'modules/Forum/images/rank/mod.png');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

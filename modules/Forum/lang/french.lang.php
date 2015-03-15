@@ -7,8 +7,11 @@ define("_FORUMS","Forums");
 define("_FORUM","Forum");
 define("_SUBJECTS","Sujets");
 define("_MESSAGES","Messages");
+define("_PREVIOUSMESSAGES","Message(s) pr&eacutec&eacutedent(s)");
 define("_MESSAGE","Message");
+define("_STATS","Statistiques");
 define("_LASTPOST","Dernier message");
+define("_CREATEDBY","Crée par ");
 define("_SEELASTPOST","Voir le dernier message");
 define("_NOPOST","Pas de Messages");
 define("_NOPOSTFORUM","Il n'y a pas de messages dans ce forum");
@@ -23,6 +26,7 @@ define("_INDEXFORUM","Index du Forum");
 define("_ANNOUNCE","Annonce");
 define("_PAGES","Pages");
 define("_NEWSTOPIC","Nouveau message");
+define("_NEWTOPIC","Nouveau");
 define("_REPLY","Répondre");
 define("_LASTTHREAD","Sujet précédent");
 define("_NEXTTHREAD","Sujet suivant");
@@ -34,6 +38,7 @@ define("_AND","et");
 define("_FADMINISTRATORS","administrateur(s)");
 define("_NONE","Aucun");
 define("_ONLINE","en ligne");
+define("_ISONLINE","En ligne !");
 define("_MEMBERSONLINE","Membres en ligne");
 define("_MARKREAD","Marquer tous les messages comme lus");
 define("_VIEWLASTVISITMESS","Voir les nouveaux messages depuis votre dernière visite");
@@ -119,7 +124,7 @@ define("_SEARCH","Recherche");
 define("_SEARCHING","Rechercher");
 define("_ADVANCEDSEARCH","Recherche avancée");
 define("_DATE","Date");
-define("_FSEARCHFOUND","réponse(s) trouvée(s)");
+define("_FSEARCHFOUND","réponse(s) trouvée(s) pour");
 define("_FNOSEARCHFOUND","Aucune réponse trouvée pour");
 define("_FNOLASTVISITMESS","Aucun message posté depuis votre dernière visite");
 define("_FNOSEARCHRESULT","Aucune réponse trouvée pour vos critères de recherche");
@@ -186,7 +191,8 @@ define("_LEVELPOLL","Niveau sondage");
 define("_LEVELVOTE","Niveau vote");
 define("_DESCR","Description");
 define("_ORDER","Ordre");
-define("_MODO","Modérateur(s)");
+define("_MODO","Modérateur");
+define("_MODOS","Modérateurs");
 define("_CAT","Catégorie");
 define("_TYPE","Type");
 define("_DEL","Supprimer");
@@ -245,6 +251,14 @@ define("_MAXSIZEFILE","Taille maximale pour les fichiers joints (en Ko)");
 define("_PREFUPDATED","Préférences modifiées avec succès.");
 define("_PERMALINK","Permalien");
 define("_PERMALINK_TITLE","Lien direct vers ce message");
+define("_NOTIFIMAGESIZE","Afin d'optimiser l'affichage de votre site, pensez à ajuster la taille de vos image à la largeur de votre thème.<br />Les images seront redimensionn&eacute;es automatiqueent à la largeur de votre site.");
+define("_DISPLAYFORUMIMAGE","Afficher les images pour chaques Forum");
+define("_DISPLAYCATIMAGE","Remplacer les titres des cat&eacute;gories par des images lorsque c'est possible");
+define("_DISPLAYBIRTHDAY","Afficher les anniversaires des membres sur la page d'accueil du forum");
+define("_DISPLAYGAMERDETAILS","Afficher le jeu de l'utilisateur et les préférences jeu");
+define("_DISPLAYUSERDETAILS","Afficher les couleurs des rangs team et la légende");
+define("_DISPLAYLABELS","Afficher les labels en CSS au lieu des images (fichiers joints, sondages et annonces");
+define("_DISPLAYMODOS","Afficher la liste des modérateurs sur chaque forum de la page d'accueil");
 
 define("_ACTIONADDCATFO","a ajouté la catégorie forum");
 define("_ACTIONDELCATFO","a supprimé la catégorie forum");
@@ -258,4 +272,30 @@ define("_ACTIONDELRANKFO","a supprimé le rang forum");
 define("_ACTIONMODIFRANKFO","a modifié le rang forum");
 define("_ACTIONPRUNEFO","a délesté le forum");
 define("_ACTIONPREFFO","a modifié les préférences du module forum");
+
+// Main
+define('_TOTAL_MEMBERS_POSTS', 'Nos membres ont posté un total de ');
+define('_WE_HAVE', 'Nous avons ');
+define('_REGISTERED_MEMBERS', ' membres enregistrés.');
+define('_LAST_USER_IS', 'L\'utilisateur enregistré le plus récent est ');
+define('_STATS', 'Statistiques');
+define('_TOPICS', 'Sujets');
+define('_RANKLEGEND', 'Légende des rangs');
+define("_SEEMODO","Voir le profil de ");
+define("_NOBIRTHDAY","aucun membre ne fête son anniversaire.");
+define("_ONEBIRTHDAY","il y a 1 membre qui fête son anniversaire :");
+define("_MANYBIRTHDAY","membres qui fêtent leur anniversaire :");
+define("_TODAY","Aujourd'hui");
+define("_THEREARE2","il y a");
+define("_ANS","ans");
+
+// Viewforum
+define('_BAD_FORUM_ID', 'L\'ID que vous avez utilisé n\'est pas correct.');
+define('_TOPIC', 'Sujet');
+define('_CREATED_BY', 'Cr&eacute;&eacute; par');
+define('_ANSWERS', 'R&eacute;ponses');
+
+//ViewTopic
+define('_FAVORITEGAME', 'Jeu favori');
+
 ?>
