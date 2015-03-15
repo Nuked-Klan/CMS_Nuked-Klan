@@ -111,4 +111,7 @@ define("_ACTIONADDCATNEWS","a ajouté la catégorie news");
 define("_ACTIONEDITCATNEWS","a modifié la catégorie news");
 define("_ACTIONDELCATNEWS","a supprimé la catégorie news");
 define("_ACTIONPREFNEWS","a modifié les préférences du module news");
+
+define("_NOTIFIMAGECOVERAGE","L'image de couverture peut être utilis&eacute;e par le th&egrave;me pour remplir un slider par exemple. Assurez vous que votre th&egrave;me est compatible avec cette option.");
+
 ?>
