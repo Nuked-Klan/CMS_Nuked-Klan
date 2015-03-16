@@ -18,7 +18,10 @@ final class tpl {
     }
 
     public function get($name) {
-        return $this->vars[$name];
+        if(array_key_exists($name, $this->vars))
+            return $this->vars[$name];
+        else
+            return false;
     }
 
     public function render($name, $data = null) {
