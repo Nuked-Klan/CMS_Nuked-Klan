@@ -17,7 +17,15 @@ $(document).ready(function() {
     });
 
     if($('#RL_followContent').length == 0){
-        $('#RL_commentsContent').css('height', '278px');
+        if($('#RL_blockDownload').length > 0) {
+            $('#RL_commentsContent').css('height', (parseInt($('#RL_blockDownload').css('height')) + 12));
+        }
+        else{
+            $('#RL_commentsContent').css('height', '278px');
+        }
+    }
+    else{
+        $('#RL_commentsContent').css('height', (parseInt($('#RL_blockDownload').css('height')) - 105));
     }
 
     if($('#RL_blockDownload').length == 0){
