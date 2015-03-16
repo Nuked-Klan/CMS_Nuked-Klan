@@ -1,4 +1,4 @@
-<form id="RL_formBlocks" action="index.php?file=Admin&amp;page=theme&amp;op=saveSettings" method="post">
+<form id="RL_formBlocks" action="index.php?file=Admin&amp;page=theme&amp;op=saveBlocks" method="post">
     <table>
         <thead>
             <th style="width:70%;"><?php echo BLOCK_NAME; ?></th>
