@@ -27,9 +27,9 @@ $arrayTemp = array();
 $i = 0;
 
 while ($dbrGallery = mysql_fetch_assoc($dbeGallery)) {
-    $src = 'themes/Restless/images/no_image_gallery.png';
+    $src = $biSrc = 'themes/Restless/images/no_image_gallery.png';
     if(!empty($dbrGallery['url'])){
-        $src = $dbrGallery['url'];
+        $src = $bigSrc = $dbrGallery['url'];
     }
 
     if(!empty($dbrGallery['url2'])){
@@ -37,6 +37,7 @@ while ($dbrGallery = mysql_fetch_assoc($dbeGallery)) {
     }
 
     $arrayTemp[$i]['src'] = $src;
+    $arrayTemp[$i]['bigSrc'] = $bigSrc;
     $arrayTemp[$i]['link'] = 'index.php?file=Gallery&op=description&sid='.$dbrGallery['sid'];
     $arrayTemp[$i]['title'] = $dbrGallery['titre'];
     $i++;

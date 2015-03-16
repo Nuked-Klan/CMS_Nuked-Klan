@@ -15,7 +15,7 @@
         <figure>
             <?php if($image['link'] !== '#'):
                     if($this->get('blockGalleryLightbox') == true){
-                        $image['link'] = $image['src'];
+                        $image['link'] = $image['bigSrc'];
                     }
                 ?>
                 <a href="<?php echo $image['link']; ?>" title="<?php echo $image['title']; ?>" rel="shadowbox">
