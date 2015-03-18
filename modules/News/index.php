@@ -87,7 +87,8 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
 
             $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" /></a>' : '';
-            $data['coverage'] = (!empty($TabNews['coverage'])) ? '<img class="nkNewsCoverage" src="'.$TabNews['coverage'].'" alt="'.$TabNews['titre'].'" title="'.$TabNews['titre'].'" />' : '';
+            $data['coverageImg'] = (!empty($TabNews['coverage'])) ? '<img class="nkNewsCoverage" src="'.$TabNews['coverage'].'" alt="'.$TabNews['titre'].'" title="'.$TabNews['titre'].'" />' : '';
+            $data['coverage'] = (!empty($TabNews['coverage'])) ? ''.$TabNews['coverage'].'' : '';
 
             if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
                 $data['texte'] = $TabNews['texte'].'<br /><br />'.$TabNews['suite'];
