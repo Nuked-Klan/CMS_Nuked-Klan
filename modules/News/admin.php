@@ -160,7 +160,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		global $nuked, $language;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-			. "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
+			. "<div class=\"content-box-header\"><h3>" . _ADDNEWS . "</h3>\n"
 			. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 			. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 			. "</div></div>\n"
@@ -305,7 +305,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		list($cid, $categorie) = mysql_fetch_array($sql2);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   	. "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
+		   	. "<div class=\"content-box-header\"><h3>" . _EDITTHISNEWS . "</h3>\n"
 		   	. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 		   	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   	. "</div></div>\n";
@@ -472,7 +472,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</script>\n";
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-			. "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
+			. "<div class=\"content-box-header\"><h3>" . _CATMANAGEMENT . "</h3>\n"
 			. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 			. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 			. "</div></div>\n"
@@ -505,7 +505,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		global $language;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _ADDCAT . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
@@ -573,7 +573,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         $description = editPhpCkeditor($description);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-			. "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
+			. "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
 			. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 			. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 			. "</div></div>\n"
@@ -673,7 +673,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		global $nuked, $language;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-			. "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
+			. "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
 			. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 			. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 			. "</div></div>\n"
@@ -734,7 +734,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
                 </li>
                 <li <?php echo ($tab == 4 ? $class : ''); ?>>
                     <a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=main_pref">
-                        <img src="modules/Admin/images/icons/ranks.png" alt="icon" />
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
                         <span><?php echo _PREFS; ?></span>
                     </a>
                 </li>

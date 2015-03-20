@@ -872,6 +872,7 @@
                           `parentid` int(11) NOT NULL default '0',
                           `secname` varchar(40) NOT NULL default '',
                           `description` text NOT NULL,
+                          `image` varchar(255) NOT NULL default '',
                           `position` int(2) unsigned NOT NULL default '0',
                           PRIMARY KEY  (`secid`),
                           KEY `parentid` (`parentid`)

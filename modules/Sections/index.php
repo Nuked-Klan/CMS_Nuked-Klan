@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined('INDEX_CHECK')) die('<div style="text-align:center;">You cannot open this page directly</div>');
 
 global $user, $nuked, $language;
@@ -187,12 +185,12 @@ if ($visiteur >= $level_access && $level_access > -1){
             $upd = mysql_query("UPDATE " . SECTIONS_TABLE . "  SET counter = counter + 1 WHERE artid = '" . $artid . "'");
         } 
 
-        $sql = mysql_query("SELECT artid, secid, title, content, autor, autor_id, counter, date FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
+        $sql = mysql_query("SELECT artid, secid, title, content, coverage, autor, autor_id, counter, date FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
         if(mysql_num_rows($sql) <= 0){
             redirect("index.php?file=404", 0);
             exit();
         }
-        list($artid, $secid, $title, $content, $autor, $autor_id, $counter, $date) = mysql_fetch_row($sql);
+        list($artid, $secid, $title, $content, $coverage, $autor, $autor_id, $counter, $date) = mysql_fetch_row($sql);
 
         $sql2 = mysql_query("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . "  WHERE secid = '" . $secid . "'");
         list($secname, $parentid) = mysql_fetch_row($sql2);
@@ -254,8 +252,8 @@ if ($visiteur >= $level_access && $level_access > -1){
                     . "// -->\n"
                     . "</script>\n";
 
-            echo "<div style=\"text-align: right;\"><a href=\"index.php?file=Sections&amp;page=admin&amp;op=edit&amp;artid=" . $artid . "\"><img style=\"border: 0;\" src=\"images/edition.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a>"
-                    . "&nbsp;<a href=\"javascript:delart('" . mysql_real_escape_string(stripslashes($title)) . "','" . $artid . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DEL . "\" /></a></div>\n";
+            echo "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><a class=\"nkButton icon alone edit\" href=\"index.php?file=Sections&amp;page=admin&amp;op=edit&amp;artid=" . $artid . "\" title=\"" . _EDIT . "\" ></a>"
+                    . "&nbsp;<a class=\"nkButton icon alone remove danger\" href=\"javascript:delart('" . mysql_real_escape_string(stripslashes($title)) . "','" . $artid . "');\" title=\"" . _DEL . "\"></a></div></div>\n";
         } 
 
 
@@ -284,6 +282,10 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
 
         echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+
+            if ($coverage != ""){
+            echo "<div class=\"nkSectionsCoverage\" ><img src=\"" . $coverage . "\" title=\"" . $title . "\" /></div>";
+            }
 
         if ($pageno > 1){
             echo _PAGE . " : " . $_REQUEST['p'] . "/" . $pageno . "<br /><br />";
@@ -323,7 +325,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         list($active) = mysql_fetch_array($sql);
 
         if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1){
-            echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
+            echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
 
             include ("modules/Comment/index.php");
             com_index("Sections", $artid);
@@ -379,7 +381,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $order = "ORDER BY S.artid DESC";
         } 
 
-        $sql = mysql_query("SELECT S.artid, S.title, S.date, S.counter, S.content, AVG(V.vote) AS note  FROM " . SECTIONS_TABLE . " AS S LEFT JOIN " . VOTE_TABLE . " AS V ON S.artid = V.vid AND V.module = 'Sections' " . $where . " GROUP BY S.artid " . $order);
+        $sql = mysql_query("SELECT S.artid, S.title, S.date, S.counter, S.content, S.coverage, AVG(V.vote) AS note  FROM " . SECTIONS_TABLE . " AS S LEFT JOIN " . VOTE_TABLE . " AS V ON S.artid = V.vid AND V.module = 'Sections' " . $where . " GROUP BY S.artid " . $order);
         
         $nb_art = mysql_num_rows($sql);
 
@@ -416,7 +418,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             $seek = mysql_data_seek($sql, $start);
             for($i = 0;$i < $nb_max;$i++){
-                if (list($artid, $title, $date, $counter, $content) = mysql_fetch_row($sql)){
+                if (list($artid, $title, $date, $counter, $content, $coverage) = mysql_fetch_row($sql)){
                     $title = printSecuTags($title);
                     $newsdate = time() - 604800;
                     $att = "";
@@ -451,9 +453,15 @@ if ($visiteur >= $level_access && $level_access > -1){
                         $img = "<img src=\"modules/Sections/images/articles.gif\" alt=\"\" " . $alt . "/>";
                     } 
 
-                    echo "<table style=\"background: " . $bgcolor3 . ";margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"0\">\n"
+                    echo "<table style=\"background: " . $bgcolor3 . ";margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
                             . "<tr><td><table style=\"background: " . $bgcolor2 . ";\" width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-                            . "<tr><td style=\"width: 100%;\">" .  $img . " <a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "\" style=\"text-decoration: none\"><big><b>" . $title . "</b></big></a>" . $att . "</td>\n"
+                            . "<tr>\n";
+
+                            if ($coverage != ""){
+                            echo "<td rowspan=\"3\"><img src=\"" . $coverage . "\" style=\"width:80px; height:auto; border:0;\" /></td>";
+                            }
+
+                            echo "<td style=\"width: 100%;\">" .  $img . " <a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "\" style=\"text-decoration: none\"><big><b>" . $title . "</b></big></a>" . $att . "</td>\n"
                             . "<td><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Sections&amp;nuked_nude=index&amp;op=pdf&amp;artid=" . $artid . "','projet','toolbar=yes,location=no,directories=no,scrollbars=yes,resizable=yes')\">"
                             . "<img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a></td></tr>\n";
 

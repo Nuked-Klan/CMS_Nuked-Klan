@@ -20,8 +20,8 @@ mb_internal_encoding('UTF-8');
 //    |   |   |   |   |- plugin.min.js
 
 // if local, replace "DEV_NK_1.7.10" with your folder name else comment this line and uncomment next one.
-$base_url ="http://".$_SERVER['HTTP_HOST'] . '/DEV_NK_1.7.10'; 
-//$base_url ="http://".$_SERVER['HTTP_HOST'];  // DON'T TOUCH (base url (only domain) of site (without final /)).
+// $base_url ="http://".$_SERVER['HTTP_HOST'] . '/DEV_NK_1.7.10'; 
+$base_url ="http://".$_SERVER['HTTP_HOST'];  // DON'T TOUCH (base url (only domain) of site (without final /)).
 
 $upload_dir = '/upload/Tinymce/'; // path from base_url to base of upload folder (with start and final /)
 $current_path = '../../upload/Tinymce/'; // relative path from filemanager folder to upload folder (with final /)
