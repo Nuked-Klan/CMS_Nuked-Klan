@@ -50,7 +50,7 @@
                     . " * @license http://opensource.org/licenses/gpl-license.php GNU Public License\n"
                     . " * @copyright 2001-2015 Nuked-Klan (Registred Trademark)\n"
                     . " */\n"
-                    . "\$nk_version = '1.8';\n"
+                    . "\$nk_version = '1.8.0';\n"
                     . "\n"
                     . "\$global['db_host']  = '".$_SESSION['host']."';\n"
                     . "\$global['db_user']  = '".$_SESSION['user']."';\n"
