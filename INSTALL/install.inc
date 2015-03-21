@@ -243,7 +243,7 @@
                             ('user_website', 'on'),
                             ('user_social_level', '0'),
                             ('sp_version', 'off'),
-                            ('editor_type', 'tiny');";
+                            ('editor_type', 'cke');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

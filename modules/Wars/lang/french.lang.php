@@ -12,6 +12,7 @@ define("_BACK","Retour");
 define("_NOMATCH","Il n'y a pas encore de match");
 define("_DATE","Date");
 define("_OPPONENT","Adversaire");
+define("_LOGOADV","Logo de l'adversaire");
 define("_TYPE","Type");
 define("_RESULT","Résultat");
 define("_DETAILS","Rapport");
