@@ -240,11 +240,11 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
                     $url_image = "upload/Sections/" . $filename;
                     move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-                    or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true));
+                    or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true));
                     @chmod ($url_image, 0644);
                 }
                 else {
-                    printNotification(_NOIMAGEFILE, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                    printNotification(_NOIMAGEFILE, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
                     adminfoot();
                     footer();
                     die;
@@ -355,11 +355,11 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
                     $url_image = "upload/Sections/" . $filename;
                     move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-                    or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true));
+                    or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true));
                     @chmod ($url_image, 0644);
                 }
                 else {
-                    printNotification(_NOIMAGEFILE, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                    printNotification(_NOIMAGEFILE, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true);
                     adminfoot();
                     footer();
                     die;
