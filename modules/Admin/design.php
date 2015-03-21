@@ -277,9 +277,8 @@ function adminfoot(){
            
                 <?php
                 // choix de l'éditeur
-                $editorType = 2;
 
-                if($editorType == 1) { //ckeditor               
+                if($nuked['editor_type'] == "cke") { //ckeditor               
                 ?>
 
                     <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
@@ -323,7 +322,7 @@ function adminfoot(){
                     </script>
                 <?php
                 }
-                else{ //tinymce
+                if($nuked['editor_type'] == "tiny"){ //tinymce
                 ?>
                     <script type="text/javascript" src="media/tinymce/tinymce.min.js"></script>
                     <script type="text/javascript">
