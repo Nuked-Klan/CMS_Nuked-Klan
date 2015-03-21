@@ -111,8 +111,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         admintop();
         
         if ($_REQUEST['do'] == "edit"){
-            $sql = mysql_query("SELECT etat, team, game, adversaire, url_adv, pays_adv, type, style, date_jour, date_mois, date_an, heure, map, score_team, score_adv, tscore_team, tscore_adv, report, url_league FROM " . WARS_TABLE . " WHERE warid='".$war_id."'");
-            list($status, $team, $game, $adv_name, $adv_url, $pays_adv, $type, $style, $jour, $mois, $an, $heure, $map, $score_team, $score_adv, $tscore_team, $tscore_adv, $report, $url_league) = mysql_fetch_array($sql);
+            $sql = mysql_query("SELECT etat, team, game, adversaire, url_adv, pays_adv, image_adv, type, style, date_jour, date_mois, date_an, heure, map, score_team, score_adv, tscore_team, tscore_adv, report, url_league FROM " . WARS_TABLE . " WHERE warid='".$war_id."'");
+            list($status, $team, $game, $adv_name, $adv_url, $pays_adv, $logo_adv, $type, $style, $jour, $mois, $an, $heure, $map, $score_team, $score_adv, $tscore_team, $tscore_adv, $report, $url_league) = mysql_fetch_array($sql);
             
             $adv_name = nkHtmlSpecialChars($adv_name);
             $map = explode('|', $map);
@@ -181,7 +181,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             exit();
         }
         
-        echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=" . $action . "\">\n"
+        echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=" . $action . "\" enctype=\"multipart/form-data\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
                 . "<tr><td align=\"center\"><b>" . _STATUS . " :</b> <select name=\"etat\">\n"
                 . "<option value=\"1\" " . $checked1 . ">" . _FINISH . "</option>\n"
@@ -260,6 +260,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         if ($_REQUEST['do'] == "add"){
             $heure = date("H:i");
+            $logo_adv = null;
         } 
 
         echo "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
@@ -268,6 +269,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
                 . "<tr><td align=\"center\"><big>" . _OPPONENT . "</big></td></tr>\n"
                 . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"adversaire\" maxlength=\"100\" size=\"20\" value=\"" . $adv_name . "\" />&nbsp;&nbsp;<b>" . _URL . " : </b><input type=\"text\" name=\"url_adv\" size=\"30\" maxlength=\"100\" value=\"" . $adv_url . "\" /></td></tr>\n"
+                . "<tr><td><b>" . _LOGOADV . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" value=\"" . $logo_adv . "\"/>\n";
+            
+                if ($logo_adv != "" && $_REQUEST['do'] == "edit"){
+                    echo "<img src=\"" . $logo_adv . "\" title=\"" . $adv_name . "\" style=\"margin-left:20px; width:60px; height:auto; vertical-align:middle;\" />\n";
+                }
+
+                echo "</td></tr>\n"
+                . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
                 . "<tr><td><b>" . _COUNTRY . " : </b> <select name=\"country\">\n";
 
         if ($_REQUEST['do'] == "add" && $language == "french"){
@@ -351,7 +360,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         adminfoot();
     } 
 
-    Function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league){
+    function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage, $upImage){
         global $nuked, $user;
 
         $autor = $user[2];
@@ -383,7 +392,29 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $url_league = "http://" . $url_league;
         }
         
-        $add = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
+        //Upload du logo adv
+        $filename = $_FILES['upImage']['name'];
+        if ($filename != "") {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                $url_image = "upload/Wars/" . $filename;
+                move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
+                or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Wars&page=admin&op=match&do=add', $type = 'error', $back = false, $redirect = true));
+                @chmod ($url_image, 0644);
+            }
+            else {
+                printNotification(_NOIMAGEFILE, 'index.php?file=Wars&page=admin&op=match&do=add', $type = 'error', $back = false, $redirect = true);
+                adminfoot();
+                footer();
+                die;
+            }
+        }
+        else {
+            $url_image = $urlImage;
+        }
+
+        $add = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `image_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $url_image ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
         admintop();
         // Action
         $texteaction = "". _ACTIONADDWAR .".";
@@ -434,7 +465,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         adminfoot();
     } 
 
-    function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league){
+    function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage, $upImage){
         global $nuked, $user;
 
         $report = nkHtmlEntityDecode($report);
@@ -465,7 +496,29 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $url_league = "http://" . $url_league;
         } 
 
-        $upd = mysql_query("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
+        //Upload du logo adv
+        $filename = $_FILES['upImage']['name'];
+        if ($filename != "") {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                $url_image = "upload/Wars/" . $filename;
+                move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
+                or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Wars&page=admin&op=match&do=edit&war_id=' . $war_id . '', $type = 'error', $back = false, $redirect = true));
+                @chmod ($url_image, 0644);
+            }
+            else {
+                printNotification(_NOIMAGEFILE, 'index.php?file=Wars&page=admin&op=match&do=edit&war_id=' . $war_id . '', $type = 'error', $back = false, $redirect = true);
+                adminfoot();
+                footer();
+                die;
+            }
+        }
+        else {
+            $url_image = $urlImage;
+        }
+
+        $upd = mysql_query("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', image_adv = '" . $url_image . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
         admintop();
         // Action
         $texteaction = "". _ACTIONMODIFWAR .".";
@@ -822,7 +875,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             break;
 
         case "add_war":
-            add_war($_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league']);
+            add_war($_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
             break;
 
         case "del_war":
@@ -830,7 +883,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             break;
 
         case "do_edit":
-            do_edit($_REQUEST['war_id'], $_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league']);
+            do_edit($_REQUEST['war_id'], $_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
             break;
 
         case "main_file":

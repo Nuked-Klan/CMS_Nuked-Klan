@@ -8,6 +8,7 @@ define("_BACK","Back");
 define("_NOMATCH","There are yet no matches");
 define("_DATE","Date");
 define("_OPPONENT","Opponent");
+define("_LOGOADV","Opponent's logo");
 define("_TYPE","Type");
 define("_RESULT","Result");
 define("_DETAILS","Report");
