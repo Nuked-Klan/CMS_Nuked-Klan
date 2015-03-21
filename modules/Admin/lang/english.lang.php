@@ -323,7 +323,7 @@ define("_TOLOG","Login");
 define("_TOBACK","Back");
 
 define("_BONJOUR","Hello");
-define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.7.10 admin panel!");
+define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.8 admin panel!");
 define("_AIDE","Help");
 define("_STATS","Stats");
 define("_SQL","SQL error found");

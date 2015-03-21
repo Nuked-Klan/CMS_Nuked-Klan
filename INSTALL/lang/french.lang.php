@@ -43,7 +43,7 @@ define('_RESETSESSION', 'Réinitialiser');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define("_WELCOMEINSTALL","Bienvenue sur Nuked-Klan 1.7.9");
+define("_WELCOMEINSTALL","Bienvenue sur Nuked-Klan 1.8");
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
 define('_STARTINSTALL', 'Démarrer l\'installation');
 define('_STARTUPDATE', 'Démarrer la mise à jour');
@@ -111,7 +111,7 @@ define('_ERROR_PREFIX', 'Connexion à la base de données impossible !<br/>Le pref
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
-define("_NEWNK179","Nouveautés Nuked Klan 1.7.9");
+define("_NEWNK179","Nouveautés Nuked Klan 1.8");
 define("_SECURITE","Sécurité");
 define("_SECURITE1","La sécurité a été entèrement revue.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPTIMISATION","Optimisation");
@@ -211,7 +211,7 @@ define("_HASWROTE","a écrit");
 ///////////////////////////////////////////////
 /////// CONTENU DEMO INSERER DANS LA BDD
 ///////////////////////////////////////////////
-define("_FIRSTNEWSTITLE","Bienvenue sur votre site NuKed-KlaN 1.7.9");
+define("_FIRSTNEWSTITLE","Bienvenue sur votre site NuKed-KlaN 1.8");
 define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.");
 define("_NAV","Menu");
 define("_NAVHOME","Accueil");

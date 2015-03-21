@@ -19,8 +19,8 @@ $root = $path[0];
 //   |    |   |    |-   |- filemanager
 //   |    |   |    |-   |-      |- thumbs <- folder of thumbs [must have the write permission]
 
-// if local, replace "DEV_NK_1.7.10" with your folder name else comment this line and uncomment next one.
-$base_url ="http://".$_SERVER['HTTP_HOST'] . '/DEV_NK_1.7.10'; 
+// if local, replace "DEV_NK_1.8" with your folder name else comment this line and uncomment next one.
+$base_url ="http://".$_SERVER['HTTP_HOST'] . '/DEV_NK_1.8'; 
 
 $upload_dir = '/upload/Tinymce/'; // path from base_url to upload base dir
 $current_path = '../../../../upload/Tinymce/'; // relative path from filemanager folder to upload files folder
