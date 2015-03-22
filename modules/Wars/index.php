@@ -120,7 +120,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                             $icone = $icon;
                         } 
                         else{
-                            $icone = 'images/games/nk.gif';
+                            $icone = 'images/games/icon_nk.png';
                         } 
 
                         echo '<tr style="background: '. $bg . '">
@@ -303,7 +303,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                         $icone = $icon;
                     } 
                     else{
-                        $icone = 'images/games/nk.gif';
+                        $icone = 'images/games/icon_nk.png';
                     }
 
                     echo '<tr style="background: '. $bg . '">
@@ -403,7 +403,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                         $icone = $icon;
                     } 
                     else{
-                        $icone = 'images/games/nk.gif';
+                        $icone = 'images/games/icon_nk.png';
                     }
 
                     echo '<tr style="background: '. $bg . '">

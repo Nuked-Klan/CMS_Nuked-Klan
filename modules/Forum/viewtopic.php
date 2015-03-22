@@ -373,7 +373,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                         $gameIconDisplayed = $gameIcon;
                     } 
                     else {
-                        $gameIconDisplayed = 'images/games/nk.gif';
+                        $gameIconDisplayed = 'images/games/icon_nk.png';
                     }
 
                 $sqlGameUserDetails = mysql_query("SELECT  pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $auteur_id . "'");
