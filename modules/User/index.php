@@ -1832,11 +1832,11 @@ function show_avatar(){
             . "// -->\n"
             . "</script>\n";
 
-    if ($dir = @opendir("modules/Forum/images/avatar/")){
+    if ($dir = @opendir("images/avatar/")){
         while (false !== ($f = readdir($dir))){
             if ($f != "." && $f != ".." && $f != "index.html" && $f != "Thumbs.db"){
-                $avatar = "modules/Forum/images/avatar/" . $f . "";
-                echo " <a href=\"#\" onclick=\"javascript:go('" . $avatar . "');\"><img style=\"border: 0;\" src=\"modules/Forum/images/avatar/" . $f . "\" alt=\"\" title=\"" . $f . "\" /></a>";
+                $avatar = "images/avatar/" . $f . "";
+                echo " <a href=\"#\" onclick=\"javascript:go('" . $avatar . "');\"><img style=\"border: 0;\" src=\"images/avatar/" . $f . "\" alt=\"\" title=\"" . $f . "\" /></a>";
             }
         }
         closedir($dir);

@@ -243,7 +243,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if ($url != "")
             {
-                $website = "&nbsp;<a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"modules/Forum/images/website.gif\" alt=\"\" title=\"" . $url . "\" /></a>";
+                $website = "<a class=\"nkButton icon alone small website\" href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\" title=\"" . $url . "\"></a>";
             }
             else
             {
@@ -251,7 +251,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
             if ($email != "")
             {
-                $usermail = "<a href=\"mailto:" . $email . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/email.gif\" alt=\"\" title=\"" . $email . "\" /></a>";
+                $usermail = "<a class=\"nkButton icon alone small mail\" href=\"mailto:" . $email . "\" title=\"" . $email . "\"></a>";
             }
             else
             {
@@ -272,8 +272,8 @@ if ($visiteur >= $level_access && $level_access > -1)
                 . "// -->\n"
                 . "</script>\n";
 
-                $admin = "&nbsp;<a href=\"index.php?file=Guestbook&amp;page=admin&amp;op=edit_book&amp;gid=" . $id . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/buttons/" . $language . "/edit.gif\" alt=\"\" /></a>"
-                . "&nbsp;<a href=\"javascript:delmess('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"modules/Forum/images/delete.gif\" alt=\"\" /></a>";
+                $admin = "<a class=\"nkButton icon alone small edit\" href=\"index.php?file=Guestbook&amp;page=admin&amp;op=edit_book&amp;gid=" . $id . "\"></a>"
+                . "<a class=\"nkButton icon alone small remove danger\" href=\"javascript:delmess('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $id . "');\"></a>";
             }
             else
             {
@@ -289,7 +289,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             echo "</td><td style=\"width: 70%;\"><img src=\"images/posticon.gif\" alt=\"\" /><small> " . _POSTED . " : " . $date . "</small>\n"
             . "<br /><br />" . $comment . "<br /><br /></td></tr>\n"
-            . "<tr style=\"background: " . $bg . ";\"><td style=\"width: 30%;\">&nbsp;</td><td style=\"width: 70%;\">" . $usermail . $website . $admin . "</td></tr>\n";
+            . "<tr style=\"background: " . $bg . ";\"><td style=\"width: 30%;\">&nbsp;</td><td style=\"width: 70%;\"><div class=\"nkButton-group\">" . $usermail . $website . $admin . "</div></td></tr>\n";
         }
 
         if ($count == 0)

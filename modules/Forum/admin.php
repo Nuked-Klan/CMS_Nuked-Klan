@@ -449,7 +449,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 if ($i > 0) $sep = ', ';
                 $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $moderateurs[$i] . "'");
                 list($id_user, $modo_pseudo) = mysql_fetch_row($sql2);
-                $modos .= $sep . $modo_pseudo . "&nbsp;(<a href=\"index.php?file=Forum&amp;page=admin&amp;op=del_modo&amp;uid=" . $id_user . "&amp;forum_id=" . $id . "\"><img width=\"7\" style=\"border: 0;\" src=\"modules/Forum/images/del.gif\" alt=\"\" title=\"" . _DELTHISMODO . "\" /></a>)";
+                $modos .= $sep . $modo_pseudo . "&nbsp;(<a href=\"index.php?file=Forum&amp;page=admin&amp;op=del_modo&amp;uid=" . $id_user . "&amp;forum_id=" . $id . "\"><img style=\"border: 0;vertical-align:bottom;\" src=\"modules/Admin/images/icons/cross.png\" alt=\"\" title=\"" . _DELTHISMODO . "\" /></a>)";
             }
         }
         else{
