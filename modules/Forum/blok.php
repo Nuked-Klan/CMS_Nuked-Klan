@@ -128,7 +128,7 @@ if ($active == 3 || $active == 4)
         . "<td style=\"width: 15%;\" align=\"center\">" . $initiat . "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">" . $nb_rep . "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">" . $nb_read . "</td>\n"
-        . "<td style=\"width: 30%;\" align=\"center\">" . $last_date . "<br /><a href=\"" . $link_post . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/icon_latest_reply.gif\" alt=\"\" title=\"" . _SEELASTPOST . "\" /></a>" . $author . "</td></tr>\n";
+        . "<td style=\"width: 30%;\" align=\"center\">" . $last_date . "<br /><a href=\"" . $link_post . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/icon_latest_reply.png\" alt=\"\" title=\"" . _SEELASTPOST . "\" /></a>" . $author . "</td></tr>\n";
     }
     echo "</table><div style=\"text-align: right;\">&#187; <a href=\"index.php?file=Forum\"><small>" . _VISITFORUMS . "</small></a></div>\n";
 }

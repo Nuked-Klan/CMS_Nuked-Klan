@@ -191,7 +191,7 @@ function com_index($module, $im_id){
 
                 echo '<script type="text/javascript">function delmess(pseudo, id){if(confirm(\''._DELCOMMENT.' \'+pseudo+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&page=admin&op=del_com&cid=\'+id;}}</script>';
 
-                $admin = '<a href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'"><img style="border:none;" src="modules/Forum/images/buttons/'.$language.'/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a>&nbsp;<a href="javascript:delmess(\''.mysql_real_escape_string(stripslashes($autor)).'\', \''.$row['id'].'\');"><img style="border:none;" src="modules/Forum/images/delete.gif" alt="" title="'._DELTHISCOM.'" /></a>';
+                $admin = '<a class="nkButton icon alone small edit" href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'" title="'._EDITTHISCOM.'"></a><a class="nkButton icon alone small remove danger" href="javascript:delmess(\''.mysql_real_escape_string(stripslashes($autor)).'\', \''.$row['id'].'\');" title="'._DELTHISCOM.'"></a>';
 
             }else $admin = '';
 
@@ -202,7 +202,7 @@ function com_index($module, $im_id){
 
                     echo '<br /><br /><img src="'.$avatar.'" style="max-width: 100px; max-height: 100px;" alt="" />';
 
-                    $profil = ($test > 0) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($autor).'"><img style="border:none;" src="modules/Forum/images/buttons/'.$language.'/profile.gif" alt="" /></a>' : '';
+                    $profil = ($test > 0) ? '<a class="nkButton icon alone small user" href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($autor).'"></a>' : '';
 
             echo '  </td>
                     <td style="width:70%;" valign="top">
@@ -212,7 +212,7 @@ function com_index($module, $im_id){
                   </tr>
                   <tr style="background:'.$bg.';">
                       <td style="width:30%;">&nbsp;</td>
-                    <td colspan="2">'.$profil.'&nbsp;'.$admin.'<br /></td>
+                    <td colspan="2"><div class="nkButton-group">'.$profil . $admin.'</div><br /></td>
                   </tr>';
             unset($avatar, $autor, $country);
         }
