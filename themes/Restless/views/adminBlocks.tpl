@@ -1,40 +1,39 @@
 <form id="RL_formBlocks" action="index.php?file=Admin&amp;page=theme&amp;op=saveBlocks" method="post">
     <table>
         <thead>
-            <th style="width:70%;"><?php echo BLOCK_NAME; ?></th>
+            <th style="width:70%;">{{*BLOCK_NAME}}</th>
             <th style="width:15%;text-align:center;">Activation</th>
-            <th style="width:15%;text-align:center;"><?php echo _EDIT; ?></th>
+            <th style="width:15%;text-align:center;">{{*_EDIT}}</th>
         </thead>
-        <?php
-        foreach($this->get('arrayBlocks') as $block => $checked): ?>
+        @foreach(arrayBlocks as blockName => block)
         <tr>
             <td>
-                <strong><?php echo $this->get('cfg')->get('block'.$block.'.title'); ?> : </strong>
+                <strong>{{block.title}} : </strong>
             </td>
             <td style="text-align:center;">
-                <?php checkboxButton('block'.$block.'Active', 'block'.$block.'Active', $checked, true); ?>
+                %checkboxButton('block'.{{blockName}}.'Active', 'block'.{{blockName}}.'Active', {{block.checked}}, true)
             </td>
             <td style="text-align:center;">
-                <?php if($block == 'Article'): ?>
-                    <img src="themes/Restless/images/block.png" title="<?php echo NO_EDIT; ?>" alt="<?php echo NO_EDIT; ?>" />
-                <?php else: ?>
-                    <a class="RL_getRow" id="<?php echo $block; ?>" href="#" >
-                        <img src="themes/Restless/images/edit.png" title="<?php echo _EDIT; ?>" alt="<?php echo _EDIT; ?>" />
+                @if({{blockName}} == 'Article')
+                    <img src="themes/Restless/images/block.png" title="{{*NO_EDIT}}" alt="{{*NO_EDIT}}" />
+                @else
+                    <a class="RL_getRow" id="{{blockName}}" href="#" >
+                        <img src="themes/Restless/images/edit.png" title="{{*_EDIT}}" alt="{{*_EDIT}}" />
                     </a>
-                <?php endif; ?>
+                @endif
             </td>
         </tr>
-        <?php endforeach; ?>
+        @endforeach
         <tr class="RL_alertForm">
             <td colspan="3">
-                <?php printNotification(EDIT_NOT_SAVE, null, 'attention', false, false); ?>
+                %printNotification({{*EDIT_NOT_SAVE}}, null, 'attention', false, false)
             </td>
         </tr>
         <tr class="RL_alertForm">
         </tr>
         <tr>
             <td colspan="3" style="text-align:center;">
-                <input class="button" type="submit" value="<?php echo SUBMIT; ?>"/>
+                <input class="button" type="submit" value="{{*SUBMIT}}"/>
             </td>
         </tr>
     </table>

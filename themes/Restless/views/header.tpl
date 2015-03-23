@@ -1,8 +1,7 @@
 <header>
-    <?php if (HOMEPAGE) { ?>
-        <h1 id="RL_mainTitle"><?php echo $this->title; ?></h1>
-
-    <?php } else { ?>
-        <span id="RL_mainTitle"><?php echo $this->title; ?></span>
-    <?php } ?>
+    @if({{*HOMEPAGE}} === true)
+    <h1 id="RL_mainTitle">{{title}}</h1>
+    @else
+    <span id="RL_mainTitle">{{title}}</span>
+    @endif
 </header>

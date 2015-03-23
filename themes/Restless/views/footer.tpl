@@ -1,25 +1,21 @@
 <footer id="RL_footer">
     <div id="RL_separatorTopFooter"><!-- No content --></div>
-    <?php $GLOBALS['tpl']->render('infosFooter'); ?>
+    @include(infosFooter)
     <section id="RL_footerContentLeft">
-        <?php
-            $GLOBALS['tpl']->render('whois');
+        @include(whois)
 
-            $GLOBALS['tpl']->render('footerNav');
-        ?>
+        @include(footerNav)
     </section><!--
     --><section id="RL_footerContentRight">
-        <?php $GLOBALS['tpl']->render('sponsors'); ?>
+        @include(sponsors)
     </section>
     <div id="RL_separatorBottomFooter"><!-- No Content --></div>
     <div class="RL_infosFooter" id="RL_bottomFooter">
-        <?php $GLOBALS['tpl']->render('copyright'); ?>
+        @include(copyright)
         <div>
-            <?php
-                $GLOBALS['tpl']->render('permalinks');
+            @include(permalinks)
 
-                $GLOBALS['tpl']->render('copyleft');
-            ?>
+            @include(copyleft)
         </div>
     </div>
 </footer>

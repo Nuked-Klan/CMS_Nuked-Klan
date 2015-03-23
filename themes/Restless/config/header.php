@@ -1,3 +1,3 @@
 <?php
 
-$this->title = $GLOBALS['nuked']['name'];
+$this->assign('title', $GLOBALS['nuked']['name']);

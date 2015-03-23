@@ -1,3 +1,3 @@
 <?php
 
-$this->test = 'TOTO';
+$this->assign('test', 'TOTO');

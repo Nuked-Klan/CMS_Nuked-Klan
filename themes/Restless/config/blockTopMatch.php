@@ -1,6 +1,6 @@
 <?php
 
-$this->topMatchContent = array(
+$this->assign('topMatchContent', array(
                         'title' => 'Top Match',
                         'teamName' => 'Meet your Makers',
                         'teamLogo' => 'themes/Restless/images/misc/topmatch1.png',
@@ -10,4 +10,4 @@ $this->topMatchContent = array(
                         'opponentLogo' => 'themes/Restless/images/misc/topmatch2.png',
                         'date' => '14.11.2012',
                         'maps' => 'Turbine / Overflow'
-                    );
+                    ));

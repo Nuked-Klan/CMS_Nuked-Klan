@@ -40,6 +40,11 @@ while ($dbrGallery = mysql_fetch_assoc($dbeGallery)) {
     $arrayTemp[$i]['bigSrc'] = $bigSrc;
     $arrayTemp[$i]['link'] = 'index.php?file=Gallery&op=description&sid='.$dbrGallery['sid'];
     $arrayTemp[$i]['title'] = $dbrGallery['titre'];
+
+    if($this->get('blockGalleryLightbox') == true){
+        $arrayTemp[$i]['link'] = $bigSrc;
+    }
+
     $i++;
 }
 

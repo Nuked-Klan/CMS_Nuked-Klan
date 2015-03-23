@@ -1,17 +1,17 @@
-<?php if(count($this->get('blockForumContent')) > 0 && $this->get('blockForumActive') == true): ?>
+@if(count({{blockForumContent}}) > 0 && {{blockForumActive}} == true)
 <section class="RL_blockRight">
     <header>
         <h3 class="RL_lastsPostTitle">{{blockForumTitle}}</h3>
-        <a class="RL_moreButton" href="index.php?file=Forum">Plus</a>
+        <a class="RL_moreButton" href="index.php?file=Forum">{{*MORE}}</a>
     </header>
     <article class="RL_lastsPost">
-        <?php foreach($this->get('blockForumContent') as $post): ?>
+        @foreach(blockForumContent as post)
         <div class="RL_lastPost">
-            <p><a href="<?php echo $post['lien']; ?>" ><?php echo $post['titre']; ?></a></p>
-            <p><?php echo BY.$post['auteur']; ?> <?php echo THE.$post['date']; ?></p>
-            <a href="<?php echo $post['lien']; ?>"><div></div><span>Lire</span><div></div></a>
+            <p><a href="{{post.lien}}" >{{post.titre}}</a></p>
+            <p>{{*BY}} {{post.auteur}} {{*THE}} {{post.date}}</p>
+            <a href="{{post.lien}}"><div></div><span>Lire</span><div></div></a>
         </div>
-        <?php endforeach; ?>
+        @endforeach
     </article>
 </section>
-<?php endif; ?>
+@endif

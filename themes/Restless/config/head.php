@@ -1,7 +1,7 @@
 <?php
 
-$this->siteTitle = $GLOBALS['nuked']['name'].' - '.$GLOBALS['nuked']['slogan'];
+$this->assign('siteTitle', $GLOBALS['nuked']['name'].' - '.$GLOBALS['nuked']['slogan']);
 
-$this->keywords = $GLOBALS['nuked']['keyword'];
+$this->assign('siteKeywords', $GLOBALS['nuked']['keyword']);
 
-$this->description = $GLOBALS['nuked']['description'];
+$this->assign('siteDescription', $GLOBALS['nuked']['description']);

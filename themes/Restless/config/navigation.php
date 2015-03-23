@@ -30,11 +30,15 @@ foreach($menuRow as $row) {
 
     $arrayRow[1] = preg_replace('#<img(.*)/>#', '', $arrayRow[1]);
 
+    if(!empty($arrayRow[4])){
+        $blank = ' target="_blank" ';
+    }
+
     if(empty($arrayRow[0])) {
         $arrayMenu[count($arrayMenu)] = array(
                                 'title'  => $arrayRow[1],
                                 'link'   => '#',
-                                'blank'  => !empty($arrayRow[4])
+                                'blank'  => $blank
                             );
     }
     else{
@@ -42,7 +46,7 @@ foreach($menuRow as $row) {
 
 
             $link = preg_match('#^\[([A-Za-z_\-0-9]{3,})\]$#', $arrayRow[0]) ? 'index.php?file='.substr($arrayRow[0], 1, -1) : $arrayRow[0];
-            $temp = array('title' => $arrayRow[1], 'link' => $link, 'blank' => !empty($arrayRow[4]));
+            $temp = array('title' => $arrayRow[1], 'link' => $link, 'blank' => $blank);
             if(count($arrayMenu) > 1) {
                 $arrayMenu[count($arrayMenu) - 1]['subnav'][] = $temp;
             }
@@ -54,4 +58,4 @@ foreach($menuRow as $row) {
     }
 }
 
-$this->mainNavContent = $arrayMenu;
+$this->assign('mainNavContent', $arrayMenu);

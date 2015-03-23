@@ -13,11 +13,9 @@ require_once('librairies/templateEngine.php');
 // Include config ini tool
 require_once('librairies/iniConfigTool.php');
 
-$cfg = new iniConfigTool('themes/Restless/config.ini');
-
 $tpl = new tpl();
 
-$tpl->assign('cfg', $cfg);
+$tpl->assign('cfg', new iniConfigTool('themes/Restless/config.ini'));
 
 // Include language file
 require_once('themes/Restless/lang/'.$GLOBALS['language'].'.lang.php');
@@ -29,13 +27,18 @@ else{
     define('HOMEPAGE', false);
 }
 
-$arrayBigModules = explode(',', $cfg->get('general.bigModules'));
-
-if(!in_array($_REQUEST['file'], $arrayBigModules)){
-    define('FULLPAGE', false);
+if(in_array($_REQUEST['file'], explode(',', $tpl->get('cfg')->get('general.displayFullPage')))){
+    define('FULLPAGE', true);
 }
 else{
-    define('FULLPAGE', true);
+    define('FULLPAGE', false);
+}
+
+if(in_array($_REQUEST['file'], explode(',', $tpl->get('cfg')->get('general.displaySlider')))){
+    define('SLIDER', true);
+}
+else{
+    define('SLIDER', false);
 }
 
 function top(){
@@ -49,7 +52,7 @@ function top(){
 
     $tpl->render('navigation');
 
-    if(HOMEPAGE){
+    if(HOMEPAGE || SLIDER){
         $tpl->render('blockUnikTop');
     }
 

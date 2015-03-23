@@ -1,3 +1,3 @@
 <body>
-    <?php $GLOBALS['tpl']->render('loginPopup'); ?>
+    @include(loginPopup)
     <div id="RL_mainWrapper">

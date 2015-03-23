@@ -1,22 +1,22 @@
 <div>
-    <p>Bienvenue, Samoth</p>
+    <p>{{*_WELCOME}}, {{pseudo}}</p>
     <p>
         <a id="RL_userMP" href="index.php?file=Userbox">
-            <span <?php echo $this->messagesCss; ?> >
-                <?php echo $this->nbMessages; ?>
+            <span {{messagesCss}} >
+                {{nbMessages}}
             </span>
         </a>
         <a href="index.php?file=User">
-            Compte
+            {{*_ACCOUNT}}
         </a>
-        <?php if($GLOBALS['user'][1] >= 2): ?>
-            <a href="index.php?file=Admin">
-                Administration
-            </a>
-        <?php endif; ?>
+        @if({{GLOBALS.user.1}} >= 2)
+        <a href="index.php?file=Admin">
+            {{*_ADMINISTRATION}}
+        </a>
+        @endif
     </p>
 </div>
-<img src="<?php echo $this->avatar; ?>" alt="" />
+<img src="{{avatar}}" alt="" />
 <a id="RL_userDisconnect" class="RL_button" href="index.php?file=User&amp;nuked_nude=index&amp;op=logout">
-    <span>D&eacute;connexion</span>
+    <span>{{*_LOGOUT}}</span>
 </a>

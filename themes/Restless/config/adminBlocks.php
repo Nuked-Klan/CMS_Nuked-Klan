@@ -10,7 +10,10 @@ foreach($arrayBlocks as $block) {
         $active = true;
     }
 
-    $temp[$block] = $active;
+    $temp[$block] = array(
+                        'checked' => $active,
+                        'title'   => $this->get('cfg')->get('block'.$block.'.title')
+                    );
 }
 
 $this->assign('arrayBlocks', $temp);

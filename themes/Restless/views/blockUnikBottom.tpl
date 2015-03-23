@@ -1,11 +1,8 @@
 <section id="RL_blockUnikBottom">
-    <?php
-        $GLOBALS['tpl']->render('blockDownload');
-    ?><!-- Hack inline block
+    @include(blockDownload)<!-- Hack inline block
     --><div>
-    <?php
-        $GLOBALS['tpl']->render('blockComments');
-        $GLOBALS['tpl']->render('blockSocial');
-    ?>
+    @include(blockComments)
+
+    @include(blockSocial)
     </div>
 </section>

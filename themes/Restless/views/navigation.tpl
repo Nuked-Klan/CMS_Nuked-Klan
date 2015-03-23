@@ -1,9 +1,9 @@
 <nav id="RL_mainNav">
     <ul id="RL_mainMenu">
-        <?php foreach($this->mainNavContent as $row):
-            $GLOBALS['tpl']->render('navigation-item', $row);
-        endforeach; ?>
-   	</ul>
+            @foreach(mainNavContent as row)<!-- Hack Inline block
+            -->@include(navigation-item, row)<!-- Hack Inline block
+        -->@endforeach
+    </ul>
     <form id="RL_navSearch" method="POST" action="index.php?file=Search&op=mod_search">
         <input type="search" placeholder="Recherche..." name="main" />
         <input type="hidden" name="searchtype" value="matchand" />
@@ -13,13 +13,10 @@
 </nav>
 <nav id="RL_subNav">
     <div id="RL_login">
-        <?php
-            if (array_key_exists(1, $GLOBALS['user'])) {
-                $GLOBALS['tpl']->render('userInfo');
-            }
-            else {
-                $GLOBALS['tpl']->render('login');
-            }
-        ?>
+        @if(array_key_exists(1, {{GLOBALS.user}}))
+            @include(userInfo)
+        @else
+            @include(login)
+        @endif
     </div>
 </nav>

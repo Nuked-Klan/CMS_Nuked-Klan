@@ -1,4 +1,4 @@
-<?php if($this->get('nbDownloads') > 0 && $this->get('blockDownloadActive')): ?>
+@if({{nbDownloads}} > 0 && {{blockDownloadActive}} == true)
 <div>
     <article>
         <header>
@@ -6,16 +6,16 @@
             <a class="RL_moreButton" href="index.php?file=Download">Plus</a>
         </header>
         <div id="RL_blockDownload">
-            <?php foreach($this->get('blockDownloadContent') as $item): ?>
+            @foreach(blockDownloadContent as item)
                 <div>
-                    <a href="<?php echo $item['link']; ?>"><span>Lien</span></a>
+                    <a href="{{item.link}}"><span>Lien</span></a>
                     <div>
-                        <p><?php echo $item['title']; ?></p>
-                        <p>T&eacute;l&eacute;charg&eacute; <?php echo $item['count']; ?> fois</p>
+                        <p>{{item.title}}</p>
+                        <p>T&eacute;l&eacute;charg&eacute; {{item.count}} fois</p>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            @endforeach
         </div>
     </article>
-</div><!-- Hack inline-block
---><?php endif; ?>
+</div><!-- Hack inline block
+-->@endif

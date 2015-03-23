@@ -1,38 +1,34 @@
 <div id="RL_loginPopupContainer">
     <form method="post" action="index.php?file=User&amp;op=login&amp;nuked_nude=index">
         <p>
-            <?php echo _LOGINUSER; ?>
+            {{*_LOGINUSER}}
         </p>
         <div>
             <label class="RL_labelIcons" id="RL_inputNick" for="pseudo">
-                <span><?php echo _NICK; ?></span>
+                <span>{{*_NICK}}</span>
             </label>
-            <input type="text" name="pseudo" required="required"/>
+            <input type="text" name="pseudo" placeholder="{{*_NICK}}" required="required"/>
         </div>
         <div>
             <label class="RL_labelIcons" id="RL_inputPass" for="pass">
-                <span><?php echo _PASSWORD; ?></span>
+                <span>{{*_PASSWORD}}</span>
             </label>
-            <input type="password" name="pass" required="required" />
+            <input type="password" name="pass" placeholder="{{*_PASSWORD}}" required="required" />
         </div>
-
-        <?php
-            if($this->captcha === true){
-                echo create_captcha();
-            }
-        ?>
-
+            @if({{captcha}} === true)
+                <?php echo create_captcha(); ?>
+            @endif
         <div>
             <input type="checkbox" name="remember_me" value="ok" checked="checked" />
             <label for="remember_me">
-                <span><?php echo REMEMBER_ME; ?></span>
+                <span>{{*REMEMBER_ME}}</span>
             </label>
         </div>
         <div>
-            <input type="submit" value="<?php echo _SEND; ?>" />
+            <input type="submit" value="{{*_SEND}}" />
         </div>
         <a href="index.php?file=User&amp;op=oubli_pass">
-            <?php echo LOST_PASS; ?>
+            {{*LOST_PASS}}
         </a>
     </form>
 </div>

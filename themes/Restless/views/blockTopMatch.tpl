@@ -1,19 +1,19 @@
 <aside id="RL_blockTopMatch">
-    <h2><?php echo $this->topMatchContent['title']; ?></h2>
+    <h2>{{topMatchContent.title}}</h2>
     <figure>
-        <figcaption><?php echo $this->topMatchContent['teamName']; ?></figcaption>
-        <img src="<?php echo $this->topMatchContent['teamLogo']; ?>" alt="" />
+        <figcaption>{{topMatchContent.teamName}}</figcaption>
+        <img src="{{topMatchContent.teamLogo}}" alt="" />
     </figure>
     <div>
-        <p class="RL_<?php echo $this->topMatchContent['scoreClass']; ?>" ><?php echo $this->topMatchContent['score']; ?></p>
+        <p class="RL_{{topMatchContent.scoreClass}}" >{{topMatchContent.score}}</p>
     </div>
     <figure>
-        <figcaption><?php echo $this->topMatchContent['opponentName']; ?></figcaption>
-        <img src="<?php echo $this->topMatchContent['opponentLogo']; ?>" alt="" />
+        <figcaption>{{topMatchContent.opponentName}}</figcaption>
+        <img src="{{topMatchContent.opponentLogo}}" alt="" />
     </figure>
     <p>
-        <strong>Date : </strong><?php echo $this->topMatchContent['date']; ?><br/>
-        <strong>Maps : </strong><?php echo $this->topMatchContent['maps']; ?>
+        <strong>Date : </strong>{{topMatchContent.date}}<br/>
+        <strong>Maps : </strong>{{topMatchContent.maps}}
     </p>
     <a href="#" class="RL_button">D&eacute;tails</a>
 </aside>
