@@ -17,10 +17,8 @@ else {
     try {
         require_once 'themes/Restless/librairies/iniConfigTool.php';
 
-        $cfg = new iniConfigTool('themes/Restless/config.ini');
-
         $tpl = new Tpl();
-        $tpl->assign('cfg', $cfg);
+        $tpl->assign('cfg', new iniConfigTool('themes/Restless/config.ini'));
 
 ?>
         <script type="text/javascript" src="themes/Restless/js/restless_admin.js"></script>
@@ -30,11 +28,11 @@ else {
         switch ($_REQUEST['op']) {
             case 'settings':
                 $tpl->render('adminNav');
-                $tpl->render('adminSettings', $cfg);
+                $tpl->render('adminSettings');
                 break;
             case 'blocks_management':
                 $tpl->render('adminNav');
-                $tpl->render('adminBlocks', $cfg);
+                $tpl->render('adminBlocks');
                 break;
             case 'modules_management':
                 $tpl->render('adminNav');
@@ -42,6 +40,9 @@ else {
                 break;
             case 'saveBlocks':
                 $tpl->render('adminSaveBlocks');
+                break;
+            case 'saveModules':
+                $tpl->render('adminSaveModules');
                 break;
             default:
                 $tpl->render('adminNav');
