@@ -450,7 +450,8 @@ function secu_css($Style){
         'padding-left',
         'padding-right',
         'font-size',
-        'font-family'
+        'font-family',
+        'page-break-after'
     );
     $Style = explode(';', $Style);
     $Style = array_map('trim', $Style);
