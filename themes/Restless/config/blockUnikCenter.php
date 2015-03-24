@@ -3,7 +3,7 @@
 $this->assign('blockArticleActive', $this->get('cfg')->get('blockArticle.active'));
 
 
-$dbsArticle = 'SELECT image, title, date, artid, autor
+$dbsArticle = 'SELECT coverage as image, title, date, artid, autor
                  FROM '.SECTIONS_TABLE.'
                  ORDER BY date DESC
                  LIMIT 0, 3';
