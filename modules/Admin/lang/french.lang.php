@@ -196,10 +196,12 @@ define("_DATEUSER","Date d'arrivée");
 define("_EDITUSER","Editer ce membre");
 define("_DELETEUSER","Supprimer ce membre");
 define("_TEAMMANAGEMENT","Gestion des Teams");
-define("_WARNINGTEAM","La Gestion des Teams se fait désormais dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permet de gérer un nombre infini de teams pour un utilisateur.<br />La pluspart des modules du site utilisent le nouveau module Equipe.<br />Toutefois vous pouvez continuer d'utiliser le système de Team ci dessous pour un autre besoin.");
+define("_WARNINGTEAM","Dans une prochaine mise à jour de Nuked Klan, la Gestion des Teams se fera dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permetra de gérer un nombre infini de teams pour un utilisateur.<br />La pluspart des modules du site utiliseront le nouveau module Equipe.<br />En attendant vous pouvez continuer d'utiliser le système de Team ci dessous.");
+define("_NOTIFLOGOTEAM","Le logo de la team est actuellement utilis&eacute; sur le th&egrave;me Restless dans le bloc TopMatch par exemple.<br />Les mises &agrave; ult&eacute;rieure exploiterons aussi cette nouvelle fonctionalit&eacute;.");
 define("_EDITTHISTEAM","Editer cette Team");
 define("_DELTHISTEAM","Supprimer cette Team");
 define("_ADDTEAM","Ajouter une Team");
+define("_TEAMLOGO","Logo de la Team");
 define("_NAME","Nom");
 define("_TAG","Tag");
 define("_ORDER","Ordre");
@@ -326,7 +328,7 @@ define("_TOLOG","S'identifier");
 define("_TOBACK","Retour");
 
 define("_BONJOUR","Bonjour");
-define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.7.10 !");
+define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.8 !");
 define("_AIDE","Aides");
 define("_STATS","Statistiques");
 define("_SQL","Erreurs SQL détectées");
@@ -511,4 +513,6 @@ define("_TYPEEDITEUR","Choix de l'éditeur de texte");
 define("_CKEDITOR","CKEditor");
 define("_TINYEDITOR","TinyEditor");
 
+define("_UPLOADFILEFAILED","Le T&eacute;l&eacute;chargement du fichier &agrave; &eacute;chou&eacute; !");
+define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
 ?>

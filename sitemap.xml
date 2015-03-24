@@ -5,13 +5,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>http://localhost/CMS_Nuked-Klan/index.php?file=News</loc>
 		<priority>0.8</priority>
-		<lastmod>2015-02-01</lastmod>
+		<lastmod>2015-03-15</lastmod>
 		<changefreq>daily</changefreq>
 	</url>
 	<url>
 		<loc>http://localhost/CMS_Nuked-Klan/index.php?file=Forum</loc>
 		<priority>0.4</priority>
-		<lastmod>2015-02-01</lastmod>
+		<lastmod>2015-03-15</lastmod>
 		<changefreq>always</changefreq>
 	</url>
 	<url>
@@ -31,13 +31,17 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 		<priority>0.5</priority>
 	</url>
 	<url>
+		<loc>http://localhost/CMS_Nuked-Klan/index.php?file=Sections</loc>
+		<priority>0.5</priority>
+	</url>
+	<url>
 		<loc>http://localhost/CMS_Nuked-Klan/index.php?file=Server</loc>
 		<priority>0.5</priority>
 	</url>
 	<url>
 		<loc>http://localhost/CMS_Nuked-Klan/index.php?file=Download</loc>
 		<priority>0.5</priority>
-		<lastmod>2015-02-01</lastmod>
+		<lastmod>2015-03-15</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>

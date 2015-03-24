@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     1.7.10
+ * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
@@ -1832,11 +1832,11 @@ function show_avatar(){
             . "// -->\n"
             . "</script>\n";
 
-    if ($dir = @opendir("modules/Forum/images/avatar/")){
+    if ($dir = @opendir("images/avatar/")){
         while (false !== ($f = readdir($dir))){
             if ($f != "." && $f != ".." && $f != "index.html" && $f != "Thumbs.db"){
-                $avatar = "modules/Forum/images/avatar/" . $f . "";
-                echo " <a href=\"#\" onclick=\"javascript:go('" . $avatar . "');\"><img style=\"border: 0;\" src=\"modules/Forum/images/avatar/" . $f . "\" alt=\"\" title=\"" . $f . "\" /></a>";
+                $avatar = "images/avatar/" . $f . "";
+                echo " <a href=\"#\" onclick=\"javascript:go('" . $avatar . "');\"><img style=\"border: 0;\" src=\"images/avatar/" . $f . "\" alt=\"\" title=\"" . $f . "\" /></a>";
             }
         }
         closedir($dir);

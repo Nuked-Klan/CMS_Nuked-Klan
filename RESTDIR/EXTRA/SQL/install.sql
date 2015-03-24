@@ -511,13 +511,13 @@ CREATE TABLE IF NOT EXISTS `nuked_forums_rank` (
 --
 
 INSERT INTO `nuked_forums_rank` (`id`, `nom`, `type`, `post`, `image`) VALUES
-(1, 'Noob', 0, 0, 'modules/Forum/images/rank/star1.gif'),
-(2, 'Jeune membre', 0, 10, 'modules/Forum/images/rank/star2.gif'),
-(3, 'Membre', 0, 100, 'modules/Forum/images/rank/star3.gif'),
-(4, 'Membre averti', 0, 500, 'modules/Forum/images/rank/star4.gif'),
-(5, 'Posteur Fou', 0, 1000, 'modules/Forum/images/rank/star5.gif'),
-(6, 'Modérateur', 1, 0, 'modules/Forum/images/rank/mod.gif'),
-(7, 'Administrateur', 2, 0, 'modules/Forum/images/rank/mod.gif');
+(1, 'Noob', 0, 0, 'modules/Forum/images/rank/star1.png'),
+(2, 'Jeune membre', 0, 10, 'modules/Forum/images/rank/star2.png'),
+(3, 'Membre', 0, 100, 'modules/Forum/images/rank/star3.png'),
+(4, 'Membre averti', 0, 500, 'modules/Forum/images/rank/star4.png'),
+(5, 'Posteur Fou', 0, 1000, 'modules/Forum/images/rank/star5.png'),
+(6, 'Modérateur', 1, 0, 'modules/Forum/images/rank/mod.png'),
+(7, 'Administrateur', 2, 0, 'modules/Forum/images/rank/mod.png');
 
 -- --------------------------------------------------------
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     1.7.10
+ * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
@@ -53,7 +53,7 @@ if ($visiteur == 9)
 		if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
 		if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
 		if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
-		if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
+		if ($nuked['user_origin'] == 'on'){echo "<tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
 		if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
 		if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
 		if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
@@ -802,10 +802,16 @@ if ($visiteur == 9)
         . "<div class=\"tab-content\" id=\"tab2\"><br />\n"
         . "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
         . "<div>" . _WARNINGTEAM . "</div></div><br />\n"
-        . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_cat\">\n"
+        . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_cat\" enctype=\"multipart/form-data\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"titre\" size=\"32\" />&nbsp;<b>" . _ORDER . " : </b><input type=\"text\" name=\"ordre\" size=\"2\" /></td></tr>\n"
         . "<tr><td><b>" . _TAGPRE . " : </b><input type=\"text\" name=\"tag\" size=\"10\" />&nbsp;<b>" . _TAGSUF . " : </b><input type=\"text\" name=\"tag2\" size=\"10\" /></td></tr>\n"
+        . "<tr><td>\n";
+
+        printNotification(_NOTIFLOGOTEAM, '#', $type = 'information', $back = false, $redirect = false);
+
+        echo "<b>" . _TEAMLOGO . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" /></td></tr>\n"
+        . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
         . "<tr><td><b>" . _GAME . " :</b> <select name=\"game\">\n";
 
         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
@@ -821,7 +827,7 @@ if ($visiteur == 9)
         . "</form><br /></div></div>\n";
     }
 
-    function send_cat($titre, $game, $tag, $tag2, $ordre)
+    function send_cat($titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage)
     {
         global $nuked, $user;
 
@@ -829,7 +835,29 @@ if ($visiteur == 9)
         $tag = mysql_real_escape_string(stripslashes($tag));
         $tag2 = mysql_real_escape_string(stripslashes($tag2));
 
-        $sql = mysql_query("INSERT INTO " . TEAM_TABLE . " ( `cid` , `titre`, `tag` , `tag2` , `ordre` , `game`) VALUES ( '' , '" . $titre . "' , '" . $tag . "' , '" . $tag2 . "' , '" . $ordre . "' , '" . $game . "')");
+        //Upload du fichier
+        $filename = $_FILES['upImage']['name'];
+        if ($filename != "") {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                $url_image = "upload/Team/" . $filename;
+                move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
+                or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Admin&page=user&op=add_cat', $type = 'error', $back = false, $redirect = true));
+                @chmod ($url_image, 0644);
+            }
+            else {
+                printNotification(_NOIMAGEFILE, 'index.php?file=Admin&page=user&op=add_cat', $type = 'error', $back = false, $redirect = true);
+                adminfoot();
+                footer();
+                die;
+            }
+        }
+        else {
+            $url_image = $urlImage;
+        }
+
+        $sql = mysql_query("INSERT INTO " . TEAM_TABLE . " ( `cid` , `titre`, `tag` , `tag2` , `image` , `ordre` , `game`) VALUES ( '' , '" . $titre . "' , '" . $tag . "' , '" . $tag2 . "' , '" . $url_image . "' , '" . $ordre . "' , '" . $game . "')");
         // Action
         $texteaction = "". _ACTIONADDCATUSER .": ".$titre."";
         $acdate = time();
@@ -847,8 +875,8 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
-        $sql = mysql_query("SELECT titre, tag, tag2, ordre, game FROM " . TEAM_TABLE . " WHERE cid = '" . $cid . "'");
-        list($titre, $tag, $tag2, $ordre, $game) = mysql_fetch_array($sql);
+        $sql = mysql_query("SELECT titre, tag, tag2, image, ordre, game FROM " . TEAM_TABLE . " WHERE cid = '" . $cid . "'");
+        list($titre, $tag, $tag2, $teamLogo, $ordre, $game) = mysql_fetch_array($sql);
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
@@ -858,10 +886,22 @@ if ($visiteur == 9)
         . "<div class=\"tab-content\" id=\"tab2\"><br />\n"
         . "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
         . "<div>" . _WARNINGTEAM . "</div></div><br />\n"
-        . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_cat\">\n"
+        . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"titre\" size=\"32\" value=\"" . $titre . "\" />&nbsp;<b>" . _ORDER . " : </b><input type=\"text\" name=\"ordre\" size=\"2\" value=\"" . $ordre . "\" /></td></tr>\n"
         . "<tr><td><b>" . _TAGPRE . " : </b><input type=\"text\" name=\"tag\" size=\"10\" value=\"" . $tag . "\" />&nbsp;<b>" . _TAGSUF . " : </b><input type=\"text\" name=\"tag2\" size=\"10\" value=\"" . $tag2 . "\" /></td></tr>\n"
+        . "<tr><td>\n";
+
+        printNotification(_NOTIFLOGOTEAM, '#', $type = 'information', $back = false, $redirect = false);
+
+        echo "<b>" . _TEAMLOGO . " :</b> <input type=\"text\" name=\"urlImage\" value=\"" . $teamLogo . "\" size=\"42\" />\n";
+
+            if ($teamLogo != ""){
+                echo "<img src=\"" . $teamLogo . "\" title=\"" . printSecuTags($titre) . "\" style=\"margin-left:20px; width:60px; height:auto; vertical-align:middle;\" />\n";
+            }
+
+        echo "</td></tr>\n"
+        . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
         . "<tr><td><b>" . _GAME . " :</b> <select name=\"game\">\n";
 
         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
@@ -886,7 +926,7 @@ if ($visiteur == 9)
         . "</form><br /></div></div>\n";
     }
 
-    function modif_cat($cid, $titre, $game, $tag, $tag2, $ordre)
+    function modif_cat($cid, $titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage)
     {
         global $nuked, $user;
 
@@ -894,7 +934,29 @@ if ($visiteur == 9)
         $tag = mysql_real_escape_string(stripslashes($tag));
         $tag2 = mysql_real_escape_string(stripslashes($tag2));
 
-        $sql = mysql_query("UPDATE " . TEAM_TABLE . " SET titre = '" . $titre . "', tag = '" . $tag . "', tag2 = '" . $tag2 . "', ordre = '" . $ordre . "', game = '" . $game . "' WHERE cid = '" . $cid . "'");
+        //Upload du fichier
+        $filename = $_FILES['upImage']['name'];
+        if ($filename != "") {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                $url_image = "upload/Team/" . $filename;
+                move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
+                or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Admin&page=user&op=edit_cat&cid=' . $cid . '', $type = 'error', $back = false, $redirect = true));
+                @chmod ($url_image, 0644);
+            }
+            else {
+                printNotification(_NOIMAGEFILE, 'index.php?file=Admin&page=user&op=edit_cat&cid=' . $cid . '', $type = 'error', $back = false, $redirect = true);
+                adminfoot();
+                footer();
+                die;
+            }
+        }
+        else {
+            $url_image = $urlImage;
+        }
+
+        $sql = mysql_query("UPDATE " . TEAM_TABLE . " SET titre = '" . $titre . "', tag = '" . $tag . "', tag2 = '" . $tag2 . "', image = '" . $url_image . "', ordre = '" . $ordre . "', game = '" . $game . "' WHERE cid = '" . $cid . "'");
         // Action
         $texteaction = "". _ACTIONEDITCATUSER .": ".$titre."";
         $acdate = time();
@@ -1718,7 +1780,7 @@ if ($visiteur == 9)
             break;
 
          case "send_cat":
-            send_cat($_REQUEST['titre'], $_REQUEST['game'], $_REQUEST['tag'], $_REQUEST['tag2'], $_REQUEST['ordre']);
+            send_cat($_REQUEST['titre'], $_REQUEST['game'], $_REQUEST['tag'], $_REQUEST['tag2'], $_REQUEST['ordre'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
             break;
 
         case "add_cat":
@@ -1734,7 +1796,7 @@ if ($visiteur == 9)
             break;
 
         case "modif_cat":
-            modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['game'], $_REQUEST['tag'], $_REQUEST['tag2'], $_REQUEST['ordre']);
+            modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['game'], $_REQUEST['tag'], $_REQUEST['tag2'], $_REQUEST['ordre'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
             break;
 
         case "del_cat":

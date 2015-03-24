@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 translate("modules/News/lang/" . $language . ".lang.php");
@@ -46,10 +44,9 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _NAVNEWS . "<b> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=add\">" . _ADDNEWS . "</a> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
+		   . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        	nkAdminMenu(1);
 
 		if ($_REQUEST['orderby'] == "date") {
 			$order_by = "date DESC";
@@ -156,25 +153,25 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			echo "</div>\n";
 		}
 
-		echo "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+		echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
 	}
 
 	function add() {
 		global $nuked, $language;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
-		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
-		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=News&amp;page=admin\">" . _NAVNEWS . "</a> | "
-		   . "</b>" . _ADDNEWS . "<b> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-		   . "<form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_add\" onsubmit=\"backslash('news_texte');backslash('news_suite');\">\n"
-		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-		   . "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><b>" . _PUBLISH . "&nbsp;" . _THE ." :</b>&nbsp;<select id=\"news_jour\" name=\"jour\">\n";
+			. "<div class=\"content-box-header\"><h3>" . _ADDNEWS . "</h3>\n"
+			. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
+			. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+			. "</div></div>\n"
+			. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        	nkAdminMenu(2);
+
+		echo "<form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_add\" onsubmit=\"backslash('news_texte');backslash('news_suite');\" enctype=\"multipart/form-data\">\n"
+			. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
+			. "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" /></td></tr>\n"
+			. "<tr><td align=\"center\"><b>" . _PUBLISH . "&nbsp;" . _THE ." :</b>&nbsp;<select id=\"news_jour\" name=\"jour\">\n";
 
 		$day = 1;
 		while ($day < 32) {
@@ -216,9 +213,11 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$heure = date("H:i");
 
 		echo "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
-		   . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
-		   . "</select>&nbsp;<b>" . _AT . " :</b>&nbsp;<input type=\"text\" id=\"news_heure\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><b>" . _CAT . " :</b> <select id=\"news_cat\" name=\"cat\">\n";
+		   	. "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
+		   	. "</select>&nbsp;<b>" . _AT . " :</b>&nbsp;<input type=\"text\" id=\"news_heure\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr>\n"
+			. "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" /></td></tr>\n"
+        	. "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
+		   	. "<tr><td align=\"center\"><b>" . _CAT . " :</b> <select id=\"news_cat\" name=\"cat\">\n";
 
 		select_news_cat();
 
@@ -232,12 +231,11 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 
 		echo "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDNEWS . "\" />\n"
-		   . "</td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\">[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main\"><b>" . _BACK . "</b></a> ]</td></tr></table></form><br /></div></div>\n";
+		   . "</table><br /><div style=\"text-align: center;\"><input class=\"button\" type=\"submit\" value=\"" . _ADDNEWS . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main\">" . _BACK . "</a></div>\n"
+		   . "</form><br /></div></div>\n";
 	}
 
-	function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
+	function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $urlImage, $upImage) {
 		global $nuked, $user;
 
 
@@ -254,7 +252,29 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$auteur = $user[2];
 		$auteur_id = $user[0];
 
-		$sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
+        //Upload du fichier
+        $filename = $_FILES['upImage']['name'];
+        if ($filename != "") {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                $url_image = "upload/News/" . $filename;
+                move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
+                or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true));
+                @chmod ($url_image, 0644);
+            }
+            else {
+                printNotification(_NOIMAGEFILE, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                adminfoot();
+                footer();
+                die;
+            }
+        }
+        else {
+            $url_image = $urlImage;
+        }
+
+		$sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `coverage` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $url_image . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
 		// Action
 		$texteaction = "". _ACTIONADDNEWS .": ".$titre.".";
 		$acdate = time();
@@ -278,21 +298,22 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function edit($news_id) {
 		global $nuked, $language;
 
-		$sql = mysql_query("SELECT titre, texte, suite, date, cat FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
-		list($titre, $texte, $suite, $date, $cat) = mysql_fetch_array($sql);
+		$sql = mysql_query("SELECT titre, coverage, texte, suite, date, cat FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
+		list($titre, $coverage, $texte, $suite, $date, $cat) = mysql_fetch_array($sql);
 
 		$sql2 = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
 		list($cid, $categorie) = mysql_fetch_array($sql2);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
-		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
-		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_edit&amp;news_id=" . $news_id . "\" onsubmit=\"backslash('news_texte');backslash('news_suite');\">\n"
-		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-		   . "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . printSecuTags($titre) . "\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><b>" . _PUBLISH . "&nbsp;" . _THE ." :</b>&nbsp;<select id=\"news_jour\" name=\"jour\">\n";
+		   	. "<div class=\"content-box-header\"><h3>" . _EDITTHISNEWS . "</h3>\n"
+		   	. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
+		   	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		   	. "</div></div>\n";
+		   	printNotification(_NOTIFIMAGECOVERAGE, '#', $type = 'information', $back = false, $redirect = false);
+		echo "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_edit&amp;news_id=" . $news_id . "\" onsubmit=\"backslash('news_texte');backslash('news_suite');\" enctype=\"multipart/form-data\">\n"
+		   	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
+		   	. "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . printSecuTags($titre) . "\" /></td></tr>\n"
+		   	. "<tr><td align=\"center\"><b>" . _PUBLISH . "&nbsp;" . _THE ." :</b>&nbsp;<select id=\"news_jour\" name=\"jour\">\n";
 
 		$day = 1;
 		while ($day < 32) {
@@ -334,9 +355,17 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$heure = date("H:i", $date);
 
 		echo "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
-		   . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
-		   . "</select>&nbsp;<b>" . _AT . " :</b>&nbsp;<input type=\"text\" id=\"news_heure\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><b>" . _CAT . " :</b> <select id=\"news_cat\" name=\"cat\"><option value=\"" . $cid . "\">" . $categorie . "</option>\n";
+		   	. "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
+		   	. "</select>&nbsp;<b>" . _AT . " :</b>&nbsp;<input type=\"text\" id=\"news_heure\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr>\n"
+			. "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImage\" value=\"" . $coverage . "\" size=\"42\" />\n";
+
+			if ($coverage != ""){
+				echo "<img src=\"" . $coverage . "\" title=\"" . printSecuTags($titre) . "\" style=\"margin-left:20px; width:300px; height:auto; vertical-align:middle;\" />\n";
+			}
+
+			echo "</td></tr>\n"
+        	. "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
+		   	. "<tr><td align=\"center\"><b>" . _CAT . " :</b> <select id=\"news_cat\" name=\"cat\"><option value=\"" . $cid . "\">" . $categorie . "</option>\n";
 
 		select_news_cat();
 
@@ -349,12 +378,11 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 
 		echo "</td></tr><tr><td align=\"center\"><textarea class=\"editor\" id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\">".$suite."</textarea></td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFTHISNEWS . "\" />\n"
-		   . "</td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\">[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main\"><b>" . _BACK . "</b></a> ]</td></tr></table></form><br /></div></div>\n";
+		   . "</table><br /><div style=\"text-align: center;\"><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISNEWS . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main\">" . _BACK . "</a></div>\n"
+		   . "</form><br /></div></div>\n";
 	}
 
-	function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
+	function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $urlImage, $upImage) {
 		global $nuked, $user;
 
 		$table = explode(':', $heure, 2);
@@ -366,7 +394,29 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$suite = secu_html(nkHtmlEntityDecode($suite));
 		$suite = mysql_real_escape_string(stripslashes($suite));
 
-		$upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
+        //Upload du fichier
+        $filename = $_FILES['upImage']['name'];
+        if ($filename != "") {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                $url_image = "upload/News/" . $filename;
+                move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
+                or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=edit&news_id=' . $news_id . '', $type = 'error', $back = false, $redirect = true));
+                @chmod ($url_image, 0644);
+            }
+            else {
+                printNotification(_NOIMAGEFILE, 'index.php?file=News&page=admin&op=edit&news_id=' . $news_id . '', $type = 'error', $back = false, $redirect = true);
+                adminfoot();
+                footer();
+                die;
+            }
+        }
+        else {
+            $url_image = $urlImage;
+        }
+
+		$upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', coverage = '" . $url_image . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
 		// Action
 		$texteaction = "". _ACTIONMODIFNEWS .": ".$titre.".";
 		$acdate = time();
@@ -422,19 +472,19 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</script>\n";
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
-		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
-		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=News&amp;page=admin\">" . _NAVNEWS . "</a> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=add\">" . _ADDNEWS . "</a> | "
-		   . "</b>" . _CATMANAGEMENT . "<b> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-		   . "<tr>\n"
-		   . "<td style=\"width: 60%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-		   . "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-		   . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
+			. "<div class=\"content-box-header\"><h3>" . _CATMANAGEMENT . "</h3>\n"
+			. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
+			. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+			. "</div></div>\n"
+			. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        	nkAdminMenu(3);
+
+		echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+			. "<tr>\n"
+			. "<td style=\"width: 60%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
+			. "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
+			. "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
 		$sql = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
 		while (list($cid, $titre) = mysql_fetch_array($sql)) {
@@ -446,8 +496,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:del_cat('" . mysql_real_escape_string(stripslashes($titre)) . "','" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
 		}
 
-		echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=News&amp;page=admin&amp;op=add_cat\"><b>" . _ADDCAT . "</b></a> ]</div>\n"
-		   . "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=News&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+		echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin\">" . _BACK . "</a></div>\n"
+		   . "<br /></div></div>\n";
 	}
 
 
@@ -455,7 +505,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		global $language;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _ADDCAT . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
@@ -465,8 +515,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" /></td></tr>\n"
 		   . "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
 		   . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\"></textarea></td></tr>\n"
-		   . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
-		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		   . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+		   . "</form><br /></div></div>\n";
 	}
 
 	function send_cat($titre, $description, $image, $fichiernom) {
@@ -523,18 +573,24 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         $description = editPhpCkeditor($description);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
-		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
-		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
-		   . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
-		   . "<tr><td><b>" . _TITLE . " : </b><input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" value=\"" . $image . "\" /></td></tr>\n"
-		   . "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
-		   . "</table><div style=\"text-align: center;\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
-		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>\n";
+			. "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
+			. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
+			. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+			. "</div></div>\n"
+			. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
+			. "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
+			. "<tr><td><b>" . _TITLE . " : </b><input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
+			. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" value=\"" . $image . "\" />\n";
+
+        if ($image != ""){
+        echo "<img src=\"" . $image . "\" title=\"" . $titre . "\" style=\"margin-left:20px; width:50px; height:50px; vertical-align:middle;\" />\n";
+        }
+
+		echo "</td></tr>\n"
+			. "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
+			. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
+			. "</table><div style=\"text-align: center;\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+			. "</form><br /></div>\n";
 
 	}
 
@@ -617,21 +673,20 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		global $nuked, $language;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
-		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
-		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=News&amp;page=admin\">" . _NAVNEWS . "</a> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=add\">" . _ADDNEWS . "</a> | "
-		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-		   . "</b>" . _PREFS . "</div><br />\n"
-		   . "<form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=change_pref\">\n"
-		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-		   . "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
-		   . "<tr><td>" . _NUMBERNEWS . " :</td><td> <input type=\"text\" name=\"max_news\" size=\"2\" value=\"" . $nuked['max_news'] . "\" /></td></tr>\n"
-		   . "<tr><td>" . _NUMBERARCHIVE . " :</td><td> <input type=\"text\" name=\"max_archives\" size=\"2\" value=\"" . $nuked['max_archives'] . "\" /></td></tr>\n"
-		   . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=News&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+			. "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
+			. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
+			. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+			. "</div></div>\n"
+			. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        	nkAdminMenu(4);
+
+		echo "<form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=change_pref\">\n"
+			. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
+			. "<tr><td>" . _NUMBERNEWS . " :</td><td> <input type=\"text\" name=\"max_news\" size=\"2\" value=\"" . $nuked['max_news'] . "\" /></td></tr>\n"
+			. "<tr><td>" . _NUMBERARCHIVE . " :</td><td> <input type=\"text\" name=\"max_archives\" size=\"2\" value=\"" . $nuked['max_archives'] . "\" /></td></tr>\n"
+			. "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin\">" . _BACK . "</a></div>\n"
+			. "</form><br /></div></div>\n";
 	}
 
 	function change_pref($max_news, $max_archives) {
@@ -651,6 +706,43 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</div>\n";
 		redirect("index.php?file=News&page=admin", 2);
 	}
+
+    function nkAdminMenu($tab = 1) {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=News&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _NAVNEWS; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=add">
+                        <img src="modules/Admin/images/icons/add_page.png" alt="icon" />
+                        <span><?php echo _ADDNEWS; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 3 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=main_cat">
+                        <img src="modules/Admin/images/icons/folder_full.png" alt="icon" />
+                        <span><?php echo _CATMANAGEMENT; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 4 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
 	switch ($_REQUEST['op']) {
 		case "edit":
@@ -673,14 +765,14 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		case "do_add":
 			admintop();
-			do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure']);
+			do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
 			UpdateSitmap();
 			adminfoot();
 			break;
 
 		case "do_edit":
 			admintop();
-			do_edit($_REQUEST['news_id'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure']);
+			do_edit($_REQUEST['news_id'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
 			adminfoot();
 			break;
 
@@ -744,24 +836,15 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			adminfoot();
 			break;
 	}
-} else if ($level_admin == -1) {
-	echo "<div class=\"notification error png_bg\">\n"
-	   . "<div>\n"
-	   . "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	   . "</div>\n"
-	   . "</div>\n";
-} else if ($visiteur > 1) {
-	echo "<div class=\"notification error png_bg\">\n"
-	   . "<div>\n"
-	   . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	   . "</div>\n"
-	   . "</div>\n";
-} else {
-	echo "<div class=\"notification error png_bg\">\n"
-	   . "<div>\n"
-	   . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	   . "</div>\n"
-	   . "</div>\n";
+}
+else if ($level_admin == -1) {
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
+}
+else if ($visiteur > 1) {
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
+}
+else {
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
 
 ?>

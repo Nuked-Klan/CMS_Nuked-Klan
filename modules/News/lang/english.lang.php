@@ -112,4 +112,6 @@ define("_ACTIONEDITCATNEWS","has modified the news category");
 define("_ACTIONDELCATNEWS", "has deleted the news category");
 define("_ACTIONPREFNEWS","has modified the preference of news module");
 
+define("_NOTIFIMAGECOVERAGE","Cover image can be use by your template in a slider for example. Ensure that your template is compatible with this option.");
+
 ?>

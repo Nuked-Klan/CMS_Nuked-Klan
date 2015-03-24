@@ -90,16 +90,34 @@ function com_index($module, $im_id){
     <script  type="text/javascript">
     <!--
         function sent(pseudo, module, im_id, ctToken, ctScript, ctEmail){
+            $("#post_commentary").find('input.ct_script').val('klan');
+            ctScript = $("#post_commentary").find('input.ct_script').val();
             <?php
                 if($GLOBALS['captcha'] === true){
                     echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
                 }
                 else{
-                    echo 'var captchaData = ""';
+                    echo 'var captchaData = "";';
                 }
             ?>
-            var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText();
-            var editor_txt = CKEDITOR.instances.e_basic.getData();
+            <?php
+                switch ($nuked['editor_type'])
+                {
+                    case 'cke':
+                        echo '
+                            var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText().trim();
+                            var editor_txt = CKEDITOR.instances.e_basic.getData();
+                        ';
+                        break;
+                    case 'tiny':
+                    default:
+                        echo '
+                            var editor_txt = tinyMCE.activeEditor.getContent();
+                            var editor_val = editor_txt.replace(/(<([^>]+)>)/ig,"").trim();
+                        ';
+                        break;
+                }
+            ?>
             if(editor_val == ''){
                 alert('<?php echo _NOTEXT; ?>');
                 return false;
@@ -117,14 +135,17 @@ function com_index($module, $im_id){
                     if (OAjax.readyState == 4 && OAjax.status==200){
                         if (document.getElementById){
                             document.getElementById("message").innerHTML = '<div style="margin:25px 5px;padding:10px 0;text-align:center;border:1px solid #e3e3e3;background:#edfff7;color:#333"><b><?php echo _THXCOM; ?></b></div>';
-                            document.location = document.location;
+                            setTimeout(function(){
+                                document.location.reload();
+                            }, 2500);
                         }
                     }
                 }
                 OAjax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 OAjax.send("texte="+encodeURIComponent(editor_txt)+"&pseudo="+pseudo+"&module="+module+"&im_id="+im_id+"&ajax=1"+captchaData);
-                return true;
+                return false;
             }
+            return false;
         }
     -->
     </script>
@@ -170,7 +191,7 @@ function com_index($module, $im_id){
 
                 echo '<script type="text/javascript">function delmess(pseudo, id){if(confirm(\''._DELCOMMENT.' \'+pseudo+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&page=admin&op=del_com&cid=\'+id;}}</script>';
 
-                $admin = '<a href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'"><img style="border:none;" src="modules/Forum/images/buttons/'.$language.'/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a>&nbsp;<a href="javascript:delmess(\''.mysql_real_escape_string(stripslashes($autor)).'\', \''.$row['id'].'\');"><img style="border:none;" src="modules/Forum/images/delete.gif" alt="" title="'._DELTHISCOM.'" /></a>';
+                $admin = '<a class="nkButton icon alone small edit" href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'" title="'._EDITTHISCOM.'"></a><a class="nkButton icon alone small remove danger" href="javascript:delmess(\''.mysql_real_escape_string(stripslashes($autor)).'\', \''.$row['id'].'\');" title="'._DELTHISCOM.'"></a>';
 
             }else $admin = '';
 
@@ -181,7 +202,7 @@ function com_index($module, $im_id){
 
                     echo '<br /><br /><img src="'.$avatar.'" style="max-width: 100px; max-height: 100px;" alt="" />';
 
-                    $profil = ($test > 0) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($autor).'"><img style="border:none;" src="modules/Forum/images/buttons/'.$language.'/profile.gif" alt="" /></a>' : '';
+                    $profil = ($test > 0) ? '<a class="nkButton icon alone small user" href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($autor).'"></a>' : '';
 
             echo '  </td>
                     <td style="width:70%;" valign="top">
@@ -191,7 +212,7 @@ function com_index($module, $im_id){
                   </tr>
                   <tr style="background:'.$bg.';">
                       <td style="width:30%;">&nbsp;</td>
-                    <td colspan="2">'.$profil.'&nbsp;'.$admin.'<br /></td>
+                    <td colspan="2"><div class="nkButton-group">'.$profil . $admin.'</div><br /></td>
                   </tr>';
             unset($avatar, $autor, $country);
         }
@@ -218,7 +239,7 @@ function com_index($module, $im_id){
 
 
         echo '<div id="message">
-                <form method="post" onsubmit="'.$Soumission.'" action="">
+                <form id="post_commentary" method="post" onsubmit="javascript:return '.$Soumission.'" action="#post_commentary">
                 <table width="100%" cellspacing="5" cellpadding="0" border="0" style="padding-top:15px">';
                 if($user) echo '<tr style="display: none"><td colspan="2"><input id="compseudo" type="hidden" name="pseudo" value="'.$user[2].'" /></td></tr>';
                 else {

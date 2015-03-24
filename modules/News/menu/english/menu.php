@@ -2,28 +2,34 @@
 header('Content-type: text/html; charset=iso-8859-1');
 ?>
 <html><body>
-				<li><a class="shortcut-button" href="index.php?file=News&amp;page=admin"><span>
-					<img src="modules/Admin/images/icons/home.png" alt="icon" /><br />
-					Manage the module
-				</span></a></li>
-				
-				<li><a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=add"><span>
-					<img src="modules/Admin/images/icons/pencil_48.png" alt="icon" /><br />
-					Write a new
-				<br />&nbsp;</span></a></li>
-				
-				<li><a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=main_cat"><span>
-					<img src="modules/Admin/images/icons/gestioncat.png" alt="icon" /><br />
-					Manage the categorie
-				</span></a></li>
-				
-				<li><a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=add_cat"><span>
-					<img src="modules/Admin/images/icons/paper_content_pencil_48.png" alt="icon" /><br />
-					Add a categorie
-				</span></a></li>
-				
-				<li><a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=main_pref"><span>
-					<img src="modules/Admin/images/icons/preference.png" alt="icon" /><br />
-					Preference
-				<br />&nbsp;</span></a></li>
+	<li>
+		<a class="shortcut-button" href="index.php?file=News&amp;page=admin">
+			<img src="modules/Admin/images/icons/speedometer.png" alt="icon" /><br />
+			<span>Manage the module</span>
+		</a>
+	</li>
+	<li>
+		<a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=add">
+			<img src="modules/Admin/images/icons/add_page.png" alt="icon" /><br />
+			<span>Write a news</span>
+		</a>
+	</li>
+	<li>
+		<a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=main_cat">
+			<img src="modules/Admin/images/icons/folder_full.png" alt="icon" /><br />
+			<span>Manage folders</span>
+		</a>
+	</li>
+	<li>
+		<a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=add_cat">
+			<img src="modules/Admin/images/icons/add_to_folder.png" alt="icon" /><br />
+			<span>Add a folder</span>
+		</a>
+	</li>
+	<li>
+		<a class="shortcut-button" href="index.php?file=News&amp;page=admin&amp;op=main_pref">
+			<img src="modules/Admin/images/icons/process.png" alt="icon" /><br />
+			<span>Preferences</span>
+		</a>
+	</li>
 </body></html>

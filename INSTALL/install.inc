@@ -146,12 +146,12 @@
                             ('time_generate', 'on'),
                             ('dateformat', '" . $dateFormat. "'),
                             ('datezone', '" . $dateZone . "'),
-                            ('version', '1.7.10'),
+                            ('version', '1.8.0'),
                             ('date_install', '".$date."'),
                             ('langue', '".$this->data['lang_install']."'),
                             ('stats_share', '".$stats_share."'),
                             ('stats_timestamp', '0'),
-                            ('name', 'Nuked-klaN 1.7.10'),
+                            ('name', 'Nuked-klaN 1.8'),
                             ('slogan', 'PHP 4 Gamers'),
                             ('tag_pre', ''),
                             ('tag_suf', ''),
@@ -180,7 +180,7 @@
                             ('server_game', ''),
                             ('forum_title', ''),
                             ('forum_desc', ''),
-                            ('forum_rank_team', 'off'),
+                            ('forum_rank_team', 'on'),
                             ('forum_field_max', '10'),
                             ('forum_file', 'on'),
                             ('forum_file_level', '1'),
@@ -229,7 +229,7 @@
                             ('forum_user_details', 'on'),
                             ('forum_labels_active', 'on'),
                             ('forum_display_modos', 'on'),
-                            ('user_email', 'on'),
+                            ('user_email', 'off'),
                             ('user_icq', 'off'),
                             ('user_msn', 'off'),
                             ('user_aim', 'off'),
@@ -238,12 +238,12 @@
                             ('user_facebook', 'on'),
                             ('user_origin', 'on'),
                             ('user_steam', 'on'),
-                            ('user_twitter', 'on'),
+                            ('user_twitter', 'off'),
                             ('user_skype', 'on'),
                             ('user_website', 'on'),
                             ('user_social_level', '0'),
                             ('sp_version', 'off'),
-                            ('editor_type', 'tiny');";
+                            ('editor_type', 'cke');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -380,7 +380,7 @@
                         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
                         $req = mysql_query($sql) or die (mysql_error());
                         
-                        $sql = "INSERT INTO `" . $db_prefix . "_forums` VALUES (1, 1, 'Forum', 'Test Forum', '', '', 0, 0, 0, 1 ,1);";
+                        $sql = "INSERT INTO `" . $db_prefix . "_forums` VALUES (1, 1, 0, 'Forum', 'Test Forum', '', '', 0, 0, 0, 1 ,1);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -465,13 +465,13 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_forums_rank` VALUES
-                            (1, '"._NEWBIE."', 0, 0, 'modules/Forum/images/rank/star1.gif'),
-                            (2, '"._JUNIORMEMBER."', 0, 10, 'modules/Forum/images/rank/star2.gif'),
-                            (3, '"._MEMBER."', 0, 100, 'modules/Forum/images/rank/star3.gif'),
-                            (4, '"._SENIORMEMBER."', 0, 500, 'modules/Forum/images/rank/star4.gif'),
-                            (5, '"._POSTINGFREAK."', 0, 1000, 'modules/Forum/images/rank/star5.gif'),
-                            (6, '"._MODERATOR."', 1, 0, 'modules/Forum/images/rank/mod.gif'),
-                            (7, '"._ADMINISTRATOR."', 2, 0, 'modules/Forum/images/rank/mod.gif');";
+                            (1, '"._NEWBIE."', 0, 0, 'modules/Forum/images/rank/star1.png'),
+                            (2, '"._JUNIORMEMBER."', 0, 10, 'modules/Forum/images/rank/star2.png'),
+                            (3, '"._MEMBER."', 0, 100, 'modules/Forum/images/rank/star3.png'),
+                            (4, '"._SENIORMEMBER."', 0, 500, 'modules/Forum/images/rank/star4.png'),
+                            (5, '"._POSTINGFREAK."', 0, 1000, 'modules/Forum/images/rank/star5.png'),
+                            (6, '"._MODERATOR."', 1, 0, 'modules/Forum/images/rank/mod.png'),
+                            (7, '"._ADMINISTRATOR."', 2, 0, 'modules/Forum/images/rank/mod.png');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -674,6 +674,7 @@
                           `adversaire` text,
                           `url_adv` varchar(60) default NULL,
                           `pays_adv` varchar(50) NOT NULL default '',
+                          `image_adv` varchar(255) NOT NULL default '',
                           `type` varchar(100) default NULL,
                           `style` varchar(100) NOT NULL default '',
                           `date_jour` int(2) default NULL,
@@ -769,6 +770,7 @@
                           `id` int(11) NOT NULL auto_increment,
                           `cat` varchar(30) NOT NULL default '',
                           `titre` text,
+                          `coverage` varchar(255) NOT NULL default '',
                           `auteur` text,
                           `auteur_id` varchar(20) NOT NULL default '',
                           `texte` text,
@@ -849,6 +851,7 @@
                         `secid` int(11) NOT NULL default '0',
                         `title` text NOT NULL,
                         `content` text NOT NULL,
+                        `coverage` varchar(255) NOT NULL default '',
                         `autor` text NOT NULL,
                         `autor_id` varchar(20) NOT NULL default '',
                         `counter` int(11) NOT NULL default '0',
@@ -869,6 +872,7 @@
                           `parentid` int(11) NOT NULL default '0',
                           `secname` varchar(40) NOT NULL default '',
                           `description` text NOT NULL,
+                          `image` varchar(255) NOT NULL default '',
                           `position` int(2) unsigned NOT NULL default '0',
                           PRIMARY KEY  (`secid`),
                           KEY `parentid` (`parentid`)
@@ -1020,6 +1024,7 @@
                           `id` int(11) NOT NULL auto_increment,
                           `nom` varchar(255) NOT NULL default '',
                           `img` varchar(255) NOT NULL default '',
+                          `coverage` varchar(255) NOT NULL default '',
                           `ordre` int(5) NOT NULL default '0',
                           `tag` text NOT NULL,
                           `tag2` text NOT NULL,
@@ -1146,6 +1151,7 @@
                           `titre` varchar(50) NOT NULL default '',
                           `tag` text NOT NULL,
                           `tag2` text NOT NULL,
+                          `image` varchar(255) NOT NULL default '',
                           `ordre` int(5) NOT NULL default '0',
                           `game` int(11) NOT NULL default '0',
                           PRIMARY KEY  (`cid`)

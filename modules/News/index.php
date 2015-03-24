@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 
 defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open this page directly</div>');
 
@@ -54,7 +52,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $WhereNews = "WHERE $day >= date ORDER BY date DESC LIMIT $start, $max_news";
         }
 
-        $sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
+        $sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, coverage, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
 
         if (mysql_num_rows($sql) <= 0) {
             echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
@@ -89,6 +87,8 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
 
             $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" /></a>' : '';
+            $data['coverageImg'] = (!empty($TabNews['coverage'])) ? '<img class="nkNewsCoverage" src="'.$TabNews['coverage'].'" alt="'.$TabNews['titre'].'" title="'.$TabNews['titre'].'" />' : '';
+            $data['coverage'] = (!empty($TabNews['coverage'])) ? ''.$TabNews['coverage'].'' : '';
 
             if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
                 $data['texte'] = $TabNews['texte'].'<br /><br />'.$TabNews['suite'];
@@ -96,7 +96,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
                 // Bouton lire la suite du thème ou texte par défaut
                 $data['bouton'] = (is_file('themes/' . $theme . '/images/readmore.png')) ? '<img src="themes/' . $theme . '/images/readmore.png" alt="" title="' . _READMORE . '" />' : _READMORE;
 
-                $data['texte'] = $TabNews['texte'].'<div style="text-align:right;"><a title="'._READMORE.'" href="index.php?file=News&amp;op=suite&amp;news_id='.$TabNews['id'].'">' . $data['bouton'] . '</a></div>';
+                $data['texte'] = $TabNews['texte'].'<div class="nkNewsReadmore" style="text-align:right;"><a title="'._READMORE.'" href="index.php?file=News&amp;op=suite&amp;news_id='.$TabNews['id'].'">' . $data['bouton'] . '</a></div>';
             } else {
                 $data['texte'] = $TabNews['texte'];
             }
@@ -120,14 +120,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         if( $visiteur >= admin_mod("News")){
             echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
-                  <div style="text-align:right;">
-                    <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
-                        <img style="border:none;" src="images/edition.gif" alt="" title="'._EDIT.'" />
-                    </a>&nbsp;
-                    <a href="javascript:delnews(\''.$news_id.'\');">
-                        <img style="border:none;" src="images/delete.gif" alt="" title="'._DEL.'" />
-                    </a>
-                  </div>';
+            <div style="text-align:right; margin:10px;">
+                <div class="nkButton-group">
+                    <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'" title="'._EDIT.'" class="nkButton icon alone edit"></a>
+                    <a href="javascript:delnews(\''.$news_id.'\');" title="'._DEL.'" class="nkButton icon alone remove danger"></a>
+                </div>
+            </div>';
         }
 
         index();
@@ -146,14 +144,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         if ($visiteur >= admin_mod("News")) {
             echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
-                  <div style="text-align:right;">
-                    <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
-                        <img style="border:none;" src="images/edition.gif" alt="" title="'._EDIT.'" />
-                    </a>&nbsp;
-                    <a href="javascript:delnews(\''.$news_id.'\');">
-                        <img style="border:none;" src="images/delete.gif" alt="" title="'._DEL.'" />
-                    </a>
-                  </div>';
+            <div style="text-align:right; margin:10px;">
+                <div class="nkButton-group">
+                    <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'" title="'._EDIT.'" class="nkButton icon alone edit"></a>
+                    <a href="javascript:delnews(\''.$news_id.'\');" title="'._DEL.'" class="nkButton icon alone remove danger"></a>
+                </div>
+            </div>';
         }
 
         index();
@@ -273,7 +269,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
               <input type="hidden" name="news_id" value="'.$news_id.'" />
               <input type="hidden" name="title" value="'.$title.'" />
-              <input type="submit" value="'._SEND.'" /></td></tr></table></form><br />';
+              <input class="nkButton" type="submit" value="'._SEND.'" /></td></tr></table></form><br />';
 
         closetable();
     }
@@ -349,18 +345,34 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
     }
 
-} else if ($level_access == -1) {
+}
+else if ($level_access == -1) {
     opentable();
-    echo '<br /><br /><div style="text-align:center;">'._MODULEOFF.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a><br /><br /></div>';
-    closetable();
-} else if ($level_access == 1 && $visiteur == 0) {
+    // On affiche le message qui previent l'utilisateur que le module est désactivé
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._MODULEOFF.'</strong>
+            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+        </div>';
+closetable();
+}
+else if ($level_access == 1 && $visiteur == 0) {
     opentable();
-    echo '<br /><br /><div style="text-align:center;">'._USERENTRANCE.'<br /><br /><b><a href="index.php?file=User&amp;op=login_screen">'._LOGINUSER.'</a> | <a href="index.php?file=User&amp;op=reg_screen">'._REGISTERUSER.'</a></b><br /><br /></div>';
-    closetable();
-} else {
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._USERENTRANCE.'</strong>
+            <a href="index.php?file=User&amp;op=login_screen"><span>'._LOGINUSER.'</span></a>
+            &nbsp;|&nbsp;
+            <a href="index.php?file=User&amp;op=reg_screen"><span>'._REGISTERUSER.'</span></a>
+        </div>';
+closetable();
+}
+else {
     opentable();
-    echo '<br /><br /><div style="text-align: center;">'._NOENTRANCE.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a><br /><br /></div>';
-    closetable();
+    // On affiche le message qui previent l'utilisateur que le module est désactivé
+    echo '<div id="nkAlertError" class="nkAlert">
+            <strong>'._NOENTRANCE.'</strong>
+            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
+        </div>';
+closetable();
 }
 
 ?>

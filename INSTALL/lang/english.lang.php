@@ -42,7 +42,7 @@ define('_RESETSESSION', 'Reset');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define("_WELCOMEINSTALL","Welcome on Nuked-Klan 1.7.9");
+define("_WELCOMEINSTALL","Welcome on Nuked-Klan 1.8");
 define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b>");
 define('_STARTINSTALL', 'Start the installation');
 define('_STARTUPDATE', 'Start the update');
@@ -110,7 +110,7 @@ define('_ERROR_PREFIX', 'Database connection failed !<br/>The prefix is incorrec
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
-define("_NEWNK179","New features Nuked Klan 1.7.9");
+define("_NEWNK179","New features Nuked Klan 1.8");
 define("_SECURITE","Security");
 define("_SECURITE1","The security was completely reviewed.<br />We can send messages since the official website to leave you some informations.");
 define("_OPTIMISATION","Optimisation");

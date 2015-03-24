@@ -191,10 +191,12 @@ define("_DATEUSER","Arrival date");
 define("_EDITUSER","Edit this member");
 define("_DELETEUSER","Remove this member");
 define("_TEAMMANAGEMENT","Teams Management");
-define("_WARNINGTEAM","The Team managementis now done in the new <a href=\"index.php?file=Equipe&page=admin\">Staff module</a> wich allow to manage an unlimited number of teams for a user.<br />The greater part of the modules of the site are using the new Staff module.<br />But you can continue to use the system of Team below for an another need.");
+define("_WARNINGTEAM","In the next version of Nuked Klna the Team managementis will be done in the new <a href=\"index.php?file=Equipe&page=admin\">Staff module</a> wich will allow you to manage an unlimited number of teams for a user.<br />Most part of the modules of the site will use the new Staff module.<br />Before this upgrade you can continue to use the system of Team below.");
+define("_NOTIFLOGOTEAM","Team logo is actually used by the Top Match bloc of Restless template for example.<br />Next Nuked Klan upgrades should use this new functionality in other modules.");
 define("_EDITTHISTEAM","Edit this Team");
 define("_DELTHISTEAM","Remove this Team");
 define("_ADDTEAM","Add Team");
+define("_TEAMLOGO","Team logo");
 define("_NAME","Name");
 define("_TAG","Tag");
 define("_ORDER","Order");
@@ -321,7 +323,7 @@ define("_TOLOG","Login");
 define("_TOBACK","Back");
 
 define("_BONJOUR","Hello");
-define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.7.10 admin panel!");
+define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.8 admin panel!");
 define("_AIDE","Help");
 define("_STATS","Stats");
 define("_SQL","SQL error found");
@@ -673,4 +675,7 @@ Thank you not to remove the copyleft respect for the cms and follow the GNU.<br 
 define("_TYPEEDITEUR","Choice of text editor");
 define("_CKEDITOR","CKEditor");
 define("_TINYEDITOR","TinyEditor");
+
+define("_UPLOADFILEFAILED","Upload file failed !");
+define("_NOIMAGEFILE","This file is not a valid image !");
 ?>

@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined('INDEX_CHECK')) die('<div style="text-align:center;">You cannot open this page directly</div>');
 
 global $user, $language;
@@ -45,10 +43,11 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
-                . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _NAVART . "<b> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=add\">" . _ADDART . "</a> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
+                . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+                nkAdminMenu(1);
+
+                echo "</div>\n";
 
         if ($_REQUEST['orderby'] == "date"){
             $order_by = "S.artid DESC";
@@ -178,24 +177,27 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             echo "</div>\n";
         }
 
-        echo "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>";
+        echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>";
     }
 
     function add(){
         global $language;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-                . "<div class=\"content-box-header\"><h3>" . _ADMINSECTIONS . "</h3>\n"
+                . "<div class=\"content-box-header\"><h3>" . _ADDART . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
-                . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Sections&amp;page=admin\">" . _NAVART . "</a> | "
-                . "</b>" . _ADDART . "<b> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-                . "<form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=do_add\" onsubmit=\"backslash('art_texte');\">\n"
+                . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+                nkAdminMenu(2);
+
+                echo "</div>\n"
+                . "<form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=do_add\" onsubmit=\"backslash('art_texte');\" enctype=\"multipart/form-data\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
                 . "<tr><td><b>" . _TITLE . " :</b>&nbsp;<input id=\"art_titre\" type=\"text\" name=\"titre\" maxlength=\"100\" size=\"45\" /></td></tr>\n"
+                . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" /></td></tr>\n"
+                . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
                 . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\">\n";
 
         select_art_cat();
@@ -204,12 +206,12 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" class=\"editor\" id=\"art_texte\" name=\"texte\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
                 . "</table>\n"
-                . "<div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"Submit\" value=\"" . _ADDART . "\" />"
+                . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _ADDART . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . _BACK . "</a>"
                 . "</div>\n"
-                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Sections&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+                . "</form><br /></div></div>\n";
     }
 
-    function do_add($titre, $texte, $cat){
+    function do_add($titre, $texte, $cat, $urlImage, $upImage){
         global $nuked, $user;
 
         $titre = mysql_real_escape_string(stripslashes($titre));
@@ -230,7 +232,29 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $auteur = $user[2];
             $auteur_id = $user[0];
 
-            $sql = mysql_query("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `autor` , `autor_id`, `counter` , `date`) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $texte . "' , '" . $auteur . "' , '" . $auteur_id . "' , '' , '" . $date . "' )");
+            //Upload du fichier
+            $filename = $_FILES['upImage']['name'];
+            if ($filename != "") {
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+                if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                    $url_image = "upload/Sections/" . $filename;
+                    move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
+                    or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true));
+                    @chmod ($url_image, 0644);
+                }
+                else {
+                    printNotification(_NOIMAGEFILE, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                    adminfoot();
+                    footer();
+                    die;
+                }
+            }
+            else {
+                $url_image = $urlImage;
+            }
+
+            $sql = mysql_query("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `coverage` , `autor` , `autor_id`, `counter` , `date`) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $texte . "' , '" . $url_image . "' , '" . $auteur . "' , '" . $auteur_id . "' , '' , '" . $date . "' )");
             // Action
             $texteaction = "". _ACTIONADDSEC .": ". $titre .".";
             $acdate = time();
@@ -259,8 +283,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     function edit($art_id){
         global $nuked, $language;
 
-        $sql = mysql_query("SELECT title, content, secid FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
-        list($titre, $texte, $cat) = mysql_fetch_array($sql);
+        $sql = mysql_query("SELECT title, content, coverage, secid FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
+        list($titre, $texte, $coverage, $cat) = mysql_fetch_array($sql);
         $titre = printSecuTags($titre);
 
         if ($cat == 0 || !$cat){
@@ -275,13 +299,21 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         }
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-                . "<div class=\"content-box-header\"><h3>" . _ADMINSECTIONS . "</h3>\n"
+                . "<div class=\"content-box-header\"><h3>" . _EDITTHISART . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
-                . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=do_edit\" onsubmit=\"backslash('art_texte');\">\n"
+                . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=do_edit\" onsubmit=\"backslash('art_texte');\" enctype=\"multipart/form-data\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
                 . "<tr><td><b>" . _TITLE . " :</b>&nbsp;<input id=\"art_titre\" type=\"text\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . $titre . "\" /></td></tr>\n"
+                . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImage\" value=\"" . $coverage . "\" size=\"42\" />\n";
+
+                if ($coverage != ""){
+                    echo "<img src=\"" . $coverage . "\" title=\"" . $titre . "\" style=\"margin-left:20px; width:300px; height:auto; vertical-align:middle;\" />\n";
+                }
+
+                echo "</td></tr>\n"
+                . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
                 . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"" . $cid . "\">" . $categorie . "</option>\n";
 
         select_art_cat();
@@ -292,12 +324,12 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" id=\"art_texte\" name=\"texte\" cols=\"70\" rows=\"15\" >" . $texte . "</textarea></td></tr>\n"
                 . "<tr><td>&nbsp;<input type=\"hidden\" name=\"artid\" value=\"" . $art_id . "\" /></td></tr></table>\n"
-                . "<div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"Submit\" value=\"" . _MODIFTHISART . "\" />"
+                . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _MODIFTHISART . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . _BACK . "</a>"
                 . "</div>\n"
-                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Sections&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+                . "</form><br /></div></div>\n";
     }
 
-    function do_edit($art_id, $titre, $texte, $cat){
+    function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
         global $nuked, $user;
 
         $titre = mysql_real_escape_string(stripslashes($titre));
@@ -315,7 +347,29 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $texte = secu_html(nkHtmlEntityDecode($texte));
             $texte = mysql_real_escape_string(stripslashes($texte));
 
-            $upd = mysql_query("UPDATE " . SECTIONS_TABLE . " SET secid = '" . $cat . "', title = '" . $titre . "', content = '" . $texte . "' WHERE artid = '" . $art_id . "'");
+            //Upload du fichier
+            $filename = $_FILES['upImage']['name'];
+            if ($filename != "") {
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+                if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                    $url_image = "upload/Sections/" . $filename;
+                    move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
+                    or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true));
+                    @chmod ($url_image, 0644);
+                }
+                else {
+                    printNotification(_NOIMAGEFILE, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true);
+                    adminfoot();
+                    footer();
+                    die;
+                }
+            }
+            else {
+                $url_image = $urlImage;
+            }
+
+            $upd = mysql_query("UPDATE " . SECTIONS_TABLE . " SET secid = '" . $cat . "', title = '" . $titre . "', coverage = '" . $url_image . "', content = '" . $texte . "' WHERE artid = '" . $art_id . "'");
             // Action
             $texteaction = "". _ACTIONMODIFSEC .": ". $titre .".";
             $acdate = time();
@@ -377,14 +431,15 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-                . "<div class=\"content-box-header\"><h3>" . _ADMINSECTIONS . "</h3>\n"
+                . "<div class=\"content-box-header\"><h3>" . _CATMANAGEMENT . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
-                . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Sections&amp;page=admin\">" . _NAVART . "</a> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=add\">" . _ADDART . "</a> | "
-                . "</b>" . _CATMANAGEMENT . "<b> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+                . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+                nkAdminMenu(3);
+
+                echo "</div>\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
                 . "<tr>\n"
                 . "<td style=\"width: 35%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
@@ -426,15 +481,15 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             echo "<tr><td align=\"center\" colspan=\"5\">" . _NONE . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
         }
 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Sections&amp;page=admin&amp;op=add_cat\"><b>" . _ADDCAT . "</b></a> ]</div>\n"
-                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Sections&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . _BACK . "</a></div>\n"
+                . "<br /></div></div>\n";
     }
 
     function add_cat(){
         global $language, $nuked;
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-                . "<div class=\"content-box-header\"><h3>" . _ADMINSECTIONS . "</h3>\n"
+                . "<div class=\"content-box-header\"><h3>" . _ADDCAT . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
@@ -454,8 +509,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<tr><td><b>" . _POSITION . " :</b> <input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
                 . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
                 . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
-                . "<div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"send\" value=\"" . _CREATECAT . "\" /></div>\n"
-                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+                . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+                . "</form><br /></div></div>\n";
     }
 
     function send_cat($parentid, $titre, $description, $position){
@@ -510,7 +565,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         list($titre, $parentid, $description, $position) = mysql_fetch_array($sql);
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-                . "<div class=\"content-box-header\"><h3>" . _ADMINSECTIONS . "</h3>\n"
+                . "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
@@ -545,8 +600,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
                 . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
                 . "<tr><td>&nbsp;<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr></table>\n"
-                . "<div style=\"text-align: center;\"><input type=\"submit\" name=\"send\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
-                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+                . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+                . "</form><br /></div></div>\n";
      }
 
     function modif_cat($cid, $parentid, $titre, $description, $position){
@@ -638,20 +693,21 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         global $nuked, $language;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-                . "<div class=\"content-box-header\"><h3>" . _ADMINSECTIONS . "</h3>\n"
+                . "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
-                . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Sections&amp;page=admin\">" . _NAVART . "</a> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=add\">" . _ADDART . "</a> | "
-                . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-                . "</b>" . _PREFS . "</div><br />\n"
+                . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+                nkAdminMenu(4);
+
+                echo "</div>\n"
                 . "<form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=change_pref\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
                 . "<tr><td>" . _SECTIONSPG . " :</td><td><input type=\"text\" name=\"max_sections\" size=\"2\" value=\"" . $nuked['max_sections'] . "\" /></td></tr></table>\n"
-                . "<div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /></div>\n"
-                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Sections&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+                . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . _BACK . "</a></div>\n"
+                . "</form><br /></div></div>\n";
     }
 
     function change_pref($max_sections){
@@ -705,6 +761,43 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         redirect("index.php?file=Sections&page=admin&op=main_cat", 2);
     }
 
+    function nkAdminMenu($tab = 1) {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Sections&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _NAVART; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Sections&amp;page=admin&amp;op=add">
+                        <img src="modules/Admin/images/icons/add_page.png" alt="icon" />
+                        <span><?php echo _ADDART; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 3 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Sections&amp;page=admin&amp;op=main_cat">
+                        <img src="modules/Admin/images/icons/folder_full.png" alt="icon" />
+                        <span><?php echo _CATMANAGEMENT; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 4 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Sections&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
+
     switch ($_REQUEST['op']){
         case "main":
             admintop();
@@ -718,7 +811,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             break;
         case "do_add":
             admintop();
-            do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['cat']);
+            do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['cat'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
             adminfoot();
             break;
         case "edit":
@@ -728,7 +821,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             break;
         case "do_edit":
             admintop();
-            do_edit($_REQUEST['artid'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['cat']);
+            do_edit($_REQUEST['artid'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['cat'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
             adminfoot();
             break;
         case "del":
