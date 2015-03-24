@@ -6,6 +6,23 @@ $(document).ready(function () {
         });
     });
 
+    $('.RL_inputFile').change(function(){
+        $(this).next().next().children('span').html($(this).val());
+    });
+
+    $('input[type=range]').bind('input', function () {
+        $(this).trigger('change');
+    });
+
+    $('#RL_mainLogoMarginInput').change(function(){
+       $(this).next().html($(this).val()+' px');
+    });
+
+    $('#RL_selectColor').change(function(){
+        $(this).removeClass();
+        $(this).addClass('RL_select RL_small RL_select_'+$(this).val());
+    })
+
     function RL_getFormBlock(blockName){
         if($('#RL_formContainer').length == 0){
             RL_createContainer();

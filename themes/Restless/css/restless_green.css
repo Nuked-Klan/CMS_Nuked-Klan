@@ -1,0 +1,213 @@
+a {
+    color : #27ae60;
+}
+
+#RL_mainMenu > li:first-child:before {
+    background    : url('../images/sprite_green.png') -184px 0 no-repeat;
+}
+
+#RL_mainMenu > li > a:hover, .RL_mainMenu_selected {
+    background : url('../images/sprite_green.png') 0 -50px no-repeat, url('../images/sprite_green.png') repeat-x;
+}
+
+.RL_subMenu li a:hover span, .RL_subMenu_selected span {
+    background : -webkit-linear-gradient(top, #27ae60, #12763b);
+    background : -moz-linear-gradient(top, #27ae60, #12763b);
+    background : -ms-linear-gradient(top, #27ae60, #12763b);
+    background : -o-linear-gradient(top, #27ae60, #12763b);
+    background : linear-gradient(top, #27ae60, #12763b);
+    color      : #fff;
+}
+
+#RL_navSearch input[type=submit], #RL_navSearch input[type=submit]:active {
+    background    : url('../images/sprite_green.png') -258px 0 no-repeat rgba(100, 100, 100, 0.2);
+}
+
+#RL_sliderNav a {
+    background : url('../images/sprite_green.png') -265px -32px no-repeat;
+}
+
+#RL_sliderNav a:first-child {
+    background : url('../images/sprite_green.png') -232px -32px no-repeat;
+}
+
+#RL_blockUnikTop aside h2 {
+    background     : url('../images/sprite_green.png') 0 -100px no-repeat;
+}
+
+#RL_blockTopMatch figure {
+    background : -webkit-linear-gradient(top, #27ae60, #12763b);
+    background : -moz-linear-gradient(top, #27ae60, #12763b);
+    background : -ms-linear-gradient(top, #27ae60, #12763b);
+    background : -o-linear-gradient(top, #27ae60, #12763b);
+    background : linear-gradient(top, #27ae60, #12763b);
+}
+
+#RL_blockTopMatch > p strong {
+    color : #27ae60;
+}
+
+#RL_blockTopMatch div p:before {
+    background : url('../images/sprite_green.png') -184px -57px no-repeat;
+}
+
+
+#RL_separatorUnikTop {
+    border-top : 1px solid #27ae60;
+    background : #12763b;
+}
+
+#RL_blockUnikCenter figure figcaption h3 {
+    color : #12763b;
+}
+
+#RL_blockUnikCenter figure figcaption a {
+    color      : #12763b;
+    background : -webkit-linear-gradient(top, #27ae60, #12763b);
+    background : -moz-linear-gradient(top, #27ae60, #12763b);
+    background : -ms-linear-gradient(top, #27ae60, #12763b);
+    background : -o-linear-gradient(top, #27ae60, #12763b);
+    background : linear-gradient(top, #27ae60, #12763b);
+}
+
+#RL_blockUnikCenter:after {
+    background : url('../images/sprite_green.png') 0 -146px no-repeat;
+}
+
+#RL_news article header h2 {
+    color : #27ae60;
+}
+
+#RL_news article header a:hover {
+    border-color : #27ae60;
+    color        : #27ae60;
+    box-shadow   : 0 1px 6px rgb(17, 156, 12);
+}
+
+#RL_gallery figure a:hover:after {
+    background : url('../images/sprite_green.png') no-repeat -389px -35px, -webkit-linear-gradient(top, #27ae60, #12763b);
+    background : url('../images/sprite_green.png') no-repeat -389px -35px, -moz-linear-gradient(top, #27ae60, #12763b);
+    background : url('../images/sprite_green.png') no-repeat -389px -35px, -ms-linear-gradient(top, #27ae60, #12763b);
+    background : url('../images/sprite_green.png') no-repeat -389px -35px, -o-linear-gradient(top, #27ae60, #12763b);
+    background : url('../images/sprite_green.png') no-repeat -389px -35px, linear-gradient(top, #27ae60, #12763b);
+}
+
+#RL_blockDownload > div > a {
+    background : url('../images/sprite_green.png') no-repeat -387px -83px, -webkit-linear-gradient(top, #27ae60, #12763b);
+    background : url('../images/sprite_green.png') no-repeat -387px -83px, -moz-linear-gradient(top, #27ae60, #12763b);
+    background : url('../images/sprite_green.png') no-repeat -387px -83px, -ms-linear-gradient(top, #27ae60, #12763b);
+    background : url('../images/sprite_green.png') no-repeat -387px -83px, -o-linear-gradient(top, #27ae60, #12763b);
+    background : url('../images/sprite_green.png') no-repeat -387px -83px, linear-gradient(top, #27ae60, #12763b);
+}
+
+#RL_followContent > a {
+    color : #27ae60;
+}
+
+.RL_blockRight b {
+    color : #27ae60;
+}
+
+.RL_matchesDraw:after {
+    background : #27ae60;
+}
+
+.RL_roster figcaption {
+    background  : -webkit-linear-gradient(top, rgba(39, 174, 96, 0.80), rgba(18, 118, 59, 0.80));
+    background  : -moz-linear-gradient(top, rgba(39, 174, 96, 0.80), rgba(18, 118, 59, 0.80));
+    background  : -ms-linear-gradient(top, rgba(39, 174, 96, 0.80), rgba(18, 118, 59, 0.80));
+    background  : -o-linear-gradient(top, rgba(39, 174, 96, 0.80), rgba(18, 118, 59, 0.80));
+    background  : linear-gradient(top, rgba(39, 174, 96, 0.80), rgba(18, 118, 59, 0.80));
+    box-shadow  : 0 1px 1px 1px rgba(39, 174, 96, 0.50) inset, 0 0 0 1px rgba(18, 118, 59, 0.60) inset;
+    color       : #fff;
+}
+
+.RL_infosFooter p span {
+    color : #27ae60;
+}
+
+#RL_footerContentLeft nav h4 {
+    color       : #27ae60;
+}
+
+#RL_footerContentLeft nav ul li a:hover {
+    color : #27ae60;
+}
+
+#RL_footerSponsors > a {
+    background    : -webkit-linear-gradient(top, #27ae60, #12763b);
+    background    : -moz-linear-gradient(top, #27ae60, #12763b);
+    background    : -ms-linear-gradient(top, #27ae60, #12763b);
+    background    : -o-linear-gradient(top, #27ae60, #12763b);
+    background    : linear-gradient(top, #27ae60, #12763b);
+}
+
+#RL_separatorBottomFooter {
+    background : #157D40;
+}
+
+.RL_infosFooter a:hover {
+    color               : #27ae60;
+}
+
+.RL_button, a[title="Lire la suite..."], input[type="submit"], input[type="button"] {
+    background         : -webkit-linear-gradient(top, #27ae60, #12763b);
+    background         : -moz-linear-gradient(top, #27ae60, #12763b);
+    background         : -ms-linear-gradient(top, #27ae60, #12763b);
+    background         : -o-linear-gradient(top, #27ae60, #12763b);
+    background         : linear-gradient(top, #27ae60, #12763b);
+    color              : #016c1e;
+}
+
+.RL_labelIcons {
+    background     : -webkit-linear-gradient(top, #27ae60, #12763b);
+    background     : -moz-linear-gradient(top, #27ae60, #12763b);
+    background     : -ms-linear-gradient(top, #27ae60, #12763b);
+    background     : -o-linear-gradient(top, #27ae60, #12763b);
+    background     : linear-gradient(top, #27ae60, #12763b);
+    color          : #fff;
+}
+
+#RL_userMP:hover {
+    color : #27ae60;
+}
+
+.RL_matchesWin:after {
+    background : url('../images/sprite_green.png') -441px 0 no-repeat;
+}
+
+.RL_matchesLose:after {
+    background : url('../images/sprite_green.png') -441px -9px no-repeat;
+}
+
+.RL_lastPost > a > div {
+    background : url('../images/sprite_green.png') -421px 0 no-repeat;
+}
+
+.RL_lastPost > a > div:last-child {
+    background         : url('../images/sprite_green.png') -421px -17px no-repeat;
+}
+
+#RL_signature {
+    background : url('../images/sprite_green.png') -289px 0 no-repeat;
+}
+
+#RL_footer h3 {
+    background  : url('../images/sprite_green.png') 0 -100px no-repeat;
+}
+
+#RL_footerSponsors > a:first-of-type:after {
+    background : url('../images/sprite_green.png') -441px -19px no-repeat;
+}
+
+#RL_footerSponsors > a:last-of-type:after {
+    background : url('../images/sprite_green.png') -450px -19px no-repeat;
+}
+
+#RL_backToTop {
+    background : url('../images/sprite_green.png') 0 -164px no-repeat;
+}
+
+#RL_logoFooter {
+    background : url('../images/sprite_green.png') -356px 1px no-repeat;
+}

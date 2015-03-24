@@ -1,0 +1,213 @@
+a {
+    color : #c0392b;
+}
+
+#RL_mainMenu > li:first-child:before {
+    background    : url('../images/sprite_red.png') -184px 0 no-repeat;
+}
+
+#RL_mainMenu > li > a:hover, .RL_mainMenu_selected {
+    background : url('../images/sprite_red.png') 0 -50px no-repeat, url('../images/sprite_red.png') repeat-x;
+}
+
+.RL_subMenu li a:hover span, .RL_subMenu_selected span {
+    background : -webkit-linear-gradient(top, #c0392b, #971d0f);
+    background : -moz-linear-gradient(top, #c0392b, #971d0f);
+    background : -ms-linear-gradient(top, #c0392b, #971d0f);
+    background : -o-linear-gradient(top, #c0392b, #971d0f);
+    background : linear-gradient(top, #c0392b, #971d0f);
+    color      : #fff;
+}
+
+#RL_navSearch input[type=submit], #RL_navSearch input[type=submit]:active {
+    background    : url('../images/sprite_red.png') -258px 0 no-repeat rgba(100, 100, 100, 0.2);
+}
+
+#RL_sliderNav a {
+    background : url('../images/sprite_red.png') -265px -32px no-repeat;
+}
+
+#RL_sliderNav a:first-child {
+    background : url('../images/sprite_red.png') -232px -32px no-repeat;
+}
+
+#RL_blockUnikTop aside h2 {
+    background     : url('../images/sprite_red.png') 0 -100px no-repeat;
+}
+
+#RL_blockTopMatch figure {
+    background : -webkit-linear-gradient(top, #c0392b, #971d0f);
+    background : -moz-linear-gradient(top, #c0392b, #971d0f);
+    background : -ms-linear-gradient(top, #c0392b, #971d0f);
+    background : -o-linear-gradient(top, #c0392b, #971d0f);
+    background : linear-gradient(top, #c0392b, #971d0f);
+}
+
+#RL_blockTopMatch > p strong {
+    color : #c0392b;
+}
+
+#RL_blockTopMatch div p:before {
+    background : url('../images/sprite_red.png') -184px -57px no-repeat;
+}
+
+
+#RL_separatorUnikTop {
+    border-top : 1px solid #971d0f;
+    background : #620000;
+}
+
+#RL_blockUnikCenter figure figcaption h3 {
+    color : #c0392b;
+}
+
+#RL_blockUnikCenter figure figcaption a {
+    color      : #620000;
+    background : -webkit-linear-gradient(top, #c0392b, #971d0f);
+    background : -moz-linear-gradient(top, #c0392b, #971d0f);
+    background : -ms-linear-gradient(top, #c0392b, #971d0f);
+    background : -o-linear-gradient(top, #c0392b, #971d0f);
+    background : linear-gradient(top, #c0392b, #971d0f);
+}
+
+#RL_blockUnikCenter:after {
+    background : url('../images/sprite_red.png') 0 -146px no-repeat;
+}
+
+#RL_news article header h2 {
+    color : #c0392b;
+}
+
+#RL_news article header a:hover {
+    border-color : #c0392b;
+    color        : #c0392b;
+    box-shadow   : 0 1px 6px rgb(163, 56, 49);
+}
+
+#RL_gallery figure a:hover:after {
+    background : url('../images/sprite_red.png') no-repeat -389px -35px, -webkit-linear-gradient(top, #c0392b, #971d0f);
+    background : url('../images/sprite_red.png') no-repeat -389px -35px, -moz-linear-gradient(top, #c0392b, #971d0f);
+    background : url('../images/sprite_red.png') no-repeat -389px -35px, -ms-linear-gradient(top, #c0392b, #971d0f);
+    background : url('../images/sprite_red.png') no-repeat -389px -35px, -o-linear-gradient(top, #c0392b, #971d0f);
+    background : url('../images/sprite_red.png') no-repeat -389px -35px, linear-gradient(top, #c0392b, #971d0f);
+}
+
+#RL_blockDownload > div > a {
+    background : url('../images/sprite_red.png') no-repeat -387px -83px, -webkit-linear-gradient(top, #c0392b, #971d0f);
+    background : url('../images/sprite_red.png') no-repeat -387px -83px, -moz-linear-gradient(top, #c0392b, #971d0f);
+    background : url('../images/sprite_red.png') no-repeat -387px -83px, -ms-linear-gradient(top, #c0392b, #971d0f);
+    background : url('../images/sprite_red.png') no-repeat -387px -83px, -o-linear-gradient(top, #c0392b, #971d0f);
+    background : url('../images/sprite_red.png') no-repeat -387px -83px, linear-gradient(top, #c0392b, #971d0f);
+}
+
+#RL_followContent > a {
+    color : #c0392b;
+}
+
+.RL_blockRight b {
+    color : #c0392b;
+}
+
+.RL_matchesDraw:after {
+    background : #c0392b;
+}
+
+.RL_roster figcaption {
+    background  : -webkit-linear-gradient(top, rgba(192, 57, 43, 0.80), rgba(151, 29, 15, 0.80));
+    background  : -moz-linear-gradient(top, rgba(192, 57, 43, 0.80), rgba(151, 29, 15, 0.80));
+    background  : -ms-linear-gradient(top, rgba(192, 57, 43, 0.80), rgba(151, 29, 15, 0.80));
+    background  : -o-linear-gradient(top, rgba(192, 57, 43, 0.80), rgba(151, 29, 15, 0.80));
+    background  : linear-gradient(top, rgba(192, 57, 43, 0.80), rgba(151, 29, 15, 0.80));
+    box-shadow  : 0 1px 1px 1px rgba(192, 57, 43, 0.50) inset, 0 0 0 1px rgba(151, 29, 15, 0.60) inset;
+    color       : #fff;
+}
+
+.RL_infosFooter p span {
+    color : #c0392b;
+}
+
+#RL_footerContentLeft nav h4 {
+    color       : #c0392b;
+}
+
+#RL_footerContentLeft nav ul li a:hover {
+    color : #c0392b;
+}
+
+#RL_footerSponsors > a {
+    background    : -webkit-linear-gradient(top, #c0392b, #971d0f);
+    background    : -moz-linear-gradient(top, #c0392b, #971d0f);
+    background    : -ms-linear-gradient(top, #c0392b, #971d0f);
+    background    : -o-linear-gradient(top, #c0392b, #971d0f);
+    background    : linear-gradient(top, #c0392b, #971d0f);
+}
+
+#RL_separatorBottomFooter {
+    background : #9C2113;
+}
+
+.RL_infosFooter a:hover {
+    color               : #c0392b;
+}
+
+.RL_button, a[title="Lire la suite..."], input[type="submit"], input[type="button"] {
+    background         : -webkit-linear-gradient(top, #c0392b, #971d0f);
+    background         : -moz-linear-gradient(top, #c0392b, #971d0f);
+    background         : -ms-linear-gradient(top, #c0392b, #971d0f);
+    background         : -o-linear-gradient(top, #c0392b, #971d0f);
+    background         : linear-gradient(top, #c0392b, #971d0f);
+    color              : #620000;
+}
+
+.RL_labelIcons {
+    background     : -webkit-linear-gradient(top, #c0392b, #971d0f);
+    background     : -moz-linear-gradient(top, #c0392b, #971d0f);
+    background     : -ms-linear-gradient(top, #c0392b, #971d0f);
+    background     : -o-linear-gradient(top, #c0392b, #971d0f);
+    background     : linear-gradient(top, #c0392b, #971d0f);
+    color          : #fff;
+}
+
+#RL_userMP:hover {
+    color : #c0392b;
+}
+
+.RL_matchesWin:after {
+    background : url('../images/sprite_red.png') -441px 0 no-repeat;
+}
+
+.RL_matchesLose:after {
+    background : url('../images/sprite_red.png') -441px -9px no-repeat;
+}
+
+.RL_lastPost > a > div {
+    background : url('../images/sprite_red.png') -421px 0 no-repeat;
+}
+
+.RL_lastPost > a > div:last-child {
+    background         : url('../images/sprite_red.png') -421px -17px no-repeat;
+}
+
+#RL_signature {
+    background : url('../images/sprite_red.png') -289px 0 no-repeat;
+}
+
+#RL_footer h3 {
+    background  : url('../images/sprite_red.png') 0 -100px no-repeat;
+}
+
+#RL_footerSponsors > a:first-of-type:after {
+    background : url('../images/sprite_red.png') -441px -19px no-repeat;
+}
+
+#RL_footerSponsors > a:last-of-type:after {
+    background : url('../images/sprite_red.png') -450px -19px no-repeat;
+}
+
+#RL_backToTop {
+    background : url('../images/sprite_red.png') 0 -164px no-repeat;
+}
+
+#RL_logoFooter {
+    background : url('../images/sprite_red.png') -356px 1px no-repeat;
+}
