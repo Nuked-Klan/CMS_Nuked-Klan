@@ -1,3 +1,1 @@
-<p>
-    Coucou!
-</p>
+Chargez le profil par défaut : <a class="button" href="index.php?file=Admin&page=theme&op=saveHome">Valider</a>

@@ -7,13 +7,13 @@
         </header>
         <div id="RL_blockDownload">
             @foreach(blockDownloadContent as item)
+            <div>
+                <a href="{{item.link}}"><span>Lien</span></a>
                 <div>
-                    <a href="{{item.link}}"><span>Lien</span></a>
-                    <div>
-                        <p>{{item.title}}</p>
-                        <p>T&eacute;l&eacute;charg&eacute; {{item.count}} fois</p>
-                    </div>
+                    <p>{{item.title}}</p>
+                    <p>T&eacute;l&eacute;charg&eacute; {{item.count}} fois</p>
                 </div>
+            </div>
             @endforeach
         </div>
     </article>

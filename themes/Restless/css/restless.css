@@ -61,14 +61,13 @@ body{
     font-weight: bold;
     font-size: 64px;
     font-family: BebasNeue, sans-serif;
-    margin: 0 120px;
+    margin: 0 120px 20px;
     display: block;
     padding-top:25px;
 }
 
 #RL_mainWrapper>header{
     width:1065px;
-    height:130px;
 }
 
 a, input{

@@ -13,8 +13,7 @@
                 <label>{{*NB_ELEMENTS_BLOCK}} :</label>
                 <select class="RL_select" name="block{{currentAdminBlock}}NbItems" data-check="{{blockNbItems}}">
                     @foreach(selectBlock as key => selected)
-                    <option value="{{key}}"
-                    {{selected}}>{{key}}</option>
+                        <option value="{{key}}" {{selected}} >{{key}}</option>
                     @endforeach
                 </select>
             </div>

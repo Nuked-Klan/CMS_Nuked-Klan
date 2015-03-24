@@ -30,6 +30,9 @@ else {
                 $tpl->render('adminNav');
                 $tpl->render('adminSettings');
                 break;
+            case 'saveSettings':
+                $tpl->render('adminSaveSettings');
+                break;
             case 'blocks_management':
                 $tpl->render('adminNav');
                 $tpl->render('adminBlocks');
@@ -43,6 +46,9 @@ else {
                 break;
             case 'saveModules':
                 $tpl->render('adminSaveModules');
+                break;
+            case 'saveHome':
+                $tpl->render('adminSaveHome');
                 break;
             default:
                 $tpl->render('adminNav');

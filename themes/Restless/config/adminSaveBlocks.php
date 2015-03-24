@@ -6,6 +6,8 @@ $arraySelect = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery
 
 $arraySelectGallery = array(3, 6, 9);
 
+$this->assign('adminBlocksError', false);
+
 try {
     foreach ($arrayBlocks as $block) {
         $inputCheckboxName = 'block'.$block.'Active';

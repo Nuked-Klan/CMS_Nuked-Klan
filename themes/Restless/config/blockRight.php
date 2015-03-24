@@ -1,5 +1,7 @@
 <?php
 
-$this->assign('blockRightTitle', $this->get('data')['titre']);
+$data = $this->get('data');
 
-$this->assign('blockRightContent', $this->get('data')['content']);
+$this->assign('blockRightTitle', $data['titre']);
+
+$this->assign('blockRightContent', $data['content']);
