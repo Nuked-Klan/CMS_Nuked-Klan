@@ -11,3 +11,13 @@ $this->assign('backgroundPosition', $this->get('cfg')->get('general.backgroundPo
 $this->assign('backgroundImage', $this->get('cfg')->get('general.backgroundImage'));
 
 $this->assign('mainLogoPosition', $this->get('cfg')->get('general.mainLogoPosition'));
+
+$this->assign('mainLogoMargin', $this->get('cfg')->get('general.mainLogoMargin'));
+
+$this->assign('styleColor', 'orange');
+
+$temp = $this->get('cfg')->get('general.color');
+
+if(in_array($temp, array('orange', 'red', 'blue', 'purple', 'green', 'gold'))){
+    $this->assign('styleColor', $temp);
+}
