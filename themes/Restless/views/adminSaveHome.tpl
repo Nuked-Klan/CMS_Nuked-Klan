@@ -1,0 +1,1 @@
+%printNotification('Profil par défaut chargé', 'index.php?file=Admin&page=theme&op=blocks_management', 'success', false, true)

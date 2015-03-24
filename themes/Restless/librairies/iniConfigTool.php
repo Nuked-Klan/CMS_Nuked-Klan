@@ -148,13 +148,17 @@ class iniConfigTool {
         }
     }
 
-    public function save() {
+    public function save($filename = null) {
         $this->unParseMultiArrays();
         $buffer = null;
 
         $buffer = $this->iniComment;
 
-        if (is_writeable($this->filename)) {
+        if(is_null($filename)){
+            $filename = $this->filename;
+        }
+
+        if (is_writeable($filename)) {
             foreach ($this->content as $section => $array) {
                 $buffer .= "[" . $section . "]\n";
                 foreach ($array as $key => $value) {
@@ -163,7 +167,7 @@ class iniConfigTool {
                 }
                 $buffer .= "\n";
             }
-            $file = fopen($this->filename, 'w');
+            $file = fopen($filename, 'w');
             fwrite($file, $buffer);
             fclose($file);
             return true;
