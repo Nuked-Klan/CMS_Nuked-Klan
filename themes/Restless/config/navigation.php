@@ -12,49 +12,74 @@ $dbrMenu = mysql_fetch_assoc($dbeMenu);
 
 $menuRow = explode('NEWLINE', $dbrMenu['content']);
 
+$arrayTemp = array();
+
+$i = 1;
+foreach ($menuRow as $row) {
+    $row = explode('|', $row);
+    $arrayTemp[$i]['link'] = $row[0];
+    $arrayTemp[$i]['title'] = $row[1];
+    $arrayTemp[$i]['Comment'] = $row[2];
+    $arrayTemp[$i]['level'] = $row[3];
+    $arrayTemp[$i]['blank'] = $row[4];
+    $i++;
+}
+
 $arrayMenu = array(
-                array(
-                    'title'  => 'Home',
-                    'link'   => 'index.php',
-                    'blank'  => null
-                )
-            );
+    array(
+        'title' => 'home',
+        'link'  => 'index.php?file='.$GLOBALS['nuked']['index_site'],
+        'blank' => null
+    )
+);
+$i = 1;
+$j = 1;
+$k = 1;
+$subnav = false;
+foreach ($arrayTemp as $menuItem) {
 
-foreach($menuRow as $row) {
-
-    if (count($arrayMenu) > $maxEntries) {
-        break;
+    if (preg_match('#\[([A-Za-z0-9_\-]+)\]#', $menuItem['link'])) {
+        $link = 'index.php?file='.substr($menuItem['link'], 1, -1);
+    }
+    else {
+        $link = $menuItem['link'];
     }
 
-    $arrayRow = explode('|', $row);
+    $blank = null;
 
-    $arrayRow[1] = preg_replace('#<img(.*)/>#', '', $arrayRow[1]);
-
-    if(!empty($arrayRow[4])){
+    if ($menuItem['blank'] == 1) {
         $blank = ' target="_blank" ';
     }
 
-    if(empty($arrayRow[0])) {
-        $arrayMenu[count($arrayMenu)] = array(
-                                'title'  => $arrayRow[1],
-                                'link'   => '#',
-                                'blank'  => $blank
-                            );
+    $title = $menuItem['title'];
+
+    if((empty($menuItem['link']) && $subnav === true)){
+        $subnav = false;
+        $i++;
     }
-    else{
-        if($arrayRow[3] <= $levelAccess) {
 
-
-            $link = preg_match('#^\[([A-Za-z_\-0-9]{3,})\]$#', $arrayRow[0]) ? 'index.php?file='.substr($arrayRow[0], 1, -1) : $arrayRow[0];
-            $temp = array('title' => $arrayRow[1], 'link' => $link, 'blank' => $blank);
-            if(count($arrayMenu) > 1) {
-                $arrayMenu[count($arrayMenu) - 1]['subnav'][] = $temp;
-            }
-            else{
-                $arrayMenu[count($arrayMenu)] = $temp;
+    if ($menuItem['level'] <= $GLOBALS['user'][1]) {
+        if ($subnav === true) {
+            $arrayMenu[$i]['subnav'][$j]['title'] = $title;
+            $arrayMenu[$i]['subnav'][$j]['link'] = $link;
+            $arrayMenu[$i]['subnav'][$j]['blank'] = $blank;
+            $j++;
+        }
+        else {
+            $arrayMenu[$i]['title'] = $title;
+            $arrayMenu[$i]['link'] = $link;
+            $arrayMenu[$i]['blank'] = $blank;
+            if(!empty($menuItem['link'])){
+                $i++;
             }
 
         }
+    }
+
+    if(empty($menuItem['link'])){
+        $subnav = true;
+        $k++;
+        $j = 1;
     }
 }
 
