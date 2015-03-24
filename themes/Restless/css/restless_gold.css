@@ -79,8 +79,8 @@ a {
 
 #RL_news article header a:hover {
     border-color : #CFA634;
-    color        : #CFA634;
-    box-shadow   : 0 1px 6px rgb(17, 156, 12);
+    color        : #cfa634;
+    box-shadow   : 0 1px 6px rgb(207, 166, 52);
 }
 
 #RL_gallery figure a:hover:after {
