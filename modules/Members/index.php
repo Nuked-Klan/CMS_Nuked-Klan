@@ -427,7 +427,7 @@ if ($visiteur >= $nuked['user_social_level'] )
 				echo "<img style=\"border: 1px solid " . $bgcolor3 . "; background:" . $bgcolor1 . "; padding: 2px; overflow: auto; max-width: 100px;  width: expression(this.scrollWidth >= 100? '100px' : 'auto');\" src=\"" . checkimg($photo) . "\" alt=\"\" />";
 			} 
 			else{
-				echo "<img src=\"modules/Members/images/pas_image.jpg\" width=\"100\" alt=\"\" style=\"border: 1px solid " . $bgcolor3 . "; background:" . $bgcolor1 . "; padding: 2px;\" />";
+				echo "<img src=\"modules/Members/images/noAvatar.png\" width=\"100\" alt=\"\" style=\"border: 1px solid " . $bgcolor3 . "; background:" . $bgcolor1 . "; padding: 2px;\" />";
 			}
 			
 

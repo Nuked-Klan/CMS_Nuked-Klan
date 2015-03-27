@@ -291,6 +291,8 @@ function adminfoot(){
                         CKEDITOR.replaceAll(function(textarea,config){
                             if (textarea.className!='editor') return false;
                             CKEDITOR.config.toolbar = 'Full';
+                            CKEDITOR.config.autoGrow_onStartup = true;
+                            CKEDITOR.config.autoGrow_maxHeight = 200;
                             CKEDITOR.configlanguage = '<?php echo substr($language, 0,2) ?>';
                             <?php echo !empty($bgcolor4) ? 'CKEDITOR.config.uiColor = \''.$bgcolor4.'\';' : ''; ?>
                             CKEDITOR.config.allowedContent=

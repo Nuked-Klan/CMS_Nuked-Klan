@@ -229,6 +229,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                     CKEDITOR.config.scayt_autoStartup = "true";
                     CKEDITOR.replace('e_basic',{
                         toolbar : 'Basic',
+                        autoGrow_onStartup : true,
+                        autoGrow_maxHeight : 200,
                         language : '<?php echo substr($language, 0,2) ?>',
                         <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
                     });
@@ -241,6 +243,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                     <?php echo ($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''; ?>
                     CKEDITOR.replace('e_advanced',{
                         toolbar : 'Full',
+                        autoGrow_onStartup : true,
+                        autoGrow_maxHeight : 200,
                         language : '<?php echo substr($language, 0,2) ?>',
                         <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\',' : ''; ?>
                         allowedContent:

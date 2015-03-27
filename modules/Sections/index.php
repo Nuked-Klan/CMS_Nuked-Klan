@@ -230,7 +230,8 @@ if ($visiteur >= $level_access && $level_access > -1){
         }
 
         $content = preg_replace('#\r\n\t#', '', $content);
-        $contentpages = explode('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', $content);
+        // $contentpages = explode('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', $content);
+        $contentpages = explode('<div style="page-break-after: always"><span style="display:none">&nbsp;</span></div>', $content);
         $pageno = count($contentpages);
         if ($_REQUEST['p'] == "" || $_REQUEST['p'] < 1) $_REQUEST['p'] = 1;
         if ($_REQUEST['p'] > $pageno) $_REQUEST['p'] = $pageno;
@@ -510,7 +511,8 @@ if ($visiteur >= $level_access && $level_access > -1){
         $text = str_replace("&ucirc;", "û", $text);
 
         $text = preg_replace('#\r\n\t#', '', $text);
-        $text = str_replace('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', '</page><page>', $text);
+        // $text = str_replace('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', '</page><page>', $text);
+        $text = str_replace('<div style="page-break-after: always"><span style="display:none">&nbsp;</span></div>', '</page><page>', $text);
 
         $articleurl = $nuked['url'] . "/index.php?file=Sections&op=article&artid=" . $artid;
 
