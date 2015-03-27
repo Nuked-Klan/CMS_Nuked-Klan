@@ -243,6 +243,7 @@
                             ('user_website', 'on'),
                             ('user_social_level', '0'),
                             ('sp_version', 'off'),
+                            ('index_page', ''),
                             ('editor_type', 'cke');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
@@ -745,7 +746,8 @@
                             (20, 'Vote', 0, 9),
                             (21, 'Stats', 0, 2),
                             (22, 'Contact', 0, 3),
-                            (23, 'Equipe', 0, 2);";
+                            (23, 'Equipe', 0, 2),
+                            (24, 'Page', 0, 9);";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
@@ -818,6 +820,24 @@
                               ('', '', '4', '"._SUHOSIN."');";
                           $req = mysql_query($sql) or die (mysql_error());
                         }
+                        echo 'OK';
+        break;
+        case'page':
+                        $sql = "DROP TABLE IF EXISTS `" . $db_prefix . "_page`";
+                        $req = mysql_query($sql) or die (mysql_error());                        
+                        $sql = "CREATE TABLE `" . $db_prefix . "_page` (
+                        `id` int(11) NOT NULL auto_increment,
+                        `niveau` int(1) NOT NULL default '0',
+                        `titre` varchar(50) NOT NULL default '',
+                        `content` text NOT NULL,
+                        `url` varchar(80) NOT NULL default '',
+                        `type` varchar(5) NOT NULL default '',
+                        `show_title` int(1) NOT NULL default '0',
+                        `members` text NOT NULL,
+                        PRIMARY KEY  (`id`),
+                        KEY `titre` (`titre`)
+                        ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";
+                        $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;
         case'recrute':
