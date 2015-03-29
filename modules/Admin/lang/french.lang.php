@@ -493,7 +493,7 @@ define("_NICKBANNED","Ce pseudo est banni");
 define("_SHARESTATS","Partager vos statistiques");
 define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat."); 
 define("_SEESHARE","voir les statistiques envoyées");
-define("_SMILEYNOTAUTHORIZE","Le code du smiley n'est pas autorisé, merci de le changer");
+define("_SMILEYNOTAUTHORIZE","Le code et/ou le nom du smiley n'autorisent pas les apostrophes et les guillemets, merci de les remplacer");
 define("_THANKSPARTICIPATION","Merci pour votre participation.");
 define("_NOTIFICATIONNOTRECEIVED","La notification n'a pas été reçue.");
 # Page : A propos

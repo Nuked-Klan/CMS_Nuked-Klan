@@ -656,7 +656,7 @@ define("_NICKBANNED","This Nickname is banned");
 define("_SHARESTATS","Share your statistics");
 define("_SHAREREASON","The goal of this function is to help us create better Nuked Klan services and meet your needs while respecting your anonymity."); 
 define("_SEESHARE","see the sent stats");
-define("_SMILEYNOTAUTHORIZE","The smiley code is not authorized, please change it");
+define("_SMILEYNOTAUTHORIZE","The smiley code and/or the smiley name do not allow apostrophes and quotation marks, please replace them");
 define("_THANKSPARTICIPATION","Thanks for your participation.");
 define("_NOTIFICATIONNOTRECEIVED","The notification was not received.");
 # Page : About
