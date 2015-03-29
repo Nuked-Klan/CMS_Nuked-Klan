@@ -367,4 +367,5 @@ define('_CONTINUE', 'Continue');
 define('_EDITCONFIG', 'Configuration\'s update');
 
 define('_HTMLNOCORRECT', 'HTML code is incorrectly formatted');
+define('REMOVE_INSTALL_FILES', 'Please delete files install.php or update.php from your FTP.');
 ?>
