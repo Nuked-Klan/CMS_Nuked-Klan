@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - Portal PHP                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK")){
     exit('You can\'t run this file alone.');
 }
@@ -17,7 +15,7 @@ function form($content, $sug_id){
     translate("modules/Links/lang/" . $language . ".lang.php");
 
     if ($content != ""){
-        $titre = "<big><b>" . _VALIDLINK . "</b></big>";
+        $titre = "<strong>" . _VALIDLINK . "</strong>";
         $action = "index.php?file=Suggest&amp;page=admin&amp;op=valid_suggest&amp;module=Links";
         $pays = $content[5];
 
@@ -33,11 +31,11 @@ function form($content, $sug_id){
                 . "// -->\n"
                 . "</script>\n";
 
-                $refuse = "&nbsp;<input type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" /></div>\n"
-                            . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
+                $refuse = "&nbsp;<input class=\"button\" type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" />\n"
+                            . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . _BACK . "</a></div></form><br />\n";
     }
     else{
-        $titre = "<big><b> " . _WEBLINKS . " </b></big></div>\n"
+        $titre = "<strong> " . _WEBLINKS . " </strong></div>\n"
                     . "<div style=\"text-align: center;\"><br />\n"
                     . "[ <a href=\"index.php?file=Links\" style=\"text-decoration: underline\">" . _INDEXLINKS . "</a> | "
                     . "<a href=\"index.php?file=Links&amp;op=classe&amp;orderby=news\" style=\"text-decoration: underline\">" . _NEWSLINK . "</a> | "
@@ -57,7 +55,7 @@ function form($content, $sug_id){
 
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
             . "<form method=\"post\" action=\"" . $action . "\">\n"
-            . "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
+            . "<table style=\"margin: auto; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
             . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" value=\"" . $content[0] . "\" size=\"40\" /></td></tr>\n"
             . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
 
@@ -120,7 +118,7 @@ function form($content, $sug_id){
     if ($GLOBALS['captcha'] === true) echo create_captcha();
 
     echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" /></td></tr>\n"
-            . "</table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
+            . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
 }
 
 function make_array($data){

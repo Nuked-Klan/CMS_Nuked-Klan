@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open this page directly</div>');
 
 global $user, $language;
@@ -39,10 +37,11 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Wars.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
-                . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _MATCHES . "<b> | "
-                . "<a href=\"index.php?file=Wars&amp;page=admin&amp;op=match&amp;do=add\">" . _ADDMATCH . "</a> | "
-                . "<a href=\"index.php?file=Wars&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-                . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+                . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+                nkAdminMenu(1);
+
+                echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
                 . "<tr>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _STATUS . "</b></td>\n"
@@ -100,7 +99,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             echo "<tr><td colspan=\"6\" align=\"center\">" . _NOMATCH . "</td></tr>\n";
         } 
 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>";
 
         adminfoot();
     } 
@@ -120,19 +119,24 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $score_adv = explode('|', $score_adv);
             $nbr = count($map);
             $_REQUEST['game'] = $game;
+            $adminTitle = _EDITTHISMATCH;
         }
         
+        if ($_REQUEST['do'] == "add"){
+            $adminTitle = _ADDMATCH;
+        }
+
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-                . "<div class=\"content-box-header\"><h3>" . _ADMINMATCH . "</h3>\n"
+                . "<div class=\"content-box-header\"><h3>" . $adminTitle . "</h3>\n"
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Wars.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
                 . "<div class=\"tab-content\" id=\"tab2\">\n";
                 
         if ($_REQUEST['do'] == "add"){
-            echo "<div style=\"text-align: center;\"><b><a href=\"index.php?file=Wars&amp;page=admin\">" . _MATCHES . "</a> | "
-                    . "</b>" . _ADDMATCH . "<b> | "
-                    . "<a href=\"index.php?file=Wars&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
+
+                nkAdminMenu(2);
+
         } 
 
         if ($_REQUEST['do'] == "edit"){
@@ -174,8 +178,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             } 
 
             echo "</select></table>\n"
-                    . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-                    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Wars&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+                    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
+                    . "</form><br /></div></div>\n";
             
             adminfoot();
             exit();
@@ -267,7 +271,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
                 . "</select>&nbsp;&nbsp;<b>" . _HOUR . " :</b> <input type=\"text\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr></table>\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
-                . "<tr><td align=\"center\"><big>" . _OPPONENT . "</big></td></tr>\n"
+                . "<tr><td align=\"center\"><h5>" . _OPPONENT . "</h5></td></tr>\n"
                 . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"adversaire\" maxlength=\"100\" size=\"20\" value=\"" . $adv_name . "\" />&nbsp;&nbsp;<b>" . _URL . " : </b><input type=\"text\" name=\"url_adv\" size=\"30\" maxlength=\"100\" value=\"" . $adv_url . "\" /></td></tr>\n"
                 . "<tr><td><b>" . _LOGOADV . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" value=\"" . $logo_adv . "\"/>\n";
             
@@ -309,7 +313,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         echo "</select><input type=\"hidden\" name=\"game\" value=\"".$_REQUEST['game']."\"/></td></tr></table>\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
-        . "<tr><td align=\"center\"><big>" . _MATCH . "</big></td></tr>\n"
+        . "<tr><td align=\"center\"><h5>" . _MATCH . "</h5></td></tr>\n"
         . "<tr><td><b>" . _TYPE . " : </b><input type=\"text\" name=\"type\" maxlength=\"100\" size=\"20\" value=\"" . $type . "\" />&nbsp;&nbsp;<b>" . _STYLE . " : </b><input type=\"text\" name=\"style\" maxlength=\"100\" size=\"20\" value=\"" . $style . "\" /></td></tr>\n"
         . "<input type=\"hidden\" name=\"nbr\" value=\"" . $nbr . "\" />\n";
         
@@ -338,7 +342,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         }
     
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
-                . "<tr><td align=\"center\"><big>" . _REPORT . "</big></td></tr>\n"
+                . "<tr><td align=\"center\"><h5>" . _REPORT . "</h5></td></tr>\n"
                 . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"report\" cols=\"60\" rows=\"10\">" . $report . "</textarea></td></tr>\n"
                 . "<tr><td align=\"center\"><b>" . _URLREPORT . " :</b> <input type=\"text\" name=\"url_league\" size=\"35\" maxlength=\"200\" value=\"" . $url_league . "\" /></td></tr></table>\n";
 
@@ -347,15 +351,15 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $nb_file = mysql_num_rows($sql4);
 
             if ($nb_file > 0){
-                echo "<div style=\"text-align: center;\"><br />[ <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;nuked_nude=admin&amp;op=main_file&amp;im_id=" . $war_id . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDMODFILE . "</a> ]</div>\n";
+                echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;nuked_nude=admin&amp;op=main_file&amp;im_id=" . $war_id . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDMODFILE . "</a></div>\n";
             } 
             else{
-                echo "<div style=\"text-align: center;\"><br />[ <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;nuked_nude=admin&amp;op=add_file&amp;im_id=" . $war_id ."','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDFILE . "</a> ]</div>\n";
+                echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;nuked_nude=admin&amp;op=add_file&amp;im_id=" . $war_id ."','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDFILE . "</a></div>\n";
             } 
         } 
 
-        echo "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Wars&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        echo "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
+                . "</form><br /></div></div>\n";
 
         adminfoot();
     } 
@@ -831,16 +835,16 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Wars.php\" rel=\"modal\">\n"
                 . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
                 . "</div></div>\n"
-                . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Wars&amp;page=admin\">" . _MATCHES . "</a> | "
-                . "<a href=\"index.php?file=Wars&amp;page=admin&amp;op=match&amp;do=add\">" . _ADDMATCH . "</a> | "
-                . "</b>" . _PREFS . "</div><br />\n"
-                . "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=change_pref\">\n"
+                . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+                nkAdminMenu(3);
+
+                echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=change_pref\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-                . "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
                 . "<tr><td>" . _NUMBERWARS . " :</td><td> <input type=\"text\" name=\"max_wars\" size=\"2\" value=\"" . $nuked['max_wars'] . "\" /></td></tr>\n"
                 . "</table><div style=\"text-align: center;\"></br><a href=\"index.php?file=Admin&amp;page=games\">"._MANAGETEAMMAP."</a><br/>\n"
-                . "<br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-                . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Wars&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+                . "<br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
+                . "</form><br /></div></div>\n";
 
         adminfoot();
     } 
@@ -864,6 +868,38 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         adminfoot();
         redirect("index.php?file=Wars&page=admin", 2);
     } 
+
+    function nkAdminMenu($tab = 1)
+    {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Wars&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _MATCHES; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Wars&amp;page=admin&amp;op=match&amp;do=add">
+                        <img src="modules/Admin/images/icons/snooker_ball.png" alt="icon" />
+                        <span><?php echo _ADDMATCH; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 3 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Wars&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
     switch ($_REQUEST['op']){
         case "main":
@@ -925,29 +961,17 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 } 
 else if ($level_admin == -1){
     admintop();
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
     adminfoot();
 }
 else if ($visiteur > 1){
     admintop();
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
     adminfoot();
 }
 else{
     admintop();
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
     adminfoot();
 }
 ?>

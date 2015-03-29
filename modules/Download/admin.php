@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 
 translate("modules/Download/lang/" . $language . ".lang.php");
@@ -33,16 +31,15 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		}
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINDOWN . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _ADDFILE . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Download&amp;page=admin\">" . _DOWNLOAD . "</a> | "
-		   . "</b>" . _ADDFILE . "<b> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_broken\">" . _BROKENLINKS . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-		   . "<form method=\"post\" action=\"index.php?file=Download&amp;page=admin&amp;op=send_file\" enctype=\"multipart/form-data\" onsubmit=\"backslash('dl_texte');\">\n"
+		   . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(2);
+
+        echo "<form method=\"post\" action=\"index.php?file=Download&amp;page=admin&amp;op=send_file\" enctype=\"multipart/form-data\" onsubmit=\"backslash('dl_texte');\">\n"
 		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
 		   . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" /></td></tr>\n"
 		   . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\">\n";
@@ -76,13 +73,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"http://\" /></td></tr>\n"
 		   . "<tr><td><b>" . _URL2 . " :</b> <input type=\"text\" name=\"url2\" size=\"55\" value=\"http://\" /></td></tr>\n"
 		   . "<tr><td><b>" . _URL3 . " :</b> <input type=\"text\" name=\"url3\" size=\"55\" value=\"http://\" /></td></tr>\n"
-		   . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <br /><input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
+		   . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
 		   . "<tr><td>&nbsp;</td></tr>\n"
 		   . "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"42\" value=\"http://\" /></td></tr>\n"
-		   . "<tr><td><b>" . _UPIMG . " :</b> <br /><input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
+		   . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
 		   . "<tr><td>&nbsp;</td></tr>\n"
-		   . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDTHISFILE . "\" /></td></tr>\n"
-		   . "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Download&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		   . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
 	}
 
 	function send_file($date, $size, $titre, $description, $cat, $url, $url2, $url3, $level, $autor, $site, $comp, $screen, $screen2, $copy, $ecrase_file, $ecrase_screen) {
@@ -261,7 +257,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		}
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINDOWN . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _EDITTHISFILE . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
@@ -299,13 +295,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $url . "\" /></td></tr>\n"
 		   . "<tr><td><b>" . _URL2 . " :</b> <input type=\"text\" name=\"url2\" size=\"55\" value=\"" . $url2 . "\" /></td></tr>\n"
 		   . "<tr><td><b>" . _URL3 . " :</b> <input type=\"text\" name=\"url3\" size=\"55\" value=\"" . $url3 . "\" /></td></tr>\n"
-		   . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <br /><input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
+		   . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
 		   . "<tr><td>&nbsp;</td></tr>\n"
 		   . "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"42\" value=\"" . $screen . "\" /></td></tr>\n"
-		   . "<tr><td><b>" . _UPIMG . " :</b> <br /><input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
+		   . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
 		   . "<tr><td>&nbsp;<input type=\"hidden\" name=\"did\" value=\"" . $did . "\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFFILE . "\" /></td></tr>\n"
-		   . "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Download&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		   . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
 
 	}
 
@@ -444,16 +439,15 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</script>\n";
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINDOWN . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _BROKENLINKS . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Download&amp;page=admin\">" . _DOWNLOAD . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=add_file\">" . _ADDFILE . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
-		   . "</b>" . _BROKENLINKS . "<b> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-		   . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+		   . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(4);
+
+        echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 		   . "<tr>\n"
 		   . "<td style=\"width: 10%;\" align=\"center\"><b>#</b></td>\n"
 		   . "<td colspan=\"2\" style=\"width: 35%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
@@ -484,8 +478,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			echo "<tr><td align=\"center\" colspan=\"6\">" . _NODOWNLOADINDB . "</td></tr>\n";
 		}
 
-		echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"javascript:delbroke();\"><b>" . _ERASELIST . "</b></a> ]</div>\n"
-		   . "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Download&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+		echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"javascript:delbroke();\">" . _ERASELIST . "</a>\n"
+		   . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
 	}
 
 	function del_broke($did) {
@@ -552,11 +546,9 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _DOWNLOAD . "<b> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=add_file\">" . _ADDFILE . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_broken\">" . _BROKENLINKS . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
+		   . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(1);
 
 		if ($_REQUEST['orderby'] == "date") {
 			$order_by = "D.id DESC";
@@ -645,7 +637,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			echo "</div>\n";
 		}
 
-		echo "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+		echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
 	}
 
 	function main_cat() {
@@ -664,16 +656,15 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</script>\n";
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINDOWN . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _CATMANAGEMENT . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Download&amp;page=admin\">" . _DOWNLOAD . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=add_file\">" . _ADDFILE . "</a> | "
-		   . "</b>" . _CATMANAGEMENT . "<b><br />"
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_broken\">" . _BROKENLINKS . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-		   . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+		   . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(3);
+
+		echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 		   . "<tr>\n"
 		   . "<td style=\"width: 35%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
 		   . "<td style=\"width: 35%;\" align=\"center\"><b>" . _CATPARENT . "</b></td>\n"
@@ -712,15 +703,15 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			echo "<tr><td align=\"center\" colspan=\"5\">" . _NONE . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
 		}
 
-		echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Download&amp;page=admin&amp;op=add_cat\"><b>" . _ADDCAT . "</b></a> ]</div>\n"
-		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Download&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+		echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a>\n"
+		   . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
 	}
 
 	function add_cat() {
 		global $language, $nuked;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINDOWN . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _ADDCAT . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
@@ -750,8 +741,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<option>9</option></select></td></tr>\n"
 		   . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
 		   . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
-		   . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
-		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		   . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" />\n"
+		   . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div></form><br /></div></div>\n";
 	}
 
 	function send_cat($titre, $description, $parentid, $level, $position) {
@@ -789,7 +780,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		list($titre, $description, $parentid, $level, $position) = mysql_fetch_array($sql);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINDOWN . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
@@ -834,8 +825,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<option>9</option></select></td></tr>\n"
 		   . "<tr><td><b>" . _DESCR . " :</b> <input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"
 		   . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
-		   . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
-		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		   . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" />\n"
+		   . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div></form><br /></div></div>\n";
 	}
 
 	function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
@@ -913,25 +904,29 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function main_pref() {
 		global $nuked, $language;
 
-		if ($nuked['hide_download'] == "on") $checked = "checked=\"checked\"";
+		$checked = false;
+
+		if ($nuked['hide_download'] == "on") $checked = true;
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		   . "<div class=\"content-box-header\"><h3>" . _ADMINDOWN . "</h3>\n"
+		   . "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Download&amp;page=admin\">" . _DOWNLOAD . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=add_file\">" . _ADDFILE . "</a> | "
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a><br />"
-		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_broken\">" . _BROKENLINKS . "</a> | </b>"
-		   . _PREFS . "</div><br />\n"
-		   . "<form method=\"post\" action=\"index.php?file=Download&amp;page=admin&amp;op=change_pref\">\n"
+		   . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(5);
+
+        echo "<form method=\"post\" action=\"index.php?file=Download&amp;page=admin&amp;op=change_pref\">\n"
 		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-		   . "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
 		   . "<tr><td>" . _NUMBERFILE . " :</td><td><input type=\"text\" name=\"max_download\" size=\"2\" value=\"" . $nuked['max_download'] . "\" /></td></tr>\n"
-		   . "<tr><td>" . _HIDEDESC . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"hide_download\" value=\"on\" " . $checked . " /></td></tr>\n"
-		   . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Download&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		   . "<tr><td>" . _HIDEDESC . " :</td><td>\n";
+
+		    checkboxButton('hide_download', 'hide_download', $checked, false);
+
+		echo "</td></tr>\n"
+		   . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />\n"
+		   . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
 	}
 
 	function change_pref($max_download, $hide_download) {
@@ -985,6 +980,50 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</div>\n";
 		redirect("index.php?file=Download&page=admin&op=main_cat", 2);
 	}
+
+    function nkAdminMenu($tab = 1)
+    {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Download&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _DOWNLOAD; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Download&amp;page=admin&amp;op=add_file">
+                        <img src="modules/Admin/images/icons/add_page.png" alt="icon" />
+                        <span><?php echo _ADDFILE; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 3 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Download&amp;page=admin&amp;op=main_cat">
+                        <img src="modules/Admin/images/icons/folder_full.png" alt="icon" />
+                        <span><?php echo _CATMANAGEMENT; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 4 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Download&amp;page=admin&amp;op=main_broken">
+                        <img src="modules/Admin/images/icons/pages_warning.png" alt="icon" />
+                        <span><?php echo _BROKENLINKS; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 5 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Download&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
 	switch ($_REQUEST['op']) {
 		case "edit_file":
@@ -1065,24 +1104,15 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			break;
 	}
 
-} else if ($level_admin == -1) {
-	echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
-} else if ($visiteur > 1) {
-	echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
-} else {
-	echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+}
+else if ($level_admin == -1){
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
+}
+else if ($visiteur > 1){
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
+}
+else{
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
 
 adminfoot();

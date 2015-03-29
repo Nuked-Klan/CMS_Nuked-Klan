@@ -1,12 +1,10 @@
 <?php
-//-------------------------------------------------------------------------//
-//  Nuked-KlaN - PHP Portal                                                //
-//  http://www.nuked-klan.org                                              //
-//-------------------------------------------------------------------------//
-//  This program is free software. you can redistribute it and/or modify   //
-//  it under the terms of the GNU General Public License as published by   //
-//  the Free Software Foundation; either version 2 of the License.         //
-//-------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $user, $language;
@@ -39,9 +37,11 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         . '<div style="text-align:right"><a href="help/' . $language . '/Contact.php" rel="modal">'."\n"
         . '<img style="border: 0" src="help/help.gif" alt="" title="' . _HELP . '" /></a>',"\n"
         . '</div></div>'."\n"
-        . '<div class="tab-content" id="tab2"><div style="text-align: center">' . _LISTMAIL . '<b> | '
-        . '<a href="index.php?file=Contact&amp;page=admin&amp;op=main_pref">' . _PREFS . '</a></b></div><br />'."\n"
-        . '<table style="margin: auto;text-align: left" width="90%"  border="0" cellspacing="1" cellpadding="2">'."\n"
+        . '<div class="tab-content" id="tab2">'."\n";
+
+        nkAdminMenu(1);
+
+        echo '<table style="margin: auto;text-align: left" width="90%"  border="0" cellspacing="1" cellpadding="2">'."\n"
         . '<tr>'."\n"
         . '<td style="width: 10%;text-align:center;" ><b>#</b></td>'."\n"
         . '<td style="width: 30%;text-align:center;" ><b>' . _TITLE . '</b></td>'."\n"
@@ -73,7 +73,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         if ($count == 0) echo '<tr><td align="center" colspan="6">' . _NOMESSINDB . '</td></tr>'."\n";
 
-        echo '</table><br /><div style="text-align: center">[ <a href="index.php?file=Admin"><b>' . _BACK . '</b></a> ]</div><br /></div></div>'."\n";
+        echo '</table><br /><div style="text-align: center"><a class="buttonLink" href="index.php?file=Admin">' . _BACK . '</a></div><br /></div></div>'."\n";
     }
 
     function view($mid){
@@ -109,8 +109,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         . '<tr><td>' . _FROM . '  <a href="mailto:' . $email . '"><b>' . $nom . '</b></a> (IP : ' . $ip . ') ' . _THE . ' ' . $day . '</td></tr>'."\n"
         . '<tr><td><b>' . _YSUBJECT . ' :</b> ' . $titre . '</td></tr>'."\n"
         . '<tr><td><br />' . $message . '</td></tr></table>'."\n"
-        . '<div style="text-align: center"><br /><input type="button" value="' . _DELTHISMESS . '" onclick="javascript:delmail(\'' . $name . '\', \'' . $mid . '\');" />'."\n"
-        . '<br /><br />[ <a href="index.php?file=Contact&amp;page=admin"><b>' . _BACK . '</b></a> ]</div><br /></div></div>'."\n";
+        . '<div style="text-align: center"><br /><input class="button" type="button" value="' . _DELTHISMESS . '" onclick="javascript:delmail(\'' . $name . '\', \'' . $mid . '\');" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . _BACK . '</a>'."\n"
+        . '</div><br /></div></div>'."\n";
     }
 
     function del($mid){
@@ -141,15 +141,17 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         . '<div style="text-align:right"><a href="help/' . $language . '/Contact.php" rel="modal">',"\n"
         . '<img style="border: 0" src="help/help.gif" alt="" title="' . _HELP . '" /></a>',"\n"
         . '</div></div>',"\n"
-        . '<div class="tab-content" id="tab2"><div style="text-align: center"><b><a href="index.php?file=Contact&amp;page=admin">' . _LISTMAIL . '</a> | '
-        . '</b>' . _PREFS . '</div><br />',"\n"
-        . '<form method="post" action="index.php?file=Contact&amp;page=admin&amp;op=change_pref">',"\n"
+        . '<div class="tab-content" id="tab2">'."\n";
+
+        nkAdminMenu(2);
+
+        echo '<form method="post" action="index.php?file=Contact&amp;page=admin&amp;op=change_pref">',"\n"
         . '<table style="margin: auto;text-align: left" border="0" cellspacing="0" cellpadding="3">',"\n"
         . '<tr><td align="center"><big>' . _PREFS . '</big></td></tr>',"\n"
         . '<tr><td>' . _EMAILCONTACT . ' : <input type="text" name="contact_mail" size="40" value="' . $nuked['contact_mail'] . '" /></td></tr>',"\n"
         . '<tr><td>' . _FLOODCONTACT . ' : <input type="text" name="contact_flood" size="2" value="' . $nuked['contact_flood'] . '" /></td></tr></table>',"\n"
-        . '<div style="text-align: center"><br /><input type="submit" value="' . _SEND . '" /><br />',"\n"
-        . '<br />[ <a href="index.php?file=Contact&amp;page=admin"><b>' . _BACK . '</b></a> ]</div></form><br /></div></div>',"\n";
+        . '<div style="text-align: center"><br /><input class="button" type="submit" value="' . _SEND . '" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . _BACK . '</a><br />',"\n"
+        . '</div></form><br /></div></div>',"\n";
     } 
 
     function change_pref($contact_mail, $contact_flood){
@@ -170,6 +172,31 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
         redirect('index.php?file=Contact&page=admin', 2);
     } 
+
+    function nkAdminMenu($tab = 1) {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Contact&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _LISTMAIL; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Contact&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
     switch($_REQUEST['op']){
         case 'view':
@@ -194,27 +221,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     }
 
 } 
-else if ($level_admin == -1){
-    echo '<div class="notification error png_bg">'."\n"
-    . '<div>'."\n"
-    . '<br /><br /><div style="text-align: center">' . _MODULEOFF . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a></div><br /><br />'."\n"
-    . '</div>'."\n"
-    . '</div>'."\n";
+else if ($level_admin == -1) {
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else if ($visiteur > 1){
-    echo '<div class="notification error png_bg">'."\n"
-    . '<div>'."\n"
-    . '<br /><br /><div style="text-align: center">' . _NOENTRANCE . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a></div><br /><br />'."\n"
-    . '</div>'."\n"
-    . '</div>'."\n";
+else if ($visiteur > 1) {
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else{
-    echo '<div class="notification error png_bg">'."\n"
-    . '<div>'."\n"
-    . '<br /><br /><div style="text-align: center">' . _ZONEADMIN . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a></div><br /><br />'."\n"
-    . '</div>'."\n"
-    . '</div>'."\n";
+else {
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-
 adminfoot();
 ?>

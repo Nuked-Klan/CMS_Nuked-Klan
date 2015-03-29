@@ -10,7 +10,7 @@ header('Content-type: text/html; charset=iso-8859-1');
 	</li>
 	<li>
 		<a class="shortcut-button" href="index.php?file=Wars&amp;page=admin&amp;op=match&amp;do=add">
-			<img src="modules/Admin/images/icons/chess.png" alt="icon" />
+			<img src="modules/Admin/images/icons/snooker_ball.png" alt="icon" />
 			<span>Add a match</span>
 		</a>
 	</li>
