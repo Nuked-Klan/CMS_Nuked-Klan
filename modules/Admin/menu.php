@@ -31,15 +31,19 @@ if ($visiteur == 9)
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _MENUADMIN . "</h3>\n"
 		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 35%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _BLOCK . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _POSITION . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
+    	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    	. "</div></div>\n"
+    	. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        printNotification(_TO_CREATE_A_MENU, '', $type = 'information', $back = false, $redirect = false);
+
+        echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    	. "<tr>\n"
+    	. "<td style=\"width: 35%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
+    	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _BLOCK . "</b></td>\n"
+    	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _POSITION . "</b></td>\n"
+    	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
+    	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT  bid, active, position, titre, nivo FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
         while (list($bid, $activ, $position, $titre, $nivo) = mysql_fetch_array($sql))
@@ -59,7 +63,7 @@ if ($visiteur == 9)
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a></td></tr>\n";
 
         }
-        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin&page=block&op=add_block\">" . _CREATEBLOCK . "</a><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     }
 
     function edit_menu($bid)
@@ -71,20 +75,20 @@ if ($visiteur == 9)
         $titre = nkHtmlEntities($titre);
 
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	."function setCheckboxes(checkbox, nbcheck, do_check)\n"
-	."{\n"
-	."for (var i = 0; i < nbcheck; i++)\n"
-	."{\n"
-	."cbox = checkbox + i;\n"
-	."document.getElementById(cbox).checked = do_check;\n"
-	."}\n"
-	."return true;\n"
-	."}\n"
-	."\n"
-	. "// -->\n"
-	. "</script>\n";
+    	."<!--\n"
+    	."\n"
+    	."function setCheckboxes(checkbox, nbcheck, do_check)\n"
+    	."{\n"
+    	."for (var i = 0; i < nbcheck; i++)\n"
+    	."{\n"
+    	."cbox = checkbox + i;\n"
+    	."document.getElementById(cbox).checked = do_check;\n"
+    	."}\n"
+    	."return true;\n"
+    	."}\n"
+    	."\n"
+    	. "// -->\n"
+    	. "</script>\n";
 
         $link = explode('NEWLINE', $content);
         $count = count($link);
@@ -93,19 +97,19 @@ if ($visiteur == 9)
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _MENUADMIN . " : " . $titre . "</h3>\n"
 		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=menu&amp;op=send_line\">\n"
-	. "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 5%;\" align=\"center\"><b>&lt; # &gt;</b></td>\n"
-	. "<td style=\"width: 5%;\" align=\"center\"><b>" . _DELBOX . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _URL . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _COMMENT . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _NEWPAGE . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
-	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
+    	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    	. "</div></div>\n"
+    	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=menu&amp;op=send_line\">\n"
+    	. "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    	. "<tr>\n"
+    	. "<td style=\"width: 5%;\" align=\"center\"><b>&lt; # &gt;</b></td>\n"
+    	. "<td style=\"width: 5%;\" align=\"center\"><b>" . _DELBOX . "</b></td>\n"
+    	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
+    	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _URL . "</b></td>\n"
+    	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _COMMENT . "</b></td>\n"
+    	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _NEWPAGE . "</b></td>\n"
+    	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
+    	. "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
 
         if (!empty($content))
         {
@@ -196,7 +200,7 @@ if ($visiteur == 9)
         }
 
         echo "</table><div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"bid\" value=\"" . $bid . "\" />\n"
-	. "<input class=\"button\" type=\"button\" value=\"" . _DEL . "\" onclick=\"if (confirm('" . _SURDELLINE . "')) submit();\" />\n"
+        . "<input class=\"button\" type=\"button\" value=\"" . _DEL . "\" onclick=\"if (confirm('" . _SURDELLINE . "')) submit();\" />\n"
         . "&nbsp;<input class=\"button\" type=\"button\" value=\"" . _ADD . "\" onclick=\"document.location='index.php?file=Admin&amp;page=menu&amp;op=edit_line&amp;bid=" . $bid . "'\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=menu\">" . _BACK . "</a></div>\n"
         . "</form><br /></div></div>";
     }
@@ -216,12 +220,10 @@ if ($visiteur == 9)
 	if ($lid != "") $selected0 = "";
 	else $selected0 = "selected=\"selected\"";
 
-        if ($blank == 1) $checked = "checked=\"checked\"";
-	else  $checked = "";
-
-        if (preg_match("`<b>`i", $title)) $chk1 = "checked=\"checked\""; else $chk1 = "";
-        if (preg_match("`<i>`i", $title)) $chk2 = "checked=\"checked\""; else $chk2 = "";
-        if (preg_match("`underline`i", $title)) $chk3 = "checked=\"checked\""; else $chk3 = "";
+        if ($blank == true) $checked = true; else $checked = false;
+        if (preg_match("`<b>`i", $title)) $chk1 = true; else $chk1 = false;
+        if (preg_match("`<i>`i", $title)) $chk2 = true; else $chk2 = false;
+        if (preg_match("`underline`i", $title)) $chk3 = true; else $chk3 = false;
 
         if (preg_match("`<img src=`i", $title))
         {
@@ -249,51 +251,69 @@ if ($visiteur == 9)
         if (substr($module, 0, 1) == "[" || $module == "") $url = "http://";
         else $url = $module;
 
+        echo"<script type=\"text/javascript\" src=\"modules/Admin/jscolor/jscolor.js\"></script>";
+
         echo "<script type=\"text/javascript\">\n"
-	."<!--\n"
-	."\n"
-	. "function update_img(newimage)\n"
-	. "{\n"
-	. "document.getElementById('img_puce').src = 'images/puces/' + newimage;\n"
-	. "}\n"
-	."\n"
-	. "// -->\n"
-	. "</script>\n";
+        	."<!--\n"
+        	."\n"
+        	. "function update_img(newimage)\n"
+        	. "{\n"
+        	. "document.getElementById('img_puce').src = 'images/puces/' + newimage;\n"
+        	. "}\n"
+        	."\n"
+        	. "// -->\n"
+        	. "</script>\n";
 
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _EDITLINE . "</h3>\n"
+		. "<div class=\"content-box-header\"><h3>" . _EDITLINE . " : " . $title . "</h3>\n"
 		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/menu.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=menu&amp;op=send_line&amp;bid=" . $bid . "&amp;lid=" . $lid . "\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td colspan=\"4\" align=\"center\"><big><b>" .$titre . " : " . $title . "</b></big></td></tr>\n"
-	. "<tr><td colspan=\"2\">" . _PUCE . " : </td>\n"
-	. "<td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td><select name=\"puce\" onchange=\"update_img(this.options[selectedIndex].value);\">\n";
+    	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    	. "</div></div>\n"
+    	. "<div class=\"tab-content\" id=\"tab2\">\n"
+        . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=menu&amp;op=send_line&amp;bid=" . $bid . "&amp;lid=" . $lid . "\">\n"
+    	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<tr><td colspan=\"3\">&nbsp;</td></tr>\n"
+        . "<tr><td colspan=\"2\" width=\"20%\" ><h5>" . _TITLE . " :</h5></td><td><input type=\"text\" name=\"title\" value=\"" . $title . "\" size=\"40\" /></td></tr>\n"
+        . "<tr><td colspan=\"3\">&nbsp;</td></tr>\n"        
+        . "<tr><td colspan=\"3\"><h5>" . _STYLETITLE . " :</h5></td></tr>\n"
+        . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _COLOR . " :</strong></td><td><input id=\"couleur\" class=\"color\"type=\"text\" name=\"color\" style=\"width:60px;\" value=\"" . $color . "\" /></td></tr>\n"
+        . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _BOLD . " :</strong></td><td>\n";
+
+        checkboxButton('b', 'b', $chk1, false);
+
+        echo "</td></tr>\n"
+        . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _ITAL . " :</strong></td><td>\n";
+
+        checkboxButton('i', 'i', $chk2, false);
+
+        echo "</td></tr>\n"
+        . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _UNDERLINE . " :</strong></td><td>\n";
+
+        checkboxButton('u', 'u', $chk3, false);
+
+        echo "</td></tr>\n"
+        . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _PUCE . " :</strong></td>\n"
+    	. "<td><select name=\"puce\" onchange=\"update_img(this.options[selectedIndex].value);\">\n";
 
         list_puce($puce);
 
         if ($puce == "") $puce = "none.gif";
 
-        echo "</select></td><td>&nbsp;</td>\n"
-	. "<td><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
-	. "<tr><td><img id=\"img_puce\" src=\"images/puces/" . $puce . "\" alt=\"\" /></td></tr></table>\n"
-	. "</td></td></tr></table>\n"
-	. "<td style=\"width: 25%;\" rowspan=\"4\" align=\"right\">" . _COLOR . " : <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=menu&amp;nuked_nude=menu&amp;op=code_color&amp;color=" . $color . "','" . _COLOR . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=330,height=330,top=30,left=0');return(false)\" title=\"" . _VIEWCOLOR . "\"><b>#</b></a><input id=\"couleur\" type=\"text\" name=\"color\" value=\"" . $color . "\" size=\"7\" maxlength=\"6\" />\n"
-	. "<br />" . _BOLD . " : <input class=\"checkbox\" type=\"checkbox\" name=\"b\" value=\"1\" " . $chk1 . " />&nbsp;&nbsp;\n"
-	. "<br />" . _ITAL . " : <input class=\"checkbox\" type=\"checkbox\" name=\"i\" value=\"1\" " . $chk2 . " />&nbsp;&nbsp;\n"
-	. "<br />" . _UNDERLINE . " : <input class=\"checkbox\" type=\"checkbox\" name=\"u\" value=\"1\" " . $chk3 . " />&nbsp;&nbsp;</td></tr>\n"
-	. "<tr><td  colspan=\"2\">" . _TITLE . " :</td><td><input type=\"text\" name=\"title\" value=\"" . $title . "\" size=\"30\" /></td></tr>\n"
-	. "<tr><td rowspan=\"2\" valign=\"top\">" . _URL . " : </td><td>" . _LINK . " :</td><td><input type=\"text\" name=\"url\" value=\"" . $url . "\" size=\"30\" /></td></tr>\n"
-	. "<tr><td>" . _MODULE . " : </td><td><select name=\"module\">\n";
+        echo "</select>\n"
+    	. "<img style=\"margin-left:10px;\" id=\"img_puce\" src=\"images/puces/" . $puce . "\" alt=\"\" /></td></tr>\n"
+        . "<tr><td colspan=\"3\">&nbsp;</td></tr>\n"
+        . "<tr><td colspan=\"3\"><h5>" . _URL . " :</h5></td></tr>\n"
+    	. "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _LINK . " :</strong></td><td><input type=\"text\" name=\"url\" value=\"" . $url . "\" size=\"40\" /></td></tr>\n"
+    	. "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _MODULE . " :</strong></td><td><select name=\"module\">\n";
 
         list_mod($module);
 
         echo"</select></td></tr>\n"
-	. "<tr><td colspan=\"2\">" . _COMMENT . " : </td><td colspan=\"2\"><input type=\"text\" name=\"comment\" value=\"" . $comment . "\" size=\"30\" /></td></tr>\n"
-	. "<tr><td colspan=\"2\">" . _POSITION . " : </td><td colspan=\"2\"><select name=\"line\">\n";
+    	. "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _COMMENT . " :</strong></td><td><input type=\"text\" name=\"comment\" value=\"" . $comment . "\" size=\"40\" /></td></tr>\n"
+        . "<tr><td colspan=\"3\">&nbsp;</td></tr>\n"
+        . "<tr><td colspan=\"3\"><h5>" . _ACCESSIBILITY . " :</h5></td></tr>\n"
+        . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _POSITION . " :</strong></td><td><select name=\"line\">\n";
 
         for($z = 0;$z < count($link);$z++)
         {
@@ -309,7 +329,7 @@ if ($visiteur == 9)
 
         echo "<option value=\"" . $z . "\"  " . $selected0 . ">" . $z . "&nbsp;&nbsp;" . _LAST . " ...</option>\n"
         . "</select></td></tr>\n"
-	. "<tr><td colspan=\"2\">" . _LEVEL . " : </td><td colspan=\"2\"><select name=\"niveau\">\n";
+        . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _LEVEL . " :</strong></td><td><select name=\"niveau\">\n";
 
         for($j = 0;$j < 10;$j++)
         {
@@ -320,9 +340,17 @@ if ($visiteur == 9)
         }
 
         echo "</select></td></tr>\n"
-	. "<tr><td colspan=\"4\">" . _NEWPAGE . " : <input class=\"checkbox\" type=\"checkbox\" name=\"blank\" value=\"1\" " . $checked . " /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\">" . _BACK . "</a></div>\n"
-	. "</form><br /></div></div>\n";
+        . "<tr><td colspan=\"2\" style=\"text-align:right;\"><strong>" . _NEWPAGE . " :</strong></td><td>\n";
+
+        checkboxButton('blank', 'blank', $checked, false);
+
+        echo "</td></tr>\n"
+        . "<tr><td colspan=\"3\">&nbsp;</td></tr>\n"
+        . "</table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=menu&amp;op=edit_menu&amp;bid=" . $bid . "\">" . _BACK . "</a></div>\n"
+        . "</form><br /></div></div>\n";
+
+
     }
 
     function send_line($bid, $lid)
@@ -334,9 +362,9 @@ if ($visiteur == 9)
 
         if ($_REQUEST['niveau'] != "")
         {
-            if ($_REQUEST['b'] == 1) $_REQUEST['title'] = "<b>" . $_REQUEST['title'] . "</b>";
-            if ($_REQUEST['i'] == 1) $_REQUEST['title'] = "<i>" . $_REQUEST['title'] . "</i>";
-            if ($_REQUEST['u'] == 1) $_REQUEST['title'] = "<span style=\"text-decoration: underline;\">" . $_REQUEST['title'] . "</span>";
+            if ($_REQUEST['b'] == true) $_REQUEST['title'] = "<b>" . $_REQUEST['title'] . "</b>";
+            if ($_REQUEST['i'] == true) $_REQUEST['title'] = "<i>" . $_REQUEST['title'] . "</i>";
+            if ($_REQUEST['u'] == true) $_REQUEST['title'] = "<span style=\"text-decoration: underline;\">" . $_REQUEST['title'] . "</span>";
             if ($_REQUEST['color'] != "") $_REQUEST['title'] = "<span style=\"color: #" . $_REQUEST['color']. ";\">" . $_REQUEST['title'] . "</span>";
 
             if ($_REQUEST['puce'] != "" && $_REQUEST['puce'] != "none.gif") $_REQUEST['title'] = "<img src=\"images/puces/" . $_REQUEST['puce'] . "\" style=\"border: 0;\" alt=\"\" />" . $_REQUEST['title'];
@@ -497,328 +525,6 @@ if ($visiteur == 9)
         }
     }
 
-    function code_color()
-    {
-        global $theme, $bgcolor2;
-
-        if (!$_REQUEST['color']) $_REQUEST['color'] ="FFFFFF";
-
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _COLORCODE . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background: " . $bgcolor2 . ";\">";
-
-        echo "<script type=\"text/javascript\">\n"
-        ."<!--\n"
-        ."\n"
-        ."function shouldset(passon){\n"
-        ."if(document.getElementById('hex').value.length == 7){setcolor(passon)}\n"
-        ."}\n"
-        ."\n"
-        ."function setcolor(elem){\n"
-        ."document.getElementById('hex').value=elem;\n"
-        ."document.getElementById('sel').style.backgroundColor=elem;\n"
-        ."}\n"
-        ."\n";
-		if ($_GET['balise'] == "true")
-		{
-			echo "function addcolor(elem){\n"
-			."elem=document.getElementById('hex').value;\n"
-			."elem = elem.substr(1,6);\n"
-			."opener.document.getElementById('couleur2').value=elem;\n"
-			."}\n"
-			."\n"
-			. "// -->\n"
-			. "</script>\n";
-		}
-		else
-		{
-			echo "function addcolor(elem){\n"
-			."elem=document.getElementById('hex').value;\n"
-			."elem = elem.substr(1,6);\n"
-			."opener.document.getElementById('couleur').value=elem;\n"
-			."}\n"
-			."\n"
-			. "// -->\n"
-			. "</script>\n";
-		}
-        echo "<table style=\"background: #000000;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"270\">\n"
-        . "<tr><td style=\"width: 100%;\">\n"
-        . "<table border=\"0\" cellpadding=\"0\" cellspacing=\"1\" width=\"100%\">\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00ff00;\"><a href=\"javascript:setcolor('#00FF00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00ff33;\"><a href=\"javascript:setcolor('#00FF33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00ff66;\"><a href=\"javascript:setcolor('#00FF66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00ff99;\"><a href=\"javascript:setcolor('#00FF99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00ffcc;\"><a href=\"javascript:setcolor('#00FFCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00ffff;\"><a href=\"javascript:setcolor('#00FFFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00cc00;\"><a href=\"javascript:setcolor('#00CC00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00cc66;\"><a href=\"javascript:setcolor('#00CC66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00cc66;\"><a href=\"javascript:setcolor('#00CC66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00cc99;\"><a href=\"javascript:setcolor('#00CC99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00cccc;\"><a href=\"javascript:setcolor('#00CCCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #00ccff;\"><a href=\"javascript:setcolor('#00CCFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #009900;\"><a href=\"javascript:setcolor('#009900')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #009933;\"><a href=\"javascript:setcolor('#009933')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #009966;\"><a href=\"javascript:setcolor('#009966')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #009999;\"><a href=\"javascript:setcolor('#009999')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #0099cc;\"><a href=\"javascript:setcolor('#0099CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #0099ff;\"><a href=\"javascript:setcolor('#0099FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33ff00;\"><a href=\"javascript:setcolor('#33FF00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33ff33;\"><a href=\"javascript:setcolor('#33FF33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33ff66;\"><a href=\"javascript:setcolor('#33FF66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33ff99;\"><a href=\"javascript:setcolor('#33FF99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33ffcc;\"><a href=\"javascript:setcolor('#33FFCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33ffff;\"><a href=\"javascript:setcolor('#33FFFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33cc00;\"><a href=\"javascript:setcolor('#33CC00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33cc33;\"><a href=\"javascript:setcolor('#33CC33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33cc66;\"><a href=\"javascript:setcolor('#33CC66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33cc99;\"><a href=\"javascript:setcolor('#33CC99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33cccc;\"><a href=\"javascript:setcolor('#33CCCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #33ccff;\"><a href=\"javascript:setcolor('#33CCFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #339900;\"><a href=\"javascript:setcolor('#339900')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #339933;\"><a href=\"javascript:setcolor('#339933')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #339966;\"><a href=\"javascript:setcolor('#339966')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #339999;\"><a href=\"javascript:setcolor('#339999')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #3399cc;\"><a href=\"javascript:setcolor('#3399CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #3399ff;\"><a href=\"javascript:setcolor('#3399FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66ff00;\"><a href=\"javascript:setcolor('#66FF00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66ff33;\"><a href=\"javascript:setcolor('#66FF33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66ff66;\"><a href=\"javascript:setcolor('#66FF66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66ff99;\"><a href=\"javascript:setcolor('#66FF99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66ffcc;\"><a href=\"javascript:setcolor('#66FFCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66ffff;\"><a href=\"javascript:setcolor('#66FFFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66cc00;\"><a href=\"javascript:setcolor('#66CC00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66cc33;\"><a href=\"javascript:setcolor('#66CC33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66cc66;\"><a href=\"javascript:setcolor('#66CC66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66cc99;\"><a href=\"javascript:setcolor('#66CC99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66cccc;\"><a href=\"javascript:setcolor('#66CCCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #66ccff;\"><a href=\"javascript:setcolor('#66CCFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #669900;\"><a href=\"javascript:setcolor('#669900')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #669933;\"><a href=\"javascript:setcolor('#669933')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #669966;\"><a href=\"javascript:setcolor('#669966')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #669999;\"><a href=\"javascript:setcolor('#669999')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #6699cc;\"><a href=\"javascript:setcolor('#6699CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #6699ff;\"><a href=\"javascript:setcolor('#6699FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99ff00;\"><a href=\"javascript:setcolor('#99FF00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99ff33;\"><a href=\"javascript:setcolor('#99FF33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99ff66;\"><a href=\"javascript:setcolor('#99FF66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99ff99;\"><a href=\"javascript:setcolor('#99FF99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99ffcc;\"><a href=\"javascript:setcolor('#99FFCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99ffff;\"><a href=\"javascript:setcolor('#99FFFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99cc00;\"><a href=\"javascript:setcolor('#99CC00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99cc33;\"><a href=\"javascript:setcolor('#99CC33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99cc66;\"><a href=\"javascript:setcolor('#99CC66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99cc99;\"><a href=\"javascript:setcolor('#99CC99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99cccc;\"><a href=\"javascript:setcolor('#99CCCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #99ccff;\"><a href=\"javascript:setcolor('#99CCFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #999900;\"><a href=\"javascript:setcolor('#999900')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #999933;\"><a href=\"javascript:setcolor('#999933')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #999966;\"><a href=\"javascript:setcolor('#999966')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #999999;\"><a href=\"javascript:setcolor('#999999')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #9999cc;\"><a href=\"javascript:setcolor('#9999CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #9999ff;\"><a href=\"javascript:setcolor('#9999FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ccff00;\"><a href=\"javascript:setcolor('#CCFF00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ccff33;\"><a href=\"javascript:setcolor('#CCFF33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ccff66;\"><a href=\"javascript:setcolor('#CCFF66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ccff99;\"><a href=\"javascript:setcolor('#CCFF99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ccffcc;\"><a href=\"javascript:setcolor('#CCFFCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ccffff;\"><a href=\"javascript:setcolor('#CCFFFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cccc00;\"><a href=\"javascript:setcolor('#CCCC00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cccc33;\"><a href=\"javascript:setcolor('#CCCC33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cccc66;\"><a href=\"javascript:setcolor('#CCCC66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cccc99;\"><a href=\"javascript:setcolor('#CCCC99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cccccc;\"><a href=\"javascript:setcolor('#CCCCCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ccccff;\"><a href=\"javascript:setcolor('#CCCCFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc9900;\"><a href=\"javascript:setcolor('#CC9900')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc9933;\"><a href=\"javascript:setcolor('#CC9933')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc9966;\"><a href=\"javascript:setcolor('#CC9966')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc9999;\"><a href=\"javascript:setcolor('#CC9999')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc99cc;\"><a href=\"javascript:setcolor('#CC99CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc99ff;\"><a href=\"javascript:setcolor('#CC99FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffff00;\"><a href=\"javascript:setcolor('#FFFF00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffff33;\"><a href=\"javascript:setcolor('#FFFF33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffff66;\"><a href=\"javascript:setcolor('#FFFF66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffff99;\"><a href=\"javascript:setcolor('#FFFF99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffffcc;\"><a href=\"javascript:setcolor('#FFFFCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffffff;\"><a href=\"javascript:setcolor('#FFFFFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffcc00;\"><a href=\"javascript:setcolor('#FFCC00')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffcc33;\"><a href=\"javascript:setcolor('#FFCC33')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffcc66;\"><a href=\"javascript:setcolor('#FFCC66')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffcc99;\"><a href=\"javascript:setcolor('#FFCC99')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffcccc;\"><a href=\"javascript:setcolor('#FFCCCC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffccff;\"><a href=\"javascript:setcolor('#FFCCFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff9900;\"><a href=\"javascript:setcolor('#FF9900')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff9933;\"><a href=\"javascript:setcolor('#FF9933')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff9966;\"><a href=\"javascript:setcolor('#FF9966')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff9999;\"><a href=\"javascript:setcolor('#FF9999')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff99cc;\"><a href=\"javascript:setcolor('#FF99CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff99ff;\"><a href=\"javascript:setcolor('#FF99FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #006600;\"><a href=\"javascript:setcolor('#006600')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #006633;\"><a href=\"javascript:setcolor('#006633')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #006666;\"><a href=\"javascript:setcolor('#006666')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #006699;\"><a href=\"javascript:setcolor('#006699')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #0066cc;\"><a href=\"javascript:setcolor('#0066CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #0066ff;\"><a href=\"javascript:setcolor('#0066FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #003300;\"><a href=\"javascript:setcolor('#003300')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #003333;\"><a href=\"javascript:setcolor('#003333')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #003366;\"><a href=\"javascript:setcolor('#003366')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #003399;\"><a href=\"javascript:setcolor('#003399')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #0033cc;\"><a href=\"javascript:setcolor('#0033CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #0033ff;\"><a href=\"javascript:setcolor('#0033FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #000000;\"><a href=\"javascript:setcolor('#000000')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #000033;\"><a href=\"javascript:setcolor('#000033')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #000066;\"><a href=\"javascript:setcolor('#000066')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #000099;\"><a href=\"javascript:setcolor('#000099')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #0000cc;\"><a href=\"javascript:setcolor('#0000CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #0000ff;\"><a href=\"javascript:setcolor('#0000FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #336600;\"><a href=\"javascript:setcolor('#336600')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #336633;\"><a href=\"javascript:setcolor('#336633')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #336666;\"><a href=\"javascript:setcolor('#336666')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #336699;\"><a href=\"javascript:setcolor('#336699')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #3366cc;\"><a href=\"javascript:setcolor('#3366CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #3366ff;\"><a href=\"javascript:setcolor('#3366FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #333300;\"><a href=\"javascript:setcolor('#333300')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #333333;\"><a href=\"javascript:setcolor('#333333')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #333366;\"><a href=\"javascript:setcolor('#333366')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #333399;\"><a href=\"javascript:setcolor('#333399')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #3333cc;\"><a href=\"javascript:setcolor('#3333CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #3333ff;\"><a href=\"javascript:setcolor('#3333FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #330000;\"><a href=\"javascript:setcolor('#330000')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #330033;\"><a href=\"javascript:setcolor('#330033')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #330066;\"><a href=\"javascript:setcolor('#330066')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #330099;\"><a href=\"javascript:setcolor('#330099')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #3300cc;\"><a href=\"javascript:setcolor('#3300CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #3300ff;\"><a href=\"javascript:setcolor('#3300FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #666600;\"><a href=\"javascript:setcolor('#666600')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #666633;\"><a href=\"javascript:setcolor('#666633')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #666666;\"><a href=\"javascript:setcolor('#666666')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #666699;\"><a href=\"javascript:setcolor('#666699')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #6666cc;\"><a href=\"javascript:setcolor('#6666CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #6666ff;\"><a href=\"javascript:setcolor('#6666FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #663300;\"><a href=\"javascript:setcolor('#663300')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #663333;\"><a href=\"javascript:setcolor('#663333')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #663366;\"><a href=\"javascript:setcolor('#663366')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #663399;\"><a href=\"javascript:setcolor('#663399')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #6633cc;\"><a href=\"javascript:setcolor('#6633CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #6633ff;\"><a href=\"javascript:setcolor('#6633FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #660000;\"><a href=\"javascript:setcolor('#660000')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #660033;\"><a href=\"javascript:setcolor('#660033')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #660066;\"><a href=\"javascript:setcolor('#660066')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #660099;\"><a href=\"javascript:setcolor('#660099')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #6600cc;\"><a href=\"javascript:setcolor('#6600CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #6600ff;\"><a href=\"javascript:setcolor('#6600FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #996600;\"><a href=\"javascript:setcolor('#996600')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #996633;\"><a href=\"javascript:setcolor('#996633')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #996666;\"><a href=\"javascript:setcolor('#996666')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #996699;\"><a href=\"javascript:setcolor('#996699')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #9966cc;\"><a href=\"javascript:setcolor('#9966CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #9966ff;\"><a href=\"javascript:setcolor('#9966FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #993300;\"><a href=\"javascript:setcolor('#993300')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #993333;\"><a href=\"javascript:setcolor('#993333')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #993366;\"><a href=\"javascript:setcolor('#993366')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #993399;\"><a href=\"javascript:setcolor('#993399')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #9933cc;\"><a href=\"javascript:setcolor('#9933CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #9933ff;\"><a href=\"javascript:setcolor('#9933FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #990000;\"><a href=\"javascript:setcolor('#990000')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #990033;\"><a href=\"javascript:setcolor('#990033')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #990066;\"><a href=\"javascript:setcolor('#990066')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #990099;\"><a href=\"javascript:setcolor('#990099')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #9900cc;\"><a href=\"javascript:setcolor('#9900CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #9900ff;\"><a href=\"javascript:setcolor('#9900FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc6600;\"><a href=\"javascript:setcolor('#CC6600')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc6633;\"><a href=\"javascript:setcolor('#CC6633')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc6666;\"><a href=\"javascript:setcolor('#CC6666')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc6699;\"><a href=\"javascript:setcolor('#CC6699')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc66cc;\"><a href=\"javascript:setcolor('#CC66CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc66ff;\"><a href=\"javascript:setcolor('#CC66FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc3300;\"><a href=\"javascript:setcolor('#CC3300')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc3333;\"><a href=\"javascript:setcolor('#CC3333')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc3366;\"><a href=\"javascript:setcolor('#CC3366')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc3399;\"><a href=\"javascript:setcolor('#CC3399')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc33cc;\"><a href=\"javascript:setcolor('#CC33CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc33ff;\"><a href=\"javascript:setcolor('#CC33FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc0000;\"><a href=\"javascript:setcolor('#CC0000')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc0033;\"><a href=\"javascript:setcolor('#CC0033')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc0066;\"><a href=\"javascript:setcolor('#CC0066')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc0099;\"><a href=\"javascript:setcolor('#CC0099')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc00cc;\"><a href=\"javascript:setcolor('#CC00CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #cc00ff;\"><a href=\"javascript:setcolor('#CC00FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff6600;\"><a href=\"javascript:setcolor('#FF6600')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff6633;\"><a href=\"javascript:setcolor('#FF6633')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff6666;\"><a href=\"javascript:setcolor('#FF6666')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff6699;\"><a href=\"javascript:setcolor('#FF6699')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff66cc;\"><a href=\"javascript:setcolor('#FF66CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff66ff;\"><a href=\"javascript:setcolor('#FF66FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff3300;\"><a href=\"javascript:setcolor('#FF3300')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff3333;\"><a href=\"javascript:setcolor('#FF3333')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff3366;\"><a href=\"javascript:setcolor('#FF3366')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff3399;\"><a href=\"javascript:setcolor('#FF3399')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff33cc;\"><a href=\"javascript:setcolor('#FF33CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff33ff;\"><a href=\"javascript:setcolor('#FF33FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff0000;\"><a href=\"javascript:setcolor('#FF0000')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff0033;\"><a href=\"javascript:setcolor('#FF0033')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff0066;\"><a href=\"javascript:setcolor('#FF0066')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff0099;\"><a href=\"javascript:setcolor('#FF0099')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff00cc;\"><a href=\"javascript:setcolor('#FF00CC')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ff00ff;\"><a href=\"javascript:setcolor('#FF00FF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr>\n"
-        . "</table>\n"
-        . "</td></tr>\n"
-        . "</table>\n"
-        . "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"290\">\n"
-        . "<tr><td style=\"width: 100%;\">&nbsp;</td></tr>\n"
-        . "<tr><td style=\"width: 100%;\">\n"
-        . "<table style=\"background: #000000;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"135\">\n"
-        . "<tr><td style=\"width: 100%;\">\n"
-        . "<table border=\"0\" cellpadding=\"0\" cellspacing=\"1\" width=\"100%\">\n"
-        . "<tr>\n"
-        . "<td style=\"width: 15px;height:15px;background: #ffffff;\"><a href=\"javascript:setcolor('#FFFFFF')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #dddddd;\"><a href=\"javascript:setcolor('#DDDDDD')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #c0c0c0;\"><a href=\"javascript:setcolor('#C0C0C0')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #969696;\"><a href=\"javascript:setcolor('#969696')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #808080;\"><a href=\"javascript:setcolor('#808080')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #646464;\"><a href=\"javascript:setcolor('#646464')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #4b4b4b;\"><a href=\"javascript:setcolor('#4B4B4B')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #242424;\"><a href=\"javascript:setcolor('#242424')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "<td style=\"width: 15px;height:15px;background: #000000;\"><a href=\"javascript:setcolor('#000000')\"><img style=\"border: 0;\" src=\"images/pixel.gif\" alt=\"\" height=\"15\" width=\"15\" /></a></td>\n"
-        . "</tr></table>\n"
-        . "</td></tr></table>\n"
-        . "</td></tr></table>\n"
-        . "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n"
-        . "<tr><td style=\"width: 100%;\">&nbsp;</td></tr>\n"
-        . "<tr><td style=\"width: 100%;\">\n"
-        . "<input id=\"hex\" name=\"hexvalue\" value=\"#" . $_REQUEST['color'] . "\" size=\"10\" class=\"hexfield\" onchange=\"shouldset(this.value)\" type=\"text\" />"
-        . "&nbsp;<input id=\"sel\" style=\"background-color: " . $_REQUEST['color'] . ";\" name=\"selcolor\" size=\"24\" type=\"text\" />"
-        . "&nbsp;<input type=\"button\" value=\"" . _OK . "\" onclick=\"addcolor()\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br /><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
-
-    }
 
     switch ($_REQUEST['op'])
     {
@@ -850,10 +556,6 @@ if ($visiteur == 9)
             admintop();
             move($_REQUEST['start'], $_REQUEST['end'], $_REQUEST['content']);
             adminfoot();
-            break;
-
-        case "code_color":
-            code_color();
             break;
 
         default:
