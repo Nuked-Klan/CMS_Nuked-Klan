@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK")) die ('<div style="text-align: center;">You cannot open this page directly</div>');
 global $user, $language;
 translate("modules/Irc/lang/" . $language . ".lang.php");
@@ -37,10 +35,11 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Irc.php\" rel=\"modal\">\n"
 				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _IRC . "<b> | "
-				. "<a href=\"index.php?file=Irc&amp;page=admin&amp;op=add\">" . _ADDAWARD . "</a> | "
-				. "<a href=\"index.php?file=Irc&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-				. "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+				. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        		nkAdminMenu(1);
+
+        		echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 				. "<tr>\n"
 				. "<td style=\"width: 30%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
 				. "<td style=\"width: 40%;\" align=\"center\"><b>" . _TEXT . "</b></td>\n"
@@ -54,10 +53,10 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
             if (strlen($text) > 50){
                 $texte = substr($text, 0, 50) . "...";
-				$texte = nkHtmlEntities($texte);
+				$texte = strip_tags($texte);
             } 
             else{
-                $texte = $text;
+                $texte = strip_tags($text);
             }
 
             echo "<tr>\n"
@@ -72,26 +71,27 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             echo "<tr><td colspan=\"4\" align=\"center\">" . _NOAWARD . "</td></tr>\n";
         }
 		
-        echo "</table><br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     } 
 
     function add(){
         global $language;
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINIRC . "</h3>\n"
+				. "<div class=\"content-box-header\"><h3>" . _ADDAWARD . "</h3>\n"
 				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Irc.php\" rel=\"modal\">\n"
 				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Irc&amp;page=admin\">" . _IRC . "</a> | "
-				. "</b>" . _ADDAWARD . "<b> | "
-				. "<a href=\"index.php?file=Irc&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-				. "<form method=\"post\" action=\"index.php?file=Irc&amp;page=admin&amp;op=do_add\">\n"
+				. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        		nkAdminMenu(2);
+
+        		echo  "<form method=\"post\" action=\"index.php?file=Irc&amp;page=admin&amp;op=do_add\">\n"
 				. "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 				. "<tr><td align=\"center\"><b>" . _TEXT . "</b></td></tr>\n"
 				. "<tr><td align=\"center\"><textarea class=\"editor\" name=\"text\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
-				. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _ADDTHISAWARD . "\" /></div>\n"
-				. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Irc&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+				. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISAWARD . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . _BACK . "</a></div>\n"
+				. "</form><br /></div></div>\n";
     } 
 
     function do_add($text){
@@ -129,7 +129,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         list($text) = mysql_fetch_array($sql);
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINIRC . "</h3>\n"
+				. "<div class=\"content-box-header\"><h3>" . _EDITTHISAWARD . "</h3>\n"
 				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Irc.php\" rel=\"modal\">\n"
 				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 				. "</div></div>\n"
@@ -137,8 +137,8 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				. "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 				. "<tr><td align=\"center\"><b>" . _TEXT . "</b></td></tr>\n"
 				. "<tr><td align=\"center\"><textarea  class=\"editor\" name=\"text\" cols=\"60\" rows=\"10\">" . $text . "</textarea></td></tr></table>\n"
-				. "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"irc_id\" value=\"" . $irc_id . "\" /><input type=\"submit\" value=\"" . _MODIFTHISAWARD . "\" /></div>\n"
-				. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Irc&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+				. "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"irc_id\" value=\"" . $irc_id . "\" /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISAWARD . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . _BACK . "</a></div>\n"
+				. "</form><br /></div></div>\n";
     } 
 
     function do_edit($irc_id, $text){
@@ -193,19 +193,19 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         global $nuked, $language;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINIRC . "</h3>\n"
+				. "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
 				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Irc.php\" rel=\"modal\">\n"
 				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Irc&amp;page=admin\">" . _IRC . "</a> | "
-				. "<a href=\"index.php?file=Irc&amp;page=admin&amp;op=add\">" . _ADDAWARD . "</a> | "
-				. "</b>" . _PREFS . "</div><br />\n"
-				. "<form method=\"post\" action=\"index.php?file=Irc&amp;page=admin&amp;op=change_pref\">\n"
+				. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        		nkAdminMenu(3);
+
+       			echo "<form method=\"post\" action=\"index.php?file=Irc&amp;page=admin&amp;op=change_pref\">\n"
 				. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"2\" cellpadding=\"3\">\n"
-				. "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
 				. "<tr><td><b>" . _IRCHAN . " : #</b><input type=\"text\" name=\"irc_chan\" size=\"15\" value=\"" . $nuked['irc_chan'] . "\" /> <b>" . _IRCSERV . " :</b> <input type=\"text\" name=\"irc_serv\" size=\"20\" value=\"" . $nuked['irc_serv'] . "\" /></td></tr>\n"
-				. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-				. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Irc&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+				. "</table>\n"
+				. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
     } 
 
     function change_pref($irc_chan, $irc_serv){
@@ -226,6 +226,38 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				
         redirect("index.php?file=Irc&page=admin", 2);
     } 
+
+        function nkAdminMenu($tab = 1)
+    {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Irc&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _IRC; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Irc&amp;page=admin&amp;op=add">
+                        <img src="modules/Admin/images/icons/ranks.png" alt="icon" />
+                        <span><?php echo _ADDAWARD; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 3 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Irc&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
     switch ($_REQUEST['op']){
         case "add":
@@ -262,25 +294,13 @@ if ($visiteur >= $level_admin && $level_admin > -1){
     } 
 } 
 else if ($level_admin == -1){
-    echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-			. "</div>\n"
-			. "</div>\n";
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
 else if ($visiteur > 1){
-    echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-			. "</div>\n"
-			. "</div>\n";
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
 else{
-    echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-			. "</div>\n"
-			. "</div>\n";
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
 adminfoot();
 ?>

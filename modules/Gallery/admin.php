@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -34,15 +32,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $language;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADMINGALLERY . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADDSCREEN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Gallery.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Gallery&amp;page=admin\">" . _GALLERY . "</a> | "
-        . "</b>" . _ADDSCREEN . "<b> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-        . "<form method=\"post\" action=\"index.php?file=Gallery&amp;page=admin&amp;op=send_screen\" enctype=\"multipart/form-data\" onsubmit=\"backslash('img_texte');\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(2);
+
+        echo "<form method=\"post\" action=\"index.php?file=Gallery&amp;page=admin&amp;op=send_screen\" enctype=\"multipart/form-data\" onsubmit=\"backslash('img_texte');\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"	
         . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"44\" /></td></tr>\n"
         . "<tr><td><b>" . _CAT . "</b>: <select name=\"cat\">\n";
@@ -59,8 +57,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" size=\"46\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
         . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
-        . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDSCREEN . "\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "<tr><td>&nbsp;</td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
     } 
 
     function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $url, $url2, $url_file, $ecrase_screen)
@@ -179,7 +177,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             {
                 echo "<div class=\"notification error png_bg\">\n"
                 . "<div>\n"
-                . "" . _DEJASCREEN . "<br />" . _REPLACEIT . "<br /><a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a>"
+                . "" . _DEJASCREEN . "<br />" . _REPLACEIT . "<br /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a>"
                 . "</div>\n"
                 . "</div>\n";
             }
@@ -258,7 +256,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _DEJASCREEN . "<br />" . _REPLACEIT . "<br /><br /><a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a></div><br /><br />";
+            echo "<br /><br /><div style=\"text-align: center;\">" . _DEJASCREEN . "<br />" . _REPLACEIT . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a></div><br /><br />";
             adminfoot();
             exit();
         }
@@ -356,10 +354,9 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Gallery.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _GALLERY . "<b> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_screen\">" . _ADDSCREEN . "</a> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(1);
 
         if ($_REQUEST['orderby'] == "date")
         {
@@ -469,7 +466,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             echo "</div>\n";
         } 
 
-        echo "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     } 
 
     function edit_screen($sid)
@@ -512,7 +509,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADMINGALLERY . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _EDITTHISSCREEN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Gallery.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
@@ -536,8 +533,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" size=\"46\" maxlength=\"200\" value=\"" . $url2 . "\" /></td></tr>\n"
         . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"" . $url_file . "\" /></td></tr>\n"
-        . "<tr><td>&nbsp;<input type=\"hidden\" name=\"sid\" value=\"" . $sid . "\" /></td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFTHISSCREEN . "\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "<tr><td>&nbsp;<input type=\"hidden\" name=\"sid\" value=\"" . $sid . "\" /></td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
     } 
 
     function main_cat()
@@ -557,15 +554,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADMINGALLERY . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _CATMANAGEMENT . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Gallery.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Gallery&amp;page=admin\">" . _GALLERY . "</a> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_screen\">" . _ADDSCREEN . "</a> | "
-        . "</b>" . _CATMANAGEMENT . "<b> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(3);
+
+        echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<tr>\n"
         . "<td style=\"width: 35%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
         . "<td style=\"width: 35%;\" align=\"center\"><b>" . _CATPARENT . "</b></td>\n"
@@ -610,8 +607,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             echo "<tr><td align=\"center\" colspan=\"5\">" . _NONE . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
         }
 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_cat\"><b>" . _ADDCAT . "</b></a> ]</div>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div>\n"
+        . "<br /></div></div>\n";
     } 
 
     function add_cat()
@@ -619,7 +616,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $language, $nuked;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADMINGALLERY . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _ADDCAT . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Gallery.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
@@ -639,8 +636,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
         . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+        . "</form><br /></div></div>\n";
     } 
 
     function send_cat($titre, $description, $parentid, $position)
@@ -693,7 +690,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         list($titre, $description, $parentid, $position) = mysql_fetch_array($sql);
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADMINGALLERY . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Gallery.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
@@ -727,8 +724,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
         . "<tr><td><b>" . _DESCR . " :</b><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+        . "</form><br /></div></div>\n";
     } 
 
     function modif_cat($cid, $titre, $description, $parentid, $position)
@@ -821,22 +818,21 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $language;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADMINGALLERY . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Gallery.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Gallery&amp;page=admin\">" . _GALLERY . "</a> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_screen\">" . _ADDSCREEN . "</a> | "
-        . "<a href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
-        . "</b>" . _PREFS . "</div><br />\n"
-        . "<form method=\"post\" action=\"index.php?file=Gallery&amp;page=admin&amp;op=change_pref\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(4);
+
+        echo "<form method=\"post\" action=\"index.php?file=Gallery&amp;page=admin&amp;op=change_pref\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-        . "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
         . "<tr><td>" . _GALLERYTITLE . " : </td><td> <input type=\"text\" name=\"gallery_title\" size=\"40\" value=\"" . $nuked['gallery_title']. "\" /></td></tr>\n"
         . "<tr><td>" . _NUMBERIMG . " : </td><td><input type=\"text\" name=\"max_img\" size=\"2\" value=\"" . $nuked['max_img'] . "\" /></td></tr>\n"
         . "<tr><td>" . _NUMBERIMG2 . " : </td><td><input type=\"text\" name=\"max_img_line\" size=\"2\" value=\"" . $nuked['max_img_line'] . "\" /></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Gallery&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div>\n"
+        . "</form><br /></div></div>\n";
     } 
 
     function change_pref($gallery_title, $max_img, $max_img_line)
@@ -889,6 +885,44 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "</div>\n";
         redirect("index.php?file=Gallery&page=admin&op=main_cat", 2);
     } 
+
+        function nkAdminMenu($tab = 1)
+    {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Gallery&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _GALLERY; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Gallery&amp;page=admin&amp;op=add_screen">
+                        <img src="modules/Admin/images/icons/add_image.png" alt="icon" />
+                        <span><?php echo _ADDSCREEN; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 3 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Gallery&amp;page=admin&amp;op=main_cat">
+                        <img src="modules/Admin/images/icons/folder_full.png" alt="icon" />
+                        <span><?php echo _CATMANAGEMENT; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 4 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Gallery&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
     switch ($_REQUEST['op'])
     {
@@ -954,29 +988,14 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     } 
 
 } 
-else if ($level_admin == -1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+else if ($level_admin == -1){
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else if ($visiteur > 1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+else if ($visiteur > 1){
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else
-{
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+else{
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
   
 

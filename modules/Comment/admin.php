@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined('INDEX_CHECK')) die('<div style="text-align:center;">You cannot open this page directly</div>');
 
 global $user, $language;
@@ -39,21 +37,20 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             $autor = $auteur;
         }
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINCOMMENT . "</h3>\n"
+				. "<div class=\"content-box-header\"><h3>" . _EDITTHISCOM . "</h3>\n"
 				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Comment.php\" rel=\"modal\">\n"
 				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><a href=\"index.php?file=Comment&amp;page=admin\">" . _COMMENTINDEX . "</a><b> | "
-				. "<a href=\"index.php?file=Comment&amp;page=admin&amp;op=module_com\">" . _COMMENTMOD . "</a></b></div><br />\n"
-				. "<form method=\"post\" action=\"index.php?file=Comment&amp;page=admin&amp;op=modif_com\">\n"
+				. "<div class=\"tab-content\" id=\"tab2\">\n"
+        		. "<form method=\"post\" action=\"index.php?file=Comment&amp;page=admin&amp;op=modif_com\">\n"
 				. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n"
 				. "<tr><td><b>" . _NICK . " :</b> " . $autor . " ( " . $ip . " )</td></tr>\n"
 				. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" value=\"" . $titre . "\" size=\"40\" /></td></tr>\n"
-				. "<tr><td><br /><b>" . _MESSAGE . " :</b></td></tr>\n"
+				. "<tr><td><b>" . _MESSAGE . " :</b></td></tr>\n"
 				. "<tr><td><textarea class=\"editor\" name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
 				. "<tr><td align=\"center\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
-				. "<br /><input type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /></td></tr></table>\n"
-				. "<div style=\"text-align: center;\"><br />[ <a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+				. "&nbsp;</td></tr></table>\n"
+				. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a></div></form><br /></div></div>\n";
     }
 
     function modif_com($cid, $titre, $texte){
@@ -124,8 +121,9 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Comment.php\" rel=\"modal\">\n"
 				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _COMMENTINDEX . "<b> | "
-				. "<a href=\"index.php?file=Comment&amp;page=admin&amp;op=module_com\">" . _COMMENTMOD . "</a></b></div><br />\n";
+				. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+       			nkAdminMenu(1);
 
         if ($count > $nb_com){
             echo "<table width=\"100%\"><tr><td>";
@@ -174,7 +172,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             number($count, $nb_com, "index.php?file=Comment&amp;page=admin");
             echo "</td></tr></table>";
         }
-        echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     }
 	
 	function module_send_com($news, $download, $sections, $links, $wars, $gallery, $survey){
@@ -205,14 +203,17 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         global $nuked, $language;
         
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-				. "<div class=\"content-box-header\"><h3>" . _ADMINCOMMENT . "</h3>\n"
+				. "<div class=\"content-box-header\"><h3>" . _COMMENTMOD . "</h3>\n"
 				. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Comment.php\" rel=\"modal\">\n"
 				. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 				. "</div></div>\n"
-				. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><a href=\"index.php?file=Comment&amp;page=admin\">" . _COMMENTINDEX . "</a><b> | "
-				. "" . _COMMENTMOD . "</b></div><br />\n"
-				. "<form method=\"post\" action=\"index.php?file=Comment&amp;page=admin&amp;op=module_send_com\">\n"
-				. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">"._LISTI."\n";
+				. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        		nkAdminMenu(2);
+
+        		echo "<form method=\"post\" action=\"index.php?file=Comment&amp;page=admin&amp;op=module_send_com\">\n"
+				. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n"
+				. "<tr><td><b>" . _LISTI . " : </b></td><td></td></tr>\n";
 				
 		$sql = mysql_query("SELECT module, active FROM " . $nuked['prefix'] . "_comment_mod");
 		while(list($module, $active) = mysql_fetch_array($sql)){
@@ -236,9 +237,35 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 			}
 		}	
 		echo "<tr><td align=\"center\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
-				. "<br /><input type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /></td></tr></table>\n"
-				. "<div style=\"text-align: center;\"><br />[ <a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+				. "</td></tr></table>\n"
+				. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a></div></form><br /></div></div>\n";
     }
+
+    function nkAdminMenu($tab = 1) {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Comment&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _COMMENTINDEX; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Comment&amp;page=admin&amp;op=module_com">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _COMMENTMOD; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
+
     switch ($_REQUEST['op']){
         case "edit_com":
             edit_com($_REQUEST['cid']);
@@ -265,26 +292,14 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             break;
     }
 }
-else if ($level_admin == -1){
-    echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-			. "</div>\n"
-			. "</div>\n";
+else if ($level_admin == -1) {
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else if ($visiteur > 1){
-    echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-			. "</div>\n"
-			. "</div>\n";
+else if ($visiteur > 1) {
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else{
-    echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-			. "</div>\n"
-			. "</div>\n";
+else {
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
 adminfoot();
 ?>

@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -38,18 +36,18 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $texte = nkHtmlSpecialChars($texte);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINSHOUTBOX . "</h3>\n"
+		. "<div class=\"content-box-header\"><h3>" . _EDITTHISMESS . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Textbox.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Textbox&amp;page=admin&amp;op=modif_shout\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"60%\" border=\"0\">\n"
-	. "<tr><td><b>" . _NICKNAME . " :</b> " . $pseudo . " ( " . $ip . " )</td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _SHOUT . " :</b></td></tr>\n"
-	. "<tr><td><textarea name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
-	. "<tr><td align=\"center\"><input type=\"hidden\" name=\"mid\" value=\"" . $mid . "\" />&nbsp;</td></tr>\n"
-	. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIF . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		. "</div></div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Textbox&amp;page=admin&amp;op=modif_shout\">\n"
+		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"60%\" border=\"0\">\n"
+		. "<tr><td><b>" . _NICKNAME . " :</b> " . $pseudo . " ( " . $ip . " )</td></tr>\n"
+		. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _SHOUT . " :</b></td></tr>\n"
+		. "<tr><td><textarea name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
+		. "<tr><td align=\"center\"><input type=\"hidden\" name=\"mid\" value=\"" . $mid . "\" />&nbsp;</td></tr>\n"
+		. "</table>\n"
+		. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
     } 
 
     function modif_shout($mid, $texte)
@@ -121,31 +119,31 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $start = $_REQUEST['p'] * $nb_mess_guest - $nb_mess_guest;
 
         echo "<script type=\"text/javascript\">\n"
-	. "<!--\n"
-	. "\n"
-	. "function del_shout(pseudo, id)\n"
-	. "{\n"
-	. "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-	. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
-	. "}\n"
+		. "<!--\n"
+		. "\n"
+		. "function del_shout(pseudo, id)\n"
+		. "{\n"
+		. "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+		. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
+		. "}\n"
     	. "\n"
-	. "function delall()\n"
-	. "{\n"
-	. "if (confirm('" . _DELETEALLTEXT . "'))\n"
-	. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_all_shout';}\n"
-	. "}\n"
+		. "function delall()\n"
+		. "{\n"
+		. "if (confirm('" . _DELETEALLTEXT . "'))\n"
+		. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_all_shout';}\n"
+		. "}\n"
     	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+		. "// -->\n"
+		. "</script>\n";
 
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		. "<div class=\"content-box-header\"><h3>" . _ADMINSHOUTBOX . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Textbox.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _SHOUTBOX . "<b> | "
-	. "<a href=\"index.php?file=Textbox&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a> | "
-	. "<a href=\"javascript:delall();\">" . _DELALLMESS . "</a></b></div><br />\n";
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		. "</div></div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(1);
 
         if ($count > $nb_mess_guest)
         {
@@ -153,12 +151,12 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         } 
 
         echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-	. "<tr>\n"
-	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _NICKNAME . "</b></td>\n"
-	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _IP . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-	. "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
+		. "<tr>\n"
+		. "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
+		. "<td style=\"width: 25%;\" align=\"center\"><b>" . _NICKNAME . "</b></td>\n"
+		. "<td style=\"width: 25%;\" align=\"center\"><b>" . _IP . "</b></td>\n"
+		. "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
+		. "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
         $sql = mysql_query("SELECT id, date, auteur, ip FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
         while (list($id, $date, $auteur, $ip) = mysql_fetch_array($sql))
@@ -186,7 +184,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             number($count, $nb_mess_guest, "index.php?file=Textbox&amp;page=admin");
         } 
 
-        echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     } 
 
     function main_pref()
@@ -194,31 +192,31 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $language;
 
         echo "<script type=\"text/javascript\">\n"
-	. "<!--\n"
-	. "\n"
-	. "function delall()\n"
-	. "{\n"
-	. "if (confirm('" . _DELETEALLTEXT . "'))\n"
-	. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_all_shout';}\n"
-	. "}\n"
+		. "<!--\n"
+		. "\n"
+		. "function delall()\n"
+		. "{\n"
+		. "if (confirm('" . _DELETEALLTEXT . "'))\n"
+		. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_all_shout';}\n"
+		. "}\n"
     	. "\n"
-	. "// -->\n"
-	. "</script>\n";
+		. "// -->\n"
+		. "</script>\n";
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINSHOUTBOX . "</h3>\n"
+		. "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Textbox.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Textbox&amp;page=admin\">" . _SHOUTBOX . "</a> | "
-	. "</b>" . _PREFS . "<b> | "
-	. "<a href=\"javascript:delall();\">" . _DELALLMESS . "</a></b></div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Textbox&amp;page=admin&amp;op=change_pref\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-	. "<tr><td colspan=\"2\" align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
-	. "<tr><td>" . _NUMBERSHOUT . " :</td><td> <input type=\"text\" name=\"max_shout\" size=\"2\" value=\"" . $nuked['max_shout'] . "\" /></td></tr>\n"
-	. "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		. "</div></div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(2);
+
+        echo "<form method=\"post\" action=\"index.php?file=Textbox&amp;page=admin&amp;op=change_pref\">\n"
+		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
+		. "<tr><td>" . _NUMBERSHOUT . " :</td><td> <input type=\"text\" name=\"max_shout\" size=\"2\" value=\"" . $nuked['max_shout'] . "\" /></td></tr>\n"
+		. "</table>\n"
+		. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
     } 
 
     function change_pref($max_shout)
@@ -238,6 +236,39 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		. "</div>\n";
         redirect("index.php?file=Textbox&page=admin", 2);
     } 
+
+        function nkAdminMenu($tab = 1)
+    {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Textbox&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _SHOUTBOX; ?></span>
+                    </a>
+                </li>
+
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Textbox&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 3 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="javascript:delall();">
+                        <img src="modules/Admin/images/icons/remove_from_database.png" alt="icon" />
+                        <span><?php echo _DELALLMESS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
     switch ($_REQUEST['op'])
     {
@@ -270,29 +301,14 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             break;
     } 
 } 
-else if ($level_admin == -1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+else if ($level_admin == -1){
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else if ($visiteur > 1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+else if ($visiteur > 1){
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else
-{
-    echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+else{
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
 
 adminfoot();

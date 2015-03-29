@@ -10,7 +10,7 @@ header('Content-type: text/html; charset=iso-8859-1');
 	</li>
 	<li>
 		<a class="shortcut-button" href="index.php?file=Calendar&amp;page=admin&amp;op=add">
-			<img src="modules/Admin/images/icons/calendar.png" alt="icon" />
+			<img src="modules/Admin/images/icons/add_event.png" alt="icon" />
 			<span>Ajouter un évenement</span>
 		</a>
 	</li>

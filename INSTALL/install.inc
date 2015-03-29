@@ -580,7 +580,7 @@
                         $req = mysql_query($sql) or die (mysql_error());
                         
                         $sql = "INSERT INTO `" . $db_prefix . "_games` VALUES
-                            (1, 'Counter Strike Source', '" . _PREFCS . "', 'images/games/cs.gif', '" . _OTHERNICK . "', '" . _FAVMAP . "', '" . _FAVWEAPON . "', '" . _SKINT . "', '" . _SKINCT . "', 'de_dust2|de_inferno');";
+                            (1, 'Counter Strike Global Offensive', '" . _PREFCS . "', 'images/games/icon_csgo.png', '" . _OTHERNICK . "', '" . _FAVMAP . "', '" . _FAVWEAPON . "', '" . _SKINT . "', '" . _SKINCT . "', 'de_dust2|de_inferno');";
                         $req = mysql_query($sql) or die (mysql_error());
                         echo 'OK';
         break;

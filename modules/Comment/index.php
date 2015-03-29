@@ -134,7 +134,7 @@ function com_index($module, $im_id){
                 OAjax.onreadystatechange = function(){
                     if (OAjax.readyState == 4 && OAjax.status==200){
                         if (document.getElementById){
-                            document.getElementById("message").innerHTML = '<div style="margin:25px 5px;padding:10px 0;text-align:center;border:1px solid #e3e3e3;background:#edfff7;color:#333"><b><?php echo _THXCOM; ?></b></div>';
+                            document.getElementById("message").innerHTML = '<div class="nkAlert" id="nkAlertSuccess"><strong><?php echo _THXCOM; ?></strong></div>';
                             setTimeout(function(){
                                 document.location.reload();
                             }, 2500);
