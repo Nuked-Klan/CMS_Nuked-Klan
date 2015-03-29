@@ -146,14 +146,14 @@ if ($visiteur == 9)
     {
         global $nuked, $user;
         
-        if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false))
+        if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
         {
             echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
             . _SMILEYNOTAUTHORIZE . ".\n"
             . "</div>\n"
             . "</div>\n";
-            redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
+            redirect("index.php?file=Admin&page=smilies&op=add_smiley", 4);
             adminfoot();
             footer();
             exit();
@@ -276,14 +276,14 @@ if ($visiteur == 9)
         $nom = mysql_real_escape_string(stripslashes($nom));
         $filename = $_FILES['fichiernom']['name'];
     
-        if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false))
+        if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
         {
             echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
             . _SMILEYNOTAUTHORIZE . ".\n"
             . "</div>\n"
             . "</div>\n";
-            redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
+            redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 4);
             adminfoot();
             footer();
             exit();
