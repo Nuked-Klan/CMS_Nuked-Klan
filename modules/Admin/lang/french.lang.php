@@ -353,7 +353,7 @@ define("_JAVA","Votre navigateur ne supporte pas le javascript, ou il n'est pas 
 define("_BIENTOT","A bientôt");
 define("_OPEREUS","Opération effectuée avec succès. Vous avez été déconnecté de l'administration.");
 define("_OPEECHE","Opération échouée. Vous êtes encore connecté à l'administration.");
-define("_VOIR","voir les");
+define("_VOIR","Voir les");
 define("_MESSAGES","messages");
 define("_VOIRSITE","Voir le Site");
 define("_DECONNEXION","Déconnexion");
