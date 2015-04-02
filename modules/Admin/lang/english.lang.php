@@ -348,7 +348,7 @@ define("_JAVA","Javascript is disabled or is not supported by your browser.");
 define("_BIENTOT","See you later");
 define("_OPEREUS","Operation success. You have been disconnected from the administration panel.");
 define("_OPEECHE","Operation error. You are still connected on the administration panel.");
-define("_VOIR","see the");
+define("_VOIR","See the");
 define("_MESSAGES","message");
 define("_VOIRSITE","See the website");
 define("_DECONNEXION","Logout");

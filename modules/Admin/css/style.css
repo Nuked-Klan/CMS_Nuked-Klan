@@ -155,3 +155,5 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {margin-left: 0; }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {right: 0px; }
 .inline{display:inline-block;vertical-align:middle;}
+/* GOODIES */
+.nkAdminUserAvatar{width:35px; height:35px; float:right; margin-left:10px; vertical-align:middle;border-radius:3px; border: 1px solid #ccc; padding:1px}
