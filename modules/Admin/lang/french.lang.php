@@ -519,4 +519,21 @@ define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
 define("_STYLETITLE","Style");
 define("_ACCESSIBILITY","Accessibilit&eacute;");
 define("_TO_CREATE_A_MENU","Pour ajouter un menu, il faut au pr&eacute;alable cr&eacute;er un bloc de type \"Menu\".");
+define("_WEBSITEACTIVITY","Activit&eacute; sur le site");
+define("_LASTMEMBERS","Derniers membres");
+define("_DATEREGISTRATION","Enregistr&eacute; le ");
+define("_LASTVISITS","Derni&egrave;res visites");
+define("_LASTCOMMENTS","Derniers commentaires");
+define("_NOCOMMENT","Aucun commentaire dans la base de donn&eacute;e");
+define("_HAS_COMMENTED_MOD","a comment&eacute; le module");
+define("_POSTED","Post&eacute; le");
+define("_SEEMORE","Voir plus...");
+define("_TOTALMEMBERS","Membres enregistr&eacute;s");
+define("_TOTALFORUMMESSAGES","Messages dans le Forum");
+define("_ONLINEVISITORS","Visiteurs en ligne");
+define("_ONLINEMEMBERS","Membres en ligne");
+define("_ONLINEADMINS","Administrateurs en ligne");
+define("_TOTALVISITS","Nombre de pages vues");
+
+
 ?>
