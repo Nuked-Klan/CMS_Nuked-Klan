@@ -19,19 +19,34 @@ if ($visiteur >= 2)
     {
         global $user, $nuked, $language;
 
+        $nbActions = 50;
+
+        $sqlNbActions = mysql_query("SELECT id FROM " . $nuked['prefix'] . "_action");
+        $count = mysql_num_rows($sqlNbActions);
+
+        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
+        $start = $_REQUEST['p'] * $nbActions - $nbActions;
+
         echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
         . '<div class="content-box-header"><h3>' . _ADMINACTION . '</h3>',"\n"
         . '<div style="text-align:right"><a href="help/' . $language . '/Action.php" rel="modal">',"\n"
         . '<img style="border: 0" src="help/help.gif" alt="" title="' . _HELP . '" /></a>',"\n"
         . '</div></div>',"\n"
-        . '<div class="tab-content" id="tab2"><br />',"\n"
-        . '<div style="width:95%; margin:auto;"class="notification information png_bg">',"\n"
-        . '<div>' . _INFOACTION . '</div></div>',"\n"
-        . '<br /><table><tr><td><b>' . _DATE . '</b>',"\n"
+        . '<div class="tab-content" id="tab2">',"\n";
+
+        printNotification(_INFOACTION, '', $type = 'information', $back = false, $redirect = false);
+
+        if ($count > $nbActions){
+            echo "<table width=\"100%\"><tr><td>";
+            number($count, $nbActions, "index.php?file=Admin&page=action");
+            echo"</td></tr></table>\n";
+        }
+
+        echo '<br /><table><tr><td><b>' . _DATE . '</b>',"\n"
         . '</td><td><b>' . _INFORMATION . '</b>',"\n"
         . '</td></tr>',"\n";
 
-        $sql = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT 0, 50");
+        $sql = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT " . $start . ", " . $nbActions);
         while (list($date, $users, $texte) = mysql_fetch_array($sql))
         {
             if($users != '')
@@ -51,7 +66,15 @@ if ($visiteur >= 2)
 
         }
 
-        echo '</table><div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin">' . _BACK . '</a></div></form><br /></div></div>',"\n";
+        echo '</table>';
+
+        if ($count > $nbActions){
+            echo "<table width=\"100%\"><tr><td>";
+            number($count, $nbActions, "index.php?file=Admin&page=action");
+            echo "</td></tr></table>";
+        }
+
+        echo '<div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin">' . _BACK . '</a></div></form><br /></div></div>',"\n";
         $theday = time();
         $compteur = 0;
         $delete = mysql_query("SELECT id, date  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC");
