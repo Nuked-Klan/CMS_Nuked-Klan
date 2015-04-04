@@ -146,6 +146,140 @@ if ($visiteur >= 2)
             </div>
 
             <div style="width: 100%">
+                <div class="content-box column-center">
+                    <div class="content-box-header" style="margin-bottom: 0">
+                        <h3><?php echo _WEBSITEACTIVITY; ?></h3>
+                    </div><!-- End .content-box-header -->
+
+                    <div class="content-box-content">
+                        <div class="tab-content default-tab">
+                            <div id="nkLastMembers">
+                                <h5><?php echo _LASTMEMBERS; ?></h5>
+                                <div>
+                                <?php
+                                    $sqlUser=mysql_query("SELECT pseudo, date, id, country FROM " . USER_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
+                                    while (list($userPseudo, $regiterDate, $userId, $userCountry)=mysql_fetch_row($sqlUser)) {
+                                    
+                                    $userPseudo = stripslashes($userPseudo);
+                                    $regiterDate = nkDate($regiterDate);
+                                    $titleCountry = str_replace(".gif", "", $userCountry);
+                                    
+                                    if ( strlen($userPseudo) > 30 ) { $userPseudo = substr($userPseudo, 0, 30)."..."; }
+                                ?> 
+                                    <div>
+                                        <img src="images/flags/<?php echo $userCountry;?>" alt="<?php echo $userCountry;?>" title="<?php echo $titleCountry;?>" />
+                                        <a href="index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=<?php echo $userId; ?>" title="<?php echo _DATEREGISTRATION;?><?php echo $regiterDate;?>"><?php echo $userPseudo; ?></a>
+                                    </div>                      
+                                <?php
+                                }
+                                ?>
+                                    <p>
+                                       <a href="index.php?file=Admin&amp;page=user&amp;orderby=date"><b><?php echo _SEEMORE;?></b></a>
+                                    </p>
+                                </div>
+                            </div><!--
+                         --><div id="nkLastVisit">
+                                <h5><?php echo _LASTVISITS; ?></h5>
+                                <div>
+                                <?php
+                                    $sqlLastVisit = mysql_query("SELECT UT.id, UT.pseudo, UT.niveau, ST.last_used FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 ORDER BY ST.last_used DESC LIMIT 0, 6 ");
+                                    while (list($idLastUsed, $pseudoLastused, $niveauLastUsed, $lastUsed) = mysql_fetch_array($sqlLastVisit))
+                                    {
+                                        $lastUsed == '' ? $lastUsed = '-' : $lastUsed = nkDate($lastUsed);
+                                    
+                                    if ( strlen($pseudoLastused) > 30 ) { $pseudoLastused = substr($pseudoLastused, 0, 30)."..."; }
+                                ?> 
+                                    <div>
+                                        <span><strong><?php echo $pseudoLastused;?></strong>&nbsp;:&nbsp;<?php echo $lastUsed;?></span>
+                                    </div>                      
+                                <?php
+                                }
+                                ?>
+                                    <p>
+                                       <a href="index.php?file=Admin&amp;page=user&amp;orderby=last_date"><b><?php echo _SEEMORE;?></b></a>
+                                    </p>
+                                </div>
+                            </div><!--
+                         --><div id="nkLastComments">
+                                <h5><?php echo _LASTCOMMENTS; ?></h5>
+                                <div>
+                                <?php
+                                    $sqlLastComment = mysql_query("SELECT module, im_id, autor, date FROM " . COMMENT_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
+                                    $countComment = mysql_num_rows($sqlLastComment);
+                                
+                                if($countComment != 0){
+                                    while (list($lastModuleComment, $modIdComment, $lastCommentAuthor, $lastCommentDate) = mysql_fetch_array($sqlLastComment))
+                                    {
+                                        $lastCommentDate = nkDate($lastCommentDate);
+                                    
+                                    if ( strlen($lastCommentAuthor) > 30 ) { $lastCommentAuthor = substr($lastCommentAuthor, 0, 30)."..."; }
+                                    if ($lastModuleComment == "Links")    $commentLink = "index.php?file=Links&amp;op=description&amp;link_id=" . $modIdComment ."";    
+                                    if ($lastModuleComment == "Gallery")  $commentLink = "index.php?file=Gallery&amp;op=description&amp;sid=" . $modIdComment ."";    
+                                    if ($lastModuleComment == "news")     $commentLink = "index.php?file=News&amp;op=index_comment&amp;news_id=" . $modIdComment ."";
+                                    if ($lastModuleComment == "Sections") $commentLink = "index.php?file=Sections&amp;op=article&amp;artid=" . $modIdComment ."";    
+                                    if ($lastModuleComment == "Download") $commentLink = "index.php?file=Download&amp;op=description&amp;dl_id=" . $modIdComment ."";    
+                                    if ($lastModuleComment == "Survey")   $commentLink = "index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $modIdComment ."";
+                                    if ($lastModuleComment == "match")    $commentLink = "index.php?file=Wars&amp;op=detail&amp;war_id=" . $modIdComment ."";
+                                ?> 
+                                    <div>
+                                        <span><strong><?php echo $lastCommentAuthor;?></strong>&nbsp;<?php echo _HAS_COMMENTED_MOD;?>&nbsp;<a href="<?php echo $commentLink;?>" title="<?php echo _POSTED;?>&nbsp;<?php echo $lastCommentDate;?>"><?php echo $lastModuleComment; ?></a>
+                                        </span>
+                                    </div>                      
+                                <?php
+                                    }
+                                ?>
+                                    <p>
+                                       <a href="index.php?file=Comment&amp;page=admin"><b><?php echo _SEEMORE;?></b></a>
+                                    </p>
+                                <?php
+                                }
+                                else {
+                                ?> 
+                                    <p><?php echo _NOCOMMENT;?></p>                     
+                                <?php                                    
+                                }
+                                ?>
+                                </div>
+                            </div><!--
+                         --><div id="nkStats">
+                                <h5><?php echo _STATS; ?></h5>
+                                <div>
+                                <?php
+                                    $sqlStats = mysql_query('SELECT
+                                        (SELECT COUNT(id) FROM ' . USER_TABLE . ') AS nb_us,
+                                        (SELECT COUNT(id) FROM ' . FORUM_MESSAGES_TABLE . ') AS nb_mess,
+                                        (SELECT SUM(count) FROM ' . STATS_TABLE . ') AS count');
+                                    list($nbUser, $nbPost, $visitCounter) = mysql_fetch_array($sqlStats);
+
+                                    $nb = nbvisiteur();
+                                ?> 
+                                    <div>
+                                        <span><?php echo _TOTALMEMBERS;?>&nbsp;:&nbsp;<?php echo $nbUser;?></span>
+                                    </div>
+                                    <div>
+                                        <span><?php echo _TOTALVISITS;?>&nbsp;:&nbsp;<?php echo $visitCounter;?></span>
+                                    </div>
+                                    <div>
+                                        <span><?php echo _TOTALFORUMMESSAGES;?>&nbsp;:&nbsp;<?php echo $nbPost;?></span>
+                                    </div>
+                                    <div>
+                                        <span><?php echo _ONLINEVISITORS;?>&nbsp;:&nbsp;<?php echo $nb[0];?></span>
+                                    </div>
+                                    <div>
+                                        <span><?php echo _ONLINEMEMBERS;?>&nbsp;:&nbsp;<?php echo $nb[1];?></span>
+                                    </div>
+                                    <div>
+                                        <span><?php echo _ONLINEADMINS;?>&nbsp;:&nbsp;<?php echo $nb[2];?></span>
+                                    </div>
+                                    <p>
+                                       <a href="index.php?file=Stats&amp;page=admin"><b><?php echo _SEEMORE;?></b></a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div><!-- End #tab3 -->
+                    </div><!-- End .content-box-content -->
+                </div><!-- End .content-box -->
+
                 <div class="content-box column-left">
                     <div class="content-box-header" style="margin-bottom: 0">
                         <h3><?php echo _ANNONCES; ?></h3>
@@ -174,7 +308,7 @@ if ($visiteur >= 2)
                         <h4><a href="index.php?file=Admin&amp;page=action"><?php echo _VIEWACTIONS; ?></a></h4>
                         <p>
                         <?php
-                        $sql_act = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT 0, 3");
+                        $sql_act = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT 0, 4");
                         while ($action = mysql_fetch_array($sql_act))
                         {
                             $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $action['pseudo'] . "'");
@@ -183,8 +317,7 @@ if ($visiteur >= 2)
                             $action['action'] = $pseudo . ' ' . $action['action'];
 							$action['date'] = nkDate($action['date']);
 
-                            echo '<div style="font-size: 12px"><em>' . $action['date'] . '</em></div>
-                            <div style="font-size: 12px; margin-bottom: 4px">' . $action['action'] . '</div>';
+                            echo '<div style="font-size: 12px; margin-bottom:5px;"><em>' . $action['date'] . '</em>&nbsp:&nbsp' . $action['action'] . '</div>';
                         }
                         ?>
                         </p>
