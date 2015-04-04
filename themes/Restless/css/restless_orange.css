@@ -10,7 +10,7 @@ a {
     background : url('../images/sprite_orange.png') 0 -50px no-repeat, url('../images/sprite_orange.png') repeat-x;
 }
 
-.RL_subMenu li a:hover span, .RL_subMenu_selected span {
+.RL_subMenu li:hover, .RL_subMenu li:hover a span, .RL_subMenu_selected span {
     background : -webkit-linear-gradient(top, #fab317, #f2810b);
     background : -moz-linear-gradient(top, #fab317, #f2810b);
     background : -ms-linear-gradient(top, #fab317, #f2810b);
