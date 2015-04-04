@@ -603,7 +603,7 @@ if ($visiteur == 9)
         }
         else if ($_REQUEST['orderby'] == "last_date")
         {
-            $order_by = "ST.date DESC";
+            $order_by = "ST.last_used DESC";
         }
         else if ($_REQUEST['orderby'] == "pseudo")
         {
@@ -670,7 +670,7 @@ if ($visiteur == 9)
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
-        $req = "SELECT UT.id, UT.pseudo, UT.niveau, UT.date, ST.date FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 " . $and . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_membres;
+        $req = "SELECT UT.id, UT.pseudo, UT.niveau, UT.date, ST.last_used FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 " . $and . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_membres;
         $sql = mysql_query($req);
         while (list($id_user, $pseudo, $niveau, $date, $last_used) = mysql_fetch_array($sql))
         {
