@@ -1,30 +1,7 @@
 <?php
 
-$i = 3;
-$arrayTemp = array(
-    array(
-        'link' => '#',
-        'title' => 'Test1',
-        'src' => 'themes/Restless/images/misc/cod.jpg',
-        'id' => 'id="RL_sliderElement1"',
-        'current' => null
-    ),
-    array(
-        'link' => '#',
-        'title' => 'Test2',
-        'src' => 'themes/Restless/images/misc/slider.png',
-        'id' => 'id="RL_sliderElement2"',
-        'current' => null
-    ),
-    array(
-        'link' => '#',
-        'title' => 'Test3',
-        'src' => 'http://images.playfrance.com/news/64941/zoom/0297.jpg',
-        'id' => 'id="RL_sliderElement3"',
-        'current' => null
-    ),
-
-);
+$i = 0;
+$arrayTemp = array();
 
 $elementWidth = 620;
 if($this->get('cfg')->get('blockTopMatch.active') != 1){
