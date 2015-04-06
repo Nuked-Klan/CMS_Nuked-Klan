@@ -665,9 +665,13 @@ a, input {
     position      : relative;
 }
 
-#RL_gallery figure img {
+#RL_gallery figure a, #RL_gallery figure span {
     width  : 200px;
     height : 100px;
+    display: block;
+    margin-left: 5px;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #RL_gallery figure a:hover:before {

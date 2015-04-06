@@ -13,11 +13,14 @@
             @foreach(blockGalleryContent as image)
                 <figure>
                     @if({{image.link}} !== '#')
-                        <a href="{{image.link}}" title="{{image.title}}" rel="shadowbox">
+                        <a href="{{image.link}}" title="{{image.title}}" rel="shadowbox" style="background-image: url('{{image.src}}')">
+                    @else
+                        <span style="background-image: url('{{image.src}}')" title="{{image.title}}">
                     @endif
-                            <img src="{{image.src}}" alt="{{image.title}}" />
                     @if({{image.link}} !== '#')
                         </a>
+                    @else
+                        </span>
                     @endif
                 </figure>
             @endforeach
