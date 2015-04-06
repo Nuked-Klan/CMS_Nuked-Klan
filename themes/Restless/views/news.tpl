@@ -1,6 +1,8 @@
 <article>
     <aside>
-        <img src="{{newsImage}}" alt="" />
+        <a href="{{newsCatLink}}" title="{{newsCatName}}">
+            <img src="{{newsImage}}" alt="" />
+        </a>
     </aside>
     <div>
         <header>
