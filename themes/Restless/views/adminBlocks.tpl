@@ -14,13 +14,9 @@
                 %checkboxButton('block'.{{blockName}}.'Active', 'block'.{{blockName}}.'Active', {{block.checked}}, true)
             </td>
             <td style="text-align:center;">
-                @if({{blockName}} == 'Article')
-                    <img src="themes/Restless/images/block.png" title="{{*NO_EDIT}}" alt="{{*NO_EDIT}}" />
-                @else
                     <a class="RL_getRow" id="{{blockName}}" href="#" >
                         <img src="themes/Restless/images/edit.png" title="{{*_EDIT}}" alt="{{*_EDIT}}" />
                     </a>
-                @endif
             </td>
         </tr>
         @endforeach

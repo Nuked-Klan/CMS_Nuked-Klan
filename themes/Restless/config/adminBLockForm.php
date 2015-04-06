@@ -4,15 +4,19 @@ $this->assign('blockTitle', $this->get('cfg')->get('block'.$this->get('currentAd
 
 $this->assign('blockNbItems', $this->get('cfg')->get('block'.$this->get('currentAdminBlock').'.nbItems'));
 
-$specificBlock = $this->get('currentAdminBlock') == 'Gallery' ? true : false;
+$galleryBlock = $this->get('currentAdminBlock') == 'Gallery' ? true : false;
+
+$articleBlock = $this->get('currentAdminBlock') == 'Article' ? true : false;
 
 $start = 1;
 $end = 10;
 $increment = 1;
 $this->assign('makeForm', false);
+$this->assign('makeTitle', false);
 $this->assign('makeSelect', false);
 $this->assign('makeSelectCat', false);
 $this->assign('makeCheckbox', false);
+$this->assign('checkboxChecked', false);
 $this->assign('makeInputSocial', false);
 $this->assign('lightboxChecked', false);
 $this->assign('lightboxInputName', null);
@@ -31,18 +35,20 @@ if($this->get('currentAdminBlock') == 'Social'){
     $this->assign('makeInputSocial', true);
 }
 
-if ($specificBlock === true) {
+if ($galleryBlock === true) {
     $start = 3;
     $end = 9;
     $increment = 3;
     $this->assign('makeCheckbox', true);
     $this->assign('makeSelectCat', true);
 
+    $this->assign('checkboxLabel', ACTIVE_LIGHTBOX);
+
     if ($this->get('cfg')->get('blockGallery.lightbox') == 1) {
-        $this->assign('lightboxChecked', true);
+        $this->assign('checkboxChecked', true);
     }
 
-    $this->assign('lightboxInputName', 'block'.$this->get('currentAdminBlock').'Lightbox');
+    $this->assign('checkboxInputName', 'block'.$this->get('currentAdminBlock').'Lightbox');
 
     $this->assign('selectedCat', 0);
 
@@ -64,6 +70,16 @@ if ($specificBlock === true) {
     $this->assign('selectCat', $arrayTemp);
 }
 
+if($articleBlock === true){
+    $this->assign('makeCheckbox', true);
+    $this->assign('checkboxLabel', ACTIVE_UNIK_CENTER_FULL);
+    $this->assign('checkboxInputName', 'block'.$this->get('currentAdminBlock').'FullPage');
+
+    if ($this->get('cfg')->get('blockArticle.fullPage') == 1) {
+        $this->assign('checkboxChecked', true);
+    }
+}
+
 $arrayTemp = array();
 
 for ($i = $start; $i <= $end; $i += $increment) {
@@ -77,12 +93,18 @@ for ($i = $start; $i <= $end; $i += $increment) {
 $this->assign('selectBlock', $arrayTemp);
 
 
-$arrayForm = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
+$arrayForm = array('Article', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
+
+$arrayTitle = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
 
 $arraySelect = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery');
 
 if (in_array($this->get('currentAdminBlock'), $arrayForm)) {
     $this->assign('makeForm', true);
+}
+
+if (in_array($this->get('currentAdminBlock'), $arrayTitle)) {
+    $this->assign('makeTitle', true);
 }
 
 if (in_array($this->get('currentAdminBlock'), $arraySelect)) {

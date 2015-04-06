@@ -537,7 +537,8 @@ a, input {
     background : linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
 }
 
-#RL_mainContent {
+.RL_blockUnikCenterFull:after{
+    display:none !important;
 }
 
 #RL_news {

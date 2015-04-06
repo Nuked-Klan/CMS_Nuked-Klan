@@ -2,11 +2,18 @@
 
 $this->assign('blockArticleActive', $this->get('cfg')->get('blockArticle.active'));
 
+$maxElements = 3;
+$classFullPage = null;
+
+if($this->get('cfg')->get('blockArticle.fullPage') == 1){
+    $maxElements = 4;
+    $classFullPage = 'class="RL_blockUnikCenterFull"';
+}
 
 $dbsArticle = 'SELECT coverage as image, title, date, artid, autor
                  FROM '.SECTIONS_TABLE.'
                  ORDER BY date DESC
-                 LIMIT 0, 3';
+                 LIMIT 0, '.$maxElements;
 
 $dbeArticle = mysql_query($dbsArticle) or die(mysql_error());
 
@@ -24,3 +31,5 @@ while ($dbrArticle = mysql_fetch_assoc($dbeArticle)) {
 $this->assign('blockArticleContent', $arrayTemp);
 
 $this->assign('nbArticles', count($this->get('blockArticleContent')));
+
+$this->assign('classFullPage', $classFullPage);

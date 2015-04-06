@@ -58,7 +58,7 @@ function top(){
 
     $tpl->render('globalContainerTop');
 
-    if(HOMEPAGE){
+    if(HOMEPAGE && $tpl->get('cfg')->get('blockArticle.fullPage') != 1){
         $tpl->render('blockUnikCenter');
     }
 

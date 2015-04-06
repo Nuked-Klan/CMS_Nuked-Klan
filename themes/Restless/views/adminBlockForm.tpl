@@ -4,10 +4,13 @@
             {{*EDIT_BLOCK}} "{{blockTitle}}"
         </h3>
 
+        @if({{makeTitle}} === true)
         <div>
             <label>{{*BLOCK_TITLE}} :</label>
             <input class="RL_input" type="text" name="block{{currentAdminBlock}}Title" value="{{blockTitle}}" data-check="{{blockTitle}}"/>
         </div>
+        @endif
+
         @if({{makeSelect}} === true)
             <div>
                 <label>{{*NB_ELEMENTS_BLOCK}} :</label>
@@ -39,8 +42,8 @@
 
         @if({{makeCheckbox}} === true)
             <div>
-                <label class="RL_inline">{{*ACTIVE_LIGHTBOX}} :</label>
-                <?php checkboxButton($this->get('lightboxInputName'), $this->get('lightboxInputName'), $this->get('lightboxChecked'), true); ?>
+                <label class="RL_inline">{{checkboxLabel}} :</label>
+                <?php checkboxButton($this->get('checkboxInputName'), $this->get('checkboxInputName'), $this->get('checkboxChecked'), true); ?>
             </div>
         @endif
 

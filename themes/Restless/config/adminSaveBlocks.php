@@ -38,6 +38,13 @@ try {
         }
     }
 
+    $newStateUnikCenter = false;
+    if (array_key_exists('blockArticleFullPage', $_REQUEST) && $_REQUEST['blockArticleFullPage']) {
+        $newStateUnikCenter = true;
+    }
+
+    $this->get('cfg')->set('blockArticle.fullPage', $newStateUnikCenter);
+
     foreach ($arraySelect as $block) {
         $inputSelectName = 'block'.$block.'NbItems';
         $newState = false;

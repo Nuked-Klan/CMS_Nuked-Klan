@@ -59,6 +59,7 @@ define('BLOCK_TITLE', 'Titre du block');
 define('NB_ELEMENTS_BLOCK', 'Nombre d\'&eacute;l&eacute;ments &agrave; afficher');
 define('EDIT_NOT_SAVE', 'Attention! des modifications n\'ont pas &eacute;t&eacute; sauvegard&eacute;es. Veuillez cliquer sur le bouton "Valider"');
 define('ACTIVE_LIGHTBOX', 'Activation de l\'effet lightbox');
+define('ACTIVE_UNIK_CENTER_FULL', 'Afficher le block articles en mode pleine largeur');
 define('NONE_CAT', 'Aucune');
 define('SELECT_CAT', 'Choisissez une cat&eacute;gorie &agrave; afficher');
 define('SUCCESS_BLOCK_EDIT', 'Les blocks ont &eacute;t&eacute; modifi&eacute;s avec succ&egrave;s !');
