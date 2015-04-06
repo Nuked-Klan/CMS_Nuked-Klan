@@ -1,4 +1,7 @@
 <section id="RL_blockUnikTop">
-        @include(slider)
-        @include(blockTopMatch)
+    <!--{{classSliderFull}}-->
+        @include(slider, classSliderFull)
+        @if({{activeTopMatch}} == 1)
+            @include(blockTopMatch)
+        @endif
 </section>

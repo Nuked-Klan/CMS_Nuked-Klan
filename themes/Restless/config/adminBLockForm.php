@@ -93,9 +93,9 @@ for ($i = $start; $i <= $end; $i += $increment) {
 $this->assign('selectBlock', $arrayTemp);
 
 
-$arrayForm = array('Article', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
+$arrayForm = array('TopMatch', 'Article', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
 
-$arrayTitle = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
+$arrayTitle = array('TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
 
 $arraySelect = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery');
 

@@ -16,11 +16,13 @@ $(document).ready(function() {
         e.stopPropagation();
     });
 
-    $('#RL_sliderPrev').click(function(){
+    $('#RL_sliderPrev').click(function(e){
+        e.preventDefault();
         moveSlider('left');
     })
 
-    $('#RL_sliderNext').click(function(){
+    $('#RL_sliderNext').click(function(e){
+        e.preventDefault();
         moveSlider('right');
     })
 
@@ -50,28 +52,35 @@ $(document).ready(function() {
 function moveSlider(side){
     var maxWidth = parseInt($('#RL_slider').css('width'));
     var currentLeft = parseInt($('#RL_slider').attr('data-left'));
+    var elementWidth = parseInt($('#RL_sliderWrapper').attr('data-width'));
+    var newValue = null;
+
+    $('.RL_sliderCurrent').removeClass('RL_sliderCurrent');
 
     if(side == 'left'){
-        if((currentLeft + 620)  > 0){
-            newValue = parseInt('-'+(maxWidth-620));
+        if((currentLeft + elementWidth)  > 0){
+            newValue = parseInt('-'+(maxWidth-elementWidth));
             $('#RL_slider').css('left', newValue);
         }
-        else{
-            newValue = parseInt(currentLeft + 620);
+        else {
+            newValue = parseInt(currentLeft + elementWidth);
             $('#RL_slider').css('left', newValue);
         }
     }
 
     if(side == 'right'){
-        if((currentLeft - 620)  <= parseInt('-'+maxWidth)){
+        if((currentLeft - elementWidth)  <= parseInt('-'+maxWidth)){
             newValue = 0;
             $('#RL_slider').css('left', "0px");
         }
         else{
-            newValue = parseInt(currentLeft - 620);
+            newValue = parseInt(currentLeft - elementWidth);
             $('#RL_slider').css('left', newValue);
         }
     }
+
+    var idElement = (Math.abs(newValue)/elementWidth) + 1;
+    $('#RL_sliderElement'+idElement).addClass('RL_sliderCurrent');
 
     $('#RL_slider').attr('data-left', newValue);
 }

@@ -1,6 +1,6 @@
 <?php
 
-$arrayBlocks = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Article', 'Gallery', 'Social');
+$arrayBlocks = array('TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Article', 'Gallery', 'Social');
 
 $arraySelect = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery');
 

@@ -277,6 +277,10 @@ a, input {
     overflow:hidden;
 }
 
+.RL_sliderFull{
+    width:1040px !important;
+}
+
 #RL_sliderNav {
     width      : 66px;
     height     : 67px;
@@ -317,8 +321,6 @@ a, input {
     position: relative;
     left:0;
     transition-property: left;
-
-    /* La transition durera trois secondes. */
     transition-duration: 0.7s;
 }
 
@@ -331,9 +333,13 @@ a, input {
     overflow:hidden;
 }
 
+.RL_sliderFull > #RL_slider > figure{
+    width:1040px !important;
+}
+
 #RL_slider > figure > figcaption{
     position: absolute;
-    top: 35px;
+    top: -75px;
     left:0px;
     width:341px;
     height:67px;
@@ -347,6 +353,25 @@ a, input {
     margin      : 0;
     padding     : 0 0 0 15px;
     overflow: hidden;
+    transition-property: top;
+    transition-delay: 0.7s;
+    transition-duration: 0.4s;
+}
+
+#RL_slider > figure.RL_sliderCurrent > figcaption{
+    top: 35px;
+}
+
+#RL_slider > figure > a{
+    display: block;
+    width:100%;
+    height:290px;
+    background-size:cover;
+    background-position:center center;
+}
+
+#RL_slider > figure > a > img{
+    display: none;
 }
 
 #RL_blockUnikTop aside {
