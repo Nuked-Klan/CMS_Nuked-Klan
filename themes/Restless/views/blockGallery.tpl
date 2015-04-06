@@ -12,12 +12,12 @@
         <div>
             @foreach(blockGalleryContent as image)
                 <figure>
-                    @if({{image.link}} !== '#')
+                    @if({{image.link}} != null)
                         <a href="{{image.link}}" title="{{image.title}}" rel="shadowbox" style="background-image: url('{{image.src}}')">
                     @else
                         <span style="background-image: url('{{image.src}}')" title="{{image.title}}">
                     @endif
-                    @if({{image.link}} !== '#')
+                    @if({{image.link}} != null)
                         </a>
                     @else
                         </span>
