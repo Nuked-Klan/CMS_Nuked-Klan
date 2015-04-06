@@ -125,7 +125,19 @@ a, input {
     vertical-align : top;
 }
 
-#RL_mainMenu > li:first-child > a {
+#RL_mainMenu > li:first-child > a{
+    padding:0 !important;
+    position:relative;
+    width:50px;
+    z-index:2;
+}
+
+#RL_mainMenu > li:first-child > a:hover{
+    background: none !important;
+    box-shadow : none !important;
+}
+
+#RL_mainMenu > li:first-child > a > span {
     display : none;
 }
 
@@ -139,6 +151,7 @@ a, input {
      border-radius : 4px;
      cursor        : pointer;
      content       : '';
+        z-index:1;
  }
 
 #RL_mainMenu > li > a:hover, .RL_mainMenu_selected {

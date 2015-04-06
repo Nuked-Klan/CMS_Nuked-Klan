@@ -28,7 +28,7 @@ foreach ($menuRow as $row) {
 $arrayMenu = array(
     array(
         'title' => 'home',
-        'link'  => 'index.php?file='.$GLOBALS['nuked']['index_site'],
+        'link'  => 'index.php',
         'blank' => null
     )
 );
