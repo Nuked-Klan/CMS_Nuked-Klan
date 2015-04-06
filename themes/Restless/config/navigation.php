@@ -58,7 +58,7 @@ foreach ($arrayTemp as $menuItem) {
         $i++;
     }
 
-    if ($menuItem['level'] <= $GLOBALS['user'][1]) {
+    if ($menuItem['level'] <= $levelAccess) {
         if ($subnav === true) {
             $arrayMenu[$i]['subnav'][$j]['title'] = $title;
             $arrayMenu[$i]['subnav'][$j]['link'] = $link;
