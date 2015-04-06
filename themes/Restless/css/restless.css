@@ -554,6 +554,18 @@ a, input {
     display:none !important;
 }
 
+.RL_blockUnikCenter2 > figure{
+    margin:10px 150px !important;
+}
+
+.RL_blockUnikCenter3 > figure{
+    margin:10px 60px !important;
+}
+
+.RL_blockUnikCenter4 > figure{
+    margin:10px 25px !important;
+}
+
 #RL_news {
     margin-top : -15px;
 }

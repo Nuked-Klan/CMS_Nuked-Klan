@@ -8,7 +8,7 @@ if (FULLPAGE === true) {
 
 $blockUnikFull = false;
 
-if($this->get('cfg')->get('blockArticle.fullPage') == 1){
+if($this->get('cfg')->get('blockArticle.fullPage') == 1 && HOMEPAGE){
     $blockUnikFull = true;
 }
 

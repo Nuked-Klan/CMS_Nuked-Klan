@@ -1,5 +1,5 @@
 @if({{nbArticles}} > 0 && {{blockArticleActive}} == true)
-<section id="RL_blockUnikCenter" {{classFullPage}}>
+<section id="RL_blockUnikCenter" {{classUnikCenter}}>
     @foreach(blockArticleContent as item)
     <figure>
         <img src="{{item.image}}" alt="" />

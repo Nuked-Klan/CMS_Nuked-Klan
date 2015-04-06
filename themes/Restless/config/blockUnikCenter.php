@@ -3,11 +3,8 @@
 $this->assign('blockArticleActive', $this->get('cfg')->get('blockArticle.active'));
 
 $maxElements = 3;
-$classFullPage = null;
-
 if($this->get('cfg')->get('blockArticle.fullPage') == 1){
     $maxElements = 4;
-    $classFullPage = 'class="RL_blockUnikCenterFull"';
 }
 
 $dbsArticle = 'SELECT coverage as image, title, date, artid, autor
@@ -28,8 +25,13 @@ while ($dbrArticle = mysql_fetch_assoc($dbeArticle)) {
     $i++;
 }
 
+if($this->get('cfg')->get('blockArticle.fullPage') == 1){
+    $classUnikCenter = 'class="RL_blockUnikCenter'.count($arrayTemp).' RL_blockUnikCenterFull"';
+}
+
+
 $this->assign('blockArticleContent', $arrayTemp);
 
 $this->assign('nbArticles', count($this->get('blockArticleContent')));
 
-$this->assign('classFullPage', $classFullPage);
+$this->assign('classUnikCenter', $classUnikCenter);
