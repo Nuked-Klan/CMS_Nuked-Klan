@@ -162,7 +162,7 @@ class tpl {
     }
 
     private function parseIncludes() {
-        $this->content = preg_replace_callback(SELF::PATTERN_INCLUDES, 'self::formatIncludes', $this->content);
+        $this->content = preg_replace_callback(self::PATTERN_INCLUDES, 'self::formatIncludes', $this->content);
     }
 
     private function formatIncludes($matches) {
@@ -181,9 +181,9 @@ class tpl {
     }
 
     private function parseForeach() {
-        $this->content = preg_replace_callback(SELF::PATTERN_FOREACH, 'self::formatForeach', $this->content);
+        $this->content = preg_replace_callback(self::PATTERN_FOREACH, 'self::formatForeach', $this->content);
 
-        $this->content = preg_replace(SELF::PATTERN_ENDFOREACH, $this->printTagsPhp('endforeach;', false), $this->content);
+        $this->content = preg_replace(self::PATTERN_ENDFOREACH, $this->printTagsPhp('endforeach;', false), $this->content);
     }
 
     private function formatForeach($matches) {
@@ -212,13 +212,13 @@ class tpl {
     private function parseIfElse() {
         $this->intoPhpTags = true;
 
-        $this->content = preg_replace_callback(SELF::PATTERN_IF, 'self::formatIf', $this->content);
+        $this->content = preg_replace_callback(self::PATTERN_IF, 'self::formatIf', $this->content);
 
-        $this->content = preg_replace_callback(SELF::PATTERN_ELSEIF, 'self::formatElseIf', $this->content);
+        $this->content = preg_replace_callback(self::PATTERN_ELSEIF, 'self::formatElseIf', $this->content);
 
-        $this->content = preg_replace(SELF::PATTERN_ELSE, $this->printTagsPhp('else:', false), $this->content);
+        $this->content = preg_replace(self::PATTERN_ELSE, $this->printTagsPhp('else:', false), $this->content);
 
-        $this->content = preg_replace(SELF::PATTERN_ENDIF, $this->printTagsPhp('endif;', false), $this->content);
+        $this->content = preg_replace(self::PATTERN_ENDIF, $this->printTagsPhp('endif;', false), $this->content);
 
         $this->intoPhpTags = false;
     }
@@ -238,7 +238,7 @@ class tpl {
     private function parseFunctions(){
         $this->intoPhpTags = true;
 
-        $this->content = preg_replace_callback(SELF::PATTERN_FUNCTIONS, 'self::formatFunctions', $this->content);
+        $this->content = preg_replace_callback(self::PATTERN_FUNCTIONS, 'self::formatFunctions', $this->content);
 
         $this->intoPhpTags = false;
     }
