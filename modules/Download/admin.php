@@ -82,7 +82,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	}
 
 	function send_file($date, $size, $titre, $description, $cat, $url, $url2, $url3, $level, $autor, $site, $comp, $screen, $screen2, $copy, $ecrase_file, $ecrase_screen) {
-		global $nuked;
+		global $nuked, $user;
 
 		$description = secu_html(nkHtmlEntityDecode($description));
 		$description = mysql_real_escape_string(stripslashes($description));
