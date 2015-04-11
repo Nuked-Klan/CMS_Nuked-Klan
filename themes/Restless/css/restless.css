@@ -430,13 +430,18 @@ a, input {
     width       : 150%;
 }
 
-#RL_blockTopMatch figure img {
+#RL_blockTopMatch > figure > div{
     width  : 95px;
     height : 110px;
     border : 1px solid #919190;
+    display: inline-block;
 }
 
-#RL_blockTopMatch div {
+#RL_blockTopMatch figure img {
+    display:none;
+}
+
+#RL_blockTopMatch > div {
     display        : inline-block;
     color          : #429b14;
     font-family    : Aller, sans-serif;
@@ -445,7 +450,7 @@ a, input {
     vertical-align : top;
 }
 
-#RL_blockTopMatch div p:before {
+#RL_blockTopMatch > div p:before {
     content : '';
     display : block;
     width   : 48px;
@@ -1663,6 +1668,7 @@ a, input {
 
 .RL_bgCover {
     background-position : center center;
-    background-repeat   : none;
+    background-repeat   : no-repeat;
     background-size     : cover;
+    background-color:#fff;
 }

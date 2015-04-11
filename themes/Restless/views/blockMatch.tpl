@@ -14,8 +14,8 @@
                     <img src="{{match.flag}}" alt="" />
                 </td>
                 <td class="RL_matchesTeams">
-                    <span><a href="{{match.teamLink}}">{{match.teamName}}</a></span>
-                    <span><a href="{{match.opponentLink}}">{{match.opponentName}}</a></span>
+                    <span><a href="{{match.link}}">{{match.teamName}}</a></span>
+                    <span>{{match.opponentName}}</span>
                 </td>
                 <td class="RL_matchesScore">
                     {{match.score}}

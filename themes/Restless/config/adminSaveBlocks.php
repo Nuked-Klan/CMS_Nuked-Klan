@@ -69,6 +69,13 @@ try {
 
     $this->get('cfg')->set('blockGallery.lightbox', $newStateLightbox);
 
+    $newIdTopMatch = false;
+    if (array_key_exists('blockTopMatchId', $_REQUEST) && $_REQUEST['blockTopMatchId']) {
+        $newIdTopMatch = $_REQUEST['blockTopMatchId'];
+    }
+
+    $this->get('cfg')->set('blockTopMatch.id', $newIdTopMatch);
+
     if (array_key_exists('blockGalleryCat', $_REQUEST)) {
         $newValue = intval($_REQUEST['blockGalleryCat']);
         if ($_REQUEST['blockGalleryCat'] == 0) {

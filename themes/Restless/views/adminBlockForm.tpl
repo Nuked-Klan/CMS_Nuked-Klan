@@ -26,15 +26,19 @@
             <div>
                 <label>{{*SELECT_CAT}} :</label>
                 <select class="RL_select" name="block{{currentAdminBlock}}Cat" data-check="{{selectedCat}}">
-                    @foreach(selectCat as id => name)
-                        <?php
-                            $selected = null;
-                            if($id == $this->get('selectedCat')){
-                                $selected = 'selected="selected"';
-                            }
-                        ?>
-                    <option value="{{id}}"
-                    {{selected}}>{{name}}</option>
+                    @foreach(selectCat as id => item)
+                        <option value="{{id}}" {{item.selected}}>{{item.name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
+
+        @if({{makeSelectMatch}} === true)
+            <div>
+                <label>{{*SELECT_MATCH}} :</label>
+                <select class="RL_select" name="block{{currentAdminBlock}}Id" data-check="{{selectedMatch}}">
+                    @foreach(selectMatch as id => item)
+                        <option value="{{id}}" {{item.selected}}>{{item.name}}</option>
                     @endforeach
                 </select>
             </div>
