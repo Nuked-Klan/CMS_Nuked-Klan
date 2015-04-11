@@ -121,3 +121,7 @@ define('BY_DEFAULT', 'Par défaut');
 define('TO_COME', 'à venir');
 define('NONE_MATCH', 'Aucun match');
 define('SELECT_MATCH', 'Choisissez le match à afficher');
+define('ADMINISTRATOR', 'administrateur');
+define('MEMBER', 'membre');
+define('VISITOR', 'visiteur');
+define('ONLINE', 'en ligne');
