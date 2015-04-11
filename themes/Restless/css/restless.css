@@ -1095,14 +1095,17 @@ a, input {
     margin     : 0 0 5px;
 }
 
-.RL_roster img {
+.RL_roster > div{
     width   : 352px;
     height  : 84px;
-    display : block;
+}
+
+.RL_roster img {
+    display : none;
 }
 
 .RL_roster figcaption {
-    width       : 317px;
+    width       : 352px;
     height      : 27px;
     position    : absolute;
     bottom      : 2px;
@@ -1111,6 +1114,13 @@ a, input {
     font-family : Aller, sans-serif;
     font-size   : 12px;
     text-align  : right;
+}
+
+.RL_roster figcaption a{
+    display:block;
+    width: 317px;
+    height:27px;
+    color:#fff !important;
     padding     : 0 35px 0 0;
 }
 

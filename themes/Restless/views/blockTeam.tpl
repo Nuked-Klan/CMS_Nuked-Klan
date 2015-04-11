@@ -4,10 +4,11 @@
         <h3>{{blockTeamTitle}}</h3>
     </header>
     <article>
-        @foreach(blockTeamContent as equipe)
+        @foreach(blockTeamContent as team)
         <figure class="RL_roster">
-            <img src="{{equipe.image}}" alt="#" />
-            <figcaption>{{equipe.title}}</figcaption>
+            <div class="RL_bgCover" style="background-image:url({{team.image}})"><!-- No Content --></div>
+            <img src="{{team.image}}" alt="#" />
+            <figcaption><a class="RL_linkWhite" href="{{team.link}}">{{team.name}}</a></figcaption>
         </figure>
         @endforeach
     </article>
