@@ -11,7 +11,11 @@
                 <strong>{{block.title}} : </strong>
             </td>
             <td style="text-align:center;">
-                %checkboxButton('block'.{{blockName}}.'Active', 'block'.{{blockName}}.'Active', {{block.checked}}, true)
+                @if({{blockName}} == 'About')
+                    <img src="themes/Restless/images/block.png" alt="" />
+                @else
+                    %checkboxButton('block'.{{blockName}}.'Active', 'block'.{{blockName}}.'Active', {{block.checked}}, true)
+                @endif
             </td>
             <td style="text-align:center;">
                     <a class="RL_getRow" id="{{blockName}}" href="#" >

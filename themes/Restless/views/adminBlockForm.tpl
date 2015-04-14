@@ -59,6 +59,13 @@
                 </div>
             @endforeach
         @endif
+
+        @if({{makeTextarea}} === true)
+            <div>
+                <label class="RL_inline">{{textareaTitle}} :</label>
+                <textarea class="editor RL_input RL_socialInput" name="blockAboutContent" rows="11">{{textareaContent}}</textarea>
+            </div>
+        @endif
         <p style="text-align:center;">
             <a id="RL_close" class="button" href="#">{{*CLOSE}}</a>
         </p>

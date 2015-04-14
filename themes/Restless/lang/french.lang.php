@@ -125,3 +125,4 @@ define('ADMINISTRATOR', 'administrateur');
 define('MEMBER', 'membre');
 define('VISITOR', 'visiteur');
 define('ONLINE', 'en ligne');
+define('CONTENT', 'Contenu');

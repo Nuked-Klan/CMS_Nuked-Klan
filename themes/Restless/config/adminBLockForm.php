@@ -8,9 +8,12 @@ $galleryBlock = $this->get('currentAdminBlock') == 'Gallery' ? true : false;
 
 $articleBlock = $this->get('currentAdminBlock') == 'Article' ? true : false;
 
+$aboutBlock = $this->get('currentAdminBlock') == 'About' ? true : false;
+
 $start = 1;
 $end = 10;
 $increment = 1;
+
 $this->assign('makeForm', false);
 $this->assign('makeTitle', false);
 $this->assign('makeSelect', false);
@@ -21,6 +24,7 @@ $this->assign('checkboxChecked', false);
 $this->assign('makeInputSocial', false);
 $this->assign('lightboxChecked', false);
 $this->assign('lightboxInputName', null);
+$this->assign('makeTextarea', false);
 
 if($this->get('currentAdminBlock') == 'Social'){
     $arraySocial = array('Twitter', 'Facebook', 'Google', 'Steam', 'Twitch', 'Youtube');
@@ -155,10 +159,16 @@ for ($i = $start; $i <= $end; $i += $increment) {
 
 $this->assign('selectBlock', $arrayTemp);
 
+if($aboutBlock === true){
+    $this->assign('makeTextarea', true);
+    $this->assign('textareaTitle', CONTENT);
+    $this->assign('textareaContent', $this->get('cfg')->get('blockAbout.content'));
+}
 
-$arrayForm = array('TopMatch', 'Article', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
 
-$arrayTitle = array('TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
+$arrayForm = array('About', 'TopMatch', 'Article', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
+
+$arrayTitle = array('About', 'TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
 
 $arraySelect = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery');
 
