@@ -73,6 +73,7 @@ define('LINK', 'Lien');
 define('MODULE_NAME', 'Nom du module');
 define('DISPLAY_FULL_PAGE', 'Afficher en pleine page');
 define('DISPLAY_SLIDER', 'Afficher le slider');
+define('DISPLAY_ARTICLE', 'Afficher le block Article');
 define('MODULE_NEWS', 'News');
 define('MODULE_FORUM', 'Forum');
 define('MODULE_WARS', 'Matches');

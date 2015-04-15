@@ -9,7 +9,9 @@ $arrayTemp = array(
     'User' => array(
         'name' => defined('MODULE_'.strtoupper('User')) ? constant('MODULE_'.strtoupper('User')) : 'User',
         'fullPage' => in_array('User', explode(',', $this->get('cfg')->get('general.displayFullPage'))),
-        'slider' => in_array('User', explode(',', $this->get('cfg')->get('general.displaySlider')))
+        'slider' => in_array('User', explode(',', $this->get('cfg')->get('general.displaySlider'))),
+        'article' => in_array('User', explode(',', $this->get('cfg')->get('general.displayArticle')))
+
     )
 );
 
@@ -23,7 +25,8 @@ while($dbrModules = mysql_fetch_assoc($dbeModules)){
         $arrayTemp[$dbrModules['nom']] = array(
             'name'     => $name,
             'fullPage' => in_array($dbrModules['nom'], explode(',', $this->get('cfg')->get('general.displayFullPage'))),
-            'slider'   => in_array($dbrModules['nom'], explode(',', $this->get('cfg')->get('general.displaySlider')))
+            'slider'   => in_array($dbrModules['nom'], explode(',', $this->get('cfg')->get('general.displaySlider'))),
+            'article'   => in_array($dbrModules['nom'], explode(',', $this->get('cfg')->get('general.displayArticle')))
         );
     }
 }

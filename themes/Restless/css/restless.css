@@ -54,6 +54,7 @@ body {
     font-family : sans-serif;
     font-size   : 12px;
     position    : relative;
+    color       : #979696;
 }
 
 #RL_mainTitle {
@@ -430,15 +431,15 @@ a, input {
     width       : 150%;
 }
 
-#RL_blockTopMatch > figure > div{
-    width  : 95px;
-    height : 110px;
-    border : 1px solid #919190;
-    display: inline-block;
+#RL_blockTopMatch > figure > div {
+    width   : 95px;
+    height  : 110px;
+    border  : 1px solid #919190;
+    display : inline-block;
 }
 
 #RL_blockTopMatch figure img {
-    display:none;
+    display : none;
 }
 
 #RL_blockTopMatch > div {
@@ -847,7 +848,7 @@ a, input {
     font-family : Aller, sans-serif;
     font-size   : 12px;
     font-weight : bold;
-    color       : #333;
+    color       : #616161;
 }
 
 #RL_blockDownload > div > div > p:last-child {
@@ -865,7 +866,6 @@ a, input {
 #RL_commentsContent {
     padding     : 0 12px 0 20px;
     font-family : Aller, sans-serif;
-    color       : #616161;
     height      : 176px;
     overflow    : auto;
 }
@@ -944,18 +944,25 @@ a, input {
     border-left    : 1px solid #cdcdcd;
 }
 
-.RL_blockRight {
+.RL_blockRight, .RL_blockBottom, .RL_blockCenter {
     margin-top : 10px;
     color      : #979696;
 }
 
-.RL_blockRight h3 {
+.RL_blockRight h3, .RL_blockBottom h3, .RL_blockCenter h3 {
     font-family : BebasNeue, sans-serif;
     font-size   : 20px;
     font-weight : normal;
     color       : #616161;
     margin      : 5px 0;
-    padding     : 0 0 0 15px;
+}
+
+.RL_blockRight h3 {
+    padding : 0 0 0 15px;
+}
+
+.RL_blockBottom article, .RL_blockCenter article{
+    padding:10px;
 }
 
 .RL_blockRight article {
@@ -1095,9 +1102,9 @@ a, input {
     margin     : 0 0 5px;
 }
 
-.RL_roster > div{
-    width   : 352px;
-    height  : 84px;
+.RL_roster > div {
+    width  : 352px;
+    height : 84px;
 }
 
 .RL_roster img {
@@ -1116,12 +1123,12 @@ a, input {
     text-align  : right;
 }
 
-.RL_roster figcaption a{
-    display:block;
-    width: 317px;
-    height:27px;
-    color:#fff !important;
-    padding     : 0 35px 0 0;
+.RL_roster figcaption a {
+    display : block;
+    width   : 317px;
+    height  : 27px;
+    color   : #fff !important;
+    padding : 0 35px 0 0;
 }
 
 /*//////////////////////////////////////////////////////*/
@@ -1680,5 +1687,5 @@ a, input {
     background-position : center center;
     background-repeat   : no-repeat;
     background-size     : cover;
-    background-color:#fff;
+    background-color    : #fff;
 }

@@ -43,7 +43,14 @@ try {
             RL_uploadFile($name.'File');
         }
         else if(array_key_exists($name.'Url', $_REQUEST)){
-            $this->get('cfg')->set('general.'.$name, $_REQUEST[$name.'Url']);
+            $newUrl = $_REQUEST[$name.'Url'];
+            if(preg_match('#^http(s*):\/\/#im', $_REQUEST[$name.'Url'])){
+                $newUrl = 'themes/Restless/images/upload/'.time().'.jpg';
+                file_put_contents($newUrl, file_get_contents($_REQUEST[$name.'Url']));
+                /* TODO make function for saving image from url */
+            }
+
+            $this->get('cfg')->set('general.'.$name, $newUrl);
         }
     }
 
