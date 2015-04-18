@@ -40,13 +40,13 @@ function index()
         if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
         $start = $_REQUEST['p'] * $nb_mess - $nb_mess;
 
-        echo "<br /><div class=\"nkAlignCenter\"><big><b>" . _SHOUTBOX . "</b></big></div><br />\n";
+        echo "<div class=\"nkAlignCenter\"><h1>" . _SHOUTBOX . "</h1></div>\n";
 
         if ($count > $nb_mess) {
             number($count, $nb_mess, "index.php?file=Textbox");
         } 
 
-        echo "<div>\n";
+        echo "<div id=\"nkTextboxWrapper\">\n";
 
         $sql2 = mysql_query("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess."");
         while (list($mid, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql2)) {
