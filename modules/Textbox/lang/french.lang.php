@@ -5,13 +5,16 @@ if (!defined("INDEX_CHECK"))
 }
 define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
-define("_NONICKNAME","Vous n\'avez pas entré de pseudo !");
+// define("_NONICKNAME","Vous n\'avez pas entré de pseudo !");
+//Resctriction to logged users
+define("_NONICKNAME","Identifiez vous pour pouvoir poster un message !");
+// End
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
 define("_PSEUDOEXIST","Ce pseudo est déjà réservé !");
 define("_BANNEDNICK","Ce pseudo est banni");
 define("_SEND","Envoyer");
 define("_NICKNAME","Pseudo");
-define("_YOURMESS","Votre message");
+define("_YOURMESS","");
 define("_REFRESH","Rafraîchir");
 define("_SEEARCHIVES","Voir les archives");
 define("_SHOUTBOX","Tribune Libre");
@@ -24,7 +27,7 @@ define("_PREVIOUSPAGE","Page Précédente");
 define("_NEXTPAGE","Page Suivante");
 define("_THEREIS","Il y a");
 define("_SHOUTINDB","messages dans la base de données");
-define("_SMILEY","Smilies");
+define("_SMILEY","Ajouter un smilies");
 define("_LISTSMILIES","Liste des smilies");
 define("_CODE","Code");
 define("_IMAGE","Image");
@@ -65,4 +68,7 @@ define("_LOADINPLSWAIT", "Chargement en cours...");
 define("_PLEASEWAITTXTBOX","Veuillez patienter...");
 define("_THANKSFORPOST","Merci de votre participation !");
 define("_LOADINGERRORS","Impossible de charger le block !");
+
+define("_DISPLAY_AVATAR","Afficher l'avatar du posteur");
+define("_NOTIF_INFOS_DISPLAY","Lorsque l'affichage de l'avatar est d&eacute;sactiv&eacute;, l'apparence de la textbox est celle d'un tchat basique, la date n'est pas affich&eacute;e. En revanche il est possible de connaitre la date du post en survolant le pseudo du posteur avec la souris.");
 ?>

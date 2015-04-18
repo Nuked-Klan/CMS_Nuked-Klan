@@ -191,6 +191,10 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $language;
 
+        $checked1 = false;
+
+        if ($nuked['textbox_avatar'] == "on") $checked1 = true;
+
         echo "<script type=\"text/javascript\">\n"
 		. "<!--\n"
 		. "\n"
@@ -212,18 +216,30 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
         nkAdminMenu(2);
 
+        printNotification(_NOTIF_INFOS_DISPLAY, '#', $type = 'information', $back = false, $redirect = false);
+
         echo "<form method=\"post\" action=\"index.php?file=Textbox&amp;page=admin&amp;op=change_pref\">\n"
 		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 		. "<tr><td>" . _NUMBERSHOUT . " :</td><td> <input type=\"text\" name=\"max_shout\" size=\"2\" value=\"" . $nuked['max_shout'] . "\" /></td></tr>\n"
+        . "<tr><td>" . _DISPLAY_AVATAR . " :</td><td>";
+
+        checkboxButton('textbox_avatar', 'textbox_avatar', $checked1, false);
+
+        echo "</td></tr>\n"
 		. "</table>\n"
 		. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
     } 
 
-    function change_pref($max_shout)
+    function change_pref($max_shout, $textbox_avatar)
     {
         global $nuked, $user;
 
+        if ($textbox_avatar != "on") {
+            $textbox_avatar = "off";
+        }
+
         $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_shout . "' WHERE name = 'max_shout'");
+        $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $textbox_avatar . "' WHERE name = 'textbox_avatar'");
 		// Action
 		$texteaction = "". _ACTIONCONFSHO .".";
 		$acdate = time();
@@ -293,7 +309,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             break;
 
         case "change_pref":
-            change_pref($_REQUEST['max_shout']);
+            change_pref($_REQUEST['max_shout'], $_REQUEST['textbox_avatar']);
             break;
 
         default:
