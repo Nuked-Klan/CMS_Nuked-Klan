@@ -229,6 +229,7 @@
                             ('forum_user_details', 'on'),
                             ('forum_labels_active', 'on'),
                             ('forum_display_modos', 'on'),
+                            ('textbox_avatar', 'on'),
                             ('user_email', 'off'),
                             ('user_icq', 'off'),
                             ('user_msn', 'off'),
