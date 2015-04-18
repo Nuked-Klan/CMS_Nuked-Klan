@@ -673,3 +673,69 @@
     width: 150px;
 }
 
+/*GENERAL*/
+
+.nkClear{
+    clear: both;
+}
+
+.nkFloatRight{
+    float: right;
+}
+
+.nkFloatLeft{
+    float: left;
+}
+
+.nkAlignCenter{
+    text-align: center;
+}
+
+.nkInlineBlock{
+    display: inline-block;
+}
+
+.nkIconOnline {
+    border-radius: 50%;
+    display: inline-block;
+    height: 7px;
+    vertical-align: middle;
+    width: 7px;
+}
+
+.nkIconOnlineGreen {
+    background-image: -moz-radial-gradient(5px 5px 45deg, circle farthest-corner, #90ee90 0%, #008000 100%, blue 5%);
+}
+
+.nkIconOnlineRed {
+    background-image: -moz-radial-gradient(5px 5px 45deg, circle farthest-corner, #ee909f 0%, #fd0107 100%, blue 5%);
+}
+
+.nkIconOnlineGrey {
+    background-image: -moz-radial-gradient(5px 5px 45deg, circle farthest-corner, #babbba 0%, #616161 100%, blue 5%);
+}
+
+/*BLOCKS*/
+
+/*SHOOTBOX*/
+.nkShootboxRow {
+    border-top: 1px solid;
+    padding: 10px 3px 0 0;
+    margin: 0 3px 0 0;
+}
+.nkShootboxRow p{
+    margin-bottom: 5px;
+}
+.nkShootAvatar{
+    margin: 0 5px 0 0;
+    width: 30px;
+    height: 30px;
+    padding: 1px;
+    border: 1px solid;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.nkShootDate{
+    font-size: 0.85em;
+}
