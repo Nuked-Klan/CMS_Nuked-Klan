@@ -114,6 +114,17 @@ else {
     $visiteur          = $user[1];
 }
 
+// Patch securité contre les failles CSRF
+if (
+    (! in_array($_REQUEST['file'], array('Admin', 'Stats', 'Members')))
+    && $_REQUEST['page'] != 'admin'
+    && $_REQUEST['nuked_nude'] != 'admin'
+    && $_REQUEST['op'] != 'smilies'
+    && $_SESSION['admin'] == true
+) {
+    $_SESSION['admin'] = false;
+}
+
 // Inclusion du fichier des couleurs
 require_once 'themes/'.$theme.'/colors.php';
 
