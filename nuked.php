@@ -160,8 +160,8 @@ function session_read($id){
 
 // WRITE PHP SESSION
 function session_write($id, $data){
-    $id = mysql_escape_string($id);
-    $data = mysql_escape_string($data);
+    $id = mysql_real_escape_string($id);
+    $data = mysql_real_escape_string($data);
 
     connect();
 
@@ -841,18 +841,16 @@ function nbvisiteur(){
         }
         $req = mysql_query("SELECT IP FROM " . NBCONNECTE_TABLE . " " . $where);
         $query = mysql_num_rows($req);
-
-        if ($query > 0){
+        if ($query > 0) {
             if (isset($user[0])){
                 $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '" . $user[1] . "', IP = '" . $user_ip . "', username = '" . $user[2] . "' WHERE user_id = '" . $user[0] . "'");
             }
             else{
                 $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '', user_id = '', username = 'visitor' WHERE IP = '" . $user_ip . "'");
             }
-        }
-        else{
+        } else {
             $del = mysql_query("DELETE FROM " . NBCONNECTE_TABLE . " WHERE IP = '" . $user_ip . "'");
-            $req = mysql_query("INSERT INTO " . NBCONNECTE_TABLE . " ( `IP` , `type` , `date` , `user_id` , `username` ) VALUES ( '" . $user_ip . "' , '" . $user[1] . "' , '" . $limite . "' , '" . $user[0] . "' , '" . $user[2] . "' )");
+            $req = mysql_query("INSERT INTO " . NBCONNECTE_TABLE . " ( `IP` , `type` , `date` , `user_id` , `username` ) VALUES ( '" . $user_ip . "' , '' , '" . $limite . "' , '' , 'visitor' )");
         }
     }
 

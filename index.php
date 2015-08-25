@@ -118,7 +118,7 @@ else {
 if (
     (! in_array($_REQUEST['file'], array('Admin', 'Stats', 'Members')))
     && $_REQUEST['page'] != 'admin'
-    && $_REQUEST['nuked_nude'] != 'admin'
+    && (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != 'admin')
     && $_REQUEST['op'] != 'smilies'
     && $_SESSION['admin'] == true
 ) {
