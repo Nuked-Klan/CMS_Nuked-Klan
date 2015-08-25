@@ -8,8 +8,8 @@
     * Les droits d'écritures (CHMOD) doivent être activés
 - Un système de gestion de bases de données MySQL
 ****** Procédure d'installation ******
-   1. Ouvrir l'archive NK1.7.9.zip et sélectionner son contenu
-   2. Uploader le contenu du dossier "UPLOAD" de l'archive NK1.7.9.zip sur
+   1. Ouvrir l'archive NK_1.7.9.1.zip et sélectionner son contenu
+   2. Uploader le contenu du dossier "UPLOAD" de l'archive NK_1.7.9.1.zip sur
       votre FTP en utilisant un client FTP tel que FileZilla
    3. Lancer l'installation en tapant dans la barre d'adresse internet : http:/
       /www.votresite.com/INSTALL/ (remplacer "votresite.com" par votre
@@ -19,4 +19,4 @@
       pour débutant) ou "installation rapide".
 Pour plus d'informations concernant votre installation, aller sur le wiki
 Nuked-Klan
-© 2001 - 2012 Nuked-KlaN
+© 2001 - 2015 Nuked-KlaN

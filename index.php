@@ -5,7 +5,7 @@
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @copyright 2001-2013 Nuked-Klan (Registred Trademark)
+ * @copyright 2001-2015 Nuked-Klan (Registered Trademark)
  */
 
 // Permet de s'assurer que tous les scripts passe bien par l'index du CMS
@@ -112,6 +112,17 @@ if (!$user) {
 }
 else {
     $visiteur          = $user[1];
+}
+
+// Patch securité contre les failles CSRF
+if (
+    (! in_array($_REQUEST['file'], array('Admin', 'Stats', 'Members')))
+    && $_REQUEST['page'] != 'admin'
+    && (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != 'admin')
+    && $_REQUEST['op'] != 'smilies'
+    && $_SESSION['admin'] == true
+) {
+    $_SESSION['admin'] = false;
 }
 
 // Inclusion du fichier des couleurs

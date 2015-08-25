@@ -1,13 +1,13 @@
 <?php
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-define("_WELCOMEINSTALL","Bienvenue sur Nuked-Klan 1.7.9");
+define("_WELCOMEINSTALL","Bienvenue sur Nuked-Klan 1.7.9.1");
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
 define("_TYPEINSTALL","Que voulez-vous faire ?");
 define("_INSTALLPASPAS","Installation avec assistance");
 define("_INSTALL","Installation rapide");
 define("_UPGRADE","Mise à jour avec informations");
-define("_INSTALLNK","Installation de Nuked-Klan 1.7.9");
+define("_INSTALLNK","Installation de Nuked-Klan 1.7.9.1");
 define('_UNABLE_TO_SAVE_CONFIG_FILE', 'Sauvegarde de votre fichier de configuration impossible.V&eacute;rifiez les permissions du r&eacute;pertoire %s');
 define('_DIRECTORY_NOT_WRITEABLE', "Impossible d'&eacute;crire dans le r&eacute;peretoire %s. V&eacute;rifiez ses permissions");
 define("_INSTALLPROGRESS","Installation en cours...");
@@ -65,14 +65,14 @@ define("_GODFAILDED","Pseudo ou Mot de passe incorrect");
 define("_3TYPEMIN","3 caractères minimum pour le Pseudo");
 define("_4TYPEMIN","4 caractères minimum pour le Mot de passe");
 define("_PASSFAILED","Vous n\'avez pas saisi le même mot de passe");
-define("_NKUPGRADE","Mise à Jour de Nuked-Klan 1.7 vers 1.7.9");
-define("_BADVERSION","Votre version de Nuked-Klan ne peut pas être mise à jour en 1.7.9 !");
+define("_NKUPGRADE","Mise à Jour de Nuked-Klan 1.7 vers 1.7.9.1");
+define("_BADVERSION","Votre version de Nuked-Klan ne peut pas être mise à jour en 1.7.9.1 !");
 define("_CONGRATULATION","Félicitation : Installation Terminée...");
 define("_REDIRECT","Vous allez être redirigé vers la page d'accueil de votre site");
 define("_CLICIFNO","Cliquez ici si rien ne se passe");
 define("_ERRORCHMOD","Veuillez supprimer les fichiers <b>install.php</b> et <b>update.php</b> de votre FTP !<br />Modifiez également l'attribut en CHMOD 777 des répertoires :<br /><br /><b>- images/icones/<br />- upload/Download/<br />- upload/Forum/<br />- upload/Gallery/<br />- upload/News/<br />- upload/Suggest/<br />- upload/User/<br />- upload/Wars/</b>");
 define("_GOHOME","Cliquez ici pour aller sur votre site.");
-define("_FIRSTNEWSTITLE","Bienvenue sur votre site NuKed-KlaN 1.7.9");
+define("_FIRSTNEWSTITLE","Bienvenue sur votre site NuKed-KlaN 1.7.9.1");
 define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.");
 define("_DBHOST","Host MySQL");
 define("_DBUSER","User");
@@ -287,16 +287,16 @@ define("_ETAPE4","Etape 4");
 define("_UPGRADESPEED","Mise à jour rapide");
 
 define("_SECURITE","Sécurité");
-define("_DECOUVERTE","Nuked-klan 1.7.9: la découverte");
+define("_DECOUVERTE","Nuked-klan 1.7.9.1: la découverte");
 define("_NEWSADMIN","Une nouvelle administration");
 define("_PROCHE","Un site officiel proche de sa communautée");
 define("_SIMPLIFIE","Une installation simplifiée");
-define("_DECOUVERTE1","Vous allez installer Nuked-Klan 1.7.9, cette version orientée gamers permettra à votre team de bénéficier rapidement d'un site web à votre image.</p><p>Vous pourrez créer une vie à votre groupe, le rassembler facilement, gérer des recrutements, des matchs ou un serveur très facilement.");
+define("_DECOUVERTE1","Vous allez installer Nuked-Klan 1.7.9.1, cette version orientée gamers permettra à votre team de bénéficier rapidement d'un site web à votre image.</p><p>Vous pourrez créer une vie à votre groupe, le rassembler facilement, gérer des recrutements, des matchs ou un serveur très facilement.");
 define("_NEWSADMIN1","Pour cette nouvelle version, nous avons réalisé une nouvelle administration plus intuitive et plus agréable.</p><p>Vous pourrez suivre les actions des administrateurs, voir les notifications, accéder à un chat privé entre admininistrateurs et découvrir de multiples nouvelles fonctionnalités comme le bannissement temporaire.");
 define("_PROCHE1","Connecter 24h/24h avec Nuked-Klan.org, nous pouvons vous envoyer des messages, des avertissements sur certains modules et même des mises à jour automatiques de votre site.<br />Notre support est disponible quelque soit votre problème.");
 define("_SIMPLIFIE1","Une installation plus design, plus intuitive, mais surtout une nouvelle installation avec assistance. Si vous avez déjà manié l'installation d'un CMS tel que Nuked-Klan alors choisissez l'installation rapide sauf si vous voulez voir les nouvelles fonctionnalités.</p><p>Cependant avec l'installation avec assistance, nous vous détaillons et accompagnons étape par étape pour chaque case de formulaire, et si malgré cela, vous n'y arrivez pas, pas de soucis, nous sommes là pour vous aider !");
 
-define("_NEWNK179","Nouveautés Nuked Klan 1.7.9");
+define("_NEWNK179","Nouveautés Nuked Klan 1.7.9.1");
 define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et hexadécimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br /> De plus, un système de signature a été mise en place, ainsi si vous installez un module dangereux, nous pourrons vous avertir. Nous avons mis en place aussi un système de mise à jour automatique. Dès qu'une faille est découverte, elle est corrigée immédiatement sans que vous vous en aperceviez.<br /> Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPTIMISATION","Optimisation");
 define("_OPTIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre légérement moins lourd votre site, cependant nous n'avons pu optimisé tout le code ne s'agissant que d'une mise à jour 1.7.X.");

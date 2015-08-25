@@ -52,7 +52,7 @@
                     . "//  it under the terms of the GNU General Public License as published by   //\n"
                     . "//  the Free Software Foundation; either version 2 of the License.         //\n"
                     . "//-------------------------------------------------------------------------//\n"
-                    . "\$nk_version = '1.7.9';\n"
+                    . "\$nk_version = '1.7.9.1';\n"
                     . "\n"
                     . "\$global['db_host']  = '".$_SESSION['host']."';\n"
                     . "\$global['db_user']  = '".$_SESSION['user']."';\n"
