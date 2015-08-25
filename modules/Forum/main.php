@@ -28,13 +28,15 @@ else
     $title = "<big><b>Forums " . $nuked['name'] . "</b></big><br />" . $nuked['slogan'];
 } 
 
-if ($_REQUEST['cat'] != "")
+if (!empty($_REQUEST['cat']))
 {
     $sql_cat = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $_REQUEST['cat'] . "'");
     list($cat_name) = mysql_fetch_row($sql_cat);
     $cat_name = printSecuTags($cat_name); 
     $nav = "&nbsp;-&gt; <b>" . $cat_name . "</b>";    
-} 
+} else {
+    $nav = '';
+}
 
 echo "<br /><form method=\"get\" action=\"index.php\">\n"
 . "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\">\n"
@@ -62,7 +64,7 @@ echo "</small></td></tr></table>\n"
 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _MESSAGES . "</b></td>\n"
 . "<td style=\"width: 25%;\" align=\"center\"><b>" . _LASTPOST . "</b></td></tr>\n";
 
-if ($_REQUEST['cat'] != "")
+if (!empty($_REQUEST['cat']))
 {
     $main = mysql_query("SELECT nom, id FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['cat'] . "'");
 } 

@@ -355,12 +355,12 @@
         case'update_config':
                             $sql = mysql_query('SELECT value FROM `'.$db_prefix.'_config` WHERE name=\'version\' ')or die (mysql_error());
                             list($old_version) = mysql_fetch_array($sql);
-                            if($old_version != '1.7.9'){
-                                mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'1.7.9\' WHERE name = \'version\'')or die(mysql_error());
+                            if (version_compare($old_version, '1.7.9.1') === -1) {
+                                mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'1.7.9.1\' WHERE name = \'version\'')or die(mysql_error());
                                 if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
                                     // version 1.7.7 ou 1.7.8                                
                                     mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'Impact_Nk\' WHERE name = \'theme\'')or die(mysql_error());
-                                    mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'quakenet.org\' WHERE name = \'irc_serv\'')or die(mysql_error());
+                                    mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'noxether.net\' WHERE name = \'irc_serv\'')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'screen\', \'on\')')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)')or die(mysql_error());
                                     if(!tableExist('contact', $db_prefix)){
@@ -371,7 +371,7 @@
                                         mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_flood\', \'60\')')or die(mysql_error());
                                     }
                                 }
-                                if($old_version != '1.7.9 RC6'){
+                                if (version_compare($old_version, '1.7.9 RC6') === -1) {
                                     // Tout sauf 1.7.9 RC6
                                     if ($this->data['lang_install'] == 'french'){
                                         mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%d/%m/%Y - %H:%M:%S\')')or die(mysql_error());
