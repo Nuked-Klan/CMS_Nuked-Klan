@@ -309,7 +309,7 @@ define("_TOLOG","S'identifier");
 define("_TOBACK","Retour");
 
 define("_BONJOUR","Bonjour");
-define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.7.9 !");
+define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.7.9.1 !");
 define("_AIDE","Aides");
 define("_STATS","Statistiques");
 define("_SQL","Erreurs SQL détectées");

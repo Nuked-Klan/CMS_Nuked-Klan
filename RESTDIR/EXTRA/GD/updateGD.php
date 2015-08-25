@@ -35,7 +35,7 @@ function index(){
 
     style();
 
-    if ($nuked['version'] == "SP4.6" || $nuked['version'] == "1.7.9"){
+    if (version_compare($nuked['version'], 'SP4.6') >= 0 || version_compare($nuked['version'], '1.7.9') >= 0) {
 		echo "<br /><br /><div style=\"text-align: center;\"><b>Do you want create GD thumbnail for Gallery Module ?</b><br /><br />\n"
 		. "<input type=\"button\" name=\"install\" onclick=\"document.location.href='updateGD.php?op=update';\" value=\"Confirm\" />"
 		. "&nbsp;<input type=\"button\" name=\"No\" onclick=\"document.location.href='updateGD.php?op=nan';\" value=\"Cancel\" /></div></body></html>";
