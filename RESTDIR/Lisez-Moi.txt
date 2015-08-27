@@ -5,18 +5,18 @@
     * Version 5.1 (ou plus)
     * Les extensions file_info, zip, gd sont optionnelles
     * Les extensions mysql, session, hash sont obligatoires
-    * Les droits d'Ã©critures (CHMOD) doivent Ãªtre activÃ©s
-- Un systÃ¨me de gestion de bases de donnÃ©es MySQL
+    * Les droits d'écritures (CHMOD) doivent être activés
+- Un système de gestion de bases de données MySQL
 ****** ProcÃ©dure d'installation ******
-   1. Ouvrir l'archive NK1.7.9.zip et sÃ©lectionner son contenu
-   2. Uploader le contenu du dossier "UPLOAD" de l'archive NK1.7.9.zip sur
+   1. Ouvrir l'archive NK_1.7.11.zip et sélectionner son contenu
+   2. Uploader le contenu du dossier "UPLOAD" de l'archive NK_1.7.11.zip sur
       votre FTP en utilisant un client FTP tel que FileZilla
    3. Lancer l'installation en tapant dans la barre d'adresse internet : http:/
       /www.votresite.com/INSTALL/ (remplacer "votresite.com" par votre
       adresse web)
-   4. SÃ©lectionner la langue puis cliquer sur Â« Valider Â»
-   5. Choisir le mode d'installation,"installation avec assistance" (recommandÃ©
-      pour dÃ©butant) ou "installation rapide".
+   4. Sélectionner la langue puis cliquer sur "Valider"
+   5. Choisir le mode d'installation, "installation avec assistance" (recommandé
+      pour d"butant) ou "installation rapide".
 Pour plus d'informations concernant votre installation, aller sur le wiki
 Nuked-Klan
-Â© 2001 - 2012 Nuked-KlaN
+© 2001 - 2015 Nuked-KlaN

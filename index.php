@@ -99,6 +99,16 @@ if (!$user){
 }
 else $visiteur = $user[1];
 
+if (
+    (! in_array($_REQUEST['file'], array('Admin', 'Stats', 'Members')))
+    && $_REQUEST['page'] != 'admin'
+    && (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != 'admin')
+    && $_REQUEST['op'] != 'smilies'
+    && $_SESSION['admin'] == true
+) {
+    $_SESSION['admin'] = false;
+}
+
 include ('themes/' . $theme . '/colors.php');
 translate('lang/' . $language . '.lang.php');
 
@@ -157,7 +167,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         include('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php');
     }
     else include('modules/404/index.php');
-    
+
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
     echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
@@ -190,7 +200,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     echo '    }); }',"\n"
     , '//]]>',"\n"
     , '</script>',"\n";
-    
+
     }
 
     if (!isset($_REQUEST['nuked_nude'])){
@@ -199,7 +209,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             , '<script type="text/javascript" src="media/js/popup.js"></script>',"\n"
             , '<script type="text/javascript">popup("' , $bgcolor2 , '", "' , $bgcolor3 , '", "' , _NEWMESSAGESTART , '&nbsp;' , $user[5] , '&nbsp;' , _NEWMESSAGEEND , '", "' , _CLOSEWINDOW , '", "index.php?file=Userbox", 350, 100);</script>',"\n";
         }
-        
+
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login'){
             footer();
         }
