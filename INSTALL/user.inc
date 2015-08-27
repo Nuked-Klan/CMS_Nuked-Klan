@@ -16,7 +16,7 @@
 
     function saveConfig($type){
         if($type == 'install'){
-            $_SESSION['hash'] = str_replace('\'', '#', @sha1(uniqid(''), true));
+            $_SESSION['hash'] = addslashes(@sha1(uniqid(''), true));
             $pass = nk_hash($_SESSION['hash'] , $_REQUEST['pass']);
             $date = time();
             $ip = $_SERVER['REMOTE_ADDR'];
@@ -74,7 +74,7 @@
         $_SESSION['content'] = $content;
         if (is_writable($path.'conf.inc.php') || (!file_exists($path.'conf.inc.php') && is_writable($path))){
                 try{
-                    $fp = @fopen($path.'conf.inc.php', 'w');
+                    $fp = @fopen($path.'conf.inc.php', 'wb');
                     if(!@fwrite($fp, $content)) $errors++;
                     if(!@fclose($fp)) $errors++;
                     if(!@chmod($path.'conf.inc.php', 0644)) throw new Exception ('CHMOD');
