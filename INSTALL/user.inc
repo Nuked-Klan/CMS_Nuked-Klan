@@ -16,7 +16,7 @@
 
     function saveConfig($type){
         if($type == 'install'){
-            $_SESSION['hash'] = addslashes(@sha1(uniqid(''), true));
+            $_SESSION['hash'] = install::generateHashKey();
             $pass = nk_hash($_SESSION['hash'] , $_REQUEST['pass']);
             $date = time();
             $ip = $_SERVER['REMOTE_ADDR'];

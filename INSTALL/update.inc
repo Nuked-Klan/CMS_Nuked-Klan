@@ -7,7 +7,7 @@
     include('../conf.inc.php');
     if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
         if(!isset($_SESSION['hash'])){
-            $_SESSION['hash'] = addslashes(@sha1(uniqid(''), true));
+            $_SESSION['hash'] = install::generateHashKey();
         }
     } else if(version_compare($this->data['version'], '1.7.9', '=')){
         $_SESSION['hash'] = HASHKEY;

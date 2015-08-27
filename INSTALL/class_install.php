@@ -826,6 +826,12 @@
                 self::viewBottom();
             }
         }
+        
+        static function generateHashKey() {
+            $str = str_replace(array('\'', "\n"), '#', @sha1(uniqid(''), true));
+            return addslashes($str);
+        }
+
     }
 
     $install = new install();
