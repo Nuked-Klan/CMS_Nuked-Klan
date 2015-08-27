@@ -1,6 +1,6 @@
 <?php
 ///////////////////////////////////////////////
-/////// GLOBAL 
+/////// GLOBAL
 ///////////////////////////////////////////////
 define('_SUBMIT', 'Submit');
 define('_CONTINUE', 'Continue');
@@ -21,7 +21,7 @@ define('_WAIT', 'Please wait...');
 define('_ERROR', 'An error has occured !!!');
 define('_ERRORTRY', 'An error has occured, please wait.');
 ///////////////////////////////////////////////
-/////// TEXTES BAS DE PAGE 
+/////// TEXTES BAS DE PAGE
 ///////////////////////////////////////////////
 define("_DISCOVERY","Discover Nuked-Klan !");
 define("_NEWSADMIN","A new administration");
@@ -195,7 +195,6 @@ define('_ACCESS_SITE', 'Access your website');
 ///////////////////////////////////////////////
 define('_ERRORGENERATECONFINC', 'There was an error in the file generation conf.inc.php');
 define('_CONF.INC', 'Please download the content above and place the file in the root of your website.');
-define('_CONF.INC2', 'Veuillez t�l�charger le contenu ci-dessus et placer le fichier � la racine de votre site.');
 define('_INFODLSAVECONFINC', 'Please download the content above and keep this file (it\'s a backup).');
 define('_BADCHMOD', 'Can\'t write file <b> conf.inc.php </ b>, check write permissions (CHMOD)!');
 define('_DOWNLOAD', 'Download');

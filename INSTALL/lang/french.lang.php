@@ -196,7 +196,6 @@ define('_ACCESS_SITE', 'Accéder à votre site');
 ///////////////////////////////////////////////
 define('_ERRORGENERATECONFINC', 'Une erreur est survenue dans la génération du fichier conf.inc.php');
 define('_CONF.INC', 'Impossible d\'écrire le fichier conf.inc.php. (Problème lié au CHMOD)');
-define('_CONF.INC2', 'Veuillez télécharger le contenu ci-dessus et placer le fichier à la racine de votre site.');
 define('_INFODLSAVECONFINC', 'Veuillez télécharger le contenu ci-dessus et conserver ce fichier (c\'est une sauvegarde).');
 define('_BADCHMOD', 'Impossible d\'écrire dans le fichier <b>conf.inc.php</b>, vérifiez les droits en écriture (CHMOD) !');
 define('_DOWNLOAD', 'Télécharger');
