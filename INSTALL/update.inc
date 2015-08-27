@@ -354,8 +354,8 @@
         case'update_config':
                             $sql = mysql_query('SELECT value FROM `'.$db_prefix.'_config` WHERE name=\'version\' ')or die (mysql_error());
                             list($old_version) = mysql_fetch_array($sql);
-                            if (version_compare($old_version, '1.7.11') === -1) {
-                                mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'1.7.11\' WHERE name = \'version\'')or die(mysql_error());
+                            if (version_compare($old_version, _NKVERSION) === -1) {
+                                mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \''._NKVERSION.'\' WHERE name = \'version\'')or die(mysql_error());
                                 if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
                                     // version 1.7.7 ou 1.7.8
                                     mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'Impact_Nk\' WHERE name = \'theme\'')or die(mysql_error());
@@ -446,26 +446,25 @@
                             }
                             echo 'OK';
         break;
-     case 'table_forums_read':
-          $req = mysql_query('SELECT * FROM `'.$db_prefix.'_forums_read`') or die(mysql_error());
-          if ($req) {
-               $users = array();
-               while ($data = mysql_fetch_assoc($req)) {
+        case 'table_forums_read':
+            $req = mysql_query('SELECT * FROM `'.$db_prefix.'_forums_read`') or die(mysql_error());
+            if ($req) {
+                $users = array();
+                while ($data = mysql_fetch_assoc($req)) {
                     if (!isset($data['id'])) {
                          echo "OK";
-                         break;
+                         break 2;
                     }
                     if (!isset($users[$data['user_id']]['thread_id']) || empty($users[$data['user_id']]['thread_id']))
-                         $users[$data['user_id']]['thread_id'] = ',';
-
+                        $users[$data['user_id']]['thread_id'] = ',';
                     if (!isset($users[$data['user_id']]['forum_id']) || empty($users[$data['user_id']]['forum_id']))
-                         $users[$data['user_id']]['forum_id'] = ',';
+                        $users[$data['user_id']]['forum_id'] = ',';
                     if (strrpos($users[$data['user_id']]['thread_id'], ',' . $data['thread_id'] . ',') === false)
-                         $users[$data['user_id']]['thread_id'] .= $data['thread_id'] . ',';
+                        $users[$data['user_id']]['thread_id'] .= $data['thread_id'] . ',';
                     if (strrpos($users[$data['user_id']]['forum_id'], ',' . $data['forum_id'] . ',') === false)
-                    $users[$data['user_id']]['forum_id'] .= $data['forum_id'] . ',';
-               }
-               if (sizeof($users)) {
+                        $users[$data['user_id']]['forum_id'] .= $data['forum_id'] . ',';
+                }
+                if (sizeof($users)) {
                     mysql_query("DROP TABLE IF EXISTS `" . $db_prefix . "_forums_read`") or die(mysql_error());
                     $SQL = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_forums_read`(
                               `user_id` varchar(20) NOT NULL PRIMARY KEY,
@@ -476,10 +475,11 @@
                     $SQL = "INSERT INTO `" . $db_prefix . "_forums_read` (user_id, forum_id, thread_id) VALUES ";
                     $i = 0;
                     foreach ($users as $key => $user) {
-                         if ($i > 0)
-                              $SQL .= ', ';
-                         $SQL .= "('" . $key . "', '" . $user['forum_id'] . "', '" . $user['thread_id'] . "') ";
-                         $i++;
+                        if ($i > 0) {
+                            $SQL .= ', ';
+                        }
+                        $SQL .= "('" . $key . "', '" . $user['forum_id'] . "', '" . $user['thread_id'] . "') ";
+                        $i++;
                     }
                     mysql_query($SQL) or die(mysql_error());
                }
