@@ -704,7 +704,7 @@
         }
         
         private function validVersion($version){
-            if (version_compare($version, '1.7.11', '=')) { // last version already set
+            if (version_compare($version, _NKVERSION, '=')) { // last version already set
                 return 1;
             } else if ((version_compare($version, '1.7.8', '>') && version_compare($version, '1.7.9 RC3', '<')) || version_compare($version, '1.7.7', '<')) { // cannot update
                 return -1;

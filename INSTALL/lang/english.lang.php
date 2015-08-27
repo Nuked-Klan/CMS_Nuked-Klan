@@ -50,7 +50,7 @@ define('_STARTINSTALL', 'Start the installation');
 define('_STARTUPDATE', 'Start the update');
 define('_DETECTUPDATE', 'The wizard has detected an installation of the version :');
 define('_DETECTUPDATEEND', 'of Nuked-Klan');
-define('_BADVERSION', 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version 1.7.8 or 1.7.9 RC5.3');
+define('_BADVERSION', 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version 1.7.7, 1.7.8 or 1.7.9 RC5.3');
 define('_LASTVERSIONSET', 'You already have the last version '._NKVERSION.' of Nuked-Klan');
 ///////////////////////////////////////////////
 /////// TEST DE COMPATIBILITE
