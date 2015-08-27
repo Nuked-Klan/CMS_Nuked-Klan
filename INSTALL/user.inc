@@ -78,7 +78,7 @@
                     if(!@fwrite($fp, $content)) $errors++;
                     if(!@fclose($fp)) $errors++;
                     if(!@chmod($path.'conf.inc.php', 0644)) throw new Exception ('CHMOD');
-                    if(!@copy($path.'conf.inc.php', $path.'config_save_'.date('%Y%m%d%H%i').'.php')) throw new Exception ('COPY');
+                    if(!@copy($path.'conf.inc.php', $path.'config_save_'.date('Y-m-d-H-i').'.php')) throw new Exception ('COPY');
                 }
                 catch(exception $e){
                     $_SESSION['content_web'] = nl2br(htmlentities($content));
