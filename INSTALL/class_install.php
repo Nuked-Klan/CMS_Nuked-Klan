@@ -86,15 +86,15 @@
                     list($version) = mysql_fetch_array($sql_version);
                 }
 
-                $_SESSION['version'] = $this->checkVersion($version);
-                echo '<h3 style="background:#ECEADB;width:60%;padding:5px;border:1px solid #ddd;margin:20px auto;" >
-                            '._DETECTUPDATE.' '.$_SESSION['version']['print'].' '._DETECTUPDATEEND.'
-                        </h3>';
-                if($this->validVersion($_SESSION['version'])){
+                $_SESSION['version'] = $version;
+                echo '<h3 style="background:#ECEADB;width:60%;padding:5px;border:1px solid #ddd;margin:20px auto;" >'._DETECTUPDATE.' '.$_SESSION['version'].' '._DETECTUPDATEEND.'</h3>';
+                $versionStatus = $this->validVersion($_SESSION['version']);
+                if ($versionStatus === 0) {
                     echo '<a href="index.php?action=main&amp;type=update" class="button" >'._STARTUPDATE.'</a>';
-                }
-                else{
+                } else if ($versionStatus === -1){
                     echo '<p>'._BADVERSION.'</p>';
+                } else {
+                    echo '<p>'._LASTVERSIONSET.'</p>';
                 }
                 echo '</div>';
             }
@@ -702,31 +702,15 @@
 
             echo $return;
         }
-        private function checkVersion($version){
-            $array_version['print'] = $version;
-            $version = strtoupper(str_replace(' ', '', $version));
-            $array_version['RC'] = preg_match('/RC/', $version) ? substr(strstr($version, 'RC'), 2) : null;
-            $version = preg_match('/RC/', $version) ? substr($version, 0, -(strlen($array_version['RC']) +2)) : $version;
-            $tmp = explode('.', $version);
-            $array_version['main'] = isset($tmp[0]) ? $tmp[0]: null;
-            $array_version['sub'] = isset($tmp[1]) ? $tmp[1]: null;
-            $array_version['rev'] = isset($tmp[2]) ? $tmp[2]: null;
-            return $array_version;
-        }
-
+        
         private function validVersion($version){
-            if($version['sub'] == '7' && ($version['rev'] == '7' || $version['rev'] == '8' || $version['rev'] == '9')){
-                if(isset($version['RC'])){
-                    if($version['RC'] == '5.3' || $version['RC'] == '6'){
-                        return true;
-                    }
-                    else
-                        return false;
-                }
-                return true;
+            if (version_compare($version, '1.7.11', '=')) { // last version already set
+                return 1;
+            } else if ((version_compare($version, '1.7.8', '>') && version_compare($version, '1.7.9 RC3', '<')) || version_compare($version, '1.7.8', '<')) { // cannot update
+                return -1;
+            } else {// can update, version == 1.7.8 or greater than 1.7.9
+                return 0;
             }
-            else
-                return false;
         }
 
         private function printConfig(){

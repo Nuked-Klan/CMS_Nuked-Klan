@@ -5,12 +5,11 @@
     $date = time();
 
     include('../conf.inc.php');
-    if($this->data['version']['rev'] == '7' || $this->data['version']['rev'] == '8'){
+    if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
         if(!isset($_SESSION['hash'])){
             $_SESSION['hash'] = addslashes(@sha1(uniqid(''), true));
         }
-    }
-    elseif($this->data['version']['rev'] == '9'){
+    } else if(version_compare($this->data['version'], '1.7.9', '=')){
         $_SESSION['hash'] = HASHKEY;
     }
 
@@ -313,7 +312,7 @@
                             echo 'OK';
         break;
         case'update_bbcode':
-                            if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
+                            if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
                                 if (!tableExist('contact', $db_prefix)) {
                                     unset($bbUpdate['_contact']);
                                 }
@@ -357,7 +356,7 @@
                             list($old_version) = mysql_fetch_array($sql);
                             if (version_compare($old_version, '1.7.11') === -1) {
                                 mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'1.7.11\' WHERE name = \'version\'')or die(mysql_error());
-                                if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
+                                if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
                                     // version 1.7.7 ou 1.7.8
                                     mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'Impact_Nk\' WHERE name = \'theme\'')or die(mysql_error());
                                     mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'noxether.net\' WHERE name = \'irc_serv\'')or die(mysql_error());
@@ -415,7 +414,7 @@
         break;
         case'remove_editeur':
                             mysql_query("DROP TABLE IF EXISTS `" . $db_prefix . "_editeur` ")or die(mysql_error());
-                            if($this->data['version']['rev'] == '9'){
+                            if(version_compare($this->data['version'], '1.7.9', '=')){
                                 $sql = mysql_query('SELECT id, comment FROM `'.$db_prefix.'_forums` ')or die(mysql_error());
                                 while(list($id, $comment) = mysql_fetch_array($sql)){
                                     $comment = str_replace('<p>', '', $comment);
@@ -448,7 +447,7 @@
                             echo 'OK';
         break;
      case 'table_forums_read':
-          $req = mysql_query("SELECT * FROM `" . $db_prefix . "_forums_read` ") or die(mysql_error());
+          $req = mysql_query('SELECT * FROM `'.$db_prefix.'_forums_read`') or die(mysql_error());
           if ($req) {
                $users = array();
                while ($data = mysql_fetch_assoc($req)) {
