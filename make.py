@@ -6,7 +6,7 @@ import zlib
 import os.path
 # Note : Need python3 in order to run !
 
-file = 'Nuked-Klan_v1.7.12.zip'
+file = 'Nuked-Klan_v1.8-alpha.zip'
 
 def _ignore(src, name):
     if ((src == './UPLOAD/') or (src == './/UPLOAD/')):
