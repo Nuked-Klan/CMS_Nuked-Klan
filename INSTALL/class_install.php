@@ -790,7 +790,7 @@
         }
         
         static function viewInfos(){
-            $step = rand(1,4); // A modifier en cas d'ajout d'infos
+            $step = rand(1,6); // A modifier en cas d'ajout d'infos
             echo '<hr style="margin-top:30px;margin-bottom:15px;width:90%;" />
                     <div style="width:580px;overflow:hidden;margin:auto;">';                    
                         switch($step){
@@ -798,19 +798,25 @@
                             $a = '_DISCOVERY';
                             break;
                             case'2':
-                            $a = '_NEWSADMIN';
+                            $a = '_NEWVERSION_CONCEPT';
                             break;
                             case'3':
-                            $a = '_INSTALL_AND_UPDATE';
+                            $a = '_GITHUB_NK';
                             break;
                             case'4':
                             $a = '_COMMUNAUTY_NK';
+                            break;
+                            case'5':
+                            $a = '_NEWMODULES';
+                            break;
+                            case'6':
+                            $a = '_NEWTEMPLATE';
                             break;
                         }                        
                         echo '<div id="slide'.$step.'" style="display:block;width:580px;">
                                     <h2>'.constant($a).'</h2>
                                     <p>
-                                        <img src="images/img_slide_0'.$step.'.png" alt="" style=" float:right;" width="200" height="194" />
+                                        <img src="images/img_slide_0'.$step.'.png" alt="" style=" float:right;" width="269" height="175" />
                                         '.constant($a.'_DESCR').'
                                     </p>
                                 </div>                        

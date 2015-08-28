@@ -14,7 +14,7 @@ if (!defined("INDEX_CHECK"))
 $box_width = "100%";
 
 // Longeur de la tribune libre (côté)
-$box_height = "200px";
+$box_height = "300px";
 
 
 // Largeur de la tribune libre (centre)
