@@ -44,7 +44,7 @@ define('_RESETSESSION', 'Réinitialiser');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define('_NKVERSION', '1.7.11');
+define('_NKVERSION', '1.7.12');
 define("_WELCOMEINSTALL",'Bienvenue sur Nuked-Klan '._NKVERSION);
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
 define('_STARTINSTALL', 'Démarrer l\'installation');

@@ -43,7 +43,7 @@ define('_RESETSESSION', 'Reset');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define('_NKVERSION', '1.7.11');
+define('_NKVERSION', '1.7.12');
 define("_WELCOMEINSTALL",'Welcome on Nuked-Klan '._NKVERSION);
 define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b>");
 define('_STARTINSTALL', 'Start the installation');

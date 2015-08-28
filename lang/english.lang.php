@@ -4,7 +4,7 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define('_NKVERSION', '1.7.11');
+define('_NKVERSION', '1.7.12');
 define("_WELCOMEINSTALL",'Welcome to the '._NKVERSION.' version of Nuked-Klan ');
 define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b> ");
 define("_TYPEINSTALL","What do you want to do?");

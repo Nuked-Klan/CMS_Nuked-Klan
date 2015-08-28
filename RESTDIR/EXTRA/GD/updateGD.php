@@ -35,7 +35,7 @@ function index(){
 
     style();
 
-    if ($nuked['version'] == "SP4.6" || $nuked['version'] == "1.7.11"){
+    if ($nuked['version'] == "SP4.6" || version_compare($nuked['version'], '1.7.9', '>=')){
 		echo "<br /><br /><div style=\"text-align: center;\"><b>Do you want create GD thumbnail for Gallery Module ?</b><br /><br />\n"
 		. "<input type=\"button\" name=\"install\" onclick=\"document.location.href='updateGD.php?op=update';\" value=\"Confirm\" />"
 		. "&nbsp;<input type=\"button\" name=\"No\" onclick=\"document.location.href='updateGD.php?op=nan';\" value=\"Cancel\" /></div></body></html>";
@@ -65,21 +65,21 @@ function update(){
 				if (preg_match("`png`i", $ext)) $src = imagecreatefrompng($url);
 				if (preg_match("`gif`i", $ext)) $src = imagecreatefromgif($url);
 				if (preg_match("`bmp`i", $ext)) $src = imagecreatefromwbmp($url);
-		
+
 				$img = imagecreatetruecolor(150, round((150/$size[0])*$size[1]));
 				if (!$img) $img = imagecreate(150, round((150/$size[0])*$size[1]));
-		
+
 				imagecopyresampled($img, $src, 0, 0, 0, 0, 150, round($size[1]*(150/$size[0])), $size[0], $size[1]);
-		
+
 				$temp = "upload/Gallery/" . $file_name . "_tmb." . $ext;
 				echo 'temp = '.$temp.'<br/>';
 				if (is_file($temp)) $miniature = "upload/Gallery/" . time() . $file_name . "_tmb." . $ext;
 				else  $miniature = $temp;
-		
+
 				if (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext)) ImageJPEG($img, $miniature);
 				if (preg_match("`png`i", $ext)) ImagePNG($img, $miniature);
 				if (preg_match("`bmp`i", $ext)) imagewbmp($img, $miniature);
-		
+
 				if (preg_match("`gif`i", $ext) && function_exists("imagegif")) ImageGIF($img, $miniature);
 				else ImageJPEG($img, $miniature);
 				echo 'miniature = '.$miniature.'<br/>';

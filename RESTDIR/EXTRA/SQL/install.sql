@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 10 Novembre 2012 é 16:57
+-- Généré le: Sam 10 Novembre 2012 à 16:57
 -- Version du serveur: 5.5.28-1~dotdeb.0-log
 -- Version de PHP: 5.3.18-1~dotdeb.0
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES latin1 */;
 
 --
--- Base de données: `NK-179`
+-- Base de données: `NK-1712`
 --
 
 -- --------------------------------------------------------
@@ -178,12 +178,12 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('time_generate', 'on'),
 ('dateformat', '%d/%m/%Y'),
 ('datezone', '+0100'),
-('version', '1.7.11'),
+('version', '1.7.12'),
 ('date_install', '1352562979'),
 ('langue', 'french'),
 ('stats_share', '1'),
 ('stats_timestamp', '86400'),
-('name', 'Nuked-klaN 1.7.11'),
+('name', 'Nuked-klaN 1.7.12'),
 ('slogan', 'PHP 4 Gamers'),
 ('tag_pre', ''),
 ('tag_suf', ''),
@@ -872,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `nuked_news` (
 --
 
 INSERT INTO `nuked_news` (`id`, `cat`, `titre`, `auteur`, `auteur_id`, `texte`, `suite`, `date`, `bbcodeoff`, `smileyoff`) VALUES
-(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.7.11', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, é priori, bien déroulée, rendez-vous dans la partie administration pour commencer é utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l''install. En cas de problémes, veuillez le signaler sur  <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu é cet effet.', '', '1352563028', 0, 0);
+(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.7.12', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l''install. En cas de problèmes, veuillez le signaler sur  <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.', '', '1352563028', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1048,7 +1048,7 @@ CREATE TABLE IF NOT EXISTS `nuked_shoutbox` (
 --
 
 INSERT INTO `nuked_shoutbox` (`id`, `auteur`, `ip`, `texte`, `date`) VALUES
-(1, 'admin', '80.236.56.247', 'Bienvenue sur votre site NuKed-KlaN 1.7.11', '1352563028');
+(1, 'admin', '80.236.56.247', 'Bienvenue sur votre site NuKed-KlaN 1.7.12', '1352563028');
 
 -- --------------------------------------------------------
 

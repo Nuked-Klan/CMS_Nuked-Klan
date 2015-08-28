@@ -8,7 +8,7 @@
     * Write permissions (CHMOD) must be enabled
 - A MySQL databases management system
 ****** Installation Procedure ******
-   1. Open the NK_1.7.11.zip archive and select its content
+   1. Open the NK_1.7.12.zip archive and select its content
    2. Upload the "UPLOAD" folder's content into the selected archive onto your
       FTP using a FTP client such as FileZilla
    3. Start the installation with your web browser : http://

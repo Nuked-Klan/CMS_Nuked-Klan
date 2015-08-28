@@ -9,7 +9,7 @@
         if(!isset($_SESSION['hash'])){
             $_SESSION['hash'] = install::generateHashKey();
         }
-    } else if(version_compare($this->data['version'], '1.7.9', '=')){
+    } else if(version_compare($this->data['version'], '1.7.9', '>=')){
         $_SESSION['hash'] = HASHKEY;
     }
 
