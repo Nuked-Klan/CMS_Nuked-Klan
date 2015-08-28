@@ -328,7 +328,7 @@ define("_TOLOG","S'identifier");
 define("_TOBACK","Retour");
 
 define("_BONJOUR","Bonjour");
-define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.8 !");
+define("_MESSAGEDEBIENVENUE", 'Bienvenue sur l\'administration Nuked-Klan ' ._NKVERSION. ' !');
 define("_AIDE","Aides");
 define("_STATS","Statistiques");
 define("_SQL","Erreurs SQL détectées");
@@ -491,7 +491,7 @@ define("_NICKTOLONG","Votre pseudo est trop long.");
 define("_NICKINUSE","Ce pseudo est déjà réservé");
 define("_NICKBANNED","Ce pseudo est banni");
 define("_SHARESTATS","Partager vos statistiques");
-define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat."); 
+define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat.");
 define("_SEESHARE","voir les statistiques envoyées");
 define("_SMILEYNOTAUTHORIZE","Le code et/ou le nom du smiley n'autorisent pas les apostrophes et les guillemets, merci de les remplacer");
 define("_THANKSPARTICIPATION","Merci pour votre participation.");

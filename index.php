@@ -107,6 +107,16 @@ if (!$user){
 }
 else $visiteur = $user[1];
 
+if (
+    (! in_array($_REQUEST['file'], array('Admin', 'Stats', 'Members')))
+    && $_REQUEST['page'] != 'admin'
+    && (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != 'admin')
+    && $_REQUEST['op'] != 'smilies'
+    && $_SESSION['admin'] == true
+) {
+    $_SESSION['admin'] = false;
+}
+
 // Inclusion du fichier des couleurs
 require_once ('themes/' . $theme . '/colors.php');
 
@@ -305,7 +315,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                 }
             </script>
         <?php
-        }else{}
+        }
     }
 
     if (!isset($_REQUEST['nuked_nude'])){

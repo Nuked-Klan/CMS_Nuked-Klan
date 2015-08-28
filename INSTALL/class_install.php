@@ -3,18 +3,18 @@
     class install{
         private $data;
         private $array_lang = array('_ENGLISH' => 'english','_FRENCH' => 'french');
-        
+
         function __construct(){
             $this->initSession();
             $this->importLang();
-            $this->routeUser();            
+            $this->routeUser();
         }
-        
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Méthodes du core, elles permettent l'affichage des pages
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        private function initSession(){       
+
+        private function initSession(){
             session_start();
             if(isset($_SESSION['active']) && $_SESSION['active'] === true){
                 foreach($_SESSION as $k => $v){
@@ -23,7 +23,7 @@
             }
             $_SESSION['active'] = true;
         }
-        
+
         private function checkLang(){
             echo '<div style="text-align: center;margin:30px auto;">
                         <h2>'._SELECTLANG.' : </h2>
@@ -54,14 +54,14 @@
                         }
                     </script>';
         }
-        
+
         private function setLang(){
             if(isset($_REQUEST['lang_install']) && in_array($_REQUEST['lang_install'], $this->array_lang)){
                 $_SESSION['lang_install'] = $_REQUEST['lang_install'];
             }
             self::redirect('index.php?action=main', 0);
         }
-        
+
         private function main(){
             if(isset($_REQUEST['type'])){
                 if($_REQUEST['type'] == 'install' || $_REQUEST['type'] == 'update'){
@@ -85,16 +85,16 @@
                     $sql_version = mysql_query ('SELECT value FROM `'.$db_prefix.'_config` WHERE name=\'version\' ') or die (mysql_error());
                     list($version) = mysql_fetch_array($sql_version);
                 }
-               
-                $_SESSION['version'] = $this->checkVersion($version);               
-                echo '<h3 style="background:#ECEADB;width:60%;padding:5px;border:1px solid #ddd;margin:20px auto;" >
-                            '._DETECTUPDATE.' '.$_SESSION['version']['print'].' '._DETECTUPDATEEND.'
-                        </h3>';
-                if($this->validVersion($_SESSION['version'])){
+
+                $_SESSION['version'] = $version;
+                echo '<h3 style="background:#ECEADB;width:60%;padding:5px;border:1px solid #ddd;margin:20px auto;" >'._DETECTUPDATE.' '.$_SESSION['version'].' '._DETECTUPDATEEND.'</h3>';
+                $versionStatus = $this->validVersion($_SESSION['version']);
+                if ($versionStatus === 0) {
                     echo '<a href="index.php?action=main&amp;type=update" class="button" >'._STARTUPDATE.'</a>';
-                }
-                else{
+                } else if ($versionStatus === -1){
                     echo '<p>'._BADVERSION.'</p>';
+                } else {
+                    echo '<p>'._LASTVERSIONSET.'</p>';
                 }
                 echo '</div>';
             }
@@ -103,7 +103,7 @@
                         </div>';
             }
         }
-        
+
         private function checkCompatibility(){
             echo '<div style="text-align: center;margin:30px auto;">
                         <h3 style="margin-bottom:5px;" >'. _CHECKCOMPATIBILITYHOSTING .'</h3>
@@ -136,9 +136,9 @@
                             </tr>';
                 }
             }
-            echo '</table>';            
+            echo '</table>';
             $compatibility = (in_array(3, $array_requirements) || in_array(3, $array_requirements)) ? false : true;
-            if($compatibility === true){                
+            if($compatibility === true){
                 echo '<a href="index.php?action=checkStats" class="button" >'._CONTINUE.'</a>
                     </div>';
             }
@@ -148,7 +148,7 @@
                         </div>';
             }
         }
-        
+
         private function checkStats(){
             $checked = isset($this->data['stats']) && $this->data['stats'] === false ? '' : 'checked="checked" ';
             echo '<div style="text-align: center;margin:30px auto;">
@@ -160,10 +160,10 @@
                         </form>
                     </div>';
         }
-        
+
         private function setStats(){
-            if(isset($_REQUEST['conf_stats'])){                
-                $_SESSION['stats'] = $_REQUEST['conf_stats'] == 'on' ? 'yes' : 'no';                
+            if(isset($_REQUEST['conf_stats'])){
+                $_SESSION['stats'] = $_REQUEST['conf_stats'] == 'on' ? 'yes' : 'no';
             }
             else{
                 $_SESSION['stats'] = 'no';
@@ -175,7 +175,7 @@
                 self::redirect('index.php?action=checkTypeInstall', 0);
             }
         }
-        
+
         private function checkSave(){
             echo '<div style="text-align: center;margin:30px auto;">
                         <h3 style="margin-bottom:30px;" >'._SELECTSAVE.'</h3>
@@ -184,7 +184,7 @@
                     </div>';
             $_SESSION['db_save'] = 'no';
         }
-        
+
         private function makeSave(){
                 $_SESSION['db_save'] = 'yes';
                 echo '<div style="text-align: center;margin:30px auto;">
@@ -198,7 +198,7 @@
                         </p>
                     </div>';
         }
-        
+
         private function checkTypeInstall(){
             if(isset($_REQUEST['assist'])){
                 if($_REQUEST['assist'] == $this->data['type'].'assist'){
@@ -221,10 +221,10 @@
             echo '<div style="text-align: center;margin:30px auto;">
                         <h3 style="margin-bottom:30px;" >'. _CHECKTYPEINSTALL .'</h3>
                             <a href="index.php?action=checkTypeInstall&amp;assist='.$this->data['type'].'speed" class="button" >'.$speed.'</a>
-                            <a href="index.php?action=checkTypeInstall&amp;assist='.$this->data['type'].'assist" class="button" >'.$assist.'</a> 
+                            <a href="index.php?action=checkTypeInstall&amp;assist='.$this->data['type'].'assist" class="button" >'.$assist.'</a>
                     </div>';
         }
-        
+
         private function setConfig(){
             if($this->data['type'] == 'update'){
                 $type = _UPDATESPEED;
@@ -266,7 +266,7 @@
                         </form>
                     </div>';
         }
-        
+
         private function setConfigAssistant(){
             $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : null;
             if($page == 'set'){
@@ -316,9 +316,9 @@
             else{
                 echo '<div style="text-align:center;">
                                 <img src="images/nk.png"/>
-                                <h2><b>'. _NEWNK179.'</b></h2>
+                                <h2><b>'. _NEWNKNEWRELEASE.'</b></h2>
                             </div>
-                            <div style="width:90%;margin: 20px auto;">';                            
+                            <div style="width:90%;margin: 20px auto;">';
                 $array_infos = array('_SECURITE', '_OPTIMISATION', '_ADMINISTRATION', '_BANTEMP', '_SHOUTBOX', '_ERRORSQL', '_MULTIWARS', '_COMSYS', '_EDITWYS', '_CONT', '_ERREURPASS', '_DIFFMODIF');
                 foreach($array_infos as $k){
                     echo '<p>
@@ -327,14 +327,14 @@
                                     '.constant($k.'1').'
                                     <br />
                                 </p>';
-                }                
+                }
                 echo '</div>
                             <div style="text-align: center;">
                                 <a href="index.php?action=setConfigAssistant&page=set" class="button" >' . _CONTINUE . '</a>
                             </div>';
             }
         }
-        
+
         private function installDB(){
             if($this->data['type'] == 'install'){
                 $_SESSION['host'] = $_REQUEST['db_host'];
@@ -395,7 +395,7 @@
                                 else{
                                     writeInfo("'.$this->data['type'].'", "'.$db_prefix.'", table, "'.$error.'", "NO");errors++;
                                     writeError("'._PRINTERROR.'", txt);
-                                }                                  
+                                }
                                 $("#log_install").scrollTop(1000);
                                 ajaxBusy = false;
                             });
@@ -418,7 +418,7 @@
             echo '<a href="#" class="button" id="continue_install" onclick="submit(\''.$this->data['type'].'\')" >' . _START . '</a>
                     </div>';
         }
-                
+
         private function creatingDB(){
             $table = $_REQUEST['table'];
             $db_prefix = $_REQUEST['db_prefix'];
@@ -435,7 +435,7 @@
                 echo $this->bddConnect($this->data['host'], $this->data['user'], $this->data['pass'], $this->data['db_name']);
             }
         }
-        
+
         private function checkUserAdmin(){
             $_SESSION['user_admin'] = 'INPROGRESS';
             if(isset($_REQUEST['send'])){
@@ -488,7 +488,7 @@
                         </div>';
             }
         }
-        
+
         private function updateConfig(){
             include('user.inc');
             $save_config = saveConfig('update');
@@ -499,24 +499,24 @@
                 self::redirect("index.php?action=checkInstallFailure&error=".$save_config, 0);
             }
         }
-        
+
         private function checkInstallFailure(){
             $_SESSION['user_admin'] = 'FINISH';
             $error = isset($_REQUEST['error']) ? $_REQUEST['error'] : '';
             echo '<div style="text-align: center;margin:30px auto;">
                         <h2>'._ERROR.'</h2>
                         <p>'.constant('_'.$error).'</p>';
-            if($error == 'CONF.INC' || $error == 'COPY'){                
+            if($error == 'CONF.INC' || $error == 'COPY'){
                 echo '<div id="log_install">';
                 if(isset($_SESSION['content_web'])){
                     echo $_SESSION['content_web'];
                     echo '</div><p>'.constant('_'.$error.'2').'</p>';
-                    
+
                 }
                 else{
                     echo _ERRORGENERATECONFINC;
                     echo '</div>';
-                }                
+                }
             }
             if(isset($_SESSION['content_web']) && $error != 'CHMOD'){
                 echo '<a href="index.php?action=printConfig" class="button" >'._DOWNLOAD.'</a>&nbsp;';
@@ -529,7 +529,7 @@
                         </div>';
             }
         }
-        
+
         private function checkInstallSuccess(){
             echo '<div style="text-align: center;margin:30px auto;">
                         <h2>'._INSTALLSUCCESS.'</h2>
@@ -549,11 +549,11 @@
                             }
                             $(document).ready(ajaxPartners());
                         </script>';
-                        
+
             echo '<a href="index.php?action=deleteSession" class="button" >' . _ACCESS_SITE . '</a>
                     </div>';
         }
-        
+
         private function getPartners(){
             $content = @file_get_contents('http://www.nuked-klan.org/extra/partners.php?key=iS5scBmNTNyE6M07Jna3');
             $content = @unserialize($content);
@@ -567,7 +567,7 @@
                 echo _NOPARTNERS;
             }
         }
-        
+
         private function resetSession(){
             unset($_SESSION);
             session_destroy();
@@ -579,11 +579,11 @@
             session_destroy();
             self::redirect('../index.php', 0);
         }
-        
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Méthodes de services, appelées pour effectuer une tâche précise
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
         private function importLang(){
             if(isset($this->data['lang_install']) && in_array($this->data['lang_install'], $this->array_lang)){
                 include('lang/'.$this->data['lang_install'].'.lang.php');
@@ -593,7 +593,7 @@
                 include('lang/'.$lang.'.lang.php');
             }
         }
-        
+
         private function bddConnect($host, $user, $pass, $db_name){
             $db = @mysql_connect($host, $user, $pass);
              if(mysql_error() != ''){
@@ -606,7 +606,7 @@
             @mysql_query('SET NAMES "latin1"');
             return 'OK';
         }
-        
+
         private function testBddConnect(){
             $connect = $this->bddConnect($_REQUEST['db_host'], $_REQUEST['db_user'], utf8_decode($_REQUEST['db_pass']), $_REQUEST['db_name']);
             if(preg_match('#Unknown MySQL server host#', $connect)){
@@ -655,14 +655,14 @@
             $array_requirements['_TESTCHMOD'] = is_writable(dirname(dirname(__FILE__)).'/') ? 1 : 3;
             return $array_requirements;
         }
-        
+
         private function createBackupBdd(){
-            header("Content-disposition:filename=save".time().".sql"); 
+            header("Content-disposition:filename=save".time().".sql");
             header("Content-type:application/octetstream");
-            
+
             include('../conf.inc.php');
             $this->bddConnect($global['db_host'], $global['db_user'], $global['db_pass'], $global['db_name']);
-            $array_sqlTables = array();             
+            $array_sqlTables = array();
             $result = mysql_query('SHOW TABLES');
             while($row = mysql_fetch_row($result)){
               $array_sqlTables[] = $row[0];
@@ -674,7 +674,7 @@
                         ."#------------------------------------------\n\n";
             foreach($array_sqlTables as $table){
                 $result = mysql_query('SELECT * FROM '.$table);
-                $num_fields = mysql_num_fields($result);            
+                $num_fields = mysql_num_fields($result);
                 $return.= 'DROP TABLE IF EXISTS '.$table.';';
                 $row2 = mysql_fetch_row(mysql_query('SHOW CREATE TABLE '.$table));
                 $return.= "\n\n".$row2[1].";\n\n";
@@ -696,55 +696,39 @@
                         }
                         $return.= ");\n";
                     }
-                }  
+                }
                 $return.="\n\n\n";
-            }     
-            
+            }
+
             echo $return;
-        }
-        private function checkVersion($version){
-            $array_version['print'] = $version;
-            $version = strtoupper(str_replace(' ', '', $version));
-            $array_version['RC'] = preg_match('/RC/', $version) ? substr(strstr($version, 'RC'), 2) : null;
-            $version = preg_match('/RC/', $version) ? substr($version, 0, -(strlen($array_version['RC']) +2)) : $version;
-            $tmp = explode('.', $version);
-            $array_version['main'] = isset($tmp[0]) ? $tmp[0]: null;
-            $array_version['sub'] = isset($tmp[1]) ? $tmp[1]: null;
-            $array_version['rev'] = isset($tmp[2]) ? $tmp[2]: null;
-            return $array_version;
         }
         
         private function validVersion($version){
-            if($version['sub'] == '7' && ($version['rev'] == '7' || $version['rev'] == '8' || $version['rev'] == '9')){
-                if(isset($version['RC'])){
-                    if($version['RC'] == '5.3' || $version['RC'] == '6'){
-                        return true;                        
-                    }
-                    else
-                        return false;
-                }
-                return true;
+            if (version_compare($version, _NKVERSION, '=')) { // last version already set
+                return 1;
+            } else if ((version_compare($version, '1.7.8', '>') && version_compare($version, '1.7.9 RC3', '<')) || version_compare($version, '1.7.7', '<')) { // cannot update
+                return -1;
+            } else {// can update, version == 1.7.7, 1.7.8 or greater than 1.7.9
+                return 0;
             }
-            else
-                return false;
         }
-        
+
         private function printConfig(){
-            header("Content-disposition:filename=conf.inc.php"); 
+            header("Content-disposition:filename=conf.inc.php");
             header("Content-type:application/octetstream");
             if(isset($_SESSION['content'])){
                 echo $_SESSION['content'];
             }
         }
-        
+
         private function showError($text){
             echo '<div id="error_div" >'.$text.'</div>';
         }
-        
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Méthodes d'affichage, appelées pour effectuer la mise en page
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
         static function viewTop(){
             echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
                     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
@@ -762,7 +746,7 @@
                                          <img id="logo" src="../modules/Admin/images/logo.png" alt="Nuked-Klan" />
                                      </a>';
         }
-        
+
         private function navigation(){
             echo '<div id="navigation" >';
             $array_menu = array('lang_install' => _SELECTLANG, 'type' => _SELECTTYPE, 'stats' => _SELECTSTATS, 'db_save' => _SELECTSAVE, 'assist' => _CHECKTYPEINSTALL, 'user_admin' => _CHECKUSERADMIN);
@@ -784,15 +768,15 @@
             }
             echo '</div></div>';
         }
-        
+
         static function viewBottom(){
             echo '</div></body></html>';
         }
-        
+
         static function viewInfos(){
             $step = rand(1,6); // A modifier en cas d'ajout d'infos
             echo '<hr style="margin-top:30px;margin-bottom:15px;width:90%;" />
-                    <div style="width:580px;overflow:hidden;margin:auto;">';                    
+                    <div style="width:580px;overflow:hidden;margin:auto;">';
                         switch($step){
                             case'1':
                             $a = '_DISCOVERY';
@@ -819,25 +803,25 @@
                                         <img src="images/img_slide_0'.$step.'.png" alt="" style=" float:right;" width="269" height="175" />
                                         '.constant($a.'_DESCR').'
                                     </p>
-                                </div>                        
+                                </div>
                     </div>';
         }
-        
+
         static function redirect($url, $tps){
             $temps = $tps * 1000;
             echo '<script type="text/javascript">function redirect(){window.location=\'' . $url . '\'}setTimeout(\'redirect()\',\'' . $temps .'\');</script>';
         }
-        
+
         private function routeUser(){
             $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
             $array_page_nude = array('creatingDB', 'printConfig', 'testBddConnect', 'getPartners', 'createBackupBdd');
-            
+
             if(in_array($action, $array_page_nude)){
                 $this->{$action}();
             }
-            else{ 
+            else{
                 self::viewTop();
-                $this->navigation();          
+                $this->navigation();
                 if(method_exists($this, $action) && (isset($_SESSION['lang_install']) || isset($_REQUEST['lang_install']))){
                     $this->{$action}();
                 }
@@ -848,7 +832,13 @@
                 self::viewBottom();
             }
         }
+        
+        static function generateHashKey() {
+            $str = str_replace(array('\'', "\n"), '#', @sha1(uniqid(''), true));
+            return addslashes($str);
+        }
+
     }
-    
+
     $install = new install();
 ?>

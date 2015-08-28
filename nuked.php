@@ -140,10 +140,10 @@ function session_read($id){
 
 // WRITE PHP SESSION
 function session_write($id, $data){
-    $id = mysql_escape_string($id);
-    $data = mysql_escape_string($data);
-
     connect();
+    
+    $id = mysql_real_escape_string($id);
+    $data = mysql_real_escape_string($data);
 
     $sql = mysql_query('INSERT INTO ' . TMPSES_TABLE . ' (session_id, session_start, session_vars) VALUES ("' . $id . '", ' . time() . ', \'' . $data . '\')');
 

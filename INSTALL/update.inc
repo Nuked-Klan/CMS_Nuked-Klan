@@ -5,12 +5,11 @@
     $date = time();
 
     include('../conf.inc.php');
-    if($this->data['version']['rev'] == '7' || $this->data['version']['rev'] == '8'){
+    if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
         if(!isset($_SESSION['hash'])){
-            $_SESSION['hash'] = addslashes(@sha1(uniqid(''), true));
+            $_SESSION['hash'] = install::generateHashKey();
         }
-    }
-    elseif($this->data['version']['rev'] == '9'){
+    } else if(version_compare($this->data['version'], '1.7.9', '>=')){
         $_SESSION['hash'] = HASHKEY;
     }
 
@@ -28,11 +27,11 @@
         }
         return '%'.dechex($decal).md5($builder);
     }
-    
+
     function replaceBBCodeUpdate1($var) {
         return "<img style=\"border: 0;\" src=\"" . checkimg($var[1]) . "\" alt=\"\" />";
     }
-    
+
     function replaceBBCodeUpdate2($var) {
         return "<a href=\"" . checkimg($var[3]) . "\" class=\"thickbox\" alt=\"\"><img style=\"border: 0;\" width=\"" . $var[1] . "\" height=\"" . $var[2] . "\" src=\"" . checkimg($var[3]) . "\" alt=\"\" /></a>";
     }
@@ -46,15 +45,15 @@
         return($img);
     }
 
-    function BBcode($texte, $db_prefix, $imgMaxWidth = 0, $imgClic = FALSE){        
+    function BBcode($texte, $db_prefix, $imgMaxWidth = 0, $imgClic = FALSE){
         global $bgcolor3, $bgcolor1;
-        if ($texte != ""){    
+        if ($texte != ""){
             $texte = " " . $texte;
             $texte = preg_replace("#([\t\r\n ])([a-z0-9]+?){1}://([\w\-]+\.([\w\-]+\.)*[\w]+(:[0-9]+)?(/[^ \"\n\r\t<]*)?)#i", '\1<a href="\2://\3"  onclick="window.open(this.href); return false;">\2://\3</a>', $texte);
             $texte = preg_replace("#([\t\r\n ])(www|ftp)\.(([\w\-]+\.)*[\w]+(:[0-9]+)?(/[^ \"\n\r\t<]*)?)#i", '\1<a href="http://\2.\3"  onclick="window.open(this.href); return false;">\2.\3</a>', $texte);
-            $texte = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $texte);    
+            $texte = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $texte);
             $texte = str_replace("\r", "", $texte);
-            $texte = str_replace("\n", "<br />", $texte);    
+            $texte = str_replace("\n", "<br />", $texte);
             $texte = preg_replace("/\[color=(.*?)\](.*?)\[\/color\]/i", "<span style=\"color: \\1;\">\\2</span>", $texte);
             $texte = preg_replace("/\[size=(.*?)\](.*?)\[\/size\]/i", "<span style=\"font-size: \\1px;\">\\2</span>", $texte);
             $texte = preg_replace("/\[font=(.*?)\](.*?)\[\/font\]/i", "<span style=\"font-family: \\1;\">\\2</span>", $texte);
@@ -93,7 +92,7 @@
             $texte = preg_replace("/\[url\]www.(.*?)\[\/url\]/i", "<a href=\"http://www.\\1\" onclick=\"window.open(this.href); return false;\">\\1</a>", $texte);
             $texte = preg_replace("/\[url\](.*?)\[\/url\]/i", "<a href=\"\\1\" onclick=\"window.open(this.href); return false;\">\\1</a>", $texte);
             $texte = preg_replace("/\[url=(.*?)\](.*?)\[\/url\]/i", "<a href=\"\\1\" onclick=\"window.open(this.href); return false;\">\\2</a>", $texte);
-            $texte = preg_replace("#\[s\](http://)?(.*?)\[/s\]#si", "<img style=\"border: 0;\" src=\"images/icones/\\2\" alt=\"\" />", $texte);    
+            $texte = preg_replace("#\[s\](http://)?(.*?)\[/s\]#si", "<img style=\"border: 0;\" src=\"images/icones/\\2\" alt=\"\" />", $texte);
             $texte = ltrim($texte);
             $sql = mysql_query('SELECT code, url, name FROM `'.$db_prefix.'_smilies`') or die (mysql_error());
             while(list($code, $url, $name) = mysql_fetch_array($sql)){
@@ -151,7 +150,7 @@
         return $count == 0 ? false : true;
     }
 
-    
+
     switch($table){
         case'table_match':
                             if(!fieldExist('match', 'map', $db_prefix)){
@@ -216,7 +215,7 @@
                                     `active` int(1) NOT NULL,
                                     PRIMARY KEY  (`id`)
                                   ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;")or die(mysql_error());
-                                
+
                                 mysql_query("INSERT INTO `" . $db_prefix . "_comment_mod` (`id`, `module`, `active`) VALUES
                                     (1, 'news', 1),
                                     (2, 'download', 1),
@@ -313,13 +312,13 @@
                             echo 'OK';
         break;
         case'update_bbcode':
-                            if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
+                            if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
                                 if (!tableExist('contact', $db_prefix)) {
                                     unset($bbUpdate['_contact']);
                                 }
                                 foreach($bbUpdate as $k => $v){
                                     if(preg_match('#_x[0-9]{1}#', $k)) $k = substr($k, 0, -3);
-                                    
+
                                     if ($k == '_config')
                                     {
                                         $select = 'SELECT value FROM `'.$db_prefix.'_config` WHERE name=\''.$v[0].'\' ';
@@ -328,7 +327,7 @@
                                     {
                                         $select = 'SELECT '.$v[0].', '.$v[1].' FROM '.$db_prefix.$k.' ';
                                     }
-                                    
+
                                     $sql = mysql_query($select) or die(mysql_error());
                                     while($row = mysql_fetch_row($sql)){
                                         if(isset($row[1])){
@@ -337,7 +336,7 @@
                                         else{
                                             $row[0] = mysql_real_escape_string(bbcode(stripslashes($row[0]), $db_prefix));
                                         }
-                                        
+
                                         if ($k == '_config')
                                         {
                                             $update = "UPDATE `".$db_prefix.$k."` SET value='".$row[0]."' WHERE name='".$v[0]."' ";
@@ -355,12 +354,12 @@
         case'update_config':
                             $sql = mysql_query('SELECT value FROM `'.$db_prefix.'_config` WHERE name=\'version\' ')or die (mysql_error());
                             list($old_version) = mysql_fetch_array($sql);
-                            if($old_version != '1.7.9'){
-                                mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'1.7.9\' WHERE name = \'version\'')or die(mysql_error());
-                                if($this->data['version']['rev'] == 7 || $this->data['version']['rev'] == 8){
-                                    // version 1.7.7 ou 1.7.8                                
+                            if (version_compare($old_version, _NKVERSION) === -1) {
+                                mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \''._NKVERSION.'\' WHERE name = \'version\'')or die(mysql_error());
+                                if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
+                                    // version 1.7.7 ou 1.7.8
                                     mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'Impact_Nk\' WHERE name = \'theme\'')or die(mysql_error());
-                                    mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'quakenet.org\' WHERE name = \'irc_serv\'')or die(mysql_error());
+                                    mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'noxether.net\' WHERE name = \'irc_serv\'')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'screen\', \'on\')')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)')or die(mysql_error());
                                     if(!tableExist('contact', $db_prefix)){
@@ -371,7 +370,7 @@
                                         mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'contact_flood\', \'60\')')or die(mysql_error());
                                     }
                                 }
-                                if($old_version != '1.7.9 RC6'){
+                                if (version_compare($old_version, '1.7.9 RC6') === -1) {
                                     // Tout sauf 1.7.9 RC6
                                     if ($this->data['lang_install'] == 'french'){
                                         mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'dateformat\', \'%d/%m/%Y - %H:%M:%S\')')or die(mysql_error());
@@ -415,7 +414,7 @@
         break;
         case'remove_editeur':
                             mysql_query("DROP TABLE IF EXISTS `" . $db_prefix . "_editeur` ")or die(mysql_error());
-                            if($this->data['version']['rev'] == '9'){
+                            if(version_compare($this->data['version'], '1.7.9', '=')){
                                 $sql = mysql_query('SELECT id, comment FROM `'.$db_prefix.'_forums` ')or die(mysql_error());
                                 while(list($id, $comment) = mysql_fetch_array($sql)){
                                     $comment = str_replace('<p>', '', $comment);
@@ -447,26 +446,25 @@
                             }
                             echo 'OK';
         break;
-     case 'table_forums_read':
-          $req = mysql_query("SELECT * FROM `" . $db_prefix . "_forums_read` ") or die(mysql_error());
-          if ($req) {
-               $users = array();
-               while ($data = mysql_fetch_assoc($req)) {
+        case 'table_forums_read':
+            $req = mysql_query('SELECT * FROM `'.$db_prefix.'_forums_read`') or die(mysql_error());
+            if ($req) {
+                $users = array();
+                while ($data = mysql_fetch_assoc($req)) {
                     if (!isset($data['id'])) {
                          echo "OK";
-                         break;
+                         break 2;
                     }
                     if (!isset($users[$data['user_id']]['thread_id']) || empty($users[$data['user_id']]['thread_id']))
-                         $users[$data['user_id']]['thread_id'] = ',';
-
+                        $users[$data['user_id']]['thread_id'] = ',';
                     if (!isset($users[$data['user_id']]['forum_id']) || empty($users[$data['user_id']]['forum_id']))
-                         $users[$data['user_id']]['forum_id'] = ',';
+                        $users[$data['user_id']]['forum_id'] = ',';
                     if (strrpos($users[$data['user_id']]['thread_id'], ',' . $data['thread_id'] . ',') === false)
-                         $users[$data['user_id']]['thread_id'] .= $data['thread_id'] . ',';
+                        $users[$data['user_id']]['thread_id'] .= $data['thread_id'] . ',';
                     if (strrpos($users[$data['user_id']]['forum_id'], ',' . $data['forum_id'] . ',') === false)
-                    $users[$data['user_id']]['forum_id'] .= $data['forum_id'] . ',';
-               }
-               if (sizeof($users)) {
+                        $users[$data['user_id']]['forum_id'] .= $data['forum_id'] . ',';
+                }
+                if (sizeof($users)) {
                     mysql_query("DROP TABLE IF EXISTS `" . $db_prefix . "_forums_read`") or die(mysql_error());
                     $SQL = "CREATE TABLE IF NOT EXISTS `" . $db_prefix . "_forums_read`(
                               `user_id` varchar(20) NOT NULL PRIMARY KEY,
@@ -477,10 +475,11 @@
                     $SQL = "INSERT INTO `" . $db_prefix . "_forums_read` (user_id, forum_id, thread_id) VALUES ";
                     $i = 0;
                     foreach ($users as $key => $user) {
-                         if ($i > 0)
-                              $SQL .= ', ';
-                         $SQL .= "('" . $key . "', '" . $user['forum_id'] . "', '" . $user['thread_id'] . "') ";
-                         $i++;
+                        if ($i > 0) {
+                            $SQL .= ', ';
+                        }
+                        $SQL .= "('" . $key . "', '" . $user['forum_id'] . "', '" . $user['thread_id'] . "') ";
+                        $i++;
                     }
                     mysql_query($SQL) or die(mysql_error());
                }
@@ -490,5 +489,5 @@
         default:
             echo _WRONGTABLENAME;
         break;
-    }    
+    }
 ?>

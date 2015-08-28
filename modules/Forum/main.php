@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
@@ -10,14 +10,14 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $user, $nuked, $language, $cookie_forum;
 
 
-// On dÃ©finit le niveau du visiteur
+// On définit le niveau du visiteur
 $visiteur = $user ? $user[1] : 0;
 $user_last_visit = (empty($user[4])) ? time() : $user[4];
 
 $date_jour = nkDate(time());
 $your_last_visite = nkDate($user_last_visit);
 
-    //On vÃ©rifie si le titre du forum
+    //On vérifie si le titre du forum
     if ($nuked['forum_title'] != "") {
         $titleForum = $nuked['forum_title'];
         $descForum = $nuked['forum_desc'];
@@ -27,15 +27,17 @@ $your_last_visite = nkDate($user_last_visit);
         $descForum = $nuked['slogan'];
     }
 
-    //Recherche des catÃ©gories du forum
-    if ($_REQUEST['cat'] != "") {
+    //Recherche des catégories du forum
+    if (!empty($_REQUEST['cat'])) {
         $sql_cat = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $_REQUEST['cat'] . "'");
         list($cat_name) = mysql_fetch_row($sql_cat);
         $cat_name = printSecuTags($cat_name);
         $nav = '-> <strong>' . $cat_name . '</strong>';    
     }
+        $nav = '';
+    }
 
-    //Date de la derniÃ¨re visite
+    //Date de la dernière visite
     if ($user && $user[4] != "") {
         $textLastVisit = _LASTVISIT.' : '.$your_last_visite;
     } 
@@ -120,7 +122,7 @@ $your_last_visite = nkDate($user_last_visit);
 
             $nom = printSecuTags($nom);
 
-            //ModÃ©rateurs
+            //Modérateurs
             if ($modos != "" )
             {
                 $moderateurs = explode('|', $modos);
@@ -151,7 +153,7 @@ $your_last_visite = nkDate($user_last_visit);
                 $typoModo = _MODO;
                 $lienmodo = _NONE;
             }
-            //Fin modÃ©rateurs
+            //Fin modérateurs
 
             $req2 = mysql_query("SELECT forum_id from " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $forum_id . "'");
             $num_post = mysql_num_rows($req2);
@@ -162,7 +164,7 @@ $your_last_visite = nkDate($user_last_visit);
             $req4 = mysql_query("SELECT MAX(id) from " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $forum_id . "'");
             $idmax = mysql_result($req4, 0, "MAX(id)");
 
-            //VÃ©riofication si le message est lu/non lu
+            //Vériofication si le message est lu/non lu
             $req5 = mysql_query("SELECT id, titre, thread_id, date, auteur, auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $idmax . "'");
             list($mess_id, $topicTitle, $thid, $date, $auteur, $auteur_id) = mysql_fetch_array($req5);
             $auteur = nk_CSS($auteur);
@@ -258,13 +260,13 @@ $your_last_visite = nkDate($user_last_visit);
                     else {
                         $lastAuthorAvatar = 'modules/Forum/images/noAvatar.png';
                     }
-                } 
+                }
                 else {
                     $autor = $auteur;
                     $lastAuthorAvatar = 'modules/Forum/images/noAvatar.png';
                 } 
 
-                //Formatagee de la date
+                //Formatage de la date
                 if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
                 else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
                 else $date = nkDate($date);
@@ -302,14 +304,14 @@ $your_last_visite = nkDate($user_last_visit);
                                     </div>
                                 </div>
 <?php
-            } 
+            }
             else {
 ?>
                                 <div class="nkForumDateCell  nkBorderColor1">
                                     <?php echo _NOPOST; ?>
                                 </div>
 <?php
-            } 
+            }
 ?>
                             </div>
 <?php
@@ -384,7 +386,7 @@ $your_last_visite = nkDate($user_last_visit);
 
 ?>                      </p>
 <?php
-                        //LÃ©gende des rangs
+                        //Légende des rangs
                         if ($nuked['forum_user_details'] == "on") {
                             echo '<br /><p>' . _RANKLEGEND . '&nbsp;:&nbsp;';
                         

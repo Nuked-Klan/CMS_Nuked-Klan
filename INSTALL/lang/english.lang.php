@@ -1,6 +1,6 @@
 <?php
 ///////////////////////////////////////////////
-/////// GLOBAL 
+/////// GLOBAL
 ///////////////////////////////////////////////
 define('_SUBMIT', 'Submit');
 define('_CONTINUE', 'Continue');
@@ -14,6 +14,7 @@ define('_YES', 'Yes');
 define('_NO', 'No');
 define('_START', 'Start');
 define('_RETRY', 'Retry');
+define('_FORCEINSTALL', 'Force installation');
 define('_INPROGRESS', 'In progress');
 define('_FINISH', 'Done');
 define('_BACK', 'Back');
@@ -21,7 +22,7 @@ define('_WAIT', 'Please wait...');
 define('_ERROR', 'An error has occured !!!');
 define('_ERRORTRY', 'An error has occured, please wait.');
 ///////////////////////////////////////////////
-/////// TEXTES BAS DE PAGE 
+/////// TEXTES BAS DE PAGE
 ///////////////////////////////////////////////
 define("_DISCOVERY","Discover Nuked-Klan !");
 define("_COMMUNAUTY_NK","The NK community");
@@ -47,13 +48,15 @@ define('_RESETSESSION', 'Reset');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define("_WELCOMEINSTALL","Welcome on Nuked-Klan 1.8");
+define('_NKVERSION', '1.8');
+define("_WELCOMEINSTALL",'Welcome on Nuked-Klan '._NKVERSION);
 define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b>");
 define('_STARTINSTALL', 'Start the installation');
 define('_STARTUPDATE', 'Start the update');
 define('_DETECTUPDATE', 'The wizard has detected an installation of the version :');
 define('_DETECTUPDATEEND', 'of Nuked-Klan');
-define('_BADVERSION', 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version 1.7.8 or 1.7.9 RC5.3');
+define('_BADVERSION', 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version 1.7.7, 1.7.8 or 1.7.9 RC5.3');
+define('_LASTVERSIONSET', 'You already have the last version '._NKVERSION.' of Nuked-Klan');
 ///////////////////////////////////////////////
 /////// TEST DE COMPATIBILITE
 ///////////////////////////////////////////////
@@ -115,7 +118,7 @@ define('_ERROR_PREFIX', 'Database connection failed !<br/>The prefix is incorrec
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
-define("_NEWNK179","New features Nuked Klan 1.8");
+define("_NEWNKNEWRELEASE",'New features Nuked Klan '. _NKVERSION);
 define("_SECURITE","Security");
 define("_SECURITE1","The security was completely reviewed.<br />We can send messages since the official website to leave you some informations.");
 define("_OPTIMISATION","Optimisation");
@@ -200,7 +203,6 @@ define('_ACCESS_SITE', 'Access your website');
 ///////////////////////////////////////////////
 define('_ERRORGENERATECONFINC', 'There was an error in the file generation conf.inc.php');
 define('_CONF.INC', 'Please download the content above and place the file in the root of your website.');
-define('_CONF.INC2', 'Veuillez télécharger le contenu ci-dessus et placer le fichier à la racine de votre site.');
 define('_INFODLSAVECONFINC', 'Please download the content above and keep this file (it\'s a backup).');
 define('_BADCHMOD', 'Can\'t write file <b> conf.inc.php </ b>, check write permissions (CHMOD)!');
 define('_DOWNLOAD', 'Download');
