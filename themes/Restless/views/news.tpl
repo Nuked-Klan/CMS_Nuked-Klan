@@ -1,6 +1,6 @@
 <article>
     <aside>
-        <a href="{{newsCatLink}}" title="{{newsCatName}}">
+        <a href="{{newsCatLink}}" title="{{newsCatName}}" class="RL_bgCover" style="background-image:url({{newsImage}})">
             <img src="{{newsImage}}" alt="" />
         </a>
     </aside>

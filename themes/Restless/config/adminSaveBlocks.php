@@ -1,6 +1,6 @@
 <?php
 
-$arrayBlocks = array('TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Article', 'Gallery', 'Social');
+$arrayBlocks = array('TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Article', 'Gallery', 'Social', 'About');
 
 $arraySelect = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery');
 
@@ -69,6 +69,13 @@ try {
 
     $this->get('cfg')->set('blockGallery.lightbox', $newStateLightbox);
 
+    $newIdTopMatch = false;
+    if (array_key_exists('blockTopMatchId', $_REQUEST) && $_REQUEST['blockTopMatchId']) {
+        $newIdTopMatch = $_REQUEST['blockTopMatchId'];
+    }
+
+    $this->get('cfg')->set('blockTopMatch.id', $newIdTopMatch);
+
     if (array_key_exists('blockGalleryCat', $_REQUEST)) {
         $newValue = intval($_REQUEST['blockGalleryCat']);
         if ($_REQUEST['blockGalleryCat'] == 0) {
@@ -88,6 +95,12 @@ try {
         }
 
         $this->get('cfg')->set('social.'.$social, $newLink);
+    }
+
+    if(array_key_exists('blockAboutContent', $_REQUEST)){
+        $content = $_REQUEST['blockAboutContent'];
+
+        $this->get('cfg')->set('blockAbout.content', $content);
     }
 
     $this->get('cfg')->save();

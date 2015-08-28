@@ -26,15 +26,19 @@
             <div>
                 <label>{{*SELECT_CAT}} :</label>
                 <select class="RL_select" name="block{{currentAdminBlock}}Cat" data-check="{{selectedCat}}">
-                    @foreach(selectCat as id => name)
-                        <?php
-                            $selected = null;
-                            if($id == $this->get('selectedCat')){
-                                $selected = 'selected="selected"';
-                            }
-                        ?>
-                    <option value="{{id}}"
-                    {{selected}}>{{name}}</option>
+                    @foreach(selectCat as id => item)
+                        <option value="{{id}}" {{item.selected}}>{{item.name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        @endif
+
+        @if({{makeSelectMatch}} === true)
+            <div>
+                <label>{{*SELECT_MATCH}} :</label>
+                <select class="RL_select" name="block{{currentAdminBlock}}Id" data-check="{{selectedMatch}}">
+                    @foreach(selectMatch as id => item)
+                        <option value="{{id}}" {{item.selected}}>{{item.name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -54,6 +58,13 @@
                     <input class="RL_input RL_socialInput" type="text" name="social{{name}}" value="{{value}}" data-check="{{value}}"/>
                 </div>
             @endforeach
+        @endif
+
+        @if({{makeTextarea}} === true)
+            <div>
+                <label class="RL_inline">{{textareaTitle}} :</label>
+                <textarea class="editor RL_input RL_socialInput" name="blockAboutContent" rows="11">{{textareaContent}}</textarea>
+            </div>
         @endif
         <p style="text-align:center;">
             <a id="RL_close" class="button" href="#">{{*CLOSE}}</a>

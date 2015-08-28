@@ -1,6 +1,6 @@
 <?php
 
-$arrayBlocks = array('TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Article', 'Gallery', 'Social');
+$arrayBlocks = array('TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Article', 'Gallery', 'Social', 'About');
 
 $temp = array();
 

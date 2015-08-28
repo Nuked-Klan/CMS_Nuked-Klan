@@ -29,7 +29,7 @@ class iniConfigTool {
      */
     protected $iniComment = ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n;;\n;;   NE PAS MODIFIER CE FICHIER\n;;   DON'T EDIT THIS FILE\n;;\n;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n";
 
-    protected $arrayToEscape = array('title', 'about');
+    protected $arrayToEscape = array('title', 'content');
 
     /**
      * Read ini file and parse it
@@ -86,7 +86,7 @@ class iniConfigTool {
     private function unEscapeString() {
         foreach ($this->content as $section => $array) {
             foreach ($array as $row => $value) {
-                if(in_array($row, $this->arrayToEscape)){
+                if(in_array($row, $this->arrayToEscape) && !is_array($value)){
                     $this->content[$section][$row] = stripslashes($value);
                 }
             }

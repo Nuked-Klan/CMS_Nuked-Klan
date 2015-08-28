@@ -125,15 +125,15 @@ a, input {
     vertical-align : top;
 }
 
-#RL_mainMenu > li:first-child > a{
-    padding:0 !important;
-    position:relative;
-    width:50px;
-    z-index:2;
+#RL_mainMenu > li:first-child > a {
+    padding  : 0 !important;
+    position : relative;
+    width    : 50px;
+    z-index  : 2;
 }
 
-#RL_mainMenu > li:first-child > a:hover{
-    background: none !important;
+#RL_mainMenu > li:first-child > a:hover {
+    background : none !important;
     box-shadow : none !important;
 }
 
@@ -142,17 +142,17 @@ a, input {
 }
 
 #RL_mainMenu > li:first-child:before {
-     display       : block;
-     position      : absolute;
-     top           : 5px;
-     left          : 5px;
-     width         : 41px;
-     height        : 41px;
-     border-radius : 4px;
-     cursor        : pointer;
-     content       : '';
-        z-index:1;
- }
+    display       : block;
+    position      : absolute;
+    top           : 5px;
+    left          : 5px;
+    width         : 41px;
+    height        : 41px;
+    border-radius : 4px;
+    cursor        : pointer;
+    content       : '';
+    z-index       : 1;
+}
 
 #RL_mainMenu > li > a:hover, .RL_mainMenu_selected {
     box-shadow : -10px 1px 15px rgba(0, 0, 0, 0.2) inset;
@@ -274,104 +274,104 @@ a, input {
     border-radius : 2px;
     position      : relative;
     display       : inline-block;
-    overflow:hidden;
+    overflow      : hidden;
 }
 
-.RL_sliderFull{
-    width:1040px !important;
+.RL_sliderFull {
+    width : 1040px !important;
 }
 
 #RL_sliderNav {
-    width      : 66px;
-    height     : 67px;
-    position   : absolute;
-    top        : 35px;
-    left       : 343px;
-    z-index: 5;
+    width    : 66px;
+    height   : 67px;
+    position : absolute;
+    top      : 35px;
+    left     : 343px;
+    z-index  : 5;
 }
 
-#RL_sliderNav a{
-    display:block;
-    width:33px;
-    height:67px;
-    position:absolute;
-    top:0;
-    right:0;
+#RL_sliderNav a {
+    display  : block;
+    width    : 33px;
+    height   : 67px;
+    position : absolute;
+    top      : 0;
+    right    : 0;
 }
 
-#RL_sliderNav a span{
-    position:absolute;
-    top:-1000px;
+#RL_sliderNav a span {
+    position : absolute;
+    top      : -1000px;
 }
 
-#RL_sliderNav a:first-child{
-    right:35px;
+#RL_sliderNav a:first-child {
+    right : 35px;
 }
 
-#RL_sliderNav a:hover{
-    background-position: -331px -32px;
+#RL_sliderNav a:hover {
+    background-position : -331px -32px;
 }
 
-#RL_sliderNav a:first-child:hover{
-    background-position: -298px -32px;
+#RL_sliderNav a:first-child:hover {
+    background-position : -298px -32px;
 }
 
-#RL_slider{
-    height: 290px;
-    position: relative;
-    left:0;
-    transition-property: left;
-    transition-duration: 0.7s;
+#RL_slider {
+    height              : 290px;
+    position            : relative;
+    left                : 0;
+    transition-property : left;
+    transition-duration : 0.7s;
 }
 
-#RL_slider > figure{
-    display: inline-block;
-    margin:0;
-    position: relative;
-    width:620px;
-    height:290px;
-    overflow:hidden;
+#RL_slider > figure {
+    display  : inline-block;
+    margin   : 0;
+    position : relative;
+    width    : 620px;
+    height   : 290px;
+    overflow : hidden;
 }
 
-.RL_sliderFull > #RL_slider > figure{
-    width:1040px !important;
+.RL_sliderFull > #RL_slider > figure {
+    width : 1040px !important;
 }
 
-#RL_slider > figure > figcaption{
-    position: absolute;
-    top: -75px;
-    left:0px;
-    width:341px;
-    height:67px;
-    background: rgba(0,0,0,.4);
-    color       : #fff;
-    font-family : BebasNeue, sans-serif;
-    font-weight : normal;
-    font-size   : 20px;
-    line-height : 67px;
-    display     : inline-block;
-    margin      : 0;
-    padding     : 0 0 0 15px;
-    overflow: hidden;
-    transition-property: top;
-    transition-delay: 0.7s;
-    transition-duration: 0.4s;
+#RL_slider > figure > figcaption {
+    position            : absolute;
+    top                 : -75px;
+    left                : 0px;
+    width               : 341px;
+    height              : 67px;
+    background          : rgba(0, 0, 0, .4);
+    color               : #fff;
+    font-family         : BebasNeue, sans-serif;
+    font-weight         : normal;
+    font-size           : 20px;
+    line-height         : 67px;
+    display             : inline-block;
+    margin              : 0;
+    padding             : 0 0 0 15px;
+    overflow            : hidden;
+    transition-property : top;
+    transition-delay    : 0.7s;
+    transition-duration : 0.4s;
 }
 
-#RL_slider > figure.RL_sliderCurrent > figcaption{
-    top: 35px;
+#RL_slider > figure.RL_sliderCurrent > figcaption {
+    top : 35px;
 }
 
-#RL_slider > figure > a{
-    display: block;
-    width:100%;
-    height:290px;
-    background-size:cover;
-    background-position:center center;
+#RL_slider > figure > a {
+    display             : block;
+    width               : 100%;
+    height              : 290px;
+    background-size     : cover;
+    background-position : center center;
 }
 
-#RL_slider > figure > a > img{
-    display: none;
+#RL_slider > figure > a > img {
+    display : none;
 }
 
 #RL_blockUnikTop aside {
@@ -430,13 +430,18 @@ a, input {
     width       : 150%;
 }
 
-#RL_blockTopMatch figure img {
+#RL_blockTopMatch > figure > div{
     width  : 95px;
     height : 110px;
     border : 1px solid #919190;
+    display: inline-block;
 }
 
-#RL_blockTopMatch div {
+#RL_blockTopMatch figure img {
+    display:none;
+}
+
+#RL_blockTopMatch > div {
     display        : inline-block;
     color          : #429b14;
     font-family    : Aller, sans-serif;
@@ -445,11 +450,11 @@ a, input {
     vertical-align : top;
 }
 
-#RL_blockTopMatch div p:before {
-    content    : '';
-    display    : block;
-    width      : 48px;
-    height     : 43px;
+#RL_blockTopMatch > div p:before {
+    content : '';
+    display : block;
+    width   : 48px;
+    height  : 43px;
 }
 
 #RL_blockTopMatch > p {
@@ -484,7 +489,7 @@ a, input {
     vertical-align : top;
     border-right   : 1px solid #cdcdcd;
     width          : 692px;
-    margin-right:   -1px;
+    margin-right   : -1px;
 }
 
 #RL_contentBig {
@@ -501,11 +506,11 @@ a, input {
 }
 
 #RL_blockUnikCenter:after {
-    content    : "";
-    width      : 458px;
-    height     : 18px;
-    margin     : 0 auto;
-    display    : block;
+    content : "";
+    width   : 458px;
+    height  : 18px;
+    margin  : 0 auto;
+    display : block;
 }
 
 #RL_blockUnikCenter figure {
@@ -515,10 +520,16 @@ a, input {
     vertical-align : top;
 }
 
+#RL_blockUnikCenter figure div {
+    width               : 200px;
+    height              : 95px;
+    display             : block;
+    background-position : center center;
+    background-size     : cover;
+}
+
 #RL_blockUnikCenter figure img {
-    width   : 200px;
-    height  : 95px;
-    display : block;
+    display : none;
 }
 
 #RL_blockUnikCenter figure figcaption {
@@ -576,20 +587,20 @@ a, input {
     background : linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
 }
 
-.RL_blockUnikCenterFull:after{
-    display:none !important;
+.RL_blockUnikCenterFull:after {
+    display : none !important;
 }
 
-.RL_blockUnikCenter2 > figure{
-    margin:10px 150px !important;
+.RL_blockUnikCenter2 > figure {
+    margin : 10px 150px !important;
 }
 
-.RL_blockUnikCenter3 > figure{
-    margin:10px 60px !important;
+.RL_blockUnikCenter3 > figure {
+    margin : 10px 60px !important;
 }
 
-.RL_blockUnikCenter4 > figure{
-    margin:10px 25px !important;
+.RL_blockUnikCenter4 > figure {
+    margin : 10px 25px !important;
 }
 
 #RL_news {
@@ -614,10 +625,15 @@ a, input {
     margin-bottom  : 10px;
 }
 
-#RL_news aside img {
+#RL_news aside a {
     width         : 130px;
     height        : 110px;
     border-radius : 8px;
+    display       : block;
+}
+
+#RL_news aside img {
+    display : none;
 }
 
 #RL_news article > div {
@@ -718,12 +734,12 @@ a, input {
 }
 
 #RL_gallery figure a, #RL_gallery figure span {
-    width  : 200px;
-    height : 100px;
-    display: block;
-    margin-left: 5px;
-    background-repeat: no-repeat;
-    background-size: cover;
+    width             : 200px;
+    height            : 100px;
+    display           : block;
+    margin-left       : 5px;
+    background-repeat : no-repeat;
+    background-size   : cover;
 }
 
 #RL_gallery figure a:hover:before {
@@ -1042,27 +1058,27 @@ a, input {
 }
 
 .RL_matchesWin:after {
-    content    : '';
-    display    : block;
-    width      : 15px;
-    height     : 9px;
-    margin     : 0 auto;
+    content : '';
+    display : block;
+    width   : 15px;
+    height  : 9px;
+    margin  : 0 auto;
 }
 
 .RL_matchesLose:after {
-    content    : '';
-    display    : block;
-    width      : 15px;
-    height     : 9px;
-    margin     : 0 auto;
+    content : '';
+    display : block;
+    width   : 15px;
+    height  : 9px;
+    margin  : 0 auto;
 }
 
 .RL_matchesDraw:after {
-    content    : '';
-    display    : block;
-    width      : 15px;
-    height     : 2px;
-    margin     : 0 auto;
+    content : '';
+    display : block;
+    width   : 15px;
+    height  : 2px;
+    margin  : 0 auto;
 }
 
 /*//////////////////////////////////////////////////////*/
@@ -1079,14 +1095,17 @@ a, input {
     margin     : 0 0 5px;
 }
 
-.RL_roster img {
+.RL_roster > div{
     width   : 352px;
     height  : 84px;
-    display : block;
+}
+
+.RL_roster img {
+    display : none;
 }
 
 .RL_roster figcaption {
-    width       : 317px;
+    width       : 352px;
     height      : 27px;
     position    : absolute;
     bottom      : 2px;
@@ -1095,6 +1114,13 @@ a, input {
     font-family : Aller, sans-serif;
     font-size   : 12px;
     text-align  : right;
+}
+
+.RL_roster figcaption a{
+    display:block;
+    width: 317px;
+    height:27px;
+    color:#fff !important;
     padding     : 0 35px 0 0;
 }
 
@@ -1146,9 +1172,9 @@ a, input {
 }
 
 .RL_lastPost > a > div {
-    position   : absolute;
-    width      : 11px;
-    height     : 17px;
+    position : absolute;
+    width    : 11px;
+    height   : 17px;
 }
 
 .RL_lastPost > a > div:first-child {
@@ -1200,8 +1226,8 @@ a, input {
 }
 
 #RL_signature {
-    width      : 67px;
-    height     : 32px;
+    width  : 67px;
+    height : 32px;
 }
 
 #RL_signature span {
@@ -1287,13 +1313,13 @@ a, input {
 }
 
 #RL_footerSponsors > a:first-of-type:after {
-    content    : '';
-    display    : block;
-    width      : 9px;
-    height     : 15px;
-    position   : absolute;
-    top        : 12px;
-    left       : 11px;
+    content  : '';
+    display  : block;
+    width    : 9px;
+    height   : 15px;
+    position : absolute;
+    top      : 12px;
+    left     : 11px;
 }
 
 #RL_footerSponsors > a:last-of-type {
@@ -1306,13 +1332,13 @@ a, input {
 }
 
 #RL_footerSponsors > a:last-of-type:after {
-    content    : '';
-    display    : block;
-    width      : 9px;
-    height     : 15px;
-    position   : absolute;
-    top        : 17px;
-    left       : 21px;
+    content  : '';
+    display  : block;
+    width    : 9px;
+    height   : 15px;
+    position : absolute;
+    top      : 17px;
+    left     : 21px;
 }
 
 #RL_footerSponsors > a:last-of-type:hover:after {
@@ -1330,16 +1356,16 @@ a, input {
 }
 
 #RL_separatorBottomFooter {
-    height     : 6px;
+    height : 6px;
 }
 
 #RL_backToTop {
-    display    : block;
-    width      : 193px;
-    height     : 33px;
-    position   : absolute;
-    bottom     : 0;
-    left       : 130px;
+    display  : block;
+    width    : 193px;
+    height   : 33px;
+    position : absolute;
+    bottom   : 0;
+    left     : 130px;
 }
 
 #RL_backToTop:hover {
@@ -1377,8 +1403,8 @@ a, input {
 }
 
 .RL_infosFooter a:hover {
-     background-position : -387px 1px !important;
- }
+    background-position : -387px 1px !important;
+}
 
 #RL_logoFooter span {
     display : none;
@@ -1648,4 +1674,11 @@ a, input {
 
 #RL_userDisconnect:before {
     content : "\e9b6";
+}
+
+.RL_bgCover {
+    background-position : center center;
+    background-repeat   : no-repeat;
+    background-size     : cover;
+    background-color:#fff;
 }
