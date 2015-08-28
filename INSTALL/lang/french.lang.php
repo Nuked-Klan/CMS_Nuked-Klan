@@ -1,6 +1,6 @@
 <?php
 ///////////////////////////////////////////////
-/////// GLOBAL 
+/////// GLOBAL
 ///////////////////////////////////////////////
 define('_SUBMIT', 'Valider');
 define('_CONTINUE', 'Continuer');
@@ -14,6 +14,7 @@ define('_YES', 'Oui');
 define('_NO', 'Non');
 define('_START', 'Démarrer');
 define('_RETRY', 'Réessayer');
+define('_FORCEINSTALL', 'Forcer l\'installation');
 define('_INPROGRESS', 'En cours');
 define('_FINISH', 'Terminé');
 define('_BACK', 'Retour');
@@ -21,7 +22,7 @@ define('_WAIT', 'Veuillez patienter...');
 define('_ERROR', 'Une erreur est survenue !!!');
 define('_ERRORTRY', 'Une erreur est survenue, veuillez réessayer.');
 ///////////////////////////////////////////////
-/////// TEXTES BAS DE PAGE 
+/////// TEXTES BAS DE PAGE
 ///////////////////////////////////////////////
 define("_DISCOVERY","Découvrer Nuked-Klan !");
 define("_NEWSADMIN","Une nouvelle administration");
@@ -43,13 +44,15 @@ define('_RESETSESSION', 'Réinitialiser');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define("_WELCOMEINSTALL","Bienvenue sur Nuked-Klan 1.7.9.1");
+define('_NKVERSION', '1.7.12');
+define("_WELCOMEINSTALL",'Bienvenue sur Nuked-Klan '._NKVERSION);
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
 define('_STARTINSTALL', 'Démarrer l\'installation');
 define('_STARTUPDATE', 'Démarrer la mise à jour');
 define('_DETECTUPDATE', 'L\'assistant a détecté une installation de la version :');
 define('_DETECTUPDATEEND', 'de Nuked-Klan');
-define('_BADVERSION', 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers les versions 1.7.8 ou 1.7.9 RC5.3');
+define('_BADVERSION', 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers les versions 1.7.7, 1.7.8 ou 1.7.9 RC5.3');
+define('_LASTVERSIONSET', 'Vous avez déjà la dernière version '._NKVERSION.' de Nuked-Klan');
 ///////////////////////////////////////////////
 /////// TEST DE COMPATIBILITE
 ///////////////////////////////////////////////
@@ -111,7 +114,7 @@ define('_ERROR_PREFIX', 'Connexion à la base de données impossible !<br/>Le pref
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
-define("_NEWNK179","Nouveautés Nuked Klan 1.7.9.1");
+define("_NEWNKNEWRELEASE",'Nouveautés Nuked Klan '._NKVERSION);
 define("_SECURITE","Sécurité");
 define("_SECURITE1","La sécurité a été entèrement revue.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPTIMISATION","Optimisation");
@@ -196,7 +199,6 @@ define('_ACCESS_SITE', 'Accéder à votre site');
 ///////////////////////////////////////////////
 define('_ERRORGENERATECONFINC', 'Une erreur est survenue dans la génération du fichier conf.inc.php');
 define('_CONF.INC', 'Impossible d\'écrire le fichier conf.inc.php. (Problème lié au CHMOD)');
-define('_CONF.INC2', 'Veuillez télécharger le contenu ci-dessus et placer le fichier à la racine de votre site.');
 define('_INFODLSAVECONFINC', 'Veuillez télécharger le contenu ci-dessus et conserver ce fichier (c\'est une sauvegarde).');
 define('_BADCHMOD', 'Impossible d\'écrire dans le fichier <b>conf.inc.php</b>, vérifiez les droits en écriture (CHMOD) !');
 define('_DOWNLOAD', 'Télécharger');
@@ -211,7 +213,7 @@ define("_HASWROTE","a écrit");
 ///////////////////////////////////////////////
 /////// CONTENU DEMO INSERER DANS LA BDD
 ///////////////////////////////////////////////
-define("_FIRSTNEWSTITLE","Bienvenue sur votre site NuKed-KlaN 1.7.9.1");
+define("_FIRSTNEWSTITLE",'Bienvenue sur votre site NuKed-KlaN '._NKVERSION);
 define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.");
 define("_NAV","Menu");
 define("_NAVHOME","Accueil");

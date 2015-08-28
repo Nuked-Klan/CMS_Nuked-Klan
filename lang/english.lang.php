@@ -4,13 +4,14 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define("_WELCOMEINSTALL","Welcome to the 1.7.9.1 version of nuked-klan ");
+define('_NKVERSION', '1.7.12');
+define("_WELCOMEINSTALL",'Welcome to the '._NKVERSION.' version of Nuked-Klan ');
 define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b> ");
 define("_TYPEINSTALL","What do you want to do?");
 define("_INSTALL","Speed Installation");
 define("_INSTALLPASPAS","Installation with assistance");
 define("_UPGRADE","Upgrade with assistance");
-define("_INSTALLNK","Nuked-Klan 1.7.9.1 Installation");
+define("_INSTALLNK",'Nuked-Klan '._NKVERSION.' Installation');
 define("_INSTALLPROGRESS","Installation in progress...");
 define('_UNABLE_TO_SAVE_CONFIG_FILE', 'Unable to save your configuration file. Please verify that %s is writeable');
 define('_DIRECTORY_NOT_WRITEABLE', '%s is no writeable. Please verify its permissions');
@@ -68,8 +69,8 @@ define("_GODFAILDED","Nickname or Password failed");
 define("_3TYPEMIN","You must have a Minimum of 3 characters for your nickname");
 define("_4TYPEMIN","You must have a Minimum of 4 characters for your password");
 define("_PASSFAILED","Please re-enter the same password in both fields");
-define("_NKUPGRADE","Update from Nuked-Klan 1.7 to 1.7.9.1");
-define("_BADVERSION","The nuked-klan version you have cannot be upgraded to the 1.7.9.1 version !");
+define("_NKUPGRADE",'Update from Nuked-Klan 1.7 to '._NKVERSION);
+define("_BADVERSION",'The nuked-klan version you have cannot be upgraded to the '._NKVERSION.' version !');
 define("_CONGRATULATION","Congratulation : The installation ended sucessfully...");
 define("_REDIRECT","You will be redirected to the homepage of your website");
 define("_CLICIFNO","Click here if nothing happens");
@@ -249,9 +250,7 @@ define("_ATTHISPOLL","has this survey ");
 define("_SUGGEST","Suggest");
 define("_ONESUGGEST","submit a suggest ?");
 define("_NEWMESSAGESTART","You received ");
-define("_NEWMESSAGEEND"," new message(s)");
-define("_GOTO_PRIVATE_MESSAGES", "Click here to view your messenger");
-define("_CLICK_TO_CLOSE", "Clic to close this message");
+define("_NEWMESSAGEEND"," message(s)<br />Click here to view your messenger");
 define("_CLOSEWINDOW","Close Windows");
 define("_MORESMILIES","All smilies");
 define("_SITECLOSED","Sorry, this website is currently closed, Please try again later.");
@@ -265,11 +264,10 @@ define("_OPTIONAL","optional");
 define("_BTHEMESELECT", "Choice of theme");
 
 // PATCH CAPTCHA
-define('_MSGCAPTCHA', 'You have made too many attempts, captcha is activate!');
-define('_CTNOTOKEN', 'Token not found!<br/>Please use the form.');
-define('_CTBADTOKEN', 'Bad token!<br/>Please use the form.');
-define('_CTBADJS', 'Javascript validation failed! <br/> Please enable javascript.');
-define('_CTBADFIELD', 'NoBot validation failed! <br/> Please use the form.');
+define("_SECURITYCODE","Security code");
+define("_TYPESECCODE","Retype the security code");
+define("_BADCODECONFIRM","Error : the Security Code is not correct !");
+define('_MSGCAPTCHA', 'You have made ??too many attempts, you must enter a captcha!');
 
 define("_DURE","During");
 define("_1JOUR","1 day");
@@ -288,17 +286,17 @@ define("_ETAPE4","Stage 4");
 define("_UPGRADESPEED","Speed upgrade");
 
 define("_SECURITE","Security");
-define("_DECOUVERTE","Nuked-klan 1.7.9.1 : discover the CMS");
+define("_DECOUVERTE",'Nuked-klan '._NKVERSION.' : discover the CMS');
 define("_NEWSADMIN","A new administration pannel");
 define("_PROCHE","An official website close to it's community");
 define("_SIMPLIFIE","A simple installation");
-define("_DECOUVERTE1","You will install nuked-klan 1.7.9.1, this gamer version will help your team/clan to access a simple, secure, efficient and personal website.<p>You will be able to create activity, manage recruitments, plan wars or moderate your server easily.</p>");
+define("_DECOUVERTE1",'You will install nuked-klan '._NKVERSION.', this gamer version will help your team/clan to access a simple, secure, efficient and personal website.<p>You will be able to create activity, manage recruitments, plan wars or moderate your server easily.</p>');
 define("_NEWSADMIN1","On this new version we created an intuitive, more enjoyable and more useful administration panel. <p>You have the possibility of following the directors actions, seeing the notifications, accessing a private admin chat and you will discover uncountable new features such as temporary bans.</p>");
 // ICI
 define("_PROCHE1","Connect onto nuked-klan.org, that way we can send you news, warn you for potential hackers and even automaticly update your site. <br /> In addition, our support is always available whenever you have a problem!");
 define("_SIMPLIFIE1","The install is not only more logical and much simpler due to it's light design but you will even be assisted with help and conotations. If you already know how to handle a CMS such as nuked klan then chose the quick install. <p> However, if you chose the normal install with the installation assistance, we detail and accompany every step of your installation. </ p>");
 
-define("_NEWNK179","New stuff from nuked klan 1.7.9.1");
+define("_NEWNKNEWRELEASE",'New stuff from nuked klan '._NKVERSION);
 define("_SECURITE1","This new version has renewed it's security system. We have modernised everything between uploads, password encryption and cookies. <br /> In addition, a signature system has been established, so if you install a dangerous module, we will notify you. We also set up a automatic update system that downloads and installs nuked klan patches whenever a vulnerability is discovered. <br /> We also inform you of the latest news on nuked klan without sending you an email if you chose to accept it ...");
 define("_OPTIMISATION","Optimisation");
 define("_OPTIMISATION1","Some other features have been added but as we didn't want to make a major update you will have to wait for our next version (which will be released soon)");
