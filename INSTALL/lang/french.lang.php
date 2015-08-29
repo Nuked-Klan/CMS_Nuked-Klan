@@ -117,15 +117,15 @@ define('_ERROR_PREFIX', 'Connexion à la base de données impossible !<br/>Le pref
 ///////////////////////////////////////////////
 define("_NEWNK179","Nouveautés Nuked Klan 1.8");
 define("_SECURITE","Sécurité");
-define("_SECURITE1","La sécurité a été entèrement revue.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
+define("_SECURITE1","Nouveau captcha invisible.<br />Un nouveau Captcha invisible pour l'utilisateur afin se prémunir des attaques incéssente des robots spammeur.");
 define("_OPTIMISATION","Optimisation");
-define("_OPTIMISATION1","Certaines parties de Nuked-Klan ont été optimisées comme le système de pagination afin de rendre votre site légérement moins lourd.");
+define("_OPTIMISATION1","Certaines parties de Nuked-Klan ont été optimisées afin de rendre votre site légérement moins lourd.");
 define("_ADMINISTRATION","Administration");
-define("_ADMINISTRATION1","Afin de réaliser une administration au goût du jour, nous avons préféré repartir de zéro, et concevoir un système dans lequel administrateurs, utilisateurs, machines, et site officiel seraient reliés. Pour cela, nous avons mis en place des systèmes de communication comme les notifications, les actions, les discussions admin. Cette administration possède un panneau capable de vous transporter n'importe où dans votre administration mais aussi de vous avertir.");
-define("_BANTEMP","Ban temporaire");
-define("_BANTEMP1","Un système de bannissement temporaire a été mis en place, vous avez donc le choix de bannir l'utilisateur 1 jour, 7 jours, 1 mois, 1 an, ou définitivement.");
+define("_ADMINISTRATION1","Le design de l'administration à subit quelques changements afin de finir le travail commencé sur la version 1.7.9, un bloc avec diverses infos (derniers membres, dernières visites, derniers commentaires, statistiques générales) à été ajouté afin d'avoir une meilleure vue d'ensemble des dernièrs évènements sur votre site.");
+define("_BANTEMP","Design");
+define("_BANTEMP1","Le CSS arrive enfin sur Nuked Klan, vous pouvez désormais totalement modifier le design de votre site avec votre thème. Chaque module dispose de sa propre feuille de style.<br />");
 define("_SHOUTBOX","Shoutbox ajax");
-define("_SHOUTBOX1","Un nouveau bloc textbox en ajax a été développé. Celui-ci est capable d'afficher qui est en ligne, et d'envoyer/afficher des nouveaux messages sans recharger la page.");
+define("_SHOUTBOX1","Le design de la Tribune Libre à été refait afin d'offrir un affichage avec les avatars des utilisateurs, la colorisation des pseudos et les derniers messages sont désormais en bas de la discussion, un autre affichage : le mode Chat à été ajouté afin d'avoir la discussion sur une ligne. Cette option est configurable via l'administration.");
 define("_ERRORSQL","Gestions des erreurs SQL");
 define("_ERRORSQL1","Ce système est à double sens, lorsqu'un visiteur tombe sur une erreur SQL, plutôt que de voir l'erreur, il est redirigé vers une page d'excuse, et un rapport de l'erreur SQL est envoyé dans l'administration.");
 define("_MULTIWARS","Multi-map module wars");
@@ -133,9 +133,9 @@ define("_MULTIWARS1","Le nouveau module permet de visionner les prochains matchs
 define("_COMSYS","Système commentaires");
 define("_COMSYS1","Le nouveau système de commentaires permet rapidement d'envoyer un commentaire en ajax et de visionner les 4 derniers commentaires.");
 define("_EDITWYS","Editeur WYSIWYG");
-define("_EDITWYS1","Ce nouveau système permet d'avoir une visualisation rapide de votre message, news ou autre après mise en forme.");
-define("_CONT","Module Contact");
-define("_CONT1","Nous avons ajouté le module contact indispensable au fonctionnement d'un site web.");
+define("_EDITWYS1","CKeditor à été mis à jour, de plus vous avez aussi la possibilité d'utiliser TinyMce comme éditeur alternatif.");
+define("_CONT","Module Page");
+define("_CONT1","Nous avons ajouté le module Page indispensable au fonctionnement d'un site web.");
 define("_ERREURPASS","Erreur mot de passe");
 define("_ERREURPASS1","Lorsqu'un utilisateur se trompe de mot de passe 3 fois de suite, il doit alors recopier un code de sécurité en plus de son login afin de se connecter à son compte.");
 define("_DIFFMODIF","Différentes modifications");
