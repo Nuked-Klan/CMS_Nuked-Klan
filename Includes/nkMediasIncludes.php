@@ -45,13 +45,15 @@ function printMedias($jQuery = false){
                             'media/js/infobulle.js',
                             'media/js/syntaxhighlighter/shCore.js',
                             'media/js/syntaxhighlighter/shAutoloader.js',
-                            'media/js/syntaxhighlighter.autoloader.js'
+                            'media/js/syntaxhighlighter.autoloader.js',
+                            'media/shadowbox/shadowbox.js'
                             );
 
     // Définition des chemins vers les CSS plugins
     $arrayPathsPluginsCss = array(
                                 'media/css/syntaxhighlighter/shCoreMonokai.css',
-                                'media/css/syntaxhighlighter/shThemeMonokai.css'
+                                'media/css/syntaxhighlighter/shThemeMonokai.css',
+                                'media/shadowbox/shadowbox.css'
                             );
 
     // On stocke les paths dans un ordre bien précis Plugins -> Default -> Mods -> Templates afin de permettre la surcharge des propriétés css

@@ -373,8 +373,10 @@ function adminfoot(){
 function checkboxButton($name, $id, $checked = false, $inline = false) {
     $check = null;
     $classInline = null;
+    $dataCheck = null;
     if ($checked === true) {
         $check = 'checked="checked"';
+        $dataCheck = 'data-check="checked"';
     }
 
     if ($inline === true) {
@@ -383,7 +385,8 @@ function checkboxButton($name, $id, $checked = false, $inline = false) {
     ?>
     <div class="onoffswitch <?php echo $classInline; ?> ">
         <input id="<?php echo $id; ?>" type="checkbox" name="<?php echo $name; ?>"
-               class="onoffswitch-checkbox" <?php echo $check; ?> >
+               class="onoffswitch-checkbox" <?php echo $check; ?>
+                <?php echo $dataCheck; ?> />
         <label class="onoffswitch-label" for="<?php echo $id; ?>">
             <div class="onoffswitch-inner"></div>
             <div class="onoffswitch-switch"></div>

@@ -1,0 +1,1 @@
+%printNotification('Profil par défaut chargé', 'index.php?file=Admin&page=theme', 'success', false, true)
