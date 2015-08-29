@@ -107,13 +107,11 @@ if (!$user){
 }
 else $visiteur = $user[1];
 
-if (
-    (! in_array($_REQUEST['file'], array('Admin', 'Stats', 'Members')))
+if ( $_REQUEST['file'] !== 'Admin'
     && $_REQUEST['page'] != 'admin'
     && (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != 'admin')
-    && $_REQUEST['op'] != 'smilies'
-    && $_SESSION['admin'] == true
-) {
+    && (! ($_REQUEST['file'] == 'Textbox' && $_REQUEST['op'] == 'ajax' && $_REQUEST['nuked_nude'] == 'index'))
+    && $_SESSION['admin'] == true ) {
     $_SESSION['admin'] = false;
 }
 
