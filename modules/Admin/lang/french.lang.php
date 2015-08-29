@@ -196,7 +196,7 @@ define("_DATEUSER","Date d'arrivée");
 define("_EDITUSER","Editer ce membre");
 define("_DELETEUSER","Supprimer ce membre");
 define("_TEAMMANAGEMENT","Gestion des Teams");
-define("_WARNINGTEAM","Dans une prochaine mise à jour de Nuked Klan, la Gestion des Teams se fera dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permetra de gérer un nombre infini de teams pour un utilisateur.<br />La pluspart des modules du site utiliseront le nouveau module Equipe.<br />En attendant vous pouvez continuer d'utiliser le système de Team ci dessous.");
+define("_WARNINGTEAM","Dans une prochaine mise à jour de Nuked Klan, la Gestion des Teams se fera dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permetra de gérer un nombre infini de teams pour un utilisateur.<br />La plupart des modules du site utiliseront le nouveau module Equipe.<br />En attendant vous pouvez continuer d'utiliser le système de Team ci dessous.");
 define("_NOTIFLOGOTEAM","Le logo de la team est actuellement utilis&eacute; sur le th&egrave;me Restless dans le bloc TopMatch par exemple.<br />Les mises &agrave; ult&eacute;rieure exploiterons aussi cette nouvelle fonctionalit&eacute;.");
 define("_EDITTHISTEAM","Editer cette Team");
 define("_DELTHISTEAM","Supprimer cette Team");

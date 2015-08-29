@@ -358,7 +358,7 @@
                                 mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \''._NKVERSION.'\' WHERE name = \'version\'')or die(mysql_error());
                                 if(version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')){
                                     // version 1.7.7 ou 1.7.8
-                                    mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'Impact_Nk\' WHERE name = \'theme\'')or die(mysql_error());
+                                    mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'Restless\' WHERE name = \'theme\'')or die(mysql_error());
                                     mysql_query('UPDATE `' . $db_prefix . '_config` SET value = \'noxether.net\' WHERE name = \'irc_serv\'')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_config` (name, value) VALUES (\'screen\', \'on\')')or die(mysql_error());
                                     mysql_query('INSERT INTO `' . $db_prefix . '_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)')or die(mysql_error());
