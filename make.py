@@ -11,7 +11,7 @@ file = 'Nuked-Klan_v1.8-alpha.zip'
 def _ignore(src, name):
     if ((src == './UPLOAD/') or (src == './/UPLOAD/')):
         print (name)
-        return ['RESTDIR', 'conf.inc.php', file, '.svn', 'Thumb.db', '.DS_Store', '.git', '.hg', 'make.py', 'README.md']
+        return ['RESTDIR', 'conf.inc.php', file, 'Thumbs.db', '.DS_Store', '.git', 'make.py', 'README.md', '.gitignore']
     else:
         return []
 
