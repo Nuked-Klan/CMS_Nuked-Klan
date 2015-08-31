@@ -11,7 +11,7 @@
                 <strong>{{block.title}} : </strong>
             </td>
             <td style="text-align:center;">
-                @if({{blockName}} == 'About')
+                @if({{blockName}} == 'About' || {{blockName}} == 'Sponsors')
                     <img src="themes/Restless/images/block.png" alt="" />
                 @else
                     %checkboxButton('block'.{{blockName}}.'Active', 'block'.{{blockName}}.'Active', {{block.checked}}, true)

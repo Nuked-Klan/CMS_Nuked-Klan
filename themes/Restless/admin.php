@@ -41,6 +41,10 @@ else {
                 $tpl->render('adminNav');
                 $tpl->render('adminModules');
                 break;
+            case 'sponsors_management':
+                $tpl->render('adminNav');
+                $tpl->render('adminSponsors');
+                break;
             case 'saveBlocks':
                 $tpl->render('adminSaveBlocks');
                 break;

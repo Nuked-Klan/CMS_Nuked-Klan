@@ -80,6 +80,13 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('#RL_addSponsor').click(function(){
+        var content = $('#RL_sponsor').html();
+        var tr = document.createElement('tr');
+        $(tr).html(content);
+        $('#RL_formSponsors>table').append(tr);
+    });
 });
 
 jQuery.fn.center = function () {

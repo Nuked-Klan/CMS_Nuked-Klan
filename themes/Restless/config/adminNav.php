@@ -24,6 +24,18 @@ $arrayNav = array(
         'icon'   => 'modules.png',
         'text'   => MODULES_MANAGEMENT,
         'active' => null
+    ),
+    array(
+        'link'   => 'index.php?file=Admin&page=theme&op=sponsors_management',
+        'icon'   => 'sponsors.png',
+        'text'   => SPONSORS_MANAGEMENT,
+        'active' => null
+    ),
+    array(
+        'link'   => 'index.php?file=Admin&page=theme&op=nav_management',
+        'icon'   => 'nav.png',
+        'text'   => NAV_MANAGEMENT,
+        'active' => null
     )
 );
 

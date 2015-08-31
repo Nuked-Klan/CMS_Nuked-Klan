@@ -166,9 +166,9 @@ if($aboutBlock === true){
 }
 
 
-$arrayForm = array('About', 'TopMatch', 'Article', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
+$arrayForm = array('About', 'TopMatch', 'Article', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social', 'Sponsors');
 
-$arrayTitle = array('About', 'TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social');
+$arrayTitle = array('About', 'TopMatch', 'Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery', 'Social', 'Sponsors');
 
 $arraySelect = array('Match', 'Team', 'Forum', 'Download', 'Guestbook', 'Gallery');
 
