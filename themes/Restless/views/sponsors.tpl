@@ -1,5 +1,5 @@
 <article id="RL_footerSponsors">
-    <h3>Sponsors</h3>
+    <h3>{{blockSponsorsTitle}}</h3>
     <a href="#"><span>Prev</span></a>
     <a href="#"><span>Next</span></a>
     <div>

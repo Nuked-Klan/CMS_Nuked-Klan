@@ -168,3 +168,18 @@ form > table > tbody > tr > td{
     background:#CFA634;
     color:#fff;
 }
+
+#RL_formSponsors > table > tbody > tr > td:first-child{
+    width:15%;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+#RL_formSponsors label{
+    display: inline-block;
+    width: 100px;
+}
+
+#RL_sponsor{
+    display : none;
+}

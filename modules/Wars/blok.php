@@ -37,7 +37,7 @@ if ($active == 3 || $active == 4){
         }
 
         echo '<tr><td style="width: 60%;"><img src="images/flags/' . $pays_adv . '" alt="" title="' . $pays . '" />&nbsp;&nbsp;<a href="index.php?file=Wars&amp;op=detail&amp;war_id=' . $war_id . '"><b>' . $adv_name . '</b></a></td>
-				<td style="width: 40%;background: $color;color: #FFFFFF;text-align:center;"><b>' . $score_team . '/' . $score_adv . '</b></td></tr>';
+				<td style="width: 40%;background: '.$color.';color: #FFFFFF;text-align:center;"><b>' . $score_team . '/' . $score_adv . '</b></td></tr>';
     }
 
 	if (mysql_num_rows($sql) == NULL) echo '<tr><td colspan="2" style="text-align:center;">' . _NOMATCH . '</td></tr>';

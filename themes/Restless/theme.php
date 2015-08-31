@@ -50,6 +50,13 @@ else{
     define('SLIDER', false);
 }
 
+if(in_array($_REQUEST['file'], explode(',', $tpl->get('cfg')->get('general.displayArticle')))){
+    define('SHOW_ARTICLE', true);
+}
+else{
+    define('SHOW_ARTICLE', false);
+}
+
 function top(){
     global $tpl;
 
@@ -67,7 +74,7 @@ function top(){
 
     $tpl->render('globalContainerTop');
 
-    if(HOMEPAGE && $tpl->get('cfg')->get('blockArticle.fullPage') != 1){
+    if(SHOW_ARTICLE && $tpl->get('cfg')->get('blockArticle.fullPage') != 1){
         $tpl->render('blockUnikCenter');
     }
 
@@ -112,11 +119,15 @@ function block_droite($block){
 }
 
 function block_centre($block){
+    global $tpl;
 
+    $tpl->render('blockCenter', $block);
 }
 
 function block_bas($block){
+    global $tpl;
 
+    $tpl->render('blockBottom', $block);
 }
 
 function news($data){
