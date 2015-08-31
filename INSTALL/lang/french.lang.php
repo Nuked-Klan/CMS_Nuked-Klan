@@ -1,6 +1,6 @@
 <?php
 ///////////////////////////////////////////////
-/////// GLOBAL 
+/////// GLOBAL
 ///////////////////////////////////////////////
 define('_SUBMIT', 'Valider');
 define('_CONTINUE', 'Continuer');
@@ -14,6 +14,7 @@ define('_YES', 'Oui');
 define('_NO', 'Non');
 define('_START', 'Démarrer');
 define('_RETRY', 'Réessayer');
+define('_FORCEINSTALL', 'Forcer l\'installation');
 define('_INPROGRESS', 'En cours');
 define('_FINISH', 'Terminé');
 define('_BACK', 'Retour');
@@ -21,17 +22,21 @@ define('_WAIT', 'Veuillez patienter...');
 define('_ERROR', 'Une erreur est survenue !!!');
 define('_ERRORTRY', 'Une erreur est survenue, veuillez réessayer.');
 ///////////////////////////////////////////////
-/////// TEXTES BAS DE PAGE 
+/////// TEXTES BAS DE PAGE
 ///////////////////////////////////////////////
 define("_DISCOVERY","Découvrer Nuked-Klan !");
-define("_NEWSADMIN","Une nouvelle administration");
-define("_INSTALL_AND_UPDATE","Installation et mise à jour");
 define("_COMMUNAUTY_NK","La communauté NK");
-define("_DISCOVERY_DESCR","Vous êtes sur le point d'installer votre site web sur base du CMS Nuked-Klan...</p><p>
-En quelques clics et en quelques minutes, offrez-vous la possibilité de gérer votre team, guilde ou clan, à l'aide d'outils spécialement conçus à cet effet !</p><p>Vous n'êtes pas un joueur mais vous désirez toutefois utiliser Nuked-Klan pour réaliser votre site web ?<br/><p>Aucun problème, une version généraliste (SP) a également été développée et vous est proposée, expressément dans cette optique.</p><p>Adopter un design plus adapté à l'esprit de votre activité (palette de couleurs, logos,...) devient, grâce à Nuked-Klan, un véritable jeu d'enfant. Avec une collection impressionante de graphismes et une modification (ainsi qu'une création) de thèmes certainement une des plus aisée du marché des CMS, vous aboutirez inévitablement à un site web qui vous ressemble.</p><p>Nous vous remercions pour l'intérêt et la confiance que vous nous apportez au quotidien... et depuis toutes ces années !</p>");
-define("_NEWSADMIN_DESCR","Plus ergonomique et plus complète, la nouvelle administration présente dans cette version comblera les plus pointilleux d'entre vous.</p><p>Des options indispensables comme le listage des erreurs SQL et des actions opérées sur le site, la possibilité de laisser des notifications entre administrateurs,... sont, dorénavant, directement intégrées dans le panneau d'administration.</p><p>Nous avons également pensé aux graphistes et développeurs de thèmes, en leur offrant la possibilité de définir une gestion précise des différents éléments du design, directement via l'administration interne du site.</p><p>Avec une sécurisation entièrement revue et corrigée, cette dernière version devrait assurer la pérénnité et la fiabilité de votre site web.</p><p>Toujours attentifs à vos attentes et vos besoins, quelques options très attendues voient le jour dans cette version. Ainsi, la possibilité de régler le fuseau horaire de votre site, ... (citer quelques améliorations).</p>");
-define("_INSTALL_AND_UPDATE_DESCR","Les procédures d'installation et de mise à jour ont été complètement revisitées et simplifiées.</p><p>Etape par étape, tout est maintenant commenté et dissocié afin de parer au moindre problème que vous pourriez rencontrer.</p><p>Plus de perte de données lors d'une mise à jour, une sauvegarde de votre base de donnée existante est automatiquement exécutée.</p><p>Durant l'installation et la mise à jour, toutes les étapes sont maintenant archivées dans un journal. En cas de souci, ce journal permettra à notre équipe de vous assister durant les procédures d'installation (ou de mise à jour) de façon optimale.</p><p>Nous vous proposons, dorénavant, de participer à l'évolution du CMS via l'envoi (anonyme) de statistiques. Grâce à cela, nous aurons la possibilité de répondre de façon précise et idéale à vos attentes, dès les prochaines versions.</p>");
-define("_COMMUNAUTY_NK_DESCR","Une communauté sans cesse florissante, avec des membres d'une grande serviabilité et possédant de nombreuses compétences.<br/>Voilà un des avantages non négligeable dont vous bénéficierez en adoptant Nuked-Klan et en rejoignant la dite communauté.<br/>Tout naturellement, vous intègrerez cette grande famille, toujours soucieuse du bien-être de ses membres.</p><p>De nombreux fan-sites gravitent autour du CMS. Preuve de l'enthousiasme et de l'engouement que procure l'utilisation de Nuked-Klan, ils représentent la colonne vertébrale du CMS.</p><p>Pour cette raison (et pour bien d'autres), ils apportent à notre équipe de développeurs et de communautaires l'envie d'avancer, main dans la main, dans la bonne humeur et avec un esprit assidu de communication.</p><p>C'est ainsi que nous évoluerons, au fil des années, toujours à l'écoute de vos attentes et de vos besoins.</p><p>Parce que Nuked-Klan est, avant tout, votre CMS !!</p>");
+define("_NEWMODULES","Mises à jour et ajout de nouveaux modules !");
+define("_NEWTEMPLATE","Un nouveau thème innovant !");
+define("_NEWVERSION_CONCEPT","La 1.8 : une version évolutive");
+define("_GITHUB_NK","Participez au développement sur Github !");
+
+define("_GITHUB_NK_DESCR","Depuis la sortie de la version 1.7.9, le projet Nuked Klan est présent sur Github.<p>Le dépôt Github vous permet de suivre l'avancement des différentes versions et même d'y participer.</p><p>Si vous rencontrez un bug ou avez une idée d'amélioration, vous pouvez utiliser le bug tracker pour nous transmettre vos remarques.<br />Notre équipe après vérification et/ou approbation prendra en charge votre demande et pourra la traiter dans les plus brefs délais en assurant un suivie de qualité.</p><p>Vous pouvez aussi consulter le Wiki du dépôt Github, vous y trouverez des réponses, des conseils en tous genres autour du CMS Nuked Klan.</p><p>Enfin si vous vous sentez l'âme d'un développeur vous avez même la possibilité de nous soumettre vos améliorations et directement contribuer au projet Nuked Klan.</p>");
+define("_NEWVERSION_CONCEPT_DESCR","La nouvelle version 1.8 est enfin disponible !<p>Après un cahier des charges trop ambitieux, nous avons revu à la baisse les ambitions de cette nouvelle version afin de vous proposer une version stable qui saura vous satisfaire en attendant la version 2.0 de Nuked Klan.</p><p>Après le redesign de l'administration sur la version 1.7.9, la version 1.8 restylera et transformera totalement les modules.</p><p>Cette nouvelle version 1.8 se veut modulable : des mises à jour régulières (1.8.1, 1.8.2 etc..) qui apporteront chacune leurs lots de modifications.</p>Voici les grandes lignes de cette nouvelle version : <ul><li>Compatibilité > PHP 5.4</li><li>Nouveau Captcha invisible</li><li>Intégration jquery et CSS pour chaque module</li><li>Nouveaux modules et redesign des anciens</li><li>Nouveaux éditeurs (Ckeditor + TinyMce)</li><li>Une version unique (Gamer et SP)</li><li>Correction de nombreux bugs</li><li>Nouveau thème innovant</li><li>Etc...</li></ul>Et tout un lot d'améliorations sur l'ensemble du CMS, n'attendez plus et finalisez votre installation!");
+define("_NEWMODULES_DESCR","Tout au long des mises à jour de cette nouvelle version les modules seront tous améliorés, de manière à combler les manques des précédentes versions.<p>Chaque module disposera désormais de leur propre feuille de style qui peut être modifiée par le design de votre thème.<br />Ainsi les possibilités de personnalisation de votre site seront décuplées à l'infini.</p><p>Un nouveau design pour toutes les notifications côté client, rendra l'utilisation de votre site plus agréable.</p><p>Pour la première release (1.8.0) qui fixe les bases de la branche 1.8, seuls les modules Forum et la Tribune libre ont été entièrement revud en ajoutant tout un lot de modifications présentes sur les patchs les plus utilisés par la communauté.<br />Les modules Teams, Wars, News & Articles ont bénéficié de légères modifications, afin de s'adapter aux fonctionnalités du nouveau thème et de préparer leur refonte sur les versions suivantes...</p>Le module Page est désormais intégré par défaut à Nuked Klan, d'autres modules suivront avec les mises à jour à venir.");
+define("_NEWTEMPLATE_DESCR","Restless utilise au maximum toutes les fonctionnalités de votre nouvelle version 1.8.<p>Ce thème vous comblera par les innombrables options dont il dispose :</p><ul><li>4 thèmes personnalisés</li><li>6 couleurs différentes</li><li>Une automatisation avancée</li><li>Un système de template innovant</li><li>Un codage maîtrisé</li><li>Une administration poussée</li><li>Des blocs inédits</li></ul>En détails :<ul><li>Le menu principal utilise le bloc menu de NK</li><li>Le slider se remplit automatiquement au fur et à mesure de l'ajout de news (un champ image de couverture vous permet désormais d'illustrer avec une image vos news)</li><li>Le bloc Top match utilise les nouveaux champs images des modules teams et matchs</li><li>Le bloc article utilise lui aussi les images de couverture de vos articles</li><li>Le bloc matchs affichera vos dernières victoires avec un design épuré</li><li>Le bloc team mettra en valeur vos équipes</li><li>Le bloc galerie exposera vos 6 derniers clichés</li><li>Le bloc téléchargement comptabilisera la popularité de vos derniers fichiers</li><li>Un bloc inédit mettra en valeur les messages de votre livre d'or</li><li>Un bloc réseaux sociaux pour fidéliser votre communauté</li><li>Un sub menu à deux niveaux dans le footer de votre site optimisera la navigation</li><li>Le slider sponsor du footer ravira vos partenaires</li><li>Etc...</li></ul>Une multitude d'autres petits détails en feront le thème ultime que vous attendiez !");
+define("_DISCOVERY_DESCR","Vous êtes sur le point d'installer votre site web sur base du CMS Nuked-Klan...</p><p>En quelques clics et en quelques minutes, offrez-vous la possibilité de gérer votre team, guilde ou clan, à l'aide d'outils spécialement conçus à cet effet !</p><p>Vous n'êtes pas un joueur mais vous désirez toutefois utiliser Nuked-Klan pour réaliser votre site web ?<br/><p>Aucun problème, la nouvelle version permet également de réaliser un site web généraliste en désactivant toutes les parties gamers en quelques clics.</p><p>Adopter un design plus adapté à l'esprit de votre activité (palette de couleurs, logos,...) devient, grâce à Nuked-Klan, un véritable jeu d'enfant. Avec une collection impressionante de graphismes et une modification (ainsi qu'une création) de thèmes certainement une des plus aisée du marché des CMS, vous aboutirez inévitablement à un site web qui vous ressemble.</p><p>Nous vous remercions pour l'intérêt et la confiance que vous nous apportez au quotidien... et depuis toutes ces années !</p>");
+define("_COMMUNAUTY_NK_DESCR","Une communauté sans cesse florissante, avec des membres d'une grande serviabilité et possédant de nombreuses compétences.<br/>Voilà un des avantages non négligeable dont vous bénéficierez en adoptant Nuked-Klan et en rejoignant la dite communauté.<br/>Tout naturellement, vous intègrerez cette grande famille, toujours soucieuse du bien-être de ses membres.</p><p>De nombreux fan-sites gravitent autour du CMS. Preuve de l'enthousiasme et de l'engouement que procure l'utilisation de Nuked-Klan, ils représentent la colonne vertébrale du CMS.</p><p>Pour cette raison (et pour bien d'autres), ils apportent à notre équipe de développeurs et de communautaires l'envie d'avancer, main dans la main, dans la bonne humeur et avec un esprit assidu de communication.</p><p>C'est ainsi que nous évoluerons, au fil des années, toujours à l'écoute de vos attentes et de vos besoins.</p><p>Parce que Nuked-Klan est, avant tout, votre CMS.</p>");
 ///////////////////////////////////////////////
 /////// MENU
 ///////////////////////////////////////////////
@@ -43,13 +48,15 @@ define('_RESETSESSION', 'Réinitialiser');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define("_WELCOMEINSTALL","Bienvenue sur Nuked-Klan 1.8");
+define('_NKVERSION', '1.8');
+define("_WELCOMEINSTALL",'Bienvenue sur Nuked-Klan '._NKVERSION);
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
 define('_STARTINSTALL', 'Démarrer l\'installation');
 define('_STARTUPDATE', 'Démarrer la mise à jour');
 define('_DETECTUPDATE', 'L\'assistant a détecté une installation de la version :');
 define('_DETECTUPDATEEND', 'de Nuked-Klan');
-define('_BADVERSION', 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers les versions 1.7.8 ou 1.7.9 RC5.3');
+define('_BADVERSION', 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers les versions 1.7.7, 1.7.8 ou 1.7.9 RC5.3');
+define('_LASTVERSIONSET', 'Vous avez déjà la dernière version '._NKVERSION.' de Nuked-Klan');
 ///////////////////////////////////////////////
 /////// TEST DE COMPATIBILITE
 ///////////////////////////////////////////////
@@ -111,7 +118,7 @@ define('_ERROR_PREFIX', 'Connexion à la base de données impossible !<br/>Le pref
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
-define("_NEWNK179","Nouveautés Nuked Klan 1.8");
+define("_NEWNKNEWRELEASE",'Nouveautés Nuked Klan '._NKVERSION);
 define("_SECURITE","Sécurité");
 define("_SECURITE1","La sécurité a été entèrement revue.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPTIMISATION","Optimisation");
@@ -196,7 +203,6 @@ define('_ACCESS_SITE', 'Accéder à votre site');
 ///////////////////////////////////////////////
 define('_ERRORGENERATECONFINC', 'Une erreur est survenue dans la génération du fichier conf.inc.php');
 define('_CONF.INC', 'Impossible d\'écrire le fichier conf.inc.php. (Problème lié au CHMOD)');
-define('_CONF.INC2', 'Veuillez télécharger le contenu ci-dessus et placer le fichier à la racine de votre site.');
 define('_INFODLSAVECONFINC', 'Veuillez télécharger le contenu ci-dessus et conserver ce fichier (c\'est une sauvegarde).');
 define('_BADCHMOD', 'Impossible d\'écrire dans le fichier <b>conf.inc.php</b>, vérifiez les droits en écriture (CHMOD) !');
 define('_DOWNLOAD', 'Télécharger');
@@ -211,10 +217,16 @@ define("_HASWROTE","a écrit");
 ///////////////////////////////////////////////
 /////// CONTENU DEMO INSERER DANS LA BDD
 ///////////////////////////////////////////////
-define("_FIRSTNEWSTITLE","Bienvenue sur votre site NuKed-KlaN 1.8");
+define("_FIRSTNEWSTITLE",'Bienvenue sur votre site NuKed-KlaN '._NKVERSION);
 define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.");
 define("_NAV","Menu");
 define("_NAVHOME","Accueil");
+define("_NAVCONTENT","Contenu");
+define("_NAVSTATS","Statistiques");
+define("_NAVCOMMUNITY","Communauté");
+define("_NAVCONTACTUS","Nous contacter");
+define("_NAVMEDIAS","Médias");
+define("_NAVGAMES","Jeux");
 define("_NAVNEWS","News");
 define("_NAVFORUM","Forum");
 define("_NAVDOWNLOAD","Téléchargements");

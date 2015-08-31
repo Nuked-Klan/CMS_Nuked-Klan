@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -32,7 +30,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         $url = nkHtmlEntities($url);
         
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADMINGUESTBOOK . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _EDITTHISPOST . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Guestbook.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
@@ -44,8 +42,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     
         echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
         . "<tr><td colspan=\"2\"><textarea class=\"editor\" id=\"guest_text\" name=\"comment\" cols=\"65\" rows=\"12\">" . $comment . "</textarea></td></tr>\n"
-        . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><input type=\"hidden\" name=\"gid\" value=\"" . $gid . "\" /></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Guestbook&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>\n";
+        . "<tr><td colspan=\"2\" align=\"center\"><input type=\"hidden\" name=\"gid\" value=\"" . $gid . "\" /></td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Guestbook&amp;page=admin\">" . _BACK . "</a></div></form><br /></div>\n";
     } 
 
     function modif_book($gid, $comment, $email, $url)
@@ -135,8 +133,9 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Guestbook.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _GUESTBOOK . "<b> | "
-        . "<a href=\"index.php?file=Guestbook&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(1);
 
         if ($count > $nb_mess_guest)
         {
@@ -178,7 +177,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             number($count, $nb_mess_guest, "index.php?file=Guestbook&amp;page=admin");
         } 
 
-        echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     } 
 
     function main_pref()
@@ -186,17 +185,19 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         global $nuked, $language;
 
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADMINGUESTBOOK . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Guestbook.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
-        . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Guestbook&amp;page=admin\">" . _GUESTBOOK . "</a> |</b> " . _PREFS . "</div><br />\n"
-        . "<form method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=change_pref\">\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(2);
+
+        echo "<form method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=change_pref\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-        . "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
         . "<tr><td>" . _GUESTBOOKPG . " :</td><td><input type=\"text\" name=\"mess_guest_page\" size=\"2\" value=\"" . $nuked['mess_guest_page'] . "\" /></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Guestbook&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Guestbook&amp;page=admin\">" . _BACK . "</a></div>\n"
+        . "</form><br /></div></div>\n";
     } 
 
     function change_pref($mess_guest_page)
@@ -216,6 +217,33 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "</div>\n";
         redirect("index.php?file=Guestbook&page=admin", 2);
     } 
+
+    function nkAdminMenu($tab = 1)
+    {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Guestbook&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _GUESTBOOK; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Guestbook&amp;page=admin&amp;op=main_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
+
 
     switch ($_REQUEST['op'])
     {
@@ -245,30 +273,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     } 
 
 } 
-else if ($level_admin == -1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+else if ($level_admin == -1){
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else if ($visiteur > 1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
+else if ($visiteur > 1){
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else
-{
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-    . "</div>\n"
-    . "</div>\n";
-}  
+else{
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
+}
 
 adminfoot();
 

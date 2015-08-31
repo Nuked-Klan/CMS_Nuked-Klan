@@ -457,7 +457,7 @@ if ($user[1] >= $nuked['user_social_level'])
                 }
                 else
                 {
-                    echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Team/images/pas_image.jpg\" width=\"100\" height=\"100\" alt=\"\" style=\"border: 1px solid #000000;\" />&nbsp;&nbsp;&nbsp;&nbsp;";
+                    echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Team/images/noAvatar.png\" width=\"100\" height=\"100\" alt=\"\" style=\"border: 1px solid #000000;\" />&nbsp;&nbsp;&nbsp;&nbsp;";
                 }
 
                 echo "</td></tr>\n"

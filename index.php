@@ -107,6 +107,14 @@ if (!$user){
 }
 else $visiteur = $user[1];
 
+if ( $_REQUEST['file'] !== 'Admin'
+    && $_REQUEST['page'] != 'admin'
+    && (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != 'admin')
+    && (! ($_REQUEST['file'] == 'Textbox' && $_REQUEST['op'] == 'ajax' && $_REQUEST['nuked_nude'] == 'index'))
+    && $_SESSION['admin'] == true ) {
+    $_SESSION['admin'] = false;
+}
+
 // Inclusion du fichier des couleurs
 require_once ('themes/' . $theme . '/colors.php');
 
@@ -229,6 +237,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                     CKEDITOR.config.scayt_autoStartup = "true";
                     CKEDITOR.replace('e_basic',{
                         toolbar : 'Basic',
+                        autoGrow_onStartup : true,
+                        autoGrow_maxHeight : 200,
                         language : '<?php echo substr($language, 0,2) ?>',
                         <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
                     });
@@ -241,6 +251,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                     <?php echo ($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''; ?>
                     CKEDITOR.replace('e_advanced',{
                         toolbar : 'Full',
+                        autoGrow_onStartup : true,
+                        autoGrow_maxHeight : 200,
                         language : '<?php echo substr($language, 0,2) ?>',
                         <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\',' : ''; ?>
                         allowedContent:
@@ -301,7 +313,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
                 }
             </script>
         <?php
-        }else{}
+        }
     }
 
     if (!isset($_REQUEST['nuked_nude'])){

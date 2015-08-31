@@ -10,7 +10,7 @@ header('Content-type: text/html; charset=iso-8859-1');
 	</li>
 	<li>
 		<a class="shortcut-button" href="index.php?file=Server&amp;page=admin&amp;op=add_serveur">
-			<img src="modules/Admin/images/icons/chess.png" alt="icon" />
+			<img src="modules/Admin/images/icons/windows_terminal.png" alt="icon" />
 			<span>Ajouter un serveur</span>
 		</a>
 	</li>

@@ -50,7 +50,7 @@ define("_ACTIONMODIFCOMMOD","has modified the list of comment module");
 define("_COMMENTMODIFMOD","List of comment module has been succesfully modified.");
 define("_DESACTIVER","Unactive");
 define("_ACTIVER","Active");
-define("_LISTI","List of modules where the comments are authorised.<br /><br />");
+define("_LISTI","List of modules where the comments are authorised.");
 define("_COMMENTMOD","Comment module list");
 define("_COMMENTINDEX","Comment list");
 ?>

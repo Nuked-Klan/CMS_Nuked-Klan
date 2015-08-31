@@ -196,7 +196,7 @@ define("_DATEUSER","Date d'arrivée");
 define("_EDITUSER","Editer ce membre");
 define("_DELETEUSER","Supprimer ce membre");
 define("_TEAMMANAGEMENT","Gestion des Teams");
-define("_WARNINGTEAM","Dans une prochaine mise à jour de Nuked Klan, la Gestion des Teams se fera dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permetra de gérer un nombre infini de teams pour un utilisateur.<br />La pluspart des modules du site utiliseront le nouveau module Equipe.<br />En attendant vous pouvez continuer d'utiliser le système de Team ci dessous.");
+define("_WARNINGTEAM","Dans une prochaine mise à jour de Nuked Klan, la Gestion des Teams se fera dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permetra de gérer un nombre infini de teams pour un utilisateur.<br />La plupart des modules du site utiliseront le nouveau module Equipe.<br />En attendant vous pouvez continuer d'utiliser le système de Team ci dessous.");
 define("_NOTIFLOGOTEAM","Le logo de la team est actuellement utilis&eacute; sur le th&egrave;me Restless dans le bloc TopMatch par exemple.<br />Les mises &agrave; ult&eacute;rieure exploiterons aussi cette nouvelle fonctionalit&eacute;.");
 define("_EDITTHISTEAM","Editer cette Team");
 define("_DELTHISTEAM","Supprimer cette Team");
@@ -328,7 +328,7 @@ define("_TOLOG","S'identifier");
 define("_TOBACK","Retour");
 
 define("_BONJOUR","Bonjour");
-define("_MESSAGEDEBIENVENUE", "Bienvenue sur l'administration Nuked-Klan 1.8 !");
+define("_MESSAGEDEBIENVENUE", 'Bienvenue sur l\'administration Nuked-Klan ' ._NKVERSION. ' !');
 define("_AIDE","Aides");
 define("_STATS","Statistiques");
 define("_SQL","Erreurs SQL détectées");
@@ -353,7 +353,7 @@ define("_JAVA","Votre navigateur ne supporte pas le javascript, ou il n'est pas 
 define("_BIENTOT","A bientôt");
 define("_OPEREUS","Opération effectuée avec succès. Vous avez été déconnecté de l'administration.");
 define("_OPEECHE","Opération échouée. Vous êtes encore connecté à l'administration.");
-define("_VOIR","voir les");
+define("_VOIR","Voir les");
 define("_MESSAGES","messages");
 define("_VOIRSITE","Voir le Site");
 define("_DECONNEXION","Déconnexion");
@@ -491,9 +491,9 @@ define("_NICKTOLONG","Votre pseudo est trop long.");
 define("_NICKINUSE","Ce pseudo est déjà réservé");
 define("_NICKBANNED","Ce pseudo est banni");
 define("_SHARESTATS","Partager vos statistiques");
-define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat."); 
+define("_SHAREREASON","Ce service à pour but de nous aider à améliorer les services Nuked-Klan tout en gardant votre anonymat.");
 define("_SEESHARE","voir les statistiques envoyées");
-define("_SMILEYNOTAUTHORIZE","Le code du smiley n'est pas autorisé, merci de le changer");
+define("_SMILEYNOTAUTHORIZE","Le code et/ou le nom du smiley n'autorisent pas les apostrophes et les guillemets, merci de les remplacer");
 define("_THANKSPARTICIPATION","Merci pour votre participation.");
 define("_NOTIFICATIONNOTRECEIVED","La notification n'a pas été reçue.");
 # Page : A propos
@@ -515,4 +515,25 @@ define("_TINYEDITOR","TinyEditor");
 
 define("_UPLOADFILEFAILED","Le T&eacute;l&eacute;chargement du fichier &agrave; &eacute;chou&eacute; !");
 define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
+
+define("_STYLETITLE","Style");
+define("_ACCESSIBILITY","Accessibilit&eacute;");
+define("_TO_CREATE_A_MENU","Pour ajouter un menu, il faut au pr&eacute;alable cr&eacute;er un bloc de type \"Menu\".");
+define("_WEBSITEACTIVITY","Activit&eacute; sur le site");
+define("_LASTMEMBERS","Derniers membres");
+define("_DATEREGISTRATION","Enregistr&eacute; le ");
+define("_LASTVISITS","Derni&egrave;res visites");
+define("_LASTCOMMENTS","Derniers commentaires");
+define("_NOCOMMENT","Aucun commentaire dans la base de donn&eacute;e");
+define("_HAS_COMMENTED_MOD","a comment&eacute; le module");
+define("_POSTED","Post&eacute; le");
+define("_SEEMORE","Voir plus...");
+define("_TOTALMEMBERS","Membres enregistr&eacute;s");
+define("_TOTALFORUMMESSAGES","Messages dans le Forum");
+define("_ONLINEVISITORS","Visiteurs en ligne");
+define("_ONLINEMEMBERS","Membres en ligne");
+define("_ONLINEADMINS","Administrateurs en ligne");
+define("_TOTALVISITS","Nombre de pages vues");
+
+
 ?>

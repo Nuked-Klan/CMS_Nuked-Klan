@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - Portal PHP                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK")){
     exit('You can\'t run this file alone.');
 }
@@ -15,7 +13,7 @@ function form($content, $sug_id){
     global $nuked, $user;
 
     if ($content != ""){
-        $titre = "<big><b>" . _VALIDNEWS . "</big></b>";
+        $titre = "<strong>" . _VALIDNEWS . "</strong>";
         $action = "index.php?file=Suggest&amp;page=admin&amp;op=valid_suggest&amp;module=News";
         $autor = $content[2];
         $autor_id = $content[3];
@@ -33,11 +31,11 @@ function form($content, $sug_id){
                 . "// -->\n"
                 . "</script>\n";
 
-        $refuse = "&nbsp;<input type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" /></div>\n"
-                     . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Suggest&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
+        $refuse = "&nbsp;<input class=\"button\" type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" />\n"
+                     . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . _BACK . "</a></div></form><br />\n";
     }
     else{
-        $titre = "<a href=\"index.php?file=News\" style=\"text-decoration:none\"><big><b>" . _NEWS . "</b></big></a> &gt; <big><b>" . _SUG . "</b></big>";
+        $titre = "<a href=\"index.php?file=News\" style=\"text-decoration:none\"><strong>" . _NEWS . "</strong></a> &gt; <strong>" . _SUG . "</strong>";
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=News";
         $autor = $user[2];
         $autor_id = $user[0];
@@ -47,7 +45,7 @@ function form($content, $sug_id){
 
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
             . "<form method=\"post\" action=\"" . $action . "\">\n"
-            . "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
+            . "<table style=\"margin: auto; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
             . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . $content[0] . "\" /></td></tr>\n"
             . "<tr><td><b>" . _SUBJECT . " :</b> <select name=\"cat\">\n";
 
@@ -77,7 +75,7 @@ function form($content, $sug_id){
             . "<input type=\"hidden\" name=\"auteur\" value=\"" . $autor . "\" />\n"
             . "<input type=\"hidden\" name=\"auteur_id\" value=\"" . $autor_id . "\" />\n"
             . "<input type=\"hidden\" name=\"date\" value=\"" . $date . "\" /></td></tr>\n"
-            . "</table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
+            . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
 }
 
 function make_array($data){

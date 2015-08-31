@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
 	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -16,7 +14,7 @@ global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cooki
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 include("modules/Textbox/config.php");
 
-// Inclusion syst�me Captcha
+// Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
 $captcha = initCaptcha();
@@ -57,6 +55,10 @@ function maj_shoutbox() {
 			document.getElementById("textbox").style.textAlign = "left";
 			document.getElementById("textbox").innerHTML = requete.responseText;
 			document.getElementById("textbox").style.paddingTop = "0px";
+<!--scrollbar inversé-->			
+			element = document.getElementById("textbox");
+			element.scrollTop = element.scrollHeight;
+<!--fin-->			
 			setTimeout('suivant()','25000');
 		}
 	}
@@ -131,20 +133,20 @@ function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail)
 </script>
 
 <?php
-if ($visiteur >= 2)
+if ($visiteur >= nivo_mod("Textbox"))
             {
-                echo "<script type=\"text/javascript\">\n"
-		. "<!--\n"
-		. "\n"
-		. "function del_shout(pseudo, id)\n"
-		. "{\n"
-		. "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-		. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
-		. "}\n"
-		. "\n"
-		. "// -->\n"
-		. "</script>\n";
-		}
+			echo "<script type=\"text/javascript\">\n"
+			. "<!--\n"
+			. "\n"
+			. "function del_shout(pseudo, id)\n"
+			. "{\n"
+			. "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+			. "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
+			. "}\n"
+			. "\n"
+			. "// -->\n"
+			. "</script>\n";
+			}
 if ($active == 3 || $active == 4)
 {
     $width = $mbox_width;
@@ -179,54 +181,69 @@ else{
     $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value); return false;';
 }
 
+//mode large
 if ($active == 3 || $active == 4)
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo "<form method=\"post\" onsubmit=\"".$callAjax."\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo "<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
 
-        if (!$user)
-        {
-            echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" size=\"40\" maxlength=\"100\" value=\"" . _NICKNAME . "\" onclick=\"if(this.value=='" . _NICKNAME . "'){this.value=''}\" /><br />\n";
-        }
-        else
-        {
-            echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
-        }
+        // if (!$user)
+        // {
+        //     echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" size=\"10%\" maxlength=\"100\" value=\"" . _NICKNAME . "\" onclick=\"if(this.value=='" . _NICKNAME . "'){this.value=''}\" />\n";
+        // }
+        // else
+        // {
+        //     echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
+        // }
 
-        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"50\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br />\n";
+        //Resctriction to logged users
+        echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
+        //end
+
+		echo "<div class=\"nkButton-container\" style=\"margin:10px;\">\n"
+		. "<div class=\"nkButton-group\">\n"
+		. "<a class=\"nkButton icon add alone\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\" title=\"" . _SMILEY . "\">\n"
+		. "</a><a class=\"nkButton icon log alone\" href=\"index.php?file=Textbox\" title=\"" . _SEEARCHIVES . "\"></a></div>\n"
+        . "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" style=\"width:70%;\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" />\n";
 
 		if ($GLOBALS['captcha'] === true) echo create_captcha();
 		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
-	echo "<br /><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
-	. "<a href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\">\n"
-	. "<b>" . _SMILEY . "</b></a></div><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox\">" . _SEEARCHIVES . "</a> ]</div></form><br />\n";
+	echo "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\" /></div></div></form>\n";
     }
 }
+//fin mode large
 else
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo"<form method=\"post\" onsubmit=\"".$callAjax."\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo"<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
 
-        if (!$user)
-        {
-            echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" maxlength=\"100\" value=\"" . _NICKNAME . "\" style=\"width:70%;\" onclick=\"if(this.value=='" . _NICKNAME . "'){this.value=''}\" /><br />\n";
-        }
-        else
-        {
-            echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
-        }
+        // if (!$user)
+        // {
+        //     echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" maxlength=\"100\" value=\"" . _NICKNAME . "\" style=\"width:70%;\" onclick=\"if(this.value=='" . _NICKNAME . "'){this.value=''}\" /><br />\n";
+        // }
+        // else
+        // {
+        //     echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
+        // }
+
+        //Resctriction to logged users
+        echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
+        //end
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
 
 	if ($GLOBALS['captcha'] === true) echo create_captcha();
 	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
-	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"
-	. "<a href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\">\n"
-	. "<b>" . _SMILEY . "</b></a></div><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox\">" . _SEEARCHIVES . "</a> ]</div></form><br />\n";
+	echo "</table>\n"
+	. "<div class=\"nkButton-container\" style=\"margin:5px;\" >\n"
+	. "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\"/>\n"
+	. "<div class=\"nkButton-group\">\n"
+	. "<a class=\"nkButton icon add alone\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\" title=\"" . _SMILEY . "\">\n"
+	. "</a><a class=\"nkButton icon log alone\" href=\"index.php?file=Textbox\" title=\"" . _SEEARCHIVES . "\"></a></div></div></div></form>\n";
     }
 }
 echo"</div>\n";

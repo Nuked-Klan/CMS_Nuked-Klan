@@ -1259,7 +1259,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
             break;
 
         case "send_forum":
-            send_forum($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['cat'], $_REQUEST['modo'], $_REQUEST['urlImageForum'], $_REQUEST['upImageForum'], $_REQUEST['niveau'], $_REQUEST['level'], $_REQUEST['ordre'], $_REQUEST['level_poll'], $_REQUEST['level_vote']);
+            send_forum($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['cat'], $_REQUEST['modo'], $_REQUEST['niveau'], $_REQUEST['level'], $_REQUEST['ordre'], $_REQUEST['level_poll'], $_REQUEST['level_vote'], $_REQUEST['urlImageForum'], $_REQUEST['upImageForum']);
             break;
 
         case "main_rank":

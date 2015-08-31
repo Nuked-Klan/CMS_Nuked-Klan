@@ -18,6 +18,12 @@ function admintop(){
     $condition_js = ($nuked['screen']) == 'off' ? 1 : 0;
     if($visiteur < 2) redirect('index.php?file=404', 0);
 
+    //On recherche l'id du visiteur et on récupère son avatar
+    $sqlUser = mysql_query("SELECT id, avatar FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+    list($author, $avatar) = mysql_fetch_array($sqlUser);
+
+    if ($avatar != '') $userAvatar = $avatar; else $userAvatar = 'modules/User/images/noavatar.png';
+
     // Tableau associé au condition sur la class du menu de navigation
     $a = array('setting','maj','phpinfo','mysql','action','erreursql');
     $b = array('user','theme','modules','block','menu','smilies','games');
@@ -86,8 +92,9 @@ function admintop(){
 
                 <!-- Sidebar Profile links -->
                 <div id="profile-links">
+                    <a href="index.php?file=User" title="<?php echo _EDIT; ?>"><img src="<?php echo $userAvatar; ?>" class="nkAdminUserAvatar" /></a>
                     <?php echo _BONJOUR; ?>
-                    <a href="index.php?file=User" title="<?php echo _EDIT; ?>"><?php echo $user[2];?></a>,
+                    <a href="index.php?file=User" title="<?php echo _EDIT; ?>"><?php echo $user[2];?></a><br />
                     <?php echo _VOIR; ?>
                     <a href="#messages" rel="modal"><?php echo _MESSAGES; ?></a><br /><br />
                     <?php if ($nuked['screen'] == "on") : ?>
@@ -291,6 +298,8 @@ function adminfoot(){
                         CKEDITOR.replaceAll(function(textarea,config){
                             if (textarea.className!='editor') return false;
                             CKEDITOR.config.toolbar = 'Full';
+                            CKEDITOR.config.autoGrow_onStartup = true;
+                            CKEDITOR.config.autoGrow_maxHeight = 200;
                             CKEDITOR.configlanguage = '<?php echo substr($language, 0,2) ?>';
                             <?php echo !empty($bgcolor4) ? 'CKEDITOR.config.uiColor = \''.$bgcolor4.'\';' : ''; ?>
                             CKEDITOR.config.allowedContent=

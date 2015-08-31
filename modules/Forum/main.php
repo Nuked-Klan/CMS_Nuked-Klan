@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
@@ -10,35 +10,37 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $user, $nuked, $language, $cookie_forum;
 
 
-// On dÃ©finit le niveau du visiteur
+// On définit le niveau du visiteur
 $visiteur = $user ? $user[1] : 0;
 $user_last_visit = (empty($user[4])) ? time() : $user[4];
 
 $date_jour = nkDate(time());
 $your_last_visite = nkDate($user_last_visit);
 
-    //On vÃ©rifie si le titre du forum
+    //On vérifie si le titre du forum
     if ($nuked['forum_title'] != "") {
         $titleForum = $nuked['forum_title'];
         $descForum = $nuked['forum_desc'];
-    } 
+    }
     else {
         $titleForum = $nuked['name'];
         $descForum = $nuked['slogan'];
     }
 
-    //Recherche des catÃ©gories du forum
-    if ($_REQUEST['cat'] != "") {
+    //Recherche des catégories du forum
+    if (!empty($_REQUEST['cat'])) {
         $sql_cat = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $_REQUEST['cat'] . "'");
         list($cat_name) = mysql_fetch_row($sql_cat);
         $cat_name = printSecuTags($cat_name);
-        $nav = '-> <strong>' . $cat_name . '</strong>';    
+        $nav = '-> <strong>' . $cat_name . '</strong>';
+    } else {
+        $nav = '';
     }
 
-    //Date de la derniÃ¨re visite
+    //Date de la dernière visite
     if ($user && $user[4] != "") {
         $textLastVisit = _LASTVISIT.' : '.$your_last_visite;
-    } 
+    }
 
     // ------------------------------
     // ENTETE DU MAIN
@@ -72,10 +74,10 @@ $your_last_visite = nkDate($user_last_visit);
 <?php
     if ($_REQUEST['cat'] != "") {
         $main = mysql_query("SELECT nom, id, image FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['cat'] . "'");
-    } 
+    }
     else {
         $main = mysql_query("SELECT nom, id, image FROM " . FORUM_CAT_TABLE . " WHERE " . $visiteur . " >= niveau ORDER BY ordre, nom");
-    } 
+    }
 
     while (list($nom_cat, $cid, $catImage) = mysql_fetch_row($main)) {
         $nom_cat = printSecuTags($nom_cat);
@@ -98,7 +100,7 @@ $your_last_visite = nkDate($user_last_visit);
                     else {
 ?>
                         <h2><a href="<?php echo $catLink; ?>"><?php echo $nom_cat; ?></a></h2>
-<?php                       
+<?php
                     }
 ?>
                     </div>
@@ -120,7 +122,7 @@ $your_last_visite = nkDate($user_last_visit);
 
             $nom = printSecuTags($nom);
 
-            //ModÃ©rateurs
+            //Modérateurs
             if ($modos != "" )
             {
                 $moderateurs = explode('|', $modos);
@@ -132,10 +134,10 @@ $your_last_visite = nkDate($user_last_visit);
                     $typoModo = _MODOS;
                     $sqlModoName = mysql_query("SELECT pseudo, rang FROM " . USER_TABLE . " WHERE id = '" . $moderateurs[$i] . "'");
                     list($modo_pseudo, $modoRank) = mysql_fetch_row($sqlModoName);
-                    
+
 
                     if ($nuked['forum_user_details'] == "on")
-                    { 
+                    {
                     $sql_rank_team_modo = mysql_query("SELECT couleur FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $modoRank . "'");
                     list($theModoColor) = mysql_fetch_array($sql_rank_team_modo);
                     $rank_color_modo = "style=\"color: #" . $theModoColor . ";\"";
@@ -151,7 +153,7 @@ $your_last_visite = nkDate($user_last_visit);
                 $typoModo = _MODO;
                 $lienmodo = _NONE;
             }
-            //Fin modÃ©rateurs
+            //Fin modérateurs
 
             $req2 = mysql_query("SELECT forum_id from " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $forum_id . "'");
             $num_post = mysql_num_rows($req2);
@@ -162,7 +164,7 @@ $your_last_visite = nkDate($user_last_visit);
             $req4 = mysql_query("SELECT MAX(id) from " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $forum_id . "'");
             $idmax = mysql_result($req4, 0, "MAX(id)");
 
-            //VÃ©riofication si le message est lu/non lu
+            //Vériofication si le message est lu/non lu
             $req5 = mysql_query("SELECT id, titre, thread_id, date, auteur, auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $idmax . "'");
             list($mess_id, $topicTitle, $thid, $date, $auteur, $auteur_id) = mysql_fetch_array($req5);
             $auteur = nk_CSS($auteur);
@@ -170,14 +172,14 @@ $your_last_visite = nkDate($user_last_visit);
             if ($user) {
                 $visits = mysql_query("SELECT user_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "' AND forum_id LIKE '%" . ',' . $forum_id . ',' . "%' ");
                 $results = mysql_fetch_assoc($visits);
-                
+
                 if ($num_post > 0 && strrpos($results['forum_id'], ',' . $forum_id . ',') === false) {
                     $img = 'modules/Forum/images/forum_new.png';
-                } 
+                }
                 else {
                     $img = 'modules/Forum/images/forum.png';
-                } 
-            } 
+                }
+            }
             else {
                 $img = 'modules/Forum/images/forum.png';
             }
@@ -201,7 +203,7 @@ $your_last_visite = nkDate($user_last_visit);
                 $topicpages = $nb_rep / $nuked['mess_forum_page'];
                 $topicpages = ceil($topicpages);
                 $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thid . "&amp;p=" . $topicpages . "#" . $mess_id;
-            } 
+            }
             else {
                 $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thid . "#" . $mess_id;
             }
@@ -235,18 +237,18 @@ $your_last_visite = nkDate($user_last_visit);
                     list($author, $avatar, $country, $autorRank) = mysql_fetch_array($sq_user);
 
                     //Rank color dernier posteur
-                    if ($nuked['forum_user_details'] == "on") { 
+                    if ($nuked['forum_user_details'] == "on") {
                         $sqlRankTeamAutor = mysql_query("SELECT couleur FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $autorRank . "'");
                         list($colorRankTeamAutor) = mysql_fetch_array($sqlRankTeamAutor);
-                        $rankColorAutor = 'style="color: #' . $colorRankTeamAutor . ';"'; 
-                    } 
+                        $rankColorAutor = 'style="color: #' . $colorRankTeamAutor . ';"';
+                    }
                     else {
                         $rankColorAutor = "";
-                    }                    
+                    }
 
                     if ($test > 0 && $author != "") {
                         $autor = $author;
-                    } 
+                    }
                     else {
                         $autor = $auteur;
                     }
@@ -258,23 +260,23 @@ $your_last_visite = nkDate($user_last_visit);
                     else {
                         $lastAuthorAvatar = 'modules/Forum/images/noAvatar.png';
                     }
-                } 
+                }
                 else {
                     $autor = $auteur;
                     $lastAuthorAvatar = 'modules/Forum/images/noAvatar.png';
-                } 
+                }
 
-                //Formatagee de la date
+                //Formatage de la date
                 if (strftime("%d %m %Y", time()) ==  strftime("%d %m %Y", $date)) $date = _FTODAY . "&nbsp;" . strftime("%H:%M", $date);
-                else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
+                else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);
                 else $date = nkDate($date);
 
                 if ($auteur_id != "") {
                     $lastMsgAuthor = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($autor) . '" ' . $rankColorAutor . '>' . $autor . '</a>';
-                } 
+                }
                 else {
                     $lastMsgAuthor = $autor;
-                } 
+                }
 
                 //Lien en image vers le message
                 $cleanTopicTitle = str_replace('RE : ', '', $topicTitle);
@@ -302,14 +304,14 @@ $your_last_visite = nkDate($user_last_visit);
                                     </div>
                                 </div>
 <?php
-            } 
+            }
             else {
 ?>
                                 <div class="nkForumDateCell  nkBorderColor1">
                                     <?php echo _NOPOST; ?>
                                 </div>
 <?php
-            } 
+            }
 ?>
                             </div>
 <?php
@@ -323,15 +325,15 @@ $your_last_visite = nkDate($user_last_visit);
     // ------------------------------
     // LEGENDE DU MAIN
     // ------------------------------
- 
+
     $nb = nbvisiteur();
 
     $sqlTotalMessages = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " ");
     $nbTotalMessages = mysql_num_rows($sqlTotalMessages);
-    
+
     $sqlTotalUsers = mysql_query("SELECT id FROM " . USER_TABLE . " ");
     $nbTotalUsers = mysql_num_rows($sqlTotalUsers);
-    
+
     $sqlLastUser = mysql_query("SELECT pseudo FROM " . USER_TABLE . " ORDER BY date DESC LIMIT 1");
     list($lastUser) = mysql_fetch_array($sqlLastUser);
 
@@ -356,16 +358,16 @@ $your_last_visite = nkDate($user_last_visit);
                             $i++;
                             if ($i == $nb[3]) {
                                 $sep = "";
-                            } 
+                            }
                             else {
                                 $sep = ", ";
-                            } 
+                            }
 
                         $sqlUserDetails = mysql_query("SELECT pseudo, country FROM " . USER_TABLE . " WHERE pseudo = '" . $userName . "'");
                         while (list($userPseudo, $userCountry) = mysql_fetch_array($sqlUserDetails)) {
                             echo '<img src="images/flags/' . $userCountry .'" alt="' . $userCountry . '" class="nkForumOnlineFlag" />';
                         }
-                            if ($nuked['forum_user_details'] == "on") {   
+                            if ($nuked['forum_user_details'] == "on") {
                                 $sqlUser = mysql_query("SELECT rang FROM " . USER_TABLE . " WHERE pseudo = '" . $userName . "'");
                                 list($userRank) = mysql_fetch_array($sqlUser);
 
@@ -384,10 +386,10 @@ $your_last_visite = nkDate($user_last_visit);
 
 ?>                      </p>
 <?php
-                        //LÃ©gende des rangs
+                        //Légende des rangs
                         if ($nuked['forum_user_details'] == "on") {
                             echo '<br /><p>' . _RANKLEGEND . '&nbsp;:&nbsp;';
-                        
+
                         $sqlRankTeamLegend = mysql_query("SELECT titre, couleur FROM " . TEAM_RANK_TABLE . " WHERE id > 0 ORDER BY ordre LIMIT 0, 20");
                         $nbRank=mysql_num_rows($sqlRankTeamLegend);
                         $i = -$nbRank;
@@ -395,10 +397,10 @@ $your_last_visite = nkDate($user_last_visit);
                             $i++;
                             if ($i == 0) {
                                 $sep = "";
-                            } 
+                            }
                             else {
                                 $sep = " | ";
-                            }                          
+                            }
                               $rankColorStyleLegend = 'style="color: #' . $rankColorLegend . ';"';
                               echo '<span ' . $rankColorStyleLegend . '><strong>' . $rankTitleLegend . '</strong></span>' . $sep;
                             }
@@ -410,20 +412,20 @@ $your_last_visite = nkDate($user_last_visit);
                             $currentYear = date("Y");
                             $currentMonth = date("m");
                             $currentDay = date("d");
-                              
+
                             if ($currentDay < 10){$currentDay = str_replace("0", "", $currentDay);}
                             if ($currentMonth < 10){$currentMonth = str_replace("0", "", $currentMonth);}
-                              
+
                             $sqlBirthdayAge = mysql_query("SELECT age FROM " . USER_DETAIL_TABLE . " WHERE age LIKE '%$d/$m%'");
                             $nbBirthday = mysql_num_rows($sqlBirthdayAge);
-                              
+
                                 while (list($birthdayDate) = mysql_fetch_array($sqlBirthdayAge)) {
                                     list ($bDDay, $bDMonth, $bDDay) =  split ('[/]', $birthdayDate);
-                                    
-                                    if ($currentDay != $bDDay || $currentMonth != $bDMonth) {       
+
+                                    if ($currentDay != $bDDay || $currentMonth != $bDMonth) {
                                     $nbBirthday = $nbBirthday - 1;
                                     }
-                                }     
+                                }
                                 echo '<p>' . _TODAY . ', ';
                                 if ($nbBirthday == 0)
                                 echo _NOBIRTHDAY;
@@ -432,7 +434,7 @@ $your_last_visite = nkDate($user_last_visit);
                                 else
                                 echo _THEREARE2 .'&nbsp;'. $nbBirthday .'&nbsp;'. _MANYBIRTHDAY . '&nbsp;';
 
-  
+
                             $a = 0;
                             $sqlBirthdayUser = mysql_query("SELECT user_id, age, pseudo, rang FROM " . USER_DETAIL_TABLE . " INNER JOIN " . USER_TABLE . " ON user_id = id WHERE niveau > 0 ");
                             while (list($anivid, $birthDay, $userBirthday, $userBirthdayRank) = mysql_fetch_array($sqlBirthdayUser)) {
@@ -441,10 +443,10 @@ $your_last_visite = nkDate($user_last_visit);
                                 $age = $currentYear - $bYear;
                                 if ($currentMonth < $bMonth) {
                                     $age = $age - 1;
-                                } 
+                                }
                                 if ($currentDay < $bDay && $currentMonth == $bMonth) {
                                     $age = $age - 1;
-                                } 
+                                }
 
                                 if ($currentDay == $bDay && $currentMonth == $bMonth) {
 
@@ -472,7 +474,7 @@ $your_last_visite = nkDate($user_last_visit);
                                 }
                             }
                             echo '</p>';
-                        }       
+                        }
 
 ?>
                     </div>

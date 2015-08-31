@@ -49,7 +49,7 @@ define("_ACTIONMODIFCOMMOD","a modifié la liste des modules commentés");
 define("_COMMENTMODIFMOD","Liste des modules commentés modifiés avec succès.");
 define("_DESACTIVER","Désactiver");
 define("_ACTIVER","Activer");
-define("_LISTI","Liste des modules où les commentaires sont autorisées.<br /><br />");
+define("_LISTI","Liste des modules où les commentaires sont autorisées.");
 define("_COMMENTMOD","Liste des modules commentés");
 define("_COMMENTINDEX","Liste des commentaires");
 ?>

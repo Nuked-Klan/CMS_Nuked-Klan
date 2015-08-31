@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN 1.7 - PHP Portal                                              //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 // CONNECT TO DB.
@@ -142,10 +140,10 @@ function session_read($id){
 
 // WRITE PHP SESSION
 function session_write($id, $data){
-    $id = mysql_escape_string($id);
-    $data = mysql_escape_string($data);
-
     connect();
+    
+    $id = mysql_real_escape_string($id);
+    $data = mysql_real_escape_string($data);
 
     $sql = mysql_query('INSERT INTO ' . TMPSES_TABLE . ' (session_id, session_start, session_vars) VALUES ("' . $id . '", ' . time() . ', \'' . $data . '\')');
 
@@ -450,7 +448,8 @@ function secu_css($Style){
         'padding-left',
         'padding-right',
         'font-size',
-        'font-family'
+        'font-family',
+        'page-break-after'
     );
     $Style = explode(';', $Style);
     $Style = array_map('trim', $Style);
@@ -765,7 +764,7 @@ function number($count, $each, $link){
 
         for ($i = 1; $i <= $n; $i++){
             if ($i == $current){
-                $output .= sprintf('<b class="pgactuel">[%d]</b> ',$i    );
+                $output .= sprintf('<b class="pgactuel">%d</b> ',$i    );
             }
             // On est autour de la page actuelle : on affiche
             elseif (abs($i - $current) <= 4){

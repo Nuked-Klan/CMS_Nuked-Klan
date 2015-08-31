@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -38,9 +36,11 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Recruit.php\" rel=\"modal\">\n"
 	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _NAVRECRUIT . "<b> | "
-	. "<a href=\"index.php?file=Recruit&amp;page=admin&amp;op=edit_pref\">" . _PREFS . "</a></b></div><br />"
-	. "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+	. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(1);
+
+    echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 	. "<tr>\n"
 	. "<td style=\"width: 25%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
 	. "<td style=\"width: 20%;\" align=\"center\"><b>" . _FIRSTNAME . "</b></td>\n"
@@ -70,7 +70,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         {
             echo "<tr><td colspan=\"5\" align=\"center\">" . _NORECRUIT . "</td></tr>\n";
         } 
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     } 
 
     function edit_pref()
@@ -89,13 +89,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         } 
         
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _RECRUIT . "</h3>\n"
+		. "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Recruit.php\" rel=\"modal\">\n"
 	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Recruit&amp;page=admin\">" . _NAVRECRUIT . "</a> | "
-	. "</b>" . _PREFS . "</div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;op=update_pref\" onsubmit=\"backslash('charte_recruit');\">\n"
+	. "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        nkAdminMenu(2);
+
+    echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;op=update_pref\" onsubmit=\"backslash('charte_recruit');\">\n"
 	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 	. "<tr><td><b>" . _RECRUTE . "</b> : <select name=\"recrute\">\n"
 	. "<option value=\"" . $nuked['recrute'] . "\">" . $etat . "</option>\n"
@@ -123,8 +125,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         
 
         echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" id=\"charte_recruit\" name=\"recrute_charte\" cols=\"65\" rows=\"15\">" . $charte . "</textarea></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Recruit&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+	. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . _BACK . "</a></div>\n"
+	. "</form><br /></div></div>\n";
     } 
 
     function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
@@ -194,8 +196,8 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	. "<b>" . _AVAILABLE . " : </b>" . $dispo . "<br /><br />\n"
 	. "<b>" . _COMMENT . " : </b>" . $comment . "<br /><br />\n";
 
-        echo "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_recruit('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $rid . "');\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br /><br />[ <a href=\"index.php?file=Recruit&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_recruit('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $rid . "');\" />\n"
+	. "<a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
     } 
 
     function del($rid)
@@ -215,6 +217,32 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 		. "</div>\n";
         redirect("index.php?file=Recruit&page=admin", 2);
     } 
+
+    function nkAdminMenu($tab = 1)
+    {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Recruit&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _NAVRECRUIT; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Recruit&amp;page=admin&amp;op=edit_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
+    }
 
     switch ($_REQUEST['op'])
     {
@@ -240,30 +268,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     } 
 
 } 
-else if ($level_admin == -1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _MODULEOFF . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+else if ($level_admin == -1){
+    printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else if ($visiteur > 1)
-{
-    echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
+else if ($visiteur > 1){
+    printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
 }
-else
-{
-    echo "<div class=\"notification error png_bg\">\n"
-	. "<div>\n"
-	. "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />"
-	. "</div>\n"
-	. "</div>\n";
-} 
+else{
+    printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error', $back = true, $redirect = false);
+}
 
 adminfoot();
 

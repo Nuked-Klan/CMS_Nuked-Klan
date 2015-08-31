@@ -20,8 +20,9 @@ p{padding:5px 0 10px 0;line-height:1.6em}
 .clear{clear:both}
 .align-left{float:left}
 .align-right{float:right}
-.button{font-family:Verdana,Arial,sans-serif;display:inline-block;background:#014995 url('../images/bg-button-blue.gif') top left repeat-x!important;border:1px solid #014995!important;padding:4px 7px 4px 7px!important;color:#fff!important;font-size:11px!important;cursor:pointer}
-.button:hover,.buttonLink:hover{text-decoration:underline}
+.button,.pgactuel,.pgnumber{font-family:Verdana,Arial,sans-serif;display:inline-block;background:#014995 url('../images/bg-button-blue.gif') top left repeat-x!important;border:1px solid #014995!important;padding:4px 7px 4px 7px!important;color:#fff!important;font-size:11px!important;cursor:pointer}
+.button:hover,.buttonLink:hover,.pgactuel:hover,.pgnumber:hover{text-decoration:underline}
+.button:active{padding:5px 7px 3px 7px!important}
 .buttonLink{font-family:Verdana,Arial,sans-serif;display:inline-block;background:#014995 url('../images/bg-button-blue.gif') top left repeat-x!important;border:1px solid #014995!important;padding:7px 7px 7px 7px!important;margin:0px 0px 0px 10px!important;color:#fff!important;font-size:11px!important;cursor:pointer}
 input.button {height: 27px;}
 a.remove-link{color:#b00}
@@ -154,3 +155,9 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {margin-left: 0; }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {right: 0px; }
 .inline{display:inline-block;vertical-align:middle;}
+/* GOODIES */
+.nkAdminUserAvatar{width:35px; height:35px; float:right; margin-left:10px; vertical-align:middle;border-radius:3px; border: 1px solid #ccc; padding:1px}
+#nkLastMembers, #nkLastVisit, #nkLastComments, #nkStats{display: inline-block; width:25%;vertical-align: top;}
+#nkLastMembers div, #nkLastVisit div , #nkLastComments div , #nkStats div {margin-top: 5px;}
+#NKUpdate{background:url('../images/nk_org.png') no-repeat center right; min-height: 119px;}
+#NKUpdate p{margin-right: 125px;}

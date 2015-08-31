@@ -6,14 +6,17 @@ if (!defined("INDEX_CHECK"))
 define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
 define("_NOENTRANCE","Sorry you have no permission to access this page");
 define("_NOTEXT","Please enter a text!");
-define("_NONICKNAME","Please enter your nickname!");
+// define("_NONICKNAME","Please enter your nickname!");
+//Resctriction to logged users
+define("_NONICKNAME","Log in to post a message !");
+// End
 define("_PSEUDOEXIST","This Nick is reserved!");
 define("_BANNEDNICK","This Nick is banned");
 define("_NICKNAME","Nickname");
-define("_YOURMESS","Your message");
+define("_YOURMESS","");
 define("_SEND","Send");
 define("_REFRESH","Refresh");
-define("_SEEARCHIVES","View archives");
+define("_SEEARCHIVES","See archives");
 define("_SHOUTBOX","Shoutbox");
 define("_SHOUTSUCCES","Message was successfully posted.");
 define("_NOFLOOD","No flood! Please wait a moment...");
@@ -24,7 +27,7 @@ define("_PREVIOUSPAGE","Previous Page");
 define("_NEXTPAGE","Next Page");
 define("_THEREIS","There are");
 define("_SHOUTINDB","messages in the database");
-define("_SMILEY","Smilies");
+define("_SMILEY","Add a smilies");
 define("_LISTSMILIES","Smilies List");
 define("_CODE","Code");
 define("_IMAGE","Image");
@@ -65,4 +68,7 @@ define("_LOADINPLSWAIT", "Loading ...");
 define("_PLEASEWAITTXTBOX","Please wait ...");
 define("_THANKSFORPOST","Thank you for your participation!");
 define("_LOADINGERRORS","Unable to load the block!");
+
+define("_DISPLAY_AVATAR","Display user pseudo");
+define("_NOTIF_INFOS_DISPLAY","When the display of the avatar is disabled, the appearance of the textbox is that of a basic chat, date is not displayed. However it is possible to know the post date flying over the pseudo poster with the mouse.");
 ?>

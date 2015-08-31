@@ -1,12 +1,10 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
 translate('modules/Defy/lang/' . $language . '.lang.php');
@@ -28,9 +26,11 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Defy.php\" rel=\"modal\">\n"
            . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
            . "</div></div>\n"
-           . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">" . _DEFY . "<b> | "
-           . "<a href=\"index.php?file=Defy&amp;page=admin&amp;op=edit_pref\">" . _PREFS . "</a></b></div><br />\n"
-           . "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+           . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+           nkAdminMenu(1);
+
+           echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
            . "<tr>\n"
            . "<td style=\"width: 25%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
            . "<td style=\"width: 15%;\" align=\"center\"><b>" . _CLAN . "</b></td>\n"
@@ -58,7 +58,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         if ($count == 0) {
             echo "<tr><td colspan=\"5\" align=\"center\">" . _NODEFY . "</td></tr>\n";
         }
-        echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+        echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
     }
 
     function view($did) {
@@ -81,7 +81,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Defy.php\" rel=\"modal\">\n"
            . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
            . "</div></div>\n"
-           . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">[ <a href=\"index.php?file=Defy&amp;page=admin&amp;op=transfert&amp;did=" . $did . "\"><b>" . _TRANSFERT . "</b></a> ]</div><br />\n"
+           . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin&amp;op=transfert&amp;did=" . $did . "\">" . _TRANSFERT . "</a></div><br />\n"
            . "<table width=\"90%\" style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr><td>\n";
 
         $sql = mysql_query("SELECT pseudo, clan, mail, icq, irc, url, pays, date, heure, serveur, game, type, map, comment FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
@@ -106,8 +106,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<b>" . _MATCH . " : </b>" . $type . "<br />\n"
            . "<b>" . _MAP . " : </b>" . $map . "<br /><br />\n"
            . "<b>" . _COMMENT . " : </b>" . $comment . "<br /><br />\n"
-           . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_defie('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $did . "');\" /></div>\n"
-           . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Defy&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div><br /></div></div>\n";
+           . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_defie('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $did . "');\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . _BACK . "</a></div>\n"
+           . "<br /></div></div>\n";
     }
 
     function del($did) {
@@ -171,11 +171,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Defy.php\" rel=\"modal\">\n"
            . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
            . "</div></div>\n"
-           . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Defy&amp;page=admin\">" . _DEFY . "</a> | "
-           . "</b>" . _PREFS . "</div><br />\n"
-           . "<form method=\"post\" action=\"index.php?file=Defy&amp;page=admin&amp;op=update_pref\">\n"
+           . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+           nkAdminMenu(2);
+
+           echo "<form method=\"post\" action=\"index.php?file=Defy&amp;page=admin&amp;op=update_pref\">\n"
            . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-           . "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
            . "<tr><td><b>" . _MAILAVERT . "</b> : <input type=\"text\" size=\"30\" name=\"defie_mail\" value=\"" . $nuked['defie_mail'] . "\" /></td></tr>\n"
            . "<tr><td><b>" . _INBOXAVERT . "</b> : <select name=\"defie_inbox\"><option value=\"\">" . _OFF . "</option>\n";
 
@@ -189,8 +190,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
         echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n";
 
         echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" name=\"defie_charte\" cols=\"65\" rows=\"15\"\">" . $charte . "</textarea></td></tr></table>\n"
-           . "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-           . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Defy&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+           . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . _BACK . "</a></div>\n"
+           . "</form><br /></div></div>\n";
     }
 
     function update_pref($defie_mail, $defie_inbox, $defie_charte) {
@@ -213,6 +214,31 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
            . "</div>\n"
            . "</div>\n";
         redirect('index.php?file=Defy&page=admin', 2);
+    }
+
+    function nkAdminMenu($tab = 1) {
+        global $language, $user, $nuked;
+
+        $class = ' class="nkClassActive" ';
+?>
+        <div class= "nkAdminMenu">
+            <ul class="shortcut-buttons-set" id="1">
+                <li <?php echo ($tab == 1 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Defy&amp;page=admin">
+                        <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
+                        <span><?php echo _DEFY; ?></span>
+                    </a>
+                </li>
+                <li <?php echo ($tab == 2 ? $class : ''); ?>>
+                    <a class="shortcut-button" href="index.php?file=Defy&amp;page=admin&amp;op=edit_pref">
+                        <img src="modules/Admin/images/icons/process.png" alt="icon" />
+                        <span><?php echo _PREFS; ?></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+<?php
     }
 
     switch ($_REQUEST['op']){

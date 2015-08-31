@@ -4,11 +4,14 @@ import shutil
 import zipfile
 import zlib
 import os.path
+# Note : Need python3 in order to run !
 
-def _ignore(src, name ):
-    if src == './UPLOAD/':
-        print name
-        return ['RESTDIR', 'conf.inc.php', 'Nuked-Klan.zip', '.hg', 'make.py']
+file = 'Nuked-Klan_v1.8-alpha.zip'
+
+def _ignore(src, name):
+    if ((src == './UPLOAD/') or (src == './/UPLOAD/')):
+        print (name)
+        return ['RESTDIR', 'conf.inc.php', file, 'Thumbs.db', '.DS_Store', '.git', 'make.py', 'README.md', '.gitignore']
     else:
         return []
 
@@ -24,7 +27,7 @@ def _RecImport(src, dst, zip):
     for ele in elements:
         if os.path.isfile(src + ele):
             zip.write(src + ele, dst + ele)
-            print dst + ele
+            print (dst + ele)
         elif os.path.isdir(src + ele):
             _RecImport(src + ele + '/', dst + ele + '/', zip)
 
@@ -32,8 +35,6 @@ try:
     shutil.rmtree('tmp')
 except OSError:
     pass
-
-file = 'Nuked-Klan.zip'
 
 try:
     os.remove(file)
