@@ -834,5 +834,4 @@
 
     }
 
-    $install = new install();
 ?>
