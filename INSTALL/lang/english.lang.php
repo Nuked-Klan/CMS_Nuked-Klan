@@ -28,10 +28,10 @@ define("_DISCOVERY","Discover Nuked-Klan !");
 define("_NEWSADMIN","A new administration");
 define("_INSTALL_AND_UPDATE","Installation and update");
 define("_COMMUNAUTY_NK","The NK community");
-define("_DISCOVERY_DESCR","You are about to install a web site based on the CMS Nuked-Klan ...</p><p>With a few clicks and within minutes, enjoy the opportunity to manage your team, guild or clan, using tools specifically designed for this purpose!</p><p>You are not a player but however you want to use Nuked-Klan to achieve your website?<br/>No problem, a general version of (SP) was also developed and is offered expressly for this purpose.</p><p>Adopt a design more suited to the spirit of your event (color palette, logos, ...) becomes, by Nuked-Klan, a veritable breeze. With an impressive collection of graphics and a change (and a creation) of themes certainly one of the easiest CMS market, inevitably you will come to a website that suits you.</p><p>Thank you for the interest and confidence you bring us everyday ... and all these years!</p>");
-define("_NEWSADMIN_DESCR","More ergonomic and more complete, the new administration has in this release will satisfy the most picky of you.</p><p>Options as indispensable listing of SQL errors and actions made on the website, the ability to leave notifications between administrators, ... are now directly integrated into the administration panel.</p><p>We also thought about the themes of designers and developers, offering them the possibility to define a precise management of the various elements of design, directly via the internal administration of the site.</p><p>With a security completely revised version, which should ensure the durability and reliability of your website.</p><p>Always attentive to your wants and needs, very few expected options are emerging in this version. Thus, the ability to adjust the time zone of your site, ... (Mention some improvements).</p>");
-define("_INSTALL_AND_UPDATE_DESCR","The procedures for installing and updating have been completely revisited and simplified.</p><p>Step by step, everything is now separeted and commented to deal with any problems you might encounter.</p><p>No more loss of data during an update, backup your existing database is automatically executed.</p><p>During installation and update, all steps are now archived in a log file. In case of trouble, this log file will allow our team to assist you during installation procedures (or update) optimally.</p><p>We propose, now, to participate in the evolution of the CMS by sending (anonymous) statistics. With this, we will be able to respond accurately and perfect your expectations, in the coming versions.</p>");
-define("_COMMUNAUTY_NK_DESCR","A thriving community ever, with members of helpfulness is deep and with many skills.<br/>This is a significant benefit which you will benefit by adopting Nuked-Klan and joining the said community.<br/>Naturally, you integrate this large family, always concerned for the welfare of its members.</p><p>Many fan-sites revolve around the CMS. Evidence of enthusiasm and excitement that comes from the use of Nuked-Klan, they represent the backbone of the CMS.</p><p>For this reason (and many others), they bring to our team of developers and the community want to move forward, together, in good humor and with a diligent mind communication.</p><p>This is how we will evolve over the years, always listening to your expectations and your needs.</p><p>Because Nuked-Klan is, above all, your CMS!</p>");
+define("_DISCOVERY_DESCR","You are about to install a web site based on the CMS Nuked-Klan ...</p><p>With a few clicks and within minutes, enjoy the opportunity to manage your team, guild or clan, using tools specifically designed for this purpose!</p><p>You are not a player but however you want to use Nuked-Klan to achieve your website?<br/>No problem, a general version of (SP) was also developed and is offered expressly for this purpose.</p><p>Adopt a design more suited to the spirit of your event (color palette, logos, ...) becomes, by Nuked-Klan, a veritable breeze. With an impressive collection of graphics and a change (and a creation) of themes certainly one of the easiest CMS market, inevitably you will come to a website that suits you.</p><p>Thank you for the interest and confidence you bring us everyday ... and all these years!");
+define("_NEWSADMIN_DESCR","More ergonomic and more complete, the new administration has in this release will satisfy the most picky of you.</p><p>Options as indispensable listing of SQL errors and actions made on the website, the ability to leave notifications between administrators, ... are now directly integrated into the administration panel.</p><p>We also thought about the themes of designers and developers, offering them the possibility to define a precise management of the various elements of design, directly via the internal administration of the site.</p><p>With a security completely revised version, which should ensure the durability and reliability of your website.</p><p>Always attentive to your wants and needs, very few expected options are emerging in this version. Thus, the ability to adjust the time zone of your site, ... (Mention some improvements).");
+define("_INSTALL_AND_UPDATE_DESCR","The procedures for installing and updating have been completely revisited and simplified.</p><p>Step by step, everything is now separeted and commented to deal with any problems you might encounter.</p><p>No more loss of data during an update, backup your existing database is automatically executed.</p><p>During installation and update, all steps are now archived in a log file. In case of trouble, this log file will allow our team to assist you during installation procedures (or update) optimally.</p><p>We propose, now, to participate in the evolution of the CMS by sending (anonymous) statistics. With this, we will be able to respond accurately and perfect your expectations, in the coming versions.");
+define("_COMMUNAUTY_NK_DESCR","A thriving community ever, with members of helpfulness is deep and with many skills.<br/>This is a significant benefit which you will benefit by adopting Nuked-Klan and joining the said community.<br/>Naturally, you integrate this large family, always concerned for the welfare of its members.</p><p>Many fan-sites revolve around the CMS. Evidence of enthusiasm and excitement that comes from the use of Nuked-Klan, they represent the backbone of the CMS.</p><p>For this reason (and many others), they bring to our team of developers and the community want to move forward, together, in good humor and with a diligent mind communication.</p><p>This is how we will evolve over the years, always listening to your expectations and your needs.</p><p>Because Nuked-Klan is, above all, your CMS!");
 ///////////////////////////////////////////////
 /////// MENU
 ///////////////////////////////////////////////
@@ -43,15 +43,14 @@ define('_RESETSESSION', 'Reset');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define('_NKVERSION', '1.7.12');
-define("_WELCOMEINSTALL",'Welcome on Nuked-Klan '._NKVERSION);
+define("_WELCOMEINSTALL",'Welcome on Nuked-Klan '.install::NK_VERSION);
 define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b>");
 define('_STARTINSTALL', 'Start the installation');
 define('_STARTUPDATE', 'Start the update');
 define('_DETECTUPDATE', 'The wizard has detected an installation of the version :');
 define('_DETECTUPDATEEND', 'of Nuked-Klan');
 define('_BADVERSION', 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version 1.7.7, 1.7.8 or 1.7.9 RC5.3');
-define('_LASTVERSIONSET', 'You already have the last version '._NKVERSION.' of Nuked-Klan');
+define('_LASTVERSIONSET', 'You already have the last version '.install::NK_VERSION.' of Nuked-Klan');
 ///////////////////////////////////////////////
 /////// TEST DE COMPATIBILITE
 ///////////////////////////////////////////////
@@ -73,7 +72,7 @@ define('_PHPVERSION', 'PHP version &ge; 5.1');
 define('_PHPVERSIONERROR', 'Erreur PHP');
 define('_MYSQLEXT', 'Mysql extension');
 define('_MYSQLEXTERROR', 'Erreur Mysql');
-define('_SESSIONSEXT', 'Sessions extension');
+define('_SESSIONEXT', 'Sessions extension');
 define('_SESSIONEXTERROR', 'Erreur sessions');
 define('_FORCE', 'Force the installation');
 ///////////////////////////////////////////////
@@ -113,7 +112,7 @@ define('_ERROR_PREFIX', 'Database connection failed !<br/>The prefix is incorrec
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
-define("_NEWNKNEWRELEASE",'New features Nuked Klan '. _NKVERSION);
+define("_NEWNKNEWRELEASE",'New features Nuked Klan '. install::NK_VERSION);
 define("_SECURITE","Security");
 define("_SECURITE1","The security was completely reviewed.<br />We can send messages since the official website to leave you some informations.");
 define("_OPTIMISATION","Optimisation");
@@ -168,6 +167,7 @@ define('_LOGUTXTUPDATE', 'successfully updated.');
 define('_LOGUTXTUPDATE2', 'successfully updated.');
 define('_LOGUTXTREMOVE', 'successfully removed.');
 define('_LOGUTXTREMOVE2', 'successfully removed.');
+define('_LOGUTXTNOTHINGTODO', 'Nothing to do.');
 define('_LOGUTXTERROR', 'An error occurred when editing the table');
 define('_LOGUTXTENDSUCCESS', 'The update is complete! All tables have been changed.');
 define('_LOGUTXTENDERRORSTART', 'The update is complete! But errors occurred, ');

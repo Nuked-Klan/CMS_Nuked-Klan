@@ -28,11 +28,10 @@ define("_DISCOVERY","Découvrer Nuked-Klan !");
 define("_NEWSADMIN","Une nouvelle administration");
 define("_INSTALL_AND_UPDATE","Installation et mise à jour");
 define("_COMMUNAUTY_NK","La communauté NK");
-define("_DISCOVERY_DESCR","Vous êtes sur le point d'installer votre site web sur base du CMS Nuked-Klan...</p><p>
-En quelques clics et en quelques minutes, offrez-vous la possibilité de gérer votre team, guilde ou clan, à l'aide d'outils spécialement conçus à cet effet !</p><p>Vous n'êtes pas un joueur mais vous désirez toutefois utiliser Nuked-Klan pour réaliser votre site web ?<br/><p>Aucun problème, une version généraliste (SP) a également été développée et vous est proposée, expressément dans cette optique.</p><p>Adopter un design plus adapté à l'esprit de votre activité (palette de couleurs, logos,...) devient, grâce à Nuked-Klan, un véritable jeu d'enfant. Avec une collection impressionante de graphismes et une modification (ainsi qu'une création) de thèmes certainement une des plus aisée du marché des CMS, vous aboutirez inévitablement à un site web qui vous ressemble.</p><p>Nous vous remercions pour l'intérêt et la confiance que vous nous apportez au quotidien... et depuis toutes ces années !</p>");
-define("_NEWSADMIN_DESCR","Plus ergonomique et plus complète, la nouvelle administration présente dans cette version comblera les plus pointilleux d'entre vous.</p><p>Des options indispensables comme le listage des erreurs SQL et des actions opérées sur le site, la possibilité de laisser des notifications entre administrateurs,... sont, dorénavant, directement intégrées dans le panneau d'administration.</p><p>Nous avons également pensé aux graphistes et développeurs de thèmes, en leur offrant la possibilité de définir une gestion précise des différents éléments du design, directement via l'administration interne du site.</p><p>Avec une sécurisation entièrement revue et corrigée, cette dernière version devrait assurer la pérénnité et la fiabilité de votre site web.</p><p>Toujours attentifs à vos attentes et vos besoins, quelques options très attendues voient le jour dans cette version. Ainsi, la possibilité de régler le fuseau horaire de votre site, ... (citer quelques améliorations).</p>");
-define("_INSTALL_AND_UPDATE_DESCR","Les procédures d'installation et de mise à jour ont été complètement revisitées et simplifiées.</p><p>Etape par étape, tout est maintenant commenté et dissocié afin de parer au moindre problème que vous pourriez rencontrer.</p><p>Plus de perte de données lors d'une mise à jour, une sauvegarde de votre base de donnée existante est automatiquement exécutée.</p><p>Durant l'installation et la mise à jour, toutes les étapes sont maintenant archivées dans un journal. En cas de souci, ce journal permettra à notre équipe de vous assister durant les procédures d'installation (ou de mise à jour) de façon optimale.</p><p>Nous vous proposons, dorénavant, de participer à l'évolution du CMS via l'envoi (anonyme) de statistiques. Grâce à cela, nous aurons la possibilité de répondre de façon précise et idéale à vos attentes, dès les prochaines versions.</p>");
-define("_COMMUNAUTY_NK_DESCR","Une communauté sans cesse florissante, avec des membres d'une grande serviabilité et possédant de nombreuses compétences.<br/>Voilà un des avantages non négligeable dont vous bénéficierez en adoptant Nuked-Klan et en rejoignant la dite communauté.<br/>Tout naturellement, vous intègrerez cette grande famille, toujours soucieuse du bien-être de ses membres.</p><p>De nombreux fan-sites gravitent autour du CMS. Preuve de l'enthousiasme et de l'engouement que procure l'utilisation de Nuked-Klan, ils représentent la colonne vertébrale du CMS.</p><p>Pour cette raison (et pour bien d'autres), ils apportent à notre équipe de développeurs et de communautaires l'envie d'avancer, main dans la main, dans la bonne humeur et avec un esprit assidu de communication.</p><p>C'est ainsi que nous évoluerons, au fil des années, toujours à l'écoute de vos attentes et de vos besoins.</p><p>Parce que Nuked-Klan est, avant tout, votre CMS !!</p>");
+define("_DISCOVERY_DESCR","Vous êtes sur le point d'installer votre site web sur base du CMS Nuked-Klan...</p><p>En quelques clics et en quelques minutes, offrez-vous la possibilité de gérer votre team, guilde ou clan, à l'aide d'outils spécialement conçus à cet effet !</p><p>Vous n'êtes pas un joueur mais vous désirez toutefois utiliser Nuked-Klan pour réaliser votre site web ?</p><p>Aucun problème, une version généraliste (SP) a également été développée et vous est proposée, expressément dans cette optique.</p><p>Adopter un design plus adapté à l'esprit de votre activité (palette de couleurs, logos,...) devient, grâce à Nuked-Klan, un véritable jeu d'enfant. Avec une collection impressionante de graphismes et une modification (ainsi qu'une création) de thèmes certainement une des plus aisée du marché des CMS, vous aboutirez inévitablement à un site web qui vous ressemble.</p><p>Nous vous remercions pour l'intérêt et la confiance que vous nous apportez au quotidien... et depuis toutes ces années !");
+define("_NEWSADMIN_DESCR","Plus ergonomique et plus complète, la nouvelle administration présente dans cette version comblera les plus pointilleux d'entre vous.</p><p>Des options indispensables comme le listage des erreurs SQL et des actions opérées sur le site, la possibilité de laisser des notifications entre administrateurs,... sont, dorénavant, directement intégrées dans le panneau d'administration.</p><p>Nous avons également pensé aux graphistes et développeurs de thèmes, en leur offrant la possibilité de définir une gestion précise des différents éléments du design, directement via l'administration interne du site.</p><p>Avec une sécurisation entièrement revue et corrigée, cette dernière version devrait assurer la pérénnité et la fiabilité de votre site web.</p><p>Toujours attentifs à vos attentes et vos besoins, quelques options très attendues voient le jour dans cette version. Ainsi, la possibilité de régler le fuseau horaire de votre site, ... (citer quelques améliorations).");
+define("_INSTALL_AND_UPDATE_DESCR","Les procédures d'installation et de mise à jour ont été complètement revisitées et simplifiées.</p><p>Etape par étape, tout est maintenant commenté et dissocié afin de parer au moindre problème que vous pourriez rencontrer.</p><p>Plus de perte de données lors d'une mise à jour, une sauvegarde de votre base de donnée existante est automatiquement exécutée.</p><p>Durant l'installation et la mise à jour, toutes les étapes sont maintenant archivées dans un journal. En cas de souci, ce journal permettra à notre équipe de vous assister durant les procédures d'installation (ou de mise à jour) de façon optimale.</p><p>Nous vous proposons, dorénavant, de participer à l'évolution du CMS via l'envoi (anonyme) de statistiques. Grâce à cela, nous aurons la possibilité de répondre de façon précise et idéale à vos attentes, dès les prochaines versions.");
+define("_COMMUNAUTY_NK_DESCR","Une communauté sans cesse florissante, avec des membres d'une grande serviabilité et possédant de nombreuses compétences.<br/>Voilà un des avantages non négligeable dont vous bénéficierez en adoptant Nuked-Klan et en rejoignant la dite communauté.<br/>Tout naturellement, vous intègrerez cette grande famille, toujours soucieuse du bien-être de ses membres.</p><p>De nombreux fan-sites gravitent autour du CMS. Preuve de l'enthousiasme et de l'engouement que procure l'utilisation de Nuked-Klan, ils représentent la colonne vertébrale du CMS.</p><p>Pour cette raison (et pour bien d'autres), ils apportent à notre équipe de développeurs et de communautaires l'envie d'avancer, main dans la main, dans la bonne humeur et avec un esprit assidu de communication.</p><p>C'est ainsi que nous évoluerons, au fil des années, toujours à l'écoute de vos attentes et de vos besoins.</p><p>Parce que Nuked-Klan est, avant tout, votre CMS !!");
 ///////////////////////////////////////////////
 /////// MENU
 ///////////////////////////////////////////////
@@ -44,15 +43,14 @@ define('_RESETSESSION', 'Réinitialiser');
 ///////////////////////////////////////////////
 /////// ACCUEIL
 ///////////////////////////////////////////////
-define('_NKVERSION', '1.7.12');
-define("_WELCOMEINSTALL",'Bienvenue sur Nuked-Klan '._NKVERSION);
+define("_WELCOMEINSTALL",'Bienvenue sur Nuked-Klan '.install::NK_VERSION);
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
 define('_STARTINSTALL', 'Démarrer l\'installation');
 define('_STARTUPDATE', 'Démarrer la mise à jour');
 define('_DETECTUPDATE', 'L\'assistant a détecté une installation de la version :');
 define('_DETECTUPDATEEND', 'de Nuked-Klan');
 define('_BADVERSION', 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers les versions 1.7.7, 1.7.8 ou 1.7.9 RC5.3');
-define('_LASTVERSIONSET', 'Vous avez déjà la dernière version '._NKVERSION.' de Nuked-Klan');
+define('_LASTVERSIONSET', 'Vous avez déjà la dernière version '.install::NK_VERSION.' de Nuked-Klan');
 ///////////////////////////////////////////////
 /////// TEST DE COMPATIBILITE
 ///////////////////////////////////////////////
@@ -74,7 +72,7 @@ define('_PHPVERSION', 'PHP version &ge; 5.1');
 define('_PHPVERSIONERROR', 'Erreur PHP');
 define('_MYSQLEXT', 'Extension MySQL');
 define('_MYSQLEXTERROR', 'Erreur Mysql');
-define('_SESSIONSEXT', 'Extension des sessions');
+define('_SESSIONEXT', 'Extension des sessions');
 define('_SESSIONEXTERROR', 'Erreur sessions');
 define('_FORCE', 'Forcer l\'installation');
 ///////////////////////////////////////////////
@@ -114,7 +112,7 @@ define('_ERROR_PREFIX', 'Connexion à la base de données impossible !<br/>Le pref
 ///////////////////////////////////////////////
 /////// INSTALLATION ASSISTEE
 ///////////////////////////////////////////////
-define("_NEWNKNEWRELEASE",'Nouveautés Nuked Klan '._NKVERSION);
+define("_NEWNKNEWRELEASE",'Nouveautés Nuked Klan '.install::NK_VERSION);
 define("_SECURITE","Sécurité");
 define("_SECURITE1","La sécurité a été entèrement revue.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPTIMISATION","Optimisation");
@@ -152,7 +150,7 @@ define('_STARTDB', 'Démarrer la création');
 define('_SQLCONNECTOK', 'La connexion à la base de données a été réalisée avec succès.');
 define('_WAITING', 'Veuillez cliquer sur démarrer pour commencer...');
 define('_STARTINGINSTALL', 'Démarrage de l\'installation.');
-define('_LOGITXTSUCCESS', 'créée avec succès.');
+define('_LOGITXTSUCCESS', 'crée avec succès.');
 define('_LOGITXTERROR', 'Une erreur est survenue lors de la création de la table');
 define('_LOGITXTENDSUCCESS', 'L\'installation est terminée ! Toutes les tables ont bien été créées.');
 define('_LOGITXTENDERRORSTART', 'L\'installation est terminée ! Mais des erreurs sont survenues, ');
@@ -169,6 +167,7 @@ define('_LOGUTXTUPDATE', 'mis à jour avec succès.');
 define('_LOGUTXTUPDATE2', 'mise à jour avec succès.');
 define('_LOGUTXTREMOVE', 'supprimée avec succès.');
 define('_LOGUTXTREMOVE2', 'supprimé avec succès.');
+define('_LOGUTXTNOTHINGTODO', 'Aucune modification à effectuée.');
 define('_LOGUTXTERROR', 'Une erreur est survenue lors de la modification de la table');
 define('_LOGUTXTENDSUCCESS', 'La mise à jour est terminée ! Toutes les tables ont bien été modifiées.');
 define('_LOGUTXTENDERRORSTART', 'La mise à jour est terminée ! Mais des erreurs sont survenues, ');
@@ -213,7 +212,7 @@ define("_HASWROTE","a écrit");
 ///////////////////////////////////////////////
 /////// CONTENU DEMO INSERER DANS LA BDD
 ///////////////////////////////////////////////
-define("_FIRSTNEWSTITLE",'Bienvenue sur votre site NuKed-KlaN '._NKVERSION);
+define("_FIRSTNEWSTITLE",'Bienvenue sur votre site NuKed-KlaN '.install::NK_VERSION);
 define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.");
 define("_NAV","Menu");
 define("_NAVHOME","Accueil");

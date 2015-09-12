@@ -1,0 +1,182 @@
+<?php
+
+if ($this->data['process'] == 'install') {
+    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_config`';
+    mysql_query($sql) or die(mysql_error());
+
+    $sql = 'CREATE TABLE `'. $db_prefix .'_config` (
+            `name` varchar(255) NOT NULL default \'\',
+            `value` text NOT NULL,
+            PRIMARY KEY  (`name`)
+        ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
+    mysql_query($sql) or die(mysql_error());
+
+    $websiteUrl = 'http://'. $_SERVER['SERVER_NAME'] . str_replace('INSTALL/index.php', '', $_SERVER['SCRIPT_NAME']);
+
+    if (substr($websiteUrl, -1) == '/') $websiteUrl = substr($websiteUrl, 0, -1);
+
+    if ($this->data['language'] == 'french') {
+        $dateFormat = '%d/%m/%Y';
+        $dateZone   = '+0100';
+    }
+    else {
+        $dateFormat = '%m/%d/%Y';
+        $dateZone   = '+0000';
+    }
+
+    $shareStats = $this->data['stats'] == 'no' ? 0 : 1;
+
+    $sql = 'INSERT INTO `'. $db_prefix .'_config` VALUES
+        (\'time_generate\', \'on\'),
+        (\'dateformat\', \''. $dateFormat.'\'),
+        (\'datezone\', \''. $dateZone .'\'),
+        (\'version\', \''. self::NK_VERSION .'\'),
+        (\'date_install\', \''. time() .'\'),
+        (\'langue\', \''. $this->data['language'] .'\'),
+        (\'stats_share\', \''. $shareStats .'\'),
+        (\'stats_timestamp\', \'0\'),
+        (\'name\', \'Nuked-klaN '. self::NK_VERSION .'\'),
+        (\'slogan\', \'PHP 4 Gamers\'),
+        (\'tag_pre\', \'\'),
+        (\'tag_suf\', \'\'),
+        (\'url\', \''. $websiteUrl .'\'),
+        (\'mail\', \'mail@hotmail.com\'),
+        (\'footmessage\', \'\'),
+        (\'nk_status\', \'open\'),
+        (\'index_site\', \'News\'),
+        (\'theme\', \'Impact_Nk\'),
+        (\'keyword\', \'\'),
+        (\'description\', \'\'),
+        (\'inscription\', \'on\'),
+        (\'inscription_mail\', \'\'),
+        (\'inscription_avert\', \'\'),
+        (\'inscription_charte\', \'\'),
+        (\'validation\', \'auto\'),
+        (\'user_delete\', \'on\'),
+        (\'video_editeur\', \'on\'),
+        (\'scayt_editeur\', \'on\'),
+        (\'suggest_avert\', \'\'),
+        (\'irc_chan\', \'nuked-klan\'),
+        (\'irc_serv\', \'quakenet.org\'),
+        (\'server_ip\', \'\'),
+        (\'server_port\', \'\'),
+        (\'server_pass\', \'\'),
+        (\'server_game\', \'\'),
+        (\'forum_title\', \'\'),
+        (\'forum_desc\', \'\'),
+        (\'forum_rank_team\', \'off\'),
+        (\'forum_field_max\', \'10\'),
+        (\'forum_file\', \'on\'),
+        (\'forum_file_level\', \'1\'),
+        (\'forum_file_maxsize\', \'1000\'),
+        (\'thread_forum_page\', \'20\'),
+        (\'mess_forum_page\', \'10\'),
+        (\'hot_topic\', \'20\'),
+        (\'post_flood\', \'10\'),
+        (\'gallery_title\', \'\'),
+        (\'max_img_line\', \'2\'),
+        (\'max_img\', \'6\'),
+        (\'max_news\', \'5\'),
+        (\'max_download\', \'10\'),
+        (\'hide_download\', \'on\'),
+        (\'max_liens\', \'10\'),
+        (\'max_sections\', \'10\'),
+        (\'max_wars\', \'30\'),
+        (\'max_archives\', \'30\'),
+        (\'max_members\', \'30\'),
+        (\'max_shout\', \'20\'),
+        (\'mess_guest_page\', \'10\'),
+        (\'sond_delay\', \'24\'),
+        (\'level_analys\', \'-1\'),
+        (\'visit_delay\', \'10\'),
+        (\'recrute\', \'1\'),
+        (\'recrute_charte\', \'\'),
+        (\'recrute_mail\', \'\'),
+        (\'recrute_inbox\', \'\'),
+        (\'defie_charte\', \'\'),
+        (\'defie_mail\', \'\'),
+        (\'defie_inbox\', \'\'),
+        (\'birthday\', \'all\'),
+        (\'avatar_upload\', \'on\'),
+        (\'avatar_url\', \'on\'),
+        (\'cookiename\', \'nuked\'),
+        (\'sess_inactivemins\', \'5\'),
+        (\'sess_days_limit\', \'365\'),
+        (\'nbc_timeout\', \'300\'),
+        (\'screen\', \'on\'),
+        (\'contact_mail\', \'\'),
+        (\'contact_flood\', \'60\');';
+    mysql_query($sql) or die(mysql_error());
+
+    return 'CREATED';
+}
+else if ($this->data['process'] == 'update') {
+    $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'version\'';
+    $req = mysql_query($sql) or die (mysql_error());
+    list($currentVersion) = mysql_fetch_array($req);
+
+    $data = array();
+
+    if (version_compare($currentVersion, install::NK_VERSION) === -1) {
+        $data['version'] = install::NK_VERSION;
+
+        if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')) {
+            // version 1.7.7 ou 1.7.8
+            $data['theme']      = 'Impact_Nk';
+            $data['irc_serv']   = 'noxether.net';
+            $data['screen']     = 'on';
+
+            if (! tableExist('contact', $db_prefix)) {
+                $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'mail\'';
+                $req = mysql_query($sql)or die(mysql_error());
+                list($adminEmail) = mysql_fetch_array($req) or die(mysql_error());
+
+                $data['contact_mail']   = $adminEmail;
+                $data['contact_flood']  = '60';
+            }
+
+            // BBcode update
+            $sql = 'SELECT name, value FROM `'. $db_prefix .'_config` WHERE 
+                name=\'inscription_mail\'
+                OR name=\'inscription_charte\'
+                OR name=\'footmessage\'
+                OR name=\'recrute_charte\'
+                OR name=\'recrute_mail\'
+                OR name=\'defie_charte\'
+                OR name=\'defie_mail\'';
+            $req = mysql_query($sql) or die(mysql_error());
+
+            while ($row = mysql_fetch_row($req))
+                $data[$row['name']] = mysql_real_escape_string(bbcode(stripslashes($row['value']), $db_prefix));
+        }
+
+        if (version_compare($currentVersion, '1.7.9 RC6') === -1) {
+            // Tout sauf 1.7.9 RC6
+            if ($this->data['language'] == 'french') {
+                $data['dateformat'] = '%d/%m/%Y - %H:%M:%S';
+                $data['datezone']   = 1;
+            }
+            else {
+                $data['dateformat'] = '%m/%d/%Y - %H:%M:%S';
+                $data['datezone']   = 0;
+            }
+
+            $data['time_generate'] = 'on';
+            $data['video_editeur'] = 'on';
+            $data['scayt_editeur'] = 'on';
+        }
+    }
+
+    if (! empty($data)) {
+        foreach ($data as $name => $value) {
+            $sql = 'UPDATE `'. $db_prefix .'_config` SET value = \''. $value .'\' WHERE name = \''. $name .'\'';
+            mysql_query($sql) or die(mysql_error());
+        }
+
+        return 'UPDATED';
+    }
+}
+
+return 'NOTHING_TO_DO';
+
+?>
