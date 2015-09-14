@@ -26,15 +26,18 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = false;
+    $tableData  = $this->getTableData('games');
+    $update     = array();
 
-    if (! $this->fieldExist('games', 'map')) {
+    // install 1.7.9 RC4
+    // update 1.7.9 RC5.2
+    if (! array_key_exists('map', $tableData)) {
         $sql = 'ALTER TABLE `'. $db_prefix .'_games` ADD `map` TEXT NOT NULL;';
         mysql_query($sql) or die(mysql_error());
-        $update = true;
+        $update[] = 'alter table';
     }
 
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

@@ -16,6 +16,26 @@ if ($this->data['process'] == 'install') {
 
     return 'CREATED';
 }
+else if ($this->data['process'] == 'update') {
+    $tableData  = $this->getTableData('nbconnecte');
+    $update     = array();
+
+    // update 1.7.9 RC6
+    if (array_key_exists('IP', $tableData)) {
+        if (array_key_exists('type', $tableData['IP'])
+            && $tableData['IP']['type'] == 'varchar(15)'
+        ) {
+            $sql = 'ALTER TABLE `'. $db_prefix .'_nbconnecte` MODIFY `IP` VARCHAR(30) NOT NULL DEFAULT \'\';';
+            mysql_query($sql) or die(mysql_error());
+            $update = true;
+        }
+    }
+    else {
+        die('Missing IP field in `'. $db_prefix .'_nbconnecte` table !');
+    }
+
+    if (! empty($update)) return 'UPDATED';
+}
 
 return 'NOTHING_TO_DO';
 

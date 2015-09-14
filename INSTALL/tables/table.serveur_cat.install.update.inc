@@ -15,24 +15,28 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = false;
+    $tableData  = $this->getTableData('serveur_cat');
+    $update     = array();
 
     // Update BBcode
-    if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')) {
-        $sql = 'SELECT cid, description FROM `'. $db_prefix .'_serveur_cat`';
-        $req = mysql_query($sql) or die(mysql_error());
+    // update 1.7.9 RC3
+    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('description', $tableData)) {
+        include 'bbcode.php';
 
-        while ($row = mysql_fetch_row($req)) {
+        $sql = 'SELECT cid, description FROM `'. $db_prefix .'_serveur_cat`';
+        $dbsServerCat = mysql_query($sql) or die(mysql_error());
+
+        while ($row = mysql_fetch_assoc($dbsServerCat)) {
             $row['description'] = mysql_real_escape_string(bbcode(stripslashes($row['description']), $db_prefix));
 
             $sql = 'UPDATE `'. $db_prefix .'_serveur_cat` SET description = \''. $row['description'] .'\' WHERE cid = \''. $row['cid'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
 
-        $update = true;
+        $update[] = 'bbcode';
     }
 
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

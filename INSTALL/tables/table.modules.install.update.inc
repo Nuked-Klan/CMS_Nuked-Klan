@@ -41,25 +41,38 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = false;
+    $update = array();
 
-    $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'version\'';
-    $req = mysql_query($sql)or die (mysql_error());
-    list($currentVersion) = mysql_fetch_array($req);
+    $sql = 'SELECT nom FROM `'. $db_prefix .'_modules`';
+    $dbsModules = mysql_query($sql) or die (mysql_error());
 
-    if (version_compare($currentVersion, install::NK_VERSION) === -1) {
-        if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')) {
-            $sql = 'INSERT INTO `'. $db_prefix .'_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)';
-            mysql_query($sql)or die(mysql_error());
+    $modules = array();
 
-            $sql = 'INSERT INTO `'. $db_prefix .'_modules` (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)';
-            mysql_query($sql)or die(mysql_error());
+    while ($row = mysql_fetch_assoc($dbsModules))
+        $modules[] = $row['nom'];
 
-            $update = true;
-        }
+    // install / update 1.7.9 RC5
+    if (in_array('PackageMgr', $modules)) {
+        $sql = 'DELETE FROM `'. $db_prefix .'_modules` WHERE nom = \'PackageMgr\'';
+        mysql_query($sql) or die (mysql_error());
+        $update[] = 'delete PackageMgr module';
     }
 
-    if ($update) return 'UPDATED';
+    // install / update 1.7.9 RC1
+    if (in_array('Stats', $modules)) {
+        $sql = 'INSERT INTO `'. $db_prefix .'_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)';
+        mysql_query($sql)or die(mysql_error());
+        $update[] = 'add Stats module';
+    }
+
+    // install / update 1.7.9 RC1
+    if (in_array('Contact', $modules)) {
+        $sql = 'INSERT INTO `'. $db_prefix .'_modules` (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)';
+        mysql_query($sql)or die(mysql_error());
+        $update[] = 'add contact module';
+    }
+
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

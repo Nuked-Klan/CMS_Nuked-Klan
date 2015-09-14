@@ -19,21 +19,24 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = false;
+    $tableData = $this->getTableData('banned');
+    $update = $alterTable = array();
 
-    if (! $this->fieldExist('banned', 'date')) {
-        $sql = 'ALTER TABLE `'. $db_prefix .'_banned` ADD `date` VARCHAR(20)  NULL AFTER `email`';
+    // install / update 1.7.9 RC1
+    if (! array_key_exists('date', $tableData))
+        $alterTable[] = 'ADD `date` VARCHAR(20)  NULL AFTER `email`';
+
+    // install / update 1.7.9 RC1
+    if (! array_key_exists('dure', $tableData))
+        $alterTable[] = 'ADD `dure` VARCHAR(20)  NULL AFTER `date`';
+
+    if (! empty($alterTable)) {
+        $sql = 'ALTER TABLE `'. $db_prefix .'_banned` '. implode(', ', $alterTable);
         mysql_query($sql) or die(mysql_error());
-        $update = true;
+        $update[] = 'alter table';
     }
 
-    if (! $this->fieldExist('banned', 'dure')) {
-        $sql = 'ALTER TABLE `'. $db_prefix .'_banned` ADD `dure` VARCHAR(20)  NULL AFTER `date`';
-        mysql_query($sql) or die(mysql_error());
-        $update = true;
-    }
-
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

@@ -173,12 +173,12 @@
 
                     if ($connect == 'OK') {
                         $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'version\'';
-                        $req = @mysql_query($sql);
+                        $dbsConfig = @mysql_query($sql);
 
-                        if ($req === false)
+                        if ($dbsConfig === false)
                             $this->_viewData['error'] = _DB_PREFIX_ERROR;
                         else
-                            list($version) = mysql_fetch_array($req);
+                            list($version) = mysql_fetch_array($dbsConfig);
                     }
                     else {
                         $this->_viewData['error'] = $this->_translateDbConnectError($connect);
@@ -284,11 +284,11 @@
                , '-- Date: ', strftime('%c'), "\n"
                , '-- --------------------------------------------------------', "\n\n";
 
-            $resultTables   = mysql_query('SHOW TABLES');
-            $nbTable        = mysql_num_rows($resultTables);
-            $t              = 0;
+            $dbsTables  = mysql_query('SHOW TABLES');
+            $nbTable    = mysql_num_rows($dbsTables);
+            $t          = 0;
 
-            while ($table = mysql_fetch_row($resultTables)) {
+            while ($table = mysql_fetch_row($dbsTables)) {
                 $resultCreateTable = mysql_fetch_row(mysql_query('SHOW CREATE TABLE '. $table[0]));
 
                 echo '--', "\n"
@@ -298,18 +298,18 @@
                    , $resultCreateTable[1], ';', "\n\n"
                    , '-- --------------------------------------------------------', "\n\n";
 
-                $resultData = mysql_query('SELECT * FROM '. $table[0]);
-                $nbData     = mysql_num_rows($resultData);
+                $dbsTable = mysql_query('SELECT * FROM '. $table[0]);
+                $nbData     = mysql_num_rows($dbsTable);
 
                 if ($nbData > 0) {
                     echo '--', "\n"
                        , '-- Dumping data for table `', $table[0], '`', "\n"
                        , '--', "\n\n";
 
-                    $resultColumns = mysql_query('SHOW COLUMNS FROM '. $table[0]);
-                    $fields = array();
+                    $dbsColumnsTable    = mysql_query('SHOW COLUMNS FROM '. $table[0]);
+                    $fields             = array();
 
-                    while ($row = mysql_fetch_assoc($resultColumns))
+                    while ($row = mysql_fetch_assoc($dbsColumnsTable))
                         $fields[] = $row['Field'];
 
                     echo 'INSERT INTO ', $table[0], ' (`', implode('`, `', $fields), '`) VALUES', "\n";
@@ -318,7 +318,7 @@
                     $d = 0;
 
                     for ($i = 0; $i < $nbFields; $i++) {
-                        while ($row = mysql_fetch_row($resultData)) {
+                        while ($row = mysql_fetch_row($dbsTable)) {
                             echo '(';
 
                             for ($j = 0; $j < $nbFields; $j++) {
@@ -490,9 +490,9 @@
                 if (isset($_POST['type'])) {
                     if ($_POST['type'] == 'update') {
                         $sql = 'SELECT name, value FROM '. $_POST['db_prefix'] .'_config ORDER BY RAND() LIMIT 1';
-                        $req = @mysql_query($sql);
+                        $dbsConfig = @mysql_query($sql);
 
-                        if ($req === false)
+                        if ($dbsConfig === false)
                             echo 'PREFIX_ERROR';
                         else
                             echo 'OK';
@@ -556,8 +556,6 @@
             $collate    = 'latin1_general_ci';
 
             $connect = $this->_dbConnect($this->data['host'], $this->data['user'], $this->data['pass'], $this->data['db_name']);
-
-            include 'update.inc';
 
             if ($connect == 'OK') {
                 $path = 'tables/'. $tableFile;
@@ -834,9 +832,9 @@
             if (version_compare($version, self::NK_VERSION, '=')) { // last version already set
                 return 1;
             }
-            else if ((version_compare($version, '1.7.8', '>') && version_compare($version, '1.7.9 RC3', '<')) || version_compare($version, '1.7.7', '<')) { // cannot update
-                return -1;
-            }
+            //else if ((version_compare($version, '1.7.8', '>') && version_compare($version, '1.7.9 RC3', '<')) || version_compare($version, '1.7.7', '<')) { // cannot update
+            //    return -1;
+            //}
             else {// can update, version == 1.7.7, 1.7.8 or greater than 1.7.9
                 return 0;
             }
@@ -889,19 +887,31 @@
          */
         public function tableExist($tableName) {
             $sql = 'SHOW TABLES FROM `'. $this->data['db_name'] .'` LIKE \''. $this->data['db_prefix'] .'_'. $tableName .'\'';
-            $req = mysql_query($sql) or die(mysql_error());
+            $dbsTable = mysql_query($sql) or die(mysql_error());
 
-            return (mysql_num_rows($req) == 0) ? false : true;
+            return (mysql_num_rows($dbsTable) == 0) ? false : true;
         }
 
         /*
-         * Check if field exist in database table
+         * Return info of database table
          */
-        public function fieldExist($tableName, $fieldname) {
-            $sql = 'SHOW COLUMNS FROM `'. $this->data['db_prefix'] .'_'. $tableName .'` LIKE \''. $fieldname .'\'';
-            $req = mysql_query($sql) or die(mysql_error());
+        public function getTableData($tableName) {
+            $sql = 'SHOW COLUMNS FROM `'. $this->data['db_prefix'] .'_'. $tableName .'`';
+            $dbsColumnsTable = mysql_query($sql) or die(mysql_error());
 
-            return (mysql_num_rows($req) == 0) ? false : true;
+            $data = array();
+
+            while ($row = mysql_fetch_assoc($dbsColumnsTable)) {
+                $data[$row['Field']] = array(
+                    'type'      => $row['Type'],
+                    'null'      => $row['Null'],
+                    'key'       => $row['Key'],
+                    'default'   => $row['Default'],
+                    'extra'     => $row['Extra']
+                );
+            }
+
+            return $data;
         }
 
         /*

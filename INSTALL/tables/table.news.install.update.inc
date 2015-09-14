@@ -23,31 +23,34 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = false;
+    $tableData  = $this->getTableData('news');
+    $update     = array();
 
     // Update BBcode
-    if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')) {
+    // update 1.7.9 RC1 (only texte) / 1.7.9 RC6 (texte & suite)
+    if (version_compare($this->data['version'], '1.7.9', '<=')
+        && array_key_exists('news', 'texte', $tableData)
+        && array_key_exists('news', 'suite', $tableData)
+    ) {
+        include 'bbcode.php';
+
         $sql = 'SELECT id, texte, suite FROM `'. $db_prefix .'_news`';
-        $req = mysql_query($sql) or die(mysql_error());
+        $dbsNews = mysql_query($sql) or die(mysql_error());
 
-        while ($row = mysql_fetch_row($req)) {
-            $row['texte'] = mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix));
+        while ($row = mysql_fetch_assoc($dbsNews)) {
+            $data = array('texte = \''. mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix)) .'\'');
 
-            $sqlSuite = '';
+            if ($row['suite'] != '')
+                $data[] = 'suite = \''. mysql_real_escape_string(bbcode(stripslashes($row['suite']), $db_prefix)) .'\'';
 
-            if ($row['suite'] != '') {
-                $row['suite'] = mysql_real_escape_string(bbcode(stripslashes($row['suite']), $db_prefix));
-                $sqlSuite = ', suite = \''. $row['suite'] .'\'';
-            }
-
-            $sql = 'UPDATE `'. $db_prefix .'_news` SET texte = \''. $row['texte'] .'\''. $sqlSuite .' WHERE id = \''. $row['id'] .'\'';
+            $sql = 'UPDATE `'. $db_prefix .'_news` SET '. implode(', ', $data) .' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
 
-        $update = true;
+        $update[] = 'bbcode';
     }
 
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

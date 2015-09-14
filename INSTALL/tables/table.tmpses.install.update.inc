@@ -1,5 +1,6 @@
 <?php
 
+// install / update 1.7.9 RC5
 if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' && ! $this->tableExist('tmpses'))) {
     $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_tmpses`';
     mysql_query($sql) or die(mysql_error());

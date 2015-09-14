@@ -26,15 +26,17 @@ ALTER TABLE `'. $db_prefix .'_forums_read` DROP PRIMARY KEY
 */
 
 
-    $update = false;
+    $tableData  = $this->getTableData('forums_read');
+    $update     = array();
 
-    if ($this->fieldExist('forums_read', 'id')) {
+    // update 1.7.9 RC6
+    if (array_key_exists('id', $tableData)) {
         $sql = 'SELECT * FROM `'. $db_prefix .'_forums_read`';
-        $req = mysql_query($sql) or die(mysql_error());
+        $dbsForumRead = mysql_query($sql) or die(mysql_error());
 
         $forumReadData = array();
 
-        while ($row = mysql_fetch_assoc($req)) {
+        while ($row = mysql_fetch_assoc($dbsForumRead)) {
             if (!isset($forumReadData[$row['user_id']]['thread_id']) || empty($forumReadData[$row['user_id']]['thread_id']))
                 $forumReadData[$row['user_id']]['thread_id'] = ',';
 
@@ -73,10 +75,10 @@ ALTER TABLE `'. $db_prefix .'_forums_read` DROP PRIMARY KEY
             mysql_query($sql) or die(mysql_error());
         }
 
-        $update = true;
+        $update[] = true;
     }
 
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

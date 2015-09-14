@@ -31,24 +31,28 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = false;
+    $tableData  = $this->getTableData('forums_messages');
+    $update     = array();
 
     // Update BBcode
-    if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')) {
-        $sql = 'SELECT id, txt FROM `'. $db_prefix .'_forums_messages`';
-        $req = mysql_query($sql) or die(mysql_error());
+    // update 1.7.9 RC1
+    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('txt', $tableData)) {
+        include 'bbcode.php';
 
-        while ($row = mysql_fetch_row($req)) {
+        $sql = 'SELECT id, txt FROM `'. $db_prefix .'_forums_messages`';
+        $dbsForumMessages = mysql_query($sql) or die(mysql_error());
+
+        while ($row = mysql_fetch_assoc($dbsForumMessages)) {
             $row['txt'] = mysql_real_escape_string(bbcode(stripslashes($row['txt']), $db_prefix));
 
             $sql = 'UPDATE `'. $db_prefix .'_forums_messages` SET txt = \''. $row['txt'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
 
-        $update = true;
+        $update[] = 'bbcode';
     }
 
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

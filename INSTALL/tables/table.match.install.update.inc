@@ -35,17 +35,51 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    // TODO : A FINIR
-    $update = false;
-    
-    // BBcode
-    //'_match' => array('warid', 'report')
+    $update = $alterTable = $fields = array();
 
-    if (! $this->fieldExist('match', 'map')) {
-        $sql = 'SELECT warid, map_1, map_2, map_3, score_team, score_adv FROM `'. $db_prefix .'_match`';
-        $req = mysql_query($sql) or die(mysql_error());
+    $tableData = $this->getTableData('nbconnecte');
 
-        //$nbMatch = mysql_num_rows($req);
+    // install / update 1.7.9 RC1
+    if (! array_key_exists('map', $tableData)) {
+        $alterTable[] = 'ADD `map` TEXT NOT NULL';
+
+        if (array_key_exists('map_1', $tableData)) {
+            $update[] = 'map';
+            $fields[] = 'map_1, map_2, map_3';
+        }
+    }
+
+    // install / update 1.7.9 RC6
+    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('report', $tableData)) {
+        include 'bbcode.php';
+        $update[] = 'bbcode';
+        $fields[] = 'report';
+    }
+
+    // install / update 1.7.9 RC1
+    if (! array_key_exists('tscore_team', $tableData)) {
+        $alterTable[] = 'ADD `tscore_team` FLOAT DEFAULT NULL';
+        $update[] = 'tscore_team';
+        $fields[] = 'score_team';
+    }
+
+    // install / update 1.7.9 RC1
+    if (! array_key_exists('tscore_adv', $tableData)) {
+        $alterTable[] = 'ADD `tscore_adv` FLOAT DEFAULT NULL';
+        $update[] = 'tscore_adv';
+        $fields[] = 'score_adv';
+    }
+
+    if (! empty($alterTable)) {
+        $sql = 'ALTER TABLE `'. $db_prefix .'_match` '. implode(', '$alterTable);
+        mysql_query($sql) or die(mysql_error());
+    }
+
+    if (! empty($update)) {
+        $sql = 'SELECT warid, '. implode(', ', $fields) .' FROM `'. $db_prefix .'_match`';
+        $dbsMatch = mysql_query($sql) or die(mysql_error());
+
+        //$nbMatch = mysql_num_rows($dbsMatch);
 
         //if ($nbMatch > 40 && ! isset($_SESSION['updateNbStep'])) {
         //    $nbStep = ceil($nbMatch / 40);
@@ -53,60 +87,36 @@ else if ($this->data['process'] == 'update') {
         //    $_SESSION['updateNbStep'] = $nbStep;
         //}
 
-        $matchsData = array();
+        //$i = 0;
 
-        while ($row = mysql_fetch_array($sql)) {
-            $matchsData[] = array(
-                'id'           => $row['warid'],
-                'map'          => $row['map_1'] .'|'. $row['map_2'] .'|'. $row['map_3'],
-                'score_team'   => $row['score_team'],
-                'score_adv'    => $row['score_adv']
-            );
-        }
+        while ($row = mysql_fetch_assoc($dbsMatch)) {
+            $data = array();
 
-        $sql = 'ALTER TABLE `'. $db_prefix .'_match` DROP `map_1`, DROP `map_2`, DROP `map_3`';
-        mysql_query($sql) or die(mysql_error());
+            if (in_array('map', $update))
+                $data[] = 'map = \''. mysql_real_escape_string($match['map']) .'\'';
 
-        $sql = 'ALTER TABLE `'. $db_prefix .'_match`
-            ADD `map` TEXT NOT NULL,
-            ADD `tscore_team` FLOAT DEFAULT NULL,
-            ADD `tscore_adv` FLOAT DEFAULT NULL';
-        mysql_query($sql) or die(mysql_error());
+            if (in_array('bbcode', $update))
+                $data[] = 'report = \''. mysql_real_escape_string(bbcode(stripslashes($row['report']), $db_prefix)) .'\'';
 
-        $i = 0;
+            if (in_array('tscore_team', $update))
+                $data[] = 'tscore_team = \''. $match['score_team'] .'\'';
 
-        foreach ($matchsData as $match) {
-            $sql = 'UPDATE `'. $db_prefix .'_match` SET
-                map = \''. mysql_real_escape_string($match['map']) .'\',
-                tscore_team = \''. $match['score_team'] .'\',
-                tscore_adv = \''. $match['score_adv'] .'\'
-                WHERE warid = \''. $match['id'] .'\'';
+            if (in_array('tscore_adv', $update))
+                $data[] = 'tscore_adv = \''. $match['score_adv'] .'\'';
+
+            $sql = 'UPDATE `'. $db_prefix .'_match` SET '. implode(', ', $data) .' WHERE warid = \''. $match['warid'] .'\'';
             mysql_query($sql) or die(mysql_error());
-            $i++;
+            //$i++;
         }
 
-        $update = true;
-    }
-/*
-    $sql = 'SELECT id, texte, suite FROM `'. $db_prefix .'_news`';
-    $req = mysql_query($sql) or die(mysql_error());
-
-    while ($row = mysql_fetch_row($req)) {
-        $row['texte'] = mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix));
-
-        $sqlSuite = '';
-
-        if ($row['suite'] != '') {
-            $row['suite'] = mysql_real_escape_string(bbcode(stripslashes($row['suite']), $db_prefix));
-            $sqlSuite = ', suite = \''. $row['suite'] .'\'';
+        if (array_key_exists('map_1', $tableData)) {
+            $sql = 'ALTER TABLE `'. $db_prefix .'_match` DROP `map_1`, DROP `map_2`, DROP `map_3`';
+            mysql_query($sql) or die(mysql_error());
+            $update[] = 'delete map_1, map_2, map_3';
         }
-
-        $sql = 'UPDATE `'. $db_prefix .'_news` SET texte = \''. $row['texte'] .'\''. $sqlSuite .' WHERE id = \''. $row['id'] .'\'';
-        mysql_query($sql) or die(mysql_error());
     }
-*/
 
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

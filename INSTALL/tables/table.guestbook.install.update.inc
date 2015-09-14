@@ -19,24 +19,28 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = false;
+    $tableData  = $this->getTableData('guestbook');
+    $update     = array();
 
     // Update BBcode
-    if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')) {
-        $sql = 'SELECT id, comment FROM `'. $db_prefix .'_guestbook`';
-        $req = mysql_query($sql) or die(mysql_error());
+    // update 1.7.9 RC1
+    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('comment', $tableData)) {
+        include 'bbcode.php';
 
-        while ($row = mysql_fetch_row($req)) {
+        $sql = 'SELECT id, comment FROM `'. $db_prefix .'_guestbook`';
+        $dbsGuestbook = mysql_query($sql) or die(mysql_error());
+
+        while ($row = mysql_fetch_assoc($dbsGuestbook)) {
             $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix));
 
             $sql = 'UPDATE `'. $db_prefix .'_guestbook` SET comment = \''. $row['comment'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
 
-        $update = true;
+        $update[] = 'bbcode';
     }
 
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

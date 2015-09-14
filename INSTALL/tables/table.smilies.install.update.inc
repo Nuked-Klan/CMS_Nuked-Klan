@@ -30,13 +30,13 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    // TODO : Quelle version ?
+    // update 1.7.9
     $sql = 'SELECT id FROM `'. $db_prefix .'_smilies` WHERE code LIKE \'%\\\'%\'';
-    $req = mysql_query($sql) or die(mysql_error());
+    $dbsSmilies = mysql_query($sql) or die(mysql_error());
 
     $i = 0;
 
-    while ($row = mysql_fetch_row($req)) {
+    while ($row = mysql_fetch_assoc($dbsSmilies)) {
         $i++;
         $sql = 'UPDATE `'. $db_prefix .'_smilies` SET code=\'#smiley'. $i .'#\' WHERE id = \''. $row['id'] .'\'';
         mysql_query($sql) or die(mysql_error());

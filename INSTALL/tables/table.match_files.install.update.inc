@@ -18,15 +18,21 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = false;
+    $update = array();
 
+    // install / update 1.7.9 RC6
     if (! $this->tableExist('match_files')) {
-        $sql = 'ALTER TABLE `'. $db_prefix .'_fichiers_joins` RENAME AS `'. $db_prefix .'_match_files`';
-        mysql_query($sql) or die(mysql_error());
-        $update = true;
+        if ($this->tableExist('fichiers_joins')) {
+            $sql = 'ALTER TABLE `'. $db_prefix .'_fichiers_joins` RENAME AS `'. $db_prefix .'_match_files`';
+            mysql_query($sql) or die(mysql_error());
+            $update[] = 'rename table';
+        }
+        else {
+            die('Missing `'. $db_prefix .'_fichiers_joins` table !');
+        }
     }
 
-    if ($update) return 'UPDATED';
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

@@ -26,31 +26,37 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $removeEditor = (version_compare($this->data['version'], '1.7.9', '=')) ? true : false;
+    $tableData  = $this->getTableData('forums');
+    $update     = array();
+
+    // TODO : Version ???
+    if (version_compare($this->data['version'], '1.7.9', '='))
+        $update[] = 'remove editor';
 
     // Update BBcode
-    if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '='))
-        $updateBBcode = true;
-    else
-        $updateBBcode = false;
+    // update 1.7.9 RC1
+    if (version_compare($this->data['version'], '1.7.9', '<=')) {
+        include 'bbcode.php';
+        $update[] = 'bbcode';
+    }
 
-    if ($removeEditor || $updateBBcode) {
+    if (! empty($update) && array_key_exists('comment', $tableData)) {
         $sql = 'SELECT id, comment FROM `'. $db_prefix .'_forums`';
-        $req = mysql_query($sql) or die(mysql_error());
+        $dbsForum = mysql_query($sql) or die(mysql_error());
 
-        while ($row = mysql_fetch_assoc($req)) {
-            if ($removeEditor)
+        while ($row = mysql_fetch_assoc($dbsForum)) {
+            if (in_array('remove editor', $update))
                 $row['comment'] = str_replace(array('<p>', '</p>'), '', $row['comment']);
 
-            if ($updateBBcode) 
+            if (in_array('bbcode', $update))
                 $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix));
 
             $sql = 'UPDATE `'. $db_prefix .'_forums` set comment = \''. $row['comment'] .'\' WHERE id = '. $row['id'];
             mysql_query($sql) or die(mysql_error());
         }
-
-        return 'UPDATED';
     }
+
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

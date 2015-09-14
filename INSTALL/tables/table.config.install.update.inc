@@ -111,46 +111,63 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'version\'';
-    $req = mysql_query($sql) or die (mysql_error());
-    list($currentVersion) = mysql_fetch_array($req);
+    $update = $nuked = $insertData = $updateData = array();
 
-    $data = array();
+    $sql = 'SELECT name, value FROM `'. $db_prefix .'_config`';
+    $dbsConfig = mysql_query($sql) or die (mysql_error());
 
-    if (version_compare($currentVersion, install::NK_VERSION) === -1) {
-        $data['version'] = install::NK_VERSION;
+    while ($row = mysql_fetch_assoc($dbsConfig))
+        $nuked[$row['name']] = $row['value'];
+
+    // used in 1.7.9 RC1, 1.7.9 RC2 & 1.7.9 RC3
+    if (array_key_exists('cron_exec', $nuked)) {
+        $sql = 'DELETE FROM `'. $db_prefix .'_config` WHERE name = \'cron_exec\'';
+        mysql_query($sql) or die (mysql_error());
+        $update[] = 'delete cron_exec';
+    }
+
+    // Update bbcode
+    if (version_compare($this->data['version'], '1.7.9', '<=')) {
+        $bbcodeCfgList = array(
+            'inscription_mail',
+            'inscription_charte',
+            'footmessage',
+            'recrute_charte',
+            'recrute_mail',
+            'defie_charte',
+            'defie_mail'
+        );
+
+        foreach ($bbcodeCfgList as $bbcodeCfgName)
+            $updateData[$bbcodeCfgName] = mysql_real_escape_string(bbcode(stripslashes($nuked[$bbcodeCfgName]), $db_prefix));
+    }
+
+    if (version_compare($this->data['version'], '1.7.8', '<='))
+        $updateData['theme'] = 'Impact_Nk';
+
+    if (! array_key_exists('screen', $nuked))
+        $insertData['screen'] = 'on';
+
+    if ($nuked['irc_chan'] == 'nuked-klan' && in_array($nuked['irc_serv'], array('quakenet.eu.org', 'quakenet.org')))
+        $updateData['irc_serv'] = 'noxether.net';
+
+    // TODO : A finir
+    if (version_compare($nuked['version'], install::NK_VERSION) === -1) {
+        $updateData['version'] = install::NK_VERSION;
 
         if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')) {
             // version 1.7.7 ou 1.7.8
-            $data['theme']      = 'Impact_Nk';
-            $data['irc_serv']   = 'noxether.net';
-            $data['screen']     = 'on';
-
             if (! tableExist('contact', $db_prefix)) {
                 $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'mail\'';
-                $req = mysql_query($sql)or die(mysql_error());
-                list($adminEmail) = mysql_fetch_array($req) or die(mysql_error());
+                $dbsConfig = mysql_query($sql) or die(mysql_error());
+                list($adminEmail) = mysql_fetch_row($dbsConfig) or die(mysql_error());
 
                 $data['contact_mail']   = $adminEmail;
                 $data['contact_flood']  = '60';
             }
-
-            // BBcode update
-            $sql = 'SELECT name, value FROM `'. $db_prefix .'_config` WHERE 
-                name=\'inscription_mail\'
-                OR name=\'inscription_charte\'
-                OR name=\'footmessage\'
-                OR name=\'recrute_charte\'
-                OR name=\'recrute_mail\'
-                OR name=\'defie_charte\'
-                OR name=\'defie_mail\'';
-            $req = mysql_query($sql) or die(mysql_error());
-
-            while ($row = mysql_fetch_row($req))
-                $data[$row['name']] = mysql_real_escape_string(bbcode(stripslashes($row['value']), $db_prefix));
         }
 
-        if (version_compare($currentVersion, '1.7.9 RC6') === -1) {
+        if (version_compare($nuked['version'], '1.7.9 RC6') === -1) {
             // Tout sauf 1.7.9 RC6
             if ($this->data['language'] == 'french') {
                 $data['dateformat'] = '%d/%m/%Y - %H:%M:%S';
@@ -167,14 +184,26 @@ else if ($this->data['process'] == 'update') {
         }
     }
 
-    if (! empty($data)) {
-        foreach ($data as $name => $value) {
+    if (! empty($insertData)) {
+        $values = array();
+
+        foreach ($insertData as $name => $value)
+            $values = '(\''. $name .'\', \''. $value .'\')';
+
+        $sql = 'INSERT INTO `'. $db_prefix .'_config` (`name`, `value`) VALUES '. implode(', ', $values);
+        mysql_query($sql) or die(mysql_error());
+        $update[] = 'insert config';
+    }
+
+    if (! empty($updateData)) {
+        foreach ($updateData as $name => $value) {
             $sql = 'UPDATE `'. $db_prefix .'_config` SET value = \''. $value .'\' WHERE name = \''. $name .'\'';
             mysql_query($sql) or die(mysql_error());
+            $update[] = 'update config';
         }
-
-        return 'UPDATED';
     }
+
+    if (! empty($update)) return 'UPDATED';
 }
 
 return 'NOTHING_TO_DO';

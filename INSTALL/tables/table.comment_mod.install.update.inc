@@ -1,5 +1,6 @@
 <?php
 
+// install / update 1.7.9 RC1
 if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' && ! $this->tableExist('comment_mod'))) {
     $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_comment_mod`';
     mysql_query($sql) or die(mysql_error());
