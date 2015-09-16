@@ -27,7 +27,7 @@ else if ($this->data['process'] == 'update') {
         $dbsIrcAwards = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsIrcAwards)) {
-            $row['text'] = mysql_real_escape_string(bbcode(stripslashes($row['text']), $db_prefix));
+            $row['text'] = mysql_real_escape_string(bbcode(stripslashes($row['text']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_irc_awards` SET text = \''. $row['text'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

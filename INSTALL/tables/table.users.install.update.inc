@@ -86,8 +86,6 @@ else if ($this->data['process'] == 'update') {
             }
         }
     }
-    else
-        $updatePassword = false;
 
     // update 1.7.9 RC3
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('signature', $tableData)) {
@@ -97,17 +95,17 @@ else if ($this->data['process'] == 'update') {
     }
 
     if (! empty($update)) {
-        $sql = 'SELECT id'. implode(', ', $fields) .' FROM `'. $db_prefix .'_users`';
+        $sql = 'SELECT id, '. implode(', ', $fields) .' FROM `'. $db_prefix .'_users`';
         $dbsUsers = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsUsers)) {
             $data = array();
 
-            if ($updatePassword)
+            if (in_array('update password', $update))
                 $data[] = 'pass=\''. install::hashPassword($_SESSION['hash'], $row['pass']) .'\'';
 
-            if ($updateBBcode)
-                $data[] = 'signature=\''. mysql_real_escape_string(bbcode(stripslashes($row['signature']), $db_prefix)) .'\'';
+            if (in_array('bbcode', $update))
+                $data[] = 'signature=\''. mysql_real_escape_string(bbcode(stripslashes($row['signature']), $db_prefix, $this->_i18n)) .'\'';
 
             $sql = 'UPDATE `'. $db_prefix .'_users` SET '. implode(', ', $data) .' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

@@ -1,12 +1,12 @@
                 <div style="text-align: center;margin:30px auto;">
-                    <h3 style="margin-bottom:5px;" ><?php echo _CHECKCOMPATIBILITYHOSTING ?></h3>
+                    <h3 style="margin-bottom:5px;" ><?php echo $i18n['CHECK_COMPATIBILITY_HOSTING'] ?></h3>
                     <table style="width:500px;margin:15px auto;border:1px solid #ddd;text-align:left;background:#fff;" cellpadding="3">
                         <tr>
-                            <td style="width:80%;"><b><?php echo _COMPOSANT ?></b></td>
-                            <td style="width:20%;text-align:center;"><b><?php echo _COMPATIBILITY ?></b></td>
+                            <td style="width:80%;"><b><?php echo $i18n['COMPOSANT'] ?></b></td>
+                            <td style="width:20%;text-align:center;"><b><?php echo $i18n['COMPATIBILITY'] ?></b></td>
                         </tr>
 <?php
-    $i=0;
+    $i = 0;
 
     foreach ($requirements as $extensionName => $requirement) :
         if ($requirement == 'enabled')
@@ -20,7 +20,7 @@
 ?>
 
                         <tr style="background:<?php echo $bg ?>;">
-                            <td><?php echo constant($extensionName) ?></td>
+                            <td><?php echo $i18n[$extensionName] ?></td>
                             <td style="text-align:center;"><img src="<?php echo $src ?>" alt="" /></td>
                         </tr>
 
@@ -28,7 +28,7 @@
         if (in_array($requirement, array('required-disabled', 'optional-disabled'))) :
 ?>
                         <tr>
-                            <td colspan="2" class="<?php echo ($requirement == 'optional-disabled') ? 'warning' : 'error' ?>_compatibility"><?php echo constant($extensionName .'ERROR') ?></td>
+                            <td colspan="2" class="<?php echo ($requirement == 'optional-disabled') ? 'warning' : 'error' ?>_compatibility"><?php echo $i18n[$extensionName .'_ERROR'] ?></td>
                         </tr>
 <?php
         endif;
@@ -40,12 +40,12 @@
 <?php
     if (! in_array('optional-disabled', $requirements)) :
 ?>
-                        <a href="index.php?action=chooseSendStats" class="button" ><?php echo _CONTINUE ?></a>
+                        <a href="index.php?action=chooseSendStats" class="button" ><?php echo $i18n['NEXT'] ?></a>
 <?php
     else :
 ?>
-                        <p><?php echo _BADHOSTING ?></p>
-                        <a href="index.php?action=chooseSendStats" class="button" ><?php echo _FORCE ?></a>
+                        <p><?php echo $i18n['BAD_HOSTING'] ?></p>
+                        <a href="index.php?action=chooseSendStats" class="button" ><?php echo $i18n['FORCE'] ?></a>
 <?php
     endif
 ?>

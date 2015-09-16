@@ -1,21 +1,21 @@
                 <div style="text-align: center;margin:30px auto;">
-                    <h2><?php echo _CHECKUSERADMIN ?></h2>
+                    <h2><?php echo $i18n['CREATE_USER_ADMIN'] ?></h2>
                     <form method="post" action="index.php?action=saveUserAdmin" id="form_user_admin">
                         <div id="config" >
-                            <label for="pseudo"><strong><?php echo _PSEUDO ?></strong></label>
+                            <label for="pseudo"><strong><?php echo $i18n['NICKNAME'] ?></strong></label>
                             <input type="text" id="pseudo" name="pseudo" value="" onblur="checkUserAdminInput($(this));" />
-                            <label for="pass"><strong><?php echo _PASS ?></strong></label>
+                            <label for="pass"><strong><?php echo $i18n['PASSWORD'] ?></strong></label>
                             <input type="password" id="pass" name="pass" value="" onblur="checkUserAdminInput($(this));" />
-                            <label for="pass2"><strong><?php echo _PASS2 ?></strong></label>
+                            <label for="pass2"><strong><?php echo $i18n['PASSWORD_CONFIRM'] ?></strong></label>
                             <input type="password" id="pass2" name="pass2" value="" onblur="checkUserAdminInput($(this));" />
-                            <label for="mail"><strong><?php echo _MAIL ?></strong></label>
+                            <label for="mail"><strong><?php echo $i18n['EMAIL'] ?></strong></label>
                             <input type="text" id="mail" name="mail" value="" onblur="checkUserAdminInput($(this));" />
                             <input type="hidden" name="send" value="ok" />
                         </div>
                         <div id="infos" style="text-align: center;margin:30px auto;color:#FF4040;"></div>
                         
                         <div style="text-align: center;margin:30px auto;">
-                            <a href="#" id="submit" class="button"><?php echo _SUBMIT ?></a>
+                            <a href="#" id="submit" class="button"><?php echo $i18n['SUBMIT'] ?></a>
                         </div>
                     </form>
                     <script type="text/javascript">
@@ -23,11 +23,11 @@
                     $('#submit').click(function() {
                         return checkUserAdminForm(
                             'form_user_admin',
-                            '<?php echo addslashes(_WAIT) ?>',
-                            '<?php echo addslashes(_ERROR_PSEUDO) ?>',
-                            '<?php echo addslashes(_ERROR_PASS) ?>',
-                            '<?php echo addslashes(_ERROR_PASS2) ?>',
-                            '<?php echo addslashes(_ERROR_MAIL) ?>'
+                            '<?php echo addslashes($i18n['WAIT']) ?>',
+                            '<?php echo addslashes($i18n['ERROR_NICKNAME']) ?>',
+                            '<?php echo addslashes($i18n['ERROR_PASSWORD']) ?>',
+                            '<?php echo addslashes($i18n['ERROR_PASSWORD_CONFIRM']) ?>',
+                            '<?php echo addslashes($i18n['ERROR_EMAIL']) ?>'
                         );
                     });
                     //]]>

@@ -128,6 +128,8 @@ else if ($this->data['process'] == 'update') {
 
     // Update bbcode
     if (version_compare($this->data['version'], '1.7.9', '<=')) {
+        include 'bbcode.php';
+
         $bbcodeCfgList = array(
             'inscription_mail',
             'inscription_charte',
@@ -139,11 +141,14 @@ else if ($this->data['process'] == 'update') {
         );
 
         foreach ($bbcodeCfgList as $bbcodeCfgName)
-            $updateData[$bbcodeCfgName] = mysql_real_escape_string(bbcode(stripslashes($nuked[$bbcodeCfgName]), $db_prefix));
+            $updateData[$bbcodeCfgName] = mysql_real_escape_string(bbcode(stripslashes($nuked[$bbcodeCfgName]), $db_prefix, $this->_i18n));
     }
 
     if (version_compare($this->data['version'], '1.7.8', '<='))
         $updateData['theme'] = 'Impact_Nk';
+
+    if ($this->data['version'] = '1.7.6' && $nuked['level_analys'] == 0)
+        $updateData['level_analys'] = '-1';
 
     if (! array_key_exists('screen', $nuked))
         $insertData['screen'] = 'on';
@@ -188,7 +193,7 @@ else if ($this->data['process'] == 'update') {
         $values = array();
 
         foreach ($insertData as $name => $value)
-            $values = '(\''. $name .'\', \''. $value .'\')';
+            $values[] = '(\''. $name .'\', \''. $value .'\')';
 
         $sql = 'INSERT INTO `'. $db_prefix .'_config` (`name`, `value`) VALUES '. implode(', ', $values);
         mysql_query($sql) or die(mysql_error());

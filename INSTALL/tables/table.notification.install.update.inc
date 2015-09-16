@@ -16,7 +16,7 @@ if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' &
 
     if (ini_get('suhosin.session.encrypt') == 1) {
         $sql = 'INSERT INTO `'. $db_prefix .'_notification` VALUES
-            (\'\', \'\', \'4\', \''. _SUHOSIN .'\');';
+            (\'\', \'\', \'4\', \''. $this->_i18n['SUHOSIN'] .'\');';
         mysql_query($sql) or die(mysql_error());
     }
 

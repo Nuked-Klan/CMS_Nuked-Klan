@@ -29,8 +29,8 @@ else if ($this->data['process'] == 'update') {
     // Update BBcode
     // update 1.7.9 RC1 (only texte) / 1.7.9 RC6 (texte & suite)
     if (version_compare($this->data['version'], '1.7.9', '<=')
-        && array_key_exists('news', 'texte', $tableData)
-        && array_key_exists('news', 'suite', $tableData)
+        && array_key_exists('texte', $tableData)
+        && array_key_exists('suite', $tableData)
     ) {
         include 'bbcode.php';
 
@@ -38,10 +38,10 @@ else if ($this->data['process'] == 'update') {
         $dbsNews = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsNews)) {
-            $data = array('texte = \''. mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix)) .'\'');
+            $data = array('texte = \''. mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix, $this->_i18n)) .'\'');
 
             if ($row['suite'] != '')
-                $data[] = 'suite = \''. mysql_real_escape_string(bbcode(stripslashes($row['suite']), $db_prefix)) .'\'';
+                $data[] = 'suite = \''. mysql_real_escape_string(bbcode(stripslashes($row['suite']), $db_prefix, $this->_i18n)) .'\'';
 
             $sql = 'UPDATE `'. $db_prefix .'_news` SET '. implode(', ', $data) .' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

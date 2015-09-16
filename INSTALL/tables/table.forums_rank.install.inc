@@ -15,13 +15,13 @@ if ($this->data['process'] == 'install') {
     mysql_query($sql) or die(mysql_error());
 
     $sql = 'INSERT INTO `'. $db_prefix .'_forums_rank` VALUES
-        (1, \''. _NEWBIE .'\', 0, 0, \'modules/Forum/images/rank/star1.gif\'),
-        (2, \''. _JUNIORMEMBER .'\', 0, 10, \'modules/Forum/images/rank/star2.gif\'),
-        (3, \''. _MEMBER .'\', 0, 100, \'modules/Forum/images/rank/star3.gif\'),
-        (4, \''. _SENIORMEMBER .'\', 0, 500, \'modules/Forum/images/rank/star4.gif\'),
-        (5, \''. _POSTINGFREAK .'\', 0, 1000, \'modules/Forum/images/rank/star5.gif\'),
-        (6, \''. _MODERATOR .'\', 1, 0, \'modules/Forum/images/rank/mod.gif\'),
-        (7, \''. _ADMINISTRATOR .'\', 2, 0, \'modules/Forum/images/rank/mod.gif\');';
+        (1, \''. $this->_i18n['NEWBIE'] .'\', 0, 0, \'modules/Forum/images/rank/star1.gif\'),
+        (2, \''. $this->_i18n['JUNIOR_MEMBER'] .'\', 0, 10, \'modules/Forum/images/rank/star2.gif\'),
+        (3, \''. $this->_i18n['MEMBER'] .'\', 0, 100, \'modules/Forum/images/rank/star3.gif\'),
+        (4, \''. $this->_i18n['SENIOR_MEMBER'] .'\', 0, 500, \'modules/Forum/images/rank/star4.gif\'),
+        (5, \''. $this->_i18n['POSTING_FREAK'] .'\', 0, 1000, \'modules/Forum/images/rank/star5.gif\'),
+        (6, \''. $this->_i18n['MODERATOR'] .'\', 1, 0, \'modules/Forum/images/rank/mod.gif\'),
+        (7, \''. $this->_i18n['ADMINISTRATOR'] .'\', 2, 0, \'modules/Forum/images/rank/mod.gif\');';
     mysql_query($sql) or die(mysql_error());
 
     return 'CREATED';

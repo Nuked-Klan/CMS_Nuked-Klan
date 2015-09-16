@@ -71,7 +71,7 @@ else if ($this->data['process'] == 'update') {
     }
 
     if (! empty($alterTable)) {
-        $sql = 'ALTER TABLE `'. $db_prefix .'_match` '. implode(', '$alterTable);
+        $sql = 'ALTER TABLE `'. $db_prefix .'_match` '. implode(', ', $alterTable);
         mysql_query($sql) or die(mysql_error());
     }
 
@@ -96,7 +96,7 @@ else if ($this->data['process'] == 'update') {
                 $data[] = 'map = \''. mysql_real_escape_string($match['map']) .'\'';
 
             if (in_array('bbcode', $update))
-                $data[] = 'report = \''. mysql_real_escape_string(bbcode(stripslashes($row['report']), $db_prefix)) .'\'';
+                $data[] = 'report = \''. mysql_real_escape_string(bbcode(stripslashes($row['report']), $db_prefix, $this->_i18n)) .'\'';
 
             if (in_array('tscore_team', $update))
                 $data[] = 'tscore_team = \''. $match['score_team'] .'\'';

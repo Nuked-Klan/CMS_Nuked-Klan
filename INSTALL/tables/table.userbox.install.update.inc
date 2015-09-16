@@ -33,7 +33,7 @@ else if ($this->data['process'] == 'update') {
         $dbsUserbox = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsUserbox)) {
-            $row['message'] = mysql_real_escape_string(bbcode(stripslashes($row['message']), $db_prefix));
+            $row['message'] = mysql_real_escape_string(bbcode(stripslashes($row['message']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_userbox` SET message = \''. $row['message'] .'\' WHERE mid = \''. $row['mid'] .'\'';
             mysql_query($sql) or die(mysql_error());

@@ -14,7 +14,7 @@ if ($this->data['process'] == 'install') {
     mysql_query($sql) or die(mysql_error());
 
     $sql = 'INSERT INTO `'. $db_prefix .'_news_cat` VALUES
-        (\'1\', \'Counter Strike Source\', \''. _BESTMOD .'\', \'modules/News/images/cs.gif\');';
+        (\'1\', \'Counter Strike Source\', \''. $this->_i18n['BEST_MOD'] .'\', \'modules/News/images/cs.gif\');';
     mysql_query($sql) or die(mysql_error());
 
     return 'CREATED';

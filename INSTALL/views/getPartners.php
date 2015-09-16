@@ -8,4 +8,4 @@
         $i++;
     endforeach;
 
-    if ($i == 0) echo _NOPARTNERS ?>
+    if ($i == 0) echo $i18n['NO_PARTNERS'] ?>

@@ -35,7 +35,7 @@ else if ($this->data['process'] == 'update') {
         $dbsSections = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsSections)) {
-            $row['content'] = mysql_real_escape_string(bbcode(stripslashes($row['content']), $db_prefix));
+            $row['content'] = mysql_real_escape_string(bbcode(stripslashes($row['content']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_sections` SET content = \''. $row['content'] .'\' WHERE artid = \''. $row['artid'] .'\'';
             mysql_query($sql) or die(mysql_error());

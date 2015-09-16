@@ -34,7 +34,7 @@ if ($this->data['process'] == 'update') {
         $dbsContact = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsContact)) {
-            $row['message'] = mysql_real_escape_string(bbcode(stripslashes($row['message']), $db_prefix));
+            $row['message'] = mysql_real_escape_string(bbcode(stripslashes($row['message']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_contact` SET message = \''. $row['message'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

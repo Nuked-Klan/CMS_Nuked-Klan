@@ -29,7 +29,7 @@ else if ($this->data['process'] == 'update') {
         $dbsShoutbox = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsShoutbox)) {
-            $row['texte'] = mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix));
+            $row['texte'] = mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_shoutbox` SET texte = \''. $row['texte'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

@@ -40,7 +40,7 @@ else if ($this->data['process'] == 'update') {
         $dbsDefy = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsDefy)) {
-            $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix));
+            $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_defie` SET comment = \''. $row['comment'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

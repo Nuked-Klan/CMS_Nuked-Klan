@@ -31,7 +31,7 @@ else if ($this->data['process'] == 'update') {
         $dbsGuestbook = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsGuestbook)) {
-            $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix));
+            $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_guestbook` SET comment = \''. $row['comment'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

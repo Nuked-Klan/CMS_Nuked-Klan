@@ -15,22 +15,15 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    // TODO : Verifier si on peut pas juste supprimer le champ id et ajouter user_id en clé primaire
-/*
-
-ALTER TABLE `'. $db_prefix .'_forums_read` ADD [CONSTRAINT [symbole_contrainte]] PRIMARY KEY (colonne_pk1 [, colonne_pk2, ...]);
-
-Suppression de la clé primaire
-
-ALTER TABLE `'. $db_prefix .'_forums_read` DROP PRIMARY KEY
-*/
-
-
     $tableData  = $this->getTableData('forums_read');
     $update     = array();
 
     // update 1.7.9 RC6
     if (array_key_exists('id', $tableData)) {
+        $sql = 'ALTER TABLE `nuked_forums_read` DROP `id`, DROP INDEX `user_id`, ADD PRIMARY KEY(`user_id`);';
+        mysql_query($sql) or die(mysql_error());
+
+/*
         $sql = 'SELECT * FROM `'. $db_prefix .'_forums_read`';
         $dbsForumRead = mysql_query($sql) or die(mysql_error());
 
@@ -74,6 +67,7 @@ ALTER TABLE `'. $db_prefix .'_forums_read` DROP PRIMARY KEY
 
             mysql_query($sql) or die(mysql_error());
         }
+*/
 
         $update[] = true;
     }

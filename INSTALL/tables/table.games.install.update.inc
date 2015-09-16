@@ -20,7 +20,7 @@ if ($this->data['process'] == 'install') {
     mysql_query($sql) or die(mysql_error());
 
     $sql = 'INSERT INTO `'. $db_prefix .'_games` VALUES
-        (1, \'Counter Strike Source\', \''. _PREFCS .'\', \'images/games/cs.gif\', \''. _OTHERNICK .'\', \''. _FAVMAP .'\', \''. _FAVWEAPON .'\', \''. _SKINT .'\', \''. _SKINCT .'\', \'de_dust2|de_inferno\');';
+        (1, \'Counter Strike Source\', \''. $this->_i18n['PREF_CS'] .'\', \'images/games/cs.gif\', \''. $this->_i18n['OTHER_NICK'] .'\', \''. $this->_i18n['FAV_MAP'] .'\', \''. $this->_i18n['FAV_WEAPON'] .'\', \''. $this->_i18n['SKIN_T'] .'\', \''. $this->_i18n['SKIN_CT'] .'\', \'de_dust2|de_inferno\');';
     mysql_query($sql) or die(mysql_error());
 
     return 'CREATED';

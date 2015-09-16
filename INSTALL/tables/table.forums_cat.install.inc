@@ -13,7 +13,7 @@ if ($this->data['process'] == 'install') {
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
     mysql_query($sql) or die(mysql_error());
 
-    $sql='INSERT INTO `'. $db_prefix .'_forums_cat` VALUES (1, \'Categorie 1\', 0, 0);';
+    $sql='INSERT INTO `'. $db_prefix .'_forums_cat` VALUES (1, \''. $this->_i18n['CATEGORY'] .' 1\', 0, 0);';
     mysql_query($sql) or die(mysql_error());
 
     return 'CREATED';

@@ -8,11 +8,16 @@
         const NK_VERSION = '1.7.13';
 
         /*
+         * Sets Nuked-Klan minimum version for install / update
+         */
+        const NK_MINIMUM_VERSION = '1.7.5';
+
+        /*
          * Sets language list
          */
         private $_languageList = array(
-            'english'  => '_ENGLISH',
-            'french'   => '_FRENCH'
+            'english'  => 'ENGLISH',
+            'french'   => 'FRENCH'
         );
 
         /*
@@ -24,40 +29,40 @@
          * Sets navigation list display in left sidebar
          */
         private $_navigation = array(
-            'language'      => '_SELECTLANG',
-            'process'       => '_SELECTTYPE',
-            'stats'         => '_SELECTSTATS',
-            'db_save'       => '_SELECTSAVE',
-            'assist'        => '_CHECKTYPEINSTALL',
-            'user_admin'    => '_CHECKUSERADMIN'
+            'language'      => 'SELECT_LANGUAGE',
+            'process'       => 'SELECT_TYPE',
+            'stats'         => 'SELECT_STATS',
+            'db_save'       => 'SELECT_SAVE',
+            'assist'        => 'CHECK_TYPE_INSTALL',
+            'user_admin'    => 'CREATE_USER_ADMIN'
         );
 
         /*
          * Sets info list display in footer
          */
         private $_infoList = array(
-            '_DISCOVERY',
-            '_NEWSADMIN',
-            '_INSTALL_AND_UPDATE',
-            '_COMMUNAUTY_NK'
+            'DISCOVERY',
+            'NEWSADMIN',
+            'INSTALL_AND_UPDATE',
+            'COMMUNAUTY_NK'
         );
 
         /*
          * Sets changelog list
          */
         private $_changelog = array(
-            '_SECURITE',
-            '_OPTIMISATION',
-            '_ADMINISTRATION',
-            '_BANTEMP',
-            '_SHOUTBOX',
-            '_ERRORSQL',
-            '_MULTIWARS',
-            '_COMSYS',
-            '_EDITWYS',
-            '_CONT',
-            '_ERREURPASS',
-            '_DIFFMODIF'
+            'SECURITY',
+            'OPTIMISATION',
+            'ADMINISTRATION',
+            'BAN_TEMP',
+            'SHOUTBOX',
+            'SQL_ERROR',
+            'MULTI_WARS',
+            'COMMENT_SYSTEM',
+            'WYSIWYG_EDITOR',
+            'CONTACT',
+            'PASSWORD_ERROR',
+            'VARIOUS_MODIF'
         );
 
         /*
@@ -133,6 +138,7 @@
         public function selectLanguage() {
             $this->_view = 'selectLanguage';
 
+            $this->_viewData['i18n']            = $this->_i18n;
             $this->_viewData['languageList']    = $this->_languageList;
             $this->_viewData['language']        = $this->_language;
         }
@@ -150,12 +156,14 @@
             $this->_redirect('index.php');
         }
 
-        // TODO : Voir pour $versionStatus === -1
         /*
          * Detect process (install / update) and check Nuked-Klan version if already installed
          */
         public function main() {
             $this->_view = 'main';
+
+            $this->_viewData['i18n']            = $this->_i18n;
+            $this->_viewData['processVersion']  = self::NK_VERSION;
 
             if (! is_file('../conf.inc.php')) {
                 $this->_viewData['process'] = 'install';
@@ -165,7 +173,6 @@
 
                 if (is_file('../Includes/version.php')) {
                     include '../Includes/version.php';
-                    $version = $nk_version;
                 }
                 else {
                     include '../conf.inc.php';
@@ -176,26 +183,24 @@
                         $dbsConfig = @mysql_query($sql);
 
                         if ($dbsConfig === false)
-                            $this->_viewData['error'] = _DB_PREFIX_ERROR;
+                            $this->_viewData['error'] = $this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $this->_i18n['DB_PREFIX_ERROR'];
                         else
-                            list($version) = mysql_fetch_array($dbsConfig);
+                            list($nk_version) = mysql_fetch_array($dbsConfig);
                     }
                     else {
                         $this->_viewData['error'] = $this->_translateDbConnectError($connect);
                     }
                 }
 
-                if (isset($version)) {
-                    $_SESSION['version'] = $this->_viewData['version'] = $version;
+                if (isset($nk_version)) {
+                    $_SESSION['version'] = $this->_viewData['currentVersion'] = $nk_version;
 
-                    $versionStatus = $this->_validVersion($_SESSION['version']);
-
-                    if ($versionStatus === 0)
-                        $this->_viewData['process'] = 'update';
-                    elseif ($versionStatus === -1)
-                        $this->_viewData['message'] = _BADVERSION;
+                    if ($_SESSION['version'] == self::NK_VERSION)
+                        $this->_viewData['message'] = sprintf($this->_i18n['LAST_VERSION_SET'], self::NK_VERSION);
+                    else if (version_compare($_SESSION['version'], self::NK_MINIMUM_VERSION, '<'))
+                        $this->_viewData['message'] = sprintf($this->_i18n['BAD_VERSION'], self::NK_MINIMUM_VERSION);
                     else
-                        $this->_viewData['message'] = _LASTVERSIONSET;
+                        $this->_viewData['process'] = 'update';
                 }
             }
         }
@@ -217,9 +222,12 @@
          * Check PHP requirements for execute process
          */
         public function checkCompatibility() {
+            $this->_i18n['PHP_VERSION'] = sprintf($this->_i18n['PHP_VERSION'], self::MINIMAL_PHP_VERSION);
+
             $this->_view = 'checkCompatibility';
 
-            $this->_viewData['requirements'] = $this->_requirements();
+            $this->_viewData['i18n']            = $this->_i18n;
+            $this->_viewData['requirements']    = $this->_requirements();
         }
 
         /*
@@ -233,7 +241,8 @@
 
             $this->_view = 'chooseSendStats';
 
-            $this->_viewData['stats'] = $stats;
+            $this->_viewData['i18n']    = $this->_i18n;
+            $this->_viewData['stats']   = $stats;
         }
 
         /*
@@ -258,6 +267,8 @@
             $_SESSION['db_save'] = 'no';
 
             $this->_view = 'selectSaveBdd';
+
+            $this->_viewData['i18n'] = $this->_i18n;
         }
 
         /*
@@ -360,6 +371,7 @@
 
             $this->_view = 'selectProcessType';
 
+            $this->_viewData['i18n']    = $this->_i18n;
             $this->_viewData['process'] = $this->data['process'];
         }
 
@@ -385,16 +397,18 @@
         public function changelog() {
             $this->_view = 'changelog';
 
-            $this->_viewData['changelog'] = $this->_changelog;
+            $this->_viewData['i18n']            = $this->_i18n;
+            $this->_viewData['processVersion']  = self::NK_VERSION;
+            $this->_viewData['changelog']       = $this->_changelog;
         }
 
         /*
          * Set config (assisted or not)
          */
         public function setConfig() {
-
             $this->_view = 'setConfig';
 
+            $this->_viewData['i18n']                = $this->_i18n;
             $this->_viewData['process']             = $this->data['process'];
             $this->_viewData['assist']              = $this->data['assist'];
             //$this->_viewData['databaseTypeList']    = $this->_databaseTypeList;
@@ -465,10 +479,14 @@
                 }
             }
 
-            if ($maliciousScript)
+            if ($maliciousScript) {
                 $this->_view = 'maliciousScript';
-            else
+
+                $this->_viewData['i18n'] = $this->_i18n;
+            }
+            else {
                 $this->_redirect('index.php?action=installDB');
+            }
         }
 
         /*
@@ -516,33 +534,15 @@
         public function installDB() {
             $this->_view = 'installDB';
 
-            $this->_viewData['process'] = $this->data['process'];
-
-            $this->_viewData['processTableList']    = $this->_getProcessTableList();
+            $this->_viewData['i18n']                = $this->_i18n;
+            $this->_viewData['process']             = $this->data['process'];
             $this->_viewData['db_prefix']           = $this->data['db_prefix'];
+            $this->_viewData['processTableList']    = $this->_getProcessTableList();
 
-            if ($this->data['process'] == 'install') {
-                //$this->_viewData['array_text']              = array(_LOGITXTSUCCESS);
-                $this->_viewData['error']                   = _LOGITXTERROR;
-                $this->_viewData['complete']                = _LOGITXTENDSUCCESS;
-                $this->_viewData['complete_error_start']    = _LOGITXTENDERRORSTART;
-                $this->_viewData['complete_error_end']      = _LOGITXTENDERROREND;
-            }
-            elseif ($this->data['process'] == 'update') {
+            // TODO : Utile pour ?, voir script install / update pour la table users
+            if ($this->data['process'] == 'update') {
                 unset($_SESSION['hash']);
                 include '../conf.inc.php';
-
-                /*$this->_viewData['array_text']              = array(
-                                                                _LOGUTXTSUCCESS,
-                                                                _LOGUTXTUPDATE,
-                                                                _LOGUTXTUPDATE2,
-                                                                _LOGUTXTREMOVE,
-                                                                _LOGUTXTREMOVE2
-                                                            );*/
-                $this->_viewData['error']                   = _LOGUTXTERROR;
-                $this->_viewData['complete']                = _LOGUTXTENDSUCCESS;
-                $this->_viewData['complete_error_start']    = _LOGUTXTENDERRORSTART;
-                $this->_viewData['complete_error_end']      = _LOGUTXTENDERROREND;
             }
         }
 
@@ -565,6 +565,7 @@
                     echo $result;
                 }
                 else {
+                    // TODO : i18n
                     echo 'File no found : '. $path .'<br />';
                 }
             }
@@ -580,6 +581,8 @@
             $_SESSION['user_admin'] = 'INPROGRESS';
 
             $this->_view = 'setUserAdmin';
+
+            $this->_viewData['i18n'] = $this->_i18n;
         }
 
         /*
@@ -593,13 +596,16 @@
             ) {
                 $this->_view = 'userAdminError';
 
-                $this->_viewData['error'] = 'fields';
+                $this->_viewData['i18n']    = $this->_i18n;
+                $this->_viewData['error']   = 'fields';
             }
             else {
                 $connect = $this->_dbConnect($this->data['host'], $this->data['user'], $this->data['pass'], $this->data['db_name']);
 
                 if ($connect == 'OK') {
                     include 'user.inc';
+
+                    $this->_writeDefaultContent($_POST['pseudo'], $_POST['pass'], $_POST['mail']);
 
                     $saveCfgResult = saveConfig('install');
 
@@ -614,7 +620,8 @@
                 else {
                     $this->_view = 'userAdminError';
 
-                    $this->_viewData['error'] = $this->_translateDbConnectError($connect);
+                    $this->_viewData['i18n']    = $this->_i18n;
+                    $this->_viewData['error']   = $this->_translateDbConnectError($connect);
                 }
             }
         }
@@ -624,6 +631,9 @@
          */
         public function updateConfig() {
             include 'user.inc';
+
+            $sql = 'UPDATE `'. $db_prefix .'_config` SET value = \''. self::NK_VERSION .'\' WHERE name = \'version\'';
+            mysql_query($sql) or die(mysql_error());
 
             $saveCfgResult = saveConfig('update');
 
@@ -641,6 +651,7 @@
 
             $this->_view = 'installFailure';
 
+            $this->_viewData['i18n']        = $this->_i18n;
             $this->_viewData['error']       = (isset($_GET['error'])) ? $_GET['error'] : '';
             $this->_viewData['content_web'] = (isset($this->data['content_web'])) ? $this->data['content_web'] : '';
         }
@@ -661,6 +672,8 @@
          */
         public function installSuccess() {
             $this->_view = 'installSuccess';
+
+            $this->_viewData['i18n'] = $this->_i18n;
         }
 
         /*
@@ -672,6 +685,7 @@
             $content = (! is_array($content)) ? array() : $content;
 
             echo $this->_applyView('getPartners', array(
+                'i18n'      => $this->_i18n,
                 'content'   => $content
             ));
         }
@@ -741,36 +755,22 @@
          * see : http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
          */
         private function _getWebBrowserLanguage() {
-            $preferredLanguage  = '';
-            $highRange          = 0;
+            if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ! empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+                $navigatorLanguageList = array(
+                    'en' => 'english',
+                    'fr' => 'french'
+                );
 
-            if (! isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) || empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))
-                return $preferredLanguage;
+                foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $rawLanguageData) {
+                    $languageData       = explode(';', $rawLanguageData);
+                    $preferredLanguage  = substr(array_shift($languageData), 0, 2);
 
-            foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $rawLanguageData) {
-                $languageData = explode(';', $rawLanguageData);
-                $languageTags = array_shift($languageData);
-
-                if (empty($languageData))
-                    $languageRange = 1;
-                else
-                    $languageRange = array_shift($languageData);
-
-                if ($languageRange > $highRange) {
-                    $preferredLanguage  = substr($languageTags, 0, 2);
-                    $highRange          = $languageRange;
+                    if (array_key_exists($preferredLanguage, $navigatorLanguageList))
+                        return $navigatorLanguageList[$preferredLanguage];
                 }
             }
 
-            $navigatorLanguageList = array(
-                'en' => 'english',
-                'fr' => 'french'
-            );
-
-            if (array_key_exists($preferredLanguage, $navigatorLanguageList))
-                return $navigatorLanguageList[$preferredLanguage];
-            else
-                return 'english';
+            return 'english';
         }
 
         /*
@@ -785,7 +785,7 @@
 
             // see http://php.net/manual/fr/mysqlinfo.concepts.charset.php
             if (! @mysql_set_charset('latin1', $db))
-               return mysql_error();// Invalid characterset or character set not supported
+               return mysql_error();// TODO : Gerer l'erreur => Invalid characterset or character set not supported
 
             return 'OK';
         }
@@ -795,13 +795,13 @@
          */
         private function _translateDbConnectError($error) {
             if (strpos($error, 'Unknown MySQL server host') !== false) # 2002
-                return _DB_HOST_ERROR;
+                return $i18n['DB_CONNECT_FAIL'] .'<br/>'. $i18n['DB_HOST_ERROR'];
             else if (strpos($error, 'Access denied for user') !== false) # 1044 / 1045
-                return _DB_LOGIN_ERROR;
+                return $i18n['DB_CONNECT_FAIL'] .'<br/>'. $i18n['DB_USER_ERROR'];
             else if (strpos($error, 'Unknown database') !== false) # 1049
-                return _DB_NAME_ERROR;
+                return $i18n['DB_CONNECT_FAIL'] .'<br/>'. $i18n['DB_NAME_ERROR'];
             else
-                return _DB_UNKNOW_ERROR .' : '. $error;
+                return $i18n['DB_CONNECT_FAIL'] .'<br/>'. $i18n['DB_UNKNOW_ERROR'] .' :<br/>'. $error;
         }
 
         /*
@@ -809,35 +809,19 @@
          */
         private function _requirements() {
             $requirements = array(
-                '_PHPVERSION'   => (version_compare(PHP_VERSION, install::MINIMAL_PHP_VERSION)) ? 'enabled' : 'required-disabled'
+                'PHP_VERSION'   => (version_compare(PHP_VERSION, install::MINIMAL_PHP_VERSION)) ? 'enabled' : 'required-disabled'
             );
 
             foreach ($this->_phpExtension as $extensionName => $requirement) {
                 if (extension_loaded($extensionName))
-                    $requirements['_'. strtoupper($extensionName) .'EXT'] = 'enabled';
+                    $requirements[strtoupper($extensionName) .'_EXT'] = 'enabled';
                 else
-                    $requirements['_'. strtoupper($extensionName) .'EXT'] = $requirement .'-disabled';
+                    $requirements[strtoupper($extensionName) .'_EXT'] = $requirement .'-disabled';
             }
 
-            $requirements['_TESTCHMOD'] = (is_writable(dirname(dirname(__FILE__)).'/')) ? 'enabled' : 'optional-disabled';
+            $requirements['CHMOD_TEST'] = (is_writable(dirname(dirname(__FILE__)).'/')) ? 'enabled' : 'optional-disabled';
 
             return $requirements;
-        }
-
-        /*
-         * Check if Nuked-Klan version is updatable or not
-         */
-        # TODO : Voir pour 1.7.8 > nk > 1.7.9 RC3 (valeur de retour -1)
-        private function _validVersion($version) {
-            if (version_compare($version, self::NK_VERSION, '=')) { // last version already set
-                return 1;
-            }
-            //else if ((version_compare($version, '1.7.8', '>') && version_compare($version, '1.7.9 RC3', '<')) || version_compare($version, '1.7.7', '<')) { // cannot update
-            //    return -1;
-            //}
-            else {// can update, version == 1.7.7, 1.7.8 or greater than 1.7.9
-                return 0;
-            }
         }
 
         /*
@@ -858,7 +842,6 @@
         private function _sqlAddSlashes($str) {
             $str = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $str);
             $str = str_replace('\\', '\\\\', $str);
-            //if ($crlf) $str = strtr($str, array("\n" => '\n', "\r" => '\r', "\t" => '\t'));
 
             return str_replace('\'', '\'\'', $str);
         }
@@ -872,7 +855,8 @@
             foreach (array_diff(scandir('tables'), array('.', '..')) as $fileTable) {
                 $fileTableData = explode('.', $fileTable);
 
-                if (in_array($this->data['process'], $fileTableData)
+                if (is_file('tables/'. $fileTable)
+                    && in_array($this->data['process'], $fileTableData)
                     && $fileTableData[0] == 'table'
                     && array_pop($fileTableData) == 'inc'
                 )
@@ -912,6 +896,55 @@
             }
 
             return $data;
+        }
+
+        /*
+         * Generate and return a random user id 
+         */
+        private function _generateUserId() {
+            $charPool   = array_merge(range('a', 'z'), range('A', 'Z'), range(0, 9));
+            $poolLength = count($charPool) - 1;
+            $userId     = '';
+
+            shuffle($charPool);
+
+            for ($i = 0; $i < 20; $i++)
+                $userId .= $charPool{mt_rand(0, $poolLength)};
+
+            return $userId;
+        }
+
+        // TODO : Gerer les erreurs d'une maniere moins brutale...
+        /*
+         * Write demo content in database
+         */
+        private function _writeDefaultContent($nickname, $password, $email) {
+            $_SESSION['hash']   = self::generateHashKey();
+            $password           = self::hashPassword($_SESSION['hash'] , $password);
+            $date               = time();
+            $userId             = $this->_generateUserId();
+            $ip                 = $_SERVER['REMOTE_ADDR'];
+
+            $sql = 'TRUNCATE TABLE `'. $this->data['db_prefix'] .'_users`';
+            mysql_query($sql) or die(mysql_error());
+
+            $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_users` VALUES 
+                (\''. $userId .'\', \'\', \'\', \'\', \'\', \'\', \''. $nickname .'\', \''. $email .'\', \'\', \'\', \'\', \'\', \'\', \'\', \''. $password .'\', 9, \''. $date .'\', \'\', \'\', \'\', \'\', 1, \'France.gif\', \'\', \'\', \'\', \'0\')';
+            mysql_query($sql) or die(mysql_error());
+
+            $firstNewsTitle = sprintf($this->i18n['FIRST_NEWS_TITLE'], self::NK_VERSION);
+
+            $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_news` VALUES
+                (1, 1, \''. $firstNewsTitle .'\', \''. $nickname .'\', \''. $userId .'\', \''. $this->i18n['FIRST_NEWS_CONTENT'] .'\', \'\', \''. $date .'\', \'\', \'\')';
+            mysql_query($sql) or die(mysql_error());
+
+            $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_shoutbox` VALUES
+                (1, \''. $nickname .'\', \''. $ip .'\', \''. $firstNewsTitle .'\', \''. $date .'\')';
+            mysql_query($sql) or die(mysql_error());
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_config` SET value = \''. $email .'\'
+                WHERE name = \'contact_mail\' OR name = \'mail\'';
+            mysql_query($sql) or die(mysql_error());
         }
 
         /*
@@ -1019,7 +1052,10 @@
                 $content = $this->_applyView($this->_view, $this->_viewData);
 
                 echo $this->_applyView('fullPage', array(
-                    'navigationList'    => $this->_navigation,
+                    'language'          => $this->_language,
+                    'i18n'              => $this->_i18n,
+                    'processVersion'    => self::NK_VERSION,
+                    'navigation'        => $this->_navigation,
                     'data'              => $this->data,
                     'action'            => $action,
                     'content'           => $content,

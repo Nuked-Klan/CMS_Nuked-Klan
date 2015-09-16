@@ -20,7 +20,8 @@ if ($this->data['process'] == 'install') {
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'INSERT INTO `'. $db_prefix .'_forums` VALUES (1, 1, \'Forum\', \'Test Forum\', \'\', 0, 0, 0, 1 ,1);';
+    $sql = 'INSERT INTO `'. $db_prefix .'_forums` VALUES
+        (1, 1, \''. $this->_i18n['FORUM'] .'\', \''. $this->_i18n['TEST_FORUM'] .'\', \'\', 0, 0, 0, 1 ,1);';
     mysql_query($sql) or die(mysql_error());
 
     return 'CREATED';
@@ -49,7 +50,7 @@ else if ($this->data['process'] == 'update') {
                 $row['comment'] = str_replace(array('<p>', '</p>'), '', $row['comment']);
 
             if (in_array('bbcode', $update))
-                $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix));
+                $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_forums` set comment = \''. $row['comment'] .'\' WHERE id = '. $row['id'];
             mysql_query($sql) or die(mysql_error());

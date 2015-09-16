@@ -34,10 +34,11 @@ function checkimg($url) {
     return 'images/noimagefile.gif';
 }
 
-function BBcode($texte, $db_prefix, $imgMaxWidth = 0, $imgClic = false) {
+function BBcode($texte, $db_prefix, $i18n) {
     global $bgcolor3, $bgcolor1;
-    if ($texte != ""){
-        $texte = " " . $texte;
+
+    if ($texte != '') {
+        $texte = ' '. $texte;
         $texte = preg_replace("#([\t\r\n ])([a-z0-9]+?){1}://([\w\-]+\.([\w\-]+\.)*[\w]+(:[0-9]+)?(/[^ \"\n\r\t<]*)?)#i", '\1<a href="\2://\3"  onclick="window.open(this.href); return false;">\2://\3</a>', $texte);
         $texte = preg_replace("#([\t\r\n ])(www|ftp)\.(([\w\-]+\.)*[\w]+(:[0-9]+)?(/[^ \"\n\r\t<]*)?)#i", '\1<a href="http://\2.\3"  onclick="window.open(this.href); return false;">\2.\3</a>', $texte);
         $texte = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $texte);
@@ -69,10 +70,10 @@ function BBcode($texte, $db_prefix, $imgMaxWidth = 0, $imgClic = false) {
         $texte = preg_replace("/\[shadow=(.*?)\](.*?)\[\/shadow\]/i", "<div style=\"width: 100%;filter: shadow(color=\\1);\">\\2</div>", $texte);
         $texte = preg_replace("/\[email\](.*?)\[\/email\]/i", "<a href=\"mailto:\\1\">\\1</a>", $texte);
         $texte = preg_replace("/\[email=(.*?)\](.*?)\[\/email\]/i", "<a href=\"mailto:\\1\">\\2</a>", $texte);
-        $texte = str_replace("[quote]", "<br /><table style=\"background: " . $bgcolor3 . ";width:100%;\" cellpadding=\"3\" cellspacing=\"1\" border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"quote\" style=\"border: 0; overflow: auto;\"><strong>" . _QUOTE . " :</strong><br />", $texte);
-        $texte = preg_replace("/\[quote=(.*?)\]/i", "<br /><table style=\"background: " . $bgcolor3 . ";width:100%;\" cellpadding=\"3\" cellspacing=\"1\"  border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"quote\" style=\"border: 0; overflow: auto;\"><strong>\\1 " . _HASWROTE . " :</strong></div>", $texte);
+        $texte = str_replace("[quote]", "<br /><table style=\"background: " . $bgcolor3 . ";width:100%;\" cellpadding=\"3\" cellspacing=\"1\" border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"quote\" style=\"border: 0; overflow: auto;\"><strong>" . $i18n['QUOTE'] . " :</strong><br />", $texte);
+        $texte = preg_replace("/\[quote=(.*?)\]/i", "<br /><table style=\"background: " . $bgcolor3 . ";width:100%;\" cellpadding=\"3\" cellspacing=\"1\"  border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"quote\" style=\"border: 0; overflow: auto;\"><strong>\\1 " . $i18n['HAS_WROTE'] . " :</strong></div>", $texte);
         $texte = str_replace("[/quote]", "</div></td></tr></table><br />", $texte);
-        $texte = str_replace("[code]", "<br /><table style=\"background: " . $bgcolor3 . ";width:100%;\" cellpadding=\"3\" cellspacing=\"1\" border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"code\" style=\"border: 0; overflow: auto;\"><strong>" . _CODE . " :</strong><pre class=\"brush:php;\" >", $texte);
+        $texte = str_replace("[code]", "<br /><table style=\"background: " . $bgcolor3 . ";width:100%;\" cellpadding=\"3\" cellspacing=\"1\" border=\"0\"><tr><td style=\"background: #FFFFFF;color: #000000\"><div id=\"code\" style=\"border: 0; overflow: auto;\"><strong>" . $i18n['CODE'] . " :</strong><pre class=\"brush:php;\" >", $texte);
         $texte = str_replace("[/code]", "</pre></div></td></tr></table>", $texte);
         $texte = preg_replace_callback('/\[img\](.*?)\[\/img\]/i', 'replaceBBCodeUpdate1' , $texte);
         $texte = preg_replace_callback('/\[img=(.*?)x(.*?)\](.*?)\[\/img\]/i', 'replaceBBCodeUpdate2', $texte);

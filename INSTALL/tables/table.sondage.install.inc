@@ -14,7 +14,7 @@ if ($this->data['process'] == 'install') {
     mysql_query($sql) or die(mysql_error());
 
     $sql = 'INSERT INTO `'. $db_prefix .'_sondage` VALUES
-        (1, \''. _LIKENK .'\', \''. time() .'\', 0);';
+        (1, \''. $this->_i18n['LIKE_NK'] .'\', \''. time() .'\', 0);';
     mysql_query($sql) or die(mysql_error());
 
     return 'CREATED';

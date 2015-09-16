@@ -30,7 +30,7 @@ if ($this->data['process'] == 'update') {
         $dbsDiscussion = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsDiscussion)) {
-            $row['texte'] = mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix));
+            $row['texte'] = mysql_real_escape_string(bbcode(stripslashes($row['texte']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_discussion` SET texte = \''. $row['texte'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

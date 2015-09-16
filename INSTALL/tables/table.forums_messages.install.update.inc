@@ -43,7 +43,7 @@ else if ($this->data['process'] == 'update') {
         $dbsForumMessages = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsForumMessages)) {
-            $row['txt'] = mysql_real_escape_string(bbcode(stripslashes($row['txt']), $db_prefix));
+            $row['txt'] = mysql_real_escape_string(bbcode(stripslashes($row['txt']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_forums_messages` SET txt = \''. $row['txt'] .'\' WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());

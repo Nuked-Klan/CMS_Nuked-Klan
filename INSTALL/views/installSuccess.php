@@ -1,7 +1,7 @@
                 <div style="text-align: center;margin:30px auto;">
-                    <h2><?php echo _INSTALLSUCCESS ?></h2>
-                    <p><?php echo _INFOPARTNERS ?></p>
-                    <div id="partners" ><img src="images/loading.gif" alt="" /><br/><?php echo _WAIT ?></div>
+                    <h2><?php echo $i18n['INSTALL_SUCCESS'] ?></h2>
+                    <p><?php echo $i18n['INFO_PARTNERS'] ?></p>
+                    <div id="partners" ><img src="images/loading.gif" alt="" /><br/><?php echo $i18n['WAIT'] ?></div>
                     <script type="text/javascript" >
                     function ajaxPartners(){
                         $.ajax({
@@ -16,5 +16,5 @@
                     }
                     $(document).ready(ajaxPartners());
                     </script>
-                    <a href="index.php?action=deleteSession" class="button"><?php echo _ACCESS_SITE ?></a>
+                    <a href="index.php?action=deleteSession" class="button"><?php echo $i18n['ACCESS_SITE'] ?></a>
                 </div>

@@ -31,7 +31,7 @@ else if ($this->data['process'] == 'update') {
         $dbsDownloadsCat = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsDownloadsCat)) {
-            $row['description'] = mysql_real_escape_string(bbcode(stripslashes($row['description']), $db_prefix));
+            $row['description'] = mysql_real_escape_string(bbcode(stripslashes($row['description']), $db_prefix, $this->_i18n));
 
             $sql = 'UPDATE `'. $db_prefix .'_downloads_cat` SET description = \''. $row['description'] .'\' WHERE cid = \''. $row['cid'] .'\'';
             mysql_query($sql) or die(mysql_error());

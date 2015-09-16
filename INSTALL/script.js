@@ -81,7 +81,8 @@ function viewEnd() {
         install = true;
     }
     else {
-        txt_end = complete_error_start + errors + complete_error_end;
+        //txt_end = complete_error_start + errors + complete_error_end;
+        txt_end = complete_error.replace(/%d/, errors);
         $('#continue_install').text(retry);
     }
 
@@ -163,13 +164,13 @@ function startProcess() {
 
 // Check config form
 
-function addConfigInputError(input, errorMsg) {
-    $('#infos').html(errorMsg);
+function addConfigInputError(input, dbConnectFail, errorMsg) {
+    $('#infos').html(dbConnectFail + '<br/>' + errorMsg);
     $('#loading_img').remove();
     input.addClass('error');
 }
 
-function checkConfigForm(type, form, wait, hostError, loginError, dbError, prefixError) {
+function checkConfigForm(type, form, wait, dbConnectFail, hostError, loginError, dbError, prefixError) {
     var host        = $('input[name="db_host"]');
     var user        = $('input[name="db_user"]');
     var pass        = $('input[name="db_pass"]');
@@ -228,19 +229,19 @@ function checkConfigForm(type, form, wait, hostError, loginError, dbError, prefi
                 bddError = true;
 
                 if (txt == 'HOST_ERROR') {
-                    addConfigInputError(host, hostError);
+                    addConfigInputError(host, dbConnectFail, hostError);
                 }
                 else if (txt == 'LOGIN_ERROR') {
-                    addConfigInputError(pass, loginError);
+                    addConfigInputError(pass, dbConnectFail, loginError);
 
                     if (type == 'install')
                         user.addClass('error');
                 }
                 else if (txt == 'DB_ERROR') {
-                    addConfigInputError(dbname, dbError);
+                    addConfigInputError(dbname, dbConnectFail, dbError);
                 }
                 else if(txt == 'PREFIX_ERROR') {
-                    addConfigInputError(prefix, prefixError);
+                    addConfigInputError(prefix, dbConnectFail, prefixError);
                 }
                 else {
                     $('#infos').html(txt);
