@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_games`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_games`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_games` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_games` (
             `id` int(11) NOT NULL auto_increment,
             `name` varchar(50) NOT NULL default \'\',
             `titre` varchar(50) NOT NULL default \'\',
@@ -19,8 +19,8 @@ if ($this->data['process'] == 'install') {
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'INSERT INTO `'. $db_prefix .'_games` VALUES
-        (1, \'Counter Strike Source\', \''. $this->_i18n['PREF_CS'] .'\', \'images/games/cs.gif\', \''. $this->_i18n['OTHER_NICK'] .'\', \''. $this->_i18n['FAV_MAP'] .'\', \''. $this->_i18n['FAV_WEAPON'] .'\', \''. $this->_i18n['SKIN_T'] .'\', \''. $this->_i18n['SKIN_CT'] .'\', \'de_dust2|de_inferno\');';
+    $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_games` VALUES
+        (1, \'Counter Strike Source\', \''. mysql_real_escape_string($this->_i18n['PREF_CS']) .'\', \'images/games/cs.gif\', \''. mysql_real_escape_string($this->_i18n['OTHER_NICK']) .'\', \''. mysql_real_escape_string($this->_i18n['FAV_MAP']) .'\', \''. mysql_real_escape_string($this->_i18n['FAV_WEAPON']) .'\', \''. mysql_real_escape_string($this->_i18n['SKIN_T']) .'\', \''. mysql_real_escape_string($this->_i18n['SKIN_CT']) .'\', \'de_dust2|de_inferno\');';
     mysql_query($sql) or die(mysql_error());
 
     return 'CREATED';
@@ -32,7 +32,8 @@ else if ($this->data['process'] == 'update') {
     // install 1.7.9 RC4
     // update 1.7.9 RC5.2
     if (! array_key_exists('map', $tableData)) {
-        $sql = 'ALTER TABLE `'. $db_prefix .'_games` ADD `map` TEXT NOT NULL;';
+        $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_games`
+            ADD `map` TEXT NOT NULL;';
         mysql_query($sql) or die(mysql_error());
         $update[] = 'alter table';
     }

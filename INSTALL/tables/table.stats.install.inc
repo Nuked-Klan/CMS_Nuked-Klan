@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_stats`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_stats`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql='CREATE TABLE `'. $db_prefix .'_stats` (
+    $sql='CREATE TABLE `'. $this->data['db_prefix'] .'_stats` (
             `nom` varchar(50) NOT NULL default \'\',
             `type` varchar(50) NOT NULL default \'\',
             `count` int(11) NOT NULL default \'0\',
@@ -12,7 +12,7 @@ if ($this->data['process'] == 'install') {
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'INSERT INTO `'. $db_prefix .'_stats` VALUES
+    $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_stats` VALUES
         (\'Gallery\', \'pages\', 0),
         (\'Archives\', \'pages\', 0),
         (\'Calendar\', \'pages\', 0),

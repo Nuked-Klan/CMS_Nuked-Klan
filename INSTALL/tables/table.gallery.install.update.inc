@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_gallery`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_gallery`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_gallery` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_gallery` (
             `sid` int(11) NOT NULL auto_increment,
             `titre` text NOT NULL,
             `description` text NOT NULL,
@@ -23,25 +23,36 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('gallery');
-    $update     = array();
+    $tableData = $this->getTableData('gallery');
+    $update = $fields = array();
 
     // Update BBcode
     // update 1.7.9 RC1
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('description', $tableData)) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
+        $update[] = 'bbcode';
+        $fields[] = 'description';
+    }
 
-        $sql = 'SELECT sid, description FROM `'. $db_prefix .'_gallery`';
+    if (! empty($update)) {
+        $sql = 'SELECT sid, '. implode(', ', $fields) .'
+            FROM `'. $this->data['db_prefix'] .'_gallery`';
         $dbsGallery = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsGallery)) {
-            $row['description'] = mysql_real_escape_string(bbcode(stripslashes($row['description']), $db_prefix, $this->_i18n));
+            $data = $setFields = array();
 
-            $sql = 'UPDATE `'. $db_prefix .'_gallery` SET description = \''. $row['description'] .'\' WHERE sid = \''. $row['sid'] .'\'';
+            if (in_array('bbcode', $update))
+                $setFields['description'] = $bbcode->apply(stripslashes($row['description']));
+
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_gallery`
+                SET '. implode(', ', $data) .'
+                WHERE sid = \''. $row['sid'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
-
-        $update[] = 'bbcode';
     }
 
     if (! empty($update)) return 'UPDATED';

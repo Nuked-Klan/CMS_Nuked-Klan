@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_modules`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_modules`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_modules` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_modules` (
             `id` int(2) NOT NULL auto_increment,
             `nom` varchar(50) NOT NULL default \'\',
             `niveau` int(1) NOT NULL default \'0\',
@@ -13,7 +13,7 @@ if ($this->data['process'] == 'install') {
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'INSERT INTO `'. $db_prefix .'_modules` VALUES
+    $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_modules` VALUES
         (1, \'News\', 0, 2),
         (2, \'Forum\', 0, 2),
         (3, \'Wars\', 0, 2),
@@ -41,9 +41,9 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = array();
+    $update = $insert = array();
 
-    $sql = 'SELECT nom FROM `'. $db_prefix .'_modules`';
+    $sql = 'SELECT nom FROM `'. $this->data['db_prefix'] .'_modules`';
     $dbsModules = mysql_query($sql) or die (mysql_error());
 
     $modules = array();
@@ -53,23 +53,29 @@ else if ($this->data['process'] == 'update') {
 
     // install / update 1.7.9 RC5
     if (in_array('PackageMgr', $modules)) {
-        $sql = 'DELETE FROM `'. $db_prefix .'_modules` WHERE nom = \'PackageMgr\'';
+        $sql = 'DELETE FROM `'. $this->data['db_prefix'] .'_modules` WHERE nom = \'PackageMgr\'';
         mysql_query($sql) or die (mysql_error());
         $update[] = 'delete PackageMgr module';
     }
 
     // install / update 1.7.9 RC1
     if (in_array('Stats', $modules)) {
-        $sql = 'INSERT INTO `'. $db_prefix .'_modules` (`nom`, `niveau`, `admin`) VALUES (\'Stats\', 0, 2)';
+        $insert[] = '(\'Stats\', 0, 2)';
         mysql_query($sql)or die(mysql_error());
         $update[] = 'add Stats module';
     }
 
     // install / update 1.7.9 RC1
     if (in_array('Contact', $modules)) {
-        $sql = 'INSERT INTO `'. $db_prefix .'_modules` (`nom`, `niveau`, `admin`) VALUES (\'Contact\', 0, 3)';
+        $insert[] = '(\'Contact\', 0, 3)';
         mysql_query($sql)or die(mysql_error());
-        $update[] = 'add contact module';
+        $update[] = 'add Contact module';
+    }
+
+    if (! empty($insert)) {
+        $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_modules`
+            (`nom`, `niveau`, `admin`) VALUES '. implode(', ', $insert);
+        mysql_query($sql)or die(mysql_error());
     }
 
     if (! empty($update)) return 'UPDATED';

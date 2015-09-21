@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_forums_vote`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_forums_vote`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_forums_vote` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_forums_vote` (
             `poll_id` int(11) NOT NULL default \'0\',
             `auteur_id` varchar(20) NOT NULL default \'\',
             `auteur_ip` varchar(20) NOT NULL default \'\',

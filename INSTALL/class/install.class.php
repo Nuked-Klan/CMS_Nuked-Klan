@@ -1,24 +1,57 @@
 <?php
 
+/*
+ * Manage install / update process
+ */
     class install {
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Configuration data (config.inc)
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*
          * Sets Nuked-Klan version to install / update
          */
-        const NK_VERSION = '1.7.13';
+        private $_nkVersion;
 
         /*
          * Sets Nuked-Klan minimum version for install / update
          */
-        const NK_MINIMUM_VERSION = '1.7.5';
+        private $_nkMinimumVersion;
 
         /*
-         * Sets language list
+         * Sets the minimum version of PHP used by this version of Nuked-Klan
          */
-        private $_languageList = array(
-            'english'  => 'ENGLISH',
-            'french'   => 'FRENCH'
-        );
+        private $_minimalPhpVersion;
+
+        /*
+         * Sets PHP extension list used by this version of Nuked-Klan
+         */
+        private $_phpExtension = array();
+
+        /*
+         * Sets upload directory list
+         */
+        private $_uploadDir = array();
+
+        /*
+         * Sets changelog list
+         */
+        private $_changelog = array();
+
+        /*
+         * Sets info list display in footer
+         */
+        private $_infoList = array();
+
+        /*
+         * Sets partners key
+         */
+        private $_partnersKey;
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Core data
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*
          * Sets config database data list
@@ -38,66 +71,21 @@
         );
 
         /*
-         * Sets info list display in footer
-         */
-        private $_infoList = array(
-            'DISCOVERY',
-            'NEWSADMIN',
-            'INSTALL_AND_UPDATE',
-            'COMMUNAUTY_NK'
-        );
-
-        /*
-         * Sets changelog list
-         */
-        private $_changelog = array(
-            'SECURITY',
-            'OPTIMISATION',
-            'ADMINISTRATION',
-            'BAN_TEMP',
-            'SHOUTBOX',
-            'SQL_ERROR',
-            'MULTI_WARS',
-            'COMMENT_SYSTEM',
-            'WYSIWYG_EDITOR',
-            'CONTACT',
-            'PASSWORD_ERROR',
-            'VARIOUS_MODIF'
-        );
-
-        /*
-         * Sets partners key
-         */
-        const PARTNERS_KEY = 'iS5scBmNTNyE6M07Jna3';
-
-        /*
-         * Sets the minimum version of PHP used by this version of Nuked-Klan
-         */
-        const MINIMAL_PHP_VERSION = '5.1.0';
-
-        /*
-         * Sets PHP extension list used by this version of Nuked-Klan
-         */
-        private $_phpExtension = array(
-            'mysql'     => 'required',
-            'session'   => 'required',
-            //'zip'       => 'required',
-            'fileinfo'  => 'optional',
-            //'hash'      => 'required',
-            'gd'        => 'required'
-        );
-
-        /*
          * Sets database list
          */
-        private $_databaseTypeList = array(
+        /*private $_databaseTypeList = array(
             'mysql'     => 'MySQL'
-        );
+        );*/
 
         /*
          * Sets current database
          */
-        private $_databaseType = 'mysql';
+        //private $_databaseType = 'mysql';
+
+        /*
+         * Sets used database charset 
+         */
+        private $_charset = 'latin1';
 
         /*
          * Sets view name
@@ -114,17 +102,25 @@
          */
         private $data;
 
+        /*
+         * Sets language used
+         */
         private $_language = 'english';
 
+        /*
+         * Sets language translation
+         */
         private $_i18n = array();
 
         /*
          * Constructor
          * - Init PHP session and load data
+         * - Load configuration file
          * - Load language file
          */
         function __construct() {
             $this->_initSession();
+            $this->_loadConfiguration();
             $this->_loadLanguage();
         }
 
@@ -139,7 +135,7 @@
             $this->_view = 'selectLanguage';
 
             $this->_viewData['i18n']            = $this->_i18n;
-            $this->_viewData['languageList']    = $this->_languageList;
+            $this->_viewData['languageList']    = $this->_getLanguageList();
             $this->_viewData['language']        = $this->_language;
         }
 
@@ -147,7 +143,7 @@
          * Set used language while install / update process
          */
         public function setLanguage() {
-            if (isset($_POST['language']) && array_key_exists($_POST['language'], $this->_languageList)) {
+            if (isset($_POST['language']) && is_file('lang/'. $_POST['language'] .'.lang.php')) {
                 $_SESSION['language'] = $_POST['language'];
 
                 $this->_redirect('index.php?action=main');
@@ -160,49 +156,66 @@
          * Detect process (install / update) and check Nuked-Klan version if already installed
          */
         public function main() {
-            $this->_view = 'main';
-
-            $this->_viewData['i18n']            = $this->_i18n;
-            $this->_viewData['processVersion']  = self::NK_VERSION;
-
             if (! is_file('../conf.inc.php')) {
                 $this->_viewData['process'] = 'install';
             }
             else {
                 define('INDEX_CHECK', 1);
 
+                // TODO : Tester si un ancien fichier est encore présent
                 if (is_file('../Includes/version.php')) {
                     include '../Includes/version.php';
                 }
                 else {
                     include '../conf.inc.php';
-                    $connect = $this->_dbConnect($global['db_host'], $global['db_user'], $global['db_pass'], $global['db_name']);
 
-                    if ($connect == 'OK') {
+                    try {
+                        if (! isset($global, $db_prefix) || ! is_array($global) || ! is_string($db_prefix))
+                            throw new Exception($this->_i18n['CORRUPTED_CONF_INC']);
+
+                        $connect = $this->_dbConnect($global);
+
+                        if ($connect != 'OK')
+                            throw new Exception($this->_translateDbConnectError($connect));
+
                         $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'version\'';
                         $dbsConfig = @mysql_query($sql);
 
                         if ($dbsConfig === false)
-                            $this->_viewData['error'] = $this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $this->_i18n['DB_PREFIX_ERROR'];
-                        else
-                            list($nk_version) = mysql_fetch_array($dbsConfig);
+                            throw new Exception($this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $this->_i18n['DB_PREFIX_ERROR']);
+
+                        list($nk_version) = mysql_fetch_array($dbsConfig);
                     }
-                    else {
-                        $this->_viewData['error'] = $this->_translateDbConnectError($connect);
+                    catch (exception $e) {
+                        $this->_view = 'fatalError';
+
+                        $this->_viewData['i18n']        = $this->_i18n;
+                        $this->_viewData['error']       = $e->getMessage();
+                        $this->_viewData['refreshLink'] = 'index.php?action=main';
+                        return;
                     }
                 }
 
                 if (isset($nk_version)) {
                     $_SESSION['version'] = $this->_viewData['currentVersion'] = $nk_version;
 
-                    if ($_SESSION['version'] == self::NK_VERSION)
-                        $this->_viewData['message'] = sprintf($this->_i18n['LAST_VERSION_SET'], self::NK_VERSION);
-                    else if (version_compare($_SESSION['version'], self::NK_MINIMUM_VERSION, '<'))
-                        $this->_viewData['message'] = sprintf($this->_i18n['BAD_VERSION'], self::NK_MINIMUM_VERSION);
-                    else
+                    if ($_SESSION['version'] == $this->_nkVersion) {
+                        $this->_viewData['message'] = sprintf($this->_i18n['LAST_VERSION_SET'], $this->_nkVersion);
+                        $this->_viewData['alreadyUpdated'] = true;
+                    }
+                    else if (version_compare($_SESSION['version'], $this->_nkMinimumVersion, '<')) {
+                        $this->_viewData['message'] = sprintf($this->_i18n['BAD_VERSION'], $this->_nkMinimumVersion);
+                    }
+                    else {
                         $this->_viewData['process'] = 'update';
+                    }
                 }
             }
+
+            $this->_view = 'main';
+
+            $this->_viewData['i18n']            = $this->_i18n;
+            $this->_viewData['processVersion']  = $this->_nkVersion;
         }
 
         /*
@@ -211,6 +224,23 @@
         public function saveProcess() {
             if (isset($_GET['process']) && in_array($_GET['process'], array('install', 'update'))) {
                 $_SESSION['process'] = $_GET['process'];
+
+                if ($_GET['process'] == 'update') {
+                    require_once 'class/confInc.class.php';
+
+                    $cfg            = new config;
+                    $saveCfgResult  = $cfg->closeWebsite();
+
+                    if ($saveCfgResult != 'OK') {
+                        $this->_view = 'confIncFailure';
+
+                        $this->_viewData['i18n']        = $this->_i18n;
+                        $this->_viewData['error']       = $saveCfgResult;
+                        $this->_viewData['retryUrl']    = 'index.php?action=saveProcess&amp;process='. $_GET['process'];
+                        $this->_viewData['nextUrl']     = 'index.php?action=checkCompatibility';
+                        return;
+                    }
+                }
 
                 $this->_redirect('index.php?action=checkCompatibility');
             }
@@ -222,19 +252,20 @@
          * Check PHP requirements for execute process
          */
         public function checkCompatibility() {
-            $this->_i18n['PHP_VERSION'] = sprintf($this->_i18n['PHP_VERSION'], self::MINIMAL_PHP_VERSION);
+            $this->_i18n['PHP_VERSION'] = sprintf($this->_i18n['PHP_VERSION'], $this->_minimalPhpVersion);
 
             $this->_view = 'checkCompatibility';
 
-            $this->_viewData['i18n']            = $this->_i18n;
-            $this->_viewData['requirements']    = $this->_requirements();
+            $this->_viewData['i18n']                = $this->_i18n;
+            $this->_viewData['requirements']        = $this->_requirements();
+            $this->_viewData['nbChmodDirectory']    = count($this->_uploadDir) + 1;
         }
 
         /*
          * Choose to send stats to Nuked-Klan.org or not
          */
         public function chooseSendStats() {
-            if (isset($this->data['stats']) && $this->data['stats'] === false)
+            if (isset($this->data['stats']) && $this->data['stats'] == 'off')
                 $stats = false;
             else
                 $stats = true;
@@ -275,19 +306,29 @@
          * Generate backup of MySQL database and send file to web browser
          */
         public function createBackupDb() {
+            include '../conf.inc.php';
+
+            if (! isset($global, $db_prefix) || ! is_array($global) || ! is_string($db_prefix)) {
+                $error = $this->_i18n['CORRUPTED_CONF_INC'];
+            }
+            else {
+                $connect = $this->_dbConnect($global);
+
+                if ($connect != 'OK') $error = $connect;
+            }
+
+            if (isset($error)) {
+                $this->_view = 'fatalError';
+
+                $this->_viewData['i18n']    = $this->_i18n;
+                $this->_viewData['error']   = $error;
+                return;
+            }
+
             $_SESSION['db_save'] = 'yes';
 
             header('Content-disposition:filename=save-'. time() .'.sql');
             header('Content-type:application/octetstream');
-
-            include '../conf.inc.php';
-
-            $connect = $this->_dbConnect($global['db_host'], $global['db_user'], $global['db_pass'], $global['db_name']);
-
-            if ($connect != 'OK') {
-                echo $connect;
-                return;
-            }
 
             echo '-- --------------------------------------------------------', "\n"
                , '-- Dump of Nuked-Klan database', "\n"
@@ -309,7 +350,7 @@
                    , $resultCreateTable[1], ';', "\n\n"
                    , '-- --------------------------------------------------------', "\n\n";
 
-                $dbsTable = mysql_query('SELECT * FROM '. $table[0]);
+                $dbsTable   = mysql_query('SELECT * FROM '. $table[0]);
                 $nbData     = mysql_num_rows($dbsTable);
 
                 if ($nbData > 0) {
@@ -328,29 +369,27 @@
                     $nbFields = count($fields);
                     $d = 0;
 
-                    for ($i = 0; $i < $nbFields; $i++) {
-                        while ($row = mysql_fetch_row($dbsTable)) {
-                            echo '(';
+                    while ($row = mysql_fetch_row($dbsTable)) {
+                        echo '(';
 
-                            for ($j = 0; $j < $nbFields; $j++) {
-                                $row[$j] = $this->_sqlAddSlashes($row[$j]);
+                        for ($f = 0; $f < $nbFields; $f++) {
+                            $row[$f] = $this->_sqlAddSlashes($row[$f]);
 
-                                if (isset($row[$j]))
-                                    echo '\'', $row[$j], '\'' ;
-                                else
-                                    echo '\'\'';
-
-                                if ($j < ($nbFields - 1))
-                                    echo ', ';
-                            }
-
-                            $d++;
-
-                            if ($d == $nbData)
-                                echo ');', "\n";
+                            if (isset($row[$f]))
+                                echo '\'', $row[$f], '\'' ;
                             else
-                                echo '),', "\n";
+                                echo '\'\'';
+
+                            if ($f < ($nbFields - 1))
+                                echo ', ';
                         }
+
+                        $d++;
+
+                        if ($d == $nbData)
+                            echo ');', "\n";
+                        else
+                            echo '),', "\n";
                     }
                 }
 
@@ -398,7 +437,7 @@
             $this->_view = 'changelog';
 
             $this->_viewData['i18n']            = $this->_i18n;
-            $this->_viewData['processVersion']  = self::NK_VERSION;
+            $this->_viewData['processVersion']  = $this->_nkVersion;
             $this->_viewData['changelog']       = $this->_changelog;
         }
 
@@ -419,9 +458,9 @@
                 $this->_viewData['host']            = $global['db_host'];
                 $this->_viewData['user']            = $global['db_user'];
                 $this->_viewData['name']            = $global['db_name'];
-                //$this->_viewData['databaseType']    = $global['db_type'];
-                //$this->_viewData['port']            = $global['db_port'];
-                //$this->_viewData['persistent']      = $global['db_persistent'];
+                //$this->_viewData['databaseType']    = isset($global['db_type']) ? $global['db_type'] : $this->_databaseType;
+                //$this->_viewData['port']            = isset($global['db_port']) ? $global['db_port'] : $this->_getDbDefaultPort();
+                //$this->_viewData['persistent']      = isset($global['db_persistent']) ? $global['db_persistent'] : false;
                 $this->_viewData['prefix']          = $db_prefix;
             }
         }
@@ -431,29 +470,30 @@
          */
         public function saveConfig() {
             if ($this->data['process'] == 'install') {
-                $_SESSION['host']           = $_POST['db_host'];
-                $_SESSION['user']           = $_POST['db_user'];
-                $_SESSION['pass']           = (isset($_POST['db_pass'])) ? $_POST['db_pass'] : '';
+                $_SESSION['db_host']        = $_POST['db_host'];
+                $_SESSION['db_user']        = $_POST['db_user'];
+                $_SESSION['db_pass']        = (isset($_POST['db_pass'])) ? $_POST['db_pass'] : '';
                 $_SESSION['db_name']        = $_POST['db_name'];
                 //$_SESSION['db_type']        = $_POST['db_type'];
                 //$_SESSION['db_port']        = $_POST['db_port'];
                 //$_SESSION['db_persistent']  = $_POST['db_persistent'];
                 $_SESSION['db_prefix']      = $_POST['db_prefix'];
+                $_SESSION['HASHKEY']        = self::generateHashKey();
 
                 $this->_redirect('index.php?action=installDB');
             }
             elseif ($this->data['process'] == 'update') {
-                unset($_SESSION['hash']);
                 include '../conf.inc.php';
 
-                $_SESSION['host']           = $global['db_host'];
-                $_SESSION['user']           = $global['db_user'];
-                $_SESSION['pass']           = $global['db_pass'];
+                $_SESSION['db_host']        = $global['db_host'];
+                $_SESSION['db_user']        = $global['db_user'];
+                $_SESSION['db_pass']        = $global['db_pass'];
                 $_SESSION['db_name']        = $global['db_name'];
                 //$_SESSION['db_type']        = $global['db_type'];
                 //$_SESSION['db_port']        = $global['db_port'];
                 //$_SESSION['db_persistent']  = $global['db_persistent'];
                 $_SESSION['db_prefix']      = $db_prefix;
+                $_SESSION['HASHKEY']        = defined('HASHKEY') ? HASHKEY : self::generateHashKey();
 
                 $this->_redirect('index.php?action=checkMaliciousScript');
             }
@@ -463,8 +503,8 @@
          * Check if malicious sscipt exist (update only)
          */
         public function checkMaliciousScript() {
-            $maliciousScript = false;
-            $path = '../modules/404/lang/turkish.lang.php';
+            $maliciousScript    = false;
+            $path               = '../modules/404/lang/turkish.lang.php';
 
             if (is_file($path)) {
                 if (is_writeable($path)) {
@@ -493,31 +533,30 @@
          * Check MySQL database connection and return result
          */
         public function dbConnectTest() {
-            $connect = $this->_dbConnect($_POST['db_host'], $_POST['db_user'], utf8_decode($_POST['db_pass']), $_POST['db_name']);
+            $_POST      = array_map('utf8_decode', $_POST);
+            $connect    = $this->_dbConnect($_POST);
 
             if (strpos($connect, 'Unknown MySQL server host') !== false) {# 2002
-                echo 'HOST_ERROR';
+                echo 'DB_HOST_ERROR';
             }
             else if (strpos($connect, 'Access denied for user') !== false) {# 1044 / 1045
-                echo 'LOGIN_ERROR';
+                echo 'DB_LOGIN_ERROR';
             }
             else if (strpos($connect, 'Unknown database') !== false) {# 1049
-                echo 'DB_ERROR';
+                echo 'DB_NAME_ERROR';
+            }
+            else if (strpos($connect, 'Invalid characterset or character') !== false) {# 2019
+                echo 'DB_CHARSET_ERROR';
             }
             else if ($connect == 'OK') {
-                if (isset($_POST['type'])) {
-                    if ($_POST['type'] == 'update') {
-                        $sql = 'SELECT name, value FROM '. $_POST['db_prefix'] .'_config ORDER BY RAND() LIMIT 1';
-                        $dbsConfig = @mysql_query($sql);
+                if (isset($_POST['type']) && $_POST['type'] == 'update') {
+                    $sql = 'SELECT name, value FROM '. $_POST['db_prefix'] .'_config ORDER BY RAND() LIMIT 1';
+                    $dbsConfig = @mysql_query($sql);
 
-                        if ($dbsConfig === false)
-                            echo 'PREFIX_ERROR';
-                        else
-                            echo 'OK';
-                    }
-                    else {
+                    if ($dbsConfig === false)
+                        echo 'DB_PREFIX_ERROR';
+                    else
                         echo 'OK';
-                    }
                 }
                 else {
                     echo 'OK';
@@ -538,35 +577,26 @@
             $this->_viewData['process']             = $this->data['process'];
             $this->_viewData['db_prefix']           = $this->data['db_prefix'];
             $this->_viewData['processTableList']    = $this->_getProcessTableList();
-
-            // TODO : Utile pour ?, voir script install / update pour la table users
-            if ($this->data['process'] == 'update') {
-                unset($_SESSION['hash']);
-                include '../conf.inc.php';
-            }
         }
 
         /*
          * Create or update a database table
          */
         public function creatingDB() {
-            $tableFile  = $_REQUEST['tableFile'];
-            $db_prefix  = $this->data['db_prefix'];
-            $charset    = 'latin1';
-            $collate    = 'latin1_general_ci';
+            $charset    = $this->_charset;
+            $collate    = $this->_charset .'_general_ci';
 
-            $connect = $this->_dbConnect($this->data['host'], $this->data['user'], $this->data['pass'], $this->data['db_name']);
+            $connect = $this->_dbConnect($this->data);
 
             if ($connect == 'OK') {
-                $path = 'tables/'. $tableFile;
+                $path = 'tables/'. $_POST['tableFile'];
 
                 if (is_file($path)) {
                     $result = include $path;
                     echo $result;
                 }
                 else {
-                    // TODO : i18n
-                    echo 'File no found : '. $path .'<br />';
+                    echo $this->_i18n['MISSING_FILE'], $path, '<br />';
                 }
             }
             else {
@@ -578,7 +608,7 @@
          * Display form for create user admin
          */
         public function setUserAdmin() {
-            $_SESSION['user_admin'] = 'INPROGRESS';
+            $_SESSION['user_admin'] = $this->data['user_admin'] = 'IN_PROGRESS';
 
             $this->_view = 'setUserAdmin';
 
@@ -596,32 +626,66 @@
             ) {
                 $this->_view = 'userAdminError';
 
-                $this->_viewData['i18n']    = $this->_i18n;
-                $this->_viewData['error']   = 'fields';
+                $this->_viewData['i18n'] = $this->_i18n;
             }
             else {
-                $connect = $this->_dbConnect($this->data['host'], $this->data['user'], $this->data['pass'], $this->data['db_name']);
+                if (! isset($this->data['defaultContent'])) {
+                    $connect = $this->_dbConnect($this->data);
 
-                if ($connect == 'OK') {
-                    include 'user.inc';
+                    if ($connect == 'OK') {
+                        $result = $this->_writeDefaultContent($_POST['pseudo'], $_POST['pass'], $_POST['mail']);
 
-                    $this->_writeDefaultContent($_POST['pseudo'], $_POST['pass'], $_POST['mail']);
-
-                    $saveCfgResult = saveConfig('install');
-
-                    if ($saveCfgResult == 'OK') {
-                        $_SESSION['user_admin'] = 'FINISH';
-                        $this->_redirect('index.php?action=installSuccess');
+                        if ($result === true)
+                            $_SESSION['defaultContent'] = true;
+                        else
+                            $error = $result;
                     }
                     else {
-                        $this->_redirect('index.php?action=installFailure&error='. $saveCfgResult);
+                        $error = $this->_translateDbConnectError($connect);
+                    }
+
+                    if (isset($error)) {
+                        $this->_view = 'fatalError';
+
+                        $this->_viewData['i18n']        = $this->_i18n;
+                        $this->_viewData['error']       = $error;
+                        $this->_viewData['backLink']    = 'index.php?action=setUserAdmin';
+                        return;
                     }
                 }
-                else {
-                    $this->_view = 'userAdminError';
 
-                    $this->_viewData['i18n']    = $this->_i18n;
-                    $this->_viewData['error']   = $this->_translateDbConnectError($connect);
+                require_once 'class/confInc.class.php';
+
+                $cfg = new config;
+
+                $global = array();
+
+                foreach ($this->_configDbData as $k) {
+                    if (array_key_exists($k, $this->data))
+                        $global[$k] = $this->data[$k];
+                }
+
+                $cfg->setData(array(
+                    'nk_version'    => $this->_nkVersion,
+                    'global'        => $global,
+                    'db_prefix'     => $this->data['db_prefix'],
+                    'HASHKEY'       => $_SESSION['HASHKEY']
+                ));
+
+                $saveCfgResult = $cfg->save();
+
+                if ($saveCfgResult != 'OK') {
+                    $this->_view = 'confIncFailure';
+
+                    $this->_viewData['i18n']        = $this->_i18n;
+                    $this->_viewData['error']       = $saveCfgResult;
+                    $this->_viewData['retryUrl']    = 'index.php?action=saveUserAdmin';
+                    $this->_viewData['nextUrl']     = 'index.php?action=installSuccess';
+                    return;
+                }
+                else {
+                    $_SESSION['user_admin'] = 'FINISH';
+                    $this->_redirect('index.php?action=installSuccess');
                 }
             }
         }
@@ -630,22 +694,56 @@
          * Update conf.inc.php file
          */
         public function updateConfig() {
-            include 'user.inc';
+            $connect = $this->_dbConnect($this->data);
 
-            $sql = 'UPDATE `'. $db_prefix .'_config` SET value = \''. self::NK_VERSION .'\' WHERE name = \'version\'';
-            mysql_query($sql) or die(mysql_error());
+            if ($connect == 'OK') {
+                $sql = 'UPDATE `'. $this->data['db_prefix'] .'_config`
+                    SET value = \''. $this->_nkVersion .'\' WHERE name = \'version\'';
 
-            $saveCfgResult = saveConfig('update');
+                if (mysql_query($sql) === false)
+                    $error = $this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $this->_i18n['DB_PREFIX_ERROR'];
+            }
+            else {
+                $error = $this->_translateDbConnectError($connect);
+            }
 
-            if ($saveCfgResult == 'OK')
-                $this->_redirect('index.php?action=installSuccess');
-            else
-                $this->_redirect('index.php?action=installFailure&error='. $saveCfgResult);
+            if (isset($error)) {
+                $this->_view = 'fatalError';
+
+                $this->_viewData['i18n']    = $this->_i18n;
+                $this->_viewData['error']   = $error;
+            }
+            else {
+                require_once 'class/confInc.class.php';
+
+                $cfg = new config;
+
+                $global = array();
+
+                foreach ($this->_configDbData as $k) {
+                    if (array_key_exists($k, $this->data))
+                        $global[$k] = $this->data[$k];
+                }
+
+                $cfg->setData(array(
+                    'nk_version'    => $this->_nkVersion,
+                    'global'        => $global,
+                    'db_prefix'     => $this->data['db_prefix'],
+                    'HASHKEY'       => $this->data['HASHKEY']
+                ));
+
+                $saveCfgResult = $cfg->save();
+
+                if ($saveCfgResult == 'OK')
+                    $this->_redirect('index.php?action=installSuccess');
+                else
+                    $this->_redirect('index.php?action=installFailure&error='. $saveCfgResult);
+            }
         }
 
         /*
          * Display install failure message
-         */
+         * /
         public function installFailure() {
             $_SESSION['user_admin'] = 'FINISH';
 
@@ -663,14 +761,16 @@
             header('Content-disposition:filename=conf.inc.php');
             header('Content-type:application/octetstream');
 
-            if (isset($_SESSION['content']))
-                echo $_SESSION['content'];
+            if (isset($_SESSION['confIncContent']))
+                echo $_SESSION['confIncContent'];
         }
 
         /*
          * Display install success message
          */
         public function installSuccess() {
+            $_SESSION['user_admin'] = $this->data['user_admin'] = 'FINISH';
+
             $this->_view = 'installSuccess';
 
             $this->_viewData['i18n'] = $this->_i18n;
@@ -680,7 +780,7 @@
          * Display partners logo & link
          */
         public function getPartners() {
-            $content = @file_get_contents('http://www.nuked-klan.org/extra/partners.php?key='. self::PARTNERS_KEY);
+            $content = @file_get_contents('http://www.nuked-klan.org/extra/partners.php?key='. $this->_partnersKey);
             $content = @unserialize($content);
             $content = (! is_array($content)) ? array() : $content;
 
@@ -719,7 +819,10 @@
             session_start();
 
             if (isset($_SESSION['active']) && $_SESSION['active'] === true) {
-                foreach ($_SESSION as $k => $v)
+                $data = $_SESSION;
+                unset($data['configuration'], $data['active']);
+
+                foreach ($data as $k => $v)
                     $this->data[$k] = $v;
             }
 
@@ -727,14 +830,72 @@
         }
 
         /*
+         * Load editable configuration, check it and store in PHP session
+         */
+        private function _loadConfiguration() {
+            if (isset($_SESSION['configuration']) && is_array($_SESSION['configuration'])) {
+                foreach ($_SESSION['configuration'] as $k => $v)
+                    $this->{'_'. $k} = $v;
+            }
+            else {
+                $cfgStrKey      = array('nkVersion', 'nkMinimumVersion', 'minimalPhpVersion', 'partnersKey');
+                $cfgArrayKey    = array('phpExtension', 'uploadDir', 'changelog', 'infoList');
+
+                try {
+                    $cfg = include 'config.inc';
+
+                    if (count(array_diff(array_keys($cfg), array_merge($cfgStrKey, $cfgArrayKey))) != 0)
+                        throw new Exception('Bad configuration array');
+
+                    foreach ($cfgStrKey as $strKey) {
+                        if (! is_string($cfg[$strKey]) || empty($cfg[$strKey]))
+                            throw new Exception('Bad configuration key (must be a string) : '. $strKey);
+                    }
+
+                    foreach ($cfgArrayKey as $arrayKey) {
+                        if (! is_array($cfg[$arrayKey]) || empty($cfg[$arrayKey]))
+                            throw new Exception('Bad configuration key (must be a array) : '. $arrayKey);
+                    }
+
+                    $_SESSION['configuration'] = array();
+
+                    foreach ($cfg as $k => $v)
+                        $_SESSION['configuration'][$k] = $this->{'_'. $k} = $v;
+                }
+                catch (exception $e) {
+                    die($e->getMessage());
+                }
+            }
+        }
+
+        /*
+         * Generate language list and return it.
+         */
+        private function _getLanguageList() {
+            $languageList = array();
+
+            foreach (array_diff(scandir('lang'), array('.', '..')) as $languageFile) {
+                $languageFileData = explode('.', $languageFile);
+
+                if (is_file('lang/'. $languageFile)
+                    && $languageFileData[1] == 'lang'
+                    && $languageFileData[2] == 'php'
+                )
+                    $languageList[] = $languageFileData[0];
+            }
+
+            return $languageList;
+        }
+
+        /*
          * Detect language and return it
          */
         private function _detectLanguage() {
-            if (isset($_GET['language']) && array_key_exists($_GET['language'], $this->_languageList)) {
+            if (isset($_GET['language']) && is_file('lang/'. $_GET['language'] .'.lang.php')) {
                 return $_GET['language'];
             }
             else {
-                if (isset($this->data['language']) && array_key_exists($this->data['language'], $this->_languageList))
+                if (isset($this->data['language']))
                     return $this->data['language'];
                 else
                     return $this->_getWebBrowserLanguage();
@@ -765,7 +926,7 @@
                     $languageData       = explode(';', $rawLanguageData);
                     $preferredLanguage  = substr(array_shift($languageData), 0, 2);
 
-                    if (array_key_exists($preferredLanguage, $navigatorLanguageList))
+                    if (is_file('lang/'. $navigatorLanguageList[$preferredLanguage] .'.lang.php'))
                         return $navigatorLanguageList[$preferredLanguage];
                 }
             }
@@ -776,19 +937,31 @@
         /*
          * Connect to MySQL database and return result message
          */
-        private function _dbConnect($host, $user, $password, $dbName) {
-            if (($db = @mysql_connect($host, $user, $password)) === false)
+        private function _dbConnect($data) {
+            if (! array_key_exists('db_host', $data)) $data['db_host'] = '';
+            if (! array_key_exists('db_user', $data)) $data['db_user'] = '';
+            if (! array_key_exists('db_pass', $data)) $data['db_pass'] = '';
+            if (! array_key_exists('db_name', $data)) $data['db_name'] = '';
+
+            if (($db = @mysql_connect($data['db_host'], $data['db_user'], $data['db_pass'])) === false)
                return mysql_error();
  
-            if (! @mysql_select_db($dbName, $db))
+            if (! @mysql_select_db($data['db_name'], $db))
                return mysql_error();
 
             // see http://php.net/manual/fr/mysqlinfo.concepts.charset.php
-            if (! @mysql_set_charset('latin1', $db))
-               return mysql_error();// TODO : Gerer l'erreur => Invalid characterset or character set not supported
+            if (! @mysql_set_charset($this->_charset, $db))
+               return mysql_error();
 
             return 'OK';
         }
+
+        /*private function _getDbDefaultPort() {
+            switch ($this->_databaseType) {
+                case 'mysql' :      return 3306;
+                case 'postgresql' : return 5432;
+            }
+        }*/
 
         /*
          * Translate and return MySQL database connection error
@@ -800,6 +973,8 @@
                 return $i18n['DB_CONNECT_FAIL'] .'<br/>'. $i18n['DB_USER_ERROR'];
             else if (strpos($error, 'Unknown database') !== false) # 1049
                 return $i18n['DB_CONNECT_FAIL'] .'<br/>'. $i18n['DB_NAME_ERROR'];
+            else if (strpos($error, 'Invalid characterset or character') !== false) # 2019
+                return $i18n['DB_CONNECT_FAIL'] .'<br/>'. sprintf($i18n['DB_CHARSET_ERROR'], $this->_charset);
             else
                 return $i18n['DB_CONNECT_FAIL'] .'<br/>'. $i18n['DB_UNKNOW_ERROR'] .' :<br/>'. $error;
         }
@@ -809,7 +984,7 @@
          */
         private function _requirements() {
             $requirements = array(
-                'PHP_VERSION'   => (version_compare(PHP_VERSION, install::MINIMAL_PHP_VERSION)) ? 'enabled' : 'required-disabled'
+                'PHP_VERSION'   => (version_compare(PHP_VERSION, $this->_minimalPhpVersion)) ? 'enabled' : 'required-disabled'
             );
 
             foreach ($this->_phpExtension as $extensionName => $requirement) {
@@ -819,7 +994,15 @@
                     $requirements[strtoupper($extensionName) .'_EXT'] = $requirement .'-disabled';
             }
 
-            $requirements['CHMOD_TEST'] = (is_writable(dirname(dirname(__FILE__)).'/')) ? 'enabled' : 'optional-disabled';
+            @chmod('../', 0755);
+            $requirements['CHMOD_TEST_WEBSITE_DIRECTORY'] = (is_writable('../')) ? 'enabled' : 'optional-disabled';
+
+            @chmod('../upload', 0755);
+
+            foreach ($this->_uploadDir as $uploadDir) {
+                @chmod('../'. $uploadDir, 0755);
+                $requirements['CHMOD_TEST_'. $uploadDir] = (is_writable('../')) ? 'enabled' : 'optional-disabled';
+            }
 
             return $requirements;
         }
@@ -852,15 +1035,15 @@
         private function _getProcessTableList() {
             $processList = array();
 
-            foreach (array_diff(scandir('tables'), array('.', '..')) as $fileTable) {
-                $fileTableData = explode('.', $fileTable);
+            foreach (array_diff(scandir('tables'), array('.', '..')) as $tableFile) {
+                $tableFileData = explode('.', $tableFile);
 
-                if (is_file('tables/'. $fileTable)
-                    && in_array($this->data['process'], $fileTableData)
-                    && $fileTableData[0] == 'table'
-                    && array_pop($fileTableData) == 'inc'
+                if (is_file('tables/'. $tableFile)
+                    && in_array($this->data['process'], $tableFileData)
+                    && $tableFileData[0] == 'table'
+                    && array_pop($tableFileData) == 'inc'
                 )
-                    $processList[] = $fileTable;
+                    $processList[] = $tableFile;
             }
 
             return $processList;
@@ -914,37 +1097,59 @@
             return $userId;
         }
 
-        // TODO : Gerer les erreurs d'une maniere moins brutale...
         /*
          * Write demo content in database
          */
         private function _writeDefaultContent($nickname, $password, $email) {
-            $_SESSION['hash']   = self::generateHashKey();
-            $password           = self::hashPassword($_SESSION['hash'] , $password);
-            $date               = time();
-            $userId             = $this->_generateUserId();
-            $ip                 = $_SERVER['REMOTE_ADDR'];
+            $nickname   = mysql_real_escape_string($nickname);
+            $password   = mysql_real_escape_string(self::hashPassword($this->data['HASHKEY'] , $password));
+            $email      = mysql_real_escape_string($email);
+            $date       = time();
+            $userId     = $this->_generateUserId();
+            $ip         = mysql_real_escape_string($_SERVER['REMOTE_ADDR']);
 
             $sql = 'TRUNCATE TABLE `'. $this->data['db_prefix'] .'_users`';
-            mysql_query($sql) or die(mysql_error());
+
+            if (@mysql_query($sql) === false)
+                return mysql_error();
 
             $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_users` VALUES 
                 (\''. $userId .'\', \'\', \'\', \'\', \'\', \'\', \''. $nickname .'\', \''. $email .'\', \'\', \'\', \'\', \'\', \'\', \'\', \''. $password .'\', 9, \''. $date .'\', \'\', \'\', \'\', \'\', 1, \'France.gif\', \'\', \'\', \'\', \'0\')';
-            mysql_query($sql) or die(mysql_error());
 
-            $firstNewsTitle = sprintf($this->i18n['FIRST_NEWS_TITLE'], self::NK_VERSION);
+            if (@mysql_query($sql) === false)
+                return mysql_error();
+
+            $firstNewsTitle = mysql_real_escape_string(sprintf($this->_i18n['FIRST_NEWS_TITLE'], $this->_nkVersion));
+
+            $sql = 'TRUNCATE TABLE `'. $this->data['db_prefix'] .'_news`';
+
+            if (@mysql_query($sql) === false)
+                return mysql_error();
 
             $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_news` VALUES
-                (1, 1, \''. $firstNewsTitle .'\', \''. $nickname .'\', \''. $userId .'\', \''. $this->i18n['FIRST_NEWS_CONTENT'] .'\', \'\', \''. $date .'\', \'\', \'\')';
-            mysql_query($sql) or die(mysql_error());
+                (1, 1, \''. $firstNewsTitle .'\', \''. $nickname .'\', \''. $userId .'\', \''. mysql_real_escape_string($this->_i18n['FIRST_NEWS_CONTENT']) .'\', \'\', \''. $date .'\', \'\', \'\')';
+
+            if (@mysql_query($sql) === false)
+                return mysql_error();
+
+            $sql = 'TRUNCATE TABLE `'. $this->data['db_prefix'] .'_shoutbox`';
+
+            if (@mysql_query($sql) === false)
+                return mysql_error();
 
             $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_shoutbox` VALUES
                 (1, \''. $nickname .'\', \''. $ip .'\', \''. $firstNewsTitle .'\', \''. $date .'\')';
-            mysql_query($sql) or die(mysql_error());
+
+            if (@mysql_query($sql) === false)
+                return mysql_error();
 
             $sql = 'UPDATE `'. $this->data['db_prefix'] .'_config` SET value = \''. $email .'\'
                 WHERE name = \'contact_mail\' OR name = \'mail\'';
-            mysql_query($sql) or die(mysql_error());
+
+            if (@mysql_query($sql) === false)
+                return mysql_error();
+
+            return true;
         }
 
         /*
@@ -983,6 +1188,44 @@
         private function _redirect($url) {
             header('Location: '. $url);
             exit;
+        }
+
+        /*
+         * Load smilies data and store it in PHP session
+         */
+        private function _loadBBcode() {
+            require_once 'class/bbcode.class.php';
+
+            $bbcode = new BBcode(
+                $this->_loadSmilies(),
+                array(
+                    'QUOTE'     => $this->_i18n['QUOTE'],
+                    'HAS_WROTE' => $this->_i18n['HAS_WROTE'],
+                    'CODE'      => $this->_i18n['CODE']
+                )
+            );
+
+            return $bbcode;
+        }
+
+        /*
+         * Load smilies data and store it in PHP session
+         */
+        private function _loadSmilies() {
+            if (isset($this->data['smiliesList']))
+                return $this->data['smiliesList'];
+
+            $sql = 'SELECT code, url, name FROM `'. $this->_db_prefix .'_smilies`';
+            $dbsSmilies = mysql_query($sql) or die (mysql_error());
+
+            $smilies = array();
+
+            while ($row = mysql_fetch_assoc($dbsSmilies))
+                $smilies[] = $row;
+
+            $_SESSION['smiliesList'] = $this->data['smiliesList'] = $smilies;
+
+            return $smilies;
         }
 
         /*
@@ -1054,7 +1297,7 @@
                 echo $this->_applyView('fullPage', array(
                     'language'          => $this->_language,
                     'i18n'              => $this->_i18n,
-                    'processVersion'    => self::NK_VERSION,
+                    'processVersion'    => $this->_nkVersion,
                     'navigation'        => $this->_navigation,
                     'data'              => $this->data,
                     'action'            => $action,

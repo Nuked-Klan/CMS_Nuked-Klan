@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_forums`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_forums`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_forums` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_forums` (
             `id` int(5) NOT NULL auto_increment,
             `cat` int(11) NOT NULL default \'0\',
             `nom` text NOT NULL,
@@ -20,39 +20,50 @@ if ($this->data['process'] == 'install') {
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'INSERT INTO `'. $db_prefix .'_forums` VALUES
-        (1, 1, \''. $this->_i18n['FORUM'] .'\', \''. $this->_i18n['TEST_FORUM'] .'\', \'\', 0, 0, 0, 1 ,1);';
+    $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_forums` VALUES
+        (1, 1, \''. mysql_real_escape_string($this->_i18n['FORUM']) .'\', \''. mysql_real_escape_string($this->_i18n['TEST_FORUM']) .'\', \'\', 0, 0, 0, 1 ,1);';
     mysql_query($sql) or die(mysql_error());
 
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('forums');
-    $update     = array();
+    $tableData = $this->getTableData('forums');
+    $update = $fields = array();
 
     // TODO : Version ???
-    if (version_compare($this->data['version'], '1.7.9', '='))
+    if (version_compare($this->data['version'], '1.7.9', '=') && array_key_exists('comment', $tableData)) {
         $update[] = 'remove editor';
+        $fields[] = 'comment';
+    }
 
     // Update BBcode
     // update 1.7.9 RC1
-    if (version_compare($this->data['version'], '1.7.9', '<=')) {
-        include 'bbcode.php';
+    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('comment', $tableData)) {
+        $bbcode = $this->_loadBBcode();
         $update[] = 'bbcode';
+        $fields[] = 'comment';
     }
 
-    if (! empty($update) && array_key_exists('comment', $tableData)) {
-        $sql = 'SELECT id, comment FROM `'. $db_prefix .'_forums`';
+    if (! empty($update)) {
+        $sql = 'SELECT id, '. implode(', ', array_unique($fields)) .'
+            FROM `'. $this->data['db_prefix'] .'_forums`';
         $dbsForum = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsForum)) {
+            $data = $setFields = array();
+
             if (in_array('remove editor', $update))
-                $row['comment'] = str_replace(array('<p>', '</p>'), '', $row['comment']);
+                $setFields['comment'] = str_replace(array('<p>', '</p>'), '', $row['comment']);
 
             if (in_array('bbcode', $update))
-                $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix, $this->_i18n));
+                $setFields['comment'] = $bbcode->apply(stripslashes($row['comment']));
 
-            $sql = 'UPDATE `'. $db_prefix .'_forums` set comment = \''. $row['comment'] .'\' WHERE id = '. $row['id'];
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_forums`
+                SET comment = \''. $row['comment'] .'\'
+                WHERE id = '. $row['id'];
             mysql_query($sql) or die(mysql_error());
         }
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo substr($language, 0, 2) ?>">
     <head>
         <title>
 <?php
@@ -10,9 +10,9 @@
 ?>
         </title>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
-        <script type="text/javascript" src="jquery-1.7-min.js" ></script>
-        <script type="text/javascript" src="script.js" ></script>
+        <link rel="stylesheet" href="media/css/style.css" type="text/css" media="screen" />
+        <script type="text/javascript" src="media/js/jquery-1.7-min.js" ></script>
+        <script type="text/javascript" src="media/js/script.js" ></script>
     </head>
     <body>
         <div id="content" class="greyscale">
@@ -35,7 +35,20 @@
 <?php
                 endif
 ?>
-                    <p style="margin:5px auto;"><span class="link_nav"><?php echo $a ?></span><br/><span><?php echo $i18n[strtoupper($data[$k])] ?></span></p>
+                    <p style="margin:5px auto;">
+                        <span class="link_nav"><?php echo $a ?></span><br/>
+<?php
+                if ($k == 'assist') :
+?>
+                        <span><?php echo ($v == 'yes') ? $i18n['ASSIST'] : $i18n['QUICK'] ?></span>
+<?php
+                else :
+?>
+                        <span><?php echo $i18n[strtoupper($data[$k])] ?></span>
+<?php
+                endif
+?>
+                    </p>
 <?php
                 $i++;
             endif;
@@ -54,7 +67,7 @@
                 <div id="slide<?php echo $info['n'] ?>" style="display:block;width:580px;">
                     <h2><?php echo $i18n[$info['name']] ?></h2>
                     <p>
-                        <img src="images/img_slide_0<?php echo $info['n'] ?>.png" alt="" style="float:right;" width="200" height="194" />
+                        <img src="media/images/img_slide_0<?php echo $info['n'] ?>.png" alt="" style="float:right;" width="200" height="194" />
                         <?php echo $i18n[$info['name'] .'_DESCR'] ?>
                     </p>
                 </div>

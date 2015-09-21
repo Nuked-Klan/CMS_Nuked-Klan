@@ -4,30 +4,34 @@ return array(
     #####################################
     # install->main()
     #####################################
+    'CORRUPTED_CONF_INC'    => 'Fichier conf.inc.php corrompu, veuillez éditer le fichier conf.inc.php.',
     'DB_CONNECT_FAIL'       => 'Connexion à la base de données impossible !',
-    'DB_ERROR_PREFIX'       => 'Le prefix est erroné, veuillez éditer le fichier conf.inc.php.',
+    'DB_PREFIX_ERROR'       => 'Le prefix est erroné, veuillez éditer le fichier conf.inc.php.',// TODO : ou la table est manquante...
     'LAST_VERSION_SET'      => 'Vous avez déjà la dernière version %s de Nuked-Klan',
     'BAD_VERSION'           => 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers la version %s',
     #####################################
-    # install->installDB()
-    #####################################
-    
-    #####################################
     # install->creatingDB()
     #####################################
-    
+    'MISSING_FILE'          => 'Fichier introuvable : ',
     #####################################
     # install->_translateDbConnectError()
     #####################################
     'DB_HOST_ERROR'         => 'Veuillez contrôler le nom du serveur mysql.',
     'DB_USER_ERROR'         => 'Veuillez contrôler le nom d\'utilisateur et le mot de passe.',
     'DB_NAME_ERROR'         => 'Veuillez contrôler le nom de la base de données.',
+    'DB_CHARSET_ERROR'      => 'Votre base de données ne supporte pas l\'interclassement %s',
     'DB_UNKNOW_ERROR'       => 'Erreur MySQL inconnue',
     #####################################
     # install->_writeDefaultContent()
     #####################################
     'FIRST_NEWS_TITLE'      => 'Bienvenue sur votre site NuKed-KlaN %s',
     'FIRST_NEWS_CONTENT'    => 'Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.',
+    #####################################
+    # install->_loadBBcode()
+    #####################################
+    'CODE'                  => 'Code',
+    'QUOTE'                 => 'Citation',
+    'HAS_WROTE'             => 'a écrit',
     #####################################
     # views/changelog.php
     #####################################
@@ -63,18 +67,15 @@ return array(
     'CHECK_COMPATIBILITY_HOSTING' => 'Vérification de la compatibilité avec votre hébergement',
     'COMPOSANT'             => 'Composant',
     'COMPATIBILITY'         => 'Compatibilité',
+    'WEBSITE_DIRECTORY'     => 'Répertoire du site web',
     'PHP_VERSION'           => 'PHP version &ge; %s',
     'PHP_VERSION_ERROR'     => 'Erreur PHP',
     'MYSQL_EXT'             => 'Extension MySQL',
     'MYSQL_EXT_ERROR'       => 'Erreur Mysql',
     'SESSION_EXT'           => 'Extension des sessions',
     'SESSION_EXT_ERROR'     => 'Erreur sessions',
-    //'ZIP_EXT'               => 'Extension Zip',
-    //'ZIP_EXT_ERROR'         => 'Erreur zip',
     'FILEINFO_EXT'          => 'Extension File Info',
     'FILEINFO_EXT_ERROR'    => 'Erreur fileinfo',
-    //'HASH_EXT'              => 'Extension Hash',
-    //'HASH_EXT_ERROR'        => 'Erreur hash',
     'GD_EXT'                => 'Extension GD',
     'GD_EXT_ERROR'          => 'Erreur GD',
     'CHMOD_TEST'            => 'Test du CHMOD',
@@ -83,11 +84,25 @@ return array(
     'FORCE'                 => 'Forcer l\'installation',
     #####################################
     # views/chooseSendStats.php
-    #####################################
+    #####################################'CONF_INC_ERROR'
     'SELECT_STATS'          => 'Activation des statistiques anonymes',
     'STATS_INFO'            => '<p>Afin d\'améliorer au mieux le CMS Nuked Klan, en tenant compte de l\'utilisation des administrateurs de sites NK,<br/>nous avons mis en place sur cette nouvelle version un système d\'envoi de statistiques anonymes.</p><p>Vous avez le choix d\'activer ou non ce système, mais sachez qu\'en l\'activant vous permettrez à l\'équipe de Developpement/Marketing<br/>de mieux répondre à vos attentes.</p><p>Pour une totale transparence, lors de l\'envoi des statistiques, vous serez informé dans l\'administration, des données envoyées.<br/>Sachez qu\'à tout moment vous aurez la possibilité de désactiver l\'envoi des statistiques dans les préférences générales de votre administration.</p>',
     'CONFIRM_STATS'         => 'Oui, j\'autorise l\'envoi de statistiques anonymes à Nuked-Klan',
     'CONFIRM'               => 'Valider',
+    #####################################
+    # views/confIncFailure.php
+    #####################################
+    'ERROR'                 => 'Une erreur est survenue !!!',
+    'WEBSITE_DIRECTORY_CHMOD' => 'Impossible d\'écrire dans le dossier contenant Nuked-Klan<br/>Veuillez mettre manuellement le CHMOD <strong>0755</strong> sur ce dossier.',
+    'CONF_INC_CHMOD_ERROR'  => 'Impossible de modifier les droits CHMOD du fichier conf.inc.php<br/>Veuillez mettre manuellement le CHMOD <strong>%s</strong> sur ce fichier.',
+    'WRITE_CONF_INC_ERROR'  => 'Une erreur est survenue dans la génération du fichier conf.inc.php',
+    'COPY_CONF_INC_ERROR'   => 'Impossible de créer la sauvegarde du fichier conf.inc.php<br/>Veuillez télécharger le fichier et le sauvegarder manuellement.',
+    'DOWNLOAD'              => 'Télécharger',
+    'BACK'                  => 'Retour',
+    #####################################
+    # views/fatalError.php
+    #####################################
+    'REFRESH'               => 'Rafraichir',
     #####################################
     # views/fullPage.php
     #####################################
@@ -99,7 +114,11 @@ return array(
     'UPDATE'                => 'Mise à jour',
     'YES'                   => 'Oui',
     'NO'                    => 'Non',
+    'QUICK'                 => 'Rapide',
+    'ASSIST'                => 'Assistée',
     'SELECT_SAVE'           => 'Sauvegarde de la base de données',
+    'IN_PROGRESS'           => 'En cours',
+    'FINISH'                => 'Terminé',
     'RESET_SESSION'         => 'Réinitialiser',
     'DISCOVERY'             => 'Découvrer Nuked-Klan !',
     'DISCOVERY_DESCR'       => 'Vous êtes sur le point d\'installer votre site web sur base du CMS Nuked-Klan...</p><p>En quelques clics et en quelques minutes, offrez-vous la possibilité de gérer votre team, guilde ou clan, à l\'aide d\'outils spécialement conçus à cet effet !</p><p>Vous n\'êtes pas un joueur mais vous désirez toutefois utiliser Nuked-Klan pour réaliser votre site web ?</p><p>Aucun problème, une version généraliste (SP) a également été développée et vous est proposée, expressément dans cette optique.</p><p>Adopter un design plus adapté à l\'esprit de votre activité (palette de couleurs, logos,...) devient, grâce à Nuked-Klan, un véritable jeu d\'enfant. Avec une collection impressionante de graphismes et une modification (ainsi qu\'une création) de thèmes certainement une des plus aisée du marché des CMS, vous aboutirez inévitablement à un site web qui vous ressemble.</p><p>Nous vous remercions pour l\'intérêt et la confiance que vous nous apportez au quotidien... et depuis toutes ces années !',
@@ -131,18 +150,10 @@ return array(
     'INSTALL_FAILED'        => 'L\'installation est terminée ! Mais des erreurs sont survenues, %d tables n\'ont pas été créées.',
     'UPDATE_FAILED'         => 'La mise à jour est terminée ! Mais des erreurs sont survenues, %d tables n\'ont pas été modifiées.',
     'PRINT_ERROR'           => ' - Erreur :',
+    'CREATED_TABLE_ERROR'   => 'Une erreur est survenue lors de la création de la table',
+    'UPDATE_TABLE_ERROR'    => 'Une erreur est survenue lors de la modification de la table',
     'RETRY'                 => 'Réessayer',
     'START'                 => 'Démarrer',
-    #####################################
-    # views/installFailure.php
-    #####################################
-    'ERROR'                 => 'Une erreur est survenue !!!',
-    'CONF_INC'              => 'Impossible d\'écrire le fichier conf.inc.php. (Problème lié au CHMOD)',
-    'CHMOD'                 => 'Impossible de modifier les droits CHMOD du fichier conf.inc.php<br/>Veuillez mettre manuellement le CHMOD <strong>0644</strong> sur ce fichier.',
-    'COPY'                  => 'Impossible de créer la sauvegarde du fichier conf.inc.php<br/>Veuillez télécharger le fichier et le sauvegarder manuellement.',
-    'ERROR_GENERATE_CONF_INC' => 'Une erreur est survenue dans la génération du fichier conf.inc.php',
-    'DOWNLOAD'              => 'Télécharger',
-    'BACK'                  => 'Retour',
     #####################################
     # views/installSuccess.php
     #####################################
@@ -181,8 +192,9 @@ return array(
     #####################################
     # views/selectSaveBdd.php
     #####################################
-    //'_TOSAVE', 'Sauvegarder',
-    'SAVE'                  => 'Sauvegarde',
+    'TO_SAVE'               => 'Sauvegarder',
+    'SAVE_YOUR_DATABASE'    => 'Vous pouvez sauvegarder votre base de donnée en cliquant sur le lien ci-dessous.',
+    //'SAVE'                  => 'Sauvegarde',
     //'_NOTHANKS', 'Non merci!',
     //'_DBSAVED', 'Base de données sauvegardée',
     //'_DBSAVEDTXT', 'Votre base de données a bien été sauvegardée, vous pouvez la télécharger ici :',
@@ -192,7 +204,7 @@ return array(
     'CONFIG'                => 'Configuration',
     'DB_HOST'               => 'Serveur Mysql',
     'INSTALL_DB_HOST'       => 'Il s\'agit ici de l\'adresse du serveur MySQL de votre hébergement, celui-ci contient toutes vos données textes, membres, messages... En général, il s\'agit de localhost, mais dans tous les cas, l\'adresse est indiquée dans votre mail d\'inscription de votre hébergeur ou dans l\'administration de votre hébergement.',
-    'DBUSER'                => 'Utilisateur',
+    'DB_USER'                => 'Utilisateur',
     'INSTALL_DB_USER'       => 'Il s\'agit de votre identifiant qui vous permet de vous connecter à votre base MySQL.',
     'DB_PASSWORD'           => 'Mot de passe',
     'INSTALL_DB_PASSWORD'   => 'Il s\'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base MySQL.',
@@ -302,16 +314,10 @@ return array(
     #####################################
     # tables/table.smilies.install.update.inc
     #####################################
-    // 
     
-    #####################################
-    # bbcode.php
-    #####################################
-    'CODE'                  => 'Code',
-    'QUOTE'                 => 'Citation',
-    'HASWROTE'              => 'a écrit',
 );
 
+/*
 ///////////////////////////////////////////////
 /////// ERREUR CREATION FICHIER CONF.INC.PHP
 ///////////////////////////////////////////////
@@ -322,15 +328,12 @@ define('_BADCHMOD', 'Impossible d\'écrire dans le fichier <b>conf.inc.php</b>, v
 ///////////////////////////////////////////////
 define("_HELP","Aides");
 define('_FORCEINSTALL', 'Forcer l\'installation');
-define('_INPROGRESS', 'En cours');
-define('_FINISH', 'Terminé');
 define('_ERRORTRY', 'Une erreur est survenue, veuillez réessayer.');
 ///////////////////////////////////////////////
 /////// CREATION BDD (INSTALLATION)
 ///////////////////////////////////////////////
 define('_STARTDB', 'Démarrer la création');
 define('_SQLCONNECTOK', 'La connexion à la base de données a été réalisée avec succès.');
-define('_LOGITXTERROR', 'Une erreur est survenue lors de la création de la table');
 define('_WRONGTABLENAME', 'Le nom de la table est erroné.');
 ///////////////////////////////////////////////
 /////// CREATION BDD (MISE A JOUR)
@@ -338,6 +341,6 @@ define('_WRONGTABLENAME', 'Le nom de la table est erroné.');
 define('_LOGUTXTSUCCESS', 'modifiée avec succès.');
 define('_LOGUTXTUPDATE', 'mis à jour avec succès.');
 define('_LOGUTXTREMOVE2', 'supprimé avec succès.');
-define('_LOGUTXTERROR', 'Une erreur est survenue lors de la modification de la table');
+*/
 
 ?>

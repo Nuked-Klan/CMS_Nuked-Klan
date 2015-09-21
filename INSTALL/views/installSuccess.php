@@ -1,7 +1,7 @@
                 <div style="text-align: center;margin:30px auto;">
                     <h2><?php echo $i18n['INSTALL_SUCCESS'] ?></h2>
                     <p><?php echo $i18n['INFO_PARTNERS'] ?></p>
-                    <div id="partners" ><img src="images/loading.gif" alt="" /><br/><?php echo $i18n['WAIT'] ?></div>
+                    <div id="partners" ><img src="media/images/loading.gif" alt="" /><br/><?php echo $i18n['WAIT'] ?></div>
                     <script type="text/javascript" >
                     function ajaxPartners(){
                         $.ajax({

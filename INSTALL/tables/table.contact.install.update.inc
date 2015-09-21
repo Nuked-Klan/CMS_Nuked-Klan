@@ -2,10 +2,10 @@
 
 // install / update 1.7.9 RC3
 if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' && ! $this->tableExist('contact'))) {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_contact`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_contact`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_contact` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_contact` (
             `id` int(11) NOT NULL auto_increment,
             `titre` varchar(200) NOT NULL default \'\',
             `message` text NOT NULL,
@@ -22,25 +22,36 @@ if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' &
 }
 
 if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('contact');
-    $update     = array();
+    $tableData = $this->getTableData('contact');
+    $update = $fields = array();
 
     // Update BBcode
     // update 1.7.9 RC3
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('message', $tableData)) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
+        $update[] = 'bbcode';
+        $fields[] = 'message';
+    }
 
-        $sql = 'SELECT id, message FROM `'. $db_prefix .'_contact`';
+    if (! empty($update)) {
+        $sql = 'SELECT id, '. implode(', ', $fields) .'
+            FROM `'. $this->data['db_prefix'] .'_contact`';
         $dbsContact = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsContact)) {
-            $row['message'] = mysql_real_escape_string(bbcode(stripslashes($row['message']), $db_prefix, $this->_i18n));
+            $data = $setFields = array();
 
-            $sql = 'UPDATE `'. $db_prefix .'_contact` SET message = \''. $row['message'] .'\' WHERE id = \''. $row['id'] .'\'';
+            if (in_array('bbcode', $update))
+                $row['message'] = $bbcode->apply(stripslashes($row['message']));
+
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_contact`
+                SET '. implode(', ', $data) .'
+                WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
-
-        $update[] = 'bbcode';
     }
 
     if (! empty($update)) return 'UPDATED';

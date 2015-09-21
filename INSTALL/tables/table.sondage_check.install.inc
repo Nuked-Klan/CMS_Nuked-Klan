@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_sondage_check`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_sondage_check`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_sondage_check` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_sondage_check` (
             `ip` varchar(20) NOT NULL default \'\',
             `pseudo` varchar(50) NOT NULL default \'\',
             `heurelimite` int(14) NOT NULL default \'0\',

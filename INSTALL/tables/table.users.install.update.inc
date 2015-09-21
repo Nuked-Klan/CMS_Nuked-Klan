@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_users`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_users`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_users` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_users` (
             `id` varchar(20) NOT NULL default \'\',
             `team` varchar(80) NOT NULL default \'\',
             `team2` varchar(80) NOT NULL default \'\',
@@ -44,7 +44,7 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData = $this->getTableData('userbox');
+    $tableData = $this->getTableData('users');
     $update = $alterTable = $fields = array();
 
     // install 1.7.9 RC3 - update 1.7.9 RC1
@@ -59,12 +59,15 @@ else if ($this->data['process'] == 'update') {
     }
 
     if (! empty($alterTable)) {
-        $sql = 'ALTER TABLE `'. $db_prefix .'_users` '. implode(', ', $alterTable);
+        $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_users` '
+            . implode(', ', $alterTable);
         mysql_query($sql) or die(mysql_error());
         $update[] = 'alter table';
     }
 
-    $sql = 'SELECT pass FROM `'. $db_prefix .'_users` ORDER BY RAND() LIMIT 1';
+    $sql = 'SELECT pass FROM `'. $this->data['db_prefix'] .'_users`
+        ORDER BY RAND()
+        LIMIT 1';
     $req = mysql_query($sql);
     $row = mysql_fetch_assoc($req);
 
@@ -73,41 +76,35 @@ else if ($this->data['process'] == 'update') {
     if ($firstChr != '%' && $firstChr != '#') {
         $update[] = 'update password';
         $fields[] = 'pass';
-
-        if (! isset($_SESSION['hash'])) {
-            include_once '../conf.inc.php';
-
-            // install / update 1.7.9 RC1
-            if (defined('HASHKEY')) {
-                $_SESSION['hash'] = HASHKEY;
-            }
-            else {
-                $_SESSION['hash'] = install::generateHashKey();
-            }
-        }
     }
 
     // update 1.7.9 RC3
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('signature', $tableData)) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
         $update[] = 'bbcode';
         $fields[] = 'signature';
     }
 
     if (! empty($update)) {
-        $sql = 'SELECT id, '. implode(', ', $fields) .' FROM `'. $db_prefix .'_users`';
+        $sql = 'SELECT id, '. implode(', ', $fields) .'
+            FROM `'. $this->data['db_prefix'] .'_users`';
         $dbsUsers = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsUsers)) {
-            $data = array();
+            $data = $setFields = array();
 
             if (in_array('update password', $update))
-                $data[] = 'pass=\''. install::hashPassword($_SESSION['hash'], $row['pass']) .'\'';
+                $setFields['pass'] = install::hashPassword($this->data['HASHKEY'], $row['pass']);
 
             if (in_array('bbcode', $update))
-                $data[] = 'signature=\''. mysql_real_escape_string(bbcode(stripslashes($row['signature']), $db_prefix, $this->_i18n)) .'\'';
+                $setFields['signature'] = $bbcode->apply(stripslashes($row['signature']));
 
-            $sql = 'UPDATE `'. $db_prefix .'_users` SET '. implode(', ', $data) .' WHERE id = \''. $row['id'] .'\'';
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_users`
+                SET '. implode(', ', $data) .'
+                WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
     }

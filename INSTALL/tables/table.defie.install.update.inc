@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_defie`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_defie`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_defie` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_defie` (
             `id` int(11) NOT NULL auto_increment,
             `send` varchar(12) NOT NULL default \'\',
             `pseudo` text NOT NULL,
@@ -28,25 +28,36 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('defie');
-    $update     = array();
+    $tableData = $this->getTableData('defie');
+    $update = $fields = array();
 
     // Update BBcode
     // update 1.7.9 RC1
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('comment', $tableData)) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
+        $update[] = 'bbcode';
+        $fields[] = 'comment';
+    }
 
-        $sql = 'SELECT id, comment FROM `'. $db_prefix .'_defie`';
+    if (! empty($update)) {
+        $sql = 'SELECT id, '. implode(', ', $fields) .'
+            FROM `'. $this->data['db_prefix'] .'_defie`';
         $dbsDefy = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsDefy)) {
-            $row['comment'] = mysql_real_escape_string(bbcode(stripslashes($row['comment']), $db_prefix, $this->_i18n));
+            $data = $setFields = array();
 
-            $sql = 'UPDATE `'. $db_prefix .'_defie` SET comment = \''. $row['comment'] .'\' WHERE id = \''. $row['id'] .'\'';
+            if (in_array('bbcode', $update))
+                $setFields['comment'] = $bbcode->apply(stripslashes($row['comment']));
+
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_defie`
+                SET '. implode(', ', $data) .'
+                WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
-
-        $update[] = 'bbcode';
     }
 
     if (! empty($update)) return 'UPDATED';

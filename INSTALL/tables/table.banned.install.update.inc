@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_banned`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_banned`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_banned` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_banned` (
             `id` int(11) NOT NULL auto_increment,
             `ip` varchar(50) NOT NULL default \'\',
             `pseudo` varchar(50) NOT NULL default \'\',
@@ -31,7 +31,8 @@ else if ($this->data['process'] == 'update') {
         $alterTable[] = 'ADD `dure` VARCHAR(20)  NULL AFTER `date`';
 
     if (! empty($alterTable)) {
-        $sql = 'ALTER TABLE `'. $db_prefix .'_banned` '. implode(', ', $alterTable);
+        $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_banned` '
+            . implode(', ', $alterTable);
         mysql_query($sql) or die(mysql_error());
         $update[] = 'alter table';
     }

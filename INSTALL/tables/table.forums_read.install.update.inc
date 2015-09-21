@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_forums_read`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_forums_read`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_forums_read` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_forums_read` (
             `user_id` varchar(20) NOT NULL default \'\',
             `thread_id` text NOT NULL,
             `forum_id` text NOT NULL,
@@ -20,11 +20,12 @@ else if ($this->data['process'] == 'update') {
 
     // update 1.7.9 RC6
     if (array_key_exists('id', $tableData)) {
+/*
         $sql = 'ALTER TABLE `nuked_forums_read` DROP `id`, DROP INDEX `user_id`, ADD PRIMARY KEY(`user_id`);';
         mysql_query($sql) or die(mysql_error());
+*/
 
-/*
-        $sql = 'SELECT * FROM `'. $db_prefix .'_forums_read`';
+        $sql = 'SELECT * FROM `'. $this->data['db_prefix'] .'_forums_read`';
         $dbsForumRead = mysql_query($sql) or die(mysql_error());
 
         $forumReadData = array();
@@ -44,17 +45,18 @@ else if ($this->data['process'] == 'update') {
         }
 
         if (! empty($forumReadData)) {
-            $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_forums_read`';
+            $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_forums_read`';
             mysql_query($sql) or die(mysql_error());
 
-            $sql = 'CREATE TABLE IF NOT EXISTS `'. $db_prefix .'_forums_read` (
+            $sql = 'CREATE TABLE IF NOT EXISTS `'. $this->data['db_prefix'] .'_forums_read` (
                     `user_id` varchar(20) NOT NULL PRIMARY KEY,
                     `forum_id` text NOT NULL,
                     `thread_id` text NOT NULL
                 ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
             mysql_query($sql) or die(mysql_error());
 
-            $sql = 'INSERT INTO `'. $db_prefix .'_forums_read` (user_id, forum_id, thread_id) VALUES ';
+            $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_forums_read`
+                (user_id, forum_id, thread_id) VALUES ';
             $i = 0;
 
             foreach ($forumReadData as $userId => $userData) {
@@ -67,7 +69,6 @@ else if ($this->data['process'] == 'update') {
 
             mysql_query($sql) or die(mysql_error());
         }
-*/
 
         $update[] = true;
     }

@@ -4,9 +4,9 @@
                         <p>
                             <select id="language" name="language">
 <?php
-    foreach ($languageList as $k => $v) :
+    foreach ($languageList as $languageName) :
 ?>
-                                <option value="<?php echo $k ?>"<?php echo ($language == $k) ? ' selected="selected"' : '' ?>><?php echo $i18n[$v] ?></option>
+                                <option value="<?php echo $languageName ?>"<?php echo ($language == $languageName) ? ' selected="selected"' : '' ?>><?php echo $i18n[strtoupper($languageName)] ?></option>
 <?php
     endforeach
 ?>

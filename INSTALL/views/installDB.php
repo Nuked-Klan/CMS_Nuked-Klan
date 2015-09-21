@@ -17,7 +17,7 @@
                     var print_error = '<?php echo $i18n['PRINT_ERROR'] ?>';
                     var continue_txt = '<?php echo $i18n['NEXT'] ?>';
                     var retry = '<?php echo $i18n['RETRY'] ?>';
-                    var error = '<?php echo $i18n['PRINT_ERROR'] ?>';
+                    var error = '<?php echo ($process == 'install') ? $i18n['CREATED_TABLE_ERROR'] : $i18n['UPDATE_TABLE_ERROR'] ?>';
                     var processTableList    = new Array('<?php echo implode('\',\'', $processTableList) ?>');
                     var nbProcessTable      = processTableList.length;
                     var processProgress     = 100 / nbProcessTable;

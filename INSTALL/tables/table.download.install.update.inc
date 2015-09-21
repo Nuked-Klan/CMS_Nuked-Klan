@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_downloads`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_downloads`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_downloads` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_downloads` (
             `id` int(11) NOT NULL auto_increment,
             `date` varchar(12) NOT NULL default \'\',
             `taille` varchar(6) NOT NULL default \'0\',
@@ -31,25 +31,36 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('downloads');
-    $update     = array();
+    $tableData = $this->getTableData('downloads');
+    $update = $fields = array();
 
     // Update BBcode
     // update 1.7.9 RC1
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('description', $tableData)) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
+        $update[] = 'bbcode';
+        $fields[] = 'description';
+    }
 
-        $sql = 'SELECT id, description FROM `'. $db_prefix .'_downloads`';
+    if (! empty($update)) {
+        $sql = 'SELECT id, '. implode(', ', $fields) .'
+            FROM `'. $this->data['db_prefix'] .'_downloads`';
         $dbsDownloads = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsDownloads)) {
-            $row['description'] = mysql_real_escape_string(bbcode(stripslashes($row['description']), $db_prefix, $this->_i18n));
+            $data = $setFields = array();
 
-            $sql = 'UPDATE `'. $db_prefix .'_downloads` SET description = \''. $row['description'] .'\' WHERE id = \''. $row['id'] .'\'';
+            if (in_array('bbcode', $update))
+                $setFields['description'] = $bbcode->apply(stripslashes($row['description']));
+
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_downloads`
+                SET '. implode(', ', $data) .'
+                WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
-
-        $update[] = 'bbcode';
     }
 
     if (! empty($update)) return 'UPDATED';

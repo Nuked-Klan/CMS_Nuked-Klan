@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_suggest`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_suggest`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_suggest` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_suggest` (
             `id` int(11) NOT NULL auto_increment,
             `module` mediumtext NOT NULL,
             `user_id` varchar(20) NOT NULL default \'\',

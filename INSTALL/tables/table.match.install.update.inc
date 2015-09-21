@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_match`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_match`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_match` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_match` (
             `warid` int(10) NOT NULL auto_increment,
             `etat` int(1) NOT NULL default \'0\',
             `team` int(11) NOT NULL default \'0\',
@@ -37,7 +37,7 @@ if ($this->data['process'] == 'install') {
 else if ($this->data['process'] == 'update') {
     $update = $alterTable = $fields = array();
 
-    $tableData = $this->getTableData('nbconnecte');
+    $tableData = $this->getTableData('match');
 
     // install / update 1.7.9 RC1
     if (! array_key_exists('map', $tableData)) {
@@ -45,13 +45,15 @@ else if ($this->data['process'] == 'update') {
 
         if (array_key_exists('map_1', $tableData)) {
             $update[] = 'map';
-            $fields[] = 'map_1, map_2, map_3';
+            $fields[] = 'map_1';
+            $fields[] = 'map_2';
+            $fields[] = 'map_3';
         }
     }
 
     // install / update 1.7.9 RC6
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('report', $tableData)) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
         $update[] = 'bbcode';
         $fields[] = 'report';
     }
@@ -71,12 +73,14 @@ else if ($this->data['process'] == 'update') {
     }
 
     if (! empty($alterTable)) {
-        $sql = 'ALTER TABLE `'. $db_prefix .'_match` '. implode(', ', $alterTable);
+        $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_match` '
+            . implode(', ', $alterTable);
         mysql_query($sql) or die(mysql_error());
     }
 
     if (! empty($update)) {
-        $sql = 'SELECT warid, '. implode(', ', $fields) .' FROM `'. $db_prefix .'_match`';
+        $sql = 'SELECT warid, '. implode(', ', $fields) .' 
+            FROM `'. $this->data['db_prefix'] .'_match`';
         $dbsMatch = mysql_query($sql) or die(mysql_error());
 
         //$nbMatch = mysql_num_rows($dbsMatch);
@@ -90,29 +94,35 @@ else if ($this->data['process'] == 'update') {
         //$i = 0;
 
         while ($row = mysql_fetch_assoc($dbsMatch)) {
-            $data = array();
+            $data = $setFields = array();
 
             if (in_array('map', $update))
-                $data[] = 'map = \''. mysql_real_escape_string($match['map']) .'\'';
+                $setFields['map'] = $row['map_1'] .'|'. $row['map_2'] .'|'. $row['map_3'];
 
             if (in_array('bbcode', $update))
-                $data[] = 'report = \''. mysql_real_escape_string(bbcode(stripslashes($row['report']), $db_prefix, $this->_i18n)) .'\'';
+                $setFields['report'] = $bbcode->apply(stripslashes($row['report']));
 
             if (in_array('tscore_team', $update))
-                $data[] = 'tscore_team = \''. $match['score_team'] .'\'';
+                $setFields['tscore_team'] = $row['score_team'];
 
             if (in_array('tscore_adv', $update))
-                $data[] = 'tscore_adv = \''. $match['score_adv'] .'\'';
+                $setFields['tscore_adv'] = $row['score_adv'];
 
-            $sql = 'UPDATE `'. $db_prefix .'_match` SET '. implode(', ', $data) .' WHERE warid = \''. $match['warid'] .'\'';
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_match`
+                SET '. implode(', ', $data) .'
+                WHERE warid = \''. $row['warid'] .'\'';
             mysql_query($sql) or die(mysql_error());
             //$i++;
         }
 
         if (array_key_exists('map_1', $tableData)) {
-            $sql = 'ALTER TABLE `'. $db_prefix .'_match` DROP `map_1`, DROP `map_2`, DROP `map_3`';
+            $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_match`
+                DROP `map_1`, DROP `map_2`, DROP `map_3`';
             mysql_query($sql) or die(mysql_error());
-            $update[] = 'delete map_1, map_2, map_3';
+            $update[] = 'delete fields map_1, map_2, map_3';
         }
     }
 

@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_liens`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_liens`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_liens` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_liens` (
             `id` int(10) NOT NULL auto_increment,
             `date` varchar(12) NOT NULL default \'\',
             `titre` text NOT NULL,
@@ -23,25 +23,36 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('liens');
-    $update     = array();
+    $tableData = $this->getTableData('liens');
+    $update = $fields = array();
 
     // Update BBcode
     // update 1.7.9 RC1
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('description', $tableData)) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
+        $update[] = 'bbcode';
+        $fields[] = 'description';
+    }
 
-        $sql = 'SELECT id, description FROM `'. $db_prefix .'_liens`';
+    if (! empty($update)) {
+        $sql = 'SELECT id, '. implode(', ', $fields) .'
+            FROM `'. $this->data['db_prefix'] .'_liens`';
         $dbsLinks = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsLinks)) {
-            $row['description'] = mysql_real_escape_string(bbcode(stripslashes($row['description']), $db_prefix, $this->_i18n));
+            $data = $setFields = array();
 
-            $sql = 'UPDATE `'. $db_prefix .'_liens` SET description = \''. $row['description'] .'\' WHERE id = \''. $row['id'] .'\'';
+            if (in_array('bbcode', $update))
+                $setFields['description'] = $bbcode->apply(stripslashes($row['description']));
+
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_liens`
+                SET '. implode(', ', $data) .'
+                WHERE id = \''. $row['id'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
-
-        $update[] = 'bbcode';
     }
 
     if (! empty($update)) return 'UPDATED';

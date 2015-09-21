@@ -11,7 +11,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_HOST'] ?></p>
+                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_HOST'] ?></p>
 <?php
     endif
 ?>
@@ -20,7 +20,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_USER'] ?></p>
+                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_USER'] ?></p>
 <?php
     endif
 ?>
@@ -29,7 +29,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_PASSWORD'] ?></p>
+                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_PASSWORD'] ?></p>
 <?php
     endif
 ?>
@@ -48,7 +48,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo _INSTALLDBTYPE ?></p>
+                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo _INSTALLDBTYPE ?></p>
 <?php
     endif
 ?>
@@ -59,7 +59,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_PREFIX'] ?></p>
+                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_PREFIX'] ?></p>
 <?php
     endif
 ?>
@@ -68,7 +68,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_NAME'] ?></p>
+                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_NAME'] ?></p>
 <?php
     endif
 ?>
@@ -90,7 +90,8 @@
                             '<?php echo addslashes($i18n['DB_HOST_ERROR']) ?>',
                             '<?php echo addslashes($i18n['DB_USER_ERROR']) ?>',
                             '<?php echo addslashes($i18n['DB_NAME_ERROR']) ?>',
-                            '<?php echo addslashes($i18n['DB_PREFIX_ERROR']) ?>'
+                            '<?php echo addslashes($i18n['DB_PREFIX_ERROR']) ?>',
+                            '<?php echo addslashes($i18n['DB_CHARSET_ERROR']) ?>'
                         );
                     });
                     //]]>

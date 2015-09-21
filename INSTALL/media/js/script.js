@@ -31,14 +31,14 @@ function writeInfo(table, txt, status) {
 
     $('#loading_img').remove();
     $('#log_install').append('<br />' + msg
-        + '<img src="images/loading.gif" alt="" id="loading_img" />');  
+        + '<img src="media/images/loading.gif" alt="" id="loading_img" />');  
 }
 
 function writeError(text, errorMsg) {
     $('#loading_img').remove();
 
     $('#log_install').append('<br /><strong>' + text + ' ' + errorMsg +
-        '</strong><img src="images/loading.gif" alt="" id="loading_img" />');  
+        '</strong><img src="media/images/loading.gif" alt="" id="loading_img" />');  
 }
 
 function writeComplete(txt_end) {
@@ -152,7 +152,7 @@ function startProcess() {
 
         $('#log_install')
             .text(start_process_txt)
-            .append('<img src="images/loading.gif" alt="" id="loading_img" />');
+            .append('<img src="media/images/loading.gif" alt="" id="loading_img" />');
 
         $('#continue_install')
             .removeClass('button')
@@ -167,10 +167,10 @@ function startProcess() {
 function addConfigInputError(input, dbConnectFail, errorMsg) {
     $('#infos').html(dbConnectFail + '<br/>' + errorMsg);
     $('#loading_img').remove();
-    input.addClass('error');
+    if (input !== undefined) input.addClass('error');
 }
 
-function checkConfigForm(type, form, wait, dbConnectFail, hostError, loginError, dbError, prefixError) {
+function checkConfigForm(type, form, wait, dbConnectFail, hostError, loginError, dbError, prefixError, charsetError) {
     var host        = $('input[name="db_host"]');
     var user        = $('input[name="db_user"]');
     var pass        = $('input[name="db_pass"]');
@@ -195,7 +195,7 @@ function checkConfigForm(type, form, wait, dbConnectFail, hostError, loginError,
     }
     else {
         $('#infos').text(wait + '  ');
-        $('#infos').append('<img src="images/loading.gif" alt="" id="loading_img" />');
+        $('#infos').append('<img src="media/images/loading.gif" alt="" id="loading_img" />');
 
         if (type == 'update')
             var typeurl = 'index.php?action=dbConnectTest&type=update';
@@ -228,20 +228,23 @@ function checkConfigForm(type, form, wait, dbConnectFail, hostError, loginError,
             else {
                 bddError = true;
 
-                if (txt == 'HOST_ERROR') {
+                if (txt == 'DB_HOST_ERROR') {
                     addConfigInputError(host, dbConnectFail, hostError);
                 }
-                else if (txt == 'LOGIN_ERROR') {
+                else if (txt == 'DB_LOGIN_ERROR') {
                     addConfigInputError(pass, dbConnectFail, loginError);
 
                     if (type == 'install')
                         user.addClass('error');
                 }
-                else if (txt == 'DB_ERROR') {
+                else if (txt == 'DB_NAME_ERROR') {
                     addConfigInputError(dbname, dbConnectFail, dbError);
                 }
-                else if(txt == 'PREFIX_ERROR') {
+                else if(txt == 'DB_PREFIX_ERROR') {
                     addConfigInputError(prefix, dbConnectFail, prefixError);
+                }
+                else if(txt == 'DB_CHARSET_ERROR') {
+                    addConfigInputError(undefined, dbConnectFail, charsetError);
                 }
                 else {
                     $('#infos').html(txt);

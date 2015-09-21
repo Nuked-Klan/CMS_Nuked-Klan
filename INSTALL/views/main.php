@@ -18,14 +18,12 @@
     if (isset($message)) :
 ?>
                     <p><?php echo $message ?></p>
+<?php
+        if (isset($alreadyUpdated)) :
+?>
                     <a href="index.php?action=deleteSession" class="button"><?php echo $i18n['ACCESS_SITE'] ?></a>
 <?php
+        endif;
     endif;
-
-    if (isset($error)) :
-?>
-                    <p><?php echo $error ?></p>
-<?php
-    endif
 ?>
                 </div>

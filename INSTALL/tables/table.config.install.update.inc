@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_config`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_config`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_config` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_config` (
             `name` varchar(255) NOT NULL default \'\',
             `value` text NOT NULL,
             PRIMARY KEY  (`name`)
@@ -26,16 +26,16 @@ if ($this->data['process'] == 'install') {
 
     $shareStats = $this->data['stats'] == 'no' ? 0 : 1;
 
-    $sql = 'INSERT INTO `'. $db_prefix .'_config` VALUES
+    $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_config` VALUES
         (\'time_generate\', \'on\'),
         (\'dateformat\', \''. $dateFormat.'\'),
         (\'datezone\', \''. $dateZone .'\'),
-        (\'version\', \''. self::NK_VERSION .'\'),
+        (\'version\', \''. $this->_nkVersion .'\'),
         (\'date_install\', \''. time() .'\'),
         (\'langue\', \''. $this->data['language'] .'\'),
         (\'stats_share\', \''. $shareStats .'\'),
         (\'stats_timestamp\', \'0\'),
-        (\'name\', \'Nuked-klaN '. self::NK_VERSION .'\'),
+        (\'name\', \'Nuked-klaN '. $this->_nkVersion .'\'),
         (\'slogan\', \'PHP 4 Gamers\'),
         (\'tag_pre\', \'\'),
         (\'tag_suf\', \'\'),
@@ -57,7 +57,7 @@ if ($this->data['process'] == 'install') {
         (\'scayt_editeur\', \'on\'),
         (\'suggest_avert\', \'\'),
         (\'irc_chan\', \'nuked-klan\'),
-        (\'irc_serv\', \'quakenet.org\'),
+        (\'irc_serv\', \'noxether.net\'),
         (\'server_ip\', \'\'),
         (\'server_port\', \'\'),
         (\'server_pass\', \'\'),
@@ -113,7 +113,8 @@ if ($this->data['process'] == 'install') {
 else if ($this->data['process'] == 'update') {
     $update = $nuked = $insertData = $updateData = array();
 
-    $sql = 'SELECT name, value FROM `'. $db_prefix .'_config`';
+    $sql = 'SELECT name, value
+        FROM `'. $this->data['db_prefix'] .'_config`';
     $dbsConfig = mysql_query($sql) or die (mysql_error());
 
     while ($row = mysql_fetch_assoc($dbsConfig))
@@ -121,14 +122,35 @@ else if ($this->data['process'] == 'update') {
 
     // used in 1.7.9 RC1, 1.7.9 RC2 & 1.7.9 RC3
     if (array_key_exists('cron_exec', $nuked)) {
-        $sql = 'DELETE FROM `'. $db_prefix .'_config` WHERE name = \'cron_exec\'';
+        $sql = 'DELETE FROM `'. $this->data['db_prefix'] .'_config`
+            WHERE name = \'cron_exec\'';
         mysql_query($sql) or die (mysql_error());
         $update[] = 'delete cron_exec';
     }
 
+    // install / update 1.7.6
+    if ($this->data['version'] = '1.7.6' && $nuked['level_analys'] == 0)
+        $updateData['level_analys'] = '-1';
+
+    // install / update 1.7.8
+    if (version_compare($this->data['version'], '1.7.8', '<='))
+        $updateData['theme'] = 'Impact_Nk';
+
+    // install / update 1.7.9 RC2
+    if (! array_key_exists('screen', $nuked))
+        $insertData['screen'] = 'on';
+
+    // install / update 1.7.9 RC3
+    if (! array_key_exists('contact_mail', $nuked))
+        $insertData['contact_mail'] = $nuked['mail'];
+
+    if (! array_key_exists('contact_flood', $nuked))
+        $insertData['contact_flood'] = '60';
+
+    // update 1.7.9 RC6
     // Update bbcode
     if (version_compare($this->data['version'], '1.7.9', '<=')) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
 
         $bbcodeCfgList = array(
             'inscription_mail',
@@ -140,69 +162,55 @@ else if ($this->data['process'] == 'update') {
             'defie_mail'
         );
 
-        foreach ($bbcodeCfgList as $bbcodeCfgName)
-            $updateData[$bbcodeCfgName] = mysql_real_escape_string(bbcode(stripslashes($nuked[$bbcodeCfgName]), $db_prefix, $this->_i18n));
+        foreach ($bbcodeCfgList as $bbcodeCfgName) {
+            if (array_key_exists($bbcodeCfgName, $nuked))
+                $updateData[$bbcodeCfgName] = $bbcode->apply(stripslashes($nuked[$bbcodeCfgName]));
+        }
     }
 
-    if (version_compare($this->data['version'], '1.7.8', '<='))
-        $updateData['theme'] = 'Impact_Nk';
+    if (! array_key_exists('dateformat', $nuked)) {
+        if ($this->data['language'] == 'french') {
+            $insertData['dateformat'] = '%d/%m/%Y - %H:%M:%S';
+            $insertData['datezone']   = 1;
+        }
+        else {
+            $insertData['dateformat'] = '%m/%d/%Y - %H:%M:%S';
+            $insertData['datezone']   = 0;
+        }
+    }
 
-    if ($this->data['version'] = '1.7.6' && $nuked['level_analys'] == 0)
-        $updateData['level_analys'] = '-1';
+    if (! array_key_exists('time_generate', $nuked))
+        $insertData['time_generate'] = 'on';
 
-    if (! array_key_exists('screen', $nuked))
-        $insertData['screen'] = 'on';
+    if (! array_key_exists('video_editeur', $nuked))
+        $insertData['video_editeur'] = 'on';
 
+    if (! array_key_exists('scayt_editeur', $nuked))
+        $insertData['scayt_editeur'] = 'on';
+
+    // quakenet.eu.org : 1.7.x =>
+    // quakenet.org : install 1.7.9 RC5 / UPDATE 1.7.9 RC2
+    // noxether.net : install 1.7.13 / update 1.7.11
     if ($nuked['irc_chan'] == 'nuked-klan' && in_array($nuked['irc_serv'], array('quakenet.eu.org', 'quakenet.org')))
         $updateData['irc_serv'] = 'noxether.net';
-
-    // TODO : A finir
-    if (version_compare($nuked['version'], install::NK_VERSION) === -1) {
-        $updateData['version'] = install::NK_VERSION;
-
-        if (version_compare($this->data['version'], '1.7.7', '=') || version_compare($this->data['version'], '1.7.8', '=')) {
-            // version 1.7.7 ou 1.7.8
-            if (! tableExist('contact', $db_prefix)) {
-                $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'mail\'';
-                $dbsConfig = mysql_query($sql) or die(mysql_error());
-                list($adminEmail) = mysql_fetch_row($dbsConfig) or die(mysql_error());
-
-                $data['contact_mail']   = $adminEmail;
-                $data['contact_flood']  = '60';
-            }
-        }
-
-        if (version_compare($nuked['version'], '1.7.9 RC6') === -1) {
-            // Tout sauf 1.7.9 RC6
-            if ($this->data['language'] == 'french') {
-                $data['dateformat'] = '%d/%m/%Y - %H:%M:%S';
-                $data['datezone']   = 1;
-            }
-            else {
-                $data['dateformat'] = '%m/%d/%Y - %H:%M:%S';
-                $data['datezone']   = 0;
-            }
-
-            $data['time_generate'] = 'on';
-            $data['video_editeur'] = 'on';
-            $data['scayt_editeur'] = 'on';
-        }
-    }
 
     if (! empty($insertData)) {
         $values = array();
 
         foreach ($insertData as $name => $value)
-            $values[] = '(\''. $name .'\', \''. $value .'\')';
+            $values[] = '(\''. mysql_real_escape_string($name) .'\', \''. mysql_real_escape_string($value) .'\')';
 
-        $sql = 'INSERT INTO `'. $db_prefix .'_config` (`name`, `value`) VALUES '. implode(', ', $values);
+        $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_config`
+            (`name`, `value`) VALUES '. implode(', ', $values);
         mysql_query($sql) or die(mysql_error());
         $update[] = 'insert config';
     }
 
     if (! empty($updateData)) {
         foreach ($updateData as $name => $value) {
-            $sql = 'UPDATE `'. $db_prefix .'_config` SET value = \''. $value .'\' WHERE name = \''. $name .'\'';
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_config`
+                SET value = \''. mysql_real_escape_string($value) .'\'
+                WHERE name = \''. mysql_real_escape_string($name) .'\'';
             mysql_query($sql) or die(mysql_error());
             $update[] = 'update config';
         }

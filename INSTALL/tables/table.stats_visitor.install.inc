@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_stats_visitor`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_stats_visitor`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_stats_visitor` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_stats_visitor` (
             `id` int(11) NOT NULL auto_increment,
             `user_id` varchar(20) NOT NULL default \'\',
             `ip` varchar(15) NOT NULL default \'\',

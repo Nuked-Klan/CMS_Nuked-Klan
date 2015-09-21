@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_smilies`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_smilies`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_smilies` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_smilies` (
             `id` int(5) NOT NULL auto_increment,
             `code` varchar(50) NOT NULL default \'\',
             `url` varchar(100) NOT NULL default \'\',
@@ -13,7 +13,7 @@ if ($this->data['process'] == 'install') {
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'INSERT INTO `'. $db_prefix .'_smilies` VALUES
+    $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_smilies` VALUES
         (1, \':D\', \'biggrin.gif\', \'Very Happy\'),
         (2, \':)\', \'smile.gif\', \'Smile\'),
         (3, \':(\', \'frown.gif\', \'Sad\'),
@@ -31,14 +31,18 @@ if ($this->data['process'] == 'install') {
 }
 else if ($this->data['process'] == 'update') {
     // update 1.7.9
-    $sql = 'SELECT id FROM `'. $db_prefix .'_smilies` WHERE code LIKE \'%\\\'%\'';
+    $sql = 'SELECT id
+        FROM `'. $this->data['db_prefix'] .'_smilies`
+        WHERE code LIKE \'%\\\'%\'';
     $dbsSmilies = mysql_query($sql) or die(mysql_error());
 
     $i = 0;
 
     while ($row = mysql_fetch_assoc($dbsSmilies)) {
         $i++;
-        $sql = 'UPDATE `'. $db_prefix .'_smilies` SET code=\'#smiley'. $i .'#\' WHERE id = \''. $row['id'] .'\'';
+        $sql = 'UPDATE `'. $this->data['db_prefix'] .'_smilies`
+            SET code = \'#smiley'. $i .'#\'
+            WHERE id = \''. $row['id'] .'\'';
         mysql_query($sql) or die(mysql_error());
     }
 

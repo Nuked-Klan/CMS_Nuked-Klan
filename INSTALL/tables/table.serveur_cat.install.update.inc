@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_serveur_cat`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_serveur_cat`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_serveur_cat` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_serveur_cat` (
             `cid` int(30) NOT NULL auto_increment,
             `titre` varchar(30) NOT NULL default \'\',
             `description` text NOT NULL,
@@ -15,25 +15,36 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('serveur_cat');
-    $update     = array();
+    $tableData = $this->getTableData('serveur_cat');
+    $update = $fields = array();
 
     // Update BBcode
     // update 1.7.9 RC3
     if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('description', $tableData)) {
-        include 'bbcode.php';
+        $bbcode = $this->_loadBBcode();
+        $update[] = 'bbcode';
+        $fields[] = 'description';
+    }
 
-        $sql = 'SELECT cid, description FROM `'. $db_prefix .'_serveur_cat`';
+    if (! empty($update)) {
+        $sql = 'SELECT cid, '. implode(', ', $fields) .'
+            FROM `'. $this->data['db_prefix'] .'_serveur_cat`';
         $dbsServerCat = mysql_query($sql) or die(mysql_error());
 
         while ($row = mysql_fetch_assoc($dbsServerCat)) {
-            $row['description'] = mysql_real_escape_string(bbcode(stripslashes($row['description']), $db_prefix, $this->_i18n));
+            $data = $setFields = array();
 
-            $sql = 'UPDATE `'. $db_prefix .'_serveur_cat` SET description = \''. $row['description'] .'\' WHERE cid = \''. $row['cid'] .'\'';
+            if (in_array('bbcode', $update))
+                $setFields['description'] = $bbcode->apply(stripslashes($row['description']));
+
+            foreach ($setFields as $field)
+                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
+
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_serveur_cat`
+                SET '. implode(', ', $data) .'
+                WHERE cid = \''. $row['cid'] .'\'';
             mysql_query($sql) or die(mysql_error());
         }
-
-        $update[] = 'bbcode';
     }
 
     if (! empty($update)) return 'UPDATED';

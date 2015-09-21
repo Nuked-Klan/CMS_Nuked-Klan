@@ -4,30 +4,34 @@ return array(
     #####################################
     # install->main()
     #####################################
+    'CORRUPTED_CONF_INC'    => 'Corrupted conf.inc.php file, edit the conf.inc.php file.',
     'DB_CONNECT_FAIL'       => 'Database connection failed !',
     'DB_PREFIX_ERROR'       => 'The prefix is incorrect, edit the conf.inc.php file.',
     'LAST_VERSION_SET'      => 'You already have the last version %s of Nuked-Klan',
     'BAD_VERSION'           => 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version %s',
     #####################################
-    # install->installDB()
-    #####################################
-    
-    #####################################
     # install->creatingDB()
     #####################################
-    
+    'MISSING_FILE'          => 'Missing file : ',
     #####################################
     # install->_translateDbConnectError()
     #####################################
     'DB_HOST_ERROR'         => 'Please check the server mysql name.',
     'DB_USER_ERROR'         => 'Please check the username and password.',
     'DB_NAME_ERROR'         => 'Control your database name.',
+    'DB_CHARSET_ERROR'      => 'Your database does not support %s charset',
     'DB_UNKNOW_ERROR'       => 'Unknow MySQL error',
     #####################################
     # install->_writeDefaultContent()
     #####################################
     'FIRST_NEWS_TITLE'      => 'Welcome to your NuKed-KlaN website %s',
     'FIRST_NEWS_CONTENT'    => 'Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a>.',
+    #####################################
+    # install->_loadBBcode()
+    #####################################
+    'CODE'                  => 'Code',
+    'QUOTE'                 => 'Quote',
+    'HAS_WROTE'             => 'has written',
     #####################################
     # views/changelog.php
     #####################################
@@ -63,18 +67,15 @@ return array(
     'CHECK_COMPATIBILITY_HOSTING' => 'Compatibility check with your hosting',
     'COMPOSANT'             => 'Component',
     'COMPATIBILITY'         => 'compatibility',
+    'WEBSITE_DIRECTORY'     => 'Website directory',
     'PHP_VERSION'           => 'PHP version &ge; %s',
     'PHP_VERSION_ERROR'     => 'Erreur PHP',
     'MYSQL_EXT'             => 'Mysql extension',
     'MYSQL_EXT_ERROR'       => 'Erreur Mysql',
     'SESSION_EXT'           => 'Sessions extension',
     'SESSION_EXT_ERROR'     => 'Erreur sessions',
-    //'ZIP_EXT'               => 'Zip extension',
-    //'ZIP_EXT_ERROR'         => 'Zip error',
     'FILEINFO_EXT'          => 'File Info extension',
     'FILEINFO_EXT_ERROR'    => 'File Info error',
-    //'HASH_EXT'              => 'Hash extension',
-    //'HASH_EXT_ERROR'        => 'Erreur hash',
     'GD_EXT'                => 'GD extension',
     'GD_EXT_ERROR'          => 'Erreur GD',
     'CHMOD_TEST'            => 'Testing of CHMOD',
@@ -89,6 +90,20 @@ return array(
     'CONFIRM_STATS'         => 'Yes, I authorize the sending of anonymous statistical to Nuked-Klan',
     'CONFIRM'               => 'Confirm',
     #####################################
+    # views/confIncFailure.php
+    #####################################
+    'ERROR'                 => 'An error has occured !!!',
+    'WEBSITE_DIRECTORY_CHMOD' => 'Can\'t write in Nuked-Klan directory<br/>Please update manually CHMOD <strong>0755</strong> on this directory.',
+    'CONF_INC_CHMOD_ERROR'  => 'Can\'t change CHMOD file rights conf.inc.php<br/>Please update manually CHMOD <strong>%s</strong> on this file.',
+    'WRITE_CONF_INC_ERROR'  => 'There was an error in the file generation conf.inc.php',
+    'COPY_CONF_INC_ERROR'   => 'Can not create file backup conf.inc.php<br/>Please download the file and save it manually.',
+    'DOWNLOAD'              => 'Download',
+    'BACK'                  => 'Back',
+    #####################################
+    # views/fatalError.php
+    #####################################
+    'REFRESH'               => 'Refresh',
+    #####################################
     # views/fullPage.php
     #####################################
     'INSTALL_TITLE'         => 'Install Nuked-klan %s',
@@ -99,7 +114,11 @@ return array(
     'UPDATE'                => 'Update',
     'YES'                   => 'Yes',
     'NO'                    => 'No',
+    'QUICK'                 => 'Quick',
+    'ASSIST'                => 'Assisted',
     'SELECT_SAVE'           => 'Backing up the database',
+    'IN_PROGRESS'           => 'In progress',
+    'FINISH'                => 'Done',
     'RESET_SESSION'         => 'Reset',
     'DISCOVERY'             => 'Discover Nuked-Klan !',
     'DISCOVERY_DESCR'       => 'You are about to install a web site based on the CMS Nuked-Klan ...</p><p>With a few clicks and within minutes, enjoy the opportunity to manage your team, guild or clan, using tools specifically designed for this purpose!</p><p>You are not a player but however you want to use Nuked-Klan to achieve your website?<br/>No problem, a general version of (SP) was also developed and is offered expressly for this purpose.</p><p>Adopt a design more suited to the spirit of your event (color palette, logos, ...) becomes, by Nuked-Klan, a veritable breeze. With an impressive collection of graphics and a change (and a creation) of themes certainly one of the easiest CMS market, inevitably you will come to a website that suits you.</p><p>Thank you for the interest and confidence you bring us everyday ... and all these years!',
@@ -131,18 +150,10 @@ return array(
     'INSTALL_FAILED'        => 'Installation is complete! But errors occurred, %d tables were not created.',
     'UPDATE_FAILED'         => 'The update is complete! But errors occurred, %d tables have not changed.',
     'PRINT_ERROR'           => ' - Error :',
+    'CREATED_TABLE_ERROR'   => 'An error occurred while creating the table',
+    'UPDATE_TABLE_ERROR'    => 'An error occurred when editing the table',
     'RETRY'                 => 'Retry',
     'START'                 => 'Start',
-    #####################################
-    # views/installFailure.php
-    #####################################
-    'ERROR'                 => 'An error has occured !!!',
-    'CONF_INC'              => 'Please download the content above and place the file in the root of your website.',
-    'CHMOD'                 => 'Can\'t change CHMOD file rights conf.inc.php <br/> Please update manually CHMOD <strong> 0644 </ strong> on this file.',
-    'COPY'                  => 'Can not create file backup conf.inc.php <br/> Please download the file and save it manually.',
-    'ERROR_GENERATE_CONF_INC' => 'There was an error in the file generation conf.inc.php',
-    'DOWNLOAD'              => 'Download',
-    'BACK'                  => 'Back',
     #####################################
     # views/installSuccess.php
     #####################################
@@ -181,8 +192,9 @@ return array(
     #####################################
     # views/selectSaveBdd.php
     #####################################
-    //'_TOSAVE', 'Save',
-    'SAVE'                  => 'Backup',
+    'TO_SAVE'               => 'Save',
+    'SAVE_YOUR_DATABASE'    => 'You can save your database by clicking the link below.',
+    //'SAVE'                  => 'Backup',
     //'_NOTHANKS', 'No thanks!',
     //'_DBSAVED', 'Database saved',
     //'_DBSAVEDTXT', 'Your database has been saved, you can download it here :',
@@ -302,16 +314,10 @@ return array(
     #####################################
     # tables/table.smilies.install.update.inc
     #####################################
-    //
     
-    #####################################
-    # bbcode.php
-    #####################################
-    'CODE'                  => 'Code',
-    'QUOTE'                 => 'Quote',
-    'HAS_WROTE'             => 'has written',
 );
 
+/*
 ///////////////////////////////////////////////
 /////// ERREUR CREATION FICHIER CONF.INC.PHP
 ///////////////////////////////////////////////
@@ -322,15 +328,12 @@ define('_BADCHMOD', 'Can\'t write file <b> conf.inc.php </ b>, check write permi
 ///////////////////////////////////////////////
 define("_HELP","Help");
 define('_FORCEINSTALL', 'Force installation');
-define('_INPROGRESS', 'In progress');
-define('_FINISH', 'Done');
 define('_ERRORTRY', 'An error has occured, please wait.');
 ///////////////////////////////////////////////
 /////// CREATION BDD (INSTALLATION)
 ///////////////////////////////////////////////
 define('_STARTDB', 'Start creating');
 define('_SQLCONNECTOK', 'The database connection has been successful.');
-define('_LOGITXTERROR', 'An error occurred while creating the table');
 define('_WRONGTABLENAME', 'The table name is wrong.');
 ///////////////////////////////////////////////
 /////// CREATION BDD (MISE A JOUR)
@@ -338,6 +341,6 @@ define('_WRONGTABLENAME', 'The table name is wrong.');
 define('_LOGUTXTSUCCESS', 'successfully updated.');
 define('_LOGUTXTUPDATE', 'successfully updated.');
 define('_LOGUTXTREMOVE2', 'successfully removed.');
-define('_LOGUTXTERROR', 'An error occurred when editing the table');
+*/
 
 ?>

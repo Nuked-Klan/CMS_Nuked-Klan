@@ -1,10 +1,10 @@
 <?php
 
 if ($this->data['process'] == 'install') {
-    $sql = 'DROP TABLE IF EXISTS `'. $db_prefix .'_serveur`';
+    $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_serveur`';
     mysql_query($sql) or die(mysql_error());
 
-    $sql = 'CREATE TABLE `'. $db_prefix .'_serveur` (
+    $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_serveur` (
             `sid` int(30) NOT NULL auto_increment,
             `game` varchar(30) NOT NULL default \'\',
             `ip` varchar(30) NOT NULL default \'\',
