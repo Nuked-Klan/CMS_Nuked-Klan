@@ -1,7 +1,5 @@
 <?php
 
-// TODO : champ ip a revoir
-
 if ($this->data['process'] == 'install') {
     $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_forums_messages`';
     mysql_query($sql) or die(mysql_error());
@@ -14,7 +12,7 @@ if ($this->data['process'] == 'install') {
             `edition` text NOT NULL,
             `auteur` text NOT NULL,
             `auteur_id` varchar(20) NOT NULL default \'\',
-            `auteur_ip` varchar(20) NOT NULL default \'\',
+            `auteur_ip` varchar(40) NOT NULL default \'\',
             `bbcodeoff` int(1) NOT NULL default \'0\',
             `smileyoff` int(1) NOT NULL default \'0\',
             `cssoff` int(1) NOT NULL default \'0\',
@@ -49,6 +47,16 @@ else if ($this->data['process'] == 'update') {
     require_once 'class/updateDbTable.class.php';
 
     $udt = new updateDbTable($this->data['db_prefix'] .'_forums_messages');
+
+    if ($udt->fieldExist('auteur_ip')) {
+        if ($udt->getFieldType('auteur_ip') != 'varchar(40)')
+            $udt->modifyField('auteur_ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+    }
+    else {
+        die(sprintf($this->_i18n['MISSING_FIELD'], 'auteur_ip', $this->data['db_prefix'] .'_forums_messages'));
+    }
+
+    $udt->modifyTable();
 
     // Update BBcode
     // update 1.7.9 RC1

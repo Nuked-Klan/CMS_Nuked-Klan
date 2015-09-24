@@ -1,7 +1,5 @@
 <?php
 
-// TODO : champ ip a revoir
-
 if ($this->data['process'] == 'install') {
     $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_comment`';
     mysql_query($sql) or die(mysql_error());
@@ -15,7 +13,7 @@ if ($this->data['process'] == 'install') {
             `titre` text NOT NULL,
             `comment` text,
             `date` varchar(12) default NULL,
-            `autor_ip` varchar(20) default NULL,
+            `autor_ip` varchar(40) default NULL,
             PRIMARY KEY  (`id`),
             KEY `im_id` (`im_id`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
@@ -40,6 +38,17 @@ else if ($this->data['process'] == 'update') {
     require_once 'class/updateDbTable.class.php';
 
     $udt = new updateDbTable($this->data['db_prefix'] .'_comment');
+
+    // install / update 1.7.13
+    if ($udt->fieldExist('autor_ip')) {
+        if ($udt->getFieldType('autor_ip') != 'varchar(40)')
+            $udt->modifyField('autor_ip', array('type' => 'VARCHAR(40)', 'default' => 'NULL'));
+    }
+    else {
+        die(sprintf($this->_i18n['MISSING_FIELD'], 'autor_ip', $this->data['db_prefix'] .'_comment'));
+    }
+
+    $udt->modifyTable();
 
     // Update BBcode
     if (version_compare($this->data['version'], '1.7.9', '<=') && $udt->fieldExist('comment')) {

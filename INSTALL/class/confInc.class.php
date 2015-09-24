@@ -39,7 +39,7 @@ class confInc {
         $this->_data['NK_INSTALLED']    = 'true';
         $this->_data['HASHKEY']         = HASHKEY;
         $this->_data['NK_OPEN']         = 'false';
-        $_SESSION['confIncContent']            = $this->_getContent();
+        $_SESSION['confIncContent']     = $this->_getContent();
 
         return $this->_write($_SESSION['confIncContent']);
     }
@@ -49,8 +49,8 @@ class confInc {
      */
     public function save() {
         $this->_data['NK_OPEN'] = $this->_data['NK_INSTALLED'] = 'true';
-        $_SESSION['confIncContent']    = $this->_getContent();
-        $this->_copy            = true;
+        $_SESSION['confIncContent'] = $this->_getContent();
+        $this->_copy                = true;
 
         return $this->_write($_SESSION['confIncContent']);
     }
@@ -112,7 +112,6 @@ class confInc {
                    throw new Exception('WEBSITE_DIRECTORY_CHMOD');
             }
 
-            //file_put_contents('../conf.inc.php', $content);
             if (false === file_put_contents('../conf.inc.php', $content))
                 throw new Exception('WRITE_CONF_INC_ERROR');
 

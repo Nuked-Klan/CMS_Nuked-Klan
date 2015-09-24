@@ -90,6 +90,11 @@ return array(
     'CONFIRM_STATS'         => 'Yes, I authorize the sending of anonymous statistical to Nuked-Klan',
     'CONFIRM'               => 'Confirm',
     #####################################
+    # views/chooseSendStats.php
+    #####################################
+    'DEPRECATED_FILES'      => 'Deprecated files detected',
+    'CLEANING_FILES'        => 'One or many deprecated files cannot be deleted.<br />Please manually delete the following files :',
+    #####################################
     # views/confIncFailure.php
     #####################################
     'ERROR'                 => 'An error has occured !!!',
@@ -265,6 +270,10 @@ return array(
     'BLOCK_SHOUTBOX'        => 'Shoutbox',
     'BLOCK_PARTNERS'        => 'Partners',
     'GAME_SERVER_LOCATION'  => 'Game server location',// TODO A verifier
+    #####################################
+    # tables/table.comment.install.update.inc
+    #####################################
+    'MISSING_FIELD'         => 'Missing `%s` field in `%s` table',
     #####################################
     # tables/table.forums.install.inc
     #####################################

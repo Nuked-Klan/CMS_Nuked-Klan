@@ -84,11 +84,16 @@ return array(
     'FORCE'                 => 'Forcer l\'installation',
     #####################################
     # views/chooseSendStats.php
-    #####################################'CONF_INC_ERROR'
+    #####################################
     'SELECT_STATS'          => 'Activation des statistiques anonymes',
     'STATS_INFO'            => '<p>Afin d\'améliorer au mieux le CMS Nuked Klan, en tenant compte de l\'utilisation des administrateurs de sites NK,<br/>nous avons mis en place sur cette nouvelle version un système d\'envoi de statistiques anonymes.</p><p>Vous avez le choix d\'activer ou non ce système, mais sachez qu\'en l\'activant vous permettrez à l\'équipe de Developpement/Marketing<br/>de mieux répondre à vos attentes.</p><p>Pour une totale transparence, lors de l\'envoi des statistiques, vous serez informé dans l\'administration, des données envoyées.<br/>Sachez qu\'à tout moment vous aurez la possibilité de désactiver l\'envoi des statistiques dans les préférences générales de votre administration.</p>',
     'CONFIRM_STATS'         => 'Oui, j\'autorise l\'envoi de statistiques anonymes à Nuked-Klan',
     'CONFIRM'               => 'Valider',
+    #####################################
+    # views/chooseSendStats.php
+    #####################################
+    'DEPRECATED_FILES'      => 'Fichiers obsolètes detectés',
+    'CLEANING_FILES'        => 'Un ou plusieurs fichiers obsolètes n\'ont pas pu être effacer.<br />Veuillez supprimer manuellement les fichiers suivants :',
     #####################################
     # views/confIncFailure.php
     #####################################
@@ -265,6 +270,10 @@ return array(
     'BLOCK_SHOUTBOX'        => 'Tribune libre',
     'BLOCK_PARTNERS'        => 'Partenaires',
     'GAME_SERVER_RENTING'   => 'Location de serveurs de jeux',
+    #####################################
+    # tables/table.comment.install.update.inc
+    #####################################
+    'MISSING_FIELD'         => 'Champs `%s` manquant dans la table `%s`',
     #####################################
     # tables/table.forums.install.inc
     #####################################

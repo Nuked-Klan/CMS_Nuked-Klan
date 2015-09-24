@@ -1,7 +1,5 @@
 <?php
 
-// TODO : champ ip a revoir
-
 // install / update 1.7.9 RC3
 if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' && ! $this->tableExist('contact'))) {
     $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_contact`';
@@ -13,7 +11,7 @@ if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' &
             `message` text NOT NULL,
             `email` varchar(80) NOT NULL default \'\',
             `nom` varchar(200) NOT NULL default \'\',
-            `ip` varchar(50) NOT NULL default \'\',
+            `ip` varchar(40) NOT NULL default \'\',
             `date` varchar(30) NOT NULL default \'\',
             PRIMARY KEY  (`id`),
             KEY `titre` (`titre`)
@@ -40,6 +38,17 @@ if ($this->data['process'] == 'update') {
     require_once 'class/updateDbTable.class.php';
 
     $udt = new updateDbTable($this->data['db_prefix'] .'_contact');
+
+    // install / update 1.7.13
+    if ($udt->fieldExist('ip')) {
+        if ($udt->getFieldType('ip') != 'varchar(40)')
+            $udt->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+    }
+    else {
+        die(sprintf($this->_i18n['MISSING_FIELD'], 'ip', $this->data['db_prefix'] .'_contact'));
+    }
+
+    $udt->modifyTable();
 
     // Update BBcode
     // update 1.7.9 RC3

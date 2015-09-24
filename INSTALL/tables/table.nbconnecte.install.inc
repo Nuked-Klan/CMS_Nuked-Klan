@@ -1,13 +1,11 @@
 <?php
 
-// TODO : champ ip a revoir
-
 if ($this->data['process'] == 'install') {
     $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_nbconnecte`';
     mysql_query($sql) or die(mysql_error());
 
     $sql = 'CREATE TABLE `'. $this->data['db_prefix'] .'_nbconnecte` (
-            `IP` varchar(30) NOT NULL default \'\',
+            `IP` varchar(40) NOT NULL default \'\',
             `type` int(10) NOT NULL default \'0\',
             `date` int(14) NOT NULL default \'0\',
             `user_id` varchar(20) NOT NULL default \'\',
@@ -25,11 +23,11 @@ else if ($this->data['process'] == 'update') {
 
     // update 1.7.9 RC6
     if ($udt->fieldExist('IP')) {
-        if ($udt->getFieldType('IP') == 'varchar(15)')
-            $udt->modifyField('IP', array('type' => 'VARCHAR(30)', 'null' => false, 'default' => '\'\''));
+        if ($udt->getFieldType('IP') != 'varchar(40)')
+            $udt->modifyField('IP', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
     }
     else {
-        die('Missing IP field in `'. $this->data['db_prefix'] .'_nbconnecte` table !');
+        die(sprintf($this->_i18n['MISSING_FIELD'], 'IP', $this->data['db_prefix'] .'_nbconnecte'));
     }
 
     $udt->modifyTable();

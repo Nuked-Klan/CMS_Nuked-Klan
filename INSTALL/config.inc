@@ -54,7 +54,12 @@ return array(
     ),
 
     // Sets partners key
-    'partnersKey' => 'iS5scBmNTNyE6M07Jna3'
+    'partnersKey' => 'iS5scBmNTNyE6M07Jna3',
+
+    // Sets deprecated files list
+    'deprecatedFiles' => array(
+        'Includes/version.php'
+    )
 );
 
 ?>

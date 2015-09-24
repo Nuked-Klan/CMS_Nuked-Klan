@@ -113,6 +113,11 @@
         private $_i18n = array();
 
         /*
+         * Sets deprecated files list
+         */
+        private $_deprecatedFiles = array();
+
+        /*
          * Constructor
          * - Init PHP session and load data
          * - Load configuration file
@@ -162,53 +167,55 @@
             else {
                 define('INDEX_CHECK', 1);
 
-                // TODO : Tester si un ancien fichier est encore présent
-                if (is_file('../Includes/version.php')) {
+                include '../conf.inc.php';
+
+                if (is_file('../Includes/version.php'))
                     include '../Includes/version.php';
+
+                try {
+                    if (! isset($global, $db_prefix) || ! is_array($global) || ! is_string($db_prefix))
+                        throw new Exception($this->_i18n['CORRUPTED_CONF_INC']);
+
+                    $connect = $this->_dbConnect($global);
+
+                    if ($connect != 'OK')
+                        throw new Exception($this->_translateDbConnectError($connect));
+
+                    $sql = 'SELECT value
+                        FROM `'. $db_prefix .'_config`
+                        WHERE name = \'version\'';
+                    $dbsConfig = @mysql_query($sql);
+
+                    if ($dbsConfig === false)
+                        throw new Exception($this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $this->_i18n['DB_PREFIX_ERROR']);
+
+                    list($cfgNkVersion) = mysql_fetch_array($dbsConfig);
+                }
+                catch (exception $e) {
+                    $this->_view = 'fatalError';
+
+                    $this->_viewData['i18n']        = $this->_i18n;
+                    $this->_viewData['error']       = $e->getMessage();
+                    $this->_viewData['refreshLink'] = 'index.php?action=main';
+                    return;
+                }
+
+                if (isset($nk_version) && version_compare($nk_version, $cfgNkVersion, '>'))
+                    $nkVersion = $nk_version;
+                else
+                    $nkVersion = $cfgNkVersion;
+
+                $_SESSION['version'] = $this->_viewData['currentVersion'] = $nkVersion;
+
+                if ($_SESSION['version'] == $this->_nkVersion) {
+                    $this->_viewData['message'] = sprintf($this->_i18n['LAST_VERSION_SET'], $this->_nkVersion);
+                    $this->_viewData['alreadyUpdated'] = true;
+                }
+                else if (version_compare($this->_nkMinimumVersion, $_SESSION['version'], '>')) {
+                    $this->_viewData['message'] = sprintf($this->_i18n['BAD_VERSION'], $this->_nkMinimumVersion);
                 }
                 else {
-                    include '../conf.inc.php';
-
-                    try {
-                        if (! isset($global, $db_prefix) || ! is_array($global) || ! is_string($db_prefix))
-                            throw new Exception($this->_i18n['CORRUPTED_CONF_INC']);
-
-                        $connect = $this->_dbConnect($global);
-
-                        if ($connect != 'OK')
-                            throw new Exception($this->_translateDbConnectError($connect));
-
-                        $sql = 'SELECT value FROM `'. $db_prefix .'_config` WHERE name = \'version\'';
-                        $dbsConfig = @mysql_query($sql);
-
-                        if ($dbsConfig === false)
-                            throw new Exception($this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $this->_i18n['DB_PREFIX_ERROR']);
-
-                        list($nk_version) = mysql_fetch_array($dbsConfig);
-                    }
-                    catch (exception $e) {
-                        $this->_view = 'fatalError';
-
-                        $this->_viewData['i18n']        = $this->_i18n;
-                        $this->_viewData['error']       = $e->getMessage();
-                        $this->_viewData['refreshLink'] = 'index.php?action=main';
-                        return;
-                    }
-                }
-
-                if (isset($nk_version)) {
-                    $_SESSION['version'] = $this->_viewData['currentVersion'] = $nk_version;
-
-                    if ($_SESSION['version'] == $this->_nkVersion) {
-                        $this->_viewData['message'] = sprintf($this->_i18n['LAST_VERSION_SET'], $this->_nkVersion);
-                        $this->_viewData['alreadyUpdated'] = true;
-                    }
-                    else if (version_compare($this->_nkMinimumVersion, $_SESSION['version'], '<')) {
-                        $this->_viewData['message'] = sprintf($this->_i18n['BAD_VERSION'], $this->_nkMinimumVersion);
-                    }
-                    else {
-                        $this->_viewData['process'] = 'update';
-                    }
+                    $this->_viewData['process'] = 'update';
                 }
             }
 
@@ -508,7 +515,7 @@
 
             if (is_file($path)) {
                 if (is_writeable($path)) {
-                    @chmod ($path, 0755);
+                    @chmod($path, 0755);
                     @unlink($path);
 
                     if (is_file($path))
@@ -654,38 +661,17 @@
                     }
                 }
 
-                require_once 'class/confInc.class.php';
-
-                $cfg = new confInc;
-
-                $global = array();
-
-                foreach ($this->_configDbData as $k) {
-                    if (array_key_exists($k, $this->data))
-                        $global[$k] = $this->data[$k];
-                }
-
-                $cfg->setData(array(
-                    'nk_version'    => $this->_nkVersion,
-                    'global'        => $global,
-                    'db_prefix'     => $this->data['db_prefix'],
-                    'HASHKEY'       => $_SESSION['HASHKEY']
-                ));
-
-                $saveCfgResult = $cfg->save();
-
-                if ($saveCfgResult != 'OK') {
+                if (($saveCfgResult = $this->_saveConfInc()) != 'OK') {
                     $this->_view = 'confIncFailure';
 
                     $this->_viewData['i18n']        = $this->_i18n;
                     $this->_viewData['error']       = $saveCfgResult;
                     $this->_viewData['retryUrl']    = 'index.php?action=saveUserAdmin';
-                    $this->_viewData['nextUrl']     = 'index.php?action=installSuccess';
-                    return;
+                    $this->_viewData['nextUrl']     = 'index.php?action=cleaningFiles';
                 }
                 else {
                     $_SESSION['user_admin'] = 'FINISH';
-                    $this->_redirect('index.php?action=installSuccess');
+                    $this->_redirect('index.php?action=cleaningFiles');
                 }
             }
         }
@@ -698,7 +684,8 @@
 
             if ($connect == 'OK') {
                 $sql = 'UPDATE `'. $this->data['db_prefix'] .'_config`
-                    SET value = \''. $this->_nkVersion .'\' WHERE name = \'version\'';
+                    SET value = \''. $this->_nkVersion .'\'
+                    WHERE name = \'version\'';
 
                 if (mysql_query($sql) === false)
                     $error = $this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $this->_i18n['DB_PREFIX_ERROR'];
@@ -714,44 +701,38 @@
                 $this->_viewData['error']   = $error;
             }
             else {
-                require_once 'class/confInc.class.php';
+                if (($saveCfgResult = $this->_saveConfInc()) != 'OK') {
+                    $this->_view = 'confIncFailure';
 
-                $cfg = new confInc;
-
-                $global = array();
-
-                foreach ($this->_configDbData as $k) {
-                    if (array_key_exists($k, $this->data))
-                        $global[$k] = $this->data[$k];
+                    $this->_viewData['i18n']        = $this->_i18n;
+                    $this->_viewData['error']       = $saveCfgResult;
+                    $this->_viewData['retryUrl']    = 'index.php?action=updateConfig';
+                    $this->_viewData['nextUrl']     = 'index.php?action=cleaningFiles';
                 }
-
-                $cfg->setData(array(
-                    'nk_version'    => $this->_nkVersion,
-                    'global'        => $global,
-                    'db_prefix'     => $this->data['db_prefix'],
-                    'HASHKEY'       => $this->data['HASHKEY']
-                ));
-
-                $saveCfgResult = $cfg->save();
-
-                if ($saveCfgResult == 'OK')
-                    $this->_redirect('index.php?action=installSuccess');
                 else
-                    $this->_redirect('index.php?action=installFailure&error='. $saveCfgResult);
+                    $this->_redirect('index.php?action=cleaningFiles');
             }
         }
 
         /*
-         * Display install failure message
-         * /
-        public function installFailure() {
-            $_SESSION['user_admin'] = 'FINISH';
+         * Check to cleaning deprecated file in Nuked-Klan directory
+         */
+        public function cleaningFiles() {
+            foreach ($this->_deprecatedFiles as $k => $file) {
+                @unlink('../'. $file);
 
-            $this->_view = 'installFailure';
+                if (! is_file('../'. $file))
+                    unset($this->_deprecatedFiles[$k]);
+            }
 
-            $this->_viewData['i18n']        = $this->_i18n;
-            $this->_viewData['error']       = (isset($_GET['error'])) ? $_GET['error'] : '';
-            $this->_viewData['content_web'] = (isset($this->data['content_web'])) ? $this->data['content_web'] : '';
+            if (! empty($this->_deprecatedFiles)) {
+                $this->_view = 'cleaningFiles';
+
+                $this->_viewData['i18n']            = $this->_i18n;
+                $this->_viewData['deprecatedFiles'] = $this->_deprecatedFiles;
+            }
+            else
+                $this->_redirect('index.php?action=installSuccess');
         }
 
         /*
@@ -839,7 +820,7 @@
             }
             else {
                 $cfgStrKey      = array('nkVersion', 'nkMinimumVersion', 'minimalPhpVersion', 'partnersKey');
-                $cfgArrayKey    = array('phpExtension', 'uploadDir', 'changelog', 'infoList');
+                $cfgArrayKey    = array('phpExtension', 'uploadDir', 'changelog', 'infoList', 'deprecatedFiles');
 
                 try {
                     $cfg = include 'config.inc';
@@ -1053,7 +1034,9 @@
          * Check if table exist in database
          */
         public function tableExist($tableName) {
-            $sql = 'SHOW TABLES FROM `'. $this->data['db_name'] .'` LIKE \''. $this->data['db_prefix'] .'_'. $tableName .'\'';
+            $sql = 'SHOW TABLES
+                FROM `'. $this->data['db_name'] .'`
+                LIKE \''. $this->data['db_prefix'] .'_'. $tableName .'\'';
             $dbsTable = mysql_query($sql) or die(mysql_error());
 
             return (mysql_num_rows($dbsTable) == 0) ? false : true;
@@ -1121,13 +1104,39 @@
             if (@mysql_query($sql) === false)
                 return mysql_error();
 
-            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_config` SET value = \''. $email .'\'
+            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_config`
+                SET value = \''. $email .'\'
                 WHERE name = \'contact_mail\' OR name = \'mail\'';
 
             if (@mysql_query($sql) === false)
                 return mysql_error();
 
             return true;
+        }
+
+        /*
+         * Create or update conf.inc file
+         */
+        private function _saveConfInc() {
+            require_once 'class/confInc.class.php';
+
+            $cfg = new confInc;
+
+            $global = array();
+
+            foreach ($this->_configDbData as $k) {
+                if (array_key_exists($k, $this->data))
+                    $global[$k] = $this->data[$k];
+            }
+
+            $cfg->setData(array(
+                'nk_version'    => $this->_nkVersion,
+                'global'        => $global,
+                'db_prefix'     => $this->data['db_prefix'],
+                'HASHKEY'       => $this->data['HASHKEY']
+            ));
+
+            return $cfg->save();
         }
 
         /*
@@ -1193,7 +1202,8 @@
             if (isset($this->data['smiliesList']))
                 return $this->data['smiliesList'];
 
-            $sql = 'SELECT code, url, name FROM `'. $this->data['db_prefix'] .'_smilies`';
+            $sql = 'SELECT code, url, name
+                FROM `'. $this->data['db_prefix'] .'_smilies`';
             $dbsSmilies = mysql_query($sql) or die (mysql_error());
 
             $smilies = array();
