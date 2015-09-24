@@ -23,41 +23,31 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData = $this->getTableData('sections');
-    $update = $fields = array();
+
+    /*
+     * Callback function for update row of sections database table
+     */
+    function updateSectionsRow($updateList, $row, $vars) {
+        $setFields = array();
+
+        if (in_array('BBCODE', $updateList))
+            $setFields['content'] = $vars['bbcode']->apply(stripslashes($row['content']));
+
+        return $setFields;
+    }
+
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_sections');
 
     // Update BBcode
     // update 1.7.9 RC1
-    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('content', $tableData)) {
-        $bbcode = $this->_loadBBcode();
-        $update[] = 'bbcode';
-        $fields[] = 'content';
+    if (version_compare($this->data['version'], '1.7.9', '<=') && $udt->fieldExist('content')) {
+        $udt->setCallbackFunctionVars(array('bbcode' => $this->_loadBBcode()))
+             ->updateFieldData('BBCODE', 'content');
     }
 
-    if (! empty($update)) {
-        $sql = 'SELECT artid, '. implode(', ', $fields) .'
-            FROM `'. $this->data['db_prefix'] .'_sections`';
-        $dbsSections = mysql_query($sql) or die(mysql_error());
-
-        while ($row = mysql_fetch_assoc($dbsSections)) {
-            $data = $setFields = array();
-
-            if (in_array('bbcode', $update))
-                $setFields['content'] = $bbcode->apply(stripslashes($row['content']));
-
-            foreach ($setFields as $field)
-                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
-
-            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_sections`
-                SET '. implode(', ', $data) .'
-                WHERE artid = \''. $row['artid'] .'\'';
-            mysql_query($sql) or die(mysql_error());
-        }
-    }
-
-    if (! empty($update)) return 'UPDATED';
+    return $udt->execute('artid', 'updateSectionsRow');
 }
-
-return 'NOTHING_TO_DO';
 
 ?>

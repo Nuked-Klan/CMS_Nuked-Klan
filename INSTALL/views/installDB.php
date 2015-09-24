@@ -6,9 +6,9 @@
                     <script type="text/javascript">
                     var process = '<?php echo $process ?>';
                     var dbPrefix = '<?php echo $db_prefix ?>';
-                    var createdSuccess = '<?php echo $i18n['CREATED_SUCCESS'] ?>';
-                    var updatedSuccess = '<?php echo $i18n['UPDATE_SUCCESS'] ?>';
-                    var removedSuccess = '<?php echo $i18n['REMOVE_SUCCESS'] ?>';
+                    var createdSuccess = '<?php echo $i18n['CREATED_TABLE_SUCCESS'] ?>';
+                    var updatedSuccess = '<?php echo $i18n['UPDATE_TABLE_SUCCESS'] ?>';
+                    var removedSuccess = '<?php echo $i18n['REMOVE_TABLE_SUCCESS'] ?>';
                     var nothingToDo = '<?php echo $i18n['NOTHING_TO_DO'] ?>';
                     var step = '<?php echo $i18n['STEP'] ?>';
                     var start_process_txt = '<?php echo addslashes($i18n['STARTING_'. strtoupper($process)]) ?>';

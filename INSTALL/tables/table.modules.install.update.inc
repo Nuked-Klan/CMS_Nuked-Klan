@@ -43,7 +43,8 @@ if ($this->data['process'] == 'install') {
 else if ($this->data['process'] == 'update') {
     $update = $insert = array();
 
-    $sql = 'SELECT nom FROM `'. $this->data['db_prefix'] .'_modules`';
+    $sql = 'SELECT nom
+        FROM `'. $this->data['db_prefix'] .'_modules`';
     $dbsModules = mysql_query($sql) or die (mysql_error());
 
     $modules = array();
@@ -53,29 +54,29 @@ else if ($this->data['process'] == 'update') {
 
     // install / update 1.7.9 RC5
     if (in_array('PackageMgr', $modules)) {
-        $sql = 'DELETE FROM `'. $this->data['db_prefix'] .'_modules` WHERE nom = \'PackageMgr\'';
+        $sql = 'DELETE
+            FROM `'. $this->data['db_prefix'] .'_modules`
+            WHERE nom = \'PackageMgr\'';
         mysql_query($sql) or die (mysql_error());
-        $update[] = 'delete PackageMgr module';
+        $update[] = 'DELETE_MODULE PackageMgr';
     }
 
     // install / update 1.7.9 RC1
     if (in_array('Stats', $modules)) {
         $insert[] = '(\'Stats\', 0, 2)';
-        mysql_query($sql)or die(mysql_error());
-        $update[] = 'add Stats module';
+        $update[] = 'ADD_MODULE Stats';
     }
 
     // install / update 1.7.9 RC1
     if (in_array('Contact', $modules)) {
         $insert[] = '(\'Contact\', 0, 3)';
-        mysql_query($sql)or die(mysql_error());
-        $update[] = 'add Contact module';
+        $update[] = 'ADD_MODULE Contact';
     }
 
     if (! empty($insert)) {
         $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_modules`
             (`nom`, `niveau`, `admin`) VALUES '. implode(', ', $insert);
-        mysql_query($sql)or die(mysql_error());
+        mysql_query($sql) or die(mysql_error());
     }
 
     if (! empty($update)) return 'UPDATED';

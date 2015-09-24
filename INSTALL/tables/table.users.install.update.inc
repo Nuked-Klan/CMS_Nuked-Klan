@@ -44,74 +44,65 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData = $this->getTableData('users');
-    $update = $alterTable = $fields = array();
+
+    /*
+     * Callback function for update row of user database table
+     */
+    function updateUserRow($updateList, $row, $vars) {
+        $setFields = array();
+
+        if (in_array('UPDATE_PASSWORD', $updateList))
+            $setFields['pass'] = install::hashPassword($vars['HASHKEY'], $row['pass']);
+
+        if (in_array('BBCODE', $updateList))
+            $setFields['signature'] = $vars['bbcode']->apply(stripslashes($row['signature']));
+
+        return $setFields;
+    }
+
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_users');
 
     // install 1.7.9 RC3 - update 1.7.9 RC1
-    if (! array_key_exists('erreur', $tableData)) {
-        $alterTable[] = 'ADD `erreur` INT(10) NOT NULL default \'0\'';
-    }
+    if (! $udt->fieldExist('erreur'))
+        $udt->addField('erreur', array('type' => 'INT(10)', 'null' => false, 'default' => '\'0\''));
 
     // install / update 1.7.9
-    if (! array_key_exists('token', $tableData)) {
-        $alterTable[] = 'ADD `token` VARCHAR(13) NULL DEFAULT NULL';
-        $alterTable[] = 'ADD `token_time` varchar(10) NOT NULL DEFAULT \'0\'';
+    if (! $udt->fieldExist('token'))
+        $udt->addField('token', array('type' => 'VARCHAR(13)', 'null' => true, 'default' => 'NULL'))
+             ->addField('token_time', array('type' => 'VARCHAR(10)', 'null' => false, 'default' => '\'0\''));
+
+    $udt->modifyTable();
+
+    if (! isset($this->data['updateUserPassword'])) {
+        $sql = 'SELECT pass
+            FROM `'. $this->data['db_prefix'] .'_users`
+            ORDER BY RAND()
+            LIMIT 1';
+        $req = mysql_query($sql);
+        $row = mysql_fetch_assoc($req);
+
+        $firstChr = substr($row['pass'], 0, 1);
+
+        if ($firstChr != '%' && $firstChr != '#')
+            $_SESSION['updateUserPassword'] = $this->data['updateUserPassword'] = true;
+        else
+            $_SESSION['updateUserPassword'] = $this->data['updateUserPassword'] = false;
     }
 
-    if (! empty($alterTable)) {
-        $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_users` '
-            . implode(', ', $alterTable);
-        mysql_query($sql) or die(mysql_error());
-        $update[] = 'alter table';
-    }
-
-    $sql = 'SELECT pass FROM `'. $this->data['db_prefix'] .'_users`
-        ORDER BY RAND()
-        LIMIT 1';
-    $req = mysql_query($sql);
-    $row = mysql_fetch_assoc($req);
-
-    $firstChr = substr($row['pass'], 0, 1);
-
-    if ($firstChr != '%' && $firstChr != '#') {
-        $update[] = 'update password';
-        $fields[] = 'pass';
+    if ($this->data['updateUserPassword']) {
+        $udt->setCallbackFunctionVars(array('HASHKEY' => $this->data['HASHKEY']))
+             ->updateFieldData('UPDATE_PASSWORD', 'pass');
     }
 
     // update 1.7.9 RC3
-    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('signature', $tableData)) {
-        $bbcode = $this->_loadBBcode();
-        $update[] = 'bbcode';
-        $fields[] = 'signature';
+    if (version_compare($this->data['version'], '1.7.9', '<=') && $udt->fieldExist('signature')) {
+        $udt->setCallbackFunctionVars(array('bbcode' => $this->_loadBBcode()))
+             ->updateFieldData('BBCODE', 'signature');
     }
 
-    if (! empty($update)) {
-        $sql = 'SELECT id, '. implode(', ', $fields) .'
-            FROM `'. $this->data['db_prefix'] .'_users`';
-        $dbsUsers = mysql_query($sql) or die(mysql_error());
-
-        while ($row = mysql_fetch_assoc($dbsUsers)) {
-            $data = $setFields = array();
-
-            if (in_array('update password', $update))
-                $setFields['pass'] = install::hashPassword($this->data['HASHKEY'], $row['pass']);
-
-            if (in_array('bbcode', $update))
-                $setFields['signature'] = $bbcode->apply(stripslashes($row['signature']));
-
-            foreach ($setFields as $field)
-                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
-
-            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_users`
-                SET '. implode(', ', $data) .'
-                WHERE id = \''. $row['id'] .'\'';
-            mysql_query($sql) or die(mysql_error());
-        }
-    }
-
-    if (! empty($update)) return 'UPDATED';
+    return $udt->execute('id', 'updateUserRow');
 }
-
-return 'NOTHING_TO_DO';
 
 ?>

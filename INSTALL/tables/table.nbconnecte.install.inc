@@ -1,5 +1,7 @@
 <?php
 
+// TODO : champ ip a revoir
+
 if ($this->data['process'] == 'install') {
     $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_nbconnecte`';
     mysql_query($sql) or die(mysql_error());
@@ -17,27 +19,25 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('nbconnecte');
-    $update     = array();
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_nbconnecte');
 
     // update 1.7.9 RC6
-    if (array_key_exists('IP', $tableData)) {
-        if (array_key_exists('type', $tableData['IP'])
-            && $tableData['IP']['type'] == 'varchar(15)'
-        ) {
-            $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_nbconnecte`
-                MODIFY `IP` VARCHAR(30) NOT NULL DEFAULT \'\';';
-            mysql_query($sql) or die(mysql_error());
-            $update = true;
-        }
+    if ($udt->fieldExist('IP')) {
+        if ($udt->getFieldType('IP') == 'varchar(15)')
+            $udt->modifyField('IP', array('type' => 'VARCHAR(30)', 'null' => false, 'default' => '\'\''));
     }
     else {
         die('Missing IP field in `'. $this->data['db_prefix'] .'_nbconnecte` table !');
     }
 
-    if (! empty($update)) return 'UPDATED';
-}
+    $udt->modifyTable();
 
-return 'NOTHING_TO_DO';
+    if ($udt->isUpdated())
+        return 'UPDATED';
+    else
+        return 'NOTHING_TO_DO';
+}
 
 ?>

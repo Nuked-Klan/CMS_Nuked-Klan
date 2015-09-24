@@ -1,5 +1,7 @@
 <?php
 
+// TODO : champ ip a revoir
+
 // install / update 1.7.9 RC3
 if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' && ! $this->tableExist('contact'))) {
     $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_contact`';
@@ -22,41 +24,31 @@ if ($this->data['process'] == 'install' || ($this->data['process'] == 'update' &
 }
 
 if ($this->data['process'] == 'update') {
-    $tableData = $this->getTableData('contact');
-    $update = $fields = array();
+
+    /*
+     * Callback function for update row of contact database table
+     */
+    function updateContactRow($updateList, $row, $vars) {
+        $setFields = array();
+
+        if (in_array('BBCODE', $updateList))
+            $setFields['message'] = $vars['bbcode']->apply(stripslashes($row['message']));
+
+        return $setFields;
+    }
+
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_contact');
 
     // Update BBcode
     // update 1.7.9 RC3
-    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('message', $tableData)) {
-        $bbcode = $this->_loadBBcode();
-        $update[] = 'bbcode';
-        $fields[] = 'message';
+    if (version_compare($this->data['version'], '1.7.9', '<=') && $udt->fieldExist('message')) {
+        $udt->setCallbackFunctionVars(array('bbcode' => $this->_loadBBcode()))
+             ->updateFieldData('BBCODE', 'message');
     }
 
-    if (! empty($update)) {
-        $sql = 'SELECT id, '. implode(', ', $fields) .'
-            FROM `'. $this->data['db_prefix'] .'_contact`';
-        $dbsContact = mysql_query($sql) or die(mysql_error());
-
-        while ($row = mysql_fetch_assoc($dbsContact)) {
-            $data = $setFields = array();
-
-            if (in_array('bbcode', $update))
-                $row['message'] = $bbcode->apply(stripslashes($row['message']));
-
-            foreach ($setFields as $field)
-                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
-
-            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_contact`
-                SET '. implode(', ', $data) .'
-                WHERE id = \''. $row['id'] .'\'';
-            mysql_query($sql) or die(mysql_error());
-        }
-    }
-
-    if (! empty($update)) return 'UPDATED';
+    return $udt->execute('id', 'updateContactRow');
 }
-
-return 'NOTHING_TO_DO';
 
 ?>

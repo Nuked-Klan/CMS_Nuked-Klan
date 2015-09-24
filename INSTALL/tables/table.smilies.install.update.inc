@@ -13,6 +13,7 @@ if ($this->data['process'] == 'install') {
         ) ENGINE=MyISAM DEFAULT CHARSET='. $charset .' COLLATE='. $collate .';';
     mysql_query($sql) or die(mysql_error());
 
+    // TODO : Traduction ?
     $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_smilies` VALUES
         (1, \':D\', \'biggrin.gif\', \'Very Happy\'),
         (2, \':)\', \'smile.gif\', \'Smile\'),
@@ -30,6 +31,7 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
+    // TODO Preciser la version
     // update 1.7.9
     $sql = 'SELECT id
         FROM `'. $this->data['db_prefix'] .'_smilies`

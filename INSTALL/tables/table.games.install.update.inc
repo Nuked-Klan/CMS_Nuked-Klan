@@ -26,21 +26,21 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData  = $this->getTableData('games');
-    $update     = array();
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_games');
 
     // install 1.7.9 RC4
     // update 1.7.9 RC5.2
-    if (! array_key_exists('map', $tableData)) {
-        $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_games`
-            ADD `map` TEXT NOT NULL;';
-        mysql_query($sql) or die(mysql_error());
-        $update[] = 'alter table';
-    }
+    if (! $udt->fieldExist('map'))
+        $udt->addField('map', array('type' => 'TEXT', 'null' => false));
 
-    if (! empty($update)) return 'UPDATED';
+    $udt->modifyTable();
+
+    if ($udt->isUpdated())
+        return 'UPDATED';
+    else
+        return 'NOTHING_TO_DO';
 }
-
-return 'NOTHING_TO_DO';
 
 ?>

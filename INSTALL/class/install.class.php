@@ -203,7 +203,7 @@
                         $this->_viewData['message'] = sprintf($this->_i18n['LAST_VERSION_SET'], $this->_nkVersion);
                         $this->_viewData['alreadyUpdated'] = true;
                     }
-                    else if (version_compare($_SESSION['version'], $this->_nkMinimumVersion, '<')) {
+                    else if (version_compare($this->_nkMinimumVersion, $_SESSION['version'], '<')) {
                         $this->_viewData['message'] = sprintf($this->_i18n['BAD_VERSION'], $this->_nkMinimumVersion);
                     }
                     else {
@@ -228,7 +228,7 @@
                 if ($_GET['process'] == 'update') {
                     require_once 'class/confInc.class.php';
 
-                    $cfg            = new config;
+                    $cfg            = new confInc;
                     $saveCfgResult  = $cfg->closeWebsite();
 
                     if ($saveCfgResult != 'OK') {
@@ -656,7 +656,7 @@
 
                 require_once 'class/confInc.class.php';
 
-                $cfg = new config;
+                $cfg = new confInc;
 
                 $global = array();
 
@@ -716,7 +716,7 @@
             else {
                 require_once 'class/confInc.class.php';
 
-                $cfg = new config;
+                $cfg = new confInc;
 
                 $global = array();
 
@@ -1060,28 +1060,6 @@
         }
 
         /*
-         * Return info of database table
-         */
-        public function getTableData($tableName) {
-            $sql = 'SHOW COLUMNS FROM `'. $this->data['db_prefix'] .'_'. $tableName .'`';
-            $dbsColumnsTable = mysql_query($sql) or die(mysql_error());
-
-            $data = array();
-
-            while ($row = mysql_fetch_assoc($dbsColumnsTable)) {
-                $data[$row['Field']] = array(
-                    'type'      => $row['Type'],
-                    'null'      => $row['Null'],
-                    'key'       => $row['Key'],
-                    'default'   => $row['Default'],
-                    'extra'     => $row['Extra']
-                );
-            }
-
-            return $data;
-        }
-
-        /*
          * Generate and return a random user id 
          */
         private function _generateUserId() {
@@ -1215,7 +1193,7 @@
             if (isset($this->data['smiliesList']))
                 return $this->data['smiliesList'];
 
-            $sql = 'SELECT code, url, name FROM `'. $this->_db_prefix .'_smilies`';
+            $sql = 'SELECT code, url, name FROM `'. $this->data['db_prefix'] .'_smilies`';
             $dbsSmilies = mysql_query($sql) or die (mysql_error());
 
             $smilies = array();

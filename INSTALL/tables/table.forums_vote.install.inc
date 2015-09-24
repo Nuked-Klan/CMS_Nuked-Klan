@@ -1,5 +1,7 @@
 <?php
 
+// TODO : champ ip a revoir
+
 if ($this->data['process'] == 'install') {
     $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_forums_vote`';
     mysql_query($sql) or die(mysql_error());

@@ -26,41 +26,31 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData = $this->getTableData('recrute');
-    $update = $fields = array();
+
+    /*
+     * Callback function for update row of recruit database table
+     */
+    function updateRecruitRow($updateList, $row, $vars) {
+        $setFields = array();
+
+        if (in_array('BBCODE', $updateList))
+            $setFields['comment'] = $vars['bbcode']->apply(stripslashes($row['comment']));
+
+        return $setFields;
+    }
+
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_recrute');
 
     // Update BBcode
     // update 1.7.9 RC1
-    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('comment', $tableData)) {
-        $bbcode = $this->_loadBBcode();
-        $update[] = 'bbcode';
-        $fields[] = 'comment';
+    if (version_compare($this->data['version'], '1.7.9', '<=') && $udt->fieldExist('comment')) {
+        $udt->setCallbackFunctionVars(array('bbcode' => $this->_loadBBcode()))
+             ->updateFieldData('BBCODE', 'comment');
     }
 
-    if (! empty($update)) {
-        $sql = 'SELECT id, '. implode(', ', $fields) .'
-            FROM `'. $this->data['db_prefix'] .'_recrute`';
-        $dbsRecruit = mysql_query($sql) or die(mysql_error());
-
-        while ($row = mysql_fetch_assoc($dbsRecruit)) {
-            $data = $setFields = array();
-
-            if (in_array('bbcode', $update))
-                $setFields['comment'] = $bbcode->apply(stripslashes($row['comment']));
-
-            foreach ($setFields as $field)
-                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
-
-            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_recrute`
-                SET '. implode(', ', $data) .'
-                WHERE id = \''. $row['id'] .'\'';
-            mysql_query($sql) or die(mysql_error());
-        }
-    }
-
-    if (! empty($update)) return 'UPDATED';
+    return $udt->execute('id', 'updateRecruitRow');
 }
-
-return 'NOTHING_TO_DO';
 
 ?>

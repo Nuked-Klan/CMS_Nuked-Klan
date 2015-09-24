@@ -15,41 +15,31 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData = $this->getTableData('irc_awards');
-    $update = $fields = array();
+
+    /*
+     * Callback function for update row of irc awards database table
+     */
+    function updateIrcAwardsRow($updateList, $row, $vars) {
+        $setFields = array();
+
+        if (in_array('BBCODE', $updateList))
+            $setFields['text'] = $vars['bbcode']->apply(stripslashes($row['text']));
+
+        return $setFields;
+    }
+
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_irc_awards');
 
     // Update BBcode
     // update 1.7.9 RC1
-    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('text', $tableData)) {
-        $bbcode = $this->_loadBBcode();
-        $update[] = 'bbcode';
-        $fields[] = 'text';
+    if (version_compare($this->data['version'], '1.7.9', '<=') && $udt->fieldExist('text')) {
+        $udt->setCallbackFunctionVars(array('bbcode' => $this->_loadBBcode()))
+             ->updateFieldData('BBCODE', 'text');
     }
 
-    if (! empty($update)) {
-        $sql = 'SELECT id, '. implode(', ', $fields) .'
-            FROM `'. $this->data['db_prefix'] .'_irc_awards`';
-        $dbsIrcAwards = mysql_query($sql) or die(mysql_error());
-
-        while ($row = mysql_fetch_assoc($dbsIrcAwards)) {
-            $data = $setFields = array();
-
-            if (in_array('bbcode', $update))
-                $setFields['text'] = $bbcode->apply(stripslashes($row['text']));
-
-            foreach ($setFields as $field)
-                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
-
-            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_irc_awards`
-                SET '. implode(', ', $data) .'
-                WHERE id = \''. $row['id'] .'\'';
-            mysql_query($sql) or die(mysql_error());
-        }
-    }
-
-    if (! empty($update)) return 'UPDATED';
+    return $udt->execute('id', 'updateIrcAwardsRow');
 }
-
-return 'NOTHING_TO_DO';
 
 ?>

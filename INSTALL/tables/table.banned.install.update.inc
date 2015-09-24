@@ -1,5 +1,7 @@
 <?php
 
+// TODO : champ ip a revoir
+
 if ($this->data['process'] == 'install') {
     $sql = 'DROP TABLE IF EXISTS `'. $this->data['db_prefix'] .'_banned`';
     mysql_query($sql) or die(mysql_error());
@@ -19,27 +21,24 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData = $this->getTableData('banned');
-    $update = $alterTable = array();
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_banned');
 
     // install / update 1.7.9 RC1
-    if (! array_key_exists('date', $tableData))
-        $alterTable[] = 'ADD `date` VARCHAR(20)  NULL AFTER `email`';
+    if (! $udt->fieldExist('date'))
+        $udt->addField('date', array('type' => 'VARCHAR(20)', 'null' => true), 'email');
 
     // install / update 1.7.9 RC1
-    if (! array_key_exists('dure', $tableData))
-        $alterTable[] = 'ADD `dure` VARCHAR(20)  NULL AFTER `date`';
+    if (! $udt->fieldExist('dure'))
+        $udt->addField('dure', array('type' => 'VARCHAR(20)', 'null' => true), 'date');
 
-    if (! empty($alterTable)) {
-        $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_banned` '
-            . implode(', ', $alterTable);
-        mysql_query($sql) or die(mysql_error());
-        $update[] = 'alter table';
-    }
+    $udt->modifyTable();
 
-    if (! empty($update)) return 'UPDATED';
+    if ($udt->isUpdated())
+        return 'UPDATED';
+    else
+        return 'NOTHING_TO_DO';
 }
-
-return 'NOTHING_TO_DO';
 
 ?>

@@ -18,24 +18,24 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $update = array();
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_fichiers_joins');
 
     // install / update 1.7.9 RC6
     if (! $this->tableExist('match_files')) {
-        if ($this->tableExist('fichiers_joins')) {
-            $sql = 'ALTER TABLE `'. $this->data['db_prefix'] .'_fichiers_joins`
-                RENAME AS `'. $this->data['db_prefix'] .'_match_files`';
-            mysql_query($sql) or die(mysql_error());
-            $update[] = 'rename table';
-        }
-        else {
+        if ($this->tableExist('fichiers_joins'))
+            $udt->renameTable('match_files');
+        else
             die('Missing `'. $this->data['db_prefix'] .'_fichiers_joins` table !');
-        }
     }
 
-    if (! empty($update)) return 'UPDATED';
-}
+    $udt->modifyTable();
 
-return 'NOTHING_TO_DO';
+    if ($udt->isUpdated())
+        return 'UPDATED';
+    else
+        return 'NOTHING_TO_DO';
+}
 
 ?>

@@ -36,48 +36,39 @@ if ($this->data['process'] == 'install') {
     return 'CREATED';
 }
 else if ($this->data['process'] == 'update') {
-    $tableData = $this->getTableData('block');
-    $update = $fields = array();
 
-    if ($this->data['version'] = '1.7.5') {
+    /*
+     * Callback function for update row of block database table
+     */
+    function updateBlockRow($updateList, $row, $vars) {
+        $setFields = array();
+
+        if (in_array('BBCODE', $updateList))
+            $setFields['content'] = $vars['bbcode']->apply(stripslashes($row['content']));
+
+        return $setFields;
+    }
+
+    // install / update 1.7.5
+    if (version_compare($this->data['version'], '1.7.5', '<=')) {
         $sql = 'INSERT INTO `'. $this->data['db_prefix'] .'_block`
             (active, position, module, titre, content, type, nivo, page) VALUES
             (1, 4, \'\', \''. mysql_real_escape_string($this->_i18n['BLOCK_PARTNERS']) .'\', \'<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="'. mysql_real_escape_string($this->_i18n['GAME_SERVER_RENTING']) .'" /></a></div>\', \'html\', 0, \'Tous\');';
         mysql_query($sql) or die(mysql_error());
     }
 
+    require_once 'class/updateDbTable.class.php';
+
+    $udt = new updateDbTable($this->data['db_prefix'] .'_block');
+
     // Update BBcode
     // update 1.7.9 RC3
-    if (version_compare($this->data['version'], '1.7.9', '<=') && array_key_exists('content', $tableData)) {
-        $bbcode = $this->_loadBBcode();
-        $update[] = 'bbcode';
-        $fields[] = 'content';
+    if (version_compare($this->data['version'], '1.7.9', '<=') && $udt->fieldExist('content')) {
+        $udt->setCallbackFunctionVars(array('bbcode' => $this->_loadBBcode()))
+             ->updateFieldData('BBCODE', 'content');
     }
 
-    if (! empty($update)) {
-        $sql = 'SELECT bid, '. implode(', ', $fields) .'
-            FROM `'. $this->data['db_prefix'] .'_block`';
-        $dbsBlock = mysql_query($sql) or die(mysql_error());
-
-        while ($row = mysql_fetch_assoc($dbsBlock)) {
-            $data = $setFields = array();
-
-            if (in_array('bbcode', $update))
-                $setFields['content'] = $bbcode->apply(stripslashes($row['content']));
-
-            foreach ($setFields as $field)
-                $data[] = $field .' = \''. mysql_real_escape_string($row[$field]) .'\'';
-
-            $sql = 'UPDATE `'. $this->data['db_prefix'] .'_block`
-                SET '. implode(', ', $data) .'
-                WHERE bid = \''. $row['bid'] .'\'';
-            mysql_query($sql) or die(mysql_error());
-        }
-    }
-
-    if (! empty($update)) return 'UPDATED';
+    return $udt->execute('bid', 'updateBlockRow');
 }
-
-return 'NOTHING_TO_DO';
 
 ?>
