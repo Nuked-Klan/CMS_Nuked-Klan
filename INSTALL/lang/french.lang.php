@@ -227,7 +227,7 @@ return array(
     'EMAIL'                 => 'E-mail',
     'ERROR_NICKNAME'        => 'Le pseudo doit faire minimum 3 caractères et ne peut contenir les caractères suivants : $^()\'?%#\<>,;:',
     'ERROR_PASSWORD'        => 'Veuillez saisir un mot de passe.',
-    'ERROR_PASSWORD_CONFIRM' => 'Les mots de passes ne correspondent pas.',
+    'ERROR_PASSWORD_CONFIRM' => 'Les mots de passe ne correspondent pas.',
     'ERROR_EMAIL'           => 'Veuillez saisir un e-mail valide',
     #####################################
     # views/setAdminError.php

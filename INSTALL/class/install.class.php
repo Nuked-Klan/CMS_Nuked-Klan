@@ -982,7 +982,7 @@
 
             foreach ($this->_uploadDir as $uploadDir) {
                 @chmod('../'. $uploadDir, 0755);
-                $requirements['CHMOD_TEST_'. $uploadDir] = (is_writable('../')) ? 'enabled' : 'optional-disabled';
+                $requirements['CHMOD_TEST_'. $uploadDir] = (is_writable('../'. $uploadDir)) ? 'enabled' : 'optional-disabled';
             }
 
             return $requirements;
