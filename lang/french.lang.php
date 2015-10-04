@@ -266,7 +266,11 @@ define("_BTHEMESELECT", "Choix du thème");
 define("_SECURITYCODE","Code de sécurité");
 define("_TYPESECCODE","Recopiez le code ci-dessus");
 define("_BADCODECONFIRM","Le code de sécurité ne correspond pas !");
-define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, vous devez entrer un captcha !');
+define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, le captcha est d&eacute;sormais actif !');
+define('_CTNOTOKEN', 'Token introuvable !<br/>Veuillez utiliser le formulaire.');
+define('_CTBADTOKEN', 'Token incorrect !<br/>Veuillez utiliser le formulaire.');
+define('_CTBADJS', 'La validation javascript a &eacute;chou&eacute;e ! <br/>Veuillez activer javascript.');
+define('_CTBADFIELD', 'La validation antiRobot a &eacute;chou&eacute;e ! <br/>Veuillez utiliser le formulaire.');
 
 define("_DURE","Durée");
 define("_1JOUR","1 jour");

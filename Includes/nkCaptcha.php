@@ -54,7 +54,7 @@ function ValidCaptchaCode($code){
     return true;
 }
 
-function create_captcha($style){
+function create_captcha(){
     // Save token in session
     if (!array_key_exists('CT_TOKEN', $_SESSION) || empty($_SESSION['CT_TOKEN'])) {
         // Generate token code
