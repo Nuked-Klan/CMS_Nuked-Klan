@@ -2,36 +2,210 @@
 
 return array(
     #####################################
-    # install->main()
+    # bbcode->apply()
     #####################################
-    'CORRUPTED_CONF_INC'    => 'Corrupted conf.inc.php file, edit the conf.inc.php file.',
-    'DB_CONNECT_FAIL'       => 'Database connection failed !',
-    'DB_PREFIX_ERROR'       => 'The prefix is incorrect, edit the conf.inc.php file.',
-    'LAST_VERSION_SET'      => 'You already have the last version %s of Nuked-Klan',
-    'BAD_VERSION'           => 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version %s',
+    'CODE'                  => 'Code',
+    'QUOTE'                 => 'Quote',
+    'HAS_WROTE'             => 'has written',
     #####################################
-    # install->creatingDB()
+    # db->load()
     #####################################
-    'MISSING_FILE'          => 'Missing file : ',
+    'UNKNOW_DATABASE_TYPE'  => 'Unknow database type `%s`',
     #####################################
-    # install->_translateDbConnectError()
+    # dbMySQL->_getDbConnectError()
     #####################################
     'DB_HOST_ERROR'         => 'Please check the server mysql name.',
-    'DB_USER_ERROR'         => 'Please check the username and password.',
+    'DB_LOGIN_ERROR'        => 'Please check the username and password.',
     'DB_NAME_ERROR'         => 'Control your database name.',
     'DB_CHARSET_ERROR'      => 'Your database does not support %s charset',
     'DB_UNKNOW_ERROR'       => 'Unknow MySQL error',
+    #####################################
+    # dbTable->getFieldType()
+    #####################################
+    'FIELD_DONT_EXIST'      => 'Field `%s` don\'t exist',
+    #####################################
+    # dbTable->checkIntegrity()
+    #####################################
+    'MISSING_TABLE'         => 'Table `%s` don\'t exist',
+    'MISSING_FIELD'         => 'Missing `%s` field in `%s` table',
+    #####################################
+    # dbTable->checkAndConvertCharsetAndCollation()
+    #####################################
+    'CONVERT_CHARSET_AND_COLLATION' => '`%s` table convert to `%s` charset and `%s` collation',
+    #####################################
+    # dbTable->createTable()
+    #####################################
+    'CREATE_TABLE'          => 'Create `%s` table',
+    #####################################
+    # dbTable->renameTable()
+    #####################################
+    'RENAME_TABLE'          => '`%s` table renamed to `%s`',
+    #####################################
+    # dbTable->dropTable()
+    #####################################
+    'DROP_TABLE'            => 'Drop `%s` table if exists',
+    #####################################
+    # dbTable->addField()
+    #####################################
+    'FIELD_TYPE_NO_FOUND'   => '`%s` field type no found',
+    'ADD_FIELD'             => '`%s` field added to `%s` table',
+    #####################################
+    # dbTable->modifyField()
+    #####################################
+    'MODIFY_FIELD'          => '`%s` field modified in `%s` table',
+    #####################################
+    # dbTable->dropField()
+    #####################################
+    'DROP_FIELD'            => '`%s` field deleted in `%s` table',
+    #####################################
+    # dbTable->applyUpdateFieldListToData()
+    #####################################
+    'CALLBACK_UPDATE_FUNCTION_DONT_EXIST' => '`%s` callback update function don\'t exist',
+    #####################################
+    # install->main()
+    #####################################
+    'CORRUPTED_CONF_INC'    => 'Corrupted conf.inc.php file, edit the conf.inc.php file.',
+    'DB_PREFIX_ERROR'       => 'The prefix is incorrect, edit the conf.inc.php file.',// TODO : ou la table est manquante...
+    'LAST_VERSION_SET'      => 'You already have the last version %s of Nuked-Klan',
+    'BAD_VERSION'           => 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version %s',
+    #####################################
+    # install->runTableProcessAction()
+    #####################################
+    'MISSING_FILE'          => 'Missing file : ',
+    #####################################
+    # install->_formatSqlError()
+    #####################################
+    'DB_CONNECT_FAIL'       => 'Database connection failed !',
+    'FATAL_SQL_ERROR'       => 'An SQL error has occured<br />Error : %s',
     #####################################
     # install->_writeDefaultContent()
     #####################################
     'FIRST_NEWS_TITLE'      => 'Welcome to your NuKed-KlaN website %s',
     'FIRST_NEWS_CONTENT'    => 'Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a>.',
     #####################################
-    # install->_loadBBcode()
+    # processConfiguration->_check()
     #####################################
-    'CODE'                  => 'Code',
-    'QUOTE'                 => 'Quote',
-    'HAS_WROTE'             => 'has written',
+    'MISSING_CONFIG_KEY'    => 'Missing `%s` key in INSTALL/config.php file',
+    'CONFIG_KEY_MUST_BE_STRING' => 'Key `%s` must be a string',
+    'CONFIG_KEY_MUST_BE_ARRAY' => 'Key `%s` must be a array',
+    #####################################
+    # view::__construct()
+    #####################################
+    'VIEW_NO_FOUND'         => 'View file `%s` no found',
+    #####################################
+    # tables/table.block.c.i.u.php
+    #####################################
+    'INSERT_DEFAULT_DATA'   => 'Insert default data of `%s` table',
+    'APPLY_BBCODE'          => 'Apply BBcode to `%s` field',
+    'BLOCK_LOGIN'           => 'Login',
+    'NAV'                   => 'Menu',
+    'NAV_HOME'              => 'Home',
+    'NAV_NEWS'              => 'News',
+    'NAV_FORUM'             => 'Forum',
+    'NAV_DOWNLOAD'          => 'Downloads',
+    'NAV_TEAM'              => 'Team',
+    'NAV_MEMBERS'           => 'Members',
+    'NAV_DEFY'              => 'Challenge Us',
+    'NAV_RECRUIT'           => 'Recruitement',
+    'NAV_ART'               => 'Articles',
+    'NAV_SERVER'            => 'Servers',
+    'NAV_LINKS'             => 'Links',
+    'NAV_CALENDAR'          => 'Calendar',
+    'NAV_GALLERY'           => 'Gallery',
+    'NAV_MATCHS'            => 'Wars',
+    'NAV_ARCHIV'            => 'Archives',
+    'NAV_IRC'               => 'Irc',
+    'NAV_GUESTBOOK'         => 'Guestbook',
+    'NAV_SEARCH'            => 'Search',
+    'NAV_STRATS'            => 'Strats',
+    'MEMBER'                => 'Member',
+    'NAV_ACCOUNT'           => 'Account',
+    'ADMIN'                 => 'Admin',
+    'NAV_ADMIN'             => 'Administration',
+    'BLOCK_SEARCH'          => 'Search',
+    'POLL'                  => 'Surveys',
+    'BLOCK_STATS'           => 'Stats',
+    'IRC_AWARD'             => 'Irc Awards',
+    'SERVER_MONITOR'        => 'Server monitor',
+    'SUGGEST'               => 'Suggest',
+    'BLOCK_SHOUTBOX'        => 'Shoutbox',
+    'BLOCK_PARTNERS'        => 'Partners',
+    'GAME_SERVER_LOCATION'  => 'Game server location',// TODO A verifier
+    'INSERT_BLOCK'          => 'Add %s block',
+    #####################################
+    # tables/table.config.c.i.u.php
+    #####################################
+    'DELETE_CONFIG'         => 'Delete `%s` configuration in `%s` table',
+    'ADD_CONFIG'            => 'Add `%s` configuration in `%s` table',
+    'UPDATE_CONFIG'         => 'Update `%s` configuration in `%s` table',
+    #####################################
+    # tables/table.forums.c.i.u.php
+    #####################################
+    'FORUM'                 => 'Forum',
+    'TEST_FORUM'            => 'Test Forum',
+    'REMOVE_EDITOR'         => 'Remove editor',
+    #####################################
+    # tables/table.forums_cat.c.i.php
+    #####################################
+    'CATEGORY'              => 'Category',
+    #####################################
+    # tables/table.forums_rank.c.i.php
+    #####################################
+    'NEWBIE'                => 'Newbie',
+    'JUNIOR_MEMBER'         => 'Junior member',
+    'SENIOR_MEMBER'         => 'Senior member',
+    'POSTING_FREAK'         => 'Posting Freak',
+    'MODERATOR'             => 'Moderator',
+    'ADMINISTRATOR'         => 'Administrator',
+    #####################################
+    # table.forums_read.c.i.u.php
+    #####################################
+    // TODO ADD_FORUM_READ_DATA
+    #####################################
+    # tables/table.games.c.i.u.php
+    #####################################
+    'PREF_CS'               => 'CS Preferences',
+    'OTHER_NICK'            => 'Other Nick',
+    'FAV_MAP'               => 'Favorite Map',
+    'FAV_WEAPON'            => 'Favorite Weapon',
+    'SKIN_T'                => 'Terro Skin',
+    'SKIN_CT'               => 'CT Skin',
+    #####################################
+    # tables/table.match.c.i.u.php
+    #####################################
+    'UPDATE_FIELD'          => '`%s` field updated in `%s` table',
+    #####################################
+    # tables/table.modules.c.i.u.php
+    #####################################
+    'DELETE_MODULE'         => 'Delete %s module',
+    'ADD_MODULE'            => 'Add %s module',
+    #####################################
+    # tables/table.news_cat.c.i.php
+    #####################################
+    'BEST_MOD'              => 'The best MOD for Half-Life',
+    #####################################
+    # tables/table.notification.i.u.php
+    #####################################
+    'SUHOSIN'               => 'Be careful the PHP configuration of suhosin.session.encrypt is "On". Please check the documentation, in case of an issue.',
+    #####################################
+    # tables/table.smilies.c.i.u.php
+    #####################################
+    // TODO UPDATE_SMILIES
+    #####################################
+    # tables/table.sondage.c.i.php
+    #####################################
+    'LIKE_NK'               => 'Do you like Nuked-klan ?',
+    #####################################
+    # tables/table.sondage_data.c.i.php
+    #####################################
+    'ROXX'                  => 'it\'s great, carry on!',
+    'NOT_BAD'               => 'I guess it\'s alright',
+    'SHIET'                 => 'it sucks, stop it!',
+    'WHATS_NK'              => 'What\'s nuked-klan?',
+    #####################################
+    # tables/table.users.c.i.u.php
+    #####################################
+    'UPDATE_PASSWORD'       => 'Password of `%s` field updated in `%s` table',
     #####################################
     # views/changelog.php
     #####################################
@@ -79,7 +253,7 @@ return array(
     'GD_EXT'                => 'GD extension',
     'GD_EXT_ERROR'          => 'Erreur GD',
     'CHMOD_TEST'            => 'Testing of CHMOD',
-    'CHMOD_TEST_ERROR'      => 'Erreur chmod',
+    'CHMOD_TEST_ERROR'      => 'Error chmod %s',
     'BAD_HOSTING'           => 'Your hosting is not compatible with the new version of Nuked-Klan.',
     'FORCE'                 => 'Force the installation',
     #####################################
@@ -90,23 +264,16 @@ return array(
     'CONFIRM_STATS'         => 'Yes, I authorize the sending of anonymous statistical to Nuked-Klan',
     'CONFIRM'               => 'Confirm',
     #####################################
-    # views/chooseSendStats.php
+    # views/cleaningFiles.php
     #####################################
     'DEPRECATED_FILES'      => 'Deprecated files detected',
     'CLEANING_FILES'        => 'One or many deprecated files cannot be deleted.<br />Please manually delete the following files :',
-    #####################################
-    # views/confIncFailure.php
-    #####################################
-    'ERROR'                 => 'An error has occured !!!',
-    'WEBSITE_DIRECTORY_CHMOD' => 'Can\'t write in Nuked-Klan directory<br/>Please update manually CHMOD <strong>0755</strong> on this directory.',
-    'CONF_INC_CHMOD_ERROR'  => 'Can\'t change CHMOD file rights conf.inc.php<br/>Please update manually CHMOD <strong>%s</strong> on this file.',
-    'WRITE_CONF_INC_ERROR'  => 'There was an error in the file generation conf.inc.php',
-    'COPY_CONF_INC_ERROR'   => 'Can not create file backup conf.inc.php<br/>Please download the file and save it manually.',
-    'DOWNLOAD'              => 'Download',
-    'BACK'                  => 'Back',
+    'RETRY'                 => 'Retry',
     #####################################
     # views/fatalError.php
     #####################################
+    'ERROR'                 => 'An error has occured !!!',
+    'BACK'                  => 'Back',
     'REFRESH'               => 'Refresh',
     #####################################
     # views/fullPage.php
@@ -138,28 +305,6 @@ return array(
     #####################################
     'NO_PARTNERS'           => 'An error occurred while retrieving the list of partners ...',
     #####################################
-    # views/installDB.php
-    #####################################
-    'CREATE_DB'             => 'Creating the database',
-    'UPDATE_DB'             => 'Updating the Database',
-    'WAITING'               => 'Click Start to begin ...',
-    'CREATED_TABLE_SUCCESS'       => 'successfully created.',
-    'UPDATE_TABLE_SUCCESS'        => 'successfully updated.',
-    'REMOVE_TABLE_SUCCESS'        => 'successfully removed.',
-    'NOTHING_TO_DO'         => 'Nothing to do.',
-    'STEP'                  => 'Step',
-    'STARTING_INSTALL'      => 'Starting the installation.',
-    'STARTING_UPDATE'       => 'Starting the update.',
-    'INSTALL_SUCCESS'       => 'Installation is complete! All tables have been created.',
-    'UPDATE_SUCCESS'        => 'The update is complete! All tables have been changed.',
-    'INSTALL_FAILED'        => 'Installation is complete! But errors occurred, %d tables were not created.',
-    'UPDATE_FAILED'         => 'The update is complete! But errors occurred, %d tables have not changed.',
-    'PRINT_ERROR'           => ' - Error :',
-    'CREATED_TABLE_ERROR'   => 'An error occurred while creating the table',
-    'UPDATE_TABLE_ERROR'    => 'An error occurred when editing the table',
-    'RETRY'                 => 'Retry',
-    'START'                 => 'Start',
-    #####################################
     # views/installSuccess.php
     #####################################
     'INSTALL_SUCCESS'       => 'Installation is complete',
@@ -181,6 +326,13 @@ return array(
     'DELETE_TURKISH_FILE'   => 'Can\'t delete file. Please delete it manually and check again if it is present.<br/>&nbsp;File: / modules/404/lang.turkish.lang.php',
     'CHECK_AGAIN'           => 'Check again',
     #####################################
+    # views/runProcess.php
+    #####################################
+    'CREATE_DB'             => 'Creating the database',
+    'UPDATE_DB'             => 'Updating the Database',
+    'WAITING'               => 'Click Start to begin ...',
+    'START'                 => 'Start',
+    #####################################
     # views/selectLanguage.php
     #####################################
     'FRENCH'                => 'French',
@@ -199,10 +351,6 @@ return array(
     #####################################
     'TO_SAVE'               => 'Save',
     'SAVE_YOUR_DATABASE'    => 'You can save your database by clicking the link below.',
-    //'SAVE'                  => 'Backup',
-    //'_NOTHANKS', 'No thanks!',
-    //'_DBSAVED', 'Database saved',
-    //'_DBSAVEDTXT', 'Your database has been saved, you can download it here :',
     #####################################
     # views/setConfig.php
     #####################################
@@ -225,105 +373,68 @@ return array(
     'PASSWORD'              => 'Password',
     'PASSWORD_CONFIRM'      => 'Password (confirm)',
     'EMAIL'                 => 'Email',
-    'ERROR_NICKNAME'        => 'The nickname must be a minimum of 3 characters and can\'t contain the following characters: $^()\'?%#\<>,;:',
-    'ERROR_PASSWORD'        => 'Please enter a password.',
-    'ERROR_PASSWORD_CONFIRM' => 'Passwords do not match.',
-    'ERROR_EMAIL'           => 'Please enter a valid mail',
     #####################################
     # views/setAdminError.php
     #####################################
     'ERROR_FIELDS'          => 'You have not filled the form fields.',
-    #####################################
-    # tables/table.block.install.update.inc
-    #####################################
-    'BLOCK_LOGIN'           => 'Login',
-    'NAV'                   => 'Menu',
-    'NAV_HOME'              => 'Home',
-    'NAV_NEWS'              => 'News',
-    'NAV_FORUM'             => 'Forum',
-    'NAV_DOWNLOAD'          => 'Downloads',
-    'NAV_TEAM'              => 'Team',
-    'NAV_MEMBERS'           => 'Members',
-    'NAV_DEFY'              => 'Challenge Us',
-    'NAV_RECRUIT'           => 'Recruitement',
-    'NAV_ART'               => 'Articles',
-    'NAV_SERVER'            => 'Servers',
-    'NAV_LINKS'             => 'Links',
-    'NAV_CALENDAR'          => 'Calendar',
-    'NAV_GALLERY'           => 'Gallery',
-    'NAV_MATCHS'            => 'Wars',
-    'NAV_ARCHIV'            => 'Archives',
-    'NAV_IRC'               => 'Irc',
-    'NAV_GUESTBOOK'         => 'Guestbook',
-    'NAV_SEARCH'            => 'Search',
-    'NAV_STRATS'            => 'Strats',
-    'MEMBER'                => 'Member',
-    'NAV_ACCOUNT'           => 'Account',
-    'ADMIN'                 => 'Admin',
-    'NAV_ADMIN'             => 'Administration',
-    'BLOCK_SEARCH'          => 'Search',
-    'POLL'                  => 'Surveys',
-    'BLOCK_STATS'           => 'Stats',
-    'IRC_AWARD'             => 'Irc Awards',
-    'SERVER_MONITOR'        => 'Server monitor',
-    'SUGGEST'               => 'Suggest',
-    'BLOCK_SHOUTBOX'        => 'Shoutbox',
-    'BLOCK_PARTNERS'        => 'Partners',
-    'GAME_SERVER_LOCATION'  => 'Game server location',// TODO A verifier
-    #####################################
-    # tables/table.comment.install.update.inc
-    #####################################
-    'MISSING_FIELD'         => 'Missing `%s` field in `%s` table',
-    #####################################
-    # tables/table.forums.install.inc
-    #####################################
-    'CATEGORY'              => 'Category',
-    #####################################
-    # tables/table.forums_cat.install.update.inc
-    #####################################
-    'FORUM'                 => 'Forum',
-    'TEST_FORUM'            => 'Test Forum',
-    #####################################
-    # tables/table.forums_rank.install.inc
-    #####################################
-    'NEWBIE'                => 'Newbie',
-    'JUNIOR_MEMBER'         => 'Junior member',
-    'SENIOR_MEMBER'         => 'Senior member',
-    'POSTING_FREAK'         => 'Posting Freak',
-    'MODERATOR'             => 'Moderator',
-    'ADMINISTRATOR'         => 'Administrator',
-    #####################################
-    # tables/table.games.install.update.inc
-    #####################################
-    'PREF_CS'               => 'CS Preferences',
-    'OTHER_NICK'            => 'Other Nick',
-    'FAV_MAP'               => 'Favorite Map',
-    'FAV_WEAPON'            => 'Favorite Weapon',
-    'SKIN_T'                => 'Terro Skin',
-    'SKIN_CT'               => 'CT Skin',
-    #####################################
-    # tables/table.news_cat.install.inc
-    #####################################
-    'BEST_MOD'              => 'The best MOD for Half-Life',
-    #####################################
-    # tables/table.notification.install.inc
-    #####################################
-    'SUHOSIN'               => 'Be careful the PHP configuration of suhosin.session.encrypt is "On". Please check the documentation, in case of an issue.',
-    #####################################
-    # tables/table.sondage.install.inc
-    #####################################
-    'LIKE_NK'               => 'Do you like Nuked-klan ?',
-    #####################################
-    # tables/table.sondage_data.install.inc
-    #####################################
-    'ROXX'                  => 'it\'s great, carry on!',
-    'NOT_BAD'               => 'I guess it\'s alright',
-    'SHIET'                 => 'it sucks, stop it!',
-    'WHATS_NK'              => 'What\'s nuked-klan?',
-    #####################################
-    # tables/table.smilies.install.update.inc
-    #####################################
     
+    
+    #####################################
+    # media/js/runProcess.js
+    #####################################
+    'CHECK_TABLE_INTEGRITY' => 'Check <b>%s</b> table integrity',
+    'SUCCESS'               => 'Success',
+    'FAILURE'               => 'Failure',
+    'CONVERTED_TABLE_SUCCESS' => 'Table <b>%s</b> successfully converted.',
+    
+    'CREATED_TABLE_SUCCESS' => 'Table <b>%s</b> successfully created.',
+    'UPDATE_TABLE_SUCCESS'  => 'Table <b>%s</b> successfully updated.',
+    'REMOVE_TABLE_SUCCESS'  => 'Table <b>%s</b> successfully removed.',
+    
+    'NOTHING_TO_CHECK'      => 'Nothing to check in <b>%s</b> table',
+    'NO_CONVERT_TABLE'      => 'No conversion to the <b>%s</b> table',
+    'NOTHING_TO_DO'         => 'Nothing to do for <b>%s</b> table',
+    'CHECK_ALL_TABLE_INTEGRITY' => 'Check all table integrity',
+    'CHECK_TABLE_CHARSET'   => 'Check table charset',
+    'CHECK_INTEGRITY_FAILED' => 'There are %d tables corrupted',
+    'TABLE_CONVERTION'      => 'All table conversion',
+    'CONVERTED_TABLE_FAILED' => 'There are %d tables not converted',
+    'INSTALL_SUCCESS'       => 'Installation is complete! All tables have been created.',
+    'UPDATE_SUCCESS'        => 'The update is complete! All tables have been changed.',
+    'INSTALL_FAILED'        => 'Installation is complete! But errors occurred, %d tables were not created.',
+    'UPDATE_FAILED'         => 'The update is complete! But errors occurred, %d tables have not changed.',
+    'PRINT_ERROR'           => ' - Error :',
+    'STEP'                  => 'Step',
+    'CHECK_TABLE_INTEGRITY_ERROR' => 'An error occurred when checking the table',
+    'CREATED_TABLE_ERROR'   => 'An error occurred while creating the table',
+    'UPDATE_TABLE_ERROR'    => 'An error occurred when editing the table',
+    'STARTING_INSTALL'      => 'Starting the installation.',
+    'STARTING_UPDATE'       => 'Starting the update.',
+    #####################################
+    # media/js/setUserAdmin.js
+    #####################################
+    'ERROR_NICKNAME'        => 'The nickname must be a minimum of 3 characters and can\'t contain the following characters: $^()\'?%#\<>,;:',
+    'ERROR_PASSWORD'        => 'Please enter a password.',
+    'ERROR_PASSWORD_CONFIRM' => 'Passwords do not match.',
+    'ERROR_EMAIL'           => 'Please enter a valid mail',
+    
+    
+    
+    #####################################
+    # views/confIncFailure.php
+    #####################################
+    'WEBSITE_DIRECTORY_CHMOD' => 'Can\'t write in Nuked-Klan directory<br/>Please update manually CHMOD <strong>0755</strong> on this directory.',
+    'CONF_INC_CHMOD_ERROR'  => 'Can\'t change CHMOD file rights conf.inc.php<br/>Please update manually CHMOD <strong>%s</strong> on this file.',
+    'WRITE_CONF_INC_ERROR'  => 'There was an error in the file generation conf.inc.php',
+    'COPY_CONF_INC_ERROR'   => 'Can not create file backup conf.inc.php<br/>Please download the file and save it manually.',
+    'DOWNLOAD'              => 'Download',
+    # views/runProcess.php
+    //'NOTHING_TO_MODIFY'     => 'Nothing to modify in <b>%s</b> table',
+    # views/selectSaveBdd.php
+    //'SAVE'                  => 'Backup',
+    //'_NOTHANKS', 'No thanks!',
+    //'_DBSAVED', 'Database saved',
+    //'_DBSAVEDTXT', 'Your database has been saved, you can download it here :',
 );
 
 /*

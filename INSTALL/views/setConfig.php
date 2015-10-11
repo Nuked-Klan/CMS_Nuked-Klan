@@ -35,7 +35,7 @@
 ?>
 
 <?php /*
-                            <label for="form_bdd_database_type"><strong><?php echo _DBTYPE ?></strong></label>
+                            <label for="form_bdd_database_type"><strong><?php echo $i18n['DB_TYPE'] ?></strong></label>
                             <select id="form_bdd_database_type">
 <?php
     foreach ($databaseTypeList as $k => $v) :
@@ -48,7 +48,7 @@
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo _INSTALLDBTYPE ?></p>
+                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_TYPE'] ?></p>
 <?php
     endif
 ?>
@@ -82,17 +82,7 @@
                     <script type="text/javascript">
                     //<![CDATA[
                     $('#submit').click(function() {
-                        return checkConfigForm(
-                            '<?php echo $process ?>',
-                            'form_config',
-                            '<?php echo addslashes($i18n['WAIT']) ?>',
-                            '<?php echo addslashes($i18n['DB_CONNECT_FAIL']) ?>',
-                            '<?php echo addslashes($i18n['DB_HOST_ERROR']) ?>',
-                            '<?php echo addslashes($i18n['DB_USER_ERROR']) ?>',
-                            '<?php echo addslashes($i18n['DB_NAME_ERROR']) ?>',
-                            '<?php echo addslashes($i18n['DB_PREFIX_ERROR']) ?>',
-                            '<?php echo addslashes($i18n['DB_CHARSET_ERROR']) ?>'
-                        );
+                        return checkConfigForm('<?php echo $process ?>');
                     });
                     //]]>
                     </script>
