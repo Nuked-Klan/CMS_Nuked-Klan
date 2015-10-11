@@ -12,7 +12,9 @@ if (!defined("INDEX_CHECK")){
 }
 
 function affich_block_login($blok){
-    global $user, $nuked, $bgcolor3, $bgcolor1 ;
+    global $user, $nuked, $bgcolor3, $bgcolor1;
+
+    $captcha = initCaptcha();
 
     list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']);
     $blok['content'] = '';
@@ -25,8 +27,12 @@ function affich_block_login($blok){
 			. '<table style="margin-left: auto;margin-right: auto;text-align: left;">'."\n"
 			. '<tr><td>' . _NICK . ' :</td><td><input type="text" name="pseudo" size="10" maxlength="250" /></td></tr>'."\n"
 			. '<tr><td>' . _PASSWORD . ' :</td><td><input type="password" name="pass" size="10" maxlength="15" /></td></tr>'."\n"
-			. '<tr><td colspan="2"><input type="checkbox" class="checkbox" name="remember_me" value="ok" checked="checked" />&nbsp;' . _SAVE . '</td></tr>'."\n"
-			. '<tr><td colspan="2" align="center"><input type="submit" value="' . _BLOGIN . '" /></td></tr>'."\n"
+			. '<tr><td colspan="2"><input type="checkbox" class="checkbox" name="remember_me" value="ok" checked="checked" />&nbsp;' . _SAVE . '</td></tr><tr><td colspan="2" align="center">'."\n";
+
+            if((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true)|| $captcha === true){
+                $blok['content'] .= create_captcha();
+            }
+			$blok['content'] .= '<input type="submit" value="' . _BLOGIN . '" /></td></tr>'."\n"
 			. '<tr><td colspan="2"><a href="index.php?file=User&amp;op=reg_screen">' . _REGISTER . '</a><br />'."\n"
 			. '<a href="index.php?file=User&amp;op=oubli_pass">' . _FORGETPASS . '</a> ?</td></tr></table></form>'."\n";
 		}
