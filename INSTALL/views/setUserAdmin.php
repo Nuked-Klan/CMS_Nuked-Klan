@@ -4,10 +4,10 @@
                         <div id="config" >
                             <label for="nickname"><strong><?php echo $i18n['NICKNAME'] ?></strong></label>
                             <input type="text" id="nickname" name="nickname" value="" onblur="checkUserAdminInput($(this));" />
-                            <label for="pass"><strong><?php echo $i18n['PASSWORD'] ?></strong></label>
-                            <input type="password" id="pass" name="pass" value="" onblur="checkUserAdminInput($(this));" />
-                            <label for="passConfirm"><strong><?php echo $i18n['PASSWORD_CONFIRM'] ?></strong></label>
-                            <input type="password" id="passConfirm" name="passConfirm" value="" onblur="checkUserAdminInput($(this));" />
+                            <label for="password"><strong><?php echo $i18n['PASSWORD'] ?></strong></label>
+                            <input type="password" id="password" name="password" value="" onblur="checkUserAdminInput($(this));" />
+                            <label for="passwordConfirm"><strong><?php echo $i18n['PASSWORD_CONFIRM'] ?></strong></label>
+                            <input type="password" id="passwordConfirm" name="passwordConfirm" value="" onblur="checkUserAdminInput($(this));" />
                             <label for="mail"><strong><?php echo $i18n['EMAIL'] ?></strong></label>
                             <input type="text" id="mail" name="mail" value="" onblur="checkUserAdminInput($(this));" />
                         </div>

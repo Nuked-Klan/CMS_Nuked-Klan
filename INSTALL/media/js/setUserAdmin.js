@@ -7,16 +7,16 @@ function addUserAdminInputError(input, errorMsg) {
 }
 
 function checkUserAdminForm() {
-    var nickname        = $('input[name="pseudo"]'),
-        password        = $('input[name="pass"]'),
-        passConfirm     = $('input[name="pass2"]'),
+    var nickname        = $('input[name="nickname"]'),
+        password        = $('input[name="password"]'),
+        passwordConfirm = $('input[name="passwordConfirm"]'),
         mail            = $('input[name="mail"]'),
         regNickname     = new RegExp('[\$\^\(\)\'"?%#<>,;:]'),
         regMail         = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i'),
-        nicknameVal     = $.trim(nickname.val()),
-        passwordVal     = $.trim(password.val()),
-        passConfirmVal  = $.trim(passwordConfirm.val()),
-        mailVal         = $.trim(mail.val());
+        nicknameVal         = $.trim(nickname.val()),
+        passwordVal         = $.trim(password.val()),
+        passwordConfirmVal  = $.trim(passwordConfirm.val()),
+        mailVal             = $.trim(mail.val());
 
     $('#infos').html('&nbsp;');
 
@@ -28,7 +28,7 @@ function checkUserAdminForm() {
     else if (passwordVal == '') {
         addUserAdminInputError(password, i18n.error_password);
     }
-    else if (passConfirmVal == '' || passwordVal != passConfirmVal) {
+    else if (passwordConfirmVal == '' || passwordVal != passwordConfirmVal) {
         addUserAdminInputError(passConfirm, i18n.error_password_confirm);
     }
     else if (! regMail.test(mailVal) || mailVal == '') {

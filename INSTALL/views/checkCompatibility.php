@@ -63,9 +63,13 @@
                             <td colspan="<?php echo $nbColspan ?>" class="<?php echo ($requirement == 'optional-disabled') ? 'warning' : 'error' ?>_compatibility">
 <?php
             if (strpos($extensionName, 'CHMOD_TEST') !== false) :
+                if ($dir == 'WEBSITE_DIRECTORY') :
 ?>
-                                <?php echo sprintf($i18n['CHMOD_TEST_ERROR'], substr(sprintf('%o', fileperms('../'. $dir)), -4)) ?>
-<?php
+                                <?php echo sprintf($i18n['CHMOD_TEST_ERROR'], substr(sprintf('%o', fileperms('../')), -4));
+
+                else : ?>
+                                <?php echo sprintf($i18n['CHMOD_TEST_ERROR'], substr(sprintf('%o', fileperms('../'. $dir)), -4));
+                endif;
             else :
 ?>
                                 <?php echo $i18n[$extensionName .'_ERROR'] ?>

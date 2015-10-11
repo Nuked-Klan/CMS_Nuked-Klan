@@ -506,16 +506,16 @@ class process {
      * Check user admin data and save it, generate conf.inc file for install process
      */
     public function saveUserAdmin() {
-        if (! isset($_POST['nickname'], $_POST['pass'], $_POST['passConfirm'], $_POST['mail'])
+        if (! isset($_POST['nickname'], $_POST['password'], $_POST['passwordConfirm'], $_POST['mail'])
             || strlen($_POST['nickname']) < 3 || preg_match('`[\$\^\(\)\'"?%#<>,;:]`', $_POST['nickname'])
-            || $_POST['pass'] != $_POST['passConfirm']
+            || $_POST['password'] != $_POST['passwordConfirm']
             || ! preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/', $_POST['mail'])
         ) {
             $this->_view = new view('userAdminError');
         }
         else {
             if (! isset($this->_session['defaultContent'])) {
-                $this->_writeDefaultContent($_POST['nickname'], $_POST['pass'], $_POST['mail']);
+                $this->_writeDefaultContent($_POST['nickname'], $_POST['password'], $_POST['mail']);
 
                 $this->_session['defaultContent'] = true;
             }
