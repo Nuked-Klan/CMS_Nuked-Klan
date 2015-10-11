@@ -20,10 +20,7 @@ include("modules/Forum/template.php");
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -256,14 +253,11 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "</td></tr>\n";
-
-        if ($captcha == 1)
-        {
-                echo "<tr><td style=\"width: 25%;background: " . $color1 . ";\" valign=\"top\"><big><b>" . _SECURITYCODE . "</b></big></td><td style=\"width: 75%;background: " . $color2 . ";\"><table>";
-                
-                create_captcha(1);
-
-                echo "</table><br /></td></tr>\n";
+        
+        if ($GLOBALS['captcha'] === true) {
+           echo "<tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">";
+           echo create_captcha();
+           echo "</td></tr>\n";
         }
 
         echo" <tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">"

@@ -14,10 +14,7 @@ translate('modules/Defy/lang/' . $language . '.lang.php');
 // Inclusion système Captcha
 include_once 'Includes/nkCaptcha.php';
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -44,7 +41,7 @@ if ($visiteur >= $level_access && $level_access > -1){
     }
 
     function form(){
-        global $nuked, $user, $language, $captcha;
+        global $nuked, $user, $language;
 
         define('EDITOR_CHECK', 1);
 
@@ -146,21 +143,20 @@ if ($visiteur >= $level_access && $level_access > -1){
                 . "<tr><td style=\"width: 20%;\"><b>" . _TYPE . " : </b></td><td><input type=\"text\" name=\"type\" value=\"\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _MAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+                
+        echo "<tr><td colspan=\"2\" align=\"center\">";
 
-        if ($captcha == 1) create_captcha(2);
+        if ($GLOBALS['captcha'] === true) echo create_captcha();
 
-        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
+        echo "<input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
     }
 
     function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $heure, $game, $serveur, $type, $map, $comment){
-        global $nuked, $captcha;
+        global $nuked;
 
         // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm'])){
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a><br /><br /></div>";
-            closetable();
-            footer();
-            exit();
+        if ($GLOBALS['captcha'] === true) {
+            ValidCaptchaCode();
         }
 
         $email = $nuked['defie_mail'];

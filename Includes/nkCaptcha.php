@@ -18,7 +18,7 @@ define("_NKCAPTCHA","auto");
 * @param string $code
 * @return bool
 **/
-function ValidCaptchaCode($code){
+function ValidCaptchaCode($code = null){
 	global $user;
 	return _NKCAPTCHA == 'off' || ($user != null && $user[1] > 0) || strtolower($GLOBALS['nkCaptchaCache']) == strtolower($code);
 	

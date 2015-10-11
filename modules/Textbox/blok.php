@@ -19,10 +19,7 @@ include("modules/Textbox/config.php");
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 if ($user)
 {
@@ -78,6 +75,14 @@ return string.replace(/(^\s*)|(\s*$)/g,'');
 }
 function maFonctionAjax(auteur,texte,code)
 {
+    <?php
+        if($GLOBALS['captcha'] === true){
+            echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
+        }
+        else{
+            echo 'var captchaData = "";';
+        }
+    ?>
 	if (trim(document.getElementById('textbox_auteur').value) == "")
 	{
 	alert('<?php echo _NONICKNAME; ?>');
@@ -119,7 +124,7 @@ function maFonctionAjax(auteur,texte,code)
   }
   	texte = encodeURIComponent(texte);
 	OAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=iso-8859-1');
-	OAjax.send('auteur='+auteur+'&texte='+texte+'&code_confirm='+code+'');
+	OAjax.send('auteur='+auteur+'&texte='+texte+captchaData);
 	return true;
 }
 -->
@@ -183,7 +188,7 @@ if ($active == 3 || $active == 4)
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"50\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br />\n";
 
-		if ($captcha == 1) create_captcha(3);
+		if ($GLOBALS['captcha'] === true) echo create_captcha();
 		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "<br /><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
@@ -208,7 +213,7 @@ else
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
 
-	if ($captcha == 1) create_captcha(2);
+	if ($GLOBALS['captcha'] === true) echo create_captcha();
 	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"

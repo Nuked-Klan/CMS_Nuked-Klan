@@ -15,10 +15,7 @@ translate('modules/Contact/lang/' . $language . '.lang.php');
 // Inclusion système Captcha
 include_once('Includes/nkCaptcha.php');
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -27,7 +24,7 @@ $visiteur = ($user) ? $user[1] : 0;
 $level_access = nivo_mod(basename(dirname(__FILE__)));
 if ($visiteur >= $level_access && $level_access > -1){
     function index(){
-        global $captcha, $user;
+        global $user;
 
         define('EDITOR_CHECK', 1);
 
@@ -64,21 +61,18 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         // Affichage du Captcha.
         echo '<div style="text-align: center">',"\n";
-        if ($captcha == 1) create_captcha(3);
+        if ($GLOBALS['captcha'] === true) echo create_captcha();
         echo '</div>',"\n";
 
         echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
     }
 
     function sendmail(){
-        global $nuked, $user_ip, $captcha, $user;
+        global $nuked, $user_ip, $user;
 
         // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm'])){
-            echo '<div style="text-align: center; padding: 20px 0;">' . _BADCODECONFIRM . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></div>';
-            closetable();
-            footer();
-            exit();
+        if ($GLOBALS['captcha'] === true){
+            ValidCaptchaCode();
         }
 
         if (!$_REQUEST['mail'] || !$_REQUEST['sujet'] || !$_REQUEST['corps']){

@@ -17,10 +17,7 @@ translate('modules/Members/lang/' . $language . '.lang.php');
 include_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 function index(){
     global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -214,7 +211,7 @@ function index(){
 }
 
 function reg_screen(){
-    global $nuked, $user, $language, $captcha;
+    global $nuked, $user, $language;
 
     if ($user){
         redirect("index.php?file=User&op=edit_account", 0);
@@ -334,7 +331,7 @@ function reg_screen(){
 
             echo "</select></td></tr>\n";
 
-            if ($captcha == 1) create_captcha(2);
+            if ($GLOBALS['captcha'] === true) echo create_captcha();
 
             echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                     . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _USERREGISTER . "\" /></td></tr></table></form><br />\n";
@@ -873,7 +870,9 @@ function login_screen(){
                 . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass\" size=\"15\" maxlength=\"15\" /></td></tr>\n"
                 . "<input type=\"hidden\" name=\"erreurr\" value=\"".$error."\" size=\"15\" maxlength=\"15\" />\n";
                 
-        if ($_REQUEST['captcha'] == 'true') create_captcha(1);
+        if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true)|| $GLOBALS['captcha'] === true) {
+            echo create_captcha();
+        }
         
         echo "<tr><td colspan=\"2\"><input type=\"checkbox\" class=\"checkbox\" name=\"remember_me\" value=\"ok\" checked=\"checked\" /><small>&nbsp;" . _REMEMBERME . "</small></td></tr>\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _TOLOG . "\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
@@ -884,15 +883,10 @@ function login_screen(){
 }
 
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
-    global $nuked, $captcha, $cookie_forum, $user_ip;
+    global $nuked, $cookie_forum, $user_ip;
 
-    // Verification code captcha
-    if (!ValidCaptchaCode($_REQUEST['code_confirm'])){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-        closetable();
-        footer();
-        exit();
-    }
+    // Captcha checking
+    ValidCaptchaCode();
     
     $pseudo = htmlentities($pseudo, ENT_QUOTES);
     
@@ -1082,7 +1076,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 }
 
 function login($pseudo, $pass, $remember_me){
-    global $captcha, $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
+    global $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
     $cookiename = $nuked['cookiename'];
 
     $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES) . "'");
@@ -1091,32 +1085,31 @@ function login($pseudo, $pass, $remember_me){
     if($check > 0){
         list($id_user, $dbpass, $usertheme, $userlang, $niveau, $count) = mysql_fetch_array($sql);
 
-        // Verification code captcha
-        if (!ValidCaptchaCode($_REQUEST['code_confirm']) && $count >= 3){
-            if (empty($_REQUEST['code_confirm'])) $msg_error = _MSGCAPTCHA;
-            else $msg_error = _BADCODECONFIRM;
-
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                    . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
-                    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                    . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                    . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                    . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . $msg_error . "</td></tr></table></body></html>";
-            
-            $url = "index.php?file=User&op=login_screen&captcha=true";
-            $captcha = '&captcha=true';
-            redirect($url, 2);
-            exit();
-        }
-        else{
-            $captcha = '';
+        if ($count >= 3) {
+            // Si un visiteur a fait 3 mauvais login
+            if(!isset($_SESSION['captcha'])){
+                $_SESSION['captcha'] = true;
+                echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+                        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                        . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
+                        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
+                        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
+                        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
+                        . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
+                        . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
+                        . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _MSGCAPTCHA . "</td></tr></table></body></html>";
+                
+                $url = "index.php?file=User&op=login_screen";
+                redirect($url, 2);
+                exit();
+            }
+            else{
+                ValidCaptchaCode();
+            }
         }
         if ($pseudo == "" || $pass == ""){
             $error = 1;
-            $url = "index.php?file=User&op=login_screen&error=" . $error . $captcha;
+            $url = "index.php?file=User&op=login_screen&error=" . $error;
             redirect($url, 0);
         }
 
@@ -1125,7 +1118,7 @@ function login($pseudo, $pass, $remember_me){
                 $error = 2;
                 $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
                 $req = mysql_query($sql);
-                $url = "index.php?file=User&op=login_screen&error=" . $error . $captcha;
+                $url = "index.php?file=User&op=login_screen&error=" . $error;
                 redirect($url, 0);
             }
             else{
@@ -1150,6 +1143,7 @@ function login($pseudo, $pass, $remember_me){
                 else $redirect = '';
 
                 $_SESSION['admin'] = false;
+                unset($_SESSION['captcha']);
                 $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $id_user . $redirect;
                 redirect($url, 0);
             }

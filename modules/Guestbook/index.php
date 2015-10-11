@@ -18,10 +18,7 @@ translate("modules/Guestbook/lang/" . $language . ".lang.php");
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 $visiteur = (!$user) ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
@@ -32,7 +29,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function post_book()
     {
-        global $user, $nuked, $captcha;
+        global $user, $nuked;
 
 		define('EDITOR_CHECK', 1);
 
@@ -78,7 +75,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
-		if ($captcha == 1) create_captcha(2);
+		if ($GLOBALS['captcha'] === true) {
+		    echo create_captcha();
+	    }
 
 
 		echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
@@ -90,17 +89,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function send_book($name, $email, $url, $comment)
     {
-        global $user, $nuked, $user_ip, $captcha;
+        global $user, $nuked, $user_ip;
 
         opentable();
 
         // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-            closetable();
-            footer();
-            exit();
+        if ($GLOBALS['captcha'] === true){
+            ValidCaptchaCode();
         }
 
         if ($user[2] != "")

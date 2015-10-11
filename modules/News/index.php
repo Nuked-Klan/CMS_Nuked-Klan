@@ -15,9 +15,7 @@ translate('modules/News/lang/' . $language . '.lang.php');
 
 include_once 'Includes/nkCaptcha.php';
 
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0) $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 $visiteur = $user ? $user[1] : 0;
 
@@ -253,7 +251,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
 
     function sendfriend($news_id) {
-        global $nuked, $user, $captcha;
+        global $nuked, $user;
 
         opentable();
 
@@ -270,7 +268,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
               <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
               <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
 
-        if ($captcha == 1) create_captcha(1);
+        if ($GLOBALS['captcha'] === true) echo create_captcha();
 
         echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
               <input type="hidden" name="news_id" value="'.$news_id.'" />
@@ -281,12 +279,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
     }
 
     function sendnews($title, $news_id, $comment, $mail, $pseudo) {
-        global $nuked, $captcha,$user_ip;
+        global $nuked, $user_ip;
 
         opentable();
 
-        if ($captcha == 1 && !ValidCaptchaCode($_POST['code_confirm'])) {
-            echo '<div style="text-align:center;"><br /><br />'._BADCODECONFIRM.'<br /><br /><a href="javascript:history.back()">[ <b>'._BACK.'</b> ]</a></div>';
+        if ($GLOBALS['captcha'] === true){
+            ValidCaptchaCode();
         } else {
             $date2 = time();
             $date2 = nkDate($date2);
