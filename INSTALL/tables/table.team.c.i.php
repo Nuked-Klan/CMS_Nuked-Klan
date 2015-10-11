@@ -1,0 +1,39 @@
+<?php
+
+$dbTable->setTable($this->_session['db_prefix'] .'_team');
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Check table integrity
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'checkIntegrity') {
+    // table exist in 1.6.x version
+    $dbTable->checkIntegrity();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Convert charset and collation
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'checkAndConvertCharsetAndCollation')
+    $dbTable->checkAndConvertCharsetAndCollation();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table creation
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'install') {
+    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_team` (
+            `cid` int(11) NOT NULL auto_increment,
+            `titre` varchar(50) NOT NULL default \'\',
+            `tag` text NOT NULL,
+            `tag2` text NOT NULL,
+            `ordre` int(5) NOT NULL default \'0\',
+            `game` int(11) NOT NULL default \'0\',
+            PRIMARY KEY  (`cid`)
+        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
+
+    $dbTable->dropTable()->createTable($sql);
+}
+
+?>

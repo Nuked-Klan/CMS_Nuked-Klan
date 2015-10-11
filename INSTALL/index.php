@@ -2,15 +2,25 @@
 
 ini_set('default_charset', 'ISO8859-1');
 
-//error_reporting(E_ALL & ~E_DEPRECATED);
+error_reporting(E_ALL & ~E_DEPRECATED);
+//error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 if (strpos($_SERVER['HTTP_HOST'], 'free.fr') !== false && ! is_dir($_SERVER['DOCUMENT_ROOT'] .'/sessions'))
     mkdir($_SERVER['DOCUMENT_ROOT'].'/sessions', 0700);
 
-require_once 'class/install.class.php';
+require_once 'includes/autoload.php';
 
-$install = new install();
+try {
+    $install = new process();
 
-$install->run();
+    $install->run();
+}
+catch (Exception $e) {
+    $i18n = i18n::getInstance();
+
+    echo '<html><body style="margin-top:50px;text-align:center;"><h3>'
+        , $i18n[$e->getMessage()]
+        , '</h3></body></html>';
+}
 
 ?>
