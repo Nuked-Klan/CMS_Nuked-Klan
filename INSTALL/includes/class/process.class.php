@@ -1,8 +1,15 @@
 <?php
-
-/*
+/**
+ * process.class.php
+ *
  * Manage install / update process
+ *
+ * @version 1.7
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
+
 class process {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -506,6 +513,9 @@ class process {
      * Check user admin data and save it, generate conf.inc file for install process
      */
     public function saveUserAdmin() {
+        if (isset($this->_session['_POST']))
+            $_POST = $this->_session['_POST'];
+
         if (! isset($_POST['nickname'], $_POST['password'], $_POST['passwordConfirm'], $_POST['mail'])
             || strlen($_POST['nickname']) < 3 || preg_match('`[\$\^\(\)\'"?%#<>,;:]`', $_POST['nickname'])
             || $_POST['password'] != $_POST['passwordConfirm']
@@ -523,6 +533,10 @@ class process {
             $this->_saveConfInc();
 
             $this->_session['user_admin'] = 'FINISH';
+
+            if (isset($this->_session['_POST']))
+                unset($this->_session['_POST']);
+
             $this->_redirect('index.php?action=cleaningFiles');
         }
     }
@@ -845,12 +859,14 @@ class process {
         )
             return;
 
-        if (! isset($this->_session['action']))
+        if (! isset($this->_session['oldAction']))
             $this->_session['oldAction'] = '';
-        else
-            $this->_session['oldAction'] = $this->_session['action'];
+        else {
+            if ($this->_session['currentAction'] != $action)
+                $this->_session['oldAction'] = $this->_session['currentAction'];
+        }
 
-        $this->_session['currentAction'] = $this->_session['action'] = $action;
+        $this->_session['currentAction'] = $action;
     }
 
     /*
@@ -882,6 +898,9 @@ class process {
                 $this->_view->error = $e->getMessage();
             else if ($exceptionName == 'dbException')
                 $this->_view->error = $this->_formatSqlError($e->getMessage());
+
+            if (! empty($_POST))
+                $this->_session['_POST'] = $_POST;
         }
 
         if (get_class($this->_view) == 'view') {

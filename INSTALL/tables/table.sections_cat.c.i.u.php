@@ -1,4 +1,15 @@
 <?php
+/**
+ * table.sections_cat.c.i.u.php
+ *
+ * `[PREFIX]_sections_cat` database table script
+ *
+ * @version 1.7
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+
 
 $dbTable->setTable($this->_session['db_prefix'] .'_sections_cat');
 

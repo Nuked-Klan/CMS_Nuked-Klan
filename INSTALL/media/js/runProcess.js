@@ -281,8 +281,7 @@ function startProcess() {
             text = i18n.starting_update;
 
         $('#log_install')
-            .text(text)
-            .append(loadingImg + '<br />');
+            .html(text + loadingImg + '<br />');
 
         $('#continue_install')
             .removeClass('button')

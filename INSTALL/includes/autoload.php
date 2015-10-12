@@ -1,9 +1,19 @@
 <?php
+/**
+ * autoload.php
+ *
+ * Autoloading class for install / update process
+ *
+ * @version 1.7
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 
 define('CLASS_EXT', '.class.php');
 
 /*
- * Autoloading class for install / update process
+ * Autoloading function used by spl_autoload_register
  */
 function processAutoload($className) {
     $classDir = 'includes/class/';

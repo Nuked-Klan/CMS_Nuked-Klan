@@ -1,13 +1,20 @@
 <?php
+/**
+ * dbMySQL.class.php
+ *
+ * Manage MySQL database
+ *
+ * @version 1.7
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 
 // Fetch mode constant
 define('DB_ASSOC', 1);
 define('DB_NUM', 2);
 define('DB_BOTH', 3);
 
-/*
- * Manage database with MySQL
- */
 class dbMySQL {
 
     /*
