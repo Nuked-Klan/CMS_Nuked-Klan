@@ -196,7 +196,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
     function update_pref($defie_mail, $defie_inbox, $defie_charte) {
         global $nuked, $user;
 
-        $defie_charte = html_entity_decode($defie_charte);
+        $defie_charte = nkHtmlEntityDecode($defie_charte);
         $defie_charte = mysql_real_escape_string(stripslashes($defie_charte));
         
         $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");

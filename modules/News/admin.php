@@ -245,8 +245,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
-		$texte = html_entity_decode($texte);
-		$suite = html_entity_decode($suite);
+		$texte = nkHtmlEntityDecode($texte);
+		$suite = nkHtmlEntityDecode($suite);
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$texte = mysql_real_escape_string(stripslashes($texte));
@@ -358,10 +358,10 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$table = explode(':', $heure, 2);
 		$date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
-		$texte = html_entity_decode($texte);
+		$texte = nkHtmlEntityDecode($texte);
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$texte = mysql_real_escape_string(stripslashes($texte));
-		$suite = html_entity_decode($suite);
+		$suite = nkHtmlEntityDecode($suite);
 		$suite = mysql_real_escape_string(stripslashes($suite));
 
 		$upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
@@ -495,7 +495,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		}
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
-		$description = html_entity_decode($description);
+		$description = nkHtmlEntityDecode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 
 		$sql = mysql_query("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url_image . "' )");
@@ -562,7 +562,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		}
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
-		$description = html_entity_decode($description);
+		$description = nkHtmlEntityDecode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 
 		$sql = mysql_query("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $url_image . "' WHERE nid = '" . $cid . "'");

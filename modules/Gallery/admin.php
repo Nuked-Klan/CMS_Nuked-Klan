@@ -149,7 +149,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
                 }
                         
                 $titre = mysql_real_escape_string(stripslashes($titre));
-                $description = html_entity_decode($description);
+                $description = nkHtmlEntityDecode($description);
                 $description = mysql_real_escape_string(stripslashes($description));
                 $auteur = mysql_real_escape_string(stripslashes($auteur));
                 $date = time();
@@ -229,7 +229,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         include("modules/Gallery/config.php");
 
         $titre = mysql_real_escape_string(stripslashes($titre));
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $auteur = mysql_real_escape_string(stripslashes($auteur));
 
@@ -660,7 +660,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
         else
         {
-            $description = html_entity_decode($description);
+            $description = nkHtmlEntityDecode($description);
             $description = mysql_real_escape_string(stripslashes($description));
         
             $sql = mysql_query("INSERT INTO " . GALLERY_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ('" . $parentid . "', '" . $titre . "', '" . $description . "', '" . $position . "')");
@@ -748,7 +748,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         }
         else
         {
-            $description = html_entity_decode($description);
+            $description = nkHtmlEntityDecode($description);
             $description = mysql_real_escape_string(stripslashes($description));
         
             $sql = mysql_query("UPDATE " . GALLERY_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");

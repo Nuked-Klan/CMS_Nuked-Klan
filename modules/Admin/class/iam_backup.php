@@ -410,7 +410,7 @@ class iam_backup
             else
             {
                  echo "<html><body><pre>";
-                 echo htmlspecialchars($this->_backup());
+                 echo nkHtmlSpecialChars($this->_backup());
                  echo "</pre></body></html>";
             }
     }

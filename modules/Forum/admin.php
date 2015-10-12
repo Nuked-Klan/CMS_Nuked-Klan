@@ -315,7 +315,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 
@@ -484,7 +484,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $titre = mysql_real_escape_string(stripslashes($titre));
         $description = mysql_real_escape_string(stripslashes($description));
 

@@ -88,7 +88,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function send_file($date, $size, $titre, $description, $cat, $url, $url2, $url3, $level, $autor, $site, $comp, $screen, $screen2, $copy, $ecrase_file, $ecrase_screen) {
 		global $nuked;
 
-		$description = html_entity_decode($description);
+		$description = nkHtmlEntityDecode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$autor = mysql_real_escape_string(stripslashes($autor));
@@ -310,7 +310,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function modif_file($did, $date, $taille, $titre, $description, $cat, $count, $url, $url2, $url3, $level, $autor, $site, $comp, $screen, $screen2, $copy, $ecrase_file, $ecrase_screen) {
 		global $nuked, $user;
 
-		$description = html_entity_decode($description);
+		$description = nkHtmlEntityDecode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$autor = mysql_real_escape_string(stripslashes($autor));
@@ -755,7 +755,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function send_cat($titre, $description, $parentid, $level, $position) {
 		global $nuked, $user;
 
-		$description = html_entity_decode($description);
+		$description = nkHtmlEntityDecode($description);
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$description = mysql_real_escape_string(stripslashes($description));
 
@@ -837,7 +837,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
 		global $nuked, $user;
 
-		$description = html_entity_decode($description);
+		$description = nkHtmlEntityDecode($description);
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$description = mysql_real_escape_string(stripslashes($description));
 
