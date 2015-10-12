@@ -23,7 +23,7 @@ if ($visiteur  >= 2)
 		if ($_REQUEST['texte'] != '')
 		{
 			$_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
-			$_REQUEST['texte'] = htmlentities($_REQUEST['texte']);
+			$_REQUEST['texte'] = nkHtmlEntities($_REQUEST['texte']);
 			$texte = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
 			$upd = mysql_query("INSERT INTO ".$nuked['prefix']."_discussion  (`date` , `pseudo` , `texte`)  VALUES ('".$date."', '".$user[0]."', '".$texte."')");
 		}

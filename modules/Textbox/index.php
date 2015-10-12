@@ -242,7 +242,7 @@ function index()
                 $block_text .= $text[$i];
             }
 
-            $texte = htmlentities($texte, ENT_NOQUOTES);
+            $texte = nkHtmlEntities($texte, ENT_NOQUOTES);
             $texte = nk_CSS($texte);
 
             if (strlen($auteur) > $pseudo_max)

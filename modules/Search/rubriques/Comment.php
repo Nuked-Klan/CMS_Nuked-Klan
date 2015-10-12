@@ -44,7 +44,7 @@ $nb_com = mysql_num_rows($sql_com);
 if ($nb_com > 0){
     while (list($com_module, $im_id, $com_autor, $com_titre, $com_date) = mysql_fetch_array($sql_com)){
             if ($com_titre != ""){
-                $com_titre = htmlentities($com_titre);
+                $com_titre = nkHtmlEntities($com_titre);
                 $com_titre = nk_CSS($com_titre);
             }
             else{

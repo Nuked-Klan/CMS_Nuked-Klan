@@ -134,13 +134,13 @@ function make_array($data){
 
     $data['titre'] = printSecuTags($data['titre']);
     $data['cat'] = printSecuTags($data['cat']);
-    $data['taille'] = htmlentities($data['taille']);
-    $data['url'] = htmlentities($data['url']);
-    $data['date'] = htmlentities($data['date']);
-    $data['autor'] = htmlentities($data['autor']);
-    $data['site'] = htmlentities($data['site']);
+    $data['taille'] = nkHtmlEntities($data['taille']);
+    $data['url'] = nkHtmlEntities($data['url']);
+    $data['date'] = nkHtmlEntities($data['date']);
+    $data['autor'] = nkHtmlEntities($data['autor']);
+    $data['site'] = nkHtmlEntities($data['site']);
     $data['comp'] = printSecuTags($data['comp']);
-    $data['screen'] = htmlentities($data['screen']);
+    $data['screen'] = nkHtmlEntities($data['screen']);
     $data['taille'] = str_replace(",", ".", $data['taille']);
 
     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
@@ -225,7 +225,7 @@ function send($data){
 
     include("modules/Suggest/config.php");
 
-    $data['description'] = html_entity_decode($data['description']);
+    $data['description'] = nkHtmlEntityDecode($data['description']);
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
     $data['autor'] = mysql_real_escape_string(stripslashes($data['autor']));

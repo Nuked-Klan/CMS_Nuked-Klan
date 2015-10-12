@@ -395,7 +395,7 @@ class gsQuery
    */
   function htmlize($string)
   {
-    return htmlentities($string);
+    return nkHtmlEntities($string);
   }
 
   /**

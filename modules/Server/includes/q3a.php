@@ -290,7 +290,7 @@ class q3a extends quake
 	}
       } else {
 	// normal char
-	$result .= htmlentities($var[$i]);
+	$result .= nkHtmlEntities($var[$i]);
       }
     }
 

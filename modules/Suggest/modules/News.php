@@ -82,9 +82,9 @@ function form($content, $sug_id){
 
 function make_array($data){
     $data['titre'] = printSecuTags($data['titre']);
-    $data['auteur'] = htmlentities($data['auteur']);
-    $data['auteur_id'] = htmlentities($data['auteur_id']);
-    $data['date'] = htmlentities($data['date']);
+    $data['auteur'] = nkHtmlEntities($data['auteur']);
+    $data['auteur_id'] = nkHtmlEntities($data['auteur_id']);
+    $data['date'] = nkHtmlEntities($data['date']);
     $data['cat'] = printSecuTags($data['cat']);
 
     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
@@ -111,7 +111,7 @@ function send($data){
         $autor_id = $user[0];
     }
 
-    $data['texte'] = html_entity_decode($data['texte']);
+    $data['texte'] = nkHtmlEntityDecode($data['texte']);
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
 

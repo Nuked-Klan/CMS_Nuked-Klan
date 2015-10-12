@@ -388,9 +388,9 @@ if ($visiteur == 9)
         if (substr($_REQUEST['url'], -1) == "/") $_REQUEST['url'] = substr($_REQUEST['url'], 0, -1);
         $_REQUEST['cookiename'] = str_replace(' ','',$_REQUEST['cookiename']);
         
-        $_REQUEST['inscription_charte'] = html_entity_decode($_REQUEST['inscription_charte']);
-        $_REQUEST['inscription_mail'] = html_entity_decode($_REQUEST['inscription_mail']);
-        $_REQUEST['footmessage'] = html_entity_decode($_REQUEST['footmessage']);
+        $_REQUEST['inscription_charte'] = nkHtmlEntityDecode($_REQUEST['inscription_charte']);
+        $_REQUEST['inscription_mail'] = nkHtmlEntityDecode($_REQUEST['inscription_mail']);
+        $_REQUEST['footmessage'] = nkHtmlEntityDecode($_REQUEST['footmessage']);
 
         if($_REQUEST['theme'] !== $nuked['theme'])
             mysql_query('UPDATE ' . USER_TABLE . ' SET user_theme = ""');

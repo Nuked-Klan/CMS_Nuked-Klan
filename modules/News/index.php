@@ -221,7 +221,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         if (!empty($row['auteur_id']) && $test > 0) {
             list($auteur) = mysql_fetch_array($sql2);
-            $auteur = @html_entity_decode($auteur);
+            $auteur = @nkHtmlEntityDecode($auteur);
         } else {
             $auteur = $row['auteur'];
         }
@@ -236,7 +236,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         include 'Includes/html2pdf/html2pdf.class.php';
         $sitename = $nuked['name'].' - '.$nuked['slogan'];
-        $sitename  = @html_entity_decode($sitename);
+        $sitename  = @nkHtmlEntityDecode($sitename);
 
         $texte = "<h1>{$row['titre']}</h1><hr />$texte<hr />$sitename<br />$articleurl.";
         $_REQUEST['file'] = $sitename.'_'.$title;
@@ -295,9 +295,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
             $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
 
-            $subject = @html_entity_decode($subject);
-            $corps = @html_entity_decode($corps);
-            $from = @html_entity_decode($from);
+            $subject = @nkHtmlEntityDecode($subject);
+            $corps = @nkHtmlEntityDecode($corps);
+            $from = @nkHtmlEntityDecode($from);
 
             mail($mail, $subject, $corps, $from);
 

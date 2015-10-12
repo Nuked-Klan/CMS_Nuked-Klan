@@ -190,7 +190,7 @@ class openQuery extends gsQuery
   {
     $colors = array('black', 'white', 'blue', 'green', 'red', 'light-blue', 'yellow', 'pink', 'orange', 'grey');
 
-    $string = htmlentities($string);
+    $string = nkHtmlEntities($string);
     $num_tags = preg_match_all("/\\$(\d)/", $string, $matches);
     $string = preg_replace("/\\$(\d)/e", "'<span class=\"gsquery-'. \$colors[\$1] .'\">'", $string);
 

@@ -162,10 +162,10 @@ if ($visiteur >= $level_access && $level_access > -1)
                 $texte = substr($texte, 0, 150) . "...";
             }
 
-            $texte = htmlentities($texte);
+            $texte = nkHtmlEntities($texte);
             $texte = nk_CSS($texte);
 
-            $title = htmlentities(printSecuTags($titre));
+            $title = nkHtmlEntities(printSecuTags($titre));
 
             if (strlen($titre) > 30)
             {

@@ -97,7 +97,7 @@ function index(){
             $iforum = 0;
             $sql_forum = mysql_query("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
             while (list($mid, $subject, $date, $tid, $fid) = mysql_fetch_array($sql_forum)){
-                $subject = htmlentities($subject);
+                $subject = nkHtmlEntities($subject);
                 $subject = nk_CSS($subject);
                 $date = nkDate($date);
 
@@ -149,7 +149,7 @@ function index(){
             $icom = 0;
             $sql_com = mysql_query("SELECT im_id, titre, module, date FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
             while (list($im_id, $titre, $module, $date) = mysql_fetch_array($sql_com)){
-                $titre = htmlentities($titre);
+                $titre = nkHtmlEntities($titre);
                 $titre = nk_CSS($titre);
 
                 if ($titre != ""){
@@ -219,7 +219,7 @@ function reg_screen(){
 
     if ($nuked['inscription'] != "off"){
         if ($nuked['inscription_charte'] != "" && !isset($_REQUEST['charte_agree'])){
-            $disclaimer = html_entity_decode($nuked['inscription_charte']);
+            $disclaimer = nkHtmlEntityDecode($nuked['inscription_charte']);
 
             echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
                     . "<tr><td align=\"center\"><big><b>" . _NEWUSERREGISTRATION . "</b></big></td></tr>\n"
@@ -325,7 +325,7 @@ function reg_screen(){
 
             $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
             while (list($game_id, $nom) = mysql_fetch_array($sql)){
-                $nom = htmlentities($nom);
+                $nom = nkHtmlEntities($nom);
                 echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
             }
 
@@ -677,12 +677,12 @@ function edit_pref(){
                     $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game1 . "'");
                     list($g1_titre, $g1_pref_1, $g1_pref_2, $g1_pref_3, $g1_pref_4, $g1_pref_5) = mysql_fetch_array($sql3);
 
-                    $g1_titre = htmlentities($g1_titre);
-                    $g1_pref_1 = htmlentities($g1_pref_1);
-                    $g1_pref_2 = htmlentities($g1_pref_2);
-                    $g1_pref_3 = htmlentities($g1_pref_3);
-                    $g1_pref_4 = htmlentities($g1_pref_4);
-                    $g1_pref_5 = htmlentities($g1_pref_5);
+                    $g1_titre = nkHtmlEntities($g1_titre);
+                    $g1_pref_1 = nkHtmlEntities($g1_pref_1);
+                    $g1_pref_2 = nkHtmlEntities($g1_pref_2);
+                    $g1_pref_3 = nkHtmlEntities($g1_pref_3);
+                    $g1_pref_4 = nkHtmlEntities($g1_pref_4);
+                    $g1_pref_5 = nkHtmlEntities($g1_pref_5);
 
                     $sql4 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game1 . "' AND user_id = '" . $user[0] . "'");
                     $test1 = mysql_num_rows($sql4);
@@ -720,12 +720,12 @@ function edit_pref(){
                     $sql5 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game2 . "'");
                     list($g2_titre, $g2_pref_1, $g2_pref_2, $g2_pref_3, $g2_pref_4, $g2_pref_5) = mysql_fetch_array($sql5);
 
-                    $g2_titre = htmlentities($g2_titre);
-                    $g2_pref_1 = htmlentities($g2_pref_1);
-                    $g2_pref_2 = htmlentities($g2_pref_2);
-                    $g2_pref_3 = htmlentities($g2_pref_3);
-                    $g2_pref_4 = htmlentities($g2_pref_4);
-                    $g2_pref_5 = htmlentities($g2_pref_5);
+                    $g2_titre = nkHtmlEntities($g2_titre);
+                    $g2_pref_1 = nkHtmlEntities($g2_pref_1);
+                    $g2_pref_2 = nkHtmlEntities($g2_pref_2);
+                    $g2_pref_3 = nkHtmlEntities($g2_pref_3);
+                    $g2_pref_4 = nkHtmlEntities($g2_pref_4);
+                    $g2_pref_5 = nkHtmlEntities($g2_pref_5);
 
                     $sql6 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game2 . "' AND user_id = '" . $user[0] . "'");
                     $test2 = mysql_num_rows($sql6);
@@ -763,12 +763,12 @@ function edit_pref(){
                     $sql7 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game3 . "'");
                     list($g3_titre, $g3_pref_1, $g3_pref_2, $g3_pref_3, $g3_pref_4, $g3_pref_5) = mysql_fetch_array($sql7);
 
-                    $g3_titre = htmlentities($g3_titre);
-                    $g3_pref_1 = htmlentities($g3_pref_1);
-                    $g3_pref_2 = htmlentities($g3_pref_2);
-                    $g3_pref_3 = htmlentities($g3_pref_3);
-                    $g3_pref_4 = htmlentities($g3_pref_4);
-                    $g3_pref_5 = htmlentities($g3_pref_5);
+                    $g3_titre = nkHtmlEntities($g3_titre);
+                    $g3_pref_1 = nkHtmlEntities($g3_pref_1);
+                    $g3_pref_2 = nkHtmlEntities($g3_pref_2);
+                    $g3_pref_3 = nkHtmlEntities($g3_pref_3);
+                    $g3_pref_4 = nkHtmlEntities($g3_pref_4);
+                    $g3_pref_5 = nkHtmlEntities($g3_pref_5);
 
                     $sql8 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game3 . "' AND user_id = '" . $user[0] . "'");
                     $test3 = mysql_num_rows($sql8);
@@ -802,12 +802,12 @@ function edit_pref(){
                 $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
                 list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
 
-                $titre = htmlentities($titre);
-                $pref_1 = htmlentities($pref_1);
-                $pref_2 = htmlentities($pref_2);
-                $pref_3 = htmlentities($pref_3);
-                $pref_4 = htmlentities($pref_4);
-                $pref_5 = htmlentities($pref_5);
+                $titre = nkHtmlEntities($titre);
+                $pref_1 = nkHtmlEntities($pref_1);
+                $pref_2 = nkHtmlEntities($pref_2);
+                $pref_3 = nkHtmlEntities($pref_3);
+                $pref_4 = nkHtmlEntities($pref_4);
+                $pref_5 = nkHtmlEntities($pref_5);
 
                 echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $titre . "</b></td></tr>"
                         . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1\" value=\"" . $pref1 . "\" size=\"25\" /></td></tr>\n"
@@ -821,12 +821,12 @@ function edit_pref(){
             $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
             list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
 
-            $titre = htmlentities($titre);
-            $pref_1 = htmlentities($pref_1);
-            $pref_2 = htmlentities($pref_2);
-            $pref_3 = htmlentities($pref_3);
-            $pref_4 = htmlentities($pref_4);
-            $pref_5 = htmlentities($pref_5);
+            $titre = nkHtmlEntities($titre);
+            $pref_1 = nkHtmlEntities($pref_1);
+            $pref_2 = nkHtmlEntities($pref_2);
+            $pref_3 = nkHtmlEntities($pref_3);
+            $pref_4 = nkHtmlEntities($pref_4);
+            $pref_5 = nkHtmlEntities($pref_5);
 
             echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $titre . "</b></td></tr>\n"
                     . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1\" value=\"" . $pref1 . "\" size=\"25\" /></td></tr>\n"
@@ -888,12 +888,12 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     // Captcha checking
     ValidCaptchaCode();
     
-    $pseudo = htmlentities($pseudo, ENT_QUOTES);
+    $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
     
     $pseudo = verif_pseudo($pseudo);
 
     $mail = mysql_real_escape_string(stripslashes($mail));
-    $mail = htmlentities($mail);
+    $mail = nkHtmlEntities($mail);
 
     if ($pseudo == "error1"){
         echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
@@ -978,7 +978,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     } while (mysql_num_rows($sql) != 0);
 
     $email = mysql_real_escape_string(stripslashes($email));
-    $email = htmlentities($email);
+    $email = nkHtmlEntities($email);
 
     if ($nuked['validation'] == "auto"){
         $niveau = 1;
@@ -1014,10 +1014,10 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         $corps = _USERVALID . "\r\n" . $nuked['url'] . "/index.php?file=User&op=validation&id_user=" . $user_id . "\r\n\r\n" . _USERMAIL . "\r\n" . _NICK . " : " . $pseudo . "\r\n" . _PASSWORD . " : " . $pass_reg . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
-        $subject = @html_entity_decode($subject);
-        $corps = @html_entity_decode($corps);
-        $from = @html_entity_decode($from);
-        $s_mail = @html_entity_decode($mail);
+        $subject = @nkHtmlEntityDecode($subject);
+        $corps = @nkHtmlEntityDecode($corps);
+        $from = @nkHtmlEntityDecode($from);
+        $s_mail = @nkHtmlEntityDecode($mail);
 
         mail($s_mail, $subject, $corps, $from);
     }
@@ -1036,10 +1036,10 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
             $from .= "\r\n" . 'MIME-Version: 1.0' . "\r\n";
             $from .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-            $subject = @html_entity_decode($subject);
-            $corps = @html_entity_decode($corps);
-            $from = @html_entity_decode($from);
-            $s_mail = @html_entity_decode($mail);
+            $subject = @nkHtmlEntityDecode($subject);
+            $corps = @nkHtmlEntityDecode($corps);
+            $from = @nkHtmlEntityDecode($from);
+            $s_mail = @nkHtmlEntityDecode($mail);
 
             mail($s_mail, $subject, $corps, $from);
         }
@@ -1050,9 +1050,9 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         $corps =  $pseudo . " (IP : " . $user_ip . ") " . _NEWREGISTRATION . " " . $nuked['name'] . " " . _NEWREGSUITE . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
 
-        $subject = @html_entity_decode($subject);
-        $corps = @html_entity_decode($corps);
-        $from = @html_entity_decode($from);
+        $subject = @nkHtmlEntityDecode($subject);
+        $corps = @nkHtmlEntityDecode($corps);
+        $from = @nkHtmlEntityDecode($from);
 
         mail($nuked['mail'], $subject, $corps, $from);
     }
@@ -1079,7 +1079,7 @@ function login($pseudo, $pass, $remember_me){
     global $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
     $cookiename = $nuked['cookiename'];
 
-    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES) . "'");
+    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . nkHtmlEntities($pseudo, ENT_QUOTES) . "'");
     $check = mysql_num_rows($sql);
 
     if($check > 0){
@@ -1116,13 +1116,13 @@ function login($pseudo, $pass, $remember_me){
         if ($niveau > 0){
             if (!Check_Hash($pass, $dbpass)){
                 $error = 2;
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
+                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . nkHtmlEntities($pseudo, ENT_QUOTES) . '\'';
                 $req = mysql_query($sql);
                 $url = "index.php?file=User&op=login_screen&error=" . $error;
                 redirect($url, 0);
             }
             else{
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
+                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . nkHtmlEntities($pseudo, ENT_QUOTES) . '\'';
                 $req = mysql_query($sql);
                 session_new($id_user, $remember_me);
 
@@ -1245,10 +1245,10 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 ."<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"document.location='index.php?file=User&amp;op=edit_account'\" /></td></tr></table></form><br />\n";
     }
     else{
-        $nick = htmlentities($nick, ENT_QUOTES);
+        $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
         $mail = mysql_real_escape_string(stripslashes($mail));
-        $mail = htmlentities($mail);
+        $mail = nkHtmlEntities($mail);
 
         $sql = mysql_query("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
         list($old_pseudo, $old_mail, $old_pass) = mysql_fetch_array($sql);
@@ -1355,7 +1355,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
             }
         }
         
-        $signature = secu_html(html_entity_decode($signature));
+        $signature = secu_html(nkHtmlEntityDecode($signature));
         $signature = mysql_real_escape_string(stripslashes($signature));
         $email = mysql_real_escape_string(stripslashes($email));
         $icq = mysql_real_escape_string(stripslashes($icq));
@@ -1367,15 +1367,15 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         $country = mysql_real_escape_string(stripslashes($country));
         $avatar = mysql_real_escape_string(stripslashes($avatar));
 
-        $email = htmlentities($email);
-        $icq = htmlentities($icq);
-        $msn = htmlentities($msn);
-        $aim = htmlentities($aim);
-        $yim = htmlentities($yim);
-        $url = htmlentities($url);
-        $game = htmlentities($game);
-        $country = htmlentities($country);
-        $avatar = htmlentities($avatar);
+        $email = nkHtmlEntities($email);
+        $icq = nkHtmlEntities($icq);
+        $msn = nkHtmlEntities($msn);
+        $aim = nkHtmlEntities($aim);
+        $yim = nkHtmlEntities($yim);
+        $url = nkHtmlEntities($url);
+        $game = nkHtmlEntities($game);
+        $country = nkHtmlEntities($country);
+        $avatar = nkHtmlEntities($avatar);
 
         if (!empty($url) && !is_int(stripos($url, 'http://'))){
             $url = "http://" . $url;
@@ -1438,20 +1438,20 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
 function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $fichiernom, $game_id, $pref1, $pref2, $pref3, $pref4, $pref5){
     global $nuked, $user;
 
-    $prenom = htmlentities($prenom);
-    $ville = htmlentities($ville);
-    $motherboard = htmlentities($motherboard);
-    $cpu = htmlentities($cpu);
-    $ram = htmlentities($ram);
-    $video = htmlentities($video);
-    $resolution = htmlentities($resolution);
-    $sons = htmlentities($sons);
-    $ecran = htmlentities($ecran);
-    $souris = htmlentities($souris);
-    $clavier = htmlentities($clavier);
-    $connexion = htmlentities($connexion);
-    $osystem = htmlentities($osystem);
-    $photo = htmlentities($photo);
+    $prenom = nkHtmlEntities($prenom);
+    $ville = nkHtmlEntities($ville);
+    $motherboard = nkHtmlEntities($motherboard);
+    $cpu = nkHtmlEntities($cpu);
+    $ram = nkHtmlEntities($ram);
+    $video = nkHtmlEntities($video);
+    $resolution = nkHtmlEntities($resolution);
+    $sons = nkHtmlEntities($sons);
+    $ecran = nkHtmlEntities($ecran);
+    $souris = nkHtmlEntities($souris);
+    $clavier = nkHtmlEntities($clavier);
+    $connexion = nkHtmlEntities($connexion);
+    $osystem = nkHtmlEntities($osystem);
+    $photo = nkHtmlEntities($photo);
 
     $prenom = mysql_real_escape_string(stripslashes($prenom));
     $ville = mysql_real_escape_string(stripslashes($ville));
@@ -1527,11 +1527,11 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
     list($game) = mysql_fetch_array($sql_game);
 
     if (!$game_id){
-        $pref1 = htmlentities($pref1);
-        $pref2 = htmlentities($pref2);
-        $pref3 = htmlentities($pref3);
-        $pref4 = htmlentities($pref4);
-        $pref5 = htmlentities($pref5);
+        $pref1 = nkHtmlEntities($pref1);
+        $pref2 = nkHtmlEntities($pref2);
+        $pref3 = nkHtmlEntities($pref3);
+        $pref4 = nkHtmlEntities($pref4);
+        $pref5 = nkHtmlEntities($pref5);
 
         $pref1 = mysql_real_escape_string(stripslashes($pref1));
         $pref2 = mysql_real_escape_string(stripslashes($pref2));
@@ -1543,11 +1543,11 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
     }
     else{
         if ($game_id[0] != ""){
-            $pref1[0] = htmlentities($pref1[0]);
-            $pref2[0] = htmlentities($pref2[0]);
-            $pref3[0] = htmlentities($pref3[0]);
-            $pref4[0] = htmlentities($pref4[0]);
-            $pref5[0] = htmlentities($pref5[0]);
+            $pref1[0] = nkHtmlEntities($pref1[0]);
+            $pref2[0] = nkHtmlEntities($pref2[0]);
+            $pref3[0] = nkHtmlEntities($pref3[0]);
+            $pref4[0] = nkHtmlEntities($pref4[0]);
+            $pref5[0] = nkHtmlEntities($pref5[0]);
 
             $pref1[0] = mysql_real_escape_string(stripslashes($pref1[0]));
             $pref2[0] = mysql_real_escape_string(stripslashes($pref2[0]));
@@ -1571,11 +1571,11 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
         }
 
         if ($game_id[1] != ""){
-            $pref1[1] = htmlentities($pref1[1]);
-            $pref2[1] = htmlentities($pref2[1]);
-            $pref3[1] = htmlentities($pref3[1]);
-            $pref4[1] = htmlentities($pref4[1]);
-            $pref5[1] = htmlentities($pref5[1]);
+            $pref1[1] = nkHtmlEntities($pref1[1]);
+            $pref2[1] = nkHtmlEntities($pref2[1]);
+            $pref3[1] = nkHtmlEntities($pref3[1]);
+            $pref4[1] = nkHtmlEntities($pref4[1]);
+            $pref5[1] = nkHtmlEntities($pref5[1]);
 
             $pref1[1] = mysql_real_escape_string(stripslashes($pref1[1]));
             $pref2[1] = mysql_real_escape_string(stripslashes($pref2[1]));
@@ -1599,11 +1599,11 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
         }
 
         if ($game_id[2] != ""){
-            $pref1[2] = htmlentities($pref1[2]);
-            $pref2[2] = htmlentities($pref2[2]);
-            $pref3[2] = htmlentities($pref3[2]);
-            $pref4[2] = htmlentities($pref4[2]);
-            $pref5[2] = htmlentities($pref5[2]);
+            $pref1[2] = nkHtmlEntities($pref1[2]);
+            $pref2[2] = nkHtmlEntities($pref2[2]);
+            $pref3[2] = nkHtmlEntities($pref3[2]);
+            $pref4[2] = nkHtmlEntities($pref4[2]);
+            $pref5[2] = nkHtmlEntities($pref5[2]);
 
             $pref1[2] = mysql_real_escape_string(stripslashes($pref1[2]));
             $pref2[2] = mysql_real_escape_string(stripslashes($pref2[2]));
@@ -1692,7 +1692,7 @@ function envoi_mail($email){
             $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
             $headers .='Content-Transfer-Encoding: 8bit'; 
 
-            $message = @html_entity_decode($message);
+            $message = @nkHtmlEntityDecode($message);
 
             @mail($email, _LOSTPASSWORD, $message, $headers);
 
@@ -1742,7 +1742,7 @@ function envoi_pass($email, $token){
                 $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
                 $headers .='Content-Transfer-Encoding: 8bit'; 
 
-                $message = @html_entity_decode($message);
+                $message = @nkHtmlEntityDecode($message);
 
                 @mail($email, _YOURNEWPASSWORD, $message, $headers);
 

@@ -37,7 +37,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             {
 				echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
 				. "<tr><td align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr>\n"
-				. "<tr><td>&nbsp;</td></tr><tr><td>" . html_entity_decode($nuked['recrute_charte']) . "</td></tr></table>\n"
+				. "<tr><td>&nbsp;</td></tr><tr><td>" . nkHtmlEntityDecode($nuked['recrute_charte']) . "</td></tr></table>\n"
 				. "<form method=\"post\" action=\"index.php?file=Recruit\">\n"
 				. "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
 				. "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
@@ -151,7 +151,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 			$sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
 			while (list($game_id, $nom) = mysql_fetch_array($sql))
 			{
-				$nom = htmlentities($nom);
+				$nom = nkHtmlEntities($nom);
 				echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
 			}
 
@@ -201,7 +201,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $date = time();
             $date2 = nkDate($date);
 
-			$comment = secu_html(html_entity_decode($comment));
+			$comment = secu_html(nkHtmlEntityDecode($comment));
 
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $prenom = mysql_real_escape_string(stripslashes($prenom));
@@ -214,14 +214,14 @@ if ($visiteur >= $level_access && $level_access > -1)
             $dispo = mysql_real_escape_string(stripslashes($dispo));
             $comment = mysql_real_escape_string(stripslashes($comment));
 
-            $pseudo = htmlentities($pseudo);
-            $prenom = htmlentities($prenom);
-            $mail = htmlentities($mail);
-            $icq = htmlentities($icq);
-            $country = htmlentities($country);
-            $connex = htmlentities($connex);
-            $exp = htmlentities($exp);
-            $dispo = htmlentities($dispo);
+            $pseudo = nkHtmlEntities($pseudo);
+            $prenom = nkHtmlEntities($prenom);
+            $mail = nkHtmlEntities($mail);
+            $icq = nkHtmlEntities($icq);
+            $country = nkHtmlEntities($country);
+            $connex = nkHtmlEntities($connex);
+            $exp = nkHtmlEntities($exp);
+            $dispo = nkHtmlEntities($dispo);
 
             $sql = mysql_query("INSERT INTO " . RECRUIT_TABLE . " ( `id` , `date` , `pseudo` , `prenom` , `age` , `mail` , `icq` , `country` , `game` , `connection` , `experience` , `dispo` , `comment` ) VALUES ( '' , '" . $date . "' , '" . $pseudo . "' , '" . $prenom . "' , '" . $age . "' , '" . $mail . "' , '" . $icq . "' , '" . $country . "' , '" . $game . "' , '" . $connex . "' , '" . $exp . "' , '" . $dispo . "' , '" . $comment. "' )");
 			$upd2 = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '1', '"._NOTDEM.": [<a href=\"index.php?file=Recruit&page=admin\">lien</a>].')");
@@ -230,9 +230,9 @@ if ($visiteur >= $level_access && $level_access > -1)
             $corps = $pseudo . " " . _NEWRECRUIT . "\r\n" . $nuked['url'] . "/index.php?file=Recruit&page=admin\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
             $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
 
-            $subject = @html_entity_decode($subject);
-            $corps = @html_entity_decode($corps);
-            $from = @html_entity_decode($from);
+            $subject = @nkHtmlEntityDecode($subject);
+            $corps = @nkHtmlEntityDecode($corps);
+            $from = @nkHtmlEntityDecode($from);
 
             if ($email != "")
             {

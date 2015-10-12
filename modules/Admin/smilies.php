@@ -61,7 +61,7 @@ if ($visiteur == 9)
         $sql = mysql_query("SELECT id, code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
         while (list($smiley_id, $code, $url, $name) = mysql_fetch_array($sql))
         {
-            $name = htmlentities($name);
+            $name = nkHtmlEntities($name);
 
             echo "<tr>\n"
             . "<td style=\"width: 20%;\" align=\"center\"><img src=\"images/icones/" . $url . "\" alt=\"\" title=\"$url\" /></td>\n"

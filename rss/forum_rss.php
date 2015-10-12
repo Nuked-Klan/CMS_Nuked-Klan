@@ -8,6 +8,8 @@
 //  the Free Software Foundation; either version 2 of the License.         //
 //-------------------------------------------------------------------------//
 define('INDEX_CHECK', 1);
+ini_set('default_charset', 'ISO8859-1');
+
 include('../globals.php');
 include('../conf.inc.php');
 include('../nuked.php');
@@ -16,12 +18,12 @@ include('../lang/' . $nuked['langue'] . '.lang.php');
 
 $rsslang = ($nuked['langue'] == 'french') ? 'fr' : 'en-us';
 
-$sitename = @html_entity_decode($nuked['name']);
-$sitedesc = @html_entity_decode($nuked['slogan']);
+$sitename = @nkHtmlEntityDecode($nuked['name']);
+$sitedesc = @nkHtmlEntityDecode($nuked['slogan']);
 $sitename = str_replace('&amp;', '&', $sitename);
 $sitedesc = str_replace('&amp;', '&', $sitedesc);
-$sitename = htmlspecialchars($sitename);
-$sitedesc = htmlspecialchars($sitedesc);
+$sitename = nkHtmlSpecialChars($sitename);
+$sitedesc = nkHtmlSpecialChars($sitedesc);
 
 header('Content-Type: text/xml');
 echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
@@ -46,7 +48,7 @@ while (list($tid, $forum_id) = mysql_fetch_array($result)){
     list($auteur, $titre, $texte, $date) = mysql_fetch_array($sql2);
 
     $pubdate = date('r', $date);
-    $titre = htmlspecialchars($titre);
+    $titre = nkHtmlSpecialChars($titre);
 
     if ($texte != ''){
 		$description = strip_tags($texte);
@@ -55,7 +57,7 @@ while (list($tid, $forum_id) = mysql_fetch_array($result)){
 			$description = substr($description, 0, 300) . "...";
 		}
 
-		$description = htmlspecialchars($description);
+		$description = nkHtmlSpecialChars($description);
     }
     else{
 		$description = '';

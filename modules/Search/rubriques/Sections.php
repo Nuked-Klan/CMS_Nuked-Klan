@@ -45,7 +45,7 @@ $nb_art = mysql_num_rows($sql_art);
 
 if ($nb_art > 0){
     while (list($art_id, $art_titre, $art_date) = mysql_fetch_array($sql_art)){
-        $art_titre = htmlentities($art_titre);
+        $art_titre = nkHtmlEntities($art_titre);
         $art_date = nkDate($art_date);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $art_titre . "</b> - " . _ADDED . "&nbsp;" . $art_date;

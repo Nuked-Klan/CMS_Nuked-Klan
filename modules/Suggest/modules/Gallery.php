@@ -125,10 +125,10 @@ function make_array($data){
     include("modules/Suggest/config.php");
 
     $data['titre'] = printSecuTags($data['titre']);
-    $data['auteur'] = htmlentities($data['auteur']);
-    $data['url'] = htmlentities($data['url']);
-    $data['url2'] = htmlentities($data['url2']);
-    $data['url_file'] = htmlentities($data['url_file']);
+    $data['auteur'] = nkHtmlEntities($data['auteur']);
+    $data['url'] = nkHtmlEntities($data['url']);
+    $data['url2'] = nkHtmlEntities($data['url2']);
+    $data['url_file'] = nkHtmlEntities($data['url_file']);
     $data['cat'] = printSecuTags($data['cat']);
     
     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
@@ -169,7 +169,7 @@ function send($data){
 
     include("modules/Suggest/config.php");
 
-    $data['description'] = html_entity_decode($data['description']);
+    $data['description'] = nkHtmlEntityDecode($data['description']);
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
     $data['auteur'] = mysql_real_escape_string(stripslashes($data['auteur']));

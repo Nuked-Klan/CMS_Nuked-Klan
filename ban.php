@@ -7,7 +7,10 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
+
 define('INDEX_CHECK', 1);
+ini_set('default_charset', 'ISO8859-1');
+
 include('globals.php');
 include('conf.inc.php');
 include('nuked.php');
@@ -63,7 +66,7 @@ if ($count > 0) {
 
     if (!empty($texte_ban)) {
         echo '<br /><p><hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" />
-        <big><b>' . _REASON . '</b><br>' . html_entity_decode($texte_ban) . '</big></p>';
+        <big><b>' . _REASON . '</b><br>' . nkHtmlEntityDecode($texte_ban) . '</big></p>';
     }
     
     if($dure == 0) $temps = _AVIE;

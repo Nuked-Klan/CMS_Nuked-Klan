@@ -15,15 +15,28 @@ connect();
 // QUERY NUKED CONFIG_TABLE.
 $nuked = array();
 $sql_conf = initializeControlDB($db_prefix);
-while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = htmlentities($row['value'], ENT_NOQUOTES);
+while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = nkHtmlEntities($row['value'], ENT_NOQUOTES);
 unset($sql_conf, $row);
 
 // CONVERT ALL HTML ENTITIES TO THEIR APPLICABLE CHARACTERS
 $nuked['prefix'] = $db_prefix;
 
+// FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
+function nkHtmlEntityDecode($string, $flags = ENT_QUOTES) {
+    return html_entity_decode($string, $flags, 'ISO-8859-1');
+}
+
+function nkHtmlSpecialChars($string, $flags = ENT_QUOTES) {
+    return htmlspecialchars($string, $flags, 'ISO-8859-1');
+}
+
+function nkHtmlEntities($string, $flags = ENT_QUOTES) {
+    return htmlentities($string, $flags, 'ISO-8859-1');
+}
+
 // FUNCTION TO FIX PRINTING TAGS
 function printSecuTags($value){
-    $value = htmlentities(html_entity_decode(html_entity_decode($value)));
+    $value = nkHtmlEntities(nkHtmlEntityDecode(nkHtmlEntityDecode($value)));
     return $value;
 }
 // FIX TAGS IN NUKED ARRAY
@@ -333,7 +346,7 @@ function icon($texte){
 
     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql)){
-        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . htmlentities($name) . '" />', $texte);
+        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . nkHtmlEntities($name) . '" />', $texte);
     }
 
     $texte = str_replace('mailto!', 'mailto:', $texte);
@@ -360,7 +373,7 @@ function ConfigSmileyCkeditor(){
     while($row = mysql_fetch_assoc($sql)){
         $TabCode[] = addslashes($row['code']);
         $TabUrl[] = $row['url'];
-        $TabName[] = htmlentities($row['name']);
+        $TabName[] = nkHtmlEntities($row['name']);
     }
 
     $IUrl = 0;
@@ -624,7 +637,7 @@ function secu_args($matches){
             $val = trim($val);
             if (preg_match('/^&quot;/', $val, $g))
                 $val .= ';';
-            $args[2][$id] = trim(html_entity_decode($val), " \t\n\r\0\"");
+            $args[2][$id] = trim(nkHtmlEntityDecode($val), " \t\n\r\0\"");
             if ($args[1][$id] == 'style'){
                 $args[2][$id] = secu_css($args[2][$id]);
             }
@@ -664,7 +677,7 @@ function secu_html($texte){
     // Balise HTML interdite
     $texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
     $texte = stripslashes($texte);
-    $texte = htmlspecialchars($texte);
+    $texte = nkHtmlSpecialChars($texte);
     $texte = str_replace('&amp;', '&', $texte);
 
     // Balise autorisée
@@ -820,7 +833,7 @@ function translate($file_lang){
     ob_start();
     print eval(" include ('$file_lang'); ");
     $lang_define = ob_get_contents();
-    $lang_define = htmlentities($lang_define, ENT_NOQUOTES);
+    $lang_define = nkHtmlEntities($lang_define, ENT_NOQUOTES);
     $lang_define = str_replace('&lt;', '<', $lang_define);
     $lang_define = str_replace('&gt;', '>', $lang_define);
     ob_end_clean();

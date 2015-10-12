@@ -86,7 +86,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
     function send_cat($titre, $description) {
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
         
@@ -132,7 +132,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
     function modif_cat($cid, $titre, $description) {
         global $nuked, $user;
 
-        $description = html_entity_decode($description);
+        $description = nkHtmlEntityDecode($description);
         $description = mysql_real_escape_string(stripslashes($description));
         $titre = mysql_real_escape_string(stripslashes($titre));
 

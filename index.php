@@ -9,6 +9,7 @@
 // -------------------------------------------------------------------------//
 
 define('INDEX_CHECK', 1);
+ini_set('default_charset', 'ISO8859-1');
 
 include_once('Includes/php51compatibility.php');
 include('globals.php');

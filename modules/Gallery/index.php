@@ -232,7 +232,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         list($cat, $titre, $description, $autor, $url, $url_file, $date, $count) = mysql_fetch_array($sql);
 
         $titre = printSecuTags($titre);
-        $autor = htmlentities($autor);
+        $autor = nkHtmlEntities($autor);
 
         $name = strrchr($url, '/');
         $name = substr($name, 1);

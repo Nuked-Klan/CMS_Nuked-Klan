@@ -52,7 +52,7 @@ if ($active == 3 || $active == 4)
         {
             $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
             list($rank_name) = mysql_fetch_array($sql_rank);
-            $rank_name = htmlentities($rank_name);
+            $rank_name = nkHtmlEntities($rank_name);
         }
         else
         {

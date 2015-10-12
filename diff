@@ -1,0 +1,2682 @@
+diff --git a/Includes/blocks/block_event.php b/Includes/blocks/block_event.php
+index 11dd847..222b549 100644
+--- a/Includes/blocks/block_event.php
++++ b/Includes/blocks/block_event.php
+@@ -231,7 +231,7 @@ function affich_block_event($blok){
+                     }
+                 }
+ 
+-                $blok['content'] .= '<td style="background: ' . $bgcolor1 . ';border: 1px solid ' . $bgcolor3 . ';text-align:center;" onmouseover="AffBulle(\'&nbsp;&nbsp;&nbsp;&nbsp;' . $event_date . '&nbsp;' . $months[$this_month] . '&nbsp;' . $year . '\', \'' . htmlentities(mysql_real_escape_string($txt), ENT_NOQUOTES) . '\', 200)" onmouseout="HideBulle()">'."\n"
++                $blok['content'] .= '<td style="background: ' . $bgcolor1 . ';border: 1px solid ' . $bgcolor3 . ';text-align:center;" onmouseover="AffBulle(\'&nbsp;&nbsp;&nbsp;&nbsp;' . $event_date . '&nbsp;' . $months[$this_month] . '&nbsp;' . $year . '\', \'' . nkHtmlEntities(mysql_real_escape_string($txt), ENT_NOQUOTES) . '\', 200)" onmouseout="HideBulle()">'."\n"
+                 . '<a href="index.php?file=Calendar&amp;m=' . $month . '&amp;y=' . $year . '">'. $bd . $dayarray['mday'] . $bf . '</a></td>'."\n";
+             }
+             else{
+diff --git a/Includes/blocks/block_html.php b/Includes/blocks/block_html.php
+index 8ae43d8..218f4b1 100644
+--- a/Includes/blocks/block_html.php
++++ b/Includes/blocks/block_html.php
+@@ -15,7 +15,7 @@ function affich_block_html($blok){
+     if(!function_exists('htmlspecialchars_decode'))
+ 		$blok['content'] = strtr($blok['content'], array_flip(get_html_translation_table(HTML_SPECIALCHARS)));
+ 	else
+-		$blok['content'] = htmlspecialchars_decode(html_entity_decode($blok['content']));
++		$blok['content'] = htmlspecialchars_decode(nkHtmlEntityDecode($blok['content']));
+     return $blok;
+ }
+ 
+@@ -25,7 +25,7 @@ function edit_block_html($bid){
+     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
+     $titre = printSecuTags($titre);
+-	$content = html_entity_decode($content);
++	$content = nkHtmlEntityDecode($content);
+ 
+     if ($active == 1) $checked1 = 'selected="selected"';
+     else if ($active == 2) $checked2 = 'selected="selected"';
+diff --git a/Includes/blocks/block_login.php b/Includes/blocks/block_login.php
+index 75c1f47..df49a01 100644
+--- a/Includes/blocks/block_login.php
++++ b/Includes/blocks/block_login.php
+@@ -107,7 +107,7 @@ function affich_block_login($blok){
+ 				   $user_online .= '&nbsp;<b><big>∑</big></b>&nbsp;<b>' . $nom . '</b><br />';
+ 			}
+ 	
+-			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
++			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . nkHtmlEntities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
+ 			}
+     	else{
+ 			$user_list = '';
+@@ -119,7 +119,7 @@ function affich_block_login($blok){
+ 				   $admin_online .= '&nbsp;<b><big>∑</big></b>&nbsp;<b>' . $name . '</b><br />';
+ 			}
+ 	
+-			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
++			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . nkHtmlEntities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
+ 		}
+ 		else{
+ 			$admin_list = '';
+diff --git a/Includes/blocks/block_menu.php b/Includes/blocks/block_menu.php
+index fbf35d8..5d43980 100644
+--- a/Includes/blocks/block_menu.php
++++ b/Includes/blocks/block_menu.php
+@@ -17,7 +17,7 @@ function affich_block_menu($blok){
+ function block_link($content){
+     global $user;
+ 
+-    $content = html_entity_decode($content);
++    $content = nkHtmlEntityDecode($content);
+     $link = explode('NEWLINE', $content);
+     $screen = '<ul style="list-style: none; padding: 0">';
+     $size = count($link);
+@@ -28,8 +28,8 @@ function block_link($content){
+         $nivuser = $user[1];
+         $title = preg_replace("`&amp;lt;`i", "<", $title);
+         $title = preg_replace("`&amp;gt;`i", ">", $title);
+-        $comment = htmlentities($comment);
+-        $url = htmlentities($url);
++        $comment = nkHtmlEntities($comment);
++        $url = nkHtmlEntities($url);
+ 
+         if (!$nivuser)$nivuser = 0;
+         
+@@ -54,7 +54,7 @@ function edit_block_menu($bid){
+     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
+ 
+-    $content = htmlentities($content);
++    $content = nkHtmlEntities($content);
+ 
+     if ($active == 1) $checked1 = 'selected="selected"';
+     else if ($active == 2) $checked2 = 'selected="selected"';
+diff --git a/Includes/blocks/block_rss.php b/Includes/blocks/block_rss.php
+index 090140f..69363c5 100644
+--- a/Includes/blocks/block_rss.php
++++ b/Includes/blocks/block_rss.php
+@@ -33,18 +33,18 @@ function affich_block_rss($blok){
+ 			$href = htmlentities((string) $actu->link, ENT_QUOTES, 'UTF-8');
+ 			$titleActu = htmlentities((string) $actu->title, ENT_QUOTES, 'UTF-8');
+ 			$description = ereg_replace("<[^>]*>", "", trim(strip_tags((string)$actu->description)));
+-			$description = html_entity_decode($description, ENT_QUOTES);
++			$description = nkHtmlEntityDecode($description, ENT_QUOTES);
+ 			$pubDate = (string) $actu->pubDate;
+ 			$description = (strlen($description) > 255) ? substr($description,0,255).'...' : $description;
+ 			$texte = $pubDate . ' : ' . $description;
+ 			
+ 			if ($blok['active'] == 3 or $blok['active'] == 4) {
+ 				
+-				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.htmlentities(utf8_decode($description)).'">'.utf8_decode($titleActu).'</a> ( '.$pubDate.' )</li>';
++				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.nkHtmlEntities(utf8_decode($description)).'">'.utf8_decode($titleActu).'</a> ( '.$pubDate.' )</li>';
+ 				
+ 			} else {
+ 				
+-				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.htmlentities(utf8_decode($texte)).'">'.utf8_decode($titleActu).'</a></li>';
++				$blok['content'] .= '<li><a href="'.$href.'" onclick="window.open(this.href);return false;" title="'.nkHtmlEntities(utf8_decode($texte)).'">'.utf8_decode($titleActu).'</a></li>';
+ 				
+ 			}
+ 			
+diff --git a/ban.php b/ban.php
+index 1e76e96..895bb97 100644
+--- a/ban.php
++++ b/ban.php
+@@ -7,7 +7,10 @@
+ // it under the terms of the GNU General Public License as published by     //
+ // the Free Software Foundation; either version 2 of the License.           //
+ // -------------------------------------------------------------------------//
++
+ define('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
++
+ include('globals.php');
+ include('conf.inc.php');
+ include('nuked.php');
+@@ -63,7 +66,7 @@ if ($count > 0) {
+ 
+     if (!empty($texte_ban)) {
+         echo '<br /><p><hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" />
+-        <big><b>' . _REASON . '</b><br>' . html_entity_decode($texte_ban) . '</big></p>';
++        <big><b>' . _REASON . '</b><br>' . nkHtmlEntityDecode($texte_ban) . '</big></p>';
+     }
+     
+     if($dure == 0) $temps = _AVIE;
+diff --git a/index.php b/index.php
+index 07b09b7..b6d2816 100644
+--- a/index.php
++++ b/index.php
+@@ -9,6 +9,7 @@
+ // -------------------------------------------------------------------------//
+ 
+ define('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
+ 
+ include_once('Includes/php51compatibility.php');
+ include('globals.php');
+diff --git a/modules/Admin/discussion.php b/modules/Admin/discussion.php
+index 2512349..e25dcb5 100644
+--- a/modules/Admin/discussion.php
++++ b/modules/Admin/discussion.php
+@@ -23,7 +23,7 @@ if ($visiteur  >= 2)
+ 		if ($_REQUEST['texte'] != '')
+ 		{
+ 			$_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
+-			$_REQUEST['texte'] = htmlentities($_REQUEST['texte']);
++			$_REQUEST['texte'] = nkHtmlEntities($_REQUEST['texte']);
+ 			$texte = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
+ 			$upd = mysql_query("INSERT INTO ".$nuked['prefix']."_discussion  (`date` , `pseudo` , `texte`)  VALUES ('".$date."', '".$user[0]."', '".$texte."')");
+ 		}
+diff --git a/modules/Admin/games.php b/modules/Admin/games.php
+index cbb0086..f1459ec 100644
+--- a/modules/Admin/games.php
++++ b/modules/Admin/games.php
+@@ -48,7 +48,7 @@ if ($visiteur == 9)
+         $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+         while (list($game_id, $name) = mysql_fetch_array($sql))
+         {
+-            $name = htmlentities($name);
++            $name = nkHtmlEntities($name);
+ 
+             echo "<tr>\n"
+             . "<td style=\"width: 50%;\" align=\"center\">" . $name . "</td>\n"
+diff --git a/modules/Admin/menu.php b/modules/Admin/menu.php
+index f8c3e6a..676f557 100644
+--- a/modules/Admin/menu.php
++++ b/modules/Admin/menu.php
+@@ -46,7 +46,7 @@ if ($visiteur == 9)
+         $sql = mysql_query("SELECT  bid, active, position, titre, nivo FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
+         while (list($bid, $activ, $position, $titre, $nivo) = mysql_fetch_array($sql))
+         {
+-            $titre = htmlentities($titre);
++            $titre = nkHtmlEntities($titre);
+ 
+             if ($activ == 1) $active = _LEFT;
+             else if ($activ == 2) $active = _RIGHT;
+@@ -70,7 +70,7 @@ if ($visiteur == 9)
+ 
+         $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+         list($titre, $content) = mysql_fetch_array($sql);
+-        $titre = htmlentities($titre);
++        $titre = nkHtmlEntities($titre);
+ 
+         echo "<script type=\"text/javascript\">\n"
+ 	."<!--\n"
+@@ -115,15 +115,15 @@ if ($visiteur == 9)
+             {
+                 list($url, $title, $comment, $niveau, $blank) = explode('|', $link);
+                 $title = strip_tags($title);
+-                $title = htmlentities($title);
++                $title = nkHtmlEntities($title);
+ 
+                 if ($comment !="" && strlen($comment) > 15)
+                 {
+-                    $comment = htmlentities(substr($comment, 0, 15)) . "...";
++                    $comment = nkHtmlEntities(substr($comment, 0, 15)) . "...";
+                 }
+ 		else if ($comment != "")
+ 		{
+-                    $comment = htmlentities($comment);
++                    $comment = nkHtmlEntities($comment);
+ 		}
+ 		else
+ 		{
+@@ -210,7 +210,7 @@ if ($visiteur == 9)
+         $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+         list($titre, $content) = mysql_fetch_array($sql);
+         $titre = strip_tags($titre);
+-        $titre = htmlentities($titre);
++        $titre = nkHtmlEntities($titre);
+ 
+         if ($content) $link = explode('NEWLINE', $content);
+         list($module, $title, $comment, $niveau, $blank) = explode('|', $link[$lid]);
+@@ -231,7 +231,7 @@ if ($visiteur == 9)
+             $img = $matches[0];
+             $puce = strrchr($img, '/');
+             $puce = substr($puce, 1);
+-            $puce = htmlentities($puce);
++            $puce = nkHtmlEntities($puce);
+         }
+ 
+         if (preg_match("`<span style=`i", $title) && preg_match("`color:`i", $title))
+@@ -242,11 +242,11 @@ if ($visiteur == 9)
+             $color = strrchr($font, '"');
+             $color = substr($color, 1);
+             $color= str_replace("color: #", "", $color);
+-            $color = htmlentities($color);
++            $color = nkHtmlEntities($color);
+         }
+ 
+         $title = strip_tags($title);
+-        $title = htmlentities($title);
++        $title = nkHtmlEntities($title);
+ 
+         if (substr($module, 0, 1) == "[" || $module == "") $url = "http://";
+         else $url = $module;
+@@ -304,7 +304,7 @@ if ($visiteur == 9)
+ 
+             list($url2, $title2, $comment2, $niveau2, $blank2) = explode('|', $link[$z]);
+             $title2 = strip_tags($title2);
+-            $title2 = htmlentities($title2);
++            $title2 = nkHtmlEntities($title2);
+ 
+             echo "<option value=\"" . $z . "\" " . $selected . ">" . $z . "&nbsp;&nbsp;(" . $title2 . ")</option>\n";
+         }
+diff --git a/modules/Admin/setting.php b/modules/Admin/setting.php
+index 93b6e43..c08601b 100644
+--- a/modules/Admin/setting.php
++++ b/modules/Admin/setting.php
+@@ -388,9 +388,9 @@ if ($visiteur == 9)
+         if (substr($_REQUEST['url'], -1) == "/") $_REQUEST['url'] = substr($_REQUEST['url'], 0, -1);
+         $_REQUEST['cookiename'] = str_replace(' ','',$_REQUEST['cookiename']);
+         
+-        $_REQUEST['inscription_charte'] = html_entity_decode($_REQUEST['inscription_charte']);
+-        $_REQUEST['inscription_mail'] = html_entity_decode($_REQUEST['inscription_mail']);
+-        $_REQUEST['footmessage'] = html_entity_decode($_REQUEST['footmessage']);
++        $_REQUEST['inscription_charte'] = nkHtmlEntityDecode($_REQUEST['inscription_charte']);
++        $_REQUEST['inscription_mail'] = nkHtmlEntityDecode($_REQUEST['inscription_mail']);
++        $_REQUEST['footmessage'] = nkHtmlEntityDecode($_REQUEST['footmessage']);
+ 
+         if($_REQUEST['theme'] !== $nuked['theme'])
+             mysql_query('UPDATE ' . USER_TABLE . ' SET user_theme = ""');
+diff --git a/modules/Admin/smilies.php b/modules/Admin/smilies.php
+index ef9203f..6ba1996 100644
+--- a/modules/Admin/smilies.php
++++ b/modules/Admin/smilies.php
+@@ -61,7 +61,7 @@ if ($visiteur == 9)
+         $sql = mysql_query("SELECT id, code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
+         while (list($smiley_id, $code, $url, $name) = mysql_fetch_array($sql))
+         {
+-            $name = htmlentities($name);
++            $name = nkHtmlEntities($name);
+ 
+             echo "<tr>\n"
+             . "<td style=\"width: 20%;\" align=\"center\"><img src=\"images/icones/" . $url . "\" alt=\"\" title=\"$url\" /></td>\n"
+diff --git a/modules/Admin/user.php b/modules/Admin/user.php
+index 3d040d5..52ff232 100644
+--- a/modules/Admin/user.php
++++ b/modules/Admin/user.php
+@@ -379,7 +379,7 @@ if ($visiteur == 9)
+                 $ordre = 0;
+             }
+ 
+-            $nick = htmlentities($nick, ENT_QUOTES);
++            $nick = nkHtmlEntities($nick, ENT_QUOTES);
+ 
+             $signature = mysql_real_escape_string(stripslashes($signature));
+             $email = mysql_real_escape_string(stripslashes($email));
+@@ -390,14 +390,14 @@ if ($visiteur == 9)
+             $url = mysql_real_escape_string(stripslashes($url));
+             $avatar = mysql_real_escape_string(stripslashes($avatar));
+ 
+-            $signature = html_entity_decode($signature);
+-            $email = htmlentities($email);
+-            $icq = htmlentities($icq);
+-            $msn = htmlentities($msn);
+-            $aim = htmlentities($aim);
+-            $yim = htmlentities($yim);
+-            $url = htmlentities($url);
+-            $avatar = htmlentities($avatar);
++            $signature = nkHtmlEntityDecode($signature);
++            $email = nkHtmlEntities($email);
++            $icq = nkHtmlEntities($icq);
++            $msn = nkHtmlEntities($msn);
++            $aim = nkHtmlEntities($aim);
++            $yim = nkHtmlEntities($yim);
++            $url = nkHtmlEntities($url);
++            $avatar = nkHtmlEntities($avatar);
+ 
+             $sql = mysql_query("UPDATE " . USER_TABLE . " SET team = '" . $team . "', team2 = '" . $team2 . "', team3 = '" . $team3 . "', rang = '" . $rang . "', ordre = '" . $ordre . "', pseudo = '" . $nick . "', mail = '" . $mail . "', email = '" . $email . "', icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', url = '" . $url . "', country = '" . $country . "', niveau = '" . $niveau . "', " . $cryptpass . "game = '" . $game . "', avatar = '" . $avatar . "', signature = '" . $signature . "' WHERE id = '" . $id_user . "'");
+ 
+@@ -453,7 +453,7 @@ if ($visiteur == 9)
+             } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
+             
+             $date = time();
+-            $nick = htmlentities($nick, ENT_QUOTES);
++            $nick = nkHtmlEntities($nick, ENT_QUOTES);
+ 
+             $signature = mysql_real_escape_string(stripslashes($signature));
+             $email = mysql_real_escape_string(stripslashes($email));
+@@ -464,14 +464,14 @@ if ($visiteur == 9)
+             $url = mysql_real_escape_string(stripslashes($url));
+             $avatar = mysql_real_escape_string(stripslashes($avatar));
+ 
+-            $signature = html_entity_decode($signature);
+-            $email = htmlentities($email);
+-            $icq = htmlentities($icq);
+-            $msn = htmlentities($msn);
+-            $aim = htmlentities($aim);
+-            $yim = htmlentities($yim);
+-            $url = htmlentities($url);
+-            $avatar = htmlentities($avatar);
++            $signature = nkHtmlEntityDecode($signature);
++            $email = nkHtmlEntities($email);
++            $icq = nkHtmlEntities($icq);
++            $msn = nkHtmlEntities($msn);
++            $aim = nkHtmlEntities($aim);
++            $yim = nkHtmlEntities($yim);
++            $url = nkHtmlEntities($url);
++            $avatar = nkHtmlEntities($avatar);
+ 
+             $sql = mysql_query("INSERT INTO " . USER_TABLE . "  ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` ) VALUES ( '" . $id_user . "' , '" . $team . "' , '" . $team2 . "' , '" . $team3 . "' , '" . $rang . "' , '' , '" . $nick . "' , '" . $mail . "' , '" . $email . "' , '" . $icq . "' , '" . $msn . "' , '" . $aim . "' , '" . $yim . "' , '" . $url . "' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '" . $avatar . "' , '" . $signature . "' , '' , '' , '" . $game . "' , '" . $country . "' , '' )");
+             // Action
+@@ -737,7 +737,7 @@ if ($visiteur == 9)
+                 {
+                     $sql_game = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
+                     list($game_name) = mysql_fetch_array($sql_game);
+-                    $game_name = htmlentities($game_name);
++                    $game_name = nkHtmlEntities($game_name);
+                 }
+                 else
+                 {
+@@ -946,7 +946,7 @@ if ($visiteur == 9)
+         {
+             while (list($ip_id, $ip, $pseudo, $email) = mysql_fetch_array($sql))
+             {
+-                $pseudo = htmlentities($pseudo);
++                $pseudo = nkHtmlEntities($pseudo);
+ 
+ 
+                 echo "<tr>\n"
+@@ -1268,7 +1268,7 @@ if ($visiteur == 9)
+         $sql = mysql_query("SELECT id, titre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
+         while (list($rid, $titre) = mysql_fetch_array($sql))
+         {
+-            $titre = htmlentities($titre);
++            $titre = nkHtmlEntities($titre);
+ 
+             echo "<option value=\"" . $rid . "\">" . $titre . "</option>\n";
+         }
+@@ -1288,9 +1288,9 @@ if ($visiteur == 9)
+     $corps = $pseudo . ", " . _VALIDREGISTRATION . "\r\n" . $nuked['url'] . "/index.php?file=User&op=login_screen\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+     $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+ 
+-    $subject = @html_entity_decode($subject);
+-    $corps = @html_entity_decode($corps);
+-    $from = @html_entity_decode($from);
++    $subject = @nkHtmlEntityDecode($subject);
++    $corps = @nkHtmlEntityDecode($corps);
++    $from = @nkHtmlEntityDecode($from);
+ 
+     mail($mail, $subject, $corps, $from);
+ 
+diff --git a/modules/Archives/index.php b/modules/Archives/index.php
+index 30b477a..c4d1d3a 100644
+--- a/modules/Archives/index.php
++++ b/modules/Archives/index.php
+@@ -122,11 +122,11 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+             if (strlen($titre) > 25)
+             {
+-                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\" title=\"" . $titre . "\">" . htmlentities(substr($titre, 0, 25)) . "...</a>";
++                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\" title=\"" . $titre . "\">" . nkHtmlEntities(substr($titre, 0, 25)) . "...</a>";
+             }
+             else
+             {
+-                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . htmlentities($titre) . "</a>";
++                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . nkHtmlEntities($titre) . "</a>";
+             }
+ 
+ 
+@@ -163,7 +163,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+             {
+                 $sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
+                 list($categorie) = mysql_fetch_array($sql3);
+-                $categorie = htmlentities($categorie);
++                $categorie = nkHtmlEntities($categorie);
+ 
+                 echo "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Archives&amp;op=sujet&amp;cat_id=" . $cat . "\" title= \"" . _SEENEWS . "&nbsp;" . $categorie . "\">" . $categorie . "</a></td>\n";
+             }
+@@ -278,11 +278,11 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+             if (strlen($titre) > 25)
+             {
+-                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\" title=\"" . $titre . "\">" . htmlentities(substr($titre, 0, 25)) . "...</a>";
++                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\" title=\"" . $titre . "\">" . nkHtmlEntities(substr($titre, 0, 25)) . "...</a>";
+             }
+             else
+             {
+-                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . htmlentities($titre) . "</a>";
++                $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . nkHtmlEntities($titre) . "</a>";
+             }
+ 
+             if ($autor_id != "")
+@@ -315,7 +315,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+             $sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
+             list($categorie) = mysql_fetch_array($sql3);
+-            $categorie = htmlentities($categorie);
++            $categorie = nkHtmlEntities($categorie);
+ 
+             echo "<td style=\"width: 20%;\" align=\"center\"><i>" . $categorie . "</i></td>\n"
+             . "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td>\n"
+diff --git a/modules/Comment/admin.php b/modules/Comment/admin.php
+index f867c7e..79fc7e1 100644
+--- a/modules/Comment/admin.php
++++ b/modules/Comment/admin.php
+@@ -23,9 +23,9 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+ 
+         $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
+         list($auteur, $autor_id, $titre, $texte, $ip) = mysql_fetch_array($sql);
+-        $auteur = htmlspecialchars($auteur);
++        $auteur = nkHtmlSpecialChars($auteur);
+ 		
+-        $titre = htmlentities($titre);
++        $titre = nkHtmlEntities($titre);
+ 
+         if($autor_id != ""){
+      	    $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+@@ -59,7 +59,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+     function modif_com($cid, $titre, $texte){
+         global $nuked, $user;
+ 		
+-		$texte = secu_html(html_entity_decode($texte));
++		$texte = secu_html(nkHtmlEntityDecode($texte));
+         $texte = mysql_real_escape_string(stripslashes($texte));
+         $titre = mysql_real_escape_string(stripslashes($titre));
+ 
+@@ -144,7 +144,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+         $sql = mysql_query("SELECT id, im_id, date, autor, autor_id, module FROM " . COMMENT_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_com);
+         while (list($id, $im_id, $date, $auteur, $autor_id, $module) = mysql_fetch_array($sql)){
+             $date = nkDate($date);
+-            $auteur = htmlspecialchars($auteur);
++            $auteur = nkHtmlSpecialChars($auteur);
+ 
+             if($autor_id != ""){
+                 $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+diff --git a/modules/Comment/index.php b/modules/Comment/index.php
+index 188744d..52dde49 100644
+--- a/modules/Comment/index.php
++++ b/modules/Comment/index.php
+@@ -146,7 +146,7 @@ function com_index($module, $im_id){
+         while($row = mysql_fetch_assoc($sql)){
+             $test = 0;
+             $row['date'] = nkDate($row['date']);
+-            $row['titre'] = htmlentities($row['titre']);
++            $row['titre'] = nkHtmlEntities($row['titre']);
+             $row['titre'] = nk_CSS($row['titre']);
+             $row['autor'] = nk_CSS($row['autor']);
+             $texte = (!empty($row['titre'])) ? '<b>'.$row['titre'].'</b><br /><br />'.$row['comment'] : $row['comment'];
+@@ -274,7 +274,7 @@ function view_com($module, $im_id){
+         while($row = mysql_fetch_assoc($sql)):
+             
+             $row['date'] = nkDate($row['date']);
+-            $row['titre'] = htmlentities($row['titre']);
++            $row['titre'] = nkHtmlEntities($row['titre']);
+             $row['titre'] = nk_CSS($row['titre']);
+             $row['autor'] = nk_CSS($row['autor']);
+             
+@@ -426,7 +426,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
+             $autor_id = $user[0];
+         }
+         else{
+-            $pseudo = htmlentities($pseudo, ENT_QUOTES);
++            $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
+             $pseudo = verif_pseudo($pseudo);
+             if ($pseudo == "error1"){
+                 die ("<div style=\"text-align: center;\"><br /><br />" . _PSEUDOFAILDED . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
+@@ -458,7 +458,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
+             exit();
+         }
+         
+-        $texte = secu_html(html_entity_decode($texte));
++        $texte = secu_html(nkHtmlEntityDecode($texte));
+         $titre = mysql_real_escape_string(stripslashes($titre));
+         $texte = stripslashes($texte);
+         $module = mysql_real_escape_string(stripslashes($module));
+@@ -539,7 +539,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
+     global $nuked, $user, $theme, $bgcolor2, $visiteur;
+ 
+     $level_admin = admin_mod("Comment");
+-    $texte = secu_html(html_entity_decode($texte));
++    $texte = secu_html(nkHtmlEntityDecode($texte));
+     if(!verification($module,$im_id)){
+         exit();
+     }
+@@ -594,7 +594,7 @@ function edit_comment($cid){
+         $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip, module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
+         list($auteur, $autor_id, $titre, $texte, $ip, $module, $im_id) = mysql_fetch_array($sql);
+ 
+-        $titre = htmlentities($titre);
++        $titre = nkHtmlEntities($titre);
+ 
+         if($autor_id != ""){
+             $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+diff --git a/modules/Contact/index.php b/modules/Contact/index.php
+index 455519e..2331759 100644
+--- a/modules/Contact/index.php
++++ b/modules/Contact/index.php
+@@ -109,14 +109,14 @@ if ($visiteur >= $level_access && $level_access > -1){
+ 
+             if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
+             else $email = $nuked['mail'];    
+-            $corp = secu_html(html_entity_decode($corp));
++            $corp = secu_html(nkHtmlEntityDecode($corp));
+         
+             mail($email, $subjet, $corp, $from);
+ 
+-            $name = htmlentities($nom, ENT_QUOTES);
+-            $email = htmlentities($mail, ENT_QUOTES);
+-            $subject = htmlentities($sujet, ENT_QUOTES);
+-            $text = secu_html(html_entity_decode($corps, ENT_QUOTES));
++            $name = nkHtmlEntities($nom, ENT_QUOTES);
++            $email = nkHtmlEntities($mail, ENT_QUOTES);
++            $subject = nkHtmlEntities($sujet, ENT_QUOTES);
++            $text = secu_html(nkHtmlEntityDecode($corps, ENT_QUOTES));
+             if($user) $name = $user[2];
+             
+             $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
+diff --git a/modules/Defy/index.php b/modules/Defy/index.php
+index f98d1d4..c2f92a9 100755
+--- a/modules/Defy/index.php
++++ b/modules/Defy/index.php
+@@ -31,7 +31,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+ 
+             echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
+                     . "<tr><td align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr>\n"
+-                    . "<tr><td>&nbsp;</td></tr><tr><td>" . html_entity_decode($nuked['defie_charte']) . "</td></tr></table>\n"
++                    . "<tr><td>&nbsp;</td></tr><tr><td>" . nkHtmlEntityDecode($nuked['defie_charte']) . "</td></tr></table>\n"
+                     . "<form method=\"post\" action=\"index.php?file=Defy\">\n"
+                     . "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
+                     . "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
+@@ -163,7 +163,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+         $inbox = $nuked['defie_inbox'];
+         $time = time();
+         $date2 = nkDate($time);
+-        $comment = secu_html(html_entity_decode($comment));
++        $comment = secu_html(nkHtmlEntityDecode($comment));
+         
+         $pseudo = mysql_real_escape_string(stripslashes($pseudo));
+         $clan = mysql_real_escape_string(stripslashes($clan));
+@@ -182,15 +182,15 @@ if ($visiteur >= $level_access && $level_access > -1){
+         
+         $pseudo = printSecuTags($pseudo);
+         $clan = printSecuTags($clan);
+-        $country = htmlentities($country);
+-        $mail = htmlentities($mail);
+-        $icq = htmlentities($icq);
+-        $irc = htmlentities($irc);
+-        $url = htmlentities($url);
+-        $date = htmlentities($date);
+-        $heure = htmlentities($heure);
++        $country = nkHtmlEntities($country);
++        $mail = nkHtmlEntities($mail);
++        $icq = nkHtmlEntities($icq);
++        $irc = nkHtmlEntities($irc);
++        $url = nkHtmlEntities($url);
++        $date = nkHtmlEntities($date);
++        $heure = nkHtmlEntities($heure);
+         $game = printSecuTags($game);
+-        $serveur = htmlentities($serveur);
++        $serveur = nkHtmlEntities($serveur);
+         $type = printSecuTags($type);
+         $map = printSecuTags($map);
+ 
+@@ -201,9 +201,9 @@ if ($visiteur >= $level_access && $level_access > -1){
+         $corps = $pseudo . " " . _NEWDEFY . "\r\n" . $nuked['url'] . "/index.php?file=Defy&page=admin\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
+ 
+-        $subject = @html_entity_decode($subject);
+-        $corps = @html_entity_decode($corps);
+-        $from = @html_entity_decode($from);
++        $subject = @nkHtmlEntityDecode($subject);
++        $corps = @nkHtmlEntityDecode($corps);
++        $from = @nkHtmlEntityDecode($from);
+ 
+         if (!empty($email)){
+             @mail($email, $subject, $corps, $from);
+diff --git a/modules/Forum/index.php b/modules/Forum/index.php
+index 119ee84..7fccf7e 100644
+--- a/modules/Forum/index.php
++++ b/modules/Forum/index.php
+@@ -76,7 +76,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+                 $edition = "";
+             }
+ 
+-            $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
++            $_REQUEST['texte'] = secu_html(nkHtmlEntityDecode($_REQUEST['texte']));
+             $_REQUEST['texte'] = icon($_REQUEST['texte']);
+             $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
+             $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
+@@ -607,7 +607,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         }
+         else
+         {
+-            $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES);
++            $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
+             $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
+ 
+             if ($_REQUEST['auteur'] == "error1")
+@@ -654,7 +654,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+             exit();
+         }
+ 
+-        $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
++        $_REQUEST['texte'] = secu_html(nkHtmlEntityDecode($_REQUEST['texte']));
+         $_REQUEST['texte'] = icon($_REQUEST['texte']);
+         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
+         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
+@@ -721,9 +721,9 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 							$corps = _EMAILNOTIFYMAIL . "\r\n" . $nuked['url'] . "/index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'] . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+ 							$from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+ 
+-							$subject = @html_entity_decode($subject);
+-							$corps = @html_entity_decode($corps);
+-							$from = @html_entity_decode($from);
++							$subject = @nkHtmlEntityDecode($subject);
++							$corps = @nkHtmlEntityDecode($corps);
++							$from = @nkHtmlEntityDecode($from);
+ 
+ 							mail($email, $subject, $corps, $from);
+ 				}
+@@ -798,7 +798,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         }
+         else
+         {
+-            $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES);
++            $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
+             $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
+ 
+             if ($_REQUEST['auteur'] == "error1")
+@@ -849,7 +849,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+             footer();
+             exit();
+         }
+-        $_REQUEST['texte'] = secu_html(html_entity_decode($_REQUEST['texte']));
++        $_REQUEST['texte'] = secu_html(nkHtmlEntityDecode($_REQUEST['texte']));
+         $_REQUEST['texte'] = icon($_REQUEST['texte']);
+         $_REQUEST['titre'] = mysql_real_escape_string(stripslashes($_REQUEST['titre']));
+         $_REQUEST['texte'] = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
+diff --git a/modules/Forum/post.php b/modules/Forum/post.php
+index 2c94752..d8e55c8 100644
+--- a/modules/Forum/post.php
++++ b/modules/Forum/post.php
+@@ -116,7 +116,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         {
+             $sql1 = mysql_query("SELECT titre, annonce FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
+             list($titre, $annonce) = mysql_fetch_array($sql1);
+-            $titre = htmlentities($titre);
++            $titre = nkHtmlEntities($titre);
+             $titre = preg_replace("`&amp;lt;`i", "&lt;", $titre);
+             $titre = preg_replace("`&amp;gt;`i", "&gt;", $titre);
+             $re_titre = "RE : " . $titre;
+diff --git a/modules/Forum/search.php b/modules/Forum/search.php
+index 7cf7552..b4e6b08 100644
+--- a/modules/Forum/search.php
++++ b/modules/Forum/search.php
+@@ -91,13 +91,13 @@ if ($visiteur >= $level_access && $level_access > -1)
+             if ($_REQUEST['autor'] != "" && $_REQUEST['query'] != "")
+             { 
+                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
+-                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES);
++                $_REQUEST['autor'] = nkHtmlEntities($_REQUEST['autor'], ENT_QUOTES);
+                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%') AND ";
+             }
+             else if ($_REQUEST['autor'] != "")
+             { 
+                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
+-                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES);
++                $_REQUEST['autor'] = nkHtmlEntities($_REQUEST['autor'], ENT_QUOTES);
+                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%')";
+             }
+ 
+@@ -178,12 +178,12 @@ if ($visiteur >= $level_access && $level_access > -1)
+                     $sql_forum = mysql_query("SELECT nom, niveau FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
+                     list($forum_name, $forum_level) = mysql_fetch_row($sql_forum);
+                     $date = nkDate($date);
+-                    $forum_name = htmlentities($forum_name);
++                    $forum_name = nkHtmlEntities($forum_name);
+ 
+                     $auteur = nk_CSS($auteur);
+ 
+                     $texte = strip_tags($txt);
+-                    $title = htmlentities($titre);
++                    $title = nkHtmlEntities($titre);
+                     $title = nk_CSS($title);
+ 
+                     if (!preg_match("`[a-zA-Z0-9\?\.]`", $texte))
+@@ -197,7 +197,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+                     } 
+ 
+                     $texte = nk_CSS($texte);
+-                    $texte = htmlentities($texte);
++                    $texte = nkHtmlEntities($texte);
+                     
+                     $sql_page = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
+                     $nb_rep = mysql_num_rows($sql_page);
+@@ -215,7 +215,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+                     if (strlen($titre) > 30)
+                     {
+-                        $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . htmlentities(substr($titre, 0, 30)) . "...</b></a>";
++                        $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . nkHtmlEntities(substr($titre, 0, 30)) . "...</b></a>";
+                     } 
+                     else
+                     {
+@@ -318,14 +318,14 @@ if ($visiteur >= $level_access && $level_access > -1)
+         $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
+         while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
+         {
+-            $cat_name = htmlentities($cat_name);
++            $cat_name = nkHtmlEntities($cat_name);
+ 
+             echo "<option value=\"cat_" . $cat . "\">* " . $cat_name . "</option>\n";
+ 
+             $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' AND '" . $visiteur . "' >= niveau ORDER BY ordre, nom");
+             while (list($forum_name, $fid) = mysql_fetch_row($sql_forum))
+             {
+-                $forum_name = htmlentities($forum_name);
++                $forum_name = nkHtmlEntities($forum_name);
+ 
+                 echo "<option value=\"" . $fid . "\">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
+             } 
+diff --git a/modules/Forum/viewforum.php b/modules/Forum/viewforum.php
+index 8d60cd1..e811b5c 100644
+--- a/modules/Forum/viewforum.php
++++ b/modules/Forum/viewforum.php
+@@ -162,10 +162,10 @@ if ($visiteur >= $level_access && $level_access > -1)
+                 $texte = substr($texte, 0, 150) . "...";
+             }
+ 
+-            $texte = htmlentities($texte);
++            $texte = nkHtmlEntities($texte);
+             $texte = nk_CSS($texte);
+ 
+-            $title = htmlentities(printSecuTags($titre));
++            $title = nkHtmlEntities(printSecuTags($titre));
+ 
+             if (strlen($titre) > 30)
+             {
+diff --git a/modules/Gallery/index.php b/modules/Gallery/index.php
+index b49517d..b9b21ff 100644
+--- a/modules/Gallery/index.php
++++ b/modules/Gallery/index.php
+@@ -232,7 +232,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         list($cat, $titre, $description, $autor, $url, $url_file, $date, $count) = mysql_fetch_array($sql);
+ 
+         $titre = printSecuTags($titre);
+-        $autor = htmlentities($autor);
++        $autor = nkHtmlEntities($autor);
+ 
+         $name = strrchr($url, '/');
+         $name = substr($name, 1);
+diff --git a/modules/Guestbook/admin.php b/modules/Guestbook/admin.php
+index b9afa73..a2a97a0 100644
+--- a/modules/Guestbook/admin.php
++++ b/modules/Guestbook/admin.php
+@@ -29,7 +29,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
+         $sql = mysql_query("SELECT name, comment, email, url FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
+         list($name, $comment, $email, $url) = mysql_fetch_array($sql);
+ 
+-        $url = htmlentities($url);
++        $url = nkHtmlEntities($url);
+         
+         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+         . "<div class=\"content-box-header\"><h3>" . _ADMINGUESTBOOK . "</h3>\n"
+@@ -52,7 +52,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
+     {
+         global $nuked, $user;
+ 
+-        $comment = html_entity_decode($comment);
++        $comment = nkHtmlEntityDecode($comment);
+         $comment = mysql_real_escape_string(stripslashes($comment));
+ 
+         if (!empty($url) && !is_int(stripos($url, 'http://')))
+diff --git a/modules/Guestbook/index.php b/modules/Guestbook/index.php
+index 3e8bd87..da392ec 100644
+--- a/modules/Guestbook/index.php
++++ b/modules/Guestbook/index.php
+@@ -105,7 +105,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         else
+         {
+             $name = verif_pseudo($name);
+-            $name = htmlentities($name, ENT_QUOTES);
++            $name = nkHtmlEntities($name, ENT_QUOTES);
+ 
+             if ($name == "error1")
+             {
+@@ -137,7 +137,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+             }
+         }
+ 
+-        $email = htmlentities($email);
++        $email = nkHtmlEntities($email);
+         $sql3 = mysql_query("SELECT email FROM " . BANNED_TABLE . " WHERE email = '" . $email . "'");
+         $nb_ban = mysql_num_rows($sql3);
+ 
+@@ -168,7 +168,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         else if ($comment != "")
+         {
+             $date = time();
+-            $comment = secu_html(html_entity_decode($comment));
++            $comment = secu_html(nkHtmlEntityDecode($comment));
+             $comment = mysql_real_escape_string(stripslashes($comment));
+             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
+             $email = mysql_real_escape_string(stripslashes($email));
+@@ -225,7 +225,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         {
+             $date = nkDate($date);
+ 
+-            $url = htmlentities($url);
++            $url = nkHtmlEntities($url);
+ 
+             $url = nk_CSS($url);
+             $email = nk_CSS($email);
+diff --git a/modules/Irc/admin.php b/modules/Irc/admin.php
+index 218337e..5729667 100644
+--- a/modules/Irc/admin.php
++++ b/modules/Irc/admin.php
+@@ -54,7 +54,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+ 
+             if (strlen($text) > 50){
+                 $texte = substr($text, 0, 50) . "...";
+-				$texte = htmlentities($texte);
++				$texte = nkHtmlEntities($texte);
+             } 
+             else{
+                 $texte = $text;
+@@ -98,7 +98,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+         global $nuked, $user;
+ 
+         $date = time();
+-		$text = html_entity_decode($text);
++		$text = nkHtmlEntityDecode($text);
+         $text = mysql_real_escape_string(stripslashes($text));
+ 
+         $sql = mysql_query("INSERT INTO " . IRC_AWARDS_TABLE . " ( `id` , `text` , `date` ) VALUES ( '' , '" . $text . "' , '" . $date . "' )");
+@@ -144,7 +144,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+     function do_edit($irc_id, $text){
+         global $nuked, $user;
+ 
+-		$text = secu_html(html_entity_decode($text));
++		$text = secu_html(nkHtmlEntityDecode($text));
+         $text = mysql_real_escape_string(stripslashes($text));
+ 
+         $upd = mysql_query("UPDATE " . IRC_AWARDS_TABLE . " SET text = '" . $text . "' WHERE id = '" . $irc_id . "'");
+diff --git a/modules/Irc/index.php b/modules/Irc/index.php
+index dbf2b57..c6439f3 100644
+--- a/modules/Irc/index.php
++++ b/modules/Irc/index.php
+@@ -65,7 +65,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+ 				. "<param name=\"archive\" value=\"irc.jar,pixx.jar\" />\n"
+ 				. "<param name=\"codebase\" value=\"modules/Irc/pjirc/\" />\n"
+ 				. "<param name=\"nick\" value=\"" . $nick . "\" />\n"
+-				. "<param name=\"alternatenick\" value=\"" . htmlentities($nick, ENT_QUOTES) . "\" />\n"
++				. "<param name=\"alternatenick\" value=\"" . nkHtmlEntities($nick, ENT_QUOTES) . "\" />\n"
+ 				. "<param name=\"name\" value=\"Java User\" />\n"
+ 				. "<param name=\"host\" value=\"irc." . $nuked['irc_serv'] . "\" />\n"
+ 				. "<param name=\"port\" value=\"6667\" />\n"
+diff --git a/modules/Links/index.php b/modules/Links/index.php
+index 0ed5ae0..d064bd3 100644
+--- a/modules/Links/index.php
++++ b/modules/Links/index.php
+@@ -113,7 +113,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+             $sql_parent = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
+             list($parent_titre) = mysql_fetch_array($sql_parent);
+ 
+-            echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '" style="text-decoration:none"><big><b>' . htmlentities($parent_titre) . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
++            echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '" style="text-decoration:none"><big><b>' . nkHtmlEntities($parent_titre) . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
+         } 
+         else{
+             echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
+diff --git a/modules/Members/index.php b/modules/Members/index.php
+index 0ce00b1..a30a135 100755
+--- a/modules/Members/index.php
++++ b/modules/Members/index.php
+@@ -176,7 +176,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+         $date_install = nkDate($nuked['date_install']);
+ 
+         if ($_REQUEST['letter'] != ""){
+-            $_REQUEST['letter'] = htmlentities($_REQUEST['letter']);
++            $_REQUEST['letter'] = nkHtmlEntities($_REQUEST['letter']);
+             $_REQUEST['letter'] = nk_CSS($_REQUEST['letter']);
+ 
+             echo "<br /><div style=\"text-align: center;\">" . $count . "&nbsp;" . _MEMBERSFOUND . " <b>" . $_REQUEST['letter'] . "</b></div><br />\n";
+@@ -202,7 +202,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+ 
+         opentable();
+ 
+-        $autor = htmlentities($autor, ENT_QUOTES);
++        $autor = nkHtmlEntities($autor, ENT_QUOTES);
+ 
+         $sql = mysql_query("SELECT U.id, U.icq, U.msn, U.aim, U.yim, U.email, U.url, U.date, U.game, U.country, S.date FROM " . USER_TABLE . " AS U LEFT OUTER JOIN " . SESSIONS_TABLE . " AS S ON U.id = S.user_id WHERE U.pseudo = '" . $autor . "'");
+         $test = mysql_num_rows($sql);
+@@ -227,12 +227,12 @@ if ($visiteur >= $level_access && $level_access > -1){
+ 			$date = nkDate($date);
+ 			$last_used > 0 ? $last_used=nkDate($last_used) : $last_used='';            
+ 
+-            $titre = htmlentities($titre);
+-            $pref_1 = htmlentities($pref_1);
+-            $pref_2 = htmlentities($pref_2);
+-            $pref_3 = htmlentities($pref_3);
+-            $pref_4 = htmlentities($pref_4);
+-            $pref_5 = htmlentities($pref_5);
++            $titre = nkHtmlEntities($titre);
++            $pref_1 = nkHtmlEntities($pref_1);
++            $pref_2 = nkHtmlEntities($pref_2);
++            $pref_3 = nkHtmlEntities($pref_3);
++            $pref_4 = nkHtmlEntities($pref_4);
++            $pref_5 = nkHtmlEntities($pref_5);
+ 
+             if ($birthday != ""){
+                 list ($jour, $mois, $an) = explode ('/', $birthday);
+@@ -284,7 +284,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+ 
+             $a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
+             $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+-            $flash_autor = @html_entity_decode($autor);
++            $flash_autor = @nkHtmlEntityDecode($autor);
+             $flash_autor = strtr($flash_autor, $a, $b);
+ 
+             echo "<br /><object type=\"application/x-shockwave-flash\" data=\"modules/Members/images/title.swf\" width=\"100%\" height=\"50\">\n"
+@@ -377,7 +377,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+ 	function listing($q,$type='right',$limit=100){
+ 		$q	= strtolower($q);
+ 		$q = nk_CSS($q);
+-		$q = htmlentities($q, ENT_QUOTES);	
++		$q = nkHtmlEntities($q, ENT_QUOTES);	
+ 		if (!$q) return;
+ 		
+ 		if (!is_numeric($limit)) $limit = 0;
+diff --git a/modules/News/index.php b/modules/News/index.php
+index f270c0a..fc7db55 100644
+--- a/modules/News/index.php
++++ b/modules/News/index.php
+@@ -221,7 +221,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
+ 
+         if (!empty($row['auteur_id']) && $test > 0) {
+             list($auteur) = mysql_fetch_array($sql2);
+-            $auteur = @html_entity_decode($auteur);
++            $auteur = @nkHtmlEntityDecode($auteur);
+         } else {
+             $auteur = $row['auteur'];
+         }
+@@ -236,7 +236,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
+ 
+         include 'Includes/html2pdf/html2pdf.class.php';
+         $sitename = $nuked['name'].' - '.$nuked['slogan'];
+-        $sitename  = @html_entity_decode($sitename);
++        $sitename  = @nkHtmlEntityDecode($sitename);
+ 
+         $texte = "<h1>{$row['titre']}</h1><hr />$texte<hr />$sitename<br />$articleurl.";
+         $_REQUEST['file'] = $sitename.'_'.$title;
+@@ -295,9 +295,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
+             $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
+             $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
+ 
+-            $subject = @html_entity_decode($subject);
+-            $corps = @html_entity_decode($corps);
+-            $from = @html_entity_decode($from);
++            $subject = @nkHtmlEntityDecode($subject);
++            $corps = @nkHtmlEntityDecode($corps);
++            $from = @nkHtmlEntityDecode($from);
+ 
+             mail($mail, $subject, $corps, $from);
+ 
+diff --git a/modules/Recruit/admin.php b/modules/Recruit/admin.php
+index bb7a515..d0cf70c 100644
+--- a/modules/Recruit/admin.php
++++ b/modules/Recruit/admin.php
+@@ -56,7 +56,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
+ 
+             $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id='$game'");
+             list($game_name) = mysql_fetch_array($sql2);
+-            $game_name = htmlentities($game_name);
++            $game_name = nkHtmlEntities($game_name);
+ 
+ 
+             echo "<tr>\n"
+@@ -131,7 +131,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
+     {
+         global $nuked, $user;
+ 
+-		$recrute_charte = html_entity_decode($recrute_charte);
++		$recrute_charte = nkHtmlEntityDecode($recrute_charte);
+         $recrute_charte = mysql_real_escape_string(stripslashes($recrute_charte));
+ 
+         $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute . "' WHERE name = 'recrute'");
+@@ -180,7 +180,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
+ 
+         $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
+         list($game_name) = mysql_fetch_array($sql2);
+-        $game_name = htmlentities($game_name);
++        $game_name = nkHtmlEntities($game_name);
+ 
+         echo "<b>" . _NICK . " : </b>" . $pseudo . "<br />\n"
+ 	. "<b>" . _FIRSTNAME . " : </b>" . $prenom . "<br />\n"
+diff --git a/modules/Recruit/index.php b/modules/Recruit/index.php
+index 1aa4595..efb45e1 100644
+--- a/modules/Recruit/index.php
++++ b/modules/Recruit/index.php
+@@ -37,7 +37,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+             {
+ 				echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
+ 				. "<tr><td align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr>\n"
+-				. "<tr><td>&nbsp;</td></tr><tr><td>" . html_entity_decode($nuked['recrute_charte']) . "</td></tr></table>\n"
++				. "<tr><td>&nbsp;</td></tr><tr><td>" . nkHtmlEntityDecode($nuked['recrute_charte']) . "</td></tr></table>\n"
+ 				. "<form method=\"post\" action=\"index.php?file=Recruit\">\n"
+ 				. "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
+ 				. "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
+@@ -151,7 +151,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 			$sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+ 			while (list($game_id, $nom) = mysql_fetch_array($sql))
+ 			{
+-				$nom = htmlentities($nom);
++				$nom = nkHtmlEntities($nom);
+ 				echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
+ 			}
+ 
+@@ -201,7 +201,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+             $date = time();
+             $date2 = nkDate($date);
+ 
+-			$comment = secu_html(html_entity_decode($comment));
++			$comment = secu_html(nkHtmlEntityDecode($comment));
+ 
+             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
+             $prenom = mysql_real_escape_string(stripslashes($prenom));
+@@ -214,14 +214,14 @@ if ($visiteur >= $level_access && $level_access > -1)
+             $dispo = mysql_real_escape_string(stripslashes($dispo));
+             $comment = mysql_real_escape_string(stripslashes($comment));
+ 
+-            $pseudo = htmlentities($pseudo);
+-            $prenom = htmlentities($prenom);
+-            $mail = htmlentities($mail);
+-            $icq = htmlentities($icq);
+-            $country = htmlentities($country);
+-            $connex = htmlentities($connex);
+-            $exp = htmlentities($exp);
+-            $dispo = htmlentities($dispo);
++            $pseudo = nkHtmlEntities($pseudo);
++            $prenom = nkHtmlEntities($prenom);
++            $mail = nkHtmlEntities($mail);
++            $icq = nkHtmlEntities($icq);
++            $country = nkHtmlEntities($country);
++            $connex = nkHtmlEntities($connex);
++            $exp = nkHtmlEntities($exp);
++            $dispo = nkHtmlEntities($dispo);
+ 
+             $sql = mysql_query("INSERT INTO " . RECRUIT_TABLE . " ( `id` , `date` , `pseudo` , `prenom` , `age` , `mail` , `icq` , `country` , `game` , `connection` , `experience` , `dispo` , `comment` ) VALUES ( '' , '" . $date . "' , '" . $pseudo . "' , '" . $prenom . "' , '" . $age . "' , '" . $mail . "' , '" . $icq . "' , '" . $country . "' , '" . $game . "' , '" . $connex . "' , '" . $exp . "' , '" . $dispo . "' , '" . $comment. "' )");
+ 			$upd2 = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '1', '"._NOTDEM.": [<a href=\"index.php?file=Recruit&page=admin\">lien</a>].')");
+@@ -230,9 +230,9 @@ if ($visiteur >= $level_access && $level_access > -1)
+             $corps = $pseudo . " " . _NEWRECRUIT . "\r\n" . $nuked['url'] . "/index.php?file=Recruit&page=admin\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+             $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
+ 
+-            $subject = @html_entity_decode($subject);
+-            $corps = @html_entity_decode($corps);
+-            $from = @html_entity_decode($from);
++            $subject = @nkHtmlEntityDecode($subject);
++            $corps = @nkHtmlEntityDecode($corps);
++            $from = @nkHtmlEntityDecode($from);
+ 
+             if ($email != "")
+             {
+diff --git a/modules/Search/index.php b/modules/Search/index.php
+index 31ceec7..d8c7a0a 100644
+--- a/modules/Search/index.php
++++ b/modules/Search/index.php
+@@ -109,7 +109,7 @@ function mod_search($module, $main, $autor, $limit, $searchtype){
+         } 
+ 
+         $main = mysql_real_escape_string(stripslashes($main));
+-        $autor = htmlentities($autor, ENT_QUOTES);
++        $autor = nkHtmlEntities($autor, ENT_QUOTES);
+ 	    $autor = nk_CSS($autor);
+         $autor = mysql_real_escape_string(stripslashes($autor));
+         $search = explode(" ", $main);
+diff --git a/modules/Search/rubriques/Comment.php b/modules/Search/rubriques/Comment.php
+index 924bc52..da048ad 100644
+--- a/modules/Search/rubriques/Comment.php
++++ b/modules/Search/rubriques/Comment.php
+@@ -44,7 +44,7 @@ $nb_com = mysql_num_rows($sql_com);
+ if ($nb_com > 0){
+     while (list($com_module, $im_id, $com_autor, $com_titre, $com_date) = mysql_fetch_array($sql_com)){
+             if ($com_titre != ""){
+-                $com_titre = htmlentities($com_titre);
++                $com_titre = nkHtmlEntities($com_titre);
+                 $com_titre = nk_CSS($com_titre);
+             }
+             else{
+diff --git a/modules/Search/rubriques/Download.php b/modules/Search/rubriques/Download.php
+index deb82fb..e033a42 100644
+--- a/modules/Search/rubriques/Download.php
++++ b/modules/Search/rubriques/Download.php
+@@ -47,7 +47,7 @@ $nb_dl = mysql_num_rows($sql_dl);
+ 
+ if ($nb_dl > 0){
+     while (list($dl_id, $dl_titre, $dl_date) = mysql_fetch_array($sql_dl)){
+-        $dl_titre = htmlentities($dl_titre);
++        $dl_titre = nkHtmlEntities($dl_titre);
+         $dl_date = nkDate($dl_date);
+         $tab['module'][] = $modname;
+         $tab['title'][] = "<b>" . $dl_titre . "</b> - " . _ADDED . "&nbsp;" . $dl_date;
+diff --git a/modules/Search/rubriques/Forum.php b/modules/Search/rubriques/Forum.php
+index e890c24..9ac1e2c 100644
+--- a/modules/Search/rubriques/Forum.php
++++ b/modules/Search/rubriques/Forum.php
+@@ -48,7 +48,7 @@ $nb_mess = mysql_num_rows($sql_forum);
+ if ($nb_mess > 0){
+     while (list($mid, $tid, $subject, $fid, $mess_date, $author) = mysql_fetch_array($sql_forum)){
+         $mess_date = nkDate($mess_date);
+-        $subject = htmlentities($subject);
++        $subject = nkHtmlEntities($subject);
+         $subject = nk_CSS($subject);
+ 
+         $sql_page = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $tid . "'");
+diff --git a/modules/Search/rubriques/Gallery.php b/modules/Search/rubriques/Gallery.php
+index 7952d27..fa06890 100644
+--- a/modules/Search/rubriques/Gallery.php
++++ b/modules/Search/rubriques/Gallery.php
+@@ -45,7 +45,7 @@ $nb_img = mysql_num_rows($sql_img);
+ 
+ if ($nb_img > 0){
+     while (list($img_id, $img_titre, $img_date) = mysql_fetch_array($sql_img)){
+-        $img_titre = htmlentities($img_titre);
++        $img_titre = nkHtmlEntities($img_titre);
+         $img_date = nkDate($img_date);
+         if ($img_date) $img_date = " - " . _ADDED . " " . $img_date;
+         $tab['module'][] = "$modname";
+diff --git a/modules/Search/rubriques/Links.php b/modules/Search/rubriques/Links.php
+index 2306221..946fccc 100644
+--- a/modules/Search/rubriques/Links.php
++++ b/modules/Search/rubriques/Links.php
+@@ -45,7 +45,7 @@ $nb_lk = mysql_num_rows($sql_lk);
+ 
+ if ($nb_lk > 0){
+     while (list($link_id, $link_titre, $lk_date) = mysql_fetch_array($sql_lk)){
+-        $link_titre = htmlentities($link_titre);
++        $link_titre = nkHtmlEntities($link_titre);
+         $lk_date = nkDate($lk_date);
+         $tab['module'][] = $modname;
+         $tab['title'][] = "<b>" . $link_titre . "</b> - " . _ADDED . "&nbsp;" . $lk_date;
+diff --git a/modules/Search/rubriques/News.php b/modules/Search/rubriques/News.php
+index d43baef..b8a1e89 100644
+--- a/modules/Search/rubriques/News.php
++++ b/modules/Search/rubriques/News.php
+@@ -48,7 +48,7 @@ $nb_news = mysql_num_rows($sql_news);
+ if ($nb_news > 0){
+     while (list($news_id, $news_auteur, $news_titre, $news_date) = mysql_fetch_array($sql_news)){
+         $news_date = nkDate($news_date);
+-        $news_titre = htmlentities($news_titre);
++        $news_titre = nkHtmlEntities($news_titre);
+         $tab['module'][] = $modname;
+         $tab['title'][] = "<b>" . $news_titre . "</b> - " . _BY . "&nbsp;" . $news_auteur . "&nbsp;" . _THE . "&nbsp;" . $news_date;
+         $tab['link'][] = "index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id;
+diff --git a/modules/Search/rubriques/Sections.php b/modules/Search/rubriques/Sections.php
+index 3e1dd6a..e616fe8 100644
+--- a/modules/Search/rubriques/Sections.php
++++ b/modules/Search/rubriques/Sections.php
+@@ -45,7 +45,7 @@ $nb_art = mysql_num_rows($sql_art);
+ 
+ if ($nb_art > 0){
+     while (list($art_id, $art_titre, $art_date) = mysql_fetch_array($sql_art)){
+-        $art_titre = htmlentities($art_titre);
++        $art_titre = nkHtmlEntities($art_titre);
+         $art_date = nkDate($art_date);
+         $tab['module'][] = $modname;
+         $tab['title'][] = "<b>" . $art_titre . "</b> - " . _ADDED . "&nbsp;" . $art_date;
+diff --git a/modules/Sections/admin.php b/modules/Sections/admin.php
+index e937af8..8c20f8d 100644
+--- a/modules/Sections/admin.php
++++ b/modules/Sections/admin.php
+@@ -224,7 +224,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+             redirect("index.php?file=Sections&page=admin&op=add", 4);
+         }
+         else {
+-            $texte = html_entity_decode($texte);
++            $texte = nkHtmlEntityDecode($texte);
+             $texte = mysql_real_escape_string(stripslashes($texte));
+             $date = time();
+             $auteur = $user[2];
+@@ -310,7 +310,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+             redirect("index.php?file=Sections&page=admin&op=add", 4);
+         }
+         else{
+-            $texte = html_entity_decode($texte);
++            $texte = nkHtmlEntityDecode($texte);
+             $texte = mysql_real_escape_string(stripslashes($texte));
+         
+             $upd = mysql_query("UPDATE " . SECTIONS_TABLE . " SET secid = '" . $cat . "', title = '" . $titre . "', content = '" . $texte . "' WHERE artid = '" . $art_id . "'");
+@@ -471,7 +471,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+             redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
+         }
+         else{
+-            $description = html_entity_decode($description);
++            $description = nkHtmlEntityDecode($description);
+             $description = mysql_real_escape_string(stripslashes($description));
+             $position = intval($position);
+         
+@@ -560,7 +560,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+             redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
+         }
+         else{
+-            $description = html_entity_decode($description);
++            $description = nkHtmlEntityDecode($description);
+             $description = mysql_real_escape_string(stripslashes($description));
+             $position = intval($position);
+         
+diff --git a/modules/Sections/index.php b/modules/Sections/index.php
+index de5190e..f3ba325 100644
+--- a/modules/Sections/index.php
++++ b/modules/Sections/index.php
+@@ -214,7 +214,7 @@ if ($visiteur >= $level_access && $level_access > -1){
+         } 
+ 
+         $title = printSecuTags($title);
+-        $autor = htmlentities($autor);
++        $autor = nkHtmlEntities($autor);
+ 
+         $words = sizeof(explode(" ", $content));
+ 
+diff --git a/modules/Server/admin.php b/modules/Server/admin.php
+index 1b8ebfa..69c3e39 100644
+--- a/modules/Server/admin.php
++++ b/modules/Server/admin.php
+@@ -86,7 +86,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
+     function send_cat($titre, $description) {
+         global $nuked, $user;
+ 
+-        $description = html_entity_decode($description);
++        $description = nkHtmlEntityDecode($description);
+         $description = mysql_real_escape_string(stripslashes($description));
+         $titre = mysql_real_escape_string(stripslashes($titre));
+         
+@@ -132,7 +132,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
+     function modif_cat($cid, $titre, $description) {
+         global $nuked, $user;
+ 
+-        $description = html_entity_decode($description);
++        $description = nkHtmlEntityDecode($description);
+         $description = mysql_real_escape_string(stripslashes($description));
+         $titre = mysql_real_escape_string(stripslashes($titre));
+ 
+diff --git a/modules/Server/includes/gsQuery.php b/modules/Server/includes/gsQuery.php
+index 0ecd971..5bc4190 100644
+--- a/modules/Server/includes/gsQuery.php
++++ b/modules/Server/includes/gsQuery.php
+@@ -395,7 +395,7 @@ class gsQuery
+    */
+   function htmlize($string)
+   {
+-    return htmlentities($string);
++    return nkHtmlEntities($string);
+   }
+ 
+   /**
+diff --git a/modules/Server/includes/openQuery.php b/modules/Server/includes/openQuery.php
+index 1486c4e..a1f94a4 100644
+--- a/modules/Server/includes/openQuery.php
++++ b/modules/Server/includes/openQuery.php
+@@ -190,7 +190,7 @@ class openQuery extends gsQuery
+   {
+     $colors = array('black', 'white', 'blue', 'green', 'red', 'light-blue', 'yellow', 'pink', 'orange', 'grey');
+ 
+-    $string = htmlentities($string);
++    $string = nkHtmlEntities($string);
+     $num_tags = preg_match_all("/\\$(\d)/", $string, $matches);
+     $string = preg_replace("/\\$(\d)/e", "'<span class=\"gsquery-'. \$colors[\$1] .'\">'", $string);
+ 
+diff --git a/modules/Server/includes/q2.php b/modules/Server/includes/q2.php
+index 8d15ac3..c253b06 100644
+--- a/modules/Server/includes/q2.php
++++ b/modules/Server/includes/q2.php
+@@ -110,7 +110,7 @@ class q2 extends quake
+ 
+   function htmlize($string)
+   {
+-    return htmlentities($this->textify($string));
++    return nkHtmlEntities($this->textify($string));
+   }
+ 
+   function textify($string)
+diff --git a/modules/Server/includes/q3a.php b/modules/Server/includes/q3a.php
+index e242b8b..3d8be04 100644
+--- a/modules/Server/includes/q3a.php
++++ b/modules/Server/includes/q3a.php
+@@ -290,7 +290,7 @@ class q3a extends quake
+ 	}
+       } else {
+ 	// normal char
+-	$result .= htmlentities($var[$i]);
++	$result .= nkHtmlEntities($var[$i]);
+       }
+     }
+ 
+diff --git a/modules/Server/includes/savage.php b/modules/Server/includes/savage.php
+index 056baa2..af8ee38 100644
+--- a/modules/Server/includes/savage.php
++++ b/modules/Server/includes/savage.php
+@@ -140,7 +140,7 @@ class savage extends gsQuery
+   //strips color codes
+   function htmlize($var)
+   {
+-    $var = htmlspecialchars($var);
++    $var = nkHtmlSpecialChars($var);
+     while(preg_match('`\^([0-9][0-9][0-9])`', $var)) {
+       $var = preg_replace("#\^([0-9][0-9][0-9])(.*)$#Usi", "$2", $var);
+     }
+diff --git a/modules/Server/includes/ut2004.php b/modules/Server/includes/ut2004.php
+index ad27ea2..19919d2 100644
+--- a/modules/Server/includes/ut2004.php
++++ b/modules/Server/includes/ut2004.php
+@@ -73,7 +73,7 @@ class ut2004 extends gameSpy
+           break;
+         }
+       } else {
+-        $result .= htmlspecialchars($string[$i]);
++        $result .= nkHtmlSpecialChars($string[$i]);
+       }
+     }
+ 
+diff --git a/modules/Stats/top.php b/modules/Stats/top.php
+index b8c0d19..db1b357 100644
+--- a/modules/Stats/top.php
++++ b/modules/Stats/top.php
+@@ -50,7 +50,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
+ 
+                 echo '<tr style="background: ' . $bg . '">'."\n"
+                 . '<td style="width: 10%" align="center">' . $idl . '</td>'."\n"
+-                . '<td style="width: 60%"><a href="index.php?file=Download&amp;op=description&amp;dl_id=' . $dl_id . '">' . htmlentities($dl_titre) . '</a></td>'."\n"
++                . '<td style="width: 60%"><a href="index.php?file=Download&amp;op=description&amp;dl_id=' . $dl_id . '">' . nkHtmlEntities($dl_titre) . '</a></td>'."\n"
+                 . '<td style="width: 30%" align="center">' . $dl_count . '</td></tr>'."\n";
+             }
+         }
+@@ -91,7 +91,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
+ 
+                 echo '<tr style="background: ' . $bg1 . '">'."\n"
+                 . '<td style="width: 10%" align="center">' . $ilink . '</td>'."\n"
+-                . '<td style="width: 60%"><a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '">' . htmlentities($link_titre) . '</a></td>'."\n"
++                . '<td style="width: 60%"><a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '">' . nkHtmlEntities($link_titre) . '</a></td>'."\n"
+                 . '<td style="width: 30%" align="center">' . $link_count . '</td></tr>'."\n";
+             } 
+         }
+@@ -132,7 +132,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
+ 
+                 echo '<tr style="background: ' . $bg2 . '">'."\n"
+                 . '<td style="width: 10%" align="center">' . $iart . '</td>'."\n"
+-                . '<td style="width: 60%"><a href="index.php?file=Sections&amp;op=article&amp;artid=' . $art_id . '">' . htmlentities($art_titre) . '</a></td>'."\n"
++                . '<td style="width: 60%"><a href="index.php?file=Sections&amp;op=article&amp;artid=' . $art_id . '">' . nkHtmlEntities($art_titre) . '</a></td>'."\n"
+                 . '<td style="width: 30%" align="center">' . $art_count . '</td></tr>'."\n";
+             } 
+         }
+@@ -173,7 +173,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
+ 
+                 echo '<tr style="background: ' . $bg3 . '">'."\n"
+                 . '<td style="width: 10%" align="center">' . $itopic . '</td>'."\n"
+-                . '<td style="width: 60%"><a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=' . $fid . '&amp;thread_id=' . $tid . '">' . htmlentities($topic_titre) . '</a></td>'."\n"
++                . '<td style="width: 60%"><a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=' . $fid . '&amp;thread_id=' . $tid . '">' . nkHtmlEntities($topic_titre) . '</a></td>'."\n"
+                 . '<td style="width: 30%" align="center">' . $views . '</td></tr>'."\n";
+             }
+         }
+@@ -206,7 +206,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
+ 
+             echo '<tr style="background: ' . $bg4 . '">'."\n"
+             . '<td style="width: 10%" align="center">' . $iuserf . '</td>'."\n"
+-            . '<td style="width: 60%"><a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($pseudof) . '">' . htmlentities($pseudof) . '</a></td>'."\n"
++            . '<td style="width: 60%"><a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($pseudof) . '">' . nkHtmlEntities($pseudof) . '</a></td>'."\n"
+             . '<td style="width: 30%" align="center">' . $userfcount . '</td></tr>'."\n";
+         }
+ 
+diff --git a/modules/Stats/visits.php b/modules/Stats/visits.php
+index 76d7685..8514700 100644
+--- a/modules/Stats/visits.php
++++ b/modules/Stats/visits.php
+@@ -262,7 +262,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
+                     $j2 = 0;
+                 }
+                 $hostname = (strlen($host) > 15) ? substr($host, 0, 15) . '...' : $host;
+-                $host = empty($host) ? _UNKNOWN : '<a href="' . $host . '" onclick="window.open(this.href); return false;">' . htmlentities($hostname) . '</a>';
++                $host = empty($host) ? _UNKNOWN : '<a href="' . $host . '" onclick="window.open(this.href); return false;">' . nkHtmlEntities($hostname) . '</a>';
+ 
+                 echo '<tr style="background: ' . $bg2 . '">'."\n"
+                 . '<td style="width: 5%" align="center">' . $ihost . '</td>'."\n"
+@@ -321,7 +321,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
+ 
+                 $referant = preg_replace('`http://`i', '', $referer);
+ 
+-                $ref = (strlen($referant) > 15) ? htmlentities(substr($referant, 0, 15)) . '...' : htmlentities($referant);
++                $ref = (strlen($referant) > 15) ? nkHtmlEntities(substr($referant, 0, 15)) . '...' : nkHtmlEntities($referant);
+                 $user_ref = (!empty($referer) && !is_int(strpos($referer, 'login'))) ? '<a href="' . $referer . '" onclick="window.open(this.href); return false;" title="' . $referant .'">' . $ref . '</a>' : _UNKNOWN;
+ 
+                 echo '<tr style="background: ' . $bg3 . '">'."\n"
+@@ -441,7 +441,7 @@ function view_all() {
+     $sql = mysql_query("SELECT ip, user_id, browser, host, referer, os, date FROM " . STATS_VISITOR_TABLE . " WHERE day = '" . $_REQUEST['oday'] . "' AND month = '" . $_REQUEST['omonth'] . "' AND year = '" . $_REQUEST['oyear'] . "' ORDER BY date");
+     while (list($ip, $user_id, $browser, $host, $referer, $os, $date) = mysql_fetch_array($sql)) {
+ 
+-        $host = htmlentities($host);
++        $host = nkHtmlEntities($host);
+         $i++;
+         $hours = strftime("%H:%M", $date);
+ 
+@@ -449,7 +449,7 @@ function view_all() {
+         $browsername = ($browser == 'Autres') ? _OTHERS : ($browser == 'Moteurs de recherche') ? _SEARCHENGINE : $browser;
+ 
+         $referant = preg_replace("`http://`i", "", $referer);
+-        $ref = (strlen($referant) > 20) ? htmlentities(substr($referant, 0, 20)) . '...' : htmlentities($referant);
++        $ref = (strlen($referant) > 20) ? nkHtmlEntities(substr($referant, 0, 20)) . '...' : nkHtmlEntities($referant);
+         $uref_ref = (!empty($referer) && !is_int(strpos($referer, 'login'))) ? '<a href="' . $referer . '" onclick="window.open(this.href); return false;" title="' . $referer .'">' . $ref . '</a>' : _UNKNOWN;
+ 
+         if ($j == 0) {
+@@ -554,7 +554,7 @@ function view_referer()
+ 
+         $referant = preg_replace('`http://`i', '', $referer);
+         $ref = (strlen($referant) > 40) ? substr($referant, 0, 40) : $referant;
+-        $user_ref = (empty($referer) && is_int(strpos($referer, 'login'))) ? _UNKNOWN : '<a href="' . $referer . '" onclick="window.open(this.href); return false;" title="' . $referer .'">' . htmlentities($ref) . '</a>';
++        $user_ref = (empty($referer) && is_int(strpos($referer, 'login'))) ? _UNKNOWN : '<a href="' . $referer . '" onclick="window.open(this.href); return false;" title="' . $referer .'">' . nkHtmlEntities($ref) . '</a>';
+ 
+         echo '<tr style="background: ' . $bg . '">'."\n"
+         . '<td style="width: 5%" align="center">' . $iref . '</td>'."\n"
+@@ -633,7 +633,7 @@ function view_host()
+             $j = 0;
+         }
+ 
+-        $hostname = (empty($host)) ? _UNKNOWN : '<a href="http://www.' . urlencode($host) . '" onclick="window.open(this.href); return false;">' . htmlentities($host) . '</a>';
++        $hostname = (empty($host)) ? _UNKNOWN : '<a href="http://www.' . urlencode($host) . '" onclick="window.open(this.href); return false;">' . nkHtmlEntities($host) . '</a>';
+ 
+         echo '<tr style="background: ' . $bg . '">'."\n"
+         . '<td style="width: 5%" align="center">' . $ihost . '</td>'."\n"
+diff --git a/modules/Suggest/index.php b/modules/Suggest/index.php
+index d79f722..d9dc26b 100644
+--- a/modules/Suggest/index.php
++++ b/modules/Suggest/index.php
+@@ -149,9 +149,9 @@ if ($visiteur >= $level_access && $level_access > -1){
+             $corps = $pseudo . " " . _NEWSUBMIT . "\r\n" . $nuked['url'] . "/index.php?file=Suggest&page=admin\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+             $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+ 
+-            $subject = html_entity_decode($subject);
+-            $corps = html_entity_decode($corps);
+-            $from = html_entity_decode($from);
++            $subject = nkHtmlEntityDecode($subject);
++            $corps = nkHtmlEntityDecode($corps);
++            $from = nkHtmlEntityDecode($from);
+ 
+             mail($nuked['mail'], $subject, $corps, $from);
+         }
+diff --git a/modules/Suggest/modules/Download.php b/modules/Suggest/modules/Download.php
+index 6c3daed..6b3bb39 100644
+--- a/modules/Suggest/modules/Download.php
++++ b/modules/Suggest/modules/Download.php
+@@ -134,13 +134,13 @@ function make_array($data){
+ 
+     $data['titre'] = printSecuTags($data['titre']);
+     $data['cat'] = printSecuTags($data['cat']);
+-    $data['taille'] = htmlentities($data['taille']);
+-    $data['url'] = htmlentities($data['url']);
+-    $data['date'] = htmlentities($data['date']);
+-    $data['autor'] = htmlentities($data['autor']);
+-    $data['site'] = htmlentities($data['site']);
++    $data['taille'] = nkHtmlEntities($data['taille']);
++    $data['url'] = nkHtmlEntities($data['url']);
++    $data['date'] = nkHtmlEntities($data['date']);
++    $data['autor'] = nkHtmlEntities($data['autor']);
++    $data['site'] = nkHtmlEntities($data['site']);
+     $data['comp'] = printSecuTags($data['comp']);
+-    $data['screen'] = htmlentities($data['screen']);
++    $data['screen'] = nkHtmlEntities($data['screen']);
+     $data['taille'] = str_replace(",", ".", $data['taille']);
+ 
+     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
+@@ -225,7 +225,7 @@ function send($data){
+ 
+     include("modules/Suggest/config.php");
+ 
+-    $data['description'] = html_entity_decode($data['description']);
++    $data['description'] = nkHtmlEntityDecode($data['description']);
+     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
+     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
+     $data['autor'] = mysql_real_escape_string(stripslashes($data['autor']));
+diff --git a/modules/Suggest/modules/Gallery.php b/modules/Suggest/modules/Gallery.php
+index b2110b2..53864ba 100644
+--- a/modules/Suggest/modules/Gallery.php
++++ b/modules/Suggest/modules/Gallery.php
+@@ -125,10 +125,10 @@ function make_array($data){
+     include("modules/Suggest/config.php");
+ 
+     $data['titre'] = printSecuTags($data['titre']);
+-    $data['auteur'] = htmlentities($data['auteur']);
+-    $data['url'] = htmlentities($data['url']);
+-    $data['url2'] = htmlentities($data['url2']);
+-    $data['url_file'] = htmlentities($data['url_file']);
++    $data['auteur'] = nkHtmlEntities($data['auteur']);
++    $data['url'] = nkHtmlEntities($data['url']);
++    $data['url2'] = nkHtmlEntities($data['url2']);
++    $data['url_file'] = nkHtmlEntities($data['url_file']);
+     $data['cat'] = printSecuTags($data['cat']);
+     
+     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
+@@ -169,7 +169,7 @@ function send($data){
+ 
+     include("modules/Suggest/config.php");
+ 
+-    $data['description'] = html_entity_decode($data['description']);
++    $data['description'] = nkHtmlEntityDecode($data['description']);
+     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
+     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
+     $data['auteur'] = mysql_real_escape_string(stripslashes($data['auteur']));
+diff --git a/modules/Suggest/modules/Links.php b/modules/Suggest/modules/Links.php
+index 9231d4b..ba50a80 100644
+--- a/modules/Suggest/modules/Links.php
++++ b/modules/Suggest/modules/Links.php
+@@ -125,10 +125,10 @@ function form($content, $sug_id){
+ 
+ function make_array($data){
+     $data['titre'] = printSecuTags($data['titre']);
+-    $data['url'] = htmlentities($data['url']);
++    $data['url'] = nkHtmlEntities($data['url']);
+     $data['cat'] = printSecuTags($data['cat']);
+-    $data['webmaster'] = htmlentities($data['webmaster']);
+-    $data['country'] = htmlentities($data['country']);
++    $data['webmaster'] = nkHtmlEntities($data['webmaster']);
++    $data['country'] = nkHtmlEntities($data['country']);
+ 
+     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
+     $data['description'] = str_replace("|", "&#124;", $data['description']);
+@@ -142,7 +142,7 @@ function send($data){
+     global $nuked;
+ 
+     $date = time();
+-    $data['description'] = html_entity_decode($data['description']);
++    $data['description'] = nkHtmlEntityDecode($data['description']);
+     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
+     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
+     $data['webmaster'] = mysql_real_escape_string(stripslashes($data['webmaster']));
+diff --git a/modules/Suggest/modules/News.php b/modules/Suggest/modules/News.php
+index 295de02..0d69854 100644
+--- a/modules/Suggest/modules/News.php
++++ b/modules/Suggest/modules/News.php
+@@ -82,9 +82,9 @@ function form($content, $sug_id){
+ 
+ function make_array($data){
+     $data['titre'] = printSecuTags($data['titre']);
+-    $data['auteur'] = htmlentities($data['auteur']);
+-    $data['auteur_id'] = htmlentities($data['auteur_id']);
+-    $data['date'] = htmlentities($data['date']);
++    $data['auteur'] = nkHtmlEntities($data['auteur']);
++    $data['auteur_id'] = nkHtmlEntities($data['auteur_id']);
++    $data['date'] = nkHtmlEntities($data['date']);
+     $data['cat'] = printSecuTags($data['cat']);
+ 
+     $data['titre'] = str_replace("|", "&#124;", $data['titre']);
+@@ -111,7 +111,7 @@ function send($data){
+         $autor_id = $user[0];
+     }
+ 
+-    $data['texte'] = html_entity_decode($data['texte']);
++    $data['texte'] = nkHtmlEntityDecode($data['texte']);
+     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
+     $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
+ 
+diff --git a/modules/Suggest/modules/Sections.php b/modules/Suggest/modules/Sections.php
+index e2f4553..7f20681 100644
+--- a/modules/Suggest/modules/Sections.php
++++ b/modules/Suggest/modules/Sections.php
+@@ -108,9 +108,9 @@ function form($content, $sug_id)
+ function make_array($data)
+ {
+     $data['title'] = printSecuTags($data['title']);
+-    $data['secid'] = htmlentities($data['secid']);
+-    $data['auteur'] = htmlentities($data['auteur']);
+-    $data['auteur_id'] = htmlentities($data['auteur_id']);
++    $data['secid'] = nkHtmlEntities($data['secid']);
++    $data['auteur'] = nkHtmlEntities($data['auteur']);
++    $data['auteur_id'] = nkHtmlEntities($data['auteur_id']);
+ 
+     $data['title'] = str_replace("|", "&#124;", $data['title']);
+     $data['texte'] = str_replace("|", "&#124;", $data['texte']);
+@@ -142,7 +142,7 @@ function send($data)
+     }
+ 
+     $data['title'] = mysql_real_escape_string(stripslashes($data['title']));
+-    $data['texte'] = html_entity_decode($data['texte']);
++    $data['texte'] = nkHtmlEntityDecode($data['texte']);
+     $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
+     $date = time();
+ 
+diff --git a/modules/Team/blok.php b/modules/Team/blok.php
+index 0137f0c..f7068df 100644
+--- a/modules/Team/blok.php
++++ b/modules/Team/blok.php
+@@ -52,7 +52,7 @@ if ($active == 3 || $active == 4)
+         {
+             $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
+             list($rank_name) = mysql_fetch_array($sql_rank);
+-            $rank_name = htmlentities($rank_name);
++            $rank_name = nkHtmlEntities($rank_name);
+         }
+         else
+         {
+diff --git a/modules/Team/index.php b/modules/Team/index.php
+index 45787bd..d91d9c5 100644
+--- a/modules/Team/index.php
++++ b/modules/Team/index.php
+@@ -36,9 +36,9 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+         if ($nb_team == 0)
+         {
+-            $titre = @html_entity_decode($nuked['name']);
+-            $team_tag = @html_entity_decode($nuked['tag_pre']);
+-            $tag2 = @html_entity_decode($nuked['tag_suf']);
++            $titre = @nkHtmlEntityDecode($nuked['name']);
++            $team_tag = @nkHtmlEntityDecode($nuked['tag_pre']);
++            $tag2 = @nkHtmlEntityDecode($nuked['tag_suf']);
+             $res = array ('', "$titre", "$team_tag", "$tag2", '0');
+         }
+ 
+@@ -52,7 +52,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+             $team_tag = printSecuTags($team_tag);
+             $tag2 = printSecuTags($tag2);
+ 
+-            if ($team != '') $link_titre = '<a href="index.php?file=Team&amp;cid=' . urlencode(html_entity_decode($team)) . '"><big><b>' . $titre . '</b></big></a>';
++            if ($team != '') $link_titre = '<a href="index.php?file=Team&amp;cid=' . urlencode(nkHtmlEntityDecode($team)) . '"><big><b>' . $titre . '</b></big></a>';
+             else $link_titre = '<big><b>' . $titre . '</b></big>';
+ 
+             echo "<div style=\"text-align: center;\">$link_titre</div>"
+@@ -77,7 +77,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+                 {
+                     list ($pays, $ext) = explode ('.', $country);
+                     $temp = $team_tag . $pseudo . $tag2;
+-                    $pseudo = html_entity_decode($pseudo);
++                    $pseudo = nkHtmlEntityDecode($pseudo);
+ 
+                     if (is_file("themes/" . $theme . "/images/mail.gif"))
+                     {
+@@ -208,7 +208,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+         opentable();
+ 
+-        $autor = htmlentities($autor, ENT_QUOTES);
++        $autor = nkHtmlEntities($autor, ENT_QUOTES);
+ 
+         $sql = mysql_query("SELECT id, icq, msn, aim, yim, email, url, game, country FROM " . USER_TABLE . " WHERE pseudo = '" . $autor . "'");
+         $test = mysql_num_rows($sql);
+@@ -326,7 +326,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+             $a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
+             $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+-            $flash_autor = @html_entity_decode($autor);
++            $flash_autor = @nkHtmlEntityDecode($autor);
+             $flash_autor = strtr($flash_autor, $a, $b);
+ 
+             echo "<br /><object type=\"application/x-shockwave-flash\" data=\"modules/Members/images/title.swf\" width=\"100%\" height=\"50\">\n"
+diff --git a/modules/Textbox/admin.php b/modules/Textbox/admin.php
+index ae89f42..57c5d6f 100644
+--- a/modules/Textbox/admin.php
++++ b/modules/Textbox/admin.php
+@@ -35,7 +35,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
+ 
+         $sql = mysql_query("SELECT auteur, texte, ip FROM " . TEXTBOX_TABLE . " WHERE id = '" . $mid . "'");
+         list($pseudo, $texte, $ip) = mysql_fetch_array($sql);
+-        $texte = htmlspecialchars($texte);
++        $texte = nkHtmlSpecialChars($texte);
+ 
+ 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+ 		. "<div class=\"content-box-header\"><h3>" . _ADMINSHOUTBOX . "</h3>\n"
+diff --git a/modules/Textbox/index.php b/modules/Textbox/index.php
+index 256f39f..589d3e1 100644
+--- a/modules/Textbox/index.php
++++ b/modules/Textbox/index.php
+@@ -242,7 +242,7 @@ function index()
+                 $block_text .= $text[$i];
+             }
+ 
+-            $texte = htmlentities($texte, ENT_NOQUOTES);
++            $texte = nkHtmlEntities($texte, ENT_NOQUOTES);
+             $texte = nk_CSS($texte);
+ 
+             if (strlen($auteur) > $pseudo_max)
+diff --git a/modules/Textbox/submit.php b/modules/Textbox/submit.php
+index b870ede..ad66dd8 100644
+--- a/modules/Textbox/submit.php
++++ b/modules/Textbox/submit.php
+@@ -28,7 +28,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+     if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
+ 	{
+-		echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_BADCODECONFIRM) . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
++		echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_BADCODECONFIRM) . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+ 		closetable();
+ 		footer();
+ 		exit();
+@@ -41,12 +41,12 @@ if ($visiteur >= $level_access && $level_access > -1)
+     else
+     {	
+     	$_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
+-        $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES);
++        $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
+         $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
+ 
+         if (mysql_result(mysql_query('SELECT COUNT(*) FROM ' . USER_TABLE . ' WHERE pseudo LIKE \'' . mysql_real_escape_string($_REQUEST['auteur']) . '\''), 0))
+         {
+-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_PSEUDOFAILDED) . "</div><br /><br />";
++            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_PSEUDOFAILDED) . "</div><br /><br />";
+             redirect($redirection, 2);
+             closetable();
+             footer();
+@@ -54,7 +54,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 		}
+         elseif ($_REQUEST['auteur'] == "error1")
+         {
+-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_PSEUDOFAILDED) . "</div><br /><br />";
++            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_PSEUDOFAILDED) . "</div><br /><br />";
+             redirect($redirection, 2);
+             closetable();
+             footer();
+@@ -63,7 +63,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         }
+         else if ($_REQUEST['auteur'] == "error2")
+         {
+-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_RESERVNICK) . "</div><br /><br />";
++            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_RESERVNICK) . "</div><br /><br />";
+             redirect($redirection, 2);
+             closetable();
+             footer();
+@@ -71,7 +71,7 @@ if ($visiteur >= $level_access && $level_access > -1)
+         }
+         else if ($_REQUEST['auteur'] == "error3")
+         {
+-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_BANNEDNICK) . "</div><br /><br />";
++            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_BANNEDNICK) . "</div><br /><br />";
+             redirect($redirection, 2);
+             closetable();
+             footer();
+@@ -97,26 +97,26 @@ if ($visiteur >= $level_access && $level_access > -1)
+ 
+     if ($user_ip == $flood_ip && $date < $anti_flood && $visiteur == 0)
+     {
+-        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_NOFLOOD) . "</div><br /><br />";
++        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_NOFLOOD) . "</div><br /><br />";
+         redirect($redirection, 2);
+     }
+ 
+     else if ($_REQUEST['texte'] != "")
+     {
+         $sql = mysql_query("INSERT INTO " . TEXTBOX_TABLE . " ( `id` , `auteur` , `ip` , `texte` , `date` ) VALUES ( '' , '" . $pseudo . "' ,'" . $user_ip . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' )");
+-        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_SHOUTSUCCES) . "</div><br /><br />";
++        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_SHOUTSUCCES) . "</div><br /><br />";
+         redirect($redirection, 2);
+     }
+ 
+     else
+     {
+-        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_NOTEXT) . "</div><br /><br />";
++        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_NOTEXT) . "</div><br /><br />";
+         redirect($redirection, 2);
+     }
+ }
+ else
+ {
+-        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . htmlentities(_NOENTRANCE) . "</div><br /><br />";
++        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_NOENTRANCE) . "</div><br /><br />";
+         redirect($redirection, 2);
+ }
+ 
+diff --git a/modules/User/index.php b/modules/User/index.php
+index 96cd996..c84a858 100644
+--- a/modules/User/index.php
++++ b/modules/User/index.php
+@@ -97,7 +97,7 @@ function index(){
+             $iforum = 0;
+             $sql_forum = mysql_query("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
+             while (list($mid, $subject, $date, $tid, $fid) = mysql_fetch_array($sql_forum)){
+-                $subject = htmlentities($subject);
++                $subject = nkHtmlEntities($subject);
+                 $subject = nk_CSS($subject);
+                 $date = nkDate($date);
+ 
+@@ -149,7 +149,7 @@ function index(){
+             $icom = 0;
+             $sql_com = mysql_query("SELECT im_id, titre, module, date FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
+             while (list($im_id, $titre, $module, $date) = mysql_fetch_array($sql_com)){
+-                $titre = htmlentities($titre);
++                $titre = nkHtmlEntities($titre);
+                 $titre = nk_CSS($titre);
+ 
+                 if ($titre != ""){
+@@ -219,7 +219,7 @@ function reg_screen(){
+ 
+     if ($nuked['inscription'] != "off"){
+         if ($nuked['inscription_charte'] != "" && !isset($_REQUEST['charte_agree'])){
+-            $disclaimer = html_entity_decode($nuked['inscription_charte']);
++            $disclaimer = nkHtmlEntityDecode($nuked['inscription_charte']);
+ 
+             echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
+                     . "<tr><td align=\"center\"><big><b>" . _NEWUSERREGISTRATION . "</b></big></td></tr>\n"
+@@ -325,7 +325,7 @@ function reg_screen(){
+ 
+             $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+             while (list($game_id, $nom) = mysql_fetch_array($sql)){
+-                $nom = htmlentities($nom);
++                $nom = nkHtmlEntities($nom);
+                 echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
+             }
+ 
+@@ -677,12 +677,12 @@ function edit_pref(){
+                     $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game1 . "'");
+                     list($g1_titre, $g1_pref_1, $g1_pref_2, $g1_pref_3, $g1_pref_4, $g1_pref_5) = mysql_fetch_array($sql3);
+ 
+-                    $g1_titre = htmlentities($g1_titre);
+-                    $g1_pref_1 = htmlentities($g1_pref_1);
+-                    $g1_pref_2 = htmlentities($g1_pref_2);
+-                    $g1_pref_3 = htmlentities($g1_pref_3);
+-                    $g1_pref_4 = htmlentities($g1_pref_4);
+-                    $g1_pref_5 = htmlentities($g1_pref_5);
++                    $g1_titre = nkHtmlEntities($g1_titre);
++                    $g1_pref_1 = nkHtmlEntities($g1_pref_1);
++                    $g1_pref_2 = nkHtmlEntities($g1_pref_2);
++                    $g1_pref_3 = nkHtmlEntities($g1_pref_3);
++                    $g1_pref_4 = nkHtmlEntities($g1_pref_4);
++                    $g1_pref_5 = nkHtmlEntities($g1_pref_5);
+ 
+                     $sql4 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game1 . "' AND user_id = '" . $user[0] . "'");
+                     $test1 = mysql_num_rows($sql4);
+@@ -720,12 +720,12 @@ function edit_pref(){
+                     $sql5 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game2 . "'");
+                     list($g2_titre, $g2_pref_1, $g2_pref_2, $g2_pref_3, $g2_pref_4, $g2_pref_5) = mysql_fetch_array($sql5);
+ 
+-                    $g2_titre = htmlentities($g2_titre);
+-                    $g2_pref_1 = htmlentities($g2_pref_1);
+-                    $g2_pref_2 = htmlentities($g2_pref_2);
+-                    $g2_pref_3 = htmlentities($g2_pref_3);
+-                    $g2_pref_4 = htmlentities($g2_pref_4);
+-                    $g2_pref_5 = htmlentities($g2_pref_5);
++                    $g2_titre = nkHtmlEntities($g2_titre);
++                    $g2_pref_1 = nkHtmlEntities($g2_pref_1);
++                    $g2_pref_2 = nkHtmlEntities($g2_pref_2);
++                    $g2_pref_3 = nkHtmlEntities($g2_pref_3);
++                    $g2_pref_4 = nkHtmlEntities($g2_pref_4);
++                    $g2_pref_5 = nkHtmlEntities($g2_pref_5);
+ 
+                     $sql6 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game2 . "' AND user_id = '" . $user[0] . "'");
+                     $test2 = mysql_num_rows($sql6);
+@@ -763,12 +763,12 @@ function edit_pref(){
+                     $sql7 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game3 . "'");
+                     list($g3_titre, $g3_pref_1, $g3_pref_2, $g3_pref_3, $g3_pref_4, $g3_pref_5) = mysql_fetch_array($sql7);
+ 
+-                    $g3_titre = htmlentities($g3_titre);
+-                    $g3_pref_1 = htmlentities($g3_pref_1);
+-                    $g3_pref_2 = htmlentities($g3_pref_2);
+-                    $g3_pref_3 = htmlentities($g3_pref_3);
+-                    $g3_pref_4 = htmlentities($g3_pref_4);
+-                    $g3_pref_5 = htmlentities($g3_pref_5);
++                    $g3_titre = nkHtmlEntities($g3_titre);
++                    $g3_pref_1 = nkHtmlEntities($g3_pref_1);
++                    $g3_pref_2 = nkHtmlEntities($g3_pref_2);
++                    $g3_pref_3 = nkHtmlEntities($g3_pref_3);
++                    $g3_pref_4 = nkHtmlEntities($g3_pref_4);
++                    $g3_pref_5 = nkHtmlEntities($g3_pref_5);
+ 
+                     $sql8 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game3 . "' AND user_id = '" . $user[0] . "'");
+                     $test3 = mysql_num_rows($sql8);
+@@ -802,12 +802,12 @@ function edit_pref(){
+                 $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
+                 list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
+ 
+-                $titre = htmlentities($titre);
+-                $pref_1 = htmlentities($pref_1);
+-                $pref_2 = htmlentities($pref_2);
+-                $pref_3 = htmlentities($pref_3);
+-                $pref_4 = htmlentities($pref_4);
+-                $pref_5 = htmlentities($pref_5);
++                $titre = nkHtmlEntities($titre);
++                $pref_1 = nkHtmlEntities($pref_1);
++                $pref_2 = nkHtmlEntities($pref_2);
++                $pref_3 = nkHtmlEntities($pref_3);
++                $pref_4 = nkHtmlEntities($pref_4);
++                $pref_5 = nkHtmlEntities($pref_5);
+ 
+                 echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $titre . "</b></td></tr>"
+                         . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1\" value=\"" . $pref1 . "\" size=\"25\" /></td></tr>\n"
+@@ -821,12 +821,12 @@ function edit_pref(){
+             $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
+             list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
+ 
+-            $titre = htmlentities($titre);
+-            $pref_1 = htmlentities($pref_1);
+-            $pref_2 = htmlentities($pref_2);
+-            $pref_3 = htmlentities($pref_3);
+-            $pref_4 = htmlentities($pref_4);
+-            $pref_5 = htmlentities($pref_5);
++            $titre = nkHtmlEntities($titre);
++            $pref_1 = nkHtmlEntities($pref_1);
++            $pref_2 = nkHtmlEntities($pref_2);
++            $pref_3 = nkHtmlEntities($pref_3);
++            $pref_4 = nkHtmlEntities($pref_4);
++            $pref_5 = nkHtmlEntities($pref_5);
+ 
+             echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $titre . "</b></td></tr>\n"
+                     . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1\" value=\"" . $pref1 . "\" size=\"25\" /></td></tr>\n"
+@@ -888,12 +888,12 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
+     // Captcha checking
+     ValidCaptchaCode();
+     
+-    $pseudo = htmlentities($pseudo, ENT_QUOTES);
++    $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
+     
+     $pseudo = verif_pseudo($pseudo);
+ 
+     $mail = mysql_real_escape_string(stripslashes($mail));
+-    $mail = htmlentities($mail);
++    $mail = nkHtmlEntities($mail);
+ 
+     if ($pseudo == "error1"){
+         echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
+@@ -978,7 +978,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
+     } while (mysql_num_rows($sql) != 0);
+ 
+     $email = mysql_real_escape_string(stripslashes($email));
+-    $email = htmlentities($email);
++    $email = nkHtmlEntities($email);
+ 
+     if ($nuked['validation'] == "auto"){
+         $niveau = 1;
+@@ -1014,10 +1014,10 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
+         $corps = _USERVALID . "\r\n" . $nuked['url'] . "/index.php?file=User&op=validation&id_user=" . $user_id . "\r\n\r\n" . _USERMAIL . "\r\n" . _NICK . " : " . $pseudo . "\r\n" . _PASSWORD . " : " . $pass_reg . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+ 
+-        $subject = @html_entity_decode($subject);
+-        $corps = @html_entity_decode($corps);
+-        $from = @html_entity_decode($from);
+-        $s_mail = @html_entity_decode($mail);
++        $subject = @nkHtmlEntityDecode($subject);
++        $corps = @nkHtmlEntityDecode($corps);
++        $from = @nkHtmlEntityDecode($from);
++        $s_mail = @nkHtmlEntityDecode($mail);
+ 
+         mail($s_mail, $subject, $corps, $from);
+     }
+@@ -1036,10 +1036,10 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
+             $from .= "\r\n" . 'MIME-Version: 1.0' . "\r\n";
+             $from .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+ 
+-            $subject = @html_entity_decode($subject);
+-            $corps = @html_entity_decode($corps);
+-            $from = @html_entity_decode($from);
+-            $s_mail = @html_entity_decode($mail);
++            $subject = @nkHtmlEntityDecode($subject);
++            $corps = @nkHtmlEntityDecode($corps);
++            $from = @nkHtmlEntityDecode($from);
++            $s_mail = @nkHtmlEntityDecode($mail);
+ 
+             mail($s_mail, $subject, $corps, $from);
+         }
+@@ -1050,9 +1050,9 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
+         $corps =  $pseudo . " (IP : " . $user_ip . ") " . _NEWREGISTRATION . " " . $nuked['name'] . " " . _NEWREGSUITE . "\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
+         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $nuked['mail'];
+ 
+-        $subject = @html_entity_decode($subject);
+-        $corps = @html_entity_decode($corps);
+-        $from = @html_entity_decode($from);
++        $subject = @nkHtmlEntityDecode($subject);
++        $corps = @nkHtmlEntityDecode($corps);
++        $from = @nkHtmlEntityDecode($from);
+ 
+         mail($nuked['mail'], $subject, $corps, $from);
+     }
+@@ -1079,7 +1079,7 @@ function login($pseudo, $pass, $remember_me){
+     global $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
+     $cookiename = $nuked['cookiename'];
+ 
+-    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES) . "'");
++    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . nkHtmlEntities($pseudo, ENT_QUOTES) . "'");
+     $check = mysql_num_rows($sql);
+ 
+     if($check > 0){
+@@ -1116,13 +1116,13 @@ function login($pseudo, $pass, $remember_me){
+         if ($niveau > 0){
+             if (!Check_Hash($pass, $dbpass)){
+                 $error = 2;
+-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
++                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . nkHtmlEntities($pseudo, ENT_QUOTES) . '\'';
+                 $req = mysql_query($sql);
+                 $url = "index.php?file=User&op=login_screen&error=" . $error;
+                 redirect($url, 0);
+             }
+             else{
+-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES) . '\'';
++                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . nkHtmlEntities($pseudo, ENT_QUOTES) . '\'';
+                 $req = mysql_query($sql);
+                 session_new($id_user, $remember_me);
+ 
+@@ -1245,10 +1245,10 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
+                 ."<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"document.location='index.php?file=User&amp;op=edit_account'\" /></td></tr></table></form><br />\n";
+     }
+     else{
+-        $nick = htmlentities($nick, ENT_QUOTES);
++        $nick = nkHtmlEntities($nick, ENT_QUOTES);
+ 
+         $mail = mysql_real_escape_string(stripslashes($mail));
+-        $mail = htmlentities($mail);
++        $mail = nkHtmlEntities($mail);
+ 
+         $sql = mysql_query("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+         list($old_pseudo, $old_mail, $old_pass) = mysql_fetch_array($sql);
+@@ -1355,7 +1355,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
+             }
+         }
+         
+-        $signature = secu_html(html_entity_decode($signature));
++        $signature = secu_html(nkHtmlEntityDecode($signature));
+         $signature = mysql_real_escape_string(stripslashes($signature));
+         $email = mysql_real_escape_string(stripslashes($email));
+         $icq = mysql_real_escape_string(stripslashes($icq));
+@@ -1367,15 +1367,15 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
+         $country = mysql_real_escape_string(stripslashes($country));
+         $avatar = mysql_real_escape_string(stripslashes($avatar));
+ 
+-        $email = htmlentities($email);
+-        $icq = htmlentities($icq);
+-        $msn = htmlentities($msn);
+-        $aim = htmlentities($aim);
+-        $yim = htmlentities($yim);
+-        $url = htmlentities($url);
+-        $game = htmlentities($game);
+-        $country = htmlentities($country);
+-        $avatar = htmlentities($avatar);
++        $email = nkHtmlEntities($email);
++        $icq = nkHtmlEntities($icq);
++        $msn = nkHtmlEntities($msn);
++        $aim = nkHtmlEntities($aim);
++        $yim = nkHtmlEntities($yim);
++        $url = nkHtmlEntities($url);
++        $game = nkHtmlEntities($game);
++        $country = nkHtmlEntities($country);
++        $avatar = nkHtmlEntities($avatar);
+ 
+         if (!empty($url) && !is_int(stripos($url, 'http://'))){
+             $url = "http://" . $url;
+@@ -1438,20 +1438,20 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
+ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $fichiernom, $game_id, $pref1, $pref2, $pref3, $pref4, $pref5){
+     global $nuked, $user;
+ 
+-    $prenom = htmlentities($prenom);
+-    $ville = htmlentities($ville);
+-    $motherboard = htmlentities($motherboard);
+-    $cpu = htmlentities($cpu);
+-    $ram = htmlentities($ram);
+-    $video = htmlentities($video);
+-    $resolution = htmlentities($resolution);
+-    $sons = htmlentities($sons);
+-    $ecran = htmlentities($ecran);
+-    $souris = htmlentities($souris);
+-    $clavier = htmlentities($clavier);
+-    $connexion = htmlentities($connexion);
+-    $osystem = htmlentities($osystem);
+-    $photo = htmlentities($photo);
++    $prenom = nkHtmlEntities($prenom);
++    $ville = nkHtmlEntities($ville);
++    $motherboard = nkHtmlEntities($motherboard);
++    $cpu = nkHtmlEntities($cpu);
++    $ram = nkHtmlEntities($ram);
++    $video = nkHtmlEntities($video);
++    $resolution = nkHtmlEntities($resolution);
++    $sons = nkHtmlEntities($sons);
++    $ecran = nkHtmlEntities($ecran);
++    $souris = nkHtmlEntities($souris);
++    $clavier = nkHtmlEntities($clavier);
++    $connexion = nkHtmlEntities($connexion);
++    $osystem = nkHtmlEntities($osystem);
++    $photo = nkHtmlEntities($photo);
+ 
+     $prenom = mysql_real_escape_string(stripslashes($prenom));
+     $ville = mysql_real_escape_string(stripslashes($ville));
+@@ -1527,11 +1527,11 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
+     list($game) = mysql_fetch_array($sql_game);
+ 
+     if (!$game_id){
+-        $pref1 = htmlentities($pref1);
+-        $pref2 = htmlentities($pref2);
+-        $pref3 = htmlentities($pref3);
+-        $pref4 = htmlentities($pref4);
+-        $pref5 = htmlentities($pref5);
++        $pref1 = nkHtmlEntities($pref1);
++        $pref2 = nkHtmlEntities($pref2);
++        $pref3 = nkHtmlEntities($pref3);
++        $pref4 = nkHtmlEntities($pref4);
++        $pref5 = nkHtmlEntities($pref5);
+ 
+         $pref1 = mysql_real_escape_string(stripslashes($pref1));
+         $pref2 = mysql_real_escape_string(stripslashes($pref2));
+@@ -1543,11 +1543,11 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
+     }
+     else{
+         if ($game_id[0] != ""){
+-            $pref1[0] = htmlentities($pref1[0]);
+-            $pref2[0] = htmlentities($pref2[0]);
+-            $pref3[0] = htmlentities($pref3[0]);
+-            $pref4[0] = htmlentities($pref4[0]);
+-            $pref5[0] = htmlentities($pref5[0]);
++            $pref1[0] = nkHtmlEntities($pref1[0]);
++            $pref2[0] = nkHtmlEntities($pref2[0]);
++            $pref3[0] = nkHtmlEntities($pref3[0]);
++            $pref4[0] = nkHtmlEntities($pref4[0]);
++            $pref5[0] = nkHtmlEntities($pref5[0]);
+ 
+             $pref1[0] = mysql_real_escape_string(stripslashes($pref1[0]));
+             $pref2[0] = mysql_real_escape_string(stripslashes($pref2[0]));
+@@ -1571,11 +1571,11 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
+         }
+ 
+         if ($game_id[1] != ""){
+-            $pref1[1] = htmlentities($pref1[1]);
+-            $pref2[1] = htmlentities($pref2[1]);
+-            $pref3[1] = htmlentities($pref3[1]);
+-            $pref4[1] = htmlentities($pref4[1]);
+-            $pref5[1] = htmlentities($pref5[1]);
++            $pref1[1] = nkHtmlEntities($pref1[1]);
++            $pref2[1] = nkHtmlEntities($pref2[1]);
++            $pref3[1] = nkHtmlEntities($pref3[1]);
++            $pref4[1] = nkHtmlEntities($pref4[1]);
++            $pref5[1] = nkHtmlEntities($pref5[1]);
+ 
+             $pref1[1] = mysql_real_escape_string(stripslashes($pref1[1]));
+             $pref2[1] = mysql_real_escape_string(stripslashes($pref2[1]));
+@@ -1599,11 +1599,11 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
+         }
+ 
+         if ($game_id[2] != ""){
+-            $pref1[2] = htmlentities($pref1[2]);
+-            $pref2[2] = htmlentities($pref2[2]);
+-            $pref3[2] = htmlentities($pref3[2]);
+-            $pref4[2] = htmlentities($pref4[2]);
+-            $pref5[2] = htmlentities($pref5[2]);
++            $pref1[2] = nkHtmlEntities($pref1[2]);
++            $pref2[2] = nkHtmlEntities($pref2[2]);
++            $pref3[2] = nkHtmlEntities($pref3[2]);
++            $pref4[2] = nkHtmlEntities($pref4[2]);
++            $pref5[2] = nkHtmlEntities($pref5[2]);
+ 
+             $pref1[2] = mysql_real_escape_string(stripslashes($pref1[2]));
+             $pref2[2] = mysql_real_escape_string(stripslashes($pref2[2]));
+@@ -1692,7 +1692,7 @@ function envoi_mail($email){
+             $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
+             $headers .='Content-Transfer-Encoding: 8bit'; 
+ 
+-            $message = @html_entity_decode($message);
++            $message = @nkHtmlEntityDecode($message);
+ 
+             @mail($email, _LOSTPASSWORD, $message, $headers);
+ 
+@@ -1742,7 +1742,7 @@ function envoi_pass($email, $token){
+                 $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
+                 $headers .='Content-Transfer-Encoding: 8bit'; 
+ 
+-                $message = @html_entity_decode($message);
++                $message = @nkHtmlEntityDecode($message);
+ 
+                 @mail($email, _YOURNEWPASSWORD, $message, $headers);
+ 
+diff --git a/modules/Userbox/index.php b/modules/Userbox/index.php
+index b4588f1..d1e1026 100644
+--- a/modules/Userbox/index.php
++++ b/modules/Userbox/index.php
+@@ -42,7 +42,7 @@ function post_message(){
+ 	}
+ 	
+ 	if (!empty($_REQUEST['message'])){
+-		$_REQUEST['message'] = secu_html(html_entity_decode($_REQUEST['message']));
++		$_REQUEST['message'] = secu_html(nkHtmlEntityDecode($_REQUEST['message']));
+ 		$_REQUEST['message'] = stripslashes($_REQUEST['message']);
+ 		$reply = '<br /><table style="background:'.$bgcolor3.';" cellpadding="3" cellspacing="1" width="100%" border="0"><tr><td style="background: #FFF;color: #000"><b>'.$pseudo.' :</b><br />'.$_REQUEST['message'].'</td></tr></table><br />';
+ 	}
+@@ -95,11 +95,11 @@ function send_message($titre, $user_for, $message){
+ 				exit();
+ 			}
+ 			
+-			$message = secu_html(html_entity_decode($message));
++			$message = secu_html(nkHtmlEntityDecode($message));
+ 			$titre = mysql_real_escape_string(stripslashes($titre));
+ 			$message = mysql_real_escape_string(stripslashes($message));
+ 			$user_for = mysql_real_escape_string(stripslashes($user_for));
+-			$titre = htmlentities($titre);
++			$titre = nkHtmlEntities($titre);
+ 			
+ 			$sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
+ 			echo '<br /><br /><div style="text-align:center;">'._MESSSEND.'</div><br /><br />';
+@@ -132,11 +132,11 @@ function show_message($mid){
+         echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
+                 <tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
+                 <tr style="background:'.$bgcolor2.';"><td><b>'._SUBJECT.' :</b> '.$row['titre'].'</td></tr>
+-                <tr style="background:'.$bgcolor2.';"><td>'.html_entity_decode($row['message']).'</td></tr></table>
++                <tr style="background:'.$bgcolor2.';"><td>'.nkHtmlEntityDecode($row['message']).'</td></tr></table>
+                 <br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
+                 <div style="text-align:center;">
+-                <input type="hidden" name="message" value="'.htmlentities($row['message']).'" />
+-                <input type="hidden" name="titre" value="'.htmlentities($row['titre']).'" />
++                <input type="hidden" name="message" value="'.nkHtmlEntities($row['message']).'" />
++                <input type="hidden" name="titre" value="'.nkHtmlEntities($row['titre']).'" />
+                 <input type="submit" value="'._REPLY.'" />&nbsp;
+                 <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
+                 <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
+diff --git a/modules/Wars/admin.php b/modules/Wars/admin.php
+index f325330..b807416 100644
+--- a/modules/Wars/admin.php
++++ b/modules/Wars/admin.php
+@@ -114,7 +114,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+             $sql = mysql_query("SELECT etat, team, game, adversaire, url_adv, pays_adv, type, style, date_jour, date_mois, date_an, heure, map, score_team, score_adv, tscore_team, tscore_adv, report, url_league FROM " . WARS_TABLE . " WHERE warid='".$war_id."'");
+             list($status, $team, $game, $adv_name, $adv_url, $pays_adv, $type, $style, $jour, $mois, $an, $heure, $map, $score_team, $score_adv, $tscore_team, $tscore_adv, $report, $url_league) = mysql_fetch_array($sql);
+             
+-            $adv_name = htmlspecialchars($adv_name);
++            $adv_name = nkHtmlSpecialChars($adv_name);
+             $map = explode('|', $map);
+             $score_team = explode('|', $score_team);
+             $score_adv = explode('|', $score_adv);
+@@ -190,7 +190,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+ 
+         $sql2 = mysql_query("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
+         while (list($cid, $titre) = mysql_fetch_array($sql2)){
+-            $titre = htmlentities($titre);
++            $titre = nkHtmlEntities($titre);
+ 
+             if ($cid == $team){
+                 $checked3 = "selected=\"selected\"";
+@@ -355,7 +355,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+         global $nuked, $user;
+ 
+         $autor = $user[2];
+-        $report = html_entity_decode($report);
++        $report = nkHtmlEntityDecode($report);
+         $adversaire = mysql_real_escape_string(stripslashes($adversaire));
+         $report = mysql_real_escape_string(stripslashes($report));
+         $type = mysql_real_escape_string(stripslashes($type));
+@@ -437,7 +437,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
+     function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league){
+         global $nuked, $user;
+ 
+-        $report = html_entity_decode($report);
++        $report = nkHtmlEntityDecode($report);
+         $adversaire = mysql_real_escape_string(stripslashes($adversaire));
+         $report = mysql_real_escape_string(stripslashes($report));
+         $type = mysql_real_escape_string(stripslashes($type));
+diff --git a/nuked.php b/nuked.php
+index b953cf3..de89eb5 100644
+--- a/nuked.php
++++ b/nuked.php
+@@ -15,15 +15,28 @@ connect();
+ // QUERY NUKED CONFIG_TABLE.
+ $nuked = array();
+ $sql_conf = initializeControlDB($db_prefix);
+-while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = htmlentities($row['value'], ENT_NOQUOTES);
++while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = nkHtmlEntities($row['value'], ENT_NOQUOTES);
+ unset($sql_conf, $row);
+ 
+ // CONVERT ALL HTML ENTITIES TO THEIR APPLICABLE CHARACTERS
+ $nuked['prefix'] = $db_prefix;
+ 
++// FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
++function nkHtmlEntityDecode($string, $flags = ENT_QUOTES) {
++    return html_entity_decode($string, $flags, 'ISO-8859-1');
++}
++
++function nkHtmlSpecialChars($string, $flags = ENT_QUOTES) {
++    return htmlspecialchars($string, $flags, 'ISO-8859-1');
++}
++
++function nkHtmlEntities($string, $flags = ENT_QUOTES) {
++    return htmlentities($string, $flags, 'ISO-8859-1');
++}
++
+ // FUNCTION TO FIX PRINTING TAGS
+ function printSecuTags($value){
+-    $value = htmlentities(html_entity_decode(html_entity_decode($value)));
++    $value = nkHtmlEntities(nkHtmlEntityDecode(nkHtmlEntityDecode($value)));
+     return $value;
+ }
+ // FIX TAGS IN NUKED ARRAY
+@@ -333,7 +346,7 @@ function icon($texte){
+ 
+     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
+     while (list($code, $url, $name) = mysql_fetch_array($sql)){
+-        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . htmlentities($name) . '" />', $texte);
++        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . nkHtmlEntities($name) . '" />', $texte);
+     }
+ 
+     $texte = str_replace('mailto!', 'mailto:', $texte);
+@@ -360,7 +373,7 @@ function ConfigSmileyCkeditor(){
+     while($row = mysql_fetch_assoc($sql)){
+         $TabCode[] = addslashes($row['code']);
+         $TabUrl[] = $row['url'];
+-        $TabName[] = htmlentities($row['name']);
++        $TabName[] = nkHtmlEntities($row['name']);
+     }
+ 
+     $IUrl = 0;
+@@ -624,7 +637,7 @@ function secu_args($matches){
+             $val = trim($val);
+             if (preg_match('/^&quot;/', $val, $g))
+                 $val .= ';';
+-            $args[2][$id] = trim(html_entity_decode($val), " \t\n\r\0\"");
++            $args[2][$id] = trim(nkHtmlEntityDecode($val), " \t\n\r\0\"");
+             if ($args[1][$id] == 'style'){
+                 $args[2][$id] = secu_css($args[2][$id]);
+             }
+@@ -664,7 +677,7 @@ function secu_html($texte){
+     // Balise HTML interdite
+     $texte = str_replace(array('&lt;', '&gt;', '&quot;'), array('<', '>', '"'), $texte);
+     $texte = stripslashes($texte);
+-    $texte = htmlspecialchars($texte);
++    $texte = nkHtmlSpecialChars($texte);
+     $texte = str_replace('&amp;', '&', $texte);
+ 
+     // Balise autorisÈe
+@@ -820,7 +833,7 @@ function translate($file_lang){
+     ob_start();
+     print eval(" include ('$file_lang'); ");
+     $lang_define = ob_get_contents();
+-    $lang_define = htmlentities($lang_define, ENT_NOQUOTES);
++    $lang_define = nkHtmlEntities($lang_define, ENT_NOQUOTES);
+     $lang_define = str_replace('&lt;', '<', $lang_define);
+     $lang_define = str_replace('&gt;', '>', $lang_define);
+     ob_end_clean();
+diff --git a/opensearch.php b/opensearch.php
+index 1076148..13b8ce9 100644
+--- a/opensearch.php
++++ b/opensearch.php
+@@ -9,6 +9,7 @@
+ //-------------------------------------------------------------------------//
+ header('Content-type: text/html; charset=iso-8859-1');
+ define ('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
+ 
+ include('globals.php');
+ include('conf.inc.php');
+@@ -17,12 +18,12 @@ include('Includes/constants.php');
+ 
+ $sitename = utf8_encode($nuked['name']);
+ $sitedesc = utf8_encode($nuked['slogan']);
+-$sitename = html_entity_decode($nuked['name']);
+-$sitedesc = html_entity_decode($nuked['slogan']);
++$sitename = nkHtmlEntityDecode($nuked['name']);
++$sitedesc = nkHtmlEntityDecode($nuked['slogan']);
+ $sitename = str_replace('&amp;', '&', $sitename);
+ $sitedesc = str_replace('&amp;', '&', $sitedesc);
+-$sitename = htmlspecialchars($sitename);
+-$sitedesc = htmlspecialchars($sitedesc);
++$sitename = nkHtmlSpecialChars($sitename);
++$sitedesc = nkHtmlSpecialChars($sitedesc);
+ 
+ echo '<?xml version="1.0" ?>
+ <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+diff --git a/rss/download_rss.php b/rss/download_rss.php
+index 3e51f33..fea12ce 100644
+--- a/rss/download_rss.php
++++ b/rss/download_rss.php
+@@ -8,6 +8,8 @@
+ //  the Free Software Foundation; either version 2 of the License.         //
+ //-------------------------------------------------------------------------//
+ define('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
++
+ include('../globals.php');
+ include('../conf.inc.php');
+ include('../nuked.php');
+@@ -16,12 +18,12 @@ include('../lang/' . $nuked['langue'] . '.lang.php');
+ 
+ $rsslang = ($nuked['langue'] == 'french') ? 'fr' : 'en-us';
+ 
+-$sitename = @html_entity_decode($nuked['name']);
+-$sitedesc = @html_entity_decode($nuked['slogan']);
++$sitename = @nkHtmlEntityDecode($nuked['name']);
++$sitedesc = @nkHtmlEntityDecode($nuked['slogan']);
+ $sitename = str_replace('&amp;', '&', $sitename);
+ $sitedesc = str_replace('&amp;', '&', $sitedesc);
+-$sitename = htmlspecialchars($sitename);
+-$sitedesc = htmlspecialchars($sitedesc);
++$sitename = nkHtmlSpecialChars($sitename);
++$sitedesc = nkHtmlSpecialChars($sitedesc);
+ 
+ header('Content-Type: text/xml');
+ 
+@@ -44,7 +46,7 @@ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+ $result = mysql_query('SELECT id, titre, description, date FROM ' . DOWNLOAD_TABLE . ' WHERE level = 0 ORDER BY date DESC LIMIT 0, 20');
+ while (list($did, $titre, $texte, $date) = mysql_fetch_array($result)){
+     $pubdate = date("r", $date);
+-    $titre = htmlspecialchars($titre);
++    $titre = nkHtmlSpecialChars($titre);
+ 
+     if ($texte != ''){
+         $description = strip_tags($texte);
+@@ -53,7 +55,7 @@ while (list($did, $titre, $texte, $date) = mysql_fetch_array($result)){
+             $description = substr($description, 0, 300) . '...';
+         }
+         
+-        $description = htmlspecialchars($description);
++        $description = nkHtmlSpecialChars($description);
+     }
+     else{
+         $description = '';
+diff --git a/rss/forum_rss.php b/rss/forum_rss.php
+index f61d2de..5b0c620 100644
+--- a/rss/forum_rss.php
++++ b/rss/forum_rss.php
+@@ -8,6 +8,8 @@
+ //  the Free Software Foundation; either version 2 of the License.         //
+ //-------------------------------------------------------------------------//
+ define('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
++
+ include('../globals.php');
+ include('../conf.inc.php');
+ include('../nuked.php');
+@@ -16,12 +18,12 @@ include('../lang/' . $nuked['langue'] . '.lang.php');
+ 
+ $rsslang = ($nuked['langue'] == 'french') ? 'fr' : 'en-us';
+ 
+-$sitename = @html_entity_decode($nuked['name']);
+-$sitedesc = @html_entity_decode($nuked['slogan']);
++$sitename = @nkHtmlEntityDecode($nuked['name']);
++$sitedesc = @nkHtmlEntityDecode($nuked['slogan']);
+ $sitename = str_replace('&amp;', '&', $sitename);
+ $sitedesc = str_replace('&amp;', '&', $sitedesc);
+-$sitename = htmlspecialchars($sitename);
+-$sitedesc = htmlspecialchars($sitedesc);
++$sitename = nkHtmlSpecialChars($sitename);
++$sitedesc = nkHtmlSpecialChars($sitedesc);
+ 
+ header('Content-Type: text/xml');
+ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+@@ -46,7 +48,7 @@ while (list($tid, $forum_id) = mysql_fetch_array($result)){
+     list($auteur, $titre, $texte, $date) = mysql_fetch_array($sql2);
+ 
+     $pubdate = date('r', $date);
+-    $titre = htmlspecialchars($titre);
++    $titre = nkHtmlSpecialChars($titre);
+ 
+     if ($texte != ''){
+ 		$description = strip_tags($texte);
+@@ -55,7 +57,7 @@ while (list($tid, $forum_id) = mysql_fetch_array($result)){
+ 			$description = substr($description, 0, 300) . "...";
+ 		}
+ 
+-		$description = htmlspecialchars($description);
++		$description = nkHtmlSpecialChars($description);
+     }
+     else{
+ 		$description = '';
+diff --git a/rss/gallery_rss.php b/rss/gallery_rss.php
+index 21a02ea..6edcd8f 100644
+--- a/rss/gallery_rss.php
++++ b/rss/gallery_rss.php
+@@ -8,6 +8,8 @@
+ //  the Free Software Foundation; either version 2 of the License.         //
+ //-------------------------------------------------------------------------//
+ define('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
++
+ include('../globals.php');
+ include('../conf.inc.php');
+ include('../nuked.php');
+@@ -16,12 +18,12 @@ include('../lang/' . $nuked['langue'] . '.lang.php');
+ 
+ $rsslang = ($nuked['langue'] == 'french') ? 'fr' : 'en-us';
+ 
+-$sitename = @html_entity_decode($nuked['name']);
+-$sitedesc = @html_entity_decode($nuked['slogan']);
++$sitename = @nkHtmlEntityDecode($nuked['name']);
++$sitedesc = @nkHtmlEntityDecode($nuked['slogan']);
+ $sitename = str_replace('&amp;', '&', $sitename);
+ $sitedesc = str_replace('&amp;', '&', $sitedesc);
+-$sitename = htmlspecialchars($sitename);
+-$sitedesc = htmlspecialchars($sitedesc);
++$sitename = nkHtmlSpecialChars($sitename);
++$sitedesc = nkHtmlSpecialChars($sitedesc);
+ 
+ header('Content-Type: text/xml');
+ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+@@ -43,7 +45,7 @@ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+ $result = mysql_query('SELECT sid, titre, description, date FROM ' . GALLERY_TABLE . ' ORDER BY date DESC LIMIT 0, 20');
+ while (list($img_id, $titre, $texte, $date) = mysql_fetch_array($result)){
+     $pubdate = date('r', $date);
+-    $titre = htmlspecialchars($titre);
++    $titre = nkHtmlSpecialChars($titre);
+ 
+     if ($texte != ''){
+ 		$description = strip_tags($texte);
+@@ -52,7 +54,7 @@ while (list($img_id, $titre, $texte, $date) = mysql_fetch_array($result)){
+ 			$description = substr($description, 0, 300) . '...';
+ 		}
+ 	
+-		$description = htmlspecialchars($description);
++		$description = nkHtmlSpecialChars($description);
+     }
+     else{
+ 		$description = '';
+diff --git a/rss/links_rss.php b/rss/links_rss.php
+index 48ee804..8f2ed65 100644
+--- a/rss/links_rss.php
++++ b/rss/links_rss.php
+@@ -8,6 +8,8 @@
+ //  the Free Software Foundation; either version 2 of the License.         //
+ //-------------------------------------------------------------------------//
+ define('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
++
+ include('../globals.php');
+ include('../conf.inc.php');
+ include('../nuked.php');
+@@ -16,12 +18,12 @@ include('../lang/' . $nuked['langue'] . '.lang.php');
+ 
+ $rsslang = ($nuked['langue'] == 'french') ? 'fr' : 'en-us';
+ 
+-$sitename = @html_entity_decode($nuked['name']);
+-$sitedesc = @html_entity_decode($nuked['slogan']);
++$sitename = @nkHtmlEntityDecode($nuked['name']);
++$sitedesc = @nkHtmlEntityDecode($nuked['slogan']);
+ $sitename = str_replace('&amp;', '&', $sitename);
+ $sitedesc = str_replace('&amp;', '&', $sitedesc);
+-$sitename = htmlspecialchars($sitename);
+-$sitedesc = htmlspecialchars($sitedesc);
++$sitename = nkHtmlSpecialChars($sitename);
++$sitedesc = nkHtmlSpecialChars($sitedesc);
+ 
+ header('Content-Type: text/xml');
+ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+@@ -43,7 +45,7 @@ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+ $result = mysql_query('SELECT id, titre, description, date FROM ' . LINKS_TABLE . ' ORDER BY date DESC LIMIT 0, 20');
+ while (list($lid, $titre, $texte, $date) = mysql_fetch_array($result)){
+     $pubdate = date('r', $date);
+-    $titre = htmlspecialchars($titre);
++    $titre = nkHtmlSpecialChars($titre);
+ 
+     if ($texte != ''){
+ 		$description = strip_tags($texte);
+@@ -52,7 +54,7 @@ while (list($lid, $titre, $texte, $date) = mysql_fetch_array($result)){
+ 			$description = substr($description, 0, 300) . '...';
+ 		}
+ 	
+-		$description = htmlspecialchars($description);
++		$description = nkHtmlSpecialChars($description);
+     }
+     else{
+ 		$description = '';
+diff --git a/rss/news_rss.php b/rss/news_rss.php
+index a11aac7..c7f3a7b 100644
+--- a/rss/news_rss.php
++++ b/rss/news_rss.php
+@@ -8,6 +8,8 @@
+ //  the Free Software Foundation; either version 2 of the License.         //
+ //-------------------------------------------------------------------------//
+ define('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
++
+ include('../globals.php');
+ include('../conf.inc.php');
+ include('../nuked.php');
+@@ -16,12 +18,12 @@ include('../lang/' . $nuked['langue'] . '.lang.php');
+ 
+ $rsslang = ($nuked['langue'] == 'french') ? 'fr' : 'en-us';
+ 
+-$sitename = @html_entity_decode($nuked['name']);
+-$sitedesc = @html_entity_decode($nuked['slogan']);
++$sitename = @nkHtmlEntityDecode($nuked['name']);
++$sitedesc = @nkHtmlEntityDecode($nuked['slogan']);
+ $sitename = str_replace("&amp;", "&", $sitename);
+ $sitedesc = str_replace("&amp;", "&", $sitedesc);
+-$sitename = htmlspecialchars($sitename);
+-$sitedesc = htmlspecialchars($sitedesc);
++$sitename = nkHtmlSpecialChars($sitename);
++$sitedesc = nkHtmlSpecialChars($sitedesc);
+ 
+ header('Content-Type: text/xml');
+ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+@@ -44,7 +46,7 @@ $result = mysql_query('SELECT id, titre, texte, date FROM ' . NEWS_TABLE . ' ORD
+ while (list($nid, $titre, $texte, $date) = mysql_fetch_array($result))
+ {
+     $pubdate = date('r', $date);
+-    $titre = htmlspecialchars($titre);
++    $titre = nkHtmlSpecialChars($titre);
+ 
+     if ($texte != ''){
+         $description = strip_tags($texte);
+@@ -53,7 +55,7 @@ while (list($nid, $titre, $texte, $date) = mysql_fetch_array($result))
+             $description = substr($description, 0, 300) . '...';
+         }
+     
+-        $description = htmlspecialchars($description);
++        $description = nkHtmlSpecialChars($description);
+     }
+     else{
+         $description = '';
+diff --git a/rss/sections_rss.php b/rss/sections_rss.php
+index 1689369..96e92c1 100644
+--- a/rss/sections_rss.php
++++ b/rss/sections_rss.php
+@@ -8,6 +8,8 @@
+ //  the Free Software Foundation; either version 2 of the License.         //
+ //-------------------------------------------------------------------------//
+ define('INDEX_CHECK', 1);
++ini_set('default_charset', 'ISO8859-1');
++
+ include('../globals.php');
+ include('../conf.inc.php');
+ include('../nuked.php');
+@@ -16,12 +18,12 @@ include('../lang/' . $nuked['langue'] . '.lang.php');
+ 
+ $rsslang = ($nuked['langue'] == 'french') ? 'fr' : 'en-us';
+ 
+-$sitename = @html_entity_decode($nuked['name']);
+-$sitedesc = @html_entity_decode($nuked['slogan']);
++$sitename = @nkHtmlEntityDecode($nuked['name']);
++$sitedesc = @nkHtmlEntityDecode($nuked['slogan']);
+ $sitename = str_replace('&amp;', '&', $sitename);
+ $sitedesc = str_replace('&amp;', '&', $sitedesc);
+-$sitename = htmlspecialchars($sitename);
+-$sitedesc = htmlspecialchars($sitedesc);
++$sitename = nkHtmlSpecialChars($sitename);
++$sitedesc = nkHtmlSpecialChars($sitedesc);
+ 
+ header('Content-Type: text/xml');
+ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+@@ -43,7 +45,7 @@ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
+ $result = mysql_query('SELECT artid, title, content, date FROM ' . SECTIONS_TABLE . ' ORDER BY date DESC LIMIT 0, 20');
+ while (list($aid, $titre, $texte, $date) = mysql_fetch_array($result)){
+     $pubdate = date('r', $date);
+-    $titre = htmlspecialchars($titre);
++    $titre = nkHtmlSpecialChars($titre);
+ 
+     if ($texte != ''){
+         $description = strip_tags($texte);
+@@ -52,7 +54,7 @@ while (list($aid, $titre, $texte, $date) = mysql_fetch_array($result)){
+             $description = substr($description, 0, 300) . '...';
+         }
+     
+-        $description = htmlspecialchars($description);
++        $description = nkHtmlSpecialChars($description);
+     }
+     else{
+         $description = '';

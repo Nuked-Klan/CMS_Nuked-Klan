@@ -113,7 +113,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $sql_parent = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
             list($parent_titre) = mysql_fetch_array($sql_parent);
 
-            echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '" style="text-decoration:none"><big><b>' . htmlentities($parent_titre) . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
+            echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '" style="text-decoration:none"><big><b>' . nkHtmlEntities($parent_titre) . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
         } 
         else{
             echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";

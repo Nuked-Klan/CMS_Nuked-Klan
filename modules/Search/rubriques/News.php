@@ -48,7 +48,7 @@ $nb_news = mysql_num_rows($sql_news);
 if ($nb_news > 0){
     while (list($news_id, $news_auteur, $news_titre, $news_date) = mysql_fetch_array($sql_news)){
         $news_date = nkDate($news_date);
-        $news_titre = htmlentities($news_titre);
+        $news_titre = nkHtmlEntities($news_titre);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $news_titre . "</b> - " . _BY . "&nbsp;" . $news_auteur . "&nbsp;" . _THE . "&nbsp;" . $news_date;
         $tab['link'][] = "index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id;
