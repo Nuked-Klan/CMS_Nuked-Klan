@@ -4,9 +4,19 @@ import shutil
 import zipfile
 import zlib
 import os.path
+import sys
+import re
 # Note : Need python3 in order to run !
 
-file = 'Nuked-Klan_v1.7.13.zip'
+def _getVersion():
+    with open('INSTALL/config.php') as f:
+        for line in f:
+            version_search = re.search('\'nkVersion\'[\s]+=>[\s]+\'(.*)\'', line)
+
+            if version_search:
+                return version_search.group(1)
+
+    sys.exit('Version number no found !')
 
 def _ignore(src, name):
     if ((src == './UPLOAD/') or (src == './/UPLOAD/')):
@@ -30,6 +40,10 @@ def _RecImport(src, dst, zip):
             print (dst + ele)
         elif os.path.isdir(src + ele):
             _RecImport(src + ele + '/', dst + ele + '/', zip)
+
+
+version = _getVersion()
+file = 'Nuked-Klan_v' + version + '.zip'
 
 try:
     shutil.rmtree('tmp')

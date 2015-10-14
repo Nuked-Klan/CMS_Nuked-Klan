@@ -103,6 +103,42 @@ return array(
     #####################################
     'VIEW_NO_FOUND'         => 'View file `%s` no found',
     #####################################
+    # media/js/runProcess.js
+    #####################################
+    'CHECK_TABLE_INTEGRITY' => 'Check <b>%s</b> table integrity',
+    'SUCCESS'               => 'Success',
+    'FAILURE'               => 'Failure',
+    'CONVERTED_TABLE_SUCCESS' => 'Table <b>%s</b> successfully converted.',
+    'CREATED_TABLE_SUCCESS' => 'Table <b>%s</b> successfully created.',
+    'UPDATE_TABLE_SUCCESS'  => 'Table <b>%s</b> successfully updated.',
+    'REMOVE_TABLE_SUCCESS'  => 'Table <b>%s</b> successfully removed.',
+    'NOTHING_TO_CHECK'      => 'Nothing to check in <b>%s</b> table',
+    'NO_CONVERT_TABLE'      => 'No conversion to the <b>%s</b> table',
+    'NOTHING_TO_DO'         => 'Nothing to do for <b>%s</b> table',
+    'CHECK_ALL_TABLE_INTEGRITY' => 'Check all table integrity',
+    'CHECK_TABLE_CHARSET'   => 'Check table charset',
+    'CHECK_INTEGRITY_FAILED' => 'There are %d tables corrupted',
+    'TABLE_CONVERTION'      => 'All table conversion',
+    'CONVERTED_TABLE_FAILED' => 'There are %d tables not converted',
+    'INSTALL_SUCCESS'       => 'Installation is complete! All tables have been created.',
+    'UPDATE_SUCCESS'        => 'The update is complete! All tables have been changed.',
+    'INSTALL_FAILED'        => 'Installation is complete! But errors occurred, %d tables were not created.',
+    'UPDATE_FAILED'         => 'The update is complete! But errors occurred, %d tables have not changed.',
+    'PRINT_ERROR'           => ' - Error :',
+    'UPDATE_TABLE_STEP'     => 'Update table <b>%1$s</b> : Step <b>%2$s</b>',
+    'CHECK_TABLE_INTEGRITY_ERROR' => 'An error occurred when checking the table',
+    'CREATED_TABLE_ERROR'   => 'An error occurred while creating the table',
+    'UPDATE_TABLE_ERROR'    => 'An error occurred when editing the table',
+    'STARTING_INSTALL'      => 'Starting the installation.',
+    'STARTING_UPDATE'       => 'Starting the update.',
+    #####################################
+    # media/js/setUserAdmin.js
+    #####################################
+    'ERROR_NICKNAME'        => 'The nickname must be a minimum of 3 characters and can\'t contain the following characters: $^()\'?%#\<>,;:',
+    'ERROR_PASSWORD'        => 'Please enter a password.',
+    'ERROR_PASSWORD_CONFIRM' => 'Passwords do not match.',
+    'ERROR_EMAIL'           => 'Please enter a valid mail',
+    #####################################
     # tables/table.block.c.i.u.php
     #####################################
     'INSERT_DEFAULT_DATA'   => 'Insert default data of `%s` table',
@@ -280,6 +316,14 @@ return array(
     'CLEANING_FILES'        => 'One or many deprecated files cannot be deleted.<br />Please manually delete the following files :',
     'RETRY'                 => 'Retry',
     #####################################
+    # views/confIncFailure.php
+    #####################################
+    'WEBSITE_DIRECTORY_CHMOD' => 'Can\'t write in Nuked-Klan directory<br/>Please update manually CHMOD <strong>0755</strong> on this directory.',
+    'CONF_INC_CHMOD_ERROR'  => 'Can\'t change CHMOD file rights conf.inc.php<br/>Please update manually CHMOD <strong>%s</strong> on this file.',
+    'WRITE_CONF_INC_ERROR'  => 'There was an error in the file generation conf.inc.php',
+    'COPY_CONF_INC_ERROR'   => 'Can not create file backup conf.inc.php<br/>Please download the file and save it manually.',
+    'DOWNLOAD'              => 'Download',
+    #####################################
     # views/fatalError.php
     #####################################
     'ERROR'                 => 'An error has occured !!!',
@@ -387,90 +431,6 @@ return array(
     # views/setAdminError.php
     #####################################
     'ERROR_FIELDS'          => 'You have not filled the form fields.',
-    
-    
-    #####################################
-    # media/js/runProcess.js
-    #####################################
-    'CHECK_TABLE_INTEGRITY' => 'Check <b>%s</b> table integrity',
-    'SUCCESS'               => 'Success',
-    'FAILURE'               => 'Failure',
-    'CONVERTED_TABLE_SUCCESS' => 'Table <b>%s</b> successfully converted.',
-    
-    'CREATED_TABLE_SUCCESS' => 'Table <b>%s</b> successfully created.',
-    'UPDATE_TABLE_SUCCESS'  => 'Table <b>%s</b> successfully updated.',
-    'REMOVE_TABLE_SUCCESS'  => 'Table <b>%s</b> successfully removed.',
-    
-    'NOTHING_TO_CHECK'      => 'Nothing to check in <b>%s</b> table',
-    'NO_CONVERT_TABLE'      => 'No conversion to the <b>%s</b> table',
-    'NOTHING_TO_DO'         => 'Nothing to do for <b>%s</b> table',
-    'CHECK_ALL_TABLE_INTEGRITY' => 'Check all table integrity',
-    'CHECK_TABLE_CHARSET'   => 'Check table charset',
-    'CHECK_INTEGRITY_FAILED' => 'There are %d tables corrupted',
-    'TABLE_CONVERTION'      => 'All table conversion',
-    'CONVERTED_TABLE_FAILED' => 'There are %d tables not converted',
-    'INSTALL_SUCCESS'       => 'Installation is complete! All tables have been created.',
-    'UPDATE_SUCCESS'        => 'The update is complete! All tables have been changed.',
-    'INSTALL_FAILED'        => 'Installation is complete! But errors occurred, %d tables were not created.',
-    'UPDATE_FAILED'         => 'The update is complete! But errors occurred, %d tables have not changed.',
-    'PRINT_ERROR'           => ' - Error :',
-    'STEP'                  => 'Step',
-    'CHECK_TABLE_INTEGRITY_ERROR' => 'An error occurred when checking the table',
-    'CREATED_TABLE_ERROR'   => 'An error occurred while creating the table',
-    'UPDATE_TABLE_ERROR'    => 'An error occurred when editing the table',
-    'STARTING_INSTALL'      => 'Starting the installation.',
-    'STARTING_UPDATE'       => 'Starting the update.',
-    #####################################
-    # media/js/setUserAdmin.js
-    #####################################
-    'ERROR_NICKNAME'        => 'The nickname must be a minimum of 3 characters and can\'t contain the following characters: $^()\'?%#\<>,;:',
-    'ERROR_PASSWORD'        => 'Please enter a password.',
-    'ERROR_PASSWORD_CONFIRM' => 'Passwords do not match.',
-    'ERROR_EMAIL'           => 'Please enter a valid mail',
-    
-    
-    
-    #####################################
-    # views/confIncFailure.php
-    #####################################
-    'WEBSITE_DIRECTORY_CHMOD' => 'Can\'t write in Nuked-Klan directory<br/>Please update manually CHMOD <strong>0755</strong> on this directory.',
-    'CONF_INC_CHMOD_ERROR'  => 'Can\'t change CHMOD file rights conf.inc.php<br/>Please update manually CHMOD <strong>%s</strong> on this file.',
-    'WRITE_CONF_INC_ERROR'  => 'There was an error in the file generation conf.inc.php',
-    'COPY_CONF_INC_ERROR'   => 'Can not create file backup conf.inc.php<br/>Please download the file and save it manually.',
-    'DOWNLOAD'              => 'Download',
-    # views/runProcess.php
-    //'NOTHING_TO_MODIFY'     => 'Nothing to modify in <b>%s</b> table',
-    # views/selectSaveBdd.php
-    //'SAVE'                  => 'Backup',
-    //'_NOTHANKS', 'No thanks!',
-    //'_DBSAVED', 'Database saved',
-    //'_DBSAVEDTXT', 'Your database has been saved, you can download it here :',
 );
-
-/*
-///////////////////////////////////////////////
-/////// ERREUR CREATION FICHIER CONF.INC.PHP
-///////////////////////////////////////////////
-define('_INFODLSAVECONFINC', 'Please download the content above and keep this file (it\'s a backup).');
-define('_BADCHMOD', 'Can\'t write file <b> conf.inc.php </ b>, check write permissions (CHMOD)!');
-///////////////////////////////////////////////
-/////// GLOBAL
-///////////////////////////////////////////////
-define("_HELP","Help");
-define('_FORCEINSTALL', 'Force installation');
-define('_ERRORTRY', 'An error has occured, please wait.');
-///////////////////////////////////////////////
-/////// CREATION BDD (INSTALLATION)
-///////////////////////////////////////////////
-define('_STARTDB', 'Start creating');
-define('_SQLCONNECTOK', 'The database connection has been successful.');
-define('_WRONGTABLENAME', 'The table name is wrong.');
-///////////////////////////////////////////////
-/////// CREATION BDD (MISE A JOUR)
-///////////////////////////////////////////////
-define('_LOGUTXTSUCCESS', 'successfully updated.');
-define('_LOGUTXTUPDATE', 'successfully updated.');
-define('_LOGUTXTREMOVE2', 'successfully removed.');
-*/
 
 ?>

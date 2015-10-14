@@ -4,6 +4,7 @@
                     <div id="progress" class="progress-bar-bg">
                     <span class="progress-bar" ></span></div>
                     <script type="text/javascript">
+                    //<![CDATA[
                     var process = '<?php echo $process ?>',
                         dbPrefix = '<?php echo $db_prefix ?>',
                         processTableList = new Array('<?php echo implode('\',\'', $processDataList['processList']) ?>'),
@@ -24,6 +25,7 @@
 <?php
     endif
 ?>
+                    //]]>
                     </script>
-                    <a href="#" class="button" id="continue_install" onclick="submit()"><?php echo $i18n['START'] ?></a>
+                    <a href="#" class="button" id="startProcess" onclick="submit(); return false;"><?php echo $i18n['START'] ?></a>
                 </div>

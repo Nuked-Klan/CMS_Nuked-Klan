@@ -103,6 +103,42 @@ return array(
     #####################################
     'VIEW_NO_FOUND'         => 'Le fichier de la vue `%s` est manquant',
     #####################################
+    # media/js/runProcess.js
+    #####################################
+    'CHECK_TABLE_INTEGRITY' => 'Vérification de l\'integrité de la table <b>%s</b>',
+    'SUCCESS'               => 'Réussi',
+    'FAILURE'               => 'Echec',
+    'CONVERTED_TABLE_SUCCESS' => 'Table <b>%s</b> convertie avec succès.',
+    'CREATED_TABLE_SUCCESS' => 'Table <b>%s</b> crée avec <span style="color:green;">succès</span>.',
+    'UPDATE_TABLE_SUCCESS'  => 'Table <b>%s</b> mise à jour avec <span style="color:green;">succès</span>.',
+    'REMOVE_TABLE_SUCCESS'  => 'Table <b>%s</b> supprimée avec <span style="color:green;">succès</span>.',
+    'NOTHING_TO_CHECK'      => 'Rien à vérifier pour la table <b>%s</b>',
+    'NO_CONVERT_TABLE'      => 'Aucune conversion pour la table <b>%s</b>',
+    'NOTHING_TO_DO'         => 'Aucune modification à effectuée pour la table <b>%s</b>',
+    'CHECK_ALL_TABLE_INTEGRITY' => 'Vérification de l\'integrité des tables',
+    'CHECK_TABLE_CHARSET'   => 'Vérification de l\'encodage des tables',
+    'CHECK_INTEGRITY_FAILED' => 'Il y a %d tables corrompues',
+    'TABLE_CONVERTION'      => 'Conversion des tables',
+    'CONVERTED_TABLE_FAILED' => 'Il y a %d tables non converties',
+    'INSTALL_SUCCESS'       => 'L\'installation est terminée ! Toutes les tables ont bien été créées.',
+    'UPDATE_SUCCESS'        => 'La mise à jour est terminée ! Toutes les tables ont bien été modifiées.',
+    'INSTALL_FAILED'        => 'L\'installation est terminée ! Mais des erreurs sont survenues, %d tables n\'ont pas été créées.',
+    'UPDATE_FAILED'         => 'La mise à jour est terminée ! Mais des erreurs sont survenues, %d tables n\'ont pas été modifiées.',
+    'PRINT_ERROR'           => ' - Erreur :',
+    'UPDATE_TABLE_STEP'     => 'Mise à jour de la table <b>%1$s</b> : Etape <b>%2$s</b>',
+    'CHECK_TABLE_INTEGRITY_ERROR' => 'Une erreur est survenue lors de la vérification de la table',
+    'CREATED_TABLE_ERROR'   => 'Une erreur est survenue lors de la création de la table',
+    'UPDATE_TABLE_ERROR'    => 'Une erreur est survenue lors de la modification de la table',
+    'STARTING_INSTALL'      => 'Démarrage de l\'installation.',
+    'STARTING_UPDATE'       => 'Démarrage de la mise à jour.',
+    #####################################
+    # media/js/setUserAdmin.js
+    #####################################
+    'ERROR_NICKNAME'        => 'Le pseudo doit faire minimum 3 caractères et ne peut contenir les caractères suivants : $^()\'?%#\<>,;:',
+    'ERROR_PASSWORD'        => 'Veuillez saisir un mot de passe.',
+    'ERROR_PASSWORD_CONFIRM' => 'Les mots de passe ne correspondent pas.',
+    'ERROR_EMAIL'           => 'Veuillez saisir un e-mail valide',
+    #####################################
     # tables/table.block.c.i.u.php
     #####################################
     'INSERT_DEFAULT_DATA'   => 'Insertion des données par défaut de la table `%s`',
@@ -280,6 +316,14 @@ return array(
     'CLEANING_FILES'        => 'Un ou plusieurs fichiers obsolètes n\'ont pas pu être effacer.<br />Veuillez supprimer manuellement les fichiers suivants :',
     'RETRY'                 => 'Réessayer',
     #####################################
+    # views/confIncFailure.php
+    #####################################
+    'WEBSITE_DIRECTORY_CHMOD' => 'Impossible d\'écrire dans le dossier contenant Nuked-Klan<br/>Veuillez mettre manuellement le CHMOD <strong>0755</strong> sur ce dossier.',
+    'CONF_INC_CHMOD_ERROR'  => 'Impossible de modifier les droits CHMOD du fichier conf.inc.php<br/>Veuillez mettre manuellement le CHMOD <strong>%s</strong> sur ce fichier.',
+    'WRITE_CONF_INC_ERROR'  => 'Une erreur est survenue dans la génération du fichier conf.inc.php',
+    'COPY_CONF_INC_ERROR'   => 'Impossible de créer la sauvegarde du fichier conf.inc.php<br/>Veuillez télécharger le fichier et le sauvegarder manuellement.',
+    'DOWNLOAD'              => 'Télécharger',
+    #####################################
     # views/fatalError.php
     #####################################
     'ERROR'                 => 'Une erreur est survenue !!!',
@@ -387,89 +431,6 @@ return array(
     # views/setAdminError.php
     #####################################
     'ERROR_FIELDS'          => 'Vous avez mal rempli les champs du formulaire.',
-    
-    
-    #####################################
-    # media/js/runProcess.js
-    #####################################
-    'CHECK_TABLE_INTEGRITY' => 'Vérification de l\'integrité de la table <b>%s</b>',
-    'SUCCESS'               => 'Réussi',
-    'FAILURE'               => 'Echec',
-    'CONVERTED_TABLE_SUCCESS' => 'Table <b>%s</b> convertie avec succès.',
-    
-    'CREATED_TABLE_SUCCESS' => 'Table <b>%s</b> crée avec <span style="color:green;">succès</span>.',
-    'UPDATE_TABLE_SUCCESS'  => 'Table <b>%s</b> mise à jour avec <span style="color:green;">succès</span>.',
-    'REMOVE_TABLE_SUCCESS'  => 'Table <b>%s</b> supprimée avec <span style="color:green;">succès</span>.',
-    
-    'NOTHING_TO_CHECK'      => 'Rien à vérifier pour la table <b>%s</b>',
-    'NO_CONVERT_TABLE'      => 'Aucune conversion pour la table <b>%s</b>',
-    'NOTHING_TO_DO'         => 'Aucune modification à effectuée pour la table <b>%s</b>',
-    'CHECK_ALL_TABLE_INTEGRITY' => 'Vérification de l\'integrité des tables',
-    'CHECK_TABLE_CHARSET'   => 'Vérification de l\'encodage des tables',
-    'CHECK_INTEGRITY_FAILED' => 'Il y a %d tables corrompues',
-    'TABLE_CONVERTION'      => 'Conversion des tables',
-    'CONVERTED_TABLE_FAILED' => 'Il y a %d tables non converties',
-    'INSTALL_SUCCESS'       => 'L\'installation est terminée ! Toutes les tables ont bien été créées.',
-    'UPDATE_SUCCESS'        => 'La mise à jour est terminée ! Toutes les tables ont bien été modifiées.',
-    'INSTALL_FAILED'        => 'L\'installation est terminée ! Mais des erreurs sont survenues, %d tables n\'ont pas été créées.',
-    'UPDATE_FAILED'         => 'La mise à jour est terminée ! Mais des erreurs sont survenues, %d tables n\'ont pas été modifiées.',
-    'PRINT_ERROR'           => ' - Erreur :',
-    'STEP'                  => 'Etape',
-    'CHECK_TABLE_INTEGRITY_ERROR' => 'Une erreur est survenue lors de la vérification de la table',
-    'CREATED_TABLE_ERROR'   => 'Une erreur est survenue lors de la création de la table',
-    'UPDATE_TABLE_ERROR'    => 'Une erreur est survenue lors de la modification de la table',
-    'STARTING_INSTALL'      => 'Démarrage de l\'installation.',
-    'STARTING_UPDATE'       => 'Démarrage de la mise à jour.',
-    #####################################
-    # media/js/setUserAdmin.js
-    #####################################
-    'ERROR_NICKNAME'        => 'Le pseudo doit faire minimum 3 caractères et ne peut contenir les caractères suivants : $^()\'?%#\<>,;:',
-    'ERROR_PASSWORD'        => 'Veuillez saisir un mot de passe.',
-    'ERROR_PASSWORD_CONFIRM' => 'Les mots de passe ne correspondent pas.',
-    'ERROR_EMAIL'           => 'Veuillez saisir un e-mail valide',
-    
-    
-    #####################################
-    # views/confIncFailure.php
-    #####################################
-    'WEBSITE_DIRECTORY_CHMOD' => 'Impossible d\'écrire dans le dossier contenant Nuked-Klan<br/>Veuillez mettre manuellement le CHMOD <strong>0755</strong> sur ce dossier.',
-    'CONF_INC_CHMOD_ERROR'  => 'Impossible de modifier les droits CHMOD du fichier conf.inc.php<br/>Veuillez mettre manuellement le CHMOD <strong>%s</strong> sur ce fichier.',
-    'WRITE_CONF_INC_ERROR'  => 'Une erreur est survenue dans la génération du fichier conf.inc.php',
-    'COPY_CONF_INC_ERROR'   => 'Impossible de créer la sauvegarde du fichier conf.inc.php<br/>Veuillez télécharger le fichier et le sauvegarder manuellement.',
-    'DOWNLOAD'              => 'Télécharger',
-    # views/runProcess.php
-    //'NOTHING_TO_MODIFY'     => 'Rien à modifier pour la table <b>%s</b>',
-    # views/selectSaveBdd.php
-    //'SAVE'                  => 'Sauvegarde',
-    //'_NOTHANKS', 'Non merci!',
-    //'_DBSAVED', 'Base de données sauvegardée',
-    //'_DBSAVEDTXT', 'Votre base de données a bien été sauvegardée, vous pouvez la télécharger ici :',
 );
-
-/*
-///////////////////////////////////////////////
-/////// ERREUR CREATION FICHIER CONF.INC.PHP
-///////////////////////////////////////////////
-define('_INFODLSAVECONFINC', 'Veuillez télécharger le contenu ci-dessus et conserver ce fichier (c\'est une sauvegarde).');
-define('_BADCHMOD', 'Impossible d\'écrire dans le fichier <b>conf.inc.php</b>, vérifiez les droits en écriture (CHMOD) !');
-///////////////////////////////////////////////
-/////// GLOBAL
-///////////////////////////////////////////////
-define("_HELP","Aides");
-define('_FORCEINSTALL', 'Forcer l\'installation');
-define('_ERRORTRY', 'Une erreur est survenue, veuillez réessayer.');
-///////////////////////////////////////////////
-/////// CREATION BDD (INSTALLATION)
-///////////////////////////////////////////////
-define('_STARTDB', 'Démarrer la création');
-define('_SQLCONNECTOK', 'La connexion à la base de données a été réalisée avec succès.');
-define('_WRONGTABLENAME', 'Le nom de la table est erroné.');
-///////////////////////////////////////////////
-/////// CREATION BDD (MISE A JOUR)
-///////////////////////////////////////////////
-define('_LOGUTXTSUCCESS', 'modifiée avec succès.');
-define('_LOGUTXTUPDATE', 'mis à jour avec succès.');
-define('_LOGUTXTREMOVE2', 'supprimé avec succès.');
-*/
 
 ?>

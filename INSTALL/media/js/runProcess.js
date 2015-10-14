@@ -15,7 +15,7 @@ function addLogMessage(msg) {
         .scrollTop($('#log_install')[0].scrollHeight);
 }
 
-function writeInfo(table, txt, status, newline) {
+function writeInfo(table, txt, status) {
     var msg;
 
     if (status == 'INTEGRITY_ACCEPTED') {
@@ -46,13 +46,13 @@ function writeInfo(table, txt, status, newline) {
         else
             msg = i18n.nothing_to_do.replace(/%s/, dbPrefix + '_' + table);
     }
+    else if (status == 'STEP') {
+        msg = i18n.update_table_step.replace(/%1\$s/, dbPrefix + '_' + table);
+        msg = msg.replace(/%2\$s/, txt);
+    }
     else {
         msg = txt + ' <b>' + dbPrefix + '_' + table + '</b>';
     }
-
-    //if (! (process == 'update' && checkIntegrity && checkAndConvertCharsetAndCollation))
-    //    msg = '<br />' + msg
-
 
     addLogMessage(msg + loadingImg + '<br />');
 }
@@ -152,21 +152,23 @@ function viewEnd() {
         else
             endText = i18n.update_success;
 
-        $('#continue_install').text(i18n.next);
+        $('#startProcess').text(i18n.next);
         processEnd = true;
     }
     else {
         if (process == 'install')
             endText = i18n.install_failed.replace(/%d/, errors);
-        else
+        else {
             endText = i18n.update_failed.replace(/%d/, errors);
+            processProgress = 100 / (nbProcessTable);
+        }
 
-        $('#continue_install').text(i18n.retry);
+        $('#startProcess').text(i18n.retry);
     }
 
     writeComplete(endText);
 
-    $('#continue_install')
+    $('#startProcess')
         .removeClass('button_disabled')
         .addClass('button');
 }
@@ -221,7 +223,6 @@ function runProcess(tableFile) {
             errors++;
             writeError(i18n.print_error, txt);
         }
-        //else if (txt != 'NEXT') {
         else {
             var regStep = new RegExp('^STEP_[0-9]+_TOTAL_STEP_[0-9]+$');
 
@@ -231,7 +232,7 @@ function runProcess(tableFile) {
             if (regStep.test(txt)) {
                 var data = txt.match(/^STEP_([0-9]+)_TOTAL_STEP_([0-9]+)$/);
 
-                writeInfo(table, ' - ' + i18n.step + ' : ' + data[1] + ' / ' + data[2], 'STEP');
+                writeInfo(table, data[1] + ' / ' + data[2], 'STEP');
                 runProcessResult = 'STEP';
             }
             else {
@@ -249,10 +250,6 @@ function runProcess(tableFile) {
             }
         }
 
-        //if (actionList != '')
-        //    addLogMessage(actionList + loadingImg);
-
-        //$('#log_install').scrollTop($('#log_install')[0].scrollHeight);
         ajaxBusy = false;
     });
 
@@ -283,7 +280,7 @@ function startProcess() {
         $('#log_install')
             .html(text + loadingImg + '<br />');
 
-        $('#continue_install')
+        $('#startProcess')
             .removeClass('button')
             .addClass('button_disabled');
 
