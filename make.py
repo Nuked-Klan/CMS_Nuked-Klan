@@ -6,12 +6,12 @@ import zlib
 import os.path
 # Note : Need python3 in order to run !
 
-file = 'Nuked-Klan_v1.7.12.zip'
+file = 'Nuked-Klan_v1.7.13.zip'
 
 def _ignore(src, name):
     if ((src == './UPLOAD/') or (src == './/UPLOAD/')):
         print (name)
-        return ['RESTDIR', 'conf.inc.php', file, '.svn', 'Thumb.db', '.DS_Store', '.git', '.hg', 'make.py']
+        return ['RESTDIR', 'conf.inc.php', file, 'Thumbs.db', '.DS_Store', '.gitignore', '.git', '.hg', '.svn', 'make.py']
     else:
         return []
 

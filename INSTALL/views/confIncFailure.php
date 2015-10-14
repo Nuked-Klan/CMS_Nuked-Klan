@@ -4,7 +4,6 @@
     if ($error == 'WEBSITE_DIRECTORY_CHMOD') :
 ?>
                     <p><?php echo $i18n['WEBSITE_DIRECTORY_CHMOD'] ?></p>
-                    <a href="index.php?action=<?php echo $currentAction ?>" class="button" ><?php echo $i18n['RETRY'] ?></a>
 <?php
     elseif (in_array($error, array('CONF_INC_CHMOD_0666', 'CONF_INC_CHMOD_0644'))) :
 ?>

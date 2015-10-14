@@ -473,7 +473,7 @@ class process {
             else
                 $process = $this->_session['process'];
 
-            $dbTable = new dbTable($this->_db, $this->_session);
+            $dbTable = new dbTable($this->_db, $this->_session, $this->_i18n);
 
             include $path;
 
@@ -492,11 +492,11 @@ class process {
         if ($error != '')
             echo $error, '<br />';
 
-        if ($process == 'update' && $result == 'CREATED'
+        if ($process == 'update' && $result != 'CREATED'
             && isset($dbTable) && ! empty($actionList = $dbTable->getActionList())
         ) {
-            foreach ($actionList as $i18n => $data)
-                echo vsprintf($this->_i18n[$i18n], $data), '<br />';
+            foreach ($actionList as $k => $i18n)
+                echo $i18n, '<br />';
         }
     }
 

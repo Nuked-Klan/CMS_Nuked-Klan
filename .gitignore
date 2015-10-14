@@ -1,0 +1,18 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+thumbcache_*.db
+Thumbs.db
+
+# NK Configuration #
+######################
+conf.inc.php
+config_save_*.php
+themes/Baccara/
+.idea/
+diff

@@ -239,7 +239,7 @@ if ($process == 'update') {
         $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_config`
             (`name`, `value`) VALUES '. implode(', ', $values);
 
-        $dbTable->insertData(array('ADD_CONFIG', implode(', ', array_keys($insertData))), $sql);
+        $dbTable->insertData(array('ADD_CONFIG', implode('`, `', array_keys($insertData))), $sql);
     }
 
     if (! empty($updateData)) {
@@ -248,7 +248,7 @@ if ($process == 'update') {
                 SET value = \''. $this->_db->quote($value) .'\'
                 WHERE name = \''. $this->_db->quote($name) .'\'';
 
-            $dbTable->updateData(array('UPDATE_CONFIG', implode(', ', array_keys($updateData))), $sql);
+            $dbTable->updateData(array('UPDATE_CONFIG', $name), $sql);
         }
     }
 }

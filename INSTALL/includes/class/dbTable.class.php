@@ -83,14 +83,20 @@ class dbTable {
     private $_db;
 
     /*
+     * Store i18n instance
+     */
+    private $_i18n;
+
+    /*
      * Constructor.
      * - Reset session data if needed
      * - Set database table name
      * - Read info of database table
      */
-    public function __construct($db, $session) {
+    public function __construct($db, $session, $i18n) {
         $this->_db      = $db;
         $this->_session = $session;
+        $this->_i18n    = $i18n;
     }
 
     /*
@@ -152,7 +158,7 @@ class dbTable {
         if (array_key_exists($field, $this->_tableInfo))
             return $this->_tableInfo[$field]['type'];
 
-        throw new dbTableException(sprintf(i18n::getInstance()['FIELD_DONT_EXIST'], $field));
+        throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
     }
 
     /*
@@ -163,10 +169,8 @@ class dbTable {
      *   null when field don't exist
      */
     public function checkIntegrity() {
-        $this->_actionList = array();
-
         if (! $this->tableExist()) {
-            $this->_actionList['MISSING_TABLE'] = array($this->_table);
+            $this->_actionList[] = sprintf($this->_i18n['MISSING_TABLE'], $this->_table);
         }
         else {
             foreach (func_get_args() as $field) {
@@ -184,11 +188,11 @@ class dbTable {
                         $check = $check || true;
 
                     if (! $check)
-                        $this->_actionList['MISSING_FIELD'] = array($_field, $this->_table);
+                        $this->_actionList[] = sprintf($this->_i18n['MISSING_FIELD'], $this->_table);
                 }
                 else {
                     if (! $this->fieldExist($field))
-                        $this->_actionList['MISSING_FIELD'] = array($field, $this->_table);
+                        $this->_actionList[] = sprintf($this->_i18n['MISSING_FIELD'], $this->_table);
                 }
             }
         }
@@ -212,8 +216,8 @@ class dbTable {
         ) {
             $this->_db->convertTableCharsetAndCollation($this->_table);
 
-            $this->_actionList['CONVERT_CHARSET_AND_COLLATION'] = array($this->_table, db::CHARSET, db::COLLATION);
-            $this->_jqueryAjaxResponse = 'TABLE_CONVERTED';
+            $this->_actionList[]        = sprintf($this->_i18n['CONVERT_CHARSET_AND_COLLATION'], $this->_table, db::CHARSET, db::COLLATION);
+            $this->_jqueryAjaxResponse  = 'TABLE_CONVERTED';
         }
     }
 
@@ -237,8 +241,8 @@ class dbTable {
     public function createTable($sql) {
         $this->_db->execute($sql);
 
-        $this->_actionList['CREATE_TABLE']  = array($this->_table);
-        $this->_jqueryAjaxResponse          = 'CREATED';
+        $this->_actionList[]        = sprintf($this->_i18n['CREATE_TABLE'], $this->_table);
+        $this->_jqueryAjaxResponse  = 'CREATED';
 
         return $this;
     }
@@ -252,8 +256,8 @@ class dbTable {
 
         $this->_db->execute($sql);
 
-        $this->_actionList['RENAME_TABLE'] = array($this->_table, $newTable);
-        $this->_table = $this->_session['currentTable'] = $newTable;
+        $this->_actionList[]    = sprintf($this->_i18n['RENAME_TABLE'], $this->_table, $newTable);
+        $this->_table           = $this->_session['currentTable'] = $newTable;
 
         return $this;
     }
@@ -270,7 +274,7 @@ class dbTable {
 
         $this->_db->execute($sql);
 
-        $this->_actionList['DROP_TABLE'] = array($table);
+        $this->_actionList[] = sprintf($this->_i18n['DROP_TABLE'], $table);
 
         return $this;
     }
@@ -294,11 +298,11 @@ class dbTable {
      */
     public function addField($field, $data = array(), $after = '') {
         if (! isset($data['type']))
-            throw new dbTableException(sprintf(i18n::getInstance()['FIELD_TYPE_NO_FOUND'], $field));
+            throw new dbTableException(sprintf($this->_i18n['FIELD_TYPE_NO_FOUND'], $field));
 
         if ($after != '') {
             if (! in_array($after, $this->_newFieldCreate) && ! $this->fieldExist($after))
-                throw new dbTableException(sprintf(i18n::getInstance()['FIELD_DONT_EXIST'], $after));
+                throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $after));
         }
 
         $sql = 'ADD `'. $field .'` '. $data['type'];
@@ -327,9 +331,9 @@ class dbTable {
         if ($after != '')
             $sql .= ' AFTER `'. $after .'`';
 
-        $this->_alterTable[]            = $sql;
-        $this->_actionList['ADD_FIELD'] = array($field, $this->_table);
-        $this->_newFieldCreate[]        = $field;
+        $this->_alterTable[]        = $sql;
+        $this->_actionList[]        = sprintf($this->_i18n['ADD_FIELD'], $field, $this->_table);
+        $this->_newFieldCreate[]    = $field;
 
         $this->_updateTableInfo[$field] = array(
             'type'      => $data['type'],
@@ -347,10 +351,10 @@ class dbTable {
      */
     public function modifyField($field, $data = array()) {
         if (! $this->fieldExist($field))
-            throw new dbTableException(sprintf($i18n['FIELD_DONT_EXIST'], $field));
+            throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
 
         if (! isset($data['type']))
-            throw new dbTableException(sprintf(i18n::getInstance()['FIELD_TYPE_NO_FOUND'], $field));
+            throw new dbTableException(sprintf($this->_i18n['FIELD_TYPE_NO_FOUND'], $field));
 
         $sql = 'CHANGE `'. $field .'` `'. $field .'` '. $data['type'];
 
@@ -375,8 +379,8 @@ class dbTable {
         // auto_increment
         //$data['extra']
 
-        $this->_alterTable[]                = $sql;
-        $this->_actionList['MODIFY_FIELD']  = array($field, $this->_table);
+        $this->_alterTable[] = $sql;
+        $this->_actionList[] = sprintf($this->_i18n['MODIFY_FIELD'], $field, $this->_table);
 
         $this->_updateTableInfo[$field] = array(
             'type'      => $data['type'],
@@ -394,11 +398,11 @@ class dbTable {
      */
     public function dropField($field) {
         if (! $this->fieldExist($field))
-            throw new dbTableException(sprintf($i18n['FIELD_DONT_EXIST'], $field));
+            throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
 
-        $this->_alterTable[]                = 'DROP `'. $field .'`';
-        $this->_actionList['DROP_FIELD']    = array($field, $this->_table);
-        $this->_dropTableInfo[]             = $field;
+        $this->_alterTable[]    = 'DROP `'. $field .'`';
+        $this->_actionList[]    = sprintf($this->_i18n['DROP_FIELD'], $field, $this->_table);
+        $this->_dropTableInfo[] = $field;
 
         return $this;
     }
@@ -434,9 +438,9 @@ class dbTable {
         $this->_db->execute($sql);
 
         if (is_string($type))
-            $this->_actionList[$type] = array($this->_table);
+            $this->_actionList[] = sprintf($this->_i18n[$type], $this->_table);
         else if (is_array($type))
-            $this->_actionList[array_shift($type)] = array_merge($type, array($this->_table));
+            $this->_actionList[] = vsprintf($this->_i18n[array_shift($type)], array_merge($type, array($this->_table)));
     }
 
     /*
@@ -446,9 +450,9 @@ class dbTable {
         $this->_db->execute($sql);
 
         if (is_string($type))
-            $this->_actionList[$type] = array($this->_table);
+            $this->_actionList[] = sprintf($this->_i18n[$type], $this->_table);
         else if (is_array($type))
-            $this->_actionList[array_shift($type)] = array_merge($type, array($this->_table));
+            $this->_actionList[] = vsprintf($this->_i18n[array_shift($type)], array_merge($type, array($this->_table)));
     }
 
     /*
@@ -458,9 +462,9 @@ class dbTable {
         $this->_db->execute($sql);
 
         if (is_string($type))
-            $this->_actionList[$type] = array($this->_table);
+            $this->_actionList[] = sprintf($this->_i18n[$type], $this->_table);
         else if (is_array($type))
-            $this->_actionList[array_shift($type)] = array_merge($type, array($this->_table));
+            $this->_actionList[] = vsprintf($this->_i18n[array_shift($type)], array_merge($type, array($this->_table)));
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -478,11 +482,11 @@ class dbTable {
 
         if (is_string($field)) {
             $this->_selectFields[] = $field;
-            $this->_actionList[$action] = array_merge(array($field), array($this->_table));
+            $this->_actionList[] = sprintf($this->_i18n[$action], $field, $this->_table);
         }
         else if (is_array($field)) {
             $this->_selectFields = array_merge($this->_selectFields, $field);
-            $this->_actionList[$action] = array_merge(array(implode(', ', $field)), array($this->_table));
+            $this->_actionList[] = sprintf($this->_i18n[$action], implode(', ', $field), $this->_table);
         }
 
         return $this;
@@ -515,7 +519,7 @@ class dbTable {
     public function applyUpdateFieldListToData($fieldId = 'id', $callbackUpdateFunction) {
         if (! empty($this->_updateFieldsList)) {
             if (! function_exists($callbackUpdateFunction))
-                throw new dbTableException(sprintf(i18n::getInstance()['CALLBACK_UPDATE_FUNCTION_DONT_EXIST'], $callbackUpdateFunction));
+                throw new dbTableException(sprintf($this->_i18n['CALLBACK_UPDATE_FUNCTION_DONT_EXIST'], $callbackUpdateFunction));
 
             if (! isset($this->_session['nbTableEntries']))
                 $this->_session['nbTableEntries'] = $this->_countTableEntries();
