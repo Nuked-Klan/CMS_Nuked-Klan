@@ -93,9 +93,4 @@ function captchaNotification($data, $redirectUrl = null, $redirectDelay = 0) {
     exit();
 }
 
-function crypt_captcha($code){
-    $temp_code = hexdec(md5($_SERVER['REMOTE_ADDR'] . $code));
-    $confirm_code = substr($temp_code, 2, 5);
-    return($confirm_code);
-}
 ?>

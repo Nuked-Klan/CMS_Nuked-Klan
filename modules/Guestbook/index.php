@@ -15,9 +15,6 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Guestbook/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
-
 $captcha = initCaptcha();
 
 $visiteur = (!$user) ? 0 : $user[1];

@@ -11,9 +11,6 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open
 
 translate('modules/Defy/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once 'Includes/nkCaptcha.php';
-
 $captcha = initCaptcha();
 
 opentable();

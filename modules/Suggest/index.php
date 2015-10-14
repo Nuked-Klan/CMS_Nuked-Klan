@@ -12,9 +12,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Suggest/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
-
 $captcha = initCaptcha();
 
 $visiteur = !$user ? 0 : $user[1];

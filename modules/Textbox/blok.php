@@ -16,9 +16,6 @@ global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cooki
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 include("modules/Textbox/config.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
-
 $captcha = initCaptcha();
 
 if ($user)

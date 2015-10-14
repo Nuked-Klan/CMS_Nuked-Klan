@@ -13,8 +13,6 @@ global $language, $user, $cookie_captcha;
 translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 
 $captcha = initCaptcha();

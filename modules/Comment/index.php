@@ -11,7 +11,6 @@ defined('INDEX_CHECK') or die;
 
 global $language, $user, $cookie_captcha;
 translate("modules/Comment/lang/$language.lang.php");
-include_once('Includes/nkCaptcha.php');
 $captcha = initCaptcha();
 $visiteur = ($user) ? $user[1] : 0;
 

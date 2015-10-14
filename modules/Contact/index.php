@@ -12,9 +12,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Contact/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
-
 $captcha = initCaptcha();
 
 opentable();
