@@ -8,11 +8,9 @@
 ehthumbs.db
 thumbcache_*.db
 Thumbs.db
+*.bak
 
 # NK Configuration #
 ######################
 conf.inc.php
 config_save_*.php
-themes/Baccara/
-.idea/
-diff
