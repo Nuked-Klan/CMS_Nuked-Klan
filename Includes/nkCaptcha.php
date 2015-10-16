@@ -27,8 +27,6 @@ function ValidCaptchaCode($code = null){
     if (!isset($_REQUEST['ct_token'])) {
         $message = _CTNOTOKEN;
         captchaNotification($message);
-        login_screen();
-        exit();
     } else if($_REQUEST['ct_token'] != $_SESSION['CT_TOKEN']) {
         $message = _CTBADTOKEN;
     } else {
@@ -54,13 +52,16 @@ function ValidCaptchaCode($code = null){
     return true;
 }
 
+/**
+ * Create hidden input using captcha system.
+ */
 function create_captcha(){
     // Save token in session
     if (!array_key_exists('CT_TOKEN', $_SESSION) || empty($_SESSION['CT_TOKEN'])) {
         // Generate token code
         $token = md5(uniqid(microtime(), true));
         $_SESSION['CT_TOKEN'] = $token;
-    } else{
+    } else {
         $token = $_SESSION['CT_TOKEN'];
     }
 
@@ -73,6 +74,15 @@ function create_captcha(){
                                     }
                                 </script>
                         <script type="text/javascript" src="media/js/captcha.js"></script>';
+
+    static $js = false;
+
+    if ($js === false) {
+        $js = true;
+        $contentCaptcha = '<input type="hidden" name="ct_token" value="'.$token.'" />
+                           <input type="hidden" class="ct_script" name="ct_script" value="nuked" />
+                           <input type="hidden" name="ct_email" value="" />';
+    }
 
     return $contentCaptcha;
 }
