@@ -221,6 +221,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         }
 
         send_stats_nk();
+        echo "\n", '<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>', "\n"
+             , '<script type="text/javascript" src="media/js/captcha.js"></script>', "\n";
 
         echo '</body></html>';
     }

@@ -1129,14 +1129,7 @@ function send_stats_nk() {
 		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
 		if($timediff >= 60)
 		{
-
 			?>
-     <script type="text/javascript">
-          if ( typeof jQuery == 'undefined' )
-               {
-                    document.write('<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>');
-               }
-     </script>
             <script type="text/javascript">
 			$(document).ready(function() {
 				data="nuked_nude=ajax";

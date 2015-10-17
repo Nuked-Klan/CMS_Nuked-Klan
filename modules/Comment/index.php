@@ -83,8 +83,8 @@ function com_index($module, $im_id){
 
     define('EDITOR_CHECK', 1);
     ?>
-    <script  type="text/javascript">
-    <!--
+    <script type="text/javascript">
+    //<![CDATA[
         function sent(pseudo, module, im_id, ctToken, ctScript, ctEmail){
             var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText();
             var editor_txt = CKEDITOR.instances.e_basic.getData();
@@ -124,7 +124,7 @@ function com_index($module, $im_id){
                 return true;
             }
         }
-    -->
+    //]]>
     </script>
     <?php
     $level_access = nivo_mod("Comment");
