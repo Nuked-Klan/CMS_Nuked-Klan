@@ -8,7 +8,7 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
-header('Content-type: text/html; charset=iso-8859-1');
+
 
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 require_once("Includes/nkCaptcha.php");
