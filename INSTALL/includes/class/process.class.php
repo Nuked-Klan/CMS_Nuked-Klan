@@ -104,10 +104,17 @@ class process {
      * - Create i18n instance
      */
     function __construct() {
-        $this->_session = PHPSession::getInstance();
-        $this->_i18n    = i18n::getInstance();
+        try {
+            $this->_session = PHPSession::getInstance();
+            $this->_i18n    = i18n::getInstance();
 
-        $this->_loadConfiguration();
+            $this->_loadConfiguration();
+        }
+        catch (Exception $e) {
+            echo '<html><body style="margin-top:50px;text-align:center;"><h3>'
+                , $e->getMessage()
+                , '</h3></body></html>';
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -562,14 +569,26 @@ class process {
      * Check to cleaning deprecated file in Nuked-Klan directory
      */
     public function cleaningFiles() {
-        foreach ($this->_deprecatedFiles as $k => $file) {
-            @unlink('../'. $file);
+        $deprecatedFiles = array();
 
-            if (! is_file('../'. $file))
-                unset($this->_deprecatedFiles[$k]);
+        foreach ($this->_deprecatedFiles as $k => $file) {
+            if (is_file($file)) {
+                @unlink('../'. $file);
+                clearstatcache();
+
+                if (is_file('../'. $file))
+                    $deprecatedFiles[] = $file;
+            }
+            else if (is_dir($file)) {
+                $this->_deleteDirectory('../'. $file);
+                clearstatcache();
+
+                if (is_dir('../'. $file))
+                    $deprecatedFiles[] = $file;
+            }
         }
 
-        if (! empty($this->_deprecatedFiles)) {
+        if (! empty($deprecatedFiles)) {
             $this->_view = new view('cleaningFiles');
 
             $this->_view->deprecatedFiles = $this->_deprecatedFiles;
@@ -824,6 +843,20 @@ class process {
         ));
 
         return $cfg->save();
+    }
+
+    /*
+     * Delete a directory
+     */
+    private function _deleteDirectory($path) {
+        foreach (array_diff(scandir($path), array('.', '..')) as $deletedFile) {
+            if (is_dir($path .'/'. $deletedFile))
+                $this->_deleteDirectory($path .'/'. $deletedFile);
+            else if (is_file($path .'/'. $deletedFile))
+                @unlink($path .'/'. $deletedFile);
+        }
+
+        @unlink($path);
     }
 
     /*
