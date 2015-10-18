@@ -28,10 +28,6 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo '<br />';
 
-        if(!array_key_exists('cid', $_REQUEST)){
-            $_REQUEST['cid'] = '';
-        }
-
         if ($_REQUEST['cid'] != '') $where2 = "WHERE cid = '" . $_REQUEST['cid'] . "'"; else $where2 = '';
         $sql = mysql_query("SELECT cid, titre, tag, tag2, game FROM " . TEAM_TABLE . " " . $where2 . " ORDER BY ordre, titre");
         $nb_team = mysql_num_rows($sql);
@@ -77,7 +73,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             $nb_members = mysql_num_rows($sql2);
             if ($nb_members > 0)
             {
-                $j = 0;
                 while (list($id_user, $pseudo, $email, $icq, $msn, $aim, $yim, $rang, $country) = mysql_fetch_array($sql2))
                 {
                     list ($pays, $ext) = explode ('.', $country);
@@ -213,7 +208,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1');
+        $autor = nkHtmlEntities($autor, ENT_QUOTES);
 
         $sql = mysql_query("SELECT id, icq, msn, aim, yim, email, url, game, country FROM " . USER_TABLE . " WHERE pseudo = '" . $autor . "'");
         $test = mysql_num_rows($sql);
@@ -236,7 +231,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $res = mysql_num_rows($sql2);
             list($prenom, $birthday, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $pref1, $pref2, $pref3, $pref4, $pref5) = mysql_fetch_array($sql2);
 
-            if (array_key_exists('game', $_REQUEST) && $_REQUEST['game'] != "")
+            if ($_REQUEST['game'] != "")
             {
                 $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $_REQUEST['game'] . "'");
                 list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);

@@ -7,11 +7,14 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
+
 define('INDEX_CHECK', 1);
-require_once('globals.php');
-require_once('conf.inc.php');
-require_once('nuked.php');
-require_once('Includes/constants.php');
+ini_set('default_charset', 'ISO8859-1');
+
+include('globals.php');
+include('conf.inc.php');
+include('nuked.php');
+include('Includes/constants.php');
 
 global $nuked, $language, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
 
@@ -23,7 +26,7 @@ if (preg_match('`\.\.`', $theme) || preg_match('`\.\.`', $language) || preg_matc
 $theme = trim($theme);
 $language = trim($language);
 
-require_once ('themes/' . $theme . '/colors.php');
+include ('themes/' . $theme . '/colors.php');
 translate ('lang/' . $language . '.lang.php');
 
 $ip_ban = mysql_real_escape_string($_GET['ip_ban']);
@@ -65,7 +68,7 @@ if ($count > 0) {
         echo '<br /><p><hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" />
         <big><b>' . _REASON . '</b><br>' . nkHtmlEntityDecode($texte_ban) . '</big></p>';
     }
-
+    
     if($dure == 0) $temps = _AVIE;
     else if ($dure == 86400) $temps = _1JOUR;
     else if ($dure == 604800) $temps = _7JOUR;

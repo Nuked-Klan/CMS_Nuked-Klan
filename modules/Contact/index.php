@@ -1,4 +1,4 @@
-<?php
+<?php 
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -12,13 +12,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Contact/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
-
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -27,7 +21,7 @@ $visiteur = ($user) ? $user[1] : 0;
 $level_access = nivo_mod(basename(dirname(__FILE__)));
 if ($visiteur >= $level_access && $level_access > -1){
     function index(){
-        global $captcha, $user;
+        global $user;
 
         define('EDITOR_CHECK', 1);
 
@@ -52,7 +46,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         -->
         </script>';
 
-        $input_user = ($user) ? '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />' : '';
+        $input_user = ($user) ? $user[2] : '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />';
 
         echo '<div style="width: 80%; margin: auto">
         <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
@@ -64,17 +58,17 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         // Affichage du Captcha.
         echo '<div style="text-align: center">',"\n";
-        if ($captcha == 1) create_captcha(3);
+        if ($GLOBALS['captcha'] === true) echo create_captcha();
         echo '</div>',"\n";
 
         echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
     }
 
     function sendmail(){
-        global $nuked, $user_ip, $captcha, $user;
+        global $nuked, $user_ip, $user;
 
         // Verification code captcha
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }
 
@@ -104,24 +98,24 @@ if ($visiteur >= $level_access && $level_access > -1){
             $sujet = trim($_REQUEST['sujet']);
             $corps = $_REQUEST['corps'];
             if($user) $nom = $user[2];
-
+            
             $subjet = stripslashes($sujet) . ", " . $date;
             $corp = $corps . "<p><em>IP : " . $user_ip . "</em><br />" . $nuked['name'] . " - " . $nuked['slogan'] . "</p>";
             $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
             $from .= "Content-Type: text/html\r\n\r\n";
 
             if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
-            else $email = $nuked['mail'];
+            else $email = $nuked['mail'];    
             $corp = secu_html(nkHtmlEntityDecode($corp));
-
+        
             mail($email, $subjet, $corp, $from);
 
-            $name = htmlentities($nom, ENT_QUOTES, 'ISO-8859-1');
-            $email = htmlentities($mail, ENT_QUOTES, 'ISO-8859-1');
-            $subject = htmlentities($sujet, ENT_QUOTES, 'ISO-8859-1');
-            $text = secu_html(html_entity_decode($corps, ENT_QUOTES, 'ISO-8859-1'));
+            $name = nkHtmlEntities($nom, ENT_QUOTES);
+            $email = nkHtmlEntities($mail, ENT_QUOTES);
+            $subject = nkHtmlEntities($sujet, ENT_QUOTES);
+            $text = secu_html(nkHtmlEntityDecode($corps, ENT_QUOTES));
             if($user) $name = $user[2];
-
+            
             $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
             $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTCON.": [<a href=\"index.php?file=Contact&page=admin\">lien</a>].')");
 

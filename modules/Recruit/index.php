@@ -12,13 +12,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Recruit/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
-
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -53,7 +47,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         function form()
         {
-            global $nuked, $user, $language, $captcha;
+            global $nuked, $user, $language;
 
 			define('EDITOR_CHECK', 1);
 
@@ -104,17 +98,11 @@ if ($visiteur >= $level_access && $level_access > -1)
 			. "// -->\n"
 			. "</script>\n";
 
-            if(array_key_exists(2, $user)){
-                $userName = $user[2];
-            }
-            else{
-                $userName = '';
-            }
 
 			echo "<br /><form method=\"post\" action=\"index.php?file=Recruit\" onsubmit=\"return verifchamps();\">\n"
 			. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
 			. "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-			. "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"recruit_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $userName . "\" size=\"20\" /></td></tr>\n"
+			. "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"recruit_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
 			. "<tr><td style=\"width: 20%;\"><b>" . _FIRSTNAME . " : </b></td><td><input id=\"recruit_lastname\" type=\"text\" name=\"prenom\" size=\"20\" /></td></tr>\n"
 			. "<tr><td style=\"width: 20%;\"><b>" . _AGE . " : </b></td><td><input id=\"recruit_age\" type=\"text\" name=\"age\" size=\"3\" /></td></tr>\n"
 			. "<tr><td style=\"width: 20%;\"><b>" . _MAIL . " : </b></td><td><input id=\"recruit_mail\" type=\"text\" name=\"mail\" size=\"25\" /></td></tr>\n"
@@ -184,20 +172,20 @@ if ($visiteur >= $level_access && $level_access > -1)
 			. "<option>" . _OTHER . "</option>\n"
 			. "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
-			if ($captcha == 1) create_captcha(2);
+			if ($GLOBALS['captcha'] === true) echo create_captcha();
 
 			echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_recruit\" /></td></tr></table></form><br />\n";
         }
 
         function send_recruit($pseudo, $prenom, $age, $mail, $icq, $country, $game, $connex, $exp, $dispo, $comment)
         {
-            global $nuked, $captcha;
+            global $nuked;
 
-			// Verification code captcha
-            if ($captcha == 1){
+			// Checking captcha
+            if ($GLOBALS['captcha'] === true) {
                 ValidCaptchaCode();
             }
-
+            
             if (!is_numeric($age)) {
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADAGE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
 				closetable();

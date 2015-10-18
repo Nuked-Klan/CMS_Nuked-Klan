@@ -13,11 +13,7 @@ defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open t
 
 translate('modules/News/lang/' . $language . '.lang.php');
 
-include_once 'Includes/nkCaptcha.php';
-
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $user[1] > 0)) $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 $visiteur = $user ? $user[1] : 0;
 
@@ -45,13 +41,8 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $sql_nbnews = mysql_query("SELECT id FROM ".NEWS_TABLE." $where");
         $nb_news = mysql_num_rows($sql_nbnews);
 
-        if(array_key_exists('p', $_REQUEST)){
-            $page = $_REQUEST['p'];
-        }
-        else{
-            $page = 1;
-        }
-        $start = $page * $max_news - $max_news;
+        if(!$_REQUEST['p']) $_REQUEST['p'] = 1;
+        $start = $_REQUEST['p'] * $max_news - $max_news;
 
         if ($_REQUEST['op'] == 'categorie') {
             $WhereNews = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date ORDER BY date DESC LIMIT $start, $max_news";
@@ -60,13 +51,13 @@ if ($visiteur >= $level_access && $level_access > -1) {
         } else {
             $WhereNews = "WHERE $day >= date ORDER BY date DESC LIMIT $start, $max_news";
         }
-
+        
         $sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
-
+        
         if (mysql_num_rows($sql) <= 0) {
             echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
         }
-
+        
         while ($TabNews = mysql_fetch_assoc($sql)) {
             $TabNews['titre'] = printSecuTags($TabNews['titre']);
 
@@ -83,7 +74,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             if (!empty($autor_id) && $test > 0) list($auteur) = mysql_fetch_array($sql4);
             else $auteur = $TabNews['auteur'];
-
+            
             $data['date'] = nkDate($TabNews['date']);
             $data['date_timestamp'] = $TabNews['date'];
             $data['cat'] = $TabCat['titre'];
@@ -94,7 +85,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             $data['nb_comment'] = $nb_comment;
             $data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
             $data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
-
+ 
             $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" /></a>' : '';
 
             if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
@@ -111,7 +102,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
             news($data);
 
         }
-
+        
         $url = ($_REQUEST['op'] == 'categorie') ? 'index.php?file=News&amp;op=categorie&amp;cat_id='.$_REQUEST['cat_id'] : 'index.php?file=News';
 
         if ($nb_news > $max_news) {
@@ -136,9 +127,9 @@ if ($visiteur >= $level_access && $level_access > -1) {
                     </a>
                   </div>';
         }
-
+        
         index();
-
+        
         $sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
         $row = mysql_fetch_array($sql);
 
@@ -164,7 +155,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         }
 
         index();
-
+        
         $sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
         $row = mysql_fetch_array($sql);
 
@@ -189,7 +180,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         $sql = mysql_query("SELECT nid, titre, description, image FROM ".NEWS_CAT_TABLE." ORDER BY titre");
         while ($row = mysql_fetch_assoc($sql)) {
-
+            
             $row['titre'] = printSecuTags($row['titre']);
 
             echo '<tr>';
@@ -201,7 +192,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             echo '<td><b>'.$row['titre'].' :</b><br />'.$row['description'].'</td></tr><tr><td colspan="2">&nbsp;</td></tr>';
         }
-
+        
         echo '</table><br /><br /><div style="text-align:center;"><small><i>( '._CLICSCREEN.' )</i></small></div><br />';
 
         closetable();
@@ -222,7 +213,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $text = $row['texte'].'<br><br>'.$row['suite'];
 
         if (!empty($row['auteur_id'])) {
-            $sql2 = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '".$row['auteur_id']."' ");
+            $sql2 = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '$autor_id'");
             $test = mysql_num_rows($sql2);
         }
 
@@ -246,10 +237,10 @@ if ($visiteur >= $level_access && $level_access > -1) {
         $sitename  = @nkHtmlEntityDecode($sitename);
 
         $texte = "<h1>{$row['titre']}</h1><hr />$texte<hr />$sitename<br />$articleurl.";
-        $_REQUEST['file'] = $sitename.'_'.$row['titre'];
+        $_REQUEST['file'] = $sitename.'_'.$title;
         $_REQUEST['file'] = str_replace(' ','_',$_REQUEST['file']);
         $_REQUEST['file'] .= '.pdf';
-
+        
         $pdf = new HTML2PDF('P','A4','fr');
 	$pdf->setDefaultFont('dejavusans');
         $pdf->WriteHTML(utf8_encode($texte));
@@ -258,11 +249,11 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
 
     function sendfriend($news_id) {
-        global $nuked, $user, $captcha;
+        global $nuked, $user;
 
         opentable();
 
-        echo '<script type="text/javascript">function verifchamps(){if(document.REQUESTElementById(\'sf_pseudo\').value.length == 0){alert(\''._NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''._BADMAIL.'\');return false;}return true;}</script>';
+        echo '<script type="text/javascript">function verifchamps(){if(document.getElementById(\'sf_pseudo\').value.length == 0){alert(\''._NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''._BADMAIL.'\');return false;}return true;}</script>';
 
         $sql = mysql_query("SELECT titre FROM ".NEWS_TABLE." WHERE id = '$news_id'");
         list($title) = mysql_fetch_array($sql);
@@ -275,7 +266,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
               <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
               <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
 
-        if ($captcha == 1) create_captcha(1);
+        if ($GLOBALS['captcha'] === true) echo create_captcha();
 
         echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
               <input type="hidden" name="news_id" value="'.$news_id.'" />
@@ -286,14 +277,13 @@ if ($visiteur >= $level_access && $level_access > -1) {
     }
 
     function sendnews($title, $news_id, $comment, $mail, $pseudo) {
-        global $nuked, $captcha,$user_ip;
+        global $nuked, $user_ip;
 
         opentable();
 
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
-        }
-        else{
+        } else {
             $date2 = time();
             $date2 = nkDate($date2);
             $mail = trim($mail);

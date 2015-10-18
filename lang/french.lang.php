@@ -1,7 +1,7 @@
 <?php
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-define('_NKVERSION', '1.7.12');
+define('_NKVERSION', '1.7.13');
 define("_WELCOMEINSTALL",'Bienvenue sur Nuked-Klan '._NKVERSION);
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
 define("_TYPEINSTALL","Que voulez-vous faire ?");
@@ -266,7 +266,11 @@ define("_BTHEMESELECT", "Choix du thème");
 define("_SECURITYCODE","Code de sécurité");
 define("_TYPESECCODE","Recopiez le code ci-dessus");
 define("_BADCODECONFIRM","Le code de sécurité ne correspond pas !");
-define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, vous devez entrer un captcha !');
+define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, le captcha est d&eacute;sormais actif !');
+define('_CTNOTOKEN', 'Token introuvable !<br/>Veuillez utiliser le formulaire.');
+define('_CTBADTOKEN', 'Token incorrect !<br/>Veuillez utiliser le formulaire.');
+define('_CTBADJS', 'La validation javascript a &eacute;chou&eacute;e ! <br/>Veuillez activer javascript.');
+define('_CTBADFIELD', 'La validation antiRobot a &eacute;chou&eacute;e ! <br/>Veuillez utiliser le formulaire.');
 
 define("_DURE","Durée");
 define("_1JOUR","1 jour");

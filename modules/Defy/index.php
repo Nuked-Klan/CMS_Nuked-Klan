@@ -11,13 +11,7 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open
 
 translate('modules/Defy/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once 'Includes/nkCaptcha.php';
-
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -44,7 +38,7 @@ if ($visiteur >= $level_access && $level_access > -1){
     }
 
     function form(){
-        global $nuked, $user, $language, $captcha;
+        global $nuked, $user, $language;
 
         define('EDITOR_CHECK', 1);
 
@@ -92,17 +86,10 @@ if ($visiteur >= $level_access && $level_access > -1){
                 . "// -->\n"
                 . "</script>\n";
 
-        if(array_key_exists(2, $user)){
-            $userName = $user[2];
-        }
-        else{
-            $userName = '';
-        }
-
         echo "<br /><form method=\"post\" action=\"index.php?file=Defy\" onsubmit=\"return verifchamps();\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _DEFY . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-                . "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"defy_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $userName . "\" size=\"20\" /></td></tr>\n"
+                . "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"defy_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $user[2] . "\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _CLAN . " : </b></td><td><input id=\"defy_clan\" type=\"text\" name=\"clan\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
 
@@ -121,7 +108,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         closedir($handle);
         sort($rep);
         reset($rep);
-
+    
         while (list($key, $filename) = each($rep)) {
                 if ($filename == $pays){
                     $checked = 'selected="selected"';
@@ -129,7 +116,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 else{
                     $checked = null;
                 }
-
+    
                 list ($country, $ext) = explode('.', $filename);
                 echo "<option value=\"" . $filename . "\" " . $checked . ">" . $country . "</option>\n";
         }
@@ -153,19 +140,19 @@ if ($visiteur >= $level_access && $level_access > -1){
                 . "<tr><td style=\"width: 20%;\"><b>" . _TYPE . " : </b></td><td><input type=\"text\" name=\"type\" value=\"\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _MAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
-
+                
         echo "<tr><td colspan=\"2\" align=\"center\">";
 
-        if ($captcha == 1) create_captcha(0);
+        if ($GLOBALS['captcha'] === true) echo create_captcha();
 
         echo "<input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
     }
 
     function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $heure, $game, $serveur, $type, $map, $comment){
-        global $nuked, $captcha;
+        global $nuked;
 
         // Verification code captcha
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true) {
             ValidCaptchaCode();
         }
 
@@ -174,7 +161,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         $time = time();
         $date2 = nkDate($time);
         $comment = secu_html(nkHtmlEntityDecode($comment));
-
+        
         $pseudo = mysql_real_escape_string(stripslashes($pseudo));
         $clan = mysql_real_escape_string(stripslashes($clan));
         $country = mysql_real_escape_string(stripslashes($country));
@@ -189,7 +176,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         $type = mysql_real_escape_string(stripslashes($type));
         $map = mysql_real_escape_string(stripslashes($map));
         $comment = mysql_real_escape_string(stripslashes($comment));
-
+        
         $pseudo = printSecuTags($pseudo);
         $clan = printSecuTags($clan);
         $country = nkHtmlEntities($country);
@@ -218,7 +205,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         if (!empty($email)){
             @mail($email, $subject, $corps, $from);
         }
-
+        
         if (!empty($inbox)){
             $sql2 = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $time . "' , '0' )");
         }
@@ -227,7 +214,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         redirect('index.php', 2);
     }
 
-    switch ($_REQUEST['op']){
+    switch ($_REQUEST['op']){        
         case 'index':
         index();
         break;

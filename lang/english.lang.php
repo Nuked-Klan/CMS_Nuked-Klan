@@ -4,7 +4,7 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define('_NKVERSION', '1.7.12');
+define('_NKVERSION', '1.7.13');
 define("_WELCOMEINSTALL",'Welcome to the '._NKVERSION.' version of Nuked-Klan ');
 define("_GUIDEINSTALL","The installation guide will help you though all stages of the website creation<br /><b>Please do not delete the nuked-klan copyright whilst using nuked-klan.</b> ");
 define("_TYPEINSTALL","What do you want to do?");
@@ -267,7 +267,11 @@ define("_BTHEMESELECT", "Choice of theme");
 define("_SECURITYCODE","Security code");
 define("_TYPESECCODE","Retype the security code");
 define("_BADCODECONFIRM","Error : the Security Code is not correct !");
-define('_MSGCAPTCHA', 'You have made ??too many attempts, you must enter a captcha!');
+define('_MSGCAPTCHA', 'You have made too many attempts, captcha is activate!');
+define('_CTNOTOKEN', 'Token not found!<br/>Please use the form.');
+define('_CTBADTOKEN', 'Bad token!<br/>Please use the form.');
+define('_CTBADJS', 'Javascript validation failed! <br/> Please enable javascript.');
+define('_CTBADFIELD', 'NoBot validation failed! <br/> Please use the form.');
 
 define("_DURE","During");
 define("_1JOUR","1 day");

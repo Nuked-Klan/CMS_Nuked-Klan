@@ -1,28 +1,17 @@
 <?php
-/**
- * Index of Comment Module
- *
- * @version     1.8
- * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @copyright 2001-2013 Nuked-Klan (Registred Trademark)
- */
+// -------------------------------------------------------------------------//
+// Nuked-KlaN - PHP Portal                                                  //
+// http://www.nuked-klan.org                                                //
+// -------------------------------------------------------------------------//
+// This program is free software. you can redistribute it and/or modify     //
+// it under the terms of the GNU General Public License as published by     //
+// the Free Software Foundation; either version 2 of the License.           //
+// -------------------------------------------------------------------------//
+defined('INDEX_CHECK') or die;
 
-// v
-translate('modules/Comment/lang/'.$GLOBALS['language'].'.lang.php');
-//
-include_once('Includes/nkCaptcha.php');
-
-global $user;
-
-if (_NKCAPTCHA == "off"){
-    $captcha = 0;
-}
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0)){
-    $captcha = 0;
-}
-else $captcha = 1;
-
+global $language, $user, $cookie_captcha;
+translate("modules/Comment/lang/$language.lang.php");
+$captcha = initCaptcha();
 $visiteur = ($user) ? $user[1] : 0;
 
 function verification($module, $im_id){
@@ -31,47 +20,47 @@ function verification($module, $im_id){
     if(empty($module)) $module = $_REQUEST['file'];
 
     if($module == "News" || $module == "news"):
-
+    
         $WhereModule = 'news';
         $sqlverif = 'news';
         $specification = 'id';
 
     elseif($module == "Download" || $module == "download"):
-
+    
         $WhereModule = 'download';
         $sqlverif = "downloads";
         $specification = "id";
 
     elseif($module == "Sections" || $module == "sections"):
-
+        
         $WhereModule = 'sections';
         $sqlverif = "sections";
         $specification = "artid";
 
     elseif($module == "Links" || $module == "links"):
-
+        
         $WhereModule = 'links';
         $sqlverif = "liens";
         $specification = "id";
 
     elseif($module == "Wars" || $module == "match"):
-
+        
         $WhereModule = 'wars';
         $sqlverif = "match";
         $specification = "warid";
 
     elseif($module == "Gallery" || $module == "gallery"):
-
+        
         $WhereModule = 'gallery';
         $sqlverif = "gallery";
         $specification = "sid";
 
     elseif($module == "Survey" || $module == "survey"):
-
+        
         $WhereModule = 'survey';
         $sqlverif = "sondage";
         $specification = "sid";
-
+    
     endif;
 
     $Sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = '$WhereModule'");
@@ -90,23 +79,25 @@ function NbComment($im_id, $module){
 }
 
 function com_index($module, $im_id){
-    global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language, $captcha;
+    global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language;
 
     define('EDITOR_CHECK', 1);
     ?>
-    <script  type="text/javascript">
-    <!--
+    <script type="text/javascript">
+    //<![CDATA[
         function sent(pseudo, module, im_id, ctToken, ctScript, ctEmail){
+            var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText();
+            var editor_txt = CKEDITOR.instances.e_basic.getData();
+            $("#post_commentary").find('input.ct_script').val('klan');
+            ctScript = $("#post_commentary").find('input.ct_script').val();
             <?php
-                if($captcha == 1){
+                if($GLOBALS['captcha'] === true){
                     echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
                 }
                 else{
-                    echo 'var captchaData = ""';
+                    echo 'var captchaData = "";';
                 }
             ?>
-            var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText();
-            var editor_txt = CKEDITOR.instances.e_basic.getData();
             if(editor_val == ''){
                 alert('<?php echo _NOTEXT; ?>');
                 return false;
@@ -133,13 +124,13 @@ function com_index($module, $im_id){
                 return true;
             }
         }
-    -->
+    //]]>
     </script>
     <?php
     $level_access = nivo_mod("Comment");
     $level_admin = admin_mod("Comment");
     $NbComment = NbComment($im_id, $module);
-
+    
     if(verification($_REQUEST['file'],$im_id)){
 
         echo '<h3 style="text-align: center">' . _LAST4COMS . '</h3>
@@ -151,10 +142,9 @@ function com_index($module, $im_id){
 
         $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
         $count = mysql_num_rows($sql);
-        $j = 0;
         while($row = mysql_fetch_assoc($sql)){
             $test = 0;
-            $row['date']  = nkDate($row['date']);
+            $row['date'] = nkDate($row['date']);
             $row['titre'] = nkHtmlEntities($row['titre']);
             $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);
@@ -216,14 +206,13 @@ function com_index($module, $im_id){
             }
             echo '</div>';
         }
-
-        if($captcha == 1){
+        
+        if($GLOBALS['captcha'] === true){
             $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value, this.ct_token.value, this.ct_script.value, this.ct_email.value);return false;';
         }
         else{
             $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value);return false;';
         }
-
 
         echo '<div id="message">
                 <form method="post" onsubmit="'.$Soumission.'" action="">
@@ -239,7 +228,7 @@ function com_index($module, $im_id){
                         <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
                     </tr>';
 
-                    if ($captcha == 1) create_captcha(2);
+                    if ($GLOBALS['captcha'] === true) echo create_captcha();
                     else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
 
         echo '        <tr>
@@ -256,7 +245,7 @@ function com_index($module, $im_id){
 }
 
 function view_com($module, $im_id){
-
+    
     global $user, $bgcolor2, $bgcolor3, $theme, $nuked, $language, $visiteur;
 
     if(!verification($module,$im_id)) exit();
@@ -280,14 +269,14 @@ function view_com($module, $im_id){
 
     $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC");
     if (mysql_num_rows($sql) != 0){
-
+        
         while($row = mysql_fetch_assoc($sql)):
-
+            
             $row['date'] = nkDate($row['date']);
             $row['titre'] = nkHtmlEntities($row['titre']);
             $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);
-
+            
             if(!empty($row['autor_id'])){
                 $sql_member = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id ='{$row['autor_id']}'");
                 $test = mysql_num_rows($sql_member);
@@ -305,9 +294,9 @@ function view_com($module, $im_id){
             }
 
             echo '</td></tr><tr><td><img src="images/posticon.gif" alt="" />&nbsp;'._POSTEDBY.'&nbsp;'.$autor.'&nbsp;'._THE.'&nbsp;'.$row['date'].'<br /><br />'.$row['comment'].'<br /><hr style="height:1px;color:'.$bgcolor3.';" /></td></tr></table>';
-
+        
         endwhile;
-
+    
     }else{
         echo '<div style="text-align:center;"><br /><br />'._NOCOMMENT.'<br /></div>';
     }
@@ -320,8 +309,8 @@ function view_com($module, $im_id){
 }
 
 function post_com($module, $im_id){
-
-    global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur, $captcha;
+    
+    global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur;
 
     define('EDITOR_CHECK', 1);
 
@@ -372,9 +361,9 @@ function post_com($module, $im_id){
 
     echo "</tr>";
 
-    if ($captcha == 1) create_captcha(1);
+    if ($GLOBALS['captcha'] === true) echo create_captcha();
     else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
-
+    
     echo "<tr><td align=\"right\" colspan=\"2\">\n"
             . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
             . "<input type=\"hidden\" name=\"noajax\" value=\"true\" />\n"
@@ -408,9 +397,9 @@ function post_com($module, $im_id){
     }
 }
 
-function post_comment($im_id, $module, $titre, $texte, $pseudo){
-    global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur, $captcha;
-
+function post_comment($im_id, $module, $titre, $texte, $pseudo) {
+    global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur;
+    
     if(!isset($_REQUEST['noajax'])){
         $titre = utf8_decode($titre);
         $texte = utf8_decode($texte);
@@ -427,7 +416,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
                 . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                 . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true) {
             ValidCaptchaCode();
         }
 
@@ -467,7 +456,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
             footer();
             exit();
         }
-
+        
         $texte = secu_html(nkHtmlEntityDecode($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = stripslashes($texte);

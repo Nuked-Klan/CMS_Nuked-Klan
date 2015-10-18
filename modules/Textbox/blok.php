@@ -16,13 +16,7 @@ global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cooki
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 include("modules/Textbox/config.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
-
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 if ($user)
 {
@@ -76,14 +70,14 @@ function trim(string)
 {
 return string.replace(/(^\s*)|(\s*$)/g,'');
 }
-function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail)
+function maFonctionAjax(auteur,texte,code)
 {
     <?php
-        if($captcha == 1){
+        if($GLOBALS['captcha'] === true){
             echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
         }
         else{
-            echo 'var captchaData = ""';
+            echo 'var captchaData = "";';
         }
     ?>
 	if (trim(document.getElementById('textbox_auteur').value) == "")
@@ -174,19 +168,11 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "</p></div></td></tr></table>\n"
 . "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
-
-if($captcha == 1){
-    $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.ct_token.value, this.ct_script.value, this.ct_email.value); return false;';
-}
-else{
-    $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value); return false;';
-}
-
 if ($active == 3 || $active == 4)
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo "<form method=\"post\" onsubmit=\"".$callAjax."\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo "<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
 
         if (!$user)
         {
@@ -199,7 +185,7 @@ if ($active == 3 || $active == 4)
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"50\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br />\n";
 
-		if ($captcha == 1) create_captcha(3);
+		if ($GLOBALS['captcha'] === true) echo create_captcha();
 		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "<br /><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
@@ -211,7 +197,7 @@ else
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo"<form method=\"post\" onsubmit=\"".$callAjax."\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo"<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
 
         if (!$user)
         {
@@ -224,7 +210,7 @@ else
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
 
-	if ($captcha == 1) create_captcha(2);
+	if ($GLOBALS['captcha'] === true) echo create_captcha();
 	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"

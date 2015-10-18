@@ -12,27 +12,27 @@ if (!defined("INDEX_CHECK")){
 }
 
 function affich_block_login($blok){
-    global $user, $nuked, $bgcolor3, $bgcolor1 ;
+    global $user, $nuked, $bgcolor3, $bgcolor1;
 
+    $captcha = initCaptcha();
 
-    if(!empty($blok['content'])){
-        list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']);
-    }
-    else{
-        $login = $messpv = $members = $online = $avatar = 'on';
-    }
+    list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']);
     $blok['content'] = '';
 
 	$c = 0;
-
+	
 	if($login != 'off'){
 		if (!$user){
 			$blok['content'] = '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">'."\n"
 			. '<table style="margin-left: auto;margin-right: auto;text-align: left;">'."\n"
 			. '<tr><td>' . _NICK . ' :</td><td><input type="text" name="pseudo" size="10" maxlength="250" /></td></tr>'."\n"
 			. '<tr><td>' . _PASSWORD . ' :</td><td><input type="password" name="pass" size="10" maxlength="15" /></td></tr>'."\n"
-			. '<tr><td colspan="2"><input type="checkbox" class="checkbox" name="remember_me" value="ok" checked="checked" />&nbsp;' . _SAVE . '</td></tr>'."\n"
-			. '<tr><td colspan="2" align="center"><input type="submit" value="' . _BLOGIN . '" /></td></tr>'."\n"
+			. '<tr><td colspan="2"><input type="checkbox" class="checkbox" name="remember_me" value="ok" checked="checked" />&nbsp;' . _SAVE . '</td></tr><tr><td colspan="2" align="center">'."\n";
+
+            if((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true)|| $captcha === true){
+                $blok['content'] .= create_captcha();
+            }
+			$blok['content'] .= '<input type="submit" value="' . _BLOGIN . '" /></td></tr>'."\n"
 			. '<tr><td colspan="2"><a href="index.php?file=User&amp;op=reg_screen">' . _REGISTER . '</a><br />'."\n"
 			. '<a href="index.php?file=User&amp;op=oubli_pass">' . _FORGETPASS . '</a> ?</td></tr></table></form>'."\n";
 		}
@@ -48,28 +48,28 @@ function affich_block_login($blok){
 		$c++;
 	}
 
-    if($messpv != 'off' && (array_key_exists(0, $user) && $user[0] != '')){
+    if($messpv != 'off' && $user[0] != ''){
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
-
+	
 		$sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
 		$nb_mess_lu = mysql_num_rows($sql2);
-
+	
 		$blok['content'] .= '&nbsp;<img width="14" height="12" src="images/message.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MESSPV . '</b></span><br />'."\n";
-
+	
 		if ($user[5] > 0){
 			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>'."\n";
 		}
 		else{
 			$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _NOTREAD . ' : <b>' . $user[5] . '</b>'."\n";
 		}
-
+	
 		if ($nb_mess_lu > 0){
 			$blok['content'] .= '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _READ . ' : <a href="index.php?file=Userbox"><b>' . $nb_mess_lu . '</b></a>'."\n";
 		}
 		else{
 			$blok['content'] .= '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _READ . ' : <b>' . $nb_mess_lu . '</b>'."\n";
 		}
-
+	
 		$c++;
     }
 
@@ -106,26 +106,25 @@ function affich_block_login($blok){
 			while (list($nom) = mysql_fetch_array($sql4)){
 				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';
 			}
-
-			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($user_online), ENT_NOQUOTES, 'ISO-8859-1') . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
+	
+			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . nkHtmlEntities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 			}
     	else{
 			$user_list = '';
     	}
 
 		if ($nb[2] > 0){
-            $admin_online = '';
 			$sql5 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
 			while (list($name) = mysql_fetch_array($sql5)){
 				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
 			}
-
-			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . htmlentities(mysql_real_escape_string($admin_online), ENT_NOQUOTES, 'ISO-8859-1') . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
+	
+			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . nkHtmlEntities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 		}
 		else{
 			$admin_list = '';
 		}
-
+	
 		$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _VISITOR;
 		if ($nb[0] > 1) $blok['content'] .= 's';
 		$blok['content'] .= ' : <b>' . $nb[0] . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBER;
@@ -133,7 +132,7 @@ function affich_block_login($blok){
 		$blok['content'] .= ' : <b>' . $nb[1] . '</b>' . $user_list . '<br />&nbsp;<b><big>·</big></b>&nbsp;' . _ADMIN;
 		if ($nb[2] > 1) $blok['content'] .= 's';
 		$blok['content'] .= ' : <b>' . $nb[2] . '</b>' . $admin_list . '<br />'."\n";
-
+	
 		$c++;
    }
 
@@ -146,15 +145,7 @@ function edit_block_login($bid){
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     $titre = printSecuTags($titre);
-
-    if(!empty($content)){
-        list($login, $messpv, $members, $online, $avatar) = explode('|', $content);
-    }
-    else{
-        $login = $messpv = $members = $online = $avatar = 'on';
-    }
-
-    $checked0 = $checked1 = $checked2 = '';
+    list($login, $messpv, $members, $online, $avatar) = explode('|', $content);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';

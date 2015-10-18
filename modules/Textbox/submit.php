@@ -26,8 +26,12 @@ if ($visiteur >= $level_access && $level_access > -1)
 {
     opentable();
 
-    if ($captcha == 1){
-        ValidCaptchaCode();
+    if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
+	{
+		echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_BADCODECONFIRM) . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+		closetable();
+		footer();
+		exit();
     }
 
     if (isset($user[2]))
@@ -35,9 +39,9 @@ if ($visiteur >= $level_access && $level_access > -1)
         $pseudo = $user[2];
     }
     else
-    {
+    {	
     	$_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
-        $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES, 'ISO-8859-1');
+        $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
         $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
         if (mysql_result(mysql_query('SELECT COUNT(*) FROM ' . USER_TABLE . ' WHERE pseudo LIKE \'' . mysql_real_escape_string($_REQUEST['auteur']) . '\''), 0))

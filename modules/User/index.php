@@ -13,14 +13,9 @@ global $language, $user, $cookie_captcha;
 translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
 include_once('Includes/hash.php');
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && (array_key_exists(1, $user) && $user[1] > 0))  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 function index(){
     global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -99,7 +94,6 @@ function index(){
         else{
             $iforum = 0;
             $sql_forum = mysql_query("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
-            $j = 0;
             while (list($mid, $subject, $date, $tid, $fid) = mysql_fetch_array($sql_forum)){
                 $subject = nkHtmlEntities($subject);
                 $subject = nk_CSS($subject);
@@ -215,7 +209,7 @@ function index(){
 }
 
 function reg_screen(){
-    global $nuked, $user, $language, $captcha;
+    global $nuked, $user, $language;
 
     if ($user){
         redirect("index.php?file=User&op=edit_account", 0);
@@ -335,7 +329,7 @@ function reg_screen(){
 
             echo "</select></td></tr>\n";
 
-            if ($captcha == 1) create_captcha(2);
+            if ($GLOBALS['captcha'] === true) echo create_captcha();
 
             echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                     . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _USERREGISTER . "\" /></td></tr></table></form><br />\n";
@@ -514,7 +508,7 @@ function edit_pref(){
             }
             else{
                 echo "<option value=\"" . $day . "\">" . $day . "</option>\n";
-            }
+            }            
             $day++;
         }
 
@@ -579,7 +573,7 @@ function edit_pref(){
 
         if ($nuked['avatar_upload'] == "on" || $nuked['avatar_url'] == "on"){
             echo "<tr><td><b>" . _PHOTO . " (100x100) : </b></td>\n";
-
+            
             if($nuked['avatar_url'] != "on") $disable = "DISABLED=\"DISABLED\"";
             else $disable = "";
 
@@ -612,7 +606,7 @@ function edit_pref(){
                 . "<option>1024/768</option>\n"
                 . "<option>1152/864</option>\n"
                 . "<option>1280/1024</option>\n"
-                . "<option>1440/900 </option>\n"
+                . "<option>1440/900 </option>\n"        
                 . "<option>1600/1200</option>\n"
                 . "<option>1680/1050</option>\n"
                 . "<option>1920/1080</option>\n"
@@ -857,17 +851,14 @@ function login_screen(){
     else{
         opentable();
 
-        if (array_key_exists('error', $_REQUEST) && $_REQUEST['error'] == 1){
+        if ($_REQUEST['error'] == 1){
             $erreur = "<br /><div style=\"text-align: center;\">" . _NOFIELD . "</div><br />\n";
-            $error = 1;
         }
-        else if (array_key_exists('error', $_REQUEST) && $_REQUEST['error'] == 2){
+        else if ($_REQUEST['error'] == 2){
             $erreur = "<br /><div style=\"text-align: center;\">" . _BADLOG . "</div><br />\n";
-            $error = 2;
         }
         else{
             $erreur = "";
-            $error = '';
         }
 
         echo $erreur . "<br /><div style=\"text-align: center;\"><big><b>" . _LOGINUSER . "</b></big></div><br /><br />\n"
@@ -876,11 +867,11 @@ function login_screen(){
                 . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"pseudo\" size=\"15\" maxlength=\"180\" /></td></tr>\n"
                 . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass\" size=\"15\" maxlength=\"15\" /></td></tr>\n"
                 . "<input type=\"hidden\" name=\"erreurr\" value=\"".$error."\" size=\"15\" maxlength=\"15\" />\n";
-
-        if(isset($_SESSION['captcha']) && $_SESSION['captcha'] === true){
-            create_captcha(1);
+                
+        if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true)|| $GLOBALS['captcha'] === true) {
+            echo create_captcha();
         }
-
+        
         echo "<tr><td colspan=\"2\"><input type=\"checkbox\" class=\"checkbox\" name=\"remember_me\" value=\"ok\" checked=\"checked\" /><small>&nbsp;" . _REMEMBERME . "</small></td></tr>\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _TOLOG . "\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                 . "<tr><td colspan=\"2\"><b><a href=\"index.php?file=User&amp;op=reg_screen\">" . _USERREGISTER . "</a> | <a href=\"index.php?file=User&amp;op=oubli_pass\">" . _LOSTPASS . "</a></b></td></tr></table></form><br />\n";
@@ -890,20 +881,13 @@ function login_screen(){
 }
 
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
-    global $nuked, $captcha, $cookie_forum, $user_ip;
+    global $nuked, $cookie_forum, $user_ip;
 
-    // Vérification de l'ouverture des inscriptions
-    if($nuked['inscription'] == 'off'){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _REGISTRATIONCLOSE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a></div><br /><br />\n";
-        closetable();
-        footer();
-        exit();
-    }
-    // Verification code captcha
+    // Captcha checking
     ValidCaptchaCode();
-
-    $pseudo = htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1');
-
+    
+    $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
+    
     $pseudo = verif_pseudo($pseudo);
 
     $mail = mysql_real_escape_string(stripslashes($mail));
@@ -1090,20 +1074,19 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 }
 
 function login($pseudo, $pass, $remember_me){
-    global $captcha, $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
+    global $bgcolor3, $bgcolor2, $bgcolor1, $nuked, $theme, $cookie_theme, $cookie_langue, $timelimit;
     $cookiename = $nuked['cookiename'];
 
-    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . "'");
+    $sql = mysql_query("SELECT id, pass, user_theme, user_langue, niveau, erreur FROM " . USER_TABLE . " WHERE pseudo = '" . nkHtmlEntities($pseudo, ENT_QUOTES) . "'");
     $check = mysql_num_rows($sql);
 
     if($check > 0){
         list($id_user, $dbpass, $usertheme, $userlang, $niveau, $count) = mysql_fetch_array($sql);
 
-        // Verification code captcha
-        if ($count >= 3){
+        if ($count >= 3) {
+            // Si un visiteur a fait 3 mauvais login
             if(!isset($_SESSION['captcha'])){
-                $msg_error = _MSGCAPTCHA;
-
+                $_SESSION['captcha'] = true;
                 echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
                         . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
                         . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
@@ -1112,20 +1095,14 @@ function login($pseudo, $pass, $remember_me){
                         . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                         . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
                         . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                        . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . $msg_error . "</td></tr></table></body></html>";
-
+                        . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _MSGCAPTCHA . "</td></tr></table></body></html>";
+                
                 $url = "index.php?file=User&op=login_screen";
-                $_SESSION['captcha'] = true;
                 redirect($url, 2);
                 exit();
             }
             else{
                 ValidCaptchaCode();
-            }
-        }
-        else{
-            if(isset($_SESSION['captcha'])){
-                unset($_SESSION['captcha']);
             }
         }
         if ($pseudo == "" || $pass == ""){
@@ -1137,13 +1114,13 @@ function login($pseudo, $pass, $remember_me){
         if ($niveau > 0){
             if (!Check_Hash($pass, $dbpass)){
                 $error = 2;
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . '\'';
+                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = ' . ($count + 1) . ' WHERE pseudo = \'' . nkHtmlEntities($pseudo, ENT_QUOTES) . '\'';
                 $req = mysql_query($sql);
                 $url = "index.php?file=User&op=login_screen&error=" . $error;
                 redirect($url, 0);
             }
             else{
-                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1') . '\'';
+                $sql = 'UPDATE ' . USER_TABLE . ' SET erreur = 0 WHERE pseudo = \'' . nkHtmlEntities($pseudo, ENT_QUOTES) . '\'';
                 $req = mysql_query($sql);
                 session_new($id_user, $remember_me);
 
@@ -1157,13 +1134,14 @@ function login($pseudo, $pass, $remember_me){
 
                 $referer = $_SERVER['HTTP_REFERER'];
 
-                if (!empty($referer) && !strpos($referer, 'User&op=reg') && is_array($referer)){
+                if (!empty($referer) && !strpos($referer, 'User&op=reg')){
                     list($url_ref, $redirect) = explode('?', $referer);
                     if(!empty($redirect)) $redirect = '&referer=' . urlencode($redirect);
                 }
                 else $redirect = '';
 
                 $_SESSION['admin'] = false;
+                unset($_SESSION['captcha']);
                 $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $id_user . $redirect;
                 redirect($url, 0);
             }
@@ -1207,14 +1185,8 @@ function login_message(){
         $test_cookie = "";
     }
 
-    if(array_key_exists('referer', $_REQUEST)){
-        $referer = urldecode($_REQUEST['referer']);
-    }
-    else{
-        $refere = '';
-    }
-
-    $referer = str_replace('&amp;', '&', $referer);
+    $referer = urldecode($_REQUEST['referer']);
+    $referer = str_replace('&amp;', '&', $referer); 
 
     if (!empty($referer) && !stripos($referer, 'User&op=reg')){
         $url = "index.php?" . $referer;
@@ -1271,7 +1243,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 ."<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"document.location='index.php?file=User&amp;op=edit_account'\" /></td></tr></table></form><br />\n";
     }
     else{
-        $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
+        $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
         $mail = mysql_real_escape_string(stripslashes($mail));
         $mail = nkHtmlEntities($mail);
@@ -1380,7 +1352,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 $upd2 = mysql_query("UPDATE " . USER_TABLE . " SET pass = '" . $cryptpass . "' WHERE id = '" . $user[0] . "'");
             }
         }
-
+        
         $signature = secu_html(nkHtmlEntityDecode($signature));
         $signature = mysql_real_escape_string(stripslashes($signature));
         $email = mysql_real_escape_string(stripslashes($email));
@@ -1652,7 +1624,7 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
             }
         }
     }
-
+    
     echo "<br /><br /><div style=\"text-align: center;\">" . _PREFMODIF . "</div><br /><br />";
     redirect("index.php?file=User", 2);
 }
@@ -1716,7 +1688,7 @@ function envoi_mail($email){
             $headers ='From: '.$nuked['name'].' <'.$nuked['mail'].'>'."\n";
             $headers .='Reply-To: '.$nuked['mail']."\n";
             $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
-            $headers .='Content-Transfer-Encoding: 8bit';
+            $headers .='Content-Transfer-Encoding: 8bit'; 
 
             $message = @nkHtmlEntityDecode($message);
 
@@ -1729,7 +1701,7 @@ function envoi_mail($email){
     else{
         echo '<div style="text-align:center;margin:30px;">'._MAILNOEXIST.'</div>';
         redirect("index.php?file=User&op=oubli_pass", 3);
-    }
+    }    
 }
 
 function envoi_pass($email, $token){
@@ -1766,7 +1738,7 @@ function envoi_pass($email, $token){
                 $headers ='From: '.$nuked['name'].' <'.$nuked['mail'].'>'."\n";
                 $headers .='Reply-To: '.$nuked['mail']."\n";
                 $headers .='Content-Type: text/html; charset="iso-8859-1"'."\n";
-                $headers .='Content-Transfer-Encoding: 8bit';
+                $headers .='Content-Transfer-Encoding: 8bit'; 
 
                 $message = @nkHtmlEntityDecode($message);
 
@@ -1857,13 +1829,7 @@ function show_avatar(){
 function change_theme(){
     global $nuked, $cookie_theme;
 
-    if(array_key_exists($cookie_theme, $_COOKIE)){
-        $cookietheme = $_COOKIE[$cookie_theme];
-    }
-    else{
-        $cookietheme = '';
-    }
-
+    $cookietheme = $_COOKIE[$cookie_theme];
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
             . "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
@@ -1895,7 +1861,7 @@ function change_theme(){
             echo "<option value=\"" . $f . "\" " . $checked . ">" . $f . "</option>\n";
         }
     }
-
+    
     closedir($handle);
     echo "</select></td></tr><tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _CHANGETHEME . "\" /></td></tr></table></form><br />\n";
 }
@@ -1990,7 +1956,7 @@ function delModerator($idUser)
     else
         return false;
 }
-
+    
 
 function del_account($pass){
     global $user, $nuked;

@@ -301,9 +301,9 @@ if ($visiteur == 9)
     function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature, $old_nick)
     {
         global $nuked, $user;
-
+        
         $nick = verif_pseudo($nick, $old_nick);
-
+        
 		if ($nick == "error1"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -311,7 +311,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-
+    
         if ($nick == "error2"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -319,7 +319,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-
+    
         if ($nick == "error3"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -327,7 +327,7 @@ if ($visiteur == 9)
             footer();
             exit();
         }
-
+    
         if (strlen($nick) > 30){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
@@ -379,7 +379,7 @@ if ($visiteur == 9)
                 $ordre = 0;
             }
 
-            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
+            $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -390,7 +390,7 @@ if ($visiteur == 9)
             $url = mysql_real_escape_string(stripslashes($url));
             $avatar = mysql_real_escape_string(stripslashes($avatar));
 
-            $signature = secu_html(nkHtmlEntityDecode($signature));
+            $signature = nkHtmlEntityDecode($signature);
             $email = nkHtmlEntities($email);
             $icq = nkHtmlEntities($icq);
             $msn = nkHtmlEntities($msn);
@@ -447,13 +447,13 @@ if ($visiteur == 9)
         else
         {
             $cryptpass = nk_hash($pass_reg);
-
+            
             do {
                 $id_user = sha1(uniqid());
             } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
-
+            
             $date = time();
-            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1');
+            $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -464,7 +464,7 @@ if ($visiteur == 9)
             $url = mysql_real_escape_string(stripslashes($url));
             $avatar = mysql_real_escape_string(stripslashes($avatar));
 
-            $signature = secu_html(nkHtmlEntityDecode($signature));
+            $signature = nkHtmlEntityDecode($signature);
             $email = nkHtmlEntities($email);
             $icq = nkHtmlEntities($icq);
             $msn = nkHtmlEntities($msn);
@@ -516,11 +516,7 @@ if ($visiteur == 9)
     {
         global $nuked, $user, $language;
 
-        if(!isset($_REQUEST['orderby'])){
-            $_REQUEST['orderby'] = '';
-        }
-
-        if (array_key_exists('query', $_REQUEST) && $_REQUEST['query'] != "")
+        if ($_REQUEST['query'] != "")
         {
             $and = "AND (UT.pseudo LIKE '%" . $_REQUEST['query'] . "%')";
             $url_page = "index.php?file=Admin&amp;page=user&amp;query=" . $_REQUEST['query'] . "&amp;orderby=" . $_REQUEST['orderby'];
@@ -536,14 +532,8 @@ if ($visiteur == 9)
         $sql3 = mysql_query("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
         $count = mysql_num_rows($sql3);
 
-        if(array_key_exists('p', $_REQUEST)){
-            $page = $_REQUEST['p'];
-        }
-        else{
-            $page = 1;
-        }
-
-        $start = $page * $nb_membres - $nb_membres;
+        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
+        $start = $_REQUEST['p'] * $nb_membres - $nb_membres;
         echo "<link rel=\"stylesheet\" href=\"css/jquery.autocomplete.css\" type=\"text/css\" media=\"screen\" />\n";
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
@@ -1371,8 +1361,8 @@ if ($visiteur == 9)
             . "<td style=\"width: 20%;\">&nbsp;" . $pseudo . "</td>"
             . "<td style=\"width: 25%;\" align=\"center\"><a href=\"mailto:" . $mail . "\">" . $mail . "</a></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\">" . $user_date . "</td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=validation&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/valid.gif\" alt=\"\" title=\"" . _VALIDTHISUSER . "\" /></a></td>\n"
-            . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITUSER . "\" /></a></td>\n"
+            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=validation&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/valid.gif\" alt=\"\" title=\"" . _VALIDTHISUSER . "\" /></a></a></td>\n"
+            . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITUSER . "\" /></a></a></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:deluser('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEUSER . "\" /></a></td></tr>\n";
         }
         if ($compteur > 0)
@@ -1430,7 +1420,7 @@ if ($visiteur == 9)
         else
             return false;
     }
-
+    
     switch ($_REQUEST['op'])
     {
         case "update_user":

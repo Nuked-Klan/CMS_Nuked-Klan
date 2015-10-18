@@ -26,13 +26,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$sql = mysql_query("SELECT id FROM " . NEWS_TABLE);
 		$count = mysql_num_rows($sql);
 
-		if(array_key_exists('p', $_REQUEST)){
-            $page = $_REQUEST['p'];
-        }
-        else{
-            $page = 1;
-        }
-		$start = $page * $nb_news - $nb_news;
+		if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
+		$start = $_REQUEST['p'] * $nb_news - $nb_news;
 
 		echo "<script type=\"text/javascript\">\n"
 		   . "<!--\n"
@@ -56,9 +51,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
 		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
 
-        if(!array_key_exists('ordreby', $_REQUEST)){
-            $order_by = 'date DESC';
-        } else if ($_REQUEST['orderby'] == "date") {
+		if ($_REQUEST['orderby'] == "date") {
 			$order_by = "date DESC";
 		} else if ($_REQUEST['orderby'] == "title") {
 			$order_by = "titre";
@@ -73,25 +66,25 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		echo "<table width=\"100%\" cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n"
 		   . "<tr><td align=\"right\">" . _ORDERBY . " : ";
 
-		if ((array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "date") || !array_key_exists('ordreby', $_REQUEST)) {
+		if ($_REQUEST['orderby'] == "date" || !$_REQUEST['orderby']) {
 			echo "<b>" . _DATE . "</b> | ";
 		} else {
 			echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=date\">" . _DATE . "</a> | ";
 		}
 
-		if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "title") {
+		if ($_REQUEST['orderby'] == "title") {
 			echo "<b>" . _TITLE . "</b> | ";
 		} else {
 			echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=title\">" . _TITLE . "</a> | ";
 		}
 
-		if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "author") {
+		if ($_REQUEST['orderby'] == "author") {
 			echo "<b>" . _AUTHOR . "</b> | ";
 		} else {
 			echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=author\">" . _AUTHOR . "</a> | ";
 		}
 
-		if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "cat") {
+		if ($_REQUEST['orderby'] == "cat") {
 			echo "<b>" . _CAT . "</b>";
 		} else {
 			echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=cat\">" . _CAT . "</a>";
@@ -207,12 +200,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		echo "</select>&nbsp;<select id=\"news_annee\" name=\"annee\">\n";
 
-		$prevprevprevyear = date("Y") -3;
-		$prevprevyear = date("Y") -2;
-		$prevyear = date("Y") -1;
-		$year = date("Y") ;
-		$nextyear = date("Y") + 1;
-		$nextnextyear = date("Y") + 2;
+		$prevprevprevyear = date(Y) -3;
+		$prevprevyear = date(Y) -2;
+		$prevyear = date(Y) -1;
+		$year = date(Y) ;
+		$nextyear = date(Y) + 1;
+		$nextnextyear = date(Y) + 2;
 		$check = "selected=\"selected\"";
 
 		echo "<option value=\"" . $prevprevprevyear . "\">" . $prevprevprevyear . "</option>\n"
@@ -252,8 +245,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
-		$texte = secu_html(nkHtmlEntityDecode($texte));
-		$suite = secu_html(nkHtmlEntityDecode($suite));
+		$texte = nkHtmlEntityDecode($texte);
+		$suite = nkHtmlEntityDecode($suite);
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$texte = mysql_real_escape_string(stripslashes($texte));
@@ -347,8 +340,6 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		select_news_cat();
 
-        $texte = editPhpCkeditor($texte);
-
 		echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n"
 		   . "<tr><td align=\"center\"><big><b>" . _TEXT . " :</b></big></td></tr>\n"
 		   . "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\">".$texte."</textarea></td></tr>\n"
@@ -367,10 +358,10 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$table = explode(':', $heure, 2);
 		$date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
-		$texte = secu_html(nkHtmlEntityDecode($texte));
+		$texte = nkHtmlEntityDecode($texte);
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$texte = mysql_real_escape_string(stripslashes($texte));
-		$suite = secu_html(nkHtmlEntityDecode($suite));
+		$suite = nkHtmlEntityDecode($suite);
 		$suite = mysql_real_escape_string(stripslashes($suite));
 
 		$upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
@@ -478,7 +469,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 	function send_cat($titre, $description, $image, $fichiernom) {
 		global $nuked, $user;
-
+		
 		$filename = $_FILES['fichiernom']['name'];
 
 		if ($filename != "") {
@@ -504,7 +495,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		}
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
-		$description = secu_html(nkHtmlEntityDecode($description));
+		$description = nkHtmlEntityDecode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 
 		$sql = mysql_query("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url_image . "' )");
@@ -526,8 +517,6 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$sql = mysql_query("SELECT titre, description, image FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
 		list($titre, $description, $image) = mysql_fetch_array($sql);
-
-        $description = editPhpCkeditor($description);
 
 		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 		   . "<div class=\"content-box-header\"><h3>" . _ADMINNEWS . "</h3>\n"
@@ -573,7 +562,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		}
 
 		$titre = mysql_real_escape_string(stripslashes($titre));
-		$description = secu_html(nkHtmlEntityDecode($description));
+		$description = nkHtmlEntityDecode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 
 		$sql = mysql_query("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $url_image . "' WHERE nid = '" . $cid . "'");
@@ -699,7 +688,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		case "send_cat":
 			admintop();
-			send_cat($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_FILES['fichiernom']);
+			send_cat($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_REQUEST['fichiernom']);
 			adminfoot();
 			break;
 
@@ -723,7 +712,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		case "modif_cat":
 			admintop();
-			modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_FILES['fichiernom']);
+			modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_REQUEST['fichiernom']);
 			adminfoot();
 			break;
 

@@ -304,7 +304,7 @@ define("_TOLOG","Login");
 define("_TOBACK","Back");
 
 define("_BONJOUR","Hello");
-define("_MESSAGEDEBIENVENUE", 'Welcome on the nuked-klan ' ._NKVERSION. ' admin panel!'');
+define("_MESSAGEDEBIENVENUE", 'Welcome on the nuked-klan ' ._NKVERSION. ' admin panel!');
 define("_AIDE","Help");
 define("_STATS","Stats");
 define("_SQL","SQL error found");
@@ -355,14 +355,13 @@ define("_NOADMININTERNE","This template does't have any administration.");
 define("_THEMIS","Template");
 define("_A","at");
 define("_ADMINSQLERROR","SQL error administration");
-define("_VIDERSQL","Delete the list"); //ici
+define("_VIDERSQL","Delete the list");
 define("_DATE","Date");
 define("_URL","Url");
 define("_INFORMATION","Information");
 define("_DELETEFILE","You are about to remove");
 define("_ERRORBDD","SQL Error");
 define("_SQLERRORDELETED","The list of SQL errors identified was destroyed.");
-
 
 define("_ACTIONCONNECT","is connected on the administration");
 define("_ACTIONDECONNECT","is diconnected from the administration");

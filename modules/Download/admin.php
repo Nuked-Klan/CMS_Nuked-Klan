@@ -85,21 +85,10 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</table><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Download&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
 	}
 
-	function send_file() {
-		global $nuked, $user;
+	function send_file($date, $size, $titre, $description, $cat, $url, $url2, $url3, $level, $autor, $site, $comp, $screen, $screen2, $copy, $ecrase_file, $ecrase_screen) {
+		global $nuked;
 
-        $arrayRequest = array('date', 'size', 'titre', 'description', 'cat', 'url', 'url2', 'url3', 'level', 'autor', 'site', 'comp', 'screen', 'screen2', 'copy', 'ecrase_file', 'ecrase_screen');
-
-        foreach($arrayRequest as $key){
-            if(array_key_exists($key, $_REQUEST)){
-                ${$key} = $_REQUEST[$key];
-            }
-            else{
-                ${$key} = '';
-            }
-        }
-
-		$description = secu_html(nkHtmlEntityDecode($description));
+		$description = nkHtmlEntityDecode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$autor = mysql_real_escape_string(stripslashes($autor));
@@ -120,8 +109,6 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		$racine_up = "upload/Download/";
 		$racine_down = "";
-
-        $deja_file = $deja_screen = '';
 
 		if ($_FILES['copy']['name'] != "") {
 			$filename = $_FILES['copy']['name'];
@@ -254,8 +241,6 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$upload_max_filesize = @ini_get('upload_max_filesize');
 		$file_uploads = @ini_get('file_uploads');
 
-        $description = editPhpCkeditor($description);
-
 		if ($file_uploads == 1 && $upload_max_filesize != "") {
 			list($maxfilesize) = explode('M', $upload_max_filesize);
 			$upload_status = "(" . _MAX . " : " . $maxfilesize . "&nbsp;" . _MO . ")";
@@ -322,21 +307,10 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 	}
 
-	function modif_file() {
+	function modif_file($did, $date, $taille, $titre, $description, $cat, $count, $url, $url2, $url3, $level, $autor, $site, $comp, $screen, $screen2, $copy, $ecrase_file, $ecrase_screen) {
 		global $nuked, $user;
 
-        $arrayRequest = array('did', 'date', 'taille', 'titre', 'description', 'cat', 'count', 'url', 'url2', 'url3', 'level', 'autor', 'site', 'comp', 'screen', 'screen2', 'copy', 'ecrase_file', 'ecrase_screen');
-
-        foreach($arrayRequest as $key){
-            if(array_key_exists($key, $_REQUEST)){
-                ${$key} = $_REQUEST[$key];
-            }
-            else{
-                ${$key} = '';
-            }
-        }
-
-		$description = secu_html(nkHtmlEntityDecode($description));
+		$description = nkHtmlEntityDecode($description);
 		$description = mysql_real_escape_string(stripslashes($description));
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$autor = mysql_real_escape_string(stripslashes($autor));
@@ -556,13 +530,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$sql3 = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE);
 		$nb_dl = mysql_num_rows($sql3);
 
-		if(array_key_exists('p', $_REQUEST)){
-            $page = $_REQUEST['p'];
-        }
-        else{
-            $page = 1;
-        }
-		$start = $page * $nb_download - $nb_download;
+		if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
+		$start = $_REQUEST['p'] * $nb_download - $nb_download;
 
 		echo"<script type=\"text/javascript\">\n"
 		   . "<!--\n"
@@ -587,43 +556,32 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_broken\">" . _BROKENLINKS . "</a> | "
 		   . "<a href=\"index.php?file=Download&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n";
 
-
-        if(array_key_exists('orderby', $_REQUEST)){
-            if ($_REQUEST['orderby'] == "date") {
-    			$order_by = "D.id DESC";
-                $orderBy = 'date';
-    		} else if ($_REQUEST['orderby'] == "name") {
-                $orderBy = 'name';
-    			$order_by = "D.titre";
-    		} else if ($_REQUEST['orderby'] == "cat") {
-                $orderBy = 'cat';
-    			$order_by = "DC.titre, DC.parentid";
-    		} else {
-                $orderBy = 'date';
-    			$order_by = "D.id DESC";
-    		}
-        }
-        else{
-            $order_by = "D.id DESC";
-            $orderBy = 'date';
-        }
+		if ($_REQUEST['orderby'] == "date") {
+			$order_by = "D.id DESC";
+		} else if ($_REQUEST['orderby'] == "name") {
+			$order_by = "D.titre";
+		} else if ($_REQUEST['orderby'] == "cat") {
+			$order_by = "DC.titre, DC.parentid";
+		} else {
+			$order_by = "D.id DESC";
+		}
 
 		echo "<table width=\"100%\" cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n"
 		   . "<tr><td align=\"right\">" . _ORDERBY . " : ";
 
-		if ($orderBy == "date" || !$orderBy) {
+		if ($_REQUEST['orderby'] == "date" || !$_REQUEST['orderby']) {
 			echo "<b>" . _DATE . "</b> | ";
 		} else {
 			echo "<a href=\"index.php?file=Download&amp;page=admin&amp;orderby=date\">" . _DATE . "</a> | ";
 		}
 
-		if ($orderBy == "name") {
+		if ($_REQUEST['orderby'] == "name") {
 			echo "<b>" . _TITLE . "</b> | ";
 		} else {
 			echo "<a href=\"index.php?file=Download&amp;page=admin&amp;orderby=name\">" . _TITLE . "</a> | ";
 		}
 
-		if ($orderBy == "cat") {
+		if ($_REQUEST['orderby'] == "cat") {
 			echo "<b>" . _CAT . "</b>";
 		} else {
 			echo "<a href=\"index.php?file=Download&amp;page=admin&amp;orderby=cat\">" . _CAT . "</a>";
@@ -664,7 +622,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 				$categorie = printSecuTags($categorie);
 			}
 
-			echo "<tr>\n"
+			echo "<tr style=\"background: " . $bg . ";\">\n"
 			   . "<td style=\"width: 25%;\">" . $titre . "</td><td style=\"width: 5%;\" align=\"center\"><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"modules/Download/images/download.gif\" alt=\"\" title=\"" . $url . "\" /></a></td>\n"
 			   . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td>\n"
 			   . "<td style=\"width: 20%;\" align=\"center\">" . $categorie . "</td>\n"
@@ -797,7 +755,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function send_cat($titre, $description, $parentid, $level, $position) {
 		global $nuked, $user;
 
-		$description = secu_html(nkHtmlEntityDecode($description));
+		$description = nkHtmlEntityDecode($description);
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$description = mysql_real_escape_string(stripslashes($description));
 
@@ -858,8 +816,6 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			}
 		}
 
-        $description = editPhpCkeditor($description);
-
 		echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" />\n"
 		   . "&nbsp;<b>" . _LEVEL . " :</b> <select name=\"level\"><option>" . $level . "</option>\n"
 		   . "<option>0</option>\n"
@@ -881,7 +837,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
 		global $nuked, $user;
 
-		$description = secu_html(nkHtmlEntityDecode($description));
+		$description = nkHtmlEntityDecode($description);
 		$titre = mysql_real_escape_string(stripslashes($titre));
 		$description = mysql_real_escape_string(stripslashes($description));
 
@@ -1040,12 +996,12 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			break;
 
 		case "send_file":
-			send_file();
+			send_file($_REQUEST['date'], $_REQUEST['size'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['cat'], $_REQUEST['url'], $_REQUEST['url2'], $_REQUEST['url3'], $_REQUEST['level'], $_REQUEST['autor'], $_REQUEST['site'], $_REQUEST['comp'], $_REQUEST['screen'], $_REQUEST['screen2'], $_REQUEST['copy'], $_REQUEST['ecrase_file'], $_REQUEST['ecrase_screen']);
 			UpdateSitmap();
 			break;
 
 		case "modif_file":
-			modif_file();
+			modif_file($_REQUEST['did'], $_REQUEST['date'], $_REQUEST['taille'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['cat'], $_REQUEST['count'], $_REQUEST['url'], $_REQUEST['url2'], $_REQUEST['url3'], $_REQUEST['level'], $_REQUEST['autor'], $_REQUEST['site'], $_REQUEST['comp'], $_REQUEST['screen'], $_REQUEST['screen2'], $_REQUEST['copy'], $_REQUEST['ecrase_file'], $_REQUEST['ecrase_screen']);
 			break;
 
 		case "main":

@@ -67,11 +67,11 @@ if ($visiteur == 9)
             if (is_file('modules/' . $nom . '/index.php')) echo '<option value="' . $nom . '" ' . $checked . '>' . $nom . '</option>',"\n";
         }
     }
-
+    
     function select_timeformat($tft)
     {
         global $nuked;
-
+            
             $timeformatTable = array(
                 "%A, %B %d, %Y - %H:%M:%S",
                 "%A, %d %B, %Y - %H:%M:%S",
@@ -111,22 +111,22 @@ if ($visiteur == 9)
                 "%d %b %Y - %I:%M:%S %p",
                 "%Y %b %d - %I:%M:%S %p",
             );
-
+            
             foreach($timeformatTable as $key)
             {
                 $checked = ($tft == $key) ? 'selected="selected"' : '';
                 $day = time();
-                date_default_timezone_set(getTimeZoneDateTime($nuked['datezone']));
+                date_default_timezone_set($nuked['datezone']);
                 // iconv pour éviter les caractère spéciaux dans la date
                 $echo = iconv('UTF-8','ISO-8859-1',strftime($key, $day));
                 echo "<option value=\"" . $key . "\" " . $checked . ">" . $echo . "</option>\n";
             }
     }
-
+    
     function select_timezone($tze)
     {
         global $nuked;
-
+            
             $timezoneTable = array( "-1200" => "(GMT -12:00) Eniwetok, Kwajalein",
                                     "-1100" => "(GMT -11:00) Midway Island, Samoa",
                                     "-1000" => "(GMT -10:00) Hawaii",
@@ -158,7 +158,7 @@ if ($visiteur == 9)
                                     "+1100" => "(GMT +11:00) Magadan, Solomon Islands, New Caledonia",
                                     "+1200" => "(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka"
                                    );
-            foreach($timezoneTable as $cle=>$valeur)
+            foreach($timezoneTable as $cle=>$valeur) 
             {
                 $checked = ($tze == $cle) ? 'selected="selected"' : '';
                 echo '<option value="' . $cle . '" ' . $checked . '>' . $valeur . '</option>';
@@ -170,7 +170,7 @@ if ($visiteur == 9)
         global $nuked, $language;
 
         admintop();
-
+    
         echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
         . '<div class="content-box-header"><h3>' . _PREFGEN . '</h3>',"\n";
         ?>
@@ -207,7 +207,7 @@ if ($visiteur == 9)
         . "<tr><td>" . _DATEFORMAT . " :</td><td><select name=\"dateformat\">\n";
 
         select_timeformat($nuked['dateformat']);
-
+        
         echo "</select></td></tr>\n";
         echo "<tr><td>" . _DATEZONE . " :</td><td><select name=\"datezone\">\n";
 
@@ -215,7 +215,7 @@ if ($visiteur == 9)
         $time = time();
         $date = nkDate($time);
         echo "</select><br /><span>" . _DATEADJUST ."&nbsp;" . $date . " </span></td></tr><tr><td>" . _ADMINMAIL . " :</td><td><input type=\"text\" name=\"mail\" size=\"40\" value=\"" . $nuked['mail'] . "\" /></td></tr>\n"
-        . "<tr><td>" . _FOOTMESS . " :</td><td><textarea class=\"editor\" name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"
+        . "<tr><td>" . _FOOTMESS . " :</td><td><textarea class=\"editor\" name=\"footmessage\" cols=\"50\" rows=\"6\">" . $nuked['footmessage'] . "</textarea></td></tr>\n"    
         . "<tr><td>" . _SITESTATUS . " :</td><td><select name=\"nk_status\">\n";
 
         if ($nuked['nk_status'] == "open")
@@ -301,7 +301,7 @@ if ($visiteur == 9)
 
     if ($nuked['user_delete'] == "on") $checked10 = "checked=\"checked\"";
         else $checked10 = "";
-
+        
     if ($nuked['video_editeur'] == "on") $checked14 = "checked=\"checked\"";
         else $checked14 = "";
 
@@ -350,14 +350,14 @@ if ($visiteur == 9)
     . "<tr><td>" . _DISPLYGNRATETME . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"time_generate\" value=\"on\" " . $checked12 . " /></td></tr>\n";
 	include("Includes/nkStats.php");
 	$data = getStats($nuked);
-
+			
 	$string = "";
 	foreach($data as $donnee => $value)
 	{
 		$string .= "<div style='display:inline-block; width:300px;'><span style='font-weight:bold'>".$donnee ." : </span><span>". $value ."</span></div>";
 	}
 	echo "<tr><td>" . _SHARESTATS . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"stats_share\" value=\"1\" " . $checkedstats . " />  (<a href=\"index.php?file=Admin&page=setting\" id=seestats>" . _SEESHARE ."</a>)<br/><small>". _SHAREREASON."</small></td></tr>\n"
-	."<tr style='display:none' id=seestatsblock><td colspan=2>". $string ."</td></tr>\n"
+	."<tr style='display:none' id=seestatsblock><td colspan=2>". $string ."</td></tr>\n"	
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _OPTIONCONNEX . "</b></big></td></tr>\n"
     . "<tr><td>" . _COOKIENAME . " :</td><td><input type=\"text\" name=\"cookiename\" size=\"20\" value=\"" . $nuked['cookiename'] . "\" onkeypress=\"return special_caract(event);\" /></td></tr>\n"
     . "<tr><td>" . _CONNEXMIN . " :</td><td><input type=\"text\" name=\"sess_inactivemins\" size=\"2\" value=\"" . $nuked['sess_inactivemins'] . "\" /></td></tr>\n"
@@ -375,28 +375,26 @@ if ($visiteur == 9)
     function save_config()
     {
         global $nuked, $user;
-
-		if (isset($_REQUEST['stats_share']) && $_REQUEST['stats_share'] != "1") $_REQUEST['stats_share'] = "0";
-        if (isset($_REQUEST['inscription_avert']) && $_REQUEST['inscription_avert'] != "on") $_REQUEST['inscription_avert'] = "off";
-        if (isset($_REQUEST['time_generate']) && $_REQUEST['time_generate'] != 'on') $_REQUEST['time_generate'] = 'off';
-        if (isset($_REQUEST['avatar_upload']) && $_REQUEST['avatar_upload'] != "on") $_REQUEST['avatar_upload'] = "off";
-        if (isset($_REQUEST['avatar_url']) && $_REQUEST['avatar_url'] != "on") $_REQUEST['avatar_url'] = "off";
-        if (isset($_REQUEST['user_delete']) && $_REQUEST['user_delete'] != "on") $_REQUEST['user_delete'] = "off";
-        if (isset($_REQUEST['video_editeur']) && $_REQUEST['video_editeur'] != "on") $_REQUEST['video_editeur'] = "off";
-        if (isset($_REQUEST['scayt_editeur']) && $_REQUEST['scayt_editeur'] != "on") $_REQUEST['scayt_editeur'] = "off";
-        if (isset($_REQUEST['screen']) && $_REQUEST['screen'] != "on") $_REQUEST['screen'] = "off";
+        
+		if ($_REQUEST['stats_share'] != "1") $_REQUEST['stats_share'] = "0";
+        if ($_REQUEST['inscription_avert'] != "on") $_REQUEST['inscription_avert'] = "off";
+        if ($_REQUEST['time_generate'] != 'on') $_REQUEST['time_generate'] = 'off';
+        if ($_REQUEST['avatar_upload'] != "on") $_REQUEST['avatar_upload'] = "off";
+        if ($_REQUEST['avatar_url'] != "on") $_REQUEST['avatar_url'] = "off";
+        if ($_REQUEST['user_delete'] != "on") $_REQUEST['user_delete'] = "off";
+        if ($_REQUEST['video_editeur'] != "on") $_REQUEST['video_editeur'] = "off";
+        if ($_REQUEST['scayt_editeur'] != "on") $_REQUEST['scayt_editeur'] = "off";
+        if ($_REQUEST['screen'] != "on") $_REQUEST['screen'] = "off";
         if (substr($_REQUEST['url'], -1) == "/") $_REQUEST['url'] = substr($_REQUEST['url'], 0, -1);
         $_REQUEST['cookiename'] = str_replace(' ','',$_REQUEST['cookiename']);
-
-        $_REQUEST['inscription_charte'] = secu_html(nkHtmlEntityDecode($_REQUEST['inscription_charte']));
-        $_REQUEST['inscription_mail'] = secu_html(nkHtmlEntityDecode($_REQUEST['inscription_mail']));
-        $_REQUEST['footmessage'] = secu_html(nkHtmlEntityDecode($_REQUEST['footmessage']));
-
-
+        
+        $_REQUEST['inscription_charte'] = nkHtmlEntityDecode($_REQUEST['inscription_charte']);
+        $_REQUEST['inscription_mail'] = nkHtmlEntityDecode($_REQUEST['inscription_mail']);
+        $_REQUEST['footmessage'] = nkHtmlEntityDecode($_REQUEST['footmessage']);
 
         if($_REQUEST['theme'] !== $nuked['theme'])
             mysql_query('UPDATE ' . USER_TABLE . ' SET user_theme = ""');
-
+        
         $sql = mysql_query("SELECT name, value  FROM " . CONFIG_TABLE);
         while (list($config_name, $config_value) = mysql_fetch_array($sql))
         {

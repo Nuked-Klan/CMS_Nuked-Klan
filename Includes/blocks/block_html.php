@@ -27,8 +27,6 @@ function edit_block_html($bid){
     $titre = printSecuTags($titre);
 	$content = nkHtmlEntityDecode($content);
 
-    $checked0 = $checked1 = $checked2 = $checked3 = $checked4 = '';
-
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';
     else if ($active == 3) $checked3 = 'selected="selected"';

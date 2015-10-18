@@ -8,6 +8,8 @@
 //  the Free Software Foundation; either version 2 of the License.         //
 //-------------------------------------------------------------------------//
 define('INDEX_CHECK', 1);
+ini_set('default_charset', 'ISO8859-1');
+
 include('../globals.php');
 include('../conf.inc.php');
 include('../nuked.php');
@@ -34,7 +36,7 @@ echo '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"
     . '<url>' . $nuked['url'] . '/images/ban.gif</url>'."\n"
     . '<title>' . $sitename . '</title>'."\n"
     . '<link>' . $nuked['url'] . '</link>'."\n"
-    . '<width>88</width>'."\n"
+    . '<width>96</width>'."\n"
     . '<height>31</height>'."\n"
     . '</image>'."\n"
     . '<description>' . $sitedesc . '</description>'."\n"

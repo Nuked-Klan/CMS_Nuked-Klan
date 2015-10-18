@@ -12,13 +12,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Suggest/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
-
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == 'off') $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 $visiteur = !$user ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
@@ -30,7 +24,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         opentable();
         $autorized_modules = array();
         $handle = opendir('modules/Suggest/modules/');
-
+        
         while ($mod = readdir($handle)){
             if ($mod != '.' && $mod != '..' && $mod != 'index.html'){
                  $mod = str_replace('.php', '', $mod);
@@ -96,14 +90,14 @@ if ($visiteur >= $level_access && $level_access > -1){
                     echo '<option value="' . $temp[1] . '">' . $temp[0] . '</option>',"\n";
                 }
              }
-
+             
             echo '</select></td></tr><tr><td>&nbsp;</td></tr></table></form>';
         }
         closetable();
     }
 
     function add_sug($data){
-        global $user, $nuked, $captcha,$user_ip;
+        global $user, $nuked, $user_ip;
 
         opentable();
 
@@ -123,9 +117,9 @@ if ($visiteur >= $level_access && $level_access > -1){
             footer();
             die();
         }
-
-        // Verification code captcha
-        if ($captcha == 1){
+        
+        // Captcha check
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }
 

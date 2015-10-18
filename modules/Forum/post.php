@@ -17,13 +17,7 @@ global $user, $language, $nuked, $cookie_captcha, $random_code, $bgcolor3;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 include("modules/Forum/template.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
-
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 opentable();
 
@@ -152,8 +146,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             $ftexte = '<blockquote style="border: 1px dashed ' . $bgcolor3 . '; background: #FFF; color: #000; padding: 5px"><strong>' . _QUOTE . ' ' . _BY . ' ' . $author . ' :</strong><br />' . $e_txt . '</blockquote>';
         }
 
-        $ftexte = editPhpCkeditor($ftexte);
-
         if ($_REQUEST['do'] == "quote")
         {
             echo "<textarea id=\"e_advanced\" name=\"texte\" cols=\"70\" rows=\"15\">" . $ftexte . "<p></p></textarea>";
@@ -258,18 +250,19 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
 
         echo "</td></tr>\n";
+        
+        if ($GLOBALS['captcha'] === true) {
+           echo "<tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">";
+           echo create_captcha();
+           echo "</td></tr>\n";
+        }
 
         echo" <tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">"
         . "<input type=\"submit\" value=\"" . _SEND . "\" />\n"
         . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
         . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
-        . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n";
-
-        if ($captcha == 1){
-                create_captcha(0);
-        }
-
-        echo "</td></tr></table></form>\n";
+        . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n"
+        . "</td></tr></table></form>\n";
 
         if ($_REQUEST['thread_id'] != "")
         {

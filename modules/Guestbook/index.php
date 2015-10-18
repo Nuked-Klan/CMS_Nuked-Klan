@@ -15,13 +15,7 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Guestbook/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
-
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && ($user && $user[1] > 0))  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 $visiteur = (!$user) ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
@@ -32,30 +26,37 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function post_book()
     {
-        global $user, $nuked, $captcha;
+        global $user, $nuked;
 
 		define('EDITOR_CHECK', 1);
 
         opentable();
 
-        ?>
-        <script type="text/javascript">
-            function trim(string){
-              return string.replace(/(^\s*)|(\s*$)/g,'');
-            }
-
-            function verifchamps(){
-                if (trim(document.getElementById('guest_name').value) == ""){
-                  alert('<?php echo _NONICK; ?>');
-                  return false;
-                }
-                if (document.getElementById('guest_mail').value.indexOf('@') == -1){
-                  alert('<?php echo _ERRORMAIL; ?>');
-                  return false;
-                }
-            }
-       </script>
-        <?php
+        echo "<script type=\"text/javascript\">\n"
+		."<!--\n"
+		. "\n"
+		."function trim(string)\n"
+		."{"
+		."return string.replace(/(^\s*)|(\s*$)/g,'');"
+		."}\n"
+		."\n"
+		. "function verifchamps()\n"
+		. "{\n"
+		. "\n"
+		. "if (trim(document.getElementById('guest_name').value) == \"\")\n"
+		. "{\n"
+		. "alert('" . _NONICK . "');\n"
+		. "return false;\n"
+		. "}\n"
+		. "\n"
+		. "if (document.getElementById('guest_mail').value.indexOf('@') == -1)\n"
+		. "{\n"
+		. "alert('" . _ERRORMAIL . "');\n"
+		. "return false;\n"
+		. "}\n"
+		. "\n"
+		. "// -->\n"
+	. "</script>\n";
 
         if ($user)
         {
@@ -71,7 +72,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
-		if ($captcha == 1) create_captcha(2);
+		if ($GLOBALS['captcha'] === true) {
+		    echo create_captcha();
+	    }
 
 
 		echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
@@ -83,12 +86,12 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function send_book($name, $email, $url, $comment)
     {
-        global $user, $nuked, $user_ip, $captcha;
+        global $user, $nuked, $user_ip;
 
         opentable();
 
         // Verification code captcha
-        if ($captcha == 1){
+        if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }
 
@@ -99,7 +102,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         else
         {
             $name = verif_pseudo($name);
-            $name = htmlentities($name, ENT_QUOTES, 'ISO-8859-1');
+            $name = nkHtmlEntities($name, ENT_QUOTES);
 
             if ($name == "error1")
             {
@@ -166,7 +169,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             $comment = mysql_real_escape_string(stripslashes($comment));
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $email = mysql_real_escape_string(stripslashes($email));
-
+            
             if (!empty($url) && !is_int(stripos($url, 'http://')))
             {
                 $url = "http://" . mysql_real_escape_string(stripslashes($url));
@@ -198,13 +201,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         $sql = mysql_query("SELECT id FROM " . GUESTBOOK_TABLE);
         $count = mysql_num_rows($sql);
 
-        if(array_key_exists('p', $_REQUEST)){
-            $page = $_REQUEST['p'];
-        }
-        else{
-            $page = 1;
-        }
-        $start = $page * $nb_mess_guest - $nb_mess_guest;
+        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
+        $start = $_REQUEST['p'] * $nb_mess_guest - $nb_mess_guest;
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big>\n"
         . "<br /><br />[ <a href=\"index.php?file=Guestbook&amp;op=post_book\">" . _SIGNGUESTBOOK . "</a> ]</div><br />\n";
@@ -220,7 +218,6 @@ if ($visiteur >= $level_access && $level_access > -1)
         . "<td style=\"width: 70%;\" align=\"center\"><b>" . _COMMENT . "</b></td></tr>\n";
 
         $sql2 = mysql_query("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
-        $j = 0;
         while (list($id, $name, $comment, $email, $url, $date, $ip) = mysql_fetch_array($sql2))
         {
             $date = nkDate($date);
