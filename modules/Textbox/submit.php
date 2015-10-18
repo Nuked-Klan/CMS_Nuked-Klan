@@ -9,14 +9,9 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-
 translate("modules/Textbox/lang/" . $language . ".lang.php");
-require_once("Includes/nkCaptcha.php");
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 $visiteur = $user ? $user[1] : 0;
 $redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
@@ -26,12 +21,9 @@ if ($visiteur >= $level_access && $level_access > -1)
 {
     opentable();
 
-    if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-	{
-		echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_BADCODECONFIRM) . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-		closetable();
-		footer();
-		exit();
+    // Captcha check
+    if ($GLOBALS['captcha'] === true){
+        ValidCaptchaCode();
     }
 
     if (isset($user[2]))
