@@ -226,7 +226,7 @@ if ($process == 'update') {
 
     // quakenet.eu.org : 1.7.x =>
     // quakenet.org : install 1.7.9 RC5 / UPDATE 1.7.9 RC2
-    // noxether.net : install 1.7.13 / update 1.7.11
+    // noxether.net : install 1.7.14 / update 1.7.11
     if ($nuked['irc_chan'] == 'nuked-klan' && in_array($nuked['irc_serv'], array('quakenet.eu.org', 'quakenet.org')))
         $updateData['irc_serv'] = 'noxether.net';
 

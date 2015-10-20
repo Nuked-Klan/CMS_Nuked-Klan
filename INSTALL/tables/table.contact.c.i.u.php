@@ -77,7 +77,7 @@ if ($process == 'update') {
     if ($contactTableCreated)
         return;
 
-    // install / update 1.7.13
+    // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
         $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
 

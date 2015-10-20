@@ -67,7 +67,7 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
-    // install / update 1.7.13
+    // install / update 1.7.14
     if ($dbTable->getFieldType('autor_ip') != 'varchar(40)')
         $dbTable->modifyField('autor_ip', array('type' => 'VARCHAR(40)', 'default' => 'NULL'));
 
