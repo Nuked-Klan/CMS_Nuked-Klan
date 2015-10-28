@@ -104,10 +104,17 @@ class process {
      * - Create i18n instance
      */
     function __construct() {
-        $this->_session = PHPSession::getInstance();
-        $this->_i18n    = i18n::getInstance();
+        try {
+            $this->_session = PHPSession::getInstance();
+            $this->_i18n    = i18n::getInstance();
 
-        $this->_loadConfiguration();
+            $this->_loadConfiguration();
+        }
+        catch (Exception $e) {
+            echo '<html><body style="margin-top:50px;text-align:center;"><h3>'
+                , $e->getMessage()
+                , '</h3></body></html>';
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -492,11 +499,13 @@ class process {
         if ($error != '')
             echo $error, '<br />';
 
-        if ($process == 'update' && $result != 'CREATED'
-            && isset($dbTable) && ! empty($actionList = $dbTable->getActionList())
-        ) {
-            foreach ($actionList as $k => $i18n)
-                echo $i18n, '<br />';
+        if ($process == 'update' && $result != 'CREATED' && isset($dbTable)) {
+            $actionList = $dbTable->getActionList();
+
+            if (! empty($actionList)) {
+                foreach ($actionList as $k => $i18n)
+                    echo $i18n, '<br />';
+            }
         }
     }
 
@@ -562,14 +571,26 @@ class process {
      * Check to cleaning deprecated file in Nuked-Klan directory
      */
     public function cleaningFiles() {
-        foreach ($this->_deprecatedFiles as $k => $file) {
-            @unlink('../'. $file);
+        $deprecatedFiles = array();
 
-            if (! is_file('../'. $file))
-                unset($this->_deprecatedFiles[$k]);
+        foreach ($this->_deprecatedFiles as $k => $file) {
+            if (is_file($file)) {
+                @unlink('../'. $file);
+                clearstatcache();
+
+                if (is_file('../'. $file))
+                    $deprecatedFiles[] = $file;
+            }
+            else if (is_dir($file)) {
+                $this->_deleteDirectory('../'. $file);
+                clearstatcache();
+
+                if (is_dir('../'. $file))
+                    $deprecatedFiles[] = $file;
+            }
         }
 
-        if (! empty($this->_deprecatedFiles)) {
+        if (! empty($deprecatedFiles)) {
             $this->_view = new view('cleaningFiles');
 
             $this->_view->deprecatedFiles = $this->_deprecatedFiles;
@@ -688,14 +709,16 @@ class process {
                 $requirements[strtoupper($extensionName) .'_EXT'] = $requirement .'-disabled';
         }
 
-        @chmod('../', 0755);
-        $requirements['CHMOD_TEST_WEBSITE_DIRECTORY'] = (is_writable('../')) ? 'enabled' : 'optional-disabled';
+        $path = realpath('../');
+        @chmod($path, 0755);
+        $requirements['CHMOD_TEST_WEBSITE_DIRECTORY'] = (is_writable($path)) ? 'enabled' : 'optional-disabled';
 
-        @chmod('../upload', 0755);
+        @chmod(realpath('../upload'), 0755);
 
         foreach ($this->_uploadDir as $uploadDir) {
-            @chmod('../'. $uploadDir, 0755);
-            $requirements['CHMOD_TEST_'. $uploadDir] = (is_writable('../'. $uploadDir)) ? 'enabled' : 'optional-disabled';
+            $path = realpath('../'. $uploadDir);
+            @chmod($path, 0755);
+            $requirements['CHMOD_TEST_'. $uploadDir] = (is_writable($path)) ? 'enabled' : 'optional-disabled';
         }
 
         return $requirements;
@@ -824,6 +847,20 @@ class process {
         ));
 
         return $cfg->save();
+    }
+
+    /*
+     * Delete a directory
+     */
+    private function _deleteDirectory($path) {
+        foreach (array_diff(scandir($path), array('.', '..')) as $deletedFile) {
+            if (is_dir($path .'/'. $deletedFile))
+                $this->_deleteDirectory($path .'/'. $deletedFile);
+            else if (is_file($path .'/'. $deletedFile))
+                @unlink($path .'/'. $deletedFile);
+        }
+
+        @unlink($path);
     }
 
     /*

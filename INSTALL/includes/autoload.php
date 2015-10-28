@@ -21,8 +21,13 @@ function processAutoload($className) {
     if (strrpos($className, 'Exception') !== false)
         $classDir .= 'exception/';
 
-    if (! is_file($classFile = $classDir . $className . CLASS_EXT))
-        throw new Exception(__FUNCTION__ .' : '. $classFile .' file of '. $className .' don\'t exist !');
+    if (! is_file($classFile = $classDir . $className . CLASS_EXT)) {
+        if (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) == 'fr')
+            throw new Exception(__FUNCTION__ .' : Fichier '. $classFile .' de la classe '. $className .' n\'existe pas !');
+        else
+            throw new Exception(__FUNCTION__ .' : '. $classFile .' file of '. $className .' class don\'t exist !');
+            
+	}
 
     include_once $classFile;
 }

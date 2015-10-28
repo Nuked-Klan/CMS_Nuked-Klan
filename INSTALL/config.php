@@ -68,6 +68,8 @@ return array(
 
     // Sets deprecated files list
     'deprecatedFiles' => array(
+        'captcha.php',
+        'Includes/font/',
         'Includes/version.php'
     )
 );
