@@ -499,11 +499,13 @@ class process {
         if ($error != '')
             echo $error, '<br />';
 
-        if ($process == 'update' && $result != 'CREATED'
-            && isset($dbTable) && ! empty($actionList = $dbTable->getActionList())
-        ) {
-            foreach ($actionList as $k => $i18n)
-                echo $i18n, '<br />';
+        if ($process == 'update' && $result != 'CREATED' && isset($dbTable)) {
+            $actionList = $dbTable->getActionList();
+
+            if (! empty($actionList)) {
+                foreach ($actionList as $k => $i18n)
+                    echo $i18n, '<br />';
+            }
         }
     }
 
@@ -707,14 +709,16 @@ class process {
                 $requirements[strtoupper($extensionName) .'_EXT'] = $requirement .'-disabled';
         }
 
-        @chmod('../', 0755);
-        $requirements['CHMOD_TEST_WEBSITE_DIRECTORY'] = (is_writable('../')) ? 'enabled' : 'optional-disabled';
+        $path = realpath('../');
+        @chmod($path, 0755);
+        $requirements['CHMOD_TEST_WEBSITE_DIRECTORY'] = (is_writable($path)) ? 'enabled' : 'optional-disabled';
 
-        @chmod('../upload', 0755);
+        @chmod(realpath('../upload'), 0755);
 
         foreach ($this->_uploadDir as $uploadDir) {
-            @chmod('../'. $uploadDir, 0755);
-            $requirements['CHMOD_TEST_'. $uploadDir] = (is_writable('../'. $uploadDir)) ? 'enabled' : 'optional-disabled';
+            $path = realpath('../'. $uploadDir);
+            @chmod($path, 0755);
+            $requirements['CHMOD_TEST_'. $uploadDir] = (is_writable($path)) ? 'enabled' : 'optional-disabled';
         }
 
         return $requirements;
