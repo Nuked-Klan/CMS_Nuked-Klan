@@ -22,15 +22,17 @@ unset($sql_conf, $row);
 $nuked['prefix'] = $db_prefix;
 
 // FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
-function nkHtmlEntityDecode($string, $flags = ENT_COMPAT | ENT_HTML401) {
+define('NK_HTML_DEFAULT_FLAGS', (ENT_COMPAT | ENT_HTML401));
+
+function nkHtmlEntityDecode($string, $flags = NK_HTML_DEFAULT_FLAGS) {
     return html_entity_decode($string, $flags, 'ISO-8859-1');
 }
 
-function nkHtmlSpecialChars($string, $flags = ENT_COMPAT | ENT_HTML401) {
+function nkHtmlSpecialChars($string, $flags = NK_HTML_DEFAULT_FLAGS) {
     return htmlspecialchars($string, $flags, 'ISO-8859-1');
 }
 
-function nkHtmlEntities($string, $flags = ENT_COMPAT | ENT_HTML401) {
+function nkHtmlEntities($string, $flags = NK_HTML_DEFAULT_FLAGS) {
     return htmlentities($string, $flags, 'ISO-8859-1');
 }
 
