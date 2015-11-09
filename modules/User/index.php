@@ -907,11 +907,10 @@ function login_screen(){
 function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     global $nuked, $cookie_forum, $user_ip;
 
-    // Verification code captcha
+    // Captcha checking
     ValidCaptchaCode();
 
-    $pseudo = htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1' );
-
+    $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
     $pseudo = verif_pseudo($pseudo);
 
     $mail = mysql_real_escape_string(stripslashes($mail));
@@ -1099,6 +1098,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 }
 
 function login($pseudo, $pass, $remember_me){
+
     // Si il manque un champs on stop le script et on redirige vers le formulaire
     if(empty($pseudo) || empty($pass)){
         redirect('index.php?file=User&op=login_screen&error=1', 0);
@@ -1251,7 +1251,8 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 ."<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"document.location='index.php?file=User&amp;op=edit_account'\" /></td></tr></table></form><br />\n";
     }
     else{
-        $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1' );
+
+        $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
         $mail = mysql_real_escape_string(stripslashes($mail));
         $mail = nkHtmlEntities($mail);

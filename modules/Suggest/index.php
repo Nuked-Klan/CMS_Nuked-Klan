@@ -11,10 +11,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Suggest/lang/' . $language . '.lang.php');
-
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
-
 $captcha = initCaptcha();
 
 $visiteur = !$user ? 0 : $user[1];
@@ -100,7 +96,7 @@ if ($visiteur >= $level_access && $level_access > -1){
     }
 
     function add_sug($data){
-        global $user, $nuked,$user_ip;
+        global $user, $nuked, $user_ip;
 
         opentable();
 
@@ -120,8 +116,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             footer();
             die();
         }
-
-        // Verification code captcha
+        // Captcha check
         if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
         }

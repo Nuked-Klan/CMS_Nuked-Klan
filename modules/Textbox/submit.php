@@ -6,15 +6,10 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
-header('Content-type: text/html; charset=iso-8859-1');
 
 translate("modules/Textbox/lang/" . $language . ".lang.php");
-require_once("Includes/nkCaptcha.php");
 
-// On determine si le captcha est actif ou non
-if (_NKCAPTCHA == "off") $captcha = 0;
-else if ((_NKCAPTCHA == 'auto' OR _NKCAPTCHA == 'on') && $user[1] > 0)  $captcha = 0;
-else $captcha = 1;
+$captcha = initCaptcha();
 
 $visiteur = $user ? $user[1] : 0;
 $redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
@@ -24,7 +19,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 {
     opentable();
 
-    if ($captcha == 1){
+    // Captcha check
+    if ($GLOBALS['captcha'] === true){
         ValidCaptchaCode();
     }
 
@@ -35,7 +31,7 @@ if ($visiteur >= $level_access && $level_access > -1)
     else
     {
     	$_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
-        $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES, 'ISO-8859-1');
+        $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
         $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
         if (mysql_result(mysql_query('SELECT COUNT(*) FROM ' . USER_TABLE . ' WHERE pseudo LIKE \'' . mysql_real_escape_string($_REQUEST['auteur']) . '\''), 0))

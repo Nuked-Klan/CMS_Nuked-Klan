@@ -10,9 +10,6 @@ defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open t
 
 
 translate('modules/News/lang/' . $language . '.lang.php');
-
-include_once 'Includes/nkCaptcha.php';
-
 $captcha = initCaptcha();
 
 $visiteur = $user ? $user[1] : 0;
@@ -251,7 +248,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         opentable();
 
-        echo '<script type="text/javascript">function verifchamps(){if(document.REQUESTElementById(\'sf_pseudo\').value.length == 0){alert(\''._NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''._BADMAIL.'\');return false;}return true;}</script>';
+        echo '<script type="text/javascript">function verifchamps(){if(document.getElementById(\'sf_pseudo\').value.length == 0){alert(\''._NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''._BADMAIL.'\');return false;}return true;}</script>';
 
         $sql = mysql_query("SELECT titre FROM ".NEWS_TABLE." WHERE id = '$news_id'");
         list($title) = mysql_fetch_array($sql);
@@ -281,8 +278,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         if ($GLOBALS['captcha'] === true){
             ValidCaptchaCode();
-        }
-        else{
+        } else {
             $date2 = time();
             $date2 = nkDate($date2);
             $mail = trim($mail);

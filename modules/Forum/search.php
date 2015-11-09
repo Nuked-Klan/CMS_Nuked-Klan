@@ -76,12 +76,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
             if ($_REQUEST['autor'] != "" && $_REQUEST['query'] != "") { 
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
-                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
+                $_REQUEST['autor'] = nkHtmlEntities($_REQUEST['autor'], ENT_QUOTES);
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%') AND ";
             }
             else if ($_REQUEST['autor'] != "") { 
                 $_REQUEST['autor'] = nk_CSS($_REQUEST['autor']);
-                $_REQUEST['autor'] = htmlentities($_REQUEST['autor'], ENT_QUOTES, 'ISO-8859-1');
+                $_REQUEST['autor'] = nkHtmlEntities($_REQUEST['autor'], ENT_QUOTES);
                 $and .= "(M.auteur LIKE '%" . $_REQUEST['autor'] . "%')";
             }
 
@@ -195,7 +195,8 @@ if ($visiteur >= $level_access && $level_access > -1) {
                         $page_num = "#" . $mess_id;
                     } 
 
-                    if (strlen($titre) > 30) {
+                    if (strlen($titre) > 30)
+                    {
                         $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "&amp;highlight=" . urlencode($_REQUEST['query']) . $page_num . "\" onmouseover=\"AffBulle('" . $title . "', '" . $texte . "', 320)\" onmouseout=\"HideBulle()\"><b>" . nkHtmlEntities(substr($titre, 0, 30)) . "...</b></a>";
                     } 
                     else {
@@ -297,7 +298,6 @@ if ($visiteur >= $level_access && $level_access > -1) {
             });
                 });\n"
             . "</script>\n"
-
 ?>
         <div id="nkForumBreadcrumb">
             <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM; ?></strong></a>&nbsp;->&nbsp;<strong><?php echo _SEARCH; ?></strong>

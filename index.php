@@ -10,6 +10,7 @@
 
 // Permet de s'assurer que tous les scripts passe bien par l'index du CMS
 define('INDEX_CHECK', 1);
+ini_set('default_charset', 'ISO8859-1');
 
 require_once 'Includes/php51compatibility.php';
 require_once 'globals.php';
@@ -328,6 +329,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         }
 
         send_stats_nk();
+        echo "\n", '<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>', "\n"
+             , '<script type="text/javascript" src="media/js/captcha.js"></script>', "\n";
 
         echo '</body></html>';
     }

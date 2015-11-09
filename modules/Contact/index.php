@@ -12,9 +12,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Contact/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
-
 $captcha = initCaptcha();
 
 opentable();
@@ -108,15 +105,16 @@ if ($visiteur >= $level_access && $level_access > -1){
             $from .= "Content-Type: text/html\r\n\r\n";
 
             if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
-            else $email = $nuked['mail'];
+            else $email = $nuked['mail'];    
             $corp = secu_html(nkHtmlEntityDecode($corp));
-
+        
             mail($email, $subjet, $corp, $from);
 
-            $name = htmlentities($nom, ENT_QUOTES, 'ISO-8859-1');
-            $email = htmlentities($mail, ENT_QUOTES, 'ISO-8859-1');
-            $subject = htmlentities($sujet, ENT_QUOTES, 'ISO-8859-1');
-            $text = secu_html(html_entity_decode($corps, ENT_QUOTES, 'ISO-8859-1'));
+            $name = nkHtmlEntities($nom, ENT_QUOTES);
+            $email = nkHtmlEntities($mail, ENT_QUOTES);
+            $subject = nkHtmlEntities($sujet, ENT_QUOTES);
+            $text = secu_html(nkHtmlEntityDecode($corps, ENT_QUOTES));
+            
             if($user) $name = $user[2];
 
             $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");

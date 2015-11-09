@@ -13,23 +13,27 @@ connect();
 // QUERY NUKED CONFIG_TABLE.
 $nuked = array();
 $sql_conf = initializeControlDB($db_prefix);
-while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = htmlentities($row['value'], ENT_NOQUOTES, 'ISO-8859-1');
+
+while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = nkHtmlEntities($row['value'], ENT_NOQUOTES);
+
 unset($sql_conf, $row);
 
 // CONVERT ALL HTML ENTITIES TO THEIR APPLICABLE CHARACTERS
 $nuked['prefix'] = $db_prefix;
 
 // FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
-function nkHtmlEntityDecode($var){
-    return html_entity_decode($var,ENT_QUOTES,'ISO-8859-1');
+define('NK_HTML_DEFAULT_FLAGS', (ENT_COMPAT | ENT_HTML401));
+
+function nkHtmlEntityDecode($string, $flags = NK_HTML_DEFAULT_FLAGS) {
+    return html_entity_decode($string, $flags, 'ISO-8859-1');
 }
 
-function nkHtmlSpecialChars($var){
-    return htmlspecialchars($var,ENT_QUOTES,'ISO-8859-1');
+function nkHtmlSpecialChars($string, $flags = NK_HTML_DEFAULT_FLAGS) {
+    return htmlspecialchars($string, $flags, 'ISO-8859-1');
 }
 
-function nkHtmlEntities($var){
-    return htmlentities($var,ENT_QUOTES,'ISO-8859-1');
+function nkHtmlEntities($string, $flags = NK_HTML_DEFAULT_FLAGS) {
+    return htmlentities($string, $flags, 'ISO-8859-1');
 }
 
 // FUNCTION TO FIX PRINTING TAGS
@@ -858,7 +862,7 @@ function translate($file_lang){
     ob_start();
     print eval(" include ('$file_lang'); ");
     $lang_define = ob_get_contents();
-    $lang_define = htmlentities($lang_define, ENT_NOQUOTES, 'ISO-8859-1');
+    $lang_define = nkHtmlEntities($lang_define, ENT_NOQUOTES);
     $lang_define = str_replace('&lt;', '<', $lang_define);
     $lang_define = str_replace('&gt;', '>', $lang_define);
     ob_end_clean();
@@ -1149,19 +1153,12 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
 function send_stats_nk() {
     global $nuked;
 
-    if($nuked['stats_share'] == "1")
-    {
-        $timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
-        if($timediff >= 60)
-        {
-
-            ?>
-     <script type="text/javascript">
-          if ( typeof jQuery == 'undefined' )
-               {
-                    document.write('\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>');
-               }
-     </script>
+	if($nuked['stats_share'] == "1")
+	{
+		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
+		if($timediff >= 60)
+		{
+			?>
             <script type="text/javascript">
             $(document).ready(function() {
                 data="nuked_nude=ajax";
@@ -1243,20 +1240,23 @@ function defaultNotification($data, $redirectUrl, $redirectDelay){
         }
 }
 
+
+/**
+ * Initialization captcha system
+ */
 function initCaptcha(){
     // Inclusion système Captcha
     require_once('Includes/nkCaptcha.php');
 
     // On determine si le captcha est actif ou non
-    if(_NKCAPTCHA == 'off' || (_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] > 0)){
+    if (_NKCAPTCHA == 'off' || (_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] > 0)) {
         $captcha = false;
-    }
-    else if((_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] == 0) || _NKCAPTCHA == 'on'){
+    } else if((_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] == 0) || _NKCAPTCHA == 'on') {
         $captcha = true;
-    }
-    else {
+    } else {
         $captcha = true;
     }
 
     return $captcha;
 }
+?>

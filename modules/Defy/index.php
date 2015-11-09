@@ -11,9 +11,6 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open
 
 translate('modules/Defy/lang/' . $language . '.lang.php');
 
-// Inclusion système Captcha
-include_once 'Includes/nkCaptcha.php';
-
 $captcha = initCaptcha();
 
 opentable();
@@ -143,7 +140,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 . "<tr><td style=\"width: 20%;\"><b>" . _TYPE . " : </b></td><td><input type=\"text\" name=\"type\" value=\"\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _MAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
                 . "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
-
+                
         echo "<tr><td colspan=\"2\" align=\"center\">";
 
         if ($GLOBALS['captcha'] === true) echo create_captcha();
@@ -155,7 +152,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         global $nuked;
 
         // Verification code captcha
-        if ($GLOBALS['captcha'] === true){
+        if ($GLOBALS['captcha'] === true) {
             ValidCaptchaCode();
         }
 
@@ -164,7 +161,6 @@ if ($visiteur >= $level_access && $level_access > -1){
         $time = time();
         $date2 = nkDate($time);
         $comment = secu_html(nkHtmlEntityDecode($comment));
-
         $pseudo = mysql_real_escape_string(stripslashes($pseudo));
         $clan = mysql_real_escape_string(stripslashes($clan));
         $country = mysql_real_escape_string(stripslashes($country));

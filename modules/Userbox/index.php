@@ -37,7 +37,7 @@ function post_message(){
 
     if (!empty($_REQUEST['titre'])){
         $_REQUEST['titre'] = stripslashes($_REQUEST['titre']);
-        $_REQUEST['titre'] = printSecuTags($_REQUEST['titre']);
+        $_REQUEST['titre'] = nkHtmlEntities($_REQUEST['titre']);
         if (!preg_match("/\bRE:\b/i", $_REQUEST['titre'])) $title = "RE:" . $_REQUEST['titre'];
         else $title = $_REQUEST['titre'];
     }
@@ -48,11 +48,11 @@ function post_message(){
         $reply = '<br /><table style="background:'.$bgcolor3.';" cellpadding="3" cellspacing="1" width="100%" border="0"><tr><td style="background: #FFF;color: #000"><b>'.$pseudo.' :</b><br />'.$_REQUEST['message'].'</td></tr></table><br />';
     }
 
-    echo '<br /><form method="post" action="index.php?file=Userbox&amp;op=send_message">
-            <table style="margin: auto;text-align:left;width: 98%">
-            <tr><td align="center"><big><b>'._POSTMESS.'</b></big><br /><br /></td></tr>
-            <tr><td><b>'._AUTHOR.' :</b> '.$user[2].'</td></tr>
-            <tr><td><b>'._USERFOR.' :</b> ';
+    echo '<br /><form method="post" action="index.php?file=Userbox&amp;op=send_message">'
+         .'<table style="margin: auto;text-align:left;width: 98%">'
+         .'<tr><td align="center"><big><b>'._POSTMESS.'</b></big><br /><br /></td></tr>'
+         .'<tr><td><b>'._AUTHOR.' :</b> '.$user[2].'</td></tr>'
+         .'<tr><td><b>'._USERFOR.' :</b> ';
 
     if (!empty($_REQUEST['for']) && !empty($pseudo)){
         echo '<i>'.$pseudo.'</i><input type="hidden" name="user_for" value="'.$_REQUEST['for'].'" />';
@@ -72,41 +72,41 @@ function send_message($titre, $user_for, $message){
 
     if (empty($titre) || empty($user_for) || empty($message)){
             echo '<br /><br /><div style="text-align:center;">'._EMPTYFIELD.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a></div><br /><br />';
-    }else{
-
-        if (!empty($user_for) && ctype_alnum($user_for)) {
-            $sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '$user_for'");
-            $nb = mysql_num_rows($sql2);
-        }
-        else $nb = 0;
-
-        if ($nb == 0){
-            echo '<br /><br /><div style="text-align:center;\">'._UNKNOWMEMBER.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a></div><br /><br />';
-        }else{
-            $flood = mysql_query("SELECT date FROM " . USERBOX_TABLE . " WHERE user_from = '" . $user[0] . "' ORDER BY date DESC LIMIT 0, 1");
-            list($flood_date) = mysql_fetch_array($flood);
-            $anti_flood = $flood_date + $nuked['post_flood'];
-            $date = time();
-
-            if ($date < $anti_flood){
-                echo '<br /><br /><div style="text-align:center;">'._NOFLOOD.'</div><br /><br />';
-                redirect('index.php?file=Userbox', 2);
-                closetable();
-                footer();
-                exit();
-            }
-
-            $titre = printSecuTags($titre);
-            $message = secu_html(nkHtmlEntityDecode($message));
-            $titre = mysql_real_escape_string(stripslashes($titre));
-            $message = mysql_real_escape_string(stripslashes($message));
-            $user_for = mysql_real_escape_string(stripslashes($user_for));
-
-            $sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
-            echo '<br /><br /><div style="text-align:center;">'._MESSSEND.'</div><br /><br />';
-            redirect("index.php?file=Userbox", 2);
-        }
-    }
+	}else{
+		
+		if (!empty($user_for) && ctype_alnum($user_for)) {
+			$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '$user_for'");
+			$nb = mysql_num_rows($sql2);
+		}
+		else $nb = 0;
+		
+		if ($nb == 0) {
+			echo '<br /><br /><div style="text-align:center;\">'._UNKNOWMEMBER.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a></div><br /><br />';
+		} else {
+			$flood = mysql_query("SELECT date FROM " . USERBOX_TABLE . " WHERE user_from = '" . $user[0] . "' ORDER BY date DESC LIMIT 0, 1");
+			list($flood_date) = mysql_fetch_array($flood);
+			$anti_flood = $flood_date + $nuked['post_flood'];
+			$date = time();
+			
+			if ($date < $anti_flood){
+				echo '<br /><br /><div style="text-align:center;">'._NOFLOOD.'</div><br /><br />';
+				redirect('index.php?file=Userbox', 2);
+				closetable();
+				footer();
+				exit();
+			}
+			
+			$message = secu_html(nkHtmlEntityDecode($message));
+			$titre = mysql_real_escape_string(stripslashes($titre));
+			$message = mysql_real_escape_string(stripslashes($message));
+			$user_for = mysql_real_escape_string(stripslashes($user_for));
+			$titre = nkHtmlEntities($titre);
+			
+			$sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
+			echo '<br /><br /><div style="text-align:center;">'._MESSSEND.'</div><br /><br />';
+			redirect("index.php?file=Userbox", 2);
+		}
+	}
 }
 
 function show_message($mid){

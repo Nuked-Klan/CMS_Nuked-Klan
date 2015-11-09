@@ -14,9 +14,6 @@ global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cooki
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 include("modules/Textbox/config.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
-
 $captcha = initCaptcha();
 
 if ($user)
@@ -188,18 +185,8 @@ if ($active == 3 || $active == 4)
     {
         echo "<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
 
-        // if (!$user)
-        // {
-        //     echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" size=\"10%\" maxlength=\"100\" value=\"" . _NICKNAME . "\" onclick=\"if(this.value=='" . _NICKNAME . "'){this.value=''}\" />\n";
-        // }
-        // else
-        // {
-        //     echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
-        // }
-
-        //Resctriction to logged users
+        //Restriction to logged users
         echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
-        //end
 
 		echo "<div class=\"nkButton-container\" style=\"margin:10px;\">\n"
 		. "<div class=\"nkButton-group\">\n"
@@ -207,10 +194,11 @@ if ($active == 3 || $active == 4)
 		. "</a><a class=\"nkButton icon log alone\" href=\"index.php?file=Textbox\" title=\"" . _SEEARCHIVES . "\"></a></div>\n"
         . "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" style=\"width:70%;\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" />\n";
 
+
 		if ($GLOBALS['captcha'] === true) echo create_captcha();
 		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
-	echo "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\" /></div></div></form>\n";
+		echo "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\" /></div></div></form>\n";
     }
 }
 //fin mode large
@@ -220,30 +208,20 @@ else
     {
         echo"<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
 
-        // if (!$user)
-        // {
-        //     echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" maxlength=\"100\" value=\"" . _NICKNAME . "\" style=\"width:70%;\" onclick=\"if(this.value=='" . _NICKNAME . "'){this.value=''}\" /><br />\n";
-        // }
-        // else
-        // {
-        //     echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
-        // }
-
-        //Resctriction to logged users
+        //Restriction to logged users
         echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
-        //end
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
 
-	if ($GLOBALS['captcha'] === true) echo create_captcha();
-	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
+		if ($GLOBALS['captcha'] === true) echo create_captcha();
+		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
-	echo "</table>\n"
-	. "<div class=\"nkButton-container\" style=\"margin:5px;\" >\n"
-	. "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\"/>\n"
-	. "<div class=\"nkButton-group\">\n"
-	. "<a class=\"nkButton icon add alone\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\" title=\"" . _SMILEY . "\">\n"
-	. "</a><a class=\"nkButton icon log alone\" href=\"index.php?file=Textbox\" title=\"" . _SEEARCHIVES . "\"></a></div></div></div></form>\n";
+		echo "</table>\n"
+		. "<div class=\"nkButton-container\" style=\"margin:5px;\" >\n"
+		. "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\"/>\n"
+		. "<div class=\"nkButton-group\">\n"
+		. "<a class=\"nkButton icon add alone\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\" title=\"" . _SMILEY . "\">\n"
+		. "</a><a class=\"nkButton icon log alone\" href=\"index.php?file=Textbox\" title=\"" . _SEEARCHIVES . "\"></a></div></div></div></form>\n";
     }
 }
 echo"</div>\n";

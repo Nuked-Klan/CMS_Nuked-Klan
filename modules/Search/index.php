@@ -109,7 +109,7 @@ function mod_search($module, $main, $autor, $limit, $searchtype){
         } 
 
         $main = mysql_real_escape_string(stripslashes($main));
-        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1');
+        $autor = nkHtmlEntities($autor, ENT_QUOTES);
 	    $autor = nk_CSS($autor);
         $autor = mysql_real_escape_string(stripslashes($autor));
         $search = explode(" ", $main);

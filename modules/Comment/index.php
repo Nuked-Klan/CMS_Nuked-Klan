@@ -12,10 +12,7 @@ defined('INDEX_CHECK') or die;
 global $language, $user, $cookie_captcha;
 translate("modules/Comment/lang/$language.lang.php");
 
-require_once('Includes/nkCaptcha.php');
-
 $captcha = initCaptcha();
-
 $visiteur = ($user) ? $user[1] : 0;
 
 function verification($module, $im_id){
@@ -87,8 +84,8 @@ function com_index($module, $im_id){
 
     define('EDITOR_CHECK', 1);
     ?>
-    <script  type="text/javascript">
-    <!--
+    <script type="text/javascript">
+    //<![CDATA[
         function sent(pseudo, module, im_id, ctToken, ctScript, ctEmail){
             $("#post_commentary").find('input.ct_script').val('klan');
             ctScript = $("#post_commentary").find('input.ct_script').val();
@@ -99,8 +96,6 @@ function com_index($module, $im_id){
                 else{
                     echo 'var captchaData = "";';
                 }
-            ?>
-            <?php
                 switch ($nuked['editor_type'])
                 {
                     case 'cke':
@@ -143,11 +138,11 @@ function com_index($module, $im_id){
                 }
                 OAjax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 OAjax.send("texte="+encodeURIComponent(editor_txt)+"&pseudo="+pseudo+"&module="+module+"&im_id="+im_id+"&ajax=1"+captchaData);
-                return false;
+                return true;
             }
             return false;
         }
-    -->
+    //]]>
     </script>
     <?php
     $level_access = nivo_mod("Comment");
@@ -236,7 +231,6 @@ function com_index($module, $im_id){
         else{
             $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value);return false;';
         }
-
 
         echo '<div id="message">
                 <form id="post_commentary" method="post" onsubmit="javascript:return '.$Soumission.'" action="#post_commentary">
@@ -333,7 +327,6 @@ function view_com($module, $im_id){
 }
 
 function post_com($module, $im_id){
-
     global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur;
 
     define('EDITOR_CHECK', 1);
@@ -421,9 +414,10 @@ function post_com($module, $im_id){
     }
 }
 
-function post_comment($im_id, $module, $titre, $texte, $pseudo){
-    global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur;
 
+function post_comment($im_id, $module, $titre, $texte, $pseudo) {
+    global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur;
+    
     if(!isset($_REQUEST['noajax'])){
         $titre = utf8_decode($titre);
         $texte = utf8_decode($texte);
@@ -440,7 +434,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
                 . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                 . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
-        if ($GLOBALS['captcha'] === true){
+        if ($GLOBALS['captcha'] === true) {
             ValidCaptchaCode();
         }
 
@@ -480,7 +474,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo){
             footer();
             exit();
         }
-
+        
         $texte = secu_html(nkHtmlEntityDecode($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = stripslashes($texte);

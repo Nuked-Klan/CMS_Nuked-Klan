@@ -15,10 +15,6 @@ global $user, $language, $nuked, $cookie_captcha, $random_code, $bgcolor3;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 include("modules/Forum/template.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
-
-// On initialise le captcha
 $captcha = initCaptcha();
 
 opentable();
@@ -258,7 +254,6 @@ if ($visiteur >= $level_access && $level_access > -1) {
                                     echo "<br />";
                                 }
                                 else {
-
                                     if ($user[1] >= admin_mod("Forum") || $administrator == 1) {
 ?>
                                         <input type="checkbox" class="checkbox" name="annonce" value="1"<?php echo $checked3; ?> />&nbsp;<?php echo _ANNONCE; ?><br />

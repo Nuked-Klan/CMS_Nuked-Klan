@@ -1050,6 +1050,7 @@ CREATE TABLE IF NOT EXISTS `nuked_shoutbox` (
 INSERT INTO `nuked_shoutbox` (`id`, `auteur`, `ip`, `texte`, `date`) VALUES
 (1, 'admin', '80.236.56.247', 'Bienvenue sur votre site NuKed-KlaN 1.8', '1352563028');
 
+
 -- --------------------------------------------------------
 
 --

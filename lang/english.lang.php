@@ -265,6 +265,9 @@ define("_OPTIONAL","optional");
 define("_BTHEMESELECT", "Choice of theme");
 
 // PATCH CAPTCHA
+define("_SECURITYCODE","Security code");
+define("_TYPESECCODE","Retype the security code");
+define("_BADCODECONFIRM","Error : the Security Code is not correct !");
 define('_MSGCAPTCHA', 'You have made too many attempts, captcha is activate!');
 define('_CTNOTOKEN', 'Token not found!<br/>Please use the form.');
 define('_CTBADTOKEN', 'Bad token!<br/>Please use the form.');

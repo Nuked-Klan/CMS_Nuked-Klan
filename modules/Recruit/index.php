@@ -11,10 +11,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 global $nuked, $language, $user, $cookie_captcha;
 translate('modules/Recruit/lang/' . $language . '.lang.php');
-
-// Inclusion système Captcha
-include_once('Includes/nkCaptcha.php');
-
 $captcha = initCaptcha();
 
 opentable();
@@ -184,8 +180,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             global $nuked;
 
-			// Verification code captcha
-            if ($GLOBALS['captcha'] === true){
+			// Checking captcha
+            if ($GLOBALS['captcha'] === true) {
                 ValidCaptchaCode();
             }
 

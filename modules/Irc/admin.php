@@ -53,7 +53,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
             if (strlen($text) > 50){
                 $texte = substr($text, 0, 50) . "...";
-				$texte = strip_tags($texte);
+				$texte = nkHtmlEntities($texte);
             } 
             else{
                 $texte = strip_tags($text);

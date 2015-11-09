@@ -527,7 +527,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
 
             redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
         }
-        else{
+        else {
             $description = secu_html(nkHtmlEntityDecode($description));
             $description = mysql_real_escape_string(stripslashes($description));
             $position = intval($position);
@@ -617,8 +617,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                     . "</div>\n";
 
             redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
-        }
-        else{
+        } else {
             $description = secu_html(nkHtmlEntityDecode($description));
             $description = mysql_real_escape_string(stripslashes($description));
             $position = intval($position);

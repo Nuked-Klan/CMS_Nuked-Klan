@@ -46,17 +46,17 @@ if ($visiteur == 9)
         . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" /> *</td></tr>\n"
         . "<tr><td><b>" . _PASSWORD . " (" . _CONFIRMPASS . ") :</b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"80\" /> *</td></tr>\n"
         . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" /> *</td></tr>\n";
-		if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"80\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
-		if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n";}
-		if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
-		if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
-		if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
-		if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
-		if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
-		if ($nuked['user_origin'] == 'on'){echo "<tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
-		if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
-		if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
-		if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
+        if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"80\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
+        if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n";}
+        if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
+        if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
+        if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
+        if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
+        if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
+        if ($nuked['user_origin'] == 'on'){echo "<tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
+        if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
+        if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
+        if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
         echo "<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
 
         if ($language == "french") $pays = "France.gif";
@@ -198,17 +198,17 @@ if ($visiteur == 9)
         . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" autocomplete=\"off\" /></td></tr>\n"
         . "<tr><td><b>" . _PASSWORD . " (" . _CONFIRMPASS . ") :</b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"80\" autocomplete=\"off\" /></td></tr>\n"
         . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail . "\" /> *</td></tr>\n";
-		if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
-		if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n";}
-		if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
-		if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
-		if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
-		if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
-		if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
-		if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
-		if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
-		if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
-		if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
+        if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
+        if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n";}
+        if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
+        if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
+        if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
+        if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
+        if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
+        if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
+        if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
+        if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
+        if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
         echo"<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
 
         $rep = Array();
@@ -313,7 +313,7 @@ if ($visiteur == 9)
 
         $nick = verif_pseudo($nick, $old_nick);
 
-		if ($nick == "error1"){
+        if ($nick == "error1"){
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
             redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
             closetable();
@@ -388,7 +388,7 @@ if ($visiteur == 9)
                 $ordre = 0;
             }
 
-            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1' );
+            $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -474,7 +474,7 @@ if ($visiteur == 9)
             } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
 
             $date = time();
-            $nick = htmlentities($nick, ENT_QUOTES, 'ISO-8859-1' );
+            $nick = nkHtmlEntities($nick, ENT_QUOTES);
 
             $signature = mysql_real_escape_string(stripslashes($signature));
             $email = mysql_real_escape_string(stripslashes($email));
@@ -1072,25 +1072,25 @@ if ($visiteur == 9)
        echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		. "</div></div>\n"
-		. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_ip\">\n"
-		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-		. "<tr><td><b>" . _NICK . " : </b></td><td><input type=\"text\" name=\"pseudo\" size=\"30\" /></td></tr>\n"
-		. "<tr><td><b>" . _MAIL . " : </b></td><td><input type=\"text\" name=\"email\" size=\"40\" /></td></tr>\n"
-		. "<tr><td><b>" . _IP . " : </b></td><td><input type=\"text\" name=\"ip\" size=\"30\" /></td></tr>\n"
-		. "<tr><td><b>" . _DUREE . " : </b></td><td>\n"
-		. "<select id=\"dure\" name=\"dure\">\n"
-		. "<option value=\"86400\">". _1JOUR ."</option>\n"
-		. "<option value=\"604800\">". _7JOUR ."</option>\n"
-		. "<option value=\"2678400\">". _1MOIS ."</option>\n"
-		. "<option value=\"31708800\">". _1AN ."</option>\n"
-		. "<option value=\"0\">". _AVIE ."</option>\n"
-		. "</select></td></tr>\n"
-		. "<tr><td colspan=\"2\"><b>" . _REASON . "</b><br /><textarea class=\"editor\" name=\"texte\" rows=\"10\" cols=\"55\"></textarea></td></tr>\n"
-		. "<tr><td colspan=\"2\">&nbsp;</td></tr></table>\n"
-		. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _TOBAN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BACK . "</a></div>\n"
-		. "</form><br /></div></div>\n";
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_ip\">\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<tr><td><b>" . _NICK . " : </b></td><td><input type=\"text\" name=\"pseudo\" size=\"30\" /></td></tr>\n"
+        . "<tr><td><b>" . _MAIL . " : </b></td><td><input type=\"text\" name=\"email\" size=\"40\" /></td></tr>\n"
+        . "<tr><td><b>" . _IP . " : </b></td><td><input type=\"text\" name=\"ip\" size=\"30\" /></td></tr>\n"
+        . "<tr><td><b>" . _DUREE . " : </b></td><td>\n"
+        . "<select id=\"dure\" name=\"dure\">\n"
+        . "<option value=\"86400\">". _1JOUR ."</option>\n"
+        . "<option value=\"604800\">". _7JOUR ."</option>\n"
+        . "<option value=\"2678400\">". _1MOIS ."</option>\n"
+        . "<option value=\"31708800\">". _1AN ."</option>\n"
+        . "<option value=\"0\">". _AVIE ."</option>\n"
+        . "</select></td></tr>\n"
+        . "<tr><td colspan=\"2\"><b>" . _REASON . "</b><br /><textarea class=\"editor\" name=\"texte\" rows=\"10\" cols=\"55\"></textarea></td></tr>\n"
+        . "<tr><td colspan=\"2\">&nbsp;</td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _TOBAN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BACK . "</a></div>\n"
+        . "</form><br /></div></div>\n";
     }
 
     function edit_ip($ip_id)
@@ -1103,25 +1103,25 @@ if ($visiteur == 9)
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		. "</div></div>\n"
-		. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_ip\">\n"
-		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-		. "<tr><td><b>" . _NICK . " : </b></td><td><input type=\"text\" name=\"pseudo\" size=\"30\" value=\"" . $pseudo . "\" /></td></tr>\n"
-		. "<tr><td><b>" . _MAIL . " : </b></td><td><input type=\"text\" name=\"email\" size=\"40\" value=\"" . $email . "\" /></td></tr>\n"
-		. "<tr><td><b>" . _IP . " : </b></td><td><input type=\"text\" name=\"ip\" size=\"30\" value=\"" . $ip . "\" /></td></tr>\n"
-		. "<tr><td><b>" . _DUREE . " : </b></td><td>\n"
-		. "<select id=\"dure\" name=\"dure\" value=\"" . $dure . "\">\n"
-		. "<option value=\"86400\">". _1JOUR ."</option>\n"
-		. "<option value=\"604800\">". _7JOUR ."</option>\n"
-		. "<option value=\"2678400\">". _1MOIS ."</option>\n"
-		. "<option value=\"31708800\">". _1AN ."</option>\n"
-		. "<option value=\"0\">". _AVIE ."</option>\n"
-		. "</select></td></tr>\n"
-		. "<tr><td colspan=\"2\"><b>" . _REASON . "</b><br /><textarea class=\"editor\" name=\"texte\" rows=\"10\" cols=\"55\">" . $text_ban . "</textarea></td></tr>\n"
-		. "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"ip_id\" value=\"" . $ip_id . "\" /></td></tr></table>\n"
-		. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISIP . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BACK . "</a></div>\n"
-		. "</form><br /></div></div>\n";
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n"
+        . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_ip\">\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<tr><td><b>" . _NICK . " : </b></td><td><input type=\"text\" name=\"pseudo\" size=\"30\" value=\"" . $pseudo . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _MAIL . " : </b></td><td><input type=\"text\" name=\"email\" size=\"40\" value=\"" . $email . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _IP . " : </b></td><td><input type=\"text\" name=\"ip\" size=\"30\" value=\"" . $ip . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _DUREE . " : </b></td><td>\n"
+        . "<select id=\"dure\" name=\"dure\" value=\"" . $dure . "\">\n"
+        . "<option value=\"86400\">". _1JOUR ."</option>\n"
+        . "<option value=\"604800\">". _7JOUR ."</option>\n"
+        . "<option value=\"2678400\">". _1MOIS ."</option>\n"
+        . "<option value=\"31708800\">". _1AN ."</option>\n"
+        . "<option value=\"0\">". _AVIE ."</option>\n"
+        . "</select></td></tr>\n"
+        . "<tr><td colspan=\"2\"><b>" . _REASON . "</b><br /><textarea class=\"editor\" name=\"texte\" rows=\"10\" cols=\"55\">" . $text_ban . "</textarea></td></tr>\n"
+        . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"ip_id\" value=\"" . $ip_id . "\" /></td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISIP . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=main_ip\">" . _BACK . "</a></div>\n"
+        . "</form><br /></div></div>\n";
 
     }
 
@@ -1307,29 +1307,29 @@ if ($visiteur == 9)
     {
         global $nuked, $user;
 
-		$filename = $_FILES['upimage']['name'];
+        $filename = $_FILES['upimage']['name'];
 
-		if ($filename != "") {
-			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if ($filename != "") {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-			if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-				$url_image = "upload/User/Rank/" . $filename;
-				move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
-				@chmod ($url_image, 0644);
-			} else {
-				echo "<div class=\"notification error png_bg\">\n"
-				   . "<div>\n"
-				   . "No image file !"
-				   . "</div>\n"
-				   . "</div>\n";
-				redirect("index.php?file=News&page=admin", 2);
-				adminfoot();
-				footer();
-				die;
-			}
-		} else {
-			$url_image = $urlimage;
-		}
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+                $url_image = "upload/User/Rank/" . $filename;
+                move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+                @chmod ($url_image, 0644);
+            } else {
+                echo "<div class=\"notification error png_bg\">\n"
+                   . "<div>\n"
+                   . "No image file !"
+                   . "</div>\n"
+                   . "</div>\n";
+                redirect("index.php?file=News&page=admin", 2);
+                adminfoot();
+                footer();
+                die;
+            }
+        } else {
+            $url_image = $urlimage;
+        }
 
         $titre = mysql_real_escape_string(stripslashes($titre));
 
@@ -1353,27 +1353,27 @@ if ($visiteur == 9)
         $titre = mysql_real_escape_string(stripslashes($titre));
 
         $filename = $_FILES['upimage']['name'];
-		if ($filename != "") {
-			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if ($filename != "") {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-			if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
-				$url_image = "upload/User/Rank/" . $filename;
-				move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
-				@chmod ($url_image, 0644);
-			} else {
-				echo "<div class=\"notification error png_bg\">\n"
-				   . "<div>\n"
-				   . "No image file !"
-				   . "</div>\n"
-				   . "</div>\n";
-				redirect("index.php?file=News&page=admin", 2);
-				adminfoot();
-				footer();
-				die;
-			}
-		} else {
-			$url_image = $urlimage;
-		}
+            if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
+                $url_image = "upload/User/Rank/" . $filename;
+                move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+                @chmod ($url_image, 0644);
+            } else {
+                echo "<div class=\"notification error png_bg\">\n"
+                   . "<div>\n"
+                   . "No image file !"
+                   . "</div>\n"
+                   . "</div>\n";
+                redirect("index.php?file=News&page=admin", 2);
+                adminfoot();
+                footer();
+                die;
+            }
+        } else {
+            $url_image = $urlimage;
+        }
 
 
         $sql = mysql_query("UPDATE " . TEAM_RANK_TABLE . " SET titre = '" . $titre . "', ordre = '" . $ordre . "', image = '" . $url_image . "', couleur = '" . $color . "' WHERE id = '" . $rid . "'");
@@ -1571,48 +1571,48 @@ if ($visiteur == 9)
             return false;
     }
 
-	  function main_config()
+      function main_config()
     {
         global $nuked, $language;
 
-		if ($nuked['user_email'] == "on"){$checked_user_email = "checked=\"checked\"";}
+        if ($nuked['user_email'] == "on"){$checked_user_email = "checked=\"checked\"";}
         if ($nuked['user_icq'] == "on"){$checked_user_icq = "checked=\"checked\"";}
-		if ($nuked['user_msn'] == "on"){$checked_user_msn = "checked=\"checked\"";}
+        if ($nuked['user_msn'] == "on"){$checked_user_msn = "checked=\"checked\"";}
         if ($nuked['user_aim'] == "on"){$checked_user_aim = "checked=\"checked\"";}
-		if ($nuked['user_yim'] == "on"){$checked_user_yim = "checked=\"checked\"";}
+        if ($nuked['user_yim'] == "on"){$checked_user_yim = "checked=\"checked\"";}
         if ($nuked['user_xfire'] == "on"){$checked_user_xfire = "checked=\"checked\"";}
-		if ($nuked['user_facebook'] == "on"){$checked_user_facebook = "checked=\"checked\"";}
+        if ($nuked['user_facebook'] == "on"){$checked_user_facebook = "checked=\"checked\"";}
         if ($nuked['user_origin'] == "on"){$checked_user_origin = "checked=\"checked\"";}
-		if ($nuked['user_steam'] == "on"){$checked_user_steam = "checked=\"checked\"";}
+        if ($nuked['user_steam'] == "on"){$checked_user_steam = "checked=\"checked\"";}
         if ($nuked['user_twitter'] == "on"){$checked_user_twitter = "checked=\"checked\"";}
-		if ($nuked['user_skype'] == "on"){$checked_user_skype = "checked=\"checked\"";}
+        if ($nuked['user_skype'] == "on"){$checked_user_skype = "checked=\"checked\"";}
         if ($nuked['user_website'] == "on"){$checked_user_website = "checked=\"checked\"";}
 
 
-	 echo "<div class=\"content-box\">\n"
+     echo "<div class=\"content-box\">\n"
         . "<div class=\"content-box-header\"><h3>" . _USERCONFIG . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-		. "</div></div>\n"
-		. "<div class=\"tab-content\" id=\"tab2\">\n";
+        . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+        . "</div></div>\n"
+        . "<div class=\"tab-content\" id=\"tab2\">\n";
 
         nkAdminMenu(4);
 
-		echo "<form method=\"post\" name=\"selection\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_config\"\">\n"
-		. "<table width=\"100\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-		. "<tr><td width=\"25%\"><b>" . _MAIL . " :</b></td><td width=\"75%\"><input type=\"checkbox\" name=\"user_email\" value=\"on\" " . $checked_user_email . "></td></tr>\n"
-		. "<tr><td><b>" . _ICQ . " :</b></td><td><input type=\"checkbox\" name=\"user_icq\" value=\"on\" " . $checked_user_icq . "></td></tr>\n"
-		. "<tr><td><b>" . _MSN . " :</b></td><td><input type=\"checkbox\" name=\"user_msn\" value=\"on\" " . $checked_user_msn . "></td></tr>\n"
-		. "<tr><td><b>" . _AIM . " :</b></td><td><input type=\"checkbox\" name=\"user_aim\" value=\"on\" " . $checked_user_aim . "></td></tr>\n"
-		. "<tr><td><b>" . _YIM . " :</b></td><td><input type=\"checkbox\" name=\"user_yim\" value=\"on\" " . $checked_user_yim . "></td></tr>\n"
-		. "<tr><td><b>" . _XFIRE . " :</b></td><td><input type=\"checkbox\" name=\"user_xfire\" value=\"on\" " . $checked_user_xfire . "></td></tr>\n"
-		. "<tr><td><b>" . _FACEBOOK . " :</b></td><td><input type=\"checkbox\" name=\"user_facebook\" value=\"on\" " . $checked_user_facebook . "></td></tr>\n"
-		. "<tr><td><b>" . _ORIGINEA . " :</b></td><td><input type=\"checkbox\" name=\"user_origin\" value=\"on\" " . $checked_user_origin . "></td></tr>\n"
-		. "<tr><td><b>" . _STEAM . " :</b></td><td><input type=\"checkbox\" name=\"user_steam\" value=\"on\" " . $checked_user_steam . "></td></tr>\n"
-		. "<tr><td><b>" . _TWITTER . " :</b></td><td><input type=\"checkbox\" name=\"user_twitter\" value=\"on\" " . $checked_user_twitter . "></td></tr>\n"
-		. "<tr><td><b>" . _SKYPE . " :</b></td><td><input type=\"checkbox\" name=\"user_skype\" value=\"on\" " . $checked_user_skype . "></td></tr>\n"
-		. "<tr><td><b>" . _LINK . "</b> - " . _LINKCOM . " :</b></td><td><input type=\"checkbox\" name=\"user_website\" value=\"on\" " . $checked_user_website . "></td></tr>\n"
-		. "<tr><td><b>" . _LEVELREQUIRED . " :</b></td><td>\n"
+        echo "<form method=\"post\" name=\"selection\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_config\"\">\n"
+        . "<table width=\"100\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+        . "<tr><td width=\"25%\"><b>" . _MAIL . " :</b></td><td width=\"75%\"><input type=\"checkbox\" name=\"user_email\" value=\"on\" " . $checked_user_email . "></td></tr>\n"
+        . "<tr><td><b>" . _ICQ . " :</b></td><td><input type=\"checkbox\" name=\"user_icq\" value=\"on\" " . $checked_user_icq . "></td></tr>\n"
+        . "<tr><td><b>" . _MSN . " :</b></td><td><input type=\"checkbox\" name=\"user_msn\" value=\"on\" " . $checked_user_msn . "></td></tr>\n"
+        . "<tr><td><b>" . _AIM . " :</b></td><td><input type=\"checkbox\" name=\"user_aim\" value=\"on\" " . $checked_user_aim . "></td></tr>\n"
+        . "<tr><td><b>" . _YIM . " :</b></td><td><input type=\"checkbox\" name=\"user_yim\" value=\"on\" " . $checked_user_yim . "></td></tr>\n"
+        . "<tr><td><b>" . _XFIRE . " :</b></td><td><input type=\"checkbox\" name=\"user_xfire\" value=\"on\" " . $checked_user_xfire . "></td></tr>\n"
+        . "<tr><td><b>" . _FACEBOOK . " :</b></td><td><input type=\"checkbox\" name=\"user_facebook\" value=\"on\" " . $checked_user_facebook . "></td></tr>\n"
+        . "<tr><td><b>" . _ORIGINEA . " :</b></td><td><input type=\"checkbox\" name=\"user_origin\" value=\"on\" " . $checked_user_origin . "></td></tr>\n"
+        . "<tr><td><b>" . _STEAM . " :</b></td><td><input type=\"checkbox\" name=\"user_steam\" value=\"on\" " . $checked_user_steam . "></td></tr>\n"
+        . "<tr><td><b>" . _TWITTER . " :</b></td><td><input type=\"checkbox\" name=\"user_twitter\" value=\"on\" " . $checked_user_twitter . "></td></tr>\n"
+        . "<tr><td><b>" . _SKYPE . " :</b></td><td><input type=\"checkbox\" name=\"user_skype\" value=\"on\" " . $checked_user_skype . "></td></tr>\n"
+        . "<tr><td><b>" . _LINK . "</b> - " . _LINKCOM . " :</b></td><td><input type=\"checkbox\" name=\"user_website\" value=\"on\" " . $checked_user_website . "></td></tr>\n"
+        . "<tr><td><b>" . _LEVELREQUIRED . " :</b></td><td>\n"
         . "<select name=\"user_social_level\" >\n"
         . "<option>" . $nuked['user_social_level'] . "</option>\n"
         . "<option>0</option>\n"
@@ -1626,44 +1626,44 @@ if ($visiteur == 9)
         . "<option>8</option>\n"
         . "<option>9</option></select></td></tr>\n"
 
-		. "<tr><td align=\"center\"></td><td><input class=\"button\" type=\"button\" value=\"" . _COTOUT . "\" onclick=\"toutcocher();\">&nbsp;&nbsp;&nbsp;\n"
+        . "<tr><td align=\"center\"></td><td><input class=\"button\" type=\"button\" value=\"" . _COTOUT . "\" onclick=\"toutcocher();\">&nbsp;&nbsp;&nbsp;\n"
         . "<input class=\"button\" type=\"button\" value=\"" . _DECOTOUT . "\" onclick=\"toutdecocher();\"></td></tr>\n"
-		. "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFCONFIG . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&page=user\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFCONFIG . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&page=user\">" . _BACK . "</a></div></form><br /></div></div>\n";
 
-	 echo '<script language="javascript">
-		  function toutcocher()
-		  {
-		  for(i=0;i<document.selection.length;i++)
-		  {
-		  if(document.selection.elements[i].type=="checkbox")
-		  document.selection.elements[i].checked=true;
-		  }
-		  }
-		  function toutdecocher()
-		  {
-		  for(i=0;i<document.selection.length;i++)
-		  {
-		  if(document.selection.elements[i].type=="checkbox");
-		  document.selection.elements[i].checked=false;;
-		  }
-		  }
-		  </script>';
+     echo '<script language="javascript">
+          function toutcocher()
+          {
+          for(i=0;i<document.selection.length;i++)
+          {
+          if(document.selection.elements[i].type=="checkbox")
+          document.selection.elements[i].checked=true;
+          }
+          }
+          function toutdecocher()
+          {
+          for(i=0;i<document.selection.length;i++)
+          {
+          if(document.selection.elements[i].type=="checkbox");
+          document.selection.elements[i].checked=false;;
+          }
+          }
+          </script>';
 
-	}
-	  function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $user_xfire, $user_facebook, $user_origin, $user_steam, $user_twitter, $user_skype, $user_website, $user_social_level)
+    }
+      function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $user_xfire, $user_facebook, $user_origin, $user_steam, $user_twitter, $user_skype, $user_website, $user_social_level)
     {
-	    global $nuked, $user;
+        global $nuked, $user;
 
-	    if ($user_email != 'on'){$user_email = "off";}
+        if ($user_email != 'on'){$user_email = "off";}
         if ($user_icq != 'on'){$user_icq = "off";}
         if ($user_msn != 'on'){$user_msn = "off";}
         if ($user_aim != 'on'){$user_aim = "off";}
         if ($user_yim != 'on'){$user_yim = "off";}
-	    if ($user_xfire != 'on'){$user_xfire = "off";}
+        if ($user_xfire != 'on'){$user_xfire = "off";}
         if ($user_facebook != 'on'){$user_facebook = "off";}
         if ($user_origin != 'on'){$user_origin = "off";}
         if ($user_steam != 'on'){$user_steam = "off";}
-		if ($user_twitter != 'on'){$user_twitter = "off";}
+        if ($user_twitter != 'on'){$user_twitter = "off";}
         if ($user_skype != 'on'){$user_skype = "off";}
         if ($user_website != 'on'){$user_website = "off";}
         
@@ -1681,17 +1681,17 @@ if ($visiteur == 9)
         $upd12 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_website . "' WHERE name = 'user_website'");
         $upd13 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_social_level . "' WHERE name = 'user_social_level'");
 
-		$texteaction = "". _ACTIONMODIFUSER .".";
-		$acdate = time();
-		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+        $texteaction = "". _ACTIONMODIFUSER .".";
+        $acdate = time();
+        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
 
-		echo "<div class=\"notification success png_bg\">\n"
-				. "<div>\n"
-				. "" . _CONFIGUPDATED . "\n"
-				. "</div>\n"
-				. "</div>\n";
+        echo "<div class=\"notification success png_bg\">\n"
+                . "<div>\n"
+                . "" . _CONFIGUPDATED . "\n"
+                . "</div>\n"
+                . "</div>\n";
         redirect("index.php?file=Admin&page=user", 2);
-	}
+    }
 
         function nkAdminMenu($tab = 1)
     {
@@ -1751,7 +1751,7 @@ if ($visiteur == 9)
 
     switch ($_REQUEST['op'])
     {
-		case "main_config":
+        case "main_config":
         main_config();
         break;
 

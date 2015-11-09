@@ -9,6 +9,7 @@
 //-------------------------------------------------------------------------//
 header('Content-type: text/html; charset=iso-8859-1');
 define ('INDEX_CHECK', 1);
+ini_set('default_charset', 'ISO8859-1');
 
 include('globals.php');
 include('conf.inc.php');

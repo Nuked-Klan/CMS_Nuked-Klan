@@ -13,12 +13,7 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
-
-// On initialise le captcha
 $captcha = initCaptcha();
-
 
 if (!$user)
 {
@@ -556,7 +551,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function reply()
     {
-        global $user, $nuked, $visiteur, $user_ip, $bgcolor3;
+        global $user, $nuked, $visiteur,$user_ip, $bgcolor3;
 
         opentable();
 
@@ -620,7 +615,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else
         {
-            $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES, 'ISO-8859-1');
+            $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
             $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
             if ($_REQUEST['auteur'] == "error1")
@@ -820,7 +815,7 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else
         {
-            $_REQUEST['auteur'] = htmlentities($_REQUEST['auteur'], ENT_QUOTES, 'ISO-8859-1');
+            $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
             $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
 
             if ($_REQUEST['auteur'] == "error1")

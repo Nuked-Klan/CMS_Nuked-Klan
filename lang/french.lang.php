@@ -264,6 +264,9 @@ define("_OPTIONAL","optionnel");
 define("_BTHEMESELECT", "Choix du thème");
 
 // PATCH CAPTCHA
+define("_SECURITYCODE","Code de sécurité");
+define("_TYPESECCODE","Recopiez le code ci-dessus");
+define("_BADCODECONFIRM","Le code de sécurité ne correspond pas !");
 define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, le captcha est d&eacute;sormais actif !');
 define('_CTNOTOKEN', 'Token introuvable !<br/>Veuillez utiliser le formulaire.');
 define('_CTBADTOKEN', 'Token incorrect !<br/>Veuillez utiliser le formulaire.');
