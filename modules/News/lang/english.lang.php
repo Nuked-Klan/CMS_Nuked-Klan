@@ -23,8 +23,6 @@ define("_NEWSURL","The URL for this news is:");
 define("_ADMINNEWS","News Administration");
 define("_DELETENEWS","You are about to remove");
 define("_CAT","Category");
-define("_DATE","Date");
-define("_AUTHOR","Author");
 define("_EDIT","Edit");
 define("_DEL","Remove");
 define("_EDITTHISNEWS","Edit this News");

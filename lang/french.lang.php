@@ -380,4 +380,6 @@ define('_EDITCONFIG', 'Mise à jour de la configuration');
 
 define('_HTMLNOCORRECT', 'Le code HTML est mal formaté');
 define('REMOVE_INSTALL_FILES', 'Veuillez supprimer les fichiers install.php ou update.php &agrave; la racine de votre FTP.');
+define("_AUTHOR","Auteur");
+define("_DATE","Date");
 ?>

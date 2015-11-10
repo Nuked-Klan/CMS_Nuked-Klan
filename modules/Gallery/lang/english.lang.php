@@ -43,8 +43,6 @@ define("_URLIMG","Image's url");
 define("_URLFILE","File's url");
 define("_WHERESCREEN","Or ScreenShot");
 define("_ADDSCREEN","Add an image");
-define("_TITLE","Title");
-define("_AUTHOR","Author");
 define("_SPECIFY","Specify an image to be sent.");
 define("_SCREENADD","Image was successfully added.");
 define("_SCREENUPLOAD","Image was successfully uploaded.");

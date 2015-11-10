@@ -20,8 +20,6 @@ define("_SEEARCHIVES","Voir les archives");
 define("_SHOUTBOX","Tribune Libre");
 define("_SHOUTSUCCES","Message envoyé avec succès.");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
-define("_THE","le");
-define("_AT","à");
 define("_NOMESS","Il n'y a pas encore de message");
 define("_PREVIOUSPAGE","Page Précédente");
 define("_NEXTPAGE","Page Suivante");

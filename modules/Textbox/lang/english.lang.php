@@ -20,8 +20,6 @@ define("_SEEARCHIVES","See archives");
 define("_SHOUTBOX","Shoutbox");
 define("_SHOUTSUCCES","Message was successfully posted.");
 define("_NOFLOOD","No flood! Please wait a moment...");
-define("_THE","on");
-define("_AT","@");
 define("_NOMESS","There are yet no messages");
 define("_PREVIOUSPAGE","Previous Page");
 define("_NEXTPAGE","Next Page");

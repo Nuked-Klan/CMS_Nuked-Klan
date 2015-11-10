@@ -18,8 +18,6 @@ define("_MAIL","Email");
 define("_ICQMSN","Messenger");
 define("_CHANIRC","IRC Channel");
 define("_WEBSITE","Website");
-define("_THE","The");
-define("_AT","@");
 define("_DATE","Date");
 define("_HOUR","Hour");
 define("_SERVER","Server");

@@ -26,7 +26,6 @@ define("_SEEN","Hit");
 define("_TIMES","times");
 define("_ADDTHE","Added on");
 define("_EDITTHE","Edit");
-define("_AUTOR","Author");
 define("_CAPTURE","Screen capture");
 define("_COMPATIBLE","Compatibilities");
 define("_FILECOMMENT","Comment");

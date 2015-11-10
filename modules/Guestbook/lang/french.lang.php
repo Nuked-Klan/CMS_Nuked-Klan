@@ -6,7 +6,6 @@ if (!defined("INDEX_CHECK"))
 define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_GUESTBOOK","Livre d'or");
-define("_AUTHOR","Auteur");
 define("_MAIL","Email");
 define("_URL","Url");
 define("_COMMENT","Commentaire");

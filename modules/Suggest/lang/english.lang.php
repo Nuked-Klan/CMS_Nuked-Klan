@@ -22,8 +22,6 @@ define("_DATE","Date");
 define("_SEESUGGEST","View this suggestion");
 define("_BACK","Back");
 define("_SUGGESTBY","Suggest by");
-define("_THE","on");
-define("_AT","@");
 define("_SUGGESTADD","Suggestion was successfully validated");
 define("_SUGGESTDEL","Suggestion was successfully removed");
 define("_VIEW","View");

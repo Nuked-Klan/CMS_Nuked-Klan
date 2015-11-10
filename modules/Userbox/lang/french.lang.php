@@ -4,7 +4,6 @@ if (!defined("INDEX_CHECK"))
 	exit('You can\'t run this file alone.');
 }
 define("_POSTMESS","Poster un message");
-define("_AUTHOR","Auteur");
 define("_USERFOR","Pour");
 define("_SUBJECT","Sujet");
 define("_USERMESS","Message");
@@ -15,7 +14,6 @@ define("_UNKNOWMEMBER","Désolé, le membre est inconnu.");
 define("_MESSSEND","Message envoyé avec succès.");
 define("_PRIVATEMESS","Messages Privés");
 define("_OF","De");
-define("_THE","le");
 define("_WROTE","a ecrit");
 define("_REPLY","Répondre");
 define("_DEL","Supprimer");

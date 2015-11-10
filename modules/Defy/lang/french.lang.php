@@ -18,8 +18,6 @@ define("_MAIL","Mail");
 define("_ICQMSN","Icq/Msn");
 define("_CHANIRC","Channel IrC");
 define("_WEBSITE","Site Web");
-define("_THE","le");
-define("_AT","à");
 define("_DATE","Date");
 define("_HOUR","Heure");
 define("_SERVER","Serveur");

@@ -121,7 +121,8 @@ function setBgColors(){
 
 function setPath($path, $language){
     if (file_exists($path)) {
-        if(!is_array($GLOBALS['nuked']['mediasPrinted']) || !in_array($path, $GLOBALS['nuked']['mediasPrinted'])){
+        if (!isset($GLOBALS['nuked']['mediasPrinted']) ||
+            !is_array($GLOBALS['nuked']['mediasPrinted']) || !in_array($path, $GLOBALS['nuked']['mediasPrinted'])) {
             if($language == 'CSS'){
                 return '<link rel="stylesheet" type="text/css" href="'.$path.'" />';
             }

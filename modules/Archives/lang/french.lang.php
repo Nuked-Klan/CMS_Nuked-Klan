@@ -5,12 +5,8 @@ if (!defined("INDEX_CHECK"))
 }
 define("_ARCHIVE","Archives des News");
 define("_SUGGESTNEWS","Proposer une News");
-define("_TITLE","Titre");
 define("_SUBJET","Sujet");
-define("_DATE","Date");
-define("_AUTHOR","Auteur");
 define("_OPTION","Options");
-define("_AT","à");
 define("_SEENEWS","Voir les news");
 define("_DETAILAUTHOR","Voir les détails de");
 define("_THEREIS","Il y a");

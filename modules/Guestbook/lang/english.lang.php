@@ -6,7 +6,6 @@ if (!defined("INDEX_CHECK"))
 define("_NOENTRANCE","Sorry you have no permission to access this page");
 define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
 define("_GUESTBOOK","Guestbook");
-define("_AUTHOR","Author");
 define("_MAIL","Email");
 define("_URL","Url");
 define("_COMMENT","Comment");

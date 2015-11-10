@@ -47,8 +47,6 @@ define("_EDIT","Edit");
 define("_DEL","Remove");
 define("_ID","Id");
 define("_TEXT","Text");
-define("_TITLE","Title");
-define("_AUTHOR","Author");
 define("_CAT","Category");
 define("_DESCR","Description");
 define("_EDITTHISART","Edit this article");
