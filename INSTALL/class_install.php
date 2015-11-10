@@ -319,7 +319,7 @@
                                 <h2><b>'. _NEWNKNEWRELEASE.'</b></h2>
                             </div>
                             <div style="width:90%;margin: 20px auto;">';
-                $array_infos = array('_SECURITE', '_OPTIMISATION', '_ADMINISTRATION', '_BANTEMP', '_SHOUTBOX', '_ERRORSQL', '_MULTIWARS', '_COMSYS', '_EDITWYS', '_CONT', '_ERREURPASS', '_DIFFMODIF');
+                $array_infos = array('_SECURITE', '_OPTIMISATION', '_ADMINISTRATION', '_BANTEMP', '_SHOUTBOXDOC', '_ERRORSQL', '_MULTIWARS', '_COMSYS', '_EDITWYS', '_CONT', '_ERREURPASS', '_DIFFMODIF');
                 foreach($array_infos as $k){
                     echo '<p>
                                     <b>'.constant($k).':</b>

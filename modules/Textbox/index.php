@@ -253,7 +253,7 @@ function index()
                 if (strlen($text[$i]) > $max_chars && !preg_match("`http:`i", $text[$i]) && !preg_match("`www\.`i", $text[$i]) && !preg_match("`@`i", $text[$i]) && !preg_match("`ftp\.`i", $text[$i]))
                 $text[$i] = '<span title="' . $text[$i] . '">' . substr($text[$i], 0, $max_chars) . '...</span>';
 
-                $text[$i] = preg_replace_callback('`((https?|ftp)://\S+)`', cesure_href,$text[$i]); 
+                $text[$i] = preg_replace_callback('`((https?|ftp)://\S+)`', 'cesure_href', $text[$i]); 
                 $block_text .= $text[$i];
             }
 

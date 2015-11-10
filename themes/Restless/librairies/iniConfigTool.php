@@ -100,11 +100,15 @@ class iniConfigTool {
     public function get($key, $subArray = null) {
         if (strpos($key, '.') !== false) {
             $tmp = explode('.', $key);
-            if (is_array($this->content[$tmp[0]][$tmp[1]]) && !is_null($subArray)) {
-                return $this->content[$tmp[0]][$tmp[1]][$subArray];
-            }
-            else {
-                return $this->content[$tmp[0]][$tmp[1]];
+            if (isset($this->content[$tmp[0]][$tmp[1]])) {
+                if (is_array($this->content[$tmp[0]][$tmp[1]]) && !is_null($subArray)) {
+                    return $this->content[$tmp[0]][$tmp[1]][$subArray];
+                }
+                else {
+                    return $this->content[$tmp[0]][$tmp[1]];
+                }
+            } else {
+                return '';
             }
         }
         else {

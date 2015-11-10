@@ -111,9 +111,6 @@ else {
     $visiteur          = $user[1];
 }
 
-// Inclusion du fichier des couleurs
-require_once 'themes/'.$theme.'/colors.php';
-
 if ( $_REQUEST['file'] !== 'Admin'
     && $_REQUEST['page'] != 'admin'
     && (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != 'admin')

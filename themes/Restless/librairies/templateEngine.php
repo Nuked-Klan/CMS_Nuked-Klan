@@ -21,7 +21,6 @@ class tpl {
     const PATTERN_FUNCTIONS  = '#%([A-Za-z0-9_\-]+)\s*\(\s*(.*)\s*\)#';
     protected $vars        = array();
     protected $content;
-    protected $output;
     protected $intoPhpTags = false;
     protected $isInclude   = false;
 
@@ -52,10 +51,6 @@ class tpl {
         ob_end_clean();
 
         $this->parse();
-
-        if ($this->include === false) {
-            echo $this->output;
-        }
     }
 
     private function getConfig($name) {

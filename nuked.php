@@ -1280,7 +1280,7 @@ function initCaptcha(){
     require_once('Includes/nkCaptcha.php');
 
     // On determine si le captcha est actif ou non
-    if (_NKCAPTCHA == 'off' || (_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] > 0)) {
+    if (_NKCAPTCHA == 'off' || (_NKCAPTCHA == 'auto' && !empty($GLOBALS['user']) && $GLOBALS['user'][1] > 0)) {
         $captcha = false;
     } else if((_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] == 0) || _NKCAPTCHA == 'on') {
         $captcha = true;
