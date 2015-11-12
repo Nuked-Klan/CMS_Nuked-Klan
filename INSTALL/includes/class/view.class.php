@@ -28,8 +28,10 @@ class view {
      * - Set view filename
      */
     public function __construct($view) {
-        if (! is_file($viewFile = 'views/'. $view .'.php'))
-            throw new Exception(sprintf(i18n::getInstance()['VIEW_NO_FOUND'], $viewFile));
+        if (! is_file($viewFile = 'views/'. $view .'.php')) {
+            $i18n = i18n::getInstance();
+            throw new Exception(sprintf($i18n['VIEW_NO_FOUND'], $viewFile));
+        }
 
         $this->_viewFile = $viewFile;
     }

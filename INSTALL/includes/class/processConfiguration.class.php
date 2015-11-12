@@ -23,8 +23,10 @@ class processConfiguration {
      * - Load it
      */
     public function __construct($session) {
-        if (! is_file('config.php'))
-            throw new Exception(sprintf(i18n::getInstance()['MISSING_FILE'], 'INSTALL/config.php'));
+        if (! is_file('config.php')) {
+            $i18n = i18n::getInstance();
+            throw new Exception(sprintf($i18n['MISSING_FILE'], 'INSTALL/config.php'));
+        }
 
         $this->_load($session);
     }
@@ -56,15 +58,18 @@ class processConfiguration {
     private function _check() {
         $cfgStrKey      = array('nkVersion', 'nkMinimumVersion', 'minimalPhpVersion', 'partnersKey');
         $cfgArrayKey    = array('phpExtension', 'uploadDir', 'changelog', 'infoList', 'deprecatedFiles');
+        $i18n           = i18n::getInstance();
 
         foreach (array_merge($cfgStrKey, $cfgArrayKey) as $cfgKey) {
-            if (! array_key_exists($cfgKey, $this->_configuration))
-                throw new Exception(sprintf(i18n::getInstance()['MISSING_CONFIG_KEY'], $cfgKey));
+            if (! array_key_exists($cfgKey, $this->_configuration)) {
+                throw new Exception(sprintf($i18n['MISSING_CONFIG_KEY'], $cfgKey));
+            }
 
-            if (in_array($cfgKey, $cfgStrKey) && (! is_string($this->_configuration[$cfgKey]) || empty($this->_configuration[$cfgKey])))
-                throw new Exception(sprintf(i18n::getInstance()['CONFIG_KEY_MUST_BE_STRING'], $cfgKey));
-            elseif (in_array($cfgKey, $cfgArrayKey) && (! is_array($this->_configuration[$cfgKey]) || empty($this->_configuration[$cfgKey])))
-                throw new Exception(sprintf(i18n::getInstance()['CONFIG_KEY_MUST_BE_ARRAY'], $cfgKey));
+            if (in_array($cfgKey, $cfgStrKey) && (! is_string($this->_configuration[$cfgKey]) || empty($this->_configuration[$cfgKey]))) {
+                throw new Exception(sprintf($i18n['CONFIG_KEY_MUST_BE_STRING'], $cfgKey));
+            } elseif (in_array($cfgKey, $cfgArrayKey) && (! is_array($this->_configuration[$cfgKey]) || empty($this->_configuration[$cfgKey]))) {
+                throw new Exception(sprintf($i18n['CONFIG_KEY_MUST_BE_ARRAY'], $cfgKey));
+            }
         }
     }
 }

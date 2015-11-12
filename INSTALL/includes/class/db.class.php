@@ -55,8 +55,10 @@ class db {
 
         $databaseType = (isset($databaseData['db_type'])) ? $databaseData['db_type'] : 'MySQL';
 
-        if (! is_file($classFile = 'includes/class/db/db'. $databaseType .'.class.php'))
-            throw new dbException(sprintf(i18n::getInstance()['UNKNOW_DATABASE_TYPE'], $databaseType));
+        if (! is_file($classFile = 'includes/class/db/db'. $databaseType .'.class.php')) {
+            $i18n = i18n::getInstance();
+            throw new dbException(sprintf($i18n['UNKNOW_DATABASE_TYPE'], $databaseType));
+        }
 
         include_once $classFile;
 
