@@ -7,7 +7,7 @@
  */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $language, $user, $cookie_captcha;
+global $language, $user;
 translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
@@ -1146,7 +1146,7 @@ function login($pseudo, $pass, $remember_me){
                             SET erreur = "0"
                             WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
                 mysql_query($dbuUser);
-                session_new($dbrLogin['id'], $remember_me);
+                nkSessions_createNewSession($dbrLogin['id'], $remember_me);
             }
 
             if(!empty($dbrLogin['userTemplate'])){
@@ -1167,7 +1167,7 @@ function login($pseudo, $pass, $remember_me){
 
             $_SESSION['admin'] = false;
             unset($_SESSION['captcha']);
-            $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $id_user . $redirect;
+            $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $dbrLogin['id'] . $redirect;
             redirect($url, 0);
         }
         else{
@@ -1656,20 +1656,12 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
     redirect("index.php?file=User", 2);
 }
 
-function logout(){
-    global $nuked, $user, $cookie_theme, $cookie_langue, $cookie_session, $cookie_userid, $cookie_forum;
+function logout() {
+    global $user;
 
-    $del = mysql_query("UPDATE " . SESSIONS_TABLE . " SET ip = '' WHERE user_id = '" . $user[0] . "'");
+    nkSessions_stopSession($user['id']);
 
-    setcookie($cookie_session, "");
-    setcookie($cookie_userid, "");
-    setcookie($cookie_theme, "");
-    setcookie($cookie_langue, "");
-    setcookie($cookie_forum, "");
-
-    $_SESSION['admin'] = false;
-
-    header("location:index.php");
+    redirect('location: index.php');
 }
 
 function oubli_pass(){

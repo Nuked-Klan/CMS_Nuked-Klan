@@ -1,5 +1,7 @@
 <?php
 /**
+ * index.php
+ *
  * Index of CMS Nuked-Klan
  *
  * @version 1.8
@@ -12,118 +14,85 @@
 define('INDEX_CHECK', 1);
 ini_set('default_charset', 'ISO8859-1');
 
+require_once 'Includes/fatal_errors.php';
 require_once 'Includes/php51compatibility.php';
 require_once 'globals.php';
 
-if (file_exists('conf.inc.php')) {
+if (file_exists('conf.inc.php'))
     require_once 'conf.inc.php';
-}
-
-require_once 'Includes/fatal_errors.php';
 
 // POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
-if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == TRUE){
+if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true)
     extract($_REQUEST);
-}
 
-// Redirection vers l'installation si NK n'est pas installé
-if (!defined('NK_INSTALLED')) {
-    if (file_exists('INSTALL/index.php')) {
-        header('location: INSTALL/index.php');
-        exit();
-    }
-}
-
-// Si le site est fermé on affiche le message de fermeture
-if (!defined('NK_OPEN')) {
-    echo WEBSITE_CLOSED;
-    exit();
-}
 
 require_once 'nuked.php';
 require_once 'Includes/hash.php';
 
+/**
+ * Checks if site is closed or not installed
+ */
+nkHandle_siteInstalled();
+
 // Ouverture du buffer PHP
 $bufferMedias = ob_start();
 
-if ($nuked['time_generate'] == 'on') {
-    $microTime = microtime();
-}
+if ($nuked['time_generate'] == 'on')
+    $microTime = microtime(true);
 
 // GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
 if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
 
-$session = session_check();
-$user = ($session == 1) ? secure() : array();
+if ($nuked['stats_share'] == 1) {
+    require_once 'Includes/nkStats.php';
 
-$session_admin = admin_check();
-
-if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax') {
-    if ($nuked['stats_share'] == 1) {
-        $timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // 60 Days
-        if($timediff >= 60) {
-            require_once('Includes/nkStats.php');
-            $data = getStats($nuked);
-            $string = serialize($data);
-            $opts = array(
-                'http' => array(
-                    'method' => "POST",
-                    'content' => 'data=' . $string
-                )
-            );
-
-            $context = stream_context_create($opts);
-            $daurl = 'http://stats.nuked-klan.org/';
-            $retour = file_get_contents($daurl, false, $context);
-            $value_sql = ($retour == 'YES') ? mysql_real_escape_string(time()) : 'value + 86400';
-
-            $sql = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = ' . mysql_real_escape_string($value_sql) . ' WHERE name = "stats_timestamp"');
-        }
-    }
-    exit();
+    if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'ajax')
+        nkStats_send();
 }
 
-// Définition du type de page à afficher
-if (isset($_REQUEST['nuked_nude']) && !empty($_REQUEST['nuked_nude'])) $_REQUEST['im_file'] = $_REQUEST['nuked_nude'];
-else if (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) $_REQUEST['im_file'] = $_REQUEST['page'];
-else $_REQUEST['im_file'] = 'index';
 
-// Securisation des variables utilisateurs
-if (preg_match('`\.\.`', $theme) || preg_match('`\.\.`', $language) || preg_match('`\.\.`', $_REQUEST['file']) || preg_match('`\.\.`', $_REQUEST['im_file']) || preg_match('`http\:\/\/`i', $_REQUEST['file']) || preg_match('`http\:\/\/`i', $_REQUEST['im_file']) || is_int(strpos( $_SERVER['QUERY_STRING'], '..' )) || is_int(strpos( $_SERVER['QUERY_STRING'], 'http://' )) || is_int(strpos( $_SERVER['QUERY_STRING'], '%3C%3F' ))){
-    die(WAYTODO);
-}
+/**
+ * Get user ( $user var is affected to $GLOBALS['user'] )
+ */
+nkSessions_getUser();
 
-$_REQUEST['file']    = basename(trim($_REQUEST['file']));
-$_REQUEST['im_file'] = basename(trim($_REQUEST['im_file']));
-$_REQUEST['page']    = basename(trim($_REQUEST['im_file']));
-$theme               = trim($theme);
-$language            = trim($language);
 
-// Check Ban
-$check_ip = banip();
+/**
+ * Checks if current user is banned or not
+ */
+nkHandle_bannedUser();
 
-if (!$user) {
-    $visiteur          = 0;
-    $_SESSION['admin'] = false;
-}
-else {
-    $visiteur          = $user[1];
-}
+
+/**
+ * Choose which file willl be include
+ */
+//$page = nkHandle_file();
+$_REQUEST['page'] = nkHandle_file();
+
+
+/**
+ * Checks for forbidden characters in request parameters
+ */
+nkHandle_URIInjections();
+
 
 if ( $_REQUEST['file'] !== 'Admin'
     && $_REQUEST['page'] != 'admin'
     && (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != 'admin')
     && (! ($_REQUEST['file'] == 'Textbox' && $_REQUEST['op'] == 'ajax' && $_REQUEST['nuked_nude'] == 'index'))
-    && $_SESSION['admin'] == true ) {
+    && $_SESSION['admin'] == true
+) {
     $_SESSION['admin'] = false;
 }
 
 // Inclusion du fichier des couleurs
-require_once ('themes/' . $theme . '/colors.php');
+require_once('themes/'. $theme .'/colors.php');
 
-// Inclusion du fichier de langue général
-translate('lang/' . $language . '.lang.php');
+/**
+ * Init translation
+ */
+translate('lang/'. $language .'.lang.php');
 
 // Si le site est fermé
 if ($nuked['nk_status'] == 'closed' 
@@ -176,12 +145,12 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             nkGetMedias();
 ?>
             <script type="text/javascript">
-                InitBulle('<?= $bgcolor2; ?>','<?= $bgcolor3; ?>', 2);
+                InitBulle('<?php echo $bgcolor2; ?>','<?php echo $bgcolor3; ?>', 2);
             </script>
 <?php
         }
 
-        if($user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
+        if($user && $user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
             if ($nuked['nk_status'] == 'closed'){
 ?>
                 <div id="nkSiteClosedLogged" class="nkAlert">
@@ -206,7 +175,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
             }
         }
 
-        if ($user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox' && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
+        if ($user && $user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox' && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
 ?>
                 <div id="nkNewPrivateMsg" class="nkAlert">
                     <strong><?php echo _NEWMESSAGESTART; ?><?php echo $user[5]; ?>&nbsp;<?php echo _NEWMESSAGEEND; ?></strong>
@@ -220,8 +189,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         header('Content-Type: text/html;charset=ISO-8859-1');
     }
 
-    if (is_file('modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php')) {
-        require_once 'modules/' . $_REQUEST['file'] . '/' . $_REQUEST['im_file'] . '.php';
+    if (is_file('modules/'. $_REQUEST['file'] .'/'. $_REQUEST['page'] .'.php')) {
+        require_once 'modules/'. $_REQUEST['file'] .'/'. $_REQUEST['page'] .'.php';
     }
     else {
         require_once 'modules/404/index.php';
@@ -329,15 +298,23 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         }
 
         if ($nuked['time_generate'] == 'on'){
-            $microTime = microtime() - $microTime;
-            echo '<p class="nkGenerated">Generated in '.$microTime.'s</p>';
+            $microTime = round((microtime(true) - $microTime) * 1000, 1);
+            echo '<p class="nkGenerated">Generated in '.$microTime.'ms</p>';
         }
 
-        send_stats_nk();
+        // TODO : Create a $nuked vars to display it
+        echo '<p class="nkGenerated">', nkDB_getNbExecutedQuery(), ' requêtes sql (', nkDB_getTimeForExecuteAllQuery(), 'ms)</p>';
+
+        if ($nuked['stats_share'] == 1) nkStats_cron();
+
         echo "\n", '<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>', "\n"
              , '<script type="text/javascript" src="media/js/captcha.js"></script>', "\n";
 
         echo '</body></html>';
+
+        echo '<!--', "\n";
+        print_r($GLOBALS['nkDB']['querys']);
+        echo '-->', "\n";
     }
 }
 else {
@@ -357,5 +334,6 @@ else {
     footer();
 }
 
-mysql_close($db);
+nkDB_disconnect();
+
 ?>

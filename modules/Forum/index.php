@@ -10,7 +10,7 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 
 $captcha = initCaptcha();

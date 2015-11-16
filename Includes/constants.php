@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-//Update param
+// Update param
 define('UPDATE_URL', 'http://nuked-klan.org/');
 
 // Table names

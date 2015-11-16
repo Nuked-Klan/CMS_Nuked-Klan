@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate('modules/Recruit/lang/' . $language . '.lang.php');
 $captcha = initCaptcha();
 

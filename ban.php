@@ -1,58 +1,69 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-
+/**
+ * ban.php
+ *
+ * Display user ban page or remove ban if delay is exceed
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 define('INDEX_CHECK', 1);
 ini_set('default_charset', 'ISO8859-1');
 
-include('globals.php');
-include('conf.inc.php');
-include('nuked.php');
-include('Includes/constants.php');
+require_once 'Includes/fatal_errors.php';
+require_once 'globals.php';
+require_once 'conf.inc.php';
+require_once 'nuked.php';
 
-global $nuked, $language, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
 
-if (preg_match('`\.\.`', $theme) || preg_match('`\.\.`', $language) || preg_match('`[A-Za-z]`', $_GET['ip_ban']))
-{
-    die('<br /><br /><br /><div style="text-align: center"><big>What are you trying to do ?</big></div>');
-}
+/**
+ * Checks for forbidden characters in request parameters
+ */
+nkHandle_URIInjections();
 
-$theme = trim($theme);
-$language = trim($language);
 
-require_once ('themes/' . $theme . '/colors.php');
-translate ('lang/' . $language . '.lang.php');
+if (filter_var($_GET['ip_ban'], FILTER_VALIDATE_IP,
+    FILTER_FLAG_IPV4 |
+    FILTER_FLAG_IPV6 |
+    FILTER_FLAG_NO_PRIV_RANGE |
+    FILTER_FLAG_NO_RES_RANGE)
+)
+    die(WAYTODO);
 
-$ip_ban = mysql_real_escape_string($_GET['ip_ban']);
-$user_ban = mysql_real_escape_string($_GET['user']);
 
-$sql = mysql_query('SELECT texte, date, dure, pseudo FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '" OR pseudo = "' . $user_ban . '"');
-$count = mysql_num_rows($sql);
+require_once 'themes/'. $theme .'/colors.php';
+translate('lang/'. $language .'.lang.php');
 
-if ($count > 0) {
-    list($texte_ban, $date, $dure, $pseudo) = mysql_fetch_array($sql);
+$bannedIp       = nkDB_escape($_GET['ip_ban']);
+$bannerUsername = nkDB_escape($_GET['user']);
 
+$dbrBanned = nkDB_selectOne(
+    'SELECT texte, date, dure, pseudo
+    FROM '. BANNED_TABLE .'
+    WHERE ip = '. $bannedIp .' OR pseudo = '. $bannerUsername);
+
+if (nkDB_numrows() > 0) {
     // On supprime les bans dépassés, 0 = A vie
-    if($dure != 0 && ($date + $dure) < time()) {
+    if ($dbrBanned['dure'] != 0 && ($dbrBanned['date'] + $dbrBanned['dure']) < time()) {
         // On supprime l'entrée SQL
-        $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . ' WHERE ip = "' . $ip_ban . '"');
+        nkDB_delete(BANNED_TABLE, 'ip = ' . $bannedIp)
+
         // On supprime le cookie
         $_COOKIE['ip_ban'] = '';
+
         // On notifie dans l'administration
-        $notify = mysql_query("INSERT INTO " . NOTIFICATIONS_TABLE . " (`date` , `type` , `texte`)  VALUES ('" . time() . "', 4, '" . mysql_real_escape_string($pseudo) . mysql_real_escape_string(_BANFINISHED) . "')");
+        nkDB_insert(NOTIFICATIONS_TABLE,
+            array('date', 'type', 'texte'),
+            array(time(), 4, $dbrBanned['pseudo'] . _BANFINISHED);
+
         // On redirige vers le site
-        redirect('index.php', 0);
-        die;
+        redirect('index.php');
     }
 
     // Sinon on prolongue la durée de vie du cookie.
-    setcookie('ip_ban', $ip_ban, time() + 9999999, '', '', '');
+    setcookie('ip_ban', $bannedIp, time() + 9999999, '', '', '');
 
     echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
@@ -64,25 +75,26 @@ if ($count > 0) {
     <big><b>' . $nuked['name'] . ' - ' . $nuked['slogan'] . '</b><br /><br />
     ' . _IPBANNED . '</big>';
 
-    if (!empty($texte_ban)) {
+    if (!empty($dbrBanned['texte'])) {
         echo '<br /><p><hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" />
-        <big><b>' . _REASON . '</b><br>' . nkHtmlEntityDecode($texte_ban) . '</big></p>';
+        <big><b>' . _REASON . '</b><br>' . nkHtmlEntityDecode($dbrBanned['texte']) . '</big></p>';
     }
 
-    if($dure == 0) $temps = _AVIE;
-    else if ($dure == 86400) $temps = _1JOUR;
-    else if ($dure == 604800) $temps = _7JOUR;
-    else if ($dure == 2678400) $temps = _1MOIS;
-    else if ($dure == 31708800) $temps = _1AN;
+    if ($dbrBanned['dure'] == 0) $duration = _AVIE;
+    else if ($dbrBanned['dure'] == 86400) $duration = _1JOUR;
+    else if ($dbrBanned['dure'] == 604800) $duration = _7JOUR;
+    else if ($dbrBanned['dure'] == 2678400) $duration = _1MOIS;
+    else if ($dbrBanned['dure'] == 31708800) $duration = _1AN;
 
     echo '<hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" /><br />' . _DURE . '
-    ' . strtolower($temps) . '<br />
+    ' . strtolower($duration) . '<br />
     ' . _CONTACTWEBMASTER . ' : <a href="mailto:' . $nuked['mail'] . '">' . $nuked['mail'] . '</a></div></body></html>';
 }
 else {
-    if(isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])){
+    if (isset($_COOKIE['ip_ban']) && ! empty($_COOKIE['ip_ban']))
         $_COOKIE['ip_ban'] = '';
-    }
-    redirect('index.php', 0);
+
+    redirect('index.php');
 }
+
 ?>

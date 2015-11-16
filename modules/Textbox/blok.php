@@ -10,7 +10,7 @@ if (!defined("INDEX_CHECK"))
 	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cookie_captcha;
+global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user;
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 include("modules/Textbox/config.php");
 

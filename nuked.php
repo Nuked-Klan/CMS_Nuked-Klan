@@ -1,28 +1,157 @@
 <?php
 /**
+ * nuked.php
+ *
+ *
+ *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
-defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
+
+
+require_once 'Includes/nkSessions.php';
+
+// Set default flags used by nkHtmlEntityDecode, nkHtmlSpecialChars & nkHtmlEntities
+define('NK_HTML_DEFAULT_FLAGS', (ENT_COMPAT | ENT_HTML401));
+
+// Initialize main language array
+$arrayModLang = array();
 
 // CONNECT TO DB.
 connect();
 
 // QUERY NUKED CONFIG_TABLE.
-$nuked = array();
-$sql_conf = initializeControlDB($db_prefix);
+$nuked = nkLoadConfiguration($db_prefix);
 
-while ($row = mysql_fetch_array($sql_conf)) $nuked[$row['name']] = nkHtmlEntities($row['value'], ENT_NOQUOTES);
+// INCLUDE CONSTANT TABLE
+require_once 'Includes/constants.php';
 
-unset($sql_conf, $row);
+// $_REQUEST['file'] & $_REQUEST['op'] DEFAULT VALUE.
+if (empty($_REQUEST['file'])) $_REQUEST['file'] = $nuked['index_site'];
+if (empty($_REQUEST['op'])) $_REQUEST['op'] = 'index';
 
-// CONVERT ALL HTML ENTITIES TO THEIR APPLICABLE CHARACTERS
-$nuked['prefix'] = $db_prefix;
+
+// SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
+if (array_key_exists($nuked['cookiename'] .'_user_theme', $_REQUEST))
+    $nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] .'_user_theme'];
+else
+    $nuked['user_theme'] = false;
+
+if ($nuked['user_theme'] && is_file(dirname(__FILE__) .'/themes/'. $nuked['user_theme'] .'/theme.php'))
+    $theme = $nuked['user_theme'];
+elseif (is_file(dirname(__FILE__) .'/themes/'. $nuked['theme'] .'/theme.php'))
+    $theme = $nuked['theme'];
+else
+    exit(THEME_NOTFOUND);
+
+// SELECT LANGUAGE AND USER LANGUAGE
+if (array_key_exists($nuked['cookiename'] .'_user_langue', $_REQUEST))
+    $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] .'_user_langue'];
+else
+    $nuked['user_lang'] = false;
+
+if ($nuked['user_lang'] && is_file(dirname(__FILE__) .'/lang/'. $nuked['user_lang'] .'.lang.php'))
+    $language = $nuked['user_lang'];
+else
+    $language = $nuked['langue'];
+
+
+// FORMAT DATE FR/EN
+if($language == 'french') {
+    // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') setlocale (LC_ALL, 'fr_FR','fra');
+    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');
+}
+elseif($language == 'english') setlocale(LC_ALL, 'en_US');
+
+// DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
+$dateZone = getTimeZoneDateTime($nuked['datezone']);
+date_default_timezone_set($dateZone);
+
+// CONFIG PHP SESSION
+if (ini_get('session.save_handler') == 'files')
+    session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
+
+if (ini_get('suhosin.session.encrypt') == '1') {
+    @ini_set('session.gc_probability', 100);
+    @ini_set('session.gc_divisor', 100);
+    @ini_set('session.gc_maxlifetime', (1440));
+}
+
+nkSessions_init();
+
+
+/**
+ * Checks if site is closed or not installed
+ *
+ * @param void
+ * @return void
+ */
+function nkHandle_siteInstalled() {
+    if (! defined('NK_OPEN')) {
+        echo WEBSITE_CLOSED;
+        exit;
+    }
+
+    if (! defined('NK_INSTALLED') && file_exists('INSTALL/index.php')) {
+        header('location: INSTALL/index.php');
+        exit;
+    }
+}
+
+/**
+ * Checks for forbidden characters in request parameters
+ *
+ * @param void
+ * @return void
+ */
+function nkHandle_URIInjections() {
+    // On the recommendations of phpSecure.info
+    if (stripos($GLOBALS['theme'], '..') !== false
+        || stripos($GLOBALS['language'], '..') !== false
+        || stripos($_REQUEST['file'], '..') !== false
+        || stripos($_REQUEST['file'], 'http://') !== false
+        || stripos($_SERVER['QUERY_STRING'], '..') !== false
+        || stripos($_SERVER['QUERY_STRING'], 'http://') !== false
+        || stripos($_SERVER['QUERY_STRING'], '%3C%3F') !== false
+    ) {
+        die(WAYTODO);
+    }
+
+    $_REQUEST['file']       = basename(trim($_REQUEST['file']));
+    $GLOBALS['theme']       = trim($GLOBALS['theme']);
+    $GLOBALS['language']    = trim($GLOBALS['language']);
+}
+
+/**
+ * Choose which file will be include
+ *
+ * @param void
+ * @return string : File name to include
+ */
+function nkHandle_file() {
+    if (isset($_REQUEST['nuked_nude']))
+        $_REQUEST['nuked_nude'] = basename(trim($_REQUEST['nuked_nude']));
+
+    if (isset($_REQUEST['page']))
+        $_REQUEST['page'] = basename(trim($_REQUEST['page']));
+
+    if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != '') {
+        //nkTemplate_setPageDesign('nude');
+
+        return $_REQUEST['nuked_nude'];
+    }
+    elseif (isset($_REQUEST['page']) && $_REQUEST['page'] != '') {
+        return $_REQUEST['page'];
+    }
+
+    return 'index';
+}
 
 // FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
-define('NK_HTML_DEFAULT_FLAGS', (ENT_COMPAT | ENT_HTML401));
 
 function nkHtmlEntityDecode($string, $flags = NK_HTML_DEFAULT_FLAGS) {
     return html_entity_decode($string, $flags, 'ISO-8859-1');
@@ -37,54 +166,9 @@ function nkHtmlEntities($string, $flags = NK_HTML_DEFAULT_FLAGS) {
 }
 
 // FUNCTION TO FIX PRINTING TAGS
-function printSecuTags($value){
-    $value = nkHtmlEntities(nkHtmlEntityDecode(nkHtmlEntityDecode($value)));
-    return $value;
+function printSecuTags($value) {
+    return nkHtmlEntities(nkHtmlEntityDecode(nkHtmlEntityDecode($value)));
 }
-// FIX TAGS IN NUKED ARRAY
-foreach($nuked as $k => $v){
-    $nuked[$k] = printSecuTags($v);
-}
-
-// INCLUDE CONSTANT TABLE
-include('Includes/constants.php');
-
-// $_REQUEST['file'] & $_REQUEST['op'] DEFAULT VALUE.
-if (empty($_REQUEST['file'])) $_REQUEST['file'] = $nuked['index_site'];
-if (empty($_REQUEST['op'])) $_REQUEST['op'] = 'index';
-
-
-// SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
-if(array_key_exists($nuked['cookiename'] . '_user_theme', $_REQUEST)){
-    $nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] . '_user_theme'];
-}
-else{
-    $nuked['user_theme'] = false;
-}
-if ($nuked['user_theme'] && is_file(dirname(__FILE__) . '/themes/' . $nuked['user_theme'] . '/theme.php')) $theme = $nuked['user_theme'];
-elseif (is_file(dirname(__FILE__) . '/themes/' . $nuked['theme'] . '/theme.php')) $theme = $nuked['theme'];
-else exit(THEME_NOTFOUND);
-
-// SELECT LANGUAGE AND USER LANGUAGE
-if(array_key_exists($nuked['cookiename'] . '_user_langue', $_REQUEST)){
-    $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] . '_user_langue'];
-}
-else{
-    $nuked['user_lang'] = false;
-}
-$language = ($nuked['user_lang'] && is_file(dirname(__FILE__) . '/lang/' . $nuked['user_lang'] . '.lang.php')) ? $nuked['user_lang'] : $nuked['langue'];
-
-// FORMAT DATE FR/EN
-if($language == 'french') {
-    // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') setlocale (LC_ALL, 'fr_FR','fra');
-    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');
-}
-elseif($language == 'english') setlocale(LC_ALL, 'en_US');
-
-// DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
-$dateZone = getTimeZoneDateTime($nuked['datezone']);
-date_default_timezone_set($dateZone);
 
 function nkDate($timestamp, $block = false) {
     global $nuked, $language;
@@ -141,155 +225,166 @@ function getTimeZoneDateTime($GMT) {
 }
 
 // OPEN PHP SESSION
-function session_open($path, $name){
+function session_open($path, $name) {
     return true;
 }
 
 // CLOSE PHP SESSION
-function session_close(){
+function session_close() {
     return true;
 }
 
 // READ PHP SESSION
-function session_read($id){
+function session_read($id) {
     connect();
 
-    $sql = mysql_query('SELECT session_vars FROM ' . TMPSES_TABLE . ' WHERE session_id = "' . $id . '"');
-    if(mysql_num_rows($sql) > 0){
-        return ($sql === false) ? '' : mysql_result($sql, 0);
-    }
+    $dbsSession = nkDB_selectOne(
+        'SELECT session_vars
+        FROM '. TMPSES_TABLE .'
+        WHERE session_id = '. nkDB_escape($id)
+    );
+
+    if (array_key_exists('session_vars', $dbsSession))
+        return $dbsSession['session_vars'];
+
+    return '';
+
 }
 
 // WRITE PHP SESSION
-function session_write($id, $data){
+function session_write($id, $data) {
     connect();
-    
-    $id = mysql_real_escape_string($id);
-    $data = mysql_real_escape_string($data);
 
-    $sql = mysql_query('INSERT INTO ' . TMPSES_TABLE . ' (session_id, session_start, session_vars) VALUES ("' . $id . '", ' . time() . ', \'' . $data . '\')');
+    $dbiSession = nkDB_insert(TMPSES_TABLE,
+        array('session_id', 'session_start', 'session_vars'),
+        array($id, time(), $data)
+    );
 
-    if ($sql === false || mysql_affected_rows() == 0) $sql = mysql_query('UPDATE ' . TMPSES_TABLE . ' SET session_vars = \'' . $data . '\' WHERE session_id = "' . $id . '"');
+    if ($dbiSession === false || nkDB_insert_id() == 0) {
+        $dbuSession = nkDB_update(TMPSES_TABLE,
+            array('session_vars'),
+            array($data),
+            'session_id = '. nkDB_escape($id)
+        );
+    }
 
-    return $sql !== false;
+    // TODO A REVOIR
+    return ($dbiSession !== false || $dbuSession !== false);
 }
 
 // DELETE PHP SESSION
-function session_delete($id){
+function session_delete($id) {
     connect();
 
-    $sql = mysql_query('DELETE FROM ' . TMPSES_TABLE . ' WHERE session_id = "' . mysql_escape_string($id) . '"');
-
-    return $sql;
+    return nkDB_delete(TMPSES_TABLE, 'session_id = '. nkDB_escape($id));
 }
 
 // KILL DEAD SESSION
-function session_gc($maxlife){
-    $time = time() - $maxlife;
-
+function session_gc($maxlife) {
     connect();
 
-    mysql_query('DELETE FROM ' . TMPSES_TABLE . ' WHERE session_start < ' . $time);
+    nkDB_delete(TMPSES_TABLE, 'session_start < '. time() - $maxlife);
 
     return true;
 }
 
-// CONNECT TO DB.
-function connect(){
-    global $global, $db, $language;
+/**
+ * Open a connection to a database server
+ *
+ * @param void
+ * @return void
+ */
+function connect() {
+    global $global;
 
-    $db = mysql_connect($global['db_host'], $global['db_user'], $global['db_pass']);
+    require_once 'Includes/nkDb/nkDB_MySQL.php';
 
-    if (!$db){
-        echo '<div style="text-align: center;">' . ERROR_QUERY . '</div>';
-        exit();
-    }
+    nkDB_init($global);
 
-    $connect = mysql_select_db($global['db_name'], $db);
-    mysql_query('SET NAMES "latin1"');
+    if (($db = nkDB_connect()) === false) {
+        $error = nkDB_getConnectError();
 
-    if (!$connect){
-        echo '<div style="text-align: center;">' . ERROR_QUERYDB . '</div>';
-        exit();
+        // TODO : More error message ? ( DB_HOST_ERROR, DB_LOGIN_ERROR & DB_CHARSET_ERROR )
+        if ($error == 'DB_NAME_ERROR')
+            exit(ERROR_QUERYDB);
+        else
+            exit(ERROR_QUERY);
     }
 }
 
-// CONFIG PHP SESSION
-if(ini_get('session.save_handler') == 'files') session_set_save_handler('session_open', 'session_close', 'session_read', 'session_write', 'session_delete', 'session_gc');
+/**
+ * Redirect if current user / visitor is banned
+ */
+function nkHandle_bannedUser() {
+    global $user_ip, $user;
 
-if(ini_get('suhosin.session.encrypt') == '1'){
-    @ini_set('session.gc_probability', 100);
-    @ini_set('session.gc_divisor', 100);
-    @ini_set('session.gc_maxlifetime', (1440));
-}
-
-session_name('nuked');
-session_start();
-if (session_id() == '') exit(ERROR_SESSION);
-include ('Includes/nkSessions.php');
-
-// QUERY BAN FOR USER / VISITOR
-function banip() {
-    global $user_ip, $user, $language;
-
-    if(array_key_exists(2, $user)){
-        $userName = $user[2];
-    }
-    else{
-        $userName = '';
-    }
+    $userName = ($user) ? $user['name'] : '';
 
     // On supprime le dernier chiffre pour les IP's dynamiques
     $ip_dyn = substr($user_ip, 0, -1);
 
     // Condition SQL : IP dynamique ou compte
-    $where_query = ' WHERE (ip LIKE "%' . $ip_dyn . '%") OR pseudo = "' . $userName . '"';
+    $where_query = '`ip` LIKE \'%'. nkDB_escape($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName);
 
     // Recherche d'un banissement
-    $query_ban = mysql_query('SELECT `id`, `pseudo`, `date`, `dure` FROM ' . BANNED_TABLE . $where_query);
-    $ban = mysql_fetch_assoc($query_ban);
+    $ban = nkDB_selectMany(
+        'SELECT `id`, `pseudo`, `date`, `dure`
+        FROM '. BANNED_TABLE .' 
+        WHERE '. $where_query
+    );
 
     // Si resultat positif a la recherche d'un bannissement
-    if(mysql_num_rows($query_ban) > 0) {
+    if (nkDB_numRows() > 0) {
         // Nouvelle adresse IP
         $banned_ip = $user_ip;
     }
     // Recherche d'un cookie de banissement
-    else if(isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) {
+    else if (isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) {
         // On supprime le dernier chiffre de l'adresse IP contenu dans le cookie
         $ip_dyn2 = substr($_COOKIE['ip_ban'], 0, -1);
 
         // On verifie l'adresse IP du cookie et l'adresse IP actuelle
         if($ip_dyn2 == $ip_dyn) {
-            // On verifie l'existance du bannissement
-            $query_ban2 = mysql_query('SELECT `id` FROM ' . BANNED_TABLE . ' WHERE (ip LIKE "%' . $ip_dyn2 . '%")');
-            // Si resultat positif, on fait un nouveau ban
-            if(mysql_num_rows($query_ban2) > 0)
+            // On verifie l'existance du bannissement, si resultat positif, on fait un nouveau ban
+            if (nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE `ip` LIKE \'%'. $ip_dyn2 .'%\'') > 0)
                 $banned_ip = $user_ip;
         }
     }
-    else{
+    else {
         $banned_ip = '';
     }
 
     // Suppression des banissements depasses ou mise a jour de l'IP
-    if(!empty($banned_ip)) {
+    if (! empty($banned_ip)) {
         // Recherche banissement depasse
-        if($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
+        if ($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
             // Suppression bannissement
-            $del_ban = mysql_query('DELETE FROM ' . BANNED_TABLE . $where_query);
+            nkDB_delete(BANNED_TABLE, '`ip` LIKE \'%'. nkDB_escape($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName));
+
             // Notification dans l'administration
-            $notify = mysql_query("INSERT INTO " . NOTIFICATIONS_TABLE . " (`date` , `type` , `texte`)  VALUES ('" . time() . "', 4, '" . mysql_real_escape_string($pseudo) . mysql_real_escape_string(_BANFINISHED) . "')");
+            nkDB_insert(NOTIFICATIONS_TABLE,
+                array('date', 'type', 'texte'),
+                array(time(), 4, $pseudo . _BANFINISHED)
+            );
         }
         // Sinon on met a jour l'IP
         else {
-            $where_user = $user ? ', pseudo = "' . $user[2] . '"' : '';
-            $upd_ban = mysql_query('UPDATE ' . BANNED_TABLE . ' SET ip = "' . $user_ip . '"' . $where_user . ' ' . $where_query);
-            // Redirection vers la page de banissement
-            $url_ban = 'ban.php?ip_ban=' . $banned_ip;
-            if(!empty($user)){
-                $url_ban .= '&user=' . urlencode($user[2]);
+            $fields = array('ip');
+            $values = array($user_ip);
+
+            if ($user) {
+                $fields[] = 'pseudo';
+                $values[] = $user['name'];
             }
+
+            nkDB_update(BANNED_TABLE, $fields, $values, $where_query);
+
+            // Redirection vers la page de banissement
+            $url_ban = 'ban.php?ip_ban='. $banned_ip;
+
+            if (! empty($user))
+                $url_ban .= '&user='. urlencode($user['name']);
+
             redirect($url_ban, 0);
         }
     }
@@ -297,7 +392,7 @@ function banip() {
 
 // DISPLAY ALL BLOCKS
 function get_blok($side){
-    global $user, $nuked;
+    global $user, $nuked, $visiteur;
 
     if ($side == 'gauche') {
         $active = 1;
@@ -313,7 +408,7 @@ function get_blok($side){
 
     $aff_good_bl = 'block_' . $side;
 
-    $sql = mysql_query('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
+    $sql = nkDB_execute('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
     while ($blok = mysql_fetch_assoc($sql)){
         $blok['titre'] = printSecuTags($blok['titre']);
         $test_page = '';
@@ -322,8 +417,6 @@ function get_blok($side){
         for($i=0; $i<$size; $i++){
             if (isset($_REQUEST['file']) && $_REQUEST['file'] == $blok['page'][$i] || $blok['page'][$i] == 'Tous') $test_page = 'ok';
         }
-
-        $visiteur = $user ? $user[1] : 0;
 
         if ($visiteur >= $blok['nivo'] && $test_page == 'ok'){
             if(file_exists('Includes/blocks/block_' . $blok['type'] . '.php'))
@@ -349,95 +442,70 @@ function checkimg($url){
         return 'images/noimagefile.gif';
 }
 
+function getSmiliesList() {
+    static $smiliesList;
+
+    if ($smiliesList) return $smiliesList;
+
+    $smiliesList = nkDB_selectMany(
+        'SELECT code, url, name
+        FROM '. SMILIES_TABLE,
+        array('id')
+    );
+
+    return $smiliesList;
+}
+
 /**
  * Replace smilies in text
  * @param array $matches : text to parse
  * @return string : parsing text
  */
-function replace_smilies($matches)
-{
-  $matches[0] = preg_replace('#<img src=\"(.*)\" alt=\"(.*)\" title=\"(.*)\" />#Usi', '$2', $matches[0]);
-  return $matches[0];
+function replace_smilies($matches) {
+  return preg_replace('#<img src=\"(.*)\" alt=\"(.*)\" title=\"(.*)\" />#Usi', '$2', $matches[0]);
 }
 
 // DISPLAYS SMILEYS
-function icon($texte){
-    global $nuked;
+function icon($text) {
+    $text = str_replace('mailto:', 'mailto!', $text);
+    $text = str_replace('http://', '_http_', $text);
+    $text = str_replace('https://', '_https_', $text);
+    $text = str_replace('&quot;', '_QUOT_', $text);
+    $text = str_replace('&#039;', '_SQUOT_', $text);
 
-    $texte = str_replace('mailto:', 'mailto!', $texte);
-    $texte = str_replace('http://', '_http_', $texte);
-    $texte = str_replace('https://', '_https_', $texte);
-    $texte = str_replace('&quot;', '_QUOT_', $texte);
-    $texte = str_replace('&#039;', '_SQUOT_', $texte);
-
-
-    $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
-    while (list($code, $url, $name) = mysql_fetch_array($sql)){
-        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . nkHtmlEntities($name) . '" />', $texte);
+    foreach (getSmiliesList() as $smilie) {
+        $text = str_replace(
+            $smilies['code'],
+            '<img src="images/icones/'. $smilie['url'] .'" alt="" title="' . nkHtmlEntities($smilie['name']) .'" />',
+            $text
+        );
     }
 
-    $texte = str_replace('mailto!', 'mailto:', $texte);
-    $texte = str_replace('_http_', 'http://', $texte);
-    $texte = str_replace('_https_', 'https://', $texte);
-    $texte = str_replace('_QUOT_', '&quot;', $texte);
-    $texte = str_replace('_SQUOT_', '&#039;', $texte);
+    $text = str_replace('mailto!', 'mailto:', $text);
+    $text = str_replace('_http_', 'http://', $text);
+    $text = str_replace('_https_', 'https://', $text);
+    $text = str_replace('_QUOT_', '&quot;', $text);
+    $text = str_replace('_SQUOT_', '&#039;', $text);
 
     // Light calculation if <pre> tag is not present in text
-    if (strpos($texte, '<pre') !== false)
-    {
-        $texte = preg_replace_callback('#<pre(.*)>(.*)<\/pre>#Uis','replace_smilies', $texte);
-    }
+    if (strpos($text, '<pre') !== false)
+        $text = preg_replace_callback('#<pre(.*)>(.*)<\/pre>#Uis', 'replace_smilies', $text);
 
-    return $texte;
+    return $text;
 }
 
 // SEARCH SMILIES FOR CKEDITOR.
-function ConfigSmileyCkeditor(){
+function ConfigSmileyCkeditor() {
+    $smiliesList = getSmiliesList();
 
-    $donnee = 'CKEDITOR.config.smiley_path=\'images/icones/\';';
+    $smiliesCodeList    = addslashes(implode('\', \'', array_values(array_column($smiliesList, 'code'))));
+    $smiliesUrlList     = implode('\', \'', array_values(array_column($smiliesList, 'url')));
+    $smiliesNameList    = nkHtmlEntities(implode('\', \'', array_values(array_column($smiliesList, 'name'))));
 
-    $TabUrl = array();
-    $TabName = array();
-    $TabCode = array();
-
-    $sql = mysql_query('SELECT code, url, name FROM ' . SMILIES_TABLE . ' ORDER BY id');
-    while($row = mysql_fetch_assoc($sql)){
-        $TabCode[] = addslashes($row['code']);
-        $TabUrl[] = $row['url'];
-        $TabName[] = nkHtmlEntities($row['name']);
-    }
-
-    $IUrl = 0;
-    $CompteurUrl = count($TabUrl);
-    $donnee .= 'CKEDITOR.config.smiley_images=[';
-    foreach( $TabUrl as $VUrl ){
-        $IUrl++;
-        $VirguleUrl = ($IUrl == $CompteurUrl) ? '' : ', ';
-        $donnee .= "'$VUrl'$VirguleUrl";
-    }
-    $donnee .= '];';
-
-    $ICode = 0;
-    $CompteurCode = count($TabCode);
-    $donnee .= 'CKEDITOR.config.smiley_descriptions=[';
-    foreach( $TabCode as $VCode ){
-        $ICode++;
-        $VirguleCode = ($ICode == $CompteurCode) ? '' : ', ';
-        $donnee .= "'$VCode'$VirguleCode";
-    }
-    $donnee .= '];';
-
-    $IName = 0;
-    $CompteurName = count($TabName);
-    $donnee .= 'CKEDITOR.config.smiley_titles=[';
-    foreach( $TabName as $VName ){
-        $IName++;
-        $VirguleName = ($IName == $CompteurName) ? '' : ', ';
-        $donnee .= "'$VName'$VirguleName";
-    }
-    $donnee .= '];';
-
-    return $donnee;
+    return 'CKEDITOR.config.smiley_path=\'images/icones/\';'
+        . 'CKEDITOR.config.smiley_images=[\''. $smiliesUrlList .'\'];'
+        . 'CKEDITOR.config.smiley_descriptions=[\''. $smiliesCodeList .'\'];'
+        . 'CKEDITOR.config.smiley_titles=[\''. $smiliesNameList .'\'];';
 }
 
 // SECURITY FOR HTTP LINKS.
@@ -758,13 +826,16 @@ function secu_html($texte){
     }
 }
 
-function editPhpCkeditor($texte){
-    return str_replace('&lt;?php', nkHtmlEntities('&lt;?php'), $texte);
+function editPhpCkeditor($text){
+    return str_replace('&lt;?php', nkHtmlEntities('&lt;?php'), $text);
 }
 
-// REDIRECT AFTER ($tps) SECONDS TO ($url)
-function redirect($url, $tps){
-    $temps = $tps * 1000;
+// REDIRECT AFTER ($delay) SECONDS TO ($url)
+function redirect($url, $delay = 0) {
+    if ($delay == 0) {
+        header('location:'. $url);
+        exit;
+    }
 
     echo '<script type="text/javascript">',"\n"
     , '<!--',"\n"
@@ -772,14 +843,14 @@ function redirect($url, $tps){
     , 'function redirect() {',"\n"
     , 'window.location=\'' , $url , '\'',"\n"
     , "}\n"
-    , 'setTimeout(\'redirect()\',\'' , $temps ,'\');',"\n"
+    , 'setTimeout(\'redirect()\',\'' , ($delay * 1000) ,'\');',"\n"
     , "\n"
     , '// -->',"\n"
     , '</script>',"\n";
 }
 
 // DISPLAYS THE NUMBER OF PAGES
-function number($count, $each, $link){
+function number($count, $each, $link) {
 
     if(array_key_exists('p', $_REQUEST)){
         $current = $_REQUEST['p'];
@@ -827,94 +898,245 @@ function number($count, $each, $link){
     }
 }
 
-function nbvisiteur(){
+/**
+ * Count the number of visitors present
+ *
+ * @param void
+ * @return array with the number of visitors
+ *  [0] = visitors
+ *  [1] = members
+ *  [2] = admin
+ *  [3] = members + admin;
+ *  [4] = visitors + members + admin
+ */
+function nbvisiteur() {
     global $user, $nuked, $user_ip;
 
-    $limite = time() + $nuked['nbc_timeout'];
-    $time = time();
+    static $visitorStats;
 
-    $req = mysql_query("DELETE FROM " . NBCONNECTE_TABLE . " WHERE date < '" . $time."'");
+    if ($visitorStats) return $visitorStats;
 
-    if (isset($user_ip)){
-        if (isset($user[0])){
-            $where = "WHERE user_id='" . $user[0] . "'";
-        }
-        else{
-            $where = "WHERE IP='" . $user_ip . "'";
-        }
-        $req = mysql_query("SELECT IP FROM " . NBCONNECTE_TABLE . " " . $where);
-        $query = mysql_num_rows($req);
+    $time   = time();
+    $limit  = $time + $nuked['nbc_timeout'];
 
-        if ($query > 0){
-            if (isset($user[0])){
-                $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '" . $user[1] . "', IP = '" . $user_ip . "', username = '" . $user[2] . "' WHERE user_id = '" . $user[0] . "'");
+    nkDB_delete(NBCONNECTE_TABLE, 'date < '. nkDB_escape($time));
+
+    if (isset($user_ip)) {
+        if ($user)
+            $whereClause = 'user_id = '. nkDB_escape($user['id']);
+        else
+            $whereClause = 'IP = '. nkDB_escape($user_ip);
+
+        if (nkDB_totalNumRows('FROM '. NBCONNECTE_TABLE .' WHERE '. $whereClause) > 0) {
+            if ($user) {
+                nkDB_update(NBCONNECTE_TABLE,
+                    array('date', 'type', 'IP', 'username'),
+                    array($limit, $user['level'], $user_ip, $user['name']),
+                    'user_id = '. nkDB_escape($user['id'])
+                );
             }
-            else{
-                $req = mysql_query("UPDATE " . NBCONNECTE_TABLE . " SET date = '" . $limite . "', type = '', user_id = '', username = 'visitor' WHERE IP = '" . $user_ip . "'");
+            else {
+                nkDB_update(NBCONNECTE_TABLE,
+                    array('date', 'type', 'user_id', 'username'),
+                    array($limit, '', '', 'visitor'),
+                    'IP = '. nkDB_escape($user_ip)
+                );
             }
         }
-        else{
-            $del = mysql_query("DELETE FROM " . NBCONNECTE_TABLE . " WHERE IP = '" . $user_ip . "'");
-            $req = mysql_query("INSERT INTO " . NBCONNECTE_TABLE . " ( `IP` , `type` , `date` , `user_id` , `username` ) VALUES ( '" . $user_ip . "' , '" . $user[1] . "' , '" . $limite . "' , '" . $user[0] . "' , '" . $user[2] . "' )");
+        else {
+            nkDB_delete(NBCONNECTE_TABLE, 'IP = '. nkDB_escape($user_ip));
+            nkDB_insert(NBCONNECTE_TABLE, 
+                array('IP', 'type', 'date', 'user_id', 'username'),
+                array($user_ip, $user['level'], $limit, $user['id'], $user['name'])
+            );
         }
     }
 
-    $res = mysql_query("SELECT type FROM " . NBCONNECTE_TABLE . " WHERE type = 0");
-    $count[0] = mysql_num_rows($res);
-    $res = mysql_query("SELECT type FROM " . NBCONNECTE_TABLE . " WHERE type BETWEEN 1 AND 2");
-    $count[1] = mysql_num_rows($res);
-    $res = mysql_query("SELECT type FROM " . NBCONNECTE_TABLE . " WHERE type > 2");
-    $count[2] = mysql_num_rows($res);
-    $count[3] = $count[1] + $count[2];
-    $count[4] = $count[0] + $count[3];
-    return $count;
+    $visitorStats[0] = nkDB_totalNumRows('FROM '. NBCONNECTE_TABLE .' WHERE type = 0');
+    $visitorStats[1] = nkDB_totalNumRows('FROM '. NBCONNECTE_TABLE .' WHERE type BETWEEN 1 AND 2');
+    $visitorStats[2] = nkDB_totalNumRows('FROM '. NBCONNECTE_TABLE .' WHERE type > 2');
+    $visitorStats[3] = $visitorStats[1] + $visitorStats[2];
+    $visitorStats[4] = $visitorStats[0] + $visitorStats[3];
+
+    return $visitorStats;
 }
 
-function nivo_mod($mod){
-    $sql = mysql_query("SELECT niveau FROM " . MODULES_TABLE . " WHERE nom = '" . $mod . "'");
-    if (mysql_num_rows($sql) == 0){
-        return false;
+/**
+ * Return user level of module
+ *
+ * @param string $module : Module to check
+ * @return int : Numeric user level of module (0 to 9)
+ */
+function nivo_mod($moduleName) {
+    static $moduleUserLevelList = array();
+
+    if (array_key_exists($moduleName, $moduleUserLevelList))
+        return $moduleUserLevelList[$moduleName];
+
+    $dbsModules = nkDB_selectOne(
+        'SELECT niveau
+        FROM '. MODULES_TABLE .'
+        WHERE nom = '. nkDB_escape($moduleName)
+    );
+
+    $moduleUserLevelList[$moduleName] = (isset($dbsModules['niveau'])) ? $dbsModules['niveau'] : false;
+
+    return $moduleUserLevelList[$moduleName];
+}
+
+/**
+ * Return admin level of module
+ *
+ * @param string $module : Module to check
+ * @return int : Numeric admin level of module (0 to 9)
+ */
+function admin_mod($moduleName) {
+    static $moduleAdminLevelList = array();
+
+    if (array_key_exists($moduleName, $moduleAdminLevelList))
+        return $moduleAdminLevelList[$moduleName];
+
+    $dbsModules = nkDB_selectOne(
+        'SELECT admin
+        FROM '. MODULES_TABLE .'
+        WHERE nom = '. nkDB_escape($moduleName)
+    );
+
+    $moduleAdminLevelList[$moduleName] = (isset($dbsModules['admin'])) ? $dbsModules['admin'] : false;
+
+    return $moduleAdminLevelList[$moduleName];
+}
+
+/**
+ * Initializes admin of module
+ *
+ * @param string $module : Module to initialize
+ * @return bool : Admin of module initialization result
+ */
+function adminInit($module) {
+    global $language, $file, $page, $visiteur;
+
+    translate('modules/'. $module .'/lang/'. $language .'.lang.php');
+
+    // Get admin level of module
+    if ($file == 'Admin') {
+        if ($page == 'index')
+            $adminLevel = 2;
+        else
+            $adminLevel = 9;
     }
-    else{
-        list($niveau) = mysql_fetch_array($sql);
-        return $niveau;
+    else
+        $adminLevel = admin_mod($module);
+
+    // User has the required level
+    if ($visiteur >= $adminLevel) {
+        return true;
     }
+    // Module disabled
+    elseif ($adminLevel == -1) {
+        echo applyTemplate('moduleOff');
+    }
+    // User logged in, but not the rights
+    elseif ($visiteur > 1) {
+        echo applyTemplate('noEntrance');
+    }
+    // User not logged
+    else {
+        echo applyTemplate('zoneAdmin');
+    }
+
+    return false;
 }
 
-function admin_mod($mod){
-    $sql = mysql_query("SELECT admin FROM " . MODULES_TABLE . " WHERE nom = '" . $mod . "'");
-    list($admin) = mysql_fetch_array($sql);
-    return $admin;
+/**
+ * Initializes module
+ *
+ * @param string $module : Module to initialize
+ * @return bool : Module initialization result
+ */
+function moduleInit($module) {
+    global $language, $file, $visiteur;
+
+    translate('modules/'. $module .'/lang/'. $language .'.lang.php');
+
+    $moduleLevel = nivo_mod($module);
+
+    // User has the required level
+    if ($visiteur >= $moduleLevel && $moduleLevel > -1) {
+        return true;
+    }
+    // Module disabled
+    elseif ($moduleLevel == -1) {
+        echo applyTemplate('moduleOff');
+    }
+    // No access for visitors
+    elseif ($moduleLevel == 1 && $visiteur == 0) {
+        echo applyTemplate('noUser');
+    }
+    // User not logged in
+    else {
+        echo applyTemplate('noEntrance');
+    }
+
+    return false;
 }
 
-function translate($file_lang){
-    global $nuked;
+/**
+ * Including langage file
+ *
+ * @param string $languageFile : Langage file to load
+ * @return void
+ */
+function translate($languageFile) {
+    global $nuked, $arrayModLang;
 
     ob_start();
-    print eval(" include ('$file_lang'); ");
-    $lang_define = ob_get_contents();
-    $lang_define = nkHtmlEntities($lang_define, ENT_NOQUOTES);
-    $lang_define = str_replace('&lt;', '<', $lang_define);
-    $lang_define = str_replace('&gt;', '>', $lang_define);
+    $newArrayModLang = include_once $languageFile;
     ob_end_clean();
-    return $lang_define;
+
+    //$arrayModLang = array_merge($arrayModLang, $newArrayModLang);
 }
 
-function compteur($file){
-    $upd = mysql_query('UPDATE ' . STATS_TABLE . ' SET count = count + 1 WHERE type = "pages" AND nom = "' . $file . '"');
+/**
+ * Get translation of string
+ *
+ * @param string $str : The string to translate
+ * @return string : Translation if it exists or if an empty string
+ */
+function __($str) {
+    global $arrayModLang;
+
+    if (array_key_exists($str, $arrayModLang))
+        return $arrayModLang[$str];
+
+    return $str;
 }
 
-function nk_CSS($str){
-    if ($str != ""){
-        $str = str_replace('content-disposition:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#100;&#105;&#115;&#112;&#111;&#115;&#105;&#116;&#105;&#111;&#110;&#58;',$str);
-        $str = str_replace('content-type:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#116;&#121;&#112;&#101;&#58;',$str);
-        $str = str_replace('content-transfer-encoding:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#116;&#114;&#97;&#110;&#115;&#102;&#101;&#114;&#45;&#101;&#110;&#99;&#111;&#100;&#105;&#110;&#103;&#58;',$str);
-        $str = str_replace('include','&#105;&#110;&#99;&#108;&#117;&#100;&#101;',$str);
-        $str = str_replace('script','&#115;&#99;&#114;&#105;&#112;&#116;',$str);
-        $str = str_replace('eval','&#101;&#118;&#97;&#108;',$str);
-        $str = str_replace('javascript','&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;',$str);
-        $str = str_replace('embed','&#101;&#109;&#98;&#101;&#100;',$str);
-        $str = str_replace('iframe','&#105;&#102;&#114;&#97;&#109;&#101;',$str);
+/**
+ * Count the number of page views module for stats
+ *
+ * @param string $module : Module to update page view stats
+ * @return void
+ */
+function compteur($module) {
+    nkDB_update(STATS_TABLE,
+        array('count'),
+        array('count + 1', 'no-escape'),
+        'type = \'pages\' AND nom = '. nkDB_escape($module)
+    );
+}
+
+function nk_CSS($str) {
+    if ($str != '') {
+        $str = str_replace('content-disposition:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#100;&#105;&#115;&#112;&#111;&#115;&#105;&#116;&#105;&#111;&#110;&#58;', $str);
+        $str = str_replace('content-type:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#116;&#121;&#112;&#101;&#58;', $str);
+        $str = str_replace('content-transfer-encoding:','&#99;&#111;&#110;&#116;&#101;&#110;&#116;&#45;&#116;&#114;&#97;&#110;&#115;&#102;&#101;&#114;&#45;&#101;&#110;&#99;&#111;&#100;&#105;&#110;&#103;&#58;', $str);
+        $str = str_replace('include','&#105;&#110;&#99;&#108;&#117;&#100;&#101;', $str);
+        $str = str_replace('script','&#115;&#99;&#114;&#105;&#112;&#116;', $str);
+        $str = str_replace('eval','&#101;&#118;&#97;&#108;', $str);
+        $str = str_replace('javascript','&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;', $str);
+        $str = str_replace('embed','&#101;&#109;&#98;&#101;&#100;', $str);
+        $str = str_replace('iframe','&#105;&#102;&#114;&#97;&#109;&#101;', $str);
         $str = str_replace('refresh', '&#114;&#101;&#102;&#114;&#101;&#115;&#104;', $str);
         $str = str_replace('onload', '&#111;&#110;&#108;&#111;&#97;&#100;', $str);
         $str = str_replace('onstart', '&#111;&#110;&#115;&#116;&#97;&#114;&#116;', $str);
@@ -948,161 +1170,162 @@ function nk_CSS($str){
         $str = str_replace('expression', '&#101;&#120;&#112;&#114;&#101;&#115;&#115;&#105;&#111;&#110;', $str);
         $str = str_replace('alert', '&#97;&#108;&#101;&#114;&#116;', $str);
     }
-    return($str);
+
+    return $str;
 }
 
-function visits(){
+/**
+ * Manage visitor stats
+ *
+ * @param void
+ * @return void
+ */
+function visits() {
     global $nuked, $user_ip, $user;
 
-    $time = time();
-    $timevisit = $nuked['visit_delay'] * 60;
-    $limite = $time + $timevisit;
+    $time       = time();
+    $timeVisit  = $nuked['visit_delay'] * 60;
+    $visitLimit = $time + $timeVisit;
 
-    $sql_where = ($user) ? 'user_id = "' . $user[0] : 'ip = "' . $user_ip;
-    $sql = mysql_query('SELECT id, date FROM ' . STATS_VISITOR_TABLE . ' WHERE ' . $sql_where . '" ORDER by date DESC LIMIT 0, 1');
+    $whereClause = ($user) ? 'user_id = '. nkDB_escape($user['id']) : 'ip = '. nkDB_escape($user_ip);
 
-    list($id, $date) = mysql_fetch_array($sql);
+    $dbsVisitorStats = nkDB_selectOne(
+        'SELECT id, date
+        FROM '. STATS_VISITOR_TABLE .'
+        WHERE ' . $whereClause,
+        array('date'), 'DESC', 1
+    );
 
-    if (isset($id) && $date > $time){
-        $upd = mysql_query("UPDATE " . STATS_VISITOR_TABLE . " SET  date = '" . $limite . "' WHERE id = '" . $id . "'");
+    if (! empty($dbsVisitorStats) && $dbsVisitorStats['id'] && $dbsVisitorStats['date'] > $time) {
+        nkDB_update(STATS_VISITOR_TABLE,
+            array('date'), array($visitLimit),
+            'id = '. nkDB_escape($dbsVisitorStats['id'])
+        );
     }
-    else{
-        $month = strftime('%m', $time);
-        $year = strftime('%Y', $time);
-        $day = strftime('%d', $time);
-        $hour = strftime('%H', $time);
-        $user_referer = mysql_escape_string($_SERVER['HTTP_REFERER']);
-        $user_host = strtolower(@gethostbyaddr($user_ip));
-        $user_agent = mysql_escape_string($_SERVER['HTTP_USER_AGENT']);
+    else {
+        $month      = strftime('%m', $time);
+        $year       = strftime('%Y', $time);
+        $day        = strftime('%d', $time);
+        $hour       = strftime('%H', $time);
+        $browser    = getBrowser();
+        $os         = getOS();
+        $user_host  = strtolower(@gethostbyaddr($user_ip));
 
-        if ($user_host == $user_ip) $host = '';
-        else{
+        if ($user_host == $user_ip)
+            $host = '';
+        else {
             if (preg_match('`([^.]{1,})((\.(co|com|net|org|edu|gov|mil))|())((\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|fi|fj|fk|fm|fo|fr|fx|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nt|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zr|zw))|())$`', $user_host, $res))
                 $host = $res[0];
         }
 
-        $browser = getBrowser();
-        $os = getOS();
-        $sql2 = mysql_query("INSERT INTO " . STATS_VISITOR_TABLE . " ( `id` , `user_id` , `ip` , `host` , `browser` , `os` , `referer` , `day` , `month` , `year` , `hour` , `date` ) VALUES ( '' , '" . $user[0] . "' , '" . $user_ip . "' , '" . $host . "' , '" . $browser . "' , '" . $os . "' , '" . $user_referer . "' , '" . $day . "' , '" . $month . "' , '" . $year . "' , '" . $hour . "' , '" . $limite . "' )");
+        nkDB_insert(STATS_VISITOR_TABLE,
+            array('user_id', 'ip', 'host', 'browser', 'os', 'referer', 'day', 'month', 'year', 'hour', 'date'),
+            array($user['id'], $user_ip, $host, $browser, $os, $_SERVER['HTTP_REFERER'], $day, $month, $year, $hour, $visitLimit)
+        );
     }
 }
 
-function verif_pseudo($string = null, $old_string = null) {
-    global $nuked;
-
+/**
+ * Check if pseudo is conform (no empty & no special characters), not used and not banned
+ *
+ * @param string $pseudo : The pseudo to check
+ * @return string : Pseudo string trimmed
+ */
+function verif_pseudo($string = null, $oldString = null, $maxLength = 30) {
     $string = trim($string);
 
-    if (empty($string) || preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $string)) {
+    if (empty($string) || preg_match('`[\$\^\(\)\'"?%#<>,;:]`', $string)) {
         return 'error1';
     }
 
-    if($string != $old_string) {
-        $sql = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' WHERE pseudo = "' . $string . '"');
-        $is_reg = mysql_num_rows($sql);
-        if ($is_reg > 0) {
+    $escapeString = nkDB_escape($string);
+
+    if ($string != $oldString) {
+        $isUsed = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE pseudo = '. $escapeString);
+
+        if ($isUsed > 0)
             return 'error2';
-        }
     }
 
-    $sql2 = mysql_query('SELECT pseudo FROM ' . BANNED_TABLE . ' WHERE pseudo = "' . $string . '"');
-    $is_reg2 = mysql_num_rows($sql2);
-    if ($is_reg2 > 0) {
+    $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE pseudo = '. $escapeString);
+
+    if ($isBanned > 0)
         return 'error3';
-    }
+
+    if (strlen($string) > $maxLength) return 'error4';
 
     return $string;
 }
 
-function UpdateSitmap(){
-    global $nuked;
-    $Disable = array('Suggest', 'Comment', 'Vote', 'Textbox', 'Members');
+/**
+ * Return the error of verif pseudo
+ *
+ * @param string $error : Error alias returned by check pseudo
+ * @return string : Error message
+ */
+function getCheckPseudoError($error) {
+    switch ($error) {
+        case 'error1' :
+            return _BADUSERNAME;
+        break;
 
-    $fp = fopen(dirname(__FILE__).'/sitemap.xml', 'wb');
-    if ($fp !== false){
-        $Sitemap = "<?xml version='1.0' encoding='UTF-8'?>\r\n";
-        $Sitemap .= "<urlset xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n";
-        $Sitemap .= "xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\"\r\n";
-        $Sitemap .= "xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\r\n";
+        case 'error2' :
+            return _NICKUSE;
+        break;
 
-        $sql = 'SELECT nom FROM ' . MODULES_TABLE . ' WHERE niveau = 0';
-        $mods = mysql_query($sql);
+        case 'error3' :
+            return _NICKBANNED;
+        break;
 
-        while(list($mod) = mysql_fetch_row($mods)){
-            if (!in_array($mod, $Disable)){
-                $Sitemap .= "\t<url>\r\n";
-                $Sitemap .= "\t\t<loc>$nuked[url]/index.php?file=$mod</loc>\r\n";
-                switch($mod){
-                    case 'News':
-                        $Last = mysql_query('SELECT date FROM ' . NEWS_TABLE . 'ORDER BY date DESC LIMIT 1');
-                        $Last = date('Y-m-d');
-                        $Sitemap .= "\t\t<priority>0.8</priority>\r\n";
-                        $Sitemap .= "\t\t<lastmod>$Last</lastmod>\r\n";
-                        $Sitemap .= "\t\t<changefreq>daily</changefreq>\r\n";
-                        break;
-                    case 'Forum':
-                        $Sitemap .= "\t\t<priority>0.4</priority>\r\n";
-                        $Sitemap .= "\t\t<lastmod>$Last</lastmod>\r\n";
-                        $Sitemap .= "\t\t<changefreq>always</changefreq>\r\n";
-                        break;
-                    case 'Download':
-                        $Last = mysql_query('SELECT date FROM ' . DOWNLOAD_TABLE . 'ORDER BY date DESC LIMIT 1');
-                        $Last = date('Y-m-d');
-                        $Sitemap .= "\t\t<priority>0.5</priority>\r\n";
-                        $Sitemap .= "\t\t<lastmod>$Last</lastmod>\r\n";
-                        $Sitemap .= "\t\t<changefreq>weekly</changefreq>\r\n";
-                        break;
-
-                    default:
-                        $Sitemap .= "\t\t<priority>0.5</priority>\r\n";
-                } // switch
-                $Sitemap .= "\t</url>\r\n";
-            }
-        }
-
-        $Sitemap .= "</urlset>\r\n";
-        fwrite($fp, chr(0xEF) . chr(0xBB)  . chr(0xBF) . utf8_encode($Sitemap)); //Ajout de la marque d'Octet
-        fclose($fp);
+        case 'error4' :
+            return _NICKTOLONG;
+        break;
     }
 }
 
-function getOS(){
+/**
+ * Get the Operating System of user
+ *
+ * @param void
+ * @return string : The Operating System detected
+ */
+function getOS() {
+    $userAgent  = strtolower($_SERVER['HTTP_USER_AGENT']);
+    $os         = 'Autre';
 
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $os = 'Autre';
-
-    $list_os = array(
+    $osList = array(
         // Windows
-        'Windows NT 6.1'       => 'Windows 7',
-        'Windows NT 6.0'       => 'Windows Vista',
-        'Windows NT 5.2'       => 'Windows Server 2003',
-        'Windows NT 5.1'       => 'Windows XP',
-        'Windows NT 5.0'       => 'Windows 2000',
-        'Windows 2000'         => 'Windows 2000',
-        'Windows CE'           => 'Windows Mobile',
-        'Win 9x 4.90'          => 'Windows Me.',
-        'Windows 98'           => 'Windows 98',
-        'Windows 95'           => 'Windows 95',
-        'Win95'                => 'Windows 95',
-        'Windows NT'           => 'Windows NT',
+        'windows nt 6.1'       => 'Windows 7',
+        'windows nt 6.0'       => 'Windows Vista',
+        'windows nt 5.2'       => 'Windows Server 2003',
+        'windows nt 5.1'       => 'Windows XP',
+        'windows nt 5.0'       => 'Windows 2000',
+        'windows 2000'         => 'Windows 2000',
+        'windows ce'           => 'Windows Mobile',
+        'win 9x 4.90'          => 'Windows Me.',
+        'windows 98'           => 'Windows 98',
+        'windows 95'           => 'Windows 95',
+        'win95'                => 'Windows 95',
+        'windows nt'           => 'Windows NT',
 
         // Linux
-        'Ubuntu'               => 'Linux Ubuntu',
-        'Fedora'               => 'Linux Fedora',
-        'Linux'                => 'Linux',
+        'ubuntu'               => 'Linux Ubuntu',
+        'fedora'               => 'Linux Fedora',
+        'linux'                => 'Linux',
 
         // Mac
-        'Macintosh'            => 'Mac',
-        'Mac OS X'             => 'Mac OS X',
-        'Mac_PowerPC'          => 'Mac OS X',
+        'macintosh'            => 'Mac',
+        'mac os x'             => 'Mac OS X',
+        'mac_powerpc'          => 'Mac OS X',
 
          // Autres
-        'FreeBSD'              => 'FreeBSD',
-        'Unix'                 => 'Unix',
-        'Playstation portable' => 'PSP',
-        'OpenSolaris'          => 'SunOS',
-        'SunOS'                => 'SunOS',
-        'Nintendo Wii'         => 'Nintendo Wii',
-        'Mac'                  => 'Mac',
+        'freebsd'              => 'FreeBSD',
+        'unix'                 => 'Unix',
+        'playstation portable' => 'PSP',
+        'opensolaris'          => 'SunOS',
+        'sunos'                => 'SunOS',
+        'nintendo wii'         => 'Nintendo Wii',
+        'mac'                  => 'Mac',
 
         // Search Engines
         'msnbot'               => 'Microsoft Bing',
@@ -1110,22 +1333,27 @@ function getOS(){
         'yahoo'                => 'Yahoo Bot'
     );
 
-    $user_agent = strtolower( $user_agent );
-
-    foreach( $list_os as $k => $v ){
-        if (preg_match("#".strtolower($k)."#", strtolower($user_agent))){
+    foreach ($osList as $k => $v) {
+        if (strpos($userAgent, strtolower($k)) !== false) {
             $os = $v;
             break;
         }
     }
+
     return $os;
 }
 
+/**
+ * Get the web browser of user
+ *
+ * @param void
+ * @return string : The web browser detected
+ */
 function getBrowser(){
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $browser = 'Autre';
+    $userAgent  = $_SERVER['HTTP_USER_AGENT'];
+    $browser    = 'Autre';
 
-    $list_browser = array(
+    $browserList = array(
         'Firefox'   => 'Firefox',
         'Lynx'      => 'Lynx',
         'Konqueror' => 'Konqueror',
@@ -1142,16 +1370,18 @@ function getBrowser(){
         'yahoo'     => 'Yahoo Bot'
     );
 
-    foreach( $list_browser as $k => $v ){
-        if (preg_match("#".$k."#i", $user_agent)){
+    foreach ($browserList as $k => $v) {
+        if (stripos($userAgent, $k) !== false) {
             $browser = $v;
             break;
         }
     }
-    return $browser;
 
+    return $browser;
 }
-function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
+
+// TODO : Bug #82 Sql error handler don't work
+function erreursql($errno, $errstr, $errfile, $errline, $errcontext) {
     global $user, $nuked, $language;
 
     switch ($errno){
@@ -1172,8 +1402,8 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
             $date = time();
             echo ERROR_SQL;
             $texte = _TYPE . ': ' . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
-            $upd = mysql_query("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
-            $upd2 = mysql_query("INSERT INTO " . $nuked['prefix'] . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', '" . _ERRORSQLDEDECTED . " : [<a href=\"index.php?file=Admin&page=erreursql\">" . _TLINK . "</a>].')");
+            $upd = nkDB_execute("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
+            $upd2 = nkDB_execute("INSERT INTO " . $nuked['prefix'] . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', '" . _ERRORSQLDEDECTED . " : [<a href=\"index.php?file=Admin&page=erreursql\">" . _TLINK . "</a>].')");
             exit();
             break;
     }
@@ -1181,39 +1411,33 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext){
     return true;
 }
 
-function send_stats_nk() {
-    global $nuked;
-
-	if($nuked['stats_share'] == "1")
-	{
-		$timediff = (time() - $nuked['stats_timestamp'])/60/60/24/60; // Tous les 60 jours
-		if($timediff >= 60)
-		{
-			?>
-            <script type="text/javascript">
-            $(document).ready(function() {
-                data="nuked_nude=ajax";
-                $.ajax({url:'index.php', data:data, type: "GET", success: function(html) {
-                 }});
-            });
-            </script>
-            <?php
-        }
-    }
-}
-
-// Control valid DB prefix
-function initializeControlDB($prefixDB) {
-    if (!isset($prefixDB)) {
+/**
+ * Load config vars from database
+ *
+ * @param string $dbPrefix : Prefix of database tables names
+ * @return array $nuked : Associative array of all params fetched from database
+ */
+function nkLoadConfiguration($dbPrefix) {
+    if (! isset($dbPrefix))
         exit(DBPREFIX_ERROR);
-    } else {
-        $result = mysql_query('SELECT name, value FROM ' . $prefixDB . '_config');
-        if ($result == false) {
-            exit(DBPREFIX_ERROR);
-        } else {
-            return $result;
-        }
-    }
+
+    $dbsConfig = nkDB_selectMany('SELECT name, value FROM '. $dbPrefix .'_config');
+
+    if (nkDB_queryError())
+        exit(DBPREFIX_ERROR);
+
+    $nuked = array();
+
+    foreach ($dbsConfig as $row)
+        $nuked[$row['name']] = nkHtmlEntities($row['value'], ENT_NOQUOTES);
+
+    $nuked['prefix'] = $dbPrefix;
+
+    // FIX TAGS IN NUKED ARRAY
+    foreach($nuked as $k => $v)
+        $nuked[$k] = printSecuTags($v);
+
+    return $nuked;
 }
 
 function nkGetMedias(){
@@ -1271,7 +1495,6 @@ function defaultNotification($data, $redirectUrl, $redirectDelay){
         }
 }
 
-
 /**
  * Initialization captcha system
  */
@@ -1282,7 +1505,7 @@ function initCaptcha(){
     // On determine si le captcha est actif ou non
     if (_NKCAPTCHA == 'off' || (_NKCAPTCHA == 'auto' && !empty($GLOBALS['user']) && $GLOBALS['user'][1] > 0)) {
         $captcha = false;
-    } else if((_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] == 0) || _NKCAPTCHA == 'on') {
+    } else if((_NKCAPTCHA == 'auto' && $GLOBALS['user'] && $GLOBALS['user'][1] == 0) || _NKCAPTCHA == 'on') {
         $captcha = true;
     } else {
         $captcha = true;
@@ -1290,4 +1513,5 @@ function initCaptcha(){
 
     return $captcha;
 }
+
 ?>

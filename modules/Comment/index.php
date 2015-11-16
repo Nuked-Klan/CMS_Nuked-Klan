@@ -17,7 +17,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die;
 
-global $language, $user, $cookie_captcha;
+global $language, $user;
 translate("modules/Comment/lang/$language.lang.php");
 
 $captcha = initCaptcha();
