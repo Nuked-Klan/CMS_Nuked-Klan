@@ -192,15 +192,8 @@ function nkStats_cron() {
     $timediff = (time() - $nuked['stats_timestamp']) / 60 / 60 / 24 / 60; // Tous les 60 jours
 
     if ($timediff >= 60) {
-        ?>
-        <script type="text/javascript">
-        $(document).ready(function() {
-            data="nuked_nude=ajax";
-            $.ajax({url:'index.php', data:data, type: "GET", success: function(html) {
-            }});
-        });
-        </script>
-        <?php
+        nkTemplate_addJSFile(JQUERY_LIBRAIRY, 'librairy');
+        nkTemplate_addJSFile('media/js/nkStats.js', 'normal');
     }
 }
 

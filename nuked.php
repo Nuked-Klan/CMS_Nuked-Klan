@@ -13,6 +13,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
 require_once 'Includes/nkSessions.php';
+require_once 'Includes/nkTemplate.php';
 
 // Set default flags used by nkHtmlEntityDecode, nkHtmlSpecialChars & nkHtmlEntities
 define('NK_HTML_DEFAULT_FLAGS', (ENT_COMPAT | ENT_HTML401));
@@ -140,7 +141,7 @@ function nkHandle_file() {
         $_REQUEST['page'] = basename(trim($_REQUEST['page']));
 
     if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != '') {
-        //nkTemplate_setPageDesign('nude');
+        nkTemplate_setPageDesign('nudePage');
 
         return $_REQUEST['nuked_nude'];
     }
@@ -1062,7 +1063,7 @@ function moduleInit($module) {
     $moduleLevel = nivo_mod($module);
 
     // User has the required level
-    if ($visiteur >= $moduleLevel && $moduleLevel > -1) {
+    if ($moduleLevel === false || ($visiteur >= $moduleLevel && $moduleLevel > -1)) {
         return true;
     }
     // Module disabled
@@ -1512,6 +1513,64 @@ function initCaptcha(){
     }
 
     return $captcha;
+}
+
+function loadCkeFiles() {
+    global $language, $nuked, $bgcolor4;
+
+    nkTemplate_addJSFile('media/ckeditor/ckeditor.js');
+    nkTemplate_addJSFile('media/ckeditor/config.js');
+
+    //nkTemplate_addJS(
+        ?>
+            <script type="text/javascript">
+                //<![CDATA[
+                if(document.getElementById('e_basic')){
+                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
+                    CKEDITOR.config.scayt_autoStartup = "true";
+                    CKEDITOR.replace('e_basic',{
+                        toolbar : 'Basic',
+                        autoGrow_onStartup : true,
+                        autoGrow_maxHeight : 200,
+                        language : '<?php echo substr($language, 0,2) ?>',
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
+                    });
+                    <?php echo ConfigSmileyCkeditor(); ?>
+                }
+
+                if(document.getElementById('e_advanced')){
+                    <?php echo ($nuked['video_editeur'] == 'on') ? 'CKEDITOR.config.extraPlugins = \'Video\';' : ''; ?>
+                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
+                    <?php echo ($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''; ?>
+                    CKEDITOR.replace('e_advanced',{
+                        toolbar : 'Full',
+                        autoGrow_onStartup : true,
+                        autoGrow_maxHeight : 200,
+                        language : '<?php echo substr($language, 0,2) ?>',
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\',' : ''; ?>
+                        allowedContent:
+                            'p h1 h2 h3 h4 h5 h6 blockquote tr td div a span{text-align,font-size,font-family,font-style,color,background-color,display};' +
+                            'img[!src,alt,width,height,class,id,style,title,border]{*}(*);' +
+                            'strong s em u strike sub sup ol ul li br caption thead  hr big small tt code del ins cite q address section aside header;' +
+                            'div[class,id,style,title,align]{page-break-after,width,height,background};' +
+                            'a[!href,accesskey,class,id,name,rel,style,tabindex,target,title];' +
+                            'table[align,border,cellpadding,cellspacing,class,id,style];' +
+                            'td[colspan, rowspan];' +
+                            'th[scope];' +
+                            'pre(*);' +
+                            'span[id, style];'
+                            <?php if($nuked['video_editeur'] == 'on'){ ?>
+                                + 'object[width,height,data,type];'
+                                + 'param[name,value];'
+                                + 'embed[width,height,src,type,allowfullscreen,allowscriptaccess];'
+                            <?php } ?>
+                    });
+                    <?php echo ConfigSmileyCkeditor(); ?>
+                }
+                //]]>
+            </script>
+        <?php
+    //);
 }
 
 ?>

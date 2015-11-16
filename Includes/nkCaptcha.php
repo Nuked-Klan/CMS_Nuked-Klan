@@ -63,6 +63,10 @@ function create_captcha(){
     } else {
         $token = $_SESSION['CT_TOKEN'];
     }
+
+    nkTemplate_addJSFile(JQUERY_LIBRAIRY, 'librairy');
+    nkTemplate_addJSFile('media/js/captcha.js');
+
     $contentCaptcha = '<input type="hidden" name="ct_token" value="'.$token.'" />
                        <input type="hidden" class="ct_script" name="ct_script" value="nuked" />
                        <input type="hidden" name="ct_email" value="" />';

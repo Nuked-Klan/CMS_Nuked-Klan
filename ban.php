@@ -65,30 +65,16 @@ if (nkDB_numrows() > 0) {
     // Sinon on prolongue la durée de vie du cookie.
     setcookie('ip_ban', $bannedIp, time() + 9999999, '', '', '');
 
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
-    <head><title>' . $nuked['name'] . ' - ' . $nuked['slogan'] . '</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <meta http-equiv="content-style-type" content="text/css" />
-    <link title="style" type="text/css" rel="stylesheet" href="themes/' . $theme . '/style.css" /></head>
-    <body style="background : ' . $bgcolor2 . '"><div style="margin: 200px auto; padding: 20px; width: 800px; border: 1px solid ' . $bgcolor3 . '; background: ' . $bgcolor1 . '; text-align: center">
-    <big><b>' . $nuked['name'] . ' - ' . $nuked['slogan'] . '</b><br /><br />
-    ' . _IPBANNED . '</big>';
-
-    if (!empty($dbrBanned['texte'])) {
-        echo '<br /><p><hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" />
-        <big><b>' . _REASON . '</b><br>' . nkHtmlEntityDecode($dbrBanned['texte']) . '</big></p>';
-    }
-
     if ($dbrBanned['dure'] == 0) $duration = _AVIE;
     else if ($dbrBanned['dure'] == 86400) $duration = _1JOUR;
     else if ($dbrBanned['dure'] == 604800) $duration = _7JOUR;
     else if ($dbrBanned['dure'] == 2678400) $duration = _1MOIS;
     else if ($dbrBanned['dure'] == 31708800) $duration = _1AN;
 
-    echo '<hr style="color: ' . $bgcolor3 . ';height: 1px; width: 95%" /><br />' . _DURE . '
-    ' . strtolower($duration) . '<br />
-    ' . _CONTACTWEBMASTER . ' : <a href="mailto:' . $nuked['mail'] . '">' . $nuked['mail'] . '</a></div></body></html>';
+    echo applyTemplate('banishmentMessage', array(
+        'reason'    => $dbrBanned['texte'],
+        'duration'  => $duration
+    ));
 }
 else {
     if (isset($_COOKIE['ip_ban']) && ! empty($_COOKIE['ip_ban']))

@@ -70,6 +70,7 @@ function nkSessions_init() {
             ) {
                 $lastIp = $ip;
                 $check &= 1;
+            }
             else
                 $check &= 0;
         }
@@ -105,9 +106,6 @@ function nkSessions_getUser() {
         $GLOBALS['visiteur']    = 0;
         $_SESSION['admin']      = false;
     }
-
-    // Get status of admin session and put it in $GLOBALS['adminSession']
-    $GLOBALS['adminSession'] = nkSessions_adminCheck();
 }
 
 /**

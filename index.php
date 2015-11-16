@@ -86,229 +86,105 @@ if ( $_REQUEST['file'] !== 'Admin'
     $_SESSION['admin'] = false;
 }
 
-// Inclusion du fichier des couleurs
-require_once('themes/'. $theme .'/colors.php');
 
 /**
  * Init translation
  */
 translate('lang/'. $language .'.lang.php');
 
-// Si le site est fermé
-if ($nuked['nk_status'] == 'closed' 
-    && $user[1] < 9 && $_REQUEST['op'] != 'login_screen'
-    && $_REQUEST['op'] != 'login_message'
-    && $_REQUEST['op'] != 'login'){
-?>
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
-        <head>
-            <title><?php echo $nuked['name']; ?> - <?php echo $nuked['slogan']; ?></title>
-            <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-            <link type="text/css" rel="stylesheet" media="screen" href="assets/css/nkDefault.css" />
-            <link type="text/css" rel="stylesheet" media="screen" href="themes/<?php echo $theme; ?>/style.css" />
-        </head>
-        <body style="background:<?php echo $bgcolor2; ?>;">
-            <div id="nkSiteClosedWrapper" style=" border: 1px solid <?php echo $bgcolor3; ?>; background:<?php echo $bgcolor2; ?>;">
-                <h1><?php echo $nuked['name']; ?> - <?php echo $nuked['slogan']; ?></h1>
-                <p><?php echo _SITECLOSED; ?></p>
-                <a href="index.php?file=User&amp;op=login_screen"><strong><?php echo _LOGINUSER; ?></strong></a>
-            </div>
-        </body>
-    </html>
-<?php
-}
+// If website is closed
+if ($nuked['nk_status'] == 'closed' && $visiteur < 9
+    && ! in_array($_REQUEST['op'], array('login_screen', 'login_message', 'login'))
+) {
+    require_once 'themes/'. $theme .'/colors.php';
 
-else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) 
-    && $_REQUEST['nuked_nude'] == 'admin')) 
-    && $_SESSION['admin'] == 0){
-    require_once('modules/Admin/login.php');
+    echo applyTemplate('websiteClosed');
 }
-else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( nivo_mod($_REQUEST['file']) === false || (nivo_mod($_REQUEST['file']) > -1 
-    && (nivo_mod($_REQUEST['file']) <= $visiteur))) ){
-    require_once ('themes/' . $theme . '/theme.php');
+// Display admin login
+else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin'
+    || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin'))
+    && nkSessions_adminCheck() == false
+) {
+    require_once 'modules/Admin/login.php';
+}
+// Run module
+else if (($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin')
+    || (nivo_mod($_REQUEST['file']) === false || (nivo_mod($_REQUEST['file']) > -1
+    && (nivo_mod($_REQUEST['file']) <= $visiteur)))
+) {
+    require_once 'themes/'. $theme .'/colors.php';
+    require_once 'themes/'. $theme .'/theme.php';
 
-    if ($nuked['level_analys'] != -1) {
+    if ($nuked['level_analys'] != -1)
         visits();
-    }
 
-    if (!isset($_REQUEST['nuked_nude'])){
-        if (defined('NK_GZIP') && ini_get('zlib_output')) {
+    //if (nkTemplate_getPageDesign() == 'nudePage') {
+    if (! isset($_REQUEST['nuked_nude'])){
+        if (defined('NK_GZIP') && ini_get('zlib_output'))
             ob_start('ob_gzhandler');
-        }
 
-        if ( !($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin'))
+        if (! ($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin'))
             || $_REQUEST['page'] == 'login') {
 
             top();
 
             nkGetMedias();
-?>
-            <script type="text/javascript">
-                InitBulle('<?php echo $bgcolor2; ?>','<?php echo $bgcolor3; ?>', 2);
-            </script>
-<?php
+            nkTemplate_addJS('InitBulle(\''. $bgcolor2 .'\',\''. $bgcolor3 .'\', 2);');
         }
 
-        if($user && $user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
-            if ($nuked['nk_status'] == 'closed'){
-?>
-                <div id="nkSiteClosedLogged" class="nkAlert">
-                    <strong><?php echo _YOURSITEISCLOSED; ?></strong>
-                    <p><?php echo $nuked['url']; ?>/index.php?file=User&amp;op=login_screen</p>
-                </div>
-<?php
-            }
-            if (is_dir('INSTALL/')){
-?>
-                <div id="nkInstallDirTrue" class="nkAlert">
-                    <strong><?php echo REMOVEDIRINST; ?></strong>
-                </div>
-<?php
-            }
-            if (file_exists('install.php') || file_exists('update.php')){
-?>
-                <div id="nkInstallFileTrue" class="nkAlert">
-                    <strong><?php echo REMOVE_INSTALL_FILES; ?></strong>
-                </div>
-<?php
-            }
+        if ($visiteur == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
+            if ($nuked['nk_status'] == 'closed')
+                echo applyTemplate('nkAlert/nkSiteClosedLogged');
+
+            if (is_dir('INSTALL/'))
+                echo applyTemplate('nkAlert/nkInstallDirTrue');
+
+            if (file_exists('install.php') || file_exists('update.php'))
+                echo applyTemplate('nkAlert/nkInstallFileTrue');
         }
 
-        if ($user && $user[5] > 0 && !isset($_COOKIE['popup']) && $_REQUEST['file'] != 'User' && $_REQUEST['file'] != 'Userbox' && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
-?>
-                <div id="nkNewPrivateMsg" class="nkAlert">
-                    <strong><?php echo _NEWMESSAGESTART; ?><?php echo $user[5]; ?>&nbsp;<?php echo _NEWMESSAGEEND; ?></strong>
-                    <a href="index.php?file=Userbox"><span><?php echo _GOTOPRIVATEMESSAGES; ?></span></a>
-                    <a id="nkNewPrivateMsgClose" href="#" title="<?php echo _CLOSEWINDOW; ?>"><span><?php echo _CLOSEWINDOW; ?></span></a>
-                </div>
-<?php
-        }
+        if ($user && $user[5] > 0 && ! isset($_COOKIE['popup'])
+            && ! in_array($_REQUEST['file'], array('User', 'Userbox', 'Admin'))
+            && $_REQUEST['page'] != 'admin'
+        )
+            echo applyTemplate('nkAlert/nkNewPrivateMsg');
     }
     else {
         header('Content-Type: text/html;charset=ISO-8859-1');
     }
 
-    if (is_file('modules/'. $_REQUEST['file'] .'/'. $_REQUEST['page'] .'.php')) {
+    if (is_file('modules/'. $_REQUEST['file'] .'/'. $_REQUEST['page'] .'.php'))
         require_once 'modules/'. $_REQUEST['file'] .'/'. $_REQUEST['page'] .'.php';
-    }
-    else {
+    else
         require_once 'modules/404/index.php';
-    }
 
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
-
         // choix de l'éditeur
-
-        if($nuked['editor_type'] == "cke") //ckeditor
-        {
-        ?>
-            <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
-            <script type="text/javascript" src="media/ckeditor/config.js"></script>
-            <script type="text/javascript">
-                //<![CDATA[
-                if(document.getElementById('e_basic')){
-                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
-                    CKEDITOR.config.scayt_autoStartup = "true";
-                    CKEDITOR.replace('e_basic',{
-                        toolbar : 'Basic',
-                        autoGrow_onStartup : true,
-                        autoGrow_maxHeight : 200,
-                        language : '<?php echo substr($language, 0,2) ?>',
-                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
-                    });
-                    <?php echo ConfigSmileyCkeditor(); ?>
-                }
-
-                if(document.getElementById('e_advanced')){
-                    <?php echo ($nuked['video_editeur'] == 'on') ? 'CKEDITOR.config.extraPlugins = \'Video\';' : ''; ?>
-                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
-                    <?php echo ($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''; ?>
-                    CKEDITOR.replace('e_advanced',{
-                        toolbar : 'Full',
-                        autoGrow_onStartup : true,
-                        autoGrow_maxHeight : 200,
-                        language : '<?php echo substr($language, 0,2) ?>',
-                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\',' : ''; ?>
-                        allowedContent:
-                            'p h1 h2 h3 h4 h5 h6 blockquote tr td div a span{text-align,font-size,font-family,font-style,color,background-color,display};' +
-                            'img[!src,alt,width,height,class,id,style,title,border]{*}(*);' +
-                            'strong s em u strike sub sup ol ul li br caption thead  hr big small tt code del ins cite q address section aside header;' +
-                            'div[class,id,style,title,align]{page-break-after,width,height,background};' +
-                            'a[!href,accesskey,class,id,name,rel,style,tabindex,target,title];' +
-                            'table[align,border,cellpadding,cellspacing,class,id,style];' +
-                            'td[colspan, rowspan];' +
-                            'th[scope];' +
-                            'pre(*);' +
-                            'span[id, style];'
-                            <?php if($nuked['video_editeur'] == 'on'){ ?>
-                                + 'object[width,height,data,type];'
-                                + 'param[name,value];'
-                                + 'embed[width,height,src,type,allowfullscreen,allowscriptaccess];'
-                            <?php } ?>
-                    });
-                    <?php echo ConfigSmileyCkeditor(); ?>
-                }
-                //]]>
-            </script>
-        <?php
-        }else if($nuked['editor_type'] == "tiny"){ //tinymce
-        ?>
-            <script type="text/javascript" src="media/tinymce/tinymce.min.js"></script>
-            <script type="text/javascript">
-                // for frontend
-                if(document.getElementById('e_basic')){
-                    tinymce.init({
-                        selector: "textarea#e_basic",
-                        language : 'fr_FR',
-                        plugins: [
-                            "autolink lists preview",
-                            "fullscreen",
-                            "table contextmenu directionality",
-                            "emoticons textcolor"
-                        ],
-                        toolbar1: "undo redo | styleselect | bold italic | bullist numlist outdent indent | link | emoticons "
-                    });
-                }
-                // for forum
-                if(document.getElementById('e_advanced')){
-                    tinymce.init({
-                        selector: "textarea#e_advanced",
-                        language : 'fr_FR',
-                        plugins: [
-                            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                            "searchreplace wordcount visualblocks visualchars code fullscreen",
-                            "insertdatetime nonbreaking save table contextmenu directionality",
-                            "emoticons paste textcolor youtube codemagic"
-                        ],
-                        toolbar1: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image youtube emoticons codemagic | preview",
-                        /* toolbar2: "print preview media | forecolor backcolor emoticons | link image", */
-                        image_advtab: true
-                     });
-                }
-            </script>
-        <?php
+        if ($nuked['editor_type'] == 'cke') { // ckeditor
+            loadCkeFiles();
+        }
+        else if ($nuked['editor_type'] == 'tiny') { // tinymce
+            nkTemplate_addJSFile('media/tinymce/tinymce.min.js');
+            nkTemplate_addJSFile('media/tinymce/nkConfig.js');
         }
     }
 
-    if (!isset($_REQUEST['nuked_nude'])) {
-        if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login') {
+    //if (nkTemplate_getPageDesign() == 'nudePage') {
+    if (! isset($_REQUEST['nuked_nude'])) {
+        if (! ($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login') {
             footer();
-        require_once('Includes/copyleft.php');
+            require_once 'Includes/copyleft.php';
         }
 
-        if ($nuked['time_generate'] == 'on'){
+        if ($nuked['time_generate'] == 'on') {
             $microTime = round((microtime(true) - $microTime) * 1000, 1);
-            echo '<p class="nkGenerated">Generated in '.$microTime.'ms</p>';
+            echo '<p class="nkGenerated">Generated in '. $microTime .'ms</p>';
         }
 
         // TODO : Create a $nuked vars to display it
         echo '<p class="nkGenerated">', nkDB_getNbExecutedQuery(), ' requêtes sql (', nkDB_getTimeForExecuteAllQuery(), 'ms)</p>';
 
         if ($nuked['stats_share'] == 1) nkStats_cron();
-
-        echo "\n", '<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>', "\n"
-             , '<script type="text/javascript" src="media/js/captcha.js"></script>', "\n";
 
         echo '</body></html>';
 
@@ -317,12 +193,12 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
         echo '-->', "\n";
     }
 }
+// User unauthorized to module access
 else {
-    require_once 'themes/'.$theme.'/colors.php';
-    require_once 'themes/'.$theme.'/theme.php';
+    require_once 'themes/'. $theme .'/colors.php';
+    require_once 'themes/'. $theme .'/theme.php';
     top();
     opentable();
-    translate('lang/' . $language . '.lang.php');
 ?>
     <link type="text/css" rel="stylesheet" href="media/css/nkDefault.css" />
     <div class="nkErrorMod">
@@ -333,6 +209,8 @@ else {
     closetable();
     footer();
 }
+
+// echo nkTemplate_renderPage($moduleContent);
 
 nkDB_disconnect();
 
