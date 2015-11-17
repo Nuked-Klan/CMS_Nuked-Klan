@@ -1068,15 +1068,21 @@ function moduleInit($module) {
     }
     // Module disabled
     elseif ($moduleLevel == -1) {
-        echo applyTemplate('moduleOff');
+        opentable();
+        echo applyTemplate('nkAlert/moduleOff');
+        closetable();
     }
     // No access for visitors
     elseif ($moduleLevel == 1 && $visiteur == 0) {
-        echo applyTemplate('noUser');
+        opentable();
+        echo applyTemplate('nkAlert/userEntrance');
+        closetable();
     }
     // User not logged in
     else {
-        echo applyTemplate('noEntrance');
+        opentable();
+        echo applyTemplate('nkAlert/noEntrance');
+        closetable();
     }
 
     return false;

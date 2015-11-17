@@ -1,17 +1,17 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
+/**
+ * index.php
+ *
+ * Frontend of Vote module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-translate('modules/Vote/lang/' . $language . '.lang.php');
-
-$visiteur = ($user) ? $user[1] : 0;
+translate('modules/Vote/lang/'. $language .'.lang.php');
 
 function vote_index($module, $vid) {
     global $user, $nuked, $visiteur;

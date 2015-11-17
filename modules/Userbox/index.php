@@ -1,16 +1,19 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open this page directly</div>');
+/**
+ * index.php
+ *
+ * Frontend of Userbox module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 global $language, $user;
-translate('modules/Userbox/lang/'.$language.'.lang.php');
+
+translate('modules/Userbox/lang/'. $language .'.lang.php');
 
 function select_user(){
     global $nuked;
@@ -299,7 +302,7 @@ function index(){
     }
 }
 
-if($user){
+if ($user) {
     if(isset($_REQUEST['op'])){
         switch ($_REQUEST['op']){
 
@@ -340,9 +343,10 @@ if($user){
             break;
         }
     }
-}else{
+} else {
     opentable();
-    echo '<br /><br /><div style="text-align:center;">'._USERENTRANCE.'<br /><br /><a href="index.php?file=User&amp;op=login_screen"><b>'._LOGINUSER.'</b></a> | <a href="index.php?file=User&amp;op=reg_screen"><b>'._REGISTERUSER.'</b></a></div><br /><br />';
+    echo applyTemplate('nkAlert/userEntrance');
     closetable();
 }
+
 ?>

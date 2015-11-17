@@ -1,17 +1,22 @@
 <?php
 /**
+ * submit.php
+ *
+ * Frontend of Textbox module
+ *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
-defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-translate("modules/Textbox/lang/" . $language . ".lang.php");
+translate('modules/Textbox/lang/'. $language .'.lang.php');
 
 $captcha = initCaptcha();
 
-$visiteur = $user ? $user[1] : 0;
+global $visiteur;
+
 $redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
 $level_access = nivo_mod("Textbox");
 

@@ -1,28 +1,21 @@
 <?php
 /**
- * Index of Comment Module
+ * index.php
+ *
+ * Frontend of Comment module
  *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2013 Nuked-Klan (Registred Trademark)
  */
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die;
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $language, $user;
-translate("modules/Comment/lang/$language.lang.php");
+global $language;
+
+translate('modules/Comment/lang/'. $language .'.lang.php');
 
 $captcha = initCaptcha();
-
-$visiteur = ($user) ? $user[1] : 0;
 
 function verification($module, $im_id){
     global $nuked;

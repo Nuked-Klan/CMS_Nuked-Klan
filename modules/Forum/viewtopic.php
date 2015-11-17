@@ -1,24 +1,29 @@
 <?php 
 /**
+ * viewtopic.php
+ *
+ * Frontend of Forum module
+ *
  * @version     1.8
- * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
-defined('INDEX_CHECK') or die;
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $nuked, $user, $language, $theme;
+if (! moduleInit('Forum'))
+    return;
 
-translate("modules/Forum/lang/" . $language . ".lang.php");
-include("modules/Forum/template.php");
+$captcha = initCaptcha();
+
+
+global $nuked, $user, $language, $theme, $visiteur;
+
+include 'modules/Forum/template.php';
 
 opentable();
 
-$visiteur = $user ? $user[1] : 0;
 
-$ModName = basename(dirname(__FILE__));
-$level_access = nivo_mod($ModName);
-if ($visiteur >= $level_access && $level_access > -1) {
     $nb_mess_for_mess = $nuked['mess_forum_page'];
 
     $sql = mysql_query("SELECT nom, moderateurs, cat, level FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
@@ -787,31 +792,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 ?>
     </div>
 <?php
-    } 
-} 
-else if ($level_access == -1) {
-    // On affiche le message qui previent l'utilisateur que le module est désactivé
-    echo '<div id="nkAlertError" class="nkAlert">
-            <strong>'._MODULEOFF.'</strong>
-            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
-        </div>';
-}
-else if ($level_access == 1 && $visiteur == 0) {
-    // On affiche le message qui previent l'utilisateur qu'il n'as pas accès à ce module
-    echo '<div id="nkAlertError" class="nkAlert">
-            <strong>'._USERENTRANCE.'</strong>
-            <a href="index.php?file=User&amp;op=login_screen"><span>'._LOGINUSER.'</span></a>
-            &nbsp;|&nbsp;
-            <a href="index.php?file=User&amp;op=reg_screen"><span>'._REGISTERUSER.'</span></a>
-        </div>';
-}
-else {
-    // On affiche le message qui previent l'utilisateur que le module est désactivé
-    echo '<div id="nkAlertError" class="nkAlert">
-            <strong>'._NOENTRANCE.'</strong>
-            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
-        </div>';
-}
+    }
 
 // Fermeture du conteneur de module
 closetable();

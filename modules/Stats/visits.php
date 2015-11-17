@@ -1,18 +1,21 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die;
+/**
+ * visits.php
+ *
+ * Frontend of Stats module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $nuked, $user, $language, $bgcolor3, $bgcolor2, $bgcolor1;
-translate('modules/Stats/lang/' . $language . '.lang.php');
 
-$visiteur = ($user) ? $user[1] : 0;
+global $nuked, $user, $visiteur, $language, $bgcolor3, $bgcolor2, $bgcolor1;
+
+translate('modules/Stats/lang/'. $language .'.lang.php');
+
 
 if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
     if ($_REQUEST['op'] == 'view_all') {
@@ -395,13 +398,12 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 }
 else if ($nuked['level_analys'] == 1 && $visiteur == 0) {
     opentable();
-    echo '<br /><br /><div style="text-align: center">' . _USERENTRANCE . '<br /><br /><b><a href="index.php?file=User&amp;op=login_screen">' . _LOGINUSER . '</a> | '
-    . '<a href="index.php?file=User&amp;op=reg_screen">' . _REGISTERUSER . '</a></b></div><br /><br />';
+    echo applyTemplate('nkAlert/userEntrance');
     closetable();
 }
 else {
     opentable();
-    echo '<br /><br /><div style="text-align: center">' . _NOENTRANCE . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a></div><br /><br />';
+    echo applyTemplate('nkAlert/noEntrance');
     closetable();
 }
 
@@ -648,4 +650,5 @@ function view_host()
 
     echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div></body></html>';
 }
+
 ?>

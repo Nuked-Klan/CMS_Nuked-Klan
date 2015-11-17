@@ -1,17 +1,23 @@
 <?php
 /**
+ * index.php
+ *
+ * Frontend of User module
+ *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
-defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $language, $user;
-translate('modules/User/lang/' . $language . '.lang.php');
-translate('modules/Members/lang/' . $language . '.lang.php');
+global $language;
 
-include_once('Includes/hash.php');
+translate('modules/User/lang/'. $language .'.lang.php');
+translate('modules/Members/lang/'. $language .'.lang.php');
+
+include_once 'Includes/hash.php';
+
 $captcha = initCaptcha();
 
 function index(){
@@ -2096,4 +2102,5 @@ switch ($_REQUEST['op']){
         index();
         break;
 }
+
 ?>
