@@ -966,7 +966,8 @@ function nbvisiteur() {
  * Return user level of module
  *
  * @param string $module : Module to check
- * @return int : Numeric user level of module (0 to 9)
+ * @return mixed : Numeric user level of module (0 to 9),
+ *         -1 if module is disabled and false if module isn't registred in modules table
  */
 function nivo_mod($moduleName) {
     static $moduleUserLevelList = array();
@@ -989,7 +990,8 @@ function nivo_mod($moduleName) {
  * Return admin level of module
  *
  * @param string $module : Module to check
- * @return int : Numeric admin level of module (0 to 9)
+ * @return mixed : Numeric admin level of module (0 to 9),
+ *         -1 if module is disabled and false if module isn't registred in modules table
  */
 function admin_mod($moduleName) {
     static $moduleAdminLevelList = array();
@@ -1014,36 +1016,37 @@ function admin_mod($moduleName) {
  * @param string $module : Module to initialize
  * @return bool : Admin of module initialization result
  */
-function adminInit($module) {
+function adminInit($module, $adminPageLevel = false) {
     global $language, $file, $page, $visiteur;
 
+    nkTemplate_setInterface('backend');
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 
     // Get admin level of module
     if ($file == 'Admin') {
-        if ($page == 'index')
-            $adminLevel = 2;
+        if (is_int($adminPageLevel))
+            $adminLevel = $adminPageLevel;
         else
-            $adminLevel = 9;
+            die('You must defined access level for this page of Admin module !');
     }
     else
         $adminLevel = admin_mod($module);
 
     // User has the required level
-    if ($visiteur >= $adminLevel) {
+    if ($visiteur >= $adminLevel && $adminLevel > -1) {
         return true;
     }
     // Module disabled
     elseif ($adminLevel == -1) {
-        echo applyTemplate('moduleOff');
+        printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error');
     }
     // User logged in, but not the rights
     elseif ($visiteur > 1) {
-        echo applyTemplate('noEntrance');
+        printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error');
     }
     // User not logged
     else {
-        echo applyTemplate('zoneAdmin');
+        printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error');
     }
 
     return false;
@@ -1058,6 +1061,7 @@ function adminInit($module) {
 function moduleInit($module) {
     global $language, $file, $visiteur;
 
+    nkTemplate_setInterface('frontend');
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 
     $moduleLevel = nivo_mod($module);

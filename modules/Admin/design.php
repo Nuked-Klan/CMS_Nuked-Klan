@@ -403,22 +403,13 @@ function checkboxButton($name, $id, $checked = false, $inline = false) {
 }
 
 function printNotification($message, $url, $type = 'information', $back = true, $redirect = false) {
-    ?>
-    <div style="margin:20px;">
-        <div class="notification <?php echo $type; ?> png_bg">
-            <div>
-                <?php echo $message; ?>
-            </div>
-        </div>
-    </div>
-    <?php if ($back === true): ?>
-        <span style="text-align: center;display:block;margin:10px auto;">
-            <a class="buttonLink" href="<?php echo $url; ?>"><?php echo _BACK; ?></a>
-        </span>
-    <?php
-    endif;
+    echo applyTemplate('notification', array(
+        'type'      => $type,
+        'message'   => $message,
+        'back'      => $back,
+        'url'       => $url
+    ));
 
-    if($redirect === true){
+    if ($redirect === true)
         redirect($url, 2);
-    }
 }

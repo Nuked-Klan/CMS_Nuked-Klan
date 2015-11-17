@@ -1,22 +1,24 @@
 <?php
 /**
+ * games.php
+ *
+ * Backend of Admin module
+ *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
-defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $language, $user, $nuked;
+include 'modules/Admin/design.php';
 
-translate('modules/Admin/lang/' . $language . '.lang.php');
-include('modules/Admin/design.php');
+if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
+    return;
 
-$visiteur = $user ? $user[1] : 0;
 
-if ($visiteur >= 2)
-{
-    admintop();
+admintop();
+
     ?>
     <!-- Page Head -->
     <h2><?php echo _BONJOUR . '&nbsp;' . $user[2]; ?></h2>
@@ -382,16 +384,7 @@ if ($visiteur >= 2)
                 <?php
                 }
             }
-    adminfoot();
-}
-else
-{
-    admintop();
-    echo '<div class="notification error png_bg">
-        <div>
-        <br /><br /><div style="text-align: center">' . _ZONEADMIN . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a></div><br /><br />
-        </div>
-    </div>';
-    adminfoot();
-}
+
+adminfoot();
+
 ?>

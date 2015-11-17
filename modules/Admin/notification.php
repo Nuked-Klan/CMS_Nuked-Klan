@@ -1,26 +1,20 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
-global $user, $nuked, $language;
-translate("modules/Admin/lang/" . $language . ".lang.php");
-if (!$user)
-{
-    $visiteur = 0;
-}
-else
-{
-    $visiteur = $user[1];
-}
+/**
+ * notification.php
+ *
+ * Backend of Admin module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
+
+global $user, $visiteur, $nuked, $language;
+
+translate('modules/Admin/lang/'. $language .'.lang.php');
+
 
 if ($visiteur >= 2)
 {
@@ -41,6 +35,7 @@ if ($visiteur >= 2)
 		}
 		exit();
     }
+
 	function delete()
 	{
 		global $nuked, $visiteur, $user;
@@ -56,17 +51,17 @@ if ($visiteur >= 2)
 			//Fin action
 		}
 	}
-    switch ($_REQUEST['op'])
-    {
+
+    switch ($_REQUEST['op']) {
         case "main":
-        main();
-        break;
-		case "delete":
-        delete();
-        break;
+            main();
+            break;
+        case "delete":
+            delete();
+            break;
         default:
-        main();
-        break;
+            main();
+            break;
     }
 
 }

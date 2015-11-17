@@ -108,10 +108,7 @@ else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin'
     require_once 'modules/Admin/login.php';
 }
 // Run module
-else if (($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin')
-    || (nivo_mod($_REQUEST['file']) === false || (nivo_mod($_REQUEST['file']) > -1
-    && (nivo_mod($_REQUEST['file']) <= $visiteur)))
-) {
+else {
     require_once 'themes/'. $theme .'/colors.php';
     require_once 'themes/'. $theme .'/theme.php';
 
@@ -192,22 +189,6 @@ else if (($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin')
         print_r($GLOBALS['nkDB']['querys']);
         echo '-->', "\n";
     }
-}
-// User unauthorized to module access
-else {
-    require_once 'themes/'. $theme .'/colors.php';
-    require_once 'themes/'. $theme .'/theme.php';
-    top();
-    opentable();
-?>
-    <link type="text/css" rel="stylesheet" href="media/css/nkDefault.css" />
-    <div class="nkErrorMod">
-        <p><?php echo _NOENTRANCE; ?></p>
-        <a href="javascript:history.back()"><b><?php echo _BACK; ?></b></a>
-    </div>
-<?php
-    closetable();
-    footer();
 }
 
 // echo nkTemplate_renderPage($moduleContent);

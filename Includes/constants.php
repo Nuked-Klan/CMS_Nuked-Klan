@@ -12,6 +12,10 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 // Update param
 define('UPDATE_URL', 'http://nuked-klan.org/');
 
+// Admin access for adminInit function
+define('ADMINISTRATOR_ACCESS', 2);
+define('SUPER_ADMINISTRATOR_ACCESS', 9);
+
 // Table names
 define('BANNED_TABLE', $nuked['prefix'] . '_banned');
 define('BLOCK_TABLE', $nuked['prefix'] . '_block');
