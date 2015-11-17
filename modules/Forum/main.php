@@ -422,7 +422,7 @@ $your_last_visite = nkDate($user_last_visit);
                             $nbBirthday = mysql_num_rows($sqlBirthdayAge);
 
                                 while (list($birthdayDate) = mysql_fetch_array($sqlBirthdayAge)) {
-                                    list ($bDDay, $bDMonth, $bDDay) =  split ('[/]', $birthdayDate);
+                                    list ($bDDay, $bDMonth, $bDDay) =  explode('/', $birthdayDate);
 
                                     if ($currentDay != $bDDay || $currentMonth != $bDMonth) {
                                     $nbBirthday = $nbBirthday - 1;
@@ -441,7 +441,7 @@ $your_last_visite = nkDate($user_last_visit);
                             $sqlBirthdayUser = mysql_query("SELECT user_id, age, pseudo, rang FROM " . USER_DETAIL_TABLE . " INNER JOIN " . USER_TABLE . " ON user_id = id WHERE niveau > 0 ");
                             while (list($anivid, $birthDay, $userBirthday, $userBirthdayRank) = mysql_fetch_array($sqlBirthdayUser)) {
 
-                            list ($bDay, $bMonth, $bYear) = split ('[/]', $birthDay);
+                            list ($bDay, $bMonth, $bYear) = explode('/', $birthDay);
                                 $age = $currentYear - $bYear;
                                 if ($currentMonth < $bMonth) {
                                     $age = $age - 1;

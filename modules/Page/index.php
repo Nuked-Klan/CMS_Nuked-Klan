@@ -79,7 +79,7 @@ if ($count > 0) {
                     $html = ob_get_contents(); 
                     ob_end_clean();
 
-                    if (ereg("<body", $html) && ereg("</body>", $html)) {
+                    if (stripos($html, '<body') !== false && stripos($html, '</body>') !== false) {
                         preg_match_all("=<body[^>]*>(.*)</body>=siU", $html, $a); 
                         $html_page = $a[1][0];
                         echo $titleshow;

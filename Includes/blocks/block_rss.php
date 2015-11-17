@@ -30,7 +30,7 @@ function affich_block_rss($blok){
 			
 			$href = htmlentities((string) $actu->link, ENT_QUOTES, 'UTF-8');
 			$titleActu = htmlentities((string) $actu->title, ENT_QUOTES, 'UTF-8');
-			$description = ereg_replace("<[^>]*>", "", trim(strip_tags((string)$actu->description)));
+			$description = preg_replace('#<[^>]*>#', '', trim(strip_tags((string)$actu->description)));
 			$description = nkHtmlEntityDecode($description, ENT_QUOTES);
 			$pubDate = (string) $actu->pubDate;
 			$description = (strlen($description) > 255) ? substr($description,0,255).'...' : $description;
