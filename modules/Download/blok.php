@@ -1,20 +1,21 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-global $language, $user;
-translate("modules/Download/lang/" . $language . ".lang.php");
+/**
+ * blok.php
+ *
+ * Display block of Download module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
-$visiteur = $user ? $user[1] : 0;
+global $language, $user, $visiteur;
 
-$sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid='$bid'");
-list($active) = mysql_fetch_array($sql2);
+translate('modules/Download/lang/'. $language .'.lang.php');
+
+
 if ($active == 3 || $active == 4) {
 
     if (is_file("themes/" . $theme . "/images/files.gif")) {

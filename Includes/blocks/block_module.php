@@ -10,7 +10,7 @@ if (!defined("INDEX_CHECK")){
 }
 
 function affich_block_module($blok){
-    $blok['content'] = inc_bl($blok['module'], $blok['bid']);
+    $blok['content'] = inc_bl($blok['module'], $blok['bid'], $blok['active']);
     return $blok;
 }
 
@@ -85,7 +85,7 @@ function edit_block_module($bid){
 
 }
 
-function inc_bl($modul, $bid){
+function inc_bl($modul, $bid, $active){
     //check des modules
     $handle = opendir('modules/');
 

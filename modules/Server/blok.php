@@ -1,22 +1,22 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
+/**
+ * blok.php
+ *
+ * Display block of Server module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
-global $language;
-translate('modules/Server/lang/' . $language . '.lang.php');
+global $language, $nuked;
+
+translate('modules/Server/lang/'. $language .'.lang.php');
 include 'modules/Server/includes/gsQuery.php';
 
-global $nuked;
 
-$sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
-list($active) = mysql_fetch_array($sql2);
 if ($active == 3 || $active == 4) {
     $address = $nuked['server_ip'];
     $port = $nuked['server_port'];

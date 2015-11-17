@@ -1,20 +1,20 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
+/**
+ * blok.php
+ *
+ * Display block of News module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
-translate("modules/News/lang/$language.lang.php");
+translate('modules/News/lang/'. $language .'.lang.php');
+
 
 $day = time();
-
-$Str = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '$bid'");
-list($active) = mysql_fetch_array($Str);
 
 $listStyle = ($active == 3 or $active == 4) ? 'list-style:none' : 'list-style:inline';
 $margin = ($active == 3 or $active == 4) ? '5px' : '11px';

@@ -1,19 +1,21 @@
 <?php
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
+/**
+ * blok.php
+ *
+ * Display block of Search module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
 global $nuked, $language, $user;
-translate("modules/Search/lang/" . $language . ".lang.php");
 
-$sql2 = mysql_query("SELECT active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
-list($active) = mysql_fetch_array($sql2);
+translate('modules/Search/lang/'. $language .'.lang.php');
+
+
 if ($active == 3 || $active == 4){
     echo "<form method=\"post\" action=\"index.php?file=Search&amp;op=mod_search\">\n"
 			. "<table width=\"100%\"cellspacing=\"0\" cellpadding=\"3\"><tr><td align=\"center\">\n"

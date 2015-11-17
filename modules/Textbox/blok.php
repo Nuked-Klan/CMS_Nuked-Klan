@@ -1,31 +1,23 @@
 <?php
 /**
+ * blok.php
+ *
+ * Display block of Textbox module
+ *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
-if (!defined("INDEX_CHECK"))
-{
-	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-}
+defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
-global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user;
-translate("modules/Textbox/lang/" . $language . ".lang.php");
-include("modules/Textbox/config.php");
+global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $visiteur;
+
+translate('modules/Textbox/lang/'. $language .'.lang.php');
+include 'modules/Textbox/config.php';
 
 $captcha = initCaptcha();
 
-if ($user)
-{
-    $visiteur = $user[1];
-}
-else
-{
-    $visiteur = 0;
-}
-$sql2 = mysql_query("SELECT bid, active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
-list($id, $active) = mysql_fetch_array($sql2);
 
 ?>
 <script type="text/javascript">
