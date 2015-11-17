@@ -8,7 +8,7 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
-global $user, $nuked, $language;
+global $user, $visiteur, $nuked, $language;
 
 translate('modules/Admin/lang/' . $language . '.lang.php');
 translate('modules/User/lang/' . $language . '.lang.php');
@@ -16,8 +16,6 @@ include_once(dirname(__FILE__) . '/../../Includes/hash.php');
 
 $url = 'index.php';
 $message = '';
-
-$visiteur = ($user) ? $user[1] : 0;
 
 function open_admin(){
     global $nuked;

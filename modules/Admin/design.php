@@ -11,10 +11,9 @@ global $user, $nuked, $language;
 
 function admintop(){
 
-    global $user, $nuked, $language;
+    global $user, $visiteur, $nuked, $language;
     translate("modules/Admin/lang/$language.lang.php");
 
-    $visiteur = $user ? $user[1] : 0;
     $condition_js = ($nuked['screen']) == 'off' ? 1 : 0;
     if($visiteur < 2) redirect('index.php?file=404', 0);
 

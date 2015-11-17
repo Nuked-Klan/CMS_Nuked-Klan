@@ -8,9 +8,7 @@
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 function affich_block_suggest($blok){
-    global $user, $nuked;
-
-    $visiteur = ($user) ? $user[1] : 0;
+    global $user, $nuked, $visiteur;
 
     $modules = array();
     $path = 'modules/Suggest/modules/';

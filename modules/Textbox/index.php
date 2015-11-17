@@ -189,11 +189,9 @@ function cesure_href($matches) {
 function ajax() {
 
     header('Content-type: text/html; charset=iso-8859-1');
-    global $nuked,$user,$language, $bgcolor1, $bgcolor2;
+    global $nuked, $user, $visiteur, $language, $bgcolor1, $bgcolor2;
 
     require("modules/Textbox/config.php");
-
-    $visiteur = $user ? $user[1] : 0;
 
     if ($visiteur >= $level_admin) {
         echo "<script type=\"text/javascript\">\n"

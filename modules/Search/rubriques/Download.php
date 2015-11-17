@@ -11,9 +11,8 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-global $nuked, $user;
+global $nuked, $user, $visiteur;
 
-$visiteur = !$user ? 0 : $user[1];
 
 $and = "";
 

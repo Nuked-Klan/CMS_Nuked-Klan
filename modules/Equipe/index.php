@@ -69,7 +69,7 @@ echo "<td style=\"width: 15%;\" align=\"center\"><b>" . _RANK . "</b></td></tr>\
 
 
         
-        list ($pays, $ext) = split ('[.]', $country);
+        list ($pays, $ext) = explode('.', $country);
         
                     echo "<tr style=\"background: " . $bg . ";\">\n"
                     . "<td style=\"width: 5%;\" align=\"center\"><img src=\"images/flags/" . $req3->country . "\" alt=\"\" /></td>\n"
