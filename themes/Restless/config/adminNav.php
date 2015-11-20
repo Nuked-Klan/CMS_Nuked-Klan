@@ -43,6 +43,9 @@ $arrayNav = array(
 foreach ($arrayNav as $key => $item) {
     parse_str(substr($item['link'], 10), $uri);
 
+    if (! array_key_exists('op', $uri))
+        $uri['op'] = null;
+
     if ($_REQUEST['op'] == $uri['op']
         || ($_REQUEST['op'] == 'index' && $uri['op'] == null)
     ) {

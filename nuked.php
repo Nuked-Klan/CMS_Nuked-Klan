@@ -1016,6 +1016,7 @@ function adminInit($module, $adminPageLevel = false) {
     global $language, $visiteur;
 
     nkTemplate_setInterface('backend');
+    translate('modules/Admin/lang/'. $language .'.lang.php');
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 
     // Get admin level of module

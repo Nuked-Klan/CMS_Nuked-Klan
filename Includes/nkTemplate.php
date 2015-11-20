@@ -170,15 +170,20 @@ function nkTemplate_getPageDesign() {
  */
 function nkTemplate_getTopOfPage() {
     if ($GLOBALS['nkTemplate']['pageDesign'] == 'fullPage') {
-        if (function_exists('head')) {
-            // Si la function head est défini dans le theme.php (themes de la version 1.8)
-            head();
-            top();
-        } else {
-            // Sinon on conserve la compatibilité avec les anciens thèmes
-            ob_start();
-            top();
-            return ob_get_clean();
+        if ($GLOBALS['nkTemplate']['interface'] == 'backend') {
+            return applyTemplate('design/topAdmin');
+        }
+        else {
+            if (function_exists('head')) {
+                // Si la function head est défini dans le theme.php (themes de la version 1.8)
+                head();
+                top();
+            } else {
+                // Sinon on conserve la compatibilité avec les anciens thèmes
+                ob_start();
+                top();
+                return ob_get_clean();
+            }
         }
     }
     elseif ($GLOBALS['nkTemplate']['pageDesign'] == 'nudePage')
@@ -193,7 +198,11 @@ function nkTemplate_getTopOfPage() {
  */
 function nkTemplate_getFooterOfPage() {
     if ($GLOBALS['nkTemplate']['pageDesign'] == 'fullPage') {
-        if (! ($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login') {
+        if ($GLOBALS['nkTemplate']['interface'] == 'backend') {
+            return applyTemplate('design/footerAdmin');
+        }
+        else {
+        //if (! ($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login') {
             ob_start();
             footer();
             require_once 'Includes/copyleft.php';

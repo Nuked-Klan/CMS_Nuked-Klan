@@ -117,18 +117,16 @@ function do_add($description, $titre, $heure, $date_an, $date_mois, $date_jour)
     $description = nkHtmlEntityDecode($description);
     $description = mysql_real_escape_string(stripslashes($description));
     $titre = mysql_real_escape_string(stripslashes($titre));
-    
+
     $sql = mysql_query("INSERT INTO " . CALENDAR_TABLE . " ( `id` , `titre` , `description` , `date_jour` , `date_mois` , `date_an` , `heure` , `auteur` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $date_jour . "' , '" . $date_mois . "' , '" . $date_an . "' , '" . $heure . "' , '" . $user[2] . "' )");
     // Action
     $texteaction = "". _ACTIONADDCAL .": ".$titre."";
     $acdate = time();
     $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
     //Fin action
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _EVENTADD . "\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification(_EVENTADD, '', 'success', $back = false, $redirect = false);
+
     echo "<script type=\"text/javascript\">\n"
     ."//<![CDATA[\n"
     ."setTimeout('screen()','3000');\n"
@@ -172,18 +170,16 @@ function do_edit($eid, $description, $titre, $heure, $date_an, $date_mois, $date
     $description = nkHtmlEntityDecode($description);
     $titre = mysql_real_escape_string(stripslashes($titre));
     $description = mysql_real_escape_string(stripslashes($description));
-    
+
     $upd = mysql_query("UPDATE " . CALENDAR_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', date_jour = '" . $date_jour . "', date_mois = '" . $date_mois . "', date_an = '" . $date_an . "', heure = '" . $heure . "' WHERE id = '" . $eid . "'");
     // Action
     $texteaction = "". _ACTIONMODIFCAL .": ".$titre."";
     $acdate = time();
     $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
     //Fin action
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _EVENTMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification(_EVENTMODIF, '', 'success', $back = false, $redirect = false);
+
     echo "<script type=\"text/javascript\">\n"
     ."//<![CDATA[\n"
     ."setTimeout('screen()','3000');\n"
@@ -206,12 +202,8 @@ function del($eid)
     $acdate = time();
     $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
     //Fin action
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _EVENTDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Calendar&page=admin", 2);
+
+    printNotification(_EVENTDEL, 'index.php?file=Calendar&page=admin', 'success', $back = false, $redirect = true);
 }
 
 function main_pref()
@@ -282,12 +274,8 @@ function change_pref($birthday)
     $acdate = time();
     $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
     //Fin action
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _PREFUPDATED . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Calendar&page=admin", 2);
+
+    printNotification(_PREFUPDATED, 'index.php?file=Calendar&page=admin', 'success', $back = false, $redirect = true);
 }
 
 function nkAdminMenu($tab = 1) {

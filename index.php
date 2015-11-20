@@ -141,7 +141,10 @@ else {
             nkTemplate_addJS('InitBulle(\''. $bgcolor2 .'\',\''. $bgcolor3 .'\', 2);');
 
         if (trim($moduleContent) != '') {// Hack for old module without content displayed
-            $html = nkTemplate_renderPage(nkHandle_alert() . $moduleContent);
+            if (nkTemplate_getPageDesign() == 'fullPage')
+                    $moduleContent = nkHandle_alert() . $moduleContent;
+
+            $html = nkTemplate_renderPage($moduleContent);
 
             if (isset($_REQUEST['nuked_nude']))
                 header('Content-Type: text/html;charset=ISO-8859-1');
@@ -167,11 +170,11 @@ else {
 
 nkDB_disconnect();
 
-
+/*
 if (nkTemplate_getPageDesign() == 'fullPage') {
     echo '<!--', "\n";
     print_r($GLOBALS['nkDB']['querys']);
     echo '-->', "\n";
-}
+}*/
 
 ?>

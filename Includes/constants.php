@@ -25,6 +25,7 @@ define('COMMENT_TABLE', $nuked['prefix'] . '_comment');
 define('CONFIG_TABLE', $nuked['prefix'] . '_config');
 define('DEFY_TABLE', $nuked['prefix'] . '_defie');
 define('DEFY_PREF_TABLE', $nuked['prefix'] . '_defie_pref');
+define('DISCUSSION_TABLE', $nuked['prefix'] . '_discussion');
 define('DOWNLOAD_TABLE', $nuked['prefix'] . '_downloads');
 define('DOWNLOAD_CAT_TABLE', $nuked['prefix'] . '_downloads_cat');
 define('FORUM_TABLE', $nuked['prefix'] . '_forums');

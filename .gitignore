@@ -14,3 +14,5 @@ Thumbs.db
 ######################
 conf.inc.php
 config_save_*.php
+
+themes/Restless/config.ini
