@@ -80,7 +80,7 @@ admintop();
             </li>
 
             <li>
-                <a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;nuked_nude=admin">
+                <a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;page=admin&amp;op=statsPopup">
                     <img src="modules/Admin/images/icons/statistiques.png" alt="icon" />
                     <span><?php echo _STATS; ?></span>
                 </a>

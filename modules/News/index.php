@@ -84,7 +84,7 @@ function index(){
         $data['titre'] = printSecuTags($TabNews['titre']);
         $data['auteur'] = $auteur;
         $data['nb_comment'] = $nb_comment;
-        $data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
+        $data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
         $data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
 
         $data['image'] = (!empty($TabCat['image'])) ? '<a title="'.$TabCat['titre'].'" href="index.php?file=Archives&amp;op=sujet&amp;cat_id='.$TabNews['cat'].'"><img style="float:right;border:0;" src="'.$TabCat['image'].'" alt="'.$TabCat['titre'].'" title="'.$TabCat['titre'].'" /></a>' : '';
@@ -200,6 +200,8 @@ function sujet(){
 function pdf($news_id) {
     global $nuked, $language;
 
+    nkTemplate_setPageDesign('none');
+
     if ($language == "french" && strpos("WIN", PHP_OS)) setlocale (LC_TIME, "french");
     else if ($language == "french" && strpos("BSD", PHP_OS)) setlocale (LC_TIME, "fr_FR.ISO8859-1");
     else if ($language == "french") setlocale (LC_TIME, "fr_FR");
@@ -241,11 +243,10 @@ function pdf($news_id) {
     $_REQUEST['file'] .= '.pdf';
 
     $pdf = new HTML2PDF('P','A4','fr');
-$pdf->setDefaultFont('dejavusans');
+    $pdf->setDefaultFont('dejavusans');
     $pdf->WriteHTML(utf8_encode($texte));
     $pdf->Output($_REQUEST['file']);
 }
-
 
 function sendfriend($news_id) {
     global $nuked, $user;

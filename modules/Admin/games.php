@@ -146,7 +146,7 @@ function add_game()
     . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=games&amp;op=send_game\" onsubmit=\"return verifchamps();\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
     . "<tr><td><b>" . _NAME . " :</b> <input id=\"game_nom\" type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-    . "<tr><td><b>" . _ICON . " :</b> <input id=\"game_icon\" type=\"text\" name=\"icon\" size=\"49\" />&nbsp<a class=\"buttonLink\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=games&amp;nuked_nude=games&amp;op=show_icon','" . _ICON . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0');return(false)\">" . _SEEICON . "</a></td></tr>\n"
+    . "<tr><td><b>" . _ICON . " :</b> <input id=\"game_icon\" type=\"text\" name=\"icon\" size=\"49\" />&nbsp<a class=\"buttonLink\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=games&amp;op=show_icon','" . _ICON . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0');return(false)\">" . _SEEICON . "</a></td></tr>\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input id=\"game_titre\" type=\"text\" name=\"titre\" size=\"50\" /></td></tr>\n"
     . "<tr><td><b>" . _PREFNAME . " 1 :</b> <input id=\"game_pref1\" type=\"text\" name=\"pref1\" size=\"30\" /></td></tr>\n"
     . "<tr><td><b>" . _PREFNAME . " 2 :</b> <input id=\"game_pref2\" type=\"text\" name=\"pref2\" size=\"30\" /></td></tr>\n"
@@ -275,7 +275,7 @@ function edit_game($game_id)
     . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=games&amp;op=modif_game\" onsubmit=\"return verifchamps();\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
     . "<tr><td><b>" . _NAME . " :</b> <input id=\"game_nom\" type=\"text\" name=\"nom\" size=\"30\" value=\"" . $name . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _ICON . " :</b> <input id=\"game_icon\" type=\"text\" name=\"icon\" size=\"49\" value=\"" . $icon . "\" />&nbsp<a class=\"buttonLink\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=games&amp;nuked_nude=games&amp;op=show_icon','" . _ICON . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0');return(false)\">" . _SEEICON . "</a></td></tr>\n"
+    . "<tr><td><b>" . _ICON . " :</b> <input id=\"game_icon\" type=\"text\" name=\"icon\" size=\"49\" value=\"" . $icon . "\" />&nbsp<a class=\"buttonLink\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Admin&amp;page=games&amp;op=show_icon','" . _ICON . "','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0');return(false)\">" . _SEEICON . "</a></td></tr>\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input id=\"game_titre\" type=\"text\" name=\"titre\" size=\"50\" value=\"" . $titre . "\" /></td></tr>\n"
     . "<tr><td><b>" . _PREFNAME . " 1 :</b> <input id=\"game_pref1\" type=\"text\" name=\"pref1\" size=\"30\" value=\"" . $pref_1 . "\" /></td></tr>\n"
     . "<tr><td><b>" . _PREFNAME . " 2 :</b> <input id=\"game_pref2\" type=\"text\" name=\"pref2\" size=\"30\" value=\"" . $pref_2 . "\" /></td></tr>\n"
@@ -355,15 +355,8 @@ function del_game($game_id)
 
 function show_icon()
 {
-    global $bgcolor2, $theme;
-
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    . "<head><title>" . _ICONLIST . "</title>\n"
-    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-    . "<body style=\"background: " . $bgcolor2 . ";\">\n";
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_ICONLIST);
 
     echo "<script type=\"text/javascript\">\n"
     . "<!--\n"
@@ -391,7 +384,8 @@ function show_icon()
 
         closedir($dir);
     }
-    echo "</div><div style=\"text-align: center;\"><br /><b><a href=\"#\" onclick=\"self.close()\">" . _CLOSEWINDOWS . "</a></b></div></body></html>";
+
+    echo "</div><div style=\"text-align: center;\"><br /><b><a href=\"#\" onclick=\"self.close()\">" . _CLOSEWINDOWS . "</a></b></div>";
 }
 
 function nkAdminMenu()

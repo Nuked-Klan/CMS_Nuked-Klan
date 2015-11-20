@@ -186,49 +186,45 @@ function categorie($cat) {
 }
 
 function popup($dl_id) {
-    global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $theme;
+    global $bgcolor1, $bgcolor3;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_DOWNLOAD .' - '. $titre);
 
     $sql = mysql_query("SELECT titre, url, url2, url3 FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
-    if(mysql_num_rows($sql) <= 0) {
-        redirect("index.php?file=404", 0);
-        die;
-    }
+
+    if(mysql_num_rows($sql) <= 0)
+        redirect("index.php?file=404");
+
     list($titre, $dl_url, $dl_url2, $dl_url3) = mysql_fetch_array($sql);
     $titre = printSecuTags($titre);
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _DOWNLOAD . " - " . $titre . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background: " . $bgcolor2 . ";\">" . _PLEASEWAIT . "<br />\n"
-        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"95%\" cellspacing=\"3\" cellpadding=\"3\">\n"
-        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "\"><b>" . _LIEN1 . "</b></a></td></tr>\n";
+    echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"95%\" cellspacing=\"3\" cellpadding=\"3\">\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;op=do_dl&amp;dl_id=" . $dl_id . "\"><b>" . _LIEN1 . "</b></a></td></tr>\n";
 
     if ($dl_url2 != "") {
-        echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=2\"><b>" . _LIEN2 . "</b></a></td></tr>\n";
+        echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=2\"><b>" . _LIEN2 . "</b></a></td></tr>\n";
     }
 
     if ($dl_url3 != "") {
-        echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;nuked_nude=index&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=3\"><b>" . _LIEN3 . "</b></a></td></tr>\n";
+        echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=3\"><b>" . _LIEN3 . "</b></a></td></tr>\n";
     }
 
     echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"#\" onclick=\"javascript:window.close();\">" . _CLOSEWINDOW . "</a> ]<br /></div>";
 
-    redirect("index.php?file=Download&nuked_nude=index&op=do_dl&dl_id=" . $dl_id, 3);
-
-    echo "</body></html>";
+    redirect("index.php?file=Download&op=do_dl&dl_id=" . $dl_id, 3);
 }
 
 function do_dl($dl_id, $nb) {
-    global $nuked, $visiteur;
+    global $visiteur;
+
+    nkTemplate_setPageDesign('none');
 
     $sql = mysql_query("SELECT url, url2, url3, count, level FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
-    if(mysql_num_rows($sql) <= 0) {
-        redirect("index.php?file=404", 0);
-        die;
-    }
+
+    if(mysql_num_rows($sql) <= 0)
+        redirect("index.php?file=404");
+
     list($dl_url1, $dl_url2, $dl_url3, $count, $level) = mysql_fetch_array($sql);
 
     if ($visiteur >= $level) {
@@ -262,13 +258,9 @@ function description($dl_id) {
     global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3;
 
     # include css and js library shadowbox
-    echo '<script type="text/javascript"><!--'."\n"
-    . 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
-    . '--></script>'."\n"
-    . '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
-    . '<script type="text/javascript">'."\n"
-    . 'Shadowbox.init();'."\n"
-    . '</script>'."\n";
+    nkTemplate_addCSSFile('media/shadowbox/shadowbox.css');
+    nkTemplate_addJSFile('media/shadowbox/shadowbox.js');
+    nkTemplate_addJS('Shadowbox.init();');
 
     $upd = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET hit = hit + 1 WHERE id = '" . $dl_id . "'");
 
@@ -406,7 +398,7 @@ function description($dl_id) {
         }
 
         echo "</table>\n"
-            . "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _DOWNFILE . "\" onclick=\"javascript:window.open('index.php?file=Download&amp;nuked_nude=index&amp;op=popup&amp;dl_id=" . $dl_id . "','download','toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=360,height=200,top=30,left=0')\" /></div><br />\n";
+            . "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _DOWNFILE . "\" onclick=\"javascript:window.open('index.php?file=Download&amp;op=popup&amp;dl_id=" . $dl_id . "','download','toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=360,height=200,top=30,left=0')\" /></div><br />\n";
 
         $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'download'");
         list($active) = mysql_fetch_array($sql);

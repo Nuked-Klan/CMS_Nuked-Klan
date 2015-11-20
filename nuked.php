@@ -141,7 +141,9 @@ function nkHandle_file() {
         $_REQUEST['page'] = basename(trim($_REQUEST['page']));
 
     if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != '') {
-        nkTemplate_setPageDesign('nudePage');
+        trigger_error('Superglobal $nuked_nude is deprecated. Please update your module.', E_USER_DEPRECATED);
+        nkTemplate_setPageDesign('none');
+        //define('NUKED_NUDE', true);
 
         return $_REQUEST['nuked_nude'];
     }
@@ -151,6 +153,39 @@ function nkHandle_file() {
 
     return 'index';
 }
+
+/**
+ * Check and return nkAlert for Website closed, INSTALL directory,
+ * install.php and update.php file and  new private message
+ *
+ * @param void
+ * @return string : HTML code.
+ */
+function nkHandle_alert() {
+    global $nuked, $user, $visiteur;
+
+    $html = '';
+
+    if ($visiteur == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
+        if ($nuked['nk_status'] == 'closed')
+            $html .= applyTemplate('nkAlert/nkSiteClosedLogged');
+
+        if (is_dir('INSTALL/'))
+            $html .= applyTemplate('nkAlert/nkInstallDirTrue');
+
+        if (file_exists('install.php') || file_exists('update.php'))
+            $html .= applyTemplate('nkAlert/nkInstallFileTrue');
+    }
+
+    if ($user && $user['nbNewPM'] > 0 && ! isset($_COOKIE['popup'])
+        && ! in_array($_REQUEST['file'], array('User', 'Userbox', 'Admin'))
+        && $_REQUEST['page'] != 'admin'
+    )
+        $html .= applyTemplate('nkAlert/nkNewPrivateMsg');
+
+    return $html;
+}
+
 
 // FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
 
@@ -389,46 +424,6 @@ function nkHandle_bannedUser() {
             redirect($url_ban, 0);
         }
     }
-}
-
-// DISPLAY ALL BLOCKS
-function get_blok($side){
-    global $user, $nuked, $visiteur;
-
-    if ($side == 'gauche') {
-        $active = 1;
-        $nuked['IsBlok'] = TRUE;
-    } else if ($side == 'droite') {
-        $active = 2;
-        $nuked['IsBlok'] = TRUE;
-    } else if ($side == 'centre') {
-        $active = 3;
-    } else if ($side == 'bas') {
-        $active = 4;
-    }
-
-    $aff_good_bl = 'block_' . $side;
-
-    $sql = nkDB_execute('SELECT bid, active, position, module, titre, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE active = ' . $active . ' ORDER BY position');
-    while ($blok = mysql_fetch_assoc($sql)){
-        $blok['titre'] = printSecuTags($blok['titre']);
-        $test_page = '';
-        $blok['page'] = explode('|', $blok['page']);
-        $size = count($blok['page']);
-        for($i=0; $i<$size; $i++){
-            if (isset($_REQUEST['file']) && $_REQUEST['file'] == $blok['page'][$i] || $blok['page'][$i] == 'Tous') $test_page = 'ok';
-        }
-
-        if ($visiteur >= $blok['nivo'] && $test_page == 'ok'){
-            if(file_exists('Includes/blocks/block_' . $blok['type'] . '.php'))
-                include_once('Includes/blocks/block_' . $blok['type'] . '.php');
-            $function = 'affich_block_' . $blok['type'];
-            $blok = $function($blok);
-
-            if (!empty($blok['content'])) $aff_good_bl($blok);
-        }
-    }
-    $nuked['IsBlok'] = FALSE;
 }
 
 // QUERY IMAGE, BLOCK ALL IMAGE FILE (PHP, HTML ..)
@@ -834,6 +829,7 @@ function editPhpCkeditor($text){
 // REDIRECT AFTER ($delay) SECONDS TO ($url)
 function redirect($url, $delay = 0) {
     if ($delay == 0) {
+        nkDB_disconnect();
         header('location:'. $url);
         exit;
     }
@@ -1017,13 +1013,13 @@ function admin_mod($moduleName) {
  * @return bool : Admin of module initialization result
  */
 function adminInit($module, $adminPageLevel = false) {
-    global $language, $file, $page, $visiteur;
+    global $language, $visiteur;
 
     nkTemplate_setInterface('backend');
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 
     // Get admin level of module
-    if ($file == 'Admin') {
+    if ($module == 'Admin') {
         if (is_int($adminPageLevel))
             $adminLevel = $adminPageLevel;
         else
@@ -1481,29 +1477,11 @@ function nkNotification($data, $redirectUrl = null, $redirectDelay = 0){
     }
 }
 
-function defaultNotification($data, $redirectUrl, $redirectDelay){
-    ?>
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title><?php echo $GLOBALS['nuked']['name'] . ' :: ' . $GLOBALS['nuked']['slogan']; ?></title>
-            <meta http-equiv="content-type" content="text/html" charset="ISO-8859-1"/>
-            <link title="style" type="text/css" rel="stylesheet"
-                  href="themes/<?php echo $GLOBALS['theme']; ?>/style.css"/>
-        </head>
-        <body class="nkBgColor2">
-        <div class="nkBgColor1 nkBorderColor3 nkdefaultNotification">
-            <?php echo $data; ?>
-        </div>
-        </body>
-        </html>
-        <?php
+function defaultNotification($data, $redirectUrl, $redirectDelay) {
+    echo applyTemplate('notification', array('data' => $data));
 
-        nkGetMedias();
-
-        if(!empty($redirectUrl)){
-            redirect($redirectUrl, $redirectDelay);
-        }
+    if (! empty($redirectUrl))
+        redirect($redirectUrl, $redirectDelay);
 }
 
 /**
@@ -1523,6 +1501,20 @@ function initCaptcha(){
     }
 
     return $captcha;
+}
+
+
+function loadSyntaxhighlighterFiles() {
+    static $loaded = false;
+
+    if ($loaded) return;
+
+    nkTemplate_addJSFile('media/js/syntaxhighlighter/shCore.js');
+    nkTemplate_addJSFile('media/js/syntaxhighlighter/shAutoloader.js');
+    nkTemplate_addJSFile('media/js/syntaxhighlighter.autoloader.js');
+    nkTemplate_addCSSFile('media/css/syntaxhighlighter/shCoreMonokai.css');
+    nkTemplate_addCSSFile('media/css/syntaxhighlighter/shThemeMonokai.css');
+    $loaded = true;
 }
 
 function loadCkeFiles() {
@@ -1581,6 +1573,69 @@ function loadCkeFiles() {
             </script>
         <?php
     //);
+}
+
+function loadTinymceFiles() {
+    nkTemplate_addJSFile('media/tinymce/tinymce.min.js');
+
+    //nkTemplate_addJS(
+        ?>
+            <script type="text/javascript">
+            //<![CDATA[
+            // for frontend
+            if(document.getElementById('e_basic')){
+                tinymce.init({
+                    selector: "textarea#e_basic",
+                    language : 'fr_FR',
+                    plugins: [
+                    "autolink lists preview",
+                    "fullscreen",
+                    "table contextmenu directionality",
+                    "emoticons textcolor"
+                    ],
+                    toolbar1: "undo redo | styleselect | bold italic | bullist numlist outdent indent | link | emoticons "
+                });
+            }
+            // for forum
+            if(document.getElementById('e_advanced')){
+                tinymce.init({
+                    selector: "textarea#e_advanced",
+                    language : 'fr_FR',
+                    plugins: [
+                    "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen",
+                    "insertdatetime nonbreaking save table contextmenu directionality",
+                    "emoticons paste textcolor youtube codemagic"
+                    ],
+                    toolbar1: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image youtube emoticons codemagic | preview",
+                    /* toolbar2: "print preview media | forecolor backcolor emoticons | link image", */
+                    image_advtab: true
+                });
+            }
+            //]]>
+            </script>
+        <?php
+    //);
+}
+
+
+// TODO : Translate message
+function nkBenchmark_display() {
+    global $nuked, $microTime;
+
+    // TODO : Create a $nuked vars to display it
+    $nuked['sql_benchmark']= 'on';
+
+    $line = array();
+
+    if ($nuked['time_generate'] == 'on')
+        $line[] = 'Generated in '. (round((microtime(true) - $microTime) * 1000, 1)) .'ms';
+
+    if ($nuked['sql_benchmark'] == 'on')
+        $line[] = nkDB_getNbExecutedQuery() .' requêtes sql ('. nkDB_getTimeForExecuteAllQuery() .'ms)';
+
+    if (! empty($line))
+        echo '<p class="nkGenerated">'. implode('<br />', $line) .'</p>';
 }
 
 ?>

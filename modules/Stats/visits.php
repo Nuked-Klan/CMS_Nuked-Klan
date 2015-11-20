@@ -127,7 +127,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                 echo '</table>'."\n";
                 if ($imembers >= 10) {
                     echo '<table style="margin: auto" width="80%" cellpadding="0" cellspacing="0"><tr>'."\n"
-                    . '<td align="right"><a href="#" onclick="javascript:window.open(\'index.php?file=Stats&amp;nuked_nude=visits&amp;op=view_all&amp;oday=' . $_REQUEST['oday'] . '&amp;omonth=' . $_REQUEST['omonth'] . '&amp;oyear=' . $_REQUEST['oyear'] . '\',\'visitors\',\'toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=1000,height=700,top=30,left=0\')">' . _VIEWALL . '</a></td></tr></table>'."\n";
+                    . '<td align="right"><a href="#" onclick="javascript:window.open(\'index.php?file=Stats&amp;page=visits&amp;op=view_all&amp;oday=' . $_REQUEST['oday'] . '&amp;omonth=' . $_REQUEST['omonth'] . '&amp;oyear=' . $_REQUEST['oyear'] . '\',\'visitors\',\'toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=1000,height=700,top=30,left=0\')">' . _VIEWALL . '</a></td></tr></table>'."\n";
                 }
             }
             // End last visitors
@@ -283,7 +283,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
             if ($ihost == 10) {
                 echo '<table style="margin: auto" width="80%" cellpadding="2" cellspacing="1"><tr><td align="right">'."\n"
-                . '<a href="#" onclick="javascript:window.open(\'index.php?file=Stats&amp;nuked_nude=visits&amp;op=view_host&amp;oday=' . $_REQUEST['oday'] . '&amp;omonth=' . $_REQUEST['omonth'] . '&amp;oyear=' . $_REQUEST['oyear'] . '\',\'Host\',\'toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=800,height=600,top=30,left=0\')">' . _VIEWALL . '</a></td></tr></table>'."\n";
+                . '<a href="#" onclick="javascript:window.open(\'index.php?file=Stats&amp;page=visits&amp;op=view_host&amp;oday=' . $_REQUEST['oday'] . '&amp;omonth=' . $_REQUEST['omonth'] . '&amp;oyear=' . $_REQUEST['oyear'] . '\',\'Host\',\'toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=800,height=600,top=30,left=0\')">' . _VIEWALL . '</a></td></tr></table>'."\n";
             }
 
 
@@ -347,7 +347,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
             if ($iref == 10) {
                 echo '<table style="margin: auto" width="80%" cellpadding="2" cellspacing="1"><tr><td align="right">'."\n"
-                . '<a href="#" onclick="javascript:window.open(\'index.php?file=Stats&amp;nuked_nude=visits&amp;op=view_referer&amp;oday=' . $_REQUEST['oday'] . '&amp;omonth=' . $_REQUEST['omonth'] . '&amp;oyear=' . $_REQUEST['oyear'] . '\',\'Referers\',\'toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=800,height=600,top=30,left=0\')">' . _VIEWALL . '</a></td></tr></table>'."\n";
+                . '<a href="#" onclick="javascript:window.open(\'index.php?file=Stats&amp;page=visits&amp;op=view_referer&amp;oday=' . $_REQUEST['oday'] . '&amp;omonth=' . $_REQUEST['omonth'] . '&amp;oyear=' . $_REQUEST['oyear'] . '\',\'Referers\',\'toolbar=no,location=no,directories=no,status=no,scrollbars=yes,resizable=yes,copyhistory=no,width=800,height=600,top=30,left=0\')">' . _VIEWALL . '</a></td></tr></table>'."\n";
             }
 
             echo '<br />'."\n";
@@ -418,17 +418,13 @@ function show_etat($etat){
 }
 
 function view_all() {
-    global $nuked, $theme, $bgcolor3, $bgcolor2, $bgcolor1;
+    global $bgcolor3, $bgcolor2, $bgcolor1;
 
+    // TODO : Check $_REQUEST['oday'], $_REQUEST['omonth'] & $_REQUEST['oyear']
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_VISITORS .' : '. $_REQUEST['oday'] .'/'. $_REQUEST['omonth'] .'/'. $_REQUEST['oyear']);
 
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n"
-    . '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">'."\n"
-    . '<head><title>' . _VISITORS . ' : ' . $_REQUEST['oday'] . '/' . $_REQUEST['omonth'] . '/' . $_REQUEST['oyear'] . '</title>'."\n"
-    . '<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />'."\n"
-    . '<meta http-equiv="content-style-type" content="text/css" />'."\n"
-    . '<link title="style" type="text/css" rel="stylesheet" href="themes/' . $theme . '/style.css" /></head>'."\n"
-    . '<body style="background: ' . $bgcolor2 . '">'."\n"
-    . '<table style="border: 1px solid ' . $bgcolor3 . '" width="100%" cellpadding="2" cellspacing="1">'."\n"
+    echo '<table style="border: 1px solid ' . $bgcolor3 . '" width="100%" cellpadding="2" cellspacing="1">'."\n"
     . '<tr style="background: ' . $bgcolor3 . '">'."\n"
     . '<td style="width: 5%" align="center"><b>#</b></td>'."\n"
     . '<td align="center"><b>' . _VPSEUDO . '</b></td>'."\n"
@@ -486,13 +482,15 @@ function view_all() {
         . '<td align="center">' . $hours . '</td></tr>'."\n";
     }
 
-    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div></body></html>';
+    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div>';
 }
 
 
 function view_referer()
 {
-    global $nuked, $theme, $bgcolor3, $bgcolor2, $bgcolor1;
+    global $nuked, $bgcolor3, $bgcolor2, $bgcolor1;
+
+    nkTemplate_setPageDesign('nudePage');
 
     if (!empty($_REQUEST['oday']) && !empty($_REQUEST['omonth']) && !empty($_REQUEST['oyear'])) {
         $where = "WHERE day = '" . $_REQUEST['oday'] . "' AND month = '" . $_REQUEST['omonth'] . "' AND year = '" . $_REQUEST['oyear'] . "'";
@@ -518,14 +516,9 @@ function view_referer()
     $sql_v = mysql_query("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $where2);
     $visites = mysql_num_rows($sql_v);
 
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n"
-    . '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">'."\n"
-    . '<head><title>' . _REFERER . $date_title . '</title>'."\n"
-    . '<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />'."\n"
-    . '<meta http-equiv="content-style-type" content="text/css" />'."\n"
-    . '<link title="style" type="text/css" rel="stylesheet" href="themes/' . $theme . '/style.css" /></head>'."\n"
-    . '<body style="background: ' . $bgcolor2 . '">'."\n"
-    . '<table style="margin: auto; background: ' . $bgcolor2 . '; border: 1px solid ' . $bgcolor3 . '" width="100%" cellpadding="2" cellspacing="1">'."\n"
+    nkTemplate_setTitle(_REFERER . $date_title);
+
+    echo '<table style="margin: auto; background: ' . $bgcolor2 . '; border: 1px solid ' . $bgcolor3 . '" width="100%" cellpadding="2" cellspacing="1">'."\n"
     . '<tr style="background: ' . $bgcolor3 . '">'."\n"
     . '<td style="width: 5%" align="center"><b>#</b></td>'."\n"
     . '<td style="width: 25%" align="center"><b>' . _NOM . '</b></td>'."\n"
@@ -571,13 +564,14 @@ function view_referer()
 
     if ($iref == 0) echo '<tr><td colspan="4" align="center">' . _NOREF . '</td></tr>'."\n";
 
-    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div></body></html>';
+    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div>';
 }
-
 
 function view_host()
 {
-    global $nuked, $theme, $bgcolor3, $bgcolor2, $bgcolor1;
+    global $bgcolor3, $bgcolor2, $bgcolor1;
+
+    nkTemplate_setPageDesign('nudePage');
 
     if (!empty($_REQUEST['oday']) && !empty($_REQUEST['omonth']) && !empty($_REQUEST['oyear'])) {
         $where = "WHERE day = '" . $_REQUEST['oday'] . "' AND month = '" . $_REQUEST['omonth'] . "' AND year = '" . $_REQUEST['oyear'] . "'";
@@ -599,14 +593,9 @@ function view_host()
     $sql_v = mysql_query("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $where);
     $visites = mysql_num_rows($sql_v);
 
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n"
-    . '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">'."\n"
-    . '<head><title>' . _HOST . $date_title . '</title>'."\n"
-    . '<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />'."\n"
-    . '<meta http-equiv="content-style-type" content="text/css" />'."\n"
-    . '<link title="style" type="text/css" rel="stylesheet" href="themes/' . $theme . '/style.css" /></head>'."\n"
-    . '<body style="background: ' . $bgcolor2 . '">'."\n"
-    . '<table style="margin: auto; background: ' . $bgcolor2 . '; border: 1px solid ' . $bgcolor3 . '" width="100%" cellpadding="2" cellspacing="1">'."\n"
+    nkTemplate_setTitle(_HOST . $date_title);
+
+    echo '<table style="margin: auto; background: ' . $bgcolor2 . '; border: 1px solid ' . $bgcolor3 . '" width="100%" cellpadding="2" cellspacing="1">'."\n"
     . '<tr style="background: ' . $bgcolor3 . '">'."\n"
     . '<td style="width: 5%" align="center"><b>#</b></td>'."\n"
     . '<td style="width: 25%" align="center"><b>' . _NOM . '</b></td>'."\n"
@@ -648,7 +637,7 @@ function view_host()
         echo '</td></tr>'."\n";
     }
 
-    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div></body></html>';
+    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div>';
 }
 
 ?>

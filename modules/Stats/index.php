@@ -16,9 +16,8 @@ if (! moduleInit('Stats'))
 
 global $visiteur;
 
-if (! isset($_REQUEST['nuked_nude']))
+if (! isset($_REQUEST['modal']))
     opentable();
-
 
 function show_etat($etat) {
     global $theme;
@@ -30,7 +29,7 @@ function show_etat($etat) {
     echo '<div style="width: ' . $width . '%; height: 10px; background: url(' . $img . ')"></div>';
 }
 
-if (!isset($_REQUEST['nuked_nude'])) {
+if (!isset($_REQUEST['modal'])) {
     echo '<div style="text-align: center"><br /><h2><b>' . _STATSSITE . '&nbsp;' . $nuked['name'] . '</b></h2>'."\n";
 }
 
@@ -188,7 +187,7 @@ if (nivo_mod('Wars') != -1) {
 
 echo '</table><br />'."\n";
 
-if (!isset($_REQUEST['nuked_nude'])) {
+if (!isset($_REQUEST['modal'])) {
     closetable();
 }
 ?>

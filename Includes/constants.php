@@ -17,6 +17,7 @@ define('ADMINISTRATOR_ACCESS', 2);
 define('SUPER_ADMINISTRATOR_ACCESS', 9);
 
 // Table names
+define('ACTION_TABLE', $nuked['prefix'] . '_action');
 define('BANNED_TABLE', $nuked['prefix'] . '_banned');
 define('BLOCK_TABLE', $nuked['prefix'] . '_block');
 define('CALENDAR_TABLE', $nuked['prefix'] . '_calendar');

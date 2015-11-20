@@ -1249,7 +1249,9 @@ else
 function add_rank()
 {
     global $language;
-    echo"<script type=\"text/javascript\" src=\"modules/Admin/jscolor/jscolor.js\"></script>";
+
+    nkTemplate_addJSFile('modules/Admin/jscolor/jscolor.js');
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
@@ -1270,7 +1272,8 @@ function add_rank()
 function edit_rank($rid)
 {
     global $nuked, $language;
-    echo"<script type=\"text/javascript\" src=\"modules/Admin/jscolor/jscolor.js\"></script>";
+
+    nkTemplate_addJSFile('modules/Admin/jscolor/jscolor.js');
 
     $sql = mysql_query("SELECT titre, ordre, image, couleur FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rid . "'");
     list($titre, $ordre, $image, $couleur) = mysql_fetch_array($sql);

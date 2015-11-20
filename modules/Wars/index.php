@@ -446,13 +446,10 @@ function detail($war_id){
 
     opentable();
 
-    echo '<script type="text/javascript"><!--'."\n"
-    . 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
-    . '--></script>'."\n"
-    . '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
-    . '<script type="text/javascript">'."\n"
-    . 'Shadowbox.init();'."\n"
-    . '</script>'."\n";
+    # include css and js library shadowbox
+    nkTemplate_addCSSFile('media/shadowbox/shadowbox.css');
+    nkTemplate_addJSFile('media/shadowbox/shadowbox.js');
+    nkTemplate_addJS('Shadowbox.init();');
 
     $sql = mysql_query('SELECT team, adversaire, url_adv, pays_adv, date_jour, date_mois, date_an, type, style, tscore_team, tscore_adv, map, score_adv, score_team, report, auteur, url_league, etat FROM ' . WARS_TABLE . ' WHERE warid = \'' . $war_id . '\' ');
     if(mysql_num_rows($sql) <= 0){

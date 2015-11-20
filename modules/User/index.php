@@ -31,7 +31,7 @@ function index(){
                 . '<a href="index.php?file=User&amp;op=edit_account">' . _PROFIL . '</a> | ',"\n"
                 . '<a href="index.php?file=User&amp;op=edit_pref">' . _PREF . '</a> | ',"\n"
                 . '<a href="index.php?file=User&amp;op=change_theme">' . _THEMESELECT . '</a> | ',"\n"
-                . '<a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout">' . _USERLOGOUT . '</a></b></div><br />',"\n";
+                . '<a href="index.php?file=User&amp;op=logout">' . _USERLOGOUT . '</a></b></div><br />',"\n";
 
         $sql3 = mysql_query('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $user[0] . '"');
         $user_data = mysql_fetch_array($sql3);
@@ -277,9 +277,11 @@ function reg_screen(){
                     . "// -->\n"
                     . "</script>\n";
 
-            echo "<link rel=\"stylesheet\" href=\"media/css/checkSecurityPass.css\" type=\"text/css\" media=\"screen\" />\n"
-                    . "<script type=\"text/javascript\" src=\"media/js/checkSecurityPass.js\"></script>\n"
-                    . "<br /><div style=\"text-align: center;\"><big><b>" . _NEWUSERREGISTRATION . "</b></big></div><br /><br />\n"
+            # include css and js library checkSecurityPass
+            nkTemplate_addCSSFile('media/css/checkSecurityPass.css');
+            nkTemplate_addJSFile('media/js/checkSecurityPass.js');
+
+            echo "<br /><div style=\"text-align: center;\"><big><b>" . _NEWUSERREGISTRATION . "</b></big></div><br /><br />\n"
                     . "<form method=\"post\" action=\"index.php?file=User&amp;op=reg\" onsubmit=\"return verifchamps();\">\n"
                     . "<table style=\"margin-left:auto;margin-right:auto;text-align:left;width:70%;\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
                     . "<tr><td><b>" . _NICK . "</b> (" . _REQUIRED . ")</td><td><input id=\"reg_pseudo\" type=\"text\" name=\"pseudo\" size=\"30\" maxlength=\"30\" /> *</td></tr>\n";
@@ -358,7 +360,7 @@ function edit_account(){
                 . "</b>" . _PROFIL . "<b> | "
                 . "<a href=\"index.php?file=User&amp;op=edit_pref\">" . _PREF . "</a> | "
                 . "<a href=\"index.php?file=User&amp;op=change_theme\">" . _THEMESELECT . "</a> | "
-                . "<a href=\"index.php?file=User&amp;nuked_nude=index&amp;op=logout\">" . _USERLOGOUT . "</a></b></div><br />\n";
+                . "<a href=\"index.php?file=User&amp;op=logout\">" . _USERLOGOUT . "</a></b></div><br />\n";
 
         echo "<script type=\"text/javascript\">\n"
                 ."<!--\n"
@@ -455,7 +457,7 @@ function edit_account(){
             else $disable = "";
 
             echo "<td><input type=\"text\" id=\"edit_avatar\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $avatar . "\" ".$disable." />"
-                    . "&nbsp;[ <a  href=\"#\" onclick=\"javascript:window.open('index.php?file=User&amp;nuked_nude=index&amp;op=show_avatar','Avatar','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=450,top=30,left=0');return(false)\">" . _SEEAVATAR . "</a> ]</td></tr><tr><td>&nbsp;</td>\n";
+                    . "&nbsp;[ <a  href=\"#\" onclick=\"javascript:window.open('index.php?file=User&amp;op=show_avatar','Avatar','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=450,top=30,left=0');return(false)\">" . _SEEAVATAR . "</a> ]</td></tr><tr><td>&nbsp;</td>\n";
 
             if ($nuked['avatar_upload'] == "on"){
                 echo "<td><input type=\"file\" name=\"fichiernom\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
@@ -496,7 +498,7 @@ function edit_pref(){
                 . "<a href=\"index.php?file=User&amp;op=edit_account\">" . _PROFIL . "</a> | "
                 . "</b>" . _PREF . "<b> | "
                 . "<a href=\"index.php?file=User&amp;op=change_theme\">" . _THEMESELECT . "</a> | "
-                . "<a href=\"index.php?file=User&amp;nuked_nude=index&amp;op=logout\">" . _USERLOGOUT . "</a></b></div><br />\n";
+                . "<a href=\"index.php?file=User&amp;op=logout\">" . _USERLOGOUT . "</a></b></div><br />\n";
 
         echo "<form method=\"post\" action=\"index.php?file=User&amp;op=update_pref\" enctype=\"multipart/form-data\">\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
@@ -879,7 +881,7 @@ function login_screen(){
         ?>
             <div id="nkLoginForm" class="nkCenter">
                 <h3><?php echo _LOGINUSER; ?></h3>
-                <form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">
+                <form action="index.php?file=User&amp;op=login" method="post">
                     <p>
                         <label for="pseudo"><?php echo _NICK; ?> :</label>
                         <input type="text" name="pseudo" required="required"/>
@@ -1099,17 +1101,16 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     }
     else{
         echo "<br /><br /><div style=\"text-align: center;\">" . _REGISTERSUCCES . "</div><br /><br />";
-        redirect("index.php?file=User&nuked_nude=index&op=login&pseudo=" . urlencode($pseudo) . "&pass=" . urlencode($pass_reg) . "&remember_me=ok", 2);
+        redirect("index.php?file=User&op=login&pseudo=" . urlencode($pseudo) . "&pass=" . urlencode($pass_reg) . "&remember_me=ok", 2);
     }
 }
 
 function login($pseudo, $pass, $remember_me){
+    nkTemplate_setPageDesign('none');
 
     // Si il manque un champs on stop le script et on redirige vers le formulaire
-    if(empty($pseudo) || empty($pass)){
-        redirect('index.php?file=User&op=login_screen&error=1', 0);
-        exit();
-    }
+    if(empty($pseudo) || empty($pass))
+        redirect('index.php?file=User&op=login_screen&error=1');
 
     $dbsLogin = 'SELECT id, pass AS dbPass, user_theme AS userTemplate, user_langue AS userLang, niveau AS level, erreur AS nbErrors
                  FROM '.USER_TABLE.'
@@ -1126,10 +1127,12 @@ function login($pseudo, $pass, $remember_me){
             // Si un visiteur a fait 3 mauvais login
             if(!isset($_SESSION['captcha'])){
                 $_SESSION['captcha'] = true;
+                nkTemplate_setPageDesign('nudePage');
                 nkNotification(_MSGCAPTCHA, 'index.php?file=User&op=login_screen', 2);
-                exit();
+                return;
             }
             else{
+                // TODO : What ?
                 ValidCaptchaCode();
             }
         }
@@ -1143,8 +1146,7 @@ function login($pseudo, $pass, $remember_me){
                             SET erreur = "'.$newNbErrors.'"
                             WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
                 mysql_query($dbuUser);
-                redirect('index.php?file=User&op=login_screen&error=2', 'index.php');
-                exit();
+                redirect('index.php?file=User&op=login_screen&error=2');
             }
             else{
                 // Si les identifiants sont bons
@@ -1162,7 +1164,7 @@ function login($pseudo, $pass, $remember_me){
             if(!empty($dbrLogin['userLang'])){
                 setcookie($GLOBALS['cookie_langue'], $dbrLogin['userLang'], $GLOBALS['timelimit']);
             }
-            
+
             $referer = $_SERVER['HTTP_REFERER'];
 
             if (!empty($referer) && !strpos($referer, 'User&op=reg') && is_array($referer)){
@@ -1173,24 +1175,26 @@ function login($pseudo, $pass, $remember_me){
 
             $_SESSION['admin'] = false;
             unset($_SESSION['captcha']);
-            $url = "index.php?file=User&nuked_nude=index&op=login_message&uid=" . $dbrLogin['id'] . $redirect;
-            redirect($url, 0);
+            $url = "index.php?file=User&op=login_message&uid=" . $dbrLogin['id'] . $redirect;
+            redirect($url);
         }
         else{
             // Si le compte n'est pas validé
+            nkTemplate_setPageDesign('nudePage');
             nkNotification(_NOVALIDUSER, 'index.php', 2);
-            exit();
+            return;
         }
 
     }
     else {
         // Aucun utilisateur trouvé pour ce pseudo
+        nkTemplate_setPageDesign('nudePage');
         nkNotification(_UNKNOWNUSER, 'index.php', 2);
     }
 }
 
 function login_message(){
-    global $nuked, $theme,  $bgcolor1, $bgcolor2, $bgcolor3, $cookie_session, $sessionlimit, $referer, $user_ip, $uid;
+    global $nuked, $bgcolor1, $bgcolor3, $cookie_session, $referer, $user_ip;
 
     if (isset($_COOKIE[$cookie_session]) && $_COOKIE[$cookie_session] != ""){
         $test_cookie = $_COOKIE[$cookie_session];
@@ -1215,16 +1219,11 @@ function login_message(){
         $url = "index.php";
     }
 
+    nkTemplate_setPageDesign('nudePage');
+
     if ($test_cookie != ""){
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _LOGINPROGRESS . "</b></big></td></tr></table></body></html>";
+        echo "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
+            . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _LOGINPROGRESS . "</b></big></td></tr></table>";
 
         redirect($url, 2);
     }
@@ -1236,15 +1235,8 @@ function login_message(){
             $login_text = _ERRORCOOKIE;
         }
 
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                . "<table width=\"80%\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . $login_text . "</b></big></td></tr></table></body></html>";
+        echo "<table width=\"80%\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
+            . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . $login_text . "</b></big></td></tr></table>";
 
         redirect($url, 10);
     }
@@ -1665,9 +1657,10 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
 function logout() {
     global $user;
 
+    nkTemplate_setPageDesign('none');
     nkSessions_stopSession($user['id']);
 
-    redirect('location: index.php');
+    redirect('index.php');
 }
 
 function oubli_pass(){
@@ -1815,16 +1808,10 @@ function makePass(){
 }
 
 function show_avatar(){
-    global $bgcolor2, $theme;
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_AVATARLIST);
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-            . "<head><title>" . _AVATARLIST . "</title>\n"
-            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-            . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-            . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-            . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-            . "<table width=\"100%\"><tr><td align=\"center\"><b>" . _CLICAVATAR . "</b></td></tr>\n"
+    echo "<table width=\"100%\"><tr><td align=\"center\"><b>" . _CLICAVATAR . "</b></td></tr>\n"
             . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\">\n";
 
     echo "<script type=\"text/javascript\">\n"
@@ -1867,8 +1854,8 @@ function change_theme(){
             . "<a href=\"index.php?file=User&amp;op=edit_account\">" . _PROFIL . "</a> | "
             . "<a href=\"index.php?file=User&amp;op=edit_pref\">" . _PREF . "</a> | "
             . "</b>" . _THEMESELECT . "<b> | "
-            . "<a href=\"index.php?file=User&amp;nuked_nude=index&amp;op=logout\">" . _USERLOGOUT . "</a></b></div>\n"
-            . "<br /><form method=\"post\" action=\"index.php?file=User&amp;nuked_nude=index&amp;op=modif_theme\">\n"
+            . "<a href=\"index.php?file=User&amp;op=logout\">" . _USERLOGOUT . "</a></b></div>\n"
+            . "<br /><form method=\"post\" action=\"index.php?file=User&amp;op=modif_theme\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\">\n"
             . "<tr><td>" . _SELECTTHEME . " :</td></tr>\n"
             . "<tr><td align=\"center\"><select name=\"user_theme\">\n";
@@ -1900,6 +1887,8 @@ function change_theme(){
 function modif_theme(){
     global $user, $nuked, $cookie_theme, $timelimit;
 
+    nkTemplate_setPageDesign('none');
+
     $dir = "themes/" . $_REQUEST['user_theme'];
 
     if (is_dir($dir) && $_REQUEST['user_theme']){
@@ -1910,11 +1899,13 @@ function modif_theme(){
         }
     }
 
-    header("Location:index.php");
+    redirect('index.php');
 }
 
 function modif_langue(){
     global $user, $nuked, $cookie_langue, $timelimit;
+
+    nkTemplate_setPageDesign('none');
 
     if ($_REQUEST['user_langue'] != ""){
         setcookie($cookie_langue, $_REQUEST['user_langue'], $timelimit);
@@ -1924,7 +1915,7 @@ function modif_langue(){
         }
     }
 
-    header("Location:index.php");
+    redirect('index.php');
 }
 
 function validation() {

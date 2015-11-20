@@ -29,7 +29,7 @@ function sondage($poll_id) {
         list($titre) = mysql_fetch_array($sql);
         $titre = printSecuTags($titre);
 
-        echo "<form method=\"post\" action=\"index.php?file=Survey&amp;nuked_nude=index&amp;op=update_sondage\">\n"
+        echo "<form method=\"post\" action=\"index.php?file=Survey&amp;op=update_sondage\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
         . "<tr><td align=\"center\"><b>" . $titre . "</b></td></tr>\n";
 
@@ -81,6 +81,8 @@ function verif_check($poll_id) {
 
 function update_sondage($poll_id, $voteID) {
     global $nuked, $user_ip, $user, $visiteur, $theme, $bgcolor2, $bgcolor3;
+
+    nkTemplate_setPageDesign('none');
 
     $time = time() + $nuked['sond_delay'] * 3600;
     $cookiename = $nuked['cookiename'];

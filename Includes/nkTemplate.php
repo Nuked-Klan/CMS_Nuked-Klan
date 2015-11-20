@@ -2,7 +2,7 @@
 /**
  * nkTemplate.php
  *
- *
+ * Librairy to 
  *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -13,9 +13,10 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
 /**
-  * Initialisation of nkTemplate global vars
-  */
+ * Initialisation of nkTemplate global vars
+ */
 $GLOBALS['nkTemplate'] = array(
+    'interface'     => 'frontend', // frontend or backend
     'pageDesign'    => 'fullPage', // fullPage, nudePage or none
     'title'         => '',
     'JS'            => array(
@@ -32,26 +33,80 @@ $GLOBALS['nkTemplate'] = array(
     ),
     'CSS'            => array(
         'file'          => array(),
-        'data'          => ''
+        'string'        => ''
     )
 );
 
-define('JQUERY_LIBRAIRY', 'media/js/jquery/jquery-1.11.3.min.js');
+define('JQUERY_LIBRAIRY', 'media/js/jquery-min-1.8.3.js');
 define('JQUERY_UI_LIBRAIRY', '');
 define('JQUERY_UI_CSS', '');
 
 
-function nkTemplate_init($theme) {
-    
+/**
+ * Initialize default Js and Css data.
+ *
+ * @param string $module : The current module.
+ * @return void
+ */
+function nkTemplate_init($module = null) {
+    nkTemplate_addJSFile('media/js/nkDefault.js');
+    nkTemplate_addCSSFile('media/css/nkDefault.css');
+
+    if (is_string($module)) {
+        $jsFiles = array(
+            'modules/'. $module .'/'. $module .'.js',
+            'themes/'. $GLOBALS['theme'] .'/js/modules/'. $module .'.js'
+        );
+
+        foreach ($jsFiles as $jsFile)
+            if (is_file($jsFile)) nkTemplate_addJSFile($jsFile);
+
+        $cssFiles = array(
+            'modules/'. $module .'/'. $module .'.css',
+            'themes/'. $GLOBALS['theme'] .'/css/modules/'. $module .'.css'
+        );
+
+        foreach ($cssFiles as $cssFile)
+            if (is_file($cssFile)) nkTemplate_addCSSFile($cssFile);
+    }
+
+    nkTemplate_setBgColors();
 }
 
 /**
-  * Set title of page.
-  *
-  * @param string $title : Title of page to set.
-  * @param bool $add : Add title content at defaut title ( $GLOBALS['nuked']['name'] .' - '. $GLOBALS['nuked']['slogan'] )
-  * @return void
-  */
+ * Set default class of $bgcolor vars.
+ *
+ * @param void
+ * @return void
+ */
+function nkTemplate_setBgColors() {
+    // On définit les bgcolor par défaut s'il ne sont pas présent dans le thème
+    $arrayDefaultColor = array(
+        'bgcolor1' => '#666',
+        'bgcolor2' => '#777',
+        'bgcolor3' => '#444',
+        'bgcolor4' => '#999'
+    );
+
+    // On check si les bgcolor on été défini sinon on les défini
+    foreach ($arrayDefaultColor as $color => $value) {
+        if (! isset($GLOBALS[$color]))
+            $GLOBALS[$color] = $value;
+    }
+
+    for ($i = 1; $i <= 4; $i++) {
+        $GLOBALS['nkTemplate']['CSS']['string'] .= '.nkBgColor'. $i .'{background:'. $GLOBALS['bgcolor'. $i] .';}' ."\n"
+            . '.nkBorderColor'. $i .'{border-color:'. $GLOBALS['bgcolor'. $i] .' !important;}' ."\n";
+    }
+}
+
+/**
+ * Set title of page.
+ *
+ * @param string $title : Title of page to set.
+ * @param bool $add : Append title content at default title. ( $nuked['name'] .' - '. $nuked['slogan'] )
+ * @return void
+ */
 function nkTemplate_setTitle($title, $add = false) {
     if ($title != '' && is_string($title)) {
         if ($add)
@@ -61,88 +116,118 @@ function nkTemplate_setTitle($title, $add = false) {
     }
 }
 
+/**
+ * Sets the interface to use.
+ *
+ * @param string $interface : Set if frontend view is use or backend view.
+ * @return void
+ */
+function nkTemplate_setInterface($interface) {
+    if (in_array($interface, array('frontend', 'backend')))
+        $GLOBALS['nkTemplate']['interface'] = $interface;
+}
 
 /**
-  * Sets the page design style.
-  *
-  * @param string $pageDesign : The page design style to set ( fullPage, nudePage ou none )
-  * @return void
-  */
+ * Return the interface used.
+ *
+ * @param void
+ * @return string : The interface name.
+ * /
+function nkTemplate_getInterface() {
+    return $GLOBALS['nkTemplate']['interface'];
+}
+
+/**
+ * Sets the page design style.
+ *
+ * @param string $pageDesign : The page design style to set. ( fullPage, nudePage ou none )
+ * @return void
+ */
 function nkTemplate_setPageDesign($pageDesign) {
     if (in_array($pageDesign, array('fullPage', 'nudePage', 'none')))
         $GLOBALS['nkTemplate']['pageDesign'] = $pageDesign;
+
+    // For compatiblity with old theme
+    if ($pageDesign == 'nudePage')
+        $_REQUEST['nuked_nude'] = $_REQUEST['page'];
 }
 
-
 /**
-  * Return the page design style ( fullPage, nudePage ou none ).
-  *
-  * @param void
-  * @return string
-  */
+ * Return the page design style. ( fullPage, nudePage ou none )
+ *
+ * @param void
+ * @return string
+ */
 function nkTemplate_getPageDesign() {
     return $GLOBALS['nkTemplate']['pageDesign'];
 }
 
-
 /**
-  * Return the HTML code of top page.
-  *
-  * @param void
-  * @return string HTML code.
-  */
+ * Return the HTML code of top page.
+ *
+ * @param void
+ * @return string HTML code.
+ */
 function nkTemplate_getTopOfPage() {
     if ($GLOBALS['nkTemplate']['pageDesign'] == 'fullPage') {
-        ob_start();
-        top();
-        return ob_get_clean();
+        if (function_exists('head')) {
+            // Si la function head est défini dans le theme.php (themes de la version 1.8)
+            head();
+            top();
+        } else {
+            // Sinon on conserve la compatibilité avec les anciens thèmes
+            ob_start();
+            top();
+            return ob_get_clean();
+        }
     }
     elseif ($GLOBALS['nkTemplate']['pageDesign'] == 'nudePage')
-        return applyTemplate('nudePage/header', array());
+        return applyTemplate('design/topNude');
 }
 
-
 /**
-  * Return the HTML code of footer page.
-  *
-  * @param void
-  * @return string HTML code.
-  */
+ * Return the HTML code of footer page.
+ *
+ * @param void
+ * @return string HTML code.
+ */
 function nkTemplate_getFooterOfPage() {
     if ($GLOBALS['nkTemplate']['pageDesign'] == 'fullPage') {
-        ob_start();
-        footer();
-        return ob_get_clean();
+        if (! ($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login') {
+            ob_start();
+            footer();
+            require_once 'Includes/copyleft.php';
+            return ob_get_clean();
+        }
     }
     elseif ($GLOBALS['nkTemplate']['pageDesign'] == 'nudePage')
         return "\n</body>\n</html>\n";
 }
 
-
 /**
-  * Apply template and returns results.
-  *
-  * @param string $path : The path of template file. ( without extention )
-  * @param array $data : The data to transmit at template.
-  * @return string HTML code
-  */
-function applyTemplate($path, $data = array(), $interface = 'frontend') {
+ * Apply template and returns results.
+ *
+ * @param string $path : The path of template file. ( without extention )
+ * @param array $data : The data to transmit at template.
+ * @return string HTML code.
+ */
+function applyTemplate($path, $data = array()) {
     ob_start();
     extract($data);
 
-    include 'views/'. $interface .'/'. $path .'.php';
+    include 'views/'. $GLOBALS['nkTemplate']['interface'] .'/'. $path .'.php';
 
     return ob_get_clean();
 }
 
-
 /**
-  * Add a CSS stylesheet to a global list that will be include by nkTemplate_append.
-  *
-  * @param string $file : The name of the file to include.
-  * @param string $media : The media this stylesheet applies to.
-  * @return void
-  */
+ * Add a CSS stylesheet to a global list that will be include by nkTemplate_append.
+ *
+ * @param string $file : The name of the file to include.
+ * @param string $media : The media this stylesheet applies to.
+ * @param mixed $conditionalComment : The string into square bracket for your condition, false if none.
+ * @return void
+ */
 function nkTemplate_addCSSFile($file, $media = 'screen', $conditionalComment = false) {
     if (! array_key_exists($file, $GLOBALS['nkTemplate']['CSS']['file'])) {
         $GLOBALS['nkTemplate']['CSS']['file'][$file] = array(
@@ -152,24 +237,22 @@ function nkTemplate_addCSSFile($file, $media = 'screen', $conditionalComment = f
     }
 }
 
-
 /**
-  * Add a CSS block to a global list that will be include by nkTemplate_append.
-  *
-  * @param string $style : A set of css instruction.
-  * @return void
-  */
+ * Add a CSS block to a global list that will be include by nkTemplate_append.
+ *
+ * @param string $style : A set of css instruction.
+ * @return void
+ */
 function nkTemplate_addCSS($style) {
     $GLOBALS['nkTemplate']['CSS']['string'] .= $style ."\n";
 }
 
-
 /**
-  * Get HTML code for added stylesheets.
-  *
-  * @param void
-  * @return string HTML code.
-  */
+ * Get HTML code for added stylesheets.
+ *
+ * @param void
+ * @return string : HTML code.
+ */
 function nkTemplate_getCSS() {
     $html = '';
 
@@ -198,37 +281,35 @@ function nkTemplate_getCSS() {
     return $html;
 }
 
-
 /**
-  * Add a Javascript librairy to a global list that will be include by nkTemplate_append.
-  *
-  * @param string $file : The name of the file to include.
-  * @return void
-  */
-function nkTemplate_addJSFile($file, $type = 'normal', $conditionalComment = false) {
+ * Add a Javascript librairy to a global list that will be include by nkTemplate_append.
+ *
+ * @param string $file : The name of the file to include.
+ * @param string $type : The type of file to include. ( librairy, librairyPlugin or normal )
+ * @return void
+ */
+function nkTemplate_addJSFile($file, $type = 'normal') {
     if ($type == 'librairy') {
         if (! array_key_exists($file, $GLOBALS['nkTemplate']['JS']['file']['librairy']))
-            $GLOBALS['nkTemplate']['JS']['file']['librairy'][$file] = $conditionalComment;
-
+            $GLOBALS['nkTemplate']['JS']['file']['librairy'][$file] = true;
     }
     elseif ($type == 'librairyPlugin') {
         if (! array_key_exists($file, $GLOBALS['nkTemplate']['JS']['file']['librairyPlugin']))
-            $GLOBALS['nkTemplate']['JS']['file']['librairyPlugin'][$file] = $conditionalComment;
-
+            $GLOBALS['nkTemplate']['JS']['file']['librairyPlugin'][$file] = true;
     }
     elseif ($type == 'normal') {
         if (! array_key_exists($file, $GLOBALS['nkTemplate']['JS']['file']['normal']))
-            $GLOBALS['nkTemplate']['JS']['file']['normal'][$file] = $conditionalComment;
+            $GLOBALS['nkTemplate']['JS']['file']['normal'][$file] = true;
     }
 }
 
 /**
-  * Add a Javascript block to a global list that will be include by nkTemplate_append.
-  *
-  * @param string $script : A set of javascript instructions.
-  * @param bool $jsType : If jQuery DOM ready function is added to js string.
-  * @return void
-  */
+ * Add a Javascript block to a global list that will be include by nkTemplate_append.
+ *
+ * @param string $script : A set of Javascript instructions.
+ * @param bool $jsType : If jQuery DOM ready function is added to js string.
+ * @return void
+ */
 function nkTemplate_addJS($script, $jsType = 'normal') {
     if ($jsType == 'jqueryDomReady')
         $GLOBALS['nkTemplate']['JS']['string']['jqueryDomReady'] .= $script;
@@ -238,25 +319,29 @@ function nkTemplate_addJS($script, $jsType = 'normal') {
         $GLOBALS['nkTemplate']['JS']['string']['normal'] .= $script;
 }
 
+/**
+ * Get HTML code for added Javascript file. One type of file is included.
+ *
+ * @param string $fileType : The type of Javascript file to add.
+ * @return string HTML code.
+ */
+function nkTemplate_getJSFiles($fileType) {
+    $html = '';
 
-function nkTemplate_getJSFile($file, $conditionalComment) {
-    if ($conditionalComment !== false) {
-        return '<!--['. $conditionalComment .']>' ."\n"
-        . '<script type="text/javascript" src="'. $file .'"></script>' ."\n"
-        . '<![endif]-->' ."\n";
+    if (! empty( $GLOBALS['nkTemplate']['JS']['file'][$fileType])) {
+        foreach ($GLOBALS['nkTemplate']['JS']['file'][$fileType] as $file => $void)
+            $html .= '<script type="text/javascript" src="'. $file .'"></script>' ."\n";
     }
-    else {
-        return '<script type="text/javascript" src="'. $file .'"></script>' ."\n";
-    }
+
+    return $html;
 }
 
-
 /**
-  * Get HTML code for added javascript libs.
-  *
-  * @param void
-  * @return string HTML code.
-  */
+ * Get HTML code for added Javascript libs and block.
+ *
+ * @param void
+ * @return string HTML code.
+ */
 function nkTemplate_getJS() {
     $html = '';
 
@@ -268,30 +353,11 @@ function nkTemplate_getJS() {
             . '</script>' ."\n";
     }
 
-    if ( ! empty( $GLOBALS['nkTemplate']['JS']['file']['librairy'] ) ) {
-        $jQueryLib = '';
-
-        foreach ($GLOBALS['nkTemplate']['JS']['file']['librairy'] as $file => $conditionalComment) {
-            if ($file == JQUERY_LIBRAIRY) {
-                $jQueryLib = '<script type="text/javascript" src="'. JQUERY_LIBRAIRY .'"></script>' ."\n"
-                    . '<script type="text/javascript">jQuery.noConflict();</script>' ."\n";
-            } else {
-                $html .= nkTemplate_getJSFile($file, $conditionalComment);
-            }
-        }
-
-        $html .= $jQueryLib;
-    }
-
-    if (! empty($GLOBALS['nkTemplate']['JS']['file']['librairyPlugin'])) {
-        foreach ($GLOBALS['nkTemplate']['JS']['file']['librairyPlugin'] as $file => $conditionalComment)
-            $html .= nkTemplate_getJSFile($file, $conditionalComment);
-    }
-
-    if (! empty($GLOBALS['nkTemplate']['JS']['file']['normal'])) {
-        foreach ($GLOBALS['nkTemplate']['JS']['file']['normal'] as $file => $conditionalComment)
-            $html .= nkTemplate_getJSFile($file, $conditionalComment);
-    }
+    $html .= nkTemplate_getJSFiles('librairy')
+        . '<script type="text/javascript" src="'. JQUERY_LIBRAIRY .'"></script>' ."\n"
+        . '<script type="text/javascript">jQuery.noConflict();</script>' ."\n"
+        . nkTemplate_getJSFiles('librairyPlugin')
+        . nkTemplate_getJSFiles('normal');
 
     if ($GLOBALS['nkTemplate']['JS']['string']['normal'] != '' || $GLOBALS['nkTemplate']['JS']['string']['jqueryDomReady'] != '') {
         $html .= '<script type="text/javascript">' ."\n"
@@ -319,24 +385,25 @@ function nkTemplate_getJS() {
         'data'          => array(
             'normal'            => '',
             'jqueryDomReady'    => '',
+            'beforeLibs'        => ''
         ),
     );
 
     return $html;
 }
 
-
 /**
-  * Append meta generator, title, JS and CSS librairy into the HEAD section of HTML output.
-  *
-  * @param string $contentTop : Current result of top() function.
-  * @return string : Modified result of top() function.
-  */
+ * Append meta generator, OpenSearch link, title, links of Rss feed
+ * and JS and CSS librairy into the HEAD section of HTML output.
+ *
+ * @param string $contentTop : Current result of top() function.
+ * @return string : Modified result of top() function.
+ */
 function nkTemplate_append($contentTop) {
     global $nuked;
 
     $append  = '<meta name="generator" content="Nuked Klan - v'. $nuked['version'] .'" />' ."\n"
-        . '<link rel="search" type="application/opensearchdescription+xml" title="'. $nuked['name'] .'" href="'. $nuked['url'] .'/openSearch.php" />'
+        . '<link rel="search" type="application/opensearchdescription+xml" title="'. $nuked['name'] .'" href="'. $nuked['url'] .'/openSearch.php" />' ."\n"
         // rajouter les flux rss
         . nkTemplate_getCSS()
         . nkTemplate_getJS();
@@ -361,7 +428,12 @@ function nkTemplate_append($contentTop) {
     return $contentTop;
 }
 
-
+/**
+ * Build HTML content to display.
+ *
+ * @param string $content : The HTML content of Module.
+ * @return string HTML code.
+ */
 function nkTemplate_renderPage($content) {
     $contentTop     = nkTemplate_getTopOfPage();
     $contentFooter  = nkTemplate_getFooterOfPage();
@@ -372,34 +444,39 @@ function nkTemplate_renderPage($content) {
 
 
 /**
-  * Run block and send output html
-  *
-  * @param string $side : Side of block to run
-  * @return string HTML code
-  * /
+ * Run block list of defined side and display result.
+ *
+ * @param string $side : Side of block to run.
+ * @return void
+ */
+//function nkTemplate_getBlock($side) {
 function get_blok($side) {
     global $visiteur, $nuked;
 
+    //if ($side == 'left') {
     if ($side == 'gauche') {
         $active = 1;
         $nuked['IsBlok'] = true;
     }
+    //else if ($side == 'right') {
     else if ($side == 'droite') {
         $active = 2;
         $nuked['IsBlok'] = true;
     }
+    //else if ($side == 'center') {
     else if ($side == 'centre') {
         $active = 3;
     }
+    //else if ($side == 'bottom') {
     else if ($side == 'bas') {
         $active = 4;
     }
 
-    $aff_good_bl = 'block_' . $side;
+    $themeBlockFunction = 'block_'. $side;
 
-    $dbsBlock = nkDB_select(
-        'SELECT * 
-        FROM '. BLOCK_TABLE .' 
+    $dbsBlock = nkDB_selectMany(
+        'SELECT *
+        FROM '. BLOCK_TABLE .'
         WHERE active = '. $active,
         array('position')
     );
@@ -409,7 +486,7 @@ function get_blok($side) {
         $block['page'] = explode('|', $block['page']);
 
         if ($visiteur >= $block['nivo'] && (in_array($GLOBALS['file'], $block['page']) || in_array('Tous', $block['page']))) {
-            if (file_exists($blockFile = 'Includes/blocks/block_' . $block['type'] . '.php'))
+            if (file_exists($blockFile = 'Includes/blocks/block_'. $block['type'] .'.php'))
                 include_once $blockFile;
             else {
                 trigger_error('Block file '. $blockFile .' no found', E_USER_WARNING);
@@ -423,34 +500,27 @@ function get_blok($side) {
 
             $block = $blockFunction($block);
 
-            if (! empty($block['content'])) $aff_good_bl($block);
+            if (! empty($block['content'])) $themeBlockFunction($block);
         }
     }
 
     $nuked['IsBlok'] = false;
 }
 
+/*
+function get_blok($side){
+    trigger_error('get_blok function is deprecated. Please update your theme.', E_USER_DEPRECATED);
 
-/**
-  * Add Infobulle at ID of HTML element
-  *
-  * @param string $id : ID of HTML element
-  * @param string $title : The title of info-bulle
-  * @param string $text : The text of info-bulle
-  * @param string $width : The width of info-bulle
-  * @return void
-  */
-function addInfobulle($id, $title, $text, $width = 200) {
-    static $infobulleInit = false;
+    $translatedSide = array(
+        'gauche'    => 'left',
+        'droite'    => 'right',
+        'centre'    => 'center',
+        'bas'       => 'bottom'
+    );
 
-    if (! $infobulleInit) {
-        nkTemplate_addJSFile('js/infobulle/infobulle.js');
-        nkTemplate_addJS('infobulle_init();');
-
-        $infobulleInit = true;
-    }
-
-    nkTemplate_addJS('infobulle_set("'. $id .'","'. $title .'", "'. $text .'", '. $width .');' ."\n");
+    if (array_key_exists($side, $translatedSide))
+        nkTemplate_getBlock($translatedSide[$side]);
 }
+*/
 
 ?>

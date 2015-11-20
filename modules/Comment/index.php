@@ -127,7 +127,7 @@ function com_index($module, $im_id){
                 var OAjax;
                 if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
                 else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP');
-                OAjax.open('POST',"index.php?file=Comment&nuked_nude=index&op=post_comment",true);
+                OAjax.open('POST',"index.php?file=Comment&op=post_comment",true);
                 OAjax.onreadystatechange = function(){
                     if (OAjax.readyState == 4 && OAjax.status==200){
                         if (document.getElementById){
@@ -223,7 +223,7 @@ function com_index($module, $im_id){
             echo '<div style="text-align:center;padding:10px 10px 0 0"><b>'._COMMENTS.' :</b>&nbsp;'.$NbComment.'&nbsp;';
 
             if ($visiteur >= $level_access && $level_access > -1){
-                echo '<br />[ <a href="#" onclick="javascript:window.open(\'index.php?file=Comment&amp;nuked_nude=index&amp;op=view_com&amp;im_id='.$im_id.'&amp;module='.$module.'\',\'popup\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=600,height=480,top=100,left=100\');return(false)">'._VIEWCOMMENT.'</a> ]';
+                echo '<br />[ <a href="#" onclick="javascript:window.open(\'index.php?file=Comment&amp;op=view_com&amp;im_id='.$im_id.'&amp;module='.$module.'\',\'popup\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=600,height=480,top=100,left=100\');return(false)">'._VIEWCOMMENT.'</a> ]';
             }
             echo '</div>';
         }
@@ -266,8 +266,10 @@ function com_index($module, $im_id){
 }
 
 function view_com($module, $im_id){
+    global $bgcolor3, $language, $visiteur;
 
-    global $user, $bgcolor2, $bgcolor3, $theme, $nuked, $language, $visiteur;
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_COMMENTS);
 
     if(!verification($module,$im_id)) exit();
     if ($language == "french" && strpos("WIN", PHP_OS)) setlocale (LC_TIME, "french");
@@ -279,14 +281,7 @@ function view_com($module, $im_id){
     $level_admin = admin_mod("Comment");
     $module = mysql_real_escape_string(stripslashes($module));
 
-    echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-          <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
-          <head><title>'._COMMENTS.'</title>
-          <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-          <meta http-equiv="content-style-type" content="text/css" />
-          <link title="style" type="text/css" rel="stylesheet" href="themes/'.$theme.'/style.css" /></head>
-          <body style="background:'.$bgcolor2.';">
-          <script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&nuked_nude=index&op=del_comment&cid=\'+id;}}</script>';
+    echo '<script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&op=del_comment&cid=\'+id;}}</script>';
 
     $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC");
     if (mysql_num_rows($sql) != 0){
@@ -311,7 +306,7 @@ function view_com($module, $im_id){
             echo '<table style="width:90%;margin:0px auto;" cellspacing="0" cellpadding="0"><tr><td style="width:90%;"><b>'.$titre.'</b>';
 
             if ($visiteur >= $level_admin && $level_admin > -1){
-                echo '&nbsp;('.$row['autor_ip'].') <a href="index.php?file=Comment&amp;nuked_nude=index&amp;op=edit_comment&amp;cid='.$row['id'].'"><img style="border:none;" src="images/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a><a href="javascript:delmess(\''.mysql_real_escape_string($row['autor']).'\', \''.$row['id'].'\');"><img style="border:none;" src="images/del.gif" alt="" title="'._DELTHISCOM.'"></a>';
+                echo '&nbsp;('.$row['autor_ip'].') <a href="index.php?file=Comment&amp;op=edit_comment&amp;cid='.$row['id'].'"><img style="border:none;" src="images/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a><a href="javascript:delmess(\''.mysql_real_escape_string($row['autor']).'\', \''.$row['id'].'\');"><img style="border:none;" src="images/del.gif" alt="" title="'._DELTHISCOM.'"></a>';
             }
 
             echo '</td></tr><tr><td><img src="images/posticon.gif" alt="" />&nbsp;'._POSTEDBY.'&nbsp;'.$autor.'&nbsp;'._THE.'&nbsp;'.$row['date'].'<br /><br />'.$row['comment'].'<br /><hr style="height:1px;color:'.$bgcolor3.';" /></td></tr></table>';
@@ -323,14 +318,17 @@ function view_com($module, $im_id){
     }
 
     if ($visiteur >= $level_access && $level_access > -1){
-        echo '<div style="text-align:center;"><br /><input type="button" value="'._POSTCOMMENT.'" onclick="document.location=\'index.php?file=Comment&amp;nuked_nude=index&amp;op=post_com&amp;im_id='.$im_id.'&amp;module='.$module.'\'" /></div>';
+        echo '<div style="text-align:center;"><br /><input type="button" value="'._POSTCOMMENT.'" onclick="document.location=\'index.php?file=Comment&amp;op=post_com&amp;im_id='.$im_id.'&amp;module='.$module.'\'" /></div>';
     }
 
-    echo '<div style="text-align:center;"><br />[ <a href="#" onclick="javascript:window.close();"><b>'._CLOSEWINDOW.'</b></a> ]</div></body></html>';
+    echo '<div style="text-align:center;"><br />[ <a href="#" onclick="javascript:window.close();"><b>'._CLOSEWINDOW.'</b></a> ]</div>';
 }
 
 function post_com($module, $im_id){
-    global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur;
+    global $user, $bgcolor4, $language, $visiteur;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_POSTCOMMENT);
 
     define('EDITOR_CHECK', 1);
 
@@ -338,13 +336,6 @@ function post_com($module, $im_id){
 
     if(!verification($module,$im_id)){}
     elseif($visiteur >= $level_access && $level_access > -1){
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-            . "<head><title>" . _POSTCOMMENT . "</title>\n"
-            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-            . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-            . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-            . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
     echo "<script type=\"text/javascript\">\n"
             ."<!--\n"
@@ -365,7 +356,7 @@ function post_com($module, $im_id){
             . "// -->\n"
             . "</script>\n";
 
-    echo "<form method=\"post\" action=\"index.php?file=Comment&nuked_nude=index&op=post_comment\" return verifchamps();\">\n"
+    echo "<form method=\"post\" action=\"index.php?file=Comment&op=post_comment\" return verifchamps();\">\n"
             . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
             . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" maxlength=\"40\" /><br /><br /></td></tr>\n"
             . "<tr><td><b>" . _MESSAGE . " :</b><br />"
@@ -390,8 +381,9 @@ function post_com($module, $im_id){
             . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
             . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
 
-    echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
-            , '<script type="text/javascript">',"\n"
+    nkTemplate_addJSFile('media/ckeditor/ckeditor.js');
+
+    echo '<script type="text/javascript">',"\n"
             , '//<![CDATA[',"\n";
     echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_basic\',',"\n"
@@ -401,26 +393,20 @@ function post_com($module, $im_id){
     if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
     echo '    });',"\n"
             , '//]]>',"\n"
-            , '</script>',"\n"
-            , '</body></html>',"\n";
+            , '</script>',"\n";
 
     }
     else{
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _POSTCOMMENT . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-                . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /></div></body></html>";
+        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /></div>";
     }
 }
 
-
 function post_comment($im_id, $module, $titre, $texte, $pseudo) {
-    global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur;
-    
+    global $user, $nuked, $user_ip, $visiteur;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_POSTCOMMENT);
+
     if(!isset($_REQUEST['noajax'])){
         $titre = utf8_decode($titre);
         $texte = utf8_decode($texte);
@@ -429,14 +415,6 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
     $level_access = nivo_mod("Comment");
     if (!verification($module,$im_id)){}
     else if ($visiteur >= $level_access && $level_access > -1){
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _POSTCOMMENT . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n";
-
         if ($GLOBALS['captcha'] === true) {
             ValidCaptchaCode();
         }
@@ -449,13 +427,16 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
             $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
             $pseudo = verif_pseudo($pseudo);
             if ($pseudo == "error1"){
-                die ("<div style=\"text-align: center;\"><br /><br />" . _PSEUDOFAILDED . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
+                echo "<div style=\"text-align: center;\"><br /><br />" . _PSEUDOFAILDED . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>";
+                return;
             }
             else if ($pseudo == "error2"){
-                die ("<div style=\"text-align: center;\"><br /><br />" . _RESERVNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
+                "<div style=\"text-align: center;\"><br /><br />" . _RESERVNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>";
+                return;
             }
             else if ($pseudo == "error3"){
-                die ("<div style=\"text-align: center;\"><br /><br />" . _BANNEDNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>");
+                "<div style=\"text-align: center;\"><br /><br />" . _BANNEDNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>";
+                return;
             }
             else{
                 $autor = $pseudo;
@@ -471,13 +452,13 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
 
         if ($date < $anti_flood && $user[1] < admin_mod("Comment")){
             echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
-            $url = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+            $url = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
             redirect($url, 2);
             closetable();
             footer();
             exit();
         }
-        
+
         $texte = secu_html(nkHtmlEntityDecode($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = stripslashes($texte);
@@ -491,32 +472,27 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTADD . "</b>";
 
         if ($module == "news"){
-            echo "<br /><br />[ <a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\">" . _CLOSEWINDOW . "</a> ]</div></body></html>";
+            echo "<br /><br />[ <a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\">" . _CLOSEWINDOW . "</a> ]</div>";
         }
         else{
             echo "</div>";
-            $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+            $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
             if ($_REQUEST['ajax'] != 1){
                 redirect($url_redir, 2);
             }
-            echo "</body></html>";
         }
     }
     else{
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _POSTCOMMENT . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-                . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /><br /><br />\n"
-                . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
+        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /><br /><br />\n"
+            . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
     }
 }
 
 function del_comment($cid){
-    global $nuked, $user, $theme, $bgcolor2, $nuked_nude, $visiteur;
+    global $visiteur;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_COMMENTS);
 
     $level_admin = admin_mod("Comment");
 
@@ -526,37 +502,24 @@ function del_comment($cid){
 
         $del = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
 
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _COMMENTS . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-                . "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTDEL . "</b></div>\n";
+        echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTDEL . "</b></div>\n";
 
-        $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+        $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 2);
-        echo "</body></html>";
     }
     else{
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _COMMENTS . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-                . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
 
-        $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+        $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);
-        echo "</body></html>";
     }
 }
 
 function modif_comment($cid, $titre, $texte, $module, $im_id){
-    global $nuked, $user, $theme, $bgcolor2, $visiteur;
+    global $visiteur;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_COMMENTS);
 
     $level_admin = admin_mod("Comment");
     $texte = secu_html(nkHtmlEntityDecode($texte));
@@ -566,50 +529,30 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
     if ($visiteur >= $level_admin){
         $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
 
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _COMMENTS . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-                . "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTMODIF . "</b></div>\n";
+        echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTMODIF . "</b></div>\n";
 
-    $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+    $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 2);
-        echo "</body></html>";
     }
     else{
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _COMMENTS . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-                . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
 
-    $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&amp;module=" . $module;
+    $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&amp;module=" . $module;
         redirect($url_redir, 5);
-        echo "</body></html>";
     }
 }
 
 function edit_comment($cid){
-    global $user, $nuked, $bgcolor2, $theme, $visiteur;
+    global $visiteur;
+
+    nkTemplate_setPageDesign('nudePage');
 
     define('EDITOR_CHECK', 1);
 
     $level_admin = admin_mod("Comment");
 
     if ($visiteur >= $level_admin){
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _POSTCOMMENT . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n";
+        nkTemplate_setTitle(_POSTCOMMENT);
 
         $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip, module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
         list($auteur, $autor_id, $titre, $texte, $ip, $module, $im_id) = mysql_fetch_array($sql);
@@ -624,7 +567,7 @@ function edit_comment($cid){
             $autor = $auteur;
         }
 
-        echo "<form method=\"post\" action=\"index.php?file=Comment&amp;nuked_nude=index&amp;op=modif_comment\" >\n"
+        echo "<form method=\"post\" action=\"index.php?file=Comment&amp;op=modif_comment\" >\n"
                 . "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"0\">\n"
                 . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" maxlength=\"40\" value=\"" . $titre . "\" /><br /><br /></td></tr>\n"
                 . "<tr><td><b>" . _MESSAGE . " :</b><br />\n"
@@ -635,21 +578,15 @@ function edit_comment($cid){
                 . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
                 . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
                 . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /><br />\n"
-                . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form></body></html>";
+                . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form>";
     }
     else{
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _COMMENTS . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-                . "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+        nkTemplate_setTitle(_COMMENTS);
 
-        $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
+        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+
+        $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);
-        echo "</body></html>";
     }
 }
 

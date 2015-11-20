@@ -75,15 +75,9 @@ opentable();
             $nav = $category.$topic;
 
     //Initialisation de la couleur des catégories en fonction du bgcolor
-    if(isset($GLOBALS['bgcolor1']) && isset($GLOBALS['bgcolor2']) && isset($GLOBALS['bgcolor3']) && isset($GLOBALS['bgcolor4'])){
-?>
-        <style type="text/css">
-            .nkForumPostHead{
-                background: <?php echo $GLOBALS['bgcolor3']; ?>
-            }
-        </style>
-<?php
-    }
+    if(isset($GLOBALS['bgcolor1']) && isset($GLOBALS['bgcolor2']) && isset($GLOBALS['bgcolor3']) && isset($GLOBALS['bgcolor4']))
+        nkTemplate_addCSS('.nkForumPostHead { background: '. $GLOBALS['bgcolor3'] .'}');
+
 ?>
     <div id="nkForumWrapper">
         <form method="post" action="<?php echo $action; ?>" enctype="multipart/form-data">
@@ -108,7 +102,7 @@ opentable();
                                 }
                                 else if ($user[2] != "") {
     ?>
-                                <?php echo $user[2]; ?>&nbsp;<a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout" class="nkButton icon remove danger"><?php echo _FLOGOUT; ?></a>
+                                <?php echo $user[2]; ?>&nbsp;<a href="index.php?file=User&amp;op=logout" class="nkButton icon remove danger"><?php echo _FLOGOUT; ?></a>
                                 <input type="hidden" name="auteur" value="<?php echo $user[2]; ?>" />
     <?php
                                 }

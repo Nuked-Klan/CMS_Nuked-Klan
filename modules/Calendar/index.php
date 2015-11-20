@@ -39,7 +39,7 @@ function index(){
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
         . "function openWin(type,id,d,m,y){\n"
-        . "w = window.open('index.php?file=Calendar&nuked_nude=index&op=show_event&eid='+id+'&type='+type+'&d='+d+'&m='+m+'&y='+y,'event'+id,'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=" . $w . ",height=" . $h . ",top=30,left=0');\n"
+        . "w = window.open('index.php?file=Calendar&op=show_event&eid='+id+'&type='+type+'&d='+d+'&m='+m+'&y='+y,'event'+id,'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=" . $w . ",height=" . $h . ",top=30,left=0');\n"
         . "}\n"
         . "// -->\n"
         . "</script>";
@@ -318,7 +318,9 @@ function index(){
 }
 
 function show_event(){
-    global $bgcolor2, $user, $nuked, $theme, $language;
+    global $user, $nuked, $language;
+
+    nkTemplate_setPageDesign('nudePage');
 
     if ($_REQUEST['type'] == "birthday" && ctype_alnum($_REQUEST['eid'])) {
         $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $_REQUEST['eid'] . "'");
@@ -333,17 +335,12 @@ function show_event(){
         if ($_REQUEST['d'] < $jour && $_REQUEST['m'] == $mois) $age = $age-1;
         $nom = empty($prenom) ? $pseudo : $prenom;
 
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _BIRTHDAY . " : " . $pseudo . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-        . "<table width=\"100%\" cellpadding=\"3\" cellspacing=\"1\">\n"
+        nkTemplate_setTitle(_BIRTHDAY .' : '. $pseudo);
+
+        echo "<table width=\"100%\" cellpadding=\"3\" cellspacing=\"1\">\n"
         . "<tr><td align=\"center\"><big><b>" . _BIRTHDAY . " : " . $pseudo . "</b></big></td></tr><tr><td>&nbsp;</td></tr>\n"
         . "<tr><td align=\"center\">" . _BIRTHDAYTEXT . " <b>" . $nom . "</b> " . _BIRTHDAYTEXTSUITE . " <b>" . $age . "</b> " . _YEARSOLD . "</td></tr>\n"
-        . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><b><a href=\"#\" onclick=\"self.close()\">" . _CLOSEWINDOW . "</a></b></td></tr></table></body></html>";
+        . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><b><a href=\"#\" onclick=\"self.close()\">" . _CLOSEWINDOW . "</a></b></td></tr></table>";
 
     }elseif ($_REQUEST['type'] == "match" && is_numeric($_REQUEST['eid'])){
         $sql = mysql_query("SELECT warid, etat, team, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv, report FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['eid'] . "'");
@@ -369,14 +366,9 @@ function show_event(){
 
         $date = ($language == "french") ? $jour . "/" . $mois . "/" . $an : $mois . "/" . $jour . "/" . $an;
 
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . $team_name . "&nbsp;" . _VS . "&nbsp;" . $adv_name . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-        . "<table width=\"100%\" cellpadding=\"1\" cellspacing=\"0\">\n"
+        nkTemplate_setTitle($team_name .'&nbsp;'. _VS .'&nbsp;'. $adv_name);
+
+        echo "<table width=\"100%\" cellpadding=\"1\" cellspacing=\"0\">\n"
         . "<tr><td align=\"center\"><big><b>" . $team_name . "&nbsp;" . _VS . "&nbsp;" . $adv_name . "</b></big></td></tr><tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _DATE . " :</b> " . $date . " " . $heure . "</td></tr>\n"
         . "<tr><td><b>" . _TYPE . " :</b> " . $type_match . "</td></tr>\n"
@@ -404,7 +396,7 @@ function show_event(){
             if ($user_team > 0 || $user[1] > 1) dispo($warid, $_REQUEST['type']);
         }
 
-        echo "</table><div style=\"text-align: center;\"><a href=\"#\" onclick=\"self.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
+        echo "</table><div style=\"text-align: center;\"><a href=\"#\" onclick=\"self.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
 
     }else if (is_numeric($_REQUEST['eid'])){
 
@@ -415,21 +407,16 @@ function show_event(){
 
         $date = ($language == "french") ? $jour . "/" . $mois . "/" . $an : $mois . "/" . $jour . "/" . $an;
 
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . $titre. "&nbsp;" . _THE . "&nbsp;" . $date . "&nbsp;" . $heure . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-        . "<table width=\"100%\" cellpadding=\"1\" cellspacing=\"0\">\n"
+        nkTemplate_setTitle($titre .'&nbsp;'. _THE .'&nbsp;'. $date .'&nbsp;'. $heure);
+
+        echo "<table width=\"100%\" cellpadding=\"1\" cellspacing=\"0\">\n"
         . "<tr><td align=\"center\"><big><b>" . $titre . "&nbsp;" . _THE . "&nbsp;" . $jour . "/" . $mois . "/" . $an;
 
         if (!empty($heure)) echo"&nbsp;" . _AT . "&nbsp;" . $heure;
 
         echo "</b></big><br />" . _ADDEDBY . " <b>" . $auteur . "</b></td></tr><tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _DESCR . " : </b>" . $description . "</td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"self.close()\"><b>" . _CLOSEWINDOW . "</b></a><br /></div></body></html>";
+        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"self.close()\"><b>" . _CLOSEWINDOW . "</b></a><br /></div>";
     }
 }
 
@@ -466,20 +453,23 @@ function dispo($warid, $type){
     }
 
     if ($selected != "1" && !empty($user[0])){
-        echo "</small><form method=\"post\" action=\"index.php?file=Calendar&amp;nuked_nude=index&amp;op=add_dispo&amp;war_id=" . $warid . "\">\n"
+        echo "</small><form method=\"post\" action=\"index.php?file=Calendar&amp;op=add_dispo&amp;war_id=" . $warid . "\">\n"
         . "<div style=\"text-align: center;\"><select name=\"dispo\">\n"
         . "<option value=\"1\">" . _IPLAY . "</option>\n"
         . "<option value=\"2\">" . _ICANT . "</option></select>\n"
         . "<input type=\"hidden\" name=\"type\" value=\"" . $type . "\" />\n"
         . "&nbsp;<input type=\"submit\" name=\"submit\" value=\"" . _VALID . "\" /><br /></div></form>\n";
     }else{
-        echo "</small><br /><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Calendar&amp;nuked_nude=index&amp;op=del_dispo&amp;war_id=" . $warid . "&amp;type=" . $type . "\">" . _DELAVAILLABLE . "</a> ]</div><br />\n";
+        echo "</small><br /><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Calendar&amp;op=del_dispo&amp;war_id=" . $warid . "&amp;type=" . $type . "\">" . _DELAVAILLABLE . "</a> ]</div><br />\n";
     }
     echo "</td></tr>\n";
 }
 
 function add_dispo($dispo){
-    global $user, $nuked, $bgcolor2, $theme;
+    global $user;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_MATCH);
 
     $sql = "SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
     $req = mysql_query($sql);
@@ -496,21 +486,17 @@ function add_dispo($dispo){
 
     mysql_query($sql);
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    . "<head><title>" . _MATCH . "</title>\n"
-    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-    . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-    . "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div></body></html>";
+    echo "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div>";
 
-    $url_redirect = "index.php?file=Calendar&nuked_nude=index&op=show_event&eid=" . $_REQUEST['war_id'] . "&type=" . $_REQUEST['type'];
+    $url_redirect = "index.php?file=Calendar&op=show_event&eid=" . $_REQUEST['war_id'] . "&type=" . $_REQUEST['type'];
     redirect($url_redirect, 2);
 }
 
 function del_dispo(){
-    global $user, $nuked, $bgcolor2, $theme;
+    global $user;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_MATCH);
 
     $sql = "SELECT * FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
     $req = mysql_query($sql);
@@ -525,16 +511,9 @@ function del_dispo(){
     $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "', pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] . "'";
     mysql_query($sql);
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    . "<head><title>" . _MATCH . "</title>\n"
-    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-    . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-    . "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div></body></html>";
+    echo "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div>";
 
-    $url_redirect = "index.php?file=Calendar&nuked_nude=index&op=show_event&eid=" . $_REQUEST['war_id'] . "&type=" . $_REQUEST['type'];
+    $url_redirect = "index.php?file=Calendar&op=show_event&eid=" . $_REQUEST['war_id'] . "&type=" . $_REQUEST['type'];
     redirect($url_redirect, 2);
 }
 

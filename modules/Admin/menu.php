@@ -246,7 +246,7 @@ else $selected0 = "selected=\"selected\"";
     if (substr($module, 0, 1) == "[" || $module == "") $url = "http://";
     else $url = $module;
 
-    echo"<script type=\"text/javascript\" src=\"modules/Admin/jscolor/jscolor.js\"></script>";
+    nkTemplate_addJSFile('modules/Admin/jscolor/jscolor.js');
 
     echo "<script type=\"text/javascript\">\n"
         ."<!--\n"

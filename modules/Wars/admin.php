@@ -380,9 +380,9 @@ function match(){
         $nb_file = mysql_num_rows($sql4);
 
         if ($nb_file > 0) {
-            echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;nuked_nude=admin&amp;op=main_file&amp;im_id=" . $war_id . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDMODFILE . "</a></div>\n";
+            echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;page=admin&amp;op=main_file&amp;im_id=" . $war_id . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDMODFILE . "</a></div>\n";
         } else {
-            echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;nuked_nude=admin&amp;op=add_file&amp;im_id=" . $war_id ."','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDFILE . "</a></div>\n";
+            echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;page=admin&amp;op=add_file&amp;im_id=" . $war_id ."','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDFILE . "</a></div>\n";
         } 
     } 
 
@@ -576,15 +576,10 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
 }
 
 function main_file($im_id){
-    global $nuked, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
+    global $bgcolor1, $bgcolor2, $bgcolor3;
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-            . "<head><title>" . _ADMINMATCH . "</title>\n"
-            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-            . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-            . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-            . "<body style=\"background: " . $bgcolor2 . ";\">\n";
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_ADMINMATCH);
 
     echo "<script type=\"text/javascript\">\n"
             ."<!--\n"
@@ -592,13 +587,13 @@ function main_file($im_id){
             . "function del_file(type, id)\n"
             . "{\n"
             . "if (confirm('" . _DEL . " '+type+' ! " . _CONFIRM . "'))\n"
-            . "{document.location.href = 'index.php?file=Wars&nuked_nude=admin&op=del_file&fid='+id;}\n"
+            . "{document.location.href = 'index.php?file=Wars&page=admin&op=del_file&fid='+id;}\n"
             . "}\n"
                 . "\n"
             . "// -->\n"
             . "</script>\n";
 
-    echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Wars&amp;nuked_nude=admin&amp;op=add_file&amp;im_id=" . $im_id . "\"><b>" . _ADDFILE . "</b></a> ]<br /><br /></div>\n"
+    echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Wars&amp;page=admin&amp;op=add_file&amp;im_id=" . $im_id . "\"><b>" . _ADDFILE . "</b></a> ]<br /><br /></div>\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
             . "<tr style=\"background: ". $bgcolor3 . "\">\n"
             . "<td align=\"center\"><b>" . _TYPE . "</b></td>\n"
@@ -628,35 +623,30 @@ function main_file($im_id){
 
         echo "<tr style=\"background: ". $bg . "\">\n"
                 . "<td align=\"center\"><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $typename . "</a></td>\n"
-                . "<td align=\"center\"><a href=\"index.php?file=Wars&amp;nuked_nude=admin&amp;op=edit_file&amp;fid=" . $fid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITFILE . "\" /></a></td>\n"
+                . "<td align=\"center\"><a href=\"index.php?file=Wars&amp;page=admin&amp;op=edit_file&amp;fid=" . $fid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITFILE . "\" /></a></td>\n"
                 . "<td align=\"center\"><a href=\"javascript:del_file('" . mysql_real_escape_string(stripslashes($typename)) . "', '" . $fid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEFILE . "\" /></a></td></tr>\n";
     }
 
-    echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
+    echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
 }
 
 function add_file($im_id){
-    global $nuked, $theme, $bgcolor2;
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_ADMINMATCH);
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-            . "<head><title>" . _ADMINMATCH . "</title>\n"
-            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-            . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-            . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-            . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-            . "<form method=\"post\" action=\"index.php?file=Wars&amp;nuked_nude=admin&amp;op=send_file\" enctype=\"multipart/form-data\">\n"
-            . "<div style=\"text-align: center;\"><br /><big><b>" . _ADDFILE . "</b></big></div>\n"
-            . "<div><br /><b>" . _URL . " :</b> <input type=\"text\" size=\"40\" name=\"url_file\" /><br />\n"
-            . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "<br />\n"
-            . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\">" . _IMG . "</option><option value=\"demo\">" . _DEMO . "</option></select><br />\n"
-            . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /></div>\n"
-            . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-            . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form></body></html>";
+    echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=send_file\" enctype=\"multipart/form-data\">\n"
+        . "<div style=\"text-align: center;\"><br /><big><b>" . _ADDFILE . "</b></big></div>\n"
+        . "<div><br /><b>" . _URL . " :</b> <input type=\"text\" size=\"40\" name=\"url_file\" /><br />\n"
+        . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "<br />\n"
+        . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\">" . _IMG . "</option><option value=\"demo\">" . _DEMO . "</option></select><br />\n"
+        . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /></div>\n"
+        . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
+        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form>";
 }
 
 function edit_file($fid){
-    global $nuked, $theme, $bgcolor2;
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_ADMINMATCH);
 
     $sql = mysql_query("SELECT im_id, type, url FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
     list($im_id, $type, $url) = mysql_fetch_array($sql);
@@ -674,25 +664,19 @@ function edit_file($fid){
         $typename = $type;
     }
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _ADMINMATCH . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-        . "<form method=\"post\" action=\"index.php?file=Wars&amp;nuked_nude=admin&amp;op=modif_file\" enctype=\"multipart/form-data\">\n"
+    echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=modif_file\" enctype=\"multipart/form-data\">\n"
         . "<div style=\"text-align: center;\"><br /><big><b>" . _ADDFILE . "</b></big></div>\n"
         . "<div><br /><b>" . _URL . " :</b> <input type=\"text\" size=\"40\" name=\"url_file\" value=\"" . $url . "\" /><br />\n"
         . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "<br />\n"
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\" " . $checked1 . ">" . _IMG . "</option><option value=\"demo\" " . $checked2 . ">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /><input type=\"hidden\" name=\"fid\" value=\"" . $fid . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form></body></html>";
+        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form>";
 }
 
 function send_file($im_id, $file_type, $url_file, $fichiernom, $ecrase_screen){
-    global $nuked, $theme, $bgcolor2;
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_ADMINMATCH);
 
     if ($_FILES['fichiernom']['name'] != "" || $url_file != ""){
         $racine_up = "upload/Wars/";
@@ -704,24 +688,32 @@ function send_file($im_id, $file_type, $url_file, $fichiernom, $ecrase_screen){
         if (!is_file($file_url) || $ecrase_screen == 1){
             if($filename != "" && $file_type == "screen"){
                 if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
-                    move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url) or die ("Upload file failed !!!");
+                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
+                        echo "Upload file failed !!!";
+                        return;
+                    }
+
                     @chmod ($file_url, 0644);
                 }
                 else{
                     echo "<br /><br /><div style=\"text-align: center;\">No image file !!!</div><br /><br />";
-                    redirect("index.php?file=Wars&nuked_nude=admin&op=add_file&im_id=" . $im_id, 2);
-                    exit();
+                    redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 2);
+                    return;
                 }
             }
             else if($filename != "" && $file_type == "demo"){
                 if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess"){
-                    move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url) or die ("Upload file failed !!!");
+                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
+                        echo "Upload file failed !!!";
+                        return;
+                    }
+
                     @chmod ($file_url, 0644);
                 }
                 else{
                     echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
-                    redirect("index.php?file=Wars&nuked_nude=admin&op=add_file&im_id=" . $im_id, 2);
-                    exit();
+                    redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 2);
+                    return;
                 }
             }
             else{
@@ -730,46 +722,26 @@ function send_file($im_id, $file_type, $url_file, $fichiernom, $ecrase_screen){
 
             $add = mysql_query("INSERT INTO " . WARS_FILES_TABLE . " ( `id` , `module` , `im_id` , `type` , `url` ) VALUES ( '' , 'Wars' , '" . $im_id . "' , '" . $file_type . "' , '" . $file_url . "' )");
 
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                    . "<head><title>" . _ADMINMATCH . "</title>\n"
-                    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                    . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-                    . "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEADD . "</div></body></html>";
+            echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEADD . "</div>";
 
-            redirect("index.php?file=Wars&nuked_nude=admin&op=main_file&im_id=" . $im_id, 2);
+            redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
         }
         else{
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                    . "<head><title>" . _ADMINMATCH . "</title>\n"
-                    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                    . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-                    . "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _DEJAFILE . "<br />" . _REPLACEIT . "</div></body></html>";
+            echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _DEJAFILE . "<br />" . _REPLACEIT . "</div>";
 
-            redirect("index.php?file=Wars&nuked_nude=admin&op=add_file&im_id=" . $im_id, 3);
+            redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 3);
         }
     }
     else{
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                . "<head><title>" . _ADMINMATCH . "</title>\n"
-                . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-                . "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _SPECIFY . "</div></body></html>";
+        echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _SPECIFY . "</div>";
 
-        redirect("index.php?file=Wars&nuked_nude=admin&op=add_file&im_id=" . $im_id, 3);
+        redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 3);
     }
 }
 
 function modif_file($im_id, $fid, $file_type, $url_file, $fichiernom, $ecrase_screen){
-    global $nuked, $theme, $bgcolor2;
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_ADMINMATCH);
 
     if ($_FILES['fichiernom']['name'] != ""){
         $racine_up = "upload/Wars/";
@@ -781,39 +753,40 @@ function modif_file($im_id, $fid, $file_type, $url_file, $fichiernom, $ecrase_sc
         if (!is_file($file_url) || $ecrase_screen == 1){
             if($filename != "" && $file_type == "screen"){
                 if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
-                    move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url) or die ("Upload file failed !!!");
+                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
+                        echo "Upload file failed !!!";
+                        return;
+                    }
+
                     @chmod ($file_url, 0644);
                 }
                 else{
                     echo "<br /><br /><div style=\"text-align: center;\">No image file !!!</div><br /><br />";
-                    redirect("index.php?file=Wars&nuked_nude=admin&op=edit_file&fid=" . $fid, 3);
-                    exit();
+                    redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
+                    return;
                 }
             }
             else if($filename != "" && $file_type == "demo"){
                 if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess"){
-                    move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url) or die ("Upload file failed !!!");
-                    @chmod ($file_url, 0644);
+                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
+                        echo "Upload file failed !!!";
+                        return;
                     }
-                    else{
+
+                    @chmod ($file_url, 0644);
+                }
+                else{
                     echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
-                    redirect("index.php?file=Wars&nuked_nude=admin&op=edit_file&fid=" . $fid, 3);
-                    exit();
+                    redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
+                    return;
                 }
             }
         }
         else{
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-                    . "<head><title>" . _ADMINMATCH . "</title>\n"
-                    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-                    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-                    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-                    . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-                    . "<div style=\"text-align: center;\"><br /><br /><br /><br /><br /><br /><br /><br />" . _DEJAFILE . "<br />" . _REPLACEIT . "</div></body></html>";
+            echo "<div style=\"text-align: center;\"><br /><br /><br /><br /><br /><br /><br /><br />" . _DEJAFILE . "<br />" . _REPLACEIT . "</div>";
 
-            redirect("index.php?file=Wars&nuked_nude=admin&op=edit_file&fid=" . $fid, 3);
-            exit();
+            redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
+            return;
         }
 
     }
@@ -823,36 +796,23 @@ function modif_file($im_id, $fid, $file_type, $url_file, $fichiernom, $ecrase_sc
 
     $upd = mysql_query("UPDATE " . WARS_FILES_TABLE . " SET type = '" . $file_type . "' , url = '" . $file_url . "' WHERE id = '" . $fid . "'");
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-            . "<head><title>" . _ADMINMATCH . "</title>\n"
-            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-            . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-            . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-            . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-            . "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEADD . "</div></body></html>";
+    echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEADD . "</div>";
 
-    redirect("index.php?file=Wars&nuked_nude=admin&op=main_file&im_id=" . $im_id, 2);
+    redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
 }
 
 function del_file($fid){
-    global $nuked, $theme, $bgcolor2;
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_ADMINMATCH);
 
     $sql = mysql_query("SELECT im_id FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
     list($im_id) = mysql_fetch_array($sql);
 
     $del = mysql_query("DELETE FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-            . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-            . "<head><title>" . _ADMINMATCH . "</title>\n"
-            . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-            . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-            . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-            . "<body style=\"background: " . $bgcolor2 . ";\">\n"
-            . "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEDEL . "</div></body></html>";
+    echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEDEL . "</div>";
 
-    redirect("index.php?file=Wars&nuked_nude=admin&op=main_file&im_id=" . $im_id, 2);
+    redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
 }
 
 function main_pref(){

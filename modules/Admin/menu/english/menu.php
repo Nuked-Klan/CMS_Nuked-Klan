@@ -9,7 +9,7 @@ header('Content-type: text/html; charset=iso-8859-1');
 		</a>
 	</li>
 	<li>
-		<a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;nuked_nude">
+		<a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;modal=true">
 			<img src="modules/Admin/images/icons/statistiques.png" alt="icon" />
 			<span>Stats</span>
 		</a>

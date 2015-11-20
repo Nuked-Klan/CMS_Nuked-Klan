@@ -31,13 +31,13 @@ while ($row = mysql_fetch_assoc($dbeMatch)) {
         $arrayTemp[$i]['score'] = TO_COME;
     }
     if ($row['teamScore'] > $row['opponentScore']) {
-        $arrayTemp[$i][scoreClass] = 'Win';
+        $arrayTemp[$i]['scoreClass'] = 'Win';
     }
     else if ($row['teamScore'] < $row['opponentScore']) {
-        $arrayTemp[$i][scoreClass] = 'Lose';
+        $arrayTemp[$i]['scoreClass'] = 'Lose';
     }
     else {
-        $arrayTemp[$i][scoreClass] = 'Draw';
+        $arrayTemp[$i]['scoreClass'] = 'Draw';
     }
     $i++;
 }

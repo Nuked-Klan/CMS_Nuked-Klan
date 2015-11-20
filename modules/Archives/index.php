@@ -175,7 +175,7 @@ function index()
         echo "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($auteur) . "\" title=\"" . _DETAILAUTHOR . "&nbsp;" . $auteur . "\">" . $auteur . "</a></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">"
-        . "<a href=\"index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>"
+        . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>"
         . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a></td></tr>\n";
     }
 
@@ -321,7 +321,7 @@ function sujet($cat_id)
         . "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($auteur) . "\" title=\"" . _DETAILAUTHOR . "&nbsp;" . $auteur . "\">" . $auteur . "</a></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">"
-        . "<a href=\"index.php?file=News&amp;nuked_nude=index&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>"
+        . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>"
         . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a></td></tr>\n";
     }
 

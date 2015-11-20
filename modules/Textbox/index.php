@@ -141,16 +141,11 @@ function index() {
 }
 
 function smilies() {
-    global $theme, $bgcolor3, $bgcolor2;
+    global $bgcolor3;
 
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-    . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-    . "<head><title>" . _SMILEY . "</title>\n"
-    . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-    . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-    . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" />\n"
-    . "<script type=\"text/javascript\" src=\"media/js/smilies.js\"></script></head>\n"
-    . "<body style=\"background: " . $bgcolor2 . ";\">\n";
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_SMILEY);
+    nkTemplate_addJSFile('media/js/smilies.js');
 
     echo "<script type=\"text/javascript\">\n"
     . "<!--\n"
@@ -179,7 +174,7 @@ function smilies() {
         . "<td align=\"center\"><a href=\"javascript:eff();PopupinsertAtCaret('" . $_REQUEST['textarea'] . "', ' " . $code . " ')\"><img style=\"border: 0;\" src=\"images/icones/" . $url . "\" alt=\"\" title=\"" . $name . "\" /></a></td></tr>\n";
     } 
 
-    echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
+    echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
 } 
 
 function cesure_href($matches) {
@@ -187,9 +182,10 @@ function cesure_href($matches) {
 }
 
 function ajax() {
+    global $nuked, $user, $visiteur, $language, $bgcolor1, $bgcolor2;
 
     header('Content-type: text/html; charset=iso-8859-1');
-    global $nuked, $user, $visiteur, $language, $bgcolor1, $bgcolor2;
+    nkTemplate_setPageDesign('none');
 
     require("modules/Textbox/config.php");
 
@@ -215,9 +211,9 @@ function ajax() {
     $pseudo_max = $max_pseudo;
     $level_admin = admin_mod('Textbox');
     $level_mod = nivo_mod('Textbox');
-    
+
     $nb_messages = 40;
-    
+
     $sql = mysql_query('SELECT count(id) FROM '.TEXTBOX_TABLE.' ');
     list($index_limit) = mysql_fetch_array($sql);
     $index_start = $index_limit - $nb_messages;
@@ -319,7 +315,7 @@ function ajax() {
 
             else {
                 echo "<div class=\"nkInlineBlock nkFloatRight\" style=\"margin-right:6px;\">". $online ."</div></div></div>\n";
-            }                 
+            }
         }
 
         echo "<div class=\"nkClear\"></div>\n";

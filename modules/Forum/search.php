@@ -285,6 +285,11 @@ opentable();
     } 
     else
     {
+        /*
+        TODO :
+        - jQuery autocomplete missing
+        - list function of Members module missing
+
         echo "<script type=\"text/javascript\">\n"
             . "    $(document).ready(function() {\n"
             . "        $(\"#autor\").autocomplete(\"index.php?file=Members&op=list&nuked_nude=index\",{
@@ -293,6 +298,7 @@ opentable();
             });
                 });\n"
             . "</script>\n"
+        */
 ?>
         <div id="nkForumBreadcrumb">
             <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM; ?></strong></a>&nbsp;->&nbsp;<strong><?php echo _SEARCH; ?></strong>

@@ -10,7 +10,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 function affich_block_theme($blok){
     global $cookie_theme;
 
-    $blok['content'] .= '<form method="post" action="index.php?file=User&amp;nuked_nude=index&amp;op=modif_theme">'."\n"
+    $blok['content'] .= '<form method="post" action="index.php?file=User&amp;op=modif_theme">'."\n"
     . '<div style="text-align: center"><select name="user_theme" onchange="submit();">'."\n"
     . '<option value="">' . _BTHEMESELECT . '</option>'."\n";
 

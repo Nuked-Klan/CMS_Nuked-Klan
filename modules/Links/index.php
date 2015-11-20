@@ -166,11 +166,11 @@ function categorie($cat){
 }
 
 function do_link($link_id){
-    global $nuked;
+    nkTemplate_setPageDesign('none');
 
     $sql = mysql_query('SELECT url, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
     if(mysql_num_rows($sql) <= 0){
-        header('location: index.php?file=404');
+        redirect('index.php?file=404');
     }
     else{
         list($link_url, $count) = mysql_fetch_array($sql);
@@ -178,7 +178,7 @@ function do_link($link_id){
 
         $upd = mysql_query('UPDATE ' . LINKS_TABLE . ' SET count = ' . $new_count . ' WHERE id = ' . $link_id);
 
-        header('location: ' . $link_url);
+        redirect($link_url);
     }
 }
 
@@ -282,7 +282,7 @@ function description($link_id){
         if ($visiteur > 0) echo '<tr style="background: ' . $bgcolor2 . '"><td>&nbsp;</td></tr>'."\n"
         . '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><img src="modules/Links/images/warning.gif" alt="" /> [ <a href="index.php?file=Links&amp;op=broken&amp;link_id=' . $link_id . '">' . _INDICATELINK . '</a> ]</td></tr>';
         echo '</table>'."\n"
-        . '<div style="text-align: center"><br /><input type="button" value="' . _VISITTHISSITE . '" onclick="window.open(\'index.php?file=Links&amp;nuked_nude=index&amp;op=do_link&amp;link_id=' . $link_id . '\')" /></div><br />';
+        . '<div style="text-align: center"><br /><input type="button" value="' . _VISITTHISSITE . '" onclick="window.open(\'index.php?file=Links&amp;op=do_link&amp;link_id=' . $link_id . '\')" /></div><br />';
 
         $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'links\'');
         list($active) = mysql_fetch_array($sql);

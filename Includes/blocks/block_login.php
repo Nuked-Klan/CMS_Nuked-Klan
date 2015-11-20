@@ -29,7 +29,7 @@ function affich_block_login($blok){
 
 	if($login != 'off'){
 		if (!$user){
-			$blok['content'] = '<form action="index.php?file=User&amp;nuked_nude=index&amp;op=login" method="post">'."\n"
+			$blok['content'] = '<form action="index.php?file=User&amp;op=login" method="post">'."\n"
 			. '<table style="margin-left: auto;margin-right: auto;text-align: left;">'."\n"
 			. '<tr><td>' . _NICK . ' :</td><td><input type="text" name="pseudo" size="10" maxlength="250" /></td></tr>'."\n"
 			. '<tr><td>' . _PASSWORD . ' :</td><td><input type="password" name="pass" size="10" maxlength="15" /></td></tr>'."\n"
@@ -49,7 +49,7 @@ function affich_block_login($blok){
 				list($avatar_url) = mysql_fetch_array($sql_avatar);
 				if($avatar_url) $blok['content'] .= '<img src="' . $avatar_url . '" style="border:1px ' . $bgcolor3 . ' dashed; width:100px; background:' . $bgcolor1 . '; padding:2px;" alt="' . $user[2] . ' avatar" /><br /><br />';
 			}
-			$blok['content'] .= '<a href="index.php?file=User">' . _ACCOUNT . '</a> / <a href="index.php?file=User&amp;nuked_nude=index&amp;op=logout">' . _LOGOUT . '</a></div>'."\n";
+			$blok['content'] .= '<a href="index.php?file=User">' . _ACCOUNT . '</a> / <a href="index.php?file=User&amp;op=logout">' . _LOGOUT . '</a></div>'."\n";
 		}
 		$c++;
 	}

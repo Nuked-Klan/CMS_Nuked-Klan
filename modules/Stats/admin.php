@@ -33,7 +33,12 @@ function main()
 
     $date_install = nkDate($nuked['date_install']);
 
-    $width_div = (isset($_REQUEST['nuked_nude'])) ? 100 : 80;
+    if ($_REQUEST['op'] == 'statsPopup') {
+        nkTemplate_setPageDesign('none');
+        $width_div = 100;
+    }
+    else
+        $width_div = 80;
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _ADMINSTATS . "</h3>\n"
@@ -228,10 +233,15 @@ switch($_REQUEST['op'])
         del();
         adminfoot();
         break;
-    default:
-        if (!isset($_REQUEST['nuked_nude'])) admintop();
+
+    case "statsPopup":
         main();
-        if (!isset($_REQUEST['nuked_nude'])) adminfoot();
+        break;
+
+    default:
+        admintop();
+        main();
+        adminfoot();
         break;
 }
 

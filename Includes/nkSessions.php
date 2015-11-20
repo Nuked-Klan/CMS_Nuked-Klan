@@ -45,7 +45,6 @@ function nkSessions_init() {
     $GLOBALS['cookie_theme']    = $nuked['cookiename'] .'_user_theme';
     $GLOBALS['cookie_langue']   = $nuked['cookiename'] .'_user_langue';
     $GLOBALS['cookie_visit']    = $nuked['cookiename'] .'_last_visit';
-    $GLOBALS['cookie_admin']    = $nuked['cookiename'] .'_admin_session';
     $GLOBALS['cookie_forum']    = $nuked['cookiename'] .'_forum_read';
     $GLOBALS['cookie_userid']   = $nuked['cookiename'] .'_userid';
 

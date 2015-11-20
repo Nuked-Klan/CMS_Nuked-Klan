@@ -50,68 +50,50 @@ function vote_index($module, $vid) {
     }
 
     if ($visiteur >= $level_access && $level_access > -1) {
-        echo '&nbsp;<small>[ <a href="#" onclick="javascript:window.open(\'index.php?file=Vote&amp;nuked_nude=index&amp;op=post_vote&amp;vid=' . $vid . '&amp;module=' . $module . '\',\'screen\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=350,height=150,top=30,left=0\');return(false)">' . _RATE . '</a> ]</small>'."\n";
+        echo '&nbsp;<small>[ <a href="#" onclick="javascript:window.open(\'index.php?file=Vote&amp;op=post_vote&amp;vid=' . $vid . '&amp;module=' . $module . '\',\'screen\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=350,height=150,top=30,left=0\');return(false)">' . _RATE . '</a> ]</small>'."\n";
     }
 }
 
 function post_vote($module, $vid) {
-    global $user, $nuked, $bgcolor2, $theme, $visiteur,$user_ip;
+    global $user, $visiteur, $user_ip;
+
+    $author = ($user) ? $user[2] : _VISITOR;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
 
     $level_access = nivo_mod('Vote');
 
     if ($visiteur >= $level_access) {
-
-        if ($user) {
-            $author = $user[2];
-        } else {
-            $author = _VISITOR;
-        }
-
         $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "' AND ip = '" . $user_ip . "'");
         $count = mysql_num_rows($sql);
 
         if ($count > 0) {
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-               . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-               . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-               . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-               . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-               . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-               . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-               . "<div style=\"text-align: center;\"><br /><br /><br />" . _ALREADYVOTE . "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOWS . "</b></a></div></body></html>";
+            echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ALREADYVOTE . "<br /><br /><br />\n"
+               . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOWS . "</b></a></div>";
         } else {
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-               . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-               . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-               . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-               . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-               . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-               . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-               . "<form method=\"post\" action=\"index.php?file=Vote&amp;nuked_nude=index&amp;op=do_vote\">\n"
+            echo "<form method=\"post\" action=\"index.php?file=Vote&amp;op=do_vote\">\n"
                . "<div style=\"text-align: center;\"><br /><br />" . _ONEVOTEONLY . "<br /><br /><b>" . _NOTE . " : </b>"
                . "<select name=\"vote\"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>"
                . "<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>"
                . "&nbsp;<b>/10</b><br /><br /><input type=\"hidden\" name=\"vid\" value=\"" . $vid . "\" />\n"
                . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-               . "<input type=\"submit\" name=\"Submit\" value=\"" . _TOVOTE . "\" /></div></form></body></html>";
+               . "<input type=\"submit\" name=\"Submit\" value=\"" . _TOVOTE . "\" /></div></form>";
         }
     } else {
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-           . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-           . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-           . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-           . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-           . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-           . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-           . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
-           . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
+        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
+           . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
     }
 
 }
 
 function do_vote($vid, $module, $vote) {
-    global $nuked, $user, $bgcolor2, $theme, $visiteur,$user_ip;
+    global $user, $visiteur, $user_ip;
+
+    $author = ($user) ? $user[2] : _VISITOR;
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
 
     $level_access = nivo_mod('Vote');
     $module = mysql_real_escape_string(stripslashes($module));
@@ -127,38 +109,17 @@ function do_vote($vid, $module, $vote) {
         $count = mysql_num_rows($sql);
 
         if ($count > 0) {
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-               . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-               . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-               . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-               . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-               . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-               . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-               . "<div style=\"text-align: center;\"><br /><br /><br />"  . _ALREADYVOTE .  "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close();\"><b>" . _CLOSEWINDOWS . "</b></a></b></div></body></html>";
+            echo "<div style=\"text-align: center;\"><br /><br /><br />"  . _ALREADYVOTE .  "<br /><br /><br />\n"
+               . "<a href=\"#\" onclick=\"javascript:window.close();\"><b>" . _CLOSEWINDOWS . "</b></a></b></div>";
         } else {
             $sql = mysql_query("INSERT INTO " . VOTE_TABLE . " ( `id` , `module` , `vid` , `ip` , `vote` ) VALUES ( '' , '" . $module . "' , '" . $vid . "' , '" . $user_ip . "' , '" . $vote . "' )");
 
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-               . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-               . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-               . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-               . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-               . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-               . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-               . "<div style=\"text-align: center;\"><br /><br /><br />" . _VOTEADD . "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\"><b>" . _CLOSEWINDOWS . "</b></a></b></div></body></html>";
+            echo "<div style=\"text-align: center;\"><br /><br /><br />" . _VOTEADD . "<br /><br /><br />\n"
+               . "<a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\"><b>" . _CLOSEWINDOWS . "</b></a></b></div>";
         }
     } else {
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-        . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
-        . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
+        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
+        . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
     }
 }
 

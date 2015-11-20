@@ -21,7 +21,7 @@ function affich_block_survey($blok){
         list($poll_id, $titre) = mysql_fetch_array($sql);
         $titre = printSecuTags($titre);
 
-        $blok['content'] = '<form action="index.php?file=Survey&amp;nuked_nude=index&amp;op=update_sondage" method="post">'."\n"
+        $blok['content'] = '<form action="index.php?file=Survey&amp;op=update_sondage" method="post">'."\n"
         . '<div style="text-align: center">'."\n"
         . '<b>' . $titre . '</b><br /><p style="text-align: left" >'."\n";
 

@@ -24,7 +24,7 @@ function main() {
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
     . "<tr><td align=\"center\"><b>" . _DATABASE . " :</b> <select onchange=\"if (this.selectedIndex != 0) document.location = this.options[this.selectedIndex].value;\">\n"
     . "<option value=\"0\">" . _ACTION . "</option>\n"
-    . "<option value=\"index.php?file=Admin&amp;nuked_nude=mysql&amp;op=save_db\">" . _SAVEDB . "</option>\n"
+    . "<option value=\"index.php?file=Admin&amp;page=mysql&amp;op=save_db\">" . _SAVEDB . "</option>\n"
     . "<option value=\"index.php?file=Admin&amp;page=mysql&amp;op=optimise\">" . _OPTIMIZEDB . "</option>\n"
     . "</select></td></tr></table>\n"
     . "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br /></div>";
@@ -33,6 +33,8 @@ function main() {
 function save_db()
 {
     global $global, $nuked, $user;
+
+    nkTemplate_setPageDesign('none');
 
     require("modules/Admin/class/iam_backup.php");
 

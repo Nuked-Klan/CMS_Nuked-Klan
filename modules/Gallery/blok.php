@@ -16,13 +16,10 @@ global $language, $nuked, $bgcolor1, $bgcolor3;
 translate('modules/Gallery/lang/'. $language .'.lang.php');
 include 'modules/Gallery/config.php';
 
-echo '<script type="text/javascript"><!--'."\n"
-. 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
-. '--></script>'."\n"
-. '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
-. '<script type="text/javascript">'."\n"
-. 'Shadowbox.init();'."\n"
-. '</script>'."\n";
+# include css and js library shadowbox
+nkTemplate_addCSSFile('media/shadowbox/shadowbox.css');
+nkTemplate_addJSFile('media/shadowbox/shadowbox.js');
+nkTemplate_addJS('Shadowbox.init();');
 
 
 if ($active == 3 || $active == 4)

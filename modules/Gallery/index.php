@@ -18,13 +18,6 @@ compteur('Gallery');
 
 include 'modules/Gallery/config.php';
 
-echo '<script type="text/javascript"><!--'."\n"
-. 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
-. '--></script>'."\n"
-. '<script type="text/javascript" src="media/shadowbox/shadowbox.js"></script>'."\n"
-. '<script type="text/javascript">'."\n"
-. 'Shadowbox.init();'."\n"
-. '</script>'."\n";
 
 function cat($cat)
 {
@@ -152,7 +145,6 @@ function cat($cat)
     }
 }
 
-
 function categorie($cat)
 {
     global $nuked;
@@ -206,6 +198,11 @@ function categorie($cat)
 function description($sid)
 {
     global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3, $img_width, $image_resize, $language;
+
+    # include css and js library shadowbox
+    nkTemplate_addCSSFile('media/shadowbox/shadowbox.css');
+    nkTemplate_addJSFile('media/shadowbox/shadowbox.js');
+    nkTemplate_addJS('Shadowbox.init();');
 
     if ($nuked['gallery_title'] != "")
     {
@@ -633,6 +630,11 @@ function classe()
 
     if ($count > 0)
     {
+        # include css and js library shadowbox
+        nkTemplate_addCSSFile('media/shadowbox/shadowbox.css');
+        nkTemplate_addJSFile('media/shadowbox/shadowbox.js');
+        nkTemplate_addJS('Shadowbox.init();');
+        
         if(array_key_exists('p', $_REQUEST)){
             $page = $_REQUEST['p'];
         }

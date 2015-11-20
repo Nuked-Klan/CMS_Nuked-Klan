@@ -12,7 +12,7 @@ if (!defined("INDEX_CHECK")){
 function affich_block_language($blok){
     global $cookie_langue;
 
-    $blok['content'] .= "<form method=\"post\" action=\"index.php?file=User&amp;nuked_nude=index&amp;op=modif_langue\">\n"
+    $blok['content'] .= "<form method=\"post\" action=\"index.php?file=User&amp;op=modif_langue\">\n"
     . "<div style=\"text-align: center;\"><select name=\"user_langue\" onchange=\"submit();\">\n"
     . "<option value=\"\">--------^-------</option>\n";
 

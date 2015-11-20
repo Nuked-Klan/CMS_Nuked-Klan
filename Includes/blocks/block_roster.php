@@ -30,7 +30,7 @@ function affich_block_roster($blok){
 
     $sql = mysql_query('SELECT pseudo, mail, country FROM ' . USER_TABLE . ' ' . $where . ' ORDER BY ordre, pseudo');
     while (list($pseudo, $mail, $country) = mysql_fetch_array($sql)){
-        list ($pays, $ext) = explode ('.', $country);
+        list ($pays, $ext) = explode('.', $country);
 
         $nick_team = $nuked['tag_pre'] . $pseudo . $nuked['tag_suf'];
 
