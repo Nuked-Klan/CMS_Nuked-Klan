@@ -119,11 +119,9 @@ function send_cat($nom, $niveau, $ordre, $urlImageCat, $upImageCat){
     }
 
     $sql = mysql_query("INSERT INTO " . FORUM_CAT_TABLE . " ( `id` , `nom` , `image` , `ordre` , `niveau` ) VALUES ( '' , '" . $nom . "' , '" . $url_image . "' , '" . $ordre . "' , '" . $niveau . "' )");
-    // Action
-    $texteaction = "". _ACTIONADDCATFO .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDCATFO .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _CATADD . "\n"
@@ -139,16 +137,14 @@ function send_cat($nom, $niveau, $ordre, $urlImageCat, $upImageCat){
 
 function del_cat($cid){
     global $nuked, $user;
-    
+
     $sql2 = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
     list($nom) = mysql_fetch_array($sql2);
     $nom = mysql_real_escape_string($nom);
     $sql = mysql_query("DELETE FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELCATFO .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCATFO .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _CATDEL . "\n"
@@ -229,11 +225,9 @@ function modif_cat($cid, $nom, $niveau, $ordre, $urlImageCat, $upImageCat){
 
     $sql = mysql_query("UPDATE " . FORUM_CAT_TABLE . " SET nom = '" . $nom . "', image = '" . $url_image . "', niveau = '" . $niveau . "', ordre = '" . $ordre . "' WHERE id = '" . $cid . "'");
     $sql_forum = mysql_query("UPDATE " . FORUM_TABLE . " SET niveau = '" . $niveau . "' WHERE cat = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFCATFO .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFCATFO .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _CATMODIF . "\n"
@@ -368,11 +362,9 @@ function send_forum($titre, $description, $cat, $modo, $niveau, $level, $ordre, 
     }
 
     $sql = mysql_query("INSERT INTO " . FORUM_TABLE . " ( `id` , `cat` , `nom` , `comment` , `moderateurs` , `image` , `niveau` , `level` , `ordre` , `level_poll` , `level_vote` ) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $description . "' , '" . $modo . "' , '" . $url_image . "' , '" . $niveau . "' , '" . $level . "' , '" . $ordre . "' , '" . $level_poll . "' , '" . $level_vote . "' )");
-    // Action
-    $texteaction = "". _ACTIONADDFO .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDFO .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _FORUMADD . "\n"
@@ -407,11 +399,9 @@ function del_forum($id){
     mysql_query("DELETE FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
     mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
     mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $id . "'");
-    // Action
-    $texteaction = "". _ACTIONDELFO .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELFO .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _FORUMDEL . "\n"
@@ -567,11 +557,9 @@ function modif_forum($id, $titre, $cat, $description, $niveau, $level, $ordre, $
     }
 
     $upd = mysql_query("UPDATE " . FORUM_TABLE . " SET nom = '" . $titre . "', comment = '" . $description . "', cat = '" . $cat . "', image = '" . $url_image . "', niveau = '" . $niveau . "', level = '" . $level . "', ordre = '" . $ordre . "', level_poll = '" . $level_poll . "', level_vote = '" . $level_vote . "' WHERE id = '" . $id . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFFO .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFFO .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _FORUMMODIF . "\n"
@@ -609,11 +597,9 @@ function del_modo($uid, $forum_id){
     $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '".$uid."'");
     list($pseudo) = mysql_fetch_array($sql);
     $pseudo = mysql_real_escape_string($pseudo);
-    // Action
-    $texteaction = "". _ACTIONDELMODOFO .": ".$pseudo."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELMODOFO .': '. $pseudo);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _MODODEL . "\n"
@@ -789,11 +775,9 @@ function send_rank($nom, $type, $post, $image, $upImageRank){
 
 
     $sql = mysql_query("INSERT INTO " . FORUM_RANK_TABLE . " ( `id` , `nom` , `type` , `post` , `image` ) VALUES ( '' , '" . $nom . "' , '" . $type . "' , '" . $post . "' , '" . $url_image . "' )");
-    // Action
-    $texteaction = "". _ACTIONADDRANKFO .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDRANKFO .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _RANKADD . "\n"
@@ -809,11 +793,9 @@ function del_rank($rid){
     list($nom) = mysql_fetch_array($sqlr);
     $nom = mysql_real_escape_string($nom);
     $sql = mysql_query("DELETE FROM " . FORUM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELRANKFO .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELRANKFO .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _RANKDEL . "\n"
@@ -879,12 +861,9 @@ function modif_rank($rid, $nom, $type, $post, $image, $upImageRank){
     }
 
     $sql = mysql_query("UPDATE " . FORUM_RANK_TABLE . " SET nom = '" . $nom . "', type = '" . $type . "', post = '" . $post . "', image = '" . $url_image . "' WHERE id = '" . $rid . "'");
-    
-    // Action
-    $texteaction = "". _ACTIONMODIFRANKFO .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFRANKFO .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _RANKMODIF . "\n"
@@ -978,11 +957,9 @@ function do_prune($day, $forum_id){
         mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
         mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
     }
-    // Action
-    $texteaction = "". _ACTIONPRUNEFO .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPRUNEFO .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" .  _FORUMPRUNE . "\n"
@@ -1140,12 +1117,9 @@ function change_pref($forum_title, $forum_desc, $forum_rank_team, $thread_forum_
     $upd16 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_user_details . "' WHERE name = 'forum_user_details'");
     $upd17 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_labels_active . "' WHERE name = 'forum_labels_active'");
     $upd18 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_display_modos . "' WHERE name = 'forum_display_modos'");
-    
-    // Action
-    $texteaction = "". _ACTIONPREFFO .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPREFFO .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _PREFUPDATED . "\n"

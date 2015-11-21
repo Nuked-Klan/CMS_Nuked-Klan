@@ -103,11 +103,9 @@ function valid_suggest($data){
     send($data);
 
     $del = mysql_query("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $data['sug_id'] . "'");
-    // Action
-    $texteaction = "". _ACTIONVALIDSUG .": ". $data['titre'] .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".mysql_real_escape_string(stripslashes($texteaction))."')");
-    //Fin action
+
+    saveUserAction(_ACTIONVALIDSUG .': '. $data['titre'] .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _SUGGESTADD . "\n"
@@ -125,11 +123,8 @@ function del($sug_id){
         include("modules/Suggest/modules/" . $module . ".php");
 
     $sql = mysql_query("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $sug_id . "'");
-    // Action
-    $texteaction = _ACTIONDELSUG . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELSUG .'.');
 
     //Envoi du MP de refus
     if ($for != "" && preg_match("`^[a-zA-Z0-9]+$`", $for) && isset($_REQUEST['subject']) && isset($_REQUEST['corps'])){
@@ -196,11 +191,9 @@ function change_pref($suggest_avert){
     }
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $suggest_avert . "' WHERE name = 'suggest_avert'");
-    // Action
-    $texteaction = "". _ACTIONCONFSUG .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONCONFSUG .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _PREFUPDATED . "\n"

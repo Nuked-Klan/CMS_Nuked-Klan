@@ -87,13 +87,11 @@ function send_cat($titre, $description) {
     $description = nkHtmlEntityDecode($description);
     $description = mysql_real_escape_string(stripslashes($description));
     $titre = mysql_real_escape_string(stripslashes($titre));
-    
+
     $sql = mysql_query("INSERT INTO " . SERVER_CAT_TABLE . " ( `cid` , `titre` , `description` ) VALUES ( '" . $cid . "' , '" . $titre . "' , '" . $description . "' )");
-    // Action
-    $texteaction =  _ACTIONADDCATSER . ': ' . $titre . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDCATSER .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATADD . "\n"
@@ -135,11 +133,9 @@ function modif_cat($cid, $titre, $description) {
     $titre = mysql_real_escape_string(stripslashes($titre));
 
     $sql = mysql_query("UPDATE " . SERVER_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "' WHERE cid = '" . $cid . "'");
-    // Action
-    $texteaction =  _ACTIONMODIFCATSER . ': ' . $titre .' .';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFCATSER .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATMODIF . "\n"
@@ -160,11 +156,9 @@ function del_cat($cid) {
     list($titre) = mysql_fetch_array($sqls);
     $titre = mysql_real_escape_string(stripslashes($titre));
     $sql = mysql_query("DELETE FROM " . SERVER_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    // Action
-    $texteaction = _ACTIONDELCATSER . ': ' . $titre . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCATSER .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATDEL . "\n"
@@ -235,11 +229,9 @@ function send_serveur($ip_serv, $port, $game, $pass, $cat) {
     global $nuked, $user;
 
     $sql = mysql_query("INSERT INTO " . SERVER_TABLE . " ( `sid` , `game` , `ip` , `port` , `pass` , `cat` ) VALUES ( '' , '" . $game . "' , '" . $ip_serv . "' , '" . $port . "' , '" . $pass . "' , '" . $cat . "' )");
-    // Action
-    $texteaction = _ACTIONADDSER . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDSER .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _SERVERADD . "\n"
@@ -257,11 +249,9 @@ function del_serveur($sid) {
     global $nuked, $user;
 
     $sql = mysql_query("DELETE FROM " . SERVER_TABLE . " WHERE sid = '" . $sid . "'");
-    // Action
-    $texteaction = _ACTIONDELSER . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELSER .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _SERVERDEL . "\n"
@@ -324,11 +314,9 @@ function modif_serveur($sid, $ip_serv, $port, $game, $pass, $cat) {
     global $nuked, $user;
 
     $sql = mysql_query("UPDATE " . SERVER_TABLE . " SET game = '" . $game . "', ip = '" . $ip_serv . "', port = '" . $port . "', pass = '" . $pass . "', cat = '" . $cat . "' WHERE sid = '" . $sid . "'");
-    // Action
-    $texteaction = _ACTIONMODIFSER . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFSER .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _SERVERMODIF . "\n"
@@ -443,11 +431,9 @@ function change_pref($server_ip, $server_port, $server_game, $server_pass) {
     $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $server_port . "' WHERE name = 'server_port'");
     $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $server_game . "' WHERE name = 'server_game'");
     $upd4 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $server_pass . "' WHERE name = 'server_pass'");
-    // Action
-    $texteaction =  _ACTIONCONFIGSER . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONCONFIGSER .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _PREFUPDATED . "\n"

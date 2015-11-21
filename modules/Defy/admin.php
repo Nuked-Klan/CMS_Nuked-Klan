@@ -115,11 +115,7 @@ function del($did) {
 
     $del = mysql_query("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
 
-    // Action
-    $texteaction = _ACTIONDELDEFY . ' ' . $pseudo;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`)  VALUES ('" . $acdate . "', '" . $user[0] . "', '" . $texteaction . "')");
-    //Fin action
+    saveUserAction(_ACTIONDELDEFY .' '. $pseudo);
 
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -142,11 +138,8 @@ function transfert($did) {
     list($warid) = mysql_fetch_array($sql_match);
 
     $del = mysql_query("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
-    // Action
-    $texteaction = _ACTIONTRANDEFY . ' ' . $pseudo;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONTRANDEFY .' '. $pseudo);
 
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -201,11 +194,9 @@ function update_pref($defie_mail, $defie_inbox, $defie_charte) {
     $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");
     $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_mail . "' WHERE name = 'defie_mail'");
     $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_inbox . "' WHERE name = 'defie_inbox'");
-    // Action
-    $texteaction = _ACTIONPREFDEFY . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPREFDEFY .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _PREFUPDATE . "\n"

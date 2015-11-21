@@ -63,13 +63,11 @@ function send_sondage($titre, $option, $niveau) {
 
         if (!empty($options)) {
             $sql3 = mysql_query("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $options . "' , '' , '" . $vid . "' )");
-        } 
-    } 
-    // Action
-    $texteaction = _ACTIONADDSUR . ': ' . $titre . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+        }
+    }
+
+    saveUserAction(_ACTIONADDSUR .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _POLLADD . "\n"
@@ -94,11 +92,9 @@ function del_sondage($poll_id) {
     $sql = mysql_query("DELETE FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
     $sql2 = mysql_query("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "'");
     $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $poll_id . "' AND module = 'Survey'");
-    // Action
-    $texteaction = _ACTIONDELSUR . ': ' . $titre . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`)  VALUES ('" . $acdate . "', '" . $user[0] . "', '" . $texteaction . "')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELSUR .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _POLLDEL . "\n"
@@ -168,11 +164,9 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
         $s = $voteID + 1;
         $sql3 = mysql_query("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $newoption . "' , '' , '" . $s . "' )");
     }
-    // Action
-    $texteaction = _ACTIONMODIFSUR . ': ' . $titre . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO " . $nuked['prefix'] . "_action  (`date`, `pseudo`, `action`) VALUES ('" . $acdate . "', '" . $user[0]."', '" . $texteaction . "')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFSUR .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _POLLMODIF . "\n"
@@ -263,11 +257,9 @@ function change_pref($sond_delay) {
     global $nuked, $user;
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $sond_delay . "' WHERE name = 'sond_delay'");
-    // Action
-    $texteaction = _ACTIONCONFSUR . '.';
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONCONFSUR .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _PREFUPDATED . "\n"

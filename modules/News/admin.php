@@ -281,11 +281,9 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $url
     }
 
     $sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `coverage` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $url_image . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
-    // Action
-    $texteaction = "". _ACTIONADDNEWS .": ".$titre.".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDNEWS .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _NEWSADD . "\n"
@@ -423,11 +421,9 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
     }
 
     $upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', coverage = '" . $url_image . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFNEWS .": ".$titre.".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFNEWS .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _NEWSMODIF . "\n"
@@ -449,11 +445,9 @@ function do_del($news_id) {
     $titre = mysql_real_escape_string(stripslashes($titre));
     $del = mysql_query("DELETE FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
     $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . "  WHERE im_id = '" . $news_id . "' AND module = 'news'");
-    // Action
-    $texteaction = "". _ACTIONDELNEWS .": ".$titre.".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELNEWS .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _NEWSDEL . "\n"
@@ -557,11 +551,9 @@ function send_cat($titre, $description, $image, $fichiernom) {
     $description = mysql_real_escape_string(stripslashes($description));
 
     $sql = mysql_query("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url_image . "' )");
-    // Action
-    $texteaction = "". _ACTIONADDCATNEWS .": ".$titre.".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDCATNEWS .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATADD . "\n"
@@ -633,11 +625,9 @@ function modif_cat($cid, $titre, $description, $image, $fichiernom) {
     $description = mysql_real_escape_string(stripslashes($description));
 
     $sql = mysql_query("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $url_image . "' WHERE nid = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONEDITCATNEWS .": ".$titre.".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONEDITCATNEWS .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATMODIF . "\n"
@@ -663,11 +653,9 @@ function del_cat($cid) {
     list($titre) = mysql_fetch_array($sqlq);
     $titre = mysql_real_escape_string(stripslashes($titre));
     $sql = mysql_query("DELETE FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELCATNEWS .": ".$titre.".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCATNEWS .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATDEL . "\n"
@@ -701,11 +689,9 @@ function change_pref($max_news, $max_archives) {
 
     $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_news . "' WHERE name = 'max_news'");
     $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_archives . "' WHERE name = 'max_archives'");
-    // Action
-    $texteaction = "". _ACTIONPREFNEWS .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPREFNEWS .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _PREFUPDATED . "\n"

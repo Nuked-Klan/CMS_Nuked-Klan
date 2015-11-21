@@ -41,12 +41,8 @@ if ($visiteur >= 2) {
             else $url = 'index.php?file=Admin';
 
             $_SESSION['admin'] = true;
-            // Action
-            nkDB_insert(ACTION_TABLE,
-                array('date', 'pseudo', 'action'),
-                array(time(), $user['id'], _ACTIONCONNECT)
-            );
-            //Fin action
+
+            saveUserAction(_ACTIONCONNECT);
 
             $message    = _ADMINPROGRESS;
         }

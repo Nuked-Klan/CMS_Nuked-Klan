@@ -141,11 +141,8 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
 
             $sql = mysql_query("INSERT INTO " . GALLERY_TABLE . " ( `sid` , `titre` , `description` , `url` , `url2` , `url_file` , `cat` , `date` , `autor` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $url2 . "' , '" . $url_file . "' , '" . $cat . "' , '" . $date . "' , '" . $auteur . "')");
 
-            // Action
-            $texteaction = "". _ACTIONADDGAL .": ".$titre."";
-            $acdate = time();
-            $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-            // Fin action
+            saveUserAction(_ACTIONADDGAL .': '. $titre);
+
             echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _SCREENADD . "\n"
@@ -192,11 +189,8 @@ function del_screen($sid)
     $sql = mysql_query("DELETE FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
     $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $sid . "' AND module = 'Gallery'");
     $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $sid . "' AND module = 'Gallery'");
-    // Action
-    $texteaction = "". _ACTIONDELGAL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELGAL .': '. $titre);
 
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
@@ -288,11 +282,8 @@ if ($url2 == "" && $image_gd == "on" && @extension_loaded('gd') && !preg_match("
 }
 
     $sql = mysql_query("UPDATE " . GALLERY_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', autor = '" . $auteur . "', url = '" . $img_url . "', url2 = '" . $url2 . "', url_file = '" . $url_file . "', cat = '" . $cat . "' WHERE sid = '" . $sid . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFGAL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFGAL .': '. $titre);
 
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
@@ -652,11 +643,9 @@ function send_cat($titre, $description, $parentid, $position)
         $description = mysql_real_escape_string(stripslashes($description));
 
         $sql = mysql_query("INSERT INTO " . GALLERY_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ('" . $parentid . "', '" . $titre . "', '" . $description . "', '" . $position . "')");
-        // Action
-        $texteaction = "". _ACTIONADDCATGAL .": ".$titre."";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+        saveUserAction(_ACTIONADDCATGAL .': '. $titre);
+
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _CATADD . "\n"
@@ -740,11 +729,9 @@ function modif_cat($cid, $titre, $description, $parentid, $position)
         $description = mysql_real_escape_string(stripslashes($description));
 
         $sql = mysql_query("UPDATE " . GALLERY_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
-        // Action
-        $texteaction = "". _ACTIONMODIFCATGAL .": ".$titre."";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+        saveUserAction(_ACTIONMODIFCATGAL .': '. $titre);
+
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _CATMODIF . "\n"
@@ -791,11 +778,9 @@ function del_cat($cid)
     $sql = mysql_query("DELETE FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     $sql = mysql_query("UPDATE " . GALLERY_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
     $sql = mysql_query("UPDATE " . GALLERY_TABLE . " SET cat = 0 WHERE cat = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELCATGAL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCATGAL .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _CATDEL . "\n"
@@ -833,11 +818,9 @@ function change_pref($gallery_title, $max_img, $max_img_line)
     $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $gallery_title . "' WHERE name = 'gallery_title'");
     $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_img . "' WHERE name = 'max_img'");
     $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_img_line . "' WHERE name = 'max_img_line'");
-    // Action
-    $texteaction = "". _ACTIONPREFGAL .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPREFGAL .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _PREFUPDATED . "\n"
@@ -864,11 +847,9 @@ function modif_position($cid, $method)
     }
     if ($method == "up") $upd = mysql_query("UPDATE " . GALLERY_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
     else if ($method == "down") $upd = mysql_query("UPDATE " . GALLERY_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONPOSCATGAL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPOSCATGAL .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _CATMODIF . "\n"

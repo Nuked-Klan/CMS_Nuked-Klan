@@ -117,11 +117,8 @@ function do_add($description, $titre, $heure, $date_an, $date_mois, $date_jour)
     $titre = mysql_real_escape_string(stripslashes($titre));
 
     $sql = mysql_query("INSERT INTO " . CALENDAR_TABLE . " ( `id` , `titre` , `description` , `date_jour` , `date_mois` , `date_an` , `heure` , `auteur` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $date_jour . "' , '" . $date_mois . "' , '" . $date_an . "' , '" . $heure . "' , '" . $user[2] . "' )");
-    // Action
-    $texteaction = "". _ACTIONADDCAL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDCAL .': '. $titre);
 
     printNotification(_EVENTADD, '', 'success', $back = false, $redirect = false);
 
@@ -170,11 +167,8 @@ function do_edit($eid, $description, $titre, $heure, $date_an, $date_mois, $date
     $description = mysql_real_escape_string(stripslashes($description));
 
     $upd = mysql_query("UPDATE " . CALENDAR_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', date_jour = '" . $date_jour . "', date_mois = '" . $date_mois . "', date_an = '" . $date_an . "', heure = '" . $heure . "' WHERE id = '" . $eid . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFCAL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFCAL .': '. $titre);
 
     printNotification(_EVENTMODIF, '', 'success', $back = false, $redirect = false);
 
@@ -195,11 +189,8 @@ function del($eid)
     $sql = mysql_query("SELECT titre FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
     list($titre) = mysql_fetch_array($sql);
     $del = mysql_query("DELETE FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELCAL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCAL .': '. $titre);
 
     printNotification(_EVENTDEL, 'index.php?file=Calendar&page=admin', 'success', $back = false, $redirect = true);
 }
@@ -267,11 +258,8 @@ function change_pref($birthday)
     global $nuked;
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $birthday . "' WHERE name = 'birthday'");
-    // Action
-    $texteaction = "". _ACTIONPREFUPCAL .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPREFUPCAL .'.');
 
     printNotification(_PREFUPDATED, 'index.php?file=Calendar&page=admin', 'success', $back = false, $redirect = true);
 }

@@ -60,15 +60,12 @@ function main()
 function delete()
 {
     global $user, $nuked, $visiteur;
-    
+
     if ($visiteur == '9')
-    $sql3 = mysql_query("DELETE FROM ". $nuked['prefix'] ."_erreursql");
-    
-    // Action
-    $texteaction = _ACTIONVIDERSQL;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+        $sql3 = mysql_query("DELETE FROM ". $nuked['prefix'] ."_erreursql");
+
+    saveUserAction(_ACTIONVIDERSQL);
+
     ?>
     <div class="notification success png_bg">
         <div>

@@ -15,25 +15,20 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
     return;
 
 
-function main()
-{
+function main() {
     global $user, $nuked;
-    
+
     $_SESSION['admin'] = false;
-    
+
     ?>
-    
+
         <!-- Page Head -->
         <h2><?php echo _BIENTOT; ?> <?php echo $user[2]; ?></h2>
-        
-        <?php 
-        if ($_SESSION['admin'] == false)
-        {
-        // Action
-        $texteaction = _ACTIONDECONNECT;
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+<?php
+    if ($_SESSION['admin'] == false) {
+            saveUserAction(_ACTIONDECONNECT);
+
         ?>
         <div class="notification success png_bg">
             <div>
@@ -42,18 +37,17 @@ function main()
         </div>
         <?php
         redirect("index.php", 1);
-        }
-        else
-        {
-        ?>
+    }
+    else {
+?>
         <div class="notification error png_bg">
             <div>
                 <?php echo _OPEECHE; ?>
             </div>
         </div>
-            <?php
-    redirect("index.php?file=Admin", 1);
-        }
+<?php
+        redirect("index.php?file=Admin", 1);
+    }
 }
 
 

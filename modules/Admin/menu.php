@@ -390,11 +390,9 @@ function send_line($bid, $lid)
     $content = mysql_real_escape_string(stripslashes($content));
 
     $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $_REQUEST['bid'] . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFMENU .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFMENU .': '. $titre);
+
     if ($_REQUEST['cid'])
     {
         echo "<div class=\"notification success png_bg\">\n"

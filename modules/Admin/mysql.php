@@ -43,11 +43,8 @@ function save_db()
 
     $backup = new iam_backup($host, $base, $login, $password, false, true, false);
     $backup->perform_backup();
-    // Action
-    $texteaction = "". _ACTIONSAVEDB ."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONSAVEDB);
 }
 
 function optimise()
@@ -116,11 +113,7 @@ function optimise()
     echo "<div style=\"text-align: center;\"><br /><b>" . _TOTAL . "</b> : " . $total_gain . " Kb</div>\n"
     . "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=mysql\">" . _BACK . "</a></div><br /></div></div>\n";
 
-    // Action
-    $texteaction = "". _ACTIONOPTIDB ."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONOPTIDB);
 }
 
 

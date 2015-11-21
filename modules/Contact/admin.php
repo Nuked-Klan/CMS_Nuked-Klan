@@ -116,11 +116,7 @@ function del($mid){
 
     $sql = mysql_query('DELETE FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
 
-    // Action
-    $texteaction = _ACTIONDELCONTACT;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONDELCONTACT);
 
     echo '<div class="notification success png_bg">'."\n"
     . '<div>' . _MESSDELETE . ''."\n"
@@ -158,11 +154,7 @@ function change_pref($contact_mail, $contact_flood){
     $upd1 = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_mail . '\' WHERE name = \'contact_mail\'');
     $upd2 = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_flood . '\' WHERE name = \'contact_flood\'');
 
-    // Action
-    $texteaction = _ACTIONPREFCONT;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONPREFCONT);
 
     echo '<div class="notification success png_bg">'."\n"
     . '<div>' . _PREFUPDATED . '</div>'."\n"
