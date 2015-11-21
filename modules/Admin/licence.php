@@ -11,12 +11,9 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
     return;
 
-admintop();
 
 echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _LICENCES . "</h3></div>\n"
@@ -24,7 +21,5 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 echo _LICENCETXT;
 echo "</div>\n"
 . "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-
-adminfoot();
 
 ?>

@@ -108,8 +108,7 @@ function mod_search(){
 		echo "<br /><br /><div style=\"text-align: center;\"><big>What are you trying to do ?</big></div><br /><br />";
 		redirect("index.php?file=Search", 2);
 		closetable();
-		footer();
-		exit();
+		return;
     }
 
     if (!$limit) $limit = 50;
@@ -126,8 +125,7 @@ function mod_search(){
         if (strlen($main) < 3 && strlen($autor) < 3){
             echo "<div style=\"text-align: center;\"><br />" . _3CHARSMIN . "</div><br /><br />\n";
             closetable();
-            footer();
-            exit();
+            return;
         }
 
         $main = mysql_real_escape_string(stripslashes($main));

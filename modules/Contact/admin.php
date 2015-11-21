@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Contact'))
     return;
 
@@ -152,7 +150,7 @@ function main_pref()
     . '<tr><td>' . _FLOODCONTACT . ' : <input type="text" name="contact_flood" size="2" value="' . $nuked['contact_flood'] . '" /></td></tr></table>',"\n"
     . '<div style="text-align: center"><br /><input class="button" type="submit" value="' . _SEND . '" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . _BACK . '</a><br />',"\n"
     . '</div></form><br /></div></div>',"\n";
-} 
+}
 
 function change_pref($contact_mail, $contact_flood){
     global $nuked, $user;
@@ -171,7 +169,7 @@ function change_pref($contact_mail, $contact_flood){
     . '</div>'."\n";
 
     redirect('index.php?file=Contact&page=admin', 2);
-} 
+}
 
 function nkAdminMenu($tab = 1) {
     global $language, $user, $nuked;
@@ -199,8 +197,6 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-admintop();
-
 switch($_REQUEST['op']) {
     case 'view':
     view($_REQUEST['mid']);
@@ -222,7 +218,5 @@ switch($_REQUEST['op']) {
     main();
     break;
 }
-
-adminfoot();
 
 ?>

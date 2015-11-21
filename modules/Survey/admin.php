@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Survey'))
     return;
 
@@ -46,7 +44,7 @@ function add_sondage() {
         . "<option>9</option></select></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISPOLL . "\" />\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function send_sondage($titre, $option, $niveau) {
     global $nuked, $user;
@@ -85,7 +83,7 @@ function send_sondage($titre, $option, $niveau) {
         . "screenon('index.php?file=Survey&op=sondage&poll_id=".$poll_id."', 'index.php?file=Survey&page=admin');\n"
         . "}\n"
         . "</script>\n";
-} 
+}
 
 function del_sondage($poll_id) {
     global $nuked, $user;
@@ -107,7 +105,7 @@ function del_sondage($poll_id) {
         . "</div>\n"
         . "</div>\n";
     redirect('index.php?file=Survey&page=admin', 2);
-} 
+}
 
 function edit_sondage($poll_id) {
     global $nuked, $language;
@@ -143,7 +141,7 @@ function edit_sondage($poll_id) {
         . "<option>9</option></select></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISPOLL . "\" />\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
     global $nuked, $user;
@@ -186,7 +184,7 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
         . "screenon('index.php?file=Survey&op=sondage&poll_id=" . $poll_id . "', 'index.php?file=Survey&page=admin');\n"
         . "}\n"
         . "</script>\n";
-} 
+}
 
 function main(){
     global $nuked, $language;
@@ -240,7 +238,7 @@ function main(){
     } 
 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>";
-} 
+}
 
 function main_pref() {
     global $nuked, $language;
@@ -259,7 +257,7 @@ function main_pref() {
         . "<tr><td>" . _POLLTIME . " :</td><td><input type=\"text\" name=\"sond_delay\" size=\"2\" value=\"" . $nuked['sond_delay'] . "\" /></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function change_pref($sond_delay) {
     global $nuked, $user;
@@ -276,7 +274,7 @@ function change_pref($sond_delay) {
         . "</div>\n"
         . "</div>\n";
     redirect('index.php?file=Survey&page=admin', 2);
-} 
+}
 
 function nkAdminMenu($tab = 1)
 {
@@ -311,8 +309,6 @@ function nkAdminMenu($tab = 1)
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case 'add_sondage':
         add_sondage();
@@ -346,7 +342,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

@@ -116,10 +116,8 @@ function categorie($cat) {
 
     $sql = mysql_query("SELECT titre, description, parentid, level FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
 
-    if(mysql_num_rows($sql) <= 0) {
-        redirect("index.php?file=404", 0);
-        die;
-    }
+    if(mysql_num_rows($sql) <= 0)
+        redirect("index.php?file=404");
 
     list($cat_titre, $cat_desc, $parentid, $level) = mysql_fetch_array($sql);
     $cat_titre = printSecuTags($cat_titre);
@@ -265,10 +263,10 @@ function description($dl_id) {
     $upd = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET hit = hit + 1 WHERE id = '" . $dl_id . "'");
 
     $sql = mysql_query("SELECT id, titre, date, taille, description, type, count, level, hit, edit, screen, autor, url_autor, comp, url FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
-    if(mysql_num_rows($sql) <= 0) {
-        redirect("index.php?file=404", 0);
-        die;
-    }
+
+    if(mysql_num_rows($sql) <= 0)
+        redirect("index.php?file=404");
+
     list($dl_id, $titre, $date, $taille, $comment, $cat, $count, $level, $hit, $edit, $screen, $autor, $url_autor, $comp, $url) = mysql_fetch_array($sql);
 
     $titre = printSecuTags($titre);

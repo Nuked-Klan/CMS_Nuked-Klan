@@ -11,10 +11,9 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
     return;
+
 
 function main()
 {

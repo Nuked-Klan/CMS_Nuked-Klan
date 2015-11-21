@@ -107,7 +107,7 @@ function admintop(){
 }
 
 function adminfoot() {
-    trigger_error('admintop is deprecated. Please update your module.', E_USER_DEPRECATED);
+    trigger_error('adminfoot is deprecated. Please update your module.', E_USER_DEPRECATED);
 }
 
 function checkboxButton($name, $id, $checked = false, $inline = false) {

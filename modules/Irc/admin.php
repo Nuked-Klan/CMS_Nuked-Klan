@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Irc'))
     return;
 
@@ -262,8 +260,6 @@ function nkAdminMenu($tab = 1)
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "add":
         add();
@@ -297,7 +293,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

@@ -11,10 +11,9 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
+
 
 function main()
 {
@@ -143,9 +142,7 @@ function send_smiley($nom, $code, $url, $fichiernom)
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=smilies&op=add_smiley", 4);
-        adminfoot();
-        footer();
-        exit();
+        return;
     }
 
     $nom = mysql_real_escape_string(stripslashes($nom));
@@ -159,7 +156,10 @@ function send_smiley($nom, $code, $url, $fichiernom)
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
         {
             $url_image = "images/icones/" . $filename;
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else
@@ -170,9 +170,7 @@ function send_smiley($nom, $code, $url, $fichiernom)
             . "</div>\n"
             . "</div>\n";
             redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
-            adminfoot();
-            footer();
-            exit();
+            return;
         }
     }
     else
@@ -273,9 +271,7 @@ function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 4);
-        adminfoot();
-        footer();
-        exit();
+        return;
     }
 
     if ($filename != "")
@@ -286,7 +282,10 @@ function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
         if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext)))
         {
             $url_image = "images/icones/" . $filename;
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else
@@ -297,9 +296,7 @@ function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
             . "</div>\n"
             . "</div>\n";
             redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
-            adminfoot();
-            footer();
-            exit();
+            return;
         }
     }
     else
@@ -360,8 +357,6 @@ function nkAdminMenu()
 }
 
 
-admintop();
-
 switch ($_REQUEST['op'])
 {
     case "add_smiley":
@@ -392,7 +387,5 @@ switch ($_REQUEST['op'])
         main();
         break;
 }
-
-adminfoot();
 
 ?>

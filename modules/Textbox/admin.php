@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Textbox'))
     return;
 
@@ -38,7 +36,7 @@ function edit_shout($mid)
     . "<tr><td align=\"center\"><input type=\"hidden\" name=\"mid\" value=\"" . $mid . "\" />&nbsp;</td></tr>\n"
     . "</table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function modif_shout($mid, $texte)
 {
@@ -58,7 +56,7 @@ function modif_shout($mid, $texte)
     . "</div>\n"
     . "</div>\n";
     redirect("index.php?file=Textbox&page=admin", 2);
-} 
+}
 
 function del_shout($mid)
 {
@@ -76,7 +74,7 @@ function del_shout($mid)
     . "</div>\n"
     . "</div>\n";
     redirect("index.php?file=Textbox&page=admin", 2);
-} 
+}
 
 function del_all_shout()
 {
@@ -94,7 +92,7 @@ function del_all_shout()
     . "</div>\n"
     . "</div>\n";
     redirect("index.php?file=Textbox&page=admin", 2);
-} 
+}
 
 function main()
 {
@@ -175,7 +173,7 @@ function main()
     } 
 
     echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
-} 
+}
 
 function main_pref()
 {
@@ -218,7 +216,7 @@ function main_pref()
     echo "</td></tr>\n"
     . "</table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function change_pref($max_shout, $textbox_avatar)
 {
@@ -241,7 +239,7 @@ function change_pref($max_shout, $textbox_avatar)
     . "</div>\n"
     . "</div>\n";
     redirect("index.php?file=Textbox&page=admin", 2);
-} 
+}
 
     function nkAdminMenu($tab = 1)
 {
@@ -276,7 +274,6 @@ function change_pref($max_shout, $textbox_avatar)
 <?php
 }
 
-admintop();
 
 switch ($_REQUEST['op']) {
     case "edit_shout":
@@ -307,7 +304,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

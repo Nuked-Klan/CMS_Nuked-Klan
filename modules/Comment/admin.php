@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Comment'))
     return;
 
@@ -268,8 +266,6 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "edit_com":
         edit_com($_REQUEST['cid']);
@@ -295,7 +291,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

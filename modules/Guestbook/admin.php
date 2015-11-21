@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Guestbook'))
     return;
 
@@ -247,8 +245,6 @@ function nkAdminMenu($tab = 1)
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "edit_book":
         edit_book($_REQUEST['gid']);
@@ -274,7 +270,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

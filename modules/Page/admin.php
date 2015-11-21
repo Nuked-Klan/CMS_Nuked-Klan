@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Page'))
     return;
 
@@ -226,7 +224,10 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
         if ($ext == $type)
         {
             $url_file = "modules/Page/" . $type . "/" . $filename;
-            move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file)) {
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />";
+                return;
+            }
         }
         else
         {
@@ -237,11 +238,10 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
                 . "</div>\n";
             redirect("index.php?file=Page&page=admin&op=add", 5);
             closetable();
-            footer();
-            exit();
+            return;
         }
     }
-    else if ($url != "" && !ereg("." . $type, $url))
+    else if ($url != "" && !ereg("." . $type, $url))// TODO : ereg deprecated
     {
             echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
@@ -250,8 +250,7 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
             . "</div>\n";
             redirect("index.php?file=Page&page=admin&op=add", 5);
             closetable();
-            footer();
-            exit();
+            return;
     }
     else
     {
@@ -457,7 +456,10 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
         if ($ext == $type)
         {
             $url_file = "modules/Page/" . $type . "/" . $filename;
-            move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file)) {
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />";
+                return;
+            }
         }
         else
         {
@@ -468,8 +470,7 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
                 . "</div>\n";
             redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
             closetable();
-            footer();
-            exit();
+            return;
         }
     }
     else if ($url != "" && !ereg("." . $type, $url))
@@ -481,8 +482,7 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
         . "</div>\n";
         redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
         closetable();
-        footer();
-        exit();
+        return;
     }
     else
     {
@@ -575,7 +575,7 @@ function main_pref()
     echo "</select></td></tr></table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">" . _BACK . "</a></div>\n"
     . "</form><br /></div></div>\n";
-} 
+}
 
 function change_pref($index_page)
 {
@@ -620,9 +620,6 @@ function nkAdminMenu($tab = 1) {
     <div class="clear"></div>
 <?php
 }
-
-
-admintop();
 
 
 ?>
@@ -685,7 +682,5 @@ switch($_REQUEST['op']) {
         main();
     break;
 }
-
-adminfoot();
 
 ?>

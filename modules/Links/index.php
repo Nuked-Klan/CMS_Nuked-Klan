@@ -99,10 +99,9 @@ function categorie($cat){
     opentable();
 
     $sql = mysql_query('SELECT titre, description, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
-    if(mysql_num_rows($sql) <= 0){
-        redirect('index.php?file=404', 0);
-        exit();
-    }
+
+    if(mysql_num_rows($sql) <= 0)
+        redirect('index.php?file=404');
 
     list($cat_titre, $cat_desc, $parentid) = mysql_fetch_array($sql);
 

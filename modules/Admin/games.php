@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
@@ -409,50 +407,36 @@ function nkAdminMenu()
 switch ($_REQUEST['op'])
 {
     case "add_game":
-        admintop();
         add_game();
-        adminfoot();
         break;
 
     case "send_game":
-        admintop();
         send_game($_POST['nom'], $_POST['titre'], $_POST['icon'], $_POST['pref1'], $_POST['pref2'], $_POST['pref3'], $_POST['pref4'], $_POST['pref5'], $_POST['maps']);
-        adminfoot();
         break;
 
     case "edit_game":
-        admintop();
         edit_game($_REQUEST['game_id']);
-        adminfoot();
         break;
 
     case "modif_game":
-        admintop();
         modif_game($_REQUEST['game_id'], $_POST['nom'], $_POST['titre'], $_POST['icon'], $_POST['pref1'], $_POST['pref2'], $_POST['pref3'], $_POST['pref4'], $_POST['pref5'], $_POST['maps']);
-        adminfoot();
         break;
 
     case "del_game":
-        admintop();
         del_game($_REQUEST['game_id']);
-        adminfoot();
         break;
 
     case "main":
-        admintop();
         main();
-        adminfoot();
-    break;
+        break;
 
-    case"show_icon":
+    case "show_icon":
         show_icon();
-    break;
+        break;
 
     default:
-        admintop();
         main();
-        adminfoot();
-    break;
+        break;
 }
 
 ?>

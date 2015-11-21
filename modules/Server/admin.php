@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Server'))
     return;
 
@@ -64,7 +62,7 @@ function main_cat() {
 
 echo "</table><div style=\"text-align: center;\"><br /><a class= \"buttonLink\" href=\"index.php?file=Server&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a>\n"
     . "<a class= \"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
-} 
+}
 
 function add_cat() {
     global $language;
@@ -81,7 +79,7 @@ function add_cat() {
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" />\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function send_cat($titre, $description) {
     global $nuked, $user;
@@ -107,7 +105,7 @@ function send_cat($titre, $description) {
         . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
         . "}\n"
         . "</script>\n";
-} 
+}
 
 function edit_cat($cid) {
     global $nuked, $language;
@@ -127,7 +125,7 @@ function edit_cat($cid) {
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" />\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function modif_cat($cid, $titre, $description) {
     global $nuked, $user;
@@ -153,7 +151,7 @@ function modif_cat($cid, $titre, $description) {
         . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
         . "}\n"
         . "</script>\n";
-} 
+}
 
 function del_cat($cid) {
     global $nuked, $user;
@@ -178,7 +176,7 @@ function del_cat($cid) {
         . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
         . "}\n"
         . "</script>\n";
-} 
+}
 
 function select_serv_cat() {
     global $nuked;
@@ -189,7 +187,7 @@ function select_serv_cat() {
 
         echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
     } 
-} 
+}
 
 function add_serveur() {
     global $language;
@@ -231,7 +229,7 @@ function add_serveur() {
     echo "</select></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _ADDTHISSERV . "\" />\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>";
-} 
+}
 
 function send_serveur($ip_serv, $port, $game, $pass, $cat) {
     global $nuked, $user;
@@ -253,7 +251,7 @@ function send_serveur($ip_serv, $port, $game, $pass, $cat) {
         . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin');\n"
         . "}\n"
         . "</script>\n";
-} 
+}
 
 function del_serveur($sid) {
     global $nuked, $user;
@@ -275,7 +273,7 @@ function del_serveur($sid) {
         . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin');\n"
         . "}\n"
         . "</script>\n";
-} 
+}
 
 function edit_serveur($sid) {
     global $nuked, $language;
@@ -320,7 +318,7 @@ function edit_serveur($sid) {
     echo "</select><input type=\"hidden\" name=\"sid\" value=\"" . $sid . "\" /></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIFTHISSERV . "\" />\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>";
-} 
+}
 
 function modif_serveur($sid, $ip_serv, $port, $game, $pass, $cat) {
     global $nuked, $user;
@@ -342,7 +340,7 @@ function modif_serveur($sid, $ip_serv, $port, $game, $pass, $cat) {
         . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
         . "}\n"
         . "</script>\n";
-} 
+}
 
 function main() {
     global $nuked, $language;
@@ -398,7 +396,7 @@ function main() {
     } 
 
     echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
-} 
+}
 
 function main_pref() {
     global $nuked, $language;
@@ -436,7 +434,7 @@ function main_pref() {
         . "</select>&nbsp;<b>" . _SERVERPASS . " :</b> <input type=\"text\" name=\"server_pass\" size=\"10\" value=\"" . $nuked['server_pass'] . "\" /></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function change_pref($server_ip, $server_port, $server_game, $server_pass) {
     global $nuked, $user;
@@ -456,7 +454,7 @@ function change_pref($server_ip, $server_port, $server_game, $server_pass) {
         . "</div>\n"
         . "</div>\n";
     redirect('index.php?file=Server&page=admin', 2);
-} 
+}
 
 function nkAdminMenu($tab = 1)
 {
@@ -496,8 +494,6 @@ function nkAdminMenu($tab = 1)
 <?php
 }
 
-
-admintop();
 
 switch ($_REQUEST['op']) {
     case 'edit_serveur':
@@ -556,7 +552,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

@@ -191,8 +191,7 @@ if ($nuked['recrute'] > 0)
         if (!is_numeric($age)) {
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADAGE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
             closetable();
-            footer();
-            exit();
+            return;
         }
 
         $inbox = $nuked['recrute_inbox'];

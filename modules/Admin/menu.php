@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
@@ -521,8 +519,6 @@ function list_puce($spuce)
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "index":
         index();
@@ -548,7 +544,5 @@ switch ($_REQUEST['op']) {
         index();
         break;
 }
-
-adminfoot();
 
 ?>

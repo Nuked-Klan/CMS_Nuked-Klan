@@ -219,7 +219,7 @@ function ajax() {
     $index_start = $index_limit - $nb_messages;
     $index_start = $index_start < 0 ? 0 : $index_start;
 
-    $sql = mysql_query("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id ASC LIMIT ".$index_start.", ".$index_limit." ")or die(mysql_error());
+    $sql = nkDB_execute("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id ASC LIMIT ".$index_start.", ".$index_limit." ");
     while (list($id, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql)) {
         // On coupe le texte si trop long
         if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . '...';

@@ -161,11 +161,10 @@ function categorie($cat)
     }
 
     $sql = mysql_query("SELECT titre, description, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+
     if(mysql_num_rows($sql) <= 0)
-    {
-        redirect("index.php?file=404", 0);
-        exit();
-    }
+        redirect("index.php?file=404");
+
     list($cat_titre, $cat_desc, $parentid) = mysql_fetch_array($sql);
 
     $cat_titre = printSecuTags($cat_titre);
@@ -218,11 +217,10 @@ function description($sid)
     $upd = mysql_query("UPDATE " . GALLERY_TABLE . " SET count = count + 1 WHERE sid = '" . $sid . "'");
 
     $sql = mysql_query("SELECT cat, titre, description, autor, url, url_file, date, count FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
+
     if(mysql_num_rows($sql) <= 0)
-    {
-        redirect("index.php?file=404", 0);
-        exit();
-    }
+        redirect("index.php?file=404");
+
     list($cat, $titre, $description, $autor, $url, $url_file, $date, $count) = mysql_fetch_array($sql);
 
     $titre = printSecuTags($titre);

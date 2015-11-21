@@ -11,13 +11,9 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
-
-admintop();
 
 echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _MAJ . "</h3></div>\n"
@@ -35,7 +31,5 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 <?php
 echo "</div>\n"
 . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
-
-adminfoot();
 
 ?>

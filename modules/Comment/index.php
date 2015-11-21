@@ -271,7 +271,7 @@ function view_com($module, $im_id){
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_COMMENTS);
 
-    if(!verification($module,$im_id)) exit();
+    if(!verification($module,$im_id)) return;
     if ($language == "french" && strpos("WIN", PHP_OS)) setlocale (LC_TIME, "french");
     else if ($language == "french" && strpos("BSD", PHP_OS)) setlocale (LC_TIME, "fr_FR.ISO8859-1");
     else if ($language == "french") setlocale (LC_TIME, "fr_FR");
@@ -455,8 +455,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
             $url = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
             redirect($url, 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
 
         $texte = secu_html(nkHtmlEntityDecode($texte));
@@ -524,7 +523,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
     $level_admin = admin_mod("Comment");
     $texte = secu_html(nkHtmlEntityDecode($texte));
     if(!verification($module,$im_id)){
-        exit();
+        return;
     }
     if ($visiteur >= $level_admin){
         $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");

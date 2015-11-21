@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('News'))
     return;
 
@@ -267,15 +265,15 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $url
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/News/" . $filename;
-            move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -409,15 +407,15 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/News/" . $filename;
-            move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=edit&news_id=' . $news_id . '', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=edit&news_id=' . $news_id . '', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=News&page=admin&op=edit&news_id=' . $news_id . '', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -536,7 +534,10 @@ function send_cat($titre, $description, $image, $fichiernom) {
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/News/" . $filename;
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                return;
+            }
             @chmod ($url_image, 0644);
         } else {
             echo "<div class=\"notification error png_bg\">\n"
@@ -545,9 +546,7 @@ function send_cat($titre, $description, $image, $fichiernom) {
                 . "</div>\n"
                 . "</div>\n";
             redirect("index.php?file=News&page=admin&op=add_cat", 2);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     } else {
         $url_image = $image;
@@ -611,7 +610,10 @@ function modif_cat($cid, $titre, $description, $image, $fichiernom) {
 
         if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
             $url_image = "upload/News/" . $filename;
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                return;
+            }
             @chmod ($url_image, 0644);
         } else {
             echo "<div class=\"notification error png_bg\">\n"
@@ -620,9 +622,7 @@ function modif_cat($cid, $titre, $description, $image, $fichiernom) {
                 . "</div>\n"
                 . "</div>\n";
             redirect("index.php?file=News&page=admin&op=edit_cat&cid=" . $cid, 2);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     } else {
         $url_image = $image;
@@ -752,12 +752,9 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "edit":
         edit($_REQUEST['news_id']);
-        adminfoot();
         break;
 
     case "add":
@@ -817,7 +814,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

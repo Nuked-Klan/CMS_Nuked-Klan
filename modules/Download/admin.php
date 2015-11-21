@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Download'))
     return;
 
@@ -128,14 +126,15 @@ function send_file() {
 
         if (!is_file($url_file) || $ecrase_file == 1) {
             if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess") {
-                    move_uploaded_file($_FILES['copy']['tmp_name'], $url_file) or die ("Upload file failed !!!");
+                if (! move_uploaded_file($_FILES['copy']['tmp_name'], $url_file)) {
+                    echo "Upload file failed !!!";
+                    return;
+                }
                 @chmod ($url_file, 0644);
             } else {
                 echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
                 redirect("index.php?file=Download&page=admin&op=add_file", 2);
-                adminfoot();
-                footer();
-                die;
+                return;
             }
         } else {
             $deja_file = 1;
@@ -158,7 +157,10 @@ function send_file() {
 
         if (!is_file($url_screen) || $ecrase_screen == 1) {
             if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-                move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen) or die ("Upload screen failed !!!");
+                if (! move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen)) {
+                    echo "Upload screen failed !!!";
+                    return;
+                }
                 @chmod ($url_screen, 0644);
             } else {
                 echo "<div class=\"notification error png_bg\">\n"
@@ -166,9 +168,7 @@ function send_file() {
                     . "<div style=\"text-align: center;\">No image file !!!</div><br />\n"
                     . "</div></div>\n";
                 redirect("index.php?file=Download&page=admin&op=add_file", 2);
-                adminfoot();
-                footer();
-                die;
+                return;
             }
         } else {
             $deja_screen = 1;
@@ -362,14 +362,15 @@ function modif_file() {
 
         if (!is_file($url_file) || $ecrase_file == 1) {
             if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess") {
-                move_uploaded_file($_FILES['copy']['tmp_name'], $url_file) or die ("Upload file failed !!!");
+                if (! move_uploaded_file($_FILES['copy']['tmp_name'], $url_file)) {
+                    echo "Upload file failed !!!";
+                    return;
+                }
                 @chmod ($url_file, 0644);
             } else {
                 echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
                 redirect("index.php?file=Download&page=admin&op=edit_file&did=" . $did, 2);
-                adminfoot();
-                footer();
-                die;
+                return;
             }
         } else {
             $deja_file = 1;
@@ -394,14 +395,15 @@ function modif_file() {
 
         if (!is_file($url_screen) || $ecrase_screen == 1) {
             if (!preg_match("`\.php`i", $screenname) && !preg_match("`\.htm`i", $screenname) && !preg_match("`\.[a-z]htm`i", $screenname) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
-                move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen) or die ("Upload screen failed !!!");
+                if (! move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen)) {
+                    echo "Upload screen failed !!!";
+                    return;
+                }
                 @chmod ($url_screen, 0644);
             } else {
                 echo "<br /><br /><div style=\"text-align: center;\">No image file !!!</div><br /><br />";
                 redirect("index.php?file=Download&page=admin&op=edit_file&did=" . $did, 2);
-                adminfoot();
-                footer();
-                die;
+                return;
             }
         } else {
             $deja_screen = 1;
@@ -1002,7 +1004,7 @@ function modif_position($cid, $method) {
             . "</div>\n"
             . "</div>\n";
         redirect("index.php?file=Download&page=admin&op=main_cat", 2);
-        die;
+        return;
     }
 
     if ($method == "up") $upd = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
@@ -1065,8 +1067,6 @@ function nkAdminMenu($tab = 1)
 <?php
 }
 
-
-admintop();
 
 switch ($_REQUEST['op']) {
     case "edit_file":
@@ -1146,7 +1146,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

@@ -47,13 +47,13 @@ opentable();
         if ($user) {
 
                 $SQL = "SELECT id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = " . (int) $_GET['forum_id'] . " ";
-                $req = mysql_query($SQL) or die(mysql_error());
+                $req = nkDB_execute($SQL);
                 $thread_table = array();
                 while ($res = mysql_fetch_assoc($req)) {
                     $thread_table[] = $res['id'];
             } 
 
-                $visit = mysql_query("SELECT user_id, thread_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'") or die(mysql_error());
+                $visit = nkDB_execute("SELECT user_id, thread_id, forum_id FROM " . FORUM_READ_TABLE . " WHERE user_id = '" . $user[0] . "'");
                 $user_visit = mysql_fetch_assoc($visit);
                 $tid = substr($user_visit['thread_id'], 1); // Thread ID
                 $fid = substr($user_visit['forum_id'], 1); // Forum ID
@@ -73,7 +73,7 @@ opentable();
                          $fid .= $_GET['forum_id'] . ',';
 
                     // Insertion SQL du read
-                    mysql_query("REPLACE INTO " . FORUM_READ_TABLE . " ( `user_id` , `thread_id` , `forum_id` ) VALUES ( '" . $user[0] . "' , '," . $tid . "' , '," . $fid . "' )") or die(mysql_error());
+                    nkDB_execute("REPLACE INTO " . FORUM_READ_TABLE . " ( `user_id` , `thread_id` , `forum_id` ) VALUES ( '" . $user[0] . "' , '," . $tid . "' , '," . $fid . "' )");
             } 
         }
 

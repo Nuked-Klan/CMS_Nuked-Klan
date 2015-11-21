@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Recruit'))
     return;
 
@@ -61,7 +59,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         echo "<tr><td colspan=\"5\" align=\"center\">" . _NORECRUIT . "</td></tr>\n";
     } 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
-} 
+}
 
 function edit_pref()
 {
@@ -117,7 +115,7 @@ echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;o
     echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" id=\"charte_recruit\" name=\"recrute_charte\" cols=\"65\" rows=\"15\">" . $charte . "</textarea></td></tr></table>\n"
 . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . _BACK . "</a></div>\n"
 . "</form><br /></div></div>\n";
-} 
+}
 
 function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
 {
@@ -141,7 +139,7 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
     . "</div>\n"
     . "</div>\n";
     redirect("index.php?file=Recruit&page=admin", 2);
-} 
+}
 
 function view($rid)
 {
@@ -188,7 +186,7 @@ function view($rid)
 
     echo "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_recruit('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $rid . "');\" />\n"
 . "<a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
-} 
+}
 
 function del($rid)
 {
@@ -206,7 +204,7 @@ function del($rid)
     . "</div>\n"
     . "</div>\n";
     redirect("index.php?file=Recruit&page=admin", 2);
-} 
+}
 
 function nkAdminMenu($tab = 1)
 {
@@ -235,8 +233,6 @@ function nkAdminMenu($tab = 1)
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "view":
         view($_REQUEST['rid']);
@@ -258,7 +254,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

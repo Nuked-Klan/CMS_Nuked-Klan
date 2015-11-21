@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Forum'))
     return;
 
@@ -105,15 +103,15 @@ function send_cat($nom, $niveau, $ordre, $urlImageCat, $upImageCat){
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Forum/cat/" . $filename;
-            move_uploaded_file($_FILES['upImageCat']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_cat', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_cat', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=add_cat', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -214,15 +212,15 @@ function modif_cat($cid, $nom, $niveau, $ordre, $urlImageCat, $upImageCat){
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Forum/cat/" . $filename;
-            move_uploaded_file($_FILES['upImageCat']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_cat', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_cat', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=edit_cat', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -354,15 +352,15 @@ function send_forum($titre, $description, $cat, $modo, $niveau, $level, $ordre, 
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Forum/cat/" . $filename;
-            move_uploaded_file($_FILES['upImageForum']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_forum', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_forum', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=add_forum', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -543,15 +541,15 @@ function modif_forum($id, $titre, $cat, $description, $niveau, $level, $ordre, $
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Forum/cat/" . $filename;
-            move_uploaded_file($_FILES['upImageForum']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_forum', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_forum', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=edit_forum', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -774,15 +772,15 @@ function send_rank($nom, $type, $post, $image, $upImageRank){
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Forum/rank/" . $filename;
-            move_uploaded_file($_FILES['upImageRank']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_rank', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImageRank']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_rank', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=add_rank', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -865,15 +863,15 @@ function modif_rank($rid, $nom, $type, $post, $image, $upImageRank){
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Forum/rank/" . $filename;
-            move_uploaded_file($_FILES['upImageRank']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_rank', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImageRank']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_rank', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=edit_rank', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -1207,8 +1205,6 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "edit_forum":
         edit_forum($_REQUEST['id']);
@@ -1302,7 +1298,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

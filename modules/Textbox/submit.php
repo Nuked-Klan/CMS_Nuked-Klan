@@ -44,16 +44,14 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_PSEUDOFAILDED) . "</div><br /><br />";
             redirect($redirection, 2);
             closetable();
-            footer();
-            exit();
+            return;
 		}
         elseif ($_REQUEST['auteur'] == "error1")
         {
             echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_PSEUDOFAILDED) . "</div><br /><br />";
             redirect($redirection, 2);
             closetable();
-            footer();
-            exit();
+            return;
 
         }
         else if ($_REQUEST['auteur'] == "error2")
@@ -61,16 +59,14 @@ if ($visiteur >= $level_access && $level_access > -1)
             echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_RESERVNICK) . "</div><br /><br />";
             redirect($redirection, 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else if ($_REQUEST['auteur'] == "error3")
         {
             echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_BANNEDNICK) . "</div><br /><br />";
             redirect($redirection, 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else
         {

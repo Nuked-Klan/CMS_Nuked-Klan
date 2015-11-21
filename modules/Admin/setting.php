@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
@@ -423,8 +421,6 @@ function save_config()
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "save_config":
         save_config($_POST);
@@ -434,7 +430,5 @@ switch ($_REQUEST['op']) {
         edit_config();
         break;
 }
-
-adminfoot();
 
 ?>

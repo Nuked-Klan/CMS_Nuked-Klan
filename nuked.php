@@ -1016,6 +1016,7 @@ function adminInit($module, $adminPageLevel = false) {
     global $language, $visiteur;
 
     nkTemplate_setInterface('backend');
+    require_once 'modules/Admin/design.php';
     translate('modules/Admin/lang/'. $language .'.lang.php');
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 

@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
@@ -281,8 +279,6 @@ function main()
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "update_module":
         update_module($_REQUEST['mid'], $_REQUEST['niveau'], $_REQUEST['level']);
@@ -311,7 +307,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

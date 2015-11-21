@@ -11,13 +11,9 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
     return;
 
-
-admintop();
 
 ?>
     <div class="content-box"><!-- Start Content Box -->
@@ -29,8 +25,3 @@ admintop();
             <div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin"><?php echo _BACK; ?></a><br /><br /><br /></div>
         </div>
     </div>
-<?php
-
-adminfoot();
-
-?>

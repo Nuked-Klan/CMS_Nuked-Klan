@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Equipe'))
     return;
 
@@ -124,7 +122,7 @@ function save_staff() {
     extract($_POST);
     if(!empty($membre_id) && !empty($categorie) && !empty($status) && !empty($rang))
     {
-    $verification = mysql_query('SELECT COUNT(*) FROM '.$nuked['prefix'].'_staff WHERE membre_id="'.$membre_id.'" && categorie_id="'.$categorie.'"') or die (mysql_error());
+    $verification = nkDB_execute('SELECT COUNT(*) FROM '.$nuked['prefix'].'_staff WHERE membre_id="'.$membre_id.'" && categorie_id="'.$categorie.'"');
     $utilise = mysql_fetch_array($verification);
     
     if($utilise['COUNT(*)'] >= 1)
@@ -567,7 +565,7 @@ function save_status() {
     extract($_POST);
     if(!empty($nom))
     {
-    $verification = mysql_query('SELECT COUNT(*) FROM '.$nuked['prefix'].'_staff WHERE membre_id="'.$membre_id.'" && categorie_id="'.$categorie.'"') or die (mysql_error());
+    $verification = nkDB_execute('SELECT COUNT(*) FROM '.$nuked['prefix'].'_staff WHERE membre_id="'.$membre_id.'" && categorie_id="'.$categorie.'"');
     $utilise = mysql_fetch_array($verification);
     
     if($utilise['COUNT(*)'] >= 1)
@@ -734,7 +732,7 @@ function save_rang() {
     extract($_POST);
     if(!empty($nom))
     {
-    $verification = mysql_query('SELECT COUNT(*) FROM '.$nuked['prefix'].'_staff WHERE membre_id="'.$membre_id.'" && categorie_id="'.$categorie.'"') or die (mysql_error());
+    $verification = nkDB_execute('SELECT COUNT(*) FROM '.$nuked['prefix'].'_staff WHERE membre_id="'.$membre_id.'" && categorie_id="'.$categorie.'"');
     $utilise = mysql_fetch_array($verification);
     
     if($utilise['COUNT(*)'] >= 1)
@@ -834,8 +832,6 @@ function save_modif_rang($rang_id_get) {
     }
 }
 
-
-admintop();
 
 switch($_REQUEST['op']) {
     case 'main':
@@ -942,7 +938,5 @@ switch($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

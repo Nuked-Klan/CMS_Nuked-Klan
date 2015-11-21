@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
@@ -306,33 +304,25 @@ function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $emai
     if ($nick == "error1"){
         echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
-        closetable();
-        footer();
-        exit();
+        return;
     }
 
     if ($nick == "error2"){
         echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
-        closetable();
-        footer();
-        exit();
+        return;
     }
 
     if ($nick == "error3"){
         echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
-        closetable();
-        footer();
-        exit();
+        return;
     }
 
     if (strlen($nick) > 30){
         echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
-        closetable();
-        footer();
-        exit();
+        return;
     }
 
     if ($mail == "")
@@ -343,9 +333,7 @@ function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $emai
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $id_user, 2);
-        adminfoot();
-        footer();
-        exit();
+        return;
     }
     else if ($pass_reg != $pass_conf)
     {
@@ -355,9 +343,7 @@ function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $emai
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $id_user, 2);
-        adminfoot();
-        footer();
-        exit();
+        return;
     }
     else
     {
@@ -439,9 +425,7 @@ function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq,
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=user&op=add_user", 2);
-        adminfoot();
-        footer();
-        exit();
+        return;
     }
     else if ($pass_reg != $pass_conf)
     {
@@ -451,9 +435,7 @@ function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq,
         . "</div>\n"
         . "</div>\n";
         redirect("index.php?file=Admin&page=user&op=add_user", 2);
-        adminfoot();
-        footer();
-        exit();
+        return;
     }
     else
     {
@@ -832,15 +814,15 @@ function send_cat($titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage)
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Team/" . $filename;
-            move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Admin&page=user&op=add_cat', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Admin&page=user&op=add_cat', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Admin&page=user&op=add_cat', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -931,15 +913,15 @@ function modif_cat($cid, $titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Team/" . $filename;
-            move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Admin&page=user&op=edit_cat&cid=' . $cid . '', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Admin&page=user&op=edit_cat&cid=' . $cid . '', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Admin&page=user&op=edit_cat&cid=' . $cid . '', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -1126,7 +1108,7 @@ function send_ip($ip, $pseudo, $email, $dure, $texte)
     }
     else
     {
-        exit();
+        return;
     }
     // Action
     $texteaction = "". _ACTIONADDBAN .": ".$pseudo."";
@@ -1153,7 +1135,7 @@ function modif_ip($ip_id, $ip, $pseudo, $email, $dure, $texte)
     }
     else
     {
-        exit();
+        return;
     }
     // Action
     $texteaction = "". _ACTIONMODIFBAN .": ".$pseudo."";
@@ -1307,7 +1289,10 @@ function send_rank($titre, $ordre, $urlimage, $upimage, $color)
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/User/Rank/" . $filename;
-            move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image)) {
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                return;
+            }
             @chmod ($url_image, 0644);
         } else {
             echo "<div class=\"notification error png_bg\">\n"
@@ -1316,9 +1301,7 @@ function send_rank($titre, $ordre, $urlimage, $upimage, $color)
                 . "</div>\n"
                 . "</div>\n";
             redirect("index.php?file=News&page=admin", 2);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     } else {
         $url_image = $urlimage;
@@ -1352,7 +1335,10 @@ function modif_rank($rid, $titre, $ordre, $urlimage, $upimage, $color)
 
         if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
             $url_image = "upload/User/Rank/" . $filename;
-            move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image)) {
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                return;
+            }
             @chmod ($url_image, 0644);
         } else {
             echo "<div class=\"notification error png_bg\">\n"
@@ -1361,9 +1347,7 @@ function modif_rank($rid, $titre, $ordre, $urlimage, $upimage, $color)
                 . "</div>\n"
                 . "</div>\n";
             redirect("index.php?file=News&page=admin", 2);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     } else {
         $url_image = $urlimage;
@@ -1744,8 +1728,6 @@ function nkAdminMenu($tab = 1)
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "main_config":
         main_config();
@@ -1863,7 +1845,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

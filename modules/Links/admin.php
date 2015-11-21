@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Links'))
     return;
 
@@ -69,7 +67,6 @@ function add_link(){
             . "<tr><td>&nbsp;</td></tr></table>\n"
             . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISLINK . "\" /><a class=\"buttonLink\" href=\"index.php?file=Links&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>";
 }
-
 
 function add($titre, $description, $webmaster, $country, $cat, $url){
     global $nuked, $user;
@@ -643,7 +640,7 @@ function modif_position($cid, $method){
                 . "</div>\n";
 
         redirect("index.php?file=Links&page=admin&op=main_cat", 2);
-        exit();
+        return;
     }
     if ($method == "up") $upd = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
     else if ($method == "down") $upd = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
@@ -808,8 +805,6 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']){
     case "edit_link":
         edit_link($_REQUEST['link_id']);
@@ -869,7 +864,5 @@ switch ($_REQUEST['op']){
         main();
         break;
 }
-
-adminfoot();
 
 ?>

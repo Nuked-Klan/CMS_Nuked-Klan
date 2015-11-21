@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
@@ -132,15 +130,11 @@ switch ($_REQUEST['op']) {
         break;
 
     case "optimise":
-        admintop();
         optimise();
-        adminfoot();
         break;
 
     default:
-        admintop();
         main();
-        adminfoot();
         break;
 }
 

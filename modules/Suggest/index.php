@@ -112,8 +112,7 @@ function add_sug($data){
     if(strlen($content) <= 30){
         echo '<br /><br /><div style="text-align: center">' . _NOCONTENT . '</div><br /><br />';
         closetable();
-        footer();
-        die();
+        return;
     }
     // Captcha check
     if ($GLOBALS['captcha'] === true){

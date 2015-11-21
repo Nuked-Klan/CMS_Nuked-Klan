@@ -174,14 +174,17 @@ function upload($file = "", $url = "", $upload_dl, $file_filter, $file_filtre, $
             echo "<br /><br /><div style=\"text-align: center;\"><b>Error : No authorized file !</b></div><br /><br />";
             closetable();
             redirect("index.php?file=Suggest&module=Download", 3);
-            footer();
-            exit();
+            return;
          }
 
         if (preg_match("`php`i", $ext) || preg_match("`htm`i", $ext)) $ext = "txt";
 
         $url_file = $rep_dl . time() . "." . $ext;
-        move_uploaded_file($file['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+        // TODO : Do better !
+        if (! move_uploaded_file($file['tmp_name'], $url_file))
+            echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+            return;
+        }
         @chmod ($url_file, 0644);
     }
     else{

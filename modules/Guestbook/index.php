@@ -95,24 +95,21 @@ function send_book($name, $email, $url, $comment)
             echo "<br /><br /><div style=\"text-align: center;\">" . _PSEUDOFAILDED . "</div><br /><br />";
             redirect("index.php?file=Guestbook&op=post_book", 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else if ($name == "error2")
         {
             echo "<br /><br /><div style=\"text-align: center;\">" . _RESERVNICK . "</div><br /><br />";
             redirect("index.php?file=Guestbook&op=post_book", 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else if ($name == "error3")
         {
             echo "<br /><br /><div style=\"text-align: center;\">" . _BANNEDNICK . "</div><br /><br />";
             redirect("index.php?file=Guestbook&op=post_book", 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else
         {
@@ -129,8 +126,7 @@ function send_book($name, $email, $url, $comment)
         echo "<br /><br /><div style=\"text-align: center;\">" . _BANNEDEMAIL . "</div><br /><br />";
         redirect("index.php?file=Guestbook&op=post_book", 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $sql2 = mysql_query("SELECT date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT 0, 1");
@@ -145,8 +141,6 @@ function send_book($name, $email, $url, $comment)
         echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
         redirect("index.php?file=Guestbook", 2);
         closetable();
-        footer();
-        exit();
     }
     else if ($comment != "")
     {
@@ -171,8 +165,6 @@ function send_book($name, $email, $url, $comment)
         echo "<br /><br /><div style=\"text-align: center;\">" . _NOTEXT . "</div><br /><br />";
         redirect("index.php?file=Guestbook", 2);
         closetable();
-        footer();
-        exit();
     }
 }
 

@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Gallery'))
     return;
 
@@ -49,7 +47,7 @@ function add_screen()
     . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr></table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $url, $url2, $url_file, $ecrase_screen)
 {
@@ -95,8 +93,7 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
                 . "</div>\n";
 
                 redirect("index.php?file=Gallery&page=admin&op=add_screen", 2);
-                adminfoot();
-                exit();
+                return;
                 }
             }
 
@@ -239,15 +236,13 @@ function modif_img($sid, $titre, $description, $auteur, $fichiernom, $maxi, $cat
         {
             echo "<br /><br /><div style=\"text-align: center;\">No image file !!!</div><br /><br />";
             redirect("index.php?file=Gallery&page=admin&op=edit_screen&sid=" . $sid, 2);
-            adminfoot();
-            exit();
+            return;
         }
     }
     else
     {
         echo "<br /><br /><div style=\"text-align: center;\">" . _DEJASCREEN . "<br />" . _REPLACEIT . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a></div><br /><br />";
-        adminfoot();
-        exit();
+        return;
     }
 }
 else
@@ -463,7 +458,7 @@ function main()
     }
 
     echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
-} 
+}
 
 function edit_screen($sid)
 {
@@ -531,7 +526,7 @@ function edit_screen($sid)
     . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"" . $url_file . "\" /></td></tr>\n"
     . "<tr><td>&nbsp;<input type=\"hidden\" name=\"sid\" value=\"" . $sid . "\" /></td></tr></table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-} 
+}
 
 function main_cat()
 {
@@ -605,7 +600,7 @@ function main_cat()
 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div>\n"
     . "<br /></div></div>\n";
-} 
+}
 
 function add_cat()
 {
@@ -634,7 +629,7 @@ function add_cat()
     . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
     . "</form><br /></div></div>\n";
-} 
+}
 
 function send_cat($titre, $description, $parentid, $position)
 {
@@ -920,8 +915,6 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "add_screen":
         add_screen();
@@ -983,7 +976,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

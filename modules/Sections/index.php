@@ -111,10 +111,10 @@ function categorie($secid){
     opentable();
 
     $sql = mysql_query("SELECT secname, description, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $secid . "'");
-    if(mysql_num_rows($sql) <= 0){
-        redirect("index.php?file=404", 0);
-        exit();
-    }
+
+    if(mysql_num_rows($sql) <= 0)
+        redirect("index.php?file=404");
+
     list($secname, $description, $parentid) = mysql_fetch_row($sql);
 
     $secname = printSecuTags($secname);
@@ -188,10 +188,10 @@ function article($artid){
     }
 
     $sql = mysql_query("SELECT artid, secid, title, content, coverage, autor, autor_id, counter, date FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
-    if(mysql_num_rows($sql) <= 0){
-        redirect("index.php?file=404", 0);
-        exit();
-    }
+
+    if(mysql_num_rows($sql) <= 0)
+        redirect("index.php?file=404");
+
     list($artid, $secid, $title, $content, $coverage, $autor, $autor_id, $counter, $date) = mysql_fetch_row($sql);
 
     $sql2 = mysql_query("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . "  WHERE secid = '" . $secid . "'");

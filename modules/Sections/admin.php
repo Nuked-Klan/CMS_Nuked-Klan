@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Sections'))
     return;
 
@@ -250,15 +248,15 @@ function do_add($titre, $texte, $cat, $urlImage, $upImage){
 
             if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
                 $url_image = "upload/Sections/" . $filename;
-                move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-                or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true));
+                if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
+                    printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                    return;
+                }
                 @chmod ($url_image, 0644);
             }
             else {
                 printNotification(_NOIMAGEFILE, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
-                adminfoot();
-                footer();
-                die;
+                return;
             }
         }
         else {
@@ -365,15 +363,15 @@ function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
 
             if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
                 $url_image = "upload/Sections/" . $filename;
-                move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-                or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true));
+                if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
+                    printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true);
+                    return;
+                }
                 @chmod ($url_image, 0644);
             }
             else {
                 printNotification(_NOIMAGEFILE, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true);
-                adminfoot();
-                footer();
-                die;
+                return;
             }
         }
         else {
@@ -751,7 +749,7 @@ function modif_position($cid, $method){
                 . "</div>\n";
 
         redirect("index.php?file=Sections&page=admin&op=main_cat", 2);
-        exit();
+        return;
     }
     $titre = mysql_real_escape_string(stripslashes($titre));
     if ($method == "up") $upd = mysql_query("UPDATE " . SECTIONS_CAT_TABLE . " SET position = position - 1 WHERE secid = '" . $cid . "'");
@@ -809,8 +807,6 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "main":
         main();
@@ -861,7 +857,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

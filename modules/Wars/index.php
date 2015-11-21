@@ -452,10 +452,9 @@ function detail($war_id){
     nkTemplate_addJS('Shadowbox.init();');
 
     $sql = mysql_query('SELECT team, adversaire, url_adv, pays_adv, date_jour, date_mois, date_an, type, style, tscore_team, tscore_adv, map, score_adv, score_team, report, auteur, url_league, etat FROM ' . WARS_TABLE . ' WHERE warid = \'' . $war_id . '\' ');
-    if(mysql_num_rows($sql) <= 0){
-        redirect('index.php?file=404', 0);
-        exit();
-    }
+
+    if(mysql_num_rows($sql) <= 0)
+        redirect('index.php?file=404');
 
     list($team, $adv_name, $adv_url, $pays_adv, $jour, $mois, $an, $type, $style, $tscore_team, $tscore_adv, $map, $score_team, $score_adv, $report, $auteur, $url_league, $etat) = mysql_fetch_array($sql);
     list ($pays, $ext) = explode ('.', $pays_adv);

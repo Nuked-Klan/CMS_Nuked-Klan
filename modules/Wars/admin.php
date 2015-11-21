@@ -11,16 +11,12 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Wars'))
     return;
 
 
 function main(){
     global $nuked, $language;
-
-    admintop();
 
     echo "<script type=\"text/javascript\">\n"
             ."<!--\n"
@@ -102,8 +98,6 @@ function main(){
     }
 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>";
-
-    adminfoot();
 }
 
 function match(){
@@ -115,8 +109,6 @@ function match(){
     else{
         $war_id = '';
     }
-
-    admintop();
 
     $status = $team = $game = $adv_name = $adv_url = $pays_adv = $type = $style = $jour = $mois = $an = $heure = $map = $score_team = $score_adv = $tscore_team = $tscore_adv = $report = $url_league = '';
 
@@ -195,11 +187,10 @@ function match(){
         echo "</select></table>\n"
                 . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
                 . "</form><br /></div></div>\n";
-        
-        adminfoot();
-        exit();
+
+        return;
     }
-    
+
     echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=" . $action . "\" enctype=\"multipart/form-data\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"3\">\n"
             . "<tr><td align=\"center\"><b>" . _STATUS . " :</b> <select name=\"etat\">\n"
@@ -388,8 +379,6 @@ function match(){
 
     echo "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
             . "</form><br /></div></div>\n";
-
-    adminfoot();
 }
 
 function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage, $upImage){
@@ -432,15 +421,15 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Wars/" . $filename;
-            move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Wars&page=admin&op=match&do=add', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Wars&page=admin&op=match&do=add', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Wars&page=admin&op=match&do=add', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -449,7 +438,6 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
 
     $add = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `image_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $url_image ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
 
-    admintop();
     // Action
     $texteaction = "". _ACTIONADDWAR .".";
     $acdate = time();
@@ -467,8 +455,6 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
             ."screenon('index.php?file=Wars', 'index.php?file=Wars&page=admin');\n"
             ."}\n"
             ."</script>\n";
-
-    adminfoot();
 }
 
 function del_war($war_id){
@@ -477,7 +463,7 @@ function del_war($war_id){
     $del = mysql_query("DELETE FROM " . WARS_TABLE . " WHERE warid = '" . $war_id . "'");
     $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
     $del_file = mysql_query("DELETE FROM " . WARS_FILES_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
-    admintop();
+
     // Action
     $texteaction = "". _ACTIONDELWAR .".";
     $acdate = time();
@@ -495,8 +481,6 @@ function del_war($war_id){
             ."screenon('index.php?file=Wars', 'index.php?file=Wars&page=admin');\n"
             ."}\n"
             ."</script>\n";
-
-    adminfoot();
 }
 
 function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage, $upImage){
@@ -537,15 +521,15 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Wars/" . $filename;
-            move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image) 
-            or die (printNotification(_UPLOADFILEFAILED, 'index.php?file=Wars&page=admin&op=match&do=edit&war_id=' . $war_id . '', $type = 'error', $back = false, $redirect = true));
+            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Wars&page=admin&op=match&do=edit&war_id=' . $war_id . '', $type = 'error', $back = false, $redirect = true);
+                return;
+            }
             @chmod ($url_image, 0644);
         }
         else {
             printNotification(_NOIMAGEFILE, 'index.php?file=Wars&page=admin&op=match&do=edit&war_id=' . $war_id . '', $type = 'error', $back = false, $redirect = true);
-            adminfoot();
-            footer();
-            die;
+            return;
         }
     }
     else {
@@ -553,7 +537,7 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
     }
 
     $upd = mysql_query("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', image_adv = '" . $url_image . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
-    admintop();
+
     // Action
     $texteaction = "". _ACTIONMODIFWAR .".";
     $acdate = time();
@@ -571,8 +555,6 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
             ."screenon('index.php?file=Wars', 'index.php?file=Wars&page=admin');\n"
             ."}\n"
             ."</script>\n";
-
-    adminfoot();
 }
 
 function main_file($im_id){
@@ -818,8 +800,6 @@ function del_file($fid){
 function main_pref(){
     global $nuked, $language;
 
-    admintop();
-
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _ADMINMATCH . "</h3>\n"
             . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Wars.php\" rel=\"modal\">\n"
@@ -835,15 +815,13 @@ function main_pref(){
             . "</table><div style=\"text-align: center;\"></br><a href=\"index.php?file=Admin&amp;page=games\">"._MANAGETEAMMAP."</a><br/>\n"
             . "<br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
             . "</form><br /></div></div>\n";
-
-    adminfoot();
 }
 
 function change_pref($max_wars){
     global $nuked, $user;
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_wars . "' WHERE name = 'max_wars'");
-    admintop();
+
     // Action
     $texteaction = "". _ACTIONCONFWAR .".";
     $acdate = time();
@@ -855,7 +833,6 @@ function change_pref($max_wars){
             . "</div>\n"
             . "</div>\n";
 
-    adminfoot();
     redirect("index.php?file=Wars&page=admin", 2);
 }
 

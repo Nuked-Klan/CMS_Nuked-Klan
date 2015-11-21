@@ -149,7 +149,11 @@ function make_array($data){
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
             $url_file = $rep_img . time() . "." . $ext;
 
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            // TODO : Do better !
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file))
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                return;
+            }
             @chmod ($url_file, 0644);
         }
         else{

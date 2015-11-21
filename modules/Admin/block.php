@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
@@ -431,8 +429,6 @@ function nkAdminMenu()
 }
 
 
-admintop();
-
 switch ($_REQUEST['op']) {
     case "edit_block":
         edit_block($_REQUEST['bid']);
@@ -466,7 +462,5 @@ switch ($_REQUEST['op']) {
         main();
         break;
 }
-
-adminfoot();
 
 ?>

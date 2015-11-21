@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Stats'))
     return;
 
@@ -229,9 +227,7 @@ function del()
 switch($_REQUEST['op'])
 {
     case "del":
-        admintop();
         del();
-        adminfoot();
         break;
 
     case "statsPopup":
@@ -239,9 +235,7 @@ switch($_REQUEST['op'])
         break;
 
     default:
-        admintop();
         main();
-        adminfoot();
         break;
 }
 

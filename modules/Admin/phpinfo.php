@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
@@ -50,7 +48,6 @@ $php_info    = str_replace("font", "span", $php_info);
 //$php_info    = str_replace("&", "&amp;", $php_info);
 
 
-admintop();
 echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _ADMINPHPINFO . "</h3></div>\n"
 . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=phpinfo\">\n"
@@ -63,7 +60,5 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 . "<option value=\"32\" " . $selected6 . ">". _INFOVARIABLES . "</option></select><br /><br /></div>\n"
 . "<div class=\"tab-content\" id=\"tab2\"><div style=\"width:100%;\">" . $php_info . "</div>\n"
 . "<div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
-
-adminfoot();
 
 ?>

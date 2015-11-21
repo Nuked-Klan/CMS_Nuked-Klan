@@ -71,8 +71,7 @@ function sendmail(){
     if (!$_REQUEST['mail'] || !$_REQUEST['sujet'] || !$_REQUEST['corps']){
         echo '<p style="text-align: center">' . _NOCONTENT . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></p>';
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $time = time();

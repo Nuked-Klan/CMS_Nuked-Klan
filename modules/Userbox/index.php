@@ -95,8 +95,7 @@ function send_message($titre, $user_for, $message){
 				echo '<br /><br /><div style="text-align:center;">'._NOFLOOD.'</div><br /><br />';
 				redirect('index.php?file=Userbox', 2);
 				closetable();
-				footer();
-				exit();
+				return;
 			}
 			
 			$message = secu_html(nkHtmlEntityDecode($message));
@@ -194,8 +193,7 @@ function del_message_form($mid, $del_oui){
             echo '<br /><br /><div style="text-align:center;">'._NOSELECTMESS.'</div><br /><br />';
             redirect('index.php?file=Userbox', 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
 
         $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");

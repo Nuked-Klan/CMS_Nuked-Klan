@@ -38,8 +38,7 @@ function edit($mess_id)
         $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'] . "&mess_id=" . $_REQUEST['mess_id'] . "&do=edit";
         redirect($url, 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= level AND id = '" . $_REQUEST['forum_id'] . "'");
@@ -393,7 +392,7 @@ function move()
 
                 if(!empty($update)){
                         $update = "INSERT INTO `" . FORUM_READ_TABLE . "` (forum_id, user_id) VALUES $update ON DUPLICATE KEY UPDATE forum_id=VALUES(forum_id);";
-                        mysql_query($update) or die(mysql_error());
+                        nkDB_execute($update);
                 }
 
                 $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['newforum'] . "&thread_id=" . (int) $_REQUEST['thread_id'];
@@ -554,10 +553,9 @@ function reply()
         echo '<div id="nkAlertWarning" class="nkAlert">
                 <strong>'._FIELDEMPTY.'</strong>
                 <a href="javascript:history.back()"><span>'._BACK.'</span></a>
-            </div>';            
+            </div>';
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
@@ -594,8 +592,7 @@ function reply()
         $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
         redirect($url, 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     if ($user[2] != "")
@@ -615,8 +612,7 @@ function reply()
                     <a href="javascript:history.back()"><span>'._BACK.'</span></a>
                 </div>';
             closetable();
-            footer();
-            exit();
+            return;
         }
         else if ($_REQUEST['auteur'] == "error2")
         {
@@ -625,8 +621,7 @@ function reply()
                     <a href="javascript:history.back()"><span>'._BACK.'</span></a>
                 </div>';
             closetable();
-            footer();
-            exit();
+            return;
         }
         else if ($_REQUEST['auteur'] == "error3")
         {
@@ -635,8 +630,7 @@ function reply()
                     <a href="javascript:history.back()"><span>'._BACK.'</span></a>
                 </div>';
             closetable();
-            footer();
-            exit();
+            return;
         }
         else
         {
@@ -657,8 +651,7 @@ function reply()
         $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $_REQUEST['forum_id'] . "&thread_id=" . $_REQUEST['thread_id'];
         redirect($url, 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $_REQUEST['texte'] = secu_html(nkHtmlEntityDecode($_REQUEST['texte']));
@@ -680,7 +673,10 @@ function reply()
         if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess")
         {
             $url_file = "upload/Forum/" . $filename;
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ('<div id="nkAlertError" class="nkAlert"><strong>' . _UPLOADFAILED . '</strong></div>');
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file)) {
+                echo '<div id="nkAlertError" class="nkAlert"><strong>' . _UPLOADFAILED . '</strong></div>';
+                return;
+            }
             @chmod ($url_file, 0644);
         }
     }
@@ -708,7 +704,7 @@ function reply()
         }
         if(!empty($update)){
             $update = "INSERT INTO `" . FORUM_READ_TABLE . "` (forum_id, thread_id, user_id) VALUES $update ON DUPLICATE KEY UPDATE forum_id=VALUES(forum_id), thread_id=VALUES(thread_id);";
-            mysql_query($update) or die(mysql_error());
+            nkDB_execute($update);
         }
 
         mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $_REQUEST['titre'] . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' , '' , '" . $autor . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $_REQUEST['usersig'] . "' , '" . $_REQUEST['emailnotify'] . "' , '" . (int) $_REQUEST['thread_id'] . "' , '" . (int) $_REQUEST['forum_id'] . "' , '" . $filename . "' )");
@@ -781,8 +777,7 @@ function post()
         $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
         redirect($url, 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $forum = mysql_query("SELECT level, level_poll FROM " . FORUM_TABLE . " WHERE id = '" . $_REQUEST['forum_id'] . "'");
@@ -794,8 +789,7 @@ function post()
         $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
         redirect($url, 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     if ($user[2] != "")
@@ -814,8 +808,7 @@ function post()
             $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
             redirect($url, 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else if ($_REQUEST['auteur'] == "error2")
         {
@@ -823,8 +816,7 @@ function post()
             $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
             redirect($url, 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else if ($_REQUEST['auteur'] == "error3")
         {
@@ -832,8 +824,7 @@ function post()
             $url = "index.php?file=Forum&page=post&forum_id=" . $_REQUEST['forum_id'];
             redirect($url, 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else
         {
@@ -853,8 +844,7 @@ function post()
         $url = "index.php?file=Forum&page=viewforum&forum_id=" . $_REQUEST['forum_id'];
         redirect($url, 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
     $_REQUEST['texte'] = secu_html(nkHtmlEntityDecode($_REQUEST['texte']));
     $_REQUEST['texte'] = icon($_REQUEST['texte']);
@@ -891,7 +881,10 @@ function post()
         if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess")
         {
             $url_file = "upload/Forum/" . $filename;
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file) or die ('<div id="nkAlertError" class="nkAlert"><strong>' . _UPLOADFAILED . '</strong></div>');
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file)) {
+                echo '<div id="nkAlertError" class="nkAlert"><strong>' . _UPLOADFAILED . '</strong></div>';
+                return;
+            }
             @chmod ($url_file, 0644);
         }
     }
@@ -918,7 +911,7 @@ function post()
         }
         if (!empty($update)) {
             $update = "INSERT INTO `" . FORUM_READ_TABLE . "` (forum_id, thread_id, user_id) VALUES $update ON DUPLICATE KEY UPDATE forum_id=VALUES(forum_id), thread_id=VALUES(thread_id);";
-            mysql_query($update) or die(mysql_error());
+            nkDB_execute($update);
         }
     if ($user)
     {

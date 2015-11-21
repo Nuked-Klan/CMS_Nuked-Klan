@@ -928,32 +928,28 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
         redirect("index.php?file=User&op=reg_screen", 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     if ($pseudo == "error2"){
         echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
         redirect("index.php?file=User&op=reg_screen", 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     if ($pseudo == "error3"){
         echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
         redirect("index.php?file=User&op=reg_screen", 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     if (strlen($pseudo) > 30){
         echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
         redirect("index.php?file=User&op=reg_screen", 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $sql2 = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE mail = '" . $mail . "'");
@@ -966,8 +962,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         echo "<br /><br /><div style=\"text-align: center;\">" . _MAILINUSE . "</div><br /><br />";
         redirect("index.php?file=User&op=reg_screen", 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
 
@@ -975,8 +970,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         echo "<br /><br /><div style=\"text-align: center;\">" . _MAILBANNED . "</div><br /><br />";
         redirect("index.php?file=User&op=reg_screen", 2);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
 
@@ -994,8 +988,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         echo "<br /><br /><div style=\"text-align: center;\">" . stripslashes(_PASSFAILED) . "</div><br /><br />";
         redirect("index.php?file=User&op=reg_screen", 1);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $date = time();
@@ -1275,36 +1268,31 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else if (strlen($nick) > 30){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
                 redirect("index.php?file=User&op=reg_screen", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else if ($reserved_name > 0){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else if ($banned_nick > 0){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADOLDPASS . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else{
                 $upd = mysql_query("UPDATE " . USER_TABLE . " SET pseudo = '" . $nick . "' WHERE id = '" . $user[0] . "'");
@@ -1322,23 +1310,20 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 echo "<br /><br /><div style=\"text-align: center;\">" . _MAILINUSE . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
 
             if ($banned_email > 0){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _MAILBANNED . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADOLDPASS . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else{
                 $upd1 = mysql_query("UPDATE " . USER_TABLE . " SET mail = '" . $mail . "' WHERE id = '" . $user[0] . "'");
@@ -1350,15 +1335,13 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 echo "<br /><br /><div style=\"text-align: center;\">" . stripslashes(_PASSFAILED) . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADOLDPASS . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
-                footer();
-                exit();
+                return;
             }
             else{
                 $cryptpass = nk_hash($pass_reg);
@@ -1412,23 +1395,24 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
 
             if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
                 $url_avatar = "upload/User/" . time() . "." . $ext;
-                move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_avatar) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+                if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_avatar)) {
+                    echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                    return;
+                }
                 @chmod ($url_avatar, 0644);
             }
             else{
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADFILEFORMAT . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 5);
                 closetable();
-                footer();
-                exit();
+                return;
             }
         }
         else if ($filename != ""){
             echo "<br /><br /><div style=\"text-align: center;\">" . _FILETOOBIG . "</div><br /><br />";
             redirect("index.php?file=User&op=edit_account", 5);
             closetable();
-            footer();
-            exit();
+            return;
         }
         else if ($avatar != ""){
             $ext = strrchr($avatar, '.');
@@ -1441,8 +1425,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADFILEFORMAT . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 5);
                 closetable();
-                footer();
-                exit();
+                return;
             }
         }
         else{
@@ -1499,15 +1482,17 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
             $url_photo = "upload/User/" . time() . "." . $ext;
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_photo) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_photo))
+                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                return;
+            }
             @chmod ($url_photo, 0644);
         }
         else{
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADFILEFORMAT . "</div><br /><br />";
             redirect("index.php?file=User&op=edit_pref", 5);
             closetable();
-            footer();
-            exit();
+            return;
         }
     }
     else if ($photo != ""){
@@ -1521,8 +1506,7 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
             echo "<br /><br /><div style=\"text-align: center;\">" . _BADFILEFORMAT . "</div><br /><br />";
             redirect("index.php?file=User&op=edit_pref", 5);
             closetable();
-            footer();
-            exit();
+            return;
         }
     }
     else{
@@ -1680,8 +1664,7 @@ function envoi_mail($email){
         echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
         redirect("index.php?file=User&op=oubli_pass", 3);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $sql = mysql_query('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
@@ -1693,8 +1676,7 @@ function envoi_mail($email){
             echo '<div style="text-align:center;margin:30px;">'._LINKALWAYSACTIVE.'</div>';
             redirect("index.php", 3);
             closetable();
-            footer();
-            exit();
+            return;
         }
         elseif($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)){
             $new_token = uniqid();
@@ -1730,8 +1712,7 @@ function envoi_pass($email, $token){
         echo '<div style="text-align:center;margin:30px;">'._WRONGMAIL.'</div>';
         redirect("index.php", 3);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $pattern = '#^[a-z0-9]{13}$#';
@@ -1739,8 +1720,7 @@ function envoi_pass($email, $token){
         echo '<div style="text-align:center;margin:30px;">'._WRONGTOKEN.'</div>';
         redirect("index.php", 3);
         closetable();
-        footer();
-        exit();
+        return;
     }
 
     $sql = mysql_query('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
@@ -1773,16 +1753,14 @@ function envoi_pass($email, $token){
                 echo '<div style="text-align:center;margin:30px;">'._WRONGTOKEN.'</div>';
                 redirect("index.php", 3);
                 closetable();
-                footer();
-                exit();
+                return;
             }
         }
         elseif($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)){
             echo '<div style="text-align:center;margin:30px;">'._LINKNOACTIVE.'</div>';
             redirect("index.php?file=User&op=oubli_pass", 3);
             closetable();
-            footer();
-            exit();
+            return;
         }
     }
     else{

@@ -47,8 +47,7 @@ opentable();
             echo '<div id="nkAlertError" class="nkAlert"><strong>' . _NOENTRANCE . '</strong></div>';
             redirect("index.php?file=Forum&page=search", 2);
             closetable();
-            footer();
-            exit();
+            return;
         }
 
         $_REQUEST['query'] = mysql_real_escape_string(stripslashes($_REQUEST['query']));
@@ -62,8 +61,7 @@ opentable();
             echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _3CHARSMIN . '</strong></div>';
             redirect("index.php?file=Forum&page=search", 2);
             closetable();
-            footer();
-            exit();
+            return;
         } 
 
         else if ($_REQUEST['query'] != "" || $_REQUEST['autor'] != "") {
@@ -118,8 +116,7 @@ opentable();
             echo '<div id="nkAlertWarning" class="nkAlert"><strong>' . _NOWORDSTOSEARCH . '</strong></div>';
             redirect("index.php?file=Forum&page=search", 2);
             closetable();
-            footer();
-            exit();
+            return;
         } 
 
         $nb_result = mysql_num_rows($result);

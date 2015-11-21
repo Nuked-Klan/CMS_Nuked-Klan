@@ -11,8 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-include 'modules/Admin/design.php';
-
 if (! adminInit('Suggest'))
     return;
 
@@ -238,8 +236,6 @@ function nkAdminMenu($tab = 1)
 }
 
 
-admintop();
-
 echo "<script type=\"text/javascript\">\n"
 . "<!--\n"
 . "\n"
@@ -287,7 +283,5 @@ switch ($_REQUEST['op']) {
     main();
     break;
 }
-
-adminfoot();
 
 ?>
