@@ -8,7 +8,7 @@ define("_AIM","Aim");
 define("_YIM","Yim");
 define("_RANK","Rang");
 define("_VIEWPROFIL","Voir le profil");
-define("_URL","Url");
+
 define("_NOMEMBERS","Aucun membre pour cette Team");
 define("_YOURPREF","Vos Préférences");
 define("_INFOPERSO","Infos Perso");
@@ -33,12 +33,12 @@ define("_KEYBOARD","Clavier");
 define("_CONNECT","Connexion");
 define("_SYSTEMOS","Systeme OS");;
 define("_SENDPV","Lui envoyer un message privé ?");
-define("_BACK","Retour");
+
 define("_NOPREF","Le membre n'a pas rempli sa fiche ...");
 define("_NOMEMBER","Désolé, ce membre n'existe pas ou a changé de pseudo...");
 define("_DELETEUSER","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
-define("_EDIT","Editer");
+
+
 define("_DELETE","Supprimer");
 define("_XFIRE","Xfire");
 define("_FACEBOOK","FaceBook");

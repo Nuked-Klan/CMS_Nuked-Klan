@@ -19,14 +19,14 @@ define("_INDATABASE","in the database");
 define("_READSART","readings");
 define("_PAGE","Page");
 define("_NOARTS","No articles in this section");
-define("_NEXTPAGE","Next Page");
-define("_PREVIOUSPAGE","Previous Page");
+
+
 define("_WORDINTEXT","words in this text");
-define("_BACK","Back");
+
 define("_TOP10ART","Top 10 Articles");
 define("_LAST10ART","Newest Articles");
 define("_NOARTINDB","No article in the database");
-define("_DATE","Date");
+
 define("_NAME","Name");
 define("_NOTE","Note");
 define("_SITE","Site");
@@ -37,14 +37,14 @@ define("_MORELAST","more downloads");
 define("_HOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");
 define("_NEW","<span style=\"color: red;\"><b><i>New!</i></b></span>");
 
-define("_NOENTRANCE","Sorry you have no permission to access this page");
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
+
+
 define("_ADMINSECTIONS","Sections Administration");
-define("_HELP","Help");
+
 define("_DELETEART","You are about to remove");
-define("_CONFIRM","Continue?");
-define("_EDIT","Edit");
-define("_DEL","Remove");
+
+
+
 define("_ID","Id");
 define("_TEXT","Text");
 define("_CAT","Category");
@@ -69,8 +69,8 @@ define("_CATDEL","Category was successfully removed.");
 define("_CATPARENT","Main Category");
 define("_NONE","None");
 define("_SECTIONSPG","Number of articles per page");
-define("_PREFUPDATED","Preferences were successfully modified.");
-define("_ORDERBY","Order by");
+
+
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> pagebreak </i>-----</b></div>");
 define("_CATERRORPOS","The position is already at 0, Unable to mount position");
 define('_TITLECATFORGOT', 'The title of the category is missing');

@@ -14,13 +14,13 @@ define("_NEWSUBMIT","vient d'envoyer une nouvelle suggestion :");
 define('_NOCONTENT','Vous avez oublié de remplir des champs obligatoires');
 
 define("_ADMINSUGGEST","Demande en Attente");
-define("_HELP","Aides");
+
 define("_SUGGESTID","ID");
 define("_CAT","Catégorie");
 define("_NICK","Pseudo");
-define("_DATE","Date");
+
 define("_SEESUGGEST","Voir cette suggestion");
-define("_BACK","Retour");
+
 define("_SUGGESTBY","Proposé par");
 define("_VIEW","Voir");
 define("_SUGGESTADD","La proposition a bien été validée");
@@ -39,12 +39,12 @@ define("_GALLERY","Galerie Photos");
 define("_SUG","Proposer");
 define("_REMOVE","Supprimer");
 define("_DELETESUG","Vous êtes sur le point de supprimer la suggestion");
-define("_CONFIRM","Continuer ?");
-define("_SEND","Envoyer");
+
+
 define("_TITLE","Titre");
 define("_DESCR","Description");
 define("_SIZE","Taille");
-define("_URL","Url");
+
 define("_MO","Mo");
 define("_SUBJECT","Sujet");
 define("_PAGEBREACK","Si vous voulez plusieurs pages, vous pouvez écrire <b>(--pagebreak--)</b> où vous voulez un saut de page.");

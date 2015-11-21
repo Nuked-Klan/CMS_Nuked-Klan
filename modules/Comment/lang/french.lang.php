@@ -15,8 +15,8 @@ define("_TITLE","Titre");
 define("_MESSAGE","Message");
 define("_NICK","Pseudo");
 define("_SEND_COM","Soumettre votre commentaire");
-define("_CLOSEWINDOW","Fermer la fenêtre");
-define("_BACK","Retour");
+
+
 define("_RESERVNICK","Ce pseudo est déjà réservé");
 define("_BANNEDNICK","Ce pseudo est banni");
 define("_NONICK","Vous devez rentrer un pseudo");
@@ -29,13 +29,13 @@ define("_LAST4COMS","Les 4 derniers commentaires");
 
 define("_ADMINCOMMENT","Administration des Commentaires");
 define("_MODULE","Module");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
 define("_MODIF","Modifier");
 define("_EDITTHISCOM","Editer ce commentaire");
 define("_DELTHISCOM","Supprimer ce commentaire");
 define("_DELCOMMENT","Vous êtes sur le point de supprimer le commentaire de");
-define("_CONFIRM","Continuer ?");
+
 define("_COMMENTDEL","Commentaire effacé avec succès.");
 define("_COMMENTMODIF","Commentaire modifié avec succès.");
 define("_NOFLOOD","Vous avez déjà posté un message il y a peu de temps, veuillez patienter quelques instants...");

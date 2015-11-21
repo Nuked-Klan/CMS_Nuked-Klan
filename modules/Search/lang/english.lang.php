@@ -20,9 +20,9 @@ define("_3CHARSMIN","You must enter at least 3 characters");
 define("_NOWORDS","You must enter a word or an expression to search");
 define("_ANSWERFIND","matches");
 define("_NOANSWERFOR","No matches were found for");
-define("_SEND","Send");
+
 define("_ADDED","add the");
-define("_BY","by");
+
 define("_READS","Readings");
 define("_KEYWORDS","Keywords");
 define("_MATCHOR","Search for any terms of these terms");

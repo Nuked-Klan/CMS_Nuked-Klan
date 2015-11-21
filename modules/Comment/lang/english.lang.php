@@ -3,7 +3,7 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
+
 define("_VIEWCOMMENT","View all comments");
 define("_POSTCOMMENT","Post a comment");
 define("_NOCOMMENT","No comments in the database");
@@ -15,8 +15,8 @@ define("_TITLE","Title");
 define("_MESSAGE","Message");
 define("_NICK","Nick");
 define("_SEND_COM","Submit your comment");
-define("_CLOSEWINDOW","Close Window");
-define("_BACK","Back");
+
+
 define("_RESERVNICK","This Nick is already used");
 define("_BANNEDNICK","This Nick is banned");
 define("_NONICK","You must enter your Nick");
@@ -29,13 +29,13 @@ define("_LAST4COMS","The last 4 comments");
 
 define("_ADMINCOMMENT","Comments Administration");
 define("_MODULE","Module");
-define("_EDIT","Edit");
-define("_DEL","Remove");
+
+
 define("_MODIF","Modify");
 define("_EDITTHISCOM","Edit this comment");
 define("_DELTHISCOM","Remove this comment");
 define("_DELCOMMENT","You are about to remove the comment of");
-define("_CONFIRM","Continue?");
+
 define("_COMMENTDEL","Comment was successfully removed.");
 define("_COMMENTMODIF","Comment was successfully modified.");
 define("_NOFLOOD","You have already submitted a post very recently, please wait a bit...");

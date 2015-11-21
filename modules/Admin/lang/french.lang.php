@@ -13,17 +13,17 @@ define("_PAGEACCESS","Vous ne pouvez pas accéder à cette page directement");
 define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 define("_ZONEADMIN","Cette zone est réservée à l'Admin, désolé...");
 define("_BLOCKADMIN","Gestion des Blocks");
-define("_HELP","Aides");
+
 define("_BLOCKTITLE","Titre du Block");
 define("_BLOCK","Blocs");
 define("_TITLE","Titre");
-define("_TYPE","Type");
+
 define("_LEVEL","Niveau");
 define("_LEVELACCES","Niveau d'accès");
 define("_LEVELADMIN","Niveau d'admin");
 define("_SELECTPAGE","Sélectionnez les pages où vous voulez que le block s'affiche");
 define("_CREATEBLOCK","Créer un block");
-define("_BACK","Retour");
+
 define("_BLOCKSUCCES","Block ajouté avec succès.");
 define("_BLOCKCLEAR","Block effacé avec succès.");
 define("_BLOCKMODIF","Block modifié avec succès.");
@@ -32,12 +32,12 @@ define("_USER","User");
 define("_ADMIN","Admin");
 define("_ALL","Tous");
 define("_DELBLOCK","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
+
 define("_POSITION","Position");
 define("_RIGHT","Droite");
 define("_LEFT","Gauche");
 define("_CENTERBLOCK","Centre");
-define("_EDIT","Editer");
+
 define("_MODIF","Modifier");
 define("_DELETE","Supprimer");
 define("_BLOCKDOWN","Descendre ce Block");
@@ -154,7 +154,7 @@ define("_PREFUSER","Préférence de");
 define("_NICK","Pseudo");
 define("_MAIL","Email");
 define("_PUBLIC","publique");
-define("_URL","URL");
+
 define("_COUNTRY","Pays");
 define("_ICQ","ICQ");
 define("_MSN","MSN");
@@ -233,21 +233,21 @@ define("_RANKDEL","Rang supprimé avec succès.");
 define("_SEARCH","Recherche");
 define("_NORESULTFOR","Aucun membre trouvé pour");
 define("_NOUSERINDB","Aucun membre dans la base de données");
-define("_ORDERBY","Classer par");
+
 define("_NORANKINDB","Aucun rang dans la base de données");
 define("_NOIPINDB","Aucun bannissement dans la base de données");
 define("_VISIT","visite");
 
 define("_SMILEYADD","Ajouter un smiley");
 define("_SMILEY","Smileys");
-define("_CODE","Code");
+
 define("_UPSMILEY","Uploader un smiley");
 define("_SMILEYEDIT","Editer ce smiley");
 define("_SMILEYDEL","Supprimer ce smiley");
 define("_SMILEYSUCCES","Smiley ajouté avec succès.");
 define("_SMILEYMODIF","Smiley modifié avec succès.");
 define("_SMILEYDELETE","Smiley supprimé avec succès.");
-define("_SEND","Envoyer");
+
 
 define("_PREFNAME","Préférence");
 define("_ICON","Icône");
@@ -260,7 +260,6 @@ define("_GAMEDELETE","Jeu supprimé avec succès.");
 define("_SEEICON","Voir les icônes");
 define("_ICONLIST","Liste des icônes");
 define("_CLICICON","Cliquez sur une icône pour la sélectionner");
-define("_CLOSEWINDOWS","Fermer la fenêtre");
 define("_ERRORCHAMPS","Vous n\'avez pas rempli tous les champs du formulaire !");
 
 define("_USERVALIDATION","Membres non validés");
@@ -272,7 +271,7 @@ define("_REGISTRATION","Inscription");
 define("_VALIDREGISTRATION","votre compte vient d'être validé, vous pouvez dès à présent vous identifier sur notre site web :");
 
 define("_MENUADMIN","Gestion des menus");
-define("_DEL","Supprimer");
+
 define("_ADD","Ajouter");
 define("_DOWN","Descendre");
 define("_UP","Monter");
@@ -295,12 +294,12 @@ define("_DELBOX","Sup");
 define("_ADMINMYSQL","Administration MySQL");
 define("_EXECUTESQL","Exécuter une requête SQL :");
 define("_MYSQLFILE","Ou un fichier SQL :");
-define("_SEND","Envoyer");
+
 define("_DATABASE","Base de données");
 define("_ACTION","- ACTION -");
 define("_SAVEDB","Sauvegarder");
 define("_OPTIMIZEDB","Optimiser");
-define("_BACK","Retour");
+
 define("_SQLSEND","Requête SQL exécutée avec succès.");
 define("_OPTIMIZEDATABASE","Optimisation de la base de données");
 define("_TABLE","Table");
@@ -335,7 +334,7 @@ define("_SQL","Erreurs SQL détectées");
 define("_NOTIFICATION","Ajouter une notification");
 define("_DISCUSSION","Discussion");
 define("_MESSAGE","Message");
-define("_TYPE","Type");
+
 define("_INFO","Information");
 define("_ECHEC","Echec");
 define("_REUSSITE","Réussite");
@@ -371,7 +370,7 @@ define("_OFFICIEL","Forum officiel NK");
 define("_LICENCE","Licence GNU/GPL");
 define("_PROPOS","A propos");
 define("_DISCUADMIN","Discussions administration");
-define("_BY","par");
+
 define("_NEWMSG","Nouveau message");
 define("_MAJEXPLI","Le système de mise à jour est entièrement automatique, cependant si une mise à jour n'est pas effectuée automatiquement, il y a une possiblité de l'effectuer depuis la gestion des modules");
 define("_MAJMAIN","Mises à jour manuelles");
@@ -380,8 +379,8 @@ define("_NOADMININTERNE","Le thème ne possède pas d'administration interne.");
 define("_A","à");
 define("_ADMINSQLERROR","Gestion des erreurs SQL");
 define("_VIDERSQL","Supprimer la liste");
-define("_DATE","Date");
-define("_URL","URL");
+
+
 define("_INFORMATION","Information");
 define("_DELETEFILE","Vous êtes sur le point de supprimer");
 define("_ERRORBDD","Erreurs SQL");

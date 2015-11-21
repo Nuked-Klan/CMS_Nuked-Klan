@@ -37,10 +37,10 @@ define("_PLEASEWAIT","<div style=\"text-align: center;\"><br /><big><b>Veuillez 
 define("_LIEN1","Lien 1");
 define("_LIEN2","Lien 2");
 define("_LIEN3","Lien 3");
-define("_CLOSEWINDOW","Fermer la fenêtre");
+
 define("_THXBROKENLINK","Merci de nous avoir signalé ce lien mort.");
 define("_INDICATELINK","Signaler ce lien mort");
-define("_ORDERBY","Classer par");
+
 define("_NAME","Nom");
 define("_NOTE","Note");
 define("_SITE","Site");
@@ -53,13 +53,13 @@ define("_HOT","<font color=\"red\"><b><i>Hot!</i></b></font>");
 define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
 
 define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_HELP","Aides");
+
 define("_ADMINDOWN","Administration Téléchargements");
 define("_TITLE","Titre");
 define("_CREATE","Creation");
 define("_UPFILE","Uploader le fichier sur le serveur");
 define("_UPIMG","Uploader l'image sur le serveur");
-define("_URL","Url du Fichier");
+
 define("_URLFILE","Url 1");
 define("_URL2","Url 2");
 define("_URL3","Url 3");
@@ -69,8 +69,8 @@ define("_FILEDEL","Fichier effacé avec succès.");
 define("_MODIFFILE","Modifier ce Fichier");
 define("_FILEEDIT","Fichier Modifié avec succès.");
 define("_DELETEFILE","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
-define("_EDIT","Editer");
+
+
 define("_DELETE","Supprimer");
 define("_ADDFILE","Ajouter un Fichier");
 define("_EDITTHISFILE","Editer ce Fichier");

@@ -3,7 +3,7 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define("_NOENTRANCE","Sorry you haven no permission to access this page");
+
 define("_NICK","Nick");
 define("_MAIL","Email");
 define("_ICQ","Icq");
@@ -20,14 +20,14 @@ define("_SKYPE","Skype");
 define("_OTHER","Other");
 define("_VIEWPROFIL","View profile");
 define("_SITEMEMBERS","Members List");
-define("_URL","Url");
+
 define("_NOMEMBERS","No members found");
 define("_MEMBERSFOUND","members found for");
 define("_THEREARE","There are");
 define("_MEMBERSREG","members found since");
 define("_LASTMEMBER","The last registered user is");
-define("_PREVIOUSPAGE","Previous Page");
-define("_NEXTPAGE","Next Page");
+
+
 define("_YOURPREF","Your Preferences");
 define("_INFOPERSO","Profile");
 define("_LASTNAME","First Name");
@@ -51,12 +51,12 @@ define("_KEYBOARD","Keyboard");
 define("_CONNECT","Connection");
 define("_SYSTEMOS","OS System");
 define("_SENDPV","Send this member a private message?");
-define("_BACK","Back");
+
 define("_NOPREF","This member has not updated their profile yet...");
 define("_NOMEMBER","Sorry, this member does not exist or or has changed their nickname...");
 define("_DELETEUSER","You are about to remove");
-define("_CONFIRM","Continue?");
-define("_EDIT","Edit");
+
+
 define("_DELETE","Remove");
 define("_FINDSTUFF","Find his Stuff");
 define("_DATEUSER","Arrival date");

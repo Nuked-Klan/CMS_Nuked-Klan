@@ -12,14 +12,14 @@ define("_NAME","Nom");
 define("_SERVIP","Adresse Ip :");
 define("_SERVPORT","Port :");
 define("_SERVERGAME","Type de serveur :");
-define("_TYPE","Type");
+
 define("_MAP","Map");
 define("_PLAYER","Joueurs");
 define("_NOSERVER","Aucun serveur pour cette catégorie");
 define("_SERVERINFOS","Infos sur un serveur");
 define("_SEARCH","Chercher");
 define("_EXECTHISFILE","Cochez Exécutez ce programme à partir de son emplacement actuel et cliquez sur ok pour rejoindre le serveur");
-define("_BACK","Retour");
+
 define("_SERVERDETAIL","Serveur en détails");
 define("_ADDRESS","Adresse");
 define("_NBPLAYER","Nb de joueurs");
@@ -40,12 +40,12 @@ define("_NOPLAYERS","Aucun joueur sur ce serveur");
 
 define("_ADMINSERVER","Administration Serveurs");
 define("_SERVER","Serveurs");
-define("_HELP","Aides");
+
 define("_DELETESERV","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
+
 define("_CAT","Catégorie");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
 define("_EDITTHISCAT","Editer cette Catégorie");
 define("_DELTHISCAT","Supprimer cette Catégorie");
 define("_ADDCAT","Ajouter une Catégorie");

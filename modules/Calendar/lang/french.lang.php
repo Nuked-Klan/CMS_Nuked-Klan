@@ -40,12 +40,12 @@ define("_EVENT","Divers");
 define("_MATCH","Match");
 define("_VS","vs");
 define("_STYLE","Style");
-define("_TYPE","Type");
+
 define("_MAPS","Maps");
 define("_COMMENT","Commentaire");
 define("_ADDEDBY","Ajouté par");
 define("_DESCR","Description");
-define("_CLOSEWINDOW","Fermer la Fenêtre");
+
 define("_MATCHDAY","Il y a un match aujourd'hui !!!");
 define("_GOSEE","Va voir");
 define("_LINEUP","Line Up");
@@ -65,18 +65,18 @@ define("_SUBMIT","Go");
 define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 define("_ZONEADMIN","Cette zone est réservée à l'Admin, Désolé...");
 define("_ADMINCAL","Administration Calendrier");
-define("_HELP","Aides");
+
 define("_TITLE","Titre");
-define("_DATE","Date");
+
 define("_AUTEUR","Auteur");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
 define("_EDITTHISEVENT","Editer cet évènement");
 define("_DELTHISEVENT","Supprimer cet évènement");
 define("_EVENTDELETE","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
+
 define("_ADDEVENT","Ajouter un évènement");
-define("_BACK","Retour");
+
 define("_JOUR","Jour");
 define("_MOIS","Mois");
 define("_ANNEE","Année");

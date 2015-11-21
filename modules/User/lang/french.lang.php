@@ -29,7 +29,7 @@ define("_THEMESELECT","Changer de Thème");
 define("_YOURSTATS","Vos Stats");
 define("_NAME","Nom");
 define("_TITLE","Titre");
-define("_DATE","Date");
+
 define("_COUNT","Compteur");
 define("_POSTPV","Poster un message privé");
 define("_READPV","Lire vos messages privés");
@@ -126,8 +126,8 @@ define("_ERRORCOOKIE","Votre navigateur n'autorise pas les cookies, veuillez rég
 define("_INFOMODIF","Infos modifiées avec succès");
 define("_LOSTPASSWORD","Mot de passe perdu");
 define("_LOSTPASSTXT","Veuillez entrer votre email et cliquez sur le bouton envoyer. Vous recevrez un email contenant un lien vous permettant de réinitialiser votre mot de passe.");
-define("_CODE","Code");
-define("_SEND","Envoyer");
+
+
 define("_MAILSEND","Un email vient de vous être envoyé.");
 define("_CODEIS","Votre code est");
 define("_NEWPASSIS","Votre Nouveau Password est");
@@ -135,11 +135,10 @@ define("_BADCODE","Le code n'est pas bon");
 define("_MAILNOEXIST","Cette adresse n'existe pas !");
 define("_AVATARLIST","Liste des avatars");
 define("_CLICAVATAR","Cliquez sur un avatar pour le sélectionner");
-define("_CLOSEWINDOWS","Fermer la Fenêtre");
 define("_THETHEME","Les Thèmes");
 define("_SELECTTHEME","Sélectionnez un thème dans la liste");
 define("_CHANGETHEME","Changer de thème");
-define("_BACK","Retour");
+
 define("_IAGREE","J'accepte");
 define("_IDESAGREE","Je refuse");
 define("_UNKNOWNUSER","Ce pseudo n'existe pas !");

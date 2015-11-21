@@ -21,19 +21,19 @@ define("_SMILIES","Smilies");
 
 define("_ADMINIRC","Administration IrC");
 define("_IRC","Irc");
-define("_HELP","Aides");
+
 define("_AWARDSDELETE","Vous êtes sur le point de supprimer l\'award");
-define("_CONFIRM","Continuer ?");
-define("_DATE","Date");
+
+
 define("_TEXT","Texte");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
 define("_EDITTHISAWARD","Editer cet Award");
 define("_DELTHISAWARD","Supprimer cet Award");
 define("_ADDTHISAWARD","Ajouter cet Award");
 define("_MODIFTHISAWARD","Modifier cet Award");
 define("_ADDAWARD","Ajouter un Award");
-define("_BACK","Retour");
+
 define("_AWARDADD","Award ajouté avec succès");
 define("_AWARDMODIF","Award modifié avec succès");
 define("_AWARDDELETE","Award supprimé avec succès");

@@ -4,9 +4,9 @@ define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_NOEXIST","Désolé cette page n'existe pas ou l'adresse que vous avez tapé est incorrecte");
 
 define("_ADMINPAGE","Administration Page");
-define("_HELP","Aides");
+
 define("_DELETEPAGE","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
+
 define("_PAGETYPE","Type");
 define("_PAGENAME","Nom");
 define("_PAGEFILE","Fichier");
@@ -15,15 +15,15 @@ define("_PAGEHTML","Page html");
 define("_PAGEPHP","Page php");
 define("_PAGELINK","Page url");
 define("_PAGELEVEL","Niveau d'accès");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
 define("_NOPAGE","Aucune page dans la base de données");
 define("_EDITTHISPAGE","Editer cette Page");
 define("_DELTHISPAGE","Supprimer cette Page");
 define("_ADDTHISPAGE","Ajouter cette Page");
 define("_MODIFTHISPAGE","Modifier cette Page");
 define("_ADDPAGE","Ajouter une Page");
-define("_BACK","Retour");
+
 define("_NOFILE","Aucun");
 define("_NONE","Aucune");
 define("_PAGEADD","Page ajoutée avec succès");

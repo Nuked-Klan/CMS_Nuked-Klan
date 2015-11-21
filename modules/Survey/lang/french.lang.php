@@ -8,7 +8,7 @@ define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_POLLOF","Sondage");
 define("_POLLLIST","Liste des Sondages");
 define("_TOVOTE","Voter");
-define("_BACK","Retour");
+
 define("_VOTESUCCES","Votre vote a bien été pris en compte.");
 define("_ALREADYVOTE","Désolé vous avez déjà Voté !");
 define("_THEREWAS","il y a eu");
@@ -25,9 +25,9 @@ define("_NOLEVEL","Désolé vous n'avez pas le niveau requis pour voter à ce sonda
 define("_NOOPTION","Vous n'avez pas coché de réponse");
 
 define("_ADMINPOLL","Administration des Sondages");
-define("_HELP","Aides");
+
 define("_TITLE","Titre");
-define("_DATE","Date");
+
 define("_LEVEL","Niveau");
 define("_ADDTHISPOLL","Ajouter ce Sondage");
 define("_POLLADD","Sondage ajouté avec succès.");
@@ -35,9 +35,9 @@ define("_POLLDEL","Sondage supprimé avec succès.");
 define("_MODIFTHISPOLL","Modifier ce Sondage");
 define("_POLLMODIF","Sondage modifié avec succès.");
 define("_DELETEPOLL","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
+
 define("_EDITTHISPOLL","Editer ce Sondage");
 define("_DELTHISPOLL","Supprimer ce Sondage");
 define("_ADDPOLL","Ajouter un Sondage");

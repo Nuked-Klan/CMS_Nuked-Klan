@@ -13,7 +13,7 @@ define("_NOSCREEN","Il n'y a pas encore d'image dans cette catégorie");
 define("_NOSCREENINDB","Aucune image dans la base de données");
 define("_LASTIMG","Image Précédente");
 define("_NEXTIMG","Image Suivante");
-define("_BACK","Retour");
+
 define("_DESCR","Description");
 define("_THEREIS","Il y a");
 define("_SCREENINDB","images");
@@ -25,7 +25,7 @@ define("_TOPIMG","Populaires");
 define("_INDEXGALLERY","Index");
 define("_DOWNFILE","Télécharger ce fichier");
 define("_FILENAME","Nom du fichier");
-define("_ORDERBY","Classer par");
+
 define("_NAME","Nom");
 define("_NOTE","Note");
 define("_TOPFILE","Popularité");
@@ -35,7 +35,7 @@ define("_ADDTHE","Ajouté le");
 define("_LASTADD","Dernière ajoutée le");
 
 define("_ADMINGALLERY","Administration Galerie");
-define("_HELP","Aides");
+
 define("_CAT","Catégorie");
 define("_URLIMG2","Url de la Vignette");
 define("_URLIMG","Url de l'image");
@@ -48,13 +48,13 @@ define("_SCREENUPLOAD","Image uploadée avec succès.");
 define("_FILESEND","Fichier envoyé");
 define("_SCREENDEL","Image effacée avec succès.");
 define("_SCREENMODIF","Image modifiée avec succès.");
-define("_DEL","Supprimer");
-define("_EDIT","Editer");
+
+
 define("_EDITTHISSCREEN","Editer cette image");
 define("_DELTHISSCREEN","Supprimer cette image");
 define("_MODIFTHISSCREEN","Modifier cette image");
 define("_SCREENDELETE","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
+
 define("_CATMANAGEMENT","Gestion des catégories");
 define("_CATPARENT","Catégorie Principale");
 define("_NONE","Aucune");

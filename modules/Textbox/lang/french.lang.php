@@ -12,34 +12,34 @@ define("_NONICKNAME","Identifiez vous pour pouvoir poster un message !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
 define("_PSEUDOEXIST","Ce pseudo est déjà réservé !");
 define("_BANNEDNICK","Ce pseudo est banni");
-define("_SEND","Envoyer");
+
 define("_NICKNAME","Pseudo");
 define("_YOURMESS","");
 define("_REFRESH","Rafraîchir");
 define("_SEEARCHIVES","Voir les archives");
-define("_SHOUTBOX","Tribune Libre");
+
 define("_SHOUTSUCCES","Message envoyé avec succès.");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
 define("_NOMESS","Il n'y a pas encore de message");
 define("_PREVIOUSPAGE","Page Précédente");
-define("_NEXTPAGE","Page Suivante");
+
 define("_THEREIS","Il y a");
 define("_SHOUTINDB","messages dans la base de données");
 define("_SMILEY","Ajouter un smilies");
 define("_LISTSMILIES","Liste des smilies");
-define("_CODE","Code");
+
 define("_IMAGE","Image");
 
 define("_ADMINSHOUTBOX","Administration Tribune Libre");
-define("_DATE","Date");
+
 define("_IP","Adresse Ip");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
 define("_MODIF","Modifier");
 define("_SHOUT","Message");
 define("_DELETETEXT","Vous êtes sur le point de supprimer le message de");
 define("_DELETEALLTEXT","Vous êtes sur le point de supprimer tous les messages, continuer ?");
-define("_CONFIRM","Continuer ?");
+
 define("_DELALLMESS","Supprimer tous les messages");
 define("_DELTHISMESS","Supprimer ce message");
 define("_EDITTHISMESS","Editer ce message");

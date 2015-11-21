@@ -384,5 +384,12 @@ define("_AUTHOR","Auteur");
 define("_DATE","Date");
 
 define('REMOVEDIRINST', 'Veuillez supprimer le dossier d\'installation de Nuked-Klan (/INSTALL/)');
+define("_ZONEADMIN","Cette zone est réservée à l'Admin, désolé...");
+define("_EDIT","Editer");
+define("_DEL","Supprimer");
+define("_CONFIRM","Continuer ?");
+define("_PREFUPDATED","Préférences modifiées avec succès");
+define("_MORE","Suite");
+define("_ORDERBY","Classer par");
 
 ?>
