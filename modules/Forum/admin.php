@@ -24,7 +24,7 @@ function main_cat(){
     . "function delcat(titre, id)\n"
     . "{\n"
     . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteForumCat&cid='+id;}\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteCat&cid='+id;}\n"
     . "}\n"
     . "\n"
     . "// -->\n"
@@ -153,7 +153,7 @@ function saveForumCat() {
         ."</script>\n";
 }
 
-function deleteForumCat($cid) {
+function deleteForumCat() {
     $id = (isset($_GET['cid'])) ? $_GET['cid'] : 0;
 
     $dbrForumCat = nkDB_selectOne(
@@ -162,7 +162,7 @@ function deleteForumCat($cid) {
         WHERE id = '. nkDB_escape($id)
     );
 
-    nkDB_delete(FORUM_CAT_TABLE, 'id = '. nkDB_escape($cid));
+    nkDB_delete(FORUM_CAT_TABLE, 'id = '. nkDB_escape($id));
     saveUserAction(_ACTIONDELCATFO .': '. $dbrForumCat['nom']);
 
     printNotification('success', _CATDEL);
@@ -312,35 +312,42 @@ function send_forum($titre, $description, $cat, $modo, $niveau, $level, $ordre, 
         ."</script>\n";
 }
 
-function del_forum($id){
-    global $nuked, $user;
+function deleteForum() {
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
-    $sqls = mysql_query("SELECT nom FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
-    list($titre) = mysql_fetch_array($sqls);
-    $titre= mysql_real_escape_string($titre);
-    $sql = mysql_query("SELECT id, sondage FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
-    while (list($thread_id, $sondage) = mysql_fetch_row($sql)){
-        if ($sondage == 1){
-            $sql_poll = mysql_query("SELECT id FROM " . FORUM_POLL_TABLE . " WHERE thread_id = '" . $thread_id . "'");
-            list($poll_id) = mysql_fetch_row($sql_poll);
+    $dbrForum = nkDB_selectOne(
+        'SELECT nom
+        FROM '. FORUM_TABLE .'
+        WHERE id = '. nkDB_escape($id)
+    );
 
-            $sup1 = mysql_query("DELETE FROM " . FORUM_POLL_TABLE . " WHERE id = '" . $poll_id . "'");
-            $sup2 = mysql_query("DELETE FROM " . FORUM_OPTIONS_TABLE . " WHERE poll_id = '" . $poll_id . "'");
-            $sup3 = mysql_query("DELETE FROM " . FORUM_VOTE_TABLE . " WHERE poll_id = '" . $poll_id . "'");
+    $dbrForumThreads = nkDB_selectMany(
+        'SELECT id, sondage
+        FROM '. FORUM_THREADS_TABLE .'
+        WHERE forum_id = '. nkDB_escape($id)
+    );
+
+    foreach ($dbrForumThreads as $forumThreads) {
+        if ($forumThreads['sondage'] == 1) {
+            $dbrForumPoll = nkDB_selectOne(
+                'SELECT id
+                FROM '. FORUM_POLL_TABLE .'
+                WHERE thread_id = '. nkDB_escape($forumThreads['id'])
+            );
+
+            nkDB_delete(FORUM_POLL_TABLE, 'id = '. nkDB_escape($dbrForumPoll['id']));
+            nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
+            nkDB_delete(FORUM_VOTE_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
         }
     }
 
-    mysql_query("DELETE FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
-    mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
-    mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $id . "'");
+    nkDB_delete(FORUM_TABLE, 'id = '. nkDB_escape($id));
+    nkDB_delete(FORUM_THREADS_TABLE, 'forum_id = '. nkDB_escape($id));
+    nkDB_delete(FORUM_MESSAGES_TABLE, 'forum_id = '. nkDB_escape($id));
 
-    saveUserAction(_ACTIONDELFO .': '. $titre);
+    saveUserAction(_ACTIONDELFO .': '. $dbrForum['nom']);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _FORUMDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification('success', _FORUMDEL);
 
     echo "<script>\n"
         ."setTimeout('screen()','3000');\n"
@@ -554,7 +561,7 @@ function main(){
     . "function delforum(nom, id)\n"
     . "{\n"
     . "if (confirm('" . _DELETEFORUM . " '+nom+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=del_forum&id='+id;}\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteForum&id='+id;}\n"
     . "}\n"
         . "\n"
     . "// -->\n"
@@ -1148,8 +1155,8 @@ switch ($_REQUEST['op']) {
         deleteForumCat();
         break;
 
-    case "del_forum":
-        del_forum($_REQUEST['id']);
+    case 'deleteForum' :
+        deleteForum();
         break;
 
     case "send_forum":
