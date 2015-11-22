@@ -15,603 +15,420 @@ if (! adminInit('Forum'))
     return;
 
 
+/* Forum category management */
+
 function main_cat(){
-    global $nuked, $language;
+    global $adminMenu, $nuked, $language;
 
     echo "<script type=\"text/javascript\">\n"
-."<!--\n"
-."\n"
-. "function delcat(titre, id)\n"
-. "{\n"
-. "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-. "{document.location.href = 'index.php?file=Forum&page=admin&op=del_cat&cid='+id;}\n"
-. "}\n"
+    ."<!--\n"
+    ."\n"
+    . "function delcat(titre, id)\n"
+    . "{\n"
+    . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteCat&id='+id;}\n"
+    . "}\n"
     . "\n"
-. "// -->\n"
-. "</script>\n";
+    . "// -->\n"
+    . "</script>\n";
 
-echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _CATMANAGEMENT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-. "</div></div>\n"
-. "<div class=\"tab-content\" id=\"tab2\">\n";
-
-    nkAdminMenu(3);
-
-echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-. "<tr>\n"
-. "<td style=\"width: 50%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-. "<td style=\"width: 10%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
-. "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-. "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
-
-    $sql = mysql_query("SELECT id, nom, ordre FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
-    while (list($cid, $nom, $ordre) = mysql_fetch_row($sql)){
-        $nom = printSecuTags($nom);
-
-        
-        echo "<tr>\n"
-        . "<td align=\"center\">" . $nom . "</td>\n"
-        . "<td align=\"center\">" . $ordre . "</td>\n"
-        . "<td align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=edit_cat&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
-        . "<td align=\"center\"><a href=\"javascript:delcat('" . mysql_real_escape_string(stripslashes($nom)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
-    }
-
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
-. "<br /></div></div>\n";
-}
-
-function add_cat(){
-    global $language;
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _ADDCAT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_cat\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-    . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImageCat\" size=\"42\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImageCat\" /></td></tr>\n"
-    . "<tr><td><b>" . _NIVEAU . " :</b> <select name=\"niveau\">\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>"
-    . "&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" value=\"0\" size=\"2\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>"
-    . "</form><br /></div></div>\n";
-}
-
-function send_cat($nom, $niveau, $ordre, $urlImageCat, $upImageCat){
-    global $nuked, $user;
-
-    $nom = mysql_real_escape_string(stripslashes($nom));
-
-    //Upload du fichier
-    $filename = $_FILES['upImageCat']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/cat/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_cat', $type = 'error', $back = false, $redirect = true);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=add_cat', $type = 'error', $back = false, $redirect = true);
-            return;
-        }
-    }
-    else {
-        $url_image = $urlImageCat;
-    }
-
-    $sql = mysql_query("INSERT INTO " . FORUM_CAT_TABLE . " ( `id` , `nom` , `image` , `ordre` , `niveau` ) VALUES ( '' , '" . $nom . "' , '" . $url_image . "' , '" . $ordre . "' , '" . $niveau . "' )");
-
-    saveUserAction(_ACTIONADDCATFO .': '. $nom);
-
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _CATADD . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-        ."}\n"
-        ."</script>\n";
-}
-
-function del_cat($cid){
-    global $nuked, $user;
-
-    $sql2 = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
-    list($nom) = mysql_fetch_array($sql2);
-    $nom = mysql_real_escape_string($nom);
-    $sql = mysql_query("DELETE FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
-
-    saveUserAction(_ACTIONDELCATFO .': '. $nom);
-
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _CATDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-        ."}\n"
-        ."</script>\n";
-}
-
-function edit_cat($cid){
-    global $nuked, $language;
-
-    $sql = mysql_query("SELECT nom, image, niveau, ordre FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
-    list($nom, $cat_image, $niveau, $ordre) = mysql_fetch_array($sql);
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _CATMANAGEMENT . " - " . _EDITTHISCAT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n";
-    
-    if ($cat_image !='') {
-        printNotification(_NOTIFIMAGESIZE, '#', $type = 'information', $back = false, $redirect = false);
-        echo "<tr><td><img src=\"" . $cat_image . "\" style=\"max-width:100%;height:auto;\"/></td></tr>";
-    }
-
-    echo "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $nom . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImageCat\" size=\"42\" value=\"" . $cat_image . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImageCat\" /></td></tr>\n"
-    . "<tr><td><b>" . _NIVEAU . " :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>"
-    . "&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" value=\"" . $ordre . "\" size=\"2\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>"
-    . "</form><br /></div></div>";
-}
-
-function modif_cat($cid, $nom, $niveau, $ordre, $urlImageCat, $upImageCat){
-    global $nuked, $user;
-
-    $nom = mysql_real_escape_string(stripslashes($nom));
-
-    //Upload du fichier
-    $filename = $_FILES['upImageCat']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/cat/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_cat', $type = 'error', $back = false, $redirect = true);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=edit_cat', $type = 'error', $back = false, $redirect = true);
-            return;
-        }
-    }
-    else {
-        $url_image = $urlImageCat;
-    }
-
-    $sql = mysql_query("UPDATE " . FORUM_CAT_TABLE . " SET nom = '" . $nom . "', image = '" . $url_image . "', niveau = '" . $niveau . "', ordre = '" . $ordre . "' WHERE id = '" . $cid . "'");
-    $sql_forum = mysql_query("UPDATE " . FORUM_TABLE . " SET niveau = '" . $niveau . "' WHERE cat = '" . $cid . "'");
-
-    saveUserAction(_ACTIONMODIFCATFO .': '. $nom);
-
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _CATMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-        ."}\n"
-        ."</script>\n";
-}
-
-function select_forum_cat(){
-    global $nuked;
-
-    $sql = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
-    while (list($cid, $nom) = mysql_fetch_row($sql)){
-        $nom = printSecuTags($nom);
-
-        echo "<option value=\"" . $cid . "\">" . $nom . "</option>\n";
-    }
-}
-
-function add_forum(){
-    global $language;
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _ADDFORUM . "</h3>\n"
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-    nkAdminMenu(2);
+    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
-    echo "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_forum\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-    . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
-    . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\">\n";
+    echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr>\n"
+    . "<td style=\"width: 50%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    select_forum_cat();
+    $sql = mysql_query("SELECT id, nom, ordre FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
+    while (list($cid, $nom, $ordre) = mysql_fetch_row($sql)){
+        $nom = printSecuTags($nom);
 
-    echo"</select></td></tr>\n"
-    . "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" rows=\"10\" cols=\"69\"></textarea></td></tr>\n"
-    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImageForum\" size=\"42\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImageForum\" /></td></tr>\n"
-    . "<tr><td><b>" . _LEVELACCES . " :</b> <select name=\"niveau\">\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>&nbsp;<b>" . _LEVELPOST . " :</b> <select name=\"level\">\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"2\" value=\"0\" /></td></tr>\n"
-    . "<tr><td><b>" . _LEVELPOLL . " :</b> <select name=\"level_poll\">\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>&nbsp;<b>" . _LEVELVOTE . " :</b> <select name=\"level_vote\">\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select></td></tr>\n"
-    . "<tr><td><b>" . _MODERATEUR . " :</b> <select name=\"modo\"><option value=\"\">" . _NONE . "</option>\n";
-
-
-    $sql = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 0 ORDER BY niveau DESC, pseudo");
-    while (list($id_user, $pseudo) = mysql_fetch_row($sql)){
-
-        echo "<option value=\"" . $id_user . "\">" . $pseudo . "</option>\n";
+        echo "<tr>\n"
+        . "<td align=\"center\">" . $nom . "</td>\n"
+        . "<td align=\"center\">" . $ordre . "</td>\n"
+        . "<td align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=editCat&amp;id=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
+        . "<td align=\"center\"><a href=\"javascript:delcat('" . mysql_real_escape_string(stripslashes($nom)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
     }
 
-
-    echo "</select></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISFORUM . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
-    . "</form><br /></div>\n";
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=editCat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
+    . "<br /></div></div>\n";
 }
 
-function send_forum($titre, $description, $cat, $modo, $niveau, $level, $ordre, $level_poll, $level_vote, $urlImageForum, $upImageForum){
-    global $nuked, $user;
+function editForumCat() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/Forum/config/category.php';
 
-    $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $id         = (isset($_GET['id'])) ? $_GET['id'] : 0;
+    $content    = '';
 
-    //Upload du fichier
-    $filename = $_FILES['upImageForum']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if ($id == 0) {
+        unset($forumCatForm['items']['htmlCategoryImage']);
+    }
+    else {
+        $dbrForumCat = nkDB_selectOne(
+            'SELECT *
+            FROM '. FORUM_CAT_TABLE .'
+            WHERE id = '. nkDB_escape($id)
+        );
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/cat/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_forum', $type = 'error', $back = false, $redirect = true);
+        foreach ($forumCatField as $field)
+            $forumCatForm['items'][$field]['value'] = $dbrForumCat[$field];
+
+        if ($dbrForumCat['image'] !='') {
+            $content .= printNotification('information', _NOTIFIMAGESIZE, $backLink = false, $return = true);
+
+            $forumCatForm['items']['htmlCategoryImage'] = '<img src="'. $dbrForumCat['image'] .'" style="max-width:100%;height:auto;"/>';
+        }
+
+        $forumCatForm['itemsFooter']['submit']['value'] = _MODIFTHISCAT;
+    }
+
+    echo applyTemplate('contentBox', array(
+        'title'     => ($id == 0) ? _CATMANAGEMENT .' - '. _ADDCAT : _CATMANAGEMENT .' - '. _EDITTHISCAT,
+        'helpFile'  => 'Forum',
+        'content'   => $content . nkForm_generate($forumCatForm)
+    ));
+}
+
+function saveForumCat() {
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
+
+    $data = array(
+        'nom'       => $_POST['nom'],
+        'niveau'    => $_POST['niveau'],
+        'ordre'     => $_POST['ordre']
+    );
+
+    // Upload du fichier
+    $filename = $_FILES['upImageCat']['name'];
+
+    if ($filename != '') {
+        $imgInfo = getimagesize($filename);
+
+        if ($imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG))) {
+            $data['image'] = 'upload/Forum/cat/'. $filename;
+
+            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $data['image'])) {
+                printNotification('error', _UPLOADFILEFAILED);
+                redirect('index.php?file=Forum&page=admin&op=editCat'. ($id > 0) ? '&cid='. $id : '', 2);
                 return;
             }
-            @chmod ($url_image, 0644);
+
+            @chmod($data['image'], 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=add_forum', $type = 'error', $back = false, $redirect = true);
+            printNotification('error', _NOIMAGEFILE);
+            redirect('index.php?file=Forum&page=admin&op=editCat'. ($id > 0) ? '&cid='. $id : '', 2);
             return;
         }
     }
     else {
-        $url_image = $urlImageForum;
+        $data['image'] = $_POST['urlImageCat'];
     }
 
-    $sql = mysql_query("INSERT INTO " . FORUM_TABLE . " ( `id` , `cat` , `nom` , `comment` , `moderateurs` , `image` , `niveau` , `level` , `ordre` , `level_poll` , `level_vote` ) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $description . "' , '" . $modo . "' , '" . $url_image . "' , '" . $niveau . "' , '" . $level . "' , '" . $ordre . "' , '" . $level_poll . "' , '" . $level_vote . "' )");
+    if ($id == 0) {
+        nkDB_insert(FORUM_CAT_TABLE, array_keys($data), array_values($data));
+        saveUserAction(_ACTIONADDCATFO .': '. $data['nom']);
 
-    saveUserAction(_ACTIONADDFO .': '. $titre);
-
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _FORUMADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
-        ."}\n"
-        ."</script>\n";
-}
-
-function del_forum($id){
-    global $nuked, $user;
-
-    $sqls = mysql_query("SELECT nom FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
-    list($titre) = mysql_fetch_array($sqls);
-    $titre= mysql_real_escape_string($titre);
-    $sql = mysql_query("SELECT id, sondage FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
-    while (list($thread_id, $sondage) = mysql_fetch_row($sql)){
-        if ($sondage == 1){
-            $sql_poll = mysql_query("SELECT id FROM " . FORUM_POLL_TABLE . " WHERE thread_id = '" . $thread_id . "'");
-            list($poll_id) = mysql_fetch_row($sql_poll);
-
-            $sup1 = mysql_query("DELETE FROM " . FORUM_POLL_TABLE . " WHERE id = '" . $poll_id . "'");
-            $sup2 = mysql_query("DELETE FROM " . FORUM_OPTIONS_TABLE . " WHERE poll_id = '" . $poll_id . "'");
-            $sup3 = mysql_query("DELETE FROM " . FORUM_VOTE_TABLE . " WHERE poll_id = '" . $poll_id . "'");
-        }
-    }
-
-    mysql_query("DELETE FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
-    mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $id . "'");
-    mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE forum_id = '" . $id . "'");
-
-    saveUserAction(_ACTIONDELFO .': '. $titre);
-
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _FORUMDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
-        ."}\n"
-        ."</script>\n";
-}
-
-function edit_forum($id){
-    global $nuked, $language;
-
-    $sql = mysql_query("SELECT nom, comment, cat, moderateurs, image, niveau, level, ordre, level_poll, level_vote FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
-    list($titre, $description, $cat, $modo, $forum_image, $niveau, $level, $ordre, $level_poll, $level_vote) = mysql_fetch_array($sql);
-
-    $categorie = mysql_query("select nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cat . "'");
-    list($cat_name) = mysql_fetch_array($categorie);
-    $cat_name = printSecuTags($cat_name);
-
-    if ($modo != ""){
-        $moderateurs = explode('|', $modo);
-        for ($i = 0;$i < count($moderateurs);$i++){
-            if ($i > 0) $sep = ', ';
-            $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $moderateurs[$i] . "'");
-            list($id_user, $modo_pseudo) = mysql_fetch_row($sql2);
-            $modos .= $sep . $modo_pseudo . "&nbsp;(<a href=\"index.php?file=Forum&amp;page=admin&amp;op=del_modo&amp;uid=" . $id_user . "&amp;forum_id=" . $id . "\"><img style=\"border: 0;vertical-align:bottom;\" src=\"modules/Admin/images/icons/cross.png\" alt=\"\" title=\"" . _DELTHISMODO . "\" /></a>)";
-        }
-    }
-    else{
-        $modos = _NONE;
-    }
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _EDITTHISFORUM . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_forum\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-    . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"" . $cat . "\">" . $cat_name . "</option>\n";
-
-    select_forum_cat();
-
-    echo "</select></td></tr>\n"
-    . "<tr><td align=\"left\"><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" rows=\"10\" cols=\"69\">" . $description . "</textarea></td></tr>\n"
-    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImageForum\" size=\"42\" value=\"" . $forum_image . "\"/>\n";
-
-    if ($forum_image != ""){
-    echo "<img src=\"" . $forum_image . "\" title=\"" . $titre . "\" style=\"margin-left:20px; width:50px; height:50px; vertical-align:middle;\" />\n";
-    }
-
-    echo "</td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImageForum\" /></td></tr>\n"        
-    . "<tr><td><b>" . _LEVELACCES . " :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>&nbsp;<b>" . _LEVELPOST . " :</b> <select name=\"level\"><option>" . $level . "</option>\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"2\" value=\"" . $ordre . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _LEVELPOLL . " :</b> <select name=\"level_poll\"><option>" . $level_poll . "</option>\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>&nbsp;<b>" . _LEVELVOTE . " :</b> <select name=\"level_vote\"><option>$level_vote</option>\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select></td></tr>\n"
-    . "<tr><td><b>" . _MODO . " :</b> " . $modos . "</td></tr>\n"
-    . "<tr><td><b>" . _ADDMODO . " :</b> <select name=\"modo\"><option value=\"\">" . _NONE . "</option>\n";
-
-    $sql = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 0 ORDER BY niveau DESC, pseudo");
-    while (list($id_user, $pseudo) = mysql_fetch_row($sql)){
-        if (!is_int(strpos($modos, $id_user))){
-            echo "<option value=\"" . $id_user . "\">" . $pseudo . "</option>\n";
-        }
-    }
-
-    echo "</select><input type=\"hidden\" name=\"id\" value=\"" . $id . "\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;padding-top:10px;\"><input type=\"submit\" class=\"button\" value=\"" . _MODIFTHISFORUM . "\" /><a class=\"buttonLink\"  href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
-    . "</form><br /></div></div>\n";
-}
-
-function modif_forum($id, $titre, $cat, $description, $niveau, $level, $ordre, $level_poll, $level_vote, $modo, $urlImageForum, $upImageForum){
-    global $nuked, $user;
-
-    $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
-
-    //Upload du fichier
-    $filename = $_FILES['upImageForum']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/cat/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_forum', $type = 'error', $back = false, $redirect = true);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=edit_forum', $type = 'error', $back = false, $redirect = true);
-            return;
-        }
+        printNotification('success', _CATADD);
     }
     else {
-        $url_image = $urlImageForum;
+        nkDB_update(FORUM_CAT_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        nkDB_update(FORUM_TABLE, array('niveau'), array($data['niveau']), 'cat = '. nkDB_escape($id));
+        saveUserAction(_ACTIONMODIFCATFO .': '. $data['nom']);
+
+        printNotification('success', _CATMODIF);
     }
 
-    if ($modo != ""){
-        $sql = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
-        list($listmodo) = mysql_fetch_row($sql);
-
-        if ($listmodo != "") $modos = $listmodo . "|" . $modo;
-        else $modos = $modo;
-
-        $upd_modo = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $modos . "' WHERE id = '" . $id . "'");
-    }
-
-    $upd = mysql_query("UPDATE " . FORUM_TABLE . " SET nom = '" . $titre . "', comment = '" . $description . "', cat = '" . $cat . "', image = '" . $url_image . "', niveau = '" . $niveau . "', level = '" . $level . "', ordre = '" . $ordre . "', level_poll = '" . $level_poll . "', level_vote = '" . $level_vote . "' WHERE id = '" . $id . "'");
-
-    saveUserAction(_ACTIONMODIFFO .': '. $titre);
-
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _FORUMMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
     echo "<script>\n"
         ."setTimeout('screen()','3000');\n"
         ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin');\n"
+        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
         ."}\n"
         ."</script>\n";
 }
 
-function del_modo($uid, $forum_id){
-    global $nuked, $user;
-    
-    $sql = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
-    list($listmodo) = mysql_fetch_row($sql);
-    $list = explode("|", $listmodo);
-    for($i = 0; $i <= count($list)-1;$i++){
-        if ($i == 0 || ($i == 1 && $list[0] == $uid)){
-            $sep = "";
+function deleteForumCat() {
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
+
+    $dbrForumCat = nkDB_selectOne(
+        'SELECT nom
+        FROM '. FORUM_CAT_TABLE .'
+        WHERE id = '. nkDB_escape($id)
+    );
+
+    nkDB_delete(FORUM_CAT_TABLE, 'id = '. nkDB_escape($id));
+    saveUserAction(_ACTIONDELCATFO .': '. $dbrForumCat['nom']);
+
+    printNotification('success', _CATDEL);
+
+    echo "<script>\n"
+        ."setTimeout('screen()','3000');\n"
+        ."function screen() { \n"
+        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
+        ."}\n"
+        ."</script>\n";
+}
+
+/* Forum management */
+
+function getModeratorOptions($moderatorList) {
+    $options = array('' => _NONE);
+
+    $dbrUser = nkDB_selectMany(
+        'SELECT id, pseudo
+        FROM '. USER_TABLE .'
+        WHERE niveau > 0',
+        array('niveau', 'pseudo'), array('DESC', 'ASC')
+    );
+
+    foreach ($dbrUser as $_user) {
+        if (! in_array($_user['id'], $moderatorList))
+            $options[$_user['id']] = $_user['pseudo'];
+    }
+
+    return $options;
+}
+
+function editForum() {
+    global $adminMenu;
+
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/Forum/config/forum.php';
+
+    $id         = (isset($_GET['id'])) ? $_GET['id'] : 0;
+    $content    = '';
+
+    $dbrForumCat = nkDB_selectMany(
+        'SELECT id, nom
+        FROM '. FORUM_CAT_TABLE,
+        array('ordre', 'nom')
+    );
+
+    foreach ($dbrForumCat as $forumCat)
+        $forumForm['items']['cat']['options'][$forumCat['id']] = printSecuTags($forumCat['nom']);
+
+    $moderatorList = array();
+
+    if ($id == 0) {
+        unset($forumForm['items']['moderatorList']);
+    }
+    else {
+        $dbrForum = nkDB_selectOne(
+            'SELECT *
+            FROM '. FORUM_TABLE .'
+            WHERE id = '. nkDB_escape($id)
+        );
+
+        foreach ($forumField as $field)
+            $forumForm['items'][$field]['value'] = $dbrForum[$field];
+
+        if ($dbrForum['moderateurs'] != '') {
+            $moderateurs = explode('|', $dbrForum['moderateurs']);
+            $nbModerator = count($moderateurs);
+
+            for ($i = 0; $i < $nbModerator; $i++) {
+                $sep = ($i == 0) ? '' : ', ';
+
+                $dbrUser = nkDB_selectOne(
+                    'SELECT id, pseudo
+                    FROM '. USER_TABLE .'
+                    WHERE id = '. nkDB_escape($moderateurs[$i])
+                );
+
+                $forumForm['items']['moderatorList']['html'] .= $sep . $dbrUser['pseudo'] .'&nbsp;(<a href="index.php?file=Forum&amp;page=admin&amp;op=deleteModerator&amp;user_id='. $dbrUser['id'] .'&amp;forum_id='. $id .'"><img style="border: 0;vertical-align:bottom;" src="modules/Admin/images/icons/cross.png" alt="" title="'. _DELTHISMODO .'" /></a>)';
+                $moderatorList[] = $dbrUser['id'];
+            }
         }
         else{
-            $sep = "|";
+            $forumForm['items']['moderatorList']['html'] = _NONE;
         }
 
-        if ($list[$i] != $uid){
-            $modos .= $sep . $list[$i];
+        if ($dbrForum['image'] !='')
+            $forumForm['items']['image']['html'] = '<img src="'. $dbrForum['image'] .'" title="'. $dbrForum['nom'] .'" style="margin-left:20px; width:50px; height:50px; vertical-align:middle;" />';
+
+        $forumForm['itemsFooter']['submit']['value'] = _MODIFTHISCAT;
+    }
+
+    $forumForm['items']['modo']['options'] = getModeratorOptions($moderatorList);
+
+    $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
+
+    echo applyTemplate('contentBox', array(
+        'title'     => ($id == 0) ? _ADMINFORUM .' - '. _ADDFORUM : _ADMINFORUM .' - '. _EDITTHISFORUM,
+        'helpFile'  => 'Forum',
+        'content'   => $adminMenu . nkForm_generate($forumForm)
+    ));
+}
+
+function saveForum() {
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
+
+    $data = array(
+        'nom'           => stripslashes($_POST['titre']),
+        'comment'       => stripslashes(secu_html(nkHtmlEntityDecode($_POST['description']))),
+        'cat'           => $_POST['cat'],
+        'moderateurs'   => $_POST['modo'],
+        'niveau'        => $_POST['niveau'],
+        'level'         => $_POST['level'],
+        'ordre'         => $_POST['ordre'],
+        'level_poll'    => $_POST['level_poll'],
+        'level_vote'    => $_POST['level_vote']
+    );
+
+    // Upload du fichier
+    $filename = $_FILES['upImageForum']['name'];
+
+    if ($filename != '') {
+        $imgInfo = getimagesize($filename);
+
+        if ($imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG))) {
+            $data['image'] = 'upload/Forum/cat/'. $filename;
+
+            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $data['image'])) {
+                printNotification('error', _UPLOADFILEFAILED);
+                redirect('index.php?file=Forum&page=admin&op=editForum'. ($id > 0) ? '&id='. $id : '', 2);
+                return;
+            }
+
+            @chmod($data['image'], 0644);
+        }
+        else {
+            printNotification('error', _NOIMAGEFILE);
+            redirect('index.php?file=Forum&page=admin&op=editForum'. ($id > 0) ? '&id='. $id : '', 2);
+            return;
+        }
+    }
+    else {
+        $data['image'] = $_POST['urlImageForum'];
+    }
+
+    if ($id == 0) {
+        nkDB_insert(FORUM_TABLE, array_keys($data), array_values($data));
+        saveUserAction(_ACTIONADDFO .': '. $data['nom']);
+
+        printNotification('success', _FORUMADD);
+    }
+    else {
+        if ($data['moderateurs'] != '') {
+            $dbrForum = nkDB_selectOne(
+                'SELECT moderateurs
+                FROM '. FORUM_TABLE .'
+                WHERE id = '. nkDB_escape($id)
+            );
+
+            if ($dbrForum['moderateurs'] != '')
+                $modos = $dbrForum['moderateurs'] .'|'. $data['moderateurs'];
+            else
+                $modos = $data['moderateurs'];
+
+            nkDB_update(FORUM_TABLE, array_keys('moderateurs'), array_values($modos), 'id = '. nkDB_escape($id));
+        }
+
+        nkDB_update(FORUM_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        saveUserAction(_ACTIONMODIFFO .': '. $data['nom']);
+
+        printNotification('success', _FORUMMODIF);
+    }
+
+    echo "<script>\n"
+        ."setTimeout('screen()','3000');\n"
+        ."function screen() { \n"
+        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
+        ."}\n"
+        ."</script>\n";
+}
+
+function deleteForum() {
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
+
+    $dbrForum = nkDB_selectOne(
+        'SELECT nom
+        FROM '. FORUM_TABLE .'
+        WHERE id = '. nkDB_escape($id)
+    );
+
+    $dbrForumThreads = nkDB_selectMany(
+        'SELECT id, sondage
+        FROM '. FORUM_THREADS_TABLE .'
+        WHERE forum_id = '. nkDB_escape($id)
+    );
+
+    foreach ($dbrForumThreads as $forumThreads) {
+        if ($forumThreads['sondage'] == 1) {
+            $dbrForumPoll = nkDB_selectOne(
+                'SELECT id
+                FROM '. FORUM_POLL_TABLE .'
+                WHERE thread_id = '. nkDB_escape($forumThreads['id'])
+            );
+
+            nkDB_delete(FORUM_POLL_TABLE, 'id = '. nkDB_escape($dbrForumPoll['id']));
+            nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
+            nkDB_delete(FORUM_VOTE_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
         }
     }
 
-    $upd = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $modos . "' WHERE id = '" . $forum_id . "'");
-    
-    $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '".$uid."'");
-    list($pseudo) = mysql_fetch_array($sql);
-    $pseudo = mysql_real_escape_string($pseudo);
+    nkDB_delete(FORUM_TABLE, 'id = '. nkDB_escape($id));
+    nkDB_delete(FORUM_THREADS_TABLE, 'forum_id = '. nkDB_escape($id));
+    nkDB_delete(FORUM_MESSAGES_TABLE, 'forum_id = '. nkDB_escape($id));
 
-    saveUserAction(_ACTIONDELMODOFO .': '. $pseudo);
+    saveUserAction(_ACTIONDELFO .': '. $dbrForum['nom']);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _MODODEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    
-    $url = "index.php?file=Forum&page=admin&op=edit_forum&id=" . $forum_id;
-    redirect($url, 2);
+    printNotification('success', _FORUMDEL);
+
+    echo "<script>\n"
+        ."setTimeout('screen()','3000');\n"
+        ."function screen() { \n"
+        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
+        ."}\n"
+        ."</script>\n";
 }
 
-function main(){
-    global $nuked, $language;
+function deleteModerator() {
+    $dbrForum = nkDB_selectOne(
+        'SELECT moderateurs
+        FROM '. FORUM_TABLE .'
+        WHERE id = '. nkDB_escape($_GET['forum_id'])
+    );
+
+    $list   = explode('|', $dbrForum['moderateurs']);
+    $end    = count($list) - 1;
+
+    for ($i = 0; $i <= $end; $i++) {
+        if ($i == 0 || ($i == 1 && $list[0] == $_GET['user_id']))
+            $sep = '';
+        else
+            $sep = '|';
+
+        if ($list[$i] != $_GET['user_id'])
+            $modos .= $sep . $list[$i];
+    }
+
+    nkDB_update(FORUM_TABLE, array_keys('moderateurs'), array_values($modos), 'id = '. nkDB_escape($_GET['forum_id']));
+
+    $dbrUser = nkDB_selectOne(
+        'SELECT pseudo
+        FROM '. USER_TABLE .'
+        WHERE id = '. nkDB_escape($_GET['user_id'])
+    );
+
+    saveUserAction(_ACTIONDELMODOFO .': '. $dbrUser['pseudo']);
+
+    printNotification('success', _MODODEL);
+    redirect('index.php?file=Forum&page=admin&op=editForum&id='. $_GET['forum_id'], 2);
+}
+
+function main() {
+    global $adminMenu, $nuked, $language;
 
     echo "<script type=\"text/javascript\">\n"
     ."<!--\n"
@@ -619,7 +436,7 @@ function main(){
     . "function delforum(nom, id)\n"
     . "{\n"
     . "if (confirm('" . _DELETEFORUM . " '+nom+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=del_forum&id='+id;}\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteForum&id='+id;}\n"
     . "}\n"
         . "\n"
     . "// -->\n"
@@ -632,7 +449,7 @@ function main(){
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-    nkAdminMenu(1);
+    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
     echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr>\n"
@@ -654,14 +471,16 @@ function main(){
         . "<td style=\"width: 20%;\" align=\"center\">" . $cat_name . "</td>\n"
         . "<td style=\"width: 20%;\" align=\"center\">" . $niveau . "</td>\n"
         . "<td style=\"width: 20%;\" align=\"center\">" . $level . "</td>\n"
-        . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=edit_forum&amp;id=" . $id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISFORUM . "\" /></a></td>\n"
+        . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=editForum&amp;id=" . $id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISFORUM . "\" /></a></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\"><a href=\"javascript:delforum('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISFORUM . "\" /></a></td></tr>\n";
     }
     echo "</table><div style=\"text-align: center;\"><br \><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
 }
 
+/* Forum rank management */
+
 function main_rank(){
-    global $nuked, $language;
+    global $adminMenu, $nuked, $language;
 
     echo "<script type=\"text/javascript\">\n"
     ."<!--\n"
@@ -669,7 +488,7 @@ function main_rank(){
     . "function delrank(titre, id)\n"
     . "{\n"
     . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=del_rank&rid='+id;}\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteRank&rid='+id;}\n"
     . "}\n"
         . "\n"
     . "// -->\n"
@@ -682,7 +501,7 @@ function main_rank(){
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-    nkAdminMenu(4);
+    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
     echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" cellpadding=\"2\" cellspacing=\"1\">\n"
     . "<tr>\n"
@@ -786,22 +605,21 @@ function send_rank($nom, $type, $post, $image, $upImageRank){
     redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
 }
 
-function del_rank($rid){
-    global $nuked, $user;
+function deleteRank() {
+    $id = (isset($_GET['rid'])) ? $_GET['rid'] : 0;
 
-    $sqlr = mysql_query("SELECT nom FROM " . FORUM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-    list($nom) = mysql_fetch_array($sqlr);
-    $nom = mysql_real_escape_string($nom);
-    $sql = mysql_query("DELETE FROM " . FORUM_RANK_TABLE . " WHERE id = '" . $rid . "'");
+    $dbrForumRank = nkDB_selectOne(
+        'SELECT nom
+        FROM '. FORUM_RANK_TABLE .'
+        WHERE id = '. nkDB_escape($id)
+    );
 
-    saveUserAction(_ACTIONDELRANKFO .': '. $nom);
+    nkDB_delete(FORUM_RANK_TABLE, 'id = '. nkDB_escape($id));
+    saveUserAction(_ACTIONDELRANKFO .': '. $dbrForumRank['nom']);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _RANKDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
+    printNotification('success', _RANKDEL);
+
+    redirect('index.php?file=Forum&page=admin&op=main_rank', 2);
 }
 
 function edit_rank($rid){
@@ -873,7 +691,7 @@ function modif_rank($rid, $nom, $type, $post, $image, $upImageRank){
 }
 
 function prune(){
-    global $nuked, $language;
+    global $adminMenu, $nuked, $language;
 
     echo "<script type=\"text/javascript\">\n"
     ."<!--\n"
@@ -898,7 +716,7 @@ function prune(){
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-    nkAdminMenu(5);
+    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
     echo "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=do_prune\" onsubmit=\"return verifchamps();\">\n"
     . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
@@ -969,7 +787,7 @@ function do_prune($day, $forum_id){
 }
 
 function main_pref(){
-    global $nuked, $language;
+    global $adminMenu, $nuked, $language;
 
     $checked1 = $checked2 = $checked3 = $checked4 = $checked5 = $checked6 = $checked7 = $checked8 = $checked9 = false;
 
@@ -990,7 +808,7 @@ function main_pref(){
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-    nkAdminMenu(6);
+    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
     echo "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=change_pref\">\n"
     . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
@@ -1129,103 +947,64 @@ function change_pref($forum_title, $forum_desc, $forum_rank_team, $thread_forum_
 }
 
 
-function nkAdminMenu($tab = 1) {
-    global $language, $user, $nuked;
-
-    $class = ' class="nkClassActive" ';
-?>
-    <div class= "nkAdminMenu">
-        <ul class="shortcut-buttons-set" id="1">
-            <li <?php echo ($tab == 1 ? $class : ''); ?>>
-                <a class="shortcut-button" href="index.php?file=Forum&amp;page=admin">
-                    <img src="modules/Admin/images/icons/speedometer.png" alt="icon" />
-                    <span><?php echo _FORUM; ?></span>
-                </a>
-            </li>
-            <li <?php echo ($tab == 2 ? $class : ''); ?>>
-                <a class="shortcut-button" href="index.php?file=Forum&amp;page=admin&amp;op=add_forum">
-                    <img src="modules/Admin/images/icons/add_page.png" alt="icon" />
-                    <span><?php echo _ADDFORUM; ?></span>
-                </a>
-            </li>
-            <li <?php echo ($tab == 3 ? $class : ''); ?>>
-                <a class="shortcut-button" href="index.php?file=Forum&amp;page=admin&amp;op=main_cat">
-                    <img src="modules/Admin/images/icons/folder_full.png" alt="icon" />
-                    <span><?php echo _CATMANAGEMENT; ?></span>
-                </a>
-            </li>
-            <li <?php echo ($tab == 4 ? $class : ''); ?>>
-                <a class="shortcut-button" href="index.php?file=Forum&amp;page=admin&amp;op=main_rank">
-                    <img src="modules/Admin/images/icons/ranks.png" alt="icon" />
-                    <span><?php echo _RANKMANAGEMENT; ?></span>
-                </a>
-            </li>
-            <li <?php echo ($tab == 5 ? $class : ''); ?>>
-                <a class="shortcut-button" href="index.php?file=Forum&amp;page=admin&amp;op=prune">
-                    <img src="modules/Admin/images/icons/remove_from_database.png" alt="icon" />
-                    <span><?php echo _PRUNE; ?></span>
-                </a>
-            </li>
-            <li <?php echo ($tab == 6 ? $class : ''); ?>>
-                <a class="shortcut-button" href="index.php?file=Forum&amp;page=admin&amp;op=main_pref">
-                    <img src="modules/Admin/images/icons/process.png" alt="icon" />
-                    <span><?php echo _PREFS; ?></span>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="clear"></div>
-<?php
-}
+$adminMenu = array(
+    _FORUM => array(
+        'img' => 'modules/Admin/images/icons/speedometer.png'
+    ),
+    _ADDFORUM => array(
+        'img' => 'modules/Admin/images/icons/add_page.png',
+        'op' => 'editForum'
+    ),
+    _CATMANAGEMENT => array(
+        'img' => 'modules/Admin/images/icons/folder_full.png',
+        'op' => 'main_cat'
+    ),
+    _RANKMANAGEMENT => array(
+        'img' => 'modules/Admin/images/icons/ranks.png',
+        'op' => 'main_rank'
+    ),
+    _PRUNE => array(
+        'img' => 'modules/Admin/images/icons/remove_from_database.png',
+        'op' => 'prune'
+    ),
+    _PREFS => array(
+        'img' => 'modules/Admin/images/icons/process.png',
+        'op' => 'main_pref'
+    )
+);
 
 
 switch ($_REQUEST['op']) {
-    case "edit_forum":
-        edit_forum($_REQUEST['id']);
+    case 'editForum' :
+        editForum();
         break;
 
-    case "modif_forum":
-        modif_forum($_REQUEST['id'], $_REQUEST['titre'], $_REQUEST['cat'], $_REQUEST['description'], $_REQUEST['niveau'], $_REQUEST['level'], $_REQUEST['ordre'], $_REQUEST['level_poll'], $_REQUEST['level_vote'], $_REQUEST['modo'], $_REQUEST['urlImageForum'], $_REQUEST['upImageForum']);
+    case 'saveForum' :
+        saveForum();
         break;
 
-    case "add_forum":
-        add_forum();
-        break;
-
-    case "del_modo":
-        del_modo($_REQUEST['uid'], $_REQUEST['forum_id']);
-        break;
-
-    case "send_cat":
-        send_cat($_REQUEST['nom'], $_REQUEST['niveau'], $_REQUEST['ordre'], $_REQUEST['urlImageCat'], $_REQUEST['upImageCat']);
-        break;
-
-    case "add_cat":
-        add_cat();
+    case 'deleteModerator' :
+        deleteModerator();
         break;
 
     case "main_cat":
         main_cat();
         break;
 
-    case "edit_cat":
-        edit_cat($_REQUEST['cid']);
+    case 'editCat' :
+        editForumCat();
         break;
 
-    case "modif_cat":
-        modif_cat($_REQUEST['cid'], $_REQUEST['nom'], $_REQUEST['niveau'], $_REQUEST['ordre'], $_REQUEST['urlImageCat'], $_REQUEST['upImageCat']);
+    case 'saveCat' :
+        saveForumCat();
         break;
 
-    case "del_cat":
-        del_cat($_REQUEST['cid']);
+    case 'deleteCat' :
+        deleteForumCat();
         break;
 
-    case "del_forum":
-        del_forum($_REQUEST['id']);
-        break;
-
-    case "send_forum":
-        send_forum($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['cat'], $_REQUEST['modo'], $_REQUEST['niveau'], $_REQUEST['level'], $_REQUEST['ordre'], $_REQUEST['level_poll'], $_REQUEST['level_vote'], $_REQUEST['urlImageForum'], $_REQUEST['upImageForum']);
+    case 'deleteForum' :
+        deleteForum();
         break;
 
     case "main_rank":
@@ -1240,8 +1019,8 @@ switch ($_REQUEST['op']) {
         send_rank($_REQUEST['nom'], $_REQUEST['type'], $_REQUEST['post'], $_REQUEST['image'], $_REQUEST['upImageRank']);
         break;
 
-    case "del_rank":
-        del_rank($_REQUEST['rid']);
+    case 'deleteRank' :
+        deleteRank();
         break;
 
     case "edit_rank":
