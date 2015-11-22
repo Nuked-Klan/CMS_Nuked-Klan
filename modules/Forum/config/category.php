@@ -10,12 +10,12 @@ $forumCatField = array(
 
 // Definition of editing forum category form
 $forumCatForm = array(
-
     'id'        => 'editForumCatForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=saveCat',
     'method'    => 'post',
     'enctype'   => 'multipart/form-data',
     'items' => array(
+        'htmlCategoryImage' => '',
         'nom' => array(
             'label'             => _NAME .' : ',
             'type'              => 'text',
