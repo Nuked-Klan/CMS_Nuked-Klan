@@ -26,7 +26,7 @@ function main_cat(){
     . "function delcat(titre, id)\n"
     . "{\n"
     . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteCat&cid='+id;}\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteCat&id='+id;}\n"
     . "}\n"
     . "\n"
     . "// -->\n"
@@ -67,7 +67,7 @@ function editForumCat() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/category.php';
 
-    $id         = (isset($_GET['cid'])) ? $_GET['cid'] : 0;
+    $id         = (isset($_GET['id'])) ? $_GET['id'] : 0;
     $content    = '';
 
     if ($id == 0) {
@@ -100,7 +100,7 @@ function editForumCat() {
 }
 
 function saveForumCat() {
-    $id = (isset($_GET['cid'])) ? $_GET['cid'] : 0;
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     $data = array(
         'nom'       => $_POST['nom'],
@@ -158,7 +158,7 @@ function saveForumCat() {
 }
 
 function deleteForumCat() {
-    $id = (isset($_GET['cid'])) ? $_GET['cid'] : 0;
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     $dbrForumCat = nkDB_selectOne(
         'SELECT nom
@@ -215,12 +215,12 @@ function editForum() {
     );
 
     foreach ($dbrForumCat as $forumCat)
-        $forumCatForm['items']['cat']['options'][$forumCat['id']] = printSecuTags($forumCat['nom']);
+        $forumForm['items']['cat']['options'][$forumCat['id']] = printSecuTags($forumCat['nom']);
 
     $moderatorList = array();
 
     if ($id == 0) {
-        unset($forumCatForm['items']['moderatorList']);
+        unset($forumForm['items']['moderatorList']);
     }
     else {
         $dbrForum = nkDB_selectOne(
@@ -230,7 +230,7 @@ function editForum() {
         );
 
         foreach ($forumField as $field)
-            $forumForm['items'][$field]['value'] = $dbrCat[$field];
+            $forumForm['items'][$field]['value'] = $dbrForum[$field];
 
         if ($dbrForum['moderateurs'] != '') {
             $moderateurs = explode('|', $dbrForum['moderateurs']);
@@ -245,21 +245,21 @@ function editForum() {
                     WHERE id = '. nkDB_escape($moderateurs[$i])
                 );
 
-                $forumCatForm['items']['moderatorList'] .= $sep . $dbrUser['pseudo'] .'&nbsp;(<a href="index.php?file=Forum&amp;page=admin&amp;op=del_modo&amp;uid='. $dbrUser['id'] .'&amp;forum_id='. $id .'"><img style="border: 0;vertical-align:bottom;" src="modules/Admin/images/icons/cross.png" alt="" title="'. _DELTHISMODO .'" /></a>)';
+                $forumForm['items']['moderatorList']['html'] .= $sep . $dbrUser['pseudo'] .'&nbsp;(<a href="index.php?file=Forum&amp;page=admin&amp;op=deleteModerator&amp;user_id='. $dbrUser['id'] .'&amp;forum_id='. $id .'"><img style="border: 0;vertical-align:bottom;" src="modules/Admin/images/icons/cross.png" alt="" title="'. _DELTHISMODO .'" /></a>)';
                 $moderatorList[] = $dbrUser['id'];
             }
         }
         else{
-            $forumCatForm['items']['moderatorList'] = _NONE;
+            $forumForm['items']['moderatorList']['html'] = _NONE;
         }
 
         if ($dbrForum['image'] !='')
-            $forumCatForm['items']['image']['html'] = '<img src="'. $dbrForum['image'] .'" title="'. $dbrForum['nom'] .'" style="margin-left:20px; width:50px; height:50px; vertical-align:middle;" />';
+            $forumForm['items']['image']['html'] = '<img src="'. $dbrForum['image'] .'" title="'. $dbrForum['nom'] .'" style="margin-left:20px; width:50px; height:50px; vertical-align:middle;" />';
 
-        $forumCatForm['itemsFooter']['submit']['value'] = _MODIFTHISCAT;
+        $forumForm['itemsFooter']['submit']['value'] = _MODIFTHISCAT;
     }
 
-    $forumCatForm['items']['modo']['options'] = getModeratorOptions($moderatorList);
+    $forumForm['items']['modo']['options'] = getModeratorOptions($moderatorList);
 
     $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
@@ -280,7 +280,7 @@ function saveForum() {
         'moderateurs'   => $_POST['modo'],
         'niveau'        => $_POST['niveau'],
         'level'         => $_POST['level'],
-        'ordre'         => $_POST['ordre']
+        'ordre'         => $_POST['ordre'],
         'level_poll'    => $_POST['level_poll'],
         'level_vote'    => $_POST['level_vote']
     );
@@ -393,44 +393,41 @@ function deleteForum() {
         ."</script>\n";
 }
 
-function del_modo($uid, $forum_id){
-    global $nuked, $user;
-    
-    $sql = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
-    list($listmodo) = mysql_fetch_row($sql);
-    $list = explode("|", $listmodo);
-    for($i = 0; $i <= count($list)-1;$i++){
-        if ($i == 0 || ($i == 1 && $list[0] == $uid)){
-            $sep = "";
-        }
-        else{
-            $sep = "|";
-        }
+function deleteModerator() {
+    $dbrForum = nkDB_selectOne(
+        'SELECT moderateurs
+        FROM '. FORUM_TABLE .'
+        WHERE id = '. nkDB_escape($_GET['forum_id'])
+    );
 
-        if ($list[$i] != $uid){
+    $list   = explode('|', $dbrForum['moderateurs']);
+    $end    = count($list) - 1;
+
+    for ($i = 0; $i <= $end; $i++) {
+        if ($i == 0 || ($i == 1 && $list[0] == $_GET['user_id']))
+            $sep = '';
+        else
+            $sep = '|';
+
+        if ($list[$i] != $_GET['user_id'])
             $modos .= $sep . $list[$i];
-        }
     }
 
-    $upd = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $modos . "' WHERE id = '" . $forum_id . "'");
-    
-    $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '".$uid."'");
-    list($pseudo) = mysql_fetch_array($sql);
-    $pseudo = mysql_real_escape_string($pseudo);
+    nkDB_update(FORUM_TABLE, array_keys('moderateurs'), array_values($modos), 'id = '. nkDB_escape($_GET['forum_id']));
 
-    saveUserAction(_ACTIONDELMODOFO .': '. $pseudo);
+    $dbrUser = nkDB_selectOne(
+        'SELECT pseudo
+        FROM '. USER_TABLE .'
+        WHERE id = '. nkDB_escape($_GET['user_id'])
+    );
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _MODODEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    
-    $url = "index.php?file=Forum&page=admin&op=editForum&id=" . $forum_id;
-    redirect($url, 2);
+    saveUserAction(_ACTIONDELMODOFO .': '. $dbrUser['pseudo']);
+
+    printNotification('success', _MODODEL);
+    redirect('index.php?file=Forum&page=admin&op=editForum&id='. $_GET['forum_id'], 2);
 }
 
-function main(){
+function main() {
     global $adminMenu, $nuked, $language;
 
     echo "<script type=\"text/javascript\">\n"
@@ -479,6 +476,8 @@ function main(){
     }
     echo "</table><div style=\"text-align: center;\"><br \><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
 }
+
+/* Forum rank management */
 
 function main_rank(){
     global $adminMenu, $nuked, $language;
@@ -984,8 +983,8 @@ switch ($_REQUEST['op']) {
         saveForum();
         break;
 
-    case "del_modo":
-        del_modo($_REQUEST['uid'], $_REQUEST['forum_id']);
+    case 'deleteModerator' :
+        deleteModerator();
         break;
 
     case "main_cat":

@@ -130,7 +130,7 @@ $forumForm = array(
         'moderatorList' => array(
             'fakeLabel'         => '<b>'. _MODO .' : </b>',
             'html'              => ''
-        )
+        ),
         'moderateurs' => array(
             'label'             => '<b>'. _MODERATEUR .' : </b>',
             'type'              => 'select',
