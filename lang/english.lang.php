@@ -381,7 +381,6 @@ define('REMOVEDIRINST', 'Please delete Nuked-Klan\'s installation folder (/INSTA
 define("_ZONEADMIN","This zone is reserved for the Admins, sorry...");
 define("_EDIT","Edit");
 define("_DEL","Delete");
-define("_CONFIRM","Continue ?");
 define("_PREFUPDATED","Preferences were successfully modified");
 define("_MORE","Extended Text");
 define("_ORDERBY","Order by");

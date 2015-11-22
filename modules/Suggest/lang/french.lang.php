@@ -3,8 +3,6 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, désolé ...");
 define("_SUGGEST","Suggestions");
 define("_SELECTMOD","Sélectionnez une rubrique");
 define("_YOURSUGGEST","Votre proposition a bien été enregistrée");
@@ -53,7 +51,6 @@ define("_URLIMG","Url de l'image");
 define("_URLFILE","Url du fichier");
 define("_NOSUGGEST","Aucune suggestion dans la base de donnés");
 define("_SUGGESTMAIL","Etre averti par email des nouvelles suggestions");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_RCORPS","Raison");
 define("_RSUBJECT","Titre");
 define("_RMOTIF","Page de refus d'une suggestion");

@@ -3,8 +3,6 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_ON","sur");
 define("_MOREINFOS","+ d'infos");
 define("_SEVERDOWN","Serveur Down...");
@@ -68,7 +66,6 @@ define("_ADDSERVER","Ajouter un Serveur");
 define("_CATMANAGEMENT","Gestion des catégories");
 define("_NOSERV","Aucun serveur dans la base de données");
 define("_SERVERPREF","Aucun serveur dans la base de données");
-define("_PREFUPDATED","Préférences modifiées avec succès.");
 define("_NONECATINDATABASE","Aucune catégorie dans la base de données");
 
 define("_ACTIONADDCATSER","a ajouté la catégorie serveur");

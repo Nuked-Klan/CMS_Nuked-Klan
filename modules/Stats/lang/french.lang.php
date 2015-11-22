@@ -87,8 +87,6 @@ define("_HOURS","Heure");
 
 define("_VIEWALL","Suite...");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_NOEXIST","Désolé cette page n'existe pas ou l'adresse que vous avez tapé est incorrecte");
 
 define("_NBMEMBERS","Membres");

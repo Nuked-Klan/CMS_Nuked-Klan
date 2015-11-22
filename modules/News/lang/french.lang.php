@@ -3,7 +3,6 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_READMORE","Lire la suite...");
 define("_SUBJECTNEWS","Sujet de News");
 define("_SEENEWS","Voir les news");
@@ -54,7 +53,6 @@ define("_NMONTHS","Mois");
 define("_NMONTH","MOIS");
 define("_NUMBERARCHIVE","Nombre de news par page dans les archives");
 define("_NUMBERNEWS","Nombre de news par page en page d'accueil");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_URLIMG","Url de l'image");
 define("_UPIMG","Uploader l'image");
 

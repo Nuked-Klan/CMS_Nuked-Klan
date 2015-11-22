@@ -3,7 +3,6 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 define("_NICK","Pseudo");
 define("_MAIL","Email");
 define("_ICQ","Icq");

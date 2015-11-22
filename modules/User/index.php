@@ -1482,7 +1482,7 @@ function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $c
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
             $url_photo = "upload/User/" . time() . "." . $ext;
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_photo))
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_photo)) {
                 echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
                 return;
             }

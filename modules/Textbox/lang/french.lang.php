@@ -3,8 +3,6 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 // define("_NONICKNAME","Vous n\'avez pas entré de pseudo !");
 //Resctriction to logged users
 define("_NONICKNAME","Identifiez vous pour pouvoir poster un message !");
@@ -21,7 +19,6 @@ define("_SEEARCHIVES","Voir les archives");
 define("_SHOUTSUCCES","Message envoyé avec succès.");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
 define("_NOMESS","Il n'y a pas encore de message");
-define("_PREVIOUSPAGE","Page Précédente");
 
 define("_THEREIS","Il y a");
 define("_SHOUTINDB","messages dans la base de données");
@@ -47,7 +44,6 @@ define("_MESSDEL","Message effacé avec succès.");
 define("_MESSEDIT","Message modifié avec succès.");
 define("_ALLMESSDEL","Tous les messages ont été effacés.");
 define("_NUMBERSHOUT","Nombre de messages par page");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 
 define("_ACTIONMODIFSHO","a modifié un message de la tribune libre");
 define("_ACTIONDELSHO","a supprimé un message de la tribune libre");

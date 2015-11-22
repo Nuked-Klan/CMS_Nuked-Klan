@@ -41,8 +41,6 @@ define("_SENDRECRUIT","Votre demande de recrutement a été prise en compte");
 define("_NEWRECRUIT","a envoyé une demande de recrutement :");
 define("_RECRUITOFF","Désolé, le recrutement est terminé à l'heure actuelle.");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 
 define("_DELETERECRUTE","Vous êtes sur le point de supprimer la demande de");
 

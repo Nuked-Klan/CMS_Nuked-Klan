@@ -30,8 +30,6 @@ define("_MATCH","Match");
 define("_SENDMAIL","Votre demande de match a été prise en compte");
 define("_NEWDEFY","a envoyé un nouveau défie :");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_TRANSFERT","Ajouter ce match");
 define("_DELETEMATCH","Vous êtes sur le point de supprimer le défi de");
 

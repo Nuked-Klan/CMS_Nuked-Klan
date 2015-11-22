@@ -28,7 +28,6 @@ define("_LINKCOMMENT","Commentaire(s)");
 define("_LINKVOTE","Vote(s)");
 define("_SEEDECS","Voir les détails");
 
-define("_PREVIOUSPAGE","Page Précédente");
 
 define("_DESCR","Description");
 define("_CAT","Catégorie");
@@ -47,8 +46,6 @@ define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
 define("_THXBROKENLINK","Merci de nous avoir signalé ce lien mort.");
 define("_INDICATELINK","Signaler ce lien mort");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_ADMINLINKS","Administration des Liens");
 
 define("_DELETELINK","Vous êtes sur le point de supprimer");
@@ -80,7 +77,6 @@ define("_MODIFTHISCAT","Modifier cette Catégorie");
 define("_CATMODIF","Catégorie modifiée avec succès.");
 define("_CATDEL","Catégorie supprimée avec succès.");
 define("_NUMBERLINK","Nombre de liens par page");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 
 define("_BROKENLINKS","Liens Morts");
 define("_ERASE","Effacer");

@@ -3,8 +3,6 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_GUESTBOOK","Livre d'or");
 define("_MAIL","Email");
 
@@ -27,7 +25,6 @@ define("_POSTED","Posté");
 
 define("_THEREIS","Il y a");
 define("_SIGNINDB","signatures dans le livre d'or");
-define("_PREVIOUSPAGE","Page Précédente");
 
 define("_NOSIGN","Il n'y a pas encore de message");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
@@ -42,7 +39,6 @@ define("_IP","Ip");
 define("_EDITTHISPOST","Editer ce message");
 define("_DELTHISPOST","Supprimer ce message");
 define("_GUESTBOOKPG","Nombre de messages par page");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 
 define("_ACTIONMODIFBOOK","a modifié une signature du livre d\'or");
 define("_ACTIONDELBOOK","a supprimé une signature du livre d\'or");

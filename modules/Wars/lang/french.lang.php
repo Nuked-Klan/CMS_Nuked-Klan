@@ -3,8 +3,6 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_WIN","Victoire(s)");
 define("_LOST","Défaite(s)");
 define("_DRAW","Nul(s)");
@@ -14,7 +12,6 @@ define("_NOMATCH","Il n'y a pas encore de match");
 define("_OPPONENT","Adversaire");
 define("_LOGOADV","Logo de l'adversaire");
 
-define("_RESULT","Résultat");
 define("_DETAILS","Rapport");
 define("_MATCH","Match");
 define("_MATCHES","Matches");
@@ -78,7 +75,6 @@ define("_FILEMODIF","Fichier modifié avec succès.");
 define("_EDITFILE","Editer ce fichier joint");
 define("_DELETEFILE","Supprimer ce fichier joint");
 define("_NUMBERWARS","Nombre de matches par page");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_NOMBRE","Nombres de map");
 define("_SCORE","Score de la map");
 define("_NEXTMATCHES","Prochains Matches");

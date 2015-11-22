@@ -3,8 +3,6 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_POLLOF","Sondage");
 define("_POLLLIST","Liste des Sondages");
 define("_TOVOTE","Voter");
@@ -15,7 +13,6 @@ define("_THEREWAS","il y a eu");
 define("_VOTE","vote(s)");
 define("_ATTHISPOLL","à ce sondage");
 define("_SENDVOTE","Votez");
-define("_RESULT","Résultat");
 define("_CHOICE","choix");
 define("_QUESTION","Question");
 define("_TOTALVOTE","Total votes");
@@ -42,7 +39,6 @@ define("_EDITTHISPOLL","Editer ce Sondage");
 define("_DELTHISPOLL","Supprimer ce Sondage");
 define("_ADDPOLL","Ajouter un Sondage");
 define("_POLLTIME","Délai minimum en heure entre 2 votes");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 
 define("_ACTIONADDSUR","a ajouté le sondage");
 define("_ACTIONDELSUR","a supprimé le sondage");

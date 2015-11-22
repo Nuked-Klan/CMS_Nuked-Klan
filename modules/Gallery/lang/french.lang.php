@@ -3,8 +3,6 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_CLICTOCLOSE","Cliquez pour fermer");
 define("_GALLERY","Galerie Photos");
 define("_CLICTOSCREEN","Cliquez sur l'image pour l'agrandir");
@@ -69,7 +67,6 @@ define("_CATDEL","Catégorie supprimée avec succès.");
 define("_GALLERYTITLE","Titre de la Galerie");
 define("_NUMBERIMG","Nombre d'images par page");
 define("_NUMBERIMG2","Nombre d'images par ligne");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_UPIMG","Uploader l'image sur le serveur");
 define("_REPLACE","Ecraser");
 define("_DEJASCREEN","Une image portant le même nom est déjà présente sur votre ftp");

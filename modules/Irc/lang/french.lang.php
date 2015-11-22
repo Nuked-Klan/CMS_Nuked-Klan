@@ -2,8 +2,6 @@
 if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_JOINUS","Join us");
 define("_MOREAWARDS","More awards");
 define("_CHANIRC","Chanel IrC");
@@ -40,7 +38,6 @@ define("_AWARDDELETE","Award supprimé avec succès");
 define("_IRCPREF","Préférences Irc");
 define("_IRCHAN","Irc Channel");
 define("_IRCSERV","Irc Serveur");
-define("_PREFUPDATED","Préférences Irc modifiées avec succès");
 
 define("_ACTIONADDIRC","a ajouté un irc");
 define("_ACTIONMODIFIRC","a modifié un irc");

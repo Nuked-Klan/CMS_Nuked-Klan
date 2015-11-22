@@ -20,7 +20,6 @@ define("_READSART","Lectures");
 define("_PAGE","Page");
 define("_NOARTS","Aucun article dans cette catégorie");
 
-define("_PREVIOUSPAGE","Page Précédente");
 define("_WORDINTEXT","mots dans ce texte");
 
 define("_TOP10ART","Le Top 10");
@@ -37,8 +36,6 @@ define("_MORELAST","la suite des nouveautés");
 define("_HOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");
 define("_NEW","<span style=\"color: red;\"><b><i>New!</i></b></span>");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_ADMINSECTIONS","Administration Articles");
 
 define("_DELETEART","Vous êtes sur le point de supprimer");
@@ -69,7 +66,6 @@ define("_CATDEL","Catégorie supprimée avec succès.");
 define("_CATPARENT","Catégorie Principale");
 define("_NONE","Aucune");
 define("_SECTIONSPG","Nombre d'articles par page");
-define("_PREFUPDATED","Préférences modifiées avec succès.");
 
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> saut de page </i>-----</b><br />");
 define("_CATERRORPOS","La position est déjà à 0, Impossible de monter la position");

@@ -1,6 +1,4 @@
 <?php
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_NOACCESSFORUM","Désolé vous n'avez pas accès a ce forum");
 define("_NOTOPICEXIST","Désolé ce topic n'existe pas ou a été supprimé");
 define("_FORUMS","Forums");
@@ -248,7 +246,6 @@ define("_MAXFIELD","Nombre maximal d'options pour les sondages");
 define("_ATTACHFILES","Autoriser les fichiers joints");
 define("_FILELEVEL","Niveau requis pour poster des fichiers joints");
 define("_MAXSIZEFILE","Taille maximale pour les fichiers joints (en Ko)");
-define("_PREFUPDATED","Préférences modifiées avec succès.");
 define("_PERMALINK","Permalien");
 define("_PERMALINK_TITLE","Lien direct vers ce message");
 define("_NOTIFIMAGESIZE","Afin d'optimiser l'affichage de votre site, pensez à ajuster la taille de vos image à la largeur de votre thème.<br />Les images seront redimensionn&eacute;es automatiqueent à la largeur de votre site.");

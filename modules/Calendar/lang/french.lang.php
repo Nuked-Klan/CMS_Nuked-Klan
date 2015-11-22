@@ -62,8 +62,6 @@ define("_BIRTHDAYTEXTSUITE","qui fête ses");
 define("_YEARSOLD","ans");
 define("_SUBMIT","Go");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée à l'Admin, Désolé...");
 define("_ADMINCAL","Administration Calendrier");
 
 define("_TITLE","Titre");
@@ -92,7 +90,6 @@ define("_OFF","Désactivé");
 define("_SHOWALL","Tous");
 define("_SHOWTEAM","Team");
 define("_SHOWADMIN","Admin");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_ACTIONADDCAL","a ajouté l'événement");
 define("_ACTIONMODIFCAL","a modifié l'événement");
 define("_ACTIONDELCAL","a supprimé l'événement");

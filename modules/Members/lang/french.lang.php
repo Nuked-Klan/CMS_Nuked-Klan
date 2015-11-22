@@ -3,7 +3,6 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 define("_NICK","Pseudo");
 define("_MAIL","Email");
 define("_ICQ","Icq");
@@ -26,7 +25,6 @@ define("_MEMBERSFOUND","membres trouvés pour");
 define("_THEREARE","Il y a");
 define("_MEMBERSREG","membres enregistrés depuis le");
 define("_LASTMEMBER","Le dernier membre inscrit est");
-define("_PREVIOUSPAGE","Page Précédente");
 
 define("_INFOPERSO","Infos Perso");
 define("_LASTNAME","Prénom");

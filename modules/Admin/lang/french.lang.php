@@ -10,8 +10,6 @@ define("_PIRATE", "tentative de piratage");
 define("_VALID", "Sans danger");
 define("_UPDATE", "Mettre à jour");
 define("_PAGEACCESS","Vous ne pouvez pas accéder à cette page directement");
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée à l'Admin, désolé...");
 define("_BLOCKADMIN","Gestion des Blocks");
 
 define("_BLOCKTITLE","Titre du Block");

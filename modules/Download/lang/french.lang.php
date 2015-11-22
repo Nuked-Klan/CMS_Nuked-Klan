@@ -52,7 +52,6 @@ define("_MORELAST","la suite des nouveautés");
 define("_HOT","<font color=\"red\"><b><i>Hot!</i></b></font>");
 define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 
 define("_ADMINDOWN","Administration Téléchargements");
 define("_TITLE","Titre");
@@ -100,7 +99,6 @@ define("_URLORTITLEFAILDED","Vous n'avez pas indiqué d'url et/ou de titre !");
 define("_REPLACEIT","Pour le(s) remplacer veuillez cocher la case \""._REPLACE."\"");
 define("_NUMBERFILE","Nombre de fichiers par page");
 define("_HIDEDESC","Cacher les champs vides de la description");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_ACTIONADDDL","a ajouté le fichier");
 define("_ACTIONDELDL","a supprimé le fichier");
 define("_ACTIONMODIFDL","a modifié le fichier");
