@@ -438,11 +438,8 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
 
     $add = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `image_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $url_image ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
 
-    // Action
-    $texteaction = "". _ACTIONADDWAR .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONADDWAR .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _MATCHADD . "\n"
@@ -464,11 +461,8 @@ function del_war($war_id){
     $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
     $del_file = mysql_query("DELETE FROM " . WARS_FILES_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
 
-    // Action
-    $texteaction = "". _ACTIONDELWAR .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONDELWAR .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _MATCHDEL . "\n"
@@ -538,11 +532,8 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
 
     $upd = mysql_query("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', image_adv = '" . $url_image . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
 
-    // Action
-    $texteaction = "". _ACTIONMODIFWAR .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONMODIFWAR .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _MATCHMODIF . "\n"
@@ -822,11 +813,8 @@ function change_pref($max_wars){
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_wars . "' WHERE name = 'max_wars'");
 
-    // Action
-    $texteaction = "". _ACTIONCONFWAR .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONCONFWAR .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _PREFUPDATED . "\n"

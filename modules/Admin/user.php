@@ -398,11 +398,7 @@ function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $emai
 
         $sql = mysql_query("UPDATE " . USER_TABLE . " SET team = '" . $team . "', team2 = '" . $team2 . "', team3 = '" . $team3 . "', rang = '" . $rang . "', ordre = '" . $ordre . "', pseudo = '" . $nick . "', mail = '" . $mail . "', email = '" . $email . "', icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', url = '" . $url . "', country = '" . $country . "', niveau = '" . $niveau . "', " . $cryptpass . "game = '" . $game . "', avatar = '" . $avatar . "', signature = '" . $signature . "', xfire = '" . $xfire . "', facebook = '" . $facebook . "', origin = '" . $origin . "', steam = '" . $steam . "', twitter = '" . $twitter . "' , skype = '" . $skype . "' WHERE id = '" . $id_user . "'");
 
-        // Action
-        $texteaction = "". _ACTIONMODIFUSER .": ".$nick."";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+        saveUserAction(_ACTIONMODIFUSER .': '. $nick);
 
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
@@ -479,11 +475,9 @@ function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq,
         $avatar = nkHtmlEntities($avatar);
 
         $sql = mysql_query("INSERT INTO " . USER_TABLE . "  ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` , `xfire` , `facebook` , `origin` , `steam` , `twitter` , `skype` ) VALUES ( '" . $id_user . "' , '" . $team . "' , '" . $team2 . "' , '" . $team3 . "' , '" . $rang . "' , '' , '" . $nick . "' , '" . $mail . "' , '" . $email . "' , '" . $icq . "' , '" . $msn . "' , '" . $aim . "' , '" . $yim . "' , '" . $url . "' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '" . $avatar . "' , '" . $signature . "' , '' , '' , '" . $game . "' , '" . $country . "' , '' , '" . $xfire . "' , '" . $facebook . "', '" . $origin . "' , '" . $steam . "' , '" . $twitter . "' , '" . $skype . "')");
-        // Action
-        $texteaction = "". _ACTIONADDUSER .": ".$nick."";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+        saveUserAction(_ACTIONADDUSER .': '. $nick);
+
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _USERADD . "\n"
@@ -504,11 +498,9 @@ function del_user($id_user)
     $del2 = mysql_query("DELETE FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $id_user . "'");
     $del3 = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE user_for = '" . $id_user . "'");
     $del4 = delModerator($id_user);
-    // Action
-    $texteaction = "". _ACTIONDELUSER .": ".$nick."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELUSER .': '. $nick);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _USERDEL . "\n"
@@ -830,11 +822,9 @@ function send_cat($titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage)
     }
 
     $sql = mysql_query("INSERT INTO " . TEAM_TABLE . " ( `cid` , `titre`, `tag` , `tag2` , `image` , `ordre` , `game`) VALUES ( '' , '" . $titre . "' , '" . $tag . "' , '" . $tag2 . "' , '" . $url_image . "' , '" . $ordre . "' , '" . $game . "')");
-    // Action
-    $texteaction = "". _ACTIONADDCATUSER .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDCATUSER .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _TEAMADD . "\n"
@@ -929,11 +919,9 @@ function modif_cat($cid, $titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage
     }
 
     $sql = mysql_query("UPDATE " . TEAM_TABLE . " SET titre = '" . $titre . "', tag = '" . $tag . "', tag2 = '" . $tag2 . "', image = '" . $url_image . "', ordre = '" . $ordre . "', game = '" . $game . "' WHERE cid = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONEDITCATUSER .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONEDITCATUSER .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _TEAMMODIF . "\n"
@@ -963,11 +951,7 @@ function del_cat($cid)
     $titre = mysql_real_escape_string($titre);
     $sql = mysql_query("DELETE FROM " . TEAM_TABLE . " WHERE cid = '" . $cid . "'");
 
-    // Action
-    $texteaction = "". _ACTIONDELCATUSER .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONDELCATUSER .': '. $titre);
 
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
@@ -1110,11 +1094,9 @@ function send_ip($ip, $pseudo, $email, $dure, $texte)
     {
         return;
     }
-    // Action
-    $texteaction = "". _ACTIONADDBAN .": ".$pseudo."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDBAN .': '. $pseudo);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _IPADD . "\n"
@@ -1137,11 +1119,9 @@ function modif_ip($ip_id, $ip, $pseudo, $email, $dure, $texte)
     {
         return;
     }
-    // Action
-    $texteaction = "". _ACTIONMODIFBAN .": ".$pseudo."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFBAN .': '. $pseudo);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _IPMODIF . "\n"
@@ -1157,11 +1137,9 @@ function del_ip($ip_id)
     list($pseudo) = mysql_fetch_array($sql2);
     $pseudo = mysql_real_escape_string($pseudo);
     $sql = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
-    // Action
-    $texteaction = "". _ACTIONSUPBAN .": ".$pseudo."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONSUPBAN .': '. $pseudo);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _IPDEL . "\n"
@@ -1310,11 +1288,9 @@ function send_rank($titre, $ordre, $urlimage, $upimage, $color)
     $titre = mysql_real_escape_string(stripslashes($titre));
 
     $sql = mysql_query("INSERT INTO " . TEAM_RANK_TABLE . " ( `id` , `titre` , `image` , `couleur` ,`ordre` ) VALUES ( '' , '" . $titre . "' , '" . $url_image . "', '" . $color . "', '" . $ordre . "' )");
-    // Action
-    $texteaction = "". _ACTIONADDRANK .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDRANK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _RANKADD . "\n"
@@ -1356,11 +1332,9 @@ function modif_rank($rid, $titre, $ordre, $urlimage, $upimage, $color)
 
     $sql = mysql_query("UPDATE " . TEAM_RANK_TABLE . " SET titre = '" . $titre . "', ordre = '" . $ordre . "', image = '" . $url_image . "', couleur = '" . $color . "' WHERE id = '" . $rid . "'");
     $sql2 = mysql_query("UPDATE " . USER_TABLE . " SET ordre = '" . $ordre . "' WHERE rang = '" . $rid . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFRANK .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFRANK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _RANKMODIF . "\n"
@@ -1377,11 +1351,9 @@ function del_rank($rid)
     $titre = mysql_real_escape_string($titre);
     $sql = mysql_query("DELETE FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rid . "'");
     $sql2 = mysql_query("UPDATE " . USER_TABLE . " SET ordre = 0 WHERE rang = '" . $rid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELRANK .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELRANK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _RANKDEL . "\n"
@@ -1659,9 +1631,7 @@ function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $u
     $upd12 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_website . "' WHERE name = 'user_website'");
     $upd13 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_social_level . "' WHERE name = 'user_social_level'");
 
-    $texteaction = "". _ACTIONMODIFUSER .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+    saveUserAction(_ACTIONMODIFUSER .'.');
 
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"

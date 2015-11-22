@@ -126,11 +126,7 @@ function send_block($titre, $type, $nivo, $pages)
     $sql2 = mysql_query("SELECT bid FROM " . BLOCK_TABLE . " WHERE titre = '" . $titre . "' AND type = '" . $type . "'");
     list($bid) = mysql_fetch_array($sql2);
 
-    // Action
-    $texteaction = _ACTIONADDBLOCK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONADDBLOCK .': '. $titre);
 
     echo '<div class="notification success png_bg">',"\n"
     . '<div>',"\n"
@@ -150,11 +146,8 @@ function del_block($bid)
     list($titre) = mysql_fetch_array($sql2);
     $sql = mysql_query("DELETE FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
 
-    // Action
-    $texteaction = _ACTIONDELBLOCK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONDELBLOCK .': '. $titre);
+
     echo '<div class="notification success png_bg">',"\n"
     . '<div>',"\n"
     . '' . _BLOCKCLEAR . '',"\n"
@@ -291,11 +284,7 @@ function modif_block($data)
 
     $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET active = '" . $data['active'] . "', position = '" . $data['position'] . "', module = '" . $module . "', titre = '" . $data['titre'] . "', content = '" . $data['content'] . "', type = '" . $data['type'] . "', nivo = '" . $data['nivo'] . "', page = '" . $data['pages'] . "' WHERE bid = '" . $data['bid'] . "'");
 
-    // Action
-    $texteaction = _ACTIONMODIFBLOCK . ': ' . $data['titre'];
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONMODIFBLOCK .': '. $data['titre']);
 
     echo '<div class="notification success png_bg">',"\n"
     . '<div>',"\n"
@@ -332,11 +321,8 @@ function modif_position_block($bid, $method)
     }
 
     $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET position = '" . $position . "' WHERE bid = '" . $bid . "'");
-        // Action
-    $texteaction = _ACTIONPOSBLOCK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPOSBLOCK .': '. $titre);
 
     echo '<div class="notification success png_bg">',"\n"
     . '<div>',"\n"

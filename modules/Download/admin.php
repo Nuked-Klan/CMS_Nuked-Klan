@@ -192,11 +192,8 @@ function send_file() {
     } else if ($url != "" && $titre != "") {
         $sql = mysql_query("INSERT INTO " . DOWNLOAD_TABLE . " ( `date` , `taille` , `titre` , `description` , `type` , `url` , `url2`  , `url3` , `level`, `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $date . "' , '" . $taille . "' , '" . $titre . "' , '" . $description . "' , '" . $cat . "' , '" . $url . "' , '" . $url2 . "' , '" . $url3 . "' , '" . $level ."' , '" . $autor . "' , '" . $site . "' , '" . $comp . "' , '" . $screen . "' )");
 
-        // Action
-        $texteaction = "". _ACTIONADDDL .": ".$titre."";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+        saveUserAction(_ACTIONADDDL .': '. $titre);
+
         echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . _FILEADD . "\n"
@@ -228,11 +225,9 @@ function del_file($did) {
     $sql = mysql_query("DELETE FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
     $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $did . "' AND module = 'Download'");
     $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $did . "' AND module = 'Download'");
-    // Action
-    $texteaction = "". _ACTIONDELDL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELDL .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _FILEDEL . "\n"
@@ -422,11 +417,9 @@ function modif_file() {
         echo "<br />" . _REPLACEIT . "<br /><br /><a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a></div><br /><br />";
     } else if ($url != "" && $titre != "") {
         $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', type = '" . $cat . "', count = '" . $count . "', url = '" . $url . "', url2 = '" . $url2 . "', url3 = '" . $url3 . "', taille = '" . $taille . "', level = '" . $level . "', edit = '" . $day . "', autor = '" . $autor . "', url_autor = '" . $site . "', comp = '" . $comp . "', screen = '" . $screen . "' WHERE id = '" . $did . "'");
-        // Action
-        $texteaction = "". _ACTIONMODIFDL .": ".$titre."";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+        saveUserAction(_ACTIONMODIFDL .': '. $titre);
+
         echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . _FILEEDIT . "\n"
@@ -515,11 +508,9 @@ function del_broke($did) {
     list($titre) = mysql_fetch_array($sql2);
     $titre = mysql_real_escape_string($titre);
     $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0 WHERE id = '" . $did . "'");
-    // Action
-    $texteaction = "". _ACTION1BROKEDL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTION1BROKEDL .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _FILEERASED . "\n"
@@ -531,11 +522,9 @@ function del_broke($did) {
 function del_broken() {
     global $nuked, $user;
     $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0");
-    // Action
-    $texteaction = "". _ACTIONALLBROKEDL .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONALLBROKEDL .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _LISTERASED . "\n"
@@ -795,11 +784,9 @@ function send_cat($titre, $description, $parentid, $level, $position) {
     $description = mysql_real_escape_string(stripslashes($description));
 
     $sql = mysql_query("INSERT INTO " . DOWNLOAD_CAT_TABLE . " ( `parentid` , `titre` , `description` , `level` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $level . "' , '" . $position . "' )");
-    // Action
-    $texteaction = "". _ACTIONADDCATDL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDCATDL .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATADD . "\n"
@@ -886,11 +873,9 @@ function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
     while (list($cat_id) = mysql_fetch_array($sql_cat)) {
         $sql_file2 = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cat_id . "'");
     }
-    // Action
-    $texteaction = "". _ACTIONMODIFCATDL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFCATDL .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATMODIF . "\n"
@@ -930,11 +915,9 @@ function del_cat($cid) {
     $sql = mysql_query("DELETE FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     $sql = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
     $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET type = 0 WHERE type = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELCATDL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCATDL .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATDEL . "\n"
@@ -978,11 +961,9 @@ function change_pref($max_download, $hide_download) {
 
     $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_download . "' WHERE name = 'max_download'");
     $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $hide_download . "' WHERE name = 'hide_download'");
-    // Action
-    $texteaction = _ACTIONMODIFPREFDL .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFPREFDL .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _PREFUPDATED . "\n"
@@ -1010,11 +991,8 @@ function modif_position($cid, $method) {
     if ($method == "up") $upd = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
     else if ($method == "down") $upd = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
 
-    // Action
-    $texteaction = "". _ACTIONPOSMODIFCATDL .": ".$titre."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '". mysql_real_escape_string($texteaction) ."')");
-    //Fin action
+    saveUserAction(_ACTIONPOSMODIFCATDL .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . _CATMODIF . "\n"

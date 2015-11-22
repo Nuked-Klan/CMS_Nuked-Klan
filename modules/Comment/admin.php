@@ -21,7 +21,7 @@ function edit_com($cid){
     $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
     list($auteur, $autor_id, $titre, $texte, $ip) = mysql_fetch_array($sql);
     $auteur = nkHtmlSpecialChars($auteur);
-    
+
     $titre = nkHtmlEntities($titre);
 
     if($autor_id != ""){
@@ -54,23 +54,21 @@ function edit_com($cid){
 
 function modif_com($cid, $titre, $texte){
     global $nuked, $user;
-    
+
     $texte = secu_html(nkHtmlEntityDecode($texte));
     $texte = mysql_real_escape_string(stripslashes($texte));
     $titre = mysql_real_escape_string(stripslashes($titre));
 
     $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFCOM .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFCOM .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _COMMENTMODIF . "\n"
             . "</div>\n"
             . "</div>\n";
-            
+
     redirect("index.php?file=Comment&page=admin", 2);
 }
 
@@ -78,17 +76,15 @@ function del_com($cid){
     global $nuked, $user;
 
     $sql = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELCOM .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCOM .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _COMMENTDEL . "\n"
             . "</div>\n"
             . "</div>\n";
-            
+
     redirect("index.php?file=Comment&page=admin", 2);
 }
 
@@ -184,23 +180,21 @@ function module_send_com($news, $download, $sections, $links, $wars, $gallery, $
     $sql5 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $wars . "' WHERE module = 'wars'");
     $sql6 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $gallery . "' WHERE module = 'gallery'");
     $sql7 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $survey . "' WHERE module = 'survey'");
-    // Action
-    $texteaction = "". _ACTIONMODIFCOMMOD .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFCOMMOD .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _COMMENTMODIFMOD . "\n"
             . "</div>\n"
             . "</div>\n";
-            
+
     redirect("index.php?file=Comment&page=admin&op=module_com", 2);
 }
 
 function module_com(){
     global $nuked, $language;
-    
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _COMMENTMOD . "</h3>\n"
             . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Comment.php\" rel=\"modal\">\n"

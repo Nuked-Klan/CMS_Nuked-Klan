@@ -102,18 +102,15 @@ function do_add($text){
     $text = mysql_real_escape_string(stripslashes($text));
 
     $sql = mysql_query("INSERT INTO " . IRC_AWARDS_TABLE . " ( `id` , `text` , `date` ) VALUES ( '' , '" . $text . "' , '" . $date . "' )");
-    
-    // Action
-    $texteaction = "". _ACTIONADDIRC .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDIRC .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _AWARDADD . "\n"
             . "</div>\n"
             . "</div>\n";
-            
+
         echo "<script>\n"
             ."setTimeout('screen()','3000');\n"
             ."function screen() { \n"
@@ -148,17 +145,15 @@ function do_edit($irc_id, $text){
     $text = mysql_real_escape_string(stripslashes($text));
 
     $upd = mysql_query("UPDATE " . IRC_AWARDS_TABLE . " SET text = '" . $text . "' WHERE id = '" . $irc_id . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFIRC .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFIRC .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _AWARDMODIF . "\n"
             . "</div>\n"
             . "</div>\n";
-            
+
     echo "<script>\n"
             ."setTimeout('screen()','3000');\n"
             ."function screen() { \n"
@@ -171,11 +166,9 @@ function del($irc_id){
     global $nuked, $user;
 
     $del = mysql_query("DELETE FROM " . IRC_AWARDS_TABLE . " WHERE id = '" . $irc_id . "'");
-    // Action
-    $texteaction = "". _ACTIONDELIRC .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELIRC .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _AWARDDELETE . "\n"
@@ -213,17 +206,15 @@ function change_pref($irc_chan, $irc_serv){
 
     $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $irc_chan . "' WHERE name = 'irc_chan'");
     $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $irc_serv . "' WHERE name = 'irc_serv'");
-    // Action
-    $texteaction = "". _ACTIONPREFIRC .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPREFIRC .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _PREFUPDATED . "\n"
             . "</div>\n"
             . "</div>\n";
-            
+
     redirect("index.php?file=Irc&page=admin", 2);
 } 
 

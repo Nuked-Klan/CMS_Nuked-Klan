@@ -173,11 +173,8 @@ function send_game($nom, $titre, $icon, $pref1, $pref2, $pref3, $pref4, $pref5, 
     $maps = mysql_real_escape_string(stripslashes($maps));
 
     $sql = mysql_query("INSERT INTO " . GAMES_TABLE . " ( `id` , `name` , `titre` , `icon` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5`, `map` ) VALUES ( '' , '" . $nom . "' , '" . $titre . "' , '" . $icon . "' , '" . $pref1 . "' , '" . $pref2 . "' , '" . $pref3 . "' , '" . $pref4 . "' , '" . $pref5 . "', '" . $maps . "')");
-    // Action
-    $texteaction = _ACTIONADDGAME . ': ' . $nom;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDGAME .': '. $nom);
 
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
@@ -314,11 +311,7 @@ function modif_game($game_id, $nom, $titre, $icon, $pref1, $pref2, $pref3, $pref
 
     $sql = mysql_query("UPDATE " . GAMES_TABLE . " SET name = '" . $nom . "', titre = '" . $titre . "', icon = '" . $icon . "', pref_1 = '" . $pref1 . "', pref_2 = '" . $pref2 . "', pref_3 = '" . $pref3 . "', pref_4 = '" . $pref4 . "', pref_5 = '" . $pref5 . "', map = '" . $maps . "' WHERE id = '" . $game_id . "'");
 
-    // Action
-    $texteaction = _ACTIONMODIFGAME . ': ' . $nom;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONMODIFGAME .': '. $nom);
 
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
@@ -337,11 +330,7 @@ function del_game($game_id)
 
     $sql = mysql_query("DELETE FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
 
-    // Action
-    $texteaction = "". _ACTIONDELGAME .": ".$name."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONDELGAME .': '. $name);
 
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"

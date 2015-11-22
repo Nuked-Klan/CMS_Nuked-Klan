@@ -7,8 +7,6 @@
  */
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $user, $nuked, $language;
-
 
 function getUserAvatar() {
     global $user;
@@ -39,7 +37,6 @@ function printAdminMenuCurrentClass($menuName) {
     )
         echo ' current';
 }
-
 
 function printAdminSubMenuCurrentClass($page) {
     if ($_REQUEST['file'] == 'Admin' && $_REQUEST['page'] == $page)
@@ -147,3 +144,14 @@ function printNotification($message, $url, $type = 'information', $back = true, 
     if ($redirect === true)
         redirect($url, 2);
 }
+
+function saveUserAction($action) {
+    global $user;
+
+    nkDB_insert(ACTION_TABLE,
+        array('date', 'pseudo', 'action'),
+        array(time(), $user['id'], $action)
+    );
+}
+
+?>

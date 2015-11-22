@@ -45,11 +45,9 @@ function modif_shout($mid, $texte)
     $texte = mysql_real_escape_string(stripslashes($texte));
 
     $sql = mysql_query("UPDATE " . TEXTBOX_TABLE . " SET texte = '" . $texte . "' WHERE id = '" . $mid . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFSHO .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFSHO .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _MESSEDIT . "\n"
@@ -63,11 +61,9 @@ function del_shout($mid)
     global $nuked, $user;
 
     $sql = mysql_query("DELETE FROM " . TEXTBOX_TABLE . " WHERE id = '" . $mid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELSHO .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELSHO .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _MESSDEL . "\n"
@@ -81,11 +77,9 @@ function del_all_shout()
     global $nuked, $user;
 
     $sql = mysql_query("DELETE FROM " . TEXTBOX_TABLE);
-    // Action
-    $texteaction = "". _ACTIONALLDELSHO .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONALLDELSHO .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _ALLMESSDEL . "\n"
@@ -228,11 +222,9 @@ function change_pref($max_shout, $textbox_avatar)
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_shout . "' WHERE name = 'max_shout'");
     $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $textbox_avatar . "' WHERE name = 'textbox_avatar'");
-    // Action
-    $texteaction = "". _ACTIONCONFSHO .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONCONFSHO .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _PREFUPDATED . "\n"

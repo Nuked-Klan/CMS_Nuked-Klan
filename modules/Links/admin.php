@@ -82,11 +82,9 @@ function add($titre, $description, $webmaster, $country, $cat, $url){
     }
 
     $sql = mysql_query("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` , `broke` ) VALUES ( '' , '" . $date . "' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $cat . "' , '" . $webmaster ."' , '" . $country . "' , '' , '' )");
-    // Action
-    $texteaction = _ACTIONADDLINK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDLINK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _LINKADD . "\n"
@@ -112,11 +110,8 @@ function del($link_id){
     $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $link_id . "' AND module = 'Links'");
     $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $link_id . "' AND module = 'Links'");
 
-    // Action
-    $texteaction = _ACTIONDELLINK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONDELLINK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _LINKDEL . "\n"
@@ -205,11 +200,9 @@ function modif_link($link_id, $titre, $description, $webmaster, $country, $cat, 
     }
 
     $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', webmaster = '" . $webmaster . "', country = '" . $country . "', cat = '" . $cat . "', count = '" . $count. "', url = '" . $url . "' WHERE id = '" . $link_id . "'");
-    // Action
-    $texteaction = _ACTIONEDITLINK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONEDITLINK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _LINKMODIF . "\n"
@@ -450,11 +443,9 @@ function send_cat($titre, $description, $parentid, $position){
     $description = mysql_real_escape_string(stripslashes($description));
 
     $sql = mysql_query("INSERT INTO " . LINKS_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $position . "' )");
-    // Action
-    $texteaction = _ACTIONADDCATLINK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDCATLINK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _CATADD . "\n"
@@ -527,11 +518,9 @@ function modif_cat($cid, $titre, $description, $parentid, $position){
     $description = mysql_real_escape_string(stripslashes($description));
 
     $sql = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
-        // Action
-    $texteaction = _ACTIONMODIFCATLINK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFCATLINK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _CATMODIF . "\n"
@@ -574,11 +563,9 @@ function del_cat($cid){
     $sql = mysql_query("DELETE FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     $sql = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
     $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET cat = 0 WHERE cat = '" . $cid . "'");
-    // Action
-    $texteaction = _ACTIONDELCATLINK . ': ' . $titre;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCATLINK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _CATDEL . "\n"
@@ -612,11 +599,9 @@ function change_pref($max_liens){
     global $nuked, $user;
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_liens . "' WHERE name = 'max_liens'");
-    // Action
-    $texteaction = _ACTIONCONFLINK;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONCONFLINK);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _PREFUPDATED . "\n"
@@ -644,11 +629,9 @@ function modif_position($cid, $method){
     }
     if ($method == "up") $upd = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
     else if ($method == "down") $upd = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONPOSLINK .": ".$titre ."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPOSLINK .': '. $titre);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _CATMODIF . "\n"
@@ -729,11 +712,9 @@ function del_broke($link_id){
     global $nuked, $user;
 
     $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET broke = 0 WHERE id = '" . $link_id . "'");
-    // Action
-    $texteaction = _ACTION1BROKELINK;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTION1BROKELINK);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _LINKERASED . "\n"
@@ -747,11 +728,9 @@ function del_broken(){
     global $nuked, $user;
 
     $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET broke = 0");
-    // Action
-    $texteaction = _ACTIONALLBROKELINK;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONALLBROKELINK);
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _LISTERASED . "\n"

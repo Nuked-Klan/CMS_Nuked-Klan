@@ -54,11 +54,9 @@ function modif_book($gid, $comment, $email, $url)
     }
 
     $sql = mysql_query("UPDATE " . GUESTBOOK_TABLE . " SET email = '" . $email . "', url = '" . $url . "', comment = '" . $comment . "' WHERE id = '" . $gid . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFBOOK .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFBOOK .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _POSTEDIT . "\n"
@@ -79,11 +77,9 @@ function del_book($gid)
     global $nuked, $user;
 
     $sql = mysql_query("DELETE FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELBOOK .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELBOOK .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _POSTDELETE . "\n"
@@ -205,11 +201,9 @@ function change_pref($mess_guest_page)
     global $nuked, $user;
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $mess_guest_page . "' WHERE name = 'mess_guest_page'");
-    // Action
-    $texteaction = "". _ACTIONPREFBOOK .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPREFBOOK .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _PREFUPDATED . "\n"

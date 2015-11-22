@@ -128,11 +128,9 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
     $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_charte . "' WHERE name = 'recrute_charte'");
     $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_mail . "' WHERE name = 'recrute_mail'");
     $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_inbox . "' WHERE name = 'recrute_inbox'");
-    // Action
-    $texteaction = "". _ACTIONPREFREC .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONPREFREC .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _PREFUPDATE . "\n"
@@ -193,11 +191,9 @@ function del($rid)
     global $nuked, $user;
 
     $del = mysql_query("DELETE FROM " . RECRUIT_TABLE . " WHERE id = '" . $rid ."'");
-    // Action
-    $texteaction = "". _ACTIONDELREC .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELREC .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _RECRUITDELETE . "\n"

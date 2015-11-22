@@ -209,11 +209,7 @@ function del()
 
     $sql = mysql_query('DELETE FROM ' . $nuked['prefix'] . '_stats_visitor');
 
-    // Action
-    $texteaction = _ACTIONDELSTATS;
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONDELSTATS);
 
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"

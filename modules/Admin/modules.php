@@ -86,11 +86,9 @@ function desactive($mid)
     $sql2 = mysql_query("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = mysql_fetch_array($sql2);
     $sql = mysql_query("UPDATE " . MODULES_TABLE . " SET niveau = -1, admin = -1 WHERE id = '" . $mid . "'");
-    // Action
-    $texteaction = "". _ACTIONDESMOD .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDESMOD .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _MODULEDISABLED . "\n"
@@ -107,11 +105,9 @@ function active($mid)
     $sql2 = mysql_query("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = mysql_fetch_array($sql2);
     $sql = mysql_query("UPDATE " . MODULES_TABLE . " SET niveau = 0, admin = 2 WHERE id = '" . $mid . "'");
-    // Action
-    $texteaction = "". _ACTIONACTMOD .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONACTMOD .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _MODULEENABLED . "\n"
@@ -131,11 +127,9 @@ function update_module($mid, $niveau, $level)
     $niveau = mysql_real_escape_string(stripslashes($niveau));
     $level = mysql_real_escape_string(stripslashes($level));
     $sql = mysql_query("UPDATE " . MODULES_TABLE . " SET niveau = '" . $niveau . "', admin = '" . $level . "' WHERE id = '" . $mid . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFMOD .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFMOD .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _MODULEMODIF . "\n"

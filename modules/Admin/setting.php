@@ -401,12 +401,9 @@ function save_config()
         $new_value = mysql_real_escape_string(stripslashes($new[$config_name]));
         $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $new_value . "' WHERE name = '" . $config_name . "'");
     }
-    // Action
-    $texteaction = "". _ACTIONSETTING ."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
-    
+
+    saveUserAction(_ACTIONSETTING);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _CONFIGSAVE . "\n"

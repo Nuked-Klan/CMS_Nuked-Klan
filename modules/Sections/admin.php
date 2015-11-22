@@ -264,11 +264,9 @@ function do_add($titre, $texte, $cat, $urlImage, $upImage){
         }
 
         $sql = mysql_query("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `coverage` , `autor` , `autor_id`, `counter` , `date`) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $texte . "' , '" . $url_image . "' , '" . $auteur . "' , '" . $auteur_id . "' , '' , '" . $date . "' )");
-        // Action
-        $texteaction = "". _ACTIONADDSEC .": ". $titre .".";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+        saveUserAction(_ACTIONADDSEC .': '. $titre .'.');
+
         echo "<div class=\"notification success png_bg\">\n"
                 . "<div>\n"
                 . "" . _ARTADD . "\n"
@@ -379,11 +377,9 @@ function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
         }
 
         $upd = mysql_query("UPDATE " . SECTIONS_TABLE . " SET secid = '" . $cat . "', title = '" . $titre . "', coverage = '" . $url_image . "', content = '" . $texte . "' WHERE artid = '" . $art_id . "'");
-        // Action
-        $texteaction = "". _ACTIONMODIFSEC .": ". $titre .".";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+        saveUserAction(_ACTIONMODIFSEC .': '. $titre .'.');
+
         echo "<div class=\"notification success png_bg\">\n"
                 . "<div>\n"
                 . "" . _ARTMODIF . "\n"
@@ -410,11 +406,9 @@ function del($art_id){
     $del = mysql_query("DELETE FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
     $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $art_id . "' AND module = 'Sections'");
     $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $art_id . "' AND module = 'Sections'");
-    // Action
-    $texteaction = "". _ACTIONDELSEC .": ". $titre .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELSEC .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _ARTDEL . "\n"
@@ -542,11 +536,9 @@ function send_cat($parentid, $titre, $description, $position){
         $position = intval($position);
 
         $sql = mysql_query("INSERT INTO " . SECTIONS_CAT_TABLE . " ( `parentid` , `secname` , `description`, `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description. "' , '" . $position ."' )");
-        // Action
-        $texteaction = "". _ACTIONADDCATSEC .": ". $titre .".";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+        saveUserAction(_ACTIONADDCATSEC .': '. $titre .'.');
+
         echo "<div class=\"notification success png_bg\">\n"
                 . "<div>\n"
                 . "" . _CATADD . "\n"
@@ -632,11 +624,9 @@ function modif_cat($cid, $parentid, $titre, $description, $position){
         $position = intval($position);
 
         $sql = mysql_query("UPDATE " . SECTIONS_CAT_TABLE . " SET parentid = '" . $parentid . "', secname = '" . $titre . "', description = '" . $description. "', position = '" . $position . "' WHERE secid = '" . $cid . "'");
-        // Action
-        $texteaction = "". _ACTIONMODIFCATSEC .": ". $titre .".";
-        $acdate = time();
-        $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-        //Fin action
+
+        saveUserAction(_ACTIONMODIFCATSEC .': '. $titre .'.');
+
         echo "<div class=\"notification success png_bg\">\n"
                 . "<div>\n"
                 . "" . _CATMODIF . "\n"
@@ -683,11 +673,9 @@ function del_cat($cid){
     $sql = mysql_query("DELETE FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     $sql = mysql_query("UPDATE " . SECTIONS_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
     $sql = mysql_query("UPDATE " . SECTIONS_TABLE . " SET secid = 0 WHERE secid = '" . $cid . "'");
-    // Action
-    $texteaction = "". _ACTIONDELCATSEC .": ". $titre .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELCATSEC .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _CATDEL . "\n"
@@ -722,11 +710,9 @@ function change_pref($max_sections){
     global $nuked, $user;
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_sections . "' WHERE name = 'max_sections'");
-    // Action
-    $texteaction = "". _ACTIONCONFSEC .".";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONCONFSEC .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _PREFUPDATED . "\n"
@@ -755,11 +741,8 @@ function modif_position($cid, $method){
     if ($method == "up") $upd = mysql_query("UPDATE " . SECTIONS_CAT_TABLE . " SET position = position - 1 WHERE secid = '" . $cid . "'");
     else if ($method == "down") $upd = mysql_query("UPDATE " . SECTIONS_CAT_TABLE . " SET position = position + 1 WHERE secid = '" . $cid . "'");
 
-    // Action
-    $texteaction = "". _ACTIONPOSSEC .": ". $titre ."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+    saveUserAction(_ACTIONPOSSEC .': '. $titre .'.');
+
     echo "<div class=\"notification success png_bg\">\n"
             . "<div>\n"
             . "" . _CATMODIF . "\n"

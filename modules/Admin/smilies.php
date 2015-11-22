@@ -179,11 +179,9 @@ function send_smiley($nom, $code, $url, $fichiernom)
     }
 
     $sql = mysql_query("INSERT INTO " . SMILIES_TABLE . " ( `id` , `code` , `url` , `name` ) VALUES ( '' , '" . $code . "' , '" . $filename . "' , '" . $nom . "')");
-    // Action
-    $texteaction = "". _ACTIONADDSMILEY .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONADDSMILEY .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _SMILEYSUCCES . "\n"
@@ -305,11 +303,9 @@ function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
     }
 
     $sql = mysql_query("UPDATE " . SMILIES_TABLE . " SET code = '" . $code . "', url = '" . $filename . "', name = '" . $nom . "' WHERE id = '" . $smiley_id . "'");
-    // Action
-    $texteaction = "". _ACTIONMODIFSMILEY .": ".$nom."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONMODIFSMILEY .': '. $nom);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _SMILEYMODIF . "\n"
@@ -325,11 +321,9 @@ function del_smiley($smiley_id)
     $sql2 = mysql_query("SELECT name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
     list($name) = mysql_fetch_array($sql2);
     $sql = mysql_query("DELETE FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
-    // Action
-    $texteaction = "". _ACTIONDELSMILEY .": ".$name."";
-    $acdate = time();
-    $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-    //Fin action
+
+    saveUserAction(_ACTIONDELSMILEY .': '. $name);
+
     echo "<div class=\"notification success png_bg\">\n"
     . "<div>\n"
     . "" . _SMILEYDELETE . "\n"
