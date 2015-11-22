@@ -611,7 +611,7 @@ function main_rank(){
     . "function delrank(titre, id)\n"
     . "{\n"
     . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=del_rank&rid='+id;}\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteRank&rid='+id;}\n"
     . "}\n"
         . "\n"
     . "// -->\n"
@@ -728,23 +728,21 @@ function send_rank($nom, $type, $post, $image, $upImageRank){
     redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
 }
 
-function del_rank($rid){
-    global $nuked, $user;
+function deleteRank(){
+    $id = (isset($_GET['rid'])) ? $_GET['rid'] : 0;
 
-    $sqlr = mysql_query("SELECT nom FROM " . FORUM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-    list($nom) = mysql_fetch_array($sqlr);
-    $nom = mysql_real_escape_string($nom);
-    $sql = mysql_query("DELETE FROM " . FORUM_RANK_TABLE . " WHERE id = '" . $rid . "'");
+    $dbrForumRank = nkDB_selectOne(
+        'SELECT nom
+        FROM '. FORUM_RANK_TABLE .'
+        WHERE id = '. nkDB_escape($id)
+    );
 
-    saveUserAction(_ACTIONDELRANKFO .': '. $nom);
+    nkDB_delete(FORUM_RANK_TABLE, 'id = '. nkDB_escape($id));
+    saveUserAction(_ACTIONDELRANKFO .': '. $dbrForumRank['nom']);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _RANKDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification('success', _RANKDEL);
 
-    redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
+    redirect('index.php?file=Forum&page=admin&op=main_rank', 2);
 }
 
 function edit_rank($rid){
@@ -1175,8 +1173,8 @@ switch ($_REQUEST['op']) {
         send_rank($_REQUEST['nom'], $_REQUEST['type'], $_REQUEST['post'], $_REQUEST['image'], $_REQUEST['upImageRank']);
         break;
 
-    case "del_rank":
-        del_rank($_REQUEST['rid']);
+    case 'deleteRank' :
+        deleteRank();
         break;
 
     case "edit_rank":
