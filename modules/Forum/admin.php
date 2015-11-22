@@ -538,31 +538,43 @@ function main_rank(){
         . "<td style=\"width: 25%;\" align=\"center\">" . $name . "</td>\n"
         . "<td style=\"width: 25%;\" align=\"center\">" . $type_name . "</td>\n"
         . "<td style=\"width: 20%;\" align=\"center\">" . $nb_post . "</td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=edit_rank&amp;rid=" . $rid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISRANK . "\" /></a></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=editRank&amp;id=" . $rid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISRANK . "\" /></a></td>\n"
         . "<td style=\"width: 15%;\" align=\"center\">" . $del . "</td></tr>\n";
     }
 
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=add_rank\">" . _ADDRANK . "</a><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=editRank\">" . _ADDRANK . "</a><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
     . "<br /></div></div>\n";
 }
 
-function add_rank(){
-    global $language;
+function editRank() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/Forum/config/rank.php';
 
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _ADDRANK . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_rank\" enctype=\"multipart/form-data\">\n"
-    . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-    . "<tr><td><b>" . _NAME . " : </b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"image\" value=\"http://\" size=\"42\" maxlength=\"200\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImageRank\" /></td></tr>\n"
-    . "<tr><td><b>" . _MESSAGES . " :</b> <input type=\"text\" name=\"post\" size=\"4\" value=\"0\" maxlength=\"5\" /></td></tr>\n"
-    . "<tr><td>&nbsp;<input type=\"hidden\" name=\"type\" value=\"0\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATERANK . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _BACK . "</a></div>\n"
-    . "</form><br /></div></div>\n";
+    $id         = (isset($_GET['rid'])) ? $_GET['rid'] : 0;
+    $content    = '';
+
+    if ($id > 0) {
+        $dbrForumRank = nkDB_selectOne(
+            'SELECT *
+            FROM '. FORUM_RANK_TABLE .'
+            WHERE id = '. nkDB_escape($id)
+        );
+
+        foreach ($forumRankField as $field)
+            $forumRankForm['items'][$field]['value'] = $dbrForumRank[$field];
+
+        if ($dbrForumRank['type'] != 0){
+            $forumRankForm['items']['type']['type'] = 'hidden';
+        }
+
+        $forumRankForm['itemsFooter']['submit']['value'] = _MODIFTHISRANK;
+    }
+
+    echo applyTemplate('contentBox', array(
+        'title'     => ($id == 0) ? _ADMINFORUM .' - '. _ADDRANK : _ADMINFORUM .' - '. _EDITTHISRANK,
+        'helpFile'  => 'Forum',
+        'content'   => nkForm_generate($forumRankForm)
+    ));
 }
 
 function send_rank($nom, $type, $post, $image, $upImageRank){
@@ -578,13 +590,13 @@ function send_rank($nom, $type, $post, $image, $upImageRank){
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Forum/rank/" . $filename;
             if (! move_uploaded_file($_FILES['upImageRank']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_rank', $type = 'error', $back = false, $redirect = true);
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=editRank', $type = 'error', $back = false, $redirect = true);
                 return;
             }
             @chmod ($url_image, 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=add_rank', $type = 'error', $back = false, $redirect = true);
+            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=editRank', $type = 'error', $back = false, $redirect = true);
             return;
         }
     }
@@ -622,35 +634,6 @@ function deleteRank() {
     redirect('index.php?file=Forum&page=admin&op=main_rank', 2);
 }
 
-function edit_rank($rid){
-    global $language, $nuked;
-
-    $sql = mysql_query("SELECT nom, type, post, image FROM " . FORUM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-    list($nom, $type, $post, $image) = mysql_fetch_array($sql);
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _EDITTHISRANK . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_rank\" enctype=\"multipart/form-data\">\n"
-    . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-    . "<tr><td><b>" . _NAME . " : </b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $nom . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"image\" value=\"" . $image . "\" size=\"38\" maxlength=\"200\" /><img src=\"" . $image . "\" title=\"" . $nom . "\" style=\"margin-left:20px;\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImageRank\" />\n";
-
-    if ($type == 0){
-        echo "</td></tr><tr><td><b>" . _MESSAGES . " :</b> <input type=\"text\" name=\"post\" size=\"4\" value=\"" . $post . "\" maxlength=\"5\" /></td></tr>\n";
-    }
-    else{
-        echo "<input type=\"hidden\" name=\"post\" value=\"" . $post . "\" /></td></tr>\n";
-    }
-
-    echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"type\" value=\"" . $type . "\" /><input type=\"hidden\" name=\"rid\" value=\"" . $rid . "\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISRANK . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=main_rank\">" . _BACK . "</a></div>\n"
-    . "</form><br /></div></div>\n";
-}
-
 function modif_rank($rid, $nom, $type, $post, $image, $upImageRank){
     global $nuked, $user;
 
@@ -664,13 +647,13 @@ function modif_rank($rid, $nom, $type, $post, $image, $upImageRank){
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Forum/rank/" . $filename;
             if (! move_uploaded_file($_FILES['upImageRank']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_rank', $type = 'error', $back = false, $redirect = true);
+                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=editRank', $type = 'error', $back = false, $redirect = true);
                 return;
             }
             @chmod ($url_image, 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=edit_rank', $type = 'error', $back = false, $redirect = true);
+            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=editRank', $type = 'error', $back = false, $redirect = true);
             return;
         }
     }
@@ -1011,8 +994,8 @@ switch ($_REQUEST['op']) {
         main_rank();
         break;
 
-    case "add_rank":
-        add_rank();
+    case 'editRank' :
+        editRank();
         break;
 
     case "send_rank":
@@ -1021,10 +1004,6 @@ switch ($_REQUEST['op']) {
 
     case 'deleteRank' :
         deleteRank();
-        break;
-
-    case "edit_rank":
-        edit_rank($_REQUEST['rid']);
         break;
 
     case "modif_rank":
