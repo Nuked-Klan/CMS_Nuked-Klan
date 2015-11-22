@@ -137,14 +137,14 @@ function saveForumCat() {
 
     if ($id == 0) {
         nkDB_insert(FORUM_CAT_TABLE, array_keys($data), array_values($data));
-        saveUserAction(_ACTIONADDCATFO .': '. $nom);
+        saveUserAction(_ACTIONADDCATFO .': '. $data['nom']);
 
         printNotification('success', _CATADD);
     }
     else {
-        nkDB_update(FORUM_CAT_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($cid));
-        nkDB_update(FORUM_TABLE, array('niveau'), array($niveau), 'cat = '. nkDB_escape($cid));
-        saveUserAction(_ACTIONMODIFCATFO .': '. $nom);
+        nkDB_update(FORUM_CAT_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        nkDB_update(FORUM_TABLE, array('niveau'), array($data['niveau']), 'cat = '. nkDB_escape($id));
+        saveUserAction(_ACTIONMODIFCATFO .': '. $data['nom']);
 
         printNotification('success', _CATMODIF);
     }
@@ -270,44 +270,76 @@ function editForum() {
     ));
 }
 
-function send_forum($titre, $description, $cat, $modo, $niveau, $level, $ordre, $level_poll, $level_vote, $urlImageForum, $upImageForum){
-    global $nuked, $user;
+function saveForum() {
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
-    $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $data = array(
+        'nom'           => stripslashes($_POST['titre']),
+        'comment'       => stripslashes(secu_html(nkHtmlEntityDecode($_POST['description']))),
+        'cat'           => $_POST['cat'],
+        'moderateurs'   => $_POST['modo'],
+        'niveau'        => $_POST['niveau'],
+        'level'         => $_POST['level'],
+        'ordre'         => $_POST['ordre']
+        'level_poll'    => $_POST['level_poll'],
+        'level_vote'    => $_POST['level_vote']
+    );
 
-    //Upload du fichier
+    // Upload du fichier
     $filename = $_FILES['upImageForum']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/cat/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=editForum', $type = 'error', $back = false, $redirect = true);
+    if ($filename != '') {
+        $imgInfo = getimagesize($filename);
+
+        if ($imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG))) {
+            $data['image'] = 'upload/Forum/cat/'. $filename;
+
+            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $data['image'])) {
+                printNotification('error', _UPLOADFILEFAILED);
+                redirect('index.php?file=Forum&page=admin&op=editForum'. ($id > 0) ? '&id='. $id : '', 2);
                 return;
             }
-            @chmod ($url_image, 0644);
+
+            @chmod($data['image'], 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=editForum', $type = 'error', $back = false, $redirect = true);
+            printNotification('error', _NOIMAGEFILE);
+            redirect('index.php?file=Forum&page=admin&op=editForum'. ($id > 0) ? '&id='. $id : '', 2);
             return;
         }
     }
     else {
-        $url_image = $urlImageForum;
+        $data['image'] = $_POST['urlImageForum'];
     }
 
-    $sql = mysql_query("INSERT INTO " . FORUM_TABLE . " ( `id` , `cat` , `nom` , `comment` , `moderateurs` , `image` , `niveau` , `level` , `ordre` , `level_poll` , `level_vote` ) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $description . "' , '" . $modo . "' , '" . $url_image . "' , '" . $niveau . "' , '" . $level . "' , '" . $ordre . "' , '" . $level_poll . "' , '" . $level_vote . "' )");
+    if ($id == 0) {
+        nkDB_insert(FORUM_TABLE, array_keys($data), array_values($data));
+        saveUserAction(_ACTIONADDFO .': '. $data['nom']);
 
-    saveUserAction(_ACTIONADDFO .': '. $titre);
+        printNotification('success', _FORUMADD);
+    }
+    else {
+        if ($data['moderateurs'] != '') {
+            $dbrForum = nkDB_selectOne(
+                'SELECT moderateurs
+                FROM '. FORUM_TABLE .'
+                WHERE id = '. nkDB_escape($id)
+            );
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _FORUMADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
+            if ($dbrForum['moderateurs'] != '')
+                $modos = $dbrForum['moderateurs'] .'|'. $data['moderateurs'];
+            else
+                $modos = $data['moderateurs'];
+
+            nkDB_update(FORUM_TABLE, array_keys('moderateurs'), array_values($modos), 'id = '. nkDB_escape($id));
+        }
+
+        nkDB_update(FORUM_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        saveUserAction(_ACTIONMODIFFO .': '. $data['nom']);
+
+        printNotification('success', _FORUMMODIF);
+    }
+
     echo "<script>\n"
         ."setTimeout('screen()','3000');\n"
         ."function screen() { \n"
@@ -357,62 +389,6 @@ function deleteForum() {
         ."setTimeout('screen()','3000');\n"
         ."function screen() { \n"
         ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
-        ."}\n"
-        ."</script>\n";
-}
-
-function modif_forum($id, $titre, $cat, $description, $niveau, $level, $ordre, $level_poll, $level_vote, $modo, $urlImageForum, $upImageForum){
-    global $nuked, $user;
-
-    $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
-
-    //Upload du fichier
-    $filename = $_FILES['upImageForum']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/cat/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=editForum', $type = 'error', $back = false, $redirect = true);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=editForum', $type = 'error', $back = false, $redirect = true);
-            return;
-        }
-    }
-    else {
-        $url_image = $urlImageForum;
-    }
-
-    if ($modo != ""){
-        $sql = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $id . "'");
-        list($listmodo) = mysql_fetch_row($sql);
-
-        if ($listmodo != "") $modos = $listmodo . "|" . $modo;
-        else $modos = $modo;
-
-        $upd_modo = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $modos . "' WHERE id = '" . $id . "'");
-    }
-
-    $upd = mysql_query("UPDATE " . FORUM_TABLE . " SET nom = '" . $titre . "', comment = '" . $description . "', cat = '" . $cat . "', image = '" . $url_image . "', niveau = '" . $niveau . "', level = '" . $level . "', ordre = '" . $ordre . "', level_poll = '" . $level_poll . "', level_vote = '" . $level_vote . "' WHERE id = '" . $id . "'");
-
-    saveUserAction(_ACTIONMODIFFO .': '. $titre);
-
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _FORUMMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin');\n"
         ."}\n"
         ."</script>\n";
 }
@@ -1004,8 +980,8 @@ switch ($_REQUEST['op']) {
         editForum();
         break;
 
-    case "modif_forum":
-        modif_forum($_REQUEST['id'], $_REQUEST['titre'], $_REQUEST['cat'], $_REQUEST['description'], $_REQUEST['niveau'], $_REQUEST['level'], $_REQUEST['ordre'], $_REQUEST['level_poll'], $_REQUEST['level_vote'], $_REQUEST['modo'], $_REQUEST['urlImageForum'], $_REQUEST['upImageForum']);
+    case 'saveForum' :
+        saveForum();
         break;
 
     case "del_modo":
@@ -1030,10 +1006,6 @@ switch ($_REQUEST['op']) {
 
     case 'deleteForum' :
         deleteForum();
-        break;
-
-    case "send_forum":
-        send_forum($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['cat'], $_REQUEST['modo'], $_REQUEST['niveau'], $_REQUEST['level'], $_REQUEST['ordre'], $_REQUEST['level_poll'], $_REQUEST['level_vote'], $_REQUEST['urlImageForum'], $_REQUEST['upImageForum']);
         break;
 
     case "main_rank":
