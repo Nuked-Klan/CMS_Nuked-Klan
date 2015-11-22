@@ -19,114 +19,132 @@ function main_cat(){
     global $nuked, $language;
 
     echo "<script type=\"text/javascript\">\n"
-."<!--\n"
-."\n"
-. "function delcat(titre, id)\n"
-. "{\n"
-. "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-. "{document.location.href = 'index.php?file=Forum&page=admin&op=del_cat&cid='+id;}\n"
-. "}\n"
+    ."<!--\n"
+    ."\n"
+    . "function delcat(titre, id)\n"
+    . "{\n"
+    . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteForumCat&cid='+id;}\n"
+    . "}\n"
     . "\n"
-. "// -->\n"
-. "</script>\n";
+    . "// -->\n"
+    . "</script>\n";
 
-echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _CATMANAGEMENT . "</h3>\n"
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-. "</div></div>\n"
-. "<div class=\"tab-content\" id=\"tab2\">\n";
+    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+    . "</div></div>\n"
+    . "<div class=\"tab-content\" id=\"tab2\">\n";
 
     nkAdminMenu(3);
 
-echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-. "<tr>\n"
-. "<td style=\"width: 50%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-. "<td style=\"width: 10%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
-. "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-. "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
+    echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    . "<tr>\n"
+    . "<td style=\"width: 50%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
+    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = mysql_query("SELECT id, nom, ordre FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
     while (list($cid, $nom, $ordre) = mysql_fetch_row($sql)){
         $nom = printSecuTags($nom);
 
-        
         echo "<tr>\n"
         . "<td align=\"center\">" . $nom . "</td>\n"
         . "<td align=\"center\">" . $ordre . "</td>\n"
-        . "<td align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=edit_cat&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
+        . "<td align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=editCat&amp;id=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
         . "<td align=\"center\"><a href=\"javascript:delcat('" . mysql_real_escape_string(stripslashes($nom)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
     }
 
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
-. "<br /></div></div>\n";
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=editCat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
+    . "<br /></div></div>\n";
 }
 
-function add_cat(){
-    global $language;
 
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _ADDCAT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=send_cat\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-    . "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" /></td></tr>\n"
-    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImageCat\" size=\"42\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImageCat\" /></td></tr>\n"
-    . "<tr><td><b>" . _NIVEAU . " :</b> <select name=\"niveau\">\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>"
-    . "&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" value=\"0\" size=\"2\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>"
-    . "</form><br /></div></div>\n";
+function editForumCat() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/Forum/config/category.php';
+
+    $id         = (isset($_GET['cid'])) ? $_GET['cid'] : 0;
+    $content    = '';
+
+    if ($id > 0) {
+        $dbrForumCat = nkDB_selectOne(
+            'SELECT *
+            FROM '. FORUM_CAT_TABLE .'
+            WHERE id = '. nkDB_escape($id)
+        );
+
+        foreach ($forumCatField as $field)
+            $forumCatForm['items'][$field]['value'] = $dbrForumCat[$field];
+
+        if ($dbrForumCat['image'] !='') {
+            $content .= printNotification('information', _NOTIFIMAGESIZE, $backLink = false, $return = true);
+
+            array_unshift($forumCatForm['items'],
+                array('html' => '<img src="'. $dbrForumCat['image'] .'" style="max-width:100%;height:auto;"/>')
+            );
+        }
+    }
+
+    echo applyTemplate('contentBox', array(
+        'title'     => ($id == 0) ? _ADMINFORUM .' - '. _ADDCAT : _CATMANAGEMENT .' - '. _EDITTHISCAT,
+        'helpFile'  => 'Forum',
+        'content'   => $content . nkForm_generate($forumCatForm)
+    ));
 }
 
-function send_cat($nom, $niveau, $ordre, $urlImageCat, $upImageCat){
-    global $nuked, $user;
+function saveForumCat() {
+    $id = (isset($_GET['cid'])) ? $_GET['cid'] : 0;
 
-    $nom = mysql_real_escape_string(stripslashes($nom));
+    $data = array(
+        'nom'       => $_POST['nom'],
+        'niveau'    => $_POST['niveau'],
+        'ordre'     => $_POST['ordre']
+    );
 
-    //Upload du fichier
+    // Upload du fichier
     $filename = $_FILES['upImageCat']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/cat/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=add_cat', $type = 'error', $back = false, $redirect = true);
+    if ($filename != '') {
+        $imgInfo = getimagesize($filename);
+
+        if ($imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG))) {
+            $data['image'] = 'upload/Forum/cat/'. $filename;
+
+            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $data['image'])) {
+                printNotification('error', _UPLOADFILEFAILED);
+                redirect('index.php?file=Forum&page=admin&op=editCat'. ($id > 0) ? '&cid='. $id : '', 2);
                 return;
             }
-            @chmod ($url_image, 0644);
+
+            @chmod($data['image'], 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=add_cat', $type = 'error', $back = false, $redirect = true);
+            printNotification('error', _NOIMAGEFILE);
+            redirect('index.php?file=Forum&page=admin&op=editCat'. ($id > 0) ? '&cid='. $id : '', 2);
             return;
         }
     }
     else {
-        $url_image = $urlImageCat;
+        $data['image'] = $_POST['urlImageCat'];
     }
 
-    $sql = mysql_query("INSERT INTO " . FORUM_CAT_TABLE . " ( `id` , `nom` , `image` , `ordre` , `niveau` ) VALUES ( '' , '" . $nom . "' , '" . $url_image . "' , '" . $ordre . "' , '" . $niveau . "' )");
+    if ($id == 0) {
+        nkDB_insert(FORUM_CAT_TABLE, array_keys($data), array_values($data));
+        saveUserAction(_ACTIONADDCATFO .': '. $nom);
 
-    saveUserAction(_ACTIONADDCATFO .': '. $nom);
+        printNotification('success', _CATADD);
+    }
+    else {
+        nkDB_update(FORUM_CAT_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($cid));
+        nkDB_update(FORUM_TABLE, array('niveau'), array($niveau), 'cat = '. nkDB_escape($cid));
+        saveUserAction(_ACTIONMODIFCATFO .': '. $nom);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _CATADD . "\n"
-    . "</div>\n"
-    . "</div>\n";
+        printNotification('success', _CATMODIF);
+    }
+
     echo "<script>\n"
         ."setTimeout('screen()','3000');\n"
         ."function screen() { \n"
@@ -135,104 +153,20 @@ function send_cat($nom, $niveau, $ordre, $urlImageCat, $upImageCat){
         ."</script>\n";
 }
 
-function del_cat($cid){
-    global $nuked, $user;
+function deleteForumCat($cid) {
+    $id = (isset($_GET['cid'])) ? $_GET['cid'] : 0;
 
-    $sql2 = mysql_query("SELECT nom FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
-    list($nom) = mysql_fetch_array($sql2);
-    $nom = mysql_real_escape_string($nom);
-    $sql = mysql_query("DELETE FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
+    $dbrForumCat = nkDB_selectOne(
+        'SELECT nom
+        FROM '. FORUM_CAT_TABLE .'
+        WHERE id = '. nkDB_escape($id)
+    );
 
-    saveUserAction(_ACTIONDELCATFO .': '. $nom);
+    nkDB_delete(FORUM_CAT_TABLE, 'id = '. nkDB_escape($cid));
+    saveUserAction(_ACTIONDELCATFO .': '. $dbrForumCat['nom']);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _CATDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-        ."}\n"
-        ."</script>\n";
-}
+    printNotification('success', _CATDEL);
 
-function edit_cat($cid){
-    global $nuked, $language;
-
-    $sql = mysql_query("SELECT nom, image, niveau, ordre FROM " . FORUM_CAT_TABLE . " WHERE id = '" . $cid . "'");
-    list($nom, $cat_image, $niveau, $ordre) = mysql_fetch_array($sql);
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _CATMANAGEMENT . " - " . _EDITTHISCAT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n";
-    
-    if ($cat_image !='') {
-        printNotification(_NOTIFIMAGESIZE, '#', $type = 'information', $back = false, $redirect = false);
-        echo "<tr><td><img src=\"" . $cat_image . "\" style=\"max-width:100%;height:auto;\"/></td></tr>";
-    }
-
-    echo "<tr><td><b>" . _NAME . " :</b> <input type=\"text\" name=\"nom\" size=\"30\" value=\"" . $nom . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImageCat\" size=\"42\" value=\"" . $cat_image . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImageCat\" /></td></tr>\n"
-    . "<tr><td><b>" . _NIVEAU . " :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select>"
-    . "&nbsp;<b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" value=\"" . $ordre . "\" size=\"2\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>"
-    . "</form><br /></div></div>";
-}
-
-function modif_cat($cid, $nom, $niveau, $ordre, $urlImageCat, $upImageCat){
-    global $nuked, $user;
-
-    $nom = mysql_real_escape_string(stripslashes($nom));
-
-    //Upload du fichier
-    $filename = $_FILES['upImageCat']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/cat/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=edit_cat', $type = 'error', $back = false, $redirect = true);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=edit_cat', $type = 'error', $back = false, $redirect = true);
-            return;
-        }
-    }
-    else {
-        $url_image = $urlImageCat;
-    }
-
-    $sql = mysql_query("UPDATE " . FORUM_CAT_TABLE . " SET nom = '" . $nom . "', image = '" . $url_image . "', niveau = '" . $niveau . "', ordre = '" . $ordre . "' WHERE id = '" . $cid . "'");
-    $sql_forum = mysql_query("UPDATE " . FORUM_TABLE . " SET niveau = '" . $niveau . "' WHERE cat = '" . $cid . "'");
-
-    saveUserAction(_ACTIONMODIFCATFO .': '. $nom);
-
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _CATMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
     echo "<script>\n"
         ."setTimeout('screen()','3000');\n"
         ."function screen() { \n"
@@ -407,6 +341,7 @@ function del_forum($id){
         . "" . _FORUMDEL . "\n"
         . "</div>\n"
         . "</div>\n";
+
     echo "<script>\n"
         ."setTimeout('screen()','3000');\n"
         ."function screen() { \n"
@@ -801,6 +736,7 @@ function del_rank($rid){
     . "" . _RANKDEL . "\n"
     . "</div>\n"
     . "</div>\n";
+
     redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
 }
 
@@ -1196,28 +1132,20 @@ switch ($_REQUEST['op']) {
         del_modo($_REQUEST['uid'], $_REQUEST['forum_id']);
         break;
 
-    case "send_cat":
-        send_cat($_REQUEST['nom'], $_REQUEST['niveau'], $_REQUEST['ordre'], $_REQUEST['urlImageCat'], $_REQUEST['upImageCat']);
-        break;
-
-    case "add_cat":
-        add_cat();
-        break;
-
     case "main_cat":
         main_cat();
         break;
 
-    case "edit_cat":
-        edit_cat($_REQUEST['cid']);
+    case 'editCat' :
+        editForumCat();
         break;
 
-    case "modif_cat":
-        modif_cat($_REQUEST['cid'], $_REQUEST['nom'], $_REQUEST['niveau'], $_REQUEST['ordre'], $_REQUEST['urlImageCat'], $_REQUEST['upImageCat']);
+    case 'saveCat' :
+        saveForumCat();
         break;
 
-    case "del_cat":
-        del_cat($_REQUEST['cid']);
+    case 'deleteCat' :
+        deleteForumCat();
         break;
 
     case "del_forum":
