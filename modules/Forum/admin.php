@@ -698,47 +698,64 @@ function prune() {
     ));
 }
 
-function do_prune($day, $forum_id){
-    global $nuked, $user;
-    
-    $sql_forum = mysql_query("SELECT nom FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
-    list($nom) = mysql_fetch_array($sql_forum);
-    
-    $prunedate = time() - (86400 * $day);
-    
-    if (is_int(strpos($forum_id, "cat_"))){
-        $cat = preg_replace("`cat_`i", "", $forum_id);
-        $and = "AND cat = '" . $cat . "'";
+function doPrune() {
+    $prunedate = time() - (86400 * $_POST['day']);
+
+    if (strpos($_POST['prune_id'], 'cat_') === 0) {
+        $cat = str_replace('cat_', '', $_POST['prune_id']);
+        $and = 'AND cat = '. nkDB_escape($cat);
+
+        $dbrForumCat = nkDB_selectMany(
+            'SELECT nom
+            FROM '. FORUM_CAT_TABLE .'
+            WHERE id = '. nkDB_escape($cat)
+        );
+
+        $name = $dbrForumCat['nom'];
     }
-    else if ($forum_id != ""){
-        $and = "AND forum_id = '" . $forum_id . "'";
+    else if ($_POST['prune_id'] != '') {
+        $and = 'AND forum_id = '. nkDB_escape($_POST['prune_id']);
+
+        $dbrForum = nkDB_selectMany(
+            'SELECT nom
+            FROM '. FORUM_TABLE .'
+            WHERE id = '. nkDB_escape($_POST['prune_id'])
+        );
+
+        $name = $dbrForum['nom'];
     }
-    else{
-        $and = "";
+    else {
+        $and    = '';
+        $name   = _ALL;
     }
-    
-    $sql = mysql_query("SELECT id, sondage FROM " . FORUM_THREADS_TABLE . " WHERE " . $prunedate . " >= last_post AND annonce = 0 " . $and);
-    while (list($thread_id, $sondage) = mysql_fetch_row($sql)){
-        if ($sondage == 1){
-            $sql_poll = mysql_query("SELECT id FROM " . FORUM_POLL_TABLE . " WHERE thread_id = '" . $thread_id . "'");
-            list($poll_id) = mysql_fetch_row($sql_poll);
-            $del1 = mysql_query("DELETE FROM " . FORUM_POLL_TABLE . " WHERE id = '" . $poll_id . "'");
-            $del2 = mysql_query("DELETE FROM " . FORUM_OPTIONS_TABLE . " WHERE poll_id = '" . $poll_id . "'");
-            $del3 = mysql_query("DELETE FROM " . FORUM_VOTE_TABLE . " WHERE poll_id = '" . $poll_id . "'");
+
+    $dbrForumThreads = nkDB_selectMany(
+        'SELECT id, sondage
+        FROM '. FORUM_THREADS_TABLE .'
+        WHERE '. $prunedate .' >= last_post AND annonce = 0 '. $and
+    );
+
+    foreach ($dbrForumThreads as $forumThreads) {
+        if ($forumThreads['sondage'] == 1) {
+            $dbrForumPoll = nkDB_selectMany(
+                'SELECT id
+                FROM '. FORUM_POLL_TABLE .'
+                WHERE thread_id = '. nkDB_escape($forumThreads['id'])
+            );
+
+            nkDB_delete(FORUM_POLL_TABLE, 'id = '. nkDB_escape($dbrForumPoll['id']));
+            nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
+            nkDB_delete(FORUM_VOTE_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
         }
 
-        mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
-        mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
+        nkDB_delete(FORUM_MESSAGES_TABLE, 'thread_id = '. nkDB_escape($forumThreads['id']));
+        nkDB_delete(FORUM_THREADS_TABLE, 'id = '. nkDB_escape($forumThreads['id']));
     }
 
-    saveUserAction(_ACTIONPRUNEFO .': '. $nom);
+    saveUserAction(_ACTIONPRUNEFO .': '. $name);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" .  _FORUMPRUNE . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Forum&page=admin", 2);
+    printNotification('success', _FORUMPRUNE);
+    redirect('index.php?file=Forum&page=admin', 2);
 }
 
 /* Forum settings management */
@@ -984,8 +1001,8 @@ switch ($_REQUEST['op']) {
         prune();
         break;
 
-    case "do_prune":
-        do_prune($_REQUEST['day'], $_REQUEST['forum_id']);
+    case 'doPrune' :
+        doPrune();
         break;
 
     case "main_pref":
