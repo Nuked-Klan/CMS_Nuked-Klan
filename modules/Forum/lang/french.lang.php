@@ -1,6 +1,4 @@
 <?php
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_NOACCESSFORUM","Désolé vous n'avez pas accès a ce forum");
 define("_NOTOPICEXIST","Désolé ce topic n'existe pas ou a été supprimé");
 define("_FORUMS","Forums");
@@ -74,14 +72,14 @@ define("_TOPICLOCK","Fermer le sujet");
 define("_TOPICUNLOCK","Ouvrir le sujet");
 define("_REPLYQUOTE","Répondre en citant");
 define("_QUOTE","Citation");
-define("_BY","par");
+
 define("_EDITMESSAGE","Editer ce message");
 define("_DELMESSAGE","Supprimer ce message");
 define("_TITLE","Titre");
 define("_POSTNEWTOPIC","Poster un nouveau sujet");
 define("_POSTREPLY","Poster une réponse");
 define("_POSTEDIT","Editer le sujet");
-define("_SEND","Envoyer");
+
 define("_SMILEY","Smilies");
 define("_THE","le");
 define("_EDITBY","Edité par");
@@ -123,7 +121,7 @@ define("_FSEARCHRESULT","Résultats de la recherche");
 define("_SEARCH","Recherche");
 define("_SEARCHING","Rechercher");
 define("_ADVANCEDSEARCH","Recherche avancée");
-define("_DATE","Date");
+
 define("_FSEARCHFOUND","réponse(s) trouvée(s) pour");
 define("_FNOSEARCHFOUND","Aucune réponse trouvée pour");
 define("_FNOLASTVISITMESS","Aucun message posté depuis votre dernière visite");
@@ -139,11 +137,11 @@ define("_NBANSWERS","Nombre de réponses");
 define("_3CHARSMIN","Vous devez entrer plus de 2 caractères");
 define("_NOWORDSTOSEARCH","Veuillez entrer une expression a rechercher");
 define("_VISITFORUMS","Visiter les Forums");
-define("_CLOSEWINDOW","Fermer la fenêtre");
+
 define("_MARKSUBJECTREAD","Marquer tous les sujets comme lus");
 define("_MORESMILIES","Tous les smilies");
 define("_LISTSMILIES","Liste des smilies");
-define("_CODE","Code");
+
 define("_IMAGE","Image");
 define("_SURVEY","Sondage");
 define("_POSTSURVEY","Poster un sondage");
@@ -181,7 +179,7 @@ define("_NOTIFYISOFF","Notification désactivé avec succès.");
 define("_NOTEXTRESUME","Aucun aperçu disponible...");
 
 define("_ADMINFORUM","Administration Forum");
-define("_HELP","Aides");
+
 define("_ADDFORUM","Ajouter un Forum");
 define("_NAME","Nom");
 define("_NIVEAU","Niveau");
@@ -194,11 +192,11 @@ define("_ORDER","Ordre");
 define("_MODO","Modérateur");
 define("_MODOS","Modérateurs");
 define("_CAT","Catégorie");
-define("_TYPE","Type");
-define("_DEL","Supprimer");
-define("_EDIT","Editer");
+
+
+
 define("_DELETEFORUM","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
+
 define("_ADDTHISFORUM","Ajouter ce Forum");
 define("_MODIFTHISFORUM","Modifier ce Forum");
 define("_EDITTHISFORUM","Editer ce Forum");
@@ -248,7 +246,6 @@ define("_MAXFIELD","Nombre maximal d'options pour les sondages");
 define("_ATTACHFILES","Autoriser les fichiers joints");
 define("_FILELEVEL","Niveau requis pour poster des fichiers joints");
 define("_MAXSIZEFILE","Taille maximale pour les fichiers joints (en Ko)");
-define("_PREFUPDATED","Préférences modifiées avec succès.");
 define("_PERMALINK","Permalien");
 define("_PERMALINK_TITLE","Lien direct vers ce message");
 define("_NOTIFIMAGESIZE","Afin d'optimiser l'affichage de votre site, pensez à ajuster la taille de vos image à la largeur de votre thème.<br />Les images seront redimensionn&eacute;es automatiqueent à la largeur de votre site.");

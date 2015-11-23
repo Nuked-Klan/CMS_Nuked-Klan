@@ -372,7 +372,7 @@ function show_icon()
         closedir($dir);
     }
 
-    echo "</div><div style=\"text-align: center;\"><br /><b><a href=\"#\" onclick=\"self.close()\">" . _CLOSEWINDOWS . "</a></b></div>";
+    echo "</div><div style=\"text-align: center;\"><br /><b><a href=\"#\" onclick=\"self.close()\">" . _CLOSEWINDOW . "</a></b></div>";
 }
 
 function nkAdminMenu()

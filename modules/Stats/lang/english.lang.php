@@ -84,11 +84,11 @@ define("_VHOST","Host");
 define("_VBROWSER","Agent");
 define("_VOS","Os");
 define("_HOURS","Hour");
-define("_VISITOR","Visitor");
+
 define("_VIEWALL","More...");
-define("_CLOSEWINDOW","Close Window");
-define("_NOENTRANCE","Sorry you have no permission to access this page");
-define("_ZONEADMIN","This zone is reserved has Admin, sorry...");
+
+
+
 define("_NOEXIST","Sorry this page does not exist or the address which you typed is incorrect");
 define("_NBMEMBERS","Members");
 define("_NBNEWS","News");

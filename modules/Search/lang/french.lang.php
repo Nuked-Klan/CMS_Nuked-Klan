@@ -20,9 +20,9 @@ define("_3CHARSMIN","Vous devez entrer plus de 2 caractères");
 define("_NOWORDS","Vous devez entrer un mot ou une expression à rechercher");
 define("_ANSWERFIND","réponse(s) trouvée(s)");
 define("_NOANSWERFOR","Aucune réponse pour");
-define("_SEND","Envoyer");
+
 define("_ADDED","ajouté le");
-define("_BY","Par");
+
 define("_READS","lectures");
 define("_KEYWORDS","Mots clés");
 define("_MATCHOR","Rechercher n'importe lequel de ces termes");

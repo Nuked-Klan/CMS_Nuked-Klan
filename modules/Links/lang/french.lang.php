@@ -14,7 +14,7 @@ define("_NBCAT","Catégories");
 define("_INDATABASE","dans la base de données");
 define("_TITLE","Titre");
 define("_ADDTHE","Ajouté le");
-define("_DATE","Date");
+
 define("_HITS","Visites");
 define("_NAME","Nom");
 define("_NOTE","Note");
@@ -27,9 +27,8 @@ define("_ADDTHE","Ajouté le");
 define("_LINKCOMMENT","Commentaire(s)");
 define("_LINKVOTE","Vote(s)");
 define("_SEEDECS","Voir les détails");
-define("_BACK","Retour");
-define("_PREVIOUSPAGE","Page Précédente");
-define("_NEXTPAGE","Page Suivante");
+
+
 define("_DESCR","Description");
 define("_CAT","Catégorie");
 define("_VISIT","Visité");
@@ -47,15 +46,13 @@ define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
 define("_THXBROKENLINK","Merci de nous avoir signalé ce lien mort.");
 define("_INDICATELINK","Signaler ce lien mort");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_ADMINLINKS","Administration des Liens");
-define("_HELP","Aides");
+
 define("_DELETELINK","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
-define("_URL","Url");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
+
+
 define("_EDITTHISLINK","Editer ce Lien");
 define("_DELTHISLINK","Supprimer ce Lien");
 define("_ADDLINK","Ajouter un Lien");
@@ -63,7 +60,7 @@ define("_EDITLINK","Editer un Lien");
 define("_ADDTHISLINK","Ajouter ce Lien");
 define("_MODIFTHISLINK","Modifier ce Lien");
 define("_CREATE","Création");
-define("_SEND","Envoyer");
+
 define("_LINKADD","Lien ajouté avec succès.");
 define("_LINKMODIF","Lien modifié avec succès.");
 define("_LINKDEL","Lien effacé avec succès.");
@@ -80,8 +77,7 @@ define("_MODIFTHISCAT","Modifier cette Catégorie");
 define("_CATMODIF","Catégorie modifiée avec succès.");
 define("_CATDEL","Catégorie supprimée avec succès.");
 define("_NUMBERLINK","Nombre de liens par page");
-define("_PREFUPDATED","Préférences modifiées avec succès");
-define("_ORDERBY","Classer par");
+
 define("_BROKENLINKS","Liens Morts");
 define("_ERASE","Effacer");
 define("_ERASEFROMLIST","Effacer de la liste");

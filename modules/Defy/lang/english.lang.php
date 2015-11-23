@@ -18,23 +18,23 @@ define("_MAIL","Email");
 define("_ICQMSN","Messenger");
 define("_CHANIRC","IRC Channel");
 define("_WEBSITE","Website");
-define("_DATE","Date");
+
 define("_HOUR","Hour");
 define("_SERVER","Server");
-define("_TYPE","Type");
+
 define("_MAP","Map");
 define("_COMMENT","Comment");
-define("_SEND","Send");
+
 define("_MATCH","Match");
-define("_BACK","Back");
+
 define("_SENDMAIL","War request was successfully sent");
 define("_NEWDEFY","sent a new match request :");
 
-define("_NOENTRANCE","Sorry you have no permission to access this page");
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
+
+
 define("_TRANSFERT","Add this next match");
 define("_DELETEMATCH","You are about to remove the war request by");
-define("_CONFIRM","Continue?");
+
 define("_REMOVE","Remove");
 define("_DEFIEDELETE","War Request was successfully removed.");
 define("_DEFIETRANSFERT","War was successfully added.");

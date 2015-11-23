@@ -15,7 +15,7 @@ define("_SUBNEWS","Subjets");
 define("_INDATABASE","in the database");
 define("_NEWSINDB","News in  thedatabase");
 define("_NONEWS","There are no News yet in the Archives");
-define("_ORDERBY","Order by");
+
 define("_PDF","PDF print format ");
 define("_FSEND","Send news to a Friend");
 ?>

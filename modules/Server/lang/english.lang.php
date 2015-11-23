@@ -3,8 +3,8 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_NOENTRANCE","Sorry you have no permission to access  this page");
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
+
+
 define("_ON","on");
 define("_MOREINFOS","More info");
 define("_SEVERDOWN","Server Down...");
@@ -12,13 +12,13 @@ define("_NAME","Name");
 define("_SERVIP","Ip address:");
 define("_SERVPORT","Port:");
 define("_SERVERGAME","Server type:");
-define("_TYPE","Type");
+
 define("_MAP","Map");
 define("_PLAYER","Players");
 define("_NOSERVER","No Servers in this Category");
 define("_SERVERINFOS","Server Search");
 define("_SEARCH","Search");
-define("_BACK","Back");
+
 define("_SERVERDETAIL","Server details");
 define("_ADDRESS","Address");
 define("_NBPLAYER","Players");
@@ -39,12 +39,12 @@ define("_NOPLAYERS","No players");
 
 define("_ADMINSERVER","Servers Administration");
 define("_SERVER","Servers");
-define("_HELP","Help");
+
 define("_DELETESERV","You are about to remove");
-define("_CONFIRM","Continue?");
+
 define("_CAT","Category");
-define("_EDIT","Edit");
-define("_DEL","Remove");
+
+
 define("_EDITTHISCAT","Edit this Category");
 define("_DELTHISCAT","Remove this Category");
 define("_ADDCAT","Add a Category");
@@ -66,7 +66,7 @@ define("_DELTHISSERV","Remove this Server");
 define("_ADDSERVER","Add a Server");
 define("_CATMANAGEMENT","categorys Management");
 define("_NOSERV","No servers in the database");
-define("_PREFUPDATED","Preferences were successfully modified.");
+
 define("_NONECATINDATABASE","No category in the database");
 
 define("_ACTIONADDCATSER","has added the server category");

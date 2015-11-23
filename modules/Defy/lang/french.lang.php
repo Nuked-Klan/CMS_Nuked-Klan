@@ -18,23 +18,21 @@ define("_MAIL","Mail");
 define("_ICQMSN","Icq/Msn");
 define("_CHANIRC","Channel IrC");
 define("_WEBSITE","Site Web");
-define("_DATE","Date");
+
 define("_HOUR","Heure");
 define("_SERVER","Serveur");
-define("_TYPE","Type");
+
 define("_MAP","Map");
 define("_COMMENT","Commentaire");
-define("_SEND","Envoyer");
+
 define("_MATCH","Match");
-define("_BACK","Retour");
+
 define("_SENDMAIL","Votre demande de match a été prise en compte");
 define("_NEWDEFY","a envoyé un nouveau défie :");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_TRANSFERT","Ajouter ce match");
 define("_DELETEMATCH","Vous êtes sur le point de supprimer le défi de");
-define("_CONFIRM","Continuer ?");
+
 define("_REMOVE","Supprimer");
 define("_DEFIEDELETE","Demande de match supprimée avec succès.");
 define("_DEFIETRANSFERT","Match ajouté avec succès.");

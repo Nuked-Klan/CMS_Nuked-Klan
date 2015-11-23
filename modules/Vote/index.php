@@ -70,7 +70,7 @@ function post_vote($module, $vid) {
 
         if ($count > 0) {
             echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ALREADYVOTE . "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOWS . "</b></a></div>";
+               . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
         } else {
             echo "<form method=\"post\" action=\"index.php?file=Vote&amp;op=do_vote\">\n"
                . "<div style=\"text-align: center;\"><br /><br />" . _ONEVOTEONLY . "<br /><br /><b>" . _NOTE . " : </b>"
@@ -110,12 +110,12 @@ function do_vote($vid, $module, $vote) {
 
         if ($count > 0) {
             echo "<div style=\"text-align: center;\"><br /><br /><br />"  . _ALREADYVOTE .  "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close();\"><b>" . _CLOSEWINDOWS . "</b></a></b></div>";
+               . "<a href=\"#\" onclick=\"javascript:window.close();\"><b>" . _CLOSEWINDOW . "</b></a></b></div>";
         } else {
             $sql = mysql_query("INSERT INTO " . VOTE_TABLE . " ( `id` , `module` , `vid` , `ip` , `vote` ) VALUES ( '' , '" . $module . "' , '" . $vid . "' , '" . $user_ip . "' , '" . $vote . "' )");
 
             echo "<div style=\"text-align: center;\"><br /><br /><br />" . _VOTEADD . "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\"><b>" . _CLOSEWINDOWS . "</b></a></b></div>";
+               . "<a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\"><b>" . _CLOSEWINDOW . "</b></a></b></div>";
         }
     } else {
         echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"

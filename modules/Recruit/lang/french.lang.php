@@ -35,17 +35,15 @@ define("_HOLIDAY","Les vacances");
 define("_THREE","Les Trois");
 define("_OTHER","Autres");
 define("_COMMENT","Commentaire");
-define("_SEND","Envoyer");
-define("_BACK","Retour");
+
+
 define("_SENDRECRUIT","Votre demande de recrutement a été prise en compte");
 define("_NEWRECRUIT","a envoyé une demande de recrutement :");
 define("_RECRUITOFF","Désolé, le recrutement est terminé à l'heure actuelle.");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
-define("_DATE","Date");
+
 define("_DELETERECRUTE","Vous êtes sur le point de supprimer la demande de");
-define("_CONFIRM","Continuer ?");
+
 define("_REMOVE","Supprimer");
 define("_RECRUITDELETE","Demande de recrutement supprimée avec succès.");
 define("_EDITPREF","Modifier les Préférences");

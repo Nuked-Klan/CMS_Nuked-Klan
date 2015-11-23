@@ -14,7 +14,7 @@ define("_NBCAT","categorys");
 define("_INDATABASE","in the datatbase");
 define("_TITLE","Title");
 define("_ADDTHE","Added on");
-define("_DATE","Date");
+
 define("_HITS","Hits");
 define("_NAME","Name");
 define("_NOTE","Note");
@@ -27,9 +27,9 @@ define("_ADDTHE","Added on");
 define("_LINKCOMMENT","Comment");
 define("_LINKVOTE","Votes");
 define("_SEEDECS","View details");
-define("_BACK","Back");
-define("_PREVIOUSPAGE","Previous Page");
-define("_NEXTPAGE","Next Page");
+
+
+
 define("_DESCR","Description");
 define("_CAT","Category");
 define("_VISIT","Visited");
@@ -47,15 +47,15 @@ define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
 define("_THXBROKENLINK","Thank you for your part");
 define("_INDICATELINK","Report broken link");
 
-define("_NOENTRANCE","Sorry you have no permission to access this page");
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
+
+
 define("_ADMINLINKS","Links Administration");
-define("_HELP","Help");
+
 define("_DELETELINK","You are about to remove");
-define("_CONFIRM","Continue?");
-define("_URL","Url");
-define("_EDIT","Edit");
-define("_DEL","Remove");
+
+
+
+
 define("_EDITTHISLINK","Edit this Link");
 define("_DELTHISLINK","Remove this Link");
 define("_ADDLINK","Add a Link");
@@ -63,7 +63,7 @@ define("_EDITLINK","Edit a Link");
 define("_ADDTHISLINK","Add this Link");
 define("_MODIFTHISLINK","Modify this Link");
 define("_CREATE","Create");
-define("_SEND","Send");
+
 define("_LINKADD","Link was successfully added.");
 define("_LINKMODIF","Link was successfully modified.");
 define("_LINKDEL","Link was successfully removed.");
@@ -80,8 +80,8 @@ define("_MODIFTHISCAT","Modifiy this Category");
 define("_CATMODIF","Category was successfully modified.");
 define("_CATDEL","Category was successfully removed.");
 define("_NUMBERLINK","Number of links per page");
-define("_PREFUPDATED","Preferences were successfully modified.");
-define("_ORDERBY","Order by");
+
+
 define("_BROKENLINKS","Broken Link");
 define("_ERASE","Remove");
 define("_ERASEFROMLIST","Remove from list");

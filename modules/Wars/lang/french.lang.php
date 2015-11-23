@@ -3,18 +3,15 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_WIN","Victoire(s)");
 define("_LOST","Défaite(s)");
 define("_DRAW","Nul(s)");
-define("_BACK","Retour");
+
 define("_NOMATCH","Il n'y a pas encore de match");
-define("_DATE","Date");
+
 define("_OPPONENT","Adversaire");
 define("_LOGOADV","Logo de l'adversaire");
-define("_TYPE","Type");
-define("_RESULT","Résultat");
+
 define("_DETAILS","Rapport");
 define("_MATCH","Match");
 define("_MATCHES","Matches");
@@ -23,8 +20,8 @@ define("_MAPS","Maps");
 define("_REPORTBY","Rapport par");
 define("_OFFICIALREPORT","Rapport officiel");
 define("_DOWNLOADDEMO","Télécharger Démo");
-define("_MORE","Suite...");
-define("_ORDERBY","Classer par");
+
+
 define("_UPFILE","Uploader le fichier sur le serveur");
 define("_REPLACE","Ecraser");
 define("_DEJAFILE","Un fichier portant le même nom est déjà présent sur votre ftp");
@@ -36,11 +33,11 @@ define("_DETAILS2","Commentaire");
 define("_FROM","de");
 
 define("_ADMINMATCH","Administration des Matches");
-define("_HELP","Aides");
+
 define("_DELETEMATCH","Vous êtes sur le point de supprimer le match vs");
-define("_CONFIRM","Continuer ?");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
+
 define("_EDITTHISMATCH","Editer ce Match");
 define("_DELTHISMATCH","Supprimer ce Match");
 define("_ADDMATCH","Ajouter un match");
@@ -49,7 +46,7 @@ define("_NONE","Aucune");
 define("_STATUS","Statut");
 define("_FINISH","Terminé");
 define("_HASTOPLAY","A jouer");
-define("_URL","Url");
+
 define("_COUNTRY","Pays");
 define("_GAME","Jeu");
 define("_NAME","Nom");
@@ -62,7 +59,7 @@ define("_SECONDMAP","2ème map");
 define("_THIRDMAP","3ème map");
 define("_REPORT","Rapport");
 define("_URLREPORT","Url du rapport officiel");
-define("_SEND","Envoyer");
+
 define("_MATCHADD","Match ajouté avec succès.");
 define("_MATCHDEL","Match supprimé avec succès.");
 define("_MATCHMODIF","Match modifié avec succès.");
@@ -71,14 +68,13 @@ define("_ADDMODFILE","Ajouter/Editer des fichiers joints");
 define("_IMG","Screenshot");
 define("_DEMO","Démo");
 define("_CANCEL","Annuler");
-define("_CLOSEWINDOW","Fermer la fenêtre");
+
 define("_FILEADD","Fichier ajouté avec succès.");
 define("_FILEDEL","Fichier supprimé avec succès.");
 define("_FILEMODIF","Fichier modifié avec succès.");
 define("_EDITFILE","Editer ce fichier joint");
 define("_DELETEFILE","Supprimer ce fichier joint");
 define("_NUMBERWARS","Nombre de matches par page");
-define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_NOMBRE","Nombres de map");
 define("_SCORE","Score de la map");
 define("_NEXTMATCHES","Prochains Matches");

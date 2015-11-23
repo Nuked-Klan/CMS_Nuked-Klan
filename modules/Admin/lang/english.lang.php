@@ -5,20 +5,20 @@ if (!defined("INDEX_CHECK"))
 }
 define("_SPECCNOTALLOW","No special characters for the name of cookies!");
 define("_PAGEACCESS","You cannot open this page directly");
-define("_NOENTRANCE","Sorry you do not have the permissions to access this page");
-define("_ZONEADMIN","This zone is reserved for the Admins, sorry...");
+
+
 define("_BLOCKADMIN","Block Management");
-define("_HELP","Help");
+
 define("_BLOCKTITLE","Block title");
 define("_BLOCK","Block");
 define("_TITLE","Title");
-define("_TYPE","Type");
+
 define("_LEVEL","Level");
 define("_LEVELACCES","Access Level");
 define("_LEVELADMIN","Admin Level");
 define("_SELECTPAGE","Select the pages where you wish the block to be displayed");
 define("_CREATEBLOCK","Create block");
-define("_BACK","Back");
+
 define("_BLOCKSUCCES","Block was successfully added.");
 define("_BLOCKCLEAR","Block was successfully removed.");
 define("_BLOCKMODIF","Block was successfully modified.");
@@ -27,13 +27,13 @@ define("_USER","User");
 define("_ADMIN","Admin");
 define("_ALL","All");
 define("_DELBLOCK","You are about to remove");
-define("_CONFIRM","Continue?");
+
 define("_POSITION","Position");
 define("_RIGHT","Right");
 define("_LEFT","Left");
 define("_CENTERBLOCK","Center");
 define("_OFF","Unactive");
-define("_EDIT","Edit");
+
 define("_MODIF","Modify");
 define("_DELETE","Remove");
 define("_BLOCKDOWN","Go down this block");
@@ -149,7 +149,7 @@ define("_PREFUSER","Preference of");
 define("_NICK","Nick");
 define("_MAIL","email");
 define("_PUBLIC","public");
-define("_URL","Url");
+
 define("_COUNTRY","Country");
 define("_ICQ","ICQ");
 define("_MSN","MSN");
@@ -228,21 +228,21 @@ define("_RANKDEL","Rank was successfully removed.");
 define("_SEARCH","Search");
 define("_NORESULTFOR","No matches were found for");
 define("_NOUSERINDB","No member in datatase");
-define("_ORDERBY","Order by");
+
 define("_NORANKINDB","No rank in datatase");
 define("_NOIPINDB","No ban in datatase");
 define("_VISIT","visit");
 
 define("_SMILEYADD","Add smiley");
 define("_SMILEY","Smiley");
-define("_CODE","Code");
+
 define("_UPSMILEY","Upload smiley");
 define("_SMILEYEDIT","Edit this smiley");
 define("_SMILEYDEL","Remove this smiley");
 define("_SMILEYSUCCES","Smiley was successfully added.");
 define("_SMILEYMODIF","Smiley was successfully modified.");
 define("_SMILEYDELETE","Smiley was successfully removed.");
-define("_SEND","Send");
+
 
 define("_PREFNAME","Preference");
 define("_ICON","Icon");
@@ -255,7 +255,7 @@ define("_GAMEDELETE","Game was successfully removed.");
 define("_SEEICON","View icons");
 define("_ICONLIST","Icons list");
 define("_CLICICON","Click on icon to select it");
-define("_CLOSEWINDOWS","Close Window");
+
 define("_ERRORCHAMPS","Error, some fields are empty!");
 
 define("_USERVALIDATION","Unvalidated members");
@@ -267,7 +267,7 @@ define("_REGISTRATION","Registration");
 define("_VALIDREGISTRATION","Your account is now validated, you can login with your nickname and your password on our website:");
 
 define("_MENUADMIN","Menus Management");
-define("_DEL","Delete");
+
 define("_ADD","Add");
 define("_DOWN","Down");
 define("_UP","Up");
@@ -290,12 +290,12 @@ define("_UNCHECKALL","Uncheck All");
 define("_ADMINMYSQL","Mysql Administration");
 define("_EXECUTESQL","Execute an SQL request:");
 define("_MYSQLFILE","Or sql file:");
-define("_SEND","Send");
+
 define("_DATABASE","Database");
 define("_ACTION","- PROCESS -");
 define("_SAVEDB","Save");
 define("_OPTIMIZEDB","Optimize");
-define("_BACK","Back");
+
 define("_SQLSEND","SQL request was successfully executed.");
 define("_OPTIMIZEDATABASE","Database Optimization");
 define("_TABLE","Table");
@@ -330,7 +330,7 @@ define("_SQL","SQL error found");
 define("_NOTIFICATION","Add a notification");
 define("_DISCUSSION","Discussion");
 define("_MESSAGE","Message");
-define("_TYPE","Type");
+
 define("_INFO","Information");
 define("_ECHEC","Error");
 define("_REUSSITE","Success");
@@ -365,7 +365,7 @@ define("_OFFICIEL","Official Nk Forum");
 define("_LICENCE","Licence GNU/GPL");
 define("_PROPOS","About");
 define("_DISCUADMIN","Administration Discussions");
-define("_BY","by");
+
 define("_NEWMSG","New message");
 define("_MAJEXPLI","The update system is automatic, however if an upgrade isn't done, you may upgrade manualy on the administration module");
 define("_MAJMAIN","Upgrade");
@@ -375,8 +375,8 @@ define("_THEMIS","Template");
 define("_A","at");
 define("_ADMINSQLERROR","SQL error administration");
 define("_VIDERSQL","Delete the list");
-define("_DATE","Date");
-define("_URL","Url");
+
+
 define("_INFORMATION","Information");
 define("_DELETEFILE","You are about to remove");
 define("_ERRORBDD","SQL Error");

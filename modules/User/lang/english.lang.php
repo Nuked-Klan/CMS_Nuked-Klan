@@ -30,7 +30,7 @@ define("_THEMESELECT","Theme Select");
 define("_YOURSTATS","Your Stats");
 define("_NAME","Name");
 define("_TITLE","Title");
-define("_DATE","Date");
+
 define("_COUNT","counter");
 define("_POSTPV","Send private message");
 define("_READPV","Read private message");
@@ -103,7 +103,7 @@ define("_SKINCT","CT Skin");
 define("_FAVOURITEMAP","Favorite Map");
 define("_MODIFPREF","Modify");
 define("_SENDPV","Send this member a private message?");
-define("_BACK","Back");
+
 define("_FAVOURITEWEAPON","Favorite Weapons");
 define("_PREFMODIF","Profile was successfully updated");
 define("_USERMAILSUCCES","An e-mail has been sent with your nickname and your password to :");
@@ -129,8 +129,8 @@ define("_ERRORCOOKIE","Your internet browser does not allow cookies from this si
 define("_INFOMODIF","Info was successfully updated");
 define("_LOSTPASSWORD","Lost Password");
 define("_LOSTPASSTXT","Please enter your email and click the send button. You will receive an email containing a link to reset your password.");
-define("_CODE","Code");
-define("_SEND","Send");
+
+
 define("_MAILSEND","Email was successfully sent");
 define("_CODEIS","Your code is");
 define("_NEWPASSIS","Your new Password is");
@@ -139,11 +139,11 @@ define("_BADCODE","Bad code");
 define("_MAILNOEXIST","email does not exist!");
 define("_AVATARLIST","Avatars List");
 define("_CLICAVATAR","Click on an avatar to select it");
-define("_CLOSEWINDOWS","Close Window");
+
 define("_THETHEME","Themes Select");
 define("_SELECTTHEME","Select a theme in the list");
 define("_CHANGETHEME","Change theme");
-define("_BACK","Back");
+
 define("_IAGREE","I agree");
 define("_IDESAGREE","I disagree");
 define("_UNKNOWNUSER","This nickname does not exist!");
@@ -153,7 +153,7 @@ define("_VALIDADMIN","Your account has been created. An e-mail has been sent to 
 define("_NOVALIDUSER","Sorry this account is still not validated.");
 define("_ALREADYVALID","This account is already validated.");
 define("_VALIDUSER","Your account is now validated, you can login with your nickname and your password on our website.");
-define("_NOENTRANCE","Sorry you have no permission to access this page");
+
 define("_BADFILEFORMAT","Bad image file type!!! Only gif or jpg are authorized");
 define("_FILETOOBIG","Your image is too large, image size is limited to 100 KB");
 define("_NEWUSERREGISTRATION","New User Registration");

@@ -19,14 +19,13 @@ define("_INDATABASE","dans la base de données");
 define("_READSART","Lectures");
 define("_PAGE","Page");
 define("_NOARTS","Aucun article dans cette catégorie");
-define("_NEXTPAGE","Page Suivante");
-define("_PREVIOUSPAGE","Page Précédente");
+
 define("_WORDINTEXT","mots dans ce texte");
-define("_BACK","Retour");
+
 define("_TOP10ART","Le Top 10");
 define("_LAST10ART","Les nouveautés");
 define("_NOARTINDB","Aucun article dans la base de données");
-define("_DATE","Date");
+
 define("_NAME","Nom");
 define("_NOTE","Note");
 define("_SITE","Site");
@@ -37,14 +36,12 @@ define("_MORELAST","la suite des nouveautés");
 define("_HOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");
 define("_NEW","<span style=\"color: red;\"><b><i>New!</i></b></span>");
 
-define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
-define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_ADMINSECTIONS","Administration Articles");
-define("_HELP","Aides");
+
 define("_DELETEART","Vous êtes sur le point de supprimer");
-define("_CONFIRM","Continuer ?");
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
+
+
+
 define("_ID","Id");
 define("_TEXT","Texte");
 define("_CAT","Catégorie");
@@ -69,8 +66,7 @@ define("_CATDEL","Catégorie supprimée avec succès.");
 define("_CATPARENT","Catégorie Principale");
 define("_NONE","Aucune");
 define("_SECTIONSPG","Nombre d'articles par page");
-define("_PREFUPDATED","Préférences modifiées avec succès.");
-define("_ORDERBY","Classer par");
+
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> saut de page </i>-----</b><br />");
 define("_CATERRORPOS","La position est déjà à 0, Impossible de monter la position");
 define('_TITLECATFORGOT', 'Le titre de la catégorie est manquant');

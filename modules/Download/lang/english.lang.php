@@ -12,12 +12,12 @@ define("_NBCAT","Catégories");
 define("_INDATABASE","in database");
 define("_FILES","Files");
 define("_SIZE","Size");
-define("_DATE","Date");
+
 define("_HITS","Hits");
 define("_KO","KB");
 define("_MO","MB");
 define("_MAX","Max");
-define("_BACK","Back");
+
 define("_DOWNFILE","Download this File");
 define("_CAT","Category");
 define("_DESCR","Description");
@@ -39,10 +39,10 @@ define("_PLEASEWAIT","<div style=\"text-align: center;\"><br /><big><b>Please wa
 define("_LIEN1","Link 1");
 define("_LIEN2","Link 2");
 define("_LIEN3","Link 3");
-define("_CLOSEWINDOW","Close Window");
+
 define("_THXBROKENLINK","Thank you for having informed us of this broken link");
 define("_INDICATELINK","Report broken link");
-define("_ORDERBY","Order by");
+
 define("_NAME","Name");
 define("_NOTE","Note");
 define("_SITE","Site");
@@ -54,14 +54,14 @@ define("_MORELAST","more downloads");
 define("_HOT","<font color=\"red\"><b><i>Hot!</i></b></font>");
 define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
 
-define("_NOENTRANCE","Sorry you have no permission to access this page");
-define("_HELP","Help");
+
+
 define("_ADMINDOWN","Downloads Administration");
 define("_TITLE","Title");
 define("_CREATE","Create");
 define("_UPFILE","Upload the file onto the server");
 define("_UPIMG","Upload the image onto the server");
-define("_URL","File's Url");
+
 define("_URLFILE","Url 1");
 define("_URL2","Url 2");
 define("_URL3","Url 3");
@@ -71,8 +71,8 @@ define("_FILEDEL","File was successfully removed.");
 define("_MODIFFILE","Modify this File");
 define("_FILEEDIT","File was successfully modified.");
 define("_DELETEFILE","You are about to remove");
-define("_CONFIRM","Continue?");
-define("_EDIT","Edit");
+
+
 define("_DELETE","Remove");
 define("_ADDFILE","Add File");
 define("_EDITTHISFILE","Edit this File");
@@ -102,7 +102,7 @@ define("_URLORTITLEFAILDED","Url or/and title missing!");
 define("_REPLACEIT","To overwrite it please check the box \""._REPLACE."\"");
 define("_NUMBERFILE","Number of files per page");
 define("_HIDEDESC","Hide the empty fields in the description");
-define("_PREFUPDATED","Preferences were successfully modified");
+
 define("_ACTIONADDDL","has added the file");
 define("_ACTIONDELDL","has deleted the file");
 define("_ACTIONMODIFDL","havs modified the file");

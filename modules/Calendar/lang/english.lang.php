@@ -40,12 +40,12 @@ define("_EVENT","Event");
 define("_MATCH","Match");
 define("_VS","vs");
 define("_STYLE","Style");
-define("_TYPE","Type");
+
 define("_MAPS","Maps");
 define("_COMMENT","Comment");
 define("_ADDEDBY","Added by");
 define("_DESCR","Description");
-define("_CLOSEWINDOW","Close Window");
+
 define("_MATCHDAY","There is a match today  !!!");
 define("_GOSEE","Go to see");
 define("_LINEUP","Line Up");
@@ -62,21 +62,21 @@ define("_BIRTHDAYTEXTSUITE","for his/her");
 define("_YEARSOLD","years old");
 define("_SUBMIT","Go");
 
-define("_NOENTRANCE","Sorry you do not have the permissions to access this page");
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
+
+
 define("_ADMINCAL","Calendar Administration");
-define("_HELP","Help");
+
 define("_TITLE","Title");
-define("_DATE","Date");
+
 define("_AUTEUR","Author");
-define("_EDIT","Edit");
-define("_DEL","Remove");
+
+
 define("_EDITTHISEVENT","Edit this event");
 define("_DELTHISEVENT","Remove this event");
 define("_EVENTDELETE","You are about to remove");
-define("_CONFIRM","Continue?");
+
 define("_ADDEVENT","Add an event");
-define("_BACK","Back");
+
 define("_JOUR","Day");
 define("_MOIS","Month");
 define("_ANNEE","Year");
@@ -92,7 +92,7 @@ define("_OFF","Off");
 define("_SHOWALL","All");
 define("_SHOWTEAM","Team");
 define("_SHOWADMIN","Admin");
-define("_PREFUPDATED","Preferences was successfully modified.");
+
 define("_ACTIONADDCAL","has added the event");
 define("_ACTIONMODIFCAL","has modified the event");
 define("_ACTIONDELCAL","has deleted the event");

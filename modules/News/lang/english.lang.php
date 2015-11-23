@@ -3,7 +3,7 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
+
 define("_READMORE","Read More...");
 define("_SUBJECTNEWS","News Subject");
 define("_SEENEWS","View News");
@@ -23,14 +23,14 @@ define("_NEWSURL","The URL for this news is:");
 define("_ADMINNEWS","News Administration");
 define("_DELETENEWS","You are about to remove");
 define("_CAT","Category");
-define("_EDIT","Edit");
-define("_DEL","Remove");
+
+
 define("_EDITTHISNEWS","Edit this News");
 define("_DELTHISNEWS","Remove this News");
 define("_ADDNEWS","Add news");
 define("_CATMANAGEMENT","categorys Management");
 define("_NONEWSINDB","No news in the database");
-define("_MORE","Extended Text");
+
 define("_NEWSADD","News was successfully added.");
 define("_MODIFTHISNEWS","Modify this News");
 define("_NEWSMODIF","News was successfully modified.");
@@ -54,10 +54,10 @@ define("_NMONTHS","Months");
 define("_NMONTH","MONTH");
 define("_NUMBERARCHIVE","Number of news per archive page");
 define("_NUMBERNEWS","Number of news per news page");
-define("_PREFUPDATED","Preferences were successfully modified.");
+
 define("_URLIMG","Image's url");
 define("_UPIMG","Upload image");
-define("_ORDERBY","Order by");
+
 
 define("_ACTIONADDNEWS","has added the news");
 define("_ACTIONMODIFNEWS","has modified the news");

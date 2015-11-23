@@ -1,6 +1,6 @@
 <?php
-define("_NOENTRANCE","Sorry, you have no permission to access this page");
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
+
+
 define("_NOACCESSFORUM","Sorry, you have no permission to access this forum");
 define("_NOTOPICEXIST","Sorry, this topic does not exist or was removed");
 define("_FORUMS","Forums");
@@ -73,7 +73,7 @@ define("_TOPICLOCK","Close this topic");
 define("_TOPICUNLOCK","Open this topic");
 define("_REPLYQUOTE","Reply with quote");
 define("_QUOTE","Quote");
-define("_BY","by");
+
 define("_EDITMESSAGE","Edit this post");
 define("_DELMESSAGE","Remove this post");
 define("_TOPICUP","Sticky Thread");
@@ -83,7 +83,7 @@ define("_TITLE","Title");
 define("_POSTNEWTOPIC","Post new topic");
 define("_POSTREPLY","Post reply");
 define("_POSTEDIT","Edit post");
-define("_SEND","Send");
+
 define("_SMILEY","Smilies");
 define("_EDITBY","Edited by");
 define("_MESSMODIF","Post was successfully updated.");
@@ -137,11 +137,11 @@ define("_NBANSWERS","Number of results");
 define("_NOWORDSTOSEARCH","You must enter a word or an expression to search");
 define("_3CHARSMIN","You must enter at least 3 characters");
 define("_VISITFORUMS","Visit Forums");
-define("_CLOSEWINDOW","Close Window");
+
 define("_MARKSUBJECTREAD","Mark all topics as read");
 define("_MORESMILIES","All smilies");
 define("_LISTSMILIES","Smilies List");
-define("_CODE","Code");
+
 define("_IMAGE","Image");
 define("_SURVEY","Poll");
 define("_POSTSURVEY","Post a poll");
@@ -179,7 +179,7 @@ define("_NOTIFYISOFF","Notification was successfully deactivated.");
 define("_NOTEXTRESUME","No resume available...");
 
 define("_ADMINFORUM","Forum Administration");
-define("_HELP","Help");
+
 define("_ADDFORUM","Add a Forum");
 define("_NAME","Name");
 define("_NIVEAU","Level");
@@ -192,11 +192,11 @@ define("_ORDER","Order");
 define("_MODO","Moderator");
 define("_MODOS","Moderators");
 define("_CAT","Category");
-define("_TYPE","Type");
-define("_DEL","Remove");
-define("_EDIT","Edit");
+
+
+
 define("_DELETEFORUM","You are about to remove");
-define("_CONFIRM","Continue?");
+
 define("_ADDTHISFORUM","Add this Forum");
 define("_MODIFTHISFORUM","Modify this Forum");
 define("_EDITTHISFORUM","Edit this Forum");
@@ -245,7 +245,7 @@ define("_MAXFIELD","Max number of poll options");
 define("_ATTACHFILES","Enable file attachment");
 define("_FILELEVEL","Level required to attach a file");
 define("_MAXSIZEFILE","Maximum attached file size (in KB)");
-define("_PREFUPDATED","Preferences were successfully modified.");
+
 define("_PERMALINK","Permalink");
 define("_PERMALINK_TITLE","Permanent link to this message");
 define("_NOTIFIMAGESIZE","In order to have a good display on your website, ensure to adjust image width with these of your template.<br />Images will be resized to the max width of your website.");

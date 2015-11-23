@@ -35,17 +35,17 @@ define("_HOLIDAY","Holiday");
 define("_THREE","Three");
 define("_OTHER","Other");
 define("_COMMENT","Comment");
-define("_SEND","Send");
-define("_BACK","Back");
+
+
 define("_SENDRECRUIT","Recruitment request was successfully sent.");
 define("_NEWRECRUIT","sent a recruitment request:");
 define("_RECRUITOFF","Sorry, recruitment is closed at the present time.");
 
-define("_NOENTRANCE","Sorry you have no permission to access this page");
-define("_ZONEADMIN","This zone is reserved for the Admin, sorry...");
-define("_DATE","Date");
+
+
+
 define("_DELETERECRUTE","You are about to remove the request of");
-define("_CONFIRM","Continue?");
+
 define("_REMOVE","Remove");
 define("_RECRUITDELETE","Recruitment request was successfully removed.");
 define("_EDITPREF","Modify Preferences");
