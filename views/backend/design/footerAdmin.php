@@ -1,8 +1,3 @@
-                <script type="text/javascript" src="media/js/syntaxhighlighter/shCore.js"></script>
-                <script type="text/javascript" src="media/js/syntaxhighlighter/shAutoloader.js"></script>
-                <script type="text/javascript" src="media/js/syntaxhighlighter.autoloader.js"></script>
-                <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shCore.css"/>
-                <link type="text/css" rel="stylesheet" href="media/css/syntaxhighlighter/shThemeDefault.css"/>
 
 <?php
     // choix de l'éditeur
@@ -84,10 +79,10 @@
 <?php
     endif
 ?>
+                </div>
             </div>
-        </div>
         <!-- End Main Content -->
 
-    </div>
+        </div>
     <!-- End #body-wrapper -->
     </div>

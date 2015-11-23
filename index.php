@@ -111,8 +111,6 @@ else {
     require_once 'themes/'. $theme .'/colors.php';
     require_once 'themes/'. $theme .'/theme.php';
 
-    nkTemplate_init($_REQUEST['file']);
-
     if ($nuked['level_analys'] != -1)
         visits();
 
@@ -154,8 +152,8 @@ else {
 
             echo $html;
 
-            if (nkTemplate_getPageDesign() == 'fullPage')
-                nkBenchmark_display();
+            //if (nkTemplate_getPageDesign() == 'fullPage')
+            //    nkBenchmark_display();
 
             if ($nuked['stats_share'] == 1) nkStats_cron();
 

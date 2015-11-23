@@ -1015,8 +1015,9 @@ function admin_mod($moduleName) {
 function adminInit($module, $adminPageLevel = false) {
     global $language, $visiteur;
 
-    nkTemplate_setInterface('backend');
     require_once 'modules/Admin/design.php';
+    nkTemplate_setInterface('backend');
+    adminDesignInit();
     translate('modules/Admin/lang/'. $language .'.lang.php');
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 
@@ -1060,6 +1061,7 @@ function moduleInit($module) {
     global $language, $file, $visiteur;
 
     nkTemplate_setInterface('frontend');
+    nkTemplate_init($module);
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 
     $moduleLevel = nivo_mod($module);
@@ -1514,8 +1516,16 @@ function loadSyntaxhighlighterFiles() {
     nkTemplate_addJSFile('media/js/syntaxhighlighter/shCore.js');
     nkTemplate_addJSFile('media/js/syntaxhighlighter/shAutoloader.js');
     nkTemplate_addJSFile('media/js/syntaxhighlighter.autoloader.js');
-    nkTemplate_addCSSFile('media/css/syntaxhighlighter/shCoreMonokai.css');
-    nkTemplate_addCSSFile('media/css/syntaxhighlighter/shThemeMonokai.css');
+
+    if (nkTemplate_getInterface() == 'frontend') {
+        nkTemplate_addCSSFile('media/css/syntaxhighlighter/shCoreMonokai.css');
+        nkTemplate_addCSSFile('media/css/syntaxhighlighter/shThemeMonokai.css');
+    }
+    else {
+        nkTemplate_addCSSFile('media/css/syntaxhighlighter/shCore.css');
+        nkTemplate_addCSSFile('media/css/syntaxhighlighter/shThemeDefault.css');
+    }
+
     $loaded = true;
 }
 

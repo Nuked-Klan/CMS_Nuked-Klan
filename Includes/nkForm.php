@@ -265,10 +265,8 @@ function nkForm_initInput($fieldName, &$params, $formId) {
     if (! array_key_exists('required', $params))
         $params['required'] = false;
 
-    if (! array_key_exists('id', $params) && array_key_exists('name', $params) && $params['name'] != '')
-        $params['id'] = $formId .'_'. $params['name'];
-
-    //$params['id'] = $formId .'_'. $fieldName;
+    if (! array_key_exists('id', $params))
+        $params['id'] = $formId .'_'. $fieldName;
 
     if (! array_key_exists('htmlspecialchars', $params))
         $params['htmlspecialchars'] = false;
@@ -311,11 +309,23 @@ function nkForm_inputButton($fieldName, $params, $formId) {
  *  Generate a checkable field
  */
 function nkForm_inputCheckbox($fieldName, $params, $formId) {
-    $attributes = array('type', 'id', 'inputClass', 'name', 'value', 'checked', 'disabled');
+    $check = $classInline = $dataCheck = '';
 
-    $params['inputClass'][] = 'checkbox';
+    if ($params['inputValue'] == $params['value']) {
+        $check = 'checked="checked"';
+        $dataCheck = 'data-check="checked"';
+    }
 
-    return '<input '. nkForm_formatAttribute($params, $attributes) .' value="'. $params['inputValue'] .'" />';
+    if (array_key_exists('inline', $params) && $params['inline'] === true)
+        $classInline = ' inline ';
+
+    return applyTemplate('nkForm/checkbox', array(
+        'classInline'   => $classInline,
+        'id'            => $params['name'],
+        'name'          => $params['name'],
+        'check'         => $check,
+        'dataCheck'     => $dataCheck
+    ));
 }
 
 

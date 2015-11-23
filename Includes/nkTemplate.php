@@ -132,7 +132,7 @@ function nkTemplate_setInterface($interface) {
  *
  * @param void
  * @return string : The interface name.
- * /
+ */
 function nkTemplate_getInterface() {
     return $GLOBALS['nkTemplate']['interface'];
 }
@@ -202,7 +202,6 @@ function nkTemplate_getFooterOfPage() {
             return applyTemplate('design/footerAdmin');
         }
         else {
-        //if (! ($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') || $_REQUEST['page'] == 'login') {
             ob_start();
             footer();
             require_once 'Includes/copyleft.php';
@@ -364,7 +363,6 @@ function nkTemplate_getJS() {
 
     $html .= nkTemplate_getJSFiles('librairy')
         . '<script type="text/javascript" src="'. JQUERY_LIBRAIRY .'"></script>' ."\n"
-        . '<script type="text/javascript">jQuery.noConflict();</script>' ."\n"
         . nkTemplate_getJSFiles('librairyPlugin')
         . nkTemplate_getJSFiles('normal');
 
@@ -376,7 +374,7 @@ function nkTemplate_getJS() {
             $html .= $GLOBALS['nkTemplate']['JS']['string']['normal'];
 
         if ($GLOBALS['nkTemplate']['JS']['string']['jqueryDomReady'] != '') {
-            $html .= 'jQuery(document).ready(function($) { ' ."\n"
+            $html .= '$(document).ready(function() { ' ."\n"
                 . $GLOBALS['nkTemplate']['JS']['string']['jqueryDomReady'] ."\n"
                 . "});\n";
         }
@@ -411,23 +409,25 @@ function nkTemplate_getJS() {
 function nkTemplate_append($contentTop) {
     global $nuked;
 
-    $append  = '<meta name="generator" content="Nuked Klan - v'. $nuked['version'] .'" />' ."\n"
-        . '<link rel="search" type="application/opensearchdescription+xml" title="'. $nuked['name'] .'" href="'. $nuked['url'] .'/openSearch.php" />' ."\n"
-        // rajouter les flux rss
+    $append = '<meta name="generator" content="Nuked Klan - v'. $nuked['version'] .'" />' ."\n"
         . nkTemplate_getCSS()
         . nkTemplate_getJS();
 
-    /*
-    foreach (explode('|', $nuked['rssFeed']) as rssFeed)
-        $append .= '<link rel="alternate" title="'. $nuked['name'] .' : '. constant(strtoupper($rssFeed) .'_RSS_TITLE').'" href="'. $nuked['url'] .'/rss/'. $rssFeed .'_rss.php" type="application/rss+xml" />' ."\n";
+    if ($GLOBALS['nkTemplate']['interface'] == 'frontend') {
+        $append .= '<link rel="search" type="application/opensearchdescription+xml" title="'. $nuked['name'] .'" href="'. $nuked['url'] .'/openSearch.php" />' ."\n";
 
-    . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniéres news" href="'. $nuked['url'] .'/rss/news_rss.php" type="application/rss+xml" />' ."\n"
-    . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers articles" href="'. $nuked['url'] .'/rss/sections_rss.php" type="application/rss+xml" />' ."\n"
-    . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers téléchargements" href="'. $nuked['url'] .'/rss/download_rss.php" type="application/rss+xml" />' ."\n"
-    . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers liens" href="'. $nuked['url'] .'/rss/links_rss.php" type="application/rss+xml" />' ."\n"
-    . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniéres images" href="'. $nuked['url'] .'/rss/gallery_rss.php" type="application/rss+xml" />' ."\n"
-    . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers sujets" href="'. $nuked['url'] .'/rss/forum_rss.php" type="application/rss+xml" />' ."\n"
-    */
+        /* rajouter les flux rss
+        foreach (explode('|', $nuked['rssFeed']) as rssFeed)
+            $append .= '<link rel="alternate" title="'. $nuked['name'] .' : '. constant(strtoupper($rssFeed) .'_RSS_TITLE').'" href="'. $nuked['url'] .'/rss/'. $rssFeed .'_rss.php" type="application/rss+xml" />' ."\n";
+
+        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniéres news" href="'. $nuked['url'] .'/rss/news_rss.php" type="application/rss+xml" />' ."\n"
+        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers articles" href="'. $nuked['url'] .'/rss/sections_rss.php" type="application/rss+xml" />' ."\n"
+        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers téléchargements" href="'. $nuked['url'] .'/rss/download_rss.php" type="application/rss+xml" />' ."\n"
+        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers liens" href="'. $nuked['url'] .'/rss/links_rss.php" type="application/rss+xml" />' ."\n"
+        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniéres images" href="'. $nuked['url'] .'/rss/gallery_rss.php" type="application/rss+xml" />' ."\n"
+        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers sujets" href="'. $nuked['url'] .'/rss/forum_rss.php" type="application/rss+xml" />' ."\n"
+        */
+    }
 
     if ($GLOBALS['nkTemplate']['title'] != '')
         $contentTop = preg_replace( '#<title>(.*?)</title>#i', '<title>'. $GLOBALS['nkTemplate']['title'] .'</title>', $contentTop );

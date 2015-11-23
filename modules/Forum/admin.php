@@ -149,12 +149,7 @@ function saveForumCat() {
         printNotification('success', _CATMODIF);
     }
 
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-        ."}\n"
-        ."</script>\n";
+    setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');
 }
 
 function deleteForumCat() {
@@ -170,13 +165,7 @@ function deleteForumCat() {
     saveUserAction(_ACTIONDELCATFO .': '. $dbrForumCat['nom']);
 
     printNotification('success', _CATDEL);
-
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');\n"
-        ."}\n"
-        ."</script>\n";
+    setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');
 }
 
 /* Forum management */
@@ -339,12 +328,7 @@ function saveForum() {
         printNotification('success', _FORUMMODIF);
     }
 
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
-        ."}\n"
-        ."</script>\n";
+    setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');
 }
 
 function deleteForum() {
@@ -383,13 +367,7 @@ function deleteForum() {
     saveUserAction(_ACTIONDELFO .': '. $dbrForum['nom']);
 
     printNotification('success', _FORUMDEL);
-
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');\n"
-        ."}\n"
-        ."</script>\n";
+    setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');
 }
 
 function deleteModerator() {
@@ -673,7 +651,7 @@ function getPruneList() {
 }
 
 function prune() {
-    global $adminMenu, $language;
+    global $adminMenu;
 
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/prune.php';
@@ -760,190 +738,73 @@ function doPrune() {
 
 /* Forum settings management */
 
-function main_pref(){
-    global $adminMenu, $nuked, $language;
+function editSetting() {
+    global $adminMenu, $nuked;
 
-    $checked1 = $checked2 = $checked3 = $checked4 = $checked5 = $checked6 = $checked7 = $checked8 = $checked9 = false;
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/Forum/config/setting.php';
 
-    if ($nuked['forum_file'] == "on") $checked1 = true;
-    if ($nuked['forum_rank_team'] == "on") $checked2 = true;
-    if ($nuked['forum_image'] == "on") $checked3 = true;
-    if ($nuked['forum_cat_image'] == "on") $checked4 = true;
-    if ($nuked['forum_birthday'] == "on") $checked5 = true;
-    if ($nuked['forum_gamer_details'] == "on") $checked6 = true;
-    if ($nuked['forum_user_details'] == "on") $checked7 = true;
-    if ($nuked['forum_labels_active'] == "on") $checked8 = true;
-    if ($nuked['forum_display_modos'] == "on") $checked9 = true;
+    foreach ($forumSettingField as $field)
+        $forumSettingForm['items'][$field]['value'] = $nuked[$field];
 
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _PREFS . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\">\n";
+    $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
-    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
+    nkTemplate_addCSS('form.nkForm>div.nkForm_container>label{width:86%;}');
 
-    echo "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=change_pref\">\n"
-    . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-    . "<tr><td align=\"center\" colspan=\"2\">&nbsp;</td></tr>\n"
-    . "<tr><td colspan=\"2\"><b>" . _FORUMTITLE . " :</b> <input type=\"text\" name=\"forum_title\" size=\"40\" value=\"" . $nuked['forum_title'] . "\" /></td></tr>\n"
-    . "<tr><td colspan=\"2\"><b>" . _FORUMDESC . " :</b><br /><textarea name=\"forum_desc\" cols=\"55\" rows=\"5\">" . $nuked['forum_desc'] . "</textarea></td></tr>\n"
-    . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-    . "<tr><td>" . _USERANKTEAM . " :</td><td>";
-
-    checkboxButton('forum_rank_team', 'forum_rank_team', $checked2, false);
-
-    echo "</td></tr>\n"
-    . "<tr><td>" . _DISPLAYFORUMIMAGE . " :</td><td>";
-
-    checkboxButton('forum_image', 'forum_image', $checked3, false);
-    echo "</td></tr>\n"
-    . "<tr><td>" . _DISPLAYCATIMAGE . " :</td><td>";
-
-    checkboxButton('forum_cat_image', 'forum_cat_image', $checked4, false);
-    echo "</td></tr>\n"
-    . "<tr><td>" . _DISPLAYBIRTHDAY . " :</td><td>";
-
-    checkboxButton('forum_birthday', 'forum_birthday', $checked5, false);
-    echo "</td></tr>\n"
-    . "<tr><td>" . _DISPLAYGAMERDETAILS . " :</td><td>";
-
-    checkboxButton('forum_gamer_details', 'forum_gamer_details', $checked6, false);
-    echo "</td></tr>\n"
-    . "<tr><td>" . _DISPLAYUSERDETAILS . " :</td><td>";
-
-    checkboxButton('forum_user_details', 'forum_user_details', $checked7, false);
-    echo "</td></tr>\n"
-    . "<tr><td>" . _DISPLAYLABELS . " :</td><td>";
-
-    checkboxButton('forum_labels_active', 'forum_labels_active', $checked8, false);
-    echo "</td></tr>\n"
-    . "<tr><td>" . _DISPLAYMODOS . " :</td><td>";
-
-    checkboxButton('forum_display_modos', 'forum_display_modos', $checked9, false);
-    echo "</td></tr>\n"
-    . "<tr><td>" . _NUMBERTHREAD . " :</td><td><input type=\"text\" name=\"thread_forum_page\" size=\"2\" value=\"" . $nuked['thread_forum_page'] . "\" /></td></tr>\n"
-    . "<tr><td>" . _NUMBERPOST . " :</td><td><input type=\"text\" name=\"mess_forum_page\" size=\"2\" value=\"" . $nuked['mess_forum_page'] . "\" /></td></tr>\n"
-    . "<tr><td>" . _TOPICHOT . " :</td><td><input type=\"text\" name=\"hot_topic\" size=\"2\" value=\"" . $nuked['hot_topic'] . "\" /></td></tr>\n"
-    . "<tr><td>" . _POSTFLOOD . " :</td><td><input type=\"text\" name=\"post_flood\" size=\"2\" value=\"" . $nuked['post_flood'] . "\" /></td></tr>\n"
-    . "<tr><td>" . _MAXFIELD . " :</td><td><input type=\"text\" name=\"forum_field_max\" size=\"2\" value=\"" . $nuked['forum_field_max'] . "\" /></td></tr>\n"
-    . "<tr><td>" . _ATTACHFILES . " :</td><td>";
-
-    checkboxButton('forum_file', 'forum_file', $checked1, false);
-
-    echo "</td></tr>\n"
-    . "<tr><td>" . _FILELEVEL . " :</td><td><select name=\"forum_file_level\"><option>" . $nuked['forum_file_level'] . "</option>\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    ." <option>8</option>\n"
-    . "<option>9</option></select></td></tr>"
-    . "<tr><td>" . _MAXSIZEFILE . " :</td><td><input type=\"text\" name=\"forum_file_maxsize\" size=\"6\" value=\"" . $nuked['forum_file_maxsize'] . "\" /></td></tr>\n"
-    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
-    . "</form><br /></div></div>\n";
+    echo applyTemplate('contentBox', array(
+        'title'     => _ADMINFORUM .' - '. _PREFS,
+        'helpFile'  => 'Forum',
+        'content'   => $adminMenu . nkForm_generate($forumSettingForm)
+    ));
 }
 
-function change_pref($forum_title, $forum_desc, $forum_rank_team, $thread_forum_page, $mess_forum_page, $hot_topic, $post_flood, $forum_field_max, $forum_file, $forum_file_level, $forum_file_maxsize, $forum_image, $forum_cat_image, $forum_birthday, $forum_gamer_details, $forum_user_details, $forum_labels_active, $forum_display_modos){
-    global $nuked, $user;
+function saveSetting() {
+    global $nuked;
 
-    if ($forum_file != "on") {
-        $forum_file = "off";
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/Forum/config/setting.php';
+
+    $_POST['forum_title']   = stripslashes($_POST['forum_title']);
+    $_POST['forum_desc']    = stripslashes($_POST['forum_desc']);
+
+    foreach ($forumSettingField as $field) {
+        if ($forumSettingForm['items'][$field]['type'] == 'checkbox' && $_POST[$field] != 'on')
+            $_POST[$field] = 'off';
+
+        if ($nuked[$field] != $_POST[$field])
+            nkDB_update(CONFIG_TABLE, array('value'), array($_POST[$field]), 'name = '. nkDB_escape($field));
     }
-
-    if ($forum_rank_team != "on") {
-        $forum_rank_team = "off";
-    }
-
-    if ($forum_image != "on") {
-        $forum_image = "off";
-    }
-
-    if ($forum_cat_image != "on") {
-        $forum_cat_image = "off";
-    }
-
-    if ($forum_birthday != "on") {
-        $forum_birthday = "off";
-    }
-
-    if ($forum_gamer_details != "on") {
-        $forum_gamer_details = "off";
-    }
-
-    if ($forum_user_details != "on") {
-        $forum_user_details = "off";
-    }
-
-    if ($forum_labels_active != "on") {
-        $forum_labels_active = "off";
-    }
-
-    if ($forum_display_modos != "on") {
-        $forum_display_modos = "off";
-    }
-
-    $forum_title = mysql_real_escape_string(stripslashes($forum_title));
-    $forum_desc = mysql_real_escape_string(stripslashes($forum_desc));
-
-    $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_title . "' WHERE name = 'forum_title'");
-    $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_desc . "' WHERE name = 'forum_desc'");
-    $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_rank_team . "' WHERE name = 'forum_rank_team'");
-    $upd4 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $thread_forum_page . "' WHERE name = 'thread_forum_page'");
-    $upd5 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $mess_forum_page . "' WHERE name = 'mess_forum_page'");
-    $upd6 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $hot_topic . "' WHERE name = 'hot_topic'");
-    $upd7 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $post_flood . "' WHERE name = 'post_flood'");
-    $upd8 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_field_max . "' WHERE name = 'forum_field_max'");
-    $upd9 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_file . "' WHERE name = 'forum_file'");
-    $upd10 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_file_level . "' WHERE name = 'forum_file_level'");
-    $upd11 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_file_maxsize . "' WHERE name = 'forum_file_maxsize'");
-    $upd12 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_image . "' WHERE name = 'forum_image'");
-    $upd13 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_cat_image . "' WHERE name = 'forum_cat_image'");
-    $upd14 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_birthday . "' WHERE name = 'forum_birthday'");
-    $upd15 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_gamer_details . "' WHERE name = 'forum_gamer_details'");
-    $upd16 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_user_details . "' WHERE name = 'forum_user_details'");
-    $upd17 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_labels_active . "' WHERE name = 'forum_labels_active'");
-    $upd18 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $forum_display_modos . "' WHERE name = 'forum_display_modos'");
 
     saveUserAction(_ACTIONPREFFO .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _PREFUPDATED . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Forum&page=admin", 2);
+    printNotification('success', _PREFUPDATED);
+    redirect('index.php?file=Forum&page=admin', 2);
 }
 
 
 $adminMenu = array(
     _FORUM => array(
-        'img' => 'modules/Admin/images/icons/speedometer.png'
+        'img'   => 'modules/Admin/images/icons/speedometer.png'
     ),
     _ADDFORUM => array(
-        'img' => 'modules/Admin/images/icons/add_page.png',
-        'op' => 'editForum'
+        'img'   => 'modules/Admin/images/icons/add_page.png',
+        'op'    => 'editForum'
     ),
     _CATMANAGEMENT => array(
-        'img' => 'modules/Admin/images/icons/folder_full.png',
-        'op' => 'main_cat'
+        'img'   => 'modules/Admin/images/icons/folder_full.png',
+        'op'    => 'main_cat'
     ),
     _RANKMANAGEMENT => array(
-        'img' => 'modules/Admin/images/icons/ranks.png',
-        'op' => 'main_rank'
+        'img'   => 'modules/Admin/images/icons/ranks.png',
+        'op'    => 'main_rank'
     ),
     _PRUNE => array(
-        'img' => 'modules/Admin/images/icons/remove_from_database.png',
-        'op' => 'prune'
+        'img'   => 'modules/Admin/images/icons/remove_from_database.png',
+        'op'    => 'prune'
     ),
     _PREFS => array(
-        'img' => 'modules/Admin/images/icons/process.png',
-        'op' => 'main_pref'
+        'img'   => 'modules/Admin/images/icons/process.png',
+        'op'    => 'editSetting'
     )
 );
 
@@ -1005,12 +866,12 @@ switch ($_REQUEST['op']) {
         doPrune();
         break;
 
-    case "main_pref":
-        main_pref();
+    case 'editSetting' :
+        editSetting();
         break;
 
-    case "change_pref":
-        change_pref($_REQUEST['forum_title'], $_REQUEST['forum_desc'], $_REQUEST['forum_rank_team'], $_REQUEST['thread_forum_page'], $_REQUEST['mess_forum_page'], $_REQUEST['hot_topic'], $_REQUEST['post_flood'], $_REQUEST['forum_field_max'], $_REQUEST['forum_file'], $_REQUEST['forum_file_level'], $_REQUEST['forum_file_maxsize'], $_REQUEST['forum_image'], $_REQUEST['forum_cat_image'], $_REQUEST['forum_birthday'], $_REQUEST['forum_gamer_details'], $_REQUEST['forum_user_details'], $_REQUEST['forum_labels_active'], $_REQUEST['forum_display_modos']);
+    case 'saveSetting' :
+        saveSetting();
         break;
 
     default:
