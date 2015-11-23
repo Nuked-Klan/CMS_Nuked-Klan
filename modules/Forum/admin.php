@@ -205,8 +205,7 @@ function editForum() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/forum.php';
 
-    $id         = (isset($_GET['id'])) ? $_GET['id'] : 0;
-    $content    = '';
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     $dbrForumCat = nkDB_selectMany(
         'SELECT id, nom
@@ -550,8 +549,7 @@ function editRank() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/rank.php';
 
-    $id         = (isset($_GET['rid'])) ? $_GET['rid'] : 0;
-    $content    = '';
+    $id = (isset($_GET['rid'])) ? $_GET['rid'] : 0;
 
     if ($id > 0) {
         $dbrForumRank = nkDB_selectOne(
@@ -577,44 +575,56 @@ function editRank() {
     ));
 }
 
-function send_rank($nom, $type, $post, $image, $upImageRank){
-    global $nuked, $user;
+function saveRank() {
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
-    $nom = mysql_real_escape_string(stripslashes($nom));
+    $data = array(
+        'nom'   => $_POST['nom'],
+        'type'  => $_POST['type'],
+        'post'  => $_POST['post']
+    );
 
-    //Upload du fichier
+    // Upload du fichier
     $filename = $_FILES['upImageRank']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/rank/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageRank']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=editRank', $type = 'error', $back = false, $redirect = true);
+    if ($filename != '') {
+        $imgInfo = getimagesize($filename);
+
+        if ($imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG))) {
+            $data['image'] = 'upload/Forum/rank/'. $filename;
+
+            if (! move_uploaded_file($_FILES['upImageRank']['tmp_name'], $data['image'])) {
+                printNotification('error', _UPLOADFILEFAILED);
+                redirect('index.php?file=Forum&page=admin&op=editRank'. ($id > 0) ? '&cid='. $id : '', 2);
                 return;
             }
-            @chmod ($url_image, 0644);
+
+            @chmod($data['image'], 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=editRank', $type = 'error', $back = false, $redirect = true);
+            printNotification('error', _NOIMAGEFILE);
+            redirect('index.php?file=Forum&page=admin&op=editRank'. ($id > 0) ? '&cid='. $id : '', 2);
             return;
         }
     }
     else {
-        $url_image = $image;
+        $data['image'] = $_POST['image'];
     }
 
+    if ($id == 0) {
+        nkDB_insert(FORUM_RANK_TABLE, array_keys($data), array_values($data));
+        saveUserAction(_ACTIONADDRANKFO .': '. $data['nom']);
 
-    $sql = mysql_query("INSERT INTO " . FORUM_RANK_TABLE . " ( `id` , `nom` , `type` , `post` , `image` ) VALUES ( '' , '" . $nom . "' , '" . $type . "' , '" . $post . "' , '" . $url_image . "' )");
+        printNotification('success', _RANKADD);
+    }
+    else {
+        nkDB_update(FORUM_RANK_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        saveUserAction(_ACTIONMODIFRANKFO .': '. $data['nom']);
 
-    saveUserAction(_ACTIONADDRANKFO .': '. $nom);
+        printNotification('success', _RANKMODIF);
+    }
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _RANKADD . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
+    redirect('index.php?file=Forum&page=admin&op=main_rank', 2);
 }
 
 function deleteRank() {
@@ -634,96 +644,58 @@ function deleteRank() {
     redirect('index.php?file=Forum&page=admin&op=main_rank', 2);
 }
 
-function modif_rank($rid, $nom, $type, $post, $image, $upImageRank){
-    global $nuked, $user;
+/* Forum prune management */
 
-    $nom = mysql_real_escape_string(stripslashes($nom));
+function getPruneList() {
+    $options = array('' => _ALL);
 
-    //Upload du fichier
-    $filename = $_FILES['upImageRank']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $dbrForumCat = nkDB_selectMany(
+        'SELECT id, nom
+        FROM '. FORUM_CAT_TABLE,
+        array('ordre', 'nom')
+    );
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Forum/rank/" . $filename;
-            if (! move_uploaded_file($_FILES['upImageRank']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Forum&page=admin&op=editRank', $type = 'error', $back = false, $redirect = true);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Forum&page=admin&op=editRank', $type = 'error', $back = false, $redirect = true);
-            return;
-        }
-    }
-    else {
-        $url_image = $image;
+    foreach ($dbrForumCat as $forumCat) {
+        $options['cat_'. $forumCat['id']] = '* '. printSecuTags($forumCat['nom']);
+
+        $dbrForum = nkDB_selectMany(
+            'SELECT id, nom
+            FROM '. FORUM_TABLE .'
+            WHERE cat = '. nkDB_escape($forumCat['id']),
+            array('ordre', 'nom')
+        );
+
+        foreach ($dbrForum as $forum)
+            $options['cat_'. $forum['id']] = '&nbsp;&nbsp;&nbsp;'. printSecuTags($forum['nom']);
     }
 
-    $sql = mysql_query("UPDATE " . FORUM_RANK_TABLE . " SET nom = '" . $nom . "', type = '" . $type . "', post = '" . $post . "', image = '" . $url_image . "' WHERE id = '" . $rid . "'");
-
-    saveUserAction(_ACTIONMODIFRANKFO .': '. $nom);
-
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _RANKMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Forum&page=admin&op=main_rank", 2);
+    return $options;
 }
 
-function prune(){
-    global $adminMenu, $nuked, $language;
+function prune() {
+    global $adminMenu, $language;
 
-    echo "<script type=\"text/javascript\">\n"
-    ."<!--\n"
-    ."\n"
-    . "function verifchamps()\n"
-    . "{\n"
-    . "if (document.getElementById('prune_day').value.length == 0)\n"
-    . "{\n"
-    . "alert('" . _NODAY . "');\n"
-    . "return false;\n"
-    . "}\n"
-    . "return true;\n"
-    . "}\n"
-        . "\n"
-    . "// -->\n"
-    . "</script>\n";
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/Forum/config/prune.php';
 
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _PRUNE . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\">\n";
-
-    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
-
-    echo "<form method=\"post\" action=\"index.php?file=Forum&amp;page=admin&amp;op=do_prune\" onsubmit=\"return verifchamps();\">\n"
-    . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\"  border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-    . "<tr><td>" . _DELOLDMESSAGES . "</td></tr>\n"
-    . "<tr><td><b>" . _NUMBEROFDAY . " :</b> <input id=\"prune_day\" type=\"text\" name=\"day\" size=\"3\" maxlength=\"3\" /></td></tr>\n"
-    . "<tr><td><b>" . _FORUM . " :</b> <select name=\"forum_id\"><option value=\"\">" . _ALL . "</option>\n";
-
-    $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
-    while (list($cat, $cat_name) = mysql_fetch_row($sql_cat)){
-        $cat_name = printSecuTags($cat_name);
-
-        echo "<option value=\"cat_" . $cat . "\">* " . $cat_name . "</option>\n";
-
-        $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' ORDER BY ordre, nom");
-        while (list($forum_name, $fid) = mysql_fetch_row($sql_forum)){
-            $forum_name = printSecuTags($forum_name);
-
-            echo "<option value=\"" . $fid . "\">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
-        }
+    nkTemplate_addJs(
+'$("#pruneForumForm").submit(function(event) {
+    if (document.getElementById("prune_day").value.length == 0) {
+        alert("'. _NODAY .'");
+        return false;
     }
+    return true;
+});', 'jqueryDomReady');
 
-    echo "</select></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
-    . "</form><br /></div></div>\n";
+    $pruneForumForm['items']['prune_id']['options'] = getPruneList();
+
+    $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
+
+    echo applyTemplate('contentBox', array(
+        'title'     => _ADMINFORUM .' - '. _PRUNE,
+        'helpFile'  => 'Forum',
+        'content'   => $adminMenu . nkForm_generate($pruneForumForm)
+    ));
 }
 
 function do_prune($day, $forum_id){
@@ -768,6 +740,8 @@ function do_prune($day, $forum_id){
     . "</div>\n";
     redirect("index.php?file=Forum&page=admin", 2);
 }
+
+/* Forum settings management */
 
 function main_pref(){
     global $adminMenu, $nuked, $language;
@@ -998,19 +972,15 @@ switch ($_REQUEST['op']) {
         editRank();
         break;
 
-    case "send_rank":
-        send_rank($_REQUEST['nom'], $_REQUEST['type'], $_REQUEST['post'], $_REQUEST['image'], $_REQUEST['upImageRank']);
+    case 'saveRank' :
+        saveRank();
         break;
 
     case 'deleteRank' :
         deleteRank();
         break;
 
-    case "modif_rank":
-        modif_rank($_REQUEST['rid'], $_REQUEST['nom'], $_REQUEST['type'], $_REQUEST['post'], $_REQUEST['image'], $_REQUEST['upImageRank']);
-        break;
-
-    case "prune":
+    case 'prune' :
         prune();
         break;
 

@@ -265,10 +265,10 @@ function nkForm_initInput($fieldName, &$params, $formId) {
     if (! array_key_exists('required', $params))
         $params['required'] = false;
 
-    //if (! array_key_exists('id', $params) && array_key_exists('name', $params) && $params['name'] != '')
-    //    $params['id'] = $formId .'_'. $params['name'];
+    if (! array_key_exists('id', $params) && array_key_exists('name', $params) && $params['name'] != '')
+        $params['id'] = $formId .'_'. $params['name'];
 
-    $params['id'] = $formId .'_'. $fieldName;
+    //$params['id'] = $formId .'_'. $fieldName;
 
     if (! array_key_exists('htmlspecialchars', $params))
         $params['htmlspecialchars'] = false;
@@ -544,10 +544,10 @@ function nkForm_inputSelect($fieldName, $params, $formId) {
     $html = '<select'. nkForm_formatAttribute($params, $attributes) .'>';
 
     foreach ($params['options'] as $key => $value) {
-        if (strpos('start-optgroup', $key) === 0)
+        if (strpos($key, 'start-optgroup') === 0)
             $html .= '<optgroup label="'. $value .'">';
 
-        else if (strpos('end-optgroup', $key) === 0)
+        else if (strpos($key, 'end-optgroup') === 0)
             $html .= '</optgroup>';
 
         else {
