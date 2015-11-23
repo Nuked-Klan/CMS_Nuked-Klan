@@ -198,7 +198,7 @@ function main_pref()
 
     nkAdminMenu(2);
 
-    printNotification(_NOTIF_INFOS_DISPLAY, '#', $type = 'information', $back = false, $redirect = false);
+    printNotification(_NOTIF_INFOS_DISPLAY);
 
     echo "<form method=\"post\" action=\"index.php?file=Textbox&amp;page=admin&amp;op=change_pref\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"

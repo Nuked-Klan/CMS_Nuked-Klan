@@ -26,7 +26,7 @@ function index()
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\">\n";
 
-    printNotification(_TO_CREATE_A_MENU, '', $type = 'information', $back = false, $redirect = false);
+    printNotification(_TO_CREATE_A_MENU);
 
     echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr>\n"

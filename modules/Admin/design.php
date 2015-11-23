@@ -152,17 +152,18 @@ function checkboxButton($name, $id, $checked = false, $inline = false) {
 <?php
 }
 
-// information, error
-function printNotification($message, $url, $type = 'information', $back = true, $redirect = false) {
-    echo applyTemplate('notification', array(
-        'type'      => $type,
-        'message'   => $message,
-        'back'      => $back,
-        'url'       => $url
+// information, success, error
+function printNotification($message, $type = 'information', $backLinkUrl = false, $return = false) {
+    $html = applyTemplate('notification', array(
+        'type'          => $type,
+        'message'       => $message,
+        'backLinkUrl'   => $backLinkUrl,
     ));
 
-    if ($redirect === true)
-        redirect($url, 2);
+    if ($return)
+        return $html;
+    else
+        echo $html;
 }
 
 function saveUserAction($action) {

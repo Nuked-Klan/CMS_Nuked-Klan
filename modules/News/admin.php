@@ -266,13 +266,15 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $url
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/News/" . $filename;
             if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                printNotification(_UPLOADFILEFAILED, 'error');
+                redirect('index.php?file=News&page=admin&op=add', 2);
                 return;
             }
             @chmod ($url_image, 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=News&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+            printNotification(_NOIMAGEFILE, 'error');
+            redirect('index.php?file=News&page=admin&op=add', 2);
             return;
         }
     }
@@ -313,7 +315,7 @@ function edit($news_id) {
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n";
-        printNotification(_NOTIFIMAGECOVERAGE, '#', $type = 'information', $back = false, $redirect = false);
+        printNotification(_NOTIFIMAGECOVERAGE);
     echo "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_edit&amp;news_id=" . $news_id . "\" onsubmit=\"backslash('news_texte');backslash('news_suite');\" enctype=\"multipart/form-data\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
         . "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . printSecuTags($titre) . "\" /></td></tr>\n"
@@ -406,13 +408,15 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/News/" . $filename;
             if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=News&page=admin&op=edit&news_id=' . $news_id . '', $type = 'error', $back = false, $redirect = true);
+                printNotification(_UPLOADFILEFAILED, 'error');
+                redirect('index.php?file=News&page=admin&op=edit&news_id='. $news_id, 2);
                 return;
             }
             @chmod ($url_image, 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=News&page=admin&op=edit&news_id=' . $news_id . '', $type = 'error', $back = false, $redirect = true);
+            printNotification(_NOIMAGEFILE, 'error');
+            redirect('index.php?file=News&page=admin&op=edit&news_id='. $news_id, 2);
             return;
         }
     }

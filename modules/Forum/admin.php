@@ -84,7 +84,7 @@ function editForumCat() {
             $forumCatForm['items'][$field]['value'] = $dbrForumCat[$field];
 
         if ($dbrForumCat['image'] !='') {
-            $content .= printNotification('information', _NOTIFIMAGESIZE, $backLink = false, $return = true);
+            $content .= printNotification(_NOTIFIMAGESIZE, 'information', $backLinkUrl = false, $return = true);
 
             $forumCatForm['items']['htmlCategoryImage'] = '<img src="'. $dbrForumCat['image'] .'" style="max-width:100%;height:auto;"/>';
         }
@@ -100,6 +100,8 @@ function editForumCat() {
 }
 
 function saveForumCat() {
+    require_once 'Includes/nkUpload.php';
+
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     $data = array(
@@ -108,26 +110,15 @@ function saveForumCat() {
         'ordre'     => $_POST['ordre']
     );
 
-    // Upload du fichier
-    $filename = $_FILES['upImageCat']['name'];
+    if ($_FILES['upImageCat']['name'] != '') {
+        list($upImageCat, $uploadError) = nkUpload_check('upImageCat', 'image', 'upload/Forum/cat');
 
-    if ($filename != '') {
-        $imgInfo = getimagesize($filename);
-
-        if ($imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG))) {
-            $data['image'] = 'upload/Forum/cat/'. $filename;
-
-            if (! move_uploaded_file($_FILES['upImageCat']['tmp_name'], $data['image'])) {
-                printNotification('error', _UPLOADFILEFAILED);
-                redirect('index.php?file=Forum&page=admin&op=editCat'. ($id > 0) ? '&cid='. $id : '', 2);
-                return;
-            }
-
-            @chmod($data['image'], 0644);
+        if ($uploadError === false) {
+            $data['image'] = $upImageCat;
         }
         else {
-            printNotification('error', _NOIMAGEFILE);
-            redirect('index.php?file=Forum&page=admin&op=editCat'. ($id > 0) ? '&cid='. $id : '', 2);
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Forum&page=admin&op=editCat'. ($id > 0) ? '&id='. $id : '', 2);
             return;
         }
     }
@@ -139,14 +130,14 @@ function saveForumCat() {
         nkDB_insert(FORUM_CAT_TABLE, array_keys($data), array_values($data));
         saveUserAction(_ACTIONADDCATFO .': '. $data['nom']);
 
-        printNotification('success', _CATADD);
+        printNotification(_CATADD, 'success');
     }
     else {
         nkDB_update(FORUM_CAT_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
         nkDB_update(FORUM_TABLE, array('niveau'), array($data['niveau']), 'cat = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFCATFO .': '. $data['nom']);
 
-        printNotification('success', _CATMODIF);
+        printNotification(_CATMODIF, 'success');
     }
 
     setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');
@@ -164,7 +155,7 @@ function deleteForumCat() {
     nkDB_delete(FORUM_CAT_TABLE, 'id = '. nkDB_escape($id));
     saveUserAction(_ACTIONDELCATFO .': '. $dbrForumCat['nom']);
 
-    printNotification('success', _CATDEL);
+    printNotification(_CATDEL, 'success');
     setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');
 }
 
@@ -259,6 +250,8 @@ function editForum() {
 }
 
 function saveForum() {
+    require_once 'Includes/nkUpload.php';
+
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     $data = array(
@@ -273,25 +266,14 @@ function saveForum() {
         'level_vote'    => $_POST['level_vote']
     );
 
-    // Upload du fichier
-    $filename = $_FILES['upImageForum']['name'];
+    if ($_FILES['upImageForum']['name'] != '') {
+        list($upImageForum, $uploadError) = nkUpload_check('upImageForum', 'image', 'upload/Forum/cat');
 
-    if ($filename != '') {
-        $imgInfo = getimagesize($filename);
-
-        if ($imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG))) {
-            $data['image'] = 'upload/Forum/cat/'. $filename;
-
-            if (! move_uploaded_file($_FILES['upImageForum']['tmp_name'], $data['image'])) {
-                printNotification('error', _UPLOADFILEFAILED);
-                redirect('index.php?file=Forum&page=admin&op=editForum'. ($id > 0) ? '&id='. $id : '', 2);
-                return;
-            }
-
-            @chmod($data['image'], 0644);
+        if ($uploadError === false) {
+            $data['image'] = $upImageForum;
         }
         else {
-            printNotification('error', _NOIMAGEFILE);
+            printNotification($uploadError, 'error');
             redirect('index.php?file=Forum&page=admin&op=editForum'. ($id > 0) ? '&id='. $id : '', 2);
             return;
         }
@@ -304,7 +286,7 @@ function saveForum() {
         nkDB_insert(FORUM_TABLE, array_keys($data), array_values($data));
         saveUserAction(_ACTIONADDFO .': '. $data['nom']);
 
-        printNotification('success', _FORUMADD);
+        printNotification(_FORUMADD, 'success');
     }
     else {
         if ($data['moderateurs'] != '') {
@@ -325,7 +307,7 @@ function saveForum() {
         nkDB_update(FORUM_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFFO .': '. $data['nom']);
 
-        printNotification('success', _FORUMMODIF);
+        printNotification(_FORUMMODIF, 'success');
     }
 
     setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');
@@ -366,7 +348,7 @@ function deleteForum() {
 
     saveUserAction(_ACTIONDELFO .': '. $dbrForum['nom']);
 
-    printNotification('success', _FORUMDEL);
+    printNotification(_FORUMDEL, 'success');
     setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');
 }
 
@@ -400,7 +382,7 @@ function deleteModerator() {
 
     saveUserAction(_ACTIONDELMODOFO .': '. $dbrUser['pseudo']);
 
-    printNotification('success', _MODODEL);
+    printNotification(_MODODEL, 'success');
     redirect('index.php?file=Forum&page=admin&op=editForum&id='. $_GET['forum_id'], 2);
 }
 
@@ -465,7 +447,7 @@ function main_rank(){
     . "function delrank(titre, id)\n"
     . "{\n"
     . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteRank&rid='+id;}\n"
+    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteRank&id='+id;}\n"
     . "}\n"
         . "\n"
     . "// -->\n"
@@ -527,7 +509,7 @@ function editRank() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/rank.php';
 
-    $id = (isset($_GET['rid'])) ? $_GET['rid'] : 0;
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     if ($id > 0) {
         $dbrForumRank = nkDB_selectOne(
@@ -554,6 +536,8 @@ function editRank() {
 }
 
 function saveRank() {
+    require_once 'Includes/nkUpload.php';
+
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     $data = array(
@@ -562,26 +546,15 @@ function saveRank() {
         'post'  => $_POST['post']
     );
 
-    // Upload du fichier
-    $filename = $_FILES['upImageRank']['name'];
+    if ($_FILES['upImageRank']['name'] != '') {
+        list($upImageRank, $uploadError) = nkUpload_check('upImageRank', 'image', 'upload/Forum/rank');
 
-    if ($filename != '') {
-        $imgInfo = getimagesize($filename);
-
-        if ($imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG))) {
-            $data['image'] = 'upload/Forum/rank/'. $filename;
-
-            if (! move_uploaded_file($_FILES['upImageRank']['tmp_name'], $data['image'])) {
-                printNotification('error', _UPLOADFILEFAILED);
-                redirect('index.php?file=Forum&page=admin&op=editRank'. ($id > 0) ? '&cid='. $id : '', 2);
-                return;
-            }
-
-            @chmod($data['image'], 0644);
+        if ($uploadError === false) {
+            $data['image'] = $upImageRank;
         }
         else {
-            printNotification('error', _NOIMAGEFILE);
-            redirect('index.php?file=Forum&page=admin&op=editRank'. ($id > 0) ? '&cid='. $id : '', 2);
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Forum&page=admin&op=editRank'. ($id > 0) ? '&id='. $id : '', 2);
             return;
         }
     }
@@ -593,20 +566,20 @@ function saveRank() {
         nkDB_insert(FORUM_RANK_TABLE, array_keys($data), array_values($data));
         saveUserAction(_ACTIONADDRANKFO .': '. $data['nom']);
 
-        printNotification('success', _RANKADD);
+        printNotification(_RANKADD, 'success');
     }
     else {
         nkDB_update(FORUM_RANK_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFRANKFO .': '. $data['nom']);
 
-        printNotification('success', _RANKMODIF);
+        printNotification(_RANKMODIF, 'success');
     }
 
     redirect('index.php?file=Forum&page=admin&op=main_rank', 2);
 }
 
 function deleteRank() {
-    $id = (isset($_GET['rid'])) ? $_GET['rid'] : 0;
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     $dbrForumRank = nkDB_selectOne(
         'SELECT nom
@@ -617,7 +590,7 @@ function deleteRank() {
     nkDB_delete(FORUM_RANK_TABLE, 'id = '. nkDB_escape($id));
     saveUserAction(_ACTIONDELRANKFO .': '. $dbrForumRank['nom']);
 
-    printNotification('success', _RANKDEL);
+    printNotification(_RANKDEL, 'success');
 
     redirect('index.php?file=Forum&page=admin&op=main_rank', 2);
 }
@@ -656,8 +629,8 @@ function prune() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/prune.php';
 
-    nkTemplate_addJs(
-'$("#pruneForumForm").submit(function(event) {
+    nkTemplate_addJS(
+'$("#pruneForumForm").submit(function() {
     if (document.getElementById("prune_day").value.length == 0) {
         alert("'. _NODAY .'");
         return false;
@@ -732,7 +705,7 @@ function doPrune() {
 
     saveUserAction(_ACTIONPRUNEFO .': '. $name);
 
-    printNotification('success', _FORUMPRUNE);
+    printNotification(_FORUMPRUNE, 'success');
     redirect('index.php?file=Forum&page=admin', 2);
 }
 
@@ -777,7 +750,7 @@ function saveSetting() {
 
     saveUserAction(_ACTIONPREFFO .'.');
 
-    printNotification('success', _PREFUPDATED);
+    printNotification(_PREFUPDATED, 'success');
     redirect('index.php?file=Forum&page=admin', 2);
 }
 

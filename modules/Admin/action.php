@@ -34,7 +34,7 @@ function main()
     . '</div></div>',"\n"
     . '<div class="tab-content" id="tab2">',"\n";
 
-    printNotification(_INFOACTION, '', $type = 'information', $back = false, $redirect = false);
+    printNotification(_INFOACTION);
 
     if ($count > $nbActions){
         echo "<table width=\"100%\"><tr><td>";

@@ -176,7 +176,7 @@ function nkForm_generate($form) {
 
     nkForm_init($form);
 
-    $html = "\n". '<form class="nkForm" id="'. $form['id'] .'_form" action="'. $form['action'] .'" method="'. strtoupper($form['method']) .'"'. $form['enctype'] .'>' ."\n";
+    $html = "\n". '<form class="nkForm" id="'. $form['id'] .'" action="'. $form['action'] .'" method="'. strtoupper($form['method']) .'"'. $form['enctype'] .'>' ."\n";
     $r = 0;
 
     foreach ($form['items'] as $itemName => $itemData) {

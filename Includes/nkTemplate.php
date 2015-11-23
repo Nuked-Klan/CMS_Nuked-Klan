@@ -321,7 +321,7 @@ function nkTemplate_addJSFile($file, $type = 'normal') {
 function nkTemplate_addJS($script, $jsType = 'normal') {
     if ($jsType == 'jqueryDomReady')
         $GLOBALS['nkTemplate']['JS']['string']['jqueryDomReady'] .= $script;
-    if ($jsType == 'beforeLibs')
+    else if ($jsType == 'beforeLibs')
         $GLOBALS['nkTemplate']['JS']['string']['beforeLibs'] .= $script;
     else
         $GLOBALS['nkTemplate']['JS']['string']['normal'] .= $script;
@@ -389,7 +389,7 @@ function nkTemplate_getJS() {
             'librairyPlugin'    => array(),
             'normal'            => array()
         ),
-        'data'          => array(
+        'string'          => array(
             'normal'            => '',
             'jqueryDomReady'    => '',
             'beforeLibs'        => ''

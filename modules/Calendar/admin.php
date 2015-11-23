@@ -120,7 +120,7 @@ function do_add($description, $titre, $heure, $date_an, $date_mois, $date_jour)
 
     saveUserAction(_ACTIONADDCAL .': '. $titre);
 
-    printNotification(_EVENTADD, '', 'success', $back = false, $redirect = false);
+    printNotification(_EVENTADD, 'success');
 
     echo "<script type=\"text/javascript\">\n"
     ."//<![CDATA[\n"
@@ -170,7 +170,7 @@ function do_edit($eid, $description, $titre, $heure, $date_an, $date_mois, $date
 
     saveUserAction(_ACTIONMODIFCAL .': '. $titre);
 
-    printNotification(_EVENTMODIF, '', 'success', $back = false, $redirect = false);
+    printNotification(_EVENTMODIF, 'success');
 
     echo "<script type=\"text/javascript\">\n"
     ."//<![CDATA[\n"
@@ -192,7 +192,8 @@ function del($eid)
 
     saveUserAction(_ACTIONDELCAL .': '. $titre);
 
-    printNotification(_EVENTDEL, 'index.php?file=Calendar&page=admin', 'success', $back = false, $redirect = true);
+    printNotification(_EVENTDEL, 'success');
+    redirect('index.php?file=Calendar&page=admin', 2);
 }
 
 function main_pref()
@@ -261,7 +262,8 @@ function change_pref($birthday)
 
     saveUserAction(_ACTIONPREFUPCAL .'.');
 
-    printNotification(_PREFUPDATED, 'index.php?file=Calendar&page=admin', 'success', $back = false, $redirect = true);
+    printNotification(_PREFUPDATED, 'success');
+    redirect('index.php?file=Calendar&page=admin', 2);
 }
 
 function nkAdminMenu($tab = 1) {

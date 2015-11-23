@@ -772,7 +772,7 @@ function add_cat()
     . "<tr><td><b>" . _TAGPRE . " : </b><input type=\"text\" name=\"tag\" size=\"10\" />&nbsp;<b>" . _TAGSUF . " : </b><input type=\"text\" name=\"tag2\" size=\"10\" /></td></tr>\n"
     . "<tr><td>\n";
 
-    printNotification(_NOTIFLOGOTEAM, '#', $type = 'information', $back = false, $redirect = false);
+    printNotification(_NOTIFLOGOTEAM);
 
     echo "<b>" . _TEAMLOGO . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" /></td></tr>\n"
     . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
@@ -807,13 +807,15 @@ function send_cat($titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage)
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Team/" . $filename;
             if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Admin&page=user&op=add_cat', $type = 'error', $back = false, $redirect = true);
+                printNotification(_UPLOADFILEFAILED, 'error');
+                redirect('index.php?file=Admin&page=user&op=add_cat', 2);
                 return;
             }
             @chmod ($url_image, 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Admin&page=user&op=add_cat', $type = 'error', $back = false, $redirect = true);
+            printNotification(_NOIMAGEFILE, 'error');
+            redirect('index.php?file=Admin&page=user&op=add_cat', 2);
             return;
         }
     }
@@ -854,7 +856,7 @@ function edit_cat($cid)
     . "<tr><td><b>" . _TAGPRE . " : </b><input type=\"text\" name=\"tag\" size=\"10\" value=\"" . $tag . "\" />&nbsp;<b>" . _TAGSUF . " : </b><input type=\"text\" name=\"tag2\" size=\"10\" value=\"" . $tag2 . "\" /></td></tr>\n"
     . "<tr><td>\n";
 
-    printNotification(_NOTIFLOGOTEAM, '#', $type = 'information', $back = false, $redirect = false);
+    printNotification(_NOTIFLOGOTEAM);
 
     echo "<b>" . _TEAMLOGO . " :</b> <input type=\"text\" name=\"urlImage\" value=\"" . $teamLogo . "\" size=\"42\" />\n";
 
@@ -904,13 +906,15 @@ function modif_cat($cid, $titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Team/" . $filename;
             if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Admin&page=user&op=edit_cat&cid=' . $cid . '', $type = 'error', $back = false, $redirect = true);
+                printNotification(_UPLOADFILEFAILED, 'error');
+                redirect('index.php?file=Admin&page=user&op=edit_cat&cid='. $cid, 2);
                 return;
             }
             @chmod ($url_image, 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Admin&page=user&op=edit_cat&cid=' . $cid . '', $type = 'error', $back = false, $redirect = true);
+            printNotification(_NOIMAGEFILE, 'error');
+            redirect('index.php?file=Admin&page=user&op=edit_cat&cid='. $cid, 2);
             return;
         }
     }

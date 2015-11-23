@@ -249,13 +249,15 @@ function do_add($titre, $texte, $cat, $urlImage, $upImage){
             if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
                 $url_image = "upload/Sections/" . $filename;
                 if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                    printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                    printNotification(_UPLOADFILEFAILED, 'error');
+                    redirect('index.php?file=Sections&page=admin&op=add', 2);
                     return;
                 }
                 @chmod ($url_image, 0644);
             }
             else {
-                printNotification(_NOIMAGEFILE, 'index.php?file=Sections&page=admin&op=add', $type = 'error', $back = false, $redirect = true);
+                printNotification(_NOIMAGEFILE, 'error');
+                redirect('index.php?file=Sections&page=admin&op=add', 2);
                 return;
             }
         }
@@ -362,13 +364,15 @@ function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
             if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
                 $url_image = "upload/Sections/" . $filename;
                 if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                    printNotification(_UPLOADFILEFAILED, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true);
+                    printNotification(_UPLOADFILEFAILED, 'error');
+                    redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
                     return;
                 }
                 @chmod ($url_image, 0644);
             }
             else {
-                printNotification(_NOIMAGEFILE, 'index.php?file=Sections&page=admin&op=edit&artid=' . $art_id . '', $type = 'error', $back = false, $redirect = true);
+                printNotification(_NOIMAGEFILE, 'error');
+                redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
                 return;
             }
         }

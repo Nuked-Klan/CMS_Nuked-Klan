@@ -1037,15 +1037,15 @@ function adminInit($module, $adminPageLevel = false) {
     }
     // Module disabled
     elseif ($adminLevel == -1) {
-        printNotification(_MODULEOFF, 'javascript:history.back()', $type = 'error');
+        printNotification(_MODULEOFF, 'error', 'javascript:history.back()');
     }
     // User logged in, but not the rights
     elseif ($visiteur > 1) {
-        printNotification(_NOENTRANCE, 'javascript:history.back()', $type = 'error');
+        printNotification(_NOENTRANCE, 'error', 'javascript:history.back()');
     }
     // User not logged
     else {
-        printNotification(_ZONEADMIN, 'javascript:history.back()', $type = 'error');
+        printNotification(_ZONEADMIN, 'error', 'javascript:history.back()');
     }
 
     return false;
