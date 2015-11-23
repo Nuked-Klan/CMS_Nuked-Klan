@@ -14,9 +14,6 @@ function affich_block_login($blok){
 
     $captcha = initCaptcha();
 
-    $captcha = initCaptcha();
-
-
     if(!empty($blok['content'])){
         list($login, $messpv, $members, $online, $avatar) = explode('|', $blok['content']);
     }

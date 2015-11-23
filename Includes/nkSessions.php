@@ -275,7 +275,7 @@ function nkSessions_createNewSession($userId, $rememberMe) {
         'user_id = '. nkDB_escape($userId)
     );
 
-    $dbiSessions = false;
+    $dbiSessions = true;
 
     if (nkDB_affectedRows() == 0) {
         $dbiSessions = nkDB_insert(SESSIONS_TABLE,
