@@ -1,5 +1,44 @@
 <?php
 
+/* nkList configuration */
+
+// Define the list of forum category
+$forumCatList = array(
+    'classPrefix' => 'forumCat',
+    'sqlQuery' => 'SELECT id, nom, ordre FROM '. FORUM_CAT_TABLE,
+    'defaultSortables' => array(
+        'order'     => array('ordre', 'nom')
+    ),
+    'fields' => array(
+        'nom' => array(
+            'label'             => _CAT,
+            'type'              => 'image',
+            'sort'              => 'sql'
+        ),
+        'ordre' => array(
+            'label'             => _ORDER,
+            'type'              => 'string',
+            'sort'              => 'sql'
+        )
+    ),
+    'edit' => array(
+        'op'                => 'editCat',
+        'text'              => _EDITTHISCAT
+    ),
+    'delete' => array(
+        'op'                => 'deleteCat',
+        'text'              => _DELTHISCAT,
+        'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
+        'confirmField'      => 'nom'
+    ),
+    'emptytable' => '_NOSMILEYINDB',
+    'callbackRowFunction' => array(
+        'functionName'      => 'formatForumCatRow'
+    )
+);
+
+/* nkForm configuration */
+
 // List of fields to update
 $forumCatField = array(
     'nom',

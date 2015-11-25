@@ -186,6 +186,16 @@ function nkHandle_alert() {
     return $html;
 }
 
+function getRequestVars() {
+    $vars = array();
+
+    $request = ($_SERVER['REQUEST_METHOD'] == 'POST') ? $_POST : $_GET;
+
+    foreach (func_get_args() as $varName)
+        $vars[] = (array_key_exists($varName, $request)) ? trim($request[$varName]) : '';
+
+    return $vars;
+}
 
 // FUNCTIONS TO FIX COMPATIBILITY WITH PHP5.4
 
@@ -847,7 +857,7 @@ function redirect($url, $delay = 0) {
 }
 
 // DISPLAYS THE NUMBER OF PAGES
-function number($count, $each, $link) {
+function number($count, $each, $link, $return = false) {
 
     if(array_key_exists('p', $_REQUEST)){
         $current = $_REQUEST['p'];
@@ -891,7 +901,11 @@ function number($count, $each, $link) {
             }
         }
         $output .= '<br />';
-        echo $output;
+
+        if ($return)
+            return $output;
+        else
+            echo $output;
     }
 }
 

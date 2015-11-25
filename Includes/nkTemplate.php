@@ -38,8 +38,8 @@ $GLOBALS['nkTemplate'] = array(
 );
 
 define('JQUERY_LIBRAIRY', 'media/js/jquery-min-1.8.3.js');
-define('JQUERY_UI_LIBRAIRY', '');
-define('JQUERY_UI_CSS', '');
+define('JQUERY_UI_LIBRAIRY', 'media/jquery-ui/jquery-ui.min.js');
+define('JQUERY_UI_CSS', 'media/jquery-ui/jquery-ui.css');
 
 
 /**

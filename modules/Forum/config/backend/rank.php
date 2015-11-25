@@ -1,5 +1,50 @@
 <?php
 
+/* nkList configuration */
+
+// Define the list of forum rank
+$forumRankList = array(
+    'classPrefix' => 'forumRank',
+    'sqlQuery' => 'SELECT id, nom, type, post FROM '. FORUM_RANK_TABLE,
+    'defaultSortables' => array(
+        'order'     => array('type', 'post'),
+        'dir'       => array('DESC', 'ASC')
+    ),
+    'fields' => array(
+        'nom' => array(
+            'label'             => _NAME,
+            'type'              => 'image',
+            'sort'              => 'sql'
+        ),
+        'type' => array(
+            'label'             => _TYPE,
+            'type'              => 'string',
+            'sort'              => 'sql'
+        ),
+        'post' => array(
+            'label'             => _MESSAGES,
+            'type'              => 'image',
+            'sort'              => 'sql'
+        )
+    ),
+    'edit' => array(
+        'op'                => 'editRank',
+        'text'              => _EDITTHISRANK
+    ),
+    'delete' => array(
+        'op'                => 'deleteRank',
+        'text'              => _DELTHISRANK,
+        'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
+        'confirmField'      => 'nom'
+    ),
+    'emptytable' => '_NOSMILEYINDB',
+    'callbackRowFunction' => array(
+        'functionName'      => 'formatForumRankRow'
+    )
+);
+
+/* nkForm configuration */
+
 // List of fields to update
 $forumRankField = array(
     'nom',

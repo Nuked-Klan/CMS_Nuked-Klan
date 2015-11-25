@@ -14,53 +14,36 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Forum'))
     return;
 
+nkTemplate_addCSSFile('modules/Forum/css/backend.css');
 
 /* Forum category management */
 
-function main_cat(){
-    global $adminMenu, $nuked, $language;
+function formatForumCatRow($row, $nbData, $r, $functionData) {
+    $row['nom'] = printSecuTags(stripslashes($row['nom']));
 
-    echo "<script type=\"text/javascript\">\n"
-    ."<!--\n"
-    ."\n"
-    . "function delcat(titre, id)\n"
-    . "{\n"
-    . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteCat&id='+id;}\n"
-    . "}\n"
-    . "\n"
-    . "// -->\n"
-    . "</script>\n";
+    return $row;
+}
 
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _CATMANAGEMENT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\">\n";
+function main_cat() {
+    global $adminMenu;
 
-    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
+    require_once 'Includes/nkList.php';
+    require_once 'modules/Forum/config/category.php';
 
-    echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-    . "<tr>\n"
-    . "<td style=\"width: 50%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
+    $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
-    $sql = mysql_query("SELECT id, nom, ordre FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
-    while (list($cid, $nom, $ordre) = mysql_fetch_row($sql)){
-        $nom = printSecuTags($nom);
+    $footerLink = applyTemplate('footerLink', array(
+        'links' => array(
+            _ADDCAT => 'index.php?file=Forum&amp;page=admin&amp;op=editCat',
+            _BACK   => 'index.php?file=Forum&amp;page=admin'
+        )
+    ));
 
-        echo "<tr>\n"
-        . "<td align=\"center\">" . $nom . "</td>\n"
-        . "<td align=\"center\">" . $ordre . "</td>\n"
-        . "<td align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=editCat&amp;id=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
-        . "<td align=\"center\"><a href=\"javascript:delcat('" . mysql_real_escape_string(stripslashes($nom)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
-    }
-
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=editCat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
-    . "<br /></div></div>\n";
+    echo applyTemplate('contentBox', array(
+        'title'     => _ADMINFORUM .' - '. _CATMANAGEMENT,
+        'helpFile'  => 'Forum',
+        'content'   => $adminMenu . nkList_generate($forumCatList) . $footerLink
+    ));
 }
 
 function editForumCat() {
@@ -93,7 +76,7 @@ function editForumCat() {
     }
 
     echo applyTemplate('contentBox', array(
-        'title'     => ($id == 0) ? _CATMANAGEMENT .' - '. _ADDCAT : _CATMANAGEMENT .' - '. _EDITTHISCAT,
+        'title'     => ($id == 0) ? _ADMINFORUM .' - '. _ADDCAT : _CATMANAGEMENT .' - '. _EDITTHISCAT,
         'helpFile'  => 'Forum',
         'content'   => $content . nkForm_generate($forumCatForm)
     ));
@@ -160,6 +143,34 @@ function deleteForumCat() {
 }
 
 /* Forum management */
+
+function formatForumRow($row, $nbData, $r, $functionData) {
+    $row['nom']         = printSecuTags(stripslashes($row['nom']));
+    $row['category']    = printSecuTags(stripslashes($row['category']));
+
+    return $row;
+}
+
+function main() {
+    global $adminMenu;
+
+    require_once 'Includes/nkList.php';
+    require_once 'modules/Forum/config/forum.php';
+
+    $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
+
+    $footerLink = applyTemplate('footerLink', array(
+        'links' => array(
+            _BACK   => 'index.php?file=Forum&amp;page=admin'
+        )
+    ));
+
+    echo applyTemplate('contentBox', array(
+        'title'     => _ADMINFORUM,
+        'helpFile'  => 'Forum',
+        'content'   => $adminMenu . nkList_generate($forumList) . $footerLink
+    ));
+}
 
 function getModeratorOptions($moderatorList) {
     $options = array('' => _NONE);
@@ -386,123 +397,50 @@ function deleteModerator() {
     redirect('index.php?file=Forum&page=admin&op=editForum&id='. $_GET['forum_id'], 2);
 }
 
-function main() {
-    global $adminMenu, $nuked, $language;
-
-    echo "<script type=\"text/javascript\">\n"
-    ."<!--\n"
-    ."\n"
-    . "function delforum(nom, id)\n"
-    . "{\n"
-    . "if (confirm('" . _DELETEFORUM . " '+nom+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteForum&id='+id;}\n"
-    . "}\n"
-        . "\n"
-    . "// -->\n"
-    . "</script>\n";
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\">\n";
-
-    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
-
-    echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-    . "<tr>\n"
-    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _LEVELACCES . "</b></td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _LEVELPOST . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
-
-    $sql = mysql_query("SELECT A.id, A.nom, A.niveau, A.level, A.cat, B.nom FROM " . FORUM_TABLE . " AS A LEFT JOIN " . FORUM_CAT_TABLE . " AS B ON B.id = A.cat ORDER BY B.ordre, B.nom, A.ordre, A.nom");
-    while (list($id, $titre, $niveau, $level, $cat, $cat_name) = mysql_fetch_row($sql)){
-
-        $titre = printSecuTags($titre);
-        $cat_name = printSecuTags($cat_name);
-
-        echo "<tr>\n"
-        . "<td style=\"width: 20%;\">" . $titre . "</td>\n"
-        . "<td style=\"width: 20%;\" align=\"center\">" . $cat_name . "</td>\n"
-        . "<td style=\"width: 20%;\" align=\"center\">" . $niveau . "</td>\n"
-        . "<td style=\"width: 20%;\" align=\"center\">" . $level . "</td>\n"
-        . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=editForum&amp;id=" . $id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISFORUM . "\" /></a></td>\n"
-        . "<td style=\"width: 10%;\" align=\"center\"><a href=\"javascript:delforum('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISFORUM . "\" /></a></td></tr>\n";
-    }
-    echo "</table><div style=\"text-align: center;\"><br \><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
-}
-
 /* Forum rank management */
 
-function main_rank(){
-    global $adminMenu, $nuked, $language;
+function formatForumRankRow($row, $nbData, $r, $functionData) {
+    $row['nom'] = printSecuTags(stripslashes($row['nom']));
 
-    echo "<script type=\"text/javascript\">\n"
-    ."<!--\n"
-    ."\n"
-    . "function delrank(titre, id)\n"
-    . "{\n"
-    . "if (confirm('" . _DELETEFORUM . " '+titre+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Forum&page=admin&op=deleteRank&id='+id;}\n"
-    . "}\n"
-        . "\n"
-    . "// -->\n"
-    . "</script>\n";
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _ADMINFORUM . " - " . _RANKMANAGEMENT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Forum.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\">\n";
-
-    echo applyTemplate('share/adminMenu', array('menu' => $adminMenu));
-
-    echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-    . "<tr>\n"
-    . "<td style=\"width: 25%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-    . "<td style=\"width: 25%;\"align=\"center\"><b>" . _TYPE . "</b></td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _MESSAGES . "</b></td>\n"
-    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
-
-    $sql = mysql_query("SELECT id, nom, type, post FROM " . FORUM_RANK_TABLE . " ORDER by type DESC, post");
-    while (list($rid, $nom, $type, $nbpost) = mysql_fetch_row($sql)){
-        $nom = printSecuTags($nom);
-
-        if ($type == 1){
-            $name = "<b>" . $nom . "</b>";
-            $type_name = _MODERATEUR;
-            $nb_post = "-";
-            $del = "-";
-        }
-        else if ($type == 2){
-            $name = "<b>" . $nom . "</b>";
-            $type_name = _ADMINISTRATOR;
-            $nb_post = "-";
-            $del = "-";
-        }
-        else{
-            $name = $nom;
-            $type_name = _MEMBER;
-            $nb_post = $nbpost;
-            $del = "<a href=\"javascript:delrank('" . mysql_real_escape_string(stripslashes($nom)) . "', '" . $rid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISRANK . "\" /></a>";
-        }
-
-        echo "<tr>\n"
-        . "<td style=\"width: 25%;\" align=\"center\">" . $name . "</td>\n"
-        . "<td style=\"width: 25%;\" align=\"center\">" . $type_name . "</td>\n"
-        . "<td style=\"width: 20%;\" align=\"center\">" . $nb_post . "</td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Forum&amp;page=admin&amp;op=editRank&amp;id=" . $rid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISRANK . "\" /></a></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\">" . $del . "</td></tr>\n";
+    if ($row['type'] == 1) {
+        $row['nom'] = '<b>'. $row['nom'] .'</b>';
+        $row['type'] = _MODERATEUR;
+        $row['post'] = '-';
+        $row['noDeleteRow'] = true;
+    }
+    else if ($row['type'] == 2) {
+        $row['nom'] = '<b>'. $row['nom'] .'</b>';
+        $row['type'] = _ADMINISTRATOR;
+        $row['post'] = '-';
+        $row['noDeleteRow'] = true;
+    }
+    else {
+        $row['type'] = _MEMBER;
     }
 
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin&amp;op=editRank\">" . _ADDRANK . "</a><a class=\"buttonLink\" href=\"index.php?file=Forum&amp;page=admin\">" . _BACK . "</a></div>\n"
-    . "<br /></div></div>\n";
+    return $row;
+}
+
+function main_rank() {
+    global $adminMenu;
+
+    require_once 'Includes/nkList.php';
+    require_once 'modules/Forum/config/rank.php';
+
+    $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
+
+    $footerLink = applyTemplate('footerLink', array(
+        'links' => array(
+            _ADDRANK    => 'index.php?file=Forum&amp;page=admin&amp;op=editRank',
+            _BACK       => 'index.php?file=Forum&amp;page=admin'
+        )
+    ));
+
+    echo applyTemplate('contentBox', array(
+        'title'     => _ADMINFORUM .' - '. _RANKMANAGEMENT,
+        'helpFile'  => 'Forum',
+        'content'   => $adminMenu . nkList_generate($forumRankList) . $footerLink
+    ));
 }
 
 function editRank() {
@@ -722,8 +660,6 @@ function editSetting() {
 
     $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
-    nkTemplate_addCSS('form.nkForm>div.nkForm_container>label{width:86%;}');
-
     echo applyTemplate('contentBox', array(
         'title'     => _ADMINFORUM .' - '. _PREFS,
         'helpFile'  => 'Forum',
@@ -795,7 +731,7 @@ switch ($_REQUEST['op']) {
         deleteModerator();
         break;
 
-    case "main_cat":
+    case 'main_cat' :
         main_cat();
         break;
 
@@ -815,7 +751,7 @@ switch ($_REQUEST['op']) {
         deleteForum();
         break;
 
-    case "main_rank":
+    case 'main_rank' :
         main_rank();
         break;
 

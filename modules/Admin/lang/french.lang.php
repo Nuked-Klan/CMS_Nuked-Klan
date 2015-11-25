@@ -532,5 +532,12 @@ define("_ONLINEMEMBERS","Membres en ligne");
 define("_ONLINEADMINS","Administrateurs en ligne");
 define("_TOTALVISITS","Nombre de pages vues");
 
+// nkList
+define('_SORTASC', 'Trié par ordre croissant');
+define('_SORTDESC', 'Trié par ordre décroissant');
+define('_DELETE_CONFIRM', 'Vous êtes sur le point de supprimer');
+//define("_DELBOX","Sup");
+//define("_SEARCH","Recherche");
+//define("_OK","Ok");
 
 ?>

@@ -1,5 +1,7 @@
 <?php
 
+/* nkForm configuration */
+
 // List of fields to update
 $forumSettingField = array(
     'forum_title',

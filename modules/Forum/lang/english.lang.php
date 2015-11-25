@@ -193,10 +193,6 @@ define("_MODO","Moderator");
 define("_MODOS","Moderators");
 define("_CAT","Category");
 
-
-
-define("_DELETEFORUM","You are about to remove");
-
 define("_ADDTHISFORUM","Add this Forum");
 define("_MODIFTHISFORUM","Modify this Forum");
 define("_EDITTHISFORUM","Edit this Forum");

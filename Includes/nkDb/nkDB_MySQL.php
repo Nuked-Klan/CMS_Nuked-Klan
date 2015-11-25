@@ -210,14 +210,14 @@ function nkDB_formatSelectQuery($query, $order, $dir, $limit, $offset) {
 
                 if ($i > 0) $sql .= ', ';
 
-                $sql .= '`'. $order[$i] .'` '. $dir[$i];
+                $sql .= $order[$i] .' '. $dir[$i];
             }
         }
         else {
             for ($i = 0; $i < $nbOrder; $i++) {
                 if ($i > 0) $sql .= ', ';
 
-                $sql .= '`'. $order[$i] .'` '. $dir;
+                $sql .= $order[$i] .' '. $dir;
             }
         }
     }
@@ -261,6 +261,7 @@ function nkDB_totalNumRows($query = false) {
     if (! $query)
         $query = $GLOBALS['nkDB']['selects'][count($GLOBALS['nkDB']['selects']) - 1];
 
+    // TODO : Remove inner & outer join
     $fromOffset = strpos($query, 'FROM ');
 
     if ($fromOffset === false)

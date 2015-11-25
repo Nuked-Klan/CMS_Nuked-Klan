@@ -168,3 +168,7 @@ form.nkForm>div{padding:10px;line-height:1.3em;}
 form.nkForm>div.alt-row{background:#f3f3f3;}
 form.nkForm>div.footer_container{border-top:1px solid #ddd;text-align:center;}
 
+/* nkList */
+table.nkList th,
+table.nkList td.nkListEdit,
+table.nkList td.nkListDelete{text-align:center;}

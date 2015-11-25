@@ -1,0 +1,32 @@
+/* Forum category list */
+table#forumCatList .forumCatNom{width:50%;}
+table#forumCatList .forumCatOrdre{width:10%;}
+table#forumCatList .forumCatEdit,
+table#forumCatList .forumCatDelete{width:10%;}
+table#forumCatList .forumCatNom,
+table#forumCatList .forumCatOrdre{text-align:center;}
+
+/* Forum list */
+table#forumList .forumNom,
+table#forumList .forumCatName,
+table#forumList .forumNiveau,
+table#forumList .forumLevel{width:20%;}
+table#forumList .forumEdit,
+table#forumList .forumDelete{width:10%;}
+table#forumList td.forumCatName,
+table#forumList td.forumNiveau,
+table#forumList td.forumLevel{text-align:center;}
+
+/* Forum rank list */
+table#forumRankList .forumRankNom,
+table#forumRankList .forumRankType{width:25%;}
+table#forumRankList .forumRankPost{width:20%;}
+table#forumRankList .forumRankEdit,
+table#forumRankList .forumRankDelete{width:15%;}
+table#forumRankList .forumRankNom,
+table#forumRankList .forumRankType,
+table#forumRankList .forumRankPost{text-align:center;}
+
+
+/* Forum setting form */
+form#editForumSettingForm>div.nkForm_container>label{width:86%;}

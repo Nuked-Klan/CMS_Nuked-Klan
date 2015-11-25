@@ -1,5 +1,54 @@
 <?php
 
+/* nkList configuration */
+
+// Define the list of forum
+$forumList = array(
+    'classPrefix' => 'forum',
+    'sqlQuery' => 'SELECT A.id, A.nom, A.niveau, A.level, B.nom AS category FROM '. FORUM_TABLE .' AS A LEFT JOIN '. FORUM_CAT_TABLE .' AS B ON B.id = A.cat',
+    'defaultSortables' => array(
+        'order'     => array('B.ordre', 'B.nom', 'A.ordre', 'A.nom')
+    ),
+    'fields' => array(
+        'nom' => array(
+            'label'             => _NAME,
+            'type'              => 'image',
+            'sort'              => 'sql'
+        ),
+        'category' => array(
+            'label'             => _CAT,
+            'type'              => 'string',
+            'sort'              => 'sql'
+        ),
+        'niveau' => array(
+            'label'             => _LEVELACCES,
+            'type'              => 'image',
+            'sort'              => 'sql'
+        ),
+        'level' => array(
+            'label'             => _LEVELPOST,
+            'type'              => 'string',
+            'sort'              => 'sql'
+        )
+    ),
+    'edit' => array(
+        'op'                => 'editForum',
+        'text'              => _EDITTHISFORUM
+    ),
+    'delete' => array(
+        'op'                => 'deleteForum',
+        'text'              => _DELTHISFORUM,
+        'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
+        'confirmField'      => 'nom'
+    ),
+    'emptytable' => '_NOSMILEYINDB',
+    'callbackRowFunction' => array(
+        'functionName'      => 'formatForumRow'
+    )
+);
+
+/* nkForm configuration */
+
 // List of fields to update
 $forumField = array(
     'nom',

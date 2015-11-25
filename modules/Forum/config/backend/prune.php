@@ -1,5 +1,7 @@
 <?php
 
+/* nkForm configuration */
+
 // Definition of prune forum form
 $pruneForumForm = array(
     'id'        => 'pruneForumForm',
