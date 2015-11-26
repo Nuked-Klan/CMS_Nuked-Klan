@@ -1,0 +1,13 @@
+/* Server category list */
+table#serverCatList .serverCatTitre{width:60%;}
+table#serverCatList .serverCatEdit,
+table#serverCatList .serverCatDelete{width:20%;}
+table#serverCatList td{text-align:center;}
+
+/* Server list */
+table#serverList .serverIp{width:30%;}
+table#serverList .serverGame,
+table#serverList .serverTitre{width:20%;}
+table#serverList .serverEdit,
+table#serverList .serverDelete{width:15%;}
+table#serverList td{text-align:center;}

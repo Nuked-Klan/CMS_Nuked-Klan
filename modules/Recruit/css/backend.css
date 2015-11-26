@@ -1,0 +1,7 @@
+/* Recruit list */
+table#recruitList .recruitPseudo{width:25%;}
+table#recruitList .recruitFirstname,
+table#recruitList .recruitMail,
+table#recruitList .recruitDate{width:20%;}
+table#recruitList .recruitGame{width:15%;}
+table#recruitList td{text-align:center;}

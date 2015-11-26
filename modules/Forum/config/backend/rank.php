@@ -11,21 +11,9 @@ $forumRankList = array(
         'dir'       => array('DESC', 'ASC')
     ),
     'fields' => array(
-        'nom' => array(
-            'label'             => _NAME,
-            'type'              => 'image',
-            'sort'              => 'sql'
-        ),
-        'type' => array(
-            'label'             => _TYPE,
-            'type'              => 'string',
-            'sort'              => 'sql'
-        ),
-        'post' => array(
-            'label'             => _MESSAGES,
-            'type'              => 'image',
-            'sort'              => 'sql'
-        )
+        'nom'       => array('label' => _NAME),
+        'type'      => array('label' => _TYPE),
+        'post'      => array('label' => _MESSAGES)
     ),
     'edit' => array(
         'op'                => 'editRank',
@@ -37,7 +25,7 @@ $forumRankList = array(
         'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
         'confirmField'      => 'nom'
     ),
-    'emptytable' => '_NOSMILEYINDB',
+    'emptytable' => _NORANKINDB,
     'callbackRowFunction' => array(
         'functionName'      => 'formatForumRankRow'
     )

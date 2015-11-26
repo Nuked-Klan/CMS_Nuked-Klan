@@ -1,0 +1,11 @@
+/* Page list */
+table#pageList .pageTitre,
+table#pageList .pagePagename{width:30%;}
+table#pageList .pageType{width:10%;}
+table#pageList .pageEdit,
+table#pageList .pageDelete{width:15%;}
+table#pageList td.pagePagename,
+table#pageList td.pageType,
+table#pageList td.pageEdit,
+table#pageList td.pageDelete{text-align:center;}
+

@@ -10,26 +10,10 @@ $forumList = array(
         'order'     => array('B.ordre', 'B.nom', 'A.ordre', 'A.nom')
     ),
     'fields' => array(
-        'nom' => array(
-            'label'             => _NAME,
-            'type'              => 'image',
-            'sort'              => 'sql'
-        ),
-        'category' => array(
-            'label'             => _CAT,
-            'type'              => 'string',
-            'sort'              => 'sql'
-        ),
-        'niveau' => array(
-            'label'             => _LEVELACCES,
-            'type'              => 'image',
-            'sort'              => 'sql'
-        ),
-        'level' => array(
-            'label'             => _LEVELPOST,
-            'type'              => 'string',
-            'sort'              => 'sql'
-        )
+        'nom'       => array('label' => _NAME),
+        'category'  => array('label' => _CAT),
+        'niveau'    => array('label' => _LEVELACCES),
+        'level'     => array('label' => _LEVELPOST)
     ),
     'edit' => array(
         'op'                => 'editForum',
@@ -41,7 +25,7 @@ $forumList = array(
         'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
         'confirmField'      => 'nom'
     ),
-    'emptytable' => '_NOSMILEYINDB',
+    'emptytable' => _NOFORUMINDB,
     'callbackRowFunction' => array(
         'functionName'      => 'formatForumRow'
     )

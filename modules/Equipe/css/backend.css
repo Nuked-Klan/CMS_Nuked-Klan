@@ -1,0 +1,11 @@
+/* Staff category list */
+table#staffCatList td{text-align:center;}
+
+/* Staff list */
+table#staffList td{text-align:center;}
+
+/* Staff status list */
+table#staffStatusList td{text-align:center;}
+
+/* Staff rank list */
+table#staffRankList td{text-align:center;}

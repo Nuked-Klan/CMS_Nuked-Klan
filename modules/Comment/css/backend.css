@@ -1,0 +1,7 @@
+/* Comment list */
+table#commentList .commentDate,
+table#commentList .commentAutor{width:25%;}
+table#commentList .commentModule{width:20%;}
+table#commentList .commentEdit,
+table#commentList .commentDelete{width:20%;}
+table#commentList td{text-align:center;}

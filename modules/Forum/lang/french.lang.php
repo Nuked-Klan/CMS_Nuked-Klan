@@ -291,4 +291,6 @@ define('_ANSWERS', 'R&eacute;ponses');
 //ViewTopic
 define('_FAVORITEGAME', 'Jeu favori');
 
+// Admin
+define("_NOFORUMINDB","Aucun forum dans la base de données");
 ?>

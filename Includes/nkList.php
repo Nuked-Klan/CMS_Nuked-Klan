@@ -277,6 +277,9 @@ function nkList_checkFieldData(&$config) {
                     continue;
             }
 
+            if (! array_key_exists('sort', $fieldData) && $nkList['inputMode'] == 'sql')
+                $config['fields'][$fieldName]['sort'] = 'sql';
+
             if (! (array_key_exists('sort', $fieldData)
                 && is_string($fieldData['sort'])
                 && in_array($fieldData['sort'], array('sql', 'php'))

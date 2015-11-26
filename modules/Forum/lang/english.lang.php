@@ -288,4 +288,8 @@ define('_ANSWERS', 'answers');
 
 //ViewTopic
 define('_FAVORITEGAME', 'Favorite game');
+
+// Admin
+define("_NOFORUMINDB","No forum in the database");
+
 ?>

@@ -1,0 +1,31 @@
+/* Download category list */
+table#downloadCatList .downloadCatTitre,
+table#downloadCatList .downloadCatParentCat{width:35%;}
+table#downloadCatList .downloadCatPosition,
+table#downloadCatList .downloadCatEdit,
+table#downloadCatList .downloadCatDelete{width:10%;}
+table#downloadCatList td{text-align:center;}
+
+/* Download list */
+table#downloadList .downloadTitre{width:30%;}
+table#downloadList .downloadCatName,
+table#downloadList .downloadDate{width:20%;}
+table#downloadList .downloadEdit,
+table#downloadList .downloadDelete{width:15%;}
+table#downloadList td.downloadCatName,
+table#downloadList td.downloadDate,
+table#downloadList td.downloadEdit,
+table#downloadList td.downloadDelete{text-align:center;}
+
+/* Broken download list */
+table#brokenDownloadList .brokenDownloadNumber,
+table#brokenDownloadList .brokenDownloadBroke{width:10%;}
+table#brokenDownloadList .brokenDownloadTitre{width:35%;}
+table#brokenDownloadList .brokenDownloadErase,
+table#brokenDownloadList .brokenDownloadEdit,
+table#brokenDownloadList .brokenDownloadDelete{width:15%;}
+table#brokenDownloadList td.brokenDownloadNumber,
+table#brokenDownloadList td.brokenDownloadBroke,
+table#brokenDownloadList td.brokenDownloadErase,
+table#brokenDownloadList td.brokenDownloadEdit,
+table#brokenDownloadList td.brokenDownloadDelete{text-align:center;}

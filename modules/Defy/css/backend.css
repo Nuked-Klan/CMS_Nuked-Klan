@@ -1,0 +1,7 @@
+/* Defy list */
+table#defyList .defyPseudo{width:25%;}
+table#defyList .defyClan{width:15%;}
+table#defyList .defyGameName,
+table#defyList .defyMail,
+table#defyList .defyGameDate{width:20%;}
+table#defyList td{text-align:center;}

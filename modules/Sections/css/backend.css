@@ -1,0 +1,20 @@
+/* Article category list */
+table#articleCatList .articleCatTitre,
+table#articleCatList .articleCatParentCat{width:35%;}
+table#articleCatList .articleCatPosition,
+table#articleCatList .articleCatEdit,
+table#articleCatList .articleCatDelete{width:10%;}
+table#articleCatList td{text-align:center;}
+
+/* Article list */
+table#articleList .articleTitle,
+table#articleList .articleSecname{width:25%;}
+table#articleList .articleDate,
+table#articleList .articleAuthor{width:20%;}
+table#articleList .articleEdit,
+table#articleList .articleDelete{width:10%;}
+table#articleList td.articleSecname,
+table#articleList td.articleDate,
+table#articleList td.articleAuthor,
+table#articleList td.articleEdit,
+table#articleList td.articleDelete{text-align:center;}

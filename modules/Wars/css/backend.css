@@ -1,0 +1,11 @@
+/* Match list */
+table#matchList .matchDate,
+table#matchList .matchStatus,
+table#matchList .matchEdit,
+table#matchList .matchDelete{width:15%;}
+table#matchList .matchOpponent,
+table#matchList .matchTeam{width:20%;}
+table#matchList td{text-align:center;}
+
+/* Match file list */
+table#matchFileList td{text-align:center;}

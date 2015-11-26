@@ -1,0 +1,18 @@
+/* Gallery category list */
+table#galleryCatList .galleryCatTitre,
+table#galleryCatList .galleryCatParentCat{width:35%;}
+table#galleryCatList .galleryCatPosition,
+table#galleryCatList .galleryCatEdit,
+table#galleryCatList .galleryCatDelete{width:10%;}
+table#galleryCatList td{text-align:center;}
+
+/* Gallery list */
+table#galleryList .galleryTitre,
+table#galleryList .galleryDate{width:20%;}
+table#galleryList .galleryCatName{width:30%;}
+table#galleryList .galleryEdit,
+table#galleryList .galleryDelete{width:15%;}
+table#galleryList td.galleryDate,
+table#galleryList td.galleryCatName,
+table#galleryList td.galleryEdit,
+table#galleryList td.galleryDelete{text-align:center;}

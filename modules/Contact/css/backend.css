@@ -1,0 +1,8 @@
+/* Contact list */
+table#contactList .contactNumber,
+table#contactList .contactRead,
+table#contactList .contactDelete{width:10%;}
+table#contactList .contactTitle{width:30%;}
+table#contactList .contactName,
+table#contactList .contactDate{width:20%;}
+table#contactList td{text-align:center;}

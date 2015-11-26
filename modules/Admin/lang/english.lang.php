@@ -697,12 +697,14 @@ define("_ONLINEMEMBERS","Members online");
 define("_ONLINEADMINS","Administrators onlins");
 define("_TOTALVISITS","Total viewed pages");
 
-// admin listes
+// nkList
 define('_SORTASC', 'Sorted in ascending order');
 define('_SORTDESC', 'Sorted in descending order');
 define('_DELETE_CONFIRM', 'You are about to remove');
 //define("_DELBOX","Del");
 //define("_SEARCH","Search");
 //define("_OK","Ok");
+
+define("_NOCATINDB","No category in the database");
 
 ?>

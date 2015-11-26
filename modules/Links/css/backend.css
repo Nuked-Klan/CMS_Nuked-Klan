@@ -1,0 +1,31 @@
+/* Links category list */
+table#linksCatList .linksCatTitre,
+table#linksCatList .linksCatParentCat{width:35%;}
+table#linksCatList .linksCatPosition,
+table#linksCatList .linksCatEdit,
+table#linksCatList .linksCatDelete{width:10%;}
+table#linksCatList td{text-align:center;}
+
+/* Links list */
+table#linksList .linksTitre,
+table#linksList .linksCatName{width:25%;}
+table#linksList .linksDate{width:20%;}
+table#linksList .linksEdit,
+table#linksList .linksDelete{width:15%;}
+table#linksList td.linksCatName,
+table#linksList td.linksDate,
+table#linksList td.linksEdit,
+table#linksList td.linksDelete{text-align:center;}
+
+/* Broken links list */
+table#brokenLinksList .brokenLinksNumber,
+table#brokenLinksList .brokenLinksBroke{width:10%;}
+table#brokenLinksList .brokenLinksTitre{width:35%;}
+table#brokenLinksList .brokenLinksErase,
+table#brokenLinksList .brokenLinksEdit,
+table#brokenLinksList .brokenLinksDelete{width:15%;}
+table#brokenLinksList td.brokenLinksNumber,
+table#brokenLinksList td.brokenLinksBroke,
+table#brokenLinksList td.brokenLinksErase,
+table#brokenLinksList td.brokenLinksEdit,
+table#brokenLinksList td.brokenLinksDelete{text-align:center;}

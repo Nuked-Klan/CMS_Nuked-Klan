@@ -1,0 +1,7 @@
+/* Guestbook message list */
+table#guestbookMessageList .guestbookMessageDate{width:20%;}
+table#guestbookMessageList .guestbookMessageName,
+table#guestbookMessageList .guestbookMessageHost{width:25%;}
+table#guestbookMessageList .guestbookMessageEdit,
+table#guestbookMessageList .guestbookMessageDelete{width:15%;}
+table#guestbookMessageList td{text-align:center;}

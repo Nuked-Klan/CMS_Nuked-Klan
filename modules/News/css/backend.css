@@ -1,0 +1,18 @@
+/* News category list */
+table#newsCatList .newsCatTitre{width:60%;}
+table#newsCatList .newsCatEdit,
+table#newsCatList .newsCatDelete{width:20%;}
+table#newsCatList td{text-align:center;}
+
+/* News list */
+table#newsList .newsTitre{width:25%;}
+table#newsList .newsCatName{width:15%;}
+table#newsList .newsDate,
+table#newsList .newsAuteur{width:20%;}
+table#newsList .newsEdit,
+table#newsList .newsDelete{width:10%;}
+table#newsList td.newsCatName,
+table#newsList td.newsDate,
+table#newsList td.newsAuteur,
+table#newsList td.newsEdit,
+table#newsList td.newsDelete{text-align:center;}

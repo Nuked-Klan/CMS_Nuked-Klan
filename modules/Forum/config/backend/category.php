@@ -10,16 +10,8 @@ $forumCatList = array(
         'order'     => array('ordre', 'nom')
     ),
     'fields' => array(
-        'nom' => array(
-            'label'             => _CAT,
-            'type'              => 'image',
-            'sort'              => 'sql'
-        ),
-        'ordre' => array(
-            'label'             => _ORDER,
-            'type'              => 'string',
-            'sort'              => 'sql'
-        )
+        'nom'       => array('label' => _CAT),
+        'ordre'     => array('label' => _ORDER)
     ),
     'edit' => array(
         'op'                => 'editCat',
@@ -31,7 +23,7 @@ $forumCatList = array(
         'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
         'confirmField'      => 'nom'
     ),
-    'emptytable' => '_NOSMILEYINDB',
+    'emptytable' => _NOCATINDB,
     'callbackRowFunction' => array(
         'functionName'      => 'formatForumCatRow'
     )

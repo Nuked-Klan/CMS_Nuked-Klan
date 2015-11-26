@@ -1,0 +1,7 @@
+/* Event list */
+table#eventList .eventDate,
+table#eventList .eventTitle{width:25%;}
+table#eventList .eventAuteur{width:20%;}
+table#eventList .eventEdit,
+table#eventList .eventDelete{width:20%;}
+table#eventList td{text-align:center;}

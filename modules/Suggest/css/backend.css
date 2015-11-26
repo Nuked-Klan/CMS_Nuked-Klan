@@ -1,0 +1,6 @@
+/* Suggest list */
+table#suggestList .suggestId{width:10%;}
+table#suggestList .suggestCat,
+table#suggestList .suggestAuthor,
+table#suggestList .suggestDate{width:10%;}
+table#suggestList td{text-align:center;}

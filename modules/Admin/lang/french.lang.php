@@ -540,4 +540,5 @@ define('_DELETE_CONFIRM', 'Vous êtes sur le point de supprimer');
 //define("_SEARCH","Recherche");
 //define("_OK","Ok");
 
+define("_NOCATINDB","Aucune catégorie dans la base de données");
 ?>
