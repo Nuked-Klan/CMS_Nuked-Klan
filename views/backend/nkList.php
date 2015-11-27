@@ -69,7 +69,7 @@
 
     if (isset($delete)) :
 ?>
-        <th class="<?php echo nkList_getCellClass('delete') ?> nkListDelete"><b><?php echo _DELETE ?></b></th>
+        <th class="<?php echo nkList_getCellClass('delete') ?> nkListDelete"><b><?php echo (isset($delete['label']) ? $delete['label'] : _DELETE ?></b></th>
 <?php
     endif
 ?>
@@ -86,16 +86,45 @@
 ?>
         <td class="<?php echo nkList_getCellClass($field) ?>">
 <?php
-                if ( $fieldData['type'] == 'checkbox' ) :
+                if ($fieldData['type'] == 'checkbox') :
 ?>
             <input class="checkbox" type="checkbox" name="<?php echo $fieldData['checkboxName'] ?>[<?php echo $r ?>]" value="<?php echo $fieldData['checkboxValue'] ?>" />
 <?php
+                elseif ($fieldData['type'] == 'positionLink') :
+                    if (isset($fieldData['urlDown'])) :
+?>
+            <a href="<?php echo $fieldData['urlDown'] ?>" title="<?php echo $fieldData['labelDown'] ?>">&lt;</a>
+<?php
+                    endif
+?>
+                &nbsp;<?php echo $row[$field] ?>&nbsp;
+<?php
+                    if (isset($fieldData['urlUp'])) :
+?>
+            <a href="<?php echo $fieldData['urlUp'] ?>" title="<?php echo $fieldData['labelUp'] ?>">&gt;</a>
+<?php
+                    endif;
                 else :
+                    if (isset($fieldData['link']) && $fieldData['link'] != '') : ?>
+            <a href="<?php echo $fieldData['link'] ?>">
+<?php
+                    endif;
+
+                    if ($fieldData['type'] == 'string') :
 ?>
             <?php echo $row[$field] ?>
-
 <?php
-                endif
+                    elseif ($fieldData['type'] == 'image') :
+?>
+            <img style="border: 0;" src="<?php echo $fieldData['src'] ?  ?>" alt="" title="<?php echo $fieldData['title'] ?>" />
+<?php
+                    endif;
+
+                    if (isset($fieldData['link']) && $fieldData['link'] != '') : ?>
+            </a>
+<?php
+                    endif;
+                endif;
 ?>
         </td>
 <?php
@@ -105,8 +134,8 @@
             if (isset($edit)) :
 ?>
         <td class="<?php echo nkList_getCellClass('edit') ?> nkListEdit">
-            <a href="<?php echo $baseUrl ?>&amp;op=<?php echo $edit['op'] ?>&amp;<?php echo rowId ?>=<?php echo $row[$rowId] ?>">
-                <img src="images/edit.gif" alt="<?php echo _EDIT ?>" title="<?php echo $edit['imgTitle'] ?>" />
+            <a href="<?php echo $baseUrl ?>&amp;op=<?php echo $edit['op'] ?>&amp;<?php echo $rowId ?>=<?php echo $row[$rowId] ?>">
+                <img style="border: 0;" src="images/edit.gif" alt="<?php echo _EDIT ?>" title="<?php echo $edit['imgTitle'] ?>" />
             </a>
         </td>
 <?php
@@ -122,7 +151,7 @@
 ?>
         <td class="<?php echo nkList_getCellClass('delete') ?> nkListDelete">
             <a href="javascript:confirmToDeleteInList('<?php echo addslashes(strip_tags($row[$delete['confirmField']])) ?>', '<?php echo htmlspecialchars($row[$rowId]) ?>');">
-                <img src="images/del.gif" alt="<?php echo _DELETE ?>" title="<?php echo $delete['imgTitle'] ?>" />
+                <img style="border: 0;" src="images/del.gif" alt="<?php echo _DELETE ?>" title="<?php echo $delete['imgTitle'] ?>" />
             </a>
         </td>
 <?php

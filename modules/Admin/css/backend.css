@@ -1,0 +1,124 @@
+/* Block list */
+table#blockList .blockTitre{width:20%;}
+table#blockList .blockBlock,
+table#blockList .blockPosition,
+table#blockList .blockType,
+table#blockList .blockDelete{width:15%;}
+table#blockList .blockNivo,
+table#blockList .blockEdit{width:10%;}
+table#blockList td.blockBlock,
+table#blockList td.blockPosition,
+table#blockList td.blockType,
+table#blockList td.blockDelete,
+table#blockList td.blockNivo,
+table#blockList td.blockEdit{text-align:center;}
+
+/* Games list */
+table#gamesList .gamesName{width:50%;}
+table#gamesList .gamesEdit,
+table#gamesList .gamesDelete{width:25%;}
+table#gamesList td{text-align:center;}
+
+/* Menu list */
+table#menuList .menuTitre{width:35%;}
+table#menuList .menuBlock{width:20%;}
+table#menuList .menuPosition
+table#menuList .menuLevel,
+table#menuList .menuEdit{width:15%;}
+table#menuList td.menuBlock,
+table#menuList td.menuPosition,
+table#menuList td.menuLevel,
+table#menuList td.menuEdit{text-align:center;}
+
+/* Menu line list */
+table#menuLineList .menuLinePosition,
+table#menuLineList .menuLineDelbox{width:5%;}
+table#menuLineList .menuLineTitre,
+table#menuLineList .menuLineUrl{width:25%;}
+table#menuLineList .menuLineComment,
+table#menuLineList .menuLineBlank,
+table#menuLineList .menuLineLevel,
+table#menuLineList .menuLineEdit{width:10%;}
+table#menuLineList td.menuLinePosition,
+table#menuLineList td.menuLineDelbox,
+table#menuLineList td.menuLineComment,
+table#menuLineList td.menuLineBlank,
+table#menuLineList td.menuLineLevel,
+table#menuLineList td.menuLineEdit{text-align:center;}
+
+/* Modules list */
+table#modulesList .modulesName{width:30%;}
+table#modulesList .modulesStatus,
+table#modulesList .modulesEdit{width:20%;}
+table#modulesList .modulesNiveau,
+table#modulesList .modulesAdmin{width:15%;}
+table#modulesList td.modulesStatus,
+table#modulesList td.modulesNiveau,
+table#modulesList td.modulesAdmin,
+table#modulesList td.modulesEdit{text-align:center;}
+
+/* MySQL table list for optimization */
+table#mysqlTableList .mysqlTableTable{width:35%;}
+table#mysqlTableList .mysqlTableSize,
+table#mysqlTableList .mysqlTableGain{width:20%;}
+table#mysqlTableList .mysqlTableStatus{width:25%;}
+table#mysqlTableList td.mysqlTableSize,
+table#mysqlTableList td.mysqlTableGain,
+table#mysqlTableList td.mysqlTableStatus{text-align:center;}
+
+/* Smilies list */
+table#smiliesList .smiliesSmiley,
+table#smiliesList .smiliesCode{width:20%;}
+table#smiliesList .smiliesName{width:25%;}
+table#smiliesList .smiliesEdit{width:15%;}
+table#smiliesList .smiliesDelete{width:20%;}
+table#smiliesList td{text-align:center;}
+
+/* User list */
+table#userList .userPseudo{width:30%;}
+table#userList .userNiveau,
+table#userList .userEdit,
+table#userList .userDelete{width:10%;}
+table#userList .userDate{width:15%;}
+table#userList .userLast_used{width:25%;}
+table#userList td.userNiveau,
+table#userList td.userEdit,
+table#userList td.userDelete,
+table#userList td.userDate,
+table#userList td.userLast_used{text-align:center;}
+
+/* Team list */
+table#teamList .teamTitre,
+table#teamList .teamGame{width:30%;}
+table#teamList .teamOrdre{width:10%;}
+table#teamList .teamEdit,
+table#teamList .teamDelete{width:15%;}
+table#teamList td{text-align:center;}
+
+/* Banned user list */
+table#bannedUserList .bannedUserPseudo,
+table#bannedUserList .bannedUserEmail{width:25%;}
+table#bannedUserList .bannedUserIp{width:20%;}
+table#bannedUserList .bannedUserEdit,
+table#bannedUserList .bannedUserDelete{width:15%;}
+table#bannedUserList td{text-align:center;}
+
+/* User rank list */
+table#userRankList .userRankTitle{width:40%;}
+table#userRankList .userRankOrdre,
+table#userRankList .userRankEdit,
+table#userRankList .userRankDelete{width:20%;}
+table#userRankList td{text-align:center;}
+
+/* User validation list */
+table#userValidationList .userValidationPseudo,
+table#userValidationList .userValidationMail{width:20%;}
+table#userValidationList .userValidationDate,
+table#userValidationList .userValidationValidate,
+table#userValidationList .userValidationEdit,
+table#userValidationList .userValidationDelete{width:15%;}
+table#userValidationList td.userValidationMail,
+table#userValidationList td.userValidationDate,
+table#userValidationList td.userValidationValidate,
+table#userValidationList td.userValidationEdit,
+table#userValidationList td.userValidationDelete{text-align:center;}

@@ -73,7 +73,7 @@ function optimise()
     . "<td style=\"width: 25%;\" align=\"center\"><b>" . _STATUT . "</b></td>\n"
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SPACESAVED . "</b></td></tr>\n";
 
-    $db_clean = $global[db_name];
+    $db_clean = $global['db_name'];
     $tot_data = 0;
     $tot_idx = 0;
     $tot_all = 0;

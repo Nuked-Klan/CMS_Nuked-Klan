@@ -246,6 +246,40 @@ function nkList_checkCheckboxData(&$config, $fieldName) {
 }
 
 /**
+ * Check data of image to display in configuration list.
+ *
+ * @param array $config : The configuration list. (pass by reference)
+ * @return void
+ */
+function nkList_checkImageData(&$config, $fieldName) {
+    if (nkList_checkConfigStringValue($config['fields'][$fieldName], 'src')) {
+
+        if (! nkList_checkConfigStringValue($config['fields'][$fieldName], 'title'))
+            $config['fields'][$fieldName]['title'] = '';
+
+        return true;
+    }
+
+    unset($config['fields'][$fieldName]);
+
+    return false;
+}
+
+/**
+ * Check data of links for modify position in configuration list.
+ *
+ * @param array $config : The configuration list. (pass by reference)
+ * @return void
+ */
+function nkList_checkPositionLinkData(&$config, $fieldName) {
+    if (! nkList_checkConfigStringValue($config['fields'][$fieldName], 'labelUp'))
+        $config['fields'][$fieldName]['labelUp'] = '';
+
+    if (! nkList_checkConfigStringValue($config['fields'][$fieldName], 'labelUp'))
+        $config['fields'][$fieldName]['labelDown'] = '';
+}
+
+/**
  * Check and prepare data of collumn field list in configuration list.
  *
  * @param array $config : The configuration list. (pass by reference)
@@ -275,6 +309,13 @@ function nkList_checkFieldData(&$config) {
             else if ($config['fields'][$fieldName]['type'] == 'checkbox') {
                 if (! nkList_checkCheckboxData($config, $fieldName))
                     continue;
+            }
+            else if ($config['fields'][$fieldName]['type'] == 'image') {
+                if (! nkList_checkImageData($config, , $fieldName))
+                    continue;
+            }
+            else if ($config['fields'][$fieldName]['type'] == 'positionLink') {
+                nkList_checkPositionLinkData($config, $fieldName);
             }
 
             if (! array_key_exists('sort', $fieldData) && $nkList['inputMode'] == 'sql')
