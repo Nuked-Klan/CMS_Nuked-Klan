@@ -12,7 +12,6 @@ define("_SUGGESTLINK","Proposer");
 define("_THEREIS","Il y a");
 define("_NBCAT","Catégories");
 define("_INDATABASE","dans la base de données");
-define("_TITLE","Titre");
 define("_ADDTHE","Ajouté le");
 
 define("_HITS","Visites");

@@ -384,6 +384,7 @@ define("_DEL","Delete");
 define("_PREFUPDATED","Preferences were successfully modified");
 define("_MORE","Extended Text");
 define("_ORDERBY","Order by");
+define("_NONICK","Please enter your nick !");
 
 // nkUpload
 define("_UPLOADFILEFAILED","Upload file failed !");

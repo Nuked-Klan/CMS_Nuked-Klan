@@ -11,8 +11,7 @@ define("_ALREADYVOTE","Vous avez déjà voté !");
 define("_ONEVOTEONLY","Vous ne pouvez voter qu'une seule fois");
 define("_NOTE","Note");
 define("_RATE","Evaluer");
-define("_NICKINUSE","Ce pseudo est déjà  réservé");
-define("_NONICK","Vous devez rentrer un pseudo");
+define("_NICKINUSE","Ce pseudo est déjà réservé");
 
 define("_VOTEADD","Votre vote a bien été enregistré");
 ?>

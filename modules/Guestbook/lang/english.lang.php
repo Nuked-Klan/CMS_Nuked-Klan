@@ -13,7 +13,6 @@ define("_COMMENT","Comment");
 define("_CANCEL","Cancel");
 
 define("_MODIF","Modify");
-define("_NONICK","Please enter your nick!");
 define("_NOTEXT","Please enter a text!");
 define("_RESERVNICK","This Nick is reserved");
 define("_BANNEDNICK","This Nick is banned");

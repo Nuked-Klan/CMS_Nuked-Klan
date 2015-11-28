@@ -13,7 +13,6 @@ define("_YNICK","Votre Pseudo");
 define("_FMAIL","Email de votre ami(e)");
 define("_YCOMMENT","Commentaire");
 define("_YOUSUBMIT","Vous allez envoyer à votre ami(e) la news");
-define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_BADMAIL","Adresse email non valide !");
 define("_SENDFMAIL","News envoyée avec succès.");
 define("_READNEWS","vous invite à lire la news :");

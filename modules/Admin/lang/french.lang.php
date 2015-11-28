@@ -14,7 +14,6 @@ define("_BLOCKADMIN","Gestion des Blocks");
 
 define("_BLOCKTITLE","Titre du Block");
 define("_BLOCK","Blocs");
-define("_TITLE","Titre");
 
 define("_LEVEL","Niveau");
 define("_LEVELACCES","Niveau d'accès");

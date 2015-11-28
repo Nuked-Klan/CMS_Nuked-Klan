@@ -2,7 +2,6 @@
 define("_RECRUIT","Demande de Recrutement");
 define("_IAGREE","J'accepte");
 define("_IDESAGREE","Je refuse");
-define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_NOLASTNAME","Vous n\'avez pas entré votre prénom !");
 define("_NOAGE","Vous n\'avez pas entré votre age !");
 define("_BADAGE","Vous avez mal saisi votre age, veuillez saisir un nombre !");

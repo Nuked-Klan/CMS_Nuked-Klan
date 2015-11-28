@@ -11,8 +11,7 @@ define("_TOPLINKS","Popular");
 define("_SUGGESTLINK","Suggest");
 define("_THEREIS","There are");
 define("_NBCAT","categorys");
-define("_INDATABASE","in the datatbase");
-define("_TITLE","Title");
+define("_INDATABASE","in the database");
 define("_ADDTHE","Added on");
 
 define("_HITS","Hits");

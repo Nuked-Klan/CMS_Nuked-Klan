@@ -11,7 +11,6 @@ define("_POSTEDBY","Posted by");
 define("_POSTED","Posted");
 define("_COMMENT","Comment");
 define("_COMMENTS","Comments");
-define("_TITLE","Title");
 define("_MESSAGE","Message");
 define("_NICK","Nick");
 define("_SEND_COM","Submit your comment");
@@ -19,7 +18,6 @@ define("_SEND_COM","Submit your comment");
 
 define("_RESERVNICK","This Nick is already used");
 define("_BANNEDNICK","This Nick is banned");
-define("_NONICK","You must enter your Nick");
 define("_NOTITLE","Please enter a title!");
 define("_NOTEXT","Please enter a text!");
 define("_COMMENTADD","Your comment was successfully added.");

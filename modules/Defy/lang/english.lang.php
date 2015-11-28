@@ -6,7 +6,6 @@ if (!defined("INDEX_CHECK")){
 define("_DEFY","War Request");
 define("_IAGREE","I agree");
 define("_IDESAGREE","I disagree");
-define("_NONICK","Please enter your nick!");
 define("_NOCLAN","Please enter your clan name!");
 define("_BADMAIL","Invalid email address!");
 define("_NOICQ","Please enter your instant messenger address!");

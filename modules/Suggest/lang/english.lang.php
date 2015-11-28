@@ -39,8 +39,6 @@ define("_SUG","Suggest");
 define("_REMOVE","Delete");
 define("_DELETESUG","You are about to remove the suggestion");
 
-
-define("_TITLE","Title");
 define("_TEXT","Text");
 define("_DESCR","Description");
 define("_SIZE","Size");

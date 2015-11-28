@@ -11,7 +11,6 @@ define("_BLOCKADMIN","Block Management");
 
 define("_BLOCKTITLE","Block title");
 define("_BLOCK","Block");
-define("_TITLE","Title");
 
 define("_LEVEL","Level");
 define("_LEVELACCES","Access Level");

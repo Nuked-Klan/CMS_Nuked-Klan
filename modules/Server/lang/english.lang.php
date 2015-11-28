@@ -48,7 +48,6 @@ define("_CAT","Category");
 define("_EDITTHISCAT","Edit this Category");
 define("_DELTHISCAT","Remove this Category");
 define("_ADDCAT","Add a Category");
-define("_TITLE","Title");
 define("_DESCR","Description");
 define("_CREATECAT","Create Category");
 define("_CATADD","Category was successfully added.");

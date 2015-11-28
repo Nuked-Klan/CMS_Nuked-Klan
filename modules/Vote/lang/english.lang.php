@@ -13,7 +13,6 @@ define("_ONEVOTEONLY","You can vote only once");
 define("_NOTE","Rating");
 define("_RATE","Rate");
 define("_NICKINUSE","This Nick is reserved");
-define("_NONICK","Enter your nick");
 
 define("_VOTEADD","Rating was successfully registered");
 ?>
