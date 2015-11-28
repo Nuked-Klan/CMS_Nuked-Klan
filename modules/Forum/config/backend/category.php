@@ -15,11 +15,11 @@ $forumCatList = array(
     ),
     'edit' => array(
         'op'                => 'editCat',
-        'text'              => _EDITTHISCAT
+        'imgTitle'          => _EDITTHISCAT
     ),
     'delete' => array(
         'op'                => 'deleteCat',
-        'text'              => _DELTHISCAT,
+        'imgTitle'          => _DELTHISCAT,
         'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
         'confirmField'      => 'nom'
     ),

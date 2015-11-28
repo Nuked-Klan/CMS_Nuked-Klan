@@ -17,11 +17,11 @@ $forumRankList = array(
     ),
     'edit' => array(
         'op'                => 'editRank',
-        'text'              => _EDITTHISRANK
+        'imgTitle'          => _EDITTHISRANK
     ),
     'delete' => array(
         'op'                => 'deleteRank',
-        'text'              => _DELTHISRANK,
+        'imgTitle'          => _DELTHISRANK,
         'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
         'confirmField'      => 'nom'
     ),
@@ -43,7 +43,7 @@ $forumRankField = array(
 
 // Definition of editing forum rank form
 $forumRankForm = array(
-    'id'        => 'editForumForm',
+    'id'        => 'editForumRankForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=saveRank',
     'method'    => 'post',
     'enctype'   => 'multipart/form-data',
@@ -74,12 +74,12 @@ $forumRankForm = array(
             'size'              => 4,
             'value'             => 0,
             'maxlength'         => 5
+        ),
+        'type' => array(
+            'type'              => 'hidden',
+            'name'              => 'type',
+            'value'             => 0
         )
-    ),
-    'type' => array(
-        'type'              => 'hidden',
-        'name'              => 'type',
-        'value'             => 0
     ),
     'itemsFooter' => array(
         'submit' => array(

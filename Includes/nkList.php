@@ -47,6 +47,15 @@ function nkList_init(&$config) {
         return false;
     }
 
+    if (array_key_exists('sqlQuery', $config) && $config['sqlQuery'] !== '')
+        $nkList['inputMode'] = 'sql';
+    else if (array_key_exists('dataList', $config) && function_exists($config['dataList']))
+        $nkList['inputMode'] = 'php';
+    else {
+        trigger_error('Input data isn\'t defined for nkList', E_USER_NOTICE);
+        return false;
+    }
+
     if (! array_key_exists('rowId', $config))
         $config['rowId'] = 'id';
 
@@ -59,9 +68,6 @@ function nkList_init(&$config) {
 
     // Prepare basic url for list
     $config['baseUrl'] = 'index.php?file='. $_REQUEST['file'] .'&amp;page='. $_REQUEST['page'];
-
-    if ($_REQUEST['op'] != 'index')
-        $config['baseUrl'] .= '&amp;op='. $_REQUEST['op'];
 
     if (array_key_exists('uriData', $config)
         && is_array($config['uriData'])
@@ -76,6 +82,11 @@ function nkList_init(&$config) {
     nkList_prepareSortingData($config);
 
     $nkList['sortUrl'] = $nkList['paginationUrl'] = $config['baseUrl'];
+
+    if ($_REQUEST['op'] != 'index') {
+        $nkList['sortUrl']          .= '&amp;op='. $_REQUEST['op'];
+        $nkList['paginationUrl']    .= '&amp;op='. $_REQUEST['op'];
+    }
 
     if ($nkList['inputMode'] == 'sql'
         && array_key_exists('limit', $config)
@@ -311,7 +322,7 @@ function nkList_checkFieldData(&$config) {
                     continue;
             }
             else if ($config['fields'][$fieldName]['type'] == 'image') {
-                if (! nkList_checkImageData($config, , $fieldName))
+                if (! nkList_checkImageData($config, $fieldName))
                     continue;
             }
             else if ($config['fields'][$fieldName]['type'] == 'positionLink') {
@@ -470,8 +481,6 @@ function nkList_generate($config) {
 
     //
     if (array_key_exists('sqlQuery', $config) && $config['sqlQuery'] !== '') {
-        $nkList['inputMode'] = 'sql';
-
         $config['dataList'] = nkDB_selectMany(
             $config['sqlQuery'],
             $nkList['sqlClause']['order'], $nkList['sqlClause']['dir'],
@@ -528,8 +537,8 @@ function nkList_generate($config) {
         nkTemplate_addJS(
             'function confirmToDeleteInList(title, id) {' ."\n"
             . "\t" .'var confirmMsg = \''. $config['delete']['confirmTxt'] .'\';' ."\n\n"
-            . "\t" .'if (confirm(confirmMsg.replace(/%s/, title)) {' ."\n"
-            . "\t\t" .'document.location.href = \''. $config['baseUrl'] .'&page='. $config['delete']['op'] .'&id=\' + id;' ."\n"
+            . "\t" .'if (confirm(confirmMsg.replace(/%s/, title))) {' ."\n"
+            . "\t\t" .'document.location.href = \''. str_replace('&amp;', '&', $config['baseUrl']) .'&op='. $config['delete']['op'] .'&id=\' + id;' ."\n"
             . "\t" .'}' ."\n"
             . '}' ."\n"
         );

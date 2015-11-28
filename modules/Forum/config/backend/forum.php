@@ -17,11 +17,11 @@ $forumList = array(
     ),
     'edit' => array(
         'op'                => 'editForum',
-        'text'              => _EDITTHISFORUM
+        'imgTitle'          => _EDITTHISFORUM
     ),
     'delete' => array(
         'op'                => 'deleteForum',
-        'text'              => _DELTHISFORUM,
+        'imgTitle'          => _DELTHISFORUM,
         'confirmTxt'        => _DELETE_CONFIRM .' %s ! '. _CONFIRM,
         'confirmField'      => 'nom'
     ),

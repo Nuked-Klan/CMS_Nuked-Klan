@@ -97,6 +97,7 @@ $_REQUEST   = array_merge($_COOKIE, $_POST, $_GET);
 
 
 // UPLOAD PROTECTION
+/*
 foreach ($_FILES as $k => $v) {
     if (! empty($_FILES[$k]['name'])) {
         $_FILES[$k]['name'] = substr(md5(uniqid()), rand(0, 20), 10) . strrchr($_FILES[$k]['name'], '.');
@@ -116,6 +117,7 @@ foreach ($_FILES as $k => $v) {
         unset($sfile);
     }
 }
+*/
 
 //register_shutdown_function(create_function('', 'var_dump($_GET, $_POST, $_REQUEST);return false;'));
 

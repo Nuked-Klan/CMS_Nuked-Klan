@@ -22,9 +22,14 @@ function maFonctionAjax(texte){
 
 function screenon(lien,lien2){
 	xtralink = lien2;
-	document.getElementById('iframe').innerHTML = '<iframe style="border: 0" width="100%" height="80%" src="'+lien+'"></iframe>';
-	if(condition_js == 1) screenoff();
-	else document.getElementById("screen").style.display="block";
+	//document.getElementById('iframe').innerHTML = '<iframe style="border: 0" width="100%" height="80%" src="'+lien+'"></iframe>';
+	if (condition_js == 1) {
+        screenoff();
+    }
+    else {
+        document.getElementById('iframe').innerHTML = '<iframe style="border: 0" width="100%" height="80%" src="'+lien+'"></iframe>';
+        document.getElementById("screen").style.display="block";
+    }
 }
 
 function screenoff(){

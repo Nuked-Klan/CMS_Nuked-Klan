@@ -385,4 +385,9 @@ define("_PREFUPDATED","Preferences were successfully modified");
 define("_MORE","Extended Text");
 define("_ORDERBY","Order by");
 
+// nkUpload
+define("_UPLOADFILEFAILED","Upload file failed !");
+define("_NOIMAGEFILE","This file is not a valid image !");
+define("_UPLOADDIRNOWRITEABLE","The upload directory isn't writeable !");
+
 ?>

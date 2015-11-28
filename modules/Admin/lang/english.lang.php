@@ -675,9 +675,6 @@ define("_TYPEEDITEUR","Choice of text editor");
 define("_CKEDITOR","CKEditor");
 define("_TINYEDITOR","TinyEditor");
 
-define("_UPLOADFILEFAILED","Upload file failed !");
-define("_NOIMAGEFILE","This file is not a valid image !");
-
 define("_STYLETITLE","Style");
 define("_ACCESSIBILITY","Accessibility");
 define("_TO_CREATE_A_MENU","To add a Menu, you have to add a block type \"Menu\" before.");

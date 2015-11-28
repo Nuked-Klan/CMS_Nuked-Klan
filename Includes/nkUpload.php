@@ -16,7 +16,10 @@ function nkUpload_check($filename, $fileType, $uploadDir) {
     if (nkUpload_checkFileType($filename, $fileType)) {
         $path = $uploadDir .'/'. $_FILES[$filename]['name'];
 
-        if (! move_uploaded_file($_FILES[$filename]['tmp_name'], $path))
+        if (! is_writable($path))
+            return array('', _UPLOADDIRNOWRITEABLE);
+
+        if (! @move_uploaded_file($_FILES[$filename]['tmp_name'], $path))
             return array('', _UPLOADFILEFAILED);
 
         @chmod($path, 0644);
@@ -30,7 +33,7 @@ function nkUpload_check($filename, $fileType, $uploadDir) {
 
 function nkUpload_checkFileType($filename, $fileType) {
     if ($fileType == 'image') {
-        $imgInfo = getimagesize($_FILES[$filename]['name']);
+        $imgInfo = @getimagesize($_FILES[$filename]['tmp_name']);
 
         return $imgInfo !== false && in_array($imgInfo[2], array(IMG_JPEG, IMG_GIF, IMG_PNG));
     }

@@ -69,7 +69,7 @@
 
     if (isset($delete)) :
 ?>
-        <th class="<?php echo nkList_getCellClass('delete') ?> nkListDelete"><b><?php echo (isset($delete['label']) ? $delete['label'] : _DELETE ?></b></th>
+        <th class="<?php echo nkList_getCellClass('delete') ?> nkListDelete"><b><?php echo (isset($delete['label'])) ? $delete['label'] : _DELETE ?></b></th>
 <?php
     endif
 ?>
@@ -116,7 +116,7 @@
 <?php
                     elseif ($fieldData['type'] == 'image') :
 ?>
-            <img style="border: 0;" src="<?php echo $fieldData['src'] ?  ?>" alt="" title="<?php echo $fieldData['title'] ?>" />
+            <img style="border: 0;" src="<?php echo $fieldData['src'] ?>" alt="" title="<?php echo $fieldData['title'] ?>" />
 <?php
                     endif;
 

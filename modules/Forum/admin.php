@@ -28,7 +28,7 @@ function main_cat() {
     global $adminMenu;
 
     require_once 'Includes/nkList.php';
-    require_once 'modules/Forum/config/category.php';
+    require_once 'modules/Forum/config/backend/category.php';
 
     $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
@@ -48,10 +48,9 @@ function main_cat() {
 
 function editForumCat() {
     require_once 'Includes/nkForm.php';
-    require_once 'modules/Forum/config/category.php';
+    require_once 'modules/Forum/config/backend/category.php';
 
-    $id         = (isset($_GET['id'])) ? $_GET['id'] : 0;
-    $content    = '';
+    $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
     if ($id == 0) {
         unset($forumCatForm['items']['htmlCategoryImage']);
@@ -66,19 +65,20 @@ function editForumCat() {
         foreach ($forumCatField as $field)
             $forumCatForm['items'][$field]['value'] = $dbrForumCat[$field];
 
-        if ($dbrForumCat['image'] !='') {
-            $content .= printNotification(_NOTIFIMAGESIZE, 'information', $backLinkUrl = false, $return = true);
+        $forumCatForm['action'] .= '&amp;id='. $id;
 
-            $forumCatForm['items']['htmlCategoryImage'] = '<img src="'. $dbrForumCat['image'] .'" style="max-width:100%;height:auto;"/>';
-        }
+        if ($dbrForumCat['image'] !='')
+            $forumCatForm['items']['htmlCategoryImage'] = '<img id="catImgPreview" src="'. $dbrForumCat['image'] .'" alt="" />';
 
         $forumCatForm['itemsFooter']['submit']['value'] = _MODIFTHISCAT;
     }
 
+    $info = printNotification(_NOTIFIMAGESIZE, 'information', $backLinkUrl = false, $return = true);
+
     echo applyTemplate('contentBox', array(
         'title'     => ($id == 0) ? _ADMINFORUM .' - '. _ADDCAT : _CATMANAGEMENT .' - '. _EDITTHISCAT,
         'helpFile'  => 'Forum',
-        'content'   => $content . nkForm_generate($forumCatForm)
+        'content'   => $info . nkForm_generate($forumCatForm)
     ));
 }
 
@@ -101,7 +101,7 @@ function saveForumCat() {
         }
         else {
             printNotification($uploadError, 'error');
-            redirect('index.php?file=Forum&page=admin&op=editCat'. ($id > 0) ? '&id='. $id : '', 2);
+            redirect('index.php?file=Forum&page=admin&op=editCat'. (($id > 0) ? '&id='. $id : ''), 2);
             return;
         }
     }
@@ -155,7 +155,7 @@ function main() {
     global $adminMenu;
 
     require_once 'Includes/nkList.php';
-    require_once 'modules/Forum/config/forum.php';
+    require_once 'modules/Forum/config/backend/forum.php';
 
     $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
@@ -194,7 +194,7 @@ function editForum() {
     global $adminMenu;
 
     require_once 'Includes/nkForm.php';
-    require_once 'modules/Forum/config/forum.php';
+    require_once 'modules/Forum/config/backend/forum.php';
 
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
@@ -222,6 +222,8 @@ function editForum() {
         foreach ($forumField as $field)
             $forumForm['items'][$field]['value'] = $dbrForum[$field];
 
+        $forumForm['action'] .= '&amp;id='. $id;
+
         if ($dbrForum['moderateurs'] != '') {
             $moderateurs = explode('|', $dbrForum['moderateurs']);
             $nbModerator = count($moderateurs);
@@ -244,7 +246,7 @@ function editForum() {
         }
 
         if ($dbrForum['image'] !='')
-            $forumForm['items']['image']['html'] = '<img src="'. $dbrForum['image'] .'" title="'. $dbrForum['nom'] .'" style="margin-left:20px; width:50px; height:50px; vertical-align:middle;" />';
+            $forumForm['items']['image']['html'] = '<img id="forumImgPreview" src="'. $dbrForum['image'] .'" title="'. $dbrForum['nom'] .'" alt="" />';
 
         $forumForm['itemsFooter']['submit']['value'] = _MODIFTHISCAT;
     }
@@ -269,7 +271,7 @@ function saveForum() {
         'nom'           => stripslashes($_POST['titre']),
         'comment'       => stripslashes(secu_html(nkHtmlEntityDecode($_POST['description']))),
         'cat'           => $_POST['cat'],
-        'moderateurs'   => $_POST['modo'],
+        'moderateurs'   => isset($_POST['modo']) ? $_POST['modo'] : '',
         'niveau'        => $_POST['niveau'],
         'level'         => $_POST['level'],
         'ordre'         => $_POST['ordre'],
@@ -285,7 +287,7 @@ function saveForum() {
         }
         else {
             printNotification($uploadError, 'error');
-            redirect('index.php?file=Forum&page=admin&op=editForum'. ($id > 0) ? '&id='. $id : '', 2);
+            redirect('index.php?file=Forum&page=admin&op=editForum'. (($id > 0) ? '&id='. $id : ''), 2);
             return;
         }
     }
@@ -425,7 +427,7 @@ function main_rank() {
     global $adminMenu;
 
     require_once 'Includes/nkList.php';
-    require_once 'modules/Forum/config/rank.php';
+    require_once 'modules/Forum/config/backend/rank.php';
 
     $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
@@ -445,7 +447,7 @@ function main_rank() {
 
 function editRank() {
     require_once 'Includes/nkForm.php';
-    require_once 'modules/Forum/config/rank.php';
+    require_once 'modules/Forum/config/backend/rank.php';
 
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
@@ -459,9 +461,13 @@ function editRank() {
         foreach ($forumRankField as $field)
             $forumRankForm['items'][$field]['value'] = $dbrForumRank[$field];
 
-        if ($dbrForumRank['type'] != 0){
-            $forumRankForm['items']['type']['type'] = 'hidden';
-        }
+        $forumRankForm['action'] .= '&amp;id='. $id;
+
+        if ($dbrForumRank['type'] != 0)
+            $forumRankForm['items']['post']['type'] = 'hidden';
+
+        if ($dbrForumRank['image'] !='')
+            $forumRankForm['items']['image']['html'] = '<img id="rankImgPreview" src="'. $dbrForumRank['image'] .'" title="'. $dbrForumRank['nom'] .'" alt="" />';
 
         $forumRankForm['itemsFooter']['submit']['value'] = _MODIFTHISRANK;
     }
@@ -492,7 +498,7 @@ function saveRank() {
         }
         else {
             printNotification($uploadError, 'error');
-            redirect('index.php?file=Forum&page=admin&op=editRank'. ($id > 0) ? '&id='. $id : '', 2);
+            redirect('index.php?file=Forum&page=admin&op=editRank'. (($id > 0) ? '&id='. $id : ''), 2);
             return;
         }
     }
@@ -565,7 +571,7 @@ function prune() {
     global $adminMenu;
 
     require_once 'Includes/nkForm.php';
-    require_once 'modules/Forum/config/prune.php';
+    require_once 'modules/Forum/config/backend/prune.php';
 
     nkTemplate_addJS(
 '$("#pruneForumForm").submit(function() {
@@ -653,7 +659,7 @@ function editSetting() {
     global $adminMenu, $nuked;
 
     require_once 'Includes/nkForm.php';
-    require_once 'modules/Forum/config/setting.php';
+    require_once 'modules/Forum/config/backend/setting.php';
 
     foreach ($forumSettingField as $field)
         $forumSettingForm['items'][$field]['value'] = $nuked[$field];
@@ -671,7 +677,7 @@ function saveSetting() {
     global $nuked;
 
     require_once 'Includes/nkForm.php';
-    require_once 'modules/Forum/config/setting.php';
+    require_once 'modules/Forum/config/backend/setting.php';
 
     $_POST['forum_title']   = stripslashes($_POST['forum_title']);
     $_POST['forum_desc']    = stripslashes($_POST['forum_desc']);

@@ -193,6 +193,12 @@ function nkForm_generate($form) {
             $html .= $itemData;
         }
         else {
+            if (array_key_exists('type', $itemData) && $itemData['type'] == 'hidden') {
+                $form['hiddenField'][] = $itemData;
+
+                continue;
+            }
+
             nkForm_initInput($itemName, $itemData, $form['id']);
 
             $html .= '<div id="'. $itemData['id'] .'_container" class="nkForm_container">';
@@ -234,7 +240,7 @@ function nkForm_generate($form) {
     }
 
     foreach ($form['hiddenField'] as $params)
-        $html .= '<input type="hidden"'. nkForm_formatAttribute($params, array('class', 'name', 'value')) .' />';
+        $html .= '<input type="hidden"'. nkForm_formatAttribute($params, array('name', 'value')) .' />';// 'class', 
 
     return $html .'</div>' ."\n" .'</form>' ."\n";
 }

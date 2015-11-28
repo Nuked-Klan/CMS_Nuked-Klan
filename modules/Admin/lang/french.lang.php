@@ -510,9 +510,6 @@ define("_TYPEEDITEUR","Choix de l'éditeur de texte");
 define("_CKEDITOR","CKEditor");
 define("_TINYEDITOR","TinyEditor");
 
-define("_UPLOADFILEFAILED","Le T&eacute;l&eacute;chargement du fichier &agrave; &eacute;chou&eacute; !");
-define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
-
 define("_STYLETITLE","Style");
 define("_ACCESSIBILITY","Accessibilit&eacute;");
 define("_TO_CREATE_A_MENU","Pour ajouter un menu, il faut au pr&eacute;alable cr&eacute;er un bloc de type \"Menu\".");

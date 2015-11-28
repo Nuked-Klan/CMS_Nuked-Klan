@@ -176,7 +176,7 @@ function saveUserAction($action) {
 }
 
 function setPreview($previewUrl, $redirect) {
-    nkTemplate_addJS('setTimeout("function(){screenon("'. $previewUrl .'", "'. $redirect .'");}","3000");' ."\n");
+    nkTemplate_addJS('setTimeout(function(){screenon("'. $previewUrl .'", "'. $redirect .'");},"3000");' ."\n");
 }
 
 ?>

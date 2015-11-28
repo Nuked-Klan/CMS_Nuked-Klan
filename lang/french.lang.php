@@ -391,4 +391,9 @@ define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_MORE","Suite");
 define("_ORDERBY","Classer par");
 
+// nkUpload
+define("_UPLOADFILEFAILED","Le Téléchargement du fichier a échoué !");
+define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
+define("_UPLOADDIRNOWRITEABLE","Le dossier d'upload n'a pas les droits d'écriture !");
+
 ?>
