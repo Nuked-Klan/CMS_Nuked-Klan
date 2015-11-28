@@ -20,21 +20,17 @@ opentable();
 
     $nb_mess_for = $nuked['thread_forum_page'];
 
-    if ($_REQUEST['date_max'] != "") {
+    if (!empty($_REQUEST['date_max'])) {
         $date_jour = time();
         $date_select = $date_jour - $_REQUEST['date_max'];
-    }
-
-    if ($_REQUEST['date_max'] != "") {
         $sql2 = mysql_query("SELECT forum_id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND date > '" . $date_select . "' ORDER BY last_post DESC");
-    }
-    else {
+    } else {
         $sql2 = mysql_query("SELECT forum_id FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' ORDER BY last_post DESC");
     }
 
     $count = mysql_num_rows($sql2);
 
-    $p = !$_GET['p']?1:$_GET['p'];
+    $p = !isset($_GET['p']) ? 1 : $_GET['p'];
     $start = $p * $nb_mess_for - $nb_mess_for;
 
     $sql = mysql_query("SELECT nom, comment, moderateurs, image, cat, level FROM " . FORUM_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['forum_id'] . "'");
@@ -143,7 +139,7 @@ opentable();
 <?php
                 }
 
-        if ($_REQUEST['date_max'] != "") {
+        if (!empty($_REQUEST['date_max'])) {
             $sql3 = mysql_query("SELECT id, titre, auteur, view, closed, annonce, sondage FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND date > '" . $date_select . "' ORDER BY annonce DESC, last_post DESC LIMIT " . $start . ", " . $nb_mess_for."");
         }
         else {
