@@ -391,6 +391,8 @@ define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_MORE","Suite");
 define("_ORDERBY","Classer par");
 define("_NONICK","Vous n\'avez pas entré votre pseudo !");
+define("_IMAGE","Image");
+define("_STATS","Statistiques");
 
 // nkUpload
 define("_UPLOADFILEFAILED","Le Téléchargement du fichier a échoué !");

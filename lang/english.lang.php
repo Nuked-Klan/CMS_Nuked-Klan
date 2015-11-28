@@ -385,6 +385,8 @@ define("_PREFUPDATED","Preferences were successfully modified");
 define("_MORE","Extended Text");
 define("_ORDERBY","Order by");
 define("_NONICK","Please enter your nick !");
+define("_IMAGE","Picture");
+define("_STATS","Statistics");
 
 // nkUpload
 define("_UPLOADFILEFAILED","Upload file failed !");

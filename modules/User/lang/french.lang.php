@@ -32,7 +32,6 @@ define("_NAME","Nom");
 define("_COUNT","Compteur");
 define("_POSTPV","Poster un message privé");
 define("_READPV","Lire vos messages privés");
-define("_STATS","Statistiques");
 define("_POST","posté");
 define("_MESSINFORUM","Messages dans le Forum");
 define("_USERCOMMENT","Commentaires postés");

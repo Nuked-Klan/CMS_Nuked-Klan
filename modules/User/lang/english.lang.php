@@ -33,7 +33,6 @@ define("_NAME","Name");
 define("_COUNT","counter");
 define("_POSTPV","Send private message");
 define("_READPV","Read private message");
-define("_STATS","Statistics");
 define("_POST","send");
 define("_MESSINFORUM","Messages to the Forum");
 define("_USERCOMMENT","Posted Comments");

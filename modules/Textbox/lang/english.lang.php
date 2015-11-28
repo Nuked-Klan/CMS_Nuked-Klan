@@ -28,7 +28,6 @@ define("_SHOUTINDB","messages in the database");
 define("_SMILEY","Add a smilies");
 define("_LISTSMILIES","Smilies List");
 
-define("_IMAGE","Image");
 
 define("_ADMINSHOUTBOX","Shoutbox Administration");
 
