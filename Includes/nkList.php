@@ -16,7 +16,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
  * Initialisation of nkList global vars
  */
 $GLOBALS['nkList'] = array(
-    'classPrefix'   => '',
     'inputMode'     => 'php',
     'p'             => 1,
     'sortUrl'       => '',
@@ -59,9 +58,17 @@ function nkList_init(&$config) {
     if (! array_key_exists('rowId', $config))
         $config['rowId'] = 'id';
 
-    if (array_key_exists('classPrefix', $config)) {
-        $nkList['classPrefix'] = $config['classPrefix'];
-        unset($config['classPrefix']);
+    if (! array_key_exists('css', $config))
+        $config['css'] = array();
+
+    if (! array_key_exists('css', $config))
+        $config['css'] = array('tablePrefix' => 'nk', 'fieldsPrefix' => 'f');
+    else {
+        if (! (array_key_exists('tablePrefix', $config['css']) && $config['css']['tablePrefix'] !== ''))
+            $config['css']['tablePrefix'] = 'nk';
+
+        if (! (array_key_exists('fieldsPrefix', $config['css']) && $config['css']['fieldsPrefix'] !== ''))
+            $config['css']['fieldsPrefix'] = 'f';
     }
 
     list($nkList['p']) = getRequestVars('p');
@@ -441,30 +448,6 @@ function nkList_arrayOrderBy() {
     call_user_func_array('array_multisort', $args);
 
     return array_pop($args);
-}
-
-/**
- * Get table list id
- *
- * @param void
- * @return string : The formated table list id ( class prefix + `List` string)
- */
-function nkList_getListId() {
-    global $nkList;
-
-    return $nkList['classPrefix'] .'List';
-}
-
-/**
- * Get cell class of table list.
- *
- * @param string $fieldName : The cell field 
- * @return string : The formated cell class ( class prefix + fieldName with first character uppercase)
- */
-function nkList_getCellClass($fieldName) {
-    global $nkList;
-
-    return $nkList['classPrefix'] . ucfirst($fieldName);
 }
 
 /**

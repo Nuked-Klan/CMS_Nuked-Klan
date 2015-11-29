@@ -1,37 +1,37 @@
 /* Forum category list */
-table#forumCatList .forumCatNom{width:50%;}
-table#forumCatList .forumCatOrdre{width:10%;}
-table#forumCatList .forumCatEdit,
-table#forumCatList .forumCatDelete{width:10%;}
-table#forumCatList .forumCatNom,
-table#forumCatList .forumCatOrdre{text-align:center;}
+table#forumCatList .cNom{width:50%;}
+table#forumCatList .cOrdre{width:10%;}
+table#forumCatList .nkListEdit,
+table#forumCatList .nkListDelete{width:10%;}
+table#forumCatList td.cNom,
+table#forumCatList td.cOrdre{text-align:center;}
 
 /* Forum category form */
 #catImgPreview{max-width:100%;height:auto;}
 
 /* Forum list */
-table#forumList .forumNom,
-table#forumList .forumCatName,
-table#forumList .forumNiveau,
-table#forumList .forumLevel{width:20%;}
-table#forumList .forumEdit,
-table#forumList .forumDelete{width:10%;}
-table#forumList td.forumCatName,
-table#forumList td.forumNiveau,
-table#forumList td.forumLevel{text-align:center;}
+table#forumList .fNom,
+table#forumList .fCatName,
+table#forumList .fNiveau,
+table#forumList .fLevel{width:20%;}
+table#forumList .nkListEdit,
+table#forumList .nkListDelete{width:10%;}
+table#forumList td.fCatName,
+table#forumList td.fNiveau,
+table#forumList td.fLevel{text-align:center;}
 
 /* Forum form */
 #forumImgPreview{margin-left:20px;width:50px;height:50px;vertical-align:middle;}
 
 /* Forum rank list */
-table#forumRankList .forumRankNom,
-table#forumRankList .forumRankType{width:25%;}
-table#forumRankList .forumRankPost{width:20%;}
-table#forumRankList .forumRankEdit,
-table#forumRankList .forumRankDelete{width:15%;}
-table#forumRankList .forumRankNom,
-table#forumRankList .forumRankType,
-table#forumRankList .forumRankPost{text-align:center;}
+table#forumRankList .rNom,
+table#forumRankList .rType{width:25%;}
+table#forumRankList .rPost{width:20%;}
+table#forumRankList .nkListEdit,
+table#forumRankList .nkListDelete{width:15%;}
+table#forumRankList td.rNom,
+table#forumRankList td.rType,
+table#forumRankList td.rPost{text-align:center;}
 
 
 #rankImgPreview{margin-left:4px;}

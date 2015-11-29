@@ -4,7 +4,7 @@
 
 // Define the list of forum
 $forumList = array(
-    'classPrefix' => 'forum',
+    'css' => array('tablePrefix' => 'forum', 'fieldsPrefix' => 'f'),
     'sqlQuery' => 'SELECT A.id, A.nom, A.niveau, A.level, B.nom AS category FROM '. FORUM_TABLE .' AS A LEFT JOIN '. FORUM_CAT_TABLE .' AS B ON B.id = A.cat',
     'defaultSortables' => array(
         'order'     => array('B.ordre', 'B.nom', 'A.ordre', 'A.nom')

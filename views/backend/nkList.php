@@ -27,12 +27,12 @@
 <?php
     endif
 ?>
-<table id="<?php echo nkList_getListId() ?>" class="nkList" border="0" cellspacing="1" cellpadding="2">
+<table id="<?php echo $css['tablePrefix'] ?>List" class="nkList" border="0" cellspacing="1" cellpadding="2">
     <tr>
 <?php
     foreach ($fields as $field => $fieldData) :
 ?>
-        <th class="<?php echo nkList_getCellClass($field) ?>">
+        <th class="<?php echo $css['fieldsPrefix'] . ucfirst($field) ?>">
 <?php
         if ($fieldData['sort']) :
 ?>
@@ -63,13 +63,13 @@
 
     if (isset($edit)) :
 ?>
-        <th class="<?php echo nkList_getCellClass('edit') ?> nkListEdit"><b><?php echo _EDIT ?></b></th>
+        <th class="nkListEdit"><b><?php echo _EDIT ?></b></th>
 <?php
     endif;
 
     if (isset($delete)) :
 ?>
-        <th class="<?php echo nkList_getCellClass('delete') ?> nkListDelete"><b><?php echo (isset($delete['label'])) ? $delete['label'] : _DELETE ?></b></th>
+        <th class="nkListDelete"><b><?php echo (isset($delete['label'])) ? $delete['label'] : _DELETE ?></b></th>
 <?php
     endif
 ?>
@@ -84,7 +84,7 @@
 <?php
             foreach ($fields as $field => $fieldData) :
 ?>
-        <td class="<?php echo nkList_getCellClass($field) ?>">
+        <td class="<?php echo $css['fieldsPrefix'] . ucfirst($field) ?>">
 <?php
                 if ($fieldData['type'] == 'checkbox') :
 ?>
@@ -133,7 +133,7 @@
 
             if (isset($edit)) :
 ?>
-        <td class="<?php echo nkList_getCellClass('edit') ?> nkListEdit">
+        <td class="nkListEdit">
             <a href="<?php echo $baseUrl ?>&amp;op=<?php echo $edit['op'] ?>&amp;<?php echo $rowId ?>=<?php echo $row[$rowId] ?>">
                 <img style="border: 0;" src="images/edit.gif" alt="<?php echo _EDIT ?>" title="<?php echo $edit['imgTitle'] ?>" />
             </a>
@@ -144,12 +144,12 @@
             if (isset($delete)) :
                 if (isset($noDeleteRow) || (array_key_exists('notDeletableId', $delete) && $delete['notDeletableId'] != '' && $delete['notDeletableId'] == $row[$rowId])) :
 ?>
-        <td class="<?php echo nkList_getCellClass('delete') ?> nkListDelete">-</td>
+        <td class="nkListDelete">-</td>
 <?php
                     if (isset($noDeleteRow)) : unset($noDeleteRow); endif;
                 else :
 ?>
-        <td class="<?php echo nkList_getCellClass('delete') ?> nkListDelete">
+        <td class="nkListDelete">
             <a href="javascript:confirmToDeleteInList('<?php echo addslashes(strip_tags($row[$delete['confirmField']])) ?>', '<?php echo htmlspecialchars($row[$rowId]) ?>');">
                 <img style="border: 0;" src="images/del.gif" alt="<?php echo _DELETE ?>" title="<?php echo $delete['imgTitle'] ?>" />
             </a>

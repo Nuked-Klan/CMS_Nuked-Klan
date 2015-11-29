@@ -4,7 +4,7 @@
 
 // Define the list of forum category
 $forumCatList = array(
-    'classPrefix' => 'forumCat',
+    'css' => array('tablePrefix' => 'forumCat', 'fieldsPrefix' => 'c'),
     'sqlQuery' => 'SELECT id, nom, ordre FROM '. FORUM_CAT_TABLE,
     'defaultSortables' => array(
         'order'     => array('ordre', 'nom')

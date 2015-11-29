@@ -4,7 +4,8 @@
 
 // Define the list of forum rank
 $forumRankList = array(
-    'classPrefix' => 'forumRank',
+    'css' => array('tablePrefix' => 'forumRank', 'fieldsPrefix' => 'r'),
+    'classPrefix' => '',
     'sqlQuery' => 'SELECT id, nom, type, post FROM '. FORUM_RANK_TABLE,
     'defaultSortables' => array(
         'order'     => array('type', 'post'),
