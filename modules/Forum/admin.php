@@ -94,12 +94,9 @@ function saveForumCat() {
     );
 
     if ($_FILES['upImageCat']['name'] != '') {
-        list($upImageCat, $uploadError) = nkUpload_check('upImageCat', 'image', 'upload/Forum/cat');
+        list($data['image'], $uploadError) = nkUpload_check('upImageCat', 'image', 'upload/Forum/cat');
 
-        if ($uploadError === false) {
-            $data['image'] = $upImageCat;
-        }
-        else {
+        if ($uploadError !== false) {
             printNotification($uploadError, 'error');
             redirect('index.php?file=Forum&page=admin&op=editCat'. (($id > 0) ? '&id='. $id : ''), 2);
             return;
@@ -280,12 +277,9 @@ function saveForum() {
     );
 
     if ($_FILES['upImageForum']['name'] != '') {
-        list($upImageForum, $uploadError) = nkUpload_check('upImageForum', 'image', 'upload/Forum/cat');
+        list($data['image'], $uploadError) = nkUpload_check('upImageForum', 'image', 'upload/Forum/cat');
 
-        if ($uploadError === false) {
-            $data['image'] = $upImageForum;
-        }
-        else {
+        if ($uploadError !== false) {
             printNotification($uploadError, 'error');
             redirect('index.php?file=Forum&page=admin&op=editForum'. (($id > 0) ? '&id='. $id : ''), 2);
             return;
@@ -491,12 +485,9 @@ function saveRank() {
     );
 
     if ($_FILES['upImageRank']['name'] != '') {
-        list($upImageRank, $uploadError) = nkUpload_check('upImageRank', 'image', 'upload/Forum/rank');
+        list($data['image'], $uploadError) = nkUpload_check('upImageRank', 'image', 'upload/Forum/rank');
 
-        if ($uploadError === false) {
-            $data['image'] = $upImageRank;
-        }
-        else {
+        if ($uploadError !== false) {
             printNotification($uploadError, 'error');
             redirect('index.php?file=Forum&page=admin&op=editRank'. (($id > 0) ? '&id='. $id : ''), 2);
             return;
