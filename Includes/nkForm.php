@@ -77,19 +77,18 @@ function nkForm_initJSCheckform(&$form) {
         }
     }
 
-    nkTemplate_addCSSFile('web/css/nkCheckForm.css');
+    nkTemplate_addCSSFile('media/nkCheckForm/nkCheckForm.css');
 
-    nkTemplate_addJSFile(JQUERY_LIBRAIRY, 'librairy');
-    nkTemplate_addJSFile('web/js/nkCheckForm/nkCheckForm.js', 'librairyPlugin');
+    nkTemplate_addJSFile('media/nkCheckForm/nkCheckForm.js', 'librairyPlugin');
     nkTemplate_addJS(
-        '$("#'. $form['id'] .'_form").nkCheckForm({ input: {' ."\n"
+        '$("#'. $form['id'] .'").nkCheckForm({ input: {' ."\n"
         . implode(",\n", $fields) ."\n"
         . '}});' ."\n",
         'jqueryDomReady'
     );
 
     if ($GLOBALS['language'] != 'english')
-        nkTemplate_addJSFile('js/nkCheckForm/i18n/nkCheckForm-'. $GLOBALS['language'] .'.js', 'librairyPlugin');
+        nkTemplate_addJSFile('media/nkCheckForm/i18n/nkCheckForm-'. $GLOBALS['language'] .'.js', 'librairyPlugin');
 }
 
 
@@ -213,8 +212,8 @@ function nkForm_generate($form) {
                 $html .= $fieldFonction($itemName, $itemData, $form['id']);
             }
 
-            if ($itemData['required'])
-                $html .= '&nbsp;<b class="required">*</b>';
+            //if ($itemData['required'])
+            //    $html .= '&nbsp;<b class="required">*</b>';
 
             if (array_key_exists('html', $itemData) && $itemData['html'] != '')
                 $html .= $itemData['html'];

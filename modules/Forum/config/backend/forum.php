@@ -49,6 +49,7 @@ $forumField = array(
 
 // Definition of editing forum form
 $forumForm = array(
+    'checkform' => true,
     'id'        => 'editForumForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=saveForum',
     'method'    => 'post',
@@ -58,7 +59,10 @@ $forumForm = array(
             'label'             => '<b>'. _NAME .' : </b>',
             'type'              => 'text',
             'name'              => 'titre',
-            'size'              => 30
+            'size'              => 30,
+            'dataType'          => 'text',
+            'required'          => true,
+            'noempty'           => true
         ),
         'cat' => array(
             'label'             => '<b>'. _CAT .' : </b>',
@@ -124,7 +128,10 @@ $forumForm = array(
             'type'              => 'text',
             'name'              => 'ordre',
             'value'             => '0',
-            'size'              => 2
+            'size'              => 2,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         ),
         'level_poll' => array(
             'label'             => '<b>'. _LEVELPOLL .' : </b>',

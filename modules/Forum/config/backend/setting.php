@@ -36,7 +36,7 @@ $forumSettingForm = array(
             'size'              => 40
         ),
         'forum_desc' => array(
-            'label'             => '<b>'. _FORUMTITLE .' : </b>',
+            'label'             => '<b>'. _FORUMDESC .' : </b>',
             'type'              => 'textarea',
             'name'              => 'forum_desc',
             'cols'              => 55,
@@ -94,31 +94,46 @@ $forumSettingForm = array(
             'label'             => '<b>'. _NUMBERTHREAD .' : </b>',
             'type'              => 'text',
             'name'              => 'thread_forum_page',
-            'size'              => 2
+            'size'              => 2,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         ),
         'mess_forum_page' => array(
             'label'             => '<b>'. _NUMBERPOST .' : </b>',
             'type'              => 'text',
             'name'              => 'mess_forum_page',
-            'size'              => 2
+            'size'              => 2,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         ),
         'hot_topic' => array(
             'label'             => '<b>'. _TOPICHOT .' : </b>',
             'type'              => 'text',
             'name'              => 'hot_topic',
-            'size'              => 2
+            'size'              => 2,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         ),
         'post_flood' => array(
             'label'             => '<b>'. _POSTFLOOD .' : </b>',
             'type'              => 'text',
             'name'              => 'post_flood',
-            'size'              => 2
+            'size'              => 2,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         ),
         'forum_field_max' => array(
             'label'             => '<b>'. _MAXFIELD .' : </b>',
             'type'              => 'text',
             'name'              => 'forum_field_max',
-            'size'              => 2
+            'size'              => 2,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         ),
         'forum_file' => array(
             'label'             => '<b>'. _ATTACHFILES .' : </b>',
@@ -147,7 +162,10 @@ $forumSettingForm = array(
             'label'             => '<b>'. _MAXFIELD .' : </b>',
             'type'              => 'text',
             'name'              => 'forum_file_maxsize',
-            'size'              => 6
+            'size'              => 6,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         )
     ),
     'itemsFooter' => array(

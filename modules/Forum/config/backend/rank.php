@@ -44,6 +44,7 @@ $forumRankField = array(
 
 // Definition of editing forum rank form
 $forumRankForm = array(
+    'checkform' => true,
     'id'        => 'editForumRankForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=saveRank',
     'method'    => 'post',
@@ -53,7 +54,10 @@ $forumRankForm = array(
             'label'             => '<b>'. _NAME .' : </b>',
             'type'              => 'text',
             'name'              => 'nom',
-            'size'              => 30
+            'size'              => 30,
+            'dataType'          => 'text',
+            'required'          => true,
+            'noempty'           => true
         ),
         'image' => array(
             'label'             => '<b>'. _IMAGE .' : </b>',
@@ -74,7 +78,10 @@ $forumRankForm = array(
             'name'              => 'post',
             'size'              => 4,
             'value'             => 0,
-            'maxlength'         => 5
+            'maxlength'         => 5,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         ),
         'type' => array(
             'type'              => 'hidden',

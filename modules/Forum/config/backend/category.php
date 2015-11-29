@@ -41,6 +41,7 @@ $forumCatField = array(
 
 // Definition of editing forum category form
 $forumCatForm = array(
+    'checkform' => true,
     'id'        => 'editForumCatForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=saveCat',
     'method'    => 'post',
@@ -51,7 +52,10 @@ $forumCatForm = array(
             'label'             => _NAME .' : ',
             'type'              => 'text',
             'name'              => 'nom',
-            'size'              => 30
+            'size'              => 30,
+            'dataType'          => 'text',
+            'required'          => true,
+            'noempty'           => true
         ),
         'image' => array(
             'label'             => _IMAGE .' : ',
@@ -86,7 +90,10 @@ $forumCatForm = array(
             'type'              => 'text',
             'name'              => 'ordre',
             'value'             => '0',
-            'size'              => 2
+            'size'              => 2,
+            'dataType'          => 'numeric',
+            'required'          => true,
+            'noempty'           => true
         )
     ),
     'itemsFooter' => array(
