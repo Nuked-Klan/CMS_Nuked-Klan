@@ -25,7 +25,6 @@ define("_SHOUTINDB","messages dans la base de données");
 define("_SMILEY","Ajouter un smilies");
 define("_LISTSMILIES","Liste des smilies");
 
-define("_IMAGE","Image");
 
 define("_ADMINSHOUTBOX","Administration Tribune Libre");
 

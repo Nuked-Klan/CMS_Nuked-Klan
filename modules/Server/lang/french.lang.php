@@ -47,7 +47,6 @@ define("_CAT","Catégorie");
 define("_EDITTHISCAT","Editer cette Catégorie");
 define("_DELTHISCAT","Supprimer cette Catégorie");
 define("_ADDCAT","Ajouter une Catégorie");
-define("_TITLE","Titre");
 define("_DESCR","Description");
 define("_CREATECAT","Créer une Catégorie");
 define("_CATADD","Catégorie ajoutée avec succès.");

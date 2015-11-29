@@ -2,7 +2,6 @@
 define("_RECRUIT","Recruitment Request");
 define("_IAGREE","I agree");
 define("_IDESAGREE","I disagree");
-define("_NONICK","Please enter your nick!");
 define("_NOLASTNAME","Please enter your first name!");
 define("_NOAGE","Please enter your age!");
 define("_BADAGE","Age is invalid. Please enter a number !");

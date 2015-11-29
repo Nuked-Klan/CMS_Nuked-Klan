@@ -14,6 +14,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
+include 'Includes/nkStats.php';
 
 function select_theme($mod)
 {
@@ -222,8 +223,11 @@ function edit_config() {
         $checked12 = "selected=\"selected\"";
         $checked11 = "";
     }
-    if ($nuked['screen'] == "on") $screen = "checked=\"checked\"";
-    else $screen = "";
+    if ($nuked['screen'] == "on") {
+        $screen = "checked=\"checked\"";
+    } else {
+        $screen = "";
+    }
 
     echo "<option value=\"open\" " . $checked11 . ">" . _OPENED . "</option>\n"
     . "<option value=\"closed\" " . $checked12 . ">" . _CLOSED . "</option>\n"
@@ -242,133 +246,137 @@ function edit_config() {
     echo "</select></td></tr>\n";
 
     if ($nuked['inscription'] == "on")
-{
+    {
         $checked1 = "selected=\"selected\"";
         $checked2 = "";
         $checked3 = "";
-}
+    }
     else if ($nuked['inscription'] == "off")
-{
+    {
         $checked2 = "selected=\"selected\"";
         $checked1 = "";
         $checked3 = "";
-}
+    }
     else if ($nuked['inscription'] == "mail")
-{
+    {
         $checked3 = "selected=\"selected\"";
         $checked1 = "";
         $checked2 = "";
-}
+    }
 
 
-    if ($nuked['inscription_avert'] == "on") $checked4 = "checked=\"checked\"";
-    else $checked4 = "";
+    if ($nuked['inscription_avert'] == "on") {
+        $checked4 = "checked=\"checked\"";
+    } else {
+        $checked4 = "";
+    }
 
 
     if ($nuked['validation'] == "auto")
-{
+    {
         $checked5 = "selected=\"selected\"";
         $checked6 = "";
         $checked7 = "";
-}
+    }
     else if ($nuked['validation'] == "admin")
-{
+    {
         $checked6 = "selected=\"selected\"";
         $checked5 = "";
         $checked7 = "";
-}
+    }
     else if ($nuked['validation'] == "mail")
-{
+    {
         $checked7 = "selected=\"selected\"";
         $checked5 = "";
         $checked6 = "";
-}
+    }
 
-if($nuked['stats_share'] == "1") $checkedstats = "checked=\"checked\"";
-    else  $checkedstats = "";
+    if($nuked['stats_share'] == "1") $checkedstats = "checked=\"checked\"";
+        else  $checkedstats = "";
 
-if ($nuked['avatar_upload'] == "on") $checked8 = "checked=\"checked\"";
-    else $checked8 = "";
+    if ($nuked['avatar_upload'] == "on") $checked8 = "checked=\"checked\"";
+        else $checked8 = "";
 
-if ($nuked['avatar_url'] == "on") $checked9 = "checked=\"checked\"";
-    else $checked9 = "";
+    if ($nuked['avatar_url'] == "on") $checked9 = "checked=\"checked\"";
+        else $checked9 = "";
 
-if ($nuked['user_delete'] == "on") $checked10 = "checked=\"checked\"";
-    else $checked10 = "";
+    if ($nuked['user_delete'] == "on") $checked10 = "checked=\"checked\"";
+        else $checked10 = "";
 
-if ($nuked['video_editeur'] == "on") $checked14 = "checked=\"checked\"";
-    else $checked14 = "";
+    if ($nuked['video_editeur'] == "on") $checked14 = "checked=\"checked\"";
+        else $checked14 = "";
 
-if ($nuked['scayt_editeur'] == "on") $checked13 = "checked=\"checked\"";
-    else $checked13 = "";
+    if ($nuked['scayt_editeur'] == "on") $checked13 = "checked=\"checked\"";
+        else $checked13 = "";
 
-$checked12 = ($nuked['time_generate'] == 'on') ? 'checked="checked"' : '';
+    $checked12 = ($nuked['time_generate'] == 'on') ? 'checked="checked"' : '';
 
-if($nuked['editor_type'] == "cke") $ckeditor = "selected=\"selected\"";
-else  $ckeditor = "";
+    if($nuked['editor_type'] == "cke") $ckeditor = "selected=\"selected\"";
+    else  $ckeditor = "";
 
-if($nuked['editor_type'] == "tiny") $tinyeditor = "selected=\"selected\"";
-else  $tinyeditor = "";
+    if($nuked['editor_type'] == "tiny") $tinyeditor = "selected=\"selected\"";
+    else  $tinyeditor = "";
 
-$nuked['level_analys']==-1?$level_analys=_OFFMODULE:$level_analys=$nuked['level_analys'];
-echo "<tr><td>" . _SCREENHOT . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"screen\" value=\"on\" " . $screen . " /></td></tr>\n"
-. "<tr><td>" . _REGISTRATION . " :</td><td><select name=\"inscription\">\n"
-. "<option value=\"on\" " . $checked1 . ">" . _OPEN . "</option>\n"
-. "<option value=\"off\" " . $checked2 . ">" . _CLOSE . "</option>\n"
-. "<option value=\"mail\" " . $checked3 . ">" . _BYMAIL . "</option></select></td></tr>\n"
-. "<tr><td>" . _VALIDATION . " :</td><td><select name=\"validation\">\n"
-. "<option value=\"auto\" " . $checked5 . ">" . _AUTO . "</option>\n"
-. "<option value=\"admin\" " . $checked6 . ">" . _ADMINISTRATOR . "</option>\n"
-. "<option value=\"mail\" " . $checked7 . ">" . _BYMAIL . "</option></select></td></tr>\n"
-. "<tr><td>" . _USERDELETE . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"user_delete\" value=\"on\" " . $checked10 . " /></td></tr>\n"
-. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _EDITEUR . "</b></big></td></tr>\n"
-. "<tr><td>" . _TYPEEDITEUR . " :</td><td><select name=\"editor_type\"><option value=\"cke\" " . $ckeditor . ">" . _CKEDITOR . "</option><option value=\"tiny\" " . $tinyeditor . ">" . _TINYEDITOR . "</option></select></td></tr>\n"
-. "<tr><td>" . _VIDEOEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"video_editeur\" value=\"on\" " . $checked14 . " /></td></tr>\n"
-. "<tr><td>" . _SCAYTEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"scayt_editeur\" value=\"on\" " . $checked13 . " /></td></tr>\n"
-. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _SITEMEMBERS . "</b></big></td></tr>\n"
-. "<tr><td>" . _NUMBERMEMBER . " :</td><td><input type=\"text\" name=\"max_members\" size=\"2\" value=\"" . $nuked['max_members'] . "\" /></td></tr>\n"
-. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _AVATARS . "</b></big></td></tr>\n"
-. "<tr><td>" . _AVATARUPLOAD . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"avatar_upload\" value=\"on\" " . $checked8 . " /></td></tr>\n"
-. "<tr><td>" . _AVATARURL . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"avatar_url\" value=\"on\" " . $checked9 . " /></td></tr>\n"
-. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _REGISTRATION . "</b></big></td></tr>"
-. "<tr><td>" . _REGISTERMAIL . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"inscription_avert\" value=\"on\" " . $checked4 . " /></td></tr>\n"
-. "<tr><td>" . _REGISTERDISC . " :</td><td><textarea class=\"editor\" name=\"inscription_charte\" cols=\"50\" rows=\"6\">" . $nuked['inscription_charte'] . "</textarea></td></tr>\n"
-. "<tr><td>" . _REGISTERTXT . " :</td><td><textarea class=\"editor\" name=\"inscription_mail\" cols=\"50\" rows=\"6\">" . $nuked['inscription_mail'] . "</textarea></td></tr>\n"
-. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _STATS . "</b></big></td></tr>\n"
-. "<tr><td>" . _VISITTIME . " :</td><td><input type=\"text\" name=\"visit_delay\" size=\"2\" value=\"" . $nuked['visit_delay'] . "\" /></td></tr>\n"
-. "<tr><td>" . _LEVELANALYS . " :</td><td><select name=\"level_analys\"><option value=\"" . $nuked['level_analys'] . "\">" . $level_analys . "</option>\n"
-. "<option value='-1'>" . _OFFMODULE . "</option>\n"
-. "<option>0</option>\n"
-. "<option>1</option>\n"
-. "<option>2</option>\n"
-. "<option>3</option>\n"
-. "<option>4</option>\n"
-. "<option>5</option>\n"
-. "<option>6</option>\n"
-. "<option>7</option>\n"
-. "<option>8</option>\n"
-. "<option>9</option></select></td></tr>\n"
-. "<tr><td>" . _DISPLYGNRATETME . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"time_generate\" value=\"on\" " . $checked12 . " /></td></tr>\n";
-include("Includes/nkStats.php");
-$data = getStats($nuked);
+    $nuked['level_analys'] == -1 ? $level_analys = _OFFMODULE : $level_analys = $nuked['level_analys'];
 
-$string = "";
-foreach($data as $donnee => $value)
-{
-    $string .= "<div style='display:inline-block; width:300px;'><span style='font-weight:bold'>".$donnee ." : </span><span>". $value ."</span></div>";
-}
-echo "<tr><td>" . _SHARESTATS . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"stats_share\" value=\"1\" " . $checkedstats . " />  (<a href=\"index.php?file=Admin&page=setting\" id=seestats>" . _SEESHARE ."</a>)<br/><small>". _SHAREREASON."</small></td></tr>\n"
-."<tr style='display:none' id=seestatsblock><td colspan=2>". $string ."</td></tr>\n"
-. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _OPTIONCONNEX . "</b></big></td></tr>\n"
-. "<tr><td>" . _COOKIENAME . " :</td><td><input type=\"text\" name=\"cookiename\" size=\"20\" value=\"" . $nuked['cookiename'] . "\" onkeypress=\"return special_caract(event);\" /></td></tr>\n"
-. "<tr><td>" . _CONNEXMIN . " :</td><td><input type=\"text\" name=\"sess_inactivemins\" size=\"2\" value=\"" . $nuked['sess_inactivemins'] . "\" /></td></tr>\n"
-. "<tr><td>" . _CONNEXDAY . " :</td><td><input type=\"text\" name=\"sess_days_limit\" size=\"3\" value=\"" . $nuked['sess_days_limit'] . "\" /></td></tr>\n"
-. "<tr><td>" . _CONNEXSEC . " :</td><td><input type=\"text\" name=\"nbc_timeout\" size=\"3\" value=\"" . $nuked['nbc_timeout'] . "\" /></td></tr>\n"
-. "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _METATAG . "</b></big></td></tr>\n"
-. "<tr><td>" . _METAWORDS . " :</td><td><input type=\"text\" name=\"keyword\" size=\"40\" value=\"" . $nuked['keyword'] . "\" /></td></tr>\n"
-. "<tr><td>" . _METADESC . " :</td><td><textarea name=\"description\" cols=\"50\" rows=\"6\">" . $nuked['description'] . "</textarea></td></tr>\n"
-. "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"ok\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br />\n";
-echo "</div></div></div>\n";
+    echo "<tr><td>" . _SCREENHOT . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"screen\" value=\"on\" " . $screen . " /></td></tr>\n"
+    . "<tr><td>" . _REGISTRATION . " :</td><td><select name=\"inscription\">\n"
+    . "<option value=\"on\" " . $checked1 . ">" . _OPEN . "</option>\n"
+    . "<option value=\"off\" " . $checked2 . ">" . _CLOSE . "</option>\n"
+    . "<option value=\"mail\" " . $checked3 . ">" . _BYMAIL . "</option></select></td></tr>\n"
+    . "<tr><td>" . _VALIDATION . " :</td><td><select name=\"validation\">\n"
+    . "<option value=\"auto\" " . $checked5 . ">" . _AUTO . "</option>\n"
+    . "<option value=\"admin\" " . $checked6 . ">" . _ADMINISTRATOR . "</option>\n"
+    . "<option value=\"mail\" " . $checked7 . ">" . _BYMAIL . "</option></select></td></tr>\n"
+    . "<tr><td>" . _USERDELETE . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"user_delete\" value=\"on\" " . $checked10 . " /></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _EDITEUR . "</b></big></td></tr>\n"
+    . "<tr><td>" . _TYPEEDITEUR . " :</td><td><select name=\"editor_type\"><option value=\"cke\" " . $ckeditor . ">" . _CKEDITOR . "</option><option value=\"tiny\" " . $tinyeditor . ">" . _TINYEDITOR . "</option></select></td></tr>\n"
+    . "<tr><td>" . _VIDEOEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"video_editeur\" value=\"on\" " . $checked14 . " /></td></tr>\n"
+    . "<tr><td>" . _SCAYTEDITEUR . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"scayt_editeur\" value=\"on\" " . $checked13 . " /></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _SITEMEMBERS . "</b></big></td></tr>\n"
+    . "<tr><td>" . _NUMBERMEMBER . " :</td><td><input type=\"text\" name=\"max_members\" size=\"2\" value=\"" . $nuked['max_members'] . "\" /></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _AVATARS . "</b></big></td></tr>\n"
+    . "<tr><td>" . _AVATARUPLOAD . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"avatar_upload\" value=\"on\" " . $checked8 . " /></td></tr>\n"
+    . "<tr><td>" . _AVATARURL . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"avatar_url\" value=\"on\" " . $checked9 . " /></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _REGISTRATION . "</b></big></td></tr>"
+    . "<tr><td>" . _REGISTERMAIL . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"inscription_avert\" value=\"on\" " . $checked4 . " /></td></tr>\n"
+    . "<tr><td>" . _REGISTERDISC . " :</td><td><textarea class=\"editor\" name=\"inscription_charte\" cols=\"50\" rows=\"6\">" . $nuked['inscription_charte'] . "</textarea></td></tr>\n"
+    . "<tr><td>" . _REGISTERTXT . " :</td><td><textarea class=\"editor\" name=\"inscription_mail\" cols=\"50\" rows=\"6\">" . $nuked['inscription_mail'] . "</textarea></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _STATS . "</b></big></td></tr>\n"
+    . "<tr><td>" . _VISITTIME . " :</td><td><input type=\"text\" name=\"visit_delay\" size=\"2\" value=\"" . $nuked['visit_delay'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _LEVELANALYS . " :</td><td><select name=\"level_analys\"><option value=\"" . $nuked['level_analys'] . "\">" . $level_analys . "</option>\n"
+    . "<option value='-1'>" . _OFFMODULE . "</option>\n"
+    . "<option>0</option>\n"
+    . "<option>1</option>\n"
+    . "<option>2</option>\n"
+    . "<option>3</option>\n"
+    . "<option>4</option>\n"
+    . "<option>5</option>\n"
+    . "<option>6</option>\n"
+    . "<option>7</option>\n"
+    . "<option>8</option>\n"
+    . "<option>9</option></select></td></tr>\n"
+    . "<tr><td>" . _DISPLYGNRATETME . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"time_generate\" value=\"on\" " . $checked12 . " /></td></tr>\n";
+    
+    $data = nkStats_formatData($nuked);
+
+    $string = "";
+    foreach($data as $donnee => $value)
+    {
+        $string .= "<div style='display:inline-block; width:300px;'><span style='font-weight:bold'>".$donnee ." : </span><span>". $value ."</span></div>";
+    }
+    echo "<tr><td>" . _SHARESTATS . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"stats_share\" value=\"1\" " . $checkedstats . " />  (<a href=\"index.php?file=Admin&page=setting\" id=seestats>" . _SEESHARE ."</a>)<br/><small>". _SHAREREASON."</small></td></tr>\n"
+    ."<tr style='display:none' id=seestatsblock><td colspan=2>". $string ."</td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _OPTIONCONNEX . "</b></big></td></tr>\n"
+    . "<tr><td>" . _COOKIENAME . " :</td><td><input type=\"text\" name=\"cookiename\" size=\"20\" value=\"" . $nuked['cookiename'] . "\" onkeypress=\"return special_caract(event);\" /></td></tr>\n"
+    . "<tr><td>" . _CONNEXMIN . " :</td><td><input type=\"text\" name=\"sess_inactivemins\" size=\"2\" value=\"" . $nuked['sess_inactivemins'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _CONNEXDAY . " :</td><td><input type=\"text\" name=\"sess_days_limit\" size=\"3\" value=\"" . $nuked['sess_days_limit'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _CONNEXSEC . " :</td><td><input type=\"text\" name=\"nbc_timeout\" size=\"3\" value=\"" . $nuked['nbc_timeout'] . "\" /></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _METATAG . "</b></big></td></tr>\n"
+    . "<tr><td>" . _METAWORDS . " :</td><td><input type=\"text\" name=\"keyword\" size=\"40\" value=\"" . $nuked['keyword'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _METADESC . " :</td><td><textarea name=\"description\" cols=\"50\" rows=\"6\">" . $nuked['description'] . "</textarea></td></tr>\n"
+    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"ok\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br />\n";
+    echo "</div></div></div>\n";
 }
 
 function save_config()
@@ -410,11 +418,11 @@ function save_config()
     . "</div>\n"
     . "</div>\n";
     echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php', 'index.php?file=Admin');\n"
-        ."}\n"
-        ."</script>\n";
+    ."setTimeout('screen()','3000');\n"
+    ."function screen() { \n"
+    ."screenon('index.php', 'index.php?file=Admin');\n"
+    ."}\n"
+    ."</script>\n";
 }
 
 
@@ -422,7 +430,6 @@ switch ($_REQUEST['op']) {
     case "save_config":
         save_config($_POST);
         break;
-
     default:
         edit_config();
         break;

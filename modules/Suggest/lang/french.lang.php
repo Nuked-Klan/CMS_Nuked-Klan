@@ -38,8 +38,6 @@ define("_SUG","Proposer");
 define("_REMOVE","Supprimer");
 define("_DELETESUG","Vous êtes sur le point de supprimer la suggestion");
 
-
-define("_TITLE","Titre");
 define("_DESCR","Description");
 define("_SIZE","Taille");
 

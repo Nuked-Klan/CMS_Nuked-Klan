@@ -54,7 +54,6 @@ define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
 
 
 define("_ADMINDOWN","Administration Téléchargements");
-define("_TITLE","Titre");
 define("_CREATE","Creation");
 define("_UPFILE","Uploader le fichier sur le serveur");
 define("_UPIMG","Uploader l'image sur le serveur");
@@ -109,6 +108,5 @@ define("_ACTIONMODIFCATDL","a modifié la catégorie téléchargement");
 define("_ACTIONDELCATDL","a supprimé la catégorie téléchargement");
 define("_ACTIONMODIFPREFDL","a modifié les préférences du module téléchargement");
 define("_ACTIONPOSMODIFCATDL","a modifié la position de la catégorie téléchargement");
-define("_AUTHOR","Auteur");
 define("_CATERRORPOS","Impossible la position serait inférieur à zéro.");
 ?>

@@ -481,7 +481,7 @@ function icon($text) {
 
     foreach (getSmiliesList() as $smilie) {
         $text = str_replace(
-            $smilies['code'],
+            $smilie['code'],
             '<img src="images/icones/'. $smilie['url'] .'" alt="" title="' . nkHtmlEntities($smilie['name']) .'" />',
             $text
         );

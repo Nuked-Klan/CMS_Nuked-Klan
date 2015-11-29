@@ -14,7 +14,6 @@ define("_YNICK","Your Nickname");
 define("_FMAIL","Your Friend's E-mail");
 define("_YCOMMENT","Comment");
 define("_YOUSUBMIT","You will send the news to your friend");
-define("_NONICK","Please enter your nickname!");
 define("_BADMAIL","Email address is invalid!");
 define("_SENDFMAIL","News was successfully sent.");
 define("_READNEWS","invites you to read the news:");

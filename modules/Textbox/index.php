@@ -182,7 +182,7 @@ function cesure_href($matches) {
 }
 
 function ajax() {
-    global $nuked, $user, $visiteur, $language, $bgcolor1, $bgcolor2;
+    global $nuked, $user, $visiteur, $language, $bgcolor1, $bgcolor2, $level_admin;
 
     header('Content-type: text/html; charset=iso-8859-1');
     nkTemplate_setPageDesign('none');
@@ -220,6 +220,7 @@ function ajax() {
     $index_start = $index_start < 0 ? 0 : $index_start;
 
     $sql = nkDB_execute("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id ASC LIMIT ".$index_start.", ".$index_limit." ");
+    $counterBgColor = 0;
     while (list($id, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql)) {
         // On coupe le texte si trop long
         if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . '...';
@@ -270,13 +271,12 @@ function ajax() {
 
         $coloring = $rank_color;
 
-        if($i2 == 0) {
+        if ($counterBgColor == 0) {
             $bg = $bgcolor1;
-            $i2++;
-        }
-        else {
+            $counterBgColor++;
+        } else {
             $bg = $bgcolor2;
-            $i2 =0;
+            $counterBgColor =0;
         }
 
         $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '" title="' . $date_jour . '">' . $auteurDisplay . '</a>' : $auteurDisplay;

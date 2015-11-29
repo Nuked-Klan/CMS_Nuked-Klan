@@ -74,10 +74,9 @@ $your_last_visite = nkDate($user_last_visit);
             </div>
 
 <?php
-    if ($_REQUEST['cat'] != "") {
+    if (!empty($_REQUEST['cat'])) {
         $main = mysql_query("SELECT nom, id, image FROM " . FORUM_CAT_TABLE . " WHERE '" . $visiteur . "' >= niveau AND id = '" . $_REQUEST['cat'] . "'");
-    }
-    else {
+    } else {
         $main = mysql_query("SELECT nom, id, image FROM " . FORUM_CAT_TABLE . " WHERE " . $visiteur . " >= niveau ORDER BY ordre, nom");
     }
 
@@ -418,7 +417,7 @@ $your_last_visite = nkDate($user_last_visit);
                             if ($currentDay < 10){$currentDay = str_replace("0", "", $currentDay);}
                             if ($currentMonth < 10){$currentMonth = str_replace("0", "", $currentMonth);}
 
-                            $sqlBirthdayAge = mysql_query("SELECT age FROM " . USER_DETAIL_TABLE . " WHERE age LIKE '%$d/$m%'");
+                            $sqlBirthdayAge = mysql_query("SELECT age FROM " . USER_DETAIL_TABLE . " WHERE age LIKE '%$currentDay/$currentMonth%'");
                             $nbBirthday = mysql_num_rows($sqlBirthdayAge);
 
                                 while (list($birthdayDate) = mysql_fetch_array($sqlBirthdayAge)) {

@@ -6,7 +6,6 @@ if (!defined("INDEX_CHECK")){
 define("_DEFY","Demande de Match");
 define("_IAGREE","J'accepte");
 define("_IDESAGREE","Je refuse");
-define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_NOCLAN","Vous n\'avez pas entré votre clan !");
 define("_BADMAIL","Adresse email non valide !");
 define("_NOICQ","Vous n\'avez pas entré votre messagerie instantané !");

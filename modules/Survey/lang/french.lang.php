@@ -23,8 +23,6 @@ define("_NOOPTION","Vous n'avez pas coché de réponse");
 
 define("_ADMINPOLL","Administration des Sondages");
 
-define("_TITLE","Titre");
-
 define("_LEVEL","Niveau");
 define("_ADDTHISPOLL","Ajouter ce Sondage");
 define("_POLLADD","Sondage ajouté avec succès.");

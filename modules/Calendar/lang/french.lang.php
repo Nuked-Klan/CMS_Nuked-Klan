@@ -61,14 +61,7 @@ define("_BIRTHDAYTEXT","Joyeux anniversaire à");
 define("_BIRTHDAYTEXTSUITE","qui fête ses");
 define("_YEARSOLD","ans");
 define("_SUBMIT","Go");
-
 define("_ADMINCAL","Administration Calendrier");
-
-define("_TITLE","Titre");
-
-define("_AUTEUR","Auteur");
-
-
 define("_EDITTHISEVENT","Editer cet évènement");
 define("_DELTHISEVENT","Supprimer cet évènement");
 define("_EVENTDELETE","Vous êtes sur le point de supprimer");

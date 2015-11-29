@@ -26,8 +26,6 @@ define("_NOOPTION","You haven't selected any option");
 
 define("_ADMINPOLL","Survey Administration");
 
-define("_TITLE","Title");
-
 define("_LEVEL","Level");
 define("_ADDTHISPOLL","Add this Survey");
 define("_POLLADD","Survey was successfully added.");

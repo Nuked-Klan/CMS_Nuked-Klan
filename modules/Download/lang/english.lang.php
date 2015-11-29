@@ -57,7 +57,6 @@ define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
 
 
 define("_ADMINDOWN","Downloads Administration");
-define("_TITLE","Title");
 define("_CREATE","Create");
 define("_UPFILE","Upload the file onto the server");
 define("_UPIMG","Upload the image onto the server");
@@ -113,6 +112,5 @@ define("_ACTIONMODIFCATDL","has modified the download category");
 define("_ACTIONPOSMODIFCATDL","has modified the position of the download category");
 define("_ACTIONDELCATDL","has deleted the download category");
 define("_ACTIONMODIFPREFDL","has modified the preference of download module");
-define("_AUTHOR","Author");
 define("_CATERRORPOS","Impossible the position will be lower than zero.");
 ?>

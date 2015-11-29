@@ -11,7 +11,6 @@ define("_COMMENT","Commentaire");
 define("_CANCEL","Annuler");
 
 define("_MODIF","Modifier");
-define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_NOTEXT","Vous n'avez pas entré votre texte !");
 define("_RESERVNICK","Ce pseudo est déjà réservé");
 define("_BANNEDNICK","Ce pseudo est banni");
