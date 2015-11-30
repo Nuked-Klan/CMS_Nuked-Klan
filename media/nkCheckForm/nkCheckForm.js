@@ -325,6 +325,8 @@
                 $('#' + id).removeClass(plugin.settings.warningInputClass);
             else
                 $('#' + id).removeClass(plugin.settings.errorInputClass);
+
+            $('#formError-contenair-' + id).remove();
         }
 
         /*
@@ -335,17 +337,14 @@
          * @return void
          */
         var _displayError = function(id, error) {
-            var offset = $('#' + id).offset();
+            if ($('#formError-contenair-' + id).length == 0) {
+                var labelWidth = $('#' + id + '_container label').outerWidth();
 
-            $('<div id="formError-contenair-' + id + '" class="formError-contenair"><div>' + error + '</div></div>')
-                .insertAfter('#' + id);
+                $('<div id="formError-contenair-' + id + '" class="formError-contenair"></div>').insertAfter('#' + id);
+                $('#formError-contenair-' + id).css({"padding-left": labelWidth});
+            }
 
-            $('#formError-contenair-' + id)
-                .css({top: parseInt(offset.top), left: parseInt(offset.left) + $('#' + id).outerWidth() + 10});
-
-            $('#formError-contenair-' + id + ">div").fadeOut(2000, function() {
-                $('#formError-contenair-' + id).remove();
-            });
+            $('#formError-contenair-' + id).text(error);
         }
 
         /*
@@ -466,7 +465,7 @@
                 else
                     _invalidInput(id);
             }
-            console.log(check);
+
             return check
         }
 
@@ -514,7 +513,7 @@
 
             console.log('value : ' + plugin.settings.input[id].value);
             console.log('validDate : ' + validDate);
-            
+
             if (typeof validDate == 'string' && plugin.settings.input[id].value == validDate)
                 check = true;
 
@@ -531,10 +530,7 @@
 
             return check;
         }
-        
-        
-        
-        
+
         var _checkInputPassword = function(id, checkOnly) {
             if (plugin.settings.input[id].passwordConfirmId !== undefined)
                 plugin.settings.input[id].confirmValue = $.trim($('#' + plugin.settings.input[id].passwordConfirmId).val());
@@ -626,7 +622,7 @@
 
         var _checkInputOldPassword = function(id, checkOnly) {
             console.log('_checkInputOldPassword');
-            
+
             if (plugin.settings.input[id].passwordConfirmId !== undefined)
                 plugin.settings.input[id].confirmValue = $.trim($('#' + plugin.settings.input[id].passwordConfirmId).val());
 
