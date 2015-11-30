@@ -1486,6 +1486,20 @@ function nkGetMedias(){
     echo $bufferEdited;
 }
 
+// information, success, error, info, warning
+function printNotification($message, $type = 'information', $backLinkUrl = false, $return = false) {
+    $html = applyTemplate('notification', array(
+        'type'          => $type,
+        'message'       => $message,
+        'backLinkUrl'   => $backLinkUrl,
+    ));
+
+    if ($return)
+        return $html;
+    else
+        echo $html;
+}
+
 function nkNotification($data, $redirectUrl = null, $redirectDelay = 0){
     if(function_exists('setNotification')){
         setNotification($data, $redirectUrl, $redirectDelay);
