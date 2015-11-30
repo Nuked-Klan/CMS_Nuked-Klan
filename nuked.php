@@ -301,15 +301,15 @@ function session_read($id) {
 function session_write($id, $data) {
     connect();
 
-    $dbiSession = nkDB_insert(TMPSES_TABLE,
-        array('session_id', 'session_start', 'session_vars'),
-        array($id, time(), $data)
-    );
+    $dbiSession = nkDB_insert(TMPSES_TABLE, array(
+        'session_id'    => $id,
+        'session_start' => time(),
+        'session_vars'  => $data
+    ));
 
     if ($dbiSession === false || nkDB_insert_id() == 0) {
         $dbuSession = nkDB_update(TMPSES_TABLE,
-            array('session_vars'),
-            array($data),
+            array('session_vars' => $data),
             'session_id = '. nkDB_escape($id)
         );
     }
@@ -408,22 +408,19 @@ function nkHandle_bannedUser() {
             nkDB_delete(BANNED_TABLE, '`ip` LIKE \'%'. nkDB_escape($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName));
 
             // Notification dans l'administration
-            nkDB_insert(NOTIFICATIONS_TABLE,
-                array('date', 'type', 'texte'),
-                array(time(), 4, $pseudo . _BANFINISHED)
-            );
+            nkDB_insert(NOTIFICATIONS_TABLE, array(
+                'date'  => time(),
+                'type'  => 4,
+                'texte' => $pseudo . _BANFINISHED
+            ));
         }
         // Sinon on met a jour l'IP
         else {
-            $fields = array('ip');
-            $values = array($user_ip);
+            $data = array('ip' => $user_ip);
 
-            if ($user) {
-                $fields[] = 'pseudo';
-                $values[] = $user['name'];
-            }
+            if ($user) $data['pseudo'] = $user['name'];
 
-            nkDB_update(BANNED_TABLE, $fields, $values, $where_query);
+            nkDB_update(BANNED_TABLE, $data, $where_query);
 
             // Redirection vers la page de banissement
             $url_ban = 'ban.php?ip_ban='. $banned_ip;
@@ -940,26 +937,35 @@ function nbvisiteur() {
 
         if (nkDB_totalNumRows('FROM '. NBCONNECTE_TABLE .' WHERE '. $whereClause) > 0) {
             if ($user) {
-                nkDB_update(NBCONNECTE_TABLE,
-                    array('date', 'type', 'IP', 'username'),
-                    array($limit, $user['level'], $user_ip, $user['name']),
+                nkDB_update(NBCONNECTE_TABLE, array(
+                        'date'      => $limit,
+                        'type'      => $user['level'],
+                        'IP'        => $user_ip,
+                        'username'  => $user['name']
+                    ),
                     'user_id = '. nkDB_escape($user['id'])
                 );
             }
             else {
-                nkDB_update(NBCONNECTE_TABLE,
-                    array('date', 'type', 'user_id', 'username'),
-                    array($limit, '', '', 'visitor'),
+                nkDB_update(NBCONNECTE_TABLE, array(
+                        'date'      => $limit,
+                        'type'      => '',
+                        'user_id'   => '',
+                        'username'  => 'visitor'
+                    ),
                     'IP = '. nkDB_escape($user_ip)
                 );
             }
         }
         else {
             nkDB_delete(NBCONNECTE_TABLE, 'IP = '. nkDB_escape($user_ip));
-            nkDB_insert(NBCONNECTE_TABLE, 
-                array('IP', 'type', 'date', 'user_id', 'username'),
-                array($user_ip, $user['level'], $limit, $user['id'], $user['name'])
-            );
+            nkDB_insert(NBCONNECTE_TABLE, array(
+                'IP'        => $user_ip,
+                'type'      => $user['level'],
+                'date'      => $limit,
+                'user_id'   => $user['id'],
+                'username'  => $user['name']
+            ));
         }
     }
 
@@ -1145,8 +1151,7 @@ function __($str) {
  */
 function compteur($module) {
     nkDB_update(STATS_TABLE,
-        array('count'),
-        array('count + 1', 'no-escape'),
+        array('count' => array('count + 1', 'no-escape')),
         'type = \'pages\' AND nom = '. nkDB_escape($module)
     );
 }
@@ -1223,7 +1228,7 @@ function visits() {
 
     if (! empty($dbsVisitorStats) && $dbsVisitorStats['id'] && $dbsVisitorStats['date'] > $time) {
         nkDB_update(STATS_VISITOR_TABLE,
-            array('date'), array($visitLimit),
+            array('date' => $visitLimit),
             'id = '. nkDB_escape($dbsVisitorStats['id'])
         );
     }
@@ -1243,10 +1248,19 @@ function visits() {
                 $host = $res[0];
         }
 
-        nkDB_insert(STATS_VISITOR_TABLE,
-            array('user_id', 'ip', 'host', 'browser', 'os', 'referer', 'day', 'month', 'year', 'hour', 'date'),
-            array($user['id'], $user_ip, $host, $browser, $os, $_SERVER['HTTP_REFERER'], $day, $month, $year, $hour, $visitLimit)
-        );
+        nkDB_insert(STATS_VISITOR_TABLE, array(
+            'user_id'   => $user['id'],
+            'ip'        => $user_ip,
+            'host'      => $host,
+            'browser'   => $browser,
+            'os'        => $os,
+            'referer'   => $_SERVER['HTTP_REFERER'],
+            'day'       => $day,
+            'month'     => $month,
+            'year'      => $year,
+            'hour'      => $hour,
+            'date'      => $visitLimit
+        ));
     }
 }
 

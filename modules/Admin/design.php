@@ -156,10 +156,11 @@ function checkboxButton($name, $id, $checked = false, $inline = false) {
 function saveUserAction($action) {
     global $user;
 
-    nkDB_insert(ACTION_TABLE,
-        array('date', 'pseudo', 'action'),
-        array(time(), $user['id'], $action)
-    );
+    nkDB_insert(ACTION_TABLE, array(
+        'date'      => time(),
+        'pseudo'    => $user['id'],
+        'action'    => $action
+    ));
 }
 
 function setPreview($previewUrl, $redirect) {

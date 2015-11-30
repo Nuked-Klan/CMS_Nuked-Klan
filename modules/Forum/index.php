@@ -80,15 +80,10 @@ function edit($mess_id) {
 
         $mid = $dbrForumMessage['id'];
 
-        nkDB_update(FORUM_MESSAGES_TABLE,
-            array_keys($data), array_values($data), 'id = '. nkDB_escape($mess_id)
-        );
+        nkDB_update(FORUM_MESSAGES_TABLE, $data, 'id = '. nkDB_escape($mess_id));
 
-        if ($mid == $mess_id) {
-            nkDB_update(FORUM_THREADS_TABLE,
-                array('titre'), $data['titre'], 'id = '. nkDB_escape($thread_id)
-            );
-        }
+        if ($mid == $mess_id)
+            nkDB_update(FORUM_THREADS_TABLE, array('titre' => $data['titre']), 'id = '. nkDB_escape($thread_id));
 
         $nb_rep = nkDB_totalNumRows(
             'FROM '. FORUM_MESSAGES_TABLE .'
@@ -287,12 +282,12 @@ function move() {
             printNotification(_TOPICMOVED, 'success');
 
             nkDB_update(FORUM_THREADS_TABLE,
-                array('forum_id'), array($_REQUEST['newforum']),
+                array('forum_id' => $_REQUEST['newforum']),
                 'id = '. nkDB_escape((int) $_REQUEST['thread_id'])
             );
 
             nkDB_update(FORUM_MESSAGES_TABLE,
-                array('forum_id'), array($_REQUEST['newforum']),
+                array('forum_id' => $_REQUEST['newforum']),
                 'thread_id = '. nkDB_escape((int) $_REQUEST['thread_id'])
             );
 
@@ -449,7 +444,7 @@ function lock() {
             $closed = 0;
         }
 
-        nkDB_update(FORUM_THREADS_TABLE, array('closed'), array($closed), 'id = '. nkDB_escape($_REQUEST['thread_id']));
+        nkDB_update(FORUM_THREADS_TABLE, array('closed' => $closed), 'id = '. nkDB_escape($_REQUEST['thread_id']));
     }
     else
         printNotification(_ZONEADMIN, 'error');
@@ -470,10 +465,7 @@ function announce() {
     if (isForumAdministrator($_REQUEST['forum_id'])) {
         printNotification(_TOPICMODIFIED, 'success');
 
-        nkDB_update(FORUM_THREADS_TABLE,
-            array('annonce'), array($announce),
-            'id = '. nkDB_escape($_REQUEST['thread_id'])
-        );
+        nkDB_update(FORUM_THREADS_TABLE, array('annonce' => $announce), 'id = '. nkDB_escape($_REQUEST['thread_id']));
     }
     else
         printNotification(_ZONEADMIN, 'error');
@@ -598,9 +590,7 @@ function reply() {
         $url_file = '';
     }
 
-    nkDB_update(FORUM_THREADS_TABLE,
-        array('last_post'), array($date), 'id = '. nkDB_escape((int) $_REQUEST['thread_id'])
-    );
+    nkDB_update(FORUM_THREADS_TABLE, array('last_post' => $date), 'id = '. nkDB_escape((int) $_REQUEST['thread_id']));
 
     $dbrForumRead = nkDB_selectMany(
         'SELECT thread_id, forum_id, user_id
@@ -633,10 +623,20 @@ function reply() {
         nkDB_execute($update);
     }
 
-    nkDB_insert(FORUM_MESSAGES_TABLE,
-        array('titre', 'txt', 'date', 'edition', 'auteur', 'auteur_id', 'auteur_ip', 'usersig', 'emailnotify', 'thread_id', 'forum_id', 'file'),
-        array($_REQUEST['titre'], $_REQUEST['texte'], $date, '', $autor, $auteur_id, $user_ip, $_REQUEST['usersig'], $_REQUEST['emailnotify'], (int) $_REQUEST['thread_id'], (int) $_REQUEST['forum_id'], $filename)
-    );
+    nkDB_insert(FORUM_MESSAGES_TABLE, array(
+        'titre'         => $_REQUEST['titre'],
+        'txt'           => $_REQUEST['texte'],
+        'date'          => $date,
+        'edition'       => '',
+        'auteur'        => $autor,
+        'auteur_id'     => $auteur_id,
+        'auteur_ip'     => $user_ip,
+        'usersig'       => $_REQUEST['usersig'],
+        'emailnotify'   => $_REQUEST['emailnotify'],
+        'thread_id'     => (int) $_REQUEST['thread_id'],
+        'forum_id'      => (int) $_REQUEST['forum_id'],
+        'file'          => $filename
+    ));
 
     $dbrForumMessage = nkDB_selectMany(
         'SELECT auteur_id
@@ -671,7 +671,7 @@ function reply() {
     }
 
     if ($user)
-        nkDB_update(USER_TABLE, array('count'), array(array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
+        nkDB_update(USER_TABLE, array('count' =>array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
 
     $dbrForumMessage = nkDB_selectOne(
         'SELECT id
@@ -792,10 +792,18 @@ function post() {
     else
         $sondage = 0;
 
-    nkDB_insert(FORUM_THREADS_TABLE,
-        array('titre', 'date', 'closed', 'auteur', 'auteur_id', 'forum_id', 'last_post', 'view', 'annonce', 'sondage'),
-        array($_REQUEST['titre'], $date, '', $autor, $auteur_id, $_REQUEST['forum_id'], $date, '' , $_REQUEST['annonce'], $sondage)
-    );
+    nkDB_insert(FORUM_THREADS_TABLE, array(
+        'titre'     => $_REQUEST['titre'],
+        'date'      => $date,
+        'closed'    => '',
+        'auteur'    => $autor,
+        'auteur_id' => $auteur_id,
+        'forum_id'  => $_REQUEST['forum_id'],
+        'last_post' => $date,
+        'view'      => '',
+        'annonce'   => $_REQUEST['annonce'],
+        'sondage'   => $sondage
+    ));
 
     $req4 = mysql_query("SELECT MAX(id) FROM " . FORUM_THREADS_TABLE . " WHERE forum_id = '" . $_REQUEST['forum_id'] . "' AND titre = '" . $_REQUEST['titre'] . "' AND date = '" . $date . "' AND auteur = '" . $_REQUEST['auteur'] . "'");
     $idmax = mysql_result($req4, 0, "MAX(id)");
@@ -819,10 +827,20 @@ function post() {
         $url_file = '';
     }
 
-    nkDB_insert(FORUM_MESSAGES_TABLE,
-        array('titre', 'txt', 'date', 'edition', 'auteur', 'auteur_id', 'auteur_ip', 'usersig', 'emailnotify', 'thread_id', 'forum_id', 'file'),
-        array($_REQUEST['titre'], $_REQUEST['texte'], $date, '', $autor, $auteur_id, $user_ip, $_REQUEST['usersig'], $_REQUEST['emailnotify'], $_REQUEST['thread_id'], $_REQUEST['forum_id'], $filename)
-    );
+    nkDB_insert(FORUM_MESSAGES_TABLE, array(
+        'titre'         => $_REQUEST['titre'],
+        'txt'           => $_REQUEST['texte'],
+        'date'          => $date,
+        'edition'       => '',
+        'auteur'        => $autor,
+        'auteur_id'     => $auteur_id,
+        'auteur_ip'     => $user_ip,
+        'usersig'       => $_REQUEST['usersig'],
+        'emailnotify'   => $_REQUEST['emailnotify'],
+        'thread_id'     => $_REQUEST['thread_id'],
+        'forum_id'      => $_REQUEST['forum_id'],
+        'file'          => $filename
+    ));
 
     $dbrForumRead = nkDB_selectOne(
         'SELECT thread_id, forum_id, user_id
@@ -846,6 +864,7 @@ function post() {
         $update .= (!empty($update) ? ', ' : '');
         $update .= "('" . $fid . "', '" . $tid . "', '" . $forumRead['user_id'] . "')";
     }
+
     if (!empty($update)) {
         $update = "INSERT INTO `" . FORUM_READ_TABLE . "`
             (forum_id, thread_id, user_id) VALUES $update
@@ -854,7 +873,7 @@ function post() {
     }
 
     if ($user)
-        nkDB_update(USER_TABLE, array('count'), array(array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
+        nkDB_update(USER_TABLE, array('count' => array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
 
     if ($_REQUEST['survey'] == 1 && $_REQUEST['survey_field'] > 0 && $visiteur >= $dbrForum['level_poll'])
         $url = 'index.php?file=Forum&op=add_poll&survey_field='. $_REQUEST['survey_field'] .'&forum_id='. $_REQUEST['forum_id'] .'&thread_id='. $_REQUEST['thread_id'];
@@ -901,10 +920,7 @@ function mark() {
         else {
             $_COOKIE['cookie_forum'] = '';
 
-            nkDB_update(SESSIONS_TABLE,
-                array('last_used'), array(array('date', 'no-escape')),
-                'user_id = '. nkDB_escape($user['id'])
-            );
+            nkDB_update(SESSIONS_TABLE, array('last_used' => array('date', 'no-escape')), 'user_id = '. nkDB_escape($user['id']));
         }
 
         if ($user) {
@@ -974,7 +990,7 @@ function del_file() {
             @chmod($path, 0775);
             @unlink($path);
 
-            nkDB_update(FORUM_MESSAGES_TABLE, array('file'), array(''), 'id = '. nkDB_escape($_REQUEST['mess_id']));
+            nkDB_update(FORUM_MESSAGES_TABLE, array('file' => ''), 'id = '. nkDB_escape($_REQUEST['mess_id']));
             printNotification(_FILEDELETED, 'success');
         }
         // TODO If no file to delete, none notification
@@ -1056,9 +1072,10 @@ function send_poll($titre, $option, $thread_id, $forum_id, $max_option) {
 
     if ($user && $user['id'] == $dbrForumThread['auteur_id'] && $dbrForumThread['sondage'] == 1 && $visiteur >= $dbrForum['level_poll']) {
         if ($option[1] != '') {
-            nkDB_insert(FORUM_POLL_TABLE,
-                array('thread_id', 'titre'), array($thread_id, stripslashes($titre))
-            );
+            nkDB_insert(FORUM_POLL_TABLE, array(
+                'thread_id' => $thread_id,
+                'titre'     => stripslashes($titre)
+            ));
 
             $dbrForumPoll = nkDB_selectOne(
                 'SELECT id
@@ -1075,10 +1092,12 @@ function send_poll($titre, $option, $thread_id, $forum_id, $max_option) {
 
             while ($r < $max) {
                 if ($option[$r] != '') {
-                    nkDB_insert(FORUM_OPTIONS_TABLE,
-                        array('id', 'poll_id', 'option_text', 'option_vote'),
-                        array($r + 1, $dbrForumPoll['id'], stripslashes($option[$r]), '')
-                    );
+                    nkDB_insert(FORUM_OPTIONS_TABLE, array(
+                        'id'            => ($r + 1),
+                        'poll_id'       => $dbrForumPoll['id'],
+                        'option_text'   => stripslashes($option[$r]),
+                        'option_vote'   => ''
+                    ));
                 }
 
                 $r++;
@@ -1121,14 +1140,15 @@ function vote($poll_id) {
 
                 if ($check == 0) {
                     nkDB_update(FORUM_OPTIONS_TABLE,
-                        array('option_vote'), array(array('option_vote + 1', 'no-escape')),
+                        array('option_vote' => array('option_vote + 1', 'no-escape')),
                         'id = '. nkDB_escape($_REQUEST['voteid']) .' AND poll_id = '. nkDB_escape($poll_id)
                     );
 
-                    nkDB_insert(FORUM_VOTE_TABLE,
-                        array('poll_id', 'auteur_id', 'auteur_ip'),
-                        array($poll_id, $user['id'], $user_ip)
-                    );
+                    nkDB_insert(FORUM_VOTE_TABLE, array(
+                        'poll_id'   => $poll_id,
+                        'auteur_id' => $user['id'],
+                        'auteur_ip' => $user_ip
+                    ));
 
                     printNotification(_VOTESUCCES, 'success');
                 }
@@ -1169,7 +1189,7 @@ function del_poll($poll_id, $thread_id, $forum_id) {
             nkDB_delete(FORUM_POLL_TABLE, 'id = '. nkDB_escape($poll_id));
             nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_escape($poll_id));
             nkDB_delete(FORUM_VOTE_TABLE, 'poll_id = '. nkDB_escape($poll_id));
-            nkDB_update(FORUM_THREADS_TABLE, array('sondage'), array(0), 'id = '. nkDB_escape($thread_id));
+            nkDB_update(FORUM_THREADS_TABLE, array('sondage' => 0), 'id = '. nkDB_escape($thread_id));
 
             printNotification(_POLLDELETE, 'success');
             redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forum_id .'&thread_id='. $thread_id, 2);
@@ -1252,7 +1272,7 @@ function modif_poll($poll_id, $titre, $option, $newoption, $thread_id, $forum_id
     );
 
     if ($user && $user['id'] == $dbrForumThread['auteur_id'] || isForumAdministrator($forum_id)) {
-        nkDB_update(FORUM_POLL_TABLE, array('titre'), array(stripslashes($titre)), 'id = '. nkDB_escape($poll_id));
+        nkDB_update(FORUM_POLL_TABLE, array('titre' => stripslashes($titre)), 'id = '. nkDB_escape($poll_id));
 
         $r = 0;
 
@@ -1261,7 +1281,7 @@ function modif_poll($poll_id, $titre, $option, $newoption, $thread_id, $forum_id
 
             if ($option[$r] != '') {
                 nkDB_update(FORUM_OPTIONS_TABLE,
-                    array('option_text'), array(stripslashes($option[$r])),
+                    array('option_text' => stripslashes($option[$r])),
                     'poll_id = '. nkDB_escape($poll_id) .' AND id = '. $r
                 );
             }
@@ -1278,10 +1298,12 @@ function modif_poll($poll_id, $titre, $option, $newoption, $thread_id, $forum_id
                 array('id'), 'DESC', 1
             );
 
-            nkDB_insert(FORUM_OPTIONS_TABLE,
-                array('id', 'poll_id', 'option_text', 'option_vote'),
-                array($dbrForumPollOptions['id'] + 1, $poll_id, stripslashes($newoption), '0')
-            );
+            nkDB_insert(FORUM_OPTIONS_TABLE, array(
+                'id'            => ($dbrForumPollOptions['id'] + 1),
+                'poll_id'       => $poll_id,
+                'option_text'   => stripslashes($newoption),
+                'option_vote'   => 0
+            ));
         }
 
         printNotification(_POLLMODIF, 'success');
@@ -1310,7 +1332,7 @@ function notify() {
         }
 
         nkDB_update(FORUM_MESSAGES_TABLE,
-            array('emailnotify'), array($notify),
+            array('emailnotify' => $notify),
             'thread_id = '. nkDB_escape($_REQUEST['thread_id']) .' AND auteur_id = '. nkDB_escape($user['id'])
         );
     }

@@ -107,14 +107,14 @@ function saveForumCat() {
     }
 
     if ($id == 0) {
-        nkDB_insert(FORUM_CAT_TABLE, array_keys($data), array_values($data));
+        nkDB_insert(FORUM_CAT_TABLE, $data);
         saveUserAction(_ACTIONADDCATFO .': '. $data['nom']);
 
         printNotification(_CATADD, 'success');
     }
     else {
-        nkDB_update(FORUM_CAT_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
-        nkDB_update(FORUM_TABLE, array('niveau'), array($data['niveau']), 'cat = '. nkDB_escape($id));
+        nkDB_update(FORUM_CAT_TABLE, $data, 'id = '. nkDB_escape($id));
+        nkDB_update(FORUM_TABLE, array('niveau' => $data['niveau']), 'cat = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFCATFO .': '. $data['nom']);
 
         printNotification(_CATMODIF, 'success');
@@ -290,7 +290,7 @@ function saveForum() {
     }
 
     if ($id == 0) {
-        nkDB_insert(FORUM_TABLE, array_keys($data), array_values($data));
+        nkDB_insert(FORUM_TABLE, $data);
         saveUserAction(_ACTIONADDFO .': '. $data['nom']);
 
         printNotification(_FORUMADD, 'success');
@@ -308,10 +308,10 @@ function saveForum() {
             else
                 $modos = $data['moderateurs'];
 
-            nkDB_update(FORUM_TABLE, array_keys('moderateurs'), array_values($modos), 'id = '. nkDB_escape($id));
+            nkDB_update(FORUM_TABLE, array('moderateurs' => $modos), 'id = '. nkDB_escape($id));
         }
 
-        nkDB_update(FORUM_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        nkDB_update(FORUM_TABLE, $data, 'id = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFFO .': '. $data['nom']);
 
         printNotification(_FORUMMODIF, 'success');
@@ -379,7 +379,7 @@ function deleteModerator() {
             $modos .= $sep . $list[$i];
     }
 
-    nkDB_update(FORUM_TABLE, array_keys('moderateurs'), array_values($modos), 'id = '. nkDB_escape($_GET['forum_id']));
+    nkDB_update(FORUM_TABLE, array('moderateurs' => $modos), 'id = '. nkDB_escape($_GET['forum_id']));
 
     $dbrUser = nkDB_selectOne(
         'SELECT pseudo
@@ -498,13 +498,13 @@ function saveRank() {
     }
 
     if ($id == 0) {
-        nkDB_insert(FORUM_RANK_TABLE, array_keys($data), array_values($data));
+        nkDB_insert(FORUM_RANK_TABLE, $data);
         saveUserAction(_ACTIONADDRANKFO .': '. $data['nom']);
 
         printNotification(_RANKADD, 'success');
     }
     else {
-        nkDB_update(FORUM_RANK_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        nkDB_update(FORUM_RANK_TABLE, $data, 'id = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFRANKFO .': '. $data['nom']);
 
         printNotification(_RANKMODIF, 'success');
@@ -678,7 +678,7 @@ function saveSetting() {
             $_POST[$field] = 'off';
 
         if ($nuked[$field] != $_POST[$field])
-            nkDB_update(CONFIG_TABLE, array('value'), array($_POST[$field]), 'name = '. nkDB_escape($field));
+            nkDB_update(CONFIG_TABLE, array('value' => $_POST[$field]), 'name = '. nkDB_escape($field));
     }
 
     saveUserAction(_ACTIONPREFFO .'.');

@@ -271,11 +271,21 @@ function nkDB_totalNumRows($query = false) {
  * A simple layer to handle insert querys
  *
  * @param string $table : Table name
- * @param array $fields : List of fields to insert
- * @param array $values : List of values to insert, in the same order as $fields
+ * @param array $data : An associative array with :
+ *        - Keys : List of fields to insert
+ *        - Values : List of values to insert
+ *        Values are automaticly escaped
+ *        You may disable escaping by placing value in a sub-array
+ *        ex. : 
+ *          $data = array(
+ *              'field_foo' => 'foo',                               // values will be escaped
+ *              'field_bar' => array('field_bar + 1', 'no-escape')  // Second value won't be escaped
+ *          )
  * @return bool : The result of insert query
  */
-function nkDB_insert($table, $fields, $values) {
+function nkDB_insert($table, $data) {
+    $values = array_values($data);
+
     // Prepares data to insert
     foreach ($values as $i => $value) {
         if (is_array( $values[$i]) && count($values[$i]) > 1) {
@@ -288,7 +298,7 @@ function nkDB_insert($table, $fields, $values) {
     }
 
     // Build the query
-    $sql = 'INSERT INTO `'. $table .'` (`'. implode('`, `', $fields) .'`) VALUES ('. implode(', ', $values) .')';
+    $sql = 'INSERT INTO `'. $table .'` (`'. implode('`, `', array_keys($data)) .'`) VALUES ('. implode(', ', $values) .')';
 
     return nkDB_execute($sql);
 }
@@ -313,6 +323,13 @@ function nkDB_insertId() {
  * @param array $data : An associative array with :
  *        - Keys : List of fields to replace
  *        - Values : List of values to replace
+ *        Values are automaticly escaped
+ *        You may disable escaping by placing value in a sub-array
+ *        ex. : 
+ *          $data = array(
+ *              'field_foo' => 'foo',                               // values will be escaped
+ *              'field_bar' => array('field_bar + 1', 'no-escape')  // Second value won't be escaped
+ *          )
  * @return bool : The result of replace query
  */
 function nkDB_replace($table, $data) {
@@ -339,19 +356,22 @@ function nkDB_replace($table, $data) {
  * A simple layer to handle update querys
  *
  * @param string $table : Table name
- * @param array $fields : List of fields to insert
- * @param array $values : List of values to insert, in the same order as $fields
- *                Values are automaticly escaped
- *                You may disable escaping by placing value in a sub-array
- *                ex. : 
- *                        $field = array( 'field_foo', 'field_bar' );
- *                        $values = array( 'foo', 'bar' ) // values will be escaped
- *                        $values = array( 'foo', array('field_bar + 1', 'no-escape') ) // Second value won't be escaped
- *
+ * @param array $data : An associative array with :
+ *        - Keys : List of fields to insert
+ *        - Values : List of values to insert
+ *        Values are automaticly escaped
+ *        You may disable escaping by placing value in a sub-array
+ *        ex. : 
+ *          $data = array(
+ *              'field_foo' => 'foo',                               // values will be escaped
+ *              'field_bar' => array('field_bar + 1', 'no-escape')  // Second value won't be escaped
+ *          )
  * @param string $where : SQL part to identify the row to update (ie. "id = 56")
  * @return bool : The result of insert query
  */
-function nkDB_update($table, $fields, $values, $where) {
+function nkDB_update($table, $data, $where) {
+    $fields         = array_keys($data);
+    $values         = array_values($data);
     $separator      = '';
     $fieldsLength   = count($fields) - 1;
 
