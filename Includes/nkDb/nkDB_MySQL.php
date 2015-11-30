@@ -39,7 +39,6 @@ function nkDB_init($data) {
     $GLOBALS['nkDB']['params'] = $data;
 }
 
-
 /**
  * Connection to database
  *
@@ -75,7 +74,6 @@ function nkDB_connect() {
     return $db;
 }
 
-
 /**
  * Get error of MySQL database connection
  *
@@ -97,7 +95,6 @@ function nkDB_getConnectError() {
         return mysql_error();
 }
 
-
 /**
  * Disconnect to MySQL database
  *
@@ -108,7 +105,6 @@ function nkDB_disconnect() {
     if ($GLOBALS['nkDB']['connection'])
         mysql_close($GLOBALS['nkDB']['connection']);
 }
-
 
 /**
  * Show version of MySQL  server
@@ -122,7 +118,6 @@ function nkDB_show_version() {
 
     return mysql_get_server_info();
 }
-
 
 /**
  * A simple layer to handle select querys.
@@ -151,7 +146,6 @@ function nkDB_selectOne($query, $order = false, $dir = 'ASC', $limit = false, $o
 
     return $result;
 }
-
 
 /**
  * A simple layer to handle select querys.
@@ -183,7 +177,6 @@ function nkDB_selectMany($query, $order = false, $dir = 'ASC', $limit = false, $
 
     return $result;
 }
-
 
 /**
  * Format SQL string for select querys
@@ -228,7 +221,6 @@ function nkDB_formatSelectQuery($query, $order, $dir, $limit, $offset) {
     return $sql;
 }
 
-
 /**
  * Get the row_count for a query.
  * By default, the latest select query is used
@@ -246,7 +238,6 @@ function nkDB_numRows($ressource = false) {
 
     return (int) mysql_num_rows($ressource);
 }
-
 
 /**
  * Get the total row_count for a select query.
@@ -276,7 +267,6 @@ function nkDB_totalNumRows($query = false) {
     return (int) $query_data['recordcount'];
 }
 
-
 /**
  * A simple layer to handle insert querys
  *
@@ -303,7 +293,6 @@ function nkDB_insert($table, $fields, $values) {
     return nkDB_execute($sql);
 }
 
-
 /**
  * Get last inserted id
  *
@@ -317,6 +306,34 @@ function nkDB_insertId() {
         return false;
 }
 
+/**
+ * A simple layer to handle replace querys
+ *
+ * @param string $table : Table name
+ * @param array $data : An associative array with :
+ *        - Keys : List of fields to replace
+ *        - Values : List of values to replace
+ * @return bool : The result of replace query
+ */
+function nkDB_replace($table, $data) {
+    $values = array_values($data);
+
+    // Prepares data to replace
+    foreach ($values as $i => $value) {
+        if (is_array( $values[$i]) && count($values[$i]) > 1) {
+            if ($values[$i][1] == 'no-escape')
+                $values[$i] = $values[$i][0];
+        }
+        else {
+            $values[$i] = nkDB_escape($values[$i]);
+        }
+    }
+
+    // Build the query
+    $sql = 'REPLACE `'. $table .'` (`'. implode('`, `', array_keys($data)) .'`) VALUES ('. implode(', ', $values) .')';
+
+    return nkDB_execute($sql);
+}
 
 /**
  * A simple layer to handle update querys
@@ -360,7 +377,6 @@ function nkDB_update($table, $fields, $values, $where) {
     return nkDB_execute($sql);
 }
 
-
 /**
  * Get the number of affected rows by the last INSERT, UPDATE, REPLACE or DELETE query
  *
@@ -373,7 +389,6 @@ function nkDB_affectedRows() {
     else
         return false;
 }
-
 
 /**
  * A simple layer to handle delete querys
@@ -388,7 +403,6 @@ function nkDB_delete($table, $where = 'all') {
 
     return nkDB_execute('DELETE FROM `'. $table .'` '. $where);
 }
-
 
 /**
  * Exec querys...
@@ -426,7 +440,6 @@ function nkDB_execute($sql) {
     return $ressource;
 }
 
-
 /**
  * Return last execute query status
  *
@@ -436,7 +449,6 @@ function nkDB_execute($sql) {
 function nkDB_queryError() {
     return $GLOBALS['nkDB']['queryError'];
 }
-
 
 /**
  * Escape a string for insertion into a text field
@@ -464,7 +476,6 @@ function nkDB_escape($value, $noQuote = false) {
         return '\''. $value .'\'';
 }
 
-
 /**
  * Get time for execute all querys
  *
@@ -474,7 +485,6 @@ function nkDB_escape($value, $noQuote = false) {
 function nkDB_getTimeForExecuteAllQuery() {
     return round($GLOBALS['nkDB']['totalTime'] * 1000, 1);
 }
-
 
 /**
  * Get number of executed querys and return result

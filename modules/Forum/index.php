@@ -938,13 +938,11 @@ function mark() {
                         $fid .= $forumThread['forum_id'] .',';
                 }
 
-                // TODO create nex nkDB function
-                $sql = mysql_query(
-                    "REPLACE " . FORUM_READ_TABLE . "
-                    (`user_id` , `thread_id` , `forum_id` )
-                    VALUES
-                    ('" . $user[0] . "' , '" . $tid . "' , '" . $fid . "' )"
-                );
+                nkDB_replace(FORUM_READ_TABLE, array(
+                    'user_id'   => $user['id'],
+                    'thread_id' => $tid,
+                    'forum_id'  => $fid
+                ));
             }
         }
     }
