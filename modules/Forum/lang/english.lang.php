@@ -160,7 +160,7 @@ define("_EDITPOLL","Edit this poll");
 define("_DELPOLL","Delete this poll");
 define("_CONFIRMDELPOLL","Remove this poll?");
 define("_POLLDELETE","Poll was successfully removed.");
-define("_MODIFTHISPOLL","Modify this poll.");
+define("_MODIFTHISPOLL","Modify this poll");
 define("_POLLMODIF","Poll was successfully modified.");
 define("_NOTIFYON","Subscribe to this topic");
 define("_NOTIFYOFF","Unsubscribe from this topic");

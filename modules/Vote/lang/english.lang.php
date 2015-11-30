@@ -4,7 +4,6 @@ if (!defined("INDEX_CHECK"))
 	exit('You can\'t run this file alone.');
 }
 define("_VOTES","votes");
-define("_TOVOTE","Vote");
 define("_NOTEVAL","Not evaluated");
 define("_VOTEFROM","Vote from");
 define("_ALREADYVOTE","You already voted!");

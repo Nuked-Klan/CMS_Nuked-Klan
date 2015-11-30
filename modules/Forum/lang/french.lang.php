@@ -158,7 +158,7 @@ define("_EDITPOLL","Editer le sondage");
 define("_DELPOLL","Supprimer le sondage");
 define("_CONFIRMDELPOLL","Etes-vous sûr de vouloir supprimer ce sondage ?");
 define("_POLLDELETE","Sondage supprimé avec succès.");
-define("_MODIFTHISPOLL","Modifier ce sondage.");
+define("_MODIFTHISPOLL","Modifier ce sondage");
 define("_POLLMODIF","Sondage modifié avec succès.");
 define("_NOTIFYON","Surveiller le sujet");
 define("_NOTIFYOFF","Arrêter de surveiller le sujet");

@@ -5,7 +5,6 @@ if (!defined("INDEX_CHECK"))
 }
 define("_POLLOF","Sondage");
 define("_POLLLIST","Liste des Sondages");
-define("_TOVOTE","Voter");
 
 define("_VOTESUCCES","Votre vote a bien été pris en compte.");
 define("_ALREADYVOTE","Désolé vous avez déjà Voté !");

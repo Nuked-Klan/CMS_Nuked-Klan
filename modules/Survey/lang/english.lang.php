@@ -7,7 +7,6 @@ if (!defined("INDEX_CHECK"))
 
 define("_POLLOF","Survey");
 define("_POLLLIST","Survey List");
-define("_TOVOTE","Vote");
 
 define("_VOTESUCCES","Vote was successfully added.");
 define("_ALREADYVOTE","Sorry you already voted!!!");

@@ -13,6 +13,9 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 global $language, $user;
 
+nkTemplate_setInterface('frontend');
+nkTemplate_init('Userbox');
+
 translate('modules/Userbox/lang/'. $language .'.lang.php');
 
 function select_user(){
