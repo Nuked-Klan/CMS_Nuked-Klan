@@ -56,7 +56,7 @@ $forumForm = array(
     'enctype'   => 'multipart/form-data',
     'items' => array(
         'nom' => array(
-            'label'             => '<b>'. _NAME .' : </b>',
+            'label'             => '<b>'. _NAME .' :</b>&nbsp;',
             'type'              => 'text',
             'name'              => 'titre',
             'size'              => 30,
@@ -65,13 +65,13 @@ $forumForm = array(
             'noempty'           => true
         ),
         'cat' => array(
-            'label'             => '<b>'. _CAT .' : </b>',
+            'label'             => '<b>'. _CAT .' :</b>&nbsp;',
             'type'              => 'select',
             'name'              => 'cat',
             'options'           => array()
         ),
         'comment' => array(
-            'label'             => '<b>'. _DESCR .' : </b>',
+            'label'             => '<b>'. _DESCR .' :</b>&nbsp;',
             'type'              => 'text',
             'name'              => 'description',
             'rows'              => 10,
@@ -79,18 +79,18 @@ $forumForm = array(
             'inputClass'        => array('editor')
         ),
         'image' => array(
-            'label'             => '<b>'. _IMAGE .' : </b>',
+            'label'             => '<b>'. _IMAGE .' :</b>&nbsp;',
             'type'              => 'text',
             'name'              => 'urlImageForum',
             'size'              => 42
         ),
         'upImageForum' => array(
-            'label'             => '<b>'. _UPLOADIMAGE .' : </b>',
+            'label'             => '<b>'. _UPLOADIMAGE .' :</b>&nbsp;',
             'type'              => 'file',
             'name'              => 'upImageForum'
         ),
         'niveau' => array(
-            'label'             => '<b>'. _LEVELACCES .' : </b>',
+            'label'             => '<b>'. _LEVELACCES .' :</b>&nbsp;',
             'type'              => 'select',
             'name'              => 'niveau',
             'options'           => array(
@@ -107,7 +107,7 @@ $forumForm = array(
             )
         ),
         'level' => array(
-            'label'             => '<b>'. _LEVELPOST .' : </b>',
+            'label'             => '<b>'. _LEVELPOST .' :</b>&nbsp;',
             'type'              => 'select',
             'name'              => 'level',
             'options'           => array(
@@ -124,7 +124,7 @@ $forumForm = array(
             )
         ),
         'ordre' => array(
-            'label'             => '<b>'. _ORDER .' : </b>',
+            'label'             => '<b>'. _ORDER .' :</b>&nbsp;',
             'type'              => 'text',
             'name'              => 'ordre',
             'value'             => '0',
@@ -134,7 +134,7 @@ $forumForm = array(
             'noempty'           => true
         ),
         'level_poll' => array(
-            'label'             => '<b>'. _LEVELPOLL .' : </b>',
+            'label'             => '<b>'. _LEVELPOLL .' :</b>&nbsp;',
             'type'              => 'select',
             'name'              => 'level_poll',
             'options'           => array(
@@ -151,7 +151,7 @@ $forumForm = array(
             )
         ),
         'level_vote' => array(
-            'label'             => '<b>'. _LEVELVOTE .' : </b>',
+            'label'             => '<b>'. _LEVELVOTE .' :</b>&nbsp;',
             'type'              => 'select',
             'name'              => 'level_vote',
             'options'           => array(
@@ -168,11 +168,11 @@ $forumForm = array(
             )
         ),
         'moderatorList' => array(
-            'fakeLabel'         => '<b>'. _MODO .' : </b>',
+            'fakeLabel'         => '<b>'. _MODO .' :</b>&nbsp;',
             'html'              => ''
         ),
         'moderateurs' => array(
-            'label'             => '<b>'. _MODERATEUR .' : </b>',
+            'label'             => '<b>'. _MODERATEUR .' :</b>&nbsp;',
             'type'              => 'select',
             'name'              => 'modo',
             'options'           => array()

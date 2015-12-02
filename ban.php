@@ -54,9 +54,11 @@ if (nkDB_numrows() > 0) {
         $_COOKIE['ip_ban'] = '';
 
         // On notifie dans l'administration
-        nkDB_insert(NOTIFICATIONS_TABLE,
-            array('date', 'type', 'texte'),
-            array(time(), 4, $dbrBanned['pseudo'] . _BANFINISHED);
+        nkDB_insert(NOTIFICATIONS_TABLE, array(
+            'date'  => time(),
+            'type'  => 4,
+            'texte' => $dbrBanned['pseudo'] . _BANFINISHED
+        ));
 
         // On redirige vers le site
         redirect('index.php');

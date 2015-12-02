@@ -204,10 +204,7 @@ function nkSessions_userSessionCheck() {
         if ($userSecure == 1) {
             $GLOBALS['last_used'] = $dbrSessions['last_used'];
 
-            nkDB_update(SESSIONS_TABLE,
-                array('last_used'), array($time),
-                'id = '. nkDB_escape($sessionId)
-            );
+            nkDB_update(SESSIONS_TABLE, array('last_used' => $time), 'id = '. nkDB_escape($sessionId));
 
             return true;
         }
@@ -269,19 +266,25 @@ function nkSessions_createNewSession($userId, $rememberMe) {
 
     nkSessions_resetUserCookie();
 
-    $dbuSessions = nkDB_update(SESSIONS_TABLE,
-        array('id', 'last_used', 'date', 'ip'),
-        array($sessionId, array('date', 'no-escape'), $time, $user_ip),
+    $dbuSessions = nkDB_update(SESSIONS_TABLE, array(
+            'id'        => $sessionId,
+            'last_used' => array('date', 'no-escape'),
+            'date'      => $time,
+            'ip'        => $user_ip
+        ),
         'user_id = '. nkDB_escape($userId)
     );
 
     $dbiSessions = true;
 
     if (nkDB_affectedRows() == 0) {
-        $dbiSessions = nkDB_insert(SESSIONS_TABLE,
-            array('id', 'user_id', 'date', 'ip', 'vars'),
-            array($sessionId, $userId, $time, $user_ip, '')
-        );
+        $dbiSessions = nkDB_insert(SESSIONS_TABLE, array(
+            'id'        => $sessionId,
+            'user_id'   => $userId,
+            'date'      => $time,
+            'ip'        => $user_ip,
+            'vars'      => ''
+        ));
     }
 
     if ($dbuSessions !== false && $dbiSessions !== false) {
@@ -306,10 +309,7 @@ function nkSessions_createNewSession($userId, $rememberMe) {
  * @return void
  */
 function nkSessions_stopSession($userId) {
-    nkDB_update(SESSIONS_TABLE,
-        array('ip'), array(''),
-        'user_id = '. nkDB_escape($userId)
-    );
+    nkDB_update(SESSIONS_TABLE, array('ip' => ''), 'user_id = '. nkDB_escape($userId));
 
     nkSessions_resetUserCookie();
 

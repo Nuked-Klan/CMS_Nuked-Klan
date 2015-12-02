@@ -171,10 +171,7 @@ function nkStats_send() {
         else
             $value = array('value + 86400', 'no-escape');
 
-        nkDB_update(CONFIG_TABLE,
-            array('value'), $value,
-            'name = \'stats_timestamp\''
-        );
+        nkDB_update(CONFIG_TABLE, array('value' => $value), 'name = \'stats_timestamp\'');
     }
 
     exit;

@@ -16,14 +16,26 @@ if (! adminInit('Forum'))
 
 nkTemplate_addCSSFile('modules/Forum/css/backend.css');
 
+
 /* Forum category management */
 
+/**
+ * Callback function for nkList.
+ * Format Forum category row.
+ *
+ * @param array $row : The Forum category row.
+ * @param int $nbData : The list count.
+ * @param int $r : The number of row.
+ * @param array $functionData : The external data of list passed to this function.
+ * @return array : The Forum category row formated.
+ */
 function formatForumCatRow($row, $nbData, $r, $functionData) {
     $row['nom'] = printSecuTags(stripslashes($row['nom']));
 
     return $row;
 }
 
+// Display Forum category list.
 function main_cat() {
     global $adminMenu;
 
@@ -46,6 +58,7 @@ function main_cat() {
     ));
 }
 
+// Display Forum category form for addition / editing.
 function editForumCat() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/backend/category.php';
@@ -82,10 +95,25 @@ function editForumCat() {
     ));
 }
 
+// Save / modify Forum category.
 function saveForumCat() {
     require_once 'Includes/nkUpload.php';
 
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
+
+    $errors = array();
+
+    if ($_POST['nom'] == '' || ctype_space($_POST['nom']))
+        $errors[] = _NONAME;
+
+    if ($_POST['ordre'] == '' || ctype_digit($_POST['ordre']))
+        $errors[] = _INCORRECT_ORDER;
+
+    if (! empty($errors)) {
+        printNotification(implode('<br />', $errors), 'error');
+        redirect('index.php?file=Forum&page=admin&op=editCat'. (($id > 0) ? '&id='. $id : ''), 2);
+        return;
+    }
 
     $data = array(
         'nom'       => $_POST['nom'],
@@ -107,14 +135,14 @@ function saveForumCat() {
     }
 
     if ($id == 0) {
-        nkDB_insert(FORUM_CAT_TABLE, array_keys($data), array_values($data));
+        nkDB_insert(FORUM_CAT_TABLE, $data);
         saveUserAction(_ACTIONADDCATFO .': '. $data['nom']);
 
         printNotification(_CATADD, 'success');
     }
     else {
-        nkDB_update(FORUM_CAT_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
-        nkDB_update(FORUM_TABLE, array('niveau'), array($data['niveau']), 'cat = '. nkDB_escape($id));
+        nkDB_update(FORUM_CAT_TABLE, $data, 'id = '. nkDB_escape($id));
+        nkDB_update(FORUM_TABLE, array('niveau' => $data['niveau']), 'cat = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFCATFO .': '. $data['nom']);
 
         printNotification(_CATMODIF, 'success');
@@ -123,6 +151,7 @@ function saveForumCat() {
     setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main_cat');
 }
 
+// Delete Forum category.
 function deleteForumCat() {
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
@@ -148,6 +177,7 @@ function formatForumRow($row, $nbData, $r, $functionData) {
     return $row;
 }
 
+// Display Forum list.
 function main() {
     global $adminMenu;
 
@@ -169,6 +199,12 @@ function main() {
     ));
 }
 
+/**
+ * Get Forum moderator list.
+ *
+ * @param array $moderatorList : The Forum moderator list.
+ * @return array : The Forum moderator list for input select option.
+ */
 function getModeratorOptions($moderatorList) {
     $options = array('' => _NONE);
 
@@ -187,6 +223,7 @@ function getModeratorOptions($moderatorList) {
     return $options;
 }
 
+// Display Forum form for addition / editing.
 function editForum() {
     global $adminMenu;
 
@@ -228,6 +265,7 @@ function editForum() {
             for ($i = 0; $i < $nbModerator; $i++) {
                 $sep = ($i == 0) ? '' : ', ';
 
+                // TODO : Use sql IN() clause?
                 $dbrUser = nkDB_selectOne(
                     'SELECT id, pseudo
                     FROM '. USER_TABLE .'
@@ -248,7 +286,7 @@ function editForum() {
         $forumForm['itemsFooter']['submit']['value'] = _MODIFTHISCAT;
     }
 
-    $forumForm['items']['modo']['options'] = getModeratorOptions($moderatorList);
+    $forumForm['items']['moderateurs']['options'] = getModeratorOptions($moderatorList);
 
     $adminMenu = applyTemplate('share/adminMenu', array('menu' => $adminMenu));
 
@@ -259,10 +297,25 @@ function editForum() {
     ));
 }
 
+// Save / modify Forum.
 function saveForum() {
     require_once 'Includes/nkUpload.php';
 
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
+
+    $errors = array();
+
+    if ($_POST['titre'] == '' || ctype_space($_POST['titre']))
+        $errors[] = _NONAME;
+
+    if ($_POST['ordre'] == '' || ctype_digit($_POST['ordre']))
+        $errors[] = _INCORRECT_ORDER;
+
+    if (! empty($errors)) {
+        printNotification(implode('<br />', $errors), 'error');
+        redirect('index.php?file=Forum&page=admin&op=editForum'. (($id > 0) ? '&id='. $id : ''), 2);
+        return;
+    }
 
     $data = array(
         'nom'           => stripslashes($_POST['titre']),
@@ -290,7 +343,7 @@ function saveForum() {
     }
 
     if ($id == 0) {
-        nkDB_insert(FORUM_TABLE, array_keys($data), array_values($data));
+        nkDB_insert(FORUM_TABLE, $data);
         saveUserAction(_ACTIONADDFO .': '. $data['nom']);
 
         printNotification(_FORUMADD, 'success');
@@ -308,10 +361,10 @@ function saveForum() {
             else
                 $modos = $data['moderateurs'];
 
-            nkDB_update(FORUM_TABLE, array_keys('moderateurs'), array_values($modos), 'id = '. nkDB_escape($id));
+            nkDB_update(FORUM_TABLE, array('moderateurs' => $modos), 'id = '. nkDB_escape($id));
         }
 
-        nkDB_update(FORUM_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        nkDB_update(FORUM_TABLE, $data, 'id = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFFO .': '. $data['nom']);
 
         printNotification(_FORUMMODIF, 'success');
@@ -320,6 +373,7 @@ function saveForum() {
     setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');
 }
 
+// Delete Forum.
 function deleteForum() {
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
@@ -359,6 +413,7 @@ function deleteForum() {
     setPreview('index.php?file=Forum', 'index.php?file=Forum&page=admin&op=main');
 }
 
+// Delete Forum moderator.
 function deleteModerator() {
     $dbrForum = nkDB_selectOne(
         'SELECT moderateurs
@@ -379,7 +434,7 @@ function deleteModerator() {
             $modos .= $sep . $list[$i];
     }
 
-    nkDB_update(FORUM_TABLE, array_keys('moderateurs'), array_values($modos), 'id = '. nkDB_escape($_GET['forum_id']));
+    nkDB_update(FORUM_TABLE, array('moderateurs' => $modos), 'id = '. nkDB_escape($_GET['forum_id']));
 
     $dbrUser = nkDB_selectOne(
         'SELECT pseudo
@@ -395,6 +450,16 @@ function deleteModerator() {
 
 /* Forum rank management */
 
+/**
+ * Callback function for nkList.
+ * Format Forum rank row.
+ *
+ * @param array $row : The Forum rank row.
+ * @param int $nbData : The list count.
+ * @param int $r : The number of row.
+ * @param array $functionData : The external data of list passed to this function.
+ * @return array : The Forum rank row formated.
+ */
 function formatForumRankRow($row, $nbData, $r, $functionData) {
     $row['nom'] = printSecuTags(stripslashes($row['nom']));
 
@@ -417,6 +482,7 @@ function formatForumRankRow($row, $nbData, $r, $functionData) {
     return $row;
 }
 
+// Display Forum rank list.
 function main_rank() {
     global $adminMenu;
 
@@ -439,6 +505,7 @@ function main_rank() {
     ));
 }
 
+// Display Forum rank form for addition / editing.
 function editRank() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/backend/rank.php';
@@ -473,10 +540,25 @@ function editRank() {
     ));
 }
 
+// Save / modify Forum rank.
 function saveRank() {
     require_once 'Includes/nkUpload.php';
 
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
+
+    $errors = array();
+
+    if ($_POST['nom'] == '' || ctype_space($_POST['nom']))
+        $errors[] = _NONAME;
+
+    if ($_POST['post'] == '' || ctype_digit($_POST['post']))
+        $errors[] = _INCORRECT_RANK_MESSAGE;
+
+    if (! empty($errors)) {
+        printNotification(implode('<br />', $errors), 'error');
+        redirect('index.php?file=Forum&page=admin&op=editRank'. (($id > 0) ? '&id='. $id : ''), 2);
+        return;
+    }
 
     $data = array(
         'nom'   => $_POST['nom'],
@@ -498,13 +580,13 @@ function saveRank() {
     }
 
     if ($id == 0) {
-        nkDB_insert(FORUM_RANK_TABLE, array_keys($data), array_values($data));
+        nkDB_insert(FORUM_RANK_TABLE, $data);
         saveUserAction(_ACTIONADDRANKFO .': '. $data['nom']);
 
         printNotification(_RANKADD, 'success');
     }
     else {
-        nkDB_update(FORUM_RANK_TABLE, array_keys($data), array_values($data), 'id = '. nkDB_escape($id));
+        nkDB_update(FORUM_RANK_TABLE, $data, 'id = '. nkDB_escape($id));
         saveUserAction(_ACTIONMODIFRANKFO .': '. $data['nom']);
 
         printNotification(_RANKMODIF, 'success');
@@ -513,6 +595,7 @@ function saveRank() {
     redirect('index.php?file=Forum&page=admin&op=main_rank', 2);
 }
 
+// Delete Forum rank.
 function deleteRank() {
     $id = (isset($_GET['id'])) ? $_GET['id'] : 0;
 
@@ -532,6 +615,14 @@ function deleteRank() {
 
 /* Forum prune management */
 
+/**
+ * Get Forum list by category (include in list) for prune selection.
+ *
+ * @param void
+ * @return array : A associative array with :
+ *         - keys : The Forum category / Forum ID. (Forum category have `cat_` preffix)
+ *         - values : The full name of Forum category / Forum.
+ */
 function getPruneList() {
     $options = array('' => _ALL);
 
@@ -558,6 +649,7 @@ function getPruneList() {
     return $options;
 }
 
+// Display Forum prune selection.
 function prune() {
     global $adminMenu;
 
@@ -584,7 +676,14 @@ function prune() {
     ));
 }
 
+// Execute Forum prune.
 function doPrune() {
+    if ($_POST['day'] == '' || ctype_digit($_POST['day'])) {
+        printNotification(_INCORRECT_PRUNE_DAY, 'error');
+        redirect('index.php?file=Forum&page=admin&op=prune', 2);
+        return;
+    }
+
     $prunedate = time() - (86400 * $_POST['day']);
 
     if (strpos($_POST['prune_id'], 'cat_') === 0) {
@@ -646,6 +745,7 @@ function doPrune() {
 
 /* Forum settings management */
 
+// Display Forum setting form.
 function editSetting() {
     global $adminMenu, $nuked;
 
@@ -664,6 +764,7 @@ function editSetting() {
     ));
 }
 
+// Save Forum setting.
 function saveSetting() {
     global $nuked;
 
@@ -678,7 +779,7 @@ function saveSetting() {
             $_POST[$field] = 'off';
 
         if ($nuked[$field] != $_POST[$field])
-            nkDB_update(CONFIG_TABLE, array('value'), array($_POST[$field]), 'name = '. nkDB_escape($field));
+            nkDB_update(CONFIG_TABLE, array('value' => $_POST[$field]), 'name = '. nkDB_escape($field));
     }
 
     saveUserAction(_ACTIONPREFFO .'.');
@@ -688,6 +789,7 @@ function saveSetting() {
 }
 
 
+// Admin menu configuration
 $adminMenu = array(
     _FORUM => array(
         'img'   => 'modules/Admin/images/icons/speedometer.png'
@@ -714,7 +816,7 @@ $adminMenu = array(
     )
 );
 
-
+// Action handle
 switch ($_REQUEST['op']) {
     case 'editForum' :
         editForum();

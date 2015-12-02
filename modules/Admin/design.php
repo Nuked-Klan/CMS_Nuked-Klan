@@ -152,27 +152,15 @@ function checkboxButton($name, $id, $checked = false, $inline = false) {
 <?php
 }
 
-// information, success, error
-function printNotification($message, $type = 'information', $backLinkUrl = false, $return = false) {
-    $html = applyTemplate('notification', array(
-        'type'          => $type,
-        'message'       => $message,
-        'backLinkUrl'   => $backLinkUrl,
-    ));
-
-    if ($return)
-        return $html;
-    else
-        echo $html;
-}
 
 function saveUserAction($action) {
     global $user;
 
-    nkDB_insert(ACTION_TABLE,
-        array('date', 'pseudo', 'action'),
-        array(time(), $user['id'], $action)
-    );
+    nkDB_insert(ACTION_TABLE, array(
+        'date'      => time(),
+        'pseudo'    => $user['id'],
+        'action'    => $action
+    ));
 }
 
 function setPreview($previewUrl, $redirect) {
