@@ -8,7 +8,7 @@
                     <div class="nkForumPollIniTable">
                         <div class="nkForumPollOptionsIni">
                             <div><strong><?php echo _QUESTION ?></strong></div>
-                            <div><input type="text" name="titre" size="40" value="<?php echo $title ?>"/></div>
+                            <div><input type="text" name="titre" size="40" value="<?php echo (isset($title)) ? $title : '' ?>"/></div>
                         </div>
 <?php
     $r = 0;
@@ -30,22 +30,22 @@
                         </div>
                     </div>
 <?php
-    if (isset($poll_id)) :
+    if (isset($pollId)) :
 ?>
-                    <input type="hidden" name="poll_id" value="<?php echo $poll_id ?>" />
+                    <input type="hidden" name="poll_id" value="<?php echo $pollId ?>" />
 <?php
     endif;
 
-    if (isset($max_option)) :
+    if (isset($maxOptions)) :
 ?>
-                    <input type="hidden" name="max_option" value="<?php echo $max_option ?>" />
+                    <input type="hidden" name="max_option" value="<?php echo $maxOptions ?>" />
 <?php
     endif;
 ?>
-                    <input type="hidden" name="thread_id" value="<?php echo $thread_id ?>" />
-                    <input type="hidden" name="forum_id" value="<?php echo $forum_id ?>" />
+                    <input type="hidden" name="thread_id" value="<?php echo $threadId ?>" />
+                    <input type="hidden" name="forum_id" value="<?php echo $forumId ?>" />
                     <div id="nkForumPollActionLinks">
-                        <input type="submit" value="<?php echo _MODIFTHISPOLL ?>" class="nkButton"  />
+                        <input type="submit" value="<?php echo (isset($pollId)) ? _MODIFTHISPOLL : _ADDTHISPOLL ?>" class="nkButton"  />
                     </div>
                 </form>
             </div>

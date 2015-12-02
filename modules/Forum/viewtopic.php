@@ -100,6 +100,8 @@ opentable();
         $sql_next = mysql_query("SELECT id FROM " . FORUM_THREADS_TABLE . " WHERE last_post > '" . $lastpost. "' AND forum_id = '" . $_REQUEST['forum_id'] . "' ORDER BY last_post LIMIT 0, 1");
         list($nextid) = mysql_fetch_array($sql_next);
 
+        $next = $prev = '';
+
         if ($nextid != "") {
             $next = '<a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=' . $_REQUEST['forum_id'] . '&amp;thread_id=' . $nextid . '" class="nkButton icon arrowright">' . _NEXTTHREAD . '</a>';
         } 
@@ -121,10 +123,10 @@ opentable();
         $sql3 = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $_REQUEST['thread_id'] . "'");
         $count = mysql_num_rows($sql3);
 
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
+        if (! isset($_REQUEST['p'])) $_REQUEST['p'] = 1;
         $start = $_REQUEST['p'] * $nb_mess_for_mess - $nb_mess_for_mess;
 
-        if ($_REQUEST['highlight'] != "") {
+        if (isset($_REQUEST['highlight']) && $_REQUEST['highlight'] != "") {
             $url_page = 'index.php?file=Forum&amp;page=viewtopic&amp;forum_id=' . $_REQUEST['forum_id'] . '&amp;thread_id=' . $_REQUEST['thread_id'] . '&amp;highlight=' . urlencode($_REQUEST['highlight']);
         } 
         else {
@@ -321,7 +323,7 @@ opentable();
 
             $title = printSecuTags($title);            
 
-            if ($_REQUEST['highlight'] != "") { 
+            if (isset($_REQUEST['highlight']) && $_REQUEST['highlight'] != "") { 
                 $string = trim($_REQUEST['highlight']);
                 $string = printSecuTags($string);
                 $title = str_replace($string, '<span style="color: #FF0000">' . $string . '</span>', $title);
@@ -343,7 +345,7 @@ opentable();
             else if (strftime("%d", $date) == (strftime("%d", time()) - 1) && strftime("%m %Y", time()) == strftime("%m %Y", $date)) $date = _FYESTERDAY . "&nbsp;" . strftime("%H:%M", $date);    
             else $date = _THE . ' ' . nkDate($date);
 
-            $tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
+            //$tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
 
             //Liens interface utilisateur/administrateurs
             $quoteLink  = 'index.php?file=Forum&amp;page=post&amp;forum_id=' . $_REQUEST['forum_id'] . '&amp;thread_id=' . $_REQUEST['thread_id'] . '&amp;mess_id=' . $mess_id . '&amp;do=quote';

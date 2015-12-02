@@ -809,8 +809,10 @@ function secu_html($texte){
     $TagList = array();
     $bad = false;
     $size = count($Tags);
-    for($i=0; $i<$size; $i++){
-        $TagName = $Tags[$i][3] == '' ? $Tags[$i][2].$Tags[$i][4]:$Tags[$i][2];
+    for($i=0; $i<$size; $i++) {
+        $Tags[$i][4] = (isset($Tags[$i][4])) ? $Tags[$i][4] : '';
+        $TagName = ($Tags[$i][3] == '') ? $Tags[$i][2] . $Tags[$i][4] : $Tags[$i][2];
+
         if(!in_array($TagName, $arrayOnly1Tag) && in_array($TagName, $allowedTags)){
             if ($Tags[$i][1] == '/'){
                 $bad = $bad | array_pop($TagList) != $TagName;
@@ -1305,21 +1307,23 @@ function verif_pseudo($string = null, $oldString = null, $maxLength = 30) {
 function getCheckPseudoError($error) {
     switch ($error) {
         case 'error1' :
-            return _BADUSERNAME;
-        break;
+            return _PSEUDOFAILDED;
+            break;
 
         case 'error2' :
-            return _NICKUSE;
-        break;
+            return _RESERVNICK;
+            break;
 
         case 'error3' :
-            return _NICKBANNED;
-        break;
+            return _BANNEDNICK;
+            break;
 
         case 'error4' :
             return _NICKTOLONG;
-        break;
+            break;
     }
+
+    return false;
 }
 
 /**

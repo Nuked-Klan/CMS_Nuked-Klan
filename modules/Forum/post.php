@@ -22,6 +22,8 @@ $captcha = initCaptcha();
 
 opentable();
 
+    if (! isset($_REQUEST['do'])) $_REQUEST['do'] = '';
+    if (! isset($_REQUEST['thread_id'])) $_REQUEST['thread_id'] = '';
 
     define('EDITOR_CHECK', 1);
 
@@ -48,6 +50,8 @@ opentable();
             else {
                 $administrator = 0;
             }
+
+            $emailnotify = 0;
 
             if ($_REQUEST['do'] == "edit" || $_REQUEST['do'] == "quote") {
                 $result = mysql_query("SELECT txt, titre, auteur, usersig, emailnotify FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $_REQUEST['mess_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
@@ -122,6 +126,8 @@ opentable();
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">                            
 <?php
+                                $annonce = 0;
+
                                 if ($_REQUEST['thread_id'] != "") {
                                     $sql1 = mysql_query("SELECT titre, annonce FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $_REQUEST['thread_id'] . "' AND forum_id = '" . $_REQUEST['forum_id'] . "'");
                                     list($titre, $annonce) = mysql_fetch_array($sql1);
@@ -158,6 +164,8 @@ opentable();
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">                            
 <?php
+
+                                $ftexte = '';
 
                                 if ($_REQUEST['do'] == "edit") {
                                     $ftexte = $e_txt;
@@ -322,7 +330,7 @@ opentable();
                 while (list($txt, $auteur, $date) = mysql_fetch_row($sql2)) {
                     
                     $date = nkDate($date);
-                    $tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
+                    //$tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
                     $auteur = nk_CSS($auteur);
 ?>
                         <div>
