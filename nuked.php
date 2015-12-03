@@ -143,7 +143,6 @@ function nkHandle_file() {
     if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != '') {
         trigger_error('Superglobal $nuked_nude is deprecated. Please update your module.', E_USER_DEPRECATED);
         nkTemplate_setPageDesign('none');
-        //define('NUKED_NUDE', true);
 
         return $_REQUEST['nuked_nude'];
     }
@@ -307,14 +306,16 @@ function session_write($id, $data) {
         'session_vars'  => $data
     ));
 
+    $dbuSession = false;
+
     if ($dbiSession === false || nkDB_insert_id() == 0) {
-        $dbuSession = nkDB_update(TMPSES_TABLE,
-            array('session_vars' => $data),
+        $dbuSession = nkDB_update(TMPSES_TABLE, array(
+                'session_vars' => $data
+            ),
             'session_id = '. nkDB_escape($id)
         );
     }
 
-    // TODO A REVOIR
     return ($dbiSession !== false || $dbuSession !== false);
 }
 
@@ -1127,7 +1128,8 @@ function translate($languageFile) {
     $newArrayModLang = include_once $languageFile;
     ob_end_clean();
 
-    //$arrayModLang = array_merge($arrayModLang, $newArrayModLang);
+    if (is_array($newArrayModLang))
+        $arrayModLang = array_merge($arrayModLang, $newArrayModLang);
 }
 
 /**
@@ -1136,11 +1138,29 @@ function translate($languageFile) {
  * @param string $str : The string to translate
  * @return string : Translation if it exists or if an empty string
  */
-function __($str) {
+function __($str, $n = 1) {
     global $arrayModLang;
 
     if (array_key_exists($str, $arrayModLang))
         return $arrayModLang[$str];
+
+    return $str;
+}
+
+/**
+ * Get translation of string
+ *
+ * @param string $str : The string to translate
+ * @param int $n : The 
+ * @return string : Translation if it exists or if an empty string
+ */
+function _n($str, $n = 1) {
+    global $arrayModLang;
+
+    if (array_key_exists($str, $arrayModLang) && is_array($arrayModLang[$str])) {
+        if ($n > 0 && array_key_exists($n, $arrayModLang[$str]))
+            return $arrayModLang[$str][$n];
+    }
 
     return $str;
 }
