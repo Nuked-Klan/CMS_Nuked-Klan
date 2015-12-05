@@ -162,7 +162,7 @@ function updateForumReadTable($forumId, $threadId) {
  */
 function checkForumPostFlood($username) {
     global $nuked, $visiteur, $user_ip;
-
+return false;
     $dbrForumMessage = nkDB_selectOne(
         'SELECT date
         FROM '. FORUM_MESSAGES_TABLE .'
