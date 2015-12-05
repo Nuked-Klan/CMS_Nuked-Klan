@@ -162,7 +162,7 @@ function updateForumReadTable($forumId, $threadId) {
  */
 function checkForumPostFlood($username) {
     global $nuked, $visiteur, $user_ip;
-
+return false;
     $dbrForumMessage = nkDB_selectOne(
         'SELECT date
         FROM '. FORUM_MESSAGES_TABLE .'
@@ -337,6 +337,13 @@ function post() {
         'forum_id'      => $_POST['forum_id'],
         'file'          => basename($url_file)
     ));
+
+    nkDB_update(FORUM_TABLE, array(
+            'nbThread'  => array('nbThread + 1', 'no-escape'),
+            'nbMessage' => array('nbMessage + 1', 'no-escape')
+        ),
+        'id = '. nkDB_escape($_POST['forum_id'])
+    );
 
     updateForumReadTable($_POST['forum_id'], $thread_id);
 
@@ -514,6 +521,12 @@ function reply() {
 
     $messId = nkDB_insertId();
 
+    nkDB_update(FORUM_TABLE, array(
+            'nbMessage' => array('nbMessage + 1', 'no-escape')
+        ),
+        'id = '. nkDB_escape($_POST['forum_id'])
+    );
+
     $dbrForumMessage = nkDB_selectMany(
         'SELECT auteur_id
         FROM '. FORUM_MESSAGES_TABLE .'
@@ -604,6 +617,12 @@ function del() {
             }
 
             nkDB_delete(FORUM_MESSAGES_TABLE, 'id = '. $messId);
+
+            nkDB_update(FORUM_TABLE, array(
+                    'nbMessage' => array('nbMessage - 1', 'no-escape')
+                ),
+                'id = '. $forumId
+            );
 
             printNotification(_MESSDELETED, 'success');
             redirect($url, 2);
@@ -709,6 +728,19 @@ function del_topic() {
                     deleteForumMessageFile($forumMessage['file']);
             }
 
+            $dbrForum = nkDB_selectOne(
+                'SELECT nbMessage
+                FROM '. FORUM_TABLE .'
+                WHERE id = '. nkDB_escape($_POST['forum_id'])
+            );
+
+            nkDB_update(FORUM_TABLE, array(
+                    'nbThread'  => array('nbThread - 1', 'no-escape'),
+                    'nbMessage' => array('nbMessage - '. $dbrForum['nbMessage'], 'no-escape')
+                ),
+                'id = '. nkDB_escape($_POST['forum_id'])
+            );
+
             nkDB_delete(FORUM_MESSAGES_TABLE, 'thread_id = '. $threadId);
             nkDB_delete(FORUM_THREADS_TABLE, 'id = '. $threadId);
 
@@ -770,6 +802,26 @@ function move() {
 
             nkDB_update(FORUM_THREADS_TABLE, array('forum_id' => $newForumId), 'id = '. $threadId);
             nkDB_update(FORUM_MESSAGES_TABLE, array('forum_id' => $newForumId), 'thread_id = '. $threadId);
+
+            $dbrForum = nkDB_selectOne(
+                'SELECT nbMessage
+                FROM '. FORUM_TABLE .'
+                WHERE id = '. nkDB_escape($_POST['forum_id'])
+            );
+
+            nkDB_update(FORUM_TABLE, array(
+                    'nbThread'  => array('nbThread - 1', 'no-escape'),
+                    'nbMessage' => array('nbMessage - '. $dbrForum['nbMessage'], 'no-escape')
+                ),
+                'id = '. $forumId
+            );
+
+            nkDB_update(FORUM_TABLE, array(
+                    'nbThread'  => array('nbThread + 1', 'no-escape'),
+                    'nbMessage' => array('nbMessage + '. $dbrForum['nbMessage'], 'no-escape')
+                ),
+                'id = '. $newForumId
+            );
 
             $dbrForumRead = nkDB_selectMany(
                 'SELECT thread_id, forum_id, user_id
