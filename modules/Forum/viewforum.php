@@ -250,7 +250,7 @@ if (! empty($_REQUEST['date_max'])) {
 
     $nbTopicInForum = nkDB_totalNumRows(
         'FROM '. FORUM_THREADS_TABLE .'
-        WHERE forum_id = '. nkDB_escape($_REQUEST['forum_id']) .' AND date > '. $dateMaxTimestamp;
+        WHERE forum_id = '. nkDB_escape($_REQUEST['forum_id']) .' AND date > '. $dateMaxTimestamp
     );
 }
 else
