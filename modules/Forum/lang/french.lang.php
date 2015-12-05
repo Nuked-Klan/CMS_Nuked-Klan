@@ -277,8 +277,8 @@ define('_FAVORITEGAME', 'Jeu favori');
 
 // Admin
 define("_NOFORUMINDB","Aucun forum dans la base de données");
-define("_NONAME","Vous n\'avez pas entré de nom !");
-define("_INCORRECT_ORDER","L\'ordre ne contient pas que des entiers !");
+define("_NONAME","Vous n'avez pas entré de nom !");
+define("_INCORRECT_ORDER","L'ordre ne contient pas que des entiers !");
 define("_INCORRECT_RANK_MESSAGE","Le seuil de message du rang ne contient pas que des entiers !");
 define("_INCORRECT_PRUNE_DAY","Le nombre de jours ne contient pas que des entiers !");
 ?>

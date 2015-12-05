@@ -106,7 +106,7 @@ function saveForumCat() {
     if ($_POST['nom'] == '' || ctype_space($_POST['nom']))
         $errors[] = _NONAME;
 
-    if ($_POST['ordre'] == '' || ctype_digit($_POST['ordre']))
+    if ($_POST['ordre'] == '' || ! ctype_digit($_POST['ordre']))
         $errors[] = _INCORRECT_ORDER;
 
     if (! empty($errors)) {
@@ -308,7 +308,7 @@ function saveForum() {
     if ($_POST['titre'] == '' || ctype_space($_POST['titre']))
         $errors[] = _NONAME;
 
-    if ($_POST['ordre'] == '' || ctype_digit($_POST['ordre']))
+    if ($_POST['ordre'] == '' || ! ctype_digit($_POST['ordre']))
         $errors[] = _INCORRECT_ORDER;
 
     if (! empty($errors)) {
@@ -551,7 +551,7 @@ function saveRank() {
     if ($_POST['nom'] == '' || ctype_space($_POST['nom']))
         $errors[] = _NONAME;
 
-    if ($_POST['post'] == '' || ctype_digit($_POST['post']))
+    if ($_POST['post'] == '' || ! ctype_digit($_POST['post']))
         $errors[] = _INCORRECT_RANK_MESSAGE;
 
     if (! empty($errors)) {
@@ -678,7 +678,7 @@ function prune() {
 
 // Execute Forum prune.
 function doPrune() {
-    if ($_POST['day'] == '' || ctype_digit($_POST['day'])) {
+    if ($_POST['day'] == '' || ! ctype_digit($_POST['day'])) {
         printNotification(_INCORRECT_PRUNE_DAY, 'error');
         redirect('index.php?file=Forum&page=admin&op=prune', 2);
         return;

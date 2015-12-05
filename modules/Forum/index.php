@@ -183,6 +183,8 @@ function checkForumPostFlood($username) {
  * @return string : The url formated (with pagination if neede) and message anchor.
  */
 function getLastMessageUrl($forumId, $threadId, $messId) {
+    global $nuked;
+
     $nbMessage = nkDB_totalNumRows(
         'FROM '. FORUM_MESSAGES_TABLE .'
         WHERE thread_id = '. nkDB_escape($threadId)
