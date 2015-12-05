@@ -17,32 +17,6 @@ require_once 'modules/Forum/core.php';
 
 
 /**
- * Get number of thread in Forum.
- *
- * @param int $forumId : The forum ID.
- * @return int : The result of nkDB query.
- */
-function getNbThreadInForum($forumId) {
-    return nkDB_totalNumRows(
-        'FROM '. FORUM_THREADS_TABLE .'
-        WHERE forum_id = '. nkDB_escape($forumId)
-    );
-}
-
-/**
- * Get number of message in Forum.
- *
- * @param int $forumId : The forum ID.
- * @return int : The result of nkDB query.
- */
-function getNbMessageInForum($forumId) {
-    return nkDB_totalNumRows(
-        'FROM '. FORUM_MESSAGES_TABLE .'
-        WHERE forum_id = '. nkDB_escape($forumId)
-    );
-}
-
-/**
  * Get last message data.
  *
  * @param int $forumId : The forum ID.
@@ -165,7 +139,7 @@ else
 // Get Forum list
 if (! empty($_GET['cat'])) {
     $dbrForum = nkDB_selectMany(
-        'SELECT F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs,
+        'SELECT F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs, F.nbThread, F.nbMessage,
         FC.nom As catName, FC.image AS catImage
         FROM '. FORUM_TABLE .' AS F
         INNER JOIN '. FORUM_CAT_TABLE .' AS FC
@@ -176,7 +150,7 @@ if (! empty($_GET['cat'])) {
 }
 else {
     $dbrForum = nkDB_selectMany(
-        'SELECT F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs,
+        'SELECT F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs, F.nbThread, F.nbMessage,
         FC.nom As catName, FC.image AS catImage
         FROM '. FORUM_TABLE .' AS F
         INNER JOIN '. FORUM_CAT_TABLE .' AS FC
@@ -202,35 +176,31 @@ $lastUser = $dbrUser['pseudo'];
 // Prepare online members info
 $onlineList = array();
 
-$dbrConnected = nkDB_selectMany(
-    'SELECT username
-    FROM '. NBCONNECTE_TABLE .'
-    WHERE type > 0',
-    array('date')
-);
-
 if ($nuked['forum_user_details'] == 'on') {
     $teamRank   = getTeamRank();
-    $field      = ', rang';
+    $field      = ', U.rang';
 }
 else
     $field = '';
 
-foreach ($dbrConnected as $connected) {
-    $dbrUser = nkDB_selectOne(
-        'SELECT pseudo, country'. $field .'
-        FROM '. USER_TABLE .'
-        WHERE id = '. nkDB_escape($connected['username'])
-    );
+$dbrConnected = nkDB_selectMany(
+    'SELECT U.pseudo, U.country'. $field .'
+    FROM '. NBCONNECTE_TABLE .' AS NC
+    INNER JOIN '. USER_TABLE .' AS U
+    ON NC.user_id = U.id
+    WHERE NC.type > 0',
+    array('NC.date')
+);
 
-    if ($nuked['forum_user_details'] == 'on' && array_key_exists($dbrUser['rang'], $teamRank))
-        $style = ' style="color: #'. $teamRank[$dbrUser['rang']]['color'] .';"';
+foreach ($dbrConnected as $connected) {
+    if ($nuked['forum_user_details'] == 'on' && array_key_exists($connected['rang'], $teamRank))
+        $style = ' style="color: #'. $teamRank[$connected['rang']]['color'] .';"';
     else
         $style = '';
 
-    $onlineList[] = '<img src="images/flags/'. $dbrUser['country'] .'" alt="'. $dbrUser['country'] .'" class="nkForumOnlineFlag" />'
-        . '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($connected['username']) .'"'. $style .'>'
-        . $connected['username'] .'</a>';
+    $onlineList[] = '<img src="images/flags/'. $connected['country'] .'" alt="'. $connected['country'] .'" class="nkForumOnlineFlag" />'
+        . '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($connected['pseudo']) .'"'. $style .'>'
+        . $connected['pseudo'] .'</a>';
 }
 
 // Prepare rank legend

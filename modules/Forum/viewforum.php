@@ -212,8 +212,10 @@ function formatTopicRow($forumthread, $forumId) {
 
 
 // Get Forum data
+$field = (! empty($_REQUEST['date_max'])) ? '' : ', F.nbThread';
+
 $dbrForum = nkDB_selectOne(
-    'SELECT F.nom AS forumName, F.comment, F.moderateurs, F.image, F.cat, F.level, FC.nom As catName
+    'SELECT F.nom AS forumName, F.comment, F.moderateurs, F.image, F.cat, F.level, FC.nom As catName'. $field .'
     FROM '. FORUM_TABLE .' AS F
     INNER JOIN '. FORUM_CAT_TABLE .' AS FC
     ON FC.id = F.cat
@@ -243,16 +245,17 @@ else
     $administrator = false;
 
 // Get total of topic Forum
-$sql = 'FROM '. FORUM_THREADS_TABLE .'
-    WHERE forum_id = '. nkDB_escape($_REQUEST['forum_id']);
-
 if (! empty($_REQUEST['date_max'])) {
     $dateMaxTimestamp = time() - $_REQUEST['date_max'];
 
-    $sql .= ' AND date > '. $dateMaxTimestamp;
+    $nbTopicInForum = nkDB_totalNumRows(
+        'FROM '. FORUM_THREADS_TABLE .'
+        WHERE forum_id = '. nkDB_escape($_REQUEST['forum_id']) .' AND date > '. $dateMaxTimestamp;
+    );
 }
+else
+    $nbTopicInForum = $dbrForum['nbThread'];
 
-$nbTopicInForum = nkDB_totalNumRows($sql);
 
 // Get pagination of topic Forum list
 if ($nbTopicInForum > $nuked['thread_forum_page']) {

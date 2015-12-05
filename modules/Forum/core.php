@@ -34,6 +34,7 @@ function getModeratorList($rawModeratorList) {
         $field = '';
 
     for ($i = 0; $i < $nbModerator; $i++) {
+        // TODO : Use IN() SQL clause
         $dbrUser = nkDB_selectOne(
             'SELECT pseudo'. $field .'
             FROM '. USER_TABLE .'

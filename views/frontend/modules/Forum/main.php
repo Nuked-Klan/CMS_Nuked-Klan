@@ -77,9 +77,6 @@
 <?php
         $forum['forumName'] = printSecuTags($forum['forumName']);
 
-        $nbPost = getNbThreadInForum($forum['id']);
-        $nbMess = getNbMessageInForum($forum['id']);
-
         //Detection image forum
         if ($nuked['forum_image'] == 'on' && $forum['forumImage'] != '')
             $classImage = '<img src="'. $forum['forumImage'] .'" class="nkForumNameCellImage" alt="" title="'. $forum['forumName'] .'" />';
@@ -89,7 +86,7 @@
 ?>
                             <div>
                                 <div class="nkForumIconCell nkBorderColor1">
-                                    <img src="<?php echo getImgForumReadStatus($forum['id'], $nbPost) ?>" alt="" />
+                                    <img src="<?php echo getImgForumReadStatus($forum['id'], $forum['nbThread']) ?>" alt="" />
                                 </div>
                                 <div id="nkForumNameCell_" class="nkForumNameCell nkBorderColor1"><?php echo $classImage ?>
                                     <h3><a href="index.php?file=Forum&amp;page=viewforum&amp;forum_id=<?php echo $forum['id'] ?>"><?php echo $forum['forumName'] ?></a></h3>
@@ -111,12 +108,12 @@
 ?>
                                 </div>
                                 <div class="nkForumStatsCell nkBorderColor1">
-                                    <strong><?php echo $nbPost ?></strong>&nbsp;<?php echo strtolower(_TOPICS) ?>
+                                    <strong><?php echo $forum['nbThread'] ?></strong>&nbsp;<?php echo strtolower(_TOPICS) ?>
                                     <br/>
-                                    <strong><?php echo $nbMess ?></strong>&nbsp;<?php echo strtolower(_MESSAGES) ?>
+                                    <strong><?php echo $forum['nbMessage'] ?></strong>&nbsp;<?php echo strtolower(_MESSAGES) ?>
                                 </div>
 <?php
-        if ($nbMess > 0) :
+        if ($forum['nbMessage'] > 0) :
             $lastForumMessage = getLastMessageInForum($forum['id']);
 ?>
                                 <div class="nkForumDateCell nkBorderColor1">
