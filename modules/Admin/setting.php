@@ -191,7 +191,7 @@ function edit_config() {
     . "<div class=\"tab-content\" id=\"tab2\"><br/>\n"
     . "<div style=\"width:95%; margin:auto;\">\n"
     . "<div class=\"notification attention png_bg\">\n"
-    . "<div>" . _INFOSETTING . "</div></div></div><br/>\n"
+    . "<div>" . _INFOSETTING . "<a href=\"index.php?file=Stats&page=admin\">" . _STATS . "</a>" . "</div></div></div><br/>\n"
     . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=setting&amp;op=save_config\">\n"
     . "<div style=\"width:100%\"><table style=\"margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr><td colspan=\"2\"><big><b>" . _GENERAL . "</b></big></td></tr>\n"
@@ -358,7 +358,7 @@ function edit_config() {
     . "<option>9</option></select></td></tr>\n"
     . "<tr><td>" . _DISPLYGNRATETME . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"time_generate\" value=\"on\" " . $checked12 . " /></td></tr>\n";
     
-    $data = nkStats_formatData($nuked);
+    $data = unserialize(nkStats_formatData($nuked));
 
     $string = "";
     foreach($data as $donnee => $value)

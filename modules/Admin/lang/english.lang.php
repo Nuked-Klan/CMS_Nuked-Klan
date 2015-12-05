@@ -420,7 +420,7 @@ define("_ACTIONMODIFMOD","have modified acess level of the module");
 define("_ACTIONMODIFMENU","have modified the menu");
 define("_ADMINACTION","Action Administration");
 define("_INFOACTION","After your visit, the action that are older than 2 weeks will be delete.");
-define("_INFOSETTING","If the stats are active, you should often reset them in the administration so you can keep a fast website!");
+define("_INFOSETTING","If the stats are active, you should often reset them in the administration so you can keep a fast website : ");
 define("_NBRNOTACTION","action that is older than 2 weeks has been deleted.");
 define("_1NBRNOTACTION","actions that are older than 2 week have been deleted.");
 define("_1USNOTACTION","unvalid user has been deleted.");

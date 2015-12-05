@@ -115,7 +115,7 @@ function nkStats_formatData($nuked) {
         . '(SELECT count(id) FROM '. LINKS_TABLE .') AS nbLinks,'
         . '(SELECT count(warid) FROM '. WARS_TABLE .') AS nbWar,'
         . '(SELECT count(cid) FROM '. DOWNLOAD_CAT_TABLE .') AS nbDownloadCat,'
-        . '(SELECT count(id) FROM '. DOWNLOAD_TABLE .') AS nbDownloadCat,'
+        . '(SELECT count(id) FROM '. DOWNLOAD_TABLE .') AS nbDownload,'
         . '(SELECT count(cid) FROM '. TEAM_TABLE .') AS nbTeam,'
         . '(SELECT sum(count) FROM '. STATS_TABLE .') AS nbPageView'
     );

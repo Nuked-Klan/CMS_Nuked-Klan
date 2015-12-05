@@ -123,7 +123,7 @@ define("_NICKBANNED","This Nickname is banned");
 define("_MAILBANNED","This mail is banned");
 define("_LOGINPROGRESS","Login in progress...");
 define("_SESSIONIPOPEN","Warning, you are now set on a temporary session and will therefore be disconnected after " . $nuked['sess_inactivemins'] . " minutes of inactivity!");
-define("_ERRORCOOKIE","Your internet browser does not allow cookies from this site to be stored. You must enable the option to accept cookies from this site. For more information go to this <a href=\"http://support.microsoft.com/default.aspx?scid=kb;en-us;175662\" target=\"_blank\"><b>Microsoft Website</b></a>");
+define("_ERRORCOOKIE","Your internet browser does not allow cookies from this site to be stored. You must enable the option to accept cookies from this site.");
 define("_INFOMODIF","Info was successfully updated");
 define("_LOSTPASSWORD","Lost Password");
 define("_LOSTPASSTXT","Please enter your email and click the send button. You will receive an email containing a link to reset your password.");
