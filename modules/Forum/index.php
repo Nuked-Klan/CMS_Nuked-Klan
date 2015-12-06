@@ -382,25 +382,28 @@ function edit() {
         if ($_POST['edit_text'] == 1)
             $data['edition'] = _EDITBY .'&nbsp;'. $user['name'] .'&nbsp;'. _THE .'&nbsp;'. nkDate(time());
 
+        // TODO : Rewrite post.php to add thread_id and delete this SQL query
         $dbrForumMessage = nkDB_selectOne(
             'SELECT thread_id
             FROM '. FORUM_MESSAGES_TABLE .'
             WHERE id = '. nkDB_escape($_POST['mess_id'])
         );
 
+        $threadId = $dbrForumMessage['thread_id'];
+
         $dbrForumMessage = nkDB_selectOne(
             'SELECT id
             FROM '. FORUM_MESSAGES_TABLE .'
-            WHERE thread_id = '. nkDB_escape($dbrForumMessage['thread_id']),
+            WHERE thread_id = '. nkDB_escape($threadId),
             array('id'), 'ASC', 1
         );
 
         nkDB_update(FORUM_MESSAGES_TABLE, $data, 'id = '. nkDB_escape($_POST['mess_id']));
 
         if ($dbrForumMessage['id'] == $_POST['mess_id'])
-            nkDB_update(FORUM_THREADS_TABLE, array('titre' => $data['titre']), 'id = '. $dbrForumMessage['thread_id']);
+            nkDB_update(FORUM_THREADS_TABLE, array('titre' => $data['titre']), 'id = '. $threadId);
 
-        $url = getLastMessageUrl($_POST['forum_id'], $dbrForumMessage['thread_id'], $_POST['mess_id']);
+        $url = getLastMessageUrl($_POST['forum_id'], $threadId, $_POST['mess_id']);
 
         printNotification(_MESSMODIF, 'success');
     }
@@ -415,7 +418,7 @@ function edit() {
 
 // Save a thread reply.
 function reply() {
-    global $user, $nuked, $visiteur,$user_ip, $bgcolor3;
+    global $user, $nuked, $visiteur, $user_ip;
 
     if ($GLOBALS['captcha'] === true)
         validCaptchaCode();
@@ -441,7 +444,7 @@ function reply() {
         return;
     }
 
-    if ($user['name'] != '') {
+    if ($user != '') {
         $author     = $user['name'];
         $authorId   = $user['id'];
     }
