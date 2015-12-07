@@ -365,7 +365,7 @@ function edit() {
 
     if ($_POST['titre'] == '' || $_POST['texte'] == '' || @ctype_space($_POST['titre']) || @ctype_space($_POST['texte'])) {
         printNotification(_FIELDEMPTY, 'warning');
-        redirect('index.php?file=Forum&page=post&forum_id='. $_POST['forum_id'] .'&mess_id='. $_POST['mess_id'] .'&do=edit', 2);
+        redirect('index.php?file=Forum&page=post&forum_id='. $_POST['forum_id'] .'&thread_id='. $_POST['thread_id'] .'&mess_id='. $_POST['mess_id'] .'&do=edit', 2);
         return;
     }
 
@@ -382,28 +382,19 @@ function edit() {
         if ($_POST['edit_text'] == 1)
             $data['edition'] = _EDITBY .'&nbsp;'. $user['name'] .'&nbsp;'. _THE .'&nbsp;'. nkDate(time());
 
-        // TODO : Rewrite post.php to add thread_id and delete this SQL query
-        $dbrForumMessage = nkDB_selectOne(
-            'SELECT thread_id
-            FROM '. FORUM_MESSAGES_TABLE .'
-            WHERE id = '. nkDB_escape($_POST['mess_id'])
-        );
-
-        $threadId = $dbrForumMessage['thread_id'];
-
         $dbrForumMessage = nkDB_selectOne(
             'SELECT id
             FROM '. FORUM_MESSAGES_TABLE .'
-            WHERE thread_id = '. nkDB_escape($threadId),
+            WHERE thread_id = '. nkDB_escape($_POST['thread_id']),
             array('id'), 'ASC', 1
         );
 
         nkDB_update(FORUM_MESSAGES_TABLE, $data, 'id = '. nkDB_escape($_POST['mess_id']));
 
         if ($dbrForumMessage['id'] == $_POST['mess_id'])
-            nkDB_update(FORUM_THREADS_TABLE, array('titre' => $data['titre']), 'id = '. $threadId);
+            nkDB_update(FORUM_THREADS_TABLE, array('titre' => $data['titre']), 'id = '. nkDB_escape($_POST['thread_id']));
 
-        $url = getLastMessageUrl($_POST['forum_id'], $threadId, $_POST['mess_id']);
+        $url = getLastMessageUrl($_POST['forum_id'], $_POST['thread_id'], $_POST['mess_id']);
 
         printNotification(_MESSMODIF, 'success');
     }

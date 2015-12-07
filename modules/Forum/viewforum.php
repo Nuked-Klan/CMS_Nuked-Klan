@@ -149,7 +149,7 @@ function formatTopicRow($forumthread, $forumId) {
         array('FM.id'), 'DESC', 1
     );
 
-    $threadData['lastMsgDate']  = formatLastMessageDate($dbrForumMessage['date']);
+    $threadData['lastMsgDate']  = formatForumMessageDate($dbrForumMessage['date']);
     $threadData['topicIcon']    = getForumTopicIcon($forumthread, $threadData['nbReply']);
     $threadData['topicTitle']   = formatTopicTitle($forumthread, $joinedFiles, $forumId);
 

@@ -63,7 +63,7 @@ function getLastMessageInForum($forumId) {
     }
 
     // Formatage de la date
-    $lastMessageData['date'] = formatLastMessageDate($dbrForumMessage['date']);
+    $lastMessageData['date'] = formatForumMessageDate($dbrForumMessage['date']);
 
     // Lien en image vers le message
     $cleanTopicTitle = str_replace('RE : ', '', $dbrForumMessage['titre']);

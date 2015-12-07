@@ -18,7 +18,9 @@
 <?php
     if ($do == 'edit') :
         echo $author;
-
+?>
+                                <input type="hidden" name="author" value="<?php echo $dbrForumMessage['auteur'] ?>" />
+<?php
     elseif ($user['name'] != '') :
 ?>
                                 <?php echo $user['name'] ?>&nbsp;<a href="index.php?file=User&amp;op=logout" class="nkButton icon remove danger"><?php echo _FLOGOUT ?></a>
@@ -39,14 +41,7 @@
                                 <strong><?php echo _TITLE ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">
-                                    <input id="forum_titre" type="text" size="70"  maxlength="70" name="titre" value="<?php echo $postTitle ?>" />
-<?php
-    if ($do == 'edit') :
-?>
-                                    <input type="hidden" name="author" value="<?php echo $dbrForumMessage['auteur'] ?>" />
-<?php
-    endif
-?>
+                                <input id="forum_titre" type="text" size="70"  maxlength="70" name="titre" value="<?php echo $postTitle ?>" />
                             </div>
                         </div>
 
@@ -83,20 +78,20 @@
         endif;
     endif;
 
-    if ($threadId > 0 || $do == 'edit') :
-        echo '<br />';
-    else :
+    if ($do == 'post') :
         if ($visiteur >= admin_mod('Forum') || $administrator) :
 ?>
                                 <input type="checkbox" class="checkbox" name="annonce" value="1"<?php echo $announceChecked ?> />&nbsp;<?php echo _ANNONCE ?><br />
 <?php
         endif;
+    else :
+        echo '<br />';
     endif;
 ?>
                             </div>
                         </div>
 <?php
-    if (! ($visiteur < $pollLevel || $threadId > 0 || $do == 'edit')) :
+    if ($visiteur >= $pollLevel && $do == 'post') :
 ?>
                         <div><!--Sondage -->
                             <div class="nkForumPostCat nkBgColor2 nkBorderColor1">
@@ -158,7 +153,7 @@
 ?>
         </form>
 <?php
-    if ($threadId > 0) :
+    if ($do == 'reply' || $do == 'quote') :
 ?>
             <div class ="nkForumPostHead">
                 <h3><?php echo _PREVIOUSMESSAGES; ?></h3>

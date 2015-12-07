@@ -13,6 +13,29 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
 /**
+ * Get user Forum read data.
+ *
+ * @param void
+ * @return array : An associative array with thread_id and forum_id list.
+ */
+function getUserForumReadData() {
+    global $user;
+
+    static $dbrUserForumRead;
+
+    if ($dbrUserForumRead !== null)
+        return $dbrUserForumRead;
+
+    $dbrUserForumRead = nkDB_selectOne(
+        'SELECT thread_id, forum_id
+        FROM '. FORUM_READ_TABLE .'
+        WHERE user_id = '. nkDB_escape($user['id'])
+    );
+
+    return $dbrUserForumRead;
+}
+
+/**
  * Format and return Forum moderator list.
  * Check actual username and add Team rank colorization if needed.
  *
@@ -81,12 +104,12 @@ function getTeamRank() {
 }
 
 /**
- * Format last message date for Forum / topic Forum.
+ * Format message date for Forum / topic Forum.
  *
  * @param int : The timestamp of last message.
  * @return string : The formated date.
  */
-function formatLastMessageDate($date) {
+function formatForumMessageDate($date) {
     if (strftime('%d %m %Y', time()) ==  strftime('%d %m %Y', $date)) {
         return _FTODAY .'&nbsp;'. strftime('%H:%M', $date);
     }

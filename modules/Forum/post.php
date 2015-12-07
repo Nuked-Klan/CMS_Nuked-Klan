@@ -21,17 +21,13 @@ include 'modules/Forum/template.php';
 
 $captcha = initCaptcha();
 
-// do :
-// post : index.php?file=Forum&page=post&forum_id=X
-// reply : index.php?file=Forum&page=post&forum_id=X&thread_id=X
-// edit : index.php?file=Forum&page=post&forum_id=X&mess_id=X&do=edit
-// quote : index.php?file=Forum&page=post&forum_id=X&thread_id=X&mess_id=X&do=quote
 
-$do         = (isset($_REQUEST['do'])) ? $_REQUEST['do'] : '';
+$do         = (isset($_REQUEST['do'])) ? $_REQUEST['do'] : 'post';
 $forumId    = (int) $_REQUEST['forum_id'];
 $threadId   = (isset($_REQUEST['thread_id'])) ? (int) $_REQUEST['thread_id'] : 0;
 $messId     = (isset($_REQUEST['mess_id'])) ? (int) $_REQUEST['mess_id'] : 0;
 
+if ($do == 'post' && $threadId > 0) $do = 'reply';
 
 define('EDITOR_CHECK', 1);
 
@@ -62,18 +58,17 @@ if ($user && $dbrForum['moderateurs'] != '' && strpos($user['id'], $dbrForum['mo
 else
     $administrator = false;
 
-
-if ($threadId > 0) {
-    $action     = 'index.php?file=Forum&amp;op=reply';
-    $actionName = _POSTREPLY;
-}
-else if ($do == 'edit') {
+if ($do == 'edit') {
     $action     = 'index.php?file=Forum&amp;op=edit';
     $actionName = _POSTEDIT;
 }
-else {
+elseif ($do == 'post') {
     $action     = 'index.php?file=Forum&amp;op=post';
     $actionName = _POSTNEWTOPIC;
+}
+else {
+    $action     = 'index.php?file=Forum&amp;op=reply';
+    $actionName = _POSTREPLY;
 }
 
 // Construction du Breadcrump
@@ -96,7 +91,7 @@ if ($do == 'edit' || $do == 'quote') {
 
 $dbrLastMessageList = null;
 
-if ($threadId > 0) {
+if ($do == 'reply' || $do == 'quote') {
     $dbrForumThread = nkDB_selectOne(
         'SELECT titre, annonce
         FROM '. FORUM_THREADS_TABLE .'
@@ -121,7 +116,7 @@ if ($do == 'edit') {
     $usersigChecked     = ($dbrForumMessage['usersig'] == 1) ? 'checked="checked"' : '';
     $emailnotifyChecked = ($dbrForumMessage['emailnotify'] == 1) ? 'checked="checked"' : '';
 }
-else if ($threadId > 0) {
+else if ($do == 'reply' || $do == 'quote') {
     if ($do == 'quote') {
         $postTitle = $dbrForumMessage['titre'];
 
