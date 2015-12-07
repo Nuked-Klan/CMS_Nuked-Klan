@@ -137,10 +137,10 @@ function updateForumReadTable($forumId, $threadId) {
         $fid = $forumRead['forum_id'];
 
         if (strrpos($fid, ','. $forumId .',') !== false)
-            $fid = preg_replace('#,'. $forumId .',#is', ',', $fid);
+            $fid = str_replace(','. $forumId .',', ',', $fid);
 
         if (strrpos($tid, ','. $threadId .',') !== false)
-            $tid = preg_replace('#,'. $threadId .',#is', ',', $tid);
+            $tid = str_replace(','. $threadId .',', ',', $tid);
 
         $update[] = '(\''. $fid .'\', \''. $tid .'\', \''. $forumRead['user_id'] .'\')';
     }
@@ -905,7 +905,7 @@ function move() {
                 // Si tout n'est pas lu, et que le forum est présent dans la liste on le retire
                 if ($read === false && strrpos($fid, ','. $newForumId .',') !== false) {
                     // Nouvelle liste des forums
-                    $fid = preg_replace('#,'. $newForumId .',#is', ',', $fid);
+                    $fid = str_replace(','. $newForumId .',', ',', $fid);
 
                     // Si aucun n'update n'a eu lieu avant
                     $update[] = '(\''. $fid .'\', \''. $key .'\')';
