@@ -36,8 +36,7 @@ function isForumAdministrator($forumId) {
         WHERE '. $visiteur .' >= level AND id = '. nkDB_escape($forumId)
     );
 
-    return $visiteur >= admin_mod('Forum') ||
-        ($user && $dbrForum['moderateurs'] != '' && strpos($dbrForum['moderateurs'], $user['id']) !== false);
+    return $visiteur >= admin_mod('Forum') || isModerator($dbrForum['moderateurs']);
 }
 
 /**
@@ -215,7 +214,10 @@ function post() {
     if ($GLOBALS['captcha'] === true)
         validCaptchaCode();
 
-    if ($_POST['auteur'] == '' || $_POST['titre'] == '' || $_POST['texte'] == '' || @ctype_space($_POST['titre']) || @ctype_space($_POST['texte'])) {
+    if ($_POST['author'] == '' || @ctype_space($_POST['author']) 
+        || $_POST['titre'] == '' || @ctype_space($_POST['titre']) 
+        || $_POST['texte'] == '' || @ctype_space($_POST['texte'])
+    ) {
         printNotification(_FIELDEMPTY, 'warning');
         redirect('index.php?file=Forum&page=post&forum_id='. $_POST['forum_id'], 2);
         return;
@@ -238,16 +240,16 @@ function post() {
         $authorId   = $user['id'];
     }
     else {
-        $_POST['auteur'] = nkHtmlEntities($_POST['auteur'], ENT_QUOTES);
-        $_POST['auteur'] = verif_pseudo($_POST['auteur']);
+        $_POST['author'] = nkHtmlEntities($_POST['author'], ENT_QUOTES);
+        $_POST['author'] = verif_pseudo($_POST['author']);
 
-        if (($error = getCheckPseudoError($_POST['auteur'])) !== false) {
+        if (($error = getCheckPseudoError($_POST['author'])) !== false) {
             printNotification($error, 'error');
             redirect('index.php?file=Forum&page=post&forum_id='. $_POST['forum_id'], 2);
             return;
         }
 
-        $author     = $_POST['auteur'];
+        $author     = $_POST['author'];
         $authorId   = '';
     }
 
@@ -414,7 +416,10 @@ function reply() {
     if ($GLOBALS['captcha'] === true)
         validCaptchaCode();
 
-    if ($_POST['auteur'] == '' || $_POST['titre'] == '' || $_POST['texte'] == '' || @ctype_space($_POST['titre']) || @ctype_space($_POST['texte'])) {
+    if ($_POST['author'] == '' || @ctype_space($_POST['author'])
+        || $_POST['titre'] == '' || @ctype_space($_POST['titre'])
+        || $_POST['texte'] == '' || @ctype_space($_POST['texte'])
+    ) {
         printNotification(_FIELDEMPTY, 'warning', 'javascript:history.back()');
         return;
     }
@@ -440,15 +445,15 @@ function reply() {
         $authorId   = $user['id'];
     }
     else {
-        $_POST['auteur'] = nkHtmlEntities($_POST['auteur'], ENT_QUOTES);
-        $_POST['auteur'] = verif_pseudo($_POST['auteur']);
+        $_POST['author'] = nkHtmlEntities($_POST['author'], ENT_QUOTES);
+        $_POST['author'] = verif_pseudo($_POST['author']);
 
-        if (($error = getCheckPseudoError($_POST['auteur'])) !== false) {
+        if (($error = getCheckPseudoError($_POST['author'])) !== false) {
             printNotification($error, 'error', 'javascript:history.back()');
             return;
         }
 
-        $author     = $_POST['auteur'];
+        $author     = $_POST['author'];
         $authorId   = '';
     }
 

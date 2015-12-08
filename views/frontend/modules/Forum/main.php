@@ -19,7 +19,7 @@
                 </form>
             </div>
             <div class="nkForumMainBreadcrumb">
-                <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;<?php echo $breadcrumb ?>
+                <?php echo $breadcrumb ?>
             </div><!-- Hack inline-block
             --><div id="nkForumMainDates">
                 <span><?php echo _DAYIS ?> : <?php echo $todayDate ?></span>&nbsp;<span><?php echo $lastVisitMessage ?></span>

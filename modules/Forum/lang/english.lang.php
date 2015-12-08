@@ -274,6 +274,9 @@ define('_CREATED_BY', 'Created by');
 
 //ViewTopic
 define('_FAVORITEGAME', 'Favorite game');
+define("_NOFORUMEXIST","Sorry, this forum does not exist or was removed");
+define("_NOFORUMCATEXIST","Sorry, this forum category does not exist or was removed");
+define("_NOACCESSFORUMCAT","Sorry, you have no permission to access this forum category");
 
 // Admin
 define("_NOFORUMINDB","No forum in the database");

@@ -18,12 +18,13 @@ global $user, $language, $nuked, $bgcolor3, $visiteur;
 
 // TODO : Missing $force_edit_message var. Commented in template.php file
 include 'modules/Forum/template.php';
+require_once 'modules/Forum/core.php';
 
 $captcha = initCaptcha();
 
 
 $do         = (isset($_REQUEST['do'])) ? $_REQUEST['do'] : 'post';
-$forumId    = (int) $_REQUEST['forum_id'];
+$forumId   = (isset($_REQUEST['forum_id'])) ? (int) $_REQUEST['forum_id'] : 0;
 $threadId   = (isset($_REQUEST['thread_id'])) ? (int) $_REQUEST['thread_id'] : 0;
 $messId     = (isset($_REQUEST['mess_id'])) ? (int) $_REQUEST['mess_id'] : 0;
 
@@ -31,32 +32,29 @@ if ($do == 'post' && $threadId > 0) $do = 'reply';
 
 define('EDITOR_CHECK', 1);
 
-$dbrForum = nkDB_selectOne(
-    'SELECT nom, cat, level_poll, moderateurs
-    FROM '. FORUM_TABLE .'
-    WHERE '. $visiteur .' >= niveau AND id = '. $forumId
+
+// Get current Forum data
+$dbrCurrentForum = getForumData(
+    'F.nom AS forumName, F.moderateurs, F.cat, F.niveau AS forumLevel, F.level_poll,
+    FC.nom AS catName, FC.niveau AS catLevel', 'forumId',  $forumId
 );
 
-// No user access
-if (nkDB_numRows() == 0) {
+// Check forum access, forum category access and forum exist
+$error = false;
+if (! $dbrCurrentForum) $error = _NOFORUMEXIST;
+if ($visiteur < $dbrCurrentForum['catLevel'] ) $error = _NOACCESSFORUMCAT;
+if ($visiteur < $dbrCurrentForum['forumLevel'] ) $error = _NOACCESSFORUM;
+
+if ($error) {
     opentable();
-    printNotification(_NOACCESSFORUM, 'error');
+    printNotification($error, 'error');
     closetable();
     return;
 }
 
-// User access
-$dbrForumCat = nkDB_selectOne(
-    'SELECT nom
-    FROM '. FORUM_CAT_TABLE .'
-    WHERE id = '. nkDB_escape($dbrForum['cat'])
-);
-
 // Check moderator
-if ($user && $dbrForum['moderateurs'] != '' && strpos($user['id'], $dbrForum['moderateurs']))
-    $administrator = true;
-else
-    $administrator = false;
+$moderator      = isModerator($dbrCurrentForum['moderateurs']);
+$administrator  = $visiteur >= admin_mod('Forum') || $moderator;
 
 if ($do == 'edit') {
     $action     = 'index.php?file=Forum&amp;op=edit';
@@ -71,10 +69,11 @@ else {
     $actionName = _POSTREPLY;
 }
 
-// Construction du Breadcrump
-$category = '-> <a href="index.php?file=Forum&amp;cat='.$dbrForum['cat'].'"><strong>'.$dbrForumCat['nom'].'</strong></a>&nbsp;';
-$topic = '-> <a href="index.php?file=Forum&amp;page=viewforum&amp;forum_id=' . $forumId . '"><strong>'.$dbrForum['nom'].'</strong></a>&nbsp;';
-$nav = $category . $topic;
+// Prepare Forum breadcrumb
+$breadcrumb = getForumBreadcrump(
+    $dbrCurrentForum['catName'], $dbrCurrentForum['cat'],
+    $dbrCurrentForum['forumName'], $forumId
+);
 
 // Initialisation de la couleur des catégories en fonction du bgcolor
 if (isset($GLOBALS['bgcolor1']) && isset($GLOBALS['bgcolor2']) && isset($GLOBALS['bgcolor3']) && isset($GLOBALS['bgcolor4']))
@@ -109,8 +108,12 @@ if ($do == 'reply' || $do == 'quote') {
 $postTitle = $postText = $emailnotifyChecked = $announceChecked = $author = '';
 $usersigChecked = 'checked=checked';
 
-if ($do == 'edit') {
+if ($do == 'edit')
     $author = $dbrForumMessage['auteur'];
+else if ($user['name'] != '')
+    $author = $user['name'];
+
+if ($do == 'edit') {
     $postTitle = printSecuTags($dbrForumMessage['titre']);
     $postText = $dbrForumMessage['txt'];
     $usersigChecked     = ($dbrForumMessage['usersig'] == 1) ? 'checked="checked"' : '';
@@ -140,13 +143,14 @@ opentable();
 
 echo applyTemplate('modules/Forum/post', array(
     'action'                => $action,
-    'nav'                   => $nav,
+    'breadcrumb'            => $breadcrumb,
     'actionName'            => $actionName,
     'visiteur'              => $visiteur,
     'user'                  => $user,
     'nuked'                 => $nuked,
     'administrator'         => $administrator,
-    'pollLevel'             => $dbrForum['level_poll'],
+    'moderator'             => $moderator,
+    'pollLevel'             => $dbrCurrentForum['level_poll'],
     'do'                    => $do,
     'forumId'               => $forumId,
     'threadId'              => $threadId,

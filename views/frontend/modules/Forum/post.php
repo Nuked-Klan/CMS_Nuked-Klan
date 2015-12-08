@@ -1,7 +1,7 @@
     <div id="nkForumWrapper">
         <form method="post" action="<?php echo $action ?>" enctype="multipart/form-data">
             <div id="nkForumBreadcrumb">
-                <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;<?php echo $nav ?>
+                <?php echo $breadcrumb ?>
             </div>
             <div class ="nkForumPostHead">
                 <h3><?php echo $actionName ?></h3>
@@ -18,20 +18,22 @@
 <?php
     if ($do == 'edit') :
         echo $author;
-?>
-                                <input type="hidden" name="author" value="<?php echo $dbrForumMessage['auteur'] ?>" />
-<?php
     elseif ($user['name'] != '') :
 ?>
                                 <?php echo $user['name'] ?>&nbsp;<a href="index.php?file=User&amp;op=logout" class="nkButton icon remove danger"><?php echo _FLOGOUT ?></a>
-                                <input type="hidden" name="auteur" value="<?php echo $user['name'] ?>" />
+<?php
+    endif;
+
+    if ($author != '') :
+?>
+                                <input type="hidden" name="author" value="<?php echo $author ?>" />
 <?php
     else :
 ?>
-                                <input type="text" name="auteur" size="35" maxlength="35" />
+                                <input type="text" name="author" size="35" maxlength="35" />
                                 <a href="index.php?file=User&amp;op=login_screen" class="nkButton icon user"><?php echo _FLOGIN ?></a>
 <?php
-    endif
+    endif;
 ?>
                             </div>
                         </div>
@@ -67,7 +69,7 @@
     endif;
 
     if ($do == 'edit') :
-        if ($force_edit_message == 'on' && ! $administrator) :
+        if ($force_edit_message == 'on' && ! $moderator) :
 ?>
                                 <input type="hidden" name="edit_text" value="1" />
 <?php
@@ -79,7 +81,7 @@
     endif;
 
     if ($do == 'post') :
-        if ($visiteur >= admin_mod('Forum') || $administrator) :
+        if ($administrator) :
 ?>
                                 <input type="checkbox" class="checkbox" name="annonce" value="1"<?php echo $announceChecked ?> />&nbsp;<?php echo _ANNONCE ?><br />
 <?php

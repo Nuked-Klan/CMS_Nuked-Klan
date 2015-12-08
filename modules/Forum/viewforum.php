@@ -210,39 +210,45 @@ function formatTopicRow($forumthread, $forumId) {
     return $threadData;
 }
 
+$forumId = (isset($_REQUEST['forum_id'])) ? (int) $_REQUEST['forum_id'] : 0;
 
-// Get Forum data
+// Get current Forum data
 $field = (! empty($_REQUEST['date_max'])) ? '' : ', F.nbThread';
 
-$dbrForum = nkDB_selectOne(
-    'SELECT F.nom AS forumName, F.comment, F.moderateurs, F.image, F.cat, F.level, FC.nom As catName'. $field .'
-    FROM '. FORUM_TABLE .' AS F
-    INNER JOIN '. FORUM_CAT_TABLE .' AS FC
-    ON FC.id = F.cat
-    WHERE '. $visiteur .' >= F.niveau AND F.id = '. nkDB_escape($_REQUEST['forum_id'])
+$dbrCurrentForum = getForumData(
+    'F.nom AS forumName, F.comment, F.moderateurs, F.image, F.cat, F.niveau AS forumLevel,
+    FC.nom As catName, FC.niveau AS catLevel'. $field, 'forumId', $forumId
 );
 
-// Display a notification if user has not Forum access
-if (nkDB_numRows() == 0) {
+// Check forum access, forum category access and forum exist
+$error = false;
+if (! $dbrCurrentForum) $error = _NOFORUMEXIST;
+if ($visiteur < $dbrCurrentForum['catLevel'] ) $error = _NOACCESSFORUMCAT;
+if ($visiteur < $dbrCurrentForum['forumLevel'] ) $error = _NOACCESSFORUM;
+
+if ($error) {
     opentable();
-    printNotification(_NOACCESSFORUM, 'error');
+    printNotification($error, 'error');
     closetable();
     return;
 }
 
-// Prepare data of Forum topic list
-$dbrForum['forumName']  = printSecuTags($dbrForum['forumName']);
-$dbrForum['catName']    = printSecuTags($dbrForum['catName']);
+// Prepare Forum breadcrumb
+$breadcrumb = getForumBreadcrump(
+    $dbrCurrentForum['catName'], $dbrCurrentForum['cat'],
+    $dbrCurrentForum['forumName']
+);
 
-if ($dbrForum['moderateurs'] != '')
-    $moderatorList = implode(',&nbsp;', getModeratorList($dbrForum['moderateurs']));
+// Prepare data of Forum topic list
+$dbrCurrentForum['forumName']  = printSecuTags($dbrCurrentForum['forumName']);
+$dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
+
+if ($dbrCurrentForum['moderateurs'] != '')
+    $moderatorList = implode(',&nbsp;', getModeratorList($dbrCurrentForum['moderateurs']));
 else
     $moderatorList = _NONE;
 
-if ($user && $dbrForum['moderateurs'] != '' && strpos($user['id'], $dbrForum['moderateurs']))
-    $administrator = true;
-else
-    $administrator = false;
+$moderator = isModerator($dbrCurrentForum['moderateurs']);
 
 // Get total of topic Forum
 if (! empty($_REQUEST['date_max'])) {
@@ -250,11 +256,11 @@ if (! empty($_REQUEST['date_max'])) {
 
     $nbTopicInForum = nkDB_totalNumRows(
         'FROM '. FORUM_THREADS_TABLE .'
-        WHERE forum_id = '. nkDB_escape($_REQUEST['forum_id']) .' AND date > '. $dateMaxTimestamp
+        WHERE forum_id = '. $forumId .' AND date > '. $dateMaxTimestamp
     );
 }
 else
-    $nbTopicInForum = $dbrForum['nbThread'];
+    $nbTopicInForum = $dbrCurrentForum['nbThread'];
 
 
 // Get pagination of topic Forum list
@@ -278,7 +284,7 @@ $sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annon
     FROM '. FORUM_THREADS_TABLE .' AS FT
     INNER JOIN '. USER_TABLE .' AS U
     ON U.id = FT.auteur_id
-    WHERE FT.forum_id = '. nkDB_escape($_REQUEST['forum_id']);
+    WHERE FT.forum_id = '. $forumId;
 
 if (! empty($_REQUEST['date_max']))
     $sql .= ' AND date > '. $dateMaxTimestamp;
@@ -293,7 +299,7 @@ $dbrForumthread = nkDB_selectMany($sql, array('annonce', 'last_post'), 'DESC', $
 $dbrForumList = nkDB_selectMany(
     'SELECT id, nom
     FROM '. FORUM_TABLE .'
-    WHERE cat = '. $dbrForum['cat'],
+    WHERE cat = '. $dbrCurrentForum['cat'],
     array('ordre', 'nom')
 );
 
@@ -306,12 +312,13 @@ foreach ($dbrForumList as $forum)
 opentable();
 
 echo applyTemplate('modules/Forum/viewForum', array(
-    'dbrForum'          => $dbrForum,
+    'dbrForum'          => $dbrCurrentForum,
+    'breadcrumb'        => $breadcrumb,
     'nuked'             => $nuked,
     'moderatorList'     => $moderatorList,
     'visiteur'          => $visiteur,
-    'administrator'     => $administrator,
-    'forumId'           => $_REQUEST['forum_id'],
+    'moderator'         => $moderator,
+    'forumId'           => $forumId,
     'pagination'        => $pagination,
     'dbrForumthread'    => $dbrForumthread,
     'user'              => $user,

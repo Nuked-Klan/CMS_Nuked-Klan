@@ -264,39 +264,37 @@ function formatTopicMessage($topicMessage, $administrator, $forumId, $threadId) 
     return $topicMessage;
 }
 
-
-$forumId    = (int) $_REQUEST['forum_id'];
-$threadId   = (int) $_REQUEST['thread_id'];
-$p          = (isset($_REQUEST['p'])) ? $_REQUEST['p'] : 1;
+$forumId    = (isset($_REQUEST['forum_id'])) ? (int) $_REQUEST['forum_id'] : 0;
+$threadId   = (isset($_REQUEST['thread_id'])) ? (int) $_REQUEST['thread_id'] : 0;
+$p          = (isset($_REQUEST['p'])) ? (int) $_REQUEST['p'] : 1;
 
 // Get current Forum data
-$dbrCurrentForum = nkDB_selectOne(
-    'SELECT F.nom AS forumName, F.moderateurs, F.cat, F.level, FC.nom AS catName
-    FROM '. FORUM_TABLE .' AS F
-    INNER JOIN '. FORUM_CAT_TABLE .' AS FC
-    ON FC.id = F.cat
-    WHERE '. $visiteur .' >= F.niveau AND F.id = '. $forumId
+$dbrCurrentForum = getForumData(
+    'F.nom AS forumName, F.moderateurs, F.cat, F.level, F.niveau AS forumLevel,
+    FC.nom AS catName, FC.niveau AS catLevel', 'forumId', $forumId
 );
 
-// Check user access
-if (nkDB_numRows() == 0) {
-    opentable();
-    printNotification(_NOACCESSFORUM, 'error');
-    closetable();
-    return;
-}
-
-// Get current Forum topic data
-$dbrCurrentTopic = nkDB_selectOne(
-    'SELECT titre, closed, annonce, last_post, auteur_id, sondage
-    FROM '. FORUM_THREADS_TABLE .'
-    WHERE id = '. $threadId
-);
+// Check forum access, forum category access and forum exist
+$error = false;
+if (! $dbrCurrentForum) $error = _NOFORUMEXIST;
+if ($visiteur < $dbrCurrentForum['catLevel'] ) $error = _NOACCESSFORUMCAT;
+if ($visiteur < $dbrCurrentForum['forumLevel'] ) $error = _NOACCESSFORUM;
 
 // Check if topic exists
-if (nkDB_numRows() == 0) {
+if (! $error) {
+    // Get current Forum topic data
+    $dbrCurrentTopic = nkDB_selectOne(
+        'SELECT titre, closed, annonce, last_post, auteur_id, sondage
+        FROM '. FORUM_THREADS_TABLE .'
+        WHERE id = '. $threadId
+    );
+
+    if (! $dbrCurrentTopic) $error = _NOTOPICEXIST;
+}
+
+if ($error) {
     opentable();
-    printNotification(_NOTOPICEXIST, 'error');
+    printNotification($error, 'error');
     closetable();
     return;
 }
@@ -347,12 +345,9 @@ if ($user) {
 $dbrCurrentForum['forumName']  = printSecuTags($dbrCurrentForum['forumName']);
 $dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
 
-if ($user && $dbrCurrentForum['moderateurs'] != '' && strpos($dbrCurrentForum['moderateurs'], $user['id']) !== false)
-    $moderator = true;
-else
-    $moderator = false;
 
-$administrator = $visiteur >= admin_mod('Forum') || $moderator;
+$moderator      = isModerator($dbrCurrentForum['moderateurs']);
+$administrator  = $visiteur >= admin_mod('Forum') || $moderator;
 
 $dbrCurrentTopic['titre'] = printSecuTags($dbrCurrentTopic['titre']);
 $dbrCurrentTopic['titre'] = nk_CSS($dbrCurrentTopic['titre']);
@@ -392,11 +387,11 @@ if (isset($dbrLastTopic['id']))
     $prev = '<a href="'. $topicForumUrl .'&amp;thread_id='. $dbrLastTopic['id'] .'" class="nkButton icon arrowleft">'. _LASTTHREAD .'</a>';
 
 
-//Construction du Breadcrump
-$category = '-> <a href="index.php?file=Forum&amp;cat='. $dbrCurrentForum['cat'] .'"><strong>'. $dbrCurrentForum['catName'] .'</strong></a>&nbsp;';
-$topic = '-> <a href="index.php?file=Forum&amp;page=viewforum&amp;forum_id='. $forumId .'"><strong>'. $dbrCurrentForum['forumName'] .'</strong></a>&nbsp;';
-$nav = $category.$topic;
-
+// Prepare Forum breadcrumb
+$breadcrumb = getForumBreadcrump(
+    $dbrCurrentForum['catName'], $dbrCurrentForum['cat'],
+    $dbrCurrentForum['forumName'], $forumId
+);
 
 //Détection du nombre de pages
 $count = nkDB_totalNumRows('FROM '. FORUM_MESSAGES_TABLE .' WHERE thread_id = '. $threadId);
@@ -413,22 +408,6 @@ if (isset($_REQUEST['highlight']) && $_REQUEST['highlight'] != '')
 
 if ($count > $nuked['mess_forum_page'])
     $pagination = number($count, $nuked['mess_forum_page'], $url_page, true);
-
-
-//Boutons d'action utilisateur, remplacement automatique du bouton CSS par une image PNG si elle éxiste.
-if ((is_file('themes/'. $theme .'/images/newthread.png'))) {
-    $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'"><img style="border: 0;" src="themes/' . $theme . '/images/newthread.png" alt="" title="' . _NEWSTOPIC . '" /></a>';
-}
-else {
-    $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'" class="nkButton icon add">' . _NEWTOPIC . '</a>';
-}
-
-if ((is_file('themes/'. $theme .'/images/reply.png'))) {
-    $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id=' . $threadId . '"><img style="border: 0;" src="themes/' . $theme . '/images/reply.png" alt="" title="' . _REPLY . '" /></a>';
-}
-else {
-    $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id=' . $threadId . '" class="nkButton icon chat">' . _REPLY . '</a>';
-}
 
 // Get topic poll data
 $dbrTopicPoll = $userPolled = $dbrTopicPollOptions = null;
@@ -480,9 +459,10 @@ if ($user['id'] != '') {
 opentable();
 
 echo applyTemplate('modules/Forum/viewTopic', array(
+    'theme'                 => $theme,
     'forumId'               => $forumId,
     'threadId'              => $threadId,
-    'nav'                   => $nav,
+    'breadcrumb'            => $breadcrumb,
     'prev'                  => $prev,
     'next'                  => $next,
     'dbrCurrentTopic'       => $dbrCurrentTopic,
@@ -493,8 +473,6 @@ echo applyTemplate('modules/Forum/viewTopic', array(
     'nuked'                 => $nuked,
     'administrator'         => $administrator,
     'moderator'             => $moderator,
-    'postNewTopic'          => $postNewTopic,
-    'replyToTopic'          => $replyToTopic,
     'dbrTopicPoll'          => $dbrTopicPoll,
     'userPolled'            => $userPolled,
     'dbrTopicPollOptions'   => $dbrTopicPollOptions,

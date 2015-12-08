@@ -36,6 +36,40 @@ function getUserForumReadData() {
 }
 
 /**
+ * Common function for read Forum data.
+ * - Get current Forum data.
+ * - Get Forum list sorted by Forum category.
+ * - Get Forum list of one Forum category.
+ *
+ * @param string $fieldList : The field list of SQL query.
+ * @param int $idName : The ID name. (forumId or catId)
+ * @param int $idValue : The ID value.
+ * @return array : 
+ */
+function getForumData($fieldList, $idName, $idValue) {
+    global $visiteur;
+
+    $sql = 'SELECT '. $fieldList .'
+        FROM '. FORUM_TABLE .' AS F
+        INNER JOIN '. FORUM_CAT_TABLE .' AS FC
+        ON FC.id = F.cat';
+
+    if ($idName == 'catId') {
+        $sql .= ' WHERE '. $visiteur .' >= FC.niveau AND '. $visiteur .' >= F.niveau';
+
+        if ($idValue > 0)
+            return nkDB_selectMany($sql .' AND FC.id = '. $idValue, array('F.ordre', 'F.nom'));
+        else
+            return nkDB_selectMany($sql, array('FC.ordre', 'FC.nom', 'F.ordre', 'F.nom'));
+    }
+
+    if ($idValue > 0)
+        return nkDB_selectOne($sql .' WHERE F.id = '. $idValue);
+
+    return false;
+}
+
+/**
  * Format and return Forum moderator list.
  * Check actual username and add Team rank colorization if needed.
  *
@@ -75,6 +109,15 @@ function getModeratorList($rawModeratorList) {
     return $moderatorLink;
 }
 
+function isModerator($rawModeratorList) {
+    global $user;
+
+    if ($user && $rawModeratorList != '' && strpos($user['id'], $rawModeratorList) !== false)
+        return true;
+
+    return  false;
+}
+
 /**
  * Get team rank list.
  *
@@ -101,6 +144,36 @@ function getTeamRank() {
     }
 
     return $data;
+}
+
+/**
+ * Generate breadcrumb.
+ *
+ * @param string $catName : The forum category name.
+ * @param int $catId : The forum category ID.
+ * @param string $forumName : The forum name.
+ * @param int $forumId : The forum ID.
+ * @return string : The HTML code for breadcrumb.
+ */
+function getForumBreadcrump($catName = '', $catId, $forumName = '', $forumId = 0) {
+    $breadcrumb = '<a href="index.php?file=Forum"><strong>'. _INDEXFORUM .'</strong></a>&nbsp;';
+
+    if ($forumName == '') {
+        if ($catName != '')
+            $breadcrumb .= '-> <strong>'. $catName.'</strong>';
+    }
+    else {
+        $breadcrumb .= '-> <a href="index.php?file=Forum&amp;cat='. $catId .'"><strong>'. $catName .'</strong></a>&nbsp;';
+
+        // viewforum
+        if ($forumId == 0)
+            $breadcrumb .= '-> <strong>'. $forumName .'</strong>&nbsp;';
+        // viewtopic
+        else
+            $breadcrumb .= '-> <a href="index.php?file=Forum&amp;page=viewforum&amp;forum_id='. $forumId .'"><strong>'. $forumName .'</strong></a>&nbsp;';
+    }
+
+    return $breadcrumb;
 }
 
 /**

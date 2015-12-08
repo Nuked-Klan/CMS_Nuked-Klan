@@ -8,7 +8,7 @@
             </div>
         </div>
         <div id="nkForumBreadcrumb">
-            <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;<?php echo $nav ?>
+            <?php echo $breadcrumb ?>
         </div>
         <div class="nkForumNavPage">
         <?php echo $pagination ?>
@@ -16,13 +16,24 @@
      --><div id="nkForumPostOrReply">
             <div>
 <?php
-        if ($dbrCurrentForum['level'] == 0 || $visiteur >= $dbrCurrentForum['level'] || $moderator) :
-            echo $postNewTopic;
+    if ($dbrCurrentForum['level'] == 0 || $visiteur >= $dbrCurrentForum['level'] || $moderator) :
+        //Boutons d'action utilisateur, remplacement automatique du bouton CSS par une image PNG si elle éxiste.
+        if ((is_file('themes/'. $theme .'/images/newthread.png')))
+            $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'"><img style="border: 0;" src="themes/'. $theme .'/images/newthread.png" alt="" title="'. _NEWSTOPIC .'" /></a>';
+        else
+            $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'" class="nkButton icon add">'. _NEWTOPIC .'</a>';
 
-            if ($dbrCurrentTopic['closed'] == 0 || $administrator) :
-                echo $replyToTopic;
-            endif;
+        echo $postNewTopic;
+
+        if ($dbrCurrentTopic['closed'] == 0 || $administrator) :
+            if ((is_file('themes/'. $theme .'/images/reply.png')))
+                $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'"><img style="border: 0;" src="themes/'. $theme .'/images/reply.png" alt="" title="'. _REPLY .'" /></a>';
+            else
+                $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'" class="nkButton icon chat">'. _REPLY .'</a>';
+
+            echo $replyToTopic;
         endif;
+    endif;
 ?>
             </div>
         </div>

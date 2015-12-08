@@ -15,11 +15,11 @@
             </div>
         </div>
         <div id="nkForumBreadcrumb">
-            <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;->&nbsp;<a href="index.php?file=Forum&amp;cat=<?php echo $dbrForum['cat'] ?>"><strong><?php echo $dbrForum['catName'] ?></strong></a>&nbsp;->&nbsp;<strong><?php echo $dbrForum['forumName'] ?></strong>&nbsp;
+            <?php echo $breadcrumb ?>
         </div>
 
 <?php
-    if ($dbrForum['level'] == 0 || $visiteur >= $dbrForum['level'] || $administrator) :
+    if ($dbrForum['forumLevel'] == 0 || $visiteur >= $dbrForum['forumLevel'] || $moderator) :
 ?>
         <div id="nkForumPostNewTopic">
             <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo _NEWTOPIC ?></a>
@@ -116,7 +116,7 @@
 ?>
         </div>
 <?php
-        if ($dbrForum['level'] == 0 || $visiteur >= $dbrForum['level'] || $administrator) :
+        if ($dbrForum['forumLevel'] == 0 || $visiteur >= $dbrForum['forumLevel'] || $moderator) :
 ?>
         <div id="nkForumPostNewTopic">
             <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo _NEWTOPIC ?></a>

@@ -106,6 +106,53 @@ function getImgForumReadStatus($forumId, $nbThreadInForum) {
 }
 
 
+$catId = 0;
+$error = false;
+$catName = '';
+
+// Get current forum category if defined and check it if needed
+if (isset($_GET['cat'])) {
+    $catId = (int) $_GET['cat'];
+
+    if ($catId > 0) {
+        $dbrForumCurrentCat = nkDB_selectOne(
+            'SELECT nom
+            FROM '. FORUM_CAT_TABLE .'
+            WHERE id = '. $catId
+        );
+
+        if (! $dbrForumCurrentCat)
+            $error = _NOFORUMCATEXIST;
+        else
+            $catName = $dbrForumCurrentCat['nom'];
+    }
+    else
+        $error = _NOFORUMCATEXIST;
+}
+
+if (! $error) {
+    // Get Forum list sorted by Forum category or Forum list of one Forum category
+    $dbrCurrentForum = getForumData(
+        'F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs,
+        F.nbThread, F.nbMessage,
+        FC.nom As catName, FC.image AS catImage, FC.niveau AS catLevel',
+        'catId', $catId
+    );
+
+    // Check forum category access and forum category exist
+    if (! $dbrCurrentForum) $error = _NOACCESSFORUMCAT;
+}
+
+if ($error) {
+    opentable();
+    printNotification($error, 'error');
+    closetable();
+    return;
+}
+
+// Prepare breadcrumb
+$breadcrumb = getForumBreadcrump($catName, $catId);
+
 // Get forum title and forum description
 if ($nuked['forum_title'] != '') {
     $forumTitle = $nuked['forum_title'];
@@ -116,49 +163,11 @@ else {
     $forumDesc  = $nuked['slogan'];
 }
 
-// Prepare breadcrumb
-$breadcrumb = '';
-
-if (! empty($_GET['cat'])) {
-    $dbrForumCat = nkDB_selectOne(
-        'SELECT nom
-        FROM '. FORUM_CAT_TABLE .'
-        WHERE id = '. nkDB_escape($_GET['cat'])
-    );
-
-    if (isset($dbrForumCat['nom']))
-        $breadcrumb = '-> <strong>'. printSecuTags($dbrForumCat['nom']) .'</strong>';
-}
-
 // Get last visit date
 if ($user && $user['lastUsed'] != '')
     $lastVisitMessage = _LASTVISIT .' : '. nkDate($user['lastUsed']);
 else
     $lastVisitMessage = '';
-
-// Get Forum list
-if (! empty($_GET['cat'])) {
-    $dbrForum = nkDB_selectMany(
-        'SELECT F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs, F.nbThread, F.nbMessage,
-        FC.nom As catName, FC.image AS catImage
-        FROM '. FORUM_TABLE .' AS F
-        INNER JOIN '. FORUM_CAT_TABLE .' AS FC
-        ON FC.id = F.cat
-        WHERE '. $visiteur .' >= FC.niveau AND '. $visiteur .' >= F.niveau AND FC.id = '. nkDB_escape($_GET['cat']),
-        array('F.ordre', 'F.nom')
-    );
-}
-else {
-    $dbrForum = nkDB_selectMany(
-        'SELECT F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs, F.nbThread, F.nbMessage,
-        FC.nom As catName, FC.image AS catImage
-        FROM '. FORUM_TABLE .' AS F
-        INNER JOIN '. FORUM_CAT_TABLE .' AS FC
-        ON FC.id = F.cat
-        WHERE '. $visiteur .' >= FC.niveau AND '. $visiteur .' >= F.niveau',
-        array('FC.ordre', 'FC.nom', 'F.ordre', 'F.nom')
-    );
-}
 
 // Count all Forum message and all user
 $nbTotalMessages    = nkDB_totalNumRows('FROM '. FORUM_MESSAGES_TABLE);
@@ -261,7 +270,7 @@ echo applyTemplate('modules/Forum/main', array(
     'breadcrumb'        => $breadcrumb,
     'todayDate'         => nkDate(time()),
     'lastVisitMessage'  => $lastVisitMessage,
-    'dbrForum'          => $dbrForum,
+    'dbrForum'          => $dbrCurrentForum,
     'nuked'             => $nuked,
     'nbTotalMessages'   => $nbTotalMessages,
     'nbTotalUsers'      => $nbTotalUsers,
