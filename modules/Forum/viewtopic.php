@@ -67,16 +67,9 @@ function getAuthorInfo($topicMessage, $administrator) {
         'status'        => 'unregistered',
         'name'          => $topicMessage['auteur'],
         'avatar'        => '<img src="modules/Forum/images/noAvatar.png" alt="" />',
-        'userInfo'      => '',
+        'userInfo'      => $topicMessage['auteur'],
         'totalUserPost' => '',
         'displayUserIp' => '',
-        'gameName'      => '',
-        'gameIcon'      => '',
-        'gamePref1'     => '',
-        'gamePref2'     => '',
-        'gamePref3'     => '',
-        'gamePref4'     => '',
-        'gamePref5'     => '',
         'rankName'      => '',
         'rankImage'     => '',
         'rankStyle'     => ''
@@ -255,7 +248,6 @@ function formatTopicMessage($topicMessage, $administrator, $forumId, $threadId) 
         $roundedFilesize = ceil((int) filesize($fileUrl) / 1024);
 
         $topicMessage['joinedFile'] = '<div class="nkForumViewAttachedFile"><strong><a href="'. $fileUrl .'" onclick="window.open(this.href); return false;" title="'. _DOWNLOADFILE .'">'. $topicMessage['file'] .'</a> ('. $roundedFilesize .' Ko)'. $del .'</strong></div>';
-
     }
     else {
         $topicMessage['joinedFile'] = '';
@@ -450,7 +442,7 @@ $dbrTopicMessages = nkDB_selectMany(
 
 $notify = null;
 
-if ($user['id'] != '') {
+if ($user && $user['id'] != '') {
     $notify = nkDB_totalNumRows(
         'FROM '. FORUM_MESSAGES_TABLE .'
         WHERE thread_id = '. $threadId .' AND emailnotify = 1

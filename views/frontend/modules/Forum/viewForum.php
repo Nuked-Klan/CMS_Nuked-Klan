@@ -74,7 +74,7 @@
                             <div>
                                 <span>
                                     <?php echo _CREATEDBY ?>
-                                    <?php echo $threadData['createdBy'] ?>
+                                    <strong><?php echo $threadData['createdBy'] ?></strong>
                                     <?php echo _THE ?>&nbsp;<?php echo nkdate($forumthread['date']) . $threadData['topicPagination'] ?>
                                 </span>
                             </div>

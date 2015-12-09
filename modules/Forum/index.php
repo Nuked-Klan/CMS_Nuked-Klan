@@ -18,6 +18,8 @@ compteur('Forum');
 
 $captcha = initCaptcha();
 
+require_once 'modules/Forum/core.php';
+
 
 /* Internal function */
 
@@ -191,32 +193,6 @@ return false;
 }
 
 /**
- * Format url of a thread message.
- *
- * @param int $forumId : The forum ID.
- * @param int $threadId : The forum thread ID.
- * @param int $messId : The message ID.
- * @return string : The url formated (with pagination if neede) and message anchor.
- */
-function getLastMessageUrl($forumId, $threadId, $messId) {
-    global $nuked;
-
-    $nbMessage = nkDB_totalNumRows(
-        'FROM '. FORUM_MESSAGES_TABLE .'
-        WHERE thread_id = '. nkDB_escape($threadId)
-    );
-
-    $url = 'index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId;
-
-    if ($nbMessage > $nuked['mess_forum_page'])
-        $url .= '&p='. ceil($nbMessage / $nuked['mess_forum_page']) .'#'. $messId;
-    else
-        $url .= '#'. $messId;
-
-    return $url;
-}
-
-/**
  * Count Poll field option filled and return result.
  *
  * @param void
@@ -283,10 +259,10 @@ function index() {
 
 // Send a new Forum message.
 function post() {
-    global $user, $nuked, $user_ip, $visiteur;
+    global $captcha, $user, $nuked, $user_ip, $visiteur;
 
-    if ($GLOBALS['captcha'] === true)
-        validCaptchaCode();
+    if ($captcha === true)
+        if (! validCaptchaCode()) return;
 
     if ($_POST['author'] == '' || @ctype_space($_POST['author']) 
         || $_POST['titre'] == '' || @ctype_space($_POST['titre']) 
@@ -470,7 +446,7 @@ function edit() {
         if ($dbrForumMessage['id'] == $_POST['mess_id'])
             nkDB_update(FORUM_THREADS_TABLE, array('titre' => $data['titre']), 'id = '. nkDB_escape($_POST['thread_id']));
 
-        $url = getLastMessageUrl($_POST['forum_id'], $_POST['thread_id'], $_POST['mess_id']);
+        list($url) = getForumMessageUrl($_POST['forum_id'], $_POST['thread_id'], $_POST['mess_id']);
 
         printNotification(_MESSMODIF, 'success');
     }
@@ -485,10 +461,10 @@ function edit() {
 
 // Save a thread reply.
 function reply() {
-    global $user, $nuked, $visiteur, $user_ip;
+    global $captcha, $user, $nuked, $visiteur, $user_ip;
 
-    if ($GLOBALS['captcha'] === true)
-        validCaptchaCode();
+    if ($captcha === true)
+        if (! validCaptchaCode()) return;
 
     if ($_POST['author'] == '' || @ctype_space($_POST['author'])
         || $_POST['titre'] == '' || @ctype_space($_POST['titre'])
@@ -499,11 +475,11 @@ function reply() {
     }
 
     $dbrForum = nkDB_selectOne(
-        'SELECT FT.level, FTT.closed
-        FROM '. FORUM_TABLE .' AS FT
-        INNER JOIN '. FORUM_THREADS_TABLE .' AS FTT
-        ON FT.id = FTT.forum_id
-        WHERE FTT.id = '. nkDB_escape($_POST['thread_id'])
+        'SELECT F.level, FT.closed, FT.nbReply
+        FROM '. FORUM_TABLE .' AS F
+        INNER JOIN '. FORUM_THREADS_TABLE .' AS FT
+        ON FT.id = FT.forum_id
+        WHERE FT.id = '. nkDB_escape($_POST['thread_id'])
     );
 
     if (($dbrForum['closed'] == 1 || $dbrForum['level'] > $visiteur)
@@ -514,7 +490,7 @@ function reply() {
         return;
     }
 
-    if ($user != '') {
+    if ($user) {
         $author     = $user['name'];
         $authorId   = $user['id'];
     }
@@ -641,8 +617,10 @@ function reply() {
     if ($user)
         nkDB_update(USER_TABLE, array('count' =>array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
 
+    list($url) = getForumMessageUrl($_POST['forum_id'], $_POST['thread_id'], $messId, $dbrForum['nbReply'] + 2);
+
     printNotification(_MESSAGESEND, 'success');
-    redirect(getLastMessageUrl($_POST['forum_id'], $threadId, $_POST['mess_id']), 2);
+    redirect($url, 2);
 }
 
 // Delete a Forum message.
@@ -667,7 +645,7 @@ function del() {
             $dbrForumMessage = nkDB_selectOne(
                 'SELECT id, file
                 FROM '. FORUM_MESSAGES_TABLE .'
-                WHERE id = '. $messId,
+                WHERE thread_id = '. $threadId,
                 array('id'), 'ASC', 1
             );
 
@@ -698,6 +676,7 @@ function del() {
                 nkDB_delete(FORUM_MESSAGES_TABLE, 'thread_id = '. $threadId);
 
                 nkDB_update(FORUM_TABLE, array(
+                        'nbThread'  => array('nbThread - 1', 'no-escape'),
                         'nbMessage' => array('nbMessage - '. ($dbrForumThread['nbReply'] + 1), 'no-escape')
                     ),
                     'id = '. $forumId

@@ -44,7 +44,8 @@ function getUserForumReadData() {
  * @param string $fieldList : The field list of SQL query.
  * @param int $idName : The ID name. (forumId or catId)
  * @param int $idValue : The ID value.
- * @return array : 
+ * @return mixed : Return current Forum data array (false if an error occurs) or
+ *         return Forum list data array (empty array if no forum founded)
  */
 function getForumData($fieldList, $idName, $idValue) {
     global $visiteur;
@@ -67,6 +68,56 @@ function getForumData($fieldList, $idName, $idValue) {
         return nkDB_selectOne($sql .' WHERE F.id = '. $idValue);
 
     return false;
+}
+
+/**
+ * Get last Forum message data.
+ *
+ * @param int $idName : The field ID name used in where SQL clause. (forum_id or thread_id)
+ * @param int $idValue : The field ID value used in where SQL clause.
+ * @param string $fieldList : The field list of SQL query.
+ * @return mixed : Return last Forum message data array (false if an error occurs)
+ */
+function getLastForumMessageData($idName, $idValue, $fieldList) {
+    return nkDB_selectOne(
+        'SELECT '. $fieldList .'
+        FROM '. FORUM_MESSAGES_TABLE .' AS FM
+        LEFT JOIN '. USER_TABLE .' AS U
+        ON U.id = FM.auteur_id
+        WHERE FM.'. $idName .' = '. $idValue,
+        array('FM.id'), 'DESC', 1
+    );
+}
+
+/**
+ * Format url of a thread message.
+ *
+ * @param int $forumId : The forum ID.
+ * @param int $threadId : The forum thread ID.
+ * @param int $messId : The message ID.
+ * @return string : The url formated (with pagination if needed) and message anchor.
+ */
+function getForumMessageUrl($forumId, $threadId, $messId, $nbMessage = false) {
+    global $nuked;
+
+    if ($nbMessage === false) {
+        $nbMessage = nkDB_totalNumRows(
+            'FROM '. FORUM_MESSAGES_TABLE .'
+            WHERE thread_id = '. nkDB_escape($threadId)
+        );
+    }
+
+    $url    = 'index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId;
+    $nbPage = 1;
+
+    if ($nbMessage > $nuked['mess_forum_page']) {
+        $nbPage  = ceil($nbMessage / $nuked['mess_forum_page']);
+        $url    .= '&p='. $nbPage;
+    }
+
+    $url .= '#'. $messId;
+
+    return array($url, $nbPage);
 }
 
 /**

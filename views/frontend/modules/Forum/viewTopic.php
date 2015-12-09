@@ -177,7 +177,7 @@
                             <div class="nkForumDisplayUserIp"><?php echo $authorInfo['displayUserIp'] ?></div>
 <?php
         //User Game details
-        if ($nuked['forum_gamer_details'] == 'on') :
+        if ($authorInfo['status'] == 'registered' && $nuked['forum_gamer_details'] == 'on') :
 ?>
                             <div class="nkForumGamerDetails">
                                 <div class="nkForumUserGameIcon">
@@ -273,7 +273,7 @@
             endif;
         endif;
 
-        if ($topicMessage['auteur_id'] != '' && $user['id'] >= $nuked['user_social_level']) :
+        if ($user && $topicMessage['auteur_id'] != '' && $user['id'] >= $nuked['user_social_level']) :
             if ($nuked['user_email'] == 'on' && $authorInfo['email'] != '') :
                 echo '<a class="nkButton icon email small alone" href="mailto:'. $authorInfo['email'] .'" title="'. _SENDEMAIL .'"></a>';
             endif;
@@ -340,7 +340,9 @@
             </div>
         </div>
 <?php
-    if ($user['id'] != '') :
+    $mailNotification = '';
+
+    if ($user && $user['id'] != '') :
         if ($notify > 0)
             $mailNotification = '<a href="index.php?file=Forum&amp;op=notify&amp;do=off&amp;forum_id=' . $forumId . '&amp;thread_id=' . $threadId . '">' . _NOTIFYOFF . '</a>';
         else

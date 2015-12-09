@@ -27,40 +27,18 @@ function getLastMessageInForum($forumId) {
 
     $lastMessageData = array();
 
-    if ($nuked['forum_user_details'] == 'on') {
-        $teamRank   = getTeamRank();
-        $field      = ', U.rang';
-    }
-    else
-        $field = '';
+    $field = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
 
-    $dbrForumMessage = nkDB_selectOne(
-        'SELECT FM.id, FM.titre, FM.thread_id, FM.date, FM.auteur,
-        U.pseudo, U.avatar, U.country'. $field .'
-        FROM '. FORUM_MESSAGES_TABLE .' AS FM
-        INNER JOIN '. USER_TABLE .' AS U
-        ON U.id = FM.auteur_id
-        WHERE FM.forum_id = '. nkDB_escape($forumId),
-        array('FM.id'), 'DESC', 1
+    $dbrForumMessage = getLastForumMessageData('forum_id', $forumId,
+        'FM.id, FM.titre, FM.thread_id, FM.date, FM.auteur, U.pseudo, U.avatar, U.country'. $field
     );
 
-    if ($dbrForumMessage['pseudo'] != '') {
-        if ($nuked['forum_user_details'] == 'on' && array_key_exists($dbrForumMessage['rang'], $teamRank))
-            $style = ' style="color: #'. $teamRank[$dbrForumMessage['rang']]['color'] .';"';
-        else
-            $style = '';
+    $lastMessageData['author'] = nkNickname($dbrForumMessage);
 
-        $lastMessageData['author'] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($dbrForumMessage['pseudo']) .'" '. $style .'>'. $dbrForumMessage['pseudo'] .'</a>';
-
-        if ($dbrForumMessage['avatar'] != '')
-            $lastMessageData['authorAvatar'] = $dbrForumMessage['avatar'];
-        else
-            $lastMessageData['authorAvatar'] = 'modules/Forum/images/noAvatar.png';
-    }
-    else {
-        $lastMessageData['author']          = nk_CSS($dbrForumMessage['auteur']);
-        $lastMessageData['authorAvatar']    = 'modules/Forum/images/noAvatar.png';
-    }
+    if ($dbrForumMessage['avatar'] != '')
+        $lastMessageData['authorAvatar'] = $dbrForumMessage['avatar'];
+    else
+        $lastMessageData['authorAvatar'] = 'modules/Forum/images/noAvatar.png';
 
     // Formatage de la date
     $lastMessageData['date'] = formatForumMessageDate($dbrForumMessage['date']);
@@ -72,9 +50,9 @@ function getLastMessageInForum($forumId) {
         $cleanTopicTitle = substr($cleanTopicTitle, 0, 20) .'...';
 
     // Construction du lien vers le post
-    $link_post = getLastMessageUrl($forumId, $dbrForumMessage['thread_id'], $dbrForumMessage['id']);
+    list($postUrl) = getForumMessageUrl($forumId, $dbrForumMessage['thread_id'], $dbrForumMessage['id']);
 
-    $lastMessageData['title'] = '<a href="'. $link_post .'" title="'. $dbrForumMessage['titre'] .'"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="'. _SEELASTPOST .'" />&nbsp;'. $cleanTopicTitle .'</a>';
+    $lastMessageData['title'] = '<a href="'. $postUrl .'" title="'. $dbrForumMessage['titre'] .'"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="'. _SEELASTPOST .'" />&nbsp;'. $cleanTopicTitle .'</a>';
 
     return $lastMessageData;
 }

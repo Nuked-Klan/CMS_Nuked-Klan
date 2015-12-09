@@ -1286,6 +1286,34 @@ function visits() {
     }
 }
 
+function nkNickname($data, $link = true, $rankColor = true, $author = 'auteur', $pseudo = 'pseudo', $rank = 'rang') {
+    global $nuked;
+
+    if (is_array($data)) {
+        if (isset($data[$pseudo]) && $data[$pseudo] != '') {
+            if (! $link) return $data[$pseudo];
+
+            $style = '';
+
+            // TODO : Use CSS class instead
+            if ($rankColor && $nuked['forum_user_details'] == 'on') {
+                $teamRank = getTeamRank();
+
+                if (array_key_exists($data[$rank], $teamRank))
+                    $style = ' style="color: #'. $teamRank[$data[$rank]]['color'] .';"';
+            }
+
+            return '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($data[$pseudo]) .'"'. $style .'>'
+                . $data[$pseudo] .'</a>';
+        }
+
+        if (isset($data[$author]) && $data[$author] != '')
+            return nk_CSS($data[$author]);
+    }
+
+    return '';
+}
+
 /**
  * Check if pseudo is conform (no empty & no special characters), not used and not banned
  *

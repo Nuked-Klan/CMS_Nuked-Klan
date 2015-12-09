@@ -19,14 +19,13 @@ define("_NKCAPTCHA","auto");
 * @return bool
 **/
 function ValidCaptchaCode($code = null){
-	global $user;
-	return _NKCAPTCHA == 'off' || ($user != null && $user[1] > 0) || strtolower($GLOBALS['nkCaptchaCache']) == strtolower($code);
-	
     $message = null;
+
     // Check valid token code
     if (!isset($_REQUEST['ct_token'])) {
         $message = _CTNOTOKEN;
         captchaNotification($message);
+        return false;
     } else if($_REQUEST['ct_token'] != $_SESSION['CT_TOKEN']) {
         $message = _CTBADTOKEN;
     } else {
@@ -46,6 +45,7 @@ function ValidCaptchaCode($code = null){
 
     if ($message != null) {
         captchaNotification($message, 'index.php?file=User&op=login_screen', 2);
+        return false;
     }
 
     return true;
@@ -84,9 +84,8 @@ function captchaNotification($data, $redirectUrl = null, $redirectDelay = 0) {
     if (!empty($redirectUrl)) {
         redirect($redirectUrl, $redirectDelay);
     }
-    closetable();
-    footer();
-    exit();
+    //closetable();
+    //footer();
 }
 
 ?>

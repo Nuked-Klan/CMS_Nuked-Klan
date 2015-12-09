@@ -132,82 +132,44 @@ function formatTopicRow($forumthread, $forumId) {
     $threadData['nbReply'] = $forumthread['nbReply'];
 
     // Get last message data of thread
-    if ($nuked['forum_user_details'] == 'on') {
-        $teamRank   = getTeamRank();
-        $field      = ', U.rang';
-    }
-    else
-        $field = '';
+    $field = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
 
-    $dbrForumMessage = nkDB_selectOne(
-        'SELECT FM.id, FM.date, FM.auteur, FM.auteur_id,
-        U.pseudo, U.country, U.avatar'. $field .'
-        FROM '. FORUM_MESSAGES_TABLE .' AS FM
-        INNER JOIN '. USER_TABLE .' AS U
-        ON U.id = FM.auteur_id
-        WHERE FM.thread_id = '. $forumthread['id'],
-        array('FM.id'), 'DESC', 1
+    $dbrForumMessage = getLastForumMessageData('thread_id', $forumthread['id'],
+        'FM.id, FM.date, FM.auteur, U.pseudo, U.country, U.avatar'. $field
     );
 
     $threadData['lastMsgDate']  = formatForumMessageDate($dbrForumMessage['date']);
     $threadData['topicIcon']    = getForumTopicIcon($forumthread);
     $threadData['topicTitle']   = formatTopicTitle($forumthread, $joinedFiles, $forumId);
 
-    $nbMessage = $forumthread['nbReply'] + 1;
+    list($postUrl, $nbTopicPage) = getForumMessageUrl($forumId, $forumthread['id'], $dbrForumMessage['id'], $forumthread['nbReply'] + 1);
 
     $threadUrl = 'index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumId .'&amp;thread_id='. $forumthread['id'];
 
-    if ($nbMessage > $nuked['mess_forum_page']) {
-        $topicpages = ceil($nbMessage / $nuked['mess_forum_page']);
+    $threadData['topicPagination'] = '';
 
-        $link_post = $threadUrl .'&amp;p='. $topicpages .'#'. $dbrForumMessage['id'];
+    if ($nbTopicPage > 1) {
+        $threadData['topicPagination'] .= '<small>';
 
-        $pagelinks = '';
+        for ($l = 1; $l <= $nbTopicPage; $l++)
+            $threadData['topicPagination'] .= ' <a href="'. $threadUrl .'&amp;p='. $l .'" class="nkForumLinkMultipage2">'. $l .'</a>';
 
-        for ($l = 1; $l <= $topicpages; $l++)
-            $pagelinks .= ' <a href="'. $threadUrl .'&amp;p='. $l .'" class="nkForumLinkMultipage2">'. $l .'</a>';
-
-        $threadData['topicPagination'] = '<small>'. $pagelinks .'</small>';
-    }
-    else {
-        $threadData['topicPagination'] = '';
-        $link_post = $threadUrl .'#'. $dbrForumMessage['id'];
+        $threadData['topicPagination'] .= '</small>';
     }
 
     // Lien en image vers le message
-    $threadData['lastMsgLink'] = '<a href="'. $link_post .'"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="'. _SEELASTPOST .'" /></a>';
+    $threadData['lastMsgLink'] = '<a href="'. $postUrl .'"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="'. _SEELASTPOST .'" /></a>';
 
     // On identifie l'auteur du message original
-    if ($forumthread['pseudo'] != '') {
-        if ($nuked['forum_user_details'] == 'on' && array_key_exists($forumthread['rang'], $teamRank))
-            $style = ' style="color: #'. $teamRank[$forumthread['rang']]['color'] .';"';
-        else
-            $style = '';
-
-        $threadData['createdBy'] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($forumthread['pseudo']) .'" '. $style .'><b>'. $forumthread['pseudo'] .'</b></a>';
-    }
-    else {
-        $threadData['createdBy'] = '<strong>'. nk_CSS($forumthread['auteur']) .'</strong>';
-    }
+    $threadData['createdBy'] = nkNickname($forumthread);
 
     // On identifie le dernier posteur
-    if ($dbrForumMessage['pseudo'] != '') {
-        if ($nuked['forum_user_details'] == 'on' && array_key_exists($dbrForumMessage['rang'], $teamRank))
-            $style = ' style="color: #'. $teamRank[$dbrForumMessage['rang']]['color'] .';"';
-        else
-            $style = '';
+    $threadData['lastMsgAuthor'] = nkNickname($dbrForumMessage);
 
-        $threadData['lastMsgAuthor'] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($dbrForumMessage['pseudo']) .'" '. $style .'>'. $dbrForumMessage['pseudo'] .'</a>';
-
-        if ($dbrForumMessage['avatar'] != '')
-            $threadData['lastMsgAuthorAvatar'] = $dbrForumMessage['avatar'];
-        else
-            $threadData['lastMsgAuthorAvatar'] = 'modules/Forum/images/noAvatar.png';
-    }
-    else {
-        $threadData['lastMsgAuthor']        = nk_CSS($dbrForumMessage['auteur']);
-        $threadData['lastMsgAuthorAvatar']  = 'modules/Forum/images/noAvatar.png';
-    }
+    if ($dbrForumMessage['avatar'] != '')
+        $threadData['lastMsgAuthorAvatar'] = $dbrForumMessage['avatar'];
+    else
+        $threadData['lastMsgAuthorAvatar'] = 'modules/Forum/images/noAvatar.png';
 
     return $threadData;
 }
@@ -281,10 +243,10 @@ else {
 // Get topic Forum list
 $field = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
 
-$sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annonce, FT.sondage, FT.nbReply
+$sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annonce, FT.sondage, FT.nbReply,
     U.pseudo, U.country'. $field .'
     FROM '. FORUM_THREADS_TABLE .' AS FT
-    INNER JOIN '. USER_TABLE .' AS U
+    LEFT JOIN '. USER_TABLE .' AS U
     ON U.id = FT.auteur_id
     WHERE FT.forum_id = '. $forumId;
 
@@ -295,7 +257,7 @@ $p = ! isset($_GET['p']) ? 1 : $_GET['p'];
 
 $start = $p * $nuked['thread_forum_page'] - $nuked['thread_forum_page'];
 
-$dbrForumthread = nkDB_selectMany($sql, array('annonce', 'last_post'), 'DESC', $nuked['thread_forum_page'], $start);
+$dbrForumthread = nkDB_selectMany($sql, array('FT.annonce', 'FT.last_post'), 'DESC', $nuked['thread_forum_page'], $start);
 
 // Get Forum list for quick shortcuts Forum selection
 $dbrForumList = nkDB_selectMany(

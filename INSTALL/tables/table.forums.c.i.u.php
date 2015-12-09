@@ -90,7 +90,7 @@ if ($process == 'install') {
     $dbTable->dropTable()->createTable($sql);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_forums` VALUES
-        (1, 1, 0, \''. $this->_db->quote($this->_i18n['FORUM']) .'\', \''. $this->_db->quote($this->_i18n['TEST_FORUM']) .'\', \'\', \'\', 0, 0, 0, 1 ,1, 1, 0);';
+        (1, 1, 0, \''. $this->_db->quote($this->_i18n['FORUM']) .'\', \''. $this->_db->quote($this->_i18n['TEST_FORUM']) .'\', \'\', \'\', 0, 0, 0, 1 ,1, 0, 0);';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
