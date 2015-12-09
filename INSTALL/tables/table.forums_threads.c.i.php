@@ -12,6 +12,25 @@
 
 $dbTable->setTable($this->_session['db_prefix'] .'_forums_threads');
 
+/*
+ * Callback function for update row of _forums database table
+ */
+function updateForumsRow($updateList, $row, $vars) {
+    $setFields = array();
+
+    if (in_array('UPDATE_NB_MESSAGE', $updateList)) {
+        $dbrForumMessages = $db->selectOne(
+            'SELECT COUNT(*) AS `nbMessage`
+            FROM `'. $dbPrefix .'_forums_messages`
+            WHERE thread_id = '. $row['id']
+        );
+
+        $setFields['nbReply'] = $dbrForumMessages['nbMessage'] - 1;
+    }
+
+    return $setFields;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,12 +64,30 @@ if ($process == 'install') {
             `view` int(10) NOT NULL default \'0\',
             `annonce` int(1) NOT NULL default \'0\',
             `sondage` int(1) NOT NULL default \'0\',
+            `nbReply` int(10) NOT NULL default \'0\',
             PRIMARY KEY  (`id`),
             KEY `auteur_id` (`auteur_id`),
             KEY `forum_id` (`forum_id`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
     $dbTable->dropTable()->createTable($sql);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table update
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'update') {
+    // install / update 1.8
+    if (! $dbTable->fieldExist('nbReply')) {
+        $dbTable->addField('nbReply', array('type' => 'int(10)', 'null' => false, 'default' => '\'0\''));
+        $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
+            ->setUpdateFieldData('UPDATE_NB_REPLY', 'nbReply');
+    }
+
+    $dbTable->alterTable();
+
+    $dbTable->applyUpdateFieldListToData('id', 'updateForumsRow');
 }
 
 ?>

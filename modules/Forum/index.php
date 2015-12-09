@@ -92,7 +92,7 @@ function deleteForumMessageFile($filename) {
  * @param int $forumId : The forum ID.
  * @param int $threadId : The forum thread ID.
  * @param int $pollId : The forum poll ID. Default value is 0 for new poll.
- * @return bool
+ * @return mixed : Return true if user have access to survey or return error message.
  */
 function checkForumPollAccess($forumId, $threadId, $pollId = 0) {
     global $visiteur, $user;
@@ -600,6 +600,12 @@ function reply() {
         'id = '. nkDB_escape($_POST['forum_id'])
     );
 
+    nkDB_update(FORUM_THREADS_TABLE, array(
+            'nbReply' => array('nbReply + 1', 'no-escape')
+        ),
+        'id = '. nkDB_escape($_POST['thread_id'])
+    );
+
     $dbrForumMessage = nkDB_selectMany(
         'SELECT auteur_id
         FROM '. FORUM_MESSAGES_TABLE .'
@@ -665,15 +671,21 @@ function del() {
                 array('id'), 'ASC', 1
             );
 
-            $mid = $dbrForumMessage['id'];
-            $filename = $dbrForumMessage['file'];
+            $firstMessId    = $dbrForumMessage['id'];
+            $filename       = $dbrForumMessage['file'];
 
             if ($filename != '')
                 deleteForumMessageFile($filename);
 
             $url = 'index.php?file=Forum&page=viewforum&forum_id='. $forumId;
 
-            if ($mid == $messId) {
+            if ($firstMessId == $messId) {
+                $dbrForumThread = nkDB_selectOne(
+                    'SELECT nbReply
+                    FROM '. FORUM_THREADS_TABLE .'
+                    WHERE id = '. $threadId
+                );
+
                 if (getThreadPollStatus($threadId) == 1) {
                     $pollId = getThreadPollId($threadId);
 
@@ -684,18 +696,30 @@ function del() {
 
                 nkDB_delete(FORUM_THREADS_TABLE, 'id = '. $threadId);
                 nkDB_delete(FORUM_MESSAGES_TABLE, 'thread_id = '. $threadId);
+
+                nkDB_update(FORUM_TABLE, array(
+                        'nbMessage' => array('nbMessage - '. ($dbrForumThread['nbReply'] + 1), 'no-escape')
+                    ),
+                    'id = '. $forumId
+                );
             }
             else {
+                nkDB_update(FORUM_TABLE, array(
+                        'nbMessage' => array('nbMessage - 1', 'no-escape')
+                    ),
+                    'id = '. $forumId
+                );
+
+                nkDB_update(FORUM_THREADS_TABLE, array(
+                        'nbReply' => array('nbReply - 1', 'no-escape')
+                    ),
+                    'id = '. $threadId
+                );
+
+                nkDB_delete(FORUM_MESSAGES_TABLE, 'id = '. $messId);
+
                 $url .= '&thread_id='. $threadId;
             }
-
-            nkDB_delete(FORUM_MESSAGES_TABLE, 'id = '. $messId);
-
-            nkDB_update(FORUM_TABLE, array(
-                    'nbMessage' => array('nbMessage - 1', 'no-escape')
-                ),
-                'id = '. $forumId
-            );
 
             printNotification(_MESSDELETED, 'success');
             redirect($url, 2);

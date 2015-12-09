@@ -19,7 +19,7 @@ global $nuked, $user, $visiteur;
 require_once 'modules/Forum/core.php';
 
 
-function getForumTopicIcon($topicData, $nbReply) {
+function getForumTopicIcon($topicData) {
     global $user, $nuked;
 
     if ($user) {
@@ -38,14 +38,14 @@ function getForumTopicIcon($topicData, $nbReply) {
     else if ($topicData['closed'] == 1) {
         return 'nkForumTopicLock';
     }
-    else if ($user && $nbReply >= $nuked['hot_topic'] && $user_visitx == 0) {
+    else if ($user && $topicData['nbReply'] >= $nuked['hot_topic'] && $user_visitx == 0) {
         return 'nkForumNewTopicPopular';
     }
-    else if ($user && $user_visitx >= 0 && $nbReply >= $nuked['hot_topic']) {
+    else if ($user && $user_visitx >= 0 && $topicData['nbReply'] >= $nuked['hot_topic']) {
         return 'nkForumTopicPopular';
         //$labelHot = '<span class="nkForumLabels nkForumOrangeColor">'. _HOT .'</span>';
     }
-    else if ($user && $user_visitx == 0 && $nbReply < $nuked['hot_topic']) {
+    else if ($user && $user_visitx == 0 && $topicData['nbReply'] < $nuked['hot_topic']) {
         return 'nkForumNewTopic';
     }
 
@@ -116,20 +116,20 @@ function formatTopicRow($forumthread, $forumId) {
 
     $title = nkHtmlEntities(printSecuTags($forumthread['titre']));
 
+    // Get total of joined file in Forum topic
+    // TODO Add new field in FORUM_THREADS_TABLE ?
     $dbrForumMessage = nkDB_selectMany(
         'SELECT file
         FROM '. FORUM_MESSAGES_TABLE .'
         WHERE thread_id = '. $forumthread['id']
     );
 
-    $nbMess                 = nkDB_numRows();
-    $threadData['nbReply']  = $nbMess - 1;
-
-    // Get total of joined file in Forum topic
     $joinedFiles = 0;
 
     foreach ($dbrForumMessage as $forumMessage)
         if ($forumMessage['file'] != '') $joinedFiles++;
+
+    $threadData['nbReply'] = $forumthread['nbReply'];
 
     // Get last message data of thread
     if ($nuked['forum_user_details'] == 'on') {
@@ -150,13 +150,15 @@ function formatTopicRow($forumthread, $forumId) {
     );
 
     $threadData['lastMsgDate']  = formatForumMessageDate($dbrForumMessage['date']);
-    $threadData['topicIcon']    = getForumTopicIcon($forumthread, $threadData['nbReply']);
+    $threadData['topicIcon']    = getForumTopicIcon($forumthread);
     $threadData['topicTitle']   = formatTopicTitle($forumthread, $joinedFiles, $forumId);
+
+    $nbMessage = $forumthread['nbReply'] + 1;
 
     $threadUrl = 'index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumId .'&amp;thread_id='. $forumthread['id'];
 
-    if ($nbMess > $nuked['mess_forum_page']) {
-        $topicpages = ceil($nbMess / $nuked['mess_forum_page']);
+    if ($nbMessage > $nuked['mess_forum_page']) {
+        $topicpages = ceil($nbMessage / $nuked['mess_forum_page']);
 
         $link_post = $threadUrl .'&amp;p='. $topicpages .'#'. $dbrForumMessage['id'];
 
@@ -279,7 +281,7 @@ else {
 // Get topic Forum list
 $field = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
 
-$sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annonce, FT.sondage,
+$sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annonce, FT.sondage, FT.nbReply
     U.pseudo, U.country'. $field .'
     FROM '. FORUM_THREADS_TABLE .' AS FT
     INNER JOIN '. USER_TABLE .' AS U
