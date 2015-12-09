@@ -110,7 +110,7 @@ $usersigChecked = 'checked=checked';
 
 if ($do == 'edit')
     $author = $dbrForumMessage['auteur'];
-else if ($user['name'] != '')
+else if ($user && $user['name'] != '')
     $author = $user['name'];
 
 if ($do == 'edit') {

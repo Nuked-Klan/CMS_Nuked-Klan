@@ -42,25 +42,25 @@
             <!-- SONDAGE -->
 <?php
     //Poll
-    if ($dbrCurrentTopic['sondage'] == 1) :
-        $dbrTopicPoll['titre'] = printSecuTags($dbrTopicPoll['titre']);
+    if ($dbrCurrentTopic['sondage'] == 1 && $dbrTopicPoll && $dbrTopicPollOptions) :
+        $dbrTopicPoll['title'] = printSecuTags($dbrTopicPoll['title']);
 ?>
             <div id="nkForumViewMainPoll" class="nkBorderColor1">
 <?php
-        if ($user && $userPolled > 0 || $_REQUEST['vote'] == 'view') :
+        if ($user && $userPolled > 0 || (isset($_GET['vote']) && $_GET['vote'] == 'view')) :
 ?>
                 <div class="nkForumViewPollBg"></div><!-- @whitespace
              --><div class="nkForumViewPoll">
                     <div class="nkForumPollTitle">
-                        <h3><?php echo $dbrTopicPoll['titre'] ?></h3>
+                        <h3><?php echo $dbrTopicPoll['title'] ?></h3>
                     </div>
 <?php
             if ($user && $dbrCurrentTopic['auteur_id'] == $user['id'] && $dbrCurrentTopic['closed'] == 0 || $administrator) :
 ?>
                     <div class="nkForumViewActionLinks">
                         <div class="nkButton-group">
-                            <a href="index.php?file=Forum&amp;op=edit_poll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
-                            <a href="index.php?file=Forum&amp;op=del_poll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
+                            <a href="index.php?file=Forum&amp;op=editPoll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
+                            <a href="index.php?file=Forum&amp;op=deletePoll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
                         </div>
                     </div>
 <?php
@@ -86,6 +86,9 @@
                     <div class="nkForumPollStats">
                         <strong><?php echo _TOTALVOTE ?>&nbsp;:</strong><?php echo $nbVote ?>
                     </div>
+                    <div id="nkForumPollActionLinks">
+                        <a class="nkButton" href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>"><?php echo _TOVOTE ?></a>
+                    </div>
                 </div>
 <?php
         else :
@@ -94,28 +97,30 @@
              --><div class="nkForumViewPoll">
                     <form method="post" action="index.php?file=Forum&amp;op=vote&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>">
                         <div class="nkForumPollTitle">
-                            <h3><?php echo $dbrTopicPoll['titre'] ?></h3>
+                            <h3><?php echo $dbrTopicPoll['title'] ?></h3>
                         </div>
 <?php
             if ($user && $dbrCurrentTopic['auteur_id'] == $user['id'] && $dbrCurrentTopic['closed'] == 0 || $administrator) :
 ?>
                         <div class="nkForumViewActionLinks">
                             <div class="nkButton-group">
-                                <a href="index.php?file=Forum&amp;op=edit_poll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
-                                <a href="index.php?file=Forum&amp;op=del_poll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
+                                <a href="index.php?file=Forum&amp;op=editPoll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
+                                <a href="index.php?file=Forum&amp;op=deletePoll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
                             </div>
                         </div>
 <?php
             endif;
 
             foreach ($dbrTopicPollOptions as $topicPollOptions) :
+                if ($topicPollOptions['option_text'] != '') :
 ?>
                         <div class="nkForumPollOptions">
-                            <input type="radio" class="checkbox" name="voteid" value="<?php echo $topicPollOptions['id'] ?>" />&nbsp;
-                            <span><?php echo printSecuTags($topicPollOptions['option_text']) ?></span>
+                            <input id="voteId<?php echo $topicPollOptions['id'] ?>" type="radio" class="checkbox" name="voteid" value="<?php echo $topicPollOptions['id'] ?>" />&nbsp;
+                            <label for="voteId<?php echo $topicPollOptions['id'] ?>"><?php echo printSecuTags($topicPollOptions['option_text']) ?></label>
                         </div>
 <?php
-            endforeach
+                endif;
+            endforeach;
 ?>
                         <div>
                             <input type="hidden" name="forum_id" value="<?php echo $forumId ?>" />

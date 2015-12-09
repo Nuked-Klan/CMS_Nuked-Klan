@@ -105,13 +105,30 @@ function checkForumPollAccess($forumId, $threadId, $pollId = 0) {
         WHERE id = '. nkDB_escape($threadId)
     );
 
+    if (! $dbrForumThread) return _NOTOPICEXIST;
+
     // Get poll access
     $pollAuthorAccess = $user && $user['id'] == $dbrForumThread['auteur_id'];
 
-    if ($pollId == 0)
-        return $pollAuthorAccess && $dbrForumThread['sondage'] == 1 && $visiteur >= $dbrForum['level_poll'];
+    if ($pollId == 0) {
+        // Check Forum level poll
+        $dbrForum = nkDB_selectOne(
+            'SELECT level_poll
+            FROM '. FORUM_TABLE .'
+            WHERE id = '. $forumId
+        );
+
+        if (! $dbrForum) return _NOFORUMEXIST;
+
+        $access = $pollAuthorAccess && $dbrForumThread['sondage'] == 1
+            && $visiteur >= $dbrForum['level_poll'];
+    }
     else
-        return $pollAuthorAccess || isForumAdministrator($forumId);
+        $access = $pollAuthorAccess || isForumAdministrator($forumId);
+
+    if ($access) return true;
+
+    return _ZONEADMIN;
 }
 
 /**
@@ -197,6 +214,63 @@ function getLastMessageUrl($forumId, $threadId, $messId) {
         $url .= '#'. $messId;
 
     return $url;
+}
+
+/**
+ * Count Poll field option filled and return result.
+ *
+ * @param void
+ * @return int : The number of Poll field option filled.
+ */
+function getNbFilledForumPollOption() {
+    $nbFilledOption = 0;
+
+    if (isset($_POST['option']) && is_array($_POST['option'])) {
+        $nbFilledOption = count(array_filter(array_map('trim', $_POST['option'])));
+
+        if (isset($_POST['newOption']) && ! ctype_space($_POST['newOption']) && $_POST['newOption'] != '')
+            $nbFilledOption++;
+    }
+
+    return $nbFilledOption;
+}
+
+/**
+ * Add new poll option in database.
+ *
+ * @param int $pollId : The forum poll ID.
+ * @param int $id : The forum poll option ID.
+ * @return void
+ */
+function addPollOption($pollId, $id) {
+    if ($_POST['option'][$id] != '') {
+        nkDB_insert(FORUM_OPTIONS_TABLE, array(
+            'id'            => $id,
+            'poll_id'       => $pollId,
+            'option_text'   => stripslashes($_POST['option'][$id]),
+            'option_vote'   => 0
+        ));
+    }
+}
+
+/**
+ * Edit poll option in database.
+ *
+ * @param int $pollId : The forum poll ID.
+ * @param int $id : The forum poll option ID.
+ * @return void
+ */
+function updatePollOption($pollId, $id) {
+    if ($_POST['option'][$id] != '') {
+        nkDB_update(FORUM_OPTIONS_TABLE, array(
+                'option_text' => stripslashes($_POST['option'][$id])
+            ),
+            'poll_id = '. $pollId .' AND id = '. $id
+        );
+    }
+    else {
+        nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. $pollId .' AND id = '. $id);
+    }
 }
 
 
@@ -303,7 +377,7 @@ function post() {
 
     if (isset($_POST['survey'])
         && $_POST['survey'] == 1
-        && $_POST['survey_field'] > 0
+        && $_POST['survey_field'] > 1
         && $visiteur >= $dbrForum['level_poll']
     )
         $sondage = 1;
@@ -337,7 +411,7 @@ function post() {
         'emailnotify'   => $_POST['emailnotify'],
         'thread_id'     => $thread_id,
         'forum_id'      => $_POST['forum_id'],
-        'file'          => basename($url_file)
+        'file'          => $filename
     ));
 
     nkDB_update(FORUM_TABLE, array(
@@ -352,8 +426,8 @@ function post() {
     if ($user)
         nkDB_update(USER_TABLE, array('count' => array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
 
-    if (isset($_POST['survey']) && $_POST['survey'] == 1 && $_POST['survey_field'] > 0 && $visiteur >= $dbrForum['level_poll'])
-        $url = 'index.php?file=Forum&op=add_poll&survey_field='. $_POST['survey_field'] .'&forum_id='. $_POST['forum_id'] .'&thread_id='. $thread_id;
+    if (isset($_POST['survey']) && $_POST['survey'] == 1 && $_POST['survey_field'] > 1 && $visiteur >= $dbrForum['level_poll'])
+        $url = 'index.php?file=Forum&op=editPoll&survey_field='. $_POST['survey_field'] .'&forum_id='. $_POST['forum_id'] .'&thread_id='. $thread_id;
     else
         $url = 'index.php?file=Forum&page=viewtopic&forum_id='. $_POST['forum_id'] .'&thread_id='. $thread_id;
 
@@ -1058,174 +1132,175 @@ function mark() {
 
 /* Forum poll management */
 
-// Display new Forum poll form.
-function add_poll() {
+// Display Forum poll form.
+function editPoll() {
     global $nuked;
 
-    if (checkForumPollAccess($_GET['forum_id'], $_GET['thread_id'])) {
-        if ($_GET['survey_field'] > $nuked['forum_field_max'])
-            $maxOptions = $nuked['forum_field_max'];
+    $forumId    = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
+    $threadId   = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
+    $pollId     = (isset($_GET['poll_id'])) ? (int) $_GET['poll_id'] : 0;
+
+    // Check access
+    if (($result = checkForumPollAccess($forumId, $threadId, $pollId)) !== true) {
+        $error = $result;
+    }
+    else {
+        $title = '';
+
+        if ($pollId > 0) {
+            // Get poll data
+            $dbrForumPoll = nkDB_selectOne(
+                'SELECT title
+                FROM '. FORUM_POLL_TABLE .'
+                WHERE id = '. $pollId
+            );
+
+            // Check poll exist
+            if (! $dbrForumPoll) $error = _NOFORUMPOLLEXIST;
+
+            $title = $dbrForumPoll['title'];
+        }
+    }
+
+    if (isset($error)) {
+        printNotification($error, 'error');
+        redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
+        return;
+    }
+
+    if ($pollId == 0) {
+        // Check maximum option
+        if (isset($_GET['survey_field']) && ctype_digit($_GET['survey_field']))
+            $maxOption = (int) $_GET['survey_field'];
         else
-            $maxOptions = $_GET['survey_field'];
+            $maxOption = 2;
 
-        $pollOptions = array();
+        if ($maxOption > $nuked['forum_field_max']) $maxOption = $nuked['forum_field_max'];
 
-        for ($r = 0; $r < $maxOptions; $r++)
-            $pollOptions[] = array('option_text' => '');
-
-        echo applyTemplate('editPoll', array(
-            'action'        => 'index.php?file=Forum&amp;op=send_poll',
-            'pollOptions'   => $pollOptions,
-            'maxOptions'    => $maxOptions,
-            'threadId'      => $_GET['thread_id'],
-            'forumId'       => $_GET['forum_id']
-        ));
+        // Set default option
+        $pollOption = array_fill(1, $maxOption, array('option_text' => ''));
+        $newOption  = false;
     }
     else {
-        printNotification(_ZONEADMIN, 'error');
-        redirect('index.php?file=Forum&page=viewtopic&forum_id='. $_GET['forum_id'] .'&thread_id='. $_GET['thread_id'], 2);
-    }
-}
+        $maxOption = null;
 
-// Save new Forum poll.
-function send_poll() {
-    global $nuked;
-
-    if (checkForumPollAccess($_POST['forum_id'], $_POST['thread_id'])) {
-        if ($_POST['option'][1] != '') {
-            nkDB_insert(FORUM_POLL_TABLE, array(
-                'thread_id' => $_POST['thread_id'],
-                'titre'     => stripslashes($_POST['titre'])
-            ));
-
-            $pollId = nkDB_insertId();
-
-            if ($_POST['max_option'] > $nuked['forum_field_max'])
-                $max = $nuked['forum_field_max'];
-            else
-                $max = $_POST['max_option'];
-
-            $r = 0;
-
-            while ($r < $max) {
-                if ($_POST['option'][$r] != '') {
-                    nkDB_insert(FORUM_OPTIONS_TABLE, array(
-                        'id'            => ($r + 1),
-                        'poll_id'       => $pollId,
-                        'option_text'   => stripslashes($_POST['option'][$r]),
-                        'option_vote'   => ''
-                    ));
-                }
-
-                $r++;
-            }
-
-            printNotification(_POLLADD, 'success');
-            redirect('index.php?file=Forum&page=viewtopic&forum_id='. $_POST['forum_id'] .'&thread_id='. $_POST['thread_id'], 2);
-        }
-        else {
-            printNotification(_2OPTIONMIN, 'warning');
-            redirect('index.php?file=Forum&op=add_poll&survey_field='. $_POST['max_option'] .'&forum_id='. $_POST['forum_id'] .'&thread_id='. $_POST['thread_id'], 2);
-        }
-    }
-    else {
-        printNotification(_ZONEADMIN, 'error');
-        redirect('index.php?file=Forum&page=viewtopic&forum_id='. $_POST['forum_id'] .'&thread_id='. $_POST['thread_id'], 2);
-    }
-}
-
-// Display editing Forum poll form.
-function edit_poll() {
-    if (checkForumPollAccess($_GET['forum_id'], $_GET['thread_id'], $_GET['poll_id'])) {
-        $dbrForumPoll = nkDB_selectOne(
-            'SELECT titre
-            FROM '. FORUM_POLL_TABLE .'
-            WHERE id = '. nkDB_escape($_GET['poll_id'])
-        );
-
-        $dbrForumPollOptions = nkDB_selectMany(
+        // Get poll option
+        $pollOption = nkDB_selectMany(
             'SELECT id, option_text
             FROM '. FORUM_OPTIONS_TABLE .'
-            WHERE poll_id = '. nkDB_escape($_GET['poll_id']),
+            WHERE poll_id = '. $pollId,
             array('id')
         );
 
-        echo applyTemplate('editPoll', array(
-            'title'         => $dbrForumPoll['titre'],
-            'action'        => 'index.php?file=Forum&amp;op=modif_poll',
-            'pollOptions'   => $dbrForumPollOptions,
-            'poll_id'       => $_GET['poll_id'],
-            'thread_id'     => $_GET['thread_id'],
-            'forum_id'      => $_GET['forum_id']
-        ));
+        // Enabled new option if needed
+        $newOption = count($pollOption) < $nuked['forum_field_max'];
     }
-    else {
-        printNotification(_ZONEADMIN, 'error');
-        redirect('index.php?file=Forum&page=viewtopic&forum_id='. $_GET['forum_id'] .'&thread_id='. $_GET['thread_id'], 2);
-    }
+
+    echo applyTemplate('modules/Forum/editPoll', array(
+        'title'         => $title,
+        'pollOption'    => $pollOption,
+        'newOption'     => $newOption,
+        'maxOption'     => $maxOption,
+        'pollId'        => $pollId,
+        'threadId'      => $threadId,
+        'forumId'       => $forumId
+    ));
 }
 
-// Modify existing Forum poll.
-function modif_poll() {
-    global $user, $nuked;
+// Save / modify Forum poll.
+function savePoll() {
+    global $nuked;
 
-    if (checkForumPollAccess($_POST['forum_id'], $_POST['thread_id'], $_POST['poll_id'])) {
-        nkDB_update(FORUM_POLL_TABLE, array(
-                'titre' => stripslashes($_POST['titre'])
-            ),
-            'id = '. nkDB_escape($_POST['poll_id'])
-        );
+    $forumId    = (isset($_POST['forum_id'])) ? (int) $_POST['forum_id'] : 0;
+    $threadId   = (isset($_POST['thread_id'])) ? (int) $_POST['thread_id'] : 0;
+    $pollId     = (isset($_POST['poll_id'])) ? (int) $_POST['poll_id'] : 0;
 
-        $r = 0;
-
-        while ($r < $nuked['forum_field_max']) {
-            $r++;
-
-            if ($_POST['option'][$r] != '') {
-                nkDB_update(FORUM_OPTIONS_TABLE, array(
-                        'option_text' => stripslashes($_POST['option'][$r])
-                    ),
-                    'poll_id = '. nkDB_escape($_POST['poll_id']) .' AND id = '. $r
-                );
-            }
-            else {
-                nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_escape($_POST['poll_id']) .' AND id = '. $r);
-            }
-        }
-
-        if ($_POST['newoption'] != '') {
-            $dbrForumPollOptions = nkDB_selectOne(
-                'SELECT id
-                FROM '. FORUM_OPTIONS_TABLE .'
-                poll_id = '. nkDB_escape($_POST['poll_id']),
-                array('id'), 'DESC', 1
-            );
-
-            nkDB_insert(FORUM_OPTIONS_TABLE, array(
-                'id'            => ($dbrForumPollOptions['id'] + 1),
-                'poll_id'       => $_POST['poll_id'],
-                'option_text'   => stripslashes($_POST['newoption']),
-                'option_vote'   => 0
-            ));
-        }
-
-        printNotification(_POLLMODIF, 'success');
+    // Check access
+    if (($result = checkForumPollAccess($forumId, $threadId, $pollId)) !== true) {
+        $error = $result;
     }
     else {
-        printNotification(_ZONEADMIN, 'error');
+        // Check empty option string
+        if (getNbFilledForumPollOption() < 2) $error = _2OPTIONMIN;
+
+        // Check poll title
+        if ($_POST['title'] == '' || ctype_space($_POST['title'])) $error = _FIELDEMPTY;
     }
 
-    redirect('index.php?file=Forum&page=viewtopic&forum_id='. $_POST['forum_id'] .'&thread_id='. $_POST['thread_id'], 2);
+    if (isset($error)) {
+        printNotification($error, 'warning');
+
+        if ($pollId == 0)
+            redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
+        else
+            redirect('index.php?file=Forum&op=edit_poll&forum_id='. $forumId .'&thread_id='. $threadId .'&poll_id='. $pollId, 2);
+
+        return;
+    }
+
+    // Save / modify Forum poll
+    $pollData = array('title' => stripslashes($_POST['title']));
+
+    if ($pollId == 0) {
+        $pollData['thread_id'] = $threadId;
+
+        nkDB_insert(FORUM_POLL_TABLE, $pollData);
+
+        $pollId = nkDB_insertId();
+        $newPoll = true;
+    }
+    else {
+        nkDB_update(FORUM_POLL_TABLE, $pollData, 'id = '. $pollId);
+        $newPoll = false;
+    }
+
+    // Check maximum option
+    $nbOption = (isset($_POST['maxOption'])) ? (int) $_POST['maxOption'] : count($_POST['option']);
+
+    if ($nbOption > $nuked['forum_field_max'])
+        $maxOption = $nuked['forum_field_max'];
+    else
+        $maxOption = $nbOption;
+
+    $maxOption++;
+
+    // Save poll option in database.
+    $r = 1;
+
+    while ($r < $maxOption) {
+        if ($newPoll)
+            addPollOption($pollId, $r);
+        else
+            updatePollOption($pollId, $r);
+
+        $r++;
+    }
+
+    if ($nbOption < $nuked['forum_field_max'] && isset($_POST['newOption']) && $_POST['newOption'] != '') {
+        nkDB_insert(FORUM_OPTIONS_TABLE, array(
+            'id'            => $r,
+            'poll_id'       => $pollId,
+            'option_text'   => stripslashes($_POST['newOption']),
+            'option_vote'   => 0
+        ));
+    }
+
+    if ($newPoll)
+        printNotification(_POLLADD, 'success');
+    else
+        printNotification(_POLLMODIF, 'success');
+
+    redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
 }
 
 // Delete Forum poll.
-function del_poll() {
+function deletePoll() {
     list($forumId, $threadId, $pollId) = array_map('intval', getRequestVars('forum_id', 'thread_id', 'poll_id'));
 
     if (checkForumPollAccess($forumId, $threadId, $pollId)) {
         if (! isset($_POST['confirm'])) {
             echo applyTemplate('confirm', array(
-                'url'       => 'index.php?file=Forum&amp;op=del_poll',
+                'url'       => 'index.php?file=Forum&amp;op=deletePoll',
                 'message'   => _CONFIRMDELPOLL,
                 'fields'    => array(
                     'poll_id'   => $pollId,
@@ -1258,33 +1333,43 @@ function del_poll() {
 function vote() {
     global $visiteur, $user, $user_ip;
 
-    if ($_POST['voteid'] != '') {
+    $forumId    = (isset($_POST['forum_id'])) ? (int) $_POST['forum_id'] : 0;
+    $threadId   = (isset($_POST['thread_id'])) ? (int) $_POST['thread_id'] : 0;
+    $pollId     = (isset($_GET['poll_id'])) ? (int) $_GET['poll_id'] : 0;
+
+    if (isset($_POST['voteid']) && $_POST['voteid'] != '') {
         if ($visiteur > 0) {
             $dbrForum = nkDB_selectOne(
                 'SELECT level_vote
                 FROM '. FORUM_TABLE .'
-                WHERE id = '. nkDB_escape($_POST['forum_id'])
+                WHERE id = '. $forumId
             );
 
             if ($visiteur >= $dbrForum['level_vote']) {
                 $alreadyVote = nkDB_totalNumRows(
                     'FROM '. FORUM_VOTE_TABLE .'
-                    WHERE auteur_id = '. nkDB_escape($user['id']) .'
-                    AND poll_id = '. nkDB_escape($_GET['poll_id'])
+                    WHERE author_id = '. nkDB_escape($user['id']) .'
+                    AND poll_id = '. $pollId
                 );
 
                 if ($alreadyVote == 0) {
-                    nkDB_update(FORUM_OPTIONS_TABLE, array(
+                    $dbu = nkDB_update(FORUM_OPTIONS_TABLE, array(
                             'option_vote' => array('option_vote + 1', 'no-escape')
                         ),
                         'id = '. nkDB_escape($_POST['voteid']) .'
-                        AND poll_id = '. nkDB_escape($_GET['poll_id'])
+                        AND poll_id = '. $pollId
                     );
 
+                    if (! $dbu) {
+                        printNotification(_NOFORUMPOLLEXIST, 'error');
+                        redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
+                        return;
+                    }
+
                     nkDB_insert(FORUM_VOTE_TABLE, array(
-                        'poll_id'   => $_GET['poll_id'],
-                        'auteur_id' => $user['id'],
-                        'auteur_ip' => $user_ip
+                        'poll_id'   => $pollId,
+                        'author_id' => $user['id'],
+                        'author_ip' => $user_ip
                     ));
 
                     printNotification(_VOTESUCCES, 'success');
@@ -1305,7 +1390,7 @@ function vote() {
         printNotification(_NOOPTION, 'warning');
     }
 
-    redirect('index.php?file=Forum&page=viewtopic&forum_id='. $_POST['forum_id'] .'&thread_id='. $_POST['thread_id'], 2);
+    redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
 }
 
 
@@ -1356,28 +1441,20 @@ switch ($_REQUEST['op']) {
         del_file();
         break;
 
-    case 'add_poll' :
-        add_poll();
-        break;
-
-    case 'send_poll' :
-        send_poll();
-        break;
-
     case 'vote' :
         vote();
         break;
 
-    case 'del_poll' :
-        del_poll();
+    case 'editPoll' :
+        editPoll();
         break;
 
-    case 'edit_poll' :
-        edit_poll();
+    case 'savePoll' :
+        savePoll();
         break;
 
-    case 'modif_poll' :
-        modif_poll();
+    case 'deletePoll' :
+        deletePoll();
         break;
 
     case 'notify' :

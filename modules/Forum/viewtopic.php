@@ -277,8 +277,8 @@ $dbrCurrentForum = getForumData(
 // Check forum access, forum category access and forum exist
 $error = false;
 if (! $dbrCurrentForum) $error = _NOFORUMEXIST;
-if ($visiteur < $dbrCurrentForum['catLevel'] ) $error = _NOACCESSFORUMCAT;
-if ($visiteur < $dbrCurrentForum['forumLevel'] ) $error = _NOACCESSFORUM;
+if ($visiteur < $dbrCurrentForum['catLevel']) $error = _NOACCESSFORUMCAT;
+if ($visiteur < $dbrCurrentForum['forumLevel']) $error = _NOACCESSFORUM;
 
 // Check if topic exists
 if (! $error) {
@@ -414,28 +414,31 @@ $dbrTopicPoll = $userPolled = $dbrTopicPollOptions = null;
 
 if ($dbrCurrentTopic['sondage'] == 1) {
     $dbrTopicPoll = nkDB_selectOne(
-        'SELECT id, titre
+        'SELECT id, title
         FROM '. FORUM_POLL_TABLE .'
         WHERE thread_id = '. $threadId
     );
 
-    $userPolled = nkDB_totalNumRows(
-        'FROM '. FORUM_VOTE_TABLE .'
-        WHERE poll_id = '. $dbrTopicPoll['id'] .'
-        AND auteur_id = '. nkDB_escape($user['id'])
-    );
+    if ($dbrTopicPoll) {
+        $userPolled = nkDB_totalNumRows(
+            'FROM '. FORUM_VOTE_TABLE .'
+            WHERE poll_id = '. $dbrTopicPoll['id'] .'
+            AND author_id = '. nkDB_escape($user['id'])
+        );
 
-    if ($user && $userPolled > 0 || $_REQUEST['vote'] == 'view')
-        $fields = 'option_vote, option_text';
-    else
-        $fields = 'id, option_text';
 
-    $dbrTopicPollOptions = nkDB_selectMany(
-        'SELECT '. $fields .'
-        FROM '. FORUM_OPTIONS_TABLE .'
-        WHERE poll_id = '. $dbrTopicPoll['id'],
-        array('id')
-    );
+        if ($user && $userPolled > 0 || (isset($_GET['vote']) && $_GET['vote'] == 'view'))
+            $fields = 'option_vote, option_text';
+        else
+            $fields = 'id, option_text';
+
+        $dbrTopicPollOptions = nkDB_selectMany(
+            'SELECT '. $fields .'
+            FROM '. FORUM_OPTIONS_TABLE .'
+            WHERE poll_id = '. $dbrTopicPoll['id'] .' AND option_text != \'\'',
+            array('id')
+        );
+    }
 }
 
 // Get topic messages list

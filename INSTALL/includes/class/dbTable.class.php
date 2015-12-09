@@ -356,6 +356,9 @@ class dbTable {
         if (! isset($data['type']))
             throw new dbTableException(sprintf($this->_i18n['FIELD_TYPE_NO_FOUND'], $field));
 
+        if (! isset($data['newField']))
+            $data['newField'] = $field;
+
         $sql = 'CHANGE `'. $field .'` `'. $field .'` '. $data['type'];
 
         $null = 'YES';

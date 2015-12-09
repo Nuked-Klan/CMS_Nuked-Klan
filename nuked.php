@@ -289,7 +289,7 @@ function session_read($id) {
         WHERE session_id = '. nkDB_escape($id)
     );
 
-    if (array_key_exists('session_vars', $dbsSession))
+    if ($dbsSession && array_key_exists('session_vars', $dbsSession))
         return $dbsSession['session_vars'];
 
     return '';

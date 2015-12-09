@@ -18,7 +18,7 @@
 <?php
     if ($do == 'edit') :
         echo $author;
-    elseif ($user['name'] != '') :
+    elseif ($user && $user['name'] != '') :
 ?>
                                 <?php echo $user['name'] ?>&nbsp;<a href="index.php?file=User&amp;op=logout" class="nkButton icon remove danger"><?php echo _FLOGOUT ?></a>
 <?php

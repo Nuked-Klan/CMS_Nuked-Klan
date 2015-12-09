@@ -18,7 +18,7 @@ $dbTable->setTable($this->_session['db_prefix'] .'_forums_poll');
 
 if ($process == 'checkIntegrity') {
     // table create in 1.7.x version
-    $dbTable->checkIntegrity();
+    $dbTable->checkIntegrity(array('titre', 'title'));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,12 +36,24 @@ if ($process == 'install') {
     $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_forums_poll` (
             `id` int(11) NOT NULL auto_increment,
             `thread_id` int(11) NOT NULL default \'0\',
-            `titre` varchar(255) NOT NULL default \'\',
+            `title` varchar(255) NOT NULL default \'\',
             PRIMARY KEY  (`id`),
             KEY `thread_id` (`thread_id`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
     $dbTable->dropTable()->createTable($sql);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table update
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'update') {
+    // install / update 1.8
+    if ($dbTable->fieldExist('titre'))
+        $dbTable->modifyField('title', array('newField' => 'title', 'type' => 'VARCHAR(255)', 'null' => false));
+
+    $dbTable->alterTable();
 }
 
 ?>
