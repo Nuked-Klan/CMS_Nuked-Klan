@@ -391,8 +391,8 @@ function post() {
     ));
 
     nkDB_update(FORUM_TABLE, array(
-            'nbThread'  => array('nbThread + 1', 'no-escape'),
-            'nbMessage' => array('nbMessage + 1', 'no-escape')
+            'nbTopics'      => array('nbTopics + 1', 'no-escape'),
+            'nbMessages'    => array('nbMessages + 1', 'no-escape')
         ),
         'id = '. nkDB_escape($_POST['forum_id'])
     );
@@ -475,7 +475,7 @@ function reply() {
     }
 
     $dbrForum = nkDB_selectOne(
-        'SELECT F.level, FT.closed, FT.nbReply
+        'SELECT F.level, FT.closed, FT.nbReplies
         FROM '. FORUM_TABLE .' AS F
         INNER JOIN '. FORUM_THREADS_TABLE .' AS FT
         ON FT.id = FT.forum_id
@@ -571,13 +571,13 @@ function reply() {
     $messId = nkDB_insertId();
 
     nkDB_update(FORUM_TABLE, array(
-            'nbMessage' => array('nbMessage + 1', 'no-escape')
+            'nbMessages' => array('nbMessages + 1', 'no-escape')
         ),
         'id = '. nkDB_escape($_POST['forum_id'])
     );
 
     nkDB_update(FORUM_THREADS_TABLE, array(
-            'nbReply' => array('nbReply + 1', 'no-escape')
+            'nbReplies' => array('nbReplies + 1', 'no-escape')
         ),
         'id = '. nkDB_escape($_POST['thread_id'])
     );
@@ -617,7 +617,7 @@ function reply() {
     if ($user)
         nkDB_update(USER_TABLE, array('count' =>array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
 
-    list($url) = getForumMessageUrl($_POST['forum_id'], $_POST['thread_id'], $messId, $dbrForum['nbReply'] + 2);
+    list($url) = getForumMessageUrl($_POST['forum_id'], $_POST['thread_id'], $messId, $dbrForum['nbReplies'] + 2);
 
     printNotification(_MESSAGESEND, 'success');
     redirect($url, 2);
@@ -659,7 +659,7 @@ function del() {
 
             if ($firstMessId == $messId) {
                 $dbrForumThread = nkDB_selectOne(
-                    'SELECT nbReply
+                    'SELECT nbReplies
                     FROM '. FORUM_THREADS_TABLE .'
                     WHERE id = '. $threadId
                 );
@@ -676,21 +676,21 @@ function del() {
                 nkDB_delete(FORUM_MESSAGES_TABLE, 'thread_id = '. $threadId);
 
                 nkDB_update(FORUM_TABLE, array(
-                        'nbThread'  => array('nbThread - 1', 'no-escape'),
-                        'nbMessage' => array('nbMessage - '. ($dbrForumThread['nbReply'] + 1), 'no-escape')
+                        'nbTopics'      => array('nbTopics - 1', 'no-escape'),
+                        'nbMessages'    => array('nbMessages - '. ($dbrForumThread['nbReplies'] + 1), 'no-escape')
                     ),
                     'id = '. $forumId
                 );
             }
             else {
                 nkDB_update(FORUM_TABLE, array(
-                        'nbMessage' => array('nbMessage - 1', 'no-escape')
+                        'nbMessages' => array('nbMessages - 1', 'no-escape')
                     ),
                     'id = '. $forumId
                 );
 
                 nkDB_update(FORUM_THREADS_TABLE, array(
-                        'nbReply' => array('nbReply - 1', 'no-escape')
+                        'nbReplies' => array('nbReplies - 1', 'no-escape')
                     ),
                     'id = '. $threadId
                 );
@@ -805,14 +805,14 @@ function del_topic() {
             }
 
             $dbrForum = nkDB_selectOne(
-                'SELECT nbMessage
+                'SELECT nbMessages
                 FROM '. FORUM_TABLE .'
                 WHERE id = '. nkDB_escape($_POST['forum_id'])
             );
 
             nkDB_update(FORUM_TABLE, array(
-                    'nbThread'  => array('nbThread - 1', 'no-escape'),
-                    'nbMessage' => array('nbMessage - '. $dbrForum['nbMessage'], 'no-escape')
+                    'nbTopics'      => array('nbTopics - 1', 'no-escape'),
+                    'nbMessages'    => array('nbMessages - '. $dbrForum['nbMessages'], 'no-escape')
                 ),
                 'id = '. nkDB_escape($_POST['forum_id'])
             );
@@ -880,21 +880,21 @@ function move() {
             nkDB_update(FORUM_MESSAGES_TABLE, array('forum_id' => $newForumId), 'thread_id = '. $threadId);
 
             $dbrForum = nkDB_selectOne(
-                'SELECT nbMessage
+                'SELECT nbMessages
                 FROM '. FORUM_TABLE .'
                 WHERE id = '. nkDB_escape($_POST['forum_id'])
             );
 
             nkDB_update(FORUM_TABLE, array(
-                    'nbThread'  => array('nbThread - 1', 'no-escape'),
-                    'nbMessage' => array('nbMessage - '. $dbrForum['nbMessage'], 'no-escape')
+                    'nbTopics'      => array('nbTopics - 1', 'no-escape'),
+                    'nbMessages'    => array('nbMessages - '. $dbrForum['nbMessages'], 'no-escape')
                 ),
                 'id = '. $forumId
             );
 
             nkDB_update(FORUM_TABLE, array(
-                    'nbThread'  => array('nbThread + 1', 'no-escape'),
-                    'nbMessage' => array('nbMessage + '. $dbrForum['nbMessage'], 'no-escape')
+                    'nbTopics'      => array('nbTopics + 1', 'no-escape'),
+                    'nbMessages'    => array('nbMessages + '. $dbrForum['nbMessages'], 'no-escape')
                 ),
                 'id = '. $newForumId
             );

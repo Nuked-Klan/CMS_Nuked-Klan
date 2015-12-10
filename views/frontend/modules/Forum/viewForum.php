@@ -11,7 +11,7 @@
             <div>
                 <h2><?php echo $dbrForum['forumName'] ?></h2>
                 <p><?php echo $dbrForum['comment'] ?></p>
-                <div class="nkForumModos"><small><?php echo _MODO ?> : <?php echo $moderatorList ?></small></div>
+                <div class="nkForumModos"><small><?php echo $moderatorList ?></small></div>
             </div>
         </div>
         <div id="nkForumBreadcrumb">
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         <div class="nkForumStatsCell nkBorderColor1">
-                            <strong><?php echo $threadData['nbReply'] ?></strong>&nbsp;<?php echo strtolower(_ANSWERS) ?>
+                            <strong><?php echo $threadData['nbReplies'] ?></strong>&nbsp;<?php echo strtolower(_ANSWERS) ?>
                             <br/>
                             <strong><?php echo $forumthread['view'] ?></strong>&nbsp;<?php echo strtolower(_VIEWS) ?>
                         </div>
@@ -90,8 +90,8 @@
                             </div>
                             <div>
                                 <p>
-                                    <span><?php echo _BY; ?></span>
-                                    <strong><?php echo $threadData['lastMsgAuthor'] ?>&nbsp;<?php echo $threadData['lastMsgLink'] ?></strong>
+                                    <span><?php echo _BY ?></span>
+                                    <strong><?php echo $threadData['lastMsgAuthor'] ?>&nbsp;<a href="<?php echo $threadData['lastMsgUrl'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo _SEELASTPOST ?>" /></a></strong>
                                 </p>
                                 <p><?php echo $threadData['lastMsgDate'] ?></p>
                             </div>

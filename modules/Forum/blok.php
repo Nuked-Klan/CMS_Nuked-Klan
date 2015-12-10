@@ -17,7 +17,7 @@ translate('modules/Forum/lang/'. $language .'.lang.php');
 
 
 // Prepare fields list for SQL query
-$fields = 'FT.id, FT.titre, FT.last_post, FT.forum_id, FT.nbReply';
+$fields = 'FT.id, FT.titre, FT.last_post, FT.forum_id, FT.nbReplies';
 
 if ($active == 3 || $active == 4)
     $fields = ', FT.auteur, FT.auteur_id, FT.view';

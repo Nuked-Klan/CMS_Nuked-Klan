@@ -49,42 +49,15 @@ function nkSessions_init() {
     $GLOBALS['cookie_userid']   = $nuked['cookiename'] .'_userid';
 
     // Recherche de l'adresse IP
-    $GLOBALS['user_ip'] = '';
+    $GLOBALS['user_ip'] = $_SERVER['REMOTE_ADDR'];
 
-    // TODO : to finish
-    // https://en.wikipedia.org/wiki/X-Forwarded-For
-    // http://stackoverflow.com/questions/11452938/how-to-use-http-x-forwarded-for-properly
-    // http://forum.alsacreations.com/topic-20-49196-1-HTTPXFORWARDEDFOR-renvoie-2-adresses-IP.html
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        // Check if multiple IP addresses exist in var
+    if (defined('NK_REVERSE_PROXY') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-        $check  = 1;
-
-        foreach ($ipList as $ip) {
-            if (filter_var($ip, FILTER_VALIDATE_IP,
-                FILTER_FLAG_IPV4 |
-                FILTER_FLAG_IPV6 |
-                FILTER_FLAG_NO_PRIV_RANGE |
-                FILTER_FLAG_NO_RES_RANGE)
-            ) {
-                $lastIp = $ip;
-                $check &= 1;
-            }
-            else
-                $check &= 0;
-        }
-
-        if ($check) $GLOBALS['user_ip'] = $lastIp;
+        $ip     = trim($ipList[0]);
     }
-    else {
-        if (filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP,
-            FILTER_FLAG_IPV4 |
-            FILTER_FLAG_IPV6 |
-            FILTER_FLAG_NO_PRIV_RANGE |
-            FILTER_FLAG_NO_RES_RANGE)
-        )
-            $GLOBALS['user_ip'] = $_SERVER['REMOTE_ADDR'];
-    }
+
+    if (! filter_var($GLOBALS['user_ip'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6))
+        $GLOBALS['user_ip'] = '';
 }
 
 /**

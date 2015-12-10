@@ -18,6 +18,10 @@
     margin:0;
 }
 
+#nkForumMainSearch p{
+    margin-top: 4px;
+}
+
 #nkForumMainSearch{
     text-align: right;
 }
@@ -190,7 +194,7 @@
 }
 
 #nkForumWhoIsOnlineIcon:before{
-    background:url('images/whoisonline.png');
+    background:url('images/whoIsOnline.png');
     content: "";
     display: block;
     height: 80px;

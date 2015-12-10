@@ -276,7 +276,7 @@ if ($visiteur < $dbrCurrentForum['forumLevel']) $error = _NOACCESSFORUM;
 if (! $error) {
     // Get current Forum topic data
     $dbrCurrentTopic = nkDB_selectOne(
-        'SELECT titre, closed, annonce, last_post, auteur_id, sondage, nbReply
+        'SELECT titre, closed, annonce, last_post, auteur_id, sondage, nbReplies
         FROM '. FORUM_THREADS_TABLE .'
         WHERE id = '. $threadId
     );
@@ -395,10 +395,10 @@ $pagination = '';
 if (isset($_REQUEST['highlight']) && $_REQUEST['highlight'] != '')
     $url_page .= '&amp;highlight='. urlencode($_REQUEST['highlight']);
 
-$nbMessage = $dbrCurrentTopic['nbReply'] + 1;
+$nbMessages = $dbrCurrentTopic['nbReplies'] + 1;
 
-if ($nbMessage > $nuked['mess_forum_page'])
-    $pagination = number($nbMessage, $nuked['mess_forum_page'], $url_page, true);
+if ($nbMessages > $nuked['mess_forum_page'])
+    $pagination = number($nbMessages, $nuked['mess_forum_page'], $url_page, true);
 
 // Get topic poll data
 $dbrTopicPoll = $userPolled = $dbrTopicPollOptions = null;

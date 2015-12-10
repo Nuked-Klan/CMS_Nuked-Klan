@@ -17,107 +17,125 @@ require_once 'modules/Forum/core.php';
 
 
 /**
- * Get last message data.
+ * Format Forum row data.
  *
- * @param int $forumId : The forum ID.
- * @return array : The last message formated data.
+ * @param array $forum : The raw Forum row data.
+ * @return array : The Forum row data formated.
  */
-function getLastMessageInForum($forumId) {
+function formatForumRow($forum) {
     global $nuked;
 
-    $lastMessageData = array();
+    $forum['forumName']  = printSecuTags($forum['forumName']);
+    $forum['readStatus'] = getForumReadStatusImg($forum['id'], $forum['nbTopics']);
 
-    $field = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
+    if ($nuked['forum_display_modos'] == 'on')
+        $forum['moderatorsList'] = formatModeratorsList($forum['moderateurs']);
 
-    $dbrForumMessage = getLastForumMessageData('forum_id', $forumId,
-        'FM.id, FM.titre, FM.thread_id, FM.date, FM.auteur, U.pseudo, U.avatar, U.country'. $field
+    if ($forum['nbMessages'] > 0)
+        $forum['lastMessage'] = formatLastForumMessage($forum['id']);
+    else
+        $forum['lastMessage'] = false;
+
+    return $forum;
+}
+
+/**
+ * Format last Forum message data.
+ *
+ * @param int $forumId : The Forum ID.
+ * @return array : The last Forum message formated data.
+ */
+function formatLastForumMessage($forumId) {
+    global $nuked, $rankField;
+
+    // Get last Forum message data
+    $dbrLastForumMsg = getLastForumMessageData('forum_id', $forumId,
+        'FM.id, FM.titre, FM.thread_id, FM.date, FM.auteur, U.pseudo, U.avatar, U.country'. $rankField
     );
 
-    $lastMessageData['author'] = nkNickname($dbrForumMessage);
+    if (! $dbrLastForumMsg) return false;
 
-    if ($dbrForumMessage['avatar'] != '')
-        $lastMessageData['authorAvatar'] = $dbrForumMessage['avatar'];
+    // Set last Forum message author, formated date and full title
+    $lastMsgData = array(
+        'author'    => nkNickname($dbrLastForumMsg),
+        'date'      => formatForumMessageDate($dbrLastForumMsg['date']),
+        'title'     => $dbrLastForumMsg['titre']
+    );
+
+    // Set default avatar id undefined
+    if ($dbrLastForumMsg['avatar'] != '')
+        $lastMsgData['authorAvatar'] = $dbrLastForumMsg['avatar'];
     else
-        $lastMessageData['authorAvatar'] = 'modules/Forum/images/noAvatar.png';
+        $lastMsgData['authorAvatar'] = 'modules/Forum/images/noAvatar.png';
 
-    // Formatage de la date
-    $lastMessageData['date'] = formatForumMessageDate($dbrForumMessage['date']);
+    // Clean and truncate title of last Forum message if needed
+    $lastMsgData['cleanedTitle'] = str_replace('RE : ', '', $dbrLastForumMsg['titre']);
 
-    // Lien en image vers le message
-    $cleanTopicTitle = str_replace('RE : ', '', $dbrForumMessage['titre']);
+    if (strlen($lastMsgData['cleanedTitle']) > 20)
+        $lastMsgData['cleanedTitle'] = substr($lastMsgData['cleanedTitle'], 0, 20) .'...';
 
-    if (strlen($cleanTopicTitle) > 20)
-        $cleanTopicTitle = substr($cleanTopicTitle, 0, 20) .'...';
+    // Add url of last Forum message
+    list($lastMsgData['url']) = getForumMessageUrl(
+        $forumId, $dbrLastForumMsg['thread_id'], $dbrLastForumMsg['id']
+    );
 
-    // Construction du lien vers le post
-    list($postUrl) = getForumMessageUrl($forumId, $dbrForumMessage['thread_id'], $dbrForumMessage['id']);
-
-    $lastMessageData['title'] = '<a href="'. $postUrl .'" title="'. $dbrForumMessage['titre'] .'"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="'. _SEELASTPOST .'" />&nbsp;'. $cleanTopicTitle .'</a>';
-
-    return $lastMessageData;
+    return $lastMsgData;
 }
 
 /**
  * Get Forum read status image of Forum.
  *
- * @param int $forumId : The forum ID.
- * @param int $nbThreadInForum : The number of thread in Forum.
- * @return string : The image path of forum read status.
+ * @param int $forumId : The Forum ID.
+ * @param int $nbTopicsInForum : The number of topics in Forum.
+ * @return string : The image path of Forum read status.
  */
-function getImgForumReadStatus($forumId, $nbThreadInForum) {
+function getForumReadStatusImg($forumId, $nbTopicsInForum) {
     global $user;
 
-    if (! $user)
-        return 'modules/Forum/images/forum.png';
+    if ($user) {
+        $dbrForumRead = nkDB_selectOne(
+            'SELECT forum_id
+            FROM '. FORUM_READ_TABLE .'
+            WHERE user_id = '. nkDB_escape($user['id']) .'
+            AND forum_id LIKE \'%,'. nkDB_escape($forumId, true) .',%\''
+        );
 
-    $dbrForumRead = nkDB_selectOne(
-        'SELECT forum_id
-        FROM '. FORUM_READ_TABLE .'
-        WHERE user_id = '. nkDB_escape($user['id']) .'
-        AND forum_id LIKE \'%,'. nkDB_escape($forumId, true) .',%\''
-    );
+        if ($nbTopicsInForum > 0 && strrpos($dbrForumRead['forum_id'], ','. $forumId .',') === false)
+            return 'modules/Forum/images/forum_new.png';
+    }
 
-    if ($nbThreadInForum > 0 && strrpos($dbrForumRead['forum_id'], ','. $forumId .',') === false)
-        return 'modules/Forum/images/forum_new.png';
-    else
-        return 'modules/Forum/images/forum.png';
+    return 'modules/Forum/images/forum.png';
 }
 
 
-$catId = 0;
-$error = false;
+$catId   = (isset($_GET['cat'])) ? (int) $_GET['cat'] : 0;
+$error   = false;
 $catName = '';
 
-// Get current forum category if defined and check it if needed
-if (isset($_GET['cat'])) {
-    $catId = (int) $_GET['cat'];
+// Get current Forum category if defined and check it if needed
+if ($catId > 0) {
+    $dbrCurrentForumCat = nkDB_selectOne(
+        'SELECT nom
+        FROM '. FORUM_CAT_TABLE .'
+        WHERE id = '. $catId
+    );
 
-    if ($catId > 0) {
-        $dbrForumCurrentCat = nkDB_selectOne(
-            'SELECT nom
-            FROM '. FORUM_CAT_TABLE .'
-            WHERE id = '. $catId
-        );
-
-        if (! $dbrForumCurrentCat)
-            $error = _NOFORUMCATEXIST;
-        else
-            $catName = $dbrForumCurrentCat['nom'];
-    }
-    else
+    if (! $dbrCurrentForumCat)
         $error = _NOFORUMCATEXIST;
+    else
+        $catName = $dbrCurrentForumCat['nom'];
 }
 
 if (! $error) {
     // Get Forum list sorted by Forum category or Forum list of one Forum category
     $dbrCurrentForum = getForumData(
         'F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs,
-        F.nbThread, F.nbMessage,
+        F.nbTopics, F.nbMessages,
         FC.nom As catName, FC.image AS catImage, FC.niveau AS catLevel',
         'catId', $catId
     );
 
-    // Check forum category access and forum category exist
+    // Check Forum category access and Forum category exist
     if (! $dbrCurrentForum) $error = _NOACCESSFORUMCAT;
 }
 
@@ -131,7 +149,7 @@ if ($error) {
 // Prepare breadcrumb
 $breadcrumb = getForumBreadcrump($catName, $catId);
 
-// Get forum title and forum description
+// Get Forum title and Forum description
 if ($nuked['forum_title'] != '') {
     $forumTitle = $nuked['forum_title'];
     $forumDesc  = $nuked['forum_desc'];
@@ -141,37 +159,34 @@ else {
     $forumDesc  = $nuked['slogan'];
 }
 
-// Get last visit date
-if ($user && $user['lastUsed'] != '')
-    $lastVisitMessage = _LASTVISIT .' : '. nkDate($user['lastUsed']);
-else
-    $lastVisitMessage = '';
-
 // Count all Forum message and all user
 $nbTotalMessages    = nkDB_totalNumRows('FROM '. FORUM_MESSAGES_TABLE);
-$nbTotalUsers       = nkDB_totalNumRows('FROM '. USER_TABLE .'  WHERE niveau = 0');
+$nbTotalUsers       = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE niveau > 0');
 
 // Get last member username
-$dbrUser = nkDB_selectOne(
+$dbrLastUser = nkDB_selectOne(
     'SELECT pseudo
-    FROM '. USER_TABLE,
+    FROM '. USER_TABLE .' WHERE niveau > 0',
     array('date'), 'DESC', 1
 );
 
-$lastUser = $dbrUser['pseudo'];
+// Prepare rank legend
+if ($nuked['forum_user_details'] == 'on') {
+    $teamRank       = getTeamRank();
+    $rankField      = ', U.rang';
+    $teamRankList   = array_column($teamRank, 'formated');
+    $teamRankList   = ($teamRankList) ? implode(',', $teamRankList) : _NONE;
+}
+else {
+    $rankField      = '';
+    $teamRankList   = '';
+}
 
 // Prepare online members info
 $onlineList = array();
 
-if ($nuked['forum_user_details'] == 'on') {
-    $teamRank   = getTeamRank();
-    $field      = ', U.rang';
-}
-else
-    $field = '';
-
-$dbrConnected = nkDB_selectMany(
-    'SELECT U.pseudo, U.country'. $field .'
+$dbrOnline = nkDB_selectMany(
+    'SELECT U.pseudo, U.country'. $rankField .'
     FROM '. NBCONNECTE_TABLE .' AS NC
     INNER JOIN '. USER_TABLE .' AS U
     ON NC.user_id = U.id
@@ -179,19 +194,16 @@ $dbrConnected = nkDB_selectMany(
     array('NC.date')
 );
 
-foreach ($dbrConnected as $connected) {
-    if ($nuked['forum_user_details'] == 'on' && array_key_exists($connected['rang'], $teamRank))
-        $style = ' style="color: #'. $teamRank[$connected['rang']]['color'] .';"';
+foreach ($dbrOnline as $online) {
+    if ($nuked['forum_user_details'] == 'on' && array_key_exists($online['rang'], $teamRank))
+        $style = ' style="color: #'. $teamRank[$online['rang']]['color'] .';"';
     else
         $style = '';
 
-    $onlineList[] = '<img src="images/flags/'. $connected['country'] .'" alt="'. $connected['country'] .'" class="nkForumOnlineFlag" />'
-        . '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($connected['pseudo']) .'"'. $style .'>'
-        . $connected['pseudo'] .'</a>';
+    $onlineList[] = '<img src="images/flags/'. $online['country'] .'" alt="'. $online['country'] .'" class="nkForumOnlineFlag" />'
+        . '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($online['pseudo']) .'"'. $style .'>'
+        . $online['pseudo'] .'</a>';
 }
-
-// Prepare rank legend
-$teamRankList = ($nuked['forum_user_details'] == 'on') ? array_column($teamRank, 'formated') : array();
 
 // Prepare birthday message and user birthday list
 $birthdayMessage = null;
@@ -201,10 +213,8 @@ if ($nuked['forum_birthday'] == 'on') {
     $currentMonth   = date('n');
     $currentDay     = date('j');
 
-    $field = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
-
     $dbrUserDetail = nkDB_selectMany(
-        'SELECT UD.age, U.pseudo'. $field .'
+        'SELECT UD.age, U.pseudo'. $rankField .'
         FROM '. USER_DETAIL_TABLE .' AS UD
         INNER JOIN '. USER_TABLE .' AS U
         ON UD.user_id = U.id
@@ -214,9 +224,9 @@ if ($nuked['forum_birthday'] == 'on') {
     $birthdayList = array();
 
     foreach ($dbrUserDetail as $userDetail) {
-        list($bDay, $bMonth, $bYear) = explode('/', $userDetail['age']);
+        list($birthdayDay, $birthdayMonth, $birthdayYear) = explode('/', $userDetail['age']);
 
-        if ($currentDay == $bDay && $currentMonth == $bMonth) {
+        if ($currentDay == $birthdayDay && $currentMonth == $birthdayMonth) {
             //$userDetail['pseudo'] = stripslashes($userDetail['pseudo']);
 
             if ($nuked['forum_user_details'] == 'on' && array_key_exists($userDetail['rang'], $teamRank))
@@ -224,9 +234,9 @@ if ($nuked['forum_birthday'] == 'on') {
             else
                 $style = '';
 
-            $age = $currentYear - $bYear;
-
-            $birthdayList[] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($userDetail['pseudo']) .'"'. $style .'><strong>'. $userDetail['pseudo'] .'</strong></a> ('. $age .' '. _ANS .')';
+            $birthdayList[] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='
+                . urlencode($userDetail['pseudo']) .'"'. $style .'><strong>'. $userDetail['pseudo']
+                . '</strong></a> ('. ($currentYear - $birthdayYear) .' '. _ANS .')';
         }
     }
 
@@ -243,21 +253,19 @@ if ($nuked['forum_birthday'] == 'on') {
 }
 
 echo applyTemplate('modules/Forum/main', array(
+    'nuked'             => $nuked,
+    'user'              => $user,
     'forumTitle'        => $forumTitle,
     'forumDesc'         => $forumDesc,
     'breadcrumb'        => $breadcrumb,
-    'todayDate'         => nkDate(time()),
-    'lastVisitMessage'  => $lastVisitMessage,
-    'dbrForum'          => $dbrCurrentForum,
-    'nuked'             => $nuked,
+    'forumList'         => $dbrCurrentForum,
     'nbTotalMessages'   => $nbTotalMessages,
     'nbTotalUsers'      => $nbTotalUsers,
-    'lastUser'          => $lastUser,
-    'connectedStats'    => nbvisiteur(),
+    'lastUser'          => $dbrLastUser['pseudo'],
+    'onlineStats'       => nbvisiteur(),
     'onlineList'        => $onlineList,
     'teamRankList'      => $teamRankList,
-    'birthdayMessage'   => $birthdayMessage,
-    'user'              => $user
+    'birthdayMessage'   => $birthdayMessage
 ));
 
 ?>

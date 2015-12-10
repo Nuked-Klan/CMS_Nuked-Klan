@@ -26,22 +26,22 @@ function updateForumsRow($updateList, $row, $vars) {
 
     if (in_array('UPDATE_NB_THREAD', $updateList)) {
         $dbrForumThread = $db->selectOne(
-            'SELECT COUNT(*) AS `nbThread`
+            'SELECT COUNT(*) AS `nbTopics`
             FROM `'. $dbPrefix .'_forums_threads`
             WHERE forum_id = '. $row['id']
         );
 
-        $setFields['nbThread'] = $dbrForumThread['nbThread'];
+        $setFields['nbTopics'] = $dbrForumThread['nbTopics'];
     }
 
     if (in_array('UPDATE_NB_MESSAGE', $updateList)) {
         $dbrForumMessages = $db->selectOne(
-            'SELECT COUNT(*) AS `nbMessage`
+            'SELECT COUNT(*) AS `nbMessages`
             FROM `'. $dbPrefix .'_forums_messages`
             WHERE forum_id = '. $row['id']
         );
 
-        $setFields['nbMessage'] = $dbrForumMessages['nbMessage'];
+        $setFields['nbMessages'] = $dbrForumMessages['nbMessages'];
     }
 
     return $setFields;
@@ -81,8 +81,8 @@ if ($process == 'install') {
             `ordre` int(5) NOT NULL default \'0\',
             `level_poll` int(1) NOT NULL default \'0\',
             `level_vote` int(1) NOT NULL default \'0\',
-            `nbThread` int(10) NOT NULL default \'0\',
-            `nbMessage` int(10) NOT NULL default \'0\',
+            `nbTopics` int(10) NOT NULL default \'0\',
+            `nbMessages` int(10) NOT NULL default \'0\',
             PRIMARY KEY  (`id`),
             KEY `cat` (`cat`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
@@ -107,16 +107,16 @@ if ($process == 'update') {
     if (! $dbTable->fieldExist('image'))
         $dbTable->addField('image', array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''));
 
-    if (! $dbTable->fieldExist('nbThread')) {
-        $dbTable->addField('nbThread', array('type' => 'int(10)', 'null' => false, 'default' => '\'0\''));
+    if (! $dbTable->fieldExist('nbTopics')) {
+        $dbTable->addField('nbTopics', array('type' => 'int(10)', 'null' => false, 'default' => '\'0\''));
         $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
-            ->setUpdateFieldData('UPDATE_NB_THREAD', 'nbThread');
+            ->setUpdateFieldData('UPDATE_NB_THREAD', 'nbTopics');
     }
 
-    if (! $dbTable->fieldExist('nbMessage')) {
-        $dbTable->addField('nbMessage', array('type' => 'int(10)', 'null' => false, 'default' => '\'0\''));
+    if (! $dbTable->fieldExist('nbMessages')) {
+        $dbTable->addField('nbMessages', array('type' => 'int(10)', 'null' => false, 'default' => '\'0\''));
         $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
-            ->setUpdateFieldData('UPDATE_NB_MESSAGE', 'nbMessage');
+            ->setUpdateFieldData('UPDATE_NB_MESSAGE', 'nbMessages');
     }
 
     $dbTable->alterTable();

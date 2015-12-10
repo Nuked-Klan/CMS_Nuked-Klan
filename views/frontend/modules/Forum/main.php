@@ -9,9 +9,7 @@
                 <form method="get" action="index.php" >
                     <label for="forumSearch"><?php echo _SEARCH ?> :</label>
                     <input id="forumSearch" type="text" name="query" size="25" />
-                    <p>
-                        [ <a href="index.php?file=Forum&amp;page=search"><?php echo _ADVANCEDSEARCH ?></a> ]
-                    </p>
+                    <p>[ <a href="index.php?file=Forum&amp;page=search"><?php echo _ADVANCEDSEARCH ?></a> ]</p>
                     <input type="hidden" name="file" value="Forum" />
                     <input type="hidden" name="page" value="search" />
                     <input type="hidden" name="do" value="search" />
@@ -22,14 +20,21 @@
                 <?php echo $breadcrumb ?>
             </div><!-- Hack inline-block
             --><div id="nkForumMainDates">
-                <span><?php echo _DAYIS ?> : <?php echo $todayDate ?></span>&nbsp;<span><?php echo $lastVisitMessage ?></span>
+                <span><?php echo _DAYIS ?> : <?php echo nkDate(time()) ?></span><?php
+
+    if ($user && $user['lastUsed'] != '') :
+
+        ?>&nbsp;<span><?php echo _LASTVISIT ?> : <?php echo nkDate($user['lastUsed']) ?></span>
+<?php
+    endif
+?>
             </div>
             <!-- CONTENU DES FORUMS -->
 <?php
     // Init current Forum category
     $currentCat = 0;
 
-    foreach ($dbrForum as $forum) :
+    foreach ($forumList as $forum) :
         // Display next Forum category title
         if ($forum['cat'] != $currentCat) :
             // Close current Forum category container before display Forum list
@@ -71,75 +76,59 @@
 <?php
             $currentCat = $forum['cat'];
         endif;
+
+        $forum = formatForumRow($forum);
 ?>
                         <div class="nkForumCatContent nkBgColor2">
-
-<?php
-        $forum['forumName'] = printSecuTags($forum['forumName']);
-
-        //Detection image forum
-        if ($nuked['forum_image'] == 'on' && $forum['forumImage'] != '')
-            $classImage = '<img src="'. $forum['forumImage'] .'" class="nkForumNameCellImage" alt="" title="'. $forum['forumName'] .'" />';
-        else
-            $classImage = '';
-
-?>
                             <div>
                                 <div class="nkForumIconCell nkBorderColor1">
-                                    <img src="<?php echo getImgForumReadStatus($forum['id'], $forum['nbThread']) ?>" alt="" />
+                                    <img src="<?php echo $forum['readStatus'] ?>" alt="" />
                                 </div>
-                                <div id="nkForumNameCell_" class="nkForumNameCell nkBorderColor1"><?php echo $classImage ?>
+                                <div id="nkForumNameCell_" class="nkForumNameCell nkBorderColor1"><?php
+
+        if ($nuked['forum_image'] == 'on' && $forum['forumImage'] != '') :
+
+?><img src="<?php echo $forum['forumImage'] ?>" class="nkForumNameCellImage" alt="" title="<?php echo $forum['forumName'] ?>" /><?php
+
+        endif
+?>
                                     <h3><a href="index.php?file=Forum&amp;page=viewforum&amp;forum_id=<?php echo $forum['id'] ?>"><?php echo $forum['forumName'] ?></a></h3>
                                     <p><?php echo $forum['comment'] ?></p>
 <?php
         if ($nuked['forum_display_modos'] == 'on') :
-            $moderatorLabel = _MODO;// TODO : Create plurial translation with __() function
-            $moderatorList = _NONE;
-
-            if ($forum['moderateurs'] != '') {
-                $moderatorLabel = _MODOS;
-                $moderatorList = implode(',&nbsp;', getModeratorList($forum['moderateurs']));
-            }
-
 ?>
-                                    <p><small><?php echo $moderatorLabel ?>:&nbsp;<?php echo $moderatorList ?></small></p>
+                                    <p><small><?php echo $forum['moderatorsList'] ?></small></p>
 <?php
         endif
 ?>
                                 </div>
                                 <div class="nkForumStatsCell nkBorderColor1">
-                                    <strong><?php echo $forum['nbThread'] ?></strong>&nbsp;<?php echo strtolower(_TOPICS) ?>
-                                    <br/>
-                                    <strong><?php echo $forum['nbMessage'] ?></strong>&nbsp;<?php echo strtolower(_MESSAGES) ?>
+                                    <strong><?php echo $forum['nbTopics'] ?></strong>&nbsp;<?php echo strtolower(_TOPICS) ?><br/>
+                                    <strong><?php echo $forum['nbMessages'] ?></strong>&nbsp;<?php echo strtolower(_MESSAGES) ?>
                                 </div>
-<?php
-        if ($forum['nbMessage'] > 0) :
-            $lastForumMessage = getLastMessageInForum($forum['id']);
-?>
                                 <div class="nkForumDateCell nkBorderColor1">
+<?php
+        if ($forum['nbMessages'] > 0 && $forum['lastMessage']) :
+?>
                                     <div class="nkForumAuthorAvatar">
-                                        <img src="<?php echo $lastForumMessage['authorAvatar'] ?>" alt="IMG" />
+                                        <img src="<?php echo $forum['lastMessage']['authorAvatar'] ?>" alt="IMG" />
                                     </div>
                                     <div>
-                                        <p>
-                                            <?php echo $lastForumMessage['title'] ?>
-                                        </p>
+                                        <p><a href="<?php echo $forum['lastMessage']['url'] ?>" title="<?php echo $forum['lastMessage']['title'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo _SEELASTPOST ?>" />&nbsp;<?php echo $forum['lastMessage']['cleanedTitle'] ?></a></p>
                                         <p>
                                             <span><?php echo _BY ?></span>
-                                            <strong><?php echo $lastForumMessage['author'] ?></strong>
+                                            <strong><?php echo $forum['lastMessage']['author'] ?></strong>
                                         </p>
-                                        <p><?php echo $lastForumMessage['date'] ?></p>
+                                        <p><?php echo $forum['lastMessage']['date'] ?></p>
                                     </div>
-                                </div>
 <?php
         else :
 ?>
-                                <div class="nkForumDateCell  nkBorderColor1">
                                     <?php echo _NOPOST ?>
-                                </div>
 <?php
         endif
 ?>
+                                </div>
                             </div>
                         </div>
 <?php
@@ -156,16 +145,16 @@
                     <div id="nkForumWhoIsOnlineContent" class="nkBorderColor1">
                         <p><?php echo _TOTAL_MEMBERS_POSTS ?><strong><?php echo $nbTotalMessages ?></strong>&nbsp;<?php echo strtolower(_MESSAGES) ?>.</p>
                         <p><?php echo _WE_HAVE ?><strong><?php echo $nbTotalUsers ?></strong><?php echo _REGISTERED_MEMBERS ?></p>
-                        <p><?php echo _LAST_USER_IS ?><a href="index.php?file=Members&op=detail&autor=<?php echo $lastUser ?>"><?php echo $lastUser ?></a></p>
+                        <p><?php echo _LAST_USER_IS ?><a href="index.php?file=Members&amp;op=detail&amp;autor=<?php echo urlencode($lastUser) ?>"><?php echo $lastUser ?></a></p>
                         <p>
-                            <?php echo _THEREARE ?>&nbsp;<?php echo $connectedStats[0] ?>&nbsp;<?php echo _FVISITORS ?>, <?php echo $connectedStats[1] ?>&nbsp;<?php echo _FMEMBERS ?>&nbsp;<?php echo _AND ?>&nbsp;<?php echo $connectedStats[2] ?>&nbsp;<?php echo _FADMINISTRATORS ?>&nbsp;<?php echo _ONLINE ?><br />
+                            <?php echo _THEREARE ?>&nbsp;<?php echo $onlineStats[0] ?>&nbsp;<?php echo _FVISITORS ?>, <?php echo $onlineStats[1] ?>&nbsp;<?php echo _FMEMBERS ?>&nbsp;<?php echo _AND ?>&nbsp;<?php echo $onlineStats[2] ?>&nbsp;<?php echo _FADMINISTRATORS ?>&nbsp;<?php echo _ONLINE ?><br />
                             <?php echo _MEMBERSONLINE ?>&nbsp;:&nbsp;<?php echo (! empty($onlineList)) ? implode(',', $onlineList) : '<em>'. _NONE .'</em>' ?>
                         </p>
 <?php
     if ($nuked['forum_user_details'] == 'on') :
 ?>
                         <br />
-                        <p><?php echo _RANKLEGEND ?>&nbsp;:&nbsp;<?php echo implode(',', $teamRankList) ?></p>
+                        <p><?php echo _RANKLEGEND ?>&nbsp;:&nbsp;<?php echo $teamRankList ?></p>
 <?php
     endif;
 

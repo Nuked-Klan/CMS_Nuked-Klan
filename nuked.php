@@ -921,54 +921,45 @@ function number($count, $each, $link, $return = false) {
  *  [4] = visitors + members + admin
  */
 function nbvisiteur() {
-    global $user, $nuked, $user_ip;
+    global $user, $visiteur, $nuked, $user_ip;
 
-    static $visitorStats;
+    static $visitorStats = array();
 
     if ($visitorStats) return $visitorStats;
 
     $time   = time();
     $limit  = $time + $nuked['nbc_timeout'];
 
-    nkDB_delete(NBCONNECTE_TABLE, 'date < '. nkDB_escape($time));
-
-    if (isset($user_ip)) {
+    nkDB_delete(NBCONNECTE_TABLE, 'date < '. $time);
+ 
+    if ($user_ip != '') {
         if ($user)
             $whereClause = 'user_id = '. nkDB_escape($user['id']);
         else
             $whereClause = 'IP = '. nkDB_escape($user_ip);
 
+        $connectData = array(
+            'date'      => $limit,
+            'type'      => $visiteur,
+            'username'  => (($user) ? $user['name'] : 'visitor')
+        );
+
         if (nkDB_totalNumRows('FROM '. NBCONNECTE_TABLE .' WHERE '. $whereClause) > 0) {
             if ($user) {
-                nkDB_update(NBCONNECTE_TABLE, array(
-                        'date'      => $limit,
-                        'type'      => $user['level'],
-                        'IP'        => $user_ip,
-                        'username'  => $user['name']
-                    ),
-                    'user_id = '. nkDB_escape($user['id'])
-                );
+                $connectData['IP'] = $user_ip;
+                nkDB_update(NBCONNECTE_TABLE, $connectData, 'user_id = '. nkDB_escape($user['id']));
             }
             else {
-                nkDB_update(NBCONNECTE_TABLE, array(
-                        'date'      => $limit,
-                        'type'      => '',
-                        'user_id'   => '',
-                        'username'  => 'visitor'
-                    ),
-                    'IP = '. nkDB_escape($user_ip)
-                );
+                $connectData['user_id'] = '';
+                nkDB_update(NBCONNECTE_TABLE, $connectData, 'IP = '. nkDB_escape($user_ip));
             }
         }
         else {
             nkDB_delete(NBCONNECTE_TABLE, 'IP = '. nkDB_escape($user_ip));
-            nkDB_insert(NBCONNECTE_TABLE, array(
-                'IP'        => $user_ip,
-                'type'      => $user['level'],
-                'date'      => $limit,
-                'user_id'   => $user['id'],
-                'username'  => $user['name']
-            ));
+
+            $connectData['IP'] = $user_ip;
+            $connectData['user_id'] = ($user) ? $user['id'] : '';
+            nkDB_insert(NBCONNECTE_TABLE, $connectData);
         }
     }
 

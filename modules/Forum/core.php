@@ -97,11 +97,11 @@ function getLastForumMessageData($idName, $idValue, $fieldList) {
  * @param int $messId : The message ID.
  * @return string : The url formated (with pagination if needed) and message anchor.
  */
-function getForumMessageUrl($forumId, $threadId, $messId, $nbMessage = false) {
+function getForumMessageUrl($forumId, $threadId, $messId, $nbMessages = false) {
     global $nuked;
 
-    if ($nbMessage === false) {
-        $nbMessage = nkDB_totalNumRows(
+    if ($nbMessages === false) {
+        $nbMessages = nkDB_totalNumRows(
             'FROM '. FORUM_MESSAGES_TABLE .'
             WHERE thread_id = '. nkDB_escape($threadId)
         );
@@ -110,8 +110,8 @@ function getForumMessageUrl($forumId, $threadId, $messId, $nbMessage = false) {
     $url    = 'index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId;
     $nbPage = 1;
 
-    if ($nbMessage > $nuked['mess_forum_page']) {
-        $nbPage  = ceil($nbMessage / $nuked['mess_forum_page']);
+    if ($nbMessages > $nuked['mess_forum_page']) {
+        $nbPage  = ceil($nbMessages / $nuked['mess_forum_page']);
         $url    .= '&p='. $nbPage;
     }
 
@@ -125,39 +125,47 @@ function getForumMessageUrl($forumId, $threadId, $messId, $nbMessage = false) {
  * Check actual username and add Team rank colorization if needed.
  *
  * @param string $rawModeratorList : The raw Forum moderator list issues of Forum database table.
- * @return array : The Forum moderator list formated.
+ * @return string : The Forum moderator list formated.
  */
-function getModeratorList($rawModeratorList) {
+function formatModeratorsList($rawModeratorList) {
     global $nuked;
 
-    $moderatorList  = explode('|', $rawModeratorList);
-    $nbModerator    = count($moderatorList);
-    $moderatorLink  = array();
+    $result         = _MODO .': '. _NONE;
+    $nbModerator    = 0;
 
-    if ($nuked['forum_user_details'] == 'on') {
-        $teamRank   = getTeamRank();
-        $field      = ', rang';
-    }
-    else
-        $field = '';
+    if ($rawModeratorList != '') {
+        if ($nuked['forum_user_details'] == 'on') {
+            $teamRank   = getTeamRank();
+            $field      = ', rang';
+        }
+        else
+            $field = '';
 
-    for ($i = 0; $i < $nbModerator; $i++) {
-        // TODO : Use IN() SQL clause
         $dbrUser = nkDB_selectOne(
             'SELECT pseudo'. $field .'
             FROM '. USER_TABLE .'
-            WHERE id = '. nkDB_escape($moderatorList[$i])
+            WHERE id IN (\''. str_replace('|', '\',\'', $rawModeratorList) .'\')'
         );
 
-        if ($nuked['forum_user_details'] == 'on' && array_key_exists($dbrUser['rang'], $teamRank))
-            $style = ' style="color: #'. $teamRank[$dbrUser['rang']]['color'] .';"';
-        else
-            $style = '';
+        $nbModerator = count($dbrUser);
 
-        $moderatorLink[] = '<a href="index.php?file=Members&op=detail&autor='. urlencode($dbrUser['pseudo']) .'" alt="'. _SEEMODO . $dbrUser['pseudo'] .'" title="'. _SEEMODO . $dbrUser['pseudo'] .'"'. $style .'><b>'. $dbrUser['pseudo'] .'</b></a>';
+        foreach ($dbrUser as $_user) {
+            if ($nuked['forum_user_details'] == 'on' && array_key_exists($_user['rang'], $teamRank))
+                $style = ' style="color: #'. $teamRank[$_user['rang']]['color'] .';"';
+            else
+                $style = '';
+
+            $moderatorLink[] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($_user['pseudo'])
+                . '" alt="'. _SEEMODO . $_user['pseudo'] .'" title="'. _SEEMODO . $_user['pseudo'] .'"'
+                . $style .'><b>'. $_user['pseudo'] .'</b></a>';
+        }
+
+        $result  = ($nbModerator > 1) ? _MODOS : _MODO;
+        $result .= ': ';
+        $result .= ($nbModerator > 0) ? implode(',&nbsp;', $moderatorLink) : _NONE;
     }
 
-    return $moderatorLink;
+    return $result;
 }
 
 function isModerator($rawModeratorList) {
@@ -178,14 +186,17 @@ function isModerator($rawModeratorList) {
 function getTeamRank() {
     static $data = array();
 
-    if (! empty($data)) return $data;
+    if ($data) return $data;
 
+    // TODO : Team rank or Forum rank ?
+    // $nuked['forum_rank_team']
     $dbrTeamRank = nkDB_selectMany(
         'SELECT id, titre, couleur
         FROM '. TEAM_RANK_TABLE,
         array('ordre'), 'ASC'
     );
 
+    // TODO : Add post number with title of span tag? Remove span tag and use only strong tag?
     foreach ($dbrTeamRank as $teamRank) {
         $data[$teamRank['id']] = array(
             'color'     => $teamRank['couleur'],

@@ -50,12 +50,12 @@
         else
             $titre_topic = '<a href="'. $threadUrl .'"><b>'. $title .'</b></a>';
 
-        list($postUrl) = getForumMessageUrl($forumThread['forum_id'], $forumThread['id'], $dbrLastForumMessage['id'], $forumThread['nbReply'] + 1);
+        list($postUrl) = getForumMessageUrl($forumThread['forum_id'], $forumThread['id'], $dbrLastForumMessage['id'], $forumThread['nbReplies'] + 1);
 ?>
     <tr style="background: <?php echo $bgcolor2 ?>;">
         <td style="width: 35%;">&nbsp;<?php echo $titre_topic ?></td>
         <td style="width: 15%;" align="center"><b><?php echo $initiat ?></b></td>
-        <td style="width: 10%;" align="center"><?php echo $forumThread['nbReply'] ?></td>
+        <td style="width: 10%;" align="center"><?php echo $forumThread['nbReplies'] ?></td>
         <td style="width: 10%;" align="center"><?php echo $forumThread['view'] ?></td>
         <td style="width: 30%;" align="center"><?php echo $dbrLastForumMessage['date'] ?><br /><a href="<?php echo $postUrl ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" alt="" title="<?php echo _SEELASTPOST ?>" /></a><b><?php echo $author ?></b></td>
     </tr>
@@ -81,7 +81,7 @@
 
         $author = nkNickname($dbrLastForumMessage, false);
 
-        list($postUrl) = getForumMessageUrl($forumThread['forum_id'], $forumThread['id'], $dbrLastForumMessage['id'], $forumThread['nbReply'] + 1);
+        list($postUrl) = getForumMessageUrl($forumThread['forum_id'], $forumThread['id'], $dbrLastForumMessage['id'], $forumThread['nbReplies'] + 1);
 
         if (strlen($dbrForumThread['titre']) > 40)
             $titre_topic = '<a href="'. $postUrl .'" title="'. $title .' ( '. $author .' )"><b>'. printSecuTags(substr($dbrForumThread['titre'], 0, 40)) .'...</b></a>';
