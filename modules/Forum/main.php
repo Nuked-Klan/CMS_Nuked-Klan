@@ -32,7 +32,7 @@ function formatForumRow($forum) {
         $forum['moderatorsList'] = formatModeratorsList($forum['moderateurs']);
 
     if ($forum['nbMessages'] > 0)
-        $forum['lastMessage'] = formatLastForumMessage($forum['id']);
+        $forum['lastMessage'] = formatLastForumMsg($forum['id']);
     else
         $forum['lastMessage'] = false;
 
@@ -45,10 +45,11 @@ function formatForumRow($forum) {
  * @param int $forumId : The Forum ID.
  * @return array : The last Forum message formated data.
  */
-function formatLastForumMessage($forumId) {
+function formatLastForumMsg($forumId) {
     global $nuked, $rankField;
 
     // Get last Forum message data
+    // TODO : country field unused
     $dbrLastForumMsg = getLastForumMessageData('forum_id', $forumId,
         'FM.id, FM.titre, FM.thread_id, FM.date, FM.auteur, U.pseudo, U.avatar, U.country'. $rankField
     );
@@ -59,10 +60,10 @@ function formatLastForumMessage($forumId) {
     $lastMsgData = array(
         'author'    => nkNickname($dbrLastForumMsg),
         'date'      => formatForumMessageDate($dbrLastForumMsg['date']),
-        'title'     => $dbrLastForumMsg['titre']
+        'title'     => printSecuTags($dbrLastForumMsg['titre'])
     );
 
-    // Set default avatar id undefined
+    // Set default avatar if undefined
     if ($dbrLastForumMsg['avatar'] != '')
         $lastMsgData['authorAvatar'] = $dbrLastForumMsg['avatar'];
     else
@@ -72,7 +73,9 @@ function formatLastForumMessage($forumId) {
     $lastMsgData['cleanedTitle'] = str_replace('RE : ', '', $dbrLastForumMsg['titre']);
 
     if (strlen($lastMsgData['cleanedTitle']) > 20)
-        $lastMsgData['cleanedTitle'] = substr($lastMsgData['cleanedTitle'], 0, 20) .'...';
+        $lastMsgData['cleanedTitle'] = printSecuTags(substr($lastMsgData['cleanedTitle'], 0, 20)) .'...';
+    else
+        $lastMsgData['cleanedTitle'] = printSecuTags($lastMsgData['cleanedTitle']);
 
     // Add url of last Forum message
     list($lastMsgData['url']) = getForumMessageUrl(
@@ -128,7 +131,7 @@ if ($catId > 0) {
 
 if (! $error) {
     // Get Forum list sorted by Forum category or Forum list of one Forum category
-    $dbrCurrentForum = getForumData(
+    $dbrForumList = getForumData(
         'F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs,
         F.nbTopics, F.nbMessages,
         FC.nom As catName, FC.image AS catImage, FC.niveau AS catLevel',
@@ -136,7 +139,7 @@ if (! $error) {
     );
 
     // Check Forum category access and Forum category exist
-    if (! $dbrCurrentForum) $error = _NOACCESSFORUMCAT;
+    if (! $dbrForumList) $error = _NOACCESSFORUMCAT;
 }
 
 if ($error) {
@@ -175,7 +178,7 @@ if ($nuked['forum_user_details'] == 'on') {
     $teamRank       = getTeamRank();
     $rankField      = ', U.rang';
     $teamRankList   = array_column($teamRank, 'formated');
-    $teamRankList   = ($teamRankList) ? implode(',', $teamRankList) : _NONE;
+    $teamRankList   = ($teamRankList) ? implode(',', $teamRankList) : '<em>'. _NONE .'</em>';
 }
 else {
     $rankField      = '';
@@ -252,13 +255,14 @@ if ($nuked['forum_birthday'] == 'on') {
     $birthdayMessage .= implode(',', $birthdayList);
 }
 
+// Display main Forum list
 echo applyTemplate('modules/Forum/main', array(
     'nuked'             => $nuked,
     'user'              => $user,
     'forumTitle'        => $forumTitle,
     'forumDesc'         => $forumDesc,
     'breadcrumb'        => $breadcrumb,
-    'forumList'         => $dbrCurrentForum,
+    'forumList'         => $dbrForumList,
     'nbTotalMessages'   => $nbTotalMessages,
     'nbTotalUsers'      => $nbTotalUsers,
     'lastUser'          => $dbrLastUser['pseudo'],

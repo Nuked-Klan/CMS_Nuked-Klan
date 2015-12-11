@@ -19,172 +19,171 @@ global $nuked, $user, $visiteur;
 require_once 'modules/Forum/core.php';
 
 
-function getForumTopicIcon($topicData) {
-    global $user, $nuked;
-
-    if ($user) {
-        $user_visitx = nkDB_totalNumRows(
-            'FROM '. FORUM_READ_TABLE .'
-            WHERE user_id = '. nkDB_escape($user['id']) .'
-            AND `thread_id` LIKE \'%,'. $topicData['id'] .',%\''
-        );
-    }
-    else
-        $user_visitx = 0;
-
-    if ($user && $topicData['closed'] == 1 && $user_visitx == 0) {
-        return 'nkForumNewTopicLock';
-    }
-    else if ($topicData['closed'] == 1) {
-        return 'nkForumTopicLock';
-    }
-    else if ($user && $topicData['nbReplies'] >= $nuked['hot_topic'] && $user_visitx == 0) {
-        return 'nkForumNewTopicPopular';
-    }
-    else if ($user && $user_visitx >= 0 && $topicData['nbReplies'] >= $nuked['hot_topic']) {
-        return 'nkForumTopicPopular';
-        //$labelHot = '<span class="nkForumLabels nkForumOrangeColor">'. _HOT .'</span>';
-    }
-    else if ($user && $user_visitx == 0 && $topicData['nbReplies'] < $nuked['hot_topic']) {
-        return 'nkForumNewTopic';
-    }
-
-    return '';
-}
-
-function formatTopicTitle($topicData, $joinedFiles, $forumId) {
+/**
+ * Format Forum topic row data.
+ *
+ * @param array $forumTopic : The raw Forum topic row data.
+ * @return array : The Forum topic row data formated.
+ */
+function formatTopicRow($forumTopic, $forumId) {
     global $nuked;
-
-    $html = '';
-
-    if ($topicData['annonce'] == 1) {
-        if ($nuked['forum_labels_active'] == 'on')
-            $html .= '<span class="nkForumLabels nkForumOrangeColor">'. _ANNOUNCE .'</span>&nbsp;';
-        else
-            $html .= '<img src="modules/Forum/images/announce.png" class="nkForumAlignImg" alt="" title="'. _ANNOUNCE .'" />&nbsp;';
-    }
-
-    if ($topicData['sondage'] == 1) {
-        if ($nuked['forum_labels_active'] == 'on')
-            $html .= '<span class="nkForumLabels nkForumGreenColor">'. _SURVEY .'</span>&nbsp;';
-        else
-            $html .= '<img src="modules/Forum/images/poll.png" class="nkForumAlignImg" alt="" title="'. _SURVEY .'" />&nbsp;';
-    }
-
-    if ($joinedFiles > 0) {
-        if ($nuked['forum_labels_active'] == 'on')
-            $html .= '<span class="nkForumLabels nkForumGreyColor">'. _ATTACHFILE .'</span>&nbsp;';
-        else
-            $html .= '<img src="modules/Forum/images/clip.png" class="nkForumAlignImg" alt="" title='. _ATTACHFILE .' ('. $joinedFiles .')" />&nbsp;';
-    }
-
-    $html .= '<a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumId .'&amp;thread_id='. $topicData['id'] .'" title="'. printSecuTags($topicData['titre']) .'">';
-
-    if (strlen($topicData['titre']) > 30)
-        $html .= printSecuTags(substr($topicData['titre'], 0, 30)) .'...';
-    else
-        $html .= printSecuTags($topicData['titre']);
-
-    $html .= '</a>';
-
-    return $html;
-}
-
-function formatTopicRow($forumthread, $forumId) {
-    global $nuked;
-
-    $threadData = array();
-
-    //$sql8 = mysql_query("SELECT txt FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $forumthread['id'] . "' ORDER BY id LIMIT 0, 1");
-    //list($txt) = mysql_fetch_array($sql8);
-
-    //$txt = str_replace("\r", "", $txt);
-    //$txt = str_replace("\n", " ", $txt);
-
-    //$texte = strip_tags($txt);
-
-    //if (!preg_match("`[a-zA-Z0-9\?\.]`i", $texte)) {
-    //    $texte = _NOTEXTRESUME;
-    //}
-
-    //if (strlen($texte) > 150) {
-    //    $texte = substr($texte, 0, 150) . "...";
-    //}
-
-    //$texte = nkHtmlEntities($texte);
-    //$texte = nk_CSS($texte);
-
-    //$title = nkHtmlEntities(printSecuTags($forumthread['titre']));
 
     // Get total of joined file in Forum topic
     // TODO Add new field in FORUM_THREADS_TABLE ?
     $dbrForumMessage = nkDB_selectMany(
         'SELECT file
         FROM '. FORUM_MESSAGES_TABLE .'
-        WHERE thread_id = '. $forumthread['id']
+        WHERE thread_id = '. $forumTopic['id']
     );
 
-    $joinedFiles = 0;
+    $forumTopic['joinedFiles'] = 0;
 
     foreach ($dbrForumMessage as $forumMessage)
-        if ($forumMessage['file'] != '') $joinedFiles++;
+        if ($forumMessage['file'] != '') $forumTopic['joinedFiles']++;
 
-    $threadData['nbReplies'] = $forumthread['nbReplies'];
+    $forumTopic['iconStatus']   = getForumTopicIcon($forumTopic);
+    $forumTopic['author']       = nkNickname($forumTopic);
+    $forumTopic['lastMessage']  = formatLastForumTopicMsg($forumTopic['id'], $forumId);
 
-    // Get last message data of thread
-    $field = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
-
-    $dbrForumMessage = getLastForumMessageData('thread_id', $forumthread['id'],
-        'FM.id, FM.date, FM.auteur, U.pseudo, U.country, U.avatar'. $field
+    // Add last message url of Forum topic
+    list($forumTopic['lastMessage']['url'], $nbTopicPage) = getForumMessageUrl(
+        $forumId, $forumTopic['id'], $forumTopic['lastMessage']['id'], $forumTopic['nbReplies'] + 1
     );
 
-    $threadData['lastMsgDate']  = formatForumMessageDate($dbrForumMessage['date']);
-    $threadData['topicIcon']    = getForumTopicIcon($forumthread);
-    $threadData['topicTitle']   = formatTopicTitle($forumthread, $joinedFiles, $forumId);
-
-    list($threadData['lastMsgUrl'], $nbTopicPage) = getForumMessageUrl(
-        $forumId, $forumthread['id'], $dbrForumMessage['id'], $forumthread['nbReplies'] + 1
-    );
-
-    $threadUrl = 'index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumId .'&amp;thread_id='. $forumthread['id'];
-
-    $threadData['topicPagination'] = '';
+    // Add Forum topic pagination
+    $forumTopic['pagination'] = '';
 
     if ($nbTopicPage > 1) {
-        $threadData['topicPagination'] .= '<small>';
+        $forumTopic['pagination'] .= '<small>';
 
-        for ($l = 1; $l <= $nbTopicPage; $l++)
-            $threadData['topicPagination'] .= ' <a href="'. $threadUrl .'&amp;p='. $l .'" class="nkForumLinkMultipage2">'. $l .'</a>';
+        for ($l = 1; $l <= $nbTopicPage; $l++) {
+            $forumTopic['pagination'] .= ' <a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumId
+                . '&amp;thread_id='. $forumTopic['id'] .'&amp;p='. $l .'" class="nkForumLinkMultipage2">'. $l .'</a>';
+        }
 
-        $threadData['topicPagination'] .= '</small>';
+        $forumTopic['pagination'] .= '</small>';
     }
 
-    // On identifie l'auteur du message original
-    $threadData['createdBy'] = nkNickname($forumthread);
-
-    // On identifie le dernier posteur
-    $threadData['lastMsgAuthor'] = nkNickname($dbrForumMessage);
-
-    if ($dbrForumMessage['avatar'] != '')
-        $threadData['lastMsgAuthorAvatar'] = $dbrForumMessage['avatar'];
+    // Truncate title of last Forum topic message if needed
+    if (strlen($forumTopic['titre']) > 30)
+        $forumTopic['cleanedTitle'] = printSecuTags(substr($forumTopic['titre'], 0, 30)) .'...';
     else
-        $threadData['lastMsgAuthorAvatar'] = 'modules/Forum/images/noAvatar.png';
+        $forumTopic['cleanedTitle'] = printSecuTags($forumTopic['titre']);
 
-    return $threadData;
+    $forumTopic['titre'] = printSecuTags($forumTopic['titre']);
+
+    return $forumTopic;
 }
 
-$forumId = (isset($_REQUEST['forum_id'])) ? (int) $_REQUEST['forum_id'] : 0;
+/*
+function formatInfobulleContent() {
+    $sql8 = mysql_query("SELECT txt FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $forumthread['id'] . "' ORDER BY id LIMIT 0, 1");
+    list($txt) = mysql_fetch_array($sql8);
+
+    $txt = str_replace("\r", "", $txt);
+    $txt = str_replace("\n", " ", $txt);
+
+    $texte = strip_tags($txt);
+
+    if (!preg_match("`[a-zA-Z0-9\?\.]`i", $texte)) {
+       $texte = _NOTEXTRESUME;
+    }
+
+    if (strlen($texte) > 150) {
+       $texte = substr($texte, 0, 150) . "...";
+    }
+
+    $texte = nkHtmlEntities($texte);
+    $texte = nk_CSS($texte);
+
+    $title = nkHtmlEntities(printSecuTags($forumthread['titre']));
+}
+*/
+
+/**
+ * Format last message data of Forum topic.
+ *
+ * @param int $threadId : The Forum topic ID.
+ * @param int $forumId : The Forum ID.
+ * @return array : The last message formated data of Forum topic.
+ */
+function formatLastForumTopicMsg($threadId, $forumId) {
+    global $nuked, $rankField;
+
+    // Get last message data of Forum topic
+    $dbrLastForumTopicMsg = getLastForumMessageData('thread_id', $threadId,
+        'FM.id, FM.date, FM.auteur, U.pseudo, U.country, U.avatar'. $rankField
+    );
+
+    // Set last message author and formated date of Forum topic
+    $lastMsgData = array(
+        'id'        => $dbrLastForumTopicMsg['id'],
+        'author'    => nkNickname($dbrLastForumTopicMsg),
+        'date'      => formatForumMessageDate($dbrLastForumTopicMsg['date'])
+    );
+
+    // Set default avatar if undefined
+    if ($dbrLastForumTopicMsg['avatar'] != '')
+        $lastMsgData['authorAvatar'] = $dbrLastForumTopicMsg['avatar'];
+    else
+        $lastMsgData['authorAvatar'] = 'modules/Forum/images/noAvatar.png';
+
+    return $lastMsgData;
+}
+
+/**
+ * Get CSS class of Forum topic status.
+ *
+ * @param array $forumTopic : The Forum topic row data.
+ * @return string : The CSS class of Forum topic status.
+ */
+function getForumTopicIcon($forumTopic) {
+    global $user, $nuked;
+
+    if ($user) {
+        $user_visitx = nkDB_totalNumRows(
+            'FROM '. FORUM_READ_TABLE .'
+            WHERE user_id = '. nkDB_escape($user['id']) .'
+            AND `thread_id` LIKE \'%,'. $forumTopic['id'] .',%\''
+        );
+    }
+    else
+        $user_visitx = 0;
+
+    if ($user && $forumTopic['closed'] == 1 && $user_visitx == 0) {
+        return 'nkForumNewTopicLock';
+    }
+    else if ($forumTopic['closed'] == 1) {
+        return 'nkForumTopicLock';
+    }
+    else if ($user && $forumTopic['nbReplies'] >= $nuked['hot_topic'] && $user_visitx == 0) {
+        return 'nkForumNewTopicPopular';
+    }
+    else if ($user && $user_visitx >= 0 && $forumTopic['nbReplies'] >= $nuked['hot_topic']) {
+        return 'nkForumTopicPopular';
+    }
+    else if ($user && $user_visitx == 0 && $forumTopic['nbReplies'] < $nuked['hot_topic']) {
+        return 'nkForumNewTopic';
+    }
+
+    return '';
+}
+
+
+$dateMax    = (int) getRequestVars('date_max');
+$forumId    = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
+$p          = (isset($_GET['p'])) ? (int) $_GET['p'] : 1;
+$error      = false;
 
 // Get current Forum data
-$field = (! empty($_REQUEST['date_max'])) ? '' : ', F.nbTopics';
+$field = ($dateMax > 0) ? '' : ', F.nbTopics';
 
 $dbrCurrentForum = getForumData(
     'F.nom AS forumName, F.comment, F.moderateurs, F.image, F.cat, F.niveau AS forumLevel,
     FC.nom As catName, FC.niveau AS catLevel'. $field, 'forumId', $forumId
 );
 
-// Check forum access, forum category access and forum exist
-$error = false;
+// Check Forum access, Forum category access and Forum exist
 if (! $dbrCurrentForum) $error = _NOFORUMEXIST;
 if ($visiteur < $dbrCurrentForum['catLevel'] ) $error = _NOACCESSFORUMCAT;
 if ($visiteur < $dbrCurrentForum['forumLevel'] ) $error = _NOACCESSFORUM;
@@ -202,57 +201,58 @@ $breadcrumb = getForumBreadcrump(
     $dbrCurrentForum['forumName']
 );
 
-// Prepare data of Forum topic list
+// Prepare data of Forum topics list
 $dbrCurrentForum['forumName']  = printSecuTags($dbrCurrentForum['forumName']);
 $dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
 
-$moderatorList  = formatModeratorList($dbrCurrentForum['moderateurs']);
-$moderator      = isModerator($dbrCurrentForum['moderateurs']);
+$moderatorsList = formatModeratorsList($dbrCurrentForum['moderateurs']);
 
-// Get total of topic Forum
-if (! empty($_REQUEST['date_max'])) {
-    $dateMaxTimestamp = time() - $_REQUEST['date_max'];
+$administrator = $dbrCurrentForum['forumLevel'] == 0
+    || $visiteur >= $dbrCurrentForum['forumLevel']
+    || isModerator($dbrCurrentForum['moderateurs']);
 
-    $nbTopicInForum = nkDB_totalNumRows(
+// Get total of Forum topics
+if ($dateMax > 0) {
+    $dateMaxTimestamp = time() - $dateMax;
+
+    $nbTopics = nkDB_totalNumRows(
         'FROM '. FORUM_THREADS_TABLE .'
         WHERE forum_id = '. $forumId .' AND date > '. $dateMaxTimestamp
     );
 }
 else
-    $nbTopicInForum = $dbrCurrentForum['nbTopics'];
+    $nbTopics = $dbrCurrentForum['nbTopics'];
 
-
-// Get pagination of topic Forum list
-if ($nbTopicInForum > $nuked['thread_forum_page']) {
+// Get pagination of Forum topics list
+if ($nbTopics > $nuked['thread_forum_page']) {
     $url = 'index.php?file=Forum&amp;page=viewforum&amp;forum_id='. $forumId;
 
-    if (! empty($_REQUEST['date_max']))
-        $url .= '&amp;date_max='. $_REQUEST['date_max'];
+    if ($dateMax > 0)
+        $url .= '&amp;date_max='. $dateMax;
 
-    $pagination = number($nbTopicInForum, $nuked['thread_forum_page'], $url, true);
+    $pagination = number($nbTopics, $nuked['thread_forum_page'], $url, true);
 }
 else {
     $pagination = '';
 }
 
-// Get topic Forum list
-$field = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
+// Get Forum topics list
+$rankField = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
 
-$sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annonce, FT.sondage, FT.nbReplies,
-    U.pseudo, U.country'. $field .'
+$sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annonce,
+    FT.sondage, FT.nbReplies, U.pseudo, U.country'. $rankField .'
     FROM '. FORUM_THREADS_TABLE .' AS FT
     LEFT JOIN '. USER_TABLE .' AS U
     ON U.id = FT.auteur_id
     WHERE FT.forum_id = '. $forumId;
 
-if (! empty($_REQUEST['date_max']))
+if ($dateMax > 0)
     $sql .= ' AND date > '. $dateMaxTimestamp;
 
-$p = ! isset($_GET['p']) ? 1 : $_GET['p'];
-
-$start = $p * $nuked['thread_forum_page'] - $nuked['thread_forum_page'];
-
-$dbrForumthread = nkDB_selectMany($sql, array('FT.annonce', 'FT.last_post'), 'DESC', $nuked['thread_forum_page'], $start);
+$dbrForumTopics = nkDB_selectMany($sql,
+    array('FT.annonce', 'FT.last_post'), 'DESC',
+    $nuked['thread_forum_page'], $p * $nuked['thread_forum_page'] - $nuked['thread_forum_page']
+);
 
 // Get Forum list for quick shortcuts Forum selection
 $dbrForumList = nkDB_selectMany(
@@ -271,16 +271,16 @@ foreach ($dbrForumList as $forum)
 opentable();
 
 echo applyTemplate('modules/Forum/viewForum', array(
-    'dbrForum'          => $dbrCurrentForum,
-    'breadcrumb'        => $breadcrumb,
     'nuked'             => $nuked,
-    'moderatorList'     => $moderatorList,
-    'visiteur'          => $visiteur,
-    'moderator'         => $moderator,
-    'forumId'           => $forumId,
-    'pagination'        => $pagination,
-    'dbrForumthread'    => $dbrForumthread,
     'user'              => $user,
+    'visiteur'          => $visiteur,
+    'forumId'           => $forumId,
+    'currentForum'      => $dbrCurrentForum,
+    'breadcrumb'        => $breadcrumb,
+    'moderatorsList'    => $moderatorsList,
+    'administrator'     => $administrator,
+    'pagination'        => $pagination,
+    'forumTopicsList'   => $dbrForumTopics,
     'forumList'         => $forumList
 ));
 

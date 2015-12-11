@@ -2,16 +2,16 @@
     <div id="nkForumWrapper">
         <div id="nkForumInfos">
 <?php
-    if ($nuked['forum_image'] == 'on' && $dbrForum['image'] != '') :
+    if ($nuked['forum_image'] == 'on' && $currentForum['image'] != '') :
 ?>
-            <img src="<?php echo $dbrForum['image'] ?>" alt="" />
+            <img src="<?php echo $currentForum['image'] ?>" alt="" />
 <?php
     endif
 ?>
             <div>
-                <h2><?php echo $dbrForum['forumName'] ?></h2>
-                <p><?php echo $dbrForum['comment'] ?></p>
-                <div class="nkForumModos"><small><?php echo $moderatorList ?></small></div>
+                <h2><?php echo $currentForum['forumName'] ?></h2>
+                <p><?php echo $currentForum['comment'] ?></p>
+                <div class="nkForumModos"><small><?php echo $moderatorsList ?></small></div>
             </div>
         </div>
         <div id="nkForumBreadcrumb">
@@ -19,7 +19,7 @@
         </div>
 
 <?php
-    if ($dbrForum['forumLevel'] == 0 || $visiteur >= $dbrForum['forumLevel'] || $moderator) :
+    if ($administrator) :
 ?>
         <div id="nkForumPostNewTopic">
             <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo _NEWTOPIC ?></a>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="nkForumCatContent nkBgColor2">
 <?php
-    if (count($dbrForumthread) == 0) :
+    if (count($forumTopicsList) == 0) :
 ?>
                     <div>
                         <div class="nkForumIconCell nkBorderColor1"></div>
@@ -62,38 +62,74 @@
 <?php
     endif;
 
-    foreach ($dbrForumthread as $forumthread) :
-        $threadData = formatTopicRow($forumthread, $forumId);
+    foreach ($forumTopicsList as $forumTopic) :
+        $forumTopic = formatTopicRow($forumTopic, $forumId);
 ?>
                     <div>
                         <div class="nkForumIconCell nkBorderColor1">
-                            <span class="nkForumTopicIcon <?php echo $threadData['topicIcon'] ?>"></span>
+                            <span class="nkForumTopicIcon <?php echo $forumTopic['iconStatus'] ?>"></span>
                         </div>
                         <div class="nkForumForumCell nkBorderColor1">
-                                <h3><?php echo $threadData['topicTitle'] ?></h3>
+                            <h3><?php
+
+        /*
+        if ($topicData['iconStatus'] == 'nkForumTopicPopular') :
+            if ($nuked['forum_labels_active'] == 'on') :
+                ?><span class="nkForumLabels nkForumOrangeColor"><?php echo _HOT ?></span><?php
+            else
+                ?><img src="modules/Forum/images/popular.png" class="nkForumAlignImg" alt="" title="<?php echo _HOT ?>" />&nbsp;<?php
+            endif;
+        endif;
+        */
+
+        if ($forumTopic['annonce'] == 1) :
+            if ($nuked['forum_labels_active'] == 'on') :
+                ?><span class="nkForumLabels nkForumOrangeColor"><?php echo _ANNOUNCE ?></span>&nbsp;<?php
+            else :
+                ?><img src="modules/Forum/images/announce.png" class="nkForumAlignImg" alt="" title="<?php echo _ANNOUNCE ?>" />&nbsp;<?php
+            endif;
+        endif;
+
+        if ($forumTopic['sondage'] == 1) :
+            if ($nuked['forum_labels_active'] == 'on') :
+                ?><span class="nkForumLabels nkForumGreenColor"><?php echo _SURVEY ?></span>&nbsp;<?php
+            else :
+                ?><img src="modules/Forum/images/poll.png" class="nkForumAlignImg" alt="" title="<?php echo _SURVEY ?>" />&nbsp;<?php
+            endif;
+        endif;
+
+        if ($forumTopic['joinedFiles']  > 0) :
+            if ($nuked['forum_labels_active'] == 'on') :
+                ?><span class="nkForumLabels nkForumGreyColor"><?php echo _ATTACHFILE ?></span>&nbsp;<?php
+            else :
+                ?><img src="modules/Forum/images/clip.png" class="nkForumAlignImg" alt="" title="<?php echo _ATTACHFILE ?> (<?php echo $forumTopic['joinedFiles']  ?>)" />&nbsp;<?php
+            endif;
+        endif;
+
+        ?><a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $forumTopic['id'] ?>" title="<?php echo $forumTopic['titre'] ?>"><?php echo $forumTopic['cleanedTitle'] ?></a></h3>
                             <div>
                                 <span>
                                     <?php echo _CREATEDBY ?>
-                                    <strong><?php echo $threadData['createdBy'] ?></strong>
-                                    <?php echo _THE ?>&nbsp;<?php echo nkdate($forumthread['date']) . $threadData['topicPagination'] ?>
+                                    <strong><?php echo $forumTopic['author'] ?></strong>
+                                    <?php echo _THE ?>&nbsp;<?php echo nkdate($forumTopic['date']) . $forumTopic['pagination'] ?>
                                 </span>
                             </div>
                         </div>
                         <div class="nkForumStatsCell nkBorderColor1">
-                            <strong><?php echo $threadData['nbReplies'] ?></strong>&nbsp;<?php echo strtolower(_ANSWERS) ?>
+                            <strong><?php echo $forumTopic['nbReplies'] ?></strong>&nbsp;<?php echo strtolower(_ANSWERS) ?>
                             <br/>
-                            <strong><?php echo $forumthread['view'] ?></strong>&nbsp;<?php echo strtolower(_VIEWS) ?>
+                            <strong><?php echo $forumTopic['view'] ?></strong>&nbsp;<?php echo strtolower(_VIEWS) ?>
                         </div>
                         <div class="nkForumDateCell nkBorderColor1">
                             <div class="nkForumAuthorAvatar">
-                                <img src="<?php echo $threadData['lastMsgAuthorAvatar'] ?>" alt="" />
+                                <img src="<?php echo $forumTopic['lastMessage']['authorAvatar'] ?>" alt="" />
                             </div>
                             <div>
                                 <p>
                                     <span><?php echo _BY ?></span>
-                                    <strong><?php echo $threadData['lastMsgAuthor'] ?>&nbsp;<a href="<?php echo $threadData['lastMsgUrl'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo _SEELASTPOST ?>" /></a></strong>
+                                    <strong><?php echo $forumTopic['lastMessage']['author'] ?>&nbsp;<a href="<?php echo $forumTopic['lastMessage']['url'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo _SEELASTPOST ?>" /></a></strong>
                                 </p>
-                                <p><?php echo $threadData['lastMsgDate'] ?></p>
+                                <p><?php echo $forumTopic['lastMessage']['date'] ?></p>
                             </div>
                         </div>
                     </div>
@@ -110,13 +146,13 @@
 <?php
     if ($user) :
 ?>
-                <a id="nkForumMarkRead" href="index.php?file=Forum&amp;op=mark&amp;forum_id=<?php echo $forumId ?>"><?php echo _MARKSUBJECTREAD ?></a>
+            <a id="nkForumMarkRead" href="index.php?file=Forum&amp;op=mark&amp;forum_id=<?php echo $forumId ?>"><?php echo _MARKSUBJECTREAD ?></a>
 <?php
     endif
 ?>
         </div>
 <?php
-        if ($dbrForum['forumLevel'] == 0 || $visiteur >= $dbrForum['forumLevel'] || $moderator) :
+        if ($administrator) :
 ?>
         <div id="nkForumPostNewTopic">
             <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo _NEWTOPIC ?></a>
