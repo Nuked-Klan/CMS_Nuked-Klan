@@ -14,9 +14,10 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! moduleInit('Forum'))
     return;
 
-$captcha = initCaptcha();
+//$captcha = initCaptcha();
 
-global $nuked, $user, $language, $theme, $visiteur;
+global $nuked, $user, $theme, $visiteur, $highlight, $forumId, $threadId, $forumAdmin,
+    $avatar_resize, $avatar_width;
 
 include 'modules/Forum/template.php';
 require_once 'modules/Forum/core.php';
@@ -25,28 +26,31 @@ require_once 'modules/Forum/core.php';
 /**
  * Highlight researched string in title and message of Forum topic.
  *
- * @param string $highlight : The researched string.
  * @param string $title : The message title.
- * @param string $text : The message content
+ * @param string $text : The message content.
  * @return array : A numerical indexed array with title and message content highlighted.
  */
-function highlightText($highlight, $title, $text) {
-    $highlight = trim($highlight);
-    $highlight = printSecuTags($highlight);
+// TODO : Rewrite for multiple words in title, walk one time $text...
+function highlightText($title, $text) {
+    global $highlight;
 
     $title = str_replace($highlight, '<span style="color: #FF0000">'. $highlight .'</span>', $title);
 
-    $search = explode(' ', $highlight);
-    $nbWord = count($search);
+    $search  = explode(' ', $highlight);
+    $nbWords = count($search);
 
-    for($i = 0; $i < $nbWord; $i++) {
+    for ($i = 0; $i < $nbWords; $i++) {
         $tab = preg_split('`(<\w+.*?>)`', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
 
         foreach ($tab as $key => $val) {
             if (preg_match('`^<\w+`', $val))
                 $tab[$key] = $val;
             else
-                $tab[$key] = preg_replace('/'. preg_quote($search[$i], '/') .'/', '<span style="color: #FF0000;"><b>\0</b></span>', $val);
+                $tab[$key] = preg_replace(
+                    '/'. preg_quote($search[$i], '/') .'/',
+                    '<span style="color: #FF0000;"><b>\0</b></span>',
+                    $val
+                );
         }
 
         $text = implode($tab);
@@ -59,40 +63,33 @@ function highlightText($highlight, $title, $text) {
  * Format data of Forum topic message Author.
  *
  * @param array $topicMessage : Raw data of Forum topic message.
- * @param bool $administrator : If user have administrator / moderator right.
  * @return array : The Forum topic message Author data formated.
  */
-function getAuthorInfo($topicMessage, $administrator) {
+function getAuthorInfo($topicMessage) {
+    global $forumAdmin, $avatar_resize, $avatar_width;
+
+    static $formatedAuthorInfo = array();
+
+    // Check if author is already formated
+    if (array_key_exists($topicMessage['auteur_id'], $formatedAuthorInfo))
+        return $formatedAuthorInfo[$topicMessage['auteur_id']];
+
     $authorDefaultInfo = array(
         'status'        => 'unregistered',
         'name'          => $topicMessage['auteur'],
         'avatar'        => '<img src="modules/Forum/images/noAvatar.png" alt="" />',
         'userInfo'      => $topicMessage['auteur'],
-        'totalUserPost' => '',
-        'displayUserIp' => '',
+        // TODO : Display a rank for visitor ?
         'rankName'      => '',
-        'rankImage'     => '',
         'rankStyle'     => ''
     );
 
     // For anonymous message, return default values
-    if ($topicMessage['auteur_id'] == '')
+    if ($topicMessage['auteur_id'] == '' || $topicMessage['authorName'] === null)
         return $authorDefaultInfo;
 
-    // Get user data of author
-    $authorInfo = nkDB_selectOne(
-        'SELECT pseudo AS name, niveau, rang, avatar, signature, date, email,
-        icq, msn, aim, yim, xfire, facebook, origin, steam, twitter, skype,
-        url AS homepage, country, count, game
-        FROM '. USER_TABLE .'
-        WHERE id = '. nkDB_escape($topicMessage['auteur_id'])
-    );
-
-    // For deleted user, return default values
-    if (! $authorInfo)
-        return $authorDefaultInfo;
-
-    $authorInfo = array_merge($authorDefaultInfo, $authorInfo);
+    //$authorInfo = array_merge($authorDefaultInfo, $authorInfo);
+    $authorInfo = $authorDefaultInfo;
     $authorInfo['status'] = 'registered';
 
     // Get online status of author
@@ -107,10 +104,10 @@ function getAuthorInfo($topicMessage, $administrator) {
         'SELECT name AS gameName, icon AS gameIcon, pref_1 AS gamePref1, pref_2 AS gamePref2,
         pref_3 AS gamePref3, pref_4 AS gamePref4, pref_5 AS gamePref5
         FROM '. GAMES_TABLE .'
-        WHERE id = '. $authorInfo['game']
+        WHERE id = '. $topicMessage['game']
     );
 
-    if ($dbrGame !== false) {
+    if ($dbrGame) {
         $authorInfo = array_merge($authorInfo, $dbrGame);
 
         $authorInfo['gameName'] = nkHtmlEntities($authorInfo['gameName']);
@@ -128,15 +125,15 @@ function getAuthorInfo($topicMessage, $administrator) {
         WHERE user_id = '. nkDB_escape($topicMessage['auteur_id'])
     );
 
-    if ($dbrUserDetail !== false)
+    if ($dbrUserDetail)
         $authorInfo = array_merge($authorInfo, array_map('nkHtmlEntities', $dbrUserDetail));
 
     // Get author team rank if enabled
-    if ($authorInfo['rang'] > 0 && $nuked['forum_rank_team'] == 'on') {
+    if ($topicMessage['rang'] > 0 && $nuked['forum_rank_team'] == 'on') {
         $dbrTeamRank = nkDB_selectOne(
             'SELECT titre AS rankName, image AS rankImage, couleur AS rankColor
             FROM '. TEAM_RANK_TABLE .'
-            WHERE id = '. $authorInfo['rang']
+            WHERE id = '. $topicMessage['rang']
         );
 
         $authorInfo = array_merge($authorInfo, $dbrTeamRank);
@@ -147,17 +144,22 @@ function getAuthorInfo($topicMessage, $administrator) {
     else {
         $order = $dir = $limit = false;
 
-        if ($authorInfo['niveau'] >= admin_mod('Forum'))
+        if ($topicMessage['niveau'] >= admin_mod('Forum')) {
             $whereClause = 'type = 2';
-        else if ($dbrCurrentForum['moderateurs'] != '' && strpos($dbrCurrentForum['moderateurs'], $topicMessage['auteur_id']) !== false)
+        }
+        else if ($dbrCurrentForum['moderateurs'] != ''
+            && strpos($dbrCurrentForum['moderateurs'], $topicMessage['auteur_id']) !== false
+        ) {
             $whereClause = 'type = 1';
+        }
         else {
-            $whereClause = $authorInfo['count'] .' >= post AND type = 0';
+            $whereClause = $topicMessage['count'] .' >= post AND type = 0';
             $order = array('post');
             $dir = 'DESC';
             $limit = 1;
         }
 
+        // TODO : Add color field to FORUM_RANK_TABLE ?
         $dbrForumRank = nkDB_selectOne(
             'SELECT nom AS rankName, image AS rankImage
             FROM '. FORUM_RANK_TABLE .'
@@ -173,46 +175,45 @@ function getAuthorInfo($topicMessage, $administrator) {
     if ($authorInfo['rankImage'] != '')
         $authorInfo['rankImage'] = '<img src="'. $authorInfo['rankImage'] .'" alt="" />';
 
-    if ($authorInfo['rang'] > 0 && $nuked['forum_user_details'] == 'on')
+    if ($topicMessage['rang'] > 0 && $nuked['forum_user_details'] == 'on')
         $authorInfo['rankStyle'] = 'style="color:#'. $authorInfo['rankColor'] .'"';
     else
         $authorInfo['rankStyle'] = '';
 
     // Set user info
     $authorInfo['userInfo'] =
-        '<img src="images/flags/'. $authorInfo['country'] .'" alt="'. $authorInfo['country'] .'" class="nkForumOnlineFlag" />'
-        . '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($authorInfo['name']) .'">'
-        . $authorInfo['name'] .'</a>';
+        '<img src="images/flags/'. $topicMessage['country'] .'" alt="'. $topicMessage['country']
+        . '" class="nkForumOnlineFlag" /><a href="index.php?file=Members&amp;op=detail&amp;autor='
+        . urlencode($topicMessage['authorName']) .'">'. $topicMessage['authorName'] .'</a>';
 
     if ($topicMessage['auteur_id'] == $dbrOnlineConnect['user_id'])
         $authorInfo['userInfo'] .= '<div class="nkOnlineIcon" title="'. _ISONLINE .'"></div>';
 
     // Set user or default avatar
-    if ($authorInfo['avatar'] != '') {
+    if ($topicMessage['avatar'] != '') {
         if ($avatar_resize == 'off'
-            || (stripos($authorInfo['avatar'], 'http://') !== false && $avatar_resize == 'local')
+            || (stripos($topicMessage['avatar'], 'http://') !== false && $avatar_resize == 'local')
         )
             $style = 'style="border:0;"';
         else
             $style = 'style="border: 0; overflow: auto; max-width: '. $avatar_width .'px; width: expression(this.scrollWidth >= '. $avatar_width .'? \''. $avatar_width .'px\' : \'auto\');"';
 
-        $authorInfo['avatar'] = '<img src="'. checkimg($authorInfo['avatar']) .'" '. $style .'alt="" />';
-    }
-    else {
-        $authorInfo['avatar'] = '<img src="modules/Forum/images/noAvatar.png" alt="" />';
+        // TODO : Remove checkimg. Check only when user account is updated.
+        $authorInfo['avatar'] = '<img src="'. checkimg($topicMessage['avatar']) .'" '. $style .'alt="" />';
     }
 
     // Add total user post
-    $authorInfo['totalUserPost'] = _MESSAGES .' : '. $authorInfo['count'] .'<br />'. _REGISTERED .': ';
+    $authorInfo['totalUserPost'] = _MESSAGES .' : '. $topicMessage['count'] .'<br />'. _REGISTERED .': ';
 
     // Valeur TRUE = Pas d'heure/minute.
-    $authorInfo['totalUserPost'] .= nkDate($authorInfo['date'], TRUE);
+    $authorInfo['totalUserPost'] .= nkDate($topicMessage['authorDate'], TRUE);
 
-    //On détermine si le visiteur est un administrateur et on lui affiche l'IP du posteur
-    if ($administrator)
+    // On détermine si le visiteur est un administrateur et on lui affiche l'IP du posteur
+    if ($forumAdmin)
         $authorInfo['displayUserIp'] = _IP .' : '. $topicMessage['auteur_ip'];
-    else
-        $authorInfo['displayUserIp'] = '';
+
+    // Store author info
+    $formatedAuthorInfo[$topicMessage['auteur_id']] = $authorInfo;
 
     return $authorInfo;
 }
@@ -221,58 +222,78 @@ function getAuthorInfo($topicMessage, $administrator) {
  * Format data of Forum topic message.
  *
  * @param array $topicMessage : Raw data of Forum topic message.
- * @param bool $administrator : If user have administrator / moderator right.
- * @param int $forumId : The forum ID.
- * @param int $threadId : The topic ID.
  * @return array : The Forum topic message formated.
  */
-function formatTopicMessage($topicMessage, $administrator, $forumId, $threadId) {
-    global $user;
+function formatTopicMessage($topicMessage) {
+    global $highlight;
 
     $topicMessage['titre'] = printSecuTags($topicMessage['titre']);
 
-    if (isset($_REQUEST['highlight']) && $_REQUEST['highlight'] != '') {
+    if ($highlight != '') {
         list($topicMessage['titre'], $topicMessage['txt']) = highlightText(
-            $_REQUEST['highlight'], $topicMessage['titre'], $topicMessage['txt']
+            $topicMessage['titre'], $topicMessage['txt']
         );
-    }
-
-    if ($topicMessage['file'] != '' && is_file('upload/Forum/'. $topicMessage['file'])) {
-        $fileUrl = 'upload/Forum/'. $topicMessage['file'];
-
-        if ($user && $topicMessage['auteur_id'] == $user['id'] || $administrator)
-            $del = '&nbsp;<a href="index.php?file=Forum&amp;op=del_file&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'&amp;mess_id='. $topicMessage['id'] .'" class="nkButton icon trash danger">'. _DELFILE .'</a>';
-        else
-            $del = '';
-
-        $roundedFilesize = ceil((int) filesize($fileUrl) / 1024);
-
-        $topicMessage['joinedFile'] = '<div class="nkForumViewAttachedFile"><strong><a href="'. $fileUrl .'" onclick="window.open(this.href); return false;" title="'. _DOWNLOADFILE .'">'. $topicMessage['file'] .'</a> ('. $roundedFilesize .' Ko)'. $del .'</strong></div>';
-    }
-    else {
-        $topicMessage['joinedFile'] = '';
     }
 
     return $topicMessage;
 }
 
-$forumId    = (isset($_REQUEST['forum_id'])) ? (int) $_REQUEST['forum_id'] : 0;
-$threadId   = (isset($_REQUEST['thread_id'])) ? (int) $_REQUEST['thread_id'] : 0;
-$p          = (isset($_REQUEST['p'])) ? (int) $_REQUEST['p'] : 1;
+/**
+ * Get next or previous Forum topic link.
+ *
+ * @param string $dir : The position of near Forum topic link. (ASC = next, DESC = previous)
+ * @param int $lastPost : The timestamp of last Forum topic message posted in Forum.
+ * @return string : The near Forum topic link or a empty string.
+ */
+function getNearForumTopicLink($dir, $lastPost) {
+    global $forumId;
+
+    if ($dir == 'DESC') {
+        $comparisonOperator = '<';
+        $cssClass           = 'arrowleft';
+        $linkText           = _LASTTHREAD;
+    }
+    else {
+        $comparisonOperator = '>';
+        $cssClass           = 'arrowright';
+        $linkText           = _NEXTTHREAD;
+    }
+
+    // Get near Forum topic link if exist
+    $dbrNearForumTopic = nkDB_selectOne(
+        'SELECT id
+        FROM '. FORUM_THREADS_TABLE .'
+        WHERE last_post '. $comparisonOperator .' '. $lastPost .'
+        AND forum_id = '. $forumId,
+        array('last_post'), $dir, 1
+    );
+
+    if ($dbrNearForumTopic && $dbrNearForumTopic['id'])
+        return '<a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumId
+            . '&amp;thread_id='. $dbrNearForumTopic['id'] .'" class="nkButton icon '. $cssClass .'">'
+            . $linkText .'</a>';
+
+    return '';
+}
+
+
+$forumId    = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
+$threadId   = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
+$p          = (isset($_GET['p'])) ? (int) $_GET['p'] : 1;
+$highlight  = (isset($_GET['highlight'])) ? trim($_GET['highlight']) : '';
+$error      = false;
 
 // Get current Forum data
 $dbrCurrentForum = getForumData(
-    'F.nom AS forumName, F.moderateurs, F.cat, F.level, F.niveau AS forumLevel,
+    'F.nom AS forumName, F.moderateurs, F.cat, F.level, F.niveau AS forumLevel, F.nbTopics,
     FC.nom AS catName, FC.niveau AS catLevel', 'forumId', $forumId
 );
 
-// Check forum access, forum category access and forum exist
-$error = false;
+// Check Forum access, Forum category access and Forum exist
 if (! $dbrCurrentForum) $error = _NOFORUMEXIST;
 if ($visiteur < $dbrCurrentForum['catLevel']) $error = _NOACCESSFORUMCAT;
 if ($visiteur < $dbrCurrentForum['forumLevel']) $error = _NOACCESSFORUM;
 
-// Check if topic exists
 if (! $error) {
     // Get current Forum topic data
     $dbrCurrentTopic = nkDB_selectOne(
@@ -281,6 +302,7 @@ if (! $error) {
         WHERE id = '. $threadId
     );
 
+    // Check if Forum topic exists
     if (! $dbrCurrentTopic) $error = _NOTOPICEXIST;
 }
 
@@ -334,12 +356,16 @@ if ($user) {
     }
 }
 
+// Prepare data of Forum topic
 $dbrCurrentForum['forumName']  = printSecuTags($dbrCurrentForum['forumName']);
 $dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
 
+$moderator  = isModerator($dbrCurrentForum['moderateurs']);
+$forumAdmin = $visiteur >= admin_mod('Forum') || $moderator;
 
-$moderator      = isModerator($dbrCurrentForum['moderateurs']);
-$administrator  = $visiteur >= admin_mod('Forum') || $moderator;
+$forumWriteLevel = $moderator
+                || $dbrCurrentForum['level'] == 0
+                || $visiteur >= $dbrCurrentForum['level'];
 
 $dbrCurrentTopic['titre'] = printSecuTags($dbrCurrentTopic['titre']);
 $dbrCurrentTopic['titre'] = nk_CSS($dbrCurrentTopic['titre']);
@@ -351,56 +377,34 @@ nkDB_update(FORUM_THREADS_TABLE, array(
     'id = '. $threadId
 );
 
+// Get next and previous Forum topic link if exist
 $next = $prev = '';
-$topicForumUrl = 'index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumId;
 
-// Get next topic link if exist
-$dbrNextTopic = nkDB_selectOne(
-    'SELECT id
-    FROM '. FORUM_THREADS_TABLE .'
-    WHERE last_post > '. $dbrCurrentTopic['last_post'] .'
-    AND forum_id = '. $forumId,
-    array('last_post'), 'ASC', 1
-);
+if ($dbrCurrentForum['nbTopics'] > 1) {
+    $next = getNearForumTopicLink('ASC', $dbrCurrentTopic['last_post']);
+    $prev = getNearForumTopicLink('DESC', $dbrCurrentTopic['last_post']);
+}
 
-if (isset($dbrNextTopic['id']))
-    $next = '<a href="'. $topicForumUrl .'&amp;thread_id=' . $dbrNextTopic['id'] .'" class="nkButton icon arrowright">'. _NEXTTHREAD .'</a>';
-
-// Get last topic link if exist
-$dbrLastTopic = nkDB_selectOne(
-    'SELECT id
-    FROM '. FORUM_THREADS_TABLE .'
-    WHERE last_post < '. $dbrCurrentTopic['last_post'] .'
-    AND forum_id = '. $forumId,
-    array('last_post'), 'DESC', 1
-);
-
-if (isset($dbrLastTopic['id']))
-    $prev = '<a href="'. $topicForumUrl .'&amp;thread_id='. $dbrLastTopic['id'] .'" class="nkButton icon arrowleft">'. _LASTTHREAD .'</a>';
-
-
-// Prepare Forum breadcrumb
+// Prepare Forum topic breadcrumb
 $breadcrumb = getForumBreadcrump(
     $dbrCurrentForum['catName'], $dbrCurrentForum['cat'],
     $dbrCurrentForum['forumName'], $forumId
 );
 
-// Détection du nombre de pages
-$start = $p * $nuked['mess_forum_page'] - $nuked['mess_forum_page'];
-
 // Get pagination
-$url_page = $topicForumUrl .'&amp;thread_id='. $threadId;
 $pagination = '';
-
-if (isset($_REQUEST['highlight']) && $_REQUEST['highlight'] != '')
-    $url_page .= '&amp;highlight='. urlencode($_REQUEST['highlight']);
-
 $nbMessages = $dbrCurrentTopic['nbReplies'] + 1;
 
-if ($nbMessages > $nuked['mess_forum_page'])
-    $pagination = number($nbMessages, $nuked['mess_forum_page'], $url_page, true);
+if ($nbMessages > $nuked['mess_forum_page']) {
+    $url = 'index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId;
 
-// Get topic poll data
+    if ($highlight != '')
+        $url .= '&amp;highlight='. urlencode($highlight);
+
+    $pagination = number($nbMessages, $nuked['mess_forum_page'], $url, true);
+}
+
+// Get Forum topic poll data
 $dbrTopicPoll = $userPolled = $dbrTopicPollOptions = null;
 
 if ($dbrCurrentTopic['sondage'] == 1) {
@@ -417,7 +421,6 @@ if ($dbrCurrentTopic['sondage'] == 1) {
             AND author_id = '. nkDB_escape($user['id'])
         );
 
-
         if ($user && $userPolled > 0 || (isset($_GET['vote']) && $_GET['vote'] == 'view'))
             $fields = 'option_vote, option_text';
         else
@@ -426,20 +429,27 @@ if ($dbrCurrentTopic['sondage'] == 1) {
         $dbrTopicPollOptions = nkDB_selectMany(
             'SELECT '. $fields .'
             FROM '. FORUM_OPTIONS_TABLE .'
-            WHERE poll_id = '. $dbrTopicPoll['id'] .' AND option_text != \'\'',
+            WHERE poll_id = '. $dbrTopicPoll['id'],
             array('id')
         );
     }
 }
 
-// Get topic messages list
+// Get Forum topic messages list
 $dbrTopicMessages = nkDB_selectMany(
-    'SELECT id, titre, auteur, auteur_id, auteur_ip, txt, date, edition, usersig, file
-    FROM '. FORUM_MESSAGES_TABLE .'
-    WHERE thread_id = '. $threadId,
-    array('date'), 'ASC', $nuked['mess_forum_page'], $start
+    'SELECT FM.id, FM.titre, FM.auteur, FM.auteur_id, FM.auteur_ip, FM.txt, FM.date,
+    FM.edition, FM.usersig, FM.file, U.pseudo AS authorName, U.niveau, U.rang, U.avatar,
+    U.signature, U.date AS authorDate, U.email, U.icq, U.msn, U.aim, U.yim, U.xfire, U.facebook, U.origin,
+    U.steam, U.twitter, U.skype, U.url AS homepage, U.country, U.count, U.game
+    FROM '. FORUM_MESSAGES_TABLE .' AS FM
+    LEFT JOIN '. USER_TABLE .' AS U
+    ON U.id = FM.auteur_id
+    WHERE FM.thread_id = '. $threadId,
+    array('FM.date'), 'ASC',
+    $nuked['mess_forum_page'], ($p - 1) * $nuked['mess_forum_page']
 );
 
+// Check if user have enabled email notification for Forum topic reply
 $notify = null;
 
 if ($user && $user['id'] != '') {
@@ -450,27 +460,34 @@ if ($user && $user['id'] != '') {
     );
 }
 
+// Secure highlight string
+if ($highlight != '')
+    $highlight = printSecuTags($highlight);
+
+// Display post list of Forum topic
 opentable();
 
 echo applyTemplate('modules/Forum/viewTopic', array(
+    'nuked'                 => $nuked,
+    'user'                  => $user,
+    'visiteur'              => $visiteur,
     'theme'                 => $theme,
     'forumId'               => $forumId,
     'threadId'              => $threadId,
+    'p'                     => $p,
     'breadcrumb'            => $breadcrumb,
     'prev'                  => $prev,
     'next'                  => $next,
-    'dbrCurrentTopic'       => $dbrCurrentTopic,
+    'currentTopic'          => $dbrCurrentTopic,
     'pagination'            => $pagination,
-    'dbrCurrentForum'       => $dbrCurrentForum,
-    'visiteur'              => $visiteur,
-    'user'                  => $user,
-    'nuked'                 => $nuked,
-    'administrator'         => $administrator,
+    'currentForum'          => $dbrCurrentForum,
+    'administrator'         => $forumAdmin,
     'moderator'             => $moderator,
-    'dbrTopicPoll'          => $dbrTopicPoll,
+    'forumWriteLevel'       => $forumWriteLevel,
+    'topicPoll'             => $dbrTopicPoll,
     'userPolled'            => $userPolled,
-    'dbrTopicPollOptions'   => $dbrTopicPollOptions,
-    'dbrTopicMessages'      => $dbrTopicMessages,
+    'topicPollOptionsList'  => $dbrTopicPollOptions,
+    'topicMessagesList'     => $dbrTopicMessages,
     'notify'                => $notify
 ));
 

@@ -19,7 +19,7 @@
         </div>
 
 <?php
-    if ($administrator) :
+    if ($forumWriteLevel) :
 ?>
         <div id="nkForumPostNewTopic">
             <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo _NEWTOPIC ?></a>
@@ -63,7 +63,7 @@
     endif;
 
     foreach ($forumTopicsList as $forumTopic) :
-        $forumTopic = formatTopicRow($forumTopic, $forumId);
+        $forumTopic = formatTopicRow($forumTopic);
 ?>
                     <div>
                         <div class="nkForumIconCell nkBorderColor1">
@@ -152,7 +152,7 @@
 ?>
         </div>
 <?php
-        if ($administrator) :
+        if ($forumWriteLevel) :
 ?>
         <div id="nkForumPostNewTopic">
             <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo _NEWTOPIC ?></a>
@@ -171,8 +171,10 @@
             <div class="nkForumTopicPopularLegend"><?php echo _NOPOSTNEWHOT ?></div>
         </div>
         <div class="nkForumQuickShotcuts"><!-- Shortcuts -->
-            <form method="post" action="index.php?file=Forum&amp;page=viewforum">
+            <form method="get" action="index.php">
                 <div class="nkForumSelectTopics">
+                    <input type="hidden" name="file" value="Forum" />
+                    <input type="hidden" name="page" value="viewforum" />
                     <?php echo _JUMPTO ?> : 
                     <select name="forum_id" onchange="submit();">
                         <option value=""><?php echo _SELECTFORUM ?></option>
@@ -186,8 +188,11 @@
                     </select>
                 </div>
             </form>
-            <form method="post" action="index.php?file=Forum&amp;page=viewforum&amp;forum_id=<?php echo $forumId ?>">
+            <form method="get" action="index.php">
                 <div class="nkForumSelectDate">
+                    <input type="hidden" name="file" value="Forum" />
+                    <input type="hidden" name="page" value="viewforum" />
+                    <input type="hidden" name="forum_id" value="<?php echo $forumId ?>" />
                     <?php echo _SEETHETOPIC ?> : 
                     <select name="date_max" onchange="submit();">
                         <option><?php echo _THEFIRST ?></option>

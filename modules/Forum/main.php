@@ -11,7 +11,7 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $user, $nuked, $visiteur;
+global $user, $nuked, $visiteur, $rankField;
 
 require_once 'modules/Forum/core.php';
 

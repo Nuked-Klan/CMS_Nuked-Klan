@@ -73,6 +73,8 @@ function nkList_init(&$config) {
 
     list($nkList['p']) = getRequestVars('p');
 
+    $nkList['p'] = max(1, (int) $nkList['p']);
+
     // Prepare basic url for list
     $config['baseUrl'] = 'index.php?file='. $_REQUEST['file'] .'&amp;page='. $_REQUEST['page'];
 
@@ -132,7 +134,7 @@ function nkList_init(&$config) {
 
     // Prepare page link of list data
     if ($nkList['inputMode'] == 'sql' && $nkList['sqlClause']['limit'] !== false) {
-        $nkList['sqlClause']['offset']   = ($nkList['p'] * $config['limit']) - $config['limit'];
+        $nkList['sqlClause']['offset']   = ($nkList['p'] - 1) * $config['limit'];
         $nkList['sqlClause']['limit']    = $config['limit'];
     }
 

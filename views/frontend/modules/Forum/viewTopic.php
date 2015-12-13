@@ -4,7 +4,7 @@
             <div class="nkForumNavTopics"><?php echo $prev ?><?php echo $next ?></div>
             <a name="top"></a>
             <div>
-                <h2><?php echo $dbrCurrentTopic['titre'] ?></h2>
+                <h2><?php echo $currentTopic['titre'] ?></h2>
             </div>
         </div>
         <div id="nkForumBreadcrumb">
@@ -16,7 +16,7 @@
      --><div id="nkForumPostOrReply">
             <div>
 <?php
-    if ($dbrCurrentForum['level'] == 0 || $visiteur >= $dbrCurrentForum['level'] || $moderator) :
+    if ($forumWriteLevel) :
         //Boutons d'action utilisateur, remplacement automatique du bouton CSS par une image PNG si elle éxiste.
         if ((is_file('themes/'. $theme .'/images/newthread.png')))
             $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'"><img style="border: 0;" src="themes/'. $theme .'/images/newthread.png" alt="" title="'. _NEWSTOPIC .'" /></a>';
@@ -25,7 +25,7 @@
 
         echo $postNewTopic;
 
-        if ($dbrCurrentTopic['closed'] == 0 || $administrator) :
+        if ($currentTopic['closed'] == 0 || $administrator) :
             if ((is_file('themes/'. $theme .'/images/reply.png')))
                 $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'"><img style="border: 0;" src="themes/'. $theme .'/images/reply.png" alt="" title="'. _REPLY .'" /></a>';
             else
@@ -42,8 +42,8 @@
             <!-- SONDAGE -->
 <?php
     //Poll
-    if ($dbrCurrentTopic['sondage'] == 1 && $dbrTopicPoll && $dbrTopicPollOptions) :
-        $dbrTopicPoll['title'] = printSecuTags($dbrTopicPoll['title']);
+    if ($currentTopic['sondage'] == 1 && $topicPoll && $topicPollOptions) :
+        $topicPoll['title'] = printSecuTags($topicPoll['title']);
 ?>
             <div id="nkForumViewMainPoll" class="nkBorderColor1">
 <?php
@@ -52,15 +52,15 @@
                 <div class="nkForumViewPollBg"></div><!-- @whitespace
              --><div class="nkForumViewPoll">
                     <div class="nkForumPollTitle">
-                        <h3><?php echo $dbrTopicPoll['title'] ?></h3>
+                        <h3><?php echo $topicPoll['title'] ?></h3>
                     </div>
 <?php
-            if ($user && $dbrCurrentTopic['auteur_id'] == $user['id'] && $dbrCurrentTopic['closed'] == 0 || $administrator) :
+            if ($user && $currentTopic['auteur_id'] == $user['id'] && $currentTopic['closed'] == 0 || $administrator) :
 ?>
                     <div class="nkForumViewActionLinks">
                         <div class="nkButton-group">
-                            <a href="index.php?file=Forum&amp;op=editPoll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
-                            <a href="index.php?file=Forum&amp;op=deletePoll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
+                            <a href="index.php?file=Forum&amp;op=editPoll&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
+                            <a href="index.php?file=Forum&amp;op=deletePoll&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
                         </div>
                     </div>
 <?php
@@ -71,9 +71,9 @@
             else
                 $img = 'modules/Forum/images/bar.gif';
 
-            $nbVote = array_sum(array_column($dbrTopicPollOptions, 'option_vote'));
+            $nbVote = array_sum(array_column($topicPollOptions, 'option_vote'));
 
-            foreach ($dbrTopicPollOptions as $topicPollOptions) :
+            foreach ($topicPollOptions as $topicPollOptions) :
                 $ratio = ($nbVote <> 0) ? ($topicPollOptions['option_vote'] * 100) / $nbVote : 0;
                 $width = ($ratio < 1) ? 2 : $ratio * 2;
                 $roundedRatio = round($ratio);
@@ -95,28 +95,28 @@
 ?>
                 <div class="nkForumViewPollBg"></div><!-- @whitespace
              --><div class="nkForumViewPoll">
-                    <form method="post" action="index.php?file=Forum&amp;op=vote&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>">
+                    <form method="post" action="index.php?file=Forum&amp;op=vote&amp;poll_id=<?php echo $topicPoll['id'] ?>">
                         <div class="nkForumPollTitle">
-                            <h3><?php echo $dbrTopicPoll['title'] ?></h3>
+                            <h3><?php echo $topicPoll['title'] ?></h3>
                         </div>
 <?php
-            if ($user && $dbrCurrentTopic['auteur_id'] == $user['id'] && $dbrCurrentTopic['closed'] == 0 || $administrator) :
+            if ($user && $currentTopic['auteur_id'] == $user['id'] && $currentTopic['closed'] == 0 || $administrator) :
 ?>
                         <div class="nkForumViewActionLinks">
                             <div class="nkButton-group">
-                                <a href="index.php?file=Forum&amp;op=editPoll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
-                                <a href="index.php?file=Forum&amp;op=deletePoll&amp;poll_id=<?php echo $dbrTopicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
+                                <a href="index.php?file=Forum&amp;op=editPoll&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
+                                <a href="index.php?file=Forum&amp;op=deletePoll&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
                             </div>
                         </div>
 <?php
             endif;
 
-            foreach ($dbrTopicPollOptions as $topicPollOptions) :
-                if ($topicPollOptions['option_text'] != '') :
+            foreach ($topicPollOptionsList as $topicPollOption) :
+                if ($topicPollOption['option_text'] != '') :
 ?>
                         <div class="nkForumPollOptions">
-                            <input id="voteId<?php echo $topicPollOptions['id'] ?>" type="radio" class="checkbox" name="voteid" value="<?php echo $topicPollOptions['id'] ?>" />&nbsp;
-                            <label for="voteId<?php echo $topicPollOptions['id'] ?>"><?php echo printSecuTags($topicPollOptions['option_text']) ?></label>
+                            <input id="voteId<?php echo $topicPollOption['id'] ?>" type="radio" class="checkbox" name="voteid" value="<?php echo $topicPollOption['id'] ?>" />&nbsp;
+                            <label for="voteId<?php echo $topicPollOption['id'] ?>"><?php echo printSecuTags($topicPollOption['option_text']) ?></label>
                         </div>
 <?php
                 endif;
@@ -143,9 +143,9 @@
             <div class="nkForumCatWrapper">
                 <div id="forum-table" class="nkForumViewContent nkBorderColor1">
 <?php
-    foreach ($dbrTopicMessages as $topicMessage) :
-        $topicMessage = formatTopicMessage($topicMessage, $administrator, $forumId, $threadId);
-        $authorInfo = getAuthorInfo($topicMessage, $administrator);
+    foreach ($topicMessagesList as $topicMessage) :
+        $topicMessage   = formatTopicMessage($topicMessage);
+        $authorInfo     = getAuthorInfo($topicMessage);
 
         //$tmpcnt++ % 2 == 1 ? $color = $color1 : $color = $color2;
 
@@ -171,11 +171,27 @@
                         <div class="nkForumViewAuthor nkBgColor2 nkBorderColor1">
                             <a name="<?php echo $topicMessage['id'] ?>"></a>
                             <div class="nkForumUserRankName" <?php echo $authorInfo['rankStyle'] ?>><?php echo $authorInfo['rankName'] ?></div>
+<?php
+        if (isset($authorInfo['rankImage'])) :
+?>
                             <div class="nkForumForumRankImage"><?php echo $authorInfo['rankImage'] ?></div>
+<?php
+        endif
+?>
                             <div class="nkForumUserAvatar"><?php echo $authorInfo['avatar'] ?></div>
+<?php
+        if ($authorInfo['status'] == 'registered') :
+?>
                             <div class="nkForumTotalUserPost"><?php echo $authorInfo['totalUserPost'] ?></div>
+<?php
+        endif;
+
+        if (isset($authorInfo['displayUserIp'])) :
+?>
                             <div class="nkForumDisplayUserIp"><?php echo $authorInfo['displayUserIp'] ?></div>
 <?php
+        endif;
+
         //User Game details
         if ($authorInfo['status'] == 'registered' && $nuked['forum_gamer_details'] == 'on') :
 ?>
@@ -218,13 +234,13 @@
                          --><div class="nkForumViewActionLinks">
                                 <div class="nkButton-group">
 <?php
-        if ($dbrCurrentTopic['closed'] == 0 && $administrator || $visiteur >= $dbrCurrentForum['level']) :
+        if ($currentTopic['closed'] == 0 && $administrator || $visiteur >= $currentForum['level']) :
 ?>
                                     <a href="<?php echo $quoteLink ?>" title="<?php echo _REPLYQUOTE ?>" class="nkButton icon alone chat"></a>
 <?php
         endif;
 
-        if ($user && $topicMessage['auteur_id'] == $user['id'] && $dbrCurrentTopic['closed'] == 0 || $administrator) :
+        if ($user && $topicMessage['auteur_id'] == $user['id'] && $currentTopic['closed'] == 0 || $administrator) :
 ?>
                                     <a href="<?php echo $editLink ?>" title="<?php echo _EDITMESSAGE ?>" class="nkButton icon alone edit"></a>
 <?php
@@ -241,8 +257,22 @@
                             <div class="nkForumViewTxt">
                                 <?php echo $topicMessage['txt'] ?>
                             </div>
-                            <?php echo $topicMessage['joinedFile'] ?>
 <?php
+        if ($topicMessage['file'] != '' && is_file($fileUrl = 'upload/Forum/'. $topicMessage['file'])) :
+            $roundedFilesize = ceil((int) filesize($fileUrl) / 1024);
+?>
+                            <div class="nkForumViewAttachedFile"><strong><a href="<?php echo $fileUrl ?>" onclick="window.open(this.href); return false;" title="<?php echo _DOWNLOADFILE ?>"><?php echo $topicMessage['file'] ?></a> (<?php echo $roundedFilesize ?> Ko)<?php
+
+            if ($user && $topicMessage['auteur_id'] == $user['id'] || $administrator) :
+
+                ?>&nbsp;<a href="index.php?file=Forum&amp;op=del_file&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;mess_id=<?php echo $topicMessage['id'] ?>" class="nkButton icon trash danger"><?php echo _DELFILE ?></a><?php
+
+            endif;
+
+                            ?></strong></div>
+<?php
+        endif;
+
         if ($topicMessage['edition'] != '') :
 ?>
                             <div class="nkForumEditMessage">
@@ -251,7 +281,7 @@
 <?php
         endif;
 
-        if ($topicMessage['auteur_id'] != '' && $authorInfo['signature'] != '' && $topicMessage['usersig'] == 1) :
+        if ($topicMessage['auteur_id'] != '' && $topicMessage['signature'] != '' && $topicMessage['usersig'] == 1) :
 ?>
                             <div class="nkForumViewSig nkBorderColor1">
                                 <?php echo $authorInfo['signature'] ?>
@@ -274,52 +304,52 @@
         endif;
 
         if ($user && $topicMessage['auteur_id'] != '' && $user['id'] >= $nuked['user_social_level']) :
-            if ($nuked['user_email'] == 'on' && $authorInfo['email'] != '') :
-                echo '<a class="nkButton icon email small alone" href="mailto:'. $authorInfo['email'] .'" title="'. _SENDEMAIL .'"></a>';
+            if ($nuked['user_email'] == 'on' && $topicMessage['email'] != '') :
+                echo '<a class="nkButton icon email small alone" href="mailto:'. $topicMessage['email'] .'" title="'. _SENDEMAIL .'"></a>';
             endif;
 
-            if ($nuked['user_website'] == 'on' && $authorInfo['homepage'] != '') :
-                echo '<a class="nkButton icon website small alone" href="'. $authorInfo['homepage'] .'" onclick="window.open(this.href); return false;" title="'. _SEEHOMEPAGE .'&nbsp;'. $authorInfo['name'] .'"></a>';
+            if ($nuked['user_website'] == 'on' && $topicMessage['homepage'] != '') :
+                echo '<a class="nkButton icon website small alone" href="'. $topicMessage['homepage'] .'" onclick="window.open(this.href); return false;" title="'. _SEEHOMEPAGE .'&nbsp;'. $topicMessage['name'] .'"></a>';
             endif;
 
-            if ($nuked['user_icq'] == 'on' && $authorInfo['icq'] != '') :
-                echo '<a class="nkButton icon icq small alone" href="http://web.icq.com/whitepages/add_me?uin='. $authorInfo['icq'] .'&amp;action=add" title="'. $authorInfo['icq'] .'"></a>';
+            if ($nuked['user_icq'] == 'on' && $topicMessage['icq'] != '') :
+                echo '<a class="nkButton icon icq small alone" href="http://web.icq.com/whitepages/add_me?uin='. $topicMessage['icq'] .'&amp;action=add" title="'. $topicMessage['icq'] .'"></a>';
             endif;
 
-            if ($nuked['user_msn'] == 'on' && $authorInfo['msn'] != '') :
-                echo '<a class="nkButton icon msn small alone" href="mailto:'. $authorInfo['msn']  .'" title="'. $authorInfo['msn']  .'"></a>';
+            if ($nuked['user_msn'] == 'on' && $topicMessage['msn'] != '') :
+                echo '<a class="nkButton icon msn small alone" href="mailto:'. $topicMessage['msn']  .'" title="'. $topicMessage['msn']  .'"></a>';
             endif;
 
-            if ($nuked['user_aim'] == 'on' && $authorInfo['aim'] != '') :
-                echo '<a class="nkButton icon aim small alone" href="aim:goim?screenname='. $authorInfo['aim'] .'&amp;message=Hi+'. $authorInfo['aim'] .'+Are+you+there+?" onclick="window.open(this.href); return false;" title="'. $authorInfo['aim'] .'"></a>';
+            if ($nuked['user_aim'] == 'on' && $topicMessage['aim'] != '') :
+                echo '<a class="nkButton icon aim small alone" href="aim:goim?screenname='. $topicMessage['aim'] .'&amp;message=Hi+'. $topicMessage['aim'] .'+Are+you+there+?" onclick="window.open(this.href); return false;" title="'. $topicMessage['aim'] .'"></a>';
             endif;
 
-            if ($nuked['user_yim'] == 'on' && $authorInfo['yim'] != '') :
-                echo '<a class="nkButton icon yim small alone" href="http://edit.yahoo.com/config/send_webmesg?target='. $authorInfo['yim'] .'&amp;src=pg" title="'. $authorInfo['yim'] .'"></a>';
+            if ($nuked['user_yim'] == 'on' && $topicMessage['yim'] != '') :
+                echo '<a class="nkButton icon yim small alone" href="http://edit.yahoo.com/config/send_webmesg?target='. $topicMessage['yim'] .'&amp;src=pg" title="'. $topicMessage['yim'] .'"></a>';
             endif;
 
-            if ($nuked['user_xfire'] == 'on' && $authorInfo['xfire'] != '') :
-                echo '<a class="nkButton icon xfire small alone" href="xfire:add_friend?user='. $authorInfo['xfire'] .'" title="'. $authorInfo['xfire'] .'"></a>';
+            if ($nuked['user_xfire'] == 'on' && $topicMessage['xfire'] != '') :
+                echo '<a class="nkButton icon xfire small alone" href="xfire:add_friend?user='. $topicMessage['xfire'] .'" title="'. $topicMessage['xfire'] .'"></a>';
             endif;
 
-            if ($nuked['user_facebook'] == 'on' && $authorInfo['facebook'] != '') :
-                echo '<a class="nkButton icon facebook small alone" href="http://www.facebook.com/'. $authorInfo['facebook'] .'" title="'. $authorInfo['facebook'] .'"></a>';
+            if ($nuked['user_facebook'] == 'on' && $topicMessage['facebook'] != '') :
+                echo '<a class="nkButton icon facebook small alone" href="http://www.facebook.com/'. $topicMessage['facebook'] .'" title="'. $topicMessage['facebook'] .'"></a>';
             endif;
 
-            if ($nuked['user_origin'] == 'on' && $authorInfo['origin'] != '') :
-                echo '<a class="nkButton icon origin small alone" href="#" title="'. $authorInfo['origin'] .'"></a>';
+            if ($nuked['user_origin'] == 'on' && $topicMessage['origin'] != '') :
+                echo '<a class="nkButton icon origin small alone" href="#" title="'. $topicMessage['origin'] .'"></a>';
             endif;
 
-            if ($nuked['user_steam'] == 'on' && $authorInfo['steam'] != '') :
-                echo '<a class="nkButton icon steam small alone" href="http://steamcommunity.com/actions/AddFriend/'. $authorInfo['steam'] .'" title="'. $authorInfo['steam'] .'"></a>';
+            if ($nuked['user_steam'] == 'on' && $topicMessage['steam'] != '') :
+                echo '<a class="nkButton icon steam small alone" href="http://steamcommunity.com/actions/AddFriend/'. $topicMessage['steam'] .'" title="'. $topicMessage['steam'] .'"></a>';
             endif;
 
-            if ($nuked['user_twitter'] == 'on' && $authorInfo['twitter'] != '') :
-                echo '<a class="nkButton icon twitter small alone" href="http://twitter.com/#!/'. $authorInfo['twitter'] .'" title="'. $authorInfo['twitter'] .'"></a>';
+            if ($nuked['user_twitter'] == 'on' && $topicMessage['twitter'] != '') :
+                echo '<a class="nkButton icon twitter small alone" href="http://twitter.com/#!/'. $topicMessage['twitter'] .'" title="'. $topicMessage['twitter'] .'"></a>';
             endif;
 
-            if ($nuked['user_skype'] == 'on' && $authorInfo['skype'] != '') :
-                echo '<a class="nkButton icon skype small alone" href="skype:'. $authorInfo['skype'] .'?call" title="'. $authorInfo['skype'] .'"></a>';
+            if ($nuked['user_skype'] == 'on' && $topicMessage['skype'] != '') :
+                echo '<a class="nkButton icon skype small alone" href="skype:'. $topicMessage['skype'] .'?call" title="'. $topicMessage['skype'] .'"></a>';
             endif;
         endif;
 ?>
@@ -356,10 +386,10 @@
         <div id="nkForumPostNewTopic">
             <div>
 <?php
-        if ($dbrCurrentForum['level'] == 0 || $visiteur >= $dbrCurrentForum['level'] || $moderator) :
+        if ($forumWriteLevel) :
             echo $postNewTopic;
 
-            if ($dbrCurrentTopic['closed'] == 0 || $administrator) :
+            if ($currentTopic['closed'] == 0 || $administrator) :
                 echo $replyToTopic;
             endif;
         endif;
@@ -376,7 +406,7 @@
 
             $closeLink = 'index.php?file=Forum&amp;op=lock'. $threadUri;
 
-            if ($dbrCurrentTopic['closed'] == 1) {
+            if ($currentTopic['closed'] == 1) {
                 $closeTitle = _TOPICUNLOCK;
                 $closeClass = 'unlock';
                 $closeLink .= '&amp;do=open';
@@ -389,7 +419,7 @@
 
             $pinedLink = 'index.php?file=Forum&amp;op=announce'. $threadUri;
 
-            if ($dbrCurrentTopic['annonce'] == 1) {
+            if ($currentTopic['annonce'] == 1) {
                 $pinedTitle = _TOPICDOWN;
                 $pinedClass = 'arrowdown';
                 $pinedLink .= '&amp;do=down';

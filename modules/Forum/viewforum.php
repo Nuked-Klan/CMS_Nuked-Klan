@@ -14,7 +14,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! moduleInit('Forum'))
     return;
 
-global $nuked, $user, $visiteur;
+global $nuked, $user, $visiteur, $forumId, $rankField;
 
 require_once 'modules/Forum/core.php';
 
@@ -25,8 +25,8 @@ require_once 'modules/Forum/core.php';
  * @param array $forumTopic : The raw Forum topic row data.
  * @return array : The Forum topic row data formated.
  */
-function formatTopicRow($forumTopic, $forumId) {
-    global $nuked;
+function formatTopicRow($forumTopic) {
+    global $nuked, $forumId;
 
     // Get total of joined file in Forum topic
     // TODO Add new field in FORUM_THREADS_TABLE ?
@@ -43,7 +43,7 @@ function formatTopicRow($forumTopic, $forumId) {
 
     $forumTopic['iconStatus']   = getForumTopicIcon($forumTopic);
     $forumTopic['author']       = nkNickname($forumTopic);
-    $forumTopic['lastMessage']  = formatLastForumTopicMsg($forumTopic['id'], $forumId);
+    $forumTopic['lastMessage']  = formatLastForumTopicMsg($forumTopic['id']);
 
     // Add last message url of Forum topic
     list($forumTopic['lastMessage']['url'], $nbTopicPage) = getForumMessageUrl(
@@ -104,11 +104,10 @@ function formatInfobulleContent() {
  * Format last message data of Forum topic.
  *
  * @param int $threadId : The Forum topic ID.
- * @param int $forumId : The Forum ID.
  * @return array : The last message formated data of Forum topic.
  */
-function formatLastForumTopicMsg($threadId, $forumId) {
-    global $nuked, $rankField;
+function formatLastForumTopicMsg($threadId) {
+    global $nuked, $forumId, $rankField;
 
     // Get last message data of Forum topic
     $dbrLastForumTopicMsg = getLastForumMessageData('thread_id', $threadId,
@@ -170,7 +169,7 @@ function getForumTopicIcon($forumTopic) {
 }
 
 
-$dateMax    = (int) getRequestVars('date_max');
+$dateMax    = (isset($_GET['date_max'])) ? (int) $_GET['date_max'] : 0;
 $forumId    = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
 $p          = (isset($_GET['p'])) ? (int) $_GET['p'] : 1;
 $error      = false;
@@ -185,8 +184,8 @@ $dbrCurrentForum = getForumData(
 
 // Check Forum access, Forum category access and Forum exist
 if (! $dbrCurrentForum) $error = _NOFORUMEXIST;
-if ($visiteur < $dbrCurrentForum['catLevel'] ) $error = _NOACCESSFORUMCAT;
-if ($visiteur < $dbrCurrentForum['forumLevel'] ) $error = _NOACCESSFORUM;
+if ($visiteur < $dbrCurrentForum['catLevel']) $error = _NOACCESSFORUMCAT;
+if ($visiteur < $dbrCurrentForum['forumLevel']) $error = _NOACCESSFORUM;
 
 if ($error) {
     opentable();
@@ -207,34 +206,9 @@ $dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
 
 $moderatorsList = formatModeratorsList($dbrCurrentForum['moderateurs']);
 
-$administrator = $dbrCurrentForum['forumLevel'] == 0
+$forumWriteLevel = $dbrCurrentForum['forumLevel'] == 0
     || $visiteur >= $dbrCurrentForum['forumLevel']
     || isModerator($dbrCurrentForum['moderateurs']);
-
-// Get total of Forum topics
-if ($dateMax > 0) {
-    $dateMaxTimestamp = time() - $dateMax;
-
-    $nbTopics = nkDB_totalNumRows(
-        'FROM '. FORUM_THREADS_TABLE .'
-        WHERE forum_id = '. $forumId .' AND date > '. $dateMaxTimestamp
-    );
-}
-else
-    $nbTopics = $dbrCurrentForum['nbTopics'];
-
-// Get pagination of Forum topics list
-if ($nbTopics > $nuked['thread_forum_page']) {
-    $url = 'index.php?file=Forum&amp;page=viewforum&amp;forum_id='. $forumId;
-
-    if ($dateMax > 0)
-        $url .= '&amp;date_max='. $dateMax;
-
-    $pagination = number($nbTopics, $nuked['thread_forum_page'], $url, true);
-}
-else {
-    $pagination = '';
-}
 
 // Get Forum topics list
 $rankField = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
@@ -246,13 +220,41 @@ $sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annon
     ON U.id = FT.auteur_id
     WHERE FT.forum_id = '. $forumId;
 
-if ($dateMax > 0)
-    $sql .= ' AND date > '. $dateMaxTimestamp;
+if ($dateMax > 0) {
+    $dateMaxTimestamp = time() - $dateMax;
+
+    $sql .= ' AND FT.date > '. $dateMaxTimestamp;
+}
 
 $dbrForumTopics = nkDB_selectMany($sql,
     array('FT.annonce', 'FT.last_post'), 'DESC',
-    $nuked['thread_forum_page'], $p * $nuked['thread_forum_page'] - $nuked['thread_forum_page']
+    $nuked['thread_forum_page'], ($p - 1) * $nuked['thread_forum_page']
 );
+
+// Generate pagination only if more one page is filled
+$pagination = '';
+
+if (count($dbrForumTopics) > $nuked['thread_forum_page']) {
+    // Get total of Forum topics
+    if ($dateMax > 0) {
+        $nbTopics = nkDB_totalNumRows(
+            'FROM '. FORUM_THREADS_TABLE .'
+            WHERE forum_id = '. $forumId .' AND date > '. $dateMaxTimestamp
+        );
+    }
+    else
+        $nbTopics = $dbrCurrentForum['nbTopics'];
+
+    // Get pagination of Forum topics list
+    if ($nbTopics > $nuked['thread_forum_page']) {
+        $url = 'index.php?file=Forum&amp;page=viewforum&amp;forum_id='. $forumId;
+
+        if ($dateMax > 0)
+            $url .= '&amp;date_max='. $dateMax;
+
+        $pagination = number($nbTopics, $nuked['thread_forum_page'], $url, true);
+    }
+}
 
 // Get Forum list for quick shortcuts Forum selection
 $dbrForumList = nkDB_selectMany(
@@ -267,7 +269,7 @@ $forumList = array();
 foreach ($dbrForumList as $forum)
     $forumList[$forum['id']] = printSecuTags($forum['nom']);
 
-// Display topic Forum list
+// Display Forum topics list
 opentable();
 
 echo applyTemplate('modules/Forum/viewForum', array(
@@ -278,7 +280,7 @@ echo applyTemplate('modules/Forum/viewForum', array(
     'currentForum'      => $dbrCurrentForum,
     'breadcrumb'        => $breadcrumb,
     'moderatorsList'    => $moderatorsList,
-    'administrator'     => $administrator,
+    'forumWriteLevel'   => $forumWriteLevel,
     'pagination'        => $pagination,
     'forumTopicsList'   => $dbrForumTopics,
     'forumList'         => $forumList
