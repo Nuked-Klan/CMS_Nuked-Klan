@@ -168,6 +168,12 @@ function formatModeratorsList($rawModeratorList) {
     return $result;
 }
 
+/**
+ * Check if user is a Forum moderator.
+ *
+ * @param string $rawModeratorList : The raw Forum moderator list issues of Forum database table.
+ * @return bool : Return true if user is a Forum moderator, false also.
+ */
 function isModerator($rawModeratorList) {
     global $user;
 
@@ -255,9 +261,6 @@ function formatForumMessageDate($date) {
     }
     else
         return nkDate($date);
-}
-
-function formatAuthorData() {
 }
 
 ?>

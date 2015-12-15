@@ -16,9 +16,11 @@ if (! moduleInit('Forum'))
 
 global $user, $language, $nuked, $bgcolor3, $visiteur;
 
+require_once 'Includes/nkToken.php';
 // TODO : Missing $force_edit_message var. Commented in template.php file
 include 'modules/Forum/template.php';
 require_once 'modules/Forum/core.php';
+
 
 $captcha = initCaptcha();
 
@@ -59,14 +61,17 @@ $administrator  = $visiteur >= admin_mod('Forum') || $moderator;
 if ($do == 'edit') {
     $action     = 'index.php?file=Forum&amp;op=edit';
     $actionName = _POSTEDIT;
+    $tokenName  = 'editForumPost'. $forumId . $threadId . $messId;
 }
 elseif ($do == 'post') {
     $action     = 'index.php?file=Forum&amp;op=post';
     $actionName = _POSTNEWTOPIC;
+    $tokenName  = 'addForumPost'. $forumId;
 }
 else {
     $action     = 'index.php?file=Forum&amp;op=reply';
     $actionName = _POSTREPLY;
+    $tokenName  = 'replyForumPost'. $forumId . $threadId;
 }
 
 // Prepare Forum breadcrumb
@@ -162,7 +167,8 @@ echo applyTemplate('modules/Forum/post', array(
     'emailnotifyChecked'    => $emailnotifyChecked,
     //'force_edit_message'    => $force_edit_message,
     'announceChecked'       => $announceChecked,
-    'dbrLastMessageList'    => $dbrLastMessageList
+    'dbrLastMessageList'    => $dbrLastMessageList,
+    'token'                 => nkToken_generate($tokenName)
 ));
 
 closetable();

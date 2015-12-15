@@ -284,4 +284,7 @@ define("_NONAME","Vous n'avez pas entré de nom !");
 define("_INCORRECT_ORDER","L'ordre ne contient pas que des entiers !");
 define("_INCORRECT_RANK_MESSAGE","Le seuil de message du rang ne contient pas que des entiers !");
 define("_INCORRECT_PRUNE_DAY","Le nombre de jours ne contient pas que des entiers !");
+
+// index
+define("_CONFIRMDELFILE","Etes-vous sûr de vouloir supprimer ce fichier ?");
 ?>

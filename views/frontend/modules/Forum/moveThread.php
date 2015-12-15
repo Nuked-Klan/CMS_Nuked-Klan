@@ -1,4 +1,4 @@
-        <form action="index.php?file=Forum&amp;op=move" method="post">
+        <form action="index.php?file=Forum&amp;op=move&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" method="post">
             <div id="nkAlertWarning" class="nkAlert">
                 <span class="nkAlertSubTitle"><?php echo _MOVETOPIC ?> : </span>
                 <select name="newforum">
@@ -22,8 +22,7 @@
 ?>
                 </select><br /><br />
                 <input type="submit" name="confirm" value="<?php echo _YES ?>" class="nkButton" />&nbsp;<input type="submit" name="confirm" value="<?php echo _NO ?>" class="nkButton" />
-                <input type="hidden" name="forum_id" value="<?php echo $forumId ?>" />
-                <input type="hidden" name="thread_id" value="<?php echo $threadId ?>" />
+                <input type="hidden" name="token" value="<?php echo $token ?>" />
             </div>
         </form>
         <br />

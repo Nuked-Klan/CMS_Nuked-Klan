@@ -465,7 +465,7 @@ function getSmiliesList() {
  * @param array $matches : text to parse
  * @return string : parsing text
  */
-function replace_smilies($matches) {
+function replaceSmilies($matches) {
     return preg_replace('#<img class="nkSmilie" src=\"(.*)\" alt=\"(.*)\" title=\"(.*)\" />#Usi', '$2', $matches[0]);
 }
 
@@ -493,7 +493,7 @@ function icon($text) {
 
     // Light calculation if <pre> tag is not present in text
     if (strpos($text, '<pre') !== false)
-        $text = preg_replace_callback('#<pre(.*)>(.*)<\/pre>#Uis', 'replace_smilies', $text);
+        $text = preg_replace_callback('#<pre(.*)>(.*)<\/pre>#Uis', 'replaceSmilies', $text);
 
     return $text;
 }

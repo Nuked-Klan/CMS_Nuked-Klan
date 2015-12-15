@@ -95,7 +95,7 @@
 ?>
                 <div class="nkForumViewPollBg"></div><!-- @whitespace
              --><div class="nkForumViewPoll">
-                    <form method="post" action="index.php?file=Forum&amp;op=vote&amp;poll_id=<?php echo $topicPoll['id'] ?>">
+                    <form method="post" action="index.php?file=Forum&amp;op=vote&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>">
                         <div class="nkForumPollTitle">
                             <h3><?php echo $topicPoll['title'] ?></h3>
                         </div>
@@ -122,10 +122,6 @@
                 endif;
             endforeach;
 ?>
-                        <div>
-                            <input type="hidden" name="forum_id" value="<?php echo $forumId ?>" />
-                            <input type="hidden" name="thread_id" value="<?php echo $threadId ?>" />
-                        </div>
                         <div id="nkForumPollActionLinks">
                             <input type="submit" class="nkButton" value="<?php echo _TOVOTE ?>" />
                             <input type="button" class="nkButton" value="<?php echo _RESULT ?>" onclick="document.location='index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;vote=view'" />

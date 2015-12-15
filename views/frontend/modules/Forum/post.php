@@ -135,6 +135,7 @@
             </div>
             <div class ="nkForumPostbutton">
                 <input type="submit" value="<?php echo _SEND ?>" class="nkButton" />
+                <input type="hidden" name="token" value="<?php echo $token ?>" />
                 <input type="hidden" name="forum_id" value="<?php echo $forumId ?>" />
 <?php
     if ($threadId > 0) :

@@ -13,7 +13,7 @@
 <?php
     $r = 1;
 
-    foreach ($pollOption as $option) :
+    foreach ($pollOptions as $option) :
 ?>
                         <div class="nkForumPollOptionsIni">
                             <div><label for="forumPollOption<?php echo $r ?>"><?php echo _OPTION ?>&nbsp;<?php echo $r ?>&nbsp;:&nbsp;</label></div>
@@ -40,9 +40,9 @@
 <?php
     endif;
 
-    if (isset($maxOption)) :
+    if (isset($maxOptions)) :
 ?>
-                    <input type="hidden" name="maxOption" value="<?php echo $maxOption ?>" />
+                    <input type="hidden" name="maxOption" value="<?php echo $maxOptions ?>" />
 <?php
     endif;
 ?>

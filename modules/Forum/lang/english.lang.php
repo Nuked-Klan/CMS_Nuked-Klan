@@ -284,4 +284,7 @@ define("_NONAME","Please enter a name!");
 define("_INCORRECT_ORDER","The order does not consist of all digits !");
 define("_INCORRECT_RANK_MESSAGE","The rank of the message threshold does not consist of all digits !");
 define("_INCORRECT_PRUNE_DAY","The number of days does not consist of all digits !");
+
+// index
+define("_CONFIRMDELFILE","Remove this file?");
 ?>
