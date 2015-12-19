@@ -152,7 +152,7 @@
 ?>
             </div>
 <?php
-    if ($GLOBALS['captcha'] === true) echo create_captcha();
+    if (initCaptcha()) echo create_captcha();
 ?>
         </form>
 <?php

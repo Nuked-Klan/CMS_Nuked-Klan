@@ -97,7 +97,7 @@ function getLastForumMessageData($idName, $idValue, $fieldList) {
  * @param int $messId : The message ID.
  * @return string : The url formated (with pagination if needed) and message anchor.
  */
-function getForumMessageUrl($forumId, $threadId, $messId, $nbMessages = false) {
+function getForumMessageUrl($forumId, $threadId, $messId, $nbMessages = false, $uri = '') {
     global $nuked;
 
     if ($nbMessages === false) {
@@ -107,7 +107,10 @@ function getForumMessageUrl($forumId, $threadId, $messId, $nbMessages = false) {
         );
     }
 
-    $url    = 'index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId;
+    $url = 'index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId;
+
+    if ($uri != '') $url .= $uri;
+
     $nbPage = 1;
 
     if ($nbMessages > $nuked['mess_forum_page']) {

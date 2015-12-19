@@ -279,7 +279,7 @@ function getNearForumTopicLink($dir, $lastPost) {
 
 $forumId    = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
 $threadId   = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
-$p          = (isset($_GET['p'])) ? (int) $_GET['p'] : 1;
+$p          = (isset($_GET['p'])) ? max((int) $_GET['p'], 1) : 1;
 $highlight  = (isset($_GET['highlight'])) ? trim($_GET['highlight']) : '';
 $error      = false;
 
@@ -463,6 +463,9 @@ if ($user && $user['id'] != '') {
 // Secure highlight string
 if ($highlight != '')
     $highlight = printSecuTags($highlight);
+
+// Set page title
+nkTemplate_setTitle(_NAVFORUM .' - '. $dbrCurrentTopic['titre']);
 
 // Display post list of Forum topic
 opentable();

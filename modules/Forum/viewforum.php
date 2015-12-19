@@ -171,7 +171,7 @@ function getForumTopicIcon($forumTopic) {
 
 $dateMax    = (isset($_GET['date_max'])) ? (int) $_GET['date_max'] : 0;
 $forumId    = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
-$p          = (isset($_GET['p'])) ? (int) $_GET['p'] : 1;
+$p          = (isset($_GET['p'])) ? max((int) $_GET['p'], 1) : 1;
 $error      = false;
 
 // Get current Forum data
@@ -268,6 +268,9 @@ $forumList = array();
 
 foreach ($dbrForumList as $forum)
     $forumList[$forum['id']] = printSecuTags($forum['nom']);
+
+// Set page title
+nkTemplate_setTitle(_NAVFORUM .' - '. $dbrCurrentForum['forumName']);
 
 // Display Forum topics list
 opentable();

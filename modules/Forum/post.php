@@ -22,9 +22,6 @@ include 'modules/Forum/template.php';
 require_once 'modules/Forum/core.php';
 
 
-$captcha = initCaptcha();
-
-
 $do         = (isset($_REQUEST['do'])) ? $_REQUEST['do'] : 'post';
 $forumId   = (isset($_REQUEST['forum_id'])) ? (int) $_REQUEST['forum_id'] : 0;
 $threadId   = (isset($_REQUEST['thread_id'])) ? (int) $_REQUEST['thread_id'] : 0;
@@ -147,19 +144,19 @@ $postText = editPhpCkeditor($postText);
 opentable();
 
 echo applyTemplate('modules/Forum/post', array(
-    'action'                => $action,
-    'breadcrumb'            => $breadcrumb,
-    'actionName'            => $actionName,
-    'visiteur'              => $visiteur,
-    'user'                  => $user,
     'nuked'                 => $nuked,
-    'administrator'         => $administrator,
-    'moderator'             => $moderator,
-    'pollLevel'             => $dbrCurrentForum['level_poll'],
-    'do'                    => $do,
+    'user'                  => $user,
+    'visiteur'              => $visiteur,
     'forumId'               => $forumId,
     'threadId'              => $threadId,
     'messId'                => $messId,
+    'do'                    => $do,
+    'action'                => $action,
+    'breadcrumb'            => $breadcrumb,
+    'actionName'            => $actionName,
+    'administrator'         => $administrator,
+    'moderator'             => $moderator,
+    'pollLevel'             => $dbrCurrentForum['level_poll'],
     'author'                => $author,
     'postTitle'             => $postTitle,
     'postText'              => $postText,

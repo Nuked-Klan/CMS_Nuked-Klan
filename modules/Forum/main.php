@@ -255,6 +255,14 @@ if ($nuked['forum_birthday'] == 'on') {
     $birthdayMessage .= implode(',', $birthdayList);
 }
 
+// Set page title
+$title = _NAVFORUM;
+
+if ($catName != '')
+    $title .= ' - '. printSecuTags($catName);
+
+nkTemplate_setTitle($title);
+
 // Display main Forum list
 echo applyTemplate('modules/Forum/main', array(
     'nuked'             => $nuked,
