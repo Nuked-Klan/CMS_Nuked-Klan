@@ -12,7 +12,7 @@
 
 return array(
     // Sets Nuked-Klan version to install / update
-    'nkVersion' => '1.7.14',
+    'nkVersion' => '1.7.15',
 
     // Sets Nuked-Klan minimum version for install / update
     'nkMinimumVersion' => '1.7.5',

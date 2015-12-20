@@ -1,7 +1,7 @@
 <?php
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-define('_NKVERSION', '1.7.14');
+define('_NKVERSION', '1.7.15');
 define("_WELCOMEINSTALL",'Bienvenue sur Nuked-Klan '._NKVERSION);
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
 define("_TYPEINSTALL","Que voulez-vous faire ?");

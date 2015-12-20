@@ -60,7 +60,7 @@ if ($process == 'update') {
     if (! $dbTable->fieldExist('dure'))
         $dbTable->addField('dure', array('type' => 'VARCHAR(20)', 'null' => true), 'date');
 
-    // install / update 1.7.14
+    // install / update 1.7.15
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
         $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
 
