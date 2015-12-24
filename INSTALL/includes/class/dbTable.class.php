@@ -188,11 +188,11 @@ class dbTable {
                         $check = $check || true;
 
                     if (! $check)
-                        $this->_actionList[] = sprintf($this->_i18n['MISSING_FIELD'], $this->_table);
+                        $this->_actionList[] = sprintf($this->_i18n['MISSING_FIELD'], $field, $this->_table);
                 }
                 else {
                     if (! $this->fieldExist($field))
-                        $this->_actionList[] = sprintf($this->_i18n['MISSING_FIELD'], $this->_table);
+                        $this->_actionList[] = sprintf($this->_i18n['MISSING_FIELD'], $field, $this->_table);
                 }
             }
         }
