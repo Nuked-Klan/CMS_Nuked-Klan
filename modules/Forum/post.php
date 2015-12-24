@@ -12,12 +12,10 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $user, $language, $nuked, $cookie_captcha, $random_code, $bgcolor3;
+global $user, $language, $nuked, $bgcolor3;
 
 translate("modules/Forum/lang/" . $language . ".lang.php");
 include("modules/Forum/template.php");
-
-$captcha = initCaptcha();
 
 opentable();
 
@@ -251,7 +249,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         echo "</td></tr>\n";
         
-        if ($GLOBALS['captcha'] === true) {
+        if (initCaptcha()) {
            echo "<tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">";
            echo create_captcha();
            echo "</td></tr>\n";

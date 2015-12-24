@@ -1161,16 +1161,24 @@ function initializeControlDB($prefixDB) {
 /**
  * Initialization captcha system
  */
-function initCaptcha(){
+function initCaptcha() {
+    global $visiteur;
+
+    static $captcha;
+
+    if (isset($captcha)) return $captcha;
+
     // Inclusion système Captcha
-    require_once('Includes/nkCaptcha.php');
+    require_once 'Includes/nkCaptcha.php';
 
     // On determine si le captcha est actif ou non
-    if (_NKCAPTCHA == 'off' || (_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] > 0)) {
+    if (_NKCAPTCHA == 'off' || (_NKCAPTCHA == 'auto' && $visiteur > 0)) {
         $captcha = false;
-    } else if((_NKCAPTCHA == 'auto' && $GLOBALS['user'][1] == 0) || _NKCAPTCHA == 'on') {
+    }
+    else if ((_NKCAPTCHA == 'auto' && $visiteur == 0) || _NKCAPTCHA == 'on') {
         $captcha = true;
-    } else {
+    }
+    else {
         $captcha = true;
     }
 

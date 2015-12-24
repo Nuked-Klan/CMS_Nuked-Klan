@@ -11,8 +11,6 @@ defined('INDEX_CHECK') or die('<div style="text-align: center;">You cannot open 
 
 translate('modules/Survey/lang/' . $language . '.lang.php');
 
-$captcha = initCaptcha();
-
 $visiteur = ($user) ? $user[1] : 0;
 
 $ModName = basename(dirname(__FILE__));

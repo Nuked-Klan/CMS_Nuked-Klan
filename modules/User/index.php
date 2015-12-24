@@ -9,13 +9,11 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $language, $user, $cookie_captcha;
+global $language, $user;
 translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
 include_once('Includes/hash.php');
-
-$captcha = initCaptcha();
 
 function index(){
     global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -329,7 +327,7 @@ function reg_screen(){
 
             echo "</select></td></tr>\n";
 
-            if ($GLOBALS['captcha'] === true) echo create_captcha();
+            if (initCaptcha()) echo create_captcha();
 
             echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                     . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _USERREGISTER . "\" /></td></tr></table></form><br />\n";
@@ -867,11 +865,10 @@ function login_screen(){
                 . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"pseudo\" size=\"15\" maxlength=\"180\" /></td></tr>\n"
                 . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass\" size=\"15\" maxlength=\"15\" /></td></tr>\n"
                 . "<input type=\"hidden\" name=\"erreurr\" value=\"".$error."\" size=\"15\" maxlength=\"15\" />\n";
-                
-        if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true)|| $GLOBALS['captcha'] === true) {
+
+        if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true) || initCaptcha())
             echo create_captcha();
-        }
-        
+
         echo "<tr><td colspan=\"2\"><input type=\"checkbox\" class=\"checkbox\" name=\"remember_me\" value=\"ok\" checked=\"checked\" /><small>&nbsp;" . _REMEMBERME . "</small></td></tr>\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _TOLOG . "\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                 . "<tr><td colspan=\"2\"><b><a href=\"index.php?file=User&amp;op=reg_screen\">" . _USERREGISTER . "</a> | <a href=\"index.php?file=User&amp;op=oubli_pass\">" . _LOSTPASS . "</a></b></td></tr></table></form><br />\n";
@@ -884,8 +881,9 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     global $nuked, $cookie_forum, $user_ip;
 
     // Captcha checking
-    ValidCaptchaCode();
-    
+    if (initCaptcha())
+        ValidCaptchaCode();
+
     $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
     
     $pseudo = verif_pseudo($pseudo);

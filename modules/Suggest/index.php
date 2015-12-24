@@ -9,10 +9,8 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate('modules/Suggest/lang/' . $language . '.lang.php');
-
-$captcha = initCaptcha();
 
 $visiteur = !$user ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
@@ -117,11 +115,10 @@ if ($visiteur >= $level_access && $level_access > -1){
             footer();
             die();
         }
-        
+
         // Captcha check
-        if ($GLOBALS['captcha'] === true){
+        if (initCaptcha())
             ValidCaptchaCode();
-        }
 
         $date = time();
 

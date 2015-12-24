@@ -11,8 +11,6 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 
-$captcha = initCaptcha();
-
 $visiteur = $user ? $user[1] : 0;
 $redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
 $level_access = nivo_mod("Textbox");
@@ -22,9 +20,8 @@ if ($visiteur >= $level_access && $level_access > -1)
     opentable();
 
     // Captcha check
-    if ($GLOBALS['captcha'] === true){
+    if (initCaptcha())
         ValidCaptchaCode();
-    }
 
     if (isset($user[2]))
     {

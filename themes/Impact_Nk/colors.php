@@ -4,7 +4,7 @@
 *	Design :  (http://www.best-creative.fr/)
 *	Codage : fce (http://www.best-creative.fr/)
 ************************************************/
-    defined('INDEX_CHECK') or die;
+    defined('INDEX_CHECK') or die('You can\'t run this file alone.');
     include('themes/Impact_Nk/admin/couleur.php');
 
     $bgcolor1 = $couleur[1];

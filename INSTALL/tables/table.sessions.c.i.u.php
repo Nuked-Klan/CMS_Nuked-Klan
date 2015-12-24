@@ -52,7 +52,7 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
-    // install / update 1.7.15
+    // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
         $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
 

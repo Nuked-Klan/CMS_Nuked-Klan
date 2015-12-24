@@ -1,5 +1,5 @@
 <?php
-    defined('INDEX_CHECK') or die;
+    defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
     $couleur[1] = '#828282';
     $couleur[2] = '#9C9C9C';

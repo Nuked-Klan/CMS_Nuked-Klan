@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die;
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 $lifetime = $nuked['sess_days_limit'] * 86400;
 $timesession = $nuked['sess_inactivemins'] * 60;
@@ -22,10 +22,6 @@ $cookie_visit = $nuked['cookiename'] . '_last_visit';
 $cookie_admin = $nuked['cookiename'] . '_admin_session';
 $cookie_forum = $nuked['cookiename'] . '_forum_read';
 $cookie_userid = $nuked['cookiename'] . '_userid';
-
-// Création d'un cookie captcha
-$cookie_captcha = $nuked['cookiename'] . '_captcha';
-setcookie($cookie_captcha, 1);
 
 // Recherche de l'adresse IP
 $uip = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];

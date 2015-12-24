@@ -12,10 +12,8 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate("modules/Forum/lang/" . $language . ".lang.php");
-
-$captcha = initCaptcha();
 
 if (!$user)
 {
@@ -547,9 +545,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        if ($GLOBALS['captcha'] === true) {
+        if (initCaptcha())
             ValidCaptchaCode();
-        }
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {
@@ -761,9 +758,8 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        if ($GLOBALS['captcha'] === true) {
+        if (initCaptcha())
             ValidCaptchaCode();
-        }
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {

@@ -26,7 +26,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         $nb_membres = $nuked['max_members'];
 
-        if ($_REQUEST['letter'] == "Autres"){
+        if ($_REQUEST['letter'] == _OTHER){
             $and = "AND pseudo NOT REGEXP '^[a-zA-Z].'";
         } 
         else if ($_REQUEST['letter'] != "" && preg_match("`^[A-Z]+$`", $_REQUEST['letter'])){

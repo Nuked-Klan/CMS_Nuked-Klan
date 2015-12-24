@@ -12,7 +12,7 @@ if (!defined("INDEX_CHECK"))
 	die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $cookie_captcha;
+global $nuked, $theme, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user;
 translate("modules/Textbox/lang/" . $language . ".lang.php");
 include("modules/Textbox/config.php");
 
@@ -73,7 +73,7 @@ return string.replace(/(^\s*)|(\s*$)/g,'');
 function maFonctionAjax(auteur,texte,code)
 {
     <?php
-        if($GLOBALS['captcha'] === true){
+        if($captcha === true){
             echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
         }
         else{
@@ -121,7 +121,7 @@ function maFonctionAjax(auteur,texte,code)
   }
   	texte = encodeURIComponent(texte);
 	OAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=iso-8859-1');
-	OAjax.send('auteur='+auteur+'&texte='+texte+captchaData);
+	OAjax.send('ajax=1&auteur='+auteur+'&texte='+texte+captchaData);
 	return true;
 }
 -->
@@ -185,8 +185,8 @@ if ($active == 3 || $active == 4)
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"50\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br />\n";
 
-		if ($GLOBALS['captcha'] === true) echo create_captcha();
-		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
+        if ($captcha === true) echo create_captcha();
+
 
 	echo "<br /><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
 	. "<a href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\">\n"
@@ -210,8 +210,7 @@ else
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
 
-	if ($GLOBALS['captcha'] === true) echo create_captcha();
-	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
+        if ($captcha === true) echo create_captcha();
 
 	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"
 	. "<a href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\">\n"

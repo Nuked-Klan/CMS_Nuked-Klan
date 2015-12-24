@@ -9,10 +9,8 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate('modules/Contact/lang/' . $language . '.lang.php');
-
-$captcha = initCaptcha();
 
 opentable();
 
@@ -58,7 +56,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         // Affichage du Captcha.
         echo '<div style="text-align: center">',"\n";
-        if ($GLOBALS['captcha'] === true) echo create_captcha();
+        if (initCaptcha()) echo create_captcha();
         echo '</div>',"\n";
 
         echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
@@ -68,9 +66,8 @@ if ($visiteur >= $level_access && $level_access > -1){
         global $nuked, $user_ip, $user;
 
         // Verification code captcha
-        if ($GLOBALS['captcha'] === true){
+        if (initCaptcha())
             ValidCaptchaCode();
-        }
 
         if (!$_REQUEST['mail'] || !$_REQUEST['sujet'] || !$_REQUEST['corps']){
             echo '<p style="text-align: center">' . _NOCONTENT . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></p>';

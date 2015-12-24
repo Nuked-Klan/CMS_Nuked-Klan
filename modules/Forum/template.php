@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die;
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
 global $bgcolor1, $bgcolor2, $bgcolor3;

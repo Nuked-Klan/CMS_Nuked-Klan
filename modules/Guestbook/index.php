@@ -12,10 +12,9 @@ if (!defined("INDEX_CHECK"))
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 }
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate("modules/Guestbook/lang/" . $language . ".lang.php");
 
-$captcha = initCaptcha();
 
 $visiteur = (!$user) ? 0 : $user[1];
 $ModName = basename(dirname(__FILE__));
@@ -72,10 +71,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
-		if ($GLOBALS['captcha'] === true) {
-		    echo create_captcha();
-	    }
-
+		if (initCaptcha()) echo create_captcha();
 
 		echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
 		. "<tr><td colspan=\"2\"><textarea id=\"e_basic\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
@@ -91,9 +87,8 @@ if ($visiteur >= $level_access && $level_access > -1)
         opentable();
 
         // Verification code captcha
-        if ($GLOBALS['captcha'] === true){
+        if (initCaptcha())
             ValidCaptchaCode();
-        }
 
         if ($user[2] != "")
         {

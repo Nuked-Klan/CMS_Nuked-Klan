@@ -13,8 +13,6 @@ defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open t
 
 translate('modules/News/lang/' . $language . '.lang.php');
 
-$captcha = initCaptcha();
-
 $visiteur = $user ? $user[1] : 0;
 
 $ModName = basename(dirname(__FILE__));
@@ -266,7 +264,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
               <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
               <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
 
-        if ($GLOBALS['captcha'] === true) echo create_captcha();
+        if (initCaptcha()) echo create_captcha();
 
         echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
               <input type="hidden" name="news_id" value="'.$news_id.'" />
@@ -281,27 +279,26 @@ if ($visiteur >= $level_access && $level_access > -1) {
 
         opentable();
 
-        if ($GLOBALS['captcha'] === true){
+        if (initCaptcha())
             ValidCaptchaCode();
-        } else {
-            $date2 = time();
-            $date2 = nkDate($date2);
-            $mail = trim($mail);
-            $pseudo = trim($pseudo);
 
-            $subject = $nuked['name'].', '.$date2;
-            $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
-            $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
+        $date2 = time();
+        $date2 = nkDate($date2);
+        $mail = trim($mail);
+        $pseudo = trim($pseudo);
 
-            $subject = @nkHtmlEntityDecode($subject);
-            $corps = @nkHtmlEntityDecode($corps);
-            $from = @nkHtmlEntityDecode($from);
+        $subject = $nuked['name'].', '.$date2;
+        $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
+        $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
 
-            mail($mail, $subject, $corps, $from);
+        $subject = @nkHtmlEntityDecode($subject);
+        $corps = @nkHtmlEntityDecode($corps);
+        $from = @nkHtmlEntityDecode($from);
 
-            echo '<div style="text-align:center;"><br />'._SENDFMAIL.'<br /><br /></div>';
-            redirect('index.php?file=News', 2);
-        }
+        mail($mail, $subject, $corps, $from);
+
+        echo '<div style="text-align:center;"><br />'._SENDFMAIL.'<br /><br /></div>';
+        redirect('index.php?file=News', 2);
 
         closetable();
     }

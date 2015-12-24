@@ -7,11 +7,11 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die;
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $language, $user, $cookie_captcha;
+global $language, $user;
 translate("modules/Comment/lang/$language.lang.php");
-$captcha = initCaptcha();
+
 $visiteur = ($user) ? $user[1] : 0;
 
 function verification($module, $im_id){
@@ -81,6 +81,8 @@ function NbComment($im_id, $module){
 function com_index($module, $im_id){
     global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language;
 
+    $captcha = initCaptcha();
+
     define('EDITOR_CHECK', 1);
     ?>
     <script type="text/javascript">
@@ -91,7 +93,7 @@ function com_index($module, $im_id){
             $("#post_commentary").find('input.ct_script').val('klan');
             ctScript = $("#post_commentary").find('input.ct_script').val();
             <?php
-                if($GLOBALS['captcha'] === true){
+                if ($captcha === true){
                     echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
                 }
                 else{
@@ -206,8 +208,8 @@ function com_index($module, $im_id){
             }
             echo '</div>';
         }
-        
-        if($GLOBALS['captcha'] === true){
+
+        if ($captcha === true) {
             $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value, this.ct_token.value, this.ct_script.value, this.ct_email.value);return false;';
         }
         else{
@@ -228,8 +230,7 @@ function com_index($module, $im_id){
                         <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
                     </tr>';
 
-                    if ($GLOBALS['captcha'] === true) echo create_captcha();
-                    else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
+                    if ($captcha === true) echo create_captcha();
 
         echo '        <tr>
                         <td colspan="2" align="center">
@@ -309,7 +310,6 @@ function view_com($module, $im_id){
 }
 
 function post_com($module, $im_id){
-    
     global $user, $nuked, $bgcolor2, $bgcolor4, $language, $theme, $visiteur;
 
     define('EDITOR_CHECK', 1);
@@ -361,12 +361,10 @@ function post_com($module, $im_id){
 
     echo "</tr>";
 
-    if ($GLOBALS['captcha'] === true) echo create_captcha();
-    else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
-    
+    if (initCaptcha()) echo create_captcha();
+
     echo "<tr><td align=\"right\" colspan=\"2\">\n"
             . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
-            . "<input type=\"hidden\" name=\"noajax\" value=\"true\" />\n"
             . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
             . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
 
@@ -400,7 +398,7 @@ function post_com($module, $im_id){
 function post_comment($im_id, $module, $titre, $texte, $pseudo) {
     global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur;
     
-    if(!isset($_REQUEST['noajax'])){
+    if(isset($_REQUEST['ajax'])){
         $titre = utf8_decode($titre);
         $texte = utf8_decode($texte);
         $pseudo = utf8_decode($pseudo);
@@ -416,9 +414,8 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
                 . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                 . "<body style=\"background : " . $bgcolor2 . ";\">\n";
 
-        if ($GLOBALS['captcha'] === true) {
+        if (initCaptcha())
             ValidCaptchaCode();
-        }
 
         if ($visiteur > 0){
             $autor = $user[2];
@@ -474,10 +471,12 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         }
         else{
             echo "</div>";
-            $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
-            if ($_REQUEST['ajax'] != 1){
+
+            if (! isset($_REQUEST['ajax'])){
+                $url_redir = "index.php?file=Comment&nuked_nude=index&op=view_com&im_id=" . $im_id . "&module=" . $module;
                 redirect($url_redir, 2);
             }
+
             echo "</body></html>";
         }
     }

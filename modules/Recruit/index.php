@@ -9,10 +9,8 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user, $cookie_captcha;
+global $nuked, $language, $user;
 translate('modules/Recruit/lang/' . $language . '.lang.php');
-
-$captcha = initCaptcha();
 
 opentable();
 
@@ -172,7 +170,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 			. "<option>" . _OTHER . "</option>\n"
 			. "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
-			if ($GLOBALS['captcha'] === true) echo create_captcha();
+			if (initCaptcha()) echo create_captcha();
 
 			echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_recruit\" /></td></tr></table></form><br />\n";
         }
@@ -181,11 +179,10 @@ if ($visiteur >= $level_access && $level_access > -1)
         {
             global $nuked;
 
-			// Checking captcha
-            if ($GLOBALS['captcha'] === true) {
+            // Checking captcha
+            if (initCaptcha())
                 ValidCaptchaCode();
-            }
-            
+
             if (!is_numeric($age)) {
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADAGE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
 				closetable();

@@ -7,9 +7,8 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-if (preg_match("`block_roster.php`i", $_SERVER['PHP_SELF'])){
-    die ("You cannot open this page directly");
-} 
+
+defined("INDEX_CHECK") or die('You can\'t run this file alone.');
 
 function affich_block_roster($blok){
     global $nuked;

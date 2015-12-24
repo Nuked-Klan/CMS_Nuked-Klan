@@ -1,4 +1,6 @@
 <?php
+defined("INDEX_CHECK") or die('You can\'t run this file alone.');
+
 define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_NOACCESSFORUM","Désolé vous n'avez pas accès a ce forum");

@@ -1,4 +1,6 @@
 <?php
+defined("INDEX_CHECK") or die('You can\'t run this file alone.');
+
 define("_RECRUIT","Demande de Recrutement");
 define("_IAGREE","J'accepte");
 define("_IDESAGREE","Je refuse");

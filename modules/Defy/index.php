@@ -11,8 +11,6 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open
 
 translate('modules/Defy/lang/' . $language . '.lang.php');
 
-$captcha = initCaptcha();
-
 opentable();
 
 $visiteur = ($user) ? $user[1] : 0;
@@ -143,7 +141,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 
         echo "<tr><td colspan=\"2\" align=\"center\">";
 
-        if ($GLOBALS['captcha'] === true) echo create_captcha();
+        if (initCaptcha()) echo create_captcha();
 
         echo "<input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
     }
@@ -152,9 +150,9 @@ if ($visiteur >= $level_access && $level_access > -1){
         global $nuked;
 
         // Verification code captcha
-        if ($GLOBALS['captcha'] === true) {
+        if (initCaptcha())
             ValidCaptchaCode();
-        }
+
 
         $email = $nuked['defie_mail'];
         $inbox = $nuked['defie_inbox'];
