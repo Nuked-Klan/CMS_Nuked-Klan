@@ -125,8 +125,6 @@ define("_AT","@");
 define("_THE","on");
 define("_BY","by");
 define("_NEWSCOMMENT","Comments");
-define("_PSEUDOFAILDED","Invalid Nickname");
-define("_RESERVNICK","This Nick is already used");
 define("_BANFINISHED"," isn't ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Link</a>].");
 define("_IPBANNED","You are banned. The access of the website you had has been restrained.");
 define("_REASON","Reason :");
@@ -392,5 +390,18 @@ define("_STATS","Statistics");
 define("_UPLOADFILEFAILED","Upload file failed !");
 define("_NOIMAGEFILE","This file is not a valid image !");
 define("_UPLOADDIRNOWRITEABLE","The upload directory isn't writeable !");
+
+
+return array(
+    'BAD_NICKNAME'      => 'Invalid Nickname, some characters are prohibited.',
+    'RESERVED_NICKNAME' => 'This Nickname is already used',
+    'BANNED_NICKNAME'   => 'This Nickname is banned',
+    'NICKNAME_TOO_LONG' => 'Your Nickname is too long.',
+    
+define("_MAILINUSE","This mail is already used");
+define("_MAILBANNED","This mail is banned");
+define("_BANNEDEMAIL","This email is banned");
+define("_ERRORMAIL","Your email address is invalid");
+);
 
 ?>

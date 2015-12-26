@@ -12,8 +12,6 @@ define("_CANCEL","Annuler");
 
 define("_MODIF","Modifier");
 define("_NOTEXT","Vous n'avez pas entré votre texte !");
-define("_RESERVNICK","Ce pseudo est déjà réservé");
-define("_BANNEDNICK","Ce pseudo est banni");
 define("_BANNEDEMAIL","Ce mail est banni");
 define("_ERRORMAIL","Votre Email n\'est pas correct");
 define("_POSTADD","Votre message a bien été ajouté");

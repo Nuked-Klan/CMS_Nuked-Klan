@@ -263,9 +263,9 @@ function checkForumPostAuthor() {
 
     $author = stripslashes($_POST['author']);
     $author = nkHtmlEntities($author, ENT_QUOTES);
-    $author = verif_pseudo($author);
+    $author = checkNickname($author);
 
-    return array('', $author, getCheckPseudoError($author));
+    return array('', $author, getCheckNicknameError($author));
 }
 
 /**

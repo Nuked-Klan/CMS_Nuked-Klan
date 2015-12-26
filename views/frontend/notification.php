@@ -8,7 +8,7 @@
 <?php
     if (is_string($backLinkUrl) && $backLinkUrl != '') :
 ?>
-    <a href="javascript:history.back()"><span><?php echo _BACK ?></span></a>
+    <a href="<?php echo $backLinkUrl ?>"><span><?php echo _BACK ?></span></a>
 <?php
     endif
 ?>

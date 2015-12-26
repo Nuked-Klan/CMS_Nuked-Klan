@@ -14,8 +14,6 @@ define("_CANCEL","Cancel");
 
 define("_MODIF","Modify");
 define("_NOTEXT","Please enter a text!");
-define("_RESERVNICK","This Nick is reserved");
-define("_BANNEDNICK","This Nick is banned");
 define("_BANNEDEMAIL","This email is banned");
 define("_ERRORMAIL","Your email address is invalid");
 define("_POSTADD","Message was successfully added");

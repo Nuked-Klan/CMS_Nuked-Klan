@@ -16,8 +16,6 @@ define("_NICK","Nick");
 define("_SEND_COM","Submit your comment");
 
 
-define("_RESERVNICK","This Nick is already used");
-define("_BANNEDNICK","This Nick is banned");
 define("_NOTITLE","Please enter a title!");
 define("_NOTEXT","Please enter a text!");
 define("_COMMENTADD","Your comment was successfully added.");

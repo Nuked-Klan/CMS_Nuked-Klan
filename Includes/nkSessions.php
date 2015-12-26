@@ -234,8 +234,8 @@ function nkSessions_createNewSession($userId, $rememberMe) {
             FROM '. SESSIONS_TABLE .'
             WHERE id = '. nkDB_escape($sessionId)
         );
-    }
-    while (nkDB_numRows() !== 0);
+
+    } while (nkDB_numRows() !== 0);
 
     nkSessions_resetUserCookie();
 

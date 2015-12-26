@@ -11,7 +11,6 @@ define("_ALREADYVOTE","You already voted!");
 define("_ONEVOTEONLY","You can vote only once");
 define("_NOTE","Rating");
 define("_RATE","Rate");
-define("_NICKINUSE","This Nick is reserved");
 
 define("_VOTEADD","Rating was successfully registered");
 ?>

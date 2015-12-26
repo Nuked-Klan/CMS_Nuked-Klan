@@ -81,8 +81,6 @@ define("_MESSMODIF","Message modifié avec succès.");
 define("_FIELDEMPTY","Assurez vous d'avoir rempli tout les champs.");
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
-define("_NICKINUSE","Ce pseudo est déjà  réservé.");
-define("_BANNEDNICK","Ce pseudo est banni");
 define("_MESSAGESEND","Message envoyé avec succès.");
 define("_NOFLOOD","Vous avez déjà posté un message il y a peu de temps, veuillez patienter quelques instants...");
 define("_CONFIRMDELMESS","Etes-vous sûr de vouloir supprimer ce message ?");

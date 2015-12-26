@@ -425,23 +425,15 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         }
         else{
             $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
-            $pseudo = verif_pseudo($pseudo);
-            if ($pseudo == "error1"){
-                echo "<div style=\"text-align: center;\"><br /><br />" . _PSEUDOFAILDED . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>";
+            $pseudo = checkNickname($pseudo);
+
+            if (($error = getCheckNicknameError($pseudo)) !== false) {
+                echo "<div style=\"text-align: center;\">" . $error . "<br /><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>";
                 return;
             }
-            else if ($pseudo == "error2"){
-                "<div style=\"text-align: center;\"><br /><br />" . _RESERVNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>";
-                return;
-            }
-            else if ($pseudo == "error3"){
-                "<div style=\"text-align: center;\"><br /><br />" . _BANNEDNICK . "<br><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>";
-                return;
-            }
-            else{
-                $autor = $pseudo;
-                $autor_id="";
-            }
+
+            $autor = $pseudo;
+            $autor_id="";
         }
 
         $flood = mysql_query("SELECT date FROM " . COMMENT_TABLE . " WHERE autor = '" . $autor . "' OR autor_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");

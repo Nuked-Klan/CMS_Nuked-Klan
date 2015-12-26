@@ -86,8 +86,6 @@ define("_MESSMODIF","Post was successfully updated.");
 define("_FIELDEMPTY","You forgot to fill in a field.");
 define("_NOTITLE","Please enter a title!");
 define("_NOTEXT","Please enter a text!");
-define("_NICKINUSE","This nickname is reserved.");
-define("_BANNEDNICK","This nickname is banned");
 define("_MESSAGESEND","Thank you, your post has been submitted.");
 define("_NOFLOOD","You have already submitted a post very recently, please wait a bit...");
 define("_CONFIRMDELMESS","Remove this post?");

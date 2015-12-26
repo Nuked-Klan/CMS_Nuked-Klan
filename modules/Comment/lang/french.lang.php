@@ -15,8 +15,6 @@ define("_NICK","Pseudo");
 define("_SEND_COM","Soumettre votre commentaire");
 
 
-define("_RESERVNICK","Ce pseudo est déjà réservé");
-define("_BANNEDNICK","Ce pseudo est banni");
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
 define("_COMMENTADD","Votre commentaire a bien été enregistré");

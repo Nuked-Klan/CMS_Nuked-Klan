@@ -102,22 +102,15 @@
 
                 if (plugin.settings.input[id].type == 'password')
                     _initPasswordInput(id);
-
-                // TODO POUR LES AJOUT DE PASSWORD???
-                // Check input and disabled submit button for no valid form
-                if (submitButton.attr('disabled') !== 'disabled' && ! plugin.settings.input[id].optional && ! _checkFormInput(id, true))
-                    submitButton.attr('disabled', 'disabled');
             };
 
             // Check input when focus has lost
             $('.nkCheckform').blur(function() {
-                //console.log(this.id);
                 _checkInputById(this.id);
             });
 
             // Check input when a key is released
             $('.nkCheckform').keyup(function() {
-                //console.log(this.id);
                 _checkInputById(this.id);
             });
 
@@ -235,8 +228,6 @@
         var _checkSecurityPassword = function(id, passwordValue) {
             var counter = 0;
 
-            console.log(passwordValue);
-
             if (passwordValue.length >= 4) counter = counter + 1;
  
             if (passwordValue.match(/[A-Z]/)) counter = counter + 1;
@@ -282,17 +273,14 @@
                     submit = submit && false;
             };
 
-            if (submit)
-                submitButton.removeAttr('disabled');
-            else
-                submitButton.attr('disabled', 'disabled');
+            // TODO : Scrolling to first bad field
 
             return submit;
         }
 
         var _checkInputById = function(id) {
             var check = _checkFormInput(id, false);
-            
+
             if ($element.find('.error-field').length == 0)
                 submitButton.removeAttr('disabled');
             else
@@ -492,9 +480,8 @@
                     var dateData = plugin.settings.input[id].value.split('/');
 
                     if (dateData.length == 3) {
-                        console.log('dateData : ' + dateData);
                         dateData = _checkDate(dateData[0], dateData[1], dateData[2]);
-                        console.log('_checkDate : ' + dateData);
+
                         validDate = ('0' + dateData[0]).slice(-2) + '/' + 
                         ('0' + dateData[1]).slice(-2) + 
                         '/' + dateData[2];
@@ -510,9 +497,6 @@
                     }
                 }
             }
-
-            console.log('value : ' + plugin.settings.input[id].value);
-            console.log('validDate : ' + validDate);
 
             if (typeof validDate == 'string' && plugin.settings.input[id].value == validDate)
                 check = true;
@@ -621,8 +605,6 @@
         }
 
         var _checkInputOldPassword = function(id, checkOnly) {
-            console.log('_checkInputOldPassword');
-
             if (plugin.settings.input[id].passwordConfirmId !== undefined)
                 plugin.settings.input[id].confirmValue = $.trim($('#' + plugin.settings.input[id].passwordConfirmId).val());
 
@@ -631,10 +613,6 @@
 
             passwordAndComfirmDifferentAndNotEmpty = plugin.settings.input[id].passwordValue != plugin.settings.input[id].confirmValue &&
                 (plugin.settings.input[id].passwordValue != '' || plugin.settings.input[id].confirmValue != '');
-
-            console.log('_checkInputOldPassword id :' + id);
-            console.log('_checkInputOldPassword passwordConfirmId :' + plugin.settings.input[id].passwordConfirmId);
-            console.log('_checkInputOldPassword id :' + id);
 
             if (plugin.settings.input[id].value == '') {
                 // Password, confirmation password and old password are empty

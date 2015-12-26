@@ -37,41 +37,15 @@ if ($visiteur >= $level_access && $level_access > -1)
     {
     	$_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
         $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
-        $_REQUEST['auteur'] = verif_pseudo($_REQUEST['auteur']);
+        $_REQUEST['auteur'] = checkNickname($_REQUEST['auteur']);
 
-        if (mysql_result(mysql_query('SELECT COUNT(*) FROM ' . USER_TABLE . ' WHERE pseudo LIKE \'' . mysql_real_escape_string($_REQUEST['auteur']) . '\''), 0))
-        {
-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_PSEUDOFAILDED) . "</div><br /><br />";
+        if (($error = getCheckNicknameError($_REQUEST['auteur'])) !== false) {
+            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities($error) . "</div><br /><br />";
             redirect($redirection, 2);
-            closetable();
             return;
-		}
-        elseif ($_REQUEST['auteur'] == "error1")
-        {
-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_PSEUDOFAILDED) . "</div><br /><br />";
-            redirect($redirection, 2);
-            closetable();
-            return;
+        }
 
-        }
-        else if ($_REQUEST['auteur'] == "error2")
-        {
-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_RESERVNICK) . "</div><br /><br />";
-            redirect($redirection, 2);
-            closetable();
-            return;
-        }
-        else if ($_REQUEST['auteur'] == "error3")
-        {
-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_BANNEDNICK) . "</div><br /><br />";
-            redirect($redirection, 2);
-            closetable();
-            return;
-        }
-        else
-        {
-            $pseudo = $_REQUEST['auteur'];
-        }
+        $pseudo = $_REQUEST['auteur'];
     }
 
     $sql2 = mysql_query("SELECT auteur, ip, date FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT 0, 1");

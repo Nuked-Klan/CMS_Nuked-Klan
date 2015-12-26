@@ -931,7 +931,7 @@ function nbvisiteur() {
     $limit  = $time + $nuked['nbc_timeout'];
 
     nkDB_delete(NBCONNECTE_TABLE, 'date < '. $time);
- 
+
     if ($user_ip != '') {
         if ($user)
             $whereClause = 'user_id = '. nkDB_escape($user['id']);
@@ -945,20 +945,16 @@ function nbvisiteur() {
         );
 
         if (nkDB_totalNumRows('FROM '. NBCONNECTE_TABLE .' WHERE '. $whereClause) > 0) {
-            if ($user) {
-                $connectData['IP'] = $user_ip;
-                nkDB_update(NBCONNECTE_TABLE, $connectData, 'user_id = '. nkDB_escape($user['id']));
-            }
-            else {
-                $connectData['user_id'] = '';
-                nkDB_update(NBCONNECTE_TABLE, $connectData, 'IP = '. nkDB_escape($user_ip));
-            }
+            if ($user) $connectData['IP'] = $user_ip;
+
+            nkDB_update(NBCONNECTE_TABLE, $connectData, $whereClause);
         }
         else {
             nkDB_delete(NBCONNECTE_TABLE, 'IP = '. nkDB_escape($user_ip));
 
-            $connectData['IP'] = $user_ip;
+            $connectData['IP']      = $user_ip;
             $connectData['user_id'] = ($user) ? $user['id'] : '';
+
             nkDB_insert(NBCONNECTE_TABLE, $connectData);
         }
     }
@@ -1115,12 +1111,18 @@ function moduleInit($module) {
 function translate($languageFile) {
     global $nuked, $arrayModLang;
 
-    ob_start();
+    static $loaded = array();
+
+    if (in_array($languageFile, $loaded)) return;
+
+    ob_start(); // TODO : Remove this line later, only for hide huge ugly notice block :S
     $newArrayModLang = include_once $languageFile;
-    ob_end_clean();
+    ob_end_clean(); // TODO : Remove this line later, only for hide huge ugly notice block :S
 
     if (is_array($newArrayModLang))
         $arrayModLang = array_merge($arrayModLang, $newArrayModLang);
+
+    $loaded[] = $languageFile;
 }
 
 /**
@@ -1129,7 +1131,7 @@ function translate($languageFile) {
  * @param string $str : The string to translate
  * @return string : Translation if it exists or if an empty string
  */
-function __($str, $n = 1) {
+function __($str) {
     global $arrayModLang;
 
     if (array_key_exists($str, $arrayModLang))
@@ -1306,64 +1308,120 @@ function nkNickname($data, $link = true, $rankColor = true, $author = 'auteur', 
 }
 
 /**
- * Check if pseudo is conform (no empty & no special characters), not used and not banned
+ * Check if nickname is conform (no empty & no special characters), not used and not banned
  *
- * @param string $pseudo : The pseudo to check
- * @return string : Pseudo string trimmed
+ * @param string $nickname : The nickname to check.
+ * @return string : Nickname string trimmed or error alias of nickname checking.
  */
-function verif_pseudo($string = null, $oldString = null, $maxLength = 30) {
-    $string = trim($string);
+function checkNickname($nickname = '') {
+    global $user;
 
-    if (empty($string) || preg_match('`[\$\^\(\)\'"?%#<>,;:]`', $string)) {
+    $nickname = trim($nickname);
+
+    if (empty($nickname) || preg_match('`[\$\^\(\)\'"?%#<>,;:]`', $nickname))
         return 'error1';
-    }
 
-    $escapeString = nkDB_escape($string);
+    $escapeNickname = nkDB_escape($nickname);
 
-    if ($string != $oldString) {
-        $isUsed = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE pseudo = '. $escapeString);
+    $isUsed = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE pseudo = '. $escapeNickname);
 
-        if ($isUsed > 0)
-            return 'error2';
-    }
+    if ($isUsed > 0) return 'error2';
 
-    $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE pseudo = '. $escapeString);
+    $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE pseudo = '. $escapeNickname);
 
-    if ($isBanned > 0)
-        return 'error3';
+    if ($isBanned > 0) return 'error3';
+    if (strlen($nickname) > 30) return 'error4';
 
-    if (strlen($string) > $maxLength) return 'error4';
-
-    return $string;
+    return $nickname;
 }
 
 /**
- * Return the error of verif pseudo
+ * Old checkNickname function name.
  *
- * @param string $error : Error alias returned by check pseudo
- * @return string : Error message
+ * @deprecated
  */
-function getCheckPseudoError($error) {
-    switch ($error) {
+function verif_pseudo($nickname = '') {
+    trigger_error('verif_pseudo function is deprecated. Please update your module.', E_USER_DEPRECATED);
+
+    return checkNickname($nickname);
+}
+
+/**
+ * Return the error translation of checkNickname function
+ *
+ * @param string $string : Result value of checkNickname function.
+ * @return string : Error message string or false if not error.
+ */
+function getCheckNicknameError($result) {
+    switch ($result) {
         case 'error1' :
-            return _PSEUDOFAILDED;
+            return __('BAD_NICKNAME');
             break;
 
         case 'error2' :
-            return _RESERVNICK;
+            return __('RESERVED_NICKNAME');
             break;
 
         case 'error3' :
-            return _BANNEDNICK;
+            return __('BANNED_NICKNAME');
             break;
 
         case 'error4' :
-            return _NICKTOLONG;
+            return __('NICKNAME_TOO_LONG');
             break;
     }
 
     return false;
 }
+
+
+function checkEmail($email, $registred = false) {
+    global $user;
+
+    $email = trim($email);
+
+    // Validate an UTF-8 email with regex is nearly impossible
+    // See http://stackoverflow.com/a/5219948
+    if (strpos($email, '@') === false)
+        return 'error1';
+
+    $escapeEmail = nkDB_escape($email);
+
+    $sql = 'FROM '. USER_TABLE .' WHERE mail = '. $escapeEmail;
+
+    if ($registred) $sql .= ' AND id != '. nkDB_escape($user['id']);
+
+    $isUsed = nkDB_totalNumRows($sql);
+
+    if ($isUsed > 0)
+        return 'error2';
+
+    $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE email = '. $escapeEmail);
+
+    if ($isBanned > 0)
+        return 'error3';
+
+    return ;
+}
+
+function getCheckEmailError($result) {
+    switch ($result) {
+        case 'error1' :
+            return _BADMAIL;
+            break;
+
+        case 'error2' :
+            return _MAILINUSE;
+            break;
+
+        case 'error3' :
+            return _MAILBANNED;
+            break;
+    }
+
+    return false;
+}
+
 
 /**
  * Get the Operating System of user

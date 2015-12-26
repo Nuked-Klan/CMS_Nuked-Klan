@@ -299,29 +299,16 @@ function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $emai
 {
     global $nuked, $user;
 
-    $nick = verif_pseudo($nick, $old_nick);
+    $nick = checkNickname($nick);
 
-    if ($nick == "error1"){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
-        redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
-        return;
-    }
+    if (($error = getCheckNicknameError($nick)) !== false) {
+        echo "<div class=\"notification error png_bg\">\n"
+        . "<div>\n"
+        . $error
+        . "</div>\n"
+        . "</div>\n";
 
-    if ($nick == "error2"){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
-        redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
-        return;
-    }
-
-    if ($nick == "error3"){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
-        redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
-        return;
-    }
-
-    if (strlen($nick) > 30){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
-        redirect("index.php?file=Admin&page=user&op=edit_user&id_user=".$id_user, 2);
+        redirect('index.php?file=Admin&page=user&op=edit_user&id_user='. $id_user, 2);
         return;
     }
 
@@ -435,6 +422,19 @@ function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq,
     }
     else
     {
+        $nick = checkNickname($nick);
+
+        if (($error = getCheckNicknameError($nick)) !== false) {
+            echo "<div class=\"notification error png_bg\">\n"
+            . "<div>\n"
+            . $error
+            . "</div>\n"
+            . "</div>\n";
+
+            redirect('index.php?file=Admin&page=user&op=add_user', 2);
+            return;
+        }
+
         $cryptpass = nk_hash($pass_reg);
 
         do {

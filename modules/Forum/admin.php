@@ -771,8 +771,7 @@ function saveSetting() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/config/backend/setting.php';
 
-    $_POST['forum_title']   = stripslashes($_POST['forum_title']);
-    $_POST['forum_desc']    = stripslashes($_POST['forum_desc']);
+    $_POST = array_map('stripslashes', $_POST);
 
     foreach ($forumSettingField as $field) {
         if ($forumSettingForm['items'][$field]['type'] == 'checkbox' && $_POST[$field] != 'on')

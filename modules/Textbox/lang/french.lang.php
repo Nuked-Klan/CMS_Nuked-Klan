@@ -8,8 +8,6 @@ if (!defined("INDEX_CHECK"))
 define("_NONICKNAME","Identifiez vous pour pouvoir poster un message !");
 // End
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
-define("_PSEUDOEXIST","Ce pseudo est déjà réservé !");
-define("_BANNEDNICK","Ce pseudo est banni");
 
 define("_NICKNAME","Pseudo");
 define("_YOURMESS","");

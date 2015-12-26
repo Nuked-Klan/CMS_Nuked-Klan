@@ -922,35 +922,14 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     ValidCaptchaCode();
 
     $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
-    $pseudo = verif_pseudo($pseudo);
+    $pseudo = checkNickname($pseudo);
 
     $mail = mysql_real_escape_string(stripslashes($mail));
     $mail = nkHtmlEntities($mail);
 
-    if ($pseudo == "error1"){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
-        redirect("index.php?file=User&op=reg_screen", 2);
-        closetable();
-        return;
-    }
-
-    if ($pseudo == "error2"){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
-        redirect("index.php?file=User&op=reg_screen", 2);
-        closetable();
-        return;
-    }
-
-    if ($pseudo == "error3"){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
-        redirect("index.php?file=User&op=reg_screen", 2);
-        closetable();
-        return;
-    }
-
-    if (strlen($pseudo) > 30){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
-        redirect("index.php?file=User&op=reg_screen", 2);
+    if (($error = getCheckNicknameError($pseudo)) !== false) {
+        echo "<br /><br /><div style=\"text-align: center;\">" . $error . "</div><br /><br />";
+        redirect('index.php?file=User&op=reg_screen', 2);
         closetable();
         return;
     }
@@ -1261,37 +1240,16 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         list($old_pseudo, $old_mail, $old_pass) = mysql_fetch_array($sql);
 
         if ($nick != $old_pseudo){
-            $sql1 = mysql_query("SELECT pseudo FROM " . BANNED_TABLE . " WHERE pseudo = '" . $nick . "'");
-            $banned_nick = mysql_num_rows($sql1);
+            $nick = checkNickname($nick);
 
-            $sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE pseudo = '" . $nick . "' AND id != '" . $user[0] . "'");
-            $reserved_name = mysql_num_rows($sql2);
+            if (($error = getCheckNicknameError($nick)) !== false) {
+                echo "<br /><br /><div style=\"text-align: center;\">" . $error . "</div><br /><br />";
+                redirect('index.php?file=User&op=edit_account', 2);
+                closetable();
+                return;
+            }
 
-            if (!$nick || ($nick == "") || (preg_match("`[\$\^\(\)'\"?%#<>,;:]`", $nick))){
-                echo "<br /><br /><div style=\"text-align: center;\">" . _BADUSERNAME . "</div><br /><br />";
-                redirect("index.php?file=User&op=edit_account", 2);
-                closetable();
-                return;
-            }
-            else if (strlen($nick) > 30){
-                echo "<br /><br /><div style=\"text-align: center;\">" . _NICKTOLONG . "</div><br /><br />";
-                redirect("index.php?file=User&op=reg_screen", 2);
-                closetable();
-                return;
-            }
-            else if ($reserved_name > 0){
-                echo "<br /><br /><div style=\"text-align: center;\">" . _NICKINUSE . "</div><br /><br />";
-                redirect("index.php?file=User&op=edit_account", 2);
-                closetable();
-                return;
-            }
-            else if ($banned_nick > 0){
-                echo "<br /><br /><div style=\"text-align: center;\">" . _NICKBANNED . "</div><br /><br />";
-                redirect("index.php?file=User&op=edit_account", 2);
-                closetable();
-                return;
-            }
-            else if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
+            if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADOLDPASS . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();

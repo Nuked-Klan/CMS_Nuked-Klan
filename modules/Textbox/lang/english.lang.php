@@ -10,8 +10,6 @@ define("_NOTEXT","Please enter a text!");
 //Resctriction to logged users
 define("_NONICKNAME","Log in to post a message !");
 // End
-define("_PSEUDOEXIST","This Nick is reserved!");
-define("_BANNEDNICK","This Nick is banned");
 define("_NICKNAME","Nickname");
 define("_YOURMESS","");
 

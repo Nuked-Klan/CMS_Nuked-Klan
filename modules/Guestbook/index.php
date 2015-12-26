@@ -87,33 +87,13 @@ function send_book($name, $email, $url, $comment)
     }
     else
     {
-        $name = verif_pseudo($name);
-        $name = nkHtmlEntities($name, ENT_QUOTES);
+        $pseudo = checkNickname($name);
+        $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
 
-        if ($name == "error1")
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _PSEUDOFAILDED . "</div><br /><br />";
-            redirect("index.php?file=Guestbook&op=post_book", 2);
-            closetable();
+        if (($error = getCheckNicknameError($pseudo)) !== false) {
+            echo "<br /><br /><div style=\"text-align: center;\">" . $error . "</div><br /><br />";
+            redirect('index.php?file=Guestbook&op=post_book', 2);
             return;
-        }
-        else if ($name == "error2")
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _RESERVNICK . "</div><br /><br />";
-            redirect("index.php?file=Guestbook&op=post_book", 2);
-            closetable();
-            return;
-        }
-        else if ($name == "error3")
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BANNEDNICK . "</div><br /><br />";
-            redirect("index.php?file=Guestbook&op=post_book", 2);
-            closetable();
-            return;
-        }
-        else
-        {
-            $pseudo = $name;
         }
     }
 

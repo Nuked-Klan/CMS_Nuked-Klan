@@ -72,10 +72,10 @@ $forumForm = array(
         ),
         'comment' => array(
             'label'             => '<b>'. _DESCR .' :</b>&nbsp;',
-            'type'              => 'text',
+            'type'              => 'textarea',
             'name'              => 'description',
+            'cols'              => 69,
             'rows'              => 10,
-            'rows'              => 69,
             'inputClass'        => array('editor')
         ),
         'image' => array(

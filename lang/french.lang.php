@@ -122,8 +122,6 @@ define("_AT","à");
 define("_THE","le");
 define("_BY","par");
 define("_NEWSCOMMENT","Commentaires");
-define("_PSEUDOFAILDED","Pseudo invalide");
-define("_RESERVNICK","Ce pseudo est déjà réservé");
 define("_BANFINISHED"," n'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Lien</a>].");
 define("_IPBANNED","Vous avez été banni de ce site et n'êtes donc plus autorisé à y accéder.");
 define("_REASON","Raison :");
@@ -398,5 +396,19 @@ define("_STATS","Statistiques");
 define("_UPLOADFILEFAILED","Le Téléchargement du fichier a échoué !");
 define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
 define("_UPLOADDIRNOWRITEABLE","Le dossier d'upload n'a pas les droits d'écriture !");
+
+
+return array(
+    'BAD_NICKNAME'      => 'Pseudo incorrect, certains caractères sont interdits.',
+    'RESERVED_NICKNAME' => 'Ce pseudo est déjà réservé',
+    'BANNED_NICKNAME'   => 'Ce pseudo est banni',
+    'NICKNAME_TOO_LONG' => 'Votre pseudo est trop long.',
+
+define("_MAILBANNED","Ce mail est banni");
+define("_MAILINUSE","Cet Email est déjà réservé");
+define("_BANNEDEMAIL","Ce mail est banni");
+define("_ERRORMAIL","Votre Email n\'est pas correct");
+
+);
 
 ?>
