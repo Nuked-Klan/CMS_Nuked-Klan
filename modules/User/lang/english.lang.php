@@ -115,8 +115,6 @@ define("_NOFIELD","You forgot a field.");
 define("_BADLOG","Bad login / password. Please retry");
 define("_LOSTPASS","Lost Password?");
 define("_TOLOG","Login");
-define("_MAILINUSE","This mail is already used");
-define("_MAILBANNED","This mail is banned");
 define("_LOGINPROGRESS","Login in progress...");
 define("_SESSIONIPOPEN","Warning, you are now set on a temporary session and will therefore be disconnected after " . $nuked['sess_inactivemins'] . " minutes of inactivity!");
 define("_ERRORCOOKIE","Your internet browser does not allow cookies from this site to be stored. You must enable the option to accept cookies from this site.");

@@ -934,27 +934,15 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         return;
     }
 
-    $sql2 = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE mail = '" . $mail . "'");
-    $reserved_email = mysql_num_rows($sql2);
+    $mail = nkHtmlEntities($mail);
+    $mail = checkEmail($mail, $checkRegistred = true);
 
-    $sql3 = mysql_query("SELECT email FROM " . BANNED_TABLE . " WHERE email = '" . $mail . "'");
-    $banned_email = mysql_num_rows($sql3);
-
-    if ($reserved_email > 0){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _MAILINUSE . "</div><br /><br />";
-        redirect("index.php?file=User&op=reg_screen", 2);
+    if (($error = getCheckEmailError($mail)) !== false) {
+        echo "<br /><br /><div style=\"text-align: center;\">" . $error . "</div><br /><br />";
+        redirect('index.php?file=User&op=reg_screen', 2);
         closetable();
         return;
     }
-
-
-    if ($banned_email > 0){
-        echo "<br /><br /><div style=\"text-align: center;\">" . _MAILBANNED . "</div><br /><br />";
-        redirect("index.php?file=User&op=reg_screen", 2);
-        closetable();
-        return;
-    }
-
 
     if ($nuked['inscription'] == "mail"){
         $lettres = "abCdefGhijklmNopqrstUvwXyz0123456789";
@@ -1261,26 +1249,17 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         }
 
         if ($mail != $old_mail){
-            $sql3 = mysql_query("SELECT mail FROM " . USER_TABLE . " WHERE mail = '" . $mail . "' AND id != '" .$user[0] . "'");
-            $reserved_email = mysql_num_rows($sql3);
+            $mail = nkHtmlEntities($mail);
+            $mail = checkEmail($mail, $checkRegistred = true);
 
-            $sql4 = mysql_query("SELECT email FROM " . BANNED_TABLE . " WHERE email = '" . $mail . "'");
-            $banned_email = mysql_num_rows($sql4);
-
-            if ($reserved_email > 0){
-                echo "<br /><br /><div style=\"text-align: center;\">" . _MAILINUSE . "</div><br /><br />";
-                redirect("index.php?file=User&op=edit_account", 2);
+            if (($error = getCheckEmailError($mail)) !== false) {
+                echo "<br /><br /><div style=\"text-align: center;\">" . $error . "</div><br /><br />";
+                redirect('index.php?file=User&op=edit_account', 2);
                 closetable();
                 return;
             }
 
-            if ($banned_email > 0){
-                echo "<br /><br /><div style=\"text-align: center;\">" . _MAILBANNED . "</div><br /><br />";
-                redirect("index.php?file=User&op=edit_account", 2);
-                closetable();
-                return;
-            }
-            else if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
+            if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
                 echo "<br /><br /><div style=\"text-align: center;\">" . _BADOLDPASS . "</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();

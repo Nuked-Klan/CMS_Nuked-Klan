@@ -38,7 +38,7 @@ function post_book()
                 return false;
             }
             if (document.getElementById('guest_mail').value.indexOf('@') == -1){
-                alert('<?php echo _ERRORMAIL; ?>');
+                alert('<?php echo __('BAD_EMAIL') ?>');
                 return false;
             }
         }
@@ -98,13 +98,11 @@ function send_book($name, $email, $url, $comment)
     }
 
     $email = nkHtmlEntities($email);
-    $sql3 = mysql_query("SELECT email FROM " . BANNED_TABLE . " WHERE email = '" . $email . "'");
-    $nb_ban = mysql_num_rows($sql3);
+    $email = checkEmail($email);
 
-    if ($nb_ban > 0)
-    {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _BANNEDEMAIL . "</div><br /><br />";
-        redirect("index.php?file=Guestbook&op=post_book", 2);
+    if (($error = getCheckEmailError($email)) !== false) {
+        echo "<br /><br /><div style=\"text-align: center;\">" . $error . "</div><br /><br />";
+        redirect('index.php?file=Guestbook&op=post_book', 2);
         closetable();
         return;
     }

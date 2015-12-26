@@ -112,8 +112,6 @@ define("_NOFIELD","Vous avez oublié de remplir un champ.");
 define("_BADLOG","Mauvais login / password. Merci de recommencer");
 define("_LOSTPASS","Perdu votre Password ?");
 define("_TOLOG","S'identifier");
-define("_MAILBANNED","Ce mail est banni");
-define("_MAILINUSE","Cet Email est déjà réservé");
 define("_LOGINPROGRESS","Login en cours...");
 define("_SESSIONIPOPEN","Attention, vous êtes en session provisoire, vous serez déconnecté au bout de " . $nuked['sess_inactivemins'] . " minutes d'inactivité !");
 define("_ERRORCOOKIE","Votre navigateur n'autorise pas les cookies, veuillez régler vos paramètres de confidentialité sur <b>accepter tous les cookies</b>");

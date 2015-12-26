@@ -399,16 +399,15 @@ define("_UPLOADDIRNOWRITEABLE","Le dossier d'upload n'a pas les droits d'écritur
 
 
 return array(
+    // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Pseudo incorrect, certains caractères sont interdits.',
     'RESERVED_NICKNAME' => 'Ce pseudo est déjà réservé',
     'BANNED_NICKNAME'   => 'Ce pseudo est banni',
     'NICKNAME_TOO_LONG' => 'Votre pseudo est trop long.',
-
-define("_MAILBANNED","Ce mail est banni");
-define("_MAILINUSE","Cet Email est déjà réservé");
-define("_BANNEDEMAIL","Ce mail est banni");
-define("_ERRORMAIL","Votre Email n\'est pas correct");
-
+    // getCheckEmailError function (nuked.php)
+    'BAD_EMAIL'         => 'Votre Email n\'est pas correct',
+    'BANNED_EMAIL'      => 'Ce mail est banni',
+    'RESERVED_EMAIL'    => 'Cet Email est déjà réservé',
 );
 
 ?>

@@ -393,15 +393,15 @@ define("_UPLOADDIRNOWRITEABLE","The upload directory isn't writeable !");
 
 
 return array(
+    // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Invalid Nickname, some characters are prohibited.',
     'RESERVED_NICKNAME' => 'This Nickname is already used',
     'BANNED_NICKNAME'   => 'This Nickname is banned',
     'NICKNAME_TOO_LONG' => 'Your Nickname is too long.',
-    
-define("_MAILINUSE","This mail is already used");
-define("_MAILBANNED","This mail is banned");
-define("_BANNEDEMAIL","This email is banned");
-define("_ERRORMAIL","Your email address is invalid");
+    // getCheckEmailError function (nuked.php)
+    'BAD_EMAIL'         => 'Your email address is invalid',
+    'BANNED_EMAIL'      => 'This email is banned',
+    'RESERVED_EMAIL'    => 'This email is already used',
 );
 
 ?>

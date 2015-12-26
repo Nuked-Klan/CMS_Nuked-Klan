@@ -14,8 +14,6 @@ define("_CANCEL","Cancel");
 
 define("_MODIF","Modify");
 define("_NOTEXT","Please enter a text!");
-define("_BANNEDEMAIL","This email is banned");
-define("_ERRORMAIL","Your email address is invalid");
 define("_POSTADD","Message was successfully added");
 define("_POSTEDIT","Message was successfully modified.");
 define("_SIGNGUESTBOOK","Sign the Guestbook");

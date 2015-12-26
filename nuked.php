@@ -1313,7 +1313,7 @@ function nkNickname($data, $link = true, $rankColor = true, $author = 'auteur', 
  * @param string $nickname : The nickname to check.
  * @return string : Nickname string trimmed or error alias of nickname checking.
  */
-function checkNickname($nickname = '') {
+function checkNickname($nickname = '', $excludeId = null) {
     global $user;
 
     $nickname = trim($nickname);
@@ -1374,48 +1374,55 @@ function getCheckNicknameError($result) {
     return false;
 }
 
-
-function checkEmail($email, $registred = false) {
+/**
+ * Check if email is conform, not used (if needed) and not banned
+ *
+ * @param string $email : The email to check.
+ * @return string : Email string trimmed or error alias of email checking.
+ */
+function checkEmail($email = '', $checkRegistred = false) {
     global $user;
 
     $email = trim($email);
 
     // Validate an UTF-8 email with regex is nearly impossible
     // See http://stackoverflow.com/a/5219948
-    if (strpos($email, '@') === false)
+    if (! preg_match('/.+@.+/', preg_quote($email, '/')))
         return 'error1';
 
     $escapeEmail = nkDB_escape($email);
 
-    $sql = 'FROM '. USER_TABLE .' WHERE mail = '. $escapeEmail;
-
-    if ($registred) $sql .= ' AND id != '. nkDB_escape($user['id']);
-
-    $isUsed = nkDB_totalNumRows($sql);
-
-    if ($isUsed > 0)
-        return 'error2';
-
     $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE email = '. $escapeEmail);
 
-    if ($isBanned > 0)
-        return 'error3';
+    if ($isBanned > 0) return 'error2';
+
+    if ($checkRegistred) {
+        $isUsed = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE mail = '. $escapeEmail);
+
+        if ($isUsed > 0) return 'error3';
+    }
 
     return ;
 }
 
+/**
+ * Return the error translation of checkEmail function
+ *
+ * @param string $string : Result value of checkEmail function.
+ * @return string : Error message string or false if not error.
+ */
 function getCheckEmailError($result) {
     switch ($result) {
         case 'error1' :
-            return _BADMAIL;
+            return __('BAD_EMAIL');
             break;
 
         case 'error2' :
-            return _MAILINUSE;
+            return __('BANNED_EMAIL');
             break;
 
         case 'error3' :
-            return _MAILBANNED;
+            return __('RESERVED_EMAIL');
             break;
     }
 
