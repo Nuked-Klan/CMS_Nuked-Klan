@@ -129,23 +129,6 @@ function index()
             $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . nkHtmlEntities($titre) . "</a>";
         }
 
-
-        if ($autor_id != "")
-        {
-            $sql4 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-            $test = mysql_num_rows($sql4);
-        }
-
-        if ($autor_id != "" && $test > 0)
-        {
-            list($auteur) = mysql_fetch_array($sql4);
-        }
-        else
-        {
-            $auteur = $autor;
-        }
-
-
         if ($j == 0)
         {
             $bg = $bgcolor2;
@@ -173,7 +156,16 @@ function index()
         }
 
         echo "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($auteur) . "\" title=\"" . _DETAILAUTHOR . "&nbsp;" . $auteur . "\">" . $auteur . "</a></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\">";
+
+        if ($autor_id != '') {
+            echo "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($autor) . "\" title=\"" . _DETAILAUTHOR . "&nbsp;" . $autor . "\">" . $autor . "</a>";
+        }
+        else {
+            echo $autor;
+        }
+
+        echo "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">"
         . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>"
         . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a></td></tr>\n";
@@ -285,21 +277,6 @@ function sujet($cat_id)
             $title = "<a href=\"index.php?file=News&amp;op=index_comment&amp;news_id=" . $news_id . "\">" . nkHtmlEntities($titre) . "</a>";
         }
 
-        if ($autor_id != "")
-        {
-            $sql4 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-            $test = mysql_num_rows($sql4);
-        }
-
-        if ($autor_id != "" && $test > 0)
-        {
-            list($auteur) = mysql_fetch_array($sql4);
-        }
-        else
-        {
-            $auteur = $autor;
-        }
-
         if ($j == 0)
         {
             $bg = $bgcolor2;
@@ -319,7 +296,16 @@ function sujet($cat_id)
 
         echo "<td style=\"width: 20%;\" align=\"center\"><i>" . $categorie . "</i></td>\n"
         . "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($auteur) . "\" title=\"" . _DETAILAUTHOR . "&nbsp;" . $auteur . "\">" . $auteur . "</a></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\">";
+
+        if ($autor_id != '') {
+            echo "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($autor) . "\" title=\"" . _DETAILAUTHOR . "&nbsp;" . $autor . "\">" . $autor . "</a>";
+        }
+        else {
+            echo $autor;
+        }
+
+        echo "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">"
         . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>"
         . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a></td></tr>\n";
