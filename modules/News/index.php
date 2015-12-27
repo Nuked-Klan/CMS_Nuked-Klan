@@ -68,21 +68,21 @@ function index(){
         $sql3 = mysql_query("SELECT titre, image FROM ".NEWS_CAT_TABLE." WHERE nid = '{$TabNews['cat']}'");
         $TabCat = mysql_fetch_assoc($sql3);
 
-        if (!empty($autor_id)) {
-            $sql4 = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '{$TabNews['auteur_id']}'");
-            $test = mysql_num_rows($sql4);
-        }
-
-        if (!empty($autor_id) && $test > 0) list($auteur) = mysql_fetch_array($sql4);
-        else $auteur = $TabNews['auteur'];
-
         $data['date'] = nkDate($TabNews['date']);
         $data['date_timestamp'] = $TabNews['date'];
         $data['cat'] = $TabCat['titre'];
         $data['catid'] = $TabNews['cat'];
         $data['id'] = $TabNews['id'];
         $data['titre'] = printSecuTags($TabNews['titre']);
-        $data['auteur'] = $auteur;
+
+        if ($autor_id != '') {
+            $data['authorLink'] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($TabNews['auteur']) .'">'. $TabNews['auteur'] .'</a>';
+        }
+        else {
+            $data['authorLink'] = $TabNews['auteur'];
+        }
+
+        $data['auteur'] = $TabNews['auteur'];
         $data['nb_comment'] = $nb_comment;
         $data['printpage'] = '<a title="'._PDF.'" href="index.php?file=News&amp;op=pdf&amp;news_id='.$TabNews['id'].'" onclick="window.open(this.href); return false;"><img style="border:none;" src="images/pdf.gif" alt="'._PDF.'" title="'._PDF.'" width="16" height="16" /></a>';
         $data['friend'] = '<a title="'._FSEND.'" href="index.php?file=News&amp;op=sendfriend&amp;news_id='.$TabNews['id'].'"><img style="border:none;" src="images/friend.gif" alt="'._FSEND.'" title="'._FSEND.'" width="16" height="16" /></a>';
@@ -213,21 +213,17 @@ function pdf($news_id) {
     $heure = strftime("%H:%M", $row['date']);
     $text = $row['texte'].'<br><br>'.$row['suite'];
 
-    if (!empty($row['auteur_id'])) {
-        $sql2 = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '".$row['auteur_id']."' ");
-        $test = mysql_num_rows($sql2);
+    if ($row['auteur_id'] != '') {
+        $author = @nkHtmlEntityDecode($row['auteur']);
+        $authorLink = '<a href="'. $nuked['url'] .'/index.php?file=Members&amp;op=detail&amp;autor='. urlencode($author) .'">'. $author .'</a>';
     }
-
-    if (!empty($row['auteur_id']) && $test > 0) {
-        list($auteur) = mysql_fetch_array($sql2);
-        $auteur = @nkHtmlEntityDecode($auteur);
-    } else {
-        $auteur = $row['auteur'];
+    else {
+        $authorLink = $row['auteur'];
     }
 
     $date = nkDate($row['date']);
 
-    $posted = '<font size="1">'._NEWSPOSTBY.' <a href="'.$nuked['url'].'/index.php?file=Members&op=detail&autor='.$auteur.'">'.$auteur.'</a> '.$date.'</font><br><br>';
+    $posted = '<font size="1">'._NEWSPOSTBY.' '. $authorLink .' '.$date.'</font><br><br>';
 
     $texte = $posted.$text;
 
