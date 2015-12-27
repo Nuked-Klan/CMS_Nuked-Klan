@@ -335,7 +335,11 @@ function replace_smilies($matches)
   return $matches[0];
 }
 
-// DISPLAYS SMILEYS
+/**
+ * Display smilies in text
+ * @param string $texte : text to parse
+ * @return string : parsing text
+ */
 function icon($texte){
     global $nuked;
 
@@ -348,7 +352,9 @@ function icon($texte){
 
     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql)){
-        $texte = str_replace($code, '<img src="images/icones/' . $url . '" alt="" title="' . nkHtmlEntities($name) . '" />', $texte);
+        $pattern = '#(?si)<pre[^<]*>.*?<\/pre>(*SKIP)(*F)|' . preg_quote($code) . '#';
+        $replacement = '<img class="nkSmilie" src="images/icones/' . $url . '" alt="' . nkHtmlEntities($name) . '" />';
+        $texte = preg_replace($pattern, $replacement, $texte);
     }
 
     $texte = str_replace('mailto!', 'mailto:', $texte);

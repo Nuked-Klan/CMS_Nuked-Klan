@@ -8,7 +8,7 @@
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
 
-defined('INDEX_CHECK')) or die('You can\'t run this file alone.');
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 //réglage captcha (auto | on | off)
 define('_NKCAPTCHA', 'auto');
