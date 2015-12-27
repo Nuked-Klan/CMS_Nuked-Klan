@@ -64,6 +64,13 @@ if ($process == 'checkAndConvertCharsetAndCollation')
     $dbTable->checkAndConvertCharsetAndCollation();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table drop
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'drop')
+    $dbTable->dropTable();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,7 +94,7 @@ if ($process == 'install') {
             KEY `cat` (`cat`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
-    $dbTable->dropTable()->createTable($sql);
+    $dbTable->createTable($sql);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_forums` VALUES
         (1, 1, 0, \''. $this->_db->quote($this->_i18n['FORUM']) .'\', \''. $this->_db->quote($this->_i18n['TEST_FORUM']) .'\', \'\', \'\', 0, 0, 0, 1 ,1, 0, 0);';

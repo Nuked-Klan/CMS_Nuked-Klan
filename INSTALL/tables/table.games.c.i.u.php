@@ -29,6 +29,13 @@ if ($process == 'checkAndConvertCharsetAndCollation')
     $dbTable->checkAndConvertCharsetAndCollation();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table drop
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'drop')
+    $dbTable->dropTable();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +54,7 @@ if ($process == 'install') {
             PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
-    $dbTable->dropTable()->createTable($sql);
+    $dbTable->createTable($sql);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_games` VALUES
         (1, \'Counter Strike Global Offensive\', \''. $this->_db->quote($this->_i18n['PREF_CS']) .'\', \'images/games/icon_csgo.png\', \''. $this->_db->quote($this->_i18n['OTHER_NICK']) .'\', \''. $this->_db->quote($this->_i18n['FAV_MAP']) .'\', \''. $this->_db->quote($this->_i18n['FAV_WEAPON']) .'\', \''. $this->_db->quote($this->_i18n['SKIN_T']) .'\', \''. $this->_db->quote($this->_i18n['SKIN_CT']) .'\', \'de_dust2|de_inferno\');';

@@ -472,7 +472,11 @@ class process {
             if (! is_file($path = 'tables/'. $_POST['tableFile']))
                 throw new fatalErrorException($this->_i18n['MISSING_FILE'] . $path);
 
-            if (isset($_POST['checkIntegrity']) && $_POST['checkIntegrity'] == 'true')
+            if (isset($_POST['dropTable']) && $_POST['dropTable'] == 'true')
+                $process = 'drop';
+            else if (isset($_POST['addForeignKeyOfTable']) && $_POST['addForeignKeyOfTable'] == 'true')
+                $process = 'addForeignKey';
+            else if (isset($_POST['checkIntegrity']) && $_POST['checkIntegrity'] == 'true')
                 $process = 'checkIntegrity';
             else if (isset($_POST['checkAndConvertCharsetAndCollation'])
                 && $_POST['checkAndConvertCharsetAndCollation'] == 'true')
@@ -730,7 +734,9 @@ class process {
     private function _getProcessDataList() {
         $result = array('processList' => array());
 
-        if ($this->_session['process'] == 'update')
+        if ($this->_session['process'] == 'install')
+            $result['tableWithForeignKey'] = array();
+        else if ($this->_session['process'] == 'update')
             $result['checkIntegrity'] = array();
 
         $processFirstChr = substr($this->_session['process'], 0, 1);
@@ -745,7 +751,11 @@ class process {
                 if (in_array($processFirstChr, $tableFileData))
                     $result['processList'][] = $tableFile;
 
-                if ($this->_session['process'] == 'update' ) {
+                if ($this->_session['process'] == 'install') {
+                    if (in_array('fk', $tableFileData))
+                        $result['tableWithForeignKey'][] = $tableFile;
+                }
+                else if ($this->_session['process'] == 'update' ) {
                     if (in_array('c', $tableFileData))
                         $result['checkIntegrity'][] = $tableFile;
 
@@ -787,9 +797,10 @@ class process {
         $userId     = $this->_generateUserId();
         $ip         = $this->_db->quote($_SERVER['REMOTE_ADDR']);
 
-        $sql = 'TRUNCATE TABLE `'. $this->_session['db_prefix'] .'_users`';
+        // TODO : Remove SQL error with foreign key
+        //$sql = 'TRUNCATE TABLE `'. $this->_session['db_prefix'] .'_users`';
 
-        $this->_db->execute($sql);
+        //$this->_db->execute($sql);
 
         $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_users`
             (`id`, `pseudo`, `mail`, `pass`, `niveau`, `date`, `game`, `country`, `token_time`) VALUES

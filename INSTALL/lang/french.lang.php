@@ -68,6 +68,15 @@ return array(
     #####################################
     'DROP_FIELD'            => 'Champ `%s` supprimé de la table `%s`',
     #####################################
+    # dbTable->addFieldIndex()
+    #####################################
+    'ADD_FIELD_INDEX'       => 'Index ajouté au champ `%s` de la table `%s`',
+    #####################################
+    # dbTable->dropForeignKey()
+    #####################################
+    'FOREIGN_KEY_DONT_EXIST' => 'Clé étrangère `%s` manquante dans la table `%s`',
+    'DROP_FOREIGN_KEY'      => 'Clé étrangère `%s` supprimé de la table `%s`',
+    #####################################
     # dbTable->applyUpdateFieldListToData()
     #####################################
     'CALLBACK_UPDATE_FUNCTION_DONT_EXIST' => 'La fonction de rappel `%s` n\'existe pas',
@@ -108,20 +117,27 @@ return array(
     'CHECK_TABLE_INTEGRITY' => 'Vérification de l\'integrité de la table <b>%s</b>',
     'SUCCESS'               => 'Réussi',
     'FAILURE'               => 'Echec',
-    'CONVERTED_TABLE_SUCCESS' => 'Table <b>%s</b> convertie avec succès.',
+    'CONVERTED_TABLE_SUCCESS' => 'Table <b>%s</b> convertie avec <span style="color:green;">succès</span>.',
+    'FOREIGN_KEY_ADD_TO_TABLE_SUCCESS' => 'Clés étrangères ajoutée à la table <b>%s</b> avec <span style="color:green;">succès</span>.',
     'CREATED_TABLE_SUCCESS' => 'Table <b>%s</b> crée avec <span style="color:green;">succès</span>.',
     'UPDATE_TABLE_SUCCESS'  => 'Table <b>%s</b> mise à jour avec <span style="color:green;">succès</span>.',
     'REMOVE_TABLE_SUCCESS'  => 'Table <b>%s</b> supprimée avec <span style="color:green;">succès</span>.',
     'NOTHING_TO_CHECK'      => 'Rien à vérifier pour la table <b>%s</b>',
     'NO_CONVERT_TABLE'      => 'Aucune conversion pour la table <b>%s</b>',
     'NOTHING_TO_DO'         => 'Aucune modification à effectuée pour la table <b>%s</b>',
+    'DROP_ALL_TABLE'        => 'Supression des tables',
+    'DROP_ALL_TABLE_FAILED' => 'Il y a %d tables non supprimées',
+    'CREATE_ALL_TABLE'      => 'Création des tables',
+    'CREATE_ALL_TABLE_FAILED' => 'Il y a %d tables non crées',
+    'ADD_FOREIGN_KEY_ALL_TABLE' => 'Ajout des clés étrangères des tables',
+    'ADD_FOREIGN_KEY_ALL_TABLE_FAILED' => 'Il y a %d tables sans leurs clés étrangères',
     'CHECK_ALL_TABLE_INTEGRITY' => 'Vérification de l\'integrité des tables',
     'CHECK_TABLE_CHARSET'   => 'Vérification de l\'encodage des tables',
     'CHECK_INTEGRITY_FAILED' => 'Il y a %d tables corrompues',
     'TABLE_CONVERTION'      => 'Conversion des tables',
     'CONVERTED_TABLE_FAILED' => 'Il y a %d tables non converties',
-    'INSTALL_SUCCESS'       => 'L\'installation est terminée ! Toutes les tables ont bien été créées.',
-    'UPDATE_SUCCESS'        => 'La mise à jour est terminée ! Toutes les tables ont bien été modifiées.',
+    'INSTALL_PROCESS_SUCCESS' => 'L\'installation est terminée ! Toutes les tables ont bien été créées.',
+    'UPDATE_PROCESS_SUCCESS' => 'La mise à jour est terminée ! Toutes les tables ont bien été modifiées.',
     'INSTALL_FAILED'        => 'L\'installation est terminée ! Mais des erreurs sont survenues, %d tables n\'ont pas été créées.',
     'UPDATE_FAILED'         => 'La mise à jour est terminée ! Mais des erreurs sont survenues, %d tables n\'ont pas été modifiées.',
     'PRINT_ERROR'           => ' - Erreur :',

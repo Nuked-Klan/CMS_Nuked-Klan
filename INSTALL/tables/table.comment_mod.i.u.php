@@ -20,6 +20,13 @@ if ($process == 'checkAndConvertCharsetAndCollation')
     $dbTable->checkAndConvertCharsetAndCollation();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table drop
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'drop')
+    $dbTable->dropTable();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +39,7 @@ if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
             PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
-    $dbTable->dropTable()->createTable($sql);
+    $dbTable->createTable($sql);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_comment_mod` VALUES
         (1, \'news\', 1),

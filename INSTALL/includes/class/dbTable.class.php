@@ -15,7 +15,7 @@ class dbTable {
     /*
      * Maximal recording by step
      */
-    const NB_ENTRIES_BY_STEP = 400;
+    const NB_ENTRIES_BY_STEP = 100;
 
     /*
      * Set table name
@@ -36,6 +36,16 @@ class dbTable {
      * Set fields info to drop after alter database table
      */
     private $_dropTableInfo = array();
+
+    /*
+     * Set foreign key list of database table
+     */
+    private $_foreignKeyList = array();
+
+    /*
+     * Set foreign key to update after alter database table
+     */
+    private $_updateForeignKeyList = array();
 
     /*
      * List of modification list of database table
@@ -131,21 +141,14 @@ class dbTable {
      * Read fields info of database table
      */
     private function _readTableInfo() {
-        foreach ($this->_db->getTableInfo($this->_table) as $tableInfo)
-            $this->_setFieldTableInfo($tableInfo['Field'], $tableInfo);
+        $this->_tableInfo = $this->_db->getTableInfo($this->_table);
     }
 
     /*
-     * Set fields info of database table
+     * Read foreign key list of database table
      */
-    private function _setFieldTableInfo($field, $tableInfo) {
-        $this->_tableInfo[$field] = array(
-            'type'      => $tableInfo['Type'],
-            'null'      => $tableInfo['Null'],
-            'key'       => $tableInfo['Key'],
-            'default'   => $tableInfo['Default'],
-            'extra'     => $tableInfo['Extra']
-        );
+    private function _readForeignKeyList() {
+        $this->_foreignKeyList = $this->_db->getForeignKeyList($this->_table);
     }
 
     /*
@@ -157,6 +160,32 @@ class dbTable {
 
         if (array_key_exists($field, $this->_tableInfo))
             return $this->_tableInfo[$field]['type'];
+
+        throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
+    }
+
+    /*
+     * Check field null definition of database table
+     */
+    public function checkFieldIsNull($field) {
+        if (empty($this->_tableInfo))
+            $this->_readTableInfo();
+
+        if (array_key_exists($field, $this->_tableInfo))
+            return $this->_tableInfo[$field]['null'];
+
+        throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
+    }
+
+    /*
+     * Check field is index of database table
+     */
+    public function checkFieldIsIndex($field) {
+        if (empty($this->_tableInfo))
+            $this->_readTableInfo();
+
+        if (array_key_exists($field, $this->_tableInfo))
+            return $this->_tableInfo[$field]['index'];
 
         throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
     }
@@ -238,8 +267,11 @@ class dbTable {
     /*
      * Create a database table
      */
-    public function createTable($sql) {
-        $this->_db->execute($sql);
+    public function createTable($data) {
+        if (is_array($data))
+            $this->_db->createTable($this->_table, $data);
+        else
+            $this->_db->execute($data);
 
         $this->_actionList[]        = sprintf($this->_i18n['CREATE_TABLE'], $this->_table);
         $this->_jqueryAjaxResponse  = 'CREATED';
@@ -274,7 +306,8 @@ class dbTable {
 
         $this->_db->execute($sql);
 
-        $this->_actionList[] = sprintf($this->_i18n['DROP_TABLE'], $table);
+        $this->_actionList[]        = sprintf($this->_i18n['DROP_TABLE'], $table);
+        $this->_jqueryAjaxResponse  = 'REMOVED';
 
         return $this;
     }
@@ -307,7 +340,7 @@ class dbTable {
 
         $sql = 'ADD `'. $field .'` '. $data['type'];
 
-        $null = 'YES';
+        $null = true;
 
         if (isset($data['null'])) {
             if ($data['null']) {
@@ -315,18 +348,12 @@ class dbTable {
             }
             else {
                 $sql .= ' NOT NULL';
-                $null = 'NO';
+                $null = false;
             }
         }
 
         if (isset($data['default']) && $data['default'] != '')
             $sql .= ' DEFAULT '. $data['default'];
-
-        // PRI MUL
-        //$data['key']
-
-        // auto_increment
-        //$data['extra']
 
         if ($after != '')
             $sql .= ' AFTER `'. $after .'`';
@@ -338,9 +365,7 @@ class dbTable {
         $this->_updateTableInfo[$field] = array(
             'type'      => $data['type'],
             'null'      => $null,
-            'key'       => (isset($data['Key'])) ? $data['Key'] : '',
-            'default'   => (isset($data['Default'])) ? $data['Default'] : '',
-            'extra'     => (isset($data['Extra'])) ? $data['Extra'] : ''
+            'default'   => (isset($data['default'])) ? $data['default'] : ''
         );
 
         return $this;
@@ -361,7 +386,7 @@ class dbTable {
 
         $sql = 'CHANGE `'. $field .'` `'. $field .'` '. $data['type'];
 
-        $null = 'YES';
+        $null = true;
 
         if (isset($data['null'])) {
             if ($data['null']) {
@@ -369,18 +394,12 @@ class dbTable {
             }
             else {
                 $sql .= ' NOT NULL';
-                $null = 'NO';
+                $null = false;
             }
         }
 
         if (isset($data['default']) && $data['default'] != '')
             $sql .= ' DEFAULT '. $data['default'];
-
-        // PRI MUL
-        //$data['key']
-
-        // auto_increment
-        //$data['extra']
 
         $this->_alterTable[] = $sql;
         $this->_actionList[] = sprintf($this->_i18n['MODIFY_FIELD'], $field, $this->_table);
@@ -388,9 +407,7 @@ class dbTable {
         $this->_updateTableInfo[$field] = array(
             'type'      => $data['type'],
             'null'      => $null,
-            'key'       => (isset($data['Key'])) ? $data['Key'] : '',
-            'default'   => (isset($data['Default'])) ? $data['Default'] : '',
-            'extra'     => (isset($data['Extra'])) ? $data['Extra'] : ''
+            'default'   => (isset($data['default'])) ? $data['default'] : ''
         );
 
         return $this;
@@ -411,6 +428,21 @@ class dbTable {
     }
 
     /*
+     * Prepare data to add index to field in database table
+     */
+    public function addFieldIndex($field) {
+        if (! $this->fieldExist($field))
+            throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
+
+        $this->_alterTable[]    = 'ADD INDEX (`'. $field .'`)';
+        $this->_actionList[]    = sprintf($this->_i18n['ADD_FIELD_INDEX'], $field, $this->_table);
+
+        $this->_updateTableInfo[$field] = array('index' => true);
+
+        return $this;
+    }
+
+    /*
      * Apply modification to database table
      */
     public function alterTable() {
@@ -425,10 +457,61 @@ class dbTable {
             foreach ($this->_dropTableInfo as $dropField)
                 unset($this->_tableInfo[$dropField]);
 
-            $this->_alterTable          = array();
-            $this->_jqueryAjaxResponse  = 'UPDATED';
+            $this->_foreignKeyList = array_merge($this->_foreignKeyList, $this->_updateForeignKeyList);
+
+            $this->_alterTable
+                = $this->_updateTableInfo
+                = $this->_dropTableInfo
+                = $this->_foreignKeyList
+                = $this->_updateForeignKeyList = array();
+
+            if ($this->_jqueryAjaxResponse == 'NOTHING_TO_DO')
+                $this->_jqueryAjaxResponse = 'UPDATED';
         }
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Manage foreign key of database table
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
+     * Check if foreign key exist in database table
+     */
+    public function foreignKeyExist($foreignKey) {
+        if (empty($this->_foreignKeyList))
+            $this->_readForeignKeyList();
+
+        return in_array($foreignKey, $this->_foreignKeyList);
+    }
+
+    public function addForeignKey($symbol, $indexColName, $refTableName, $refIndexColName, $refOptions = array()) {
+        // mysql
+        $sql = 'ALTER TABLE `'. $this->_table .'`
+            ADD CONSTRAINT `'. $symbol .'`
+            FOREIGN KEY (`'. $indexColName .'`) REFERENCES `'. $refTableName .'` (`'. $refIndexColName .'`)
+            '. implode(' ', $refOptions) .';';
+
+        $this->_db->execute($sql);
+
+        $this->_jqueryAjaxResponse = 'FOREIGN_KEY_ADDED_TO_TABLE';
+    }
+
+    /*
+     * Prepare data to add index to field in database table
+     */
+    public function dropForeignKey($foreignKey) {
+        if (! $this->foreignKeyExist($foreignKey))
+            throw new dbTableException(sprintf($this->_i18n['FOREIGN_KEY_DONT_EXIST'], $foreignKey));
+
+        $this->_alterTable[]    = 'DROP FOREIGN KEY (`'. $foreignKey .'`)';
+        $this->_actionList[]    = sprintf($this->_i18n['DROP_FOREIGN_KEY'], $foreignKey, $this->_table);
+
+        $this->_updateForeignKeyList[]  = $foreignKey;
+        $this->_jqueryAjaxResponse      = 'FOREIGN_KEY_ADDED_TO_TABLE';
+
+        return $this;
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Manage field data of database table

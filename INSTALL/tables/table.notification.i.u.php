@@ -20,6 +20,13 @@ if ($process == 'checkAndConvertCharsetAndCollation')
     $dbTable->checkAndConvertCharsetAndCollation();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table drop
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'drop')
+    $dbTable->dropTable();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,7 +40,7 @@ if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
             PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
-    $dbTable->dropTable()->createTable($sql);
+    $dbTable->createTable($sql);
 
     if (ini_get('suhosin.session.encrypt') == 1) {
         $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_notification` VALUES

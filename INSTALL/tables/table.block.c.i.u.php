@@ -45,6 +45,13 @@ if ($process == 'checkAndConvertCharsetAndCollation')
     $dbTable->checkAndConvertCharsetAndCollation();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table drop
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'drop')
+    $dbTable->dropTable();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,7 +69,7 @@ if ($process == 'install') {
             PRIMARY KEY  (`bid`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
-    $dbTable->dropTable()->createTable($sql);
+    $dbTable->createTable($sql);
 
     // TODO UPDATE BLOCK MENU
     // (2, 1, 1, \'\', \''. $this->_db->quote($this->_i18n['NAV']) .'\', \'[News]|'. $this->_db->quote($this->_i18n['NAV_NEWS']) .'||0|NEWLINE[Archives]|'. $this->_db->quote($this->_i18n['NAV_ARCHIV']) .'||0|NEWLINE[Forum]|'. $this->_db->quote($this->_i18n['NAV_FORUM']) .'||0|NEWLINE[Download]|'. $this->_db->quote($this->_i18n['NAV_DOWNLOAD']) .'||0|NEWLINE[Members]|'. $this->_db->quote($this->_i18n['NAV_MEMBERS']) .'||0|NEWLINE[Team]|'. $this->_db->quote($this->_i18n['NAV_TEAM']) .'||0|NEWLINE[Defy]|'. $this->_db->quote($this->_i18n['NAV_DEFY']) .'||0|NEWLINE[Recruit]|'. $this->_db->quote($this->_i18n['NAV_RECRUIT']) .'||0|NEWLINE[Sections]|'. $this->_db->quote($this->_i18n['NAV_ART']) .'||0|NEWLINE[Server]|'. $this->_db->quote($this->_i18n['NAV_SERVER']) .'||0|NEWLINE[Links]|'. $this->_db->quote($this->_i18n['NAV_LINKS']) .'||0|NEWLINE[Calendar]|'. $this->_db->quote($this->_i18n['NAV_CALENDAR']) .'||0|NEWLINE[Gallery]|'. $this->_db->quote($this->_i18n['NAV_GALLERY']) .'||0|NEWLINE[Wars]|'. $this->_db->quote($this->_i18n['NAV_MATCHS']) .'||0|NEWLINE[Irc]|'. $this->_db->quote($this->_i18n['NAV_IRC']) .'||0|NEWLINE[Guestbook]|'. $this->_db->quote($this->_i18n['NAV_GUESTBOOK']) .'||0|NEWLINE[Search]|'. $this->_db->quote($this->_i18n['NAV_SEARCH']) .'||0|NEWLINE|<b>'. $this->_db->quote($this->_i18n['MEMBER']) .'</b>||1|NEWLINE[User]|'. $this->_db->quote($this->_i18n['NAV_ACCOUNT']) .'||1|NEWLINE|<b>'. $this->_db->quote($this->_i18n['ADMIN']) .'</b>||2|NEWLINE[Admin]|'. $this->_db->quote($this->_i18n['NAV_ADMIN']) .'||2|\', \'menu\', 0, \'Tous\'),

@@ -12,7 +12,9 @@
 <?php
     if ($process == 'install') :
 ?>
-                    var processProgress = 100 / nbProcessTable;
+                    var tableWithForeignKeyList = new Array('<?php echo implode('\',\'', $processDataList['tableWithForeignKey']) ?>')
+                        nbTableWithForeignKey = tableWithForeignKeyList.length,
+                        processProgress = 100 / (nbProcessTable * 2 + nbTableWithForeignKey);
 <?php
     elseif ($process == 'update') :
 ?>

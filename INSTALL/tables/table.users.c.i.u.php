@@ -48,6 +48,13 @@ if ($process == 'checkAndConvertCharsetAndCollation')
     $dbTable->checkAndConvertCharsetAndCollation();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table drop
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'drop')
+    $dbTable->dropTable();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,7 +66,7 @@ if ($process == 'install') {
             `team3` varchar(80) NOT NULL default \'\',
             `rang` int(11) NOT NULL default \'0\',
             `ordre` int(5) NOT NULL default \'0\',
-            `pseudo` text NOT NULL,
+            `pseudo` varchar(30) NOT NULL,
             `mail` varchar(80) NOT NULL default \'\',
             `email` varchar(80) NOT NULL default \'\',
             `icq` varchar(50) NOT NULL default \'\',
@@ -91,10 +98,11 @@ if ($process == 'install') {
             KEY `team2` (`team2`),
             KEY `team3` (`team3`),
             KEY `rang` (`rang`),
-            KEY `game` (`game`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
+            KEY `game` (`game`),
+            KEY `pseudo` (`pseudo`)
+        ) ENGINE=InnoDB DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
-    $dbTable->dropTable()->createTable($sql);
+    $dbTable->createTable($sql);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,6 +119,9 @@ if ($process == 'update') {
         $dbTable->addField('token', array('type' => 'VARCHAR(13)', 'null' => true, 'default' => 'NULL'))
              ->addField('token_time', array('type' => 'VARCHAR(10)', 'null' => false, 'default' => '\'0\''));
 
+    
+    // TODO : Champ pseudo : type text => varchar(30)
+    // CHanger le moteur
     // install / update 1.8
     if (! $dbTable->fieldExist('xfire'))
         $dbTable->addField('xfire', array('type' => 'VARCHAR(50)', 'null' => true, 'default' => '\'\''));

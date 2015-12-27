@@ -29,6 +29,13 @@ if ($process == 'checkAndConvertCharsetAndCollation')
     $dbTable->checkAndConvertCharsetAndCollation();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table drop
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'drop')
+    $dbTable->dropTable();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +48,7 @@ if ($process == 'install') {
             PRIMARY KEY  (`sid`)
         ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
-    $dbTable->dropTable()->createTable($sql);
+    $dbTable->createTable($sql);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_sondage` VALUES
         (1, \''. $this->_db->quote($this->_i18n['LIKE_NK']) .'\', \''. time() .'\', 0);';

@@ -1238,7 +1238,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
             }
 
             if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
-                echo "<br /><br /><div style=\"text-align: center;\">" . _BADOLDPASS . "</div><br /><br />";
+                echo "<br /><br /><div style=\"text-align: center;\">" . _BADOLDPASS . "a</div><br /><br />";
                 redirect("index.php?file=User&op=edit_account", 2);
                 closetable();
                 return;
@@ -1901,13 +1901,20 @@ function delModerator($idUser)
 function del_account($pass){
     global $user, $nuked;
 
-    if ($pass != "" && $nuked[user_delete] == "on"){
-        $sql = mysql_query("SELECT pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+    if ($pass != "" && $nuked['user_delete'] == "on"){
+        $escapeUserId = nkDB_escape($user['id']);
+
+        $sql = mysql_query('SELECT pass FROM '. USER_TABLE .' WHERE id = '. $escapeUserId);
         $dbpass = mysql_fetch_row($sql);
         if (Check_Hash($pass, $dbpass[0])){
-            $del1 = delModerator($user[0]);
-            $del2 = mysql_query("DELETE FROM " . SESSIONS_TABLE . " WHERE user_id = '" . $user[0] . "'");
-            $del3 = mysql_query("DELETE FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+            $del1 = delModerator($user['id']);
+
+            nkDB_delete(FORUM_READ_TABLE, 'user_id = '. $escapeUserId);
+            nkDB_update(NBCONNECTE_TABLE, array('type' => 0, 'user_id' => ''), 'user_id = '. $escapeUserId);
+            nkDB_update(STATS_VISITOR_TABLE, array('user_id' => ''), 'user_id = '. $escapeUserId);
+            nkDB_delete(SESSIONS_TABLE, 'user_id = '. $escapeUserId);
+            nkDB_delete(USER_TABLE, 'id = '. $escapeUserId);
+
             echo "<br /><br /><div style=\"text-align: center;\">" . _ACCOUNTDELETE . "</div><br /><br />";
             redirect("index.php", 2);
         }

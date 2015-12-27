@@ -1313,7 +1313,7 @@ function nkNickname($data, $link = true, $rankColor = true, $author = 'auteur', 
  * @param string $nickname : The nickname to check.
  * @return string : Nickname string trimmed or error alias of nickname checking.
  */
-function checkNickname($nickname = '', $excludeId = null) {
+function checkNickname($nickname = '') {
     global $user;
 
     $nickname = trim($nickname);
@@ -1606,6 +1606,16 @@ function nkGetMedias(){
     ob_end_clean();
 
     echo $bufferEdited;
+}
+
+function saveNotification($text, $type = 1) {
+    global $user;
+
+    nkDB_insert(NOTIFICATIONS_TABLE, array(
+        'date'      => time(),
+        'type'      => $type,
+        'texte'     => $text
+    ));
 }
 
 // information, success, error, info, warning

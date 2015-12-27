@@ -68,6 +68,15 @@ return array(
     #####################################
     'DROP_FIELD'            => '`%s` field deleted in `%s` table',
     #####################################
+    # dbTable->addFieldIndex()
+    #####################################
+    'ADD_FIELD_INDEX'       => 'Index added to field `%s` in `%s` table',
+    #####################################
+    # dbTable->dropForeignKey()
+    #####################################
+    'FOREIGN_KEY_DONT_EXIST' => 'Foreign key `%s` missing in `%s` table',
+    'DROP_FOREIGN_KEY'      => 'Foreign key `%s` deleted in `%s` table',
+    #####################################
     # dbTable->applyUpdateFieldListToData()
     #####################################
     'CALLBACK_UPDATE_FUNCTION_DONT_EXIST' => '`%s` callback update function don\'t exist',
@@ -109,19 +118,26 @@ return array(
     'SUCCESS'               => 'Success',
     'FAILURE'               => 'Failure',
     'CONVERTED_TABLE_SUCCESS' => 'Table <b>%s</b> successfully converted.',
+    'FOREIGN_KEY_ADD_TO_TABLE_SUCCESS' => 'Foreign keys successfully added to <b>%s</b> table.',
     'CREATED_TABLE_SUCCESS' => 'Table <b>%s</b> successfully created.',
     'UPDATE_TABLE_SUCCESS'  => 'Table <b>%s</b> successfully updated.',
     'REMOVE_TABLE_SUCCESS'  => 'Table <b>%s</b> successfully removed.',
     'NOTHING_TO_CHECK'      => 'Nothing to check in <b>%s</b> table',
     'NO_CONVERT_TABLE'      => 'No conversion to the <b>%s</b> table',
     'NOTHING_TO_DO'         => 'Nothing to do for <b>%s</b> table',
+    'DROP_ALL_TABLE'        => 'Drop all table',
+    'DROP_ALL_TABLE_FAILED' => 'There are %d tables not dropped',
+    'CREATE_ALL_TABLE'      => 'Create tables',
+    'CREATE_ALL_TABLE_FAILED' => 'There are %d tables not created',
+    'ADD_FOREIGN_KEY_ALL_TABLE' => 'Foreign keys of tables adding',
+    'ADD_FOREIGN_KEY_ALL_TABLE_FAILED' => 'There are %d tables without their foreign keys',
     'CHECK_ALL_TABLE_INTEGRITY' => 'Check all table integrity',
     'CHECK_TABLE_CHARSET'   => 'Check table charset',
     'CHECK_INTEGRITY_FAILED' => 'There are %d tables corrupted',
     'TABLE_CONVERTION'      => 'All table conversion',
     'CONVERTED_TABLE_FAILED' => 'There are %d tables not converted',
-    'INSTALL_SUCCESS'       => 'Installation is complete! All tables have been created.',
-    'UPDATE_SUCCESS'        => 'The update is complete! All tables have been changed.',
+    'INSTALL_PROCESS_SUCCESS' => 'Installation is complete! All tables have been created.',
+    'UPDATE_PROCESS_SUCCESS' => 'The update is complete! All tables have been changed.',
     'INSTALL_FAILED'        => 'Installation is complete! But errors occurred, %d tables were not created.',
     'UPDATE_FAILED'         => 'The update is complete! But errors occurred, %d tables have not changed.',
     'PRINT_ERROR'           => ' - Error :',

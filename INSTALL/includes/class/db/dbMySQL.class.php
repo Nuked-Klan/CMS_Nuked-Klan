@@ -284,6 +284,40 @@ class dbMySQL {
     }
 
     /*
+     * Return engine of MySQL table
+     */
+    public function getTableEngine($table, $options = array()) {
+        if (($req = $this->execute('SHOW TABLE STATUS WHERE Name = \''. $table .'\'', $options)) === false)
+            return false;
+
+        $row = mysql_fetch_assoc($req);
+
+        return $row['Engine'];
+    }
+
+    /*
+     * Return foreign key list of MySQL table
+     */
+    public function getForeignKeyList($table) {
+        $sql = 'SELECT CONSTRAINT_NAME
+            FROM information_schema.TABLE_CONSTRAINTS
+            WHERE information_schema.TABLE_CONSTRAINTS.CONSTRAINT_TYPE = \'FOREIGN KEY\'
+            AND information_schema.TABLE_CONSTRAINTS.TABLE_SCHEMA = \''. $this->_dbName .'\'
+            AND information_schema.TABLE_CONSTRAINTS.TABLE_NAME = \''. $table .'\'';
+
+
+        if (($req = $this->execute($sql, $options)) === false)
+            return false;
+
+        $data = array();
+
+        while ($row = mysql_fetch_assoc($req))
+            $data[] = $row['CONSTRAINT_NAME'];
+
+        return $data;
+    }
+
+    /*
      * Return structure used to create MySQL table
      */
     private function _getTableStructure($table, $options = array()) {
@@ -300,14 +334,31 @@ class dbMySQL {
      */
     public function getTableInfo($table, $options = array()) {
         if (($req = $this->execute('SHOW COLUMNS FROM '. $table, $options)) === false)
-            return false;
+            return array();
 
-        $data = array();
+        $tableInfo = array();
 
-        while ($row = mysql_fetch_assoc($req))
-            $data[] = $row;
+        while ($row = mysql_fetch_assoc($req)) {
+            $tableInfo[$row['Field']] = array(
+                'type'      => $row['Type'],
+                'null'      => ($row['Null'] == 'YES') ? true : false,
+                'default'   => $row['Default']
+            );
 
-        return $data;
+            if ($row['Key'] == 'PRI')
+                $tableInfo[$row['Field']]['primaryKey'] = true;
+            else
+                $tableInfo[$row['Field']]['primaryKey'] = false;
+
+            if ($row['Key'] == 'MUL')
+                $tableInfo[$row['Field']]['index'] = true;
+            else
+                $tableInfo[$row['Field']]['index'] = false;
+
+            // $row['Extra']
+        }
+
+        return $tableInfo;
     }
 
     /*
@@ -321,6 +372,45 @@ class dbMySQL {
         $dbsTable = $this->execute($sql, $options);
 
         return (mysql_num_rows($dbsTable) == 0) ? false : true;
+    }
+
+    public function createTable($table, $cfg) {
+        $sqlTable = 'CREATE TABLE `'. $table .'` (';
+
+        $definitionLines = array();
+
+        foreach ($cfg['fields'] as $field => $fieldData) {
+            $sql = '`'. $field .'` '. $fieldData['type'];
+
+            if (array_key_exists('null', $fieldData)) {
+                if ($fieldData['null'] === true)
+                    $sql .= ' NULL';
+                else
+                    $sql .= ' NOT NULL';
+            }
+
+            if (isset($fieldData['default']) && $fieldData['default'] != '')
+                $sql .= ' DEFAULT '. $fieldData['default'];
+
+            if (isset($fieldData['auto_increment']) && $fieldData['auto_increment'])
+                $sql .= ' auto_increment';
+
+            $definitionLines[] = $sql;
+        }
+
+        if (isset($cfg['primaryKey']) && $cfg['primaryKey'] != '')
+            $definitionLines[] = 'PRIMARY KEY (`'. $cfg['primaryKey'] .'`)';
+
+        if (isset($cfg['index']) && is_array($cfg['index'])) {
+            foreach ($cfg['index'] as $k => $v)
+                $definitionLines[] = 'KEY `'. $k .'` (`'. $v .'`)';
+        }
+
+        $sqlTable .= implode(',', $definitionLines)
+            . ') ENGINE='. $cfg['engine'] .' DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
+
+        //file_put_contents
+        return $this->execute($sqlTable);
     }
 
     /*
