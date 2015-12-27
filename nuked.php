@@ -325,23 +325,11 @@ function checkimg($url){
 }
 
 /**
- * Replace smilies in text
- * @param array $matches : text to parse
- * @return string : parsing text
- */
-function replace_smilies($matches)
-{
-  $matches[0] = preg_replace('#<img src=\"(.*)\" alt=\"(.*)\" title=\"(.*)\" />#Usi', '$2', $matches[0]);
-  return $matches[0];
-}
-
-/**
  * Display smilies in text
- * @param string $texte : text to parse
- * @return string : parsing text
+ * @param string $texte : text to parse, without smilies
+ * @return string : text containing smiley images
  */
-function icon($texte){
-    global $nuked;
+function icon($texte) {
 
     $texte = str_replace('mailto:', 'mailto!', $texte);
     $texte = str_replace('http://', '_http_', $texte);
@@ -349,9 +337,9 @@ function icon($texte){
     $texte = str_replace('&quot;', '_QUOT_', $texte);
     $texte = str_replace('&#039;', '_SQUOT_', $texte);
 
-
     $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql)){
+        // Replace all smilies code by pictures, except in <pre> tags
         $pattern = '#(?si)<pre[^<]*>.*?<\/pre>(*SKIP)(*F)|' . preg_quote($code) . '#';
         $replacement = '<img class="nkSmilie" src="images/icones/' . $url . '" alt="' . nkHtmlEntities($name) . '" />';
         $texte = preg_replace($pattern, $replacement, $texte);
