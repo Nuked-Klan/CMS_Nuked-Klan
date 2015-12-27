@@ -363,12 +363,6 @@ function icon($texte){
     $texte = str_replace('_QUOT_', '&quot;', $texte);
     $texte = str_replace('_SQUOT_', '&#039;', $texte);
 
-    // Light calculation if <pre> tag is not present in text
-    if (strpos($texte, '<pre') !== false)
-    {
-        $texte = preg_replace_callback('#<pre(.*)>(.*)<\/pre>#Uis','replace_smilies', $texte);
-    }
-
     return $texte;
 }
 
