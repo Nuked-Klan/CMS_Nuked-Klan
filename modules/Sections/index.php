@@ -214,21 +214,14 @@ function article($artid){
     }
 
     $title = printSecuTags($title);
-    $autor = nkHtmlEntities($autor);
 
     $words = sizeof(explode(" ", $content));
 
-    if ($autor_id != ""){
-        $sql4 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-        $test = mysql_num_rows($sql4);
-    }
-
-    if ($autor_id != "" && $test > 0){
-        list($auteur) = mysql_fetch_array($sql4);
-        $auteur = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($auteur) . "\">" . $auteur . "</a>";
+    if ($autor_id != '') {
+        $auteur = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($autor) . "\">" . nkHtmlEntities($autor) . "</a>";
     }
     else{
-        $auteur = $autor;
+        $auteur = nkHtmlEntities($autor);
     }
 
     $content = preg_replace('#\r\n\t#', '', $content);
