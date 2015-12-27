@@ -374,6 +374,9 @@ class dbMySQL {
         return (mysql_num_rows($dbsTable) == 0) ? false : true;
     }
 
+    /*
+     * Create database table
+     */
     public function createTable($table, $cfg) {
         $sqlTable = 'CREATE TABLE `'. $table .'` (';
 
@@ -409,8 +412,15 @@ class dbMySQL {
         $sqlTable .= implode(',', $definitionLines)
             . ') ENGINE='. $cfg['engine'] .' DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
 
-        //file_put_contents
         return $this->execute($sqlTable);
+    }
+
+    /*
+     * Truncate database table with foreign key references
+     */
+    public function truncateTableWithForeignKeyReferences($table) {
+        $this->execute('DELETE FROM `'. $table .'`');
+        $this->execute('ALTER TABLE `'. $table .'` AUTO_INCREMENT = 1');
     }
 
     /*

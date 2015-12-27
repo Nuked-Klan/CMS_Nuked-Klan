@@ -797,10 +797,7 @@ class process {
         $userId     = $this->_generateUserId();
         $ip         = $this->_db->quote($_SERVER['REMOTE_ADDR']);
 
-        // TODO : Remove SQL error with foreign key
-        //$sql = 'TRUNCATE TABLE `'. $this->_session['db_prefix'] .'_users`';
-
-        //$this->_db->execute($sql);
+        $this->_db->truncateTableWithForeignKeyReferences($this->_session['db_prefix'] .'_users');
 
         $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_users`
             (`id`, `pseudo`, `mail`, `pass`, `niveau`, `date`, `game`, `country`, `token_time`) VALUES
@@ -815,8 +812,8 @@ class process {
         $this->_db->execute($sql);
 
         $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_news`
-            (`id`, `cat`, `titre`, `auteur`, `auteur_id`, `texte`, `coverage`, `date`) VALUES
-            (1, 1, \''. $firstNewsTitle .'\', \''. $nickname .'\', \''. $userId .'\', \''. $this->_db->quote($this->_i18n['FIRST_NEWS_CONTENT']) .'\', \'images/coverage.jpg\', \''. $date .'\')';
+            (`cat`, `titre`, `auteur`, `auteur_id`, `texte`, `coverage`, `date`) VALUES
+            (1, \''. $firstNewsTitle .'\', \''. $nickname .'\', \''. $userId .'\', \''. $this->_db->quote($this->_i18n['FIRST_NEWS_CONTENT']) .'\', \'images/coverage.jpg\', \''. $date .'\')';
 
         $this->_db->execute($sql);
 
@@ -825,8 +822,8 @@ class process {
         $this->_db->execute($sql);
 
         $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_shoutbox`
-            (`id`, `auteur`, `ip`, `texte`, `date`) VALUES
-            (1, \''. $nickname .'\', \''. $ip .'\', \''. $firstNewsTitle .'\', \''. $date .'\')';
+            (`auteur`, `ip`, `texte`, `date`) VALUES
+            (\''. $nickname .'\', \''. $ip .'\', \''. $firstNewsTitle .'\', \''. $date .'\')';
 
         $this->_db->execute($sql);
 
