@@ -493,7 +493,8 @@ class dbTable {
 
         $this->_db->execute($sql);
 
-        $this->_jqueryAjaxResponse = 'FOREIGN_KEY_ADDED_TO_TABLE';
+        $this->_foreignKeyList[]    = $symbol;
+        $this->_jqueryAjaxResponse  = 'FOREIGN_KEY_ADDED_TO_TABLE';
     }
 
     /*

@@ -58,10 +58,10 @@ function updateActionRow($updateList, $row, $vars) {
 /*
  * Add author Id foreign key of action database table
  */
-function addAuthorIdForeignKey($dbTable, $dbprefix) {
+function addAuthorIdForeignKey($dbTable, $dbPrefix) {
     $dbTable->addForeignKey(
         'FK_action_authorId', 'authorId',
-        $dbprefix .'_users', 'id',
+        $dbPrefix .'_users', 'id',
         array('ON DELETE SET NULL')
     );
 }
@@ -69,10 +69,10 @@ function addAuthorIdForeignKey($dbTable, $dbprefix) {
 /*
  * Add author Id foreign key of action database table
  */
-function addAuthorForeignKey($dbTable, $dbprefix) {
+function addAuthorForeignKey($dbTable, $dbPrefix) {
     $dbTable->addForeignKey(
         'FK_action_author', 'author',
-        $dbprefix .'_users', 'pseudo',
+        $dbPrefix .'_users', 'pseudo',
         array('ON UPDATE CASCADE')
     );
 }
@@ -122,26 +122,23 @@ if ($process == 'addForeignKey') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
-    if ($dbTable->getFieldType('pseudo') == 'text') {
+    if ($dbTable->fieldExist('pseudo') && $dbTable->getFieldType('pseudo') == 'text') {
         $dbTable->modifyField('pseudo', array_merge(array('newField' => 'authorId'), $actionTableCfg['fields']['authorId']));
+        $dbTable->addFieldIndex('authorId');
         $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_AUTHOR', 'authorId');
     }
 
-    if (! $dbTable->fieldExist('author'))
+    if (! $dbTable->fieldExist('author')) {
         $dbTable->addField('author', $actionTableCfg['fields']['author']);
-
-    if (! $dbTable->checkFieldIsIndex('author'))
         $dbTable->addFieldIndex('author');
-
-    if (! $dbTable->checkFieldIsIndex('authorId'))
-        $dbTable->addFieldIndex('authorId');
+    }
 
     // TODO : Add them after update ?
-    if (! $dbTable->foreignKeyExist('FK_forumTopics_authorId'))
+    if (! $dbTable->foreignKeyExist('FK_action_authorId'))
         addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
 
-    if (! $dbTable->foreignKeyExist('FK_forumTopics_author'))
+    if (! $dbTable->foreignKeyExist('FK_action_author'))
         addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 
     $dbTable->alterTable();

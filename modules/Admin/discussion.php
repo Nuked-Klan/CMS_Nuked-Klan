@@ -15,16 +15,20 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
     return;
 
 
-function main()
-{
-    global $user, $nuked;
-    $date = time();
-    if ($_REQUEST['texte'] != '')
-    {
+function main() {
+    global $user;
+
+    if ($_REQUEST['texte'] != '') {
         $_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
         $_REQUEST['texte'] = nkHtmlEntities($_REQUEST['texte']);
-        $texte = mysql_real_escape_string(stripslashes($_REQUEST['texte']));
-        $upd = mysql_query("INSERT INTO ".$nuked['prefix']."_discussion  (`date` , `pseudo` , `texte`)  VALUES ('".$date."', '".$user[0]."', '".$texte."')");
+        $_REQUEST['texte'] = stripslashes($_REQUEST['texte']);
+
+        nkDB_update(DISCUSSION_TABLE, array(
+            'date'      => time(),
+            'authorId'  => $user['id'],
+            'author'    => $user['name'],
+            'texte'     => $_REQUEST['texte']
+        ));
     }
 }
 

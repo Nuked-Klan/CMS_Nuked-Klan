@@ -111,10 +111,9 @@ function getAdminModulesMenuData() {
 
 function getDiscussionData() {
     return nkDB_selectMany(
-        'SELECT D.date, D.texte, U.pseudo
-        FROM '. DISCUSSION_TABLE .' D, '. USER_TABLE .' U
-        WHERE D.pseudo = U.id',
-        array('D.date'), 'DESC', 16
+        'SELECT date, texte, author
+        FROM '. DISCUSSION_TABLE,
+        array('date'), 'DESC', 16
     );
 }
 

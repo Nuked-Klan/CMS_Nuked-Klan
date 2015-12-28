@@ -125,7 +125,7 @@
 <?php
     foreach (getDiscussionData() as $discussion) :
 ?>
-                            <p><strong><?php echo nkDate($discussion['date']) ?></strong> <?php echo _BY ?> <?php echo $discussion['pseudo'] ?><br /><?php echo $discussion['texte'] ?></p>
+                            <p><strong><?php echo nkDate($discussion['date']) ?></strong> <?php echo _BY ?> <?php echo $discussion['author'] ?><br /><?php echo $discussion['texte'] ?></p>
 <?php
     endforeach
 ?>
