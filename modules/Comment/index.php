@@ -172,12 +172,11 @@ function com_index($module, $im_id){
             $texte = (!empty($row['titre'])) ? '<b>'.$row['titre'].'</b><br /><br />'.$row['comment'] : $row['comment'];
 
             if(!empty($row['autor_id'])){
-                $sql_member = mysql_query("SELECT pseudo, avatar, country FROM ".USER_TABLE." WHERE id = '{$row['autor_id']}'");
+                $sql_member = mysql_query("SELECT avatar, country FROM ".USER_TABLE." WHERE id = '{$row['autor_id']}'");
                 $test = mysql_num_rows($sql_member);
             }
 
-            if(!empty($row['autor_id']) && $test > 0) list($autor, $avatar, $country) = mysql_fetch_array($sql_member);
-            else $autor = $row['autor'];
+            if(!empty($row['autor_id']) && $test > 0) list($avatar, $country) = mysql_fetch_array($sql_member);
 
             if(empty($avatar)) $avatar = "modules/Comment/images/noavatar.png";
             if(empty($country)) $country = "France.gif";
@@ -194,13 +193,13 @@ function com_index($module, $im_id){
             }else $admin = '';
 
             echo '<tr style="background:'.$bg.';">
-                    <td style="width:30%;" valign="top"><img src="images/flags/'.$country.'" alt="'.$country.'" />&nbsp;<b>'.$autor.'</b>';
+                    <td style="width:30%;" valign="top"><img src="images/flags/'.$country.'" alt="'.$country.'" />&nbsp;<b>'.$row['autor'].'</b>';
 
                     if ($visiteur >= $level_admin && $level_admin > -1) echo '<br />Ip : '.$row['autor_ip'];
 
                     echo '<br /><br /><img src="'.$avatar.'" style="max-width: 100px; max-height: 100px;" alt="" />';
 
-                    $profil = ($test > 0) ? '<a class="nkButton icon alone small user" href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($autor).'"></a>' : '';
+                    $profil = ($row['autor_id'] != '') ? '<a class="nkButton icon alone small user" href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($row['autor']).'"></a>' : '';
 
             echo '  </td>
                     <td style="width:70%;" valign="top">
@@ -293,15 +292,13 @@ function view_com($module, $im_id){
             $row['titre'] = nk_CSS($row['titre']);
             $row['autor'] = nk_CSS($row['autor']);
 
-            if(!empty($row['autor_id'])){
-                $sql_member = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id ='{$row['autor_id']}'");
-                $test = mysql_num_rows($sql_member);
-            }
+            if($row['autor_id'] != ''){
 
-            if(!empty($row['autor_id']) && $test > 0){
-                list($author) = mysql_fetch_array($sql_member);
-                $autor = '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($author).'" onclick="window.open(this.href);return false;">'.$author.'</a>';
-            }else $autor = $row['autor'];
+                $autor = '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($row['autor']).'" onclick="window.open(this.href);return false;">'.$row['autor'].'</a>';
+            }
+            else {
+                $autor = $row['autor'];
+            }
 
             echo '<table style="width:90%;margin:0px auto;" cellspacing="0" cellpadding="0"><tr><td style="width:90%;"><b>'.$titre.'</b>';
 
@@ -550,12 +547,8 @@ function edit_comment($cid){
 
         $titre = nkHtmlEntities($titre);
 
-        if($autor_id != ""){
-            $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-            list($autor) = mysql_fetch_array($sql_member);
-        }
-        else{
-            $autor = $auteur;
+        if ($autor_id != '') {
+            $autor = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($autor) .'">'. $autor .'</a>';
         }
 
         echo "<form method=\"post\" action=\"index.php?file=Comment&amp;op=modif_comment\" >\n"
