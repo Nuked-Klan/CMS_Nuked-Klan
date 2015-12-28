@@ -23,21 +23,12 @@
 
         $author = nkNickname($dbrLastForumMessage);
 
-        // TODO : Remove this SQL query
-        if ($forumThread['auteur_id'] != '')
-            $dbrUser = nkDB_selectOne(
-                'SELECT pseudo
-                FROM '. USER_TABLE .'
-                WHERE id = '. $forumThread['auteur_id']
-            );
-
-            if ($dbrUser && $dbrUser['pseudo'] != '')
-                $initiat = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($dbrUser['pseudo']) .'">'. $dbrUser['pseudo'] .'</a>';
-            else
-                $initiat = nk_CSS($forumThread['auteur']);
+        if ($forumThread['auteur_id'] != '') {
+            $initiat = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($forumThread['auteur']) .'">'. $forumThread['auteur'] .'</a>';
         }
-        else
+        else {
             $initiat = nk_CSS($forumThread['auteur']);
+        }
 
         $threadUrl = 'index.php?file=Forum&amp;page=viewtopic&amp;forum_id='. $forumThread['forum_id'] .'&amp;thread_id='. $forumThread['id'];
 

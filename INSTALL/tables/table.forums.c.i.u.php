@@ -25,9 +25,9 @@ function updateForumsRow($updateList, $row, $vars) {
         $setFields['comment'] = $vars['bbcode']->apply(stripslashes($row['comment']));
 
     if (in_array('UPDATE_NB_THREAD', $updateList)) {
-        $dbrForumThread = $db->selectOne(
+        $dbrForumThread = $vars['db']->selectOne(
             'SELECT COUNT(*) AS `nbTopics`
-            FROM `'. $dbPrefix .'_forums_threads`
+            FROM `'. $vars['dbPrefix'] .'_forums_threads`
             WHERE forum_id = '. $row['id']
         );
 
@@ -35,9 +35,9 @@ function updateForumsRow($updateList, $row, $vars) {
     }
 
     if (in_array('UPDATE_NB_MESSAGE', $updateList)) {
-        $dbrForumMessages = $db->selectOne(
+        $dbrForumMessages = $vars['db']->selectOne(
             'SELECT COUNT(*) AS `nbMessages`
-            FROM `'. $dbPrefix .'_forums_messages`
+            FROM `'. $vars['dbPrefix'] .'_forums_messages`
             WHERE forum_id = '. $row['id']
         );
 

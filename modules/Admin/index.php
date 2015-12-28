@@ -306,16 +306,19 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
                         <h4><a href="index.php?file=Admin&amp;page=action"><?php echo _VIEWACTIONS; ?></a></h4>
                         <p>
                         <?php
-                        $sql_act = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT 0, 4");
-                        while ($action = mysql_fetch_array($sql_act))
-                        {
-                            $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $action['pseudo'] . "'");
-                            list($pseudo) = mysql_fetch_array($sql);
+                        $sql_act = mysql_query(
+                            "SELECT date, author, action
+                            FROM " . ACTION_TABLE . "
+                            ORDER BY date DESC
+                            LIMIT 0, 4"
+                        );
 
-                            $action['action'] = $pseudo . ' ' . $action['action'];
-							$action['date'] = nkDate($action['date']);
+                        while ($action = mysql_fetch_array($sql_act)) {
+                            $action['date'] = nkDate($action['date']);
 
-                            echo '<div style="font-size: 12px; margin-bottom:5px;"><em>' . $action['date'] . '</em>&nbsp:&nbsp' . $action['action'] . '</div>';
+                            echo '<div style="font-size: 12px; margin-bottom:5px;"><em>'
+                                . $action['date'] . '</em>&nbsp:&nbsp' . $action['author']
+                                . ' ' . $action['action'] . '</div>';
                         }
                         ?>
                         </p>

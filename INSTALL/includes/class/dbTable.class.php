@@ -384,7 +384,7 @@ class dbTable {
         if (! isset($data['newField']))
             $data['newField'] = $field;
 
-        $sql = 'CHANGE `'. $field .'` `'. $field .'` '. $data['type'];
+        $sql = 'CHANGE `'. $field .'` `'. $data['newField'] .'` '. $data['type'];
 
         $null = true;
 

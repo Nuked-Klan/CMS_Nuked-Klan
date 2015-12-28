@@ -51,9 +51,9 @@ function updateForumsTopicsRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('UPDATE_NB_MESSAGE', $updateList)) {
-        $dbrForumMessages = $db->selectOne(
+        $dbrForumMessages = $vars['db']->selectOne(
             'SELECT COUNT(*) AS `nbMessages`
-            FROM `'. $dbPrefix .'_forums_messages`
+            FROM `'. $vars['dbPrefix'] .'_forums_messages`
             WHERE thread_id = '. $row['id']
         );
 

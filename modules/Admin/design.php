@@ -158,7 +158,8 @@ function saveUserAction($action) {
 
     nkDB_insert(ACTION_TABLE, array(
         'date'      => time(),
-        'pseudo'    => $user['id'],
+        'authorId'  => $user['id'],
+        'author'    => $user['name'],
         'action'    => $action
     ));
 }

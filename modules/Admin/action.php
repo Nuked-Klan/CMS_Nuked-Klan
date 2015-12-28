@@ -21,7 +21,7 @@ function main()
 
     $nbActions = 50;
 
-    $sqlNbActions = mysql_query("SELECT id FROM " . $nuked['prefix'] . "_action");
+    $sqlNbActions = mysql_query("SELECT id FROM " . ACTION_TABLE);
     $count = mysql_num_rows($sqlNbActions);
 
     if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
@@ -46,23 +46,19 @@ function main()
     . '</td><td><b>' . _INFORMATION . '</b>',"\n"
     . '</td></tr>',"\n";
 
-    $sql = mysql_query("SELECT date, pseudo, action  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC LIMIT " . $start . ", " . $nbActions);
-    while (list($date, $users, $texte) = mysql_fetch_array($sql))
-    {
-        if($users != '')
-        {
-            $users = mysql_real_escape_string($users);
-        
-            $sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $users . "'");
-            list($pseudo) = mysql_fetch_array($sql2);
-        }
-        else $pseudo = 'N/A';
+    $sql = mysql_query(
+        "SELECT date, author, action
+        FROM ". ACTION_TABLE ."
+        ORDER BY date DESC
+        LIMIT " . $start . ", " . $nbActions
+    );
 
+    while (list($date, $author, $texte) = mysql_fetch_array($sql))
+    {
         $date = nkDate($date);
-        $texte = $pseudo . ' ' . $texte;
 
         echo '<tr><td>' . $date . '</td>',"\n"
-        . '<td>' . $texte . '</td></tr>',"\n";
+        . '<td>' . $author . ' ' . $texte . '</td></tr>',"\n";
 
     }
 
@@ -77,14 +73,14 @@ function main()
     echo '<div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin">' . _BACK . '</a></div></form><br /></div></div>',"\n";
     $theday = time();
     $compteur = 0;
-    $delete = mysql_query("SELECT id, date  FROM " . $nuked['prefix'] . "_action ORDER BY date DESC");
+    $delete = mysql_query("SELECT id, date  FROM " . ACTION_TABLE . " ORDER BY date DESC");
     while (list($id, $date) = mysql_fetch_array($delete))
     {
         $limit_time = $date + 1209600;
 
         if ($limit_time < $theday)
         {
-            $del = mysql_query("DELETE FROM " . $nuked['prefix'] . "_action WHERE id = '" . $id . "'");
+            $del = mysql_query("DELETE FROM " . ACTION_TABLE . " WHERE id = '" . $id . "'");
             $compteur++;
         }
     }
