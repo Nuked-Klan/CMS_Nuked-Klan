@@ -13,6 +13,27 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_contact');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$contactTableCfg = array(
+    'fields' => array(
+        'id'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'titre'   => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'message' => array('type' => 'text',         'null' => false),
+        'email'   => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'nom'     => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'ip'      => array('type' => 'varchar(40)',  'null' => false, 'default' => '\'\''),
+        'date'    => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'titre' => 'titre'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,19 +80,7 @@ $contactTableCreated = false;
 
 // install / update 1.7.9 RC3
 if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_contact` (
-            `id` int(11) NOT NULL auto_increment,
-            `titre` varchar(200) NOT NULL default \'\',
-            `message` text NOT NULL,
-            `email` varchar(80) NOT NULL default \'\',
-            `nom` varchar(200) NOT NULL default \'\',
-            `ip` varchar(40) NOT NULL default \'\',
-            `date` varchar(30) NOT NULL default \'\',
-            PRIMARY KEY  (`id`),
-            KEY `titre` (`titre`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($contactTableCfg);
 
     $contactTableCreated = true;
 }
@@ -86,7 +95,7 @@ if ($process == 'update') {
 
     // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
-        $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+        $dbTable->modifyField('ip', $contactTableCfg['fields']['fields']);
 
     $dbTable->alterTable();
 

@@ -13,6 +13,20 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_staff_rang');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$staffRankTableCfg = array(
+    'fields' => array(
+        'id'    => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'nom'   => array('type' => 'varchar(25)', 'null' => false, 'default' => '\'\''),
+        'ordre' => array('type' => 'int(5)',      'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,15 +45,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // install / update 1.8
-if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_staff_rang` (
-        `id` int(11) NOT NULL auto_increment,
-        `nom` varchar(25) NOT NULL default \'\',
-        `ordre` int(5) NOT NULL default \'0\',
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
+    $dbTable->createTable($staffRankTableCfg);
 
 ?>

@@ -13,6 +13,20 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_forums_read');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$forumReadTableCfg = array(
+    'fields' => array(
+        'user_id'   => array('type' => 'varchar(20)', 'null' => false, 'default' => '\'\''),
+        'thread_id' => array('type' => 'text',        'null' => false),
+        'forum_id'  => array('type' => 'text',        'null' => false),
+    ),
+    'primaryKey' => array('user_id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,26 +50,11 @@ if ($process == 'drop')
     $dbTable->dropTable();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Table function
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function createForumsReadTable($dbTable, $table) {
-    $sql = 'CREATE TABLE `'. $table .'` (
-            `user_id` varchar(20) NOT NULL default \'\',
-            `thread_id` text NOT NULL,
-            `forum_id` text NOT NULL,
-            PRIMARY KEY  (`user_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install')
-    createForumsReadTable($dbTable, $this->_session['db_prefix'] .'_forums_read');
+    $dbTable->createTable($forumReadTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -72,8 +71,7 @@ if ($process == 'update') {
             $dbsForumRead = $this->_db->selectMany($sql);
 
             if (count($dbsForumRead) == 0) {
-                createForumsReadTable($dbTable, $this->_session['db_prefix'] .'_forums_read');
-
+                $dbTable->createTable($forumReadTableCfg);
                 $dbTable->setJqueryAjaxResponse('UPDATED');
                 return;
             }
@@ -104,7 +102,8 @@ if ($process == 'update') {
         }
         // Create temporary table
         else if ($this->_session['step'] == 2) {
-            createForumsReadTable($this->_session['db_prefix'] .'_forums_read_tmp');
+            $dbTable->setTable($this->_session['db_prefix'] .'_forums_read_tmp');
+            $dbTable->createTable($forumReadTableCfg);
             $this->_session['step'] = 3;
 
             $dbTable->setJqueryAjaxResponse('STEP_2_TOTAL_STEP_4');

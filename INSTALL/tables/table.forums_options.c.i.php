@@ -13,6 +13,23 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_forums_options');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$forumPollOptionsTableCfg = array(
+    'fields' => array(
+        'id'          => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'poll_id'     => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'option_text' => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'option_vote' => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\'')
+    ),
+    'index' => array(
+        'poll_id' => 'poll_id'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,16 +56,7 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_forums_options` (
-            `id` int(11) NOT NULL default \'0\',
-            `poll_id` int(11) NOT NULL default \'0\',
-            `option_text` varchar(255) NOT NULL default \'\',
-            `option_vote` int(11) NOT NULL default \'0\',
-            KEY `poll_id` (`poll_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($forumPollOptionsTableCfg);
 
 ?>

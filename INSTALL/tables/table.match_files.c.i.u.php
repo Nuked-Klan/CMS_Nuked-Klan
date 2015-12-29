@@ -11,6 +11,25 @@
  */
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$joinedFilesTableCfg = array(
+    'fields' => array(
+        'id'     => array('type' => 'int(10)',      'null' => false, 'autoIncrement' => true),
+        'module' => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
+        'im_id'  => array('type' => 'int(10)',      'null' => false, 'default' => '\'0\''),
+        'type'   => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
+        'url'    => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'im_id' => 'im_id'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,18 +78,7 @@ if ($process == 'drop') {
 
 if ($process == 'install') {
     $dbTable->setTable($this->_session['db_prefix'] .'_match_files');
-
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_match_files` (
-            `id` int(10) NOT NULL auto_increment,
-            `module` varchar(30) NOT NULL default \'\',
-            `im_id` int(10) NOT NULL default \'0\',
-            `type` varchar(30) NOT NULL default \'\',
-            `url` varchar(200) NOT NULL default \'\',
-            PRIMARY KEY  (`id`),
-            KEY `im_id` (`im_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($joinedFilesTableCfg);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

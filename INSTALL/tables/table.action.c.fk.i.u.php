@@ -24,7 +24,7 @@ $actionTableCfg = array(
         'authorId' => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
         'action'   => array('type' => 'text',        'null' => false)
     ),
-    'primaryKey' => 'id',
+    'primaryKey' => array('id'),
     'index' => array(
         'author'   => 'author',
         'authorId' => 'authorId'
@@ -83,7 +83,7 @@ function addAuthorForeignKey($dbTable, $dbPrefix) {
 
 if ($process == 'checkIntegrity' && $dbTable->tableExist()) {
     // table and field exist in 1.7.9 RC1 version
-    $dbTable->checkIntegrity('id', ('pseudo', null));
+    $dbTable->checkIntegrity('id', array('pseudo', null));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

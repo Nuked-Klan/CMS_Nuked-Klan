@@ -28,7 +28,7 @@ $commentTableCfg = array(
         'date'     => array('type' => 'varchar(12)', 'null' => true,  'default' => 'NULL'),
         'autor_ip' => array('type' => 'varchar(40)', 'null' => true,  'default' => 'NULL')
     ),
-    'primaryKey' => 'id',
+    'primaryKey' => array('id'),
     'index' => array(
         'im_id'     => 'im_id',
         'autor'     => 'autor',

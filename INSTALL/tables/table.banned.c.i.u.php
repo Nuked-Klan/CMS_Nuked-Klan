@@ -13,6 +13,24 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_banned');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$bannedTableCfg = array(
+    'fields' => array(
+        'id'     => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'ip'     => array('type' => 'varchar(40)', 'null' => false, 'default' => '\'\''),
+        'pseudo' => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'email'  => array('type' => 'varchar(80)', 'null' => false, 'default' => '\'\''),
+        'date'   => array('type' => 'varchar(20)', 'null' => true),
+        'dure'   => array('type' => 'varchar(20)', 'null' => true),
+        'texte'  => array('type' => 'text',        'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,20 +57,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_banned` (
-            `id` int(11) NOT NULL auto_increment,
-            `ip` varchar(40) NOT NULL default \'\',
-            `pseudo` varchar(50) NOT NULL default \'\',
-            `email` varchar(80) NOT NULL default \'\',
-            `date` VARCHAR(20)  NULL,
-            `dure` VARCHAR(20)  NULL,
-            `texte` text NOT NULL,
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($bannedTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -61,15 +67,15 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.7.9 RC1
     if (! $dbTable->fieldExist('date'))
-        $dbTable->addField('date', array('type' => 'VARCHAR(20)', 'null' => true), 'email');
+        $dbTable->addField('date', $bannedTableCfg['fields']['date'], 'email');
 
     // install / update 1.7.9 RC1
     if (! $dbTable->fieldExist('dure'))
-        $dbTable->addField('dure', array('type' => 'VARCHAR(20)', 'null' => true), 'date');
+        $dbTable->addField('dure', $bannedTableCfg['fields']['dure'], 'date');
 
     // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
-        $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+        $dbTable->modifyField('ip', $bannedTableCfg['fields']['ip']);
 
     $dbTable->alterTable();
 }

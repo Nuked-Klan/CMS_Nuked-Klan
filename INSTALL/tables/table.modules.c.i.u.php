@@ -13,6 +13,21 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_modules');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$modulesTableCfg = array(
+    'fields' => array(
+        'id'     => array('type' => 'int(2)',      'null' => false, 'autoIncrement' => true),
+        'nom'    => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'niveau' => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\''),
+        'admin'  => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,15 +55,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_modules` (
-            `id` int(2) NOT NULL auto_increment,
-            `nom` varchar(50) NOT NULL default \'\',
-            `niveau` int(1) NOT NULL default \'0\',
-            `admin` int(1) NOT NULL default \'0\',
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($modulesTableCfg);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_modules` VALUES
         (1, \'News\', 0, 2),

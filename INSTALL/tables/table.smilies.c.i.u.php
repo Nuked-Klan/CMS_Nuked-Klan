@@ -13,6 +13,21 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_smilies');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$smiliesTableCfg = array(
+    'fields' => array(
+        'id'   => array('type' => 'int(5)',       'null' => false, 'autoIncrement' => true),
+        'code' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'url'  => array('type' => 'varchar(100)', 'null' => false, 'default' => '\'\''),
+        'name' => array('type' => 'varchar(100)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,15 +55,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_smilies` (
-            `id` int(5) NOT NULL auto_increment,
-            `code` varchar(50) NOT NULL default \'\',
-            `url` varchar(100) NOT NULL default \'\',
-            `name` varchar(100) NOT NULL default \'\',
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($smiliesTableCfg);
 
     // TODO : Traduction ?
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_smilies` VALUES

@@ -13,6 +13,20 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_stats');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$statsTableCfg = array(
+    'fields' => array(
+        'nom'   => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'type'  => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'count' => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('nom', 'type'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,14 +54,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql='CREATE TABLE `'. $this->_session['db_prefix'] .'_stats` (
-            `nom` varchar(50) NOT NULL default \'\',
-            `type` varchar(50) NOT NULL default \'\',
-            `count` int(11) NOT NULL default \'0\',
-            PRIMARY KEY  (`nom`,`type`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($statsTableCfg);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_stats` VALUES
         (\'Gallery\', \'pages\', 0),

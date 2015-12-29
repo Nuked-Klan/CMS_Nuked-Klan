@@ -13,6 +13,38 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_downloads');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$downloadTableCfg = array(
+    'fields' => array(
+        'id'          => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'date'        => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\''),
+        'taille'      => array('type' => 'varchar(6)',   'null' => false, 'default' => '\'0\''),
+        'titre'       => array('type' => 'text',         'null' => false),
+        'description' => array('type' => 'text',         'null' => false),
+        'type'        => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'count'       => array('type' => 'int(10)',      'null' => false, 'default' => '\'0\''),
+        'url'         => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'url2'        => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'broke'       => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'url3'        => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'level'       => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
+        'hit'         => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'edit'        => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\''),
+        'screen'      => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'autor'       => array('type' => 'text',         'null' => false),
+        'url_autor'   => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'comp'        => array('type' => 'text',         'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'type' => 'type'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,32 +87,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_downloads` (
-            `id` int(11) NOT NULL auto_increment,
-            `date` varchar(12) NOT NULL default \'\',
-            `taille` varchar(6) NOT NULL default \'0\',
-            `titre` text NOT NULL,
-            `description` text NOT NULL,
-            `type` int(11) NOT NULL default \'0\',
-            `count` int(10) NOT NULL default \'0\',
-            `url` varchar(200) NOT NULL default \'\',
-            `url2` varchar(200) NOT NULL default \'\',
-            `broke` int(11) NOT NULL default \'0\',
-            `url3` varchar(200) NOT NULL default \'\',
-            `level` int(1) NOT NULL default \'0\',
-            `hit` int(11) NOT NULL default \'0\',
-            `edit` varchar(12) NOT NULL default \'\',
-            `screen` varchar(200) NOT NULL default \'\',
-            `autor` text NOT NULL,
-            `url_autor` varchar(200) NOT NULL default \'\',
-            `comp` text NOT NULL,
-            PRIMARY KEY  (`id`),
-            KEY `type` (`type`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($downloadTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update

@@ -13,6 +13,53 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_config');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$configTableCfg = array(
+    'fields' => array(
+        'name'  => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'value' => array('type' => 'text',         'null' => false)
+    ),
+    'primaryKey' => array('name'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table function
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+ * Set dateformat and datezone value in configuration
+ */
+function setDateConfig($language, &$cfg) {
+    if ($language == 'french') {
+        // install
+        // $dateFormat = '%d/%m/%Y';
+
+        // update
+        $cfg['dateformat'] = '%d/%m/%Y - %H:%M:%S';
+        $cfg['datezone']   = '+0100';
+    }
+    else {
+        // install
+        // $dateFormat = '%m/%d/%Y';
+
+        // update
+        $cfg['dateformat'] = '%m/%d/%Y - %H:%M:%S';
+        $cfg['datezone']   = '+0000';
+    }
+}
+
+/*
+ * Add a new default value in configuration if missing
+ */
+function addDefaultCfgValue($nuked, &$insertData, $name, $default = '') {
+    if (! array_key_exists($name, $nuked))
+        $insertData[$name] = $default;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,33 +87,22 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_config` (
-            `name` varchar(255) NOT NULL default \'\',
-            `value` text NOT NULL,
-            PRIMARY KEY  (`name`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($configTableCfg);
 
     $websiteUrl = 'http://'. $_SERVER['SERVER_NAME'] . str_replace('INSTALL/index.php', '', $_SERVER['SCRIPT_NAME']);
 
     if (substr($websiteUrl, -1) == '/') $websiteUrl = substr($websiteUrl, 0, -1);
 
-    if ($this->_session['language'] == 'french') {
-        $dateFormat = '%d/%m/%Y';
-        $dateZone   = '+0100';
-    }
-    else {
-        $dateFormat = '%m/%d/%Y';
-        $dateZone   = '+0000';
-    }
+    $dateCfg = array();
+
+    setDateConfig($this->_session['language'], $dateCfg);
 
     $shareStats = ($this->_session['stats'] == 'no') ? 0 : 1;
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_config` VALUES
         (\'time_generate\', \'on\'),
-        (\'dateformat\', \''. $dateFormat.'\'),
-        (\'datezone\', \''. $dateZone .'\'),
+        (\'dateformat\', \''. $dateCfg['dateformat'].'\'),
+        (\'datezone\', \''. $dateCfg['datezone'] .'\'),
         (\'version\', \''. $this->_nkVersion .'\'),
         (\'date_install\', \''. time() .'\'),
         (\'langue\', \''. $this->_session['language'] .'\'),
@@ -199,19 +235,15 @@ if ($process == 'update') {
         $updateData['level_analys'] = '-1';
 
     // install / update 1.7.8
-    if (version_compare($this->_session['version'], '1.7.8', '<='))
+    if (version_compare($this->_session['version'], '1.7.8', '<=')) // TODO : <= To check
         $updateData['theme'] = 'Restless';
 
     // install / update 1.7.9 RC2
-    if (! array_key_exists('screen', $nuked))
-        $insertData['screen'] = 'on';
+    addDefaultCfgValue($nuked, $insertData, 'screen', 'on');
 
     // install / update 1.7.9 RC3
-    if (! array_key_exists('contact_mail', $nuked))
-        $insertData['contact_mail'] = $nuked['mail'];
-
-    if (! array_key_exists('contact_flood', $nuked))
-        $insertData['contact_flood'] = '60';
+    addDefaultCfgValue($nuked, $insertData, 'contact_mail', $nuked['mail']);
+    addDefaultCfgValue($nuked, $insertData, 'contact_flood', '60');
 
     // update 1.7.9 RC6
     // Update bbcode
@@ -235,25 +267,22 @@ if ($process == 'update') {
         }
     }
 
-    if (! array_key_exists('dateformat', $nuked)) {
-        if ($this->_session['language'] == 'french') {
-            $insertData['dateformat'] = '%d/%m/%Y - %H:%M:%S';
-            $insertData['datezone']   = 1;
+    if (! array_key_exists('dateformat', $nuked))
+        setDateConfig($nuked['langue'], $insertData);
+
+    if (array_key_exists('datezone', $nuked)) {
+        // BUG Replace bad datezone value (Since 1.7.9 RC6 to 1.7.15)
+        if ($nuked['datezone'] === '0') {
+            $updateData['datezone'] = '+0000';
         }
-        else {
-            $insertData['dateformat'] = '%m/%d/%Y - %H:%M:%S';
-            $insertData['datezone']   = 0;
+        else if ($nuked['datezone'] === '1') {
+            $updateData['datezone'] = '+0100';
         }
     }
 
-    if (! array_key_exists('time_generate', $nuked))
-        $insertData['time_generate'] = 'on';
-
-    if (! array_key_exists('video_editeur', $nuked))
-        $insertData['video_editeur'] = 'on';
-
-    if (! array_key_exists('scayt_editeur', $nuked))
-        $insertData['scayt_editeur'] = 'on';
+    addDefaultCfgValue($nuked, $insertData, 'time_generate', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'video_editeur', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'scayt_editeur', 'on');
 
     // quakenet.eu.org : 1.7.x =>
     // quakenet.org : install 1.7.9 RC5 / UPDATE 1.7.9 RC2
@@ -263,78 +292,30 @@ if ($process == 'update') {
 
     // install / update 1.8
     // TODO forum_rank_team = on ?
-
-    if (! array_key_exists('forum_image', $nuked))
-        $insertData['forum_image'] = 'on';
-
-    if (! array_key_exists('forum_cat_image', $nuked))
-        $insertData['forum_cat_image'] = 'on';
-
-    if (! array_key_exists('forum_birthday', $nuked))
-        $insertData['forum_birthday'] = 'on';
-
-    if (! array_key_exists('forum_gamer_details', $nuked))
-        $insertData['forum_gamer_details'] = 'on';
-
-    if (! array_key_exists('forum_user_details', $nuked))
-        $insertData['forum_user_details'] = 'on';
-
-    if (! array_key_exists('forum_labels_active', $nuked))
-        $insertData['forum_labels_active'] = 'on';
-
-    if (! array_key_exists('forum_display_modos', $nuked))
-        $insertData['forum_display_modos'] = 'on';
-
-    if (! array_key_exists('textbox_avatar', $nuked))
-        $insertData['textbox_avatar'] = 'on';
-
-    if (! array_key_exists('user_email', $nuked))
-        $insertData['user_email'] = 'off';
-
-    if (! array_key_exists('user_icq', $nuked))
-        $insertData['user_icq'] = 'off';
-
-    if (! array_key_exists('user_msn', $nuked))
-        $insertData['user_msn'] = 'off';
-
-    if (! array_key_exists('user_aim', $nuked))
-        $insertData['user_aim'] = 'off';
-
-    if (! array_key_exists('user_yim', $nuked))
-        $insertData['user_yim'] = 'off';
-
-    if (! array_key_exists('user_xfire', $nuked))
-        $insertData['user_xfire'] = 'on';
-
-    if (! array_key_exists('user_facebook', $nuked))
-        $insertData['user_facebook'] = 'on';
-
-    if (! array_key_exists('user_origin', $nuked))
-        $insertData['user_origin'] = 'on';
-
-    if (! array_key_exists('user_steam', $nuked))
-        $insertData['user_steam'] = 'on';
-
-    if (! array_key_exists('user_twitter', $nuked))
-        $insertData['user_twitter'] = 'off';
-
-    if (! array_key_exists('user_skype', $nuked))
-        $insertData['user_skype'] = 'on';
-
-    if (! array_key_exists('user_website', $nuked))
-        $insertData['user_website'] = 'on';
-
-    if (! array_key_exists('user_social_level', $nuked))
-        $insertData['user_social_level'] = 0;
-
-    if (! array_key_exists('sp_version', $nuked))
-        $insertData['sp_version'] = 'off';
-
-    if (! array_key_exists('index_page', $nuked))
-        $insertData['index_page'] = '';
-
-    if (! array_key_exists('editor_type', $nuked))
-        $insertData['editor_type'] = 'cke';
+    addDefaultCfgValue($nuked, $insertData, 'forum_image', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'forum_cat_image', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'forum_birthday', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'forum_gamer_details', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'forum_user_details', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'forum_labels_active', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'forum_display_modos', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'textbox_avatar', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'user_email', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_icq', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_msn', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_aim', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_yim', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_xfire', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_facebook', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'user_origin', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_steam', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_twitter', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'user_skype', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'user_website', 'on');
+    addDefaultCfgValue($nuked, $insertData, 'user_social_level', 0);
+    addDefaultCfgValue($nuked, $insertData, 'sp_version', 'off');
+    addDefaultCfgValue($nuked, $insertData, 'index_page', '');
+    addDefaultCfgValue($nuked, $insertData, 'editor_type', 'cke');
 
     if (! empty($insertData)) {
         $values = array();

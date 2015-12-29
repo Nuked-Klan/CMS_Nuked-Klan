@@ -385,6 +385,17 @@ class dbMySQL {
         foreach ($cfg['fields'] as $field => $fieldData) {
             $sql = '`'. $field .'` '. $fieldData['type'];
 
+            if (isset($fieldData['unsigned']) && $fieldData['unsigned'])
+                $sql .= ' unsigned';
+
+            // NULL is mysql default value
+            /*
+            if (isset($fieldData['null']) && $fieldData['null'])
+                $sql .= ' NULL';
+            else
+                $sql .= ' NOT NULL';
+            */
+
             if (array_key_exists('null', $fieldData)) {
                 if ($fieldData['null'] === true)
                     $sql .= ' NULL';
@@ -401,8 +412,8 @@ class dbMySQL {
             $definitionLines[] = $sql;
         }
 
-        if (isset($cfg['primaryKey']) && $cfg['primaryKey'] != '')
-            $definitionLines[] = 'PRIMARY KEY (`'. $cfg['primaryKey'] .'`)';
+        if (isset($cfg['primaryKey']) && is_array($cfg['index']) && ! empty($cfg['primaryKey']))
+            $definitionLines[] = 'PRIMARY KEY (`'. implode('`, `', $cfg['primaryKey']) .'`)';
 
         if (isset($cfg['index']) && is_array($cfg['index'])) {
             foreach ($cfg['index'] as $k => $v)

@@ -13,6 +13,58 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_users');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$usersTableCfg = array(
+    'fields' => array(
+        'id'          => array('type' => 'varchar(20)',  'null' => false, 'default' => '\'\''),
+        'team'        => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'team2'       => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'team3'       => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'rang'        => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'ordre'       => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\''),
+        'pseudo'      => array('type' => 'varchar(30)',  'null' => false),
+        'mail'        => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'email'       => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'icq'         => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'msn'         => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'aim'         => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'yim'         => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'xfire'       => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'facebook'    => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'origin'      => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'steam'       => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'twitter'     => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'skype'       => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'url'         => array('type' => 'varchar(150)', 'null' => false, 'default' => '\'\''),
+        'pass'        => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'niveau'      => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
+        'date'        => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
+        'avatar'      => array('type' => 'varchar(100)', 'null' => false, 'default' => '\'\''),
+        'signature'   => array('type' => 'text',         'null' => false),
+        'user_theme'  => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
+        'user_langue' => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
+        'game'        => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'country'     => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'count'       => array('type' => 'int(10)',      'null' => false, 'default' => '\'0\''),
+        'erreur'      => array('type' => 'INT(10)',      'null' => false, 'default' => '\'0\''),
+        'token'       => array('type' => 'varchar(13)',  'null' => true,  'default' => 'NULL'),
+        'token_time'  => array('type' => 'varchar(10)',  'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'team'   => 'team',
+        'team2'  => 'team2',
+        'team3'  => 'team3',
+        'rang'   => 'rang',
+        'game'   => 'game',
+        'pseudo' => 'pseudo'
+    ),
+    'engine' => 'InnoDB'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,52 +110,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_users` (
-            `id` varchar(20) NOT NULL default \'\',
-            `team` varchar(80) NOT NULL default \'\',
-            `team2` varchar(80) NOT NULL default \'\',
-            `team3` varchar(80) NOT NULL default \'\',
-            `rang` int(11) NOT NULL default \'0\',
-            `ordre` int(5) NOT NULL default \'0\',
-            `pseudo` varchar(30) NOT NULL,
-            `mail` varchar(80) NOT NULL default \'\',
-            `email` varchar(80) NOT NULL default \'\',
-            `icq` varchar(50) NOT NULL default \'\',
-            `msn` varchar(80) NOT NULL default \'\',
-            `aim` varchar(50) NOT NULL default \'\',
-            `yim` varchar(50) NOT NULL default \'\',
-            `xfire` varchar(50) NOT NULL default \'\',
-            `facebook` varchar(50) NOT NULL default \'\',
-            `origin` varchar(50) NOT NULL default \'\',
-            `steam` varchar(50) NOT NULL default \'\',
-            `twitter` varchar(50) NOT NULL default \'\',
-            `skype` varchar(50) NOT NULL default \'\',
-            `url` varchar(150) NOT NULL default \'\',
-            `pass` varchar(80) NOT NULL default \'\',
-            `niveau` int(1) NOT NULL default \'0\',
-            `date` varchar(30) NOT NULL default \'\',
-            `avatar` varchar(100) NOT NULL default \'\',
-            `signature` text NOT NULL,
-            `user_theme` varchar(30) NOT NULL default \'\',
-            `user_langue` varchar(30) NOT NULL default \'\',
-            `game` int(11) NOT NULL default \'0\',
-            `country` varchar(50) NOT NULL default \'\',
-            `count` int(10) NOT NULL default \'0\',
-            `erreur` INT(10) NOT NULL default \'0\',
-            `token` varchar(13)  DEFAULT NULL,
-            `token_time` varchar(10) NOT NULL DEFAULT \'0\',
-            PRIMARY KEY  (`id`),
-            KEY `team` (`team`),
-            KEY `team2` (`team2`),
-            KEY `team3` (`team3`),
-            KEY `rang` (`rang`),
-            KEY `game` (`game`),
-            KEY `pseudo` (`pseudo`)
-        ) ENGINE=InnoDB DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($usersTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -112,34 +120,37 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install 1.7.9 RC3 - update 1.7.9 RC1
     if (! $dbTable->fieldExist('erreur'))
-        $dbTable->addField('erreur', array('type' => 'INT(10)', 'null' => false, 'default' => '\'0\''));
+        $dbTable->addField('erreur', $usersTableCfg['fields']['erreur']);
 
     // install / update 1.7.9
     if (! $dbTable->fieldExist('token'))
-        $dbTable->addField('token', array('type' => 'VARCHAR(13)', 'null' => true, 'default' => 'NULL'))
-             ->addField('token_time', array('type' => 'VARCHAR(10)', 'null' => false, 'default' => '\'0\''));
+        $dbTable->addField('token', $usersTableCfg['fields']['token'])
+             ->addField('token_time', $usersTableCfg['fields']['token_time']);
 
-    
-    // TODO : Champ pseudo : type text => varchar(30)
-    // CHanger le moteur
     // install / update 1.8
+    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_users'))
+        $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_users` ENGINE=InnoDB;');
+
+    if ($dbTable->getFieldType('pseudo') != 'varchar(30)')
+        $dbTable->modifyField('pseudo', $usersTableCfg['fields']['pseudo']);
+
     if (! $dbTable->fieldExist('xfire'))
-        $dbTable->addField('xfire', array('type' => 'VARCHAR(50)', 'null' => true, 'default' => '\'\''));
+        $dbTable->addField('xfire', $usersTableCfg['fields']['xfire']);
 
     if (! $dbTable->fieldExist('facebook'))
-        $dbTable->addField('facebook', array('type' => 'VARCHAR(50)', 'null' => true, 'default' => '\'\''));
+        $dbTable->addField('facebook', $usersTableCfg['fields']['facebook']);
 
     if (! $dbTable->fieldExist('origin'))
-        $dbTable->addField('origin', array('type' => 'VARCHAR(50)', 'null' => true, 'default' => '\'\''));
+        $dbTable->addField('origin', $usersTableCfg['fields']['origin']);
 
     if (! $dbTable->fieldExist('steam'))
-        $dbTable->addField('steam', array('type' => 'VARCHAR(50)', 'null' => true, 'default' => '\'\''));
+        $dbTable->addField('steam', $usersTableCfg['fields']['steam']);
 
     if (! $dbTable->fieldExist('twitter'))
-        $dbTable->addField('twitter', array('type' => 'VARCHAR(50)', 'null' => true, 'default' => '\'\''));
+        $dbTable->addField('twitter', $usersTableCfg['fields']['twitter']);
 
     if (! $dbTable->fieldExist('skype'))
-        $dbTable->addField('skype', array('type' => 'VARCHAR(50)', 'null' => true, 'default' => '\'\''));
+        $dbTable->addField('skype', $usersTableCfg['fields']['skype']);
 
     $dbTable->alterTable();
 

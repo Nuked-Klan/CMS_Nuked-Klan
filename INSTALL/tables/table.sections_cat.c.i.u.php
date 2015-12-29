@@ -14,6 +14,26 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_sections_cat');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$articlesCatTableCfg = array(
+    'fields' => array(
+        'secid'       => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'parentid'    => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'secname'     => array('type' => 'varchar(40)',  'null' => false, 'default' => '\'\''),
+        'description' => array('type' => 'text',         'null' => false),
+        'image'       => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'position'    => array('type' => 'int(2)',       'unsigned' => true, 'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('secid'),
+    'index' => array(
+        'parentid' => 'parentid'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -56,20 +76,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_sections_cat` (
-            `secid` int(11) NOT NULL auto_increment,
-            `parentid` int(11) NOT NULL default \'0\',
-            `secname` varchar(40) NOT NULL default \'\',
-            `description` text NOT NULL,
-            `image` varchar(255) NOT NULL default \'\',
-            `position` int(2) unsigned NOT NULL default \'0\',
-            PRIMARY KEY  (`secid`),
-            KEY `parentid` (`parentid`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($articlesCatTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -78,7 +86,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.8
     if (! $dbTable->fieldExist('image'))
-        $dbTable->addField('image', array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''));
+        $dbTable->addField('image', $articlesCatTableCfg['fields']['image']);
 
     $dbTable->alterTable();
     // Update BBcode

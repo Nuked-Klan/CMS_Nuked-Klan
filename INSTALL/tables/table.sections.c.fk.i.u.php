@@ -30,7 +30,7 @@ $articlesTableCfg = array(
         'smileyoff' => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
         'date'      => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\'')
     ),
-    'primaryKey' => 'artid',
+    'primaryKey' => array('artid'),
     'index' => array(
         'secid'     => 'secid',
         'autor'     => 'autor',

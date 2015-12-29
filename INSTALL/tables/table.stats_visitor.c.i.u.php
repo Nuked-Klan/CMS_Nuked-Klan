@@ -13,6 +13,36 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_stats_visitor');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$statsVisitorTableCfg = array(
+    'fields' => array(
+        'id'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'user_id' => array('type' => 'varchar(20)',  'null' => false, 'default' => '\'\''),
+        'ip'      => array('type' => 'varchar(40)',  'null' => false, 'default' => '\'\''),
+        'host'    => array('type' => 'varchar(100)', 'null' => false, 'default' => '\'\''),
+        'browser' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'os'      => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'referer' => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'day'     => array('type' => 'int(2)',       'null' => false, 'default' => '\'0\''),
+        'month'   => array('type' => 'int(2)',       'null' => false, 'default' => '\'0\''),
+        'year'    => array('type' => 'int(4)',       'null' => false, 'default' => '\'0\''),
+        'hour'    => array('type' => 'int(2)',       'null' => false, 'default' => '\'0\''),
+        'date'    => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'user_id' => 'user_id',
+        'host'    => 'host',
+        'browser' => 'browser',
+        'os'      => 'os',
+        'referer' => 'referer'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,30 +69,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_stats_visitor` (
-            `id` int(11) NOT NULL auto_increment,
-            `user_id` varchar(20) NOT NULL default \'\',
-            `ip` varchar(40) NOT NULL default \'\',
-            `host` varchar(100) NOT NULL default \'\',
-            `browser` varchar(50) NOT NULL default \'\',
-            `os` varchar(50) NOT NULL default \'\',
-            `referer` varchar(200) NOT NULL default \'\',
-            `day` int(2) NOT NULL default \'0\',
-            `month` int(2) NOT NULL default \'0\',
-            `year` int(4) NOT NULL default \'0\',
-            `hour` int(2) NOT NULL default \'0\',
-            `date` varchar(30) NOT NULL default \'\',
-            PRIMARY KEY  (`id`),
-            KEY `user_id` (`user_id`),
-            KEY `host` (`host`),
-            KEY `browser` (`browser`),
-            KEY `os` (`os`),
-            KEY `referer` (`referer`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($statsVisitorTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -71,7 +79,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
-        $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+        $dbTable->modifyField('ip', $statsVisitorTableCfg['fields']['ip']);
 
     $dbTable->alterTable();
 }

@@ -13,6 +13,25 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_calendar');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$calendarTableCfg = array(
+    'fields' => array(
+        'id'     => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'titre'       => array('type' => 'text',       'null' => false),
+        'description' => array('type' => 'text',       'null' => false),
+        'date_jour'   => array('type' => 'int(2)',     'default' => 'NULL'),
+        'date_mois'   => array('type' => 'int(2)',     'default' => 'NULL'),
+        'date_an'     => array('type' => 'int(4)',     'default' => 'NULL'),
+        'heure'       => array('type' => 'varchar(5)', 'null' => false, 'default' => '\'\''),
+        'auteur'      => array('type' => 'text',       'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,21 +74,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_calendar` (
-            `id` int(11) NOT NULL auto_increment,
-            `titre` text NOT NULL,
-            `description` text NOT NULL,
-            `date_jour` int(2) default NULL,
-            `date_mois` int(2) default NULL,
-            `date_an` int(4) default NULL,
-            `heure` varchar(5) NOT NULL default \'\',
-            `auteur` text NOT NULL,
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($calendarTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update

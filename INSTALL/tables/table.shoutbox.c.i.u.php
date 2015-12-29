@@ -13,6 +13,22 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_shoutbox');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$shoutboxTableCfg = array(
+    'fields' => array(
+        'id'     => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'auteur' => array('type' => 'text',        'null' => true),
+        'ip'     => array('type' => 'varchar(40)', 'null' => false, 'default' => '\'\''),
+        'texte'  => array('type' => 'text',        'null' => true),
+        'date'   => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,18 +71,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_shoutbox` (
-            `id` int(11) NOT NULL auto_increment,
-            `auteur` text,
-            `ip` varchar(40) NOT NULL default \'\',
-            `texte` text,
-            `date` varchar(30) NOT NULL default \'\',
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($shoutboxTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -75,7 +81,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.7.14
     if ($dbTable->getFieldType('ip') == 'varchar(20)')
-        $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+        $dbTable->modifyField('ip', $shoutboxTableCfg['fields']['ip']);
 
     $dbTable->alterTable();
 

@@ -13,6 +13,21 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_news_cat');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$newsCatTableCfg = array(
+    'fields' => array(
+        'id'          => array('type' => 'int(11)', 'null' => false, 'autoIncrement' => true),
+        'titre'       => array('type' => 'text',    'null' => true),
+        'description' => array('type' => 'text',    'null' => true),
+        'image'       => array('type' => 'text',    'null' => true)
+    ),
+    'primaryKey' => array('nid'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,15 +55,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_news_cat` (
-            `nid` int(11) NOT NULL auto_increment,
-            `titre` text,
-            `description` text,
-            `image` text,
-            PRIMARY KEY  (`nid`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($newsCatTableCfg);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_news_cat` VALUES
         (\'1\', \'Counter Strike Source\', \''. $this->_db->quote($this->_i18n['BEST_MOD']) .'\', \'modules/News/images/cs.gif\');';

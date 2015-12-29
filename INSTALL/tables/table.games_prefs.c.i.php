@@ -13,6 +13,25 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_games_prefs');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$gamesPrefsTableCfg = array(
+    'fields' => array(
+        'id'      => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'name'    => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'user_id' => array('type' => 'varchar(20)', 'null' => false, 'default' => '\'\''),
+        'pref_1'  => array('type' => 'text',        'null' => false),
+        'pref_2'  => array('type' => 'text',        'null' => false),
+        'pref_3'  => array('type' => 'text',        'null' => false),
+        'pref_4'  => array('type' => 'text',        'null' => false),
+        'pref_5'  => array('type' => 'text',        'null' => false),
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,20 +58,7 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_games_prefs` (
-            `id` int(11) NOT NULL auto_increment,
-            `game` int(11) NOT NULL default \'0\',
-            `user_id` varchar(20) NOT NULL default \'\',
-            `pref_1` text NOT NULL,
-            `pref_2` text NOT NULL,
-            `pref_3` text NOT NULL,
-            `pref_4` text NOT NULL,
-            `pref_5` text NOT NULL,
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($gamesPrefsTableCfg);
 
 ?>

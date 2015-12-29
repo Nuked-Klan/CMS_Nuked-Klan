@@ -13,6 +13,30 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_gallery');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$galleryTableCfg = array(
+    'fields' => array(
+        'sid'         => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'titre'       => array('type' => 'text',         'null' => false),
+        'description' => array('type' => 'text',         'null' => false),
+        'url'         => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'url2'        => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'url_file'    => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'cat'         => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'date'        => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\''),
+        'count'       => array('type' => 'int(10)',      'null' => false, 'default' => '\'0\''),
+        'autor'       => array('type' => 'text',         'null' => false)
+    ),
+    'primaryKey' => array('sid'),
+    'index' => array(
+        'cat' => 'cat'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,24 +79,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_gallery` (
-            `sid` int(11) NOT NULL auto_increment,
-            `titre` text NOT NULL,
-            `description` text NOT NULL,
-            `url` varchar(200) NOT NULL default \'\',
-            `url2` varchar(200) NOT NULL default \'\',
-            `url_file` varchar(200) NOT NULL default \'\',
-            `cat` int(11) NOT NULL default \'0\',
-            `date` varchar(12) NOT NULL default \'\',
-            `count` int(10) NOT NULL default \'0\',
-            `autor` text NOT NULL,
-            PRIMARY KEY  (`sid`),
-            KEY `cat` (`cat`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($galleryTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update

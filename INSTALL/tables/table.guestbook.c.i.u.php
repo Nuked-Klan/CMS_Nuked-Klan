@@ -13,6 +13,24 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_guestbook');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$guestbookTableCfg = array(
+    'fields' => array(
+        'id'      => array('type' => 'int(9)',      'null' => false, 'autoIncrement' => true),
+        'name'    => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'email'   => array('type' => 'varchar(60)', 'null' => false, 'default' => '\'\''),
+        'url'     => array('type' => 'varchar(70)', 'null' => false, 'default' => '\'\''),
+        'date'    => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'host'    => array('type' => 'varchar(60)', 'null' => false, 'default' => '\'\''),
+        'comment' => array('type' => 'text',        'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,20 +73,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_guestbook` (
-            `id` int(9) NOT NULL auto_increment,
-            `name` varchar(50) NOT NULL default \'\',
-            `email` varchar(60) NOT NULL default \'\',
-            `url` varchar(70) NOT NULL default \'\',
-            `date` int(11) NOT NULL default \'0\',
-            `host` varchar(60) NOT NULL default \'\',
-            `comment` text NOT NULL,
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($guestbookTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update

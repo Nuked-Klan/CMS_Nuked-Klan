@@ -13,6 +13,28 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_userbox');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$userboxTableCfg = array(
+    'fields' => array(
+        'mid'       => array('type' => 'int(50)',     'null' => false, 'autoIncrement' => true),
+        'user_from' => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
+        'user_for'  => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
+        'titre'     => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'message'   => array('type' => 'text',        'null' => false),
+        'date'      => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
+        'status'    => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('mid'),
+    'index' => array(
+        'user_from' => 'user_from',
+        'user_for'  => 'user_for'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,22 +77,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_userbox` (
-            `mid` int(50) NOT NULL auto_increment,
-            `user_from` varchar(30) NOT NULL default \'\',
-            `user_for` varchar(30) NOT NULL default \'\',
-            `titre` varchar(50) NOT NULL default \'\',
-            `message` text NOT NULL,
-            `date` varchar(30) NOT NULL default \'\',
-            `status` int(1) NOT NULL default \'0\',
-            PRIMARY KEY  (`mid`),
-            KEY `user_from` (`user_from`),
-            KEY `user_for` (`user_for`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($userboxTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update

@@ -13,6 +13,39 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_users_detail');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$usersDetailTableCfg = array(
+    'fields' => array(
+        'user_id'     => array('type' => 'varchar(20)',  'null' => false, 'default' => '\'0\''),
+        'prenom'      => array('type' => 'text',         'null' => true),
+        'age'         => array('type' => 'varchar(10)',  'null' => false, 'default' => '\'\''),
+        'sexe'        => array('type' => 'varchar(20)',  'null' => false, 'default' => '\'\''),
+        'ville'       => array('type' => 'text',         'null' => true),
+        'photo'       => array('type' => 'varchar(150)', 'null' => false, 'default' => '\'\''),
+        'motherboard' => array('type' => 'text',         'null' => true),
+        'cpu'         => array('type' => 'varchar(50)',  'null' => true,  'default' => 'NULL'),
+        'ram'         => array('type' => 'varchar(10)',  'null' => false, 'default' => '\'\''),
+        'video'       => array('type' => 'text',         'null' => true),
+        'resolution'  => array('type' => 'text',         'null' => true),
+        'son'         => array('type' => 'text',         'null' => true),
+        'ecran'       => array('type' => 'text',         'null' => true),
+        'souris'      => array('type' => 'text',         'null' => true),
+        'clavier'     => array('type' => 'text',         'null' => true),
+        'connexion'   => array('type' => 'text',         'null' => true),
+        'system'      => array('type' => 'text',         'null' => true),
+        'pref_1'      => array('type' => 'text',         'null' => false),
+        'pref_2'      => array('type' => 'text',         'null' => false),
+        'pref_3'      => array('type' => 'text',         'null' => false),
+        'pref_4'      => array('type' => 'text',         'null' => false),
+        'pref_5'      => array('type' => 'text',         'null' => false)
+    ),
+    'primaryKey' => array('user_id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,34 +72,7 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_users_detail` (
-            `user_id` varchar(20) NOT NULL default \'0\',
-            `prenom` text,
-            `age` varchar(10) NOT NULL default \'\',
-            `sexe` varchar(20) NOT NULL default \'\',
-            `ville` text,
-            `photo` varchar(150) NOT NULL default \'\',
-            `motherboard` text,
-            `cpu` varchar(50) default NULL,
-            `ram` varchar(10) NOT NULL default \'\',
-            `video` text,
-            `resolution` text,
-            `son` text,
-            `ecran` text,
-            `souris` text,
-            `clavier` text,
-            `connexion` text,
-            `system` text,
-            `pref_1` text NOT NULL,
-            `pref_2` text NOT NULL,
-            `pref_3` text NOT NULL,
-            `pref_4` text NOT NULL,
-            `pref_5` text NOT NULL,
-            PRIMARY KEY  (`user_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($usersDetailTableCfg);
 
 ?>

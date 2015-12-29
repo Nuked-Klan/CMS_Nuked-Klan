@@ -13,6 +13,20 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_serveur_cat');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$serverCatTableCfg = array(
+    'fields' => array(
+        'cid'         => array('type' => 'int(30)',     'null' => false, 'autoIncrement' => true),
+        'titre'       => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
+        'description' => array('type' => 'text',        'null' => false)
+    ),
+    'primaryKey' => array('cid'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,16 +69,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_serveur_cat` (
-            `cid` int(30) NOT NULL auto_increment,
-            `titre` varchar(30) NOT NULL default \'\',
-            `description` text NOT NULL,
-            PRIMARY KEY  (`cid`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($serverCatTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update

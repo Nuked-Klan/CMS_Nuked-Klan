@@ -13,6 +13,23 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_sondage_check');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$surveyCheckTableCfg = array(
+    'fields' => array(
+        'ip'          => array('type' => 'varchar(40)', 'null' => false, 'default' => '\'\''),
+        'pseudo'      => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'heurelimite' => array('type' => 'int(14)',     'null' => false, 'default' => '\'0\''),
+        'sid'         => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\'')
+    ),
+    'index' => array(
+        'sid' => 'sid'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,17 +56,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_sondage_check` (
-            `ip` varchar(40) NOT NULL default \'\',
-            `pseudo` varchar(50) NOT NULL default \'\',
-            `heurelimite` int(14) NOT NULL default \'0\',
-            `sid` varchar(30) NOT NULL default \'\',
-            KEY `sid` (`sid`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($surveyCheckTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -58,7 +66,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
-        $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+        $dbTable->modifyField('ip', $surveyCheckTableCfg['fields']['ip']);
 
     $dbTable->alterTable();
 }

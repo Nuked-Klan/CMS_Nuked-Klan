@@ -13,6 +13,27 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_serveur');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$serverTableCfg = array(
+    'fields' => array(
+        'sid'  => array('type' => 'int(30)',     'null' => false, 'autoIncrement' => true),
+        'game' => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
+        'ip'   => array('type' => 'varchar(40)', 'null' => false, 'default' => '\'\''),
+        'port' => array('type' => 'varchar(10)', 'null' => false, 'default' => '\'\''),
+        'pass' => array('type' => 'varchar(10)', 'null' => false, 'default' => '\'\''),
+        'cat'  => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('sid'),
+    'index' => array(
+        'game'  => 'game',
+        'cat'   => 'cat'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,21 +60,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_serveur` (
-            `sid` int(30) NOT NULL auto_increment,
-            `game` varchar(30) NOT NULL default \'\',
-            `ip` varchar(40) NOT NULL default \'\',
-            `port` varchar(10) NOT NULL default \'\',
-            `pass` varchar(10) NOT NULL default \'\',
-            `cat` varchar(30) NOT NULL default \'\',
-            PRIMARY KEY  (`sid`),
-            KEY `game` (`game`),
-            KEY `cat` (`cat`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($serverTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -62,7 +70,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
-        $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+        $dbTable->modifyField('ip', $serverTableCfg['fields']['ip']);
 
     $dbTable->alterTable();
 }

@@ -13,6 +13,22 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_forums_cat');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$forumCatTableCfg = array(
+    'fields' => array(
+        'id'     => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'nom'    => array('type' => 'varchar(100)', 'default' => 'NULL'),
+        'image'  => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'ordre'  => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\''),
+        'niveau' => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,16 +56,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_forums_cat` (
-            `id` int(11) NOT NULL auto_increment,
-            `nom` varchar(100) default NULL,
-            `image` varchar(200) NOT NULL default \'\',
-            `ordre` int(5) NOT NULL default \'0\',
-            `niveau` int(1) NOT NULL default \'0\',
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($forumCatTableCfg);
 
     $sql='INSERT INTO `'. $this->_session['db_prefix'] .'_forums_cat` VALUES
         (1, \''. $this->_db->quote($this->_i18n['CATEGORY']) .' 1\', \'\', 0, 0);';
@@ -64,7 +71,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.8
     if (! $dbTable->fieldExist('image'))
-        $dbTable->addField('image', array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''));
+        $dbTable->addField('image', $forumCatTableCfg['fields']['image']);
 
     $dbTable->alterTable();
 }

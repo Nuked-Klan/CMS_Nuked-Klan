@@ -13,6 +13,23 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_forums_poll');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$forumPollTableCfg = array(
+    'fields' => array(
+        'id'        => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'thread_id' => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'title'     => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'thread_id' => 'thread_id'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,17 +56,9 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_forums_poll` (
-            `id` int(11) NOT NULL auto_increment,
-            `thread_id` int(11) NOT NULL default \'0\',
-            `title` varchar(255) NOT NULL default \'\',
-            PRIMARY KEY  (`id`),
-            KEY `thread_id` (`thread_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
+if ($process == 'install')
+    $dbTable->createTable($forumPollTableCfg);
 
-    $dbTable->createTable($sql);
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -58,7 +67,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.8
     if ($dbTable->fieldExist('titre'))
-        $dbTable->modifyField('title', array('newField' => 'title', 'type' => 'VARCHAR(255)', 'null' => false));
+        $dbTable->modifyField('titre', array_merge(array('newField' => 'title'), $forumPollTableCfg['fields']['title']));
 
     $dbTable->alterTable();
 }

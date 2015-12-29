@@ -30,7 +30,7 @@ $newsTableCfg = array(
         'bbcodeoff' => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
         'smileyoff' => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\'')
     ),
-    'primaryKey' => 'id',
+    'primaryKey' => array('id'),
     'index' => array(
         'cat'       => 'cat',
         'auteur'    => 'auteur',

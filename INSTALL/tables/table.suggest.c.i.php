@@ -13,6 +13,25 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_suggest');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$suggestTableCfg = array(
+    'fields' => array(
+        'id'          => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'module'      => array('type' => 'mediumtext',  'null' => false),
+        'user_id'     => array('type' => 'varchar(20)', 'null' => false, 'default' => '\'\''),
+        'proposition' => array('type' => 'longtext',    'null' => false),
+        'date'        => array('type' => 'varchar(14)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'user_id' => 'user_id'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,18 +58,7 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_suggest` (
-            `id` int(11) NOT NULL auto_increment,
-            `module` mediumtext NOT NULL,
-            `user_id` varchar(20) NOT NULL default \'\',
-            `proposition` longtext NOT NULL,
-            `date` varchar(14) NOT NULL default \'\',
-            PRIMARY KEY  (`id`),
-            KEY `user_id` (`user_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($suggestTableCfg);
 
 ?>

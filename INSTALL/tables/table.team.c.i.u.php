@@ -13,6 +13,24 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_team');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$teamTableCfg = array(
+    'fields' => array(
+        'cid'   => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'titre' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'tag'   => array('type' => 'text',         'null' => false),
+        'tag2'  => array('type' => 'text',         'null' => false),
+        'image' => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'ordre' => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\''),
+        'game'  => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('cid'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,20 +57,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_team` (
-            `cid` int(11) NOT NULL auto_increment,
-            `titre` varchar(50) NOT NULL default \'\',
-            `tag` text NOT NULL,
-            `tag2` text NOT NULL,
-            `image` varchar(255) NOT NULL default \'\',
-            `ordre` int(5) NOT NULL default \'0\',
-            `game` int(11) NOT NULL default \'0\',
-            PRIMARY KEY  (`cid`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($teamTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -60,9 +66,8 @@ if ($process == 'install') {
 
 if ($process == 'update') {
     // install / update 1.8
-    if (! $dbTable->fieldExist('image')) {
-        $dbTable->addField('image', array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''));
-    }
+    if (! $dbTable->fieldExist('image'))
+        $dbTable->addField('image', $teamTableCfg['fields']['image']);
 
     $dbTable->alterTable();
 }

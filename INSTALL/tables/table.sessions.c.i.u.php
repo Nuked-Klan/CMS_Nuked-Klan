@@ -13,6 +13,26 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_sessions');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$sessionsTableCfg = array(
+    'fields' => array(
+        'id'        => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'0\''),
+        'user_id'   => array('type' => 'varchar(20)', 'null' => false, 'default' => '\'0\''),
+        'date'      => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
+        'last_used' => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
+        'ip'        => array('type' => 'varchar(40)', 'null' => false, 'default' => '\'\''),
+        'vars'      => array('type' => 'blob',        'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'user_id' => 'user_id'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,20 +59,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_sessions` (
-            `id` varchar(50) NOT NULL default \'0\',
-            `user_id` varchar(20) NOT NULL default \'0\',
-            `date` varchar(30) NOT NULL default \'\',
-            `last_used` varchar(30) NOT NULL default \'\',
-            `ip` varchar(40) NOT NULL default \'\',
-            `vars` blob NOT NULL,
-            PRIMARY KEY  (`id`),
-            KEY `user_id` (`user_id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($sessionsTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -61,7 +69,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
-        $dbTable->modifyField('ip', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+        $dbTable->modifyField('ip', $sessionsTableCfg['fields']['ip']);
 
     $dbTable->alterTable();
 }

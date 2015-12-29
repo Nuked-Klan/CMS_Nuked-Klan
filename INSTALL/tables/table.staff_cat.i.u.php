@@ -13,6 +13,24 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_staff_cat');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$staffCatTableCfg = array(
+    'fields' => array(
+        'sid'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'nom'      => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'img'      => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'coverage' => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'ordre'    => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\''),
+        'tag'      => array('type' => 'text',         'null' => false),
+        'tag2'     => array('type' => 'text',         'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,19 +49,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // install / update 1.8
-if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_staff_cat` (
-        `id` int(11) NOT NULL auto_increment,
-        `nom` varchar(255) NOT NULL default \'\',
-        `img` varchar(255) NOT NULL default \'\',
-        `coverage` varchar(255) NOT NULL default \'\',
-        `ordre` int(5) NOT NULL default \'0\',
-        `tag` text NOT NULL,
-        `tag2` text NOT NULL,
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
+    $dbTable->createTable($staffCatTableCfg);
 
 ?>

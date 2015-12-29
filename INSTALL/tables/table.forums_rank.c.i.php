@@ -13,6 +13,22 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_forums_rank');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$forumRankTableCfg = array(
+    'fields' => array(
+        'id'    => array('type' => 'int(10)',      'null' => false, 'autoIncrement' => true),
+        'nom'   => array('type' => 'varchar(100)', 'null' => false, 'default' => '\'\''),
+        'type'  => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
+        'post'  => array('type' => 'int(4)',       'null' => false, 'default' => '\'0\''),
+        'image' => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,16 +56,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_forums_rank` (
-            `id` int(10) NOT NULL auto_increment,
-            `nom` varchar(100) NOT NULL default \'\',
-            `type` int(1) NOT NULL default \'0\',
-            `post` int(4) NOT NULL default \'0\',
-            `image` varchar(200) NOT NULL default \'\',
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($forumRankTableCfg);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_forums_rank` VALUES
         (1, \''. $this->_db->quote($this->_i18n['NEWBIE']) .'\', 0, 0, \'modules/Forum/images/rank/star1.png\'),

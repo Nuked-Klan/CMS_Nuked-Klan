@@ -13,6 +13,23 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_staff');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$staffTableCfg = array(
+    'fields' => array(
+        'id'           => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'membre_id'    => array('type' => 'varchar(20)', 'null' => false, 'default' => '\'\''),
+        'categorie_id' => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'date'         => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'status_id'    => array('type' => 'varchar(25)', 'null' => false, 'default' => '\'\''),
+        'rang_id'      => array('type' => 'varchar(25)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,18 +48,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // install / update 1.8
-if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_staff` (
-        `id` int(11) NOT NULL auto_increment,
-        `membre_id` varchar(20) NOT NULL default \'\',
-        `categorie_id` int(11) NOT NULL default \'0\',
-        `date` int(11) NOT NULL default \'0\',
-        `status_id` varchar(25) NOT NULL default \'\',
-        `rang_id` varchar(25) NOT NULL default \'\',
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
+    $dbTable->createTable($staffTableCfg);
 
 ?>

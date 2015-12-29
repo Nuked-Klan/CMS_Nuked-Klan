@@ -13,6 +13,20 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_comment_mod');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$commentModTableCfg = array(
+    'fields' => array(
+        'id'     => array('type' => 'int(11)', 'null' => false, 'autoIncrement' => true),
+        'module' => array('type' => 'text',    'null' => false),
+        'active' => array('type' => 'int(1)',  'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,14 +46,7 @@ if ($process == 'drop')
 
 // install / update 1.7.9 RC1
 if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_comment_mod` (
-            `id` int(11) NOT NULL auto_increment,
-            `module` text NOT NULL,
-            `active` int(1) NOT NULL,
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($commentModTableCfg);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_comment_mod` VALUES
         (1, \'news\', 1),

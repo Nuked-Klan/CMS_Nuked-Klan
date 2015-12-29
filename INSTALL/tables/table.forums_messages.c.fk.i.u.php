@@ -35,7 +35,7 @@ $forumMsgTableCfg = array(
         'forum_id'    => array('type' => 'mediumint(10)', 'null' => false, 'default' => '\'0\''),
         'file'        => array('type' => 'varchar(200)',  'null' => false, 'default' => '\'\'')
     ),
-    'primaryKey' => 'id',
+    'primaryKey' => array('id'),
     'index' => array(
         'auteur'    => 'auteur',
         'auteur_id' => 'auteur_id',

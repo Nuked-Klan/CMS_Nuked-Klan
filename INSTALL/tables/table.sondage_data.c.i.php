@@ -13,6 +13,23 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_sondage_data');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$surveyDataTableCfg = array(
+    'fields' => array(
+        'sid'         => array('type' => 'int(11)',  'null' => false, 'default' => '\'0\''),
+        'optionText'  => array('type' => 'char(50)', 'null' => false, 'default' => '\'\''),
+        'optionCount' => array('type' => 'int(11)',  'null' => false, 'default' => '\'0\''),
+        'voteID'      => array('type' => 'int(11)',  'null' => false, 'default' => '\'0\'')
+    ),
+    'index' => array(
+        'sid' => 'sid'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,15 +57,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_sondage_data` (
-            `sid` int(11) NOT NULL default \'0\',
-            `optionText` char(50) NOT NULL default \'\',
-            `optionCount` int(11) NOT NULL default \'0\',
-            `voteID` int(11) NOT NULL default \'0\',
-            KEY `sid` (`sid`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($surveyDataTableCfg);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_sondage_data` VALUES
         (1, \''. $this->_db->quote($this->_i18n['ROXX']) .'\', 0, 1),

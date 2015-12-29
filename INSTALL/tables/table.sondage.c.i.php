@@ -13,6 +13,21 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_sondage');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$surveyTableCfg = array(
+    'fields' => array(
+        'sid'    => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'titre'  => array('type' => 'varchar(100)', 'null' => false, 'default' => '\'\''),
+        'date'   => array('type' => 'varchar(15)',  'null' => false, 'default' => '\'0\''),
+        'niveau' => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('sid'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,15 +55,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_sondage` (
-            `sid` int(11) NOT NULL auto_increment,
-            `titre` varchar(100) NOT NULL default \'\',
-            `date` varchar(15) NOT NULL default \'0\',
-            `niveau` int(1) NOT NULL default \'0\',
-            PRIMARY KEY  (`sid`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($surveyTableCfg);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_sondage` VALUES
         (1, \''. $this->_db->quote($this->_i18n['LIKE_NK']) .'\', \''. time() .'\', 0);';

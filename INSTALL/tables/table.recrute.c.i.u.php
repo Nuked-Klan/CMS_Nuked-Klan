@@ -13,6 +13,33 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_recrute');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$recruitTableCfg = array(
+    'fields' => array(
+        'id'         => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'date'       => array('type' => 'varchar(12)', 'null' => false, 'default' => '\'\''),
+        'pseudo'     => array('type' => 'text',        'null' => false),
+        'prenom'     => array('type' => 'text',        'null' => false),
+        'age'        => array('type' => 'int(3)',      'null' => false, 'default' => '\'0\''),
+        'mail'       => array('type' => 'varchar(80)', 'null' => false, 'default' => '\'\''),
+        'icq'        => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'country'    => array('type' => 'text',        'null' => false),
+        'game'       => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'connection' => array('type' => 'text',        'null' => false),
+        'experience' => array('type' => 'text',        'null' => false),
+        'dispo'      => array('type' => 'text',        'null' => false),
+        'comment'    => array('type' => 'text',        'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'game' => 'game'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,27 +82,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_recrute` (
-            `id` int(11) NOT NULL auto_increment,
-            `date` varchar(12) NOT NULL default \'\',
-            `pseudo` text NOT NULL,
-            `prenom` text NOT NULL,
-            `age` int(3) NOT NULL default \'0\',
-            `mail` varchar(80) NOT NULL default \'\',
-            `icq` varchar(50) NOT NULL default \'\',
-            `country` text NOT NULL,
-            `game` int(11) NOT NULL default \'0\',
-            `connection` text NOT NULL,
-            `experience` text NOT NULL,
-            `dispo` text NOT NULL,
-            `comment` text NOT NULL,
-            PRIMARY KEY  (`id`),
-            KEY `game` (`game`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($recruitTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update

@@ -13,6 +13,22 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_nbconnecte');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$nbConnectTableCfg = array(
+    'fields' => array(
+        'IP'       => array('type' => 'varchar(40)', 'null' => false, 'default' => '\'\''),
+        'type'     => array('type' => 'int(10)',     'null' => false, 'default' => '\'0\''),
+        'date'     => array('type' => 'int(14)',     'null' => false, 'default' => '\'0\''),
+        'user_id'  => array('type' => 'varchar(20)', 'null' => false, 'default' => '\'\''),
+        'username' => array('type' => 'varchar(40)', 'null' => false, 'default' => '\'\'')
+    ),
+    'primaryKey' => array('IP', 'user_id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,16 +56,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_nbconnecte` (
-            `IP` varchar(40) NOT NULL default \'\',
-            `type` int(10) NOT NULL default \'0\',
-            `date` int(14) NOT NULL default \'0\',
-            `user_id` varchar(20) NOT NULL default \'\',
-            `username` varchar(40) NOT NULL default \'\',
-            PRIMARY KEY  ( `IP` , `user_id` )
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($nbConnectTableCfg);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +66,7 @@ if ($process == 'install') {
 if ($process == 'update') {
     // update 1.7.9 RC6
     if ($dbTable->getFieldType('IP') != 'varchar(40)')
-        $dbTable->modifyField('IP', array('type' => 'VARCHAR(40)', 'null' => false, 'default' => '\'\''));
+        $dbTable->modifyField('IP', $nbConnectTableCfg['fields']['IP']);
 
     $dbTable->alterTable();
 }

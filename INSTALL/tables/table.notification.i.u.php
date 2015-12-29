@@ -13,6 +13,21 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_notification');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$notificationTableCfg = array(
+    'fields' => array(
+        'id'    => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'date'  => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'0\''),
+        'type'  => array('type' => 'text',        'null' => false),
+        'texte' => array('type' => 'text',        'null' => false)
+    ),
+    'primaryKey' => array('id'),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,15 +47,7 @@ if ($process == 'drop')
 
 // install / update 1.7.9 RC1
 if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_notification` (
-            `id` int(11) NOT NULL auto_increment,
-            `date` varchar(30) NOT NULL default \'0\',
-            `type`  text NOT NULL,
-            `texte`  text NOT NULL,
-            PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($notificationTableCfg);
 
     if (ini_get('suhosin.session.encrypt') == 1) {
         $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_notification` VALUES

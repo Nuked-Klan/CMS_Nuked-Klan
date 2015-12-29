@@ -12,12 +12,45 @@
 
 $dbTable->setTable($this->_session['db_prefix'] .'_forums');
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$forumTableCfg = array(
+    'fields' => array(
+        'id'          => array('type' => 'int(5)',       'null' => false, 'autoIncrement' => true),
+        'cat'         => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'parentid'    => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'nom'         => array('type' => 'text',         'null' => false),
+        'comment'     => array('type' => 'text',         'null' => false),
+        'moderateurs' => array('type' => 'text',         'null' => false),
+        'image'       => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'niveau'      => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
+        'level'       => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
+        'ordre'       => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\''),
+        'level_poll'  => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
+        'level_vote'  => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
+        'nbTopics'    => array('type' => 'int(10)',      'null' => false, 'default' => '\'0\''),
+        'nbMessages'  => array('type' => 'int(10)',      'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'cat' => 'cat'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table function
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /*
  * Callback function for update row of _forums database table
  */
 function updateForumsRow($updateList, $row, $vars) {
     $setFields = array();
 
+    // TODO : Really ?
     if (in_array('REMOVE_EDITOR', $updateList))
         $setFields['comment'] = str_replace(array('<p>', '</p>'), '', $row['comment']);
 
@@ -75,26 +108,7 @@ if ($process == 'drop')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_forums` (
-            `id` int(5) NOT NULL auto_increment,
-            `cat` int(11) NOT NULL default \'0\',
-            `parentid` int(11) NOT NULL default \'0\',
-            `nom` text NOT NULL,
-            `comment` text NOT NULL,
-            `moderateurs` text NOT NULL,
-            `image` varchar(200) NOT NULL default \'\',
-            `niveau` int(1) NOT NULL default \'0\',
-            `level` int(1) NOT NULL default \'0\',
-            `ordre` int(5) NOT NULL default \'0\',
-            `level_poll` int(1) NOT NULL default \'0\',
-            `level_vote` int(1) NOT NULL default \'0\',
-            `nbTopics` int(10) NOT NULL default \'0\',
-            `nbMessages` int(10) NOT NULL default \'0\',
-            PRIMARY KEY  (`id`),
-            KEY `cat` (`cat`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
+    $dbTable->createTable($forumTableCfg);
 
     $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_forums` VALUES
         (1, 1, 0, \''. $this->_db->quote($this->_i18n['FORUM']) .'\', \''. $this->_db->quote($this->_i18n['TEST_FORUM']) .'\', \'\', \'\', 0, 0, 0, 1 ,1, 0, 0);';
@@ -109,19 +123,19 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.8
     if (! $dbTable->fieldExist('parentid'))
-        $dbTable->addField('parentid', array('type' => 'INT(11)', 'null' => false, 'default' => '\'0\''));
+        $dbTable->addField('parentid', $forumTableCfg['fields']['parentid']);
 
     if (! $dbTable->fieldExist('image'))
-        $dbTable->addField('image', array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''));
+        $dbTable->addField('image', $forumTableCfg['fields']['image']);
 
     if (! $dbTable->fieldExist('nbTopics')) {
-        $dbTable->addField('nbTopics', array('type' => 'int(10)', 'null' => false, 'default' => '\'0\''));
+        $dbTable->addField('nbTopics', $forumTableCfg['fields']['nbTopics']);
         $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_NB_THREAD', 'nbTopics');
     }
 
     if (! $dbTable->fieldExist('nbMessages')) {
-        $dbTable->addField('nbMessages', array('type' => 'int(10)', 'null' => false, 'default' => '\'0\''));
+        $dbTable->addField('nbMessages', $forumTableCfg['fields']['nbMessages']);
         $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_NB_MESSAGE', 'nbMessages');
     }

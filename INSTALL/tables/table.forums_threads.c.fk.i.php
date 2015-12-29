@@ -31,7 +31,7 @@ $forumTopicsTableCfg = array(
         'sondage'   => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\''),
         'nbReplies' => array('type' => 'int(10)',     'null' => false, 'default' => '\'0\'')
     ),
-    'primaryKey' => 'id',
+    'primaryKey' => array('id'),
     'index' => array(
         'auteur'    => 'auteur',
         'auteur_id' => 'auteur_id',

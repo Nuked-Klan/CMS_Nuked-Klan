@@ -24,7 +24,7 @@ $discussionTableCfg = array(
         'authorId' => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
         'texte'    => array('type' => 'text',        'null' => false)
     ),
-    'primaryKey' => 'id',
+    'primaryKey' => array('id'),
     'index' => array(
         'author'   => 'author',
         'authorId' => 'authorId'
@@ -85,7 +85,7 @@ function addAuthorForeignKey($dbTable, $dbPrefix) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'checkIntegrity' && $dbTable->tableExist())
-    $dbTable->checkIntegrity('id', ('pseudo', null), 'texte');
+    $dbTable->checkIntegrity('id', array('pseudo', null), 'texte');
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,26 @@
 $dbTable->setTable($this->_session['db_prefix'] .'_downloads_cat');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table configuration
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+$downloadCatTableCfg = array(
+    'fields' => array(
+        'cid'         => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'parentid'    => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'titre'       => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'description' => array('type' => 'text',        'null' => false),
+        'level'       => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\''),
+        'position'    => array('type' => 'int(2)',      'unsigned' => true, 'null' => false, 'default' => '\'0\'')
+    ),
+    'primaryKey' => array('cid'),
+    'index' => array(
+        'parentid' => 'parentid'
+    ),
+    'engine' => 'MyISAM'
+);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table function
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,20 +75,8 @@ if ($process == 'drop')
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install') {
-    $sql = 'CREATE TABLE `'. $this->_session['db_prefix'] .'_downloads_cat` (
-            `cid` int(11) NOT NULL auto_increment,
-            `parentid` int(11) NOT NULL default \'0\',
-            `titre` varchar(50) NOT NULL default \'\',
-            `description` text NOT NULL,
-            `level` int(1) NOT NULL default \'0\',
-            `position` int(2) unsigned NOT NULL default \'0\',
-            PRIMARY KEY  (`cid`),
-            KEY `parentid` (`parentid`)
-        ) ENGINE=MyISAM DEFAULT CHARSET='. db::CHARSET .' COLLATE='. db::COLLATION .';';
-
-    $dbTable->createTable($sql);
-}
+if ($process == 'install')
+    $dbTable->createTable($downloadCatTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
