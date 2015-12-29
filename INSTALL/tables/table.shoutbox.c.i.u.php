@@ -80,10 +80,8 @@ if ($process == 'install')
 
 if ($process == 'update') {
     // install / update 1.7.14
-    if ($dbTable->getFieldType('ip') == 'varchar(20)')
+    if ($dbTable->fieldExist('ip') && $dbTable->getFieldType('ip') == 'varchar(20)')
         $dbTable->modifyField('ip', $shoutboxTableCfg['fields']['ip']);
-
-    $dbTable->alterTable();
 
     // Update BBcode
     // update 1.7.9 RC1

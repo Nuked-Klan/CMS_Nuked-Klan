@@ -123,15 +123,15 @@ if ($process == 'addForeignKey') {
 
 if ($process == 'update') {
     if ($dbTable->fieldExist('pseudo') && $dbTable->getFieldType('pseudo') == 'text') {
-        $dbTable->modifyField('pseudo', array_merge(array('newField' => 'authorId'), $actionTableCfg['fields']['authorId']));
-        $dbTable->addFieldIndex('authorId');
-        $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
+        $dbTable->modifyField('pseudo', array_merge(array('newField' => 'authorId'), $actionTableCfg['fields']['authorId']))
+            ->addFieldIndex('authorId')
+            ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_AUTHOR', 'authorId');
     }
 
     if (! $dbTable->fieldExist('author')) {
-        $dbTable->addField('author', $actionTableCfg['fields']['author']);
-        $dbTable->addFieldIndex('author');
+        $dbTable->addField('author', $actionTableCfg['fields']['author'])
+            ->addFieldIndex('author');
     }
 
     // TODO : Add them after update ?
@@ -140,8 +140,6 @@ if ($process == 'update') {
 
     if (! $dbTable->foreignKeyExist('FK_action_author'))
         addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
-
-    $dbTable->alterTable();
 
     $dbTable->applyUpdateFieldListToData('id', 'updateActionRow');
 }

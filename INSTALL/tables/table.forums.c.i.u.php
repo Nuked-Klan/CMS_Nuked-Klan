@@ -129,18 +129,16 @@ if ($process == 'update') {
         $dbTable->addField('image', $forumTableCfg['fields']['image']);
 
     if (! $dbTable->fieldExist('nbTopics')) {
-        $dbTable->addField('nbTopics', $forumTableCfg['fields']['nbTopics']);
-        $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
+        $dbTable->addField('nbTopics', $forumTableCfg['fields']['nbTopics'])
+            ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_NB_THREAD', 'nbTopics');
     }
 
     if (! $dbTable->fieldExist('nbMessages')) {
-        $dbTable->addField('nbMessages', $forumTableCfg['fields']['nbMessages']);
-        $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
+        $dbTable->addField('nbMessages', $forumTableCfg['fields']['nbMessages'])
+            ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_NB_MESSAGE', 'nbMessages');
     }
-
-    $dbTable->alterTable();
 
     // TODO : Version ???
     if (version_compare($this->_session['version'], '1.7.9', '='))

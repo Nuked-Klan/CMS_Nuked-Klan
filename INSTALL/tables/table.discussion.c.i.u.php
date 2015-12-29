@@ -133,9 +133,9 @@ if ($process == 'update') {
         return;
 
     if ($dbTable->fieldExist('pseudo') && $dbTable->getFieldType('pseudo') == 'text') {
-        $dbTable->modifyField('pseudo', array_merge(array('newField' => 'authorId'), $discussionTableCfg['fields']['authorId']));
-        $dbTable->addFieldIndex('authorId');
-        $dbTable->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
+        $dbTable->modifyField('pseudo', array_merge(array('newField' => 'authorId'), $discussionTableCfg['fields']['authorId']))
+            ->addFieldIndex('authorId')
+            ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_AUTHOR', 'authorId');
     }
 
@@ -150,8 +150,6 @@ if ($process == 'update') {
 
     if (! $dbTable->foreignKeyExist('FK_discussion_author'))
         addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
-
-    $dbTable->alterTable();
 
     // Update BBcode
     // update 1.7.9 RC3

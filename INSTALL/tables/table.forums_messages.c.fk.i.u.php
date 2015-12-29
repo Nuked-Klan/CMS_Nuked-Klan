@@ -127,7 +127,27 @@ if ($process == 'addForeignKey') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
+    // install / update 1.7.14
+    if ($dbTable->fieldExist('auteur_ip') && $dbTable->getFieldType('auteur_ip') != 'varchar(40)')
+        $dbTable->modifyField('auteur_ip', $forumMsgTableCfg['fields']['auteur_ip']);
+
     // install / update 1.8
+    if ($dbTable->fieldExist('auteur')) {
+        if ($dbTable->fieldExist('auteur') && $dbTable->getFieldType('auteur') != 'varchar(30)')
+            $dbTable->modifyField('auteur', $forumMsgTableCfg['fields']['auteur']);
+
+        if (! $dbTable->checkFieldIsIndex('auteur'))
+            $dbTable->addFieldIndex('auteur');
+    }
+
+    if ($dbTable->fieldExist('auteur_id')) {
+        if (! $dbTable->checkFieldIsNull('auteur_id'))
+            $dbTable->modifyField('auteur_id', $forumMsgTableCfg['fields']['auteur_id']);
+
+        if (! $dbTable->checkFieldIsIndex('auteur_id'))
+            $dbTable->addFieldIndex('auteur_id');
+    }
+
     if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_forums_messages'))
         $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_forums_messages` ENGINE=InnoDB;');
 
@@ -136,24 +156,6 @@ if ($process == 'update') {
 
     if (! $dbTable->foreignKeyExist('FK_forumMessages_author'))
         addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if ($dbTable->getFieldType('auteur') != 'varchar(30)')
-        $dbTable->modifyField('auteur', $forumMsgTableCfg['fields']['auteur']);
-
-    if (! $dbTable->checkFieldIsNull('auteur_id'))
-        $dbTable->modifyField('auteur_id', $forumMsgTableCfg['fields']['auteur_id']);
-
-    if (! $dbTable->checkFieldIsIndex('auteur'))
-        $dbTable->addFieldIndex('auteur');
-
-    if (! $dbTable->checkFieldIsIndex('auteur_id'))
-        $dbTable->addFieldIndex('auteur_id');
-
-    // install / update 1.7.14
-    if ($dbTable->getFieldType('auteur_ip') != 'varchar(40)')
-        $dbTable->modifyField('auteur_ip', $forumMsgTableCfg['fields']['auteur_ip']);
-
-    $dbTable->alterTable();
 
     // Update BBcode
     // update 1.7.9 RC1

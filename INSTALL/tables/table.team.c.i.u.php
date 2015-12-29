@@ -68,8 +68,6 @@ if ($process == 'update') {
     // install / update 1.8
     if (! $dbTable->fieldExist('image'))
         $dbTable->addField('image', $teamTableCfg['fields']['image']);
-
-    $dbTable->alterTable();
 }
 
 ?>

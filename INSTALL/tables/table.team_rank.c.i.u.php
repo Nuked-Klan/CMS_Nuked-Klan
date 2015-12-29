@@ -69,8 +69,6 @@ if ($process == 'update') {
 
     if (! $dbTable->fieldExist('couleur'))
         $dbTable->addField('couleur', $teamRankTableCfg['fields']['couleur']);
-
-    $dbTable->alterTable();
 }
 
 ?>

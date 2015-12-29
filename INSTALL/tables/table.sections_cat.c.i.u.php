@@ -88,7 +88,6 @@ if ($process == 'update') {
     if (! $dbTable->fieldExist('image'))
         $dbTable->addField('image', $articlesCatTableCfg['fields']['image']);
 
-    $dbTable->alterTable();
     // Update BBcode
     // update 1.7.9 RC1
     if (version_compare($this->_session['version'], '1.7.9', '<=')) {

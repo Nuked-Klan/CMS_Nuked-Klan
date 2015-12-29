@@ -123,15 +123,16 @@ if ($process == 'update') {
         $dbTable->addField('erreur', $usersTableCfg['fields']['erreur']);
 
     // install / update 1.7.9
-    if (! $dbTable->fieldExist('token'))
+    if (! $dbTable->fieldExist('token')) {
         $dbTable->addField('token', $usersTableCfg['fields']['token'])
-             ->addField('token_time', $usersTableCfg['fields']['token_time']);
+            ->addField('token_time', $usersTableCfg['fields']['token_time']);
+    }
 
     // install / update 1.8
     if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_users'))
         $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_users` ENGINE=InnoDB;');
 
-    if ($dbTable->getFieldType('pseudo') != 'varchar(30)')
+    if ($dbTable->fieldExist('pseudo') && $dbTable->getFieldType('pseudo') != 'varchar(30)')
         $dbTable->modifyField('pseudo', $usersTableCfg['fields']['pseudo']);
 
     if (! $dbTable->fieldExist('xfire'))
@@ -151,8 +152,6 @@ if ($process == 'update') {
 
     if (! $dbTable->fieldExist('skype'))
         $dbTable->addField('skype', $usersTableCfg['fields']['skype']);
-
-    $dbTable->alterTable();
 
     if (! isset($this->_session['updateUserPassword'])) {
         $sql = 'SELECT pass

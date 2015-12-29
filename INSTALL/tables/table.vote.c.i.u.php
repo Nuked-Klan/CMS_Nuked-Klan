@@ -67,10 +67,8 @@ if ($process == 'install')
 
 if ($process == 'update') {
     // install / update 1.7.14
-    if ($dbTable->getFieldType('ip') != 'varchar(40)')
+    if ($dbTable->fieldExist('ip') && $dbTable->getFieldType('ip') != 'varchar(40)')
         $dbTable->modifyField('ip', $voteTableCfg['fields']['ip']);
-
-    $dbTable->alterTable();
 }
 
 ?>

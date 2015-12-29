@@ -76,8 +76,6 @@ if ($process == 'update') {
     // install / update 1.7.14
     if ($dbTable->getFieldType('ip') != 'varchar(40)')
         $dbTable->modifyField('ip', $bannedTableCfg['fields']['ip']);
-
-    $dbTable->alterTable();
 }
 
 ?>

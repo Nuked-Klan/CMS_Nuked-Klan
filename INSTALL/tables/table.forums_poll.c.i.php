@@ -68,8 +68,6 @@ if ($process == 'update') {
     // install / update 1.8
     if ($dbTable->fieldExist('titre'))
         $dbTable->modifyField('titre', array_merge(array('newField' => 'title'), $forumPollTableCfg['fields']['title']));
-
-    $dbTable->alterTable();
 }
 
 ?>

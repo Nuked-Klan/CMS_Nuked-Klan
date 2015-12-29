@@ -65,14 +65,12 @@ if ($process == 'install')
 if ($process == 'update') {
     // install / update 1.7.14  => varchar(40)
     // install / update 1.8     => Rename to author_ip
-    if ($dbTable->getFieldType('auteur_ip') != 'varchar(40)' || $dbTable->fieldExist('auteur_ip'))
+    if ($dbTable->fieldExist('auteur_ip') && $dbTable->getFieldType('auteur_ip') != 'varchar(40)')
         $dbTable->modifyField('auteur_ip', array_merge(array('newField' => 'author_ip'), $forumVoteTableCfg['fields']['author_ip']));
 
     // install / update 1.8     => Rename to author_id
     if ($dbTable->fieldExist('auteur_id'))
         $dbTable->modifyField('auteur_id', array_merge(array('newField' => 'author_id'), $forumVoteTableCfg['fields']['author_id']));
-
-    $dbTable->alterTable();
 }
 
 ?>

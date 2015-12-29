@@ -28,34 +28,9 @@ class dbTable {
     private $_tableInfo = array();
 
     /*
-     * Set fields info to update after alter database table
-     */
-    private $_updateTableInfo = array();
-
-    /*
-     * Set fields info to drop after alter database table
-     */
-    private $_dropTableInfo = array();
-
-    /*
      * Set foreign key list of database table
      */
     private $_foreignKeyList = array();
-
-    /*
-     * Set foreign key to update after alter database table
-     */
-    private $_updateForeignKeyList = array();
-
-    /*
-     * List of modification list of database table
-     */
-    private $_alterTable = array();
-
-    /*
-     * List of new field create after alter table
-     */
-    private $_newFieldCreate = array();
 
     /*
      * List of field list for retrieve data in database table
@@ -128,6 +103,8 @@ class dbTable {
             $this->_init();
 
         $this->_table = $this->_session['currentTable'] = $table;
+
+        return $this;
     }
 
     /*
@@ -333,12 +310,10 @@ class dbTable {
         if (! isset($data['type']))
             throw new dbTableException(sprintf($this->_i18n['FIELD_TYPE_NO_FOUND'], $field));
 
-        if ($after != '') {
-            if (! in_array($after, $this->_newFieldCreate) && ! $this->fieldExist($after))
-                throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $after));
-        }
+        if ($after != '' && ! $this->fieldExist($after))
+            throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $after));
 
-        $sql = 'ADD `'. $field .'` '. $data['type'];
+        $sql = 'ALTER TABLE `'. $this->_table .'` ADD `'. $field .'` '. $data['type'];
 
         $null = true;
 
@@ -358,15 +333,19 @@ class dbTable {
         if ($after != '')
             $sql .= ' AFTER `'. $after .'`';
 
-        $this->_alterTable[]        = $sql;
-        $this->_actionList[]        = sprintf($this->_i18n['ADD_FIELD'], $field, $this->_table);
-        $this->_newFieldCreate[]    = $field;
+        $this->_db->execute($sql);
 
-        $this->_updateTableInfo[$field] = array(
+        $updateTableInfo = array();
+
+        $updateTableInfo[$field] = array(
             'type'      => $data['type'],
             'null'      => $null,
             'default'   => (isset($data['default'])) ? $data['default'] : ''
         );
+
+        $this->_tableInfo          = array_merge($this->_tableInfo, $updateTableInfo);
+        $this->_actionList[]       = sprintf($this->_i18n['ADD_FIELD'], $field, $this->_table);
+        $this->_jqueryAjaxResponse = 'UPDATED';
 
         return $this;
     }
@@ -384,7 +363,12 @@ class dbTable {
         if (! isset($data['newField']))
             $data['newField'] = $field;
 
-        $sql = 'CHANGE `'. $field .'` `'. $data['newField'] .'` '. $data['type'];
+        /*
+        if ($this->fieldExist($data['newField']))
+            throw new dbTableException(sprintf($this->_i18n['FIELD_EXIST'], $data['newField']));
+        */
+
+        $sql = 'ALTER TABLE `'. $this->_table .'` CHANGE `'. $field .'` `'. $data['newField'] .'` '. $data['type'];
 
         $null = true;
 
@@ -401,14 +385,19 @@ class dbTable {
         if (isset($data['default']) && $data['default'] != '')
             $sql .= ' DEFAULT '. $data['default'];
 
-        $this->_alterTable[] = $sql;
-        $this->_actionList[] = sprintf($this->_i18n['MODIFY_FIELD'], $field, $this->_table);
+        $this->_db->execute($sql);
 
-        $this->_updateTableInfo[$field] = array(
+        $updateTableInfo = array();
+
+        $updateTableInfo[$field] = array(
             'type'      => $data['type'],
             'null'      => $null,
             'default'   => (isset($data['default'])) ? $data['default'] : ''
         );
+
+        $this->_tableInfo          = array_merge($this->_tableInfo, $updateTableInfo);
+        $this->_actionList[]       = sprintf($this->_i18n['MODIFY_FIELD'], $field, $this->_table);// TODO : New field dedans ?
+        $this->_jqueryAjaxResponse = 'UPDATED';
 
         return $this;
     }
@@ -420,9 +409,12 @@ class dbTable {
         if (! $this->fieldExist($field))
             throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
 
-        $this->_alterTable[]    = 'DROP `'. $field .'`';
-        $this->_actionList[]    = sprintf($this->_i18n['DROP_FIELD'], $field, $this->_table);
-        $this->_dropTableInfo[] = $field;
+        $this->_db->execute('ALTER TABLE `'. $this->_table .'` DROP `'. $field .'`');
+
+        unset($this->_tableInfo[$field]);
+
+        $this->_actionList[]       = sprintf($this->_i18n['DROP_FIELD'], $field, $this->_table);
+        $this->_jqueryAjaxResponse = 'UPDATED';
 
         return $this;
     }
@@ -434,40 +426,17 @@ class dbTable {
         if (! $this->fieldExist($field))
             throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
 
-        $this->_alterTable[]    = 'ADD INDEX (`'. $field .'`)';
-        $this->_actionList[]    = sprintf($this->_i18n['ADD_FIELD_INDEX'], $field, $this->_table);
+        $this->_db->execute('ALTER TABLE `'. $this->_table .'` ADD INDEX (`'. $field .'`)');
 
-        $this->_updateTableInfo[$field] = array('index' => true);
+        $updateTableInfo = array();
+
+        $updateTableInfo[$field] = array('index' => true);
+
+        $this->_tableInfo          = array_merge($this->_tableInfo, $updateTableInfo);
+        $this->_actionList[]       = sprintf($this->_i18n['ADD_FIELD_INDEX'], $field, $this->_table);
+        $this->_jqueryAjaxResponse = 'UPDATED';
 
         return $this;
-    }
-
-    /*
-     * Apply modification to database table
-     */
-    public function alterTable() {
-        if (! empty($this->_alterTable)) {
-            $sql = 'ALTER TABLE `'. $this->_table .'` '
-                . implode(', ', $this->_alterTable);
-
-            $this->_db->execute($sql);
-
-            $this->_tableInfo = array_merge($this->_tableInfo, $this->_updateTableInfo);
-
-            foreach ($this->_dropTableInfo as $dropField)
-                unset($this->_tableInfo[$dropField]);
-
-            $this->_foreignKeyList = array_merge($this->_foreignKeyList, $this->_updateForeignKeyList);
-
-            $this->_alterTable
-                = $this->_updateTableInfo
-                = $this->_dropTableInfo
-                = $this->_foreignKeyList
-                = $this->_updateForeignKeyList = array();
-
-            if ($this->_jqueryAjaxResponse == 'NOTHING_TO_DO')
-                $this->_jqueryAjaxResponse = 'UPDATED';
-        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -481,10 +450,15 @@ class dbTable {
         if (empty($this->_foreignKeyList))
             $this->_readForeignKeyList();
 
-        return in_array($foreignKey, $this->_foreignKeyList);
+        return array_key_exists($foreignKey, $this->_foreignKeyList);
     }
 
     public function addForeignKey($symbol, $indexColName, $refTableName, $refIndexColName, $refOptions = array()) {
+        /*
+        if ($this->foreignKeyExist($symbol))
+            throw new dbTableException(sprintf($this->_i18n['FOREIGN_KEY_EXIST'], $symbol));
+        */
+
         // mysql
         $sql = 'ALTER TABLE `'. $this->_table .'`
             ADD CONSTRAINT `'. $symbol .'`
@@ -493,8 +467,8 @@ class dbTable {
 
         $this->_db->execute($sql);
 
-        $this->_foreignKeyList[]    = $symbol;
-        $this->_jqueryAjaxResponse  = 'FOREIGN_KEY_ADDED_TO_TABLE';
+        $this->_foreignKeyList[$symbol] = true;
+        $this->_jqueryAjaxResponse      = 'FOREIGN_KEY_ADDED_TO_TABLE';
     }
 
     /*
@@ -504,11 +478,12 @@ class dbTable {
         if (! $this->foreignKeyExist($foreignKey))
             throw new dbTableException(sprintf($this->_i18n['FOREIGN_KEY_DONT_EXIST'], $foreignKey));
 
-        $this->_alterTable[]    = 'DROP FOREIGN KEY (`'. $foreignKey .'`)';
-        $this->_actionList[]    = sprintf($this->_i18n['DROP_FOREIGN_KEY'], $foreignKey, $this->_table);
+        $this->_db->execute('ALTER TABLE `'. $this->_table .'` DROP FOREIGN KEY (`'. $foreignKey .'`)');
 
-        $this->_updateForeignKeyList[]  = $foreignKey;
-        $this->_jqueryAjaxResponse      = 'FOREIGN_KEY_ADDED_TO_TABLE';
+        unset($this->_foreignKeyList[$field]);
+
+        $this->_actionList[]       = sprintf($this->_i18n['DROP_FOREIGN_KEY'], $foreignKey, $this->_table);
+        $this->_jqueryAjaxResponse = 'FOREIGN_KEY_ADDED_TO_TABLE';
 
         return $this;
     }

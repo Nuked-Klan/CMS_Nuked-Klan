@@ -127,6 +127,22 @@ if ($process == 'addForeignKey') {
 
 if ($process == 'update') {
     // install / update 1.8
+    if ($dbTable->fieldExist('auteur')) {
+        if ($dbTable->getFieldType('auteur') != 'varchar(30)' || $dbTable->checkFieldIsNull('auteur'))
+            $dbTable->modifyField('auteur', $newsTableCfg['fields']['autor']);
+
+        if (! $dbTable->checkFieldIsIndex('auteur'))
+            $dbTable->addFieldIndex('auteur');
+    }
+
+    if ($dbTable->fieldExist('auteur_id')) {
+        if (! $dbTable->checkFieldIsNull('auteur_id'))
+            $dbTable->modifyField('auteur_id', $newsTableCfg['fields']['auteur_id']);
+
+        if (! $dbTable->checkFieldIsIndex('auteur_id'))
+            $dbTable->addFieldIndex('auteur_id');
+    }
+
     if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_news'))
         $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_news` ENGINE=InnoDB;');
 
@@ -136,23 +152,8 @@ if ($process == 'update') {
     if (! $dbTable->foreignKeyExist('FK_news_author'))
         addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 
-    if ($dbTable->getFieldType('auteur') != 'varchar(30)' || $dbTable->checkFieldIsNull('auteur'))
-        $dbTable->modifyField('auteur', $newsTableCfg['fields']['autor']);
-
-    if (! $dbTable->checkFieldIsNull('auteur_id'))
-        $dbTable->modifyField('auteur_id', $newsTableCfg['fields']['auteur_id']);
-
-    if (! $dbTable->checkFieldIsIndex('auteur'))
-        $dbTable->addFieldIndex('auteur');
-
-    if (! $dbTable->checkFieldIsIndex('auteur_id'))
-        $dbTable->addFieldIndex('auteur_id');
-
-    if (! $dbTable->fieldExist('coverage')) {
+    if (! $dbTable->fieldExist('coverage'))
         $dbTable->addField('coverage', $newsTableCfg['fields']['coverage']);
-    }
-
-    $dbTable->alterTable();
 
     // Update BBcode
     // update 1.7.9 RC1 (only texte) / 1.7.9 RC6 (texte & suite)

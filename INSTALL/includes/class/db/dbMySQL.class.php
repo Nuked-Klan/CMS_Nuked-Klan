@@ -312,7 +312,7 @@ class dbMySQL {
         $data = array();
 
         while ($row = mysql_fetch_assoc($req))
-            $data[] = $row['CONSTRAINT_NAME'];
+            $data[$row['CONSTRAINT_NAME']] = true;
 
         return $data;
     }

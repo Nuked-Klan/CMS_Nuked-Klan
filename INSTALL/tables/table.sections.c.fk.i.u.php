@@ -123,6 +123,22 @@ if ($process == 'addForeignKey') {
 
 if ($process == 'update') {
     // install / update 1.8
+    if ($dbTable->fieldExist('autor')) {
+        if ($dbTable->getFieldType('autor') != 'varchar(30)')
+            $dbTable->modifyField('autor', $articlesTableCfg['fields']['autor']);
+
+        if (! $dbTable->checkFieldIsIndex('autor'))
+            $dbTable->addFieldIndex('autor');
+    }
+
+    if ($dbTable->fieldExist('autor_id')) {
+        if (! $dbTable->checkFieldIsNull('autor_id'))
+            $dbTable->modifyField('autor_id', $articlesTableCfg['fields']['autor_id']);
+
+        if (! $dbTable->checkFieldIsIndex('autor_id'))
+            $dbTable->addFieldIndex('autor_id');
+    }
+
     if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_sections'))
         $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_sections` ENGINE=InnoDB;');
 
@@ -132,23 +148,8 @@ if ($process == 'update') {
     if (! $dbTable->foreignKeyExist('FK_articles_author'))
         addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 
-    if ($dbTable->getFieldType('autor') != 'varchar(30)')
-        $dbTable->modifyField('autor', $articlesTableCfg['fields']['autor']);
-
-    if (! $dbTable->checkFieldIsNull('autor_id'))
-        $dbTable->modifyField('autor_id', $articlesTableCfg['fields']['autor_id']);
-
-    if (! $dbTable->checkFieldIsIndex('autor'))
-        $dbTable->addFieldIndex('autor');
-
-    if (! $dbTable->checkFieldIsIndex('autor_id'))
-        $dbTable->addFieldIndex('autor_id');
-
-    // install / update 1.8
     if (! $dbTable->fieldExist('coverage'))
         $dbTable->addField('coverage', $articlesTableCfg['fields']['coverage']);
-
-    $dbTable->alterTable();
 
     // Update BBcode
     // update 1.7.9 RC1

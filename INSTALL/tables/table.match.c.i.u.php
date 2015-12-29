@@ -134,11 +134,9 @@ if ($process == 'update') {
     }
 
     // install / update 1.8
-    if (! $dbTable->fieldExist('image_adv')) {
+    if (! $dbTable->fieldExist('image_adv'))
         $dbTable->addField('image_adv', $matchTableCfg['fields']['image_adv']);
-    }
 
-    $dbTable->alterTable();
     $dbTable->applyUpdateFieldListToData('warid', 'updateMatchRow');
 
     if (($response = $dbTable->getJqueryAjaxResponse()) == 'UPDATED') {
@@ -150,8 +148,6 @@ if ($process == 'update') {
 
         if ($dbTable->fieldExist('map_3'))
             $dbTable->dropField('map_3');
-
-        $dbTable->alterTable();
     }
 }
 

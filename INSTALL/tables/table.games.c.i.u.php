@@ -78,8 +78,6 @@ if ($process == 'update') {
     // update 1.7.9 RC5.2
     if (! $dbTable->fieldExist('map'))
         $dbTable->addField('map', $gamesTableCfg['fields']['map']);
-
-    $dbTable->alterTable();
 }
 
 ?>

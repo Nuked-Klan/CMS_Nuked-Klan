@@ -65,10 +65,8 @@ if ($process == 'install') {
 
 if ($process == 'update') {
     // update 1.7.9 RC6
-    if ($dbTable->getFieldType('IP') != 'varchar(40)')
+    if ($dbTable->fieldExist('IP') && $dbTable->getFieldType('IP') != 'varchar(40)')
         $dbTable->modifyField('IP', $nbConnectTableCfg['fields']['IP']);
-
-    $dbTable->alterTable();
 }
 
 ?>

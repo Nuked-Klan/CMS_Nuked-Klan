@@ -89,12 +89,10 @@ if ($process == 'update') {
     // install / update 1.7.9 RC6
     if (! $dbTable->tableExist($this->_session['db_prefix'] .'_match_files')) {
         if ($dbTable->tableExist($this->_session['db_prefix'] .'_fichiers_joins')) {
-            $dbTable->setTable($this->_session['db_prefix'] .'_fichiers_joins');
-            $dbTable->renameTable($this->_session['db_prefix'] .'_match_files');
+            $dbTable->setTable($this->_session['db_prefix'] .'_fichiers_joins')
+                ->renameTable($this->_session['db_prefix'] .'_match_files');
         }
     }
-
-    $dbTable->alterTable();
 }
 
 ?>
