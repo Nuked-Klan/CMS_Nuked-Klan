@@ -324,7 +324,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 				echo "<img src=\"modules/Members/images/pas_image.jpg\" width=\"100\" alt=\"\" style=\"border: 1px solid " . $bgcolor3 . "; background:" . $bgcolor1 . "; padding: 2px;\" />";
 			}
 			
-
+            echo "</td></tr>\n";
 			
 			if ( $cpu || $ram || $motherboard || $video || $resolution || $sons || $souris || $clavier || $ecran || $osystem || $connexion ){
 				echo "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" style=\"height: 20px\" align=\"center\"><big><b>" . _HARDCONFIG . "</b></big></td></tr>\n"

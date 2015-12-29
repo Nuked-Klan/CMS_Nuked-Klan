@@ -28,6 +28,42 @@ function updateRecruitRow($updateList, $row, $vars) {
     return $setFields;
 }
 
+function repairRecruitTable($db, $dbTable, $dbPrefix) {
+    if (! $dbTable->fieldExist('prenom'))
+        $dbTable->addField('prenom', array('type' => 'text', 'null' => false), 'pseudo');
+
+    if (! $dbTable->fieldExist('age'))
+        $dbTable->addField('age', array('type' => 'int(3)', 'null' => false, 'default' => '\'0\''), 'prenom');
+
+    if (! $dbTable->fieldExist('mail'))
+        $dbTable->addField('mail', array('type' => 'varchar(80)', 'null' => false, 'default' => '\'\''), 'age');
+
+    if (! $dbTable->fieldExist('icq'))
+        $dbTable->addField('icq', array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''), 'mail');
+
+    if (! $dbTable->fieldExist('country'))
+        $dbTable->addField('country', array('type' => 'text', 'null' => false), 'icq');
+
+    if (! $dbTable->fieldExist('game')) {
+        $dbTable->addField('game', array('type' => 'int(11)', 'null' => false, 'default' => '\'0\''), 'country');
+        $db->execute('ALTER TABLE `'. $dbPrefix .'_recrute` ADD INDEX (`game`)');
+    }
+
+    if (! $dbTable->fieldExist('connection'))
+        $dbTable->addField('connection', array('type' => 'text', 'null' => false), 'game');
+
+    if (! $dbTable->fieldExist('experience'))
+        $dbTable->addField('experience', array('type' => 'text', 'null' => false), 'connection');
+
+    if (! $dbTable->fieldExist('dispo'))
+        $dbTable->addField('dispo', array('type' => 'text', 'null' => false), 'experience');
+
+    if (! $dbTable->fieldExist('comment'))
+        $dbTable->addField('comment', array('type' => 'text', 'null' => false), 'dispo');
+
+    $dbTable->alterTable();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +71,13 @@ function updateRecruitRow($updateList, $row, $vars) {
 if ($process == 'checkIntegrity') {
     // table and field exist in 1.6.x version
     $dbTable->checkIntegrity('id', 'comment');
+
+    if ($dbTable->getJqueryAjaxResponse() == 'INTEGRITY_FAIL') {
+        repairRecruitTable($this->_db, $dbTable, $this->_session['db_prefix']);
+
+        if ($dbTable->getJqueryAjaxResponse() == 'UPDATED')
+            $dbTable->setJqueryAjaxResponse('INTEGRITY_ACCEPTED');
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

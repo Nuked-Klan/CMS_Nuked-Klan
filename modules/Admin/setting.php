@@ -169,8 +169,6 @@ if ($visiteur == 9)
     {
         global $nuked, $language;
 
-        admintop();
-    
         echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
         . '<div class="content-box-header"><h3>' . _PREFGEN . '</h3>',"\n";
         ?>
@@ -369,14 +367,22 @@ if ($visiteur == 9)
     . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"ok\" value=\"" . _MODIF . "\" /></div>\n"
     . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
     echo "</div></div></div>\n";
-        adminfoot();
     }
 
     function save_config()
     {
         global $nuked, $user;
-        
-		if ($_REQUEST['stats_share'] != "1") $_REQUEST['stats_share'] = "0";
+
+        if (getTimeZoneDateTime($_REQUEST['datezone']) === false) {
+            echo "<div class=\"notification error png_bg\">\n"
+                . "<div>\n"
+                . _BAD_TIMEZONE . "\n"
+                . "</div>\n"
+                . "</div>\n";
+            redirect('index.php?file=Admin&page=setting', 2);
+        }
+
+        if ($_REQUEST['stats_share'] != "1") $_REQUEST['stats_share'] = "0";
         if ($_REQUEST['inscription_avert'] != "on") $_REQUEST['inscription_avert'] = "off";
         if ($_REQUEST['time_generate'] != 'on') $_REQUEST['time_generate'] = 'off';
         if ($_REQUEST['avatar_upload'] != "on") $_REQUEST['avatar_upload'] = "off";
@@ -408,29 +414,33 @@ if ($visiteur == 9)
         $acdate = time();
         $sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
         //Fin action
-        admintop();
+
         echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _CONFIGSAVE . "\n"
         . "</div>\n"
         . "</div>\n";
+
         echo "<script>\n"
             ."setTimeout('screen()','3000');\n"
             ."function screen() { \n"
             ."screenon('index.php', 'index.php?file=Admin');\n"
             ."}\n"
             ."</script>\n";
-        adminfoot();
     }
 
     switch ($_REQUEST['op'])
     {
         case "save_config":
+            admintop();
             save_config($_POST);
+            adminfoot();
             break;
 
         default:
+            admintop();
             edit_config();
+            adminfoot();
             break;
     }
 

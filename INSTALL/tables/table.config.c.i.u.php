@@ -204,14 +204,24 @@ if ($process == 'update') {
         }
     }
 
+    if (array_key_exists('datezone', $nuked)) {
+        // BUG Replace bad datezone value (Since 1.7.9 RC6 to 1.7.15)
+        if ($nuked['datezone'] === '1') {
+            $insertData['datezone'] = '+0100';
+        }
+        else if ($nuked['datezone'] === '0') {
+            $insertData['datezone'] = '+0000';
+        }
+    }
+
     if (! array_key_exists('dateformat', $nuked)) {
         if ($this->_session['language'] == 'french') {
             $insertData['dateformat'] = '%d/%m/%Y - %H:%M:%S';
-            $insertData['datezone']   = 1;
+            $insertData['datezone']   = '+0100';
         }
         else {
             $insertData['dateformat'] = '%m/%d/%Y - %H:%M:%S';
-            $insertData['datezone']   = 0;
+            $insertData['datezone']   = '+0000';
         }
     }
 

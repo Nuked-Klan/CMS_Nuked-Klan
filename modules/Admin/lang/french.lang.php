@@ -108,6 +108,7 @@ define("_TAGSUF","Tag Suffixe");
 define("_SITEURL","URL du Site");
 define("_DATEFORMAT","Format de la date");
 define("_DATEZONE","Fuseau horaire");
+define("_BAD_DATEZONE","Fuseau horaire incorrect");
 define("_DATEADJUST","En prenant en compte de votre ajustement, nous sommes le :");
 define("_ADMINMAIL","Email de l'admin");
 define("_FOOTMESS","Message de bas de page");
