@@ -211,7 +211,7 @@ if ($visiteur == 9)
         $handle = opendir('modules');
         while (false !== ($f = readdir($handle)))
         {
-            if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html'  && !preg_match('`[.]`', $f))
+            if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html'  && strpos($f, '.') === false)
             {
 
                 if ($f == 'Gallery') $modname = _NAMEGALLERY;
