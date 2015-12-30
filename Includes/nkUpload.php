@@ -77,19 +77,19 @@ function nkUpload_check($filename, $fileType, $uploadDir, $maxsize = null, $rena
 function nkUpload_checkImage($filename, &$ext) {
     $mimeType = exif_imagetype($_FILES[$filename]['tmp_name']);
 
-    if ($mimeType == IMG_JPEG) {
+    if ($mimeType == IMAGETYPE_JPEG) {
         if (! in_array($ext, array('jpg', 'jpeg'))) $ext = 'jpg';
 
         return true;
     }
 
-    if ($mimeType == IMG_GIF) {
+    if ($mimeType == IMAGETYPE_GIF) {
         if ($ext != 'gif') $ext = 'gif';
 
         return true;
     }
 
-    if ($mimeType == IMG_PNG) {
+    if ($mimeType == IMAGETYPE_PNG) {
         if ($ext != 'png') $ext = 'png';
 
         return true;
