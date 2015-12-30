@@ -187,7 +187,7 @@ if ($nuked['recrute'] > 0)
             return;
 
         if (!is_numeric($age)) {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADAGE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+            printNotification(_BADAGE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             closetable();
             return;
         }
@@ -239,7 +239,7 @@ if ($nuked['recrute'] > 0)
             $sql2 = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $date . "' , '0' )");
         }
 
-        echo "<br /><br /><div style=\"text-align: center;\">" . _SENDRECRUIT . "</div><br /><br />";
+        printNotification(_SENDRECRUIT, 'success');
         redirect("index.php", 2);
     }
 
@@ -264,7 +264,7 @@ if ($nuked['recrute'] > 0)
 }
 else
 {
-    echo "<br /><br /><div style=\"text-align: center;\">" . _RECRUITOFF . "</div><br /><br />";
+    printNotification(_RECRUITOFF);
 }
 
 closetable();

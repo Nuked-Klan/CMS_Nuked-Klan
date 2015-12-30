@@ -131,11 +131,7 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
 
     saveUserAction(_ACTIONPREFREC .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _PREFUPDATE . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_PREFUPDATE, 'success');
     redirect("index.php?file=Recruit&page=admin", 2);
 }
 
@@ -194,11 +190,7 @@ function del($rid)
 
     saveUserAction(_ACTIONDELREC .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _RECRUITDELETE . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_RECRUITDELETE, 'success');
     redirect("index.php?file=Recruit&page=admin", 2);
 }
 
