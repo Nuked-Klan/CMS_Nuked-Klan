@@ -28,6 +28,63 @@ $modulesTableCfg = array(
 );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table function
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+ * Return modules list stored in modules table
+ */
+function getModuleList($db, $dbPrefix) {
+    $sql = 'SELECT nom
+        FROM `'. $dbPrefix .'_modules`';
+
+    $dbsModules = $db->selectMany($sql);
+
+    $modules = array();
+
+    foreach ($dbsModules as $row)
+        $modules[] = $row['nom'];
+
+    return $modules;
+}
+
+/*
+ * Add new module
+ */
+function addModule($module, $levelAccess, $adminLevel, &$insert, &$insertModules) {
+    $insert[]           = '(\''. $module .'\', '. $levelAccess .', '. $adminLevel .')';
+    $insertModules[]    = $module;
+}
+
+/*
+ * Delete module
+ */
+function deleteModule($module, &$delete, &$deleteModules) {
+    $insert[]           = 'nom = \''. $module .'\'';
+    $deleteModules[]    = $module;
+}
+
+/*
+ * Update module list
+ */
+function updateModuleList($dbTable, $dbPrefix, $insert, $insertModules, $delete, $deleteModules) {
+    if (! empty($insert)) {
+        $sql = 'INSERT INTO `'. $dbPrefix .'_modules`
+            (`nom`, `niveau`, `admin`) VALUES '. implode(', ', $insert);
+
+        $dbTable->insertData(array('ADD_MODULE', implode(', ', $insertModules)), $sql);
+    }
+
+    if (! empty($delete)) {
+        $sql = 'DELETE
+            FROM `'. $dbPrefix .'_modules`
+            WHERE '. implode(' OR ', $delete);
+
+        $dbTable->deleteData(array('DELETE_MODULE', implode(', ', $deleteModules)), $sql);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -91,55 +148,29 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
-    $insert = $insertModules = array();
+    $insert = $insertModules = $delete = $deleteModules = array();
 
-    $sql = 'SELECT nom
-        FROM `'. $this->_session['db_prefix'] .'_modules`';
-
-    $dbsModules = $this->_db->selectMany($sql);
-
-    $modules = array();
-
-    foreach ($dbsModules as $row)
-        $modules[] = $row['nom'];
+    $modules = getModuleList($this->_db, $this->_session['db_prefix']);
 
     // install / update 1.7.9 RC5
-    if (in_array('PackageMgr', $modules)) {
-        $sql = 'DELETE
-            FROM `'. $this->_session['db_prefix'] .'_modules`
-            WHERE nom = \'PackageMgr\'';
-
-        $dbTable->deleteData(array('DELETE_MODULE', 'PackageMgr'), $sql);
-    }
+    if (in_array('PackageMgr', $modules))
+        deleteModule('PackageMgr', $delete, $deleteModules);
 
     // install / update 1.7.9 RC1
-    if (! in_array('Stats', $modules)) {
-        $insert[]           = '(\'Stats\', 0, 2)';
-        $insertModules[]    = 'Stats';
-    }
+    if (! in_array('Stats', $modules))
+        addModule('Stats', 0, 2, $insert, $insertModules);
 
-    if (! in_array('Contact', $modules)) {
-        $insert[]           = '(\'Contact\', 0, 3)';
-        $insertModules[]    = 'Contact';
-    }
+    if (! in_array('Contact', $modules))
+        addModule('Contact', 0, 3, $insert, $insertModules);
 
     // install / update 1.8
-    if (! in_array('Equipe', $modules)) {
-        $insert[]           = '(\'Equipe\', 0, 2)';
-        $insertModules[]    = 'Equipe';
-    }
+    if (! in_array('Equipe', $modules))
+        addModule('Equipe', 0, 2, $insert, $insertModules);
 
-    if (! in_array('Page', $modules)) {
-        $insert[]           = '(\'Page\', 0, 9)';
-        $insertModules[]    = 'Page';
-    }
+    if (! in_array('Page', $modules))
+        addModule('Page', 0, 9, $insert, $insertModules);
 
-    if (! empty($insert)) {
-        $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_modules`
-            (`nom`, `niveau`, `admin`) VALUES '. implode(', ', $insert);
-
-        $dbTable->insertData(array('ADD_MODULE', implode(', ', $insertModules)), $sql);
-    }
+    updateModuleList($dbTable, $this->_session['db_prefix'], $insert, $insertModules, $delete, $deleteModules);
 }
 
 ?>
