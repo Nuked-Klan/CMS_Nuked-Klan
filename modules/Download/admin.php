@@ -127,12 +127,12 @@ function send_file() {
         if (!is_file($url_file) || $ecrase_file == 1) {
             if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess") {
                 if (! move_uploaded_file($_FILES['copy']['tmp_name'], $url_file)) {
-                    echo "Upload file failed !!!";
+                    printNotification('Upload file failed !!!', 'error');
                     return;
                 }
                 @chmod ($url_file, 0644);
             } else {
-                echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
+                printNotification('Unauthorized file !!!', 'error');
                 redirect("index.php?file=Download&page=admin&op=add_file", 2);
                 return;
             }
@@ -158,15 +158,12 @@ function send_file() {
         if (!is_file($url_screen) || $ecrase_screen == 1) {
             if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
                 if (! move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen)) {
-                    echo "Upload screen failed !!!";
+                    printNotification('Upload screen failed !!!', 'error');
                     return;
                 }
                 @chmod ($url_screen, 0644);
             } else {
-                echo "<div class=\"notification error png_bg\">\n"
-                    . "<div>\n"
-                    . "<div style=\"text-align: center;\">No image file !!!</div><br />\n"
-                    . "</div></div>\n";
+                printNotification('No image file !!!', 'error');
                 redirect("index.php?file=Download&page=admin&op=add_file", 2);
                 return;
             }
@@ -179,36 +176,27 @@ function send_file() {
     }
 
     if ($deja_file == 1 || $deja_screen == 1) {
-        echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n";
+        $message = '';
 
+        if ($deja_file == 1) $message .= _DEJAFILE;
+        if ($deja_screen == 1) $message .= '&nbsp;'. _DEJASCREEN;
 
-        if ($deja_file == 1) echo _DEJAFILE;
-        if ($deja_screen == 1) echo "&nbsp;" . _DEJASCREEN;
+        $message .= '<br />'. _REPLACEIT
 
-        echo "<br />" . _REPLACEIT . "<br /><br /><a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a></div><br /><br />";
-        echo "</div>\n"
-            . "</div>\n";
+        printNotification($message, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     } else if ($url != "" && $titre != "") {
         $sql = mysql_query("INSERT INTO " . DOWNLOAD_TABLE . " ( `date` , `taille` , `titre` , `description` , `type` , `url` , `url2`  , `url3` , `level`, `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $date . "' , '" . $taille . "' , '" . $titre . "' , '" . $description . "' , '" . $cat . "' , '" . $url . "' , '" . $url2 . "' , '" . $url3 . "' , '" . $level ."' , '" . $autor . "' , '" . $site . "' , '" . $comp . "' , '" . $screen . "' )");
 
         saveUserAction(_ACTIONADDDL .': '. $titre);
 
-        echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . _FILEADD . "\n"
-            . "</div>\n"
-            . "</div>\n";
+        printNotification(_FILEADD, 'success');
+
         $sql = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE date = '" . $date . "' AND titre = '" . $titre . "'");
         list($id) = mysql_fetch_array($sql);
 
         setPreview('index.php?file=Download&op=description&dl_id='. $id, 'index.php?file=Download&page=admin');
     } else {
-        echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n"
-            . "<div style=\"text-align: center;\">" . _URLORTITLEFAILDED . "<br /><br /><a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a></div>"
-            . "</div>\n"
-            . "</div>\n";
+        printNotification(_URLORTITLEFAILDED, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     }
 }
 
@@ -223,12 +211,7 @@ function del_file($did) {
     $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $did . "' AND module = 'Download'");
 
     saveUserAction(_ACTIONDELDL .': '. $titre);
-
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _FILEDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_FILEDEL, 'success');
     redirect("index.php?file=Download&page=admin", 2);
 }
 
@@ -354,12 +337,12 @@ function modif_file() {
         if (!is_file($url_file) || $ecrase_file == 1) {
             if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess") {
                 if (! move_uploaded_file($_FILES['copy']['tmp_name'], $url_file)) {
-                    echo "Upload file failed !!!";
+                    printNotification('Upload file failed !!!', 'error');
                     return;
                 }
                 @chmod ($url_file, 0644);
             } else {
-                echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
+                printNotification('Unauthorized file !!!', 'error');
                 redirect("index.php?file=Download&page=admin&op=edit_file&did=" . $did, 2);
                 return;
             }
@@ -387,12 +370,12 @@ function modif_file() {
         if (!is_file($url_screen) || $ecrase_screen == 1) {
             if (!preg_match("`\.php`i", $screenname) && !preg_match("`\.htm`i", $screenname) && !preg_match("`\.[a-z]htm`i", $screenname) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
                 if (! move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen)) {
-                    echo "Upload screen failed !!!";
+                    printNotification('Upload screen failed !!!', 'error');
                     return;
                 }
                 @chmod ($url_screen, 0644);
             } else {
-                echo "<br /><br /><div style=\"text-align: center;\">No image file !!!</div><br /><br />";
+                printNotification('No image file !!!', 'error');
                 redirect("index.php?file=Download&page=admin&op=edit_file&did=" . $did, 2);
                 return;
             }
@@ -405,26 +388,23 @@ function modif_file() {
     }
 
     if ($deja_file == 1 || $deja_screen == 1) {
-        echo "<br /><br /><div style=\"text-align: center;\">";
+        $message = '';
 
-        if ($deja_file == 1) echo _DEJAFILE;
-        if ($deja_screen == 1) echo "&nbsp;" . _DEJASCREEN;
+        if ($deja_file == 1) $message .= _DEJAFILE;
+        if ($deja_screen == 1) $message .= '&nbsp;'. _DEJASCREEN;
 
-        echo "<br />" . _REPLACEIT . "<br /><br /><a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a></div><br /><br />";
+        $message .= '<br />'. _REPLACEIT;
+
+        printNotification($message, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     } else if ($url != "" && $titre != "") {
         $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', type = '" . $cat . "', count = '" . $count . "', url = '" . $url . "', url2 = '" . $url2 . "', url3 = '" . $url3 . "', taille = '" . $taille . "', level = '" . $level . "', edit = '" . $day . "', autor = '" . $autor . "', url_autor = '" . $site . "', comp = '" . $comp . "', screen = '" . $screen . "' WHERE id = '" . $did . "'");
 
         saveUserAction(_ACTIONMODIFDL .': '. $titre);
 
-        echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . _FILEEDIT . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+        printNotification(_FILEEDIT, 'success');
         setPreview('index.php?file=Download&op=description&dl_id='.$did, 'index.php?file=Download&page=admin');
     } else {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _URLORTITLEFAILDED . "<br /><br /><a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a></div><br /><br />";
+        printNotification(_URLORTITLEFAILDED, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     }
 }
 
@@ -503,11 +483,7 @@ function del_broke($did) {
 
     saveUserAction(_ACTION1BROKEDL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _FILEERASED . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_FILEERASED, 'success');
     redirect("index.php?file=Download&page=admin&op=main_broken", 2);
 }
 
@@ -517,11 +493,7 @@ function del_broken() {
 
     saveUserAction(_ACTIONALLBROKEDL .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _LISTERASED . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_LISTERASED, 'success');
     redirect("index.php?file=Download&page=admin&op=main_broken", 2);
 }
 
@@ -779,11 +751,8 @@ function send_cat($titre, $description, $parentid, $level, $position) {
 
     saveUserAction(_ACTIONADDCATDL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_CATADD, 'success');
+
     $sql2 = mysql_query("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
     list($did) = mysql_fetch_array($sql2);
 
@@ -864,12 +833,7 @@ function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
 
     saveUserAction(_ACTIONMODIFCATDL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_CATMODIF, 'success');
     setPreview('index.php?file=Download&op=categorie&cat='. $cid, 'index.php?file=Download&page=admin&op=main_cat');
 }
 
@@ -902,11 +866,7 @@ function del_cat($cid) {
 
     saveUserAction(_ACTIONDELCATDL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_CATDEL, 'success');
     redirect("index.php?file=Download&page=admin&op=main_cat", 2);
 }
 
@@ -948,12 +908,7 @@ function change_pref($max_download, $hide_download) {
 
     saveUserAction(_ACTIONMODIFPREFDL .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _PREFUPDATED . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Download&page=admin", 2);
 }
 
@@ -963,11 +918,7 @@ function modif_position($cid, $method) {
     $sql2 = mysql_query("SELECT titre, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     list($titre, $position) = mysql_fetch_array($sql2);
     if ($position <=0 AND $method == "up") {
-        echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n"
-            . _CATERRORPOS . "\n"
-            . "</div>\n"
-            . "</div>\n";
+        printNotification(_CATERRORPOS, 'error');
         redirect("index.php?file=Download&page=admin&op=main_cat", 2);
         return;
     }
@@ -977,11 +928,7 @@ function modif_position($cid, $method) {
 
     saveUserAction(_ACTIONPOSMODIFCATDL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_CATMODIF, 'success');
     redirect("index.php?file=Download&page=admin&op=main_cat", 2);
 }
 

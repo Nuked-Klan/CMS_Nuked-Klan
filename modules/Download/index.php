@@ -216,8 +216,6 @@ function popup($dl_id) {
 function do_dl($dl_id, $nb) {
     global $visiteur;
 
-    nkTemplate_setPageDesign('none');
-
     $sql = mysql_query("SELECT url, url2, url3, count, level FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
 
     if(mysql_num_rows($sql) <= 0)
@@ -226,6 +224,8 @@ function do_dl($dl_id, $nb) {
     list($dl_url1, $dl_url2, $dl_url3, $count, $level) = mysql_fetch_array($sql);
 
     if ($visiteur >= $level) {
+        nkTemplate_setPageDesign('none');
+
         $new_count = $count + 1;
         $upd = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET count = '" . $new_count . "' WHERE id = '" . $dl_id . "'");
 
@@ -239,7 +239,9 @@ function do_dl($dl_id, $nb) {
 
         header("location: " . $dl_url);
     } else {
-        echo "<div style=\"text-align: center;\">" . _NOENTRANCE . "</div>";
+        nkTemplate_setPageDesign('nudePage');
+
+        printNotification(_NOENTRANCE, 'error');
         redirect("index.php", 2);
     }
 }
@@ -248,7 +250,8 @@ function broken($dl_id) {
     global $nuked;
 
     $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET broke = broke + 1 WHERE id = '" . $dl_id . "'");
-    echo "<br /><br /><div style=\"text-align: center;\">" . _THXBROKENLINK . "</div><br /><br />";
+
+    printNotification(_THXBROKENLINK, 'success');
     redirect("index.php?file=Download", 2);
 }
 
