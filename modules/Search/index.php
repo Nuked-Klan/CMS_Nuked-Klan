@@ -105,7 +105,7 @@ function mod_search(){
     }
 
     if (preg_match("`%20union%20`i", $main) ||preg_match("`union`i ", $main) || preg_match("`\*union\*`i", $main) || preg_match("`\+union\+`i", $main) || preg_match("`\*`i", $main)){
-		echo "<br /><br /><div style=\"text-align: center;\"><big>What are you trying to do ?</big></div><br /><br />";
+		printNotification('What are you trying to do ?', 'error');
 		redirect("index.php?file=Search", 2);
 		closetable();
 		return;
@@ -202,7 +202,7 @@ function mod_search(){
 		echo"<br />";
     }
     else{
-        echo "<div style=\"text-align: center;\"><br />" . _NOWORDS . "</div><br /><br />\n";
+        printNotification(_NOWORDS, 'error');
     }
 }
 
