@@ -85,11 +85,8 @@ function add($titre, $description, $webmaster, $country, $cat, $url){
 
     saveUserAction(_ACTIONADDLINK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _LINKADD . "\n"
-            . "</div>\n"
-            . "</div>\n";
+    printNotification(_LINKADD, 'success');
+
     $sql = mysql_query("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $titre . "' AND date='".$date."'");
     list($link_id) = mysql_fetch_array($sql);
 
@@ -108,11 +105,7 @@ function del($link_id){
 
     saveUserAction(_ACTIONDELLINK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _LINKDEL . "\n"
-            . "</div>\n"
-            . "</div>\n";
+    printNotification(_LINKDEL, 'success');
     redirect("index.php?file=Links&page=admin", 2);
 }
 
@@ -199,12 +192,7 @@ function modif_link($link_id, $titre, $description, $webmaster, $country, $cat, 
 
     saveUserAction(_ACTIONEDITLINK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _LINKMODIF . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_LINKMODIF, 'success');
     setPreview('index.php?file=Links&op=description&link_id='. $link_id, 'index.php?file=Links&page=admin');
 }
 
@@ -438,11 +426,7 @@ function send_cat($titre, $description, $parentid, $position){
 
     saveUserAction(_ACTIONADDCATLINK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _CATADD . "\n"
-            . "</div>\n"
-            . "</div>\n";
+    printNotification(_CATADD, 'success');
 
     $sqlc = mysql_query("SELECT cid FROM " . LINKS_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
     list($cid) = mysql_fetch_array($sqlc);
@@ -508,12 +492,7 @@ function modif_cat($cid, $titre, $description, $parentid, $position){
 
     saveUserAction(_ACTIONMODIFCATLINK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _CATMODIF . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_CATMODIF, 'success');
     setPreview('index.php?file=Links&op=categorie&cat='. $cid, 'index.php?file=Links&page=admin&op=main_cat');
 }
 
@@ -548,12 +527,7 @@ function del_cat($cid){
 
     saveUserAction(_ACTIONDELCATLINK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _CATDEL . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_CATDEL, 'success');
     redirect("index.php?file=Links&page=admin&op=main_cat", 2);
 }
 
@@ -584,12 +558,7 @@ function change_pref($max_liens){
 
     saveUserAction(_ACTIONCONFLINK);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _PREFUPDATED . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Links&page=admin", 2);
 }
 
@@ -600,12 +569,7 @@ function modif_position($cid, $method){
     list($titre, $position) = mysql_fetch_array($sqlc);
     $titre = mysql_real_escape_string(stripslashes($titre));
     if ($position <=0 AND $method == "up"){
-        echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "" . _CATERRORPOS . "\n"
-                . "</div>\n"
-                . "</div>\n";
-
+        printNotification(_CATERRORPOS, 'error');
         redirect("index.php?file=Links&page=admin&op=main_cat", 2);
         return;
     }
@@ -614,12 +578,7 @@ function modif_position($cid, $method){
 
     saveUserAction(_ACTIONPOSLINK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _CATMODIF . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_CATMODIF, 'success');
     redirect("index.php?file=Links&page=admin&op=main_cat", 2);
 }
 
@@ -697,12 +656,7 @@ function del_broke($link_id){
 
     saveUserAction(_ACTION1BROKELINK);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _LINKERASED . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_LINKERASED, 'success');
     redirect("index.php?file=Links&page=admin&op=main_broken", 2);
 }
 
@@ -713,12 +667,7 @@ function del_broken(){
 
     saveUserAction(_ACTIONALLBROKELINK);
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _LISTERASED . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_LISTERASED, 'success');
     redirect("index.php?file=Links&page=admin&op=main_broken", 2);
 }
 

@@ -185,8 +185,9 @@ function broken($link_id){
     global $nuked;
 
     $sql = mysql_query('UPDATE ' . LINKS_TABLE . ' SET broke = broke + 1 WHERE id = ' . $link_id);
+
     opentable();
-    echo '<br /><br /><div style="text-align: center">' . _THXBROKENLINK . '</div><br /><br />'."\n";
+    printNotification(_THXBROKENLINK, 'success');
     closetable();
     redirect('index.php?file=Links', 2);
 }
@@ -196,7 +197,7 @@ function description($link_id){
 
     $sql = mysql_query('SELECT id, date, titre, description, webmaster, country, cat, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
     if(mysql_num_rows($sql) <= 0){
-        redirect('index.php?file=404', 0);
+        redirect('index.php?file=404');
     }
     else{
         list($link_id, $date, $titre, $description, $webmaster, $country, $cat, $count) = mysql_fetch_array($sql);
