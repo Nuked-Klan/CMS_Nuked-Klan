@@ -86,8 +86,9 @@ function send_book($name, $email, $url, $comment)
         $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
 
         if (($error = getCheckNicknameError($pseudo)) !== false) {
-            echo "<br /><br /><div style=\"text-align: center;\">" . $error . "</div><br /><br />";
+            printNotification($error, 'error');
             redirect('index.php?file=Guestbook&op=post_book', 2);
+            closetable();
             return;
         }
     }
@@ -96,7 +97,7 @@ function send_book($name, $email, $url, $comment)
     $email = checkEmail($email);
 
     if (($error = getCheckEmailError($email)) !== false) {
-        echo "<br /><br /><div style=\"text-align: center;\">" . $error . "</div><br /><br />";
+        printNotification($error, 'error');
         redirect('index.php?file=Guestbook&op=post_book', 2);
         closetable();
         return;
@@ -111,7 +112,7 @@ function send_book($name, $email, $url, $comment)
 
     if ($user_ip == $flood_ip && $date < $anti_flood)
     {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
+        printNotification(_NOFLOOD, 'error');
         redirect("index.php?file=Guestbook", 2);
         closetable();
     }
@@ -129,13 +130,14 @@ function send_book($name, $email, $url, $comment)
         }
 
         $sql = mysql_query("INSERT INTO " . GUESTBOOK_TABLE . " ( `id` , `name` , `email` , `url` , `date` , `host` , `comment` ) VALUES ( '' , '" . $pseudo . "' , '" . $email . "' , '" . $url . "' , '" . $date . "' , '" . $user_ip . "' , '" . $comment . "' )");
-        echo "<br /><br /><div style=\"text-align: center;\">" . _POSTADD . "</div><br /><br />";
+
+        printNotification(_POSTADD, 'success');
         redirect("index.php?file=Guestbook", 2);
         closetable();
     }
     else
     {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOTEXT . "</div><br /><br />";
+        printNotification(_NOTEXT, 'error');
         redirect("index.php?file=Guestbook", 2);
         closetable();
     }

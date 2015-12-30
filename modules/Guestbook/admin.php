@@ -57,12 +57,7 @@ function modif_book($gid, $comment, $email, $url)
 
     saveUserAction(_ACTIONMODIFBOOK .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _POSTEDIT . "\n"
-    . "</div>\n"
-    . "</div>\n";
-
+    printNotification(_POSTEDIT, 'success');
     setPreview('index.php?file=Guestbook', 'index.php?file=Guestbook&page=admin');
 }
 
@@ -74,12 +69,7 @@ function del_book($gid)
 
     saveUserAction(_ACTIONDELBOOK .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _POSTDELETE . "\n"
-    . "</div>\n"
-    . "</div>\n";
-
+    printNotification(_POSTDELETE, 'success');
     setPreview('index.php?file=Guestbook', 'index.php?file=Guestbook&page=admin');
 }
 
@@ -192,11 +182,7 @@ function change_pref($mess_guest_page)
 
     saveUserAction(_ACTIONPREFBOOK .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _PREFUPDATED . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Guestbook&page=admin", 2);
 }
 
