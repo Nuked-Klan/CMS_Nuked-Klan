@@ -127,33 +127,21 @@ function save_staff() {
     
     if($utilise['COUNT(*)'] >= 1)
     {
-        echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<b>Une erreur ses produite : Ce membre figure déja dans cette catégorie.</b> !!!"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Equipe&page=admin&op=add_staff", 2); 
+        printNotification('Une erreur ses produite : Ce membre figure déja dans cette catégorie.', 'error');
+        redirect("index.php?file=Equipe&page=admin&op=add_staff", 2); 
     }
     else
     {
         mysql_query('INSERT into '.$nuked['prefix'].'_staff (membre_id, categorie_id, date, status_id, rang_id) VALUES ("'.$membre_id.'","'.$categorie.'","'.time().'","'.$status.'","'.$rang.'")');
-        echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Membre ajouté dans le staff avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+
+        printNotification('Membre ajouté dans le staff avec succes.', 'success');
         redirect("index.php?file=Equipe&page=admin", 2);
     }
     }
     else
     {
-    
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<b>Une erreur ses produite : Vous n'avez pas remplis tout les champs.</b> !!!"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Equipe&page=admin&op=add_staff", 2);
+        printNotification('Une erreur ses produite : Vous n\'avez pas remplis tout les champs.', 'error');
+        redirect("index.php?file=Equipe&page=admin&op=add_staff", 2);
 
 
     }
@@ -163,11 +151,8 @@ function dell_staff($membre_id_get, $cat_id_get) {
     global $nuked;
 
     mysql_query('DELETE FROM '.$nuked['prefix'].'_staff WHERE membre_id="'.$membre_id_get.'" && categorie_id="'.$cat_id_get.'"');
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Membre supprimé du staff avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification('Membre supprimé du staff avec succes.', 'success');
     redirect("index.php?file=Equipe&page=admin", 2);
 }
 
@@ -243,21 +228,15 @@ function save_modif_staff($staff_id_get) {
     mysql_query('DELETE FROM '.$nuked['prefix'].'_staff WHERE id='.$staff_id_get);
     
     mysql_query('INSERT into '.$nuked['prefix'].'_staff (membre_id, categorie_id, date, status_id, rang_id) VALUES ("'.$membre_id.'","'.$categorie.'","'.$req1->date.'","'.$status.'","'.$rang.'")');
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Membre modifié avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification('Membre modifié avec succes.', 'success');
+
     redirect("index.php?file=Equipe&page=admin", 2);
     }
     else
     {
     mysql_query('INSERT into '.$nuked['prefix'].'_staff (membre_id, categorie_id, date, status_id, rang_id) VALUES ("'.$req1->membre_id.'","'.$req1->categorie_id.'","'.$req1->date.'","'.$req1->status_id.'","'.$req1->rang_id.'")');
-    echo "<div class=\"notification error png_bg\">\n"
-    . "<div>\n"
-    . "<b>Une erreur ses produite : Vous n'avez pas remplis tout les champs.</b> !!!"
-    . "</div>\n"
-    . "</div>\n";
+    
+    printNotification('Une erreur ses produite : Vous n\'avez pas remplis tout les champs.', 'error');
     redirect("index.php?file=Equipe&page=admin&op=modif_staff", 2);
 
     }
@@ -365,31 +344,20 @@ function save_cat() {
         }
         else
         {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : L\'image est dans un format autre que .jpg, .jpeg, .gif, .png.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : L\'image est dans un format autre que .jpg, .jpeg, .gif, .png.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=add_cat", 2);
         $url_img='non';
         }
     }
     
     mysql_query('INSERT into '.$nuked['prefix'].'_staff_cat (nom, img, ordre, tag, tag2) VALUES ("'.addslashes($nom).'","'.$url_img.'","'.$ordre.'","'.addslashes($tag).'","'.addslashes($tag2).'")');
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Catégorie ajouté avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+    
+    printNotification('Catégorie ajouté avec succes.', 'success');
     redirect("index.php?file=Equipe&page=admin&op=gestion_cat", 2);
     }
     else
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : Vous n'avez pas remplis tout les champs.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : Vous n\'avez pas remplis tout les champs.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=add_cat", 2);
     }
 }
@@ -398,11 +366,8 @@ function dell_cat($cat_id_get) {
     global $nuked;
 
     mysql_query('DELETE FROM '.$nuked['prefix'].'_staff_cat WHERE id="'.$cat_id_get.'"');
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Catégorie supprimé avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification('Catégorie supprimé avec succes.', 'success');
     redirect("index.php?file=Equipe&page=admin&op=gestion_cat", 2);
 }
 
@@ -466,31 +431,20 @@ function save_modif_cat($cat_id_get) {
         }
         else
         {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : L\'image est dans un format autre que .jpg, .jpeg, .gif, .png.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : L\'image est dans un format autre que .jpg, .jpeg, .gif, .png.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=add_cat", 2);
         $url_img='non';
         }
     }
     
     mysql_query('UPDATE '.$nuked['prefix'].'_staff_cat SET  nom="'.addslashes($nom).'", img="'.$url_img.'",ordre="'.$ordre.'",tag="'.addslashes($tag).'",tag2="'.addslashes($tag2).'" WHERE id='.$cat_id_get.'');
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Catégorie ajouté avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification('Catégorie ajouté avec succes.', 'success');
     redirect("index.php?file=Equipe&page=admin&op=gestion_cat", 2);
     }
     else
     {
-    echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : Vous n'avez pas remplis tout les champs.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : Vous n\'avez pas remplis tout les champs.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=gestion_cat", 2);
     }
 }
@@ -570,31 +524,20 @@ function save_status() {
     
     if($utilise['COUNT(*)'] >= 1)
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : Ce status figure déja dans la base de données.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : Ce status figure déja dans la base de données.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=add_status", 2);
         }
     else
     {
         mysql_query('INSERT into '.$nuked['prefix'].'_staff_status (nom) VALUES ("'.addslashes($nom).'")');
-        echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Status ajouté avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Equipe&page=admin&op=gestion_status", 2);
+
+        printNotification('Status ajouté avec succes.', 'success');
+        redirect("index.php?file=Equipe&page=admin&op=gestion_status", 2);
     }
     }
     else
     {
-    echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : Vous n'avez pas remplis tout les champs.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : Vous n\'avez pas remplis tout les champs.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=add_status", 2);
     }
 }
@@ -603,11 +546,8 @@ function dell_status($status_id_get) {
     global $nuked;
 
     mysql_query('DELETE FROM '.$nuked['prefix'].'_staff_status WHERE id="'.$status_id_get.'"');
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Status supprimé avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification('Status supprimé avec succes.', 'success');
     redirect("index.php?file=Equipe&page=admin&op=gestion_status", 2);
 }
 
@@ -645,20 +585,13 @@ function save_modif_status($status_id_get) {
     if(!empty($nom))
     {
     mysql_query('UPDATE '.$nuked['prefix'].'_staff_status SET nom="'.addslashes($nom).'" WHERE id='.$status_id_get);
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Status modifié avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification('Status modifié avec succes.', 'success');
     redirect("index.php?file=Equipe&page=admin&op=gestion_status", 2);
     }
     else
     {
-    echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : Vous n'avez pas remplis tout les champs.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : Vous n\'avez pas remplis tout les champs.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=gestion_status", 2); 
     }
 }
@@ -737,31 +670,20 @@ function save_rang() {
     
     if($utilise['COUNT(*)'] >= 1)
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : Ce rang figure déja dans la base de données.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : Ce rang figure déja dans la base de données.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=add_rang", 2); 
     }
     else
     {
         mysql_query('INSERT into '.$nuked['prefix'].'_staff_rang (nom, ordre) VALUES ("'.addslashes($nom).'","'.$ordre.'")');
-        echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Rang ajouté avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Equipe&page=admin&op=gestion_rang", 2);
+
+        printNotification('Rang ajouté avec succes.', 'success');
+        redirect("index.php?file=Equipe&page=admin&op=gestion_rang", 2);
     }
     }
     else
     {
-    echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : Vous n'avez pas remplis tout les champs.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : Vous n\'avez pas remplis tout les champs.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=add_rang", 2); 
     }
 }
@@ -770,11 +692,8 @@ function dell_rang($rang_id_get) {
     global $nuked;
 
     mysql_query('DELETE FROM '.$nuked['prefix'].'_staff_rang WHERE id="'.$rang_id_get.'"');
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Rang supprimé avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification('Rang supprimé avec succes.', 'success');
     redirect("index.php?file=Equipe&page=admin&op=gestion_rang", 2);
 }
 
@@ -813,21 +732,14 @@ function save_modif_rang($rang_id_get) {
     extract($_POST);
     if(!empty($nom))
     {
-    mysql_query('UPDATE '.$nuked['prefix'].'_staff_rang SET nom="'.addslashes($nom).'",ordre="'.$ordre.'" WHERE id='.$rang_id_get);
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "<b>Rang modifié avec succes.</b>\n"
-    . "</div>\n"
-    . "</div>\n";
-    redirect("index.php?file=Equipe&page=admin&op=gestion_rang", 2);	
+        mysql_query('UPDATE '.$nuked['prefix'].'_staff_rang SET nom="'.addslashes($nom).'",ordre="'.$ordre.'" WHERE id='.$rang_id_get);
+
+        printNotification('Rang modifié avec succes.', 'success');
+        redirect("index.php?file=Equipe&page=admin&op=gestion_rang", 2);	
     }
     else
     {
-    echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "<b>Une erreur ses produite : Vous n'avez pas remplis tout les champs.</b>"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification('Une erreur ses produite : Vous n\'avez pas remplis tout les champs.', 'error');
         redirect("index.php?file=Equipe&amp;page=admin&amp;op=gestion_rang", 2); 
     }
 }
