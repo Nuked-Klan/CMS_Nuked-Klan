@@ -67,7 +67,7 @@ function sendmail(){
         return;
 
     if (!$_REQUEST['mail'] || !$_REQUEST['sujet'] || !$_REQUEST['corps']){
-        echo '<p style="text-align: center">' . _NOCONTENT . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></p>';
+        printNotification(_NOCONTENT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
         closetable();
         return;
     }
@@ -82,7 +82,7 @@ function sendmail(){
     $anti_flood = $flood_date + $contact_flood;
 
     if ($count > 0 && $time < $anti_flood){
-        echo '<div style="text-align: center; padding: 20px 0;">' . _FLOODCMAIL . '</div>';
+        printNotification(_FLOODCMAIL, 'error');
         redirect("index.php", 3);
     }
     else{
@@ -113,7 +113,7 @@ function sendmail(){
         $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
         $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTCON.": [<a href=\"index.php?file=Contact&page=admin\">lien</a>].')");
 
-        echo '<div style="text-align: center; padding: 20px 0">' . _SENDCMAIL . '</div>';
+        printNotification(_SENDCMAIL, 'success');
         redirect("index.php", 3);
     }
 }

@@ -118,11 +118,7 @@ function del($mid){
 
     saveUserAction(_ACTIONDELCONTACT);
 
-    echo '<div class="notification success png_bg">'."\n"
-    . '<div>' . _MESSDELETE . ''."\n"
-    . '</div>'."\n"
-    . '</div>'."\n";
-
+    printNotification(_MESSDELETE, 'success');
     redirect('index.php?file=Contact&page=admin', 2);
 }
 
@@ -156,10 +152,7 @@ function change_pref($contact_mail, $contact_flood){
 
     saveUserAction(_ACTIONPREFCONT);
 
-    echo '<div class="notification success png_bg">'."\n"
-    . '<div>' . _PREFUPDATED . '</div>'."\n"
-    . '</div>'."\n";
-
+    printNotification(_PREFUPDATED, 'success');
     redirect('index.php?file=Contact&page=admin', 2);
 }
 
