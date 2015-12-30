@@ -1,0 +1,17 @@
+body {
+    font-family: Verdana;
+    font-size: 10px;
+    background : #FFFFFF;
+}
+
+a:link {
+    color: #000000;
+}
+
+a:visited {
+    color: #000000;
+}
+
+a:active {
+    color: #000000;
+}
