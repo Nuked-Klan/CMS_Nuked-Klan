@@ -103,6 +103,7 @@ define("_TAGSUF","Tag Suffix");
 define("_SITEURL","Website's Url");
 define("_DATEFORMAT","Date format");
 define("_DATEZONE","Time zone");
+define("_BAD_DATEZONE","Time zone invalid");
 define("_DATEADJUST","Taking into account your adjustment, we are the :");
 define("_ADMINMAIL","Admin's email");
 define("_FOOTMESS","Footer message");

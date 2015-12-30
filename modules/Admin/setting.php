@@ -383,6 +383,15 @@ function save_config()
 {
     global $nuked, $user;
 
+        if (getTimeZoneDateTime($_REQUEST['datezone']) === false) {
+            echo "<div class=\"notification error png_bg\">\n"
+                . "<div>\n"
+                . _BAD_DATEZONE . "\n"
+                . "</div>\n"
+                . "</div>\n";
+            redirect('index.php?file=Admin&page=setting', 2);
+        }
+
     if (isset($_REQUEST['stats_share']) && $_REQUEST['stats_share'] != "1") $_REQUEST['stats_share'] = "0";
     if (isset($_REQUEST['inscription_avert']) && $_REQUEST['inscription_avert'] != "on") $_REQUEST['inscription_avert'] = "off";
     if (isset($_REQUEST['time_generate']) && $_REQUEST['time_generate'] != 'on') $_REQUEST['time_generate'] = 'off';

@@ -266,7 +266,11 @@ function getTimeZoneDateTime($GMT) {
         '+1100'=>'Asia/Magadan',
         '+1200'=>'Asia/Kamchatka'
     );
-    return $timezones[$GMT];
+
+    if (isset($timezones[$GMT]))
+        return $timezones[$GMT];
+
+    return false;
 }
 
 // OPEN PHP SESSION
