@@ -225,17 +225,13 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
         {
             $url_file = "modules/Page/" . $type . "/" . $filename;
             if (! move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file)) {
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />";
+                printNotification('Upload page failed !!!', 'error');
                 return;
             }
         }
         else
         {
-            echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "" . _BADFILEFORMAT . ""
-                . "</div>\n"
-                . "</div>\n";
+            printNotification(_BADFILEFORMAT, 'error');
             redirect("index.php?file=Page&page=admin&op=add", 5);
             closetable();
             return;
@@ -243,14 +239,10 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
     }
     else if ($url != "" && !ereg("." . $type, $url))// TODO : ereg deprecated
     {
-            echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n"
-            . "" . _BADFILEFORMAT . ""
-            . "</div>\n"
-            . "</div>\n";
-            redirect("index.php?file=Page&page=admin&op=add", 5);
-            closetable();
-            return;
+        printNotification(_BADFILEFORMAT, 'error');
+        redirect("index.php?file=Page&page=admin&op=add", 5);
+        closetable();
+        return;
     }
     else
     {
@@ -293,11 +285,7 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
             $url_redirect = "index.php?file=Page&page=admin";
     }
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _PAGEADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_PAGEADD, 'success');
     redirect($url_redirect, 2);
 }
 
@@ -457,17 +445,13 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
         {
             $url_file = "modules/Page/" . $type . "/" . $filename;
             if (! move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file)) {
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />";
+                printNotification('Upload page failed !!!', 'error');
                 return;
             }
         }
         else
         {
-            echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "" . _BADFILEFORMAT . ""
-                . "</div>\n"
-                . "</div>\n";
+            printNotification(_BADFILEFORMAT, 'error');
             redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
             closetable();
             return;
@@ -475,11 +459,7 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
     }
     else if ($url != "" && !ereg("." . $type, $url))
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "" . _BADFILEFORMAT . ""
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_BADFILEFORMAT, 'error');
         redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
         closetable();
         return;
@@ -524,6 +504,8 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
     {
             $url_redirect = "index.php?file=Page&page=admin";
     }
+
+    printNotification(_PAGEADD, 'success');
     echo "<div class=\"notification success png_bg\">\n"
         . "<div>\n"
         . "" . _PAGEMODIF . "\n"
@@ -537,12 +519,9 @@ function del($page_id)
     global  $nuked;
 
     $del = mysql_query("DELETE FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _PAGEDELETE . "\n"
-        . "</div>\n"
-        . "</div>\n";
-        redirect("index.php?file=Page&page=admin",2);
+
+    printNotification(_PAGEDELETE, 'success');
+    redirect("index.php?file=Page&page=admin",2);
 }
 
 function main_pref()
@@ -582,11 +561,8 @@ function change_pref($index_page)
     global $nuked;
 
     $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $index_page . "' WHERE name = 'index_page'");
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _PREFUPDATED . "\n"
-    . "</div>\n"
-    . "</div>\n";
+
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Page&page=admin", 2);
 }
 
