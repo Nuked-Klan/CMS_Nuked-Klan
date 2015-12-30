@@ -29,6 +29,28 @@ $forumRankTableCfg = array(
 );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table function
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+ * Callback function for update row of forum rank database table
+ */
+function updateForumRankRow($updateList, $row, $vars) {
+    $setFields = array();
+
+    if (in_array('UPDATE_RANK_IMG', $updateList)) {
+        if (array_key_exists($row['image'], $vars['oldRankImgList']) && is_file($row['image']) && is_readable($row['image'])) {
+            $md5sum = md5_file($row['image']);
+
+            if ($md5sum == $vars['oldRankImgList'][$row['image']])
+                $setFields['image'] = substr($row['image'], 0, strrpos($row['image'], '.')) .'.png';
+        }
+    }
+
+    return $setFields;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -70,6 +92,28 @@ if ($process == 'install') {
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
 
-// TODO : UPDATE OLD IMAGE
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table update
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'update') {
+    // Update rank image (since 1.8)
+    if (version_compare($this->_session['version'], '1.8', '<')) {
+        // Old rank image
+        $oldRankImgList = array(
+            'modules/Forum/images/rank/star1.gif' => '203f080c343d40d2bf046a5decca951b',
+            'modules/Forum/images/rank/star2.gif' => '6bdc6f995ba8bc76848e5eab5309727e',
+            'modules/Forum/images/rank/star3.gif' => '322d4dba63c8f56a9673c00a0bfc19f2',
+            'modules/Forum/images/rank/star4.gif' => '15186dbb474fbdefc95a1f55f0ada5a4',
+            'modules/Forum/images/rank/star5.gif' => 'dd0afc847a20211a75b5e0c295166680',
+            'modules/Forum/images/rank/mod.gif'   => '0b26f8f2cc952e048defab650dab8e18'
+        );
+
+        $dbTable->setCallbackFunctionVars(array('oldRankImgList' => $$oldRankImgList))
+            ->setUpdateFieldData('UPDATE_RANK_IMG', 'image');
+    }
+
+    $dbTable->applyUpdateFieldListToData('id', 'updateForumRankRow');
+}
 
 ?>
