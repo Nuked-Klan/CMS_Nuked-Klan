@@ -422,13 +422,15 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Wars/" . $filename;
             if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Wars&page=admin&op=match&do=add', $type = 'error', $back = false, $redirect = true);
+                printNotification(_UPLOADFILEFAILED, 'error');
+                redirect('index.php?file=Wars&page=admin&op=match&do=add', 2);
                 return;
             }
             @chmod ($url_image, 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Wars&page=admin&op=match&do=add', $type = 'error', $back = false, $redirect = true);
+            printNotification(_NOIMAGEFILE, 'error');
+            redirect('index.php?file=Wars&page=admin&op=match&do=add', 2);
             return;
         }
     }
@@ -506,13 +508,15 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/Wars/" . $filename;
             if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'index.php?file=Wars&page=admin&op=match&do=edit&war_id=' . $war_id . '', $type = 'error', $back = false, $redirect = true);
+                printNotification(_UPLOADFILEFAILED, 'error');
+                redirect('index.php?file=Wars&page=admin&op=match&do=edit&war_id='. $war_id, 2);
                 return;
             }
             @chmod ($url_image, 0644);
         }
         else {
-            printNotification(_NOIMAGEFILE, 'index.php?file=Wars&page=admin&op=match&do=edit&war_id=' . $war_id . '', $type = 'error', $back = false, $redirect = true);
+            printNotification(_NOIMAGEFILE, 'error');
+            redirect('index.php?file=Wars&page=admin&op=match&do=edit&war_id='. $war_id, 2);
             return;
         }
     }
@@ -585,7 +589,7 @@ function main_file($im_id){
                 . "<td align=\"center\"><a href=\"javascript:del_file('" . mysql_real_escape_string(stripslashes($typename)) . "', '" . $fid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEFILE . "\" /></a></td></tr>\n";
     }
 
-    echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
+    echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
 }
 
 function add_file($im_id){
@@ -599,7 +603,7 @@ function add_file($im_id){
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\">" . _IMG . "</option><option value=\"demo\">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form>";
+        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div></form>";
 }
 
 function edit_file($fid){
@@ -629,7 +633,7 @@ function edit_file($fid){
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\" " . $checked1 . ">" . _IMG . "</option><option value=\"demo\" " . $checked2 . ">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /><input type=\"hidden\" name=\"fid\" value=\"" . $fid . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form>";
+        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div></form>";
 }
 
 function send_file($im_id, $file_type, $url_file, $fichiernom, $ecrase_screen){

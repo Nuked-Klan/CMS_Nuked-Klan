@@ -174,7 +174,7 @@ function smilies() {
         . "<td align=\"center\"><a href=\"javascript:eff();PopupinsertAtCaret('" . $_REQUEST['textarea'] . "', ' " . $code . " ')\"><img style=\"border: 0;\" src=\"images/icones/" . $url . "\" alt=\"\" title=\"" . $name . "\" /></a></td></tr>\n";
     } 
 
-    echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
+    echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
 } 
 
 function cesure_href($matches) {

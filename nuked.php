@@ -1051,15 +1051,15 @@ function adminInit($module, $adminPageLevel = false) {
     }
     // Module disabled
     elseif ($adminLevel == -1) {
-        printNotification(_MODULEOFF, 'error', 'javascript:history.back()');
+        printNotification(_MODULEOFF, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     }
     // User logged in, but not the rights
     elseif ($visiteur > 1) {
-        printNotification(_NOENTRANCE, 'error', 'javascript:history.back()');
+        printNotification(_NOENTRANCE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     }
     // User not logged
     else {
-        printNotification(_ZONEADMIN, 'error', 'javascript:history.back()');
+        printNotification(_ZONEADMIN, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     }
 
     return false;
@@ -1623,11 +1623,15 @@ function saveNotification($text, $type = 1) {
 }
 
 // information, success, error, info, warning
-function printNotification($message, $type = 'information', $backLinkUrl = false, $return = false) {
-    $html = applyTemplate('notification', array(
-        'type'          => $type,
-        'message'       => $message,
-        'backLinkUrl'   => $backLinkUrl,
+function printNotification($message, $type = 'information', $optionsData = array(), $return = false) {
+    if (isset($_REQUEST['ajax']))
+        $optionsData['ajax'] = true;
+    else
+        $optionsData['ajax'] = false;
+
+    $html = applyTemplate('notification', array_merge($optionsData, array(
+        'type'      => $type,
+        'message'   => $message
     ));
 
     if ($return)
@@ -1635,6 +1639,7 @@ function printNotification($message, $type = 'information', $backLinkUrl = false
     else
         echo $html;
 }
+
 
 function nkNotification($data, $redirectUrl = null, $redirectDelay = 0){
     if(function_exists('setNotification')){

@@ -1751,7 +1751,7 @@ function show_avatar(){
         closedir($dir);
     }
     echo "</td></tr><tr><td>&nbsp;</td></tr>\n"
-            . "<tr><td align=\"center\"><b>[ <a href=\"#\" onclick=\"self.close()\">" . _CLOSEWINDOW . "</a> ]</b></td></tr>\n"
+            . "<tr><td align=\"center\"><b>[ <a href=\"#\" onclick=\"self.close()\">" . __('CLOSE_WINDOW') . "</a> ]</b></td></tr>\n"
             . "<tr><td>&nbsp;</td></tr></table></body></html>";
 }
 

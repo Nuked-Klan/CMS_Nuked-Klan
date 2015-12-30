@@ -106,7 +106,7 @@ function add()
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td style=\"vertical-align:middle\">\n";
 
-    printNotification(_NOTIFIPAGELEVEL, '#', $type = 'attention', $back = false, $redirect = false);
+    printNotification(_NOTIFIPAGELEVEL, 'warning');
 
     echo "<b>" . _PAGELEVEL ." :</b> <select name=\"niveau\">\n" 
     . "<option>0</option>\n"
@@ -335,7 +335,7 @@ function edit($page_id)
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td style=\"vertical-align:middle\">\n";
 
-    printNotification(_NOTIFIPAGELEVEL, '#', $type = 'attention', $back = false, $redirect = false);
+    printNotification(_NOTIFIPAGELEVEL, 'warning');
 
     echo "<b>" . _PAGELEVEL ." :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n" 
     . "<option>0</option>\n"

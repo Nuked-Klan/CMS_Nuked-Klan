@@ -29,7 +29,6 @@ define('_NAME','Name');
 define('_DATE','Date');
 define('_READMESS','Read');
 define('_DEL','Remove');
-define('_BACK','Back');
 define('_FROM','From');
 define('_THE','The');
 define('_NOMESSINDB','No messages in the database');

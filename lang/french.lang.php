@@ -250,7 +250,6 @@ define("_NEWMESSAGESTART","Vous avez reçu ");
 define("_NEWMESSAGEEND"," nouveau(x) message(s)");
 define("_GOTO_PRIVATE_MESSAGES", "Cliquez ici pour consulter votre messagerie");
 define("_CLICK_TO_CLOSE", "Cliquer pour fermer ce messsage");
-define("_CLOSEWINDOW","Fermer la fenêtre");
 define("_GOTOPRIVATEMESSAGES","Cliquez ici pour consulter votre messagerie");
 define("_MORESMILIES","Tous les smilies");
 define("_SITECLOSED","Ce site est momentanément fermé pour cause de travaux, merci de réessayer plus tard");
@@ -396,6 +395,9 @@ define("_UPLOADDIRNOWRITEABLE","Le dossier d'upload n'a pas les droits d'écritur
 
 
 return array(
+    // common
+    'BACK'              => 'Retour',
+    
     // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Pseudo incorrect, certains caractères sont interdits.',
     'RESERVED_NICKNAME' => 'Ce pseudo est déjà réservé.',
@@ -410,7 +412,8 @@ return array(
     'CT_BAD_TOKEN'      => 'Token incorrect !<br />Veuillez utiliser le formulaire.',
     'CT_BAD_JS'         => 'La validation javascript a échouée !<br />Veuillez activer javascript.',
     'CT_BAD_FIELD'      => 'La validation antiRobot a échouée !<br />Veuillez utiliser le formulaire.',
-    
+    // views/frontend/notification.php
+    'CLOSE_WINDOW'      => 'Fermer la fenêtre',
 );
 
 ?>

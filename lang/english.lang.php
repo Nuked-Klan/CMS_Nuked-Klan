@@ -251,7 +251,6 @@ define("_NEWMESSAGESTART","You received ");
 define("_NEWMESSAGEEND"," new message(s)");
 define("_GOTO_PRIVATE_MESSAGES", "Click here to view your messenger");
 define("_CLICK_TO_CLOSE", "Clic to close this message");
-define("_CLOSEWINDOW","Close Windows");
 define("_GOTOPRIVATEMESSAGES","Click here to view your messenger");
 define("_MORESMILIES","All smilies");
 define("_SITECLOSED","Sorry, this website is currently closed, Please try again later.");
@@ -389,6 +388,10 @@ define("_UPLOADDIRNOWRITEABLE","The upload directory isn't writeable !");
 
 
 return array(
+    // common
+    'BACK'              => 'Back',
+    
+    
     // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Invalid Nickname, some characters are prohibited.',
     'RESERVED_NICKNAME' => 'This Nickname is already used.',
@@ -403,7 +406,8 @@ return array(
     'CT_BAD_TOKEN'      => 'Bad token !<br />Please use the form.',
     'CT_BAD_JS'         => 'Javascript validation failed !<br /> Please enable javascript.',
     'CT_BAD_FIELD'      => 'NoBot validation failed !<br /> Please use the form.',
-    
+    // views/frontend/notification.php
+    'CLOSE_WINDOW'      => 'Close Windows',
 );
 
 ?>

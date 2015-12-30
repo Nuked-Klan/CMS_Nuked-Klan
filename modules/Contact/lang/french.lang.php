@@ -28,7 +28,6 @@ define('_NAME','Nom');
 define('_DATE','Date');
 define('_READMESS','Lire');
 define('_DEL','Supprimer');
-define('_BACK','Retour');
 define('_FROM','De');
 define('_THE','le');
 define('_NOMESSINDB','Aucun message dans la base de données');

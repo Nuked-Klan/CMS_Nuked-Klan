@@ -71,18 +71,13 @@ function create_captcha(){
 }
 
 /**
- * Display notification if captcha failed
- * @param $data : message to display
+ * Display notification if captcha failed.
+ *
+ * @param string $message : Message to display.
+ * @return void
  */
-function captchaNotification($data) {
-    // TODO : Merge to printNotification function
-    if (isset($_REQUEST['ajax']))
-        $id = ' id="ajax_message"';
-    else
-        $id = '';
-
-    echo '<br /><br /><div', $id, ' style="text-align: center;">', $data
-        , '<br /><br /><a href="javascript:history.back()">[ <b>', _BACK, '</b> ]</a></div><br /><br />';
+function captchaNotification($message) {
+    printNotification($message, 'error', array('backLinkUrl' => 'javascript:history.back()'));
 
     if ($data != __('CT_NO_TOKEN') && ! isset($_REQUEST['ajax']))
         redirect('index.php?file=User&op=login_screen', 2);

@@ -340,7 +340,7 @@ function show_event(){
         echo "<table width=\"100%\" cellpadding=\"3\" cellspacing=\"1\">\n"
         . "<tr><td align=\"center\"><big><b>" . _BIRTHDAY . " : " . $pseudo . "</b></big></td></tr><tr><td>&nbsp;</td></tr>\n"
         . "<tr><td align=\"center\">" . _BIRTHDAYTEXT . " <b>" . $nom . "</b> " . _BIRTHDAYTEXTSUITE . " <b>" . $age . "</b> " . _YEARSOLD . "</td></tr>\n"
-        . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><b><a href=\"#\" onclick=\"self.close()\">" . _CLOSEWINDOW . "</a></b></td></tr></table>";
+        . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><b><a href=\"#\" onclick=\"self.close()\">" . __('CLOSE_WINDOW') . "</a></b></td></tr></table>";
 
     }elseif ($_REQUEST['type'] == "match" && is_numeric($_REQUEST['eid'])){
         $sql = mysql_query("SELECT warid, etat, team, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv, report FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['eid'] . "'");
@@ -396,7 +396,7 @@ function show_event(){
             if ($user_team > 0 || $user[1] > 1) dispo($warid, $_REQUEST['type']);
         }
 
-        echo "</table><div style=\"text-align: center;\"><a href=\"#\" onclick=\"self.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
+        echo "</table><div style=\"text-align: center;\"><a href=\"#\" onclick=\"self.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
 
     }else if (is_numeric($_REQUEST['eid'])){
 
@@ -416,7 +416,7 @@ function show_event(){
 
         echo "</b></big><br />" . _ADDEDBY . " <b>" . $auteur . "</b></td></tr><tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _DESCR . " : </b>" . $description . "</td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"self.close()\"><b>" . _CLOSEWINDOW . "</b></a><br /></div>";
+        . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"self.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a><br /></div>";
     }
 }
 

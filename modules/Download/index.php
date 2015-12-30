@@ -208,7 +208,7 @@ function popup($dl_id) {
         echo"<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b><big>·</big></b>&nbsp;<a href=\"index.php?file=Download&amp;op=do_dl&amp;dl_id=" . $dl_id . "&amp;nb=3\"><b>" . _LIEN3 . "</b></a></td></tr>\n";
     }
 
-    echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"#\" onclick=\"javascript:window.close();\">" . _CLOSEWINDOW . "</a> ]<br /></div>";
+    echo "</table><div style=\"text-align: center;\"><br />[ <a href=\"#\" onclick=\"javascript:window.close();\">" . __('CLOSE_WINDOW') . "</a> ]<br /></div>";
 
     redirect("index.php?file=Download&op=do_dl&dl_id=" . $dl_id, 3);
 }

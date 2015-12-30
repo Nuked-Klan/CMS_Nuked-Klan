@@ -482,7 +482,7 @@ function view_all() {
         . '<td align="center">' . $hours . '</td></tr>'."\n";
     }
 
-    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div>';
+    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . __('CLOSE_WINDOW') . '</b></a></div>';
 }
 
 
@@ -564,7 +564,7 @@ function view_referer()
 
     if ($iref == 0) echo '<tr><td colspan="4" align="center">' . _NOREF . '</td></tr>'."\n";
 
-    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div>';
+    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . __('CLOSE_WINDOW') . '</b></a></div>';
 }
 
 function view_host()
@@ -637,7 +637,7 @@ function view_host()
         echo '</td></tr>'."\n";
     }
 
-    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . _CLOSEWINDOW . '</b></a></div>';
+    echo '</table><div style="text-align: center"><br /><a href="javascript: self.close()"><b>' . __('CLOSE_WINDOW') . '</b></a></div>';
 }
 
 ?>

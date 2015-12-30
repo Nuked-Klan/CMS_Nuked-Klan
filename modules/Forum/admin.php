@@ -86,7 +86,7 @@ function editForumCat() {
         $forumCatForm['itemsFooter']['submit']['value'] = _MODIFTHISCAT;
     }
 
-    $info = printNotification(_NOTIFIMAGESIZE, 'information', $backLinkUrl = false, $return = true);
+    $info = printNotification(_NOTIFIMAGESIZE, 'information', $optionsData = array(), $return = true);
 
     echo applyTemplate('contentBox', array(
         'title'     => ($id == 0) ? _ADMINFORUM .' - '. _ADDCAT : _CATMANAGEMENT .' - '. _EDITTHISCAT,

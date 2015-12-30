@@ -319,7 +319,7 @@ function view_com($module, $im_id){
         echo '<div style="text-align:center;"><br /><input type="button" value="'._POSTCOMMENT.'" onclick="document.location=\'index.php?file=Comment&amp;op=post_com&amp;im_id='.$im_id.'&amp;module='.$module.'\'" /></div>';
     }
 
-    echo '<div style="text-align:center;"><br />[ <a href="#" onclick="javascript:window.close();"><b>'._CLOSEWINDOW.'</b></a> ]</div>';
+    echo '<div style="text-align:center;"><br />[ <a href="#" onclick="javascript:window.close();"><b>'. __('CLOSE_WINDOW') .'</b></a> ]</div>';
 }
 
 function post_com($module, $im_id){
@@ -458,7 +458,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTADD . "</b>";
 
         if ($module == "news"){
-            echo "<br /><br />[ <a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\">" . _CLOSEWINDOW . "</a> ]</div>";
+            echo "<br /><br />[ <a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\">" . __('CLOSE_WINDOW') . "</a> ]</div>";
         }
         else{
             echo "</div>";
@@ -471,7 +471,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
     }
     else{
         echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /><br /><br />\n"
-            . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div>";
+            . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
     }
 }
 
@@ -561,7 +561,7 @@ function edit_comment($cid){
                 . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
                 . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
                 . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /><br />\n"
-                . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></form>";
+                . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div></form>";
     }
     else{
         nkTemplate_setTitle(_COMMENTS);
