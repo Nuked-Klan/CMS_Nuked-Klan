@@ -128,11 +128,7 @@ function send_block($titre, $type, $nivo, $pages)
 
     saveUserAction(_ACTIONADDBLOCK .': '. $titre);
 
-    echo '<div class="notification success png_bg">',"\n"
-    . '<div>',"\n"
-    . '' . _BLOCKSUCCES . '',"\n"
-    . '</div>',"\n"
-    . '</div>',"\n";
+    printNotification(_BLOCKSUCCES, 'success');
     redirect('index.php?file=Admin&page=block&op=edit_block&bid=' . $bid, 2);
 }
 
@@ -148,11 +144,7 @@ function del_block($bid)
 
     saveUserAction(_ACTIONDELBLOCK .': '. $titre);
 
-    echo '<div class="notification success png_bg">',"\n"
-    . '<div>',"\n"
-    . '' . _BLOCKCLEAR . '',"\n"
-    . '</div>',"\n"
-    . '</div>',"\n";
+    printNotification(_BLOCKCLEAR, 'success');
     redirect('index.php?file=Admin&page=block', 2);
 }
 
@@ -286,12 +278,7 @@ function modif_block($data)
 
     saveUserAction(_ACTIONMODIFBLOCK .': '. $data['titre']);
 
-    echo '<div class="notification success png_bg">',"\n"
-    . '<div>',"\n"
-    . '' . _BLOCKMODIF . '',"\n"
-    . '</div>',"\n"
-    . '</div>',"\n";
-
+    printNotification(_BLOCKMODIF, 'success');
     setPreview('index.php', 'index.php?file=Admin&page=block');
 }
 
@@ -320,12 +307,7 @@ function modif_position_block($bid, $method)
 
     saveUserAction(_ACTIONPOSBLOCK .': '. $titre);
 
-    echo '<div class="notification success png_bg">',"\n"
-    . '<div>',"\n"
-    . '' . _BLOCKMODIF . '',"\n"
-    . '</div>',"\n"
-    . '</div>',"\n";
-
+    printNotification(_BLOCKMODIF, 'success');
     setPreview('index.php', 'index.php?file=Admin&page=block');
 }
 

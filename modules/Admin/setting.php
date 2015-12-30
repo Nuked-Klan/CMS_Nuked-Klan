@@ -384,11 +384,7 @@ function save_config()
     global $nuked, $user;
 
         if (getTimeZoneDateTime($_REQUEST['datezone']) === false) {
-            echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . _BAD_DATEZONE . "\n"
-                . "</div>\n"
-                . "</div>\n";
+            printNotification(_BAD_DATEZONE, 'error');
             redirect('index.php?file=Admin&page=setting', 2);
         }
 
@@ -421,12 +417,7 @@ function save_config()
 
     saveUserAction(_ACTIONSETTING);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _CONFIGSAVE . "\n"
-    . "</div>\n"
-    . "</div>\n";
-
+    printNotification(_CONFIGSAVE, 'success');
     setPreview('index.php', 'index.php?file=Admin');
 }
 

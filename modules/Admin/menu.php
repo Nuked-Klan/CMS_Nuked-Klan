@@ -395,19 +395,11 @@ function send_line($bid, $lid)
 
     if ($_REQUEST['cid'])
     {
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _LINEDELETED . "\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_LINEDELETED, 'success');
     }
     else
     {
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _LINEMODIFIED . "\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_LINEMODIFIED, 'success');
     }
 
     setPreview('index.php', 'index.php?file=Admin&page=menu&op=edit_menu&bid='. $_REQUEST['bid']);

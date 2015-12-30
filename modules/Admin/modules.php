@@ -89,11 +89,7 @@ function desactive($mid)
 
     saveUserAction(_ACTIONDESMOD .': '. $nom);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _MODULEDISABLED . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_MODULEDISABLED, 'success');
     redirect("index.php?file=Admin&page=modules", 2);
 }
 
@@ -108,11 +104,7 @@ function active($mid)
 
     saveUserAction(_ACTIONACTMOD .': '. $nom);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _MODULEENABLED . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_MODULEENABLED, 'success');
     redirect("index.php?file=Admin&page=modules", 2);
 }
 
@@ -130,11 +122,7 @@ function update_module($mid, $niveau, $level)
 
     saveUserAction(_ACTIONMODIFMOD .': '. $nom);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _MODULEMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_MODULEMODIF, 'success');
     redirect("index.php?file=Admin&page=modules", 2);
 }
 

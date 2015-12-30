@@ -66,13 +66,7 @@ function delete()
 
     saveUserAction(_ACTIONVIDERSQL);
 
-    ?>
-    <div class="notification success png_bg">
-        <div>
-            <?php echo _SQLERRORDELETED; ?>
-        </div>
-    </div>
-    <?php
+    printNotification(_SQLERRORDELETED, 'success');
     redirect('index.php?file=Admin&page=erreursql', 1);
 }
 

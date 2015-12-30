@@ -136,11 +136,7 @@ function send_smiley($nom, $code, $url, $fichiernom)
 
     if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . _SMILEYNOTAUTHORIZE . ".\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_SMILEYNOTAUTHORIZE, 'error');
         redirect("index.php?file=Admin&page=smilies&op=add_smiley", 4);
         return;
     }
@@ -164,11 +160,7 @@ function send_smiley($nom, $code, $url, $fichiernom)
         }
         else
         {
-            echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n"
-            . "No image file !"
-            . "</div>\n"
-            . "</div>\n";
+            printNotification('No image file !', 'error');
             redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
             return;
         }
@@ -182,11 +174,7 @@ function send_smiley($nom, $code, $url, $fichiernom)
 
     saveUserAction(_ACTIONADDSMILEY .': '. $nom);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _SMILEYSUCCES . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_SMILEYSUCCES, 'success');
     redirect("index.php?file=Admin&page=smilies", 2);
 }
 
@@ -263,11 +251,7 @@ function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
     
     if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . _SMILEYNOTAUTHORIZE . ".\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_SMILEYNOTAUTHORIZE, 'error');
         redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 4);
         return;
     }
@@ -288,11 +272,7 @@ function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
         }
         else
         {
-            echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n"
-            . "No image file !"
-            . "</div>\n"
-            . "</div>\n";
+            printNotification('No image file !', 'error');
             redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
             return;
         }
@@ -306,11 +286,7 @@ function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
 
     saveUserAction(_ACTIONMODIFSMILEY .': '. $nom);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _SMILEYMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_SMILEYMODIF, 'success');
     redirect("index.php?file=Admin&page=smilies", 2);
 }
 
@@ -324,11 +300,7 @@ function del_smiley($smiley_id)
 
     saveUserAction(_ACTIONDELSMILEY .': '. $name);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _SMILEYDELETE . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_SMILEYDELETE, 'success');
     redirect("index.php?file=Admin&page=smilies", 2);
 }
 

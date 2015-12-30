@@ -27,25 +27,13 @@ function main() {
 
 <?php
     if ($_SESSION['admin'] == false) {
-            saveUserAction(_ACTIONDECONNECT);
+        saveUserAction(_ACTIONDECONNECT);
 
-        ?>
-        <div class="notification success png_bg">
-            <div>
-                <?php echo _OPEREUS; ?>
-            </div>
-        </div>
-        <?php
-        redirect("index.php", 1);
+        printNotification(_OPEREUS, 'success');
+        redirect('index.php', 1);
     }
     else {
-?>
-        <div class="notification error png_bg">
-            <div>
-                <?php echo _OPEECHE; ?>
-            </div>
-        </div>
-<?php
+        printNotification(_OPEECHE, 'error');
         redirect("index.php?file=Admin", 1);
     }
 }

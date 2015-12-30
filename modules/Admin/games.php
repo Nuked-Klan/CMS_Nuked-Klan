@@ -176,11 +176,7 @@ function send_game($nom, $titre, $icon, $pref1, $pref2, $pref3, $pref4, $pref5, 
 
     saveUserAction(_ACTIONADDGAME .': '. $nom);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _GAMESUCCES . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_GAMESUCCES, 'success');
     redirect("index.php?file=Admin&page=games", 2);
 }
 
@@ -313,11 +309,7 @@ function modif_game($game_id, $nom, $titre, $icon, $pref1, $pref2, $pref3, $pref
 
     saveUserAction(_ACTIONMODIFGAME .': '. $nom);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _GAMEMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_GAMEMODIF, 'success');
     redirect("index.php?file=Admin&page=games", 2);
 }
 
@@ -332,11 +324,7 @@ function del_game($game_id)
 
     saveUserAction(_ACTIONDELGAME .': '. $name);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _GAMEDELETE . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_GAMEDELETE, 'success');
     redirect("index.php?file=Admin&page=games", 2);
 }
 

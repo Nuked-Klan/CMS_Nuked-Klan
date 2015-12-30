@@ -302,33 +302,20 @@ function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $emai
     $nick = checkNickname($nick);
 
     if (($error = getCheckNicknameError($nick)) !== false) {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . $error
-        . "</div>\n"
-        . "</div>\n";
-
+        printNotification($error, 'error');
         redirect('index.php?file=Admin&page=user&op=edit_user&id_user='. $id_user, 2);
         return;
     }
 
     if ($mail == "")
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "" . _EMPTYFIELD . ""
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_EMPTYFIELD, 'error');
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $id_user, 2);
         return;
     }
     else if ($pass_reg != $pass_conf)
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "" . _2PASSFAIL . ""
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_2PASSFAIL, 'error');
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $id_user, 2);
         return;
     }
@@ -387,11 +374,7 @@ function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $emai
 
         saveUserAction(_ACTIONMODIFUSER .': '. $nick);
 
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _INFOSMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_INFOSMODIF, 'success');
         redirect("index.php?file=Admin&page=user", 2);
     }
 }
@@ -402,21 +385,13 @@ function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq,
 
     if ($pass_reg == "" || $pass_conf == "" || $nick == "" || $mail == "")
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "" . _EMPTYFIELD . ""
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_EMPTYFIELD, 'error');
         redirect("index.php?file=Admin&page=user&op=add_user", 2);
         return;
     }
     else if ($pass_reg != $pass_conf)
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "" . _2PASSFAIL . ""
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_2PASSFAIL, 'error');
         redirect("index.php?file=Admin&page=user&op=add_user", 2);
         return;
     }
@@ -425,12 +400,7 @@ function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq,
         $nick = checkNickname($nick);
 
         if (($error = getCheckNicknameError($nick)) !== false) {
-            echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n"
-            . $error
-            . "</div>\n"
-            . "</div>\n";
-
+            printNotification($error, 'error');
             redirect('index.php?file=Admin&page=user&op=add_user', 2);
             return;
         }
@@ -478,11 +448,7 @@ function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq,
 
         saveUserAction(_ACTIONADDUSER .': '. $nick);
 
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _USERADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_USERADD, 'success');
         redirect("index.php?file=Admin&page=user", 2);
     }
 }
@@ -501,11 +467,7 @@ function del_user($id_user)
 
     saveUserAction(_ACTIONDELUSER .': '. $nick);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _USERDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_USERDEL, 'success');
     redirect("index.php?file=Admin&page=user", 2);
 }
 
@@ -827,11 +789,7 @@ function send_cat($titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage)
 
     saveUserAction(_ACTIONADDCATUSER .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _TEAMADD . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_TEAMADD, 'success');
     redirect("index.php?file=Admin&page=user&op=main_cat", 2);
 }
 
@@ -926,11 +884,7 @@ function modif_cat($cid, $titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage
 
     saveUserAction(_ACTIONEDITCATUSER .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _TEAMMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_TEAMMODIF, 'success');
     redirect("index.php?file=Admin&page=user&op=main_cat", 2);
 }
 
@@ -957,11 +911,7 @@ function del_cat($cid)
 
     saveUserAction(_ACTIONDELCATUSER .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _TEAMDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_TEAMDEL, 'success');
     redirect("index.php?file=Admin&page=user&op=main_cat", 2);
 }
 
@@ -1101,11 +1051,7 @@ function send_ip($ip, $pseudo, $email, $dure, $texte)
 
     saveUserAction(_ACTIONADDBAN .': '. $pseudo);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _IPADD . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_IPADD, 'success');
     redirect("index.php?file=Admin&page=user&op=main_ip", 2);
 }
 
@@ -1126,11 +1072,7 @@ function modif_ip($ip_id, $ip, $pseudo, $email, $dure, $texte)
 
     saveUserAction(_ACTIONMODIFBAN .': '. $pseudo);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _IPMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_IPMODIF, 'success');
     redirect("index.php?file=Admin&page=user&op=main_ip", 2);
 }
 
@@ -1144,11 +1086,7 @@ function del_ip($ip_id)
 
     saveUserAction(_ACTIONSUPBAN .': '. $pseudo);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _IPDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_IPDEL, 'success');
     redirect("index.php?file=Admin&page=user&op=main_ip", 2);
 }
 
@@ -1272,16 +1210,12 @@ function send_rank($titre, $ordre, $urlimage, $upimage, $color)
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/User/Rank/" . $filename;
             if (! move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image)) {
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                printNotification('Upload file failed !!!', 'error');
                 return;
             }
             @chmod ($url_image, 0644);
         } else {
-            echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "No image file !"
-                . "</div>\n"
-                . "</div>\n";
+            printNotification('No image file !', 'error');
             redirect("index.php?file=News&page=admin", 2);
             return;
         }
@@ -1295,11 +1229,7 @@ function send_rank($titre, $ordre, $urlimage, $upimage, $color)
 
     saveUserAction(_ACTIONADDRANK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _RANKADD . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_RANKADD, 'success');
     redirect("index.php?file=Admin&page=user&op=main_rank", 2);
 }
 
@@ -1316,16 +1246,12 @@ function modif_rank($rid, $titre, $ordre, $urlimage, $upimage, $color)
         if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
             $url_image = "upload/User/Rank/" . $filename;
             if (! move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image)) {
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                printNotification('Upload file failed !!!', 'error');
                 return;
             }
             @chmod ($url_image, 0644);
         } else {
-            echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "No image file !"
-                . "</div>\n"
-                . "</div>\n";
+            printNotification('No image file !', 'error');
             redirect("index.php?file=News&page=admin", 2);
             return;
         }
@@ -1339,11 +1265,7 @@ function modif_rank($rid, $titre, $ordre, $urlimage, $upimage, $color)
 
     saveUserAction(_ACTIONMODIFRANK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _RANKMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_RANKMODIF, 'success');
     redirect("index.php?file=Admin&page=user&op=main_rank", 2);
 }
 
@@ -1358,11 +1280,7 @@ function del_rank($rid)
 
     saveUserAction(_ACTIONDELRANK .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _RANKDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_RANKDEL, 'success');
     redirect("index.php?file=Admin&page=user&op=main_rank", 2);
 }
 
@@ -1399,7 +1317,7 @@ $from = @nkHtmlEntityDecode($from);
 
 mail($mail, $subject, $corps, $from);
 
-    echo "<br /><br /><div style=\"text-align: center;\">" . _USERVALIDATE . "</div><br /><br />";
+    printNotification(_USERVALIDATE, 'success');
     redirect("index.php?file=Admin&page=user&op=main_valid", 2);
 }
 
@@ -1637,11 +1555,7 @@ function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $u
 
     saveUserAction(_ACTIONMODIFUSER .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _CONFIGUPDATED . "\n"
-            . "</div>\n"
-            . "</div>\n";
+    printNotification(_CONFIGUPDATED, 'success');
     redirect("index.php?file=Admin&page=user", 2);
 }
 
