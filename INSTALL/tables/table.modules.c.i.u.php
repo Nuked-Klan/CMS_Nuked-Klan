@@ -51,16 +51,16 @@ function getModuleList($db, $dbPrefix) {
 /*
  * Add new module
  */
-function addModule($module, $levelAccess, $adminLevel, &$insert, &$insertModules) {
-    $insert[]           = '(\''. $module .'\', '. $levelAccess .', '. $adminLevel .')';
+function addModule($db, $module, $levelAccess, $adminLevel, &$insert, &$insertModules) {
+    $insert[]           = '(\''. $db->quote($module) .'\', '. $levelAccess .', '. $adminLevel .')';
     $insertModules[]    = $module;
 }
 
 /*
  * Delete module
  */
-function deleteModule($module, &$delete, &$deleteModules) {
-    $insert[]           = 'nom = \''. $module .'\'';
+function deleteModule($db, $module, &$delete, &$deleteModules) {
+    $insert[]           = 'nom = \''. $db->quote($module) .'\'';
     $deleteModules[]    = $module;
 }
 
@@ -154,21 +154,21 @@ if ($process == 'update') {
 
     // install / update 1.7.9 RC5
     if (in_array('PackageMgr', $modules))
-        deleteModule('PackageMgr', $delete, $deleteModules);
+        deleteModule($this->_db, 'PackageMgr', $delete, $deleteModules);
 
     // install / update 1.7.9 RC1
     if (! in_array('Stats', $modules))
-        addModule('Stats', 0, 2, $insert, $insertModules);
+        addModule($this->_db, 'Stats', 0, 2, $insert, $insertModules);
 
     if (! in_array('Contact', $modules))
-        addModule('Contact', 0, 3, $insert, $insertModules);
+        addModule($this->_db, 'Contact', 0, 3, $insert, $insertModules);
 
     // install / update 1.8
     if (! in_array('Equipe', $modules))
-        addModule('Equipe', 0, 2, $insert, $insertModules);
+        addModule($this->_db, 'Equipe', 0, 2, $insert, $insertModules);
 
     if (! in_array('Page', $modules))
-        addModule('Page', 0, 9, $insert, $insertModules);
+        addModule($this->_db, 'Page', 0, 9, $insert, $insertModules);
 
     updateModuleList($dbTable, $this->_session['db_prefix'], $insert, $insertModules, $delete, $deleteModules);
 }

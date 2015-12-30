@@ -30,6 +30,23 @@ $configTableCfg = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
+ * Return configuration stored in config table
+ */
+function getConfiguration($db, $dbPrefix) {
+    $sql = 'SELECT name, value
+        FROM `'. $dbPrefix .'_config`';
+
+    $dbsConfig = $db->selectMany($sql);
+
+    $nuked = array();
+
+    foreach ($dbsConfig as $row)
+        $nuked[$row['name']] = $row['value'];
+
+    return $nuked;
+}
+
+/*
  * Set dateformat and datezone value in configuration
  */
 function setDateConfig($language, &$cfg) {
@@ -57,6 +74,49 @@ function setDateConfig($language, &$cfg) {
 function addDefaultCfgValue($nuked, &$insertData, $name, $default = '') {
     if (! array_key_exists($name, $nuked))
         $insertData[$name] = $default;
+}
+
+/*
+ * Delete value in configuration
+ */
+function deleteCfgValue($name, &$deleteData) {
+    $deleteData[] = $name;
+}
+
+/*
+ * Update configuration
+ */
+function updateConfiguration($dbTable, $db, $dbPrefix, $insertData, $updateData, $deleteData) {
+    if (! empty($insertData)) {
+        $values = array();
+
+        foreach ($insertData as $name => $value)
+            $values[] = '(\''. $db->quote($name) .'\', \''. $db->quote($value) .'\')';
+
+        $sql = 'INSERT INTO `'. $dbPrefix .'_config`
+            (`name`, `value`) VALUES '. implode(', ', $values);
+
+        $dbTable->insertData(array('ADD_CONFIG', implode('`, `', array_keys($insertData))), $sql);
+    }
+
+    if (! empty($updateData)) {
+        foreach ($updateData as $name => $value) {
+            $sql = 'UPDATE `'. $dbPrefix .'_config`
+                SET value = \''. $db->quote($value) .'\'
+                WHERE name = \''. $db->quote($name) .'\'';
+
+            $dbTable->updateData(array('UPDATE_CONFIG', $name), $sql);
+        }
+    }
+
+    if (! empty($deleteData)) {
+        foreach ($deleteData as $k => $name) {
+            $sql = 'DELETE FROM `'. $dbPrefix .'_config`
+                WHERE name = \''. $db->quote($name) .'\'';
+
+            $dbTable->deleteData(array('DELETE_CONFIG', $name), $sql);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,23 +272,13 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
-    $nuked = $insertData = $updateData = array();
+    $insertData = $updateData = $deleteData = array();
 
-    $sql = 'SELECT name, value
-        FROM `'. $this->_session['db_prefix'] .'_config`';
-
-    $dbsConfig = $this->_db->selectMany($sql);
-
-    foreach ($dbsConfig as $row)
-        $nuked[$row['name']] = $row['value'];
+    $nuked = getConfiguration($this->_db, $this->_session['db_prefix']);
 
     // used in 1.7.9 RC1, 1.7.9 RC2 & 1.7.9 RC3
-    if (array_key_exists('cron_exec', $nuked)) {
-        $sql = 'DELETE FROM `'. $this->_session['db_prefix'] .'_config`
-            WHERE name = \'cron_exec\'';
-
-        $dbTable->deleteData(array('DELETE_CONFIG', 'cron_exec'), $sql);
-    }
+    if (array_key_exists('cron_exec', $nuked))
+        deleteCfgValue('cron_exec', $deleteData);
 
     // install / update 1.7.6
     if ($this->_session['version'] == '1.7.6' && $nuked['level_analys'] == 0)
@@ -317,27 +367,7 @@ if ($process == 'update') {
     addDefaultCfgValue($nuked, $insertData, 'index_page', '');
     addDefaultCfgValue($nuked, $insertData, 'editor_type', 'cke');
 
-    if (! empty($insertData)) {
-        $values = array();
-
-        foreach ($insertData as $name => $value)
-            $values[] = '(\''. $this->_db->quote($name) .'\', \''. $this->_db->quote($value) .'\')';
-
-        $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_config`
-            (`name`, `value`) VALUES '. implode(', ', $values);
-
-        $dbTable->insertData(array('ADD_CONFIG', implode('`, `', array_keys($insertData))), $sql);
-    }
-
-    if (! empty($updateData)) {
-        foreach ($updateData as $name => $value) {
-            $sql = 'UPDATE `'. $this->_session['db_prefix'] .'_config`
-                SET value = \''. $this->_db->quote($value) .'\'
-                WHERE name = \''. $this->_db->quote($name) .'\'';
-
-            $dbTable->updateData(array('UPDATE_CONFIG', $name), $sql);
-        }
-    }
+    updateConfiguration($dbTable, $this->_db, $this->_session['db_prefix'], $insertData, $updateData, $deleteData);
 }
 
 ?>
