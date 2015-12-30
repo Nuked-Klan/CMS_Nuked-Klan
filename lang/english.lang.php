@@ -269,10 +269,6 @@ define("_SECURITYCODE","Security code");
 define("_TYPESECCODE","Retype the security code");
 define("_BADCODECONFIRM","Error : the Security Code is not correct !");
 define('_MSGCAPTCHA', 'You have made too many attempts, captcha is activate!');
-define('_CTNOTOKEN', 'Token not found!<br/>Please use the form.');
-define('_CTBADTOKEN', 'Bad token!<br/>Please use the form.');
-define('_CTBADJS', 'Javascript validation failed! <br/> Please enable javascript.');
-define('_CTBADFIELD', 'NoBot validation failed! <br/> Please use the form.');
 
 define("_DURE","During");
 define("_1JOUR","1 day");
@@ -395,13 +391,19 @@ define("_UPLOADDIRNOWRITEABLE","The upload directory isn't writeable !");
 return array(
     // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Invalid Nickname, some characters are prohibited.',
-    'RESERVED_NICKNAME' => 'This Nickname is already used',
-    'BANNED_NICKNAME'   => 'This Nickname is banned',
+    'RESERVED_NICKNAME' => 'This Nickname is already used.',
+    'BANNED_NICKNAME'   => 'This Nickname is banned.',
     'NICKNAME_TOO_LONG' => 'Your Nickname is too long.',
     // getCheckEmailError function (nuked.php)
-    'BAD_EMAIL'         => 'Your email address is invalid',
-    'BANNED_EMAIL'      => 'This email is banned',
-    'RESERVED_EMAIL'    => 'This email is already used',
+    'BAD_EMAIL'         => 'Your email address is invalid.',
+    'BANNED_EMAIL'      => 'This email is banned.',
+    'RESERVED_EMAIL'    => 'This email is already used.',
+    // validCaptchaCode - Includes/nkCaptcha.php
+    'CT_NO_TOKEN'       => 'Token not found !<br />Please use the form.',
+    'CT_BAD_TOKEN'      => 'Bad token !<br />Please use the form.',
+    'CT_BAD_JS'         => 'Javascript validation failed !<br /> Please enable javascript.',
+    'CT_BAD_FIELD'      => 'NoBot validation failed !<br /> Please use the form.',
+    
 );
 
 ?>

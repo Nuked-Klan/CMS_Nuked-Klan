@@ -67,10 +67,10 @@ return string.replace(/(^\s*)|(\s*$)/g,'');
 function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail)
 {
     <?php
-        if($captcha === true){
+        if ($captcha) {
             echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
         }
-        else{
+        else {
             echo 'var captchaData = "";';
         }
     ?>
@@ -115,7 +115,7 @@ function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail)
   }
   	texte = encodeURIComponent(texte);
 	OAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=iso-8859-1');
-	OAjax.send('auteur='+auteur+'&texte='+texte+captchaData);
+	OAjax.send('ajax=1&auteur='+auteur+'&texte='+texte+captchaData);
 	return true;
 }
 -->
@@ -163,10 +163,10 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
 
-if($captcha === true){
+if ($captcha) {
     $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.ct_token.value, this.ct_script.value, this.ct_email.value); return false;';
 }
-else{
+else {
     $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value); return false;';
 }
 
@@ -187,8 +187,7 @@ if ($active == 3 || $active == 4)
         . "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" style=\"width:70%;\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" />\n";
 
 
-		if ($captcha === true) echo create_captcha();
-		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
+		if ($captcha) echo create_captcha();
 
 		echo "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\" /></div></div></form>\n";
     }
@@ -205,8 +204,7 @@ else
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
 
-		if ($captcha === true) echo create_captcha();
-		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
+		if ($captcha) echo create_captcha();
 
 		echo "</table>\n"
 		. "<div class=\"nkButton-container\" style=\"margin:5px;\" >\n"

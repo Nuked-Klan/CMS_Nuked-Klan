@@ -14,7 +14,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! moduleInit('Contact'))
     return;
 
-$captcha = initCaptcha();
 
 function index(){
     global $user;
@@ -54,7 +53,7 @@ function index(){
 
     // Affichage du Captcha.
     echo '<div style="text-align: center">',"\n";
-    if ($GLOBALS['captcha'] === true) echo create_captcha();
+    if (initCaptcha()) echo create_captcha();
     echo '</div>',"\n";
 
     echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
@@ -64,9 +63,8 @@ function sendmail(){
     global $nuked, $user_ip, $user;
 
     // Verification code captcha
-    if ($GLOBALS['captcha'] === true){
-        ValidCaptchaCode();
-    }
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
     if (!$_REQUEST['mail'] || !$_REQUEST['sujet'] || !$_REQUEST['corps']){
         echo '<p style="text-align: center">' . _NOCONTENT . '<br /><br /><a href="javascript:history.back()">[ <b>' . _BACK . '</b> ]</a></p>';

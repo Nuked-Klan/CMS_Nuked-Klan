@@ -21,7 +21,6 @@ translate('modules/Members/lang/'. $language .'.lang.php');
 
 include_once 'Includes/hash.php';
 
-$captcha = initCaptcha();
 
 function index(){
     global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -338,7 +337,7 @@ function reg_screen(){
 
             echo "</select></td></tr>\n";
 
-            if ($GLOBALS['captcha'] === true) echo create_captcha();
+            if (initCaptcha()) echo create_captcha();
 
             echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                     . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _USERREGISTER . "\" /></td></tr></table></form><br />\n";
@@ -894,9 +893,8 @@ function login_screen(){
                         <input type="password" name="pass" required="required"/>
                     </p>
                     <?php
-                        if((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true)|| $GLOBALS['captcha'] === true){
+                        if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true) || initCaptcha())
                             echo create_captcha();
-                        }
                     ?>
                     <p>
                         <input type="checkbox" class="checkbox" name="remember_me" value="ok" checked="checked" />
@@ -919,7 +917,8 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     global $nuked, $cookie_forum, $user_ip;
 
     // Captcha checking
-    ValidCaptchaCode();
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
     $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
     $pseudo = checkNickname($pseudo);
@@ -1094,9 +1093,9 @@ function login($pseudo, $pass, $remember_me){
                 nkNotification(_MSGCAPTCHA, 'index.php?file=User&op=login_screen', 2);
                 return;
             }
-            else{
-                // TODO : What ?
-                ValidCaptchaCode();
+            else {
+                if (! validCaptchaCode())
+                    return;
             }
         }
 
@@ -1787,7 +1786,7 @@ function change_theme(){
 
     $handle = opendir('themes');
     while (false !== ($f = readdir($handle))){
-        if ($f != "." && $f != ".." && $f != "CVS" && $f != "index.html" && !preg_match("`[.]`", $f)){
+        if ($f != "." && $f != ".." && $f != "CVS" && $f != "index.html" && strpos($f, '.') === false) {
             if ($mod == $f){
                 $checked = "selected=\"selected\"";
             }

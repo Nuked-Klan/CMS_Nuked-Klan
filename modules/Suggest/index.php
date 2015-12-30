@@ -14,7 +14,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! moduleInit('Suggest'))
     return;
 
-$captcha = initCaptcha();
 
 function index(){
     global $nuked, $visiteur;
@@ -115,9 +114,8 @@ function add_sug($data){
         return;
     }
     // Captcha check
-    if ($GLOBALS['captcha'] === true){
-        ValidCaptchaCode();
-    }
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
     $date = time();
 

@@ -16,8 +16,6 @@ if (! moduleInit('Defy'))
 
 compteur('Defy');
 
-$captcha = initCaptcha();
-
 
 function index(){
     global $nuked;
@@ -148,7 +146,7 @@ function form(){
             
     echo "<tr><td colspan=\"2\" align=\"center\">";
 
-    if ($GLOBALS['captcha'] === true) echo create_captcha();
+    if (initCaptcha()) echo create_captcha();
 
     echo "<input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
 }
@@ -157,9 +155,8 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
     global $nuked;
 
     // Verification code captcha
-    if ($GLOBALS['captcha'] === true) {
-        ValidCaptchaCode();
-    }
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
     $email = $nuked['defie_mail'];
     $inbox = $nuked['defie_inbox'];

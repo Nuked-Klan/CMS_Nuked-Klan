@@ -14,7 +14,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! moduleInit('Survey'))
     return;
 
-$captcha = initCaptcha();
+//$captcha = initCaptcha();
 
 function sondage($poll_id) {
     global $nuked;

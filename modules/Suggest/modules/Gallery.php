@@ -120,7 +120,7 @@ function form($content, $sug_id){
     echo "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" value=\"" . $content[2] . "\" size=\"45\" /></td></tr>\n"
             . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" value=\"" . $content[5] . "\" size=\"45\" /> " . $botton . "</td></tr>\n";
 
-    if ($GLOBALS['captcha'] === true) echo create_captcha();
+    if (initCaptcha()) echo create_captcha();
 
     echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" /></td></tr>\n"
             . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;

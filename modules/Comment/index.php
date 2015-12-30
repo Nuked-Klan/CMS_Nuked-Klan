@@ -15,7 +15,6 @@ global $language;
 
 translate('modules/Comment/lang/'. $language .'.lang.php');
 
-$captcha = initCaptcha();
 
 function verification($module, $im_id){
     global $nuked;
@@ -84,6 +83,8 @@ function NbComment($im_id, $module){
 function com_index($module, $im_id){
     global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language;
 
+    $captcha = initCaptcha();
+
     define('EDITOR_CHECK', 1);
     ?>
     <script type="text/javascript">
@@ -92,12 +93,13 @@ function com_index($module, $im_id){
             $("#post_commentary").find('input.ct_script').val('klan');
             ctScript = $("#post_commentary").find('input.ct_script').val();
             <?php
-                if($GLOBALS['captcha'] === true){
+                if ($captcha) {
                     echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
                 }
                 else{
                     echo 'var captchaData = "";';
                 }
+
                 switch ($nuked['editor_type'])
                 {
                     case 'cke':
@@ -227,10 +229,10 @@ function com_index($module, $im_id){
             echo '</div>';
         }
 
-        if($GLOBALS['captcha'] === true){
+        if ($captcha) {
             $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value, this.ct_token.value, this.ct_script.value, this.ct_email.value);return false;';
         }
-        else{
+        else {
             $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value);return false;';
         }
 
@@ -248,8 +250,7 @@ function com_index($module, $im_id){
                         <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
                     </tr>';
 
-                    if ($GLOBALS['captcha'] === true) echo create_captcha();
-                    else echo '<tr><td colspan="2"><input type="hidden" id="code" name="code" value="0" /></td></tr>';
+                    if ($captcha) echo create_captcha();
 
         echo '        <tr>
                         <td colspan="2" align="center">
@@ -369,12 +370,10 @@ function post_com($module, $im_id){
 
     echo "</tr>";
 
-    if ($GLOBALS['captcha'] === true) echo create_captcha();
-    else echo "<input type=\"hidden\" id=\"code\" name=\"code\" value=\"0\" />\n";
+    if (initCaptcha()) echo create_captcha();
 
     echo "<tr><td align=\"right\" colspan=\"2\">\n"
             . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
-            . "<input type=\"hidden\" name=\"noajax\" value=\"true\" />\n"
             . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
             . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
 
@@ -404,7 +403,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_POSTCOMMENT);
 
-    if(!isset($_REQUEST['noajax'])){
+    if (isset($_REQUEST['ajax'])) {
         $titre = utf8_decode($titre);
         $texte = utf8_decode($texte);
         $pseudo = utf8_decode($pseudo);
@@ -412,9 +411,8 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
     $level_access = nivo_mod("Comment");
     if (!verification($module,$im_id)){}
     else if ($visiteur >= $level_access && $level_access > -1){
-        if ($GLOBALS['captcha'] === true) {
-            ValidCaptchaCode();
-        }
+        if (initCaptcha() && ! validCaptchaCode())
+            return;
 
         if ($visiteur > 0){
             $autor = $user[2];
@@ -464,8 +462,9 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         }
         else{
             echo "</div>";
-            $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
-            if ($_REQUEST['ajax'] != 1){
+
+            if (! isset($_REQUEST['ajax'])){
+                $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
                 redirect($url_redir, 2);
             }
         }

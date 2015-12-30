@@ -344,8 +344,8 @@ function post() {
     $referer = 'index.php?file=Forum&page=post&forum_id='. $forumId;
 
     // Check captcha
-    if (initCaptcha() === true)
-        if (! validCaptchaCode()) return;
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
     // Ckeck Forum post token
     if (! nkToken_valid('addForumPost'. $forumId, 300, array($referer))) {
@@ -574,8 +574,8 @@ function reply() {
     $referer    = 'index.php?file=Forum&page=post&forum_id='. $forumId .'&thread_id='. $threadId;
 
     // Check captcha
-    if (initCaptcha() === true)
-        if (! validCaptchaCode()) return;
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
     // Check Forum post reply token
     $tokenValid = nkToken_valid('replyForumPost'. $forumId . $threadId,

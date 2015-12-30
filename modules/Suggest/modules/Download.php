@@ -120,7 +120,7 @@ function form($content, $sug_id){
         echo "<tr><td>&nbsp;</td></tr>\n";
     }
 
-    if ($GLOBALS['captcha'] === true) echo create_captcha();
+    if (initCaptcha()) echo create_captcha();
 
     echo "</table><input type=\"hidden\" name=\"date\" value=\"" . $date . "\" />\n"
             . "<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"

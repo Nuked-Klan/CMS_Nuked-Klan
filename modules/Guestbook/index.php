@@ -16,8 +16,6 @@ if (! moduleInit('Guestbook'))
 
 compteur('Guestbook');
 
-$captcha = initCaptcha();
-
 function post_book()
 {
     global $user, $nuked;
@@ -59,9 +57,7 @@ function post_book()
     echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
     echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
-    if ($GLOBALS['captcha'] === true) {
-        echo create_captcha();
-    }
+    if (initCaptcha()) echo create_captcha();
 
     echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
     . "<tr><td colspan=\"2\"><textarea id=\"e_basic\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
@@ -77,9 +73,8 @@ function send_book($name, $email, $url, $comment)
     opentable();
 
     // Verification code captcha
-    if ($GLOBALS['captcha'] === true){
-        ValidCaptchaCode();
-    }
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
     if ($user[2] != "")
     {

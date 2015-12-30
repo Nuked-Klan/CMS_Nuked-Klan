@@ -25,9 +25,8 @@ if ($visiteur >= $level_access && $level_access > -1)
     opentable();
 
     // Captcha check
-    if ($GLOBALS['captcha'] === true){
-        ValidCaptchaCode();
-    }
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
     if (isset($user[2]))
     {

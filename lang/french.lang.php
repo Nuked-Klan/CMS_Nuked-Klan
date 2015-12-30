@@ -268,10 +268,7 @@ define("_SECURITYCODE","Code de sécurité");
 define("_TYPESECCODE","Recopiez le code ci-dessus");
 define("_BADCODECONFIRM","Le code de sécurité ne correspond pas !");
 define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, le captcha est d&eacute;sormais actif !');
-define('_CTNOTOKEN', 'Token introuvable !<br/>Veuillez utiliser le formulaire.');
-define('_CTBADTOKEN', 'Token incorrect !<br/>Veuillez utiliser le formulaire.');
-define('_CTBADJS', 'La validation javascript a &eacute;chou&eacute;e ! <br/>Veuillez activer javascript.');
-define('_CTBADFIELD', 'La validation antiRobot a &eacute;chou&eacute;e ! <br/>Veuillez utiliser le formulaire.');
+
 
 define("_DURE","Durée");
 define("_1JOUR","1 jour");
@@ -401,13 +398,19 @@ define("_UPLOADDIRNOWRITEABLE","Le dossier d'upload n'a pas les droits d'écritur
 return array(
     // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Pseudo incorrect, certains caractères sont interdits.',
-    'RESERVED_NICKNAME' => 'Ce pseudo est déjà réservé',
-    'BANNED_NICKNAME'   => 'Ce pseudo est banni',
+    'RESERVED_NICKNAME' => 'Ce pseudo est déjà réservé.',
+    'BANNED_NICKNAME'   => 'Ce pseudo est banni.',
     'NICKNAME_TOO_LONG' => 'Votre pseudo est trop long.',
     // getCheckEmailError function (nuked.php)
-    'BAD_EMAIL'         => 'Votre Email n\'est pas correct',
-    'BANNED_EMAIL'      => 'Ce mail est banni',
-    'RESERVED_EMAIL'    => 'Cet Email est déjà réservé',
+    'BAD_EMAIL'         => 'Votre Email n\'est pas correct.',
+    'BANNED_EMAIL'      => 'Ce mail est banni.',
+    'RESERVED_EMAIL'    => 'Cet Email est déjà réservé.',
+    // validCaptchaCode - Includes/nkCaptcha.php
+    'CT_NO_TOKEN'       => 'Token introuvable !<br />Veuillez utiliser le formulaire.',
+    'CT_BAD_TOKEN'      => 'Token incorrect !<br />Veuillez utiliser le formulaire.',
+    'CT_BAD_JS'         => 'La validation javascript a échouée !<br />Veuillez activer javascript.',
+    'CT_BAD_FIELD'      => 'La validation antiRobot a échouée !<br />Veuillez utiliser le formulaire.',
+    
 );
 
 ?>

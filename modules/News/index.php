@@ -16,8 +16,6 @@ if (! moduleInit('News'))
 
 compteur('News');
 
-$captcha = initCaptcha();
-
 
 function index(){
 
@@ -262,7 +260,7 @@ function sendfriend($news_id) {
             <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
             <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
 
-    if ($GLOBALS['captcha'] === true) echo create_captcha();
+    if (initCaptcha()) echo create_captcha();
 
     echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
             <input type="hidden" name="news_id" value="'.$news_id.'" />
@@ -275,31 +273,26 @@ function sendfriend($news_id) {
 function sendnews($title, $news_id, $comment, $mail, $pseudo) {
     global $nuked, $user_ip;
 
-    opentable();
+    if (initCaptcha() && ! validCaptchaCode())
+        return;
 
-    if ($GLOBALS['captcha'] === true){
-        ValidCaptchaCode();
-    } else {
-        $date2 = time();
-        $date2 = nkDate($date2);
-        $mail = trim($mail);
-        $pseudo = trim($pseudo);
+    $date2 = time();
+    $date2 = nkDate($date2);
+    $mail = trim($mail);
+    $pseudo = trim($pseudo);
 
-        $subject = $nuked['name'].', '.$date2;
-        $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
-        $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
+    $subject = $nuked['name'].', '.$date2;
+    $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
+    $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
 
-        $subject = @nkHtmlEntityDecode($subject);
-        $corps = @nkHtmlEntityDecode($corps);
-        $from = @nkHtmlEntityDecode($from);
+    $subject = @nkHtmlEntityDecode($subject);
+    $corps = @nkHtmlEntityDecode($corps);
+    $from = @nkHtmlEntityDecode($from);
 
-        mail($mail, $subject, $corps, $from);
+    mail($mail, $subject, $corps, $from);
 
-        echo '<div style="text-align:center;"><br />'._SENDFMAIL.'<br /><br /></div>';
-        redirect('index.php?file=News', 2);
-    }
-
-    closetable();
+    echo '<div style="text-align:center;"><br />'._SENDFMAIL.'<br /><br /></div>';
+    redirect('index.php?file=News', 2);
 }
 
 switch ($_REQUEST['op']) {
@@ -333,7 +326,9 @@ switch ($_REQUEST['op']) {
     break;
 
     case'sendnews':
+    opentable();
     sendnews($_REQUEST['title'], $_REQUEST['news_id'], $_REQUEST['comment'], $_REQUEST['mail'], $_REQUEST['pseudo']);
+    closetable();
     break;
 
     default:

@@ -22,7 +22,7 @@ function index(){
 
     $nb_membres = $nuked['max_members'];
 
-    if (array_key_exists('letter', $_REQUEST) && $_REQUEST['letter'] == "Autres"){
+    if (array_key_exists('letter', $_REQUEST) && $_REQUEST['letter'] == _OTHER){
         $and = "AND pseudo NOT REGEXP '^[a-zA-Z].'";
     }
     else if (array_key_exists('letter', $_REQUEST) && $_REQUEST['letter'] != "" && preg_match("`^[A-Z]+$`", $_REQUEST['letter'])){
@@ -437,7 +437,7 @@ if ($visiteur >= $nuked['user_social_level'] )
             echo "<img src=\"modules/Members/images/noAvatar.png\" width=\"100\" alt=\"\" style=\"border: 1px solid " . $bgcolor3 . "; background:" . $bgcolor1 . "; padding: 2px;\" />";
         }
 
-
+        echo "</td></tr>\n";
 
         if ( $cpu || $ram || $motherboard || $video || $resolution || $sons || $souris || $clavier || $ecran || $osystem || $connexion ){
             echo "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" style=\"height: 20px\" align=\"center\"><big><b>" . _HARDCONFIG . "</b></big></td></tr>\n"
