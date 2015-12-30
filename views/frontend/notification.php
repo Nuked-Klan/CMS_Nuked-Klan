@@ -16,6 +16,13 @@ if ($ajax) :
     <strong><?php echo $message ?></strong>
 <?php
 
+    if (isset($linkTxt, $linkUrl) && $linkTxt != '' && $linkUrl != '') :
+
+?>
+    <a href="<?php echo $linkUrl ?>"><span><?php echo $linkTxt ?></span></a>
+<?php
+
+
     if (isset($backLinkUrl) && $backLinkUrl != '') :
 
 ?>

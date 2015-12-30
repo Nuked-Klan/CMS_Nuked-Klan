@@ -34,12 +34,9 @@ function main() {
         . "<div class=\"content-box-header\"><h3>" . _GESTEMPLATE . "</h3>\n"
         . "</div>\n"
         . "<div class=\"tab-content\" id=\"tab2\">\n";
+
+        printNotification(_NOADMININTERNE, 'error');
     ?>
-        <div class="notification error png_bg">
-            <div>
-                <?php echo _NOADMININTERNE; ?>
-            </div>
-        </div>
         </div>
     <?php
     }

@@ -17,19 +17,15 @@ if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
 
 echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _MAJ . "</h3></div>\n"
-. "<div class=\"tab-content\" id=\"tab2\"><div style=\"width:90%; margin-left:5%;\">\n";
-?>
-<br /><br /><div class="notification information png_bg">
+    . "<div class=\"tab-content\" id=\"tab2\"><div style=\"width:90%; margin-left:5%;\">\n"
+    . "<br /><br />\n";
 
-            <div>
-<?php echo _MAJEXPLI; ?>:<br /><br />
-<a href="index.php?file=Admin&amp;page=modules"><?php echo _MAJMAIN; ?></a>
-            </div>
-</div>
+printNotification(_MAJEXPLI, 'information', array(
+    'linkTxt' => _MAJMAIN,
+    'linkUrl' => 'index.php?file=Admin&amp;page=modules'
+));
 
-
-<?php
 echo "</div>\n"
-. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
 
 ?>

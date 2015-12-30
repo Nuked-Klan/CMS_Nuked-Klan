@@ -665,13 +665,16 @@ function main_cat()
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><br />\n"
-    . "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
-    . "<div>" . _WARNINGTEAM . "</div></div><br />\n";
+    . "<div class=\"tab-content\" id=\"tab2\"><br />\n";
+
+    //. "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
+    //. "<div>" . _WARNINGTEAM . "</div></div><br />\n";
+
+    printNotification(_WARNINGTEAM, 'warning');
 
     nkAdminMenu(3);
 
-    echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+    echo "<br /><table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr>\n"
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . _GAME . "</b></td>\n"
@@ -725,10 +728,14 @@ function add_cat()
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><br />\n"
-    . "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
-    . "<div>" . _WARNINGTEAM . "</div></div><br />\n"
-    . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_cat\" enctype=\"multipart/form-data\">\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><br />\n";
+
+    printNotification(_WARNINGTEAM, 'warning');
+
+    //. "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
+    //. "<div>" . _WARNINGTEAM . "</div></div><br />\n"
+
+    echo "<br /><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_cat\" enctype=\"multipart/form-data\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"titre\" size=\"32\" />&nbsp;<b>" . _ORDER . " : </b><input type=\"text\" name=\"ordre\" size=\"2\" /></td></tr>\n"
     . "<tr><td><b>" . _TAGPRE . " : </b><input type=\"text\" name=\"tag\" size=\"10\" />&nbsp;<b>" . _TAGSUF . " : </b><input type=\"text\" name=\"tag2\" size=\"10\" /></td></tr>\n"
@@ -805,10 +812,14 @@ function edit_cat($cid)
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><br />\n"
-    . "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
-    . "<div>" . _WARNINGTEAM . "</div></div><br />\n"
-    . "<form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><br />\n";
+
+    printNotification(_WARNINGTEAM, 'warning');
+
+    //. "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
+    //. "<div>" . _WARNINGTEAM . "</div></div><br />\n"
+
+    echo "<br /><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"titre\" size=\"32\" value=\"" . $titre . "\" />&nbsp;<b>" . _ORDER . " : </b><input type=\"text\" name=\"ordre\" size=\"2\" value=\"" . $ordre . "\" /></td></tr>\n"
     . "<tr><td><b>" . _TAGPRE . " : </b><input type=\"text\" name=\"tag\" size=\"10\" value=\"" . $tag . "\" />&nbsp;<b>" . _TAGSUF . " : </b><input type=\"text\" name=\"tag2\" size=\"10\" value=\"" . $tag2 . "\" /></td></tr>\n"
