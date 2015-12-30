@@ -24,14 +24,8 @@ require_once 'nuked.php';
 nkHandle_URIInjections();
 
 
-if (filter_var($_GET['ip_ban'], FILTER_VALIDATE_IP,
-    FILTER_FLAG_IPV4 |
-    FILTER_FLAG_IPV6 |
-    FILTER_FLAG_NO_PRIV_RANGE |
-    FILTER_FLAG_NO_RES_RANGE)
-)
+if (filter_var($_GET['ip_ban'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6))
     die(WAYTODO);
-
 
 require_once 'themes/'. $theme .'/colors.php';
 translate('lang/'. $language .'.lang.php');
