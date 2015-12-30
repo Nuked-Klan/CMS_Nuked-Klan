@@ -92,12 +92,7 @@ function send_cat($titre, $description) {
 
     saveUserAction(_ACTIONADDCATSER .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_CATADD, 'success');
     setPreview('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');
 }
 
@@ -132,12 +127,7 @@ function modif_cat($cid, $titre, $description) {
 
     saveUserAction(_ACTIONMODIFCATSER .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_CATMODIF, 'success');
     setPreview('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');
 }
 
@@ -151,12 +141,7 @@ function del_cat($cid) {
 
     saveUserAction(_ACTIONDELCATSER .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_CATDEL, 'success');
     setPreview('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');
 }
 
@@ -220,12 +205,7 @@ function send_serveur($ip_serv, $port, $game, $pass, $cat) {
 
     saveUserAction(_ACTIONADDSER .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _SERVERADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_SERVERADD, 'success');
     setPreview('index.php?file=Server', 'index.php?file=Server&page=admin');
 }
 
@@ -236,12 +216,7 @@ function del_serveur($sid) {
 
     saveUserAction(_ACTIONDELSER .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _SERVERDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_SERVERDEL, 'success');
     setPreview('index.php?file=Server', 'index.php?file=Server&page=admin');
 }
 
@@ -297,12 +272,7 @@ function modif_serveur($sid, $ip_serv, $port, $game, $pass, $cat) {
 
     saveUserAction(_ACTIONMODIFSER .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _SERVERMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_SERVERMODIF, 'success');
     setPreview('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');
 }
 
@@ -410,11 +380,7 @@ function change_pref($server_ip, $server_port, $server_game, $server_pass) {
 
     saveUserAction(_ACTIONCONFIGSER .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _PREFUPDATED . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_PREFUPDATED, 'success');
     redirect('index.php?file=Server&page=admin', 2);
 }
 
