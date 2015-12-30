@@ -105,12 +105,7 @@ function do_add($text){
 
     saveUserAction(_ACTIONADDIRC .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _AWARDADD . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_AWARDADD, 'success');
     setPreview('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');
 } 
 
@@ -143,12 +138,7 @@ function do_edit($irc_id, $text){
 
     saveUserAction(_ACTIONMODIFIRC .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _AWARDMODIF . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_AWARDMODIF, 'success');
     setPreview('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');
 } 
 
@@ -159,12 +149,7 @@ function del($irc_id){
 
     saveUserAction(_ACTIONDELIRC .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _AWARDDELETE . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_AWARDDELETE, 'success');
     setPreview('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');
 } 
 
@@ -195,12 +180,7 @@ function change_pref($irc_chan, $irc_serv){
 
     saveUserAction(_ACTIONPREFIRC .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _PREFUPDATED . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Irc&page=admin", 2);
 } 
 
