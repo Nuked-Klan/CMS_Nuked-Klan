@@ -111,12 +111,7 @@ function do_add($text){
             . "</div>\n"
             . "</div>\n";
 
-        echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+    setPreview('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');
 } 
 
 function edit($irc_id){
@@ -154,12 +149,7 @@ function do_edit($irc_id, $text){
             . "</div>\n"
             . "</div>\n";
 
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+    setPreview('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');
 } 
 
 function del($irc_id){
@@ -174,12 +164,8 @@ function del($irc_id){
             . "" . _AWARDDELETE . "\n"
             . "</div>\n"
             . "</div>\n";
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+
+    setPreview('index.php?file=Irc&op=awards', 'index.php?file=Irc&page=admin');
 } 
 
 function main_pref(){

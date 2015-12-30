@@ -75,12 +75,8 @@ function send_sondage($titre, $option, $niveau) {
         . "</div>\n";
     $sql = mysql_query("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "' AND date='".$time."'");
     list($poll_id) = mysql_fetch_array($sql);
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=Survey&op=sondage&poll_id=".$poll_id."', 'index.php?file=Survey&page=admin');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Survey&op=sondage&poll_id='. $poll_id, 'index.php?file=Survey&page=admin');
 }
 
 function del_sondage($poll_id) {
@@ -172,12 +168,8 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
         . _POLLMODIF . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=Survey&op=sondage&poll_id=" . $poll_id . "', 'index.php?file=Survey&page=admin');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Survey&op=sondage&poll_id=' $poll_id, 'index.php?file=Survey&page=admin');
 }
 
 function main(){

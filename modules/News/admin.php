@@ -293,12 +293,8 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $url
         . "</div>\n";
     $sqls = mysql_query("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $titre . "' AND date = '".$date."'");
     list($news_id) = mysql_fetch_array($sqls);
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=News&op=suite&news_id=".$news_id."', 'index.php?file=News&page=admin');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=News&op=suite&news_id='. $news_id, 'index.php?file=News&page=admin');
 }
 
 function edit($news_id) {
@@ -433,12 +429,8 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
         . _NEWSMODIF . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=News&op=suite&news_id=".$news_id."', 'index.php?file=News&page=admin');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=News&op=suite&news_id='. $news_id, 'index.php?file=News&page=admin');
 }
 
 function do_del($news_id) {

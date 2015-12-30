@@ -426,12 +426,8 @@ function save_config()
     . "" . _CONFIGSAVE . "\n"
     . "</div>\n"
     . "</div>\n";
-    echo "<script>\n"
-    ."setTimeout('screen()','3000');\n"
-    ."function screen() { \n"
-    ."screenon('index.php', 'index.php?file=Admin');\n"
-    ."}\n"
-    ."</script>\n";
+
+    setPreview('index.php', 'index.php?file=Admin');
 }
 
 

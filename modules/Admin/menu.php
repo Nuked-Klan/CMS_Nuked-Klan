@@ -409,12 +409,8 @@ function send_line($bid, $lid)
         . "</div>\n"
         . "</div>\n";
     }
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php', 'index.php?file=Admin&page=menu&op=edit_menu&bid=" . $_REQUEST['bid']."');\n"
-        ."}\n"
-        ."</script>\n";
+
+    setPreview('index.php', 'index.php?file=Admin&page=menu&op=edit_menu&bid='. $_REQUEST['bid']);
 }
 
 function move($start, $end, $content)

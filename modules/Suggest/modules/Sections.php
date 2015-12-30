@@ -155,12 +155,8 @@ function send($data)
     $upd = mysql_query("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `autor` , `autor_id`, `counter` , `date` ) VALUES ( '' , '" . $data['secid'] . "' , '" . $data['title'] . "' , '" . $data['texte'] . "' , '" . $autor . "' , '" . $autor_id . "' , '' , '" . $date. "' )");
     $sql2 = mysql_query("SELECT artid FROM " . SECTIONS_TABLE . " WHERE title = '" . $data['title'] . "' AND date='".$date."'");
         list($artid) = mysql_fetch_array($sql2);
-        echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Sections&op=article&artid=".$artid."', 'index.php?file=Suggest&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+
+        setPreview('index.php?file=Sections&op=article&artid='. $artid, 'index.php?file=Suggest&page=admin');
 }
 
 ?>

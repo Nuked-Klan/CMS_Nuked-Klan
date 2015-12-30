@@ -151,11 +151,7 @@ function send($data){
     $upd = mysql_query("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` ) VALUES ( '' , '" . $date . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['url'] . "' , '" . $data['cat'] . "' , '" . $data['webmaster'] . "' , ' " . $data['country'] . "' , '' )");
     $sql = mysql_query("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date='".$date."'");
     list($link_id) = mysql_fetch_array($sql);
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Links&op=description&link_id=".$link_id."', 'index.php?file=Suggest&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+
+    setPreview('index.php?file=Links&op=description&link_id='. $link_id, 'index.php?file=Suggest&page=admin');
 }
 ?>

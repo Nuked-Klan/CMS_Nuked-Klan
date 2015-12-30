@@ -150,12 +150,8 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
             . "</div>\n";
             $sqls = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE date = '" . $date . "' AND titre='" . $titre . "'");
             list($sid) = mysql_fetch_array($sqls);
-            echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Gallery&op=description&sid=".$sid."&orderby=news', 'index.php?file=Gallery&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+
+            setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Gallery&page=admin');
         }
         else
         {
@@ -290,12 +286,8 @@ if ($url2 == "" && $image_gd == "on" && @extension_loaded('gd') && !preg_match("
     . "" . _SCREENMODIF . "\n"
     . "</div>\n"
     . "</div>\n";
-    echo "<script>\n"
-    ."setTimeout('screen()','3000');\n"
-    ."function screen() { \n"
-    ."screenon('index.php?file=Gallery&op=description&sid=".$sid."&orderby=news', 'index.php?file=Gallery&page=admin');\n"
-    ."}\n"
-    ."</script>\n";
+
+    setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Gallery&page=admin');
 }
 
 function main()
@@ -653,12 +645,8 @@ function send_cat($titre, $description, $parentid, $position)
         . "</div>\n";
         $sqlq = mysql_query("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid='".$parentid."' AND titre='".$titre."'");
         list($cid) = mysql_fetch_array($sqlq);
-        echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Gallery&op=categorie&cat=".$cid."', 'index.php?file=Gallery&page=admin&op=main_cat');\n"
-        ."}\n"
-        ."</script>\n";
+
+        setPreview('index.php?file=Gallery&op=categorie&cat='. $cid, 'index.php?file=Gallery&page=admin&op=main_cat');
     }
 }
 
@@ -737,12 +725,8 @@ function modif_cat($cid, $titre, $description, $parentid, $position)
         . "" . _CATMODIF . "\n"
         . "</div>\n"
         . "</div>\n";
-        echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Gallery&op=categorie&cat=".$cid."', 'index.php?file=Gallery&page=admin&op=main_cat');\n"
-        ."}\n"
-        ."</script>\n";
+
+        setPreview('index.php?file=Gallery&op=categorie&cat='. $cid, 'index.php?file=Gallery&page=admin&op=main_cat');
     }
 }
 

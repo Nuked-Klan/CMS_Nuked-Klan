@@ -92,12 +92,8 @@ function add($titre, $description, $webmaster, $country, $cat, $url){
             . "</div>\n";
     $sql = mysql_query("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $titre . "' AND date='".$date."'");
     list($link_id) = mysql_fetch_array($sql);
-    echo "<script>\n"
-        ."setTimeout('screen()','3000');\n"
-        ."function screen() { \n"
-        ."screenon('index.php?file=Links&op=description&link_id=".$link_id."', 'index.php?file=Links&page=admin');\n"
-        ."}\n"
-        ."</script>\n";
+
+    setPreview('index.php?file=Links&op=description&link_id='. $link_id, 'index.php?file=Links&page=admin');
 }
 
 function del($link_id){
@@ -208,12 +204,8 @@ function modif_link($link_id, $titre, $description, $webmaster, $country, $cat, 
             . "" . _LINKMODIF . "\n"
             . "</div>\n"
             . "</div>\n";
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Links&op=description&link_id=".$link_id."', 'index.php?file=Links&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+
+    setPreview('index.php?file=Links&op=description&link_id='. $link_id, 'index.php?file=Links&page=admin');
 }
 
 function main(){
@@ -455,12 +447,7 @@ function send_cat($titre, $description, $parentid, $position){
     $sqlc = mysql_query("SELECT cid FROM " . LINKS_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
     list($cid) = mysql_fetch_array($sqlc);
 
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Links&op=categorie&cat=".$cid."', 'index.php?file=Links&page=admin&op=main_cat');\n"
-            ."}\n"
-            ."</script>\n";
+    setPreview('index.php?file=Links&op=categorie&cat='. $cid, 'index.php?file=Links&page=admin&op=main_cat');
 }
 
 function edit_cat($cid){
@@ -527,12 +514,7 @@ function modif_cat($cid, $titre, $description, $parentid, $position){
             . "</div>\n"
             . "</div>\n";
 
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Links&op=categorie&cat=".$cid."', 'index.php?file=Links&page=admin&op=main_cat');\n"
-            ."}\n"
-            ."</script>\n";
+    setPreview('index.php?file=Links&op=categorie&cat='. $cid, 'index.php?file=Links&page=admin&op=main_cat');
 }
 
 function select_cat(){

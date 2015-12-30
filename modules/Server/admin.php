@@ -97,12 +97,8 @@ function send_cat($titre, $description) {
         . _CATADD . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');
 }
 
 function edit_cat($cid) {
@@ -141,12 +137,8 @@ function modif_cat($cid, $titre, $description) {
         . _CATMODIF . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');
 }
 
 function del_cat($cid) {
@@ -164,12 +156,8 @@ function del_cat($cid) {
         . _CATDEL . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');
 }
 
 function select_serv_cat() {
@@ -237,12 +225,8 @@ function send_serveur($ip_serv, $port, $game, $pass, $cat) {
         . _SERVERADD . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Server', 'index.php?file=Server&page=admin');
 }
 
 function del_serveur($sid) {
@@ -257,12 +241,8 @@ function del_serveur($sid) {
         . _SERVERDEL . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Server', 'index.php?file=Server&page=admin');
 }
 
 function edit_serveur($sid) {
@@ -322,12 +302,8 @@ function modif_serveur($sid, $ip_serv, $port, $game, $pass, $cat) {
         . _SERVERMODIF . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "setTimeout('screen()','3000');\n"
-        . "function screen() { \n"
-        . "screenon('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');\n"
-        . "}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Server', 'index.php?file=Server&page=admin&op=main_cat');
 }
 
 function main() {

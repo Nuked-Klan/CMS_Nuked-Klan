@@ -163,6 +163,13 @@ function saveUserAction($action) {
     ));
 }
 
+/**
+ * Set website preview if enabled, and redirect.
+ *
+ * @param string $previewUrl : Url of website preview.
+ * @param string $redirect : Url to redirect after website preview.
+ * @param void
+ */
 function setPreview($previewUrl, $redirect) {
     nkTemplate_addJS('setTimeout(function(){screenon("'. $previewUrl .'", "'. $redirect .'");},"3000");' ."\n");
 }

@@ -211,11 +211,6 @@ function send($data){
         $upd = mysql_query("INSERT INTO " . GALLERY_TABLE . " ( `sid` , `titre` , `description` , `url` , `url2` , `url_file` , `cat`, `date` , `autor` ) VALUES ( '' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $url_img . "' , '" . $data['url2'] . "' , '" . $data['url_file'] . "' , '" . $data['cat'] . "' , '" . $date . "' , '" . $data['auteur'] . "' )");
         $sqls = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE date = '" . $date . "' AND titre='" . $data['titre'] . "'");
         list($sid) = mysql_fetch_array($sqls);
-        echo "<script>\n"
-                ."setTimeout('screen()','3000');\n"
-                ."function screen() { \n"
-                ."screenon('index.php?file=Gallery&op=description&sid=".$sid."&orderby=news', 'index.php?file=Suggest&page=admin');\n"
-                ."}\n"
-                ."</script>\n";
+        setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Suggest&page=admin');
 }
 ?>

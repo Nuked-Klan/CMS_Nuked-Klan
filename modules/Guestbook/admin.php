@@ -62,14 +62,8 @@ function modif_book($gid, $comment, $email, $url)
     . "" . _POSTEDIT . "\n"
     . "</div>\n"
     . "</div>\n";
-    echo "<script type=\"text/javascript\">\n"
-    ."//<![CDATA[\n"
-    ."setTimeout('screen()','3000');\n"
-    ."function screen() { \n"
-    ."screenon('index.php?file=Guestbook', 'index.php?file=Guestbook&page=admin');\n"
-    ."}\n"
-    ."//]]>\n"
-    ."</script>\n";
+
+    setPreview('index.php?file=Guestbook', 'index.php?file=Guestbook&page=admin');
 }
 
 function del_book($gid)
@@ -85,14 +79,8 @@ function del_book($gid)
     . "" . _POSTDELETE . "\n"
     . "</div>\n"
     . "</div>\n";
-    echo "<script type=\"text/javascript\">\n"
-    ."//<![CDATA[\n"
-    ."setTimeout('screen()','3000');\n"
-    ."function screen() { \n"
-    ."screenon('index.php?file=Guestbook', 'index.php?file=Guestbook&page=admin');\n"
-    ."}\n"
-    ."//]]>\n"
-    ."</script>\n";
+
+    setPreview('index.php?file=Guestbook', 'index.php?file=Guestbook&page=admin');
 }
 
 function main()

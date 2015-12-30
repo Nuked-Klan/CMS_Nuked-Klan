@@ -122,14 +122,7 @@ function do_add($description, $titre, $heure, $date_an, $date_mois, $date_jour)
 
     printNotification(_EVENTADD, 'success');
 
-    echo "<script type=\"text/javascript\">\n"
-    ."//<![CDATA[\n"
-    ."setTimeout('screen()','3000');\n"
-    ."function screen() { \n"
-    ."screenon('index.php?file=Calendar&m=".$date_mois."&y=".$date_an."', 'index.php?file=Calendar&page=admin');\n"
-    ."}\n"
-    ."//]]>\n"
-    ."</script>\n";
+    setPreview('index.php?file=Calendar&m='. $date_mois .'&y='. $date_an, 'index.php?file=Calendar&page=admin');
 }
 
 function edit($eid)
@@ -172,14 +165,7 @@ function do_edit($eid, $description, $titre, $heure, $date_an, $date_mois, $date
 
     printNotification(_EVENTMODIF, 'success');
 
-    echo "<script type=\"text/javascript\">\n"
-    ."//<![CDATA[\n"
-    ."setTimeout('screen()','3000');\n"
-    ."function screen() { \n"
-    ."screenon('index.php?file=Calendar&m=".$date_mois."&y=".$date_an."', 'index.php?file=Calendar&page=admin');\n"
-    ."}\n"
-    ."//]]>\n"
-    ."</script>\n";
+    setPreview('index.php?file=Calendar&m='. $date_mois .'&y='. $date_an, 'index.php?file=Calendar&page=admin');
 }
 
 function del($eid)

@@ -446,12 +446,7 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
             . "</div>\n"
             . "</div>\n";
 
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Wars', 'index.php?file=Wars&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+    setPreview('index.php?file=Wars', 'index.php?file=Wars&page=admin');
 }
 
 function del_war($war_id){
@@ -469,12 +464,7 @@ function del_war($war_id){
             . "</div>\n"
             . "</div>\n";
 
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Wars', 'index.php?file=Wars&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+    setPreview('index.php?file=Wars', 'index.php?file=Wars&page=admin');
 }
 
 function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage, $upImage){
@@ -540,12 +530,7 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
             . "</div>\n"
             . "</div>\n";
 
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Wars', 'index.php?file=Wars&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+    setPreview('index.php?file=Wars', 'index.php?file=Wars&page=admin');
 }
 
 function main_file($im_id){

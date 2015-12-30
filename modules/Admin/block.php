@@ -290,13 +290,9 @@ function modif_block($data)
     . '<div>',"\n"
     . '' . _BLOCKMODIF . '',"\n"
     . '</div>',"\n"
-    . '</div>',"\n"
-    . "<script>\n"
-    . "setTimeout('screen()','3000');\n"
-    . "function screen() { \n"
-    . "screenon('index.php', 'index.php?file=Admin&page=block');\n"
-    . "}\n"
-    . "</script>\n";
+    . '</div>',"\n";
+
+    setPreview('index.php', 'index.php?file=Admin&page=block');
 }
 
 function modif_position_block($bid, $method)
@@ -328,13 +324,9 @@ function modif_position_block($bid, $method)
     . '<div>',"\n"
     . '' . _BLOCKMODIF . '',"\n"
     . '</div>',"\n"
-    . '</div>',"\n"
-    . '<script>',"\n"
-    . "setTimeout('screen()','3000');\n"
-    . "function screen() { \n"
-    . "screenon('index.php', 'index.php?file=Admin&page=block');\n"
-    . "}\n"
-    . "</script>\n";
+    . '</div>',"\n";
+
+    setPreview('index.php', 'index.php?file=Admin&page=block');
 }
 
 function main()

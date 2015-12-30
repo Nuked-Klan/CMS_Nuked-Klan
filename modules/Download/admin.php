@@ -201,12 +201,8 @@ function send_file() {
             . "</div>\n";
         $sql = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE date = '" . $date . "' AND titre = '" . $titre . "'");
         list($id) = mysql_fetch_array($sql);
-        echo "<script>\n"
-            . "setTimeout('screen()','3000');\n"
-            . "function screen() { \n"
-            . "screenon('index.php?file=Download&op=description&dl_id=".$id."', 'index.php?file=Download&page=admin');\n"
-            . "}\n"
-            . "</script>\n";
+
+        setPreview('index.php?file=Download&op=description&dl_id='. $id, 'index.php?file=Download&page=admin');
     } else {
         echo "<div class=\"notification error png_bg\">\n"
             . "<div>\n"
@@ -425,12 +421,8 @@ function modif_file() {
             . _FILEEDIT . "\n"
             . "</div>\n"
             . "</div>\n";
-        echo "<script>\n"
-            . "	setTimeout('screen()','3000');\n"
-            . "	function screen() {\n"
-            . "		screenon('index.php?file=Download&op=description&dl_id=".$did."', 'index.php?file=Download&page=admin');\n"
-            . "	}\n"
-            . "</script>\n";
+
+        setPreview('index.php?file=Download&op=description&dl_id='.$did, 'index.php?file=Download&page=admin');
     } else {
         echo "<br /><br /><div style=\"text-align: center;\">" . _URLORTITLEFAILDED . "<br /><br /><a href=\"javascript:history.back();\"><b>" . _BACK . "</b></a></div><br /><br />";
     }
@@ -794,12 +786,8 @@ function send_cat($titre, $description, $parentid, $level, $position) {
         . "</div>\n";
     $sql2 = mysql_query("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
     list($did) = mysql_fetch_array($sql2);
-    echo "<script>\n"
-        . "	setTimeout('screen()','3000');\n"
-        . "	function screen() { \n"
-        . "		screenon('index.php?file=Download&op=categorie&cat=".$did."', 'index.php?file=Download&page=admin&op=main_cat');\n"
-        . "	}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Download&op=categorie&cat='. $did, 'index.php?file=Download&page=admin&op=main_cat');
 }
 
 function edit_cat($cid) {
@@ -881,12 +869,8 @@ function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
         . _CATMODIF . "\n"
         . "</div>\n"
         . "</div>\n";
-    echo "<script>\n"
-        . "	setTimeout('screen()','3000');\n"
-        . "	function screen() { \n"
-        . "		screenon('index.php?file=Download&op=categorie&cat=".$cid."', 'index.php?file=Download&page=admin&op=main_cat');\n"
-        . "	}\n"
-        . "</script>\n";
+
+    setPreview('index.php?file=Download&op=categorie&cat='. $cid, 'index.php?file=Download&page=admin&op=main_cat');
 }
 
 function select_cat() {

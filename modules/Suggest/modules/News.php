@@ -116,11 +116,7 @@ function send($data){
     $add = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '' , '" . $data['cat'] . "' , '" . $data['titre'] . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $data['texte'] . "' , '' , '" . $data['date'] . "')");
     $sqls = mysql_query("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date = '".$data['date']."'");
     list($news_id) = mysql_fetch_array($sqls);
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=News&op=suite&news_id=".$news_id."', 'index.php?file=Suggest&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+
+    setPreview('index.php?file=News&op=suite&news_id='. $news_id, 'index.php?file=Suggest&page=admin');
 }
 ?>

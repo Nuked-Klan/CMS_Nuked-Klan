@@ -245,12 +245,8 @@ function send($data){
 
     $sql = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE date = '" . $data['date'] . "' AND titre = '" . $data['titre'] . "'");
     list($id) = mysql_fetch_array($sql);
-    echo "<script>\n"
-            ."setTimeout('screen()','3000');\n"
-            ."function screen() { \n"
-            ."screenon('index.php?file=Download&op=description&dl_id=".$id."', 'index.php?file=Suggest&page=admin');\n"
-            ."}\n"
-            ."</script>\n";
+
+    setPreview('index.php?file=Download&op=description&dl_id='. $id, 'index.php?file=Suggest&page=admin');
 }
 
 function del_suggest($data){

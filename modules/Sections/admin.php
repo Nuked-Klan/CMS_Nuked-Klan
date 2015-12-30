@@ -278,14 +278,7 @@ function do_add($titre, $texte, $cat, $urlImage, $upImage){
         $sql2 = mysql_query("SELECT artid FROM " . SECTIONS_TABLE . " WHERE title = '" . $titre . "' AND date='".$date."'");
         list($artid) = mysql_fetch_array($sql2);
 
-        echo "<script type=\"text/javascript\">\n"
-                ."//<![CDATA[\n"
-                ."setTimeout('screen()','3000');\n"
-                ."function screen() { \n"
-                ."screenon('index.php?file=Sections&op=article&artid=".$artid."', 'index.php?file=Sections&page=admin');\n"
-                ."}\n"
-                ."//]]>\n"
-                ."</script>\n";
+        setPreview('index.php?file=Sections&op=article&artid='. $artid, 'index.php?file=Sections&page=admin');
     }
 }
 
@@ -390,14 +383,7 @@ function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
                 . "</div>\n"
                 . "</div>\n";
 
-        echo "<script type=\"text/javascript\">\n"
-                ."//<![CDATA[\n"
-                ."setTimeout('screen()','3000');\n"
-                ."function screen() { \n"
-                ."screenon('index.php?file=Sections&op=article&artid=".$art_id."', 'index.php?file=Sections&page=admin');\n"
-                ."}\n"
-                ."//]]>\n"
-                ."</script>\n";
+        setPreview('index.php?file=Sections&op=article&artid='. $art_id, 'index.php?file=Sections&page=admin');
     }
 }
 
@@ -552,14 +538,7 @@ function send_cat($parentid, $titre, $description, $position){
         $sql = mysql_query("SELECT secid FROM " . SECTIONS_CAT_TABLE . " WHERE secname = '" . $titre . "' AND parentid='" . $parentid . "'");
         list($secid) = mysql_fetch_array($sql);
 
-        echo "<script type=\"text/javascript\">\n"
-                ."//<![CDATA[\n"
-                ."setTimeout('screen()','3000');\n"
-                ."function screen() { \n"
-                ."screenon('index.php?file=Sections&op=categorie&secid=".$secid."', 'index.php?file=Sections&page=admin&op=main_cat');\n"
-                ."}\n"
-                ."//]]>\n"
-                ."</script>\n";
+        setPreview('index.php?file=Sections&op=categorie&secid='. $secid, 'index.php?file=Sections&page=admin&op=main_cat');
     }
 }
 
@@ -637,14 +616,7 @@ function modif_cat($cid, $parentid, $titre, $description, $position){
                 . "</div>\n"
                 . "</div>\n";
 
-        echo "<script type=\"text/javascript\">\n"
-                ."//<![CDATA[\n"
-                ."setTimeout('screen()','3000');\n"
-                ."function screen() { \n"
-                ."screenon('index.php?file=Sections&op=categorie&secid=".$cid."', 'index.php?file=Sections&page=admin&op=main_cat');\n"
-                ."}\n"
-                ."//]]>\n"
-                ."</script>\n";
+        setPreview('index.php?file=Sections&op=categorie&secid='. $cid, 'index.php?file=Sections&page=admin&op=main_cat');
     }
 }
 
