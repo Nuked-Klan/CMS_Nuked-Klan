@@ -226,12 +226,7 @@ function do_add($titre, $texte, $cat, $urlImage, $upImage){
     $titre = mysql_real_escape_string(stripslashes($titre));
 
     if (empty($titre)){
-        echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "" . _TITLEARTFORGOT . "\n"
-                . "</div>\n"
-                . "</div>\n";
-
+        printNotification(_TITLEARTFORGOT, 'error');
         redirect("index.php?file=Sections&page=admin&op=add", 4);
     }
     else {
@@ -269,11 +264,7 @@ function do_add($titre, $texte, $cat, $urlImage, $upImage){
 
         saveUserAction(_ACTIONADDSEC .': '. $titre .'.');
 
-        echo "<div class=\"notification success png_bg\">\n"
-                . "<div>\n"
-                . "" . _ARTADD . "\n"
-                . "</div>\n"
-                . "</div>\n";
+        printNotification(_ARTADD, 'success');
 
         $sql2 = mysql_query("SELECT artid FROM " . SECTIONS_TABLE . " WHERE title = '" . $titre . "' AND date='".$date."'");
         list($artid) = mysql_fetch_array($sql2);
@@ -337,12 +328,7 @@ function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
     $titre = mysql_real_escape_string(stripslashes($titre));
 
     if (empty($titre)){
-        echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "" . _TITLEARTFORGOT . "\n"
-                . "</div>\n"
-                . "</div>\n";
-
+        printNotification(_TITLEARTFORGOT, 'error');
         redirect("index.php?file=Sections&page=admin&op=add", 4);
     }
     else{
@@ -377,12 +363,7 @@ function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
 
         saveUserAction(_ACTIONMODIFSEC .': '. $titre .'.');
 
-        echo "<div class=\"notification success png_bg\">\n"
-                . "<div>\n"
-                . "" . _ARTMODIF . "\n"
-                . "</div>\n"
-                . "</div>\n";
-
+        printNotification(_ARTMODIF, 'success');
         setPreview('index.php?file=Sections&op=article&artid='. $art_id, 'index.php?file=Sections&page=admin');
     }
 }
@@ -399,12 +380,7 @@ function del($art_id){
 
     saveUserAction(_ACTIONDELSEC .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _ARTDEL . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_ARTDEL, 'success');
     redirect("index.php?file=Sections&page=admin", 2);
 }
 
@@ -512,12 +488,7 @@ function send_cat($parentid, $titre, $description, $position){
     $titre = mysql_real_escape_string(stripslashes($titre));
 
     if (empty($titre)){
-        echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "" . _TITLECATFORGOT . "\n"
-                . "</div>\n"
-                . "</div>\n";
-
+        printNotification(_TITLECATFORGOT, 'error');
         redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
     }
     else {
@@ -529,11 +500,7 @@ function send_cat($parentid, $titre, $description, $position){
 
         saveUserAction(_ACTIONADDCATSEC .': '. $titre .'.');
 
-        echo "<div class=\"notification success png_bg\">\n"
-                . "<div>\n"
-                . "" . _CATADD . "\n"
-                . "</div>\n"
-                . "</div>\n";
+        printNotification(_CATADD, 'success');
 
         $sql = mysql_query("SELECT secid FROM " . SECTIONS_CAT_TABLE . " WHERE secname = '" . $titre . "' AND parentid='" . $parentid . "'");
         list($secid) = mysql_fetch_array($sql);
@@ -594,11 +561,7 @@ function modif_cat($cid, $parentid, $titre, $description, $position){
     $titre = mysql_real_escape_string(stripslashes($titre));
 
     if (empty($titre)){
-        echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "" . _TITLECATFORGOT . "\n"
-                . "</div>\n"
-                . "</div>\n";
+        printNotification(_TITLECATFORGOT, 'error');
 
         redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
     } else {
@@ -610,12 +573,7 @@ function modif_cat($cid, $parentid, $titre, $description, $position){
 
         saveUserAction(_ACTIONMODIFCATSEC .': '. $titre .'.');
 
-        echo "<div class=\"notification success png_bg\">\n"
-                . "<div>\n"
-                . "" . _CATMODIF . "\n"
-                . "</div>\n"
-                . "</div>\n";
-
+        printNotification(_CATMODIF, 'success');
         setPreview('index.php?file=Sections&op=categorie&secid='. $cid, 'index.php?file=Sections&page=admin&op=main_cat');
     }
 }
@@ -652,12 +610,7 @@ function del_cat($cid){
 
     saveUserAction(_ACTIONDELCATSEC .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _CATDEL . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_CATDEL, 'success');
     redirect("index.php?file=Sections&page=admin&op=main_cat", 2);
 }
 
@@ -689,12 +642,7 @@ function change_pref($max_sections){
 
     saveUserAction(_ACTIONCONFSEC .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _PREFUPDATED . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Sections&page=admin", 2);
 }
 
@@ -704,12 +652,7 @@ function modif_position($cid, $method){
     $sql = mysql_query("SELECT secname, position FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     list($titre, $position) = mysql_fetch_array($sql);
     if ($position <= 0 AND $method == "up"){
-        echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "" . _CATERRORPOS . "\n"
-                . "</div>\n"
-                . "</div>\n";
-
+        printNotification(_CATERRORPOS, 'error');
         redirect("index.php?file=Sections&page=admin&op=main_cat", 2);
         return;
     }
@@ -719,12 +662,7 @@ function modif_position($cid, $method){
 
     saveUserAction(_ACTIONPOSSEC .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _CATMODIF . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_CATMODIF, 'success');
     redirect("index.php?file=Sections&page=admin&op=main_cat", 2);
 }
 
