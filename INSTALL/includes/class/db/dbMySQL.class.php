@@ -173,12 +173,12 @@ class dbMySQL {
                     foreach ($tableInfo as $row)
                         $fields[] = $row['Field'];
 
-                    $backup .= 'INSERT INTO '. $table .' (`'. implode('`, `', $fields) .'`) VALUES' ."\n";
+                    $insertQuery = 'INSERT INTO '. $table .' (`'. implode('`, `', $fields) .'`) VALUES' ."\n";
+                    $backup .= $insertQuery;
 
                     $nbFields = count($fields);
-                    $d = 0;
+                    $d = $e = 0;
 
-                    // TODO : Limiter la taille de la requete
                     foreach ($tableDataList as $tableData) {
                         $backup .= '(';
 
@@ -195,11 +195,21 @@ class dbMySQL {
                         }
 
                         $d++;
+                        $e++;
 
-                        if ($d == $nbData)
+                        if ($d == $nbData) {
                             $backup .= ');' ."\n";
-                        else
-                            $backup .= '),' ."\n";
+                        }
+                        else {
+                            if ($e == 20) {
+                                $backup .= ');' ."\n";
+                                $backup .= $insertQuery;
+                                $e = 0;
+                            }
+                            else {
+                                $backup .= '),' ."\n";
+                            }
+                        }
                     }
                 }
             }
