@@ -286,11 +286,8 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $url
 
     saveUserAction(_ACTIONADDNEWS .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _NEWSADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_NEWSADD, 'success');
+
     $sqls = mysql_query("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $titre . "' AND date = '".$date."'");
     list($news_id) = mysql_fetch_array($sqls);
 
@@ -424,12 +421,7 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
 
     saveUserAction(_ACTIONMODIFNEWS .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _NEWSMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_NEWSMODIF, 'success');
     setPreview('index.php?file=News&op=suite&news_id='. $news_id, 'index.php?file=News&page=admin');
 }
 
@@ -444,11 +436,7 @@ function do_del($news_id) {
 
     saveUserAction(_ACTIONDELNEWS .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _NEWSDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_NEWSDEL, 'success');
     redirect("index.php?file=News&page=admin", 2);
 }
 
@@ -525,16 +513,12 @@ function send_cat($titre, $description, $image, $fichiernom) {
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
             $url_image = "upload/News/" . $filename;
             if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                printNotification('Upload file failed !!!', 'error');
                 return;
             }
             @chmod ($url_image, 0644);
         } else {
-            echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "No image file !"
-                . "</div>\n"
-                . "</div>\n";
+            printNotification('No image file !!!', 'error');
             redirect("index.php?file=News&page=admin&op=add_cat", 2);
             return;
         }
@@ -550,11 +534,7 @@ function send_cat($titre, $description, $image, $fichiernom) {
 
     saveUserAction(_ACTIONADDCATNEWS .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_CATADD, 'success');
     redirect("index.php?file=News&page=admin&op=main_cat", 2);
 }
 
@@ -599,16 +579,12 @@ function modif_cat($cid, $titre, $description, $image, $fichiernom) {
         if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
             $url_image = "upload/News/" . $filename;
             if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                printNotification('Upload file failed !!!', 'error');
                 return;
             }
             @chmod ($url_image, 0644);
         } else {
-            echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "No image file !"
-                . "</div>\n"
-                . "</div>\n";
+            printNotification('No image file !!!', 'error');
             redirect("index.php?file=News&page=admin&op=edit_cat&cid=" . $cid, 2);
             return;
         }
@@ -624,11 +600,7 @@ function modif_cat($cid, $titre, $description, $image, $fichiernom) {
 
     saveUserAction(_ACTIONEDITCATNEWS .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_CATMODIF, 'success');
     redirect("index.php?file=News&page=admin&op=main_cat", 2);
 }
 
@@ -652,11 +624,7 @@ function del_cat($cid) {
 
     saveUserAction(_ACTIONDELCATNEWS .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _CATDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_CATDEL, 'success');
     redirect("index.php?file=News&page=admin&op=main_cat", 2);
 }
 
@@ -688,11 +656,7 @@ function change_pref($max_news, $max_archives) {
 
     saveUserAction(_ACTIONPREFNEWS .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _PREFUPDATED . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=News&page=admin", 2);
 }
 

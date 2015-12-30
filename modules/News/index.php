@@ -291,7 +291,7 @@ function sendnews($title, $news_id, $comment, $mail, $pseudo) {
 
     mail($mail, $subject, $corps, $from);
 
-    echo '<div style="text-align:center;"><br />'._SENDFMAIL.'<br /><br /></div>';
+    printNotification(_SENDFMAIL, 'success');
     redirect('index.php?file=News', 2);
 }
 
