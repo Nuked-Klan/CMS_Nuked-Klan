@@ -1622,6 +1622,8 @@ function saveNotification($text, $type = 1) {
     ));
 }
 
+// printNotification(_ZONEADMIN, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+// printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
 // information, success, error, info, warning
 function printNotification($message, $type = 'information', $optionsData = array(), $return = false) {
     if (isset($_REQUEST['ajax']))

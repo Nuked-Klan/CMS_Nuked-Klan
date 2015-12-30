@@ -423,7 +423,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
             $pseudo = checkNickname($pseudo);
 
             if (($error = getCheckNicknameError($pseudo)) !== false) {
-                echo "<div style=\"text-align: center;\">" . $error . "<br /><a href=\"#\" onclick=\"history.back()\">" . _BACK . "</a></div>";
+                printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
                 return;
             }
 
@@ -438,7 +438,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         $date = time();
 
         if ($date < $anti_flood && $user[1] < admin_mod("Comment")){
-            echo "<br /><br /><div style=\"text-align: center;\">" . _NOFLOOD . "</div><br /><br />";
+            printNotification(_NOFLOOD, 'error');
             $url = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
             redirect($url, 2);
             closetable();
@@ -455,7 +455,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         }
 
         $add = mysql_query("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . mysql_real_escape_string($texte) . "' , '" . $date . "' , '" . $user_ip . "')");
-        echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTADD . "</b>";
+        printNotification(_COMMENTADD, 'success');
 
         if ($module == "news"){
             echo "<br /><br />[ <a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\">" . __('CLOSE_WINDOW') . "</a> ]</div>";
@@ -470,8 +470,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         }
     }
     else{
-        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /><br /><br />\n"
-            . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
+        printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
     }
 }
 
@@ -489,13 +488,13 @@ function del_comment($cid){
 
         $del = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
 
-        echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTDEL . "</b></div>\n";
+        printNotification(_COMMENTDEL, 'success');
 
         $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 2);
     }
     else{
-        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+        printNotification(_ZONEADMIN, 'error');
 
         $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);
@@ -516,15 +515,15 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
     if ($visiteur >= $level_admin){
         $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
 
-        echo "<div style=\"text-align: center;\"><br /><br /><br /><b>" . _COMMENTMODIF . "</b></div>\n";
+        printNotification(_COMMENTMODIF, 'success');
 
-    $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
+        $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 2);
     }
     else{
-        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+        printNotification(_ZONEADMIN, 'error');
 
-    $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&amp;module=" . $module;
+        $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&amp;module=" . $module;
         redirect($url_redir, 5);
     }
 }
@@ -566,7 +565,7 @@ function edit_comment($cid){
     else{
         nkTemplate_setTitle(_COMMENTS);
 
-        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ZONEADMIN . "</div>\n";
+        printNotification(_ZONEADMIN, 'error');
 
         $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);

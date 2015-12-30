@@ -63,12 +63,7 @@ function modif_com($cid, $titre, $texte){
 
     saveUserAction(_ACTIONMODIFCOM .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _COMMENTMODIF . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_COMMENTMODIF, 'success');
     redirect("index.php?file=Comment&page=admin", 2);
 }
 
@@ -79,12 +74,7 @@ function del_com($cid){
 
     saveUserAction(_ACTIONDELCOM .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _COMMENTDEL . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_COMMENTDEL, 'success');
     redirect("index.php?file=Comment&page=admin", 2);
 }
 
@@ -183,12 +173,7 @@ function module_send_com($news, $download, $sections, $links, $wars, $gallery, $
 
     saveUserAction(_ACTIONMODIFCOMMOD .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _COMMENTMODIFMOD . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_COMMENTMODIFMOD, 'success');
     redirect("index.php?file=Comment&page=admin&op=module_com", 2);
 }
 
