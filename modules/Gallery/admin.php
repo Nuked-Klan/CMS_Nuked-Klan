@@ -81,19 +81,18 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
 
                 if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
                 {
-                    move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_screen) or die ("Upload file failed !!!");
+                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_screen)) {
+                        printNotification('Upload file failed !!!', 'error');
+                        return;
+                    }
+
                     @chmod ($url_screen, 0644);
                 }
                 else
                 {
-                    echo "<div class=\"notification error png_bg\">\n"
-                . "<div>\n"
-                . "No image file !"
-                . "</div>\n"
-                . "</div>\n";
-
-                redirect("index.php?file=Gallery&page=admin&op=add_screen", 2);
-                return;
+                    printNotification('No image file !!!', 'error');
+                    redirect("index.php?file=Gallery&page=admin&op=add_screen", 2);
+                    return;
                 }
             }
 
@@ -143,11 +142,8 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
 
             saveUserAction(_ACTIONADDGAL .': '. $titre);
 
-            echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _SCREENADD . "\n"
-            . "</div>\n"
-            . "</div>\n";
+            printNotification(_SCREENADD, 'success');
+
             $sqls = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE date = '" . $date . "' AND titre='" . $titre . "'");
             list($sid) = mysql_fetch_array($sqls);
 
@@ -155,21 +151,12 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
         }
         else
         {
-            echo "<div class=\"notification error png_bg\">\n"
-            . "<div>\n"
-            . "" . _DEJASCREEN . "<br />" . _REPLACEIT . "<br /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a>"
-            . "</div>\n"
-            . "</div>\n";
+            printNotification(_DEJASCREEN .'<br />'. _REPLACEIT, 'warning', array('backLinkUrl' => 'javascript:history.back()'));
         }
     }
     else
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . ""._SPECIFY.""
-        . "</div>\n"
-        . "</div>\n";
-
+        printNotification(_SPECIFY, 'error');
         redirect("index.php?file=Gallery&page=admin&op=add_screen", 3);
     }
 
@@ -188,11 +175,7 @@ function del_screen($sid)
 
     saveUserAction(_ACTIONDELGAL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _SCREENDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_SCREENDEL, 'success');
     redirect("index.php?file=Gallery&page=admin", 1);
 }
 
@@ -219,19 +202,23 @@ function modif_img($sid, $titre, $description, $auteur, $fichiernom, $maxi, $cat
 
         if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
         {
-            move_uploaded_file($_FILES['fichiernom']['tmp_name'], $img_url) or die ("Upload file failed !!!");
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $img_url)) {
+                printNotification('Upload file failed !!!', 'error');
+                return;
+            }
+
             @chmod ($img_url, 0644);
         }
         else
         {
-            echo "<br /><br /><div style=\"text-align: center;\">No image file !!!</div><br /><br />";
+            printNotification('No image file !!!', 'error');
             redirect("index.php?file=Gallery&page=admin&op=edit_screen&sid=" . $sid, 2);
             return;
         }
     }
     else
     {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _DEJASCREEN . "<br />" . _REPLACEIT . "<br /><br /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a></div><br /><br />";
+        printNotification(_DEJASCREEN .'<br />'. _REPLACEIT, 'warning', array('backLinkUrl' => 'javascript:history.back()'));
         return;
     }
 }
@@ -281,12 +268,7 @@ if ($url2 == "" && $image_gd == "on" && @extension_loaded('gd') && !preg_match("
 
     saveUserAction(_ACTIONMODIFGAL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _SCREENMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
-
+    printNotification(_SCREENMODIF, 'success');
     setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Gallery&page=admin');
 }
 
@@ -622,11 +604,7 @@ function send_cat($titre, $description, $parentid, $position)
 
     if (empty($titre))
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "" . _TITLECATFORGOT . "\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_TITLECATFORGOT, 'error');
         redirect("index.php?file=Gallery&page=admin&op=main_cat", 4);
     }
     else
@@ -638,11 +616,8 @@ function send_cat($titre, $description, $parentid, $position)
 
         saveUserAction(_ACTIONADDCATGAL .': '. $titre);
 
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _CATADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_CATADD, 'success');
+
         $sqlq = mysql_query("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid='".$parentid."' AND titre='".$titre."'");
         list($cid) = mysql_fetch_array($sqlq);
 
@@ -704,11 +679,7 @@ function modif_cat($cid, $titre, $description, $parentid, $position)
 
     if (empty($titre))
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "" . _TITLEARTFORGOT . "\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_TITLEARTFORGOT, 'error');
         redirect("index.php?file=Gallery&page=admin&op=main_cat", 4);
     }
     else
@@ -720,12 +691,7 @@ function modif_cat($cid, $titre, $description, $parentid, $position)
 
         saveUserAction(_ACTIONMODIFCATGAL .': '. $titre);
 
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _CATMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+        printNotification(_CATMODIF, 'success');
         setPreview('index.php?file=Gallery&op=categorie&cat='. $cid, 'index.php?file=Gallery&page=admin&op=main_cat');
     }
 }
@@ -765,11 +731,7 @@ function del_cat($cid)
 
     saveUserAction(_ACTIONDELCATGAL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _CATDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_CATDEL, 'success');
     redirect("index.php?file=Gallery&page=admin&op=main_cat", 2);
 }
 
@@ -805,11 +767,7 @@ function change_pref($gallery_title, $max_img, $max_img_line)
 
     saveUserAction(_ACTIONPREFGAL .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _PREFUPDATED . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Gallery&page=admin", 2);
 }
 
@@ -821,11 +779,7 @@ function modif_position($cid, $method)
     list($titre, $position) = mysql_fetch_array($sqlq);
     if ($position <=0 AND $method == "up")
     {
-        echo "<div class=\"notification error png_bg\">\n"
-        . "<div>\n"
-        . "" . _CATERRORPOS . "\n"
-        . "</div>\n"
-        . "</div>\n";
+        printNotification(_CATERRORPOS, 'error');
         redirect("index.php?file=Gallery&page=admin&op=main_cat", 2);
         exit();
     }
@@ -834,11 +788,7 @@ function modif_position($cid, $method)
 
     saveUserAction(_ACTIONPOSCATGAL .': '. $titre);
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _CATMODIF . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_CATMODIF, 'success');
     redirect("index.php?file=Gallery&page=admin&op=main_cat", 2);
 }
 

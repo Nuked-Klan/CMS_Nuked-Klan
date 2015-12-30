@@ -9,6 +9,9 @@ NOTE : Used by defaultNotification function with nudePage design in index.php fi
 
 <?php
 
+// TODO : Ajouter  class="buttonLink" au liens pour le backend
+
+
 if ($ajax) :
 
 ?>
