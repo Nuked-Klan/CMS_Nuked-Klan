@@ -13,20 +13,21 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 translate('modules/Textbox/lang/'. $language .'.lang.php');
 
-$captcha = initCaptcha();
 
 global $visiteur;
 
 $redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
 $level_access = nivo_mod("Textbox");
 
+if (! isset($_REQUEST['ajax'])) opentable();
+
 if ($visiteur >= $level_access && $level_access > -1)
 {
-    opentable();
-
     // Captcha check
-    if (initCaptcha() && ! validCaptchaCode())
+    if (initCaptcha() && ! validCaptchaCode()) {
+        if (! isset($_REQUEST['ajax'])) closetable();
         return;
+    }
 
     if (isset($user[2]))
     {
@@ -39,8 +40,13 @@ if ($visiteur >= $level_access && $level_access > -1)
         $_REQUEST['auteur'] = checkNickname($_REQUEST['auteur']);
 
         if (($error = getCheckNicknameError($_REQUEST['auteur'])) !== false) {
-            echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities($error) . "</div><br /><br />";
-            redirect($redirection, 2);
+            printNotification(nkHtmlEntities($error), 'error');
+
+            if (! isset($_REQUEST['ajax'])) {
+                redirect($redirection, 2);
+                closetable();
+            }
+
             return;
         }
 
@@ -61,29 +67,34 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     if ($user_ip == $flood_ip && $date < $anti_flood && $visiteur == 0)
     {
-        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_NOFLOOD) . "</div><br /><br />";
-        redirect($redirection, 2);
+        printNotification(nkHtmlEntities(_NOFLOOD), 'error');
+
+        if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
     }
 
     else if ($_REQUEST['texte'] != "")
     {
         $sql = mysql_query("INSERT INTO " . TEXTBOX_TABLE . " ( `id` , `auteur` , `ip` , `texte` , `date` ) VALUES ( '' , '" . $pseudo . "' ,'" . $user_ip . "' , '" . $_REQUEST['texte'] . "' , '" . $date . "' )");
-        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_SHOUTSUCCES) . "</div><br /><br />";
-        redirect($redirection, 2);
+
+        printNotification(nkHtmlEntities(_SHOUTSUCCES), 'success');
+
+        if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
     }
 
     else
     {
-        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_NOTEXT) . "</div><br /><br />";
-        redirect($redirection, 2);
+        printNotification(nkHtmlEntities(_NOTEXT), 'error');
+
+        if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
     }
 }
 else
 {
-        echo "<br /><br /><div id=\"ajax_message\" style=\"text-align: center;\">" . nkHtmlEntities(_NOENTRANCE) . "</div><br /><br />";
-        redirect($redirection, 2);
+    printNotification(nkHtmlEntities(_NOENTRANCE), 'error');
+
+    if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
 }
 
-closetable();
+if (! isset($_REQUEST['ajax'])) closetable();
 
 ?>
