@@ -481,7 +481,7 @@ if ($visiteur >= $nuked['user_social_level'] )
         echo "&nbsp;[&nbsp;<a href=\"index.php?file=Search&amp;op=mod_search&amp;autor=" . $autor . "\">" . _FINDSTUFF . "</a>&nbsp;]&nbsp;</div><br />\n";
     }
     else{
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOMEMBER . "</div><br /><br />\n";
+        printNotification(_NOMEMBER, 'error');
     }
 
     closetable();
