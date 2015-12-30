@@ -117,11 +117,7 @@ function del($did) {
 
     saveUserAction(_ACTIONDELDEFY .' '. $pseudo);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _DEFIEDELETE . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_DEFIEDELETE, 'success');
     redirect('index.php?file=Defy&page=admin', 2);
 }
 
@@ -141,12 +137,7 @@ function transfert($did) {
 
     saveUserAction(_ACTIONTRANDEFY .' '. $pseudo);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _DEFIETRANSFERT . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_DEFIETRANSFERT, 'success');
     $url_redirect = 'index.php?file=Wars&page=admin&op=match&do=edit&war_id=' . $warid;
     redirect($url_redirect, 2);
 }
@@ -197,11 +188,7 @@ function update_pref($defie_mail, $defie_inbox, $defie_charte) {
 
     saveUserAction(_ACTIONPREFDEFY .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _PREFUPDATE . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_PREFUPDATE, 'success');
     redirect('index.php?file=Defy&page=admin', 2);
 }
 

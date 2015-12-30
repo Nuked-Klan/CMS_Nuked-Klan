@@ -211,7 +211,7 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
         $sql2 = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $time . "' , '0' )");
     }
 
-    echo '<br /><br /><div style="text-align: center;">' . _SENDMAIL . '</div><br /><br />';
+    printNotification(_SENDMAIL, 'success');
     redirect('index.php', 2);
 }
 
