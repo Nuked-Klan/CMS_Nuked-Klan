@@ -486,7 +486,7 @@ function add_dispo($dispo){
 
     mysql_query($sql);
 
-    echo "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div>";
+    printNotification(_UPDATEAVAILLABLE, 'success');
 
     $url_redirect = "index.php?file=Calendar&op=show_event&eid=" . $_REQUEST['war_id'] . "&type=" . $_REQUEST['type'];
     redirect($url_redirect, 2);
@@ -511,7 +511,7 @@ function del_dispo(){
     $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "', pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] . "'";
     mysql_query($sql);
 
-    echo "<div style=\"text-align: center;\"><br /><br /><b>" . _UPDATEAVAILLABLE . "</b><br /><br /></div>";
+    printNotification(_UPDATEAVAILLABLE, 'success');
 
     $url_redirect = "index.php?file=Calendar&op=show_event&eid=" . $_REQUEST['war_id'] . "&type=" . $_REQUEST['type'];
     redirect($url_redirect, 2);
