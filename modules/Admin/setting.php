@@ -376,7 +376,7 @@ if ($visiteur == 9)
         if (getTimeZoneDateTime($_REQUEST['datezone']) === false) {
             echo "<div class=\"notification error png_bg\">\n"
                 . "<div>\n"
-                . _BAD_TIMEZONE . "\n"
+                . _BAD_DATEZONE . "\n"
                 . "</div>\n"
                 . "</div>\n";
             redirect('index.php?file=Admin&page=setting', 2);
