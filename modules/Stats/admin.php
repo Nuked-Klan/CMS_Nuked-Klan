@@ -211,12 +211,7 @@ function del()
 
     saveUserAction(_ACTIONDELSTATS);
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _VIDER . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_VIDER, 'success');
     redirect("index.php?file=Stats&page=admin", 2);
 }
 
