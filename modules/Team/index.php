@@ -499,7 +499,7 @@ else
     }
     else
     {
-        echo "<br /><br /><div style=\"text-align: center;\">" . _NOMEMBER . "</div><br /><br />\n";
+        printNotification(_NOMEMBER, 'error');
     }
 
     closetable();
