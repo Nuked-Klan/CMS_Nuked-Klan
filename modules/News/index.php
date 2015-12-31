@@ -73,7 +73,7 @@ function index(){
         $data['id'] = $TabNews['id'];
         $data['titre'] = printSecuTags($TabNews['titre']);
 
-        if ($autor_id != '') {
+        if ($TabNews['auteur_id'] != '') {
             $data['authorLink'] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($TabNews['auteur']) .'">'. $TabNews['auteur'] .'</a>';
         }
         else {

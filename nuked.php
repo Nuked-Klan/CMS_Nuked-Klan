@@ -1634,7 +1634,7 @@ function printNotification($message, $type = 'information', $optionsData = array
     $html = applyTemplate('notification', array_merge($optionsData, array(
         'type'      => $type,
         'message'   => $message
-    ));
+    )));
 
     if ($return)
         return $html;

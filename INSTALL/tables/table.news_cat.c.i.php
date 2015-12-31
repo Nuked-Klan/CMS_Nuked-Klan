@@ -18,7 +18,7 @@ $dbTable->setTable($this->_session['db_prefix'] .'_news_cat');
 
 $newsCatTableCfg = array(
     'fields' => array(
-        'id'          => array('type' => 'int(11)', 'null' => false, 'autoIncrement' => true),
+        'nid'         => array('type' => 'int(11)', 'null' => false, 'autoIncrement' => true),
         'titre'       => array('type' => 'text',    'null' => true),
         'description' => array('type' => 'text',    'null' => true),
         'image'       => array('type' => 'text',    'null' => true)
