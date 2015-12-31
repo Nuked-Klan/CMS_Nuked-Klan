@@ -77,9 +77,9 @@ function send_message($titre, $user_for, $message){
     global $user, $nuked;
 
     if (empty($titre) || empty($user_for) || empty($message)){
-            echo '<br /><br /><div style="text-align:center;">'._EMPTYFIELD.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a></div><br /><br />';
-	}else{
-		
+        printNotification(_EMPTYFIELD, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+	}
+	else {
 		if (!empty($user_for) && ctype_alnum($user_for)) {
 			$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '$user_for'");
 			$nb = mysql_num_rows($sql2);
@@ -87,15 +87,16 @@ function send_message($titre, $user_for, $message){
 		else $nb = 0;
 		
 		if ($nb == 0) {
-			echo '<br /><br /><div style="text-align:center;\">'._UNKNOWMEMBER.'<br /><br /><a href="javascript:history.back()"><b>'._BACK.'</b></a></div><br /><br />';
-		} else {
+			printNotification(_UNKNOWMEMBER, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+		}
+		else {
 			$flood = mysql_query("SELECT date FROM " . USERBOX_TABLE . " WHERE user_from = '" . $user[0] . "' ORDER BY date DESC LIMIT 0, 1");
 			list($flood_date) = mysql_fetch_array($flood);
 			$anti_flood = $flood_date + $nuked['post_flood'];
 			$date = time();
 			
 			if ($date < $anti_flood){
-				echo '<br /><br /><div style="text-align:center;">'._NOFLOOD.'</div><br /><br />';
+				printNotification(_NOFLOOD, 'error');
 				redirect('index.php?file=Userbox', 2);
 				closetable();
 				return;
@@ -108,7 +109,8 @@ function send_message($titre, $user_for, $message){
 			$titre = nkHtmlEntities($titre);
 			
 			$sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
-			echo '<br /><br /><div style="text-align:center;">'._MESSSEND.'</div><br /><br />';
+
+			printNotification(_MESSSEND, 'success');
 			redirect("index.php?file=Userbox", 2);
 		}
 	}
@@ -150,7 +152,7 @@ function show_message($mid){
                 <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
     }
     else {
-        echo '<p style="text-align: center">' . _NOENTRANCE . '</p>';
+        printNotification(_NOENTRANCE, 'error');
     }
 }
 
@@ -162,11 +164,12 @@ function del_message($mid){
 
     if($nbr > 0){
         $sql = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '$mid' AND user_for = '{$user[0]}'");
-        $MessConf = _MESSDEL;
-    }
-    else $MessConf = 'Failed...';
 
-    echo '<br /><br /><div style="text-align: center;">'.$MessConf.'</div><br /><br />';
+        printNotification(_MESSDEL, 'success');
+    }
+    else
+        printNotification('Failed...', 'error');
+
     redirect('index.php?file=Userbox', 2);
 }
 
@@ -187,13 +190,14 @@ function del_message_form($mid, $del_oui){
                 $del = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '{$titi}'");
             }
         }
-        echo '<br /><br /><div style="text-align:center;">'._MESSAGESDEL.'</div><br /><br />';
+
+        printNotification(_MESSAGESDEL, 'success');
         redirect('index.php?file=Userbox', 2);
 
     }else{
 
         if (!$mid){
-            echo '<br /><br /><div style="text-align:center;">'._NOSELECTMESS.'</div><br /><br />';
+            printNotification(_NOSELECTMESS, 'error');
             redirect('index.php?file=Userbox', 2);
             closetable();
             return;
