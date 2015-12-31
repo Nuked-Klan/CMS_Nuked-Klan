@@ -48,11 +48,7 @@ function modif_shout($mid, $texte)
 
     saveUserAction(_ACTIONMODIFSHO .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _MESSEDIT . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_MESSEDIT, 'success');
     redirect("index.php?file=Textbox&page=admin", 2);
 }
 
@@ -64,11 +60,7 @@ function del_shout($mid)
 
     saveUserAction(_ACTIONDELSHO .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _MESSDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_MESSDEL, 'success');
     redirect("index.php?file=Textbox&page=admin", 2);
 }
 
@@ -80,11 +72,7 @@ function del_all_shout()
 
     saveUserAction(_ACTIONALLDELSHO .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _ALLMESSDEL . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_ALLMESSDEL, 'success');
     redirect("index.php?file=Textbox&page=admin", 2);
 }
 
@@ -225,11 +213,7 @@ function change_pref($max_shout, $textbox_avatar)
 
     saveUserAction(_ACTIONCONFSHO .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-    . "<div>\n"
-    . "" . _PREFUPDATED . "\n"
-    . "</div>\n"
-    . "</div>\n";
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Textbox&page=admin", 2);
 }
 
