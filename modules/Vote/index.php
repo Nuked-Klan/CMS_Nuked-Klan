@@ -69,9 +69,9 @@ function post_vote($module, $vid) {
         $count = mysql_num_rows($sql);
 
         if ($count > 0) {
-            echo "<div style=\"text-align: center;\"><br /><br /><br />" . _ALREADYVOTE . "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
-        } else {
+            printNotification(_ALREADYVOTE, 'error', array('closeLink' => true));
+        }
+        else {
             echo "<form method=\"post\" action=\"index.php?file=Vote&amp;op=do_vote\">\n"
                . "<div style=\"text-align: center;\"><br /><br />" . _ONEVOTEONLY . "<br /><br /><b>" . _NOTE . " : </b>"
                . "<select name=\"vote\"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>"
@@ -81,8 +81,7 @@ function post_vote($module, $vid) {
                . "<input type=\"submit\" name=\"Submit\" value=\"" . _TOVOTE . "\" /></div></form>";
         }
     } else {
-        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
-           . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
+        printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
     }
 
 }
@@ -109,17 +108,14 @@ function do_vote($vid, $module, $vote) {
         $count = mysql_num_rows($sql);
 
         if ($count > 0) {
-            echo "<div style=\"text-align: center;\"><br /><br /><br />"  . _ALREADYVOTE .  "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close();\"><b>" . __('CLOSE_WINDOW') . "</b></a></b></div>";
+            printNotification(_ALREADYVOTE, 'error', array('closeLink' => true));
         } else {
             $sql = mysql_query("INSERT INTO " . VOTE_TABLE . " ( `id` , `module` , `vid` , `ip` , `vote` ) VALUES ( '' , '" . $module . "' , '" . $vid . "' , '" . $user_ip . "' , '" . $vote . "' )");
 
-            echo "<div style=\"text-align: center;\"><br /><br /><br />" . _VOTEADD . "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\"><b>" . __('CLOSE_WINDOW') . "</b></a></b></div>";
+            printNotification(_VOTEADD, 'error', array('closeLink' => true, 'reloadOnClose' => true));
         }
     } else {
-        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
-        . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
+        printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
     }
 }
 
