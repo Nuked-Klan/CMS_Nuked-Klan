@@ -31,8 +31,10 @@ function index(){
     // Securite par phpSecure.info
     if (isset($_REQUEST['module']) && is_file('modules/Suggest/modules/' . $_REQUEST['module'] . '.php')){
         if (false===array_search($_REQUEST['module'], $autorized_modules) || preg_match('`\.\.`', $_REQUEST['module'])){
-            die('<br /><br /><div style="text-align: center"><big>What are you trying to do ?</big></div><br /><br />');
+            printNotification('What are you trying to do ?', 'error');
+            return;
         }
+
         $_REQUEST['module'] = trim($_REQUEST['module']);
         // Fin
 
@@ -99,7 +101,8 @@ function add_sug($data){
     opentable();
 
     if (preg_match('#\.\.#', $_REQUEST['module']) || preg_match('#\\\#', $_REQUEST['module'])){
-        die('<br /><br /><div style="text-align: center"><big>What are you trying to do ?</big></div><br /><br />');
+        printNotification('What are you trying to do ?', 'error');
+        return;
     }
     else{
         include('modules/Suggest/modules/' . $_REQUEST['module'] . '.php');
@@ -109,7 +112,7 @@ function add_sug($data){
     $content = mysql_real_escape_string(stripslashes($content));
 
     if(strlen($content) <= 30){
-        echo '<br /><br /><div style="text-align: center">' . _NOCONTENT . '</div><br /><br />';
+        printNotification(_NOCONTENT, 'error');
         closetable();
         return;
     }

@@ -171,7 +171,7 @@ function upload($file = "", $url = "", $upload_dl, $file_filter, $file_filtre, $
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
         if ($file_filter == "on" && !in_array(strtolower($ext), $file_filtre)){
-            echo "<br /><br /><div style=\"text-align: center;\"><b>Error : No authorized file !</b></div><br /><br />";
+            printNotification('Error : No authorized file !', 'error');
             closetable();
             redirect("index.php?file=Suggest&module=Download", 3);
             return;
@@ -182,7 +182,7 @@ function upload($file = "", $url = "", $upload_dl, $file_filter, $file_filtre, $
         $url_file = $rep_dl . time() . "." . $ext;
         // TODO : Do better !
         if (! move_uploaded_file($file['tmp_name'], $url_file))
-            echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+            printNotification('Upload file failed !!!', 'error');
             return;
         }
         @chmod ($url_file, 0644);

@@ -151,7 +151,7 @@ function make_array($data){
 
             // TODO : Do better !
             if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file))
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
+                printNotification('Upload file failed !!!', 'error');
                 return;
             }
             @chmod ($url_file, 0644);

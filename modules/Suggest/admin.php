@@ -106,11 +106,7 @@ function valid_suggest($data){
 
     saveUserAction(_ACTIONVALIDSUG .': '. $data['titre'] .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _SUGGESTADD . "\n"
-            . "</div>\n"
-            . "</div>\n";
+    printNotification(_SUGGESTADD, 'success');
 }
 
 function del($sug_id){
@@ -131,12 +127,7 @@ function del($sug_id){
         $sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $user[0] . "' , '" . $for . "' , '" . $_REQUEST['subject'] . "' , '" . $_REQUEST['corps'] . "' , '" . time() . "' , '0' )");
     }
 
-        echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _SUGGESTDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_SUGGESTDEL, 'success');
     redirect("index.php?file=Suggest&page=admin", 2);
 }
 
@@ -194,11 +185,7 @@ function change_pref($suggest_avert){
 
     saveUserAction(_ACTIONCONFSUG .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _PREFUPDATED . "\n"
-            . "</div>\n"
-            . "</div>\n";
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Suggest&page=admin", 2);
 }
 
