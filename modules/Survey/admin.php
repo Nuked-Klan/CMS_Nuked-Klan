@@ -68,11 +68,8 @@ function send_sondage($titre, $option, $niveau) {
 
     saveUserAction(_ACTIONADDSUR .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _POLLADD . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_POLLADD, 'success');
+
     $sql = mysql_query("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "' AND date='".$time."'");
     list($poll_id) = mysql_fetch_array($sql);
 
@@ -91,11 +88,7 @@ function del_sondage($poll_id) {
 
     saveUserAction(_ACTIONDELSUR .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _POLLDEL . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_POLLDEL, 'success');
     redirect('index.php?file=Survey&page=admin', 2);
 }
 
@@ -163,12 +156,7 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
 
     saveUserAction(_ACTIONMODIFSUR .': '. $titre .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _POLLMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-
+    printNotification(_POLLMODIF, 'success');
     setPreview('index.php?file=Survey&op=sondage&poll_id=' $poll_id, 'index.php?file=Survey&page=admin');
 }
 
@@ -252,11 +240,7 @@ function change_pref($sond_delay) {
 
     saveUserAction(_ACTIONCONFSUR .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . _PREFUPDATED . "\n"
-        . "</div>\n"
-        . "</div>\n";
+    printNotification(_PREFUPDATED, 'success');
     redirect('index.php?file=Survey&page=admin', 2);
 }
 

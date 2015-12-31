@@ -44,8 +44,8 @@ function sondage($poll_id) {
         . "&nbsp;<input type=\"button\" value=\"" . _RESULT . "\" onclick=\"document.location='index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $poll_id . "'\" /></td></tr></table></form><br />\n";
     }
     else {
-        echo '<div style="text-align: center; padding: 10px">' . _NOENTRANCE . '</div>';
-        redirect('index.php?file=Survey' , 0);
+        printNotification(_NOENTRANCE, 'error');
+        redirect('index.php?file=Survey', 2);
     }
 
     closetable();
@@ -112,33 +112,32 @@ function update_sondage($poll_id, $voteID) {
 }
 
 function vote_message() {
+    opentable();
 
     if(array_key_exists('error', $_REQUEST)){
         if ($_REQUEST['error'] == 1) {
-            $texte_vote = _ONLYMEMBERS;
-            $url_redirect = 'index.php?file=User';
+            printNotification(_ONLYMEMBERS, 'error');
+            redirect('index.php?file=User', 2);
         } else if ($_REQUEST['error'] == 2) {
-            $texte_vote = _NOLEVEL;
-            $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
+            printNotification(_NOLEVEL, 'error');
+            redirect('index.php?file=Survey&op=affich_res&poll_id='. $_REQUEST['poll_id'], 2);
         } else if ($_REQUEST['error'] == 3) {
-            $texte_vote = _ALREADYVOTE;
-            $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
+            printNotification(_ALREADYVOTE, 'error');
+            redirect('index.php?file=Survey&op=affich_res&poll_id='. $_REQUEST['poll_id'], 2);
         } else if ($_REQUEST['error'] == 4) {
-            $texte_vote = _NOOPTION;
-            $url_redirect = 'index.php?file=Survey&op=sondage&poll_id=' . $_REQUEST['poll_id'];
+            printNotification(_NOOPTION, 'error');
+            redirect('index.php?file=Survey&op=sondage&poll_id='. $_REQUEST['poll_id'], 2);
         } else {
-            $texte_vote = _VOTESUCCES;
-            $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
+            printNotification(_VOTESUCCES, 'success');
+            redirect('index.php?file=Survey&op=affich_res&poll_id='. $_REQUEST['poll_id'], 2);
         }
     }
     else{
-        $texte_vote = _VOTESUCCES;
-        $url_redirect = 'index.php?file=Survey&op=affich_res&poll_id=' . $_REQUEST['poll_id'];
+        printNotification(_VOTESUCCES, 'success');
+        redirect('index.php?file=Survey&op=affich_res&poll_id='. $_REQUEST['poll_id'], 2);
     }
-    opentable();
-    echo '<br /><br /><div style="text-align: center">' . $texte_vote . '</div><br /><br />';
+
     closetable();
-    redirect($url_redirect, 2);
 }
 
 function affich_res($poll_id) {
@@ -207,8 +206,8 @@ function affich_res($poll_id) {
 
     }
     else {
-        echo '<div style="text-align: center; padding: 10px">' . _NOENTRANCE . '</div>';
-        redirect('index.php?file=Survey' , 0);
+        printNotification(_NOENTRANCE, 'error');
+        redirect('index.php?file=Survey' , 2);
     }
 
     closetable();
