@@ -404,7 +404,6 @@ define("_ACTIONSUPBAN","a supprimé le ban du membre");
 define("_ACTIONADDRANK","a ajouté le rang");
 define("_ACTIONMODIFRANK","a modifié le rang");
 define("_ACTIONDELRANK","a supprimé le rang");
-define("_DUREE","Durée");
 define("_1JOUR","1 jour");
 define("_7JOUR","1 semaine");
 define("_1MOIS","1 mois");

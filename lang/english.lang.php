@@ -126,14 +126,6 @@ define("_THE","on");
 define("_BY","by");
 define("_NEWSCOMMENT","Comments");
 define("_BANFINISHED"," isn't ban, this period is arrived at expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Link</a>].");
-define("_IPBANNED","You are banned. The access of the website you had has been restrained.");
-define("_REASON","Reason :");
-define("_CONTACTWEBMASTER","For more information, please contact the webmaster");
-define("_LOGINUSER","Login");
-define("_REGISTERUSER","Register");
-define("_NOENTRANCE","Sorry you do not have the permissions of opening this page");
-define("_USERENTRANCE","Sorry, this part of the website is for registered Users only.");
-define("_MODULEOFF","Sorry, this Module hasn't been activated !");
 define("_ENTERSITEURL","Enter the website's url");
 define("_ENTERSITENAME","Enter the website's name");
 define("_ENTERIMGURL","Enter the image's url");
@@ -200,8 +192,6 @@ define("_RIGHT","Right");
 define("_CENTERBLOCK","Center");
 define("_FOOTERBLOCK","Footer");
 define("_OFF","Unactive");
-define("_YES","Yes");
-define("_NO","No");
 define("_HTMLBLOCK","Html Block");
 define("_MODBLOCK","Module Block");
 define("_PAGESELECT","Select the pages where you wish the block to be displayed");
@@ -247,14 +237,9 @@ define("_VOTE","vote");
 define("_ATTHISPOLL","has this survey ");
 define("_SUGGEST","Suggest");
 define("_ONESUGGEST","submit a suggest ?");
-define("_NEWMESSAGESTART","You received ");
-define("_NEWMESSAGEEND"," new message(s)");
-define("_GOTO_PRIVATE_MESSAGES", "Click here to view your messenger");
+//define("_GOTO_PRIVATE_MESSAGES", "Click here to view your messenger");
 define("_CLICK_TO_CLOSE", "Clic to close this message");
-define("_GOTOPRIVATEMESSAGES","Click here to view your messenger");
 define("_MORESMILIES","All smilies");
-define("_SITECLOSED","Sorry, this website is currently closed, Please try again later.");
-define("_YOURSITEISCLOSED","Your website is under Maintenance and can only be viewed by administrators. If you aren't logged in any more, please do so here :");
 define("_BLOKPARTNERS","Partners");
 define("_TLINK","Links");
 define("_TMAIL","Mail");
@@ -269,7 +254,7 @@ define("_TYPESECCODE","Retype the security code");
 define("_BADCODECONFIRM","Error : the Security Code is not correct !");
 define('_MSGCAPTCHA', 'You have made too many attempts, captcha is activate!');
 
-define("_DURE","During");
+
 define("_1JOUR","1 day");
 define("_7JOUR","1 week");
 define("_1MOIS","1 month");
@@ -370,8 +355,6 @@ define('REMOVE_INSTALL_FILES', 'Please delete files install.php or update.php fr
 define("_AUTHOR","Author");
 define("_DATE","Date");
 
-define('REMOVEDIRINST', 'Please delete Nuked-Klan\'s installation folder (/INSTALL/)');
-define("_ZONEADMIN","This zone is reserved for the Admins, sorry...");
 define("_EDIT","Edit");
 define("_DEL","Delete");
 define("_PREFUPDATED","Preferences were successfully modified");
@@ -390,7 +373,13 @@ define("_UPLOADDIRNOWRITEABLE","The upload directory isn't writeable !");
 return array(
     // common
     'BACK'              => 'Back',
-    
+    'YES'               => 'Yes',
+    'NO'                => 'No',
+
+    // adminInit function (nuked.php)
+    'MODULE_OFF'        => 'Sorry, this Module hasn\'t been activated !',
+    'NO_ENTRANCE'       => 'Sorry you do not have the permissions of opening this page',
+    'ZONE_ADMIN'        => 'This zone is reserved for the Admins, sorry...',
     
     // getCheckNicknameError function (nuked.php)
     'BAD_NICKNAME'      => 'Invalid Nickname, some characters are prohibited.',
@@ -406,8 +395,31 @@ return array(
     'CT_BAD_TOKEN'      => 'Bad token !<br />Please use the form.',
     'CT_BAD_JS'         => 'Javascript validation failed !<br /> Please enable javascript.',
     'CT_BAD_FIELD'      => 'NoBot validation failed !<br /> Please use the form.',
+    // views/frontend/banishmentMessage.php
+    'IP_BANNED'         => 'You are banned. The access of the website you had has been restrained.',
+    'REASON'            => 'Reason :',
+    'CONTACT_WEBMASTER' => 'For more information, please contact the webmaster',
+    'DURING'            => 'During',
     // views/frontend/notification.php
     'CLOSE_WINDOW'      => 'Close Windows',
+    // views/frontend/nkAlert/nkInstallDirTrue.php
+    'REMOVE_DIR_INST'   => 'Please delete Nuked-Klan\'s installation folder (/INSTALL/)',
+    // views/frontend/nkAlert/nkNewPrivateMsg.php
+    'NEW_PRIVATE_MESSAGE' => array(1 => 'You received %d new message', 2 => 'You received %d new messages'),
+    'GO_TO_PRIVATE_MESSAGES' => 'Click here to view your messenger',
+    // views/frontend/nkAlert/nkSiteClosedLogged.php
+    'YOUR_SITE_IS_CLOSED' => 'Your website is under Maintenance and can only be viewed by administrators. If you aren\'t logged in any more, please do so here :',
+    // views/frontend/nkAlert/noExist.php
+    'NO_EXIST'          => 'Sorry either this page does not exist or the address that you typed is incorrect',
+    // Sorry this page does not exist or the address which you typed is incorrect
+    // TODO : See modules/404/lang/french.lang.php
+    
+    // views/frontend/nkAlert/userEntrance.php
+    'USER_ENTRANCE'     => 'Sorry, this part of the website is for registered Users only.',
+    'LOGIN_USER'        => 'Login',
+    'REGISTER_USER'     => 'Register', // Registration
+    // views/frontend/websiteClosed.php
+    'WEBSITE_CLOSED'    => 'Sorry, this website is currently closed, Please try again later.',
 );
 
 ?>

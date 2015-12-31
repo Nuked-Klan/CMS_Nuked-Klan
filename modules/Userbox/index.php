@@ -152,7 +152,7 @@ function show_message($mid){
                 <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
     }
     else {
-        printNotification(_NOENTRANCE, 'error');
+        echo applyTemplate('nkAlert/noEntrance');
     }
 }
 

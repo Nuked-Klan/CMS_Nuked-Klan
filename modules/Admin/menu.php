@@ -125,11 +125,11 @@ function edit_menu($bid)
 
             if ($blank == 1)
             {
-                $checked = _YES;
+                $checked = __('YES');
             }
             else
             {
-                $checked = _NO;
+                $checked = __('NO');
             }
 
             if ($url != "" && substr($url, 0, 1) == "[")

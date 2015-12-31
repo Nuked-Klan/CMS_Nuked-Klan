@@ -1,8 +1,5 @@
 <?php
 
-
-define("_NOEXIST","Sorry this page does not exist or the address which you typed is incorrect");
-
 define("_ADMINPAGE","Page Administration");
 
 define("_DELETEPAGE","You are about to remove");

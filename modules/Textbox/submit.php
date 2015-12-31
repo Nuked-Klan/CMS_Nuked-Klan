@@ -90,7 +90,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 }
 else
 {
-    printNotification(nkHtmlEntities(_NOENTRANCE), 'error');
+    printNotification(nkHtmlEntities(__('NO_ENTRANCE')), 'error');
 
     if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
 }

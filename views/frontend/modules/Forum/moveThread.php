@@ -21,7 +21,7 @@
     endforeach;
 ?>
                 </select><br /><br />
-                <input type="submit" name="confirm" value="<?php echo _YES ?>" class="nkButton" />&nbsp;<input type="submit" name="confirm" value="<?php echo _NO ?>" class="nkButton" />
+                <input type="submit" name="confirm" value="<?php echo __('YES') ?>" class="nkButton" />&nbsp;<input type="submit" name="confirm" value="<?php echo __('NO') ?>" class="nkButton" />
                 <input type="hidden" name="token" value="<?php echo $token ?>" />
             </div>
         </form>

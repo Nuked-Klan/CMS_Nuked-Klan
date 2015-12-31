@@ -40,8 +40,6 @@ define("_LASTUSERMESS","Vos 10 derniers messages");
 define("_LASTUSERCOMMENT","Vos 10 derniers commentaires");
 define("_NOUSERMESS","Vous n'avez posté aucun message");
 define("_NOUSERCOMMENT","Vous n'avez posté aucun commentaire");
-define("_LOGINUSER","Identification");
-define("_REGISTERUSER","Enregistrement");
 define("_PASS","Mot de passe");
 define("_3TYPEMIN","3 caractères Minimum pour le Pseudo");
 define("_4TYPEMIN","4 caractères Minimum pour le Mot de passe");

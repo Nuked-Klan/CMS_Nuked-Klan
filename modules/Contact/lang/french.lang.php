@@ -15,9 +15,6 @@ define('_BADMAIL','Adresse email non valide !');
 define('_SENDCMAIL','Votre email a bien été envoyé, nous vous répondrons dans les plus brefs délais.');
 define('_FLOODCMAIL','Vous avez déja posté un mail il y\'a moins de ' . $nuked['contact_flood'] . ' minutes,<br />veuillez patienter avant de renvoyer un autre email...');
 
-define('_NOENTRANCE','Désolé mais vous n\'avez pas les droits pour accéder à cette page');
-define('_ZONEADMIN','Cette zone est réservée a l\'Admin, Désolé...');
-define('_NOEXIST','Désolé cette page n\'existe pas ou l\'adresse que vous avez tapé est incorrecte');
 define('_ADMINCONTACT','Administration Contact');
 define('_HELP','Aides');
 define('_DELETEMESSAGEFROM','Vous êtes sur le point de supprimer le message de');

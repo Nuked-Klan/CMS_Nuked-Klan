@@ -176,10 +176,10 @@ function categorie($cat) {
 
     } else if ($level == 1) {
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b>" . _DOWNLOAD . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n"
-            . "<br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b><br /><br /></div>\n";
+            . "<br /><div style=\"text-align: center;\">" . __('USER_ENTRANCE') . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . __('LOGIN_USER') . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . __('REGISTER_USER') . "</a></b><br /><br /></div>\n";
     } else {
         echo"<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b>" . _DOWNLOAD . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n"
-            . "<br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>\n";
+            . "<br /><div style=\"text-align: center;\">" . __('NO_ENTRANCE') . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>\n";
     }
 }
 
@@ -241,7 +241,7 @@ function do_dl($dl_id, $nb) {
     } else {
         nkTemplate_setPageDesign('nudePage');
 
-        printNotification(_NOENTRANCE, 'error');
+        echo applyTemplate('nkAlert/noEntrance');
         redirect("index.php", 2);
     }
 }
@@ -414,10 +414,10 @@ function description($dl_id) {
         }
     } else if ($level == 1) {
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b>" . _DOWNLOAD . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n"
-            . "<br /><div style=\"text-align: center;\">" . _USERENTRANCE . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . _LOGINUSER . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . _REGISTERUSER . "</a></b><br /><br /></div>\n";
+            . "<br /><div style=\"text-align: center;\">" . __('USER_ENTRANCE') . "<br /><br /><b><a href=\"index.php?file=User&amp;op=login_screen\">" . __('LOGIN_USER') . "</a> | <a href=\"index.php?file=User&amp;op=reg_screen\">" . __('REGISTER_USER') . "</a></b><br /><br /></div>\n";
     } else {
         echo"<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b>" . _DOWNLOAD . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n"
-            . "<br /><div style=\"text-align: center;\">" . _NOENTRANCE . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>\n";
+            . "<br /><div style=\"text-align: center;\">" . __('NO_ENTRANCE') . "<br /><br /><a href=\"javascript:history.back()\"><b>" . _BACK . "</b></a><br /><br /></div>\n";
     }
 }
 

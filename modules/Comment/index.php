@@ -393,7 +393,7 @@ function post_com($module, $im_id){
 
     }
     else{
-        echo "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "</div><br /></div>";
+        echo applyTemplate('nkAlert/noEntrance');
     }
 }
 
@@ -470,7 +470,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         }
     }
     else{
-        printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
+        echo applyTemplate('nkAlert/noEntrance');
     }
 }
 
@@ -494,7 +494,7 @@ function del_comment($cid){
         redirect($url_redir, 2);
     }
     else{
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
 
         $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);
@@ -521,7 +521,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
         redirect($url_redir, 2);
     }
     else{
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
 
         $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&amp;module=" . $module;
         redirect($url_redir, 5);
@@ -565,7 +565,7 @@ function edit_comment($cid){
     else{
         nkTemplate_setTitle(_COMMENTS);
 
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
 
         $url_redir = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
         redirect($url_redir, 5);

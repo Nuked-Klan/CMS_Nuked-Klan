@@ -87,8 +87,6 @@ define("_HOURS","Heure");
 
 define("_VIEWALL","Suite...");
 
-define("_NOEXIST","Désolé cette page n'existe pas ou l'adresse que vous avez tapé est incorrecte");
-
 define("_NBMEMBERS","Membres");
 define("_NBNEWS","News");
 define("_NBDOWNLOAD","Downloads");

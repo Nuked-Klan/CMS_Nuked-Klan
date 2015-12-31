@@ -1,5 +1,4 @@
 <?php
-define("_NOEXIST","Désolé cette page n'existe pas ou l'adresse que vous avez tapé est incorrecte");
 
 define("_ADMINPAGE","Administration Page");
 

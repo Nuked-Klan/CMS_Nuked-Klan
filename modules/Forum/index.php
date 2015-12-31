@@ -129,7 +129,7 @@ function checkForumPollAccess($forumId, $threadId, $pollId = 0) {
 
     if ($access) return true;
 
-    return _ZONEADMIN;
+    return __('ZONE_ADMIN');
 }
 
 /**
@@ -362,7 +362,7 @@ function post() {
     );
 
     if (! $dbrForum) $error = _NOFORUMEXIST;
-    if ($dbrForum && $visiteur < $dbrForum['level']) $error = _ZONEADMIN;
+    if ($dbrForum && $visiteur < $dbrForum['level']) $error = __('ZONE_ADMIN');
 
     if ($error !== false) {
         printNotification($error, 'error');
@@ -514,7 +514,7 @@ function edit() {
     if (! $dbrCurrentForumMsg || ! isForumAdministrator($forumId)
         || ! ($user && $dbrCurrentForumMsg['auteur_id'] == $user['name'])
     ) {
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
         redirect('index.php?file=Forum', 2);
     }
 
@@ -607,7 +607,7 @@ function reply() {
     if ($dbrForum && ! isForumAdministrator($forumId)
         && ($dbrForum['closed'] == 1 || $dbrForum['level'] > $visiteur)
     ) {
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
         redirect($referer, 2);
         return;
     }
@@ -725,7 +725,7 @@ function del() {
 
     // Check if user can delete Forum message
     if (! isForumAdministrator($forumId)) {
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
         return;
     }
@@ -741,7 +741,7 @@ function del() {
         ));
     }
     // User confirmed
-    else if ($_POST['confirm'] == _YES) {
+    else if ($_POST['confirm'] == __('YES')) {
         // Check delete Forum post token
         $tokenValid = nkToken_valid('deleteForumPost'. $forumId . $threadId . $messId,
             300, array('index.php?file=Forum&op=del&forum_id='. $forumId .'&thread_id='. $threadId .'&mess_id='. $messId)
@@ -845,7 +845,7 @@ function del_file() {
 
     // Check if user can delete joined file
     if (! ($user && $dbrForumMessage['auteur_id'] == $user['id'] || isForumAdministrator($forumId))) {
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
         return;
     }
@@ -861,7 +861,7 @@ function del_file() {
         ));
     }
     // User confirmed
-    else if ($_POST['confirm'] == _YES) {
+    else if ($_POST['confirm'] == __('YES')) {
         // Check delete Forum joined file token
         $tokenValid = nkToken_valid('deleteForumJoinedFile'. $forumId . $threadId . $messId,
             300, array('index.php?file=Forum&op=del_file&forum_id='. $forumId .'&thread_id='. $threadId .'&mess_id='. $messId)
@@ -920,7 +920,7 @@ function notify() {
         }
     }
     else
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
 
     redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
 }
@@ -935,7 +935,7 @@ function del_topic() {
     $threadId   = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
 
     if (! isForumAdministrator($forumId)) {
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
         return;
     }
@@ -951,7 +951,7 @@ function del_topic() {
         ));
     }
     // User confirmed
-    else if ($_POST['confirm'] == _YES) {
+    else if ($_POST['confirm'] == __('YES')) {
         // Check delete Forum topic token
         $tokenValid = nkToken_valid('deleteForumTopic'. $forumId . $threadId,
             300, array('index.php?file=Forum&op=del_topic&forum_id='. $forumId .'&thread_id='. $threadId)
@@ -1007,7 +1007,7 @@ function del_topic() {
         redirect('index.php?file=Forum&page=viewforum&forum_id='. $forumId, 2);
     }
     // User aborted
-    else if ($_POST['confirm'] == _NO) {
+    else if ($_POST['confirm'] == __('NO')) {
         printNotification(_DELCANCEL, 'warning');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
     }
@@ -1021,7 +1021,7 @@ function move() {
     $threadId = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
 
     if (! isForumAdministrator($forumId)) {
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
         return;
     }
@@ -1059,7 +1059,7 @@ function move() {
             'token'     => nkToken_generate('moveForumTopic'. $forumId . $threadId)
         ));
     }
-    else if ($_POST['confirm'] == _YES && $_POST['newforum'] != '') {
+    else if ($_POST['confirm'] == __('YES') && $_POST['newforum'] != '') {
         $newForumId = (int) $_POST['newforum'];
 
         // Check delete Forum topic token
@@ -1197,7 +1197,7 @@ function move() {
         printNotification(_TOPICMOVED, 'success');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $newForumId .'&thread_id='. $threadId, 2);
     }
-    else if ($_POST['confirm'] == _NO) {
+    else if ($_POST['confirm'] == __('NO')) {
         printNotification(_DELCANCEL, 'warning');
 
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
@@ -1228,7 +1228,7 @@ function lock() {
         }
     }
     else
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
 
     redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
 }
@@ -1253,7 +1253,7 @@ function announce() {
         }
     }
     else
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
 
     redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
 }
@@ -1507,7 +1507,7 @@ function deletePoll() {
 
     // Check access
     if (! checkForumPollAccess($forumId, $threadId, $pollId)) {
-        printNotification(_ZONEADMIN, 'error');
+        printNotification(__('ZONE_ADMIN'), 'error');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
         return;
     }
@@ -1522,7 +1522,7 @@ function deletePoll() {
             ),
         ));
     }
-    else if ($_POST['confirm'] == _YES) {
+    else if ($_POST['confirm'] == __('YES')) {
         // Check delete Forum poll token
         $tokenValid = nkToken_valid('deleteForumPoll'. $forumId . $threadId . $pollId,
             300, array('index.php?file=Forum&op=deletePoll&poll_id='. $pollId .'&forum_id='. $forumId .'&thread_id='. $threadId)
@@ -1542,7 +1542,7 @@ function deletePoll() {
         printNotification(_POLLDELETE, 'success');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
     }
-    else if ($_POST['confirm'] == _NO) {
+    else if ($_POST['confirm'] == __('NO')) {
         printNotification(_DELCANCEL, 'warning');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
     }

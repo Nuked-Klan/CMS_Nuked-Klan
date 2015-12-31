@@ -41,8 +41,6 @@ define("_LASTUSERMESS","Last messages");
 define("_LASTUSERCOMMENT","Last comments");
 define("_NOUSERMESS","You havn't sent any messages");
 define("_NOUSERCOMMENT","You havn't posted any comments");
-define("_LOGINUSER","Login");
-define("_REGISTERUSER","Registration");
 define("_PASS","Password");
 define("_3TYPEMIN","3 characters Minimum for the nickname");
 define("_4TYPEMIN","4 caracters Minimum for the password");

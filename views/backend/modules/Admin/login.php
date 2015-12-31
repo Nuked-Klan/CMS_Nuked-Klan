@@ -21,8 +21,8 @@
 <?php
         if ($message == 'zoneAmin') :
 ?>
-                    <?php echo _ZONEADMIN ?><br />
-                    <a href="javascript:history.back()"><b><?php echo _BACK ?></b></a>
+                    <?php echo __('ZONE_ADMIN') ?><br />
+                    <a href="javascript:history.back()"><b><?php echo __('BACK') ?></b></a>
 <?php
         else :
             echo $message;

@@ -44,7 +44,7 @@ function sondage($poll_id) {
         . "&nbsp;<input type=\"button\" value=\"" . _RESULT . "\" onclick=\"document.location='index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $poll_id . "'\" /></td></tr></table></form><br />\n";
     }
     else {
-        printNotification(_NOENTRANCE, 'error');
+        echo applyTemplate('nkAlert/noEntrance');
         redirect('index.php?file=Survey', 2);
     }
 
@@ -206,7 +206,7 @@ function affich_res($poll_id) {
 
     }
     else {
-        printNotification(_NOENTRANCE, 'error');
+        echo applyTemplate('nkAlert/noEntrance');
         redirect('index.php?file=Survey' , 2);
     }
 

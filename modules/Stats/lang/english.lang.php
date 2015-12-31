@@ -87,9 +87,6 @@ define("_HOURS","Hour");
 
 define("_VIEWALL","More...");
 
-
-
-define("_NOEXIST","Sorry this page does not exist or the address which you typed is incorrect");
 define("_NBMEMBERS","Members");
 define("_NBNEWS","News");
 define("_NBDOWNLOAD","Downloads");

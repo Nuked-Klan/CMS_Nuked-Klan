@@ -402,7 +402,6 @@ define("_ACTIONSUPBAN","have deleted the ban of the user");
 define("_ACTIONADDRANK","have add the rank");
 define("_ACTIONMODIFRANK","have modified the rank");
 define("_ACTIONDELRANK","have deleted the rank");
-define("_DUREE","During");
 define("_1JOUR","1 day");
 define("_7JOUR","1 week");
 define("_1MOIS","1 month");

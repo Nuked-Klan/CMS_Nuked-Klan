@@ -72,7 +72,7 @@ function displayForumSearchResult() {
         || stripos($query, '\+union\+') !== false
         || stripos($query, '\*') !== false
     ) {
-        printNotification(_NOENTRANCE, 'error');
+        printNotification(__('NO_ENTRANCE'), 'error');
         redirect('index.php?file=Forum&page=search', 2);
         return;
     }*/

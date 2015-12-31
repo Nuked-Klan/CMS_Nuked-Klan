@@ -81,7 +81,7 @@ function post_vote($module, $vid) {
                . "<input type=\"submit\" name=\"Submit\" value=\"" . _TOVOTE . "\" /></div></form>";
         }
     } else {
-        printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
+        echo applyTemplate('nkAlert/noEntrance');
     }
 
 }
@@ -114,8 +114,8 @@ function do_vote($vid, $module, $vote) {
 
             printNotification(_VOTEADD, 'error', array('closeLink' => true, 'reloadOnClose' => true));
         }
-    } else {
-        printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
+    }else {
+        echo applyTemplate('nkAlert/noEntrance');
     }
 }
 

@@ -1,3 +1,4 @@
+
 <form method="post" action="<?php echo $url ?>">
     <div id="nkAlertWarning" class="nkAlert">
         <strong><?php echo $message ?></strong><br />
@@ -8,7 +9,7 @@
 <?php
     endforeach
 ?>
-        <input type="submit" name="confirm" value="<?php echo _YES ?>" class="nkButton" />
-        <input type="submit" name="confirm" value="<?php echo _NO ?>" class="nkButton" />
+        <input type="submit" name="confirm" value="<?php echo __('YES') ?>" class="nkButton" />
+        <input type="submit" name="confirm" value="<?php echo __('NO') ?>" class="nkButton" />
     </div>
 </form>

@@ -883,7 +883,7 @@ function login_screen(){
 
         ?>
             <div id="nkLoginForm" class="nkCenter">
-                <h3><?php echo _LOGINUSER; ?></h3>
+                <h3><?php echo __('LOGIN_USER') ?></h3>
                 <form action="index.php?file=User&amp;op=login" method="post">
                     <p>
                         <label for="pseudo"><?php echo _NICK; ?> :</label>
@@ -1854,7 +1854,7 @@ function validation() {
         }
     }
     else {
-        printNotification(_NOENTRANCE, 'error');
+        echo applyTemplate('nkAlert/noEntrance');
         redirect('index.php?file=User&op=login_screen', 2);
     }
 }
