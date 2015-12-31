@@ -46,13 +46,13 @@ function index(){
             form(0, 0);
         }
         else if ($niveau == -1){
-            echo '<br /><br /><div style="text-align: center">' . _MODULEOFF . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a><br /><br /></div>';
+            echo applyTemplate('nkAlert/moduleOff');
         }
         else if ($niveau == 1 && $visiteur == 0){
-            echo '<br /><br /><div style="text-align: center">' . _USERENTRANCE . '<br /><br /><b><a href="index.php?file=User&amp;op=login_screen">' . _LOGINUSER . '</a> | <a href="index.php?file=User&amp;op=reg_screen">' . _REGISTERUSER . '</a></b><br /><br /></div>';
+            echo applyTemplate('nkAlert/userEntrance');
         }
         else{
-            echo '<br /><br /><div style="text-align: center">' . _NOENTRANCE . '<br /><br /><a href="javascript:history.back()"><b>' . _BACK . '</b></a><br /><br /></div>';
+            echo applyTemplate('nkAlert/noEntrance');
         }
     }
     else{

@@ -479,7 +479,7 @@ function edit_account(){
                 . "<input type=\"hidden\" name=\"pass\" value=\"" . $pass . "\" /></td></tr></table></form><br />\n";
     }
     else{
-        echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "</div><br /><br />";
+        echo applyTemplate('nkAlert/userEntrance');
         redirect("index.php?file=User&op=login_screen", 2);
     }
 }
@@ -851,7 +851,7 @@ function edit_pref(){
         echo "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFPREF . "\" /></div></form><br />\n";
     }
     else{
-        echo "<br /><br /><div style=\"text-align: center;\">" . _USERENTRANCE . "</div><br /><br />";
+        echo applyTemplate('nkAlert/userEntrance');
         redirect("index.php?file=User&op=login_screen", 2);
     }
 }
@@ -859,7 +859,7 @@ function edit_pref(){
 function login_screen(){
 
     if ($GLOBALS['user']){
-        redirect("index.php?file=User", 0);
+        redirect("index.php?file=User");
     }
     else{
         $arrayErrors = array(
@@ -873,8 +873,7 @@ function login_screen(){
         }
 
         if(!empty($printError)){
-            //printNotification($printError, 'error');
-            
+
             ?>
                 <div class="nkAlert nkError">
                     <strong><?php echo $printError; ?></strong>
@@ -1089,10 +1088,10 @@ function login($pseudo, $pass, $remember_me){
 
         if($dbrLogin['nbErrors'] >= 2){
             // Si un visiteur a fait 3 mauvais login
-            if(!isset($_SESSION['captcha'])){
+            if (! isset($_SESSION['captcha'])) {
                 $_SESSION['captcha'] = true;
-                nkTemplate_setPageDesign('nudePage');
-                nkNotification(_MSGCAPTCHA, 'index.php?file=User&op=login_screen', 2);
+                nkNotification(_MSGCAPTCHA);
+                redirect('index.php?file=User&op=login_screen', 2);
                 return;
             }
             else {
@@ -1139,21 +1138,18 @@ function login($pseudo, $pass, $remember_me){
 
             $_SESSION['admin'] = false;
             unset($_SESSION['captcha']);
-            $url = "index.php?file=User&op=login_message&uid=" . $dbrLogin['id'] . $redirect;
-            redirect($url);
+            redirect('index.php?file=User&op=login_message&uid='. $dbrLogin['id'] . $redirect);
         }
         else{
             // Si le compte n'est pas validé
-            nkTemplate_setPageDesign('nudePage');
-            nkNotification(_NOVALIDUSER, 'index.php', 2);
-            return;
+            nkNotification(_NOVALIDUSER);
+            redirect('index.php', 2);
         }
-
     }
     else {
         // Aucun utilisateur trouvé pour ce pseudo
-        nkTemplate_setPageDesign('nudePage');
-        nkNotification(_UNKNOWNUSER, 'index.php', 2);
+        nkNotification(_UNKNOWNUSER);
+        redirect('index.php', 2);
     }
 }
 
@@ -1171,7 +1167,7 @@ function login_message(){
         $referer = urldecode($_REQUEST['referer']);
     }
     else{
-        $refere = '';
+        $referer = '';
     }
 
     $referer = str_replace('&amp;', '&', $referer);
@@ -1854,7 +1850,6 @@ function validation() {
             $upd = mysql_query('UPDATE ' . USER_TABLE . ' SET niveau = 1 WHERE id = "' . $_REQUEST['id_user'] . '"');
 
             printNotification(_VALIDUSER, 'success');
-            echo '<br /><br /><div style="text-align: center">' . _VALIDUSER . '</div><br /><br />';
             redirect('index.php?file=User&op=login_screen', 3);
         }
     }

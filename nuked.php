@@ -1644,20 +1644,14 @@ function printNotification($message, $type = 'information', $optionsData = array
 }
 
 
-function nkNotification($data, $redirectUrl = null, $redirectDelay = 0){
-    if(function_exists('setNotification')){
-        setNotification($data, $redirectUrl, $redirectDelay);
+function nkNotification($message) {
+    if (function_exists('setNotification')) {
+        setNotification($message);
     }
-    else{
-        defaultNotification($data, $redirectUrl, $redirectDelay);
+    else {
+        nkTemplate_setPageDesign('none');
+        echo applyTemplate('defaultNotification', array('message' => $message));
     }
-}
-
-function defaultNotification($data, $redirectUrl, $redirectDelay) {
-    echo applyTemplate('notification', array('data' => $data));
-
-    if (! empty($redirectUrl))
-        redirect($redirectUrl, $redirectDelay);
 }
 
 /**

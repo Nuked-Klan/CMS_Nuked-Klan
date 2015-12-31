@@ -1,12 +1,3 @@
-<!--
-
-NOTE : Used by defaultNotification function with nudePage design in index.php file of User module
-
-        <div class="nkBgColor1 nkBorderColor3 nkdefaultNotification">
-            <?php echo $data ?>
-        </div>
--->
-
 <?php
 
 if ($ajax) :
@@ -56,10 +47,3 @@ else :
 endif
 
 ?>
-
-
-
-
-
-
-

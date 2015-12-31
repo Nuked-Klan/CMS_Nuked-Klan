@@ -111,31 +111,20 @@ function index() {
     } 
     else if ($level_access == -1) {
         opentable();
-        // On affiche le message qui previent l'utilisateur que le module est dÃ©sactivÃ©
-        echo '<div id="nkAlertError" class="nkAlert">
-                <strong>'._MODULEOFF.'</strong>
-                <a href="javascript:history.back()"><span>'._BACK.'</span></a>
-            </div>';
+        // On affiche le message qui previent l'utilisateur que le module est désactivé
+        echo applyTemplate('nkAlert/moduleOff');
         closetable();
     } 
     else if ($level_access == 1 && $visiteur == 0) {
         opentable();
-        // On affiche le message qui previent l'utilisateur qu'il n'as pas accÃ¨s Ã  ce module
-        echo '<div id="nkAlertError" class="nkAlert">
-                <strong>'._USERENTRANCE.'</strong>
-                <a href="index.php?file=User&amp;op=login_screen"><span>'._LOGINUSER.'</span></a>
-                &nbsp;|&nbsp;
-                <a href="index.php?file=User&amp;op=reg_screen"><span>'._REGISTERUSER.'</span></a>
-            </div>';
+        // On affiche le message qui previent l'utilisateur qu'il n'as pas accés à ce module
+        echo applyTemplate('nkAlert/userEntrance');
         closetable();
     } 
     else {
         opentable();
-        // On affiche le message qui previent l'utilisateur que le module est dÃ©sactivÃ©
-        echo '<div id="nkAlertError" class="nkAlert">
-                <strong>'._NOENTRANCE.'</strong>
-                <a href="javascript:history.back()"><span>'._BACK.'</span></a>
-            </div>';
+        // On affiche le message qui previent l'utilisateur que le module est désactivé
+        echo applyTemplate('nkAlert/noEntrance');
         closetable();
     } 
 }

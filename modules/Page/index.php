@@ -93,33 +93,19 @@ if ($count > 0) {
             }	
         }
         else {
-            echo '<div id="nkAlertError" class="nkAlert">
-                    <strong>'._NOENTRANCE.'</strong>
-                    <a href="javascript:history.back()"><span>'._BACK.'</span></a>
-                </div>';
+            echo applyTemplate('nkAlert/noEntrance');
         }
     }
     else if ($niveau == 1 && $visiteur == 0) {
-        echo '<div id="nkAlertError" class="nkAlert">
-                <strong>'._USERENTRANCE.'</strong>
-                <a href="index.php?file=User&amp;op=login_screen"><span>'._LOGINUSER.'</span></a>
-                &nbsp;|&nbsp;
-                <a href="index.php?file=User&amp;op=reg_screen"><span>'._REGISTERUSER.'</span></a>
-            </div>';
+        echo applyTemplate('nkAlert/userEntrance');
     }
     else {
-        echo '<div id="nkAlertError" class="nkAlert">
-                <strong>'._NOENTRANCE.'</strong>
-                <a href="javascript:history.back()"><span>'._BACK.'</span></a>
-            </div>';
+        echo applyTemplate('nkAlert/noEntrance');
     }
 
 }
 else {
-    echo '<div id="nkAlertWarning" class="nkAlert">
-            <strong>'._NOEXIST.'</strong>
-            <a href="javascript:history.back()"><span>'._BACK.'</span></a>
-        </div>';
+    echo applyTemplate('nkAlert/noExist');
 }
 
 closetable();
