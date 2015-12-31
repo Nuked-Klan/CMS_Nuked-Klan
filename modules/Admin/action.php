@@ -89,7 +89,7 @@ function main()
         if($compteur ==1) $text = $compteur. ' ' ._1NBRNOTACTION;
         else $text = $compteur . ' ' . _NBRNOTACTION;
 
-        $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('" . $theday . "', '3', '" . $text . "')");
+        saveNotification($text, 3);
     }
 }
 

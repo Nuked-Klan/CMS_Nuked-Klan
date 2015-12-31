@@ -1407,7 +1407,8 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         {
             $text = "".$compteur." "._USNOTACTION."";
         }
-        $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$theday."', '3', '".$text."')");
+
+        saveNotification($text, 3);
     }
     if ($nb_user == 0)
     {

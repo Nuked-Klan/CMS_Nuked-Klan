@@ -1554,7 +1554,8 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext) {
             echo ERROR_SQL;
             $texte = _TYPE . ': ' . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
             $upd = nkDB_execute("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
-            $upd2 = nkDB_execute("INSERT INTO " . $nuked['prefix'] . "_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '4', '" . _ERRORSQLDEDECTED . " : [<a href=\"index.php?file=Admin&page=erreursql\">" . _TLINK . "</a>].')");
+
+            saveNotification(_ERRORSQLDEDECTED .' : [<a href="index.php?file=Admin&page=erreursql">'. _TLINK .'</a>].', 4);
             exit();
             break;
     }

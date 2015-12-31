@@ -111,7 +111,8 @@ function sendmail(){
         if($user) $name = $user[2];
 
         $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
-        $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$time."', '1', '"._NOTCON.": [<a href=\"index.php?file=Contact&page=admin\">lien</a>].')");
+
+        saveNotification(_NOTCON .': [<a href="index.php?file=Contact&page=admin">'. _TLINK .'</a>].');
 
         printNotification(_SENDCMAIL, 'success');
         redirect("index.php", 3);

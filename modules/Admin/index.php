@@ -330,7 +330,7 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
 
         <!-- Start Notifications -->
         <?php
-            $sql2 = mysql_query('SELECT id, type, texte  FROM ' . $nuked['prefix'] . '_notification ORDER BY date DESC LIMIT 0, 4');
+            $sql2 = mysql_query('SELECT id, type, texte  FROM ' . NOTIFICATIONS_TABLE . ' ORDER BY date DESC LIMIT 0, 4');
             while (list($id, $type, $texte) = mysql_fetch_array($sql2))
             {
                 if($type == 4)

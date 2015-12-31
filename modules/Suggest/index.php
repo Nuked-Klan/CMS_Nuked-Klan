@@ -130,8 +130,10 @@ function add_sug($data){
     }
 
     $sql = mysql_query("INSERT INTO " . SUGGEST_TABLE . " ( `id` , `module` , `user_id` , `proposition` , `date` ) VALUES ( '' , '" . $_REQUEST['module'] . "' , '" . $author . "' , '" . $content . "' , '" . $date . "' )");
-    $upd2 = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('" . $date . "', '1', '" . _NOTSUG . " : [<a href=\"index.php?file=Suggest&page=admin\">lien</a>].')");
-    echo '<br /><br /><div style="text-align: center">' . _YOURSUGGEST . '<br />' . _THXPART . '</div><br /><br />';
+
+    saveNotification(_NOTSUG .' : [<a href="index.php?file=Suggest&page=admin">'. _TLINK .'</a>].');
+
+    printNotification(_YOURSUGGEST .'<br />'. _THXPART, 'success')
 
     if ($nuked['suggest_avert'] == 'on'){
         $date2 = nkDate($date);

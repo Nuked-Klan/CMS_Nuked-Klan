@@ -24,7 +24,8 @@ if ($visiteur >= 2) {
         if ($_REQUEST['texte'] != "" AND $_REQUEST['type'] != "" AND $_REQUEST['type'] != "0") {
             $_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
 
-            $upd = mysql_query("INSERT INTO ". $nuked['prefix'] ."_notification  (`date` , `type` , `texte`)  VALUES ('".$date."', '".mysql_real_escape_string(stripslashes($_REQUEST['type']))."', '".mysql_real_escape_string(stripslashes($_REQUEST['texte']))."')");
+            saveNotification(stripslashes($_REQUEST['texte']), (int) $_REQUEST['type']);
+
             echo _THANKSPARTICIPATION;
         }
         else {
@@ -38,8 +39,7 @@ if ($visiteur >= 2) {
         global $nuked, $visiteur, $user;
 
         if ($visiteur == "9" AND $_REQUEST['id'] != "") {
-            $_REQUEST['id'] = mysql_real_escape_string(stripslashes($_REQUEST['id']));
-            $sql3 = mysql_query("DELETE FROM ". $nuked['prefix'] ."_notification WHERE id = '" . $_REQUEST['id'] . "'");
+            nkDB_delete(NOTIFICATIONS_TABLE, 'id = '. (int) $_REQUEST['id']);
 
             saveUserAction(_ACTIONDELNOT .'.');
         }
