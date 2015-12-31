@@ -442,12 +442,7 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
 
     saveUserAction(_ACTIONADDWAR .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _MATCHADD . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_MATCHADD, 'success');
     setPreview('index.php?file=Wars', 'index.php?file=Wars&page=admin');
 }
 
@@ -460,12 +455,7 @@ function del_war($war_id){
 
     saveUserAction(_ACTIONDELWAR .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _MATCHDEL . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_MATCHDEL, 'success');
     setPreview('index.php?file=Wars', 'index.php?file=Wars&page=admin');
 }
 
@@ -528,12 +518,7 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
 
     saveUserAction(_ACTIONMODIFWAR .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _MATCHMODIF . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_MATCHMODIF, 'success');
     setPreview('index.php?file=Wars', 'index.php?file=Wars&page=admin');
 }
 
@@ -651,14 +636,14 @@ function send_file($im_id, $file_type, $url_file, $fichiernom, $ecrase_screen){
             if($filename != "" && $file_type == "screen"){
                 if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
                     if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
-                        echo "Upload file failed !!!";
+                        printNotification('Upload file failed !!!', 'error');
                         return;
                     }
 
                     @chmod ($file_url, 0644);
                 }
                 else{
-                    echo "<br /><br /><div style=\"text-align: center;\">No image file !!!</div><br /><br />";
+                    printNotification('No image file !!!', 'error');
                     redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 2);
                     return;
                 }
@@ -666,13 +651,14 @@ function send_file($im_id, $file_type, $url_file, $fichiernom, $ecrase_screen){
             else if($filename != "" && $file_type == "demo"){
                 if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess"){
                     if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
-                        echo "Upload file failed !!!";
+                        printNotification('Upload file failed !!!', 'error');
                         return;
                     }
 
                     @chmod ($file_url, 0644);
                 }
                 else{
+                    printNotification('No image file !!!', 'error');
                     echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
                     redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 2);
                     return;
@@ -684,19 +670,16 @@ function send_file($im_id, $file_type, $url_file, $fichiernom, $ecrase_screen){
 
             $add = mysql_query("INSERT INTO " . WARS_FILES_TABLE . " ( `id` , `module` , `im_id` , `type` , `url` ) VALUES ( '' , 'Wars' , '" . $im_id . "' , '" . $file_type . "' , '" . $file_url . "' )");
 
-            echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEADD . "</div>";
-
+            printNotification(_FILEADD, 'success');
             redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
         }
         else{
-            echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _DEJAFILE . "<br />" . _REPLACEIT . "</div>";
-
+            printNotification(_DEJAFILE .'<br />'. _REPLACEIT, 'warning');
             redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 3);
         }
     }
     else{
-        echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _SPECIFY . "</div>";
-
+        printNotification(_SPECIFY, 'error');
         redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 3);
     }
 }
@@ -716,14 +699,14 @@ function modif_file($im_id, $fid, $file_type, $url_file, $fichiernom, $ecrase_sc
             if($filename != "" && $file_type == "screen"){
                 if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
                     if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
-                        echo "Upload file failed !!!";
+                        printNotification('Upload file failed !!!', 'error');
                         return;
                     }
 
                     @chmod ($file_url, 0644);
                 }
                 else{
-                    echo "<br /><br /><div style=\"text-align: center;\">No image file !!!</div><br /><br />";
+                    printNotification('No image file !!!', 'error');
                     redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
                     return;
                 }
@@ -731,22 +714,21 @@ function modif_file($im_id, $fid, $file_type, $url_file, $fichiernom, $ecrase_sc
             else if($filename != "" && $file_type == "demo"){
                 if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess"){
                     if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
-                        echo "Upload file failed !!!";
+                        printNotification('Upload file failed !!!', 'error');
                         return;
                     }
 
                     @chmod ($file_url, 0644);
                 }
                 else{
-                    echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
+                    printNotification('Unauthorized file !!!', 'error');
                     redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
                     return;
                 }
             }
         }
         else{
-            echo "<div style=\"text-align: center;\"><br /><br /><br /><br /><br /><br /><br /><br />" . _DEJAFILE . "<br />" . _REPLACEIT . "</div>";
-
+            printNotification(_DEJAFILE .'<br />'. _REPLACEIT, 'warning');
             redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
             return;
         }
@@ -758,8 +740,7 @@ function modif_file($im_id, $fid, $file_type, $url_file, $fichiernom, $ecrase_sc
 
     $upd = mysql_query("UPDATE " . WARS_FILES_TABLE . " SET type = '" . $file_type . "' , url = '" . $file_url . "' WHERE id = '" . $fid . "'");
 
-    echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEADD . "</div>";
-
+    printNotification(_FILEADD, 'success');
     redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
 }
 
@@ -772,8 +753,7 @@ function del_file($fid){
 
     $del = mysql_query("DELETE FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
 
-    echo "<div style=\"text-align: center;\"><br /><br /><br /><br />" . _FILEDEL . "</div>";
-
+    printNotification(_FILEDEL, 'success');
     redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
 }
 
@@ -804,12 +784,7 @@ function change_pref($max_wars){
 
     saveUserAction(_ACTIONCONFWAR .'.');
 
-    echo "<div class=\"notification success png_bg\">\n"
-            . "<div>\n"
-            . "" . _PREFUPDATED . "\n"
-            . "</div>\n"
-            . "</div>\n";
-
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Wars&page=admin", 2);
 }
 
