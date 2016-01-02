@@ -312,7 +312,7 @@ function session_write($id, $data) {
 
     $dbuSession = false;
 
-    if ($dbiSession === false || nkDB_insert_id() == 0) {
+    if ($dbiSession === false || nkDB_insertId() == 0) {
         $dbuSession = nkDB_update(TMPSES_TABLE, array(
                 'session_vars' => $data
             ),
