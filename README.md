@@ -44,4 +44,4 @@ Feel free to contribute to the greatest CMS already made, share your ideas, and 
 
 Stay tuned on social medias : [@Twitter/Nuked-Klan](http://www.twitter.com/nukedklan) and [@Facebook/Nuked-Klan](https://www.facebook.com/pages/Nuked-Klan/)
 
-Copyleft attitude / 2001 - 2015
+Copyleft attitude / 2001 - 2016
