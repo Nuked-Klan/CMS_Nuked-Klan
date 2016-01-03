@@ -97,7 +97,7 @@ if ($process == 'update') {
         }
         // Create temporary table
         else if ($this->_session['step'] == 2) {
-            createForumsReadTable($this->_session['db_prefix'] .'_forums_read_tmp');
+            createForumsReadTable($dbTable, $this->_session['db_prefix'] .'_forums_read_tmp');
             $this->_session['step'] = 3;
 
             $dbTable->setJqueryAjaxResponse('STEP_2_TOTAL_STEP_4');
