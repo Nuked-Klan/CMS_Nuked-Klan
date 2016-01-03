@@ -70,15 +70,17 @@ function trim(string)
 {
 return string.replace(/(^\s*)|(\s*$)/g,'');
 }
-function maFonctionAjax(auteur,texte,code)
+function maFonctionAjax(auteur, texte, ctToken, ctScript, ctEmail)
 {
     <?php
-        if($captcha === true){
-            echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
-        }
-        else{
-            echo 'var captchaData = "";';
-        }
+
+    if($captcha === true){
+        echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
+    }
+    else{
+        echo 'var captchaData = "";';
+    }
+
     ?>
 	if (trim(document.getElementById('textbox_auteur').value) == "")
 	{
@@ -168,11 +170,19 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "</p></div></td></tr></table>\n"
 . "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
+
+if ($captcha === true) {
+    $onsubmit = 'maFonctionAjax(this.textbox_auteur.value, this.textbox_texte.value, this.ct_token.value, this.ct_script.value, this.ct_email.value); return false;';
+}
+else{
+    $onsubmit = 'maFonctionAjax(this.textbox_auteur.value, this.textbox_texte.value); return false;';
+}
+
 if ($active == 3 || $active == 4)
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo "<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo "<form class=\"textboxForm\" method=\"post\" onsubmit=\"". $onsubmit ."\" action=\"\" ><div style=\"text-align: center;\">\n";
 
         if (!$user)
         {
@@ -197,7 +207,7 @@ else
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo"<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo"<form class=\"textboxForm\" method=\"post\" onsubmit=\"". $onsubmit ."\" action=\"\" ><div style=\"text-align: center;\">\n";
 
         if (!$user)
         {
@@ -208,11 +218,11 @@ else
             echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
         }
 
-        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
+        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br />\n";
 
         if ($captcha === true) echo create_captcha();
 
-	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"
+	echo "<input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"
 	. "<a href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\">\n"
 	. "<b>" . _SMILEY . "</b></a></div><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox\">" . _SEEARCHIVES . "</a> ]</div></form><br />\n";
     }

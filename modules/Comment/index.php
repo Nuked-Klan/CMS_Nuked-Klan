@@ -90,8 +90,7 @@ function com_index($module, $im_id){
         function sent(pseudo, module, im_id, ctToken, ctScript, ctEmail){
             var editor_val = CKEDITOR.instances.e_basic.document.getBody().getChild(0).getText();
             var editor_txt = CKEDITOR.instances.e_basic.getData();
-            $("#post_commentary").find('input.ct_script').val('klan');
-            ctScript = $("#post_commentary").find('input.ct_script').val();
+
             <?php
                 if ($captcha === true){
                     echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
@@ -228,13 +227,13 @@ function com_index($module, $im_id){
                 }
                     echo '<tr>
                         <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
-                    </tr>';
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">';
 
                     if ($captcha === true) echo create_captcha();
 
-        echo '        <tr>
-                        <td colspan="2" align="center">
-                            <input type="hidden" id="imid" name="im_id" value="'.$im_id.'" />
+                    echo '<input type="hidden" id="imid" name="im_id" value="'.$im_id.'" />
                             <input type="hidden" id="module" name="module" value="'.$module.'" />
                             <input type="submit" value="'._SEND_COM.'" />
                         </td>
