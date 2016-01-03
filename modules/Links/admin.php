@@ -304,7 +304,7 @@ function main(){
                 . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td>\n"
                 . "<td style=\"width: 25%;\" align=\"center\">" . $categorie . "</td>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=edit_link&amp;link_id=" . $link_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISLINK . "\" /></a></td>\n"
-                . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_link('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $link_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISLINK . "\" /></a></td></tr>\n";
+                . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_link('" . addslashes($titre) . "', '" . $link_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISLINK . "\" /></a></td></tr>\n";
     }
 
     if ($nb_lk == 0)
@@ -377,7 +377,7 @@ function main_cat(){
             echo "</td><td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=modif_position&amp;cid=" . $cid . "&amp;method=down\" title=\"" . _MOVEDOWN . "\">&lt;</a>"
                     . "&nbsp;" . $position . "&nbsp;<a href=\"index.php?file=Links&amp;page=admin&amp;op=modif_position&amp;cid=" . $cid . "&amp;method=up\" title=\"" . _MOVEUP . "\">&gt;</a></td>\n"
                     . "<td align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=edit_cat&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
-                    . "<td align=\"center\"><a href=\"javascript:delcat('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
+                    . "<td align=\"center\"><a href=\"javascript:delcat('" . addslashes($titre) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
         }
     }
     else {
@@ -638,7 +638,7 @@ function main_broken(){
                     . "<td style=\"width: 10%;\" align=\"center\">" . $broke . "</td>\n"
                     . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=del_broke&amp;link_id=" . $link_id. "\"><img style=\"border: 0;\" src=\"modules/Links/images/del.gif\" alt=\"\" title=\"" . _ERASEFROMLIST . "\" /></a></td>\n"
                     . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=edit_link&amp;link_id=" . $link_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISLINK . "\" /></a></td>\n"
-                    . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_link('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $link_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISLINK . "\" /></a></td></tr>\n";
+                    . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_link('" . addslashes($titre) . "', '" . $link_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISLINK . "\" /></a></td></tr>\n";
         }
     }
     else{

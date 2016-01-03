@@ -252,7 +252,7 @@ function article($artid){
                 . "</script>\n";
 
         echo "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><a class=\"nkButton icon alone edit\" href=\"index.php?file=Sections&amp;page=admin&amp;op=edit&amp;artid=" . $artid . "\" title=\"" . _EDIT . "\" ></a>"
-                . "&nbsp;<a class=\"nkButton icon alone remove danger\" href=\"javascript:delart('" . mysql_real_escape_string(stripslashes($title)) . "','" . $artid . "');\" title=\"" . _DEL . "\"></a></div></div>\n";
+                . "&nbsp;<a class=\"nkButton icon alone remove danger\" href=\"javascript:delart('" . addslashes($title) . "','" . $artid . "');\" title=\"" . _DEL . "\"></a></div></div>\n";
     }
 
 

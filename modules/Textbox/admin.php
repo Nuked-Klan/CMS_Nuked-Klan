@@ -139,7 +139,7 @@ function main()
         . "<td style=\"width: 25%;\" align=\"center\">" . $auteur . "</td>\n"
         . "<td style=\"width: 25%;\" align=\"center\">" . $ip . "</td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISMESS . "\" /></a></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISMESS . "\" /></a></td></tr>\n";
+        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_shout('" . addslashes($auteur) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISMESS . "\" /></a></td></tr>\n";
     } 
 
     if ($count == "0")

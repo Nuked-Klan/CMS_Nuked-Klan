@@ -170,7 +170,7 @@ function main(){
                 . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td>\n"
                 . "<td style=\"width: 20%;\" align=\"center\">" . $auteur . "</td>\n"
                 . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Sections&amp;page=admin&amp;op=edit&amp;artid=" . $art_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISART . "\" /></a></td>\n"
-                . "<td style=\"width: 10%;\" align=\"center\"><a href=\"javascript:del_art('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $art_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISART . "\" /></a></td></tr>\n";
+                . "<td style=\"width: 10%;\" align=\"center\"><a href=\"javascript:del_art('" . addslashes($titre) . "', '" . $art_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISART . "\" /></a></td></tr>\n";
     }
 
     if ($nb_art == 0){
@@ -443,7 +443,7 @@ function main_cat(){
                     . "<a href=\"index.php?file=Sections&amp;page=admin&amp;op=modif_position&amp;cid=" . $cid . "&amp;method=down\" title=\"" . _MOVEDOWN . "\">&lt;</a>"
                     . "&nbsp;" . $position . "&nbsp;<a href=\"index.php?file=Sections&amp;page=admin&amp;op=modif_position&amp;cid=" . $cid . "&amp;method=up\" title=\"" . _MOVEUP . "\">&gt;</a></td>\n"
                     . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Sections&amp;page=admin&amp;op=edit_cat&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\"  title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
-                    . "<td style=\"width: 10%;\" align=\"center\"><a href=\"javascript:del_cat('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
+                    . "<td style=\"width: 10%;\" align=\"center\"><a href=\"javascript:del_cat('" . addslashes($titre) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
         }
     }
     else{

@@ -54,7 +54,7 @@ function main()
         echo "<tr>\n"
         . "<td style=\"width: 50%;\" align=\"center\">" . $name . "</td>\n"
         . "<td style=\"width: 25%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=games&amp;op=edit_game&amp;game_id=" . $game_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _GAMEEDIT . "\" /></a></td>\n"
-        . "<td style=\"width: 25%;\" align=\"center\"><a href=\"javascript:delgame('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $game_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _GAMEDEL . "\" /></a></td></tr>\n";
+        . "<td style=\"width: 25%;\" align=\"center\"><a href=\"javascript:delgame('" . addslashes($name) . "', '" . $game_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _GAMEDEL . "\" /></a></td></tr>\n";
     }
 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";

@@ -496,7 +496,7 @@ function detail($war_id){
         <?php
 
         echo '<div style="text-align: right;"><a href="index.php?file=Wars&amp;page=admin&amp;op=match&amp;do=edit&amp;war_id=' . $war_id . '"><img style="border: 0;" src="images/edition.gif" alt="" title="' . _EDIT . '" /></a>
-                &nbsp;<a href="javascript:delmatch(\''. mysql_real_escape_string(stripslashes($adv_name)) . '\', \'' . $war_id . '\');"><img style="border: 0;" src="images/delete.gif" alt="" title="' . _DEL . '" /></a>&nbsp;</div>';
+                &nbsp;<a href="javascript:delmatch(\''. addslashes($adv_name) . '\', \'' . $war_id . '\');"><img style="border: 0;" src="images/delete.gif" alt="" title="' . _DEL . '" /></a>&nbsp;</div>';
     }
 
     echo '<br /><table style="margin-left: auto;margin-right: auto;text-align: left;background: ' . $bgcolor2 . ';" width="90%" border="0" cellpadding="3" cellspacing="3">

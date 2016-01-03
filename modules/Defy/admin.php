@@ -103,7 +103,7 @@ function view($did) {
         . "<b>" . _MATCH . " : </b>" . $type . "<br />\n"
         . "<b>" . _MAP . " : </b>" . $map . "<br /><br />\n"
         . "<b>" . _COMMENT . " : </b>" . $comment . "<br /><br />\n"
-        . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_defie('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $did . "');\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . _BACK . "</a></div>\n"
+        . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_defie('" . addslashes($pseudo) . "', '" . $did . "');\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . _BACK . "</a></div>\n"
         . "<br /></div></div>\n";
 }
 

@@ -379,7 +379,7 @@ function detail($autor){
                         . "// -->\n"
                         . "</script>\n";
 
-                echo "<a href=\"javascript:deluser('" . mysql_real_escape_string(stripslashes($autor)) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a>";
+                echo "<a href=\"javascript:deluser('" . addslashes($autor) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a>";
             }
 
         echo "&nbsp;</div>\n";

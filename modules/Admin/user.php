@@ -617,7 +617,7 @@ function main()
         }
         else
         {
-            echo "<a href=\"javascript:deluser('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEUSER . "\" /></a>";
+            echo "<a href=\"javascript:deluser('" . addslashes($pseudo) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEUSER . "\" /></a>";
         }
 
         echo "</td></tr>\n";
@@ -707,7 +707,7 @@ function main_cat()
             . "<td style=\"width: 30%;\" align=\"center\">" . $game_name . "</td>\n"
             . "<td style=\"width: 10%;\" align=\"center\">" . $ordre . "</td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_cat&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISTEAM . "\" /></a></td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delcat('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISTEAM . "\" /></a></td></tr>\n";
+            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delcat('" . addslashes($titre) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISTEAM . "\" /></a></td></tr>\n";
         }
 }
 else
@@ -1147,7 +1147,7 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
             . "<td style=\"width: 40%;\" align=\"center\">" . $titre . "</td>\n"
             . "<td style=\"width: 20%;\" align=\"center\">" . $ordre . "</td>\n"
             . "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_rank&amp;rid=" . $rid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISRANK . "\" /></a></td>\n"
-            . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:delrank('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $rid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISRANK . "\" /></a></td></tr>\n";
+            . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:delrank('" . addslashes($titre) . "', '" . $rid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISRANK . "\" /></a></td></tr>\n";
         }
 }
 else
@@ -1395,7 +1395,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         . "<td style=\"width: 15%;\" align=\"center\">" . $user_date . "</td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=validation&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/valid.gif\" alt=\"\" title=\"" . _VALIDTHISUSER . "\" /></a></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=" . $id_user . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITUSER . "\" /></a></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:deluser('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEUSER . "\" /></a></td></tr>\n";
+        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:deluser('" . addslashes($pseudo) . "', '" . $id_user . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEUSER . "\" /></a></td></tr>\n";
     }
     if ($compteur > 0)
     {

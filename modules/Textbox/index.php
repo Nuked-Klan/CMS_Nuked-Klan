@@ -85,7 +85,7 @@ function index() {
                 . "</script>\n";
 
                 $admin = "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><span class=\"nkButton icon alone pin small\" title=\"" . $ip . "\"></span><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $mid . "\" class=\"nkButton icon alone edit small\" title=\"" . _EDITTHISMESS . "\"></a>"
-                . "&nbsp;<a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . _DELTHISMESS . "\"></a></div></div>";
+                . "&nbsp;<a href=\"javascript:del_shout('" . addslashes($auteur) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . _DELTHISMESS . "\"></a></div></div>";
             } 
             else {
                 $admin = "";

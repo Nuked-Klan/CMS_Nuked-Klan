@@ -350,7 +350,7 @@ function description($dl_id) {
                 . "</script>\n";
 
             echo "<div style=\"text-align: right;\"><a href=\"index.php?file=Download&amp;page=admin&amp;op=edit_file&amp;did=" . $dl_id . "\"><img style=\"border: 0;\" src=\"images/edition.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a>"
-                . "&nbsp;<a href=\"javascript:deldown('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $dl_id . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a></div>\n";
+                . "&nbsp;<a href=\"javascript:deldown('" . addslashes($titre) . "', '" . $dl_id . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a></div>\n";
         }
 
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b> " . _DOWNLOAD . " </b></big></a></div><br />\n"

@@ -204,7 +204,7 @@ function main(){
             . "<td align=\"center\">" . $date . "</td>\n"
             . "<td align=\"center\">" . $niveau . "</td>\n"
             . "<td align=\"center\"><a href=\"index.php?file=Survey&amp;page=admin&amp;op=edit_sondage&amp;poll_id=" . $poll_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISPOLL . "\" /></a></td>\n"
-            . "<td align=\"center\"><a href=\"javascript:del_poll('" . mysql_real_escape_string($titre) . "', '" . $poll_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOLL . "\" /></a></td></tr>\n";
+            . "<td align=\"center\"><a href=\"javascript:del_poll('" . addslashes($titre) . "', '" . $poll_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOLL . "\" /></a></td></tr>\n";
     } 
 
     if ($count == 0) {

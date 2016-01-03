@@ -148,7 +148,7 @@ function show_message($mid){
                 <input type="hidden" name="message" value="'.nkHtmlEntities($row['message']).'" />
                 <input type="hidden" name="titre" value="'.nkHtmlEntities($row['titre']).'" />
                 <input type="submit" value="'._REPLY.'" />&nbsp;
-                <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
+                <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.addslashes($pseudo).'\', \''.$mid.'\');" />
                 <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
     }
     else {

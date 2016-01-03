@@ -90,7 +90,7 @@ function main(){
 
         echo "</td><td style=\"width: 20%;\" align=\"center\">" . $team_name . "</td>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Wars&amp;page=admin&amp;op=match&amp;do=edit&amp;war_id=" . $war_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISMATCH . "\" /></a></td>\n"
-                . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_match('" . mysql_real_escape_string(stripslashes($adv_name)) . "', '" . $war_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISMATCH . "\" /></a></td></tr>\n";
+                . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_match('" . addslashes($adv_name) . "', '" . $war_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISMATCH . "\" /></a></td></tr>\n";
     }
 
     if ($count == 0){
@@ -571,7 +571,7 @@ function main_file($im_id){
         echo "<tr style=\"background: ". $bg . "\">\n"
                 . "<td align=\"center\"><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $typename . "</a></td>\n"
                 . "<td align=\"center\"><a href=\"index.php?file=Wars&amp;page=admin&amp;op=edit_file&amp;fid=" . $fid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITFILE . "\" /></a></td>\n"
-                . "<td align=\"center\"><a href=\"javascript:del_file('" . mysql_real_escape_string(stripslashes($typename)) . "', '" . $fid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEFILE . "\" /></a></td></tr>\n";
+                . "<td align=\"center\"><a href=\"javascript:del_file('" . addslashes($typename) . "', '" . $fid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELETEFILE . "\" /></a></td></tr>\n";
     }
 
     echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";

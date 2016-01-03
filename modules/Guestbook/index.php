@@ -238,7 +238,7 @@ function index()
             . "</script>\n";
 
             $admin = "<a class=\"nkButton icon alone small edit\" href=\"index.php?file=Guestbook&amp;page=admin&amp;op=edit_book&amp;gid=" . $id . "\"></a>"
-            . "<a class=\"nkButton icon alone small remove danger\" href=\"javascript:delmess('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $id . "');\"></a>";
+            . "<a class=\"nkButton icon alone small remove danger\" href=\"javascript:delmess('" . addslashes($name) . "', '" . $id . "');\"></a>";
         }
         else
         {

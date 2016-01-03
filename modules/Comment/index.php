@@ -190,7 +190,7 @@ function com_index($module, $im_id){
 
                 echo '<script type="text/javascript">function delmess(pseudo, id){if(confirm(\''._DELCOMMENT.' \'+pseudo+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&page=admin&op=del_com&cid=\'+id;}}</script>';
 
-                $admin = '<a class="nkButton icon alone small edit" href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'" title="'._EDITTHISCOM.'"></a><a class="nkButton icon alone small remove danger" href="javascript:delmess(\''.mysql_real_escape_string(stripslashes($autor)).'\', \''.$row['id'].'\');" title="'._DELTHISCOM.'"></a>';
+                $admin = '<a class="nkButton icon alone small edit" href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'" title="'._EDITTHISCOM.'"></a><a class="nkButton icon alone small remove danger" href="javascript:delmess(\'' . addslashes($autor) . '\', \''.$row['id'].'\');" title="'._DELTHISCOM.'"></a>';
 
             }else $admin = '';
 
