@@ -187,12 +187,16 @@ function send_file() {
     } else if ($url != "" && $titre != "") {
         $sql = mysql_query("INSERT INTO " . DOWNLOAD_TABLE . " ( `date` , `taille` , `titre` , `description` , `type` , `url` , `url2`  , `url3` , `level`, `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $date . "' , '" . $taille . "' , '" . $titre . "' , '" . $description . "' , '" . $cat . "' , '" . $url . "' , '" . $url2 . "' , '" . $url3 . "' , '" . $level ."' , '" . $autor . "' , '" . $site . "' , '" . $comp . "' , '" . $screen . "' )");
 
+        $id = nkDB_insertId();
+
         saveUserAction(_ACTIONADDDL .': '. $titre);
 
         printNotification(_FILEADD, 'success');
 
-        $sql = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE date = '" . $date . "' AND titre = '" . $titre . "'");
-        list($id) = mysql_fetch_array($sql);
+        require_once 'Includes/nkSitemap.php';
+
+        if (! nkSitemap_write())
+            return;
 
         setPreview('index.php?file=Download&op=description&dl_id='. $id, 'index.php?file=Download&page=admin');
     } else {
@@ -992,7 +996,6 @@ switch ($_REQUEST['op']) {
 
     case "send_file":
         send_file();
-        UpdateSitmap();
         break;
 
     case "modif_file":

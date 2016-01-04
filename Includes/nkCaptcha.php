@@ -79,7 +79,7 @@ function create_captcha(){
 function captchaNotification($message) {
     printNotification($message, 'error', array('backLinkUrl' => 'javascript:history.back()'));
 
-    if ($data != __('CT_NO_TOKEN') && ! isset($_REQUEST['ajax']))
+    if ($message != __('CT_NO_TOKEN') && ! isset($_REQUEST['ajax']))
         redirect('index.php?file=User&op=login_screen', 2);
 }
 

@@ -284,14 +284,18 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $url
 
     $sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `coverage` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $url_image . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
 
+    $id = nkDB_insertId();
+
     saveUserAction(_ACTIONADDNEWS .': '. $titre .'.');
 
     printNotification(_NEWSADD, 'success');
 
-    $sqls = mysql_query("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $titre . "' AND date = '".$date."'");
-    list($news_id) = mysql_fetch_array($sqls);
+    require_once 'Includes/nkSitemap.php';
 
-    setPreview('index.php?file=News&op=suite&news_id='. $news_id, 'index.php?file=News&page=admin');
+    if (! nkSitemap_write())
+        return;
+
+    setPreview('index.php?file=News&op=suite&news_id='. $id, 'index.php?file=News&page=admin');
 }
 
 function edit($news_id) {
@@ -713,7 +717,6 @@ switch ($_REQUEST['op']) {
 
     case "do_add":
         do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
-        UpdateSitmap();
         break;
 
     case "do_edit":

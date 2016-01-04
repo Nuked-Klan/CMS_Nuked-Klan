@@ -90,6 +90,12 @@ function desactive($mid)
     saveUserAction(_ACTIONDESMOD .': '. $nom);
 
     printNotification(_MODULEDISABLED, 'success');
+
+    require_once 'Includes/nkSitemap.php';
+
+    if (! nkSitemap_write())
+        return;
+
     redirect("index.php?file=Admin&page=modules", 2);
 }
 
@@ -105,6 +111,12 @@ function active($mid)
     saveUserAction(_ACTIONACTMOD .': '. $nom);
 
     printNotification(_MODULEENABLED, 'success');
+
+    require_once 'Includes/nkSitemap.php';
+
+    if (! nkSitemap_write())
+        return;
+
     redirect("index.php?file=Admin&page=modules", 2);
 }
 
@@ -123,6 +135,12 @@ function update_module($mid, $niveau, $level)
     saveUserAction(_ACTIONMODIFMOD .': '. $nom);
 
     printNotification(_MODULEMODIF, 'success');
+
+    require_once 'Includes/nkSitemap.php';
+
+    if (! nkSitemap_write())
+        return;
+
     redirect("index.php?file=Admin&page=modules", 2);
 }
 
@@ -264,17 +282,14 @@ function main()
 switch ($_REQUEST['op']) {
     case "update_module":
         update_module($_REQUEST['mid'], $_REQUEST['niveau'], $_REQUEST['level']);
-        UpdateSitmap();
         break;
 
     case "desactive":
         desactive($_REQUEST['mid']);
-        UpdateSitmap();
         break;
 
     case "active":
         active($_REQUEST['mid']);
-        UpdateSitmap();
         break;
 
     case "edit_module":

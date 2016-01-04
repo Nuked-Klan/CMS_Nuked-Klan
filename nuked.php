@@ -312,7 +312,7 @@ function session_write($id, $data) {
 
     $dbuSession = false;
 
-    if ($dbiSession === false || nkDB_insert_id() == 0) {
+    if ($dbiSession === false || nkDB_insertId() == 0) {
         $dbuSession = nkDB_update(TMPSES_TABLE, array(
                 'session_vars' => $data
             ),
@@ -1123,6 +1123,13 @@ function translate($languageFile) {
     $newArrayModLang = include_once $languageFile;
     ob_end_clean(); // TODO : Remove this line later, only for hide huge ugly notice block :S
 
+    if (defined('NK_DEBUG') && is_array($newArrayModLang)) {
+        foreach ($newArrayModLang as $alias => $i18n) {
+            if (array_key_exists($alias, $arrayModLang))
+                trigger_error($alias .' translation is already defined.', E_USER_NOTICE);
+        }
+    }
+
     if (is_array($newArrayModLang))
         $arrayModLang = array_merge($arrayModLang, $newArrayModLang);
 
@@ -1154,9 +1161,13 @@ function __($str) {
 function _n($str, $n = 1) {
     global $arrayModLang;
 
-    if (array_key_exists($str, $arrayModLang) && is_array($arrayModLang[$str])) {
-        if ($n > 0 && array_key_exists($n, $arrayModLang[$str]))
+    if (array_key_exists($str, $arrayModLang) && is_array($arrayModLang[$str]) && $n > 0) {
+        if (array_key_exists($n, $arrayModLang[$str])) {
             return $arrayModLang[$str][$n];
+        }
+        else if ($n > 1) {
+            return $arrayModLang[$str][max(array_keys($arrayModLang[$str]))];
+        }
     }
 
     return $str;
