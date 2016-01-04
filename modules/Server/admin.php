@@ -54,7 +54,7 @@ function main_cat() {
             echo "<tr>\n"
                 . "<td align=\"center\">" . $titre . "</td>\n"
                 . "<td align=\"center\"><a href=\"index.php?file=Server&amp;page=admin&amp;op=edit_cat&amp;cid=" . $cid . "\" ><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISCAT . "\" /></a></td>\n"
-                . "<td align=\"center\"><a href=\"javascript:del_cat('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
+                . "<td align=\"center\"><a href=\"javascript:del_cat('" . addslashes($titre) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
     }
 } else  {
     echo "<tr><td align=\"center\" colspan=\"3\">" . _NONECATINDATABASE . "</td></tr>\n"; 

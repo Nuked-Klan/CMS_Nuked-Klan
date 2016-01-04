@@ -136,7 +136,7 @@ function main()
         . "<td style=\"width: 25%;\" align=\"center\">" . $name . "</td>\n"
         . "<td style=\"width: 25%;\" align=\"center\">" . $ip . "</td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Guestbook&amp;page=admin&amp;op=edit_book&amp;gid=" . $id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISPOST . "\" /></a></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delmess('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOST . "\" /></a></td></tr>\n";
+        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delmess('" . addslashes($name) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOST . "\" /></a></td></tr>\n";
     }
 
     if ($count == "0")

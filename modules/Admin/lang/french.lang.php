@@ -257,7 +257,7 @@ define("_GAMEDELETE","Jeu supprimé avec succès.");
 define("_SEEICON","Voir les icônes");
 define("_ICONLIST","Liste des icônes");
 define("_CLICICON","Cliquez sur une icône pour la sélectionner");
-define("_ERRORCHAMPS","Vous n\'avez pas rempli tous les champs du formulaire !");
+define("_ERRORCHAMPS","Vous n'avez pas rempli tous les champs du formulaire !");
 
 define("_USERVALIDATION","Membres non validés");
 define("_VALIDUSER","valider");
@@ -382,8 +382,8 @@ define("_DELETEFILE","Vous êtes sur le point de supprimer");
 define("_ERRORBDD","Erreurs SQL");
 define("_SQLERRORDELETED","La liste des erreurs SQL repérées a été détruite.");
 
-define("_ACTIONCONNECT","s\'est connecté à l\'administration");
-define("_ACTIONDECONNECT","s\'est déconnecté de l\'administration");
+define("_ACTIONCONNECT","s'est connecté à l'administration");
+define("_ACTIONDECONNECT","s'est déconnecté de l'administration");
 define("_ACTIONVIDERSQL","a vidé les erreurs SQL");
 define("_ACTIONADDGAME","a ajouté le jeu");
 define("_ACTIONMODIFGAME","a modifié le jeu");
@@ -418,7 +418,7 @@ define("_ACTIONSAVEDB","a sauvegardé la base de donnée.");
 define("_ACTIONOPTIDB","a optimisé la base de donnée.");
 define("_ACTIONDESMOD","a désactivé le module");
 define("_ACTIONACTMOD","a activé le module");
-define("_ACTIONMODIFMOD","a modifié le level d\'accès au module");
+define("_ACTIONMODIFMOD","a modifié le level d'accès au module");
 define("_ACTIONMODIFMENU","a modifié le menu");
 define("_ADMINACTION","Administration des actions");
 define("_INFOACTION","Après votre lecture, les actions dépassant 2 semaines seront supprimées définitivement.");

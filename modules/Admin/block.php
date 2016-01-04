@@ -364,7 +364,7 @@ function main()
         . "<td style=\"width: 15%;\" align=\"center\">" . $type . "</td>\n"
         . "<td style=\"width: 15%;\" align=\"center\">" . $nivo . "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=block&amp;op=edit_block&amp;bid=" . $bid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _BLOCKEDIT . "\" /></a></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delblock('" . mysql_real_escape_string(stripslashes($titre)) . "','" . $bid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _BLOCKDEL . "\" /></a></td></tr>\n";
+        . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delblock('" . addslashes($titre) . "','" . $bid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _BLOCKDEL . "\" /></a></td></tr>\n";
     }
 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";

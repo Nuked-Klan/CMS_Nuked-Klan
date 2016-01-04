@@ -244,7 +244,7 @@ function description($link_id){
             . '</script>'."\n";
 
             echo '<div style="text-align: right"><a href="index.php?file=Links&amp;page=admin&amp;op=edit_link&amp;link_id=' . $link_id . '"><img style="border: 0" src="images/edition.gif" alt="" title="' . _EDIT . '" /></a>'
-            . '&nbsp;<a href="javascript:del_link(\'' . mysql_real_escape_string(stripslashes($titre)) . '\', \'' . $link_id . '\');"><img style="border: 0" src="images/delete.gif" alt="" title="' . _DEL . '" /></a></div>'."\n";
+            . '&nbsp;<a href="javascript:del_link(\'' . addslashes($titre) . '\', \'' . $link_id . '\');"><img style="border: 0" src="images/delete.gif" alt="" title="' . _DEL . '" /></a></div>'."\n";
         }
 
         echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b> ' . _WEBLINKS . ' </b></big></a></div><br />'."\n"

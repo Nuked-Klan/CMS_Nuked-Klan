@@ -157,7 +157,7 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
     saveUserAction(_ACTIONMODIFSUR .': '. $titre .'.');
 
     printNotification(_POLLMODIF, 'success');
-    setPreview('index.php?file=Survey&op=sondage&poll_id=' $poll_id, 'index.php?file=Survey&page=admin');
+    setPreview('index.php?file=Survey&op=sondage&poll_id=' .  $poll_id, 'index.php?file=Survey&page=admin');
 }
 
 function main(){
@@ -204,7 +204,7 @@ function main(){
             . "<td align=\"center\">" . $date . "</td>\n"
             . "<td align=\"center\">" . $niveau . "</td>\n"
             . "<td align=\"center\"><a href=\"index.php?file=Survey&amp;page=admin&amp;op=edit_sondage&amp;poll_id=" . $poll_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISPOLL . "\" /></a></td>\n"
-            . "<td align=\"center\"><a href=\"javascript:del_poll('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $poll_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOLL . "\" /></a></td></tr>\n";
+            . "<td align=\"center\"><a href=\"javascript:del_poll('" . addslashes($titre) . "', '" . $poll_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISPOLL . "\" /></a></td></tr>\n";
     } 
 
     if ($count == 0) {

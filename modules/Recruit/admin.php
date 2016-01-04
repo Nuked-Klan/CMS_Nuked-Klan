@@ -178,7 +178,7 @@ function view($rid)
 . "<b>" . _AVAILABLE . " : </b>" . $dispo . "<br /><br />\n"
 . "<b>" . _COMMENT . " : </b>" . $comment . "<br /><br />\n";
 
-    echo "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_recruit('" . mysql_real_escape_string(stripslashes($pseudo)) . "', '" . $rid . "');\" />\n"
+    echo "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_recruit('" . addslashes($pseudo) . "', '" . $rid . "');\" />\n"
 . "<a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
 }
 
