@@ -50,7 +50,12 @@ if ($visiteur >= $level_access && $level_access > -1)
             $cat = 0;
     }
 
-        $where .= " F.cat = C.id AND '" . $visiteur . "' >= C.niveau AND M.forum_id = F.id AND '" . $visiteur . "' >= F.niveau AND";
+    if (isset($_REQUEST['date_max']) && $_REQUEST['date_max'] != '' && ctype_digit($_REQUEST['date_max']))
+        $searchLevelAccess = $visiteur;
+    else
+        $searchLevelAccess = max($visiteur, 1);
+
+    $where .= " F.cat = C.id AND '" . $searchLevelAccess . "' >= C.niveau AND M.forum_id = F.id AND '" . $searchLevelAccess . "' >= F.niveau AND";
 
         if ($_REQUEST['limit'] == "" || !is_numeric($_REQUEST['limit'])) $_REQUEST['limit'] = 50;
         if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
