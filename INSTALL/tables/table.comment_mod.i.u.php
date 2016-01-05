@@ -18,9 +18,14 @@ $dbTable->setTable($this->_session['db_prefix'] .'_comment_mod');
 
 $commentModTableCfg = array(
     'fields' => array(
-        'id'     => array('type' => 'int(11)', 'null' => false, 'autoIncrement' => true),
-        'module' => array('type' => 'text',    'null' => false),
-        'active' => array('type' => 'int(1)',  'null' => false)
+        'id'      => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'module'  => array('type' => 'text',        'null' => false),
+        //'module' => array('type' => 'varchar(50)', 'null' => false),
+        'active'  => array('type' => 'int(1)',      'null' => false),
+
+        // TODO : Normalize table ID and remove this fields
+        'table'   => array('type' => 'varchar(50)', 'null' => false),
+        'tableId' => array('type' => 'varchar(15)', 'null' => false, 'default' => '\'id\'')
     ),
     'primaryKey' => array('id'),
     'engine' => 'MyISAM'
@@ -48,14 +53,14 @@ if ($process == 'drop')
 if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
     $dbTable->createTable($commentModTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_comment_mod` VALUES
-        (1, \'news\', 1),
-        (2, \'download\', 1),
-        (3, \'links\', 1),
-        (4, \'survey\', 1),
-        (5, \'wars\', 1),
-        (6, \'gallery\', 1),
-        (7, \'sections\', 1);';
+    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_comment_mod` (`id`, `module`, `active`, `table`, `tableId`) VALUES
+        (1, \'news\', 1, \'news\', \'news\'),
+        (2, \'download\', 1, \'downloads\', \'id\'),
+        (3, \'links\', 1, \'liens\', \'id\'),
+        (4, \'survey\', 1, \'sondage\', \'sid\'),
+        (5, \'wars\', 1, \'match\', \'warid\'),
+        (6, \'gallery\', 1, \'gallery\', \'sid\'),
+        (7, \'sections\', 1, \'sections\', \'artid\');';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }

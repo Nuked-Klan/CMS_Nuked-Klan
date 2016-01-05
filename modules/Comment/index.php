@@ -16,61 +16,34 @@ global $language;
 translate('modules/Comment/lang/'. $language .'.lang.php');
 
 
-function verification($module, $im_id){
+/**
+ * Check if comment is enabled and parent Id of module exist.
+ *
+ * @param string $module : The name of parent module.
+ * @param int $imId : The parent Id of module.
+ * @return bool
+ */
+function checkCommentStatus($module, $imId) {
     global $nuked;
 
-    if(empty($module)) $module = $_REQUEST['file'];
+    if (! empty($module)) {
+        $dbrCommentMod = nkDB_selectOne(
+            'SELECT active, table, tableId
+            FROM '. $nuked['prefix'] .'_comment_mod
+            WHERE module = '. nkDB_escape(strtolower($module))
+        );
 
-    if($module == "News" || $module == "news"):
+        if ($dbrCommentMod && $dbrCommentMod['active'] == 1) {
+            $nbComment = nkDB_totalNumRows(
+                'FROM '. $nuked['prefix'] .'_'. $dbrCommentMod['table'] .'
+                WHERE '. $dbrCommentMod['tableId'] .' = '. intval($imId)
+            );
 
-        $WhereModule = 'news';
-        $sqlverif = 'news';
-        $specification = 'id';
+            return ($nbComment > 0);
+        }
+    }
 
-    elseif($module == "Download" || $module == "download"):
-
-        $WhereModule = 'download';
-        $sqlverif = "downloads";
-        $specification = "id";
-
-    elseif($module == "Sections" || $module == "sections"):
-
-        $WhereModule = 'sections';
-        $sqlverif = "sections";
-        $specification = "artid";
-
-    elseif($module == "Links" || $module == "links"):
-
-        $WhereModule = 'links';
-        $sqlverif = "liens";
-        $specification = "id";
-
-    elseif($module == "Wars" || $module == "match"):
-
-        $WhereModule = 'wars';
-        $sqlverif = "match";
-        $specification = "warid";
-
-    elseif($module == "Gallery" || $module == "gallery"):
-
-        $WhereModule = 'gallery';
-        $sqlverif = "gallery";
-        $specification = "sid";
-
-    elseif($module == "Survey" || $module == "survey"):
-
-        $WhereModule = 'survey';
-        $sqlverif = "sondage";
-        $specification = "sid";
-
-    endif;
-
-    $Sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = '$WhereModule'");
-    list($active) = mysql_fetch_array($Sql);
-
-    $Str = mysql_query("SELECT * FROM " . $nuked['prefix'] . "_$sqlverif WHERE $specification = '" . intval($im_id) . "'");
-
-    return (mysql_num_rows($Str) > 0 && $active == 1);
+    return false;
 }
 
 function NbComment($im_id, $module){
@@ -82,6 +55,8 @@ function NbComment($im_id, $module){
 
 function com_index($module, $im_id){
     global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language;
+
+    if (! checkCommentStatus($_REQUEST['file'], $im_id)) return;
 
     $captcha = initCaptcha();
 
@@ -153,116 +128,113 @@ function com_index($module, $im_id){
     $level_admin = admin_mod("Comment");
     $NbComment = NbComment($im_id, $module);
 
-    if(verification($_REQUEST['file'],$im_id)){
+    echo '<h3 style="text-align: center">' . _LAST4COMS . '</h3>
+    <table style="background:'.$bgcolor3.';margin:5px" width="98%" cellpadding="3" cellspacing="1">
+        <tr style="background:'.$bgcolor3.';">
+            <td style="width:30%;text-align:center"><b>'._AUTHOR.'</b></td>
+            <td style="width:70%;text-align:center"><b>'._COMMENT.'</b></td>
+        </tr>';
 
-        echo '<h3 style="text-align: center">' . _LAST4COMS . '</h3>
-        <table style="background:'.$bgcolor3.';margin:5px" width="98%" cellpadding="3" cellspacing="1">
-            <tr style="background:'.$bgcolor3.';">
-                <td style="width:30%;text-align:center"><b>'._AUTHOR.'</b></td>
-                <td style="width:70%;text-align:center"><b>'._COMMENT.'</b></td>
-            </tr>';
+    $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
+    $count = mysql_num_rows($sql);
+    $j = 0;
+    while($row = mysql_fetch_assoc($sql)){
+        $test = 0;
+        $row['date']  = nkDate($row['date']);
+        $row['titre'] = nkHtmlEntities($row['titre']);
+        $row['titre'] = nk_CSS($row['titre']);
+        $row['autor'] = nk_CSS($row['autor']);
+        $texte = (!empty($row['titre'])) ? '<b>'.$row['titre'].'</b><br /><br />'.$row['comment'] : $row['comment'];
 
-        $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
-        $count = mysql_num_rows($sql);
-        $j = 0;
-        while($row = mysql_fetch_assoc($sql)){
-            $test = 0;
-            $row['date']  = nkDate($row['date']);
-            $row['titre'] = nkHtmlEntities($row['titre']);
-            $row['titre'] = nk_CSS($row['titre']);
-            $row['autor'] = nk_CSS($row['autor']);
-            $texte = (!empty($row['titre'])) ? '<b>'.$row['titre'].'</b><br /><br />'.$row['comment'] : $row['comment'];
-
-            if(!empty($row['autor_id'])){
-                $sql_member = mysql_query("SELECT avatar, country FROM ".USER_TABLE." WHERE id = '{$row['autor_id']}'");
-                $test = mysql_num_rows($sql_member);
-            }
-
-            if(!empty($row['autor_id']) && $test > 0) list($avatar, $country) = mysql_fetch_array($sql_member);
-
-            if(empty($avatar)) $avatar = "modules/Comment/images/noavatar.png";
-            if(empty($country)) $country = "France.gif";
-
-            if($j == 0){$bg = $bgcolor2; $j++;}
-            else{$bg = $bgcolor1; $j = 0;}
-
-            if ($visiteur >= $level_admin && $level_admin > -1){
-
-                echo '<script type="text/javascript">function delmess(pseudo, id){if(confirm(\''._DELCOMMENT.' \'+pseudo+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&page=admin&op=del_com&cid=\'+id;}}</script>';
-
-                $admin = '<a class="nkButton icon alone small edit" href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'" title="'._EDITTHISCOM.'"></a><a class="nkButton icon alone small remove danger" href="javascript:delmess(\'' . addslashes($autor) . '\', \''.$row['id'].'\');" title="'._DELTHISCOM.'"></a>';
-
-            }else $admin = '';
-
-            echo '<tr style="background:'.$bg.';">
-                    <td style="width:30%;" valign="top"><img src="images/flags/'.$country.'" alt="'.$country.'" />&nbsp;<b>'.$row['autor'].'</b>';
-
-                    if ($visiteur >= $level_admin && $level_admin > -1) echo '<br />Ip : '.$row['autor_ip'];
-
-                    echo '<br /><br /><img src="'.$avatar.'" style="max-width: 100px; max-height: 100px;" alt="" />';
-
-                    $profil = ($row['autor_id'] != '') ? '<a class="nkButton icon alone small user" href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($row['autor']).'"></a>' : '';
-
-            echo '  </td>
-                    <td style="width:70%;" valign="top">
-                        <img src="images/posticon.gif" alt="" /><small> '._POSTED.' : '.$row['date'].'</small>
-                        <br /><br />'.$texte.'<br /><br />
-                    </td>
-                  </tr>
-                  <tr style="background:'.$bg.';">
-                      <td style="width:30%;">&nbsp;</td>
-                    <td colspan="2"><div class="nkButton-group">'.$profil . $admin.'</div><br /></td>
-                  </tr>';
-            unset($avatar, $autor, $country);
+        if(!empty($row['autor_id'])){
+            $sql_member = mysql_query("SELECT avatar, country FROM ".USER_TABLE." WHERE id = '{$row['autor_id']}'");
+            $test = mysql_num_rows($sql_member);
         }
 
-        if ($count == "0") echo '<tr style="background:'.$bgcolor2.';"><td align="center" colspan="2">'._NOCOMMENT.'</td></tr>';
+        if(!empty($row['autor_id']) && $test > 0) list($avatar, $country) = mysql_fetch_array($sql_member);
 
-        echo '</table>';
+        if(empty($avatar)) $avatar = "modules/Comment/images/noavatar.png";
+        if(empty($country)) $country = "France.gif";
 
-        if ($count >= 0){
-            echo '<div style="text-align:center;padding:10px 10px 0 0"><b>'._COMMENTS.' :</b>&nbsp;'.$NbComment.'&nbsp;';
+        if($j == 0){$bg = $bgcolor2; $j++;}
+        else{$bg = $bgcolor1; $j = 0;}
 
-            if ($visiteur >= $level_access && $level_access > -1){
-                echo '<br />[ <a href="#" onclick="javascript:window.open(\'index.php?file=Comment&amp;op=view_com&amp;im_id='.$im_id.'&amp;module='.$module.'\',\'popup\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=600,height=480,top=100,left=100\');return(false)">'._VIEWCOMMENT.'</a> ]';
-            }
-            echo '</div>';
-        }
+        if ($visiteur >= $level_admin && $level_admin > -1){
 
-        if ($captcha) {
-            $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value, this.ct_token.value, this.ct_script.value, this.ct_email.value);return false;';
-        }
-        else {
-            $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value);return false;';
-        }
+            echo '<script type="text/javascript">function delmess(pseudo, id){if(confirm(\''._DELCOMMENT.' \'+pseudo+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&page=admin&op=del_com&cid=\'+id;}}</script>';
 
-        echo '<div id="message">
-                <form id="post_commentary" method="post" onsubmit="javascript:return '.$Soumission.'" action="#post_commentary">
-                <table width="100%" cellspacing="5" cellpadding="0" border="0" style="padding-top:15px">';
-                if($user) echo '<tr style="display: none"><td colspan="2"><input id="compseudo" type="hidden" name="pseudo" value="'.$user[2].'" /></td></tr>';
-                else {
-                    echo '<tr>
-                        <td style="padding-left:5px;width:30%"><b>'._NICK.' :</b></td>
-                        <td><input id="compseudo" type="text" size="30" name="pseudo" maxlength="30" /></td>
-                    </tr>';
-                }
-                    echo '<tr>
-                        <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
-                    </tr>';
+            $admin = '<a class="nkButton icon alone small edit" href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'" title="'._EDITTHISCOM.'"></a><a class="nkButton icon alone small remove danger" href="javascript:delmess(\'' . addslashes($autor) . '\', \''.$row['id'].'\');" title="'._DELTHISCOM.'"></a>';
 
-                    if ($captcha) echo create_captcha();
+        }else $admin = '';
 
-        echo '        <tr>
-                        <td colspan="2" align="center">
-                            <input type="hidden" id="imid" name="im_id" value="'.$im_id.'" />
-                            <input type="hidden" id="module" name="module" value="'.$module.'" />
-                            <input type="submit" value="'._SEND_COM.'" />
-                        </td>
-                    </tr>
-                </table>
-                </form>
-              </div>';
+        echo '<tr style="background:'.$bg.';">
+                <td style="width:30%;" valign="top"><img src="images/flags/'.$country.'" alt="'.$country.'" />&nbsp;<b>'.$row['autor'].'</b>';
+
+                if ($visiteur >= $level_admin && $level_admin > -1) echo '<br />Ip : '.$row['autor_ip'];
+
+                echo '<br /><br /><img src="'.$avatar.'" style="max-width: 100px; max-height: 100px;" alt="" />';
+
+                $profil = ($row['autor_id'] != '') ? '<a class="nkButton icon alone small user" href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($row['autor']).'"></a>' : '';
+
+        echo '  </td>
+                <td style="width:70%;" valign="top">
+                    <img src="images/posticon.gif" alt="" /><small> '._POSTED.' : '.$row['date'].'</small>
+                    <br /><br />'.$texte.'<br /><br />
+                </td>
+                </tr>
+                <tr style="background:'.$bg.';">
+                    <td style="width:30%;">&nbsp;</td>
+                <td colspan="2"><div class="nkButton-group">'.$profil . $admin.'</div><br /></td>
+                </tr>';
+        unset($avatar, $autor, $country);
     }
+
+    if ($count == "0") echo '<tr style="background:'.$bgcolor2.';"><td align="center" colspan="2">'._NOCOMMENT.'</td></tr>';
+
+    echo '</table>';
+
+    if ($count >= 0){
+        echo '<div style="text-align:center;padding:10px 10px 0 0"><b>'._COMMENTS.' :</b>&nbsp;'.$NbComment.'&nbsp;';
+
+        if ($visiteur >= $level_access && $level_access > -1){
+            echo '<br />[ <a href="#" onclick="javascript:window.open(\'index.php?file=Comment&amp;op=view_com&amp;im_id='.$im_id.'&amp;module='.$module.'\',\'popup\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=600,height=480,top=100,left=100\');return(false)">'._VIEWCOMMENT.'</a> ]';
+        }
+        echo '</div>';
+    }
+
+    if ($captcha) {
+        $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value, this.ct_token.value, this.ct_script.value, this.ct_email.value);return false;';
+    }
+    else {
+        $Soumission = 'sent(this.compseudo.value, this.module.value, this.imid.value);return false;';
+    }
+
+    echo '<div id="message">
+            <form id="post_commentary" method="post" onsubmit="javascript:return '.$Soumission.'" action="#post_commentary">
+            <table width="100%" cellspacing="5" cellpadding="0" border="0" style="padding-top:15px">';
+            if($user) echo '<tr style="display: none"><td colspan="2"><input id="compseudo" type="hidden" name="pseudo" value="'.$user[2].'" /></td></tr>';
+            else {
+                echo '<tr>
+                    <td style="padding-left:5px;width:30%"><b>'._NICK.' :</b></td>
+                    <td><input id="compseudo" type="text" size="30" name="pseudo" maxlength="30" /></td>
+                </tr>';
+            }
+                echo '<tr>
+                    <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
+                </tr>';
+
+                if ($captcha) echo create_captcha();
+
+    echo '        <tr>
+                    <td colspan="2" align="center">
+                        <input type="hidden" id="imid" name="im_id" value="'.$im_id.'" />
+                        <input type="hidden" id="module" name="module" value="'.$module.'" />
+                        <input type="submit" value="'._SEND_COM.'" />
+                    </td>
+                </tr>
+            </table>
+            </form>
+            </div>';
 }
 
 function view_com($module, $im_id){
@@ -271,7 +243,8 @@ function view_com($module, $im_id){
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_COMMENTS);
 
-    if(!verification($module,$im_id)) return;
+    if (! checkCommentStatus($module, $im_id)) return;
+
     if ($language == "french" && strpos("WIN", PHP_OS)) setlocale (LC_TIME, "french");
     else if ($language == "french" && strpos("BSD", PHP_OS)) setlocale (LC_TIME, "fr_FR.ISO8859-1");
     else if ($language == "french") setlocale (LC_TIME, "fr_FR");
@@ -328,12 +301,13 @@ function post_com($module, $im_id){
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_POSTCOMMENT);
 
+    if (! checkCommentStatus($module, $im_id)) return;
+
     define('EDITOR_CHECK', 1);
 
     $level_access = nivo_mod("Comment");
 
-    if(!verification($module,$im_id)){}
-    elseif($visiteur >= $level_access && $level_access > -1){
+    if($visiteur >= $level_access && $level_access > -1){
 
     echo "<script type=\"text/javascript\">\n"
             ."<!--\n"
@@ -403,14 +377,17 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_POSTCOMMENT);
 
+    if (! checkCommentStatus($module, $im_id)) return;
+
     if (isset($_REQUEST['ajax'])) {
         $titre = utf8_decode($titre);
         $texte = utf8_decode($texte);
         $pseudo = utf8_decode($pseudo);
     }
+
     $level_access = nivo_mod("Comment");
-    if (!verification($module,$im_id)){}
-    else if ($visiteur >= $level_access && $level_access > -1){
+
+    if ($visiteur >= $level_access && $level_access > -1){
         if (initCaptcha() && ! validCaptchaCode())
             return;
 
@@ -507,11 +484,11 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_COMMENTS);
 
+    if (! checkCommentStatus($module, $im_id)) return;
+
     $level_admin = admin_mod("Comment");
     $texte = secu_html(nkHtmlEntityDecode($texte));
-    if(!verification($module,$im_id)){
-        return;
-    }
+
     if ($visiteur >= $level_admin){
         $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
 
