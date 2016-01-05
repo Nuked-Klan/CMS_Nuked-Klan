@@ -93,7 +93,12 @@ function displayForumSearchResult() {
         if ($cat > 0) $where .= ' M.forum_id = '. $cat .' AND';
     }
 
-    $where .= ' '. $visiteur .' >= C.niveau AND '. $visiteur .' >= F.niveau AND';
+    if ($dateMax != '' && ctype_digit($dateMax))
+        $searchLevelAccess = $visiteur;
+    else
+        $searchLevelAccess = max($visiteur, 1);
+
+    $where .= ' '. $searchLevelAccess .' >= C.niveau AND '. $searchLevelAccess .' >= F.niveau AND';
 
     // Prepare research data
     $dateMax = (int) $dateMax;

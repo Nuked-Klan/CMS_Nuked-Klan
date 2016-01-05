@@ -39,7 +39,8 @@ else if ($main != ""){
     $and .= ")";
 }
 
-$req = "SELECT id, titre, date FROM " . DOWNLOAD_TABLE . " WHERE level <= '" . $visiteur . "' AND " . $and . " ORDER BY id DESC";
+$searchLevelAccess = max($visiteur, 1);
+$req = "SELECT id, titre, date FROM " . DOWNLOAD_TABLE . " WHERE level <= '" . $searchLevelAccess . "' AND " . $and . " ORDER BY id DESC";
 $sql_dl = mysql_query($req);
 
 $nb_dl = mysql_num_rows($sql_dl);
