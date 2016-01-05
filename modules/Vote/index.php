@@ -9,12 +9,60 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
-translate('modules/Vote/lang/' . $language . '.lang.php');
+translate('modules/Vote/lang/'. $language .'.lang.php');
 
-$visiteur = ($user) ? $user[1] : 0; 
+
+function checkVoteStatus($module, $imId) {
+    global $nuked;
+
+    if ($module == "Sections") {
+        $sqlverif = "sections";
+        $specification = "artid";
+    }
+    elseif ($module == "Links") {
+        $sqlverif = "liens";
+        $specification = "id";
+    }
+    elseif ($module == "Download") {
+        $sqlverif = "downloads";
+        $specification = "id";
+    }
+    elseif ($module == "Gallery") {
+        $sqlverif = "gallery";
+        $specification = "sid";
+    }
+    else {
+        return false;
+    }
+
+    $req1 = mysql_query(
+        'SELECT active
+        FROM '. $nuked['prefix'] .'_vote_mod
+        WHERE module = "'. strtolower($module) .'"'
+    );
+
+    list($active) = mysql_fetch_array($req1);
+
+    if ($active == 1) {
+        $req2 = mysql_query(
+            'SELECT *
+            FROM '. $nuked['prefix'] .'_'. $sqlverif .'
+            WHERE '. $specification .' = "'. intval($imId) .'"'
+        );
+
+        return (mysql_num_rows($req2) > 0);
+    }
+
+    return false;
+}
 
 function vote_index($module, $vid) {
     global $user, $nuked, $visiteur;
+
+    if (! checkVoteStatus($module, $vid)) {
+        echo '<b>'. _VOTE_UNACTIVE . '</b>';
+        return;
+    }
 
     $level_access = nivo_mod('Vote');
 
@@ -54,6 +102,8 @@ function vote_index($module, $vid) {
 
 function post_vote($module, $vid) {
     global $user, $nuked, $bgcolor2, $theme, $visiteur,$user_ip;
+
+    if (! checkVoteStatus($module, $vid)) return;
 
     $level_access = nivo_mod('Vote');
 
@@ -110,6 +160,8 @@ function post_vote($module, $vid) {
 
 function do_vote($vid, $module, $vote) {
     global $nuked, $user, $bgcolor2, $theme, $visiteur,$user_ip;
+
+    if (! checkVoteStatus($module, $vid)) return;
 
     $level_access = nivo_mod('Vote');
     $module = mysql_real_escape_string(stripslashes($module));
