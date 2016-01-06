@@ -13,7 +13,7 @@ translate('modules/Vote/lang/'. $language .'.lang.php');
 
 
 function checkVoteStatus($module, $imId) {
-    if (! empty($module)) {
+    if (! empty($module) && preg_match('/^[A-Za-z_]+$/', $module)) {
         $dbrVoteModules = mysql_query(
             'SELECT active
             FROM '. VOTE_MODULES_TABLE .'
@@ -32,8 +32,8 @@ function checkVoteStatus($module, $imId) {
                     $tableIdName = 'id';
 
                 $voteModuleData = mysql_query(
-                    'SELECT COUNT(*) AS recordCount FROM '. constant($tableConstName) .'
-                    WHERE '. $tableIdName .' = '. intval($imId)
+                    'SELECT COUNT(*) AS recordCount FROM '. mysql_real_escape_string(constant($tableConstName)) .'
+                    WHERE '. mysql_real_escape_string($tableIdName) .' = '. intval($imId)
                 );
 
                 if ($voteModuleData) {
@@ -95,7 +95,9 @@ function vote_index($module, $vid) {
 function post_vote($module, $vid) {
     global $user, $nuked, $bgcolor2, $theme, $visiteur,$user_ip;
 
-    if (! checkVoteStatus(stripslashes($module), $vid)) return;
+    $module = stripslashes($module);(
+
+    if (! checkVoteStatus($module, $vid)) return;
 
     $level_access = nivo_mod('Vote');
 
@@ -107,7 +109,7 @@ function post_vote($module, $vid) {
             $author = _VISITOR;
         } 
 
-        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "' AND ip = '" . $user_ip . "'");
+        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string($module) . "' AND ip = '" . $user_ip . "'");
         $count = mysql_num_rows($sql);
 
         if ($count > 0) {
@@ -153,10 +155,12 @@ function post_vote($module, $vid) {
 function do_vote($vid, $module, $vote) {
     global $nuked, $user, $bgcolor2, $theme, $visiteur,$user_ip;
 
-    if (! checkVoteStatus(stripslashes($module), $vid)) return;
+    $module = stripslashes($module);(
+
+    if (! checkVoteStatus($module, $vid)) return;
 
     $level_access = nivo_mod('Vote');
-    $module = mysql_real_escape_string(stripslashes($module));
+    $module = mysql_real_escape_string($module);
 
     if ($visiteur >= $level_access && is_numeric($vote) && $vote<=10 && $vote>=0) {
         if ($user) {
