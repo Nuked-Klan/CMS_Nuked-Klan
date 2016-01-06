@@ -11,19 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-// admin - module_vote
-define("_ADMINVOTE","Administration des Votes");
-define("_VOTEMOD","Liste des modules votés");
-define("_LISTI","Liste des modules où les votes sont autorisées.<br /><br />");
-define("_DESACTIVER","Désactiver");
-define("_ACTIVER","Activer");
-define("_MODIF","Modifier");
-define("_BACK","Retour");
-// admin - modify_module_vote
-define("_ACTIONMODIFVOTEMOD","a modifié la liste des modules votés");
-define("_VOTEMODIFMOD","Liste des modules votés modifiés avec succès.");
-
-
 return array(
     // vote_index - modules/Vote/index.php
     'VOTE_UNACTIVE' => 'Vote désactivé',
@@ -32,7 +19,15 @@ return array(
     'ALREADY_VOTE'  => 'Vous avez déjà voté !',
     // saveVote - modules/Vote/index.php
     'VOTE_ADD'      => 'Votre vote a bien été enregistré',
-    // views/frontend/modules/Vote/voteIndex.php / views/frontend/modules/Vote/voteForm.php
+    // editVoteModules - modules/Vote/admin.php
+    'ADMIN_VOTE'    => 'Administration des Votes',
+    // saveVoteModules - modules/Vote/admin.php
+    'ACTION_MODIF_VOTE_MODULES' => 'a modifié la liste des modules votés.',
+    'VOTE_MODULES_MODIFIED' => 'Liste des modules votés modifiés avec succès.',
+    // modules/Vote/config/backend/voteModules.php
+    'AUTHORIZED_VOTE_MODULES' => 'Liste des modules où les votes sont autorisées.',
+    // views/frontend/modules/Vote/voteForm.php
+    // views/frontend/modules/Vote/voteIndex.php
     'NOTE'          => 'Note',
     // views/frontend/modules/Vote/voteIndex.php
     'VOTES'         => 'votes',

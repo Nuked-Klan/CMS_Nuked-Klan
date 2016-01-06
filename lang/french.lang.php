@@ -381,6 +381,7 @@ return array(
     'BACK'              => 'Retour',
     'YES'               => 'Oui',
     'NO'                => 'Non',
+    'SEND'              => 'Envoyer',
 
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Désolé, ce module n\'est pas activé !',
