@@ -14,6 +14,13 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 translate('modules/Vote/lang/'. $language .'.lang.php');
 
 
+/**
+ * Check if vote is disabled for his module and if module data exist.
+ *
+ * @param string $module : The name of module.
+ * @param int $imId : The module data ID.
+ * @return bool
+ */
 function checkVoteStatus($module, $imId) {
     if (! empty($module) && preg_match('/^[A-Za-z_]+$/', $module)) {
         $dbrVoteModules = nkDB_selectOne(
@@ -45,11 +52,11 @@ function checkVoteStatus($module, $imId) {
 /**
  * Check if user have already voted.
  *
- * @param int $id : The vote ID.
  * @param string $module : The name of module.
+ * @param int $id : The vote ID.
  * @return bool
  */
-function checkAlreadyVote($id, $module) {
+function checkAlreadyVote($module, $id) {
     global $user_ip;
 
     $nbVote = nkDB_totalNumRows(
@@ -62,52 +69,47 @@ function checkAlreadyVote($id, $module) {
     return ($nbVote > 0);
 }
 
-function vote_index($module, $vid) {
+/**
+ * Display vote result / status.
+ * Included by module.
+ *
+ * @param string $module : The name of module.
+ * @param int $id : The vote ID.
+ * @return void
+ */
+function vote_index($module, $id) {
     global $visiteur;
 
+    $id     = (int) $id;
     $module = stripslashes($module);
 
-    if (! checkVoteStatus($module, $vid)) {
+    if (! checkVoteStatus($module, $id)) {
         echo '<b>'. _VOTE_UNACTIVE . '</b>';
         return;
     }
 
-    $level_access = nivo_mod('Vote');
+    $dbrVote = nkDB_selectMany(
+        'SELECT vote FROM '. VOTE_TABLE .'
+        WHERE vid = '. $id .' AND module = '. nkDB_escape($module)
+    );
 
-    echo '<b>' . _NOTE . ' :</b>&nbsp;';
+    $nbVote = nkDB_numRows();
+    $note   = 0;
 
-    $sql = mysql_query("SELECT id, ip, vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string($module) . "'");
-    $count = mysql_num_rows($sql);
+    if ($nbVote > 0) {
+        foreach ($dbrVote as $vote)
+            $note += $vote['vote'] / $nbVote;
 
-    $total = 0;
-    $n = 0;
-    if ($count > 0) {
-        while (list($id, $ip, $vote) = mysql_fetch_array($sql)) {
-            $total = $total + $vote / $count;
-            $pourcent_arrondi = ceil($total);
-        }
-        $note = $pourcent_arrondi;
-
-        for ($i = 2;$i <= $note;$i += 2) {
-            echo '<img style="border: 0;" src="modules/Vote/images/z1.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
-            $n++;
-        }
-
-        if (($note - $i) != -2) {
-            echo '<img style="border: 0;" src="modules/Vote/images/z2.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
-            $n++;
-        }
-
-        for ($z = $n;$z < 5;$z++) {
-            echo '<img style="border: 0;" src="modules/Vote/images/z3.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
-        }
-    } else {
-        echo _NOTEVAL;
+        $note = ceil($note);
     }
 
-    if ($visiteur >= $level_access && $level_access > -1) {
-        echo '&nbsp;<small>[ <a href="#" onclick="javascript:window.open(\'index.php?file=Vote&amp;op=postVote&amp;vid=' . $vid . '&amp;module=' . $module . '\',\'screen\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=350,height=150,top=30,left=0\');return(false)">' . _RATE . '</a> ]</small>'."\n";
-    }
+    echo applyTemplate('modules/Vote/voteIndex', array(
+        'note'          => $note,
+        'nbVote'        => $nbVote,
+        'userLevel'     => $visiteur,
+        'levelAccess'   => nivo_mod('Vote'),
+        'module'        => $module
+    ));
 }
 
 // Display Vote form
@@ -118,11 +120,15 @@ function postVote() {
     $module = (isset($_GET['module'])) ? stripslashes($_GET['module']) : '';
     $author = ($user) ? $user['name'] : _VISITOR;
 
+    if (! checkVoteStatus($module, $id)) return;
+
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
 
-    if ($visiteur >= nivo_mod('Vote')) {
-        if (checkAlreadyVote($id, $module)) {
+    $levelAccess = nivo_mod('Vote');
+
+    if ($visiteur >= $levelAccess && $levelAccess > -1) {
+        if (checkAlreadyVote($module, $id)) {
             printNotification(_ALREADYVOTE, 'error', array('closeLink' => true));
         }
         else {
@@ -140,7 +146,7 @@ function postVote() {
 
 // Save Vote result
 function saveVote() {
-    global $user, $visiteur;
+    global $user, $visiteur, $user_ip;
 
     $id     = (isset($_POST['id'])) ? (int) $_POST['id'] : 0;
     $module = (isset($_POST['module'])) ? stripslashes($_POST['module']) : '';
@@ -152,8 +158,10 @@ function saveVote() {
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
 
-    if ($visiteur >= nivo_mod('Vote') && ctype_digit($vote) && $vote <= 10 && $vote >= 0) {
-        if (checkAlreadyVote($id, $module)) {
+    $levelAccess = nivo_mod('Vote');
+
+    if ($visiteur >= $levelAccess && $levelAccess > -1 && ctype_digit($vote) && $vote <= 10 && $vote >= 0) {
+        if (checkAlreadyVote($module, $id)) {
             printNotification(_ALREADYVOTE, 'error', array('closeLink' => true));
         }
         else {
@@ -173,11 +181,8 @@ function saveVote() {
     }
 }
 
-switch ($_REQUEST['op']) {
-    case 'vote_index':
-        vote_index($_REQUEST['module'], $_REQUEST['vid']);
-        break;
 
+switch ($_REQUEST['op']) {
     case 'postVote' :
         postVote();
         break;
