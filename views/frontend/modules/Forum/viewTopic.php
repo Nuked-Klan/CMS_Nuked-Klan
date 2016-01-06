@@ -87,7 +87,7 @@
                         <strong><?php echo _TOTALVOTE ?>&nbsp;:</strong><?php echo $nbVote ?>
                     </div>
                     <div id="nkForumPollActionLinks">
-                        <a class="nkButton" href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>"><?php echo _TOVOTE ?></a>
+                        <a class="nkButton" href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>"><?php echo __('TO_VOTE') ?></a>
                     </div>
                 </div>
 <?php
@@ -123,7 +123,7 @@
             endforeach;
 ?>
                         <div id="nkForumPollActionLinks">
-                            <input type="submit" class="nkButton" value="<?php echo _TOVOTE ?>" />
+                            <input type="submit" class="nkButton" value="<?php echo __('TO_VOTE') ?>" />
                             <input type="button" class="nkButton" value="<?php echo _RESULT ?>" onclick="document.location='index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;vote=view'" />
                         </div>
                     </form>

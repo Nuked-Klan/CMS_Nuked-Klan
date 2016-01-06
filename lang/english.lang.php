@@ -226,7 +226,6 @@ define("_COMMENT","Comment");
 define("_INSERT","Insert");
 define("_NEWPAGE","New page");
 define("_PAGEPOLL","You are currently on the Surveys page");
-define("_TOVOTE","Vote");
 define("_RESULT","Results");
 define("_OTHERPOLL","Other Polls");
 define("_NOPOLL","There isn't any Survey yes");
@@ -420,6 +419,11 @@ return array(
     'REGISTER_USER'     => 'Register', // Registration
     // views/frontend/websiteClosed.php
     'WEBSITE_CLOSED'    => 'Sorry, this website is currently closed, Please try again later.',
+    // Includes/blocks/block_survey.php TODO : Temporary
+    // sondage - modules/Survey/index.php TODO : Temporary
+    // views/frontend/modules/Forum/viewTopic.php
+    // views/frontend/modules/Vote/voteForm.php
+    'TO_VOTE'           => 'Vote',
 );
 
 ?>

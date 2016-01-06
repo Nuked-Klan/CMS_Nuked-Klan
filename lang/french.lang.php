@@ -225,7 +225,6 @@ define("_COMMENT","Commentaire");
 define("_INSERT","Insert");
 define("_NEWPAGE","New page");
 define("_PAGEPOLL","Vous êtes actuellement sur la page des sondages");
-define("_TOVOTE","Voter");
 define("_RESULT","Résultats");
 define("_OTHERPOLL","Autres Sondages");
 define("_NOPOLL","Il n'y a pas encore de Sondage");
@@ -426,6 +425,11 @@ return array(
     'REGISTER_USER'     => 'Enregistrement',
     // views/frontend/websiteClosed.php
     'WEBSITE_CLOSED'    => 'Ce site est momentanément fermé pour cause de travaux, merci de réessayer plus tard',
+    // Includes/blocks/block_survey.php TODO : Temporary
+    // sondage - modules/Survey/index.php TODO : Temporary
+    // views/frontend/modules/Forum/viewTopic.php
+    // views/frontend/modules/Vote/voteForm.php
+    'TO_VOTE'           => 'Voter',
 );
 
 ?>

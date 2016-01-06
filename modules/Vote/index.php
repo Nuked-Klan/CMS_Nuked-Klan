@@ -84,7 +84,7 @@ function vote_index($module, $id) {
     $module = stripslashes($module);
 
     if (! checkVoteStatus($module, $id)) {
-        echo '<b>'. _VOTE_UNACTIVE . '</b>';
+        echo '<b>'. __('VOTE_UNACTIVE') . '</b>';
         return;
     }
 
@@ -123,13 +123,13 @@ function postVote() {
     if (! checkVoteStatus($module, $id)) return;
 
     nkTemplate_setPageDesign('nudePage');
-    nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
+    nkTemplate_setTitle(__('VOTE_FROM') .'&nbsp;'. $author);
 
     $levelAccess = nivo_mod('Vote');
 
     if ($visiteur >= $levelAccess && $levelAccess > -1) {
         if (checkAlreadyVote($module, $id)) {
-            printNotification(_ALREADYVOTE, 'error', array('closeLink' => true));
+            printNotification(__('ALREADY_VOTE'), 'error', array('closeLink' => true));
         }
         else {
             echo applyTemplate('modules/Vote/voteForm', array(
@@ -156,13 +156,13 @@ function saveVote() {
     if (! checkVoteStatus($module, $id)) return;
 
     nkTemplate_setPageDesign('nudePage');
-    nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
+    nkTemplate_setTitle(__('VOTE_FROM') .'&nbsp;'. $author);
 
     $levelAccess = nivo_mod('Vote');
 
     if ($visiteur >= $levelAccess && $levelAccess > -1 && ctype_digit($vote) && $vote <= 10 && $vote >= 0) {
         if (checkAlreadyVote($module, $id)) {
-            printNotification(_ALREADYVOTE, 'error', array('closeLink' => true));
+            printNotification(__('ALREADY_VOTE'), 'error', array('closeLink' => true));
         }
         else {
             nkDB_insert(VOTE_TABLE, array(
@@ -172,7 +172,7 @@ function saveVote() {
                 'vote'      => $vote
             ));
 
-            printNotification(_VOTEADD, 'success', array('closeLink' => true, 'reloadOnClose' => true));
+            printNotification(__('VOTE_ADD'), 'success', array('closeLink' => true, 'reloadOnClose' => true));
         }
     }
     else {
@@ -183,11 +183,11 @@ function saveVote() {
 
 
 switch ($_REQUEST['op']) {
-    case 'postVote' :
+    case 'post' :
         postVote();
         break;
 
-    case 'saveVote' :
+    case 'save' :
         saveVote();
         break;
 

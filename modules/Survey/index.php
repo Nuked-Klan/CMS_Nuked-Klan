@@ -40,7 +40,7 @@ function sondage($poll_id) {
             echo '<tr><td><input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '</td></tr>';
         }
         echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"poll_id\" value=\"" . $poll_id . "\" /></td></tr>\n"
-        . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _TOVOTE . "\" />"
+        . "<tr><td align=\"center\"><input type=\"submit\" value=\"" . __('TO_VOTE') . "\" />"
         . "&nbsp;<input type=\"button\" value=\"" . _RESULT . "\" onclick=\"document.location='index.php?file=Survey&amp;op=affich_res&amp;poll_id=" . $poll_id . "'\" /></td></tr></table></form><br />\n";
     }
     else {
