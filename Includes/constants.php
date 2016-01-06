@@ -72,8 +72,13 @@ define('USERBOX_TABLE', $nuked['prefix'] . '_userbox');
 define('USER_TABLE', $nuked['prefix'] . '_users');
 define('USER_DETAIL_TABLE', $nuked['prefix'] . '_users_detail');
 define('VOTE_TABLE', $nuked['prefix'] . '_vote');
+define('VOTE_MODULES_TABLE', $nuked['prefix'] . '_vote_modules');
 define('WARS_TABLE', $nuked['prefix'] . '_match');
 define('WARS_FILES_TABLE', $nuked['prefix'] . '_match_files');
 define('CONTACT_TABLE', $nuked['prefix'] . '_contact');
 define('PAGE_TABLE', $nuked['prefix'] . '_page');
+
+// Table ID names
+define('GALLERY_TABLE_ID', 'sid');
+define('SECTIONS_TABLE_ID', 'artid');
 ?>

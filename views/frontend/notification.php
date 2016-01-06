@@ -19,13 +19,13 @@ if ($ajax) :
 <?php
 
 
-    if (isset($backLinkUrl) && $backLinkUrl != '') :
+    elseif (isset($backLinkUrl) && $backLinkUrl != '') :
 
 ?>
     <a href="<?php echo $backLinkUrl ?>"<?php echo $linkClass ?>><span><?php echo __('BACK') ?></span></a>
 <?php
 
-    else if (isset($closeLink)) :
+    elseif (isset($closeLink)) :
         $js = (isset($reloadOnClose)) ? ';window.opener.document.location.reload(true);' : '';
 
 ?>

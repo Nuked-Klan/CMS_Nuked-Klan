@@ -13,8 +13,42 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 translate('modules/Vote/lang/'. $language .'.lang.php');
 
+
+function checkVoteStatus($module, $imId) {
+    if (! empty($module)) {
+        $dbrVoteModules = nkDB_selectOne(
+            'SELECT active
+            FROM '. VOTE_MODULES_TABLE .'
+            WHERE module = '. nkDB_escape($module)
+        );
+
+        if ($dbrVoteModules && $dbrVoteModules['active'] == 1) {
+            $tableConstName = strtoupper($module) .'_TABLE';
+
+            if (defined($tableConstName .'_ID'))
+                $tableIdName = constant($tableConstName .'_ID');
+            else
+                $tableIdName = 'id';
+
+            $nbVoteModuleData = nkDB_totalNumRows(
+                'FROM '. constant($tableConstName) .'
+                WHERE '. $tableIdName .' = '. intval($imId)
+            );
+
+            return ($nbVoteModuleData > 0);
+        }
+    }
+
+    return false;
+}
+
 function vote_index($module, $vid) {
     global $user, $nuked, $visiteur;
+
+    if (! checkVoteStatus($module, $vid)) {
+        echo '<b>'. _VOTE_UNACTIVE . '</b>';
+        return;
+    }
 
     $level_access = nivo_mod('Vote');
 
@@ -57,6 +91,8 @@ function vote_index($module, $vid) {
 function post_vote($module, $vid) {
     global $user, $visiteur, $user_ip;
 
+    if (! checkVoteStatus($module, $vid)) return;
+
     $author = ($user) ? $user[2] : _VISITOR;
 
     nkTemplate_setPageDesign('nudePage');
@@ -88,6 +124,8 @@ function post_vote($module, $vid) {
 
 function do_vote($vid, $module, $vote) {
     global $user, $visiteur, $user_ip;
+
+    if (! checkVoteStatus($module, $vid)) return;
 
     $author = ($user) ? $user[2] : _VISITOR;
 

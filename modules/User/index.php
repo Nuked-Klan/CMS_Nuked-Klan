@@ -335,12 +335,13 @@ function reg_screen(){
                 echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
             }
 
-            echo "</select></td></tr>\n";
+            echo "</select></td></tr>\n"
+                . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
+                . "<tr><td colspan=\"2\" align=\"center\">";
 
             if (initCaptcha()) echo create_captcha();
 
-            echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-                    . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _USERREGISTER . "\" /></td></tr></table></form><br />\n";
+            echo "<input type=\"submit\" value=\"" . _USERREGISTER . "\" /></td></tr></table></form><br />\n";
         }
     }
     else{
