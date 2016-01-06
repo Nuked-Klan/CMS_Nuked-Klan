@@ -33,7 +33,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
             . "<div>". _LISTI ."</div>\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">";
 
-        $sql = mysql_query("SELECT module, active FROM " . $nuked['prefix'] . "_vote_mod");
+        $sql = mysql_query("SELECT module, active FROM " . VOTE_MODULES_TABLE);
 
         while(list($module, $active) = mysql_fetch_array($sql)) {
         ?>
@@ -64,10 +64,10 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
     function modify_module_vote() {
         global $nuked, $user;
 
-        mysql_query("UPDATE ". $nuked['prefix'] ."_vote_mod SET active = '". $_REQUEST['download'] ."' WHERE module = 'download'");
-        mysql_query("UPDATE ". $nuked['prefix'] ."_vote_mod SET active = '". $_REQUEST['sections'] ."' WHERE module = 'sections'");
-        mysql_query("UPDATE ". $nuked['prefix'] ."_vote_mod SET active = '". $_REQUEST['links'] ."' WHERE module = 'links'");
-        mysql_query("UPDATE ". $nuked['prefix'] ."_vote_mod SET active = '". $_REQUEST['gallery'] ."' WHERE module = 'gallery'");
+        mysql_query("UPDATE ". VOTE_MODULES_TABLE ." SET active = '". $_REQUEST['download'] ."' WHERE module = 'download'");
+        mysql_query("UPDATE ". VOTE_MODULES_TABLE ." SET active = '". $_REQUEST['sections'] ."' WHERE module = 'sections'");
+        mysql_query("UPDATE ". VOTE_MODULES_TABLE ." SET active = '". $_REQUEST['links'] ."' WHERE module = 'links'");
+        mysql_query("UPDATE ". VOTE_MODULES_TABLE ." SET active = '". $_REQUEST['gallery'] ."' WHERE module = 'gallery'");
 
         // Action
         mysql_query(

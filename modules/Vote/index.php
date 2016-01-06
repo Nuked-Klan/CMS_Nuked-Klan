@@ -13,44 +13,36 @@ translate('modules/Vote/lang/'. $language .'.lang.php');
 
 
 function checkVoteStatus($module, $imId) {
-    global $nuked;
-
-    if ($module == "Sections") {
-        $sqlverif = "sections";
-        $specification = "artid";
-    }
-    elseif ($module == "Links") {
-        $sqlverif = "liens";
-        $specification = "id";
-    }
-    elseif ($module == "Download") {
-        $sqlverif = "downloads";
-        $specification = "id";
-    }
-    elseif ($module == "Gallery") {
-        $sqlverif = "gallery";
-        $specification = "sid";
-    }
-    else {
-        return false;
-    }
-
-    $req1 = mysql_query(
-        'SELECT active
-        FROM '. $nuked['prefix'] .'_vote_mod
-        WHERE module = "'. strtolower($module) .'"'
-    );
-
-    list($active) = mysql_fetch_array($req1);
-
-    if ($active == 1) {
-        $req2 = mysql_query(
-            'SELECT *
-            FROM '. $nuked['prefix'] .'_'. $sqlverif .'
-            WHERE '. $specification .' = "'. intval($imId) .'"'
+    if (! empty($module)) {
+        $dbrVoteModules = mysql_query(
+            'SELECT active
+            FROM '. VOTE_MODULES_TABLE .'
+            WHERE module = "'. mysql_real_escape_string($module) .'"'
         );
 
-        return (mysql_num_rows($req2) > 0);
+        if ($dbrVoteModules) {
+            list($active) = mysql_fetch_array($dbrVoteModules);
+
+            if ($active == 1) {
+                $tableConstName = strtoupper($module) .'_TABLE';
+
+                if (defined($tableConstName .'_ID'))
+                    $tableIdName = constant($tableConstName .'_ID');
+                else
+                    $tableIdName = 'id';
+
+                $voteModuleData = mysql_query(
+                    'SELECT COUNT(*) AS recordCount FROM '. constant($tableConstName) .'
+                    WHERE '. $tableIdName .' = '. intval($imId)
+                );
+
+                if ($voteModuleData) {
+                    list($nbVoteModuleData) = mysql_fetch_array($voteModuleData);
+
+                    return ($nbVoteModuleData > 0);
+                }
+            }
+        }
     }
 
     return false;
@@ -103,7 +95,7 @@ function vote_index($module, $vid) {
 function post_vote($module, $vid) {
     global $user, $nuked, $bgcolor2, $theme, $visiteur,$user_ip;
 
-    if (! checkVoteStatus($module, $vid)) return;
+    if (! checkVoteStatus(stripslashes($module), $vid)) return;
 
     $level_access = nivo_mod('Vote');
 
@@ -161,7 +153,7 @@ function post_vote($module, $vid) {
 function do_vote($vid, $module, $vote) {
     global $nuked, $user, $bgcolor2, $theme, $visiteur,$user_ip;
 
-    if (! checkVoteStatus($module, $vid)) return;
+    if (! checkVoteStatus(stripslashes($module), $vid)) return;
 
     $level_access = nivo_mod('Vote');
     $module = mysql_real_escape_string(stripslashes($module));
