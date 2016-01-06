@@ -15,11 +15,11 @@ translate('modules/Vote/lang/'. $language .'.lang.php');
 
 
 function checkVoteStatus($module, $imId) {
-    if (! empty($module)) {
+    if (! empty($module) && preg_match('/^[A-Za-z_]+$/', $module)) {
         $dbrVoteModules = nkDB_selectOne(
             'SELECT active
             FROM '. VOTE_MODULES_TABLE .'
-            WHERE module = '. nkDB_escape($module)
+            WHERE module = '. nkDB_escape(strtolower($module))
         );
 
         if ($dbrVoteModules && $dbrVoteModules['active'] == 1) {
@@ -31,8 +31,8 @@ function checkVoteStatus($module, $imId) {
                 $tableIdName = 'id';
 
             $nbVoteModuleData = nkDB_totalNumRows(
-                'FROM '. constant($tableConstName) .'
-                WHERE '. $tableIdName .' = '. intval($imId)
+                'FROM '. nkDB_escape(constant($tableConstName), true) .'
+                WHERE '. nkDB_escape($tableIdName, true) .' = '. intval($imId)
             );
 
             return ($nbVoteModuleData > 0);
@@ -45,6 +45,8 @@ function checkVoteStatus($module, $imId) {
 function vote_index($module, $vid) {
     global $user, $nuked, $visiteur;
 
+    $module = stripslashes($module);
+
     if (! checkVoteStatus($module, $vid)) {
         echo '<b>'. _VOTE_UNACTIVE . '</b>';
         return;
@@ -54,7 +56,7 @@ function vote_index($module, $vid) {
 
     echo '<b>' . _NOTE . ' :</b>&nbsp;';
 
-    $sql = mysql_query("SELECT id, ip, vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "'");
+    $sql = mysql_query("SELECT id, ip, vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string($module) . "'");
     $count = mysql_num_rows($sql);
 
     $total = 0;
@@ -91,6 +93,8 @@ function vote_index($module, $vid) {
 function post_vote($module, $vid) {
     global $user, $visiteur, $user_ip;
 
+    $module = stripslashes($module);
+
     if (! checkVoteStatus($module, $vid)) return;
 
     $author = ($user) ? $user[2] : _VISITOR;
@@ -101,7 +105,7 @@ function post_vote($module, $vid) {
     $level_access = nivo_mod('Vote');
 
     if ($visiteur >= $level_access) {
-        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "' AND ip = '" . $user_ip . "'");
+        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string($module) . "' AND ip = '" . $user_ip . "'");
         $count = mysql_num_rows($sql);
 
         if ($count > 0) {
@@ -125,23 +129,19 @@ function post_vote($module, $vid) {
 function do_vote($vid, $module, $vote) {
     global $user, $visiteur, $user_ip;
 
+    $module = stripslashes($module);
+
     if (! checkVoteStatus($module, $vid)) return;
 
-    $author = ($user) ? $user[2] : _VISITOR;
+    $author = ($user) ? $user['name'] : _VISITOR;
 
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
 
     $level_access = nivo_mod('Vote');
-    $module = mysql_real_escape_string(stripslashes($module));
+    $module = mysql_real_escape_string($module);
 
     if ($visiteur >= $level_access && is_numeric($vote) && $vote<=10 && $vote>=0) {
-        if ($user) {
-            $author = $user[2];
-        } else {
-            $author =  _VISITOR;
-        }
-
         $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . $module . "' AND ip = '" . $user_ip . "'");
         $count = mysql_num_rows($sql);
 

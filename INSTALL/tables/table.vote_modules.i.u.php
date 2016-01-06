@@ -10,7 +10,9 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_vote_modules');
+define('VOTE_MODULES_TABLE', $this->_session['db_prefix'] .'_vote_modules');
+
+$dbTable->setTable(VOTE_MODULES_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -48,11 +50,11 @@ if ($process == 'drop')
 if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
     $dbTable->createTable($voteModulesTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_vote_modules` (`id`, `module`, `active`) VALUES
-        (1, \'Download\', 1),
-        (2, \'Links\', 1),
-        (3, \'Gallery\', 1),
-        (4, \'Sections\', 1);';
+    $sql = 'INSERT INTO `'. VOTE_MODULES_TABLE .'` (`id`, `module`, `active`) VALUES
+        (1, \'download\', 1),
+        (2, \'links\', 1),
+        (3, \'gallery\', 1),
+        (4, \'sections\', 1);';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
