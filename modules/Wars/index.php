@@ -607,7 +607,7 @@ function detail($war_id){
     if($active ==1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1){
     echo '<table style="margin-left: auto;margin-right: auto;text-align: left;" width="80%" border="0" cellspacing="3" cellpadding="3"><tr style="background: ' . $bgcolor1 . ';"><td style="border: 1px dashed ' . $bgcolor3 . ';">';
 
-        include ('modules/Comment/index.php');
+        include_once 'modules/Comment/index.php';
         com_index('match', $war_id);
 
         echo '</td></tr></table>';

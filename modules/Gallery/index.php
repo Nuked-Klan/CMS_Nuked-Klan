@@ -382,8 +382,8 @@ function description($sid)
     {
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
 
-        include ("modules/Comment/index.php");
-        com_index("Gallery", $sid);
+        include_once 'modules/Comment/index.php';
+        com_index('Gallery', $sid);
 
         echo "</td></tr></table>\n";
     }

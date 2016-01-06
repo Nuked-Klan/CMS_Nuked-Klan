@@ -25,6 +25,8 @@ translate('modules/Comment/lang/'. $language .'.lang.php');
  */
 function checkCommentStatus($module, $imId) {
     if (! empty($module) && preg_match('/^[A-Za-z_]+$/', $module)) {
+        if ($module == 'match') $module = 'Wars';
+
         $dbrCommentMod = nkDB_selectOne(
             'SELECT active
             FROM '. COMMENT_MODULES_TABLE .'
@@ -245,6 +247,8 @@ function com_index($module, $im_id){
 function view_com($module, $im_id){
     global $bgcolor3, $language, $visiteur;
 
+    $module = stripslashes($module);
+
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_COMMENTS);
 
@@ -257,7 +261,7 @@ function view_com($module, $im_id){
 
     $level_access = nivo_mod("Comment");
     $level_admin = admin_mod("Comment");
-    $module = mysql_real_escape_string(stripslashes($module));
+    $module = mysql_real_escape_string($module);
 
     echo '<script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&op=del_comment&cid=\'+id;}}</script>';
 
@@ -302,6 +306,8 @@ function view_com($module, $im_id){
 
 function post_com($module, $im_id){
     global $user, $bgcolor4, $language, $visiteur;
+
+    $module = stripslashes($module);
 
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_POSTCOMMENT);
@@ -379,6 +385,8 @@ function post_com($module, $im_id){
 function post_comment($im_id, $module, $titre, $texte, $pseudo) {
     global $user, $nuked, $user_ip, $visiteur;
 
+    $module = stripslashes($module);
+
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_POSTCOMMENT);
 
@@ -430,7 +438,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         $texte = secu_html(nkHtmlEntityDecode($texte));
         $titre = mysql_real_escape_string(stripslashes($titre));
         $texte = stripslashes($texte);
-        $module = mysql_real_escape_string(stripslashes($module));
+        $module = mysql_real_escape_string($module);
 
         if (strlen($titre) > 40){
              $titre = substr($titre, 0, 40) . "...";
@@ -485,6 +493,8 @@ function del_comment($cid){
 
 function modif_comment($cid, $titre, $texte, $module, $im_id){
     global $visiteur;
+
+    $module = stripslashes($module);
 
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_COMMENTS);

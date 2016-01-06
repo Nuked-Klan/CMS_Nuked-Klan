@@ -133,7 +133,7 @@ function index_comment($news_id) {
     $row = mysql_fetch_array($sql);
 
     if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
-        include ('modules/Comment/index.php');
+        include_once 'modules/Comment/index.php';
         com_index('news', $news_id);
     }
 }
@@ -157,7 +157,7 @@ function suite($news_id) {
     $row = mysql_fetch_array($sql);
 
     if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
-        include ('modules/Comment/index.php');
+        include_once 'modules/Comment/index.php';
         com_index('news', $news_id);
     }
 

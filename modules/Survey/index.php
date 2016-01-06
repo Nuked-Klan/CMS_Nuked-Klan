@@ -197,7 +197,7 @@ function affich_res($poll_id) {
 
         if ($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
             echo '<tr><td>';
-            include 'modules/Comment/index.php';
+            include_once 'modules/Comment/index.php';
             com_index('Survey', $poll_id);
             echo '</td></tr>';
         }
