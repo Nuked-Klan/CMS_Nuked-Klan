@@ -42,6 +42,26 @@ function checkVoteStatus($module, $imId) {
     return false;
 }
 
+/**
+ * Check if user have already voted.
+ *
+ * @param int $id : The vote ID.
+ * @param string $module : The name of module.
+ * @return bool
+ */
+function checkAlreadyVote($id, $module) {
+    global $user_ip;
+
+    $nbVote = nkDB_totalNumRows(
+        'FROM '. VOTE_TABLE .'
+        WHERE vid = '. $id .'
+        AND module = '. nkDB_escape($module) .'
+        AND ip = '. nkDB_escape($user_ip)
+    );
+
+    return ($nbVote > 0);
+}
+
 function vote_index($module, $vid) {
     global $visiteur;
 
@@ -86,48 +106,41 @@ function vote_index($module, $vid) {
     }
 
     if ($visiteur >= $level_access && $level_access > -1) {
-        echo '&nbsp;<small>[ <a href="#" onclick="javascript:window.open(\'index.php?file=Vote&amp;op=post_vote&amp;vid=' . $vid . '&amp;module=' . $module . '\',\'screen\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=350,height=150,top=30,left=0\');return(false)">' . _RATE . '</a> ]</small>'."\n";
+        echo '&nbsp;<small>[ <a href="#" onclick="javascript:window.open(\'index.php?file=Vote&amp;op=postVote&amp;vid=' . $vid . '&amp;module=' . $module . '\',\'screen\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=350,height=150,top=30,left=0\');return(false)">' . _RATE . '</a> ]</small>'."\n";
     }
 }
 
-function post_vote($module, $vid) {
-    global $user, $visiteur, $user_ip;
+// Display Vote form
+function postVote() {
+    global $user, $visiteur;
 
-    $module = stripslashes($module);
-
-    if (! checkVoteStatus($module, $vid)) return;
-
-    $author = ($user) ? $user[2] : _VISITOR;
+    $id     = (isset($_GET['id'])) ? (int) $_GET['id'] : 0;
+    $module = (isset($_GET['module'])) ? stripslashes($_GET['module']) : '';
+    $author = ($user) ? $user['name'] : _VISITOR;
 
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
 
-    $level_access = nivo_mod('Vote');
-
-    if ($visiteur >= $level_access) {
-        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string($module) . "' AND ip = '" . $user_ip . "'");
-        $count = mysql_num_rows($sql);
-
-        if ($count > 0) {
+    if ($visiteur >= nivo_mod('Vote')) {
+        if (checkAlreadyVote($id, $module)) {
             printNotification(_ALREADYVOTE, 'error', array('closeLink' => true));
         }
         else {
-            echo "<form method=\"post\" action=\"index.php?file=Vote&amp;op=saveVote\">\n"
-               . "<div style=\"text-align: center;\"><br /><br />" . _ONEVOTEONLY . "<br /><br /><b>" . _NOTE . " : </b>"
-               . "<select name=\"vote\"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>"
-               . "<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>"
-               . "&nbsp;<b>/10</b><br /><br /><input type=\"hidden\" name=\"vid\" value=\"" . $vid . "\" />\n"
-               . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-               . "<input type=\"submit\" name=\"Submit\" value=\"" . _TOVOTE . "\" /></div></form>";
+            echo applyTemplate('modules/Vote/voteForm', array(
+                'id'        => $id,
+                'module'    => $module
+            ));
         }
-    } else {
-        echo applyTemplate('nkAlert/noEntrance');
     }
-
+    else {
+        echo applyTemplate('nkAlert/noEntrance');
+        //printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
+    }
 }
 
+// Save Vote result
 function saveVote() {
-    global $user, $visiteur, $user_ip;
+    global $user, $visiteur;
 
     $id     = (isset($_POST['id'])) ? (int) $_POST['id'] : 0;
     $module = (isset($_POST['module'])) ? stripslashes($_POST['module']) : '';
@@ -140,14 +153,7 @@ function saveVote() {
     nkTemplate_setTitle(_VOTEFROM .'&nbsp;'. $author);
 
     if ($visiteur >= nivo_mod('Vote') && ctype_digit($vote) && $vote <= 10 && $vote >= 0) {
-        $nbVote = nkDB_totalNumRows(
-            'FROM '. VOTE_TABLE .'
-            WHERE vid = '. $id .'
-            AND module = '. nkDB_escape($module) .'
-            AND ip = '. nkDB_escape($user_ip)
-        );
-
-        if ($nbVote > 0) {
+        if (checkAlreadyVote($id, $module)) {
             printNotification(_ALREADYVOTE, 'error', array('closeLink' => true));
         }
         else {
@@ -172,8 +178,8 @@ switch ($_REQUEST['op']) {
         vote_index($_REQUEST['module'], $_REQUEST['vid']);
         break;
 
-    case 'post_vote':
-        post_vote($_REQUEST['module'], $_REQUEST['vid']);
+    case 'postVote' :
+        postVote();
         break;
 
     case 'saveVote' :
