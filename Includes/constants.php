@@ -22,6 +22,7 @@ define('BANNED_TABLE', $nuked['prefix'] . '_banned');
 define('BLOCK_TABLE', $nuked['prefix'] . '_block');
 define('CALENDAR_TABLE', $nuked['prefix'] . '_calendar');
 define('COMMENT_TABLE', $nuked['prefix'] . '_comment');
+define('COMMENT_MODULES_TABLE', $nuked['prefix'] . '_comment_modules');
 define('CONFIG_TABLE', $nuked['prefix'] . '_config');
 define('DEFY_TABLE', $nuked['prefix'] . '_defie');
 define('DEFY_PREF_TABLE', $nuked['prefix'] . '_defie_pref');
@@ -81,4 +82,6 @@ define('PAGE_TABLE', $nuked['prefix'] . '_page');
 // Table ID names
 define('GALLERY_TABLE_ID', 'sid');
 define('SECTIONS_TABLE_ID', 'artid');
+define('SURVEY_TABLE_ID', 'sid');
+define('WARS_TABLE_ID', 'warid');
 ?>

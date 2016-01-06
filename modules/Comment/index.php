@@ -24,19 +24,24 @@ translate('modules/Comment/lang/'. $language .'.lang.php');
  * @return bool
  */
 function checkCommentStatus($module, $imId) {
-    global $nuked;
-
-    if (! empty($module)) {
+    if (! empty($module) && preg_match('/^[A-Za-z_]+$/', $module)) {
         $dbrCommentMod = nkDB_selectOne(
-            'SELECT active, table, tableId
-            FROM '. $nuked['prefix'] .'_comment_mod
+            'SELECT active
+            FROM '. COMMENT_MODULES_TABLE .'
             WHERE module = '. nkDB_escape(strtolower($module))
         );
 
         if ($dbrCommentMod && $dbrCommentMod['active'] == 1) {
+            $tableConstName = strtoupper($module) .'_TABLE';
+
+            if (defined($tableConstName .'_ID'))
+                $tableIdName = constant($tableConstName .'_ID');
+            else
+                $tableIdName = 'id';
+
             $nbComment = nkDB_totalNumRows(
-                'FROM '. $nuked['prefix'] .'_'. $dbrCommentMod['table'] .'
-                WHERE '. $dbrCommentMod['tableId'] .' = '. intval($imId)
+                'FROM '. nkDB_escape(constant($tableConstName), true) .'
+                WHERE '. nkDB_escape($tableIdName, true) .' = '. intval($imId)
             );
 
             return ($nbComment > 0);

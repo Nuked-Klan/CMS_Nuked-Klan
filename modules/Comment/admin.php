@@ -163,13 +163,13 @@ function main(){
 function module_send_com($news, $download, $sections, $links, $wars, $gallery, $survey){
     global $nuked, $user;
 
-    $sql1 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $news . "' WHERE module = 'news'");
-    $sql2 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $download . "' WHERE module = 'download'");
-    $sql3 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $sections . "' WHERE module = 'sections'");
-    $sql4 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $links . "' WHERE module = 'links'");
-    $sql5 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $wars . "' WHERE module = 'wars'");
-    $sql6 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $gallery . "' WHERE module = 'gallery'");
-    $sql7 = mysql_query("UPDATE " . $nuked['prefix'] . "_comment_mod SET active = '" . $survey . "' WHERE module = 'survey'");
+    $sql1 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $news . "' WHERE module = 'news'");
+    $sql2 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $download . "' WHERE module = 'download'");
+    $sql3 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $sections . "' WHERE module = 'sections'");
+    $sql4 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $links . "' WHERE module = 'links'");
+    $sql5 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $wars . "' WHERE module = 'wars'");
+    $sql6 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $gallery . "' WHERE module = 'gallery'");
+    $sql7 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $survey . "' WHERE module = 'survey'");
 
     saveUserAction(_ACTIONMODIFCOMMOD .'.');
 
@@ -192,8 +192,9 @@ function module_com(){
             echo "<form method=\"post\" action=\"index.php?file=Comment&amp;page=admin&amp;op=module_send_com\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n"
             . "<tr><td><b>" . _LISTI . " : </b></td><td></td></tr>\n";
-            
-    $sql = mysql_query("SELECT module, active FROM " . $nuked['prefix'] . "_comment_mod");
+
+    $sql = mysql_query("SELECT module, active FROM " . COMMENT_MODULES_TABLE);
+
     while(list($module, $active) = mysql_fetch_array($sql)){
     ?>
         <tr><td><b><?php echo $module; ?>:</b></td><td>
