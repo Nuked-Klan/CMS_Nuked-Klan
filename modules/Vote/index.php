@@ -15,9 +15,9 @@ translate('modules/Vote/lang/'. $language .'.lang.php');
 function checkVoteStatus($module, $imId) {
     if (! empty($module) && preg_match('/^[A-Za-z_]+$/', $module)) {
         $dbrVoteModules = mysql_query(
-            'SELECT active
-            FROM '. VOTE_MODULES_TABLE .'
-            WHERE module = "'. mysql_real_escape_string($module) .'"'
+            'SELECT `active`
+            FROM `'. VOTE_MODULES_TABLE .'`
+            WHERE `module` = "'. mysql_real_escape_string($module) .'"'
         );
 
         if ($dbrVoteModules) {
@@ -32,8 +32,8 @@ function checkVoteStatus($module, $imId) {
                     $tableIdName = 'id';
 
                 $voteModuleData = mysql_query(
-                    'SELECT COUNT(*) AS recordCount FROM '. mysql_real_escape_string(constant($tableConstName)) .'
-                    WHERE '. mysql_real_escape_string($tableIdName) .' = '. intval($imId)
+                    'SELECT COUNT(*) AS recordCount FROM `'. mysql_real_escape_string(constant($tableConstName)) .'`
+                    WHERE `'. mysql_real_escape_string($tableIdName) .'` = '. intval($imId)
                 );
 
                 if ($voteModuleData) {
@@ -49,7 +49,9 @@ function checkVoteStatus($module, $imId) {
 }
 
 function vote_index($module, $vid) {
-    global $user, $nuked, $visiteur;
+    global $visiteur;
+
+    $module = stripslashes($module);
 
     if (! checkVoteStatus($module, $vid)) {
         echo '<b>'. _VOTE_UNACTIVE . '</b>';
@@ -60,7 +62,7 @@ function vote_index($module, $vid) {
 
     echo '<b>' . _NOTE . ' :</b>&nbsp;';
 
-    $sql = mysql_query("SELECT id, ip, vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "'");
+    $sql = mysql_query("SELECT id, ip, vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string($module) . "'");
     $count = mysql_num_rows($sql);
 
     if ($count > 0) {
@@ -93,9 +95,9 @@ function vote_index($module, $vid) {
 } 
 
 function post_vote($module, $vid) {
-    global $user, $nuked, $bgcolor2, $theme, $visiteur,$user_ip;
+    global $user, $bgcolor2, $theme, $visiteur, $user_ip;
 
-    $module = stripslashes($module);(
+    $module = stripslashes($module);
 
     if (! checkVoteStatus($module, $vid)) return;
 
@@ -153,9 +155,9 @@ function post_vote($module, $vid) {
 } 
 
 function do_vote($vid, $module, $vote) {
-    global $nuked, $user, $bgcolor2, $theme, $visiteur,$user_ip;
+    global $user, $bgcolor2, $theme, $visiteur, $user_ip;
 
-    $module = stripslashes($module);(
+    $module = stripslashes($module);
 
     if (! checkVoteStatus($module, $vid)) return;
 
