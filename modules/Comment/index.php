@@ -358,14 +358,14 @@ function post_com($module, $im_id){
         echo "<input id=\"com_pseudo\" type=\"text\" size=\"30\" name=\"pseudo\" maxlength=\"30\" /></td>\n";
     }
 
-    echo "</tr>";
+    echo "</tr>\n"
+        . "<tr><td align=\"right\" colspan=\"2\">\n";
 
     if (initCaptcha()) echo create_captcha();
 
-    echo "<tr><td align=\"right\" colspan=\"2\">\n"
-            . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
-            . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-            . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
+    echo "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
+        . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
+        . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
 
     echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
             , '<script type="text/javascript">',"\n"

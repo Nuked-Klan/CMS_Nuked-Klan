@@ -262,11 +262,12 @@ if ($visiteur >= $level_access && $level_access > -1) {
               <b>'.$title.'</b><br /><br /></td></tr><tr><td align="left">
               <b>'._YNICK.' : </b>&nbsp;<input type="text" id="sf_pseudo" name="pseudo" value=""'.$user[2].'" size="20" /></td></tr>
               <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
-              <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
+              <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>
+              <tr><td align="center">';
 
         if (initCaptcha()) echo create_captcha();
 
-        echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
+        echo '<input type="hidden" name="op" value="sendnews" />
               <input type="hidden" name="news_id" value="'.$news_id.'" />
               <input type="hidden" name="title" value="'.$title.'" />
               <input type="submit" value="'._SEND.'" /></td></tr></table></form><br />';

@@ -122,11 +122,14 @@ function form($content, $sug_id){
         echo "<tr><td>&nbsp;</td></tr>\n";
     }
 
-    if (initCaptcha()) create_captcha();
+    echo "</table>\n"
+        . "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" />"
+        . "<input type=\"hidden\" name=\"date\" value=\"" . $date . "\" />\n"
+        . "<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n";
 
-    echo "</table><input type=\"hidden\" name=\"date\" value=\"" . $date . "\" />\n"
-            . "<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
-            . "<div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
+    if (initCaptcha()) echo create_captcha();
+
+    echo $refuse;
 }
 
 function make_array($data){

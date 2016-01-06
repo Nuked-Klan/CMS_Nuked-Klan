@@ -247,17 +247,13 @@ if ($visiteur >= $level_access && $level_access > -1)
             . "<input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"" . $max_size . "\" />";
         }
 
-        echo "</td></tr>\n";
-        
-        if (initCaptcha()) {
-           echo "<tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">";
-           echo create_captcha();
-           echo "</td></tr>\n";
-        }
+        echo "</td></tr>\n"
+        . "<tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">"
+        . "<input type=\"submit\" value=\"" . _SEND . "\" />\n";
 
-        echo" <tr><td style=\"background: " . $color2 . ";\" colspan=\"2\" align=\"center\">"
-        . "<input type=\"submit\" value=\"" . _SEND . "\" />\n"
-        . "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
+        if (initCaptcha()) echo create_captcha();
+
+        echo "<input type=\"hidden\" name=\"forum_id\" value=\"" . $_REQUEST['forum_id'] . "\" />\n"
         . "<input type=\"hidden\" name=\"thread_id\" value=\"" . $_REQUEST['thread_id'] . "\" />\n"
         . "<input type=\"hidden\" name=\"mess_id\" value=\"" . $_REQUEST['mess_id'] . "\" />\n"
         . "</td></tr></table></form>\n";

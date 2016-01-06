@@ -55,7 +55,7 @@ if ($visiteur >= $level_access && $level_access > -1){
         <p style="font-weight: bold; margin-top: 10px">' . _YCOMMENT . ' : <br /><textarea id="e_basic" name="corps" cols="60" rows="12"></textarea></p>';
 
         // Affichage du Captcha.
-        echo '<div style="text-align: center">',"\n";
+        echo '<div>',"\n";
         if (initCaptcha()) echo create_captcha();
         echo '</div>',"\n";
 

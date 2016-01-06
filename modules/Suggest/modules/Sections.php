@@ -91,18 +91,19 @@ function form($content, $sug_id)
 
     echo "<tr><td><b>" . _TEXT . "</b></td></tr>\n"
     . "<tr><td><textarea ";
-    
+
     echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
-    
-    echo "name=\"texte\" cols=\"65\" rows=\"12\">" .  $content[2] . "</textarea></td></tr>\n";
 
-    if (initCaptcha()) create_captcha();
+    echo "name=\"texte\" cols=\"65\" rows=\"12\">" .  $content[2] . "</textarea></td></tr>\n"
+        . "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
+        . "<input type=\"hidden\" name=\"auteur\" value=\"" . $autor . "\" />\n"
+        . "<input type=\"hidden\" name=\"auteur_id\" value=\"" . $autor_id . "\" />";
 
-    echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
-    . "<input type=\"hidden\" name=\"auteur\" value=\"" . $autor . "\" />\n"
-    . "<input type=\"hidden\" name=\"auteur_id\" value=\"" . $autor_id . "\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><small>" . _PAGEBREACK . "</small></div>\n"
-    . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
+    if (initCaptcha()) echo create_captcha();
+
+    echo "</td></tr></table>\n"
+        . "<div style=\"text-align: center;\"><small>" . _PAGEBREACK . "</small></div>\n"
+        . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
 }
 
 function make_array($data)
