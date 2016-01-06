@@ -1,8 +1,8 @@
 <?php
 /**
- * table.vote_mod.i.u.php
+ * table.vote_modules.i.u.php
  *
- * `[PREFIX]_vote_mod` database table script
+ * `[PREFIX]_vote_modules` database table script
  *
  * @version 1.7
  * @link http://www.nuked-klan.org Clan Management System for Gamers
