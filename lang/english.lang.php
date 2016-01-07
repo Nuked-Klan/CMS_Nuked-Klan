@@ -376,6 +376,7 @@ return array(
     //define("_VISITORS","visitors");
 
     // module name
+    'ARCHIVES_MODNAME'  => 'Archives',
     'CALANDAR_MODNAME'  => 'Calendar',
     'COMMENT_MODNAME'   => 'Comments',
     'CONTACT_MODNAME'   => 'Contact',

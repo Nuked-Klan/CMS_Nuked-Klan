@@ -78,60 +78,12 @@ function main()
         if (nivo_mod($page) != -1) {
             $nb++;
 
-            if ($page == 'Archives') {
-                $pagename = _NAMEARCHIVES;
-            }
-            else if ($page == 'Calendar') {
-                $pagename = _NAMECALANDAR;
-            }
-            else if ($page == "Defy") {
-                $pagename = _NAMEDEFY;
-            }
-            else if ($page == 'Download') {
-                $pagename = _NAMEDOWNLOAD;
-            }
-            else if ($page == 'Forum') {
-                $pagename = _NAMEFORUM;
-            }
-            else if ($page == 'Gallery') {
-                $pagename = _NAMEGALLERY;
-            }
-            else if ($page == 'Guestbook') {
-                $pagename = _NAMEGUESTBOOK;
-            }
-            else if ($page == "Irc") {
-                $pagename = _NAMEIRC;
-            }
-            else if ($page == 'Links') {
-                $pagename = _NAMELINKS;
-            }
-            else if ($page == 'Members') {
-                $pagename = _NAMEMEMBERS;
-            }
-            else if ($page == 'News') {
-                $pagename = _NAMENEWS;
-            }
-            else if ($page == "Recruit") {
-                $pagename = _NAMERECRUIT;
-            }
-            else if ($page == 'Search') {
-                $pagename = _NAMESEARCH;
-            }
-            else if ($page == 'Sections') {
-                $pagename = _NAMESECTIONS;
-            }
-            else if ($page == "Server") {
-                $pagename = _NAMESERVER;
-            }
-            else if ($page == "Team") {
-                $pagename = _NAMETEAM;
-            }
-            else if ($page == "Wars") {
-                $pagename = _NAMEMATCHES;
-            }
-            else {
-                $pagename = $page;
-            }
+            $moduleNameConst = strtoupper($page) .'_MODNAME';
+
+            if (translationExist($moduleNameConst))
+                $moduleName = __($moduleNameConst);
+            else
+                $moduleName = $page;
 
             if ($counter != 0) {
                 $etat = round(($count * 100) / $counter);
@@ -141,7 +93,7 @@ function main()
 
             echo '<tr>'."\n"
             . '<td style="width : 5%" align="center">' . $nb . '</td>'."\n"
-            . '<td style="width : 25%">' . $pagename . '</td>'."\n"
+            . '<td style="width : 25%">' . $moduleName . '</td>'."\n"
             . '<td style="width : 20%" align="center">' . $count . ' (' . $etat . '%)</td>'."\n"
             . '<td style="width : 50%">'."\n";
 

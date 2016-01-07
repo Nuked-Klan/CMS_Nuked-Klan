@@ -383,6 +383,7 @@ return array(
     //define("_VISITORS","visiteurs");
 
     // module name
+    'ARCHIVES_MODNAME'  => 'Archives',
     'CALANDAR_MODNAME'  => 'Calendrier',
     'COMMENT_MODNAME'   => 'Commentaires',
     'CONTACT_MODNAME'   => 'Contact',
