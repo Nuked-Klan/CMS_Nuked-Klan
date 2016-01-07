@@ -78,27 +78,15 @@ function getAdminModulesMenuData() {
     );
 
     foreach ($dbrModules as $mod) {
-        if ($mod['nom'] == 'Gallery') $modname = _NAMEGALLERY;
-        else if ($mod['nom'] == 'Calendar') $modname = _NAMECALANDAR;
-        else if ($mod['nom'] == 'Defy') $modname = _NAMEDEFY;
-        else if ($mod['nom'] == 'Download') $modname = _NAMEDOWNLOAD;
-        else if ($mod['nom'] == 'Guestbook') $modname = _NAMEGUESTBOOK;
-        else if ($mod['nom'] == 'Irc') $modname = _NAMEIRC;
-        else if ($mod['nom'] == 'Links') $modname = _NAMELINKS;
-        else if ($mod['nom'] == 'Wars') $modname = _NAMEMATCHES;
-        else if ($mod['nom'] == 'News') $modname = _NAMENEWS;
-        else if ($mod['nom'] == 'Recruit') $modname = _NAMERECRUIT;
-        else if ($mod['nom'] == 'Sections') $modname = _NAMESECTIONS;
-        else if ($mod['nom'] == 'Server') $modname = _NAMESERVER;
-        else if ($mod['nom'] == 'Suggest') $modname = _NAMESUGGEST;
-        else if ($mod['nom'] == 'Survey') $modname = _NAMESURVEY;
-        else if ($mod['nom'] == 'Forum') $modname = _NAMEFORUM;
-        else if ($mod['nom'] == 'Textbox') $modname = _NAMESHOUTBOX;
-        else if ($mod['nom'] == 'Comment') $modname = _NAMECOMMENT;
-        else $modname = $mod['nom'];
+        $moduleNameConst = strtoupper($mod['nom']) .'_MODNAME';
+
+        if (translationExist($moduleNameConst))
+            $moduleName = __($moduleNameConst);
+        else
+            $moduleName = $mod['nom'];
 
         if (is_file('modules/'. $mod['nom'] .'/admin.php'))
-            $data[1][$mod['nom']] = $modname;
+            $data[1][$mod['nom']] = $moduleName;
     }
 
     natcasesort($data[1]);
