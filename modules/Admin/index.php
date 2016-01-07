@@ -29,26 +29,14 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
                 $sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE . ' WHERE "' . $visiteur . '" >= admin AND niveau > -1 AND admin > -1 ORDER BY nom');
                 while (list($mod) = mysql_fetch_array($sql))
                 {
-                    if ($mod == 'Gallery') $modname = _NAMEGALLERY;
-                    else if ($mod == 'Calendar') $modname = _NAMECALANDAR;
-                    else if ($mod == 'Defy') $modname = _NAMEDEFY;
-                    else if ($mod == 'Download') $modname = _NAMEDOWNLOAD;
-                    else if ($mod == 'Guestbook') $modname = _NAMEGUESTBOOK;
-                    else if ($mod == 'Irc') $modname = _NAMEIRC;
-                    else if ($mod == 'Links') $modname = _NAMELINKS;
-                    else if ($mod == 'Wars') $modname = _NAMEMATCHES;
-                    else if ($mod == 'News') $modname = _NAMENEWS;
-                    else if ($mod == 'Recruit') $modname = _NAMERECRUIT;
-                    else if ($mod == 'Sections') $modname = _NAMESECTIONS;
-                    else if ($mod == 'Server') $modname = _NAMESERVER;
-                    else if ($mod == 'Suggest') $modname = _NAMESUGGEST;
-                    else if ($mod == 'Survey') $modname = _NAMESURVEY;
-                    else if ($mod == 'Forum') $modname = _NAMEFORUM;
-                    else if ($mod == 'Textbox') $modname = _NAMESHOUTBOX;
-                    else if ($mod == 'Comment') $modname = _NAMECOMMENT;
-                    else $modname = $mod;
+                    $moduleNameConst = strtoupper($mod) .'_MODNAME';
 
-                    array_push($modules, $modname . '|' . $mod);
+                    if (translationExist($moduleNameConst))
+                        $moduleName = __($moduleNameConst);
+                    else
+                        $moduleName = $mod;
+
+                    array_push($modules, $moduleName . '|' . $mod);
                 }
 
                 natcasesort($modules);
