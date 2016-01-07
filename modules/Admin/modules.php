@@ -166,90 +166,12 @@ function main()
     $sql = mysql_query("SELECT id, nom, niveau, admin FROM " . MODULES_TABLE . " ORDER BY nom");
     while (list($mid, $nom, $niveau, $admin) = mysql_fetch_array($sql))
     {
-        if ($nom == "Gallery")
-        {
-            $name = _NAMEGALLERY;
-        }
-        else if ($nom == "Calendar")
-        {
-            $name = _NAMECALANDAR;
-        }
-        else if ($nom == "Defy")
-        {
-            $name = _NAMEDEFY;
-        }
-        else if ($nom == "Download")
-        {
-            $name = _NAMEDOWNLOAD;
-        }
-        else if ($nom == "Guestbook")
-        {
-            $name = _NAMEGUESTBOOK;
-        }
-        else if ($nom == "Irc")
-        {
-            $name = _NAMEIRC;
-        }
-        else if ($nom == "Links")
-        {
-            $name = _NAMELINKS;
-        }
-        else if ($nom == "Wars")
-        {
-            $name = _NAMEMATCHES;
-        }
-        else if ($nom == "News")
-        {
-            $name = _NAMENEWS;
-        }
-        else if ($nom == "Recruit")
-        {
-            $name = _NAMERECRUIT;
-        }
-        else if ($nom == "Sections")
-        {
-            $name = _NAMESECTIONS;
-        }
-        else if ($nom == "Server")
-        {
-            $name = _NAMESERVER;
-        }
-        else if ($nom == "Suggest")
-        {
-            $name = _NAMESUGGEST;
-        }
-        else if ($nom == "Survey")
-        {
-            $name = _NAMESURVEY;
-        }
-        else if ($nom == "Forum")
-        {
-            $name = _NAMEFORUM;
-        }
-        else if ($nom == "Comment")
-        {
-            $name = _NAMECOMMENT;
-        }
-        else if ($nom == "Members")
-        {
-            $name = _NAMEMEMBERS;
-        }
-        else if ($nom == "Team")
-        {
-            $name = _NAMETEAM;
-        }
-        else if ($nom == "Textbox")
-        {
-            $name = _NAMESHOUTBOX;
-        }
-        else if ($nom == "Vote")
-        {
-            $name = _NAMEVOTE;
-        }
+        $moduleNameConst = strtoupper($nom) .'_MODNAME';
+
+        if (translationExist($moduleNameConst))
+            $moduleName = __($moduleNameConst);
         else
-        {
-            $name = $nom;
-        }
+            $moduleName = $nom;
 
         if ($niveau > -1 && $admin > -1)
         {
@@ -260,7 +182,7 @@ function main()
             $status = _DISABLED;
         }
 
-        array_push($mod, $name . "|" . $mid . "|" . $niveau . "|" . $admin . "|" . $status);
+        array_push($mod, $moduleName . "|" . $mid . "|" . $niveau . "|" . $admin . "|" . $status);
     }
     natcasesort($mod);
     foreach($mod as $value)
