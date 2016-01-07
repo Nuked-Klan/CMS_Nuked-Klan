@@ -382,6 +382,31 @@ return array(
     'VISITOR'           => 'Visiteur',
     //define("_VISITORS","visiteurs");
 
+    // module name
+    'CALANDAR_MODNAME'  => 'Calendrier',
+    'COMMENT_MODNAME'   => 'Commentaires',
+    'CONTACT_MODNAME'   => 'Contact',
+    'DEFY_MODNAME'      => 'Défie',
+    'DOWNLOAD_MODNAME'  => 'Téléchargements',
+    'EQUIPE_MODNAME'    => 'Equipe',
+    'FORUM_MODNAME'     => 'Forum',
+    'GALLERY_MODNAME'   => 'Galerie',
+    'GUESTBOOK_MODNAME' => 'Livre d\'or',
+    'IRC_MODNAME'       => 'IrC',
+    'LINKS_MODNAME'     => 'Liens Web',
+    'MEMBERS_MODNAME'   => 'Membres',
+    'NEWS_MODNAME'      => 'News',
+    'PAGE_MODNAME'      => 'Page',
+    'RECRUIT_MODNAME'   => 'Recrutement',
+    'SECTIONS_MODNAME'  => 'Articles',
+    'SERVER_MODNAME'    => 'Serveurs',
+    'SUGGEST_MODNAME'   => 'Suggestion',
+    'SURVEY_MODNAME'    => 'Sondage',
+    'TEAM_MODNAME'      => 'Team',
+    'TEXTBOX_MODNAME'   => 'Tribune libre',
+    'VOTE_MODNAME'      => 'Vote',
+    'WARS_MODNAME'      => 'Matches',
+    
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Désolé, ce module n\'est pas activé !',
     'NO_ENTRANCE'       => 'Désolé mais vous n\'avez pas les droits pour accéder à cette page',

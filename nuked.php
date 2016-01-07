@@ -1174,6 +1174,18 @@ function _n($str, $n = 1) {
 }
 
 /**
+ * Check if translation exist
+ *
+ * @param string $str : The string to translate
+ * @return bool
+ */
+function translationExist($str) {
+    global $arrayModLang;
+
+    return array_key_exists($str, $arrayModLang);
+}
+
+/**
  * Count the number of page views module for stats
  *
  * @param string $module : Module to update page view stats

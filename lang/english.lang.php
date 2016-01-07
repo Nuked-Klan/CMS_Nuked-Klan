@@ -375,6 +375,31 @@ return array(
     'VISITOR'           => 'Guest',
     //define("_VISITORS","visitors");
 
+    // module name
+    'CALANDAR_MODNAME'  => 'Calendar',
+    'COMMENT_MODNAME'   => 'Comments',
+    'CONTACT_MODNAME'   => 'Contact',
+    'DEFY_MODNAME'      => 'Defy',
+    'DOWNLOAD_MODNAME'  => 'Download',
+    'EQUIPE_MODNAME'    => 'Equipe',
+    'FORUM_MODNAME'     => 'Forum',
+    'GALLERY_MODNAME'   => 'Gallery',
+    'GUESTBOOK_MODNAME' => 'Guestbook',
+    'IRC_MODNAME'       => 'IRC',
+    'LINKS_MODNAME'     => 'Web Links',
+    'MEMBERS_MODNAME'   => 'Members',
+    'NEWS_MODNAME'      => 'News',
+    'PAGE_MODNAME'      => 'Page',
+    'RECRUIT_MODNAME'   => 'Recruit',
+    'SECTIONS_MODNAME'  => 'Sections',
+    'SERVER_MODNAME'    => 'Servers',
+    'SUGGEST_MODNAME'   => 'Suggestions',
+    'SURVEY_MODNAME'    => 'Survey',
+    'TEAM_MODNAME'      => 'Team',
+    'TEXTBOX_MODNAME'   => 'Shoutbox',
+    'VOTE_MODNAME'      => 'Vote',
+    'WARS_MODNAME'      => 'Wars',
+    
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Sorry, this Module hasn\'t been activated !',
     'NO_ENTRANCE'       => 'Sorry you do not have the permissions of opening this page',
