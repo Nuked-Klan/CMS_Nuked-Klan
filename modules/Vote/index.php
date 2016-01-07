@@ -118,7 +118,7 @@ function postVote() {
 
     $id     = (isset($_GET['id'])) ? (int) $_GET['id'] : 0;
     $module = (isset($_GET['module'])) ? stripslashes($_GET['module']) : '';
-    $author = ($user) ? $user['name'] : _VISITOR;
+    $author = ($user) ? $user['name'] : __('VISITOR');
 
     if (! checkVoteStatus($module, $id)) return;
 
@@ -151,7 +151,7 @@ function saveVote() {
     $id     = (isset($_POST['id'])) ? (int) $_POST['id'] : 0;
     $module = (isset($_POST['module'])) ? stripslashes($_POST['module']) : '';
     $vote   = (isset($_POST['vote'])) ? $_POST['vote'] : '';
-    $author = ($user) ? $user['name'] : _VISITOR;
+    $author = ($user) ? $user['name'] : __('VISITOR');
 
     if (! checkVoteStatus($module, $id)) return;
 

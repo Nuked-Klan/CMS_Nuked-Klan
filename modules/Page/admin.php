@@ -78,7 +78,7 @@ while (list($page_id, $titre, $url, $type) = mysql_fetch_array($sql))
 
 if ($nb_page == 0) echo"<tr><td colspan=\"5\" align=\"center\">" . _NOPAGE . "</td></tr>\n";
 
-echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>";
+echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>";
 }
 
 function add()
@@ -189,7 +189,7 @@ function add()
     echo "</select></td></tr>";
     echo "<tr><td>&nbsp;</td></tr>\n"
     . "</table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISPAGE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">"._BACK."</a></div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISPAGE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">".__('BACK')."</a></div></form><br /></div></div>\n";
 }
 
 function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_title, $members)
@@ -409,7 +409,7 @@ function edit($page_id)
     echo "</select></td></tr>\n"
     . "<tr><td>&nbsp;<input type=\"hidden\" name=\"page_id\" value=\"" . $page_id . "\" /></td></tr>\n"
     . "</table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISPAGE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">"._BACK."</a></div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISPAGE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">".__('BACK')."</a></div></form><br /></div></div>\n";
 }
 
 function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_title, $members)
@@ -552,7 +552,7 @@ function main_pref()
     }
 
     echo "</select></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">" . _BACK . "</a></div>\n"
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }
 

@@ -139,7 +139,7 @@ function add_sug($data){
         $date2 = nkDate($date);
 
         if (!empty($user[2])) $pseudo = $user[2];
-        else $pseudo = _VISITOR . ' (' . $user_ip . ')';
+        else $pseudo = __('VISITOR') . ' (' . $user_ip . ')';
 
         $subject = _NEWSUGGEST . ", " . $date2;
         $corps = $pseudo . " " . _NEWSUBMIT . "\r\n" . $nuked['url'] . "/index.php?file=Suggest&page=admin\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];

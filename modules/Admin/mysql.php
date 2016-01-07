@@ -25,7 +25,7 @@ function main() {
     . "<option value=\"index.php?file=Admin&amp;page=mysql&amp;op=save_db\">" . _SAVEDB . "</option>\n"
     . "<option value=\"index.php?file=Admin&amp;page=mysql&amp;op=optimise\">" . _OPTIMIZEDB . "</option>\n"
     . "</select></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br /></div>";
+    . "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div></form><br /></div>";
 }
 
 function save_db()
@@ -111,7 +111,7 @@ function optimise()
     $total_gain = round ($total_gain, 3);
 
     echo "<div style=\"text-align: center;\"><br /><b>" . _TOTAL . "</b> : " . $total_gain . " Kb</div>\n"
-    . "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=mysql\">" . _BACK . "</a></div><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=mysql\">" . __('BACK') . "</a></div><br /></div></div>\n";
 
     saveUserAction(_ACTIONOPTIDB);
 }

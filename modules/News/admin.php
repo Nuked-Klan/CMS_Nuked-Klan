@@ -159,7 +159,7 @@ function main() {
         echo "</div>\n";
     }
 
-    echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function add() {
@@ -237,7 +237,7 @@ function add() {
 
 
     echo "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
-        . "</table><br /><div style=\"text-align: center;\"><input class=\"button\" type=\"submit\" value=\"" . _ADDNEWS . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main\">" . _BACK . "</a></div>\n"
+        . "</table><br /><div style=\"text-align: center;\"><input class=\"button\" type=\"submit\" value=\"" . _ADDNEWS . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div></div>\n";
 }
 
@@ -381,7 +381,7 @@ function edit($news_id) {
 
 
     echo "</td></tr><tr><td align=\"center\"><textarea class=\"editor\" id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\">".$suite."</textarea></td></tr>\n"
-        . "</table><br /><div style=\"text-align: center;\"><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISNEWS . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main\">" . _BACK . "</a></div>\n"
+        . "</table><br /><div style=\"text-align: center;\"><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISNEWS . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div></div>\n";
 }
 
@@ -484,7 +484,7 @@ function main_cat() {
         . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:del_cat('" . addslashes($titre) . "','" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISCAT . "\" /></a></td></tr>\n";
     }
 
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin\">" . _BACK . "</a></div>\n"
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin\">" . __('BACK') . "</a></div>\n"
         . "<br /></div></div>\n";
 }
 
@@ -502,7 +502,7 @@ function add_cat() {
         . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" /></td></tr>\n"
         . "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\"></textarea></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div></div>\n";
 }
 
@@ -567,7 +567,7 @@ function edit_cat($cid) {
     echo "</td></tr>\n"
         . "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+        . "</table><div style=\"text-align: center;\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div>\n";
 
 }
@@ -648,7 +648,7 @@ function main_pref() {
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
         . "<tr><td>" . _NUMBERNEWS . " :</td><td> <input type=\"text\" name=\"max_news\" size=\"2\" value=\"" . $nuked['max_news'] . "\" /></td></tr>\n"
         . "<tr><td>" . _NUMBERARCHIVE . " :</td><td> <input type=\"text\" name=\"max_archives\" size=\"2\" value=\"" . $nuked['max_archives'] . "\" /></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin\">" . _BACK . "</a></div>\n"
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div></div>\n";
 }
 

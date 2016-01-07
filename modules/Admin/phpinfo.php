@@ -59,6 +59,6 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
 . "<option value=\"16\" " . $selected5 . ">". _INFOENVIRONMENT . "</option>\n"
 . "<option value=\"32\" " . $selected6 . ">". _INFOVARIABLES . "</option></select><br /><br /></div>\n"
 . "<div class=\"tab-content\" id=\"tab2\"><div style=\"width:100%;\">" . $php_info . "</div>\n"
-. "<div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+. "<div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 
 ?>

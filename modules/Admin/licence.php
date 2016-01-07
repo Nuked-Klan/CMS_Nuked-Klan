@@ -20,6 +20,6 @@ echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"tab-content\" id=\"tab2\"><div style=\"width:96%; margin-left:2%;\">\n";
 echo _LICENCETXT;
 echo "</div>\n"
-. "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+. "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 
 ?>

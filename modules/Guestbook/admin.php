@@ -38,7 +38,7 @@ function edit_book($gid)
     echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
     . "<tr><td colspan=\"2\"><textarea class=\"editor\" id=\"guest_text\" name=\"comment\" cols=\"65\" rows=\"12\">" . $comment . "</textarea></td></tr>\n"
     . "<tr><td colspan=\"2\" align=\"center\"><input type=\"hidden\" name=\"gid\" value=\"" . $gid . "\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Guestbook&amp;page=admin\">" . _BACK . "</a></div></form><br /></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Guestbook&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div>\n";
 }
 
 function modif_book($gid, $comment, $email, $url)
@@ -151,7 +151,7 @@ function main()
         number($count, $nb_mess_guest, "index.php?file=Guestbook&amp;page=admin");
     }
 
-    echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function main_pref()
@@ -170,7 +170,7 @@ function main_pref()
     echo "<form method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=change_pref\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
     . "<tr><td>" . _GUESTBOOKPG . " :</td><td><input type=\"text\" name=\"mess_guest_page\" size=\"2\" value=\"" . $nuked['mess_guest_page'] . "\" /></td></tr>\n"
-    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Guestbook&amp;page=admin\">" . _BACK . "</a></div>\n"
+    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Guestbook&amp;page=admin\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }
 

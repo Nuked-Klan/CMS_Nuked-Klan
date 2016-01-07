@@ -26,6 +26,6 @@ printNotification(_MAJEXPLI, 'information', array(
 ));
 
 echo "</div>\n"
-    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Admin\"><b>" . __('BACK') . "</b></a> ]</div></form><br /></div></div>\n";
 
 ?>

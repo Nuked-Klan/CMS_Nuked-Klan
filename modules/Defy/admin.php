@@ -55,7 +55,7 @@ function main(){
     if ($count == 0) {
         echo "<tr><td colspan=\"5\" align=\"center\">" . _NODEFY . "</td></tr>\n";
     }
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function view($did) {
@@ -103,7 +103,7 @@ function view($did) {
         . "<b>" . _MATCH . " : </b>" . $type . "<br />\n"
         . "<b>" . _MAP . " : </b>" . $map . "<br /><br />\n"
         . "<b>" . _COMMENT . " : </b>" . $comment . "<br /><br />\n"
-        . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_defie('" . addslashes($pseudo) . "', '" . $did . "');\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . _BACK . "</a></div>\n"
+        . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_defie('" . addslashes($pseudo) . "', '" . $did . "');\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . __('BACK') . "</a></div>\n"
         . "<br /></div></div>\n";
 }
 
@@ -172,7 +172,7 @@ function edit_pref() {
     echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n";
 
     echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" name=\"defie_charte\" cols=\"65\" rows=\"15\"\">" . $charte . "</textarea></td></tr></table>\n"
-        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . _BACK . "</a></div>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div></div>\n";
 }
 

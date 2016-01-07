@@ -49,7 +49,7 @@ function edit_com($cid){
             . "<tr><td><textarea class=\"editor\" name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
             . "<tr><td align=\"center\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
             . "&nbsp;</td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a></div></form><br /></div></div>\n";
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function modif_com($cid, $titre, $texte){
@@ -157,7 +157,7 @@ function main(){
         number($count, $nb_com, "index.php?file=Comment&amp;page=admin");
         echo "</td></tr></table>";
     }
-    echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function module_send_com($news, $download, $sections, $links, $wars, $gallery, $survey){
@@ -217,7 +217,7 @@ function module_com(){
     }	
     echo "<tr><td align=\"center\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
             . "</td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . _BACK . "</a></div></form><br /></div></div>\n";
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function nkAdminMenu($tab = 1) {

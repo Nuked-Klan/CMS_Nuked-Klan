@@ -46,7 +46,7 @@ else{
 			<a style="display:block;font-size: 16px;" href="index.php?file=Admin&amp;page=theme&amp;sub=module_gauche" ><?php echo _INMODULEAT; ?> 75%</a>
 		</div>
 <?php
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . __('BACK') . '</b></a> ]</div>';
 	}
 
 	function menu(){
@@ -101,7 +101,7 @@ else{
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . __('BACK') . '</b></a> ]</div>';
 	}
 
 	function couleur(){
@@ -147,7 +147,7 @@ else{
 				</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . __('BACK') . '</b></a> ]</div>';
 	}
 
 	function module_gauche(){
@@ -233,7 +233,7 @@ else{
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . __('BACK') . '</b></a> ]</div>';
 	}
 
 	function module_complet(){
@@ -322,7 +322,7 @@ else{
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . __('BACK') . '</b></a> ]</div>';
 	}
 
 	function logo(){
@@ -358,7 +358,7 @@ else{
 			</div>
 <?php
 		}
-		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . _BACK . '</b></a> ]</div>';
+		echo '<div style="text-align: center;margin:10px 0;">[ <a href="index.php?file=Admin&amp;page=theme"><b>' . __('BACK') . '</b></a> ]</div>';
 	}
     if(isset($_REQUEST['sub'])){
         $sub = $_REQUEST['sub'];

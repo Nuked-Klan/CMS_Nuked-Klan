@@ -206,7 +206,7 @@ function edit_block_rss($bid){
 				  </form>
 				  <div style="text-align: center;"><br />
 				  	<input class="button" type="submit" name="send" value="' . _MODIFBLOCK . '" />
-				  	<a class="buttonLink" href="index.php?file=Admin&amp;page=block">' . _BACK . '</a>
+				  	<a class="buttonLink" href="index.php?file=Admin&amp;page=block">' . __('BACK') . '</a>
 				  </div>
 				  <br />
               </div>

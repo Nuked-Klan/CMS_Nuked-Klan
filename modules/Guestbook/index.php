@@ -61,7 +61,7 @@ function post_book()
 
     echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
     . "<tr><td colspan=\"2\"><textarea id=\"e_basic\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
-    . "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"javascript:history.back()\" /></td></tr></table></form><br />\n";
+    . "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . __('SEND') . "\" />&nbsp;<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"javascript:history.back()\" /></td></tr></table></form><br />\n";
 
     closetable();
 }

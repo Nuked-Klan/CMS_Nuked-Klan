@@ -172,8 +172,6 @@ define("_PAGE","Page");
 define("_PREVIOUSPAGE","Page Précédente");
 define("_NEXTPAGE","Page Suivante");
 
-define("_BACK","Retour");
-define("_SEND","Envoyer");
 define("_HELP","Aides");
 define("_ADMINBLOCK","Gestion des Blocks");
 define("_TITREACTU","Afficher le titre du flux");
@@ -194,7 +192,6 @@ define("_MODBLOCK","Block d'un module");
 define("_PAGESELECT","Sélectionnez les pages où vous souhaitez que le block s'affiche");
 define("_MODIFBLOCK","Modifier ce block");
 define("_THEREISNOW","Il y a actuellement");
-define("_VISITOR","Visiteur");
 define("_MEMBER","Membre");
 define("_ADMIN","Admin");
 define("_ONLINE","en ligne.");
@@ -382,6 +379,8 @@ return array(
     'YES'               => 'Oui',
     'NO'                => 'Non',
     'SEND'              => 'Envoyer',
+    'VISITOR'           => 'Visiteur',
+    //define("_VISITORS","visiteurs");
 
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Désolé, ce module n\'est pas activé !',

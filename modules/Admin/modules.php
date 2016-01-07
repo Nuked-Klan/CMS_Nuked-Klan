@@ -74,7 +74,7 @@ function edit_module($mid)
     echo "<tr><td colspan=\"2\"><small><b>" . _MEMBERS . " :</b> " . _LEVEL1 . "<br /><b> " . _ADMINFIRST . " :</b> " . _LEVEL2 . " <br /><b> " . _ADMINSUP . " :</b> " . _LEVEL9 . "</small></td></tr>\n"
 . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"mid\" value=\"" . $mid . "\" /></td></tr>\n"
 . "<tr><td colspan=\"2\" align=\"center\"></td></tr></table>\n"
-. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _EDITMODULE . "\" />" . $button . "<a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=modules\">" . _BACK . "</a></div></form><br /></div></div>\n";
+. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _EDITMODULE . "\" />" . $button . "<a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=modules\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function desactive($mid)
@@ -275,7 +275,7 @@ function main()
         . "<td style=\"width: 15%;\" align=\"center\">" . $temp[3] . "</td>\n"
         . "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=modules&amp;op=edit_module&amp;mid=" . $temp[1] . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _MODULEEDIT . "\" /></a></td></tr>\n";
     }
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br />\n";
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br />\n";
 }
 
 

@@ -97,7 +97,7 @@ $forumRankForm = array(
             'inputClass'        => array('button')
         ),
         'backlink' => array(
-            'html'              => '<a class="buttonLink" href="index.php?file=Forum&amp;page=admin&amp;op=main_rank">'. _BACK .'</a>'
+            'html'              => '<a class="buttonLink" href="index.php?file=Forum&amp;page=admin&amp;op=main_rank">'. __('BACK') .'</a>'
         )
     )
 );

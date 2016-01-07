@@ -149,7 +149,7 @@ function show_message($mid){
                 <input type="hidden" name="titre" value="'.nkHtmlEntities($row['titre']).'" />
                 <input type="submit" value="'._REPLY.'" />&nbsp;
                 <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.addslashes($pseudo).'\', \''.$mid.'\');" />
-                <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
+                <br /><br />[ <a href="index.php?file=Userbox"><b>'.__('BACK').'</b></a> ]</div></form><br />';
     }
     else {
         echo applyTemplate('nkAlert/noEntrance');
@@ -303,7 +303,7 @@ function index(){
         else $button = _POSTMESS;
 
         echo '<input type="button" value="'.$button.'" onclick="document.location=\'index.php?file=Userbox&amp;op=post_message\'" />
-                <br /><br />[ <a href="index.php?file=User"><b>'._BACK.'</b></a> ]</div></form><br />';
+                <br /><br />[ <a href="index.php?file=User"><b>'.__('BACK').'</b></a> ]</div></form><br />';
     }
 }
 

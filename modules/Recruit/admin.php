@@ -58,7 +58,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     {
         echo "<tr><td colspan=\"5\" align=\"center\">" . _NORECRUIT . "</td></tr>\n";
     } 
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function edit_pref()
@@ -113,7 +113,7 @@ echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;o
     
 
     echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" id=\"charte_recruit\" name=\"recrute_charte\" cols=\"65\" rows=\"15\">" . $charte . "</textarea></td></tr></table>\n"
-. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . _BACK . "</a></div>\n"
+. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . __('BACK') . "</a></div>\n"
 . "</form><br /></div></div>\n";
 }
 
@@ -179,7 +179,7 @@ function view($rid)
 . "<b>" . _COMMENT . " : </b>" . $comment . "<br /><br />\n";
 
     echo "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_recruit('" . addslashes($pseudo) . "', '" . $rid . "');\" />\n"
-. "<a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
+. "<a class=\"buttonLink\" href=\"index.php?file=Recruit&amp;page=admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function del($rid)

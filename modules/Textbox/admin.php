@@ -35,7 +35,7 @@ function edit_shout($mid)
     . "<tr><td><textarea name=\"texte\" cols=\"65\" rows=\"10\">" . $texte . "</textarea></td></tr>\n"
     . "<tr><td align=\"center\"><input type=\"hidden\" name=\"mid\" value=\"" . $mid . "\" />&nbsp;</td></tr>\n"
     . "</table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function modif_shout($mid, $texte)
@@ -154,7 +154,7 @@ function main()
         number($count, $nb_mess_guest, "index.php?file=Textbox&amp;page=admin");
     } 
 
-    echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function main_pref()
@@ -197,7 +197,7 @@ function main_pref()
 
     echo "</td></tr>\n"
     . "</table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Textbox&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function change_pref($max_shout, $textbox_avatar)

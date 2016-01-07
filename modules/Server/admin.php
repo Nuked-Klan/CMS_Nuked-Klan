@@ -61,7 +61,7 @@ function main_cat() {
 }
 
 echo "</table><div style=\"text-align: center;\"><br /><a class= \"buttonLink\" href=\"index.php?file=Server&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a>\n"
-    . "<a class= \"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    . "<a class= \"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function add_cat() {
@@ -78,7 +78,7 @@ function add_cat() {
         . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " :</b></td></tr>\n"
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function send_cat($titre, $description) {
@@ -113,7 +113,7 @@ function edit_cat($cid) {
         . "<tr><td>&nbsp;<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr><tr><td><b>" . _DESCR . " :</b></td></tr>\n"
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function modif_cat($cid, $titre, $description) {
@@ -195,7 +195,7 @@ function add_serveur() {
 
     echo "</select></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _ADDTHISSERV . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>";
 }
 
 function send_serveur($ip_serv, $port, $game, $pass, $cat) {
@@ -262,7 +262,7 @@ function edit_serveur($sid) {
 
     echo "</select><input type=\"hidden\" name=\"sid\" value=\"" . $sid . "\" /></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIFTHISSERV . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>";
 }
 
 function modif_serveur($sid, $ip_serv, $port, $game, $pass, $cat) {
@@ -329,7 +329,7 @@ function main() {
         echo "<tr><td colspan=\"5\" align=\"center\">" . _NOSERV . "</td></tr>\n";
     } 
 
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function main_pref() {
@@ -366,8 +366,8 @@ function main_pref() {
         . "<option value=\"AA\">AA</option>\n"
         . "<option value=\"BTF1942\">BTF1942</option>\n"
         . "</select>&nbsp;<b>" . _SERVERPASS . " :</b> <input type=\"text\" name=\"server_pass\" size=\"10\" value=\"" . $nuked['server_pass'] . "\" /></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />\n"
+        . "<a class=\"buttonLink\" href=\"index.php?file=Server&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function change_pref($server_ip, $server_port, $server_game, $server_pass) {

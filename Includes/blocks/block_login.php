@@ -144,7 +144,7 @@ function affich_block_login($blok){
 			$admin_list = '';
 		}
 
-		$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _VISITOR;
+		$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . __('VISITOR');
 		if ($nb[0] > 1) $blok['content'] .= 's';
 		$blok['content'] .= ' : <b>' . $nb[0] . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBER;
 		if ($nb[1] > 1) $blok['content'] .= 's';
@@ -234,7 +234,7 @@ function edit_block_login($bid){
         , '<input type="hidden" name="type" value="' , $type , '" />',"\n"
         , '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
         , '</td></tr></table>'
-        , '<div style="text-align: center;"><br /><input class="button" type="submit" name="send" value="' , _MODIFBLOCK , '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' , _BACK , '</a></div></form><br /></div></div>',"\n";
+        , '<div style="text-align: center;"><br /><input class="button" type="submit" name="send" value="' , _MODIFBLOCK , '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' , __('BACK') , '</a></div></form><br /></div></div>',"\n";
 
 }
 

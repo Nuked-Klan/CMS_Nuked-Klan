@@ -71,7 +71,7 @@ function main(){
         echo "<tr><td colspan=\"4\" align=\"center\">" . _NOAWARD . "</td></tr>\n";
     }
     
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 } 
 
 function add(){
@@ -90,7 +90,7 @@ function add(){
             . "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
             . "<tr><td align=\"center\"><b>" . _TEXT . "</b></td></tr>\n"
             . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"text\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISAWARD . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . _BACK . "</a></div>\n"
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISAWARD . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
 } 
 
@@ -124,7 +124,7 @@ function edit($irc_id){
             . "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
             . "<tr><td align=\"center\"><b>" . _TEXT . "</b></td></tr>\n"
             . "<tr><td align=\"center\"><textarea  class=\"editor\" name=\"text\" cols=\"60\" rows=\"10\">" . $text . "</textarea></td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"irc_id\" value=\"" . $irc_id . "\" /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISAWARD . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . _BACK . "</a></div>\n"
+            . "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"irc_id\" value=\"" . $irc_id . "\" /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISAWARD . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
 } 
 
@@ -169,7 +169,7 @@ function main_pref(){
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"2\" cellpadding=\"3\">\n"
             . "<tr><td><b>" . _IRCHAN . " : #</b><input type=\"text\" name=\"irc_chan\" size=\"15\" value=\"" . $nuked['irc_chan'] . "\" /> <b>" . _IRCSERV . " :</b> <input type=\"text\" name=\"irc_serv\" size=\"20\" value=\"" . $nuked['irc_serv'] . "\" /></td></tr>\n"
             . "</table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Irc&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 } 
 
 function change_pref($irc_chan, $irc_serv){

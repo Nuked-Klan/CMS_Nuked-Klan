@@ -76,7 +76,7 @@ function add_file() {
         . "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"42\" value=\"http://\" /></td></tr>\n"
         . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function send_file() {
@@ -291,7 +291,7 @@ function edit_file($did) {
         . "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"42\" value=\"" . $screen . "\" /></td></tr>\n"
         . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
         . "<tr><td>&nbsp;<input type=\"hidden\" name=\"did\" value=\"" . $did . "\" /></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 
 }
 
@@ -474,7 +474,7 @@ function main_broken() {
     }
 
     echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"javascript:delbroke();\">" . _ERASELIST . "</a>\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function del_broke($did) {
@@ -636,7 +636,7 @@ function main() {
         echo "</div>\n";
     }
 
-    echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function main_cat() {
@@ -703,7 +703,7 @@ function main_cat() {
     }
 
     echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a>\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div><br /></div></div>\n";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function add_cat() {
@@ -741,7 +741,7 @@ function add_cat() {
         . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function send_cat($titre, $description, $parentid, $level, $position) {
@@ -816,7 +816,7 @@ function edit_cat($cid) {
         . "<tr><td><b>" . _DESCR . " :</b> <input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"
         . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
@@ -898,8 +898,8 @@ function main_pref() {
         checkboxButton('hide_download', 'hide_download', $checked, false);
 
     echo "</td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />\n"
+        . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function change_pref($max_download, $hide_download) {

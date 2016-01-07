@@ -175,8 +175,6 @@ define("_PAGE","Page");
 define("_PREVIOUSPAGE","Previous page");
 define("_NEXTPAGE","Next page");
 
-define("_SEND","Send");
-define("_BACK","Back");
 define("_HELP","Help");
 define("_ADMINBLOCK","Manage Blocks");
 define("_TITREACTU","View the feed title");
@@ -197,7 +195,6 @@ define("_MODBLOCK","Module Block");
 define("_PAGESELECT","Select the pages where you wish the block to be displayed");
 define("_MODIFBLOCK","Modify this block ");
 define("_THEREISNOW","There are currently");
-define("_VISITOR","Guest");
 define("_MEMBER","Member");
 define("_ADMIN","Admin");
 define("_ONLINE","online.");
@@ -375,6 +372,8 @@ return array(
     'YES'               => 'Yes',
     'NO'                => 'No',
     'SEND'              => 'Send',
+    'VISITOR'           => 'Guest',
+    //define("_VISITORS","visitors");
 
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Sorry, this Module hasn\'t been activated !',

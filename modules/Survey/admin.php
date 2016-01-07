@@ -43,7 +43,7 @@ function add_sondage() {
         . "<option>6</option><option>7</option><option>8</option>\n"
         . "<option>9</option></select></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISPOLL . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function send_sondage($titre, $option, $niveau) {
@@ -125,7 +125,7 @@ function edit_sondage($poll_id) {
         . "<option>6</option><option>7</option><option>8</option>\n"
         . "<option>9</option></select></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISPOLL . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
@@ -211,7 +211,7 @@ function main(){
         echo "<tr><td colspan=\"5\" align=\"center\">" . _NOPOOL . "</td></tr>\n";
     } 
 
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>";
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>";
 }
 
 function main_pref() {
@@ -229,8 +229,8 @@ function main_pref() {
         echo "<form method=\"post\" action=\"index.php?file=Survey&amp;page=admin&amp;op=change_pref\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
         . "<tr><td>" . _POLLTIME . " :</td><td><input type=\"text\" name=\"sond_delay\" size=\"2\" value=\"" . $nuked['sond_delay'] . "\" /></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />\n"
-        . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+        . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />\n"
+        . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function change_pref($sond_delay) {

@@ -35,7 +35,7 @@ function form($content, $sug_id){
             . "</script>\n";
 
         $refuse = "&nbsp;<input class=\"button\" type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" />\n"
-                        . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . _BACK . "</a></div></form><br />\n";
+                        . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . __('BACK') . "</a></div></form><br />\n";
     }
     else{
         $titre = "<strong> " . _DOWNLOAD . " </strong></div>\n"
@@ -124,7 +124,7 @@ function form($content, $sug_id){
 
     echo "</table><input type=\"hidden\" name=\"date\" value=\"" . $date . "\" />\n"
             . "<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" style=\"margin-right:10px\" type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" style=\"margin-right:10px\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
 }
 
 function make_array($data){

@@ -265,7 +265,7 @@ function sendfriend($news_id) {
     echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
             <input type="hidden" name="news_id" value="'.$news_id.'" />
             <input type="hidden" name="title" value="'.$title.'" />
-            <input class="nkButton" type="submit" value="'._SEND.'" /></td></tr></table></form><br />';
+            <input class="nkButton" type="submit" value="'.__('SEND').'" /></td></tr></table></form><br />';
 
     closetable();
 }

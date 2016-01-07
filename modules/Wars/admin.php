@@ -97,7 +97,7 @@ function main(){
         echo "<tr><td colspan=\"6\" align=\"center\">" . _NOMATCH . "</td></tr>\n";
     }
 
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>";
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>";
 }
 
 function match(){
@@ -185,7 +185,7 @@ function match(){
         }
 
         echo "</select></table>\n"
-                . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
+                . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . __('BACK') . "</a></div>\n"
                 . "</form><br /></div></div>\n";
 
         return;
@@ -377,7 +377,7 @@ function match(){
         } 
     } 
 
-    echo "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
+    echo "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
 }
 
@@ -587,7 +587,7 @@ function add_file($im_id){
         . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "<br />\n"
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\">" . _IMG . "</option><option value=\"demo\">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
+        . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . __('SEND') . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div></form>";
 }
 
@@ -617,7 +617,7 @@ function edit_file($fid){
         . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "<br />\n"
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\" " . $checked1 . ">" . _IMG . "</option><option value=\"demo\" " . $checked2 . ">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /><input type=\"hidden\" name=\"fid\" value=\"" . $fid . "\" /></div>\n"
-        . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
+        . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . __('SEND') . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div></form>";
 }
 
@@ -773,7 +773,7 @@ function main_pref(){
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
             . "<tr><td>" . _NUMBERWARS . " :</td><td> <input type=\"text\" name=\"max_wars\" size=\"2\" value=\"" . $nuked['max_wars'] . "\" /></td></tr>\n"
             . "</table><div style=\"text-align: center;\"></br><a href=\"index.php?file=Admin&amp;page=games\">"._MANAGETEAMMAP."</a><br/>\n"
-            . "<br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . _BACK . "</a></div>\n"
+            . "<br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Wars&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
 }
 

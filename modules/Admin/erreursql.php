@@ -54,7 +54,7 @@ function main()
         . "<td><a href=\"" . $nuked['url'] . $lien . "\">" . $lien . "</a></td>\n"
         . "<td>" . $texte . "</td></tr>\n";
     }
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function delete()

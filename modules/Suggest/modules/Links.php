@@ -32,7 +32,7 @@ function form($content, $sug_id){
                 . "</script>\n";
 
                 $refuse = "&nbsp;<input class=\"button\" type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" />\n"
-                            . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . _BACK . "</a></div></form><br />\n";
+                            . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . __('BACK') . "</a></div></form><br />\n";
     }
     else{
         $titre = "<strong> " . _WEBLINKS . " </strong></div>\n"
@@ -121,7 +121,7 @@ function form($content, $sug_id){
     if (initCaptcha()) echo create_captcha();
 
     echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" /></td></tr>\n"
-            . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
+            . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
 }
 
 function make_array($data){

@@ -172,11 +172,11 @@ $forumSettingForm = array(
         'submit' => array(
             'type'              => 'submit',
             'name'              => 'submit',
-            'value'             => _SEND,
+            'value'             => __('SEND'),
             'inputClass'        => array('button')
         ),
         'backlink' => array(
-            'html'              => '<a class="buttonLink" href="index.php?file=Forum&amp;page=admin">'. _BACK .'</a>'
+            'html'              => '<a class="buttonLink" href="index.php?file=Forum&amp;page=admin">'. __('BACK') .'</a>'
         )
     )
 );

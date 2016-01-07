@@ -74,7 +74,7 @@ function main()
         echo "<tr><td colspan=\"5\" align=\"center\">" . _NOEVENT . "</td></tr>\n";
     }
 
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function add()
@@ -104,7 +104,7 @@ function add()
     . "<b>" . _MOIS . " :</b> <input type=\"text\" name=\"date_mois\" maxlength=\"2\" size=\"2\" value=\"" . $mois . "\" />&nbsp;"
     . "<b>" . _ANNEE . " :</b> <input type=\"text\" name=\"date_an\" maxlength=\"4\" size=\"4\" value=\"" . $an . "\" />&nbsp;"
     . "<b>" . _HEURE . " :</b> <input type=\"text\" name=\"heure\" maxlength=\"5\" size=\"5\" value=\"" . $heure . "\" />\n"
-    . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISEVENT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Calendar&amp;page=admin&amp;op=main\">" . _BACK . "</a></div>\n"
+    . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISEVENT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Calendar&amp;page=admin&amp;op=main\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }
 
@@ -147,7 +147,7 @@ function edit($eid)
     . "<b>" . _MOIS . " :</b> <input type=\"text\" name=\"date_mois\" maxlength=\"2\" size=\"2\" value=\"" . $mois . "\" />&nbsp;"
     . "<b>" . _ANNEE . " :</b> <input type=\"text\" name=\"date_an\" maxlength=\"4\" size=\"4\" value=\"" . $an . "\" />&nbsp;"
     . "<b>" . _HEURE . " :</b> <input type=\"text\" name=\"heure\" maxlength=\"5\" size=\"5\" value=\"" . $heure . "\" />\n"
-    . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISEVENT . "\" /><input type=\"hidden\" name=\"eid\" value=\"" . $eid . "\" /><a class=\"buttonLink\" href=\"index.php?file=Calendar&amp;page=admin&amp;op=main\">" . _BACK . "</a></div>\n"
+    . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISEVENT . "\" /><input type=\"hidden\" name=\"eid\" value=\"" . $eid . "\" /><a class=\"buttonLink\" href=\"index.php?file=Calendar&amp;page=admin&amp;op=main\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }
 
@@ -236,7 +236,7 @@ function main_pref()
     . "<option value=\"all\" " . $checked2 . ">" . _SHOWALL . "</option>\n"
     . "<option value=\"team\" " . $checked3 . ">" . _SHOWTEAM . "</option>\n"
     . "<option value=\"admin\" " . $checked4 . ">" . _SHOWADMIN . "</option>\n"
-    . "</select></td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Calendar&amp;page=admin\">" . _BACK . "</a></div>\n"
+    . "</select></td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Calendar&amp;page=admin\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }
 

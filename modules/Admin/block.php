@@ -91,7 +91,7 @@ function add_block()
 
     echo '</select></td></tr><tr><td>&nbsp;</td></tr>',"\n"
     . '<tr><td align="center"></td></tr></table>',"\n"
-    . '<div style="text-align: center"><br /><input class="button" type="submit" value="' . _CREATEBLOCK . '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' . _BACK . '</a></div></form><br /></div></div>',"\n";
+    . '<div style="text-align: center"><br /><input class="button" type="submit" value="' . _CREATEBLOCK . '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' . __('BACK') . '</a></div></form><br /></div></div>',"\n";
 }
 
 function send_block($titre, $type, $nivo, $pages)
@@ -367,7 +367,7 @@ function main()
         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delblock('" . addslashes($titre) . "','" . $bid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _BLOCKDEL . "\" /></a></td></tr>\n";
     }
 
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function nkAdminMenu()

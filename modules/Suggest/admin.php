@@ -47,7 +47,7 @@ function main(){
             list($user_for, $pseudo) = mysql_fetch_array($sql2);
         }
         else{
-            $pseudo = _VISITOR . ' (' . $id_user . ')';
+            $pseudo = __('VISITOR') . ' (' . $id_user . ')';
             $user_for = 0;
         }
 
@@ -62,7 +62,7 @@ function main(){
         echo '<tr><td colspan="4" align="center">' . _NOSUGGEST . '</td></tr>';
     }
 
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function show_suggest($sug_id){
@@ -80,7 +80,7 @@ function show_suggest($sug_id){
         list($user_for, $pseudo) = mysql_fetch_array($sql2);
     }
     else{
-        $pseudo = _VISITOR . " (" . $id_user . ")";
+        $pseudo = __('VISITOR') . " (" . $id_user . ")";
         $user_for = 0;
     }
 
@@ -143,8 +143,8 @@ function raison($sug_id){
             . "<td align=\"center\" colspan=\"2\"><form method=\"POST\" action=\"index.php?file=Suggest&amp;page=admin&amp;op=del&amp;sug_id=" . $sug_id . "\"><br><h3>"._RMOTIF."</h3></td></tr>\n"
             . "<tr><td align=\"left\"><b>"._RSUBJECT."</b> : </td><td><input type=\"text\" name=\"subject\" maxlength=\"100\" value=\"" . _REFUS2 . "\" size=\"45\"></td></tr>\n"
             . "<tr><td align=\"left\" valign=\"top\"><b>"._RCORPS."</b> : </td><td><textarea class=\"editor\" id=\"raison\" name=\"corps\" rows=\"10\" cols=\"39\" />" . _REFUS . "\n" . $user[2] . "</textarea></td></tr>\n"
-            . "<tr><td colspan=\"2\"><p align=\"center\">&nbsp;<input class=\"button\" type=\"submit\" value=\""._SEND."\"> <input class=\"button\" type=\"button\" value=\""._CANCEL."\" onclick=\"document.location.href='index.php?file=Suggest&page=admin&op=show_suggest&sug_id=" . $sug_id . "';\"></td></tr>\n"
-            . "</form></table><br><center><a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">"._BACK."</a></center><br></div></div>";
+            . "<tr><td colspan=\"2\"><p align=\"center\">&nbsp;<input class=\"button\" type=\"submit\" value=\"".__('SEND')."\"> <input class=\"button\" type=\"button\" value=\""._CANCEL."\" onclick=\"document.location.href='index.php?file=Suggest&page=admin&op=show_suggest&sug_id=" . $sug_id . "';\"></td></tr>\n"
+            . "</form></table><br><center><a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">".__('BACK')."</a></center><br></div></div>";
 }
 
 function main_pref(){
@@ -170,8 +170,8 @@ function main_pref(){
             checkboxButton('suggest_avert', 'suggest_avert', $checked, false);
 
             echo "</td></tr>\n"
-            . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />\n"
-            . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>";
+            . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />\n"
+            . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>";
 }
 
 function change_pref($suggest_avert){

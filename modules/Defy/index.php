@@ -148,7 +148,7 @@ function form(){
 
     if (initCaptcha()) echo create_captcha();
 
-    echo "<input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
+    echo "<input type=\"submit\" value=\"" . __('SEND') . "\" /><input type=\"hidden\" name=\"op\" value=\"send_defie\" /></td></tr></table></form><br />\n";
 }
 
 function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $heure, $game, $serveur, $type, $map, $comment){

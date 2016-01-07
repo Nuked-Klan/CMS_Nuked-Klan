@@ -7,7 +7,6 @@ define('_YNICK','Votre Nom');
 define('_YMAIL','Votre Email');
 define('_YSUBJECT','Objet');
 define('_YCOMMENT','Votre message');
-define('_SEND','Envoyer');
 define('_NOCONTENT','Vous avez oublié de remplir des champs obligatoires');
 define('_NONICK','Vous n\'avez pas entré votre nom !');
 define('_NOSUBJECT','Vous n\'avez pas entré de sujet !');

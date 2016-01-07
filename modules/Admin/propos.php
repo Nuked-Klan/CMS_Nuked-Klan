@@ -22,6 +22,6 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
             <div style="margin:20px">
                 <?php echo _INFOSPROPOS; ?>
             </div>
-            <div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin"><?php echo _BACK; ?></a><br /><br /><br /></div>
+            <div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin"><?php echo __('BACK') ?></a><br /><br /><br /></div>
         </div>
     </div>

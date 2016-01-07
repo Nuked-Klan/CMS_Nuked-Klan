@@ -112,7 +112,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                         $v_pseudo = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($pseudo) . '">' . $pseudo . '</a>';
                     }
                     else {
-                        $v_pseudo = _VISITOR;
+                        $v_pseudo = __('VISITOR');
                     }
 
                     echo '<tr style="background: ' . $bg . '">'."\n"
@@ -465,7 +465,7 @@ function view_all() {
             $v_pseudo = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($pseudo) .'" onclick="window.open(this.href); return false;">' . $pseudo . '</a>';
         }
         else {
-            $v_pseudo = _VISITOR;
+            $v_pseudo = __('VISITOR');
         }
 
 

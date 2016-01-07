@@ -360,7 +360,7 @@ function post_com($module, $im_id){
     echo "<tr><td align=\"right\" colspan=\"2\">\n"
             . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
             . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-            . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /></div></form>";
+            . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . __('SEND') . "\" /><br /></div></form>";
 
     nkTemplate_addJSFile('media/ckeditor/ckeditor.js');
 
@@ -551,7 +551,7 @@ function edit_comment($cid){
                 . "<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
                 . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" />\n"
                 . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-                . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . _SEND . "\" /><br /><br />\n"
+                . "</td></tr></table><div style=\"text-align: center;\"><input type=\"submit\" value=\"" . __('SEND') . "\" /><br /><br />\n"
                 . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div></form>";
     }
     else{

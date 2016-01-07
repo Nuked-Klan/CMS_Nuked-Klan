@@ -189,7 +189,7 @@ if ($active == 3 || $active == 4)
 
 		if ($captcha) echo create_captcha();
 
-		echo "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\" /></div></div></form>\n";
+		echo "<input class=\"nkButton\" type=\"submit\" value=\"" . __('SEND') . "\" /></div></div></form>\n";
     }
 }
 //fin mode large
@@ -208,7 +208,7 @@ else
 
 		echo "</table>\n"
 		. "<div class=\"nkButton-container\" style=\"margin:5px;\" >\n"
-		. "<input class=\"nkButton\" type=\"submit\" value=\"" . _SEND . "\"/>\n"
+		. "<input class=\"nkButton\" type=\"submit\" value=\"" . __('SEND') . "\"/>\n"
 		. "<div class=\"nkButton-group\">\n"
 		. "<a class=\"nkButton icon add alone\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\" title=\"" . _SMILEY . "\">\n"
 		. "</a><a class=\"nkButton icon log alone\" href=\"index.php?file=Textbox\" title=\"" . _SEEARCHIVES . "\"></a></div></div></div></form>\n";

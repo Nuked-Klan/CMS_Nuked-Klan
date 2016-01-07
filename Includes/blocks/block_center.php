@@ -127,7 +127,7 @@ function edit_block_center($bid){
 			, '<input type="hidden" name="type" value="' , $type , '" />',"\n"
 			, '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
 			, '</td></tr></table>',"\n"
-			, '<div style="text-align: center;"><br /><input class="button" type="submit" value="' , _MODIFBLOCK , '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' , _BACK , '</a></div></form><br /></div></div>',"\n";
+			, '<div style="text-align: center;"><br /><input class="button" type="submit" value="' , _MODIFBLOCK , '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' , __('BACK') , '</a></div></form><br /></div></div>',"\n";
 }
 
 function modif_advanced_center($data){

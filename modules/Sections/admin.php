@@ -186,7 +186,7 @@ function main(){
         echo "</div>\n";
     }
 
-    echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>";
+    echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>";
 }
 
 function add(){
@@ -215,7 +215,7 @@ function add(){
 
     echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" class=\"editor\" id=\"art_texte\" name=\"texte\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
             . "</table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _ADDART . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . _BACK . "</a>"
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _ADDART . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . __('BACK') . "</a>"
             . "</div>\n"
             . "</form><br /></div></div>\n";
 }
@@ -317,7 +317,7 @@ function edit($art_id){
 
     echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" id=\"art_texte\" name=\"texte\" cols=\"70\" rows=\"15\" >" . $texte . "</textarea></td></tr>\n"
             . "<tr><td>&nbsp;<input type=\"hidden\" name=\"artid\" value=\"" . $art_id . "\" /></td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _MODIFTHISART . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . _BACK . "</a>"
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _MODIFTHISART . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . __('BACK') . "</a>"
             . "</div>\n"
             . "</form><br /></div></div>\n";
 }
@@ -450,7 +450,7 @@ function main_cat(){
         echo "<tr><td align=\"center\" colspan=\"5\">" . _NONE . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
     }
 
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . _BACK . "</a></div>\n"
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "<br /></div></div>\n";
 }
 
@@ -478,7 +478,7 @@ function add_cat(){
             . "<tr><td><b>" . _POSITION . " :</b> <input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
             . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
             . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
 }
 
@@ -551,7 +551,7 @@ function edit_cat($cid){
             . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
             . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
             . "<tr><td>&nbsp;<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
     }
 
@@ -631,7 +631,7 @@ function main_pref(){
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
             . "<tr><td colspan=\"2\" align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
             . "<tr><td>" . _SECTIONSPG . " :</td><td><input type=\"text\" name=\"max_sections\" size=\"2\" value=\"" . $nuked['max_sections'] . "\" /></td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . _BACK . "</a></div>\n"
+            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
 }
 

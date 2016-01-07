@@ -36,7 +36,7 @@ function form($content, $sug_id)
     . "</script>\n";
 
         $refuse = "&nbsp;<input class=\"button\" type=\"button\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_sug('" . $sug_id . "');\" />\n"
-    . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . _BACK . "</a></div></form><br />\n";
+    . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . __('BACK') . "</a></div></form><br />\n";
     }
     else
     {
@@ -108,7 +108,7 @@ function form($content, $sug_id)
     . "<input type=\"hidden\" name=\"auteur\" value=\"" . $autor . "\" />\n"
     . "<input type=\"hidden\" name=\"auteur_id\" value=\"" . $autor_id . "\" /></td></tr></table>\n"
     . "<div style=\"text-align: center;\"><small>" . _PAGEBREACK . "</small></div>\n"
-    . "<div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . _SEND . "\" />" . $refuse;
+    . "<div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
 }
 
 function make_array($data)

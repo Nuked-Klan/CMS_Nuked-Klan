@@ -56,7 +56,7 @@ function index(){
     if (initCaptcha()) echo create_captcha();
     echo '</div>',"\n";
 
-    echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . _SEND . '" /></p></form><br /></div>';
+    echo '<p style="text-align: center; clear: left"><br /><input type="submit" class="bouton" value="' . __('SEND') . '" /></p></form><br /></div>';
 }
 
 function sendmail(){

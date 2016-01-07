@@ -375,7 +375,7 @@ function edit_config() {
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _METATAG . "</b></big></td></tr>\n"
     . "<tr><td>" . _METAWORDS . " :</td><td><input type=\"text\" name=\"keyword\" size=\"40\" value=\"" . $nuked['keyword'] . "\" /></td></tr>\n"
     . "<tr><td>" . _METADESC . " :</td><td><textarea name=\"description\" cols=\"50\" rows=\"6\">" . $nuked['description'] . "</textarea></td></tr>\n"
-    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"ok\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div></form><br />\n";
+    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"ok\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div></form><br />\n";
     echo "</div></div></div>\n";
 }
 

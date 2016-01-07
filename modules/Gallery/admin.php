@@ -46,7 +46,7 @@ function add_screen()
     . "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" size=\"46\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
     . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $url, $url2, $url_file, $ecrase_screen)
@@ -422,7 +422,7 @@ function main()
         echo "</div>\n";
     }
 
-    echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . _BACK . "</a></div><br /></div></div>\n";
+    echo "<br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
 function edit_screen($sid)
@@ -490,7 +490,7 @@ function edit_screen($sid)
     . "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" size=\"46\" maxlength=\"200\" value=\"" . $url2 . "\" /></td></tr>\n"
     . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"" . $url_file . "\" /></td></tr>\n"
     . "<tr><td>&nbsp;<input type=\"hidden\" name=\"sid\" value=\"" . $sid . "\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function main_cat()
@@ -563,7 +563,7 @@ function main_cat()
         echo "<tr><td align=\"center\" colspan=\"5\">" . _NONE . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
     }
 
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div>\n"
+    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . __('BACK') . "</a></div>\n"
     . "<br /></div></div>\n";
 }
 
@@ -592,7 +592,7 @@ function add_cat()
     echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
     . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
     . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }
 
@@ -667,7 +667,7 @@ function edit_cat($cid)
     echo "</select></td></tr><tr><td><b>" . _POSITION . " : </b><input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
     . "<tr><td><b>" . _DESCR . " :</b><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr>\n"
     . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . _BACK . "</a></div>\n"
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }
 
@@ -753,7 +753,7 @@ function main_pref()
     . "<tr><td>" . _GALLERYTITLE . " : </td><td> <input type=\"text\" name=\"gallery_title\" size=\"40\" value=\"" . $nuked['gallery_title']. "\" /></td></tr>\n"
     . "<tr><td>" . _NUMBERIMG . " : </td><td><input type=\"text\" name=\"max_img\" size=\"2\" value=\"" . $nuked['max_img'] . "\" /></td></tr>\n"
     . "<tr><td>" . _NUMBERIMG2 . " : </td><td><input type=\"text\" name=\"max_img_line\" size=\"2\" value=\"" . $nuked['max_img_line'] . "\" /></td></tr>\n"
-    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _SEND . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . _BACK . "</a></div>\n"
+    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }
 

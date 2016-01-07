@@ -46,8 +46,8 @@ function main_cat() {
 
     $footerLink = applyTemplate('footerLink', array(
         'links' => array(
-            _ADDCAT => 'index.php?file=Forum&amp;page=admin&amp;op=editCat',
-            _BACK   => 'index.php?file=Forum&amp;page=admin'
+            _ADDCAT    => 'index.php?file=Forum&amp;page=admin&amp;op=editCat',
+            __('BACK') => 'index.php?file=Forum&amp;page=admin'
         )
     ));
 
@@ -188,7 +188,7 @@ function main() {
 
     $footerLink = applyTemplate('footerLink', array(
         'links' => array(
-            _BACK   => 'index.php?file=Forum&amp;page=admin'
+            __('BACK') => 'index.php?file=Forum&amp;page=admin'
         )
     ));
 
@@ -494,7 +494,7 @@ function main_rank() {
     $footerLink = applyTemplate('footerLink', array(
         'links' => array(
             _ADDRANK    => 'index.php?file=Forum&amp;page=admin&amp;op=editRank',
-            _BACK       => 'index.php?file=Forum&amp;page=admin'
+            __('BACK')       => 'index.php?file=Forum&amp;page=admin'
         )
     ));
 

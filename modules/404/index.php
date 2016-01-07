@@ -26,7 +26,7 @@ echo '<div style="text-align: center; padding: 0 10px">' . $error_title . '
           <form method="post" action="index.php?file=Search&amp;op=mod_search">
               <p><input type="hidden" name="module" value="" /><input type="text" name="main" size="25" /></p>
               <p><input type="submit" class="button" name="submit" value="' . _SEARCHFOR . '" /></p>
-              <p><a href="index.php?file=Search"><b>' . _ADVANCEDSEARCH . '</b></a> - <a href="javascript:history.back()"><b>' . _BACK . '</b></a></p>
+              <p><a href="index.php?file=Search"><b>' . _ADVANCEDSEARCH . '</b></a> - <a href="javascript:history.back()"><b>' . __('BACK') . '</b></a></p>
 		  </form>
 	  </div>';
 

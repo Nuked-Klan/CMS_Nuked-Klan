@@ -175,7 +175,7 @@ if ($nuked['recrute'] > 0)
 
         if (initCaptcha()) echo create_captcha();
 
-        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _SEND . "\" /><input type=\"hidden\" name=\"op\" value=\"send_recruit\" /></td></tr></table></form><br />\n";
+        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . __('SEND') . "\" /><input type=\"hidden\" name=\"op\" value=\"send_recruit\" /></td></tr></table></form><br />\n";
     }
 
     function send_recruit($pseudo, $prenom, $age, $mail, $icq, $country, $game, $connex, $exp, $dispo, $comment)

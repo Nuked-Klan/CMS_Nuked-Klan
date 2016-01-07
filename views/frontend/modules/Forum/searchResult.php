@@ -83,7 +83,7 @@
             <input type="hidden" name="page" value="search" />
             <input type="hidden" name="do" value="search" />
             <input type="hidden" name="into" value="all" />
-            <input type="submit" value="<?php echo _SEND ?>" class="nkButton"/>
+            <input type="submit" value="<?php echo __('SEND') ?>" class="nkButton"/>
         </form>
     </div>
 </div>

@@ -71,7 +71,7 @@ function main(){
 
     if ($count == 0) echo '<tr><td align="center" colspan="6">' . _NOMESSINDB . '</td></tr>'."\n";
 
-    echo '</table><br /><div style="text-align: center"><a class="buttonLink" href="index.php?file=Admin">' . _BACK . '</a></div><br /></div></div>'."\n";
+    echo '</table><br /><div style="text-align: center"><a class="buttonLink" href="index.php?file=Admin">' . __('BACK') . '</a></div><br /></div></div>'."\n";
 }
 
 function view($mid){
@@ -107,7 +107,7 @@ function view($mid){
     . '<tr><td>' . _FROM . '  <a href="mailto:' . $email . '"><b>' . $nom . '</b></a> (IP : ' . $ip . ') ' . _THE . ' ' . $day . '</td></tr>'."\n"
     . '<tr><td><b>' . _YSUBJECT . ' :</b> ' . $titre . '</td></tr>'."\n"
     . '<tr><td><br />' . $message . '</td></tr></table>'."\n"
-    . '<div style="text-align: center"><br /><input class="button" type="button" value="' . _DELTHISMESS . '" onclick="javascript:delmail(\'' . $name . '\', \'' . $mid . '\');" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . _BACK . '</a>'."\n"
+    . '<div style="text-align: center"><br /><input class="button" type="button" value="' . _DELTHISMESS . '" onclick="javascript:delmail(\'' . $name . '\', \'' . $mid . '\');" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . __('BACK') . '</a>'."\n"
     . '</div><br /></div></div>'."\n";
 }
 
@@ -140,7 +140,7 @@ function main_pref()
     . '<tr><td align="center"><big>' . _PREFS . '</big></td></tr>',"\n"
     . '<tr><td>' . _EMAILCONTACT . ' : <input type="text" name="contact_mail" size="40" value="' . $nuked['contact_mail'] . '" /></td></tr>',"\n"
     . '<tr><td>' . _FLOODCONTACT . ' : <input type="text" name="contact_flood" size="2" value="' . $nuked['contact_flood'] . '" /></td></tr></table>',"\n"
-    . '<div style="text-align: center"><br /><input class="button" type="submit" value="' . _SEND . '" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . _BACK . '</a><br />',"\n"
+    . '<div style="text-align: center"><br /><input class="button" type="submit" value="' . __('SEND') . '" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . __('BACK') . '</a><br />',"\n"
     . '</div></form><br /></div></div>',"\n";
 }
 

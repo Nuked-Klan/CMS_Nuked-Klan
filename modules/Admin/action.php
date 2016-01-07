@@ -70,7 +70,7 @@ function main()
         echo "</td></tr></table>";
     }
 
-    echo '<div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin">' . _BACK . '</a></div></form><br /></div></div>',"\n";
+    echo '<div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin">' . __('BACK') . '</a></div></form><br /></div></div>',"\n";
     $theday = time();
     $compteur = 0;
     $delete = mysql_query("SELECT id, date  FROM " . ACTION_TABLE . " ORDER BY date DESC");
