@@ -28,13 +28,20 @@ function editVoteModules() {
     );
 
     foreach ($dbrVoteModules as $voteModule) {
-        if ( $voteModule['active'] == 1)
+        if ($voteModule['active'] == 1)
             $value = 'on';
         else
             $value = 'off';
 
+        $moduleNameConst = strtoupper($voteModule['module']) .'_MODNAME';
+
+        if (translationExist($moduleNameConst))
+            $moduleName = __($moduleNameConst);
+        else
+            $moduleName = $voteModule['module'];
+
         $voteModulesForm['items'][$voteModule['module']] = array(
-            'label'             => '<b>'. $voteModule['module'] .' : </b>',
+            'label'             => '<b>'. $moduleName .' : </b>',
             'type'              => 'checkbox',
             'name'              => $voteModule['module'],
             'inputValue'        => 'on',
