@@ -28,10 +28,10 @@ function sel_block()
             {
                 $blok = substr($blok, 6, -4);
 
-                if ($blok == 'survey') $blokname = _NAMESURVEY;
+                if ($blok == 'survey') $blokname = __('SURVEY_MODNAME');
                 else if ($blok == 'menu') $blokname = _NAV;
-                else if ($blok == 'suggest') $blokname = _NAMESUGGEST;
-                else if ($blok == 'event') $blokname = _NAMECALANDAR;
+                else if ($blok == 'suggest') $blokname = __('SUGGEST_MODNAME');
+                else if ($blok == 'event') $blokname = __('CALANDAR_MODNAME');
                 else if ($blok == 'login') $blokname = _LOGIN;
                 else if ($blok == 'center') $blokname = _CENTERBLOCK;
                 else if ($blok == 'html') $blokname = _BLOCKHTML;
