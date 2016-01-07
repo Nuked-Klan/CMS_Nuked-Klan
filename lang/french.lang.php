@@ -398,14 +398,18 @@ return array(
     'NEWS_MODNAME'      => 'News',
     'PAGE_MODNAME'      => 'Page',
     'RECRUIT_MODNAME'   => 'Recrutement',
+    'SEARCH_MODNAME'    => 'Recherche',
     'SECTIONS_MODNAME'  => 'Articles',
     'SERVER_MODNAME'    => 'Serveurs',
+    'STATS_MODNAME'     => 'Stats',
     'SUGGEST_MODNAME'   => 'Suggestion',
     'SURVEY_MODNAME'    => 'Sondage',
     'TEAM_MODNAME'      => 'Team',
     'TEXTBOX_MODNAME'   => 'Tribune libre',
     'VOTE_MODNAME'      => 'Vote',
     'WARS_MODNAME'      => 'Matches',
+
+    
     
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Désolé, ce module n\'est pas activé !',

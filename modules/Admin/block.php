@@ -185,23 +185,14 @@ function select_mod($mod)
     {
         if ($f != '.' && $f != '..' && $f != 'CVS' && $f != 'index.html'  && strpos($f, '.') === false)
         {
+            $moduleNameConst = strtoupper($f) .'_MODNAME';
 
-            if ($f == 'Gallery') $modname = _NAMEGALLERY;
-            else if ($f == 'Download') $modname = _NAMEDOWNLOAD;
-            else if ($f == 'Irc') $modname = _NAMEIRC;
-            else if ($f == 'Links') $modname = _NAMELINKS;
-            else if ($f == 'Wars') $modname = _NAMEMATCHES;
-            else if ($f == 'News') $modname = _NAMENEWS;
-            else if ($f == 'Search') $modname = _NAVSEARCH;
-            else if ($f == 'Sections') $modname = _NAMESECTIONS;
-            else if ($f == 'Server') $modname = _NAMESERVER;
-            else if ($f == 'Stats') $modname = _BLOKSTATS;
-            else if ($f == 'Forum') $modname = _NAMEFORUM;
-            else if ($f == 'Team') $modname = _NAVTEAM;
-            else if ($f == 'Textbox') $modname = _NAMESHOUTBOX;
-            else $modname = $f;
+            if (translationExist($moduleNameConst))
+                $moduleName = __($moduleNameConst);
+            else
+                $moduleName = $f;
 
-            array_push($modules, $modname . '|' . $f);
+            array_push($modules, $moduleName . '|' . $f);
         }
     }
 
