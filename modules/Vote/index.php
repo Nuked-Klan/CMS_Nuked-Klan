@@ -139,8 +139,7 @@ function postVote() {
         }
     }
     else {
-        echo applyTemplate('nkAlert/noEntrance');
-        //printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
+        echo applyTemplate('nkAlert/noEntrance', array('closeLink' => true));
     }
 }
 
@@ -176,12 +175,11 @@ function saveVote() {
         }
     }
     else {
-        echo applyTemplate('nkAlert/noEntrance');
-        //printNotification(_NOENTRANCE, 'error', array('closeLink' => true));
+        echo applyTemplate('nkAlert/noEntrance', array('closeLink' => true));
     }
 }
 
-
+// Action handle
 switch ($_REQUEST['op']) {
     case 'post' :
         postVote();

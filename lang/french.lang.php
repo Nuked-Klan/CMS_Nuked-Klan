@@ -437,6 +437,7 @@ return array(
     'CONTACT_WEBMASTER' => 'Pour toutes contestations, veuillez contacter le webmaster',
     'DURING'            => 'Durée',
     // views/frontend/notification.php
+    // views/frontend/nkAlert/userEntrance.php
     'CLOSE_WINDOW'      => 'Fermer la fenêtre',
     // views/frontend/nkAlert/nkInstallDirTrue.php
     'REMOVE_DIR_INST'   => 'Veuillez supprimer le dossier d\'installation de Nuked-Klan (/INSTALL/)',

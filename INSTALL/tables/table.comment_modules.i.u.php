@@ -19,7 +19,6 @@ define('COMMENT_MOD_TABLE', $this->_session['db_prefix'] .'_comment_mod');
 
 $commentModTableCfg = array(
     'fields' => array(
-        // old
         'id'     => array('type' => 'tinyint(2)',  'null' => false, 'unsigned' => true, 'autoIncrement' => true),
         'module' => array('type' => 'varchar(50)', 'null' => false),
         'active' => array('type' => 'tinyint(1)',  'null' => false, 'unsigned' => true)
@@ -68,10 +67,12 @@ if ($process == 'drop') {
 
 // install / update 1.7.9 RC1
 if ($process == 'install'
-    || ($process == 'update' && ! $dbTable->tableExist(COMMENT_MODULES_TABLE) && ! $dbTable->tableExist(COMMENT_MOD_TABLE))) {
+    || ($process == 'update' && ! $dbTable->tableExist(COMMENT_MODULES_TABLE) && ! $dbTable->tableExist(COMMENT_MOD_TABLE))
+) {
+    $dbTable->setTable(COMMENT_MODULES_TABLE);
     $dbTable->createTable($commentModTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_comment_modules` (`id`, `module`, `active`) VALUES
+    $sql = 'INSERT INTO `'. COMMENT_MODULES_TABLE .'` (`id`, `module`, `active`) VALUES
         (1, \'news\', 1),
         (2, \'download\', 1),
         (3, \'links\', 1),

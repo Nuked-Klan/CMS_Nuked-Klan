@@ -17,6 +17,8 @@ if (! adminInit('Vote'))
 nkTemplate_addCSSFile('modules/Vote/css/backend.css');
 
 
+/* Vote modules management */
+
 // Display editing vote modules form
 function editVoteModules() {
     require_once 'Includes/nkForm.php';

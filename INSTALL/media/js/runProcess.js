@@ -1,12 +1,11 @@
-var busy, errors, processEnd, ajaxBusy, tableNumber, currentSubProcess,
-    progress            = 1,
+var busy, errors, processEnd, ajaxBusy, tableNumber, currentSubProcess, title, step, progress,
     runSubProcessResult = 'CONTINUE',
     loadingImg          = '<img src="media/images/loading.gif" alt="" id="loading_img" />';
 
 currentSubProcess = '';
 busy = ajaxBusy = processEnd = false;
 errors = tableNumber = 0;
-
+step = progress = 1;
 
 function addLogMessage(msg) {
     $('#loading_img').remove();
@@ -43,7 +42,9 @@ function writeInfo(table, txt, status) {
         msg = i18n.remove_table_success.replace(/%s/, dbPrefix + '_' + table);
     }
     else if (status == 'NOTHING_TO_DO') {
-        if (currentSubProcess == 'checkIntegrity')
+        if (currentSubProcess == 'dropTable')
+            msg = i18n.no_table_to_drop.replace(/%s/, dbPrefix + '_' + table);
+        else if (currentSubProcess == 'checkIntegrity')
             msg = i18n.nothing_to_check.replace(/%s/, dbPrefix + '_' + table);
         else if (currentSubProcess == 'checkAndConvertCharsetAndCollation')
             msg = i18n.no_convert_table.replace(/%s/, dbPrefix + '_' + table);
@@ -88,6 +89,11 @@ function setNextCurrentProcess() {
     }
 }
 
+function writeSubProcessTitle(title) {
+    addLogMessage('<br /><b><i>' + i18n.step + ' ' + step + ' : ' + title + '</i></b><br />');
+    step++;
+}
+
 function writeSubProcessComplete(subProcess, subProcessFail) {
     if (errors == 0) {
         addLogMessage('<br /><b>' + subProcess + ' : </b><strong style="color:green;">'
@@ -111,14 +117,18 @@ function queueSubProcess() {
         if (currentSubProcess == 'dropTable' || currentSubProcess == 'createTable') {
             nbTable = nbProcessTable;
 
-            if (tableNumber == 0)
-                addLogMessage('<br />');
+            if (tableNumber == 0) {
+                if (currentSubProcess == 'dropTable')
+                    writeSubProcessTitle(i18n.drop_all_table);
+                else
+                    writeSubProcessTitle(i18n.create_all_table);
+            }
         }
         else if (currentSubProcess == 'addForeignKeyOfTable') {
             nbTable = nbTableWithForeignKey;
 
             if (tableNumber == 0)
-                addLogMessage('<br />');
+                writeSubProcessTitle(i18n.add_foreign_key_all_table);
         }
     }
     else if (process == 'update') {
@@ -126,20 +136,20 @@ function queueSubProcess() {
             nbTable = nbCheckIntegrityTable;
 
             if (tableNumber == 0)
-                addLogMessage('<br />' + i18n.check_all_table_integrity + ' :<br />');
+                writeSubProcessTitle(i18n.check_all_table_integrity);
         }
         else {
             if (currentSubProcess == 'updateTable') {
                 nbTable = nbProcessTable;
 
                 if (tableNumber == 0)
-                    addLogMessage('<br />');
+                    writeSubProcessTitle(i18n.update_all_table);
             }
             else {
                 nbTable = nbCheckAndConvertCharsetAndCollationTable;
 
                 if (tableNumber == 0)
-                    addLogMessage('<br />' + i18n.check_table_charset + ' :<br />');
+                    writeSubProcessTitle(i18n.check_table_charset);
             }
         }
     }

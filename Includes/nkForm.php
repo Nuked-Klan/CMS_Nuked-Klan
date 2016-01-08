@@ -314,23 +314,32 @@ function nkForm_inputButton($fieldName, $params, $formId) {
  *  Generate a checkable field
  */
 function nkForm_inputCheckbox($fieldName, $params, $formId) {
-    $check = $classInline = $dataCheck = '';
+    if (nkTemplate_getInterface() == 'frontend') {
+        $attributes = array('type', 'id', 'inputClass', 'name', 'value', 'checked', 'disabled');
 
-    if ($params['inputValue'] == $params['value']) {
-        $check = 'checked="checked"';
-        $dataCheck = 'data-check="checked"';
+        $params['inputClass'][] = 'checkbox';
+
+        return '<input '. nkForm_formatAttribute($params, $attributes) .' value="'. $params['inputValue'] .'" />';
     }
+    else {
+        $check = $classInline = $dataCheck = '';
 
-    if (array_key_exists('inline', $params) && $params['inline'] === true)
-        $classInline = ' inline ';
+        if ($params['inputValue'] == $params['value']) {
+            $check = 'checked="checked"';
+            $dataCheck = 'data-check="checked"';
+        }
 
-    return applyTemplate('nkForm/checkbox', array(
-        'classInline'   => $classInline,
-        'id'            => $params['name'],
-        'name'          => $params['name'],
-        'check'         => $check,
-        'dataCheck'     => $dataCheck
-    ));
+        if (array_key_exists('inline', $params) && $params['inline'] === true)
+            $classInline = ' inline ';
+
+        return applyTemplate('nkForm/checkbox', array(
+            'classInline'   => $classInline,
+            'id'            => $params['name'],
+            'name'          => $params['name'],
+            'check'         => $check,
+            'dataCheck'     => $dataCheck
+        ));
+    }
 }
 
 

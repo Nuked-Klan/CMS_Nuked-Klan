@@ -95,7 +95,8 @@ function nkTemplate_setBgColors() {
     }
 
     for ($i = 1; $i <= 4; $i++) {
-        $GLOBALS['nkTemplate']['CSS']['string'] .= '.nkBgColor'. $i .'{background:'. $GLOBALS['bgcolor'. $i] .';}' ."\n"
+        $GLOBALS['nkTemplate']['CSS']['string'] .= '.nkColor'. $i .'{color:'. $GLOBALS['bgcolor'. $i] .';}' ."\n"
+            . '.nkBgColor'. $i .'{background:'. $GLOBALS['bgcolor'. $i] .';}' ."\n"
             . '.nkBorderColor'. $i .'{border-color:'. $GLOBALS['bgcolor'. $i] .' !important;}' ."\n";
     }
 }

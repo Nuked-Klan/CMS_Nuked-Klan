@@ -48,6 +48,9 @@
             locale: 'en_GB',
             errorInputClass: 'error-field',
             warningInputClass: 'warning-field',
+            submitCallback: function() {
+                return true;
+            }
         };
         this.setDefaults = function(options) {
             $.extend(this._defaults, options);
@@ -116,7 +119,12 @@
 
             // Check submited form
             $element.submit(function() {
-                return _checkAllInput();
+                check = _checkAllInput();
+
+                if (check)
+                    return plugin.settings.submitCallback();
+
+                return check;
             });
         }
 
