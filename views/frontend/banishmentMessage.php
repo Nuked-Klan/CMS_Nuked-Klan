@@ -12,12 +12,12 @@
 <?php
     if (! empty($reason)) :
 ?>
-            <br /><p><hr style="color: <?php echo $GLOBALS['bgcolor3'] ?>;height: 1px; width: 95%" />
+            <br /><p><hr class="nkColor3" style="height: 1px; width: 95%" />
             <big><b><?php echo __('REASON') ?> :</b><br /><?php echo nkHtmlEntityDecode($reason) ?></big></p>
 <?php
     endif
 ?>
-            <hr style="color: <?php echo $GLOBALS['bgcolor3'] ?>;height: 1px; width: 95%" /><br />
+            <hr class="nkColor3" style="height: 1px; width: 95%" /><br />
             <?php echo __('DURING') ?> <?php echo strtolower($duration) ?><br />
             <?php echo __('CONTACT_WEBMASTER') ?> : <a href="mailto:<?php echo $GLOBALS['nuked']['mail'] ?>"><?php echo $GLOBALS['nuked']['mail'] ?></a>
         </div>

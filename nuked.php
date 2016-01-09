@@ -30,43 +30,16 @@ $nuked = nkLoadConfiguration($db_prefix);
 // INCLUDE CONSTANT TABLE
 require_once 'Includes/constants.php';
 
-// $_REQUEST['file'] & $_REQUEST['op'] DEFAULT VALUE.
-if (empty($_REQUEST['file'])) $_REQUEST['file'] = $nuked['index_site'];
-if (empty($_REQUEST['op'])) $_REQUEST['op'] = 'index';
+// $_REQUEST['file'] & $_REQUEST['op'] VALUE.
+$_REQUEST['file'] = nkHandle_module();
+$_REQUEST['op']   = nkHandle_op();
 
-
-// SELECT THEME, USER THEME OR NOT FOUND THEME : ERROR
-if (array_key_exists($nuked['cookiename'] .'_user_theme', $_REQUEST))
-    $nuked['user_theme'] = $_REQUEST[$nuked['cookiename'] .'_user_theme'];
-else
-    $nuked['user_theme'] = false;
-
-if ($nuked['user_theme'] && is_file(dirname(__FILE__) .'/themes/'. $nuked['user_theme'] .'/theme.php'))
-    $theme = $nuked['user_theme'];
-elseif (is_file(dirname(__FILE__) .'/themes/'. $nuked['theme'] .'/theme.php'))
-    $theme = $nuked['theme'];
-else
-    exit(THEME_NOTFOUND);
-
-// SELECT LANGUAGE AND USER LANGUAGE
-if (array_key_exists($nuked['cookiename'] .'_user_langue', $_REQUEST))
-    $nuked['user_lang'] = $_REQUEST[$nuked['cookiename'] .'_user_langue'];
-else
-    $nuked['user_lang'] = false;
-
-if ($nuked['user_lang'] && is_file(dirname(__FILE__) .'/lang/'. $nuked['user_lang'] .'.lang.php'))
-    $language = $nuked['user_lang'];
-else
-    $language = $nuked['langue'];
-
+// $theme & $language VALUE.
+$theme    = nkHandle_theme();
+$language = nkHandle_language();
 
 // FORMAT DATE FR/EN
-if($language == 'french') {
-    // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') setlocale (LC_ALL, 'fr_FR','fra');
-    else setlocale(LC_ALL, 'fr_FR.UTF8','fra');
-}
-elseif($language == 'english') setlocale(LC_ALL, 'en_US');
+nkSetLocale();
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
 $dateZone = getTimeZoneDateTime($nuked['datezone']);
@@ -104,36 +77,35 @@ function nkHandle_siteInstalled() {
 }
 
 /**
- * Checks for forbidden characters in request parameters
+ * Choose which module will be include
  *
  * @param void
- * @return void
+ * @return string : Module name to include
  */
-function nkHandle_URIInjections() {
-    // On the recommendations of phpSecure.info
-    if (stripos($GLOBALS['theme'], '..') !== false
-        || stripos($GLOBALS['language'], '..') !== false
-        || stripos($_REQUEST['file'], '..') !== false
-        || stripos($_REQUEST['file'], 'http://') !== false
-        || stripos($_SERVER['QUERY_STRING'], '..') !== false
-        || stripos($_SERVER['QUERY_STRING'], 'http://') !== false
-        || stripos($_SERVER['QUERY_STRING'], '%3C%3F') !== false
-    ) {
-        die(WAYTODO);
+function nkHandle_module() {
+    global $nuked;
+
+    if (isset($_REQUEST['file'])) {
+        // On the recommendations of phpSecure.info
+        if (strpos($_REQUEST['file'], '..') !== false || stripos($_REQUEST['file'], 'http://') !== false)
+            die(WAYTODO);
+
+        $_REQUEST['file'] = basename(trim($_REQUEST['file']));
     }
 
-    $_REQUEST['file']       = basename(trim($_REQUEST['file']));
-    $GLOBALS['theme']       = trim($GLOBALS['theme']);
-    $GLOBALS['language']    = trim($GLOBALS['language']);
+    if (empty($_REQUEST['file']))
+        $_REQUEST['file'] = $nuked['index_site'];
+
+    return $_REQUEST['file'];
 }
 
 /**
- * Choose which file will be include
+ * Choose which module file will be include
  *
  * @param void
- * @return string : File name to include
+ * @return string : Module file name to include
  */
-function nkHandle_file() {
+function nkHandle_page() {
     if (isset($_REQUEST['nuked_nude']))
         $_REQUEST['nuked_nude'] = basename(trim($_REQUEST['nuked_nude']));
 
@@ -151,6 +123,75 @@ function nkHandle_file() {
     }
 
     return 'index';
+}
+
+/**
+ * Choose which action will be execute by module file.
+ *
+ * @param void
+ * @return string : Action name to execute by module file.
+ */
+function nkHandle_op() {
+    if (isset($_REQUEST['op']) && $_REQUEST['op'] != '')
+        return $_REQUEST['op'];
+
+    return 'index';
+}
+
+/**
+ * Choose which theme will be include
+ *
+ * @param void
+ * @return string : Theme name to include
+ */
+function nkHandle_theme() {
+    global $nuked, $cookie_theme;
+
+    if (array_key_exists($cookie_theme, $_COOKIE)
+        && is_file(dirname(__FILE__) .'/themes/'. $_COOKIE[$cookie_theme] .'/theme.php')
+    ) {
+        $theme = trim($_COOKIE[$cookie_theme]);
+
+        // On the recommendations of phpSecure.info
+        if (strpos($theme, '..') !== false)
+            die(WAYTODO);
+    }
+    else if (is_file(dirname(__FILE__) .'/themes/'. $nuked['theme'] .'/theme.php')) {
+        $theme = $nuked['theme'];
+    }
+    else {
+        exit(THEME_NO_FOUND);
+    }
+
+    return $theme;
+}
+
+/**
+ * Choose which nkHandle_language will be include
+ *
+ * @param void
+ * @return string : Language name to include
+ */
+function nkHandle_language() {
+    global $nuked, $cookie_langue;
+
+    if (array_key_exists($cookie_langue, $_COOKIE)
+        && is_file(dirname(__FILE__) .'/lang/'. $_COOKIE[$cookie_langue] .'.lang.php')
+    ) {
+        $language = trim($_COOKIE[$cookie_langue]);
+
+        // On the recommendations of phpSecure.info
+        if (strpos($language, '..') !== false)
+            die(WAYTODO);
+    }
+    else if (is_file(dirname(__FILE__) .'/lang/'. $nuked['langue'] .'.lang.php')) {
+        $language = $nuked['langue'];
+    }
+    else {
+        exit(LANGUAGE_NO_FOUND);
+    }
+
+    return $language;
 }
 
 /**
@@ -183,6 +224,41 @@ function nkHandle_alert() {
         $html .= applyTemplate('nkAlert/nkNewPrivateMsg');
 
     return $html;
+}
+
+/**
+ * Set PHP locale
+ *
+ * @param void
+ * @return void
+ */
+function nkSetLocale() {
+    global $language;
+
+    if ($language == 'french') {
+        // On verifie l'os du serveur pour savoir si on est en windows (setlocale : ISO) ou en unix (setlocale : UTF8)
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+            setlocale (LC_ALL, 'fr_FR','fra');
+        else
+            setlocale(LC_ALL, 'fr_FR.UTF8','fra');
+    }
+    else if ($language == 'english')
+        setlocale(LC_ALL, 'en_US');
+
+/*
+    PHP_OS :
+    - Linux
+    - ?
+
+    if ($language == 'french' && strpos('WIN', PHP_OS))
+        setlocale (LC_TIME, 'french');
+    else if ($language == 'french' && strpos('BSD', PHP_OS))
+        setlocale (LC_TIME, 'fr_FR.ISO8859-1');
+    else if ($language == 'french')
+        setlocale (LC_TIME, 'fr_FR');
+    else
+        setlocale (LC_TIME, $language);
+*/
 }
 
 function getRequestVars() {
@@ -371,6 +447,7 @@ function nkHandle_bannedUser() {
 
     $userName = ($user) ? $user['name'] : '';
 
+    // TODO : On supprime juste le dernier chiffre ou la derniere partie de l'adresse ip ?
     // On supprime le dernier chiffre pour les IP's dynamiques
     $ip_dyn = substr($user_ip, 0, -1);
 
@@ -384,56 +461,52 @@ function nkHandle_bannedUser() {
         WHERE '. $where_query
     );
 
+    $bannedIp = '';
+
     // Si resultat positif a la recherche d'un bannissement
     if (nkDB_numRows() > 0) {
         // Nouvelle adresse IP
-        $banned_ip = $user_ip;
+        $bannedIp = $user_ip;
     }
     // Recherche d'un cookie de banissement
-    else if (isset($_COOKIE['ip_ban']) && !empty($_COOKIE['ip_ban'])) {
+    else if (isset($_COOKIE['ip_ban']) && $_COOKIE['ip_ban'] != '') {
+        // TODO : On supprime juste le dernier chiffre ou la derniere partie de l'adresse ip ?
         // On supprime le dernier chiffre de l'adresse IP contenu dans le cookie
         $ip_dyn2 = substr($_COOKIE['ip_ban'], 0, -1);
 
         // On verifie l'adresse IP du cookie et l'adresse IP actuelle
         if($ip_dyn2 == $ip_dyn) {
             // On verifie l'existance du bannissement, si resultat positif, on fait un nouveau ban
-            if (nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE `ip` LIKE \'%'. $ip_dyn2 .'%\'') > 0)
-                $banned_ip = $user_ip;
+            if (nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE `ip` LIKE \'%'. nkDB_escape($ip_dyn2, true) .'%\'') > 0)
+                $bannedIp = $user_ip;
         }
-    }
-    else {
-        $banned_ip = '';
     }
 
     // Suppression des banissements depasses ou mise a jour de l'IP
-    if (! empty($banned_ip)) {
+    if ($bannedIp != '') {
         // Recherche banissement depasse
         if ($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
             // Suppression bannissement
             nkDB_delete(BANNED_TABLE, '`ip` LIKE \'%'. nkDB_escape($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName));
 
             // Notification dans l'administration
-            nkDB_insert(NOTIFICATIONS_TABLE, array(
-                'date'  => time(),
-                'type'  => 4,
-                'texte' => $pseudo . _BANFINISHED
-            ));
+            saveNotification($userName . _BANFINISHED, NOTIFICATION_WARNING);
         }
         // Sinon on met a jour l'IP
         else {
             $data = array('ip' => $user_ip);
 
-            if ($user) $data['pseudo'] = $user['name'];
+            // Redirection vers la page de banissement
+            $url = 'ban.php?ip_ban='. $bannedIp;
+
+            if ($user) {
+                $data['pseudo'] = $user['name'];
+                $url .= '&user='. urlencode($user['name']);
+            }
 
             nkDB_update(BANNED_TABLE, $data, $where_query);
 
-            // Redirection vers la page de banissement
-            $url_ban = 'ban.php?ip_ban='. $banned_ip;
-
-            if (! empty($user))
-                $url_ban .= '&user='. urlencode($user['name']);
-
-            redirect($url_ban, 0);
+            redirect($url);
         }
     }
 }
@@ -1072,7 +1145,7 @@ function adminInit($module, $adminPageLevel = false) {
  * @return bool : Module initialization result
  */
 function moduleInit($module) {
-    global $language, $file, $visiteur;
+    global $language, $visiteur;
 
     nkTemplate_setInterface('frontend');
     nkTemplate_init($module);
@@ -1578,7 +1651,7 @@ function erreursql($errno, $errstr, $errfile, $errline, $errcontext) {
             $texte = _TYPE . ': ' . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
             $upd = nkDB_execute("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
 
-            saveNotification(_ERRORSQLDEDECTED .' : [<a href="index.php?file=Admin&page=erreursql">'. _TLINK .'</a>].', 4);
+            saveNotification(_ERRORSQLDEDECTED .' : [<a href="index.php?file=Admin&page=erreursql">'. _TLINK .'</a>].', NOTIFICATION_WARNING);
             exit();
             break;
     }
@@ -1636,9 +1709,7 @@ function nkGetMedias(){
     echo $bufferEdited;
 }
 
-function saveNotification($text, $type = 1) {
-    global $user;
-
+function saveNotification($text, $type = NOTIFICATION_INFO) {
     nkDB_insert(NOTIFICATIONS_TABLE, array(
         'date'      => time(),
         'type'      => $type,

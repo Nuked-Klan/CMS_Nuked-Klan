@@ -12,7 +12,7 @@
 define('INDEX_CHECK', 1);
 ini_set('default_charset', 'ISO8859-1');
 
-require_once 'Includes/fatal_errors.php';
+require_once '../Includes/fatal_errors.php';
 require_once '../globals.php';
 require_once '../conf.inc.php';
 require_once '../nuked.php';

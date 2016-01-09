@@ -15,7 +15,6 @@ define('INDEX_CHECK', 1);
 ini_set('default_charset', 'ISO8859-1');
 
 require_once 'Includes/fatal_errors.php';
-require_once 'Includes/php51compatibility.php';
 require_once 'globals.php';
 
 if (file_exists('conf.inc.php'))
@@ -25,9 +24,8 @@ if (file_exists('conf.inc.php'))
 if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true)
     extract($_REQUEST);
 
-
 require_once 'nuked.php';
-require_once 'Includes/hash.php';
+
 
 /**
  * Checks if site is closed or not installed
@@ -41,11 +39,10 @@ if ($nuked['time_generate'] == 'on')
 if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
 
-if ($nuked['stats_share'] == 1) {
+if ($nuked['stats_share'] == 1 && isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'sendNkStats') {
     require_once 'Includes/nkStats.php';
 
-    if (isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'sendNkStats')
-        nkStats_send();
+    nkStats_send();
 }
 
 
@@ -62,16 +59,10 @@ nkHandle_bannedUser();
 
 
 /**
- * Choose which file willl be include
+ * Choose which module file will be include
  */
-//$page = nkHandle_file();
-$_REQUEST['page'] = nkHandle_file();
-
-
-/**
- * Checks for forbidden characters in request parameters
- */
-nkHandle_URIInjections();
+//$page = nkHandle_page();
+$_REQUEST['page'] = nkHandle_page();
 
 
 // Hack for CSRF vulnerabilities
@@ -95,6 +86,7 @@ if ($nuked['nk_status'] == 'closed' && $visiteur < 9
     && ! in_array($_REQUEST['op'], array('login_screen', 'login_message', 'login'))
 ) {
     require_once 'themes/'. $theme .'/colors.php';
+    nkTemplate_setInterface('frontend');
     nkTemplate_setPageDesign('none');
     echo applyTemplate('websiteClosed');
 }

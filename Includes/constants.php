@@ -84,4 +84,11 @@ define('GALLERY_TABLE_ID', 'sid');
 define('SECTIONS_TABLE_ID', 'artid');
 define('SURVEY_TABLE_ID', 'sid');
 define('WARS_TABLE_ID', 'warid');
+
+// Notification level
+define('NOTIFICATION_INFO', 1);
+define('NOTIFICATION_ERROR', 2);
+define('NOTIFICATION_SUCCESS', 3);
+define('NOTIFICATION_WARNING', 4);
+
 ?>

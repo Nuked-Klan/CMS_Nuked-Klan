@@ -18,48 +18,41 @@ require_once 'conf.inc.php';
 require_once 'nuked.php';
 
 
-/**
- * Checks for forbidden characters in request parameters
- */
-nkHandle_URIInjections();
-
-
 if (filter_var($_GET['ip_ban'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6))
     die(WAYTODO);
 
+// TODO : Load nkTemplate ! nkTemplate_setBgColors() is not executed !
 require_once 'themes/'. $theme .'/colors.php';
 translate('lang/'. $language .'.lang.php');
 
-$bannedIp       = nkDB_escape($_GET['ip_ban']);
-$bannerUsername = nkDB_escape($_GET['user']);
+$escapeBannedIp = nkDB_escape($_GET['ip_ban']);
 
 $dbrBanned = nkDB_selectOne(
     'SELECT texte, date, dure, pseudo
     FROM '. BANNED_TABLE .'
-    WHERE ip = '. $bannedIp .' OR pseudo = '. $bannerUsername);
+    WHERE ip = '. $escapeBannedIp .' OR pseudo = '. nkDB_escape($_GET['user'])
+);
+
+$time = time();
 
 if (nkDB_numrows() > 0) {
     // On supprime les bans dépassés, 0 = A vie
-    if ($dbrBanned['dure'] != 0 && ($dbrBanned['date'] + $dbrBanned['dure']) < time()) {
+    if ($dbrBanned['dure'] != 0 && ($dbrBanned['date'] + $dbrBanned['dure']) < $time) {
         // On supprime l'entrée SQL
-        nkDB_delete(BANNED_TABLE, 'ip = ' . $bannedIp)
+        nkDB_delete(BANNED_TABLE, 'ip = '. $escapeBannedIp)
 
         // On supprime le cookie
-        $_COOKIE['ip_ban'] = '';
+        setcookie('ip_ban', '', $time - 3600);
 
         // On notifie dans l'administration
-        nkDB_insert(NOTIFICATIONS_TABLE, array(
-            'date'  => time(),
-            'type'  => 4,
-            'texte' => $dbrBanned['pseudo'] . _BANFINISHED
-        ));
+        saveNotification($dbrBanned['pseudo'] . _BANFINISHED, NOTIFICATION_WARNING);
 
         // On redirige vers le site
         redirect('index.php');
     }
 
     // Sinon on prolongue la durée de vie du cookie.
-    setcookie('ip_ban', $bannedIp, time() + 9999999, '', '', '');
+    setcookie('ip_ban', $_GET['ip_ban'], $time + 9999999, '', '', '');
 
     if ($dbrBanned['dure'] == 0) $duration = _AVIE;
     else if ($dbrBanned['dure'] == 86400) $duration = _1JOUR;
@@ -73,8 +66,8 @@ if (nkDB_numrows() > 0) {
     ));
 }
 else {
-    if (isset($_COOKIE['ip_ban']) && ! empty($_COOKIE['ip_ban']))
-        $_COOKIE['ip_ban'] = '';
+    if (isset($_COOKIE['ip_ban']) && $_COOKIE['ip_ban'] != '')
+        setcookie('ip_ban', '', $time - 3600);
 
     redirect('index.php');
 }

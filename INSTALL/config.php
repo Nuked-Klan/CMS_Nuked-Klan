@@ -18,7 +18,7 @@ return array(
     'nkMinimumVersion' => '1.7.5',
 
     // Sets the minimum version of PHP used by this version of Nuked-Klan
-    'minimalPhpVersion' => '5.1.2',
+    'minimalPhpVersion' => '5.4',
 
     // Sets PHP extension list used by this version of Nuked-Klan
     'phpExtension' => array(

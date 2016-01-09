@@ -14,5 +14,22 @@ Thumbs.db
 ######################
 conf.inc.php
 config_save_*.php
+sitemap.xml
+
+upload/Download/*
+upload/Equipe/*
+upload/Forum/*
+upload/Forum/cat/*
+upload/Forum/rank/*
+upload/Gallery/*
+upload/News/*
+upload/Sections/*
+upload/Suggest/*
+upload/Team/*
+upload/Tinymce/*
+upload/Tinymce_thumbs/*
+upload/User/*
+upload/User/Rank/*
+upload/Wars/*
 
 themes/Restless/config.ini

@@ -55,7 +55,8 @@ $queryString = strtolower(rawurldecode($_SERVER['QUERY_STRING']));
 
 $badString = array(
     '%20union%20', '/*', '*/union/*', '+union+', 'load_file', 'outfile', // ANTI INJECTION SQL (UNION)
-    'document.cookie', 'onmouse', '<script', '<iframe', '<applet', '<meta', '<style', '<form', '<img', '<body', '<link' // XSS/CSS
+    'document.cookie', 'onmouse', '<script', '<iframe', '<applet', '<meta', '<style', '<form', '<img', '<body', '<link', // XSS/CSS
+    '..', 'http://', '%3C%3F'
 );
 
 $size = count($badString);
@@ -85,7 +86,7 @@ for ($i = 0; $i < $size; $i++) {
         die(sprintf(ID_MUST_INTEGRER, $getId[$i]));
 }
 
-unset($getId);
+unset($getId, $size);
 
 
 // FONCTION DE SUBSTITUTION POUR MAGIC_QUOTE_GPC
