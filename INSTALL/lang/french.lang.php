@@ -53,7 +53,7 @@ return array(
     #####################################
     # dbTable->dropTable()
     #####################################
-    'DROP_TABLE'            => 'Supression de la table `%s` si existante',
+    'DROP_TABLE'            => 'Suppression de la table `%s` si existante',
     #####################################
     # dbTable->addField()
     #####################################
@@ -96,7 +96,7 @@ return array(
     # processConfiguration->_check()
     #####################################
     'MISSING_CONFIG_KEY'    => 'Clé `%s` manquante dans le fichier INSTALL/config.php',
-    'CONFIG_KEY_MUST_BE_STRING' => 'La clé `%s` doit être une chaîne de caractère',
+    'CONFIG_KEY_MUST_BE_STRING' => 'La clé `%s` doit être une chaîne de caractères',
     'CONFIG_KEY_MUST_BE_ARRAY' => 'La clé `%s` doit être un tableau',
     #####################################
     # view::__construct()
@@ -223,7 +223,7 @@ return array(
     #####################################
     # tables/table.modules.c.i.u.php
     #####################################
-    'DELETE_MODULE'         => 'Sppression du module %s',
+    'DELETE_MODULE'         => 'Suppression du module %s',
     'ADD_MODULE'            => 'Ajout du module %s',
     #####################################
     # tables/table.news_cat.c.i.php
@@ -257,7 +257,7 @@ return array(
     #####################################
     'NEW_FEATURES_NK'       => 'Nouveautés Nuked Klan %s',
     'SECURITY'              => 'Sécurité',
-    'SECURITY_DETAIL'       => 'La sécurité a été entèrement revue.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...',
+    'SECURITY_DETAIL'       => 'La sécurité a été entièrement revue.<br />Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...',
     'OPTIMISATION'          => 'Optimisation',
     'OPTIMISATION_DETAIL'   => 'Certaines parties de Nuked-Klan ont été optimisées comme le système de pagination afin de rendre votre site légérement moins lourd.',
     'ADMINISTRATION'        => 'Administration',
@@ -404,7 +404,7 @@ return array(
     # views/selectSaveBdd.php
     #####################################
     'TO_SAVE'               => 'Sauvegarder',
-    'SAVE_YOUR_DATABASE'    => 'Vous pouvez sauvegarder votre base de donnée en cliquant sur le lien ci-dessous.',
+    'SAVE_YOUR_DATABASE'    => 'Vous pouvez sauvegarder votre base de données en cliquant sur le lien ci-dessous.',
     #####################################
     # views/setConfig.php
     #####################################
