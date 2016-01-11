@@ -689,6 +689,10 @@
     float: left;
 }
 
+.nkNoBorder{
+    border: 0;
+}
+
 .nkAlignCenter{
     text-align: center;
 }

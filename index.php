@@ -84,7 +84,8 @@ if ($nuked['nk_status'] == 'closed' && $visiteur < 9
     require_once 'themes/'. $theme .'/colors.php';
     nkTemplate_setInterface('frontend');
     nkTemplate_setPageDesign('none');
-    echo applyTemplate('websiteClosed');
+    nkTemplate_init();
+    echo nkTemplate_renderPage(applyTemplate('websiteClosed'));
 }
 // Display admin login
 else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin')
