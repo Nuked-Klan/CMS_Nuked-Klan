@@ -128,8 +128,11 @@ else {
             nkTemplate_addJS('InitBulle(\''. $bgcolor2 .'\',\''. $bgcolor3 .'\', 2);');
 
         if (trim($moduleContent) != '') {// Hack for old module without content displayed
-            if (nkTemplate_getPageDesign() == 'fullPage')
-                    $moduleContent = nkHandle_alert() . $moduleContent;
+            if (nkTemplate_getInterface() == 'frontend' && $_REQUEST['page'] == 'admin')
+                nkTemplate_setInterface('backend');
+
+            if (nkTemplate_getInterface() == 'frontend' && nkTemplate_getPageDesign() == 'fullPage')
+                $moduleContent = nkHandle_alert() . $moduleContent;
 
             $html = nkTemplate_renderPage($moduleContent);
 

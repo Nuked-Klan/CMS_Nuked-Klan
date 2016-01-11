@@ -16,7 +16,7 @@ global $cookie_session, $user, $visiteur, $language;
 translate('modules/Admin/lang/'. $language .'.lang.php');
 translate('modules/User/lang/'. $language .'.lang.php');
 require_once 'Includes/hash.php';
-require_once 'modules/Admin/design.php';
+require_once 'modules/Admin/includes/core.php';
 
 nkTemplate_setInterface('backend');
 nkTemplate_setPageDesign('none');
