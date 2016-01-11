@@ -52,8 +52,8 @@ function nkSessions_init() {
     $GLOBALS['user_ip'] = $_SERVER['REMOTE_ADDR'];
 
     if (defined('NK_REVERSE_PROXY') && isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-        $ip     = trim($ipList[0]);
+        $ipList             = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $GLOBALS['user_ip'] = trim($ipList[0]);
     }
 
     if (! filter_var($GLOBALS['user_ip'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6))
