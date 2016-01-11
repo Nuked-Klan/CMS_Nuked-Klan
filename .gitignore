@@ -27,7 +27,7 @@ upload/Sections/*
 upload/Suggest/*
 upload/Team/*
 upload/Tinymce/*
-upload/Tinymce_thumbs/*
+upload/Tinymce/thumbnail/*
 upload/User/*
 upload/User/Rank/*
 upload/Wars/*

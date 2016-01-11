@@ -27,7 +27,7 @@ $upload_dir = '/upload/Tinymce/'; // path from base_url to base of upload folder
 $current_path = '../../upload/Tinymce/'; // relative path from filemanager folder to upload folder (with final /)
 
 //thumbs folder can't put inside upload folder
-$thumbs_base_path = '../../upload/Tinymce_thumbs/'; // relative path from filemanager folder to thumbs folder (with final /)
+$thumbs_base_path = '../../upload/Tinymce/thumbnail/'; // relative path from filemanager folder to thumbs folder (with final /)
 
 // OPTIONAL SECURITY
 // if set to true only those will access RF whose url contains the access key(akey) like: 

@@ -26,7 +26,7 @@ $upload_dir = '/upload/Tinymce/'; // path from base_url to upload base dir
 $current_path = '../../../../upload/Tinymce/'; // relative path from filemanager folder to upload files folder
 
 //thumbs folder can't put inside upload folder
-$thumbs_base_path = '../../../../upload/Tinymce_thumbs/'; // relative path from filemanager folder to thumbs folder (with final /)
+$thumbs_base_path = '../../../../upload/Tinymce/thumbnail/'; // relative path from filemanager folder to thumbs folder (with final /)
 
 $MaxSizeUpload=100; //Mb
 
