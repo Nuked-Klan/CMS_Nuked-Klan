@@ -13,6 +13,14 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
 /**
+ * Initialisation of nkUpload global vars
+ * /
+$GLOBALS['nkUpload'] = array(
+    'error'     => '',
+    'extension' => ''
+);
+
+/**
  * Check a uploaded file.
  *
  * @param string $filename : The filename from the name attribute of input file.
@@ -31,6 +39,15 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
  *         - The extension file.
  */
 function nkUpload_check($filename, $fileType, $uploadDir, $maxsize = null, $rename = false) {
+    /*
+    if (! isset($_FILES[$filename])) {
+        
+    }
+    */
+
+    if ($_FILES[$filename]['error'] !== UPLOAD_ERR_OK)
+        return array('', nkUpload_getPhpError($_FILES[$filename]['error']), '');
+
     $_FILES[$filename]['name'] = trim($_FILES[$filename]['name']);
 
     if ($filename == '.htaccess')
@@ -57,6 +74,9 @@ function nkUpload_check($filename, $fileType, $uploadDir, $maxsize = null, $rena
 
     $path = $uploadDir .'/'. $filenameInfo['filename'] .'.'. $filenameInfo['extension'];
 
+    if (! is_dir($uploadDir))
+        return array('', _UPLOADDIRNOEXIST, '');
+
     if (! is_writable($uploadDir))
         return array('', _UPLOADDIRNOWRITEABLE, '');
 
@@ -66,6 +86,45 @@ function nkUpload_check($filename, $fileType, $uploadDir, $maxsize = null, $rena
     @chmod($path, 0644);
 
     return array($path, false, $filenameInfo['extension']);
+}
+
+/**
+ * Return internal PHP upload error.
+ *
+ * @param int $error : The error value contain in $_FILES[$filename]['error'].
+ * @return string : Return internal PHP upload error message.
+ */
+// TODO : Translate error message.
+function nkUpload_getPhpError($error) {
+    switch ($error) {
+        case UPLOAD_ERR_INI_SIZE :
+            $message = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+            break;
+        case UPLOAD_ERR_FORM_SIZE :
+            $message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+            break;
+        case UPLOAD_ERR_PARTIAL :
+            $message = 'The uploaded file was only partially uploaded';
+            break;
+        case UPLOAD_ERR_NO_FILE :
+            $message = 'No file was uploaded';
+            break;
+        case UPLOAD_ERR_NO_TMP_DIR :
+            $message = 'Missing a temporary folder';
+            break;
+        case UPLOAD_ERR_CANT_WRITE :
+            $message = 'Failed to write file to disk';
+            break;
+        case UPLOAD_ERR_EXTENSION :
+            $message = 'File upload stopped by extension';
+            break;
+
+        default :
+            $message = 'Unknown upload error';
+            break;
+    }
+
+    return $message; 
 }
 
 /**
