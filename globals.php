@@ -62,7 +62,7 @@ $badString = array(
 $size = count($badString);
 
 for ($i = 0; $i < $size; $i++) {
-     if (strpos($queryString, $badString[$i]))
+    if (strpos($queryString, $badString[$i]))
         die(WAYTODO);
 }
 
@@ -82,7 +82,7 @@ $getId = array(
 $size = count($getId);
 
 for ($i = 0; $i < $size; $i++) {
-      if (isset($_GET[$getId[$i]]) && ! empty($_GET[$getId[$i]]) && ! is_numeric($_GET[$getId[$i]]))
+    if (isset($_GET[$getId[$i]]) && ! empty($_GET[$getId[$i]]) && ! ctype_digit($_GET[$getId[$i]]))
         die(sprintf(ID_MUST_INTEGRER, $getId[$i]));
 }
 
@@ -96,28 +96,53 @@ $_POST      = array_map('SecureVar', $_POST);
 $_COOKIE    = array_map('SecureVar', $_COOKIE);
 $_REQUEST   = array_merge($_COOKIE, $_POST, $_GET);
 
+// POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
+if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true)
+    extract($_REQUEST);
+
 
 // UPLOAD PROTECTION
 /*
-foreach ($_FILES as $k => $v) {
-    if (! empty($_FILES[$k]['name'])) {
-        $_FILES[$k]['name'] = substr(md5(uniqid()), rand(0, 20), 10) . strrchr($_FILES[$k]['name'], '.');
-        $sfile = new finfo(FILEINFO_MIME);
+// TODO : Update module with nkUpload librairy
+if (! empty($_FILES)) {
+    $nkModules = array(
+        'Admin', 'Forum', 'Suggest', 'User', 'Gallery', 'News', 'Download',
+        'Sections', 'Wars'
+    );
 
-        if (stripos(strrchr($_FILES[$k]['name'], '.'), 'php') !== false
-            || stripos($sfile->file($_FILES[$k]['tmp_name']), 'php') !== false
-        ) {
-            die (NO_UPLOAD_PHP_FILE);
-        }
-        elseif (stripos(strrchr($_FILES[$k]['name'], '.'), 'htaccess') !== false
-            || stripos($sfile->file($_FILES[$k]['tmp_name']), 'htaccess') !== false
-        ) {
-            die (NO_UPLOAD_HTACCESS_FILE);
-        }
+    // TODO : Get cleaned $_REQUEST['file'] value !!!
+    if (! in_array($_REQUEST['file'], $nkModules)) {
+        foreach ($_FILES as $k => $v) {
+            if ($_FILES[$k]['error'] !== UPLOAD_ERR_OK)
+                continue;
 
-        unset($sfile);
+            $ext = strrchr($_FILES[$k]['name'], '.');
+
+            $_FILES[$k]['name'] = substr(md5(uniqid()), rand(0, 20), 10) . $ext;
+
+            $sfile = new finfo(FILEINFO_MIME);
+            $mime  = $sfile->file($_FILES[$k]['tmp_name']);
+
+            if (stripos($ext, 'php') !== false || stripos($mime, 'php') !== false) {
+                //@unlink($_FILES[$k]['tmp_name']);
+                die(NO_UPLOAD_PHP_FILE);
+            }
+            else if (stripos($ext, 'htm') !== false || stripos($mime, 'htm') !== false) {
+                //@unlink($_FILES[$k]['tmp_name']);
+                die(NO_UPLOAD_HTML_FILE);
+            }
+            else if (stripos($ext, 'htaccess') !== false || stripos($mime, 'htaccess') !== false) {
+                //@unlink($_FILES[$k]['tmp_name']);
+                die(NO_UPLOAD_HTACCESS_FILE);
+            }
+
+            unset($ext, $sfile, $mime);
+        }
     }
+
+    unset($nkModules);
 }
+
 */
 
 //register_shutdown_function(create_function('', 'var_dump($_GET, $_POST, $_REQUEST);return false;'));

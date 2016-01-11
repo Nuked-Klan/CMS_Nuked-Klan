@@ -20,10 +20,6 @@ require_once 'globals.php';
 if (file_exists('conf.inc.php'))
     require_once 'conf.inc.php';
 
-// POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
-if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true)
-    extract($_REQUEST);
-
 require_once 'nuked.php';
 
 

@@ -39,6 +39,7 @@ $theme    = nkHandle_theme();
 $language = nkHandle_language();
 
 // FORMAT DATE FR/EN
+// if (!isset($nuked_nude))
 nkSetLocale();
 
 // DATE FUNCTION WITH FORMAT AND ZONE FOR DATE
