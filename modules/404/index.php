@@ -31,7 +31,6 @@ echo '<div style="text-align: center; padding: 0 10px">' . $error_title . '
 	  </div>';
 
 if($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin'){
-	include('modules/Admin/design.php');
 	adminfoot();
 }else{
 	closetable();
