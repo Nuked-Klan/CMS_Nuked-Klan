@@ -25,8 +25,10 @@ function nkForm_init(&$form) {
     if (! array_key_exists('hiddenField', $form))
         $form['hiddenField'] = array();
 
-    if (array_key_exists('captcha', $form) && $form['captcha'])
-        nkForm_addCaptcha($form);
+    if (array_key_exists('captcha', $form) && $form['captcha'] && initCaptcha())
+        $form['captchaField'] = create_captcha();
+    else
+        $form['captchaField'] = '';
 
     if (array_key_exists('token', $form) && $form['token'] != '') {
         include_once 'Includes/nkToken.php';
@@ -138,20 +140,6 @@ function nkForm_formatAttribute($params, $attributes, $selectedValue = '') {
 }
 
 
-function nkForm_addCaptcha(&$form) {
-    $form['checkform'] = true;
-
-    nkTemplate_addJSFile(JQUERY_LIBRAIRY, 'librairy');
-    nkTemplate_addJSFile('media/js/captcha.js', 'librairyPlugin');
-
-    // TODO Creer une fonction dans nkCaptcha pour la generation de $token
-
-    $form['hiddenField']['ct_token']= array('value' => $token);
-    $form['hiddenField']['ct_script'] = array('class' => 'ct_script', 'value' => 'nuked');
-    $form['hiddenField']['ct_email'] = array('value' => '');
-}
-
-
 /**
  * Generate a form
  * @param array $form : The array of form to generate
@@ -240,6 +228,9 @@ function nkForm_generate($form) {
 
     foreach ($form['hiddenField'] as $params)
         $html .= '<input type="hidden"'. nkForm_formatAttribute($params, array('name', 'value')) .' />';// 'class', 
+
+    if ($form['captchaField'] != '')
+        $html .= $form['captchaField'];
 
     return $html .'</div>' ."\n" .'</form>' ."\n";
 }
