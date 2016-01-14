@@ -30,8 +30,8 @@ $nuked = nkLoadConfiguration($db_prefix);
 // INCLUDE CONSTANT TABLE
 require_once 'Includes/constants.php';
 
-// $_REQUEST['file'] & $_REQUEST['op'] VALUE.
-$_REQUEST['file'] = nkHandle_module();
+// $GLOBALS['file'] & $_REQUEST['op'] VALUE.
+$GLOBALS['file'] = nkHandle_module();
 $_REQUEST['op']   = nkHandle_op();
 
 // $theme & $language VALUE.
@@ -86,18 +86,25 @@ function nkHandle_siteInstalled() {
 function nkHandle_module() {
     global $nuked;
 
-    if (isset($_REQUEST['file'])) {
+    $module = null;
+
+    if (isset($_POST['file']))
+        $module = $_POST['file'];
+    else if (isset($_GET['file']))
+        $module = $_GET['file'];
+
+    if ($module !== null) {
         // On the recommendations of phpSecure.info
-        if (strpos($_REQUEST['file'], '..') !== false || stripos($_REQUEST['file'], 'http://') !== false)
+        if (strpos($module, '..') !== false || stripos($module, 'http://') !== false)
             die(WAYTODO);
 
-        $_REQUEST['file'] = basename(trim($_REQUEST['file']));
+        $module = basename(trim($module));
     }
 
-    if (empty($_REQUEST['file']))
-        $_REQUEST['file'] = $nuked['index_site'];
+    if (empty($module))
+        $module = $nuked['index_site'];
 
-    return $_REQUEST['file'];
+    return $module;
 }
 
 /**
@@ -207,7 +214,7 @@ function nkHandle_alert() {
 
     $html = '';
 
-    if ($visiteur == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
+    if ($visiteur == 9 && $GLOBALS['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
         if ($nuked['nk_status'] == 'closed')
             $html .= applyTemplate('nkAlert/nkSiteClosedLogged');
 
@@ -219,7 +226,7 @@ function nkHandle_alert() {
     }
 
     if ($user && $user['nbNewPM'] > 0 && ! isset($_COOKIE['popup'])
-        && ! in_array($_REQUEST['file'], array('User', 'Userbox', 'Admin'))
+        && ! in_array($GLOBALS['file'], array('User', 'Userbox', 'Admin'))
         && $_REQUEST['page'] != 'admin'
     )
         $html .= applyTemplate('nkAlert/nkNewPrivateMsg');

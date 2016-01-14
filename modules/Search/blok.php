@@ -11,7 +11,7 @@
  */
 defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
-global $nuked, $language, $user;
+global $file, $nuked, $language, $user;
 
 translate('modules/Search/lang/'. $language .'.lang.php');
 
@@ -50,7 +50,7 @@ if ($active == 3 || $active == 4){
 
     foreach($modules as $value){
 		$temp = explode("|", $value);
-		if ($temp[1] == $_REQUEST['file']) $selected = "selected=\"selected\"";
+		if ($temp[1] == $file) $selected = "selected=\"selected\"";
 		else $selected = "";
 		echo "<option value=\"" . $temp[1] . "\" " . $selected . ">" . $temp[0] . "</option>\n";
     }

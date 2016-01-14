@@ -61,9 +61,10 @@ function NbComment($im_id, $module){
 }
 
 function com_index($module, $im_id){
-    global $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language;
+    global $file, $user, $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $visiteur, $language;
 
-    if (! checkCommentStatus($_REQUEST['file'], $im_id)) return;
+    // TODO : Use $GLOBALS['file'] or $module ?
+    if (! checkCommentStatus($file, $im_id)) return;
 
     $captcha = initCaptcha();
 

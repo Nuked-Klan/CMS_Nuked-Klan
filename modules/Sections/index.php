@@ -539,9 +539,10 @@ function pdf($artid) {
     $sitename = $nuked['name'] . " - " . $nuked['slogan'];
 
     $texte = '<page><h1>'.$title.'</h1><hr />'.$text.'<hr />'.$sitename.'<br />'.$articleurl.'</page>';
-    $_REQUEST['file'] = $sitename.'_'.$title;
-    $_REQUEST['file'] = str_replace(' ','_',$_REQUEST['file']);
-    $_REQUEST['file'] .= '.pdf';
+
+    $file = $sitename .'_'. $title;
+    $file = str_replace(' ', '_', $file);
+    $file .= '.pdf';
 
     // convert in PDF
     require_once('Includes/html2pdf/html2pdf.class.php');

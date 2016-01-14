@@ -2,7 +2,7 @@
         <ul class="shortcut-buttons-set" id="1">
 <?php
     foreach ($menu as $label => $linkData) :
-        $link   = 'index.php?file='. $_REQUEST['file'] .'&amp;page=admin';
+        $link   = 'index.php?file='. $GLOBALS['file'] .'&amp;page=admin';
         $class  = '';
 
         if (isset($linkData['op'])) {

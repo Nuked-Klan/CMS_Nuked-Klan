@@ -97,8 +97,13 @@ $_COOKIE    = array_map('SecureVar', $_COOKIE);
 $_REQUEST   = array_merge($_COOKIE, $_POST, $_GET);
 
 // POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
-if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true)
+if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true) {
     extract($_REQUEST);
+
+    $_REQUEST['file'] = & $GLOBALS['file'];
+    //$_REQUEST['page'] = & $GLOBALS['page'];
+    //$_REQUEST['op']   = & $GLOBALS['op'];
+}
 
 
 // UPLOAD PROTECTION

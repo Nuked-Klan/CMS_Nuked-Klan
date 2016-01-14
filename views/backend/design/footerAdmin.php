@@ -39,7 +39,7 @@
                                 ;
                             });
 <?php
-        if ($_REQUEST['file'] == 'Forum' && ($_REQUEST['op'] == 'edit_forum' || $_REQUEST['op'] == 'add_forum')) :
+        if ($GLOBALS['file'] == 'Forum' && ($_REQUEST['op'] == 'edit_forum' || $_REQUEST['op'] == 'add_forum')) :
 ?>
                             CKEDITOR.config.autoParagraph = false;
                             CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;

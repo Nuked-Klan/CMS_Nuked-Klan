@@ -1,3 +1,3 @@
 <?php
 
-$this->assign('module', strtolower($_REQUEST['file']));
+$this->assign('module', strtolower($GLOBALS['file']));

@@ -24,7 +24,7 @@ foreach ($module_2 as $module){
 }
 
 function top(){
-        global $nuked, $theme, $user, $language, $bgcolor2, $bgcolor1, $color1, $complet, $module_aff_unique;
+        global $file, $nuked, $theme, $user, $language, $bgcolor2, $bgcolor1, $color1, $complet, $module_aff_unique;
 
         translate("themes/Impact_Nk/lang/" . $language . ".lang.php");
         include(dirname(__FILE__) . '/admin/logo.php');
@@ -109,14 +109,14 @@ function top(){
                                         <div id="b-right" class="blocks"></div>
                                         <div id="b-left" class="blocks"></div>
 <?php
-        if(in_array($_REQUEST['file'], $complet) AND $_REQUEST['page'] != "admin"){
+        if(in_array($file, $complet) AND $_REQUEST['page'] != "admin"){
 ?>
                                         <div id="blocks-center2"><div>
                                         <?php get_blok('centre'); ?>
                                 </div>
 <?php
         }
-        else if (in_array($_REQUEST['file'], $module_aff_unique) || $_REQUEST['page'] == "admin"){
+        else if (in_array($file, $module_aff_unique) || $_REQUEST['page'] == "admin"){
 ?>
                                         <div id="site1">
                                                 <div id="b-center" class="blocks">
@@ -149,7 +149,7 @@ function top(){
 }
 
 function footer(){
-    global $nuked, $theme, $complet;
+    global $file, $nuked, $theme, $complet;
 ?>
                                                                 <div>
                                                                 <?php get_blok('bas'); ?>
@@ -159,7 +159,7 @@ function footer(){
                                         </div>
                                         <div style="clear: both;" ></div>
                                 </div>
-                        <?php if(!in_array($_REQUEST['file'], $complet)) echo '</div>'; ?>
+                        <?php if(!in_array($file, $complet)) echo '</div>'; ?>
                         <div id="b-bottom">
                                 <div id="bottom">
                                         <div id="footer">
@@ -173,7 +173,7 @@ function footer(){
                                 </div>
                         </div>
 <?php
-    if (!in_array($_REQUEST['file'], $complet)) echo '</div>';
+    if (!in_array($file, $complet)) echo '</div>';
 }
 
 function news($data){
@@ -274,20 +274,20 @@ function block_droite($block){
 }
 
 function opentable(){
-        global $nuked, $theme, $nuked_nude, $module_aff_unique,$complet;
+        global $file, $nuked, $theme, $module_aff_unique,$complet;
 
-        if(in_array($_REQUEST['file'], $complet) AND $_REQUEST['page'] != "admin"){
+        if(in_array($file, $complet) AND $_REQUEST['page'] != "admin"){
 ?>
                 <div id="open1cc">
-                        <h2><?php echo $_REQUEST['file']; ?></h2>
+                        <h2><?php echo $file; ?></h2>
                 </div>
                 <div id="open2cc">
 <?php
         }
-        elseif (in_array($_REQUEST['file'], $module_aff_unique) || $_REQUEST['page'] == "admin"){
+        elseif (in_array($file, $module_aff_unique) || $_REQUEST['page'] == "admin"){
 ?>
                 <div id="open1ss">
-                        <h2><?php echo $_REQUEST['file']; ?></h2>
+                        <h2><?php echo $file; ?></h2>
                 </div>
                 <div id="open2ss">
 <?php
@@ -301,14 +301,14 @@ function opentable(){
 }
 
 function closetable(){
-        global $nuked, $theme, $module_aff_unique, $complet;
-        if(in_array($_REQUEST['file'], $complet) AND $_REQUEST['page'] != "admin"){
+        global $file, $nuked, $theme, $module_aff_unique, $complet;
+        if(in_array($file, $complet) AND $_REQUEST['page'] != "admin"){
 ?>
                 </div>
                 <div id="open3cc"></div>
 <?php
         }
-        elseif (in_array($_REQUEST['file'], $module_aff_unique) || $_REQUEST['page'] == "admin"){
+        elseif (in_array($file, $module_aff_unique) || $_REQUEST['page'] == "admin"){
 ?>
                 </div>
                 <div id="open3ss"></div>

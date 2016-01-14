@@ -29,28 +29,28 @@ if($tpl->get('cfg')->get('general.createSql') != 1){
 // Include language file
 require_once('themes/Restless/lang/'.$GLOBALS['language'].'.lang.php');
 
-if($_REQUEST['file'] == $GLOBALS['nuked']['index_site'] && (empty($_REQUEST['page']) || $_REQUEST['page'] == 'index') && (empty($_REQUEST['op']) || $_REQUEST['op'] == 'index') ){
+if($GLOBALS['file'] == $GLOBALS['nuked']['index_site'] && (empty($_REQUEST['page']) || $_REQUEST['page'] == 'index') && (empty($_REQUEST['op']) || $_REQUEST['op'] == 'index') ){
     define('HOMEPAGE', true);
 }
 else{
     define('HOMEPAGE', false);
 }
 
-if(in_array($_REQUEST['file'], explode(',', $tpl->get('cfg')->get('general.displayFullPage')))){
+if(in_array($GLOBALS['file'], explode(',', $tpl->get('cfg')->get('general.displayFullPage')))){
     define('FULLPAGE', true);
 }
 else{
     define('FULLPAGE', false);
 }
 
-if(in_array($_REQUEST['file'], explode(',', $tpl->get('cfg')->get('general.displaySlider')))){
+if(in_array($GLOBALS['file'], explode(',', $tpl->get('cfg')->get('general.displaySlider')))){
     define('SLIDER', true);
 }
 else{
     define('SLIDER', false);
 }
 
-if(in_array($_REQUEST['file'], explode(',', $tpl->get('cfg')->get('general.displayArticle')))){
+if(in_array($GLOBALS['file'], explode(',', $tpl->get('cfg')->get('general.displayArticle')))){
     define('SHOW_ARTICLE', true);
 }
 else{

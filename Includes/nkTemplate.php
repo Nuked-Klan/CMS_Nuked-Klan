@@ -545,7 +545,7 @@ function nkTemplate_renderPage($content) {
  */
 //function nkTemplate_getBlock($side) {
 function get_blok($side) {
-    global $visiteur, $nuked;
+    global $file, $visiteur, $nuked;
 
     //if ($side == 'left') {
     if ($side == 'gauche') {
@@ -579,7 +579,7 @@ function get_blok($side) {
         $block['titre'] = printSecuTags($block['titre']);
         $block['page'] = explode('|', $block['page']);
 
-        if ($visiteur >= $block['nivo'] && (in_array($_REQUEST['file'], $block['page']) || in_array('Tous', $block['page']))) {
+        if ($visiteur >= $block['nivo'] && (in_array($file, $block['page']) || in_array('Tous', $block['page']))) {
             if (file_exists($blockFile = 'Includes/blocks/block_'. $block['type'] .'.php'))
                 include_once $blockFile;
             else {

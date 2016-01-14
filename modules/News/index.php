@@ -232,14 +232,15 @@ function pdf($news_id) {
     $sitename  = @nkHtmlEntityDecode($sitename);
 
     $texte = "<h1>{$row['titre']}</h1><hr />$texte<hr />$sitename<br />$articleurl.";
-    $_REQUEST['file'] = $sitename.'_'.$row['titre'];
-    $_REQUEST['file'] = str_replace(' ','_',$_REQUEST['file']);
-    $_REQUEST['file'] .= '.pdf';
+
+    $file = $sitename .'_'. $row['titre'];
+    $file = str_replace(' ', '_', $file);
+    $file .= '.pdf';
 
     $pdf = new HTML2PDF('P','A4','fr');
     $pdf->setDefaultFont('dejavusans');
     $pdf->WriteHTML(utf8_encode($texte));
-    $pdf->Output($_REQUEST['file']);
+    $pdf->Output($file);
 }
 
 function sendfriend($news_id) {
