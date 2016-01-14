@@ -55,9 +55,11 @@ define('JQUERY_UI_CSS', 'media/jquery-ui/jquery-ui.css');
  * @return void
  */
 function nkTemplate_init($module = null) {
+    global $page;
+
     if ($module === null)
         $GLOBALS['nkTemplate']['pageDesign'] = 'none';
-    else if ($module == 'Admin' || $_REQUEST['page'] == 'admin')
+    else if ($module == 'Admin' || $page == 'admin')
         $GLOBALS['nkTemplate']['interface'] = 'backend';
 
     if ($GLOBALS['nkTemplate']['interface'] == 'backend')

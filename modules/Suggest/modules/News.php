@@ -10,7 +10,7 @@ if (!defined("INDEX_CHECK")){
 }
 
 function form($content, $sug_id){
-    global $nuked, $user;
+    global $page, $nuked, $user;
 
     if ($content != ""){
         $titre = "<strong>" . _VALIDNEWS . "</strong>";
@@ -65,7 +65,7 @@ function form($content, $sug_id){
             . "<tr><td><b>" . _TEXT . " :</b></td></tr>\n"
             . "<tr><td><textarea ";
     
-    echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
+    echo $page == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
     
     echo " name=\"texte\" cols=\"65\" rows=\"12\">" . $content[1] . "</textarea></td></tr>\n";
 

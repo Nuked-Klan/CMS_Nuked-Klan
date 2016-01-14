@@ -13,7 +13,7 @@ global $nuked, $user, $language;
 translate("modules/Download/lang/" . $language . ".lang.php");
 
 function form($content, $sug_id){
-    global $nuked, $user;
+    global $page, $nuked, $user;
 
     include("modules/Suggest/config.php");
 
@@ -92,7 +92,7 @@ function form($content, $sug_id){
     echo "<tr><td><b>" . _DESCR . " :</b><br />\n"
             . "<textarea ";
 
-    echo $_REQUEST['page'] == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
+    echo $page == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
 
     echo " id=\"download_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n";
 
@@ -253,6 +253,6 @@ function del_suggest($data){
     $data = explode('|', $data);
     @unlink($data[4]);
     @unlink($data[9]);
-    var_dump($data);
+    //var_dump($data);
 }
 ?>

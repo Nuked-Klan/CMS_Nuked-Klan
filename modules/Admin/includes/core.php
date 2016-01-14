@@ -24,7 +24,7 @@ function getUserAvatar() {
 }
 
 function printAdminMenuCurrentClass($menuName) {
-    global $file;
+    global $file, $page;
 
     $menuData = array(
         'pannel'        => array('index'),
@@ -35,20 +35,20 @@ function printAdminMenuCurrentClass($menuName) {
 
     if ($file == 'Admin'
         && array_key_exists($menuName, $menuData)
-        && in_array($_REQUEST['page'], $menuData[$menuName])
+        && in_array($page, $menuData[$menuName])
     )
         echo ' current';
 }
 
-function printAdminSubMenuCurrentClass($page) {
-    global $file;
+function printAdminSubMenuCurrentClass($menuPage) {
+    global $file, $page;
 
-    if ($file == 'Admin' && $_REQUEST['page'] == $page)
+    if ($file == 'Admin' && $page == $menuPage)
         echo 'class="current"';
 }
 
 function getAdminModulesMenuData() {
-    global $file, $visiteur;
+    global $file, $page, $visiteur;
 
     $data = array(
         0  => '',
@@ -76,7 +76,7 @@ function getAdminModulesMenuData() {
 
     natcasesort($data[1]);
 
-    if (array_key_exists($file, $data[1]) && $_REQUEST['page'] == 'admin')
+    if (array_key_exists($file, $data[1]) && $page == 'admin')
         $data[0] = ' current';
 
     return $data;

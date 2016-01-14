@@ -101,8 +101,11 @@ if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true) {
     extract($_REQUEST);
 
     $_REQUEST['file'] = & $GLOBALS['file'];
-    //$_REQUEST['page'] = & $GLOBALS['page'];
+    $_REQUEST['page'] = & $GLOBALS['page'];
     //$_REQUEST['op']   = & $GLOBALS['op'];
+
+    if (isset($_REQUEST['nuked_nude']))
+        $_REQUEST['nuked_nude'] = & $GLOBALS['nuked_nude'];
 }
 
 

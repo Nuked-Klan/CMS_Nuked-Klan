@@ -29,7 +29,7 @@ if($tpl->get('cfg')->get('general.createSql') != 1){
 // Include language file
 require_once('themes/Restless/lang/'.$GLOBALS['language'].'.lang.php');
 
-if($GLOBALS['file'] == $GLOBALS['nuked']['index_site'] && (empty($_REQUEST['page']) || $_REQUEST['page'] == 'index') && (empty($_REQUEST['op']) || $_REQUEST['op'] == 'index') ){
+if($GLOBALS['file'] == $GLOBALS['nuked']['index_site'] && (empty($GLOBALS['page']) || $GLOBALS['page'] == 'index') && (empty($_REQUEST['op']) || $_REQUEST['op'] == 'index') ){
     define('HOMEPAGE', true);
 }
 else{

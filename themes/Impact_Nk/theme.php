@@ -24,7 +24,7 @@ foreach ($module_2 as $module){
 }
 
 function top(){
-        global $file, $nuked, $theme, $user, $language, $bgcolor2, $bgcolor1, $color1, $complet, $module_aff_unique;
+        global $file, $page, $nuked, $theme, $user, $language, $bgcolor2, $bgcolor1, $color1, $complet, $module_aff_unique;
 
         translate("themes/Impact_Nk/lang/" . $language . ".lang.php");
         include(dirname(__FILE__) . '/admin/logo.php');
@@ -109,14 +109,14 @@ function top(){
                                         <div id="b-right" class="blocks"></div>
                                         <div id="b-left" class="blocks"></div>
 <?php
-        if(in_array($file, $complet) AND $_REQUEST['page'] != "admin"){
+        if(in_array($file, $complet) AND $page != "admin"){
 ?>
                                         <div id="blocks-center2"><div>
                                         <?php get_blok('centre'); ?>
                                 </div>
 <?php
         }
-        else if (in_array($file, $module_aff_unique) || $_REQUEST['page'] == "admin"){
+        else if (in_array($file, $module_aff_unique) || $page == "admin"){
 ?>
                                         <div id="site1">
                                                 <div id="b-center" class="blocks">
@@ -274,9 +274,9 @@ function block_droite($block){
 }
 
 function opentable(){
-        global $file, $nuked, $theme, $module_aff_unique,$complet;
+        global $file, $page, $nuked, $theme, $module_aff_unique,$complet;
 
-        if(in_array($file, $complet) AND $_REQUEST['page'] != "admin"){
+        if(in_array($file, $complet) AND $page != "admin"){
 ?>
                 <div id="open1cc">
                         <h2><?php echo $file; ?></h2>
@@ -284,7 +284,7 @@ function opentable(){
                 <div id="open2cc">
 <?php
         }
-        elseif (in_array($file, $module_aff_unique) || $_REQUEST['page'] == "admin"){
+        elseif (in_array($file, $module_aff_unique) || $page == "admin"){
 ?>
                 <div id="open1ss">
                         <h2><?php echo $file; ?></h2>
@@ -301,14 +301,14 @@ function opentable(){
 }
 
 function closetable(){
-        global $file, $nuked, $theme, $module_aff_unique, $complet;
-        if(in_array($file, $complet) AND $_REQUEST['page'] != "admin"){
+        global $file, $page, $nuked, $theme, $module_aff_unique, $complet;
+        if(in_array($file, $complet) AND $page != "admin"){
 ?>
                 </div>
                 <div id="open3cc"></div>
 <?php
         }
-        elseif (in_array($file, $module_aff_unique) || $_REQUEST['page'] == "admin"){
+        elseif (in_array($file, $module_aff_unique) || $page == "admin"){
 ?>
                 </div>
                 <div id="open3ss"></div>

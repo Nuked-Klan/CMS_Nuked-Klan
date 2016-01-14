@@ -92,7 +92,7 @@
                             <ul>
 <?php
     foreach ($modulesList as $module => $moduleName) :
-        if ($GLOBALS['file'] == $module && $_REQUEST['page'] == 'admin') :
+        if ($GLOBALS['file'] == $module && $GLOBALS['page'] == 'admin') :
 ?>
                                 <li><a class="current" href="index.php?file=<?php echo $module ?>&amp;page=admin"><?php echo $moduleName ?></a></li>
 <?php

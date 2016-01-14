@@ -114,21 +114,35 @@ function nkHandle_module() {
  * @return string : Module file name to include
  */
 function nkHandle_page() {
-    if (isset($_REQUEST['nuked_nude'])) {
+    $nukedNude = $page = null;
+
+    if (isset($_POST['nuked_nude']))
+        $nukedNude = $_POST['nuked_nude'];
+    else if (isset($_GET['nuked_nude']))
+        $nukedNude = $_GET['nuked_nude'];
+
+    if ($nukedNude !== null) {
         trigger_error('Superglobal $nuked_nude is deprecated. Please update your module.', E_USER_DEPRECATED);
         nkTemplate_setPageDesign('none');
-        $_REQUEST['nuked_nude'] = basename(trim($_REQUEST['nuked_nude']));
+        $nukedNude = basename(trim($nukedNude));
+        $GLOBALS['nuked_nude'] = & $GLOBALS['page'];
+
+        if (! empty($nukedNude))
+            return $nukedNude;
+        else
+            return 'index';
     }
 
-    if (isset($_REQUEST['page']))
-        $_REQUEST['page'] = basename(trim($_REQUEST['page']));
+    if (isset($_POST['page']))
+        $page = $_POST['page'];
+    else if (isset($_GET['page']))
+        $page = $_GET['page'];
 
-    if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != '') {
-        return $_REQUEST['nuked_nude'];
-    }
-    elseif (isset($_REQUEST['page']) && $_REQUEST['page'] != '') {
-        return $_REQUEST['page'];
-    }
+    if ($page !== null)
+        $page = basename(trim($page));
+
+    if (! empty($page))
+        return $page;
 
     return 'index';
 }
@@ -210,11 +224,11 @@ function nkHandle_language() {
  * @return string : HTML code.
  */
 function nkHandle_alert() {
-    global $nuked, $user, $visiteur;
+    global $file, $page, $nuked, $user, $visiteur;
 
     $html = '';
 
-    if ($visiteur == 9 && $GLOBALS['file'] != 'Admin' && $_REQUEST['page'] != 'admin') {
+    if ($visiteur == 9 && $file != 'Admin' && $page != 'admin') {
         if ($nuked['nk_status'] == 'closed')
             $html .= applyTemplate('nkAlert/nkSiteClosedLogged');
 
@@ -226,8 +240,8 @@ function nkHandle_alert() {
     }
 
     if ($user && $user['nbNewPM'] > 0 && ! isset($_COOKIE['popup'])
-        && ! in_array($GLOBALS['file'], array('User', 'Userbox', 'Admin'))
-        && $_REQUEST['page'] != 'admin'
+        && ! in_array($file, array('User', 'Userbox', 'Admin'))
+        && $page != 'admin'
     )
         $html .= applyTemplate('nkAlert/nkNewPrivateMsg');
 

@@ -232,7 +232,10 @@ function del_message_form($mid, $del_oui){
 }
 
 function index(){
-    if($_REQUEST['page'] != 'admin'){
+    global $page;
+
+    // TODO : What this condition ? $page is `index` ...
+    if($page != 'admin'){
         global $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3;
 
         echo '<script type="text/javascript">function setCheckboxes(checkbox, nbcheck, do_check){for (var i = 0; i < nbcheck; i++){cbox = checkbox + i;document.getElementById(cbox).checked = do_check;}return true;}</script>

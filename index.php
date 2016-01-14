@@ -57,15 +57,14 @@ nkHandle_bannedUser();
 /**
  * Choose which module file will be include
  */
-//$page = nkHandle_page();
-$_REQUEST['page'] = nkHandle_page();
+$GLOBALS['page'] = nkHandle_page();
 
 
 // Hack for CSRF vulnerabilities
 if ($_SESSION['admin'] == true &&
     $GLOBALS['file'] != 'Admin'
-    && $_REQUEST['page'] != 'admin'
-    && (! ($GLOBALS['file'] == 'Textbox' && $_REQUEST['page'] == 'index' && $_REQUEST['op'] == 'ajax'))
+    && $GLOBALS['page'] != 'admin'
+    && (! ($GLOBALS['file'] == 'Textbox' && $GLOBALS['page'] == 'index' && $_REQUEST['op'] == 'ajax'))
 ) {
     $_SESSION['admin'] = false;
 }
@@ -87,7 +86,7 @@ if ($nuked['nk_status'] == 'closed'
     echo nkTemplate_renderPage(applyTemplate('websiteClosed'));
 }
 // Display admin login
-else if (($GLOBALS['file'] == 'Admin' || $_REQUEST['page'] == 'admin')
+else if (($GLOBALS['file'] == 'Admin' || $GLOBALS['page'] == 'admin')
     && nkSessions_adminCheck() == false
 ) {
     require_once 'modules/Admin/login.php';
@@ -102,8 +101,8 @@ else {
     if ($nuked['level_analys'] != -1)
         visits();
 
-    if (is_file('modules/'. $GLOBALS['file'] .'/'. $_REQUEST['page'] .'.php'))
-        require_once 'modules/'. $GLOBALS['file'] .'/'. $_REQUEST['page'] .'.php';
+    if (is_file('modules/'. $GLOBALS['file'] .'/'. $GLOBALS['page'] .'.php'))
+        require_once 'modules/'. $GLOBALS['file'] .'/'. $GLOBALS['page'] .'.php';
     else
         require_once 'modules/404/index.php';
 

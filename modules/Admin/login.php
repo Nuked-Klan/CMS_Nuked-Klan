@@ -11,7 +11,7 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $cookie_session, $user, $visiteur, $language;
+global $page, $user, $visiteur, $language;
 
 translate('modules/Admin/lang/'. $language .'.lang.php');
 translate('modules/User/lang/'. $language .'.lang.php');
@@ -57,7 +57,7 @@ if ($visiteur >= 2) {
     else {
         if (! $user)
             redirect('index.php?file=User&op=login_screen');
-        else if ($_REQUEST['page'] == 'admin')
+        else if ($page == 'admin')
             redirect('index.php?file=Admin');
         else {
             echo applyTemplate('modules/Admin/login', array(

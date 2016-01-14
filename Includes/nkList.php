@@ -39,7 +39,7 @@ $GLOBALS['nkList'] = array(
  * @return void
  */
 function nkList_init(&$config) {
-    global $nkList, $file;
+    global $nkList, $file, $page;
 
     if (! is_array($config)) {
         trigger_error('$config must be a array', E_USER_NOTICE);
@@ -76,7 +76,7 @@ function nkList_init(&$config) {
     $nkList['p'] = max(1, (int) $nkList['p']);
 
     // Prepare basic url for list
-    $config['baseUrl'] = 'index.php?file='. $file .'&amp;page='. $_REQUEST['page'];
+    $config['baseUrl'] = 'index.php?file='. $file .'&amp;page='. $page;
 
     if (array_key_exists('uriData', $config)
         && is_array($config['uriData'])
