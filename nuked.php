@@ -107,16 +107,16 @@ function nkHandle_module() {
  * @return string : Module file name to include
  */
 function nkHandle_page() {
-    if (isset($_REQUEST['nuked_nude']))
+    if (isset($_REQUEST['nuked_nude'])) {
+        trigger_error('Superglobal $nuked_nude is deprecated. Please update your module.', E_USER_DEPRECATED);
+        nkTemplate_setPageDesign('none');
         $_REQUEST['nuked_nude'] = basename(trim($_REQUEST['nuked_nude']));
+    }
 
     if (isset($_REQUEST['page']))
         $_REQUEST['page'] = basename(trim($_REQUEST['page']));
 
     if (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] != '') {
-        trigger_error('Superglobal $nuked_nude is deprecated. Please update your module.', E_USER_DEPRECATED);
-        nkTemplate_setPageDesign('none');
-
         return $_REQUEST['nuked_nude'];
     }
     elseif (isset($_REQUEST['page']) && $_REQUEST['page'] != '') {
@@ -1104,8 +1104,7 @@ function adminInit($module, $adminPageLevel = false) {
     global $language, $visiteur;
 
     require_once 'modules/Admin/includes/core.php';
-    nkTemplate_setInterface('backend');
-    adminDesignInit();
+
     translate('modules/Admin/lang/'. $language .'.lang.php');
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 
@@ -1148,8 +1147,7 @@ function adminInit($module, $adminPageLevel = false) {
 function moduleInit($module) {
     global $language, $visiteur;
 
-    nkTemplate_setInterface('frontend');
-    nkTemplate_init($module);
+    nkTemplate_moduleInit($module);
     translate('modules/'. $module .'/lang/'. $language .'.lang.php');
 
     $moduleLevel = nivo_mod($module);

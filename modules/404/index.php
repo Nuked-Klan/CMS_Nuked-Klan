@@ -16,15 +16,15 @@ global $nuked, $language;
 translate('modules/Search/lang/'. $language .'.lang.php');
 translate('modules/404/lang/'. $language .'.lang.php');
 
-if ($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin') {
+
+$interface = nkTemplate_getInterface();
+
+if ($interface == 'backend') {
     require_once 'modules/Admin/includes/core.php';
-    nkTemplate_setInterface('backend');
-    adminDesignInit();
     translate('modules/Admin/lang/'. $language .'.lang.php');
 }
 else {
-    nkTemplate_setInterface('frontend');
-    nkTemplate_init('404');
+    nkTemplate_moduleInit('404');
     opentable();
 }
 
@@ -41,7 +41,7 @@ echo '<div style="text-align: center; padding: 0 10px">' . $error_title . '
 		  </form>
 	  </div>';
 
-if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin')
+if ($interface == 'frontend')
     closetable();
 
 

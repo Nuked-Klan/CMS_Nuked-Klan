@@ -13,8 +13,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 global $language;
 
-nkTemplate_setInterface('frontend');
-nkTemplate_init('User');
+nkTemplate_moduleInit('User');
 
 translate('modules/User/lang/'. $language .'.lang.php');
 translate('modules/Members/lang/'. $language .'.lang.php');

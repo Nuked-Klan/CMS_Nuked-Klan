@@ -8,25 +8,6 @@
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
-function adminDesignInit() {
-    global $language, $nuked;
-
-    nkTemplate_addCSSFile('modules/Admin/css/reset.css');
-    nkTemplate_addCSSFile('modules/Admin/css/style.css');
-    nkTemplate_addCSSFile('modules/Admin/css/invalid.css');
-
-    nkTemplate_addJSFile('modules/Admin/scripts/facebox.js', 'librairyPlugin');
-    nkTemplate_addJSFile('modules/Admin/scripts/simpla.jquery.configuration.js');
-
-    nkTemplate_addJS(
-        'var condition_js = "'. (($nuked['screen'] == 'off') ? 1 : 0) .'";
-        var lang_nuked = "'. $language .'";',
-        'beforeLibs'
-    );
-
-    nkTemplate_addJSFile('modules/Admin/scripts/config.js');
-}
-
 function getUserAvatar() {
     global $user;
 

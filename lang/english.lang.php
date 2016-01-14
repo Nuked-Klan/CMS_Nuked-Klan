@@ -402,7 +402,15 @@ return array(
     'TEXTBOX_MODNAME'   => 'Shoutbox',
     'VOTE_MODNAME'      => 'Vote',
     'WARS_MODNAME'      => 'Wars',
-    
+
+    // module RSS title
+    'NEWS_RSS_TITLE'    => 'Latest %d news',
+    'SECTIONS_RSS_TITLE' => 'Latest %d articles',
+    'DOWNLOAD_RSS_TITLE' => 'Latest %d downloads',
+    'LINKS_RSS_TITLE'   => 'Latest %d links',
+    'GALLERY_RSS_TITLE' => 'Latest %d images',
+    'FORUM_RSS_TITLE'   => 'Latest %d topics',
+
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Sorry, this Module hasn\'t been activated !',
     'NO_ENTRANCE'       => 'Sorry you do not have the permissions of opening this page',

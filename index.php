@@ -35,7 +35,7 @@ if ($nuked['time_generate'] == 'on')
 if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
 
-if ($nuked['stats_share'] == 1 && isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'sendNkStats') {
+if ($nuked['stats_share'] == 1 && isset($_GET['ajax']) && $_GET['ajax'] == 'sendNkStats') {
     require_once 'Includes/nkStats.php';
 
     nkStats_send();
@@ -78,12 +78,11 @@ translate('lang/'. $language .'.lang.php');
 
 
 // If website is closed
-if ($nuked['nk_status'] == 'closed' && $visiteur < 9
+if ($nuked['nk_status'] == 'closed'
+    && $visiteur < 9
     && ! in_array($_REQUEST['op'], array('login_screen', 'login_message', 'login'))
 ) {
-    require_once 'themes/'. $theme .'/colors.php';
-    nkTemplate_setInterface('frontend');
-    nkTemplate_setPageDesign('none');
+    nkTemplate_setBgColors();
     nkTemplate_init();
     echo nkTemplate_renderPage(applyTemplate('websiteClosed'));
 }
@@ -97,7 +96,7 @@ else if (($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin')
 else {
     ob_start();
 
-    require_once 'themes/'. $theme .'/colors.php';
+    nkTemplate_setBgColors();
     require_once 'themes/'. $theme .'/theme.php';
 
     if ($nuked['level_analys'] != -1)
@@ -108,60 +107,25 @@ else {
     else
         require_once 'modules/404/index.php';
 
-    if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
-        // choix de l'éditeur
-        if ($nuked['editor_type'] == 'cke') // ckeditor
-            loadCkeFiles();
-        else if ($nuked['editor_type'] == 'tiny') // tinymce
-            loadTinymceFiles();
+    $content = ob_get_clean();
+
+    if (in_array(nkTemplate_getPageDesign(), array('fullPage', 'nudePage'))) {
+        nkTemplate_init($_REQUEST['file']);
+        $content = nkTemplate_renderPage($content);
+
+        if (defined('NK_GZIP') && ini_get('zlib_output'))
+            ob_start('ob_gzhandler');
     }
-
-    $moduleContent = ob_get_clean();
-
-    loadSyntaxhighlighterFiles();
-    nkTemplate_addJSFile('media/js/infobulle.js');
-
-    if (in_array(nkTemplate_getPageDesign(), array('fullPage', 'nudePage')) || isset($_REQUEST['nuked_nude'])) {
-        if (! ($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin')
-            || $_REQUEST['page'] == 'login'
-        )
-            nkTemplate_addJS('InitBulle(\''. $bgcolor2 .'\',\''. $bgcolor3 .'\', 2);');
-
-        if (trim($moduleContent) != '') {// Hack for old module without content displayed
-            if (nkTemplate_getInterface() == 'frontend' && $_REQUEST['page'] == 'admin')
-                nkTemplate_setInterface('backend');
-
-            if (nkTemplate_getInterface() == 'frontend' && nkTemplate_getPageDesign() == 'fullPage')
-                $moduleContent = nkHandle_alert() . $moduleContent;
-
-            $html = nkTemplate_renderPage($moduleContent);
-
-            if (isset($_REQUEST['nuked_nude']))
-                header('Content-Type: text/html;charset=ISO-8859-1');
-
-            if (! isset($_REQUEST['nuked_nude']) && defined('NK_GZIP') && ini_get('zlib_output'))
-                ob_start('ob_gzhandler');
-
-            echo $html;
-
-            //if (nkTemplate_getPageDesign() == 'fullPage')
-            //    nkBenchmark_display();
-
-            if ($nuked['stats_share'] == 1) nkStats_cron();
-
-            echo '</body></html>';
-        }
-    }
-    else {
+    else
         header('Content-Type: text/html;charset=ISO-8859-1');
-        echo $moduleContent;
-    }
+
+    echo $content;
 }
 
 nkDB_disconnect();
 
 /*
-if (nkTemplate_getPageDesign() == 'fullPage') {
+if (in_array(nkTemplate_getPageDesign(), array('fullPage', 'nudePage'))) {
     echo '<!--', "\n";
     print_r($GLOBALS['nkDB']['querys']);
     echo '-->', "\n";

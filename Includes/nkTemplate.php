@@ -2,7 +2,7 @@
 /**
  * nkTemplate.php
  *
- * Librairy to 
+ * Manage HTML design (full or nude page)
  *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -19,6 +19,12 @@ $GLOBALS['nkTemplate'] = array(
     'interface'     => 'frontend', // frontend or backend
     'pageDesign'    => 'fullPage', // fullPage, nudePage or none
     'title'         => '',
+    'defaultColor'  => array(
+        'bgcolor1' => '#666',
+        'bgcolor2' => '#777',
+        'bgcolor3' => '#444',
+        'bgcolor4' => '#999'
+    ),
     'JS'            => array(
         'file'          => array(
             'librairy'          => array(),
@@ -43,61 +49,129 @@ define('JQUERY_UI_CSS', 'media/jquery-ui/jquery-ui.css');
 
 
 /**
- * Initialize default Js and Css data.
+ * Initialize default data of nkTemplate librairy.
  *
  * @param string $module : The current module.
  * @return void
  */
 function nkTemplate_init($module = null) {
+    if ($module === null)
+        $GLOBALS['nkTemplate']['pageDesign'] = 'none';
+    else if ($module == 'Admin' || $_REQUEST['page'] == 'admin')
+        $GLOBALS['nkTemplate']['interface'] = 'backend';
+
+    if ($GLOBALS['nkTemplate']['interface'] == 'backend')
+        nkTemplate_adminInit($module);
+}
+
+/**
+ * Initialize default Js and Css data for module frontend.
+ *
+ * @param string $module : The current module.
+ * @return void
+ */
+function nkTemplate_moduleInit($module) {
+    global $theme;
+
     nkTemplate_addJSFile('media/js/nkDefault.js');
     nkTemplate_addCSSFile('media/css/nkDefault.css');
 
     if (is_string($module)) {
         $jsFiles = array(
-            'modules/'. $module .'/'. $module .'.js',
-            'themes/'. $GLOBALS['theme'] .'/js/modules/'. $module .'.js'
+            'modules/'. $module .'/js/frontend.js',
+            'themes/'. $theme .'/js/modules/'. $module .'.js'
         );
 
         foreach ($jsFiles as $jsFile)
             if (is_file($jsFile)) nkTemplate_addJSFile($jsFile);
 
         $cssFiles = array(
-            'modules/'. $module .'/'. $module .'.css',
-            'themes/'. $GLOBALS['theme'] .'/css/modules/'. $module .'.css'
+            'modules/'. $module .'/css/frontend.css',
+            'themes/'. $theme .'/css/modules/'. $module .'.css'
         );
 
         foreach ($cssFiles as $cssFile)
             if (is_file($cssFile)) nkTemplate_addCSSFile($cssFile);
     }
-
-    nkTemplate_setBgColors();
 }
 
 /**
- * Set default class of $bgcolor vars.
+ * Initialize default Js and Css data for module backend.
+ *
+ * @param string $module : The current module.
+ * @return void
+ */
+function nkTemplate_adminInit($module) {
+    global $language, $nuked;
+
+    nkTemplate_addCSSFile('modules/Admin/css/reset.css');
+    nkTemplate_addCSSFile('modules/Admin/css/style.css');
+    nkTemplate_addCSSFile('modules/Admin/css/invalid.css');
+
+    nkTemplate_addJSFile('modules/Admin/scripts/facebox.js', 'librairyPlugin');
+    nkTemplate_addJSFile('modules/Admin/scripts/simpla.jquery.configuration.js');
+
+    nkTemplate_addJS(
+        'var condition_js = "'. (($nuked['screen'] == 'off') ? 1 : 0) .'";
+        var lang_nuked = "'. $language .'";',
+        'beforeLibs'
+    );
+
+    nkTemplate_addJSFile('modules/Admin/scripts/config.js');
+
+    if (is_file('modules/'. $module .'/js/backend.js'))
+        nkTemplate_addCSSFile('modules/'. $module .'/js/backend.js');
+
+    if (is_file('modules/'. $module .'/css/backend.css'))
+        nkTemplate_addCSSFile('modules/'. $module .'/css/backend.css');
+}
+
+/**
+ * Set default value of $bgcolor vars.
  *
  * @param void
  * @return void
  */
 function nkTemplate_setBgColors() {
-    // On définit les bgcolor par défaut s'il ne sont pas présent dans le thème
-    $arrayDefaultColor = array(
-        'bgcolor1' => '#666',
-        'bgcolor2' => '#777',
-        'bgcolor3' => '#444',
-        'bgcolor4' => '#999'
-    );
+    global $theme, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 
-    // On check si les bgcolor on été défini sinon on les défini
-    foreach ($arrayDefaultColor as $color => $value) {
+    $bgcolor1 = $bgcolor2 = $bgcolor3 = $bgcolor4 = null;
+
+    require_once 'themes/'. $theme .'/colors.php';
+
+    foreach ($GLOBALS['nkTemplate']['defaultColor'] as $color => $value) {
         if (! isset($GLOBALS[$color]))
             $GLOBALS[$color] = $value;
     }
+}
+
+/**
+ * Initialize Js and Css common librairies for module frontend.
+ *
+ * @param void
+ * @return void
+ */
+function nkTemplate_loadModuleMedias() {
+    global $nuked, $bgcolor2, $bgcolor3;
 
     for ($i = 1; $i <= 4; $i++) {
         $GLOBALS['nkTemplate']['CSS']['string'] .= '.nkColor'. $i .'{color:'. $GLOBALS['bgcolor'. $i] .';}' ."\n"
             . '.nkBgColor'. $i .'{background:'. $GLOBALS['bgcolor'. $i] .';}' ."\n"
-            . '.nkBorderColor'. $i .'{border-color:'. $GLOBALS['bgcolor'. $i] .' !important;}' ."\n";
+            . '.nkBorderColor'. $i .'{border-color:'. $GLOBALS['bgcolor'. $i] .' !important;}' ."\n"; // TODO : Why !important ?
+    }
+
+    nkTemplate_addJSFile('media/js/infobulle.js');
+    nkTemplate_addJS('InitBulle(\''. $bgcolor2 .'\',\''. $bgcolor3 .'\', 2);');
+    loadSyntaxhighlighterFiles();
+
+    if ($nuked['stats_share'] == 1 && $GLOBALS['nkTemplate']['pageDesign'] == 'fullPage')
+        nkStats_cron();
+
+    if (defined('EDITOR_CHECK')) {
+        if ($nuked['editor_type'] == 'cke')
+            loadCkeFiles();
+        else if ($nuked['editor_type'] == 'tiny')
+            loadTinymceFiles();
     }
 }
 
@@ -108,9 +182,9 @@ function nkTemplate_setBgColors() {
  * @param bool $add : Append title content at default title. ( $nuked['name'] .' - '. $nuked['slogan'] )
  * @return void
  */
-function nkTemplate_setTitle($title, $add = false) {
+function nkTemplate_setTitle($title, $append = false) {
     if ($title != '' && is_string($title)) {
-        if ($add)
+        if ($append)
             $GLOBALS['nkTemplate']['title'] .= $title;
         else
             $GLOBALS['nkTemplate']['title'] = $title;
@@ -118,7 +192,7 @@ function nkTemplate_setTitle($title, $add = false) {
 }
 
 /**
- * Sets the interface to use.
+ * Set the interface to use.
  *
  * @param string $interface : Set if frontend view is use or backend view.
  * @return void
@@ -147,10 +221,6 @@ function nkTemplate_getInterface() {
 function nkTemplate_setPageDesign($pageDesign) {
     if (in_array($pageDesign, array('fullPage', 'nudePage', 'none')))
         $GLOBALS['nkTemplate']['pageDesign'] = $pageDesign;
-
-    // For compatiblity with old theme
-    if ($pageDesign == 'nudePage')
-        $_REQUEST['nuked_nude'] = $_REQUEST['page'];
 }
 
 /**
@@ -183,7 +253,7 @@ function nkTemplate_getTopOfPage() {
                 // Sinon on conserve la compatibilité avec les anciens thèmes
                 ob_start();
                 top();
-                return ob_get_clean();
+                return ob_get_clean() . nkHandle_alert();
             }
         }
     }
@@ -206,6 +276,8 @@ function nkTemplate_getFooterOfPage() {
             ob_start();
             footer();
             require_once 'Includes/copyleft.php';
+            nkBenchmark_display();
+            echo "\n</body>\n</html>\n";
             return ob_get_clean();
         }
     }
@@ -415,25 +487,34 @@ function nkTemplate_append($contentTop) {
         . nkTemplate_getJS();
 
     if ($GLOBALS['nkTemplate']['interface'] == 'frontend') {
-        $append .= '<link rel="search" type="application/opensearchdescription+xml" title="'. $nuked['name'] .'" href="'. $nuked['url'] .'/openSearch.php" />' ."\n";
+        $append .= '<link rel="search" type="application/opensearchdescription+xml" title="'. $nuked['name'] .'" href="'. $nuked['url'] .'/opensearch.php" />' ."\n";
+        $titlePrefix = $nuked['name'] .' RSS : ';
 
-        /* rajouter les flux rss
-        foreach (explode('|', $nuked['rssFeed']) as rssFeed)
-            $append .= '<link rel="alternate" title="'. $nuked['name'] .' : '. constant(strtoupper($rssFeed) .'_RSS_TITLE').'" href="'. $nuked['url'] .'/rss/'. $rssFeed .'_rss.php" type="application/rss+xml" />' ."\n";
+        foreach (explode('|', $nuked['rssFeed']) as $rssFeed) {
+            $rssTitleConst = strtoupper($rssFeed) .'_RSS_TITLE';
 
-        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniéres news" href="'. $nuked['url'] .'/rss/news_rss.php" type="application/rss+xml" />' ."\n"
-        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers articles" href="'. $nuked['url'] .'/rss/sections_rss.php" type="application/rss+xml" />' ."\n"
-        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers téléchargements" href="'. $nuked['url'] .'/rss/download_rss.php" type="application/rss+xml" />' ."\n"
-        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers liens" href="'. $nuked['url'] .'/rss/links_rss.php" type="application/rss+xml" />' ."\n"
-        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniéres images" href="'. $nuked['url'] .'/rss/gallery_rss.php" type="application/rss+xml" />' ."\n"
-        . '<link rel="alternate" title="Nuked-Klan RSS : Les 20 derniers sujets" href="'. $nuked['url'] .'/rss/forum_rss.php" type="application/rss+xml" />' ."\n"
-        */
+            if (translationExist($rssTitleConst))
+                $title = __($rssTitleConst);
+            else
+                $title = $rssFeed;
+
+            $append .= '<link rel="alternate" title="'. $titlePrefix . $title .'" href="'. $nuked['url'] .'/rss/'. $rssFeed .'_rss.php" type="application/rss+xml" />' ."\n";
+        }
     }
 
-    if ($GLOBALS['nkTemplate']['title'] != '')
-        $contentTop = preg_replace( '#<title>(.*?)</title>#i', '<title>'. $GLOBALS['nkTemplate']['title'] .'</title>', $contentTop );
+    /*
+    if (function_exists('nkTheme_head')) {
+        nkTheme_head();
+    }
+    else {
 
-    $contentTop = str_ireplace('</head>', $append .'</head>', $contentTop);
+    }
+    */
+
+    if ($GLOBALS['nkTemplate']['title'] != '')
+        $contentTop = preg_replace('#<title>(.*?)</title>#i', '<title>'. $GLOBALS['nkTemplate']['title'] .'</title>', $contentTop);
+
+    $contentTop = str_ireplace('<head>', '<head>'. $append, $contentTop);
 
     return $contentTop;
 }
@@ -445,6 +526,9 @@ function nkTemplate_append($contentTop) {
  * @return string HTML code.
  */
 function nkTemplate_renderPage($content) {
+    if ($GLOBALS['nkTemplate']['interface'] == 'frontend')
+        nkTemplate_loadModuleMedias();
+
     $contentTop     = nkTemplate_getTopOfPage();
     $contentFooter  = nkTemplate_getFooterOfPage();
     $contentTop     = nkTemplate_append($contentTop);
@@ -495,7 +579,7 @@ function get_blok($side) {
         $block['titre'] = printSecuTags($block['titre']);
         $block['page'] = explode('|', $block['page']);
 
-        if ($visiteur >= $block['nivo'] && (in_array($GLOBALS['file'], $block['page']) || in_array('Tous', $block['page']))) {
+        if ($visiteur >= $block['nivo'] && (in_array($_REQUEST['file'], $block['page']) || in_array('Tous', $block['page']))) {
             if (file_exists($blockFile = 'Includes/blocks/block_'. $block['type'] .'.php'))
                 include_once $blockFile;
             else {

@@ -373,6 +373,9 @@ define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
 define("_UPLOADDIRNOWRITEABLE","Le dossier d'upload n'a pas les droits d'écriture !");
 
 
+
+
+
 return array(
     // common
     'BACK'              => 'Retour',
@@ -410,8 +413,14 @@ return array(
     'VOTE_MODNAME'      => 'Vote',
     'WARS_MODNAME'      => 'Matches',
 
-    
-    
+    // module RSS title
+    'NEWS_RSS_TITLE'    => 'Les %d derniéres news',
+    'SECTIONS_RSS_TITLE' => 'Les %d derniers articles',
+    'DOWNLOAD_RSS_TITLE' => 'Les %d derniers téléchargements',
+    'LINKS_RSS_TITLE'   => 'Les %d derniers liens',
+    'GALLERY_RSS_TITLE' => 'Les %d derniéres images',
+    'FORUM_RSS_TITLE'   => 'Les %d derniers sujets',
+
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Désolé, ce module n\'est pas activé !',
     'NO_ENTRANCE'       => 'Désolé mais vous n\'avez pas les droits pour accéder à cette page',

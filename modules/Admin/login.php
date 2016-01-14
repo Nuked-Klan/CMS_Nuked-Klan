@@ -18,7 +18,6 @@ translate('modules/User/lang/'. $language .'.lang.php');
 require_once 'Includes/hash.php';
 require_once 'modules/Admin/includes/core.php';
 
-nkTemplate_setInterface('backend');
 nkTemplate_setPageDesign('none');
 
 $url        = 'index.php';

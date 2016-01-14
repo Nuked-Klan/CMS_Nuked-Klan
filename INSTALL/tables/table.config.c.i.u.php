@@ -262,7 +262,8 @@ if ($process == 'install') {
         (\'user_social_level\', \'0\'),
         (\'sp_version\', \'off\'),
         (\'index_page\', \'\'),
-        (\'editor_type\', \'cke\');';
+        (\'editor_type\', \'cke\'),
+        (\'rssFeed\', \'news|sections|download|links|gallery|forum\');';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
@@ -366,6 +367,7 @@ if ($process == 'update') {
     addDefaultCfgValue($nuked, $insertData, 'sp_version', 'off');
     addDefaultCfgValue($nuked, $insertData, 'index_page', '');
     addDefaultCfgValue($nuked, $insertData, 'editor_type', 'cke');
+    addDefaultCfgValue($nuked, $insertData, 'rssFeed', 'news|sections|download|links|gallery|forum');
 
     updateConfiguration($dbTable, $this->_db, $this->_session['db_prefix'], $insertData, $updateData, $deleteData);
 }
