@@ -1628,7 +1628,7 @@ function nkAdminMenu($tab = 1)
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "main_config":
         main_config();
         break;

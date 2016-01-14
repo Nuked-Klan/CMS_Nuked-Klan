@@ -257,7 +257,7 @@ function index_sondage() {
     closetable();
 }
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case 'sondage':
         sondage($_REQUEST['poll_id']);
         break;

@@ -201,7 +201,7 @@ function main()
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "update_module":
         update_module($_REQUEST['mid'], $_REQUEST['niveau'], $_REQUEST['level']);
         break;

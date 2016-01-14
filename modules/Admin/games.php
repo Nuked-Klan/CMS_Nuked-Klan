@@ -381,7 +381,7 @@ function nkAdminMenu()
 <?php
 }
 
-switch ($_REQUEST['op'])
+switch ($GLOBALS['op'])
 {
     case "add_game":
         add_game();

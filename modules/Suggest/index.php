@@ -156,7 +156,7 @@ function add_sug($data){
     closetable();
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case'index':
     index();
     break;

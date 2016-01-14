@@ -380,7 +380,7 @@ function nkAdminMenu()
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "edit_block":
         edit_block($_REQUEST['bid']);
         break;

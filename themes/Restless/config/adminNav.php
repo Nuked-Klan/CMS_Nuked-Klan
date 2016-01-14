@@ -46,8 +46,8 @@ foreach ($arrayNav as $key => $item) {
     if (! array_key_exists('op', $uri))
         $uri['op'] = null;
 
-    if ($_REQUEST['op'] == $uri['op']
-        || ($_REQUEST['op'] == 'index' && $uri['op'] == null)
+    if ($GLOBALS['op'] == $uri['op']
+        || ($GLOBALS['op'] == 'index' && $uri['op'] == null)
     ) {
         $arrayNav[$key]['active'] = ' class="nkClassActive" ';
     }

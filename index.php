@@ -64,7 +64,7 @@ $GLOBALS['page'] = nkHandle_page();
 if ($_SESSION['admin'] == true &&
     $GLOBALS['file'] != 'Admin'
     && $GLOBALS['page'] != 'admin'
-    && (! ($GLOBALS['file'] == 'Textbox' && $GLOBALS['page'] == 'index' && $_REQUEST['op'] == 'ajax'))
+    && (! ($GLOBALS['file'] == 'Textbox' && $GLOBALS['page'] == 'index' && $GLOBALS['op'] == 'ajax'))
 ) {
     $_SESSION['admin'] = false;
 }
@@ -79,7 +79,7 @@ translate('lang/'. $language .'.lang.php');
 // If website is closed
 if ($nuked['nk_status'] == 'closed'
     && $visiteur < 9
-    && ! in_array($_REQUEST['op'], array('login_screen', 'login_message', 'login'))
+    && ! in_array($GLOBALS['op'], array('login_screen', 'login_message', 'login'))
 ) {
     nkTemplate_setBgColors();
     nkTemplate_init();

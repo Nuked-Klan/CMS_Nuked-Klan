@@ -615,7 +615,7 @@ function detail($war_id){
     closetable();
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case 'index':
         index();
         break;

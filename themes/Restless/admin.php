@@ -25,7 +25,7 @@ else {
         <link rel="stylesheet" type="text/css" href="themes/Restless/css/restless_admin.css" />
 <?php
 
-        switch ($_REQUEST['op']) {
+        switch ($GLOBALS['op']) {
             case 'settings':
                 $tpl->render('adminNav');
                 $tpl->render('adminSettings');

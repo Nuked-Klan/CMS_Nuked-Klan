@@ -301,7 +301,7 @@ function description($link_id){
 }
 
 function classe(){
-    global $nuked, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $visiteur;
+    global $op, $nuked, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $visiteur;
 
     $arrayRequest = array('cat', 'nb_subcat');
 
@@ -314,7 +314,7 @@ function classe(){
         }
     }
 
-    if ($_REQUEST['op'] == 'classe'){
+    if ($op == 'classe'){
         echo '<br /><div style="text-align: center"><big><b>' . _WEBLINKS . '</b></big></div>'."\n"
         . '<div style="text-align: center"><br />'."\n"
         . '[ <a href="index.php?file=Links">' . _INDEXLINKS . '</a> | ';
@@ -366,13 +366,13 @@ function classe(){
         . '<tr><td align="right"><small>' . _ORDERBY . ' : ';
 
         if ($_REQUEST['orderby'] == 'news') echo '<b>' . _DATE . '</b> | ';
-        else echo '<a href="index.php?file=Links&amp;op=' . $_REQUEST['op'] . '&amp;orderby=news&amp;cat=' . $cat . '">' . _DATE . '</a> | ';
+        else echo '<a href="index.php?file=Links&amp;op=' . $op . '&amp;orderby=news&amp;cat=' . $cat . '">' . _DATE . '</a> | ';
         if ($_REQUEST['orderby'] == 'count') echo '<b>' . _TOPFILE . '</b> | ';
-        else echo '<a href="index.php?file=Links&amp;op=' . $_REQUEST['op'] . '&amp;orderby=count&amp;cat=' . $cat . '">' . _TOPFILE . '</a> | ';
+        else echo '<a href="index.php?file=Links&amp;op=' . $op . '&amp;orderby=count&amp;cat=' . $cat . '">' . _TOPFILE . '</a> | ';
         if ($_REQUEST['orderby'] == 'name') echo '<b>' . _NAME . '</b> | ';
-        else echo '<a href="index.php?file=Links&amp;op=' . $_REQUEST['op'] . '&amp;orderby=name&amp;cat=' . $cat . '">' . _NAME . '</a> | ';
+        else echo '<a href="index.php?file=Links&amp;op=' . $op . '&amp;orderby=name&amp;cat=' . $cat . '">' . _NAME . '</a> | ';
         if ($_REQUEST['orderby'] == 'note') echo '<b>' . _NOTE . '</b>';
-        else echo '<a href="index.php?file=Links&amp;op=' . $_REQUEST['op'] . '&amp;orderby=note&amp;cat=' . $cat . '">' . _NOTE . '</a>';
+        else echo '<a href="index.php?file=Links&amp;op=' . $op . '&amp;orderby=note&amp;cat=' . $cat . '">' . _NOTE . '</a>';
 
         echo '</small></td></tr></table>'."\n";
     }
@@ -387,7 +387,7 @@ function classe(){
     if ($nb_lk > 0){
         if ($nb_lk > $nb_liens){
             echo '<table style="margin: auto" width="90%"><tr><td>';
-            $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
+            $url_page = 'index.php?file=Links&amp;op='. $op . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
             number($nb_lk, $nb_liens, $url_page);
             echo '</td></tr></table>'."\n";
         }
@@ -462,18 +462,18 @@ function classe(){
 
         if ($nb_lk > $nb_liens){
             echo '<table style="margin: auto" width="90%"><tr><td>';
-            $url_page = 'index.php?file=Links&amp;op='. $_REQUEST['op'] . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
+            $url_page = 'index.php?file=Links&amp;op='. $op . $categorie . '&amp;orderby=' . $_REQUEST['orderby'];
             number($nb_lk, $nb_liens, $url_page);
             echo '</td></tr></table>'."\n";
         }
     }
     else{
         if ($nb_subcat == 0 && $cat > 0) echo '<div style="text-align: center"><br />' . _NOLINKS . '</div><br /><br />'."\n";
-        if ($_REQUEST['op'] == 'classe') echo '<div style="text-align: center"><br />' . _NOLINKINDB . '</div><br /><br />'."\n";
+        if ($op == 'classe') echo '<div style="text-align: center"><br />' . _NOLINKINDB . '</div><br /><br />'."\n";
     }
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case 'categorie':
         categorie($_REQUEST['cat']);
         break;

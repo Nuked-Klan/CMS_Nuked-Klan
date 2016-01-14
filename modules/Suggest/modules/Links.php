@@ -10,7 +10,7 @@ if (!defined("INDEX_CHECK")){
 }
 
 function form($content, $sug_id){
-    global $page, $nuked, $user, $language;
+    global $page, $op, $nuked, $user, $language;
 
     translate("modules/Links/lang/" . $language . ".lang.php");
 
@@ -107,7 +107,7 @@ function form($content, $sug_id){
 
     $button = '';
 
-    if($_REQUEST['op'] == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]');\" /></input>";}
+    if($op == "show_suggest" && $content[1] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[1]');\" /></input>";}
 
     echo "<tr><td><b>" . _DESCR . " : </b></td></tr>\n"
             . "<tr><td><textarea ";

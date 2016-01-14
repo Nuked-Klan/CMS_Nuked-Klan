@@ -30,9 +30,9 @@ $nuked = nkLoadConfiguration($db_prefix);
 // INCLUDE CONSTANT TABLE
 require_once 'Includes/constants.php';
 
-// $GLOBALS['file'] & $_REQUEST['op'] VALUE.
+// $GLOBALS['file'] & $GLOBALS['op'] VALUE.
 $GLOBALS['file'] = nkHandle_module();
-$_REQUEST['op']   = nkHandle_op();
+$GLOBALS['op']   = nkHandle_op();
 
 // $theme & $language VALUE.
 $theme    = nkHandle_theme();
@@ -154,8 +154,15 @@ function nkHandle_page() {
  * @return string : Action name to execute by module file.
  */
 function nkHandle_op() {
-    if (isset($_REQUEST['op']) && $_REQUEST['op'] != '')
-        return $_REQUEST['op'];
+    $op = '';
+
+    if (isset($_POST['op']))
+        $op = $_POST['op'];
+    else if (isset($_GET['op']))
+        $op = $_GET['op'];
+
+    if ($op != '')
+        return $op;
 
     return 'index';
 }

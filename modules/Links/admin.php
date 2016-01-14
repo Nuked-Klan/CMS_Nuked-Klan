@@ -715,7 +715,7 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case "edit_link":
         edit_link($_REQUEST['link_id']);
         break;

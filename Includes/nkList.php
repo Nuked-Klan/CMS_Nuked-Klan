@@ -39,7 +39,7 @@ $GLOBALS['nkList'] = array(
  * @return void
  */
 function nkList_init(&$config) {
-    global $nkList, $file, $page;
+    global $nkList, $file, $page, $op;
 
     if (! is_array($config)) {
         trigger_error('$config must be a array', E_USER_NOTICE);
@@ -92,9 +92,9 @@ function nkList_init(&$config) {
 
     $nkList['sortUrl'] = $nkList['paginationUrl'] = $config['baseUrl'];
 
-    if ($_REQUEST['op'] != 'index') {
-        $nkList['sortUrl']          .= '&amp;op='. $_REQUEST['op'];
-        $nkList['paginationUrl']    .= '&amp;op='. $_REQUEST['op'];
+    if ($op != 'index') {
+        $nkList['sortUrl']          .= '&amp;op='. $op;
+        $nkList['paginationUrl']    .= '&amp;op='. $op;
     }
 
     if ($nkList['inputMode'] == 'sql'

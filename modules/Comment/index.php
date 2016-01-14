@@ -565,7 +565,7 @@ function edit_comment($cid){
     }
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case"del_comment":
         del_comment($_REQUEST['cid']);
         break;

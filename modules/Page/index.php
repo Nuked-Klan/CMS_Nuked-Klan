@@ -111,7 +111,7 @@ else {
 closetable();
 }
 
-switch($_REQUEST['op']) {
+switch($GLOBALS['op']) {
     case "index":
     index($_REQUEST['name']);
     break;

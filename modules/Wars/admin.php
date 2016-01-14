@@ -820,7 +820,7 @@ function nkAdminMenu($tab = 1)
 <?php
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case "main":
         main();
         break;

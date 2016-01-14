@@ -422,7 +422,7 @@ function save_config()
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "save_config":
         save_config($_POST);
         break;

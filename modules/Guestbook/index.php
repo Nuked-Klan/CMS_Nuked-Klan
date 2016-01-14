@@ -274,7 +274,7 @@ function index()
     closetable();
 }
 
-switch ($_REQUEST['op'])
+switch ($GLOBALS['op'])
 {
     case "post_book":
         post_book();

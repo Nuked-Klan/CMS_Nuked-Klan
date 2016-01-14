@@ -13,7 +13,7 @@ global $nuked, $user, $language;
 translate("modules/Download/lang/" . $language . ".lang.php");
 
 function form($content, $sug_id){
-    global $page, $nuked, $user;
+    global $page, $op, $nuked, $user;
 
     include("modules/Suggest/config.php");
 
@@ -82,8 +82,8 @@ function form($content, $sug_id){
         }
     }
 
-    if($_REQUEST['op'] == "show_suggest" && $content[9] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[9]', 'screen','width=1024,height=768');\" /></input>";}
-    if($_REQUEST['op'] == "show_suggest" && $content[4] != ""){$botton = "<input type=\"button\" name=\"bscreen\" value=\"" . _DOWNLOAD . "\" Onclick=\"window.open('$content[4]', 'download','width=100,height=100');\" /></input>";}
+    if($op == "show_suggest" && $content[9] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[9]', 'screen','width=1024,height=768');\" /></input>";}
+    if($op == "show_suggest" && $content[4] != ""){$botton = "<input type=\"button\" name=\"bscreen\" value=\"" . _DOWNLOAD . "\" Onclick=\"window.open('$content[4]', 'download','width=100,height=100');\" /></input>";}
 
     echo "</select></td></tr>\n"
             . "<tr><td><b>" . _AUTOR . " :</b> <input type=\"text\" name=\"autor\" size=\"40\" value=\"" . $content[6] . "\" /></td></tr>\n"

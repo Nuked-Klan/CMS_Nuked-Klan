@@ -1615,7 +1615,7 @@ function vote() {
 
 opentable();
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case 'index' :
         index();
         break;

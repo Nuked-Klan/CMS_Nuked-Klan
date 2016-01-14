@@ -509,7 +509,7 @@ function listing($q,$type='right',$limit=100){
     }
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case"index":
     index();
     break;

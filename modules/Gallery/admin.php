@@ -830,7 +830,7 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "add_screen":
         add_screen();
         break;

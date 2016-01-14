@@ -251,7 +251,7 @@ function change_pref($max_shout, $textbox_avatar)
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "edit_shout":
         edit_shout($_REQUEST['mid']);
         break;

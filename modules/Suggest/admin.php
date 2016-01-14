@@ -226,7 +226,7 @@ echo "<script type=\"text/javascript\">\n"
 . "// -->\n"
 . "</script>\n";
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case"main":
     main();
     break;

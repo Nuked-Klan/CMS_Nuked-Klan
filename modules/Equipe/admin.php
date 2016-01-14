@@ -745,7 +745,7 @@ function save_modif_rang($rang_id_get) {
 }
 
 
-switch($_REQUEST['op']) {
+switch($GLOBALS['op']) {
     case 'main':
         main();
         break;

@@ -27,11 +27,11 @@ function show_etat($etat) {
 
 function main()
 {
-    global $nuked, $language;
+    global $op, $nuked, $language;
 
     $date_install = nkDate($nuked['date_install']);
 
-    if ($_REQUEST['op'] == 'statsPopup') {
+    if ($op == 'statsPopup') {
         nkTemplate_setPageDesign('none');
         $width_div = 100;
     }
@@ -167,7 +167,7 @@ function del()
     redirect("index.php?file=Stats&page=admin", 2);
 }
 
-switch($_REQUEST['op'])
+switch($GLOBALS['op'])
 {
     case "del":
         del();

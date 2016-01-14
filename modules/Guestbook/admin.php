@@ -213,7 +213,7 @@ function nkAdminMenu($tab = 1)
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "edit_book":
         edit_book($_REQUEST['gid']);
         break;

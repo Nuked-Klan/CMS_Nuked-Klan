@@ -625,7 +625,7 @@ function checkType( type, action, id )
 
 <?php
 
-switch($_REQUEST['op']) {
+switch($GLOBALS['op']) {
     case "add":
     add();
     break;

@@ -490,7 +490,7 @@ function index()
 
 function classe()
 {
-    global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $img_screen1, $img_screen2, $img_screen3, $image_resize;
+    global $op, $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $img_screen1, $img_screen2, $img_screen3, $image_resize;
 
     if(array_key_exists('cat', $_REQUEST)){
         $cat = $_REQUEST['cat'];
@@ -512,7 +512,7 @@ function classe()
         $nb_subcat = 0;
     }
 
-    if ($_REQUEST['op'] == "classe")
+    if ($op == "classe")
     {
         if ($nuked['gallery_title'] != "")
         {
@@ -591,7 +591,7 @@ function classe()
         }
         else
         {
-            echo "<a href=\"index.php?file=Gallery&amp;op=" . $_REQUEST['op'] . "&amp;orderby=news&amp;cat=" . $cat . "\">" . _DATE . "</a> | ";
+            echo "<a href=\"index.php?file=Gallery&amp;op=" . $op . "&amp;orderby=news&amp;cat=" . $cat . "\">" . _DATE . "</a> | ";
         }
 
         if ($_REQUEST['orderby'] == "name")
@@ -601,7 +601,7 @@ function classe()
 
         else
         {
-            echo "<a href=\"index.php?file=Gallery&amp;op=" . $_REQUEST['op'] . "&amp;orderby=name&amp;cat=" . $cat . "\">" . _NAME . "</a> | ";
+            echo "<a href=\"index.php?file=Gallery&amp;op=" . $op . "&amp;orderby=name&amp;cat=" . $cat . "\">" . _NAME . "</a> | ";
         }
 
         if ($_REQUEST['orderby'] == "count")
@@ -610,7 +610,7 @@ function classe()
         }
         else
         {
-            echo "<a href=\"index.php?file=Gallery&amp;op=" . $_REQUEST['op'] . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _TOPFILE . "</a> | ";
+            echo "<a href=\"index.php?file=Gallery&amp;op=" . $op . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _TOPFILE . "</a> | ";
         }
 
         if ($_REQUEST['orderby'] == "note" && nivo_mod('Vote') > -1)
@@ -619,7 +619,7 @@ function classe()
         }
         elseif (nivo_mod('Vote') > -1)
         {
-            echo "<a href=\"index.php?file=Gallery&amp;op=" . $_REQUEST['op'] . "&amp;orderby=note&amp;cat=" . $cat . "\">" . _NOTE . "</a>&nbsp;";
+            echo "<a href=\"index.php?file=Gallery&amp;op=" . $op . "&amp;orderby=note&amp;cat=" . $cat . "\">" . _NOTE . "</a>&nbsp;";
         }
 
         echo "</small></td></tr></table>\n";
@@ -646,7 +646,7 @@ function classe()
 
         if ($count > $nb_img_guest)
         {
-            $url_page = "index.php?file=Gallery&amp;op=" . $_REQUEST['op'] . "&amp;cat=" . $cat . "&amp;orderby=" . $_REQUEST['orderby'];
+            $url_page = "index.php?file=Gallery&amp;op=" . $op . "&amp;cat=" . $cat . "&amp;orderby=" . $_REQUEST['orderby'];
             number($count, $nb_img_guest, $url_page);
         }
         else
@@ -735,7 +735,7 @@ function classe()
 
         if ($count > $nb_img_guest)
         {
-            $url_page = "index.php?file=Gallery&amp;op=" . $_REQUEST['op'] . "&amp;cat=" . $cat . "&amp;orderby=" . $_REQUEST['orderby'];
+            $url_page = "index.php?file=Gallery&amp;op=" . $op . "&amp;cat=" . $cat . "&amp;orderby=" . $_REQUEST['orderby'];
             number($count, $nb_img_guest, $url_page);
         }
         else
@@ -749,7 +749,7 @@ function classe()
     else
     {
             if ($nb_subcat == 0 && $cat > 0) echo "<div style=\"text-align: center;\"><br />" . _NOSCREEN . "</div><br /><br />\n";
-            if ($_REQUEST['op'] == "classe") echo "<div style=\"text-align: center;\"><br />" . _NOSCREENINDB . "</div><br /><br />\n";
+            if ($op == "classe") echo "<div style=\"text-align: center;\"><br />" . _NOSCREENINDB . "</div><br /><br />\n";
     }
 
 }
@@ -774,7 +774,7 @@ function img_size($image, $largeur, $title, $image_resize)
     return($image_resize);
 }
 
-switch ($_REQUEST['op'])
+switch ($GLOBALS['op'])
 {
     case "description":
         description($_REQUEST['sid']);

@@ -981,7 +981,7 @@ function nkAdminMenu($tab = 1)
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "edit_file":
         edit_file($_REQUEST['did']);
         break;

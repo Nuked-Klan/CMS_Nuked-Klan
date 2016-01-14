@@ -117,7 +117,7 @@ function optimise()
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "save_db":
         save_db();
         break;

@@ -11,7 +11,7 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-global $nuked, $language;
+global $op, $nuked, $language;
 
 translate('modules/Search/lang/'. $language .'.lang.php');
 translate('modules/404/lang/'. $language .'.lang.php');
@@ -28,7 +28,7 @@ else {
     opentable();
 }
 
-if ($_REQUEST['op'] != 'sql')
+if ($op != 'sql')
     $error_title = '<big><b>' . $nuked['name'] . '</b></big><br /><br />' . _NOEXIST . '<br /><br />';
 else
     $error_title = _ERROR404SQL . '<br /><br />';

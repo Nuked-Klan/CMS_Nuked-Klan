@@ -702,7 +702,7 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "edit":
         edit($_REQUEST['news_id']);
         break;

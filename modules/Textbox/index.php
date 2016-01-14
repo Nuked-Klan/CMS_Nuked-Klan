@@ -311,7 +311,7 @@ function ajax() {
     }
 }
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case"smilies":
         smilies();
         break;

@@ -8,10 +8,10 @@
         if (isset($linkData['op'])) {
             $link .= '&amp;op='. $linkData['op'];
 
-            if ($_REQUEST['op'] == $linkData['op']) $class = 'class="nkClassActive"';
+            if ($GLOBALS['op'] == $linkData['op']) $class = 'class="nkClassActive"';
         }
         else {
-            if ($_REQUEST['op'] == 'index') $class = 'class="nkClassActive"';
+            if ($GLOBALS['op'] == 'index') $class = 'class="nkClassActive"';
         }
 
 ?>

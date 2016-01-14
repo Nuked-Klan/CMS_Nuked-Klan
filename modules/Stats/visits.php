@@ -12,19 +12,19 @@
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
-global $nuked, $user, $visiteur, $language, $bgcolor3, $bgcolor2, $bgcolor1;
+global $op, $nuked, $user, $visiteur, $language, $bgcolor3, $bgcolor2, $bgcolor1;
 
 translate('modules/Stats/lang/'. $language .'.lang.php');
 
 
 if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
-    if ($_REQUEST['op'] == 'view_all') {
+    if ($op == 'view_all') {
         view_all();
     }
-    else if ($_REQUEST['op'] == 'view_referer') {
+    else if ($op == 'view_referer') {
         view_referer();
     }
-    else if ($_REQUEST['op'] == 'view_host') {
+    else if ($op == 'view_host') {
         view_host();
     }
     else {

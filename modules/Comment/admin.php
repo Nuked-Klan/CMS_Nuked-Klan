@@ -246,7 +246,7 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case "edit_com":
         edit_com($_REQUEST['cid']);
         break;

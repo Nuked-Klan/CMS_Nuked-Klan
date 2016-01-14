@@ -439,7 +439,7 @@ function queryServer($address, $port, $protocol) {
     return $gameserver;
 } 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case 'index':
         index();
         break;

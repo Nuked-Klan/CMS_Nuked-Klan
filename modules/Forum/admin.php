@@ -816,7 +816,7 @@ $adminMenu = array(
 );
 
 // Action handle
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case 'editForum' :
         editForum();
         break;

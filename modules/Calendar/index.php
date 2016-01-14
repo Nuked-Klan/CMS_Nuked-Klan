@@ -526,7 +526,7 @@ function cleanList($val, $list){
     return $cnt;
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case "show_event":
     show_event();
     break;

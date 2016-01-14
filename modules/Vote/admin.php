@@ -84,7 +84,7 @@ function saveVoteModules() {
 }
 
 // Action handle
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case 'saveVoteModules' :
         saveVoteModules();
         break;

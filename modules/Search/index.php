@@ -206,7 +206,7 @@ function mod_search(){
     }
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case "mod_search":
     mod_search();
     break;

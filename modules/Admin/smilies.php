@@ -323,7 +323,7 @@ function nkAdminMenu()
 }
 
 
-switch ($_REQUEST['op'])
+switch ($GLOBALS['op'])
 {
     case "add_smiley":
         add_smiley();

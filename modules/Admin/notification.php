@@ -45,7 +45,7 @@ if ($visiteur >= 2) {
         }
     }
 
-    switch ($_REQUEST['op']) {
+    switch ($GLOBALS['op']) {
         case "main":
             main();
             break;

@@ -1928,7 +1928,7 @@ function del_account($pass){
     }
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case"edit_account":
         opentable();
         edit_account();

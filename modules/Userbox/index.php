@@ -310,45 +310,43 @@ function index(){
 }
 
 if ($user) {
-    if(isset($_REQUEST['op'])){
-        switch ($_REQUEST['op']){
+    switch ($GLOBALS['op']){
 
-            case 'post_message':
-            opentable();
-            post_message();
-            closetable();
-            break;
+        case 'post_message':
+        opentable();
+        post_message();
+        closetable();
+        break;
 
-            case 'send_message':
-            opentable();
-            send_message($_REQUEST['titre'], $_REQUEST['user_for'], $_REQUEST['message']);
-            closetable();
-            break;
+        case 'send_message':
+        opentable();
+        send_message($_REQUEST['titre'], $_REQUEST['user_for'], $_REQUEST['message']);
+        closetable();
+        break;
 
-            case 'show_message':
-            opentable();
-            show_message($_REQUEST['mid']);
-            closetable();
-            break;
+        case 'show_message':
+        opentable();
+        show_message($_REQUEST['mid']);
+        closetable();
+        break;
 
-            case 'del_message':
-            opentable();
-            del_message($_REQUEST['mid']);
-            closetable();
-            break;
+        case 'del_message':
+        opentable();
+        del_message($_REQUEST['mid']);
+        closetable();
+        break;
 
-            case 'del_message_form':
-            opentable();
-            del_message_form($_REQUEST['mid'], $_REQUEST['del_oui']);
-            closetable();
-            break;
+        case 'del_message_form':
+        opentable();
+        del_message_form($_REQUEST['mid'], $_REQUEST['del_oui']);
+        closetable();
+        break;
 
-            default:
-            opentable();
-            index();
-            closetable();
-            break;
-        }
+        default:
+        opentable();
+        index();
+        closetable();
+        break;
     }
 } else {
     opentable();

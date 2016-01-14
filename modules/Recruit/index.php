@@ -244,7 +244,7 @@ if ($nuked['recrute'] > 0)
         redirect("index.php", 2);
     }
 
-    switch ($_REQUEST['op'])
+    switch ($GLOBALS['op'])
     {
         case"index":
             index();

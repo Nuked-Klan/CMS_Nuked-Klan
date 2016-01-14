@@ -94,7 +94,7 @@ function main()
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case 'main':
         main();
         break;

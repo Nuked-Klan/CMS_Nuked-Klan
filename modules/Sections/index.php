@@ -335,7 +335,7 @@ function article($artid){
 }
 
 function classe(){
-    global $nuked, $visiteur, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
+    global $op, $nuked, $visiteur, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
 
     $arrayRequest = array('sid', 'nb_subcat');
 
@@ -348,7 +348,7 @@ function classe(){
         }
     }
 
-    if ($_REQUEST['op'] == "classe"){
+    if ($op == "classe"){
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _SECTIONS . "</b></big></div>\n"
                 . "<div style=\"text-align: center;\"><br />\n"
                 . "[ <a href=\"index.php?file=Sections\" style=\"text-decoration: underline\">" . _INDEXSECTIONS . "</a> | ";
@@ -409,16 +409,16 @@ function classe(){
                 . "<tr><td align=\"right\"><small>" . _ORDERBY . " : ";
 
         if ($_REQUEST['orderby'] == "news") echo "<b>" . _DATE . "</b> | ";
-        else echo "<a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=news&amp;secid=" . $sid . "\">" . _DATE . "</a> | ";
+        else echo "<a href=\"index.php?file=Sections&amp;op=" . $op . "&amp;orderby=news&amp;secid=" . $sid . "\">" . _DATE . "</a> | ";
 
         if ($_REQUEST['orderby'] == "count") echo "<b>" . _TOPFILE . "</b> | ";
-        else echo "<a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=count&amp;secid=" . $sid . "\">" . _TOPFILE . "</a> | ";
+        else echo "<a href=\"index.php?file=Sections&amp;op=" . $op . "&amp;orderby=count&amp;secid=" . $sid . "\">" . _TOPFILE . "</a> | ";
 
         if ($_REQUEST['orderby'] == "name") echo "<b>" . _NAME . "</b> | ";
-        else echo"    <a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=name&amp;secid=" . $sid . "\">" . _NAME . "</a> | ";
+        else echo"    <a href=\"index.php?file=Sections&amp;op=" . $op . "&amp;orderby=name&amp;secid=" . $sid . "\">" . _NAME . "</a> | ";
 
         if ($_REQUEST['orderby'] == "note") echo"<b>" . _NOTE . "</b>";
-        else echo"    <a href=\"index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;orderby=note&amp;secid=" . $sid . "\">" . _NOTE . "</a>";
+        else echo"    <a href=\"index.php?file=Sections&amp;op=" . $op . "&amp;orderby=note&amp;secid=" . $sid . "\">" . _NOTE . "</a>";
 
         echo "</small></td></tr></table>\n";
     }
@@ -426,7 +426,7 @@ function classe(){
     if ($nb_art > 0){
         if ($nb_art > $nb_max){
             echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\"><tr><td>";
-            $url = "index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;secid=" . $sid . "&amp;orderby=" . $_REQUEST['orderby'];
+            $url = "index.php?file=Sections&amp;op=" . $op . "&amp;secid=" . $sid . "&amp;orderby=" . $_REQUEST['orderby'];
             number($nb_art, $nb_max, $url);
             echo "</td></tr></table>\n";
         }
@@ -499,7 +499,7 @@ function classe(){
 
         if ($nb_art > $nb_max){
             echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\"><tr><td>";
-            $url = "index.php?file=Sections&amp;op=" . $_REQUEST['op'] . "&amp;secid=" . $sid . "&amp;orderby=" . $_REQUEST['orderby'];
+            $url = "index.php?file=Sections&amp;op=" . $op . "&amp;secid=" . $sid . "&amp;orderby=" . $_REQUEST['orderby'];
             number($nb_art, $nb_max, $url);
             echo "</td></tr></table>\n";
         }
@@ -507,7 +507,7 @@ function classe(){
     }
     else{
         if ($nb_subcat == 0 && $sid > 0) echo "<div style=\"text-align: center;\"><br />" . _NOARTS . "</div><br /><br />\n";
-        if ($_REQUEST['op'] == "classe") echo "<div style=\"text-align: center;\"><br />" . _NOARTINDB . "</div><br /><br />\n";
+        if ($op == "classe") echo "<div style=\"text-align: center;\"><br />" . _NOARTINDB . "</div><br /><br />\n";
     }
 }
 
@@ -559,7 +559,7 @@ function pdf($artid) {
     }
 }
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case "article":
         article($_REQUEST['artid']);
         break;

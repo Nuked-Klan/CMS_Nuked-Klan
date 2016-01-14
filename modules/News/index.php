@@ -19,14 +19,14 @@ compteur('News');
 
 function index(){
 
-    global $nuked, $language, $theme;
+    global $op, $nuked, $language, $theme;
 
     $max_news = $nuked['max_news'];
     $day = time();
 
-    if ($_REQUEST['op'] == 'categorie') {
+    if ($op == 'categorie') {
         $where = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date";
-    } elseif ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment') {
+    } elseif ($op == 'suite' || $op == 'index_comment') {
         $where = "WHERE id = '{$_REQUEST['news_id']}' AND $day >= date";
     } else {
         $where = "WHERE $day >= date";
@@ -43,9 +43,9 @@ function index(){
     }
     $start = $page * $max_news - $max_news;
 
-    if ($_REQUEST['op'] == 'categorie') {
+    if ($op == 'categorie') {
         $WhereNews = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date ORDER BY date DESC LIMIT $start, $max_news";
-    } elseif ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment') {
+    } elseif ($op == 'suite' || $op == 'index_comment') {
         $WhereNews = "WHERE id = '{$_REQUEST['news_id']}'";
     } else {
         $WhereNews = "WHERE $day >= date ORDER BY date DESC LIMIT $start, $max_news";
@@ -89,7 +89,7 @@ function index(){
         $data['coverageImg'] = (!empty($TabNews['coverage'])) ? '<img class="nkNewsCoverage" src="'.$TabNews['coverage'].'" alt="'.$TabNews['titre'].'" title="'.$TabNews['titre'].'" />' : '';
         $data['coverage'] = (!empty($TabNews['coverage'])) ? ''.$TabNews['coverage'].'' : '';
 
-        if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
+        if ($op == 'suite' || $op == 'index_comment' && !empty($TabNews['suite'])) {
             $data['texte'] = $TabNews['texte'].'<br /><br />'.$TabNews['suite'];
         } elseif (!empty($TabNews['suite'])) {
             // Bouton lire la suite du thème ou texte par défaut
@@ -104,7 +104,7 @@ function index(){
 
     }
 
-    $url = ($_REQUEST['op'] == 'categorie') ? 'index.php?file=News&amp;op=categorie&amp;cat_id='.$_REQUEST['cat_id'] : 'index.php?file=News';
+    $url = ($op == 'categorie') ? 'index.php?file=News&amp;op=categorie&amp;cat_id='.$_REQUEST['cat_id'] : 'index.php?file=News';
 
     if ($nb_news > $max_news) {
         echo '&nbsp;';
@@ -296,7 +296,7 @@ function sendnews($title, $news_id, $comment, $mail, $pseudo) {
     redirect('index.php?file=News', 2);
 }
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
 
     case'index':
     index();

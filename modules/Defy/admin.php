@@ -218,7 +218,7 @@ function nkAdminMenu($tab = 1) {
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case 'view':
     view($_REQUEST['did']);
     break;

@@ -121,7 +121,7 @@ function sendmail(){
 
 opentable();
 
-switch($_REQUEST['op']){
+switch($GLOBALS['op']){
     case 'sendmail':
     sendmail($_REQUEST);
     break;

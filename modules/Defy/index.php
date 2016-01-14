@@ -218,7 +218,7 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
 
 opentable();
 
-switch ($_REQUEST['op']){
+switch ($GLOBALS['op']){
     case 'index':
     index();
     break;

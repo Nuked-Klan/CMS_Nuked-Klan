@@ -423,7 +423,7 @@ function nkAdminMenu($tab = 1)
 }
 
 
-switch ($_REQUEST['op']) {
+switch ($GLOBALS['op']) {
     case 'edit_serveur':
         edit_serveur($_REQUEST['sid']);
         break;
