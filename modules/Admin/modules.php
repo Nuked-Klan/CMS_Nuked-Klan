@@ -87,6 +87,9 @@ function desactive($mid)
     list($nom) = mysql_fetch_array($sql2);
     $sql = mysql_query("UPDATE " . MODULES_TABLE . " SET niveau = -1, admin = -1 WHERE id = '" . $mid . "'");
 
+    if (in_array($nom, explode('|', $nuked['rssFeed'])))
+        updateModuleRssList($nom, 'disabled');
+
     saveUserAction(_ACTIONDESMOD .': '. $nom);
 
     printNotification(_MODULEDISABLED, 'success');
@@ -107,6 +110,9 @@ function active($mid)
     $sql2 = mysql_query("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = mysql_fetch_array($sql2);
     $sql = mysql_query("UPDATE " . MODULES_TABLE . " SET niveau = 0, admin = 2 WHERE id = '" . $mid . "'");
+
+    if (in_array($nom, explode('|', $nuked['rssFeed'])))
+        updateModuleRssList($nom, 'enabled');
 
     saveUserAction(_ACTIONACTMOD .': '. $nom);
 
@@ -143,6 +149,29 @@ function update_module($mid, $niveau, $level)
 
     redirect("index.php?file=Admin&page=modules", 2);
 }
+
+function updateModuleRssList($module, $status) {
+    global $nuked;
+
+    $rssFeed = explode('|', $nuked['rssFeed']);
+
+    if ($status == 'disabled') {
+        $k = array_search($module, $rssFeed);
+
+        if ($k !== false) unset($rssFeed[$k]);
+    }
+    else if ($status == 'enabled') {
+        $rssFeed[] = $module;
+        natcasesort($rssFeed);
+    }
+
+    nkDB_update(CONFIG_TABLE, array(
+            'value' => implode('|', $rssFeed)
+        ),
+        'name = \'rssFeed\''
+    );
+}
+
 
 function main()
 {

@@ -16,6 +16,9 @@ require_once '../Includes/fatal_errors.php';
 require_once '../globals.php';
 require_once '../conf.inc.php';
 require_once '../nuked.php';
+
+if (nivo_mod('News') == -1) exit;
+
 require_once '../Includes/nkRss.php';
 require_once '../lang/'. $nuked['langue'] .'.lang.php';
 
