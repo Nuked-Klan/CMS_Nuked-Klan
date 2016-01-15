@@ -25,7 +25,7 @@
             </label>
         </div>
         <div>
-            <input type="submit" value="{{*_SEND}}" />
+            <input type="submit" value="{{*SEND}}" />
         </div>
         <a href="index.php?file=User&amp;op=oubli_pass">
             {{*LOST_PASS}}

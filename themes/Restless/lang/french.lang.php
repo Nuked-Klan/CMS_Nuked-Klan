@@ -34,6 +34,7 @@ define('LOST_PASS', 'Mot de passe oubli&eacute; ?');
 define('BY', 'Par ');
 define('THE', 'le ');
 define('MORE', 'Plus');
+define('SEND', 'Envoyer');
 
 // ADMIN
 
