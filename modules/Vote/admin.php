@@ -14,8 +14,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Vote'))
     return;
 
-nkTemplate_addCSSFile('modules/Vote/css/backend.css');
-
 
 /* Vote modules management */
 
@@ -43,7 +41,7 @@ function editVoteModules() {
             $moduleName = $voteModule['module'];
 
         $voteModulesForm['items'][$voteModule['module']] = array(
-            'label'             => '<b>'. $moduleName .' : </b>',
+            'label'             => $moduleName,
             'type'              => 'checkbox',
             'name'              => $voteModule['module'],
             'inputValue'        => 'on',

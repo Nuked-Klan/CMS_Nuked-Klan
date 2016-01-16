@@ -30,68 +30,68 @@ $forumSettingForm = array(
     'method'    => 'post',
     'items' => array(
         'forum_title' => array(
-            'label'             => '<b>'. _FORUMTITLE .' : </b>',
+            'label'             => _FORUMTITLE,
             'type'              => 'text',
             'name'              => 'forum_title',
             'size'              => 40
         ),
         'forum_desc' => array(
-            'label'             => '<b>'. _FORUMDESC .' : </b>',
+            'label'             => _FORUMDESC,
             'type'              => 'textarea',
             'name'              => 'forum_desc',
             'cols'              => 55,
             'rows'              => 5
         ),
         'forum_rank_team' => array(
-            'label'             => '<b>'. _USERANKTEAM .' : </b>',
+            'label'             => _USERANKTEAM,
             'type'              => 'checkbox',
             'name'              => 'forum_rank_team',
             'inputValue'        => 'on'
         ),
         'forum_image' => array(
-            'label'             => '<b>'. _DISPLAYFORUMIMAGE .' : </b>',
+            'label'             => _DISPLAYFORUMIMAGE,
             'type'              => 'checkbox',
             'name'              => 'forum_image',
             'inputValue'        => 'on'
         ),
         'forum_cat_image' => array(
-            'label'             => '<b>'. _DISPLAYCATIMAGE .' : </b>',
+            'label'             => _DISPLAYCATIMAGE,
             'type'              => 'checkbox',
             'name'              => 'forum_cat_image',
             'inputValue'        => 'on'
         ),
         'forum_birthday' => array(
-            'label'             => '<b>'. _DISPLAYBIRTHDAY .' : </b>',
+            'label'             => _DISPLAYBIRTHDAY,
             'type'              => 'checkbox',
             'name'              => 'forum_birthday',
             'inputValue'        => 'on'
         ),
         'forum_gamer_details' => array(
-            'label'             => '<b>'. _DISPLAYGAMERDETAILS .' : </b>',
+            'label'             => _DISPLAYGAMERDETAILS,
             'type'              => 'checkbox',
             'name'              => 'forum_gamer_details',
             'inputValue'        => 'on'
         ),
         'forum_user_details' => array(
-            'label'             => '<b>'. _DISPLAYUSERDETAILS .' : </b>',
+            'label'             => _DISPLAYUSERDETAILS,
             'type'              => 'checkbox',
             'name'              => 'forum_user_details',
             'inputValue'        => 'on'
         ),
         'forum_labels_active' => array(
-            'label'             => '<b>'. _DISPLAYLABELS .' : </b>',
+            'label'             => _DISPLAYLABELS,
             'type'              => 'checkbox',
             'name'              => 'forum_labels_active',
             'inputValue'        => 'on'
         ),
         'forum_display_modos' => array(
-            'label'             => '<b>'. _DISPLAYMODOS .' : </b>',
+            'label'             => _DISPLAYMODOS,
             'type'              => 'checkbox',
             'name'              => 'forum_display_modos',
             'inputValue'        => 'on'
         ),
         'thread_forum_page' => array(
-            'label'             => '<b>'. _NUMBERTHREAD .' : </b>',
+            'label'             => _NUMBERTHREAD,
             'type'              => 'text',
             'name'              => 'thread_forum_page',
             'size'              => 2,
@@ -100,7 +100,7 @@ $forumSettingForm = array(
             'noempty'           => true
         ),
         'mess_forum_page' => array(
-            'label'             => '<b>'. _NUMBERPOST .' : </b>',
+            'label'             => _NUMBERPOST,
             'type'              => 'text',
             'name'              => 'mess_forum_page',
             'size'              => 2,
@@ -109,7 +109,7 @@ $forumSettingForm = array(
             'noempty'           => true
         ),
         'hot_topic' => array(
-            'label'             => '<b>'. _TOPICHOT .' : </b>',
+            'label'             => _TOPICHOT,
             'type'              => 'text',
             'name'              => 'hot_topic',
             'size'              => 2,
@@ -118,7 +118,7 @@ $forumSettingForm = array(
             'noempty'           => true
         ),
         'post_flood' => array(
-            'label'             => '<b>'. _POSTFLOOD .' : </b>',
+            'label'             => _POSTFLOOD,
             'type'              => 'text',
             'name'              => 'post_flood',
             'size'              => 2,
@@ -127,7 +127,7 @@ $forumSettingForm = array(
             'noempty'           => true
         ),
         'forum_field_max' => array(
-            'label'             => '<b>'. _MAXFIELD .' : </b>',
+            'label'             => _MAXFIELD,
             'type'              => 'text',
             'name'              => 'forum_field_max',
             'size'              => 2,
@@ -136,13 +136,13 @@ $forumSettingForm = array(
             'noempty'           => true
         ),
         'forum_file' => array(
-            'label'             => '<b>'. _ATTACHFILES .' : </b>',
+            'label'             => _ATTACHFILES,
             'type'              => 'checkbox',
             'name'              => 'forum_file',
             'inputValue'        => 'on'
         ),
         'forum_file_level' => array(
-            'label'             => '<b>'. _FILELEVEL .' : </b>',
+            'label'             => _FILELEVEL,
             'type'              => 'select',
             'name'              => 'forum_file_level',
             'options'           => array(
@@ -159,7 +159,7 @@ $forumSettingForm = array(
             )
         ),
         'forum_file_maxsize' => array(
-            'label'             => '<b>'. _MAXFIELD .' : </b>',
+            'label'             => _MAXFIELD,
             'type'              => 'text',
             'name'              => 'forum_file_maxsize',
             'size'              => 6,

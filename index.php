@@ -89,12 +89,14 @@ if ($nuked['nk_status'] == 'closed'
 else if (($GLOBALS['file'] == 'Admin' || $GLOBALS['page'] == 'admin')
     && nkSessions_adminCheck() == false
 ) {
+    nkTemplate_init($GLOBALS['file']);
     require_once 'modules/Admin/login.php';
 }
 // Run module
 else {
     ob_start();
 
+    nkTemplate_init($GLOBALS['file']);
     nkTemplate_setBgColors();
     require_once 'themes/'. $theme .'/theme.php';
 
@@ -109,7 +111,6 @@ else {
     $content = ob_get_clean();
 
     if (in_array(nkTemplate_getPageDesign(), array('fullPage', 'nudePage'))) {
-        nkTemplate_init($GLOBALS['file']);
         $content = nkTemplate_renderPage($content);
 
         if (defined('NK_GZIP') && ini_get('zlib_output'))

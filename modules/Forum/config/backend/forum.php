@@ -53,10 +53,9 @@ $forumForm = array(
     'id'        => 'editForumForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=saveForum',
     'method'    => 'post',
-    'enctype'   => 'multipart/form-data',
     'items' => array(
         'nom' => array(
-            'label'             => '<b>'. _NAME .' :</b>&nbsp;',
+            'label'             => _NAME,
             'type'              => 'text',
             'name'              => 'titre',
             'size'              => 30,
@@ -65,13 +64,13 @@ $forumForm = array(
             'noempty'           => true
         ),
         'cat' => array(
-            'label'             => '<b>'. _CAT .' :</b>&nbsp;',
+            'label'             => _CAT,
             'type'              => 'select',
             'name'              => 'cat',
             'options'           => array()
         ),
         'comment' => array(
-            'label'             => '<b>'. _DESCR .' :</b>&nbsp;',
+            'label'             => _DESCR,
             'type'              => 'textarea',
             'name'              => 'description',
             'cols'              => 69,
@@ -79,18 +78,18 @@ $forumForm = array(
             'inputClass'        => array('editor')
         ),
         'image' => array(
-            'label'             => '<b>'. _IMAGE .' :</b>&nbsp;',
+            'label'             => _IMAGE,
             'type'              => 'text',
             'name'              => 'urlImageForum',
             'size'              => 42
         ),
         'upImageForum' => array(
-            'label'             => '<b>'. _UPLOADIMAGE .' :</b>&nbsp;',
+            'label'             => _UPLOADIMAGE,
             'type'              => 'file',
             'name'              => 'upImageForum'
         ),
         'niveau' => array(
-            'label'             => '<b>'. _LEVELACCES .' :</b>&nbsp;',
+            'label'             => _LEVELACCES,
             'type'              => 'select',
             'name'              => 'niveau',
             'options'           => array(
@@ -107,7 +106,7 @@ $forumForm = array(
             )
         ),
         'level' => array(
-            'label'             => '<b>'. _LEVELPOST .' :</b>&nbsp;',
+            'label'             => _LEVELPOST,
             'type'              => 'select',
             'name'              => 'level',
             'options'           => array(
@@ -124,7 +123,7 @@ $forumForm = array(
             )
         ),
         'ordre' => array(
-            'label'             => '<b>'. _ORDER .' :</b>&nbsp;',
+            'label'             => _ORDER,
             'type'              => 'text',
             'name'              => 'ordre',
             'value'             => '0',
@@ -134,7 +133,7 @@ $forumForm = array(
             'noempty'           => true
         ),
         'level_poll' => array(
-            'label'             => '<b>'. _LEVELPOLL .' :</b>&nbsp;',
+            'label'             => _LEVELPOLL,
             'type'              => 'select',
             'name'              => 'level_poll',
             'options'           => array(
@@ -151,7 +150,7 @@ $forumForm = array(
             )
         ),
         'level_vote' => array(
-            'label'             => '<b>'. _LEVELVOTE .' :</b>&nbsp;',
+            'label'             => _LEVELVOTE,
             'type'              => 'select',
             'name'              => 'level_vote',
             'options'           => array(
@@ -168,11 +167,11 @@ $forumForm = array(
             )
         ),
         'moderatorList' => array(
-            'fakeLabel'         => '<b>'. _MODO .' :</b>&nbsp;',
+            'fakeLabel'         => _MODO,
             'html'              => ''
         ),
         'moderateurs' => array(
-            'label'             => '<b>'. _MODERATEUR .' :</b>&nbsp;',
+            'label'             => _MODERATEUR,
             'type'              => 'select',
             'name'              => 'modo',
             'options'           => array()

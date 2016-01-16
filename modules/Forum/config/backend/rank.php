@@ -48,10 +48,9 @@ $forumRankForm = array(
     'id'        => 'editForumRankForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=saveRank',
     'method'    => 'post',
-    'enctype'   => 'multipart/form-data',
     'items' => array(
         'nom' => array(
-            'label'             => '<b>'. _NAME .' : </b>',
+            'label'             => _NAME,
             'type'              => 'text',
             'name'              => 'nom',
             'size'              => 30,
@@ -60,7 +59,7 @@ $forumRankForm = array(
             'noempty'           => true
         ),
         'image' => array(
-            'label'             => '<b>'. _IMAGE .' : </b>',
+            'label'             => _IMAGE,
             'type'              => 'text',
             'name'              => 'image',
             'value'             => 'http://',
@@ -68,12 +67,12 @@ $forumRankForm = array(
             'maxlength'         => 200
         ),
         'upImageRank' => array(
-            'label'             => '<b>'. _UPLOADIMAGE .' : </b>',
+            'label'             => _UPLOADIMAGE,
             'type'              => 'file',
             'name'              => 'upImageRank'
         ),
         'post' => array(
-            'label'             => '<b>'. _MESSAGES .' : </b>',
+            'label'             => _MESSAGES,
             'type'              => 'text',
             'name'              => 'post',
             'size'              => 4,

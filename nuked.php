@@ -882,7 +882,7 @@ function secu_args($matches){
 }
 
 // DISPLAY CONTENT WITH SECURITY CSS AND HTML ($texte)
-function secu_html($texte){
+function secu_html($texte, $returnError = false){
     global $bgcolor3, $nuked, $language;
 
     // Balise HTML interdite
@@ -931,7 +931,10 @@ function secu_html($texte){
     }
     $bad = $bad | count($TagList) > 1;
     if ($bad){
-        return(nkHtmlSpecialChars($texte));
+        if ($returnError)
+            return false;
+        else
+            return(nkHtmlSpecialChars($texte));
     }
     else{
         return $texte;

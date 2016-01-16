@@ -45,11 +45,11 @@ $forumCatForm = array(
     'id'        => 'editForumCatForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=saveCat',
     'method'    => 'post',
-    'enctype'   => 'multipart/form-data',
+    'labelFormat' => '%s : ',
     'items' => array(
         'htmlCategoryImage' => '',
         'nom' => array(
-            'label'             => _NAME .' : ',
+            'label'             => _NAME,
             'type'              => 'text',
             'name'              => 'nom',
             'size'              => 30,
@@ -58,18 +58,18 @@ $forumCatForm = array(
             'noempty'           => true
         ),
         'image' => array(
-            'label'             => _IMAGE .' : ',
+            'label'             => _IMAGE,
             'type'              => 'text',
             'name'              => 'urlImageCat',
             'size'              => 42
         ),
         'upImageCat' => array(
-            'label'             => _UPLOADIMAGE .' : ',
+            'label'             => _UPLOADIMAGE,
             'type'              => 'file',
             'name'              => 'upImageCat'
         ),
         'niveau' => array(
-            'label'             => _NIVEAU .' : ',
+            'label'             => _NIVEAU,
             'type'              => 'select',
             'name'              => 'niveau',
             'options'           => array(
@@ -86,7 +86,7 @@ $forumCatForm = array(
             )
         ),
         'ordre' => array(
-            'label'             => _ORDER .' : ',
+            'label'             => _ORDER,
             'type'              => 'text',
             'name'              => 'ordre',
             'value'             => '0',

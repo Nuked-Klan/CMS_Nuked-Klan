@@ -7,10 +7,9 @@ $pruneForumForm = array(
     'id'        => 'pruneForumForm',
     'action'    => 'index.php?file=Forum&amp;page=admin&amp;op=doPrune',
     'method'    => 'post',
-    'enctype'   => 'multipart/form-data',
     'items' => array(
         'day' => array(
-            'label'             => '<b>'. _NUMBEROFDAY .' : </b>',
+            'label'             => _NUMBEROFDAY,
             'type'              => 'text',
             'name'              => 'day',
             'id'                => 'prune_day',
@@ -18,7 +17,7 @@ $pruneForumForm = array(
             'maxlength'         => 3
         ),
         'prune_id' => array(
-            'label'             => '<b>'. _FORUM .' : </b>',
+            'label'             => _FORUM,
             'type'              => 'select',
             'name'              => 'prune_id',
             'options'           => array()

@@ -15,8 +15,11 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
  * @return void
  */
 function nkForm_init(&$form) {
-    if (array_key_exists('enctype', $form) && $form['enctype'] != '')
-        $form['enctype'] = ' enctype="'. $form['enctype'] .'"';
+    if (! isset($form['id']) || $form['id'] == '')
+        trigger_error('You must defined a ID for this form configuration !', E_USER_ERROR);
+
+    if (in_array('file', array_column($form['items'], 'type')))
+        $form['enctype'] = ' enctype="multipart/form-data"';
     else
         $form['enctype'] = '';
 
@@ -30,14 +33,26 @@ function nkForm_init(&$form) {
     else
         $form['captchaField'] = '';
 
-    if (array_key_exists('token', $form) && $form['token'] != '') {
-        include_once 'Includes/nkToken.php';
-
-        $form['hiddenField']['token'] = nkToken_generate($form['token']);
+    if (! isset($form['token'])
+        || ! is_array($form['token'])
+        || ! isset($form['token']['name'])
+        || $form['token']['name'] == ''
+    ) {
+        $form['token'] = array('name' => $form['id']);
     }
+
+    include_once 'Includes/nkToken.php';
+
+    $form['hiddenField']['token'] = array(
+        'name'  => 'token',
+        'value' => nkToken_generate($form['token']['name'])
+    );
 
     if (array_key_exists('checkform', $form) && $form['checkform'])
         nkForm_initJSCheckform($form);
+
+    if (! array_key_exists('labelFormat', $form))
+        $form['labelFormat'] = '<b>%s :</b>&nbsp;';
 }
 
 
@@ -191,9 +206,9 @@ function nkForm_generate($form) {
             $html .= '<div id="'. $itemData['id'] .'_container" class="nkForm_container">';
 
             if (array_key_exists('label', $itemData))
-                $html .= nkForm_formatLabel($itemData);
+                $html .= nkForm_formatLabel($form['labelFormat'], $itemData);
             else if (array_key_exists('fakeLabel', $itemData))
-                $html .= nkForm_formatFakeLabel($itemData);
+                $html .= nkForm_formatFakeLabel($form['labelFormat'], $itemData);
 
             if (array_key_exists('type', $itemData) && in_array($itemData['type'], $authorizedType)) {
                 $fieldFonction = 'nkForm_input'. ucfirst($itemData['type']);
@@ -275,19 +290,19 @@ function nkForm_initInput($fieldName, &$params, $formId) {
 }
 
 
-function nkForm_formatLabel($params) {
+function nkForm_formatLabel($labelFormat, $params) {
     //if (! array_key_exists('labelClass', $params))
     //    $params['labelClass'] = array();
 
-    return '<label for="'. $params['id'] .'">'. $params['label'] .'</label>';
+    return '<label for="'. $params['id'] .'">'. sprintf($labelFormat, $params['label']) .'</label>';
 }
 
 
-function nkForm_formatFakeLabel($params) {
+function nkForm_formatFakeLabel($labelFormat, $params) {
     //if (! array_key_exists('fakeLabelClass', $params))
     //    $params['fakeLabelClass'] = array();
 
-    return '<span>'. $params['fakeLabel'] .'</span>';
+    return '<span>'. sprintf($labelFormat, $params['fakeLabel']) .'</span>';
 }
 
 

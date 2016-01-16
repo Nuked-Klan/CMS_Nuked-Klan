@@ -15,7 +15,7 @@ if (! moduleInit('Forum'))
     return;
 
 compteur('Forum');
-require_once 'Includes/nkUpload.php';
+
 require_once 'modules/Forum/core.php';
 
 

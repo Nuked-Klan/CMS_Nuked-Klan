@@ -14,8 +14,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Forum'))
     return;
 
-nkTemplate_addCSSFile('modules/Forum/css/backend.css');
-
 
 /* Forum category management */
 

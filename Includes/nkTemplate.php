@@ -110,6 +110,8 @@ function nkTemplate_adminInit($module) {
     nkTemplate_addCSSFile('modules/Admin/css/style.css');
     nkTemplate_addCSSFile('modules/Admin/css/invalid.css');
 
+    // TODO :
+    // Start - Load only for fullPage design
     nkTemplate_addJSFile('modules/Admin/scripts/facebox.js', 'librairyPlugin');
     nkTemplate_addJSFile('modules/Admin/scripts/simpla.jquery.configuration.js');
 
@@ -120,6 +122,7 @@ function nkTemplate_adminInit($module) {
     );
 
     nkTemplate_addJSFile('modules/Admin/scripts/config.js');
+    // End - Load only for fullPage design
 
     if (is_file('modules/'. $module .'/js/backend.js'))
         nkTemplate_addCSSFile('modules/'. $module .'/js/backend.js');
