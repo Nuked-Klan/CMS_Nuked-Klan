@@ -28,6 +28,7 @@ $sitename = nkHtmlSpecialChars($sitename);
 $sitedesc = nkHtmlSpecialChars($sitedesc);
 
 // http://www.opensearch.org/Home
+// https://developer.mozilla.org/en-US/Add-ons/Creating_OpenSearch_plugins_for_Firefox
 
 echo '<?xml version="1.0" ?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">

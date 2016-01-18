@@ -21,8 +21,6 @@ require_once 'nuked.php';
 if (filter_var($_GET['ip_ban'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6))
     die(WAYTODO);
 
-// TODO : Load nkTemplate ! nkTemplate_setBgColors() is not executed !
-require_once 'themes/'. $theme .'/colors.php';
 translate('lang/'. $language .'.lang.php');
 
 $escapeBannedIp = nkDB_escape($_GET['ip_ban']);
@@ -60,10 +58,15 @@ if (nkDB_numrows() > 0) {
     else if ($dbrBanned['dure'] == 2678400) $duration = _1MOIS;
     else if ($dbrBanned['dure'] == 31708800) $duration = _1AN;
 
-    echo applyTemplate('banishmentMessage', array(
+    nkTemplate_setBgColors();
+    nkTemplate_setPageDesign('nudePage');
+
+    $content = applyTemplate('banishmentMessage', array(
         'reason'    => $dbrBanned['texte'],
         'duration'  => $duration
     ));
+
+    echo nkTemplate_renderPage($content);
 }
 else {
     if (isset($_COOKIE['ip_ban']) && $_COOKIE['ip_ban'] != '')

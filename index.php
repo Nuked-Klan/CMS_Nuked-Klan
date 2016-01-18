@@ -98,7 +98,9 @@ else {
 
     nkTemplate_init($GLOBALS['file']);
     nkTemplate_setBgColors();
-    require_once 'themes/'. $theme .'/theme.php';
+
+    if (nkTemplate_getInterface() == 'frontend')
+        require_once 'themes/'. $theme .'/theme.php';
 
     if ($nuked['level_analys'] != -1)
         visits();

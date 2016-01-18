@@ -4,7 +4,7 @@
         <meta name="keywords" content="<?php echo $GLOBALS['nuked']['keyword'] ?>" />
         <meta name="Description" content="<?php echo $GLOBALS['nuked']['description'] ?>" />
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <title><?php echo $GLOBALS['nuked']['name'] ?> - <?php echo $GLOBALS['nuked']['slogan'] ?></title>
+        <title><?php echo $$GLOBALS['nkTemplate']['title'] ?></title>
         <link rel="shortcut icon"  href="images/favicon.ico" />
     </head>
     <body>

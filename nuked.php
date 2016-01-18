@@ -1718,27 +1718,6 @@ function nkLoadConfiguration($dbPrefix) {
     return $nuked;
 }
 
-function nkGetMedias(){
-    require_once 'Includes/nkMediasIncludes.php';
-
-    $bufferEdited = ob_get_contents();
-
-    $findJquery = (boolean)preg_match('#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#', $bufferEdited);
-    $mediasToInclude = printMedias($findJquery);
-
-    if($findJquery === true){
-        $bufferEdited = preg_replace('#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#',
-            '<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js">',
-            $bufferEdited);
-    }
-
-    $bufferEdited = preg_replace('#<head>#', '<head>'.$mediasToInclude, $bufferEdited);
-
-    ob_end_clean();
-
-    echo $bufferEdited;
-}
-
 function saveNotification($text, $type = NOTIFICATION_INFO) {
     nkDB_insert(NOTIFICATIONS_TABLE, array(
         'date'      => time(),

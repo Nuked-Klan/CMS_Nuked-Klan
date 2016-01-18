@@ -165,12 +165,14 @@ function nkTemplate_loadModuleMedias() {
             . '.nkBorderColor'. $i .'{border-color:'. $GLOBALS['bgcolor'. $i] .' !important;}' ."\n"; // TODO : Why !important ?
     }
 
-    nkTemplate_addJSFile('media/js/infobulle.js');
-    nkTemplate_addJS('InitBulle(\''. $bgcolor2 .'\',\''. $bgcolor3 .'\', 2);');
-    loadSyntaxhighlighterFiles();
+    if ($GLOBALS['nkTemplate']['pageDesign'] == 'fullPage') {
+        nkTemplate_addJSFile('media/js/infobulle.js');
+        nkTemplate_addJS('InitBulle(\''. $bgcolor2 .'\',\''. $bgcolor3 .'\', 2);');
+        loadSyntaxhighlighterFiles();
 
-    if ($nuked['stats_share'] == 1 && $GLOBALS['nkTemplate']['pageDesign'] == 'fullPage')
-        nkStats_cron();
+        if ($nuked['stats_share'] == 1)
+            nkStats_cron();
+    }
 
     if (defined('EDITOR_CHECK')) {
         if ($nuked['editor_type'] == 'cke')
@@ -493,17 +495,20 @@ function nkTemplate_append($contentTop) {
 
     if ($GLOBALS['nkTemplate']['interface'] == 'frontend') {
         $append .= '<link rel="search" type="application/opensearchdescription+xml" title="'. $nuked['name'] .'" href="'. $nuked['url'] .'/opensearch.php" />' ."\n";
-        $titlePrefix = $nuked['name'] .' RSS : ';
 
-        foreach (explode('|', $nuked['rssFeed']) as $rssFeed) {
-            $rssTitleConst = strtoupper($rssFeed) .'_RSS_TITLE';
+        if ($GLOBALS['nkTemplate']['pageDesign'] == 'fullPage') {
+            $titlePrefix = $nuked['name'] .' RSS : ';
 
-            if (translationExist($rssTitleConst))
-                $title = __($rssTitleConst);
-            else
-                $title = $rssFeed;
+            foreach (explode('|', $nuked['rssFeed']) as $rssFeed) {
+                $rssTitleConst = strtoupper($rssFeed) .'_RSS_TITLE';
 
-            $append .= '<link rel="alternate" title="'. $titlePrefix . $title .'" href="'. $nuked['url'] .'/rss/'. $rssFeed .'_rss.php" type="application/rss+xml" />' ."\n";
+                if (translationExist($rssTitleConst))
+                    $title = __($rssTitleConst);
+                else
+                    $title = $rssFeed;
+
+                $append .= '<link rel="alternate" title="'. $titlePrefix . $title .'" href="'. $nuked['url'] .'/rss/'. $rssFeed .'_rss.php" type="application/rss+xml" />' ."\n";
+            }
         }
     }
 
@@ -516,7 +521,7 @@ function nkTemplate_append($contentTop) {
     }
     */
 
-    if ($GLOBALS['nkTemplate']['title'] != '')
+    if ($GLOBALS['nkTemplate']['interface'] == 'frontend' && $GLOBALS['nkTemplate']['pageDesign'] == 'fullPage')
         $contentTop = preg_replace('#<title>(.*?)</title>#i', '<title>'. $GLOBALS['nkTemplate']['title'] .'</title>', $contentTop);
 
     $contentTop = str_ireplace('<head>', '<head>'. $append, $contentTop);
@@ -531,12 +536,26 @@ function nkTemplate_append($contentTop) {
  * @return string HTML code.
  */
 function nkTemplate_renderPage($content) {
+    global $nuked;
+
     if ($GLOBALS['nkTemplate']['interface'] == 'frontend')
         nkTemplate_loadModuleMedias();
 
-    $contentTop     = nkTemplate_getTopOfPage();
-    $contentFooter  = nkTemplate_getFooterOfPage();
-    $contentTop     = nkTemplate_append($contentTop);
+    if ($GLOBALS['nkTemplate']['title'] != '')
+        $GLOBALS['nkTemplate']['title'] = $nuked['name'] .' - '. $nuked['slogan'];
+
+    $contentTop    = nkTemplate_getTopOfPage();
+    $contentFooter = nkTemplate_getFooterOfPage();
+
+    /*
+    list($contentTop, $content, $contentFooter) = preg_replace(
+        '#<script[\s]*[type="text/javascript"]*[\s]*src="[A-z0-9:./_-]*(jquery)+[A-z0-9.:/_-]*"[\s]*[type="text/javascript"]*[\s]*>#',
+        '',
+        array($contentTop, $content, $contentFooter)
+    );
+    */
+
+    $contentTop = nkTemplate_append($contentTop);
 
     return $contentTop . $content . $contentFooter;
 }

@@ -1,6 +1,6 @@
 
 <?php
-    // choix de l'Ã©diteur
+    // choix de l'éditeur
     if ($GLOBALS['nuked']['editor_type'] == 'cke') : //ckeditor
 ?>
                     <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
