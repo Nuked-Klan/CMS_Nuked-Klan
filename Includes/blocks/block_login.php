@@ -27,8 +27,11 @@ function affich_block_login($blok){
 			. '<tr><td>' . _PASSWORD . ' :</td><td><input type="password" name="pass" size="10" maxlength="15" /></td></tr>'."\n"
 			. '<tr><td colspan="2"><input type="checkbox" class="checkbox" name="remember_me" value="ok" checked="checked" />&nbsp;' . _SAVE . '</td></tr><tr><td colspan="2" align="center">'."\n";
 
-            if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true) || initCaptcha())
+            if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true) || initCaptcha()) {
+                require_once 'Includes/nkCaptcha.php';
+
                 $blok['content'] .= create_captcha();
+            }
 
 			$blok['content'] .= '<input type="submit" value="' . _BLOGIN . '" /></td></tr>'."\n"
 			. '<tr><td colspan="2"><a href="index.php?file=User&amp;op=reg_screen">' . _REGISTER . '</a><br />'."\n"

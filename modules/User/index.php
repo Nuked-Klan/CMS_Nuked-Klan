@@ -867,8 +867,11 @@ function login_screen(){
                 . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass\" size=\"15\" maxlength=\"15\" /></td></tr>\n"
                 . "<input type=\"hidden\" name=\"erreurr\" value=\"".$error."\" size=\"15\" maxlength=\"15\" />\n";
 
-        if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true) || initCaptcha())
+        if ((isset($_SESSION['captcha']) && $_SESSION['captcha'] === true) || initCaptcha()) {
+            require_once 'Includes/nkCaptcha.php';
+
             echo create_captcha();
+        }
 
         echo "<tr><td colspan=\"2\"><input type=\"checkbox\" class=\"checkbox\" name=\"remember_me\" value=\"ok\" checked=\"checked\" /><small>&nbsp;" . _REMEMBERME . "</small></td></tr>\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _TOLOG . "\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
@@ -1101,6 +1104,8 @@ function login($pseudo, $pass, $remember_me){
                 exit();
             }
             else{
+                require_once 'Includes/nkCaptcha.php';
+
                 ValidCaptchaCode();
             }
         }
