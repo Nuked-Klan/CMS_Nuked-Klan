@@ -22,10 +22,10 @@ function checkUserAdminForm() {
     if (! checkUserAdminNickname()) {
         addUserAdminInputError(i18n.error_nickname);
     }
-    else if (checkUserAdminPassword('password')) {
+    else if (! checkUserAdminPassword('password')) {
         addUserAdminInputError(i18n.error_password);
     }
-    else if (checkUserAdminPassword('passwordConfirm')) {
+    else if (! checkUserAdminPassword('passwordConfirm')) {
         addUserAdminInputError(i18n.error_password_confirm);
     }
     else if (! checkUserAdminEmail()) {
@@ -56,18 +56,18 @@ function checkUserAdminNickname(input) {
 }
 
 function checkUserAdminPassword(input) {
-    var checkPasswordConfirm = true;
+    var password, checkPasswordConfirm = true;
 
     if (input === 'password') {
-        input = $('#password');
+        password = $.trim($('#password').val());
         checkPasswordConfirm = false;
     }
     else if (input === 'passwordConfirm')
-        input = $('#passwordConfirm');
+        password = $.trim($('#passwordConfirm').val());
+    else
+        password = $.trim($(input).val());
 
-    var inputName = $(input).attr('name');
-
-    if ($.trim($(input).val()) == '' || (checkPasswordConfirm && $('#password').val() != $('#passwordConfirm').val())) {
+    if (password == '' || (checkPasswordConfirm && $('#password').val() != $('#passwordConfirm').val())) {
         $('#password').addClass('error');
         $('#passwordConfirm').addClass('error');
         return false;
