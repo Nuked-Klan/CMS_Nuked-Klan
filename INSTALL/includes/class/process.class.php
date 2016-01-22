@@ -792,8 +792,8 @@ class process {
         $this->_db->execute($sql);
 
         $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_users`
-            (`id`, `pseudo`, `mail`, `pass`, `niveau`, `date`, `game`, `country`, `token_time`) VALUES
-            (\''. $userId .'\', \''. $nickname .'\', \''. $email .'\', \''. $password .'\', 9, \''. $date .'\', 1, \'France.gif\', \'0\')';
+            (`id`, `pseudo`, `mail`, `pass`, `niveau`, `date`, `game`, `country`, `signature`, `token_time`) VALUES
+            (\''. $userId .'\', \''. $nickname .'\', \''. $email .'\', \''. $password .'\', 9, \''. $date .'\', 1, \'France.gif\', \'\', \'0\')';
 
         $this->_db->execute($sql);
 

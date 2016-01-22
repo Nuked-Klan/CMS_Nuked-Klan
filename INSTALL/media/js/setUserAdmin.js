@@ -1,7 +1,6 @@
 var formError;
 
-function addUserAdminInputError(input, errorMsg) {
-    input.addClass('error');
+function addUserAdminInputError(errorMsg) {
     $('#infos').html(errorMsg);
     formError++;
 }
@@ -10,29 +9,27 @@ function checkUserAdminForm() {
     var nickname        = $('input[name="nickname"]'),
         password        = $('input[name="password"]'),
         passwordConfirm = $('input[name="passwordConfirm"]'),
-        mail            = $('input[name="mail"]'),
-        regNickname     = new RegExp('[\$\^\(\)\'"?%#<>,;:]'),
-        regMail         = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i'),
+        email           = $('input[name="email"]'),
         nicknameVal         = $.trim(nickname.val()),
         passwordVal         = $.trim(password.val()),
         passwordConfirmVal  = $.trim(passwordConfirm.val()),
-        mailVal             = $.trim(mail.val());
+        emailVal            = $.trim(email.val());
 
-    $('#infos').html('&nbsp;');
+    $('#infos').empty();
 
     formError = 0;
 
-    if (nicknameVal.length < 3 || nicknameVal == '' || regNickname.test(nicknameVal)) {
-        addUserAdminInputError(nickname, i18n.error_nickname);
+    if (! checkUserAdminNickname()) {
+        addUserAdminInputError(i18n.error_nickname);
     }
-    else if (passwordVal == '') {
-        addUserAdminInputError(password, i18n.error_password);
+    else if (checkUserAdminPassword('password')) {
+        addUserAdminInputError(i18n.error_password);
     }
-    else if (passwordConfirmVal == '' || passwordVal != passwordConfirmVal) {
-        addUserAdminInputError(passConfirm, i18n.error_password_confirm);
+    else if (checkUserAdminPassword('passwordConfirm')) {
+        addUserAdminInputError(i18n.error_password_confirm);
     }
-    else if (! regMail.test(mailVal) || mailVal == '') {
-        addUserAdminInputError(mail, i18n.error_email);
+    else if (! checkUserAdminEmail()) {
+        addUserAdminInputError(i18n.error_email);
     }
 
     if (formError > 0)
@@ -41,11 +38,60 @@ function checkUserAdminForm() {
         $('#form_user_admin').submit();
 }
 
-function checkUserAdminInput(input) {
-    if ($(input).val() == '' || $(input).attr('name') == 'pass2'
-        && ($('input[name="pass"]').val() != $('input[name="pass2"]').val())
-    )
+function checkUserAdminNickname(input) {
+    if (input === undefined)
+        input = $('#nickname');
+
+    var nickname    = $.trim($(input).val()),
+        regNickname = new RegExp('[\$\^\(\)\'"?%#<>,;:]');
+
+    if (nickname.length < 3 || regNickname.test(nickname)) {
         $(input).addClass('error');
-    else
+        return false;
+    }
+    else {
         $(input).removeClass('error');
+        return true;
+    }
+}
+
+function checkUserAdminPassword(input) {
+    var checkPasswordConfirm = true;
+
+    if (input === 'password') {
+        input = $('#password');
+        checkPasswordConfirm = false;
+    }
+    else if (input === 'passwordConfirm')
+        input = $('#passwordConfirm');
+
+    var inputName = $(input).attr('name');
+
+    if ($.trim($(input).val()) == '' || (checkPasswordConfirm && $('#password').val() != $('#passwordConfirm').val())) {
+        $('#password').addClass('error');
+        $('#passwordConfirm').addClass('error');
+        return false;
+    }
+    else {
+        $('#password').removeClass('error');
+        $('#passwordConfirm').removeClass('error');
+        return true;
+    }
+}
+
+function checkUserAdminEmail(input) {
+    if (input === undefined)
+        input = $('#email');
+
+    var email    = $.trim($(input).val()),
+        regEmail = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
+
+    if (email == '' || ! regEmail.test(email)) {
+        $(input).addClass('error');
+        return false;
+    }
+    else {
+        $(input).removeClass('error');
+        return true;
+    }
 }
