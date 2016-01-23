@@ -44,9 +44,11 @@ function repairRecruitTable($db, $dbTable, $dbPrefix) {
     if (! $dbTable->fieldExist('country'))
         $dbTable->addField('country', array('type' => 'text', 'null' => false), 'icq');
 
+    $addGameIndex = false;
+
     if (! $dbTable->fieldExist('game')) {
         $dbTable->addField('game', array('type' => 'int(11)', 'null' => false, 'default' => '\'0\''), 'country');
-        $db->execute('ALTER TABLE `'. $dbPrefix .'_recrute` ADD INDEX (`game`)');
+        $addGameIndex = true;
     }
 
     if (! $dbTable->fieldExist('connection'))
@@ -62,6 +64,9 @@ function repairRecruitTable($db, $dbTable, $dbPrefix) {
         $dbTable->addField('comment', array('type' => 'text', 'null' => false), 'dispo');
 
     $dbTable->alterTable();
+
+    if ($addGameIndex)
+        $db->execute('ALTER TABLE `'. $dbPrefix .'_recrute` ADD INDEX (`game`)');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
