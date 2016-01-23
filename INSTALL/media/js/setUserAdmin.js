@@ -1,73 +1,49 @@
-var formError;
-
-function addUserAdminInputError(errorMsg) {
-    $('#infos').html(errorMsg);
-    formError++;
-}
-
+/**
+ * Check Super Administrator form before submit it.
+ */
 function checkUserAdminForm() {
-    var nickname        = $('input[name="nickname"]'),
-        password        = $('input[name="password"]'),
-        passwordConfirm = $('input[name="passwordConfirm"]'),
-        email           = $('input[name="email"]'),
-        nicknameVal         = $.trim(nickname.val()),
-        passwordVal         = $.trim(password.val()),
-        passwordConfirmVal  = $.trim(passwordConfirm.val()),
-        emailVal            = $.trim(email.val());
+    var infos = $('#infos');
 
-    $('#infos').empty();
+    try {
+        infos.empty();
 
-    formError = 0;
+        if (! checkUserAdminNickname($('#nickname'))) throw i18n.error_nickname;
+        if (! checkUserAdminPassword($('#password'))) throw i18n.error_password;
+        if (! checkUserAdminPassword($('#passwordConfirm'))) throw i18n.error_password_confirm;
+        if (! checkUserAdminEmail($('#email'))) throw i18n.error_email;
 
-    if (! checkUserAdminNickname()) {
-        addUserAdminInputError(i18n.error_nickname);
-    }
-    else if (! checkUserAdminPassword('password')) {
-        addUserAdminInputError(i18n.error_password);
-    }
-    else if (! checkUserAdminPassword('passwordConfirm')) {
-        addUserAdminInputError(i18n.error_password_confirm);
-    }
-    else if (! checkUserAdminEmail()) {
-        addUserAdminInputError(i18n.error_email);
-    }
-
-    if (formError > 0)
-        return false;
-    else
         $('#form_user_admin').submit();
+    }
+    catch(errorMsg) {
+        infos.html(errorMsg);
+        return false;
+    }
 }
 
+/**
+ * Check Super Administrator nickname.
+ */
 function checkUserAdminNickname(input) {
-    if (input === undefined)
-        input = $('#nickname');
-
-    var nickname    = $.trim($(input).val()),
+    var nickname    = $.trim(input.val()),
         regNickname = new RegExp('[\$\^\(\)\'"?%#<>,;:]');
 
     if (nickname.length < 3 || regNickname.test(nickname)) {
-        $(input).addClass('error');
+        input.addClass('error');
         return false;
     }
     else {
-        $(input).removeClass('error');
+        input.removeClass('error');
         return true;
     }
 }
 
+/**
+ * Check Super Administrator password.
+ */
 function checkUserAdminPassword(input) {
-    var password, checkPasswordConfirm = true;
+    var password = $.trim(input.val());
 
-    if (input === 'password') {
-        password = $.trim($('#password').val());
-        checkPasswordConfirm = false;
-    }
-    else if (input === 'passwordConfirm')
-        password = $.trim($('#passwordConfirm').val());
-    else
-        password = $.trim($(input).val());
-
-    if (password == '' || (checkPasswordConfirm && $('#password').val() != $('#passwordConfirm').val())) {
+    if (password == '' || (input.selector != '#password' && $('#password').val() != $('#passwordConfirm').val())) {
         $('#password').addClass('error');
         $('#passwordConfirm').addClass('error');
         return false;
@@ -79,19 +55,19 @@ function checkUserAdminPassword(input) {
     }
 }
 
+/**
+ * Check Super Administrator email.
+ */
 function checkUserAdminEmail(input) {
-    if (input === undefined)
-        input = $('#email');
-
-    var email    = $.trim($(input).val()),
+    var email    = $.trim(input.val()),
         regEmail = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
 
     if (email == '' || ! regEmail.test(email)) {
-        $(input).addClass('error');
+        input.addClass('error');
         return false;
     }
     else {
-        $(input).removeClass('error');
+        input.removeClass('error');
         return true;
     }
 }

@@ -9,7 +9,7 @@
                             <label for="passwordConfirm"><strong><?php echo $i18n['PASSWORD_CONFIRM'] ?></strong></label>
                             <input type="password" id="passwordConfirm" name="passwordConfirm" value="" onblur="checkUserAdminPassword($(this));" />
                             <label for="mail"><strong><?php echo $i18n['EMAIL'] ?></strong></label>
-                            <input type="text" id="mail" name="email" value="" onblur="checkUserAdminEmail($(this));" />
+                            <input type="text" id="email" name="email" value="" onblur="checkUserAdminEmail($(this));" />
                         </div>
                         <div id="infos" style="text-align: center;margin:30px auto;color:#FF4040;"></div>
                         <div style="text-align: center;margin:30px auto;">
