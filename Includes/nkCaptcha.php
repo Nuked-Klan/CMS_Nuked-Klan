@@ -63,23 +63,20 @@ function create_captcha() {
         $token = $_SESSION['CT_TOKEN'];
     }
 
-    $contentCaptcha = ' <input type="hidden" name="ct_token" value="'.$token.'" />
-                        <input type="hidden" class="ct_script" name="ct_script" value="nuked" />
-                        <input type="hidden" name="ct_email" value="" />
-                        <script type="text/javascript">
-                            if(typeof jQuery == \'undefined\'){
-                                document.write(\'\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>\');
-                            }
-                        </script>
-                        <script type="text/javascript" src="media/js/captcha.js"></script>';
+    $contentCaptcha = '<input type="hidden" name="ct_token" value="'.$token.'" />
+                       <input type="hidden" class="ct_script" name="ct_script" value="nuked" />
+                       <input type="hidden" name="ct_email" value="" />';
 
     static $js = false;
 
     if ($js === false) {
         $js = true;
-        $contentCaptcha = '<input type="hidden" name="ct_token" value="'.$token.'" />
-                           <input type="hidden" class="ct_script" name="ct_script" value="nuked" />
-                           <input type="hidden" name="ct_email" value="" />';
+        $contentCaptcha .= '<script type="text/javascript">
+                               if (typeof jQuery == \'undefined\') {
+                                   document.write(\'\x3Cscript type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">\x3C/script>\');
+                               }
+                           </script>
+                           <script type="text/javascript" src="media/js/captcha.js"></script>';
     }
 
     return $contentCaptcha;
