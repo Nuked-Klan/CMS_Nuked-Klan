@@ -1,5 +1,5 @@
                 <div style="text-align:center;">
-                    <img src="images/nk.png" alt="" />
+                    <img src="media/images/nk.png" alt="" />
                     <h2><b><?php printf($i18n['NEW_FEATURES_NK'], $processVersion) ?></b></h2>
                 </div>
                 <div style="width:90%;margin: 20px auto;">
