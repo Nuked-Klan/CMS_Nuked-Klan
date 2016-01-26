@@ -322,6 +322,8 @@ class process {
      * Set config (assisted or not)
      */
     public function setConfig() {
+        $this->_session['db_type'] = 'MySQL';
+
         $this->_view = new view('setConfig');
 
         $this->_view->process           = $this->_session['process'];
@@ -688,11 +690,23 @@ class process {
      * Translate and return Sql error
      */
     private function _formatSqlError($error) {
-        if (in_array($error, array('DB_HOST_ERROR', 'DB_USER_ERROR', 'DB_NAME_ERROR', 'DB_CHARSET_ERROR', 'DB_PREFIX_ERROR'))) {
-            if ($error == 'DB_CHARSET_ERROR')
-                return $this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. sprintf($this->_i18n['DB_CHARSET_ERROR'], $this->_db->getCharset());
+        $sqlErrorlist = array(
+            'DB_HOST_CONNECT_ERROR',
+            'DB_USER_CONNECT_ERROR',
+            'DB_NAME_CONNECT_ERROR',
+            'DB_CHARSET_CONNECT_ERROR',
+            'DB_PREFIX_CONNECT_ERROR'
+        );
+
+        if (in_array($error, $sqlErrorlist)) {
+            if ($error == 'DB_HOST_CONNECT_ERROR')
+                $errorMsg = sprintf($this->_i18n['DB_HOST_CONNECT_ERROR'], $this->_session['db_type']);
+            else if ($error == 'DB_CHARSET_CONNECT_ERROR')
+                $errorMsg = sprintf($this->_i18n['DB_CHARSET_CONNECT_ERROR'], $this->_db->getCharset());
             else
-                return $this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $this->_i18n[$error];
+                $errorMsg = $this->_i18n[$error];
+
+            return $this->_i18n['DB_CONNECT_FAIL'] .'<br/>'. $errorMsg;
         }
         else
             return sprintf($this->_i18n['FATAL_SQL_ERROR'], $error);

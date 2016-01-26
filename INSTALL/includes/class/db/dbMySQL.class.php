@@ -94,13 +94,13 @@ class dbMySQL {
      */
     public function _getDbConnectError($error) {
         if (strpos($error, 'Unknown MySQL server host') !== false) # 2002
-            return 'DB_HOST_ERROR';
+            return 'DB_HOST_CONNECT_ERROR';
         else if (strpos($error, 'Access denied for user') !== false) # 1044 / 1045
-            return 'DB_LOGIN_ERROR';
+            return 'DB_LOGIN_CONNECT_ERROR';
         else if (strpos($error, 'Unknown database') !== false) # 1049
-            return 'DB_NAME_ERROR';
+            return 'DB_NAME_CONNECT_ERROR';
         else if (strpos($error, 'Invalid characterset or character') !== false) # 2019
-            return 'DB_CHARSET_ERROR';
+            return 'DB_CHARSET_CONNECT_ERROR';
         else
             return $error;
     }

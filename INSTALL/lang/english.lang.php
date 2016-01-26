@@ -24,11 +24,10 @@ return array(
     #####################################
     # dbMySQL->_getDbConnectError()
     #####################################
-    'DB_HOST_ERROR'         => 'Please check the server mysql name.',
-    'DB_LOGIN_ERROR'        => 'Please check the username and password.',
-    'DB_NAME_ERROR'         => 'Control your database name.',
-    'DB_CHARSET_ERROR'      => 'Your database does not support %s charset',
-    'DB_UNKNOW_ERROR'       => 'Unknow MySQL error',
+    'DB_HOST_CONNECT_ERROR' => 'Please check the server %s name.',
+    'DB_LOGIN_CONNECT_ERROR' => 'Please check the username and password.',
+    'DB_NAME_CONNECT_ERROR' => 'Control your database name.',
+    'DB_CHARSET_CONNECT_ERROR' => 'Your database does not support %s charset',
     #####################################
     # dbTable->getFieldType()
     #####################################
@@ -111,6 +110,14 @@ return array(
     # view::__construct()
     #####################################
     'VIEW_NO_FOUND'         => 'View file `%s` no found',
+    #####################################
+    # media/js/setConfig.js
+    #####################################
+    'DB_HOST_ERROR'         => 'Please enter the server %s name.',
+    'DB_USER_ERROR'         => 'Please enter a username.',
+    'DB_PASSWORD_ERROR'     => 'Please enter a password.',
+    'DB_PREFIX_ERROR'       => 'Please enter a table prefix for database.',
+    'DB_NAME_ERROR'         => 'Please enter a database name.',
     #####################################
     # media/js/runProcess.js
     #####################################
@@ -434,16 +441,16 @@ return array(
     # views/setConfig.php
     #####################################
     'CONFIG'                => 'Configuration',
-    'DB_HOST'               => 'Mysql Server',
-    'INSTALL_DB_HOST'       => 'This is the MySQL server address of your hosting, it contains all your data texts, members, messages ... In general, it is localhost, but in all cases, the address indicated on your registration email your host or in the administration of your hosting.',
+    'DB_HOST'               => '%s Server',
+    'INSTALL_DB_HOST'       => 'This is the %s server address of your hosting, it contains all your data texts, members, messages ... In general, it is localhost, but in all cases, the address indicated on your registration email your host or in the administration of your hosting.',
     'DB_USER'               => 'User',
-    'INSTALL_DB_USER'       => 'This is your identifier allowing you to connect to your MySQL database.',
+    'INSTALL_DB_USER'       => 'This is your identifier allowing you to connect to your %s database.',
     'DB_PASSWORD'           => 'Password',
-    'INSTALL_DB_PASSWORD'   => 'This is the password for your login that lets you connect to your MySQL database.',
+    'INSTALL_DB_PASSWORD'   => 'This is the password for your login that lets you connect to your %s database.',
     'DB_PREFIX'             => 'Prefix',
-    'INSTALL_DB_PREFIX'     => 'The prefix used to install several times Nuked-Klan on a single MySQL database using a prefix different each time, by default it is \'nuked\', but you can change the way you want.',
+    'INSTALL_DB_PREFIX'     => 'The prefix used to install several times Nuked-Klan on a single %s database using a prefix different each time, by default it is \'nuked\', but you can change the way you want.',
     'DB_NAME'               => 'Database name',
-    'INSTALL_DB_NAME'       => 'This is the name of your MySQL database, often you need to go in the administration of your hosting to create a database, but sometimes it sure is already provided in your registration email hosting .',
+    'INSTALL_DB_NAME'       => 'This is the name of your %s database, often you need to go in the administration of your hosting to create a database, but sometimes it sure is already provided in your registration email hosting .',
     #####################################
     # views/setUserAdmin.php
     #####################################

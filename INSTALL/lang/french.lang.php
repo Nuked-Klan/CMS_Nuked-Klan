@@ -24,11 +24,10 @@ return array(
     #####################################
     # dbMySQL->_getDbConnectError()
     #####################################
-    'DB_HOST_ERROR'         => 'Veuillez contrôler le nom du serveur mysql.',
-    'DB_LOGIN_ERROR'        => 'Veuillez contrôler le nom d\'utilisateur et le mot de passe.',
-    'DB_NAME_ERROR'         => 'Veuillez contrôler le nom de la base de données.',
-    'DB_CHARSET_ERROR'      => 'Votre base de données ne supporte pas l\'interclassement %s',
-    'DB_UNKNOW_ERROR'       => 'Erreur MySQL inconnue',
+    'DB_HOST_CONNECT_ERROR' => 'Veuillez contrôler le nom du serveur %s.',
+    'DB_LOGIN_CONNECT_ERROR' => 'Veuillez contrôler le nom d\'utilisateur et le mot de passe.',
+    'DB_NAME_CONNECT_ERROR' => 'Veuillez contrôler le nom de la base de données.',
+    'DB_CHARSET_CONNECT_ERROR' => 'Votre base de données ne supporte pas l\'interclassement %s',
     #####################################
     # dbTable->getFieldType()
     #####################################
@@ -111,6 +110,14 @@ return array(
     # view::__construct()
     #####################################
     'VIEW_NO_FOUND'         => 'Le fichier de la vue `%s` est manquant',
+    #####################################
+    # media/js/setConfig.js
+    #####################################
+    'DB_HOST_ERROR'         => 'Veuillez saisir le nom du serveur %s.',
+    'DB_USER_ERROR'         => 'Veuillez saisir le nom d\'utilisateur.',
+    'DB_PASSWORD_ERROR'     => 'Veuillez saisir un mot de passe.',
+    'DB_PREFIX_ERROR'       => 'Veuillez saisir un prefix pour les tables de la base de données.',
+    'DB_NAME_ERROR'         => 'Veuillez saisir un nom pour la base de données.',
     #####################################
     # media/js/runProcess.js
     #####################################
@@ -434,16 +441,16 @@ return array(
     # views/setConfig.php
     #####################################
     'CONFIG'                => 'Configuration',
-    'DB_HOST'               => 'Serveur Mysql',
-    'INSTALL_DB_HOST'       => 'Il s\'agit ici de l\'adresse du serveur MySQL de votre hébergement, celui-ci contient toutes vos données textes, membres, messages... En général, il s\'agit de localhost, mais dans tous les cas, l\'adresse est indiquée dans votre mail d\'inscription de votre hébergeur ou dans l\'administration de votre hébergement.',
+    'DB_HOST'               => 'Serveur %s',
+    'INSTALL_DB_HOST'       => 'Il s\'agit ici de l\'adresse du serveur %s de votre hébergement, celui-ci contient toutes vos données textes, membres, messages... En général, il s\'agit de localhost, mais dans tous les cas, l\'adresse est indiquée dans votre mail d\'inscription de votre hébergeur ou dans l\'administration de votre hébergement.',
     'DB_USER'                => 'Utilisateur',
-    'INSTALL_DB_USER'       => 'Il s\'agit de votre identifiant qui vous permet de vous connecter à votre base MySQL.',
+    'INSTALL_DB_USER'       => 'Il s\'agit de votre identifiant qui vous permet de vous connecter à votre base %s.',
     'DB_PASSWORD'           => 'Mot de passe',
-    'INSTALL_DB_PASSWORD'   => 'Il s\'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base MySQL.',
+    'INSTALL_DB_PASSWORD'   => 'Il s\'agit du mot de passe de votre identifiant qui vous permet de vous connecter à votre base %s.',
     'DB_PREFIX'             => 'Prefix',
-    'INSTALL_DB_PREFIX'     => 'Le prefix permet d\'installer plusieurs fois Nuked-Klan sur une seule base MySQL en utilisant un prefix différent à chaque fois, par défaut, il s\'agit de \'nuked\', mais vous pouvez le changer comme vous le voulez.',
+    'INSTALL_DB_PREFIX'     => 'Le prefix permet d\'installer plusieurs fois Nuked-Klan sur une seule base %s en utilisant un prefix différent à chaque fois, par défaut, il s\'agit de \'nuked\', mais vous pouvez le changer comme vous le voulez.',
     'DB_NAME'               => 'Nom de la Base',
-    'INSTALL_DB_NAME'       => 'Il s\'agit du nom de votre base de données MySQL, souvent vous devez vous rendre dans l\'administration de votre hébergement pour créer une base de données, mais parfois celle-ci vous est déjà fournie dans le mail d\'inscription de votre hébergement.',
+    'INSTALL_DB_NAME'       => 'Il s\'agit du nom de votre base de données %s, souvent vous devez vous rendre dans l\'administration de votre hébergement pour créer une base de données, mais parfois celle-ci vous est déjà fournie dans le mail d\'inscription de votre hébergement.',
     #####################################
     # views/setUserAdmin.php
     #####################################

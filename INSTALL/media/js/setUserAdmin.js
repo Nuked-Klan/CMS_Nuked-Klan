@@ -1,51 +1,88 @@
-var formError;
-
-function addUserAdminInputError(input, errorMsg) {
-    input.addClass('error');
-    $('#infos').html(errorMsg);
-    formError++;
-}
-
+/**
+ * Check Super Administrator form before submit it.
+ */
+//function checkUserAdminForm(form, event) {
 function checkUserAdminForm() {
-    var nickname        = $('input[name="nickname"]'),
-        password        = $('input[name="password"]'),
-        passwordConfirm = $('input[name="passwordConfirm"]'),
-        mail            = $('input[name="mail"]'),
-        regNickname     = new RegExp('[\$\^\(\)\'"?%#<>,;:]'),
-        regMail         = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i'),
-        nicknameVal         = $.trim(nickname.val()),
-        passwordVal         = $.trim(password.val()),
-        passwordConfirmVal  = $.trim(passwordConfirm.val()),
-        mailVal             = $.trim(mail.val());
+    var infos = $('#infos');
 
-    $('#infos').html('&nbsp;');
+    try {
+        infos.empty();
 
-    formError = 0;
+        if (! checkUserAdminNickname($('#nickname'))) throw i18n.error_nickname;
+        if (! checkUserAdminPassword($('#password'))) throw i18n.error_password;
+        if (! checkUserAdminPassword($('#passwordConfirm'))) throw i18n.error_password_confirm;
+        if (! checkUserAdminEmail($('#email'))) throw i18n.error_email;
 
-    if (nicknameVal.length < 3 || nicknameVal == '' || regNickname.test(nicknameVal)) {
-        addUserAdminInputError(nickname, i18n.error_nickname);
-    }
-    else if (passwordVal == '') {
-        addUserAdminInputError(password, i18n.error_password);
-    }
-    else if (passwordConfirmVal == '' || passwordVal != passwordConfirmVal) {
-        addUserAdminInputError(passConfirm, i18n.error_password_confirm);
-    }
-    else if (! regMail.test(mailVal) || mailVal == '') {
-        addUserAdminInputError(mail, i18n.error_email);
-    }
-
-    if (formError > 0)
-        return false;
-    else
         $('#form_user_admin').submit();
+        //form.submit();
+    }
+    catch (errorMsg) {
+        infos.html(errorMsg);
+        return false;
+        //event.preventDefault();
+    }
 }
 
-function checkUserAdminInput(input) {
-    if ($(input).val() == '' || $(input).attr('name') == 'pass2'
-        && ($('input[name="pass"]').val() != $('input[name="pass2"]').val())
-    )
-        $(input).addClass('error');
-    else
-        $(input).removeClass('error');
+/**
+ * Check Super Administrator nickname.
+ */
+function checkUserAdminNickname(input) {
+    var nickname    = $.trim(input.val()),
+        regNickname = new RegExp('[\$\^\(\)\'"?%#<>,;:]');
+
+    if (nickname.length < 3 || regNickname.test(nickname)) {
+        input.addClass('error');
+        return false;
+    }
+    else {
+        input.removeClass('error');
+        return true;
+    }
 }
+
+/**
+ * Check Super Administrator password.
+ */
+function checkUserAdminPassword(input) {
+    var password = $.trim(input.val());
+
+    if (password == '' || (input.selector != '#password' && $('#password').val() != $('#passwordConfirm').val())) {
+        $('#password').addClass('error');
+        $('#passwordConfirm').addClass('error');
+        return false;
+    }
+    else {
+        $('#password').removeClass('error');
+        $('#passwordConfirm').removeClass('error');
+        return true;
+    }
+}
+
+/**
+ * Check Super Administrator email.
+ */
+function checkUserAdminEmail(input) {
+    var email    = $.trim(input.val()),
+        regEmail = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
+
+    if (email == '' || ! regEmail.test(email)) {
+        input.addClass('error');
+        return false;
+    }
+    else {
+        input.removeClass('error');
+        return true;
+    }
+}
+
+/**
+ * Link input event with form functions.
+ */
+$(document).ready(function() {
+    //$('#form_user_admin').submit(function(event) { checkUserAdminForm($(this), event); });
+    $('#submit').click(function() { return checkUserAdminForm(); });
+    $('#nickname').blur(function() { checkUserAdminNickname($(this)); });
+    $('#password').blur(function() { checkUserAdminPassword($(this)); });
+    $('#passwordConfirm').blur(function() { checkUserAdminPassword($(this)); });
+    $('#email').blur(function() { checkUserAdminEmail($(this)); });
+});

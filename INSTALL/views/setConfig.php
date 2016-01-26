@@ -6,34 +6,35 @@
                     <form method="post" action="index.php?action=saveConfig" id="form_config">
                         <h4><?php echo $i18n['CONFIG'] ?></h4>
                         <div id="config">
-                            <label for="db_host"><strong><?php echo $i18n['DB_HOST'] ?></strong></label>
-                            <input type="text" name="db_host" id="db_host" value="<?php echo (isset($host)) ? $host : '' ?>" onblur="checkConfigInput($(this));"<?php echo ($process == 'update') ? ' disabled="disabled"' : '' ?> />
+                            <label id="db_host_label" for="db_host"><strong><?php printf($i18n['DB_HOST'], 'MySQL') ?></strong></label>
+                            <input type="text" name="db_host" id="db_host" value="<?php echo (isset($host)) ? $host : '' ?>"<?php echo ($process == 'update') ? ' disabled="disabled"' : '' ?> />
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_HOST'] ?></p>
+                            <p id="db_host_info"><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><span><?php printf($i18n['INSTALL_DB_HOST'], 'MySQL') ?></span></p>
 <?php
     endif
 ?>
                             <label for="db_user"><strong><?php echo $i18n['DB_USER'] ?></strong></label>
-                            <input type="text" name="db_user" id="db_user" value="<?php echo (isset($user)) ? $user : '' ?>" onblur="checkConfigInput($(this));"<?php echo ($process == 'update') ? ' disabled="disabled"' : '' ?> />
+                            <input type="text" name="db_user" id="db_user" value="<?php echo (isset($user)) ? $user : '' ?>"<?php echo ($process == 'update') ? ' disabled="disabled"' : '' ?> />
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_USER'] ?></p>
+                            <p id="db_user_info"><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><span><?php printf($i18n['INSTALL_DB_USER'], 'MySQL') ?></span></p>
 <?php
     endif
 ?>
                             <label for="db_pass"><strong><?php echo $i18n['DB_PASSWORD'] ?></strong></label>
-                            <input type="password" name="db_pass" id="db_pass" value="" onblur="checkConfigInput($(this));" />
+                            <input type="password" name="db_pass" id="db_pass" value="" />
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_PASSWORD'] ?></p>
+                            <p id="db_password_info"><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><span><?php printf($i18n['INSTALL_DB_PASSWORD'], 'MySQL') ?></span></p>
 <?php
     endif
 ?>
 
+                            <div><input type="hidden" name="db_type" id="db_type" value="MySQL" /></div>
 <?php /*
                             <label for="db_type"><strong><?php echo $i18n['DB_TYPE'] ?></strong></label>
                             <select id="db_type" name="db_type">
@@ -55,20 +56,20 @@
 */ ?>
 
                             <label for="db_prefix"><strong><?php echo $i18n['DB_PREFIX'] ?></strong></label>
-                            <input type="text" name="db_prefix" id="db_prefix" value="<?php echo (isset($prefix)) ? $prefix : 'nuked' ?>" onblur="checkConfigInput($(this));"<?php echo ($process == 'update') ? ' disabled="disabled"' : '' ?> />
+                            <input type="text" name="db_prefix" id="db_prefix" value="<?php echo (isset($prefix)) ? $prefix : 'nuked' ?>"<?php echo ($process == 'update') ? ' disabled="disabled"' : '' ?> />
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_PREFIX'] ?></p>
+                            <p id="db_prefix_info"><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><span><?php printf($i18n['INSTALL_DB_PREFIX'], 'MySQL') ?></span></p>
 <?php
     endif
 ?>
                             <label for="db_name"><strong><?php echo $i18n['DB_NAME'] ?></strong></label>
-                            <input type="text" name="db_name" id="db_name" value="<?php echo (isset($name)) ? $name : '' ?>" onblur="checkConfigInput($(this));"<?php echo ($process == 'update') ? ' disabled="disabled"' : '' ?> />
+                            <input type="text" name="db_name" id="db_name" value="<?php echo (isset($name)) ? $name : '' ?>"<?php echo ($process == 'update') ? ' disabled="disabled"' : '' ?> />
 <?php
     if ($assist == 'yes') :
 ?>
-                            <p><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><?php echo $i18n['INSTALL_DB_NAME'] ?></p>
+                            <p id="db_name_info"><img src="media/images/info.png" style="float:left;margin-right:5px;" alt="" /><span><?php printf($i18n['INSTALL_DB_NAME'], 'MySQL') ?></span></p>
 <?php
     endif
 ?>
@@ -79,11 +80,4 @@
                             <a href="index.php?action=<?php echo ($assist == 'no') ? 'selectProcessType' : 'changelog' ?>" class="button"><?php echo $i18n['BACK'] ?></a>
                         </div>
                     </form>
-                    <script type="text/javascript">
-                    //<![CDATA[
-                    $('#submit').click(function() {
-                        return checkConfigForm();
-                    });
-                    //]]>
-                    </script>
                 </div>

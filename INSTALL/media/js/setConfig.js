@@ -1,88 +1,190 @@
-function addConfigInputError(input, errorMsg) {
-    $('#loading_img').remove();
-    $('#infos').html(i18n.db_connect_fail + '<br />' + errorMsg);
-    if (input !== null) input.addClass('error');
-}
-
+/**
+ * Check database configuration form before submit it.
+ */
+//function checkConfigForm(form, event) {
 function checkConfigForm() {
-    var host        = $('input[name="db_host"]');
-    var user        = $('input[name="db_user"]');
-    var pass        = $('input[name="db_pass"]');
-    var dbname      = $('input[name="db_name"]');
-    var prefix      = $('input[name="db_prefix"]');
-    var dbError     = null;
-    var formErrors  = 0;
+    var infos      = $('#infos'),
+        dbHost     = $('#db_host'),
+        dbUser     = $('#db_user'),
+        dbPassword = $('#db_pass'),
+        dbName     = $('#db_name'),
+        dbPrefix   = $('#db_prefix'),
+        dbType     = $('#db_type').val();
 
-    $('input[id]').each(function() {
-        if ($(this).attr('type') == 'text' || $(this).attr('type') == 'password') {
-            if (($(this).val() == '' && $(this).attr('name') != 'db_pass' && $(this).attr('name') != 'db_prefix')
-                || ($(this).attr('name') == 'db_pass' && user.val() != 'root' && $(this).val() == '')
-            ) {
-                $(this).addClass('error');
-                formErrors++;
-            }
-        }
-    });
+    var dbHostError        = i18n.db_host_error.replace(/%s/, dbType),
+        dbHostConnectError = i18n.db_host_connect_error.replace(/%s/, dbType);
 
-    if (formErrors != 0) {
-        return false;
-    }
-    else {
-        $('#infos').html('<span style="color:#000;">' + i18n.wait
-            + '</span><img src="media/images/loading.gif" alt="" id="loading_img" />');
+    try {
+        if (! checkConfigDbHost(dbHost)) throw dbHostError;
+        if (! checkConfigDbUser(dbUser)) throw i18n.db_user_error;
+        if (! checkConfigDbPassword(dbPassword)) throw i18n.db_password_error;
+        if (! checkConfigDbPrefix(dbName)) throw i18n.db_prefix_error;
+        if (! checkConfigDbName(dbPrefix)) throw i18n.db_name_error;
+
+        infos.html('<span style="color:#000;">' + i18n.wait + '</span><img src="media/images/loading.gif" alt="" />');
 
         $.ajax({
             async: false,
             type: 'POST',
             url: 'index.php?action=dbConnectTest',
             data: {
-                'db_host' : host.val(),
-                'db_user' : user.val(),
-                'db_pass' : pass.val(),
-                'db_name' : dbname.val(),
-                'db_prefix' : prefix.val()
+                'db_host' :   dbHost.val(),
+                'db_user' :   dbUser.val(),
+                'db_pass' :   dbPassword.val(),
+                'db_name' :   dbName.val(),
+                'db_prefix' : dbPrefix.val(),
+                'db_type' :   dbType.val()
             }
         }).done(function(txt) {
-            $('#form_config input').removeClass('error');
-
-            if (txt == 'OK') {
-                dbError = false;
-            }
-            else {
-                dbError = true;
-
+            if (txt != 'OK') {
                 if (txt == 'DB_HOST_ERROR') {
-                    addConfigInputError(host, i18n.db_host_error);
+                    dbHost.addClass('error');
+                    throw i18n.db_connect_fail + '<br />' + dbHostConnectError;
                 }
                 else if (txt == 'DB_LOGIN_ERROR') {
-                    addConfigInputError(pass, i18n.db_login_error);
-                    user.addClass('error');
+                    dbUser.addClass('error');
+                    dbPassword.addClass('error');
+                    throw i18n.db_connect_fail + '<br />' + i18n.db_login_connect_error;
                 }
                 else if (txt == 'DB_NAME_ERROR') {
-                    addConfigInputError(dbname, i18n.db_name_error);
+                    dbName.addClass('error');
+                    throw i18n.db_connect_fail + '<br />' + i18n.db_name_connect_error;
                 }
-                else if(txt == 'DB_PREFIX_ERROR') {
-                    addConfigInputError(prefix, i18n.db_prefix_error);
+                else if (txt == 'DB_PREFIX_ERROR') {
+                    dbPrefix.addClass('error');
+                    throw i18n.db_connect_fail + '<br />' + i18n.db_prefix_connect_error;
                 }
-                else if(txt == 'DB_CHARSET_ERROR') {
-                    addConfigInputError(null, i18n.db_charset_error);
+                else if (txt == 'DB_CHARSET_ERROR') {
+                    throw i18n.db_connect_fail + '<br />' + i18n.db_charset_connect_error;
                 }
                 else {
-                    $('#infos').html(txt);
+                    throw i18n.db_connect_fail + '<br />' + txt;
                 }
             }
         });
 
-        if (dbError == false)
-            $('#form_config').submit();
+        $('#form_config').submit();
+        //form.submit();
+    }
+    catch (errorMsg) {
+        //infos.empty();
+        infos.html(errorMsg);
+        return false;
+        //event.preventDefault();
     }
 }
 
-function checkConfigInput(input) {
-    if (($(input).val() == '' && $(input).attr('name') != 'db_pass')
-        || ($(input).attr('name') == 'db_pass' && $('input[name="db_user"]').val() != 'root' && $(input).val() == '')
-    )
-        $(input).addClass('error');
-    else
-        $(input).removeClass('error');
+/**
+ * Check database host value.
+ */
+function checkConfigDbHost(input) {
+    if ($.trim(input.val()) == '') {
+        input.addClass('error');
+        return false;
+    }
+    else {
+        input.removeClass('error');
+        return true;
+    }
 }
+
+/**
+ * Check database user value.
+ */
+function checkConfigDbUser(input) {
+    var user = input.val(),
+        passwordInput = $('#db_pass');
+
+    if ($.trim(user) == '') {
+        input.addClass('error');
+        return false;
+    }
+    else if (user == 'root' && passwordInput.val() == '' && passwordInput.hasClass('error')) {
+        input.removeClass('error');
+        passwordInput.removeClass('error');
+        return true;
+    }
+    else {
+        input.removeClass('error');
+        return true;
+    }
+}
+
+/**
+ * Check database password value.
+ */
+function checkConfigDbPassword(input) {
+    if ($('#db_user').val() != 'root' && $.trim(input.val()) == '') {
+        input.addClass('error');
+        return false;
+    }
+    else {
+        input.removeClass('error');
+        return true;
+    }
+}
+
+/**
+ * Check database prefix value.
+ */
+function checkConfigDbPrefix(input) {
+    if ($.trim(input.val()) == '') {
+        input.addClass('error');
+        return false;
+    }
+    else {
+        input.removeClass('error');
+        return true;
+    }
+}
+
+/**
+ * Check database name value.
+ */
+function checkConfigDbName(input) {
+    if ($.trim(input.val()) == '') {
+        input.addClass('error');
+        return false;
+    }
+    else {
+        input.removeClass('error');
+        return true;
+    }
+}
+
+/**
+ * Link input event with form functions.
+ */
+$(document).ready(function() {
+    //$('#form_config').submit(function(event) { checkConfigForm($(this), event); });
+    $('#submit').click(function() { return checkConfigForm(); });
+    $('#db_host').blur(function() { checkConfigDbHost($(this)); });
+    $('#db_user').blur(function() { checkConfigDbUser($(this)); });
+    $('#db_pass').blur(function() { checkConfigDbPassword($(this)); });
+
+    /*
+    $('#db_type').change(function() {
+        var dbType = $(this).val();
+
+        $('#db_host_label strong').html(i18n.db_host.replace(/%s/, dbType));
+
+        if (document.getElementById('db_host_info'))
+            $('#db_host_info').html(i18n.install_db_host.replace(/%s/, dbType));
+
+        if (document.getElementById('db_user_info'))
+            $('#db_user_info').html(i18n.install_db_user.replace(/%s/, dbType));
+
+        if (document.getElementById('db_password_info'))
+            $('#db_password_info').html(i18n.install_db_password.replace(/%s/, dbType));
+
+        if (document.getElementById('db_prefix_info'))
+            $('#db_prefix_info').html(i18n.install_db_prefix.replace(/%s/, dbType));
+
+        if (document.getElementById('db_name_info'))
+            $('#db_name_info').html(i18n.install_db_name.replace(/%s/, dbType));
+    });
+    */
+
+    $('#db_prefix').blur(function() { checkConfigDbPrefix($(this)); });
+    $('#db_name').blur(function() { checkConfigDbName($(this)); });
+});
