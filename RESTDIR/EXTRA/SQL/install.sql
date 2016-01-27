@@ -1,23 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.3
+-- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 10 Novembre 2012 à 16:57
--- Version du serveur: 5.5.28-1~dotdeb.0-log
--- Version de PHP: 5.3.18-1~dotdeb.0
+-- GÃ©nÃ©rÃ© le: Mer 27 Janvier 2016 Ã  22:33
+-- Version du serveur: 5.5.47-0ubuntu0.14.04.1
+-- Version de PHP: 5.5.9-1ubuntu4.14
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES latin1 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Base de données: `NK-1712`
+-- Base de donnÃ©es: `NK_1715_test`
 --
 
 -- --------------------------------------------------------
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `nuked_action` (
 DROP TABLE IF EXISTS `nuked_banned`;
 CREATE TABLE IF NOT EXISTS `nuked_banned` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `pseudo` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `email` varchar(80) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `date` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `nuked_block` (
 
 INSERT INTO `nuked_block` (`bid`, `active`, `position`, `module`, `titre`, `content`, `type`, `nivo`, `page`) VALUES
 (1, 2, 1, '', 'Login', '', 'login', 0, 'Tous'),
-(2, 1, 1, '', 'Menu', '[News]|News||0|NEWLINE[Archives]|Archives||0|NEWLINE[Forum]|Forum||0|NEWLINE[Download]|Téléchargements||0|NEWLINE[Members]|Membres||0|NEWLINE[Team]|Team||0|NEWLINE[Defy]|Nous Défier||0|NEWLINE[Recruit]|Recrutement||0|NEWLINE[Sections]|Articles||0|NEWLINE[Server]|Serveurs||0|NEWLINE[Links]|Liens Web||0|NEWLINE[Calendar]|Calendrier||0|NEWLINE[Gallery]|Galerie||0|NEWLINE[Wars]|Matchs||0|NEWLINE[Irc]|IrC||0|NEWLINE[Guestbook]|Livre d''Or||0|NEWLINE[Search]|Recherche||0|NEWLINE|<b>Membre</b>||1|NEWLINE[User]|Compte||1|NEWLINE|<b>Admin</b>||2|NEWLINE[Admin]|Administration||2|', 'menu', 0, 'Tous'),
+(2, 1, 1, '', 'Menu', '[News]|News||0|NEWLINE[Archives]|Archives||0|NEWLINE[Forum]|Forum||0|NEWLINE[Download]|TÃ©lÃ©chargements||0|NEWLINE[Members]|Membres||0|NEWLINE[Team]|Team||0|NEWLINE[Defy]|Nous DÃ©fier||0|NEWLINE[Recruit]|Recrutement||0|NEWLINE[Sections]|Articles||0|NEWLINE[Server]|Serveurs||0|NEWLINE[Links]|Liens Web||0|NEWLINE[Calendar]|Calendrier||0|NEWLINE[Gallery]|Galerie||0|NEWLINE[Wars]|Matchs||0|NEWLINE[Irc]|IrC||0|NEWLINE[Guestbook]|Livre d''Or||0|NEWLINE[Search]|Recherche||0|NEWLINE|<b>Membre</b>||1|NEWLINE[User]|Compte||1|NEWLINE|<b>Admin</b>||2|NEWLINE[Admin]|Administration||2|', 'menu', 0, 'Tous'),
 (3, 1, 2, 'Search', 'Recherche', '', 'module', 0, 'Tous'),
 (4, 2, 2, '', 'Sondage', '', 'survey', 0, 'Tous'),
 (5, 2, 3, 'Wars', 'Matchs', '', 'module', 0, 'Tous'),
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `nuked_comment` (
   `titre` text COLLATE latin1_general_ci NOT NULL,
   `comment` text COLLATE latin1_general_ci,
   `date` varchar(12) COLLATE latin1_general_ci DEFAULT NULL,
-  `autor_ip` varchar(20) COLLATE latin1_general_ci DEFAULT NULL,
+  `autor_ip` varchar(40) COLLATE latin1_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `im_id` (`im_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
@@ -179,7 +179,7 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('dateformat', '%d/%m/%Y'),
 ('datezone', '+0100'),
 ('version', '1.7.15'),
-('date_install', '1352562979'),
+('date_install', '1453930077'),
 ('langue', 'french'),
 ('stats_share', '1'),
 ('stats_timestamp', '86400'),
@@ -205,7 +205,7 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('scayt_editeur', 'on'),
 ('suggest_avert', ''),
 ('irc_chan', 'nuked-klan'),
-('irc_serv', 'quakenet.org'),
+('irc_serv', 'noxether.net'),
 ('server_ip', ''),
 ('server_port', ''),
 ('server_pass', ''),
@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `nuked_contact` (
   `message` text COLLATE latin1_general_ci NOT NULL,
   `email` varchar(80) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `nom` varchar(200) COLLATE latin1_general_ci NOT NULL DEFAULT '',
-  `ip` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `date` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `titre` (`titre`)
@@ -406,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `nuked_forums` (
 --
 
 INSERT INTO `nuked_forums` (`id`, `cat`, `nom`, `comment`, `moderateurs`, `niveau`, `level`, `ordre`, `level_poll`, `level_vote`) VALUES
-(1, 1, 'Forum', 'Test Forum', '', 0, 0, 0, 1, 1);
+(1, 1, 'Forum', 'Forum Test', '', 0, 0, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -428,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `nuked_forums_cat` (
 --
 
 INSERT INTO `nuked_forums_cat` (`id`, `nom`, `ordre`, `niveau`) VALUES
-(1, 'Categorie 1', 0, 0);
+(1, 'CatÃ©gorie 1', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -445,7 +445,7 @@ CREATE TABLE IF NOT EXISTS `nuked_forums_messages` (
   `edition` text COLLATE latin1_general_ci NOT NULL,
   `auteur` text COLLATE latin1_general_ci NOT NULL,
   `auteur_id` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
-  `auteur_ip` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `auteur_ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `bbcodeoff` int(1) NOT NULL DEFAULT '0',
   `smileyoff` int(1) NOT NULL DEFAULT '0',
   `cssoff` int(1) NOT NULL DEFAULT '0',
@@ -516,7 +516,7 @@ INSERT INTO `nuked_forums_rank` (`id`, `nom`, `type`, `post`, `image`) VALUES
 (3, 'Membre', 0, 100, 'modules/Forum/images/rank/star3.gif'),
 (4, 'Membre averti', 0, 500, 'modules/Forum/images/rank/star4.gif'),
 (5, 'Posteur Fou', 0, 1000, 'modules/Forum/images/rank/star5.gif'),
-(6, 'Modérateur', 1, 0, 'modules/Forum/images/rank/mod.gif'),
+(6, 'ModÃ©rateur', 1, 0, 'modules/Forum/images/rank/mod.gif'),
 (7, 'Administrateur', 2, 0, 'modules/Forum/images/rank/mod.gif');
 
 -- --------------------------------------------------------
@@ -567,7 +567,7 @@ DROP TABLE IF EXISTS `nuked_forums_vote`;
 CREATE TABLE IF NOT EXISTS `nuked_forums_vote` (
   `poll_id` int(11) NOT NULL DEFAULT '0',
   `auteur_id` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
-  `auteur_ip` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `auteur_ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   KEY `poll_id` (`poll_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
@@ -636,7 +636,7 @@ CREATE TABLE IF NOT EXISTS `nuked_games` (
 --
 
 INSERT INTO `nuked_games` (`id`, `name`, `titre`, `icon`, `pref_1`, `pref_2`, `pref_3`, `pref_4`, `pref_5`, `map`) VALUES
-(1, 'Counter Strike Source', 'Préférences CS', 'images/games/cs.gif', 'Autre pseudo', 'Map favorite', 'Arme favorite', 'Skin Terro', 'Skin CT', 'de_dust2|de_inferno');
+(1, 'Counter Strike Source', 'PrÃ©fÃ©rences CS', 'images/games/cs.gif', 'Autre pseudo', 'Map favorite', 'Arme favorite', 'Skin Terro', 'Skin CT', 'de_dust2|de_inferno');
 
 -- --------------------------------------------------------
 
@@ -830,7 +830,7 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 
 DROP TABLE IF EXISTS `nuked_nbconnecte`;
 CREATE TABLE IF NOT EXISTS `nuked_nbconnecte` (
-  `IP` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `IP` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `type` int(10) NOT NULL DEFAULT '0',
   `date` int(14) NOT NULL DEFAULT '0',
   `user_id` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
@@ -843,7 +843,7 @@ CREATE TABLE IF NOT EXISTS `nuked_nbconnecte` (
 --
 
 INSERT INTO `nuked_nbconnecte` (`IP`, `type`, `date`, `user_id`, `username`) VALUES
-('80.236.56.247', 0, 1352563331, '', '');
+('127.0.0.1', 0, 1453930423, '', '');
 
 -- --------------------------------------------------------
 
@@ -872,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `nuked_news` (
 --
 
 INSERT INTO `nuked_news` (`id`, `cat`, `titre`, `auteur`, `auteur_id`, `texte`, `suite`, `date`, `bbcodeoff`, `smileyoff`) VALUES
-(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.7.15', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l''install. En cas de problèmes, veuillez le signaler sur  <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.', '', '1352563028', 0, 0);
+(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.7.15', 'admin', 'dPM6ebzfgHQGHZfjXOcm', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, Ã  priori, bien dÃ©roulÃ©e, rendez-vous dans la partie administration pour commencer Ã  utiliser votre site tout simplement en vous loguant avec le pseudo indiquÃ© lors de l''install. En cas de problÃ¨mes, veuillez le signaler sur <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prÃ©vu Ã  cet effet.', NULL, '1453930112', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -909,8 +909,7 @@ CREATE TABLE IF NOT EXISTS `nuked_notification` (
   `type` text COLLATE latin1_general_ci NOT NULL,
   `texte` text COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
-
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -986,7 +985,7 @@ DROP TABLE IF EXISTS `nuked_serveur`;
 CREATE TABLE IF NOT EXISTS `nuked_serveur` (
   `sid` int(30) NOT NULL AUTO_INCREMENT,
   `game` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
-  `ip` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `port` varchar(10) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `pass` varchar(10) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `cat` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
@@ -1021,7 +1020,7 @@ CREATE TABLE IF NOT EXISTS `nuked_sessions` (
   `user_id` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '0',
   `date` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `last_used` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
-  `ip` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `vars` blob NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
@@ -1037,7 +1036,7 @@ DROP TABLE IF EXISTS `nuked_shoutbox`;
 CREATE TABLE IF NOT EXISTS `nuked_shoutbox` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `auteur` text COLLATE latin1_general_ci,
-  `ip` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `texte` text COLLATE latin1_general_ci,
   `date` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
@@ -1048,7 +1047,7 @@ CREATE TABLE IF NOT EXISTS `nuked_shoutbox` (
 --
 
 INSERT INTO `nuked_shoutbox` (`id`, `auteur`, `ip`, `texte`, `date`) VALUES
-(1, 'admin', '80.236.56.247', 'Bienvenue sur votre site NuKed-KlaN 1.7.15', '1352563028');
+(1, 'admin', '127.0.0.1', 'Bienvenue sur votre site NuKed-KlaN 1.7.15', '1453930112');
 
 -- --------------------------------------------------------
 
@@ -1102,7 +1101,7 @@ CREATE TABLE IF NOT EXISTS `nuked_sondage` (
 --
 
 INSERT INTO `nuked_sondage` (`sid`, `titre`, `date`, `niveau`) VALUES
-(1, 'Aimez-vous Nuked-klan ?', '1352562995', 0);
+(1, 'Aimez-vous Nuked-klan ?', '1453930094', 0);
 
 -- --------------------------------------------------------
 
@@ -1112,7 +1111,7 @@ INSERT INTO `nuked_sondage` (`sid`, `titre`, `date`, `niveau`) VALUES
 
 DROP TABLE IF EXISTS `nuked_sondage_check`;
 CREATE TABLE IF NOT EXISTS `nuked_sondage_check` (
-  `ip` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `pseudo` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `heurelimite` int(14) NOT NULL DEFAULT '0',
   `sid` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
@@ -1139,9 +1138,9 @@ CREATE TABLE IF NOT EXISTS `nuked_sondage_data` (
 --
 
 INSERT INTO `nuked_sondage_data` (`sid`, `optionText`, `optionCount`, `voteID`) VALUES
-(1, 'Ca déchire, continuez !', 0, 1),
+(1, 'Ca dÃ©chire, continuez !', 0, 1),
 (1, 'Mouais, pas mal...', 0, 2),
-(1, 'C''est naze, arrêtez-vous !', 0, 3),
+(1, 'C''est naze, arrÃªtez-vous !', 0, 3),
 (1, 'C''est quoi Nuked-Klan ?', 0, 4);
 
 -- --------------------------------------------------------
@@ -1191,7 +1190,7 @@ DROP TABLE IF EXISTS `nuked_stats_visitor`;
 CREATE TABLE IF NOT EXISTS `nuked_stats_visitor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
-  `ip` varchar(15) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `host` varchar(100) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `browser` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `os` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
@@ -1271,6 +1270,13 @@ CREATE TABLE IF NOT EXISTS `nuked_tmpses` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
+--
+-- Contenu de la table `nuked_tmpses`
+--
+
+INSERT INTO `nuked_tmpses` (`session_id`, `session_vars`, `session_start`) VALUES
+('c2060t07413becq2d1apj1iig1', 'admin|b:0;CT_TOKEN|s:32:"2689754016e47c0551693fbd30c7b9f3";', 1453930123);
+
 -- --------------------------------------------------------
 
 --
@@ -1338,14 +1344,8 @@ CREATE TABLE IF NOT EXISTS `nuked_users` (
 -- Contenu de la table `nuked_users`
 --
 
---
--- Login / MDP : admin / admin
--- Tip : Regenerate new password with "Lost password".
--- Info : Regénérez un nouveau pass avec la fonction mot de passe perdu.
---
-
 INSERT INTO `nuked_users` (`id`, `team`, `team2`, `team3`, `rang`, `ordre`, `pseudo`, `mail`, `email`, `icq`, `msn`, `aim`, `yim`, `url`, `pass`, `niveau`, `date`, `avatar`, `signature`, `user_theme`, `user_langue`, `game`, `country`, `count`, `erreur`, `token`, `token_time`) VALUES
-('zbdwzpdqq76N3XirqaC0', '', '', '', 0, 0, 'admin', 'admin@admin.com', '', '', '', '', '', '', '#6d6f0c5908203486612affee75bd500e6', 9, '1352563028', '', '', '', '', 1, 'France.gif', 0, 0, '', '0');
+('dPM6ebzfgHQGHZfjXOcm', '', '', '', 0, 0, 'admin', 'admin@admin.com', '', '', '', '', '', '', '#9d201fa1267f8bef9749ede9b599ce91e', 9, '1453930112', '', '', '', '', 1, 'France.gif', 0, 0, NULL, '0');
 
 -- --------------------------------------------------------
 
@@ -1391,11 +1391,35 @@ CREATE TABLE IF NOT EXISTS `nuked_vote` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `module` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '0',
   `vid` int(100) DEFAULT NULL,
-  `ip` varchar(20) COLLATE latin1_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(40) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `vote` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `vid` (`vid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_vote_modules`
+--
+
+DROP TABLE IF EXISTS `nuked_vote_modules`;
+CREATE TABLE IF NOT EXISTS `nuked_vote_modules` (
+  `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
+  `module` varchar(50) COLLATE latin1_general_ci NOT NULL,
+  `active` tinyint(1) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `nuked_vote_modules`
+--
+
+INSERT INTO `nuked_vote_modules` (`id`, `module`, `active`) VALUES
+(1, 'Download', 1),
+(2, 'Links', 1),
+(3, 'Gallery', 1),
+(4, 'Sections', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
