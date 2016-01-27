@@ -362,7 +362,7 @@ return array(
     # views/installSuccess.php
     #####################################
     'INSTALL_SUCCESS'       => 'Installation is complete',
-    'INFOPARTNERS'          => 'Find our partners and promotional codes, <br/> to make the most of their products/services.',
+    'INFO_PARTNERS'         => 'Find our partners and promotional codes, <br/> to make the most of their products/services.',
     'WAIT'                  => 'Please wait...',
     'ACCESS_SITE'           => 'Access your website',
     #####################################
