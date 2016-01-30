@@ -80,23 +80,23 @@ return array(
     #####################################
     'CALLBACK_UPDATE_FUNCTION_DONT_EXIST' => 'La fonction de rappel `%s` n\'existe pas',
     #####################################
-    # install->main()
+    # process->main()
     #####################################
     'CORRUPTED_CONF_INC'    => 'Fichier conf.inc.php corrompu, veuillez éditer le fichier conf.inc.php.',
     'DB_PREFIX_ERROR'       => 'Le prefix est erroné, veuillez éditer le fichier conf.inc.php.',// TODO : ou la table est manquante...
     'LAST_VERSION_SET'      => 'Vous avez déjà la dernière version %s de Nuked-Klan',
     'BAD_VERSION'           => 'Votre version de Nuked-Klan ne peut pas être mise à jour directement.<br/>Veuillez d\'abord mettre à jour vers la version %s',
     #####################################
-    # install->runTableProcessAction()
+    # process->runTableProcessAction()
     #####################################
     'MISSING_FILE'          => 'Fichier introuvable : ',
     #####################################
-    # install->_formatSqlError()
+    # process->_formatSqlError()
     #####################################
     'DB_CONNECT_FAIL'       => 'Connexion à la base de données impossible !',
     'FATAL_SQL_ERROR'       => 'Une erreur SQL est survenue<br />Erreur : %s',
     #####################################
-    # install->_writeDefaultContent()
+    # process->_writeDefaultContent()
     #####################################
     'FIRST_NEWS_TITLE'      => 'Bienvenue sur votre site NuKed-KlaN %s',
     'FIRST_NEWS_CONTENT'    => 'Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.',
@@ -111,13 +111,14 @@ return array(
     #####################################
     'VIEW_NO_FOUND'         => 'Le fichier de la vue `%s` est manquant',
     #####################################
-    # media/js/setConfig.js
+    # media/js/setDbConfiguration.js
     #####################################
     'DB_HOST_ERROR'         => 'Veuillez saisir le nom du serveur %s.',
     'DB_USER_ERROR'         => 'Veuillez saisir le nom d\'utilisateur.',
     'DB_PASSWORD_ERROR'     => 'Veuillez saisir un mot de passe.',
     'DB_PREFIX_ERROR'       => 'Veuillez saisir un prefix pour les tables de la base de données.',
     'DB_NAME_ERROR'         => 'Veuillez saisir un nom pour la base de données.',
+    //'DB_PORT_ERROR'         => 'Veuillez saisir un port correct pour la connection au serveur',
     #####################################
     # media/js/runProcess.js
     #####################################
@@ -158,7 +159,7 @@ return array(
     'STARTING_INSTALL'      => 'Démarrage de l\'installation.',
     'STARTING_UPDATE'       => 'Démarrage de la mise à jour.',
     #####################################
-    # media/js/setUserAdmin.js
+    # media/js/setSuperAdministrator.js
     #####################################
     'ERROR_NICKNAME'        => 'Le pseudo doit faire minimum 3 caractères et ne peut contenir les caractères suivants : $^()\'?%#\<>,;:',
     'ERROR_PASSWORD'        => 'Veuillez saisir un mot de passe.',
@@ -313,7 +314,7 @@ return array(
     # views/checkCompatibility.php
     #####################################
     'CHECK_COMPATIBILITY_HOSTING' => 'Vérification de la compatibilité avec votre hébergement',
-    'COMPOSANT'             => 'Composant',
+    'COMPONENT'             => 'Composant',
     'COMPATIBILITY'         => 'Compatibilité',
     'WEBSITE_DIRECTORY'     => 'Répertoire du site web',
     'PHP_VERSION'           => 'PHP version &ge; %s',
@@ -328,6 +329,7 @@ return array(
     'GD_EXT_ERROR'          => 'Erreur GD',
     'CHMOD_TEST'            => 'Test du CHMOD',
     'CHMOD_TEST_ERROR'      => 'Erreur chmod %s',
+    'NO_READABLE_DIRECTORY' => 'Le dossier %s n\'a pas les droits d\'écriture',
     'BAD_HOSTING'           => 'Votre hébergement n\'est pas compatible avec la nouvelle version de Nuked-Klan.',
     'FORCE'                 => 'Forcer l\'installation',
     #####################################
@@ -357,6 +359,10 @@ return array(
     'ERROR'                 => 'Une erreur est survenue !!!',
     'BACK'                  => 'Retour',
     'REFRESH'               => 'Rafraichir',
+    #####################################
+    # views/formError.php
+    #####################################
+    'ERROR_FIELDS'          => 'Vous avez mal rempli les champs du formulaire.',
     #####################################
     # views/fullPage.php
     #####################################
@@ -391,13 +397,6 @@ return array(
     #####################################
     'NO_PARTNERS'           => 'Une erreur est survenue lors de la r&eacute;cup&eacute;ration de la liste des partenaires...',
     #####################################
-    # views/installSuccess.php
-    #####################################
-    'INSTALL_SUCCESS'       => 'Installation terminée',
-    'INFO_PARTNERS'         => 'Retrouvez nos partenaires et leurs codes promotionnels,<br/>afin de profiter au mieux de leurs produits et/ou services.',
-    'WAIT'                  => 'Veuillez patienter...',
-    'ACCESS_SITE'           => 'Accéder à votre site',
-    #####################################
     # views/main.php
     #####################################
     'WELCOME_INSTALL'       => 'Bienvenue sur Nuked-Klan %s',
@@ -411,6 +410,14 @@ return array(
     'MALICIOUS_SCRIPT_DETECTED' => 'Script malveillant détecté',
     'DELETE_TURKISH_FILE'   => 'Impossible de supprimer le fichier. Veuillez le supprimer manuellement et vérifier encore si il est présent.<br/>&nbsp;Fichier : /modules/404/lang.turkish.lang.php',
     'CHECK_AGAIN'           => 'Vérifier encore',
+    #####################################
+    # views/processSuccess.php
+    #####################################
+    'INSTALL_SUCCESS'       => 'Installation terminée',
+    'UPDATE_SUCCESS'        => 'Mise à jour  terminée',
+    'INFO_PARTNERS'         => 'Retrouvez nos partenaires et leurs codes promotionnels,<br/>afin de profiter au mieux de leurs produits et/ou services.',
+    'WAIT'                  => 'Veuillez patienter...',
+    'ACCESS_SITE'           => 'Accéder à votre site',
     #####################################
     # views/runProcess.php
     #####################################
@@ -433,12 +440,12 @@ return array(
     'UPDATE_SPEED'          => 'Mise à jour rapide',
     'UPDATE_ASSIST'         => 'Mise à jour assistée',
     #####################################
-    # views/selectSaveBdd.php
+    # views/selectSaveDb.php
     #####################################
     'TO_SAVE'               => 'Sauvegarder',
     'SAVE_YOUR_DATABASE'    => 'Vous pouvez sauvegarder votre base de donnée en cliquant sur le lien ci-dessous.',
     #####################################
-    # views/setConfig.php
+    # views/setDbConfiguration.php
     #####################################
     'CONFIG'                => 'Configuration',
     'DB_HOST'               => 'Serveur %s',
@@ -451,18 +458,21 @@ return array(
     'INSTALL_DB_PREFIX'     => 'Le prefix permet d\'installer plusieurs fois Nuked-Klan sur une seule base %s en utilisant un prefix différent à chaque fois, par défaut, il s\'agit de \'nuked\', mais vous pouvez le changer comme vous le voulez.',
     'DB_NAME'               => 'Nom de la Base',
     'INSTALL_DB_NAME'       => 'Il s\'agit du nom de votre base de données %s, souvent vous devez vous rendre dans l\'administration de votre hébergement pour créer une base de données, mais parfois celle-ci vous est déjà fournie dans le mail d\'inscription de votre hébergement.',
+    'ADVANCED_PARAMETERS'   => 'Paramètre avancés',
+    'DB_TYPE'               => 'Type de base de données',
+    //'INSTALL_DB_TYPE'       => '',
+    'DB_PORT'               => 'Port',
+    //'INSTALL_DB_PORT'       => '',
+    'DB_PERSISTENT'         => 'Connexion persistante',
+    //'INSTALL_DB_PERSISTENT' => '',
     #####################################
-    # views/setUserAdmin.php
+    # views/setAdministrator.php
     #####################################
-    'CREATE_USER_ADMIN'     => 'Création du compte Administrateur',
+    'CREATE_ADMINISTRATOR'  => 'Création du compte Administrateur',
     'NICKNAME'              => 'Pseudo',
     'PASSWORD'              => 'Mot de passe',
     'PASSWORD_CONFIRM'      => 'Mot de passe (confirmez)',
     'EMAIL'                 => 'E-mail',
-    #####################################
-    # views/setAdminError.php
-    #####################################
-    'ERROR_FIELDS'          => 'Vous avez mal rempli les champs du formulaire.',
 );
 
 ?>

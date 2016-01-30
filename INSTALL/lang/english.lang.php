@@ -80,23 +80,23 @@ return array(
     #####################################
     'CALLBACK_UPDATE_FUNCTION_DONT_EXIST' => '`%s` callback update function don\'t exist',
     #####################################
-    # install->main()
+    # process->main()
     #####################################
     'CORRUPTED_CONF_INC'    => 'Corrupted conf.inc.php file, edit the conf.inc.php file.',
     'DB_PREFIX_ERROR'       => 'The prefix is incorrect, edit the conf.inc.php file.',// TODO : ou la table est manquante...
     'LAST_VERSION_SET'      => 'You already have the last version %s of Nuked-Klan',
     'BAD_VERSION'           => 'Your version of Nuked-Klan can not be updated directly. <br/> Please first update to version %s',
     #####################################
-    # install->runTableProcessAction()
+    # process->runTableProcessAction()
     #####################################
     'MISSING_FILE'          => 'Missing file : ',
     #####################################
-    # install->_formatSqlError()
+    # process->_formatSqlError()
     #####################################
     'DB_CONNECT_FAIL'       => 'Database connection failed !',
     'FATAL_SQL_ERROR'       => 'An SQL error has occured<br />Error : %s',
     #####################################
-    # install->_writeDefaultContent()
+    # process->_writeDefaultContent()
     #####################################
     'FIRST_NEWS_TITLE'      => 'Welcome to your NuKed-KlaN website %s',
     'FIRST_NEWS_CONTENT'    => 'Welcome to your NuKed-KlaN website, the installation stage has ended, go to the administration to configure and use your website. You can login with the name and the password you indicated at the installation. If any problems occur, please inform us of it in the appropriate forum of <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a>.',
@@ -111,13 +111,14 @@ return array(
     #####################################
     'VIEW_NO_FOUND'         => 'View file `%s` no found',
     #####################################
-    # media/js/setConfig.js
+    # media/js/setDbConfiguration.js
     #####################################
     'DB_HOST_ERROR'         => 'Please enter the server %s name.',
     'DB_USER_ERROR'         => 'Please enter a username.',
     'DB_PASSWORD_ERROR'     => 'Please enter a password.',
     'DB_PREFIX_ERROR'       => 'Please enter a table prefix for database.',
     'DB_NAME_ERROR'         => 'Please enter a database name.',
+    //'DB_PORT_ERROR'         => 'Please enter a valid port for server connection.',
     #####################################
     # media/js/runProcess.js
     #####################################
@@ -158,7 +159,7 @@ return array(
     'STARTING_INSTALL'      => 'Starting the installation.',
     'STARTING_UPDATE'       => 'Starting the update.',
     #####################################
-    # media/js/setUserAdmin.js
+    # media/js/setSuperAdministrator.js
     #####################################
     'ERROR_NICKNAME'        => 'The nickname must be a minimum of 3 characters and can\'t contain the following characters: $^()\'?%#\<>,;:',
     'ERROR_PASSWORD'        => 'Please enter a password.',
@@ -313,7 +314,7 @@ return array(
     # views/checkCompatibility.php
     #####################################
     'CHECK_COMPATIBILITY_HOSTING' => 'Compatibility check with your hosting',
-    'COMPOSANT'             => 'Component',
+    'COMPONENT'             => 'Component',
     'COMPATIBILITY'         => 'compatibility',
     'WEBSITE_DIRECTORY'     => 'Website directory',
     'PHP_VERSION'           => 'PHP version &ge; %s',
@@ -328,6 +329,7 @@ return array(
     'GD_EXT_ERROR'          => 'Erreur GD',
     'CHMOD_TEST'            => 'Testing of CHMOD',
     'CHMOD_TEST_ERROR'      => 'Error chmod %s',
+    'NO_READABLE_DIRECTORY' => '%s directory isn\'t readable',
     'BAD_HOSTING'           => 'Your hosting is not compatible with the new version of Nuked-Klan.',
     'FORCE'                 => 'Force the installation',
     #####################################
@@ -357,6 +359,10 @@ return array(
     'ERROR'                 => 'An error has occured !!!',
     'BACK'                  => 'Back',
     'REFRESH'               => 'Refresh',
+    #####################################
+    # views/formError.php
+    #####################################
+    'ERROR_FIELDS'          => 'You have not filled the form fields.',
     #####################################
     # views/fullPage.php
     #####################################
@@ -391,13 +397,6 @@ return array(
     #####################################
     'NO_PARTNERS'           => 'An error occurred while retrieving the list of partners ...',
     #####################################
-    # views/installSuccess.php
-    #####################################
-    'INSTALL_SUCCESS'       => 'Installation is complete',
-    'INFOPARTNERS'          => 'Find our partners and promotional codes, <br/> to make the most of their products/services.',
-    'WAIT'                  => 'Please wait...',
-    'ACCESS_SITE'           => 'Access your website',
-    #####################################
     # views/main.php
     #####################################
     'WELCOME_INSTALL'       => 'Welcome on Nuked-Klan %s',
@@ -411,6 +410,14 @@ return array(
     'MALICIOUS_SCRIPT_DETECTED' => 'Malicious script detected',
     'DELETE_TURKISH_FILE'   => 'Can\'t delete file. Please delete it manually and check again if it is present.<br/>&nbsp;File: / modules/404/lang.turkish.lang.php',
     'CHECK_AGAIN'           => 'Check again',
+    #####################################
+    # views/processSuccess.php
+    #####################################
+    'INSTALL_SUCCESS'       => 'Installation is complete',
+    'UPDATE_SUCCESS'        => 'Update is complete',
+    'INFO_PARTNERS'         => 'Find our partners and promotional codes, <br/> to make the most of their products/services.',
+    'WAIT'                  => 'Please wait...',
+    'ACCESS_SITE'           => 'Access your website',
     #####################################
     # views/runProcess.php
     #####################################
@@ -433,12 +440,12 @@ return array(
     'UPDATE_SPEED'          => 'Quick Update',
     'UPDATE_ASSIST'         => 'Assisted Update',
     #####################################
-    # views/selectSaveBdd.php
+    # views/selectSaveDb.php
     #####################################
     'TO_SAVE'               => 'Save',
     'SAVE_YOUR_DATABASE'    => 'You can save your database by clicking the link below.',
     #####################################
-    # views/setConfig.php
+    # views/setDbConfiguration.php
     #####################################
     'CONFIG'                => 'Configuration',
     'DB_HOST'               => '%s Server',
@@ -451,18 +458,21 @@ return array(
     'INSTALL_DB_PREFIX'     => 'The prefix used to install several times Nuked-Klan on a single %s database using a prefix different each time, by default it is \'nuked\', but you can change the way you want.',
     'DB_NAME'               => 'Database name',
     'INSTALL_DB_NAME'       => 'This is the name of your %s database, often you need to go in the administration of your hosting to create a database, but sometimes it sure is already provided in your registration email hosting .',
+    'ADVANCED_PARAMETERS'   => 'Advanced parameters',
+    'DB_TYPE'               => 'Database type',
+    //'INSTALL_DB_TYPE'       => '',
+    'DB_PORT'               => 'Port',
+    //'INSTALL_DB_PORT'       => '',
+    'DB_PERSISTENT'         => 'Persistent connection',
+    //'INSTALL_DB_PERSISTENT' => '',
     #####################################
-    # views/setUserAdmin.php
+    # views/setAdministrator.php
     #####################################
-    'CREATE_USER_ADMIN'     => 'Creating Administrator Account',
+    'CREATE_ADMINISTRATOR'  => 'Creating Administrator Account',
     'NICKNAME'              => 'Nickname',
     'PASSWORD'              => 'Password',
     'PASSWORD_CONFIRM'      => 'Password (confirm)',
     'EMAIL'                 => 'Email',
-    #####################################
-    # views/setAdminError.php
-    #####################################
-    'ERROR_FIELDS'          => 'You have not filled the form fields.',
 );
 
 ?>

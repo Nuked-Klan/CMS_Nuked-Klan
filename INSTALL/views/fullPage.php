@@ -13,8 +13,9 @@
         <link rel="stylesheet" href="media/css/style.css" type="text/css" media="screen" />
         <script type="text/javascript" src="media/js/jquery-1.7-min.js" ></script>
         <script type="text/javascript" src="index.php?action=printJsI18nFile" ></script>
+        <script type="text/javascript" src="media/js/informationSlide.js" ></script>
 <?php
-    if (in_array($action, array('setConfig', 'setUserAdmin', 'runProcess'))) :
+    if (is_file('media/js/'. $action .'.js')) :
 ?>
         <script type="text/javascript" src="media/js/<?php echo $action ?>.js" ></script>
 <?php
@@ -22,7 +23,7 @@
 ?>
     </head>
     <body>
-        <div id="content" class="greyscale">
+        <div id="page">
             <div id="sidebar" >
                 <a href="http://www.nuked-klan.org">
                     <img id="logo" src="../modules/Admin/images/logo.png" alt="Nuked-Klan" />
@@ -37,12 +38,12 @@
         if ($a !== null) :
             if ($i > 0) :
 ?>
-                    <hr style="margin:0 auto;width:80%;" />
+                    <hr />
 <?php
             endif
 ?>
-                    <p style="margin:5px auto;">
-                        <span class="link_nav"><?php echo $a ?></span><br/>
+                    <p>
+                        <span class="stepTitle"><?php echo $a ?></span><br/>
 <?php
             if ($k == 'assist') :
 ?>
@@ -59,19 +60,29 @@
             $i++;
         endif;
     endforeach ?>
-                <a href="index.php?action=resetSession" id="reset" class="button" ><?php echo $i18n['RESET_SESSION'] ?></a>
+                    <a href="index.php?action=resetSession" id="reset"><?php echo $i18n['RESET_SESSION'] ?></a>
                 </div>
             </div>
+            <div id="<?php echo $action ?>" class="content">
 <?php echo $content ?>
-        <hr style="margin-top:30px;margin-bottom:15px;width:90%;" />
-            <div style="width:580px;overflow:hidden;margin:auto;">
-                <div id="slide<?php echo $info['n'] ?>" style="display:block;width:580px;">
-                    <h2><?php echo $i18n[$info['name']] ?></h2>
+
+            </div>
+            <hr />
+            <div id="information">
+<?php
+    foreach($infoList as $n => $info) :
+        $n++;
+?>
+                <div id="slide<?php echo $n ?>">
+                    <h1><?php echo $i18n[$info] ?></h1>
                     <p>
-                        <img src="media/images/img_slide_0<?php echo $info['n'] ?>.png" alt="" style="float:right;" width="269" height="175" />
-                        <?php echo $i18n[$info['name'] .'_DESCR'] ?>
+                        <img src="media/images/img_slide_0<?php echo $n ?>.png" alt="" />
+                        <?php echo $i18n[$info .'_DESCR'] ?>
                     </p>
                 </div>
+<?php
+    endforeach
+?>
             </div>
         </div>
     </body>

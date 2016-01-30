@@ -1,100 +1,108 @@
-                <div style="text-align: center;margin:30px auto;">
-                    <h3 style="margin-bottom:5px;" ><?php echo $i18n['CHECK_COMPATIBILITY_HOSTING'] ?></h3>
-                    <table style="width:500px;margin:15px auto;border:1px solid #ddd;text-align:left;background:#fff;" cellpadding="3">
-                        <tr>
-                            <td colspan="2" style="width:80%;"><b><?php echo $i18n['COMPOSANT'] ?></b></td>
-                            <td style="width:20%;text-align:center;"><b><?php echo $i18n['COMPATIBILITY'] ?></b></td>
-                        </tr>
+                <h1><?php echo $i18n['CHECK_COMPATIBILITY_HOSTING'] ?></h1>
+                <table>
+                    <tr>
+                        <th class="component"><?php echo $i18n['COMPONENT'] ?></th>
+                        <th class="compatibility"><?php echo $i18n['COMPATIBILITY'] ?></th>
+                    </tr>
 <?php
-    $i = 0;
-
-    $nbRowspan = $nbChmodDirectory;
+    $i = $required = $optional = 0;
 
     foreach ($requirements as $extensionName => $requirement) :
-        if (strpos($extensionName, 'CHMOD_TEST') !== false
-            && in_array($requirement, array('required-disabled', 'optional-disabled'))
-        )
-            $nbRowspan++;
-    endforeach;
-    
-    foreach ($requirements as $extensionName => $requirement) :
-        if ($requirement == 'enabled')
-            $src = 'media/images/ok.png';
-        elseif ($requirement == 'optional-disabled')
-            $src = 'media/images/warning.png';
-        else
-            $src = 'media/images/nook.png';
-
-        $bg  = ($i % 2 == 0) ? '#e9e9e9' : '#f5f5f5';
-?>
-
-                        <tr style="background:<?php echo $bg ?>;">
-<?php
-        if (strpos($extensionName, 'CHMOD_TEST') !== false) :
-            $nbColspan = 2;
-
-            if (! isset($rowspan)) :
-?>
-                            <td rowspan="<?php echo $nbRowspan ?>"><?php echo $i18n['CHMOD_TEST'] ?></td>
-<?php
-                $rowspan = true;
-            endif;
-
-            $dir = str_replace('CHMOD_TEST_', '', $extensionName);
-            $extensionName = str_replace('_'. $dir, '', $extensionName);
-?>
-                            <td><?php echo ($dir == 'WEBSITE_DIRECTORY') ? $i18n['WEBSITE_DIRECTORY'] : $dir ?></td>
-                            <td style="text-align:center;"><img src="<?php echo $src ?>" alt="" /></td>
-<?php
-        else :
-            $nbColspan = 3;
-?>
-                            <td colspan="2"><?php echo $i18n[$extensionName] ?></td>
-                            <td style="text-align:center;"><img src="<?php echo $src ?>" alt="" /></td>
-<?php
-        endif
-?>
-                        </tr>
-
-<?php
-        if (in_array($requirement, array('required-disabled', 'optional-disabled'))) :
-?>
-                        <tr>
-                            <td colspan="<?php echo $nbColspan ?>" class="<?php echo ($requirement == 'optional-disabled') ? 'warning' : 'error' ?>_compatibility">
-<?php
-            if (strpos($extensionName, 'CHMOD_TEST') !== false) :
-                if ($dir == 'WEBSITE_DIRECTORY') :
-?>
-                                <?php echo sprintf($i18n['CHMOD_TEST_ERROR'], substr(sprintf('%o', fileperms('../')), -4));
-
-                else : ?>
-                                <?php echo sprintf($i18n['CHMOD_TEST_ERROR'], substr(sprintf('%o', fileperms('../'. $dir)), -4));
+        if ($extensionName == 'CHMOD_TEST') :
+            foreach ($requirement as $dir => $dirRequirement) :
+                if ($dirRequirement == 'enabled') :
+                    $src = 'media/images/ok.png';
+                elseif ($dirRequirement == 'optional-disabled') :
+                    $optional++;
+                    $src = 'media/images/warning.png';
+                else :
+                    $required++;
+                    $src = 'media/images/nook.png';
                 endif;
+            endforeach;
+        else :
+            if ($requirement == 'enabled') :
+                $src = 'media/images/ok.png';
+            elseif ($requirement == 'optional-disabled') :
+                $optional++;
+                $src = 'media/images/warning.png';
             else :
+                $required++;
+                $src = 'media/images/nook.png';
+            endif;
+        endif;
+
 ?>
-                                <?php echo $i18n[$extensionName .'_ERROR'] ?>
+
+                    <tr class="<?php echo ($i % 2 == 0) ? 'bgRow1' : 'bgRow2' ?>">
+                        <td class="component"><?php echo $i18n[$extensionName] ?></td>
+                        <td class="compatibility"><img src="<?php echo $src ?>" alt="" /></td>
 <?php
-            endif
+        //endif
 ?>
-                            </td>
-                        </tr>
+                    </tr>
+
 <?php
+        if ($extensionName != 'CHMOD_TEST' && in_array($requirement, array('required-disabled', 'optional-disabled'))) :
+?>
+                    <tr>
+                        <td class="componentError <?php echo ($requirement == 'optional-disabled') ? 'warning' : 'error' ?>" colspan="2">
+                            <?php echo $i18n[$extensionName .'_ERROR'] ?>
+                        </td>
+                    </tr>
+<?php
+        elseif ($extensionName == 'CHMOD_TEST') :
+            foreach ($requirement as $dir => $dirRequirement) :
+                if (in_array($dirRequirement, array('required-disabled', 'optional-disabled'))) :
+?>
+                    <tr>
+                        <td class="componentError <?php echo ($dirRequirement == 'optional-disabled') ? 'warning' : 'error' ?>" colspan="2">
+<?php
+                    $fileperms = false;
+
+                    if (is_readable($dir)) :
+                        if ($dir == 'WEBSITE_DIRECTORY')
+                            $fileperms = fileperms('../');
+                        else
+                            $fileperms = fileperms('../'. $dir);
+                    endif;
+
+                    if ($fileperms !== false) :
+?>
+                            <?php echo sprintf($i18n['CHMOD_TEST_ERROR'], substr(sprintf('%o', $fileperms), -4));
+
+                    else : ?>
+                            <?php echo sprintf($i18n['NO_READABLE_DIRECTORY'], $dir);
+                    endif;
+                endif;
+?>
+                        </td>
+                    </tr>
+<?php
+            endforeach;
         endif;
 
         $i++;
     endforeach;
 ?>
-                    </table>
+                </table>
 <?php
-    if (! in_array('optional-disabled', $requirements)) :
+    if ($required > 0) :
 ?>
-                        <a href="index.php?action=chooseSendStats" class="button" ><?php echo $i18n['NEXT'] ?></a>
+                <p class="warningNotification"><?php echo $i18n['BAD_HOSTING'] ?></p>
+<?php
+    elseif ($optional > 0) :
+?>
+                <p class="warningNotification"><?php echo $i18n['BAD_HOSTING'] ?></p>
+                <div id="links">
+                    <a href="index.php?action=chooseSendStats"><?php echo $i18n['FORCE'] ?></a>
+                </div>
 <?php
     else :
 ?>
-                        <p><?php echo $i18n['BAD_HOSTING'] ?></p>
-                        <a href="index.php?action=chooseSendStats" class="button" ><?php echo $i18n['FORCE'] ?></a>
+                <div id="links">
+                    <a href="index.php?action=chooseSendStats"><?php echo $i18n['NEXT'] ?></a>
+                </div>
 <?php
     endif
 ?>
-                    </div>

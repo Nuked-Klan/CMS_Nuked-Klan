@@ -1,6 +1,6 @@
 var busy, errors, processEnd, ajaxBusy, tableNumber, currentSubProcess, title, step, progress,
     runSubProcessResult = 'CONTINUE',
-    loadingImg          = '<img src="media/images/loading.gif" alt="" id="loading_img" />';
+    loadingImg          = '<img src="media/images/loading.gif" alt="" id="loadingImg" />';
 
 currentSubProcess = '';
 busy = ajaxBusy = processEnd = false;
@@ -8,11 +8,11 @@ errors = tableNumber = 0;
 step = progress = 1;
 
 function addLogMessage(msg) {
-    $('#loading_img').remove();
+    $('#loadingImg').remove();
 
-    $('#log_install')
+    $('#log')
         .append(msg)
-        .scrollTop($('#log_install')[0].scrollHeight);
+        .scrollTop($('#log')[0].scrollHeight);
 }
 
 function writeInfo(table, txt, status) {
@@ -239,9 +239,7 @@ function mainProcessEnd() {
 
     writeComplete(endText);
 
-    $('#startProcess')
-        .removeClass('button_disabled')
-        .addClass('button');
+    $('#startProcess').removeClass('buttonDisabled');
 }
 
 function runSubProcess(tableFile) {
@@ -299,7 +297,7 @@ function runSubProcess(tableFile) {
                 addLogMessage(actionList + loadingImg);
 
             writeInfo(table, 'ok', txt);
-            $('.progress-bar').css('width', processProgress * progress + '%');
+            $('.progressBar').css('width', processProgress * progress + '%');
             progress++;
         }
         else if (txt == 'INTEGRITY_FAIL') {
@@ -340,18 +338,6 @@ function runSubProcess(tableFile) {
     return runSubProcessResult;
 }
 
-function submit() {
-    if (processEnd === true && process == 'install') {
-        window.location = 'index.php?action=setUserAdmin';
-    }
-    else if (processEnd === true && process == 'update') {
-        window.location = 'index.php?action=updateConfig';
-    }
-    else {
-        mainProcessStart();
-    }
-}
-
 function mainProcessStart() {
     if (busy == false) {
         busy = true;
@@ -365,13 +351,30 @@ function mainProcessStart() {
             currentSubProcess = 'checkIntegrity';
         }
 
-        $('#log_install')
+        $('#log')
             .html(text + loadingImg + '<br />');
 
-        $('#startProcess')
-            .removeClass('button')
-            .addClass('button_disabled');
+        $('#startProcess').addClass('buttonDisabled');
 
         queueSubProcess();
     }
 }
+
+/**
+ * Link input event with form functions.
+ */
+$(document).ready(function() {
+    $('#startProcess').click(function() {
+        if (processEnd === true && process == 'install') {
+            window.location = 'index.php?action=setAdministrator';
+        }
+        else if (processEnd === true && process == 'update') {
+            window.location = 'index.php?action=updateDbConfiguration';
+        }
+        else {
+            mainProcessStart();
+        }
+
+        return false;
+    });
+});

@@ -1,21 +1,15 @@
-                <div style="text-align:center;">
-                    <img src="images/nk.png" alt="" />
-                    <h2><b><?php printf($i18n['NEW_FEATURES_NK'], $processVersion) ?></b></h2>
-                </div>
-                <div style="width:90%;margin: 20px auto;">
+                <img src="media/images/nk.png" alt="" />
+                <h1><?php printf($i18n['NEW_FEATURES_NK'], $processVersion) ?></h1>
+                <div id="changelogDetail">
 <?php
     foreach ($changelog as $k) :
 ?>
-                    <p>
-                        <b><?php echo $i18n[$k] ?>:</b>
-                        <br />
-                        <?php echo $i18n[$k .'_DETAIL'] ?>
-                        <br />
-                    </p>
+                    <h2><?php echo $i18n[$k] ?>:</h2>
+                    <p><?php echo $i18n[$k .'_DETAIL'] ?></p>
 <?php
     endforeach
 ?>
                 </div>
-                <div style="text-align: center;">
-                    <a href="index.php?action=setConfig&amp;assist=yes" class="button" ><?php echo $i18n['NEXT'] ?></a>
+                <div id="links">
+                    <a href="index.php?action=setDbConfiguration&amp;assist=yes"><?php echo $i18n['NEXT'] ?></a>
                 </div>

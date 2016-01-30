@@ -1,15 +1,17 @@
+var currentDbPort,
+    waitMsg = '<span id="waitMsg">' + i18n.wait + '</span><img id="loadingImg" src="media/images/loading.gif" alt="" />';
+
 /**
  * Check database configuration form before submit it.
  */
-//function checkConfigForm(form, event) {
-function checkConfigForm() {
-    var infos      = $('#infos'),
-        dbHost     = $('#db_host'),
-        dbUser     = $('#db_user'),
-        dbPassword = $('#db_pass'),
-        dbName     = $('#db_name'),
-        dbPrefix   = $('#db_prefix'),
-        dbType     = $('#db_type').val();
+function checkConfigForm(event) {
+    var notification = $('#notification'),
+        dbHost       = $('#dbHost'),
+        dbUser       = $('#dbUser'),
+        dbPassword   = $('#dbPassword'),
+        dbName       = $('#dbName'),
+        dbPrefix     = $('#dbPrefix'),
+        dbType       = $('#dbType').val();
 
     var dbHostError        = i18n.db_host_error.replace(/%s/, dbType),
         dbHostConnectError = i18n.db_host_connect_error.replace(/%s/, dbType);
@@ -21,7 +23,8 @@ function checkConfigForm() {
         if (! checkConfigDbPrefix(dbName)) throw i18n.db_prefix_error;
         if (! checkConfigDbName(dbPrefix)) throw i18n.db_name_error;
 
-        infos.html('<span style="color:#000;">' + i18n.wait + '</span><img src="media/images/loading.gif" alt="" />');
+        notification.removeClass('errorNotification')
+            .html(waitMsg);
 
         $.ajax({
             async: false,
@@ -33,7 +36,7 @@ function checkConfigForm() {
                 'db_pass' :   dbPassword.val(),
                 'db_name' :   dbName.val(),
                 'db_prefix' : dbPrefix.val(),
-                'db_type' :   dbType.val()
+                'db_type' :   dbType
             }
         }).done(function(txt) {
             if (txt != 'OK') {
@@ -62,15 +65,12 @@ function checkConfigForm() {
                 }
             }
         });
-
-        $('#form_config').submit();
-        //form.submit();
     }
     catch (errorMsg) {
-        //infos.empty();
-        infos.html(errorMsg);
-        return false;
-        //event.preventDefault();
+        notification.html(errorMsg)
+            .addClass('errorNotification');
+
+        event.preventDefault();
     }
 }
 
@@ -93,7 +93,7 @@ function checkConfigDbHost(input) {
  */
 function checkConfigDbUser(input) {
     var user = input.val(),
-        passwordInput = $('#db_pass');
+        passwordInput = $('#dbPassword');
 
     if ($.trim(user) == '') {
         input.addClass('error');
@@ -114,7 +114,7 @@ function checkConfigDbUser(input) {
  * Check database password value.
  */
 function checkConfigDbPassword(input) {
-    if ($('#db_user').val() != 'root' && $.trim(input.val()) == '') {
+    if ($('#dbUser').val() != 'root' && $.trim(input.val()) == '') {
         input.addClass('error');
         return false;
     }
@@ -153,38 +153,68 @@ function checkConfigDbName(input) {
 }
 
 /**
+ * Check database port value.
+ */
+function checkConfigDbport(input) {
+    var cleanedValue = $.trim(input.val());
+
+    if (cleanedValue != '' && (! cleanedValue.match(/^\d+$/) || cleanedValue > 65535)) {
+        input.addClass('error');
+        return false;
+    }
+    else {
+        input.removeClass('error');
+        return true;
+    }
+}
+
+/**
  * Link input event with form functions.
  */
 $(document).ready(function() {
-    //$('#form_config').submit(function(event) { checkConfigForm($(this), event); });
-    $('#submit').click(function() { return checkConfigForm(); });
-    $('#db_host').blur(function() { checkConfigDbHost($(this)); });
-    $('#db_user').blur(function() { checkConfigDbUser($(this)); });
-    $('#db_pass').blur(function() { checkConfigDbPassword($(this)); });
+    //currentDbPort = $('#dbPort').val();
 
-    /*
-    $('#db_type').change(function() {
+    $('#dbConfigurationForm').submit(checkConfigForm);
+    $('#dbHost').blur(function() { checkConfigDbHost($(this)); });
+    $('#dbUser').blur(function() { checkConfigDbUser($(this)); });
+    $('#dbPassword').blur(function() { checkConfigDbPassword($(this)); });
+    $('#dbPrefix').blur(function() { checkConfigDbPrefix($(this)); });
+    $('#dbName').blur(function() { checkConfigDbName($(this)); });
+
+/*
+    $(*'#dbType').change(function() {
         var dbType = $(this).val();
 
-        $('#db_host_label strong').html(i18n.db_host.replace(/%s/, dbType));
+        $('#dbHostBox label').html(i18n.db_host.replace(/%s/, dbType));
 
-        if (document.getElementById('db_host_info'))
-            $('#db_host_info').html(i18n.install_db_host.replace(/%s/, dbType));
+        if (document.getElementById('dbHostInfo'))
+        $('#dbHostInfo').html(i18n.install_db_host.replace(/%s/, dbType));
 
-        if (document.getElementById('db_user_info'))
-            $('#db_user_info').html(i18n.install_db_user.replace(/%s/, dbType));
+        if (document.getElementById('dbUserInfo'))
+        $('#dbUserInfo').html(i18n.install_db_user.replace(/%s/, dbType));
 
-        if (document.getElementById('db_password_info'))
-            $('#db_password_info').html(i18n.install_db_password.replace(/%s/, dbType));
+        if (document.getElementById('dbPasswordInfo'))
+        $('#dbPasswordInfo').html(i18n.install_db_password.replace(/%s/, dbType));
 
-        if (document.getElementById('db_prefix_info'))
-            $('#db_prefix_info').html(i18n.install_db_prefix.replace(/%s/, dbType));
+        if (document.getElementById('dbPrefixInfo'))
+        $('#dbPrefixInfo').html(i18n.install_db_prefix.replace(/%s/, dbType));
 
-        if (document.getElementById('db_name_info'))
-            $('#db_name_info').html(i18n.install_db_name.replace(/%s/, dbType));
+        if (document.getElementById('dbNameInfo'))
+        $('#dbNameInfo').html(i18n.install_db_name.replace(/%s/, dbType));
     });
-    */
 
-    $('#db_prefix').blur(function() { checkConfigDbPrefix($(this)); });
-    $('#db_name').blur(function() { checkConfigDbName($(this)); });
+    $('#dbPort').blur(function() { checkConfigDbport($(this)); });
+
+
+    $('#advanced').on('click', function() {
+        if ($(this).attr('data-click-state') == 1) {
+            $(this).attr('data-click-state', 0);
+            $('#advancedBox').css('display', 'none');
+        }
+        else {
+            $(this).attr('data-click-state', 1);
+            $('#advancedBox').css('display', 'block');
+        }
+    });
+*/
 });

@@ -43,9 +43,7 @@ class dbMySQL {
     private $_db;
 
     /*
-     * Constructor
-     * - Check and store MySQL connection data
-     * - Connect to MySQL server
+     * Constructor - Check and store MySQL connection data
      */
     public function __construct($databaseData) {
         if (isset($databaseData['db_host']))
@@ -59,8 +57,6 @@ class dbMySQL {
 
         if (isset($databaseData['db_name']))
             $this->_dbName = $databaseData['db_name'];
-
-        $this->_connect();
     }
 
     /*
@@ -68,14 +64,14 @@ class dbMySQL {
      * - Disconnect to MySQL server
      */
     public function __destruct() {
-        if ($this->_db !== null)
+        if ($this->_db)
             mysql_close($this->_db);
     }
 
     /*
      * Connect to MySQL server
      */
-    private function _connect() {
+    public function connect() {
         if (($this->_db = @mysql_connect($this->_host, $this->_user, $this->_pass)) !== false) {
             if (@mysql_select_db($this->_dbName, $this->_db)) {
                 @mysql_query('SET NAMES '. db::CHARSET);
@@ -116,6 +112,9 @@ class dbMySQL {
      * Return MySQL server version
      */
     public function getVersion() {
+        if (! $this->_db)
+            $this->connect();
+
         return mysql_get_server_info();
     }
 
@@ -233,6 +232,9 @@ class dbMySQL {
      * Execute MySQL query
      */
     public function execute($sql, $options = array()) {
+        if (! $this->_db)
+            $this->connect();
+
         if (($result = @mysql_query($sql)) === false) {
             if (array_key_exists('exception', $options) && $options['exception'] != '')
                 throw new dbException($options['exception']);
@@ -442,28 +444,6 @@ class dbMySQL {
     public function truncateTableWithForeignKeyReferences($table) {
         $this->execute('DELETE FROM `'. $table .'`');
         $this->execute('ALTER TABLE `'. $table .'` AUTO_INCREMENT = 1');
-    }
-
-    /*
-     * Get database charset and collation
-     */
-    public function getDatabaseCharsetAndCollation($options = array()) {
-        $sql = 'SELECT default_character_set_name AS charset, default_collation_name AS collation
-            FROM information_schema.SCHEMATA
-            WHERE schema_name = \''. $this->_dbName .'\'';
-
-        return $this->selectOne($sql, $options);
-    }
-
-    /*
-     * Set database charset and collation
-     */
-    public function setDatabaseCharsetAndCollation($options = array()) {
-        $sql = 'ALTER DATABASE `'. $this->_dbName .'`
-            CHARACTER SET '. db::CHARSET .'
-            COLLATE '. db::COLLATION;
-
-        return $this->execute($sql, $options);
     }
 
     /*

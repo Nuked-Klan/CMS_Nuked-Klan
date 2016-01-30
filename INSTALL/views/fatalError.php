@@ -1,16 +1,16 @@
-                <div style="text-align: center;margin:30px auto;">
-                    <h2><?php echo $i18n['ERROR'] ?></h2>
-                    <p><?php echo $error ?></p>
+                <h1><?php echo $i18n['ERROR'] ?></h1>
+                <p><?php echo $error ?></p>
+                <div id="links">
 <?php
     if ($oldAction != '') :
 ?>
-                    <a href="index.php?action=<?php echo $oldAction ?>" class="button" ><?php echo $i18n['BACK'] ?></a>
+                    <a href="index.php?action=<?php echo $oldAction ?>"><?php echo $i18n['BACK'] ?></a>
 <?php
     endif;
 
     if ($currentAction != '') :
 ?>
-                    <a href="index.php?action=<?php echo $currentAction ?>" class="button" ><?php echo $i18n['REFRESH'] ?></a>
+                    <a href="index.php?action=<?php echo $currentAction ?>"><?php echo $i18n['REFRESH'] ?></a>
 <?php
     endif
 ?>

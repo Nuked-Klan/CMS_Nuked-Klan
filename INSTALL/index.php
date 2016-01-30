@@ -19,6 +19,7 @@ if (strpos($_SERVER['HTTP_HOST'], 'free.fr') !== false && ! is_dir($_SERVER['DOC
     mkdir($_SERVER['DOCUMENT_ROOT'].'/sessions', 0700);
 
 require_once 'includes/autoload.php';
+require_once 'includes/form.php';
 
 $install = new process();
 $install->run();

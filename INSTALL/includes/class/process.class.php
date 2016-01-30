@@ -72,9 +72,9 @@ class process {
         'language'      => 'SELECT_LANGUAGE',
         'process'       => 'SELECT_TYPE',
         'stats'         => 'SELECT_STATS',
-        'db_save'       => 'SELECT_SAVE',
+        'backupDb'      => 'SELECT_SAVE',
         'assist'        => 'CHECK_TYPE_INSTALL',
-        'user_admin'    => 'CREATE_USER_ADMIN'
+        'administrator' => 'CREATE_ADMINISTRATOR'
     );
 
     /*
@@ -221,8 +221,7 @@ class process {
 
         $this->_view = new view('checkCompatibility');
 
-        $this->_view->requirements      = $this->_requirements();
-        $this->_view->nbChmodDirectory  = count($this->_uploadDir) + 1;
+        $this->_view->requirements = $this->_requirements();
     }
 
     /*
@@ -241,13 +240,13 @@ class process {
      * Set to send stats to Nuked-Klan.org or not
      */
     public function setSendStats() {
-        if (isset($_POST['conf_stats']) && $_POST['conf_stats'] == 'on')
+        if (isset($_POST['stats']) && $_POST['stats'] == 'on')
             $this->_session['stats'] = 'yes';
         else
             $this->_session['stats'] = 'no';
 
         if ($this->_session['process'] == 'update')
-            $this->_redirect('index.php?action=selectSaveBdd');
+            $this->_redirect('index.php?action=selectSaveDb');
         else
             $this->_redirect('index.php?action=selectProcessType');
     }
@@ -255,10 +254,10 @@ class process {
     /*
      * Display link to save database
      */
-    public function selectSaveBdd() {
-        $this->_session['db_save'] = 'no';
+    public function selectSaveDb() {
+        $this->_session['backupDb'] = 'no';
 
-        $this->_view = new view('selectSaveBdd');
+        $this->_view = new view('selectSaveDb');
     }
 
     /*
@@ -272,7 +271,7 @@ class process {
 
         $this->_db = db::getInstance()->load($global);
 
-        $this->_session['db_save'] = 'yes';
+        $this->_session['backupDb'] = 'yes';
 
         header('Content-disposition:filename=save-'. time() .'.sql');
         header('Content-type:application/octetstream');
@@ -285,7 +284,7 @@ class process {
      */
     public function selectProcessType() {
         if ($this->_session['process'] == 'update' && ! confInc::isUpdatable())
-            $this->_redirect('index.php?action=saveConfig');
+            $this->_redirect('index.php?action=saveDbConfiguration');
 
         $this->_view = new view('selectProcessType');
 
@@ -302,7 +301,7 @@ class process {
             if ($_GET['assist'] == 'yes')
                 $this->_redirect('index.php?action=changelog');
             else
-                $this->_redirect('index.php?action=setConfig');
+                $this->_redirect('index.php?action=setDbConfiguration');
         }
 
         $this->_redirect('index.php?action=selectProcessType');
@@ -319,16 +318,20 @@ class process {
     }
 
     /*
-     * Set config (assisted or not)
+     * Set database configuration (assisted or not)
      */
-    public function setConfig() {
+    public function setDbConfiguration() {
         $this->_session['db_type'] = 'MySQL';
 
-        $this->_view = new view('setConfig');
+        $this->_view = new view('setDbConfiguration');
 
         $this->_view->process           = $this->_session['process'];
         $this->_view->assist            = $this->_session['assist'];
         //$this->_view->databaseTypeList  = db::getDatabaseTypeList();
+
+        $dbHost = $dbUser = $dbName = '';
+        //$dbType       = 'MySQL';
+        //$dbPersistent = false;
 
         if ($this->_session['process'] == 'update') {
             include '../conf.inc.php';
@@ -336,29 +339,106 @@ class process {
             if (! isset($global, $db_prefix) || ! is_array($global) || ! is_string($db_prefix))
                 throw new fatalErrorException($this->_i18n['CORRUPTED_CONF_INC']);
 
-            $this->_view->host          = $global['db_host'];
-            $this->_view->user          = $global['db_user'];
-            $this->_view->name          = $global['db_name'];
-            //$this->_view->databaseType  = isset($global['db_type']) ? $global['db_type'] : 'MySQL';
-            //$this->_view->port          = isset($global['db_port']) ? $global['db_port'] : $this->_db->getDefaultPort();
-            //$this->_view->persistent    = isset($global['db_persistent']) ? $global['db_persistent'] : false;
-            $this->_view->prefix        = $db_prefix;
+            $dbHost = $global['db_host'];
+            $dbUser = $global['db_user'];
+            $dbName = $global['db_name'];
+
+            //if (isset($global['db_type'])) $dbType = $global['db_type'];
+            //if (isset($global['db_port'])) $dbPort = $global['db_port'];
+            //if (isset($global['db_persistent'])) $dbPersistent = $global['db_persistent'];
         }
+
+        $this->_view->dbHost        = $dbHost;
+        $this->_view->dbUser        = $dbUser;
+        $this->_view->dbName        = $dbName;
+        $this->_view->dbPrefix      = isset($db_prefix) ? $db_prefix : 'nuked';
+        //$this->_view->databaseType  = $dbType;
+        //$this->_view->persistent    = $dbPersistent;
+
+        //if (! isset($dbPort))
+        //    $this->_view->port = $this->getDbDefaultPort(true);
     }
 
     /*
-     * Save config data in PHP session
+     * Get database connection port
      */
-    public function saveConfig() {
-        $this->_session['db_type'] = 'MySQL';
+    public function getDbDefaultPort($return = false) {
+        if ($return)
+            $_POST['db_type'] = 'MySQL';
+        else
+            $_POST = array_map('utf8_decode', $_POST);
 
+        $port = '';
+
+        try {
+            $this->_db = db::getInstance()->load($_POST);
+
+            if(method_exists($this->_db, 'getDefaultPort'))
+                $port = $this->_db->getDefaultPort();
+        }
+        catch (dbException $e) {
+            $result = $e->getMessage();
+
+            if (isset($this->_i18n[$result]))
+                $result = $this->_i18n[$result];
+        }
+
+        if ($return)
+            return $result;
+
+        echo $result;
+    }
+
+    /*
+     * Check MySQL database connection and return result
+     */
+    public function dbConnectTest($return = false) {
+        if (! $return)
+            $_POST = array_map('utf8_decode', $_POST);
+
+        $result = 'OK';
+
+        try {
+            $this->_db = db::getInstance()->load($_POST);
+
+            $this->_db->connect();
+
+            if ($this->_session['process'] == 'update') {
+                $sql = 'SELECT name, value
+                    FROM '. $_POST['db_prefix'] .'_config
+                    ORDER BY RAND()
+                    LIMIT 1';
+
+                $this->_db->execute($sql, array('exception' => 'DB_PREFIX_ERROR'));
+            }
+        }
+        catch (dbException $e) {
+            $result = $e->getMessage();
+
+            if (isset($this->_i18n[$result]))
+                $result = $this->_i18n[$result];
+        }
+
+        if ($return)
+            return $result;
+
+        echo $result;
+    }
+
+    /*
+     * Save database configuration data in PHP session
+     */
+    public function saveDbConfiguration() {
         if (! empty($_POST)) {
+            if (! $this->_checkDbConfigurationForm())
+                return;
+
             $this->_session['db_host']          = $_POST['db_host'];
             $this->_session['db_user']          = $_POST['db_user'];
             $this->_session['db_pass']          = $_POST['db_pass'];
             $this->_session['db_name']          = $_POST['db_name'];
             //$this->_session['db_type']          = $_POST['db_type'];
-            //$this->_session['db_port']          = $_POST['db_port'];
+            //$this->_session['db_port']          = ($_POST['db_port'] != '') ? $_POST['db_port'] : '';
             //$this->_session['db_persistent']    = $_POST['db_persistent'];
             $this->_session['db_prefix']        = $_POST['db_prefix'];
             $this->_session['HASHKEY']          = hash::generate();
@@ -412,49 +492,9 @@ class process {
     }
 
     /*
-     * Check MySQL database connection and return result
-     */
-    public function dbConnectTest() {
-        $_POST  = array_map('utf8_decode', $_POST);
-        $result = 'OK';
-
-        try {
-            $this->_db = db::getInstance()->load($_POST);
-
-            if ($this->_session['process'] == 'update') {
-                $sql = 'SELECT name, value
-                    FROM '. $_POST['db_prefix'] .'_config
-                    ORDER BY RAND()
-                    LIMIT 1';
-
-                $this->_db->execute($sql, array('exception' => 'DB_PREFIX_ERROR'));
-            }
-        }
-        catch (dbException $e) {
-            $result = utf8_decode($e->getMessage());
-        }
-
-        echo $result;
-    }
-
-    /*
      * Create or update all database table
      */
     public function runProcess() {
-        $this->_session['log'] = '';
-
-        /*
-        if ($this->_session['process'] == 'update') {
-            $this->_db = db::getInstance()->load($this->_session);
-
-            if (version_compare($this->_db->getVersion(), '5.0.0', '>')) {
-                $data = $this->_db->getDatabaseCharsetAndCollation();
-
-                if ($data['charset'] != db::CHARSET || $data['collation'] != db::COLLATION)
-                    $this->_db->setDatabaseCharsetAndCollation();
-        }
-        */
-
         $this->_view = new view('runProcess');
 
         $this->_view->process           = $this->_session['process'];
@@ -516,38 +556,31 @@ class process {
     }
 
     /*
-     * Display form for create user admin
+     * Display form for create administrator
      */
-    public function setUserAdmin() {
-        $this->_session['user_admin'] = 'IN_PROGRESS';
+    public function setAdministrator() {
+        $this->_session['administrator'] = 'IN_PROGRESS';
 
-        $this->_view = new view('setUserAdmin');
+        $this->_view = new view('setAdministrator');
     }
 
     /*
-     * Check user admin data and save it, generate conf.inc file for install process
+     * Check administrator data and save it, generate conf.inc file for install process
      */
-    public function saveUserAdmin() {
+    public function saveAdministrator() {
         if (isset($this->_session['_POST']))
             $_POST = $this->_session['_POST'];
 
-        if (! isset($_POST['nickname'], $_POST['password'], $_POST['passwordConfirm'], $_POST['mail'])
-            || strlen($_POST['nickname']) < 3 || preg_match('`[\$\^\(\)\'"?%#<>,;:]`', $_POST['nickname'])
-            || $_POST['password'] != $_POST['passwordConfirm']
-            || ! preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/', $_POST['mail'])
-        ) {
-            $this->_view = new view('userAdminError');
-        }
-        else {
+        if ($this->_checkAdministratorForm()) {
             if (! isset($this->_session['defaultContent'])) {
-                $this->_writeDefaultContent($_POST['nickname'], $_POST['password'], $_POST['mail']);
+                $this->_writeDefaultContent($_POST['nickname'], $_POST['password'], $_POST['email']);
 
                 $this->_session['defaultContent'] = true;
             }
 
             $this->_saveConfInc();
 
-            $this->_session['user_admin'] = 'FINISH';
+            $this->_session['administrator'] = 'FINISH';
 
             if (isset($this->_session['_POST']))
                 unset($this->_session['_POST']);
@@ -559,7 +592,7 @@ class process {
     /*
      * Update conf.inc.php file
      */
-    public function updateConfig() {
+    public function updateDbConfiguration() {
         $this->_db = db::getInstance()->load($this->_session);
 
         $sql = 'UPDATE `'. $this->_session['db_prefix'] .'_config`
@@ -602,7 +635,7 @@ class process {
             $this->_view->deprecatedFiles = $this->_deprecatedFiles;
         }
         else
-            $this->_redirect('index.php?action=installSuccess');
+            $this->_redirect('index.php?action=processSuccess');
     }
 
     /*
@@ -617,12 +650,12 @@ class process {
     }
 
     /*
-     * Display install success message
+     * Display install / update success message
      */
-    public function installSuccess() {
-        $this->_session['user_admin'] = 'FINISH';
+    public function processSuccess() {
+        $this->_session['administrator'] = 'FINISH';
 
-        $this->_view = new view('installSuccess');
+        $this->_view = new view('processSuccess');
     }
 
     /*
@@ -631,12 +664,11 @@ class process {
     public function getPartners() {
         $content = @file_get_contents('http://www.nuked-klan.org/extra/partners.php?key='. $this->_partnersKey);
         $content = @unserialize($content);
-        $content = (! is_array($content)) ? array() : $content;
 
         $view = new view('getPartners');
 
         $view->i18n     = $this->_i18n;
-        $view->content  = $content;
+        $view->content  = (! is_array($content)) ? array() : $content;
 
         echo $view;
     }
@@ -654,6 +686,7 @@ class process {
      */
     public function deleteSession() {
         $this->_session->stop();
+        $this->_deleteDirectory('../INSTALL');
         $this->_redirect('../index.php');
     }
 
@@ -717,7 +750,7 @@ class process {
      */
     private function _requirements() {
         $requirements = array(
-            'PHP_VERSION'   => (version_compare(PHP_VERSION, $this->_minimalPhpVersion)) ? 'enabled' : 'required-disabled'
+            'PHP_VERSION' => (version_compare(PHP_VERSION, $this->_minimalPhpVersion)) ? 'enabled' : 'required-disabled'
         );
 
         foreach ($this->_phpExtension as $extensionName => $requirement) {
@@ -727,19 +760,83 @@ class process {
                 $requirements[strtoupper($extensionName) .'_EXT'] = $requirement .'-disabled';
         }
 
+        $requirements['CHMOD_TEST'] = array();
+
         $path = realpath('../');
         @chmod($path, 0755);
-        $requirements['CHMOD_TEST_WEBSITE_DIRECTORY'] = (is_writable($path)) ? 'enabled' : 'optional-disabled';
+
+        if (! is_writable($path))
+            $requirements['CHMOD_TEST']['WEBSITE_DIRECTORY'] = 'optional-disabled';
 
         @chmod(realpath('../upload'), 0755);
 
         foreach ($this->_uploadDir as $uploadDir) {
             $path = realpath('../'. $uploadDir);
             @chmod($path, 0755);
-            $requirements['CHMOD_TEST_'. $uploadDir] = (is_writable($path)) ? 'enabled' : 'optional-disabled';
+
+            if (! is_writable($path))
+                $requirements['CHMOD_TEST'][$uploadDir] = 'optional-disabled';
         }
 
         return $requirements;
+    }
+
+    /*
+     * Check database configuration form values.
+     */
+    private function _checkDbConfigurationForm() {
+        $errors = array();
+
+        if (! isset($_POST['db_host']) || trim($_POST['db_host']) == '')
+            $errors[] = sprintf($this->_i18n['DB_HOST_ERROR'], $this->_session['db_type']);
+
+        if (! isset($_POST['db_user']) || trim($_POST['db_user']) == '')
+            $errors[] = $this->_i18n['DB_USER_ERROR'];
+
+        if (! isset($_POST['db_pass']) || ($_POST['db_user'] != 'root' && trim($_POST['db_pass']) == ''))
+            $errors[] = $this->_i18n['DB_PASSWORD_ERROR'];
+
+        if (! isset($_POST['db_name']) || trim($_POST['db_name']) == '')
+            $errors[] = $this->_i18n['DB_NAME_ERROR'];
+
+        //if (! isset($_POST['db_type']) || ! in_array($_POST['db_type'], db::getDatabaseTypeList()))
+        //    $errors[] = sprintf($i18n['UNKNOW_DATABASE_TYPE'], $_POST['db_type']);
+
+        //if (isset($_POST['db_port']) $_POST['db_type'] = trim($_POST['db_type']);
+
+        //if (! isset($_POST['db_port'])
+        //    || ($_POST['db_type'] != '' && ! ctype_digit($_POST['db_port']) || $_POST['db_port'] > 65535)
+        //)
+        //    $errors[] = $this->_i18n['DB_PORT_ERROR'];
+
+        //if (isset($_POST['db_persistent']) $_POST['db_persistent']) == 'true')
+        //    $_POST['db_persistent'] = true;
+        //else
+        //    $_POST['db_persistent'] = false;
+
+        if (! isset($_POST['db_prefix']) || trim($_POST['db_prefix']) == '')
+            $errors[] = $this->_i18n['DB_PREFIX_ERROR'];
+
+        if (($connectError = $this->dbConnectTest(true)) != 'OK')
+            $errors[] = $connectError;
+
+        if ($errors) {
+            $this->_view = new view('formError');
+
+            $type = ($this->_session['assist'] == 'yes') ? 'ASSIST' : 'SPEED';
+
+            if ($this->_session['process'] == 'install')
+                $this->_view->title = $this->_i18n['INSTALL_'. $type];
+            else
+                $this->_view->title = $this->_i18n['UPDATE_'. $type];
+
+            $this->_view->errors   = $errors;
+            $this->_view->backLink = 'index.php?action=setDbConfiguration';
+
+            return false;
+        }
+
+        return true;
     }
 
     /*
@@ -796,6 +893,42 @@ class process {
             $userId .= $charPool{mt_rand(0, $poolLength)};
 
         return $userId;
+    }
+
+    /*
+     * Check administrator form values.
+     */
+    private function _checkAdministratorForm() {
+        $errors = array();
+
+        if (! isset($_POST['nickname'])
+            || strlen($_POST['nickname']) < 3
+            || preg_match('`[\$\^\(\)\'"?%#<>,;:]`', $_POST['nickname'])
+        )
+            $errors[] = $this->_i18n['ERROR_NICKNAME'];
+
+        if (! isset($_POST['password']) || trim($_POST['password']) == '')
+            $errors[] = $this->_i18n['ERROR_PASSWORD'];
+
+        if (! isset($_POST['passwordConfirm']) || $_POST['password'] != $_POST['passwordConfirm'])
+            $errors[] = $this->_i18n['ERROR_PASSWORD_CONFIRM'];
+
+        if (! isset($_POST['email'])
+            || ! preg_match('/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/', $_POST['email'])
+        )
+            $errors[] = $this->_i18n['ERROR_EMAIL'];
+
+        if ($errors) {
+            $this->_view = new view('formError');
+
+            $this->_view->title    = $this->_i18n['CREATE_ADMINISTRATOR'];
+            $this->_view->errors   = $errors;
+            $this->_view->backLink = 'index.php?action=setAdministrator';
+
+            return false;
+        }
+
+        return true;
     }
 
     /*
@@ -886,18 +1019,6 @@ class process {
     }
 
     /*
-     * Return a random info to display in footer
-     */
-    private function _getInfo() {
-        $n = rand(0, count($this->_infoList) - 1);
-
-        return array(
-            'n'     => $n + 1,
-            'name'  => $this->_infoList[$n]
-        );
-    }
-
-    /*
      * Send header to execute a redirection
      */
     private function _redirect($url) {
@@ -939,8 +1060,10 @@ class process {
                 $this->_setAction($action);
                 $this->{$action}();
             }
-            else if ($action != 'printJsI18nFile')
+            else if ($action != 'printJsI18nFile') {
+                $action = 'selectLanguage';
                 $this->selectLanguage();
+            }
         }
         catch (processException $e) {
             $exceptionName = get_class($e);
@@ -972,7 +1095,7 @@ class process {
             $view->session          = $this->_session;
             $view->action           = $action;
             $view->content          = $this->_view;
-            $view->info             = $this->_getInfo();
+            $view->infoList         = $this->_infoList;
 
             echo $view;
         }
