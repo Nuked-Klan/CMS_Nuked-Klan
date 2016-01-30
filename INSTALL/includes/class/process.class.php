@@ -686,7 +686,10 @@ class process {
      */
     public function deleteSession() {
         $this->_session->stop();
-        $this->_deleteDirectory('../INSTALL');
+
+        if (! DEVEL_MODE)
+            $this->_deleteDirectory('../INSTALL');
+
         $this->_redirect('../index.php');
     }
 
