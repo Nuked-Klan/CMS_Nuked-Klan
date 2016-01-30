@@ -5,7 +5,8 @@ function checkAdministratorForm(event) {
     var notification = $('#notification');
 
     try {
-        notification.empty();
+        notification.removeClass('errorNotification')
+            .empty();
 
         if (! checkAdministratorNickname($('#nickname'))) throw i18n.error_nickname;
         if (! checkAdministratorPassword($('#password'))) throw i18n.error_password;
@@ -13,7 +14,9 @@ function checkAdministratorForm(event) {
         if (! checkAdministratorEmail($('#email'))) throw i18n.error_email;
     }
     catch (errorMsg) {
-        notification.html(errorMsg);
+        notification.html(errorMsg)
+            .addClass('errorNotification');
+
         event.preventDefault();
     }
 }

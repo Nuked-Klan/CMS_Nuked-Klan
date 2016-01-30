@@ -260,9 +260,7 @@ a.buttonDisabled, input[type="submit"].buttonDisabled {
 
 #information{
     width:580px;
-    overflow:hidden;
     margin:auto;
-    height:600px;
 }
 
 #information div{
@@ -542,6 +540,7 @@ form#statsForm>p>label{
 #setDbConfiguration h2{
     font-size:16px;
     padding:0 0 5px 0;
+    text-align:center;
 }
 
 .infoLogo{

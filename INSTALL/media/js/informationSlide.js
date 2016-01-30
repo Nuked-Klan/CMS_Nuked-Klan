@@ -1,6 +1,7 @@
 var nbInfo,
     currentInfo = 1,
-    delay = 15000;
+    delay       = 15000,
+    infoHeight  = [];
 
 function infoSlide() {
     $('#slide' + currentInfo).fadeOut();
@@ -15,10 +16,20 @@ function infoSlide() {
 }
 
 $(document).ready(function() {
+    var maxHeight = 0;
+
     nbInfo = $('#information>div').length;
 
-    for (var n = 2; n < nbInfo + 1; n++)
-        $('#slide' + n).hide();
+    for (var n = 1; n < nbInfo + 1; n++) {
+        infoHeight[n] = $('#slide' + n).outerHeight(true);
 
+        if (infoHeight[n] > maxHeight)
+            maxHeight = infoHeight[n];
+
+        if (n > 1)
+            $('#slide' + n).hide();
+    }
+
+    $('#information').css('height', maxHeight + 30);
     setTimeout('infoSlide()', delay);
 });
