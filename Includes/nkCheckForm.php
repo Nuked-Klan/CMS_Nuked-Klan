@@ -48,8 +48,10 @@ function nkCheckForm(&$form, $fields) {
         if (! isset($form['token']['duration']) || ! ctype_digit($form['token']['duration']))
             $form['token']['duration'] = 300;
 
-        if (! nkToken_valid($form['token']['name'], $form['token']['duration'], $form['token']['refererData']))
+        if (! nkToken_valid($form['token']['name'], $form['token']['duration'], $form['token']['refererData'])) {
+            printNotification(__('TOKEN_NO_VALID'), 'error');
             return false;
+        }
     }
     else
         trigger_error('You must defined a token refererData for this form configuration !', E_USER_ERROR);
@@ -59,14 +61,19 @@ function nkCheckForm(&$form, $fields) {
             if (! isset($form['items'][$field]['required']) || ! is_bool($form['items'][$field]['required']))
                 $form['items'][$field]['required'] = false;
 
+            if (array_key_exists('name', $form['items'][$field]))
+                $fieldName = $form['items'][$field]['name'];
+            else
+                $fieldName = $field;
+
             if ($form['items'][$field]['type'] == 'checkbox') {
-                nkCheckForm_checkbox($field, $form['items'][$field]);
+                nkCheckForm_checkbox($fieldName, $form['items'][$field]);
             }
             else {
                 if (isset($form['items'][$field]['uploadValue']))
                     continue;
 
-                if (! nkCheckForm_checkFormInput($field, $form['items'][$field], $form))
+                if (! nkCheckForm_checkFormInput($fieldName, $form['items'][$field], $form))
                     return false;
             }
         }
@@ -259,7 +266,7 @@ function nkCheckForm_checkHtml($field, $fieldData) {
 
     if ($_POST[$field] === false) {
         if ($fieldData['required']) {
-            printNotification(sprintf(__('NOT_HTML_FIELD'), $fieldData['label'], 'error');
+            printNotification(sprintf(__('NOT_HTML_FIELD'), $fieldData['label'], 'error'));
             return false;
         }
         else

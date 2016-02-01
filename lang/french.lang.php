@@ -374,7 +374,7 @@ define("_UPLOADDIRNOWRITEABLE","Le dossier d'upload n'a pas les droits d'écritur
 
 
 
-
+define("_NONE","Aucun");
 
 return array(
     // common
@@ -384,6 +384,12 @@ return array(
     'SEND'              => 'Envoyer',
     'VISITOR'           => 'Visiteur',
     //define("_VISITORS","visiteurs");
+    'IMAGE'             => 'Image',
+    'NONE'              => 'Aucun',
+    'MEMBER'            => 'Membre',
+    'TYPE'              => 'Type',
+    'PREFERENCES'       => 'Préférences',
+    'ALL'               => 'Tous',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

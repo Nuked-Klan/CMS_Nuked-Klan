@@ -4,7 +4,7 @@
         <meta name="keywords" content="<?php echo $GLOBALS['nuked']['keyword'] ?>" />
         <meta name="Description" content="<?php echo $GLOBALS['nuked']['description'] ?>" />
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <title><?php echo $$GLOBALS['nkTemplate']['title'] ?></title>
+        <title><?php echo $GLOBALS['nkTemplate']['title'] ?></title>
         <link rel="shortcut icon"  href="images/favicon.ico" />
     </head>
     <body>
@@ -92,14 +92,26 @@
                             <ul>
 <?php
     foreach ($modulesList as $module => $moduleName) :
-        if ($GLOBALS['file'] == $module && $GLOBALS['page'] == 'admin') :
+        if (is_dir('modules/'. $module .'/backend')) :
+            if ($GLOBALS['file'] == $module) :
+?>
+                                <li><a class="current" href="index.php?admin=<?php echo $module ?>"><?php echo $moduleName ?></a></li>
+<?php
+            else :
+?>
+                                <li><a href="index.php?admin=<?php echo $module ?>"><?php echo $moduleName ?></a></li>
+<?php
+            endif;
+        else :
+            if ($GLOBALS['file'] == $module && $GLOBALS['page'] == 'admin') :
 ?>
                                 <li><a class="current" href="index.php?file=<?php echo $module ?>&amp;page=admin"><?php echo $moduleName ?></a></li>
 <?php
-        else :
+            else :
 ?>
                                 <li><a href="index.php?file=<?php echo $module ?>&amp;page=admin"><?php echo $moduleName ?></a></li>
 <?php
+            endif;
         endif;
     endforeach;
 ?>

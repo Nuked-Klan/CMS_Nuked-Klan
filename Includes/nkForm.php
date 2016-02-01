@@ -233,6 +233,9 @@ function nkForm_generate($form) {
         if (array_key_exists('type', $itemData) && in_array($itemData['type'], $authorizedType)) {
             $currentClass = 'nkForm_input'. ucfirst($itemData['type']);
 
+            if (! array_key_exists('name', $itemData))
+                $itemData['name'] = $itemName;
+
             if (in_array($itemData['type'], $authorizedType))
                 $html .= $currentClass($itemName, $itemData, $form['id']);
         }
@@ -269,6 +272,9 @@ function nkForm_initInput($fieldName, &$params, $formId) {
     //    $params['labelClass']     = array_unique(array_merge($params['labelClass'], $params['itemClass']));
     //    $params['fakeLabelClass'] = array_unique(array_merge($params['fakeLabelClass'], $params['itemClass']));
     //}
+
+    if (! array_key_exists('name', $params))
+        $params['name'] = $fieldName;
 
     if (! array_key_exists('value', $params))
         $params['value'] = '';

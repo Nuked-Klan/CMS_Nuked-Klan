@@ -84,14 +84,24 @@ function nkHandle_siteInstalled() {
  * @return string : Module name to include
  */
 function nkHandle_module() {
-    global $nuked;
+    global $nuked, $admin;
 
-    $module = null;
+    $module = $admin = null;
 
-    if (isset($_POST['file']))
+    if (isset($_POST['admin'])) {
+        $module = $_POST['admin'];
+        $admin  = true;
+    }
+    else if (isset($_POST['file'])) {
         $module = $_POST['file'];
-    else if (isset($_GET['file']))
+    }
+    else if (isset($_GET['admin'])) {
+        $module = $_GET['admin'];
+        $admin  = true;
+    }
+    else if (isset($_GET['file'])) {
         $module = $_GET['file'];
+    }
 
     if ($module !== null) {
         // On the recommendations of phpSecure.info
@@ -101,7 +111,7 @@ function nkHandle_module() {
         $module = basename(trim($module));
     }
 
-    if (empty($module))
+    if ($module === null || empty($module))
         $module = $nuked['index_site'];
 
     return $module;
@@ -1248,8 +1258,14 @@ function translate($languageFile) {
 function __($str) {
     global $arrayModLang;
 
-    if (array_key_exists($str, $arrayModLang))
-        return $arrayModLang[$str];
+    if (array_key_exists($str, $arrayModLang)) {
+        if (is_array($arrayModLang[$str])) {
+            if (array_key_exists(1, $arrayModLang[$str]))
+                return $arrayModLang[$str][1];
+        }
+        else
+            return $arrayModLang[$str];
+    }
 
     return $str;
 }
@@ -1925,6 +1941,26 @@ function nkBenchmark_display() {
 
     if (! empty($line))
         echo '<p class="nkGenerated">'. implode('<br />', $line) .'</p>';
+}
+
+function nkUrl_format($moduleUriKey, $module, $page = 'index', $op = 'index', $uriData = array(), $formEncoded = false) {
+    if (! is_array($uriData)) return;
+
+    $mainUriData = array($moduleUriKey => $module);
+
+    if ($page != 'index')
+        $mainUriData['page'] = $page;
+
+    if ($op != 'index')
+        $mainUriData['op'] = $op;
+
+    if ($uriData)
+        $mainUriData = array_merge($mainUriData, $uriData);
+
+    if ($formEncoded)
+        return 'index.php?'. http_build_query($mainUriData, '', '&amp;', PHP_QUERY_RFC1738);
+    else
+        return 'index.php?'. http_build_query($mainUriData, '', '&', PHP_QUERY_RFC3986);
 }
 
 ?>

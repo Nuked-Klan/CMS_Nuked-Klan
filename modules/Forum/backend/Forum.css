@@ -1,0 +1,40 @@
+/* Forum category list */
+table#forumCategoryList .fcNom{width:50%;}
+table#forumCategoryList .fcOrdre{width:10%;}
+table#forumCategoryList .nkListEdit,
+table#forumCategoryList .nkListDelete{width:10%;}
+table#forumCategoryList td.fcNom,
+table#forumCategoryList td.fcOrdre{text-align:center;}
+
+/* Forum category form */
+#forumCategoryImgPreview{max-width:100%;height:auto;}
+
+/* Forum list */
+table#forumList .fNom,
+table#forumList .fCatName,
+table#forumList .fNiveau,
+table#forumList .fLevel{width:20%;}
+table#forumList .nkListEdit,
+table#forumList .nkListDelete{width:10%;}
+table#forumList td.fCatName,
+table#forumList td.fNiveau,
+table#forumList td.fLevel{text-align:center;}
+
+/* Forum form */
+#forumImgPreview{margin-left:20px;width:50px;height:50px;vertical-align:middle;}
+
+/* Forum rank list */
+table#forumRankList .frNom,
+table#forumRankList .frType{width:25%;}
+table#forumRankList .frPost{width:20%;}
+table#forumRankList .nkListEdit,
+table#forumRankList .nkListDelete{width:15%;}
+table#forumRankList td.frNom,
+table#forumRankList td.frType,
+table#forumRankList td.frPost{text-align:center;}
+
+/* Forum rank form */
+#formRankImgPreview{margin-left:4px;}
+
+/* Forum setting form */
+form#forumSettingForm>div.nkForm_container>label{width:86%;}

@@ -70,7 +70,7 @@ function getAdminModulesMenuData() {
         else
             $moduleName = $mod['nom'];
 
-        if (is_file('modules/'. $mod['nom'] .'/admin.php'))
+        if (is_file('modules/'. $mod['nom'] .'/admin.php') || is_dir('modules/'. $mod['nom'] .'/backend'))
             $data[1][$mod['nom']] = $moduleName;
     }
 
@@ -137,6 +137,20 @@ function saveUserAction($action) {
  */
 function setPreview($previewUrl, $redirect) {
     nkTemplate_addJS('setTimeout(function(){screenon("'. $previewUrl .'", "'. $redirect .'");},"3000");' ."\n");
+}
+
+function getMenuOfModuleAdmin() {
+    $adminMenu = '';
+
+    if (is_file('modules/'. $GLOBALS['file'] .'/backend/config/menu.php')) {
+        $adminMenu = require_once 'modules/'. $GLOBALS['file'] .'/backend/config/menu.php';
+
+        $adminMenu = applyTemplate('share/adminMenu', array(
+            'menu' => $adminMenu
+        ));
+    }
+
+    return $adminMenu;
 }
 
 ?>

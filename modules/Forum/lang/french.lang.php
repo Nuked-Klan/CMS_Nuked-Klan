@@ -1,10 +1,7 @@
 <?php
 define("_NOACCESSFORUM","Désolé vous n'avez pas accès a ce forum");
 define("_NOTOPICEXIST","Désolé ce topic n'existe pas ou a été supprimé");
-define("_FORUMS","Forums");
-define("_FORUM","Forum");
 define("_SUBJECTS","Sujets");
-define("_MESSAGES","Messages");
 define("_PREVIOUSMESSAGES","Message(s) pr&eacutec&eacutedent(s)");
 define("_MESSAGE","Message");
 define("_LASTPOST","Dernier message");
@@ -32,7 +29,6 @@ define("_FVISITORS","visiteur(s)");
 define("_FMEMBERS","membre(s)");
 define("_AND","et");
 define("_FADMINISTRATORS","administrateur(s)");
-define("_NONE","Aucun");
 define("_ISONLINE","En ligne !");
 define("_MEMBERSONLINE","Membres en ligne");
 define("_MARKREAD","Marquer tous les messages comme lus");
@@ -118,7 +114,6 @@ define("_KEYWORDS","Mots clés");
 define("_MATCHEXACT","Rechercher l'expression");
 define("_MATCHOR","Rechercher n'importe lequel de ces termes");
 define("_MATCHAND","Rechercher tous les termes");
-define("_ALL","Tous");
 define("_BOTH","Tous les deux");
 define("_SEARCHINTO","Recherche dans");
 define("_NBANSWERS","Nombre de réponses");
@@ -163,91 +158,27 @@ define("_NOTIFYOFF","Arrêter de surveiller le sujet");
 define("_NOTIFYISON","Notification activé avec succès.");
 define("_NOTIFYISOFF","Notification désactivé avec succès.");
 define("_NOTEXTRESUME","Aucun aperçu disponible...");
-
-define("_ADMINFORUM","Administration Forum");
-
-define("_ADDFORUM","Ajouter un Forum");
-define("_NAME","Nom");
-define("_NIVEAU","Niveau");
-define("_LEVELACCES","Niveau d'accès");
-define("_LEVELPOST","Niveau d'utilisation");
-define("_LEVELPOLL","Niveau sondage");
-define("_LEVELVOTE","Niveau vote");
-define("_DESCR","Description");
-define("_ORDER","Ordre");
-define("_MODO","Modérateur");
 define("_MODOS","Modérateurs");
-define("_CAT","Catégorie");
 
-define("_ADDTHISFORUM","Ajouter ce Forum");
-define("_MODIFTHISFORUM","Modifier ce Forum");
-define("_EDITTHISFORUM","Editer ce Forum");
-define("_DELTHISFORUM","Supprimer ce Forum");
-define("_FORUMMODIF","Forum modifié avec succès.");
-define("_FORUMADD","Forum ajouté avec succès.");
-define("_FORUMDEL","Forum supprimé avec succès.");
 define("_NONEXIST","n'existe pas dans la base de données.");
-define("_CATMANAGEMENT","Gestion des catégories");
-define("_EDITTHISCAT","Editer cette Catégorie");
-define("_DELTHISCAT","Supprimer cette Catégorie");
-define("_ADDCAT","Ajouter une Catégorie");
-define("_CREATECAT","Créer une Catégorie");
-define("_CATADD","Catégorie ajoutée avec succès.");
-define("_MODIFTHISCAT","Modifier cette Catégorie");
-define("_CATMODIF","Catégorie modifiée avec succès.");
-define("_CATDEL","Catégorie supprimée avec succès.");
-define("_RANKMANAGEMENT","Gestion des rangs");
-define("_ADDRANK","Ajouter un Rang");
-define("_EDITTHISRANK","Editer ce Rang");
-define("_DELTHISRANK","Supprimer ce Rang");
-define("_ADMINISTRATOR","Administrateur");
-define("_MODERATEUR","Modérateur");
+
 define("_ADDMODO","Ajouter un modérateur");
-define("_DELTHISMODO","Supprimer ce modérateur");
-define("_MODODEL","Modérateur supprimé avec succès.");
-define("_CREATERANK","Créer un Rang");
-define("_RANKADD","Rang ajouté avec succès.");
-define("_RANKDEL","Rang effacé avec succès.");
-define("_MODIFTHISRANK","Modifier ce Rang");
-define("_RANKMODIF","Rang modifié avec succès.");
-define("_PRUNE","Délestage des Forums");
+
+
 define("_DELOLDMESSAGES","Supprimer les anciens sujets du Forum depuis le :");
-define("_NUMBEROFDAY","Nombre de jours");
-define("_NODAY","Vous n\'avez pas entré de nombre de jours !");
-define("_FORUMPRUNE","Délestage des forums effectué avec succès.");
-define("_FORUMTITLE","Titre du Forum");
-define("_FORUMDESC","Description du Forum");
-define("_USERANKTEAM","Utiliser les rangs team lorsque c'est possible");
-define("_NUMBERTHREAD","Nombre de sujets par page");
-define("_NUMBERPOST","Nombre de messages par page");
-define("_TOPICHOT","Seuil de Messages pour être Populaire");
-define("_POSTFLOOD","Durée en secondes entre 2 messages (flood)");
-define("_MAXFIELD","Nombre maximal d'options pour les sondages");
-define("_ATTACHFILES","Autoriser les fichiers joints");
-define("_FILELEVEL","Niveau requis pour poster des fichiers joints");
-define("_MAXSIZEFILE","Taille maximale pour les fichiers joints (en Ko)");
+
+
+
+
+
+
 define("_PERMALINK","Permalien");
 define("_PERMALINK_TITLE","Lien direct vers ce message");
-define("_NOTIFIMAGESIZE","Afin d'optimiser l'affichage de votre site, pensez à ajuster la taille de vos image à la largeur de votre thème.<br />Les images seront redimensionn&eacute;es automatiqueent à la largeur de votre site.");
-define("_DISPLAYFORUMIMAGE","Afficher les images pour chaques Forum");
-define("_DISPLAYCATIMAGE","Remplacer les titres des cat&eacute;gories par des images lorsque c'est possible");
-define("_DISPLAYBIRTHDAY","Afficher les anniversaires des membres sur la page d'accueil du forum");
-define("_DISPLAYGAMERDETAILS","Afficher le jeu de l'utilisateur et les préférences jeu");
-define("_DISPLAYUSERDETAILS","Afficher les couleurs des rangs team et la légende");
-define("_DISPLAYLABELS","Afficher les labels en CSS au lieu des images (fichiers joints, sondages et annonces");
-define("_DISPLAYMODOS","Afficher la liste des modérateurs sur chaque forum de la page d'accueil");
 
-define("_ACTIONADDCATFO","a ajouté la catégorie forum");
-define("_ACTIONDELCATFO","a supprimé la catégorie forum");
-define("_ACTIONMODIFCATFO","a modifié la catégorie forum");
-define("_ACTIONADDFO","a ajouté le forum");
-define("_ACTIONDELFO","a supprimé le forum");
-define("_ACTIONMODIFFO","a modifié le forum");
-define("_ACTIONDELMODOFO","a supprimé le modérateur");
-define("_ACTIONADDRANKFO","a ajouté le rang forum");
-define("_ACTIONDELRANKFO","a supprimé le rang forum");
-define("_ACTIONMODIFRANKFO","a modifié le rang forum");
-define("_ACTIONPRUNEFO","a délesté le forum");
+
+
+
+
 define("_ACTIONPREFFO","a modifié les préférences du module forum");
 
 // Main
@@ -277,12 +208,92 @@ define("_NOFORUMCATEXIST","Désolé cette catégorie forum n'existe pas ou a été su
 define("_NOACCESSFORUMCAT","Désolé vous n'avez pas accès a cette catégorie forum");
 
 // Admin
-define("_NOFORUMINDB","Aucun forum dans la base de données");
 define("_NONAME","Vous n'avez pas entré de nom !");
 define("_INCORRECT_ORDER","L'ordre ne contient pas que des entiers !");
 define("_INCORRECT_RANK_MESSAGE","Le seuil de message du rang ne contient pas que des entiers !");
-define("_INCORRECT_PRUNE_DAY","Le nombre de jours ne contient pas que des entiers !");
+
 
 // index
 define("_CONFIRMDELFILE","Etes-vous sûr de vouloir supprimer ce fichier ?");
+
+// core.php
+//define("_MODO","Modérateur");
+//define("_MODERATEUR","Modérateur");
+
+//define("_FORUMS","Forums");
+//define("_FORUM","Forum");
+
+return array(
+    // modules/Forum/backend/config/prune.php
+    'FORUM'             => array('Forum', 'Forums'),
+    
+    // modules/Forum/backend/category.php
+    // modules/Forum/backend/index.php
+    // modules/Forum/backend/prune.php
+    // modules/Forum/backend/rank.php
+    // modules/Forum/backend/setting.php
+    'ADMIN_FORUM'       => 'Administration Forum',
+    // modules/Forum/backend/index.php
+    'ADD_FORUM'         => 'Ajouter un Forum',
+    'EDIT_THIS_FORUM'   => 'Editer ce Forum',
+    'DELETE_THIS_FORUM' => 'Supprimer ce Forum',
+    'NO_FORUM_IN_DB'    => 'Aucun forum dans la base de données',
+    'FORUM_ADDED'       => 'Forum ajouté avec succès.',
+    'FORUM_MODIFIED'    => 'Forum modifié avec succès.',
+    'FORUM_DELETED'     => 'Forum supprimé avec succès.',
+    'ACTION_ADD_FORUM'  => 'a ajouté le forum',
+    'ACTION_EDIT_FORUM' => 'a modifié le forum',
+    'ACTION_DELETE_FORUM' => 'a supprimé le forum',
+    'DELETE_THIS_MODERATOR' => 'Supprimer ce modérateur',
+    'ACTION_DELETE_MODERATOR' => 'a supprimé le modérateur',
+    'MODERATOR_DELETED' => 'Modérateur supprimé avec succès.',
+    // modules/Forum/backend/category.php
+    'ACTION_ADD_FORUM_CATEGORY' => 'a ajouté la catégorie forum', // _ACTIONADDCATFO
+    'ACTION_EDIT_FORUM_CATEGORY' => 'a modifié la catégorie forum', // _ACTIONMODIFCATFO
+    'ACTION_DELETE_FORUM_CATEGORY' => 'a supprimé la catégorie forum', // _ACTIONDELCATFO
+    // modules/Forum/backend/rank.php
+    'ACTION_ADD_FORUM_RANK'  => 'a ajouté le rang forum',
+    'ACTION_EDIT_FORUM_RANK' => 'a modifié le rang forum',
+    'ACTION_DELETE_FORUM_RANK' => 'a supprimé le rang forum',
+    // modules/Forum/backend/prune.php
+    'NO_DAY'            => 'Vous n\'avez pas entré de nombre de jours !',
+    'PRUNE'             => 'Délestage des Forums',
+    'INCORRECT_PRUNE_DAY'=> 'Le nombre de jours ne contient pas que des entiers !',
+    'ACTION_PRUNE_FORUM' => 'a délesté le forum',
+    'FORUM_PRUNE'       => 'Délestage des forums effectué avec succès.',
+    // modules/Forum/backend/config/forum.php
+    'LEVEL_ACCES'       => 'Niveau d\'accès',
+    'LEVEL_POST'        => 'Niveau d\'utilisation',
+    'LEVEL_POLL'        => 'Niveau sondage',
+    'LEVEL_VOTE'        => 'Niveau vote',
+    'MODERATOR'         => 'Modérateur',
+    'ADD_THIS_FORUM'    => 'Ajouter ce Forum',
+    'MODIFY_THIS_FORUM' => 'Modifier ce Forum',
+    // modules/Forum/backend/config/forumCategory.php
+    'NOTIFY_FORUM_IMAGE_SIZE' => 'Afin d\'optimiser l\'affichage de votre site, pensez à ajuster la taille de vos image à la largeur de votre thème.<br />Les images seront redimensionn&eacute;es automatiquement à la largeur de votre site.',
+    // modules/Forum/backend/config/forumRank.php
+    'MESSAGES'          => 'Messages',
+    // modules/Forum/backend/config/prune.php
+    'NUMBER_OF_DAY'     => 'Nombre de jours',
+    // modules/Forum/backend/config/setting.php
+    'FORUM_TITLE'       => 'Titre du Forum',
+    'FORUM_DESCRIPTION' => 'Description du Forum',
+    'USE_RANK_TEAM'     => 'Utiliser les rangs team lorsque c\'est possible',
+    'DISPLAY_FORUM_IMAGE' => 'Afficher les images pour chaques Forum',
+    'DISPLAY_CATEGORY_IMAGE' => 'Remplacer les titres des cat&eacute;gories par des images lorsque c\'est possible',
+    'DISPLAY_BIRTHDAY'  => 'Afficher les anniversaires des membres sur la page d\'accueil du forum',
+    'DISPLAY_GAMER_DETAILS' => 'Afficher le jeu de l\'utilisateur et les préférences jeu',
+    'DISPLAY_USER_DETAILS' => 'Afficher les couleurs des rangs team et la légende',
+    'DISPLAY_LABELS'    => 'Afficher les labels en CSS au lieu des images (fichiers joints, sondages et annonces',
+    'DISPLAY_MODERATORS' => 'Afficher la liste des modérateurs sur chaque forum de la page d\'accueil',
+    'NUMBER_THREAD'     => 'Nombre de sujets par page',
+    'NUMBER_POST'       => 'Nombre de messages par page',
+    'TOPIC_HOT'         => 'Seuil de Messages pour être Populaire',
+    'POST_FLOOD'        => 'Durée en secondes entre 2 messages (flood)',
+    'MAX_SURVEY_FIELD'  => 'Nombre maximal d\'options pour les sondages',
+    'JOINED_FILES'      => 'Autoriser les fichiers joints',
+    'FILE_LEVEL'        => 'Niveau requis pour poster des fichiers joints',
+    'MAX_SIZE_FILE'     => 'Taille maximale pour les fichiers joints (en Ko)'
+);
+
 ?>

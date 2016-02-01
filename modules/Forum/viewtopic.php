@@ -203,7 +203,7 @@ function getAuthorInfo($topicMessage) {
     }
 
     // Add total user post
-    $authorInfo['totalUserPost'] = _MESSAGES .' : '. $topicMessage['count'] .'<br />'. _REGISTERED .': ';
+    $authorInfo['totalUserPost'] = __('MESSAGES') .' : '. $topicMessage['count'] .'<br />'. _REGISTERED .': ';
 
     // Valeur TRUE = Pas d'heure/minute.
     $authorInfo['totalUserPost'] .= nkDate($topicMessage['authorDate'], TRUE);

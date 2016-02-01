@@ -2,16 +2,16 @@
         <ul class="shortcut-buttons-set" id="1">
 <?php
     foreach ($menu as $label => $linkData) :
-        $link   = 'index.php?file='. $GLOBALS['file'] .'&amp;page=admin';
+        $link   = 'index.php?admin='. $GLOBALS['file'];
         $class  = '';
 
-        if (isset($linkData['op'])) {
-            $link .= '&amp;op='. $linkData['op'];
+        if (isset($linkData['page'])) {
+            $link .= '&amp;page='. $linkData['page'];
 
-            if ($GLOBALS['op'] == $linkData['op']) $class = 'class="nkClassActive"';
+            if ($GLOBALS['page'] == $linkData['page']) $class = 'class="nkClassActive"';
         }
         else {
-            if ($GLOBALS['op'] == 'index') $class = 'class="nkClassActive"';
+            if ($GLOBALS['page'] == 'index') $class = 'class="nkClassActive"';
         }
 
 ?>

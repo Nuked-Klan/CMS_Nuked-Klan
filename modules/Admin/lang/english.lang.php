@@ -110,7 +110,6 @@ define("_METAWORDS","Key Words");
 define("_METADESC","Website's description");
 define("_VALIDATION","Validation");
 define("_AUTO","Automatic");
-define("_ADMINISTRATOR","Administrator");
 define("_VISITTIME","Duration in minutes for visit");
 define("_LEVELANALYS","Level required to view the analyze of the visits");
 define('_DISPLYGNRATETME','Display generated time in footer');
@@ -195,20 +194,11 @@ define("_EDITTHISIP","Edit this user");
 define("_MODIFTHISIP","Modify this user");
 define("_IPDEL","User was successfully unbanned.");
 define("_IPMODIF","User was successfully modified.");
-define("_RANKMANAGEMENT","Ranks Management");
-define("_EDITTHISRANK","Edit this rank");
-define("_DELTHISRANK","Remove this Rank");
-define("_ADDRANK","Add Rank");
-define("_CREATERANK","Create Rank");
-define("_RANKADD","Rank was successfully added.");
-define("_MODIFTHISRANK","Modify this Rank");
-define("_RANKMODIF","Rank was successfully modified.");
-define("_RANKDEL","Rank was successfully removed.");
 define("_SEARCH","Search");
 define("_NORESULTFOR","No matches were found for");
 define("_NOUSERINDB","No member in datatase");
 
-define("_NORANKINDB","No rank in datatase");
+
 define("_NOIPINDB","No ban in datatase");
 define("_VISIT","visit");
 
@@ -676,5 +666,49 @@ define('_DELETE_CONFIRM', 'You are about to remove');
 //define("_OK","Ok");
 
 define("_NOCATINDB","No category in the database");
+
+define("_RANKMANAGEMENT","Ranks Management");
+define("_ADDRANK","Add Rank");
+define("_EDITTHISRANK","Edit this rank");
+define("_DELTHISRANK","Remove this Rank");
+define("_NORANKINDB","No rank in datatase");
+define("_CREATERANK","Create Rank");
+define("_MODIFTHISRANK","Modify this Rank");
+define("_RANKADD","Rank was successfully added.");
+define("_RANKMODIF","Rank was successfully modified.");
+define("_RANKDEL","Rank was successfully removed.");
+
+return array(
+    // Common
+    'NAME'              => 'Name',
+    'CATEGORY'          => 'Category',
+    'DESCRIPTION'       => 'Description',
+    'UPLOAD_IMAGE'      => 'Upload to the server',
+    'ORDER'             => 'Order',
+    'LEVEL'             => 'Level',
+    'ADMINISTRATOR'     => 'Administrator',
+    // Category
+    'CATEGORY_MANAGEMENT' => 'Categorys management', // _CATMANAGEMENT
+    'ADD_CATEGORY'      => 'Add a Category', // _ADDCAT
+    'EDIT_THIS_CATEGORY' => 'Edit this Category', // _EDITTHISCAT
+    'DELETE_THIS_CATEGORY' => 'Remove this Category', // _DELTHISCAT
+    'CATEGORY_ADDED'    => 'Category was successfully added.', // _CATADD
+    'CATEGORY_MODIFIED' => 'Category was successfully modified.', // _CATMODIF
+    'CATEGORY_DELETED'  => 'Category was successfully removed.', // _CATDEL
+    'NO_CATEGORY_IN_DB' => 'No category in the database', // _NOCATINDB
+    'CREATE_CATEGORY'   => 'Create a Category', // _CREATECAT
+    'MODIFY_THIS_CATEGORY' => 'Modify this Category', // _MODIFTHISCAT
+    // Rank
+    'RANK_MANAGEMENT'   => 'Ranks Management',
+    'ADD_RANK'          => 'Add a Rank',
+    'EDIT_THIS_RANK'    => 'Edit this Rank',
+    'DELETE_THIS_RANK'  => 'Remove this Rank',
+    'NO_RANK_IN_DB'     => 'No rank in the database',
+    'CREATE_RANK'       => 'Create Rank',
+    'MODIFY_THIS_RANK'  => 'Modify this Rank',
+    'RANK_ADD'          => 'Rank was successfully added.',
+    'RANK_MODIFY'       => 'Rank was successfully modified.',
+    'RANK_DELETE'       => 'Rank was successfully removed.',
+);
 
 ?>

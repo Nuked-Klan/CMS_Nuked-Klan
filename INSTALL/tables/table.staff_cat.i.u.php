@@ -18,7 +18,7 @@ $dbTable->setTable($this->_session['db_prefix'] .'_staff_cat');
 
 $staffCatTableCfg = array(
     'fields' => array(
-        'sid'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'id'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
         'nom'      => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
         'img'      => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
         'coverage' => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),

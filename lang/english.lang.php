@@ -365,6 +365,7 @@ define("_UPLOADFILEFAILED","Upload file failed !");
 define("_NOIMAGEFILE","This file is not a valid image !");
 define("_UPLOADDIRNOWRITEABLE","The upload directory isn't writeable !");
 
+define("_NONE","None");
 
 return array(
     // common
@@ -374,6 +375,12 @@ return array(
     'SEND'              => 'Send',
     'VISITOR'           => 'Guest',
     //define("_VISITORS","visitors");
+    'IMAGE'             => 'Picture',
+    'NONE'              => 'None',
+    'MEMBER'            => 'Member',
+    'TYPE'              => 'Type',
+    'PREFERENCES'       => 'Preferences',
+    'ALL'               => 'All',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

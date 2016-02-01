@@ -178,7 +178,7 @@ if ($nuked['forum_user_details'] == 'on') {
     $teamRank       = getTeamRank();
     $rankField      = ', U.rang';
     $teamRankList   = array_column($teamRank, 'formated');
-    $teamRankList   = ($teamRankList) ? implode(',', $teamRankList) : '<em>'. _NONE .'</em>';
+    $teamRankList   = ($teamRankList) ? implode(',', $teamRankList) : '<em>'. __('NONE') .'</em>';
 }
 else {
     $rankField      = '';

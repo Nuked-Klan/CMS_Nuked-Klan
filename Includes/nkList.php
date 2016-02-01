@@ -76,7 +76,12 @@ function nkList_init(&$config) {
     $nkList['p'] = max(1, (int) $nkList['p']);
 
     // Prepare basic url for list
-    $config['baseUrl'] = 'index.php?file='. $file .'&amp;page='. $page;
+    if (nkTemplate_getInterface() == 'backend')
+        $moduleUriKey = 'admin';
+    else
+        $moduleUriKey = 'file';
+
+    $config['baseUrl'] = nkUrl_format($moduleUriKey, $file, $page, 'index', array(), true);
 
     if (array_key_exists('uriData', $config)
         && is_array($config['uriData'])

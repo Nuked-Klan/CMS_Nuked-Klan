@@ -418,13 +418,13 @@ class dbMySQL {
             if (isset($fieldData['default']) && $fieldData['default'] != '')
                 $sql .= ' DEFAULT '. $fieldData['default'];
 
-            if (isset($fieldData['auto_increment']) && $fieldData['auto_increment'])
+            if (isset($fieldData['autoIncrement']) && $fieldData['autoIncrement'])
                 $sql .= ' auto_increment';
 
             $definitionLines[] = $sql;
         }
 
-        if (isset($cfg['primaryKey']) && is_array($cfg['index']) && ! empty($cfg['primaryKey']))
+        if (isset($cfg['primaryKey']) && is_array($cfg['primaryKey']) && ! empty($cfg['primaryKey']))
             $definitionLines[] = 'PRIMARY KEY (`'. implode('`, `', $cfg['primaryKey']) .'`)';
 
         if (isset($cfg['index']) && is_array($cfg['index'])) {

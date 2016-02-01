@@ -133,7 +133,7 @@ function getForumMessageUrl($forumId, $threadId, $messId, $nbMessages = false, $
 function formatModeratorsList($rawModeratorList) {
     global $nuked;
 
-    $result         = _MODO .': '. _NONE;
+    $result         = __('MODERATOR') .': '. __('NONE');
     $nbModerator    = 0;
 
     if ($rawModeratorList != '') {
@@ -163,9 +163,9 @@ function formatModeratorsList($rawModeratorList) {
                 . $style .'><b>'. $_user['pseudo'] .'</b></a>';
         }
 
-        $result  = ($nbModerator > 1) ? _MODOS : _MODO;
+        $result  = ($nbModerator > 1) ? _MODOS : __('MODERATOR');
         $result .= ': ';
-        $result .= ($nbModerator > 0) ? implode(',&nbsp;', $moderatorLink) : _NONE;
+        $result .= ($nbModerator > 0) ? implode(',&nbsp;', $moderatorLink) : __('NONE');
     }
 
     return $result;

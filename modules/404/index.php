@@ -27,7 +27,7 @@ else {
     opentable();
 }
 
-echo applyTemplate('modules/404/index.php');
+echo applyTemplate('modules/404/index');
 
 if ($interface == 'frontend')
     closetable();

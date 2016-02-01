@@ -3,10 +3,7 @@
 
 define("_NOACCESSFORUM","Sorry, you have no permission to access this forum");
 define("_NOTOPICEXIST","Sorry, this topic does not exist or was removed");
-define("_FORUMS","Forums");
-define("_FORUM","Forum");
 define("_SUBJECTS","Topics");
-define("_MESSAGES","Posts");
 define("_PREVIOUSMESSAGES","Previous post(s)");
 define("_MESSAGE","Post");
 define("_LASTPOST","Last Post");
@@ -34,7 +31,6 @@ define("_FVISITORS","visitor(s)");
 define("_FMEMBERS","member(s)");
 define("_AND","and");
 define("_FADMINISTRATORS","administrator(s)");
-define("_NONE","None");
 define("_ISONLINE","Online !");
 define("_MEMBERSONLINE","Members online");
 define("_MARKREAD","Mark all posts as read");
@@ -120,7 +116,6 @@ define("_KEYWORDS","Keywords");
 define("_MATCHOR","Search for any terms of these terms");
 define("_MATCHAND","Search for all terms");
 define("_MATCHEXACT","Search expression");
-define("_ALL","All");
 define("_BOTH","Both");
 define("_SEARCHINTO","Search into");
 define("_NBANSWERS","Number of results");
@@ -166,91 +161,21 @@ define("_NOTIFYISON","Notification was successfully activated.");
 define("_NOTIFYISOFF","Notification was successfully deactivated.");
 define("_NOTEXTRESUME","No resume available...");
 
-define("_ADMINFORUM","Forum Administration");
-
-define("_ADDFORUM","Add a Forum");
-define("_NAME","Name");
-define("_NIVEAU","Level");
-define("_LEVELACCES","Access Level");
-define("_LEVELPOST","Post Level");
-define("_LEVELPOLL","Poll Level");
-define("_LEVELVOTE","Vote Level");
-define("_DESCR","Description");
-define("_ORDER","Order");
-define("_MODO","Moderator");
 define("_MODOS","Moderators");
-define("_CAT","Category");
-
-define("_ADDTHISFORUM","Add this Forum");
-define("_MODIFTHISFORUM","Modify this Forum");
-define("_EDITTHISFORUM","Edit this Forum");
-define("_DELTHISFORUM","Remove this Forum");
-define("_FORUMMODIF","Forum was successfully modified.");
-define("_FORUMADD","Forum was successfully added.");
-define("_FORUMDEL","Forum was successfully removed.");
-define("_CATMANAGEMENT","categorys Management");
-define("_EDITTHISCAT","Edit this Category");
-define("_DELTHISCAT","Remove this Category");
-define("_ADDCAT","Add a Category");
-define("_CREATECAT","Create a Category");
-define("_CATADD","Category was successfully added.");
-define("_MODIFTHISCAT","Modify this Category");
-define("_CATMODIF","Category was successfully modified.");
-define("_CATDEL","Category was successfully removed.");
-define("_RANKMANAGEMENT","Ranks Management");
-define("_ADDRANK","Add a Rank");
-define("_EDITTHISRANK","Edit this Rank");
-define("_DELTHISRANK","Remove this Rank");
-define("_ADMINISTRATOR","Administrator");
-define("_MODERATEUR","Moderator");
 define("_ADDMODO","Add a moderator");
-define("_DELTHISMODO","Remove this moderator");
-define("_MODODEL","Moderator was successfully removed.");
-define("_CREATERANK","Create Rank");
-define("_RANKADD","Rank was successfully added.");
-define("_RANKDEL","Rank was successfully removed.");
-define("_MODIFTHISRANK","Modify this Rank");
-define("_RANKMODIF","Rank was successfully modified.");
-define("_PRUNE","Forum Pruning");
+
+
 define("_DELOLDMESSAGES","Delete old forum threads since the:");
-define("_NUMBEROFDAY","Numbers of days");
-define("_NODAY","Please enter the number of days!");
-define("_FORUMPRUNE","Forum Pruning was successful.");
-define("_FORUMTITLE","Forum's Title");
-define("_FORUMDESC","Forum's Description");
-define("_USERANKTEAM","Use Team Rank");
-define("_NUMBERTHREAD","Number of threads per page");
-define("_NUMBERPOST","Number of posts per page");
-define("_TOPICHOT","Posts for Popular Threshold");
-define("_POSTFLOOD","Minimum time, in seconds, between 2 messages (against flood)");
-define("_MAXFIELD","Max number of poll options");
-define("_ATTACHFILES","Enable file attachment");
-define("_FILELEVEL","Level required to attach a file");
-define("_MAXSIZEFILE","Maximum attached file size (in KB)");
+
 
 define("_PERMALINK","Permalink");
 define("_PERMALINK_TITLE","Permanent link to this message");
-define("_NOTIFIMAGESIZE","In order to have a good display on your website, ensure to adjust image width with these of your template.<br />Images will be resized to the max width of your website.");
-define("_DISPLAYFORUMIMAGE","Diplay images for each forums");
-define("_DISPLAYCATIMAGE","Replace categories titles by an image when it is possible");
-define("_DISPLAYBIRTHDAY","Display members birthday on forum homepage");
-define("_DISPLAYGAMERDETAILS","Display user's games and preferences ");
-define("_DISPLAYUSERDETAILS","Display team user's rank colors and legend");
-define("_DISPLAYLABELS","Display CSS labels instead of images (attached files, poll and pined topic");
-define("_DISPLAYMODOS","Display list of moderators on the main page of forum");
 
-define("_ACTIONADDCATFO","has added the forum category");
-define("_ACTIONDELCATFO","has deleted the forum category");
-define("_ACTIONMODIFCATFO","has modified the forum category");
-define("_ACTIONADDFO","has added the forum");
-define("_ACTIONDELFO","has deleted the forum");
-define("_ACTIONMODIFFO","has modified the forum");
-define("_ACTIONDELMODOFO","has deleted the moderator");
-define("_ACTIONADDRANKFO","has added the forum rank");
-define("_ACTIONDELRANKFO","has deleted the forum rank");
-define("_ACTIONMODIFRANKFO","has modified the forum rank");
-define("_ACTIONPRUNEFO","has pruned the forum");
+
+
+
 define("_ACTIONPREFFO","has modified the preference of forum module");
+
 // Main
 define('_TOTAL_MEMBERS_POSTS', 'Our members have posted a total of ');
 define('_WE_HAVE', 'We have ');
@@ -277,12 +202,92 @@ define("_NOFORUMCATEXIST","Sorry, this forum category does not exist or was remo
 define("_NOACCESSFORUMCAT","Sorry, you have no permission to access this forum category");
 
 // Admin
-define("_NOFORUMINDB","No forum in the database");
 define("_NONAME","Please enter a name!");
 define("_INCORRECT_ORDER","The order does not consist of all digits !");
 define("_INCORRECT_RANK_MESSAGE","The rank of the message threshold does not consist of all digits !");
-define("_INCORRECT_PRUNE_DAY","The number of days does not consist of all digits !");
 
 // index
 define("_CONFIRMDELFILE","Remove this file?");
+
+
+// core.php
+//define("_MODO","Moderator");
+//define("_MODERATEUR","Moderator");
+
+//define("_FORUMS","Forums");
+//define("_FORUM","Forum");
+
+return array(
+    // modules/Forum/backend/config/prune.php
+    'FORUM'             => array('Forum', 'Forums'),
+    
+    // modules/Forum/backend/category.php
+    // modules/Forum/backend/index.php
+    // modules/Forum/backend/prune.php
+    // modules/Forum/backend/rank.php
+    // modules/Forum/backend/setting.php
+    'ADMIN_FORUM'       => 'Forum Administration',
+    // modules/Forum/backend/index.php
+    'ADD_FORUM'         => 'Add a Forum',
+    'EDIT_THIS_FORUM'   => 'Edit this Forum',
+    'DELETE_THIS_FORUM' => 'Remove this Forum',
+    'NO_FORUM_IN_DB'    => 'No forum in the database',
+    'FORUM_ADDED'       => 'Forum was successfully added.',
+    'FORUM_MODIFIED'    => 'Forum was successfully modified.',
+    'FORUM_DELETED'     => 'Forum was successfully removed.',
+    'ACTION_ADD_FORUM'  => 'has added the forum',
+    'ACTION_EDIT_FORUM' => 'has modified the forum',
+    'ACTION_DELETE_FORUM' => 'has deleted the forum',
+    'DELETE_THIS_MODERATOR' => 'Remove this moderator',
+    'ACTION_DELETE_MODERATOR' => 'has deleted the moderator',
+    'MODERATOR_DELETED' => 'Moderator was successfully removed.',
+    // modules/Forum/backend/category.php
+    'ACTION_ADD_FORUM_CATEGORY' => 'has added the forum category', // _ACTIONADDCATFO
+    'ACTION_EDIT_FORUM_CATEGORY' => 'has modified the forum category', // _ACTIONMODIFCATFO
+    'ACTION_DELETE_FORUM_CATEGORY' => 'has deleted the forum category', // _ACTIONDELCATFO
+    // modules/Forum/backend/rank.php
+    'ACTION_ADD_FORUM_RANK'  => 'has added the forum rank',
+    'ACTION_EDIT_FORUM_RANK' => 'has modified the forum rank',
+    'ACTION_DELETE_FORUM_RANK' => 'has deleted the forum rank',
+    // modules/Forum/backend/prune.php
+    'NO_DAY'            => 'Please enter the number of days!',
+    'PRUNE'             => 'Forum Pruning',
+    'INCORRECT_PRUNE_DAY'=> 'The number of days does not consist of all digits !',
+    'ACTION_PRUNE_FORUM' => 'has pruned the forum',
+    'FORUM_PRUNE'       => 'Forum Pruning was successful.',
+    // modules/Forum/backend/config/forum.php
+    'LEVEL_ACCES'       => 'Access Level',
+    'LEVEL_POST'        => 'Post Level',
+    'LEVEL_POLL'        => 'Poll Level',
+    'LEVEL_VOTE'        => 'Vote Level',
+    'MODERATOR'         => 'Moderator',
+    'ADD_THIS_FORUM'    => 'Add this Forum',
+    'MODIFY_THIS_FORUM' => 'Modify this Forum',
+    // modules/Forum/backend/config/forumCategory.php
+    'NOTIFY_FORUM_IMAGE_SIZE' => 'In order to have a good display on your website, ensure to adjust image width with these of your template.<br />Images will be resized to the max width of your website.',
+    // modules/Forum/backend/config/forumRank.php
+    'MESSAGES'          => 'Posts',
+    // modules/Forum/backend/config/prune.php
+    'NUMBER_OF_DAY'     => 'Numbers of days',
+    // modules/Forum/backend/config/setting.php
+    'FORUM_TITLE'       => 'Forum\'s Title',
+    'FORUM_DESCRIPTION' => 'Forum\'s Description',
+    'USE_RANK_TEAM'     => 'Use Team Rank',
+    'DISPLAY_FORUM_IMAGE' => 'Diplay images for each forums',
+    'DISPLAY_CATEGORY_IMAGE' => 'Replace categories titles by an image when it is possible',
+    'DISPLAY_BIRTHDAY'  => 'Display members birthday on forum homepage',
+    'DISPLAY_GAMER_DETAILS' => 'Display user\'s games and preferences ',
+    'DISPLAY_USER_DETAILS' => 'Display team user\'s rank colors and legend',
+    'DISPLAY_LABELS'    => 'Display CSS labels instead of images (attached files, poll and pined topic',
+    'DISPLAY_MODERATORS' => 'Display list of moderators on the main page of forum',
+    'NUMBER_THREAD'     => 'Number of threads per page',
+    'NUMBER_POST'       => 'Number of posts per page',
+    'TOPIC_HOT'         => 'Posts for Popular Threshold',
+    'POST_FLOOD'        => 'Minimum time, in seconds, between 2 messages (against flood)',
+    'MAX_SURVEY_FIELD'  => 'Max number of poll options',
+    'JOINED_FILES'      => 'Enable file attachment',
+    'FILE_LEVEL'        => 'Level required to attach a file',
+    'MAX_SIZE_FILE'     => 'Maximum attached file size (in KB)'
+);
+
 ?>

@@ -68,7 +68,7 @@
                         <div class="nkForumCatHead nkBgColor3">
                             <div>
                                 <div class="nkForumBlankCell"></div>
-                                <div class="nkForumForumCell"><?php echo _FORUM ?></div>
+                                <div class="nkForumForumCell"><?php echo __('FORUM') ?></div>
                                 <div class="nkForumStatsCell"><?php echo _STATS ?></div>
                                 <div class="nkForumDateCell"><?php echo _LASTPOST ?></div>
                             </div>
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="nkForumStatsCell nkBorderColor1">
                                     <strong><?php echo $forum['nbTopics'] ?></strong>&nbsp;<?php echo strtolower(_TOPICS) ?><br/>
-                                    <strong><?php echo $forum['nbMessages'] ?></strong>&nbsp;<?php echo strtolower(_MESSAGES) ?>
+                                    <strong><?php echo $forum['nbMessages'] ?></strong>&nbsp;<?php echo strtolower(__('MESSAGES')) ?>
                                 </div>
                                 <div class="nkForumDateCell nkBorderColor1">
 <?php
@@ -143,7 +143,7 @@
                     </div>
                     <div id="nkForumWhoIsOnlineIcon" class="nkBorderColor1"></div>
                     <div id="nkForumWhoIsOnlineContent" class="nkBorderColor1">
-                        <p><?php echo _TOTAL_MEMBERS_POSTS ?><strong><?php echo $nbTotalMessages ?></strong>&nbsp;<?php echo strtolower(_MESSAGES) ?>.</p>
+                        <p><?php echo _TOTAL_MEMBERS_POSTS ?><strong><?php echo $nbTotalMessages ?></strong>&nbsp;<?php echo strtolower(__('MESSAGES')) ?>.</p>
                         <p><?php echo _WE_HAVE ?><strong><?php echo $nbTotalUsers ?></strong><?php echo _REGISTERED_MEMBERS ?></p>
                         <p><?php echo _LAST_USER_IS ?><a href="index.php?file=Members&amp;op=detail&amp;autor=<?php echo urlencode($lastUser) ?>"><?php echo $lastUser ?></a></p>
                         <p>

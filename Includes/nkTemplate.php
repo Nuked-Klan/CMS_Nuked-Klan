@@ -55,11 +55,11 @@ define('JQUERY_UI_CSS', 'media/jquery-ui/jquery-ui.css');
  * @return void
  */
 function nkTemplate_init($module = null) {
-    global $page;
+    global $page, $admin;
 
     if ($module === null)
         $GLOBALS['nkTemplate']['pageDesign'] = 'none';
-    else if ($module == 'Admin' || $page == 'admin')
+    else if ($module == 'Admin' || $page == 'admin' || $admin === true)
         $GLOBALS['nkTemplate']['interface'] = 'backend';
 
     if ($GLOBALS['nkTemplate']['interface'] == 'backend')
@@ -88,7 +88,7 @@ function nkTemplate_moduleInit($module) {
             if (is_file($jsFile)) nkTemplate_addJSFile($jsFile);
 
         $cssFiles = array(
-            'modules/'. $module .'/css/frontend.css',
+            'modules/'. $module .'/'. $module .'.css',
             'themes/'. $theme .'/css/modules/'. $module .'.css'
         );
 
@@ -124,11 +124,11 @@ function nkTemplate_adminInit($module) {
     nkTemplate_addJSFile('modules/Admin/scripts/config.js');
     // End - Load only for fullPage design
 
-    if (is_file('modules/'. $module .'/js/backend.js'))
-        nkTemplate_addCSSFile('modules/'. $module .'/js/backend.js');
+    if (is_file('modules/'. $module .'/backend/'. $module .'.js'))
+        nkTemplate_addCSSFile('modules/'. $module .'/backend/'. $module .'.js');
 
-    if (is_file('modules/'. $module .'/css/backend.css'))
-        nkTemplate_addCSSFile('modules/'. $module .'/css/backend.css');
+    if (is_file('modules/'. $module .'/backend/'. $module .'.css'))
+        nkTemplate_addCSSFile('modules/'. $module .'/backend/'. $module .'.css');
 }
 
 /**
@@ -538,8 +538,12 @@ function nkTemplate_append($contentTop) {
 function nkTemplate_renderPage($content) {
     global $nuked;
 
+    ob_start();
+
     if ($GLOBALS['nkTemplate']['interface'] == 'frontend')
         nkTemplate_loadModuleMedias();
+
+    $moduleMedias = ob_get_clean();
 
     if ($GLOBALS['nkTemplate']['title'] != '')
         $GLOBALS['nkTemplate']['title'] = $nuked['name'] .' - '. $nuked['slogan'];
@@ -557,7 +561,7 @@ function nkTemplate_renderPage($content) {
 
     $contentTop = nkTemplate_append($contentTop);
 
-    return $contentTop . $content . $contentFooter;
+    return $contentTop . $content . $moduleMedias . $contentFooter;
 }
 
 
