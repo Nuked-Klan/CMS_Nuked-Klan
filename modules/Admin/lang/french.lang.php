@@ -522,6 +522,8 @@ return array(
     'ORDER'             => 'Ordre',
     'LEVEL'             => 'Niveau',
     'ADMINISTRATOR'     => 'Administrateur',
+    // nkAction_save - Includes/nkAction.php
+    'ACTION_MODULE_SETTING_UPDATED' => 'a modifié les préférences du module %s',
     // Category
     'CATEGORY_MANAGEMENT' => 'Gestion des catégories', // _CATMANAGEMENT
     'ADD_CATEGORY'      => 'Ajouter une Catégorie', // _ADDCAT

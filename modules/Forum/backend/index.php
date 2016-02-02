@@ -15,10 +15,10 @@ if (! adminInit('Forum'))
     return;
 
 
-define('CURRENT_ITEM_NAME', 'forum');
+define('CURRENT_DATA_NAME', 'forum');
 define('CURRENT_TABLE_NAME', FORUM_TABLE);
-define('CURRENT_FIELD_NAME_TABLE', 'nom');
-define('PREVIEW_ITEM_URL', 'index.php?file=Forum');
+define('CURRENT_TITLE_FIELD_DATA_TABLE', 'nom');
+define('PREVIEW_DATA_URL', 'index.php?file=Forum');
 
 require_once 'Includes/nkAction.php';
 

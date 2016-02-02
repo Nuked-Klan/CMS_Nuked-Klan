@@ -687,6 +687,8 @@ return array(
     'ORDER'             => 'Order',
     'LEVEL'             => 'Level',
     'ADMINISTRATOR'     => 'Administrator',
+    // nkAction_save - Includes/nkAction.php
+    'ACTION_MODULE_SETTING_UPDATED' => 'has modified the preference of %s module',
     // Category
     'CATEGORY_MANAGEMENT' => 'Categorys management', // _CATMANAGEMENT
     'ADD_CATEGORY'      => 'Add a Category', // _ADDCAT

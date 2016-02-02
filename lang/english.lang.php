@@ -432,6 +432,25 @@ return array(
     'BAD_EMAIL'         => 'Your email address is invalid.',
     'BANNED_EMAIL'      => 'This email is banned.',
     'RESERVED_EMAIL'    => 'This email is already used.',
+    // nkAction_checkConstant - Includes/nkAction.php
+    'MISSING_CONSTANT'  => 'Constant %s is not defined !',
+    // nkAction_checkConfigurationFile - Includes/nkAction.php
+    'MISSING_CFG_FILE'  => 'Configuration file %s don\'t exist !',
+    'MISSING_FUNCTION'  => 'Function %s don\'t exist !',
+    // nkAction_getSuccessMsg - Includes/nkAction.php
+    'DATA_ADDED'        => 'Data was successfully added.',
+    'DATA_MODIFIED'     => 'Data was successfully modified.',
+    'DATA_DELETED'      => 'Data was successfully removed.',
+    // nkAction_save - Includes/nkAction.php
+    'PREFERENCES_UPDATED' => 'Preferences were successfully modified',
+    // nkAction_delete - Includes/nkAction.php
+    'MISSING_ID_URI'    => 'Id %s is not defined !',
+    // nkAction_list - Includes/nkAction.php
+    'EDIT_THIS_DATA'    => 'Edit this data',
+    'CONFIRM_TO_DELETE' => 'You are about to remove %s ! Confirm',
+    'DELETE_THIS_DATA'  => 'Remove this data',
+    'NO_DATA_IN_DB'     => 'No data in the database',
+    'ADD_DATA'          => 'Add data',
     // validCaptchaCode - Includes/nkCaptcha.php
     'CT_NO_TOKEN'       => 'Token not found !<br />Please use the form.',
     'CT_BAD_TOKEN'      => 'Bad token !<br />Please use the form.',

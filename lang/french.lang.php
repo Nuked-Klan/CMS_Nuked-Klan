@@ -441,6 +441,25 @@ return array(
     'BAD_EMAIL'         => 'Votre Email n\'est pas correct.',
     'BANNED_EMAIL'      => 'Ce mail est banni.',
     'RESERVED_EMAIL'    => 'Cet Email est déjà réservé.',
+    // nkAction_checkConstant - Includes/nkAction.php
+    'MISSING_CONSTANT'  => 'La constante %s n\'a pas été défini !',
+    // nkAction_checkConfigurationFile - Includes/nkAction.php
+    'MISSING_CFG_FILE'  => 'Le fichier de configuration n\'existe pas !',
+    'MISSING_FUNCTION'  => 'La fonction %s n\'existe pas !',
+    // nkAction_getSuccessMsg - Includes/nkAction.php
+    'DATA_ADDED'        => 'Donnée ajoutée avec succès.',
+    'DATA_MODIFIED'     => 'Donnée modifiée avec succès.',
+    'DATA_DELETED'      => 'Donnée supprimée avec succès.',
+    // nkAction_save - Includes/nkAction.php
+    'PREFERENCES_UPDATED' => 'Préférences modifiées avec succès',
+    // nkAction_delete - Includes/nkAction.php
+    'MISSING_ID_URI'    => 'Aucun id %s défini !',
+    // nkAction_list - Includes/nkAction.php
+    'EDIT_THIS_DATA'    => 'Editer cette donnée',
+    'CONFIRM_TO_DELETE' => 'Vous êtes sur le point de supprimer %s ! Confirmer',
+    'DELETE_THIS_DATA'  => 'Supprimer cete donnée',
+    'NO_DATA_IN_DB'     => 'Aucune donnée dans la base de données',
+    'ADD_DATA'          => 'Ajouter une donnée',
     // validCaptchaCode - Includes/nkCaptcha.php
     'CT_NO_TOKEN'       => 'Token introuvable !<br />Veuillez utiliser le formulaire.',
     'CT_BAD_TOKEN'      => 'Token incorrect !<br />Veuillez utiliser le formulaire.',

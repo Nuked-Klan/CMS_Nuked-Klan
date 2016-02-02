@@ -15,9 +15,9 @@ if (! adminInit('Forum'))
     return;
 
 
-define('CURRENT_ITEM_NAME', 'forumRank');
+define('CURRENT_DATA_NAME', 'forumRank');
 define('CURRENT_TABLE_NAME', FORUM_RANK_TABLE);
-define('CURRENT_FIELD_NAME_TABLE', 'nom');
+define('CURRENT_TITLE_FIELD_DATA_TABLE', 'nom');
 
 require_once 'Includes/nkAction.php';
 

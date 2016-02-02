@@ -14,10 +14,10 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Forum'))
     return;
 
-define('CURRENT_ITEM_NAME', 'forumCategory');
+define('CURRENT_DATA_NAME', 'forumCategory');
 define('CURRENT_TABLE_NAME', FORUM_CAT_TABLE);
-define('CURRENT_FIELD_NAME_TABLE', 'nom');
-define('PREVIEW_ITEM_URL', 'index.php?file=Forum');
+define('CURRENT_TITLE_FIELD_DATA_TABLE', 'nom');
+define('PREVIEW_DATA_URL', 'index.php?file=Forum');
 
 require_once 'Includes/nkAction.php';
 

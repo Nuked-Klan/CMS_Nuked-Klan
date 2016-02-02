@@ -5,36 +5,68 @@
  * Initialisation of nkAction global vars
  */
 $GLOBALS['nkAction'] = array(
-    'itemName'          => '',
-    'ucf_itemName'      => '',
-    'tableName'         => '',
-    'tableId'           => 'id',
-    'uriId'             => 'id',
-    'uriIdType'         => 'INT',
-    'moduleUriKey'      => 'file',
-    'cfgFile'           => '',
-    'getFieldsFunction' => '',
-    'getFormFunction'   => '',
+    'dataName'              => '',
+    'ucf_dataName'          => '',
+    'tableName'             => '',
+    'tableId'               => 'id',
+    'titleField_dataTable'  => null,
+    'uriId'                 => 'id',
+    'uriIdType'             => 'INT',
+    'moduleUriKey'          => 'file',
+    'cfgFile'               => '',
+    'getFieldsFunction'     => '',
+    'getFormFunction'       => '',
+    'getListFunction'       => ''
 );
 
 
-function nkAction_checkConstant() {
+/**
+ * Initialize nkAction configuration and check it.
+ *
+ * @param string $actionType : The type of action. (edit, save, delete or list)
+ * @return bool : The result of initialisation.
+ */
+function nkAction_init($actionType) {
+    global $page;
+
+    $editing = in_array($actionType, array('edit', 'save'));
+
+    if ((! $editing || ($editing && $page != 'setting')) && ! nkAction_checkConstant($actionType))
+        return false;
+
+    nkAction_setParams();
+
+    if ($actionType != 'delete' && ! nkAction_checkConfigurationFile($actionType))
+        return false;
+
+    return true;
+}
+
+/**
+ * Check constant and set them in nkAction configuration.
+ *
+ * @param string $actionType : The type of action. (edit, save, delete or list)
+ * @return bool : The result of checking.
+ */
+function nkAction_checkConstant($actionType) {
     global $nkAction;
 
-    if (! defined('CURRENT_ITEM_NAME')) {
-        printNotification(__('MISSING_CURRENT_ITEM_NAME'), 'error');
+    if (! defined('CURRENT_DATA_NAME')) {
+        printNotification(sprintf(__('MISSING_CONSTANT'), 'CURRENT_DATA_NAME'), 'error');
         return false;
     }
 
-    $nkAction['itemName']     = CURRENT_ITEM_NAME;
-    $nkAction['ucf_itemName'] = ucfirst(CURRENT_ITEM_NAME);
+    $nkAction['dataName']     = CURRENT_DATA_NAME;
+    $nkAction['ucf_dataName'] = ucfirst(CURRENT_DATA_NAME);
 
-    if (! defined('CURRENT_TABLE_NAME')) {
-        printNotification(__('MISSING_CURRENT_TABLE_NAME'), 'error');
-        return false;
+    if (in_array($actionType, array('edit', 'save', 'delete'))) {
+        if (! defined('CURRENT_TABLE_NAME')) {
+            printNotification(sprintf(__('MISSING_CONSTANT'), 'CURRENT_TABLE_NAME'), 'error');
+            return false;
+        }
+
+        $nkAction['tableName'] = CURRENT_TABLE_NAME;
     }
-
-    $nkAction['tableName'] = CURRENT_TABLE_NAME;
 
     if (defined('CURRENT_TABLE_ID'))
         $nkAction['tableId'] = CURRENT_TABLE_ID;
@@ -45,15 +77,22 @@ function nkAction_checkConstant() {
     if (defined('CURRENT_URI_ID_TYPE'))
         $nkAction['uriIdType'] = CURRENT_URI_ID_TYPE;
 
-    //CURRENT_FIELD_NAME_TABLE
+    if (defined('CURRENT_TITLE_FIELD_DATA_TABLE'))
+        $nkAction['titleField_dataTable'] = CURRENT_TITLE_FIELD_DATA_TABLE;
 
     return true;
 }
 
-function nkAction_setParams($interface) {
-    global $nkAction, $file, $page;
+/**
+ * Set parameters of nkAction configuration.
+ *
+ * @param void
+ * @return void
+ */
+function nkAction_setParams() {
+    global $nkAction, $nkTemplate, $file, $page;
 
-    if ($interface == 'backend') {
+    if ($nkTemplate['interface'] == 'backend') {
         $cfgDir                   = 'backend/';
         $nkAction['moduleUriKey'] = 'admin';
     }
@@ -67,35 +106,56 @@ function nkAction_setParams($interface) {
         $nkAction['getFormFunction']   = 'get'. $file .'SettingFormCfg';
     }
     else {
-        $nkAction['cfgFile']           = 'modules/'. $file .'/'. $cfgDir .'config/'. $nkAction['itemName'] .'.php';
-        $nkAction['getFieldsFunction'] = 'get'. $nkAction['ucf_itemName'] .'Fields';
-        $nkAction['getFormFunction']   = 'get'. $nkAction['ucf_itemName'] .'FormCfg';
+        $nkAction['cfgFile']           = 'modules/'. $file .'/'. $cfgDir .'config/'. $nkAction['dataName'] .'.php';
+        $nkAction['getFieldsFunction'] = 'get'. $nkAction['ucf_dataName'] .'Fields';
+        $nkAction['getFormFunction']   = 'get'. $nkAction['ucf_dataName'] .'FormCfg';
+        $nkAction['getListFunction']   = 'get'. $nkAction['ucf_dataName'] .'ListCfg';
     }
 }
 
-function nkAction_checkConfiguration() {
+/**
+ * Check and load configuration file.
+ *
+ * @param string $actionType : The type of action. (edit, save, delete or list)
+ * @return bool : The result of checking.
+ */
+function nkAction_checkConfigurationFile($actionType) {
     global $nkAction;
 
     if (! is_file($nkAction['cfgFile'])) {
-        printNotification(sprintf(__('MISSING_FORM_CFG_FILE'), $nkAction['cfgFile']), 'error');
+        printNotification(sprintf(__('MISSING_CFG_FILE'), $cfgFile), 'error');
         return false;
     }
 
     require_once $nkAction['cfgFile'];
 
-    if (! function_exists($nkAction['getFieldsFunction'])) {
-        printNotification(sprintf(__('MISSING_GET_FIELDS_FUNCTION'), $nkAction['getFieldsFunction']), 'error');
-        return false;
+    if ($actionType == 'list') {
+        if (! function_exists($nkAction['getListFunction'])) {
+            printNotification(sprintf(__('MISSING_FUNCTION'), $nkAction['getListFunction']), 'error');
+            return false;
+        }
     }
+    else {
+        if (! function_exists($nkAction['getFieldsFunction'])) {
+            printNotification(sprintf(__('MISSING_FUNCTION'), $nkAction['getFieldsFunction']), 'error');
+            return false;
+        }
 
-    if (! function_exists($nkAction['getFormFunction'])) {
-        printNotification(sprintf(__('MISSING_GET_FORM_FUNCTION'), $nkAction['getFormFunction']), 'error');
-        return false;
+        if (! function_exists($nkAction['getFormFunction'])) {
+            printNotification(sprintf(__('MISSING_FUNCTION'), $nkAction['getFormFunction']), 'error');
+            return false;
+        }
     }
 
     return true;
 }
 
+/**
+ * Return uri ID value.
+ *
+ * @param void
+ * @return mixed : The uri ID value if exist, null also.
+ */
 function nkAction_getID() {
     global $nkAction;
 
@@ -109,19 +169,90 @@ function nkAction_getID() {
     return null;
 }
 
-// Display admin form for addition / editing.
-// Display admin setting form of module.
+/**
+ * Check and save user action.
+ *
+ * @param string $actionName : The translation name (without ACTION_ prefix) of executed user action.
+ * @param array $data : The submited form data.
+ * @return void
+ */
+function nkAction_saveUserAction($actionName, $data) {
+    global $nkAction, $nkTemplate;
+
+    $tsAction = 'ACTION_'. $actionName;
+
+    if ($nkTemplate['interface'] == 'backend'
+        && $nkAction['titleField_dataTable'] !== null
+        && translationExist($tsAction)
+        && is_array($data)
+        && array_key_exists($nkAction['titleField_dataTable'], $data)
+    )
+        saveUserAction(__($tsAction) .': '. $data[$nkAction['titleField_dataTable']]);
+}
+
+/**
+ * Return translation of current data action or default data action.
+ *
+ * @param string $tsKeyDataName : The translation name of current data.
+ * @param string $format : The translation key format.
+ * @return string : The translation of data action.
+ */
+function nkAction_getActionTranslation($tsKeyDataName, $format) {
+    $tsActionKey = sprintf($format, $tsKeyDataName);
+
+    if (translationExist($tsActionKey))
+        return __($tsActionKey);
+    else
+        return __(sprintf($format, 'DATA'));
+}
+
+/**
+ * Return success notification message of current action.
+ *
+ * @param string $actionType : The type of action. (edit, save, delete or list)
+ * @param string $tsKeyDataName : The translation name of current data.
+ * @param mixed $id : The uri ID value if exist, null also.
+ * @return string : The success notification message.
+ */
+function nkAction_getSuccessMsg($actionType, $tsKeyDataName, $id = null) {
+    global $page;
+
+    if (in_array($page, array('category', 'rank')))
+        $tsKeyDataName = strtoupper($page);
+
+    if ($actionType == 'delete') {
+        return nkAction_getActionTranslation($tsKeyDataName, '%s_DELETED');
+    }
+    else {
+        if ($id === null)
+            return nkAction_getActionTranslation($tsKeyDataName, '%s_ADDED');
+        else
+            return nkAction_getActionTranslation($tsKeyDataName, '%s_MODIFIED');
+    }
+}
+
+/**
+ * Return translation key part of current data.
+ *
+ * @param void
+ * @return string : The translation key part.
+ */
+function nkAction_getDataNameTranslationKey() {
+    global $nkAction;
+
+    return strtoupper(implode('_', preg_split('/(?=[A-Z])/', $nkAction['dataName'])));
+}
+
+/**
+ * Display a form for addition / editing item of module.
+ *
+ * @param void
+ * @return void
+ */
 function nkAction_edit() {
-    global $nkAction, $file, $page, $nuked;
+    global $nkAction, $nkTemplate, $file, $page, $nuked;
 
-    if ($page != 'setting' && ! nkAction_checkConstant())
-        return;
-
-    $interface = nkTemplate_getInterface();
-
-    nkAction_setParams($interface);
-
-    if (! nkAction_checkConfiguration())
+    if (! nkAction_init('edit'))
         return;
 
     require_once 'Includes/nkForm.php';
@@ -131,12 +262,12 @@ function nkAction_edit() {
     if ($page == 'setting')
         $form['id'] = lcfirst($file) .'SettingForm';
     else
-        $form['id'] = $nkAction['itemName'] .'Form';
+        $form['id'] = $nkAction['dataName'] .'Form';
 
     $form['method'] = 'post';
     $form['action'] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'save', array(), true);
 
-    if ($interface == 'backend' && $page == 'setting') {
+    if ($nkTemplate['interface'] == 'backend' && $page == 'setting') {
         $fields = $nkAction['getFieldsFunction']();
 
         foreach ($fields as $field)
@@ -150,7 +281,7 @@ function nkAction_edit() {
         $id = nkAction_getID();
 
         if ($id === null) {
-            if (function_exists($callbackAddFormFunct = 'prepareFormForAdd'. $nkAction['ucf_itemName']))
+            if (function_exists($callbackAddFormFunct = 'prepareFormForAdd'. $nkAction['ucf_dataName']))
                 $callbackAddFormFunct($form);
         }
         else {
@@ -167,7 +298,7 @@ function nkAction_edit() {
             foreach ($fields as $field)
                 $form['items'][$field]['value'] = $dbrTable[$field];
 
-            if (function_exists($callbackEditFormFunct = 'prepareFormForEdit'. $nkAction['ucf_itemName']))
+            if (function_exists($callbackEditFormFunct = 'prepareFormForEdit'. $nkAction['ucf_dataName']))
                 $callbackEditFormFunct($form, $dbrTable, $id);
         }
 
@@ -194,19 +325,19 @@ function nkAction_edit() {
             $title = __('PREFERENCES');
     }
     else {
-        if (function_exists($getTitleFunct = 'get'. $nkAction['ucf_itemName'] .'Title'))
+        if (function_exists($getTitleFunct = 'get'. $nkAction['ucf_dataName'] .'Title'))
             $title = $getTitleFunct($id);
     }
 
     $content = '';
 
-    if ($interface == 'backend' && $page == 'setting')
+    if ($nkTemplate['interface'] == 'backend' && $page == 'setting')
         $content .= getMenuOfModuleAdmin();
 
     if (isset($form['infoNotification']) && $form['infoNotification'] != '')
         $content .= printNotification($form['infoNotification'], 'information', $optionsData = array(), $return = true);
 
-    if ($interface == 'backend') {
+    if ($nkTemplate['interface'] == 'backend') {
         echo applyTemplate('contentBox', array(
             'title'     => $title,
             'helpFile'  => $file,
@@ -218,19 +349,16 @@ function nkAction_edit() {
     }
 }
 
-// Save / modify submited admin form.
-// Save module setting.
+/**
+ * Check item submited form and insert / update item of module.
+ *
+ * @param void
+ * @return void
+ */
 function nkAction_save() {
-    global $nkAction, $file, $page, $nuked;
+    global $nkAction, $nkTemplate, $file, $page, $nuked;
 
-    if ($page != 'setting' && ! nkAction_checkConstant())
-        return;
-
-    $interface = nkTemplate_getInterface();
-
-    nkAction_setParams($interface);
-
-    if (! nkAction_checkConfiguration())
+    if (! nkAction_init('save'))
         return;
 
     require_once 'Includes/nkCheckForm.php';
@@ -241,7 +369,7 @@ function nkAction_save() {
     if ($page == 'setting')
         $form['id'] = lcfirst($file) .'SettingForm';
     else
-        $form['id'] = $nkAction['itemName'] .'Form';
+        $form['id'] = $nkAction['dataName'] .'Form';
 
     if (! isset($form['token']))
         $form['token'] = array();
@@ -251,7 +379,7 @@ function nkAction_save() {
 
     $_POST = array_map('stripslashes', $_POST);
 
-    if ($interface == 'backend' && $page == 'setting') {
+    if ($nkTemplate['interface'] == 'backend' && $page == 'setting') {
         if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
             $form['token']['refererData'] = array(
                 nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit')
@@ -268,9 +396,9 @@ function nkAction_save() {
                 nkDB_update(CONFIG_TABLE, array('value' => $_POST[$field]), 'name = '. nkDB_escape($field));
         }
 
-        saveUserAction(sprintf(_ACTIONPREFFO .'.', $file));
+        saveUserAction(sprintf(__('ACTION_MODULE_SETTING_UPDATED') .'.', $file));
 
-        printNotification(_PREFUPDATED, 'success');
+        printNotification(__('PREFERENCES_UPDATED'), 'success');
         redirect(nkUrl_format($nkAction['moduleUriKey'], $file, 'setting'), 2);
     }
     else {
@@ -287,7 +415,7 @@ function nkAction_save() {
             return;
         }
 
-        if (function_exists($callbackPostSaveFunct = 'postSave'. $nkAction['ucf_itemName'] .'Data'))
+        if (function_exists($callbackPostSaveFunct = 'postSave'. $nkAction['ucf_dataName'] .'Data'))
             $callbackPostSaveFunct($id, $data);
 
         foreach ($fields as $field) {
@@ -297,145 +425,121 @@ function nkAction_save() {
                 $data[$field] = $_POST[$field];
         }
 
-        $tsItemName = strtoupper(implode('_', preg_split('/(?=[A-Z])/', $nkAction['itemName'])));
+        $tsKeyDataName = nkAction_getDataNameTranslationKey();
 
         if ($id === null) {
-            if (function_exists($callbackPostAddFunct = 'postAdd'. $nkAction['ucf_itemName'] .'Data'))
+            if (function_exists($callbackPostAddFunct = 'postAdd'. $nkAction['ucf_dataName'] .'Data'))
                 $callbackPostAddFunct($data);
 
             nkDB_insert($nkAction['tableName'], $data);
-
-            if ($interface == 'backend' && translationExist($tsAction = 'ACTION_ADD_'. $tsItemName))
-                saveUserAction(__($tsAction) .': '. $data[CURRENT_FIELD_NAME_TABLE]);
+            nkAction_saveUserAction('ADD_'. $tsKeyDataName, $data);
         }
         else {
-            if (function_exists($callbackPostUpdateFunct = 'postUpdate'. $nkAction['ucf_itemName'] .'Data'))
+            if (function_exists($callbackPostUpdateFunct = 'postUpdate'. $nkAction['ucf_dataName'] .'Data'))
                 $callbackPostUpdateFunct($id, $data);
 
             nkDB_update($nkAction['tableName'], $data, $nkAction['tableId'] .' = '. nkDB_escape($id));
-
-            if ($interface == 'backend' && translationExist($tsAction = 'ACTION_EDIT_'. $tsItemName))
-                saveUserAction(__($tsAction) .': '. $data[CURRENT_FIELD_NAME_TABLE]);
+            nkAction_saveUserAction('EDIT_'. $tsKeyDataName, $data);
         }
 
-        printNotification(nkAction_getSaveSuccessMsg($id, $tsItemName), 'success');
+        printNotification(nkAction_getSuccessMsg('save', $tsKeyDataName, $id), 'success');
 
-        if (defined('PREVIEW_ITEM_URL'))
-            setPreview(PREVIEW_ITEM_URL, nkUrl_format($nkAction['moduleUriKey'], $file, $page));
+        if ($nkTemplate['interface'] == 'backend' && defined('PREVIEW_DATA_URL'))
+            setPreview(PREVIEW_DATA_URL, nkUrl_format($nkAction['moduleUriKey'], $file, $page));
         else
             redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page), 2);
     }
 }
 
-function nkAction_getSaveSuccessMsg($id, $tsItemName) {
-    global $page;
-
-    if (in_array($page, array('category', 'rank')))
-        $tsItemName = strtoupper($page);
-
-    if ($id === null) {
-        if (translationExist($tsItemName .'_ADDED'))
-            return __($tsItemName .'_ADDED');
-        //else
-        //    return __('_ADDED');
-    }
-    else {
-        if (translationExist($tsItemName .'_MODIFIED'))
-            return __($tsItemName .'_MODIFIED');
-        //else
-        //    return __('_MODIFIED');
-    }
-}
-
+/**
+ * Delete item of module.
+ *
+ * @param void
+ * @return void
+ */
 function nkAction_delete() {
-    global $nkAction, $file, $page;
+    global $nkAction, $nkTemplate, $file, $page;
 
-    if (! nkAction_checkConstant())
+    if (! nkAction_init('delete'))
         return;
-
-    $interface = nkTemplate_getInterface();
-
-    nkAction_setParams($interface);
 
     $id = nkAction_getID();
 
-    // TODO : Check id is not null
+    if ($id === null) {
+        printNotification(sprintf(__('MISSING_ID_URI'), $nkAction['uriId']), 'error');
+        return;
+    }
 
-    $tsItemName = strtoupper(implode('_', preg_split('/(?=[A-Z])/', $nkAction['itemName'])));
+    $tsKeyDataName = nkAction_getDataNameTranslationKey();
 
-    if (defined('CURRENT_FIELD_NAME_TABLE') && translationExist($tsAction = 'ACTION_DELETE_'. $tsItemName)) {
+    if ($nkTemplate['interface'] == 'backend'
+        && $nkAction['titleField_dataTable'] !== null
+        && translationExist('ACTION_DELETE_'. $tsKeyDataName)
+    ) {
         $dbrTable = nkDB_selectOne(
-            'SELECT '. CURRENT_FIELD_NAME_TABLE .'
+            'SELECT '. $nkAction['titleField_dataTable'] .'
             FROM '. $nkAction['tableName'] .'
             WHERE '. $nkAction['tableId'] .' = '. nkDB_escape($id)
         );
     }
 
-    if (function_exists($callbackPostDeleteFunct = 'postDelete'. $nkAction['ucf_itemName'] .'Data'))
+    if (function_exists($callbackPostDeleteFunct = 'postDelete'. $nkAction['ucf_dataName'] .'Data'))
         $callbackPostDeleteFunct($id);
 
     nkDB_delete($nkAction['tableName'], $nkAction['tableId'] .' = '. nkDB_escape($id));
+    nkAction_saveUserAction('DELETE_'. $tsKeyDataName, $dbrTable);
 
-    if (defined('CURRENT_FIELD_NAME_TABLE') && translationExist($tsAction = 'ACTION_DELETE_'. $tsItemName))
-        saveUserAction(__($tsAction) .': '. $dbrTable[CURRENT_FIELD_NAME_TABLE]);
+    printNotification(nkAction_getSuccessMsg('delete', $tsKeyDataName), 'success');
 
-    if (in_array($page, array('category', 'rank')))
-        printNotification(__(strtoupper($page) .'_DELETED'), 'success');
-    else if (translationExist($tsItemName .'_DELETED'))
-        printNotification(__($tsItemName .'_DELETED'), 'success');
-    //else
-    //    printNotification(__('_DELETED'), 'success');
-
-    if (defined('PREVIEW_ITEM_URL'))
-        setPreview(PREVIEW_ITEM_URL, nkUrl_format($nkAction['moduleUriKey'], $file, $page));
+    if ($nkTemplate['interface'] == 'backend' && defined('PREVIEW_DATA_URL'))
+        setPreview(PREVIEW_DATA_URL, nkUrl_format($nkAction['moduleUriKey'], $file, $page));
     else
         redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page), 2);
 }
 
+/**
+ * Return field prefix used for create field class list.
+ *
+ * @param void
+ * @return string
+ */
 function nkAction_getFieldsPrefix() {
-    $fieldsPrefix = substr(CURRENT_ITEM_NAME, 0, 1);
+    global $nkAction;
 
-    if (preg_match_all('#([A-Z]+)#', CURRENT_ITEM_NAME, $matches))
+    $fieldsPrefix = substr($nkAction['dataName'], 0, 1);
+
+    if (preg_match_all('#([A-Z]+)#', $nkAction['dataName'], $matches))
         $fieldsPrefix .= strtolower(implode($matches[1]));
 
     return $fieldsPrefix;
 }
 
-// Display admin list.
+/**
+ * Display items list of module.
+ *
+ * @param void
+ * @return void
+ */
 function nkAction_list() {
-    global $file, $page;
+    global $nkAction, $file, $page;
 
-    if (! defined('CURRENT_ITEM_NAME')) {
-        printNotification(__('MISSING_CURRENT_ITEM_NAME'), 'error');
+    if (! nkAction_init('list'))
         return;
-    }
 
     require_once 'Includes/nkList.php';
 
-    if (! is_file($cfgFile = 'modules/'. $file .'/backend/config/'. CURRENT_ITEM_NAME .'.php')) {
-        printNotification(sprintf(__('MISSING_LIST_CFG_FILE'), $cfgFile), 'error');
-        return;
-    }
-
-    require_once $cfgFile;
-
-    if (! function_exists($getListFunct = 'get'. ucfirst(CURRENT_ITEM_NAME) .'ListCfg')) {
-        printNotification(sprintf(__('MISSING_GET_LIST_FUNCTION'), $getListFunct), 'error');
-        return;
-    }
-
-    $listCfg = $getListFunct();
+    $listCfg = $nkAction['getListFunction']();
 
     if (in_array($page, array('category', 'rank')))
-        $tsItemName = strtoupper($page);
+        $tsKeyDataName = strtoupper($page);
     else
-        $tsItemName = strtoupper(implode('_', preg_split('/(?=[A-Z])/', CURRENT_ITEM_NAME)));
+        $tsKeyDataName = nkAction_getDataNameTranslationKey();
 
     if (! isset($listCfg['css']))
         $listCfg['css'] = array();
 
     if (! isset($listCfg['css']['tablePrefix']))
-        $listCfg['css']['tablePrefix'] = CURRENT_ITEM_NAME;
+        $listCfg['css']['tablePrefix'] = $nkAction['dataName'];
 
     if (! isset($listCfg['css']['fieldsPrefix']))
         $listCfg['css']['fieldsPrefix'] = nkAction_getFieldsPrefix();
@@ -444,12 +548,8 @@ function nkAction_list() {
         if (! isset($listCfg['edit']['op']))
             $listCfg['edit']['op'] = 'edit';
 
-        if (! isset($listCfg['edit']['imgTitle'])) {
-            if (translationExist('EDIT_THIS_'. $tsItemName))
-                $listCfg['edit']['imgTitle'] = __('EDIT_THIS_'. $tsItemName);
-            else
-                $listCfg['edit']['imgTitle'] = __('EDIT_THIS_ENTRIE');
-        }
+        if (! isset($listCfg['edit']['imgTitle']))
+            $listCfg['edit']['imgTitle'] = nkAction_getActionTranslation($tsKeyDataName, 'EDIT_THIS_%s');
     }
 
     if (isset($listCfg['delete']) && is_array($listCfg['delete'])) {
@@ -457,51 +557,40 @@ function nkAction_list() {
             $listCfg['delete']['op'] = 'delete';
 
         if (! isset($listCfg['delete']['confirmTxt']))
-            $listCfg['delete']['confirmTxt'] = _DELETE_CONFIRM .' %s ! '. _CONFIRM;
+            $listCfg['delete']['confirmTxt'] = __('CONFIRM_TO_DELETE');
 
         if (! isset($listCfg['delete']['confirmField']))
-            $listCfg['delete']['confirmField'] = CURRENT_FIELD_NAME_TABLE;
+            $listCfg['delete']['confirmField'] = $nkAction['titleField_dataTable'];
 
-        if (! isset($listCfg['delete']['imgTitle'])) {
-            if (translationExist('DELETE_THIS_'. $tsItemName))
-                $listCfg['delete']['imgTitle'] = __('DELETE_THIS_'. $tsItemName);
-            else
-                $listCfg['delete']['imgTitle'] = __('DELETE_THIS_ENTRIE');
-        }
+        if (! isset($listCfg['delete']['imgTitle']))
+            $listCfg['delete']['imgTitle'] = nkAction_getActionTranslation($tsKeyDataName, 'DELETE_THIS_%s');
     }
 
-    if (! isset($listCfg['emptytable'])) {
-        if (translationExist('DELETE_THIS_'. $tsItemName))
-            $listCfg['emptytable'] = __('NO_'. $tsItemName .'_IN_DB');
-        else
-            $listCfg['emptytable'] = __('NO_ENTRIE_IN_DB');
-    }
+    if (! isset($listCfg['emptytable']))
+        $listCfg['emptytable'] = nkAction_getActionTranslation($tsKeyDataName, 'NO_%s_IN_DB');
 
-    if (function_exists($callbackRowFunct = 'format'. ucfirst(CURRENT_ITEM_NAME) .'Row')) {
+    if (function_exists($callbackRowFunct = 'format'. $nkAction['ucf_dataName'] .'Row')) {
         $listCfg['callbackRowFunction'] = array(
-            'functionName' => 'format'. ucfirst(CURRENT_ITEM_NAME) .'Row'
+            'functionName' => 'format'. $nkAction['ucf_dataName'] .'Row'
         );
     }
 
     $title = '';
 
-    if (function_exists($getTitleFunct = 'get'. ucfirst(CURRENT_ITEM_NAME) .'Title'))
+    if (function_exists($getTitleFunct = 'get'. $nkAction['ucf_dataName'] .'Title'))
         $title = $getTitleFunct();
 
     if (! isset($listCfg['footerLinks'])) {
         $listCfg['footerLinks'] = array();
 
-        if (translationExist('ADD_'. $tsItemName))
-            $tsAddEntrie = __('ADD_'. $tsItemName);
-        else
-            $tsAddEntrie = __('ADD_ENTRIE');
+        $tsAddEntrie = nkAction_getActionTranslation($tsKeyDataName, 'ADD_%s');
 
-        $listCfg['footerLinks'][$tsAddEntrie] = nkUrl_format('admin', $file, $page, 'edit', array(), true);
+        $listCfg['footerLinks'][$tsAddEntrie] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', array(), true);
 
         if ($page == 'index')
             $listCfg['footerLinks'][__('BACK')] = 'index.php?file=Admin';
         else
-            $listCfg['footerLinks'][__('BACK')] = 'index.php?admin='. $file .'&amp;page=admin';
+            $listCfg['footerLinks'][__('BACK')] = 'index.php?'. $nkAction['moduleUriKey'] .'='. $file .'&amp;page=admin';
     }
 
     $footerLink = applyTemplate('footerLink', array(
