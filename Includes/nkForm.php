@@ -48,15 +48,14 @@ function nkForm_init(&$form) {
         'value' => nkToken_generate($form['token']['name'])
     );
 
-    if (array_key_exists('checkform', $form) && $form['checkform'])
-        nkForm_initJSCheckform($form);
-
     if (! array_key_exists('labelFormat', $form))
         $form['labelFormat'] = '<b>%s :</b>&nbsp;';
+
+    nkForm_initFields($form);
 }
 
 
-function nkForm_initJSCheckform(&$form) {
+function nkForm_initFields(&$form) {
     $authorizedCheckformType = array(
         'text',
         'alpha',
@@ -70,9 +69,11 @@ function nkForm_initJSCheckform(&$form) {
         'username'
     );
 
-    $fields = array();
+    $jsFieldsData = array();
 
     foreach ($form['items'] as $itemName => &$itemData) {
+        nkForm_initInput($itemName, $itemData, $form['id']);
+
         if (array_key_exists('dataType', $itemData) && in_array($itemData['dataType'], $authorizedCheckformType)) {
             if (! array_key_exists('required', $itemData) || $itemData['required'] != true)
                 $itemData['optional'] = true;
@@ -90,22 +91,24 @@ function nkForm_initJSCheckform(&$form) {
             if (array_key_exists('minlength', $itemData))
                 $js .= ', minlength: '. $itemData['minlength'];
 
-            $fields[] = $js .' }';
+            $jsFieldsData[] = $js .' }';
         }
     }
 
     nkTemplate_addCSSFile('media/nkCheckForm/nkCheckForm.css');
 
-    nkTemplate_addJSFile('media/nkCheckForm/nkCheckForm.js', 'librairyPlugin');
-    nkTemplate_addJS(
-        '$("#'. $form['id'] .'").nkCheckForm({ input: {' ."\n"
-        . implode(",\n", $fields) ."\n"
-        . '}});' ."\n",
-        'jqueryDomReady'
-    );
+    if ($jsFieldsData) {
+        nkTemplate_addJSFile('media/nkCheckForm/nkCheckForm.js', 'librairyPlugin');
+        nkTemplate_addJS(
+            '$("#'. $form['id'] .'").nkCheckForm({ input: {' ."\n"
+            . implode(",\n", $jsFieldsData) ."\n"
+            . '}});' ."\n",
+            'jqueryDomReady'
+        );
 
-    if ($GLOBALS['language'] != 'english')
-        nkTemplate_addJSFile('media/nkCheckForm/i18n/nkCheckForm-'. $GLOBALS['language'] .'.js', 'librairyPlugin');
+        if ($GLOBALS['language'] != 'english')
+            nkTemplate_addJSFile('media/nkCheckForm/i18n/nkCheckForm-'. $GLOBALS['language'] .'.js', 'librairyPlugin');
+    }
 }
 
 
@@ -200,8 +203,6 @@ function nkForm_generate($form) {
 
                 continue;
             }
-
-            nkForm_initInput($itemName, $itemData, $form['id']);
 
             $html .= '<div id="'. $itemData['id'] .'_container" class="nkForm_container">';
 

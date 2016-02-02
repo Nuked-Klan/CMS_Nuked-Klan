@@ -36,7 +36,6 @@ function getForumCategoryFields() {
 
 function getForumCategoryFormCfg() {
     return array(
-        'checkform' => true,
         'infoNotification'      => __('NOTIFY_FORUM_IMAGE_SIZE'),
         'items' => array(
             'htmlForumCategoryImage' => '',

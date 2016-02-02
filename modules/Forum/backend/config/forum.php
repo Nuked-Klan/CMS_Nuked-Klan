@@ -43,7 +43,6 @@ function getForumFields() {
 
 function getForumFormCfg() {
     return array(
-        'checkform' => true,
         'items' => array(
             'nom' => array(
                 'label'             => __('NAME'),

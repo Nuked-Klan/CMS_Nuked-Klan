@@ -30,7 +30,6 @@ function getForumSettingFields() {
 
 function getForumSettingFormCfg() {
     return array(
-        'checkform' => true,
         'items' => array(
             'forum_title' => array(
                 'label'             => __('FORUM_TITLE'),

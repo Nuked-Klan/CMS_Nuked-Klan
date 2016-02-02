@@ -38,7 +38,6 @@ function getForumRankFields() {
 
 function getForumRankFormCfg() {
     return array(
-        'checkform' => true,
         'items' => array(
             'nom' => array(
                 'label'             => __('NAME'),
