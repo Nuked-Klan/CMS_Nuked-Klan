@@ -19,8 +19,7 @@ $dbTable->setTable($this->_session['db_prefix'] .'_staff_status');
 $staffStatusTableCfg = array(
     'fields' => array(
         'id'    => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
-        'nom'   => array('type' => 'varchar(25)', 'null' => false, 'default' => '\'\''),
-        'ordre' => array('type' => 'int(5)',      'null' => false, 'default' => '\'0\'')
+        'nom'   => array('type' => 'varchar(25)', 'null' => false, 'default' => '\'\'')
     ),
     'primaryKey' => array('id'),
     'engine' => 'MyISAM'

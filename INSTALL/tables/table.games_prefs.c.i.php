@@ -19,7 +19,7 @@ $dbTable->setTable($this->_session['db_prefix'] .'_games_prefs');
 $gamesPrefsTableCfg = array(
     'fields' => array(
         'id'      => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
-        'name'    => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'game'    => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
         'user_id' => array('type' => 'varchar(20)', 'null' => false, 'default' => '\'\''),
         'pref_1'  => array('type' => 'text',        'null' => false),
         'pref_2'  => array('type' => 'text',        'null' => false),

@@ -39,7 +39,7 @@ $matchTableCfg = array(
         'score_adv'   => array('type' => 'text',         'null' => false),
         'report'      => array('type' => 'text',         'null' => true),
         'auteur'      => array('type' => 'varchar(50)',  'null' => true,  'default' => 'NULL'),
-        'url_league'  => array('type' => 'varchar(100)', 'null' => false),
+        'url_league'  => array('type' => 'varchar(100)', 'null' => true,  'default' => 'NULL'),
         'dispo'       => array('type' => 'text',         'null' => true),
         'pas_dispo'   => array('type' => 'text',         'null' => true)
     ),

@@ -19,7 +19,7 @@ $dbTable->setTable($this->_session['db_prefix'] .'_action');
 $actionTableCfg = array(
     'fields' => array(
         'id'       => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
-        'date'     => array('type' => 'varchar(30)', 'null' => true,  'default' => '\'0\''),
+        'date'     => array('type' => 'varchar(30)', 'null' => false,  'default' => '\'0\''),
         'author'   => array('type' => 'varchar(30)', 'null' => false),
         'authorId' => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
         'action'   => array('type' => 'text',        'null' => false)
