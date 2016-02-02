@@ -68,14 +68,14 @@ function getForumFormCfg() {
             'image' => array(
                 'label'             => __('IMAGE'),
                 'type'              => 'text',
-                'size'              => 42
+                'size'              => 42,
+                'uploadField'       => 'uploadImage'
             ),
             'uploadImage' => array(
                 'label'             => __('UPLOAD_IMAGE'),
                 'type'              => 'file',
                 'fileType'          => 'image',
-                'uploadDir'         => 'upload/Forum/cat',
-                'urlField'          => 'image'
+                'uploadDir'         => 'upload/Forum/cat'
             ),
             'niveau' => array(
                 'label'             => __('LEVEL_ACCES'),

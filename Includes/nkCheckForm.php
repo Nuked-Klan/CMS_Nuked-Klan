@@ -70,8 +70,23 @@ function nkCheckForm(&$form, $fields) {
                 nkCheckForm_checkbox($fieldName, $form['items'][$field]);
             }
             else {
-                if (isset($form['items'][$field]['uploadValue']))
-                    continue;
+                if (isset($form['items'][$field]['uploadField'])
+                    && isset($form['items'][$form['items'][$field]['uploadField']])
+                    && isset($form['items'][$form['items'][$field]['uploadField']]['type'])
+                    && $form['items'][$form['items'][$field]['uploadField']]['type'] == 'file'
+                )
+                    $form['items'][$form['items'][$field]['uploadField']]['urlField'] = $field;
+
+                if (isset($form['items'][$field]['uploadField']) && isset($form['items'][$form['items'][$field]['uploadField']])) {
+                    if (! nkCheckForm_checkFormInput(
+                        $form['items'][$field]['uploadField'],
+                        $form['items'][$form['items'][$field]['uploadField']], $form
+                    ))
+                        return false;
+
+                    if (isset($form['items'][$field]['uploadValue']))
+                        continue;
+                }
 
                 if (! nkCheckForm_checkFormInput($fieldName, $form['items'][$field], $form))
                     return false;
@@ -98,6 +113,8 @@ function nkCheckForm_checkFormInput($field, &$fieldData, &$form) {
         else
             $fieldData['trimmedField'] = $_POST[$field] = '';
     }
+    else
+        $fieldData['dataType'] = 'file';
 
     if (isset($fieldData['checkFieldFunction']) && function_exists($fieldData['checkFieldFunction'])) {
         if (! $fieldData['checkFieldFunction']($field, $fieldData))

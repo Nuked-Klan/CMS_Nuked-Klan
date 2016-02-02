@@ -52,14 +52,14 @@ function getForumRankFormCfg() {
                 'type'              => 'text',
                 'value'             => 'http://',
                 'size'              => 42,
-                'maxlength'         => 200
+                'maxlength'         => 200,
+                'uploadField'       => 'uploadImage'
             ),
             'uploadImage' => array(
                 'label'             => __('UPLOAD_IMAGE'),
                 'type'              => 'file',
                 'fileType'          => 'image',
-                'uploadDir'         => 'upload/Forum/rank',
-                'urlField'          => 'image'
+                'uploadDir'         => 'upload/Forum/rank'
             ),
             'post' => array(
                 'label'             => __('MESSAGES'),
