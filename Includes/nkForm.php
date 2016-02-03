@@ -15,8 +15,15 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
  * @return void
  */
 function nkForm_init(&$form) {
-    if (! isset($form['id']) || $form['id'] == '')
-        trigger_error('You must defined a ID for this form configuration !', E_USER_ERROR);
+    if (! isset($form['dataName']) || $form['dataName'] == '')
+        trigger_error('You must defined a data name for this form configuration !', E_USER_ERROR);
+
+    if (! isset($form['formStyle']) || ! in_array($form['formStyle'], array('inline', 'table')))
+        $form['formStyle'] = 'inline';
+
+    $form['id'] = $form['dataName'] .'Form';
+
+    nkForm_setFieldsPrefix($form);
 
     if (in_array('file', array_column($form['items'], 'type')))
         $form['enctype'] = ' enctype="multipart/form-data"';
@@ -49,11 +56,23 @@ function nkForm_init(&$form) {
     );
 
     if (! array_key_exists('labelFormat', $form))
-        $form['labelFormat'] = '<b>%s :</b>&nbsp;';
+        $form['labelFormat'] = '%s :&nbsp;';
 
     nkForm_initFields($form);
 }
 
+/**
+ * Return field prefix used for create field class of nkForm.
+ *
+ * @param
+ * @return string
+ */
+function nkForm_setFieldsPrefix(&$form) {
+    $form['fieldsPrefix'] = substr($form['dataName'], 0, 1);
+
+    if (preg_match_all('#([A-Z]+)#', $form['dataName'], $matches))
+        $form['fieldsPrefix'] .= strtolower(implode($matches[1]));
+}
 
 function nkForm_initFields(&$form) {
     $authorizedCheckformType = array(
@@ -72,13 +91,13 @@ function nkForm_initFields(&$form) {
     $jsFieldsData = array();
 
     foreach ($form['items'] as $itemName => &$itemData) {
-        nkForm_initInput($itemName, $itemData, $form['id']);
+        nkForm_initInput($itemName, $itemData, $form);
 
         if (array_key_exists('dataType', $itemData) && in_array($itemData['dataType'], $authorizedCheckformType)) {
             if (! array_key_exists('required', $itemData) || $itemData['required'] != true)
                 $itemData['optional'] = true;
 
-            $js = $form['id'] .'_'. $itemName .': { type: "'. $itemData['dataType'] .'"';
+            $js = $itemData['id'] .': { type: "'. $itemData['dataType'] .'"';
 
             foreach (array('noempty', 'optional', 'oldUsername', 'passwordCheck') as $setting)
                 if (array_key_exists($setting, $itemData))
@@ -184,6 +203,9 @@ function nkForm_generate($form) {
     $html = "\n". '<form class="nkForm" id="'. $form['id'] .'" action="'. $form['action'] .'" method="'. strtoupper($form['method']) .'"'. $form['enctype'] .'>' ."\n";
     $r = 0;
 
+    if ($form['formStyle'] == 'table')
+        $html .= '<div class="'. $form['dataName'] .'IniTable">';
+
     foreach ($form['items'] as $itemName => $itemData) {
         if (strpos($itemName, 'fieldsetStart') === 0) {
             $html .= '<fieldset id="'. $itemData['id'] .'">' ."\n";
@@ -204,12 +226,21 @@ function nkForm_generate($form) {
                 continue;
             }
 
-            $html .= '<div id="'. $itemData['id'] .'_container" class="nkForm_container">';
+            $html .= '<div id="'. $form['dataName'] . $itemData['camelCaseName'] .'" class="nkFormRow">';
+
+            $label = '';
 
             if (array_key_exists('label', $itemData))
-                $html .= nkForm_formatLabel($form['labelFormat'], $itemData);
+                $label = nkForm_formatLabel($form['labelFormat'], $itemData);
             else if (array_key_exists('fakeLabel', $itemData))
-                $html .= nkForm_formatFakeLabel($form['labelFormat'], $itemData);
+                $label = nkForm_formatFakeLabel($form['labelFormat'], $itemData);
+
+            if ($label != '') {
+                if ($form['formStyle'] == 'table')
+                    $html .= '<div>'. $label .'</div>';
+                else
+                    $html .= $label;
+            }
 
             if (array_key_exists('type', $itemData) && in_array($itemData['type'], $authorizedType)) {
                 $fieldFonction = 'nkForm_input'. ucfirst($itemData['type']);
@@ -228,7 +259,10 @@ function nkForm_generate($form) {
         $r++;
     }
 
-    $html .= '<div id="'. $form['id'] .'_footer_container" class="footer_container">';
+    if ($form['formStyle'] == 'table')
+        $html .= '</div>';
+
+    $html .= '<div id="'. $form['dataName'] .'ActionLinks" class="nkFormActionLinks">';
 
     foreach ($form['itemsFooter'] as $itemName => $itemData) {
         if (array_key_exists('type', $itemData) && in_array($itemData['type'], $authorizedType)) {
@@ -254,7 +288,11 @@ function nkForm_generate($form) {
     return $html .'</div>' ."\n" .'</form>' ."\n";
 }
 
-
+function nkForm_underscore2camelcase($str) {
+    $tmp = explode('_', $str);
+    $tmp = array_map('ucfirst', $tmp);
+    return implode($tmp);
+}
 
 
 
@@ -264,7 +302,7 @@ function nkForm_generate($form) {
  * @param array $input : The array of input to initialize
  * @return array $input : The array of input modified
  */
-function nkForm_initInput($fieldName, &$params, $formId) {
+function nkForm_initInput($fieldName, &$params, $form) {
     //if (! array_key_exists('inputClass', $params))
     //    $params['inputClass'] = array();
 
@@ -283,8 +321,10 @@ function nkForm_initInput($fieldName, &$params, $formId) {
     if (! array_key_exists('required', $params))
         $params['required'] = false;
 
+    $params['camelCaseName'] = nkForm_underscore2camelcase($fieldName);
+
     if (! array_key_exists('id', $params))
-        $params['id'] = $formId .'_'. $fieldName;
+        $params['id'] = $form['fieldsPrefix'] . $params['camelCaseName'];
 
     if (! array_key_exists('htmlspecialchars', $params))
         $params['htmlspecialchars'] = false;

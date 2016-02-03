@@ -4,6 +4,11 @@
                 <div class="nkForumPollTitle">
                     <h3><?php echo _POSTSURVEY ?></h3>
                 </div>
+<?php
+
+    echo $form;
+
+/*
                 <form method="post" action="index.php?file=Forum&amp;op=savePoll">
                     <div class="nkForumPollIniTable">
                         <div class="nkForumPollOptionsIni">
@@ -52,5 +57,9 @@
                         <input type="submit" value="<?php echo ($pollId > 0) ? _MODIFTHISPOLL : _ADDTHISPOLL ?>" class="nkButton"  />
                     </div>
                 </form>
+
+*/
+
+?>
             </div>
         </div>

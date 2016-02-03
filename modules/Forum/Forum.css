@@ -522,8 +522,10 @@
     display:inline-block;
 }
 
-.nkForumPollTitle{
+#nkForumPollTitle{
     display: inline-block;
+
+    font-weight: bold;
 }
 
 .nkForumPollOptions{
@@ -538,17 +540,23 @@
     display: table-row-group;
 }
 
-.nkForumPollOptionsIni{
+/*.nkForumPollOptionsIni{*/
+#nkForumPollForm .nkFormRow{
     display: table-row;
     line-height: 30px;
 }
 
-.nkForumPollOptionsIni > div{
+/*.nkForumPollOptionsIni > div{*/
+#nkForumPollForm .nkFormRow > div {
     display: table-cell;
 }
 
 .nkForumPollIniTable > div:first-child{
     height: 50px;
+}
+
+#nkForumPollActionLinks{
+    margin-top:15px;
 }
 
 /*POST*/
@@ -644,10 +652,6 @@
 .nkUserButton.small{
     width: 16px;
     height: 16px;
-}
-
-#nkForumPollActionLinks{
-    margin-top:15px;
 }
 
 .nkForumViewActionLinks{

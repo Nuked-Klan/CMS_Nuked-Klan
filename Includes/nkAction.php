@@ -260,12 +260,14 @@ function nkAction_edit() {
     $form = $nkAction['getFormFunction']();
 
     if ($page == 'setting')
-        $form['id'] = lcfirst($file) .'SettingForm';
+        $form['dataName'] = lcfirst($file) .'Setting';
     else
-        $form['id'] = $nkAction['dataName'] .'Form';
+        $form['dataName'] = $nkAction['dataName'];
 
     $form['method'] = 'post';
     $form['action'] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'save', array(), true);
+
+    $form['labelFormat'] = '<b>%s :</b>&nbsp;';
 
     if ($nkTemplate['interface'] == 'backend' && $page == 'setting') {
         $fields = $nkAction['getFieldsFunction']();
@@ -498,7 +500,7 @@ function nkAction_delete() {
 }
 
 /**
- * Return field prefix used for create field class list.
+ * Return field prefix used for create field class of nkList.
  *
  * @param void
  * @return string

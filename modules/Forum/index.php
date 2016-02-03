@@ -1346,6 +1346,33 @@ function editPoll() {
     $threadId = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
     $pollId   = (isset($_GET['poll_id'])) ? (int) $_GET['poll_id'] : 0;
 
+    ##############################################################
+
+    require_once 'Includes/nkForm.php';
+
+    $form = array(
+        'dataName'  => 'nkForumPoll',
+        'formStyle' => 'table',
+        'action'    => 'index.php?file=Forum&amp;op=savePoll',
+        'method'    => 'post',
+        'items' => array(
+            'title' => array(
+                'label'             => _QUESTION,
+                'type'              => 'text',
+                'size'              => 40
+            )
+        ),
+        'itemsFooter' => array(
+            'submit' => array(
+                'type'              => 'submit',
+                'value'             => _ADDTHISPOLL,
+                'inputClass'        => array('nkButton')
+            )
+        )
+    );
+
+    ######################################################
+
     // Check access
     if (($result = checkForumPollAccess($forumId, $threadId, $pollId)) !== true) {
         $error = $result;
@@ -1385,7 +1412,7 @@ function editPoll() {
 
         // Set default option
         $pollOptions = array_fill(1, $maxOptions, array('option_text' => ''));
-        $newOptions  = false;
+        $newOption   = false;
     }
     else {
         $maxOptions = null;
@@ -1402,6 +1429,24 @@ function editPoll() {
         $newOption = count($pollOptions) < $nuked['forum_field_max'];
     }
 
+    ##################################
+
+    $r = 1;
+
+    foreach ($pollOptions as $option) {
+        $form['items']['option'. $r] = array(
+            'name'  => 'option['. $r .']',
+            'label' => _OPTION .'&nbsp;'. $r,
+            'type'  => 'text',
+            'size'  => 40,
+            'value' => $option['option_text']
+        );
+
+        $r++;
+    }
+
+    ##################################
+
     echo applyTemplate('modules/Forum/editPoll', array(
         'title'         => $title,
         'pollOptions'   => $pollOptions,
@@ -1409,7 +1454,9 @@ function editPoll() {
         'maxOptions'    => $maxOptions,
         'pollId'        => $pollId,
         'threadId'      => $threadId,
-        'forumId'       => $forumId
+        'forumId'       => $forumId,
+
+        'form'          => nkForm_generate($form)
     ));
 }
 

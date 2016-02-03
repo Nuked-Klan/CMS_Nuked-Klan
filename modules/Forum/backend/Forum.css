@@ -37,4 +37,4 @@ table#forumRankList td.frPost{text-align:center;}
 #formRankImgPreview{margin-left:4px;}
 
 /* Forum setting form */
-form#forumSettingForm>div.nkForm_container>label{width:86%;}
+form#forumSettingForm>div.nkFormRow>label{width:86%;}

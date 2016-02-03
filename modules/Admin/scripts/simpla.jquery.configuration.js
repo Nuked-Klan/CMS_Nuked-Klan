@@ -41,5 +41,5 @@ $(document).ready(function(){
     });
     $("a[rel*=modal]").facebox();
 
-    $("form.nkForm div.nkForm_container:even").addClass("alt-row");
+    $("form.nkForm div.nkFormRow:even").addClass("alt-row");
 });
