@@ -23,7 +23,7 @@ global $forumId, $threadId;
 
 $forumId     = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
 $threadId    = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
-$surveyField = (isset($_GET['survey_field'])) ? (int) $_GET['survey_field'] : 0;
+$surveyField = (isset($_GET['survey_field'])) ? (int) $_GET['survey_field'] : null;
 
 nkAction_setParams(array(
     'dataName'                  => 'forumPoll',
@@ -120,7 +120,8 @@ function prepareFormForAddForumPoll(&$form) {
     global $nuked, $surveyField;
 
     // Check maximum option
-    $maxOptions = min(max(2, $surveyField), $nuked['forum_field_max']);
+    $maxOptions = ($surveyField === null) ? 2 : max(2, $surveyField);
+    $maxOptions = min($maxOptions, $nuked['forum_field_max']);
 
     // Set default option
     $pollOptions = array_fill(1, $maxOptions, array('option_text' => ''));
