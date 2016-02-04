@@ -451,6 +451,8 @@ return array(
     'DATA_ADDED'        => 'Donnée ajoutée avec succès.',
     'DATA_MODIFIED'     => 'Donnée modifiée avec succès.',
     'DATA_DELETED'      => 'Donnée supprimée avec succès.',
+    // nkAction_edit - Includes/nkAction.php
+    'DATA_NO_EXIST'     => 'Les données n\'existe pas !',
     // nkAction_save - Includes/nkAction.php
     'PREFERENCES_UPDATED' => 'Préférences modifiées avec succès',
     // nkAction_deleteConfirmation - Includes/nkAction.php

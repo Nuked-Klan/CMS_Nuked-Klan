@@ -1234,72 +1234,6 @@ function mark() {
     redirect('index.php?file=Forum', 2);
 }
 
-/* Forum poll management */
-
-// Save survey result of thread page.
-function vote() {
-    global $visiteur, $user, $user_ip;
-
-    $forumId  = (isset($_GET['forum_id'])) ? (int) $_GET['forum_id'] : 0;
-    $threadId = (isset($_GET['thread_id'])) ? (int) $_GET['thread_id'] : 0;
-    $pollId   = (isset($_GET['poll_id'])) ? (int) $_GET['poll_id'] : 0;
-    $optionId = (isset($_POST['voteid'])) ? (int) $_POST['voteid'] : 0;
-
-    if ($optionId > 0) {
-        if ($visiteur > 0) {
-            $dbrForum = nkDB_selectOne(
-                'SELECT level_vote
-                FROM '. FORUM_TABLE .'
-                WHERE id = '. $forumId
-            );
-
-            if ($visiteur >= $dbrForum['level_vote']) {
-                $alreadyVote = nkDB_totalNumRows(
-                    'FROM '. FORUM_VOTE_TABLE .'
-                    WHERE author_id = '. nkDB_escape($user['id']) .'
-                    AND poll_id = '. $pollId
-                );
-
-                if ($alreadyVote == 0) {
-                    $dbu = nkDB_update(FORUM_OPTIONS_TABLE, array(
-                            'option_vote' => array('option_vote + 1', 'no-escape')
-                        ),
-                        'id = '. $optionId .' AND poll_id = '. $pollId
-                    );
-
-                    if (! $dbu) {
-                        printNotification(_NOFORUMPOLLEXIST, 'error');
-                        redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
-                        return;
-                    }
-
-                    nkDB_insert(FORUM_VOTE_TABLE, array(
-                        'poll_id'   => $pollId,
-                        'author_id' => $user['id'],
-                        'author_ip' => $user_ip
-                    ));
-
-                    printNotification(_VOTESUCCES, 'success');
-                }
-                else {
-                    printNotification(_ALREADYVOTE, 'warning');
-                }
-            }
-            else {
-                printNotification(_BADLEVEL, 'error');
-            }
-        }
-        else {
-            printNotification(_ONLYMEMBERSVOTE, 'error');
-        }
-    }
-    else {
-        printNotification(_NOOPTION, 'warning');
-    }
-
-    redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
-}
-
 
 opentable();
 
@@ -1346,10 +1280,6 @@ switch ($GLOBALS['op']) {
 
     case 'del_file' :
         del_file();
-        break;
-
-    case 'vote' :
-        vote();
         break;
 
     case 'notify' :

@@ -442,6 +442,8 @@ return array(
     'DATA_ADDED'        => 'Data was successfully added.',
     'DATA_MODIFIED'     => 'Data was successfully modified.',
     'DATA_DELETED'      => 'Data was successfully removed.',
+    // nkAction_edit - Includes/nkAction.php
+    'DATA_NO_EXIST'     => 'Data don\'t exist !',
     // nkAction_save - Includes/nkAction.php
     'PREFERENCES_UPDATED' => 'Preferences were successfully modified',
     // nkAction_deleteConfirmation - Includes/nkAction.php

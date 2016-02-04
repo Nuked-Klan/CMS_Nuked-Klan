@@ -535,6 +535,7 @@ return array(
     'NO_CATEGORY_IN_DB' => 'Aucune catégorie dans la base de données', // _NOCATINDB
     'CREATE_CATEGORY'   => 'Créer une Catégorie', // _CREATECAT
     'MODIFY_THIS_CATEGORY' => 'Modifier cette Catégorie', // _MODIFTHISCAT
+    'CATEGORY_NO_EXIST' => 'La Catégorie n\'existe pas !',
     // Rank
     'RANK_MANAGEMENT'   => 'Gestion des rangs',
     'ADD_RANK'          => 'Ajouter un Rang',
@@ -546,6 +547,7 @@ return array(
     'RANK_ADD'          => 'Rang ajouté avec succès.',
     'RANK_MODIFY'       => 'Rang modifié avec succès.',
     'RANK_DELETE'       => 'Rang supprimé avec succès.',
+    'RANK_NO_EXIST'     => 'Le Rang n\'existe pas !',
 );
 
 ?>

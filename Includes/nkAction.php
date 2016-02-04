@@ -301,6 +301,16 @@ function nkAction_edit() {
                     FROM '. $nkAction['tableName'] .'
                     WHERE '. $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id'])
                 );
+
+                if (! $data) {
+                    $tsKeyDataName = nkAction_getDataNameTranslationKey();
+
+                    if (in_array($page, array('category', 'rank')))
+                        $tsKeyDataName = strtoupper($page);
+
+                    printNotification(nkAction_getActionTranslation($tsKeyDataName, '%s_NO_EXIST'), 'error');
+                    return;
+                }
             }
 
             foreach ($fields as $field)

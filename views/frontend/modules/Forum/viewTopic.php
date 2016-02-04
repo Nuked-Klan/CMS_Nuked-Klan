@@ -95,7 +95,7 @@
 ?>
                 <div class="nkForumViewPollBg"></div><!-- @whitespace
              --><div class="nkForumViewPoll">
-                    <form method="post" action="index.php?file=Forum&amp;op=vote&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>">
+                    <form method="post" action="index.php?file=Forum&amp;page=poll&amp;op=vote&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>">
                         <div class="nkForumPollTitle">
                             <h3><?php echo $topicPoll['title'] ?></h3>
                         </div>

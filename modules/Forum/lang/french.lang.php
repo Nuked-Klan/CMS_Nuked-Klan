@@ -134,11 +134,6 @@ define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
 define("_DOWNLOADFILE","Télécharger ce fichier joint");
 define("_DELFILE","Supprimer ce fichier joint");
 define("_FILEDELETED","Fichier joint supprimé avec succès.");
-define("_VOTESUCCES","Votre vote a bien été pris en compte.");
-define("_ALREADYVOTE","Désolé vous avez déjà Voté !!");
-define("_NOOPTION","Vous n'avez pas cocher de réponse");
-define("_ONLYMEMBERSVOTE","Désolé seul les membres peuvent voter !!");
-define("_BADLEVEL","Désolé vous n'avez pas le niveau requis pour voter !!");
 define("_TOTALVOTE","Total votes");
 define("_EDITPOLL","Editer le sondage");
 define("_DELPOLL","Supprimer le sondage");
@@ -220,6 +215,13 @@ return array(
     'POLL_ADDED'        => 'Sondage ajouté avec succès.',
     'POLL_MODIFIED'     => 'Sondage modifié avec succès.',
     'POLL_DELETED'      => 'Sondage supprimé avec succès.',
+    'FORUM_POLL_NO_EXIST' => 'Le sondage n\'existe pas !',
+    'VOTE_SUCCES'       => 'Votre vote a bien été pris en compte.',
+    'ALREADY_VOTE'      => 'Désolé vous avez déjà Voté !!',
+    'BAD_VOTE_LEVEL'    => 'Désolé vous n\'avez pas le niveau requis pour voter !!',
+    'ONLY_MEMBERS_VOTE' => 'Désolé seul les membres peuvent voter !!',
+    'NO_OPTION'         => 'Vous n\'avez pas cocher de réponse',
+
     
     // modules/Forum/config/forumPoll.php
     'QUESTION'          => 'Question',
@@ -251,6 +253,7 @@ return array(
     'DELETE_THIS_MODERATOR' => 'Supprimer ce modérateur',
     'ACTION_DELETE_MODERATOR' => 'a supprimé le modérateur',
     'MODERATOR_DELETED' => 'Modérateur supprimé avec succès.',
+    'FORUM_NO_EXIST'    => 'Le Forum n\'existe pas !',
     // modules/Forum/backend/category.php
     'ACTION_ADD_FORUM_CATEGORY' => 'a ajouté la catégorie forum', // _ACTIONADDCATFO
     'ACTION_EDIT_FORUM_CATEGORY' => 'a modifié la catégorie forum', // _ACTIONMODIFCATFO

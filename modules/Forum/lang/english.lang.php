@@ -136,11 +136,6 @@ define("_UPLOADFAILED","Uploading of file failed!!!");
 define("_DOWNLOADFILE","Download attached file");
 define("_DELFILE","Remove the attached file");
 define("_FILEDELETED","Attached file was successfully removed.");
-define("_VOTESUCCES","Vote was successfully added.");
-define("_ALREADYVOTE","Sorry, you have already voted!!!");
-define("_NOOPTION","You haven't selected any option");
-define("_ONLYMEMBERSVOTE","Sorry, only website members are allowed to vote!");
-define("_BADLEVEL","Sorry, you don't have the permission to vote!");
 define("_TOTALVOTE","Total votes");
 define("_EDITPOLL","Edit this poll");
 define("_DELPOLL","Delete this poll");
@@ -214,6 +209,12 @@ return array(
     'POLL_ADDED'        => 'Poll was successfully added.',
     'POLL_MODIFIED'     => 'Poll was successfully modified.',
     'POLL_DELETED'      => 'Poll was successfully removed.',
+    'FORUM_POLL_NO_EXIST' => 'Poll don\'t exist !',
+    'VOTE_SUCCES'       => 'Vote was successfully added.',
+    'ALREADY_VOTE'      => 'Sorry, you have already voted!!!',
+    'BAD_VOTE_LEVEL'    => 'Sorry, you don\'t have the permission to vote!',
+    'ONLY_MEMBERS_VOTE' => 'Sorry, only website members are allowed to vote!',
+    'NO_OPTION'         => 'You haven\'t selected any option',
     
     
     // modules/Forum/config/forumPoll.php
@@ -246,6 +247,7 @@ return array(
     'DELETE_THIS_MODERATOR' => 'Remove this moderator',
     'ACTION_DELETE_MODERATOR' => 'has deleted the moderator',
     'MODERATOR_DELETED' => 'Moderator was successfully removed.',
+    'FORUM_NO_EXIST'    => 'Forum don\'t exist !',
     // modules/Forum/backend/category.php
     'ACTION_ADD_FORUM_CATEGORY' => 'has added the forum category', // _ACTIONADDCATFO
     'ACTION_EDIT_FORUM_CATEGORY' => 'has modified the forum category', // _ACTIONMODIFCATFO

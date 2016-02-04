@@ -700,6 +700,7 @@ return array(
     'NO_CATEGORY_IN_DB' => 'No category in the database', // _NOCATINDB
     'CREATE_CATEGORY'   => 'Create a Category', // _CREATECAT
     'MODIFY_THIS_CATEGORY' => 'Modify this Category', // _MODIFTHISCAT
+    'CATEGORY_NO_EXIST' => 'Category don\'t exist !',
     // Rank
     'RANK_MANAGEMENT'   => 'Ranks Management',
     'ADD_RANK'          => 'Add a Rank',
@@ -711,6 +712,7 @@ return array(
     'RANK_ADD'          => 'Rank was successfully added.',
     'RANK_MODIFY'       => 'Rank was successfully modified.',
     'RANK_DELETE'       => 'Rank was successfully removed.',
+    'RANK_NO_EXIST'     => 'Rank don\'t exist !',
 );
 
 ?>
