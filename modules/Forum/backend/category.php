@@ -14,12 +14,14 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Forum'))
     return;
 
-define('CURRENT_DATA_NAME', 'forumCategory');
-define('CURRENT_TABLE_NAME', FORUM_CAT_TABLE);
-define('CURRENT_TITLE_FIELD_DATA_TABLE', 'nom');
-define('PREVIEW_DATA_URL', 'index.php?file=Forum');
-
 require_once 'Includes/nkAction.php';
+
+nkAction_setParams(array(
+    'dataName'              => 'forumCategory',
+    'tableName'             => FORUM_CAT_TABLE,
+    'titleField_dbTable'    => 'nom',
+    'previewUrl'            => 'index.php?file=Forum'
+));
 
 
 /**
@@ -59,7 +61,7 @@ function formatForumCategoryRow($row, $nbData, $r, $functionData) {
     return $row;
 }
 
-/* Forum category form function */
+/* Forum category edit form function */
 
 /**
  * Callback function for nkAction_edit.
@@ -86,21 +88,26 @@ function prepareFormForEditForumCategory(&$form, $forumCategory, $id) {
         $form['items']['htmlForumCategoryImage'] = '<img id="forumCategoryImgPreview" src="'. $forumCategory['image'] .'" alt="" />';
 }
 
+/* Forum category save form function */
+
 /**
  * Callback function for nkAction_save.
- * Additional process before update Forum category.
+ * Additional process before save Forum category.
  *
  * @param int $id : The Forum category id.
  * @param array $forumCategory : The Forum category data.
  * @return void
  */
-function postUpdateForumCategoryData($id, $forumCategory) {
-    nkDB_update(FORUM_TABLE, array(
-            'niveau' => $forumCategory['niveau']
-        ),
-        'cat = '. nkDB_escape($id)
-    );
+function preSaveForumCategoryData($id, $forumCategory) {
+    if ($id !== null) {
+        nkDB_update(FORUM_TABLE, array(
+                'niveau' => $forumCategory['niveau']
+            ),
+            'cat = '. nkDB_escape($id)
+        );
+    }
 }
+
 
 // Action handle
 switch ($GLOBALS['op']) {

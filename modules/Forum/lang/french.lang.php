@@ -81,7 +81,6 @@ define("_MESSAGESEND","Message envoyé avec succès.");
 define("_NOFLOOD","Vous avez déjà posté un message il y a peu de temps, veuillez patienter quelques instants...");
 define("_CONFIRMDELMESS","Etes-vous sûr de vouloir supprimer ce message ?");
 define("_MESSDELETED","Message supprimé avec succès.");
-define("_DELCANCEL","Opération annulé !");
 define("_TOPICDELETED","Topic supprimé avec succès.");
 define("_CONFIRMDELTOPIC","Etes-vous sûr de vouloir supprimer ce topic ?");
 define("_MOVETOPIC","Déplacer vers le forum");
@@ -125,7 +124,6 @@ define("_MARKSUBJECTREAD","Marquer tous les sujets comme lus");
 define("_LISTSMILIES","Liste des smilies");
 
 define("_SURVEY","Sondage");
-define("_POSTSURVEY","Poster un sondage");
 define("_SURVEYFIELD","Nombre d'options");
 define("_MAX","Maximum");
 define("_ATTACHFILE","Fichier joint");
@@ -136,11 +134,6 @@ define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
 define("_DOWNLOADFILE","Télécharger ce fichier joint");
 define("_DELFILE","Supprimer ce fichier joint");
 define("_FILEDELETED","Fichier joint supprimé avec succès.");
-define("_QUESTION","Question");
-define("_OPTION","Option");
-define("_ADDTHISPOLL","Ajouter ce sondage");
-define("_POLLADD","Sondage ajouté avec succès.");
-define("_2OPTIONMIN","Vous devez entrer 2 options minimum !");
 define("_VOTESUCCES","Votre vote a bien été pris en compte.");
 define("_ALREADYVOTE","Désolé vous avez déjà Voté !!");
 define("_NOOPTION","Vous n'avez pas cocher de réponse");
@@ -149,10 +142,6 @@ define("_BADLEVEL","Désolé vous n'avez pas le niveau requis pour voter !!");
 define("_TOTALVOTE","Total votes");
 define("_EDITPOLL","Editer le sondage");
 define("_DELPOLL","Supprimer le sondage");
-define("_CONFIRMDELPOLL","Etes-vous sûr de vouloir supprimer ce sondage ?");
-define("_POLLDELETE","Sondage supprimé avec succès.");
-define("_MODIFTHISPOLL","Modifier ce sondage");
-define("_POLLMODIF","Sondage modifié avec succès.");
 define("_NOTIFYON","Surveiller le sujet");
 define("_NOTIFYOFF","Arrêter de surveiller le sujet");
 define("_NOTIFYISON","Notification activé avec succès.");
@@ -224,6 +213,21 @@ define("_CONFIRMDELFILE","Etes-vous sûr de vouloir supprimer ce fichier ?");
 //define("_FORUM","Forum");
 
 return array(
+    // modules/Forum/poll.php
+    'CONFIRM_DELETE_POLL' => 'Etes-vous sûr de vouloir supprimer ce sondage ?',
+    'OPTION'            => 'Option',
+    '2_OPTION_MIN'      => 'Vous devez entrer 2 options minimum !',
+    'POLL_ADDED'        => 'Sondage ajouté avec succès.',
+    'POLL_MODIFIED'     => 'Sondage modifié avec succès.',
+    'POLL_DELETED'      => 'Sondage supprimé avec succès.',
+    
+    // modules/Forum/config/forumPoll.php
+    'QUESTION'          => 'Question',
+    'ADD_THIS_POLL'     => 'Ajouter ce sondage',
+    'MODIF_THIS_POLL'   => 'Modifier ce sondage',
+    
+    
+    
     // modules/Forum/backend/config/prune.php
     'FORUM'             => array('Forum', 'Forums'),
     
@@ -293,7 +297,9 @@ return array(
     'MAX_SURVEY_FIELD'  => 'Nombre maximal d\'options pour les sondages',
     'JOINED_FILES'      => 'Autoriser les fichiers joints',
     'FILE_LEVEL'        => 'Niveau requis pour poster des fichiers joints',
-    'MAX_SIZE_FILE'     => 'Taille maximale pour les fichiers joints (en Ko)'
+    'MAX_SIZE_FILE'     => 'Taille maximale pour les fichiers joints (en Ko)',
+    // views/frontend/modules/Forum/editPoll.php
+    'POST_SURVEY'       => 'Poster un sondage',
 );
 
 ?>

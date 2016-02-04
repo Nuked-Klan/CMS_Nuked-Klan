@@ -390,6 +390,7 @@ return array(
     'TYPE'              => 'Type',
     'PREFERENCES'       => 'Préférences',
     'ALL'               => 'Tous',
+    'TOKEN_NO_VALID'    => 'Le jeton du formulaire n\'est pas valide !',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
@@ -442,7 +443,7 @@ return array(
     'BANNED_EMAIL'      => 'Ce mail est banni.',
     'RESERVED_EMAIL'    => 'Cet Email est déjà réservé.',
     // nkAction_checkConstant - Includes/nkAction.php
-    'MISSING_CONSTANT'  => 'La constante %s n\'a pas été défini !',
+    'MISSING_NKACTION_PARAMETERS'  => 'Le paramètre %s n\'a pas été défini dans la configuration de nkAction!',
     // nkAction_checkConfigurationFile - Includes/nkAction.php
     'MISSING_CFG_FILE'  => 'Le fichier de configuration n\'existe pas !',
     'MISSING_FUNCTION'  => 'La fonction %s n\'existe pas !',
@@ -452,6 +453,9 @@ return array(
     'DATA_DELETED'      => 'Donnée supprimée avec succès.',
     // nkAction_save - Includes/nkAction.php
     'PREFERENCES_UPDATED' => 'Préférences modifiées avec succès',
+    // nkAction_deleteConfirmation - Includes/nkAction.php
+    'OPERATION_CANCELED' => 'Opération annulé !',
+    
     // nkAction_delete - Includes/nkAction.php
     'MISSING_ID_URI'    => 'Aucun id %s défini !',
     // nkAction_list - Includes/nkAction.php

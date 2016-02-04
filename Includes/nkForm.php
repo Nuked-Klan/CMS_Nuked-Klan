@@ -15,13 +15,15 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
  * @return void
  */
 function nkForm_init(&$form) {
+    global $nkTemplate;
+
     if (! isset($form['dataName']) || $form['dataName'] == '')
         trigger_error('You must defined a data name for this form configuration !', E_USER_ERROR);
 
     if (! isset($form['formStyle']) || ! in_array($form['formStyle'], array('inline', 'table')))
         $form['formStyle'] = 'inline';
 
-    $form['id'] = $form['dataName'] .'Form';
+    $form['id'] = nkForm_formatHtmlSelector($form['dataName'] .'Form');
 
     nkForm_setFieldsPrefix($form);
 
@@ -45,7 +47,7 @@ function nkForm_init(&$form) {
         || ! isset($form['token']['name'])
         || $form['token']['name'] == ''
     ) {
-        $form['token'] = array('name' => $form['id']);
+        $form['token'] = array('name' => $form['dataName'] .'Form');
     }
 
     include_once 'Includes/nkToken.php';
@@ -72,6 +74,15 @@ function nkForm_setFieldsPrefix(&$form) {
 
     if (preg_match_all('#([A-Z]+)#', $form['dataName'], $matches))
         $form['fieldsPrefix'] .= strtolower(implode($matches[1]));
+}
+
+function nkForm_formatHtmlSelector($selectorName) {
+    global $nkTemplate;
+
+    if ($nkTemplate['interface'] == 'frontend')
+        return 'nk'. ucfirst($selectorName);
+    else
+        return $selectorName;
 }
 
 function nkForm_initFields(&$form) {
@@ -204,7 +215,7 @@ function nkForm_generate($form) {
     $r = 0;
 
     if ($form['formStyle'] == 'table')
-        $html .= '<div class="'. $form['dataName'] .'IniTable">';
+        $html .= '<div class="'. nkForm_formatHtmlSelector($form['dataName'] .'IniTable') .'">';
 
     foreach ($form['items'] as $itemName => $itemData) {
         if (strpos($itemName, 'fieldsetStart') === 0) {
@@ -226,7 +237,7 @@ function nkForm_generate($form) {
                 continue;
             }
 
-            $html .= '<div id="'. $form['dataName'] . $itemData['camelCaseName'] .'" class="nkFormRow">';
+            $html .= '<div id="'. nkForm_formatHtmlSelector($form['dataName'] . $itemData['camelCaseName']) .'" class="nkFormRow">';
 
             $label = '';
 
@@ -262,7 +273,7 @@ function nkForm_generate($form) {
     if ($form['formStyle'] == 'table')
         $html .= '</div>';
 
-    $html .= '<div id="'. $form['dataName'] .'ActionLinks" class="nkFormActionLinks">';
+    $html .= '<div id="'. nkForm_formatHtmlSelector($form['dataName'] .'ActionLinks') .'" class="nkFormActionLinks">';
 
     foreach ($form['itemsFooter'] as $itemName => $itemData) {
         if (array_key_exists('type', $itemData) && in_array($itemData['type'], $authorizedType)) {

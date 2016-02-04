@@ -14,9 +14,11 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Forum'))
     return;
 
-define('CURRENT_SETTING_TITLE', __('ADMIN_FORUM') .' - '. __('PREFERENCES'));
-
 require_once 'Includes/nkAction.php';
+
+nkAction_setParams(array(
+    'title' => __('ADMIN_FORUM') .' - '. __('PREFERENCES')
+));
 
 
 // Action handle

@@ -86,7 +86,6 @@ define("_MESSAGESEND","Thank you, your post has been submitted.");
 define("_NOFLOOD","You have already submitted a post very recently, please wait a bit...");
 define("_CONFIRMDELMESS","Remove this post?");
 define("_MESSDELETED","Post was successfully removed.");
-define("_DELCANCEL","Operation was canceled!");
 define("_TOPICDELETED","Topic was successfully removed.");
 define("_CONFIRMDELTOPIC","Remove this topic?");
 define("_MOVETOPIC","Move topic to");
@@ -127,7 +126,6 @@ define("_MARKSUBJECTREAD","Mark all topics as read");
 define("_LISTSMILIES","Smilies List");
 
 define("_SURVEY","Poll");
-define("_POSTSURVEY","Post a poll");
 define("_SURVEYFIELD","Number of options");
 define("_MAX","Maximum");
 define("_ATTACHFILE","Attach a file");
@@ -138,11 +136,6 @@ define("_UPLOADFAILED","Uploading of file failed!!!");
 define("_DOWNLOADFILE","Download attached file");
 define("_DELFILE","Remove the attached file");
 define("_FILEDELETED","Attached file was successfully removed.");
-define("_QUESTION","Question");
-define("_OPTION","Option");
-define("_ADDTHISPOLL","Add this poll");
-define("_POLLADD","Poll was successfully added.");
-define("_2OPTIONMIN","You must enter at least 2 options!");
 define("_VOTESUCCES","Vote was successfully added.");
 define("_ALREADYVOTE","Sorry, you have already voted!!!");
 define("_NOOPTION","You haven't selected any option");
@@ -151,10 +144,6 @@ define("_BADLEVEL","Sorry, you don't have the permission to vote!");
 define("_TOTALVOTE","Total votes");
 define("_EDITPOLL","Edit this poll");
 define("_DELPOLL","Delete this poll");
-define("_CONFIRMDELPOLL","Remove this poll?");
-define("_POLLDELETE","Poll was successfully removed.");
-define("_MODIFTHISPOLL","Modify this poll");
-define("_POLLMODIF","Poll was successfully modified.");
 define("_NOTIFYON","Subscribe to this topic");
 define("_NOTIFYOFF","Unsubscribe from this topic");
 define("_NOTIFYISON","Notification was successfully activated.");
@@ -218,6 +207,22 @@ define("_CONFIRMDELFILE","Remove this file?");
 //define("_FORUM","Forum");
 
 return array(
+    // modules/Forum/poll.php
+    'CONFIRM_DELETE_POLL' => 'Remove this poll?',
+    'OPTION'            => 'Option',
+    '2_OPTION_MIN'      => 'You must enter at least 2 options!',
+    'POLL_ADDED'        => 'Poll was successfully added.',
+    'POLL_MODIFIED'     => 'Poll was successfully modified.',
+    'POLL_DELETED'      => 'Poll was successfully removed.',
+    
+    
+    // modules/Forum/config/forumPoll.php
+    'QUESTION'          => 'Question',
+    'ADD_THIS_POLL'     => 'Add this poll',
+    'MODIF_THIS_POLL'   => 'Modify this poll',
+    
+    
+    
     // modules/Forum/backend/config/prune.php
     'FORUM'             => array('Forum', 'Forums'),
     
@@ -287,7 +292,9 @@ return array(
     'MAX_SURVEY_FIELD'  => 'Max number of poll options',
     'JOINED_FILES'      => 'Enable file attachment',
     'FILE_LEVEL'        => 'Level required to attach a file',
-    'MAX_SIZE_FILE'     => 'Maximum attached file size (in KB)'
+    'MAX_SIZE_FILE'     => 'Maximum attached file size (in KB)',
+    // views/frontend/modules/Forum/editPoll.php
+    'POST_SURVEY'       => 'Post a poll',
 );
 
 ?>

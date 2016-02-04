@@ -14,13 +14,14 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Forum'))
     return;
 
-
-define('CURRENT_DATA_NAME', 'forum');
-define('CURRENT_TABLE_NAME', FORUM_TABLE);
-define('CURRENT_TITLE_FIELD_DATA_TABLE', 'nom');
-define('PREVIEW_DATA_URL', 'index.php?file=Forum');
-
 require_once 'Includes/nkAction.php';
+
+nkAction_setParams(array(
+    'dataName'              => 'forum',
+    'tableName'             => FORUM_TABLE,
+    'titleField_dbTable'    => 'nom',
+    'previewUrl'            => 'index.php?file=Forum'
+));
 
 
 /**
@@ -61,7 +62,7 @@ function formatForumRow($row, $nbData, $r, $functionData) {
     return $row;
 }
 
-/* Forum form function */
+/* Forum edit form function */
 
 /**
  * Get Forum moderator list.
@@ -121,7 +122,7 @@ function prepareFormForAddForum(&$form) {
  * Prepare form configuration to edit Forum.
  *
  * @param array $form : The Forum form configuration.
- * @param array $forumCategory : The Forum data.
+ * @param array $forum : The Forum data.
  * @return array : The Forum form configuration prepared.
  */
 function prepareFormForEditForum(&$form, $forum, $id) {
@@ -156,34 +157,40 @@ function prepareFormForEditForum(&$form, $forum, $id) {
     $form['items']['cat']['options']         = getForumCategoryOptions();
 }
 
+/* Forum save form function */
+
 /**
  * Callback function for nkAction_save.
- * Additional process before update Forum.
+ * Additional process before save Forum.
  *
  * @param int $id : The Forum id.
  * @param array $forum : The Forum data.
  * @return void
  */
-function postUpdateForumData($id, $forum) {
-    if ($forum['moderateurs'] != '') {
-        $dbrForum = nkDB_selectOne(
-            'SELECT moderateurs
-            FROM '. FORUM_TABLE .'
-            WHERE id = '. nkDB_escape($id)
-        );
+function preSaveForumData($id, $forum) {
+    if ($id !== null) {
+        if ($forum['moderateurs'] != '') {
+            $dbrForum = nkDB_selectOne(
+                'SELECT moderateurs
+                FROM '. FORUM_TABLE .'
+                WHERE id = '. nkDB_escape($id)
+            );
 
-        if ($dbrForum['moderateurs'] != '')
-            $moderators = $dbrForum['moderateurs'] .'|'. $forum['moderateurs'];
-        else
-            $moderators = $forum['moderateurs'];
+            if ($dbrForum['moderateurs'] != '')
+                $moderators = $dbrForum['moderateurs'] .'|'. $forum['moderateurs'];
+            else
+                $moderators = $forum['moderateurs'];
 
-        nkDB_update(FORUM_TABLE, array(
-                'moderateurs' => $moderators
-            ),
-            'id = '. nkDB_escape($id)
-        );
+            nkDB_update(FORUM_TABLE, array(
+                    'moderateurs' => $moderators
+                ),
+                'id = '. nkDB_escape($id)
+            );
+        }
     }
 }
+
+/* Forum delete form function */
 
 /**
  * Callback function for nkAction_delete.
@@ -192,7 +199,7 @@ function postUpdateForumData($id, $forum) {
  * @param int $id : The Forum id.
  * @return void
  */
-function postDeleteForumData($id) {
+function preDeleteForumData($id) {
     $dbrForumThreads = nkDB_selectMany(
         'SELECT id, sondage
         FROM '. FORUM_THREADS_TABLE .'

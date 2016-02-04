@@ -381,6 +381,7 @@ return array(
     'TYPE'              => 'Type',
     'PREFERENCES'       => 'Preferences',
     'ALL'               => 'All',
+    'TOKEN_NO_VALID'    => 'Form token isn\'t valid !',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
@@ -433,7 +434,7 @@ return array(
     'BANNED_EMAIL'      => 'This email is banned.',
     'RESERVED_EMAIL'    => 'This email is already used.',
     // nkAction_checkConstant - Includes/nkAction.php
-    'MISSING_CONSTANT'  => 'Constant %s is not defined !',
+    'MISSING_NKACTION_PARAMETERS'  => '%s parameters is not defined in nkAction configuration !',
     // nkAction_checkConfigurationFile - Includes/nkAction.php
     'MISSING_CFG_FILE'  => 'Configuration file %s don\'t exist !',
     'MISSING_FUNCTION'  => 'Function %s don\'t exist !',
@@ -443,6 +444,9 @@ return array(
     'DATA_DELETED'      => 'Data was successfully removed.',
     // nkAction_save - Includes/nkAction.php
     'PREFERENCES_UPDATED' => 'Preferences were successfully modified',
+    // nkAction_deleteConfirmation - Includes/nkAction.php
+    'OPERATION_CANCELED' => 'Operation was canceled!',
+    
     // nkAction_delete - Includes/nkAction.php
     'MISSING_ID_URI'    => 'Id %s is not defined !',
     // nkAction_list - Includes/nkAction.php

@@ -14,8 +14,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Forum'))
     return;
 
-require_once 'Includes/nkAction.php';
-
 
 /**
  * Get Forum list by category (include in list) for prune selection.

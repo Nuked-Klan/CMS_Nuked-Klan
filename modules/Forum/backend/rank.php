@@ -14,12 +14,13 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Forum'))
     return;
 
-
-define('CURRENT_DATA_NAME', 'forumRank');
-define('CURRENT_TABLE_NAME', FORUM_RANK_TABLE);
-define('CURRENT_TITLE_FIELD_DATA_TABLE', 'nom');
-
 require_once 'Includes/nkAction.php';
+
+nkAction_setParams(array(
+    'dataName'              => 'forumRank',
+    'tableName'             => FORUM_RANK_TABLE,
+    'titleField_dbTable'    => 'nom'
+));
 
 
 /**
@@ -75,7 +76,7 @@ function formatForumRankRow($row, $nbData, $r, $functionData) {
     return $row;
 }
 
-/* Forum rank form function */
+/* Forum rank edit form function */
 
 /**
  * Callback function for nkAction_edit.
@@ -94,15 +95,17 @@ function prepareFormForEditForumRank(&$form, $forumRank, $id) {
         $form['items']['image']['html'] = '<img id="formRankImgPreview" src="'. $forumRank['image'] .'" title="'. $forumRank['nom'] .'" alt="" />';
 }
 
+/* Forum rank save form function */
+
 /**
  * Callback function for nkAction_save.
- * Additional process before save Forum rank.
+ * Additional process before formating Forum rank data.
  *
  * @param int $id : The Forum rank id.
  * @param array $forumRank : The Forum rank data.
  * @return void
  */
-function postSaveForumRankData($id, $forumRank) {
+function preFormatingForumRankData($id, $forumRank) {
     if ($_POST['image'] == 'http://')
         $_POST['image'] = '';
 }

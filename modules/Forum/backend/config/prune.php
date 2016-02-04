@@ -6,7 +6,7 @@
 
 function getPruneForumFormCfg() {
     return array(
-        'id'        => 'pruneForumForm',
+        'dataName'  => 'pruneForum',
         'action'    => 'index.php?admin=Forum&amp;page=prune&amp;op=do',
         'method'    => 'post',
         'items' => array(

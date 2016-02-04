@@ -24,11 +24,11 @@ mb_internal_encoding('ISO-8859-1');
  * @return bool : The result of form validation.
  */
 function nkCheckForm(&$form, $fields) {
-    if (! isset($form['id']) || $form['id'] == '')
-        trigger_error('You must defined a ID for this form configuration !', E_USER_ERROR);
+    if (! isset($form['dataName']) || $form['dataName'] == '')
+        trigger_error('You must defined a data name for this form configuration !', E_USER_ERROR);;
 
     // TODO : $_FILES ?
-    $_SESSION['save_'. $form['id']] = $_POST;
+    $_SESSION['save_'. $form['dataName']] = $_POST;
 
     if (isset($form['captcha']) && $form['captcha'] && initCaptcha()) {
         if (! validCaptchaCode())
@@ -41,7 +41,7 @@ function nkCheckForm(&$form, $fields) {
         && is_array($form['token']['refererData'])
     ) {
         if (! isset($form['token']['name']) || $form['token']['name'] == '')
-            $form['token']['name'] = $form['id'];
+            $form['token']['name'] = $form['dataName'] .'Form';
 
         include_once 'Includes/nkToken.php';
 
@@ -94,7 +94,7 @@ function nkCheckForm(&$form, $fields) {
         }
     }
 
-    unset($_SESSION['save_'. $form['id']]);
+    unset($_SESSION['save_'. $form['dataName']]);
 
     return true;
 }

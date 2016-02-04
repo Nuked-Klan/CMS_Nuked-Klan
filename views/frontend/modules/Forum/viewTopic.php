@@ -42,7 +42,7 @@
             <!-- SONDAGE -->
 <?php
     //Poll
-    if ($currentTopic['sondage'] == 1 && $topicPoll && $topicPollOptions) :
+    if ($currentTopic['sondage'] == 1 && $topicPoll && $topicPollOptionsList) :
         $topicPoll['title'] = printSecuTags($topicPoll['title']);
 ?>
             <div id="nkForumViewMainPoll" class="nkBorderColor1">
@@ -59,8 +59,8 @@
 ?>
                     <div class="nkForumViewActionLinks">
                         <div class="nkButton-group">
-                            <a href="index.php?file=Forum&amp;op=editPoll&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
-                            <a href="index.php?file=Forum&amp;op=deletePoll&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
+                            <a href="index.php?file=Forum&amp;page=poll&amp;op=edit&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
+                            <a href="index.php?file=Forum&amp;page=poll&amp;op=delete&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
                         </div>
                     </div>
 <?php
@@ -71,9 +71,9 @@
             else
                 $img = 'modules/Forum/images/bar.gif';
 
-            $nbVote = array_sum(array_column($topicPollOptions, 'option_vote'));
+            $nbVote = array_sum(array_column($topicPollOptionsList, 'option_vote'));
 
-            foreach ($topicPollOptions as $topicPollOptions) :
+            foreach ($topicPollOptionsList as $topicPollOptions) :
                 $ratio = ($nbVote <> 0) ? ($topicPollOptions['option_vote'] * 100) / $nbVote : 0;
                 $width = ($ratio < 1) ? 2 : $ratio * 2;
                 $roundedRatio = round($ratio);
@@ -104,8 +104,8 @@
 ?>
                         <div class="nkForumViewActionLinks">
                             <div class="nkButton-group">
-                                <a href="index.php?file=Forum&amp;op=editPoll&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
-                                <a href="index.php?file=Forum&amp;op=deletePoll&amp;poll_id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
+                                <a href="index.php?file=Forum&amp;page=poll&amp;op=edit&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
+                                <a href="index.php?file=Forum&amp;page=poll&amp;op=delete&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
                             </div>
                         </div>
 <?php

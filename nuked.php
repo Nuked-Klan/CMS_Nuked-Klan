@@ -1963,4 +1963,13 @@ function nkUrl_format($moduleUriKey, $module, $page = 'index', $op = 'index', $u
         return 'index.php?'. http_build_query($mainUriData, '', '&', PHP_QUERY_RFC3986);
 }
 
+// http://php.net/manual/fr/function.array-map.php#113051
+function array_map_recursive(callable $func, array $arr) {
+    array_walk_recursive($arr, function(&$v) use ($func) {
+        $v = $func($v);
+    });
+
+    return $arr;
+}
+
 ?>

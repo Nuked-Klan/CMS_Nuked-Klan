@@ -100,7 +100,7 @@
                                 <strong><?php echo _SURVEY ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">  
-                                <input type="checkbox" class="checkbox" name="survey" value="1" />&nbsp;<?php echo _POSTSURVEY ?><br />
+                                <input type="checkbox" class="checkbox" name="survey" value="1" />&nbsp;<?php echo __('POST_SURVEY') ?><br />
                                 <input type="text" name="survey_field" size="2" value="4" />&nbsp;<?php echo _SURVEYFIELD ?>&nbsp;(<?php echo _MAX ?> : <?php echo $nuked['forum_field_max'] ?>)
                             </div>
                         </div>
