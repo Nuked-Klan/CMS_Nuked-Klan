@@ -1,6 +1,4 @@
 <?php
-define("_NOACCESSFORUM","Désolé vous n'avez pas accès a ce forum");
-define("_NOTOPICEXIST","Désolé ce topic n'existe pas ou a été supprimé");
 define("_SUBJECTS","Sujets");
 define("_PREVIOUSMESSAGES","Message(s) pr&eacutec&eacutedent(s)");
 define("_MESSAGE","Message");
@@ -79,8 +77,6 @@ define("_NOTITLE","Vous n\'avez pas entré de titre !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
 define("_MESSAGESEND","Message envoyé avec succès.");
 define("_NOFLOOD","Vous avez déjà posté un message il y a peu de temps, veuillez patienter quelques instants...");
-define("_CONFIRMDELMESS","Etes-vous sûr de vouloir supprimer ce message ?");
-define("_MESSDELETED","Message supprimé avec succès.");
 define("_TOPICDELETED","Topic supprimé avec succès.");
 define("_CONFIRMDELTOPIC","Etes-vous sûr de vouloir supprimer ce topic ?");
 define("_MOVETOPIC","Déplacer vers le forum");
@@ -163,8 +159,6 @@ define("_PERMALINK_TITLE","Lien direct vers ce message");
 
 
 
-define("_ACTIONPREFFO","a modifié les préférences du module forum");
-
 // Main
 define('_TOTAL_MEMBERS_POSTS', 'Nos membres ont posté un total de ');
 define('_WE_HAVE', 'Nous avons ');
@@ -187,9 +181,6 @@ define('_CREATED_BY', 'Cr&eacute;&eacute; par');
 
 //ViewTopic
 define('_FAVORITEGAME', 'Jeu favori');
-define("_NOFORUMEXIST","Désolé ce forum n'existe pas ou a été supprimé");
-define("_NOFORUMCATEXIST","Désolé cette catégorie forum n'existe pas ou a été supprimé");
-define("_NOACCESSFORUMCAT","Désolé vous n'avez pas accès a cette catégorie forum");
 
 // Admin
 define("_NONAME","Vous n'avez pas entré de nom !");
@@ -209,19 +200,42 @@ define("_CONFIRMDELFILE","Etes-vous sûr de vouloir supprimer ce fichier ?");
 
 return array(
     // modules/Forum/poll.php
+    // modules/Forum/post.php
+    // modules/Forum/viewtopic.php
+    'TOPIC_NO_EXIST'    => 'Désolé ce topic n\'existe pas ou a été supprimé',
+    // modules/Forum/poll.php
+    // modules/Forum/post.php
+    // modules/Forum/viewforum.php
+    // modules/Forum/viewtopic.php
+    'FORUM_NO_EXIST'    => 'Désolé ce forum n\'existe pas ou a été supprimé',
+    // modules/Forum/main.php
+    // modules/Forum/post.php
+    // modules/Forum/viewforum.php
+    // modules/Forum/viewtopic.php
+    'NO_ACCESS_FORUM_CATEGORY' => 'Désolé vous n\'avez pas accès a cette catégorie forum',
+    // modules/Forum/post.php
+    // modules/Forum/viewforum.php
+    // modules/Forum/viewtopic.php
+    'NO_ACCESS_FORUM' => 'Désolé vous n\'avez pas accès a ce forum',
+    // modules/Forum/main.php
+    'FORUM_CATEGORY_NO_EXIST' => 'Désolé cette catégorie forum n\'existe pas ou a été supprimé',
+    
+    // modules/Forum/poll.php
     'CONFIRM_DELETE_POLL' => 'Etes-vous sûr de vouloir supprimer ce sondage ?',
     'OPTION'            => 'Option',
     '2_OPTION_MIN'      => 'Vous devez entrer 2 options minimum !',
-    'POLL_ADDED'        => 'Sondage ajouté avec succès.',
-    'POLL_MODIFIED'     => 'Sondage modifié avec succès.',
-    'POLL_DELETED'      => 'Sondage supprimé avec succès.',
-    'FORUM_POLL_NO_EXIST' => 'Le sondage n\'existe pas !',
+    'FORUM_POLL_ADDED'  => 'Sondage ajouté avec succès.',
+    'FORUM_POLL_MODIFIED' => 'Sondage modifié avec succès.',
+    'FORUM_POLL_DELETED' => 'Sondage supprimé avec succès.',
+    'FORUM_POLL_NO_EXIST' => 'Désolé ce sondage n\'existe pas ou a été supprimé',
     'VOTE_SUCCES'       => 'Votre vote a bien été pris en compte.',
     'ALREADY_VOTE'      => 'Désolé vous avez déjà Voté !!',
     'BAD_VOTE_LEVEL'    => 'Désolé vous n\'avez pas le niveau requis pour voter !!',
     'ONLY_MEMBERS_VOTE' => 'Désolé seul les membres peuvent voter !!',
     'NO_OPTION'         => 'Vous n\'avez pas cocher de réponse',
-
+    // modules/Forum/post.php
+    'CONFIRM_DELETE_POST' => 'Etes-vous sûr de vouloir supprimer ce message ?',
+    'FORUM_POST_DELETED' => 'Message supprimé avec succès.',
     
     // modules/Forum/config/forumPoll.php
     'QUESTION'          => 'Question',
@@ -253,7 +267,6 @@ return array(
     'DELETE_THIS_MODERATOR' => 'Supprimer ce modérateur',
     'ACTION_DELETE_MODERATOR' => 'a supprimé le modérateur',
     'MODERATOR_DELETED' => 'Modérateur supprimé avec succès.',
-    'FORUM_NO_EXIST'    => 'Le Forum n\'existe pas !',
     // modules/Forum/backend/category.php
     'ACTION_ADD_FORUM_CATEGORY' => 'a ajouté la catégorie forum', // _ACTIONADDCATFO
     'ACTION_EDIT_FORUM_CATEGORY' => 'a modifié la catégorie forum', // _ACTIONMODIFCATFO

@@ -36,6 +36,7 @@ nkAction_setParams(array(
 /* Forum poll edit form function */
 
 /**
+ * Callback function for nkAction_init.
  * Check if the user has the right to access Forum survey.
  *
  * @param void
@@ -53,7 +54,7 @@ function checkForumPollAccess() {
     );
 
     if (! $dbrForumThread) {
-        printNotification(_NOTOPICEXIST, 'error');
+        printNotification(__('TOPIC_NO_EXIST'), 'error');
         return false;
     }
 
@@ -69,7 +70,7 @@ function checkForumPollAccess() {
         );
 
         if (! $dbrForum) {
-            printNotification(_NOFORUMEXIST, 'error');
+            printNotification(__('FORUM_NO_EXIST'), 'error');
             return false;
         }
 
@@ -422,6 +423,7 @@ function addUserVote() {
 
 opentable();
 
+// Action handle
 switch ($GLOBALS['op']) {
     case 'edit' :
         // Display Forum poll form.

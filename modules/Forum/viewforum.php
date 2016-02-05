@@ -183,9 +183,9 @@ $dbrCurrentForum = getForumData(
 );
 
 // Check Forum access, Forum category access and Forum exist
-if (! $dbrCurrentForum) $error = _NOFORUMEXIST;
-if ($visiteur < $dbrCurrentForum['catLevel']) $error = _NOACCESSFORUMCAT;
-if ($visiteur < $dbrCurrentForum['forumLevel']) $error = _NOACCESSFORUM;
+if (! $dbrCurrentForum) $error = __('FORUM_NO_EXIST');
+if ($visiteur < $dbrCurrentForum['catLevel']) $error = __('NO_ACCESS_FORUM_CATEGORY');
+if ($visiteur < $dbrCurrentForum['forumLevel']) $error = __('NO_ACCESS_FORUM');
 
 if ($error) {
     opentable();

@@ -1,8 +1,4 @@
 <?php
-
-
-define("_NOACCESSFORUM","Sorry, you have no permission to access this forum");
-define("_NOTOPICEXIST","Sorry, this topic does not exist or was removed");
 define("_SUBJECTS","Topics");
 define("_PREVIOUSMESSAGES","Previous post(s)");
 define("_MESSAGE","Post");
@@ -84,8 +80,6 @@ define("_NOTITLE","Please enter a title!");
 define("_NOTEXT","Please enter a text!");
 define("_MESSAGESEND","Thank you, your post has been submitted.");
 define("_NOFLOOD","You have already submitted a post very recently, please wait a bit...");
-define("_CONFIRMDELMESS","Remove this post?");
-define("_MESSDELETED","Post was successfully removed.");
 define("_TOPICDELETED","Topic was successfully removed.");
 define("_CONFIRMDELTOPIC","Remove this topic?");
 define("_MOVETOPIC","Move topic to");
@@ -158,7 +152,7 @@ define("_PERMALINK_TITLE","Permanent link to this message");
 
 
 
-define("_ACTIONPREFFO","has modified the preference of forum module");
+
 
 // Main
 define('_TOTAL_MEMBERS_POSTS', 'Our members have posted a total of ');
@@ -181,9 +175,6 @@ define('_CREATED_BY', 'Created by');
 
 //ViewTopic
 define('_FAVORITEGAME', 'Favorite game');
-define("_NOFORUMEXIST","Sorry, this forum does not exist or was removed");
-define("_NOFORUMCATEXIST","Sorry, this forum category does not exist or was removed");
-define("_NOACCESSFORUMCAT","Sorry, you have no permission to access this forum category");
 
 // Admin
 define("_NONAME","Please enter a name!");
@@ -203,19 +194,42 @@ define("_CONFIRMDELFILE","Remove this file?");
 
 return array(
     // modules/Forum/poll.php
+    // modules/Forum/post.php
+    // modules/Forum/viewtopic.php
+    'TOPIC_NO_EXIST'    => 'Sorry, this topic does not exist or was removed',
+    // modules/Forum/poll.php
+    // modules/Forum/post.php
+    // modules/Forum/viewforum.php
+    // modules/Forum/viewtopic.php
+    'FORUM_NO_EXIST'    => 'Sorry, this forum does not exist or was removed',
+    // modules/Forum/main.php
+    // modules/Forum/post.php
+    // modules/Forum/viewforum.php
+    // modules/Forum/viewtopic.php
+    'NO_ACCESS_FORUM_CATEGORY' => 'Sorry, you have no permission to access this forum category',
+    // modules/Forum/post.php
+    // modules/Forum/viewforum.php
+    // modules/Forum/viewtopic.php
+    'NO_ACCESS_FORUM' => 'Sorry, you have no permission to access this forum',
+    // modules/Forum/main.php
+    'FORUM_CATEGORY_NO_EXIST' => 'Sorry, this forum category does not exist or was removed',
+    
+    // modules/Forum/poll.php
     'CONFIRM_DELETE_POLL' => 'Remove this poll?',
     'OPTION'            => 'Option',
     '2_OPTION_MIN'      => 'You must enter at least 2 options!',
-    'POLL_ADDED'        => 'Poll was successfully added.',
-    'POLL_MODIFIED'     => 'Poll was successfully modified.',
-    'POLL_DELETED'      => 'Poll was successfully removed.',
-    'FORUM_POLL_NO_EXIST' => 'Poll don\'t exist !',
+    'FORUM_POLL_ADDED'  => 'Poll was successfully added.',
+    'FORUM_POLL_MODIFIED' => 'Poll was successfully modified.',
+    'FORUM_POLL_DELETED' => 'Poll was successfully removed.',
+    'FORUM_POLL_NO_EXIST' => 'Sorry, this forum poll does not exist or was removed',
     'VOTE_SUCCES'       => 'Vote was successfully added.',
     'ALREADY_VOTE'      => 'Sorry, you have already voted!!!',
     'BAD_VOTE_LEVEL'    => 'Sorry, you don\'t have the permission to vote!',
     'ONLY_MEMBERS_VOTE' => 'Sorry, only website members are allowed to vote!',
     'NO_OPTION'         => 'You haven\'t selected any option',
-    
+    // modules/Forum/post.php
+    'CONFIRM_DELETE_POST' => 'Remove this post?',
+    'FORUM_POST_DELETED' => 'Post was successfully removed.',
     
     // modules/Forum/config/forumPoll.php
     'QUESTION'          => 'Question',
@@ -247,7 +261,6 @@ return array(
     'DELETE_THIS_MODERATOR' => 'Remove this moderator',
     'ACTION_DELETE_MODERATOR' => 'has deleted the moderator',
     'MODERATOR_DELETED' => 'Moderator was successfully removed.',
-    'FORUM_NO_EXIST'    => 'Forum don\'t exist !',
     // modules/Forum/backend/category.php
     'ACTION_ADD_FORUM_CATEGORY' => 'has added the forum category', // _ACTIONADDCATFO
     'ACTION_EDIT_FORUM_CATEGORY' => 'has modified the forum category', // _ACTIONMODIFCATFO

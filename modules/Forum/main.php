@@ -124,7 +124,7 @@ if ($catId > 0) {
     );
 
     if (! $dbrCurrentForumCat)
-        $error = _NOFORUMCATEXIST;
+        $error = __('FORUM_CATEGORY_NO_EXIST');
     else
         $catName = $dbrCurrentForumCat['nom'];
 }
@@ -139,7 +139,7 @@ if (! $error) {
     );
 
     // Check Forum category access and Forum category exist
-    if (! $dbrForumList) $error = _NOACCESSFORUMCAT;
+    if (! $dbrForumList) $error = __('NO_ACCESS_FORUM_CATEGORY');
 }
 
 if ($error) {

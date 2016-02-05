@@ -172,6 +172,25 @@ function formatModeratorsList($rawModeratorList) {
 }
 
 /**
+ * Check if user is a Forum administrator / moderator.
+ *
+ * @param int $forumId : The forum ID.
+ * @return bool : Return true if user have Forum right, false also.
+ */
+function isForumAdministrator($forumId) {
+    global $user, $visiteur;
+
+    $dbrForum = nkDB_selectOne(
+        'SELECT moderateurs
+        FROM '. FORUM_TABLE .'
+        WHERE '. $visiteur .' >= level AND id = '. nkDB_escape($forumId)
+    );
+
+    return $dbrForum &&
+        ($visiteur >= admin_mod('Forum') || isModerator($dbrForum['moderateurs']));
+}
+
+/**
  * Check if user is a Forum moderator.
  *
  * @param string $rawModeratorList : The raw Forum moderator list issues of Forum database table.
@@ -264,6 +283,21 @@ function formatForumMessageDate($date) {
     }
     else
         return nkDate($date);
+}
+
+/**
+ * Delete joined file of Forum message.
+ *
+ * @param string $filename : The basename of joined file.
+ * @return void
+ */
+function deleteForumMessageFile($filename) {
+    $path = 'upload/Forum/'. $filename;
+
+    if (is_file($path)) {
+        @chmod($path, 0775);
+        @unlink($path);
+    }
 }
 
 ?>

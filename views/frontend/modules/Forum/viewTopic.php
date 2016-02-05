@@ -149,7 +149,7 @@
         $messageUri = '&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'&amp;mess_id='. $topicMessage['id'];
         $quoteLink  = 'index.php?file=Forum&amp;page=post'. $messageUri .'&amp;do=quote';
         $editLink   = 'index.php?file=Forum&amp;page=post'. $messageUri .'&amp;do=edit';
-        $deleteLink = 'index.php?file=Forum&amp;op=del'. $messageUri;
+        $deleteLink = 'index.php?file=Forum&amp;page=post&amp;op=delete'. $messageUri;
 ?>
                     <div>
                         <div class="nkForumViewUserPseudo nkBgColor3"><h3><?php echo $authorInfo['userInfo'] ?></h3></div>

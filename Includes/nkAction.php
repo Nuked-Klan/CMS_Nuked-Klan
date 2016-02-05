@@ -34,6 +34,8 @@ $GLOBALS['nkAction'] = array(
 function nkAction_init($actionType) {
     global $nkAction, $nkTemplate, $file, $page;
 
+    $nkAction['actionType'] = $actionType;
+
     if (! ($nkTemplate['interface'] == 'backend' && $page == 'setting'))
         $nkAction['id'] = nkAction_getID();
 
@@ -432,6 +434,7 @@ function nkAction_save() {
                 nkDB_update(CONFIG_TABLE, array('value' => $_POST[$field]), 'name = '. nkDB_escape($field));
         }
 
+        // TODO : Translate module name ($file)
         saveUserAction(sprintf(__('ACTION_MODULE_SETTING_UPDATED') .'.', $file));
 
         printNotification(__('PREFERENCES_UPDATED'), 'success');
