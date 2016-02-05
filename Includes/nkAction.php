@@ -21,7 +21,8 @@ $GLOBALS['nkAction'] = array(
     'getListFunction'           => null,
     'title'                     => null,
     'previewUrl'                => null,
-    'deleteConfirmation'        => null
+    'deleteConfirmation'        => null,
+    'onlyEditDbTable'           => false
 );
 
 
@@ -247,6 +248,93 @@ function nkAction_getDataNameTranslationKey() {
     return strtoupper(implode('_', preg_split('/(?=[A-Z])/', $nkAction['dataName'])));
 }
 
+function nkAction_editBackendSetting(&$form) {
+    global $nkAction, $file, $nuked;
+
+    $fields = $nkAction['getFieldsFunction']();
+
+    foreach ($fields as $field)
+        $form['items'][$field]['value'] = $nuked[$field];
+
+    $form['itemsFooter']['backlink'] = array(
+        'html' => '<a class="buttonLink" href="index.php?'. $nkAction['moduleUriKey'] .'='. $file .'">'. __('BACK') .'</a>'
+    );
+}
+
+function nkAction_editBackendDbTableList(&$form) {
+    global $nkAction;
+
+    //$fields = $nkAction['getFieldsFunction']();
+
+    // TODO nkAction_init !
+    $data = nkDB_selectMany(
+        'SELECT *
+        FROM '. $nkAction['tableName'] .'
+        WHERE '. $nkAction['tableId']
+    );
+
+    if (! $data) {
+        $tsKeyDataName = nkAction_getDataNameTranslationKey();
+        printNotification(nkAction_getActionTranslation($tsKeyDataName, '%s_NO_EXIST'), 'error');
+        return;
+    }
+
+    if (function_exists($prepareFormForEditFunct = 'prepareFormForEdit'. $nkAction['ucf_dataName']))
+        $prepareFormForEditFunct($form, $data);
+
+    $rawForm = $form;
+
+    foreach ($rawForm['items'] as &$item) {
+        if (is_array($item) && array_key_exists('value', $item))
+            unset($item['value']);
+    }
+
+    unset($item);
+
+    $_SESSION[$nkAction['dataName'] .'RawForm'] = $rawForm;
+}
+
+function nkAction_commonEdit(&$form) {
+    global $nkAction, $page;
+
+    if ($nkAction['id'] === null) {
+        if (function_exists($addFormFunct = 'prepareFormForAdd'. $nkAction['ucf_dataName']))
+            $addFormFunct($form);
+    }
+    else {
+        $form['action'] .= '&amp;id='. $nkAction['id'];
+
+        $fields = $nkAction['getFieldsFunction']();
+
+        if (isset($nkAction['getData'])) {
+            $data = $getDataFunct($nkAction['id']);
+        }
+        else {
+            $data = nkDB_selectOne(
+                'SELECT *
+                FROM '. $nkAction['tableName'] .'
+                WHERE '. $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id'])
+            );
+
+            if (! $data) {
+                $tsKeyDataName = nkAction_getDataNameTranslationKey();
+
+                if (in_array($page, array('category', 'rank')))
+                    $tsKeyDataName = strtoupper($page);
+
+                printNotification(nkAction_getActionTranslation($tsKeyDataName, '%s_NO_EXIST'), 'error');
+                return;
+            }
+        }
+
+        foreach ($fields as $field)
+            $form['items'][$field]['value'] = $data[$field];
+
+        if (function_exists($editFormFunct = 'prepareFormForEdit'. $nkAction['ucf_dataName']))
+            $editFormFunct($form, $data, $nkAction['id']);
+    }
+}
+
 /**
  * Display a form for addition / editing item of module.
  *
@@ -254,7 +342,7 @@ function nkAction_getDataNameTranslationKey() {
  * @return void
  */
 function nkAction_edit() {
-    global $nkAction, $nkTemplate, $file, $page, $nuked;
+    global $nkAction, $nkTemplate, $file, $page;
 
     if (! nkAction_init('edit'))
         return;
@@ -274,72 +362,30 @@ function nkAction_edit() {
     if ($nkTemplate['interface'] == 'backend')
         $form['labelFormat'] = '<b>%s :</b>&nbsp;';
 
-    if ($nkTemplate['interface'] == 'backend' && $page == 'setting') {
-        $fields = $nkAction['getFieldsFunction']();
+    if ($nkTemplate['interface'] == 'backend' && $page == 'setting')
+        nkAction_editBackendSetting($form);
+    else if ($nkTemplate['interface'] == 'backend' && $nkAction['onlyEditDbTable'])
+        nkAction_editBackendDbTableList($form);
+    else
+        nkAction_commonEdit($form);
 
-        foreach ($fields as $field)
-            $form['items'][$field]['value'] = $nuked[$field];
+    if (isset($form['itemsFooter']) && isset($form['itemsFooter']['submit'])) {
+        if (isset($form['itemsFooter']['submit']['value'])
+            && is_array($form['itemsFooter']['submit']['value'])
+        ) {
+            if ($nkAction['id'] !== null && isset($form['itemsFooter']['submit']['value'][1]))
+                $form['itemsFooter']['submit']['value'] = __($form['itemsFooter']['submit']['value'][1]);
+            else if (isset($form['itemsFooter']['submit']['value'][0]))
+                $form['itemsFooter']['submit']['value'] = __($form['itemsFooter']['submit']['value'][0]);
+        }
+        else
+            $form['itemsFooter']['submit']['value'] = __('SEND');
+    }
 
+    if ($nkTemplate['interface'] == 'backend') {
         $form['itemsFooter']['backlink'] = array(
             'html' => '<a class="buttonLink" href="index.php?'. $nkAction['moduleUriKey'] .'='. $file .'">'. __('BACK') .'</a>'
         );
-    }
-    else {
-        if ($nkAction['id'] === null) {
-            if (function_exists($addFormFunct = 'prepareFormForAdd'. $nkAction['ucf_dataName']))
-                $addFormFunct($form);
-        }
-        else {
-            $form['action'] .= '&amp;id='. $nkAction['id'];
-
-            $fields = $nkAction['getFieldsFunction']();
-
-            if (isset($nkAction['getData'])) {
-                $data = $getDataFunct($nkAction['id']);
-            }
-            else {
-                $data = nkDB_selectOne(
-                    'SELECT *
-                    FROM '. $nkAction['tableName'] .'
-                    WHERE '. $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id'])
-                );
-
-                if (! $data) {
-                    $tsKeyDataName = nkAction_getDataNameTranslationKey();
-
-                    if (in_array($page, array('category', 'rank')))
-                        $tsKeyDataName = strtoupper($page);
-
-                    printNotification(nkAction_getActionTranslation($tsKeyDataName, '%s_NO_EXIST'), 'error');
-                    return;
-                }
-            }
-
-            foreach ($fields as $field)
-                $form['items'][$field]['value'] = $data[$field];
-
-            if (function_exists($editFormFunct = 'prepareFormForEdit'. $nkAction['ucf_dataName']))
-                $editFormFunct($form, $data, $nkAction['id']);
-        }
-
-        if (isset($form['itemsFooter']) && isset($form['itemsFooter']['submit'])) {
-            if (isset($form['itemsFooter']['submit']['value'])
-                && is_array($form['itemsFooter']['submit']['value'])
-            ) {
-                if ($nkAction['id'] !== null && isset($form['itemsFooter']['submit']['value'][1]))
-                    $form['itemsFooter']['submit']['value'] = __($form['itemsFooter']['submit']['value'][1]);
-                else if (isset($form['itemsFooter']['submit']['value'][0]))
-                    $form['itemsFooter']['submit']['value'] = __($form['itemsFooter']['submit']['value'][0]);
-            }
-            else
-                $form['itemsFooter']['submit']['value'] = __('SEND');
-        }
-
-        if ($nkTemplate['interface'] == 'backend') {
-            $form['itemsFooter']['backlink'] = array(
-                'html' => '<a class="buttonLink" href="index.php?'. $nkAction['moduleUriKey'] .'='. $file .'">'. __('BACK') .'</a>'
-            );
-        }
     }
 
     $title = '';
@@ -353,6 +399,8 @@ function nkAction_edit() {
     else {
         if (function_exists($getTitleFunct = 'get'. $nkAction['ucf_dataName'] .'Title'))
             $title = $getTitleFunct($nkAction['id']);
+        else
+            $title = $nkAction['title'];
     }
 
     $content = '';
@@ -377,6 +425,169 @@ function nkAction_edit() {
             echo $generateFormViewFunct($generatedForm);
         else
             echo $generatedForm;
+    }
+}
+
+function nkAction_saveBackendSetting($form, $fields) {
+    global $nkAction, $nuked, $file, $page;
+
+    if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
+        $form['token']['refererData'] = array(
+            nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit')
+        );
+    }
+
+    if (! nkCheckForm($form, $fields)) {
+        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit'), 2);
+        return;
+    }
+
+    if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
+        if (! $postCheckformValidationFunct()) {
+            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit'), 2);
+            return;
+        }
+    }
+
+    foreach ($fields as $field) {
+        if (isset($nuked[$field], $_POST[$field]) && $nuked[$field] != $_POST[$field])
+            nkDB_update(CONFIG_TABLE, array('value' => $_POST[$field]), 'name = '. nkDB_escape($field));
+    }
+
+    $moduleNameConst = strtoupper($file) .'_MODNAME';
+
+    if (translationExist($moduleNameConst))
+        $moduleName = __($moduleNameConst);
+    else
+        $moduleName = $file;
+
+    saveUserAction(sprintf(__('ACTION_MODULE_SETTING_UPDATED') .'.', $moduleName));
+
+    printNotification(__('PREFERENCES_UPDATED'), 'success');
+    redirect(nkUrl_format($nkAction['moduleUriKey'], $file, 'setting'), 2);
+}
+
+function nkAction_saveBackendDbTableList($form, $fields) {
+    global $nkAction, $file, $page;
+
+    if (isset($_SESSION[$nkAction['dataName'] .'RawForm'])) {
+        $form = array_merge($form, $_SESSION[$nkAction['dataName'] .'RawForm']);
+        unset($_SESSION[$nkAction['dataName'] .'RawForm']);
+    }
+
+    if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
+        $form['token']['refererData'] = array(
+            nkUrl_format($nkAction['moduleUriKey'], $file, $page)
+        );
+    }
+
+    if (! nkCheckForm($form, $fields)) {
+        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page), 2);
+        return;
+    }
+
+    if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
+        if (! $postCheckformValidationFunct()) {
+            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page), 2);
+            return;
+        }
+    }
+
+    if (function_exists($updateDataFunct = 'update'. $nkAction['ucf_dataName'] .'Data'))
+        $updateDataFunct();
+
+    $tsKeyDataName = nkAction_getDataNameTranslationKey();
+
+    saveUserAction(__('ACTION_MODIF_'. $tsKeyDataName));
+
+    printNotification(__($tsKeyDataName .'_MODIFIED'), 'success');
+    redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page), 2);
+}
+
+function nkAction_commonSave($form, $fields) {
+    global $nkAction, $file, $page;
+
+    $uriData = $nkAction['uriData'];
+    $uriData[$nkAction['uriId']] = $nkAction['id'];
+
+    if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
+        $form['token']['refererData'] = array(
+            nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData)
+        );
+    }
+
+    if (! nkCheckForm($form, $fields)) {
+        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData), 2);
+        return;
+    }
+
+    if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
+        if (! $postCheckformValidationFunct()) {
+            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData), 2);
+            return;
+        }
+    }
+
+    $data = array();
+
+    if (function_exists($preFormatingDataFunct = 'preFormating'. $nkAction['ucf_dataName'] .'Data'))
+        $preFormatingDataFunct($nkAction['id'], $data);
+
+    foreach ($fields as $field) {
+        if (array_key_exists('name', $form['items'][$field]))
+            $data[$field] = $_POST[$form['items'][$field]['name']];
+        else
+            $data[$field] = $_POST[$field];
+    }
+
+    $tsKeyDataName = nkAction_getDataNameTranslationKey();
+
+    if (function_exists($preSaveDataFunct = 'preSave'. $nkAction['ucf_dataName'] .'Data'))
+        $preSaveDataFunct($nkAction['id'], $data);
+
+    if ($nkAction['id'] === null) {
+        if (function_exists($insertDataFunct = 'insert'. $nkAction['ucf_dataName'] .'Data')) {
+            $insertDataFunct($data);
+        }
+        else {
+            nkDB_insert($nkAction['tableName'], $data);
+            $nkAction['id'] = nkDB_insertId();
+        }
+
+        $nkAction['saveAction'] = 'insert';
+
+        if ($nkTemplate['interface'] == 'backend')
+            nkAction_saveUserAction('ADD_'. $tsKeyDataName, $data);
+    }
+    else {
+        if (function_exists($updateDataFunct = 'update'. $nkAction['ucf_dataName'] .'Data')) {
+            $updateDataFunct($data);
+        }
+        else {
+            nkDB_update($nkAction['tableName'], $data, $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id']));
+        }
+
+        $nkAction['saveAction'] = 'update';
+
+        if ($nkTemplate['interface'] == 'backend')
+            nkAction_saveUserAction('EDIT_'. $tsKeyDataName, $data);
+    }
+
+    if (function_exists($postSaveDataFunct = 'postSave'. $nkAction['ucf_dataName'] .'Data'))
+        $postSaveDataFunct($nkAction['id'], $data);
+
+    printNotification(nkAction_getSuccessMsg('save', $tsKeyDataName, $nkAction['id']), 'success');
+
+    if ($nkTemplate['interface'] == 'backend' && $nkAction['previewUrl'] !== null) {
+        setPreview($nkAction['previewUrl'], nkUrl_format($nkAction['moduleUriKey'], $file, $page));
+    }
+    else {
+        if (function_exists($getRedirectUrlFunct = 'get'. $nkAction['ucf_dataName'] .'RedirectUrl'))
+            $redirectUrl = $getRedirectUrlFunct();
+        else
+            $redirectUrl = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'index', $nkAction['uriData']);
+
+        redirect($redirectUrl, 2);
     }
 }
 
@@ -410,118 +621,12 @@ function nkAction_save() {
 
     $_POST = array_map_recursive('stripslashes', $_POST);
 
-    if ($nkTemplate['interface'] == 'backend' && $page == 'setting') {
-        if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
-            $form['token']['refererData'] = array(
-                nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit')
-            );
-        }
-
-        if (! nkCheckForm($form, $fields)) {
-            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit'), 2);
-            return;
-        }
-
-        if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
-            if (! $postCheckformValidationFunct()) {
-                redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit'), 2);
-                return;
-            }
-        }
-
-        foreach ($fields as $field) {
-            if (isset($nuked[$field], $_POST[$field]) && $nuked[$field] != $_POST[$field])
-                nkDB_update(CONFIG_TABLE, array('value' => $_POST[$field]), 'name = '. nkDB_escape($field));
-        }
-
-        // TODO : Translate module name ($file)
-        saveUserAction(sprintf(__('ACTION_MODULE_SETTING_UPDATED') .'.', $file));
-
-        printNotification(__('PREFERENCES_UPDATED'), 'success');
-        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, 'setting'), 2);
-    }
-    else {
-        $uriData = $nkAction['uriData'];
-        $uriData[$nkAction['uriId']] = $nkAction['id'];
-
-        if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
-            $form['token']['refererData'] = array(
-                nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData)
-            );
-        }
-
-        if (! nkCheckForm($form, $fields)) {
-            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData), 2);
-            return;
-        }
-
-        if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
-            if (! $postCheckformValidationFunct()) {
-                redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData), 2);
-                return;
-            }
-        }
-
-        if (function_exists($preFormatingDataFunct = 'preFormating'. $nkAction['ucf_dataName'] .'Data'))
-            $preFormatingDataFunct($nkAction['id'], $data);
-
-        foreach ($fields as $field) {
-            if (array_key_exists('name', $form['items'][$field]))
-                $data[$field] = $_POST[$form['items'][$field]['name']];
-            else
-                $data[$field] = $_POST[$field];
-        }
-
-        $tsKeyDataName = nkAction_getDataNameTranslationKey();
-
-        if (function_exists($preSaveDataFunct = 'preSave'. $nkAction['ucf_dataName'] .'Data'))
-            $preSaveDataFunct($nkAction['id'], $data);
-
-        if ($nkAction['id'] === null) {
-            if (function_exists($insertDataFunct = 'insert'. $nkAction['ucf_dataName'] .'Data')) {
-                $insertDataFunct($data);
-            }
-            else {
-                nkDB_insert($nkAction['tableName'], $data);
-                $nkAction['id'] = nkDB_insertId();
-            }
-
-            $nkAction['saveAction'] = 'insert';
-
-            if ($nkTemplate['interface'] == 'backend')
-                nkAction_saveUserAction('ADD_'. $tsKeyDataName, $data);
-        }
-        else {
-            if (function_exists($updateDataFunct = 'update'. $nkAction['ucf_dataName'] .'Data')) {
-                $updateDataFunct($data);
-            }
-            else {
-                nkDB_update($nkAction['tableName'], $data, $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id']));
-            }
-
-            $nkAction['saveAction'] = 'update';
-
-            if ($nkTemplate['interface'] == 'backend')
-                nkAction_saveUserAction('EDIT_'. $tsKeyDataName, $data);
-        }
-
-        if (function_exists($postSaveDataFunct = 'postSave'. $nkAction['ucf_dataName'] .'Data'))
-            $postSaveDataFunct($nkAction['id'], $data);
-
-        printNotification(nkAction_getSuccessMsg('save', $tsKeyDataName, $nkAction['id']), 'success');
-
-        if ($nkTemplate['interface'] == 'backend' && $nkAction['previewUrl'] !== null) {
-            setPreview($nkAction['previewUrl'], nkUrl_format($nkAction['moduleUriKey'], $file, $page));
-        }
-        else {
-            if (function_exists($getRedirectUrlFunct = 'get'. $nkAction['ucf_dataName'] .'RedirectUrl'))
-                $redirectUrl = $getRedirectUrlFunct();
-            else
-                $redirectUrl = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'index', $nkAction['uriData']);
-
-            redirect($redirectUrl, 2);
-        }
-    }
+    if ($nkTemplate['interface'] == 'backend' && $page == 'setting')
+        nkAction_saveBackendSetting($form, $fields);
+    else if ($nkTemplate['interface'] == 'backend' && $nkAction['onlyEditDbTable'])
+        nkAction_saveBackendDbTableList($form, $fields);
+    else
+        nkAction_commonSave($form, $fields);
 }
 
 

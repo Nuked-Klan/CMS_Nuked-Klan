@@ -26,6 +26,7 @@ nkAction_setParams(array(
 
 /**
  * Callback function for nkAction_list & nkAction_edit functions.
+ * Return page title of current action.
  *
  * @param int $id : The Forum id.
  * @return string : The Forum title for list or add / edit form.
@@ -65,7 +66,7 @@ function formatForumRow($row, $nbData, $r, $functionData) {
 /* Forum edit form function */
 
 /**
- * Get Forum moderator list.
+ * Get Forum moderator list options.
  *
  * @param array $moderatorList : The Forum moderator list.
  * @return array : The Forum moderator list for input select option.
@@ -88,6 +89,12 @@ function getModeratorOptions($moderatorList = array()) {
     return $options;
 }
 
+/**
+ * Get Forum category list options.
+ *
+ * @param void
+ * @return array : The Forum category list for input select option.
+ */
 function getForumCategoryOptions() {
     $dbrForumCat = nkDB_selectMany(
         'SELECT id, nom

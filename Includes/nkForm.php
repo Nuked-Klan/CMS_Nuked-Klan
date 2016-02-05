@@ -102,32 +102,34 @@ function nkForm_initFields(&$form) {
     $jsFieldsData = array();
 
     foreach ($form['items'] as $itemName => &$itemData) {
-        nkForm_initInput($itemName, $itemData, $form);
+        if (is_array($itemData)) {
+            nkForm_initInput($itemName, $itemData, $form);
 
-        if (array_key_exists('dataType', $itemData) && in_array($itemData['dataType'], $authorizedCheckformType)) {
-            if (! array_key_exists('required', $itemData) || $itemData['required'] != true)
-                $itemData['optional'] = true;
+            if (array_key_exists('dataType', $itemData) && in_array($itemData['dataType'], $authorizedCheckformType)) {
+                if (! array_key_exists('required', $itemData) || $itemData['required'] != true)
+                    $itemData['optional'] = true;
 
-            $js = $itemData['id'] .': { type: "'. $itemData['dataType'] .'"';
+                $js = $itemData['id'] .': { type: "'. $itemData['dataType'] .'"';
 
-            foreach (array('noempty', 'optional', 'oldUsername', 'passwordCheck') as $setting)
-                if (array_key_exists($setting, $itemData))
-                    $js .= ', '. $setting .': '. (($itemData[$setting]) ? 'true' : 'false');
+                foreach (array('noempty', 'optional', 'oldUsername', 'passwordCheck') as $setting)
+                    if (array_key_exists($setting, $itemData))
+                        $js .= ', '. $setting .': '. (($itemData[$setting]) ? 'true' : 'false');
 
-            foreach (array('passwordConfirmId', 'oldPasswordId') as $setting)
-                if (array_key_exists($setting, $itemData) && $itemData[$setting] != '')
-                    $js .= ', '. $setting .': "'. $itemData[$setting] .'"';
+                foreach (array('passwordConfirmId', 'oldPasswordId') as $setting)
+                    if (array_key_exists($setting, $itemData) && $itemData[$setting] != '')
+                        $js .= ', '. $setting .': "'. $itemData[$setting] .'"';
 
-            if (array_key_exists('minlength', $itemData))
-                $js .= ', minlength: '. $itemData['minlength'];
+                if (array_key_exists('minlength', $itemData))
+                    $js .= ', minlength: '. $itemData['minlength'];
 
-            $jsFieldsData[] = $js .' }';
+                $jsFieldsData[] = $js .' }';
+            }
         }
     }
 
-    nkTemplate_addCSSFile('media/nkCheckForm/nkCheckForm.css');
-
     if ($jsFieldsData) {
+        nkTemplate_addCSSFile('media/nkCheckForm/nkCheckForm.css');
+
         nkTemplate_addJSFile('media/nkCheckForm/nkCheckForm.js', 'librairyPlugin');
         nkTemplate_addJS(
             '$("#'. $form['id'] .'").nkCheckForm({ input: {' ."\n"
@@ -239,7 +241,7 @@ function nkForm_generate($form) {
 
             $html .= '<div id="'. nkForm_formatHtmlSelector($form['dataName'] . $itemData['camelCaseName']) .'" class="nkFormRow">';
 
-            $label = '';
+            $label = $input = '';
 
             if (array_key_exists('label', $itemData))
                 $label = nkForm_formatLabel($form['labelFormat'], $itemData);
@@ -255,14 +257,21 @@ function nkForm_generate($form) {
 
             if (array_key_exists('type', $itemData) && in_array($itemData['type'], $authorizedType)) {
                 $fieldFonction = 'nkForm_input'. ucfirst($itemData['type']);
-                $html .= $fieldFonction($itemName, $itemData, $form['id']);
+                $input .= $fieldFonction($itemName, $itemData, $form['id']);
             }
 
             //if ($itemData['required'])
-            //    $html .= '&nbsp;<b class="required">*</b>';
+            //    $input .= '&nbsp;<b class="required">*</b>';
 
             if (array_key_exists('html', $itemData) && $itemData['html'] != '')
-                $html .= $itemData['html'];
+                $input .= $itemData['html'];
+
+            if ($input != '') {
+                if ($form['formStyle'] == 'table')
+                    $html .= '<div>'. $input .'</div>';
+                else
+                    $html .= $input;
+            }
 
             $html .= '</div>' ."\n";
         }

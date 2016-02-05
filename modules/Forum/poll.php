@@ -169,6 +169,7 @@ function prepareFormForEditForumPoll(&$form, $forumPoll, $id) {
 }
 
 /**
+ * Callback function for nkAction_edit function.
  * Return edit Forum poll view content.
  *
  * @param string $generatedForm : The Forum poll form content.
@@ -183,8 +184,9 @@ function generateForumPollEditView($generatedForm) {
 /* Forum poll save form function */
 
 /**
- * Check Forum poll options fields.
+ * Callback function for nkAction_edit functions.
  * Additional process after check Forum poll form.
+ * Check Forum poll options fields.
  *
  * @param void
  * @return bool
@@ -334,8 +336,9 @@ function updateForumPollOptions($id, $nbOptions, $maxOptions) {
 /* Forum poll delete form function */
 
 /**
+ * Callback function for nkAction_delete function.
+ * Additional process before delete Forum poll data.
  * Delete Forum poll additionnal data.
- * Additional process before Forum poll data.
  *
  * @param int $id : The Forum poll ID.
  * @return void
@@ -347,6 +350,7 @@ function preDeleteForumPollData($id) {
 }
 
 /**
+ * Callback function for nkAction_save & nkAction_delete functions.
  * Return redirection url after save / delete Forum poll.
  *
  * @param void

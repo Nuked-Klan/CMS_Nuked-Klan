@@ -26,6 +26,7 @@ nkAction_setParams(array(
 
 /**
  * Callback function for nkAction_list & nkAction_edit functions.
+ * Return page title of current action.
  *
  * @param int $id : The Forum category id.
  * @return string : The Forum category title for list or add / edit form.

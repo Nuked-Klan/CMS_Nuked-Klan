@@ -5,10 +5,6 @@ return array(
     _n('FORUM') => array(
         'img'   => 'modules/Admin/images/icons/speedometer.png'
     ),
-    //_ADDFORUM => array(
-    //    'img'   => 'modules/Admin/images/icons/add_page.png',
-    //    'op'    => 'edit'
-    //),
     __('CATEGORY_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/folder_full.png',
         'page'  => 'category'

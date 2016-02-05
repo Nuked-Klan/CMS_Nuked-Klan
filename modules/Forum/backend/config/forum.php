@@ -3,6 +3,7 @@
 /* nkList configuration */
 
 // Define the list of forum
+
 function getForumListCfg() {
     return array(
         'sqlQuery' => 'SELECT A.id, A.nom, A.niveau, A.level, B.nom AS category FROM '. FORUM_TABLE .' AS A LEFT JOIN '. FORUM_CAT_TABLE .' AS B ON B.id = A.cat',
