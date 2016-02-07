@@ -105,8 +105,8 @@
 <?php
                     endif;
                 else :
-                    if (isset($fieldData['link']) && $fieldData['link'] != '') : ?>
-            <a href="<?php echo $fieldData['link'] ?>">
+                    if (isset($fieldData[$field .'Link']) && $fieldData[$field .'Link'] != '') : ?>
+            <a href="<?php echo $fieldData[$field .'Link'] ?>">
 <?php
                     endif;
 
@@ -120,7 +120,7 @@
 <?php
                     endif;
 
-                    if (isset($fieldData['link']) && $fieldData['link'] != '') : ?>
+                    if (isset($fieldData[$field .'Link']) && $fieldData[$field .'Link'] != '') : ?>
             </a>
 <?php
                     endif;

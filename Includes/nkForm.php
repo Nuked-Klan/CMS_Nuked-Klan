@@ -180,6 +180,13 @@ function nkForm_formatAttribute($params, $attributes, $selectedValue = '') {
             if (array_key_exists($attribute, $params) && is_array($params[$attribute]) && ! empty($params[$attribute]))
                 $str .= ' class="'. implode(' ', $params[$attribute]) .'"';
         }
+        // Format name attribute
+        else if ($attribute == 'name' && array_key_exists('type', $params) && $params['type'] == 'select') {
+            if (array_key_exists('multiple', $params) && $params['multiple'] == 'multiple')
+                $str .= ' '. $attribute .'="'. $params[$attribute] .'[]"';
+            else
+                $str .= ' '. $attribute .'="'. $params[$attribute] .'"';
+        }
         // Otherwise format other attributes
         else if (array_key_exists($attribute, $params) && $params[$attribute] != '') {
             $str .= ' '. $attribute .'="'. $params[$attribute] .'"';
@@ -635,7 +642,10 @@ function nkFormInputRadio($fieldName, $params, $formId) {
  *  Generate a field selection
  */
 function nkForm_inputSelect($fieldName, $params, $formId) {
-    $attributes = array('id', 'name', 'disabled');
+    $attributes = array('id', 'name', 'disabled', 'multiple');
+
+    if (array_key_exists('multiple', $params) && $params['multiple'])
+        $params['multiple'] = 'multiple';
 
     // Generate select tag start
     $html = '<select'. nkForm_formatAttribute($params, $attributes) .'>';

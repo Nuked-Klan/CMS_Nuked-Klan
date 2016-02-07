@@ -259,6 +259,9 @@ function nkAction_editBackendSetting(&$form) {
     foreach ($fields as $field)
         $form['items'][$field]['value'] = $nuked[$field];
 
+    if (function_exists($prepareFormForEditFunct = 'prepareFormForEdit'. ucfirst($file) .'Setting'))
+        $prepareFormForEditFunct($form, $data);
+
     $form['itemsFooter']['backlink'] = array(
         'html' => '<a class="buttonLink" href="index.php?'. $nkAction['moduleUriKey'] .'='. $file .'">'. __('BACK') .'</a>'
     );
@@ -517,6 +520,10 @@ function nkAction_commonSave($form, $fields) {
         $form['token']['refererData'] = array(
             nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData)
         );
+    }
+
+    if (function_exists($preCheckformFormatingFormFunct = 'preCheckform'. $nkAction['ucf_dataName'] .'FormatingForm')) {
+        $preCheckformFormatingFormFunct($form);
     }
 
     if (! nkCheckForm($form, $fields)) {
@@ -805,8 +812,8 @@ function nkAction_list() {
             $listCfg['delete']['imgTitle'] = nkAction_getActionTranslation($tsKeyDataName, 'DELETE_THIS_%s');
     }
 
-    if (! isset($listCfg['emptytable']))
-        $listCfg['emptytable'] = nkAction_getActionTranslation($tsKeyDataName, 'NO_%s_IN_DB');
+    if (! isset($listCfg['noDataText']))
+        $listCfg['noDataText'] = nkAction_getActionTranslation($tsKeyDataName, 'NO_%s_IN_DB');
 
     if (function_exists($callbackRowFunct = 'format'. $nkAction['ucf_dataName'] .'Row')) {
         $listCfg['callbackRowFunction'] = array(
