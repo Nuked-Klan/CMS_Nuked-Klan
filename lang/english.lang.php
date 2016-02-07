@@ -382,6 +382,7 @@ return array(
     'PREFERENCES'       => 'Preferences',
     'ALL'               => 'All',
     'TOKEN_NO_VALID'    => 'Form token isn\'t valid !',
+    'DATE'              => 'Date',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
@@ -453,7 +454,7 @@ return array(
     'MISSING_ID_URI'    => 'Id %s is not defined !',
     // nkAction_list - Includes/nkAction.php
     'EDIT_THIS_DATA'    => 'Edit this data',
-    'CONFIRM_TO_DELETE' => 'You are about to remove %s ! Confirm',
+    'CONFIRM_TO_DELETE_DATA' => 'You are about to remove %s ! Confirm',
     'DELETE_THIS_DATA'  => 'Remove this data',
     'NO_DATA_IN_DB'     => 'No data in the database',
     'ADD_DATA'          => 'Add data',

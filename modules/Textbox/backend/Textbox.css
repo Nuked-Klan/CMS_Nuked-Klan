@@ -1,0 +1,13 @@
+/* Shoutbox message list */
+table#shoutboxMessageList .smDate{width:20%;}
+table#shoutboxMessageList .smAuteur,
+table#shoutboxMessageList .smIp{width:25%;}
+table#shoutboxMessageList .nkListEdit,
+table#shoutboxMessageList .nkListDelete{width:15%;}
+table#shoutboxMessageList td{text-align:center;}
+
+/* Shoutbox message edit form */
+#shoutboxMessageTexte label{display:block;}
+
+/* Shoutbox setting edit form */
+#textboxSettingForm label{width:76%;}

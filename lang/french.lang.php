@@ -391,6 +391,7 @@ return array(
     'PREFERENCES'       => 'Préférences',
     'ALL'               => 'Tous',
     'TOKEN_NO_VALID'    => 'Le jeton du formulaire n\'est pas valide !',
+    'DATE'              => 'Date',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
@@ -462,7 +463,7 @@ return array(
     'MISSING_ID_URI'    => 'Aucun id %s défini !',
     // nkAction_list - Includes/nkAction.php
     'EDIT_THIS_DATA'    => 'Editer cette donnée',
-    'CONFIRM_TO_DELETE' => 'Vous êtes sur le point de supprimer %s ! Confirmer',
+    'CONFIRM_TO_DELETE_DATA' => 'Vous êtes sur le point de supprimer %s ! Confirmer',
     'DELETE_THIS_DATA'  => 'Supprimer cete donnée',
     'NO_DATA_IN_DB'     => 'Aucune donnée dans la base de données',
     'ADD_DATA'          => 'Ajouter une donnée',

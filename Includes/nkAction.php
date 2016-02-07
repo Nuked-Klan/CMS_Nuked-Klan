@@ -22,7 +22,8 @@ $GLOBALS['nkAction'] = array(
     'title'                     => null,
     'previewUrl'                => null,
     'deleteConfirmation'        => null,
-    'onlyEditDbTable'           => false
+    'onlyEditDbTable'           => false,
+    'onlyEdit'                  => false,
 );
 
 
@@ -187,12 +188,15 @@ function nkAction_saveUserAction($actionName, $data) {
 
     $tsAction = 'ACTION_'. $actionName;
 
-    if ($nkAction['titleField_dbTable'] !== null
-        && translationExist($tsAction)
-        && is_array($data)
-        && array_key_exists($nkAction['titleField_dbTable'], $data)
-    )
-        saveUserAction(__($tsAction) .': '. $data[$nkAction['titleField_dbTable']]);
+    if (translationExist($tsAction)) {
+        if ($nkAction['titleField_dbTable'] !== null
+            && is_array($data)
+            && array_key_exists($nkAction['titleField_dbTable'], $data)
+        )
+            saveUserAction(__($tsAction) .': '. $data[$nkAction['titleField_dbTable']]);
+        else
+            saveUserAction(__($tsAction));
+    }
 }
 
 /**
@@ -216,11 +220,10 @@ function nkAction_getActionTranslation($tsKeyDataName, $format) {
  *
  * @param string $actionType : The type of action. (edit, save, delete or list)
  * @param string $tsKeyDataName : The translation name of current data.
- * @param mixed $id : The uri ID value if exist, null also.
  * @return string : The success notification message.
  */
-function nkAction_getSuccessMsg($actionType, $tsKeyDataName, $id = null) {
-    global $page;
+function nkAction_getSuccessMsg($actionType, $tsKeyDataName) {
+    global $nkAction, $page;
 
     if (in_array($page, array('category', 'rank')))
         $tsKeyDataName = strtoupper($page);
@@ -229,7 +232,7 @@ function nkAction_getSuccessMsg($actionType, $tsKeyDataName, $id = null) {
         return nkAction_getActionTranslation($tsKeyDataName, '%s_DELETED');
     }
     else {
-        if ($id === null)
+        if ($nkAction['saveAction'] == 'insert')
             return nkAction_getActionTranslation($tsKeyDataName, '%s_ADDED');
         else
             return nkAction_getActionTranslation($tsKeyDataName, '%s_MODIFIED');
@@ -297,7 +300,7 @@ function nkAction_editBackendDbTableList(&$form) {
 function nkAction_commonEdit(&$form) {
     global $nkAction, $page;
 
-    if ($nkAction['id'] === null) {
+    if (! $nkAction['onlyEdit'] && $nkAction['id'] === null) {
         if (function_exists($addFormFunct = 'prepareFormForAdd'. $nkAction['ucf_dataName']))
             $addFormFunct($form);
     }
@@ -545,7 +548,7 @@ function nkAction_commonSave($form, $fields) {
     if (function_exists($preSaveDataFunct = 'preSave'. $nkAction['ucf_dataName'] .'Data'))
         $preSaveDataFunct($nkAction['id'], $data);
 
-    if ($nkAction['id'] === null) {
+    if (! $nkAction['onlyEdit'] && $nkAction['id'] === null) {
         if (function_exists($insertDataFunct = 'insert'. $nkAction['ucf_dataName'] .'Data')) {
             $insertDataFunct($data);
         }
@@ -576,7 +579,7 @@ function nkAction_commonSave($form, $fields) {
     if (function_exists($postSaveDataFunct = 'postSave'. $nkAction['ucf_dataName'] .'Data'))
         $postSaveDataFunct($nkAction['id'], $data);
 
-    printNotification(nkAction_getSuccessMsg('save', $tsKeyDataName, $nkAction['id']), 'success');
+    printNotification(nkAction_getSuccessMsg('save', $tsKeyDataName), 'success');
 
     if ($nkTemplate['interface'] == 'backend' && $nkAction['previewUrl'] !== null) {
         setPreview($nkAction['previewUrl'], nkUrl_format($nkAction['moduleUriKey'], $file, $page));
@@ -768,6 +771,8 @@ function nkAction_list() {
     else
         $tsKeyDataName = nkAction_getDataNameTranslationKey();
 
+    $listCfg['limit'] = 30;
+
     if (! isset($listCfg['css']))
         $listCfg['css'] = array();
 
@@ -790,8 +795,9 @@ function nkAction_list() {
             $listCfg['delete']['op'] = 'delete';
 
         if (! isset($listCfg['delete']['confirmTxt']))
-            $listCfg['delete']['confirmTxt'] = __('CONFIRM_TO_DELETE');
+            $listCfg['delete']['confirmTxt'] = nkAction_getActionTranslation($tsKeyDataName, 'CONFIRM_TO_DELETE_%s');
 
+        // TODO : A revoir...
         if (! isset($listCfg['delete']['confirmField']))
             $listCfg['delete']['confirmField'] = $nkAction['titleField_dbTable'];
 
@@ -816,9 +822,11 @@ function nkAction_list() {
     if (! isset($listCfg['footerLinks'])) {
         $listCfg['footerLinks'] = array();
 
-        $tsAddEntrie = nkAction_getActionTranslation($tsKeyDataName, 'ADD_%s');
+        if (! $nkAction['onlyEdit']) {
+            $tsAddEntrie = nkAction_getActionTranslation($tsKeyDataName, 'ADD_%s');
 
-        $listCfg['footerLinks'][$tsAddEntrie] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', array(), true);
+            $listCfg['footerLinks'][$tsAddEntrie] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', array(), true);
+        }
 
         if ($page == 'index')
             $listCfg['footerLinks'][__('BACK')] = 'index.php?file=Admin';

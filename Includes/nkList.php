@@ -481,9 +481,13 @@ function nkList_generate($config) {
         if ($nkList['sqlClause']['limit'] !== false) {
             $totalNbDataList = nkDB_totalNumRows();
 
-            $config['pagination'] = number(
-                $nkList['p'], $totalNbDataList, $config['limit'], $nkList['paginationUrl'], true
-            );
+            if ($totalNbDataList > $config['limit']) {
+                $config['pagination'] = number(
+                    $nkList['p'], $totalNbDataList, $config['limit'], $nkList['paginationUrl'], true
+                );
+            }
+            else
+                $config['pagination'] = '';
         }
         else
             $config['pagination'] = '';

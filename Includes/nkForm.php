@@ -649,7 +649,7 @@ function nkForm_inputSelect($fieldName, $params, $formId) {
 
         else {
             if ($params['htmlspecialchars'])
-                $value = htmlspecialchars($value);
+                $value = nkHtmlSpecialChars($value);
 
             $html .= '<option value="'. $key .'"'. (($params['value'] == $key) ? ' selected="selected"' : '') .'>'. $value .'</option>';
         }
@@ -666,7 +666,7 @@ function nkForm_inputSelect($fieldName, $params, $formId) {
  */
 function nkForm_inputText($fieldName, $params, $formId) {
     if ($params['htmlspecialchars'])
-        $params['value'] = htmlspecialchars($params['value']);
+        $params['value'] = nkHtmlSpecialChars($params['value']);
 
     return '<input type="text"'. nkForm_formatAttribute($params, array('id', 'name', 'size', 'value', 'maxlength', 'disabled')) .' />';
 }
@@ -683,7 +683,7 @@ function nkForm_inputTextarea($fieldName, $params, $formId) {
     if (! array_key_exists('rows', $params)) $params['rows'] = 15;
 
     if ($params['htmlspecialchars'])
-        $params['value'] = htmlspecialchars($params['value']);
+        $params['value'] = nkHtmlSpecialChars($params['value']);
 
     // Generate a input textaera with markitup style
     return '<textarea'. nkForm_formatAttribute($params, $attributes) .'>'. $params['value'] .'</textarea>';
