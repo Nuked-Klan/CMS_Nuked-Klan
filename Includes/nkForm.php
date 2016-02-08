@@ -9,6 +9,39 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
 /**
+ * Initialisation of nkAction global vars
+ */
+$GLOBALS['nkForm'] = array(
+    'allowedCheckformType' => array(
+        'text',
+        'alpha',
+        'alphanumeric',
+        'numeric',
+        'email',
+        'date',
+        'password',
+        'passwordConfirm',
+        'oldPassword',
+        'username'
+    ),
+    'allowedInputType' => array(
+        'button',
+        'checkbox',
+        'color',
+        'date',
+        'file',
+        'password',
+        'radio',
+        'select',
+        'submit',
+        'text',
+        'textarea',
+        'time'
+    )
+);
+
+
+/**
  * Initialize the form
  *
  * @param array $form : The array of form to initialize
@@ -59,8 +92,6 @@ function nkForm_init(&$form) {
 
     if (! array_key_exists('labelFormat', $form))
         $form['labelFormat'] = '%s :&nbsp;';
-
-    nkForm_initFields($form);
 }
 
 /**
@@ -85,64 +116,42 @@ function nkForm_formatHtmlSelector($selectorName) {
         return $selectorName;
 }
 
-function nkForm_initFields(&$form) {
-    $authorizedCheckformType = array(
-        'text',
-        'alpha',
-        'alphanumeric',
-        'numeric',
-        'email',
-        'date',
-        'password',
-        'passwordConfirm',
-        'oldPassword',
-        'username'
-    );
+function nkForm_getCheckFormField($itemData) {
+    $js = $itemData['id'] .': { type: "'. $itemData['dataType'] .'"';
 
-    $jsFieldsData = array();
+    // TODO : Rewrite nkCheckform.js
+    $js .= ', optional: '. (($itemData['required']) ? 'false' : 'true');
 
-    foreach ($form['items'] as $itemName => &$itemData) {
-        if (is_array($itemData)) {
-            nkForm_initInput($itemName, $itemData, $form);
+    foreach (array('noempty', 'oldUsername', 'passwordCheck') as $setting)
+        if (array_key_exists($setting, $itemData))
+            $js .= ', '. $setting .': '. (($itemData[$setting]) ? 'true' : 'false');
 
-            if (array_key_exists('dataType', $itemData) && in_array($itemData['dataType'], $authorizedCheckformType)) {
-                if (! array_key_exists('required', $itemData) || $itemData['required'] != true)
-                    $itemData['optional'] = true;
+    foreach (array('passwordConfirmId', 'oldPasswordId') as $setting)
+        if (array_key_exists($setting, $itemData) && $itemData[$setting] != '')
+            $js .= ', '. $setting .': "'. $itemData[$setting] .'"';
 
-                $js = $itemData['id'] .': { type: "'. $itemData['dataType'] .'"';
+    if (array_key_exists('minlength', $itemData))
+        $js .= ', minlength: '. $itemData['minlength'];
 
-                foreach (array('noempty', 'optional', 'oldUsername', 'passwordCheck') as $setting)
-                    if (array_key_exists($setting, $itemData))
-                        $js .= ', '. $setting .': '. (($itemData[$setting]) ? 'true' : 'false');
-
-                foreach (array('passwordConfirmId', 'oldPasswordId') as $setting)
-                    if (array_key_exists($setting, $itemData) && $itemData[$setting] != '')
-                        $js .= ', '. $setting .': "'. $itemData[$setting] .'"';
-
-                if (array_key_exists('minlength', $itemData))
-                    $js .= ', minlength: '. $itemData['minlength'];
-
-                $jsFieldsData[] = $js .' }';
-            }
-        }
-    }
-
-    if ($jsFieldsData) {
-        nkTemplate_addCSSFile('media/nkCheckForm/nkCheckForm.css');
-
-        nkTemplate_addJSFile('media/nkCheckForm/nkCheckForm.js', 'librairyPlugin');
-        nkTemplate_addJS(
-            '$("#'. $form['id'] .'").nkCheckForm({ input: {' ."\n"
-            . implode(",\n", $jsFieldsData) ."\n"
-            . '}});' ."\n",
-            'jqueryDomReady'
-        );
-
-        if ($GLOBALS['language'] != 'english')
-            nkTemplate_addJSFile('media/nkCheckForm/i18n/nkCheckForm-'. $GLOBALS['language'] .'.js', 'librairyPlugin');
-    }
+    return $js .' }';
 }
 
+function nkForm_initCheckForm($formId, $fieldsData) {
+    global $nkForm, $language;
+
+    nkTemplate_addCSSFile('media/nkCheckForm/nkCheckForm.css');
+
+    nkTemplate_addJSFile('media/nkCheckForm/nkCheckForm.js', 'librairyPlugin');
+    nkTemplate_addJS(
+        '$("#'. $formId .'").nkCheckForm({ input: {' ."\n"
+        . implode(",\n", $fieldsData) ."\n"
+        . '}});' ."\n",
+        'jqueryDomReady'
+    );
+
+    if ($language != 'english')
+        nkTemplate_addJSFile('media/nkCheckForm/i18n/nkCheckForm-'. $language .'.js', 'librairyPlugin');
+}
 
 /**
  *  Format attribute of input
@@ -203,30 +212,25 @@ function nkForm_formatAttribute($params, $attributes, $selectedValue = '') {
  * @return string HTML code
  */
 function nkForm_generate($form) {
-    $authorizedType = array(
-        'button',
-        'checkbox',
-        'color',
-        'date',
-        'file',
-        'password',
-        'radio',
-        'select',
-        'submit',
-        'text',
-        'textarea',
-        'time'
-    );
+    global $nkForm;
 
     nkForm_init($form);
 
     $html = "\n". '<form class="nkForm" id="'. $form['id'] .'" action="'. $form['action'] .'" method="'. strtoupper($form['method']) .'"'. $form['enctype'] .'>' ."\n";
     $r = 0;
+    $jsFieldsData = array();
 
     if ($form['formStyle'] == 'table')
         $html .= '<div class="'. nkForm_formatHtmlSelector($form['dataName'] .'IniTable') .'">';
 
     foreach ($form['items'] as $itemName => $itemData) {
+        if (is_array($itemData)) {
+            nkForm_initInput($itemName, $itemData, $form);
+
+            if (array_key_exists('dataType', $itemData) && in_array($itemData['dataType'], $nkForm['allowedCheckformType']))
+                $jsFieldsData[] = nkForm_getCheckFormField($itemData);
+        }
+
         if (strpos($itemName, 'fieldsetStart') === 0) {
             $html .= '<fieldset id="'. $itemData['id'] .'">' ."\n";
 
@@ -262,7 +266,7 @@ function nkForm_generate($form) {
                     $html .= $label;
             }
 
-            if (array_key_exists('type', $itemData) && in_array($itemData['type'], $authorizedType)) {
+            if (array_key_exists('type', $itemData) && in_array($itemData['type'], $nkForm['allowedInputType'])) {
                 $fieldFonction = 'nkForm_input'. ucfirst($itemData['type']);
                 $input .= $fieldFonction($itemName, $itemData, $form['id']);
             }
@@ -292,13 +296,13 @@ function nkForm_generate($form) {
     $html .= '<div id="'. nkForm_formatHtmlSelector($form['dataName'] .'ActionLinks') .'" class="nkFormActionLinks">';
 
     foreach ($form['itemsFooter'] as $itemName => $itemData) {
-        if (array_key_exists('type', $itemData) && in_array($itemData['type'], $authorizedType)) {
+        if (array_key_exists('type', $itemData) && in_array($itemData['type'], $nkForm['allowedInputType'])) {
             $currentClass = 'nkForm_input'. ucfirst($itemData['type']);
 
             if (! array_key_exists('name', $itemData))
                 $itemData['name'] = $itemName;
 
-            if (in_array($itemData['type'], $authorizedType))
+            if (in_array($itemData['type'], $nkForm['allowedInputType']))
                 $html .= $currentClass($itemName, $itemData, $form['id']);
         }
 
@@ -311,6 +315,9 @@ function nkForm_generate($form) {
 
     if ($form['captchaField'] != '')
         $html .= $form['captchaField'];
+
+    if ($jsFieldsData)
+        nkForm_initCheckForm($form['id'], $jsFieldsData);
 
     return $html .'</div>' ."\n" .'</form>' ."\n";
 }
