@@ -70,6 +70,21 @@ function checkAlreadyVote($module, $id) {
 }
 
 /**
+ * Set nkTemplate parameters to create Vote pop-up.
+ *
+ * @param void
+ * @return void
+ */
+function votePopUpInit() {
+    global $user;
+
+    $author = ($user) ? $user['name'] : __('VISITOR');
+
+    nkTemplate_setPageDesign('nudePage');
+    nkTemplate_setTitle(__('VOTE_FROM') .'&nbsp;'. $author);
+}
+
+/**
  * Display vote result / status.
  * Included by module.
  *
@@ -114,16 +129,12 @@ function vote_index($module, $id) {
 
 // Display Vote form
 function postVote() {
-    global $user, $visiteur;
+    global $visiteur;
 
     $id     = (isset($_GET['id'])) ? (int) $_GET['id'] : 0;
     $module = (isset($_GET['module'])) ? stripslashes($_GET['module']) : '';
-    $author = ($user) ? $user['name'] : __('VISITOR');
 
     if (! checkVoteStatus($module, $id)) return;
-
-    nkTemplate_setPageDesign('nudePage');
-    nkTemplate_setTitle(__('VOTE_FROM') .'&nbsp;'. $author);
 
     $levelAccess = nivo_mod('Vote');
 
@@ -145,17 +156,13 @@ function postVote() {
 
 // Save Vote result
 function saveVote() {
-    global $user, $visiteur, $user_ip;
+    global $visiteur, $user_ip;
 
     $id     = (isset($_POST['id'])) ? (int) $_POST['id'] : 0;
     $module = (isset($_POST['module'])) ? stripslashes($_POST['module']) : '';
     $vote   = (isset($_POST['vote'])) ? $_POST['vote'] : '';
-    $author = ($user) ? $user['name'] : __('VISITOR');
 
     if (! checkVoteStatus($module, $id)) return;
-
-    nkTemplate_setPageDesign('nudePage');
-    nkTemplate_setTitle(__('VOTE_FROM') .'&nbsp;'. $author);
 
     $levelAccess = nivo_mod('Vote');
 
@@ -182,10 +189,12 @@ function saveVote() {
 // Action handle
 switch ($GLOBALS['op']) {
     case 'post' :
+        votePopUpInit();
         postVote();
         break;
 
     case 'save' :
+        votePopUpInit();
         saveVote();
         break;
 
