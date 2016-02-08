@@ -21,11 +21,14 @@ mb_internal_encoding('ISO-8859-1');
  *
  * @param array $form : The form configuration.
  * @param array $fields : The fields list to check.
+ * @param mixed $validData : The valid value of checked fields.
  * @return bool : The result of form validation.
  */
-function nkCheckForm(&$form, $fields) {
+function nkCheckForm(&$form, $fields, &$validData = null) {
     if (! isset($form['dataName']) || $form['dataName'] == '')
         trigger_error('You must defined a data name for this form configuration !', E_USER_ERROR);;
+
+    if (! is_array($validData)) $validData = null;
 
     // TODO : $_FILES ?
     $_SESSION['save_'. $form['dataName']] = $_POST;
@@ -67,7 +70,7 @@ function nkCheckForm(&$form, $fields) {
                 $fieldName = $field;
 
             if ($form['items'][$field]['type'] == 'checkbox') {
-                nkCheckForm_checkbox($fieldName, $form['items'][$field]);
+                nkCheckForm_checkbox($fieldName, $form['items'][$field], $validData);
             }
             else {
                 if (isset($form['items'][$field]['uploadField'])
@@ -80,7 +83,9 @@ function nkCheckForm(&$form, $fields) {
                 if (isset($form['items'][$field]['uploadField']) && isset($form['items'][$form['items'][$field]['uploadField']])) {
                     if (! nkCheckForm_checkFormInput(
                         $form['items'][$field]['uploadField'],
-                        $form['items'][$form['items'][$field]['uploadField']], $form
+                        $form['items'][$form['items'][$field]['uploadField']],
+                        $form,
+                        $validData
                     ))
                         return false;
 
@@ -88,7 +93,7 @@ function nkCheckForm(&$form, $fields) {
                         continue;
                 }
 
-                if (! nkCheckForm_checkFormInput($fieldName, $form['items'][$field], $form))
+                if (! nkCheckForm_checkFormInput($fieldName, $form['items'][$field], $form, $validData))
                     return false;
             }
         }
@@ -104,9 +109,10 @@ function nkCheckForm(&$form, $fields) {
  *
  * @param string $field : The field key in form configuration.
  * @param array $fieldData : The field configuration.
+ * @param mixed $validData : The valid value of checked fields.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkFormInput($field, &$fieldData, &$form) {
+function nkCheckForm_checkFormInput($field, &$fieldData, &$form, &$validData) {
     if ($fieldData['type'] != 'file') {
         if (isset($_POST[$field]))
             $fieldData['trimmedField'] = trim($_POST[$field]);
@@ -150,13 +156,15 @@ function nkCheckForm_checkFormInput($field, &$fieldData, &$form) {
                 break;
 
             case 'file' :
-                if (! nkCheckForm_checkFile($field, $fieldData, $form))
-                    return false;
+                return nkCheckForm_checkFile($field, $fieldData, $form, $validData);
                 break;
         }
 
-        return nkCheckForm_checkInputText($field, $fieldData);
+        return nkCheckForm_checkInputText($field, $fieldData, $validData);
     }
+
+    if ($validData !== null)
+        $validData[$field] = $_POST[$field];
 
     return true;
 }
@@ -298,9 +306,10 @@ function nkCheckForm_checkHtml($field, $fieldData) {
  *
  * @param string $field : The field key in form configuration.
  * @param array $fieldData : The field configuration.
+ * @param mixed $validData : The valid value of checked fields.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkFile($field, &$fieldData, &$form) {
+function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData) {
     require_once 'Includes/nkUpload.php';
 
     if ($_FILES[$field]['name'] != '') {
@@ -343,7 +352,8 @@ function nkCheckForm_checkFile($field, &$fieldData, &$form) {
             }
         }
 
-        $_POST[$fieldData['urlField']] = $filename;
+        if ($validData !== null)
+            $validData[$fieldData['urlField']] = $filename;
 
         $form['items'][$fieldData['urlField']]['uploadValue'] = true;
     }
@@ -356,9 +366,10 @@ function nkCheckForm_checkFile($field, &$fieldData, &$form) {
  *
  * @param string $field : The field key in form configuration.
  * @param array $fieldData : The field configuration.
+ * @param mixed $validData : The valid value of checked fields.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkInputText($field, $fieldData) {
+function nkCheckForm_checkInputText($field, $fieldData, &$validData) {
     $error = null;
 
     // Check if not empty
@@ -394,6 +405,9 @@ function nkCheckForm_checkInputText($field, $fieldData) {
             $_POST[$field] = '';
     }
 
+    if ($validData !== null)
+        $validData[$field] = $_POST[$field];
+
     return true;
 }
 
@@ -402,20 +416,21 @@ function nkCheckForm_checkInputText($field, $fieldData) {
  *
  * @param string $field : The field key in form configuration.
  * @param array $fieldData : The field configuration.
+ * @param mixed $validData : The valid value of checked fields.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkbox($field, $fieldData) {
+function nkCheckForm_checkbox($field, $fieldData, &$validData) {
     if (isset($_POST[$field], $fieldData['inputValue'])
         && $fieldData['inputValue'] != ''
         && $_POST[$field] == $fieldData['inputValue']
     ) {
-        return;
+        if ($validData !== null)
+            $validData[$field] = $fieldData['inputValue'];
     }
-
-    if (isset($fieldData['defaultValue']) && $fieldData['defaultValue'] != '')
-        $_POST[$field] = $fieldData['defaultValue'];
-    else
-        $_POST[$field] = '';
+    else if (isset($fieldData['defaultValue']) && $fieldData['defaultValue'] != '') {
+        if ($validData !== null)
+            $validData[$field] = $fieldData['defaultValue'];
+    }
 }
 
 ?>

@@ -511,7 +511,7 @@ function nkAction_saveBackendDbTableList($form, $fields) {
 }
 
 function nkAction_commonSave($form, $fields) {
-    global $nkAction, $file, $page;
+    global $nkAction, $nkTemplate, $file, $page;
 
     $uriData = $nkAction['uriData'];
     $uriData[$nkAction['uriId']] = $nkAction['id'];
@@ -526,7 +526,9 @@ function nkAction_commonSave($form, $fields) {
         $preCheckformFormatingFormFunct($form);
     }
 
-    if (! nkCheckForm($form, $fields)) {
+    $data = array();
+
+    if (! nkCheckForm($form, $fields, $data)) {
         redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData), 2);
         return;
     }
@@ -538,17 +540,8 @@ function nkAction_commonSave($form, $fields) {
         }
     }
 
-    $data = array();
-
     if (function_exists($preFormatingDataFunct = 'preFormating'. $nkAction['ucf_dataName'] .'Data'))
         $preFormatingDataFunct($nkAction['id'], $data);
-
-    foreach ($fields as $field) {
-        if (array_key_exists('name', $form['items'][$field]))
-            $data[$field] = $_POST[$form['items'][$field]['name']];
-        else
-            $data[$field] = $_POST[$field];
-    }
 
     $tsKeyDataName = nkAction_getDataNameTranslationKey();
 
