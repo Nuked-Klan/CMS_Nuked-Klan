@@ -219,13 +219,13 @@ function postCheckformForumPollValidation() {
 
 /**
  * Callback function for nkAction_save.
- * Additional process before formating Forum poll data.
+ * Additional process before save Forum poll data.
  *
  * @param int $id : The Forum poll id.
  * @param array $forumPoll : The Forum poll data.
  * @return void
  */
-function preFormatingForumPollData($id, &$forumPoll) {
+function preSaveForumPollData($id, &$forumPoll) {
     global $threadId;
 
     $forumPoll['thread_id'] = $threadId;

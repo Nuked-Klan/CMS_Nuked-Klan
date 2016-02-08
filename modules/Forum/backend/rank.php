@@ -100,13 +100,13 @@ function prepareFormForEditForumRank(&$form, $forumRank, $id) {
 
 /**
  * Callback function for nkAction_save.
- * Additional process before formating Forum rank data.
+ * Additional process before check Forum rank form process.
  *
  * @param int $id : The Forum rank id.
  * @param array $forumRank : The Forum rank data.
  * @return void
  */
-function preFormatingForumRankData($id, $forumRank) {
+function preCheckformForumRankProcess($id, $forumRank) {
     if ($_POST['image'] == 'http://')
         $_POST['image'] = '';
 }

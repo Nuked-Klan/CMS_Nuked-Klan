@@ -522,8 +522,8 @@ function nkAction_commonSave($form, $fields) {
         );
     }
 
-    if (function_exists($preCheckformFormatingFormFunct = 'preCheckform'. $nkAction['ucf_dataName'] .'FormatingForm')) {
-        $preCheckformFormatingFormFunct($form);
+    if (function_exists($preCheckformProcessFunct = 'preCheckform'. $nkAction['ucf_dataName'] .'Process')) {
+        $preCheckformProcessFunct($nkAction['id'], $form);
     }
 
     $data = array();
@@ -539,9 +539,6 @@ function nkAction_commonSave($form, $fields) {
             return;
         }
     }
-
-    if (function_exists($preFormatingDataFunct = 'preFormating'. $nkAction['ucf_dataName'] .'Data'))
-        $preFormatingDataFunct($nkAction['id'], $data);
 
     $tsKeyDataName = nkAction_getDataNameTranslationKey();
 

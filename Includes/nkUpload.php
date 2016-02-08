@@ -74,6 +74,8 @@ function nkUpload_check($filename, $params = array()) {
 
     $filenameInfo = pathinfo($_FILES[$filename]['name']);
 
+    //'allowedExt'
+
     if ($params['fileRename'])
         $filenameInfo['filename'] = substr(md5(uniqid()), rand(0, 20), 10);
     else
