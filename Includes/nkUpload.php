@@ -34,12 +34,16 @@ $GLOBALS['nkUpload'] = array(
  *   - fileSize : The maximum size allowed for a upload file. (in byte)
  *   - fileRename : If true, rename the file with a random hash.
  *        If false, the filename is cleaning.
+ *   - allowedExt : Array of file extension list allowed for upload process.
  * @return array : A numerical indexed array with :
  *         - The path of uploaded file.
  *         - The error message if existing or false.
  *         - The extension file.
  */
 function nkUpload_check($filename, $params = array()) {
+    if (! array_key_exists('uploadDir', $params))
+        trigger_error('You must defined uploadDir key in $params argument of nkUpload_check function !', E_USER_ERROR);
+
     if (! is_dir($params['uploadDir']))
         return array('', __('UPLOAD_DIRECTORY_NO_EXIST'), '');
 
@@ -54,6 +58,9 @@ function nkUpload_check($filename, $params = array()) {
 
     if (! isset($params['fileRename']))
         $params['fileRename'] = false;
+
+    if (! isset($params['allowedExt']) || ! is_array($params['allowedExt']) || empty($params['allowedExt']))
+        $params['allowedExt'] = null;
 
     if ($_FILES[$filename]['error'] !== UPLOAD_ERR_OK)
         return array('', nkUpload_getPhpError($params['fileType'], $_FILES[$filename]['error']), '');
@@ -74,7 +81,8 @@ function nkUpload_check($filename, $params = array()) {
 
     $filenameInfo = pathinfo($_FILES[$filename]['name']);
 
-    //'allowedExt'
+    if ($params['allowedExt'] !== null && ! in_array($filenameInfo['extension'], $params['allowedExt']))
+        return array('', __('NO_UPLOADABLE_FILE'), '');
 
     if ($params['fileRename'])
         $filenameInfo['filename'] = substr(md5(uniqid()), rand(0, 20), 10);
