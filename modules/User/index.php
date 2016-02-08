@@ -1346,7 +1346,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
             }
         }
         else if ($filename != ""){
-            printNotification(_FILETOOBIG, 'error');
+            printNotification(sprintf(__('UPLOAD_IMAGE_TOO_BIG'), 100), 'error');
             redirect("index.php?file=User&op=edit_account", 5);
             closetable();
             return;

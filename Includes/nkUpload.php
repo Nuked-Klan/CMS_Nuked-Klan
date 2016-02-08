@@ -24,64 +24,74 @@ $GLOBALS['nkUpload'] = array(
  * Check a uploaded file.
  *
  * @param string $filename : The filename from the name attribute of input file.
- * @param string $fileType : The type of allowed upload.
+ * @param array $params : The list of upload parameters
+ *   - fileType : The type of allowed upload.
  *        `image` to allow upload image (jpg, jpeg, png & gif)
  *        `no-html-php` to allow all upload file whithout html and php files.
  *        `all` to allow all upload files.
  *        Note : Upload a .htaccess file isn't allowed.
- * @param string $uploadDir : The path where the uploaded file is moved.
- * @param int $maxsize : The maximum size allowed for a upload file. (in byte)
- * @param bool $rename : If true, rename the file with a random hash.
+ *   - uploadDir : The path where the uploaded file is moved.
+ *   - fileSize : The maximum size allowed for a upload file. (in byte)
+ *   - fileRename : If true, rename the file with a random hash.
  *        If false, the filename is cleaning.
  * @return array : A numerical indexed array with :
  *         - The path of uploaded file.
  *         - The error message if existing or false.
  *         - The extension file.
  */
-function nkUpload_check($filename, $fileType, $uploadDir, $maxsize = null, $rename = false) {
-    /*
-    if (! isset($_FILES[$filename])) {
-        
-    }
-    */
+function nkUpload_check($filename, $params = array()) {
+    if (! is_dir($params['uploadDir']))
+        return array('', __('UPLOAD_DIRECTORY_NO_EXIST'), '');
+
+    if (! is_writable($params['uploadDir']))
+        return array('', __('UPLOAD_DIRECTORY_NO_WRITEABLE'), '');
+
+    if (! isset($params['fileType']) || ! in_array($params['fileType'], array('image', 'no-html-php', 'all')))
+        $params['fileType'] = 'no-html-php';
+
+    if (! array_key_exists('fileSize', $params))
+        $params['fileSize'] = null;
+
+    if (! isset($params['fileRename']))
+        $params['fileRename'] = false;
 
     if ($_FILES[$filename]['error'] !== UPLOAD_ERR_OK)
-        return array('', nkUpload_getPhpError($_FILES[$filename]['error']), '');
+        return array('', nkUpload_getPhpError($params['fileType'], $_FILES[$filename]['error']), '');
 
     $_FILES[$filename]['name'] = trim($_FILES[$filename]['name']);
 
-    if ($filename == '.htaccess')
-        return array('', _NOUPLOADABLEFILE, '');
+    if ($_FILES[$filename]['name'] == '.htaccess')
+        return array('', __('NO_UPLOADABLE_FILE'), '');
 
-    if (is_int($maxsize) && $maxsize < $_FILES[$filename]['size'] / 1000)
-        return array('', _UPLOADFILETOOBIG, '');
+    if (is_int($params['fileSize']) && $params['fileSize'] < $_FILES[$filename]['size'] / 1000) {
+        if ($params['fileType'] == 'image')
+            $error = __('UPLOAD_IMAGE_TOO_BIG');
+        else
+            $error = __('UPLOAD_FILE_TOO_BIG');
+
+        return array('', sprintf($error, $params['fileSize']), '');
+    }
 
     $filenameInfo = pathinfo($_FILES[$filename]['name']);
 
-    if ($rename)
+    if ($params['fileRename'])
         $filenameInfo['filename'] = substr(md5(uniqid()), rand(0, 20), 10);
     else
         nkUpload_cleanFilename($filenameInfo['filename']);
 
-    if ($fileType == 'image') {
+    if ($params['fileType'] == 'image') {
         if (! nkUpload_checkImage($filename, $filenameInfo['extension']))
-            return array('', _NOIMAGEFILE, '');
+            return array('', __('BAD_IMAGE_FORMAT'), '');
     }
-    else if ($fileType != 'no-html-php') {
+    else if ($params['fileType'] != 'no-html-php') {
         if (! nkUpload_checkFileType($filename, $filenameInfo['extension']))
-            return array('', _NOUPLOADABLEFILE, '');
+            return array('', __('NO_UPLOADABLE_FILE'), '');
     }
 
     $path = $uploadDir .'/'. $filenameInfo['filename'] .'.'. $filenameInfo['extension'];
 
-    if (! is_dir($uploadDir))
-        return array('', _UPLOADDIRNOEXIST, '');
-
-    if (! is_writable($uploadDir))
-        return array('', _UPLOADDIRNOWRITEABLE, '');
-
     if (! @move_uploaded_file($_FILES[$filename]['tmp_name'], $path))
-        return array('', _UPLOADFILEFAILED, '');
+        return array('', __('UPLOAD_FILE_FAILED'), '');
 
     @chmod($path, 0644);
 
@@ -91,14 +101,34 @@ function nkUpload_check($filename, $fileType, $uploadDir, $maxsize = null, $rena
 /**
  * Return internal PHP upload error.
  *
+ * @param string $fileType : The type of allowed upload.
  * @param int $error : The error value contain in $_FILES[$filename]['error'].
  * @return string : Return internal PHP upload error message.
  */
 // TODO : Translate error message.
-function nkUpload_getPhpError($error) {
+function nkUpload_getPhpError($fileType, $error) {
     switch ($error) {
         case UPLOAD_ERR_INI_SIZE :
-            $message = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+            if ($fileType == 'image')
+                $message = __('UPLOAD_IMAGE_TOO_BIG');
+            else
+                $message = __('UPLOAD_FILE_TOO_BIG');
+
+            // http://stackoverflow.com/questions/13076480/php-get-actual-maximum-upload-size
+            $maxsize  = ini_get('upload_max_filesize');
+
+            $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+            $size = preg_replace('/[^0-9\.]/', '', $size);
+
+            if ($unit) {
+                // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+                $maxsize = round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+            }
+            else {
+                $maxsize = round($size);
+            }
+
+            $message = sprintf($message, $maxsize), '');
             break;
         case UPLOAD_ERR_FORM_SIZE :
             $message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';

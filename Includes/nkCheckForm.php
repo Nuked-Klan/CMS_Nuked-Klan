@@ -320,27 +320,12 @@ function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData) {
             return false;
         }
 
-        if (! isset($fieldData['fileType']))
-            $fieldData['fileType'] = 'no-html-php';
-
         if (! isset($fieldData['uploadDir'])) {
             printNotification(sprintf(__('NO_UPLOAD_DIR_FIELD'), $fieldData['label']), 'error');
             return false;
         }
 
-        if (! array_key_exists('fileSize', $fieldData))
-            $fieldData['fileSize'] = null;
-
-        if (! isset($fieldData['fileRename']))
-            $fieldData['fileRename'] = false;
-
-        list($filename, $uploadError) = nkUpload_check(
-            $field,
-            $fieldData['fileType'],
-            $fieldData['uploadDir'],
-            $fieldData['fileSize'],
-            $fieldData['fileRename']
-        );
+        list($filename, $uploadError) = nkUpload_check($field, $fieldData);
 
         if ($uploadError !== false) {
             if ($fieldData['required']) {

@@ -367,13 +367,6 @@ define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_IMAGE","Image");
 define("_STATS","Statistiques");
 
-// nkUpload
-define("_UPLOADFILEFAILED","Le Téléchargement du fichier a échoué !");
-define("_NOIMAGEFILE","Ce fichier n'est pas une image valide !");
-define("_UPLOADDIRNOWRITEABLE","Le dossier d'upload n'a pas les droits d'écriture !");
-
-
-
 define("_NONE","Aucun");
 
 return array(
@@ -472,6 +465,14 @@ return array(
     'CT_BAD_TOKEN'      => 'Token incorrect !<br />Veuillez utiliser le formulaire.',
     'CT_BAD_JS'         => 'La validation javascript a échouée !<br />Veuillez activer javascript.',
     'CT_BAD_FIELD'      => 'La validation antiRobot a échouée !<br />Veuillez utiliser le formulaire.',
+    // nkUpload_check - Includes/nkUpload.php
+    'NO_UPLOADABLE_FILE' => 'Ce type de fichier n\'est pas autorisé !',
+    'UPLOAD_FILE_TOO_BIG' => 'Votre fichier est trop grand, uniquement les fichiers de moins de %d Ko sont autorisées',
+    'UPLOAD_IMAGE_TOO_BIG' => 'Votre image est trop grande, uniquement les images de moins de %d Ko sont autorisées',
+    'BAD_IMAGE_FORMAT'  => 'Mauvais format d\'image, uniquement les images aux formats jpg, png ou gif sont autorisées',
+    'UPLOAD_DIRECTORY_NO_EXIST' => 'Le dossier d\'upload n\'existe pas !',
+    'UPLOAD_DIRECTORY_NO_WRITEABLE' => 'Le dossier d\'upload n\'a pas les droits d\'écriture !',
+    'UPLOAD_FILE_FAILED' => 'Le Téléchargement du fichier a échoué !',
     // views/frontend/banishmentMessage.php
     'IP_BANNED'         => 'Vous avez été banni de ce site et n\'êtes donc plus autorisé à y accéder.',
     'REASON'            => 'Raison :',

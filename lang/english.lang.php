@@ -360,11 +360,6 @@ define("_NONICK","Please enter your nick !");
 define("_IMAGE","Picture");
 define("_STATS","Statistics");
 
-// nkUpload
-define("_UPLOADFILEFAILED","Upload file failed !");
-define("_NOIMAGEFILE","This file is not a valid image !");
-define("_UPLOADDIRNOWRITEABLE","The upload directory isn't writeable !");
-
 define("_NONE","None");
 
 return array(
@@ -463,6 +458,14 @@ return array(
     'CT_BAD_TOKEN'      => 'Bad token !<br />Please use the form.',
     'CT_BAD_JS'         => 'Javascript validation failed !<br /> Please enable javascript.',
     'CT_BAD_FIELD'      => 'NoBot validation failed !<br /> Please use the form.',
+    // nkUpload_check - Includes/nkUpload.php
+    'NO_UPLOADABLE_FILE' => 'This file type is not allowed !',
+    'UPLOAD_FILE_TOO_BIG' => 'Your file is too large, file size is limited to %d KB',
+    'UPLOAD_IMAGE_TOO_BIG' => 'Your image is too large, image size is limited to %d KB',
+    'BAD_IMAGE_FORMAT'   => 'Bad image file type!!! Only jpg, png or gif are authorized',
+    'UPLOAD_DIRECTORY_NO_EXIST' => 'The upload directory don\'t exist !',
+    'UPLOAD_DIRECTORY_NO_WRITEABLE' => 'The upload directory isn\'t writeable !',
+    'UPLOAD_FILE_FAILED' => 'Upload file failed !',
     // views/frontend/banishmentMessage.php
     'IP_BANNED'         => 'You are banned. The access of the website you had has been restrained.',
     'REASON'            => 'Reason :',

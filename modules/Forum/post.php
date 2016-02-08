@@ -89,9 +89,12 @@ function checkForumPostJoinedFile() {
         && $nuked['forum_file'] == 'on'
         && $_FILES['fichiernom']['name'] != ''
     ) {
-        list($filename, $uploadError) = nkUpload_check(
-            'fichiernom', 'no-html-php', 'upload/Forum', $nuked['forum_file_maxsize'], true
-        );
+        list($filename, $uploadError) = nkUpload_check('fichiernom', array(
+            'fileType'   => 'no-html-php',
+            'uploadDir'  => 'upload/Forum',
+            'fileSize'   => $nuked['forum_file_maxsize'],
+            'fileRename' => true
+        ));
 
         if ($uploadError !== false)
             return array('', $uploadError);

@@ -139,7 +139,6 @@ define("_NOVALIDUSER","Désolé ce compte n'a pas été encore validé.");
 define("_ALREADYVALID","Ce compte a déjà été validé.");
 define("_VALIDUSER","Votre compte est maintenant validé, vous pouvez vous identifiez dès à présent.");
 define("_BADFILEFORMAT","Mauvais format d'image, uniquement les images aux formats jpg, png ou gif sont autorisées");
-define("_FILETOOBIG","Votre image est trop grande, uniquement les images de moins de 100 Ko sont autorisées");
 define("_NEWUSERREGISTRATION","Nouveau Membre");
 define("_CANCEL","Annuler");
 define("_DELMYACCOUNT","Supprimer mon compte");

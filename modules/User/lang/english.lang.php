@@ -145,7 +145,6 @@ define("_ALREADYVALID","This account is already validated.");
 define("_VALIDUSER","Your account is now validated, you can login with your nickname and your password on our website.");
 
 define("_BADFILEFORMAT","Bad image file type!!! Only gif or jpg are authorized");
-define("_FILETOOBIG","Your image is too large, image size is limited to 100 KB");
 define("_NEWUSERREGISTRATION","New User Registration");
 define("_CANCEL","Cancel");
 define("_DELMYACCOUNT","Remove my account");
