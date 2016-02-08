@@ -1929,7 +1929,7 @@ function nkBenchmark_display() {
     global $nuked, $microTime;
 
     // TODO : Create a $nuked vars to display it
-    $nuked['sql_benchmark']= 'on';
+    $nuked['sql_benchmark'] = 'on';
 
     $line = array();
 

@@ -1,0 +1,13 @@
+.voteStar{
+    display:inline-block;
+    vertical-align:middle;
+}
+
+#nkVoteForm > div:first-child{
+    margin-top:40px;
+}
+
+#nkVoteForm > div{
+    text-align:center;
+    margin-bottom:15px;
+}

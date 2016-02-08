@@ -200,6 +200,24 @@ function nkCheckForm_checkValueType($field, $fieldData) {
             $_POST[$field] = '';
     }
 
+    if ($fieldData['dataType'] == 'numeric' && isset($fieldData['range'])) {
+        if (! is_array($fieldData['range']))
+            trigger_error('range field parameter must be a array !', E_USER_ERROR);
+
+        if (! isset($fieldData['range']['min']))
+            trigger_error('range field parameter must be have a min key !', E_USER_ERROR);
+
+        if (! isset($fieldData['range']['max']))
+            trigger_error('range field parameter must be have a max key !', E_USER_ERROR);
+
+        if ($_POST[$field] < $fieldData['range']['min'] && $_POST[$field] > $fieldData['range']['max']) {
+            printNotification(sprintf(__('NOT_VALID_RANGE_FIELD'),
+                $fieldData['label'], $fieldData['range']['min'], $fieldData['range']['max']), 'error');
+
+            return false;
+        }
+    }
+
     return true;
 }
 

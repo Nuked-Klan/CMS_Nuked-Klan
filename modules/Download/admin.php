@@ -181,7 +181,7 @@ function send_file() {
         if ($deja_file == 1) $message .= _DEJAFILE;
         if ($deja_screen == 1) $message .= '&nbsp;'. _DEJASCREEN;
 
-        $message .= '<br />'. _REPLACEIT
+        $message .= '<br />'. _REPLACEIT;
 
         printNotification($message, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     } else if ($url != "" && $titre != "") {

@@ -24,6 +24,8 @@ $GLOBALS['nkAction'] = array(
     'deleteConfirmation'        => null,
     'onlyEditDbTable'           => false,
     'onlyEdit'                  => false,
+    'onlyAdd'                   => false,
+    'editOp'                    => 'edit'
 );
 
 
@@ -307,7 +309,7 @@ function nkAction_commonEdit(&$form) {
         if (function_exists($addFormFunct = 'prepareFormForAdd'. $nkAction['ucf_dataName']))
             $addFormFunct($form);
     }
-    else {
+    else if (! $nkAction['onlyAdd']) {
         $form['action'] .= '&amp;id='. $nkAction['id'];
 
         $fields = $nkAction['getFieldsFunction']();
@@ -439,18 +441,18 @@ function nkAction_saveBackendSetting($form, $fields) {
 
     if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
         $form['token']['refererData'] = array(
-            nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit')
+            nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'])
         );
     }
 
     if (! nkCheckForm($form, $fields)) {
-        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit'), 2);
+        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp']), 2);
         return;
     }
 
     if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
         if (! $postCheckformValidationFunct()) {
-            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit'), 2);
+            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp']), 2);
             return;
         }
     }
@@ -518,7 +520,7 @@ function nkAction_commonSave($form, $fields) {
 
     if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
         $form['token']['refererData'] = array(
-            nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData)
+            nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'], $uriData)
         );
     }
 
@@ -529,13 +531,13 @@ function nkAction_commonSave($form, $fields) {
     $data = array();
 
     if (! nkCheckForm($form, $fields, $data)) {
-        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData), 2);
+        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'], $uriData), 2);
         return;
     }
 
     if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
         if (! $postCheckformValidationFunct()) {
-            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', $uriData), 2);
+            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'], $uriData), 2);
             return;
         }
     }
@@ -559,7 +561,7 @@ function nkAction_commonSave($form, $fields) {
         if ($nkTemplate['interface'] == 'backend')
             nkAction_saveUserAction('ADD_'. $tsKeyDataName, $data);
     }
-    else {
+    else if (! $nkAction['onlyAdd']) {
         if (function_exists($updateDataFunct = 'update'. $nkAction['ucf_dataName'] .'Data')) {
             $updateDataFunct($data);
         }
@@ -576,18 +578,25 @@ function nkAction_commonSave($form, $fields) {
     if (function_exists($postSaveDataFunct = 'postSave'. $nkAction['ucf_dataName'] .'Data'))
         $postSaveDataFunct($nkAction['id'], $data);
 
-    printNotification(nkAction_getSuccessMsg('save', $tsKeyDataName), 'success');
+    if ($nkTemplate['pageDesign'] == 'nudePage')
+        $notificationOptions = array('closeLink' => true, 'reloadOnClose' => true);
+    else
+        $notificationOptions = array();
 
-    if ($nkTemplate['interface'] == 'backend' && $nkAction['previewUrl'] !== null) {
-        setPreview($nkAction['previewUrl'], nkUrl_format($nkAction['moduleUriKey'], $file, $page));
-    }
-    else {
-        if (function_exists($getRedirectUrlFunct = 'get'. $nkAction['ucf_dataName'] .'RedirectUrl'))
-            $redirectUrl = $getRedirectUrlFunct();
-        else
-            $redirectUrl = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'index', $nkAction['uriData']);
+    printNotification(nkAction_getSuccessMsg('save', $tsKeyDataName), 'success', $notificationOptions);
 
-        redirect($redirectUrl, 2);
+    if ($nkTemplate['pageDesign'] == 'fullPage') {
+        if ($nkTemplate['interface'] == 'backend' && $nkAction['previewUrl'] !== null) {
+            setPreview($nkAction['previewUrl'], nkUrl_format($nkAction['moduleUriKey'], $file, $page));
+        }
+        else {
+            if (function_exists($getRedirectUrlFunct = 'get'. $nkAction['ucf_dataName'] .'RedirectUrl'))
+                $redirectUrl = $getRedirectUrlFunct();
+            else
+                $redirectUrl = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'index', $nkAction['uriData']);
+
+            redirect($redirectUrl, 2);
+        }
     }
 }
 
@@ -781,7 +790,7 @@ function nkAction_list() {
 
     if (isset($listCfg['edit']) && is_array($listCfg['edit'])) {
         if (! isset($listCfg['edit']['op']))
-            $listCfg['edit']['op'] = 'edit';
+            $listCfg['edit']['op'] = $nkAction['editOp'];
 
         if (! isset($listCfg['edit']['imgTitle']))
             $listCfg['edit']['imgTitle'] = nkAction_getActionTranslation($tsKeyDataName, 'EDIT_THIS_%s');
@@ -822,7 +831,7 @@ function nkAction_list() {
         if (! $nkAction['onlyEdit']) {
             $tsAddEntrie = nkAction_getActionTranslation($tsKeyDataName, 'ADD_%s');
 
-            $listCfg['footerLinks'][$tsAddEntrie] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'edit', array(), true);
+            $listCfg['footerLinks'][$tsAddEntrie] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'], array(), true);
         }
 
         if ($page == 'index')
