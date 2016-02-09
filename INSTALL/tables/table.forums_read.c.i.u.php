@@ -63,8 +63,9 @@ if ($process == 'install')
 if ($process == 'update') {
     // update 1.7.9 RC6
     if ($dbTable->fieldExist('id')) {
-        $dbTable->createTable($forumReadTableCfg);
-        $dbTable->setJqueryAjaxResponse('UPDATED');
+        $dbTable->dropTable()
+            ->createTable($forumReadTableCfg)
+            ->setJqueryAjaxResponse('UPDATED');
     }
 }
 

@@ -846,11 +846,12 @@ class process {
      * Generate and return table data list for install / update
      */
     private function _getProcessDataList() {
-        $result = array('processList' => array());
+        $result = array(
+            'processList'         => array(),
+            'tableWithForeignKey' => array()
+        );
 
-        if ($this->_session['process'] == 'install')
-            $result['tableWithForeignKey'] = array();
-        else if ($this->_session['process'] == 'update')
+        if ($this->_session['process'] == 'update')
             $result['checkIntegrity'] = array();
 
         $processFirstChr = substr($this->_session['process'], 0, 1);
@@ -865,11 +866,10 @@ class process {
                 if (in_array($processFirstChr, $tableFileData))
                     $result['processList'][] = $tableFile;
 
-                if ($this->_session['process'] == 'install') {
-                    if (in_array('fk', $tableFileData))
-                        $result['tableWithForeignKey'][] = $tableFile;
-                }
-                else if ($this->_session['process'] == 'update' ) {
+                if (in_array('fk', $tableFileData))
+                    $result['tableWithForeignKey'][] = $tableFile;
+
+                if ($this->_session['process'] == 'update' ) {
                     if (in_array('c', $tableFileData))
                         $result['checkIntegrity'][] = $tableFile;
 

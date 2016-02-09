@@ -50,7 +50,7 @@ $forumTopicsTableCfg = array(
 function updateForumsTopicsRow($updateList, $row, $vars) {
     $setFields = array();
 
-    if (in_array('UPDATE_NB_MESSAGE', $updateList)) {
+    if (in_array('UPDATE_NB_REPLIES', $updateList)) {
         $dbrForumMessages = $vars['db']->selectOne(
             'SELECT COUNT(*) AS `nbMessages`
             FROM `'. $vars['dbPrefix'] .'_forums_messages`
@@ -120,8 +120,11 @@ if ($process == 'install')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'addForeignKey') {
-    addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-    addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
+    if (! $dbTable->foreignKeyExist('FK_forumTopics_authorId'))
+        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
+
+    if (! $dbTable->foreignKeyExist('FK_forumTopics_author'))
+        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,16 +152,10 @@ if ($process == 'update') {
     if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_forums_threads'))
         $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_forums_threads` ENGINE=InnoDB;');
 
-    if (! $dbTable->foreignKeyExist('FK_forumTopics_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_forumTopics_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
-
     if (! $dbTable->fieldExist('nbReplies')) {
         $dbTable->addField('nbReplies', $forumTopicsTableCfg['fields']['nbReplies'])
             ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
-            ->setUpdateFieldData('UPDATE_NB_REPLY', 'nbReplies');
+            ->setUpdateFieldData('UPDATE_NB_REPLIES', 'nbReplies');
     }
 
     $dbTable->applyUpdateFieldListToData('id', 'updateForumsTopicsRow');

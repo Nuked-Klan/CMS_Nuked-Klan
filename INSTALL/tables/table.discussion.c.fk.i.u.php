@@ -120,8 +120,11 @@ if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'addForeignKey') {
-    addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-    addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
+    if (! $dbTable->foreignKeyExist('FK_discussion_authorId'))
+        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
+
+    if (! $dbTable->foreignKeyExist('FK_discussion_author'))
+        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,13 +146,6 @@ if ($process == 'update') {
         $dbTable->addField('author', $discussionTableCfg['fields']['author']);
         $dbTable->addFieldIndex('author');
     }
-
-    // TODO : Add them after update ?
-    if (! $dbTable->foreignKeyExist('FK_discussion_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_discussion_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 
     // Update BBcode
     // update 1.7.9 RC3

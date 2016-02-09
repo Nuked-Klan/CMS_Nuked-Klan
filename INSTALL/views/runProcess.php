@@ -6,13 +6,13 @@
                 var process = '<?php echo $process ?>',
                     dbPrefix = '<?php echo $db_prefix ?>',
                     processTableList = new Array('<?php echo implode('\',\'', $processDataList['processList']) ?>'),
-                    nbProcessTable = processTableList.length;
+                    nbProcessTable = processTableList.length,
+                    tableWithForeignKeyList = new Array('<?php echo implode('\',\'', $processDataList['tableWithForeignKey']) ?>'),
+                    nbTableWithForeignKey = tableWithForeignKeyList.length;
 <?php
     if ($process == 'install') :
 ?>
-                var tableWithForeignKeyList = new Array('<?php echo implode('\',\'', $processDataList['tableWithForeignKey']) ?>')
-                    nbTableWithForeignKey = tableWithForeignKeyList.length,
-                    processProgress = 100 / (nbProcessTable * 2 + nbTableWithForeignKey);
+                var processProgress = 100 / (nbProcessTable * 2 + nbTableWithForeignKey);
 <?php
     elseif ($process == 'update') :
 ?>
@@ -21,7 +21,7 @@
 
                     checkAndConvertCharsetAndCollationTableList = new Array('<?php echo implode('\',\'', $processDataList['checkAndConvertCharsetAndCollation']) ?>'),
                     nbCheckAndConvertCharsetAndCollationTable = checkAndConvertCharsetAndCollationTableList.length,
-                    processProgress = 100 / (nbProcessTable + nbCheckIntegrityTable + nbCheckAndConvertCharsetAndCollationTable);
+                    processProgress = 100 / (nbProcessTable + nbCheckIntegrityTable + nbCheckAndConvertCharsetAndCollationTable + nbTableWithForeignKey);
 <?php
     endif
 ?>

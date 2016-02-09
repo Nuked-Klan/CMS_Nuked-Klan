@@ -113,8 +113,11 @@ if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'addForeignKey') {
-    addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-    addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
+    if (! $dbTable->foreignKeyExist('FK_action_authorId'))
+        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
+
+    if (! $dbTable->foreignKeyExist('FK_action_author'))
+        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,13 +136,6 @@ if ($process == 'update') {
         $dbTable->addField('author', $actionTableCfg['fields']['author'])
             ->addFieldIndex('author');
     }
-
-    // TODO : Add them after update ?
-    if (! $dbTable->foreignKeyExist('FK_action_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_action_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 
     $dbTable->applyUpdateFieldListToData('id', 'updateActionRow');
 }

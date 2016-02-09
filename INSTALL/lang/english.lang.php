@@ -218,6 +218,8 @@ return array(
     #####################################
     'FORUM'                 => 'Forum',
     'TEST_FORUM'            => 'Test Forum',
+    'UPDATE_NB_THREAD'      => 'Update thread count in `%s` field of `%s` table',
+    'UPDATE_NB_MESSAGE'     => 'Update message count in `%s` field of `%s` table',
     'REMOVE_EDITOR'         => 'Remove editor',
     #####################################
     # tables/table.forums_cat.c.i.php
@@ -233,9 +235,9 @@ return array(
     'MODERATOR'             => 'Moderator',
     'ADMINISTRATOR'         => 'Administrator',
     #####################################
-    # table.forums_read.c.i.u.php
+    # table.forums_threads.c.fk.i.u.php
     #####################################
-    // TODO ADD_FORUM_READ_DATA
+    'UPDATE_NB_REPLIES'     => 'Update replies count in `%s` field of `%s` table',
     #####################################
     # tables/table.games.c.i.u.php
     #####################################

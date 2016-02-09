@@ -75,17 +75,24 @@ function writeComplete(endText) {
 }
 
 function setNextCurrentProcess() {
-    if (currentSubProcess == 'dropTable') {
-        currentSubProcess = 'createTable';
+    if (process == 'install') {
+        if (currentSubProcess == 'dropTable') {
+            currentSubProcess = 'createTable';
+        }
+        else if (currentSubProcess == 'createTable') {
+            currentSubProcess = 'addForeignKeyOfTable';
+        }
     }
-    else if (currentSubProcess == 'createTable') {
-        currentSubProcess = 'addForeignKeyOfTable';
-    }
-    else if (currentSubProcess == 'checkIntegrity') {
-        currentSubProcess = 'checkAndConvertCharsetAndCollation';
-    }
-    else if (currentSubProcess == 'checkAndConvertCharsetAndCollation') {
-        currentSubProcess = 'updateTable';
+    else if (process == 'update') {
+        if (currentSubProcess == 'checkIntegrity') {
+            currentSubProcess = 'checkAndConvertCharsetAndCollation';
+        }
+        else if (currentSubProcess == 'checkAndConvertCharsetAndCollation') {
+            currentSubProcess = 'updateTable';
+        }
+        else if (currentSubProcess == 'updateTable') {
+            currentSubProcess = 'addForeignKeyOfTable';
+        }
     }
 }
 

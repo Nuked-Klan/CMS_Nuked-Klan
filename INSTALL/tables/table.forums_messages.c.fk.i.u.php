@@ -118,8 +118,11 @@ if ($process == 'install')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'addForeignKey') {
-    addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-    addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
+    if (! $dbTable->foreignKeyExist('FK_forumMessages_authorId'))
+        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
+
+    if (! $dbTable->foreignKeyExist('FK_forumMessages_author'))
+        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,12 +153,6 @@ if ($process == 'update') {
 
     if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_forums_messages'))
         $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_forums_messages` ENGINE=InnoDB;');
-
-    if (! $dbTable->foreignKeyExist('FK_forumMessages_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_forumMessages_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 
     // Update BBcode
     // update 1.7.9 RC1

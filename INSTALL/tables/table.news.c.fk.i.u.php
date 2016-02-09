@@ -117,8 +117,11 @@ if ($process == 'install')
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'addForeignKey') {
-    addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-    addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
+    if (! $dbTable->foreignKeyExist('FK_news_authorId'))
+        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
+
+    if (! $dbTable->foreignKeyExist('FK_news_author'))
+        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +132,7 @@ if ($process == 'update') {
     // install / update 1.8
     if ($dbTable->fieldExist('auteur')) {
         if ($dbTable->getFieldType('auteur') != 'varchar(30)' || $dbTable->checkFieldIsNull('auteur'))
-            $dbTable->modifyField('auteur', $newsTableCfg['fields']['autor']);
+            $dbTable->modifyField('auteur', $newsTableCfg['fields']['auteur']);
 
         if (! $dbTable->checkFieldIsIndex('auteur'))
             $dbTable->addFieldIndex('auteur');
@@ -145,12 +148,6 @@ if ($process == 'update') {
 
     if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_news'))
         $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_news` ENGINE=InnoDB;');
-
-    if (! $dbTable->foreignKeyExist('FK_news_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_news_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
 
     if (! $dbTable->fieldExist('coverage'))
         $dbTable->addField('coverage', $newsTableCfg['fields']['coverage']);
