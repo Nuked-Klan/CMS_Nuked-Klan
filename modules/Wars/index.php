@@ -601,7 +601,12 @@ function detail($war_id){
 
     echo '</table><br />';
 
-    $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'wars\' ');
+    $sql = mysql_query(
+        'SELECT active
+        FROM '. COMMENT_MODULES_TABLE .'
+        WHERE module = \'wars\''
+    );
+
     list($active) = mysql_fetch_array($sql);
 
     if($active ==1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1){

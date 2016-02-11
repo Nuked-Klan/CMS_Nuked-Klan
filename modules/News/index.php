@@ -129,7 +129,12 @@ function index_comment($news_id) {
 
     index();
 
-    $sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
+    $sql = mysql_query(
+        'SELECT active
+        FROM '. COMMENT_MODULES_TABLE .'
+        WHERE module = \'news\''
+    );
+
     $row = mysql_fetch_array($sql);
 
     if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
@@ -153,7 +158,12 @@ function suite($news_id) {
 
     index();
 
-    $sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
+    $sql = mysql_query(
+        'SELECT active
+        FROM '. COMMENT_MODULES_TABLE .'
+        WHERE module = \'news\''
+    );
+
     $row = mysql_fetch_array($sql);
 
     if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {

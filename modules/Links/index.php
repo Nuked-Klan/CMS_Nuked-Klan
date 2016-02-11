@@ -284,7 +284,12 @@ function description($link_id){
         echo '</table>'."\n"
         . '<div style="text-align: center"><br /><input type="button" value="' . _VISITTHISSITE . '" onclick="window.open(\'index.php?file=Links&amp;op=do_link&amp;link_id=' . $link_id . '\')" /></div><br />';
 
-        $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'links\'');
+        $sql = mysql_query(
+            'SELECT active
+            FROM '. COMMENT_MODULES_TABLE .'
+            WHERE module = \'links\''
+        );
+
         list($active) = mysql_fetch_array($sql);
 
         if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1){

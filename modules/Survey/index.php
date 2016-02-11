@@ -192,7 +192,12 @@ function affich_res($poll_id) {
         echo "</table><table style=\"margin-left: auto;margin-right: auto;text-align: left;width:90%;\" border=\"0\">\n"
         . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _TOTALVOTE . " : </b>" . $nbcount . "</td></tr>\n";
 
-        $sql = mysql_query('SELECT active FROM ' . $nuked['prefix'] . '_comment_mod WHERE module = \'survey\'');
+        $sql = mysql_query(
+            'SELECT active
+            FROM '. COMMENT_MODULES_TABLE .'
+            WHERE module = \'survey\''
+        );
+
         list($active) = mysql_fetch_array($sql);
 
         if ($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {

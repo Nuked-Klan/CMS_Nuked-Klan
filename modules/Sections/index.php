@@ -320,7 +320,12 @@ function article($artid){
 
     echo "<br /><div style=\"text-align: center;\">" . $previous_page. "&nbsp;&nbsp;" . $next_page . "</div></td></tr></table><br />\n";
 
-    $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'sections'");
+    $sql = mysql_query(
+        'SELECT active
+        FROM '. COMMENT_MODULES_TABLE .'
+        WHERE module = \'sections\''
+    );
+
     list($active) = mysql_fetch_array($sql);
 
     if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1){

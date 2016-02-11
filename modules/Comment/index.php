@@ -17,7 +17,7 @@ translate('modules/Comment/lang/'. $language .'.lang.php');
 
 
 /**
- * Check if comment is enabled and parent Id of module exist.
+ * Check if parent Id of module exist.
  *
  * @param string $module : The name of parent module.
  * @param int $imId : The parent Id of module.
@@ -27,27 +27,19 @@ function checkCommentStatus($module, $imId) {
     if (! empty($module) && preg_match('/^[A-Za-z_]+$/', $module)) {
         if ($module == 'match') $module = 'Wars';
 
-        $dbrCommentMod = nkDB_selectOne(
-            'SELECT active
-            FROM '. COMMENT_MODULES_TABLE .'
-            WHERE module = '. nkDB_escape(strtolower($module))
+        $tableConstName = strtoupper($module) .'_TABLE';
+
+        if (defined($tableConstName .'_ID'))
+            $tableIdName = constant($tableConstName .'_ID');
+        else
+            $tableIdName = 'id';
+
+        $nbComment = nkDB_totalNumRows(
+            'FROM '. nkDB_escape(constant($tableConstName), true) .'
+            WHERE '. nkDB_escape($tableIdName, true) .' = '. intval($imId)
         );
 
-        if ($dbrCommentMod && $dbrCommentMod['active'] == 1) {
-            $tableConstName = strtoupper($module) .'_TABLE';
-
-            if (defined($tableConstName .'_ID'))
-                $tableIdName = constant($tableConstName .'_ID');
-            else
-                $tableIdName = 'id';
-
-            $nbComment = nkDB_totalNumRows(
-                'FROM '. nkDB_escape(constant($tableConstName), true) .'
-                WHERE '. nkDB_escape($tableIdName, true) .' = '. intval($imId)
-            );
-
-            return ($nbComment > 0);
-        }
+        return ($nbComment > 0);
     }
 
     return false;

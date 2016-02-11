@@ -401,7 +401,12 @@ function description($dl_id) {
         echo "</table>\n"
             . "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _DOWNFILE . "\" onclick=\"javascript:window.open('index.php?file=Download&amp;op=popup&amp;dl_id=" . $dl_id . "','download','toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=360,height=200,top=30,left=0')\" /></div><br />\n";
 
-        $sql = mysql_query("SELECT active FROM " . $nuked['prefix'] . "_comment_mod WHERE module = 'download'");
+        $sql = mysql_query(
+            'SELECT active
+            FROM '. COMMENT_MODULES_TABLE .'
+            WHERE module = \'download\''
+        );
+
         list($active) = mysql_fetch_array($sql);
 
         if($active == 1  && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
