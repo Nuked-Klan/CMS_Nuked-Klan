@@ -387,7 +387,15 @@ function description($dl_id) {
 
         echo "<tr style=\"background: " . $bgcolor2 . ";\"><td>&nbsp;</td></tr>";
 
-        if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
+        $sql = mysql_query(
+            'SELECT active
+            FROM '. VOTE_MODULES_TABLE .'
+            WHERE module = \'download\''
+        );
+
+        list($active) = mysql_fetch_array($sql);
+
+        if ($active == 1  && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1) {
             echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
             vote_index("Download", $dl_id);
             echo "</td></tr>\n";
@@ -605,13 +613,23 @@ function classe()
                     . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _CAT . " :</b> " . $category . "</td></tr>\n"
                     . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _SIZE . " :</b> " . $taille . "</td></tr>\n"
                     . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _FILECOMMENT . " :</b> " . $nb_comment . "</td></tr>\n"
-                    . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
-                    . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»\n";
+                    . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n";
 
-                vote_index("Download", $dl_id);
+                    $sql = mysql_query(
+                        'SELECT active
+                        FROM '. VOTE_MODULES_TABLE .'
+                        WHERE module = \'download\''
+                    );
 
-                echo "</td></tr>\n"
-                    . "</td></tr></table>\n"
+                    list($active) = mysql_fetch_array($sql);
+
+                    if ($active == 1  && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1) {
+                        echo "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»\n";
+                        vote_index("Download", $dl_id);
+                        echo "</td></tr>\n";
+                    }
+
+                echo "</td></tr></table>\n"
                     . "</td></tr></table><br />\n";
             }
 

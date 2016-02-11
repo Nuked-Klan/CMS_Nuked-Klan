@@ -273,7 +273,15 @@ function description($link_id){
 
         echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _VISIT . ' :</b> ' . $count . '&nbsp;' . _TIMES . '</td></tr>'."\n";
 
-        if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
+        $sql = mysql_query(
+            'SELECT active
+            FROM '. VOTE_MODULES_TABLE .'
+            WHERE module = \'links\''
+        );
+
+        list($active) = mysql_fetch_array($sql);
+
+        if($active == 1 && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
             echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '">';
             vote_index('Links', $link_id);
             echo '</td></tr>'."\n";

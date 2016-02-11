@@ -89,7 +89,7 @@ function checkVoteAccess() {
 }
 
 /**
- * Check if vote is disabled for his module and if module data exist.
+ * Check if module data exist.
  *
  * @param string $module : The name of module.
  * @param int $imId : The ID of module data join to vote data.
@@ -97,34 +97,23 @@ function checkVoteAccess() {
  */
 function checkVoteStatus($module, $imId) {
     if (! empty($module) && preg_match('/^[A-Za-z_]+$/', $module)) {
-        $dbrVoteModules = nkDB_selectOne(
-            'SELECT active
-            FROM '. VOTE_MODULES_TABLE .'
-            WHERE module = '. nkDB_escape(strtolower($module))
+        $tableConstName = strtoupper($module) .'_TABLE';
+
+        if (defined($tableConstName .'_ID'))
+            $tableIdName = constant($tableConstName .'_ID');
+        else
+            $tableIdName = 'id';
+
+        $nbVoteModuleData = nkDB_totalNumRows(
+            'FROM '. nkDB_escape(constant($tableConstName), true) .'
+            WHERE '. nkDB_escape($tableIdName, true) .' = '. intval($imId)
         );
 
-        if ($dbrVoteModules && $dbrVoteModules['active'] == 1) {
-            $tableConstName = strtoupper($module) .'_TABLE';
-
-            if (defined($tableConstName .'_ID'))
-                $tableIdName = constant($tableConstName .'_ID');
-            else
-                $tableIdName = 'id';
-
-            $nbVoteModuleData = nkDB_totalNumRows(
-                'FROM '. nkDB_escape(constant($tableConstName), true) .'
-                WHERE '. nkDB_escape($tableIdName, true) .' = '. intval($imId)
-            );
-
-            if ($nbVoteModuleData > 0) {
-                return true;
-            }
-            else {
-                // vote don't exist
-            }
+        if ($nbVoteModuleData > 0) {
+            return true;
         }
         else {
-            // vote disable for this module
+            // vote don't exist
         }
     }
     else {
