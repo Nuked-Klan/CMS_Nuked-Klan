@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_gallery');
+$dbTable->setTable(GALLERY_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -43,7 +43,7 @@ $galleryTableCfg = array(
 /*
  * Callback function for update row of gallery database table
  */
-function updateGalleryRow($updateList, $row, $vars) {
+function updateGalleryDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -94,7 +94,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'description');
     }
 
-    $dbTable->applyUpdateFieldListToData('sid', 'updateGalleryRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

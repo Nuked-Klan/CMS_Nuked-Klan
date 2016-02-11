@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_config');
+$dbTable->setTable(CONFIG_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -32,9 +32,11 @@ $configTableCfg = array(
 /*
  * Return configuration stored in config table
  */
-function getConfiguration($db, $dbPrefix) {
+function getConfiguration() {
+    global $db;
+
     $sql = 'SELECT name, value
-        FROM `'. $dbPrefix .'_config`';
+        FROM `'. CONFIG_TABLE .'`';
 
     $dbsConfig = $db->selectMany($sql);
 
@@ -71,7 +73,9 @@ function setDateConfig($language, &$cfg) {
 /*
  * Add a new default value in configuration if missing
  */
-function addDefaultCfgValue($nuked, &$insertData, $name, $default = '') {
+function addDefaultCfgValue($name, $default = '') {
+    global $nuked, $insertData;
+
     if (! array_key_exists($name, $nuked))
         $insertData[$name] = $default;
 }
@@ -79,21 +83,25 @@ function addDefaultCfgValue($nuked, &$insertData, $name, $default = '') {
 /*
  * Delete value in configuration
  */
-function deleteCfgValue($name, &$deleteData) {
+function deleteCfgValue($name) {
+    global $deleteData;
+
     $deleteData[] = $name;
 }
 
 /*
  * Update configuration
  */
-function updateConfiguration($dbTable, $db, $dbPrefix, $insertData, $updateData, $deleteData) {
+function updateConfiguration() {
+    global $dbTable, $db, $insertData, $updateData, $deleteData;
+
     if (! empty($insertData)) {
         $values = array();
 
         foreach ($insertData as $name => $value)
             $values[] = '(\''. $db->quote($name) .'\', \''. $db->quote($value) .'\')';
 
-        $sql = 'INSERT INTO `'. $dbPrefix .'_config`
+        $sql = 'INSERT INTO `'. CONFIG_TABLE .'`
             (`name`, `value`) VALUES '. implode(', ', $values);
 
         $dbTable->insertData(array('ADD_CONFIG', implode('`, `', array_keys($insertData))), $sql);
@@ -101,7 +109,7 @@ function updateConfiguration($dbTable, $db, $dbPrefix, $insertData, $updateData,
 
     if (! empty($updateData)) {
         foreach ($updateData as $name => $value) {
-            $sql = 'UPDATE `'. $dbPrefix .'_config`
+            $sql = 'UPDATE `'. CONFIG_TABLE .'`
                 SET value = \''. $db->quote($value) .'\'
                 WHERE name = \''. $db->quote($name) .'\'';
 
@@ -111,7 +119,7 @@ function updateConfiguration($dbTable, $db, $dbPrefix, $insertData, $updateData,
 
     if (! empty($deleteData)) {
         foreach ($deleteData as $k => $name) {
-            $sql = 'DELETE FROM `'. $dbPrefix .'_config`
+            $sql = 'DELETE FROM `'. CONFIG_TABLE .'`
                 WHERE name = \''. $db->quote($name) .'\'';
 
             $dbTable->deleteData(array('DELETE_CONFIG', $name), $sql);
@@ -159,7 +167,7 @@ if ($process == 'install') {
 
     $shareStats = ($this->_session['stats'] == 'no') ? 0 : 1;
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_config` VALUES
+    $sql = 'INSERT INTO `'. CONFIG_TABLE .'` VALUES
         (\'time_generate\', \'on\'),
         (\'dateformat\', \''. $dateCfg['dateformat'].'\'),
         (\'datezone\', \''. $dateCfg['datezone'] .'\'),
@@ -273,13 +281,15 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
+    global $nuked, $insertData, $updateData, $deleteData;
+
     $insertData = $updateData = $deleteData = array();
 
-    $nuked = getConfiguration($this->_db, $this->_session['db_prefix']);
+    $nuked = getConfiguration();
 
     // used in 1.7.9 RC1, 1.7.9 RC2 & 1.7.9 RC3
     if (array_key_exists('cron_exec', $nuked))
-        deleteCfgValue('cron_exec', $deleteData);
+        deleteCfgValue('cron_exec');
 
     // install / update 1.7.6
     if ($this->_session['version'] == '1.7.6' && $nuked['level_analys'] == 0)
@@ -290,11 +300,11 @@ if ($process == 'update') {
         $updateData['theme'] = 'Restless';
 
     // install / update 1.7.9 RC2
-    addDefaultCfgValue($nuked, $insertData, 'screen', 'on');
+    addDefaultCfgValue('screen', 'on');
 
     // install / update 1.7.9 RC3
-    addDefaultCfgValue($nuked, $insertData, 'contact_mail', $nuked['mail']);
-    addDefaultCfgValue($nuked, $insertData, 'contact_flood', '60');
+    addDefaultCfgValue('contact_mail', $nuked['mail']);
+    addDefaultCfgValue('contact_flood', '60');
 
     // update 1.7.9 RC6
     // Update bbcode
@@ -331,9 +341,9 @@ if ($process == 'update') {
         }
     }
 
-    addDefaultCfgValue($nuked, $insertData, 'time_generate', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'video_editeur', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'scayt_editeur', 'on');
+    addDefaultCfgValue('time_generate', 'on');
+    addDefaultCfgValue('video_editeur', 'on');
+    addDefaultCfgValue('scayt_editeur', 'on');
 
     // quakenet.eu.org : 1.7.x =>
     // quakenet.org : install 1.7.9 RC5 / UPDATE 1.7.9 RC2
@@ -342,34 +352,38 @@ if ($process == 'update') {
         $updateData['irc_serv'] = 'noxether.net';
 
     // install / update 1.8
-    // TODO forum_rank_team = on ?
-    addDefaultCfgValue($nuked, $insertData, 'forum_image', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'forum_cat_image', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'forum_birthday', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'forum_gamer_details', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'forum_user_details', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'forum_labels_active', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'forum_display_modos', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'textbox_avatar', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'user_email', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_icq', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_msn', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_aim', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_yim', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_xfire', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_facebook', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'user_origin', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_steam', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_twitter', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'user_skype', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'user_website', 'on');
-    addDefaultCfgValue($nuked, $insertData, 'user_social_level', 0);
-    addDefaultCfgValue($nuked, $insertData, 'sp_version', 'off');
-    addDefaultCfgValue($nuked, $insertData, 'index_page', '');
-    addDefaultCfgValue($nuked, $insertData, 'editor_type', 'cke');
-    addDefaultCfgValue($nuked, $insertData, 'rssFeed', 'news|sections|download|links|gallery|forum');
+    $shareStats = ($this->_session['stats'] == 'no') ? 0 : 1;
 
-    updateConfiguration($dbTable, $this->_db, $this->_session['db_prefix'], $insertData, $updateData, $deleteData);
+    // TODO forum_rank_team = on ?
+    addDefaultCfgValue('forum_image', 'on');
+    addDefaultCfgValue('forum_cat_image', 'on');
+    addDefaultCfgValue('forum_birthday', 'on');
+    addDefaultCfgValue('forum_gamer_details', 'on');
+    addDefaultCfgValue('forum_user_details', 'on');
+    addDefaultCfgValue('forum_labels_active', 'on');
+    addDefaultCfgValue('forum_display_modos', 'on');
+    addDefaultCfgValue('textbox_avatar', 'on');
+    addDefaultCfgValue('user_email', 'off');
+    addDefaultCfgValue('user_icq', 'off');
+    addDefaultCfgValue('user_msn', 'off');
+    addDefaultCfgValue('user_aim', 'off');
+    addDefaultCfgValue('user_yim', 'off');
+    addDefaultCfgValue('user_xfire', 'off');
+    addDefaultCfgValue('user_facebook', 'on');
+    addDefaultCfgValue('user_origin', 'off');
+    addDefaultCfgValue('user_steam', 'off');
+    addDefaultCfgValue('user_twitter', 'off');
+    addDefaultCfgValue('user_skype', 'on');
+    addDefaultCfgValue('user_website', 'on');
+    addDefaultCfgValue('user_social_level', 0);
+    addDefaultCfgValue('sp_version', 'off');
+    addDefaultCfgValue('index_page', '');
+    addDefaultCfgValue('editor_type', 'cke');
+    addDefaultCfgValue('rssFeed', 'news|sections|download|links|gallery|forum');
+    addDefaultCfgValue('stats_share', $shareStats);
+    addDefaultCfgValue('stats_timestamp', 0);
+
+    updateConfiguration();
 }
 
 ?>

@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_users');
+$dbTable->setTable(USER_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -42,7 +42,7 @@ $usersTableCfg = array(
         'niveau'      => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
         'date'        => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
         'avatar'      => array('type' => 'varchar(100)', 'null' => false, 'default' => '\'\''),
-        'signature'   => array('type' => 'text',         'null' => false),
+        'signature'   => array('type' => 'text',         'null' => true),
         'user_theme'  => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
         'user_langue' => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
         'game'        => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
@@ -69,9 +69,9 @@ $usersTableCfg = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
- * Callback function for update row of user database table
+ * Callback function for update row of users database table
  */
-function updateUserRow($updateList, $row, $vars) {
+function updateUsersDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('UPDATE_PASSWORD', $updateList))
@@ -129,11 +129,16 @@ if ($process == 'update') {
     }
 
     // install / update 1.8
-    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_users'))
-        $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_users` ENGINE=InnoDB;');
+    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(USER_TABLE) == 'MyISAM')
+        $this->_db->execute('ALTER TABLE `'. USER_TABLE .'` ENGINE=InnoDB;');
 
-    if ($dbTable->fieldExist('pseudo') && $dbTable->getFieldType('pseudo') != 'varchar(30)')
-        $dbTable->modifyField('pseudo', $usersTableCfg['fields']['pseudo']);
+    if ($dbTable->fieldExist('pseudo')) {
+        if ($dbTable->getFieldType('pseudo') != 'varchar(30)')
+            $dbTable->modifyField('pseudo', $usersTableCfg['fields']['pseudo']);
+
+        if (! $dbTable->checkFieldIsIndex('pseudo'))
+            $dbTable->addFieldIndex('pseudo');
+    }
 
     if (! $dbTable->fieldExist('xfire'))
         $dbTable->addField('xfire', $usersTableCfg['fields']['xfire']);
@@ -153,9 +158,12 @@ if ($process == 'update') {
     if (! $dbTable->fieldExist('skype'))
         $dbTable->addField('skype', $usersTableCfg['fields']['skype']);
 
+    if ($dbTable->fieldExist('signature') && ! $dbTable->checkFieldIsNull('signature'))
+        $dbTable->modifyField('signature', $usersTableCfg['fields']['signature']);
+
     if (! isset($this->_session['updateUserPassword'])) {
         $sql = 'SELECT pass
-            FROM `'. $this->_session['db_prefix'] .'_users`
+            FROM `'. USER_TABLE .'`
             ORDER BY RAND()
             LIMIT 1';
 
@@ -179,7 +187,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'signature');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateUserRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

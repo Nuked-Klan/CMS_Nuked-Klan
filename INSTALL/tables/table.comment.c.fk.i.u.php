@@ -10,7 +10,9 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_comment');
+$dbTable->setTable(COMMENT_TABLE);
+
+require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -44,35 +46,22 @@ $commentTableCfg = array(
 /*
  * Callback function for update row of comment database table
  */
-function updateCommentRow($updateList, $row, $vars) {
+function updateCommentDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
         $setFields['comment'] = $vars['bbcode']->apply(stripslashes($row['comment']));
 
+    if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
+        $userData = getUserData($row['autor_id']);
+
+        if ($userData === false)
+            $setFields['autor_id'] = null;
+        else
+            $setFields['autor'] = $userData['pseudo'];
+    }
+
     return $setFields;
-}
-
-/*
- * Add author Id foreign key of comment database table
- */
-function addAuthorIdForeignKey($dbTable, $dbprefix) {
-    $dbTable->addForeignKey(
-        'FK_comment_authorId', 'autor_id',
-        $dbprefix .'_users', 'id',
-        array('ON DELETE SET NULL')
-    );
-}
-
-/*
- * Add author Id foreign key of comment database table
- */
-function addAuthorForeignKey($dbTable, $dbprefix) {
-    $dbTable->addForeignKey(
-        'FK_comment_author', 'autor',
-        $dbprefix .'_users', 'pseudo',
-        array('ON UPDATE CASCADE')
-    );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,18 +96,6 @@ if ($process == 'install')
     $dbTable->createTable($commentTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Add foreign key of table
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-if ($process == 'addForeignKey') {
-    if (! $dbTable->foreignKeyExist('FK_comment_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_comment_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,7 +107,8 @@ if ($process == 'update') {
     // install / update 1.8
     if ($dbTable->fieldExist('autor')) {
         if ($dbTable->getFieldType('autor') != 'varchar(30)' || $dbTable->checkFieldIsNull('autor'))
-            $dbTable->modifyField('autor', $commentTableCfg['fields']['autor']);
+            $dbTable->modifyField('autor', $commentTableCfg['fields']['autor'])
+                ->setUpdateFieldData('UPDATE_AUTHOR_DATA', array('autor', 'autor_id'));
 
         if (! $dbTable->checkFieldIsIndex('autor'))
             $dbTable->addFieldIndex('autor');
@@ -144,8 +122,8 @@ if ($process == 'update') {
             $dbTable->addFieldIndex('autor_id');
     }
 
-    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_comment'))
-        $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_comment` ENGINE=InnoDB;');
+    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(COMMENT_TABLE) == 'MyISAM')
+        $this->_db->execute('ALTER TABLE `'. COMMENT_TABLE .'` ENGINE=InnoDB;');
 
     // Update BBcode
     if (version_compare($this->_session['version'], '1.7.9', '<=')) {
@@ -153,7 +131,19 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'comment');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateCommentRow');
+    $dbTable->applyUpdateFieldListToData();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Add foreign key of table
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'addForeignKey') {
+    if (! $dbTable->foreignKeyExist('FK_comment_authorId'))
+        addAuthorIdForeignKey('comment', 'autor_id');
+
+    if (! $dbTable->foreignKeyExist('FK_comment_author'))
+        addAuthorForeignKey('comment', 'autor');
 }
 
 ?>

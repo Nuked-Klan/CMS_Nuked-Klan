@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_notification');
+$dbTable->setTable(NOTIFICATIONS_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -50,7 +50,7 @@ if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
     $dbTable->createTable($notificationTableCfg);
 
     if (ini_get('suhosin.session.encrypt') == 1) {
-        $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_notification` VALUES
+        $sql = 'INSERT INTO `'. NOTIFICATIONS_TABLE .'` VALUES
             (\'\', \'\', \'4\', \''. $this->_db->quote($this->_i18n['SUHOSIN']) .'\');';
 
         $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);

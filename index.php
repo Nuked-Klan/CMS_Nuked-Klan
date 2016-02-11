@@ -35,10 +35,11 @@ if ($nuked['time_generate'] == 'on')
 if(ini_get('set_error_handler')) set_error_handler('erreursql');
 
 
-if ($nuked['stats_share'] == 1 && isset($_GET['ajax']) && $_GET['ajax'] == 'sendNkStats') {
+if ($nuked['stats_share'] == 1) {
     require_once 'Includes/nkStats.php';
 
-    nkStats_send();
+    if (isset($_GET['ajax']) && $_GET['ajax'] == 'sendNkStats')
+        nkStats_send();
 }
 
 

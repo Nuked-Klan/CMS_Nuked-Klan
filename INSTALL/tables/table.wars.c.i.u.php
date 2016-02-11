@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_match');
+$dbTable->setTable(WARS_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -54,7 +54,7 @@ $matchTableCfg = array(
 /*
  * Callback function for update row of match database table
  */
-function updateMatchRow($updateList, $row, $vars) {
+function updateWarsDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('UPDATE_FIELD map', $updateList))
@@ -137,7 +137,7 @@ if ($process == 'update') {
     if (! $dbTable->fieldExist('image_adv'))
         $dbTable->addField('image_adv', $matchTableCfg['fields']['image_adv']);
 
-    $dbTable->applyUpdateFieldListToData('warid', 'updateMatchRow');
+    $dbTable->applyUpdateFieldListToData();
 
     if (($response = $dbTable->getJqueryAjaxResponse()) == 'UPDATED') {
         if ($dbTable->fieldExist('map_1'))

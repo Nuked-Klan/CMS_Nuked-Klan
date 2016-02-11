@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_contact');
+$dbTable->setTable(CONTACT_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -40,7 +40,7 @@ $contactTableCfg = array(
 /*
  * Callback function for update row of contact database table
  */
-function updateContactRow($updateList, $row, $vars) {
+function updateContactDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -54,8 +54,12 @@ function updateContactRow($updateList, $row, $vars) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'checkIntegrity') {
-    if ($dbTable->tableExist())
+    if ($process == 'checkIntegrity' && $dbTable->tableExist()) {
+        // 
         $dbTable->checkIntegrity('id', 'message', 'ip');
+    }
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CHECK_INTEGRITY');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +108,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'message');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateContactRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

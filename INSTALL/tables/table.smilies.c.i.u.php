@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_smilies');
+$dbTable->setTable(SMILIES_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -58,7 +58,7 @@ if ($process == 'install') {
     $dbTable->createTable($smiliesTableCfg);
 
     // TODO : Traduction ?
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_smilies` VALUES
+    $sql = 'INSERT INTO `'. SMILIES_TABLE .'` VALUES
         (1, \':D\', \'biggrin.gif\', \'Very Happy\'),
         (2, \':)\', \'smile.gif\', \'Smile\'),
         (3, \':(\', \'frown.gif\', \'Sad\'),
@@ -82,7 +82,7 @@ if ($process == 'update') {
     // TODO Preciser la version
     // update 1.7.9
     $sql = 'SELECT id, code
-        FROM `'. $this->_session['db_prefix'] .'_smilies`
+        FROM `'. SMILIES_TABLE .'`
         WHERE code LIKE \'%\\\'%\'';
 
     $dbsSmilies = $this->_db->selectMany($sql);
@@ -91,7 +91,7 @@ if ($process == 'update') {
 
     foreach ($dbsSmilies as $row) {
         $i++;
-        $sql = 'UPDATE `'. $this->_session['db_prefix'] .'_smilies`
+        $sql = 'UPDATE `'. SMILIES_TABLE .'`
             SET code = \'#smiley'. $i .'#\'
             WHERE id = \''. $row['id'] .'\'';
 

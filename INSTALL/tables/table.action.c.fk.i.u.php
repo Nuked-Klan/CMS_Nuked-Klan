@@ -10,7 +10,9 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_action');
+$dbTable->setTable(ACTION_TABLE);
+
+require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -19,7 +21,7 @@ $dbTable->setTable($this->_session['db_prefix'] .'_action');
 $actionTableCfg = array(
     'fields' => array(
         'id'       => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
-        'date'     => array('type' => 'varchar(30)', 'null' => false,  'default' => '\'0\''),
+        'date'     => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'0\''),
         'author'   => array('type' => 'varchar(30)', 'null' => false),
         'authorId' => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
         'action'   => array('type' => 'text',        'null' => false)
@@ -39,51 +41,32 @@ $actionTableCfg = array(
 /*
  * Callback function for update row of action database table
  */
-function updateActionRow($updateList, $row, $vars) {
+function updateActionDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
-    if (in_array('UPDATE_AUTHOR', $updateList)) {
-        $dbrUsers = $vars['db']->selectOne(
-            'SELECT `pseudo`
-            FROM `'. $vars['dbPrefix'] .'_users`
-            WHERE id = '. $row['authorId']
-        );
+    if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
+        $userData = getUserData($row['authorId']);
 
-        $setFields['author'] = $dbrUsers['pseudo'];
+        if ($userData === false)
+            $setFields['authorId'] = null;
+        else
+            $setFields['author'] = $userData['pseudo'];
     }
 
     return $setFields;
-}
-
-/*
- * Add author Id foreign key of action database table
- */
-function addAuthorIdForeignKey($dbTable, $dbPrefix) {
-    $dbTable->addForeignKey(
-        'FK_action_authorId', 'authorId',
-        $dbPrefix .'_users', 'id',
-        array('ON DELETE SET NULL')
-    );
-}
-
-/*
- * Add author Id foreign key of action database table
- */
-function addAuthorForeignKey($dbTable, $dbPrefix) {
-    $dbTable->addForeignKey(
-        'FK_action_author', 'author',
-        $dbPrefix .'_users', 'pseudo',
-        array('ON UPDATE CASCADE')
-    );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'checkIntegrity' && $dbTable->tableExist()) {
-    // table and field exist in 1.7.9 RC1 version
-    $dbTable->checkIntegrity('id', array('pseudo', null));
+if ($process == 'checkIntegrity') {
+    if ($process == 'checkIntegrity' && $dbTable->tableExist()) {
+        // table and field exist in 1.7.9 RC1 version
+        $dbTable->checkIntegrity('id', array('pseudo', null));
+    }
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CHECK_INTEGRITY');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,19 +88,10 @@ if ($process == 'drop' && $dbTable->tableExist())
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // install /update 1.7.9 RC1
-if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
+if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
     $dbTable->createTable($actionTableCfg);
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Add foreign key of table
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-if ($process == 'addForeignKey') {
-    if (! $dbTable->foreignKeyExist('FK_action_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_action_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
+    $actionTableCreated = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,11 +99,14 @@ if ($process == 'addForeignKey') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
+    if ($actionTableCreated)
+        return;
+
+    // install / update 1.8
     if ($dbTable->fieldExist('pseudo') && $dbTable->getFieldType('pseudo') == 'text') {
         $dbTable->modifyField('pseudo', array_merge(array('newField' => 'authorId'), $actionTableCfg['fields']['authorId']))
             ->addFieldIndex('authorId')
-            ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
-            ->setUpdateFieldData('UPDATE_AUTHOR', 'authorId');
+            ->setUpdateFieldData('UPDATE_AUTHOR_DATA', array('authorId', 'author'));
     }
 
     if (! $dbTable->fieldExist('author')) {
@@ -137,7 +114,22 @@ if ($process == 'update') {
             ->addFieldIndex('author');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateActionRow');
+    $dbTable->applyUpdateFieldListToData();
+
+    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(ACTION_TABLE) == 'MyISAM')
+        $this->_db->execute('ALTER TABLE `'. ACTION_TABLE .'` ENGINE=InnoDB;');
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Add foreign key of table
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'addForeignKey') {
+    if (! $dbTable->foreignKeyExist('FK_action_authorId'))
+        addAuthorIdForeignKey('action');
+
+    if (! $dbTable->foreignKeyExist('FK_action_author'))
+        addAuthorForeignKey('action');
 }
 
 ?>

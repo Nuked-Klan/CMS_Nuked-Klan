@@ -1,8 +1,8 @@
 <?php
 /**
- * table.serveur.c.i.u.php
+ * table.links.c.i.u.php
  *
- * `[PREFIX]_serveur` database table script
+ * `[PREFIX]_liens` database table script
  *
  * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -10,28 +10,43 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_serveur');
+$dbTable->setTable(LINKS_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$serverTableCfg = array(
+$linksTableCfg = array(
     'fields' => array(
-        'sid'  => array('type' => 'int(30)',     'null' => false, 'autoIncrement' => true),
-        'game' => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
-        'ip'   => array('type' => 'varchar(40)', 'null' => false, 'default' => '\'\''),
-        'port' => array('type' => 'varchar(10)', 'null' => false, 'default' => '\'\''),
-        'pass' => array('type' => 'varchar(10)', 'null' => false, 'default' => '\'\''),
-        'cat'  => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\'')
+        'id'          => array('type' => 'int(10)',      'null' => false, 'autoIncrement' => true),
+        'date'        => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\''),
+        'titre'       => array('type' => 'text',         'null' => false),
+        'description' => array('type' => 'text',         'null' => false),
+        'url'         => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'cat'         => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'webmaster'   => array('type' => 'text',         'null' => false),
+        'country'     => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'count'       => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'broke'       => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\'')
     ),
-    'primaryKey' => array('sid'),
+    'primaryKey' => array('id'),
     'index' => array(
-        'game'  => 'game',
-        'cat'   => 'cat'
+        'cat' => 'cat'
     ),
     'engine' => 'MyISAM'
 );
+
+/*
+ * Callback function for update row of links database table
+ */
+function updateLinksDbTableRow($updateList, $row, $vars) {
+    $setFields = array();
+
+    if (in_array('APPLY_BBCODE', $updateList))
+        $setFields['description'] = $vars['bbcode']->apply(stripslashes($row['description']));
+
+    return $setFields;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
@@ -39,7 +54,7 @@ $serverTableCfg = array(
 
 if ($process == 'checkIntegrity') {
     // table and field exist in 1.6.x version
-    $dbTable->checkIntegrity('ip');
+    $dbTable->checkIntegrity('id', 'description');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,16 +76,21 @@ if ($process == 'drop' && $dbTable->tableExist())
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install')
-    $dbTable->createTable($serverTableCfg);
+    $dbTable->createTable($linksTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
-    // install / update 1.7.14
-    if ($dbTable->fieldExist('ip') && $dbTable->getFieldType('ip') != 'varchar(40)')
-        $dbTable->modifyField('ip', $serverTableCfg['fields']['ip']);
+    // Update BBcode
+    // update 1.7.9 RC1
+    if (version_compare($this->_session['version'], '1.7.9', '<=')) {
+        $dbTable->setCallbackFunctionVars(array('bbcode' => new bbcode($this->_db, $this->_session, $this->_i18n)))
+            ->setUpdateFieldData('APPLY_BBCODE', 'description');
+    }
+
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

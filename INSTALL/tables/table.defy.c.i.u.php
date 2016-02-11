@@ -1,8 +1,8 @@
 <?php
 /**
- * table.recrute.c.i.u.php
+ * table.defy.c.i.u.php
  *
- * `[PREFIX]_recrute` database table script
+ * `[PREFIX]_defie` database table script
  *
  * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -10,32 +10,32 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_recrute');
+$dbTable->setTable(DEFY_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$recruitTableCfg = array(
+$defyTableCfg = array(
     'fields' => array(
-        'id'         => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
-        'date'       => array('type' => 'varchar(12)', 'null' => false, 'default' => '\'\''),
-        'pseudo'     => array('type' => 'text',        'null' => false),
-        'prenom'     => array('type' => 'text',        'null' => false),
-        'age'        => array('type' => 'int(3)',      'null' => false, 'default' => '\'0\''),
-        'mail'       => array('type' => 'varchar(80)', 'null' => false, 'default' => '\'\''),
-        'icq'        => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
-        'country'    => array('type' => 'text',        'null' => false),
-        'game'       => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
-        'connection' => array('type' => 'text',        'null' => false),
-        'experience' => array('type' => 'text',        'null' => false),
-        'dispo'      => array('type' => 'text',        'null' => false),
-        'comment'    => array('type' => 'text',        'null' => false)
+        'id'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'send'    => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\''),
+        'pseudo'  => array('type' => 'text',         'null' => false),
+        'clan'    => array('type' => 'text',         'null' => false),
+        'mail'    => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        'icq'     => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'irc'     => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'url'     => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'pays'    => array('type' => 'text',         'null' => false),
+        'date'    => array('type' => 'varchar(20)',  'null' => false, 'default' => '\'\''),
+        'heure'   => array('type' => 'varchar(10)',  'null' => false, 'default' => '\'\''),
+        'serveur' => array('type' => 'text',         'null' => false),
+        'game'    => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
+        'type'    => array('type' => 'text',         'null' => false),
+        'map'     => array('type' => 'text',         'null' => false),
+        'comment' => array('type' => 'text',         'null' => false)
     ),
     'primaryKey' => array('id'),
-    'index' => array(
-        'game' => 'game'
-    ),
     'engine' => 'MyISAM'
 );
 
@@ -44,9 +44,9 @@ $recruitTableCfg = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
- * Callback function for update row of recruit database table
+ * Callback function for update row of defy database table
  */
-function updateRecruitRow($updateList, $row, $vars) {
+function updateDefyDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -83,7 +83,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install')
-    $dbTable->createTable($recruitTableCfg);
+    $dbTable->createTable($defyTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -97,7 +97,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'comment');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateRecruitRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

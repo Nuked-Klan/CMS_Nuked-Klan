@@ -10,7 +10,9 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_sections');
+$dbTable->setTable(SECTIONS_TABLE);
+
+require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -46,35 +48,22 @@ $articlesTableCfg = array(
 /*
  * Callback function for update row of articles database table
  */
-function updateSectionsRow($updateList, $row, $vars) {
+function updateSectionsDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
         $setFields['content'] = $vars['bbcode']->apply(stripslashes($row['content']));
 
+    if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
+        $userData = getUserData($row['autor_id']);
+
+        if ($userData === false)
+            $setFields['autor_id'] = null;
+        else
+            $setFields['autor'] = $userData['pseudo'];
+    }
+
     return $setFields;
-}
-
-/*
- * Add author Id foreign key of articles database table
- */
-function addAuthorIdForeignKey($dbTable, $dbprefix) {
-    $dbTable->addForeignKey(
-        'FK_articles_authorId', 'autor_id',
-        $dbprefix .'_users', 'id',
-        array('ON DELETE SET NULL')
-    );
-}
-
-/*
- * Add author Id foreign key of articles database table
- */
-function addAuthorForeignKey($dbTable, $dbprefix) {
-    $dbTable->addForeignKey(
-        'FK_articles_author', 'autor',
-        $dbprefix .'_users', 'pseudo',
-        array('ON UPDATE CASCADE')
-    );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,18 +98,6 @@ if ($process == 'install')
     $dbTable->createTable($articlesTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Add foreign key of table
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-if ($process == 'addForeignKey') {
-    if (! $dbTable->foreignKeyExist('FK_articles_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_articles_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,7 +105,8 @@ if ($process == 'update') {
     // install / update 1.8
     if ($dbTable->fieldExist('autor')) {
         if ($dbTable->getFieldType('autor') != 'varchar(30)')
-            $dbTable->modifyField('autor', $articlesTableCfg['fields']['autor']);
+            $dbTable->modifyField('autor', $articlesTableCfg['fields']['autor'])
+                ->setUpdateFieldData('UPDATE_AUTHOR_DATA', array('autor', 'autor_id'));
 
         if (! $dbTable->checkFieldIsIndex('autor'))
             $dbTable->addFieldIndex('autor');
@@ -142,8 +120,8 @@ if ($process == 'update') {
             $dbTable->addFieldIndex('autor_id');
     }
 
-    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_sections'))
-        $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_sections` ENGINE=InnoDB;');
+    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(SECTIONS_TABLE) == 'MyISAM')
+        $this->_db->execute('ALTER TABLE `'. SECTIONS_TABLE .'` ENGINE=InnoDB;');
 
     if (! $dbTable->fieldExist('coverage'))
         $dbTable->addField('coverage', $articlesTableCfg['fields']['coverage']);
@@ -155,7 +133,19 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'content');
     }
 
-    $dbTable->applyUpdateFieldListToData('artid', 'updateSectionsRow');
+    $dbTable->applyUpdateFieldListToData();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Add foreign key of table
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'addForeignKey') {
+    if (! $dbTable->foreignKeyExist('FK_articles_authorId'))
+        addAuthorIdForeignKey('articles', 'autor_id');
+
+    if (! $dbTable->foreignKeyExist('FK_articles_author'))
+        addAuthorForeignKey('articles', 'autor');
 }
 
 ?>

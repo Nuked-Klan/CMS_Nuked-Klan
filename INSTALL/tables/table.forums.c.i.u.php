@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_forums');
+$dbTable->setTable(FORUM_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -47,7 +47,9 @@ $forumTableCfg = array(
 /*
  * Callback function for update row of _forums database table
  */
-function updateForumsRow($updateList, $row, $vars) {
+function updateForumsDbTableRow($updateList, $row, $vars) {
+    global $db;
+
     $setFields = array();
 
     // TODO : Really ?
@@ -58,9 +60,9 @@ function updateForumsRow($updateList, $row, $vars) {
         $setFields['comment'] = $vars['bbcode']->apply(stripslashes($row['comment']));
 
     if (in_array('UPDATE_NB_THREAD', $updateList)) {
-        $dbrForumThread = $vars['db']->selectOne(
+        $dbrForumThread = $db->selectOne(
             'SELECT COUNT(*) AS `nbTopics`
-            FROM `'. $vars['dbPrefix'] .'_forums_threads`
+            FROM `'. FORUM_THREADS_TABLE .'`
             WHERE forum_id = '. $row['id']
         );
 
@@ -68,9 +70,9 @@ function updateForumsRow($updateList, $row, $vars) {
     }
 
     if (in_array('UPDATE_NB_MESSAGE', $updateList)) {
-        $dbrForumMessages = $vars['db']->selectOne(
+        $dbrForumMessages = $db->selectOne(
             'SELECT COUNT(*) AS `nbMessages`
-            FROM `'. $vars['dbPrefix'] .'_forums_messages`
+            FROM `'. FORUM_MESSAGES_TABLE .'`
             WHERE forum_id = '. $row['id']
         );
 
@@ -110,7 +112,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($forumTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_forums` VALUES
+    $sql = 'INSERT INTO `'. FORUM_TABLE .'` VALUES
         (1, 1, 0, \''. $this->_db->quote($this->_i18n['FORUM']) .'\', \''. $this->_db->quote($this->_i18n['TEST_FORUM']) .'\', \'\', \'\', 0, 0, 0, 1 ,1, 0, 0);';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
@@ -130,13 +132,11 @@ if ($process == 'update') {
 
     if (! $dbTable->fieldExist('nbTopics')) {
         $dbTable->addField('nbTopics', $forumTableCfg['fields']['nbTopics'])
-            ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_NB_THREAD', 'nbTopics');
     }
 
     if (! $dbTable->fieldExist('nbMessages')) {
         $dbTable->addField('nbMessages', $forumTableCfg['fields']['nbMessages'])
-            ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
             ->setUpdateFieldData('UPDATE_NB_MESSAGE', 'nbMessages');
     }
 
@@ -151,7 +151,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'comment');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateForumsRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

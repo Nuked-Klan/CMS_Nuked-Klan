@@ -18,6 +18,11 @@ class dbTable {
     const NB_ENTRIES_BY_STEP = 100;
 
     /*
+     * Set current data name
+     */
+    private $_dataName;
+
+    /*
      * Set table name
      */
     private $_table;
@@ -96,6 +101,20 @@ class dbTable {
     }
 
     /*
+     * Set current data name
+     */
+    public function setDataName($filename) {
+        $filenamePart = explode('.', $filename);
+
+        $tmp = explode('_', $filenamePart[1]);
+        $tmp = array_map('ucfirst', $tmp);
+
+        $this->_dataName = array($filenamePart[1], implode($tmp));
+
+        return $this;
+    }
+
+    /*
      * Set current table of database used
      */
     public function setTable($table) {
@@ -105,6 +124,18 @@ class dbTable {
         $this->_table = $this->_session['currentTable'] = $table;
 
         return $this;
+    }
+
+    /*
+     * Get table ID of current database table
+     */
+    private function _getTableId() {
+        $tableConstName = strtoupper($this->_dataName[0]) .'_TABLE';
+
+        if (defined($tableConstName .'_ID'))
+            return constant($tableConstName .'_ID');
+        else
+            return 'id';
     }
 
     /*
@@ -150,6 +181,19 @@ class dbTable {
 
         if (array_key_exists($field, $this->_tableInfo))
             return $this->_tableInfo[$field]['null'];
+
+        throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
+    }
+
+    /*
+     * Return field default value of database table
+     * /
+    public function getFieldDefaultValue($field) {
+        if (empty($this->_tableInfo))
+            $this->_readTableInfo();
+
+        if (array_key_exists($field, $this->_tableInfo))
+            return $this->_tableInfo[$field]['default'];
 
         throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
     }
@@ -249,6 +293,8 @@ class dbTable {
             $this->_db->createTable($this->_table, $data);
         else
             $this->_db->execute($data);
+
+        $this->_readTableInfo();
 
         $this->_actionList[]        = sprintf($this->_i18n['CREATE_TABLE'], $this->_table);
         $this->_jqueryAjaxResponse  = 'CREATED';
@@ -439,6 +485,26 @@ class dbTable {
         return $this;
     }
 
+    /*
+     * Set new default value of field in database table
+     * /
+    public function setFieldDefaultValue($field, $defaultValue) {
+        if (! $this->fieldExist($field))
+            throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
+
+        $this->_db->setFieldDefaultValue($this->_table, $field, $defaultValue);
+
+        $updateTableInfo = array();
+
+        $updateTableInfo[$field]['default'] = $defaultValue;
+
+        $this->_tableInfo          = array_merge($this->_tableInfo, $updateTableInfo);
+        $this->_actionList[]       = sprintf($this->_i18n['MODIFY_FIELD_DEFAULT_VALUE'], $field, $this->_table);
+        $this->_jqueryAjaxResponse = 'UPDATED';
+
+        return $this;
+    }*/
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Manage foreign key of database table
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -465,7 +531,9 @@ class dbTable {
             FOREIGN KEY (`'. $indexColName .'`) REFERENCES `'. $refTableName .'` (`'. $refIndexColName .'`)
             '. implode(' ', $refOptions) .';';
 
+        $this->_db->execute('SET foreign_key_checks = 0');
         $this->_db->execute($sql);
+        $this->_db->execute('SET foreign_key_checks = 1');
 
         $this->_foreignKeyList[$symbol] = true;
         $this->_jqueryAjaxResponse      = 'FOREIGN_KEY_ADDED_TO_TABLE';
@@ -548,7 +616,10 @@ class dbTable {
         }
         else if (is_array($field)) {
             $this->_selectFields = array_merge($this->_selectFields, $field);
-            $this->_actionList[] = sprintf($this->_i18n[$action], implode(', ', $field), $this->_table);
+
+            $lastField = array_pop($field);
+            $fieldList = implode('`, `', $field) .'` '. $this->_i18n['AND'] .' `'. $lastField;
+            $this->_actionList[] = sprintf($this->_i18n[$action], $fieldList, $this->_table);
         }
 
         return $this;
@@ -578,55 +649,73 @@ class dbTable {
     /*
      * Excecute update action in database table.
      */
-    public function applyUpdateFieldListToData($fieldId = 'id', $callbackUpdateFunction) {
-        if (! empty($this->_updateFieldsList)) {
-            if (! function_exists($callbackUpdateFunction))
-                throw new dbTableException(sprintf($this->_i18n['CALLBACK_UPDATE_FUNCTION_DONT_EXIST'], $callbackUpdateFunction));
+    public function applyUpdateFieldListToData($params = array()) {
+        if (empty($this->_updateFieldsList))
+            return;
 
-            if (! isset($this->_session['nbTableEntries']))
-                $this->_session['nbTableEntries'] = $this->_countTableEntries();
+        $tableId = $this->_getTableId();
 
-            $this->_selectFields[] = $fieldId;
+        if (! function_exists($rowUpdateFunction = 'update'. $this->_dataName[1] .'DbTableRow'))
+            throw new dbTableException(sprintf($this->_i18n['CALLBACK_UPDATE_FUNCTION_DONT_EXIST'], $rowUpdateFunction));
 
-            $sql = 'SELECT '. implode(', ', array_unique($this->_selectFields)) .'
-                FROM `'. $this->_table .'`';
+        if (! isset($this->_session['nbTableEntries']))
+            $this->_session['nbTableEntries'] = $this->_countTableEntries();
 
-            if ($this->_session['nbTableEntries'] > self::NB_ENTRIES_BY_STEP) {
-                if (! isset($this->_session['offset'])) 
-                    $this->_session['offset'] = 0;
-                else
-                    $this->_session['offset'] = $this->_session['offset'] + self::NB_ENTRIES_BY_STEP;
+        $this->_selectFields[] = $tableId;
 
-                $sql .= ' LIMIT '. self::NB_ENTRIES_BY_STEP .' OFFSET '. $this->_session['offset'];
-            }
+        $sql = 'SELECT '. implode(', ', array_unique($this->_selectFields)) .'
+            FROM `'. $this->_table .'`';
 
-            $dbsTable = $this->_db->selectMany($sql);
+        if ($this->_session['nbTableEntries'] > self::NB_ENTRIES_BY_STEP) {
+            if (! isset($this->_session['offset'])) 
+                $this->_session['offset'] = 0;
+            else
+                $this->_session['offset'] = $this->_session['offset'] + self::NB_ENTRIES_BY_STEP;
+
+            $sql .= ' LIMIT '. self::NB_ENTRIES_BY_STEP .' OFFSET '. $this->_session['offset'];
+        }
+
+        $dbsTable = $this->_db->selectMany($sql);
+
+        if ($dbsTable) {
+            /*if (array_key_exists('preLoopFunction', $params)) {
+                if (! function_exists($params['preLoopFunction']))
+                    throw new dbTableException(sprintf($this->_i18n['CALLBACK_PRE_LOOP_FUNCTION_DONT_EXIST'], $params['preLoopFunction']));
+
+                $setFields = $params['preLoopFunction']($this->_updateFieldsList, $row, $this->_callbackFunctionVars);
+            }*/
 
             foreach ($dbsTable as $row) {
-                $setFields = $callbackUpdateFunction($this->_updateFieldsList, $row, $this->_callbackFunctionVars);
+                $setFields = $rowUpdateFunction($this->_updateFieldsList, $row, $this->_callbackFunctionVars);
 
-                $data = array();
+                if ($setFields) {
+                    $data = array();
 
-                foreach ($setFields as $key => $value)
-                    $data[] = $key .' = \''. $this->_db->quote($value) .'\'';
+                    foreach ($setFields as $key => $value) {
+                        if ($value === null)
+                            $data[] = $key .' = null';
+                        else
+                            $data[] = $key .' = \''. $this->_db->quote($value) .'\'';
+                    }
 
-                $sql = 'UPDATE `'. $this->_table .'`
-                    SET '. implode(', ', $data) .'
-                    WHERE '. $fieldId .' = \''. $row[$fieldId] .'\'';
+                    $sql = 'UPDATE `'. $this->_table .'`
+                        SET '. implode(', ', $data) .'
+                        WHERE '. $tableId .' = \''. $row[$tableId] .'\'';
 
-                $this->_db->execute($sql);
+                    $this->_db->execute($sql);
+                }
             }
+        }
 
-            if (isset($this->_session['offset'])
-                && $this->_session['offset'] + self::NB_ENTRIES_BY_STEP < $this->_session['nbTableEntries']
-            ) {
-                $this->_jqueryAjaxResponse = 'STEP_'. ($this->_session['offset'] + self::NB_ENTRIES_BY_STEP) .'_TOTAL_STEP_'. $this->_session['nbTableEntries'];
-            }
-            else {
-                $this->_jqueryAjaxResponse = 'UPDATED';
+        if (isset($this->_session['offset'])
+            && $this->_session['offset'] + self::NB_ENTRIES_BY_STEP < $this->_session['nbTableEntries']
+        ) {
+            $this->_jqueryAjaxResponse = 'STEP_'. ($this->_session['offset'] + self::NB_ENTRIES_BY_STEP) .'_TOTAL_STEP_'. $this->_session['nbTableEntries'];
+        }
+        else {
+            $this->_jqueryAjaxResponse = 'UPDATED';
 
-                $this->_init();
-            }
+            $this->_init();
         }
     }
 

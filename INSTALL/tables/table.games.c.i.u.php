@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_games');
+$dbTable->setTable(GAMES_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -63,7 +63,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($gamesTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_games` VALUES
+    $sql = 'INSERT INTO `'. GAMES_TABLE .'` VALUES
         (1, \'Counter Strike Global Offensive\', \''. $this->_db->quote($this->_i18n['PREF_CS']) .'\', \'images/games/icon_csgo.png\', \''. $this->_db->quote($this->_i18n['OTHER_NICK']) .'\', \''. $this->_db->quote($this->_i18n['FAV_MAP']) .'\', \''. $this->_db->quote($this->_i18n['FAV_WEAPON']) .'\', \''. $this->_db->quote($this->_i18n['SKIN_T']) .'\', \''. $this->_db->quote($this->_i18n['SKIN_CT']) .'\', \'de_dust2|de_inferno\');';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);

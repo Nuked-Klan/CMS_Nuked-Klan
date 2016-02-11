@@ -76,6 +76,10 @@ return array(
     'FOREIGN_KEY_DONT_EXIST' => 'Foreign key `%s` missing in `%s` table',
     'DROP_FOREIGN_KEY'      => 'Foreign key `%s` deleted in `%s` table',
     #####################################
+    # dbTable->setUpdateFieldData()
+    #####################################
+    'AND'                   => 'and',
+    #####################################
     # dbTable->applyUpdateFieldListToData()
     #####################################
     'CALLBACK_UPDATE_FUNCTION_DONT_EXIST' => '`%s` callback update function don\'t exist',
@@ -153,6 +157,7 @@ return array(
     'PRINT_ERROR'           => ' - Error :',
     'UPDATE_TABLE_STEP'     => 'Update table <b>%1$s</b> : Step <b>%2$s</b>',
     'UPDATE_ALL_TABLE'      => 'Update tables',
+    'UPDATE_ALL_TABLE_FAILED' => 'There are %d tables not updated',
     'CHECK_TABLE_INTEGRITY_ERROR' => 'An error occurred when checking the table',
     'CREATED_TABLE_ERROR'   => 'An error occurred while creating the table',
     'UPDATE_TABLE_ERROR'    => 'An error occurred when editing the table',
@@ -165,6 +170,10 @@ return array(
     'ERROR_PASSWORD'        => 'Please enter a password.',
     'ERROR_PASSWORD_CONFIRM' => 'Passwords do not match.',
     'ERROR_EMAIL'           => 'Please enter a valid mail',
+    #####################################
+    # tables/table.action.c.fk.i.u.php
+    #####################################
+    'UPDATE_AUTHOR_DATA'    => 'Update user data in `%s` fields of `%s` table',
     #####################################
     # tables/table.block.c.i.u.php
     #####################################
@@ -234,6 +243,7 @@ return array(
     'POSTING_FREAK'         => 'Posting Freak',
     'MODERATOR'             => 'Moderator',
     'ADMINISTRATOR'         => 'Administrator',
+    'UPDATE_RANK_IMG'       => 'Update forum rank image in `%s` field of `%s` table',
     #####################################
     # table.forums_threads.c.fk.i.u.php
     #####################################

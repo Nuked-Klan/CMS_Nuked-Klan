@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_sondage');
+$dbTable->setTable(SURVEY_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -57,7 +57,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($surveyTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_sondage` VALUES
+    $sql = 'INSERT INTO `'. SURVEY_TABLE .'` VALUES
         (1, \''. $this->_db->quote($this->_i18n['LIKE_NK']) .'\', \''. time() .'\', 0);';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);

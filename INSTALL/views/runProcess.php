@@ -4,7 +4,6 @@
                 <script type="text/javascript">
                 //<![CDATA[
                 var process = '<?php echo $process ?>',
-                    dbPrefix = '<?php echo $db_prefix ?>',
                     processTableList = new Array('<?php echo implode('\',\'', $processDataList['processList']) ?>'),
                     nbProcessTable = processTableList.length,
                     tableWithForeignKeyList = new Array('<?php echo implode('\',\'', $processDataList['tableWithForeignKey']) ?>'),

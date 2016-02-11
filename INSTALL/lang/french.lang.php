@@ -76,6 +76,10 @@ return array(
     'FOREIGN_KEY_DONT_EXIST' => 'Clé étrangère `%s` manquante dans la table `%s`',
     'DROP_FOREIGN_KEY'      => 'Clé étrangère `%s` supprimé de la table `%s`',
     #####################################
+    # dbTable->setUpdateFieldData()
+    #####################################
+    'AND'                   => 'et',
+    #####################################
     # dbTable->applyUpdateFieldListToData()
     #####################################
     'CALLBACK_UPDATE_FUNCTION_DONT_EXIST' => 'La fonction de rappel `%s` n\'existe pas',
@@ -153,6 +157,7 @@ return array(
     'PRINT_ERROR'           => ' - Erreur :',
     'UPDATE_TABLE_STEP'     => 'Mise à jour de la table <b>%1$s</b> : Etape <b>%2$s</b>',
     'UPDATE_ALL_TABLE'      => 'Mise à jour des tables',
+    'UPDATE_ALL_TABLE_FAILED' => 'Il y a %d tables non mise(s) à jour',
     'CHECK_TABLE_INTEGRITY_ERROR' => 'Une erreur est survenue lors de la vérification de la table',
     'CREATED_TABLE_ERROR'   => 'Une erreur est survenue lors de la création de la table',
     'UPDATE_TABLE_ERROR'    => 'Une erreur est survenue lors de la modification de la table',
@@ -165,6 +170,10 @@ return array(
     'ERROR_PASSWORD'        => 'Veuillez saisir un mot de passe.',
     'ERROR_PASSWORD_CONFIRM' => 'Les mots de passe ne correspondent pas.',
     'ERROR_EMAIL'           => 'Veuillez saisir un e-mail valide',
+    #####################################
+    # tables/table.action.c.fk.i.u.php
+    #####################################
+    'UPDATE_AUTHOR_DATA'    => 'Mise à jour des données de l\'utilisateur dans les champs `%s` de la table `%s`',
     #####################################
     # tables/table.block.c.i.u.php
     #####################################
@@ -234,6 +243,7 @@ return array(
     'POSTING_FREAK'         => 'Posteur Fou',
     'MODERATOR'             => 'Modérateur',
     'ADMINISTRATOR'         => 'Administrateur',
+    'UPDATE_RANK_IMG'       => 'Mise à jour de l\'image du rang forum dans le champ `%s` de la table `%s`',
     #####################################
     # table.forums_threads.c.fk.i.u.php
     #####################################

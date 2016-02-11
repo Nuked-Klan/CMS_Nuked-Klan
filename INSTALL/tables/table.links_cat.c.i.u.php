@@ -1,6 +1,6 @@
 <?php
 /**
- * table.liens_cat.c.i.u.php
+ * table.links_cat.c.i.u.php
  *
  * `[PREFIX]_liens_cat` database table script
  *
@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_liens_cat');
+$dbTable->setTable(LINKS_CAT_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -38,7 +38,7 @@ $linksCatTableCfg = array(
 /*
  * Callback function for update row of links category database table
  */
-function updateLinksCatRow($updateList, $row, $vars) {
+function updateLinksCatDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -89,7 +89,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'description');
     }
 
-    $dbTable->applyUpdateFieldListToData('cid', 'updateLinksCatRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

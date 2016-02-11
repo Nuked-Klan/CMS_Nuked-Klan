@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_stats');
+$dbTable->setTable(STATS_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -56,7 +56,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($statsTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_stats` VALUES
+    $sql = 'INSERT INTO `'. STATS_TABLE .'` VALUES
         (\'Gallery\', \'pages\', 0),
         (\'Archives\', \'pages\', 0),
         (\'Calendar\', \'pages\', 0),

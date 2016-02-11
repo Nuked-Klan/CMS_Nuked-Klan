@@ -1,6 +1,6 @@
 <?php
 /**
- * table.downloads_cat.c.i.u.php
+ * table.download_cat.c.i.u.php
  *
  * `[PREFIX]_downloads_cat` database table script
  *
@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_downloads_cat');
+$dbTable->setTable(DOWNLOAD_CAT_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -39,7 +39,7 @@ $downloadCatTableCfg = array(
 /*
  * Callback function for update row of downloads category database table
  */
-function updateDownloadCatRow($updateList, $row, $vars) {
+function updateDownloadCatDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -90,7 +90,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'description');
     }
 
-    $dbTable->applyUpdateFieldListToData('cid', 'updateDownloadCatRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_calendar');
+$dbTable->setTable(CALENDAR_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -38,7 +38,7 @@ $calendarTableCfg = array(
 /*
  * Callback function for update row of calendar database table
  */
-function updateCalendarRow($updateList, $row, $vars) {
+function updateCalendarDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -89,7 +89,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'description');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateCalendarRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

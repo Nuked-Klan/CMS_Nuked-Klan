@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_modules');
+$dbTable->setTable(MODULES_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -34,9 +34,11 @@ $modulesTableCfg = array(
 /*
  * Return modules list stored in modules table
  */
-function getModuleList($db, $dbPrefix) {
+function getModuleList() {
+    global $db;
+
     $sql = 'SELECT nom
-        FROM `'. $dbPrefix .'_modules`';
+        FROM `'. MODULES_TABLE .'`';
 
     $dbsModules = $db->selectMany($sql);
 
@@ -51,7 +53,9 @@ function getModuleList($db, $dbPrefix) {
 /*
  * Add new module
  */
-function addModule($db, $module, $levelAccess, $adminLevel, &$insert, &$insertModules) {
+function addModule($module, $levelAccess, $adminLevel) {
+    global $db, $insert, $insertModules;
+
     $insert[]           = '(\''. $db->quote($module) .'\', '. $levelAccess .', '. $adminLevel .')';
     $insertModules[]    = $module;
 }
@@ -59,7 +63,9 @@ function addModule($db, $module, $levelAccess, $adminLevel, &$insert, &$insertMo
 /*
  * Delete module
  */
-function deleteModule($db, $module, &$delete, &$deleteModules) {
+function deleteModule($module) {
+    global $db, $delete, $deleteModules;
+
     $insert[]           = 'nom = \''. $db->quote($module) .'\'';
     $deleteModules[]    = $module;
 }
@@ -67,9 +73,11 @@ function deleteModule($db, $module, &$delete, &$deleteModules) {
 /*
  * Update module list
  */
-function updateModuleList($dbTable, $dbPrefix, $insert, $insertModules, $delete, $deleteModules) {
+function updateModuleList() {
+    global $dbTable, $insert, $insertModules, $delete, $deleteModules;
+
     if (! empty($insert)) {
-        $sql = 'INSERT INTO `'. $dbPrefix .'_modules`
+        $sql = 'INSERT INTO `'. MODULES_TABLE .'`
             (`nom`, `niveau`, `admin`) VALUES '. implode(', ', $insert);
 
         $dbTable->insertData(array('ADD_MODULE', implode(', ', $insertModules)), $sql);
@@ -77,7 +85,7 @@ function updateModuleList($dbTable, $dbPrefix, $insert, $insertModules, $delete,
 
     if (! empty($delete)) {
         $sql = 'DELETE
-            FROM `'. $dbPrefix .'_modules`
+            FROM `'. MODULES_TABLE .'`
             WHERE '. implode(' OR ', $delete);
 
         $dbTable->deleteData(array('DELETE_MODULE', implode(', ', $deleteModules)), $sql);
@@ -114,7 +122,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($modulesTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_modules` VALUES
+    $sql = 'INSERT INTO `'. MODULES_TABLE .'` VALUES
         (1, \'News\', 0, 2),
         (2, \'Forum\', 0, 2),
         (3, \'Wars\', 0, 2),
@@ -148,29 +156,31 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
+    global $insert, $insertModules, $delete, $deleteModules;
+
     $insert = $insertModules = $delete = $deleteModules = array();
 
-    $modules = getModuleList($this->_db, $this->_session['db_prefix']);
+    $modules = getModuleList();
 
     // install / update 1.7.9 RC5
     if (in_array('PackageMgr', $modules))
-        deleteModule($this->_db, 'PackageMgr', $delete, $deleteModules);
+        deleteModule('PackageMgr');
 
     // install / update 1.7.9 RC1
     if (! in_array('Stats', $modules))
-        addModule($this->_db, 'Stats', 0, 2, $insert, $insertModules);
+        addModule('Stats', 0, 2);
 
     if (! in_array('Contact', $modules))
-        addModule($this->_db, 'Contact', 0, 3, $insert, $insertModules);
+        addModule('Contact', 0, 3);
 
     // install / update 1.8
     if (! in_array('Equipe', $modules))
-        addModule($this->_db, 'Equipe', 0, 2, $insert, $insertModules);
+        addModule('Equipe', 0, 2);
 
     if (! in_array('Page', $modules))
-        addModule($this->_db, 'Page', 0, 9, $insert, $insertModules);
+        addModule('Page', 0, 9);
 
-    updateModuleList($dbTable, $this->_session['db_prefix'], $insert, $insertModules, $delete, $deleteModules);
+    updateModuleList();
 }
 
 ?>

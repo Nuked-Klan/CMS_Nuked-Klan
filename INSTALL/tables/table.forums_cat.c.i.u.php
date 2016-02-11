@@ -1,6 +1,6 @@
 <?php
 /**
- * table.forums_cat.c.i.php
+ * table.forums_cat.c.i.u.php
  *
  * `[PREFIX]_forums_cat` database table script
  *
@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_forums_cat');
+$dbTable->setTable(FORUM_CAT_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -58,7 +58,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($forumCatTableCfg);
 
-    $sql='INSERT INTO `'. $this->_session['db_prefix'] .'_forums_cat` VALUES
+    $sql='INSERT INTO `'. FORUM_CAT_TABLE .'` VALUES
         (1, \''. $this->_db->quote($this->_i18n['CATEGORY']) .' 1\', \'\', 0, 0);';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);

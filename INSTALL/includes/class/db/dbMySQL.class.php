@@ -281,6 +281,15 @@ class dbMySQL {
     }
 
     /*
+     * Set new default value of field in database table
+     * /
+    public function setFieldDefaultValue($table, $field, $defaultValue) {
+        $sql = 'ALTER TABLE `'. $table .'` ALTER `'. $field .'` SET DEFAULT '. $defaultValue;
+
+        return $this->execute($sql);
+    }*/
+
+    /*
      * Return table list of database
      */
     public function getTableList($options = array()) {

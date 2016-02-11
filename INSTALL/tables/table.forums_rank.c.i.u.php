@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_forums_rank');
+$dbTable->setTable(FORUM_RANK_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -35,12 +35,14 @@ $forumRankTableCfg = array(
 /*
  * Callback function for update row of forum rank database table
  */
-function updateForumRankRow($updateList, $row, $vars) {
+function updateForumsRankDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('UPDATE_RANK_IMG', $updateList)) {
-        if (array_key_exists($row['image'], $vars['oldRankImgList']) && is_file($row['image']) && is_readable($row['image'])) {
-            $md5sum = md5_file($row['image']);
+        $imgPath = '../'. $row['image'];
+
+        if (array_key_exists($row['image'], $vars['oldRankImgList']) && is_file($imgPath) && is_readable($imgPath)) {
+            $md5sum = md5_file($imgPath);
 
             if ($md5sum == $vars['oldRankImgList'][$row['image']])
                 $setFields['image'] = substr($row['image'], 0, strrpos($row['image'], '.')) .'.png';
@@ -80,7 +82,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($forumRankTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_forums_rank` VALUES
+    $sql = 'INSERT INTO `'. FORUM_RANK_TABLE .'` VALUES
         (1, \''. $this->_db->quote($this->_i18n['NEWBIE']) .'\', 0, 0, \'modules/Forum/images/rank/star1.png\'),
         (2, \''. $this->_db->quote($this->_i18n['JUNIOR_MEMBER']) .'\', 0, 10, \'modules/Forum/images/rank/star2.png\'),
         (3, \''. $this->_db->quote($this->_i18n['MEMBER']) .'\', 0, 100, \'modules/Forum/images/rank/star3.png\'),
@@ -109,11 +111,11 @@ if ($process == 'update') {
             'modules/Forum/images/rank/mod.gif'   => '0b26f8f2cc952e048defab650dab8e18'
         );
 
-        $dbTable->setCallbackFunctionVars(array('oldRankImgList' => $$oldRankImgList))
+        $dbTable->setCallbackFunctionVars(array('oldRankImgList' => $oldRankImgList))
             ->setUpdateFieldData('UPDATE_RANK_IMG', 'image');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateForumRankRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

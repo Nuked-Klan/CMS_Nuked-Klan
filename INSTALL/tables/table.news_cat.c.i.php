@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_news_cat');
+$dbTable->setTable(NEWS_CAT_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -57,7 +57,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($newsCatTableCfg);
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_news_cat` VALUES
+    $sql = 'INSERT INTO `'. NEWS_CAT_TABLE .'` VALUES
         (\'1\', \'Counter Strike Source\', \''. $this->_db->quote($this->_i18n['BEST_MOD']) .'\', \'modules/News/images/cs.gif\');';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);

@@ -10,8 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-
-$dbTable->setTable($this->_session['db_prefix'] .'_sections_cat');
+$dbTable->setTable(SECTIONS_CAT_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -40,7 +39,7 @@ $articlesCatTableCfg = array(
 /*
  * Callback function for update row of sections category database table
  */
-function updateSectionsCatRow($updateList, $row, $vars) {
+function updateSectionsCatDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -95,7 +94,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'description');
     }
 
-    $dbTable->applyUpdateFieldListToData('secid', 'updateSectionsCatRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

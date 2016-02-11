@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_irc_awards');
+$dbTable->setTable(IRC_AWARDS_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -33,7 +33,7 @@ $ircAwardsTableCfg = array(
 /*
  * Callback function for update row of irc awards database table
  */
-function updateIrcAwardsRow($updateList, $row, $vars) {
+function updateIrcAwardsDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -84,7 +84,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'text');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateIrcAwardsRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

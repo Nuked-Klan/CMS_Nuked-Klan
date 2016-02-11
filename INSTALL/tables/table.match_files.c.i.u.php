@@ -34,6 +34,11 @@ $joinedFilesTableCfg = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'checkIntegrity') {
+    if ($dbTable->tableExist($this->_session['db_prefix'] .'_fichiers_joins'))
+        $dbTable->setTable($this->_session['db_prefix'] .'_fichiers_joins');
+    else if ($dbTable->tableExist($this->_session['db_prefix'] .'_match_files'))
+        $dbTable->setTable($this->_session['db_prefix'] .'_match_files');
+
     if ($dbTable->tableExist($this->_session['db_prefix'] .'_fichiers_joins')
         || $dbTable->tableExist($this->_session['db_prefix'] .'_match_files')
     ) {

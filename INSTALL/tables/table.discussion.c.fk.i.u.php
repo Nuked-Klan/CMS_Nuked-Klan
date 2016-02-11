@@ -10,7 +10,9 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_discussion');
+$dbTable->setTable(DISCUSSION_TABLE);
+
+require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -39,54 +41,36 @@ $discussionTableCfg = array(
 /*
  * Callback function for update row of discussion database table
  */
-function updateDiscussionRow($updateList, $row, $vars) {
+function updateDiscussionDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
         $setFields['texte'] = $vars['bbcode']->apply(stripslashes($row['texte']));
 
-    if (in_array('UPDATE_AUTHOR', $updateList)) {
-        $dbrUsers = $vars['db']->selectOne(
-            'SELECT `pseudo`
-            FROM `'. $vars['dbPrefix'] .'_users`
-            WHERE id = '. $row['authorId']
-        );
+    if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
+        $userData = getUserData($row['authorId']);
 
-        $setFields['author'] = $dbrUsers['pseudo'];
+        if ($userData === false)
+            $setFields['authorId'] = null;
+        else
+            $setFields['author'] = $userData['pseudo'];
     }
 
     return $setFields;
-}
-
-/*
- * Add author Id foreign key of discussion database table
- */
-function addAuthorIdForeignKey($dbTable, $dbPrefix) {
-    $dbTable->addForeignKey(
-        'FK_discussion_authorId', 'authorId',
-        $dbPrefix .'_users', 'id',
-        array('ON DELETE SET NULL')
-    );
-}
-
-/*
- * Add author Id foreign key of discussion database table
- */
-function addAuthorForeignKey($dbTable, $dbPrefix) {
-    $dbTable->addForeignKey(
-        'FK_discussion_author', 'author',
-        $dbPrefix .'_users', 'pseudo',
-        array('ON UPDATE CASCADE')
-    );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'checkIntegrity' && $dbTable->tableExist())
-    $dbTable->checkIntegrity('id', array('pseudo', null), 'texte');
-
+if ($process == 'checkIntegrity') {
+    if ($process == 'checkIntegrity' && $dbTable->tableExist()) {
+        // 
+        $dbTable->checkIntegrity('id', array('pseudo', null), 'texte');
+    }
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CHECK_INTEGRITY');
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
@@ -116,18 +100,6 @@ if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Add foreign key of table
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-if ($process == 'addForeignKey') {
-    if (! $dbTable->foreignKeyExist('FK_discussion_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_discussion_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -135,11 +107,14 @@ if ($process == 'update') {
     if ($discussionTableCreated)
         return;
 
+    // install / update 1.8
+    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(DISCUSSION_TABLE) == 'MyISAM')
+        $this->_db->execute('ALTER TABLE `'. DISCUSSION_TABLE .'` ENGINE=InnoDB;');
+
     if ($dbTable->fieldExist('pseudo') && $dbTable->getFieldType('pseudo') == 'text') {
         $dbTable->modifyField('pseudo', array_merge(array('newField' => 'authorId'), $discussionTableCfg['fields']['authorId']))
             ->addFieldIndex('authorId')
-            ->setCallbackFunctionVars(array('dbPrefix' => $this->_session['db_prefix'], 'db' => $this->_db))
-            ->setUpdateFieldData('UPDATE_AUTHOR', 'authorId');
+            ->setUpdateFieldData('UPDATE_AUTHOR_DATA', array('authorId', 'author'));
     }
 
     if (! $dbTable->fieldExist('author')) {
@@ -154,7 +129,19 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'texte');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateDiscussionRow');
+    $dbTable->applyUpdateFieldListToData();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Add foreign key of table
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'addForeignKey') {
+    if (! $dbTable->foreignKeyExist('FK_discussion_authorId'))
+        addAuthorIdForeignKey('discussion');
+
+    if (! $dbTable->foreignKeyExist('FK_discussion_author'))
+        addAuthorForeignKey('discussion');
 }
 
 ?>

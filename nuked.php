@@ -1378,7 +1378,14 @@ function visits() {
     $timeVisit  = $nuked['visit_delay'] * 60;
     $visitLimit = $time + $timeVisit;
 
-    $whereClause = ($user) ? 'user_id = '. nkDB_escape($user['id']) : 'ip = '. nkDB_escape($user_ip);
+    if ($user) {
+        $whereClause = 'user_id = '. nkDB_escape($user['id']);
+        $userId = $user['id'];
+    }
+    else {
+        $whereClause = 'ip = '. nkDB_escape($user_ip);
+        $userId = '';
+    }
 
     $dbsVisitorStats = nkDB_selectOne(
         'SELECT id, date
@@ -1410,7 +1417,7 @@ function visits() {
         }
 
         nkDB_insert(STATS_VISITOR_TABLE, array(
-            'user_id'   => $user['id'],
+            'user_id'   => $userId,
             'ip'        => $user_ip,
             'host'      => $host,
             'browser'   => $browser,

@@ -498,7 +498,6 @@ class process {
         $this->_view = new view('runProcess');
 
         $this->_view->process           = $this->_session['process'];
-        $this->_view->db_prefix         = $this->_session['db_prefix'];
         $this->_view->processDataList   = $this->_getProcessDataList();
     }
 
@@ -506,6 +505,8 @@ class process {
      * Create or update a database table
      */
     public function runTableProcessAction() {
+        $this->_session['db_type'] = 'MySQL';
+
         $this->_db = db::getInstance()->load($this->_session);
 
         $result = $error = '';
@@ -526,8 +527,17 @@ class process {
             else
                 $process = $this->_session['process'];
 
-            $dbTable = new dbTable($this->_db, $this->_session, $this->_i18n);
+            global $dbTable, $db_prefix, $db;
 
+            define('INDEX_CHECK', true);
+
+            $db_prefix = $this->_session['db_prefix'];
+            $db        = $this->_db;
+            $dbTable   = new dbTable($this->_db, $this->_session, $this->_i18n);
+
+            $dbTable->setDataName($_POST['tableFile']);
+
+            require_once '../Includes/constants.php';
             include $path;
 
             $result = $dbTable->getJqueryAjaxResponse();
@@ -539,8 +549,10 @@ class process {
                 $error = $e->getMessage();
         }
 
+        echo '#', $dbTable->getTableName(), '#';
+
         if ($result != '')
-            echo '#', $result, '#';
+            echo $result, '#';
 
         if ($error != '')
             echo $error, '<br />';

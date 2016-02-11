@@ -16,9 +16,11 @@ $dbTable->setTable($this->_session['db_prefix'] .'_packages');
 // Table removal
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// install 1.7.9 RC3 (created)
-// install 1.7.9 RC6 (removed)
-if ($process == 'update' && $dbTable->tableExist())
-    $dbTable->dropTable();
+if ($process == 'update') {
+    // install 1.7.9 RC3 (created)
+    // install 1.7.9 RC6 (removed)
+    if ($dbTable->tableExist())
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_DROP');
+}
 
 ?>

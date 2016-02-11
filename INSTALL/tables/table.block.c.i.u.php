@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_block');
+$dbTable->setTable(BLOCK_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -39,7 +39,7 @@ $blockTableCfg = array(
 /*
  * Callback function for update row of block database table
  */
-function updateBlockRow($updateList, $row, $vars) {
+function updateBlockDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -81,7 +81,8 @@ if ($process == 'install') {
     // TODO UPDATE BLOCK MENU
     // (2, 1, 1, \'\', \''. $this->_db->quote($this->_i18n['NAV']) .'\', \'[News]|'. $this->_db->quote($this->_i18n['NAV_NEWS']) .'||0|NEWLINE[Archives]|'. $this->_db->quote($this->_i18n['NAV_ARCHIV']) .'||0|NEWLINE[Forum]|'. $this->_db->quote($this->_i18n['NAV_FORUM']) .'||0|NEWLINE[Download]|'. $this->_db->quote($this->_i18n['NAV_DOWNLOAD']) .'||0|NEWLINE[Members]|'. $this->_db->quote($this->_i18n['NAV_MEMBERS']) .'||0|NEWLINE[Team]|'. $this->_db->quote($this->_i18n['NAV_TEAM']) .'||0|NEWLINE[Defy]|'. $this->_db->quote($this->_i18n['NAV_DEFY']) .'||0|NEWLINE[Recruit]|'. $this->_db->quote($this->_i18n['NAV_RECRUIT']) .'||0|NEWLINE[Sections]|'. $this->_db->quote($this->_i18n['NAV_ART']) .'||0|NEWLINE[Server]|'. $this->_db->quote($this->_i18n['NAV_SERVER']) .'||0|NEWLINE[Links]|'. $this->_db->quote($this->_i18n['NAV_LINKS']) .'||0|NEWLINE[Calendar]|'. $this->_db->quote($this->_i18n['NAV_CALENDAR']) .'||0|NEWLINE[Gallery]|'. $this->_db->quote($this->_i18n['NAV_GALLERY']) .'||0|NEWLINE[Wars]|'. $this->_db->quote($this->_i18n['NAV_MATCHS']) .'||0|NEWLINE[Irc]|'. $this->_db->quote($this->_i18n['NAV_IRC']) .'||0|NEWLINE[Guestbook]|'. $this->_db->quote($this->_i18n['NAV_GUESTBOOK']) .'||0|NEWLINE[Search]|'. $this->_db->quote($this->_i18n['NAV_SEARCH']) .'||0|NEWLINE|<b>'. $this->_db->quote($this->_i18n['MEMBER']) .'</b>||1|NEWLINE[User]|'. $this->_db->quote($this->_i18n['NAV_ACCOUNT']) .'||1|NEWLINE|<b>'. $this->_db->quote($this->_i18n['ADMIN']) .'</b>||2|NEWLINE[Admin]|'. $this->_db->quote($this->_i18n['NAV_ADMIN']) .'||2|\', \'menu\', 0, \'Tous\'),
 
-    $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_block` VALUES
+    // TODO For Wars block module : Replace `Matches` by `Matchs`
+    $sql = 'INSERT INTO `'. BLOCK_TABLE .'` VALUES
         (1, 2, 1, \'\', \''. $this->_db->quote($this->_i18n['BLOCK_LOGIN']) .'\', \'\', \'login\', 0, \'Tous\'),
         (2, 1, 1, \'\', \''. $this->_db->quote($this->_i18n['NAV']) .'\', \'|'. $this->_db->quote($this->_i18n['NAV_CONTENT']) .'||0||NEWLINE[News]|'. $this->_db->quote($this->_i18n['NAV_NEWS']) .'||0||NEWLINE[Archives]|'. $this->_db->quote($this->_i18n['NAV_ARCHIV']) .'||0||NEWLINE[Sections]|'. $this->_db->quote($this->_i18n['NAV_ART']) .'||0||NEWLINE[Calendar]|'. $this->_db->quote($this->_i18n['NAV_CALENDAR']) .'||0||NEWLINE[Stats]|'. $this->_db->quote($this->_i18n['NAV_STATS']) .'||0||NEWLINE|'. $this->_db->quote($this->_i18n['NAV_COMMUNITY']) .'||0||NEWLINE[Forum]|'. $this->_db->quote($this->_i18n['NAV_FORUM']) .'||0||NEWLINE[Guestbook]|'. $this->_db->quote($this->_i18n['NAV_GUESTBOOK']) .'||0||NEWLINE[Irc]|'. $this->_db->quote($this->_i18n['NAV_IRC']) .'||0||NEWLINE[Members]|'. $this->_db->quote($this->_i18n['NAV_MEMBERS']) .'||0||NEWLINE[Contact]|'. $this->_db->quote($this->_i18n['NAV_CONTACT_US']) .'||0||NEWLINE|'. $this->_db->quote($this->_i18n['NAV_MEDIAS']) .'||0||NEWLINE[Download]|'. $this->_db->quote($this->_i18n['NAV_DOWNLOAD']) .'||0||NEWLINE[Gallery]|'. $this->_db->quote($this->_i18n['NAV_GALLERY']) .'||0||NEWLINE[Links]|'. $this->_db->quote($this->_i18n['NAV_LINKS']) .'||0||NEWLINE|'. $this->_db->quote($this->_i18n['NAV_GAMES']) .'||0||NEWLINE[Team]|'. $this->_db->quote($this->_i18n['NAV_TEAM']) .'||0||NEWLINE[Defy]|'. $this->_db->quote($this->_i18n['NAV_DEFY']) .'||0||NEWLINE[Recruit]|'. $this->_db->quote($this->_i18n['NAV_RECRUIT']) .'||0||NEWLINE[Server]|'. $this->_db->quote($this->_i18n['NAV_SERVER']) .'||0||NEWLINE[Wars]|'. $this->_db->quote($this->_i18n['NAV_MATCHS']) .'||0||NEWLINE|'. $this->_db->quote($this->_i18n['MEMBER']) .'||1||NEWLINE[User]|'. $this->_db->quote($this->_i18n['NAV_ACCOUNT']) .'||1||NEWLINE[Admin]|'. $this->_db->quote($this->_i18n['NAV_ADMIN']) .'||2||\', \'menu\', 0, \'Tous\'),
         (3, 1, 2, \'Search\', \''. $this->_db->quote($this->_i18n['BLOCK_SEARCH']) .'\', \'\', \'module\', 0, \'Tous\'),
@@ -104,11 +105,11 @@ if ($process == 'install') {
 if ($process == 'update') {
     // install / update 1.7.5
     if (version_compare($this->_session['version'], '1.7.5', '<=')) {
-        $sql = 'INSERT INTO `'. $this->_session['db_prefix'] .'_block`
+        $sql = 'INSERT INTO `'. BLOCK_TABLE .'`
             (active, position, module, titre, content, type, nivo, page) VALUES
             (1, 4, \'\', \''. $this->_db->quote($this->_i18n['BLOCK_PARTNERS']) .'\', \'<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="'. $this->_db->quote($this->_i18n['GAME_SERVER_RENTING']) .'" /></a></div>\', \'html\', 0, \'Tous\');';
 
-        $dbTable->insertData(array('INSERT_BLOCK', 'BLOCK_PARTNERS'), $sql);
+        $dbTable->insertData(array('INSERT_BLOCK', $this->_i18n['BLOCK_PARTNERS']), $sql);
     }
 
     // Update BBcode
@@ -118,7 +119,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'content');
     }
 
-    $dbTable->applyUpdateFieldListToData('bid', 'updateBlockRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

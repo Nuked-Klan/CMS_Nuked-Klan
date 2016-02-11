@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_shoutbox');
+$dbTable->setTable(TEXTBOX_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -35,7 +35,7 @@ $shoutboxTableCfg = array(
 /*
  * Callback function for update row of shoutbox database table
  */
-function updateShoutboxRow($updateList, $row, $vars) {
+function updateShoutboxDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -90,7 +90,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'texte');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateShoutboxRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

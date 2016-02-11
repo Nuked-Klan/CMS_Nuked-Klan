@@ -1,8 +1,8 @@
 <?php
 /**
- * table.defie.c.i.u.php
+ * table.server_cat.c.i.u.php
  *
- * `[PREFIX]_defie` database table script
+ * `[PREFIX]_serveur_cat` database table script
  *
  * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -10,32 +10,19 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_defie');
+$dbTable->setTable(SERVER_CAT_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$defyTableCfg = array(
+$serverCatTableCfg = array(
     'fields' => array(
-        'id'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
-        'send'    => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\''),
-        'pseudo'  => array('type' => 'text',         'null' => false),
-        'clan'    => array('type' => 'text',         'null' => false),
-        'mail'    => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
-        'icq'     => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'irc'     => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'url'     => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
-        'pays'    => array('type' => 'text',         'null' => false),
-        'date'    => array('type' => 'varchar(20)',  'null' => false, 'default' => '\'\''),
-        'heure'   => array('type' => 'varchar(10)',  'null' => false, 'default' => '\'\''),
-        'serveur' => array('type' => 'text',         'null' => false),
-        'game'    => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
-        'type'    => array('type' => 'text',         'null' => false),
-        'map'     => array('type' => 'text',         'null' => false),
-        'comment' => array('type' => 'text',         'null' => false)
+        'cid'         => array('type' => 'int(30)',     'null' => false, 'autoIncrement' => true),
+        'titre'       => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
+        'description' => array('type' => 'text',        'null' => false)
     ),
-    'primaryKey' => array('id'),
+    'primaryKey' => array('cid'),
     'engine' => 'MyISAM'
 );
 
@@ -44,13 +31,13 @@ $defyTableCfg = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
- * Callback function for update row of defy database table
+ * Callback function for update row of server category database table
  */
-function updateDefyRow($updateList, $row, $vars) {
+function updateServerCatDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
-        $setFields['comment'] = $vars['bbcode']->apply(stripslashes($row['comment']));
+        $setFields['signature'] = $vars['bbcode']->apply(stripslashes($row['signature']));
 
     return $setFields;
 }
@@ -61,7 +48,7 @@ function updateDefyRow($updateList, $row, $vars) {
 
 if ($process == 'checkIntegrity') {
     // table and field exist in 1.6.x version
-    $dbTable->checkIntegrity('id', 'comment');
+    $dbTable->checkIntegrity('cid', 'description');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +70,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install')
-    $dbTable->createTable($defyTableCfg);
+    $dbTable->createTable($serverCatTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -91,13 +78,13 @@ if ($process == 'install')
 
 if ($process == 'update') {
     // Update BBcode
-    // update 1.7.9 RC1
+    // update 1.7.9 RC3
     if (version_compare($this->_session['version'], '1.7.9', '<=')) {
         $dbTable->setCallbackFunctionVars(array('bbcode' => new bbcode($this->_db, $this->_session, $this->_i18n)))
-            ->setUpdateFieldData('APPLY_BBCODE', 'comment');
+            ->setUpdateFieldData('APPLY_BBCODE', 'description');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateDefyRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

@@ -1,8 +1,8 @@
 <?php
 /**
- * table.serveur_cat.c.i.u.php
+ * table.recruit.c.i.u.php
  *
- * `[PREFIX]_serveur_cat` database table script
+ * `[PREFIX]_recrute` database table script
  *
  * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -10,19 +10,32 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_serveur_cat');
+$dbTable->setTable(RECRUIT_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$serverCatTableCfg = array(
+$recruitTableCfg = array(
     'fields' => array(
-        'cid'         => array('type' => 'int(30)',     'null' => false, 'autoIncrement' => true),
-        'titre'       => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'\''),
-        'description' => array('type' => 'text',        'null' => false)
+        'id'         => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'date'       => array('type' => 'varchar(12)', 'null' => false, 'default' => '\'\''),
+        'pseudo'     => array('type' => 'text',        'null' => false),
+        'prenom'     => array('type' => 'text',        'null' => false),
+        'age'        => array('type' => 'int(3)',      'null' => false, 'default' => '\'0\''),
+        'mail'       => array('type' => 'varchar(80)', 'null' => false, 'default' => '\'\''),
+        'icq'        => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
+        'country'    => array('type' => 'text',        'null' => false),
+        'game'       => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'connection' => array('type' => 'text',        'null' => false),
+        'experience' => array('type' => 'text',        'null' => false),
+        'dispo'      => array('type' => 'text',        'null' => false),
+        'comment'    => array('type' => 'text',        'null' => false)
     ),
-    'primaryKey' => array('cid'),
+    'primaryKey' => array('id'),
+    'index' => array(
+        'game' => 'game'
+    ),
     'engine' => 'MyISAM'
 );
 
@@ -31,13 +44,13 @@ $serverCatTableCfg = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
- * Callback function for update row of server category database table
+ * Callback function for update row of recruit database table
  */
-function updateServerCatRow($updateList, $row, $vars) {
+function updateRecruitDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
-        $setFields['signature'] = $vars['bbcode']->apply(stripslashes($row['signature']));
+        $setFields['comment'] = $vars['bbcode']->apply(stripslashes($row['comment']));
 
     return $setFields;
 }
@@ -48,7 +61,7 @@ function updateServerCatRow($updateList, $row, $vars) {
 
 if ($process == 'checkIntegrity') {
     // table and field exist in 1.6.x version
-    $dbTable->checkIntegrity('cid', 'description');
+    $dbTable->checkIntegrity('id', 'comment');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +83,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'install')
-    $dbTable->createTable($serverCatTableCfg);
+    $dbTable->createTable($recruitTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
@@ -78,13 +91,13 @@ if ($process == 'install')
 
 if ($process == 'update') {
     // Update BBcode
-    // update 1.7.9 RC3
+    // update 1.7.9 RC1
     if (version_compare($this->_session['version'], '1.7.9', '<=')) {
         $dbTable->setCallbackFunctionVars(array('bbcode' => new bbcode($this->_db, $this->_session, $this->_i18n)))
-            ->setUpdateFieldData('APPLY_BBCODE', 'description');
+            ->setUpdateFieldData('APPLY_BBCODE', 'comment');
     }
 
-    $dbTable->applyUpdateFieldListToData('cid', 'updateServerCatRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

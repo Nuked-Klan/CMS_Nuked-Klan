@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_userbox');
+$dbTable->setTable(USERBOX_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -41,7 +41,7 @@ $userboxTableCfg = array(
 /*
  * Callback function for update row of userbox database table
  */
-function updateUserboxRow($updateList, $row, $vars) {
+function updateUserboxDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -92,7 +92,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'message');
     }
 
-    $dbTable->applyUpdateFieldListToData('mid', 'updateUserboxRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

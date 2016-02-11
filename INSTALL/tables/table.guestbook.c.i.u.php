@@ -10,7 +10,7 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_guestbook');
+$dbTable->setTable(GUESTBOOK_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -37,7 +37,7 @@ $guestbookTableCfg = array(
 /*
  * Callback function for update row of guestbook database table
  */
-function updateGuestbookRow($updateList, $row, $vars) {
+function updateGuestbookDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList))
@@ -88,7 +88,7 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', 'comment');
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateGuestbookRow');
+    $dbTable->applyUpdateFieldListToData();
 }
 
 ?>

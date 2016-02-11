@@ -10,7 +10,9 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_news');
+$dbTable->setTable(NEWS_TABLE);
+
+require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
@@ -46,7 +48,7 @@ $newsTableCfg = array(
 /*
  * Callback function for update row of news database table
  */
-function updateNewsRow($updateList, $row, $vars) {
+function updateNewsDbTableRow($updateList, $row, $vars) {
     $setFields = array();
 
     if (in_array('APPLY_BBCODE', $updateList)) {
@@ -56,29 +58,16 @@ function updateNewsRow($updateList, $row, $vars) {
             $setFields['suite'] = $vars['bbcode']->apply(stripslashes($row['suite']));
     }
 
+    if (in_array('UPDATE_AUTHOR_DATA', $updateList)) {
+        $userData = getUserData($row['auteur_id']);
+
+        if ($userData === false)
+            $setFields['auteur_id'] = null;
+        else
+            $setFields['auteur'] = $userData['pseudo'];
+    }
+
     return $setFields;
-}
-
-/*
- * Add author Id foreign key of news database table
- */
-function addAuthorIdForeignKey($dbTable, $dbprefix) {
-    $dbTable->addForeignKey(
-        'FK_news_authorId', 'auteur_id',
-        $dbprefix .'_users', 'id',
-        array('ON DELETE SET NULL')
-    );
-}
-
-/*
- * Add author Id foreign key of news database table
- */
-function addAuthorForeignKey($dbTable, $dbprefix) {
-    $dbTable->addForeignKey(
-        'FK_news_author', 'auteur',
-        $dbprefix .'_users', 'pseudo',
-        array('ON UPDATE CASCADE')
-    );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,18 +102,6 @@ if ($process == 'install')
     $dbTable->createTable($newsTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Add foreign key of table
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-if ($process == 'addForeignKey') {
-    if (! $dbTable->foreignKeyExist('FK_news_authorId'))
-        addAuthorIdForeignKey($dbTable, $this->_session['db_prefix']);
-
-    if (! $dbTable->foreignKeyExist('FK_news_author'))
-        addAuthorForeignKey($dbTable, $this->_session['db_prefix']);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table update
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -132,7 +109,8 @@ if ($process == 'update') {
     // install / update 1.8
     if ($dbTable->fieldExist('auteur')) {
         if ($dbTable->getFieldType('auteur') != 'varchar(30)' || $dbTable->checkFieldIsNull('auteur'))
-            $dbTable->modifyField('auteur', $newsTableCfg['fields']['auteur']);
+            $dbTable->modifyField('auteur', $newsTableCfg['fields']['auteur'])
+                ->setUpdateFieldData('UPDATE_AUTHOR_DATA', array('auteur_id', 'auteur'));
 
         if (! $dbTable->checkFieldIsIndex('auteur'))
             $dbTable->addFieldIndex('auteur');
@@ -146,8 +124,8 @@ if ($process == 'update') {
             $dbTable->addFieldIndex('auteur_id');
     }
 
-    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine($this->_session['db_prefix'] .'_news'))
-        $this->_db->execute('ALTER TABLE `'. $this->_session['db_prefix'] .'_news` ENGINE=InnoDB;');
+    if ($this->_session['db_type'] == 'MySQL' && $this->_db->getTableEngine(NEWS_TABLE) == 'MyISAM')
+        $this->_db->execute('ALTER TABLE `'. NEWS_TABLE .'` ENGINE=InnoDB;');
 
     if (! $dbTable->fieldExist('coverage'))
         $dbTable->addField('coverage', $newsTableCfg['fields']['coverage']);
@@ -159,7 +137,19 @@ if ($process == 'update') {
             ->setUpdateFieldData('APPLY_BBCODE', array('texte', 'suite'));
     }
 
-    $dbTable->applyUpdateFieldListToData('id', 'updateNewsRow');
+    $dbTable->applyUpdateFieldListToData();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Add foreign key of table
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'addForeignKey') {
+    if (! $dbTable->foreignKeyExist('FK_news_authorId'))
+        addAuthorIdForeignKey('news', 'auteur_id');
+
+    if (! $dbTable->foreignKeyExist('FK_news_author'))
+        addAuthorForeignKey('news', 'auteur');
 }
 
 ?>

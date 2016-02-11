@@ -10,7 +10,6 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-define('COMMENT_MODULES_TABLE', $this->_session['db_prefix'] .'_comment_modules');
 define('COMMENT_MOD_TABLE', $this->_session['db_prefix'] .'_comment_mod');
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,15 +97,18 @@ if ($process == 'update') {
                 ->renameTable(COMMENT_MODULES_TABLE);
         }
     }
+    else {
+        $dbTable->setTable(COMMENT_MODULES_TABLE);
+    }
 
     if ($dbTable->fieldExist('id') && $dbTable->getFieldType('id') != 'tinyint(2)')
-        $dbTable->modifyField('id', $forumMsgTableCfg['fields']['id']);
+        $dbTable->modifyField('id', $commentModTableCfg['fields']['id']);
 
     if ($dbTable->fieldExist('module') && $dbTable->getFieldType('module') != 'varchar(50)')
-        $dbTable->modifyField('module', $forumMsgTableCfg['fields']['module']);
+        $dbTable->modifyField('module', $commentModTableCfg['fields']['module']);
 
     if ($dbTable->fieldExist('active') && $dbTable->getFieldType('active') != 'tinyint(1)')
-        $dbTable->modifyField('active', $forumMsgTableCfg['fields']['active']);
+        $dbTable->modifyField('active', $commentModTableCfg['fields']['active']);
 }
 
 ?>

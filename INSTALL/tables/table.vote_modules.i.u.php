@@ -10,8 +10,6 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-define('VOTE_MODULES_TABLE', $this->_session['db_prefix'] .'_vote_modules');
-
 $dbTable->setTable(VOTE_MODULES_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

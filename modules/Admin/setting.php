@@ -14,7 +14,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
-include 'Includes/nkStats.php';
+require_once 'Includes/nkStats.php';
 
 function select_theme($mod)
 {
