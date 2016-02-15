@@ -78,6 +78,7 @@ define('TEXTBOX_TABLE', $db_prefix . '_shoutbox');
 define('USERBOX_TABLE', $db_prefix . '_userbox');
 define('USER_TABLE', $db_prefix . '_users');
 define('USER_DETAIL_TABLE', $db_prefix . '_users_detail');
+define('USER_SOCIAL_TABLE', $db_prefix .'_user_social');
 define('VOTE_TABLE', $db_prefix . '_vote');
 define('VOTE_MODULES_TABLE', $db_prefix . '_vote_modules');
 define('WARS_TABLE', $db_prefix . '_match');

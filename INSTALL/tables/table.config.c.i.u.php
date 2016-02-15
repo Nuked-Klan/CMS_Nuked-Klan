@@ -255,18 +255,6 @@ if ($process == 'install') {
         (\'forum_labels_active\', \'on\'),
         (\'forum_display_modos\', \'on\'),
         (\'textbox_avatar\', \'on\'),
-        (\'user_email\', \'off\'),
-        (\'user_icq\', \'off\'),
-        (\'user_msn\', \'off\'),
-        (\'user_aim\', \'off\'),
-        (\'user_yim\', \'off\'),
-        (\'user_xfire\', \'on\'),
-        (\'user_facebook\', \'on\'),
-        (\'user_origin\', \'on\'),
-        (\'user_steam\', \'on\'),
-        (\'user_twitter\', \'off\'),
-        (\'user_skype\', \'on\'),
-        (\'user_website\', \'on\'),
         (\'user_social_level\', \'0\'),
         (\'sp_version\', \'off\'),
         (\'index_page\', \'\'),
@@ -363,18 +351,6 @@ if ($process == 'update') {
     addDefaultCfgValue('forum_labels_active', 'on');
     addDefaultCfgValue('forum_display_modos', 'on');
     addDefaultCfgValue('textbox_avatar', 'on');
-    addDefaultCfgValue('user_email', 'off');
-    addDefaultCfgValue('user_icq', 'off');
-    addDefaultCfgValue('user_msn', 'off');
-    addDefaultCfgValue('user_aim', 'off');
-    addDefaultCfgValue('user_yim', 'off');
-    addDefaultCfgValue('user_xfire', 'off');
-    addDefaultCfgValue('user_facebook', 'on');
-    addDefaultCfgValue('user_origin', 'off');
-    addDefaultCfgValue('user_steam', 'off');
-    addDefaultCfgValue('user_twitter', 'off');
-    addDefaultCfgValue('user_skype', 'on');
-    addDefaultCfgValue('user_website', 'on');
     addDefaultCfgValue('user_social_level', 0);
     addDefaultCfgValue('sp_version', 'off');
     addDefaultCfgValue('index_page', '');

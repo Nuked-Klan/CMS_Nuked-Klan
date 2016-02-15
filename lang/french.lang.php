@@ -473,6 +473,11 @@ return array(
     'UPLOAD_DIRECTORY_NO_EXIST' => 'Le dossier d\'upload n\'existe pas !',
     'UPLOAD_DIRECTORY_NO_WRITEABLE' => 'Le dossier d\'upload n\'a pas les droits d\'écriture !',
     'UPLOAD_FILE_FAILED' => 'Le Téléchargement du fichier a échoué !',
+    // nkUserSocial_getLinkTitle - Includes/nkUserSocial.php
+    'SEND_EMAIL'        => 'Lui envoyer un email',
+    'SEE_HOME_PAGE'     => 'Voir le site web de %s',
+    'USER_LABEL_EMAIL'  => 'Email publique',
+    'LABEL_EMAIL'       => 'Email',
     // views/frontend/banishmentMessage.php
     'IP_BANNED'         => 'Vous avez été banni de ce site et n\'êtes donc plus autorisé à y accéder.',
     'REASON'            => 'Raison :',

@@ -1979,4 +1979,14 @@ function array_map_recursive(callable $func, array $arr) {
     return $arr;
 }
 
+// http://stackoverflow.com/a/3005240
+function str2htmlEntities($str) {
+    //$str = mb_convert_encoding($str, 'UTF-32', 'UTF-8');
+    $str = mb_convert_encoding($str, 'UTF-32', 'ISO-8859-1');
+    $t = unpack('N*', $str);
+    $t = array_map(function($n) { return "&#$n;"; }, $t);
+
+    return implode('', $t);
+}
+
 ?>

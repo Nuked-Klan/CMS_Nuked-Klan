@@ -1,0 +1,3 @@
+/* User setting form */
+form#userSocialForm>div.nkFormRow>label{width:50%;}
+#userSocialCheckAll input{margin-left:50%;}

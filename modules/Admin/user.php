@@ -17,7 +17,9 @@ if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
 
 function add_user()
 {
-    global $nuked, $language;
+    global $language;
+
+    require_once 'Includes/nkUserSocial.php';
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _ADDUSER . "</h3>\n"
@@ -34,17 +36,15 @@ function add_user()
     . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" /> *</td></tr>\n"
     . "<tr><td><b>" . _PASSWORD . " (" . _CONFIRMPASS . ") :</b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"80\" /> *</td></tr>\n"
     . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" /> *</td></tr>\n";
-    if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"80\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
-    if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n";}
-    if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
-    if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
-    if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
-    if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
-    if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
-    if ($nuked['user_origin'] == 'on'){echo "<tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
-    if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
-    if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
-    if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
+
+    foreach (nkUserSocial_getConfig() as $userSocial) {
+        $userSocialInput = nkUserSocial_getInputConfig($userSocial);
+
+        echo '<tr><td><b>', $userSocialInput['label'], ' : </b></td><td><input type="text" name="'
+            , $userSocial['field'], '" size="', $userSocial['size'], '" maxlength="'
+            , $userSocial['maxlength'], '" value="" /></td></tr>', "\n";
+    }
+
     echo "<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
 
     if ($language == "french") $pays = "France.gif";
@@ -131,13 +131,22 @@ function edit_user($id_user)
 {
     global $nuked, $language, $user;
 
-    $sql = mysql_query("SELECT niveau, pseudo, pass, url, mail, email, icq, msn, aim, yim, rang, team, team2, team3, country, game, avatar, signature, xfire, facebook ,origin, steam, twitter, skype FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-    list($niveau, $nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $rang, $team, $team2, $team3, $pays, $game, $avatar, $signature, $xfire, $facebook ,$origin, $steam, $twitter, $skype) = mysql_fetch_array($sql);
+    require_once 'Includes/nkUserSocial.php';
 
+    $userSocialFields = implode(', ', nkUserSocial_getActiveFields());
 
-    if ($team != "")
+    if ($userSocialFields != '') $userSocialFields = ', '. $userSocialFields;
+
+    $dbrUser = nkDB_selectOne(
+        'SELECT niveau, pseudo, mail, rang, team, team2, team3, country, game, avatar, signature
+        '. $userSocialFields .'
+        FROM '. USER_TABLE .'
+        WHERE id = '. nkDB_escape($id_user)
+    );
+
+    if ($dbrUser['team'] != "")
     {
-        $sql2 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
+        $sql2 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $dbrUser['team'] . "'");
         list($user_team) = mysql_fetch_array($sql2);
     }
     else
@@ -145,9 +154,9 @@ function edit_user($id_user)
         $user_team = _TEAMNONE;
     }
 
-    if ($team2 != "")
+    if ($dbrUser['team2'] != "")
     {
-        $sql3 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team2 . "'");
+        $sql3 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $dbrUser['team2'] . "'");
         list($user_team2) = mysql_fetch_array($sql3);
     }
     else
@@ -155,9 +164,9 @@ function edit_user($id_user)
         $user_team2 = _TEAMNONE;
     }
 
-    if ($team3 != "")
+    if ($dbrUser['team3'] != "")
     {
-        $sql4 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team3 . "'");
+        $sql4 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $dbrUser['team3'] . "'");
         list($user_team3) = mysql_fetch_array($sql4);
     }
     else
@@ -165,9 +174,9 @@ function edit_user($id_user)
         $user_team3 = _TEAMNONE;
     }
 
-    if ($rang > 0)
+    if ($dbrUser['rang'] > 0)
     {
-        $sql5 = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
+        $sql5 = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $dbrUser['rang'] . "'");
         list($rank_name) = mysql_fetch_array($sql5);
     }
     else
@@ -182,22 +191,25 @@ function edit_user($id_user)
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=update_user\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\" border=\"0\">\n"
-    . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"nick\" size=\"30\" maxlength=\"80\" value=\"" . $nick . "\" /> *</td></tr>\n"
+    . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"nick\" size=\"30\" maxlength=\"80\" value=\"" . $dbrUser['pseudo'] . "\" /> *</td></tr>\n"
     . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"80\" autocomplete=\"off\" /></td></tr>\n"
     . "<tr><td><b>" . _PASSWORD . " (" . _CONFIRMPASS . ") :</b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"80\" autocomplete=\"off\" /></td></tr>\n"
-    . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail . "\" /> *</td></tr>\n";
-    if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
-    if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n";}
-    if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
-    if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
-    if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
-    if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
-    if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
-    if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
-    if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
-    if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
-    if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
-    echo"<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
+    . "<tr><td><b>" . _MAIL . " :</b></td><td><input type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $dbrUser['mail'] . "\" /> *</td></tr>\n";
+
+    foreach (nkUserSocial_getConfig() as $userSocial) {
+        $userSocialInput = nkUserSocial_getInputConfig($userSocial);
+
+        if (isset($dbrUser[$userSocial['field']]))
+            $value = $dbrUser[$userSocial['field']];
+        else
+            $value = '';
+
+        echo '<tr><td><b>', $userSocialInput['label'], ' : </b></td><td><input type="text" name="'
+            , $userSocial['field'], '" size="', $userSocial['size'], '" maxlength="'
+            , $userSocial['maxlength'], '" value="', $value, '" /></td></tr>', "\n";
+    }
+
+    echo "<tr><td><b>" . _COUNTRY . " :</b></td><td><select name=\"country\">\n";
 
     $rep = Array();
     $handle = @opendir("images/flags");
@@ -214,7 +226,7 @@ function edit_user($id_user)
 
     while (list ($key, $filename) = each ($rep))
     {
-            if ($filename == $pays)
+            if ($filename == $dbrUser['country'])
             {
                 $checked = "selected=\"selected\"";
             }
@@ -235,7 +247,7 @@ function edit_user($id_user)
     {
         $nom = printSecuTags($nom);
 
-        if ($game_id == $game)
+        if ($game_id == $dbrUser['game'])
         {
             $checked1 = "selected=\"selected\"";
         }
@@ -249,12 +261,12 @@ function edit_user($id_user)
 
     if ($user[0] == $id_user)
     {
-        echo"</select><input type=\"hidden\" name=\"niveau\" value=\"" . $niveau . "\" /></td></tr>\n";
+        echo"</select><input type=\"hidden\" name=\"niveau\" value=\"" . $dbrUser['niveau'] . "\" /></td></tr>\n";
     }
     else
     {
         echo"</select></td></tr>\n"
-        . "<tr><td><b>" . _LEVEL . " :</b></td><td><select name=\"niveau\"><option>" . $niveau . "</option>\n"
+        . "<tr><td><b>" . _LEVEL . " :</b></td><td><select name=\"niveau\"><option>" . $dbrUser['niveau'] . "</option>\n"
         . "<option>1</option>\n"
         . "<option>2</option>\n"
         . "<option>3</option>\n"
@@ -266,191 +278,177 @@ function edit_user($id_user)
         . "<option>9</option></select></td></tr>\n";
     }
 
-    echo "<tr><td><b>" . _TEAM . " : </b></td><td><select name=\"team\"><option value=\"" . $team . "\">" . $user_team . "</option>\n";
+    echo "<tr><td><b>" . _TEAM . " : </b></td><td><select name=\"team\"><option value=\"" . $dbrUser['team'] . "\">" . $user_team . "</option>\n";
 
     select_cat();
 
     echo "<option value=\"\">" . _TEAMNONE . "</option></select></td></tr>\n"
-    . "<tr><td><b>" . _TEAM . " 2 : </b></td><td><select name=\"team2\"><option value=\"" . $team2 . "\">" . $user_team2 . "</option>\n";
+    . "<tr><td><b>" . _TEAM . " 2 : </b></td><td><select name=\"team2\"><option value=\"" . $dbrUser['team2'] . "\">" . $user_team2 . "</option>\n";
 
     select_cat();
 
     echo "<option value=\"\">" . _TEAMNONE . "</option></select></td></tr>\n"
-    . "<tr><td><b>" . _TEAM . " 3 : </b></td><td><select name=\"team3\"><option value=\"" . $team3 . "\">" . $user_team3 . "</option>\n";
+    . "<tr><td><b>" . _TEAM . " 3 : </b></td><td><select name=\"team3\"><option value=\"" . $dbrUser['team3'] . "\">" . $user_team3 . "</option>\n";
 
     select_cat();
 
     echo "<option value=\"\">" . _TEAMNONE . "</option></select></td></tr>\n"
-    . "<tr><td><b>" . _RANKTEAM . " : </b></td><td><select name=\"rang\"><option value=\""  . $rang . "\">" . $rank_name . "</option>\n";
+    . "<tr><td><b>" . _RANKTEAM . " : </b></td><td><select name=\"rang\"><option value=\""  . $dbrUser['rang'] . "\">" . $rank_name . "</option>\n";
 
     select_rank();
 
     echo"<option value=\"\">" . _NORANK . "</option></select></td></tr>\n"
     . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $avatar . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\">" . $signature . "</textarea></td></tr>\n"
-    . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"id_user\" value=\"" . $id_user . "\" /><input type=\"hidden\" name=\"pass\" value=\"" . $pass . "\" /><input type=\"hidden\" name=\"old_nick\" value=\"".$nick."\" /></td></tr>\n"
+    . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $dbrUser['avatar'] . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\">" . $dbrUser['signature'] . "</textarea></td></tr>\n"
+    . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"id_user\" value=\"" . $id_user . "\" /></td></tr>\n"
     . "<tr><td colspan=\"2\" align=\"center\"></td></tr></table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFUSER . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 
 }
 
-function update_user($id_user, $team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $pass, $game, $avatar, $signature, $old_nick, $xfire, $facebook ,$origin, $steam, $twitter, $skype)
-{
-    global $nuked, $user;
+function update_user($id_user) {
+    require_once 'Includes/nkUserSocial.php';
 
-    $nick = checkNickname($nick);
+    $_POST['nick'] = checkNickname($_POST['nick']);
 
-    if (($error = getCheckNicknameError($nick)) !== false) {
+    if (($error = getCheckNicknameError($_POST['nick'])) !== false) {
         printNotification($error, 'error');
         redirect('index.php?file=Admin&page=user&op=edit_user&id_user='. $id_user, 2);
         return;
     }
 
-    if ($mail == "")
+    if ($_POST['mail'] == "")
     {
         printNotification(_EMPTYFIELD, 'error');
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $id_user, 2);
         return;
     }
-    else if ($pass_reg != $pass_conf)
+    else if ($_POST['pass_reg'] != $_POST['pass_conf'])
     {
         printNotification(_2PASSFAIL, 'error');
         redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $id_user, 2);
         return;
     }
+
+    $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
+
+    $_POST['signature'] = stripslashes($_POST['signature']);
+    $_POST['signature'] = secu_html(nkHtmlEntityDecode($_POST['signature']));
+
+    $_POST['avatar']    = stripslashes($_POST['avatar']);
+    $_POST['avatar']    = nkHtmlEntities($_POST['avatar']);
+
+    $data = array(
+        'team'      => $_POST['team'],
+        'team2'     => $_POST['team2'],
+        'team3'     => $_POST['team3'],
+        'rang'      => $_POST['rang'],
+        'pseudo'    => $_POST['nick'],
+        'mail'      => $_POST['mail'],
+        'country'   => $_POST['country'],
+        'niveau'    => $_POST['niveau'],
+        'game'      => $_POST['game'],
+        'avatar'    => $_POST['avatar'],
+        'signature' => $_POST['signature'],
+    );
+
+    if ($_POST['pass_reg'] != '')
+        $data['pass'] = nk_hash($_POST['pass_reg']);
+
+    if ($_POST['rang'] != "")
+    {
+        $sql_rank = mysql_query("SELECT ordre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $_POST['rang'] . "'");
+        list($data['ordre']) = mysql_fetch_array($sql_rank);
+    }
     else
     {
-        if ($pass_reg != '') {
-            $cryptpass = 'pass = \'' . nk_hash($pass_reg).'\', ';
-        } else {
-            $cryptpass = '';
-        }
-
-
-        if ($rang != "")
-        {
-            $sql_rank = mysql_query("SELECT ordre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
-            list($ordre) = mysql_fetch_array($sql_rank);
-        }
-        else
-        {
-            $ordre = 0;
-        }
-
-        $nick = nkHtmlEntities($nick, ENT_QUOTES);
-
-        $signature = mysql_real_escape_string(stripslashes($signature));
-        $email = mysql_real_escape_string(stripslashes($email));
-        $icq = mysql_real_escape_string(stripslashes($icq));
-        $msn = mysql_real_escape_string(stripslashes($msn));
-        $aim = mysql_real_escape_string(stripslashes($aim));
-        $yim = mysql_real_escape_string(stripslashes($yim));
-        $xfire = mysql_real_escape_string(stripslashes($xfire));
-        $facebook = mysql_real_escape_string(stripslashes($facebook));
-        $steam = mysql_real_escape_string(stripslashes($steam));
-        $origin = mysql_real_escape_string(stripslashes($origin));
-        $twitter = mysql_real_escape_string(stripslashes($twitter));
-        $skype = mysql_real_escape_string(stripslashes($skype));
-        $url = mysql_real_escape_string(stripslashes($url));
-        $avatar = mysql_real_escape_string(stripslashes($avatar));
-
-        $signature = secu_html(nkHtmlEntityDecode($signature));
-        $email = nkHtmlEntities($email);
-        $icq = nkHtmlEntities($icq);
-        $msn = nkHtmlEntities($msn);
-        $aim = nkHtmlEntities($aim);
-        $yim = nkHtmlEntities($yim);
-        $xfire = nkHtmlEntities($xfire);
-        $facebook = nkHtmlEntities($facebook);
-        $steam = nkHtmlEntities($steam);
-        $origin = nkHtmlEntities($origin);
-        $twitter = nkHtmlEntities($twitter);
-        $skype = nkHtmlEntities($skype);
-        $url = nkHtmlEntities($url);
-        $avatar = nkHtmlEntities($avatar);
-
-        $sql = mysql_query("UPDATE " . USER_TABLE . " SET team = '" . $team . "', team2 = '" . $team2 . "', team3 = '" . $team3 . "', rang = '" . $rang . "', ordre = '" . $ordre . "', pseudo = '" . $nick . "', mail = '" . $mail . "', email = '" . $email . "', icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', url = '" . $url . "', country = '" . $country . "', niveau = '" . $niveau . "', " . $cryptpass . "game = '" . $game . "', avatar = '" . $avatar . "', signature = '" . $signature . "', xfire = '" . $xfire . "', facebook = '" . $facebook . "', origin = '" . $origin . "', steam = '" . $steam . "', twitter = '" . $twitter . "' , skype = '" . $skype . "' WHERE id = '" . $id_user . "'");
-
-        saveUserAction(_ACTIONMODIFUSER .': '. $nick);
-
-        printNotification(_INFOSMODIF, 'success');
-        redirect("index.php?file=Admin&page=user", 2);
+        $data['ordre'] = 0;
     }
+
+    foreach (nkUserSocial_getConfig() as $userSocial) {
+        if (isset($_POST[$userSocial['field']])) {
+            $data[$userSocial['field']] = nkHtmlEntities(stripslashes($_POST[$userSocial['field']]));
+        }
+    }
+
+    nkDB_update(USER_TABLE, $data, 'id = '. nkDB_escape($id_user));
+
+    saveUserAction(_ACTIONMODIFUSER .': '. $_POST['nick']);
+
+    printNotification(_INFOSMODIF, 'success');
+    redirect("index.php?file=Admin&page=user", 2);
 }
 
-function do_user($team, $team2, $team3, $rang, $nick, $mail, $email, $url, $icq, $msn, $aim, $yim, $country, $niveau, $pass_reg, $pass_conf, $game, $avatar, $signature, $xfire, $facebook ,$origin, $steam, $twitter, $skype)
-{
-    global $nuked, $user;
+function do_user() {
+    require_once 'Includes/nkUserSocial.php';
 
-    if ($pass_reg == "" || $pass_conf == "" || $nick == "" || $mail == "")
+    if ($_POST['pass_reg'] == "" || $_POST['pass_conf'] == "" || $_POST['nick'] == "" || $_POST['mail'] == "")
     {
         printNotification(_EMPTYFIELD, 'error');
         redirect("index.php?file=Admin&page=user&op=add_user", 2);
         return;
     }
-    else if ($pass_reg != $pass_conf)
+    else if ($_POST['pass_reg'] != $_POST['pass_conf'])
     {
         printNotification(_2PASSFAIL, 'error');
         redirect("index.php?file=Admin&page=user&op=add_user", 2);
         return;
     }
-    else
-    {
-        $nick = checkNickname($nick);
 
-        if (($error = getCheckNicknameError($nick)) !== false) {
-            printNotification($error, 'error');
-            redirect('index.php?file=Admin&page=user&op=add_user', 2);
-            return;
-        }
+    $_POST['nick'] = checkNickname($_POST['nick']);
 
-        $cryptpass = nk_hash($pass_reg);
-
-        do {
-            $id_user = sha1(uniqid());
-        } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
-
-        $date = time();
-        $nick = nkHtmlEntities($nick, ENT_QUOTES);
-
-        $signature = mysql_real_escape_string(stripslashes($signature));
-        $email = mysql_real_escape_string(stripslashes($email));
-        $icq = mysql_real_escape_string(stripslashes($icq));
-        $msn = mysql_real_escape_string(stripslashes($msn));
-        $aim = mysql_real_escape_string(stripslashes($aim));
-        $yim = mysql_real_escape_string(stripslashes($yim));
-        $xfire = mysql_real_escape_string(stripslashes($xfire));
-        $facebook = mysql_real_escape_string(stripslashes($facebook));
-        $steam = mysql_real_escape_string(stripslashes($steam));
-        $origin = mysql_real_escape_string(stripslashes($origin));
-        $twitter = mysql_real_escape_string(stripslashes($twitter));
-        $skype = mysql_real_escape_string(stripslashes($skype));
-        $url = mysql_real_escape_string(stripslashes($url));
-        $avatar = mysql_real_escape_string(stripslashes($avatar));
-
-        $signature = secu_html(nkHtmlEntityDecode($signature));
-        $email = nkHtmlEntities($email);
-        $icq = nkHtmlEntities($icq);
-        $msn = nkHtmlEntities($msn);
-        $aim = nkHtmlEntities($aim);
-        $yim = nkHtmlEntities($yim);
-        $xfire = nkHtmlEntities($xfire);
-        $facebook = nkHtmlEntities($facebook);
-        $steam = nkHtmlEntities($steam);
-        $origin = nkHtmlEntities($origin);
-        $twitter = nkHtmlEntities($twitter);
-        $skype = nkHtmlEntities($skype);
-        $url = nkHtmlEntities($url);
-        $avatar = nkHtmlEntities($avatar);
-
-        $sql = mysql_query("INSERT INTO " . USER_TABLE . "  ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` , `xfire` , `facebook` , `origin` , `steam` , `twitter` , `skype` ) VALUES ( '" . $id_user . "' , '" . $team . "' , '" . $team2 . "' , '" . $team3 . "' , '" . $rang . "' , '' , '" . $nick . "' , '" . $mail . "' , '" . $email . "' , '" . $icq . "' , '" . $msn . "' , '" . $aim . "' , '" . $yim . "' , '" . $url . "' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '" . $avatar . "' , '" . $signature . "' , '' , '' , '" . $game . "' , '" . $country . "' , '' , '" . $xfire . "' , '" . $facebook . "', '" . $origin . "' , '" . $steam . "' , '" . $twitter . "' , '" . $skype . "')");
-
-        saveUserAction(_ACTIONADDUSER .': '. $nick);
-
-        printNotification(_USERADD, 'success');
-        redirect("index.php?file=Admin&page=user", 2);
+    if (($error = getCheckNicknameError($_POST['nick'])) !== false) {
+        printNotification($error, 'error');
+        redirect('index.php?file=Admin&page=user&op=add_user', 2);
+        return;
     }
+
+    do {
+        $id_user = sha1(uniqid());
+    } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
+
+    $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
+
+    $_POST['signature'] = stripslashes($_POST['signature']);
+    $_POST['signature'] = secu_html(nkHtmlEntityDecode($_POST['signature']));
+
+    $_POST['avatar'] = stripslashes($_POST['avatar']);
+    $_POST['avatar'] = nkHtmlEntities($_POST['avatar']);
+
+    $data = array(
+        'id'        => $id_user,
+        'team'      => $_POST['team'],
+        'team2'     => $_POST['team2'],
+        'team3'     => $_POST['team3'],
+        'rang'      => $_POST['rang'],
+        'ordre'     => '',
+        'pseudo'    => $_POST['nick'],
+        'pass'      => nk_hash($_POST['pass_reg']),
+        'mail'      => $_POST['mail'],
+        'country'   => $_POST['country'],
+        'niveau'    => $_POST['niveau'],
+        'game'      => $_POST['game'],
+        'avatar'    => $_POST['avatar'],
+        'signature' => $_POST['signature'],
+        'date'      => time(),
+        'user_theme' => '',
+        'user_langue' => '',
+        'count'     => ''
+    );
+
+    foreach (nkUserSocial_getConfig() as $userSocial) {
+        if (isset($_POST[$userSocial['field']])) {
+            $data[$userSocial['field']] = nkHtmlEntities(stripslashes($_POST[$userSocial['field']]));
+        }
+    }
+
+    nkDB_insert(USER_TABLE, $data);
+
+    saveUserAction(_ACTIONADDUSER .': '. $_POST['nick']);
+
+    printNotification(_USERADD, 'success');
+    redirect("index.php?file=Admin&page=user", 2);
 }
 
 function del_user($id_user)
@@ -1454,121 +1452,113 @@ function delModerator($idUser)
         return false;
 }
 
-function main_config()
-{
-    global $nuked, $language;
 
-    if ($nuked['user_email'] == "on"){$checked_user_email = "checked=\"checked\"";}
-    if ($nuked['user_icq'] == "on"){$checked_user_icq = "checked=\"checked\"";}
-    if ($nuked['user_msn'] == "on"){$checked_user_msn = "checked=\"checked\"";}
-    if ($nuked['user_aim'] == "on"){$checked_user_aim = "checked=\"checked\"";}
-    if ($nuked['user_yim'] == "on"){$checked_user_yim = "checked=\"checked\"";}
-    if ($nuked['user_xfire'] == "on"){$checked_user_xfire = "checked=\"checked\"";}
-    if ($nuked['user_facebook'] == "on"){$checked_user_facebook = "checked=\"checked\"";}
-    if ($nuked['user_origin'] == "on"){$checked_user_origin = "checked=\"checked\"";}
-    if ($nuked['user_steam'] == "on"){$checked_user_steam = "checked=\"checked\"";}
-    if ($nuked['user_twitter'] == "on"){$checked_user_twitter = "checked=\"checked\"";}
-    if ($nuked['user_skype'] == "on"){$checked_user_skype = "checked=\"checked\"";}
-    if ($nuked['user_website'] == "on"){$checked_user_website = "checked=\"checked\"";}
+function getUserSocialList() {
+    static $dbrUsersSocial;
 
+    if (! isset($dbrUsersSocial)) {
+        $dbrUsersSocial = nkDB_selectMany(
+            'SELECT name, field, active
+            FROM '. USER_SOCIAL_TABLE
+        );
+    }
 
-    echo "<div class=\"content-box\">\n"
-    . "<div class=\"content-box-header\"><h3>" . _USERCONFIG . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\">\n";
-
-    nkAdminMenu(4);
-
-    echo "<form method=\"post\" name=\"selection\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_config\"\">\n"
-    . "<table width=\"100\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-    . "<tr><td width=\"25%\"><b>" . _MAIL . " :</b></td><td width=\"75%\"><input type=\"checkbox\" name=\"user_email\" value=\"on\" " . $checked_user_email . "></td></tr>\n"
-    . "<tr><td><b>" . _ICQ . " :</b></td><td><input type=\"checkbox\" name=\"user_icq\" value=\"on\" " . $checked_user_icq . "></td></tr>\n"
-    . "<tr><td><b>" . _MSN . " :</b></td><td><input type=\"checkbox\" name=\"user_msn\" value=\"on\" " . $checked_user_msn . "></td></tr>\n"
-    . "<tr><td><b>" . _AIM . " :</b></td><td><input type=\"checkbox\" name=\"user_aim\" value=\"on\" " . $checked_user_aim . "></td></tr>\n"
-    . "<tr><td><b>" . _YIM . " :</b></td><td><input type=\"checkbox\" name=\"user_yim\" value=\"on\" " . $checked_user_yim . "></td></tr>\n"
-    . "<tr><td><b>" . _XFIRE . " :</b></td><td><input type=\"checkbox\" name=\"user_xfire\" value=\"on\" " . $checked_user_xfire . "></td></tr>\n"
-    . "<tr><td><b>" . _FACEBOOK . " :</b></td><td><input type=\"checkbox\" name=\"user_facebook\" value=\"on\" " . $checked_user_facebook . "></td></tr>\n"
-    . "<tr><td><b>" . _ORIGINEA . " :</b></td><td><input type=\"checkbox\" name=\"user_origin\" value=\"on\" " . $checked_user_origin . "></td></tr>\n"
-    . "<tr><td><b>" . _STEAM . " :</b></td><td><input type=\"checkbox\" name=\"user_steam\" value=\"on\" " . $checked_user_steam . "></td></tr>\n"
-    . "<tr><td><b>" . _TWITTER . " :</b></td><td><input type=\"checkbox\" name=\"user_twitter\" value=\"on\" " . $checked_user_twitter . "></td></tr>\n"
-    . "<tr><td><b>" . _SKYPE . " :</b></td><td><input type=\"checkbox\" name=\"user_skype\" value=\"on\" " . $checked_user_skype . "></td></tr>\n"
-    . "<tr><td><b>" . _LINK . "</b> - " . _LINKCOM . " :</b></td><td><input type=\"checkbox\" name=\"user_website\" value=\"on\" " . $checked_user_website . "></td></tr>\n"
-    . "<tr><td><b>" . _LEVELREQUIRED . " :</b></td><td>\n"
-    . "<select name=\"user_social_level\" >\n"
-    . "<option>" . $nuked['user_social_level'] . "</option>\n"
-    . "<option>0</option>\n"
-    . "<option>1</option>\n"
-    . "<option>2</option>\n"
-    . "<option>3</option>\n"
-    . "<option>4</option>\n"
-    . "<option>5</option>\n"
-    . "<option>6</option>\n"
-    . "<option>7</option>\n"
-    . "<option>8</option>\n"
-    . "<option>9</option></select></td></tr>\n"
-
-    . "<tr><td align=\"center\"></td><td><input class=\"button\" type=\"button\" value=\"" . _COTOUT . "\" onclick=\"toutcocher();\">&nbsp;&nbsp;&nbsp;\n"
-    . "<input class=\"button\" type=\"button\" value=\"" . _DECOTOUT . "\" onclick=\"toutdecocher();\"></td></tr>\n"
-    . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFCONFIG . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&page=user\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
-
-    echo '<script language="javascript">
-        function toutcocher()
-        {
-        for(i=0;i<document.selection.length;i++)
-        {
-        if(document.selection.elements[i].type=="checkbox")
-        document.selection.elements[i].checked=true;
-        }
-        }
-        function toutdecocher()
-        {
-        for(i=0;i<document.selection.length;i++)
-        {
-        if(document.selection.elements[i].type=="checkbox");
-        document.selection.elements[i].checked=false;;
-        }
-        }
-        </script>';
-
+    return $dbrUsersSocial;
 }
 
-function send_config($user_email, $user_icq, $user_msn, $user_aim, $user_yim, $user_xfire, $user_facebook, $user_origin, $user_steam, $user_twitter, $user_skype, $user_website, $user_social_level)
-{
-    global $nuked, $user;
+// Display editing user social settings form
+function main_config() {
+    global $nuked;
 
-    if ($user_email != 'on'){$user_email = "off";}
-    if ($user_icq != 'on'){$user_icq = "off";}
-    if ($user_msn != 'on'){$user_msn = "off";}
-    if ($user_aim != 'on'){$user_aim = "off";}
-    if ($user_yim != 'on'){$user_yim = "off";}
-    if ($user_xfire != 'on'){$user_xfire = "off";}
-    if ($user_facebook != 'on'){$user_facebook = "off";}
-    if ($user_origin != 'on'){$user_origin = "off";}
-    if ($user_steam != 'on'){$user_steam = "off";}
-    if ($user_twitter != 'on'){$user_twitter = "off";}
-    if ($user_skype != 'on'){$user_skype = "off";}
-    if ($user_website != 'on'){$user_website = "off";}
-    
-    $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_email . "' WHERE name = 'user_email'");
-    $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_icq . "' WHERE name = 'user_icq'");
-    $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_msn . "' WHERE name = 'user_msn'");
-    $upd4 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_aim . "' WHERE name = 'user_aim'");
-    $upd5 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_yim . "' WHERE name = 'user_yim'");
-    $upd6 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_xfire . "' WHERE name = 'user_xfire'");
-    $upd7 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_facebook . "' WHERE name = 'user_facebook'");
-    $upd8 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_origin . "' WHERE name = 'user_origin'");
-    $upd9 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_steam . "' WHERE name = 'user_steam'");
-    $upd10 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_twitter . "' WHERE name = 'user_twitter'");
-    $upd11 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_skype . "' WHERE name = 'user_skype'");
-    $upd12 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_website . "' WHERE name = 'user_website'");
-    $upd13 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $user_social_level . "' WHERE name = 'user_social_level'");
+    require_once 'Includes/nkUserSocial.php';
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/Admin/config/userSocial.php';
 
-    saveUserAction(_ACTIONMODIFUSER .'.');
+    $userSocialList = getUserSocialList();
+    $userSocialForm = getUserSocialFormCfg();
 
-    printNotification(_CONFIGUPDATED, 'success');
-    redirect("index.php?file=Admin&page=user", 2);
+    $userSocialItems = array();
+
+    foreach ($userSocialList as $userSocial) {
+        if ($userSocial['active'] == 1)
+            $value = 'on';
+        else
+            $value = 'off';
+
+        $userSocialItems[$userSocial['field']] = array(
+            'label'             => nkUserSocial_getLabel($userSocial),
+            'type'              => 'checkbox',
+            'inputValue'        => 'on',
+            'value'             => $value
+        );
+    }
+
+    $userSocialForm['items'] = array_merge($userSocialItems, $userSocialForm['items']);
+    $userSocialForm['items']['user_social_level']['value'] = $nuked['user_social_level'];
+
+    echo applyTemplate('contentBox', array(
+        'title'     => _USERCONFIG, //__('ADMIN_USER_SOCIAL'),
+        'helpFile'  => 'User',
+        'content'   => nkForm_generate($userSocialForm)
+    ));
+
+    nkTemplate_addJS(
+        '$("#usCheckAll").on("click", function() {' ."\n"
+        . "\t" .'if ($(this).attr("data-click-state") == 1) {' ."\n"
+        . "\t\t" .'$(this).attr("data-click-state", 0);' ."\n"
+        . "\t\t" .'$(this).val("'. _UNCHECKALL .'");' ."\n"
+        . "\t\t" .'$("#userSocialForm input[type=checkbox]").prop("checked", false);' ."\n"
+        . "\t" .'} else {' ."\n"
+        . "\t\t" .'$(this).attr("data-click-state", 1);' ."\n"
+        . "\t\t" .'$(this).val("'. _CHECKALL .'");' ."\n"
+        . "\t\t" .'$("#userSocialForm input[type=checkbox]").prop("checked", true);' ."\n"
+        . "\t" .'}' ."\n\n"
+        . "\t" .'return false;' ."\n"
+        . '});' ."\n\n",
+        'jqueryDomReady'
+    );
+}
+
+// Save user social settings
+function send_config() {
+    global $nuked;
+
+    require_once 'Includes/nkUserSocial.php';
+
+    $userSocialList = getUserSocialList();
+ 
+    foreach ($userSocialList as $userSocial) {
+        if (isset($_POST[$userSocial['field']]) && $_POST[$userSocial['field']] == 'on')
+            $active = 1;
+        else
+            $active = 0;
+
+        if ($active != $userSocial['active']) {
+            nkDB_update(USER_SOCIAL_TABLE, array(
+                    'active' => $active
+                ),
+                'field = \''. $userSocial['field'] .'\''
+            );
+        }
+    }
+
+    if (isset($_POST['user_social_level'])
+        && $_POST['user_social_level'] >= 0
+        && $_POST['user_social_level'] <= 9
+    ) {
+        if ($_POST['user_social_level'] != $nuked['user_social_level']) {
+            nkDB_update(CONFIG_TABLE, array(
+                    'value' => $_POST['user_social_level']
+                ),
+                'name = \'user_social_level\''
+            );
+        }
+    }
+
+    saveUserAction(__('ACTION_MODIF_USER_SOCIAL'));// _ACTIONMODIFUSER .'.'
+
+    printNotification(__('USER_SOCIAL_MODIFIED'), 'success');// _CONFIGUPDATED
+    redirect('index.php?file=Admin&page=user', 2);
 }
 
 function nkAdminMenu($tab = 1)
@@ -1634,11 +1624,11 @@ switch ($GLOBALS['op']) {
         break;
 
     case "send_config":
-        send_config($_REQUEST['user_email'], $_REQUEST['user_icq'], $_REQUEST['user_msn'], $_REQUEST['user_aim'], $_REQUEST['user_yim'], $_REQUEST['user_xfire'], $_REQUEST['user_facebook'], $_REQUEST['user_origin'], $_REQUEST['user_steam'], $_REQUEST['user_twitter'], $_REQUEST['user_skype'], $_REQUEST['user_website'], $_REQUEST['user_social_level']);
+        send_config();
         break;
 
     case "update_user":
-        update_user($_REQUEST['id_user'], $_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature'], $_REQUEST['old_nick'], $_REQUEST['xfire'], $_REQUEST['facebook'], $_REQUEST['origin'], $_REQUEST['steam'], $_REQUEST['twitter'], $_REQUEST['skype']);
+        update_user($_REQUEST['id_user']);
         break;
 
     case "add_user":
@@ -1646,7 +1636,7 @@ switch ($GLOBALS['op']) {
         break;
 
     case "do_user":
-        do_user($_REQUEST['team'], $_REQUEST['team2'], $_REQUEST['team3'], $_REQUEST['rang'], $_REQUEST['nick'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['country'], $_REQUEST['niveau'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['game'], $_REQUEST['avatar'], $_REQUEST['signature'], $_REQUEST['xfire'], $_REQUEST['facebook'], $_REQUEST['origin'], $_REQUEST['steam'], $_REQUEST['twitter'], $_REQUEST['skype']);
+        do_user();
         break;
 
     case "edit_user":

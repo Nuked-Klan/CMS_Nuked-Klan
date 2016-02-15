@@ -55,8 +55,6 @@ define("_BACKTOTOP","Back to top");
 define("_POSTEDON","Posted");
 define("_SEEPROFIL","View profile");
 define("_SENDPM","Send private message");
-define("_SENDEMAIL","Send email");
-define("_SEEHOMEPAGE","View user's website");
 define("_TOPICDEL","Remove this topic");
 define("_TOPICMOVE","Move this topic");
 define("_TOPICLOCK","Close this topic");

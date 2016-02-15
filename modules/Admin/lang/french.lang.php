@@ -132,16 +132,6 @@ define("_MAIL","Email");
 define("_PUBLIC","publique");
 
 define("_COUNTRY","Pays");
-define("_ICQ","ICQ");
-define("_MSN","MSN");
-define("_AIM","AIM");
-define("_YIM","Yim");
-define("_XFIRE","Xfire");
-define("_FACEBOOK","FaceBook");
-define("_ORIGINEA","Origin");
-define("_STEAM","Steam");
-define("_TWITTER","Twitter");
-define("_SKYPE","Skype");
 define("_MODIFCONFIG","Modifier la config");
 define("_USERCONFIG","Paramètres d'affichage");
 define("_ACTIONMODIFUSER","a modifié la config de user");

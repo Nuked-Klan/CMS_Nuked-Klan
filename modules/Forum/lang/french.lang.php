@@ -55,8 +55,6 @@ define("_BACKTOTOP","Revenir en haut");
 define("_POSTEDON","Posté");
 define("_SEEPROFIL","Voir le profil");
 define("_SENDPM","Lui envoyer un message privé");
-define("_SENDEMAIL","Lui envoyer un email");
-define("_SEEHOMEPAGE","Voir le site web de");
 define("_TOPICDEL","Supprimer ce sujet");
 define("_TOPICMOVE","Déplacer ce sujet");
 define("_TOPICLOCK","Fermer le sujet");

@@ -11,45 +11,50 @@
  */
 defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
-global $nuked, $theme, $language, $bgcolor3;
+global $nuked, $language, $bgcolor2, $bgcolor3;
 
 translate('modules/Team/lang/'. $language .'.lang.php');
 
 
 if ($active == 3 || $active == 4)
 {
+    require_once 'Includes/nkUserSocial.php';
+
     echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-    . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
-    . "<td style=\"width: 35%;\" align=\"center\">&nbsp;<b>" . _NICK . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _MAIL . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _ICQ . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _MSN . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _AIM . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _YIM . "</b></td>\n"
-    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _RANK . "</b></td></tr>\n";
+        . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
+        . "<td style=\"width: 35%;\" align=\"center\">&nbsp;<b>" . _NICK . "</b></td>\n";
+
+    // NOTE : public email is used instead private email
+    $userSocialData = nkUserSocial_getConfig();
+
+    foreach ($userSocialData as $userSocial)
+        // width: 10%;
+        echo '<td class="', $userSocial['cssClass'], '" align="center"><b>', nkUserSocial_getLabel($userSocial), '</b></td>', "\n";
+
+    echo "<td style=\"width: 15%;\" align=\"center\"><b>" . _RANK . "</b></td></tr>\n";
 
     $sql_team = mysql_query("SELECT cid FROM " . TEAM_TABLE);
     $nb_team = mysql_num_rows($sql_team);
 
     if ($nb_team > 0) $where = "WHERE team > 0"; else $where = "WHERE niveau > 1";
 
-    $sql = mysql_query("SELECT pseudo, mail, icq, msn, aim, yim, rang FROM " . USER_TABLE . " " . $where . " ORDER BY ordre, pseudo");
-    while (list($pseudo, $mail, $icq, $msn, $aim, $yim, $rang) = mysql_fetch_array($sql))
-    {
-        $nick_team = $nuked['tag_pre'] . $pseudo . $nuked['tag_suf'];
+    $userSocialFields = nkUserSocial_getActiveFields();
+    $userSocialFields = ($userSocialFields) ? ', '. implode(', ', $userSocialFields) : '';
 
-        if (is_file("themes/" . $theme . "/images/mail.gif"))
-        {
-            $img = "themes/" . $theme . "/images/mail.gif";
-        }
-        else
-        {
-            $img = "modules/Team/images/mail.gif";
-        }
+    $dbrTeamMember = nkDB_selectMany(
+        'SELECT pseudo AS nickname, rang'. $userSocialFields .'
+        FROM '. USER_TABLE,
+        array('ordre', 'pseudo')
+    );
 
-        if ($rang != "" && $rang > 0)
+    $j = 0;
+
+    foreach ($dbrTeamMember as $teamMember) {
+        $nick_team = $nuked['tag_pre'] . $teamMember['nickname'] . $nuked['tag_suf'];
+
+        if ($teamMember['rang'] != "" && $teamMember['rang'] > 0)
         {
-            $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
+            $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $teamMember['rang'] . "'");
             list($rank_name) = mysql_fetch_array($sql_rank);
             $rank_name = nkHtmlEntities($rank_name);
         }
@@ -58,65 +63,17 @@ if ($active == 3 || $active == 4)
             $rank_name = "N/A";
         }
 
-        if ($j == 0)
-        {
-            $bg = $bgcolor2;
-            $j++;
-        }
-        else
-        {
-            $bg = $bgcolor1;
-            $j = 0;
+        echo "<tr style=\"background: " . (($j++ % 2 == 1) ? $bgcolor1 : $bgcolor2) . ";\">\n"
+        . "<td style=\"width: 35%;\" align=\"left\">&nbsp;&nbsp;<a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($teamMember['nickname']) . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $nick_team . "</b></a></td>\n";
+
+        foreach ($userSocialData as $userSocial) {
+            // width: 10%;
+            echo '<td class="', $userSocial['cssClass'], '" align="center">', "\n"
+                , nkUserSocial_formatImgLink($userSocial, $teamMember)
+                , '</td>', "\n";
         }
 
-        echo "<tr style=\"background: " . $bg . ";\">\n"
-        . "<td style=\"width: 35%;\" align=\"left\">&nbsp;&nbsp;<a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $nick_team . "</b></a></td>\n"
-        . "<td style=\"width: 10%;\" align=\"center\"><a href=\"mailto:" . $mail . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $mail . "\" /></a></td>\n"
-        ." <td style=\"width: 10%;\" align=\"center\">\n";
-
-        if ($icq != "")
-        {
-            echo "<a href=\"http://web.icq.com/whitepages/add_me?uin=" . $icq . "&amp;action=add\"><img style=\"border: 0;\" src=\"modules/Team/images/icq.gif\" alt=\"\" title=\"" . $icq . "\" /></a>";
-        }
-        else
-        {
-            echo "N/A";
-        }
-
-        echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
-
-        if ($msn != "")
-        {
-            echo "<a href=\"mailto:" . $msn . "\"><img style=\"border: 0;\" src=\"modules/Team/images/msn.gif\" alt=\"\" title=\"" . $msn . "\" /></a>";
-        }
-        else
-        {
-            echo"N/A";
-        }
-
-        echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
-
-        if ($aim != "")
-        {
-            echo "<a href=\"aim:goim?screenname=" . $aim . "&amp;message=Hi+" . $aim . "+Are+you+there+?\"><img style=\"border: 0;\" src=\"modules/Team/images/aim.gif\" alt=\"\" title=\"" . $aim . "\" /></a>";
-        }
-        else
-        {
-            echo "N/A";
-        }
-
-        echo "</td><td style=\"width: 10%;\" align=\"center\">\n";
-
-        if ($yim != "")
-        {
-            echo "<a href=\"http://edit.yahoo.com/config/send_webmesg?target=" . $yim . "&amp;src=pg\"><img style=\"border: 0;\" src=\"modules/Team/images/yim.gif\" alt=\"\" title=\"" . $yim . "\" /></a>";
-        }
-        else
-        {
-            echo "N/A";
-        }
-
-        echo "</td><td style=\"width: 15%;\" align=\"center\">" . $rank_name . "</td></tr>\n";
+        echo "<td style=\"width: 15%;\" align=\"center\">" . $rank_name . "</td></tr>\n";
     }
     echo "</table>\n";
 }
@@ -129,25 +86,27 @@ else
 
     if ($nb_team > 0) $where = "WHERE team > 0"; else $where = "WHERE niveau > 1";
 
-    $sql = mysql_query("SELECT pseudo, mail, country FROM " . USER_TABLE . " " . $where . " ORDER BY ordre, pseudo");
-    while (list($pseudo, $mail, $country) = mysql_fetch_array($sql))
-    {
-        list ($pays, $ext) = explode ('.', $country);
+    $sql = mysql_query("SELECT pseudo, email, country FROM " . USER_TABLE . " " . $where . " ORDER BY ordre, pseudo");
+
+    $userSocialImgCfg = nkUserSocial_getImgConfig();
+
+    while (list($pseudo, $email, $country) = mysql_fetch_array($sql)) {
+        list($pays, $ext) = explode ('.', $country);
 
         $nick_team = $nuked['tag_pre'] . $pseudo . $nuked['tag_suf'];
 
-        if (is_file("themes/" . $theme . "/images/mail.gif"))
-        {
-            $img = "themes/" . $theme . "/images/mail.gif";
-        }
-        else
-        {
-            $img = "modules/Team/images/mail.gif";
-        }
-
         echo "<tr><td style=\"width: 20%;\" align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
         . "<td style=\"width: 60%;\"><a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\"><b>" . $nick_team . "</b></a></td>\n"
-        . "<td style=\"width: 20%;\" align=\"center\"><a href=\"mailto:" . $mail . "\"><img style=\"border: 0;\" src=\"" . $img . "\" alt=\"\" title=\"" . $mail . "\" /></a></td></tr>\n";
+        . "<td style=\"width: 20%;\" align=\"center\">";
+
+        if ($visiteur >= $nuked['user_social_level'] && $email != '') {
+            return '<a href="'. str2htmlEntities('mailto:'. $email) .'"><img class="nkNoBorder" src="'. $imgConfig['email'] .'" alt="" title="'. __('SEND_EMAIL') .'" /></a>';
+        }
+        else {
+            return '<img class="nkNoBorder" src="images/user/'. $imgConfig['emailna'] .'.png" alt="" />';
+        }
+
+        echo "</td></tr>\n";
     }
     echo "</table>\n";
 }

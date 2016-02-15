@@ -6,16 +6,6 @@ if (!defined("INDEX_CHECK"))
 
 define("_NICK","Nick");
 define("_MAIL","Email");
-define("_ICQ","Icq");
-define("_MSN","Msn");
-define("_AIM","Aim");
-define("_YIM","Yim");
-define("_XFIRE","Xfire");
-define("_FACEBOOK","FaceBook");
-define("_ORIGINEA","Origin");
-define("_STEAM","Steam");
-define("_TWITTER","Twitter");
-define("_SKYPE","Skype");
 define("_RANK","Rank");
 
 define("_VIEWPROFIL","View profile");

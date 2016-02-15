@@ -22,6 +22,8 @@ global $nuked, $user, $theme, $visiteur, $highlight, $forumId, $threadId, $forum
 include 'modules/Forum/template.php';
 require_once 'modules/Forum/core.php';
 
+if ($visiteur >= $nuked['user_social_level'])
+    require_once 'Includes/nkUserSocial.php';
 
 /**
  * Highlight researched string in title and message of Forum topic.
@@ -435,12 +437,16 @@ if ($dbrCurrentTopic['sondage'] == 1) {
     }
 }
 
+        $userSocialFields = nkUserSocial_getActiveFields();
+        $userSocialFields = ($userSocialFields) ? ', U.'. implode(', U.', $userSocialFields) : '';
+
+// U.url AS homepage
+// TODO : Add only user social fields of user database table
 // Get Forum topic messages list
 $dbrTopicMessages = nkDB_selectMany(
     'SELECT FM.id, FM.titre, FM.auteur, FM.auteur_id, FM.auteur_ip, FM.txt, FM.date,
     FM.edition, FM.usersig, FM.file, U.pseudo AS authorName, U.niveau, U.rang, U.avatar,
-    U.signature, U.date AS authorDate, U.email, U.icq, U.msn, U.aim, U.yim, U.xfire, U.facebook, U.origin,
-    U.steam, U.twitter, U.skype, U.url AS homepage, U.country, U.count, U.game
+    U.signature, U.date AS authorDate, U.country, U.count, U.game'. $userSocialFields .'
     FROM '. FORUM_MESSAGES_TABLE .' AS FM
     LEFT JOIN '. USER_TABLE .' AS U
     ON U.id = FM.auteur_id

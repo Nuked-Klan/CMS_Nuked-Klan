@@ -138,7 +138,7 @@ function nkUpload_getPhpError($fileType, $error) {
                 $maxsize = round($size);
             }
 
-            $message = sprintf($message, $maxsize), '');
+            $message = sprintf($message, $maxsize);
             break;
         case UPLOAD_ERR_FORM_SIZE :
             $message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';

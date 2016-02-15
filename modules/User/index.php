@@ -351,137 +351,148 @@ function reg_screen(){
 function edit_account(){
     global $nuked, $user;
 
-    define('EDITOR_CHECK', 1);
-
-    if ($user){
-        $sql = mysql_query("SELECT pseudo, pass, url, mail, email, icq, msn, aim, yim, avatar, signature, country, game, xfire, facebook ,origin, steam, twitter, skype FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-        list($nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $avatar, $signature, $pays, $jeu, $xfire, $facebook ,$origin, $steam, $twitter, $skype) = mysql_fetch_array($sql);
-
-        echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
-                . "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
-                . "</b>" . _PROFIL . "<b> | "
-                . "<a href=\"index.php?file=User&amp;op=edit_pref\">" . _PREF . "</a> | "
-                . "<a href=\"index.php?file=User&amp;op=change_theme\">" . _THEMESELECT . "</a> | "
-                . "<a href=\"index.php?file=User&amp;op=logout\">" . _USERLOGOUT . "</a></b></div><br />\n";
-
-        echo "<script type=\"text/javascript\">\n"
-                ."<!--\n"
-                ."\n"
-                . "function verifchamps()\n"
-                . "{\n"
-                . "\n"
-                . "if (document.getElementById('edit_pseudo').value.length < 3)\n"
-                . "{\n"
-                . "alert('" . _3TYPEMIN . "');\n"
-                . "return false;\n"
-                . "}\n"
-                . "\n"
-                . "if (document.getElementById('edit_mail').value.indexOf('@') == -1)\n"
-                . "{\n"
-                . "alert('" . _MAILFAILED . "');\n"
-                . "return false;\n"
-                . "}\n"
-                . "\n"
-                . "return true;\n"
-                . "}\n"
-                ."\n"
-                . "// -->\n"
-                . "</script>\n";
-
-        echo "<div style=\"text-align: center;\"><small><i>" . _PASSFIELD . "</i></small></div><br />\n"
-                . "<form method=\"post\" action=\"index.php?file=User&amp;op=update\" enctype=\"multipart/form-data\" onsubmit=\"return verifchamps();\">\n"
-                . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\">\n"
-                . "<tr><td><b>" . _NICK . " : </b></td><td><input id=\"edit_pseudo\" type=\"text\" name=\"nick\" size=\"30\" maxlength=\"30\" value=\"" . $nick . "\" /> *</td></tr>\n"
-                . "<tr><td><b>" . _USERPASSWORD . " : </b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"15\" autocomplete=\"off\" /> *</td></tr>\n"
-                . "<tr><td><b>" . _PASSCONFIRM . " : </b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"15\" autocomplete=\"off\" /> *</td></tr>\n"
-                . "<tr><td><b>" . _MAIL . " " . _PRIVATE . " : </b></td><td><input id=\"edit_mail\" type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail. "\" /> *</td></tr>\n"
-                . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-                . "<tr><td><b>" . _USERPASSWORD . " (" . _PASSOLD . ") :</b></td><td><input type=\"password\" name=\"pass_old\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n"
-                . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
-				if ($nuked['user_email'] == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
-				if ($nuked['user_icq'] == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"30\" maxlength=\"30\" value=\"" . $icq . "\" /></td></tr>\n";}
-				if ($nuked['user_msn'] == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
-				if ($nuked['user_aim'] == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
-				if ($nuked['user_yim'] == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
-				if ($nuked['user_xfire'] == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
-				if ($nuked['user_facebook'] == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
-				if ($nuked['user_origin'] == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
-				if ($nuked['user_steam'] == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
-				if ($nuked['user_twitter'] == 'on'){echo "<tr><td><b>" . _TWITTER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}
-				if ($nuked['user_skype'] == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}
-                if ($nuked['user_website'] == 'on'){echo "<tr><td><b>" . _WEBSITE . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n";}
-                echo "<tr><td><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
-
-        $rep = Array();
-        $handle = @opendir("images/flags");
-        while (false !== ($f = readdir($handle))){
-            if ($f != ".." && $f != "." && $f != "index.html" && $f != "Thumbs.db"){
-                $rep[] = $f;
-            }
-        }
-
-        closedir($handle);
-        sort ($rep);
-        reset ($rep);
-
-        while (list ($key, $filename) = each ($rep)){
-            if ($filename == $pays){
-                $checked = "selected=\"selected\"";
-            }
-            else{
-                $checked = "";
-            }
-
-            list ($country, $ext) = explode ('.', $filename);
-            echo "<option value=\"" . $filename . "\" " . $checked . ">" . $country . "</option>\n";
-        }
-
-        echo "</select></td></tr>"
-                . "<tr><td><b>" . _GAME . " :</b></td><td><select name=\"game\">\n";
-
-        $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-        while (list($game_id, $nom) = mysql_fetch_array($sql)){
-            if ($jeu == $game_id){
-                $checked1 = "selected=\"selected\"";;
-            }
-            else{
-                $checked1 = "";
-            }
-            echo "<option value=\"" . $game_id . "\" " . $checked1 . ">" . $nom . "</option>\n";
-        }
-
-        echo "</select></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
-
-        if ($nuked['avatar_upload'] == "on" || $nuked['avatar_url'] == "on"){
-            echo "<tr><td><b>" . _AVATAR . " : </b></td>\n";
-
-            if($nuked['avatar_url'] != "on") $disable = 'disabled="disabled"';
-            else $disable = "";
-
-            echo "<td><input type=\"text\" id=\"edit_avatar\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $avatar . "\" ".$disable." />"
-                    . "&nbsp;[ <a  href=\"#\" onclick=\"javascript:window.open('index.php?file=User&amp;op=show_avatar','Avatar','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=450,top=30,left=0');return(false)\">" . _SEEAVATAR . "</a> ]</td></tr><tr><td>&nbsp;</td>\n";
-
-            if ($nuked['avatar_upload'] == "on"){
-                echo "<td><input type=\"file\" name=\"fichiernom\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
-            }
-            else{
-                echo "<td>&nbsp;</td></tr>\n";
-            }
-        }
-
-        echo "<tr><td><b>" . _SIGN . " :</b></td><td><textarea id=\"e_basic\" name=\"signature\" rows=\"10\" cols=\"60\">" . $signature . "</textarea></td></tr>\n";
-
-        if ($nuked['user_delete'] == "on"){
-            echo "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\">"._DELMYACCOUNT." <input class=\"checkbox\" type=\"checkbox\" name=\"remove\" value=\"ok\" /></td></tr>\n";
-        }
-
-        echo "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" name=\"Submit\" value=\"" . _MODIF . "\" />\n"
-                . "<input type=\"hidden\" name=\"pass\" value=\"" . $pass . "\" /></td></tr></table></form><br />\n";
-    }
-    else{
+    if (! $user) {
         echo applyTemplate('nkAlert/userEntrance');
         redirect("index.php?file=User&op=login_screen", 2);
+        return;
     }
+
+    require_once 'Includes/nkUserSocial.php';
+
+    define('EDITOR_CHECK', 1);
+
+    $userSocialFields = implode(', ', nkUserSocial_getActiveFields());
+
+    if ($userSocialFields != '') $userSocialFields = ', '. $userSocialFields;
+
+    $dbrUser = nkDB_selectOne(
+        'SELECT pseudo, mail, avatar, signature, country, game'. $userSocialFields .'
+        FROM '. USER_TABLE .'
+        WHERE id = '. nkDB_escape($user['id'])
+    );
+
+    echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
+            . "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
+            . "</b>" . _PROFIL . "<b> | "
+            . "<a href=\"index.php?file=User&amp;op=edit_pref\">" . _PREF . "</a> | "
+            . "<a href=\"index.php?file=User&amp;op=change_theme\">" . _THEMESELECT . "</a> | "
+            . "<a href=\"index.php?file=User&amp;op=logout\">" . _USERLOGOUT . "</a></b></div><br />\n";
+
+    echo "<script type=\"text/javascript\">\n"
+            ."<!--\n"
+            ."\n"
+            . "function verifchamps()\n"
+            . "{\n"
+            . "\n"
+            . "if (document.getElementById('edit_pseudo').value.length < 3)\n"
+            . "{\n"
+            . "alert('" . _3TYPEMIN . "');\n"
+            . "return false;\n"
+            . "}\n"
+            . "\n"
+            . "if (document.getElementById('edit_mail').value.indexOf('@') == -1)\n"
+            . "{\n"
+            . "alert('" . _MAILFAILED . "');\n"
+            . "return false;\n"
+            . "}\n"
+            . "\n"
+            . "return true;\n"
+            . "}\n"
+            ."\n"
+            . "// -->\n"
+            . "</script>\n";
+
+    echo "<div style=\"text-align: center;\"><small><i>" . _PASSFIELD . "</i></small></div><br />\n"
+            . "<form method=\"post\" action=\"index.php?file=User&amp;op=update\" enctype=\"multipart/form-data\" onsubmit=\"return verifchamps();\">\n"
+            . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"1\" cellpadding=\"2\">\n"
+            . "<tr><td><b>" . _NICK . " : </b></td><td><input id=\"edit_pseudo\" type=\"text\" name=\"nick\" size=\"30\" maxlength=\"30\" value=\"" . $dbrUser['pseudo'] . "\" /> *</td></tr>\n"
+            . "<tr><td><b>" . _USERPASSWORD . " : </b></td><td><input type=\"password\" name=\"pass_reg\" size=\"10\" maxlength=\"15\" autocomplete=\"off\" /> *</td></tr>\n"
+            . "<tr><td><b>" . _PASSCONFIRM . " : </b></td><td><input type=\"password\" name=\"pass_conf\" size=\"10\" maxlength=\"15\" autocomplete=\"off\" /> *</td></tr>\n"
+            . "<tr><td><b>" . _MAIL . " " . _PRIVATE . " : </b></td><td><input id=\"edit_mail\" type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $dbrUser['mail']. "\" /> *</td></tr>\n"
+            . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
+            . "<tr><td><b>" . _USERPASSWORD . " (" . _PASSOLD . ") :</b></td><td><input type=\"password\" name=\"pass_old\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n"
+            . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+
+            foreach (nkUserSocial_getConfig() as $userSocial) {
+                $userSocialInput = nkUserSocial_getInputConfig($userSocial);
+
+                if (isset($dbrUser[$userSocial['field']]))
+                    $value = $dbrUser[$userSocial['field']];
+                else
+                    $value = '';
+
+                echo '<tr><td><b>', $userSocialInput['label'], ' : </b></td><td><input type="text" name="'
+                    , $userSocial['field'], '" size="', $userSocial['size'], '" maxlength="'
+                    , $userSocial['maxlength'], '" value="', $value, '" /></td></tr>', "\n";
+            }
+
+            echo "<tr><td><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
+
+    $rep = Array();
+    $handle = @opendir("images/flags");
+    while (false !== ($f = readdir($handle))){
+        if ($f != ".." && $f != "." && $f != "index.html" && $f != "Thumbs.db"){
+            $rep[] = $f;
+        }
+    }
+
+    closedir($handle);
+    sort ($rep);
+    reset ($rep);
+
+    while (list ($key, $filename) = each ($rep)){
+        if ($filename == $dbrUser['country']){
+            $checked = "selected=\"selected\"";
+        }
+        else{
+            $checked = "";
+        }
+
+        list ($country, $ext) = explode ('.', $filename);
+        echo "<option value=\"" . $filename . "\" " . $checked . ">" . $country . "</option>\n";
+    }
+
+    echo "</select></td></tr>"
+            . "<tr><td><b>" . _GAME . " :</b></td><td><select name=\"game\">\n";
+
+    $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+    while (list($game_id, $nom) = mysql_fetch_array($sql)){
+        if ($dbrUser['game'] == $game_id){
+            $checked1 = "selected=\"selected\"";;
+        }
+        else{
+            $checked1 = "";
+        }
+        echo "<option value=\"" . $game_id . "\" " . $checked1 . ">" . $nom . "</option>\n";
+    }
+
+    echo "</select></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+
+    if ($nuked['avatar_upload'] == "on" || $nuked['avatar_url'] == "on"){
+        echo "<tr><td><b>" . _AVATAR . " : </b></td>\n";
+
+        if($nuked['avatar_url'] != "on") $disable = 'disabled="disabled"';
+        else $disable = "";
+
+        echo "<td><input type=\"text\" id=\"edit_avatar\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $dbrUser['avatar'] . "\" ".$disable." />"
+                . "&nbsp;[ <a  href=\"#\" onclick=\"javascript:window.open('index.php?file=User&amp;op=show_avatar','Avatar','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=450,top=30,left=0');return(false)\">" . _SEEAVATAR . "</a> ]</td></tr><tr><td>&nbsp;</td>\n";
+
+        if ($nuked['avatar_upload'] == "on"){
+            echo "<td><input type=\"file\" name=\"fichiernom\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+        }
+        else{
+            echo "<td>&nbsp;</td></tr>\n";
+        }
+    }
+
+    echo "<tr><td><b>" . _SIGN . " :</b></td><td><textarea id=\"e_basic\" name=\"signature\" rows=\"10\" cols=\"60\">" . $dbrUser['signature'] . "</textarea></td></tr>\n";
+
+    if ($nuked['user_delete'] == "on"){
+        echo "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\">"._DELMYACCOUNT." <input class=\"checkbox\" type=\"checkbox\" name=\"remove\" value=\"ok\" /></td></tr>\n";
+    }
+
+    echo "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" name=\"Submit\" value=\"" . _MODIF . "\" />\n"
+            . "</td></tr></table></form><br />\n";
 }
 
 function edit_pref(){
@@ -570,15 +581,13 @@ function edit_pref(){
 
         echo "</select></td></tr>";
 
+        $checked4 = $checked5 = '';
+
         if ($sexe == "male"){
             $checked4 = "checked=\"checked\"";
         }
         else if ($sexe == "female"){
             $checked5 = "checked=\"checked\"";
-        }
-        else{
-            $checked4 = "";
-            $checked5 = "";
         }
 
         echo "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _SEXE . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"radio\" class=\"checkbox\" name=\"sexe\" value=\"male\" " . $checked4 . " /> " . _MALE . " <input type=\"radio\" class=\"checkbox\" name=\"sexe\" value=\"female\" " . $checked5 . " /> " . _FEMALE . "</td></tr>\n"
@@ -1202,182 +1211,169 @@ function login_message(){
     }
 }
 
-function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_old, $icq, $msn, $aim, $yim, $avatar, $fichiernom, $signature, $game, $country, $remove, $xfire, $facebook ,$origin, $steam, $twitter, $skype){
+function update(){
     global $nuked, $user;
 
-    if ($remove == "ok" && $nuked['user_delete'] == "on"){
+    if (isset($_POST['remove']) && $_POST['remove'] == "ok" && $nuked['user_delete'] == "on"){
         echo "<br /><form action=\"index.php?file=User&amp;op=del_account\" method=\"post\">\n"
-                . "<div style=\"text-align: center;\"><big><b>" . _DELMYACCOUNT . "</b></big></div><br />\n"
-                . "<table align=\"center\" border=\"0\">\n"
-                . "<tr><td align=\"center\">" . _REMOVECONFIRM . "</td></tr>\n"
-                . "<tr><td><b>" . _USERPASSWORD . " :</b> <input type=\"password\" name=\"pass\" size=\"10\" maxlength=\"15\" /></td></tr>\n"
-                . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . __('SEND') . "\" />&nbsp;"
-                ."<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"document.location='index.php?file=User&amp;op=edit_account'\" /></td></tr></table></form><br />\n";
+            . "<div style=\"text-align: center;\"><big><b>" . _DELMYACCOUNT . "</b></big></div><br />\n"
+            . "<table align=\"center\" border=\"0\">\n"
+            . "<tr><td align=\"center\">" . _REMOVECONFIRM . "</td></tr>\n"
+            . "<tr><td><b>" . _USERPASSWORD . " :</b> <input type=\"password\" name=\"pass\" size=\"10\" maxlength=\"15\" /></td></tr>\n"
+            . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . __('SEND') . "\" />&nbsp;"
+            ."<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"document.location='index.php?file=User&amp;op=edit_account'\" /></td></tr></table></form><br />\n";
+
+        return;
     }
-    else{
 
-        $nick = nkHtmlEntities($nick, ENT_QUOTES);
+    require_once 'Includes/nkUserSocial.php';
 
-        $mail = mysql_real_escape_string(stripslashes($mail));
-        $mail = nkHtmlEntities($mail);
+    $data = array();
 
-        $sql = mysql_query("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-        list($old_pseudo, $old_mail, $old_pass) = mysql_fetch_array($sql);
+    $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
-        if ($nick != $old_pseudo){
-            $nick = checkNickname($nick);
+    $_POST['mail'] = stripslashes($_POST['mail']);
+    $_POST['mail'] = nkHtmlEntities($_POST['mail']);
 
-            if (($error = getCheckNicknameError($nick)) !== false) {
-                printNotification($error, 'error');
-                redirect('index.php?file=User&op=edit_account', 2);
-                closetable();
-                return;
-            }
+    $sql = mysql_query("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+    list($old_pseudo, $old_mail, $old_pass) = mysql_fetch_array($sql);
 
-            if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
-                printNotification(_BADOLDPASS, 'error');
-                redirect("index.php?file=User&op=edit_account", 2);
-                closetable();
-                return;
-            }
-            else{
-                $upd = mysql_query("UPDATE " . USER_TABLE . " SET pseudo = '" . $nick . "' WHERE id = '" . $user[0] . "'");
-            }
+    if ($_POST['nick'] != $old_pseudo){
+        $_POST['nick'] = checkNickname($_POST['nick']);
+
+        if (($error = getCheckNicknameError($_POST['nick'])) !== false) {
+            printNotification($error, 'error');
+            redirect('index.php?file=User&op=edit_account', 2);
+            closetable();
+            return;
         }
 
-        if ($mail != $old_mail){
-            $mail = nkHtmlEntities($mail);
-            $mail = checkEmail($mail, $checkRegistred = true);
+        if (!Check_Hash($_POST['pass_old'], $old_pass) || !$_POST['pass_old']){
+            printNotification(_BADOLDPASS, 'error');
+            redirect("index.php?file=User&op=edit_account", 2);
+            closetable();
+            return;
+        }
+        else{
+            $data['pseudo'] = $_POST['nick'];
+        }
+    }
 
-            if (($error = getCheckEmailError($mail)) !== false) {
-                printNotification($error, 'error');
-                redirect('index.php?file=User&op=edit_account', 2);
-                closetable();
-                return;
-            }
+    if ($_POST['mail'] != $old_mail){
+        $_POST['mail'] = nkHtmlEntities($_POST['mail']);
+        $_POST['mail'] = checkEmail($_POST['mail'], $checkRegistred = true);
 
-            if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
-                printNotification(_BADOLDPASS, 'error');
-                redirect("index.php?file=User&op=edit_account", 2);
-                closetable();
-                return;
-            }
-            else{
-                $upd1 = mysql_query("UPDATE " . USER_TABLE . " SET mail = '" . $mail . "' WHERE id = '" . $user[0] . "'");
-            }
+        if (($error = getCheckEmailError($_POST['mail'])) !== false) {
+            printNotification($error, 'error');
+            redirect('index.php?file=User&op=edit_account', 2);
+            closetable();
+            return;
         }
 
-        if ($pass_reg != "" || $pass_conf != ""){
-            if ($pass_reg != $pass_conf){
-                printNotification(stripslashes(_PASSFAILED), 'error');
-                redirect("index.php?file=User&op=edit_account", 2);
-                closetable();
+        if (!Check_Hash($_POST['pass_old'], $old_pass) || !$_POST['pass_old']){
+            printNotification(_BADOLDPASS, 'error');
+            redirect("index.php?file=User&op=edit_account", 2);
+            closetable();
+            return;
+        }
+        else{
+            $data['mail'] = $_POST['mail'];
+        }
+    }
+
+    if ($_POST['pass_reg'] != "" || $_POST['pass_conf'] != ""){
+        if ($_POST['pass_reg'] != $_POST['pass_conf']){
+            printNotification(stripslashes(_PASSFAILED), 'error');
+            redirect("index.php?file=User&op=edit_account", 2);
+            closetable();
+            return;
+        }
+        else if (!Check_Hash($_POST['pass_old'], $old_pass) || !$_POST['pass_old']){
+            printNotification(_BADOLDPASS, 'error');
+            redirect("index.php?file=User&op=edit_account", 2);
+            closetable();
+            return;
+        }
+        else{
+            $data['pass'] = nk_hash($_POST['pass_reg']);
+        }
+    }
+
+    $data['signature'] = secu_html(nkHtmlEntityDecode($_POST['signature']));
+
+    $data['signature'] = stripslashes($data['signature']);
+    $data['game']      = stripslashes($_POST['game']);
+    $data['country']   = stripslashes($_POST['country']);
+    $_POST['avatar']   = stripslashes($_POST['avatar']);
+
+    $data['game']    = nkHtmlEntities($data['game']);
+    $data['country'] = nkHtmlEntities($data['country']);
+    $_POST['avatar'] = nkHtmlEntities($_POST['avatar']);
+
+    if (! empty($_POST['url']) && stripos($_POST['url'], 'http://') === false)
+        $_POST['url'] = 'http://'. $_POST['url'];
+
+    $filename = $_FILES['fichiernom']['name'];
+    $filesize = $_FILES['fichiernom']['size'];
+
+    if ($filename != "" && $filesize <= 100000){
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+        if (in_array($ext, array("jpg", "jpeg", "gif", "png"))){
+            $data['avatar'] = "upload/User/" . time() . "." . $ext;
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $data['avatar'])) {
+                printNotification('Upload file failed !!!', 'error');
                 return;
             }
-            else if (!Check_Hash($pass_old, $old_pass) || !$pass_old){
-                printNotification(_BADOLDPASS, 'error');
-                redirect("index.php?file=User&op=edit_account", 2);
-                closetable();
-                return;
-            }
-            else{
-                $cryptpass = nk_hash($pass_reg);
-                $upd2 = mysql_query("UPDATE " . USER_TABLE . " SET pass = '" . $cryptpass . "' WHERE id = '" . $user[0] . "'");
-            }
+            @chmod ($data['avatar'], 0644);
         }
-
-        $signature = secu_html(nkHtmlEntityDecode($signature));
-        $signature = mysql_real_escape_string(stripslashes($signature));
-        $email = mysql_real_escape_string(stripslashes($email));
-        $icq = mysql_real_escape_string(stripslashes($icq));
-        $msn = mysql_real_escape_string(stripslashes($msn));
-        $aim = mysql_real_escape_string(stripslashes($aim));
-        $yim = mysql_real_escape_string(stripslashes($yim));
-        $xfire = mysql_real_escape_string(stripslashes($xfire));
-        $facebook = mysql_real_escape_string(stripslashes($facebook));
-        $steam = mysql_real_escape_string(stripslashes($steam));
-        $origin = mysql_real_escape_string(stripslashes($origin));
-        $twitter = mysql_real_escape_string(stripslashes($twitter));
-        $skype = mysql_real_escape_string(stripslashes($skype));
-        $url = mysql_real_escape_string(stripslashes($url));
-        $game = mysql_real_escape_string(stripslashes($game));
-        $country = mysql_real_escape_string(stripslashes($country));
-        $avatar = mysql_real_escape_string(stripslashes($avatar));
-
-        $email = nkHtmlEntities($email);
-        $icq = nkHtmlEntities($icq);
-        $msn = nkHtmlEntities($msn);
-        $aim = nkHtmlEntities($aim);
-        $yim = nkHtmlEntities($yim);
-        $xfire = nkHtmlEntities($xfire);
-        $facebook = nkHtmlEntities($facebook);
-        $steam = nkHtmlEntities($steam);
-        $origin = nkHtmlEntities($origin);
-        $twitter = nkHtmlEntities($twitter);
-        $skype = nkHtmlEntities($skype);
-        $url = nkHtmlEntities($url);
-        $game = nkHtmlEntities($game);
-        $country = nkHtmlEntities($country);
-        $avatar = nkHtmlEntities($avatar);
-
-        if (!empty($url) && !is_int(stripos($url, 'http://'))){
-            $url = "http://" . $url;
-        }
-
-        $filename = $_FILES['fichiernom']['name'];
-        $filesize = $_FILES['fichiernom']['size'];
-
-        if ($filename != "" && $filesize <= 100000){
-            $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
-                $url_avatar = "upload/User/" . time() . "." . $ext;
-                if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_avatar)) {
-                    printNotification('Upload file failed !!!', 'error');
-                    return;
-                }
-                @chmod ($url_avatar, 0644);
-            }
-            else{
-                printNotification(_BADFILEFORMAT, 'error');
-                redirect("index.php?file=User&op=edit_account", 5);
-                closetable();
-                return;
-            }
-        }
-        else if ($filename != ""){
-            printNotification(sprintf(__('UPLOAD_IMAGE_TOO_BIG'), 100), 'error');
+        else{
+            printNotification(_BADFILEFORMAT, 'error');
             redirect("index.php?file=User&op=edit_account", 5);
             closetable();
             return;
         }
-        else if ($avatar != ""){
-            $ext = strrchr($avatar, '.');
-            $ext = substr($ext, 1);
+    }
+    else if ($filename != ""){
+        printNotification(sprintf(__('UPLOAD_IMAGE_TOO_BIG'), 100), 'error');
+        redirect("index.php?file=User&op=edit_account", 5);
+        closetable();
+        return;
+    }
+    else if ($_POST['avatar'] != ""){
+        $ext = strrchr($_POST['avatar'], '.');
+        $ext = substr($ext, 1);
 
-            if (!preg_match("`.php`i", $avatar) && !preg_match("`.htm`i", $avatar) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
-                $url_avatar = $avatar;
-            }
-            else{
-                printNotification(_BADFILEFORMAT, 'error');
-                redirect("index.php?file=User&op=edit_account", 5);
-                closetable();
-                return;
-            }
+        if (! preg_match("`.php`i", $_POST['avatar'])
+            && ! preg_match("`.htm`i", $_POST['avatar'])
+            && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))
+        ){
+            $data['avatar'] = $_POST['avatar'];
         }
         else{
-            $url_avatar = '';
+            printNotification(_BADFILEFORMAT, 'error');
+            redirect("index.php?file=User&op=edit_account", 5);
+            closetable();
+            return;
         }
-
-        if (!(file_exists("images/flags/".$country.""))){
-            $country = "France.gif";
-        }
-
-        $upd3 = mysql_query("UPDATE " . USER_TABLE . " SET icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', email = '" . $email . "', url = '" . $url . "', avatar = '" . $url_avatar . "', signature = '" . $signature . "', game = '" . $game . "', country = '" . $country . "', xfire = '" . $xfire . "', facebook = '" . $facebook . "', origin = '" . $origin . "', steam = '" . $steam . "', twitter = '" . $twitter . "', skype = '" . $skype . "' WHERE id = '" . $user[0] . "'");
-
-        printNotification(_INFOMODIF, 'success');
-        redirect("index.php?file=User", 1);
     }
+    else{
+        $data['avatar'] = '';
+    }
+
+    if (! file_exists("images/flags/".$data['country'].""))
+        $data['country'] = "France.gif";
+
+    foreach (nkUserSocial_getConfig() as $userSocial) {
+        if (isset($_POST[$userSocial['field']])) {
+            $data[$userSocial['field']] = nkHtmlEntities(stripslashes($_POST[$userSocial['field']]));
+        }
+    }
+
+    nkDB_update(USER_TABLE, $data, 'id = '. nkDB_escape($user['id']));
+
+    printNotification(_INFOMODIF, 'success');
+    redirect("index.php?file=User", 1);
 }
 
 function update_pref($prenom, $jour, $mois, $an, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $fichiernom, $game_id, $pref1, $pref2, $pref3, $pref4, $pref5){
@@ -1963,7 +1959,7 @@ switch ($GLOBALS['op']){
         break;
     case"update":
         opentable();
-        update($_REQUEST['nick'], $_REQUEST['pass'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass_old'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['avatar'], $_REQUEST['fichiernom'], $_REQUEST['signature'], $_REQUEST['game'], $_REQUEST['country'], $_REQUEST['remove'], $_REQUEST['xfire'], $_REQUEST['facebook'], $_REQUEST['origin'], $_REQUEST['steam'], $_REQUEST['twitter'], $_REQUEST['skype']);
+        update();
         closetable();
         break;
     case"update_pref":

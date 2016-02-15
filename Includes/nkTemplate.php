@@ -124,11 +124,16 @@ function nkTemplate_adminInit($module) {
     nkTemplate_addJSFile('modules/Admin/scripts/config.js');
     // End - Load only for fullPage design
 
-    if (is_file('modules/'. $module .'/backend/'. $module .'.js'))
-        nkTemplate_addCSSFile('modules/'. $module .'/backend/'. $module .'.js');
+    if ($module == 'Admin') {
+        nkTemplate_addCSSFile('modules/Admin/css/Admin.css');
+    }
+    else {
+        if (is_file('modules/'. $module .'/backend/'. $module .'.js'))
+            nkTemplate_addJSFile('modules/'. $module .'/backend/'. $module .'.js');
 
-    if (is_file('modules/'. $module .'/backend/'. $module .'.css'))
-        nkTemplate_addCSSFile('modules/'. $module .'/backend/'. $module .'.css');
+        if (is_file('modules/'. $module .'/backend/'. $module .'.css'))
+            nkTemplate_addCSSFile('modules/'. $module .'/backend/'. $module .'.css');
+    }
 }
 
 /**

@@ -299,55 +299,8 @@
             endif;
         endif;
 
-        if ($user && $topicMessage['auteur_id'] != '' && $user['id'] >= $nuked['user_social_level']) :
-            if ($nuked['user_email'] == 'on' && $topicMessage['email'] != '') :
-                echo '<a class="nkButton icon email small alone" href="mailto:'. $topicMessage['email'] .'" title="'. _SENDEMAIL .'"></a>';
-            endif;
-
-            if ($nuked['user_website'] == 'on' && $topicMessage['homepage'] != '') :
-                echo '<a class="nkButton icon website small alone" href="'. $topicMessage['homepage'] .'" onclick="window.open(this.href); return false;" title="'. _SEEHOMEPAGE .'&nbsp;'. $topicMessage['name'] .'"></a>';
-            endif;
-
-            if ($nuked['user_icq'] == 'on' && $topicMessage['icq'] != '') :
-                echo '<a class="nkButton icon icq small alone" href="http://web.icq.com/whitepages/add_me?uin='. $topicMessage['icq'] .'&amp;action=add" title="'. $topicMessage['icq'] .'"></a>';
-            endif;
-
-            if ($nuked['user_msn'] == 'on' && $topicMessage['msn'] != '') :
-                echo '<a class="nkButton icon msn small alone" href="mailto:'. $topicMessage['msn']  .'" title="'. $topicMessage['msn']  .'"></a>';
-            endif;
-
-            if ($nuked['user_aim'] == 'on' && $topicMessage['aim'] != '') :
-                echo '<a class="nkButton icon aim small alone" href="aim:goim?screenname='. $topicMessage['aim'] .'&amp;message=Hi+'. $topicMessage['aim'] .'+Are+you+there+?" onclick="window.open(this.href); return false;" title="'. $topicMessage['aim'] .'"></a>';
-            endif;
-
-            if ($nuked['user_yim'] == 'on' && $topicMessage['yim'] != '') :
-                echo '<a class="nkButton icon yim small alone" href="http://edit.yahoo.com/config/send_webmesg?target='. $topicMessage['yim'] .'&amp;src=pg" title="'. $topicMessage['yim'] .'"></a>';
-            endif;
-
-            if ($nuked['user_xfire'] == 'on' && $topicMessage['xfire'] != '') :
-                echo '<a class="nkButton icon xfire small alone" href="xfire:add_friend?user='. $topicMessage['xfire'] .'" title="'. $topicMessage['xfire'] .'"></a>';
-            endif;
-
-            if ($nuked['user_facebook'] == 'on' && $topicMessage['facebook'] != '') :
-                echo '<a class="nkButton icon facebook small alone" href="http://www.facebook.com/'. $topicMessage['facebook'] .'" title="'. $topicMessage['facebook'] .'"></a>';
-            endif;
-
-            if ($nuked['user_origin'] == 'on' && $topicMessage['origin'] != '') :
-                echo '<a class="nkButton icon origin small alone" href="#" title="'. $topicMessage['origin'] .'"></a>';
-            endif;
-
-            if ($nuked['user_steam'] == 'on' && $topicMessage['steam'] != '') :
-                echo '<a class="nkButton icon steam small alone" href="http://steamcommunity.com/actions/AddFriend/'. $topicMessage['steam'] .'" title="'. $topicMessage['steam'] .'"></a>';
-            endif;
-
-            if ($nuked['user_twitter'] == 'on' && $topicMessage['twitter'] != '') :
-                echo '<a class="nkButton icon twitter small alone" href="http://twitter.com/#!/'. $topicMessage['twitter'] .'" title="'. $topicMessage['twitter'] .'"></a>';
-            endif;
-
-            if ($nuked['user_skype'] == 'on' && $topicMessage['skype'] != '') :
-                echo '<a class="nkButton icon skype small alone" href="skype:'. $topicMessage['skype'] .'?call" title="'. $topicMessage['skype'] .'"></a>';
-            endif;
-        endif;
+        if ($topicMessage['auteur_id'] != '' && $visiteur >= $nuked['user_social_level'])
+            echo nkUserSocial_getButtonList($topicMessage, 'authorName');
 ?>
                             </div>
                         </div>

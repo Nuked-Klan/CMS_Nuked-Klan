@@ -466,6 +466,11 @@ return array(
     'UPLOAD_DIRECTORY_NO_EXIST' => 'The upload directory don\'t exist !',
     'UPLOAD_DIRECTORY_NO_WRITEABLE' => 'The upload directory isn\'t writeable !',
     'UPLOAD_FILE_FAILED' => 'Upload file failed !',
+    // nkUserSocial_getLinkTitle - Includes/nkUserSocial.php
+    'SEND_EMAIL'        => 'Send email',
+    'SEE_HOME_PAGE'     => 'View user\'s website %s',
+    'USER_LABEL_EMAIL'  => 'Mail public',
+    'LABEL_EMAIL'       => 'Mail',
     // views/frontend/banishmentMessage.php
     'IP_BANNED'         => 'You are banned. The access of the website you had has been restrained.',
     'REASON'            => 'Reason :',
