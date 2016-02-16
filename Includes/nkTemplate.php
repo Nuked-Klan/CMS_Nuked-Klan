@@ -405,11 +405,11 @@ function nkTemplate_addJSFile($file, $type = 'normal') {
  */
 function nkTemplate_addJS($script, $jsType = 'normal') {
     if ($jsType == 'jqueryDomReady')
-        $GLOBALS['nkTemplate']['JS']['string']['jqueryDomReady'] .= $script;
+        $GLOBALS['nkTemplate']['JS']['string']['jqueryDomReady'] .= $script ."\n";
     else if ($jsType == 'beforeLibs')
-        $GLOBALS['nkTemplate']['JS']['string']['beforeLibs'] .= $script;
+        $GLOBALS['nkTemplate']['JS']['string']['beforeLibs'] .= $script ."\n";
     else
-        $GLOBALS['nkTemplate']['JS']['string']['normal'] .= $script;
+        $GLOBALS['nkTemplate']['JS']['string']['normal'] .= $script ."\n";
 }
 
 /**

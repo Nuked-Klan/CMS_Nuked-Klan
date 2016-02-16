@@ -4,9 +4,19 @@ if ($GLOBALS['visiteur'] == 9) :
 ?>
 <div class="nkModuleAdminButton nkAlignRight"><a href="index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=<?php echo $member['id'] ?>"><img class="nkNoBorder" src="images/edition.gif" alt="" title="<?php echo __('EDIT') ?>" /></a><?php
 
-    if ($member['id'] != $GLOBALS['user']['id']) :
+    if ($member['id'] != $GLOBALS['user']['id']) : ?>
 
-    ?><a href="javascript:deluser('<?php echo stripslashes($author) ?>', '<?php echo $member['id'] ?>');"><img class="nkNoBorder" src="images/delete.gif" alt="" title="<?php echo __('DELETE') ?>" /></a><?php
+    <script type="text/javascript">
+    // <![CDATA[
+    function deleteMember(nickname, id) {
+        var confirmTxt = '<?php echo addslashes(__('CONFIRM_TO_DELETE_DATA')) ?>';
+
+        if (confirm(confirmTxt.replace(/%s/, nickname)))
+            document.location.href = 'index.php?file=Admin&page=user&op=del_user&id_user=' + id;
+    }
+    // ]]>
+    </script>
+    <a href="javascript:deleteMember('<?php echo addslashes($author)) ?>', '<?php echo $member['id'] ?>');"><img class="nkNoBorder" src="images/delete.gif" alt="" title="<?php echo __('DELETE') ?>" /></a><?php
 
     endif
 

@@ -186,20 +186,6 @@ function memberDetail() {
         WHERE id = '. $dbrMember['game']
     );
 
-    if ($visiteur == 9 && $dbrMember['id'] != $user['id']) {
-        echo "<script type=\"text/javascript\">\n"
-            . "<!--\n"
-            . "\n"
-            . "function deluser(pseudo, id)\n"
-            . "{\n"
-            . "if (confirm('" . _DELETEUSER . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-            . "{document.location.href = 'index.php?file=Admin&page=user&op=del_user&id_user='+id;}\n"
-            . "}\n"
-            . "\n"
-            . "// -->\n"
-            . "</script>\n";
-    }
-
     echo applyTemplate('modules/Members/detail', array(
         'member'        => $dbrMember,
         'memberDetail'  => $dbrMemberDetail,

@@ -18,44 +18,46 @@ compteur('Team');
 
 require_once 'Includes/nkUserSocial.php';
 
-function index()
-{
+function index() {
     global $bgcolor1, $bgcolor2, $bgcolor3, $theme, $user, $nuked, $visiteur;
 
-    opentable();
+    $sql = 'SELECT cid, titre, tag, tag2, game
+        FROM '. TEAM_TABLE
 
-    echo '<br />';
+    if (array_key_exists('cid', $_REQUEST) && $_REQUEST['cid'] != '')
+        $sql .= 'WHERE cid = '. nkDB_escape($_REQUEST['cid']);
 
-    if(!array_key_exists('cid', $_REQUEST)){
-        $_REQUEST['cid'] = '';
-    }
+    $req = mysql_query($sql, array('ordre', 'titre'));
 
-    if ($_REQUEST['cid'] != '') $where2 = "WHERE cid = '" . $_REQUEST['cid'] . "'"; else $where2 = '';
-    $sql = mysql_query("SELECT cid, titre, tag, tag2, game FROM " . TEAM_TABLE . " " . $where2 . " ORDER BY ordre, titre");
-    $nb_team = mysql_num_rows($sql);
-    $res = mysql_fetch_row($sql);
+    $nb_team = nkDB_numRows();
+
+    $res = mysql_fetch_row($req);
     $where = '';
 
-    if ($nb_team == 0)
-    {
+    if ($nb_team == 0) {
         $titre = @nkHtmlEntityDecode($nuked['name']);
         $team_tag = @nkHtmlEntityDecode($nuked['tag_pre']);
         $tag2 = @nkHtmlEntityDecode($nuked['tag_suf']);
-        $res = array ('', "$titre", "$team_tag", "$tag2", '0');
+        $res = array ('', $titre, $team_tag, $tag2, '0');
     }
 
-    while (is_array($res))
-    {
-        list($team, $titre, $team_tag, $tag2, $_REQUEST['game']) = $res;
+    echo '<br />';
+
+    while (is_array($res)) {
+        list($team, $titre, $team_tag, $tag2, $game) = $res;
 
         $titre = printSecuTags($titre);
         $team_tag = printSecuTags($team_tag);
         $tag2 = printSecuTags($tag2);
 
-        if ($team != '') $link_titre = '<a href="index.php?file=Team&amp;cid=' . urlencode(nkHtmlEntityDecode($team)) . '"><big><b>' . $titre . '</b></big></a>';
-        else $link_titre = '<big><b>' . $titre . '</b></big>';
+        echo "<div style=\"text-align: center;\">";
 
-        echo "<div style=\"text-align: center;\">$link_titre</div>"
+        if ($team != '')
+            echo '<a href="index.php?file=Team&amp;cid=' . urlencode(nkHtmlEntityDecode($team)) . '"><big><b>' . $titre . '</b></big></a>';
+        else
+            echo '<big><b>' . $titre . '</b></big>';
+
+        echo "</div>"
         . "<table class=\"nkTeamList\" style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
         . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
         . "<td style=\"width: 5%;\">&nbsp;</td>\n"
@@ -88,8 +90,7 @@ function index()
             ORDER BY ordre, pseudo'
         );
 
-        if (nkDB_numRows() > 0)
-        {
+        if (nkDB_numRows() > 0) {
             $j = 0;
 
             foreach ($dbrTeamMember as $teamMember) {
@@ -97,34 +98,30 @@ function index()
                 $temp = $team_tag . $teamMember['nickname'] . $tag2;
                 $teamMember['nickname'] = nkHtmlEntityDecode($teamMember['nickname']);
 
-                if ($teamMember['rang'] != "" && $teamMember['rang'] > 0)
-                {
-                    $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $teamMember['rang'] . "'");
-                    list($rank_name) = mysql_fetch_array($sql_rank);
-                    $rank_name = printSecuTags($rank_name);
+                if ($teamMember['rang'] != '' && $teamMember['rang'] > 0) {
+                    $dbrTeamRank = nkDB_selectOne(
+                        'SELECT titre
+                        FROM '. TEAM_RANK_TABLE .'
+                        WHERE id = '. (int) $teamMember['rang']
+                    );
+
+                    $rank_name = printSecuTags($dbrTeamRank['titre']);
                 }
-                else
-                {
+                else {
                     $rank_name = "N/A";
                 }
 
-                if ($_REQUEST['game'] > 0)
-                {
-                    $sql3 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE game = '" . $_REQUEST['game'] . "' AND user_id = '" . $teamMember['id'] . "'");
-                    $test = mysql_num_rows($sql3);
+                $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($teamMember['nickname']);
 
-                    if ($test > 0)
-                    {
-                        $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($teamMember['nickname']) . "&amp;game=" . $_REQUEST['game'];
-                    }
-                    else
-                    {
-                        $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($teamMember['nickname']);
-                    }
-                }
-                else
-                {
-                    $url_member = "index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($teamMember['nickname']);
+                if ($game != '' && $game > 0) {
+                    $nbGamePref = nkDB_totalNumRows(
+                        'FROM '. GAMES_PREFS_TABLE .'
+                        WHERE game = '. (int) $game .'
+                        AND user_id = \''. $teamMember['id'] .'\''
+                    );
+
+                    if ($nbGamePref > 0)
+                        $url_member .= "&amp;game=". $game;
                 }
 
                 echo "<tr style=\"background: " . (($j++ % 2 == 1) ? $bgcolor1 : $bgcolor2) . ";\">\n"
@@ -140,25 +137,62 @@ function index()
                 echo "<td style=\"width: 20%;\" align=\"center\">" . $rank_name . "</td></tr>\n";
             }
         }
-        else
-        {
+        else {
             echo "<tr><td align=\"center\" colspan=\"". (3 + count($userSocialData)) ."\">" . _NOMEMBERS . "</td></tr>\n";
         }
 
         echo "</table><br /><br />\n";
+
         $j = 0;
-        $res = mysql_fetch_row($sql);
+        $res = mysql_fetch_row($req);
     }
-    closetable();
 }
 
-function detail($autor)
+/**
+ * Calculate age with birthday member and return it.
+ *
+ * @param string $birthday : The member birthday.
+ * @return string : The age of member or empty string if user don't set birthday date.
+ */
+// TODO : Check while update if age field is valid
+function getMemberAge($birthday) {
+    if ($birthday != '') {
+        list($bDay, $bMonth, $bYear) = explode ('/', $birthday);
+
+        $currentMonth = date('m');
+
+        $age = date('Y') - $bYear;
+
+        if ($currentMonth < $bMonth)
+            $age = $age - 1;
+
+        if (date('d') < $bDay && $currentMonth == $bMonth)
+            $age = $age - 1;
+
+        return $age;
+    }
+
+    return '';
+}
+
+/**
+ * Get cleaned string for display in flash element.
+ *
+ * @param string $text : The raw text to display.
+ * @return array : The text cleaned. (accents removed)
+ */
+function flashTextCleaning($text) {
+    $a = '¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò';
+    $b = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
+
+    return strtr(@nkHtmlEntityDecode($text), $a, $b);
+}
+
+function detail()
 {
     global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $user, $visiteur;
 
-    opentable();
-
-    $autor = nkHtmlEntities($autor, ENT_QUOTES);
+    $author = nkHtmlEntities($_REQUEST['autor'], ENT_QUOTES);
 
     // TODO : Check while update if url with preg_match("`http://`i", $url)
 
@@ -168,92 +202,85 @@ function detail($autor)
     $teamMember = nkDB_selectOne(
         'SELECT id, game, country'. $userSocialFields .'
         FROM '. USER_TABLE .'
-        WHERE pseudo = '. nkDB_escape($autor)
+        WHERE pseudo = '. nkDB_escape($author)
     );
 
-    if (nkDB_numRows() > 0) {
-        list ($pays, $ext) = explode ('.', $teamMember['country']);
+    if (nkDB_numRows() == 0) {
+        printNotification(_NOMEMBER, 'error');
+        return;
+    }
 
-        $sql2 = mysql_query("SELECT prenom, age, sexe, ville, motherboard, cpu, ram, video, resolution, son, ecran, souris, clavier, connexion, system, photo, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $teamMember['id'] . "'");
-        $res = mysql_num_rows($sql2);
-        list($prenom, $birthday, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $pref1, $pref2, $pref3, $pref4, $pref5) = mysql_fetch_array($sql2);
+    list ($pays, $ext) = explode ('.', $teamMember['country']);
 
-        if (array_key_exists('game', $_REQUEST) && $_REQUEST['game'] != "")
-        {
-            $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $_REQUEST['game'] . "'");
-            list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
+    $sql2 = mysql_query(
+        'SELECT prenom, age, sexe, ville, motherboard, cpu, ram, video, resolution, son,
+        ecran, souris, clavier, connexion, system, photo, pref_1, pref_2, pref_3, pref_4, pref_5
+        FROM '. USER_DETAIL_TABLE .'
+        WHERE user_id = \''. $teamMember['id'] .'\''
+    );
 
+    $res = mysql_num_rows($sql2);
+    list($prenom, $birthday, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $pref1, $pref2, $pref3, $pref4, $pref5) = mysql_fetch_array($sql2);
 
-            $titre = printSecuTags($titre);
-            $pref_1 = printSecuTags($pref_1);
-            $pref_2 = printSecuTags($pref_2);
-            $pref_3 = printSecuTags($pref_3);
-            $pref_4 = printSecuTags($pref_4);
-            $pref_5 = printSecuTags($pref_5);
+    if (array_key_exists('game', $_REQUEST) && $_REQUEST['game'] != "") {
+        $sql3 = mysql_query(
+            "SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5
+            FROM " . GAMES_TABLE . "
+            WHERE id = '" . $_REQUEST['game'] . "'"
+        );
 
+        list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
 
-            $sql4 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE game = '" . $_REQUEST['game'] . "' AND user_id = '" . $teamMember['id'] . "'");
-            list($gpref1, $gpref2, $gpref3, $gpref4, $gpref5) = mysql_fetch_array($sql4);
+        $titre = printSecuTags($titre);
+        $pref_1 = printSecuTags($pref_1);
+        $pref_2 = printSecuTags($pref_2);
+        $pref_3 = printSecuTags($pref_3);
+        $pref_4 = printSecuTags($pref_4);
+        $pref_5 = printSecuTags($pref_5);
 
-        }
-        else
-        {
-            $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $teamMember['game'] . "'");
-            list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
+        $sql4 = mysql_query(
+            "SELECT pref_1, pref_2, pref_3, pref_4, pref_5
+            FROM " . GAMES_PREFS_TABLE . "
+            WHERE game = '" . $_REQUEST['game'] . "'
+            AND user_id = '" . $teamMember['id'] . "'"
+        );
 
+        list($gpref1, $gpref2, $gpref3, $gpref4, $gpref5) = mysql_fetch_array($sql4);
+    }
+    else {
+        $sql3 = mysql_query(
+            "SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5
+            FROM " . GAMES_TABLE . "
+            WHERE id = '" . $teamMember['game'] . "'"
+        );
 
-            $titre = printSecuTags($titre);
-            $pref_1 = printSecuTags($pref_1);
-            $pref_2 = printSecuTags($pref_2);
-            $pref_3 = printSecuTags($pref_3);
-            $pref_4 = printSecuTags($pref_4);
-            $pref_5 = printSecuTags($pref_5);
+        list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
 
-            $gpref1 = $pref1;
-            $gpref2 = $pref2;
-            $gpref3 = $pref3;
-            $gpref4 = $pref4;
-            $gpref5 = $pref5;
-        }
+        $titre = printSecuTags($titre);
+        $pref_1 = printSecuTags($pref_1);
+        $pref_2 = printSecuTags($pref_2);
+        $pref_3 = printSecuTags($pref_3);
+        $pref_4 = printSecuTags($pref_4);
+        $pref_5 = printSecuTags($pref_5);
 
-        if ($birthday != "")
-        {
-            list ($jour, $mois, $an) = explode ('/', $birthday);
-            $age = date("Y") - $an;
-            if (date("m") < $mois)
-            {
-                $age = $age-1;
-            }
-            if (date("d") < $jour && date("m") == $mois)
-            {
-                $age = $age - 1;
-            }
-        }
-        else
-        {
-            $age = "";
-        }
+        $gpref1 = $pref1;
+        $gpref2 = $pref2;
+        $gpref3 = $pref3;
+        $gpref4 = $pref4;
+        $gpref5 = $pref5;
+    }
 
+    if ($sexe == "male")
+        $sex = _MALE;
+    else if ($sexe == "female")
+        $sex = _FEMALE;
+    else
+        $sex = "";
 
-        if ($sexe == "male")
-        {
-            $sex = _MALE;
-        }
-        else if ($sexe == "female")
-        {
-            $sex = _FEMALE;
-        }
-        else
-        {
-            $sex = "";
-        }
+    if ($visiteur == 9) {
+        echo "<div style=\"text-align: right;\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=" . $teamMember['id'] . "\"><img style=\"border: 0;\" src=\"images/edition.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a>";
 
-        if ($visiteur == 9)
-        {
-            echo "<div style=\"text-align: right;\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_user&amp;id_user=" . $teamMember['id'] . "\"><img style=\"border: 0;\" src=\"images/edition.gif\" alt=\"\" title=\"" . _EDIT . "\" /></a>";
-
-        if ($teamMember['id'] != $user[0])
-        {
+        if ($teamMember['id'] != $user[0]) {
             echo "<script type=\"text/javascript\">\n"
             ."<!--\n"
             ."\n"
@@ -266,113 +293,96 @@ function detail($autor)
             . "// -->\n"
             . "</script>\n";
 
-            echo "<a href=\"javascript:deluser('" . addslashes($autor) . "', '" . $teamMember['id'] . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a>";
+            echo "<a href=\"javascript:deluser('" . addslashes($author) . "', '" . $teamMember['id'] . "');\"><img style=\"border: 0;\" src=\"images/delete.gif\" alt=\"\" title=\"" . _DELETE . "\" /></a>";
         }
-    echo "&nbsp;</div>\n";
+
+        echo "&nbsp;</div>\n";
     }
 
-        $a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
-        $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-        $flash_autor = @nkHtmlEntityDecode($autor);
-        $flash_autor = strtr($flash_autor, $a, $b);
+    echo "<br /><object type=\"application/x-shockwave-flash\" data=\"modules/Members/images/title.swf\" width=\"100%\" height=\"50\">\n"
+    . "<param name=\"movie\" value=\"modules/Members/images/title.swf\" />\n"
+    . "<param name=\"pluginurl\" value=\"http://www.macromedia.com/go/getflashplayer\" />\n"
+    . "<param name=\"wmode\" value=\"transparent\" />\n"
+    . "<param name=\"menu\" value=\"false\" />\n"
+    . "<param name=\"quality\" value=\"best\" />\n"
+    . "<param name=\"scale\" value=\"exactfit\" />\n"
+    . "<param name=\"flashvars\" value=\"text=" . flashTextCleaning($author) . "\" /></object>\n";
 
-        echo "<br /><object type=\"application/x-shockwave-flash\" data=\"modules/Members/images/title.swf\" width=\"100%\" height=\"50\">\n"
-        . "<param name=\"movie\" value=\"modules/Members/images/title.swf\" />\n"
-        . "<param name=\"pluginurl\" value=\"http://www.macromedia.com/go/getflashplayer\" />\n"
-        . "<param name=\"wmode\" value=\"transparent\" />\n"
-        . "<param name=\"menu\" value=\"false\" />\n"
-        . "<param name=\"quality\" value=\"best\" />\n"
-        . "<param name=\"scale\" value=\"exactfit\" />\n"
-        . "<param name=\"flashvars\" value=\"text=" . $flash_autor . "\" /></object>\n";
+    if ($res > 0) {
+        echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
+        . "<tr style=\"background: " . $bgcolor3 . ";\"><td style=\"height: 20px\" colspan=\"2\" align=\"center\"><big><b>" . _INFOPERSO . "</b></big></td></tr>\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"width: 100%\"><table cellpadding=\"1\" cellspacing=\"0\">\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _NICK . " :</b></td><td>" . $author . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _LASTNAME . " :</b></td><td>" . $prenom . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _AGE . " :</b></td><td>" . getMemberAge($birthday) . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _SEXE . " :</b></td><td>" . $sex . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _CITY . " :</b></td><td>" . $ville . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _COUNTRY . " :</b></td><td>" . $pays . "</td></tr>\n";
 
-        if ($res > 0)
-        {
-            echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
-            . "<tr style=\"background: " . $bgcolor3 . ";\"><td style=\"height: 20px\" colspan=\"2\" align=\"center\"><big><b>" . _INFOPERSO . "</b></big></td></tr>\n"
-            . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"width: 100%\"><table cellpadding=\"1\" cellspacing=\"0\">\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _NICK . " :</b></td><td>" . $autor . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _LASTNAME . " :</b></td><td>" . $prenom . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _AGE . " :</b></td><td>" . $age . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _SEXE . " :</b></td><td>" . $sex . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _CITY . " :</b></td><td>" . $ville . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _COUNTRY . " :</b></td><td>" . $pays . "</td></tr>\n";
-
-            if ($visiteur >= $nuked['user_social_level']) {
-                foreach (nkUserSocial_getConfig() as $userSocial) {
-                    if (isset($teamMember[$userSocial['field']]) && $teamMember[$userSocial['field']] != '') {
-                        echo '<tr><td><b>&nbsp;&nbsp;ª ', nkUserSocial_getLabel($userSocial), ' :</b></td><td><a href="'
-                            , nkUserSocial_getLinkUrl($userSocial, $teamMember[$userSocial['field']])
-                            , '"', nkUserSocial_openUrlPage($userSocial), '>', $teamMember[$userSocial['field']]
-                            , '</a></td></tr>';
-                    }
+        if ($visiteur >= $nuked['user_social_level']) {
+            foreach (nkUserSocial_getConfig() as $userSocial) {
+                if (isset($teamMember[$userSocial['field']]) && $teamMember[$userSocial['field']] != '') {
+                    echo '<tr><td><b>&nbsp;&nbsp;ª ', nkUserSocial_getLabel($userSocial), ' :</b></td><td><a href="'
+                        , nkUserSocial_getLinkUrl($userSocial, $teamMember[$userSocial['field']])
+                        , '"', nkUserSocial_openUrlPage($userSocial), '>', $teamMember[$userSocial['field']]
+                        , '</a></td></tr>';
                 }
             }
-
-            echo "</td></tr></table></td><td align=\"center\">\n";
-
-            if ($photo != "")
-            {
-                echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"" . $photo . "\" width=\"100\" height=\"100\" alt=\"\" style=\"border: 1px solid #000000;\" />&nbsp;&nbsp;&nbsp;&nbsp;";
-            }
-            else
-            {
-                echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Team/images/noAvatar.png\" width=\"100\" height=\"100\" alt=\"\" style=\"border: 1px solid #000000;\" />&nbsp;&nbsp;&nbsp;&nbsp;";
-            }
-
-            echo "</td></tr>\n"
-            . "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" style=\"height: 20px\" align=\"center\"><big><b>" . _HARDCONFIG . "</b></big></td></tr>\n"
-            . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"width: 100%\" colspan=\"2\"><table cellpadding=\"1\" cellspacing=\"0\">\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _PROCESSOR . " : </b></td><td>" . $cpu . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _MEMORY . " : </b></td><td>" . $ram . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _MOTHERBOARD . " : </b></td><td>" . $motherboard . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _VIDEOCARD . " : </b></td><td>" . $video . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _RESOLUTION . " : </b></td><td>" . $resolution . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _SOUNDCARD . " : </b></td><td>" . $sons . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _MOUSE . " : </b></td><td>" . $souris . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _KEYBOARD . " : </b></td><td>" . $clavier . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _MONITOR . " : </b></td><td>" . $ecran . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _SYSTEMOS . " : </b></td><td>" . $osystem . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . _CONNECT . " :</b></td><td>" . $connexion . "</td></tr>\n"
-            . "</table></td></tr>"
-            . "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" style=\"height: 20px\" align=\"center\"><big><b>" . $titre . " :</b></big></td></tr>\n"
-            . "<tr style=\"background: " . $bgcolor1 . ";\"><td colspan=\"2\"><table cellpadding=\"1\" cellspacing=\"0\">\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_1 . " :</b></td><td>" . $gpref1 . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_2 . " :</b></td><td>" . $gpref2 . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_3 . " :</b></td><td>" . $gpref3 . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_4 . " :</b></td><td>" . $gpref4 . "</td></tr>\n"
-            . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_5 . " :</b></td><td>" . $gpref5 . "</td></tr>\n"
-            . "</table></td></tr></table><br />";
-        }
-        else
-        {
-            echo "<br /><div style=\"text-align: center;\">" . _NOPREF . "</div><br />\n";
         }
 
-        if ($user)
-        {
-            echo "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Userbox&amp;op=post_message&amp;for=" . $teamMember['id'] . "\">" . _SENDPV . "</a> ]</div><br />\n";
+        echo "</td></tr></table></td><td align=\"center\">\n";
+
+        if ($photo != "") {
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"" . $photo . "\" width=\"100\" height=\"100\" alt=\"\" style=\"border: 1px solid #000000;\" />&nbsp;&nbsp;&nbsp;&nbsp;";
         }
+        else {
+            echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src=\"modules/Team/images/noAvatar.png\" width=\"100\" height=\"100\" alt=\"\" style=\"border: 1px solid #000000;\" />&nbsp;&nbsp;&nbsp;&nbsp;";
+        }
+
+        echo "</td></tr>\n"
+        . "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" style=\"height: 20px\" align=\"center\"><big><b>" . _HARDCONFIG . "</b></big></td></tr>\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"width: 100%\" colspan=\"2\"><table cellpadding=\"1\" cellspacing=\"0\">\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _PROCESSOR . " : </b></td><td>" . $cpu . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _MEMORY . " : </b></td><td>" . $ram . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _MOTHERBOARD . " : </b></td><td>" . $motherboard . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _VIDEOCARD . " : </b></td><td>" . $video . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _RESOLUTION . " : </b></td><td>" . $resolution . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _SOUNDCARD . " : </b></td><td>" . $sons . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _MOUSE . " : </b></td><td>" . $souris . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _KEYBOARD . " : </b></td><td>" . $clavier . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _MONITOR . " : </b></td><td>" . $ecran . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _SYSTEMOS . " : </b></td><td>" . $osystem . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . _CONNECT . " :</b></td><td>" . $connexion . "</td></tr>\n"
+        . "</table></td></tr>"
+        . "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\" style=\"height: 20px\" align=\"center\"><big><b>" . $titre . " :</b></big></td></tr>\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td colspan=\"2\"><table cellpadding=\"1\" cellspacing=\"0\">\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_1 . " :</b></td><td>" . $gpref1 . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_2 . " :</b></td><td>" . $gpref2 . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_3 . " :</b></td><td>" . $gpref3 . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_4 . " :</b></td><td>" . $gpref4 . "</td></tr>\n"
+        . "<tr><td><b>&nbsp;&nbsp;ª " . $pref_5 . " :</b></td><td>" . $gpref5 . "</td></tr>\n"
+        . "</table></td></tr></table><br />";
     }
-    else
-    {
-        printNotification(_NOMEMBER, 'error');
+    else {
+        echo "<br /><div style=\"text-align: center;\">" . _NOPREF . "</div><br />\n";
     }
 
-    closetable();
+    if ($user) {
+        echo "<br /><div style=\"text-align: center;\">[ <a href=\"index.php?file=Userbox&amp;op=post_message&amp;for=" . $teamMember['id'] . "\">" . _SENDPV . "</a> ]</div><br />\n";
+    }
 }
 
-switch ($GLOBALS['op'])
-{
-    case"index":
-        index();
-        break;
+opentable();
 
-    case"detail":
-        detail($_REQUEST['autor']);
+switch ($GLOBALS['op']) {
+    case 'detail' :
+        detail();
         break;
 
     default:
         index();
 }
+
+closetable();
 
 ?>
