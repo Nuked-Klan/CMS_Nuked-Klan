@@ -378,6 +378,7 @@ return array(
     'ALL'               => 'All',
     'TOKEN_NO_VALID'    => 'Form token isn\'t valid !',
     'DATE'              => 'Date',
+    'EDIT'              => 'Edit',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

@@ -693,8 +693,16 @@
     border: 0;
 }
 
+.nkAlignRight{
+    text-align: right;
+}
+
 .nkAlignCenter{
     text-align: center;
+}
+
+.nkAlignLeft{
+    text-align: left;
 }
 
 .nkInlineBlock{

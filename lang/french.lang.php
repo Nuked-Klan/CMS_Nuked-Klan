@@ -385,6 +385,7 @@ return array(
     'ALL'               => 'Tous',
     'TOKEN_NO_VALID'    => 'Le jeton du formulaire n\'est pas valide !',
     'DATE'              => 'Date',
+    'EDIT'              => 'Editer',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

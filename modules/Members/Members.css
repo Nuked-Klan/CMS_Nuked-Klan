@@ -1,3 +1,95 @@
+/* Member list */
+
+#nkMembersList{
+    border:1px solid;
+    width:100%;
+    border-spacing:1px;
+}
+
+#nkMembersList th {
+    text-align:center;
+    font-weight:bold;
+}
+
+#nkMembersList th, #nkMembersList td {
+    padding:2px;
+}
+
+
+#nkMembersList .nkMemberCountry, #nkMembersList .nkUserSocial{
+    text-align:center;
+}
+
 #nkMembersList .website{
     width:5%;
+}
+
+/* Member detail */
+
+#nkMemberWrapper,
+#nkMemberPersonalInfo .nkMemberDetailContent,
+#nkMemberInfo{
+    width:98%;
+    margin:0 auto;
+}
+
+.nkMemberDetail, .nkMemberDetailWrapper{
+    width:100%;
+    margin-bottom:10px;
+}
+
+.nkMemberDetailWrapper{
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
+}
+
+.nkMemberDetailHead{
+    font-weight:bold;
+    color:#fff;
+    line-height:24px;
+    text-align:center;
+    padding:4px;
+}
+
+
+#nkMemberPersonalInfo .nkMemberDetailContent,
+#nkMemberInfo,
+#nkMemberHardwareConfig .nkMemberDetailContent > div,
+#nkMemberGamePref .nkMemberDetailContent > div{
+    display: table;
+}
+
+#nkMemberPersonalInfo .nkMemberDetailContent > div,
+#nkMemberInfo > div,
+#nkMemberHardwareConfig .nkMemberDetailContent > div > div,
+#nkMemberGamePref .nkMemberDetailContent > div > div{
+    display:table-row-group;
+    line-height:16px;
+}
+
+#nkMemberInfo,
+#nkMemberPhoto,
+#nkMemberInfo > div > div,
+#nkMemberHardwareConfig .nkMemberDetailContent > div > div > div,
+#nkMemberGamePref .nkMemberDetailContent > div > div > div{
+    display:table-cell;
+    vertical-align:middle;
+    padding:1px;
+}
+
+#nkMemberInfo > div > div:first-child,
+#nkMemberHardwareConfig .nkMemberDetailContent > div > div > div:first-child,
+#nkMemberGamePref .nkMemberDetailContent > div > div > div:first-child{
+    font-weight:bold;
+    padding-left:6px;
+    padding-right:3px;
+}
+
+#nkMemberPhoto{
+    width:110px;
+    padding:5px;
+}
+
+#nkMemberPhoto img{
+    border:1px solid;
+    padding:2px;
 }
