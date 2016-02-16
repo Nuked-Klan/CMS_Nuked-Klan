@@ -292,7 +292,8 @@ return array(
     #####################################
     # tables/table.users.c.i.u.php
     #####################################
-    'UPDATE_PASSWORD'       => 'Mot de passe du champ `%s` mise à jour dans la table `%s`',
+    'UPDATE_PASSWORD'       => 'Mot de passe du champ `%s` mis à jour dans la table `%s`',
+    'UPDATE_COUNTRY'        => 'Fichier du drapeau du pays du champ `%s` mis à jour dans la table `%s`',
     #####################################
     # views/changelog.php
     #####################################

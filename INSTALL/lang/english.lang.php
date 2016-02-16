@@ -293,6 +293,7 @@ return array(
     # tables/table.users.c.i.u.php
     #####################################
     'UPDATE_PASSWORD'       => 'Password of `%s` field updated in `%s` table',
+    'UPDATE_COUNTRY'        => 'Country flag filename of `%s` field updated in `%s` table',
     #####################################
     # views/changelog.php
     #####################################

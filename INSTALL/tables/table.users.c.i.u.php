@@ -80,6 +80,11 @@ function updateUsersDbTableRow($updateList, $row, $vars) {
     if (in_array('APPLY_BBCODE', $updateList))
         $setFields['signature'] = $vars['bbcode']->apply(stripslashes($row['signature']));
 
+    if (in_array('UPDATE_COUNTRY', $updateList)) {
+        if ($row['country'] == 'czech.gif')
+            $setFields['pass'] = 'Czech.gif';
+    }
+
     return $setFields;
 }
 
@@ -185,6 +190,10 @@ if ($process == 'update') {
     if (version_compare($this->_session['version'], '1.7.9', '<=')) {
         $dbTable->setCallbackFunctionVars(array('bbcode' => new bbcode($this->_db, $this->_session, $this->_i18n)))
             ->setUpdateFieldData('APPLY_BBCODE', 'signature');
+    }
+
+    if (version_compare($this->_session['version'], '1.8', '<')) {
+        $dbTable->setUpdateFieldData('UPDATE_COUNTRY', 'country');
     }
 
     $dbTable->applyUpdateFieldListToData();
