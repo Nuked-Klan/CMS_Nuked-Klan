@@ -69,8 +69,6 @@ function membersList() {
     $userSocialFields = nkUserSocial_getActiveFields();
     $userSocialFields = ($userSocialFields) ? ', '. implode(', ', $userSocialFields) : '';
 
-    // TODO : Check while update if url with preg_match("`http://`i", $url)
-
     $dbrMembers = nkDB_selectMany(
         'SELECT pseudo AS nickname, country'. $userSocialFields .'
         FROM '. USER_TABLE .'
@@ -156,8 +154,6 @@ function memberDetail() {
 
     $userSocialFields = nkUserSocial_getActiveFields();
     $userSocialFields = ($userSocialFields) ? ', U.'. implode(', U.', $userSocialFields) : '';
-
-    // TODO : Check while update if url with preg_match("`http://`i", $url)
 
     $dbrMember = nkDB_selectOne(
         'SELECT U.id, U.date, U.game, U.country AS countryImg, S.last_used'. $userSocialFields .'

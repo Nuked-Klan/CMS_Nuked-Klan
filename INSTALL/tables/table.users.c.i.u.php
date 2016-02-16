@@ -82,7 +82,12 @@ function updateUsersDbTableRow($updateList, $row, $vars) {
 
     if (in_array('UPDATE_COUNTRY', $updateList)) {
         if ($row['country'] == 'czech.gif')
-            $setFields['pass'] = 'Czech.gif';
+            $setFields['country'] = 'Czech.gif';
+    }
+
+    if (in_array('UPDATE_HOMEPAGE', $updateList)) {
+        if (stripos($row['url'], 'http://') !== 0)
+            $setFields['url'] = 'http://'. $row['url'];
     }
 
     return $setFields;
@@ -194,6 +199,7 @@ if ($process == 'update') {
 
     if (version_compare($this->_session['version'], '1.8', '<')) {
         $dbTable->setUpdateFieldData('UPDATE_COUNTRY', 'country');
+        $dbTable->setUpdateFieldData('UPDATE_HOMEPAGE', 'url');
     }
 
     $dbTable->applyUpdateFieldListToData();

@@ -294,6 +294,7 @@ return array(
     #####################################
     'UPDATE_PASSWORD'       => 'Password of `%s` field updated in `%s` table',
     'UPDATE_COUNTRY'        => 'Country flag filename of `%s` field updated in `%s` table',
+    'UPDATE_HOMEPAGE'       => 'Home page url of `%s` field updated in `%s` table',
     #####################################
     # views/changelog.php
     #####################################

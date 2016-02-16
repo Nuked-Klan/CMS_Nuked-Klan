@@ -194,8 +194,6 @@ function detail()
 
     $author = nkHtmlEntities($_REQUEST['autor'], ENT_QUOTES);
 
-    // TODO : Check while update if url with preg_match("`http://`i", $url)
-
     $userSocialFields = nkUserSocial_getActiveFields();
     $userSocialFields = ($userSocialFields) ? ', '. implode(', ', $userSocialFields) : '';
 
