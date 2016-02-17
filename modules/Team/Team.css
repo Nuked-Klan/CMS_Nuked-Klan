@@ -1,0 +1,104 @@
+/* Member list */
+
+.nkTeamList{
+    border:1px solid;
+    width:100%;
+    border-spacing:1px;
+}
+
+.nkTeamList th {
+    text-align:center;
+    font-weight:bold;
+}
+
+.nkTeamList th, .nkTeamList td {
+    padding:2px;
+}
+
+
+.nkTeamList .nkMemberCountry, .nkTeamList .nkUserSocial, .nkTeamList .nkMemberRank{
+    text-align:center;
+}
+
+.nkTeamList .nkMemberCountry{
+    width:5%;
+}
+
+.nkTeamList .nkMemberNickname, .nkTeamList .nkMemberRank{
+    width:20%;
+}
+
+.nkTeamList .website{
+    width:5%;
+}
+
+/* Member detail */
+
+#nkTeamMemberWrapper,
+#nkTeamMemberPersonalInfo .nkTeamMemberDetailContent,
+#nkTeamMemberInfo{
+    width:98%;
+    margin:0 auto;
+}
+
+.nkTeamMemberDetail, .nkTeamMemberDetailWrapper{
+    width:100%;
+    margin-bottom:10px;
+}
+
+.nkTeamMemberDetailWrapper{
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
+}
+
+.nkTeamMemberDetailHead{
+    font-weight:bold;
+    color:#fff;
+    line-height:24px;
+    text-align:center;
+    padding:4px;
+}
+
+
+#nkTeamMemberPersonalInfo .nkTeamMemberDetailContent,
+#nkTeamMemberInfo,
+#nkTeamMemberHardwareConfig .nkTeamMemberDetailContent > div,
+#nkTeamMemberGamePref .nkTeamMemberDetailContent > div{
+    display: table;
+}
+
+#nkTeamMemberPersonalInfo .nkTeamMemberDetailContent > div,
+#nkTeamMemberInfo > div,
+#nkTeamMemberHardwareConfig .nkTeamMemberDetailContent > div > div,
+#nkTeamMemberGamePref .nkTeamMemberDetailContent > div > div{
+    display:table-row-group;
+    line-height:16px;
+}
+
+#nkTeamMemberInfo,
+#nkTeamMemberPhoto,
+#nkTeamMemberInfo > div > div,
+#nkTeamMemberHardwareConfig .nkTeamMemberDetailContent > div > div > div,
+#nkTeamMemberGamePref .nkTeamMemberDetailContent > div > div > div{
+    display:table-cell;
+    vertical-align:middle;
+    padding:1px;
+}
+
+#nkTeamMemberInfo > div > div:first-child,
+#nkTeamMemberHardwareConfig .nkTeamMemberDetailContent > div > div > div:first-child,
+#nkTeamMemberGamePref .nkTeamMemberDetailContent > div > div > div:first-child{
+    font-weight:bold;
+    padding-left:6px;
+    padding-right:3px;
+}
+
+#nkTeamMemberPhoto{
+    width:110px;
+    padding:5px;
+}
+
+#nkTeamMemberPhoto img{ 
+    width:100px;
+    height:100px;
+    border:1px solid #000;
+}

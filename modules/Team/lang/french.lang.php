@@ -1,43 +1,22 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
-define("_NICK","Pseudo");
-define("_MAIL","Email");
-define("_RANK","Rang");
-define("_VIEWPROFIL","Voir le profil");
+/**
+ * french.lang.php
+ *
+ * French translation file of Team module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-define("_NOMEMBERS","Aucun membre pour cette Team");
-define("_YOURPREF","Vos Préférences");
-define("_INFOPERSO","Infos Perso");
-define("_LASTNAME","Prénom");
-define("_AGE","Age");
-define("_SEXE","Sexe");
-define("_MALE","Homme");
-define("_FEMALE","Femme");
-define("_CITY","Ville");
-define("_COUNTRY","Pays");
-define("_PHOTO","Photo");
-define("_HARDCONFIG","Config matérielle");
-define("_MOTHERBOARD","Carte mère");
-define("_PROCESSOR","Processeur");
-define("_MEMORY","Mémoire");
-define("_VIDEOCARD","Carte Vidéo");
-define("_RESOLUTION","Résolution");
-define("_SOUNDCARD","Carte son");
-define("_MONITOR","Ecran");
-define("_MOUSE","Souris");
-define("_KEYBOARD","Clavier");
-define("_CONNECT","Connexion");
-define("_SYSTEMOS","Systeme OS");;
-define("_SENDPV","Lui envoyer un message privé ?");
-
-define("_NOPREF","Le membre n'a pas rempli sa fiche ...");
-define("_NOMEMBER","Désolé, ce membre n'existe pas ou a changé de pseudo...");
-define("_DELETEUSER","Vous êtes sur le point de supprimer");
-
-
-define("_DELETE","Supprimer");
+return array(
+    // views/frontend/modules/Team/list.php
+    'RANK'              => 'Rang',
+    'NO_TEAM_MEMBERS'   => 'Aucun membre pour cette Team',
+    // views/frontend/modules/Team/detail.php
+    'NO_PREFERENCE'     => 'Le membre n\'a pas rempli sa fiche ...'
+);
 
 ?>

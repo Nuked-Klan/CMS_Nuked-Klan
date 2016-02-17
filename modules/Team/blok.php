@@ -22,7 +22,7 @@ if ($active == 3 || $active == 4)
 
     echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
         . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
-        . "<td style=\"width: 35%;\" align=\"center\">&nbsp;<b>" . _NICK . "</b></td>\n";
+        . "<td style=\"width: 35%;\" align=\"center\">&nbsp;<b>" . __('NICK') . "</b></td>\n";
 
     // NOTE : public email is used instead private email
     $userSocialData = nkUserSocial_getConfig();
@@ -31,7 +31,7 @@ if ($active == 3 || $active == 4)
         // width: 10%;
         echo '<td class="', $userSocial['cssClass'], '" align="center"><b>', nkUserSocial_getLabel($userSocial), '</b></td>', "\n";
 
-    echo "<td style=\"width: 15%;\" align=\"center\"><b>" . _RANK . "</b></td></tr>\n";
+    echo "<td style=\"width: 15%;\" align=\"center\"><b>" . __('RANK') . "</b></td></tr>\n";
 
     $sql_team = mysql_query("SELECT cid FROM " . TEAM_TABLE);
     $nb_team = mysql_num_rows($sql_team);
@@ -64,7 +64,7 @@ if ($active == 3 || $active == 4)
         }
 
         echo "<tr style=\"background: " . (($j++ % 2 == 1) ? $bgcolor1 : $bgcolor2) . ";\">\n"
-        . "<td style=\"width: 35%;\" align=\"left\">&nbsp;&nbsp;<a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($teamMember['nickname']) . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $nick_team . "</b></a></td>\n";
+        . "<td style=\"width: 35%;\" align=\"left\">&nbsp;&nbsp;<a href=\"index.php?file=Team&amp;op=detail&amp;autor=" . urlencode($teamMember['nickname']) . "\" title=\"" . __('VIEW_PROFIL') . "\"><b>" . $nick_team . "</b></a></td>\n";
 
         foreach ($userSocialData as $userSocial) {
             // width: 10%;

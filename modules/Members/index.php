@@ -163,7 +163,7 @@ function memberDetail() {
     );
 
     if (nkDB_numRows() !== 1) {
-        echo '<br /><br /><div class="nkAlignCenter">'. __('NO_MEMBER') .'</div><br /><br />' ."\n";
+        printNotification(__('NO_MEMBER'), 'error');
         return;
     }
 

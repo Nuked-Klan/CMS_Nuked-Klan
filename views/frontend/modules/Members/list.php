@@ -34,8 +34,8 @@ endwhile;
 <?php echo $pagination ?>
 <table id="nkMembersList" class="nkBgColor2 nkBorderColor3">
     <tr class="nkBgColor3">
-        <th>&nbsp;</th>
-        <th><?php echo __('NICK') ?></th>
+        <th class="nkMemberCountry">&nbsp;</th>
+        <th class="nkMemberNickname"><?php echo __('NICK') ?></th>
 <?php
 foreach ($userSocialData as $userSocial) :
 ?>

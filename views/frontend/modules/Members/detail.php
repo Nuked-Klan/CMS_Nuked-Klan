@@ -16,7 +16,7 @@ if ($GLOBALS['visiteur'] == 9) :
     }
     // ]]>
     </script>
-    <a href="javascript:deleteMember('<?php echo addslashes($author)) ?>', '<?php echo $member['id'] ?>');"><img class="nkNoBorder" src="images/delete.gif" alt="" title="<?php echo __('DELETE') ?>" /></a><?php
+    <a href="javascript:deleteMember('<?php echo addslashes($author) ?>', '<?php echo $member['id'] ?>');"><img class="nkNoBorder" src="images/delete.gif" alt="" title="<?php echo __('DELETE') ?>" /></a><?php
 
     endif
 
