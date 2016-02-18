@@ -150,7 +150,6 @@ define("_BLIST","Liste (Alt + l)");
 define("_BQUOTE","Citation (Alt + q)");
 define("_BCODE","Code (Alt + p)");
 define("_BMAIL","Email (Alt + m)");
-define("_COLOR","Couleurs");
 define("_RED","Rouge");
 define("_DARKRED","Rouge foncé");
 define("_BLUE","Bleu");
@@ -177,7 +176,6 @@ define("_ADMINBLOCK","Gestion des Blocks");
 define("_TITREACTU","Afficher le titre du flux");
 define("_NBRRSS","Nombre de lien affiché");
 
-define("_TITLE","Titre");
 define("_BLOCK","Block");
 define("_POSITION","Position");
 define("_TYPE","Type");
@@ -368,6 +366,8 @@ define("_IMAGE","Image");
 define("_STATS","Statistiques");
 
 define("_NONE","Aucun");
+define("_TITLE","Titre");
+define("_COLOR","Couleurs");
 
 return array(
     // common
@@ -386,6 +386,8 @@ return array(
     'TOKEN_NO_VALID'    => 'Le jeton du formulaire n\'est pas valide !',
     'DATE'              => 'Date',
     'EDIT'              => 'Editer',
+    'TITLE'             => 'Titre',
+    'COLOR'             => 'Couleur',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

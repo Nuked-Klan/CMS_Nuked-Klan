@@ -19,9 +19,9 @@ $dbTable->setTable(USER_TABLE);
 $usersTableCfg = array(
     'fields' => array(
         'id'          => array('type' => 'varchar(20)',  'null' => false, 'default' => '\'\''),
-        'team'        => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
-        'team2'       => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
-        'team3'       => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        //'team'        => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        //'team2'       => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
+        //'team3'       => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
         'rang'        => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
         'ordre'       => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\''),
         'pseudo'      => array('type' => 'varchar(30)',  'null' => false),
@@ -54,9 +54,9 @@ $usersTableCfg = array(
     ),
     'primaryKey' => array('id'),
     'index' => array(
-        'team'   => 'team',
-        'team2'  => 'team2',
-        'team3'  => 'team3',
+        //'team'   => 'team',
+        //'team2'  => 'team2',
+        //'team3'  => 'team3',
         'rang'   => 'rang',
         'game'   => 'game',
         'pseudo' => 'pseudo'
@@ -88,6 +88,35 @@ function updateUsersDbTableRow($updateList, $row, $vars) {
     if (in_array('UPDATE_HOMEPAGE', $updateList)) {
         if (stripos($row['url'], 'http://') !== 0)
             $setFields['url'] = 'http://'. $row['url'];
+    }
+
+    if (in_array('UPDATE_TEAM', $updateList)) {
+        if ($row['team'] != '') {
+            $db->execute(
+                'INSERT INTO `'. TEAM_MEMBERS_TABLE .'`
+                (`userId`, `team`, `date`, `rank`)
+                VALUES
+                (\''. $row['id'] .'\', \''. $row['team'] .'\', \''. time() .'\', \''. $row['rang'] .'\');'
+            );
+        }
+
+        if ($row['team2'] != '') {
+            $db->execute(
+                'INSERT INTO `'. TEAM_MEMBERS_TABLE .'`
+                (`userId`, `team`, `date`, `rank`)
+                VALUES
+                (\''. $row['id'] .'\', \''. $row['team2'] .'\', \''. time() .'\', \''. $row['rang'] .'\');'
+            );
+        }
+
+        if ($row['team3'] != '') {
+            $db->execute(
+                'INSERT INTO `'. TEAM_MEMBERS_TABLE .'`
+                (`userId`, `team`, `date`, `rank`)
+                VALUES
+                (\''. $row['id'] .'\', \''. $row['team3'] .'\', \''. time() .'\', \''. $row['rang'] .'\');'
+            );
+        }
     }
 
     return $setFields;
@@ -200,9 +229,24 @@ if ($process == 'update') {
     if (version_compare($this->_session['version'], '1.8', '<')) {
         $dbTable->setUpdateFieldData('UPDATE_COUNTRY', 'country');
         $dbTable->setUpdateFieldData('UPDATE_HOMEPAGE', 'url');
+        $dbTable->setUpdateFieldData('UPDATE_TEAM', array('team', 'team2', 'team3', 'rang'));
     }
 
     $dbTable->applyUpdateFieldListToData();
+
+    if (($response = $dbTable->getJqueryAjaxResponse()) == 'UPDATED') {
+        if ($dbTable->fieldExist('team'))
+            $dbTable->dropField('team');
+
+        if ($dbTable->fieldExist('team2'))
+            $dbTable->dropField('team2');
+
+        if ($dbTable->fieldExist('team3'))
+            $dbTable->dropField('team3');
+
+        //if ($dbTable->fieldExist('rang'))
+        //    $dbTable->dropField('rang');
+    }
 }
 
 ?>

@@ -15,11 +15,77 @@ if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
 
-function add_user()
+function select_team()
 {
+    global $nuked;
+
+    $sql = mysql_query("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
+    while (list($cid, $titre) = mysql_fetch_array($sql))
+    {
+        $titre = printSecuTags($titre);
+
+        echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
+    }
+}
+
+function select_rank()
+{
+    global $nuked;
+
+    $sql = mysql_query("SELECT id, titre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
+    while (list($rid, $titre) = mysql_fetch_array($sql))
+    {
+        $titre = nkHtmlEntities($titre);
+
+        echo "<option value=\"" . $rid . "\">" . $titre . "</option>\n";
+    }
+}
+
+function getTeamSelector() {
+    nkTemplate_setPageDesign('none');
+
+    $n = $_POST['nbTeam'] + 1;
+
+    echo "<tr class=\"teamSelector alt-row\"><td><b>". _TEAM ." ". $n ." : </b></td><td><select name=\"team[]\">\n"
+    . "<option value=\"\">" . __('NONE') . "</option>\n";
+
+    select_team();
+
+    echo "</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+    . "<b>" . _RANKTEAM . " : </b><select name=\"rang\"><option value=\"\">" . _NORANK . "</option>\n";
+
+    select_rank();
+
+    echo"</select></td></tr>\n";
+}
+
+function add_user() {
     global $language;
 
     require_once 'Includes/nkUserSocial.php';
+
+    echo '<script type="text/javascript">' ."\n"
+    . '// <![CDATA[' ."\n"
+    . '$(document).ready(function() { ' ."\n"
+    . '$("#addTeam").click(function() {
+
+        var nbTeam = $("#nbTeam").val(),
+            tr     = $(this).closest("tr");
+
+        $.ajax({
+            type: "POST",
+            url: "index.php?file=Admin&page=user&op=getTeamSelector",
+            data: { nbTeam : nbTeam }
+        }).done(function(html) {
+            nbTeam++;
+            $(html).insertBefore(tr);
+            $("#nbTeam").attr("value", nbTeam);
+        });
+
+    });'
+    . "});\n"
+    . '// ]]>' ."\n"
+    . '</script>' ."\n";
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _ADDUSER . "</h3>\n"
@@ -79,7 +145,7 @@ function add_user()
     }
 
     echo "</select></td></tr>\n"
-    . "<tr><td><b>" . _GAME . " :</b></td><td><select name=\"game\">\n";
+    . "<tr><td><b>" . __('GAME') . " :</b></td><td><select name=\"game\">\n";
 
     $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
     while (list($game_id, $nom) = mysql_fetch_array($sql))
@@ -100,35 +166,28 @@ function add_user()
     . "<option>7</option>\n"
     . "<option>8</option>\n"
     . "<option>9</option></select></td></tr>\n"
-    . "<tr><td><b>" . _TEAM . " : </b></td><td><select name=\"team\"><option value=\"\">" . _TEAMNONE . "</option>\n";
+    . "<tr class=\"teamSelector\"><td><b>". _TEAM ." : </b></td><td><select name=\"team[]\">\n"
+    . "<option value=\"\">" . __('NONE') . "</option>\n";
 
-    select_cat();
+    select_team();
 
-    echo "</select></td></tr>\n"
-    . "<tr><td><b>" . _TEAM . " 2 : </b></td><td><select name=\"team2\"><option value=\"\">" . _TEAMNONE . "</option>\n";
-
-    select_cat();
-
-    echo "</select></td></tr>\n"
-    . "<tr><td><b>" . _TEAM . " 3 : </b></td><td><select name=\"team3\"><option value=\"\">" . _TEAMNONE . "</option>\n";
-
-    select_cat();
-
-    echo "</select></td></tr>\n"
-    . "<tr><td><b>" . _RANKTEAM . " : </b></td><td><select name=\"rang\"><option value=\"\">" . _NORANK . "</option>\n";
+    echo "</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+    . "<b>" . _RANKTEAM . " : </b><select name=\"teamRank[]\"><option value=\"\">" . _NORANK . "</option>\n";
 
     select_rank();
 
     echo"</select></td></tr>\n"
+    . "<tr><td>&nbsp;</td><td><input id=\"addTeam\" class=\"button\" type=\"button\" value=\"" . __('ADD_TEAM') . "\" /></td></tr>\n"
     . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" /></td></tr>\n"
     . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" /></td></tr>\n"
     . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\"></textarea></td></tr></table>\n"
-    . "<div style=\"text-align:center;padding-top:10px;\"><input class=\"button\" type=\"submit\" value=\"" . _ADDUSER . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user\">" . __('BACK') . "</a></div>\n"
+    . "<div style=\"text-align:center;padding-top:10px;\"><input class=\"button\" type=\"submit\" value=\"" . _ADDUSER . "\" />"
+    . "<a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user\">" . __('BACK') . "</a>"
+    . "<input id=\"nbTeam\" type=\"hidden\" name=\"nbTeam\" value=\"1\" /></div>\n"
     . "</form><br /></div></div>\n";
 }
 
-function edit_user($id_user)
-{
+function edit_user($id_user) {
     global $nuked, $language, $user;
 
     require_once 'Includes/nkUserSocial.php';
@@ -144,35 +203,12 @@ function edit_user($id_user)
         WHERE id = '. nkDB_escape($id_user)
     );
 
-    if ($dbrUser['team'] != "")
-    {
-        $sql2 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $dbrUser['team'] . "'");
-        list($user_team) = mysql_fetch_array($sql2);
-    }
-    else
-    {
-        $user_team = _TEAMNONE;
-    }
-
-    if ($dbrUser['team2'] != "")
-    {
-        $sql3 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $dbrUser['team2'] . "'");
-        list($user_team2) = mysql_fetch_array($sql3);
-    }
-    else
-    {
-        $user_team2 = _TEAMNONE;
-    }
-
-    if ($dbrUser['team3'] != "")
-    {
-        $sql4 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $dbrUser['team3'] . "'");
-        list($user_team3) = mysql_fetch_array($sql4);
-    }
-    else
-    {
-        $user_team3 = _TEAMNONE;
-    }
+    $dbrTeam = nkDB_selectMany(
+        'SELECT T.id, T.titre, TM.rank
+        FROM '. TEAM_MEMBERS_TABLE.' AS TM
+        LEFT JOIN '. TEAM_TABLE .' AS T ON T.cid = TM.team
+        WHERE TM.userId = '. nkDB_escape($id_user)
+    );
 
     if ($dbrUser['rang'] > 0)
     {
@@ -183,6 +219,29 @@ function edit_user($id_user)
     {
         $rank_name = _NORANK;
     }
+
+    echo '<script type="text/javascript">' ."\n"
+    . '// <![CDATA[' ."\n"
+    . '$(document).ready(function() { ' ."\n"
+    . '$("#addTeam").click(function() {
+
+        var nbTeam = $("#nbTeam").val(),
+            tr     = $(this).closest("tr");
+
+        $.ajax({
+            type: "POST",
+            url: "index.php?file=Admin&page=user&op=getTeamSelector",
+            data: { nbTeam : nbTeam }
+        }).done(function(html) {
+            nbTeam++;
+            $(html).insertBefore(tr);
+            $("#nbTeam").attr("value", nbTeam);
+        });
+
+    });'
+    . "});\n"
+    . '// ]]>' ."\n"
+    . '</script>' ."\n";
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
@@ -240,7 +299,7 @@ function edit_user($id_user)
     }
 
     echo "</select></td></tr>\n"
-    . "<tr><td><b>" . _GAME . " :</b></td><td><select name=\"game\">\n";
+    . "<tr><td><b>" . __('GAME') . " :</b></td><td><select name=\"game\">\n";
 
     $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
     while (list($game_id, $nom) = mysql_fetch_array($sql))
@@ -278,57 +337,93 @@ function edit_user($id_user)
         . "<option>9</option></select></td></tr>\n";
     }
 
-    echo "<tr><td><b>" . _TEAM . " : </b></td><td><select name=\"team\"><option value=\"" . $dbrUser['team'] . "\">" . $user_team . "</option>\n";
+    $n = 1;
 
-    select_cat();
+    foreach ($dbrTeam as $team) {
+        $label = _TEAM;
 
-    echo "<option value=\"\">" . _TEAMNONE . "</option></select></td></tr>\n"
-    . "<tr><td><b>" . _TEAM . " 2 : </b></td><td><select name=\"team2\"><option value=\"" . $dbrUser['team2'] . "\">" . $user_team2 . "</option>\n";
+        if ($n > 1) $label .= ' '. $n;
 
-    select_cat();
+        echo "<tr class=\"teamSelector\"><td><b>". $label ." : </b></td><td><select name=\"team[]\">\n"
+        . "<option value=\"" . $team['id'] . "\">" . $team['titre'] . "</option>\n";
 
-    echo "<option value=\"\">" . _TEAMNONE . "</option></select></td></tr>\n"
-    . "<tr><td><b>" . _TEAM . " 3 : </b></td><td><select name=\"team3\"><option value=\"" . $dbrUser['team3'] . "\">" . $user_team3 . "</option>\n";
+        select_team();
 
-    select_cat();
+        echo "<option value=\"\">" . __('NONE') . "</option>\n"
+        . "</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        . "<b>" . _RANKTEAM . " : </b><select name=\"rang\"><option value=\"\">" . _NORANK . "</option>\n";
 
-    echo "<option value=\"\">" . _TEAMNONE . "</option></select></td></tr>\n"
-    . "<tr><td><b>" . _RANKTEAM . " : </b></td><td><select name=\"rang\"><option value=\""  . $dbrUser['rang'] . "\">" . $rank_name . "</option>\n";
+        select_rank();
 
-    select_rank();
+        echo"</select></td></tr>\n";
+    }
 
-    echo"<option value=\"\">" . _NORANK . "</option></select></td></tr>\n"
+    $nbTeam = $n;
+
+    echo "<tr><td>&nbsp;</td><td><input id=\"addTeam\" class=\"button\" type=\"button\" value=\"" . __('ADD_TEAM') . "\" /></td></tr>\n"
     . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
     . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $dbrUser['avatar'] . "\" /></td></tr>\n"
     . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\">" . $dbrUser['signature'] . "</textarea></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"id_user\" value=\"" . $id_user . "\" /></td></tr>\n"
     . "<tr><td colspan=\"2\" align=\"center\"></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFUSER . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
+    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFUSER . "\" />"
+    . "<a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user\">" . __('BACK') . "</a>"
+    . "<input id=\"nbTeam\" type=\"hidden\" name=\"nbTeam\" value=\"". $nbTeam ."\" /></div></form><br /></div></div>\n";
 
 }
 
-function update_user($id_user) {
+function update_user($userId) {
+    global $language;
+
     require_once 'Includes/nkUserSocial.php';
 
     $_POST['nick'] = checkNickname($_POST['nick']);
 
     if (($error = getCheckNicknameError($_POST['nick'])) !== false) {
         printNotification($error, 'error');
-        redirect('index.php?file=Admin&page=user&op=edit_user&id_user='. $id_user, 2);
+        redirect('index.php?file=Admin&page=user&op=edit_user&id_user='. $userId, 2);
         return;
     }
 
     if ($_POST['mail'] == "")
     {
         printNotification(_EMPTYFIELD, 'error');
-        redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $id_user, 2);
+        redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $userId, 2);
         return;
     }
     else if ($_POST['pass_reg'] != $_POST['pass_conf'])
     {
         printNotification(_2PASSFAIL, 'error');
-        redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $id_user, 2);
+        redirect("index.php?file=Admin&page=user&op=edit_user&id_user=" . $userId, 2);
         return;
+    }
+
+    if (isset($_POST['team']) && is_array($_POST['team'])) {
+        for ($n = 0; $n < $_POST['nbTeam']; $n++) {
+            if (isset($_POST['team'][$n]) && ctype_digit($_POST['team'][$n])) {
+                $check = nkDB_totalNumRows(
+                    'FROM '. TEAM_MEMBERS_TABLE .'
+                    WHERE userId = '. nkDB_escape($userId) .'
+                    AND team = '. (int) $_POST['team'][$n]
+                );
+
+                if ($check >= 1) {
+                    nkDB_update(TEAM_MEMBERS_TABLE, array(
+                            'team'   => $_POST['team'][$n],
+                            'rank'   => $_POST['rank'][$n]
+                        ),
+                        'userId = '. nkDB_escape($userId)
+                    );
+                }
+                else {
+                    nkDB_insert(TEAM_MEMBERS_TABLE, array(
+                        'userId' => $userId,
+                        'team'   => $_POST['team'][$n],
+                        'rank'   => $_POST['rank'][$n]
+                    ));
+                }
+            }
+        }
     }
 
     $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
@@ -340,10 +435,10 @@ function update_user($id_user) {
     $_POST['avatar']    = nkHtmlEntities($_POST['avatar']);
 
     $data = array(
-        'team'      => $_POST['team'],
-        'team2'     => $_POST['team2'],
-        'team3'     => $_POST['team3'],
-        'rang'      => $_POST['rang'],
+        //'team'      => $_POST['team'],
+        //'team2'     => $_POST['team2'],
+        //'team3'     => $_POST['team3'],
+        //'rang'      => $_POST['rang'],
         'pseudo'    => $_POST['nick'],
         'mail'      => $_POST['mail'],
         'country'   => $_POST['country'],
@@ -372,7 +467,7 @@ function update_user($id_user) {
         }
     }
 
-    nkDB_update(USER_TABLE, $data, 'id = '. nkDB_escape($id_user));
+    nkDB_update(USER_TABLE, $data, 'id = '. nkDB_escape($userId));
 
     saveUserAction(_ACTIONMODIFUSER .': '. $_POST['nick']);
 
@@ -405,8 +500,20 @@ function do_user() {
     }
 
     do {
-        $id_user = sha1(uniqid());
-    } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $id_user . '\' LIMIT 1')) != 0);
+        $userId = sha1(uniqid());
+    } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $userId . '\' LIMIT 1')) != 0);
+
+    if (isset($_POST['team']) && is_array($_POST['team'])) {
+        for ($n = 0; $n < $_POST['nbTeam']; $n++) {
+            if (isset($_POST['team'][$n]) && ctype_digit($_POST['team'][$n])) {
+                nkDB_insert(TEAM_MEMBERS_TABLE, array(
+                    'userId' => $userId,
+                    'team'   => $_POST['team'][$n],
+                    'rank'   => $_POST['rank'][$n]
+                ));
+            }
+        }
+    }
 
     $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
@@ -417,11 +524,11 @@ function do_user() {
     $_POST['avatar'] = nkHtmlEntities($_POST['avatar']);
 
     $data = array(
-        'id'        => $id_user,
-        'team'      => $_POST['team'],
-        'team2'     => $_POST['team2'],
-        'team3'     => $_POST['team3'],
-        'rang'      => $_POST['rang'],
+        'id'        => $userId,
+        //'team'      => $_POST['team'],
+        //'team2'     => $_POST['team2'],
+        //'team3'     => $_POST['team3'],
+        //'rang'      => $_POST['rang'],
         'ordre'     => '',
         'pseudo'    => $_POST['nick'],
         'pass'      => nk_hash($_POST['pass_reg']),
@@ -473,6 +580,9 @@ function main()
 {
     global $nuked, $user, $language;
 
+    if (! array_key_exists('query', $_REQUEST)) $_REQUEST['query'] = '';
+    if (! array_key_exists('orderby', $_REQUEST)) $_REQUEST['orderby'] = '';
+
     if ($_REQUEST['query'] != "")
     {
         $and = "AND (UT.pseudo LIKE '%" . $_REQUEST['query'] . "%')";
@@ -489,7 +599,7 @@ function main()
     $sql3 = mysql_query("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
     $count = mysql_num_rows($sql3);
 
-    if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
+    if (! array_key_exists('p', $_REQUEST) || ! $_REQUEST['p']) $_REQUEST['p'] = 1;
     $start = $_REQUEST['p'] * $nb_membres - $nb_membres;
     echo "<link rel=\"stylesheet\" href=\"css/jquery.autocomplete.css\" type=\"text/css\" media=\"screen\" />\n";
     echo "<script type=\"text/javascript\">\n"
@@ -640,288 +750,6 @@ function main()
     }
 
     echo "<div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
-}
-
-function main_cat()
-{
-    global $nuked, $language;
-
-    echo "<script type=\"text/javascript\">\n"
-    . "<!--\n"
-    . "\n"
-    . "function delcat(titre, id)\n"
-    . "{\n"
-    . "if (confirm('" . _DELBLOCK . " '+titre+' ! " . _CONFIRM . "'))\n"
-    . "{document.location.href = 'index.php?file=Admin&page=user&op=del_cat&cid='+id;}\n"
-    . "}\n"
-    . "\n"
-    . "// -->\n"
-    . "</script>\n";
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _TEAMMANAGEMENT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><br />\n";
-
-    //. "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
-    //. "<div>" . _WARNINGTEAM . "</div></div><br />\n";
-
-    printNotification(_WARNINGTEAM, 'warning');
-
-    nkAdminMenu(3);
-
-    echo "<br /><table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-    . "<tr>\n"
-    . "<td style=\"width: 30%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-    . "<td style=\"width: 30%;\" align=\"center\"><b>" . _GAME . "</b></td>\n"
-    . "<td style=\"width: 10%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
-    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
-
-    $sql = mysql_query("SELECT cid, titre, ordre, game FROM " . TEAM_TABLE . " ORDER BY game, ordre");
-    $nbcat=mysql_num_rows($sql);
-
-    if ($nbcat>0)
-    {
-        while (list($cid, $titre, $ordre, $game) = mysql_fetch_array($sql))
-        {
-            $titre = printSecuTags($titre);
-
-            if ($game > 0)
-            {
-                $sql_game = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
-                list($game_name) = mysql_fetch_array($sql_game);
-                $game_name = nkHtmlEntities($game_name);
-            }
-            else
-            {
-                $game_name = "N/A";
-            }
-
-            echo "<tr>\n"
-            . "<td style=\"width: 30%;\" align=\"center\">" . $titre . "</td>\n"
-            . "<td style=\"width: 30%;\" align=\"center\">" . $game_name . "</td>\n"
-            . "<td style=\"width: 10%;\" align=\"center\">" . $ordre . "</td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_cat&amp;cid=" . $cid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISTEAM . "\" /></a></td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delcat('" . addslashes($titre) . "', '" . $cid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISTEAM . "\" /></a></td></tr>\n";
-        }
-}
-else
-{
-    echo "<tr><td align=\"center\" colspan=\"5\">" ._NOTEAMINDB. "</td></tr>\n";
-}
-
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=add_cat\">" . _ADDTEAM . "</a><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user\">" . __('BACK') . "</a></div>\n"
-    . "<div><br /></div></div></div>";
-}
-
-function add_cat()
-{
-    global $language;
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><br />\n";
-
-    printNotification(_WARNINGTEAM, 'warning');
-
-    //. "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
-    //. "<div>" . _WARNINGTEAM . "</div></div><br />\n"
-
-    echo "<br /><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_cat\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-    . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"titre\" size=\"32\" />&nbsp;<b>" . _ORDER . " : </b><input type=\"text\" name=\"ordre\" size=\"2\" /></td></tr>\n"
-    . "<tr><td><b>" . _TAGPRE . " : </b><input type=\"text\" name=\"tag\" size=\"10\" />&nbsp;<b>" . _TAGSUF . " : </b><input type=\"text\" name=\"tag2\" size=\"10\" /></td></tr>\n"
-    . "<tr><td>\n";
-
-    printNotification(_NOTIFLOGOTEAM);
-
-    echo "<b>" . _TEAMLOGO . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
-    . "<tr><td><b>" . _GAME . " :</b> <select name=\"game\">\n";
-
-    $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-    while (list($game_id, $nom) = mysql_fetch_array($sql))
-    {
-        $nom = printSecuTags($nom);
-
-        echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
-    }
-
-    echo "</select></td></tr><tr><td>&nbsp;</td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATETEAM . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
-    . "</form><br /></div></div>\n";
-}
-
-function send_cat($titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage)
-{
-    global $nuked, $user;
-
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $tag = mysql_real_escape_string(stripslashes($tag));
-    $tag2 = mysql_real_escape_string(stripslashes($tag2));
-
-    //Upload du fichier
-    $filename = $_FILES['upImage']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Team/" . $filename;
-            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'error');
-                redirect('index.php?file=Admin&page=user&op=add_cat', 2);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'error');
-            redirect('index.php?file=Admin&page=user&op=add_cat', 2);
-            return;
-        }
-    }
-    else {
-        $url_image = $urlImage;
-    }
-
-    $sql = mysql_query("INSERT INTO " . TEAM_TABLE . " ( `cid` , `titre`, `tag` , `tag2` , `image` , `ordre` , `game`) VALUES ( '' , '" . $titre . "' , '" . $tag . "' , '" . $tag2 . "' , '" . $url_image . "' , '" . $ordre . "' , '" . $game . "')");
-
-    saveUserAction(_ACTIONADDCATUSER .': '. $titre);
-
-    printNotification(_TEAMADD, 'success');
-    redirect("index.php?file=Admin&page=user&op=main_cat", 2);
-}
-
-function edit_cat($cid)
-{
-    global $nuked, $language;
-
-    $sql = mysql_query("SELECT titre, tag, tag2, image, ordre, game FROM " . TEAM_TABLE . " WHERE cid = '" . $cid . "'");
-    list($titre, $tag, $tag2, $teamLogo, $ordre, $game) = mysql_fetch_array($sql);
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-    . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-    . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><br />\n";
-
-    printNotification(_WARNINGTEAM, 'warning');
-
-    //. "<div style=\"width:95%; margin:auto;\" class=\"notification attention png_bg\">\n"
-    //. "<div>" . _WARNINGTEAM . "</div></div><br />\n"
-
-    echo "<br /><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
-    . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-    . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"titre\" size=\"32\" value=\"" . $titre . "\" />&nbsp;<b>" . _ORDER . " : </b><input type=\"text\" name=\"ordre\" size=\"2\" value=\"" . $ordre . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _TAGPRE . " : </b><input type=\"text\" name=\"tag\" size=\"10\" value=\"" . $tag . "\" />&nbsp;<b>" . _TAGSUF . " : </b><input type=\"text\" name=\"tag2\" size=\"10\" value=\"" . $tag2 . "\" /></td></tr>\n"
-    . "<tr><td>\n";
-
-    printNotification(_NOTIFLOGOTEAM);
-
-    echo "<b>" . _TEAMLOGO . " :</b> <input type=\"text\" name=\"urlImage\" value=\"" . $teamLogo . "\" size=\"42\" />\n";
-
-        if ($teamLogo != ""){
-            echo "<img src=\"" . $teamLogo . "\" title=\"" . printSecuTags($titre) . "\" style=\"margin-left:20px; width:60px; height:auto; vertical-align:middle;\" />\n";
-        }
-
-    echo "</td></tr>\n"
-    . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
-    . "<tr><td><b>" . _GAME . " :</b> <select name=\"game\">\n";
-
-    $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-    while (list($game_id, $nom) = mysql_fetch_array($sql))
-    {
-        $nom = printSecuTags($nom);
-
-        if ($game == $game_id)
-        {
-            $checked = "selected=\"selected\"";
-        }
-        else
-        {
-            $checked = "";
-        }
-
-        echo "<option value=\"" . $game_id . "\" " . $checked . ">" . $nom . "</option>\n";
-    }
-
-    echo "</select></td></tr><tr><td>&nbsp;<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr></table>\n"
-    . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISTEAM . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
-    . "</form><br /></div></div>\n";
-}
-
-function modif_cat($cid, $titre, $game, $tag, $tag2, $ordre, $urlImage, $upImage)
-{
-    global $nuked, $user;
-
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $tag = mysql_real_escape_string(stripslashes($tag));
-    $tag2 = mysql_real_escape_string(stripslashes($tag2));
-
-    //Upload du fichier
-    $filename = $_FILES['upImage']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Team/" . $filename;
-            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'error');
-                redirect('index.php?file=Admin&page=user&op=edit_cat&cid='. $cid, 2);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'error');
-            redirect('index.php?file=Admin&page=user&op=edit_cat&cid='. $cid, 2);
-            return;
-        }
-    }
-    else {
-        $url_image = $urlImage;
-    }
-
-    $sql = mysql_query("UPDATE " . TEAM_TABLE . " SET titre = '" . $titre . "', tag = '" . $tag . "', tag2 = '" . $tag2 . "', image = '" . $url_image . "', ordre = '" . $ordre . "', game = '" . $game . "' WHERE cid = '" . $cid . "'");
-
-    saveUserAction(_ACTIONEDITCATUSER .': '. $titre);
-
-    printNotification(_TEAMMODIF, 'success');
-    redirect("index.php?file=Admin&page=user&op=main_cat", 2);
-}
-
-function select_cat()
-{
-    global $nuked;
-
-    $sql = mysql_query("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
-    while (list($cid, $titre) = mysql_fetch_array($sql))
-    {
-        $titre = printSecuTags($titre);
-
-        echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
-    }
-}
-
-function del_cat($cid)
-{
-    global $nuked, $user;
-    $sql2 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $cid . "'");
-    list($titre) = mysql_fetch_array($sql2);
-    $titre = mysql_real_escape_string($titre);
-    $sql = mysql_query("DELETE FROM " . TEAM_TABLE . " WHERE cid = '" . $cid . "'");
-
-    saveUserAction(_ACTIONDELCATUSER .': '. $titre);
-
-    printNotification(_TEAMDEL, 'success');
-    redirect("index.php?file=Admin&page=user&op=main_cat", 2);
 }
 
 function main_ip()
@@ -1099,213 +927,6 @@ function del_ip($ip_id)
     redirect("index.php?file=Admin&page=user&op=main_ip", 2);
 }
 
-function main_rank()
-{
-    global $nuked, $language;
-
-    echo "<script type=\"text/javascript\">\n"
-. "<!--\n"
-. "\n"
-. "function delrank(titre, id)\n"
-. "{\n"
-. "if (confirm('" . _DELBLOCK . " '+titre+' ! " . _CONFIRM . "'))\n"
-. "{document.location.href = 'index.php?file=Admin&page=user&op=del_rank&rid='+id;}\n"
-. "}\n"
-    . "\n"
-. "// -->\n"
-. "</script>\n";
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _RANKMANAGEMENT . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-. "</div></div>\n"
-. "<div class=\"tab-content\" id=\"tab2\">\n";
-
-nkAdminMenu(5);
-
-echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"70%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-. "<tr>\n"
-. "<td style=\"width: 40%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-. "<td style=\"width: 20%;\" align=\"center\"><b>" . _ORDER . "</b></td>\n"
-. "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-. "<td style=\"width: 20%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>";
-
-    $sql = mysql_query("SELECT id, titre, ordre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
-    $nbrank=mysql_num_rows($sql);
-
-    if ($nbrank > 0)
-{
-        while (list($rid, $titre, $ordre) = mysql_fetch_array($sql))
-        {
-            $titre = printSecuTags($titre);
-
-
-            echo "<tr>\n"
-            . "<td style=\"width: 40%;\" align=\"center\">" . $titre . "</td>\n"
-            . "<td style=\"width: 20%;\" align=\"center\">" . $ordre . "</td>\n"
-            . "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=user&amp;op=edit_rank&amp;rid=" . $rid . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISRANK . "\" /></a></td>\n"
-            . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:delrank('" . addslashes($titre) . "', '" . $rid . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISRANK . "\" /></a></td></tr>\n";
-        }
-}
-else
-{
-        echo "<tr><td align=\"center\" colspan=\"4\">" ._NORANKINDB. "</td></tr>\n";
-}
-
-    echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=add_rank\">" . _ADDRANK . "</a><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user\">" . __('BACK') . "</a></div>\n"
-. "<br /></div></div>\n";
-}
-
-function add_rank()
-{
-    global $language;
-
-    nkTemplate_addJSFile('modules/Admin/jscolor/jscolor.js');
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-. "</div></div>\n"
-. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=send_rank\"enctype=\"multipart/form-data\">\n"
-. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
-. "<tr><td><b>" . _IMAGEURL . " :</b> <input type=\"text\" name=\"urlimage\" size=\"42\" /></td></tr>\n"
-. "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upimage\" /></td></tr>\n"
-. "<tr><td><b>" . _COLOR . " :</b> <input class=\"color\"type=\"text\" name=\"color\" style=\"width:60px;\" value=\"" . $color . "\" /></td></tr>\n"
-. "<tr><td><b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"1\" value=\"0\" /></td></tr>\n"
-. "<tr><td>&nbsp;</td></tr></table>\n"
-. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDRANK . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . __('BACK') . "</a></div>\n"
-. "</form><br /></div></div>\n";
-}
-
-function edit_rank($rid)
-{
-    global $nuked, $language;
-
-    nkTemplate_addJSFile('modules/Admin/jscolor/jscolor.js');
-
-    $sql = mysql_query("SELECT titre, ordre, image, couleur FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-    list($titre, $ordre, $image, $couleur) = mysql_fetch_array($sql);
-    $titre = printSecuTags($titre);
-
-    echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-    . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/user.php\" rel=\"modal\">\n"
-. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-. "</div></div>\n"
-. "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Admin&amp;page=user&amp;op=modif_rank\"enctype=\"multipart/form-data\">\n"
-. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
-. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
-. "<tr><td><b>" . _IMAGEURL . " :</b> <input type=\"text\" name=\"urlimage\" size=\"42\" value=\"" . $image . "\" /></td></tr>\n"
-. "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upimage\" /></td></tr>\n"
-. "<tr><td><b>" . _COLOR . " :</b> <input class=\"color\"type=\"text\" name=\"color\" style=\"width:60px;\" value=\"" . $couleur . "\" /></td></tr>\n"
-. "<tr><td><b>" . _ORDER . " :</b> <input type=\"text\" name=\"ordre\" size=\"1\" value=\"" . $ordre . "\" /></td></tr>\n"
-. "<tr><td>&nbsp;<input type=\"hidden\" name=\"rid\" value=\"" . $rid . "\" /></td></tr></table>\n"
-. "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISRANK . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=user&amp;op=main_rank\">" . __('BACK') . "</a></div>\n"
-. "</form><br /></div></div>\n";
-}
-
-function send_rank($titre, $ordre, $urlimage, $upimage, $color)
-{
-    global $nuked, $user;
-
-    $filename = $_FILES['upimage']['name'];
-
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/User/Rank/" . $filename;
-            if (! move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image)) {
-                printNotification('Upload file failed !!!', 'error');
-                return;
-            }
-            @chmod ($url_image, 0644);
-        } else {
-            printNotification('No image file !', 'error');
-            redirect("index.php?file=News&page=admin", 2);
-            return;
-        }
-    } else {
-        $url_image = $urlimage;
-    }
-
-    $titre = mysql_real_escape_string(stripslashes($titre));
-
-    $sql = mysql_query("INSERT INTO " . TEAM_RANK_TABLE . " ( `id` , `titre` , `image` , `couleur` ,`ordre` ) VALUES ( '' , '" . $titre . "' , '" . $url_image . "', '" . $color . "', '" . $ordre . "' )");
-
-    saveUserAction(_ACTIONADDRANK .': '. $titre);
-
-    printNotification(_RANKADD, 'success');
-    redirect("index.php?file=Admin&page=user&op=main_rank", 2);
-}
-
-function modif_rank($rid, $titre, $ordre, $urlimage, $upimage, $color)
-{
-    global $nuked, $user;
-
-    $titre = mysql_real_escape_string(stripslashes($titre));
-
-    $filename = $_FILES['upimage']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
-            $url_image = "upload/User/Rank/" . $filename;
-            if (! move_uploaded_file($_FILES['upimage']['tmp_name'], $url_image)) {
-                printNotification('Upload file failed !!!', 'error');
-                return;
-            }
-            @chmod ($url_image, 0644);
-        } else {
-            printNotification('No image file !', 'error');
-            redirect("index.php?file=News&page=admin", 2);
-            return;
-        }
-    } else {
-        $url_image = $urlimage;
-    }
-
-
-    $sql = mysql_query("UPDATE " . TEAM_RANK_TABLE . " SET titre = '" . $titre . "', ordre = '" . $ordre . "', image = '" . $url_image . "', couleur = '" . $color . "' WHERE id = '" . $rid . "'");
-    $sql2 = mysql_query("UPDATE " . USER_TABLE . " SET ordre = '" . $ordre . "' WHERE rang = '" . $rid . "'");
-
-    saveUserAction(_ACTIONMODIFRANK .': '. $titre);
-
-    printNotification(_RANKMODIF, 'success');
-    redirect("index.php?file=Admin&page=user&op=main_rank", 2);
-}
-
-function del_rank($rid)
-{
-    global $nuked;
-    $sql3 = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-    list($titre) = mysql_fetch_array($sql3);
-    $titre = mysql_real_escape_string($titre);
-    $sql = mysql_query("DELETE FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rid . "'");
-    $sql2 = mysql_query("UPDATE " . USER_TABLE . " SET ordre = 0 WHERE rang = '" . $rid . "'");
-
-    saveUserAction(_ACTIONDELRANK .': '. $titre);
-
-    printNotification(_RANKDEL, 'success');
-    redirect("index.php?file=Admin&page=user&op=main_rank", 2);
-}
-
-function select_rank()
-{
-    global $nuked;
-
-    $sql = mysql_query("SELECT id, titre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
-    while (list($rid, $titre) = mysql_fetch_array($sql))
-    {
-        $titre = nkHtmlEntities($titre);
-
-        echo "<option value=\"" . $rid . "\">" . $titre . "</option>\n";
-    }
-}
-
 function validation($id_user)
 {
     global $nuked;
@@ -1458,7 +1079,7 @@ function getUserSocialList() {
 
     if (! isset($dbrUsersSocial)) {
         $dbrUsersSocial = nkDB_selectMany(
-            'SELECT name, field, active
+            'SELECT name, field, translateName, active
             FROM '. USER_SOCIAL_TABLE
         );
     }
@@ -1581,22 +1202,10 @@ function nkAdminMenu($tab = 1)
                     <span><?php echo _ADDUSER; ?></span>
                 </a>
             </li>
-            <li <?php echo ($tab == 3 ? $class : ''); ?>>
-                <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_cat">
-                    <img src="modules/Admin/images/icons/teamusers.png" alt="icon" />
-                    <span><?php echo _TEAMMANAGEMENT; ?></span>
-                </a>
-            </li>
             <li <?php echo ($tab == 4 ? $class : ''); ?>>
                 <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_config">
                     <img src="modules/Admin/images/icons/process.png" alt="icon" />
                     <span><?php echo _USERCONFIG; ?></span>
-                </a>
-            </li>
-            <li <?php echo ($tab == 5 ? $class : ''); ?>>
-                <a class="shortcut-button" href="index.php?file=Admin&amp;page=user&amp;op=main_rank">
-                    <img src="modules/Admin/images/icons/ranks.png" alt="icon" />
-                    <span><?php echo _RANKMANAGEMENT; ?></span>
                 </a>
             </li>
             <li <?php echo ($tab == 6 ? $class : ''); ?>>
@@ -1647,30 +1256,6 @@ switch ($GLOBALS['op']) {
         del_user($_REQUEST['id_user']);
         break;
 
-    case "send_cat":
-        send_cat($_REQUEST['titre'], $_REQUEST['game'], $_REQUEST['tag'], $_REQUEST['tag2'], $_REQUEST['ordre'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
-        break;
-
-    case "add_cat":
-        add_cat();
-        break;
-
-    case "main_cat":
-        main_cat();
-        break;
-
-    case "edit_cat":
-        edit_cat($_REQUEST['cid']);
-        break;
-
-    case "modif_cat":
-        modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['game'], $_REQUEST['tag'], $_REQUEST['tag2'], $_REQUEST['ordre'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
-        break;
-
-    case "del_cat":
-        del_cat($_REQUEST['cid']);
-        break;
-
     case "main_ip":
         main_ip();
         break;
@@ -1695,30 +1280,6 @@ switch ($GLOBALS['op']) {
         del_ip($_REQUEST['ip_id']);
         break;
 
-    case "main_rank":
-        main_rank();
-        break;
-
-    case "add_rank":
-        add_rank();
-        break;
-
-    case "edit_rank":
-        edit_rank($_REQUEST['rid']);
-        break;
-
-    case "send_rank":
-        send_rank($_REQUEST['titre'], $_REQUEST['ordre'], $_REQUEST['urlimage'], $_REQUEST['upimage'],  $_REQUEST['color']);
-        break;
-
-    case "modif_rank":
-        modif_rank($_REQUEST['rid'], $_REQUEST['titre'], $_REQUEST['ordre'], $_REQUEST['urlimage'], $_REQUEST['upimage'], $_REQUEST['color']);
-        break;
-
-    case "del_rank":
-        del_rank($_REQUEST['rid']);
-        break;
-
     case "main_valid":
         main_valid();
         break;
@@ -1729,6 +1290,10 @@ switch ($GLOBALS['op']) {
 
     case "main":
         main();
+        break;
+
+    case 'getTeamSelector' :
+        getTeamSelector();
         break;
 
     default:

@@ -18,13 +18,14 @@ $dbTable->setTable(TEAM_TABLE);
 
 $teamTableCfg = array(
     'fields' => array(
-        'cid'   => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
-        'titre' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'tag'   => array('type' => 'text',         'null' => false),
-        'tag2'  => array('type' => 'text',         'null' => false),
-        'image' => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
-        'ordre' => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\''),
-        'game'  => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\'')
+        'cid'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'titre'    => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'tag'      => array('type' => 'text',         'null' => false),
+        'tag2'     => array('type' => 'text',         'null' => false),
+        'image'    => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'coverage' => array('type' => 'varchar(255)', 'null' => false, 'default' => '\'\''),
+        'ordre'    => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\''),
+        'game'     => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\'')
     ),
     'primaryKey' => array('cid'),
     'engine' => 'MyISAM'
@@ -68,6 +69,9 @@ if ($process == 'update') {
     // install / update 1.8
     if (! $dbTable->fieldExist('image'))
         $dbTable->addField('image', $teamTableCfg['fields']['image']);
+
+    //if (! $dbTable->fieldExist('coverage'))
+    //    $dbTable->addField('coverage', $teamTableCfg['fields']['coverage']);
 }
 
 ?>

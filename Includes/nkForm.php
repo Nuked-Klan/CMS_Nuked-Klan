@@ -435,32 +435,15 @@ function nkForm_inputCheckbox($fieldName, $params, $formId) {
  *  Generate a field for hex color data with colorpicker selection
  */
 function nkForm_inputColor($fieldName, $params, $formId) {
-    $params['maxlength'] = 6;
+    $attributes = array('id', 'name', 'size', 'value', 'maxlength', 'disabled', 'inputClass');
 
-    nkTemplate_addCSSFile('web/libs/colorpicker/css/colorpicker.css');
+    $params['size'] = $params['maxlength'] = 6;
+    $params['inputClass'][] = 'color';
 
-    nkTemplate_addJSFile(JQUERY_LIBRAIRY, 'librairy');
-    nkTemplate_addJSFile('web/libs/colorpicker/js/colorpicker.js', 'librairyPlugin');
-    nkTemplate_addJS(
-'$(\'#colorSelector\').ColorPicker({
-    color: \'#'. $params['value'] .'\',
-    onShow: function (colpkr) {
-        $(colpkr).fadeIn(500);
-        return false;
-    },
-    onHide: function (colpkr) {
-        $(colpkr).fadeOut(500);
-        return false;
-    },
-    onChange: function (hsb, hex, rgb) {
-        $(\'#colorSelector div\').css(\'backgroundColor\', \'#\' + hex);
-        $(\'#'. $params['id'] .'\').val(hex);
-    }
-});',
-            'jqueryDomReady'
-        );
+    // TODO : Move jscolor librairy to media directory
+    nkTemplate_addJSFile('modules/Admin/jscolor/jscolor.js');
 
-    return nkForm_inputText($params) . '<span id="show_colorSelector" style="background-color:#'. $params['value'] .'"></span>';
+    return '<input type="text"'. nkForm_formatAttribute($params, $attributes) .' />';
 }
 
 

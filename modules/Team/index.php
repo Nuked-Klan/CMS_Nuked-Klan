@@ -20,42 +20,61 @@ translate('modules/Members/lang/'. $language .'.lang.php');
 require_once 'Includes/nkUserSocial.php';
 
 
-
+/**
+ * Prepare Team data.
+ *
+ * @param array $team : The current Team data.
+ * @return void
+ */
 function prepareTeamData(&$team) {
     $team['titre'] = printSecuTags($team['titre']);
     $team['tag']   = printSecuTags($team['tag']);
     $team['tag2']  = printSecuTags($team['tag2']);
 
-    if ($team['cid'] != '')
-        $where = 'WHERE team = \''. $team['cid'] .'\' OR team2 = \''. $team['cid'] .'\' OR team3 = \''. $team['cid'] .'\'';
-    else
-        $where = 'WHERE niveau > 1';
-
     $userSocialFields = nkUserSocial_getActiveFields();
-    $userSocialFields = ($userSocialFields) ? ', '. implode(', ', $userSocialFields) : '';
 
-    $team['teamMembers'] = nkDB_selectMany(
-        'SELECT id, pseudo AS nickname, rang, country AS countryImg'. $userSocialFields .'
-        FROM '. USER_TABLE . '
-        '. $where .' AND niveau > 0
-        ORDER BY ordre, pseudo'
-    );
+    if ($team['cid'] != '') {
+        $userSocialFields = ($userSocialFields) ? ', U.'. implode(', U.', $userSocialFields) : '';
+
+        $team['teamMembers'] = nkDB_selectMany(
+            'SELECT TM.userId, U.pseudo AS nickname, TM.rank, U.country AS countryImg'. $userSocialFields .'
+            FROM '. TEAM_MEMBERS_TABLE . ' AS TM
+            LEFT JOIN '. USER_TABLE .' AS U ON U.id = TM.userId
+            WHERE TM.team = \''. $team['cid'] .'\''
+            //ORDER BY ordre, pseudo
+        );
+    }
+    else {
+        $userSocialFields = ($userSocialFields) ? ', '. implode(', ', $userSocialFields) : '';
+
+        $team['teamMembers'] = nkDB_selectMany(
+            'SELECT id AS userId, pseudo AS nickname, rang, country AS countryImg'. $userSocialFields .'
+            FROM '. USER_TABLE . '
+            WHERE niveau > 1',
+            array('ordre', 'pseudo')
+        );
+    }
 
     $team['nbMembers'] = nkDB_numRows();
 }
 
-
+/**
+ * Prepare Team member data.
+ *
+ * @param array $teamMember : The current Team member data.
+ * @return void
+ */
 function prepareTeamMemberData(&$teamMember, $team) {
     list($teamMember['country'], ) = explode ('.', $teamMember['countryImg']);
 
     $teamMember['fullName'] = $team['tag'] . $teamMember['nickname'] . $team['tag2'];
     $teamMember['nickname'] = nkHtmlEntityDecode($teamMember['nickname']);
 
-    if ($teamMember['rang'] != '' && $teamMember['rang'] > 0) {
+    if ($teamMember['rank'] != '' && $teamMember['rank'] > 0) {
         $dbrTeamRank = nkDB_selectOne(
             'SELECT titre
             FROM '. TEAM_RANK_TABLE .'
-            WHERE id = '. (int) $teamMember['rang']
+            WHERE id = '. (int) $teamMember['rank']
         );
 
         $teamMember['rankName'] = printSecuTags($dbrTeamRank['titre']);
@@ -70,7 +89,7 @@ function prepareTeamMemberData(&$teamMember, $team) {
         $nbGamePref = nkDB_totalNumRows(
             'FROM '. GAMES_PREFS_TABLE .'
             WHERE game = '. (int) $team['game'] .'
-            AND user_id = \''. $teamMember['id'] .'\''
+            AND user_id = \''. $teamMember['userId'] .'\''
         );
 
         if ($nbGamePref > 0)
@@ -78,13 +97,18 @@ function prepareTeamMemberData(&$teamMember, $team) {
     }
 }
 
-
+/**
+ * Display Team list or one Team.
+ *
+ * @param void
+ * @return void
+ */
 function teamList() {
-    $sql = 'SELECT cid, titre, tag, tag2, game
+    $sql = 'SELECT cid, titre, tag, tag2, game, coverage
         FROM '. TEAM_TABLE;
 
     if (array_key_exists('cid', $_REQUEST) && $_REQUEST['cid'] != '')
-        $sql .= 'WHERE cid = '. nkDB_escape($_REQUEST['cid']);
+        $sql .= ' WHERE cid = '. nkDB_escape($_REQUEST['cid']);
 
     $teamList = nkDB_selectMany($sql, array('ordre', 'titre'));
     $nbTeam   = nkDB_numRows();
@@ -111,6 +135,10 @@ function teamList() {
         'userSocialData' => $userSocialData
     ));
 }
+
+
+
+
 
 /**
  * Calculate age with birthday member and return it.

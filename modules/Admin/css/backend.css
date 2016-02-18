@@ -87,14 +87,6 @@ table#userList td.userDelete,
 table#userList td.userDate,
 table#userList td.userLast_used{text-align:center;}
 
-/* Team list */
-table#teamList .teamTitre,
-table#teamList .teamGame{width:30%;}
-table#teamList .teamOrdre{width:10%;}
-table#teamList .teamEdit,
-table#teamList .teamDelete{width:15%;}
-table#teamList td{text-align:center;}
-
 /* Banned user list */
 table#bannedUserList .bannedUserPseudo,
 table#bannedUserList .bannedUserEmail{width:25%;}
@@ -102,13 +94,6 @@ table#bannedUserList .bannedUserIp{width:20%;}
 table#bannedUserList .bannedUserEdit,
 table#bannedUserList .bannedUserDelete{width:15%;}
 table#bannedUserList td{text-align:center;}
-
-/* User rank list */
-table#userRankList .userRankTitle{width:40%;}
-table#userRankList .userRankOrdre,
-table#userRankList .userRankEdit,
-table#userRankList .userRankDelete{width:20%;}
-table#userRankList td{text-align:center;}
 
 /* User validation list */
 table#userValidationList .userValidationPseudo,

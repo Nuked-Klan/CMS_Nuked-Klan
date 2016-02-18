@@ -153,4 +153,6 @@ define("_PASSWEAK", "Faible");
 define("_PASSMEDIUM", "Moyen");
 define("_PASSHIGH", "Elevé");
 define("_PASSCHECK", "Niveau de sécurité du mot de passe");
+
+define("_REQUESTPV","Ecrire un message privé");
 ?>

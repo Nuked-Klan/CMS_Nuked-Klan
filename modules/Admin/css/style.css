@@ -172,3 +172,6 @@ form.nkForm>div.nkFormActionLinks{border-top:1px solid #ddd;text-align:center;}
 table.nkList th,
 table.nkList td.nkListEdit,
 table.nkList td.nkListDelete{text-align:center;}
+
+table.nkList .nkListEdit,
+table.nkList .nkListDelete{width:100px;}

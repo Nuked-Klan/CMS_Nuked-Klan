@@ -78,8 +78,6 @@ define("_DISABLED","Disabled");
 define("_GENERAL","General");
 define("_SITENAME","Website's title");
 define("_SLOGAN","Slogan");
-define("_TAGPRE","Tag Prefix");
-define("_TAGSUF","Tag Suffix");
 define("_SITEURL","Website's Url");
 define("_DATEFORMAT","Date format");
 define("_DATEZONE","Time zone");
@@ -139,12 +137,11 @@ define("_LINKCOM","Members module only");
 define("_LEVELREQUIRED","Visible for users rank");
 define("_IMAGEURL","Picture url");
 define("_UPLOADIMAGE","Upload to the server");
-define("_GAME","Game");
 define("_AVATAR","Avatar");
 define("_SIGN","Signature");
 define("_RANKTEAM","Team Rank");
 define("_PASSWORD","Password");
-define("_TEAMNONE","None");
+//define("_TEAMNONE","None");
 define("_NORANK","None");
 define("_NONE","None");
 define("_CONFIRMPASS","confirm");
@@ -158,22 +155,22 @@ define("_USERDEL","Member was successfully removed.");
 define("_DATEUSER","Arrival date");
 define("_EDITUSER","Edit this member");
 define("_DELETEUSER","Remove this member");
-define("_TEAMMANAGEMENT","Teams Management");
-define("_WARNINGTEAM","In the next version of Nuked Klna the Team managementis will be done in the new <a href=\"index.php?file=Equipe&page=admin\">Staff module</a> wich will allow you to manage an unlimited number of teams for a user.<br />Most part of the modules of the site will use the new Staff module.<br />Before this upgrade you can continue to use the system of Team below.");
-define("_NOTIFLOGOTEAM","Team logo is actually used by the Top Match bloc of Restless template for example.<br />Next Nuked Klan upgrades should use this new functionality in other modules.");
-define("_EDITTHISTEAM","Edit this Team");
-define("_DELTHISTEAM","Remove this Team");
-define("_ADDTEAM","Add Team");
-define("_TEAMLOGO","Team logo");
+//define("_TEAMMANAGEMENT","Teams Management");
+//define("_WARNINGTEAM","In the next version of Nuked Klna the Team managementis will be done in the new <a href=\"index.php?file=Equipe&page=admin\">Staff module</a> wich will allow you to manage an unlimited number of teams for a user.<br />Most part of the modules of the site will use the new Staff module.<br />Before this upgrade you can continue to use the system of Team below.");
+//define("_NOTIFLOGOTEAM","Team logo is actually used by the Top Match bloc of Restless template for example.<br />Next Nuked Klan upgrades should use this new functionality in other modules.");
+//define("_EDITTHISTEAM","Edit this Team");
+//define("_DELTHISTEAM","Remove this Team");
+//define("_ADDTEAM","Add Team");
+//define("_TEAMLOGO","Team logo");
 define("_NAME","Name");
 define("_TAG","Tag");
 define("_ORDER","Order");
-define("_CREATETEAM","Create Team");
-define("_TEAMADD","Team was successfully added.");
-define("_MODIFTHISTEAM","Modify this Team");
-define("_TEAMMODIF","Team was successfully modified.");
-define("_TEAMDEL","Team was successfully removed.");
-define("_NOTEAMINDB","No team in database");
+//define("_CREATETEAM","Create Team");
+//define("_TEAMADD","Team was successfully added.");
+//define("_MODIFTHISTEAM","Modify this Team");
+//define("_TEAMMODIF","Team was successfully modified.");
+//define("_TEAMDEL","Team was successfully removed.");
+//define("_NOTEAMINDB","No team in database");
 define("_BAN","IP Ban");
 define("_TOBAN","Ban");
 define("_IP","IP Address");
@@ -353,9 +350,9 @@ define("_ACTIONPOSBLOCK","have modified the position of block");
 define("_ACTIONADDUSER","have added the user");
 define("_ACTIONMODIFUSER","have modified the user");
 define("_ACTIONDELUSER","have deleted the user");
-define("_ACTIONADDCATUSER","have added the team");
-define("_ACTIONEDITCATUSER","have modified the team");
-define("_ACTIONDELCATUSER","have deleted the team");
+//define("_ACTIONADDCATUSER","have added the team");
+//define("_ACTIONEDITCATUSER","have modified the team");
+//define("_ACTIONDELCATUSER","have deleted the team");
 define("_ACTIONADDBAN","have banned the user");
 define("_ACTIONMODIFBAN","have modified the ban of the user");
 define("_ACTIONSUPBAN","have deleted the ban of the user");
@@ -677,6 +674,10 @@ return array(
     'ORDER'             => 'Order',
     'LEVEL'             => 'Level',
     'ADMINISTRATOR'     => 'Administrator',
+    'GAME'              => 'Game',
+    'TAG_PREFIX'        => 'Tag Prefix',
+    'TAG_SUFFIX'        => 'Tag Suffix',
+    'IMAGE_URL'         => 'Picture url',
     // nkAction_save - Includes/nkAction.php
     'ACTION_MODULE_SETTING_UPDATED' => 'has modified the preference of %s module',
     // Category
@@ -703,6 +704,8 @@ return array(
     'RANK_MODIFY'       => 'Rank was successfully modified.',
     'RANK_DELETE'       => 'Rank was successfully removed.',
     'RANK_NO_EXIST'     => 'Sorry, this rank does not exist or was removed',
+    // modules/Admin/user.php
+    'ADD_TEAM'          => 'Add Team',
 );
 
 ?>

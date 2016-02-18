@@ -80,8 +80,6 @@ define("_DISABLED","Désactivé");
 define("_GENERAL","Général");
 define("_SITENAME","Titre du site");
 define("_SLOGAN","Slogan");
-define("_TAGPRE","Tag Préfixe");
-define("_TAGSUF","Tag Suffixe");
 define("_SITEURL","URL du Site");
 define("_DATEFORMAT","Format de la date");
 define("_DATEZONE","Fuseau horaire");
@@ -142,12 +140,11 @@ define("_LINKCOM","Uniquement Membres");
 define("_LEVELREQUIRED","Visible pour les utilisateurs rang");
 define("_IMAGEURL","Url de l'image");
 define("_UPLOADIMAGE","Uploader sur le serveur");
-define("_GAME","Jeu");
 define("_AVATAR","Avatar");
 define("_SIGN","Signature");
 define("_RANKTEAM","Rang Team");
 define("_PASSWORD","Mot de passe");
-define("_TEAMNONE","Aucune");
+//define("_TEAMNONE","Aucune");
 define("_NORANK","Aucun");
 define("_NONE","Aucun");
 define("_CONFIRMPASS","confirmez");
@@ -162,21 +159,21 @@ define("_DATEUSER","Date d'arrivée");
 define("_EDITUSER","Editer ce membre");
 define("_DELETEUSER","Supprimer ce membre");
 define("_TEAMMANAGEMENT","Gestion des Teams");
-define("_WARNINGTEAM","Dans une prochaine mise à jour de Nuked Klan, la Gestion des Teams se fera dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permetra de gérer un nombre infini de teams pour un utilisateur.<br />La plupart des modules du site utiliseront le nouveau module Equipe.<br />En attendant vous pouvez continuer d'utiliser le système de Team ci dessous.");
-define("_NOTIFLOGOTEAM","Le logo de la team est actuellement utilis&eacute; sur le th&egrave;me Restless dans le bloc TopMatch par exemple.<br />Les mises &agrave; ult&eacute;rieure exploiterons aussi cette nouvelle fonctionalit&eacute;.");
-define("_EDITTHISTEAM","Editer cette Team");
-define("_DELTHISTEAM","Supprimer cette Team");
-define("_ADDTEAM","Ajouter une Team");
-define("_TEAMLOGO","Logo de la Team");
+//define("_WARNINGTEAM","Dans une prochaine mise à jour de Nuked Klan, la Gestion des Teams se fera dans le <a href=\"index.php?file=Equipe&page=admin\">module Equipe</a>, qui permetra de gérer un nombre infini de teams pour un utilisateur.<br />La plupart des modules du site utiliseront le nouveau module Equipe.<br />En attendant vous pouvez continuer d'utiliser le système de Team ci dessous.");
+//define("_NOTIFLOGOTEAM","Le logo de la team est actuellement utilis&eacute; sur le th&egrave;me Restless dans le bloc TopMatch par exemple.<br />Les mises &agrave; ult&eacute;rieure exploiterons aussi cette nouvelle fonctionalit&eacute;.");
+//define("_EDITTHISTEAM","Editer cette Team");
+//define("_DELTHISTEAM","Supprimer cette Team");
+//define("_ADDTEAM","Ajouter une Team");
+//define("_TEAMLOGO","Logo de la Team");
 define("_NAME","Nom");
 define("_TAG","Tag");
 define("_ORDER","Ordre");
-define("_CREATETEAM","Créer une Team");
-define("_TEAMADD","Team ajoutée avec succès.");
-define("_MODIFTHISTEAM","Modifier cette Team");
-define("_TEAMMODIF","Team modifiée avec succès.");
-define("_TEAMDEL","Team supprimée avec succès.");
-define("_NOTEAMINDB","Aucune team dans la base de données");
+//define("_CREATETEAM","Créer une Team");
+//define("_TEAMADD","Team ajoutée avec succès.");
+//define("_MODIFTHISTEAM","Modifier cette Team");
+//define("_TEAMMODIF","Team modifiée avec succès.");
+//define("_TEAMDEL","Team supprimée avec succès.");
+//define("_NOTEAMINDB","Aucune team dans la base de données");
 define("_BAN","Bannissement");
 define("_TOBAN","Bannir");
 define("_IP","Adresse IP");
@@ -354,9 +351,9 @@ define("_ACTIONPOSBLOCK","a modifié la position du block");
 define("_ACTIONADDUSER","a ajouté le membre");
 define("_ACTIONMODIFUSER","a modifié le membre");
 define("_ACTIONDELUSER","a supprimé le membre");
-define("_ACTIONADDCATUSER","a ajouté la team");
-define("_ACTIONEDITCATUSER","a modifié la team");
-define("_ACTIONDELCATUSER","a supprimé la team");
+//define("_ACTIONADDCATUSER","a ajouté la team");
+//define("_ACTIONEDITCATUSER","a modifié la team");
+//define("_ACTIONDELCATUSER","a supprimé la team");
 define("_ACTIONADDBAN","a banni le membre");
 define("_ACTIONMODIFBAN","a modifié le ban du membre");
 define("_ACTIONSUPBAN","a supprimé le ban du membre");
@@ -502,7 +499,6 @@ define("_RANKADD","Rang ajouté avec succès.");
 define("_RANKMODIF","Rang modifié avec succès.");
 define("_RANKDEL","Rang supprimé avec succès.");
 
-
 return array(
     // Common
     'NAME'              => 'Nom',
@@ -512,6 +508,11 @@ return array(
     'ORDER'             => 'Ordre',
     'LEVEL'             => 'Niveau',
     'ADMINISTRATOR'     => 'Administrateur',
+    'GAME'              => 'Jeu',
+    'TAG_PREFIX'        => 'Tag Préfixe',
+    'TAG_SUFFIX'        => 'Tag Suffixe',
+    'IMAGE_URL'         => 'Url de l\'image',
+
     // nkAction_save - Includes/nkAction.php
     'ACTION_MODULE_SETTING_UPDATED' => 'a modifié les préférences du module %s',
     // Category
@@ -538,6 +539,8 @@ return array(
     'RANK_MODIFY'       => 'Rang modifié avec succès.',
     'RANK_DELETE'       => 'Rang supprimé avec succès.',
     'RANK_NO_EXIST'     => 'Désolé ce rang n\'existe pas ou a été supprimé',
+    // modules/Admin/user.php
+    'ADD_TEAM'          => 'Ajouter une Team',
 );
 
 ?>

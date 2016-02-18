@@ -158,4 +158,6 @@ define("_PASSWEAK", "Weak");
 define("_PASSMEDIUM", "Medium");
 define("_PASSHIGH", "High");
 define("_PASSCHECK", "Password's Security");
+
+define("_REQUESTPV","Write a private message");
 ?>

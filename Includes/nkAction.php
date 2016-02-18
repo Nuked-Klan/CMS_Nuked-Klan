@@ -536,7 +536,7 @@ function nkAction_commonSave($form, $fields) {
     }
 
     if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
-        if (! $postCheckformValidationFunct()) {
+        if (! $postCheckformValidationFunct($nkAction['id'], $data)) {
             redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'], $uriData), 2);
             return;
         }
@@ -720,6 +720,9 @@ function nkAction_delete() {
     else {
         nkDB_delete($nkAction['tableName'], $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id']));
     }
+
+    if (function_exists($postDeleteFunct = 'postDelete'. $nkAction['ucf_dataName'] .'Data'))
+        $postDeleteFunct($nkAction['id']);
 
     if ($nkTemplate['interface'] == 'backend')
         nkAction_saveUserAction('DELETE_'. $tsKeyDataName, $dbrTable);

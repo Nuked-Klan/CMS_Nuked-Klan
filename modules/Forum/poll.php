@@ -141,6 +141,7 @@ function prepareFormForAddForumPoll(&$form) {
  *
  * @param array $form : The Forum poll form configuration.
  * @param array $forumPoll : The Forum data.
+ * @param int $id : The Forum poll id.
  * @return array : The Forum poll form configuration prepared.
  */
 function prepareFormForEditForumPoll(&$form, $forumPoll, $id) {
@@ -188,10 +189,11 @@ function generateForumPollEditView($generatedForm) {
  * Additional process after check Forum poll form.
  * Check Forum poll options fields.
  *
- * @param void
+ * @param array $data : The valid data issue of form submission.
+ * @param int $id : The Forum poll id.
  * @return bool
  */
-function postCheckformForumPollValidation() {
+function postCheckformForumPollValidation($data, $id) {
     global $nkAction, $forumId, $threadId;
 
     $nbFilledOption = 0;

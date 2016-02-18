@@ -145,8 +145,7 @@ if ($process == 'install') {
         (20, \'Vote\', 0, 9),
         (21, \'Stats\', 0, 2),
         (22, \'Contact\', 0, 3),
-        (23, \'Equipe\', 0, 2),
-        (24, \'Page\', 0, 9);';
+        (23, \'Page\', 0, 9);';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }

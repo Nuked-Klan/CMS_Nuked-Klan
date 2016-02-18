@@ -153,7 +153,6 @@ define("_BLIST","List (Alt + l)");
 define("_BQUOTE","Quote (Alt + q)");
 define("_BCODE","Code (Alt + p)");
 define("_BMAIL","Email (Alt + m)");
-define("_COLOR","Colors");
 define("_RED","Red");
 define("_DARKRED","Dark red");
 define("_BLUE","Blue");
@@ -180,7 +179,6 @@ define("_ADMINBLOCK","Manage Blocks");
 define("_TITREACTU","View the feed title");
 define("_NBRRSS","Number of links displayed");
 
-define("_TITLE","Title");
 define("_BLOCK","Block");
 define("_POSITION","Position");
 define("_TYPE","Type");
@@ -361,6 +359,7 @@ define("_IMAGE","Picture");
 define("_STATS","Statistics");
 
 define("_NONE","None");
+define("_TITLE","Title");
 
 return array(
     // common
@@ -379,6 +378,8 @@ return array(
     'TOKEN_NO_VALID'    => 'Form token isn\'t valid !',
     'DATE'              => 'Date',
     'EDIT'              => 'Edit',
+    'TITLE'             => 'Title',
+    'COLOR'             => 'Color',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

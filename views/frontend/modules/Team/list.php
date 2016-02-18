@@ -8,9 +8,13 @@ foreach ($teamList as $team) :
 <div class="nkAlignCenter">
 <?php
     if ($team['cid'] != '') :
+        //if ($team['coverage'] != '') :
+        //
+        //else :
 ?>
     <a href="index.php?file=Team&amp;cid=<?php echo urlencode(nkHtmlEntityDecode($team['cid'])) ?>"><big><b><?php echo $team['titre'] ?></b></big></a>
 <?php
+        //endif;
     else :
 ?>
     <big><b><?php echo $team['titre'] ?></b></big>

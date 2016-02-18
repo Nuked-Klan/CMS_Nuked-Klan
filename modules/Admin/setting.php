@@ -197,7 +197,7 @@ function edit_config() {
     . "<tr><td colspan=\"2\"><big><b>" . _GENERAL . "</b></big></td></tr>\n"
     . "<tr><td>" . _SITENAME . " :</td><td><input type=\"text\" name=\"name\" size=\"40\" value=\"" . $nuked['name'] . "\" /></td></tr>\n"
     . "<tr><td>" . _SLOGAN . " : </td><td><input type=\"text\" name=\"slogan\" size=\"40\" value=\"" . $nuked['slogan'] . "\" /></td></tr>\n"
-    . "<tr><td>" . _TAGPRE . " :</td><td><input type=\"text\" name=\"tag_pre\" size=\"10\" value=\"" . $nuked['tag_pre'] . "\" />&nbsp;" . _TAGSUF . " :<input type=\"text\" name=\"tag_suf\" size=\"10\" value=\"" . $nuked['tag_suf'] . "\" /></td></tr>\n"
+    . "<tr><td>" . __('TAG_PREFIX') . " :</td><td><input type=\"text\" name=\"tag_pre\" size=\"10\" value=\"" . $nuked['tag_pre'] . "\" />&nbsp;" . __('TAG_SUFFIX') . " :<input type=\"text\" name=\"tag_suf\" size=\"10\" value=\"" . $nuked['tag_suf'] . "\" /></td></tr>\n"
     . "<tr><td>" . _SITEURL . " :</td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $nuked['url'] . "\" /></td></tr>\n"
     . "<tr><td>" . _DATEFORMAT . " :</td><td><select name=\"dateformat\">\n";
 
@@ -326,7 +326,7 @@ function edit_config() {
     . "<option value=\"mail\" " . $checked3 . ">" . _BYMAIL . "</option></select></td></tr>\n"
     . "<tr><td>" . _VALIDATION . " :</td><td><select name=\"validation\">\n"
     . "<option value=\"auto\" " . $checked5 . ">" . _AUTO . "</option>\n"
-    . "<option value=\"admin\" " . $checked6 . ">" . _ADMINISTRATOR . "</option>\n"
+    . "<option value=\"admin\" " . $checked6 . ">" . __('ADMINISTRATOR') . "</option>\n"
     . "<option value=\"mail\" " . $checked7 . ">" . _BYMAIL . "</option></select></td></tr>\n"
     . "<tr><td>" . _USERDELETE . " :</td><td><input class=\"checkbox\" type=\"checkbox\" name=\"user_delete\" value=\"on\" " . $checked10 . " /></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><big><b>" . _EDITEUR . "</b></big></td></tr>\n"
