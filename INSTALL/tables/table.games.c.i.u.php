@@ -18,16 +18,17 @@ $dbTable->setTable(GAMES_TABLE);
 
 $gamesTableCfg = array(
     'fields' => array(
-        'id'     => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
-        'name'   => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'titre'  => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'icon'   => array('type' => 'varchar(150)', 'null' => false, 'default' => '\'\''),
-        'pref_1' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'pref_2' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'pref_3' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'pref_4' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'pref_5' => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
-        'map'    => array('type' => 'text',         'null' => false)
+        'id'       => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
+        'name'     => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'titre'    => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'icon'     => array('type' => 'varchar(150)', 'null' => false, 'default' => '\'\''),
+        'pref_1'   => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'pref_2'   => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'pref_3'   => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'pref_4'   => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'pref_5'   => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
+        'map'      => array('type' => 'text',         'null' => false),
+        'gameFile' => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
     ),
     'primaryKey' => array('id'),
     'engine' => 'MyISAM'
@@ -78,6 +79,10 @@ if ($process == 'update') {
     // update 1.7.9 RC5.2
     if (! $dbTable->fieldExist('map'))
         $dbTable->addField('map', $gamesTableCfg['fields']['map']);
+
+    // install /update 1.8
+    if (! $dbTable->fieldExist('gameFile'))
+        $dbTable->addField('gameFile', $gamesTableCfg['fields']['gameFile']);
 }
 
 ?>

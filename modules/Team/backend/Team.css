@@ -1,0 +1,24 @@
+/* Team list */
+table#teamList .tTitre,
+table#teamList .tGameName{width:30%;}
+table#teamList .tOrdre{width:10%;}
+table#teamList .nkListEdit,
+table#teamList .nkListDelete{width:15%;}
+table#teamList td{text-align:center;}
+
+/* Team edit form */
+#teamCoverageImg{margin-left:20px;width:300px;height:auto;vertical-align:middle;}
+
+
+/* Team rank list */
+table#teamRankList .tRankTitle{width:40%;}
+table#teamRankList .tRankOrdre,
+table#teamRankList .nkListEdit,
+table#teamRankList .nkListDelete{width:20%;}
+table#teamRankList td{text-align:center;}
+
+/* Team member list */
+table#teamMemberList td{text-align:center;}
+
+/* Team status list */
+table#teamStatusList td{text-align:center;}

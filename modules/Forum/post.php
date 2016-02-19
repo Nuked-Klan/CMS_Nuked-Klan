@@ -419,12 +419,12 @@ function saveForumPost() {
     $date       = time();
 
     if (isset($_POST['annonce'])
-        && is_numeric($_POST['annonce'])
+        && $_POST['annonce'] == 1
         && $visiteur >= admin_mod('Forum')
     )
-        $announcement = 0;
-    else
         $announcement = 1;
+    else
+        $announcement = 0;
 
     if (isset($_POST['survey'])
         && $_POST['survey'] == 1

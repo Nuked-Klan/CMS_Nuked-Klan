@@ -504,11 +504,15 @@ function edit_pref(){
         return;
     }
 
-    $sql = mysql_query("SELECT prenom, age, sexe, ville, motherboard, cpu, ram, video, resolution, son, ecran, souris, clavier, connexion, system, photo, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $user[0] . "'");
-    list($prenom, $age, $sexe, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo, $pref1, $pref2, $pref3, $pref4, $pref5) = mysql_fetch_array($sql);
+    $dbrUserDetail = nkDB_selectOne(
+        'SELECT prenom, age, sexe, ville, motherboard, cpu, ram, video, resolution, son, ecran,
+        souris, clavier, connexion, system, photo, pref_1, pref_2, pref_3, pref_4, pref_5
+        FROM '. USER_DETAIL_TABLE .'
+        WHERE user_id = \''. $user['id'] .'\''
+    );
 
-    if ($age != ""){
-        list ($jour, $mois, $an) = explode ('/', $age);
+    if ($dbrUserDetail['age'] != ''){
+        list ($jour, $mois, $an) = explode ('/', $dbrUserDetail['age']);
     }
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
@@ -521,8 +525,10 @@ function edit_pref(){
     echo "<form method=\"post\" action=\"index.php?file=User&amp;op=update_pref\" enctype=\"multipart/form-data\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
             . "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . _INFOPERSO . "</b></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _LASTNAME . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"prenom\" value=\"" . $prenom . "\" size=\"20\" /></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _BIRTHDAY . " :</b></td><td style=\"width: 70%;\" align=\"left\"><select name=\"jour\">\n";
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _LASTNAME . " :</b></td>"
+            . "<td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"prenom\" value=\"" . $dbrUserDetail['prenom'] . "\" size=\"20\" /></td></tr>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _BIRTHDAY . " :</b></td>"
+            . "<td style=\"width: 70%;\" align=\"left\"><select name=\"jour\">\n";
 
     if ($jour != ""){
         echo "<option>" . $jour . "</option>\n";
@@ -588,15 +594,17 @@ function edit_pref(){
 
     $checked4 = $checked5 = '';
 
-    if ($sexe == "male"){
+    if ($dbrUserDetail['sexe'] == "male"){
         $checked4 = "checked=\"checked\"";
     }
-    else if ($sexe == "female"){
+    else if ($dbrUserDetail['sexe'] == "female"){
         $checked5 = "checked=\"checked\"";
     }
 
-    echo "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _SEXE . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"radio\" class=\"checkbox\" name=\"sexe\" value=\"male\" " . $checked4 . " /> " . _MALE . " <input type=\"radio\" class=\"checkbox\" name=\"sexe\" value=\"female\" " . $checked5 . " /> " . _FEMALE . "</td></tr>\n"
-        . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _CITY . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"ville\" value=\"" . $ville . "\" size=\"20\" /></td></tr>\n";
+    echo "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _SEXE . " :</b></td>"
+        . "<td style=\"width: 70%;\" align=\"left\"><input type=\"radio\" class=\"checkbox\" name=\"sexe\" value=\"male\" " . $checked4 . " /> " . _MALE . " <input type=\"radio\" class=\"checkbox\" name=\"sexe\" value=\"female\" " . $checked5 . " /> " . _FEMALE . "</td></tr>\n"
+        . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _CITY . " :</b></td>"
+        . "<td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"ville\" value=\"" . $dbrUserDetail['ville'] . "\" size=\"20\" /></td></tr>\n";
 
 
     if ($nuked['avatar_upload'] == "on" || $nuked['avatar_url'] == "on"){
@@ -605,7 +613,7 @@ function edit_pref(){
         if($nuked['avatar_url'] != "on") $disable = "DISABLED=\"DISABLED\"";
         else $disable = "";
 
-        echo"<td align=\"left\"><input type=\"text\" id=\"photo\" name=\"photo\" size=\"40\" maxlength=\"150\" value=\"" . $photo . "\" " . $disable . " /></td></tr>\n";
+        echo"<td align=\"left\"><input type=\"text\" id=\"photo\" name=\"photo\" size=\"40\" maxlength=\"150\" value=\"" . $dbrUserDetail['photo'] . "\" " . $disable . " /></td></tr>\n";
 
         if ($nuked['avatar_upload'] == "on"){
             echo "<tr><td style=\"width: 30%;\">&nbsp;</td><td style=\"width: 70%;\" align=\"left\"><input type=\"file\" name=\"fichiernom\" /></td></tr>\n";
@@ -613,9 +621,9 @@ function edit_pref(){
     }
 
     echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . _HARDCONFIG . "</b></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _MOTHERBOARD . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"motherboard\" value=\"" . $motherboard . "\" size=\"25\" /></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _PROCESSOR . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"cpu\" value=\"" . $cpu . "\" size=\"25\" /></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _MEMORY . " :</b></td><td style=\"width: 70%;\" align=\"left\"><select name=\"ram\"><option>" . $ram . "</option>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _MOTHERBOARD . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"motherboard\" value=\"" . $dbrUserDetail['motherboard'] . "\" size=\"25\" /></td></tr>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _PROCESSOR . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"cpu\" value=\"" . $dbrUserDetail['cpu'] . "\" size=\"25\" /></td></tr>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _MEMORY . " :</b></td><td style=\"width: 70%;\" align=\"left\"><select name=\"ram\"><option>" . $dbrUserDetail['ram'] . "</option>\n"
             . "<option>- 512 Mo</option>\n"
             . "<option>1 Go</option>\n"
             . "<option>1,5 Go</option>\n"
@@ -626,8 +634,8 @@ function edit_pref(){
             . "<option>8 Go</option>\n"
             . "<option>+ 8 Go</option>\n"
             . "</select></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _VIDEOCARD . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"video\" value=\"" . $video . "\" size=\"25\" /></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _RESOLUTION . " :</b></td><td style=\"width: 70%;\" align=\"left\"><select name=\"resolution\"><option>" . $resolution . "</option>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _VIDEOCARD . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"video\" value=\"" . $dbrUserDetail['video'] . "\" size=\"25\" /></td></tr>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _RESOLUTION . " :</b></td><td style=\"width: 70%;\" align=\"left\"><select name=\"resolution\"><option>" . $dbrUserDetail['resolution'] . "</option>\n"
             . "<option>640/480</option>\n"
             . "<option>800/600</option>\n"
             . "<option>1024/768</option>\n"
@@ -640,11 +648,11 @@ function edit_pref(){
             . "<option>1920/1200</option>\n"
             . "<option>2048/1536</option>\n"
             . "<option>2560/1600</option></select></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _SOUNDCARD . " : </b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"sons\" value=\"" . $sons . "\" size=\"25\" /></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _MONITOR . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"ecran\" value=\"" . $ecran . "\" size=\"25\" /></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _MOUSE . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"souris\" value=\"" . $souris . "\" size=\"25\" /></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _KEYBOARD . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"clavier\" value=\"" . $clavier . "\" size=\"25\" /></td></tr>\n"
-            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _CONNECT . " :</b></td><td style=\"width: 70%;\" align=\"left\"><select name=\"connexion\"><option>" . $connexion . "</option>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _SOUNDCARD . " : </b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"sons\" value=\"" . $dbrUserDetail['son'] . "\" size=\"25\" /></td></tr>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _MONITOR . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"ecran\" value=\"" . $dbrUserDetail['ecran'] . "\" size=\"25\" /></td></tr>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _MOUSE . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"souris\" value=\"" . $dbrUserDetail['souris'] . "\" size=\"25\" /></td></tr>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _KEYBOARD . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"clavier\" value=\"" . $dbrUserDetail['clavier'] . "\" size=\"25\" /></td></tr>\n"
+            . "<tr><td style=\"width: 30%;\" align=\"left\"><b> " . _CONNECT . " :</b></td><td style=\"width: 70%;\" align=\"left\"><select name=\"connexion\"><option>" . $dbrUserDetail['connexion'] . "</option>\n"
             . "<option>Modem 56K</option>\n"
             . "<option>Modem 128K</option>\n"
             . "<option>ADSL 128K</option>\n"
@@ -683,185 +691,16 @@ function edit_pref(){
     $detected_os = getOS();
 
     foreach( $list_os as $os ) {
-        echo "    <option" . (($os == $osystem OR $os == $detected_os) ? ' selected="selected"' : '') . ">" . $os . "</option>\n";
+        echo "    <option" . (($os == $dbrUserDetail['system'] OR $os == $detected_os) ? ' selected="selected"' : '') . ">" . $os . "</option>\n";
     }
 
     echo "</select></td></tr>\n";
 
-    /*
-    $sql2 = mysql_query("SELECT team, team2, team3, game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-    list($team, $team2, $team3, $game_id) = mysql_fetch_array($sql2);
+    if ($user['level'] >= nivo_mod('Games') && nivo_mod('Games') > -1) {
+        require_once 'modules/Games/index.php';
 
-    if ($team != "" || $team2 != "" || $team3 != ""){
-        $i = 0;
-
-        if ($team != ""){
-            $sql_game1 = mysql_query("SELECT game FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
-            list($game1) = mysql_fetch_array($sql_game1);
-
-            if ($game1 > 0){
-                $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game1 . "'");
-                list($g1_titre, $g1_pref_1, $g1_pref_2, $g1_pref_3, $g1_pref_4, $g1_pref_5) = mysql_fetch_array($sql3);
-
-                $g1_titre = nkHtmlEntities($g1_titre);
-                $g1_pref_1 = nkHtmlEntities($g1_pref_1);
-                $g1_pref_2 = nkHtmlEntities($g1_pref_2);
-                $g1_pref_3 = nkHtmlEntities($g1_pref_3);
-                $g1_pref_4 = nkHtmlEntities($g1_pref_4);
-                $g1_pref_5 = nkHtmlEntities($g1_pref_5);
-
-                $sql4 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game1 . "' AND user_id = '" . $user[0] . "'");
-                $test1 = mysql_num_rows($sql4);
-
-                if ($test1 > 0){
-                    list($g1_pref1, $g1_pref2, $g1_pref3, $g1_pref4, $g1_pref5) = mysql_fetch_array($sql4);
-                }
-                else if ($game1 == $game_id){
-                    $g1_pref1 = $pref1;
-                    $g1_pref2 = $pref2;
-                    $g1_pref3 = $pref3;
-                    $g1_pref4 = $pref4;
-                    $g1_pref5 = $pref5;
-                }
-
-                echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $g1_titre . "</b></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g1_pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1[" . $i . "]\" value=\"" . $g1_pref1 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g1_pref_2 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref2[" . $i . "]\" value=\"" . $g1_pref2 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g1_pref_3 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref3[" . $i . "]\" value=\"" . $g1_pref3 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g1_pref_4 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref4[" . $i . "]\" value=\"" . $g1_pref4 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g1_pref_5 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref5[" . $i . "]\" value=\"" . $g1_pref5 . "\" size=\"25\" /><input type=\"hidden\" name=\"game_id[" . $i . "]\" value=\"" . $game1 . "\" /></td></tr>\n";
-
-                $i++;
-            }
-        }
-        else{
-            $game1 = 0;
-        }
-
-        if ($team2 != ""){
-            $sql_game2 = mysql_query("SELECT game FROM " . TEAM_TABLE . " WHERE cid = '" . $team2 . "'");
-            list($game2) = mysql_fetch_array($sql_game2);
-
-            if ($game2 > 0 && $game2 <> $game1){
-                $sql5 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game2 . "'");
-                list($g2_titre, $g2_pref_1, $g2_pref_2, $g2_pref_3, $g2_pref_4, $g2_pref_5) = mysql_fetch_array($sql5);
-
-                $g2_titre = nkHtmlEntities($g2_titre);
-                $g2_pref_1 = nkHtmlEntities($g2_pref_1);
-                $g2_pref_2 = nkHtmlEntities($g2_pref_2);
-                $g2_pref_3 = nkHtmlEntities($g2_pref_3);
-                $g2_pref_4 = nkHtmlEntities($g2_pref_4);
-                $g2_pref_5 = nkHtmlEntities($g2_pref_5);
-
-                $sql6 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game2 . "' AND user_id = '" . $user[0] . "'");
-                $test2 = mysql_num_rows($sql6);
-
-                if ($test2 > 0){
-                    list($g2_pref1, $g2_pref2, $g2_pref3, $g2_pref4, $g2_pref5) = mysql_fetch_array($sql6);
-                }
-                else if ($game2 == $game_id){
-                    $g2_pref1 = $pref1;
-                    $g2_pref2 = $pref2;
-                    $g2_pref3 = $pref3;
-                    $g2_pref4 = $pref4;
-                    $g2_pref5 = $pref5;
-                }
-
-                echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $g2_titre . "</b></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g2_pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1[" . $i . "]\" value=\"" . $g2_pref1 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g2_pref_2 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref2[" . $i . "]\" value=\"" . $g2_pref2 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g2_pref_3 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref3[" . $i . "]\" value=\"" . $g2_pref3 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g2_pref_4 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref4[" . $i . "]\" value=\"" . $g2_pref4 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g2_pref_5 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref5[" . $i . "]\" value=\"" . $g2_pref5 . "\" size=\"25\" /><input type=\"hidden\" name=\"game_id[" . $i . "]\" value=\"" . $game2 . "\" /></td></tr>\n";
-
-                $i++;
-            }
-        }
-        else{
-            $game2 = 0;
-        }
-
-        if ($team3 != ""){
-            $sql_game3 = mysql_query("SELECT game FROM " . TEAM_TABLE . " WHERE cid = '" . $team3 . "'");
-            list($game3) = mysql_fetch_array($sql_game3);
-
-            if ($game3 > 0 && $game3 <> $game2 && $game3 <> $game1){
-                $sql7 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game3 . "'");
-                list($g3_titre, $g3_pref_1, $g3_pref_2, $g3_pref_3, $g3_pref_4, $g3_pref_5) = mysql_fetch_array($sql7);
-
-                $g3_titre = nkHtmlEntities($g3_titre);
-                $g3_pref_1 = nkHtmlEntities($g3_pref_1);
-                $g3_pref_2 = nkHtmlEntities($g3_pref_2);
-                $g3_pref_3 = nkHtmlEntities($g3_pref_3);
-                $g3_pref_4 = nkHtmlEntities($g3_pref_4);
-                $g3_pref_5 = nkHtmlEntities($g3_pref_5);
-
-                $sql8 = mysql_query("SELECT pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_PREFS_TABLE . " WHERE id = '" . $game3 . "' AND user_id = '" . $user[0] . "'");
-                $test3 = mysql_num_rows($sql8);
-
-                if ($test3 > 0){
-                    list($g3_pref1, $g3_pref2, $g3_pref3, $g3_pref4, $g3_pref5) = mysql_fetch_array($sql8);
-                }
-                else if ($game3 == $game_id){
-                    $g3_pref1 = $pref1;
-                    $g3_pref2 = $pref2;
-                    $g3_pref3 = $pref3;
-                    $g3_pref4 = $pref4;
-                    $g3_pref5 = $pref5;
-                }
-
-                echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $g3_titre . "</b></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g3_pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1[" . $i . "]\" value=\"" . $g3_pref1 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g3_pref_2 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref2[" . $i . "]\" value=\"" . $g3_pref2 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g3_pref_3 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref3[" . $i . "]\" value=\"" . $g3_pref3 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g3_pref_4 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref4[" . $i . "]\" value=\"" . $g3_pref4 . "\" size=\"25\" /></td></tr>\n"
-                        . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $g3_pref_5 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref5[" . $i . "]\" value=\"" . $g3_pref5 . "\" size=\"25\" /><input type=\"hidden\" name=\"game_id[" . $i . "]\" value=\"" . $game3 . "\" /></td></tr>\n";
-
-                $i++;
-            }
-        }
-        else{
-            $game3 = 0;
-        }
-
-        if ($game1 == 0 && $game2 == 0 && $game3 == 0){
-            $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
-            list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
-
-            $titre = nkHtmlEntities($titre);
-            $pref_1 = nkHtmlEntities($pref_1);
-            $pref_2 = nkHtmlEntities($pref_2);
-            $pref_3 = nkHtmlEntities($pref_3);
-            $pref_4 = nkHtmlEntities($pref_4);
-            $pref_5 = nkHtmlEntities($pref_5);
-
-            echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $titre . "</b></td></tr>"
-                    . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1\" value=\"" . $pref1 . "\" size=\"25\" /></td></tr>\n"
-                    . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_2 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref2\" value=\"" . $pref2 . "\" size=\"25\" /></td></tr>\n"
-                    . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_3 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref3\" value=\"" . $pref3 . "\" size=\"25\" /></td></tr>\n"
-                    . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_4 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref4\" value=\"" . $pref4 . "\" size=\"25\" /></td></tr>\n"
-                    . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_5 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref5\" value=\"" . $pref5 . "\" size=\"25\" /></td></tr>\n";
-        }
+        displayUserGamePrefFields($dbrUserDetail);
     }
-    else{
-        $sql3 = mysql_query("SELECT titre, pref_1, pref_2, pref_3, pref_4, pref_5 FROM " . GAMES_TABLE . " WHERE id = '" . $game_id . "'");
-        list($titre, $pref_1, $pref_2, $pref_3, $pref_4, $pref_5) = mysql_fetch_array($sql3);
-
-        $titre = nkHtmlEntities($titre);
-        $pref_1 = nkHtmlEntities($pref_1);
-        $pref_2 = nkHtmlEntities($pref_2);
-        $pref_3 = nkHtmlEntities($pref_3);
-        $pref_4 = nkHtmlEntities($pref_4);
-        $pref_5 = nkHtmlEntities($pref_5);
-
-        echo "<tr style=\"background: " . $bgcolor3 . ";\"><td align=\"center\" colspan=\"2\"><b>" . $titre . "</b></td></tr>\n"
-                . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_1 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref1\" value=\"" . $pref1 . "\" size=\"25\" /></td></tr>\n"
-                . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_2 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref2\" value=\"" . $pref2 . "\" size=\"25\" /></td></tr>\n"
-                . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_3 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref3\" value=\"" . $pref3 . "\" size=\"25\" /></td></tr>\n"
-                . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_4 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref4\" value=\"" . $pref4 . "\" size=\"25\" /></td></tr>\n"
-                . "<tr><td style=\"width: 30%;\" align=\"left\"><b>" . $pref_5 . " :</b></td><td style=\"width: 70%;\" align=\"left\"><input type=\"text\" name=\"pref5\" value=\"" . $pref5 . "\" size=\"25\" /></td></tr>\n";
-    }
-    */
 
     echo "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFPREF . "\" /></div></form><br />\n";
 
@@ -1378,55 +1217,41 @@ function update(){
     redirect("index.php?file=User", 1);
 }
 
-function update_pref($prenom, $jour, $mois, $an, $ville, $motherboard, $cpu, $ram, $video, $resolution, $sons, $ecran, $souris, $clavier, $connexion, $osystem, $photo){
-    global $nuked, $user;
+function update_pref() {
+    global $user;
 
-    // $game_id, $pref1, $pref2, $pref3, $pref4, $pref5
-    // $_REQUEST['game_id'], $_REQUEST['pref1'], $_REQUEST['pref2'], $_REQUEST['pref3'], $_REQUEST['pref4'], $_REQUEST['pref5']
-
-    $prenom = nkHtmlEntities($prenom);
-    $ville = nkHtmlEntities($ville);
-    $motherboard = nkHtmlEntities($motherboard);
-    $cpu = nkHtmlEntities($cpu);
-    $ram = nkHtmlEntities($ram);
-    $video = nkHtmlEntities($video);
-    $resolution = nkHtmlEntities($resolution);
-    $sons = nkHtmlEntities($sons);
-    $ecran = nkHtmlEntities($ecran);
-    $souris = nkHtmlEntities($souris);
-    $clavier = nkHtmlEntities($clavier);
-    $connexion = nkHtmlEntities($connexion);
-    $osystem = nkHtmlEntities($osystem);
-    $photo = nkHtmlEntities($photo);
-
-    $prenom = mysql_real_escape_string(stripslashes($prenom));
-    $ville = mysql_real_escape_string(stripslashes($ville));
-    $motherboard = mysql_real_escape_string(stripslashes($motherboard));
-    $cpu = mysql_real_escape_string(stripslashes($cpu));
-    $ram = mysql_real_escape_string(stripslashes($ram));
-    $video = mysql_real_escape_string(stripslashes($video));
-    $resolution = mysql_real_escape_string(stripslashes($resolution));
-    $sons = mysql_real_escape_string(stripslashes($sons));
-    $ecran = mysql_real_escape_string(stripslashes($ecran));
-    $souris = mysql_real_escape_string(stripslashes($souris));
-    $clavier = mysql_real_escape_string(stripslashes($clavier));
-    $connexion = mysql_real_escape_string(stripslashes ($connexion));
-    $osystem = mysql_real_escape_string(stripslashes($osystem));
-    $photo = mysql_real_escape_string(stripslashes($photo));
+    $data = array(
+        'prenom'      => nkHtmlEntities(stripslashes($_POST['prenom'])),
+        'ville'       => nkHtmlEntities(stripslashes($_POST['ville'])),
+        'motherboard' => nkHtmlEntities(stripslashes($_POST['motherboard'])),
+        'cpu'         => nkHtmlEntities(stripslashes($_POST['cpu'])),
+        'ram'         => nkHtmlEntities(stripslashes($_POST['ram'])),
+        'video'       => nkHtmlEntities(stripslashes($_POST['video'])),
+        'resolution'  => nkHtmlEntities(stripslashes($_POST['resolution'])),
+        'son'         => nkHtmlEntities(stripslashes($_POST['sons'])),
+        'ecran'       => nkHtmlEntities(stripslashes($_POST['ecran'])),
+        'souris'      => nkHtmlEntities(stripslashes($_POST['souris'])),
+        'clavier'     => nkHtmlEntities(stripslashes($_POST['clavier'])),
+        'connexion'   => nkHtmlEntities(stripslashes($_POST['connexion'])),
+        'system'      => nkHtmlEntities(stripslashes($_POST['osystem'])),
+        'photo'       => nkHtmlEntities(stripslashes($_POST['photo']))
+    );
 
     $filename = $_FILES['fichiernom']['name'];
     $filesize = $_FILES['fichiernom']['size'];
 
     if ($filename != "" && $filesize <= 100000){
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
-            $url_photo = "upload/User/" . time() . "." . $ext;
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_photo)) {
+        if (in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            $data['photo'] = "upload/User/" . time() . "." . $ext;
+
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $data['photo'])) {
                 printNotification('Upload file failed !!!', 'error');
                 return;
             }
-            @chmod ($url_photo, 0644);
+
+            @chmod ($data['photo'], 0644);
         }
         else{
             printNotification(_BADFILEFORMAT, 'error');
@@ -1435,151 +1260,48 @@ function update_pref($prenom, $jour, $mois, $an, $ville, $motherboard, $cpu, $ra
             return;
         }
     }
-    else if ($photo != ""){
-        $ext = strrchr($photo, '.');
+    else if ($data['photo'] != ""){
+        $ext = strrchr($data['photo'], '.');
         $ext = substr($ext, 1);
 
-        if (!preg_match("`.php`i", $photo) && !preg_match("`.htm`i", $photo) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
-            $url_photo = $photo;
-        }
-        else{
+        if (preg_match("`.php`i", $data['photo'])
+            || preg_match("`.htm`i", $data['photo'])
+            || ! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))
+        ) {
             printNotification(_BADFILEFORMAT, 'error');
             redirect("index.php?file=User&op=edit_pref", 5);
             closetable();
             return;
         }
     }
-    else{
-        $url_photo = "";
-    }
 
-    if ($an < date("Y")){
-        $age = $jour . "/" . $mois . "/" . $an;
-    }
-    else{
-        $age = "";
+    if ($_POST['an'] < date('Y')) {
+        // TODO : Chech date validity
+        $data['age'] = $_POST['jour'] .'/'. $_POST['mois'] .'/'. $_POST['an'];
     }
 
     if (array_key_exists('sexe', $_POST) && in_array($_POST['sexe'], array('male', 'female')))
-        $sexe = $_POST['sexe'];
-    else
-        $sexe = '';
+        $data['sexe'] = $_POST['sexe'];
 
-    $verif = mysql_query("SELECT user_id FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $user[0] . "'");
-    $res = mysql_num_rows($verif);
+    $check = nkDB_totalNumRows(
+        'FROM '. USER_DETAIL_TABLE .'
+        WHERE user_id = \''. $user['id'] .'\''
+    );
 
-    if ($res > 0){
-        $upd = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET prenom = '" . $prenom . "', age = '" . $age . "', sexe = '" . $sexe . "', ville = '" . $ville . "', motherboard = '" . $motherboard . "', cpu = '" . $cpu . "', ram = '" . $ram . "', video = '" . $video . "', resolution = '" . $resolution . "', son = '" . $sons . "', ecran = '" . $ecran . "', souris = '" . $souris . "', clavier = '" . $clavier . "', connexion = '" . $connexion . "', system = '" . $osystem . "', photo = '" . $url_photo . "' WHERE user_id = '" . $user[0] . "'");
+    if ($check > 0) {
+        nkDB_update(USER_DETAIL_TABLE, $data, 'user_id = \''. $user['id'] .'\'');
     }
-    else{
-        $sql = mysql_query("INSERT INTO " . USER_DETAIL_TABLE . " ( `user_id` , `prenom` , `age` , `sexe` , `ville` , `photo` , `motherboard` , `cpu` , `ram` , `video` , `resolution` , `son` , `ecran` , `souris` , `clavier` , `connexion` , `system` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '" . $user[0] . "' , '" . $prenom . "' , '" . $age . "' , '" . $sexe . "' , '" . $ville . "' , '" . $url_photo . "' , '" . $motherboard . "' , '" . $cpu . "' , '" . $ram . "' , '" . $video . "' , '" . $resolution . "' , '" . $sons . "' , '" . $ecran . "' , '" . $souris . "' , '" . $clavier . "' , '" . $connexion . "' , '" . $osystem . "' , '' , '' , '' , '' , '' )");
+    else {
+        $data['user_id'] = $user['id'];
+
+        nkDB_insert(USER_DETAIL_TABLE, $data);
     }
 
-    /*
-    $sql_game = mysql_query("SELECT game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-    list($game) = mysql_fetch_array($sql_game);
+    if ($user['level'] >= nivo_mod('Games') && nivo_mod('Games') > -1) {
+        require_once 'modules/Games/index.php';
 
-    if (!$game_id){
-        $pref1 = nkHtmlEntities($pref1);
-        $pref2 = nkHtmlEntities($pref2);
-        $pref3 = nkHtmlEntities($pref3);
-        $pref4 = nkHtmlEntities($pref4);
-        $pref5 = nkHtmlEntities($pref5);
-
-        $pref1 = mysql_real_escape_string(stripslashes($pref1));
-        $pref2 = mysql_real_escape_string(stripslashes($pref2));
-        $pref3 = mysql_real_escape_string(stripslashes($pref3));
-        $pref4 = mysql_real_escape_string(stripslashes($pref4));
-        $pref5 = mysql_real_escape_string(stripslashes($pref5));
-
-        $upd1 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1 . "', pref_2 = '" . $pref2 . "' , pref_3 = '" . $pref3 . "', pref_4 = '" . $pref4 . "', pref_5 = '" . $pref5 . "' WHERE user_id = '" . $user[0] . "'");
+        saveUserGamePrefFields($data);
     }
-    else{
-        if ($game_id[0] != ""){
-            $pref1[0] = nkHtmlEntities($pref1[0]);
-            $pref2[0] = nkHtmlEntities($pref2[0]);
-            $pref3[0] = nkHtmlEntities($pref3[0]);
-            $pref4[0] = nkHtmlEntities($pref4[0]);
-            $pref5[0] = nkHtmlEntities($pref5[0]);
-
-            $pref1[0] = mysql_real_escape_string(stripslashes($pref1[0]));
-            $pref2[0] = mysql_real_escape_string(stripslashes($pref2[0]));
-            $pref3[0] = mysql_real_escape_string(stripslashes($pref3[0]));
-            $pref4[0] = mysql_real_escape_string(stripslashes($pref4[0]));
-            $pref5[0] = mysql_real_escape_string(stripslashes($pref5[0]));
-
-            $verif_game1 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[0] . "'");
-            $res1 = mysql_num_rows($verif_game1);
-
-            if ($res1 > 0){
-                $upd2 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[0] . "', pref_2 = '" . $pref2[0] . "', pref_3 = '" . $pref3[0] . "', pref_4 = '" . $pref4[0] . "', pref_5 = '" . $pref5[0] . "' WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[0] . "'");
-            }
-            else{
-                $sql1 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[0] . "' , '" . $user[0] . "' , '" . $pref1[0] . "' , '" . $pref2[0] . "' , '" . $pref3[0] . "' , '" . $pref4[0] . "' , '" . $pref5[0] . "' )");
-            }
-
-            if ($game_id[0] == $game){
-                $upd3 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[0] . "', pref_2 = '" . $pref2[0] . "', pref_3 = '" . $pref3[0]. "', pref_4 = '" . $pref4[0] . "', pref_5 = '" . $pref5[0] . "' WHERE user_id = '" . $user[0] . "'");
-            }
-        }
-
-        if ($game_id[1] != ""){
-            $pref1[1] = nkHtmlEntities($pref1[1]);
-            $pref2[1] = nkHtmlEntities($pref2[1]);
-            $pref3[1] = nkHtmlEntities($pref3[1]);
-            $pref4[1] = nkHtmlEntities($pref4[1]);
-            $pref5[1] = nkHtmlEntities($pref5[1]);
-
-            $pref1[1] = mysql_real_escape_string(stripslashes($pref1[1]));
-            $pref2[1] = mysql_real_escape_string(stripslashes($pref2[1]));
-            $pref3[1] = mysql_real_escape_string(stripslashes($pref3[1]));
-            $pref4[1] = mysql_real_escape_string(stripslashes($pref4[1]));
-            $pref5[1] = mysql_real_escape_string(stripslashes($pref5[1]));
-
-            $verif_game2 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[1] . "'");
-            $res2 = mysql_num_rows($verif_game2);
-
-            if ($res2 > 0){
-                $upd4 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[1] . "', pref_2 = '" . $pref2[1] . "', pref_3 = '" . $pref3[1] . "', pref_4 = '" . $pref4[1] . "', pref_5 = '" . $pref5[1] . "' WHERE user_id = '" . $user[0] . "' AND game='" . $game_id[1] . "'");
-            }
-            else{
-                $sql2 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[1] . "' , '" . $user[0] . "' , '" . $pref1[1] . "' , '" . $pref2[1] . "' , '" . $pref3[1] . "' , '" . $pref4[1] . "' , '" . $pref5[1] . "' )");
-            }
-
-            if ($game_id[1] == $game){
-                $upd5 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[1] . "', pref_2 = '" . $pref2[1] . "', pref_3 = '" . $pref3[1] . "', pref_4 = '" . $pref4[1] . "', pref_5 = '" . $pref5[1] . "' WHERE user_id = '" . $user[0] . "'");
-            }
-        }
-
-        if ($game_id[2] != ""){
-            $pref1[2] = nkHtmlEntities($pref1[2]);
-            $pref2[2] = nkHtmlEntities($pref2[2]);
-            $pref3[2] = nkHtmlEntities($pref3[2]);
-            $pref4[2] = nkHtmlEntities($pref4[2]);
-            $pref5[2] = nkHtmlEntities($pref5[2]);
-
-            $pref1[2] = mysql_real_escape_string(stripslashes($pref1[2]));
-            $pref2[2] = mysql_real_escape_string(stripslashes($pref2[2]));
-            $pref3[2] = mysql_real_escape_string(stripslashes($pref3[2]));
-            $pref4[2] = mysql_real_escape_string(stripslashes($pref4[2]));
-            $pref5[2] = mysql_real_escape_string(stripslashes($pref5[2]));
-
-            $verif_game3 = mysql_query("SELECT * FROM " . GAMES_PREFS_TABLE . " WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[2] . "'");
-            $res3 = mysql_num_rows($verif_game3);
-
-            if ($res3 > 0){
-                $upd6 = mysql_query("UPDATE " . GAMES_PREFS_TABLE . " SET pref_1 = '" . $pref1[2] . "', pref_2 = '" . $pref2[2] . "', pref_3 = '" . $pref3[2] . "', pref_4 = '" . $pref4[2] . "', pref_5 = '" . $pref5[2] . "' WHERE user_id = '" . $user[0] . "' AND game = '" . $game_id[2] . "'");
-            }
-            else{
-                $sql3 = mysql_query("INSERT INTO " . GAMES_PREFS_TABLE . " ( `id` , `game` , `user_id` , `pref_1` , `pref_2` , `pref_3` , `pref_4` , `pref_5` ) VALUES( '' , '" . $game_id[2] . "' , '" . $user[0] . "' , '" . $pref1[2] . "' , '" . $pref2[2] . "' , '" . $pref3[2] . "' , '" . $pref4[2] . "' , '" . $pref5[2] . "' )");
-            }
-
-            if ($game_id[2] == $game){
-                $upd7 = mysql_query("UPDATE " . USER_DETAIL_TABLE . " SET pref_1 = '" . $pref1[2] . "', pref_2 = '" . $pref2[2] . "', pref_3 = '" . $pref3[2] . "', pref_4 = '" . $pref4[2] . "', pref_5 = '" . $pref5[2] . "' WHERE user_id = '" . $user[0] . "'");
-            }
-        }
-    }
-    */
 
     printNotification(_PREFMODIF, 'success');
     redirect("index.php?file=User", 2);
@@ -1976,7 +1698,7 @@ switch ($GLOBALS['op']){
         break;
     case"update_pref":
         opentable();
-        update_pref($_REQUEST['prenom'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['an'], $_REQUEST['ville'], $_REQUEST['motherboard'], $_REQUEST['cpu'], $_REQUEST['ram'], $_REQUEST['video'], $_REQUEST['resolution'], $_REQUEST['sons'], $_REQUEST['ecran'], $_REQUEST['souris'], $_REQUEST['clavier'], $_REQUEST['connexion'], $_REQUEST['osystem'], $_REQUEST['photo']);
+        update_pref();
         closetable();
         break;
     case"logout":
