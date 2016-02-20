@@ -311,7 +311,7 @@ function nkForm_generate($form) {
     }
 
     foreach ($form['hiddenField'] as $params)
-        $html .= '<input type="hidden"'. nkForm_formatAttribute($params, array('name', 'value')) .' />';// 'class', 
+        $html .= '<input type="hidden"'. nkForm_formatAttribute($params, array('id', 'name', 'value')) .' />';// 'class', 
 
     if ($form['captchaField'] != '')
         $html .= $form['captchaField'];

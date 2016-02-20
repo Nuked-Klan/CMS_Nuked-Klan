@@ -13,12 +13,6 @@ table#blockList td.blockDelete,
 table#blockList td.blockNivo,
 table#blockList td.blockEdit{text-align:center;}
 
-/* Games list */
-table#gamesList .gamesName{width:50%;}
-table#gamesList .gamesEdit,
-table#gamesList .gamesDelete{width:25%;}
-table#gamesList td{text-align:center;}
-
 /* Menu list */
 table#menuList .menuTitre{width:35%;}
 table#menuList .menuBlock{width:20%;}

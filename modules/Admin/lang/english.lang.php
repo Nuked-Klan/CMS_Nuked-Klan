@@ -49,7 +49,7 @@ define("_ADMINISTRATION","Administration");
 define("_ADMINLOG","You aren't an Admin");
 define("_MODULEADMIN","Modules Management");
 define("_USERADMIN","Members Management");
-define("_GAMESADMIN","Games Management");
+//define("_GAMESADMIN","Games Management");
 define("_SMILIEADMIN","Smilies Management");
 define("_ADMINMODULE","Modules Administration");
 define("_PREFGEN","General preferences");
@@ -200,14 +200,14 @@ define("_SMILEYMODIF","Smiley was successfully modified.");
 define("_SMILEYDELETE","Smiley was successfully removed.");
 
 
-define("_PREFNAME","Preference");
+
 define("_ICON","Icon");
-define("_GAMEADD","Add Game");
-define("_GAMEEDIT","Edit this game");
-define("_GAMEDEL","Remove this game");
-define("_GAMESUCCES","Game was successfully added.");
-define("_GAMEMODIF","Game was successfully modified.");
-define("_GAMEDELETE","Game was successfully removed.");
+//define("_GAMEADD","Add Game");
+//define("_GAMEEDIT","Edit this game");
+//define("_GAMEDEL","Remove this game");
+//define("_GAMESUCCES","Game was successfully added.");
+//define("_GAMEMODIF","Game was successfully modified.");
+//define("_GAMEDELETE","Game was successfully removed.");
 define("_SEEICON","View icons");
 define("_ICONLIST","Icons list");
 define("_CLICICON","Click on icon to select it");
@@ -340,9 +340,9 @@ define("_SQLERRORDELETED","The list of SQL errors identified was destroyed.");
 define("_ACTIONCONNECT","is connected on the administration");
 define("_ACTIONDECONNECT","is diconnected from the administration");
 define("_ACTIONVIDERSQL","have deleted the SQL error");
-define("_ACTIONADDGAME","have added the game");
-define("_ACTIONMODIFGAME","have modified the game");
-define("_ACTIONDELGAME","have deleted the game");
+//define("_ACTIONADDGAME","have added the game");
+//define("_ACTIONMODIFGAME","have modified the game");
+//define("_ACTIONDELGAME","have deleted the game");
 define("_ACTIONADDBLOCK","have added the block");
 define("_ACTIONMODIFBLOCK","have modified the block");
 define("_ACTIONDELBLOCK","have deleted the block");
@@ -597,9 +597,8 @@ define("_DELSTYLE","Success delete.");
 define("_ACTIONADDSTYLE","have add a style of editor.");
 define("_ACTIONDELSTYLE","have delete a style of editor.");
 define("_ACTIONCHANGEDIT","have modify the editor.");
-define("_MAP","Maps management");
-define("_DELALLMAP","Delete all maps");
-define("_ADDMAP","Add a map");
+
+
 define("_MANAGETEAMMAP","Manage games and maps.");
 define("_THEMEPANEL","Manage template");
 define("_SHARESTATS","Share your statistics");
@@ -678,6 +677,9 @@ return array(
     'TAG_PREFIX'        => 'Tag Prefix',
     'TAG_SUFFIX'        => 'Tag Suffix',
     'IMAGE_URL'         => 'Picture url',
+    'ICON'              => 'Icon',
+    'SEE_ICON'          => 'View icons',
+    'CLICK_ICON'        => 'Click on icon to select it',
     // nkAction_save - Includes/nkAction.php
     'ACTION_MODULE_SETTING_UPDATED' => 'has modified the preference of %s module',
     // Category

@@ -391,6 +391,7 @@ return array(
     'EQUIPE_MODNAME'    => 'Equipe',
     'FORUM_MODNAME'     => 'Forum',
     'GALLERY_MODNAME'   => 'Gallery',
+    'GAMES_MODNAME'     => 'Games',
     'GUESTBOOK_MODNAME' => 'Guestbook',
     'IRC_MODNAME'       => 'IRC',
     'LINKS_MODNAME'     => 'Web Links',

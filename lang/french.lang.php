@@ -399,6 +399,7 @@ return array(
     'EQUIPE_MODNAME'    => 'Equipe',
     'FORUM_MODNAME'     => 'Forum',
     'GALLERY_MODNAME'   => 'Galerie',
+    'GAMES_MODNAME'     => 'Jeux',
     'GUESTBOOK_MODNAME' => 'Livre d\'or',
     'IRC_MODNAME'       => 'IrC',
     'LINKS_MODNAME'     => 'Liens Web',

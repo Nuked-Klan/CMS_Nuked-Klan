@@ -51,7 +51,7 @@ define("_ADMINISTRATION","Administration");
 define("_ADMINLOG","Vous n'êtes pas logué en tant qu'Admin");
 define("_MODULEADMIN","Gestion des Modules");
 define("_USERADMIN","Gestion des Membres");
-define("_GAMESADMIN","Gestion des Jeux");
+//define("_GAMESADMIN","Gestion des Jeux");
 define("_SMILIEADMIN","Gestion des Smileys");
 define("_ADMINMODULE","Administration des modules");
 define("_PREFGEN","Préférences Générales");
@@ -202,14 +202,14 @@ define("_SMILEYMODIF","Smiley modifié avec succès.");
 define("_SMILEYDELETE","Smiley supprimé avec succès.");
 
 
-define("_PREFNAME","Préférence");
+
 define("_ICON","Icône");
-define("_GAMEADD","Ajouter un jeu");
-define("_GAMEEDIT","Editer ce jeu");
-define("_GAMEDEL","Supprimer ce jeu");
-define("_GAMESUCCES","Jeu ajouté avec succès.");
-define("_GAMEMODIF","Jeu modifié avec succès.");
-define("_GAMEDELETE","Jeu supprimé avec succès.");
+//define("_GAMEADD","Ajouter un jeu");
+//define("_GAMEEDIT","Editer ce jeu");
+//define("_GAMEDEL","Supprimer ce jeu");
+//define("_GAMESUCCES","Jeu ajouté avec succès.");
+//define("_GAMEMODIF","Jeu modifié avec succès.");
+//define("_GAMEDELETE","Jeu supprimé avec succès.");
 define("_SEEICON","Voir les icônes");
 define("_ICONLIST","Liste des icônes");
 define("_CLICICON","Cliquez sur une icône pour la sélectionner");
@@ -341,9 +341,9 @@ define("_SQLERRORDELETED","La liste des erreurs SQL repérées a été détruite.");
 define("_ACTIONCONNECT","s'est connecté à l'administration");
 define("_ACTIONDECONNECT","s'est déconnecté de l'administration");
 define("_ACTIONVIDERSQL","a vidé les erreurs SQL");
-define("_ACTIONADDGAME","a ajouté le jeu");
-define("_ACTIONMODIFGAME","a modifié le jeu");
-define("_ACTIONDELGAME","a supprimé le jeu");
+//define("_ACTIONADDGAME","a ajouté le jeu");
+//define("_ACTIONMODIFGAME","a modifié le jeu");
+//define("_ACTIONDELGAME","a supprimé le jeu");
 define("_ACTIONADDBLOCK","a ajouté le block");
 define("_ACTIONMODIFBLOCK","a modifié le block");
 define("_ACTIONDELBLOCK","a supprimé le block");
@@ -431,9 +431,9 @@ define("_DELSTYLE","Suppression effectuée avec succès.");
 define("_ACTIONADDSTYLE","a ajouté un style à l'éditeur.");
 define("_ACTIONDELSTYLE","a supprimé un style à l'éditeur.");
 define("_ACTIONCHANGEDIT","a modifié l'éditeur.");
-define("_MAP","Gestions des maps");
-define("_DELALLMAP","Supprimer les maps");
-define("_ADDMAP","Ajouter une map");
+
+
+
 define("_MANAGETEAMMAP","Gestions des jeux et des maps.");
 define("_THEMEPANEL","Gestion du thème");
 define("_SHARESTATS","Partager vos statistiques");
@@ -512,7 +512,9 @@ return array(
     'TAG_PREFIX'        => 'Tag Préfixe',
     'TAG_SUFFIX'        => 'Tag Suffixe',
     'IMAGE_URL'         => 'Url de l\'image',
-
+    'ICON'              => 'Icône',
+    'SEE_ICON'          => 'Voir les icônes',
+    'CLICK_ICON'        => 'Cliquez sur une icône pour la sélectionner',
     // nkAction_save - Includes/nkAction.php
     'ACTION_MODULE_SETTING_UPDATED' => 'a modifié les préférences du module %s',
     // Category

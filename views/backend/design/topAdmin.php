@@ -80,7 +80,7 @@
                                 <li><a <?php printAdminSubMenuCurrentClass('block') ?> href="index.php?file=Admin&amp;page=block"><?php echo _BLOCK ?></a></li>
                                 <li><a <?php printAdminSubMenuCurrentClass('menu') ?> href="index.php?file=Admin&amp;page=menu"><?php echo _MENU ?></a></li>
                                 <li><a <?php printAdminSubMenuCurrentClass('smilies') ?> href="index.php?file=Admin&amp;page=smilies"><?php echo _SMILEY ?></a></li>
-                                <li><a <?php printAdminSubMenuCurrentClass('games') ?> href="index.php?file=Admin&amp;page=games"><?php echo _JEUX ?></a></li>
+                                <!--<li><a <?php //printAdminSubMenuCurrentClass('games') ?> href="index.php?file=Admin&amp;page=games"><?php //echo _JEUX ?></a></li>-->
                             </ul>
                         </li>
                         <!-- SUB MENU : CONTENU -->
