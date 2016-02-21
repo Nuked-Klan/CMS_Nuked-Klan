@@ -23,26 +23,6 @@ nkAction_setParams(array(
 ));
 
 
-/**
- * Callback function for nkAction_list & nkAction_edit functions.
- * Return page title of current action.
- *
- * @param int $id : The Forum rank id.
- * @return string : The Forum rank title for list or add / edit form.
- */
-function getForumRankTitle($id = null) {
-    global $op;
-
-    if ($op == 'edit') {
-        if ($id === null)
-            return __('ADMIN_FORUM') .' - '. __('ADD_RANK');
-        else
-            return __('ADMIN_FORUM') .' - '. __('EDIT_THIS_RANK');
-    }
-
-    return __('ADMIN_FORUM') .' - '. __('RANK_MANAGEMENT');
-}
-
 /* Forum rank list function */
 
 /**

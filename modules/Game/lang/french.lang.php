@@ -13,7 +13,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 return array(
     // modules/Games/backend/index.php
-    'GAMES_MANAGEMENT'   => 'Gestion des Jeux',
+    'ADMIN_GAME'        => 'Gestion des Jeux',
     'ADD_GAME'          => 'Ajouter un jeu',
     'EDIT_THIS_GAME'    => 'Editer ce jeu',
     'DELETE_THIS_GAME'  => 'Supprimer ce jeu',

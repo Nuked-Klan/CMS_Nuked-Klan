@@ -12,6 +12,8 @@
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 
+nkHandle_siteInstalled();
+
 require_once 'Includes/nkSessions.php';
 require_once 'Includes/nkTemplate.php';
 
@@ -66,13 +68,13 @@ nkSessions_init();
  * @return void
  */
 function nkHandle_siteInstalled() {
-    if (! defined('NK_OPEN')) {
-        echo WEBSITE_CLOSED;
+    if (! defined('NK_INSTALLED') && file_exists('INSTALL/index.php')) {
+        header('location: INSTALL/index.php');
         exit;
     }
 
-    if (! defined('NK_INSTALLED') && file_exists('INSTALL/index.php')) {
-        header('location: INSTALL/index.php');
+    if (! defined('NK_OPEN')) {
+        echo WEBSITE_CLOSED;
         exit;
     }
 }

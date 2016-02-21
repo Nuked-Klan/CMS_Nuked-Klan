@@ -179,6 +179,51 @@ function nkAction_getID() {
 }
 
 /**
+ * Return page title of current action.
+ *
+ * @param void
+ * @return string
+ */
+function nkAction_getTitle() {
+    global $nkAction, $nkTemplate, $file, $page, $op;
+
+    if (isset($nkAction['title']))
+        return $nkAction['title'];
+    else if (function_exists($getTitleFunct = 'get'. $nkAction['ucf_dataName'] .'Title'))
+        return $getTitleFunct($nkAction['id']);
+
+    if ($nkTemplate['interface'] == 'backend') {
+        if (translationExist($tsAdmin = 'ADMIN_'. strtoupper($file)))
+            $mainTitle = __($tsAdmin);
+        else
+            $mainTitle = __('ADMIN');
+
+        if ($page == 'setting') {
+            return $mainTitle .' - '. __('PREFERENCES');
+        }
+        else {
+            if ($op == 'edit') {
+                if ($nkAction['id'] === null)
+                    return $mainTitle .' - '. nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'ADD_%s');
+                else
+                    return $mainTitle .' - '. nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'EDIT_THIS_%s');
+            }
+
+            if ($nkAction['dataName'] == strtolower($file))
+                return $mainTitle;
+            else
+                return $mainTitle .' - '. nkAction_getActionTranslation($nkAction['tsKeyDataName'], '%s_MANAGEMENT');
+        }
+    }
+    else {
+        if ($nkAction['id'] === null)
+            return nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'ADD_%s');
+        else
+            return nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'EDIT_THIS_%s');
+    }
+}
+
+/**
  * Check and save user action.
  *
  * @param string $actionName : The translation name (without ACTION_ prefix) of executed user action.
@@ -281,9 +326,10 @@ function nkAction_editBackendDbTableList(&$form) {
         WHERE '. $nkAction['tableId']
     );
 
+    $nkAction['tsKeyDataName'] = nkAction_getDataNameTranslationKey();
+
     if (! $data) {
-        $tsKeyDataName = nkAction_getDataNameTranslationKey();
-        printNotification(nkAction_getActionTranslation($tsKeyDataName, '%s_NO_EXIST'), 'error');
+        printNotification(nkAction_getActionTranslation($nkAction['tsKeyDataName'], '%s_NO_EXIST'), 'error');
         return;
     }
 
@@ -305,6 +351,11 @@ function nkAction_editBackendDbTableList(&$form) {
 function nkAction_commonEdit(&$form) {
     global $nkAction, $page;
 
+    if (in_array($page, array('category', 'rank')))
+        $nkAction['tsKeyDataName'] = strtoupper($page);
+    else
+        $nkAction['tsKeyDataName'] = nkAction_getDataNameTranslationKey();
+
     if (! $nkAction['onlyEdit'] && $nkAction['id'] === null) {
         if (function_exists($addFormFunct = 'prepareFormForAdd'. $nkAction['ucf_dataName']))
             $addFormFunct($form);
@@ -325,12 +376,7 @@ function nkAction_commonEdit(&$form) {
             );
 
             if (! $data) {
-                $tsKeyDataName = nkAction_getDataNameTranslationKey();
-
-                if (in_array($page, array('category', 'rank')))
-                    $tsKeyDataName = strtoupper($page);
-
-                printNotification(nkAction_getActionTranslation($tsKeyDataName, '%s_NO_EXIST'), 'error');
+                printNotification(nkAction_getActionTranslation($nkAction['tsKeyDataName'], '%s_NO_EXIST'), 'error');
                 return;
             }
         }
@@ -396,20 +442,7 @@ function nkAction_edit() {
         );
     }
 
-    $title = '';
-
-    if ($page == 'setting') {
-        if ($nkAction['title'] !== null)
-            $title = $nkAction['title'];
-        else
-            $title = __('PREFERENCES');
-    }
-    else {
-        if (function_exists($getTitleFunct = 'get'. $nkAction['ucf_dataName'] .'Title'))
-            $title = $getTitleFunct($nkAction['id']);
-        else
-            $title = $nkAction['title'];
-    }
+    $title = nkAction_getTitle();
 
     $content = '';
 
@@ -776,9 +809,12 @@ function nkAction_list() {
     $listCfg = $nkAction['getListFunction']();
 
     if (in_array($page, array('category', 'rank')))
-        $tsKeyDataName = strtoupper($page);
+        $nkAction['tsKeyDataName'] = strtoupper($page);
     else
-        $tsKeyDataName = nkAction_getDataNameTranslationKey();
+        $nkAction['tsKeyDataName'] = nkAction_getDataNameTranslationKey();
+
+    if (! array_key_exists('rowId', $listCfg))
+        $listCfg['rowId'] = $nkAction['tableId'];
 
     $listCfg['limit'] = 30;
 
@@ -796,7 +832,7 @@ function nkAction_list() {
             $listCfg['edit']['op'] = $nkAction['editOp'];
 
         if (! isset($listCfg['edit']['imgTitle']))
-            $listCfg['edit']['imgTitle'] = nkAction_getActionTranslation($tsKeyDataName, 'EDIT_THIS_%s');
+            $listCfg['edit']['imgTitle'] = nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'EDIT_THIS_%s');
     }
 
     if (isset($listCfg['delete']) && is_array($listCfg['delete'])) {
@@ -804,18 +840,18 @@ function nkAction_list() {
             $listCfg['delete']['op'] = 'delete';
 
         if (! isset($listCfg['delete']['confirmTxt']))
-            $listCfg['delete']['confirmTxt'] = nkAction_getActionTranslation($tsKeyDataName, 'CONFIRM_TO_DELETE_%s');
+            $listCfg['delete']['confirmTxt'] = nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'CONFIRM_TO_DELETE_%s');
 
         // TODO : A revoir...
         if (! isset($listCfg['delete']['confirmField']))
             $listCfg['delete']['confirmField'] = $nkAction['titleField_dbTable'];
 
         if (! isset($listCfg['delete']['imgTitle']))
-            $listCfg['delete']['imgTitle'] = nkAction_getActionTranslation($tsKeyDataName, 'DELETE_THIS_%s');
+            $listCfg['delete']['imgTitle'] = nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'DELETE_THIS_%s');
     }
 
     if (! isset($listCfg['noDataText']))
-        $listCfg['noDataText'] = nkAction_getActionTranslation($tsKeyDataName, 'NO_%s_IN_DB');
+        $listCfg['noDataText'] = nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'NO_%s_IN_DB');
 
     if (function_exists($callbackRowFunct = 'format'. $nkAction['ucf_dataName'] .'Row')) {
         $listCfg['callbackRowFunction'] = array(
@@ -823,16 +859,13 @@ function nkAction_list() {
         );
     }
 
-    $title = '';
-
-    if (function_exists($getTitleFunct = 'get'. $nkAction['ucf_dataName'] .'Title'))
-        $title = $getTitleFunct();
+    $title = nkAction_getTitle();
 
     if (! isset($listCfg['footerLinks'])) {
         $listCfg['footerLinks'] = array();
 
         if (! $nkAction['onlyEdit']) {
-            $tsAddEntrie = nkAction_getActionTranslation($tsKeyDataName, 'ADD_%s');
+            $tsAddEntrie = nkAction_getActionTranslation($nkAction['tsKeyDataName'], 'ADD_%s');
 
             $listCfg['footerLinks'][$tsAddEntrie] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'], array(), true);
         }

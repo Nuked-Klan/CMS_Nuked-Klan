@@ -24,26 +24,6 @@ nkAction_setParams(array(
 ));
 
 
-/**
- * Callback function for nkAction_list & nkAction_edit functions.
- * Return page title of current action.
- *
- * @param int $id : The Forum category id.
- * @return string : The Forum category title for list or add / edit form.
- */
-function getForumCategoryTitle($id = null) {
-    global $op;
-
-    if ($op == 'edit') {
-        if ($id === null)
-            return __('ADMIN_FORUM') .' - '. __('ADD_CATEGORY');
-        else
-            return __('CATEGORY_MANAGEMENT') .' - '. __('EDIT_THIS_CATEGORY');
-    }
-
-    return __('ADMIN_FORUM') .' - '. __('CATEGORY_MANAGEMENT');
-}
-
 /* Forum category list function */
 
 /**

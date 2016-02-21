@@ -68,7 +68,7 @@ function nkForm_init(&$form) {
     if (! isset($form['dataName']) || $form['dataName'] == '')
         trigger_error('You must defined a data name for this form configuration !', E_USER_ERROR);
 
-    $form = array_merge($form, $nkForm['defaultForm']);
+    $form = $form + $nkForm['defaultForm'];
 
     $nkForm['config'] = & $form;
 
@@ -151,12 +151,12 @@ function nkForm_getCheckFormField($itemData) {
     if (array_key_exists('minlength', $itemData))
         $js .= ', minlength: '. $itemData['minlength'];
 
-    if (array_key_exists('range', $fieldData['range'])) {
-        if (array_key_exists('min', $itemData))
-            $js .= ', minrange: '. $fieldData['range']['min']
+    if (array_key_exists('range', $itemData)) {
+        if (array_key_exists('min', $itemData['range']))
+            $js .= ', minrange: '. $itemData['range']['min'];
 
-        if (array_key_exists('max', $fieldData['range']))
-            $js .= ', maxrange: '. $fieldData['range']['max'];
+        if (array_key_exists('max', $itemData['range']))
+            $js .= ', maxrange: '. $itemData['range']['max'];
     }
 
     return $js .' }';
@@ -384,7 +384,8 @@ function nkForm_underscore2camelcase($str) {
 function nkForm_initInput($fieldName, &$params, $form) {
     global $nkForm;
 
-    $params = array_merge($params, $nkForm['defaultInput']);
+    $params = $params + $nkForm['defaultInput'];
+
     
     //if (! array_key_exists('inputClass', $params))
     //    $params['inputClass'] = array();
@@ -403,7 +404,7 @@ function nkForm_initInput($fieldName, &$params, $form) {
     if (! array_key_exists('id', $params))
         $params['id'] = $form['fieldsPrefix'] . $params['camelCaseName'];
 
-    if ($params['dataType'] == 'integer' && isset($params['range']) && ! is_array($params['range']))
+    if (isset($params['dataType']) && $params['dataType'] == 'integer' && isset($params['range']) && ! is_array($params['range']))
         trigger_error('range field parameter must be a array !', E_USER_ERROR);
 }
 

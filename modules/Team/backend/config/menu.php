@@ -2,7 +2,7 @@
 
 // Admin menu configuration
 return array(
-    __('TEAM_MANAGEMENT') => array(
+    __('ADMIN_TEAM') => array(
         'img'   => 'modules/Admin/images/icons/teamusers.png'
     ),
     __('RANK_MANAGEMENT') => array(

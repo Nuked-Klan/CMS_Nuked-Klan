@@ -13,7 +13,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 return array(
     // modules/Team/backend/index.php
-    'TEAM_MANAGEMENT'   => 'Gestion des Teams',
+    'ADMIN_TEAM'        => 'Administration des Teams',
     'ADD_TEAM'          => 'Ajouter une Team',
     'EDIT_THIS_TEAM'    => 'Editer cette Team',
     'DELETE_THIS_TEAM'  => 'Supprimer cette Team',

@@ -146,7 +146,7 @@ if ($process == 'install') {
         (21, \'Stats\', 0, 2),
         (22, \'Contact\', 0, 3),
         (23, \'Page\', 0, 9),
-        (24, \'Games\', 0, 9);';
+        (24, \'Game\', 0, 9);';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
@@ -179,6 +179,9 @@ if ($process == 'update') {
 
     if (! in_array('Page', $modules))
         addModule('Page', 0, 9);
+
+    if (! in_array('Game', $modules))
+        addModule('Game', 0, 9);
 
     updateModuleList();
 }

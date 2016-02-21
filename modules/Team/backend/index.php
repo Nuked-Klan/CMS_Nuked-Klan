@@ -18,31 +18,12 @@ require_once 'Includes/nkAction.php';
 
 nkAction_setParams(array(
     'dataName'              => 'team',
+    'tableId'               => 'cid',
     'tableName'             => TEAM_TABLE,
     'titleField_dbTable'    => 'titre',
     'previewUrl'            => 'index.php?file=Team'
 ));
 
-
-/**
- * Callback function for nkAction_list & nkAction_edit functions.
- * Return page title of current action.
- *
- * @param int $id : The Team id.
- * @return string : The Team title for list or add / edit form.
- */
-function getTeamTitle($id = null) {
-    global $op;
-
-    if ($op == 'edit') {
-        if ($id === null)
-            return __('TEAM_MANAGEMENT') .' - '. __('ADD_TEAM');
-        else
-            return __('TEAM_MANAGEMENT') .' - '. __('EDIT_THIS_TEAM');
-    }
-
-    return __('TEAM_MANAGEMENT');
-}
 
 /* Team list function */
 

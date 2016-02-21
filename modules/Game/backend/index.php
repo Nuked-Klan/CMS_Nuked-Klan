@@ -11,7 +11,7 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-if (! adminInit('Games'))
+if (! adminInit('Game'))
     return;
 
 require_once 'Includes/nkAction.php';
@@ -22,26 +22,6 @@ nkAction_setParams(array(
     'titleField_dbTable'    => 'name'
 ));
 
-
-/**
- * Callback function for nkAction_list & nkAction_edit functions.
- * Return page title of current action.
- *
- * @param int $id : The Game id.
- * @return string : The Game title for list or add / edit form.
- */
-function getGameTitle($id = null) {
-    global $op;
-
-    if ($op == 'edit') {
-        if ($id === null)
-            return __('GAMES_MANAGEMENT') .' - '. __('ADD_GAME');
-        else
-            return __('GAMES_MANAGEMENT') .' - '. __('EDIT_THIS_GAME');
-    }
-
-    return __('GAMES_MANAGEMENT');
-}
 
 /* Game list function */
 

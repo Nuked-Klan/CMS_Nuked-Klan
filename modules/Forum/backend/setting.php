@@ -16,10 +16,6 @@ if (! adminInit('Forum'))
 
 require_once 'Includes/nkAction.php';
 
-nkAction_setParams(array(
-    'title' => __('ADMIN_FORUM') .' - '. __('PREFERENCES')
-));
-
 
 // Action handle
 switch ($GLOBALS['op']) {

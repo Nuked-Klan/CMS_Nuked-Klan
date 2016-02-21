@@ -24,26 +24,6 @@ nkAction_setParams(array(
 ));
 
 
-/**
- * Callback function for nkAction_list & nkAction_edit functions.
- * Return page title of current action.
- *
- * @param int $id : The Team member id.
- * @return string : The Team title for list or add / edit form.
- */
-function getTeamMemberTitle($id = null) {
-    global $op;
-
-    if ($op == 'edit') {
-        if ($id === null)
-            return __('TEAM_MEMBER_MANAGEMENT') .' - '. __('ADD_TEAM');
-        else
-            return __('TEAM_MEMBER_MANAGEMENT') .' - '. __('EDIT_THIS_TEAM');
-    }
-
-    return __('TEAM_MEMBER_MANAGEMENT');
-}
-
 /* Team member list function */
 
 /**

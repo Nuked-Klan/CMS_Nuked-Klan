@@ -23,26 +23,6 @@ nkAction_setParams(array(
 ));
 
 
-/**
- * Callback function for nkAction_list & nkAction_edit functions.
- * Return page title of current action.
- *
- * @param int $id : The Team rank id.
- * @return string : The Team rank title for list or add / edit form.
- */
-function getTeamRankTitle($id = null) {
-    global $op;
-
-    if ($op == 'edit') {
-        if ($id === null)
-            return __('RANK_MANAGEMENT') .' - '. __('ADD_RANK');
-        else
-            return __('RANK_MANAGEMENT') .' - '. __('EDIT_THIS_RANK');
-    }
-
-    return __('RANK_MANAGEMENT') .' - '. __('RANK_MANAGEMENT');
-}
-
 /* Team rank list function */
 
 /**

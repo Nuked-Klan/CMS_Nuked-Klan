@@ -28,7 +28,7 @@ $gamesTableCfg = array(
         'pref_4'   => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
         'pref_5'   => array('type' => 'varchar(50)',  'null' => false, 'default' => '\'\''),
         'map'      => array('type' => 'text',         'null' => false),
-        'gameFile' => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\''),
+        'gameFile' => array('type' => 'varchar(30)',  'null' => false, 'default' => '\'\'')
     ),
     'primaryKey' => array('id'),
     'engine' => 'MyISAM'
@@ -64,8 +64,10 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($gamesTableCfg);
 
-    $sql = 'INSERT INTO `'. GAMES_TABLE .'` VALUES
-        (1, \'Counter Strike Global Offensive\', \''. $this->_db->quote($this->_i18n['PREF_CS']) .'\', \'images/games/icon_csgo.png\', \''. $this->_db->quote($this->_i18n['OTHER_NICK']) .'\', \''. $this->_db->quote($this->_i18n['FAV_MAP']) .'\', \''. $this->_db->quote($this->_i18n['FAV_WEAPON']) .'\', \''. $this->_db->quote($this->_i18n['SKIN_T']) .'\', \''. $this->_db->quote($this->_i18n['SKIN_CT']) .'\', \'de_dust2|de_inferno\');';
+    $sql = 'INSERT INTO `'. GAMES_TABLE .'`
+        (`name`, `titre`, `icon`, `pref_1`, `pref_2`, `pref_3`, `pref_4`, `pref_5`, `map`)
+        VALUES
+        (\'Counter Strike Global Offensive\', \''. $this->_db->quote($this->_i18n['PREF_CS']) .'\', \'images/games/icon_csgo.png\', \''. $this->_db->quote($this->_i18n['OTHER_NICK']) .'\', \''. $this->_db->quote($this->_i18n['FAV_MAP']) .'\', \''. $this->_db->quote($this->_i18n['FAV_WEAPON']) .'\', \''. $this->_db->quote($this->_i18n['SKIN_T']) .'\', \''. $this->_db->quote($this->_i18n['SKIN_CT']) .'\', \'de_dust2|de_inferno\');';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }

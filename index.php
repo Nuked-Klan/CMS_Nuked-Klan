@@ -23,11 +23,6 @@ if (file_exists('conf.inc.php'))
 require_once 'nuked.php';
 
 
-/**
- * Checks if site is closed or not installed
- */
-nkHandle_siteInstalled();
-
 if ($nuked['time_generate'] == 'on')
     $microTime = microtime(true);
 
