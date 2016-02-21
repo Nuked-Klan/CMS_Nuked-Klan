@@ -3,7 +3,10 @@ $(document).ready(function() {
         newMap = $.trim($('#gMapInput').val());
 
         if (newMap != '') {
-            $('#mapList').append(newMap + '<br />');
+            if (! $('#mapList ul').length)
+                $('#mapList').append('<ul><li>' + newMap + '</li></ul>');
+            else
+                $('#mapList ul').append('<li>' + newMap + '</li>');
 
             var mapList = $('#map').val();
 

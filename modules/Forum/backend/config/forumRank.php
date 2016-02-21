@@ -44,8 +44,7 @@ function getForumRankFormCfg() {
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'image' => array(
                 'label'             => __('IMAGE'),
@@ -67,9 +66,8 @@ function getForumRankFormCfg() {
                 'size'              => 4,
                 'value'             => 0,
                 'maxlength'         => 5,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'type' => array(
                 'type'              => 'hidden',

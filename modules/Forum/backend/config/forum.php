@@ -50,8 +50,7 @@ function getForumFormCfg() {
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'cat' => array(
                 'label'             => __('CATEGORY'),
@@ -115,9 +114,8 @@ function getForumFormCfg() {
                 'type'              => 'text',
                 'value'             => '0',
                 'size'              => 2,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'level_poll' => array(
                 'label'             => __('LEVEL_POLL'),

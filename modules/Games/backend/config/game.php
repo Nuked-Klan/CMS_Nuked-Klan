@@ -46,8 +46,7 @@ function getGameFormCfg() {
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'icon' => array(
                 'label'             => __('ICON'),
@@ -55,64 +54,58 @@ function getGameFormCfg() {
                 'size'              => 49,
                 'html'              => '&nbsp<a class="buttonLink" href="#" onclick="javascript:window.open(\'index.php?admin=Games&amp;op=showIcon\',\''. __('ICON') .'\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0\');return(false)">'. __('SEE_ICON') .'</a>',
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'titre' => array(
                 'label'             => __('TITLE'),
                 'type'              => 'text',
                 'size'              => 50,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'pref_1' => array(
                 'label'             => __('PREFERENCE') .' 1',
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'pref_2' => array(
                 'label'             => __('PREFERENCE') .' 2',
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'pref_3' => array(
                 'label'             => __('PREFERENCE') .' 3',
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'pref_4' => array(
                 'label'             => __('PREFERENCE') .' 4',
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'pref_5' => array(
                 'label'             => __('PREFERENCE') .' 5',
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'mapInput' => array(
                 'label'             => __('MAP'),
                 'type'              => 'text',
-                'size'              => 30
+                'size'              => 30,
+                'html'              => '<input id="addMap" class="button" type="button" value="'. __('ADD_MAP') .'" />',
             ),
-            'htmlMapListButtons' => '<input id="addMap" class="button" type="button" value="'. __('ADD_MAP') .'" />&nbsp;<input id="resetMapList" class="button" type="button" value="'. __('DELETE_ALL_MAP') .'" />',
             'htmlMapList' => '',
+            'htmlMapListButtons' => '<div id="resetMapListButton" class="nkFormRow"><input id="resetMapList" class="button" type="button" value="'. __('DELETE_ALL_MAP') .'" /></div>',
             'map' => array(
                 'type'              => 'hidden',
                 'id'                => 'map'

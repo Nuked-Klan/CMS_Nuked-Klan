@@ -72,7 +72,7 @@ function formatGameRow($row, $nbData, $r, $functionData) {
  * @return array : The Game form configuration prepared.
  */
 function prepareFormForAddGame(&$form) {
-    $form['items']['htmlMapList'] = '<div id="mapList"></div>';
+    $form['items']['htmlMapList'] = '<div id="mapList" class="nkFormRow"></div>';
 }
 
 /**
@@ -84,10 +84,12 @@ function prepareFormForAddGame(&$form) {
  * @return array : The Game form configuration prepared.
  */
 function prepareFormForEditGame(&$form, $game, $id) {
-    $form['items']['htmlMapList'] = '<div id="listmap">';
+    $form['items']['htmlMapList'] = '<div id="mapList" class="nkFormRow">';
 
-    foreach(explode('|', $game['map']) as $mapping)
-        $form['items']['htmlMapList'] .= $mapping .'</br/>';
+    if ($game['map'] != '') {
+        foreach(explode('|', $game['map']) as $mapping)
+            $form['items']['htmlMapList'] .= $mapping .'</br/>';
+    }
 
     $form['items']['htmlMapList'] .= '</div>';
 }

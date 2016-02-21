@@ -94,41 +94,36 @@ function getForumSettingFormCfg() {
                 'label'             => __('NUMBER_THREAD'),
                 'type'              => 'text',
                 'size'              => 2,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'mess_forum_page' => array(
                 'label'             => __('NUMBER_POST'),
                 'type'              => 'text',
                 'size'              => 2,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'hot_topic' => array(
                 'label'             => __('TOPIC_HOT'),
                 'type'              => 'text',
                 'size'              => 2,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'post_flood' => array(
                 'label'             => __('POST_FLOOD'),
                 'type'              => 'text',
                 'size'              => 2,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'forum_field_max' => array(
                 'label'             => __('MAX_SURVEY_FIELD'),
                 'type'              => 'text',
                 'size'              => 2,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'forum_file' => array(
                 'label'             => __('JOINED_FILES'),
@@ -156,9 +151,8 @@ function getForumSettingFormCfg() {
                 'label'             => __('MAX_SIZE_FILE'),
                 'type'              => 'text',
                 'size'              => 6,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             )
         ),
         'itemsFooter' => array(

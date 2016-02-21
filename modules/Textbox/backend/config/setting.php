@@ -20,7 +20,9 @@ function getTextboxSettingFormCfg() {
             'max_shout' => array(
                 'label'             => __('NUMBER_SHOUT'),
                 'type'              => 'text',
-                'size'              => 2
+                'size'              => 2,
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'textbox_avatar' => array(
                 'label'             => __('DISPLAY_AVATAR'),

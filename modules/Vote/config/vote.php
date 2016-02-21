@@ -33,9 +33,8 @@ function getVoteFormCfg() {
                     9  => 9,
                     10 => 10
                 ),
-                'dataType'          => 'numeric',
+                'dataType'          => 'integer',
                 'required'          => true,
-                'noempty'           => true,
                 'range'             => array('min' => 0, 'max' => 10)
             )
         ),

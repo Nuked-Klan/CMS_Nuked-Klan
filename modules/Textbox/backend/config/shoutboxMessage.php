@@ -50,7 +50,8 @@ function getShoutboxMessageFormCfg() {
                 'cols'              => 65,
                 'rows'              => 10,
                 'dataType'          => 'text',
-                'htmlspecialchars'  => true
+                'htmlspecialchars'  => true,
+                'required'          => true
             ),
 
         ),

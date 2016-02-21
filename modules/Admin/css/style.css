@@ -167,6 +167,7 @@ form.nkForm label{display:inline-block;}
 form.nkForm>div{padding:10px;line-height:1.3em;}
 form.nkForm>div.alt-row{background:#f3f3f3;}
 form.nkForm>div.nkFormActionLinks{border-top:1px solid #ddd;text-align:center;}
+form.nkForm>div>div.nkFormInputCell{display:inline-block;}
 
 /* nkList */
 table.nkList th,

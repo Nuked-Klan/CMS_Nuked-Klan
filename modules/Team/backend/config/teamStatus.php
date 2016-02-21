@@ -39,8 +39,7 @@ function getTeamStatusFormCfg() {
                 'size'              => 25,
                 'maxlength'         => 25,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             )
         ),
         'itemsFooter' => array(

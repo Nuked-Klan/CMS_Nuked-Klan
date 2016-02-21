@@ -11,10 +11,12 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
+// TODO : Translate
 
 // TODO : Check while install / update if encoding is supported with mb_list_encodings()
 //mb_internal_encoding('UTF-8');
 mb_internal_encoding('ISO-8859-1');
+
 
 /**
  * Check submited form.
@@ -130,7 +132,7 @@ function nkCheckForm_checkFormInput($field, &$fieldData, &$form, &$validData) {
         switch ($fieldData['dataType']) {
             case 'alpha' :
             case 'alphanumeric' :
-            case 'numeric' :
+            case 'integer' :
                 if (! nkCheckForm_checkValueType($field, $fieldData))
                     return false;
                 break;
@@ -174,7 +176,7 @@ function nkCheckForm_checkFormInput($field, &$fieldData, &$form, &$validData) {
 // %s ne contient pas que des entiers
 
 /**
- * Check alphabetic, alphanumeric or numeric field value of submited form.
+ * Check alphabetic, alphanumeric or integer field value of submited form.
  *
  * @param string $field : The field key in form configuration.
  * @param array $fieldData : The field configuration.
@@ -187,7 +189,7 @@ function nkCheckForm_checkValueType($field, $fieldData) {
     else if ($fieldData['dataType'] == 'alphanumeric') {
         $check = ctype_alnum($_POST[$field]);
     }
-    else if ($fieldData['dataType'] == 'numeric') {
+    else if ($fieldData['dataType'] == 'integer') {
         $check = ctype_digit($_POST[$field]);
     }
 
@@ -200,19 +202,19 @@ function nkCheckForm_checkValueType($field, $fieldData) {
             $_POST[$field] = '';
     }
 
-    if ($fieldData['dataType'] == 'numeric' && isset($fieldData['range'])) {
+    if ($fieldData['dataType'] == 'integer' && isset($fieldData['range'])) {
         if (! is_array($fieldData['range']))
             trigger_error('range field parameter must be a array !', E_USER_ERROR);
 
-        if (! isset($fieldData['range']['min']))
-            trigger_error('range field parameter must be have a min key !', E_USER_ERROR);
+        if (isset($fieldData['range']['min']) && $_POST[$field] < $fieldData['range']['min'])
+            //printNotification(sprintf(__('NOT_VALID_RANGE_FIELD'),
+            //    $fieldData['label'], $fieldData['range']['min']), 'error');
 
-        if (! isset($fieldData['range']['max']))
-            trigger_error('range field parameter must be have a max key !', E_USER_ERROR);
-
-        if ($_POST[$field] < $fieldData['range']['min'] && $_POST[$field] > $fieldData['range']['max']) {
-            printNotification(sprintf(__('NOT_VALID_RANGE_FIELD'),
-                $fieldData['label'], $fieldData['range']['min'], $fieldData['range']['max']), 'error');
+            return false;
+        }
+        if (isset($fieldData['range']['max']) && $_POST[$field] > $fieldData['range']['max'])
+            //printNotification(sprintf(__('NOT_VALID_RANGE_FIELD'),
+            //    $fieldData['label'], $fieldData['range']['max']), 'error');
 
             return false;
         }
@@ -375,11 +377,8 @@ function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData) {
 function nkCheckForm_checkInputText($field, $fieldData, &$validData) {
     $error = null;
 
-    // Check if not empty
-    if (isset($fieldData['noempty'])
-        && $fieldData['noempty']
-        && $fieldData['trimmedField'] == ''
-    ) {
+    // Check if required field is empty
+    if ($fieldData['required'] && $fieldData['trimmedField'] == '') {
         $error = sprintf(__('EMPTY_FIELD'), $fieldData['label']);
     }
     // Check minimum length

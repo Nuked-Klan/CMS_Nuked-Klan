@@ -46,32 +46,28 @@ function getTeamFormCfg() {
                 'type'              => 'text',
                 'size'              => 32,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'ordre' => array(
                 'label'             => __('ORDER'),
                 'type'              => 'text',
                 'size'              => 2,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             ),
             'tag' => array(
                 'label'             => __('TAG_PREFIX'),
                 'type'              => 'text',
                 'size'              => 10,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'tag2' => array(
                 'label'             => __('TAG_SUFFIX'),
                 'type'              => 'text',
                 'size'              => 10,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'coverage' => array(
                 'label'             => __('IMAGE'),

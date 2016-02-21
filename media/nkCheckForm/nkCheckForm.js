@@ -14,7 +14,7 @@
             emptyField: 'This field is empty',
             emailInvalid: 'Email adress must be valid',
             onlyAlphaNumeric: 'Only alphanumeric character',
-            onlyNumeric: 'Only numeric character',
+            onlyInteger: 'Only integer value',
             minlengthSize: ' minimum character',
             //maxlengthSize: ' maximum character',
 
@@ -135,21 +135,12 @@
                 return false;
             }
 
-            // Check no empty settings values
-            if (plugin.settings.input[id].noempty === undefined) {
-                plugin.settings.input[id].noempty = false;
+            // Check required settings values
+            if (plugin.settings.input[id].required === undefined) {
+                plugin.settings.input[id].required = false;
 
-            } else if (typeof plugin.settings.input[id].noempty != 'boolean') {
-                console.log('Input noempty settings must be a boolean');
-                return false;
-            }
-
-            // Check optional settings values
-            if (plugin.settings.input[id].optional === undefined) {
-                plugin.settings.input[id].optional = false;
-
-            } else if (typeof plugin.settings.input[id].optional != 'boolean') {
-                console.log('Input optional settings must be a boolean');
+            } else if (typeof plugin.settings.input[id].required != 'boolean') {
+                console.log('Input required settings must be a boolean');
                 return false;
             }
 
@@ -177,10 +168,9 @@
                     type: 'passwordConfirm',
                     passwordConfirmId: id,
                     oldPasswordId: plugin.settings.input[id].oldPasswordId,
-                    noempty: plugin.settings.input[id].noempty,
                     minlength: minlength,
                     //maxlength:maxlength,
-                    optional: plugin.settings.input[id].optional
+                    required: plugin.settings.input[id].required
                 };
 
                 $('#' + plugin.settings.input[id].passwordConfirmId).addClass('nkCheckform');
@@ -195,10 +185,9 @@
                     type: 'oldPassword',
                     passwordId: id,
                     passwordConfirmId: plugin.settings.input[id].passwordConfirmId,
-                    noempty: plugin.settings.input[id].noempty,
                     minlength: minlength,
                     //maxlength:maxlength,
-                    optional: plugin.settings.input[id].optional
+                    required: plugin.settings.input[id].required
                 };
 
                 $('#' + plugin.settings.input[id].oldPasswordId).addClass('nkCheckform');
@@ -277,7 +266,7 @@
             var submit = true;
 
             for (var id in plugin.settings.input) {
-                if (! _checkFormInput(id, false) && ! plugin.settings.input[id].optional)
+                if (! _checkFormInput(id, false) && plugin.settings.input[id].required)
                     submit = submit && false;
             };
 
@@ -299,28 +288,28 @@
          * Add css class to invalid input
          *
          * @param string id : The input id
-         * @param bool optional : If the field is optional or not
+         * @param bool required : If the field is required or not
          * @return void
          */
         var _invalidInput = function(id) {
-            if (plugin.settings.input[id].optional)
-                $('#' + id).addClass(plugin.settings.warningInputClass);
-            else
+            if (plugin.settings.input[id].required)
                 $('#' + id).addClass(plugin.settings.errorInputClass);
+            else
+                $('#' + id).addClass(plugin.settings.warningInputClass);
         }
 
         /*
          * Remove css class to valid input
          *
          * @param string id : The input id
-         * @param bool optional : If the field is optional or not
+         * @param bool required : If the field is required or not
          * @return void
          */
         var _inputValid = function(id) {
-            if (plugin.settings.input[id].optional)
-                $('#' + id).removeClass(plugin.settings.warningInputClass);
-            else
+            if (plugin.settings.input[id].required)
                 $('#' + id).removeClass(plugin.settings.errorInputClass);
+            else
+                $('#' + id).removeClass(plugin.settings.warningInputClass);
 
             $('#formError-contenair-' + id).remove();
         }
@@ -336,7 +325,7 @@
             if ($('#formError-contenair-' + id).length == 0) {
                 var labelWidth = $('#' + id + '_container label').outerWidth();
 
-                $('<div id="formError-contenair-' + id + '" class="formError-contenair"></div>').insertAfter('#' + id);
+                $('<div id="formError-contenair-' + id + '" class="formError-contenair"></div>').insertAfter($('#' + id).parent().parent());
                 $('#formError-contenair-' + id).css({"padding-left": labelWidth});
             }
 
@@ -353,8 +342,8 @@
         var _checkFormInput = function(id, checkOnly = false) {
             plugin.settings.input[id].value = $.trim($('#' + id).val())
 
-            // Empty optional input is valid
-            if (plugin.settings.input[id].optional && plugin.settings.input[id].value == '')
+            // Empty no required input is valid
+            if (! plugin.settings.input[id].required && plugin.settings.input[id].value == '')
                 return true;
 
             // Check input by type of value
@@ -370,7 +359,7 @@
                     plugin.settings.input[id].regex = /^[a-zA-Z\d]+$/;
                     break;
 
-                case 'numeric':
+                case 'integer':
                     plugin.settings.input[id].regex = /^\d+$/;
                     break;
 
@@ -415,8 +404,8 @@
             else if (type == 'alphanumeric')
                 return plugin.settings.onlyAlphaNumeric;
 
-            else if (type == 'numeric')
-                return plugin.settings.onlyNumeric;
+            else if (type == 'integer')
+                return plugin.settings.onlyInteger;
             else
                 console.log('Unknow regex error of type ' + type);
         }
@@ -431,8 +420,8 @@
         var _checkInputText = function(id, checkOnly) {
             var check = false, error;
 
-            // Check if not empty
-            if (plugin.settings.input[id].noempty && plugin.settings.input[id].value.length == 0) {
+            // Check if required field is empty
+            if (plugin.settings.input[id].required && plugin.settings.input[id].value.length == 0) {
                 error = plugin.settings.emptyField;
 
             // Check by regex
@@ -446,6 +435,14 @@
             // Check maximum length
             //} else if (typeof plugin.settings.input[id].maxlength == 'number' && plugin.settings.input[id].value.length > plugin.settings.input[id].maxlength) {
             //    error = plugin.settings.input[id].maxlength + plugin.settings.maxlengthSize;
+
+            // Check integer range
+            //} else if (plugin.settings.input[id].type == 'integer') {
+                //if (plugin.settings.input[id].minrange !== undefined && $_POST[$field] < $fieldData['range']['min'])
+                //    error = plugin.settings.minRangeFail.replace(/%d/, plugin.settings.input[id].minrange);
+
+                //if (plugin.settings.input[id].maxrange !== undefined && $_POST[$field] > $fieldData['range']['max'])
+                //    error = plugin.settings.maxRangeFail.replace(/%d/, plugin.settings.input[id].maxrange);
 
             } else {
                 check = true;

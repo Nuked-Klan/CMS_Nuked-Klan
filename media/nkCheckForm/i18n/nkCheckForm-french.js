@@ -21,7 +21,7 @@
         emptyField: 'Ce champ est vide',
         emailInvalid: 'L\'adresse email n\'est pas valide',
         onlyAlphaNumeric: 'Uniquement des caracteres alphanumerique',
-        onlyNumeric: 'Uniquement des caracteres numerique',
+        onlyInteger: 'Uniquement des chiffres',
         minlengthSize: ' caracteres minimum',
         maxlengthSize: ' caracteres maximum',
         differentPassword: 'Les mots de passe ne sont pas identiques',

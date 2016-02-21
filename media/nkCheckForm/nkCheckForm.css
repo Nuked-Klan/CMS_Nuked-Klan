@@ -1,4 +1,4 @@
-.nkForm input:hover{
+/*.nkForm input:hover{
     -moz-border-bottom-colors: none;
     -moz-border-image: none;
     -moz-border-left-colors: none;
@@ -8,13 +8,13 @@
     border-right: 1px solid #B9B9B9;
     border-style: solid;
     border-width: 1px;
-    /*box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;*/
+    /*box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;* /
 }
 .nkForm input:focus{
     border: 1px solid #0077c9;
-    /*box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;*/
+    /*box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;* /
     outline: medium none;
-}
+    }*/
 
 .error-field{
     box-shadow: 1px 1px 6px #FF4040;

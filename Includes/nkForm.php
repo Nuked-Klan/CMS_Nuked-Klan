@@ -1,5 +1,9 @@
 <?php
 /**
+ * nkForm.php
+ *
+ * Librairy to generate HTML form.
+ *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
@@ -7,16 +11,15 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-
 /**
- * Initialisation of nkAction global vars
+ * Initialisation of nkForm global vars
  */
 $GLOBALS['nkForm'] = array(
     'allowedCheckformType' => array(
         'text',
         'alpha',
         'alphanumeric',
-        'numeric',
+        'integer',
         'email',
         'date',
         'password',
@@ -37,43 +40,52 @@ $GLOBALS['nkForm'] = array(
         'text',
         'textarea',
         'time'
+    ),
+    'defaultForm' => array(
+        'enctype'      => '',
+        'captchaField' => '',
+        'formStyle'    => 'inline',
+        'hiddenField'  => array(),
+        'labelFormat'  => '%s :&nbsp;'
+    ),
+    'defaultInput' => array(
+        'value'            => '',
+        'required'         => false,
+        'htmlspecialchars' => false
     )
 );
 
 
 /**
- * Initialize the form
+ * Initialize the form.
  *
- * @param array $form : The array of form to initialize
+ * @param array $form : The array of form to initialize.
  * @return void
  */
 function nkForm_init(&$form) {
-    global $nkTemplate;
+    global $nkForm, $nkTemplate;
 
     if (! isset($form['dataName']) || $form['dataName'] == '')
         trigger_error('You must defined a data name for this form configuration !', E_USER_ERROR);
 
-    if (! isset($form['formStyle']) || ! in_array($form['formStyle'], array('inline', 'table')))
+    $form = array_merge($form, $nkForm['defaultForm']);
+
+    $nkForm['config'] = & $form;
+
+    if (! in_array($form['formStyle'], array('inline', 'table')))
         $form['formStyle'] = 'inline';
 
     $form['id'] = nkForm_formatHtmlSelector($form['dataName'] .'Form');
 
     nkForm_setFieldsPrefix($form);
 
-    if (in_array('file', array_column($form['items'], 'type')))
-        $form['enctype'] = ' enctype="multipart/form-data"';
-    else
-        $form['enctype'] = '';
-
     nkTemplate_addCSSFile('media/css/nkForm.css');
 
-    if (! array_key_exists('hiddenField', $form))
-        $form['hiddenField'] = array();
-
-    if (array_key_exists('captcha', $form) && $form['captcha'] && initCaptcha())
+    if ($nkTemplate['interface'] == 'frontend'
+        && array_key_exists('captcha', $form)
+        && $form['captcha'] && initCaptcha()
+    )
         $form['captchaField'] = create_captcha();
-    else
-        $form['captchaField'] = '';
 
     if (! isset($form['token'])
         || ! is_array($form['token'])
@@ -89,15 +101,12 @@ function nkForm_init(&$form) {
         'name'  => 'token',
         'value' => nkToken_generate($form['token']['name'])
     );
-
-    if (! array_key_exists('labelFormat', $form))
-        $form['labelFormat'] = '%s :&nbsp;';
 }
 
 /**
  * Return field prefix used for create field class of nkForm.
  *
- * @param
+ * @param array $form : The form configuration.
  * @return string
  */
 function nkForm_setFieldsPrefix(&$form) {
@@ -107,6 +116,12 @@ function nkForm_setFieldsPrefix(&$form) {
         $form['fieldsPrefix'] .= strtolower(implode($matches[1]));
 }
 
+/**
+ * Return a formated field Id or class for HTML element.
+ *
+ * @param string $selectorName : The base of Id or class.
+ * @return string
+ */
 function nkForm_formatHtmlSelector($selectorName) {
     global $nkTemplate;
 
@@ -116,13 +131,16 @@ function nkForm_formatHtmlSelector($selectorName) {
         return $selectorName;
 }
 
+/**
+ * Return a formated Javascript parameters list of field for nkCheckform.
+ *
+ * @param array $itemData : The input field configuration.
+ * @return string
+ */
 function nkForm_getCheckFormField($itemData) {
     $js = $itemData['id'] .': { type: "'. $itemData['dataType'] .'"';
 
-    // TODO : Rewrite nkCheckform.js
-    $js .= ', optional: '. (($itemData['required']) ? 'false' : 'true');
-
-    foreach (array('noempty', 'oldUsername', 'passwordCheck') as $setting)
+    foreach (array('required', 'oldUsername', 'passwordCheck') as $setting)
         if (array_key_exists($setting, $itemData))
             $js .= ', '. $setting .': '. (($itemData[$setting]) ? 'true' : 'false');
 
@@ -133,11 +151,26 @@ function nkForm_getCheckFormField($itemData) {
     if (array_key_exists('minlength', $itemData))
         $js .= ', minlength: '. $itemData['minlength'];
 
+    if (array_key_exists('range', $fieldData['range'])) {
+        if (array_key_exists('min', $itemData))
+            $js .= ', minrange: '. $fieldData['range']['min']
+
+        if (array_key_exists('max', $fieldData['range']))
+            $js .= ', maxrange: '. $fieldData['range']['max'];
+    }
+
     return $js .' }';
 }
 
+/**
+ * Initialize nkCheckform librairy and set form checking.
+ *
+ * @param string $formId : The form css id.
+ * @param array $fieldsData : The list of formated Javascript parameters list of fields.
+ * @return void
+ */
 function nkForm_initCheckForm($formId, $fieldsData) {
-    global $nkForm, $language;
+    global $language;
 
     nkTemplate_addCSSFile('media/nkCheckForm/nkCheckForm.css');
 
@@ -154,13 +187,14 @@ function nkForm_initCheckForm($formId, $fieldsData) {
 }
 
 /**
- *  Format attribute of input
- * @param string $name : The name of attribute
- * @param array $params : The array of input parameter
- * @param string $comparaison_value : Value of comparaison for checked and selected attribute
+ *  Format attribute of input.
+ *
+ * @param array $params : The array of input parameter.
+ * @param array $attributes : The input parameter list.
+ * @param string $checkBoxValue : Value of input checkbox for checked attribute.
  * @return string HTML code
  */
-function nkForm_formatAttribute($params, $attributes, $selectedValue = '') {
+function nkForm_formatAttribute($params, $attributes, $checkBoxValue = '') {
     $str = '';
 
     foreach ($attributes as $attribute) {
@@ -176,7 +210,7 @@ function nkForm_formatAttribute($params, $attributes, $selectedValue = '') {
                 $str .= ' checked="checked"';
 
             // ...or or input type radio
-            elseif ($params['type'] == 'radio' && $params['value'] == $selectedValue)
+            elseif ($params['type'] == 'radio' && $params['value'] == $checkBoxValue)
                 $str .= ' checked="checked"';
         }
         // Format for attribute
@@ -205,10 +239,10 @@ function nkForm_formatAttribute($params, $attributes, $selectedValue = '') {
     return $str;
 }
 
-
 /**
- * Generate a form
- * @param array $form : The array of form to generate
+ * Generate a form.
+ *
+ * @param array $form : The array of form to generate.
  * @return string HTML code
  */
 function nkForm_generate($form) {
@@ -216,7 +250,7 @@ function nkForm_generate($form) {
 
     nkForm_init($form);
 
-    $html = "\n". '<form class="nkForm" id="'. $form['id'] .'" action="'. $form['action'] .'" method="'. strtoupper($form['method']) .'"'. $form['enctype'] .'>' ."\n";
+    $html = '';
     $r = 0;
     $jsFieldsData = array();
 
@@ -277,12 +311,13 @@ function nkForm_generate($form) {
             if (array_key_exists('html', $itemData) && $itemData['html'] != '')
                 $input .= $itemData['html'];
 
-            if ($input != '') {
-                if ($form['formStyle'] == 'table')
-                    $html .= '<div>'. $input .'</div>';
-                else
-                    $html .= $input;
-            }
+            $html .= '<div class="nkFormInputCell">'. $input .'</div>';
+            //if ($input != '') {
+            //    if ($form['formStyle'] == 'table')
+            //        $html .= '<div>'. $input .'</div>';
+            //    else
+            //        $html .= $input;
+            //}
 
             $html .= '</div>' ."\n";
         }
@@ -311,7 +346,7 @@ function nkForm_generate($form) {
     }
 
     foreach ($form['hiddenField'] as $params)
-        $html .= '<input type="hidden"'. nkForm_formatAttribute($params, array('id', 'name', 'value')) .' />';// 'class', 
+        $html .= '<input type="hidden"'. nkForm_formatAttribute($params, array('id', 'name', 'value')) .' />';
 
     if ($form['captchaField'] != '')
         $html .= $form['captchaField'];
@@ -319,24 +354,38 @@ function nkForm_generate($form) {
     if ($jsFieldsData)
         nkForm_initCheckForm($form['id'], $jsFieldsData);
 
-    return $html .'</div>' ."\n" .'</form>' ."\n";
+    unset($nkForm['config']);
+
+    return "\n". '<form class="nkForm" id="'. $form['id'] .'" action="'. $form['action'] .'" method="'. strtoupper($form['method']) .'"'. $form['enctype'] .'>' ."\n"
+     . $html .'</div>' ."\n" .'</form>' ."\n";
 }
 
+/**
+ * Remove underscore character, apply camelcase formating and return the formated string.
+ *
+ * @param string $str : The raw string.
+ * @return string
+ */
 function nkForm_underscore2camelcase($str) {
     $tmp = explode('_', $str);
     $tmp = array_map('ucfirst', $tmp);
+
     return implode($tmp);
 }
 
-
-
-
 /**
- * Initialize the input
- * @param array $input : The array of input to initialize
- * @return array $input : The array of input modified
+ * Initialize input data.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @param array $form : The form configuration.
+ * @return array $input : The input data initialized.
  */
 function nkForm_initInput($fieldName, &$params, $form) {
+    global $nkForm;
+
+    $params = array_merge($params, $nkForm['defaultInput']);
+    
     //if (! array_key_exists('inputClass', $params))
     //    $params['inputClass'] = array();
 
@@ -349,28 +398,22 @@ function nkForm_initInput($fieldName, &$params, $form) {
     if (! array_key_exists('name', $params))
         $params['name'] = $fieldName;
 
-    if (! array_key_exists('value', $params))
-        $params['value'] = '';
-
-    if (! array_key_exists('required', $params))
-        $params['required'] = false;
-
     $params['camelCaseName'] = nkForm_underscore2camelcase($fieldName);
 
     if (! array_key_exists('id', $params))
         $params['id'] = $form['fieldsPrefix'] . $params['camelCaseName'];
 
-    if (! array_key_exists('htmlspecialchars', $params))
-        $params['htmlspecialchars'] = false;
-
-    /*if (array_key_exists('init', $params) && $params['init']) {
-        $initClassName = 'nkFormInit'. ucfirst($fieldName) .'Field';
-        $initField = new $initClassName;
-        $initField->apply($params, $formId);
-    }*/
+    if ($params['dataType'] == 'integer' && isset($params['range']) && ! is_array($params['range']))
+        trigger_error('range field parameter must be a array !', E_USER_ERROR);
 }
 
-
+/**
+ * Get formated label tag.
+ *
+ * @param string $labelFormat : The format of label content.
+ * @param array $params : The input data.
+ * @return string HTML code
+ */
 function nkForm_formatLabel($labelFormat, $params) {
     //if (! array_key_exists('labelClass', $params))
     //    $params['labelClass'] = array();
@@ -378,7 +421,13 @@ function nkForm_formatLabel($labelFormat, $params) {
     return '<label for="'. $params['id'] .'">'. sprintf($labelFormat, $params['label']) .'</label>';
 }
 
-
+/**
+ * Get formated fake label tag. (span tag is used for imitate label tag)
+ *
+ * @param string $labelFormat : The format of label content.
+ * @param array $params : The input data.
+ * @return string HTML code
+ */
 function nkForm_formatFakeLabel($labelFormat, $params) {
     //if (! array_key_exists('fakeLabelClass', $params))
     //    $params['fakeLabelClass'] = array();
@@ -386,22 +435,30 @@ function nkForm_formatFakeLabel($labelFormat, $params) {
     return '<span>'. sprintf($labelFormat, $params['fakeLabel']) .'</span>';
 }
 
-
 /**
- *  Generate a button
+ *  Generate a button.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputButton($fieldName, $params, $formId) {
+function nkForm_inputButton($fieldName, $params) {
     $attributes = array('type', 'id', 'inputClass', 'name', 'value', 'disabled');
 
     return '<input'. nkForm_formatAttribute($params, $attributes) .' />';
 }
 
-
 /**
- *  Generate a checkable field
+ *  Generate a checkable field.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputCheckbox($fieldName, $params, $formId) {
-    if (nkTemplate_getInterface() == 'frontend') {
+function nkForm_inputCheckbox($fieldName, $params) {
+    global $nkTemplate;
+
+    if ($nkTemplate['interface'] == 'frontend') {
         $attributes = array('type', 'id', 'inputClass', 'name', 'value', 'checked', 'disabled');
 
         $params['inputClass'][] = 'checkbox';
@@ -429,12 +486,14 @@ function nkForm_inputCheckbox($fieldName, $params, $formId) {
     }
 }
 
-
-// TODO REVOIR POUR CHAMPS MULTIPLE (CONFLIT D'ID)
 /**
- *  Generate a field for hex color data with colorpicker selection
+ *  Generate a field for hex color data with colorpicker selection.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputColor($fieldName, $params, $formId) {
+function nkForm_inputColor($fieldName, $params) {
     $attributes = array('id', 'name', 'size', 'value', 'maxlength', 'disabled', 'inputClass');
 
     $params['size'] = $params['maxlength'] = 6;
@@ -446,11 +505,14 @@ function nkForm_inputColor($fieldName, $params, $formId) {
     return '<input type="text"'. nkForm_formatAttribute($params, $attributes) .' />';
 }
 
-
 /**
- *  Generate a field for date data
+ *  Generate a field for date data.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_InputDate($fieldName, $params, $formId) {
+function nkForm_InputDate($fieldName, $params) {
     $attributes = array('id', 'inputClass', 'name', 'value', 'size', 'maxlength');
 
     $params['maxlength']  = 10;
@@ -500,11 +562,18 @@ function nkForm_InputDate($fieldName, $params, $formId) {
     return '<input type="text"'. nkForm_formatAttribute($params, $attributes) .' />';
 }
 
-
 /**
- *  Generate a file field
+ *  Generate a file field.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_InputFile($fieldName, $params, $formId) {
+function nkForm_InputFile($fieldName, $params) {
+    global $nkForm;
+
+    $nkForm['config']['enctype'] = ' enctype="multipart/form-data"';
+
     $attributes = array('type', 'id', 'inputClass', 'name', 'disabled');
 
     $html = '<input'. nkForm_formatAttribute($params, $attributes) .' />';
@@ -518,7 +587,6 @@ function nkForm_InputFile($fieldName, $params, $formId) {
 
     return $html;
 }
-
 
 /**
  * Get upload_max_filesize of php.ini
@@ -588,22 +656,29 @@ function formatBytesString($value) {
 
     return round($value, 2) . $unit;
 }
-
+*/
 
 /**
- *  Generate a password field
+ *  Generate a password field.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputPassword($fieldName, $params, $formId) {
+function nkForm_inputPassword($fieldName, $params) {
     $attributes = array('id', 'name');
 
     return '<input type="password"'. nkForm_formatAttribute($params, $attributes) .' value="" />';
 }
 
-
 /**
- *  Generate a multiple radio tag
+ *  Generate a multiple radio tag.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkFormInputRadio($fieldName, $params, $formId) {
+function nkFormInputRadio($fieldName, $params) {
     $name = nkForm_formatAttribute($params, array('name'));
     //$html = '<div class="items-align">';
     $html = '';
@@ -627,11 +702,14 @@ function nkFormInputRadio($fieldName, $params, $formId) {
     return $html;
 }
 
-
 /**
- *  Generate a field selection
+ *  Generate a field selection.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputSelect($fieldName, $params, $formId) {
+function nkForm_inputSelect($fieldName, $params) {
     $attributes = array('id', 'name', 'disabled', 'multiple');
 
     if (array_key_exists('multiple', $params) && $params['multiple'])
@@ -651,7 +729,9 @@ function nkForm_inputSelect($fieldName, $params, $formId) {
             if ($params['htmlspecialchars'])
                 $value = nkHtmlSpecialChars($value);
 
-            $html .= '<option value="'. $key .'"'. (($params['value'] == $key) ? ' selected="selected"' : '') .'>'. $value .'</option>';
+            $selected = ($params['value'] == $key) ? ' selected="selected"' : '';
+
+            $html .= '<option value="'. $key .'"'. $selected .'>'. $value .'</option>';
         }
     }
 
@@ -660,22 +740,30 @@ function nkForm_inputSelect($fieldName, $params, $formId) {
     return $html;
 }
 
-
 /**
- *  Generate a field for text data
+ *  Generate a field for text data.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputText($fieldName, $params, $formId) {
+function nkForm_inputText($fieldName, $params) {
+    $attributes = array('id', 'name', 'size', 'value', 'maxlength', 'disabled');
+
     if ($params['htmlspecialchars'])
         $params['value'] = nkHtmlSpecialChars($params['value']);
 
-    return '<input type="text"'. nkForm_formatAttribute($params, array('id', 'name', 'size', 'value', 'maxlength', 'disabled')) .' />';
+    return '<input type="text"'. nkForm_formatAttribute($params, $attributes) .' />';
 }
 
-
 /**
- *  Generate a textarea field
+ *  Generate a textarea field.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputTextarea($fieldName, $params, $formId) {
+function nkForm_inputTextarea($fieldName, $params) {
     $attributes = array('id', 'inputClass', 'name', 'cols', 'rows');
 
     // Set cols and rows attribute of nk textarea
@@ -689,11 +777,14 @@ function nkForm_inputTextarea($fieldName, $params, $formId) {
     return '<textarea'. nkForm_formatAttribute($params, $attributes) .'>'. $params['value'] .'</textarea>';
 }
 
-
 /**
- *  Generate a field for time data
+ *  Generate a field for time data.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputTime($fieldName, $params, $formId) {
+function nkForm_inputTime($fieldName, $params) {
     $attributes = array('id', 'inputClass', 'name', 'value', 'maxlength');
 
     $params['class'][]    = 'time';
@@ -702,12 +793,17 @@ function nkForm_inputTime($fieldName, $params, $formId) {
     return '<input type="text"'. nkForm_formatAttribute($params, $attributes) .' />';
 }
 
-
 /**
- *  Generate a submit button
+ *  Generate a submit button.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @return string HTML code
  */
-function nkForm_inputSubmit($fieldName, $params, $formId) {
-    return '<input type="submit" '. nkForm_formatAttribute($params, array('id', 'name', 'inputClass', 'value', 'disabled')) .' />';
+function nkForm_inputSubmit($fieldName, $params) {
+    $attributes = array('id', 'name', 'inputClass', 'value', 'disabled');
+
+    return '<input type="submit" '. nkForm_formatAttribute($params, $attributes) .' />';
 }
 
 ?>

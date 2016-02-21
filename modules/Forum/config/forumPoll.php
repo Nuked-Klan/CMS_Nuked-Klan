@@ -22,8 +22,7 @@ function getForumPollFormCfg() {
                 'type'              => 'text',
                 'size'              => 40,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             )
         ),
         'itemsFooter' => array(

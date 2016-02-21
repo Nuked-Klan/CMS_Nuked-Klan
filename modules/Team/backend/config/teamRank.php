@@ -42,8 +42,7 @@ function getTeamRankFormCfg() {
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'image' => array(
                 'label'             => __('IMAGE_URL'),
@@ -61,16 +60,14 @@ function getTeamRankFormCfg() {
                 'label'             => __('COLOR'),
                 'type'              => 'color',
                 'dataType'          => 'color',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'ordre' => array(
                 'label'             => __('ORDER'),
                 'type'              => 'text',
                 'size'              => 1,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             )
         ),
         'itemsFooter' => array(

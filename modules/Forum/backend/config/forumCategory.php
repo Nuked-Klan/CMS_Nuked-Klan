@@ -44,8 +44,7 @@ function getForumCategoryFormCfg() {
                 'type'              => 'text',
                 'size'              => 30,
                 'dataType'          => 'text',
-                'required'          => true,
-                'noempty'           => true
+                'required'          => true
             ),
             'image' => array(
                 'label'             => __('IMAGE'),
@@ -80,9 +79,8 @@ function getForumCategoryFormCfg() {
                 'type'              => 'text',
                 'value'             => '0',
                 'size'              => 2,
-                'dataType'          => 'numeric',
-                'required'          => true,
-                'noempty'           => true
+                'dataType'          => 'integer',
+                'required'          => true
             )
         ),
         'itemsFooter' => array(
