@@ -148,8 +148,9 @@ function nkForm_getCheckFormField($itemData) {
         if (array_key_exists($setting, $itemData) && $itemData[$setting] != '')
             $js .= ', '. $setting .': "'. $itemData[$setting] .'"';
 
-    if (array_key_exists('minlength', $itemData))
-        $js .= ', minlength: '. $itemData['minlength'];
+    foreach (array('minlength', 'maxlength') as $setting)
+        if (array_key_exists($setting, $itemData))
+            $js .= ', '. $setting .': '. $itemData[$setting];
 
     if (array_key_exists('range', $itemData)) {
         if (array_key_exists('min', $itemData['range']))
@@ -514,6 +515,8 @@ function nkForm_inputColor($fieldName, $params) {
  * @return string HTML code
  */
 function nkForm_InputDate($fieldName, $params) {
+    global $language;
+
     $attributes = array('id', 'inputClass', 'name', 'value', 'size', 'maxlength');
 
     $params['maxlength']  = 10;
@@ -523,18 +526,19 @@ function nkForm_InputDate($fieldName, $params) {
     nkTemplate_addJSFile(JQUERY_LIBRAIRY, 'librairy');
     nkTemplate_addJSFile(JQUERY_UI_LIBRAIRY, 'librairyPlugin');
 
-    if ($params['locale'] != 'en_GB') {
-        $datepickerLocale = substr($params['locale'], 0, 2);
+    if ($language == 'english')
+        $datepickerLocale = 'en-GB';
+    else if ($language == 'french')
+        $datepickerLocale = 'fr';
 
-        nkTemplate_addJSFile(
-            'web/js/jquery-ui-1.11.4/datepicker-i18n/datepicker-'. $datepickerLocale .'.js', 'librairyPlugin'
-        );
-    }
+    nkTemplate_addJSFile(
+        'media/jquery-ui/datepicker-i18n/datepicker-'. $datepickerLocale .'.js', 'librairyPlugin'
+    );
 
     nkTemplate_addCSSFile(JQUERY_UI_CSS);
 
     $options = array();
-    $options[] = 'dateFormat: \''. (($params['locale'] == 'fr_FR') ? 'dd/mm/yy' : 'mm/dd/yy') .'\'';
+    $options[] = 'dateFormat: \''. (($language == 'french') ? 'dd/mm/yy' : 'mm/dd/yy') .'\'';
 
     if (array_key_exists('options', $params)) {
         if (array_key_exists('changeMonth', $params['options']) && $params['options']['changeMonth'])
@@ -554,7 +558,7 @@ function nkForm_InputDate($fieldName, $params) {
 '$(\'#'. $params['id'] .'\').datepicker({
     showOn: \'button\',
     showButtonPanel: true,
-    buttonImage: \'web/js/jquery-ui-1.11.4/images/calendar.gif\',
+    buttonImage: \'media/jquery-ui/images/calendar.gif\',
     buttonImageOnly: true,'. implode(',', $options) .'
 });',
         'jqueryDomReady'
@@ -711,7 +715,7 @@ function nkFormInputRadio($fieldName, $params) {
  * @return string HTML code
  */
 function nkForm_inputSelect($fieldName, $params) {
-    $attributes = array('id', 'name', 'disabled', 'multiple');
+    $attributes = array('id', 'name', 'disabled', 'multiple', 'size');
 
     if (array_key_exists('multiple', $params) && $params['multiple'])
         $params['multiple'] = 'multiple';
@@ -765,7 +769,7 @@ function nkForm_inputText($fieldName, $params) {
  * @return string HTML code
  */
 function nkForm_inputTextarea($fieldName, $params) {
-    $attributes = array('id', 'inputClass', 'name', 'cols', 'rows');
+    $attributes = array('id', 'inputClass', 'name', 'cols', 'rows', 'maxlength');
 
     // Set cols and rows attribute of nk textarea
     if (! array_key_exists('cols', $params)) $params['cols'] = 70;

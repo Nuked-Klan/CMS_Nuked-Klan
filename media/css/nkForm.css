@@ -1,0 +1,12 @@
+form.nkForm  img.ui-datepicker-trigger{vertical-align:middle;margin-left:4px;}
+
+
+/* check password */
+#password_check_container {margin: 0;padding: 0;font-family:Tahoma, Arial, sans-serif;font-size:10px;}
+#password_check_container ul {margin: 2px 0 0 0;padding: 0;border: 0;list-style-type:none;}
+#password_check_container ul li {margin: 0;padding:2px 0 0 0;width:60px;height:15px;display:inline-block;text-align:center;vertical-align:top;font-size:9px;}
+#weak, #medium {border-right:solid 1px #dedede;}
+.nrm {color:#adadad;background-color:#f1f1f1;}
+.red {color:#fff;background-color:#FF6F6F;}
+.yellow {color:#fff;background-color:#fbd14d;}
+.green {color:#fff;background-color:#a0da54;}

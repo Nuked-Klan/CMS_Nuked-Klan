@@ -16,7 +16,7 @@
             onlyAlphaNumeric: 'Only alphanumeric character',
             onlyInteger: 'Only integer value',
             minlengthSize: ' minimum character',
-            //maxlengthSize: ' maximum character',
+            maxlengthSize: ' maximum character',
 
             oldPasswordEmpty: 'Old password is empty',
             passwordEmpty : 'Password is empty',
@@ -211,13 +211,14 @@
         //plugin.settings.passwordHigh _PASSHIGH
 
         var _addCheckPassword = function(id) {
+            //var labelWidth = $('#' + id + '_container>label').outerWidth();
             var labelWidth = $('#' + id + '_container>label').outerWidth();
 
             $('<div id="password_check_container">' + plugin.settings.passwordCheck + '<br />'
                 + '<ul><li id="weak" class="nrm">' + plugin.settings.passwordWeak + '</li>'
                 + '<li id="medium" class="nrm">' + plugin.settings.passwordMedium + '</li>'
                 + '<li id="strong" class="nrm">' + plugin.settings.passwordHigh + '</li></ul></div>')
-                    .insertAfter('#' + id + '_container');
+            .insertAfter($('#' + id).parent());
 
             $('#password_check_container').css({"margin-left": labelWidth});
         }
@@ -349,6 +350,7 @@
             // Check input by type of value
             switch (plugin.settings.input[id].type) {
                 case 'text':
+                case 'html':
                     break;
 
                 case 'alpha':
@@ -433,8 +435,8 @@
                 error = plugin.settings.input[id].minlength + plugin.settings.minlengthSize;
 
             // Check maximum length
-            //} else if (typeof plugin.settings.input[id].maxlength == 'number' && plugin.settings.input[id].value.length > plugin.settings.input[id].maxlength) {
-            //    error = plugin.settings.input[id].maxlength + plugin.settings.maxlengthSize;
+            } else if (typeof plugin.settings.input[id].maxlength == 'number' && plugin.settings.input[id].value.length > plugin.settings.input[id].maxlength) {
+                error = plugin.settings.input[id].maxlength + plugin.settings.maxlengthSize;
 
             // Check integer range
             //} else if (plugin.settings.input[id].type == 'integer') {

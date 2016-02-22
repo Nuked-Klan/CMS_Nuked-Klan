@@ -1,0 +1,5 @@
+#nkFormTest{width:80%;margin:0 auto;overflow:auto;}
+
+form.nkForm>div>div.nkFormInputCell{display:inline-block;}
+form.nkForm>div.nkFormRow{margin:10px auto}
+form.nkForm>div.nkFormActionLinks{margin:10px auto;text-align:center;}

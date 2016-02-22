@@ -707,3 +707,7 @@
 	filter: Alpha(Opacity=60); /* support: IE8 */
 	border-radius: 0px;
 }
+
+#ui-datepicker-div {
+    z-index: 100 !important;
+}

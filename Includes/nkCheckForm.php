@@ -62,7 +62,7 @@ function nkCheckForm(&$form, $fields, &$validData = null) {
         trigger_error('You must defined a token refererData for this form configuration !', E_USER_ERROR);
 
     foreach ($fields as $field) {
-        if (isset($form['items'][$field])) {
+        if (isset($form['items'][$field]) && isset($form['items'][$field]['type'])) {
             if (! isset($form['items'][$field]['required']) || ! is_bool($form['items'][$field]['required']))
                 $form['items'][$field]['required'] = false;
 
@@ -206,13 +206,13 @@ function nkCheckForm_checkValueType($field, $fieldData) {
         if (! is_array($fieldData['range']))
             trigger_error('range field parameter must be a array !', E_USER_ERROR);
 
-        if (isset($fieldData['range']['min']) && $_POST[$field] < $fieldData['range']['min'])
+        if (isset($fieldData['range']['min']) && $_POST[$field] < $fieldData['range']['min']) {
             //printNotification(sprintf(__('NOT_VALID_RANGE_FIELD'),
             //    $fieldData['label'], $fieldData['range']['min']), 'error');
 
             return false;
         }
-        if (isset($fieldData['range']['max']) && $_POST[$field] > $fieldData['range']['max'])
+        if (isset($fieldData['range']['max']) && $_POST[$field] > $fieldData['range']['max']) {
             //printNotification(sprintf(__('NOT_VALID_RANGE_FIELD'),
             //    $fieldData['label'], $fieldData['range']['max']), 'error');
 
@@ -403,12 +403,11 @@ function nkCheckForm_checkInputText($field, $fieldData, &$validData) {
             printNotification($error, 'error');
             return false;
         }
-        else
-            $_POST[$field] = '';
     }
-
-    if ($validData !== null)
-        $validData[$field] = $_POST[$field];
+    else {
+        if ($validData !== null)
+            $validData[$field] = $_POST[$field];
+    }
 
     return true;
 }
