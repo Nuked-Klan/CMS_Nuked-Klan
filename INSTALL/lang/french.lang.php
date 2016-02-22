@@ -134,7 +134,7 @@ return array(
     'CREATED_TABLE_SUCCESS' => 'Table <b>%s</b> crée avec <span style="color:green;">succès</span>.',
     'UPDATE_TABLE_SUCCESS'  => 'Table <b>%s</b> mise à jour avec <span style="color:green;">succès</span>.',
     'REMOVE_TABLE_SUCCESS'  => 'Table <b>%s</b> supprimée avec <span style="color:green;">succès</span>.',
-    'NO_TABLE_TO_DROP'      => 'Aucune table <b>%s</b> a supprimée.',
+    'NO_TABLE_TO_DROP'      => 'Aucune table <b>%s</b> à supprimer.',
     'NOTHING_TO_CHECK'      => 'Rien à vérifier pour la table <b>%s</b>',
     'NO_CONVERT_TABLE'      => 'Aucune conversion pour la table <b>%s</b>',
     'NOTHING_TO_DO'         => 'Aucune modification à effectuée pour la table <b>%s</b>',

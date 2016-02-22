@@ -64,9 +64,7 @@ function com_index($module, $im_id){
     ?>
     <script type="text/javascript">
     //<![CDATA[
-        function sent(pseudo, module, im_id, ctToken, ctScript, ctEmail){
-            $("#post_commentary").find('input.ct_script').val('klan');
-            ctScript = $("#post_commentary").find('input.ct_script').val();
+        function sent(pseudo, module, im_id, ctToken, ctScript, ctEmail) {
             <?php
                 if ($captcha) {
                     echo 'var captchaData = "&ct_token="+ctToken+"&ct_script="+ctScript+"&ct_email="+ctEmail;';
@@ -221,7 +219,9 @@ function com_index($module, $im_id){
             }
                 echo '<tr>
                     <td colspan="2" align="center" style="padding-top: 10px"><textarea id="e_basic" name="comtexte" cols="40" rows="3"></textarea></td>
-                </tr>';
+                    </tr>
+                    <tr>
+                    <td colspan="2" align="center">';
 
                 if ($captcha) echo create_captcha();
 

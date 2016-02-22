@@ -587,7 +587,11 @@ function replaceSmilies($matches) {
     return preg_replace('#<img class="nkSmilie" src=\"(.*)\" alt=\"(.*)\" title=\"(.*)\" />#Usi', '$2', $matches[0]);
 }
 
-// DISPLAYS SMILEYS
+/**
+ * Display smilies in text
+ * @param string $texte : text to parse, without smilies
+ * @return string : text containing smiley images
+ */
 function icon($text) {
     $text = str_replace('mailto:', 'mailto!', $text);
     $text = str_replace('http://', '_http_', $text);
@@ -596,11 +600,9 @@ function icon($text) {
     $text = str_replace('&#039;', '_SQUOT_', $text);
 
     foreach (getSmiliesList() as $smilie) {
-        $text = str_replace($smilie['code'],
-            '<img class="nkSmilie" src="images/icones/'. $smilie['url'] .'" alt="'
-            . $smilie['code'] .'" title="'. nkHtmlEntities($smilie['name']) .'" />',
-            $text
-        );
+        $pattern = '#(?si)<pre[^<]*>.*?<\/pre>(*SKIP)(*F)|' . preg_quote($smilie['code'], '#') . '#';
+        $replacement = '<img class="nkSmilie" src="images/icones/' . $url . '" alt="' . nkHtmlEntities($smilie['name']) . '" />';
+        $text = preg_replace($pattern, $replacement, $text);
     }
 
     $text = str_replace('mailto!', 'mailto:', $text);
@@ -608,10 +610,6 @@ function icon($text) {
     $text = str_replace('_https_', 'https://', $text);
     $text = str_replace('_QUOT_', '&quot;', $text);
     $text = str_replace('_SQUOT_', '&#039;', $text);
-
-    // Light calculation if <pre> tag is not present in text
-    if (strpos($text, '<pre') !== false)
-        $text = preg_replace_callback('#<pre(.*)>(.*)<\/pre>#Uis', 'replaceSmilies', $text);
 
     return $text;
 }

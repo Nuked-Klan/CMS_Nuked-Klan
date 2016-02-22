@@ -163,10 +163,9 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
 
-if ($captcha) {
+if ($captcha === true) {
     $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.ct_token.value, this.ct_script.value, this.ct_email.value); return false;';
-}
-else {
+} else {
     $callAjax = 'maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value); return false;';
 }
 
@@ -175,7 +174,7 @@ if ($active == 3 || $active == 4)
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo "<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo "<form class=\"textboxForm\" method=\"post\" onsubmit=\"". $onsubmit ."\" action=\"\" ><div style=\"text-align: center;\">\n";
 
         //Restriction to logged users
         echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
@@ -197,17 +196,16 @@ else
 {
     if ($visiteur >= nivo_mod("Textbox"))
     {
-        echo"<form method=\"post\" onsubmit=\"maFonctionAjax(this.textbox_auteur.value,this.textbox_texte.value, this.code.value); return false;\" action=\"\" ><div style=\"text-align: center;\">\n";
+        echo"<form class=\"textboxForm\" method=\"post\" onsubmit=\"". $onsubmit ."\" action=\"\" ><div style=\"text-align: center;\">\n";
 
         //Restriction to logged users
         echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
 
-        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
+        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br />\n";
 
 		if ($captcha) echo create_captcha();
 
-		echo "</table>\n"
-		. "<div class=\"nkButton-container\" style=\"margin:5px;\" >\n"
+		echo "<div class=\"nkButton-container\" style=\"margin:5px;\" >\n"
 		. "<input class=\"nkButton\" type=\"submit\" value=\"" . __('SEND') . "\"/>\n"
 		. "<div class=\"nkButton-group\">\n"
 		. "<a class=\"nkButton icon add alone\" href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\" title=\"" . _SMILEY . "\">\n"
