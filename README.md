@@ -42,6 +42,6 @@ Feel free to contribute to the greatest CMS already made, share your ideas, and 
 - For more information [Nuked-Klan](http://www.nuked-klan.org)
 - For issues/bugs : https://github.com/Nuked-Klan/CMS_Nuked-Klan/issues
 
-Stay tuned on social medias : [@Twitter/Nuked-Klan](http://www.twitter.com/nukedklan) and [@Facebook/Nuked-Klan](https://www.facebook.com/pages/Nuked-Klan/)
+Stay tuned on social medias : [@Twitter/Nuked-Klan](http://www.twitter.com/nukedklan) and [@Facebook/Nuked-Klan](https://www.facebook.com/pages/Nuked-Klan/184377914930941)
 
 Copyleft attitude / 2001 - 2016
