@@ -115,25 +115,29 @@ function nkCheckForm(&$form, $fields, &$validData = null) {
  * @return bool : The result of field validation.
  */
 function nkCheckForm_checkFormInput($field, &$fieldData, &$form, &$validData) {
-    if ($fieldData['type'] != 'file') {
-        if (isset($_POST[$field]))
-            $fieldData['trimmedField'] = trim($_POST[$field]);
-        else
-            $fieldData['trimmedField'] = $_POST[$field] = '';
-    }
-    else
-        $fieldData['dataType'] = 'file';
+    $multiple = false;
+
+    if (isset($_POST[$field]) && is_array($_POST[$field]))
+        $multiple = true;
 
     if (isset($fieldData['checkFieldFunction']) && function_exists($fieldData['checkFieldFunction'])) {
         if (! $fieldData['checkFieldFunction']($field, $fieldData))
             return false;
+    }
+    else if ($fieldData['type'] == 'file') {
+        return nkCheckForm_checkFile($field, $fieldData, $form, $validData);
     }
     else if (isset($fieldData['dataType'])) {
         switch ($fieldData['dataType']) {
             case 'alpha' :
             case 'alphanumeric' :
             case 'integer' :
-                if (! nkCheckForm_checkValueType($field, $fieldData))
+                if ($fieldData['dataType'] == 'integer' && isset($fieldData['range'])) {
+                    if (! is_array($fieldData['range']))
+                        trigger_error('range field parameter must be a array !', E_USER_ERROR);
+                }
+
+                if (! nkCheckForm_checkMultipleHandle('nkCheckForm_checkValueType', $field, $fieldData, $validData, $multiple))
                     return false;
                 break;
 
@@ -156,17 +160,40 @@ function nkCheckForm_checkFormInput($field, &$fieldData, &$form, &$validData) {
                 if (! nkCheckForm_checkHtml($field, $fieldData))
                     return false;
                 break;
-
-            case 'file' :
-                return nkCheckForm_checkFile($field, $fieldData, $form, $validData);
-                break;
         }
 
-        return nkCheckForm_checkInputText($field, $fieldData, $validData);
+        return nkCheckForm_checkMultipleHandle('nkCheckForm_checkInputText', $field, $fieldData, $validData, $multiple);
     }
 
     if ($validData !== null)
         $validData[$field] = $_POST[$field];
+
+    return true;
+}
+
+/**
+ * Check a single value or multiple value with validation function.
+ *
+ * @param string $function : The validation function name to execute.
+ * @param string $field : The field key in form configuration.
+ * @param array $fieldData : The field configuration.
+ * @param array $fieldData : The field configuration.
+ * @param bool $multiple : If it's a single value or multiple value.
+ * @return bool : The result of field validation.
+ */
+function nkCheckForm_checkMultipleHandle($function, $field, $fieldData, &$validData, $multiple) {
+    if ($multiple) {
+        foreach ($_POST[$field] as $k => $value) {
+            if (! $function($field, $fieldData, $validData, $value))
+                return false;
+        }
+    }
+    else {
+        $value = (isset($_POST[$field])) ? $_POST[$field] : '';
+
+        if (! $function($field, $fieldData, $validData, $value))
+            return false;
+    }
 
     return true;
 }
@@ -180,17 +207,18 @@ function nkCheckForm_checkFormInput($field, &$fieldData, &$form, &$validData) {
  *
  * @param string $field : The field key in form configuration.
  * @param array $fieldData : The field configuration.
+ * @param string $value : The current value of field.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkValueType($field, $fieldData) {
+function nkCheckForm_checkValueType($field, $fieldData, &$validData, $value) {
     if ($fieldData['dataType'] == 'alpha') {
-        $check = ctype_alpha($_POST[$field]);
+        $check = ctype_alpha($value);
     }
     else if ($fieldData['dataType'] == 'alphanumeric') {
-        $check = ctype_alnum($_POST[$field]);
+        $check = ctype_alnum($value);
     }
     else if ($fieldData['dataType'] == 'integer') {
-        $check = ctype_digit($_POST[$field]);
+        $check = ctype_digit($value);
     }
 
     if (! $check) {
@@ -198,21 +226,18 @@ function nkCheckForm_checkValueType($field, $fieldData) {
             printNotification(sprintf(__('NOT_'. strtoupper($fieldData['dataType']) .'_FIELD'), $fieldData['label']), 'error');
             return false;
         }
-        else
-            $_POST[$field] = '';
+        //else
+        //    $_POST[$field] = '';
     }
 
     if ($fieldData['dataType'] == 'integer' && isset($fieldData['range'])) {
-        if (! is_array($fieldData['range']))
-            trigger_error('range field parameter must be a array !', E_USER_ERROR);
-
-        if (isset($fieldData['range']['min']) && $_POST[$field] < $fieldData['range']['min']) {
+        if (isset($fieldData['range']['min']) && $value < $fieldData['range']['min']) {
             //printNotification(sprintf(__('NOT_VALID_RANGE_FIELD'),
             //    $fieldData['label'], $fieldData['range']['min']), 'error');
 
             return false;
         }
-        if (isset($fieldData['range']['max']) && $_POST[$field] > $fieldData['range']['max']) {
+        if (isset($fieldData['range']['max']) && $value > $fieldData['range']['max']) {
             //printNotification(sprintf(__('NOT_VALID_RANGE_FIELD'),
             //    $fieldData['label'], $fieldData['range']['max']), 'error');
 
@@ -321,18 +346,45 @@ function nkCheckForm_checkHtml($field, $fieldData) {
     return true;
 }
 
+// TODO : Multiple $_FILES
+// see http://php.net/manual/fr/features.file-upload.multiple.php#53240
 /**
- * Check file of submited form.
+ * Check file of submited form
+ * for a single file or multiple file.
  *
  * @param string $field : The field key in form configuration.
  * @param array $fieldData : The field configuration.
  * @param mixed $validData : The valid value of checked fields.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData) {
+function nkCheckForm_checkFileHandle($field, &$fieldData, &$form, &$validData) {
+    /*if ($multiple) {
+        foreach ($_FILES[$field] as $k => $fileData) {
+            if (! nkCheckForm_checkFile($field, $fieldData, $form, $validData, $fileData))
+                return false;
+        }
+    }
+    else {*/
+        if (! nkCheckForm_checkFile($field, $fieldData, $form, $validData, $_FILES[$field]))
+            return false;
+    /*}
+
+    return true;*/
+}
+
+/**
+ * Check file of submited form.
+ *
+ * @param string $field : The field key in form configuration.
+ * @param array $fieldData : The field configuration.
+ * @param mixed $validData : The valid value of checked fields.
+ * @param array $fileData : The current data of uploaded file.
+ * @return bool : The result of field validation.
+ */
+function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData, $fileData) {
     require_once 'Includes/nkUpload.php';
 
-    if ($_FILES[$field]['name'] != '') {
+    if ($fileData['name'] != '') {
         if (! isset($fieldData['urlField'])
             || ! isset($form['items'][$fieldData['urlField']])
         ) {
@@ -372,20 +424,22 @@ function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData) {
  * @param string $field : The field key in form configuration.
  * @param array $fieldData : The field configuration.
  * @param mixed $validData : The valid value of checked fields.
+ * @param string $value : The current value of field.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkInputText($field, $fieldData, &$validData) {
-    $error = null;
+function nkCheckForm_checkInputText($field, $fieldData, &$validData, $value) {
+    $trimmedField = trim($value);
+    $error        = null;
 
     // Check if required field is empty
-    if ($fieldData['required'] && $fieldData['trimmedField'] == '') {
+    if ($fieldData['required'] && $trimmedField == '') {
         $error = sprintf(__('EMPTY_FIELD'), $fieldData['label']);
     }
     // Check minimum length
     else if (isset($fieldData['minlength'])
         && ctype_digit($fieldData['minlength'])
         && $fieldData['minlength'] > 0
-        && mb_strlen($fieldData['trimmedField']) < $fieldData['minlength']
+        && mb_strlen($trimmedField) < $fieldData['minlength']
     ) {
         $error = sprintf(__('WRONG_FIELD_MINLENGTH'), $fieldData['label'], $fieldData['minlength']);
     }
@@ -393,7 +447,7 @@ function nkCheckForm_checkInputText($field, $fieldData, &$validData) {
     else if (isset($fieldData['maxlength'])
         && ctype_digit($fieldData['maxlength'])
         && $fieldData['maxlength'] > 0
-        && mb_strlen($fieldData['trimmedField']) > $fieldData['maxlength']
+        && mb_strlen($trimmedField) > $fieldData['maxlength']
     ) {
         $error = sprintf(__('WRONG_FIELD_MAXLENGTH'), $fieldData['label'], $fieldData['maxlength']);
     }
@@ -406,7 +460,7 @@ function nkCheckForm_checkInputText($field, $fieldData, &$validData) {
     }
     else {
         if ($validData !== null)
-            $validData[$field] = $_POST[$field];
+            $validData[$field] = $value;
     }
 
     return true;

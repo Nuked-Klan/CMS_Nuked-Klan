@@ -323,10 +323,12 @@
          * @return void
          */
         var _displayError = function(id, error) {
-            if ($('#formError-contenair-' + id).length == 0) {
-                var labelWidth = $('#' + id + '_container label').outerWidth();
+            var contenair = $('#' + id).parent().parent();
 
-                $('<div id="formError-contenair-' + id + '" class="formError-contenair"></div>').insertAfter($('#' + id).parent().parent());
+            if ($('#formError-contenair-' + id).length == 0) {
+                var labelWidth = contenair.find('label').outerWidth();
+
+                $('<div id="formError-contenair-' + id + '" class="formError-contenair"></div>').insertAfter(contenair);
                 $('#formError-contenair-' + id).css({"padding-left": labelWidth});
             }
 

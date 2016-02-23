@@ -579,7 +579,7 @@ function nkForm_InputFile($fieldName, $params) {
 
     $nkForm['config']['enctype'] = ' enctype="multipart/form-data"';
 
-    $attributes = array('type', 'id', 'inputClass', 'name', 'disabled');
+    $attributes = array('type', 'id', 'inputClass', 'name', 'disabled', 'multiple');
 
     $html = '<input'. nkForm_formatAttribute($params, $attributes) .' />';
 
