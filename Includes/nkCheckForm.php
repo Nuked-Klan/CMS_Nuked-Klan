@@ -346,8 +346,6 @@ function nkCheckForm_checkHtml($field, $fieldData) {
     return true;
 }
 
-// TODO : Multiple $_FILES
-// see http://php.net/manual/fr/features.file-upload.multiple.php#53240
 /**
  * Check file of submited form
  * for a single file or multiple file.
@@ -358,18 +356,25 @@ function nkCheckForm_checkHtml($field, $fieldData) {
  * @return bool : The result of field validation.
  */
 function nkCheckForm_checkFileHandle($field, &$fieldData, &$form, &$validData) {
-    /*if ($multiple) {
-        foreach ($_FILES[$field] as $k => $fileData) {
-            if (! nkCheckForm_checkFile($field, $fieldData, $form, $validData, $fileData))
+    require_once 'Includes/nkUpload.php';
+
+    if (! isset($fieldData['multiple']) || ! is_bool($fieldData['multiple']))
+        $fieldData['multiple'] = false;
+
+    if ($fieldData['multiple'] && is_array($_FILES[$field]['error'])) {
+        $nbFile = count($_FILES[$field]['error']);
+
+        for ($i = 0; $i < $nbFile; $i++) {
+            if (! nkCheckForm_checkFile($field, $fieldData, $form, $validData, $_FILES[$field]['name'][$i]))
                 return false;
         }
     }
-    else {*/
-        if (! nkCheckForm_checkFile($field, $fieldData, $form, $validData, $_FILES[$field]))
+    else {
+        if (! nkCheckForm_checkFile($field, $fieldData, $form, $validData, $_FILES[$field]['name']))
             return false;
-    /*}
+    }
 
-    return true;*/
+    return true;
 }
 
 /**
@@ -381,10 +386,8 @@ function nkCheckForm_checkFileHandle($field, &$fieldData, &$form, &$validData) {
  * @param array $fileData : The current data of uploaded file.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData, $fileData) {
-    require_once 'Includes/nkUpload.php';
-
-    if ($fileData['name'] != '') {
+function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData, $filename) {
+    if ($filename != '') {
         if (! isset($fieldData['urlField'])
             || ! isset($form['items'][$fieldData['urlField']])
         ) {

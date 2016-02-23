@@ -23,7 +23,7 @@ $GLOBALS['nkUpload'] = array(
 /**
  * Check a uploaded file.
  *
- * @param string $filename : The filename from the name attribute of input file.
+ * @param string $fieldName : The name attribute of input file.
  * @param array $params : The list of upload parameters
  *   - fileType : The type of allowed upload.
  *        `image` to allow upload image (jpg, jpeg, png & gif)
@@ -40,7 +40,7 @@ $GLOBALS['nkUpload'] = array(
  *         - The error message if existing or false.
  *         - The extension file.
  */
-function nkUpload_check($filename, $params = array()) {
+function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if (! array_key_exists('uploadDir', $params))
         trigger_error('You must defined uploadDir key in $params argument of nkUpload_check function !', E_USER_ERROR);
 
@@ -62,15 +62,32 @@ function nkUpload_check($filename, $params = array()) {
     if (! isset($params['allowedExt']) || ! is_array($params['allowedExt']) || empty($params['allowedExt']))
         $params['allowedExt'] = null;
 
-    if ($_FILES[$filename]['error'] !== UPLOAD_ERR_OK)
-        return array('', nkUpload_getPhpError($params['fileType'], $_FILES[$filename]['error']), '');
+    if (is_array($_FILES[$fieldName]['error'])) {
+        if ($fileNumber !== null && array_key_exists($fileNumber, $_FILES[$fieldName]['error'])) {
+            $phpError    = $_FILES[$fieldName]['error'][$fileNumber];
+            $filename    = $_FILES[$fieldName]['name'][$fileNumber];
+            $tmpFilename = $_FILES[$fieldName]['tmp_name'][$fileNumber];
+            $filesize    = $_FILES[$fieldName]['size'][$fileNumber];
+        }
+        else
+            return; // TODO : Error?
+    }
+    else {
+        $phpError    = $_FILES[$fieldName]['error'];
+        $filename    = $_FILES[$fieldName]['name'];
+        $tmpFilename = $_FILES[$fieldName]['tmp_name'];
+        $filesize    = $_FILES[$fieldName]['size'];
+    }
 
-    $_FILES[$filename]['name'] = trim($_FILES[$filename]['name']);
+    if ($phpError !== UPLOAD_ERR_OK)
+        return array('', nkUpload_getPhpError($params['fileType'], $phpError), '');
 
-    if ($_FILES[$filename]['name'] == '.htaccess')
+    $filename = trim($filename);
+
+    if ($filename == '.htaccess')
         return array('', __('NO_UPLOADABLE_FILE'), '');
 
-    if (is_int($params['fileSize']) && $params['fileSize'] < $_FILES[$filename]['size'] / 1000) {
+    if (is_int($params['fileSize']) && $params['fileSize'] < $filesize / 1000) {
         if ($params['fileType'] == 'image')
             $error = __('UPLOAD_IMAGE_TOO_BIG');
         else
@@ -79,7 +96,7 @@ function nkUpload_check($filename, $params = array()) {
         return array('', sprintf($error, $params['fileSize']), '');
     }
 
-    $filenameInfo = pathinfo($_FILES[$filename]['name']);
+    $filenameInfo = pathinfo($filename);
 
     if ($params['allowedExt'] !== null && ! in_array($filenameInfo['extension'], $params['allowedExt']))
         return array('', __('NO_UPLOADABLE_FILE'), '');
@@ -87,20 +104,20 @@ function nkUpload_check($filename, $params = array()) {
     if ($params['fileRename'])
         $filenameInfo['filename'] = substr(md5(uniqid()), rand(0, 20), 10);
     else
-        nkUpload_cleanFilename($filenameInfo['filename']);
+        $filenameInfo['filename'] = nkUpload_cleanFilename($filenameInfo['filename']);
 
     if ($params['fileType'] == 'image') {
-        if (! nkUpload_checkImage($filename, $filenameInfo['extension']))
+        if (! nkUpload_checkImage($tmpFilename, $filenameInfo['extension']))
             return array('', __('BAD_IMAGE_FORMAT'), '');
     }
     else if ($params['fileType'] != 'no-html-php') {
-        if (! nkUpload_checkFileType($filename, $filenameInfo['extension']))
+        if (! nkUpload_checkFileType($tmpFilename, $filenameInfo['extension']))
             return array('', __('NO_UPLOADABLE_FILE'), '');
     }
 
     $path = $uploadDir .'/'. $filenameInfo['filename'] .'.'. $filenameInfo['extension'];
 
-    if (! @move_uploaded_file($_FILES[$filename]['tmp_name'], $path))
+    if (! @move_uploaded_file($tmpFilename, $path))
         return array('', __('UPLOAD_FILE_FAILED'), '');
 
     @chmod($path, 0644);
@@ -170,11 +187,11 @@ function nkUpload_getPhpError($fileType, $error) {
 /**
  * Check a uploaded image.
  *
- * @param string $filename : The filename from the name attribute of input file.
+ * @param string $tmpFilename : The path of uploaded file in temporary directory.
  * @return bool : Return true if uploaded file is a image, false also
  */
-function nkUpload_checkImage($filename, &$ext) {
-    $mimeType = exif_imagetype($_FILES[$filename]['tmp_name']);
+function nkUpload_checkImage($tmpFilename, &$ext) {
+    $mimeType = exif_imagetype($tmpFilename);
 
     if ($mimeType == IMAGETYPE_JPEG) {
         if (! in_array($ext, array('jpg', 'jpeg'))) $ext = 'jpg';
@@ -200,13 +217,13 @@ function nkUpload_checkImage($filename, &$ext) {
 /**
  * Check a uploaded file.
  *
- * @param string $filename : The filename from the name attribute of input file.
+ * @param string $tmpFilename : The path of uploaded file in temporary directory.
  * @param string $fileType : The type of allowed upload.
  * @return bool : Return true if uploaded file isn't a html and php file, false also
  */
-function nkUpload_checkFileType($filename, $ext) {
+function nkUpload_checkFileType($tmpFilename, $ext) {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mime  = finfo_file($finfo, $_FILES[$filename]['tmp_name']);
+    $mime  = finfo_file($finfo, $tmpFilename);
     finfo_close($finfo);
 
     return in_array($mime, array('text/html', 'text/x-php'))
@@ -217,17 +234,18 @@ function nkUpload_checkFileType($filename, $ext) {
 }
 
 /**
- * Clean filename.
+ * Clean filename and return it.
  *
  * @param string $filename : The filename from the name attribute of input file.
- * @return void
+ * @return string
  */
-function nkUpload_cleanFilename(&$filename) {
+function nkUpload_cleanFilename($filename) {
     $a = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
     $b = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
 
     $filename = strtr($filename, $a, $b);
-    $filename = str_replace(array(' ', '\'', '"'), '_', $filename);
+
+    return str_replace(array(' ', '\'', '"'), '_', $filename);
 }
 
 ?>
