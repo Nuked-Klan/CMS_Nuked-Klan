@@ -20,7 +20,7 @@ function index() {
     </li>
     <li>
         <a href="index.php?file=formTest&amp;op=textFieldMenu">
-            Test formulaire avec champs de type <b>Text</b>
+            Test formulaire avec champ de type <b>Text</b>
         </a>
     </li>
     <li>
@@ -29,23 +29,23 @@ function index() {
         </a>
     </li>
     <li>
-        <a href="index.php?file=formTest&amp;op=fileCheckFieldTest">
-            Test formulaire avec champs de type <b>File</b>
+        <a href="index.php?file=formTest&amp;op=fileFieldMenu">
+            Test formulaire avec champ de type <b>File</b>
         </a>
     </li>
     <li>
         <a href="index.php?file=formTest&amp;op=selectFieldMenu">
-            Test formulaire avec champs de type <b>Select</b>
+            Test formulaire avec champ de type <b>Select</b>
         </a>
     </li>
     <li>
         <a href="index.php?file=formTest&amp;op=checkboxCheckFieldTest">
-            Test formulaire avec champs de type <b>Checkbox</b>
+            Test formulaire avec champ de type <b>Checkbox</b>
         </a>
     </li>
     <li>
         <a href="index.php?file=formTest&amp;op=textareaFieldMenu">
-            Test formulaire avec champs de type <b>Textarea</b>
+            Test formulaire avec champ de type <b>Textarea</b>
         </a>
     </li>
 </ul>
@@ -112,7 +112,7 @@ function emailCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec vérification de type <b>email</b>
+    Test formulaire avec vérification de type <b>Email</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -126,7 +126,7 @@ function dateCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec vérification de type <b>date</b>
+    Test formulaire avec vérification de type <b>Date</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -140,7 +140,7 @@ function usernameCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec vérification de type <b>username</b>
+    Test formulaire avec vérification de type <b>Username</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -154,12 +154,36 @@ function passwordCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec vérification de type <b>password</b> (avec confirmation)
+    Test formulaire avec vérification de type <b>Password</b> (avec confirmation)
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
 
     echo nkForm_generate($form);
+}
+
+function fileFieldMenu() {
+?>
+<h3 style="text-align: center;">Test formulaire</h3>
+<hr style="width:80%;margin:0 auto;" />
+<ul>
+    <li>
+        <a href="index.php?file=formTest&amp;op=fileCheckFieldTest">
+            Test formulaire avec champ de type <b>File</b>
+        </a>
+    </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=fileUrlCheckFieldTest">
+            Test formulaire avec champ de type <b>File</b> lié à un champ <b>Url</b>
+        </a>
+    </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=fileMultipleCheckFieldTest">
+            Test formulaire avec champ de type <b>File</b> avec option <b>multiple</b>
+        </a>
+    </li>
+</ul>
+<?php
 }
 
 function fileCheckFieldTest() {
@@ -168,7 +192,35 @@ function fileCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec champs de type <b>file</b>
+    Test formulaire avec champ de type <b>File</b>
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function fileUrlCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/fileUrlCheckField.php';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>File</b> lié à un champ <b>Url</b>
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function fileMultipleCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/fileMultipleCheckField.php';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>File</b> avec option <b>Multiple</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -183,12 +235,12 @@ function selectFieldMenu() {
 <ul>
     <li>
         <a href="index.php?file=formTest&amp;op=selectCheckFieldTest">
-            Test formulaire avec champs de type <b>Select</b>
+            Test formulaire avec champ de type <b>Select</b>
         </a>
     </li>
     <li>
         <a href="index.php?file=formTest&amp;op=selectMultipleCheckFieldTest">
-            Test formulaire avec champs de type <b>Select</b> avec option <b>multiple</b>
+            Test formulaire avec champ de type <b>Select</b> avec option <b>Multiple</b>
         </a>
     </li>
 </ul>
@@ -201,7 +253,7 @@ function selectCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec champs de type <b>select</b>
+    Test formulaire avec champ de type <b>Select</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -215,7 +267,7 @@ function selectMultipleCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec champs de type <b>select</b> avec option <b>multiple</b>
+    Test formulaire avec champ de type <b>Select</b> avec option <b>Multiple</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -229,7 +281,7 @@ function checkboxCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec champs de type <b>checkbox</b>
+    Test formulaire avec champ de type <b>Checkbox</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -244,7 +296,7 @@ function textareaFieldMenu() {
 <ul>
     <li>
         <a href="index.php?file=formTest&amp;op=textareaCheckFieldTest">
-            Test formulaire avec champs de type <b>Textarea</b>
+            Test formulaire avec champ de type <b>Textarea</b>
         </a>
     </li>
 </ul>
@@ -257,7 +309,7 @@ function textareaCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec champs de type <b>textarea</b>
+    Test formulaire avec champ de type <b>Textarea</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -311,6 +363,13 @@ Contenu de la superglobale $_POST :
 Contenu de la variable des données du formulaire valides :
 <pre><?php var_dump($data) ?></pre>
 <?php
+    if (in_array($_GET['form'], array('fileCheckField', 'fileMultipleCheckField'))) :
+?>
+<hr /><br />
+Contenu de la superglobale $_FILES :
+<pre><?php var_dump($_FILES) ?></pre>
+<?php
+    endif;
 }
 
 
@@ -348,8 +407,20 @@ switch ($GLOBALS['op']) {
         passwordCheckFieldTest();
         break;
 
+    case 'fileFieldMenu' :
+        fileFieldMenu();
+        break;
+
     case 'fileCheckFieldTest' :
         fileCheckFieldTest();
+        break;
+
+    case 'fileUrlCheckFieldTest' :
+        fileUrlCheckFieldTest();
+        break;
+
+    case 'fileMultipleCheckFieldTest' :
+        fileMultipleCheckFieldTest();
         break;
 
     case 'selectFieldMenu' :

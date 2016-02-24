@@ -8,7 +8,6 @@ $form = array(
         'champ1' => array(
             'label'             => 'Upload',
             'type'              => 'file',
-            'size'              => 30,
             'fileType'          => 'image',
             'uploadDir'         => 'modules/formTest/upload'
         )

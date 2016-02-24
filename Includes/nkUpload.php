@@ -96,33 +96,37 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
         return array('', sprintf($error, $params['fileSize']), '');
     }
 
-    $filenameInfo = pathinfo($filename);
+    $realFilename = pathinfo($filename, PATHINFO_FILENAME);
+    $extension    = pathinfo($filename, PATHINFO_EXTENSION );
 
-    if ($params['allowedExt'] !== null && ! in_array($filenameInfo['extension'], $params['allowedExt']))
+    if ($params['allowedExt'] !== null && ! in_array($extension, $params['allowedExt']))
         return array('', __('NO_UPLOADABLE_FILE'), '');
 
     if ($params['fileRename'])
-        $filenameInfo['filename'] = substr(md5(uniqid()), rand(0, 20), 10);
+        $realFilename = substr(md5(uniqid()), rand(0, 20), 10);
     else
-        $filenameInfo['filename'] = nkUpload_cleanFilename($filenameInfo['filename']);
+        $realFilename = nkUpload_cleanFilename($realFilename);
 
     if ($params['fileType'] == 'image') {
-        if (! nkUpload_checkImage($tmpFilename, $filenameInfo['extension']))
+        if (! nkUpload_checkImage($tmpFilename, $extension))
             return array('', __('BAD_IMAGE_FORMAT'), '');
     }
     else if ($params['fileType'] != 'no-html-php') {
-        if (! nkUpload_checkFileType($tmpFilename, $filenameInfo['extension']))
+        if (! nkUpload_checkFileType($tmpFilename, $extension))
             return array('', __('NO_UPLOADABLE_FILE'), '');
     }
 
-    $path = $uploadDir .'/'. $filenameInfo['filename'] .'.'. $filenameInfo['extension'];
+    $path = $params['uploadDir'] .'/'. $realFilename;
 
-    if (! @move_uploaded_file($tmpFilename, $path))
+    if ($extension != '')
+        $path .= '.'. $extension;
+
+    if (! move_uploaded_file($tmpFilename, $path))
         return array('', __('UPLOAD_FILE_FAILED'), '');
 
     @chmod($path, 0644);
 
-    return array($path, false, $filenameInfo['extension']);
+    return array($path, false, $extension);
 }
 
 /**
@@ -191,7 +195,7 @@ function nkUpload_getPhpError($fileType, $error) {
  * @return bool : Return true if uploaded file is a image, false also
  */
 function nkUpload_checkImage($tmpFilename, &$ext) {
-    $mimeType = exif_imagetype($tmpFilename);
+    $mimeType = @exif_imagetype($tmpFilename);
 
     if ($mimeType == IMAGETYPE_JPEG) {
         if (! in_array($ext, array('jpg', 'jpeg'))) $ext = 'jpg';

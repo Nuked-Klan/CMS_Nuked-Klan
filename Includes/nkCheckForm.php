@@ -67,7 +67,7 @@ function nkCheckForm(&$form, $fields, &$validData = null) {
                 $form['items'][$field]['required'] = false;
 
             if (array_key_exists('name', $form['items'][$field]))
-                $fieldName = $form['items'][$field]['name'];
+                $fieldName = str_replace('[]', '', $form['items'][$field]['name']);
             else
                 $fieldName = $field;
 
@@ -75,6 +75,9 @@ function nkCheckForm(&$form, $fields, &$validData = null) {
                 nkCheckForm_checkbox($fieldName, $form['items'][$field], $validData);
             }
             else {
+                if ($validData !== null && array_key_exists($fieldName, $validData))
+                    continue;
+
                 if (isset($form['items'][$field]['uploadField'])
                     && isset($form['items'][$form['items'][$field]['uploadField']])
                     && isset($form['items'][$form['items'][$field]['uploadField']]['type'])
@@ -91,8 +94,8 @@ function nkCheckForm(&$form, $fields, &$validData = null) {
                     ))
                         return false;
 
-                    if (isset($form['items'][$field]['uploadValue']))
-                        continue;
+                    //if (isset($form['items'][$field]['uploadValue']))
+                    //    continue;
                 }
 
                 if (! nkCheckForm_checkFormInput($fieldName, $form['items'][$field], $form, $validData))
@@ -125,7 +128,7 @@ function nkCheckForm_checkFormInput($field, &$fieldData, &$form, &$validData) {
             return false;
     }
     else if ($fieldData['type'] == 'file') {
-        return nkCheckForm_checkFile($field, $fieldData, $form, $validData);
+        return nkCheckForm_checkFileHandle($field, $fieldData, $form, $validData);
     }
     else if (isset($fieldData['dataType'])) {
         switch ($fieldData['dataType']) {
@@ -365,7 +368,7 @@ function nkCheckForm_checkFileHandle($field, &$fieldData, &$form, &$validData) {
         $nbFile = count($_FILES[$field]['error']);
 
         for ($i = 0; $i < $nbFile; $i++) {
-            if (! nkCheckForm_checkFile($field, $fieldData, $form, $validData, $_FILES[$field]['name'][$i]))
+            if (! nkCheckForm_checkFile($field, $fieldData, $form, $validData, $_FILES[$field]['name'][$i], $i))
                 return false;
         }
     }
@@ -386,23 +389,24 @@ function nkCheckForm_checkFileHandle($field, &$fieldData, &$form, &$validData) {
  * @param array $fileData : The current data of uploaded file.
  * @return bool : The result of field validation.
  */
-function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData, $filename) {
+function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData, $filename, $i = null) {
     if ($filename != '') {
-        if (! isset($fieldData['urlField'])
+        /*if (! isset($fieldData['urlField'])
             || ! isset($form['items'][$fieldData['urlField']])
         ) {
             printNotification(sprintf(__('NO_URL_FIELD'), $fieldData['label']), 'error');
             return false;
-        }
+        }*/
 
         if (! isset($fieldData['uploadDir'])) {
             printNotification(sprintf(__('NO_UPLOAD_DIR_FIELD'), $fieldData['label']), 'error');
             return false;
         }
 
-        list($filename, $uploadError) = nkUpload_check($field, $fieldData);
+        list($filename, $uploadError) = nkUpload_check($field, $fieldData, $i);
 
         if ($uploadError !== false) {
+
             if ($fieldData['required']) {
                 printNotification($uploadError, 'error');
                 return false;
@@ -412,10 +416,20 @@ function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData, $filena
             }
         }
 
-        if ($validData !== null)
-            $validData[$fieldData['urlField']] = $filename;
+        if ($validData !== null) {
+            if ($fieldData['multiple']) {
+                $validData[$field][] = $filename;
+            }
+            else {
+                if (isset($fieldData['urlField']) && $fieldData['urlField'] != '')
+                    $validData[$fieldData['urlField']] = $filename;
+                else
+                    $validData[$field] = $filename;
+            }
+        }
 
-        $form['items'][$fieldData['urlField']]['uploadValue'] = true;
+        //if (! $fieldData['multiple'] && isset($fieldData['urlField'], $form['items'][$fieldData['urlField']]))
+        //    $form['items'][$fieldData['urlField']]['uploadValue'] = true;
     }
 
     return true;
