@@ -1,9 +1,9 @@
 <?php
 
 $form = array(
-    'action' => 'index.php?file=formTest&amp;op=doCheckField&amp;form=textCheckField',
+    'action' => 'index.php?file=formTest&amp;op=doCheckField&amp;form=valueCheckField',
     'method' => 'POST',
-    'dataName' => 'textCheckFieldTest',
+    'dataName' => 'valueCheckFieldTest',
     'items' => array(
         'champ1Notification' => array(
             'html'              => printNotification('Le champ suivant doit contenir une chaîne <em>alphanumérique</em>', 'information', array(), true)

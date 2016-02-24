@@ -769,7 +769,23 @@ function nkForm_inputText($fieldName, $params) {
  * @return string HTML code
  */
 function nkForm_inputTextarea($fieldName, $params) {
+    global $nkTemplate;
+
     $attributes = array('id', 'inputClass', 'name', 'cols', 'rows', 'maxlength');
+
+    if (array_key_exists('subType', $params) && $params['subType'] != 'normal') {
+        define('EDITOR_CHECK', 1);
+
+        if ($nkTemplate['interface'] == 'frontend') {
+            if ($params['subType'] == 'advanced')
+                $params['id'] = 'e_advanced';
+            else
+                $params['id'] = 'e_basic';
+        }
+        else {
+            $params['inputClass'][] = 'editor';
+        }
+    }
 
     // Set cols and rows attribute of nk textarea
     if (! array_key_exists('cols', $params)) $params['cols'] = 70;

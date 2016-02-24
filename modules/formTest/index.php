@@ -243,6 +243,11 @@ function selectFieldMenu() {
             Test formulaire avec champ de type <b>Select</b> avec option <b>Multiple</b>
         </a>
     </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=selectOptgroupCheckFieldTest">
+            Test formulaire avec champ de type <b>Select</b> avec <b>Optgroup</b>
+        </a>
+    </li>
 </ul>
 <?php
 }
@@ -275,6 +280,20 @@ function selectMultipleCheckFieldTest() {
     echo nkForm_generate($form);
 }
 
+function selectOptgroupCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/selectOptgroupCheckField.php';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>Select</b> avec option <b>Optgroup</b>
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
 function checkboxCheckFieldTest() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/formTest/config/checkboxCheckField.php';
@@ -296,7 +315,27 @@ function textareaFieldMenu() {
 <ul>
     <li>
         <a href="index.php?file=formTest&amp;op=textareaCheckFieldTest">
-            Test formulaire avec champ de type <b>Textarea</b>
+            Test formulaire avec champ de type <b>Textarea</b> (normal)
+        </a>
+    </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=textareaCkeBasicCheckFieldTest">
+            Test formulaire avec champ de type <b>Textarea</b> (CKEditor basic)
+        </a>
+    </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=textareaCkeAdvancedCheckFieldTest">
+            Test formulaire avec champ de type <b>Textarea</b> (CKEditor advanced)
+        </a>
+    </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=textareaTinyMceBasicCheckFieldTest">
+            Test formulaire avec champ de type <b>Textarea</b> (Tiny Mce basic)
+        </a>
+    </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=textareaTinyMceAdvancedCheckFieldTest">
+            Test formulaire avec champ de type <b>Textarea</b> (Tiny Mce advanced)
         </a>
     </li>
 </ul>
@@ -309,7 +348,71 @@ function textareaCheckFieldTest() {
 
 ?>
 <h3 style="text-align: center;">
-    Test formulaire avec champ de type <b>Textarea</b>
+    Test formulaire avec champ de type <b>Textarea</b> (normal)
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function textareaCkeBasicCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/textareaCkeBasicCheckField.php';
+
+    $GLOBALS['nuked']['editor_type'] = 'cke';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>Textarea</b> (CKEditor basic)
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function textareaCkeAdvancedCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/textareaCkeAdvancedCheckField.php';
+
+    $GLOBALS['nuked']['editor_type'] = 'cke';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>Textarea</b> (CKEditor advanced)
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function textareaTinyMceBasicCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/textareaTinyMceBasicCheckField.php';
+
+    $GLOBALS['nuked']['editor_type'] = 'tiny';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>Textarea</b> (Tiny Mce basic)
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function textareaTinyMceAdvancedCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/textareaTinyMceAdvancedCheckField.php';
+
+    $GLOBALS['nuked']['editor_type'] = 'tiny';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>Textarea</b> (Tiny Mce advanced)
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -435,6 +538,10 @@ switch ($GLOBALS['op']) {
         selectMultipleCheckFieldTest();
         break;
 
+    case 'selectOptgroupCheckFieldTest' :
+        selectOptgroupCheckFieldTest();
+        break;
+
     case 'checkboxCheckFieldTest' :
         checkboxCheckFieldTest();
         break;
@@ -445,6 +552,22 @@ switch ($GLOBALS['op']) {
 
     case 'textareaCheckFieldTest' :
         textareaCheckFieldTest();
+        break;
+
+    case 'textareaCkeBasicCheckFieldTest' :
+        textareaCkeBasicCheckFieldTest();
+        break;
+
+    case 'textareaCkeAdvancedCheckFieldTest' :
+        textareaCkeAdvancedCheckFieldTest();
+        break;
+
+    case 'textareaTinyMceBasicCheckFieldTest' :
+        textareaTinyMceBasicCheckFieldTest();
+        break;
+
+    case 'textareaTinyMceAdvancedCheckFieldTest' :
+        textareaTinyMceAdvancedCheckFieldTest();
         break;
 
     case 'doCheckField' :
