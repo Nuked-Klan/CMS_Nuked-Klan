@@ -1,4 +1,13 @@
+/* Fake label */
+div.nkFormRow>span.fakeLabel{vertical-align:top;}
+
+/* Input date */
 form.nkForm  img.ui-datepicker-trigger{vertical-align:middle;margin-left:4px;}
+
+/* Input radio */
+.nkInputRadio-inline div{display:inline-block;}
+.nkInputRadio-inline label, .nkInputRadio-inline input,
+.nkInputRadio-list label, .nkInputRadio-list input{vertical-align:middle;}
 
 
 /* check password */

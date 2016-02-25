@@ -44,6 +44,11 @@ function index() {
         </a>
     </li>
     <li>
+        <a href="index.php?file=formTest&amp;op=radioFieldMenu">
+            Test formulaire avec champ de type <b>Radio</b>
+        </a>
+    </li>
+    <li>
         <a href="index.php?file=formTest&amp;op=textareaFieldMenu">
             Test formulaire avec champ de type <b>Textarea</b>
         </a>
@@ -55,7 +60,6 @@ function index() {
 function commonCheckFieldTest() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/formTest/config/commonCheckField.php';
-    define('EDITOR_CHECK', 1);
 
 ?>
 <h3 style="text-align: center;">
@@ -70,7 +74,6 @@ function commonCheckFieldTest() {
 function valueCheckFieldTest() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/formTest/config/textCheckField.php';
-    define('EDITOR_CHECK', 1);
 
 ?>
 <h3 style="text-align: center;">
@@ -301,6 +304,53 @@ function checkboxCheckFieldTest() {
 ?>
 <h3 style="text-align: center;">
     Test formulaire avec champ de type <b>Checkbox</b>
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function radioFieldMenu() {
+?>
+<h3 style="text-align: center;">Test formulaire</h3>
+<hr style="width:80%;margin:0 auto;" />
+<ul>
+    <li>
+        <a href="index.php?file=formTest&amp;op=radioInlineCheckFieldTest">
+            Test formulaire avec champ de type <b>Radio</b> (style inline)
+        </a>
+    </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=radioListCheckFieldTest">
+            Test formulaire avec champ de type <b>Radio</b> (style list)
+        </a>
+    </li>
+</ul>
+<?php
+}
+
+function radioInlineCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/radioInlineCheckField.php';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>Radio</b> (style inline)
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function radioListCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/radioListCheckField.php';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>Radio</b> (style list)
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -544,6 +594,18 @@ switch ($GLOBALS['op']) {
 
     case 'checkboxCheckFieldTest' :
         checkboxCheckFieldTest();
+        break;
+
+    case 'radioFieldMenu' :
+        radioFieldMenu();
+        break;
+
+    case 'radioInlineCheckFieldTest' :
+        radioInlineCheckFieldTest();
+        break;
+
+    case 'radioListCheckFieldTest' :
+        radioListCheckFieldTest();
         break;
 
     case 'textareaFieldMenu' :

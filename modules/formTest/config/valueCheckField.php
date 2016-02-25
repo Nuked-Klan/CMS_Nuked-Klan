@@ -51,9 +51,9 @@ $form = array(
         'champ5' => array(
             'label'             => 'Champ',
             'type'              => 'textarea',
+            'subType'           => 'advanced',
             'cols'              => 69,
             'rows'              => 10,
-            'id'                => 'e_advanced',
             'dataType'          => 'html',
             'required'          => true
         ),

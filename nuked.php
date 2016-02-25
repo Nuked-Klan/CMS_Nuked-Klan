@@ -14,6 +14,9 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 nkHandle_siteInstalled();
 
+//if (! function_exists('array_column'))
+//    require_once 'Includes/array_column.php';
+
 require_once 'Includes/nkSessions.php';
 require_once 'Includes/nkTemplate.php';
 

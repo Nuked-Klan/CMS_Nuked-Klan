@@ -260,7 +260,7 @@ function nkForm_generate($form) {
 
     foreach ($form['items'] as $itemName => $itemData) {
         if (is_array($itemData)) {
-            nkForm_initInput($itemName, $itemData, $form);
+            nkFormInput_init($itemName, $itemData, $form);
 
             if (array_key_exists('dataType', $itemData) && in_array($itemData['dataType'], $nkForm['allowedCheckformType']))
                 $jsFieldsData[] = nkForm_getCheckFormField($itemData);
@@ -302,7 +302,7 @@ function nkForm_generate($form) {
             }
 
             if (array_key_exists('type', $itemData) && in_array($itemData['type'], $nkForm['allowedInputType'])) {
-                $fieldFonction = 'nkForm_input'. ucfirst($itemData['type']);
+                $fieldFonction = 'nkFormInput_'. $itemData['type'];
                 $input .= $fieldFonction($itemName, $itemData, $form['id']);
             }
 
@@ -333,7 +333,7 @@ function nkForm_generate($form) {
 
     foreach ($form['itemsFooter'] as $itemName => $itemData) {
         if (array_key_exists('type', $itemData) && in_array($itemData['type'], $nkForm['allowedInputType'])) {
-            $currentClass = 'nkForm_input'. ucfirst($itemData['type']);
+            $currentClass = 'nkFormInput_'. $itemData['type'];
 
             if (! array_key_exists('name', $itemData))
                 $itemData['name'] = $itemName;
@@ -375,41 +375,6 @@ function nkForm_underscore2camelcase($str) {
 }
 
 /**
- * Initialize input data.
- *
- * @param string $fieldName : The key of input data in form configuration.
- * @param array $params : The input data.
- * @param array $form : The form configuration.
- * @return array $input : The input data initialized.
- */
-function nkForm_initInput($fieldName, &$params, $form) {
-    global $nkForm;
-
-    $params = $params + $nkForm['defaultInput'];
-
-    
-    //if (! array_key_exists('inputClass', $params))
-    //    $params['inputClass'] = array();
-
-    //if (array_key_exists('itemClass', $params)) {
-    //    $params['inputClass']     = array_unique(array_merge($params['inputClass'], $params['itemClass']));
-    //    $params['labelClass']     = array_unique(array_merge($params['labelClass'], $params['itemClass']));
-    //    $params['fakeLabelClass'] = array_unique(array_merge($params['fakeLabelClass'], $params['itemClass']));
-    //}
-
-    if (! array_key_exists('name', $params))
-        $params['name'] = $fieldName;
-
-    $params['camelCaseName'] = nkForm_underscore2camelcase($fieldName);
-
-    if (! array_key_exists('id', $params))
-        $params['id'] = $form['fieldsPrefix'] . $params['camelCaseName'];
-
-    if (isset($params['dataType']) && $params['dataType'] == 'integer' && isset($params['range']) && ! is_array($params['range']))
-        trigger_error('range field parameter must be a array !', E_USER_ERROR);
-}
-
-/**
  * Get formated label tag.
  *
  * @param string $labelFormat : The format of label content.
@@ -434,7 +399,41 @@ function nkForm_formatFakeLabel($labelFormat, $params) {
     //if (! array_key_exists('fakeLabelClass', $params))
     //    $params['fakeLabelClass'] = array();
 
-    return '<span>'. sprintf($labelFormat, $params['fakeLabel']) .'</span>';
+    return '<span class="fakeLabel">'. sprintf($labelFormat, $params['fakeLabel']) .'</span>';
+}
+
+/**
+ * Initialize input data.
+ *
+ * @param string $fieldName : The key of input data in form configuration.
+ * @param array $params : The input data.
+ * @param array $form : The form configuration.
+ * @return array $input : The input data initialized.
+ */
+function nkFormInput_init($fieldName, &$params, $form) {
+    global $nkForm;
+
+    $params = $params + $nkForm['defaultInput'];
+
+    //if (! array_key_exists('inputClass', $params))
+    //    $params['inputClass'] = array();
+
+    //if (array_key_exists('itemClass', $params)) {
+    //    $params['inputClass']     = array_unique(array_merge($params['inputClass'], $params['itemClass']));
+    //    $params['labelClass']     = array_unique(array_merge($params['labelClass'], $params['itemClass']));
+    //    $params['fakeLabelClass'] = array_unique(array_merge($params['fakeLabelClass'], $params['itemClass']));
+    //}
+
+    if (! array_key_exists('name', $params))
+        $params['name'] = $fieldName;
+
+    $params['camelCaseName'] = nkForm_underscore2camelcase($fieldName);
+
+    if (! array_key_exists('id', $params))
+        $params['id'] = $form['fieldsPrefix'] . $params['camelCaseName'];
+
+    if (isset($params['dataType']) && $params['dataType'] == 'integer' && isset($params['range']) && ! is_array($params['range']))
+        trigger_error('range field parameter must be a array !', E_USER_ERROR);
 }
 
 /**
@@ -444,7 +443,7 @@ function nkForm_formatFakeLabel($labelFormat, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputButton($fieldName, $params) {
+function nkFormInput_button($fieldName, $params) {
     $attributes = array('type', 'id', 'inputClass', 'name', 'value', 'disabled');
 
     return '<input'. nkForm_formatAttribute($params, $attributes) .' />';
@@ -457,7 +456,7 @@ function nkForm_inputButton($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputCheckbox($fieldName, $params) {
+function nkFormInput_checkbox($fieldName, $params) {
     global $nkTemplate;
 
     if ($nkTemplate['interface'] == 'frontend') {
@@ -495,7 +494,7 @@ function nkForm_inputCheckbox($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputColor($fieldName, $params) {
+function nkFormInput_color($fieldName, $params) {
     $attributes = array('id', 'name', 'size', 'value', 'maxlength', 'disabled', 'inputClass');
 
     $params['size'] = $params['maxlength'] = 6;
@@ -514,7 +513,7 @@ function nkForm_inputColor($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_InputDate($fieldName, $params) {
+function nkFormInput_date($fieldName, $params) {
     global $language;
 
     $attributes = array('id', 'inputClass', 'name', 'value', 'size', 'maxlength');
@@ -574,12 +573,36 @@ function nkForm_InputDate($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_InputFile($fieldName, $params) {
+function nkFormInput_file($fieldName, $params) {
     global $nkForm;
 
     $nkForm['config']['enctype'] = ' enctype="multipart/form-data"';
 
     $attributes = array('type', 'id', 'inputClass', 'name', 'disabled', 'multiple');
+
+    /*
+    if (! array_key_exists('filesize', $params)) {
+        // http://stackoverflow.com/questions/13076480/php-get-actual-maximum-upload-size
+        $maxsize = ini_get('upload_max_filesize');
+
+        $unit = preg_replace('/[^bkmgtpezy]/i', '', $size);
+        $size = preg_replace('/[^0-9\.]/', '', $size);
+
+        if ($unit) {
+            // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+            $maxsize = round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+        }
+        else {
+            $maxsize = round($size);
+        }
+    }
+    else
+        $maxsize = $params['filesize'];
+
+    // 1 seul, avant input de type file
+    $html = '<input type="hidden" name="MAX_FILE_SIZE" value="'. $maxsize .'" />';
+
+    */
 
     $html = '<input'. nkForm_formatAttribute($params, $attributes) .' />';
 
@@ -670,7 +693,7 @@ function formatBytesString($value) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputPassword($fieldName, $params) {
+function nkFormInput_password($fieldName, $params) {
     $attributes = array('id', 'name');
 
     return '<input type="password"'. nkForm_formatAttribute($params, $attributes) .' value="" />';
@@ -683,26 +706,25 @@ function nkForm_inputPassword($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkFormInputRadio($fieldName, $params) {
+function nkFormInput_radio($fieldName, $params) {
+    if (! array_key_exists('subType', $params)) $params['subType'] = 'inline';
+
     $name = nkForm_formatAttribute($params, array('name'));
-    //$html = '<div class="items-align">';
-    $html = '';
+
+    $html = '<div class="nkInputRadio-'. $params['subType'] .'">';
 
     foreach ($params['data'] as $value => $label) {
-        //$r++;
-        //$pClass = ($r % 2 == 0) ? ' class="alt-row"' : '';
-
         // Format the checked attribute
         $checked = nkForm_formatAttribute($params, array('checked'), $value);
 
         // Format id attribute
         $radioId = $params['name'] .'_'. $value;
 
-        $html .= '<input class="vertical-align" type="radio"'. $name .' id="'. $radioId .'" value="'. $value .'"'. $checked .' />'
-        . '<label class="vertical-align text-right" for="'. $radioId .'">'. $label .'</label>';//<br />';
+        $html .= '<div><input type="radio"'. $name .' id="'. $radioId .'" value="'. $value .'"'. $checked .' />'
+        . '<label for="'. $radioId .'">'. $label .'</label></div>';
     }
 
-    //$html .= '</div>';
+    $html .= '</div>';
 
     return $html;
 }
@@ -714,7 +736,7 @@ function nkFormInputRadio($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputSelect($fieldName, $params) {
+function nkFormInput_select($fieldName, $params) {
     $attributes = array('id', 'name', 'disabled', 'multiple', 'size');
 
     if (array_key_exists('multiple', $params) && $params['multiple'])
@@ -752,7 +774,7 @@ function nkForm_inputSelect($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputText($fieldName, $params) {
+function nkFormInput_text($fieldName, $params) {
     $attributes = array('id', 'name', 'size', 'value', 'maxlength', 'disabled');
 
     if ($params['htmlspecialchars'])
@@ -768,13 +790,13 @@ function nkForm_inputText($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputTextarea($fieldName, $params) {
+function nkFormInput_textarea($fieldName, $params) {
     global $nkTemplate;
 
     $attributes = array('id', 'inputClass', 'name', 'cols', 'rows', 'maxlength');
 
     if (array_key_exists('subType', $params) && $params['subType'] != 'normal') {
-        define('EDITOR_CHECK', 1);
+        if (! defined('EDITOR_CHECK')) define('EDITOR_CHECK', 1);
 
         if ($nkTemplate['interface'] == 'frontend') {
             if ($params['subType'] == 'advanced')
@@ -805,7 +827,7 @@ function nkForm_inputTextarea($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputTime($fieldName, $params) {
+function nkFormInput_time($fieldName, $params) {
     $attributes = array('id', 'inputClass', 'name', 'value', 'maxlength');
 
     $params['class'][]    = 'time';
@@ -821,7 +843,7 @@ function nkForm_inputTime($fieldName, $params) {
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_inputSubmit($fieldName, $params) {
+function nkFormInput_submit($fieldName, $params) {
     $attributes = array('id', 'name', 'inputClass', 'value', 'disabled');
 
     return '<input type="submit" '. nkForm_formatAttribute($params, $attributes) .' />';
