@@ -76,8 +76,12 @@ if ($process == 'checkIntegrity') {
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'checkAndConvertCharsetAndCollation')
-    $dbTable->checkAndConvertCharsetAndCollation();
+if ($process == 'checkAndConvertCharsetAndCollation') {
+    if ($dbTable->tableExist())
+        $dbTable->checkAndConvertCharsetAndCollation();
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CONVERT');
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table drop
@@ -93,7 +97,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 $discussionTableCreated = false;
 
 // install / update 1.7.9 RC1
-if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
+if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExist())) {
     $dbTable->createTable($discussionTableCfg);
 
     $discussionTableCreated = true;

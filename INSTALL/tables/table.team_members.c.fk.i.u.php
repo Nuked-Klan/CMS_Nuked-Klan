@@ -1,8 +1,8 @@
 <?php
 /**
- * table.page.i.u.php
+ * table.team_members.c.fk.i.u.php
  *
- * `[PREFIX]_page` database table script
+ * `[PREFIX]_team_members` database table script
  *
  * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -10,29 +10,37 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable(PAGE_TABLE);
+$dbTable->setTable(TEAM_MEMBERS_TABLE);
+
+require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$pageTableCfg = array(
+$teamMembersTableCfg = array(
     'fields' => array(
-        'id'         => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
-        'niveau'     => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\''),
-        'titre'      => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
-        'content'    => array('type' => 'text',        'null' => false),
-        'url'        => array('type' => 'varchar(80)', 'null' => false, 'default' => '\'\''),
-        'type'       => array('type' => 'varchar(5)',  'null' => false, 'default' => '\'\''),
-        'show_title' => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\''),
-        'members'    => array('type' => 'text',        'null' => false)
+        'id'     => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
+        'userId' => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
+        'team'   => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'date'   => array('type' => 'int(11)',     'null' => false, 'default' => '\'0\''),
+        'status' => array('type' => 'varchar(25)', 'null' => false, 'default' => '\'\''),
+        'rank'   => array('type' => 'varchar(25)', 'null' => false, 'default' => '\'\'')
     ),
     'primaryKey' => array('id'),
-    'index' => array(
-        'titre' => 'titre'
-    ),
-    'engine' => 'MyISAM'
+    'engine' => 'InnoDB'
 );
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Check table integrity
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'checkIntegrity') {
+    if ($dbTable->tableExist())
+        $dbTable->checkIntegrity();
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CHECK_INTEGRITY');
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
@@ -58,6 +66,16 @@ if ($process == 'drop' && $dbTable->tableExist())
 
 // install / update 1.8
 if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExist()))
-    $dbTable->createTable($pageTableCfg);
+    $dbTable->createTable($teamMembersTableCfg);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Add foreign key of table
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'addForeignKey') {
+    if (! $dbTable->foreignKeyExist('FK_teamMembers_userId'))
+        addAuthorIdForeignKey('team_members', 'userId');
+
+}
 
 ?>

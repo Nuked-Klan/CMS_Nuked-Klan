@@ -251,6 +251,7 @@ return array(
     #####################################
     # tables/table.games.c.i.u.php
     #####################################
+    'ADD_MAP_DATA'          => 'Move maplist in `%s` field of `%s` table to map database table',
     'PREF_CS'               => 'CS Preferences',
     'OTHER_NICK'            => 'Other Nick',
     'FAV_MAP'               => 'Favorite Map',
@@ -295,6 +296,7 @@ return array(
     'UPDATE_PASSWORD'       => 'Password of `%s` field updated in `%s` table',
     'UPDATE_COUNTRY'        => 'Country flag filename of `%s` field updated in `%s` table',
     'UPDATE_HOMEPAGE'       => 'Home page url of `%s` field updated in `%s` table',
+    'ADD_TEAM_MEMBER'       => 'Move user team in `%s` field of `%s` table to team members database table',
     #####################################
     # views/changelog.php
     #####################################

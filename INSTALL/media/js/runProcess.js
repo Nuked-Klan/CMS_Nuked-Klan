@@ -18,7 +18,12 @@ function addLogMessage(msg) {
 function writeInfo(table, txt, status) {
     var msg;
 
-    if (table == '' || status == 'NO_TABLE_TO_CHECK_INTEGRITY' || status == 'NO_TABLE_TO_DROP') {
+    if (table == ''
+        || status == 'NO_TABLE_TO_CHECK_INTEGRITY'
+        || status == 'NO_TABLE_TO_CONVERT'
+        || status == 'NO_TABLE_TO_DROP'
+        || (process == 'update' && currentSubProcess == 'createTable' && status == 'NOTHING_TO_DO')
+    ) {
         return;
     }
     else if (status == 'INTEGRITY_ACCEPTED') {
@@ -91,6 +96,9 @@ function setNextCurrentProcess() {
             currentSubProcess = 'checkAndConvertCharsetAndCollation';
         }
         else if (currentSubProcess == 'checkAndConvertCharsetAndCollation') {
+            currentSubProcess = 'createTable';
+        }
+        else if (currentSubProcess == 'createTable') {
             currentSubProcess = 'updateTable';
         }
         else if (currentSubProcess == 'updateTable') {
@@ -154,6 +162,12 @@ function queueSubProcess() {
             if (tableNumber == 0)
                 writeSubProcessTitle(i18n.add_foreign_key_all_table);
         }
+        else if (currentSubProcess == 'createTable') {
+            nbTable = nbProcessTable;
+
+            if (tableNumber == 0)
+                writeSubProcessTitle(i18n.create_all_table);
+        }
         else {
             if (currentSubProcess == 'updateTable') {
                 nbTable = nbProcessTable;
@@ -189,6 +203,9 @@ function queueSubProcess() {
                 else if (currentSubProcess == 'addForeignKeyOfTable') {
                     result = runSubProcess(tableWithForeignKeyList[tableNumber]);
                 }
+                else if (currentSubProcess == 'createTable') {
+                    result = runSubProcess(processTableList[tableNumber]);
+                }
                 else {
                     if (currentSubProcess == 'checkAndConvertCharsetAndCollation')
                         result = runSubProcess(checkAndConvertCharsetAndCollationTableList[tableNumber]);
@@ -220,6 +237,10 @@ function queueSubProcess() {
             else if (process == 'update' && currentSubProcess == 'checkAndConvertCharsetAndCollation') {
                 setNextCurrentProcess();
                 writeSubProcessComplete(i18n.table_convertion, i18n.converted_table_failed);
+            }
+            else if (process == 'update' && currentSubProcess == 'createTable') {
+                setNextCurrentProcess();
+                writeSubProcessComplete(i18n.create_all_table, i18n.create_all_table_failed);
             }
             else if (process == 'update' && currentSubProcess == 'updateTable') {
                 setNextCurrentProcess();
@@ -279,6 +300,9 @@ function runSubProcess(tableFile) {
         else if (currentSubProcess == 'checkAndConvertCharsetAndCollation') {
             data += '&checkAndConvertCharsetAndCollation=true';
         }
+        else if (currentSubProcess == 'createTable') {
+            data += '&createTable=true';
+        }
     }
 
     if (currentSubProcess == 'addForeignKeyOfTable')
@@ -310,6 +334,7 @@ function runSubProcess(tableFile) {
             || txt == 'REMOVED'
             || txt == 'NOTHING_TO_DO'
             || txt == 'NO_TABLE_TO_CHECK_INTEGRITY'
+            || txt == 'NO_TABLE_TO_CONVERT'
             || txt == 'NO_TABLE_TO_DROP'
         ) {
             if (! (currentSubProcess == 'dropTable' || currentSubProcess == 'addForeignKeyOfTable')

@@ -20,7 +20,7 @@
 
                     checkAndConvertCharsetAndCollationTableList = new Array('<?php echo implode('\',\'', $processDataList['checkAndConvertCharsetAndCollation']) ?>'),
                     nbCheckAndConvertCharsetAndCollationTable = checkAndConvertCharsetAndCollationTableList.length,
-                    processProgress = 100 / (nbProcessTable + nbCheckIntegrityTable + nbCheckAndConvertCharsetAndCollationTable + nbTableWithForeignKey);
+                    processProgress = 100 / ((nbProcessTable * 2) + nbCheckIntegrityTable + nbCheckAndConvertCharsetAndCollationTable + nbTableWithForeignKey);
 <?php
     endif
 ?>

@@ -401,7 +401,7 @@ class dbTable {
      */
     public function modifyField($field, $data = array()) {
         if (! $this->fieldExist($field))
-            throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
+            throw new dbTableException('modifyField : '. sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
 
         if (! isset($data['type']))
             throw new dbTableException(sprintf($this->_i18n['FIELD_TYPE_NO_FOUND'], $field));
@@ -433,9 +433,12 @@ class dbTable {
 
         $this->_db->execute($sql);
 
+        if (! isset($updateTableInfo[$data['newField']]))
+            unset($updateTableInfo[$data['newField']]);
+
         $updateTableInfo = array();
 
-        $updateTableInfo[$field] = array(
+        $updateTableInfo[$data['newField']] = array(
             'type'      => $data['type'],
             'null'      => $null,
             'default'   => (isset($data['default'])) ? $data['default'] : ''
@@ -470,7 +473,7 @@ class dbTable {
      */
     public function addFieldIndex($field) {
         if (! $this->fieldExist($field))
-            throw new dbTableException(sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
+            throw new dbTableException('addFieldIndex : '. sprintf($this->_i18n['FIELD_DONT_EXIST'], $field));
 
         $this->_db->execute('ALTER TABLE `'. $this->_table .'` ADD INDEX (`'. $field .'`)');
 
@@ -617,9 +620,14 @@ class dbTable {
         else if (is_array($field)) {
             $this->_selectFields = array_merge($this->_selectFields, $field);
 
-            $lastField = array_pop($field);
-            $fieldList = implode('`, `', $field) .'` '. $this->_i18n['AND'] .' `'. $lastField;
-            $this->_actionList[] = sprintf($this->_i18n[$action], $fieldList, $this->_table);
+            if (count($field) == 1) {
+                $this->_actionList[] = sprintf($this->_i18n[$action], array_pop($field), $this->_table);
+            }
+            else {
+                $lastField = array_pop($field);
+                $fieldList = implode('`, `', $field) .'` '. $this->_i18n['AND'] .' `'. $lastField;
+                $this->_actionList[] = sprintf($this->_i18n[$action], $fieldList, $this->_table);
+            }
         }
 
         return $this;

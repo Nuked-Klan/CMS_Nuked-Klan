@@ -90,7 +90,7 @@ function updateUsersDbTableRow($updateList, $row, $vars) {
             $setFields['url'] = 'http://'. $row['url'];
     }
 
-    if (in_array('UPDATE_TEAM', $updateList)) {
+    if (in_array('ADD_TEAM_MEMBER', $updateList)) {
         if ($row['team'] != '') {
             $db->execute(
                 'INSERT INTO `'. TEAM_MEMBERS_TABLE .'`
@@ -229,7 +229,7 @@ if ($process == 'update') {
     if (version_compare($this->_session['version'], '1.8', '<')) {
         $dbTable->setUpdateFieldData('UPDATE_COUNTRY', 'country');
         $dbTable->setUpdateFieldData('UPDATE_HOMEPAGE', 'url');
-        $dbTable->setUpdateFieldData('UPDATE_TEAM', array('team', 'team2', 'team3', 'rang'));
+        $dbTable->setUpdateFieldData('ADD_TEAM_MEMBER', array('team', 'team2', 'team3', 'rang'));
     }
 
     $dbTable->applyUpdateFieldListToData();

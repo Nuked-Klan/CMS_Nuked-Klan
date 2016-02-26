@@ -1,0 +1,5 @@
+/* Games list */
+table#gamesList .gName{width:50%;}
+table#gamesList .nkListEdit,
+table#gamesList .nkListDelete{width:25%;}
+table#gamesList td{text-align:center;}

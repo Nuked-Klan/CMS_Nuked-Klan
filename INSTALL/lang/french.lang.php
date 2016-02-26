@@ -251,6 +251,7 @@ return array(
     #####################################
     # tables/table.games.c.i.u.php
     #####################################
+    'ADD_MAP_DATA'          => 'Transfére de la liste des maps du champ `%s` de la table `%s` dans la table des maps de la base de données',
     'PREF_CS'               => 'Préférences CS',
     'OTHER_NICK'            => 'Autre pseudo',
     'FAV_MAP'               => 'Map favorite',
@@ -295,6 +296,7 @@ return array(
     'UPDATE_PASSWORD'       => 'Mot de passe du champ `%s` mis à jour dans la table `%s`',
     'UPDATE_COUNTRY'        => 'Fichier du drapeau du pays du champ `%s` mis à jour dans la table `%s`',
     'UPDATE_HOMEPAGE'       => 'Url de la page perso du champ `%s` mis à jour dans la table `%s`',
+    'ADD_TEAM_MEMBER'       => 'Transfére de la Team de l\'utilisateur du champ `%s` de la table `%s` dans la table des membres de la team de la base de données',
     #####################################
     # views/changelog.php
     #####################################

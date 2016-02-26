@@ -35,6 +35,37 @@ $gamesTableCfg = array(
 );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table function
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+ * Callback function for update row of games map database table
+ */
+function updateGamesDbTableRow($updateList, $row, $vars) {
+    global $db;
+
+    $setFields = array();
+
+    if (in_array('ADD_MAP_DATA', $updateList)) {
+        $mapList = explode('|', $row['map']);
+
+        if ($mapList) {
+            foreach ($mapList as $map) {
+                $sql = 'INSERT INTO `'. GAMES_MAP_TABLE .'`
+                    (`name`, `game`)
+                    VALUES
+                    (\''. $map .'\', '. $row['id'] .');';
+
+                if ($db->execute($sql))
+                    $setFields['map'] = '';
+            }
+        }
+    }
+
+    return $setFields;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check table integrity
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,14 +108,20 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
-    // install 1.7.9 RC4
-    // update 1.7.9 RC5.2
-    if (! $dbTable->fieldExist('map'))
-        $dbTable->addField('map', $gamesTableCfg['fields']['map']);
-
     // install /update 1.8
     if (! $dbTable->fieldExist('gameFile'))
         $dbTable->addField('gameFile', $gamesTableCfg['fields']['gameFile']);
+
+    // update 1.8
+    if ($dbTable->fieldExist('map'))
+        $dbTable->setUpdateFieldData('ADD_MAP_DATA', array('map'));
+
+    $dbTable->applyUpdateFieldListToData();
+
+    if (($response = $dbTable->getJqueryAjaxResponse()) == 'UPDATED') {
+        if ($dbTable->fieldExist('map'))
+            $dbTable->dropField('map');
+    }
 }
 
 ?>

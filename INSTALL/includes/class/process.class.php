@@ -524,6 +524,8 @@ class process {
             else if (isset($_POST['checkAndConvertCharsetAndCollation'])
                 && $_POST['checkAndConvertCharsetAndCollation'] == 'true')
                 $process = 'checkAndConvertCharsetAndCollation';
+            else if (isset($_POST['createTable']) && $_POST['createTable'] == 'true')
+                $process = 'createTable';
             else
                 $process = $this->_session['process'];
 

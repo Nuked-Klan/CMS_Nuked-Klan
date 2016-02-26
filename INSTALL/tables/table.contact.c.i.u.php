@@ -54,7 +54,7 @@ function updateContactDbTableRow($updateList, $row, $vars) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'checkIntegrity') {
-    if ($process == 'checkIntegrity' && $dbTable->tableExist()) {
+    if ($dbTable->tableExist()) {
         // 
         $dbTable->checkIntegrity('id', 'message', 'ip');
     }
@@ -66,8 +66,12 @@ if ($process == 'checkIntegrity') {
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'checkAndConvertCharsetAndCollation')
-    $dbTable->checkAndConvertCharsetAndCollation();
+if ($process == 'checkAndConvertCharsetAndCollation') {
+    if ($dbTable->tableExist())
+        $dbTable->checkAndConvertCharsetAndCollation();
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CONVERT');
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table drop
@@ -99,7 +103,7 @@ if ($process == 'update') {
 
     // install / update 1.7.14
     if ($dbTable->fieldExist('ip') && $dbTable->getFieldType('ip') != 'varchar(40)')
-        $dbTable->modifyField('ip', $contactTableCfg['fields']['fields']);
+        $dbTable->modifyField('ip', $contactTableCfg['fields']['ip']);
 
     // Update BBcode
     // update 1.7.9 RC3

@@ -61,7 +61,7 @@ function updateActionDbTableRow($updateList, $row, $vars) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'checkIntegrity') {
-    if ($process == 'checkIntegrity' && $dbTable->tableExist()) {
+    if ($dbTable->tableExist()) {
         // table and field exist in 1.7.9 RC1 version
         $dbTable->checkIntegrity('id', array('pseudo', null));
     }
@@ -73,8 +73,12 @@ if ($process == 'checkIntegrity') {
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'checkAndConvertCharsetAndCollation')
-    $dbTable->checkAndConvertCharsetAndCollation();
+if ($process == 'checkAndConvertCharsetAndCollation') {
+    if ($dbTable->tableExist())
+        $dbTable->checkAndConvertCharsetAndCollation();
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CONVERT');
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table drop
@@ -88,7 +92,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // install /update 1.7.9 RC1
-if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
+if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExist())) {
     $dbTable->createTable($actionTableCfg);
 
     $actionTableCreated = true;

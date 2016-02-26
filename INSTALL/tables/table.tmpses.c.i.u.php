@@ -1,8 +1,8 @@
 <?php
 /**
- * table.erreursql.i.u.php
+ * table.tmpses.c.i.u.php
  *
- * `[PREFIX]_erreursql` database table script
+ * `[PREFIX]_tmpses` database table script
  *
  * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -10,22 +10,32 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable($this->_session['db_prefix'] .'_erreursql');
+$dbTable->setTable(PHP_SESSIONS_TABLE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$sqlErrorTableCfg = array(
+$tmpSessionsTableCfg = array(
     'fields' => array(
-        'id'    => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
-        'date'  => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'0\''),
-        'lien'  => array('type' => 'text',        'null' => false),
-        'texte' => array('type' => 'text',        'null' => false)
+        'session_id'    => array('type' => 'varchar(64)', 'null' => false),
+        'session_vars'  => array('type' => 'text',        'null' => false),
+        'session_start' => array('type' => 'bigint(20)',  'null' => false)
     ),
-    'primaryKey' => array('id'),
+    'primaryKey' => array('session_id'),
     'engine' => 'MyISAM'
 );
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Check table integrity
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'checkIntegrity') {
+    if ($dbTable->tableExist())
+        $dbTable->checkIntegrity();
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CHECK_INTEGRITY');
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
@@ -49,8 +59,8 @@ if ($process == 'drop' && $dbTable->tableExist())
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// install / update 1.7.9 RC1
-if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
-    $dbTable->createTable($sqlErrorTableCfg);
+// install / update 1.7.9 RC5
+if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExist()))
+    $dbTable->createTable($tmpSessionsTableCfg);
 
 ?>
