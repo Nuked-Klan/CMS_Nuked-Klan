@@ -2,9 +2,13 @@
 
 // Admin menu configuration
 return array(
-    __('ADD_GAME') => array(
+    __('ADMIN_GAME') => array(
         'img'   => 'modules/Admin/images/icons/chess.png'
-    )
+    ),
+    __('MAP_MANAGEMENT') => array(
+        'img'   => 'modules/Admin/images/icons/image_add_48.png',
+        'page'  => 'map'
+    ),
 );
 
 ?>

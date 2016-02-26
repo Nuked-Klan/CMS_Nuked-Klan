@@ -43,6 +43,7 @@ define('FORUM_VOTE_TABLE', $db_prefix . '_forums_vote');
 define('GALLERY_TABLE', $db_prefix . '_gallery');
 define('GALLERY_CAT_TABLE', $db_prefix . '_gallery_cat');
 define('GAMES_TABLE', $db_prefix . '_games');
+define('GAMES_MAP_TABLE', $db_prefix . '_games_map');
 define('GAMES_PREFS_TABLE', $db_prefix . '_games_prefs');
 define('GUESTBOOK_TABLE', $db_prefix . '_guestbook');
 define('IRC_AWARDS_TABLE', $db_prefix . '_irc_awards');

@@ -31,8 +31,7 @@ function getGameFields() {
         'pref_2',
         'pref_3',
         'pref_4',
-        'pref_5',
-        'map'
+        'pref_5'
     );
 }
 
@@ -97,18 +96,6 @@ function getGameFormCfg() {
                 'size'              => 30,
                 'dataType'          => 'text',
                 'required'          => true
-            ),
-            'mapInput' => array(
-                'label'             => __('MAP'),
-                'type'              => 'text',
-                'size'              => 30,
-                'html'              => '<input id="addMap" class="button" type="button" value="'. __('ADD_MAP') .'" />',
-            ),
-            'htmlMapList' => '',
-            'htmlMapListButtons' => '<div id="resetMapListButton" class="nkFormRow"><input id="resetMapList" class="button" type="button" value="'. __('DELETE_ALL_MAP') .'" /></div>',
-            'map' => array(
-                'type'              => 'hidden',
-                'id'                => 'map'
             )
         ),
         'itemsFooter' => array(

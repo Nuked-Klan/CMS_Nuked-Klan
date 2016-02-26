@@ -1,6 +1,6 @@
 <?php
 /**
- * games.php
+ * index.php
  *
  * Backend of Games module - Games management
  *
@@ -39,43 +39,6 @@ function formatGameRow($row, $nbData, $r, $functionData) {
     $row['name'] = nkHtmlEntities(stripslashes($row['name']));
 
     return $row;
-}
-
-/* Game edit form function */
-
-
-/**
- * Callback function for nkAction_edit.
- * Prepare form configuration to add Game.
- *
- * @param array $form : The Game form configuration.
- * @return array : The Game form configuration prepared.
- */
-function prepareFormForAddGame(&$form) {
-    $form['items']['htmlMapList'] = '<div id="mapList" class="nkFormRow"></div>';
-}
-
-/**
- * Callback function for nkAction_edit.
- * Prepare form configuration to edit Game.
- *
- * @param array $form : The Game form configuration.
- * @param array $game : The Game data.
- * @return array : The Game form configuration prepared.
- */
-function prepareFormForEditGame(&$form, $game, $id) {
-    $form['items']['htmlMapList'] = '<div id="mapList" class="nkFormRow">';
-
-    if ($game['map'] != '') {
-        $form['items']['htmlMapList'] .= '<ul>';
-
-        foreach(explode('|', $game['map']) as $mapping)
-            $form['items']['htmlMapList'] .= '<li>'. $mapping .'</li>';
-
-        $form['items']['htmlMapList'] .= '</ul>';
-    }
-
-    $form['items']['htmlMapList'] .= '</div>';
 }
 
 // Display game icon list pop-up
