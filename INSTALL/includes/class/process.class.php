@@ -173,7 +173,7 @@ class process {
                 FROM `'. $db_prefix .'_config`
                 WHERE name = \'version\'';
 
-            $dbsConfig = $this->_db->selectOne($sql, array('exception' => 'DB_PREFIX_ERROR'));
+            $dbsConfig = $this->_db->selectOne($sql, array('exception' => $this->_i18n['DB_PREFIX_ERROR']));
 
             if (isset($nk_version) && version_compare($nk_version, $dbsConfig['version'], '>'))
                 $nkVersion = $nk_version;
@@ -409,7 +409,7 @@ class process {
                     ORDER BY RAND()
                     LIMIT 1';
 
-                $this->_db->execute($sql, array('exception' => 'DB_PREFIX_ERROR'));
+                $this->_db->execute($sql, array('exception' => $this->_i18n['DB_PREFIX_ERROR']));
             }
         }
         catch (dbException $e) {
@@ -613,7 +613,7 @@ class process {
             SET value = \''. $this->_nkVersion .'\'
             WHERE name = \'version\'';
 
-        $this->_db->execute($sql, array('exception' => 'DB_PREFIX_ERROR'));
+        $this->_db->execute($sql, array('exception' => $this->_i18n['DB_PREFIX_ERROR']));
 
         $this->_saveConfInc();
 
