@@ -67,6 +67,7 @@ return array(
     'NICK'              => 'Nick',
     'ARRIVAL_DATE'      => 'Arrival date',
     'TEAM'              => 'Team',
+    'STATUS'            => 'Status',
     // views/frontend/modules/Team/list.php
     'RANK'              => 'Rank',
     'NO_TEAM_MEMBERS'   => 'No member for this Team',

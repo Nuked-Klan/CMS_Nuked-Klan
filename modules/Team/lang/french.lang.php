@@ -67,6 +67,7 @@ return array(
     'NICK'              => 'Pseudo',
     'ARRIVAL_DATE'      => 'Date d\'arrivée',
     'TEAM'              => 'Team',
+    'STATUS'            => 'Status',
     // views/frontend/modules/Team/list.php
     'RANK'              => 'Rang',
     'NO_TEAM_MEMBERS'   => 'Aucun membre pour cette Team',
