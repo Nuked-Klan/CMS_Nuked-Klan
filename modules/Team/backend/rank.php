@@ -45,17 +45,6 @@ function formatTeamRankRow($row, $nbData, $r, $functionData) {
 
 /**
  * Callback function for nkAction_edit.
- * Prepare form configuration to add Team rank.
- *
- * @param array $form : The Team rank form configuration.
- * @return array : The Team rank form configuration prepared.
- */
-function prepareFormForAddTeamRank(&$form) {
-    $form['items']['ordre']['value'] = '0';
-}
-
-/**
- * Callback function for nkAction_edit.
  * Prepare form configuration to edit Team rank.
  *
  * @param array $form : The Team rank form configuration.

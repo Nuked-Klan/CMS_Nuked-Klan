@@ -43,9 +43,7 @@ function nkAction_init($actionType) {
     if (! ($nkTemplate['interface'] == 'backend' && $page == 'setting'))
         $nkAction['id'] = nkAction_getID();
 
-    if ($nkTemplate['interface'] == 'frontend'
-        && function_exists($checkAccessFunct = 'check'. $nkAction['ucf_dataName'] .'Access')
-    ) {
+    if (function_exists($checkAccessFunct = 'check'. $nkAction['ucf_dataName'] .'Access')) {
         if (! $checkAccessFunct())
             return false;
     }

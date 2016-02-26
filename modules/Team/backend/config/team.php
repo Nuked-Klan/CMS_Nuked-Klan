@@ -52,6 +52,7 @@ function getTeamFormCfg() {
                 'label'             => __('ORDER'),
                 'type'              => 'text',
                 'size'              => 2,
+                'value'             => '0',
                 'dataType'          => 'integer',
                 'required'          => true
             ),

@@ -66,6 +66,7 @@ function getTeamRankFormCfg() {
                 'label'             => __('ORDER'),
                 'type'              => 'text',
                 'size'              => 1,
+                'value'             => '0',
                 'dataType'          => 'integer',
                 'required'          => true
             )

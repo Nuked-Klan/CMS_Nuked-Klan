@@ -51,17 +51,21 @@ function formatTeamMemberRow($row, $nbData, $r, $functionData) {
  * @return array : The administrator list for input select option.
  */
 function getAdministratorOptions() {
-    $options = array();
+    static $options = array();
 
-    $dbrUser = nkDB_selectMany(
-        'SELECT id, pseudo
-        FROM '. USER_TABLE .'
-        WHERE niveau >= 2',
-        array('pseudo')
-    );
+    if (! $options) {
+        $dbrUser = nkDB_selectMany(
+            'SELECT id, pseudo
+            FROM '. USER_TABLE .'
+            WHERE niveau >= 2',
+            array('pseudo')
+        );
 
-    foreach ($dbrUser as $administrator)
-        $options[$administrator['id']] = printSecuTags($administrator['pseudo']);
+        if ($dbrUser) {
+            foreach ($dbrUser as $administrator)
+                $options[$administrator['id']] = printSecuTags($administrator['pseudo']);
+        }
+    }
 
     return $options;
 }
@@ -73,16 +77,20 @@ function getAdministratorOptions() {
  * @return array : The Team list for input select option.
  */
 function getTeamOptions() {
-    $options = array();
+    static $options = array();
 
-    $dbrTeam = nkDB_selectMany(
-        'SELECT cid, titre
-        FROM '. TEAM_TABLE,
-        array('game', 'ordre')
-    );
+    if (! $options) {
+        $dbrTeam = nkDB_selectMany(
+            'SELECT cid, titre
+            FROM '. TEAM_TABLE,
+            array('game', 'ordre')
+        );
 
-    foreach ($dbrTeam as $team)
-        $options[$team['cid']] = printSecuTags($team['titre']);
+        if ($dbrTeam) {
+            foreach ($dbrTeam as $team)
+                $options[$team['cid']] = printSecuTags($team['titre']);
+        }
+    }
 
     return $options;
 }
@@ -94,7 +102,7 @@ function getTeamOptions() {
  * @return array : The Team status list for input select option.
  */
 function getTeamStatusOptions() {
-    $options = array();
+    $options = array('' => __('NONE'));
 
     $dbrTeamStatus = nkDB_selectMany(
         'SELECT id, name
@@ -115,7 +123,7 @@ function getTeamStatusOptions() {
  * @return array : The Team rank list for input select option.
  */
 function getTeamRankOptions() {
-    $options = array();
+    $options = array('' => __('NONE'));
 
     $dbrTeamRank = nkDB_selectMany(
         'SELECT id, titre
@@ -127,6 +135,31 @@ function getTeamRankOptions() {
         $options[$teamRank['id']] = printSecuTags($teamRank['titre']);
 
     return $options;
+}
+
+/**
+ * Callback function for nkAction_init.
+ * Check if user can add Team.
+ *
+ * @param void
+ * @return bool
+ */
+function checkTeamAccess() {
+    global $nkAction;
+
+    if ($nkAction['actionType'] == 'edit') {
+        if (! getAdministratorOptions()) {
+            printNotification(__('NO_ADMIN'), 'error');
+            return false;
+        }
+
+        if (! getTeamOptions()) {
+            printNotification(__('NO_TEAM'), 'error');
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /**
