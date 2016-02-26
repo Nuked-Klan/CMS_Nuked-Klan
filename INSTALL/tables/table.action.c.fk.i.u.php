@@ -1,6 +1,6 @@
 <?php
 /**
- * table.action.i.u.php
+ * table.action.c.fk.i.u.php
  *
  * `[PREFIX]_action` database table script
  *

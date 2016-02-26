@@ -1,6 +1,6 @@
 <?php
 /**
- * table.discussion.c.i.u.php
+ * table.discussion.c.fk.i.u.php
  *
  * `[PREFIX]_discussion` database table script
  *

@@ -41,19 +41,19 @@ function membersList() {
         $currentLetter = '';
 
     if ($currentLetter == $tsOther) {
-        $and = 'AND pseudo NOT REGEXP \'^[a-zA-Z].\'';
+        $and = 'AND U.pseudo NOT REGEXP \'^[a-zA-Z].\'';
     }
     else if ($currentLetter != '' && preg_match('`^[A-Z]+$`', $currentLetter)) {
-        $and = 'AND pseudo LIKE \''. nkDB_escape($currentLetter, true) .'%\'';
+        $and = 'AND U.pseudo LIKE \''. nkDB_escape($currentLetter, true) .'%\'';
     }
     else {
         $and = '';
     }
 
     $nbMembers = nkDB_totalNumRows(
-        'SELECT pseudo
-        FROM '. USER_TABLE .'
-        WHERE team = \'\' AND niveau > 0 '. $and
+        'FROM '. USER_TABLE .' AS U
+        LEFT JOIN '. TEAM_MEMBERS_TABLE .' AS TM ON TM.userId = U.id
+        WHERE TM.userId IS NULL AND U.niveau > 0 '. $and
     );
 
     if (array_key_exists('p', $_GET))
@@ -67,21 +67,23 @@ function membersList() {
         $pagination = '';
 
     $userSocialFields = nkUserSocial_getActiveFields();
-    $userSocialFields = ($userSocialFields) ? ', '. implode(', ', $userSocialFields) : '';
+    $userSocialFields = ($userSocialFields) ? ', U.'. implode(', U.', $userSocialFields) : '';
 
     $dbrMembers = nkDB_selectMany(
-        'SELECT pseudo AS nickname, country'. $userSocialFields .'
-        FROM '. USER_TABLE .'
-        WHERE team = \'\' '. $and .' AND niveau > 0',
-        array('pseudo'), 'ASC',
+        'SELECT U.pseudo AS nickname, U.country'. $userSocialFields .'
+        FROM '. USER_TABLE .' AS U
+        LEFT JOIN '. TEAM_MEMBERS_TABLE .' AS TM ON TM.userId = U.id
+        WHERE TM.userId IS NULL',
+        array('U.pseudo'), 'ASC',
         $nuked['max_members'], ($p - 1) * $nuked['max_members']
     );
 
     if ($currentLetter == '' && $nbMembers > 0) {
         $dbrLastMember = nkDB_selectOne(
-            'SELECT pseudo
-            FROM '. USER_TABLE .'
-            WHERE team = \'\'',
+            'SELECT U.pseudo
+            FROM '. USER_TABLE .' AS U
+            LEFT JOIN '. TEAM_MEMBERS_TABLE .' AS TM ON TM.userId = U.id
+            WHERE TM.userId IS NULL AND U.niveau > 0',
             array('date'), 'DESC', 1
         );
 

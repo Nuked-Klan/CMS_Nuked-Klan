@@ -128,11 +128,11 @@ else {
 
 nkDB_disconnect();
 
-/*
+
 if (in_array(nkTemplate_getPageDesign(), array('fullPage', 'nudePage'))) {
     echo '<!--', "\n";
-    print_r($GLOBALS['nkDB']['querys']);
+    print_r($GLOBALS['nkDB']);
     echo '-->', "\n";
-}*/
+}
 
 ?>

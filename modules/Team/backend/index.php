@@ -89,8 +89,11 @@ function prepareFormForAddTeam(&$form) {
  */
 function prepareFormForEditTeam(&$form, $team, $id) {
     $form['items']['game']['options']  = getGameOptions();
-    $form['items']['coverage']['html'] = '<div><img src="'. $team['coverage']
-        . '" title="'. printSecuTags($team['titre']) .'" id="teamCoverageImg" /></div>';
+
+    if ($team['coverage'] != '') {
+        $form['items']['coverage']['html'] = '<div><img src="'. $team['coverage']
+            . '" title="'. printSecuTags($team['titre']) .'" id="teamCoverageImg" /></div>';
+    }
 }
 
 

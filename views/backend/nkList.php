@@ -134,7 +134,7 @@
             if (isset($edit)) :
 ?>
         <td class="nkListEdit">
-            <a href="<?php echo $baseUrl ?>&amp;op=<?php echo $edit['op'] ?>&amp;<?php echo $rowId ?>=<?php echo $row[$rowId] ?>">
+            <a href="<?php echo $baseUrl ?>&amp;op=<?php echo $edit['op'] ?>&amp;id=<?php echo $row[$rowId] ?>">
                 <img style="border: 0;" src="images/edit.gif" alt="<?php echo _EDIT ?>" title="<?php echo $edit['imgTitle'] ?>" />
             </a>
         </td>

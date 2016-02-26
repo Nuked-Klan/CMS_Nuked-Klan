@@ -1,6 +1,6 @@
 <?php
 /**
- * table.news.c.i.u.php
+ * table.news.c.fk.i.u.php
  *
  * `[PREFIX]_news` database table script
  *

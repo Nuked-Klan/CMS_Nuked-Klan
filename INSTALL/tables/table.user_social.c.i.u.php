@@ -1,6 +1,6 @@
 <?php
 /**
- * table.user_social.i.u.php
+ * table.user_social.c.i.u.php
  *
  * `[PREFIX]_user_social` database table script
  *

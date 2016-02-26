@@ -1,6 +1,6 @@
 <?php
 /**
- * table._forums_options.c.i.php
+ * table.forums_options.c.i.php
  *
  * `[PREFIX]_forums_options` database table script
  *

@@ -52,7 +52,7 @@ function getGameFormCfg() {
                 'label'             => __('ICON'),
                 'type'              => 'text',
                 'size'              => 49,
-                'html'              => '&nbsp<a class="buttonLink" href="#" onclick="javascript:window.open(\'index.php?admin=Games&amp;op=showIcon\',\''. __('ICON') .'\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0\');return(false)">'. __('SEE_ICON') .'</a>',
+                'html'              => '&nbsp<a class="buttonLink" href="#" onclick="javascript:window.open(\'index.php?admin=Game&amp;op=showIcon\',\''. __('ICON') .'\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=300,height=125,top=30,left=0\');return(false)">'. __('SEE_ICON') .'</a>',
                 'dataType'          => 'text',
                 'required'          => true
             ),

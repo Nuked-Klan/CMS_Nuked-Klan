@@ -1,6 +1,6 @@
 <?php
 /**
- * table.sections.c.i.u.php
+ * table.sections.c.fk.i.u.php
  *
  * `[PREFIX]_sections` database table script
  *

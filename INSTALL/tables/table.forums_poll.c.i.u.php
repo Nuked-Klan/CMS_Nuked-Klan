@@ -1,6 +1,6 @@
 <?php
 /**
- * table.forums_poll.c.i.php
+ * table.forums_poll.c.i.u.php
  *
  * `[PREFIX]_forums_poll` database table script
  *

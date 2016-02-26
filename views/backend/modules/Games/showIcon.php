@@ -2,7 +2,7 @@
 <script type="text/javascript">
 <!--
 function go(img) {
-    opener.document.getElementById('game_icon').value = img;
+    opener.document.getElementById('gIcon').value = img;
 }
 // -->
 </script>

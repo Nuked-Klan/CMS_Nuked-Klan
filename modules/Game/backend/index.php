@@ -67,8 +67,12 @@ function prepareFormForEditGame(&$form, $game, $id) {
     $form['items']['htmlMapList'] = '<div id="mapList" class="nkFormRow">';
 
     if ($game['map'] != '') {
+        $form['items']['htmlMapList'] .= '<ul>';
+
         foreach(explode('|', $game['map']) as $mapping)
-            $form['items']['htmlMapList'] .= $mapping .'</br/>';
+            $form['items']['htmlMapList'] .= '<li>'. $mapping .'</li>';
+
+        $form['items']['htmlMapList'] .= '</ul>';
     }
 
     $form['items']['htmlMapList'] .= '</div>';

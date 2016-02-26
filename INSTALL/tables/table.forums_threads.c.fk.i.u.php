@@ -1,6 +1,6 @@
 <?php
 /**
- * table.forums_threads.c.i.php
+ * table.forums_threads.c.fk.i.u.php
  *
  * `[PREFIX]_forums_threads` database table script
  *

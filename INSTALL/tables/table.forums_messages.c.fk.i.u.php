@@ -1,6 +1,6 @@
 <?php
 /**
- * table.forums_messages.c.i.u.php
+ * table.forums_messages.c.fk.i.u.php
  *
  * `[PREFIX]_forums_messages` database table script
  *

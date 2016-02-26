@@ -1,6 +1,6 @@
 <?php
 /**
- * table.comment.c.i.u.php
+ * table.comment.c.fk.i.u.php
  *
  * `[PREFIX]_comment` database table script
  *

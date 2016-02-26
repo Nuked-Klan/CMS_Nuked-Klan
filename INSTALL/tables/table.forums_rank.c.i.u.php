@@ -1,6 +1,6 @@
 <?php
 /**
- * table._forums_rank.c.i.php
+ * table.forums_rank.c.i.u.php
  *
  * `[PREFIX]_forums_rank` database table script
  *
