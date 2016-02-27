@@ -89,7 +89,7 @@ if ($active == 3 || $active == 4) {
 
         echo "<table width=\"100%\" cellspacing=\"5\" cellpadding=\"0\"><tr>\n"
            . "<td valign=\"top\"><img width=\"120\" src=\"" . $mapimage . "\" alt=\"\" title=\"" . printSecuTags($gameserver->mapname) . "\" /></td>\n"
-           . "<td valign=\"top\"><b>" . printSecuTags($gameserver->servertitle) . "</b><br />" . _ADDRESS . " : " . $address . ":" . $port . "<br />" . _SERVERPASS . " :";
+           . "<td valign=\"top\"><b>" . printSecuTags($gameserver->servertitle) . "</b><br />" . _ADDRESS . " : " . $address . ":" . $port . "<br />" . __('SERVER_PASSWORD') . " :";
 
         if (!empty($password)) {
             echo "&nbsp;" . $password . "<br />\n";

@@ -380,6 +380,7 @@ return array(
     'EDIT'              => 'Edit',
     'TITLE'             => 'Title',
     'COLOR'             => 'Color',
+    'URL'               => 'Url',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

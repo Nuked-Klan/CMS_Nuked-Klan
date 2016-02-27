@@ -434,10 +434,17 @@ function nkAction_edit() {
             $form['itemsFooter']['submit']['value'] = __('SEND');
     }
 
-    if ($nkTemplate['interface'] == 'backend') {
+    if ($nkTemplate['pageDesign'] == 'nudePage') {
         $form['itemsFooter']['backlink'] = array(
-            'html' => '<a class="buttonLink" href="index.php?'. $nkAction['moduleUriKey'] .'='. $file .'">'. __('BACK') .'</a>'
+            'html' => '<a class="buttonLink" href="#" onclick="javascript:window.close()"><b>'. __('CLOSE_WINDOW') .'</b></a>'
         );
+    }
+    else {
+        if ($nkTemplate['interface'] == 'backend') {
+            $form['itemsFooter']['backlink'] = array(
+                'html' => '<a class="buttonLink" href="index.php?'. $nkAction['moduleUriKey'] .'='. $file .'">'. __('BACK') .'</a>'
+            );
+        }
     }
 
     $title = nkAction_getTitle();
@@ -797,7 +804,7 @@ function nkAction_getFieldsPrefix() {
  * @return void
  */
 function nkAction_list() {
-    global $nkAction, $file, $page;
+    global $nkAction, $nkTemplate, $file, $page;
 
     if (! nkAction_init('list'))
         return;
@@ -813,6 +820,9 @@ function nkAction_list() {
 
     if (! array_key_exists('rowId', $listCfg))
         $listCfg['rowId'] = $nkAction['tableId'];
+
+    if (function_exists($formatSqlListQueryFunct = 'format'. $nkAction['ucf_dataName'] .'ListQuery'))
+        $listCfg['sqlQuery'] = $formatSqlListQueryFunct($nkAction['sqlQuery']);
 
     $listCfg['limit'] = 30;
 
@@ -868,10 +878,15 @@ function nkAction_list() {
             $listCfg['footerLinks'][$tsAddEntrie] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'], array(), true);
         }
 
-        if ($page == 'index')
-            $listCfg['footerLinks'][__('BACK')] = 'index.php?file=Admin';
-        else
-            $listCfg['footerLinks'][__('BACK')] = 'index.php?'. $nkAction['moduleUriKey'] .'='. $file .'&amp;page=admin';
+        if ($nkTemplate['pageDesign'] == 'nudePage') {
+            $listCfg['footerLinks']['closeLink'] = true;
+        }
+        else {
+            if ($page == 'index')
+                $listCfg['footerLinks'][__('BACK')] = 'index.php?file=Admin';
+            else
+                $listCfg['footerLinks'][__('BACK')] = 'index.php?'. $nkAction['moduleUriKey'] .'='. $file .'&amp;page=admin';
+        }
     }
 
     $footerLink = applyTemplate('footerLink', array(

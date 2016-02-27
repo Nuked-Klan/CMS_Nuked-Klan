@@ -96,7 +96,7 @@ define('LINKS_CAT_TABLE_ID', 'cid');
 define('NEWS_CAT_TABLE_ID', 'nid');
 define('SECTIONS_TABLE_ID', 'artid');
 define('SECTIONS_CAT_TABLE_ID', 'secid');
-define('SERVER_TABLE_ID', 'cid');
+define('SERVER_TABLE_ID', 'sid');
 define('SERVER_CAT_TABLE_ID', 'cid');
 define('SURVEY_TABLE_ID', 'sid');
 define('SURVEY_DATA_TABLE_ID', 'sid');

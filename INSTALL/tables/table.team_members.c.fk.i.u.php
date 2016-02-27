@@ -74,7 +74,7 @@ if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExis
 
 if ($process == 'addForeignKey') {
     if (! $dbTable->foreignKeyExist('FK_teamMembers_userId'))
-        addAuthorIdForeignKey('team_members', 'userId');
+        addAuthorIdForeignKey('team_members', 'userId', $keepUserId = false);
 
 }
 

@@ -1,17 +1,20 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
-
+/**
+ * english.lang.php
+ *
+ * English translation file of Server module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_ON","on");
 define("_MOREINFOS","More info");
 define("_SEVERDOWN","Server Down...");
 define("_NAME","Name");
-define("_SERVIP","Ip address:");
-define("_SERVPORT","Port:");
-define("_SERVERGAME","Server type:");
 
 define("_MAP","Map");
 define("_PLAYER","Players");
@@ -22,7 +25,6 @@ define("_SEARCH","Search");
 define("_SERVERDETAIL","Server details");
 define("_ADDRESS","Address");
 define("_NBPLAYER","Players");
-define("_SERVERPASS","Password");
 define("_GAME","Game");
 define("_SYSTEMOS","OS System");
 define("_SERVERTYPE","Server Type");
@@ -37,42 +39,34 @@ define("_DEATHS","Deaths");
 define("_PING","Ping");
 define("_NOPLAYERS","No players");
 
-define("_ADMINSERVER","Servers Administration");
-define("_SERVER","Servers");
+return array(
+    // modules/Server/backend/category.php
+    // modules/Server/backend/index.php
+    'ADMIN_SERVER'         => 'Servers Administration',
+    // modules/Server/backend/index.php
+    'ADD_SERVER'           => 'Add Server',
+    'EDIT_THIS_SERVER'     => 'Edit this Server',
+    'DELETE_THIS_SERVER'   => 'Remove this Server',
+    'NO_SERVER_IN_DB'      => 'No server in database',
+    'ADD_THIS_SERVER'      => 'Create Server',
+    'MODIFY_THIS_SERVER'   => 'Modify this Server',
+    'SERVER_ADDED'         => 'Server was successfully added.',
+    'SERVER_MODIFIED'      => 'Server was successfully modified.',
+    'SERVER_DELETED'       => 'Server was successfully removed.',
+    'ACTION_ADD_SERVER'    => 'have added a server',
+    'ACTION_EDIT_SERVER'   => 'have modified a server',
+    'ACTION_DELETE_SERVER' => 'have deleted a server',
+    // modules/Server/backend/category.php
+    'ACTION_ADD_SERVER_CATEGORY' => 'has added the server category',
+    'ACTION_EDIT_SERVER_CATEGORY' => 'has modified the server category',
+    'ACTION_DELETE_SERVER_CATEGORY' => 'has deleted the server category',
+    // modules/Server/backend/config/menu.php
+    'SERVER'                => 'Servers',
+    // modules/Server/backend/config/server.php
+    'SERVER_IP'             => 'Ip address',
+    'SERVER_PORT'           => 'Port',
+    'SERVER_GAME'           => 'Server type',
+    'SERVER_PASSWORD'       => 'Password'
+);
 
-define("_DELETESERV","You are about to remove");
-
-define("_CAT","Category");
-
-
-define("_EDITTHISCAT","Edit this Category");
-define("_DELTHISCAT","Remove this Category");
-define("_ADDCAT","Add a Category");
-define("_DESCR","Description");
-define("_CREATECAT","Create Category");
-define("_CATADD","Category was successfully added.");
-define("_MODIFTHISCAT","Modify this Catégorie");
-define("_CATMODIF","Category was successfully modified.");
-define("_CATDEL","Category was successfully removed.");
-define("_ADDTHISSERV","Add this Server");
-define("_SERVERADD","Server was successfully added.");
-define("_SERVERDEL","Server was successfully removed.");
-define("_MODIFTHISSERV","Modify this Server");
-define("_SERVERMODIF","Server was successfully modified.");
-define("_EDITTHISSERV","Edit this Server");
-define("_NONE","N/A");
-define("_DELTHISSERV","Remove this Server");
-define("_ADDSERVER","Add a Server");
-define("_CATMANAGEMENT","categorys Management");
-define("_NOSERV","No servers in the database");
-
-define("_NONECATINDATABASE","No category in the database");
-
-define("_ACTIONADDCATSER","has added the server category");
-define("_ACTIONMODIFCATSER","has modified the server category");
-define("_ACTIONDELCATSER","has deleted the server category");
-define("_ACTIONADDSER","has added a server");
-define("_ACTIONDELSER","has deleted a server");
-define("_ACTIONMODIFSER","has modified a server");
-define("_ACTIONCONFIGSER","has modified the preference of server module");
 ?>

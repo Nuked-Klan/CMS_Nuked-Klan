@@ -1,0 +1,13 @@
+/* Server category list */
+table#serverCategoryList .serverCatTitre{width:60%;}
+table#serverCategoryList .nkListEdit,
+table#serverCategoryList .nkListDelete{width:20%;}
+table#serverCategoryList td{text-align:center;}
+
+/* Server list */
+table#serverList .serverIp{width:30%;}
+table#serverList .serverGame,
+table#serverList .serverTitre{width:20%;}
+table#serverList .nkListEdit,
+table#serverList .nkListDelete{width:15%;}
+table#serverList td{text-align:center;}

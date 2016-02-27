@@ -16,13 +16,18 @@ function getUserData($userId) {
 /*
  * Add author Id foreign key of action database table
  */
-function addAuthorIdForeignKey($name, $authorId = 'authorId') {
+function addAuthorIdForeignKey($name, $authorId = 'authorId', $keepUserId = true) {
     global $dbTable;
+
+    if ($keepUserId)
+        $refOptions = array('ON DELETE SET NULL');
+    else
+        $refOptions = array('ON DELETE CASCADE');
 
     $dbTable->addForeignKey(
         'FK_'. $name .'_authorId', $authorId,
         USER_TABLE, 'id',
-        array('ON DELETE SET NULL')
+        $refOptions
     );
 }
 

@@ -1,15 +1,20 @@
 <?php
-if (!defined("INDEX_CHECK"))
-{
-	exit('You can\'t run this file alone.');
-}
+/**
+ * french.lang.php
+ *
+ * French translation file of Server module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
+
 define("_ON","sur");
 define("_MOREINFOS","+ d'infos");
 define("_SEVERDOWN","Serveur Down...");
 define("_NAME","Nom");
-define("_SERVIP","Adresse Ip :");
-define("_SERVPORT","Port :");
-define("_SERVERGAME","Type de serveur :");
 
 define("_MAP","Map");
 define("_PLAYER","Joueurs");
@@ -21,7 +26,6 @@ define("_EXECTHISFILE","Cochez Exécutez ce programme à partir de son emplacement
 define("_SERVERDETAIL","Serveur en détails");
 define("_ADDRESS","Adresse");
 define("_NBPLAYER","Nb de joueurs");
-define("_SERVERPASS","Password");
 define("_GAME","Game");
 define("_SYSTEMOS","Système Os");
 define("_SERVERTYPE","Type de serveur");
@@ -36,42 +40,34 @@ define("_DEATHS","Morts");
 define("_PING","Ping");
 define("_NOPLAYERS","Aucun joueur sur ce serveur");
 
-define("_ADMINSERVER","Administration Serveurs");
-define("_SERVER","Serveurs");
+return array(
+    // modules/Server/backend/category.php
+    // modules/Server/backend/index.php
+    'ADMIN_SERVER'         => 'Administration Serveurs',
+    // modules/Server/backend/index.php
+    'ADD_SERVER'           => 'Ajouter un Serveur',
+    'EDIT_THIS_SERVER'     => 'Editer ce Serveur',
+    'DELETE_THIS_SERVER'   => 'Supprimer ce Serveur',
+    'NO_SERVER_IN_DB'      => 'Aucune serveur dans la base de données',
+    'ADD_THIS_SERVER'      => 'Créer un Serveur',
+    'MODIFY_THIS_SERVER'   => 'Modifier ce Serveur',
+    'SERVER_ADDED'         => 'Serveur ajoutée avec succès.',
+    'SERVER_MODIFIED'      => 'Serveur modifiée avec succès.',
+    'SERVER_DELETED'       => 'Serveur supprimée avec succès.',
+    'ACTION_ADD_SERVER'    => 'a ajouté le serveur',
+    'ACTION_EDIT_SERVER'   => 'a modifié le serveur',
+    'ACTION_DELETE_SERVER' => 'a supprimé le serveur',
+    // modules/Server/backend/category.php
+    'ACTION_ADD_SERVER_CATEGORY' => 'a ajouté la catégorie serveur',
+    'ACTION_EDIT_SERVER_CATEGORY' => 'a modifié la catégorie serveur',
+    'ACTION_DELETE_SERVER_CATEGORY' => 'a supprimé la catégorie serveur',
+    // modules/Server/backend/config/menu.php
+    'SERVER'                => 'Serveurs',
+    // modules/Server/backend/config/server.php
+    'SERVER_IP'             => 'Adresse Ip',
+    'SERVER_PORT'           => 'Port',
+    'SERVER_GAME'           => 'Type de serveur',
+    'SERVER_PASSWORD'       => 'Password'
+);
 
-define("_DELETESERV","Vous êtes sur le point de supprimer");
-
-define("_CAT","Catégorie");
-
-
-define("_EDITTHISCAT","Editer cette Catégorie");
-define("_DELTHISCAT","Supprimer cette Catégorie");
-define("_ADDCAT","Ajouter une Catégorie");
-define("_DESCR","Description");
-define("_CREATECAT","Créer une Catégorie");
-define("_CATADD","Catégorie ajoutée avec succès.");
-define("_MODIFTHISCAT","Modifier cette Catégorie");
-define("_CATMODIF","Catégorie modifiée avec succès.");
-define("_CATDEL","Catégorie supprimée avec succès.");
-define("_ADDTHISSERV","Ajouter ce Serveur");
-define("_SERVERADD","Serveur ajouté avec succès.");
-define("_SERVERDEL","Serveur supprimé avec succès.");
-define("_MODIFTHISSERV","Modifier ce Serveur");
-define("_SERVERMODIF","Serveur modifié avec succès.");
-define("_EDITTHISSERV","Editer ce Serveur");
-define("_NONE","N/A");
-define("_DELTHISSERV","Supprimer ce Serveur");
-define("_ADDSERVER","Ajouter un Serveur");
-define("_CATMANAGEMENT","Gestion des catégories");
-define("_NOSERV","Aucun serveur dans la base de données");
-define("_SERVERPREF","Aucun serveur dans la base de données");
-define("_NONECATINDATABASE","Aucune catégorie dans la base de données");
-
-define("_ACTIONADDCATSER","a ajouté la catégorie serveur");
-define("_ACTIONMODIFCATSER","a modifié la catégorie serveur");
-define("_ACTIONDELCATSER","a supprimé la catégorie serveur");
-define("_ACTIONADDSER","a ajouté le serveur");
-define("_ACTIONDELSER","a supprimé le serveur");
-define("_ACTIONMODIFSER","a modifié le serveur");
-define("_ACTIONCONFIGSER","a modifié les préférences du module serveur");
 ?>

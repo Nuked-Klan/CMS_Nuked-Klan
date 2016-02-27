@@ -42,7 +42,7 @@ function index() {
             echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
             . "<tr style=\"background: ". $bgcolor3 . "\">\n"
             . "<td style=\"width: 30%;\" align=\"center\"><b>" . _NAME . "</b></td>\n"
-            . "<td style=\"width: 25%;\" align=\"center\"><b>" . _SERVIP . "</b></td>\n"
+            . "<td style=\"width: 25%;\" align=\"center\"><b>" . __('SERVER_IP') . "</b></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _TYPE . "</b></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _MAP . "</b></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _PLAYER . "</b></td></tr>\n";
@@ -143,9 +143,9 @@ function index() {
     echo "<br /><form method=\"post\" action=\"index.php?file=Server&amp;op=server\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellpadding=\"2\" cellspacing=\"0\">\n"
         . "<tr><td colspan=\"4\" align=\"center\"><b>" . _SERVERINFOS . " :</b></td></tr>\n"
-        . "<tr><td><i>" . _SERVIP . "</i></td><td><input type=\"text\" size=\"20\" maxlength=\"40\" name=\"address\" /></td>"
-        . "<td><i>" . _SERVPORT . "</i></td><td><input type=\"text\" size=\"10\" maxlength=\"20\" name=\"port\" /></td></tr>\n"
-        . "<tr><td colspan=\"4\"><i>" . _SERVERGAME . "</i>&nbsp;<select name=\"game\">"
+        . "<tr><td><i>" . __('SERVER_IP') . " :</i></td><td><input type=\"text\" size=\"20\" maxlength=\"40\" name=\"address\" /></td>"
+        . "<td><i>" . __('SERVER_PORT') . " :</i></td><td><input type=\"text\" size=\"10\" maxlength=\"20\" name=\"port\" /></td></tr>\n"
+        . "<tr><td colspan=\"4\"><i>" . __('SERVER_GAME') . " :</i>&nbsp;<select name=\"game\">"
         . "<option value=\"CSS\">CS:Source</option>\n"
         . "<option value=\"HL2\">Half-life 2</option>\n"
         . "<option value=\"HL\">Half-life</option>\n"
@@ -258,7 +258,7 @@ function server($server_id) {
         . "<tr style=\"background: ". $bgcolor1 . "\"><td>&nbsp;<b>" . _NBPLAYER . " :</b></td><td>" . printSecuTags($gameserver->numplayers) . "/" . printSecuTags($gameserver->maxplayers) . "</td></tr>\n";
 
         if (!empty($password)) {
-            echo "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . _SERVERPASS . " :</b></td><td>" . $password . "</td></tr>\n";
+            echo "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . __('SERVER_PASSWORD') . " :</b></td><td>" . $password . "</td></tr>\n";
         } else {
             if ($gameserver->password == 1) {
                 $pass = 'yes';
@@ -267,7 +267,7 @@ function server($server_id) {
             } else {
                 $pass = 'unknown';
             } 
-            echo "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . _SERVERPASS . " :</b></td><td>" . $pass . "</td></tr>\n";
+            echo "<tr style=\"background: ". $bgcolor2 . "\"><td>&nbsp;<b>" . __('SERVER_PASSWORD') . " :</b></td><td>" . $pass . "</td></tr>\n";
         } 
 
         echo "<tr style=\"background: ". $bgcolor1 . "\"><td>&nbsp;<b>" . _GAME . " :</b></td><td>" . printSecuTags($gameserver->gametype) . "</td></tr>\n"

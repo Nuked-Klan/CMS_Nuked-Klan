@@ -388,6 +388,7 @@ return array(
     'EDIT'              => 'Editer',
     'TITLE'             => 'Titre',
     'COLOR'             => 'Couleur',
+    'URL'               => 'URL',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

@@ -105,8 +105,9 @@
 <?php
                     endif;
                 else :
-                    if (isset($fieldData[$field .'Link']) && $fieldData[$field .'Link'] != '') : ?>
-            <a href="<?php echo $fieldData[$field .'Link'] ?>">
+                    if (isset($fieldData[$field .'Link']) && $fieldData[$field .'Link'] != '') :
+                        $onClickLink = (isset($fieldData[$field .'LinkNewPage'])) ? ' onclick="window.open(this.href); return false;"' : '' ?>
+            <a href="<?php echo $fieldData[$field .'Link'] ?>"<?php echo $onClickLink ?>>
 <?php
                     endif;
 
