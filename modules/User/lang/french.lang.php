@@ -155,4 +155,12 @@ define("_PASSHIGH", "Elevé");
 define("_PASSCHECK", "Niveau de sécurité du mot de passe");
 
 define("_REQUESTPV","Ecrire un message privé");
+
+return array(
+    // modules/Games/backend/index.php
+    'DISPLAYED_RANK'    => 'Rang affiché',
+    'TEAM'              => 'Team',
+
+);
+
 ?>

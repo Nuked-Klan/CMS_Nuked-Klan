@@ -543,6 +543,7 @@ return array(
     'RANK_NO_EXIST'     => 'Désolé ce rang n\'existe pas ou a été supprimé',
     // modules/Admin/user.php
     'ADD_TEAM'          => 'Ajouter une Team',
+    'DELETE_THIS_TEAM'  => 'Supprimer cette Team',
 );
 
 ?>

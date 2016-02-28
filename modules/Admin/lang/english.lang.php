@@ -708,6 +708,7 @@ return array(
     'RANK_NO_EXIST'     => 'Sorry, this rank does not exist or was removed',
     // modules/Admin/user.php
     'ADD_TEAM'          => 'Add Team',
+    'DELETE_THIS_TEAM'  => 'Delete this Team',
 );
 
 ?>

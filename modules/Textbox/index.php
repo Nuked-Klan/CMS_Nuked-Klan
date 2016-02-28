@@ -53,14 +53,23 @@ function index() {
 
             $auteur = nk_CSS($auteur);
 
-            $sql_aut = mysql_query("SELECT rang, country FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
-            list($rang, $country) = mysql_fetch_array($sql_aut);
+            $sql_aut = mysql_query(
+                'SELECT U.country, TM.couleur
+                FROM '. USER_TABLE .' AS U
+                LEFT JOIN '. TEAM_RANK_TABLE .' AS TM
+                ON TM.id = U.rang
+                WHERE U.pseudo = '. nkDB_escape($auteur)
+            );
 
-            $sql_rank_team = mysql_query("SELECT couleur FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
-            list($rank_color) = mysql_fetch_array($sql_rank_team);
+            list($rank_color, $country) = mysql_fetch_array($sql_aut);
+
+            if ($rank_color != '')
+                $style = ' style="color:#'. $rank_color .'"';
+            else
+                $style = '';
 
             $pays = ($country) ? '<img src="images/flags/' . $country . '" alt="' . $country . '" style="margin-right:2px;"/>' : '';
-            $url_auteur = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $rank_color . '" >' . $auteur . '</a>';
+            $url_auteur = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '"'. $style .'>' . $auteur . '</a>';
         
             if ($j == 0) {
                 $bg = $bgcolor2;
@@ -244,12 +253,21 @@ function ajax() {
 
         $block_text = icon($block_text);
 
-        $sql_aut = mysql_query("SELECT id, rang, country, avatar, niveau  FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
-        list($user_id, $rang, $country, $avatar, $niveau) = mysql_fetch_array($sql_aut);
+        $sql_aut = mysql_query(
+            'SELECT U.id, U.country, U.avatar, U.niveau TM.couleur
+            FROM '. USER_TABLE .' AS U
+            LEFT JOIN '. TEAM_RANK_TABLE .' AS TM
+            ON TM.id = U.rang
+            WHERE U.pseudo = '. nkDB_escape($auteur)
+        );
+
+        list($user_id, $rank_color, $country, $avatar, $niveau) = mysql_fetch_array($sql_aut);
         $test_aut = mysql_num_rows($sql_aut);
 
-        $sql_rank_team = mysql_query("SELECT couleur FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $rang . "'");
-        list($rank_color) = mysql_fetch_array($sql_rank_team);
+        if ($rank_color != '')
+            $style = ' style="color:#'. $rank_color .'"';
+        else
+            $style = '';
 
         $pays = ($country) ? '<img src="images/flags/' . $country . '" alt="' . $country . '" style="margin-right:2px;"/>' : '';
 
@@ -257,8 +275,6 @@ function ajax() {
         $count_ok = mysql_num_rows($sql_on);
 
         $online = (isset($user_id) && $count_ok == 1) ? '<div class="nkIconOnline nkIconOnlineGreen" title="Online !"></div>' : '<div class="nkIconOnline nkIconOnlineGrey" title="Offline"></div>';
-
-        $coloring = $rank_color;
 
         if ($counterBgColor == 0) {
             $bg = $bgcolor1;
@@ -268,7 +284,7 @@ function ajax() {
             $counterBgColor =0;
         }
 
-        $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '" title="' . $date_jour . '">' . $auteurDisplay . '</a>' : $auteurDisplay;
+        $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '"' . $style . ' title="' . $date_jour . '">' . $auteurDisplay . '</a>' : $auteurDisplay;
         $avatarDisplay = ($avatar != '') ? '<img src="' . $avatar . '" class="nkFloatLeft nkShootAvatar nkBorderColor2" />' : '<img src="modules/User/images/noavatar.png" alt="noavatar" class="nkFloatLeft nkShootAvatar nkBorderColor2" />';
         $post_time =strftime("%H:%M:%S", $date);
         $messageAuthor = mysql_real_escape_string(stripslashes($auteur));

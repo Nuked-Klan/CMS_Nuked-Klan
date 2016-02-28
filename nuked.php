@@ -1469,7 +1469,7 @@ function nkNickname($data, $link = true, $rankColor = true, $author = 'auteur', 
  * @param string $nickname : The nickname to check.
  * @return string : Nickname string trimmed or error alias of nickname checking.
  */
-function checkNickname($nickname = '') {
+function checkNickname($nickname = '', $oldNickname = '') {
     global $user;
 
     $nickname = trim($nickname);
@@ -1479,9 +1479,11 @@ function checkNickname($nickname = '') {
 
     $escapeNickname = nkDB_escape($nickname);
 
-    $isUsed = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE pseudo = '. $escapeNickname);
+    if ($nickname != $oldNickname) {
+        $isUsed = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE pseudo = '. $escapeNickname);
 
-    if ($isUsed > 0) return 'error2';
+        if ($isUsed > 0) return 'error2';
+    }
 
     $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE pseudo = '. $escapeNickname);
 

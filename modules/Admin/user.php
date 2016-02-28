@@ -15,26 +15,26 @@ if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
 
-function select_team()
-{
-    global $nuked;
+function select_team() {
+    echo "<option value=\"\">". __('NONE') ."</option>\n";
 
     $sql = mysql_query("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
-    while (list($cid, $titre) = mysql_fetch_array($sql))
-    {
+
+    while (list($cid, $titre) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
 
         echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
     }
 }
 
-function select_rank()
-{
+function select_rank() {
     global $nuked;
 
+    echo "<option value=\"\">" . _NORANK . "</option>\n";
+
     $sql = mysql_query("SELECT id, titre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
-    while (list($rid, $titre) = mysql_fetch_array($sql))
-    {
+
+    while (list($rid, $titre) = mysql_fetch_array($sql)) {
         $titre = nkHtmlEntities($titre);
 
         echo "<option value=\"" . $rid . "\">" . $titre . "</option>\n";
@@ -46,17 +46,18 @@ function getTeamSelector() {
 
     $n = $_POST['nbTeam'] + 1;
 
-    echo "<tr class=\"teamSelector alt-row\"><td><b>". _TEAM ." ". $n ." : </b></td><td><select name=\"team[]\">\n"
-    . "<option value=\"\">" . __('NONE') . "</option>\n";
+    echo "<tr class=\"teamSelector alt-row\"><td><b>". _TEAM ." ". $n ." : </b></td><td><select name=\"team[]\">\n";
 
     select_team();
 
     echo "</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-    . "<b>" . _RANKTEAM . " : </b><select name=\"rang\"><option value=\"\">" . _NORANK . "</option>\n";
+    . "<b>" . _RANKTEAM . " : </b><select name=\"teamRank[]\">\n";
 
     select_rank();
 
-    echo"</select></td></tr>\n";
+    echo '</select>&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteTeamLink" href="#">'
+    , '<img style="border: 0;" src="modules/Admin/images/icons/cross.png" alt="" title="', __('DELETE_THIS_TEAM'), '" />'
+    , '</a></td></tr>', "\n";
 }
 
 function add_user() {
@@ -82,6 +83,11 @@ function add_user() {
             $("#nbTeam").attr("value", nbTeam);
         });
 
+    });
+
+    $("a.deleteTeamLink").live("click", function() {
+        $(this).parent().parent().remove();
+        return false;
     });'
     . "});\n"
     . '// ]]>' ."\n"
@@ -166,19 +172,17 @@ function add_user() {
     . "<option>7</option>\n"
     . "<option>8</option>\n"
     . "<option>9</option></select></td></tr>\n"
-    . "<tr class=\"teamSelector\"><td><b>". _TEAM ." : </b></td><td><select name=\"team[]\">\n"
-    . "<option value=\"\">" . __('NONE') . "</option>\n";
+    . "<tr class=\"teamSelector\"><td><b>". _TEAM ." : </b></td><td><select name=\"team[]\">\n";
 
     select_team();
 
     echo "</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-    . "<b>" . _RANKTEAM . " : </b><select name=\"teamRank[]\"><option value=\"\">" . _NORANK . "</option>\n";
+    . "<b>" . _RANKTEAM . " : </b><select name=\"teamRank[]\">\n";
 
     select_rank();
 
     echo"</select></td></tr>\n"
     . "<tr><td>&nbsp;</td><td><input id=\"addTeam\" class=\"button\" type=\"button\" value=\"" . __('ADD_TEAM') . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" /></td></tr>\n"
     . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" /></td></tr>\n"
     . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\"></textarea></td></tr></table>\n"
     . "<div style=\"text-align:center;padding-top:10px;\"><input class=\"button\" type=\"submit\" value=\"" . _ADDUSER . "\" />"
@@ -192,33 +196,25 @@ function edit_user($id_user) {
 
     require_once 'Includes/nkUserSocial.php';
 
-    $userSocialFields = implode(', ', nkUserSocial_getActiveFields());
+    $userSocialFields = implode(', U.', nkUserSocial_getActiveFields());
 
-    if ($userSocialFields != '') $userSocialFields = ', '. $userSocialFields;
+    if ($userSocialFields != '') $userSocialFields = ', U.'. $userSocialFields;
 
     $dbrUser = nkDB_selectOne(
-        'SELECT niveau, pseudo, mail, rang, team, team2, team3, country, game, avatar, signature
+        'SELECT U.niveau, U.pseudo, U.mail, U.rang, U.country, U.game, U.avatar, U.signature, TR.titre AS rankName
         '. $userSocialFields .'
-        FROM '. USER_TABLE .'
-        WHERE id = '. nkDB_escape($id_user)
+        FROM '. USER_TABLE .' AS U
+        LEFT JOIN '. TEAM_RANK_TABLE .' AS TR ON TR.id = U.rang
+        WHERE U.id = '. nkDB_escape($id_user)
     );
 
     $dbrTeam = nkDB_selectMany(
-        'SELECT T.id, T.titre, TM.rank
+        'SELECT T.cid, T.titre AS teamName, TM.rank, TR.titre AS rankName
         FROM '. TEAM_MEMBERS_TABLE.' AS TM
-        LEFT JOIN '. TEAM_TABLE .' AS T ON T.cid = TM.team
+        INNER JOIN '. TEAM_TABLE .' AS T ON T.cid = TM.team
+        INNER JOIN '. TEAM_RANK_TABLE .' AS TR ON TR.id = TM.rank
         WHERE TM.userId = '. nkDB_escape($id_user)
     );
-
-    if ($dbrUser['rang'] > 0)
-    {
-        $sql5 = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $dbrUser['rang'] . "'");
-        list($rank_name) = mysql_fetch_array($sql5);
-    }
-    else
-    {
-        $rank_name = _NORANK;
-    }
 
     echo '<script type="text/javascript">' ."\n"
     . '// <![CDATA[' ."\n"
@@ -238,6 +234,11 @@ function edit_user($id_user) {
             $("#nbTeam").attr("value", nbTeam);
         });
 
+    });
+
+    $("a.deleteTeamLink").live("click", function() {
+        $(this).parent().parent().remove();
+        return false;
     });'
     . "});\n"
     . '// ]]>' ."\n"
@@ -337,31 +338,55 @@ function edit_user($id_user) {
         . "<option>9</option></select></td></tr>\n";
     }
 
-    $n = 1;
+    $n = 0;
 
-    foreach ($dbrTeam as $team) {
-        $label = _TEAM;
-
-        if ($n > 1) $label .= ' '. $n;
-
-        echo "<tr class=\"teamSelector\"><td><b>". $label ." : </b></td><td><select name=\"team[]\">\n"
-        . "<option value=\"" . $team['id'] . "\">" . $team['titre'] . "</option>\n";
+    if (! $dbrTeam) {
+        echo "<tr class=\"teamSelector\"><td><b>". _TEAM ." : </b></td><td><select name=\"team[]\">\n";
 
         select_team();
 
-        echo "<option value=\"\">" . __('NONE') . "</option>\n"
-        . "</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-        . "<b>" . _RANKTEAM . " : </b><select name=\"rang\"><option value=\"\">" . _NORANK . "</option>\n";
+        echo "</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+        . "<b>" . _RANKTEAM . " : </b><select name=\"teamRank[]\">"
+        . "<option value=\"" . $dbrUser['rang'] . "\">" . $dbrUser['rankName'] . "</option>";
 
         select_rank();
 
-        echo"</select></td></tr>\n";
+        echo "</select></td></tr>\n";
+    }
+    else {
+        foreach ($dbrTeam as $team) {
+            $n++;
+
+            $label = _TEAM;
+
+            if ($n > 1) $label .= ' '. $n;
+
+            echo "<tr class=\"teamSelector\"><td><b>". $label ." : </b></td><td><select name=\"team[]\">\n"
+            . "<option value=\"" . $team['cid'] . "\">" . $team['teamName'] . "</option>\n";
+
+            select_team();
+
+            echo "</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+            . "<b>" . _RANKTEAM . " : </b><select name=\"teamRank[]\">"
+            . "<option value=\"" . $team['rank'] . "\">" . $team['rankName'] . "</option>";
+
+            select_rank();
+
+            echo '</select>';
+
+            if ($n > 1) {
+                echo '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteTeamLink" href="#">'
+                , '<img style="border: 0;" src="modules/Admin/images/icons/cross.png" alt="" title="', __('DELETE_THIS_TEAM'), '" />'
+                , '</a>' ,"\n";
+            }
+
+            echo '</td></tr>' ,"\n";
+        }
     }
 
     $nbTeam = $n;
 
     echo "<tr><td>&nbsp;</td><td><input id=\"addTeam\" class=\"button\" type=\"button\" value=\"" . __('ADD_TEAM') . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _URL . " :</b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
     . "<tr><td><b>" . _AVATAR . " :</b></td><td><input type=\"text\" name=\"avatar\" size=\"40\" maxlength=\"100\" value=\"" . $dbrUser['avatar'] . "\" /></td></tr>\n"
     . "<tr><td><b>" . _SIGN . " :</b></td><td><textarea class=\"editor\" name=\"signature\" rows=\"10\" cols=\"55\">" . $dbrUser['signature'] . "</textarea></td></tr>\n"
     . "<tr><td colspan=\"2\">&nbsp;<input type=\"hidden\" name=\"id_user\" value=\"" . $id_user . "\" /></td></tr>\n"
@@ -376,8 +401,15 @@ function update_user($userId) {
     global $language;
 
     require_once 'Includes/nkUserSocial.php';
+    require_once 'Includes/hash.php';
 
-    $_POST['nick'] = checkNickname($_POST['nick']);
+    $dbrUser = nkDB_selectOne(
+        'SELECT pseudo
+        FROM '. USER_TABLE .'
+        WHERE id = '. nkDB_escape($userId)
+    );
+
+    $_POST['nick'] = checkNickname($_POST['nick'], $dbrUser['pseudo']);
 
     if (($error = getCheckNicknameError($_POST['nick'])) !== false) {
         printNotification($error, 'error');
@@ -398,34 +430,6 @@ function update_user($userId) {
         return;
     }
 
-    if (isset($_POST['team']) && is_array($_POST['team'])) {
-        for ($n = 0; $n < $_POST['nbTeam']; $n++) {
-            if (isset($_POST['team'][$n]) && ctype_digit($_POST['team'][$n])) {
-                $check = nkDB_totalNumRows(
-                    'FROM '. TEAM_MEMBERS_TABLE .'
-                    WHERE userId = '. nkDB_escape($userId) .'
-                    AND team = '. (int) $_POST['team'][$n]
-                );
-
-                if ($check >= 1) {
-                    nkDB_update(TEAM_MEMBERS_TABLE, array(
-                            'team'   => $_POST['team'][$n],
-                            'rank'   => $_POST['rank'][$n]
-                        ),
-                        'userId = '. nkDB_escape($userId)
-                    );
-                }
-                else {
-                    nkDB_insert(TEAM_MEMBERS_TABLE, array(
-                        'userId' => $userId,
-                        'team'   => $_POST['team'][$n],
-                        'rank'   => $_POST['rank'][$n]
-                    ));
-                }
-            }
-        }
-    }
-
     $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
     $_POST['signature'] = stripslashes($_POST['signature']);
@@ -435,10 +439,6 @@ function update_user($userId) {
     $_POST['avatar']    = nkHtmlEntities($_POST['avatar']);
 
     $data = array(
-        //'team'      => $_POST['team'],
-        //'team2'     => $_POST['team2'],
-        //'team3'     => $_POST['team3'],
-        //'rang'      => $_POST['rang'],
         'pseudo'    => $_POST['nick'],
         'mail'      => $_POST['mail'],
         'country'   => $_POST['country'],
@@ -451,14 +451,19 @@ function update_user($userId) {
     if ($_POST['pass_reg'] != '')
         $data['pass'] = nk_hash($_POST['pass_reg']);
 
-    if ($_POST['rang'] != "")
-    {
-        $sql_rank = mysql_query("SELECT ordre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $_POST['rang'] . "'");
-        list($data['ordre']) = mysql_fetch_array($sql_rank);
-    }
-    else
-    {
-        $data['ordre'] = 0;
+    $teamDataCheck = isset($_POST['team'], $_POST['teamRank'])
+        && is_array($_POST['team'])
+        && is_array($_POST['teamRank']);
+
+    if ($teamDataCheck && $_POST['nbTeam'] == 1 && $_POST['team'][0] == '' && ctype_digit($_POST['teamRank'][0])) {
+        $dbrTeamRank = nkDB_selectOne(
+            'SELECT ordre
+            FROM '. TEAM_RANK_TABLE .'
+            WHERE id = '. $_POST['teamRank'][0]
+        );
+
+        $data['rang']  = $_POST['teamRank'][0];
+        $data['ordre'] = $dbrTeamRank['ordre'];
     }
 
     foreach (nkUserSocial_getConfig() as $userSocial) {
@@ -469,6 +474,37 @@ function update_user($userId) {
 
     nkDB_update(USER_TABLE, $data, 'id = '. nkDB_escape($userId));
 
+    if ($teamDataCheck) {
+        for ($n = 0; $n < $_POST['nbTeam']; $n++) {
+            if (isset($_POST['team'][$n], $_POST['teamRank'][$n])
+                && ctype_digit($_POST['team'][$n])
+                && ctype_digit($_POST['teamRank'][$n])
+            ) {
+                $check = nkDB_totalNumRows(
+                    'FROM '. TEAM_MEMBERS_TABLE .'
+                    WHERE userId = '. nkDB_escape($userId) .'
+                    AND team = '. (int) $_POST['team'][$n]
+                );
+
+                if ($check >= 1) {
+                    nkDB_update(TEAM_MEMBERS_TABLE, array(
+                            'team'   => $_POST['team'][$n],
+                            'rank'   => $_POST['teamRank'][$n]
+                        ),
+                        'userId = '. nkDB_escape($userId)
+                    );
+                }
+                else {
+                    nkDB_insert(TEAM_MEMBERS_TABLE, array(
+                        'userId' => $userId,
+                        'team'   => $_POST['team'][$n],
+                        'rank'   => $_POST['teamRank'][$n]
+                    ));
+                }
+            }
+        }
+    }
+
     saveUserAction(_ACTIONMODIFUSER .': '. $_POST['nick']);
 
     printNotification(_INFOSMODIF, 'success');
@@ -477,6 +513,7 @@ function update_user($userId) {
 
 function do_user() {
     require_once 'Includes/nkUserSocial.php';
+    require_once 'Includes/hash.php';
 
     if ($_POST['pass_reg'] == "" || $_POST['pass_conf'] == "" || $_POST['nick'] == "" || $_POST['mail'] == "")
     {
@@ -503,18 +540,6 @@ function do_user() {
         $userId = sha1(uniqid());
     } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $userId . '\' LIMIT 1')) != 0);
 
-    if (isset($_POST['team']) && is_array($_POST['team'])) {
-        for ($n = 0; $n < $_POST['nbTeam']; $n++) {
-            if (isset($_POST['team'][$n]) && ctype_digit($_POST['team'][$n])) {
-                nkDB_insert(TEAM_MEMBERS_TABLE, array(
-                    'userId' => $userId,
-                    'team'   => $_POST['team'][$n],
-                    'rank'   => $_POST['rank'][$n]
-                ));
-            }
-        }
-    }
-
     $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
     $_POST['signature'] = stripslashes($_POST['signature']);
@@ -525,11 +550,6 @@ function do_user() {
 
     $data = array(
         'id'        => $userId,
-        //'team'      => $_POST['team'],
-        //'team2'     => $_POST['team2'],
-        //'team3'     => $_POST['team3'],
-        //'rang'      => $_POST['rang'],
-        'ordre'     => '',
         'pseudo'    => $_POST['nick'],
         'pass'      => nk_hash($_POST['pass_reg']),
         'mail'      => $_POST['mail'],
@@ -538,11 +558,15 @@ function do_user() {
         'game'      => $_POST['game'],
         'avatar'    => $_POST['avatar'],
         'signature' => $_POST['signature'],
-        'date'      => time(),
-        'user_theme' => '',
-        'user_langue' => '',
-        'count'     => ''
+        'date'      => time()
     );
+
+    $teamDataCheck = isset($_POST['team'], $_POST['teamRank'])
+        && is_array($_POST['team'])
+        && is_array($_POST['teamRank']);
+
+    if ($teamDataCheck && $_POST['nbTeam'] == 1 && $_POST['team'][0] == '' && ctype_digit($_POST['teamRank'][0]))
+        $data['rang'] = $_POST['teamRank'][0];
 
     foreach (nkUserSocial_getConfig() as $userSocial) {
         if (isset($_POST[$userSocial['field']])) {
@@ -551,6 +575,21 @@ function do_user() {
     }
 
     nkDB_insert(USER_TABLE, $data);
+
+    if ($teamDataCheck) {
+        for ($n = 0; $n < $_POST['nbTeam']; $n++) {
+            if (isset($_POST['team'][$n], $_POST['teamRank'][$n])
+                && ctype_digit($_POST['team'][$n])
+                && ctype_digit($_POST['teamRank'][$n])
+            ) {
+                nkDB_insert(TEAM_MEMBERS_TABLE, array(
+                    'userId' => $userId,
+                    'team'   => $_POST['team'][$n],
+                    'rank'   => $_POST['teamRank'][$n]
+                ));
+            }
+        }
+    }
 
     saveUserAction(_ACTIONADDUSER .': '. $_POST['nick']);
 

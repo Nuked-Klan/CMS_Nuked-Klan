@@ -366,7 +366,7 @@ function edit_account(){
     if ($userSocialFields != '') $userSocialFields = ', '. $userSocialFields;
 
     $dbrUser = nkDB_selectOne(
-        'SELECT pseudo, mail, avatar, signature, country, game'. $userSocialFields .'
+        'SELECT pseudo, mail, avatar, signature, country, rang, game'. $userSocialFields .'
         FROM '. USER_TABLE .'
         WHERE id = '. nkDB_escape($user['id'])
     );
@@ -464,6 +464,29 @@ function edit_account(){
             $checked1 = "";
         }
         echo "<option value=\"" . $game_id . "\" " . $checked1 . ">" . $nom . "</option>\n";
+    }
+
+    echo "</select></td></tr>"
+        . "<tr><td><b>" . __('DISPLAYED_RANK') . " :</b></td><td><select name=\"rang\">\n";
+
+    $dbrTeam = nkDB_selectMany(
+        'SELECT TM.rank, TR.titre AS rankName, T.titre AS teamName
+        FROM '. TEAM_MEMBERS_TABLE .' AS TM
+        INNER JOIN '. TEAM_TABLE .' AS T
+        ON T.cid = TM.team
+        INNER JOIN '. TEAM_RANK_TABLE .' AS TR
+        ON TR.id = TM.rank
+        WHERE TM.userId = '. nkDB_escape($user['id'])
+    );
+
+    foreach ($dbrTeam as $team) {
+        if ($team['rank'] == $dbrUser['rang'])
+            $selected = ' selected="selected"';
+        else
+            $selected = '';
+
+        echo '<option value="'. $team['rank'] .'"'. $selected .'>'
+            . nkHtmlSpecialChars($team['rankName']) .' - '. __('TEAM') .' '. nkHtmlSpecialChars($team['teamName']) .'</option>' ."\n";
     }
 
     echo "</select></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
@@ -703,7 +726,6 @@ function edit_pref(){
     }
 
     echo "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _MODIFPREF . "\" /></div></form><br />\n";
-
 }
 
 function login_screen(){
@@ -1139,6 +1161,19 @@ function update(){
             $data['pass'] = nk_hash($_POST['pass_reg']);
         }
     }
+
+    $dbrRank = nkDB_selectOne(
+        'SELECT TM.rank
+        FROM '. TEAM_MEMBERS_TABLE .' AS TM
+        INNER JOIN '. TEAM_RANK_TABLE .' AS TR
+        ON TR.id = TM.rank
+        WHERE TM.userId = '. nkDB_escape($user['id'])
+    );
+
+    $_POST['rang'] = (int) $_POST['rang'];
+
+    if ($dbrRank && $dbrRank['rank'] == $_POST['rang'])
+        $data['rang'] = $_POST['rang'];
 
     $data['signature'] = secu_html(nkHtmlEntityDecode($_POST['signature']));
 

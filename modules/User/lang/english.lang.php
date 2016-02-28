@@ -160,4 +160,12 @@ define("_PASSHIGH", "High");
 define("_PASSCHECK", "Password's Security");
 
 define("_REQUESTPV","Write a private message");
+
+return array(
+    // modules/Games/backend/index.php
+    'DISPLAYED_RANK'    => 'Displayed rank',
+    'TEAM'              => 'Team',
+
+);
+
 ?>
