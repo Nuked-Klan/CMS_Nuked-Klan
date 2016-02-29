@@ -165,12 +165,7 @@ define('_LAST_USER_IS', 'L\'utilisateur enregistré le plus récent est ');
 define('_TOPICS', 'Sujets');
 define('_RANKLEGEND', 'Légende des rangs');
 define("_SEEMODO","Voir le profil de ");
-define("_NOBIRTHDAY","aucun membre ne fête son anniversaire.");
-define("_ONEBIRTHDAY","il y a 1 membre qui fête son anniversaire :");
-define("_MANYBIRTHDAY","membres qui fêtent leur anniversaire :");
 define("_TODAY","Aujourd'hui");
-define("_THEREARE2","il y a");
-define("_ANS","ans");
 
 // Viewforum
 define('_BAD_FORUM_ID', 'L\'ID que vous avez utilisé n\'est pas correct.');
@@ -217,6 +212,11 @@ return array(
     'NO_ACCESS_FORUM' => 'Désolé vous n\'avez pas accès a ce forum',
     // modules/Forum/main.php
     'FORUM_CATEGORY_NO_EXIST' => 'Désolé cette catégorie forum n\'existe pas ou a été supprimé',
+    'YEARS_OLD'         => 'ans',
+    'NO_BIRTHDAY'       => 'aucun membre ne fête son anniversaire.',
+    'ONE_BIRTHDAY'      => 'il y a 1 membre qui fête son anniversaire :',
+    'MANY_BIRTHDAY'     => 'il y a %d membres qui fêtent leur anniversaire :',
+    
     
     // modules/Forum/poll.php
     'CONFIRM_DELETE_POLL' => 'Etes-vous sûr de vouloir supprimer ce sondage ?',

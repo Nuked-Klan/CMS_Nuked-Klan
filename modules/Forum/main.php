@@ -30,8 +30,6 @@ function formatForumRow($forum) {
 
     if ($nuked['forum_display_modos'] == 'on')
         $forum['moderatorsList'] = getModeratorsList($forum['id']);
-    else
-        $forum['moderatorsList'] = '';
 
     if ($forum['nbMessages'] > 0)
         $forum['lastMessage'] = formatLastForumMsg($forum['id']);
@@ -51,9 +49,8 @@ function formatLastForumMsg($forumId) {
     global $nuked, $rankField;
 
     // Get last Forum message data
-    // TODO : country field unused
     $dbrLastForumMsg = getLastForumMessageData('forum_id', $forumId,
-        'FM.id, FM.titre, FM.thread_id, FM.date, FM.auteur, U.pseudo, U.avatar, U.country'. $rankField
+        'FM.id, FM.titre, FM.thread_id, FM.date, FM.auteur, U.pseudo, U.avatar'. $rankField
     );
 
     if (! $dbrLastForumMsg) return false;
@@ -251,24 +248,22 @@ if ($nuked['forum_birthday'] == 'on') {
 
             $birthdayList[] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='
                 . urlencode($userDetail['pseudo']) .'"'. $style .'><strong>'. $userDetail['pseudo']
-                . '</strong></a> ('. ($currentYear - $birthdayYear) .' '. _ANS .')';
+                . '</strong></a> ('. ($currentYear - $birthdayYear) .' '. __('YEARS_OLD') .')';
         }
     }
 
     $nbBirthday = count($birthdayList);
 
     if ($nbBirthday == 0)
-        $birthdayMessage = _NOBIRTHDAY;
+        $birthdayMessage = __('NO_BIRTHDAY');
     elseif ($nbBirthday == 1)
-        $birthdayMessage = _ONEBIRTHDAY .'&nbsp;';
+        $birthdayMessage = __('ONE_BIRTHDAY') .'&nbsp;'. implode(',', $birthdayList);
     else
-        $birthdayMessage = _THEREARE2 .'&nbsp;'. $nbBirthday .'&nbsp;'. _MANYBIRTHDAY .'&nbsp;';
-
-    $birthdayMessage .= implode(',', $birthdayList);
+        $birthdayMessage = sprintf(__('MANY_BIRTHDAY'), $nbBirthday) .'&nbsp;'. implode(',', $birthdayList);
 }
 
 // Set page title
-$title = _NAVFORUM;
+$title = __('FORUM');
 
 if ($catName != '')
     $title .= ' - '. printSecuTags($catName);

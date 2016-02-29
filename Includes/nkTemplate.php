@@ -550,7 +550,7 @@ function nkTemplate_renderPage($content) {
 
     $moduleMedias = ob_get_clean();
 
-    if ($GLOBALS['nkTemplate']['title'] != '')
+    if ($GLOBALS['nkTemplate']['title'] == '')
         $GLOBALS['nkTemplate']['title'] = $nuked['name'] .' - '. $nuked['slogan'];
 
     $contentTop    = nkTemplate_getTopOfPage();

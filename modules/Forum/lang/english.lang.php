@@ -160,12 +160,8 @@ define('_LAST_USER_IS', 'Last registered user is ');
 define('_TOPICS', 'Topics');
 define('_RANKLEGEND', 'Ranks legend');
 define("_SEEMODO","See profile of ");
-define("_NOBIRTHDAY","no members have a birthday.");
-define("_ONEBIRTHDAY","there is one member having a birthday:");
-define("_MANYBIRTHDAY","members having a birthday:");
 define("_TODAY","Today");
-define("_THEREARE2","there is");
-define("_ANS","years old");
+
 // Viewforum
 define('_BAD_FORUM_ID', 'This ID is not valid.');
 define('_TOPIC', 'Topic');
@@ -211,6 +207,11 @@ return array(
     'NO_ACCESS_FORUM' => 'Sorry, you have no permission to access this forum',
     // modules/Forum/main.php
     'FORUM_CATEGORY_NO_EXIST' => 'Sorry, this forum category does not exist or was removed',
+    'YEARS_OLD'         => 'years old',
+    'NO_BIRTHDAY'       => 'no members have a birthday.'
+    'ONE_BIRTHDAY'      => 'there is one member having a birthday:',
+    'MANY_BIRTHDAY'     => 'there is %d members having a birthday:',
+    
     
     // modules/Forum/poll.php
     'CONFIRM_DELETE_POLL' => 'Remove this poll?',
