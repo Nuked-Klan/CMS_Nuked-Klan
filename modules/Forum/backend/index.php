@@ -46,30 +46,6 @@ function formatForumRow($row, $nbData, $r, $functionData) {
 /* Forum edit form function */
 
 /**
- * Get Forum moderator list options.
- *
- * @param array $moderatorList : The Forum moderator list.
- * @return array : The Forum moderator list for input select option.
- */
-function getModeratorOptions($moderatorList = array()) {
-    $options = array('' => __('NONE'));
-
-    $dbrUser = nkDB_selectMany(
-        'SELECT id, pseudo
-        FROM '. USER_TABLE .'
-        WHERE niveau > 0',
-        array('niveau', 'pseudo'), array('DESC', 'ASC')
-    );
-
-    foreach ($dbrUser as $_user) {
-        if (! in_array($_user['id'], $moderatorList))
-            $options[$_user['id']] = $_user['pseudo'];
-    }
-
-    return $options;
-}
-
-/**
  * Get Forum category list options.
  *
  * @param void
@@ -98,10 +74,7 @@ function getForumCategoryOptions() {
  * @return array : The Forum form configuration prepared.
  */
 function prepareFormForAddForum(&$form) {
-    unset($form['items']['moderatorList']);
-
-    $form['items']['moderateurs']['options'] = getModeratorOptions();
-    $form['items']['cat']['options']         = getForumCategoryOptions();
+    $form['items']['cat']['options'] = getForumCategoryOptions();
 }
 
 /**
@@ -113,68 +86,10 @@ function prepareFormForAddForum(&$form) {
  * @return array : The Forum form configuration prepared.
  */
 function prepareFormForEditForum(&$form, $forum, $id) {
-    $moderatorList = array();
-
-    if ($forum['moderateurs'] != '') {
-        $moderators  = explode('|', $forum['moderateurs']);
-        $nbModerator = count($moderators);
-
-        for ($i = 0; $i < $nbModerator; $i++) {
-            $sep = ($i == 0) ? '' : ', ';
-
-            // TODO : Use sql IN() clause?
-            $dbrUser = nkDB_selectOne(
-                'SELECT id, pseudo
-                FROM '. USER_TABLE .'
-                WHERE id = '. nkDB_escape($moderators[$i])
-            );
-
-            $form['items']['moderatorList']['html'] .= $sep . $dbrUser['pseudo'] .'&nbsp;(<a href="index.php?admin=Forum&amp;op=deleteModerator&amp;user_id='. $dbrUser['id'] .'&amp;forum_id='. $id .'"><img style="border: 0;vertical-align:bottom;" src="modules/Admin/images/icons/cross.png" alt="" title="'. __('DELETE_THIS_MODERATOR') .'" /></a>)';
-            $moderatorList[] = $dbrUser['id'];
-        }
-    }
-    else{
-        $form['items']['moderatorList']['html'] = __('NONE');
-    }
-
     if ($forum['image'] !='')
         $form['items']['image']['html'] = '<img id="forumImgPreview" src="'. $forum['image'] .'" title="'. $forum['nom'] .'" alt="" />';
 
-    $form['items']['moderateurs']['options'] = getModeratorOptions($moderatorList);
-    $form['items']['cat']['options']         = getForumCategoryOptions();
-}
-
-/* Forum save form function */
-
-/**
- * Callback function for nkAction_save.
- * Additional process before save Forum.
- *
- * @param int $id : The Forum id.
- * @param array $forum : The Forum data.
- * @return void
- */
-function preSaveForumData($id, $forum) {
-    if ($id !== null) {
-        if ($forum['moderateurs'] != '') {
-            $dbrForum = nkDB_selectOne(
-                'SELECT moderateurs
-                FROM '. FORUM_TABLE .'
-                WHERE id = '. nkDB_escape($id)
-            );
-
-            if ($dbrForum['moderateurs'] != '')
-                $moderators = $dbrForum['moderateurs'] .'|'. $forum['moderateurs'];
-            else
-                $moderators = $forum['moderateurs'];
-
-            nkDB_update(FORUM_TABLE, array(
-                    'moderateurs' => $moderators
-                ),
-                'id = '. nkDB_escape($id)
-            );
-        }
-    }
+    $form['items']['cat']['options'] = getForumCategoryOptions();
 }
 
 /* Forum delete form function */
@@ -211,42 +126,6 @@ function preDeleteForumData($id) {
     nkDB_delete(FORUM_MESSAGES_TABLE, 'forum_id = '. nkDB_escape($id));
 }
 
-// Delete Forum moderator.
-function deleteModerator() {
-    $dbrForum = nkDB_selectOne(
-        'SELECT moderateurs
-        FROM '. FORUM_TABLE .'
-        WHERE id = '. nkDB_escape($_GET['forum_id'])
-    );
-
-    $list       = explode('|', $dbrForum['moderateurs']);
-    $end        = count($list) - 1;
-    $moderators = '';
-
-    for ($i = 0; $i <= $end; $i++) {
-        if ($i == 0 || ($i == 1 && $list[0] == $_GET['user_id']))
-            $sep = '';
-        else
-            $sep = '|';
-
-        if ($list[$i] != $_GET['user_id'])
-            $moderators .= $sep . $list[$i];
-    }
-
-    nkDB_update(FORUM_TABLE, array('moderateurs' => $moderators), 'id = '. nkDB_escape($_GET['forum_id']));
-
-    $dbrUser = nkDB_selectOne(
-        'SELECT pseudo
-        FROM '. USER_TABLE .'
-        WHERE id = '. nkDB_escape($_GET['user_id'])
-    );
-
-    saveUserAction(__('ACTION_DELETE_MODERATOR') .': '. $dbrUser['pseudo']);
-
-    printNotification(__('MODERATOR_DELETED'), 'success');
-    redirect('index.php?admin=Forum&op=edit&id='. $_GET['forum_id'], 2);
-}
-
 
 // Action handle
 switch ($GLOBALS['op']) {
@@ -263,10 +142,6 @@ switch ($GLOBALS['op']) {
     case 'delete' :
         // Delete Forum.
         nkAction_delete();
-        break;
-
-    case 'deleteModerator' :
-        deleteModerator();
         break;
 
     default:

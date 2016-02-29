@@ -154,7 +154,7 @@
     if ($nuked['forum_user_details'] == 'on') :
 ?>
                         <br />
-                        <p><?php echo _RANKLEGEND ?>&nbsp;:&nbsp;<?php echo $teamRankList ?></p>
+                        <p><?php echo _RANKLEGEND ?>&nbsp;:&nbsp;<?php echo $forumRankList ?></p>
 <?php
     endif;
 

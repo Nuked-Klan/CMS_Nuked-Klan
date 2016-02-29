@@ -54,7 +54,7 @@ function index() {
             $auteur = nk_CSS($auteur);
 
             $sql_aut = mysql_query(
-                'SELECT U.country, TM.couleur
+                'SELECT U.country, TM.color
                 FROM '. USER_TABLE .' AS U
                 LEFT JOIN '. TEAM_RANK_TABLE .' AS TM
                 ON TM.id = U.rang
@@ -254,7 +254,7 @@ function ajax() {
         $block_text = icon($block_text);
 
         $sql_aut = mysql_query(
-            'SELECT U.id, U.country, U.avatar, U.niveau TM.couleur
+            'SELECT U.id, U.country, U.avatar, U.niveau TM.color
             FROM '. USER_TABLE .' AS U
             LEFT JOIN '. TEAM_RANK_TABLE .' AS TM
             ON TM.id = U.rang

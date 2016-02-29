@@ -22,7 +22,8 @@ $forumRankTableCfg = array(
         'nom'   => array('type' => 'varchar(100)', 'null' => false, 'default' => '\'\''),
         'type'  => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
         'post'  => array('type' => 'int(4)',       'null' => false, 'default' => '\'0\''),
-        'image' => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\'')
+        'image' => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
+        'color' => array('type' => 'varchar(6)',   'null' => false, 'default' => '\'\''),
     ),
     'primaryKey' => array('id'),
     'engine' => 'MyISAM'
@@ -99,6 +100,10 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
+    // install / update 1.8
+    if (! $dbTable->fieldExist('color'))
+        $dbTable->addField('color', $forumRankTableCfg['fields']['color']);
+
     // Update rank image (since 1.8)
     if (version_compare($this->_session['version'], '1.8', '<')) {
         // Old rank image

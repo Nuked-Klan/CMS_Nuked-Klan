@@ -1,8 +1,8 @@
 <?php
 /**
- * table.team_rank.c.i.u.php
+ * table.forums_moderator.c.fk.i.u.php
  *
- * `[PREFIX]_team_rank` database table script
+ * `[PREFIX]_forums_moderator` database table script
  *
  * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -10,22 +10,25 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-$dbTable->setTable(TEAM_RANK_TABLE);
+$dbTable->setTable(FORUM_MODERATOR_TABLE);
+
+require_once 'includes/fkLibs/authorForeignKey.php';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table configuration
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-$teamRankTableCfg = array(
+$forumModeratorTableCfg = array(
     'fields' => array(
-        'id'      => array('type' => 'int(11)',      'null' => false, 'autoIncrement' => true),
-        'titre'   => array('type' => 'varchar(80)',  'null' => false, 'default' => '\'\''),
-        'image'   => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
-        'color'   => array('type' => 'varchar(6)',   'null' => false, 'default' => '\'\''),
-        'ordre'   => array('type' => 'int(5)',       'null' => false, 'default' => '\'0\'')
+        'id'       => array('type' => 'int(11)',     'null' => false, 'unsigned' => true, 'autoIncrement' => true),
+        'userId'   => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
+        'forum'    => array('type' => 'int(5)',      'null' => false, 'unsigned' => true, 'autoIncrement' => true),
     ),
     'primaryKey' => array('id'),
-    'engine' => 'MyISAM'
+    'index' => array(
+        'userId'   => 'userId'
+    ),
+    'engine' => 'InnoDB'
 );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,16 +36,22 @@ $teamRankTableCfg = array(
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'checkIntegrity') {
-    // table and field exist in 1.6.x version
-    $dbTable->checkIntegrity();
+    if ($dbTable->tableExist())
+        $dbTable->checkIntegrity();
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CHECK_INTEGRITY');
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Convert charset and collation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'checkAndConvertCharsetAndCollation')
-    $dbTable->checkAndConvertCharsetAndCollation();
+if ($process == 'checkAndConvertCharsetAndCollation') {
+    if ($dbTable->tableExist())
+        $dbTable->checkAndConvertCharsetAndCollation();
+    else
+        $dbTable->setJqueryAjaxResponse('NO_TABLE_TO_CONVERT');
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Table drop
@@ -55,20 +64,17 @@ if ($process == 'drop' && $dbTable->tableExist())
 // Table creation
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'install')
-    $dbTable->createTable($teamRankTableCfg);
+// install /update 1.8
+if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExist())) {
+    $dbTable->createTable($forumModeratorTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Table update
+// Add foreign key of table
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-if ($process == 'update') {
-    // install / update 1.8
-    if (! $dbTable->fieldExist('image'))
-        $dbTable->addField('image', $teamRankTableCfg['fields']['image']);
-
-    if (! $dbTable->fieldExist('color'))
-        $dbTable->addField('color', $teamRankTableCfg['fields']['color']);
+if ($process == 'addForeignKey') {
+    if (! $dbTable->foreignKeyExist('FK_forumModerator_userId'))
+        addAuthorIdForeignKey('forumModerator', 'userId', $keepUserId = false);
 }
 
 ?>

@@ -34,6 +34,7 @@ define('DOWNLOAD_CAT_TABLE', $db_prefix . '_downloads_cat');
 define('FORUM_TABLE', $db_prefix . '_forums');
 define('FORUM_CAT_TABLE', $db_prefix . '_forums_cat');
 define('FORUM_MESSAGES_TABLE', $db_prefix . '_forums_messages');
+define('FORUM_MODERATOR_TABLE', $db_prefix . '_forums_moderator');
 define('FORUM_OPTIONS_TABLE', $db_prefix . '_forums_options');
 define('FORUM_POLL_TABLE', $db_prefix . '_forums_poll');
 define('FORUM_RANK_TABLE', $db_prefix . '_forums_rank');

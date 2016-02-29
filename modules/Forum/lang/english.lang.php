@@ -263,6 +263,21 @@ return array(
     'ACTION_ADD_FORUM_CATEGORY' => 'has added the forum category', // _ACTIONADDCATFO
     'ACTION_EDIT_FORUM_CATEGORY' => 'has modified the forum category', // _ACTIONMODIFCATFO
     'ACTION_DELETE_FORUM_CATEGORY' => 'has deleted the forum category', // _ACTIONDELCATFO
+    // modules/Forum/backend/moderator.php
+    'MODERATOR_MANAGEMENT'    => 'Moderator management',
+    'ADD_MODERATOR'           => 'Add moderator',
+    'EDIT_THIS_MODERATOR'     => 'Edit this moderator',
+    'DELETE_THIS_MODERATOR'   => 'Remove this moderator',
+    'NO_MODERATOR_IN_DB'      => 'No moderator in database',
+    'ADD_THIS_MODERATOR'      => 'Create moderator',
+    'MODIFY_THIS_MODERATOR'   => 'Modify this moderator',
+    'MODERATOR_ADDED'         => 'Moderator was successfully added.',
+    'MODERATOR_MODIFIED'      => 'Moderator was successfully modified.',
+    'MODERATOR_DELETED'       => 'Moderator was successfully removed.',
+    'ACTION_ADD_MODERATOR'    => 'have added the moderator',
+    'ACTION_EDIT_MODERATOR'   => 'have modified the moderator',
+    'ACTION_DELETE_MODERATOR' => 'have deleted the moderator',
+    
     // modules/Forum/backend/rank.php
     'ACTION_ADD_FORUM_RANK'  => 'has added the forum rank',
     'ACTION_EDIT_FORUM_RANK' => 'has modified the forum rank',
@@ -285,6 +300,8 @@ return array(
     'NOTIFY_FORUM_IMAGE_SIZE' => 'In order to have a good display on your website, ensure to adjust image width with these of your template.<br />Images will be resized to the max width of your website.',
     // modules/Forum/backend/config/forumRank.php
     'MESSAGES'          => 'Posts',
+    // modules/Forum/backend/config/moderator.php
+    'NICKNAME'          => 'Nickname',
     // modules/Forum/backend/config/prune.php
     'NUMBER_OF_DAY'     => 'Numbers of days',
     // modules/Forum/backend/config/setting.php

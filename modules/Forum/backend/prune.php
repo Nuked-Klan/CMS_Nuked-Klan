@@ -43,7 +43,7 @@ function getPruneList() {
         );
 
         foreach ($dbrForum as $forum)
-            $options['cat_'. $forum['id']] = '&nbsp;&nbsp;&nbsp;'. printSecuTags($forum['nom']);
+            $options[$forum['id']] = '&nbsp;&nbsp;&nbsp;'. printSecuTags($forum['nom']);
     }
 
     return $options;

@@ -23,7 +23,6 @@ $forumTableCfg = array(
         'parentid'    => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
         'nom'         => array('type' => 'text',         'null' => false),
         'comment'     => array('type' => 'text',         'null' => false),
-        'moderateurs' => array('type' => 'text',         'null' => false),
         'image'       => array('type' => 'varchar(200)', 'null' => false, 'default' => '\'\''),
         'niveau'      => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
         'level'       => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
@@ -79,6 +78,23 @@ function updateForumsDbTableRow($updateList, $row, $vars) {
         $setFields['nbMessages'] = $dbrForumMessages['nbMessages'];
     }
 
+    if (in_array('MOVE_MODERATOR_LIST', $updateList)) {
+        $moderatorList = explode('|', $row['moderateurs']);
+
+        if ($moderatorList) {
+            foreach ($moderatorList as $userId) {
+                $db->execute(
+                    'INSERT INTO `'. FORUM_MODERATOR_TABLE .'`
+                    (`userId`, `forum`)
+                    VALUES
+                    (\''. $userId .'\', \''. $row['id'] .'\');'
+                );
+            }
+
+            $setFields['moderateurs'] = '';
+        }
+    }
+
     return $setFields;
 }
 
@@ -88,7 +104,7 @@ function updateForumsDbTableRow($updateList, $row, $vars) {
 
 if ($process == 'checkIntegrity') {
     // table and field exist in 1.6.x version
-    $dbTable->checkIntegrity('id', 'comment');
+    $dbTable->checkIntegrity('id', 'comment', array('moderateurs', null));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,8 +128,10 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($forumTableCfg);
 
-    $sql = 'INSERT INTO `'. FORUM_TABLE .'` VALUES
-        (1, 1, 0, \''. $this->_db->quote($this->_i18n['FORUM']) .'\', \''. $this->_db->quote($this->_i18n['TEST_FORUM']) .'\', \'\', \'\', 0, 0, 0, 1 ,1, 0, 0);';
+    $sql = 'INSERT INTO `'. FORUM_TABLE .'`
+        (`cat`, `nom`, `comment`, `level_poll`, `level_vote`)
+        VALUES
+        (1, \''. $this->_db->quote($this->_i18n['FORUM']) .'\', \''. $this->_db->quote($this->_i18n['TEST_FORUM']) .'\', 1 ,1);';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
@@ -140,6 +158,10 @@ if ($process == 'update') {
             ->setUpdateFieldData('UPDATE_NB_MESSAGE', 'nbMessages');
     }
 
+    if ($dbTable->fieldExist('moderateurs')) {
+        $dbTable->setUpdateFieldData('MOVE_MODERATOR_LIST', 'moderateurs');
+    }
+
     // TODO : Version ???
     if (version_compare($this->_session['version'], '1.7.9', '='))
         $dbTable->setUpdateFieldData('REMOVE_EDITOR', 'comment');
@@ -152,6 +174,11 @@ if ($process == 'update') {
     }
 
     $dbTable->applyUpdateFieldListToData();
+
+    if (($response = $dbTable->getJqueryAjaxResponse()) == 'UPDATED') {
+        if ($dbTable->fieldExist('moderateurs'))
+            $dbTable->dropField('moderateurs');
+    }
 }
 
 ?>

@@ -124,12 +124,66 @@ function getForumMessageUrl($forumId, $threadId, $messId, $nbMessages = false, $
 }
 
 /**
+ * Return Forum moderator list.
+ * Check actual username and add Team rank colorization if needed.
+ *
+ * @param int $forumId : The forum ID.
+ * @return string : The Forum moderator list formated.
+ */
+function getModeratorsList($forumId) {
+    global $nuked;
+
+    $dbrForumModerator = nkDB_selectMany(
+        'SELECT U.pseudo, U.rang
+        FROM '. FORUM_MODERATOR_TABLE .' AS FM
+        INNER JOIN '. USER_TABLE .' AS U ON U.id = FM.userId
+        WHERE FM.forum = '. $forumId
+    );
+
+    $nbModerator = nkDB_numRows();
+
+    if ($dbrForumModerator) {
+        $result  = ($nbModerator > 1) ? _MODOS : __('MODERATOR');
+        $result .= ': ';
+
+        foreach ($dbrForumModerator as $forumModerator) {
+            $style = '';
+
+            if ($nuked['forum_rank_team'] == 'on' && $forumModerator['rang'] > 0) {
+                $teamRank = getTeamRank();
+
+                if (array_key_exists($forumModerator['rang'], $teamRank)
+                    && $teamRank[$forumModerator['rang']]['color'] != ''
+                )
+                    $style = ' style="color: #'. $teamRank[$forumModerator['rang']]['color'] .';"';
+            }
+            else {
+                $forumRank = getForumRank();
+
+                if ($forumRank['moderator']['color'] != '')
+                    $style = ' style="color: #'. $forumRank['moderator']['color'] .';"';
+            }
+
+            $result .= '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($forumModerator['pseudo'])
+                . '" alt="'. _SEEMODO .' '. $forumModerator['pseudo'] .'" title="'. _SEEMODO .' '. $forumModerator['pseudo'] .'"'
+                . $style .'><b>'. $forumModerator['pseudo'] .'</b></a>';
+        }
+    }
+    else {
+        $result = __('MODERATOR') .': '. __('NONE');
+    }
+
+    return $result;
+}
+
+/**
  * Format and return Forum moderator list.
  * Check actual username and add Team rank colorization if needed.
  *
  * @param string $rawModeratorList : The raw Forum moderator list issues of Forum database table.
  * @return string : The Forum moderator list formated.
  */
+// TODO A SUPPRIMER
 function formatModeratorsList($rawModeratorList) {
     global $nuked;
 
@@ -206,6 +260,56 @@ function isModerator($rawModeratorList) {
 }
 
 /**
+ * Get Forum rank list.
+ *
+ * @param void
+ * @return array : The Forum rank list formated for colorization.
+ */
+function getForumRank() {
+    static $data = array();
+
+    if (! $data) {
+        $dbrForumRank = nkDB_selectMany(
+            'SELECT nom, color, image, post, type
+            FROM '. FORUM_RANK_TABLE,
+            array('type', 'post'), array('DESC', 'ASC')
+        );
+
+        $data['user'] = array();
+
+        // TODO : Add post number with title of span tag? Remove span tag and use only strong tag?
+        foreach ($dbrForumRank as $forumRank) {
+            if ($forumRank['type'] == 2) {
+                $data['administrator'] = array(
+                    'color'     => $forumRank['color'],
+                    'image'     => $forumRank['image'],
+                    'title'     => $forumRank['nom'],
+                    'formated'  => '<span style="color: #'. $forumRank['color'] .';"><strong>'. $forumRank['nom'] .'</strong></span>'
+                );
+            }
+            else if ($forumRank['type'] == 1) {
+                $data['moderator'] = array(
+                    'color'     => $forumRank['color'],
+                    'image'     => $forumRank['image'],
+                    'title'     => $forumRank['nom'],
+                    'formated'  => '<span style="color: #'. $forumRank['color'] .';"><strong>'. $forumRank['nom'] .'</strong></span>'
+                );
+            }
+            else {
+                $data['user'][$forumRank['post']] = array(
+                    'color'     => $forumRank['color'],
+                    'image'     => $forumRank['image'],
+                    'title'     => $forumRank['nom'],
+                    'formated'  => '<span style="color: #'. $forumRank['color'] .';"><strong>'. $forumRank['nom'] .'</strong></span>'
+                );
+            }
+        }
+    }
+
+    return $data;
+}
+
+/**
  * Get team rank list.
  *
  * @param void
@@ -214,26 +318,97 @@ function isModerator($rawModeratorList) {
 function getTeamRank() {
     static $data = array();
 
-    if ($data) return $data;
-
-    // TODO : Team rank or Forum rank ?
-    // $nuked['forum_rank_team']
-    $dbrTeamRank = nkDB_selectMany(
-        'SELECT id, titre, couleur
-        FROM '. TEAM_RANK_TABLE,
-        array('ordre'), 'ASC'
-    );
-
-    // TODO : Add post number with title of span tag? Remove span tag and use only strong tag?
-    foreach ($dbrTeamRank as $teamRank) {
-        $data[$teamRank['id']] = array(
-            'color'     => $teamRank['couleur'],
-            'title'     => $teamRank['titre'],
-            'formated'  => '<span style="color: #'. $teamRank['couleur'] .';"><strong>'. $teamRank['titre'] .'</strong></span>'
+    if (! $data) {
+        $dbrTeamRank = nkDB_selectMany(
+            'SELECT id, titre, color, image
+            FROM '. TEAM_RANK_TABLE,
+            array('ordre'), 'ASC'
         );
+
+        // TODO : Add post number with title of span tag? Remove span tag and use only strong tag?
+        foreach ($dbrTeamRank as $teamRank) {
+            $data[$teamRank['id']] = array(
+                'color'     => $teamRank['color'],
+                'image'     => $teamRank['image'],
+                'title'     => $teamRank['titre'],
+                'formated'  => '<span style="color: #'. $teamRank['color'] .';"><strong>'. $teamRank['titre'] .'</strong></span>'
+            );
+        }
     }
 
     return $data;
+}
+
+/**
+ * Get user rank to display.
+ *
+ * @param void
+ * @return string
+ */
+function getUserRank($data, $isModerator) {
+    global $nuked;
+
+    if ($nuked['forum_rank_team'] == 'on' && $data['rang'] > 0) {
+        $teamRank = getTeamRank();
+
+        if (array_key_exists($data['rang'], $teamRank))
+            return $teamRank[$data['rang']];
+    }
+    else {
+        $forumRank = getForumRank();
+
+        if ($data['niveau'] >= admin_mod('Forum')) {
+            return $forumRank['administrator'];
+        }
+        else if ($isModerator) {
+            return $forumRank['moderator'];
+        }
+        else {
+            foreach ($forumRank['user'] as $nbForumRankPost => $forumUserRank) {
+                $lastRank = $nbForumRankPost;
+
+                if ($data['count'] >= $nbForumRankPost)
+                    return $forumRank['user'][$nbForumRankPost];
+            }
+        }
+    }
+
+    return array(
+        'color'     => '',
+        'image'     => '',
+        'title'     => ''
+    );
+}
+
+function nkForumNickname($data, $link = true, $rankColor = true, $author = 'auteur', $pseudo = 'pseudo', $rank = 'rang') {
+    global $nuked;
+
+    if (is_array($data)) {
+        if (isset($data[$pseudo]) && $data[$pseudo] != '') {
+            if (! $link) return $data[$pseudo];
+
+            $style = '';
+
+            // TODO : Use CSS class instead
+            if ($rankColor && $nuked['forum_user_details'] == 'on') {
+                //$isModerator = isModerator($rawModeratorList)
+                //$userRankData = getUserRank($data, $isModerator);
+
+                $userRankData = getUserRank($data, false);
+
+                if ($userRankData['color'] != '')
+                    $style = ' style="color: #'. $userRankData['color'] .';"';
+            }
+
+            return '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($data[$pseudo]) .'"'. $style .'>'
+                . $data[$pseudo] .'</a>';
+        }
+
+        if (isset($data[$author]) && $data[$author] != '')
+            return nk_CSS($data[$author]);
+    }
+
+    return '';
 }
 
 /**

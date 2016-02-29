@@ -30,7 +30,8 @@ function getForumRankFields() {
         'nom',
         'type',
         'post',
-        'image'
+        'image',
+        'color'
     );
 }
 
@@ -59,6 +60,12 @@ function getForumRankFormCfg() {
                 'type'              => 'file',
                 'fileType'          => 'image',
                 'uploadDir'         => 'upload/Forum/rank'
+            ),
+            'color' => array(
+                'label'             => __('COLOR'),
+                'type'              => 'color',
+                'dataType'          => 'color',
+                'required'          => true
             ),
             'post' => array(
                 'label'             => __('MESSAGES'),

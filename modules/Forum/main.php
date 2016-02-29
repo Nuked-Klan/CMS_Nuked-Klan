@@ -29,7 +29,9 @@ function formatForumRow($forum) {
     $forum['readStatus'] = getForumReadStatusImg($forum['id'], $forum['nbTopics']);
 
     if ($nuked['forum_display_modos'] == 'on')
-        $forum['moderatorsList'] = formatModeratorsList($forum['moderateurs']);
+        $forum['moderatorsList'] = getModeratorsList($forum['id']);
+    else
+        $forum['moderatorsList'] = '';
 
     if ($forum['nbMessages'] > 0)
         $forum['lastMessage'] = formatLastForumMsg($forum['id']);
@@ -58,7 +60,7 @@ function formatLastForumMsg($forumId) {
 
     // Set last Forum message author, formated date and full title
     $lastMsgData = array(
-        'author'    => nkNickname($dbrLastForumMsg),
+        'author'    => nkForumNickname($dbrLastForumMsg),
         'date'      => formatForumMessageDate($dbrLastForumMsg['date']),
         'title'     => printSecuTags($dbrLastForumMsg['titre'])
     );
@@ -166,24 +168,26 @@ else {
 $nbTotalMessages    = nkDB_totalNumRows('FROM '. FORUM_MESSAGES_TABLE);
 $nbTotalUsers       = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE niveau > 0');
 
-// Get last member username
-$dbrLastUser = nkDB_selectOne(
-    'SELECT pseudo
-    FROM '. USER_TABLE .' WHERE niveau > 0',
-    array('date'), 'DESC', 1
-);
-
 // Prepare rank legend
 if ($nuked['forum_user_details'] == 'on') {
-    $teamRank       = getTeamRank();
-    $rankField      = ', U.rang';
-    $teamRankList   = array_column($teamRank, 'formated');
-    $teamRankList   = ($teamRankList) ? implode(',', $teamRankList) : '<em>'. __('NONE') .'</em>';
+    $forumRank       = getForumRank();
+    $rankField      = ', U.niveau, U.count, U.rang';
+    $forumRankList   = array_column($forumRank['user'], 'formated');
+    array_unshift($forumRankList, $forumRank['moderator']['formated']);
+    array_unshift($forumRankList, $forumRank['administrator']['formated']);
+    $forumRankList   = ($forumRankList) ? implode(',', $forumRankList) : '<em>'. __('NONE') .'</em>';
 }
 else {
-    $rankField      = '';
-    $teamRankList   = '';
+    $rankField = $forumRankList = '';
 }
+
+// Get last member username
+$dbrLastUser = nkDB_selectOne(
+    'SELECT pseudo'. $rankField .'
+    FROM '. USER_TABLE .' AS U
+    WHERE niveau > 0',
+    array('date'), 'DESC', 1
+);
 
 // Prepare online members info
 $onlineList = array();
@@ -198,10 +202,14 @@ $dbrOnline = nkDB_selectMany(
 );
 
 foreach ($dbrOnline as $online) {
-    if ($nuked['forum_user_details'] == 'on' && array_key_exists($online['rang'], $teamRank))
-        $style = ' style="color: #'. $teamRank[$online['rang']]['color'] .';"';
-    else
-        $style = '';
+    $style = '';
+
+    if ($nuked['forum_user_details'] == 'on') {
+        $userRankData = getUserRank($online, false);
+
+        if ($userRankData['color'] != '')
+            $style = ' style="color: #'. $userRankData['color'] .';"';
+    }
 
     $onlineList[] = '<img src="images/flags/'. $online['country'] .'" alt="'. $online['country'] .'" class="nkForumOnlineFlag" />'
         . '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($online['pseudo']) .'"'. $style .'>'
@@ -232,10 +240,14 @@ if ($nuked['forum_birthday'] == 'on') {
         if ($currentDay == $birthdayDay && $currentMonth == $birthdayMonth) {
             //$userDetail['pseudo'] = stripslashes($userDetail['pseudo']);
 
-            if ($nuked['forum_user_details'] == 'on' && array_key_exists($userDetail['rang'], $teamRank))
-                $style = ' style="color: #'. $teamRank[$userDetail['rang']]['color'] .';"';
-            else
-                $style = '';
+            $style = '';
+
+            if ($nuked['forum_user_details'] == 'on') {
+                $userRankData = getUserRank($userDetail, false);
+
+                if ($userRankData['color'] != '')
+                    $style = ' style="color: #'. $userRankData['color'] .';"';
+            }
 
             $birthdayList[] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='
                 . urlencode($userDetail['pseudo']) .'"'. $style .'><strong>'. $userDetail['pseudo']
@@ -273,10 +285,10 @@ echo applyTemplate('modules/Forum/main', array(
     'forumList'         => $dbrForumList,
     'nbTotalMessages'   => $nbTotalMessages,
     'nbTotalUsers'      => $nbTotalUsers,
-    'lastUser'          => $dbrLastUser['pseudo'],
+    'lastUser'          => nkForumNickname($dbrLastUser),
     'onlineStats'       => nbvisiteur(),
     'onlineList'        => $onlineList,
-    'teamRankList'      => $teamRankList,
+    'forumRankList'     => $forumRankList,
     'birthdayMessage'   => $birthdayMessage
 ));
 

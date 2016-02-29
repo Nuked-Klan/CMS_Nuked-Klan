@@ -18,6 +18,9 @@
             else {
                 if ($GLOBALS['page'] == 'index') $class = 'class="nkClassActive"';
             }
+
+            if (isset($linkData['op']))
+                $link .= '&amp;op='. $linkData['op'];
         }
 
 ?>

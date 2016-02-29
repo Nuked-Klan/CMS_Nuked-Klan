@@ -23,6 +23,9 @@ table#forumList td.fLevel{text-align:center;}
 /* Forum form */
 #forumImgPreview{margin-left:20px;width:50px;height:50px;vertical-align:middle;}
 
+/* Forum moderator form */
+#moderatorForum label{vertical-align:top;}
+
 /* Forum rank list */
 table#forumRankList .frNom,
 table#forumRankList .frType{width:25%;}

@@ -28,7 +28,7 @@ function getTeamRankFields() {
         'titre',
         'ordre',
         'image',
-        'couleur'
+        'color'
     );
 }
 
@@ -56,7 +56,7 @@ function getTeamRankFormCfg() {
                 'fileType'          => 'image',
                 'uploadDir'         => 'upload/User/Rank/'
             ),
-            'couleur' => array(
+            'color' => array(
                 'label'             => __('COLOR'),
                 'type'              => 'color',
                 'dataType'          => 'color',

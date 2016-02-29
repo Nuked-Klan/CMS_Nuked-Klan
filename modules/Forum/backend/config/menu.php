@@ -5,6 +5,14 @@ return array(
     _n('FORUM') => array(
         'img'   => 'modules/Admin/images/icons/speedometer.png'
     ),
+    __('ADD_FORUM') => array(
+        'img'   => 'modules/Admin/images/icons/add_page.png',
+        'op'    => 'edit'
+    ),
+    __('MODERATOR_MANAGEMENT') => array(
+        'img'   => 'modules/Admin/images/icons/teamusers.png',
+        'page'  => 'moderator'
+    ),
     __('CATEGORY_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/folder_full.png',
         'page'  => 'category'

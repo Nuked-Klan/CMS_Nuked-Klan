@@ -68,7 +68,7 @@ function highlightText($title, $text) {
  * @return array : The Forum topic message Author data formated.
  */
 function getAuthorInfo($topicMessage) {
-    global $forumAdmin, $avatar_resize, $avatar_width;
+    global $nuked, $forumAdmin, $avatar_resize, $avatar_width;
 
     static $formatedAuthorInfo = array();
 

@@ -148,15 +148,6 @@ function getForumFormCfg() {
                     8 => 8,
                     9 => 9
                 )
-            ),
-            'moderatorList' => array(
-                'fakeLabel'         => __('MODERATOR'),
-                'html'              => ''
-            ),
-            'moderateurs' => array(
-                'label'             => __('MODERATOR'),
-                'type'              => 'select',
-                'options'           => array()
             )
         ),
         'itemsFooter' => array(

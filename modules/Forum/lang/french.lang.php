@@ -269,6 +269,20 @@ return array(
     'ACTION_ADD_FORUM_CATEGORY' => 'a ajouté la catégorie forum', // _ACTIONADDCATFO
     'ACTION_EDIT_FORUM_CATEGORY' => 'a modifié la catégorie forum', // _ACTIONMODIFCATFO
     'ACTION_DELETE_FORUM_CATEGORY' => 'a supprimé la catégorie forum', // _ACTIONDELCATFO
+    // modules/Forum/backend/moderator.php
+    'MODERATOR_MANAGEMENT'    => 'Gestion des Modérateurs',
+    'ADD_MODERATOR'           => 'Ajouter un modérateur',
+    'EDIT_THIS_MODERATOR'     => 'Editer ce modérateur',
+    'DELETE_THIS_MODERATOR'   => 'Supprimer ce modérateur',
+    'NO_MODERATOR_IN_DB'      => 'Aucun modérateur dans la base de données',
+    'ADD_THIS_MODERATOR'      => 'Créer un modérateur',
+    'MODIFY_THIS_MODERATOR'   => 'Modifier ce modérateur',
+    'MODERATOR_ADDED'         => 'Modérateur ajoutée avec succès.',
+    'MODERATOR_MODIFIED'      => 'Modérateur modifiée avec succès.',
+    'MODERATOR_DELETED'       => 'Modérateur supprimée avec succès.',
+    'ACTION_ADD_MODERATOR'    => 'a ajouté le modérateur',
+    'ACTION_EDIT_MODERATOR'   => 'a modifié le modérateur',
+    'ACTION_DELETE_MODERATOR' => 'a supprimé le modérateur',
     // modules/Forum/backend/rank.php
     'ACTION_ADD_FORUM_RANK'  => 'a ajouté le rang forum',
     'ACTION_EDIT_FORUM_RANK' => 'a modifié le rang forum',
@@ -291,6 +305,8 @@ return array(
     'NOTIFY_FORUM_IMAGE_SIZE' => 'Afin d\'optimiser l\'affichage de votre site, pensez à ajuster la taille de vos image à la largeur de votre thème.<br />Les images seront redimensionn&eacute;es automatiquement à la largeur de votre site.',
     // modules/Forum/backend/config/forumRank.php
     'MESSAGES'          => 'Messages',
+    // modules/Forum/backend/config/moderator.php
+    'NICKNAME'          => 'Pseudo',
     // modules/Forum/backend/config/prune.php
     'NUMBER_OF_DAY'     => 'Nombre de jours',
     // modules/Forum/backend/config/setting.php
