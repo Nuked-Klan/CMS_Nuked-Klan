@@ -119,7 +119,7 @@ function affich_block_login($blok){
 	if ($online != 'off'){
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
 
-    	$blok['content'] .= '&nbsp;<img width="16" height="13" src="images/online.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _WHOISONLINE . '</b></span><br />'."\n";
+    	$blok['content'] .= '&nbsp;<img width="16" height="13" src="images/online.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . __('WHO_IS_ONLINE') . '</b></span><br />'."\n";
 
     	$nb = nbvisiteur();
 
@@ -128,7 +128,7 @@ function affich_block_login($blok){
 			while (list($nom) = mysql_fetch_array($sql4)){
 				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';
 			}
-			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . nkHtmlEntities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
+			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 		} else {
 			$user_list = '';
     	}
@@ -139,7 +139,7 @@ function affich_block_login($blok){
 			while (list($name) = mysql_fetch_array($sql5)){
 				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
 			}	
-			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . _WHOISONLINE . '\', \'' . nkHtmlEntities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
+			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 		} else{
 			$admin_list = '';
 		}
@@ -218,7 +218,7 @@ function edit_block_login($bid){
             , '&nbsp;' , _MEMBERS , ' : <select name="members">',"\n"
             , '<option value="on">' , __('YES') , '</option>',"\n"
             , '<option value="off" ' , $checked5 , '>' , __('NO') , '</option></select>',"\n"
-            , '</td></tr><tr><td colspan="4">&nbsp;' , _WHOISONLINE , ' : <select name="online">',"\n"
+            , '</td></tr><tr><td colspan="4">&nbsp;' , __('WHO_IS_ONLINE') , ' : <select name="online">',"\n"
             , '<option value="on">' , __('YES') , '</option>',"\n"
             , '<option value="off" ' , $checked6 , '>' , __('NO') , '</option></select>',"\n"
             , '&nbsp;' , _SHOWAVATAR , ' : <select name="avatar">',"\n"

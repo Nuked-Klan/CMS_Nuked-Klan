@@ -47,7 +47,6 @@ define("_BLOKLOGIN","Login");
 define("_BLOKSEARCH","Recherche");
 define("_BLOKSHOUT","Tribune libre");
 define("_BLOKSTATS","Stats");
-define("_WHOISONLINE","Qui est en ligne ?");
 define("_BESTMOD","Le meilleur MOD pour Half-Life");
 define("_LIKENK","Aimez-vous Nuked-klan ?");
 define("_ROXX","Ca déchire, continuez !");
@@ -363,7 +362,6 @@ define("_MORE","Suite");
 define("_ORDERBY","Classer par");
 define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_IMAGE","Image");
-define("_STATS","Statistiques");
 
 define("_NONE","Aucun");
 define("_TITLE","Titre");
@@ -389,6 +387,8 @@ return array(
     'TITLE'             => 'Titre',
     'COLOR'             => 'Couleur',
     'URL'               => 'URL',
+    'BY'                => 'par',
+    'STATS'             => 'Statistiques',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
@@ -513,6 +513,10 @@ return array(
     // views/frontend/modules/Forum/viewTopic.php
     // views/frontend/modules/Vote/voteForm.php
     'TO_VOTE'           => 'Voter',
+    
+    // views/frontend/modules/Forum/main.php
+    // bloc login
+    'WHO_IS_ONLINE'     => 'Qui est en ligne ?',
 );
 
 ?>

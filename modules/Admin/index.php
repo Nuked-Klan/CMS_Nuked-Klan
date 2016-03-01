@@ -66,7 +66,7 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
             <li>
                 <a class="shortcut-button" rel="modal" href="index.php?file=Stats&amp;page=admin&amp;op=statsPopup">
                     <img src="modules/Admin/images/icons/statistiques.png" alt="icon" />
-                    <span><?php echo _STATS; ?></span>
+                    <span><?php echo __('STATS'); ?></span>
                 </a>
             </li>
 
@@ -228,7 +228,7 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
                                 </div>
                             </div><!--
                          --><div id="nkStats">
-                                <h5><?php echo _STATS; ?></h5>
+                                <h5><?php echo __('STATS'); ?></h5>
                                 <div>
                                 <?php
                                     $sqlStats = mysql_query('SELECT

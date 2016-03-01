@@ -7,7 +7,7 @@
         <td style="width: 15%;" align="center"><b><?php echo _AUTHOR ?></b></td>
         <td style="width: 10%;" align="center"><b><?php echo _ANSWERS ?></b></td>
         <td style="width: 10%;" align="center"><b><?php echo _VIEWS ?></b></td>
-        <td style="width: 30%;" align="center"><b><?php echo _LASTPOST ?></b></td>
+        <td style="width: 30%;" align="center"><b><?php echo __('LAST_POST') ?></b></td>
     </tr>
 <?php
     foreach ($forumThreadList as $forumThread) :
@@ -48,7 +48,7 @@
         <td style="width: 15%;" align="center"><b><?php echo $initiat ?></b></td>
         <td style="width: 10%;" align="center"><?php echo $forumThread['nbReplies'] ?></td>
         <td style="width: 10%;" align="center"><?php echo $forumThread['view'] ?></td>
-        <td style="width: 30%;" align="center"><?php echo $dbrLastForumMessage['date'] ?><br /><a href="<?php echo $postUrl ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" alt="" title="<?php echo _SEELASTPOST ?>" /></a><b><?php echo $author ?></b></td>
+        <td style="width: 30%;" align="center"><?php echo $dbrLastForumMessage['date'] ?><br /><a href="<?php echo $postUrl ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" alt="" title="<?php echo __('VIEW_LATEST_POST') ?>" /></a><b><?php echo $author ?></b></td>
     </tr>
 <?php
     endforeach

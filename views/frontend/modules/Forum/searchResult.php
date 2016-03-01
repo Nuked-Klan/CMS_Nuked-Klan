@@ -7,7 +7,7 @@
         </div>
     </div>
     <div id="nkForumBreadcrumb">
-        <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;->&nbsp;<a href="index.php?file=Forum&amp;page=search"><strong><?php echo _SEARCH ?></strong></a>
+        <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;->&nbsp;<a href="index.php?file=Forum&amp;page=search"><strong><?php echo __('SEARCH') ?></strong></a>
     </div>
 <?php echo $pagination ?>
     <div class="nkForumCat">
@@ -77,7 +77,7 @@
 <?php echo $pagination ?>
     <div class="nkForumSearch">
         <form method="get" action="index.php" >
-            <label for="forumSearch"><?php echo _SEARCH ?> :</label>
+            <label for="forumSearch"><?php echo __('SEARCH') ?> :</label>
             <input id="forumSearch" type="text" name="query" size="25" />
             <input type="hidden" name="file" value="Forum" />
             <input type="hidden" name="page" value="search" />

@@ -2,18 +2,18 @@
 define("_SUBJECTS","Topics");
 define("_PREVIOUSMESSAGES","Previous post(s)");
 define("_MESSAGE","Post");
-define("_LASTPOST","Last Post");
-define("_SEELASTPOST","View latest post");
+
+
 define("_CREATEDBY","Created by ");
-define("_NOPOST","No Posts");
+
 define("_NOPOSTFORUM","There are no posts in this forum");
 define("_ANSWERS","Replies");
 define("_VIEWS"," Views");
 define("_INDEXFORUM","Forum Index");
-define("_DAYIS","Today is");
+
 define("_FTODAY","today,");
 define("_FYESTERDAY","yesterday,");
-define("_LASTVISIT","Your last visit");
+
 define("_ANNOUNCE","Announcement");
 define("_PAGES","Pages");
 define("_NEWSTOPIC","New topic");
@@ -21,19 +21,13 @@ define("_NEWTOPIC","New");
 define("_REPLY","Reply");
 define("_LASTTHREAD","Previous topic");
 define("_NEXTTHREAD","Next topic");
-define("_FWHOISONLINE","Who is Online?");
-define("_THEREARE","There are");
-define("_FVISITORS","visitor(s)");
-define("_FMEMBERS","member(s)");
-define("_AND","and");
-define("_FADMINISTRATORS","administrator(s)");
+
 define("_ISONLINE","Online !");
-define("_MEMBERSONLINE","Members online");
-define("_MARKREAD","Mark all posts as read");
-define("_VIEWLASTVISITMESS","View all new posts since last visit");
+
+
+
 define("_MESSAGESMARK","All posts have now been marked as read");
-define("_NEWSPOSTLASTVISIT","New posts");
-define("_NOPOSTLASTVISIT","No new posts");
+
 define("_POSTNEW","New posts");
 define("_POSTNEWHOT","New posts [ Popular ]");
 define("_NOPOSTNEW","No new posts");
@@ -96,9 +90,9 @@ define("_OPTIONS","Options");
 define("_CANCEL","Cancel");
 define("_EMAILNOTIFYMAIL","There has been a reply to this topic:");
 define("_FSEARCHRESULT","Search Results");
-define("_SEARCH","Search");
+
 define("_SEARCHING","Search");
-define("_ADVANCEDSEARCH","Advanced Search");
+
 define("_FSEARCHFOUND","matches for");
 define("_FNOSEARCHFOUND","No matches were found for");
 define("_FNOLASTVISITMESS","No new posts since your last visit");
@@ -153,14 +147,8 @@ define("_PERMALINK_TITLE","Permanent link to this message");
 
 
 // Main
-define('_TOTAL_MEMBERS_POSTS', 'Our members have posted a total of ');
-define('_WE_HAVE', 'We have ');
-define('_REGISTERED_MEMBERS', ' registered members.');
-define('_LAST_USER_IS', 'Last registered user is ');
-define('_TOPICS', 'Topics');
-define('_RANKLEGEND', 'Ranks legend');
 define("_SEEMODO","See profile of ");
-define("_TODAY","Today");
+
 
 // Viewforum
 define('_BAD_FORUM_ID', 'This ID is not valid.');
@@ -211,8 +199,6 @@ return array(
     'NO_BIRTHDAY'       => 'no members have a birthday.'
     'ONE_BIRTHDAY'      => 'there is one member having a birthday:',
     'MANY_BIRTHDAY'     => 'there is %d members having a birthday:',
-    
-    
     // modules/Forum/poll.php
     'CONFIRM_DELETE_POLL' => 'Remove this poll?',
     'OPTION'            => 'Option',
@@ -324,6 +310,34 @@ return array(
     'JOINED_FILES'      => 'Enable file attachment',
     'FILE_LEVEL'        => 'Level required to attach a file',
     'MAX_SIZE_FILE'     => 'Maximum attached file size (in KB)',
+    // views/frontend/modules/Forum/main.php
+    // views/frontend/modules/Forum/searchForm.php
+    // views/frontend/modules/Forum/searchResult.php
+    'SEARCH'            => 'Search',
+    // views/frontend/modules/Forum/block.php
+    // views/frontend/modules/Forum/main.php
+    // views/frontend/modules/Forum/viewForum.php
+    'LAST_POST'         => 'Last Post',
+    'VIEW_LATEST_POST'  => 'View latest post',
+    // views/frontend/modules/Forum/main.php
+    'ADVANCED_SEARCH'   => 'Advanced Search',
+    'TODAY_IS'          => 'Today is',
+    'YOUR_LAST_VISIT'   => 'Your last visit',
+    'TOPICS'            => 'topics',
+    'NO_POST'           => 'No Posts',
+    'TOTAL_MEMBERS_POSTS' => 'Our members have posted a total of %s post(s).',
+    'WE_HAVE_N_REGISTERED_MEMBERS' => 'We have %d registered members.',
+    'LAST_USER_IS'      => 'Last registered user is ',
+    'FORUM_ONLINE_LEGEND' => 'There are %d visitor(s), %d member(s) and %d administrator(s) online.',
+    'MEMBERS_ONLINE'    => 'Members online',
+    'RANK_LEGEND'       => 'Ranks legend',
+    'TODAY'             => 'Today',
+    'MARK_READ'         => 'Mark all posts as read',
+    'VIEW_LAST_VISIT_MESS' => 'View all new posts since last visit',
+    'NEW_POST_LAST_VISIT' => 'New posts',
+    'NO_POST_LAST_VISIT' => 'No new posts',
+    
+    
     // views/frontend/modules/Forum/editPoll.php
     'POST_SURVEY'       => 'Post a poll',
 );

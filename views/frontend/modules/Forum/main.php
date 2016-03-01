@@ -7,9 +7,9 @@
             </div><!-- Hack inline-block
             --><div id="nkForumMainSearch">
                 <form method="get" action="index.php" >
-                    <label for="forumSearch"><?php echo _SEARCH ?> :</label>
+                    <label for="forumSearch"><?php echo __('SEARCH') ?> :</label>
                     <input id="forumSearch" type="text" name="query" size="25" />
-                    <p>[ <a href="index.php?file=Forum&amp;page=search"><?php echo _ADVANCEDSEARCH ?></a> ]</p>
+                    <p>[ <a href="index.php?file=Forum&amp;page=search"><?php echo __('ADVANCED_SEARCH') ?></a> ]</p>
                     <input type="hidden" name="file" value="Forum" />
                     <input type="hidden" name="page" value="search" />
                     <input type="hidden" name="do" value="search" />
@@ -20,11 +20,11 @@
                 <?php echo $breadcrumb ?>
             </div><!-- Hack inline-block
             --><div id="nkForumMainDates">
-                <span><?php echo _DAYIS ?> : <?php echo nkDate(time()) ?></span><?php
+                <span><?php echo __('TODAY_IS') ?> : <?php echo nkDate(time()) ?></span><?php
 
     if ($user && $user['lastUsed'] != '') :
 
-        ?>&nbsp;<span><?php echo _LASTVISIT ?> : <?php echo nkDate($user['lastUsed']) ?></span>
+        ?>&nbsp;<span><?php echo __('YOUR_LAST_VISIT') ?> : <?php echo nkDate($user['lastUsed']) ?></span>
 <?php
     endif
 ?>
@@ -69,8 +69,8 @@
                             <div>
                                 <div class="nkForumBlankCell"></div>
                                 <div class="nkForumForumCell"><?php echo __('FORUM') ?></div>
-                                <div class="nkForumStatsCell"><?php echo _STATS ?></div>
-                                <div class="nkForumDateCell"><?php echo _LASTPOST ?></div>
+                                <div class="nkForumStatsCell"><?php echo __('STATS') ?></div>
+                                <div class="nkForumDateCell"><?php echo __('LAST_POST') ?></div>
                             </div>
                         </div>
 <?php
@@ -101,9 +101,10 @@
 <?php
         endif
 ?>
-                                </div>
-                                <div class="nkForumStatsCell nkBorderColor1">
-                                    <strong><?php echo $forum['nbTopics'] ?></strong>&nbsp;<?php echo strtolower(_TOPICS) ?><br/>
+                                </div><!--
+                                TODO : Remove strtolower(__('MESSAGES'))
+                                --><div class="nkForumStatsCell nkBorderColor1">
+                                    <strong><?php echo $forum['nbTopics'] ?></strong>&nbsp;<?php echo __('TOPICS') ?><br/>
                                     <strong><?php echo $forum['nbMessages'] ?></strong>&nbsp;<?php echo strtolower(__('MESSAGES')) ?>
                                 </div>
                                 <div class="nkForumDateCell nkBorderColor1">
@@ -114,9 +115,9 @@
                                         <img src="<?php echo $forum['lastMessage']['authorAvatar'] ?>" alt="IMG" />
                                     </div>
                                     <div>
-                                        <p><a href="<?php echo $forum['lastMessage']['url'] ?>" title="<?php echo $forum['lastMessage']['title'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo _SEELASTPOST ?>" />&nbsp;<?php echo $forum['lastMessage']['cleanedTitle'] ?></a></p>
+                                        <p><a href="<?php echo $forum['lastMessage']['url'] ?>" title="<?php echo $forum['lastMessage']['title'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo __('VIEW_LATEST_POST') ?>" />&nbsp;<?php echo $forum['lastMessage']['cleanedTitle'] ?></a></p>
                                         <p>
-                                            <span><?php echo _BY ?></span>
+                                            <span><?php echo __('BY') ?></span>
                                             <strong><?php echo $forum['lastMessage']['author'] ?></strong>
                                         </p>
                                         <p><?php echo $forum['lastMessage']['date'] ?></p>
@@ -124,7 +125,7 @@
 <?php
         else :
 ?>
-                                    <?php echo _NOPOST ?>
+                                    <?php echo __('NO_POST') ?>
 <?php
         endif
 ?>
@@ -139,28 +140,28 @@
                 <!-- LEGENDE DU MAIN -->
                 <div id="nkForumWhoIsOnline" class="nkBgColor2">
                     <div class="nkForumWhoIsOnlineTitle nkBgColor3">
-                        <h3><?php echo _FWHOISONLINE ?></h3>
+                        <h3><?php echo __('WHO_IS_ONLINE') ?></h3>
                     </div>
                     <div id="nkForumWhoIsOnlineIcon" class="nkBorderColor1"></div>
                     <div id="nkForumWhoIsOnlineContent" class="nkBorderColor1">
-                        <p><?php echo _TOTAL_MEMBERS_POSTS ?><strong><?php echo $nbTotalMessages ?></strong>&nbsp;<?php echo strtolower(__('MESSAGES')) ?>.</p>
-                        <p><?php echo _WE_HAVE ?><strong><?php echo $nbTotalUsers ?></strong><?php echo _REGISTERED_MEMBERS ?></p>
-                        <p><?php echo _LAST_USER_IS ?><a href="index.php?file=Members&amp;op=detail&amp;autor=<?php echo urlencode($lastUser) ?>"><?php echo $lastUser ?></a></p>
+                        <p><?php printf(__('TOTAL_MEMBERS_POSTS'), '<strong>'. $nbTotalMessages .'</strong>') ?></p>
+                        <p><?php printf(__('WE_HAVE_N_REGISTERED_MEMBERS'), '<strong>'. $nbTotalUsers .'</strong>') ?></p>
+                        <p><?php echo __('LAST_USER_IS') ?><a href="index.php?file=Members&amp;op=detail&amp;autor=<?php echo urlencode($lastUser) ?>"><?php echo $lastUser ?></a></p>
                         <p>
-                            <?php echo _THEREARE ?>&nbsp;<?php echo $onlineStats[0] ?>&nbsp;<?php echo _FVISITORS ?>, <?php echo $onlineStats[1] ?>&nbsp;<?php echo _FMEMBERS ?>&nbsp;<?php echo _AND ?>&nbsp;<?php echo $onlineStats[2] ?>&nbsp;<?php echo _FADMINISTRATORS ?>&nbsp;<?php echo _ONLINE ?><br />
-                            <?php echo _MEMBERSONLINE ?>&nbsp;:&nbsp;<?php echo (! empty($onlineList)) ? implode(',', $onlineList) : '<em>'. _NONE .'</em>' ?>
+                            <?php printf(__('FORUM_ONLINE_LEGEND'), $onlineStats[0], $onlineStats[1], $onlineStats[2]) ?><br />
+                            <?php echo __('MEMBERS_ONLINE') ?>&nbsp;:&nbsp;<?php echo (! empty($onlineList)) ? implode(',', $onlineList) : '<em>'. __('NONE') .'</em>' ?>
                         </p>
 <?php
     if ($nuked['forum_user_details'] == 'on') :
 ?>
                         <br />
-                        <p><?php echo _RANKLEGEND ?>&nbsp;:&nbsp;<?php echo $forumRankList ?></p>
+                        <p><?php echo __('RANK_LEGEND') ?>&nbsp;:&nbsp;<?php echo $forumRankList ?></p>
 <?php
     endif;
 
     if ($nuked['forum_birthday'] == 'on') :
 ?>
-                        <p><?php echo _TODAY ?>,&nbsp;<?php echo $birthdayMessage ?></p>
+                        <p><?php echo __('TODAY') ?>,&nbsp;<?php echo $birthdayMessage ?></p>
 <?php
     endif
 ?>
@@ -171,11 +172,11 @@
 <?php
     if ($user) :
 ?>
-                    <a id="nkForumMarkRead" href="index.php?file=Forum&amp;op=mark"><?php echo _MARKREAD ?></a>
+                    <a id="nkForumMarkRead" href="index.php?file=Forum&amp;op=mark"><?php echo __('MARK_READ') ?></a>
 <?php
         if ($user && $user['lastUsed'] != '') :
 ?>
-                    <a id="nkForumViewUnread" href="index.php?file=Forum&amp;page=search&amp;do=search&amp;date_max=<?php echo $user['lastUsed'] ?>"><?php echo _VIEWLASTVISITMESS ?></a>
+                    <a id="nkForumViewUnread" href="index.php?file=Forum&amp;page=search&amp;do=search&amp;date_max=<?php echo $user['lastUsed'] ?>"><?php echo __('VIEW_LAST_VISIT_MESS') ?></a>
 <?php
         endif;
     endif;
@@ -184,11 +185,11 @@
                 <div id="nkForumReadLegend">
                     <div>
                         <img src="modules/Forum/images/forum_new.png" alt="NEW" />
-                        <span><?php echo _NEWSPOSTLASTVISIT ?></span>
+                        <span><?php echo __('NEW_POST_LAST_VISIT') ?></span>
                     </div>
                     <div>
                         <img src="modules/Forum/images/forum.png" alt="" />
-                        <span><?php echo _NOPOSTLASTVISIT ?></span>
+                        <span><?php echo __('NO_POST_LAST_VISIT') ?></span>
                     </div>
                 </div>
         </div>

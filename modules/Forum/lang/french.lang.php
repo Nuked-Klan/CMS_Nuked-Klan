@@ -2,17 +2,17 @@
 define("_SUBJECTS","Sujets");
 define("_PREVIOUSMESSAGES","Message(s) pr&eacutec&eacutedent(s)");
 define("_MESSAGE","Message");
-define("_LASTPOST","Dernier message");
+
 define("_CREATEDBY","Crée par ");
-define("_SEELASTPOST","Voir le dernier message");
-define("_NOPOST","Pas de Messages");
+
+
 define("_NOPOSTFORUM","Il n'y a pas de messages dans ce forum");
 define("_ANSWERS","Réponses");
 define("_VIEWS","Vues");
-define("_DAYIS","Date &amp; Heure");
+
 define("_FTODAY","aujourd'hui à");
 define("_FYESTERDAY","hier à");
-define("_LASTVISIT","Votre dernière visite");
+
 define("_INDEXFORUM","Index du Forum");
 define("_ANNOUNCE","Annonce");
 define("_PAGES","Pages");
@@ -21,19 +21,12 @@ define("_NEWTOPIC","Nouveau");
 define("_REPLY","Répondre");
 define("_LASTTHREAD","Sujet précédent");
 define("_NEXTTHREAD","Sujet suivant");
-define("_FWHOISONLINE","Qui est en ligne ?");
-define("_THEREARE","Il y a");
-define("_FVISITORS","visiteur(s)");
-define("_FMEMBERS","membre(s)");
-define("_AND","et");
-define("_FADMINISTRATORS","administrateur(s)");
 define("_ISONLINE","En ligne !");
-define("_MEMBERSONLINE","Membres en ligne");
-define("_MARKREAD","Marquer tous les messages comme lus");
-define("_VIEWLASTVISITMESS","Voir les nouveaux messages depuis votre dernière visite");
+
+
+
 define("_MESSAGESMARK","Tous les messages sont à présent marqués comme lus");
-define("_NEWSPOSTLASTVISIT","Nouveaux messages depuis votre dernière visite");
-define("_NOPOSTLASTVISIT","Pas de nouveaux messages depuis votre dernière visite");
+
 define("_POSTNEW","Nouveaux messages");
 define("_POSTNEWHOT","Nouveaux messages populaires");
 define("_NOPOSTNEW","Pas de nouveaux messages");
@@ -95,9 +88,8 @@ define("_OPTIONS","Options");
 define("_CANCEL","Annuler");
 define("_EMAILNOTIFYMAIL","Il y a eu une réponse a ce message :");
 define("_FSEARCHRESULT","Résultats de la recherche");
-define("_SEARCH","Recherche");
+
 define("_SEARCHING","Rechercher");
-define("_ADVANCEDSEARCH","Recherche avancée");
 
 define("_FSEARCHFOUND","réponse(s) trouvée(s) pour");
 define("_FNOSEARCHFOUND","Aucune réponse trouvée pour");
@@ -158,14 +150,8 @@ define("_PERMALINK_TITLE","Lien direct vers ce message");
 
 
 // Main
-define('_TOTAL_MEMBERS_POSTS', 'Nos membres ont posté un total de ');
-define('_WE_HAVE', 'Nous avons ');
-define('_REGISTERED_MEMBERS', ' membres enregistrés.');
-define('_LAST_USER_IS', 'L\'utilisateur enregistré le plus récent est ');
-define('_TOPICS', 'Sujets');
-define('_RANKLEGEND', 'Légende des rangs');
 define("_SEEMODO","Voir le profil de ");
-define("_TODAY","Aujourd'hui");
+
 
 // Viewforum
 define('_BAD_FORUM_ID', 'L\'ID que vous avez utilisé n\'est pas correct.');
@@ -216,8 +202,6 @@ return array(
     'NO_BIRTHDAY'       => 'aucun membre ne fête son anniversaire.',
     'ONE_BIRTHDAY'      => 'il y a 1 membre qui fête son anniversaire :',
     'MANY_BIRTHDAY'     => 'il y a %d membres qui fêtent leur anniversaire :',
-    
-    
     // modules/Forum/poll.php
     'CONFIRM_DELETE_POLL' => 'Etes-vous sûr de vouloir supprimer ce sondage ?',
     'OPTION'            => 'Option',
@@ -328,6 +312,34 @@ return array(
     'JOINED_FILES'      => 'Autoriser les fichiers joints',
     'FILE_LEVEL'        => 'Niveau requis pour poster des fichiers joints',
     'MAX_SIZE_FILE'     => 'Taille maximale pour les fichiers joints (en Ko)',
+    // views/frontend/modules/Forum/main.php
+    // views/frontend/modules/Forum/searchForm.php
+    // views/frontend/modules/Forum/searchResult.php
+    'SEARCH'            => 'Recherche',
+    // views/frontend/modules/Forum/block.php
+    // views/frontend/modules/Forum/main.php
+    // views/frontend/modules/Forum/viewForum.php
+    'LAST_POST'         => 'Dernier message',
+    'VIEW_LATEST_POST'  => 'Voir le dernier message',
+    // views/frontend/modules/Forum/main.php
+    'ADVANCED_SEARCH'   => 'Recherche avancée',
+    'TODAY_IS'          => 'Date &amp; Heure',
+    'YOUR_LAST_VISIT'   => 'Votre dernière visite',
+    'TOPICS'            => 'sujets',
+    'NO_POST'           => 'Pas de Messages',
+    'TOTAL_MEMBERS_POSTS' => 'Nos membres ont posté un total de %s message(s).',
+    'WE_HAVE_N_REGISTERED_MEMBERS' => 'Nous avons %d membres enregistrés.',
+    'LAST_USER_IS'      => 'L\'utilisateur enregistré le plus récent est ',
+    'FORUM_ONLINE_LEGEND' => 'Il y a %d visiteur(s), %d membre(s) et %d administrateur(s) en ligne.',
+    'MEMBERS_ONLINE'    => 'Membres en ligne',
+    'RANK_LEGEND'       => 'Légende des rangs',
+    'TODAY'             => 'Aujourd\'hui',
+    'MARK_READ'         => 'Marquer tous les messages comme lus',
+    'VIEW_LAST_VISIT_MESS' => 'Voir les nouveaux messages depuis votre dernière visite',
+    'NEW_POST_LAST_VISIT' => 'Nouveaux messages depuis votre dernière visite',
+    'NO_POST_LAST_VISIT' => 'Pas de nouveaux messages depuis votre dernière visite',
+    
+
     // views/frontend/modules/Forum/editPoll.php
     'POST_SURVEY'       => 'Poster un sondage',
 );

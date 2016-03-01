@@ -1,6 +1,6 @@
 
 <div id="nkForumBreadcrumb">
-    <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;->&nbsp;<strong><?php echo _SEARCH ?></strong>
+    <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;->&nbsp;<strong><?php echo __('SEARCH') ?></strong>
 </div>
 <div class ="nkForumPostHead nkForumSearchCell nkBgColor3">
     <h3><?php echo _SEARCHING ?></h3>

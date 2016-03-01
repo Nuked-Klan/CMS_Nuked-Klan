@@ -45,8 +45,8 @@
                     <div>
                         <div class="nkForumBlankCell"></div>
                         <div class="nkForumForumCell"><?php echo _SUBJECTS ?></div>
-                        <div class="nkForumStatsCell"><?php echo _STATS ?></div>
-                        <div class="nkForumDateCell"><?php echo _LASTPOST ?></div>
+                        <div class="nkForumStatsCell"><?php echo __('STATS') ?></div>
+                        <div class="nkForumDateCell"><?php echo __('LAST_POST') ?></div>
                     </div>
                 </div>
                 <div class="nkForumCatContent nkBgColor2">
@@ -127,7 +127,7 @@
                             <div>
                                 <p>
                                     <span><?php echo _BY ?></span>
-                                    <strong><?php echo $forumTopic['lastMessage']['author'] ?>&nbsp;<a href="<?php echo $forumTopic['lastMessage']['url'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo _SEELASTPOST ?>" /></a></strong>
+                                    <strong><?php echo $forumTopic['lastMessage']['author'] ?>&nbsp;<a href="<?php echo $forumTopic['lastMessage']['url'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo __('VIEW_LATEST_POST') ?>" /></a></strong>
                                 </p>
                                 <p><?php echo $forumTopic['lastMessage']['date'] ?></p>
                             </div>
