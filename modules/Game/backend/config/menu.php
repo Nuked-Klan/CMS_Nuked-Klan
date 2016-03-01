@@ -7,7 +7,7 @@ return array(
     ),
     __('MAP_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/image_add_48.png',
-        'page'  => 'map'
+        'uri'   => array('page' => 'map')
     ),
 );
 

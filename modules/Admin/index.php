@@ -15,47 +15,56 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
     return;
 
 
+function getAdminModulesMenuList() {
+    global $visiteur, $language;
+
+    $dbrModules = nkDB_selectMany(
+        'SELECT nom
+        FROM '. MODULES_TABLE .'
+        WHERE '. $visiteur .' >= admin
+        AND niveau > -1 AND admin > -1',
+        array('nom')
+    );
+
+    $moduleList = array_column($dbrModules, 'nom');
+
+    natcasesort($moduleList);
+
+    foreach ($moduleList as $module) {
+        $moduleNameConst = strtoupper($module) .'_MODNAME';
+
+        if (translationExist($moduleNameConst))
+            $moduleName = __($moduleNameConst);
+        else
+            $moduleName = $module;
+
+        if ((is_file('modules/' . $module . '/admin.php') && is_file('modules/' . $module . '/menu/'. $language .'/menu.php'))
+            || (is_dir('modules/' . $module . '/backend') && is_file('modules/' . $module . '/backend/config/menu.php'))
+        ) {
+            echo '<option value="'. $module .'">'. $moduleName .'</option>';
+        }
+    }
+}
+    
+function main() {
+    global $nuked, $user, $visiteur, $language;
+
     ?>
     <!-- Page Head -->
     <h2><?php echo _BONJOUR . '&nbsp;' . $user[2]; ?></h2>
     <p id="page-intro"><?php echo _MESSAGEDEBIENVENUE; ?></p>
         <div style="text-align: right">
-        <form method="post" onsubmit="maFonctionAjax3(this.module.value);return false" action="">
+        <form id="adminModuleMenuForm" method="post" action="">
             <fieldset>
             <select id="module" name="module">
                 <option value="Admin"><?php echo _PANNEAU; ?></option>
-                <?php
-                $modules = array();
-                $sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE . ' WHERE "' . $visiteur . '" >= admin AND niveau > -1 AND admin > -1 ORDER BY nom');
-                while (list($mod) = mysql_fetch_array($sql))
-                {
-                    $moduleNameConst = strtoupper($mod) .'_MODNAME';
-
-                    if (translationExist($moduleNameConst))
-                        $moduleName = __($moduleNameConst);
-                    else
-                        $moduleName = $mod;
-
-                    array_push($modules, $moduleName . '|' . $mod);
-                }
-
-                natcasesort($modules);
-                foreach($modules as $value)
-                {
-                    $temp = explode('|', $value);
-
-                    if (is_file('modules/' . $temp[1] . '/admin.php') AND is_file('modules/' . $temp[1] . '/menu/'.$language.'/menu.php'))
-                    {
-                        echo '<option value="' . $temp[1] . '">' . $temp[0] . '</option>';
-                    }
-                }
-                ?>
+                <?php getAdminModulesMenuList() ?>
             </select>
             <input class="button" type="submit" value="Send" />
             </fieldset>
         </form>
         </div>
-        <ul class="shortcut-buttons-set" id="1">
+        <ul class="shortcut-buttons-set" id="adminModuleMenu">
             <li>
                 <a class="shortcut-button" href="modules/Admin/menu/<?php echo $language; ?>/aide.php" rel="modal">
                     <img src="modules/Admin/images/icons/aide.png" alt="icon" />
@@ -371,5 +380,33 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
                 <?php
                 }
             }
+}
 
+function getAdminModuleMenu() {
+    global $language;
+
+    if (strpos($_POST['module'], '..') !== false || stripos($_POST['module'], 'http://') !== false)
+        die(WAYTODO);
+
+    if (is_file($menuFile = 'modules/'. $_POST['module'] .'/backend/config/menu.php')) {
+        nkTemplate_setPageDesign('nudePage');
+        translate('modules/'. $_POST['module'] .'/lang/'. $language .'.lang.php');
+        echo getMenuOfModuleAdmin($_POST['module']);
+    }
+    else if (is_file($menuFile = 'modules/'. $_POST['module'] .'/menu/'. $language .'/menu.php')) {
+        nkTemplate_setPageDesign('none');
+        readfile($menuFile);
+    }
+}
+
+
+switch ($GLOBALS['op']) {
+    case 'getAdminModuleMenu' :
+        getAdminModuleMenu();
+        break;
+
+    default :
+        main();
+        break;
+}
 ?>

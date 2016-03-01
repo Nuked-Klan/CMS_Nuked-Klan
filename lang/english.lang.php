@@ -385,7 +385,7 @@ return array(
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
-    'CALANDAR_MODNAME'  => 'Calendar',
+    'CALENDAR_MODNAME'  => 'Calendar',
     'COMMENT_MODNAME'   => 'Comments',
     'CONTACT_MODNAME'   => 'Contact',
     'DEFY_MODNAME'      => 'Defy',

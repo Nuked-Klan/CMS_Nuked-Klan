@@ -392,7 +392,7 @@ return array(
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
-    'CALANDAR_MODNAME'  => 'Calendrier',
+    'CALENDAR_MODNAME'  => 'Calendrier',
     'COMMENT_MODNAME'   => 'Commentaires',
     'CONTACT_MODNAME'   => 'Contact',
     'DEFY_MODNAME'      => 'Défie',

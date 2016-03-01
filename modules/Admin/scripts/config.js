@@ -55,19 +55,20 @@ function maFonctionAjax2(texte,type){
 	$(document).trigger('close.facebox')
 }
 
-function maFonctionAjax3(texte){
-	var OAjax;
-	if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
-	else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP');
-	OAjax.open('POST','modules/'+texte+'/menu/'+lang_nuked+'/menu.php',true);
-	OAjax.onreadystatechange = function(){
-		if (OAjax.readyState == 4 && OAjax.status==200){
-			if (document.getElementById) document.getElementById('1').innerHTML = OAjax.responseText;
-		}
-	}
-	OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-	OAjax.send();
-}
+$(document).ready(function() {
+    $('#adminModuleMenuForm').submit(function() {
+        $.ajax({
+            type: 'POST',
+            url: 'index.php?file=Admin&op=getAdminModuleMenu',
+            data: { 'module' : $('#module').val() }
+        }).done(function(adminMenu) {
+            $('#adminModuleMenu').html(adminMenu);
+        });
+
+        return false;
+    });
+});
+
 
 function del(id){
 	var OAjax;

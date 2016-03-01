@@ -139,11 +139,14 @@ function setPreview($previewUrl, $redirect) {
     nkTemplate_addJS('setTimeout(function(){screenon("'. $previewUrl .'", "'. $redirect .'");},"3000");' ."\n");
 }
 
-function getMenuOfModuleAdmin() {
+function getMenuOfModuleAdmin($module = null) {
     $adminMenu = '';
 
-    if (is_file('modules/'. $GLOBALS['file'] .'/backend/config/menu.php')) {
-        $adminMenu = require_once 'modules/'. $GLOBALS['file'] .'/backend/config/menu.php';
+    if ($module === null)
+        $module = $GLOBALS['file'];
+
+    if (is_file('modules/'. $module .'/backend/config/menu.php')) {
+        $adminMenu = require_once 'modules/'. $module .'/backend/config/menu.php';
 
         $adminMenu = applyTemplate('share/adminMenu', array(
             'menu' => $adminMenu

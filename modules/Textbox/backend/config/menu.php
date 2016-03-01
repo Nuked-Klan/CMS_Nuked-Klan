@@ -7,7 +7,7 @@ return array(
     ),
     __('PREFERENCES') => array(
         'img'   => 'modules/Admin/images/icons/process.png',
-        'page'  => 'setting'
+        'uri'   => array('page' => 'setting')
     ),
     __('DELETE_ALL_MESSAGE') => array(
         'img'   => 'modules/Admin/images/icons/remove_from_database.png',

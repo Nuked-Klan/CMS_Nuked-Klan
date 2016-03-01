@@ -7,15 +7,15 @@ return array(
     ),
     __('RANK_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/ranks.png',
-        'page'  => 'rank'
+        'uri'   => array('page' => 'rank')
     ),
     __('TEAM_MEMBER_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/members.png',
-        'page'  => 'member'
+        'uri'   => array('page' => 'member')
     ),
     __('TEAM_STATUS_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/validuser.png',
-        'page'  => 'status'
+        'uri'   => array('page' => 'status')
     )
 );
 

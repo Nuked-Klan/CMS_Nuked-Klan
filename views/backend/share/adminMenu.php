@@ -2,30 +2,26 @@
         <ul class="shortcut-buttons-set" id="1">
 <?php
     foreach ($menu as $label => $linkData) :
-        $class  = '';
+        $class = '';
 
         if (isset($linkData['jsConfirmation'])) {
-            $link   = 'javascript:'. $linkData['jsConfirmation'] .'();';
+            $link = 'javascript:'. $linkData['jsConfirmation'] .'();';
         }
         else {
-            $link   = 'index.php?admin='. $GLOBALS['file'];
+            $link = 'admin='. $GLOBALS['file'];
 
-            if (isset($linkData['page'])) {
-                $link .= '&amp;page='. $linkData['page'];
-
-                if ($GLOBALS['page'] == $linkData['page']) $class = 'class="nkClassActive"';
-            }
-            else {
-                if ($GLOBALS['page'] == 'index') $class = 'class="nkClassActive"';
+            if (isset($linkData['uri'])) {
+                foreach ($linkData['uri'] as $k => $v)
+                    $link .= '&amp;'. $k.'='. $v;
             }
 
-            if (isset($linkData['op']))
-                $link .= '&amp;op='. $linkData['op'];
+            if (str_replace('&amp;', '&', $link) == $_SERVER['QUERY_STRING'])
+                $class = 'class="nkClassActive"';
         }
 
 ?>
             <li <?php echo $class ?>>
-                <a class="shortcut-button" href="<?php echo $link ?>">
+                <a class="shortcut-button" href="index.php?<?php echo $link ?>">
                     <img src="<?php echo $linkData['img'] ?>" alt="icon" />
                     <span><?php echo $label ?></span>
                 </a>

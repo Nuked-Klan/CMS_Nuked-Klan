@@ -1,7 +1,0 @@
-/* Shoutbox message list */
-table#shoutboxMessageList .shoutboxMessageDate{width:20%;}
-table#shoutboxMessageList .shoutboxMessageAuteur,
-table#shoutboxMessageList .shoutboxMessageIp{width:25%;}
-table#shoutboxMessageList .shoutboxMessageEdit,
-table#shoutboxMessageList .shoutboxMessageDelete{width:15%;}
-table#shoutboxMessageList td{text-align:center;}

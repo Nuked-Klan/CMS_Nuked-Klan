@@ -7,27 +7,27 @@ return array(
     ),
     __('ADD_FORUM') => array(
         'img'   => 'modules/Admin/images/icons/add_page.png',
-        'op'    => 'edit'
+        'uri'   => array('op' => 'edit')
     ),
     __('MODERATOR_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/teamusers.png',
-        'page'  => 'moderator'
+        'uri'   => array('page' => 'moderator')
     ),
     __('CATEGORY_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/folder_full.png',
-        'page'  => 'category'
+        'uri'   => array('page' => 'category')
     ),
     __('RANK_MANAGEMENT') => array(
         'img'   => 'modules/Admin/images/icons/ranks.png',
-        'page'  => 'rank'
+        'uri'   => array('page' => 'rank')
     ),
     __('PRUNE') => array(
         'img'   => 'modules/Admin/images/icons/remove_from_database.png',
-        'page'  => 'prune'
+        'uri'   => array('page' => 'prune')
     ),
     __('PREFERENCES') => array(
         'img'   => 'modules/Admin/images/icons/process.png',
-        'page'  => 'setting'
+        'uri'   => array('page' => 'setting')
     )
 );
 
