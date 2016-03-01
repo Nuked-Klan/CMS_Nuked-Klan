@@ -477,6 +477,9 @@ return array(
     'BAD_IMAGE_FORMAT'  => 'Mauvais format d\'image, uniquement les images aux formats jpg, png ou gif sont autorisées',
     'UPLOAD_DIRECTORY_NO_EXIST' => 'Le dossier d\'upload n\'existe pas !',
     'UPLOAD_DIRECTORY_NO_WRITEABLE' => 'Le dossier d\'upload n\'a pas les droits d\'écriture !',
+    'FILE_ALREADY_EXIST' => 'Un fichier portant le même nom est déjà présent sur votre ftp.',
+    'REPLACE_FILE'      => 'Pour le(s) remplacer veuillez cocher la case "%s"',
+    'OVERWRITE'         => 'Ecraser',
     'UPLOAD_FILE_FAILED' => 'Le Téléchargement du fichier a échoué !',
     // nkUserSocial_getLinkTitle - Includes/nkUserSocial.php
     'SEND_EMAIL'        => 'Lui envoyer un email',

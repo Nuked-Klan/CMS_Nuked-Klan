@@ -403,6 +403,14 @@ function nkCheckForm_checkFile($field, &$fieldData, &$form, &$validData, $filena
             return false;
         }
 
+        if (isset($fieldData['overwriteField'], $form['items'][$fieldData['overwriteField']])
+            && isset($_POST[$fieldData['overwriteField']], $form['items'][$fieldData['overwriteField']]['inputValue'])
+            && $form['items'][$fieldData['overwriteField']]['inputValue'] != ''
+            && $_POST[$fieldData['overwriteField']] == $form['items'][$fieldData['overwriteField']]['inputValue']
+        ) {
+            $fieldData['overwrite'] = true;
+        }
+
         list($filename, $uploadError) = nkUpload_check($field, $fieldData, $i);
 
         if ($uploadError !== false) {

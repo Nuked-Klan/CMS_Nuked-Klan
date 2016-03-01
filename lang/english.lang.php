@@ -470,6 +470,9 @@ return array(
     'BAD_IMAGE_FORMAT'   => 'Bad image file type!!! Only jpg, png or gif are authorized',
     'UPLOAD_DIRECTORY_NO_EXIST' => 'The upload directory don\'t exist !',
     'UPLOAD_DIRECTORY_NO_WRITEABLE' => 'The upload directory isn\'t writeable !',
+    'FILE_ALREADY_EXIST' => 'A file with the same name already exists on your ftp.',
+    'REPLACE_FILE'      => 'To overwrite it please check the box "%s"',
+    'OVERWRITE'         => 'Overwrite',
     'UPLOAD_FILE_FAILED' => 'Upload file failed !',
     // nkUserSocial_getLinkTitle - Includes/nkUserSocial.php
     'SEND_EMAIL'        => 'Send email',

@@ -182,7 +182,12 @@ function fileFieldMenu() {
     </li>
     <li>
         <a href="index.php?file=formTest&amp;op=fileMultipleCheckFieldTest">
-            Test formulaire avec champ de type <b>File</b> avec option <b>multiple</b>
+            Test formulaire avec champ de type <b>File</b> avec option <b>Multiple</b>
+        </a>
+    </li>
+    <li>
+        <a href="index.php?file=formTest&amp;op=fileOverwriteCheckFieldTest">
+            Test formulaire avec champ de type <b>File</b> avec option <b>Remplacer</b>
         </a>
     </li>
 </ul>
@@ -224,6 +229,20 @@ function fileMultipleCheckFieldTest() {
 ?>
 <h3 style="text-align: center;">
     Test formulaire avec champ de type <b>File</b> avec option <b>Multiple</b>
+</h3>
+<hr style="width:80%;margin:0 auto;" />
+<?php
+
+    echo nkForm_generate($form);
+}
+
+function fileOverwriteCheckFieldTest() {
+    require_once 'Includes/nkForm.php';
+    require_once 'modules/formTest/config/fileOverwriteCheckField.php';
+
+?>
+<h3 style="text-align: center;">
+    Test formulaire avec champ de type <b>File</b> avec option <b>Remplacer</b>
 </h3>
 <hr style="width:80%;margin:0 auto;" />
 <?php
@@ -574,6 +593,10 @@ switch ($GLOBALS['op']) {
 
     case 'fileMultipleCheckFieldTest' :
         fileMultipleCheckFieldTest();
+        break;
+
+    case 'fileOverwriteCheckFieldTest' :
+        fileOverwriteCheckFieldTest();
         break;
 
     case 'selectFieldMenu' :

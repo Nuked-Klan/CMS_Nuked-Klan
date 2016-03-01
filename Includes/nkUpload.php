@@ -56,6 +56,9 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if (! array_key_exists('fileSize', $params))
         $params['fileSize'] = null;
 
+    if (! array_key_exists('overwrite', $params))
+        $params['overwrite'] = true;
+
     if (! isset($params['fileRename']))
         $params['fileRename'] = false;
 
@@ -120,6 +123,19 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
 
     if ($extension != '')
         $path .= '.'. $extension;
+
+    if (! $params['overwrite'] && is_file($path)) {
+        $error = __('FILE_ALREADY_EXIST');
+
+        if (array_key_exists('overwriteField', $params)) {
+            if (! array_key_exists('overwriteLabel', $params))
+                $params['overwriteLabel'] = __('OVERWRITE');
+
+            $error .= ' '. sprintf(__('REPLACE_FILE'), $params['overwriteLabel']);
+        }
+
+        return array('', $error, '');
+    }
 
     if (! move_uploaded_file($tmpFilename, $path))
         return array('', __('UPLOAD_FILE_FAILED'), '');
