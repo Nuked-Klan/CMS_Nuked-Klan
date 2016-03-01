@@ -1,47 +1,23 @@
 <?php
-define("_SUBJECTS","Sujets");
+
 define("_PREVIOUSMESSAGES","Message(s) pr&eacutec&eacutedent(s)");
 define("_MESSAGE","Message");
-
-define("_CREATEDBY","Crée par ");
-
-
-define("_NOPOSTFORUM","Il n'y a pas de messages dans ce forum");
-define("_ANSWERS","Réponses");
-define("_VIEWS","Vues");
 
 define("_FTODAY","aujourd'hui à");
 define("_FYESTERDAY","hier à");
 
 define("_INDEXFORUM","Index du Forum");
-define("_ANNOUNCE","Annonce");
+
 define("_PAGES","Pages");
 define("_NEWSTOPIC","Nouveau message");
-define("_NEWTOPIC","Nouveau");
+
 define("_REPLY","Répondre");
 define("_LASTTHREAD","Sujet précédent");
 define("_NEXTTHREAD","Sujet suivant");
 define("_ISONLINE","En ligne !");
 
-
-
 define("_MESSAGESMARK","Tous les messages sont à présent marqués comme lus");
 
-define("_POSTNEW","Nouveaux messages");
-define("_POSTNEWHOT","Nouveaux messages populaires");
-define("_NOPOSTNEW","Pas de nouveaux messages");
-define("_NOPOSTNEWHOT","Pas de nouveaux messages populaires");
-define("_SUBJECTCLOSE","Sujet fermé");
-define("_POSTNEWCLOSE","Nouveaux messages fermés");
-define("_JUMPTO","Sauter vers");
-define("_SELECTFORUM","Sélectionner un forum");
-define("_SEETHETOPIC","Montrer les sujets depuis");
-define("_THEFIRST","le début");
-define("_ONEDAY","1 jour");
-define("_ONEWEEK","1 semaine");
-define("_ONEMONTH","1 mois");
-define("_SIXMONTH","6 mois");
-define("_ONEYEAR","1 an");
 define("_REGISTERED","Inscrit(e) le");
 define("_IP","Ip");
 define("_BACKTOTOP","Revenir en haut");
@@ -106,13 +82,13 @@ define("_3CHARSMIN","Vous devez entrer plus de 2 caractères");
 define("_NOWORDSTOSEARCH","Veuillez entrer une expression a rechercher");
 define("_VISITFORUMS","Visiter les Forums");
 
-define("_MARKSUBJECTREAD","Marquer tous les sujets comme lus");
+
 define("_LISTSMILIES","Liste des smilies");
 
-define("_SURVEY","Sondage");
+
 define("_SURVEYFIELD","Nombre d'options");
 define("_MAX","Maximum");
-define("_ATTACHFILE","Fichier joint");
+
 define("_MAXFILESIZE","Taille maximale");
 define("_MO","Mo");
 define("_KO","Ko");
@@ -321,6 +297,21 @@ return array(
     // views/frontend/modules/Forum/viewForum.php
     'LAST_POST'         => 'Dernier message',
     'VIEW_LATEST_POST'  => 'Voir le dernier message',
+    // views/frontend/modules/Forum/block.php
+    // views/frontend/modules/Forum/searchForm.php
+    // views/frontend/modules/Forum/searchResult.php
+    // views/frontend/modules/Forum/viewForum.php
+    'SUBJECTS'          => 'Sujets',
+    // views/frontend/modules/Forum/post.php
+    // views/frontend/modules/Forum/viewForum.php
+    'POLL'              => 'Sondage',
+    'ATTACH_FILE'       => 'Fichier joint',
+    // views/frontend/modules/Forum/block.php
+    // views/frontend/modules/Forum/viewForum.php
+    'ANSWERS'           => 'réponses',
+    'VIEWS'             => 'vues',
+    // views/frontend/modules/Forum/editPoll.php
+    'POST_SURVEY'       => 'Poster un sondage',
     // views/frontend/modules/Forum/main.php
     'ADVANCED_SEARCH'   => 'Recherche avancée',
     'TODAY_IS'          => 'Date &amp; Heure',
@@ -338,10 +329,27 @@ return array(
     'VIEW_LAST_VISIT_MESS' => 'Voir les nouveaux messages depuis votre dernière visite',
     'NEW_POST_LAST_VISIT' => 'Nouveaux messages depuis votre dernière visite',
     'NO_POST_LAST_VISIT' => 'Pas de nouveaux messages depuis votre dernière visite',
-    
-
-    // views/frontend/modules/Forum/editPoll.php
-    'POST_SURVEY'       => 'Poster un sondage',
+    // views/frontend/modules/Forum/viewForum.php
+    'NEW'               => 'Nouveau',
+    'MARK_SUBJECT_READ' => 'Marquer tous les sujets comme lus',
+    'NO_POST_FORUM'     => 'Il n\'y a pas de messages dans ce forum',
+    'ANNOUNCEMENT'      => 'Annonce',
+    'CREATED_BY'        => 'Crée par',
+    'POST_NEW'          => 'Nouveaux messages',
+    'NO_POST_NEW'       => 'Pas de nouveaux messages',
+    'POST_NEW_CLOSE'    => 'Nouveaux messages fermés',
+    'SUBJECT_CLOSE'     => 'Sujet fermé',
+    'POST_NEW_HOT'      => 'Nouveaux messages populaires',
+    'NO_POST_NEW_HOT'   => 'Pas de nouveaux messages populaires',
+    'JUMP_TO'           => 'Sauter vers',
+    'SELECT_FORUM'      => 'Sélectionner un forum',
+    'SEE_THE_TOPIC'     => 'Montrer les sujets depuis',
+    'THE_FIRST'         => 'le début',
+    'ONE_DAY'           => '1 jour',
+    'ONE_WEEK'          => '1 semaine',
+    'ONE_MONTH'         => '1 mois',
+    'SIX_MONTH'         => '6 mois',
+    'ONE_YEAR'          => '1 an',
 );
 
 ?>

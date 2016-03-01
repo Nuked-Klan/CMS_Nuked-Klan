@@ -1,48 +1,26 @@
 <?php
-define("_SUBJECTS","Topics");
+
 define("_PREVIOUSMESSAGES","Previous post(s)");
 define("_MESSAGE","Post");
 
-
-define("_CREATEDBY","Created by ");
-
-define("_NOPOSTFORUM","There are no posts in this forum");
-define("_ANSWERS","Replies");
-define("_VIEWS"," Views");
 define("_INDEXFORUM","Forum Index");
 
 define("_FTODAY","today,");
 define("_FYESTERDAY","yesterday,");
 
-define("_ANNOUNCE","Announcement");
+
 define("_PAGES","Pages");
 define("_NEWSTOPIC","New topic");
-define("_NEWTOPIC","New");
+
 define("_REPLY","Reply");
 define("_LASTTHREAD","Previous topic");
 define("_NEXTTHREAD","Next topic");
 
 define("_ISONLINE","Online !");
 
-
-
 define("_MESSAGESMARK","All posts have now been marked as read");
 
-define("_POSTNEW","New posts");
-define("_POSTNEWHOT","New posts [ Popular ]");
-define("_NOPOSTNEW","No new posts");
-define("_NOPOSTNEWHOT","No new posts [ Popular ]");
-define("_SUBJECTCLOSE","Topic locked");
-define("_POSTNEWCLOSE","New posts [ Locked ]");
-define("_JUMPTO","Jump to");
-define("_SELECTFORUM","Select a forum");
-define("_SEETHETOPIC","Display topics from previous");
-define("_THEFIRST","All Topics");
-define("_ONEDAY","1 Day");
-define("_ONEWEEK","1 Week");
-define("_ONEMONTH","1 Month");
-define("_SIXMONTH","6 Months");
-define("_ONEYEAR","1 Year");
+
 define("_REGISTERED","Joined");
 define("_IP","Ip");
 define("_BACKTOTOP","Back to top");
@@ -108,13 +86,13 @@ define("_NOWORDSTOSEARCH","You must enter a word or an expression to search");
 define("_3CHARSMIN","You must enter at least 3 characters");
 define("_VISITFORUMS","Visit Forums");
 
-define("_MARKSUBJECTREAD","Mark all topics as read");
+
 define("_LISTSMILIES","Smilies List");
 
-define("_SURVEY","Poll");
+
 define("_SURVEYFIELD","Number of options");
 define("_MAX","Maximum");
-define("_ATTACHFILE","Attach a file");
+
 define("_MAXFILESIZE","Maximum file size");
 define("_MO","MB");
 define("_KO","KB");
@@ -319,6 +297,21 @@ return array(
     // views/frontend/modules/Forum/viewForum.php
     'LAST_POST'         => 'Last Post',
     'VIEW_LATEST_POST'  => 'View latest post',
+    // views/frontend/modules/Forum/block.php
+    // views/frontend/modules/Forum/searchForm.php
+    // views/frontend/modules/Forum/searchResult.php
+    // views/frontend/modules/Forum/viewForum.php
+    'SUBJECTS'          => 'Topics',
+    // views/frontend/modules/Forum/post.php
+    // views/frontend/modules/Forum/viewForum.php
+    'POLL'              => 'Poll',
+    'ATTACH_FILE'       => 'Attach a file',
+    // views/frontend/modules/Forum/block.php
+    // views/frontend/modules/Forum/viewForum.php
+    'ANSWERS'           => 'replies',
+    'VIEWS'             => 'views',
+    // views/frontend/modules/Forum/editPoll.php
+    'POST_SURVEY'       => 'Post a poll',
     // views/frontend/modules/Forum/main.php
     'ADVANCED_SEARCH'   => 'Advanced Search',
     'TODAY_IS'          => 'Today is',
@@ -336,10 +329,28 @@ return array(
     'VIEW_LAST_VISIT_MESS' => 'View all new posts since last visit',
     'NEW_POST_LAST_VISIT' => 'New posts',
     'NO_POST_LAST_VISIT' => 'No new posts',
+    // views/frontend/modules/Forum/viewForum.php
+    'NEW'               => 'New',
+    'MARK_SUBJECT_READ' => 'Mark all topics as read',
+    'NO_POST_FORUM'     => 'There are no posts in this forum',
+    'ANNOUNCEMENT'      => 'Announcement',
+    'CREATED_BY'        => 'Created by'
+    'POST_NEW'          => 'New posts',
+    'NO_POST_NEW'       => 'No new posts',
+    'POST_NEW_CLOSE'    => 'New posts [ Locked ]',
+    'SUBJECT_CLOSE'     => 'Topic locked',
+    'POST_NEW_HOT'      => 'New posts [ Popular ]',
+    'NO_POST_NEW_HOT'   => 'No new posts [ Popular ]',
+    'JUMP_TO'           => 'Jump to',
+    'SELECT_FORUM'      => 'Select a forum',
+    'SEE_THE_TOPIC'     => 'Display topics from previous',
+    'THE_FIRST'         => 'All Topics',
+    'ONE_DAY'           => '1 Day',
+    'ONE_WEEK'          => '1 Week',
+    'ONE_MONTH'         => '1 Month',
+    'SIX_MONTH'         => '6 Months',
+    'ONE_YEAR'          => '1 Year',
     
-    
-    // views/frontend/modules/Forum/editPoll.php
-    'POST_SURVEY'       => 'Post a poll',
 );
 
 ?>

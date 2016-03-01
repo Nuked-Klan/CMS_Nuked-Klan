@@ -391,6 +391,7 @@ function nkForumNickname($data, $link = true, $rankColor = true, $author = 'aute
 
             // TODO : Use CSS class instead
             if ($rankColor && $nuked['forum_user_details'] == 'on') {
+                // TODO A FINIR
                 //$isModerator = isModerator($rawModeratorList)
                 //$userRankData = getUserRank($data, $isModerator);
 

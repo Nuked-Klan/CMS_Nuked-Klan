@@ -22,7 +22,7 @@
     if ($forumWriteLevel) :
 ?>
         <div id="nkForumPostNewTopic">
-            <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo _NEWTOPIC ?></a>
+            <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo __('NEW') ?></a>
         </div>
 <?php
     endif
@@ -34,7 +34,7 @@
 <?php
     if ($user) :
 ?>
-                <a id="nkForumMarkRead" href="index.php?file=Forum&amp;op=mark&amp;forum_id=<?php echo $forumId ?>"><?php echo _MARKSUBJECTREAD ?></a>
+                <a id="nkForumMarkRead" href="index.php?file=Forum&amp;op=mark&amp;forum_id=<?php echo $forumId ?>"><?php echo __('MARK_SUBJECT_READ') ?></a>
 <?php
     endif
 ?>
@@ -44,7 +44,7 @@
                 <div class="nkForumCatHead nkBgColor3">
                     <div>
                         <div class="nkForumBlankCell"></div>
-                        <div class="nkForumForumCell"><?php echo _SUBJECTS ?></div>
+                        <div class="nkForumForumCell"><?php echo __('SUBJECTS') ?></div>
                         <div class="nkForumStatsCell"><?php echo __('STATS') ?></div>
                         <div class="nkForumDateCell"><?php echo __('LAST_POST') ?></div>
                     </div>
@@ -55,7 +55,7 @@
 ?>
                     <div>
                         <div class="nkForumIconCell nkBorderColor1"></div>
-                        <div class="nkForumForumCell nkBorderColor1"><?php echo _NOPOSTFORUM; ?></div>
+                        <div class="nkForumForumCell nkBorderColor1"><?php echo __('NO_POST_FORUM') ?></div>
                         <div class="nkForumStatsCell nkBorderColor1"></div>
                         <div class="nkForumDateCell nkBorderColor1"></div>
                     </div>
@@ -84,41 +84,40 @@
 
         if ($forumTopic['annonce'] == 1) :
             if ($nuked['forum_labels_active'] == 'on') :
-                ?><span class="nkForumLabels nkForumOrangeColor"><?php echo _ANNOUNCE ?></span>&nbsp;<?php
+                ?><span class="nkForumLabels nkForumOrangeColor"><?php echo __('ANNOUNCEMENT') ?></span>&nbsp;<?php
             else :
-                ?><img src="modules/Forum/images/announce.png" class="nkForumAlignImg" alt="" title="<?php echo _ANNOUNCE ?>" />&nbsp;<?php
+                ?><img src="modules/Forum/images/announce.png" class="nkForumAlignImg" alt="" title="<?php echo __('ANNOUNCEMENT') ?>" />&nbsp;<?php
             endif;
         endif;
 
         if ($forumTopic['sondage'] == 1) :
             if ($nuked['forum_labels_active'] == 'on') :
-                ?><span class="nkForumLabels nkForumGreenColor"><?php echo _SURVEY ?></span>&nbsp;<?php
+                ?><span class="nkForumLabels nkForumGreenColor"><?php echo __('POLL') ?></span>&nbsp;<?php
             else :
-                ?><img src="modules/Forum/images/poll.png" class="nkForumAlignImg" alt="" title="<?php echo _SURVEY ?>" />&nbsp;<?php
+                ?><img src="modules/Forum/images/poll.png" class="nkForumAlignImg" alt="" title="<?php echo __('POLL') ?>" />&nbsp;<?php
             endif;
         endif;
 
         if ($forumTopic['joinedFiles']  > 0) :
             if ($nuked['forum_labels_active'] == 'on') :
-                ?><span class="nkForumLabels nkForumGreyColor"><?php echo _ATTACHFILE ?></span>&nbsp;<?php
+                ?><span class="nkForumLabels nkForumGreyColor"><?php echo __('ATTACH_FILE') ?></span>&nbsp;<?php
             else :
-                ?><img src="modules/Forum/images/clip.png" class="nkForumAlignImg" alt="" title="<?php echo _ATTACHFILE ?> (<?php echo $forumTopic['joinedFiles']  ?>)" />&nbsp;<?php
+                ?><img src="modules/Forum/images/clip.png" class="nkForumAlignImg" alt="" title="<?php echo __('ATTACH_FILE') ?> (<?php echo $forumTopic['joinedFiles']  ?>)" />&nbsp;<?php
             endif;
         endif;
 
         ?><a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $forumTopic['id'] ?>" title="<?php echo $forumTopic['titre'] ?>"><?php echo $forumTopic['cleanedTitle'] ?></a></h3>
                             <div>
                                 <span>
-                                    <?php echo _CREATEDBY ?>
-                                    <strong><?php echo $forumTopic['author'] ?></strong>
-                                    <?php echo _THE ?>&nbsp;<?php echo nkdate($forumTopic['date']) . $forumTopic['pagination'] ?>
+                                    <?php echo __('CREATED_BY') ?> <strong><?php echo $forumTopic['author'] ?></strong>
+                                    <?php echo __('THE') ?>&nbsp;<?php echo nkdate($forumTopic['date']) . $forumTopic['pagination'] ?>
                                 </span>
                             </div>
                         </div>
                         <div class="nkForumStatsCell nkBorderColor1">
-                            <strong><?php echo $forumTopic['nbReplies'] ?></strong>&nbsp;<?php echo strtolower(_ANSWERS) ?>
+                            <strong><?php echo $forumTopic['nbReplies'] ?></strong>&nbsp;<?php echo __('ANSWERS') ?>
                             <br/>
-                            <strong><?php echo $forumTopic['view'] ?></strong>&nbsp;<?php echo strtolower(_VIEWS) ?>
+                            <strong><?php echo $forumTopic['view'] ?></strong>&nbsp;<?php echo __('VIEWS') ?>
                         </div>
                         <div class="nkForumDateCell nkBorderColor1">
                             <div class="nkForumAuthorAvatar">
@@ -126,7 +125,7 @@
                             </div>
                             <div>
                                 <p>
-                                    <span><?php echo _BY ?></span>
+                                    <span><?php echo __('BY') ?></span>
                                     <strong><?php echo $forumTopic['lastMessage']['author'] ?>&nbsp;<a href="<?php echo $forumTopic['lastMessage']['url'] ?>"><img style="border: 0;" src="modules/Forum/images/icon_latest_reply.png" class="nkForumAlignImg" alt="" title="<?php echo __('VIEW_LATEST_POST') ?>" /></a></strong>
                                 </p>
                                 <p><?php echo $forumTopic['lastMessage']['date'] ?></p>
@@ -146,7 +145,7 @@
 <?php
     if ($user) :
 ?>
-            <a id="nkForumMarkRead" href="index.php?file=Forum&amp;op=mark&amp;forum_id=<?php echo $forumId ?>"><?php echo _MARKSUBJECTREAD ?></a>
+            <a id="nkForumMarkRead" href="index.php?file=Forum&amp;op=mark&amp;forum_id=<?php echo $forumId ?>"><?php echo __('MARK_SUBJECT_READ') ?></a>
 <?php
     endif
 ?>
@@ -155,29 +154,29 @@
         if ($forumWriteLevel) :
 ?>
         <div id="nkForumPostNewTopic">
-            <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo _NEWTOPIC ?></a>
+            <a class="nkButton icon add" href="index.php?file=Forum&amp;page=post&amp;forum_id=<?php echo $forumId ?>"><?php echo __('NEW') ?></a>
         </div>
 <?php
         endif
 ?>
         <div class="nkForumViewLegend">
-            <div class="nkForumNewTopicLegend"><?php echo _POSTNEW ?></div>
-            <div class="nkForumNoNewTopicLegend"><?php echo _NOPOSTNEW ?></div>
-            <div class="nkForumNewTopicLockLegend"><?php echo _POSTNEWCLOSE ?></div>
+            <div class="nkForumNewTopicLegend"><?php echo __('POST_NEW') ?></div>
+            <div class="nkForumNoNewTopicLegend"><?php echo __('NO_POST_NEW') ?></div>
+            <div class="nkForumNewTopicLockLegend"><?php echo __('POST_NEW_CLOSE') ?></div>
         </div>
         <div class="nkForumViewLegend">
-            <div class="nkForumTopicLockLegend"><?php echo _SUBJECTCLOSE ?></div>
-            <div class="nkForumNewTopicPopularLegend"><?php echo _POSTNEWHOT ?></div>
-            <div class="nkForumTopicPopularLegend"><?php echo _NOPOSTNEWHOT ?></div>
+            <div class="nkForumTopicLockLegend"><?php echo __('SUBJECT_CLOSE') ?></div>
+            <div class="nkForumNewTopicPopularLegend"><?php echo __('POST_NEW_HOT') ?></div>
+            <div class="nkForumTopicPopularLegend"><?php echo __('NO_POST_NEW_HOT') ?></div>
         </div>
         <div class="nkForumQuickShotcuts"><!-- Shortcuts -->
             <form method="get" action="index.php">
                 <div class="nkForumSelectTopics">
                     <input type="hidden" name="file" value="Forum" />
                     <input type="hidden" name="page" value="viewforum" />
-                    <?php echo _JUMPTO ?> : 
+                    <?php echo __('JUMP_TO') ?> : 
                     <select name="forum_id" onchange="submit();">
-                        <option value=""><?php echo _SELECTFORUM ?></option>
+                        <option value=""><?php echo __('SELECT_FORUM') ?></option>
 <?php
     foreach ($forumList as $id => $name) :
 ?>
@@ -193,14 +192,14 @@
                     <input type="hidden" name="file" value="Forum" />
                     <input type="hidden" name="page" value="viewforum" />
                     <input type="hidden" name="forum_id" value="<?php echo $forumId ?>" />
-                    <?php echo _SEETHETOPIC ?> : 
+                    <?php echo __('SEE_THE_TOPIC') ?> : 
                     <select name="date_max" onchange="submit();">
-                        <option><?php echo _THEFIRST ?></option>
-                        <option value="86400"><?php echo _ONEDAY ?></option>
-                        <option value="604800"><?php echo _ONEWEEK ?></option>
-                        <option value="2592000"><?php echo _ONEMONTH ?></option>
-                        <option value="15552000"><?php echo _SIXMONTH ?></option>
-                        <option value="31104000"><?php echo _ONEYEAR ?></option>
+                        <option><?php echo __('THE_FIRST') ?></option>
+                        <option value="86400"><?php echo __('ONE_DAY') ?></option>
+                        <option value="604800"><?php echo __('ONE_WEEK') ?></option>
+                        <option value="2592000"><?php echo __('ONE_MONTH') ?></option>
+                        <option value="15552000"><?php echo __('SIX_MONTH') ?></option>
+                        <option value="31104000"><?php echo __('ONE_YEAR') ?></option>
                     </select>
                 </div>
             </form>

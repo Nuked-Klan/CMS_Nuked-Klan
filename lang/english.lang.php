@@ -382,6 +382,7 @@ return array(
     'URL'               => 'Url',
     'BY'                => 'by',
     'STATS'             => 'Statistics',
+    'THE'               => 'the',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

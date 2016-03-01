@@ -97,7 +97,7 @@
 ?>
                         <div><!--Sondage -->
                             <div class="nkForumPostCat nkBgColor2 nkBorderColor1">
-                                <strong><?php echo _SURVEY ?></strong>
+                                <strong><?php echo __('POLL') ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">  
                                 <input type="checkbox" class="checkbox" name="survey" value="1" />&nbsp;<?php echo __('POST_SURVEY') ?><br />
@@ -120,7 +120,7 @@
 ?>
                         <div><!--attachedFile -->
                             <div class="nkForumPostCat nkBgColor2 nkBorderColor1">
-                                <strong><?php echo _ATTACHFILE ?></strong>
+                                <strong><?php echo __('ATTACH_FILE') ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">
                                 <input type="file" name="fichiernom" size="30" />&nbsp;(<?php echo _MAXFILESIZE ?> : <?php echo $maxfilesize ?>)

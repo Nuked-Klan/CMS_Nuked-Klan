@@ -3,10 +3,10 @@
 ?>
 <table style="background: <?php echo $bgcolor3 ?>;" border="0" width="100%" cellspacing="1" cellpadding="4">
     <tr style="background: <?php echo $bgcolor3 ?>;">
-        <td style="width: 35%;" align="center"><b><?php echo _SUBJECTS ?></b></td>
+        <td style="width: 35%;" align="center"><b><?php echo __('SUBJECTS') ?></b></td>
         <td style="width: 15%;" align="center"><b><?php echo _AUTHOR ?></b></td>
-        <td style="width: 10%;" align="center"><b><?php echo _ANSWERS ?></b></td>
-        <td style="width: 10%;" align="center"><b><?php echo _VIEWS ?></b></td>
+        <td style="width: 10%;text-transform: capitalize;" align="center"><b><?php echo __('ANSWERS') ?></b></td>
+        <td style="width: 10%;text-transform: capitalize;" align="center"><b><?php echo __('VIEWS') ?></b></td>
         <td style="width: 30%;" align="center"><b><?php echo __('LAST_POST') ?></b></td>
     </tr>
 <?php

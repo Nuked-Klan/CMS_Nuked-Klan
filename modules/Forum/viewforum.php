@@ -42,7 +42,7 @@ function formatTopicRow($forumTopic) {
         if ($forumMessage['file'] != '') $forumTopic['joinedFiles']++;
 
     $forumTopic['iconStatus']   = getForumTopicIcon($forumTopic);
-    $forumTopic['author']       = nkNickname($forumTopic);
+    $forumTopic['author']       = nkForumNickname($forumTopic);
     $forumTopic['lastMessage']  = formatLastForumTopicMsg($forumTopic['id']);
 
     // Add last message url of Forum topic
@@ -117,7 +117,7 @@ function formatLastForumTopicMsg($threadId) {
     // Set last message author and formated date of Forum topic
     $lastMsgData = array(
         'id'        => $dbrLastForumTopicMsg['id'],
-        'author'    => nkNickname($dbrLastForumTopicMsg),
+        'author'    => nkForumNickname($dbrLastForumTopicMsg),
         'date'      => formatForumMessageDate($dbrLastForumTopicMsg['date'])
     );
 
@@ -211,7 +211,7 @@ $forumWriteLevel = $dbrCurrentForum['forumLevel'] == 0
     || isModerator($dbrCurrentForum['moderateurs']);
 
 // Get Forum topics list
-$rankField = ($nuked['forum_user_details'] == 'on') ? ', U.rang' : '';
+$rankField = ($nuked['forum_user_details'] == 'on') ? ', U.niveau, U.count, U.rang' : '';
 
 $sql = 'SELECT FT.id, FT.titre, FT.date, FT.auteur, FT.view, FT.closed, FT.annonce,
     FT.sondage, FT.nbReplies, U.pseudo, U.country'. $rankField .'
@@ -270,7 +270,7 @@ foreach ($dbrForumList as $forum)
     $forumList[$forum['id']] = printSecuTags($forum['nom']);
 
 // Set page title
-nkTemplate_setTitle(_NAVFORUM .' - '. $dbrCurrentForum['forumName']);
+nkTemplate_setTitle(__('FORUM') .' - '. $dbrCurrentForum['forumName']);
 
 // Display Forum topics list
 opentable();

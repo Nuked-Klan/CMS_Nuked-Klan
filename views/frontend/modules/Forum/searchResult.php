@@ -15,7 +15,7 @@
             <div class="nkForumCatHead nkBgColor3">
                 <div>
                     <div class="nkForumSearchCell"><?php echo _FORUMS ?></div>
-                    <div class="nkForumSearchCell"><?php echo _SUBJECTS ?></div>
+                    <div class="nkForumSearchCell"><?php echo __('SUBJECTS') ?></div>
                     <div class="nkForumSearchCell"><?php echo _AUTHOR ?></div>
                     <div class="nkForumSearchCell"><?php echo _DATE ?></div>
                 </div>

@@ -62,7 +62,7 @@
                     </div>
                     <div class="nkForumSearchContent nkBorderColor1">
                         <div>
-                            <input type="radio" class="checkbox" name="into" value="subject" /><?php echo _SUBJECTS ?>&nbsp;
+                            <input type="radio" class="checkbox" name="into" value="subject" /><?php echo __('SUBJECTS') ?>&nbsp;
                             <input type="radio" class="checkbox" name="into" value="message" /><?php echo _MESSAGES ?>&nbsp;
                             <input type="radio" class="checkbox" name="into" value="all" checked="checked" /><?php echo _BOTH ?>
                         </div>
