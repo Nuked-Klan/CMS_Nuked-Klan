@@ -26,7 +26,7 @@ require_once 'Includes/nkUserSocial.php';
  * @return void
  */
 function membersList() {
-    global $theme, $nuked;
+    global $nuked;
 
     $tsOther = __('OTHER');
 
@@ -78,19 +78,20 @@ function membersList() {
         $nuked['max_members'], ($p - 1) * $nuked['max_members']
     );
 
+    $lastMember = '';
+
     if ($currentLetter == '' && $nbMembers > 0) {
         $dbrLastMember = nkDB_selectOne(
             'SELECT U.pseudo
             FROM '. USER_TABLE .' AS U
             LEFT JOIN '. TEAM_MEMBERS_TABLE .' AS TM ON TM.userId = U.id
             WHERE TM.userId IS NULL AND U.niveau > 0',
-            array('date'), 'DESC', 1
+            array('U.date'), 'DESC', 1
         );
 
-        $lastMember = $dbrLastMember['pseudo'];
+        if ($dbrLastMember)
+            $lastMember = $dbrLastMember['pseudo'];
     }
-    else
-        $lastMember = '';
 
     echo applyTemplate('modules/Members/list', array(
         'alpha'          => $alpha,
@@ -150,8 +151,6 @@ function flashTextCleaning($text) {
  * @return void
  */
 function memberDetail() {
-    global $nuked, $user, $visiteur;
-
     $author = nkHtmlEntities($_GET['autor'], ENT_QUOTES);
 
     $userSocialFields = nkUserSocial_getActiveFields();

@@ -719,8 +719,8 @@ function edit_pref(){
 
     echo "</select></td></tr>\n";
 
-    if ($user['level'] >= nivo_mod('Games') && nivo_mod('Games') > -1) {
-        require_once 'modules/Games/index.php';
+    if ($user['level'] >= nivo_mod('Game') && nivo_mod('Game') > -1) {
+        require_once 'modules/Game/index.php';
 
         displayUserGamePrefFields($dbrUserDetail);
     }
@@ -1336,8 +1336,8 @@ function update_pref() {
         nkDB_insert(USER_DETAIL_TABLE, $data);
     }
 
-    if ($user['level'] >= nivo_mod('Games') && nivo_mod('Games') > -1) {
-        require_once 'modules/Games/index.php';
+    if ($user['level'] >= nivo_mod('Game') && nivo_mod('Game') > -1) {
+        require_once 'modules/Game/index.php';
 
         saveUserGamePrefFields($data);
     }

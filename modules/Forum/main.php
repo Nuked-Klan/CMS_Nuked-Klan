@@ -131,7 +131,7 @@ if ($catId > 0) {
 if (! $error) {
     // Get Forum list sorted by Forum category or Forum list of one Forum category
     $dbrForumList = getForumData(
-        'F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage, F.moderateurs,
+        'F.id, F.nom AS forumName, F.comment, F.cat, F.image AS forumImage,
         F.nbTopics, F.nbMessages,
         FC.nom As catName, FC.image AS catImage, FC.niveau AS catLevel',
         'catId', $catId

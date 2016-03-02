@@ -8,7 +8,7 @@
             $link = 'javascript:'. $linkData['jsConfirmation'] .'();';
         }
         else {
-            $link = 'admin='. $GLOBALS['file'];
+            $link = 'admin='. $module;
 
             if (isset($linkData['uri'])) {
                 foreach ($linkData['uri'] as $k => $v)

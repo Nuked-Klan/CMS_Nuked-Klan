@@ -32,49 +32,50 @@ endwhile;
     ?> ]</small></p>
 </div>
 <?php echo $pagination ?>
-<table id="nkMembersList" class="nkBgColor2 nkBorderColor3">
-    <tr class="nkBgColor3">
-        <th class="nkMemberCountry">&nbsp;</th>
-        <th class="nkMemberNickname"><?php echo __('NICK') ?></th>
+<table id="nkMembersList" class="nkBgColor2">
+    <thead>
+        <tr class="nkBgColor3">
+            <th class="nkMemberCountry">&nbsp;</th>
+            <th class="nkMemberNickname"><?php echo __('NICK') ?></th>
 <?php
 foreach ($userSocialData as $userSocial) :
 ?>
-        <th class="<?php echo $userSocial['cssClass'] ?>"><?php echo nkUserSocial_getLabel($userSocial) ?></th>
+            <th class="<?php echo $userSocial['cssClass'] ?>"><?php echo nkUserSocial_getLabel($userSocial) ?></th>
 <?php
 endforeach
 ?>
-    </tr>
+        </tr>
+    </thead>
+    <tbody class="nkBorderColor1">
 <?php
-$j = 0;
-
 foreach ($membersList as $member) :
 ?>
-
-    <tr class="<?php echo ($j++ % 2 == 1) ? 'nkBgColor1' : 'nkBgColor2' ?>;">
-        <td class="nkMemberCountry"><img src="images/flags/<?php echo $member['country'] ?>" alt="" title="<?php echo pathinfo($member['country'], PATHINFO_FILENAME) ?>" /></td>
-        <td class="nkMemberNickname"><a href="index.php?file=Members&amp;op=detail&amp;autor=<?php echo urlencode($member['nickname']) ?>" title="<?php echo __('VIEW_PROFIL') ?>"><b><?php echo $member['nickname'] ?></b></a></td>
+        <tr class="nkBorderColor1">
+            <td class="nkMemberCountry"><img src="images/flags/<?php echo $member['country'] ?>" alt="" title="<?php echo pathinfo($member['country'], PATHINFO_FILENAME) ?>" /></td>
+            <td class="nkMemberNickname"><a href="index.php?file=Members&amp;op=detail&amp;autor=<?php echo urlencode($member['nickname']) ?>" title="<?php echo __('VIEW_PROFIL') ?>"><b><?php echo $member['nickname'] ?></b></a></td>
 
 <?php
     foreach ($userSocialData as $userSocial) :
 ?>
-        <td class="<?php echo $userSocial['cssClass'] ?> nkUserSocial">
-            <?php echo nkUserSocial_formatImgLink($userSocial, $member) ?>
-        </td>
+            <td class="<?php echo $userSocial['cssClass'] ?> nkUserSocial">
+                <?php echo nkUserSocial_formatImgLink($userSocial, $member) ?>
+            </td>
 <?php
     endforeach
 ?>
-    </tr>
+        </tr>
 <?php
 endforeach;
 
 if ($nbMembers == 0) :
 ?>
-    <tr>
-        <td colspan="<?php echo (2 + count($userSocialData)) ?>" class="nkAlignCenter"><?php echo __('NO_MEMBERS') ?></td>
-    </tr>
+        <tr class="nkBorderColor1">
+            <td colspan="<?php echo (2 + count($userSocialData)) ?>" class="nkAlignCenter"><?php echo __('NO_MEMBERS') ?></td>
+        </tr>
 <?php
 endif
 ?>
+    </tbody>
 </table>
 <?php echo $pagination ?>
 <br />

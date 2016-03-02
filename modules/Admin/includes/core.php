@@ -149,7 +149,8 @@ function getMenuOfModuleAdmin($module = null) {
         $adminMenu = require_once 'modules/'. $module .'/backend/config/menu.php';
 
         $adminMenu = applyTemplate('share/adminMenu', array(
-            'menu' => $adminMenu
+            'menu'   => $adminMenu,
+            'module' => $module
         ));
     }
 

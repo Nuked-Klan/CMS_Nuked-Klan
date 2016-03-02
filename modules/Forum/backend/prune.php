@@ -56,7 +56,7 @@ function prune() {
 
     nkTemplate_addJS(
 '$("#pruneForumForm").submit(function() {
-    if (document.getElementById("pruneForumForm_prune_day").value.length == 0) {
+    if (document.getElementById("pfPruneDay").value.length == 0) {
         alert("'. __('NO_DAY') .'");
         return false;
     }

@@ -1,20 +1,21 @@
 /* Member list */
 
 #nkMembersList{
-    border:1px solid;
     width:100%;
-    border-spacing:1px;
+    border-collapse:collapse;
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
 }
 
 #nkMembersList th {
     text-align:center;
     font-weight:bold;
+    color: #fff;
+    line-height: 24px;
 }
 
 #nkMembersList th, #nkMembersList td {
-    padding:2px;
+    padding:3px;
 }
-
 
 #nkMembersList .nkMemberCountry, #nkMembersList .nkUserSocial{
     text-align:center;
@@ -23,6 +24,16 @@
 #nkMembersList .website{
     width:5%;
 }
+
+#nkMembersList > tbody{
+    border-left: 4px solid;
+    border-right: 4px solid;
+}
+
+#nkMembersList > tbody > tr{
+    border-bottom: 4px solid;
+}
+
 
 /* Member detail */
 

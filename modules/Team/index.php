@@ -243,13 +243,6 @@ function teamMemberDetail() {
         $dbrGamePref['pref_5'] = $teamMemberDetail['pref_5'];
     }
 
-    $dbrGame['titre']  = printSecuTags($dbrGame['titre']);
-    $dbrGame['pref_1'] = printSecuTags($dbrGame['pref_1']);
-    $dbrGame['pref_2'] = printSecuTags($dbrGame['pref_2']);
-    $dbrGame['pref_3'] = printSecuTags($dbrGame['pref_3']);
-    $dbrGame['pref_4'] = printSecuTags($dbrGame['pref_4']);
-    $dbrGame['pref_5'] = printSecuTags($dbrGame['pref_5']);
-
     echo applyTemplate('modules/Team/detail', array(
         'author'           => $author,
         'teamMember'       => $teamMember,
