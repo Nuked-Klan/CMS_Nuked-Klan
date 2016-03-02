@@ -854,8 +854,12 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         $country = "France.gif";
     }
     $date2 = nkDate(time());
-    $add = mysql_query("INSERT INTO " . USER_TABLE . " ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count`, `xfire`, `facebook`, `origin`, `steam`, `twitter`, `skype` ) VALUES ( '" . $user_id . "' , '' , '' , '' , '' , '' , '" . $pseudo . "' , '" . $mail . "' , '" . $email . "' , '' , '' , '' , '' , '' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '' , '' , '' , '' , '" . $game . "' , '" . $country . "' , '', '" . $xfire . "', '" . $facebook . "', '" . $origin . "', '" . $steam . "', '" . $twitter . "', '" . $skype . "'
- )");
+    $add = mysql_query(
+        "INSERT INTO ". USER_TABLE ."
+        (`id`, `pseudo`, `mail`, `email`, `pass`, `niveau`, `date`, `signature`, `game`, `country`, `xfire`, `facebook`, `origin`, `steam`, `twitter`, `skype`)
+        VALUES
+        ('". $user_id ."', '". $pseudo ."', '". $mail ."', '". $email ."', '". $cryptpass ."', '". $niveau ."', '". $date ."', '', '". $game ."', '". $country ."', '" . $xfire . "', '". $facebook ."', '". $origin ."', '". $steam ."', '". $twitter ."', '". $skype ."')"
+    );
 
     // Mark read all topics in the forum
     $_COOKIE['cookie_forum'] = '';
