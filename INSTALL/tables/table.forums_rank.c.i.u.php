@@ -83,7 +83,8 @@ if ($process == 'drop' && $dbTable->tableExist())
 if ($process == 'install') {
     $dbTable->createTable($forumRankTableCfg);
 
-    $sql = 'INSERT INTO `'. FORUM_RANK_TABLE .'` VALUES
+    $sql = 'INSERT INTO `'. FORUM_RANK_TABLE .'` (`id`, `nom`, `type`, `post`, `image`)
+        VALUES
         (1, \''. $this->_db->quote($this->_i18n['NEWBIE']) .'\', 0, 0, \'modules/Forum/images/rank/star1.png\'),
         (2, \''. $this->_db->quote($this->_i18n['JUNIOR_MEMBER']) .'\', 0, 10, \'modules/Forum/images/rank/star2.png\'),
         (3, \''. $this->_db->quote($this->_i18n['MEMBER']) .'\', 0, 100, \'modules/Forum/images/rank/star3.png\'),

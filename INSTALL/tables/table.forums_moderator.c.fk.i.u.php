@@ -22,7 +22,7 @@ $forumModeratorTableCfg = array(
     'fields' => array(
         'id'       => array('type' => 'int(11)',     'null' => false, 'unsigned' => true, 'autoIncrement' => true),
         'userId'   => array('type' => 'varchar(20)', 'null' => true,  'default' => '\'\''),
-        'forum'    => array('type' => 'int(5)',      'null' => false, 'unsigned' => true, 'autoIncrement' => true),
+        'forum'    => array('type' => 'int(5)',      'null' => false, 'unsigned' => true),
     ),
     'primaryKey' => array('id'),
     'index' => array(
