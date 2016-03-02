@@ -11,18 +11,21 @@
  */
 defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
-global $nuked, $language;
+global $language;
 
 translate('modules/Irc/lang/'. $language .'.lang.php');
+nkTemplate_addCSSFile('modules/Irc/Irc.css');
 
+// Get last Irc awards
+$dbrIrcAwards = nkDB_selectOne(
+    'SELECT text
+    FROM '. IRC_AWARDS_TABLE,
+    array('id'), 'DESC', 1
+);
 
-$sql = mysql_query("SELECT date, text FROM " . IRC_AWARDS_TABLE . " ORDER BY id DESC LIMIT 0, 1");
-list($date, $txt) = mysql_fetch_array($sql);
-$date = nkDate($date);
-
-echo "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-		. "<tr><td align=\"left\">" . $txt . "</td></tr>\n"
-		. "<tr><td align=\"center\"><hr style=\"width: 60%;height: 1px;\" />" . _JOINUS . " : <a href=\"irc://irc." . $nuked['irc_serv'] . "/" . $nuked['irc_chan'] . "\">#" . $nuked['irc_chan'] . "</a></td></tr>\n"
-		. "<tr><td align=\"center\"><a href=\"index.php?file=Irc&amp;op=awards\">" . _MOREAWARDS . "</a></td></tr></table>\n";
+// Display block
+echo applyTemplate('modules/Irc/block', array(
+    'ircAward' => $dbrIrcAwards['text']
+));
 
 ?>

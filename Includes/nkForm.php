@@ -290,9 +290,9 @@ function nkForm_generate($form) {
             $label = $input = '';
 
             if (array_key_exists('label', $itemData))
-                $label = nkForm_formatLabel($form['labelFormat'], $itemData);
+                $label = nkForm_formatLabel($itemData);
             else if (array_key_exists('fakeLabel', $itemData))
-                $label = nkForm_formatFakeLabel($form['labelFormat'], $itemData);
+                $label = nkForm_formatFakeLabel($itemData);
 
             if ($label != '') {
                 if ($form['formStyle'] == 'table')
@@ -377,29 +377,41 @@ function nkForm_underscore2camelcase($str) {
 /**
  * Get formated label tag.
  *
- * @param string $labelFormat : The format of label content.
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_formatLabel($labelFormat, $params) {
+function nkForm_formatLabel($params) {
+    global $nkForm;
+
+    if (array_key_exists('labelFormat', $params))
+        $format = $params['labelFormat'];
+    else
+        $format = $nkForm['config']['labelFormat'];
+
     //if (! array_key_exists('labelClass', $params))
     //    $params['labelClass'] = array();
 
-    return '<label for="'. $params['id'] .'">'. sprintf($labelFormat, $params['label']) .'</label>';
+    return '<label for="'. $params['id'] .'">'. sprintf($format, $params['label']) .'</label>';
 }
 
 /**
  * Get formated fake label tag. (span tag is used for imitate label tag)
  *
- * @param string $labelFormat : The format of label content.
  * @param array $params : The input data.
  * @return string HTML code
  */
-function nkForm_formatFakeLabel($labelFormat, $params) {
+function nkForm_formatFakeLabel($params) {
+    global $nkForm;
+
+    if (array_key_exists('labelFormat', $params))
+        $format = $params['labelFormat'];
+    else
+        $format = $nkForm['config']['labelFormat'];
+
     //if (! array_key_exists('fakeLabelClass', $params))
     //    $params['fakeLabelClass'] = array();
 
-    return '<span class="fakeLabel">'. sprintf($labelFormat, $params['fakeLabel']) .'</span>';
+    return '<span class="fakeLabel">'. sprintf($format, $params['fakeLabel']) .'</span>';
 }
 
 /**

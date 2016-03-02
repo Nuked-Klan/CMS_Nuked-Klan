@@ -1,0 +1,8 @@
+/* Irc award list */
+table#awardList .aDate{width:30%;}
+table#awardList .aText{width:40%;}
+table#awardList .nkListEdit,
+table#awardList .nkListDelete{width:15%;}
+table#awardList td.aDate,
+table#awardList td.nkListEdit,
+table#awardList td.nkListDelete{text-align:center;}

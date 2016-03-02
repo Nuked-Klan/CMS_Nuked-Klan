@@ -1,0 +1,90 @@
+#nkIrcWrapper{
+    width:98%;
+    margin:0 auto;
+}
+
+/* MAIN */
+
+#nkIrcMain {
+    margin:10px auto;
+}
+
+#nkIrcMain h3 {
+    line-height: 24px;
+    margin:0;
+    padding:4px;
+}
+
+/* IRC AWARDS */
+
+.nkIrcAwards{
+    width:100%;
+    margin-bottom:10px;
+}
+
+.nkIrcAwardsWrapper{
+    width:100%;
+    box-shadow:0 3px 2px rgba(0, 0, 0, 0.4);
+}
+
+.nkIrcAwardsRow h3{
+    text-align: center;
+}
+
+.nkIrcAwards h3,
+.nkIrcAwards p{
+    margin:0;
+}
+
+.nkIrcAwardsHead{
+    font-weight: bold;
+    color: #fff;
+    line-height: 24px;
+}
+
+.nkIrcAwardsHead > div > div,
+.nkIrcAwardsContent > div > div{
+    vertical-align: middle;
+    padding:4px;
+}
+
+.nkIrcAwardsContent > div > div{
+    border-bottom: 1px solid;
+}
+
+.nkIrcAwardsContent > div > div.nkIrcAwardsRow{
+    border-left: 4px solid;
+    border-right: 4px solid;
+}
+
+.nkIrcAwardsContent > div:last-child > div{
+    border-bottom: 4px solid;
+}
+
+.nkIrcAwardsRow{
+    text-align: left;
+}
+
+.nkIrcAwardsRow > div:first-child{
+    padding-left:4px;
+}
+
+.nkIrcAwardsRow > div:first-child > span:first-child {
+    font-weight:bold;
+    font-size:larger;
+}
+
+.nkIrcAwardsRow > div:first-child > span:last-child {
+    font-weight:bold;
+}
+
+/* BLOCK */
+
+.nkIrcLastAward{
+    text-align: left;
+}
+
+.nkIrcBlock > div:last-child > hr{
+    width:60%;
+    height:1px;
+}
