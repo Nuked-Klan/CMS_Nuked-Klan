@@ -383,6 +383,7 @@ return array(
     'BY'                => 'by',
     'STATS'             => 'Statistics',
     'THE'               => 'the',
+    'RESULT'            => 'Results',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

@@ -19,17 +19,17 @@
     if ($forumWriteLevel) :
         //Boutons d'action utilisateur, remplacement automatique du bouton CSS par une image PNG si elle éxiste.
         if ((is_file('themes/'. $theme .'/images/newthread.png')))
-            $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'"><img style="border: 0;" src="themes/'. $theme .'/images/newthread.png" alt="" title="'. _NEWSTOPIC .'" /></a>';
+            $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'"><img style="border: 0;" src="themes/'. $theme .'/images/newthread.png" alt="" title="'. __('NEW_TOPIC') .'" /></a>';
         else
-            $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'" class="nkButton icon add">'. _NEWTOPIC .'</a>';
+            $postNewTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'" class="nkButton icon add">'. __('NEW_TOPIC') .'</a>';
 
         echo $postNewTopic;
 
         if ($currentTopic['closed'] == 0 || $administrator) :
             if ((is_file('themes/'. $theme .'/images/reply.png')))
-                $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'"><img style="border: 0;" src="themes/'. $theme .'/images/reply.png" alt="" title="'. _REPLY .'" /></a>';
+                $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'"><img style="border: 0;" src="themes/'. $theme .'/images/reply.png" alt="" title="'. __('REPLY') .'" /></a>';
             else
-                $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'" class="nkButton icon chat">'. _REPLY .'</a>';
+                $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'" class="nkButton icon chat">'. _('REPLY') .'</a>';
 
             echo $replyToTopic;
         endif;
@@ -59,8 +59,8 @@
 ?>
                     <div class="nkForumViewActionLinks">
                         <div class="nkButton-group">
-                            <a href="index.php?file=Forum&amp;page=poll&amp;op=edit&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
-                            <a href="index.php?file=Forum&amp;page=poll&amp;op=delete&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
+                            <a href="index.php?file=Forum&amp;page=poll&amp;op=edit&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo __('EDIT_POLL') ?>" class="nkButton icon alone edit"></a>
+                            <a href="index.php?file=Forum&amp;page=poll&amp;op=delete&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo __('DELETE_POLL') ?>" class="nkButton icon alone remove danger"></a>
                         </div>
                     </div>
 <?php
@@ -84,7 +84,7 @@
             endforeach
 ?>
                     <div class="nkForumPollStats">
-                        <strong><?php echo _TOTALVOTE ?>&nbsp;:</strong><?php echo $nbVote ?>
+                        <strong><?php echo __('TOTAL_VOTE') ?>&nbsp;:</strong><?php echo $nbVote ?>
                     </div>
                     <div id="nkForumPollActionLinks">
                         <a class="nkButton" href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>"><?php echo __('TO_VOTE') ?></a>
@@ -104,8 +104,8 @@
 ?>
                         <div class="nkForumViewActionLinks">
                             <div class="nkButton-group">
-                                <a href="index.php?file=Forum&amp;page=poll&amp;op=edit&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _EDITPOLL ?>" class="nkButton icon alone edit"></a>
-                                <a href="index.php?file=Forum&amp;page=poll&amp;op=delete&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo _DELPOLL ?>" class="nkButton icon alone remove danger"></a>
+                                <a href="index.php?file=Forum&amp;page=poll&amp;op=edit&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo __('EDIT_POLL') ?>" class="nkButton icon alone edit"></a>
+                                <a href="index.php?file=Forum&amp;page=poll&amp;op=delete&amp;id=<?php echo $topicPoll['id'] ?>&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" title="<?php echo __('DELETE_POLL') ?>" class="nkButton icon alone remove danger"></a>
                             </div>
                         </div>
 <?php
@@ -124,7 +124,7 @@
 ?>
                         <div id="nkForumPollActionLinks">
                             <input type="submit" class="nkButton" value="<?php echo __('TO_VOTE') ?>" />
-                            <input type="button" class="nkButton" value="<?php echo _RESULT ?>" onclick="document.location='index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;vote=view'" />
+                            <input type="button" class="nkButton" value="<?php echo __('RESULT') ?>" onclick="document.location='index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;vote=view'" />
                         </div>
                     </form>
                 </div>
@@ -154,10 +154,10 @@
                     <div>
                         <div class="nkForumViewUserPseudo nkBgColor3"><h3><?php echo $authorInfo['userInfo'] ?></h3></div>
                         <div class="nkForumViewPostHead nkBgColor3">
-                            <a href="#top" title="<?php echo _BACKTOTOP ?>">
+                            <a href="#top" title="<?php echo __('BACK_TO_TOP') ?>">
                                 <img src="modules/Forum/images/interface/top_24.png" class="nkUserButton small" />
                             </a>
-                            <a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;p=<?php echo $p ?>#<?php echo $topicMessage['id'] ?> " title="<?php echo _PERMALINK_TITLE ?>">
+                            <a href="index.php?file=Forum&amp;page=viewtopic&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;p=<?php echo $p ?>#<?php echo $topicMessage['id'] ?> " title="<?php echo __('PERMALINK_TITLE') ?>">
                                 <img src="modules/Forum/images/interface/permalink_24.png" class="nkUserButton small" />
 
                             </a>
@@ -193,7 +193,7 @@
 ?>
                             <div class="nkForumGamerDetails">
                                 <div class="nkForumUserGameIcon">
-                                    <?php echo _FAVORITEGAME ?>&nbsp;:&nbsp;
+                                    <?php echo __('FAVORITE_GAME') ?>&nbsp;:&nbsp;
                                     <img src="<?php echo $authorInfo['gameIcon'] ?>" alt="" title="<?php echo $authorInfo['gameName'] ?>" />
                                 </div>
 <?php
@@ -232,19 +232,19 @@
 <?php
         if ($currentTopic['closed'] == 0 && $administrator || $visiteur >= $currentForum['level']) :
 ?>
-                                    <a href="<?php echo $quoteLink ?>" title="<?php echo _REPLYQUOTE ?>" class="nkButton icon alone chat"></a>
+                                    <a href="<?php echo $quoteLink ?>" title="<?php echo __('REPLY_QUOTE') ?>" class="nkButton icon alone chat"></a>
 <?php
         endif;
 
         if ($user && $topicMessage['auteur_id'] == $user['id'] && $currentTopic['closed'] == 0 || $administrator) :
 ?>
-                                    <a href="<?php echo $editLink ?>" title="<?php echo _EDITMESSAGE ?>" class="nkButton icon alone edit"></a>
+                                    <a href="<?php echo $editLink ?>" title="<?php echo __('EDIT_MESSAGE') ?>" class="nkButton icon alone edit"></a>
 <?php
         endif;
 
         if ($administrator) :
 ?>
-                                    <a href="<?php echo $deleteLink ?>" title="<?php echo _DELMESSAGE ?>" class="nkButton icon alone remove danger"></a>
+                                    <a href="<?php echo $deleteLink ?>" title="<?php echo __('DELETE_MESSAGE') ?>" class="nkButton icon alone remove danger"></a>
 <?php
         endif
 ?>
@@ -257,11 +257,11 @@
         if ($topicMessage['file'] != '' && is_file($fileUrl = 'upload/Forum/'. $topicMessage['file'])) :
             $roundedFilesize = ceil((int) filesize($fileUrl) / 1024);
 ?>
-                            <div class="nkForumViewAttachedFile"><strong><a href="<?php echo $fileUrl ?>" onclick="window.open(this.href); return false;" title="<?php echo _DOWNLOADFILE ?>"><?php echo $topicMessage['file'] ?></a> (<?php echo $roundedFilesize ?> Ko)<?php
+                            <div class="nkForumViewAttachedFile"><strong><a href="<?php echo $fileUrl ?>" onclick="window.open(this.href); return false;" title="<?php echo __('DOWNLOAD_FILE') ?>"><?php echo $topicMessage['file'] ?></a> (<?php echo $roundedFilesize ?> Ko)<?php
 
             if ($user && $topicMessage['auteur_id'] == $user['id'] || $administrator) :
 
-                ?>&nbsp;<a href="index.php?file=Forum&amp;op=del_file&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;mess_id=<?php echo $topicMessage['id'] ?>" class="nkButton icon trash danger"><?php echo _DELFILE ?></a><?php
+                ?>&nbsp;<a href="index.php?file=Forum&amp;op=del_file&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>&amp;mess_id=<?php echo $topicMessage['id'] ?>" class="nkButton icon trash danger"><?php echo __('DELETE_FILE') ?></a><?php
 
             endif;
 
@@ -292,10 +292,10 @@
                             <div class="nkButton-group">
 <?php
         if ($authorInfo['status'] == 'registered' && $topicMessage['auteur_id'] != '') :
-            echo '<a class="nkButton icon user small alone" href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($authorInfo['name']) .'" title="'. _SEEPROFIL .'"></a>';
+            echo '<a class="nkButton icon user small alone" href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($authorInfo['name']) .'" title="'. __('SEE_PROFIL') .'"></a>';
 
             if ($user) :
-                echo '<a class="nkButton icon pm small alone" href="index.php?file=Userbox&amp;op=post_message&amp;for='. $topicMessage['auteur_id'] .'" title="'. _SENDPM .'"></a>';
+                echo '<a class="nkButton icon pm small alone" href="index.php?file=Userbox&amp;op=post_message&amp;for='. $topicMessage['auteur_id'] .'" title="'. __('SEND_PM') .'"></a>';
             endif;
         endif;
 
@@ -306,7 +306,7 @@
                         </div>
                         <div class="nkForumPostInfos nkBorderColor1">
                             <div class="nkForumPostDate">
-                                <?php echo _POSTEDON ?>&nbsp;<?php echo formatForumMessageDate($topicMessage['date']) ?>
+                                <?php echo __('POSTED_ON') ?>&nbsp;<?php echo formatForumMessageDate($topicMessage['date']) ?>
                             </div><!-- @whitespace
                          --><div class="nkForumPermalinks">
                             </div>
@@ -323,9 +323,9 @@
 
     if ($user && $user['id'] != '') :
         if ($notify > 0)
-            $mailNotification = '<a href="index.php?file=Forum&amp;op=notify&amp;do=off&amp;forum_id=' . $forumId . '&amp;thread_id=' . $threadId . '">' . _NOTIFYOFF . '</a>';
+            $mailNotification = '<a href="index.php?file=Forum&amp;op=notify&amp;do=off&amp;forum_id=' . $forumId . '&amp;thread_id=' . $threadId . '">' . __('NOTIFY_OFF') . '</a>';
         else
-            $mailNotification = '<a href="index.php?file=Forum&amp;op=notify&amp;do=on&amp;forum_id=' . $forumId . '&amp;thread_id=' . $threadId . '">' . _NOTIFYON . '</a>';
+            $mailNotification = '<a href="index.php?file=Forum&amp;op=notify&amp;do=on&amp;forum_id=' . $forumId . '&amp;thread_id=' . $threadId . '">' . __('NOTIFY_ON') . '</a>';
     endif;
 ?>
         <div class="nkForumNavPage">
@@ -356,12 +356,12 @@
             $closeLink = 'index.php?file=Forum&amp;op=lock'. $threadUri;
 
             if ($currentTopic['closed'] == 1) {
-                $closeTitle = _TOPICUNLOCK;
+                $closeTitle = __('TOPIC_UNLOCK');
                 $closeClass = 'unlock';
                 $closeLink .= '&amp;do=open';
             }
             else {
-                $closeTitle = _TOPICLOCK;
+                $closeTitle = __('TOPIC_LOCK');
                 $closeClass = 'lock';
                 $closeLink .= '&amp;do=close';
             }
@@ -369,12 +369,12 @@
             $pinedLink = 'index.php?file=Forum&amp;op=announce'. $threadUri;
 
             if ($currentTopic['annonce'] == 1) {
-                $pinedTitle = _TOPICDOWN;
+                $pinedTitle = __('TOPIC_DOWN');
                 $pinedClass = 'arrowdown';
                 $pinedLink .= '&amp;do=down';
             }
             else {
-                $pinedTitle = _TOPICUP;
+                $pinedTitle = __('TOPIC_UP');
                 $pinedClass = 'arrowup';
                 $pinedLink .= '&amp;do=up';
             }
@@ -382,8 +382,8 @@
 ?>
         <div id="nkForumAdminLinks">
             <div class="nkButton-group">
-                <a href="<?php echo $delLink ?>" title="<?php echo _TOPICDEL ?>" class="nkButton icon alone remove danger"></a>
-                <a href="<?php echo $moveLink ?>" title="<?php echo _TOPICMOVE ?>" class="nkButton icon alone move"></a>
+                <a href="<?php echo $delLink ?>" title="<?php echo __('TOPIC_DELETE') ?>" class="nkButton icon alone remove danger"></a>
+                <a href="<?php echo $moveLink ?>" title="<?php echo __('TOPIC_MOVE') ?>" class="nkButton icon alone move"></a>
                 <a href="<?php echo $closeLink ?>" title="<?php echo $closeTitle ?>" class="nkButton icon alone <?php echo $closeClass ?>"></a>
                 <a href="<?php echo $pinedLink ?>" title="<?php echo $pinedTitle ?>" class="nkButton icon alone <?php echo $pinedClass ?>"></a>
             </div>

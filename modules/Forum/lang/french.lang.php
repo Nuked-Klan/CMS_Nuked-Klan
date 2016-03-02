@@ -9,29 +9,20 @@ define("_FYESTERDAY","hier à");
 define("_INDEXFORUM","Index du Forum");
 
 define("_PAGES","Pages");
-define("_NEWSTOPIC","Nouveau message");
 
-define("_REPLY","Répondre");
-define("_LASTTHREAD","Sujet précédent");
-define("_NEXTTHREAD","Sujet suivant");
-define("_ISONLINE","En ligne !");
+
+
 
 define("_MESSAGESMARK","Tous les messages sont à présent marqués comme lus");
 
-define("_REGISTERED","Inscrit(e) le");
-define("_IP","Ip");
-define("_BACKTOTOP","Revenir en haut");
-define("_POSTEDON","Posté");
-define("_SEEPROFIL","Voir le profil");
-define("_SENDPM","Lui envoyer un message privé");
-define("_TOPICDEL","Supprimer ce sujet");
-define("_TOPICMOVE","Déplacer ce sujet");
-define("_TOPICLOCK","Fermer le sujet");
-define("_TOPICUNLOCK","Ouvrir le sujet");
-define("_REPLYQUOTE","Répondre en citant");
 
-define("_EDITMESSAGE","Editer ce message");
-define("_DELMESSAGE","Supprimer ce message");
+
+
+
+
+
+
+
 define("_POSTNEWTOPIC","Poster un nouveau sujet");
 define("_POSTREPLY","Poster une réponse");
 define("_POSTEDIT","Editer le sujet");
@@ -50,8 +41,7 @@ define("_MOVETOPIC","Déplacer vers le forum");
 define("_TOPICMOVED","Topic déplacé avec succès.");
 define("_TOPICLOCKED","Topic fermé avec succès.");
 define("_TOPICUNLOCKED","Topic ouvert avec succès.");
-define("_TOPICUP","Mettre en annonce");
-define("_TOPICDOWN","Mettre en sujet");
+
 define("_TOPICMODIFIED","Topic modifié avec succès.");
 define("_PSEUDO","Pseudo");
 define("_FLOGIN","login");
@@ -93,14 +83,11 @@ define("_MAXFILESIZE","Taille maximale");
 define("_MO","Mo");
 define("_KO","Ko");
 define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
-define("_DOWNLOADFILE","Télécharger ce fichier joint");
-define("_DELFILE","Supprimer ce fichier joint");
+
 define("_FILEDELETED","Fichier joint supprimé avec succès.");
-define("_TOTALVOTE","Total votes");
-define("_EDITPOLL","Editer le sondage");
-define("_DELPOLL","Supprimer le sondage");
-define("_NOTIFYON","Surveiller le sujet");
-define("_NOTIFYOFF","Arrêter de surveiller le sujet");
+
+
+
 define("_NOTIFYISON","Notification activé avec succès.");
 define("_NOTIFYISOFF","Notification désactivé avec succès.");
 define("_NOTEXTRESUME","Aucun aperçu disponible...");
@@ -119,7 +106,7 @@ define("_DELOLDMESSAGES","Supprimer les anciens sujets du Forum depuis le :");
 
 
 define("_PERMALINK","Permalien");
-define("_PERMALINK_TITLE","Lien direct vers ce message");
+
 
 
 
@@ -134,8 +121,7 @@ define('_BAD_FORUM_ID', 'L\'ID que vous avez utilisé n\'est pas correct.');
 define('_TOPIC', 'Sujet');
 define('_CREATED_BY', 'Cr&eacute;&eacute; par');
 
-//ViewTopic
-define('_FAVORITEGAME', 'Jeu favori');
+
 
 // Admin
 define("_NONAME","Vous n'avez pas entré de nom !");
@@ -194,6 +180,12 @@ return array(
     // modules/Forum/post.php
     'CONFIRM_DELETE_POST' => 'Etes-vous sûr de vouloir supprimer ce message ?',
     'FORUM_POST_DELETED' => 'Message supprimé avec succès.',
+    // modules/Forum/viewtopic.php
+    'IS_ONLINE'         => 'En ligne !',
+    'REGISTERED'        => 'Inscrit(e) le',
+    'IP'                => 'Ip',
+    'LAST_THREAD'       => 'Sujet précédent',
+    'NEXT_THREAD'       => 'Sujet suivant',
     
     // modules/Forum/config/forumPoll.php
     'QUESTION'          => 'Question',
@@ -350,6 +342,32 @@ return array(
     'ONE_MONTH'         => '1 mois',
     'SIX_MONTH'         => '6 mois',
     'ONE_YEAR'          => '1 an',
+    // views/frontend/modules/Forum/viewtopic.php
+    'NEW_TOPIC'         => 'Nouveau message',
+    'REPLY'             => 'Répondre',
+    'EDIT_POLL'         => 'Editer le sondage',
+    'DELETE_POLL'       => 'Supprimer le sondage',
+    'TOTAL_VOTE'        => 'Total votes',
+    'BACK_TO_TOP'       => 'Revenir en haut',
+    'PERMALINK_TITLE'   => 'Lien direct vers ce message',
+    'FAVORITE_GAME'     => 'Jeu favori',
+    'REPLY_QUOTE'       => 'Répondre en citant',
+    'EDIT_MESSAGE'      => 'Editer ce message',
+    'DELETE_MESSAGE'    => 'Supprimer ce message',
+    'DOWNLOAD_FILE'     => 'Télécharger ce fichier joint',
+    'DELETE_FILE'       => 'Supprimer ce fichier joint',
+    'SEE_PROFIL'        => 'Voir le profil',
+    'SEND_PM'           => 'Lui envoyer un message privé',
+    'POSTED_ON'         => 'Posté',
+    'NOTIFY_ON'         => 'Surveiller le sujet',
+    'NOTIFY_OFF'        => 'Arrêter de surveiller le sujet',
+    'TOPIC_UNLOCK'      => 'Ouvrir le sujet',
+    'TOPIC_LOCK'        => 'Fermer le sujet',
+    'TOPIC_DOWN'        => 'Mettre en sujet',
+    'TOPIC_UP'          => 'Mettre en annonce',
+    'TOPIC_DELETE'      => 'Supprimer ce sujet',
+    'TOPIC_MOVE'        => 'Déplacer ce sujet',
+    
 );
 
 ?>

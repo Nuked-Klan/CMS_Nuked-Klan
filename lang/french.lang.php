@@ -390,6 +390,7 @@ return array(
     'BY'                => 'par',
     'STATS'             => 'Statistiques',
     'THE'               => 'le',
+    'RESULT'            => 'Résultats',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
@@ -521,6 +522,7 @@ return array(
     // views/frontend/modules/Forum/main.php
     // bloc login
     'WHO_IS_ONLINE'     => 'Qui est en ligne ?',
+
 );
 
 ?>

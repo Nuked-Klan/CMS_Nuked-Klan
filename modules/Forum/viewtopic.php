@@ -189,7 +189,7 @@ function getAuthorInfo($topicMessage) {
         . urlencode($topicMessage['authorName']) .'">'. $topicMessage['authorName'] .'</a>';
 
     if ($topicMessage['auteur_id'] == $dbrOnlineConnect['user_id'])
-        $authorInfo['userInfo'] .= '<div class="nkOnlineIcon" title="'. _ISONLINE .'"></div>';
+        $authorInfo['userInfo'] .= '<div class="nkOnlineIcon" title="'. __('IS_ONLINE') .'"></div>';
 
     // Set user or default avatar
     if ($topicMessage['avatar'] != '') {
@@ -205,14 +205,14 @@ function getAuthorInfo($topicMessage) {
     }
 
     // Add total user post
-    $authorInfo['totalUserPost'] = __('MESSAGES') .' : '. $topicMessage['count'] .'<br />'. _REGISTERED .': ';
+    $authorInfo['totalUserPost'] = __('MESSAGES') .' : '. $topicMessage['count'] .'<br />'. __('REGISTERED') .': ';
 
     // Valeur TRUE = Pas d'heure/minute.
     $authorInfo['totalUserPost'] .= nkDate($topicMessage['authorDate'], TRUE);
 
     // On détermine si le visiteur est un administrateur et on lui affiche l'IP du posteur
     if ($forumAdmin)
-        $authorInfo['displayUserIp'] = _IP .' : '. $topicMessage['auteur_ip'];
+        $authorInfo['displayUserIp'] = _('IP') .' : '. $topicMessage['auteur_ip'];
 
     // Store author info
     $formatedAuthorInfo[$topicMessage['auteur_id']] = $authorInfo;
@@ -253,12 +253,12 @@ function getNearForumTopicLink($dir, $lastPost) {
     if ($dir == 'DESC') {
         $comparisonOperator = '<';
         $cssClass           = 'arrowleft';
-        $linkText           = _LASTTHREAD;
+        $linkText           = __('LAST_THREAD');
     }
     else {
         $comparisonOperator = '>';
         $cssClass           = 'arrowright';
-        $linkText           = _NEXTTHREAD;
+        $linkText           = __('NEXT_THREAD');
     }
 
     // Get near Forum topic link if exist
@@ -471,7 +471,7 @@ if ($highlight != '')
     $highlight = printSecuTags($highlight);
 
 // Set page title
-nkTemplate_setTitle(_NAVFORUM .' - '. $dbrCurrentTopic['titre']);
+nkTemplate_setTitle(__('FORUM') .' - '. $dbrCurrentTopic['titre']);
 
 // Display post list of Forum topic
 opentable();

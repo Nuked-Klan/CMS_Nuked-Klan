@@ -65,7 +65,7 @@ if ($process == 'drop' && $dbTable->tableExist())
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // install /update 1.8
-if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExist())) {
+if ($process == 'install' || ($process == 'createTable' && ! $dbTable->tableExist()))
     $dbTable->createTable($forumModeratorTableCfg);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

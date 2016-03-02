@@ -10,33 +10,20 @@ define("_FYESTERDAY","yesterday,");
 
 
 define("_PAGES","Pages");
-define("_NEWSTOPIC","New topic");
 
-define("_REPLY","Reply");
-define("_LASTTHREAD","Previous topic");
-define("_NEXTTHREAD","Next topic");
 
-define("_ISONLINE","Online !");
+
+
 
 define("_MESSAGESMARK","All posts have now been marked as read");
 
 
-define("_REGISTERED","Joined");
-define("_IP","Ip");
-define("_BACKTOTOP","Back to top");
-define("_POSTEDON","Posted");
-define("_SEEPROFIL","View profile");
-define("_SENDPM","Send private message");
-define("_TOPICDEL","Remove this topic");
-define("_TOPICMOVE","Move this topic");
-define("_TOPICLOCK","Close this topic");
-define("_TOPICUNLOCK","Open this topic");
-define("_REPLYQUOTE","Reply with quote");
 
-define("_EDITMESSAGE","Edit this post");
-define("_DELMESSAGE","Remove this post");
-define("_TOPICUP","Sticky Thread");
-define("_TOPICDOWN","Unsticky Thread");
+
+
+
+
+
 define("_TOPICMODIFIED","Topic was successfully modified.");
 define("_POSTNEWTOPIC","Post new topic");
 define("_POSTREPLY","Post reply");
@@ -97,14 +84,9 @@ define("_MAXFILESIZE","Maximum file size");
 define("_MO","MB");
 define("_KO","KB");
 define("_UPLOADFAILED","Uploading of file failed!!!");
-define("_DOWNLOADFILE","Download attached file");
-define("_DELFILE","Remove the attached file");
+
 define("_FILEDELETED","Attached file was successfully removed.");
-define("_TOTALVOTE","Total votes");
-define("_EDITPOLL","Edit this poll");
-define("_DELPOLL","Delete this poll");
-define("_NOTIFYON","Subscribe to this topic");
-define("_NOTIFYOFF","Unsubscribe from this topic");
+
 define("_NOTIFYISON","Notification was successfully activated.");
 define("_NOTIFYISOFF","Notification was successfully deactivated.");
 define("_NOTEXTRESUME","No resume available...");
@@ -117,7 +99,7 @@ define("_DELOLDMESSAGES","Delete old forum threads since the:");
 
 
 define("_PERMALINK","Permalink");
-define("_PERMALINK_TITLE","Permanent link to this message");
+
 
 
 
@@ -132,9 +114,6 @@ define("_SEEMODO","See profile of ");
 define('_BAD_FORUM_ID', 'This ID is not valid.');
 define('_TOPIC', 'Topic');
 define('_CREATED_BY', 'Created by');
-
-//ViewTopic
-define('_FAVORITEGAME', 'Favorite game');
 
 // Admin
 define("_NONAME","Please enter a name!");
@@ -193,12 +172,17 @@ return array(
     // modules/Forum/post.php
     'CONFIRM_DELETE_POST' => 'Remove this post?',
     'FORUM_POST_DELETED' => 'Post was successfully removed.',
+    // modules/Forum/viewtopic.php
+    'IS_ONLINE'         => 'Online !',
+    'REGISTERED'        => 'Joined',
+    'IP'                => 'Ip',
+    'LAST_THREAD'       => 'Previous topic',
+    'NEXT_THREAD'       => 'Next topic',
     
     // modules/Forum/config/forumPoll.php
     'QUESTION'          => 'Question',
     'ADD_THIS_POLL'     => 'Add this poll',
     'MODIF_THIS_POLL'   => 'Modify this poll',
-    
     
     
     // modules/Forum/backend/config/prune.php
@@ -350,6 +334,32 @@ return array(
     'ONE_MONTH'         => '1 Month',
     'SIX_MONTH'         => '6 Months',
     'ONE_YEAR'          => '1 Year',
+    // views/frontend/modules/Forum/viewtopic.php
+    'NEW_TOPIC'         => 'New topic',
+    'REPLY'             => 'Reply',
+    'EDIT_POLL'         => 'Edit this poll',
+    'DELETE_POLL'       => 'Delete this poll',
+    'TOTAL_VOTE'        => 'Total votes',
+    'BACK_TO_TOP'       => 'Back to top',
+    'PERMALINK_TITLE'   => 'Permanent link to this message',
+    'FAVORITE_GAME'     => 'Favorite game',
+    'REPLY_QUOTE'       => 'Reply with quote',
+    'EDIT_MESSAGE'      => 'Edit this post',
+    'DELETE_MESSAGE'    => 'Remove this post',
+    'DOWNLOAD_FILE'     => 'Download attached file',
+    'DELETE_FILE'       => 'Remove the attached file',
+    'SEE_PROFIL'        => 'View profile',
+    'SEND_PM'           => 'Send private message',
+    'POSTED_ON'         => 'Posted',
+    'NOTIFY_ON'         => 'Subscribe to this topic',
+    'NOTIFY_OFF'        => 'Unsubscribe from this topic',
+    'TOPIC_UNLOCK'      => 'Open this topic',
+    'TOPIC_LOCK'        => 'Close this topic',
+    'TOPIC_DOWN'        => 'Unsticky Thread',
+    'TOPIC_UP'          => 'Sticky Thread',
+    'TOPIC_DELETE'      => 'Remove this topic',
+    'TOPIC_MOVE'        => 'Move this topic',
+    
     
 );
 
