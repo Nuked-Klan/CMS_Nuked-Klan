@@ -12,7 +12,7 @@
 
                         <div><!--Pseudo -->
                             <div class="nkForumPostCat nkBgColor2 nkBorderColor1">
-                                <strong><?php echo _PSEUDO ?></strong>
+                                <strong><?php echo __('NICKNAME') ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">
 <?php
@@ -20,7 +20,7 @@
         echo $author;
     elseif ($user && $user['name'] != '') :
 ?>
-                                <?php echo $user['name'] ?>&nbsp;<a href="index.php?file=User&amp;op=logout" class="nkButton icon remove danger"><?php echo _FLOGOUT ?></a>
+                                <?php echo $user['name'] ?>&nbsp;<a href="index.php?file=User&amp;op=logout" class="nkButton icon remove danger"><?php echo __('FLOGOUT') ?></a>
 <?php
     endif;
 
@@ -31,7 +31,7 @@
     else :
 ?>
                                 <input type="text" name="author" size="35" maxlength="35" />
-                                <a href="index.php?file=User&amp;op=login_screen" class="nkButton icon user"><?php echo _FLOGIN ?></a>
+                                <a href="index.php?file=User&amp;op=login_screen" class="nkButton icon user"><?php echo __('FLOGIN') ?></a>
 <?php
     endif;
 ?>
@@ -40,7 +40,7 @@
 
                         <div><!--Title -->
                             <div class="nkForumPostCat nkBgColor2 nkBorderColor1">
-                                <strong><?php echo _TITLE ?></strong>
+                                <strong><?php echo __('TITLE') ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">
                                 <input id="forum_titre" type="text" size="70"  maxlength="70" name="titre" value="<?php echo $postTitle ?>" />
@@ -49,7 +49,7 @@
 
                         <div><!--Message -->
                             <div class="nkForumPostCat nkBgColor2 nkBorderColor1" style="vertical-align:top;">
-                                <strong><?php echo _MESSAGE ?></strong>
+                                <strong><?php echo __('MESSAGE') ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">
                                 <textarea id="e_advanced" name="texte" cols="70" rows="15"><?php echo $postText ?></textarea>
@@ -57,14 +57,14 @@
                         </div>
                         <div><!--Options -->
                             <div class="nkForumPostCat nkBgColor2 nkBorderColor1">
-                                <strong><?php echo _OPTIONS ?></strong>
+                                <strong><?php echo __('OPTIONS') ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">
 <?php
     if ($visiteur > 0) :
 ?>
-                                <input id="forum_sign" type="checkbox" class="checkbox" name="usersig" value="1" <?php echo $usersigChecked ?> />&nbsp;<?php echo _USERSIGN ?><br />
-                                <input type="checkbox" class="checkbox" name="emailnotify" value="1" <?php echo $emailnotifyChecked ?> />&nbsp;<?php echo _EMAILNOTIFY ?><br />
+                                <input id="forum_sign" type="checkbox" class="checkbox" name="usersig" value="1" <?php echo $usersigChecked ?> />&nbsp;<?php echo __('USER_SIGNATURE') ?><br />
+                                <input type="checkbox" class="checkbox" name="emailnotify" value="1" <?php echo $emailnotifyChecked ?> />&nbsp;<?php echo __('EMAIL_NOTIFY') ?><br />
 <?php
     endif;
 
@@ -75,7 +75,7 @@
 <?php
         else :
 ?>
-                                <input type="checkbox" name="edit_text" value="1" checked="checked" />&nbsp;<?php echo _EDITTEXT ?>
+                                <input type="checkbox" name="edit_text" value="1" checked="checked" />&nbsp;<?php echo __('DISPLAY_EDIT_TEXT') ?>
 <?php
         endif;
     endif;
@@ -83,7 +83,7 @@
     if ($do == 'post') :
         if ($administrator) :
 ?>
-                                <input type="checkbox" class="checkbox" name="annonce" value="1"<?php echo $announceChecked ?> />&nbsp;<?php echo _ANNONCE ?><br />
+                                <input type="checkbox" class="checkbox" name="annonce" value="1"<?php echo $announceChecked ?> />&nbsp;<?php echo __('ANNOUNCEMENT') ?><br />
 <?php
         endif;
     else :
@@ -101,21 +101,17 @@
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">  
                                 <input type="checkbox" class="checkbox" name="survey" value="1" />&nbsp;<?php echo __('POST_SURVEY') ?><br />
-                                <input type="text" name="survey_field" size="2" value="4" />&nbsp;<?php echo _SURVEYFIELD ?>&nbsp;(<?php echo _MAX ?> : <?php echo $nuked['forum_field_max'] ?>)
+                                <input type="text" name="survey_field" size="2" value="4" />&nbsp;<?php echo __('NUMBER_OPTIONS') ?>&nbsp;(<?php echo __('MAXIMUM') ?> : <?php echo $nuked['forum_field_max'] ?>)
                             </div>
                         </div>
 <?php
     endif;
 
-    if ($visiteur >= $nuked['forum_file_level'] && $nuked['forum_file'] == 'on' && $nuked['forum_file_maxsize'] > 0 && $do != 'edit') {
-        if ($nuked['forum_file_maxsize'] >= 1000) {
-            $max_size = $nuked['forum_file_maxsize'] * 1000;
-            $maxfile = $nuked['forum_file_maxsize'] / 1000;
-            $maxfilesize = $maxfile .'&nbsp;'. _MO;
-        }
-        else {
-            $maxfilesize = $nuked['forum_file_maxsize'] .'&nbsp;'. _KO;
-        }
+    if ($visiteur >= $nuked['forum_file_level'] && $nuked['forum_file'] == 'on' && $nuked['forum_file_maxsize'] > 0 && $do != 'edit') :
+        if ($nuked['forum_file_maxsize'] >= 1000)
+            $maxfilesize = ($nuked['forum_file_maxsize'] / 1000) .'&nbsp;'. __('MO');
+        else
+            $maxfilesize = $nuked['forum_file_maxsize'] .'&nbsp;'. __('KO');
 
 ?>
                         <div><!--attachedFile -->
@@ -123,12 +119,12 @@
                                 <strong><?php echo __('ATTACH_FILE') ?></strong>
                             </div>
                             <div class="nkForumPostCatContent nkBgColor2 nkBorderColor1">
-                                <input type="file" name="fichiernom" size="30" />&nbsp;(<?php echo _MAXFILESIZE ?> : <?php echo $maxfilesize ?>)
-                                <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $max_size ?>" />
+                                <input type="file" name="uploadFile" size="30" />&nbsp;(<?php echo __('MAXIMUM_FILE_SIZE') ?> : <?php echo $maxfilesize ?>)
+                                <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo ($nuked['forum_file_maxsize'] * 1000) ?>" />
                             </div>
                         </div>
 <?php
-    }
+    endif
 ?>
                     </div>
                 </div>
@@ -159,7 +155,7 @@
     if ($do == 'reply' || $do == 'quote') :
 ?>
             <div class ="nkForumPostHead">
-                <h3><?php echo _PREVIOUSMESSAGES; ?></h3>
+                <h3><?php echo __('PREVIOUS_MESSAGES') ?></h3>
             </div>
             <div class="nkForumPostReview nkBgColor2 nkBorderColor1">
                 <div class="nkForumCatWrapper">
@@ -175,7 +171,7 @@
                             <div class="nkForumPostReviewMessage">
                                 <div>
                                     <img src="images/posticon.gif" alt="" />
-                                    <?php echo _POSTEDON ?>&nbsp;<?php echo nkDate($lastMessage['date']) ?>
+                                    <?php echo __('POSTED_ON') ?>&nbsp;<?php echo nkDate($lastMessage['date']) ?>
                                 </div>
                                 <p><?php echo $lastMessage['txt'] ?></p>
                             </div>

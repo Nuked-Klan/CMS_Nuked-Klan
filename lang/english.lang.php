@@ -384,6 +384,7 @@ return array(
     'STATS'             => 'Statistics',
     'THE'               => 'the',
     'RESULT'            => 'Results',
+    'QUOTE'             => 'Quote',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

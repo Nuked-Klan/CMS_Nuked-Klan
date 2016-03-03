@@ -1,62 +1,23 @@
 <?php
 
-define("_PREVIOUSMESSAGES","Message(s) pr&eacutec&eacutedent(s)");
-define("_MESSAGE","Message");
-
 define("_FTODAY","aujourd'hui à");
 define("_FYESTERDAY","hier à");
-
 define("_INDEXFORUM","Index du Forum");
-
 define("_PAGES","Pages");
-
-
-
-
 define("_MESSAGESMARK","Tous les messages sont à présent marqués comme lus");
-
-
-
-
-
-
-
-
-
-define("_POSTNEWTOPIC","Poster un nouveau sujet");
-define("_POSTREPLY","Poster une réponse");
-define("_POSTEDIT","Editer le sujet");
-
 define("_SMILEY","Smilies");
-define("_EDITBY","Edité par");
-define("_MESSMODIF","Message modifié avec succès.");
-define("_FIELDEMPTY","Assurez vous d'avoir rempli tout les champs.");
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
-define("_MESSAGESEND","Message envoyé avec succès.");
-define("_NOFLOOD","Vous avez déjà posté un message il y a peu de temps, veuillez patienter quelques instants...");
 define("_TOPICDELETED","Topic supprimé avec succès.");
 define("_CONFIRMDELTOPIC","Etes-vous sûr de vouloir supprimer ce topic ?");
 define("_MOVETOPIC","Déplacer vers le forum");
 define("_TOPICMOVED","Topic déplacé avec succès.");
 define("_TOPICLOCKED","Topic fermé avec succès.");
 define("_TOPICUNLOCKED","Topic ouvert avec succès.");
-
 define("_TOPICMODIFIED","Topic modifié avec succès.");
-define("_PSEUDO","Pseudo");
-define("_FLOGIN","login");
-define("_FLOGOUT","logout");
-define("_USERSIGN","Attacher sa signature");
-define("_EMAILNOTIFY","M'avertir lorsqu'une réponse est postée");
-define("_ANNONCE","Poster une annonce");
-define("_EDITTEXT","Afficher le message d'édition"); 
-define("_OPTIONS","Options");
 define("_CANCEL","Annuler");
-define("_EMAILNOTIFYMAIL","Il y a eu une réponse a ce message :");
 define("_FSEARCHRESULT","Résultats de la recherche");
-
 define("_SEARCHING","Rechercher");
-
 define("_FSEARCHFOUND","réponse(s) trouvée(s) pour");
 define("_FNOSEARCHFOUND","Aucune réponse trouvée pour");
 define("_FNOLASTVISITMESS","Aucun message posté depuis votre dernière visite");
@@ -71,63 +32,30 @@ define("_NBANSWERS","Nombre de réponses");
 define("_3CHARSMIN","Vous devez entrer plus de 2 caractères");
 define("_NOWORDSTOSEARCH","Veuillez entrer une expression a rechercher");
 define("_VISITFORUMS","Visiter les Forums");
-
-
 define("_LISTSMILIES","Liste des smilies");
-
-
-define("_SURVEYFIELD","Nombre d'options");
-define("_MAX","Maximum");
-
-define("_MAXFILESIZE","Taille maximale");
-define("_MO","Mo");
-define("_KO","Ko");
 define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
-
 define("_FILEDELETED","Fichier joint supprimé avec succès.");
-
-
-
 define("_NOTIFYISON","Notification activé avec succès.");
 define("_NOTIFYISOFF","Notification désactivé avec succès.");
 define("_NOTEXTRESUME","Aucun aperçu disponible...");
 define("_MODOS","Modérateurs");
-
 define("_NONEXIST","n'existe pas dans la base de données.");
-
 define("_ADDMODO","Ajouter un modérateur");
-
-
 define("_DELOLDMESSAGES","Supprimer les anciens sujets du Forum depuis le :");
-
-
-
-
-
-
 define("_PERMALINK","Permalien");
-
-
-
-
-
 
 // Main
 define("_SEEMODO","Voir le profil de ");
-
 
 // Viewforum
 define('_BAD_FORUM_ID', 'L\'ID que vous avez utilisé n\'est pas correct.');
 define('_TOPIC', 'Sujet');
 define('_CREATED_BY', 'Cr&eacute;&eacute; par');
 
-
-
 // Admin
 define("_NONAME","Vous n'avez pas entré de nom !");
 define("_INCORRECT_ORDER","L'ordre ne contient pas que des entiers !");
 define("_INCORRECT_RANK_MESSAGE","Le seuil de message du rang ne contient pas que des entiers !");
-
 
 // index
 define("_CONFIRMDELFILE","Etes-vous sûr de vouloir supprimer ce fichier ?");
@@ -158,6 +86,9 @@ return array(
     // modules/Forum/viewforum.php
     // modules/Forum/viewtopic.php
     'NO_ACCESS_FORUM' => 'Désolé vous n\'avez pas accès a ce forum',
+    // modules/Forum/post.php
+    // views/frontend/modules/Forum/post.php
+    'MESSAGE'           => 'Message',
     // modules/Forum/main.php
     'FORUM_CATEGORY_NO_EXIST' => 'Désolé cette catégorie forum n\'existe pas ou a été supprimé',
     'YEARS_OLD'         => 'ans',
@@ -178,6 +109,18 @@ return array(
     'ONLY_MEMBERS_VOTE' => 'Désolé seul les membres peuvent voter !!',
     'NO_OPTION'         => 'Vous n\'avez pas cocher de réponse',
     // modules/Forum/post.php
+    'POST_EDIT'         => 'Editer le sujet',
+    'POST_NEW_TOPIC'    => 'Poster un nouveau sujet',
+    'POST_REPLY'        => 'Poster une réponse',
+    'NO_FLOOD'          => 'Vous avez déjà posté un message il y a peu de temps, veuillez patienter quelques instants...',
+    'FIELD_EMPTY'       => 'Assurez vous d\'avoir rempli tout les champs."',
+    'MESSAGE_SEND'      => 'Message envoyé avec succès.',
+    'EDIT_BY'           => 'Edité par',
+    'MESSAGE_MODIFIED'  => 'Message modifié avec succès.',
+    
+    'EMAIL_REPLY_NOTIFY' => 'Il y a eu une réponse a ce message :',
+    
+    
     'CONFIRM_DELETE_POST' => 'Etes-vous sûr de vouloir supprimer ce message ?',
     'FORUM_POST_DELETED' => 'Message supprimé avec succès.',
     // modules/Forum/viewtopic.php
@@ -298,10 +241,16 @@ return array(
     // views/frontend/modules/Forum/viewForum.php
     'POLL'              => 'Sondage',
     'ATTACH_FILE'       => 'Fichier joint',
+    // views/frontend/modules/Forum/post.php
+    // views/frontend/modules/Forum/viewtopic.php
+    'POSTED_ON'         => 'Posté',
     // views/frontend/modules/Forum/block.php
     // views/frontend/modules/Forum/viewForum.php
     'ANSWERS'           => 'réponses',
     'VIEWS'             => 'vues',
+    // views/frontend/modules/Forum/post.php
+    // views/frontend/modules/Forum/viewForum.php
+    'ANNOUNCEMENT'      => 'Annonce',
     // views/frontend/modules/Forum/editPoll.php
     'POST_SURVEY'       => 'Poster un sondage',
     // views/frontend/modules/Forum/main.php
@@ -321,11 +270,25 @@ return array(
     'VIEW_LAST_VISIT_MESS' => 'Voir les nouveaux messages depuis votre dernière visite',
     'NEW_POST_LAST_VISIT' => 'Nouveaux messages depuis votre dernière visite',
     'NO_POST_LAST_VISIT' => 'Pas de nouveaux messages depuis votre dernière visite',
+    // views/frontend/modules/Forum/post.php
+    'NICKNAME'          => 'Pseudo',
+    // TODO : Use login & logout in main translation file
+    'FLOGOUT'           => 'logout',
+    'FLOGIN'            => 'login',
+    'OPTIONS'           => 'Options',
+    'USER_SIGNATURE'    => 'Attacher sa signature',
+    'EMAIL_NOTIFY'      => 'M\'avertir lorsqu\'une réponse est postée',
+    'DISPLAY_EDIT_TEXT' => 'Afficher le message d\'édition',
+    'NUMBER_OPTIONS'    => 'Nombre d\'options',
+    'MAXIMUM'           => 'Maximum',
+    'MO'                => 'Mo',
+    'KO'                => 'Ko',
+    'MAXIMUM_FILE_SIZE' => 'Taille maximale',
+    'PREVIOUS_MESSAGES' => 'Message(s) pr&eacutec&eacutedent(s)',
     // views/frontend/modules/Forum/viewForum.php
     'NEW'               => 'Nouveau',
     'MARK_SUBJECT_READ' => 'Marquer tous les sujets comme lus',
     'NO_POST_FORUM'     => 'Il n\'y a pas de messages dans ce forum',
-    'ANNOUNCEMENT'      => 'Annonce',
     'CREATED_BY'        => 'Crée par',
     'POST_NEW'          => 'Nouveaux messages',
     'NO_POST_NEW'       => 'Pas de nouveaux messages',
@@ -358,7 +321,6 @@ return array(
     'DELETE_FILE'       => 'Supprimer ce fichier joint',
     'SEE_PROFIL'        => 'Voir le profil',
     'SEND_PM'           => 'Lui envoyer un message privé',
-    'POSTED_ON'         => 'Posté',
     'NOTIFY_ON'         => 'Surveiller le sujet',
     'NOTIFY_OFF'        => 'Arrêter de surveiller le sujet',
     'TOPIC_UNLOCK'      => 'Ouvrir le sujet',

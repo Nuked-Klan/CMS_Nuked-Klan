@@ -178,7 +178,7 @@ $error      = false;
 $field = ($dateMax > 0) ? '' : ', F.nbTopics';
 
 $dbrCurrentForum = getForumData(
-    'F.nom AS forumName, F.comment, F.moderateurs, F.image, F.cat, F.niveau AS forumLevel,
+    'F.nom AS forumName, F.comment, F.image, F.cat, F.niveau AS forumLevel,
     FC.nom As catName, FC.niveau AS catLevel'. $field, 'forumId', $forumId
 );
 
@@ -204,7 +204,9 @@ $breadcrumb = getForumBreadcrump(
 $dbrCurrentForum['forumName']  = printSecuTags($dbrCurrentForum['forumName']);
 $dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
 
-$moderatorsList = formatModeratorsList($dbrCurrentForum['moderateurs']);
+// TODO : FINISH HIM =D
+//$moderatorsList = formatModeratorsList($dbrCurrentForum['moderateurs']);
+$moderatorsList = '';
 
 $forumWriteLevel = $dbrCurrentForum['forumLevel'] == 0
     || $visiteur >= $dbrCurrentForum['forumLevel']

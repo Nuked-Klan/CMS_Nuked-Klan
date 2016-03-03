@@ -63,6 +63,7 @@ function checkForumPostAuthor() {
  */
 function checkForumPostFlood($username) {
     global $nuked, $visiteur, $user_ip;
+// TODO : FINISH HIM =D
 return false;
     $dbrForumMessage = nkDB_selectOne(
         'SELECT date
@@ -87,9 +88,9 @@ function checkForumPostJoinedFile() {
 
     if ($visiteur >= $nuked['forum_file_level']
         && $nuked['forum_file'] == 'on'
-        && $_FILES['fichiernom']['name'] != ''
+        && $_FILES['uploadFile']['name'] != ''
     ) {
-        list($filename, $uploadError) = nkUpload_check('fichiernom', array(
+        list($filename, $uploadError) = nkUpload_check('uploadFile', array(
             'fileType'   => 'no-html-php',
             'uploadDir'  => 'upload/Forum',
             'fileSize'   => $nuked['forum_file_maxsize'],
@@ -200,7 +201,7 @@ function displayForumPostForm() {
     include 'modules/Forum/template.php';
 
     $do         = (isset($_REQUEST['do'])) ? $_REQUEST['do'] : 'post';
-    $forumId   = (isset($_REQUEST['forum_id'])) ? (int) $_REQUEST['forum_id'] : 0;
+    $forumId    = (isset($_REQUEST['forum_id'])) ? (int) $_REQUEST['forum_id'] : 0;
     $threadId   = (isset($_REQUEST['thread_id'])) ? (int) $_REQUEST['thread_id'] : 0;
     $messId     = (isset($_REQUEST['mess_id'])) ? (int) $_REQUEST['mess_id'] : 0;
 
@@ -211,7 +212,7 @@ function displayForumPostForm() {
 
     // Get current Forum data
     $dbrCurrentForum = getForumData(
-        'F.nom AS forumName, F.moderateurs, F.cat, F.niveau AS forumLevel, F.level_poll,
+        'F.nom AS forumName, F.cat, F.niveau AS forumLevel, F.level_poll,
         FC.nom AS catName, FC.niveau AS catLevel', 'forumId',  $forumId
     );
 
@@ -227,22 +228,23 @@ function displayForumPostForm() {
     }
 
     // Check moderator
-    $moderator      = isModerator($dbrCurrentForum['moderateurs']);
+    // TODO : FINISH HIM =D
+    $moderator      = false;// isModerator($dbrCurrentForum['moderateurs']);
     $administrator  = $visiteur >= admin_mod('Forum') || $moderator;
 
     if ($do == 'edit') {
         $action     = 'index.php?file=Forum&amp;page=post&amp;op=update';
-        $actionName = _POSTEDIT;
+        $actionName = __('POST_EDIT');
         $tokenName  = 'editForumPost'. $forumId . $threadId . $messId;
     }
     elseif ($do == 'post') {
         $action     = 'index.php?file=Forum&amp;page=post&amp;op=save';
-        $actionName = _POSTNEWTOPIC;
+        $actionName = __('POST_NEW_TOPIC');
         $tokenName  = 'addForumPost'. $forumId;
     }
     else {
         $action     = 'index.php?file=Forum&amp;page=post&amp;op=reply';
-        $actionName = _POSTREPLY;
+        $actionName = __('POST_REPLY');
         $tokenName  = 'replyForumPost'. $forumId . $threadId;
     }
 
@@ -300,7 +302,8 @@ function displayForumPostForm() {
         if ($do == 'quote') {
             $postTitle = $dbrForumMessage['titre'];
 
-            $postText = '<blockquote class="nkForumBlockQuote"><cite>'. _QUOTE .' '. _BY .' '. $dbrForumMessage['auteur'] .' :</cite><br />'
+            $postText = '<blockquote class="nkForumBlockQuote"><cite>'. __('QUOTE') .' '. __('BY')
+                . ' '. $dbrForumMessage['auteur'] .' :</cite><br />'
                 . $dbrForumMessage['txt'] .'</blockquote>';
         }
         else
@@ -359,7 +362,7 @@ function saveForumPost() {
 
     // Ckeck Forum post token
     if (! nkToken_valid('addForumPost'. $forumId, 300, array($referer))) {
-        printNotification(_TOKEN_INVALID, 'error');
+        printNotification(__('TOKEN_NO_VALID'), 'error');
         redirect($referer, 2);
         return;
     }
@@ -400,12 +403,12 @@ function saveForumPost() {
                 list($filename, $error) = checkForumPostJoinedFile();
             }
             else {
-                $error = _NOFLOOD;
+                $error = __('NO_FLOOD');
             }
         }
     }
     else {
-        $error = _FIELDEMPTY;
+        $error = __('FIELD_EMPTY');
     }
 
     if ($error !== false) {
@@ -484,7 +487,7 @@ function saveForumPost() {
     else
         $url = 'index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId;
 
-    printNotification(_MESSAGESEND, 'success');
+    printNotification(__('MESSAGE_SEND'), 'success');
     redirect($url, 2);
 }
 
@@ -509,7 +512,7 @@ function updateForumPost() {
     );
 
     if (! $tokenValid) {
-        printNotification(_TOKEN_INVALID, 'error');
+        printNotification(__('TOKEN_NO_VALID'), 'error');
         redirect($referer, 2);
         return;
     }
@@ -534,7 +537,7 @@ function updateForumPost() {
     if ($_POST['titre'] == '' || @ctype_space($_POST['titre'])
         || $_POST['texte'] == '' || @ctype_space($_POST['texte'])
     ) {
-        printNotification(_FIELDEMPTY, 'error');
+        printNotification(__('FIELD_EMPTY'), 'error');
         redirect($referer, 2);
         return;
     }
@@ -543,7 +546,7 @@ function updateForumPost() {
     $postData = prepareForumPostData();
 
     if ($_POST['edit_text'] == 1)
-        $postData['edition'] = _EDITBY .'&nbsp;'. $user['name'] .'&nbsp;'. _THE .'&nbsp;'. nkDate(time());
+        $postData['edition'] = __('EDIT_BY') .'&nbsp;'. $user['name'] .'&nbsp;'. __('THE') .'&nbsp;'. nkDate(time());
 
     // Get first Forum message ID of topic and check if Forum topic exist
     $dbrFirstForumMsg = nkDB_selectOne(
@@ -568,7 +571,7 @@ function updateForumPost() {
 
     list($url) = getForumMessageUrl($forumId, $threadId, $messId);
 
-    printNotification(_MESSMODIF, 'success');
+    printNotification(__('MESSAGE_MODIFIED'), 'success');
     redirect($url, 2);
 }
 
@@ -595,7 +598,7 @@ function replyForumPost() {
     );
 
     if (! $tokenValid) {
-        printNotification(_TOKEN_INVALID, 'error');
+        printNotification(__('TOKEN_NO_VALID'), 'error');
         // TODO : Only for reply, no quote :/
         redirect($referer, 2);
         return;
@@ -640,12 +643,12 @@ function replyForumPost() {
                 list($filename, $error) = checkForumPostJoinedFile();
             }
             else {
-                $error = _NOFLOOD;
+                $error = __('NO_FLOOD');
             }
         }
     }
     else {
-        $error = _FIELDEMPTY;
+        $error = __('FIELD_EMPTY');
     }
 
     if ($error !== false) {
@@ -703,8 +706,8 @@ function replyForumPost() {
     );
 
     if (nkDB_numRows() > 0) {
-        $subject    = _MESSAGE .' : '. $postData['titre'];
-        $corps      = _EMAILNOTIFYMAIL ."\r\n"
+        $subject    = __('MESSAGE') .' : '. $postData['titre'];
+        $corps      = __('EMAIL_REPLY_NOTIFY') ."\r\n"
                     . $nuked['url'] .'/index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId ."\r\n\r\n\r\n"
                     . $nuked['name'] .' - '. $nuked['slogan'];
         $from       = 'From: '. $nuked['name'] .' <'. $nuked['mail'] .'>' ."\r\n"
@@ -724,7 +727,7 @@ function replyForumPost() {
 
     list($url) = getForumMessageUrl($forumId, $threadId, $messId, $dbrForum['nbReplies'] + 2);
 
-    printNotification(_MESSAGESEND, 'success');
+    printNotification(__('MESSAGE_SEND'), 'success');
     redirect($url, 2);
 }
 

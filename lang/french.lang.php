@@ -391,6 +391,7 @@ return array(
     'STATS'             => 'Statistiques',
     'THE'               => 'le',
     'RESULT'            => 'Résultats',
+    'QUOTE'             => 'Citation',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
