@@ -75,7 +75,7 @@ function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail) {
     var OAjax;
     if (window.XMLHttpRequest) OAjax = new XMLHttpRequest();
     else if (window.ActiveXObject) OAjax = new ActiveXObject('Microsoft.XMLHTTP');
-    OAjax.open('POST',"index.php?file=Textbox&page=submit",true);
+    OAjax.open('POST',"index.php?file=Textbox&op=submit",true);
     document.getElementById("affichetextbox").innerHTML = "<div style=\"text-align:center;\"><b><?php echo _PLEASEWAITTXTBOX ?></b></div>";
     OAjax.onreadystatechange = function() {
         if (OAjax.readyState == 4 && OAjax.status==200) {

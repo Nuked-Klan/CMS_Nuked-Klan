@@ -20,8 +20,6 @@ function index() {
     global $nuked, $user, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $level_access, $level_admin, $visiteur;
 
     if ($visiteur >= $level_access && $level_access > -1) {
-        opentable();
-
         $nb_mess = $nuked['max_shout'];
 
         $sql = mysql_query("SELECT id FROM " . TEXTBOX_TABLE);
@@ -32,13 +30,17 @@ function index() {
 
         echo "<div class=\"nkAlignCenter\"><h1>" . _SHOUTBOX . "</h1></div>\n";
 
-        if ($count > $nb_mess) {
+        if ($count > $nb_mess)
             number($count, $nb_mess, "index.php?file=Textbox");
-        } 
 
         echo "<div id=\"nkTextboxWrapper\">\n";
 
-        $sql2 = mysql_query("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess."");
+        $sql2 = mysql_query(
+            "SELECT id, auteur, ip, texte, date
+            FROM " . TEXTBOX_TABLE . "
+            ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess
+        );
+
         while (list($mid, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql2)) {
             $texte = printSecuTags($texte);
             $texte = nk_CSS($texte);
@@ -70,15 +72,15 @@ function index() {
 
             $pays = ($country) ? '<img src="images/flags/' . $country . '" alt="' . $country . '" style="margin-right:2px;"/>' : '';
             $url_auteur = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '"'. $style .'>' . $auteur . '</a>';
-        
+
             if ($j == 0) {
                 $bg = $bgcolor2;
                 $j++;
-            } 
+            }
             else {
                 $bg = $bgcolor1;
                 $j = 0;
-            } 
+            }
 
             if ($visiteur >= $level_admin && $level_admin > -1) {
                 echo "<script type=\"text/javascript\">\n"
@@ -95,47 +97,39 @@ function index() {
 
                 $admin = "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><span class=\"nkButton icon alone pin small\" title=\"" . $ip . "\"></span><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $mid . "\" class=\"nkButton icon alone edit small\" title=\"" . _EDITTHISMESS . "\"></a>"
                 . "&nbsp;<a href=\"javascript:del_shout('" . addslashes($auteur) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></a></div></div>";
-            } 
+            }
             else {
                 $admin = "";
-            } 
+            }
+
             echo "<div class=\"nkShootboxTinyRow\" style=\"background: " . $bg . ";padding:5px;\">\n"
             . "<div class=\"nkInlineBlock nkFloatRight\" style=\"padding:5px 0\">". $admin ."</div>\n"
             . "<div>" . $pays . "&lsaquo;<strong>" . $url_auteur . "</strong>&rsaquo;" . $texte . "\n"
             . "<br /><span class=\"nkShootDate\">" . $date . "<span></div></div>\n"
             . "<div class=\"nkClear\"></div>\n";
-        } 
+        }
 
         if ($count == 0) echo "<div class=\"nkAlignCenter\">" . _NOMESS . "</div>\n";
 
-        echo"</div>";
+        echo "</div>";
 
-        if ($count > $nb_mess) {
+        if ($count > $nb_mess)
             number($count, $nb_mess, "index.php?file=Textbox");
-        } 
 
         echo "<br /><div class=\"nkAlignCenter\"><small><i>( " . _THEREIS . "&nbsp;" . $count . "&nbsp;" . _SHOUTINDB . " )</i></small></div><br />\n";
-
-        closetable();
-    } 
+    }
     else if ($level_access == -1) {
-        opentable();
         // On affiche le message qui previent l'utilisateur que le module est désactivé
         echo applyTemplate('nkAlert/moduleOff');
-        closetable();
-    } 
+    }
     else if ($level_access == 1 && $visiteur == 0) {
-        opentable();
         // On affiche le message qui previent l'utilisateur qu'il n'as pas accés à ce module
         echo applyTemplate('nkAlert/userEntrance');
-        closetable();
-    } 
+    }
     else {
-        opentable();
         // On affiche le message qui previent l'utilisateur que le module est désactivé
         echo applyTemplate('nkAlert/noEntrance');
-        closetable();
-    } 
+    }
 }
 
 function smilies() {
@@ -173,7 +167,7 @@ function smilies() {
     } 
 
     echo "</table><div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div>";
-} 
+}
 
 function cesure_href($matches) {
     return '<a href="' . $matches[1] . '" title="' . $matches[1] . '" >['. _TLINK .']</a>';
@@ -327,21 +321,105 @@ function ajax() {
     }
 }
 
+function submit() {
+    global $visiteur, $user;
+
+    $redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
+    $level_access = nivo_mod('Textbox');
+
+    if ($visiteur >= $level_access && $level_access > -1) {
+        // Captcha check
+        if (initCaptcha() && ! validCaptchaCode())
+            return;
+
+        $_REQUEST = array_map('stripslashes', $_REQUEST);
+
+        if ($user) {
+            $pseudo = $user[2];
+        }
+        else {
+            $_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
+            $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
+            $_REQUEST['auteur'] = checkNickname($_REQUEST['auteur']);
+
+            if (($error = getCheckNicknameError($_REQUEST['auteur'])) !== false) {
+                printNotification(nkHtmlEntities($error), 'error');
+
+                if (! isset($_REQUEST['ajax']))
+                    redirect($redirection, 2);
+
+                return;
+            }
+
+            $pseudo = $_REQUEST['auteur'];
+        }
+
+        if ($visiteur == 0) {
+            $dbrLastTextboxMsg = nkDB_selectOne(
+                'SELECT ip, date
+                FROM '. TEXTBOX_TABLE,
+                array('id'), 'DESC', 1
+            );
+        }
+
+        $date = time();
+
+        $_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
+
+        if ($visiteur == 0
+            && $user_ip == $dbrLastTextboxMsg['ip']
+            && $date < ($dbrLastTextboxMsg['date'] + 5)
+        ) {
+            printNotification(nkHtmlEntities(_NOFLOOD), 'error');
+
+            if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
+        }
+        else if ($_REQUEST['texte'] != '') {
+            nkDB_insert(TEXTBOX_TABLE, array(
+                'auteur' => $pseudo,
+                'ip'     => $user_ip,
+                'texte'  => $_REQUEST['texte'],
+                'date'   => $date
+            ));
+
+            printNotification(nkHtmlEntities(_SHOUTSUCCES), 'success');
+
+            if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
+        }
+        else {
+            printNotification(nkHtmlEntities(_NOTEXT), 'error');
+
+            if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
+        }
+    }
+    else {
+        printNotification(nkHtmlEntities(__('NO_ENTRANCE')), 'error');
+
+        if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
+    }
+}
+
+
+
 switch ($GLOBALS['op']) {
-    case"smilies":
+    case 'smilies' :
         smilies();
         break;
 
-    case"index":
-        index();
+    case 'submit' :
+        if (! isset($_REQUEST['ajax'])) opentable();
+        submit();
+        if (! isset($_REQUEST['ajax'])) closetable();
         break;
 
-    case"ajax":
+    case 'ajax' :
         ajax();
         break;
 
     default:
+        opentable();
         index();
+        closetable();
         break;
 }
 
