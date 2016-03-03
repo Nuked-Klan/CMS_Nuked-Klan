@@ -95,27 +95,6 @@ function affich_block_login($blok){
          $c++;
     }
 
-	if ($members != 'off'){
-		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
-
-    	$blok['content'] .= '&nbsp;<img width="16" height="13" src="images/memberslist.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MEMBERS . '</b></span><br />'."\n";
-
-    	$sql_users = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau < 3');
-    	$nb_users = mysql_num_rows($sql_users);
-
-    	$sql_admin = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau > 2');
-    	$nb_admin = mysql_num_rows($sql_admin);
-
-    	$sql_lastmember = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' ORDER BY date DESC LIMIT 0, 1');
-    	list($lastmember) = mysql_fetch_array($sql_lastmember);
-
-    	$blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _ADMINS . ' : <b>' . $nb_admin . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBERS . ' :'
-    	. '&nbsp;<b>' . $nb_users . '</b> [<a href="index.php?file=Members">' . _LIST . '</a>]<br />'."\n"
-		. '&nbsp;<b><big>·</big></b>&nbsp;' . _LASTMEMBER . ' : <a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($lastmember) . '"><b>' . $lastmember . '</b></a>'."\n";
-
-		 $c++;
-	}
-
 	if ($online != 'off'){
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
 
