@@ -61,7 +61,7 @@ function index() {
                 WHERE U.pseudo = '. nkDB_escape($auteur)
             );
 
-            list($rank_color, $country) = mysql_fetch_array($sql_aut);
+            list($country, $rank_color) = mysql_fetch_array($sql_aut);
 
             if ($rank_color != '')
                 $style = ' style="color:#'. $rank_color .'"';
@@ -86,7 +86,7 @@ function index() {
                 . "\n"
                 . "function del_shout(pseudo, id)\n"
                 . "{\n"
-                . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+                . "if (confirm('" . '_DELETETEXT' . " '+pseudo+' ! " . _CONFIRM . "'))\n"
                 . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
                 . "}\n"
                 . "\n"
@@ -94,7 +94,7 @@ function index() {
                 . "</script>\n";
 
                 $admin = "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><span class=\"nkButton icon alone pin small\" title=\"" . $ip . "\"></span><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $mid . "\" class=\"nkButton icon alone edit small\" title=\"" . _EDITTHISMESS . "\"></a>"
-                . "&nbsp;<a href=\"javascript:del_shout('" . addslashes($auteur) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . _DELTHISMESS . "\"></a></div></div>";
+                . "&nbsp;<a href=\"javascript:del_shout('" . addslashes($auteur) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></a></div></div>";
             } 
             else {
                 $admin = "";
@@ -193,7 +193,7 @@ function ajax() {
         . "\n"
         . "function del_shout(pseudo, id)\n"
         . "{\n"
-        . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+        . "if (confirm('" . '_DELETETEXT' . " '+pseudo+' ! " . _CONFIRM . "'))\n"
         . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
         . "}\n"
         . "\n"
@@ -253,15 +253,15 @@ function ajax() {
 
         $block_text = icon($block_text);
 
-        $sql_aut = mysql_query(
-            'SELECT U.id, U.country, U.avatar, U.niveau TM.color
+        $sql_aut = nkDB_execute(
+            'SELECT U.id, U.country, U.avatar, U.niveau, TM.color
             FROM '. USER_TABLE .' AS U
             LEFT JOIN '. TEAM_RANK_TABLE .' AS TM
             ON TM.id = U.rang
             WHERE U.pseudo = '. nkDB_escape($auteur)
         );
 
-        list($user_id, $rank_color, $country, $avatar, $niveau) = mysql_fetch_array($sql_aut);
+        list($user_id, $country, $avatar, $niveau, $rank_color) = mysql_fetch_array($sql_aut);
         $test_aut = mysql_num_rows($sql_aut);
 
         if ($rank_color != '')
@@ -296,7 +296,7 @@ function ajax() {
             if ($visiteur >= $level_admin) {
                 echo "<div class=\"nkFloatRight\">\n"
                 . "<a href=\"javascript:del_shout('" . $messageAuthor . "', '" . $id . "');\">\n"
-                . "<div class=\"nkIconOnline nkIconOnlineRed\" title=\"" . _DELTHISMESS . "\"></div>\n"
+                . "<div class=\"nkIconOnline nkIconOnlineRed\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></div>\n"
                 . "</a>". $online ."\n"
                 . "</div><br /><span class=\"nkShootDate\">" . $date_jour . "<span></div>\n";
             }
@@ -313,7 +313,7 @@ function ajax() {
             if ($visiteur >= $level_admin) {
                 echo "<div class=\"nkInlineBlock nkFloatRight\" style=\"margin-right:6px;\">\n"
                 . "<a href=\"javascript:del_shout('" . $messageAuthor . "', '" . $id . "');\">\n"
-                . "<div class=\"nkIconOnline nkIconOnlineRed\" title=\"" . _DELTHISMESS . "\"></div>\n"
+                . "<div class=\"nkIconOnline nkIconOnlineRed\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></div>\n"
                 . "</a>". $online ."\n"
                 . "</div></div></div>\n";
             }

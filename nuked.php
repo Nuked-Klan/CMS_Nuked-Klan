@@ -604,7 +604,7 @@ function icon($text) {
 
     foreach (getSmiliesList() as $smilie) {
         $pattern = '#(?si)<pre[^<]*>.*?<\/pre>(*SKIP)(*F)|' . preg_quote($smilie['code'], '#') . '#';
-        $replacement = '<img class="nkSmilie" src="images/icones/' . $url . '" alt="' . nkHtmlEntities($smilie['name']) . '" />';
+        $replacement = '<img class="nkSmilie" src="images/icones/' . $smilie['url'] . '" alt="' . nkHtmlEntities($smilie['name']) . '" />';
         $text = preg_replace($pattern, $replacement, $text);
     }
 
