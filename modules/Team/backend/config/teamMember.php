@@ -45,22 +45,22 @@ function getTeamMemberFormCfg() {
             'userId' => array(
                 'label'             => __('NICK'),
                 'type'              => 'select',
-                'options'           => array()
+                'optionsName'       => array('User', 'administrator')
             ),
             'team' => array(
                 'label'             => __('TEAM'),
                 'type'              => 'select',
-                'options'           => array()
+                'optionsName'       => array('Team', 'team')
             ),
             'status' => array(
                 'label'             => __('STATUS'),
                 'type'              => 'select',
-                'options'           => array()
+                'optionsName'       => array('Team', 'teamStatus')
             ),
             'rank' => array(
                 'label'             => __('RANK'),
                 'type'              => 'select',
-                'options'           => array()
+                'optionsName'       => array('Team', 'teamRank')
             )
         ),
         'itemsFooter' => array(

@@ -44,27 +44,6 @@ function formatMapRow($row, $nbData, $r, $functionData) {
 /* Game map edit form function */
 
 /**
- * Get game list options.
- *
- * @param void
- * @return array : The game list for input select option.
- */
-function getGameOptions() {
-    $options = array();
-
-    $dbrGame = nkDB_selectMany(
-        'SELECT id, name
-        FROM '. GAMES_TABLE,
-        array('name')
-    );
-
-    foreach ($dbrGame as $game)
-        $options[$game['id']] = printSecuTags($game['name']);
-
-    return $options;
-}
-
-/**
  * Callback function for nkAction_edit.
  * Prepare form configuration to add Game map.
  *
@@ -72,7 +51,6 @@ function getGameOptions() {
  * @return array : The Game map form configuration prepared.
  */
 function prepareFormForAddMap(&$form) {
-    $form['items']['game']['options'] = getGameOptions();
     unset($form['items']['image']['html']);
 }
 
@@ -85,8 +63,6 @@ function prepareFormForAddMap(&$form) {
  * @return array : The Game map form configuration prepared.
  */
 function prepareFormForEditMap(&$form, $map, $id) {
-    $form['items']['game']['options'] = getGameOptions();
-
     if ($map['image'] != '') {
         $form['items']['image']['html'] = '<div><img src="'. $map['image']
             . '" title="'. printSecuTags($map['name']) .'" id="gameMapImg" /></div>';

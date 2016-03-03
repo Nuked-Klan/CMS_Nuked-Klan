@@ -55,7 +55,7 @@ function getForumFormCfg() {
             'cat' => array(
                 'label'             => __('CATEGORY'),
                 'type'              => 'select',
-                'options'           => array()
+                'optionsName'       => array('Forum', 'forumCategory')
             ),
             'comment' => array(
                 'label'             => __('DESCRIPTION'),

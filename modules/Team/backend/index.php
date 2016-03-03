@@ -47,27 +47,6 @@ function formatTeamRow($row, $nbData, $r, $functionData) {
 /* Team edit form function */
 
 /**
- * Get game list options.
- *
- * @param void
- * @return array : The game list for input select option.
- */
-function getGameOptions() {
-    $options = array();
-
-    $dbrGame = nkDB_selectMany(
-        'SELECT id, name
-        FROM '. GAMES_TABLE,
-        array('name')
-    );
-
-    foreach ($dbrGame as $game)
-        $options[$game['id']] = printSecuTags($game['name']);
-
-    return $options;
-}
-
-/**
  * Callback function for nkAction_edit.
  * Prepare form configuration to add Team.
  *
@@ -75,7 +54,6 @@ function getGameOptions() {
  * @return array : The Team form configuration prepared.
  */
 function prepareFormForAddTeam(&$form) {
-    $form['items']['game']['options'] = getGameOptions();
     unset($form['items']['coverageImg']);
 }
 
@@ -88,8 +66,6 @@ function prepareFormForAddTeam(&$form) {
  * @return array : The Team form configuration prepared.
  */
 function prepareFormForEditTeam(&$form, $team, $id) {
-    $form['items']['game']['options']  = getGameOptions();
-
     if ($team['coverage'] != '') {
         $form['items']['coverage']['html'] = '<div><img src="'. $team['coverage']
             . '" title="'. printSecuTags($team['titre']) .'" id="teamCoverageImg" /></div>';

@@ -45,99 +45,6 @@ function formatTeamMemberRow($row, $nbData, $r, $functionData) {
 /* Team member edit form function */
 
 /**
- * Get administrator list options.
- *
- * @param void
- * @return array : The administrator list for input select option.
- */
-function getAdministratorOptions() {
-    static $options = array();
-
-    if (! $options) {
-        $dbrUser = nkDB_selectMany(
-            'SELECT id, pseudo
-            FROM '. USER_TABLE .'
-            WHERE niveau >= 2',
-            array('pseudo')
-        );
-
-        if ($dbrUser) {
-            foreach ($dbrUser as $administrator)
-                $options[$administrator['id']] = printSecuTags($administrator['pseudo']);
-        }
-    }
-
-    return $options;
-}
-
-/**
- * Get Team list options.
- *
- * @param void
- * @return array : The Team list for input select option.
- */
-function getTeamOptions() {
-    static $options = array();
-
-    if (! $options) {
-        $dbrTeam = nkDB_selectMany(
-            'SELECT cid, titre
-            FROM '. TEAM_TABLE,
-            array('game', 'ordre')
-        );
-
-        if ($dbrTeam) {
-            foreach ($dbrTeam as $team)
-                $options[$team['cid']] = printSecuTags($team['titre']);
-        }
-    }
-
-    return $options;
-}
-
-/**
- * Get Team status list options.
- *
- * @param void
- * @return array : The Team status list for input select option.
- */
-function getTeamStatusOptions() {
-    $options = array('' => __('NONE'));
-
-    $dbrTeamStatus = nkDB_selectMany(
-        'SELECT id, name
-        FROM '. TEAM_STATUS_TABLE,
-        array('name')
-    );
-
-    foreach ($dbrTeamStatus as $teamStatus)
-        $options[$teamStatus['id']] = printSecuTags($teamStatus['name']);
-
-    return $options;
-}
-
-/**
- * Get Team rank list options.
- *
- * @param void
- * @return array : The Team rank list for input select option.
- */
-function getTeamRankOptions() {
-    $options = array('' => __('NONE'));
-
-    $dbrTeamRank = nkDB_selectMany(
-        'SELECT id, titre
-        FROM '. TEAM_RANK_TABLE,
-        array('ordre', 'titre')
-    );
-
-    foreach ($dbrTeamRank as $teamRank)
-        $options[$teamRank['id']] = printSecuTags($teamRank['titre']);
-
-    return $options;
-}
-
-/**
  * Callback function for nkAction_init.
  * Check if user can add Team.
  *
@@ -148,47 +55,28 @@ function checkTeamAccess() {
     global $nkAction;
 
     if ($nkAction['actionType'] == 'edit') {
-        if (! getAdministratorOptions()) {
+        require_once 'Includes/nkForm.php';
+
+        $dministratorList = nkForm_loadSelectOptions(array(
+            'optionsName' => array('User', 'administrator')
+        ));
+
+        if (! $dministratorList) {
             printNotification(__('NO_ADMIN'), 'error');
             return false;
         }
 
-        if (! getTeamOptions()) {
+        $teamList = nkForm_loadSelectOptions(array(
+            'optionsName' => array('Team', 'team')
+        ));
+
+        if (! $teamList) {
             printNotification(__('NO_TEAM'), 'error');
             return false;
         }
     }
 
     return true;
-}
-
-/**
- * Callback function for nkAction_edit.
- * Prepare form configuration to add Team member.
- *
- * @param array $form : The Team member form configuration.
- * @return array : The Team member form configuration prepared.
- */
-function prepareFormForAddTeamMember(&$form) {
-    $form['items']['userId']['options'] = getAdministratorOptions();
-    $form['items']['team']['options']   = getTeamOptions();
-    $form['items']['status']['options'] = getTeamStatusOptions();
-    $form['items']['rank']['options']   = getTeamRankOptions();
-}
-
-/**
- * Callback function for nkAction_edit.
- * Prepare form configuration to edit Team member.
- *
- * @param array $form : The Team member form configuration.
- * @param array $teamMember : The Team member data.
- * @return array : The Team member form configuration prepared.
- */
-function prepareFormForEditTeamMember(&$form, $teamMember, $id) {
-    $form['items']['userId']['options'] = getAdministratorOptions();
-    $form['items']['team']['options']   = getTeamOptions();
-    $form['items']['status']['options'] = getTeamStatusOptions();
-    $form['items']['rank']['options']   = getTeamRankOptions();
 }
 
 /* Team member save form function */

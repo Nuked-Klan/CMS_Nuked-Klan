@@ -51,27 +51,6 @@ function formatServerRow($row, $nbData, $r, $functionData) {
 /* Server edit form function */
 
 /**
- * Get Server category list options.
- *
- * @param void
- * @return array : The server category list for input select option.
- */
-function getServerCategoryOptions() {
-    $options = array('' => __('NONE'));
-
-    $dbrServerCategory = nkDB_selectMany(
-        'SELECT cid, titre
-        FROM '. SERVER_CAT_TABLE,
-        array('titre')
-    );
-
-    foreach ($dbrServerCategory as $serverCategory)
-        $options[$serverCategory['cid']] = printSecuTags($serverCategory['titre']);
-
-    return $options;
-}
-
-/**
  * Get Server game list options.
  *
  * @param void
@@ -91,9 +70,8 @@ function getServerGameOptions() {
  *
  * @param array $form : The Server form configuration.
  * @return array : The Server form configuration prepared.
- */
+ * /
 function prepareFormForAddServer(&$form) {
-    $form['items']['cat']['options']  = getServerCategoryOptions();
     //$form['items']['game']['options'] = getServerGameOptions();
 }
 
@@ -104,11 +82,10 @@ function prepareFormForAddServer(&$form) {
  * @param array $form : The Server form configuration.
  * @param array $map : The Server data.
  * @return array : The Server form configuration prepared.
- */
+ * /
 function prepareFormForEditServer(&$form, $server, $id) {
-    $form['items']['cat']['options']  = getServerCategoryOptions();
     //$form['items']['game']['options'] = getServerGameOptions();
-}
+}*/
 
 
 // Action handle

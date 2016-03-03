@@ -86,7 +86,7 @@ function getServerFormCfg() {
             'cat' => array(
                 'label'             => __('CATEGORY'),
                 'type'              => 'select',
-                'options'           => array()
+                'optionsName'       => array('Server', 'serverCategory')
             )
         ),
         'itemsFooter' => array(

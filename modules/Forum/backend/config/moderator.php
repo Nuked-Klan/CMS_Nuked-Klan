@@ -38,14 +38,15 @@ function getModeratorFormCfg() {
             'userId' => array(
                 'label'             => __('NICKNAME'),
                 'type'              => 'select',
-                'options'           => array(),
+                'optionsName'       => array('User', 'member'),
                 'dataType'          => 'text',
                 'required'          => true
             ),
             'forum' => array(
                 'label'             => __('FORUM'),
                 'type'              => 'select',
-                'options'           => array(),
+                'optionsName'       => array('Forum', 'forum'),
+                'categoryOptgroup'  => true,
                 'dataType'          => 'text',
                 'required'          => true
             )

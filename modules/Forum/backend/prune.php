@@ -15,44 +15,11 @@ if (! adminInit('Forum'))
     return;
 
 
-/**
- * Get Forum list by category (include in list) for prune selection.
- *
- * @param void
- * @return array : A associative array with :
- *         - keys : The Forum category / Forum ID. (Forum category have `cat_` preffix)
- *         - values : The full name of Forum category / Forum.
- */
-function getPruneList() {
-    $options = array('' => __('ALL'));
-
-    $dbrForumCat = nkDB_selectMany(
-        'SELECT id, nom
-        FROM '. FORUM_CAT_TABLE,
-        array('ordre', 'nom')
-    );
-
-    foreach ($dbrForumCat as $forumCat) {
-        $options['cat_'. $forumCat['id']] = '* '. printSecuTags($forumCat['nom']);
-
-        $dbrForum = nkDB_selectMany(
-            'SELECT id, nom
-            FROM '. FORUM_TABLE .'
-            WHERE cat = '. nkDB_escape($forumCat['id']),
-            array('ordre', 'nom')
-        );
-
-        foreach ($dbrForum as $forum)
-            $options[$forum['id']] = '&nbsp;&nbsp;&nbsp;'. printSecuTags($forum['nom']);
-    }
-
-    return $options;
-}
-
 // Display Forum prune selection.
 function prune() {
     require_once 'Includes/nkForm.php';
     require_once 'modules/Forum/backend/config/prune.php';
+    require 'modules/Forum/config/selectForumOptions.php';
 
     nkTemplate_addJS(
 '$("#pruneForumForm").submit(function() {
@@ -65,7 +32,7 @@ function prune() {
 
     $pruneForumForm = getPruneForumFormCfg();
 
-    $pruneForumForm['items']['prune_id']['options'] = getPruneList();
+    $pruneForumForm['items']['prune_id']['options'] = getForumOptions();
 
     echo applyTemplate('contentBox', array(
         'title'     => __('ADMIN_FORUM') .' - '. __('PRUNE'),

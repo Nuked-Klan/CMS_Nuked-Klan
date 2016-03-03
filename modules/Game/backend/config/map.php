@@ -47,7 +47,7 @@ function getMapFormCfg() {
             'game' => array(
                 'label'             => __('GAME'),
                 'type'              => 'select',
-                'options'           => array()
+                'optionsName'       => array('Game', 'game')
             ),
             'image' => array(
                 'label'             => __('IMAGE'),

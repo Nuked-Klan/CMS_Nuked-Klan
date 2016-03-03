@@ -742,6 +742,67 @@ function nkFormInput_radio($fieldName, $params) {
 }
 
 /**
+ *  Load select options configuration and return options array for input select function.
+ *
+ * @param array $params : The input data.
+ * @return array
+ */
+function nkForm_loadSelectOptions($params) {
+    static $cache = array();
+
+    if (is_array($params['optionsName'])) {
+        if (count($params['optionsName']) >= 2) {
+            if (isset($params['optionsName'][2])
+                && ! $params['optionsName'][2]
+                && isset($cache[$params['optionsName'][1]])
+            )
+                return $cache[$params['optionsName'][1]];
+
+            $optionsFile = 'modules/'. $params['optionsName'][0] .'/config/select'. ucfirst($params['optionsName'][1]) .'Options.php';
+        }
+        else {
+            trigger_error('You must defined a module and options name for this optionsName array configuration !', E_USER_WARNING);
+            return $options;
+        }
+    }
+
+    $options = array();
+
+    if (is_file($optionsFile)) {
+        $cfg = include $optionsFile;
+
+        if (array_key_exists('functionName', $cfg) && function_exists($cfg['functionName']))
+            return $cfg['functionName']($params);
+
+        if (array_key_exists('defaultValue', $cfg) && is_array($cfg['defaultValue']))
+            $options = $cfg['defaultValue'];
+
+        if (isset($cfg['sql']) && isset($cfg['sql']['query'])) {
+            if (! array_key_exists('order', $cfg['sql']))
+                $cfg['sql']['order'] = false;
+
+            if (! array_key_exists('dir', $cfg['sql']))
+                $cfg['sql']['dir'] = 'ASC';
+
+            $dbrData = nkDB_selectMany(
+                $cfg['sql']['query'],
+                $cfg['sql']['order'],
+                $cfg['sql']['dir']
+            );
+
+            if ($dbrData) {
+                foreach ($dbrData as $data)
+                    $options[$data[$cfg['key']]] = printSecuTags($data[$cfg['value']]);
+
+                $cache[$params['optionsName'][1]] = $options;
+            }
+        }
+    }
+
+    return $options;
+}
+
+/**
  *  Generate a field selection.
  *
  * @param string $fieldName : The key of input data in form configuration.
@@ -753,6 +814,9 @@ function nkFormInput_select($fieldName, $params) {
 
     if (array_key_exists('multiple', $params) && $params['multiple'])
         $params['multiple'] = 'multiple';
+
+    if (array_key_exists('optionsName', $params))
+        $params['options'] = nkForm_loadSelectOptions($params);
 
     // Generate select tag start
     $html = '<select'. nkForm_formatAttribute($params, $attributes) .'>';

@@ -46,38 +46,6 @@ function formatForumRow($row, $nbData, $r, $functionData) {
 /* Forum edit form function */
 
 /**
- * Get Forum category list options.
- *
- * @param void
- * @return array : The Forum category list for input select option.
- */
-function getForumCategoryOptions() {
-    $dbrForumCat = nkDB_selectMany(
-        'SELECT id, nom
-        FROM '. FORUM_CAT_TABLE,
-        array('ordre', 'nom')
-    );
-
-    $options = array();
-
-    foreach ($dbrForumCat as $forumCat)
-        $options[$forumCat['id']] = printSecuTags($forumCat['nom']);
-
-    return $options;
-}
-
-/**
- * Callback function for nkAction_edit.
- * Prepare form configuration to add Forum.
- *
- * @param array $form : The Forum form configuration.
- * @return array : The Forum form configuration prepared.
- */
-function prepareFormForAddForum(&$form) {
-    $form['items']['cat']['options'] = getForumCategoryOptions();
-}
-
-/**
  * Callback function for nkAction_edit.
  * Prepare form configuration to edit Forum.
  *
@@ -88,8 +56,6 @@ function prepareFormForAddForum(&$form) {
 function prepareFormForEditForum(&$form, $forum, $id) {
     if ($forum['image'] !='')
         $form['items']['image']['html'] = '<img id="forumImgPreview" src="'. $forum['image'] .'" title="'. $forum['nom'] .'" alt="" />';
-
-    $form['items']['cat']['options'] = getForumCategoryOptions();
 }
 
 /* Forum delete form function */

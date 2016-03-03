@@ -103,7 +103,7 @@ function getTeamFormCfg() {
             'game' => array(
                 'label'             => __('GAME'),
                 'type'              => 'select',
-                'options'           => array()
+                'optionsName'       => array('Game', 'game')
             ),
             'sep' => array(
                 'html'              => '&nbsp;'
