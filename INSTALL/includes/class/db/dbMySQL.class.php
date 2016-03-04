@@ -122,7 +122,10 @@ class dbMySQL {
      * Escapes special characters with MySQL function
      */
     public function quote($str) {
-        return @mysql_real_escape_string($str);
+        if (! $this->_db)
+            $this->connect();
+
+        return @mysql_real_escape_string($str, $this->_db);
     }
 
     /*
