@@ -1,5 +1,7 @@
 @if({{adminBlocksError}} === false)
-        %printNotification({{*SUCCESS_BLOCK_EDIT}}, 'index.php?file=Admin&page=theme&op=blocks_management', 'success', false, true)
+        %printNotification({{*SUCCESS_BLOCK_EDIT}}, 'success')
+        %redirect('index.php?file=Admin&page=theme&op=blocks_management', 2)
 @else
-        %printNotification({{errorMessage}}, 'index.php?file=Admin&page=theme&op=blocks_management', 'error', true, false)
+        %printNotification({{errorMessage}}, 'error')
+        %redirect('index.php?file=Admin&page=theme&op=blocks_management', 2)
 @endif

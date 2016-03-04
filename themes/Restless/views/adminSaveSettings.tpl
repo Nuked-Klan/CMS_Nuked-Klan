@@ -1,5 +1,7 @@
 @if({{adminSettingsError}} === false)
-        %printNotification({{*SUCCESS_SETTINGS_EDIT}}, 'index.php?file=Admin&page=theme&op=settings', 'success', false, true)
+        %printNotification({{*SUCCESS_SETTINGS_EDIT}}, 'success')
+        %redirect('index.php?file=Admin&page=theme&op=settings', 2)
 @else
-        %printNotification({{errorMessage}}, 'index.php?file=Admin&page=theme&op=settings', 'error', true, false)
+        %printNotification({{errorMessage}}, 'error')
+        %redirect('index.php?file=Admin&page=theme&op=settings', 2)
 @endif

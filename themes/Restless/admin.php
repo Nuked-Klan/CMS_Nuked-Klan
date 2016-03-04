@@ -11,7 +11,8 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 require_once('themes/Restless/lang/' . $GLOBALS['language'] . '.lang.php');
 
 if ($GLOBALS['visiteur'] < 9) {
-    printNotification(NOACCESS, 'error', array('backLinkUrl' => 'index.php?file=Admin'));
+    printNotification(NOACCESS, 'error');
+    redirect('index.php?file=Admin',2);
 }
 else {
     try {
@@ -61,6 +62,7 @@ else {
                 break;
         }
     } catch (Exception $e) {
-        printNotification($e->getMessage(), 'error', array('backLinkUrl' => 'index.php?file=Admin&page=theme'));
+        printNotification($e->getMessage(), 'error');
+        redirect('index.php?file=Admin&page=theme', 2);
     }
 }

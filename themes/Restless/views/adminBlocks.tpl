@@ -26,7 +26,7 @@
         @endforeach
         <tr class="RL_alertForm">
             <td colspan="3">
-                %printNotification({{*EDIT_NOT_SAVE}}, null, 'attention', false, false)
+                %printNotification({{*EDIT_NOT_SAVE}}, 'attention')
             </td>
         </tr>
         <tr class="RL_alertForm">

@@ -1,1 +1,2 @@
-%printNotification('Profil par défaut chargé', 'index.php?file=Admin&page=theme', 'success', false, true)
+%printNotification('Profil par défaut chargé', 'success')
+%redirect('index.php?file=Admin&page=theme', 2)
