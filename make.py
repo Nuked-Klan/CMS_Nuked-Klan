@@ -20,7 +20,7 @@ def _getVersion():
 
 def _ignore(src, name):
     if ((src == './UPLOAD/') or (src == './/UPLOAD/')):
-        return [['RESTDIR', 'conf.inc.php', file, 'Thumbs.db', 'ehthumbs.db', '.DS_Store', '.Spotlight-V100', '.Trashes', '.gitignore', '.git', 'make.py', 'formTest'], ['config_save_.(.*)\.php', '(.*)\.bak', 'thumbcache_.(.*)\.db']]
+        return [['RESTDIR', 'conf.inc.php', file, 'Thumbs.db', 'ehthumbs.db', '.DS_Store', '.Spotlight-V100', '.Trashes', '.gitignore', '.git', 'make.py', 'formTest', 'php-check.sh'], ['config_save_.(.*)\.php', '(.*)\.bak', 'thumbcache_.(.*)\.db']]
     else:
         return [[], []]
 
