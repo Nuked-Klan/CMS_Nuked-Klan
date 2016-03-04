@@ -15,7 +15,7 @@
     </div>
     <footer>
         <div>
-            <span>Par <a href="index.php?file=Members&op=detail&autor={{newsAuthor}}">{{newsAuthor}}</a>&nbsp;le&nbsp;{{newsDate}}</span>
+            <span>Par <a href="index.php?file=Members&op=detail&autor={{newsAuthor}}">{{newsAuthor}}</a> le {{newsDate}}</span>
         </div>
     </footer>
 </article>
