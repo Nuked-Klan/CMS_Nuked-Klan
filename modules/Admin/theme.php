@@ -15,6 +15,7 @@ if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
     return;
 
 
+
 function main() {
     global $user, $nuked;
 
@@ -25,6 +26,7 @@ function main() {
         . "</div>\n"
         . "<div class=\"tab-content\" id=\"tab2\">\n";
 
+        require 'themes/'. $nuked['theme'] .'/colors.php';
         include("themes/".$nuked['theme']."/admin.php");
         echo "</div>";
     }

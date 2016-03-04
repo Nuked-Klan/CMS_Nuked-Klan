@@ -10,11 +10,12 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 require_once('themes/Restless/lang/' . $GLOBALS['language'] . '.lang.php');
 
-if ($GLOBALS['user'][1] < 9) {
+if ($GLOBALS['visiteur'] < 9) {
     printNotification(NOACCESS, 'error', array('backLinkUrl' => 'index.php?file=Admin'));
 }
 else {
     try {
+        require_once 'themes/Restless/librairies/templateEngine.php';
         require_once 'themes/Restless/librairies/iniConfigTool.php';
 
         $tpl = new Tpl();
