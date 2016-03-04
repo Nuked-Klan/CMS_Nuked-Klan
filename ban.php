@@ -37,7 +37,7 @@ if (nkDB_numrows() > 0) {
     // On supprime les bans dépassés, 0 = A vie
     if ($dbrBanned['dure'] != 0 && ($dbrBanned['date'] + $dbrBanned['dure']) < $time) {
         // On supprime l'entrée SQL
-        nkDB_delete(BANNED_TABLE, 'ip = '. $escapeBannedIp)
+        nkDB_delete(BANNED_TABLE, 'ip = '. $escapeBannedIp);
 
         // On supprime le cookie
         setcookie('ip_ban', '', $time - 3600);

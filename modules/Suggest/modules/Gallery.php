@@ -150,7 +150,7 @@ function make_array($data){
             $url_file = $rep_img . time() . "." . $ext;
 
             // TODO : Do better !
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file))
+            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file)) {
                 printNotification('Upload file failed !!!', 'error');
                 return;
             }

@@ -181,7 +181,7 @@ function upload($file = "", $url = "", $upload_dl, $file_filter, $file_filtre, $
 
         $url_file = $rep_dl . time() . "." . $ext;
         // TODO : Do better !
-        if (! move_uploaded_file($file['tmp_name'], $url_file))
+        if (! move_uploaded_file($file['tmp_name'], $url_file)) {
             printNotification('Upload file failed !!!', 'error');
             return;
         }

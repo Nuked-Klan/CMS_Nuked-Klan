@@ -133,7 +133,7 @@ function add_sug($data){
 
     saveNotification(_NOTSUG .' : [<a href="index.php?file=Suggest&page=admin">'. _TLINK .'</a>].');
 
-    printNotification(_YOURSUGGEST .'<br />'. _THXPART, 'success')
+    printNotification(_YOURSUGGEST .'<br />'. _THXPART, 'success');
 
     if ($nuked['suggest_avert'] == 'on'){
         $date2 = nkDate($date);

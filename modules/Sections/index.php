@@ -509,7 +509,7 @@ function classe(){
 
                 list($active) = mysql_fetch_array($sql);
 
-                if($active == 1 && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
+                if($active == 1 && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1)
                     vote_index("Sections", $artid);
 
                 echo "</td></tr></table></td></tr></table><br />\n";

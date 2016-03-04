@@ -92,7 +92,7 @@ return array(
     // modules/Forum/main.php
     'FORUM_CATEGORY_NO_EXIST' => 'Sorry, this forum category does not exist or was removed',
     'YEARS_OLD'         => 'years old',
-    'NO_BIRTHDAY'       => 'no members have a birthday.'
+    'NO_BIRTHDAY'       => 'no members have a birthday.',
     'ONE_BIRTHDAY'      => 'there is one member having a birthday:',
     'MANY_BIRTHDAY'     => 'there is %d members having a birthday:',
     // modules/Forum/poll.php
@@ -288,7 +288,7 @@ return array(
     'NEW'               => 'New',
     'MARK_SUBJECT_READ' => 'Mark all topics as read',
     'NO_POST_FORUM'     => 'There are no posts in this forum',
-    'CREATED_BY'        => 'Created by'
+    'CREATED_BY'        => 'Created by',
     'POST_NEW'          => 'New posts',
     'NO_POST_NEW'       => 'No new posts',
     'POST_NEW_CLOSE'    => 'New posts [ Locked ]',

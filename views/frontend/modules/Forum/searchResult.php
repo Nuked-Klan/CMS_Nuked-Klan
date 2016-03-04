@@ -56,9 +56,9 @@
 <?php
         if ($query != '') :
             echo _FNOSEARCHFOUND .' <strong><i>'. $cleanedQuery .'</i></strong>';
-        else if ($authorSought != '') :
+        elseif ($authorSought != '') :
             echo _FNOSEARCHFOUND .' <strong><i>'. printSecutags($authorSought) .'</i></strong>';
-        else if ($dateMax > 0) :
+        elseif ($dateMax > 0) :
             echo _FNOLASTVISITMESS;
         else :
             echo _FNOSEARCHRESULT;

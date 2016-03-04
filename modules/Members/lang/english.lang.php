@@ -30,7 +30,7 @@ return array(
     'PERSONAL_INFO'     => 'Profile',
     'LAST_NAME'         => 'First Name',
     'AGE'               => 'Age',
-    'SEXE'              => 'Sex'
+    'SEXE'              => 'Sex',
     'MALE'              => 'Male',
     'FEMALE'            => 'Female',
     'CITY'              => 'City',
