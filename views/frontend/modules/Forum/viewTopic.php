@@ -168,9 +168,9 @@
                             <a name="<?php echo $topicMessage['id'] ?>"></a>
                             <div class="nkForumUserRankName" <?php echo $authorInfo['rankStyle'] ?>><?php echo $authorInfo['rankName'] ?></div>
 <?php
-        if (isset($authorInfo['rankImage'])) :
+        if ($authorInfo['rankImage'] != '') :
 ?>
-                            <div class="nkForumForumRankImage"><?php echo $authorInfo['rankImage'] ?></div>
+                            <div class="nkForumForumRankImage"><img src="<?php echo $authorInfo['rankImage'] ?>" alt="" /></div>
 <?php
         endif
 ?>

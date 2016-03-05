@@ -124,29 +124,24 @@ function getForumMessageUrl($forumId, $threadId, $messId, $nbMessages = false, $
 }
 
 /**
- * Return Forum moderator list.
+ * Return Forum moderator list for legend.
  * Check actual username and add Team rank colorization if needed.
  *
  * @param int $forumId : The forum ID.
  * @return string : The Forum moderator list formated.
  */
-function getModeratorsList($forumId) {
+function getModeratorsLegend($forumId) {
     global $nuked;
 
-    $dbrForumModerator = nkDB_selectMany(
-        'SELECT U.pseudo, U.rang
-        FROM '. FORUM_MODERATOR_TABLE .' AS FM
-        INNER JOIN '. USER_TABLE .' AS U ON U.id = FM.userId
-        WHERE FM.forum = '. $forumId
-    );
+    $forumModeratorList = getModeratorsList($forumId);
+    $nbModerator        = count($forumModeratorList);
+    $result             = '';
 
-    $nbModerator = nkDB_numRows();
-
-    if ($dbrForumModerator) {
+    if ($forumModeratorList) {
         $result  = ($nbModerator > 1) ? _MODOS : __('MODERATOR');
         $result .= ': ';
 
-        foreach ($dbrForumModerator as $forumModerator) {
+        foreach ($forumModeratorList as $forumModerator) {
             $style = '';
 
             if ($nuked['forum_rank_team'] == 'on' && $forumModerator['rang'] > 0) {
@@ -177,52 +172,29 @@ function getModeratorsList($forumId) {
 }
 
 /**
- * Format and return Forum moderator list.
- * Check actual username and add Team rank colorization if needed.
+ * Return user id list of Forum moderator.
  *
- * @param string $rawModeratorList : The raw Forum moderator list issues of Forum database table.
- * @return string : The Forum moderator list formated.
+ * @param int $forumId : The forum ID.
+ * @return array
  */
-// TODO A SUPPRIMER
-function formatModeratorsList($rawModeratorList) {
-    global $nuked;
+function getModeratorsList($forumId) {
+    static $data = array();
 
-    $result         = __('MODERATOR') .': '. __('NONE');
-    $nbModerator    = 0;
-
-    if ($rawModeratorList != '') {
-        if ($nuked['forum_user_details'] == 'on') {
-            $teamRank   = getTeamRank();
-            $field      = ', rang';
-        }
-        else
-            $field = '';
-
-        $dbrUser = nkDB_selectOne(
-            'SELECT pseudo'. $field .'
-            FROM '. USER_TABLE .'
-            WHERE id IN (\''. str_replace('|', '\',\'', $rawModeratorList) .'\')'
+    if (! array_key_exists($forumId, $data)) {
+        $dbrForumModerator = nkDB_selectMany(
+            'SELECT U.pseudo, U.rang, FM.userId
+            FROM '. FORUM_MODERATOR_TABLE .' AS FM
+            INNER JOIN '. USER_TABLE .' AS U ON U.id = FM.userId
+            WHERE FM.forum = '. $forumId
         );
 
-        $nbModerator = count($dbrUser);
-
-        foreach ($dbrUser as $_user) {
-            if ($nuked['forum_user_details'] == 'on' && array_key_exists($_user['rang'], $teamRank))
-                $style = ' style="color: #'. $teamRank[$_user['rang']]['color'] .';"';
-            else
-                $style = '';
-
-            $moderatorLink[] = '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($_user['pseudo'])
-                . '" alt="'. _SEEMODO . $_user['pseudo'] .'" title="'. _SEEMODO . $_user['pseudo'] .'"'
-                . $style .'><b>'. $_user['pseudo'] .'</b></a>';
-        }
-
-        $result  = ($nbModerator > 1) ? _MODOS : __('MODERATOR');
-        $result .= ': ';
-        $result .= ($nbModerator > 0) ? implode(',&nbsp;', $moderatorLink) : __('NONE');
+        if ($dbrForumModerator)
+            $data[$forumId] = $dbrForumModerator;
+        else
+            $data[$forumId] = array();
     }
 
-    return $result;
+    return $data[$forumId];
 }
 
 /**
@@ -232,31 +204,33 @@ function formatModeratorsList($rawModeratorList) {
  * @return bool : Return true if user have Forum right, false also.
  */
 function isForumAdministrator($forumId) {
-    global $user, $visiteur;
+    global $visiteur;
 
-    $dbrForum = nkDB_selectOne(
-        'SELECT moderateurs
-        FROM '. FORUM_TABLE .'
-        WHERE '. $visiteur .' >= level AND id = '. nkDB_escape($forumId)
-    );
-
-    return $dbrForum &&
-        ($visiteur >= admin_mod('Forum') || isModerator($dbrForum['moderateurs']));
+    return $visiteur >= admin_mod('Forum') || isModerator($forumId);
 }
 
 /**
  * Check if user is a Forum moderator.
  *
- * @param string $rawModeratorList : The raw Forum moderator list issues of Forum database table.
+ * @param int $forumId : The forum ID.
  * @return bool : Return true if user is a Forum moderator, false also.
  */
-function isModerator($rawModeratorList) {
+function isModerator($forumId, $userId = null) {
     global $user;
 
-    if ($user && $rawModeratorList != '' && strpos($user['id'], $rawModeratorList) !== false)
-        return true;
+    $forumModeratorList = getModeratorsList($forumId);
 
-    return  false;
+    if ($forumModeratorList) {
+        $forumModeratorIdList = array_column($forumModeratorList, 'userId');
+
+        if ($userId === null && $user)
+            $userId = $user['id'];
+
+        if ($userId !== null && in_array($userId, $forumModeratorIdList))
+            return true;
+    }
+
+    return false;
 }
 
 /**
@@ -380,33 +354,47 @@ function getUserRank($data, $isModerator) {
     );
 }
 
-function nkForumNickname($data, $link = true, $rankColor = true, $author = 'auteur', $pseudo = 'pseudo', $rank = 'rang') {
+function nkForumNickname($data) {
     global $nuked;
 
     if (is_array($data)) {
-        if (isset($data[$pseudo]) && $data[$pseudo] != '') {
-            if (! $link) return $data[$pseudo];
-
+        if (isset($data['pseudo']) && $data['pseudo'] != '') {
             $style = '';
 
             // TODO : Use CSS class instead
-            if ($rankColor && $nuked['forum_user_details'] == 'on') {
-                // TODO A FINIR
-                //$isModerator = isModerator($rawModeratorList)
-                //$userRankData = getUserRank($data, $isModerator);
+            if ($nuked['forum_user_details'] == 'on') {
+                static $forumModeratorIdList;
 
-                $userRankData = getUserRank($data, false);
+                if ($forumModeratorIdList === null) {
+                    $dbrForumModerator = nkDB_selectMany(
+                        'SELECT DISTINCT userId
+                        FROM '. FORUM_MODERATOR_TABLE
+                    );
+
+                    if ($dbrForumModerator)
+                        $forumModeratorIdList = array_column($dbrForumModerator, 'userId');
+                }
+
+                if ($forumModeratorIdList !== null
+                    && $data['auteur_id']
+                    && in_array($data['auteur_id'], $forumModeratorIdList)
+                )
+                    $isModerator = true;
+                else
+                    $isModerator = false;
+
+                $userRankData = getUserRank($data, $isModerator);
 
                 if ($userRankData['color'] != '')
                     $style = ' style="color: #'. $userRankData['color'] .';"';
             }
 
-            return '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($data[$pseudo]) .'"'. $style .'>'
-                . $data[$pseudo] .'</a>';
+            return '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($data['pseudo']) .'"'. $style .'>'
+                . $data['pseudo'] .'</a>';
         }
 
-        if (isset($data[$author]) && $data[$author] != '')
-            return nk_CSS($data[$author]);
+        if (isset($data['auteur']) && $data['auteur'] != '')
+            return nk_CSS($data['auteur']);
     }
 
     return '';

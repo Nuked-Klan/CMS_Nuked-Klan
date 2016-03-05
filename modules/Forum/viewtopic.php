@@ -68,7 +68,7 @@ function highlightText($title, $text) {
  * @return array : The Forum topic message Author data formated.
  */
 function getAuthorInfo($topicMessage) {
-    global $nuked, $forumAdmin, $avatar_resize, $avatar_width;
+    global $nuked, $forumId, $forumAdmin, $avatar_resize, $avatar_width;
 
     static $formatedAuthorInfo = array();
 
@@ -83,6 +83,7 @@ function getAuthorInfo($topicMessage) {
         'userInfo'      => $topicMessage['auteur'],
         // TODO : Display a rank for visitor ?
         'rankName'      => '',
+        'rankImage'     => '',
         'rankStyle'     => ''
     );
 
@@ -130,57 +131,16 @@ function getAuthorInfo($topicMessage) {
     if ($dbrUserDetail)
         $authorInfo = array_merge($authorInfo, array_map('nkHtmlEntities', $dbrUserDetail));
 
-    // Get author team rank if enabled
-    if ($topicMessage['rang'] > 0 && $nuked['forum_rank_team'] == 'on') {
-        $dbrTeamRank = nkDB_selectOne(
-            'SELECT titre AS rankName, image AS rankImage, couleur AS rankColor
-            FROM '. TEAM_RANK_TABLE .'
-            WHERE id = '. $topicMessage['rang']
-        );
+    // Get author rank data
+    $authorRank = getUserRank($topicMessage, isModerator($forumId, $topicMessage['auteur_id']));
 
-        $authorInfo = array_merge($authorInfo, $dbrTeamRank);
+    if ($authorRank['title'] != '')
+        $authorInfo['rankName'] = printSecuTags($authorRank['title']);
 
-        $authorInfo['rankName'] = printSecuTags($authorInfo['rankName']);
-    }
-    // ...Or use forum rank
-    else {
-        $order = $dir = $limit = false;
+    $authorInfo['rankImage'] = $authorRank['image'];
 
-        if ($topicMessage['niveau'] >= admin_mod('Forum')) {
-            $whereClause = 'type = 2';
-        }
-        else if ($dbrCurrentForum['moderateurs'] != ''
-            && strpos($dbrCurrentForum['moderateurs'], $topicMessage['auteur_id']) !== false
-        ) {
-            $whereClause = 'type = 1';
-        }
-        else {
-            $whereClause = $topicMessage['count'] .' >= post AND type = 0';
-            $order = array('post');
-            $dir = 'DESC';
-            $limit = 1;
-        }
-
-        // TODO : Add color field to FORUM_RANK_TABLE ?
-        $dbrForumRank = nkDB_selectOne(
-            'SELECT nom AS rankName, image AS rankImage
-            FROM '. FORUM_RANK_TABLE .'
-            WHERE '. $whereClause,
-            $order, $dir, $limit
-        );
-
-        $authorInfo = array_merge($authorInfo, $dbrForumRank);
-
-        $authorInfo['rankName'] = printSecuTags($authorInfo['rankName']);
-    }
-
-    if ($authorInfo['rankImage'] != '')
-        $authorInfo['rankImage'] = '<img src="'. $authorInfo['rankImage'] .'" alt="" />';
-
-    if ($topicMessage['rang'] > 0 && $nuked['forum_user_details'] == 'on')
-        $authorInfo['rankStyle'] = 'style="color:#'. $authorInfo['rankColor'] .'"';
-    else
-        $authorInfo['rankStyle'] = '';
+    if ($authorRank['color'] != '')
+        $authorInfo['rankStyle'] = 'style="color:#'. $authorRank['color'] .'"';
 
     // Set user info
     $authorInfo['userInfo'] =
@@ -210,7 +170,7 @@ function getAuthorInfo($topicMessage) {
     // Valeur TRUE = Pas d'heure/minute.
     $authorInfo['totalUserPost'] .= nkDate($topicMessage['authorDate'], TRUE);
 
-    // On dÃ©termine si le visiteur est un administrateur et on lui affiche l'IP du posteur
+    // On détermine si le visiteur est un administrateur et on lui affiche l'IP du posteur
     if ($forumAdmin)
         $authorInfo['displayUserIp'] = _('IP') .' : '. $topicMessage['auteur_ip'];
 
@@ -362,8 +322,7 @@ if ($user) {
 $dbrCurrentForum['forumName']  = printSecuTags($dbrCurrentForum['forumName']);
 $dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
 
-// TODO : FINISH HIM
-$moderator  = false;//isModerator($dbrCurrentForum['moderateurs']);
+$moderator  = isModerator($forumId);
 $forumAdmin = $visiteur >= admin_mod('Forum') || $moderator;
 
 $forumWriteLevel = $moderator

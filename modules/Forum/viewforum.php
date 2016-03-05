@@ -204,13 +204,11 @@ $breadcrumb = getForumBreadcrump(
 $dbrCurrentForum['forumName']  = printSecuTags($dbrCurrentForum['forumName']);
 $dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
 
-// TODO : FINISH HIM =D
-//$moderatorsList = formatModeratorsList($dbrCurrentForum['moderateurs']);
-$moderatorsList = '';
+$moderatorsList = getModeratorsLegend($forumId);
 
 $forumWriteLevel = $dbrCurrentForum['forumLevel'] == 0
     || $visiteur >= $dbrCurrentForum['forumLevel']
-    || isModerator($dbrCurrentForum['moderateurs']);
+    || isModerator($forumId);
 
 // Get Forum topics list
 $rankField = ($nuked['forum_user_details'] == 'on') ? ', U.niveau, U.count, U.rang' : '';

@@ -228,8 +228,7 @@ function displayForumPostForm() {
     }
 
     // Check moderator
-    // TODO : FINISH HIM =D
-    $moderator      = false;// isModerator($dbrCurrentForum['moderateurs']);
+    $moderator      = isModerator($forumId);
     $administrator  = $visiteur >= admin_mod('Forum') || $moderator;
 
     if ($do == 'edit') {
@@ -445,7 +444,7 @@ function saveForumPost() {
         'date'      => $date,
         'closed'    => 0,
         'auteur'    => $author,
-        'auteur_id' => $authorId,
+        //'auteur_id' => $authorId,
         'forum_id'  => $forumId,
         'last_post' => $date,
         'view'      => 0,
@@ -460,7 +459,7 @@ function saveForumPost() {
         'date'          => $date,
         'edition'       => '',
         'auteur'        => $author,
-        'auteur_id'     => $authorId,
+        //'auteur_id'     => $authorId,
         'auteur_ip'     => $user_ip,
         'thread_id'     => $threadId,
         'forum_id'      => $forumId,
@@ -488,7 +487,7 @@ function saveForumPost() {
         $url = 'index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId;
 
     printNotification(__('MESSAGE_SEND'), 'success');
-    redirect($url, 2);
+    //redirect($url, 2);
 }
 
 // Save a edited Forum message.

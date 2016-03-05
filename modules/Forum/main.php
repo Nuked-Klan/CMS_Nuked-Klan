@@ -29,7 +29,7 @@ function formatForumRow($forum) {
     $forum['readStatus'] = getForumReadStatusImg($forum['id'], $forum['nbTopics']);
 
     if ($nuked['forum_display_modos'] == 'on')
-        $forum['moderatorsList'] = getModeratorsList($forum['id']);
+        $forum['moderatorsList'] = getModeratorsLegend($forum['id']);
 
     if ($forum['nbMessages'] > 0)
         $forum['lastMessage'] = formatLastForumMsg($forum['id']);
