@@ -466,8 +466,7 @@ function edit_account(){
         echo "<option value=\"" . $game_id . "\" " . $checked1 . ">" . $nom . "</option>\n";
     }
 
-    echo "</select></td></tr>"
-        . "<tr><td><b>" . __('DISPLAYED_RANK') . " :</b></td><td><select name=\"rang\">\n";
+    echo "</select></td></tr>";
 
     $dbrTeam = nkDB_selectMany(
         'SELECT TM.rank, TR.titre AS rankName, T.titre AS teamName
@@ -479,17 +478,23 @@ function edit_account(){
         WHERE TM.userId = '. nkDB_escape($user['id'])
     );
 
-    foreach ($dbrTeam as $team) {
-        if ($team['rank'] == $dbrUser['rang'])
-            $selected = ' selected="selected"';
-        else
-            $selected = '';
+    if ($dbrTeam) {
+        echo "<tr><td><b>" . __('DISPLAYED_RANK') . " :</b></td><td><select name=\"rang\">\n";
 
-        echo '<option value="'. $team['rank'] .'"'. $selected .'>'
-            . nkHtmlSpecialChars($team['rankName']) .' - '. __('TEAM') .' '. nkHtmlSpecialChars($team['teamName']) .'</option>' ."\n";
+        foreach ($dbrTeam as $team) {
+            if ($team['rank'] == $dbrUser['rang'])
+                $selected = ' selected="selected"';
+            else
+                $selected = '';
+
+            echo '<option value="'. $team['rank'] .'"'. $selected .'>'
+                . nkHtmlSpecialChars($team['rankName']) .' - '. __('TEAM') .' '. nkHtmlSpecialChars($team['teamName']) .'</option>' ."\n";
+        }
+
+        echo "</select></td></tr>\n";
     }
 
-    echo "</select></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+    echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 
     if ($nuked['avatar_upload'] == "on" || $nuked['avatar_url'] == "on"){
         echo "<tr><td><b>" . _AVATAR . " : </b></td>\n";
@@ -1006,7 +1011,7 @@ function login($pseudo, $pass, $remember_me){
 
             $referer = $_SERVER['HTTP_REFERER'];
 
-            if (!empty($referer) && !strpos($referer, 'User&op=reg') && is_array($referer)){
+            if (!empty($referer) && !strpos($referer, 'User&op=reg')){
                 list($url_ref, $redirect) = explode('?', $referer);
                 if(!empty($redirect)) $redirect = '&referer=' . urlencode($redirect);
             }
@@ -1014,7 +1019,7 @@ function login($pseudo, $pass, $remember_me){
 
             $_SESSION['admin'] = false;
             unset($_SESSION['captcha']);
-            redirect('index.php?file=User&op=login_message&uid='. $dbrLogin['id'] . $redirect);
+            redirect('index.php?file=User&op=login_message'. $redirect);
         }
         else{
             // Si le compte n'est pas validé
@@ -1166,18 +1171,20 @@ function update(){
         }
     }
 
-    $dbrRank = nkDB_selectOne(
-        'SELECT TM.rank
-        FROM '. TEAM_MEMBERS_TABLE .' AS TM
-        INNER JOIN '. TEAM_RANK_TABLE .' AS TR
-        ON TR.id = TM.rank
-        WHERE TM.userId = '. nkDB_escape($user['id'])
-    );
+    if (isset($_POST['rang'])) {
+        $dbrRank = nkDB_selectOne(
+            'SELECT TM.rank
+            FROM '. TEAM_MEMBERS_TABLE .' AS TM
+            INNER JOIN '. TEAM_RANK_TABLE .' AS TR
+            ON TR.id = TM.rank
+            WHERE TM.userId = '. nkDB_escape($user['id'])
+        );
 
-    $_POST['rang'] = (int) $_POST['rang'];
+        $_POST['rang'] = (int) $_POST['rang'];
 
-    if ($dbrRank && $dbrRank['rank'] == $_POST['rang'])
-        $data['rang'] = $_POST['rang'];
+        if ($dbrRank && $dbrRank['rank'] == $_POST['rang'])
+            $data['rang'] = $_POST['rang'];
+    }
 
     $data['signature'] = secu_html(nkHtmlEntityDecode($_POST['signature']));
 

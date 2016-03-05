@@ -287,7 +287,7 @@ $error      = false;
 
 // Get current Forum data
 $dbrCurrentForum = getForumData(
-    'F.nom AS forumName, F.moderateurs, F.cat, F.level, F.niveau AS forumLevel, F.nbTopics,
+    'F.nom AS forumName, F.cat, F.level, F.niveau AS forumLevel, F.nbTopics,
     FC.nom AS catName, FC.niveau AS catLevel', 'forumId', $forumId
 );
 
@@ -362,7 +362,8 @@ if ($user) {
 $dbrCurrentForum['forumName']  = printSecuTags($dbrCurrentForum['forumName']);
 $dbrCurrentForum['catName']    = printSecuTags($dbrCurrentForum['catName']);
 
-$moderator  = isModerator($dbrCurrentForum['moderateurs']);
+// TODO : FINISH HIM
+$moderator  = false;//isModerator($dbrCurrentForum['moderateurs']);
 $forumAdmin = $visiteur >= admin_mod('Forum') || $moderator;
 
 $forumWriteLevel = $moderator

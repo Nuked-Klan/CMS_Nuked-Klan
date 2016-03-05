@@ -1560,7 +1560,7 @@ function checkEmail($email = '', $checkRegistred = false) {
         if ($isUsed > 0) return 'error3';
     }
 
-    return ;
+    return $email;
 }
 
 /**
