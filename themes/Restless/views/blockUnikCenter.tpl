@@ -7,7 +7,7 @@
         <figcaption>
             <h3>{{item.title}}</h3>
             <p>{{item.postedBy}}</p>
-            <a href="{{item.link}}">+</a>
+            <a href="{{item.link}}" title="{{*READ}}">+</a>
         </figcaption>
     </figure>
     @endforeach

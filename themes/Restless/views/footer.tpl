@@ -19,3 +19,4 @@
         </div>
     </div>
 </footer>
+<div id="RL_footerMessage">{{footerMessage}}</div>

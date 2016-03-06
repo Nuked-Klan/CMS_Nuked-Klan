@@ -8,7 +8,7 @@
         <figure class="RL_roster">
             <div class="RL_bgCover" style="background-image:url({{team.image}})"><!-- No Content --></div>
             <img src="{{team.image}}" alt="#" />
-            <figcaption><a class="RL_linkWhite" href="{{team.link}}">{{team.name}}</a></figcaption>
+            <figcaption><a class="RL_linkWhite" href="{{team.link}}" title="{{*SEETEAM}}">{{team.name}}</a></figcaption>
         </figure>
         @endforeach
     </article>

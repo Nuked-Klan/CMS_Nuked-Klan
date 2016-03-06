@@ -1426,13 +1426,19 @@ a, input {
 
 #RL_footer {
     color         : #fff;
-    margin-bottom : 100px;
     position      : relative;
     background    : rgba(0, 0, 0, .1);
 }
 
 #RL_bottomFooter {
     border-radius : 0 0 5px 5px;
+}
+
+#RL_footerMessage {
+    font-size: 10px;
+    margin-bottom: 100px;
+    padding: 0 5px 5px;
+    text-align: justify;
 }
 
 /*

@@ -7,7 +7,7 @@
     <div>
         <header>
             <h2>{{newsTitle}}</h2>
-            <a href="{{newsLink}}">{{newsNbComments}}</a>
+            <a href="{{newsLink}}" title="{{*SEECOMMENT}}">{{newsNbComments}}</a>
         </header>
         <div>
             {{newsText}}
@@ -15,7 +15,7 @@
     </div>
     <footer>
         <div>
-            <span>Par <a href="index.php?file=Members&op=detail&autor={{newsAuthor}}">{{newsAuthor}}</a> le {{newsDate}}</span>
+            <span>{{*BY}}<a href="index.php?file=Members&op=detail&autor={{newsAuthor}}">{{newsAuthor}}</a> {{*THE}}{{newsDate}}</span>
         </div>
     </footer>
 </article>

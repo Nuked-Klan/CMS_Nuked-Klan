@@ -6,7 +6,7 @@ return array(
         'img'   => 'modules/Admin/images/icons/chess.png'
     ),
     __('MAP_MANAGEMENT') => array(
-        'img'   => 'modules/Admin/images/icons/image_add_48.png',
+        'img'   => 'modules/Admin/images/icons/map_add.png',
         'uri'   => array('page' => 'map')
     ),
 );

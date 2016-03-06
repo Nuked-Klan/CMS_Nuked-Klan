@@ -6,11 +6,16 @@ if (!defined("INDEX_CHECK")) {
 define('YOUHAVE', 'vous avez');
 define('PARTNERS', 'Partenaires');
 define('SEEWARS', 'Voir les d&eacute;tails de ce match');
+define('SEEFORUM', 'Voir le Forum');
+define('SEEDOWNLOADS', 'Voir les T&eacute;l&eacute;chargements');
+define('SEEGALLERY', 'Voir la Galerie');
 define('SEEURLADVERSARY', 'Visiter le site des');
 define('SEEALL', 'Voir tout les matchs');
 define('SEETEAM', 'Voir les d&eacute;tails de la team');
 define('ALLRIGHT', 'Tout droits r&eacute;serv&eacute;s');
-define('REGISTRER', 'S\'enregistrer');
+define('REGISTER', 'Inscription');
+define('REGISTER2', 'S\'enregistrer');
+define('LOGIN', 'Connexion');
 define('FLUXRSS', 'Flux rss');
 define('TEAMSPEAK', 'Teamspeak 3');
 define('TWITTER', 'Twitter');
@@ -35,6 +40,12 @@ define('BY', 'Par ');
 define('THE', 'le ');
 define('MORE', 'Plus');
 define('SEND', 'Envoyer');
+define('READ', 'Lire');
+define('CONTACT_US', 'Nous Contacter');
+define('SEARCH', 'Rechercher');
+define('DETAILS', 'D&eacute;tails');
+define('DOWNLOADED', 'T&eacute;l&eacute;charg&eacute; ');
+define('TIMES', ' fois');
 
 // ADMIN
 
@@ -94,7 +105,7 @@ define('MODULE_SUGGEST', 'Suggestions');
 define('MODULE_TEXTBOX', 'Tribune libre');
 define('MODULE_CALENDAR', 'Calendrier');
 define('MODULE_MEMBERS', 'Membres');
-define('MODULE_TEAM', 'Team');
+define('MODULE_TEAM', 'Equipe');
 define('MODULE_DEFY', 'Nous défier');
 define('MODULE_RECRUIT', 'Recrutement');
 define('MODULE_STATS', 'Statistiques');
@@ -133,3 +144,4 @@ define('VISITOR', 'visiteur');
 define('ONLINE', 'en ligne');
 define('CONTENT', 'Contenu');
 define('ADD_SPONSOR', 'Ajouter un sponsor');
+
