@@ -21,5 +21,5 @@
         <strong>Date : </strong>{{topMatchContent.date}}<br/>
         <strong>Maps : </strong>{{topMatchContent.map}}
     </p>
-    <a href="{{topMatchContent.link}}" class="RL_button">D&eacute;tails</a>
+    <a href="{{topMatchContent.link}}" class="RL_button" title="{{*SEEWARS}}">{{*DETAILS}}</a>
 </aside>

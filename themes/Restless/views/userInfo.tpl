@@ -17,6 +17,6 @@
     </p>
 </div>
 <img src="{{avatar}}" alt="" />
-<a id="RL_userDisconnect" class="RL_button" href="index.php?file=User&amp;nuked_nude=index&amp;op=logout">
+<a id="RL_userDisconnect" class="RL_button" href="index.php?file=User&amp;nuked_nude=index&amp;op=logout" title="{{*LOGOUTME}}">
     <span>{{*_LOGOUT}}</span>
 </a>

@@ -3,7 +3,7 @@
     <article>
         <header>
             <h1 class="RL_modTitle">{{blockDownloadTitle}}</h1>
-            <a class="RL_moreButton" href="index.php?file=Download">Plus</a>
+            <a class="RL_moreButton" href="index.php?file=Download" title="{{*SEEDOWNLOADS}}">{{*MORE}}</a>
         </header>
         <div id="RL_blockDownload">
             @foreach(blockDownloadContent as item)
@@ -11,7 +11,7 @@
                 <a href="{{item.link}}"><span>Lien</span></a>
                 <div>
                     <p>{{item.title}}</p>
-                    <p>T&eacute;l&eacute;charg&eacute; {{item.count}} fois</p>
+                    <p>{{*DOWNLOADED}}{{item.count}}{{*TIMES}}</p>
                 </div>
             </div>
             @endforeach

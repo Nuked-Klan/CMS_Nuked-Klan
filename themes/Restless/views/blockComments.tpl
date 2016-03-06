@@ -7,7 +7,7 @@
         @foreach(blockGuestbookContent as comment)
         <div class="commentsItem">
             <div>{{comment.text}}</div>
-            <p><a href="#">{{comment.author}}</a>&nbsp;{{*THE}} {{comment.date}}</p>
+            <p>{{*BY}}<a href="#">{{comment.author}}</a> {{*THE}} {{comment.date}}</p>
         </div>
         @endforeach
     </div>

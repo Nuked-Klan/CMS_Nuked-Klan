@@ -5,7 +5,7 @@
         -->@endforeach
     </ul>
     <form id="RL_navSearch" method="POST" action="index.php?file=Search&op=mod_search">
-        <input type="search" placeholder="Recherche..." name="main" />
+        <input type="search" placeholder="{{*SEARCH}}..." name="main" />
         <input type="hidden" name="searchtype" value="matchand" />
         <input type="hidden" name="limit" value="50" />
         <input type="submit" value="" />

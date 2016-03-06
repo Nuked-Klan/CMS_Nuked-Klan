@@ -7,7 +7,7 @@
     <section id="RL_gallery">
         <header>
             <h1 class="RL_modTitle">{{blockGalleryTitle}}</h1>
-            <a class="RL_moreButton" href="index.php?file=Gallery">{{*MORE}}</a>
+            <a class="RL_moreButton" href="index.php?file=Gallery" title="{{*SEEGALLERY}}">{{*MORE}}</a>
         </header>
         <div>
             @foreach(blockGalleryContent as image)
