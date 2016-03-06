@@ -21,7 +21,8 @@ $modulesTableCfg = array(
         'id'     => array('type' => 'int(2)',      'null' => false, 'autoIncrement' => true),
         'nom'    => array('type' => 'varchar(50)', 'null' => false, 'default' => '\'\''),
         'niveau' => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\''),
-        'admin'  => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\'')
+        'admin'  => array('type' => 'int(1)',      'null' => false, 'default' => '\'0\''),
+        'type'   => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'standard\''),
     ),
     'primaryKey' => array('id'),
     'engine' => 'MyISAM'
@@ -34,10 +35,10 @@ $modulesTableCfg = array(
 /*
  * Return modules list stored in modules table
  */
-function getModuleList() {
+function getModulesData() {
     global $db;
 
-    $sql = 'SELECT nom
+    $sql = 'SELECT `nom`, `type`
         FROM `'. MODULES_TABLE .'`';
 
     $dbsModules = $db->selectMany($sql);
@@ -45,7 +46,7 @@ function getModuleList() {
     $modules = array();
 
     foreach ($dbsModules as $row)
-        $modules[] = $row['nom'];
+        $modules[$row['nom']] = $row['type'];
 
     return $modules;
 }
@@ -53,11 +54,21 @@ function getModuleList() {
 /*
  * Add new module
  */
-function addModule($module, $levelAccess, $adminLevel) {
+function addModule($module, $levelAccess, $adminLevel, $type = 'standard') {
     global $db, $insert, $insertModules;
 
-    $insert[]           = '(\''. $db->quote($module) .'\', '. $levelAccess .', '. $adminLevel .')';
+    $insert[]           = '(\''. $db->quote($module) .'\', '. $levelAccess .', '. $adminLevel .', \''. $db->quote($type) .'\')';
     $insertModules[]    = $module;
+}
+
+/*
+ * Update module type
+ */
+function updateModuleType($module, $type) {
+    global $db, $updateType, $updateModulesType;
+
+    $updateType[$module] = $type;
+    $updateModulesType[] = $module;
 }
 
 /*
@@ -74,13 +85,23 @@ function deleteModule($module) {
  * Update module list
  */
 function updateModuleList() {
-    global $dbTable, $insert, $insertModules, $delete, $deleteModules;
+    global $dbTable, $insert, $insertModules, $updateType, $updateModulesType, $delete, $deleteModules;
 
     if (! empty($insert)) {
         $sql = 'INSERT INTO `'. MODULES_TABLE .'`
-            (`nom`, `niveau`, `admin`) VALUES '. implode(', ', $insert);
+            (`nom`, `niveau`, `admin`, `type`) VALUES '. implode(', ', $insert);
 
         $dbTable->insertData(array('ADD_MODULE', implode(', ', $insertModules)), $sql);
+    }
+
+    if (! empty($updateType)) {
+        foreach ($updateType as $name => $type) {
+            $sql = 'UPDATE `'. MODULES_TABLE .'`
+                SET `type` = \''. $db->quote($type) .'\'
+                WHERE nom = \''. $db->quote($name) .'\'';
+
+            //$dbTable->insertData(array('UPDATE_MODULE_TYPE', implode(', ', $updateModulesType)), $sql);
+        }
     }
 
     if (! empty($delete)) {
@@ -123,30 +144,30 @@ if ($process == 'install') {
     $dbTable->createTable($modulesTableCfg);
 
     $sql = 'INSERT INTO `'. MODULES_TABLE .'` VALUES
-        (1, \'News\', 0, 2),
-        (2, \'Forum\', 0, 2),
-        (3, \'Wars\', 0, 2),
-        (4, \'Irc\', 0, 2),
-        (5, \'Survey\', 0, 3),
-        (6, \'Links\', 0, 3),
-        (7, \'Sections\', 0, 3),
-        (8, \'Server\', 0, 3),
-        (9, \'Download\', 0, 3),
-        (10, \'Gallery\', 0, 3),
-        (11, \'Guestbook\', 0, 3),
-        (12, \'Suggest\', 0, 3),
-        (13, \'Textbox\', 0, 9),
-        (14, \'Calendar\', 0, 2),
-        (15, \'Members\', 0, 9),
-        (16, \'Team\', 0, 9),
-        (17, \'Defy\', 0, 3),
-        (18, \'Recruit\', 0, 3),
-        (19, \'Comment\', 0, 9),
-        (20, \'Vote\', 0, 9),
-        (21, \'Stats\', 0, 2),
-        (22, \'Contact\', 0, 3),
-        (23, \'Page\', 0, 9),
-        (24, \'Game\', 0, 9);';
+        (1, \'News\', 0, 2, \'standard\'),
+        (2, \'Forum\', 0, 2, \'standard\'),
+        (3, \'Wars\', 0, 2, \'gaming\'),
+        (4, \'Irc\', 0, 2, \'gaming\'),
+        (5, \'Survey\', 0, 3, \'standard\'),
+        (6, \'Links\', 0, 3, \'standard\'),
+        (7, \'Sections\', 0, 3, \'standard\'),
+        (8, \'Server\', 0, 3, \'gaming\'),
+        (9, \'Download\', 0, 3, \'standard\'),
+        (10, \'Gallery\', 0, 3, \'standard\'),
+        (11, \'Guestbook\', 0, 3, \'standard\'),
+        (12, \'Suggest\', 0, 3, \'standard\'),
+        (13, \'Textbox\', 0, 9, \'standard\'),
+        (14, \'Calendar\', 0, 2, \'standard\'),
+        (15, \'Members\', 0, 9, \'standard\'),
+        (16, \'Team\', 0, 9, \'gaming\'),
+        (17, \'Defy\', 0, 3, \'gaming\'),
+        (18, \'Recruit\', 0, 3, \'gaming\'),
+        (19, \'Comment\', 0, 9, \'standard\'),
+        (20, \'Vote\', 0, 9, \'standard\'),
+        (21, \'Stats\', 0, 2, \'standard\'),
+        (22, \'Contact\', 0, 3, \'standard\'),
+        (23, \'Page\', 0, 9, \'standard\'),
+        (24, \'Game\', 0, 9, \'gaming\');';
 
     $dbTable->insertData('INSERT_DEFAULT_DATA', $sql);
 }
@@ -156,32 +177,34 @@ if ($process == 'install') {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 if ($process == 'update') {
-    global $insert, $insertModules, $delete, $deleteModules;
+    global $insert, $insertModules, $updateType, $updateModulesType, $delete, $deleteModules;
 
     $insert = $insertModules = $delete = $deleteModules = array();
 
     $modules = getModuleList();
 
     // install / update 1.7.9 RC5
-    if (in_array('PackageMgr', $modules))
+    if (array_key_exists('PackageMgr', $modules))
         deleteModule('PackageMgr');
 
     // install / update 1.7.9 RC1
-    if (! in_array('Stats', $modules))
+    if (! array_key_exists('Stats', $modules))
         addModule('Stats', 0, 2);
 
-    if (! in_array('Contact', $modules))
+    if (! array_key_exists('Contact', $modules))
         addModule('Contact', 0, 3);
 
     // install / update 1.8
-    if (! in_array('Equipe', $modules))
-        addModule('Equipe', 0, 2);
-
-    if (! in_array('Page', $modules))
+    if (! array_key_exists('Page', $modules))
         addModule('Page', 0, 9);
 
-    if (! in_array('Game', $modules))
+    if (! array_key_exists('Game', $modules, 'gaming'))
         addModule('Game', 0, 9);
+
+    foreach (array('Wars', 'Irc', 'Server', 'Team', 'Defy', 'Recruit') as $moduleName) {
+        if (array_key_exists($moduleName, $modules) && $modules[$moduleName] != 'gaming')
+            updateModuleType($moduleName, 'gaming');
+    }
 
     updateModuleList();
 }

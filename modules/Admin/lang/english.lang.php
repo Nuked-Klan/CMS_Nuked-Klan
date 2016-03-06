@@ -709,6 +709,8 @@ return array(
     // modules/Admin/user.php
     'ADD_TEAM'          => 'Add Team',
     'DELETE_THIS_TEAM'  => 'Delete this Team',
+    // views/backend/design/topAdmin.php
+    'GAMING'            => 'Gaming',
 );
 
 ?>

@@ -544,6 +544,8 @@ return array(
     // modules/Admin/user.php
     'ADD_TEAM'          => 'Ajouter une Team',
     'DELETE_THIS_TEAM'  => 'Supprimer cette Team',
+    // views/backend/design/topAdmin.php
+    'GAMING'            => 'Gaming',
 );
 
 ?>

@@ -117,6 +117,47 @@
 
                             </ul>
                         </li>
+<?php
+    list($moduleCurrentClass, $modulesList) = getAdminModulesMenuData('gaming');
+
+    if ($modulesList) :
+?>
+                        <!-- SUB MENU : GAMING -->
+                        <li>
+
+                            <a href="#" class="nav-top-item<?php echo $moduleCurrentClass ?>"><?php echo __('GAMING') ?></a>
+                            <ul>
+<?php
+        foreach ($modulesList as $module => $moduleName) :
+            if (is_dir('modules/'. $module .'/backend')) :
+                if ($GLOBALS['file'] == $module) :
+?>
+                                <li><a class="current" href="index.php?admin=<?php echo $module ?>"><?php echo $moduleName ?></a></li>
+<?php
+                else :
+?>
+                                <li><a href="index.php?admin=<?php echo $module ?>"><?php echo $moduleName ?></a></li>
+<?php
+                endif;
+            else :
+                if ($GLOBALS['file'] == $module && $GLOBALS['page'] == 'admin') :
+?>
+                                <li><a class="current" href="index.php?file=<?php echo $module ?>&amp;page=admin"><?php echo $moduleName ?></a></li>
+<?php
+                else :
+?>
+                                <li><a href="index.php?file=<?php echo $module ?>&amp;page=admin"><?php echo $moduleName ?></a></li>
+<?php
+                endif;
+            endif;
+        endforeach;
+?>
+
+                            </ul>
+                        </li>
+<?php
+    endif;
+?>
                         <li>
                             <!-- SUB MENU : DIVERS -->
                             <a href="#" class="nav-top-item<?php printAdminMenuCurrentClass('miscellaneous') ?>"><?php echo _DIVERS ?></a>

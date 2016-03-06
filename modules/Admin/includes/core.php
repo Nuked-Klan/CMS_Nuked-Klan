@@ -47,7 +47,7 @@ function printAdminSubMenuCurrentClass($menuPage) {
         echo 'class="current"';
 }
 
-function getAdminModulesMenuData() {
+function getAdminModulesMenuData($type = 'standard') {
     global $file, $page, $visiteur;
 
     $data = array(
@@ -58,7 +58,7 @@ function getAdminModulesMenuData() {
     $dbrModules = nkDB_selectMany(
         'SELECT `nom`
         FROM `'. MODULES_TABLE .'`
-        WHERE \''. $visiteur .'\' >= admin AND niveau > -1 AND admin > -1',
+        WHERE \''. $visiteur .'\' >= admin AND niveau > -1 AND admin > -1 AND type = '. nkDB_escape($type),
         array('nom')
     );
 
