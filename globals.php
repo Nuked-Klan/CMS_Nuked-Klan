@@ -48,10 +48,13 @@ function SecureVar($value) {
 }
 
 // Suppression de l'affichage des erreurs PHP
-// error_reporting (E_ERROR | E_WARNING | E_PARSE);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+if (defined('DEVELOPMENT')) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
+else
+    error_reporting (E_ERROR | E_WARNING | E_PARSE);
 
 // ANTI INJECTION SQL (UNION) et XSS/CSS
 $queryString = strtolower(rawurldecode($_SERVER['QUERY_STRING']));

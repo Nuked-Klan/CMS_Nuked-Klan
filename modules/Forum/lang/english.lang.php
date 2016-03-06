@@ -4,18 +4,11 @@ define("_INDEXFORUM","Forum Index");
 define("_FTODAY","today,");
 define("_FYESTERDAY","yesterday,");
 define("_PAGES","Pages");
-define("_MESSAGESMARK","All posts have now been marked as read");
 define("_TOPICMODIFIED","Topic was successfully modified.");
 define("_SMILEY","Smilies");
 define("_NOTITLE","Please enter a title!");
 define("_NOTEXT","Please enter a text!");
-define("_TOPICDELETED","Topic was successfully removed.");
-define("_CONFIRMDELTOPIC","Remove this topic?");
 define("_MOVETOPIC","Move topic to");
-define("_TOPICMOVED","Topic was successfully moved.");
-define("_TOPICLOCKED","Topic was successfully closed.");
-define("_TOPICUNLOCKED","Topic was successfully re-opened.");
-define("_TOPICMODIFIED","Topic was successfully modified");
 define("_CANCEL","Cancel");
 define("_FSEARCHRESULT","Search Results");
 define("_SEARCHING","Search");
@@ -35,9 +28,6 @@ define("_3CHARSMIN","You must enter at least 3 characters");
 define("_VISITFORUMS","Visit Forums");
 define("_LISTSMILIES","Smilies List");
 define("_UPLOADFAILED","Uploading of file failed!!!");
-define("_FILEDELETED","Attached file was successfully removed.");
-define("_NOTIFYISON","Notification was successfully activated.");
-define("_NOTIFYISOFF","Notification was successfully deactivated.");
 define("_NOTEXTRESUME","No resume available...");
 define("_MODOS","Moderators");
 define("_ADDMODO","Add a moderator");
@@ -57,8 +47,7 @@ define("_NONAME","Please enter a name!");
 define("_INCORRECT_ORDER","The order does not consist of all digits !");
 define("_INCORRECT_RANK_MESSAGE","The rank of the message threshold does not consist of all digits !");
 
-// index
-define("_CONFIRMDELFILE","Remove this file?");
+
 
 // core.php
 //define("_MODO","Moderator");
@@ -89,6 +78,18 @@ return array(
     // modules/Forum/post.php
     // views/frontend/modules/Forum/post.php
     'MESSAGE'           => 'Post',
+    // modules/Forum/index.php
+    'CONFIRM_DELETE_FILE' => 'Remove this file?"',
+    'FILE_DELETED'      => 'Attached file was successfully removed.',
+    'NOTIFY_IS_ON'      => 'Notification was successfully activated.',
+    'NOTIFY_IS_OFF'     => 'Notification was successfully deactivated.',
+    'CONFIRM_DELETE_TOPIC' => 'Remove this topic?',
+    'TOPIC_DELETED'     => 'Topic was successfully removed.',
+    'TOPIC_MOVED'       => 'Topic was successfully moved.',
+    'TOPIC_LOCKED'      => 'Topic was successfully closed.',
+    'TOPIC_UNLOCKED'    => 'Topic was successfully re-opened.',
+    'TOPIC_MODIFIED'    => 'Topic was successfully modified',
+    'MESSAGES_MARK'     => 'All posts have now been marked as read',
     // modules/Forum/main.php
     'FORUM_CATEGORY_NO_EXIST' => 'Sorry, this forum category does not exist or was removed',
     'YEARS_OLD'         => 'years old',

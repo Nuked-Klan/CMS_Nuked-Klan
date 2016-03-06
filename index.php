@@ -10,9 +10,15 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
+define('DEVELOPMENT', 1);
+
+
 // Permet de s'assurer que tous les scripts passe bien par l'index du CMS
 define('INDEX_CHECK', 1);
 ini_set('default_charset', 'ISO8859-1');
+
+if (defined('DEVELOPMENT'))
+    require_once 'Includes/nkDebug.php';
 
 require_once 'Includes/fatal_errors.php';
 require_once 'globals.php';
@@ -55,12 +61,12 @@ nkHandle_bannedUser();
  */
 $GLOBALS['page'] = nkHandle_page();
 
+$inBackend = $GLOBALS['file'] == 'Admin' || $GLOBALS['page'] == 'admin' || $GLOBALS['admin'] === true;
 
 // Hack for CSRF vulnerabilities
 if ($_SESSION['admin'] == true
-    && $GLOBALS['file'] != 'Admin'
-    && $GLOBALS['page'] != 'admin'
-    && $GLOBALS['admin'] === false
+    && ! $inBackend
+    && (! ($GLOBALS['file'] == 'Stats' && $GLOBALS['page'] == 'admin' && $GLOBALS['op'] == 'statsPopup'))
     && (! ($GLOBALS['file'] == 'Textbox' && $GLOBALS['page'] == 'index' && $GLOBALS['op'] == 'ajax'))
 ) {
     $_SESSION['admin'] = false;
@@ -83,9 +89,7 @@ if ($nuked['nk_status'] == 'closed'
     echo nkTemplate_renderPage(applyTemplate('websiteClosed'));
 }
 // Display admin login
-else if (($GLOBALS['file'] == 'Admin' || $GLOBALS['page'] == 'admin' || $GLOBALS['admin'] === true)
-    && nkSessions_adminCheck() == false
-) {
+else if ($inBackend && nkSessions_adminCheck() == false) {
     nkTemplate_init($GLOBALS['file']);
     require_once 'modules/Admin/login.php';
 }
@@ -129,10 +133,7 @@ else {
 nkDB_disconnect();
 
 
-if (in_array(nkTemplate_getPageDesign(), array('fullPage', 'nudePage'))) {
-    echo '<!--', "\n";
-    print_r($GLOBALS['nkDB']);
-    echo '-->', "\n";
-}
+if (defined('DEVELOPMENT') && in_array(nkTemplate_getPageDesign(), array('fullPage', 'nudePage')))
+    nkDebug_sqlErrors();
 
 ?>

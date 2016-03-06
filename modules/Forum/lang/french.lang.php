@@ -4,17 +4,10 @@ define("_FTODAY","aujourd'hui à");
 define("_FYESTERDAY","hier à");
 define("_INDEXFORUM","Index du Forum");
 define("_PAGES","Pages");
-define("_MESSAGESMARK","Tous les messages sont à présent marqués comme lus");
 define("_SMILEY","Smilies");
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
-define("_TOPICDELETED","Topic supprimé avec succès.");
-define("_CONFIRMDELTOPIC","Etes-vous sûr de vouloir supprimer ce topic ?");
 define("_MOVETOPIC","Déplacer vers le forum");
-define("_TOPICMOVED","Topic déplacé avec succès.");
-define("_TOPICLOCKED","Topic fermé avec succès.");
-define("_TOPICUNLOCKED","Topic ouvert avec succès.");
-define("_TOPICMODIFIED","Topic modifié avec succès.");
 define("_CANCEL","Annuler");
 define("_FSEARCHRESULT","Résultats de la recherche");
 define("_SEARCHING","Rechercher");
@@ -34,9 +27,6 @@ define("_NOWORDSTOSEARCH","Veuillez entrer une expression a rechercher");
 define("_VISITFORUMS","Visiter les Forums");
 define("_LISTSMILIES","Liste des smilies");
 define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
-define("_FILEDELETED","Fichier joint supprimé avec succès.");
-define("_NOTIFYISON","Notification activé avec succès.");
-define("_NOTIFYISOFF","Notification désactivé avec succès.");
 define("_NOTEXTRESUME","Aucun aperçu disponible...");
 define("_MODOS","Modérateurs");
 define("_NONEXIST","n'existe pas dans la base de données.");
@@ -57,8 +47,6 @@ define("_NONAME","Vous n'avez pas entré de nom !");
 define("_INCORRECT_ORDER","L'ordre ne contient pas que des entiers !");
 define("_INCORRECT_RANK_MESSAGE","Le seuil de message du rang ne contient pas que des entiers !");
 
-// index
-define("_CONFIRMDELFILE","Etes-vous sûr de vouloir supprimer ce fichier ?");
 
 // core.php
 //define("_MODO","Modérateur");
@@ -89,6 +77,18 @@ return array(
     // modules/Forum/post.php
     // views/frontend/modules/Forum/post.php
     'MESSAGE'           => 'Message',
+    // modules/Forum/index.php
+    'CONFIRM_DELETE_FILE' => 'Etes-vous sûr de vouloir supprimer ce fichier ?',
+    'FILE_DELETED'      => 'Fichier joint supprimé avec succès.',
+    'NOTIFY_IS_ON'      => 'Notification activé avec succès.',
+    'NOTIFY_IS_OFF'     => 'Notification désactivé avec succès.',
+    'CONFIRM_DELETE_TOPIC' => 'Etes-vous sûr de vouloir supprimer ce topic ?',
+    'TOPIC_DELETED'     => 'Topic supprimé avec succès.',
+    'TOPIC_MOVED'       => 'Topic déplacé avec succès.',
+    'TOPIC_LOCKED'      => 'Topic fermé avec succès.',
+    'TOPIC_UNLOCKED'    => 'Topic ouvert avec succès.',
+    'TOPIC_MODIFIED'    => 'Topic modifié avec succès.',
+    'MESSAGES_MARK'     => 'Tous les messages sont à présent marqués comme lus',
     // modules/Forum/main.php
     'FORUM_CATEGORY_NO_EXIST' => 'Désolé cette catégorie forum n\'existe pas ou a été supprimé',
     'YEARS_OLD'         => 'ans',

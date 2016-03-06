@@ -91,7 +91,8 @@ function nkHandle_siteInstalled() {
 function nkHandle_module() {
     global $nuked, $admin;
 
-    $module = $admin = null;
+    $module = null;
+    $admin  = false;
 
     if (isset($_POST['admin'])) {
         $module = $_POST['admin'];

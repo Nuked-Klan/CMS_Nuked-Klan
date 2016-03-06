@@ -52,7 +52,7 @@ function del_file() {
     if (! isset($_POST['confirm'])) {
         echo applyTemplate('confirm', array(
             'url'       => 'index.php?file=Forum&amp;op=del_file&forum_id='. $forumId .'&amp;thread_id='. $threadId .'&amp;mess_id='. $messId,
-            'message'   => _CONFIRMDELFILE,
+            'message'   => __('CONFIRM_DELETE_FILE'),
             'fields'    => array(
                 'token'     => nkToken_generate('deleteForumJoinedFile'. $forumId . $threadId . $messId)
             ),
@@ -66,7 +66,7 @@ function del_file() {
         );
 
         if (! $tokenValid) {
-            printNotification(_TOKEN_INVALID, 'error');
+            printNotification(__('TOKEN_NO_VALID'), 'error');
             redirect('index.php?file=Forum&op=del_file&forum_id='. $forumId .'&thread_id='. $threadId .'&mess_id='. $messId, 2);
             return;
         }
@@ -76,14 +76,14 @@ function del_file() {
             deleteForumMessageFile($dbrForumMessage['file']);
 
             nkDB_update(FORUM_MESSAGES_TABLE, array('file' => ''), 'id = '. $messId);
-            printNotification(_FILEDELETED, 'success');
+            printNotification(__('FILE_DELETED'), 'success');
         }
 
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
     }
     // User aborted
-    else if ($_POST['confirm'] == _NO) {
-        printNotification(_DELCANCEL, 'warning');
+    else if ($_POST['confirm'] == __('NO')) {
+        printNotification(__('OPERATION_CANCELED'), 'warning');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
     }
 }
@@ -99,11 +99,11 @@ function notify() {
     // Check if user is logued
     if ($user && $user['id'] != '') {
         if ($do == 'on') {
-            $message    = _NOTIFYISON;
+            $message    = __('NOTIFY_IS_ON');
             $notify     = 1;
         }
         else if ($do == 'off') {
-            $message    = _NOTIFYISOFF;
+            $message    = __('NOTIFY_IS_OFF');
             $notify     = 0;
         }
 
@@ -142,7 +142,7 @@ function del_topic() {
     if (! isset($_POST['confirm'])) {
         echo applyTemplate('confirm', array(
             'url'       => 'index.php?file=Forum&amp;op=del_topic&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId,
-            'message'   => _CONFIRMDELTOPIC,
+            'message'   => __('CONFIRM_DELETE_TOPIC'),
             'fields'    => array(
                 'token'     => nkToken_generate('deleteForumTopic'. $forumId . $threadId)
             ),
@@ -156,7 +156,7 @@ function del_topic() {
         );
 
         if (! $tokenValid) {
-            printNotification(_TOKEN_INVALID, 'error');
+            printNotification(__('TOKEN_NO_VALID'), 'error');
             redirect('index.php?file=Forum&page=del_topic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
             return;
         }
@@ -213,12 +213,12 @@ function del_topic() {
         nkDB_delete(FORUM_MESSAGES_TABLE, 'thread_id = '. $threadId);
         nkDB_delete(FORUM_THREADS_TABLE, 'id = '. $threadId);
 
-        printNotification(_TOPICDELETED, 'success');
+        printNotification(__('TOPIC_DELETED'), 'success');
         redirect('index.php?file=Forum&page=viewforum&forum_id='. $forumId, 2);
     }
     // User aborted
     else if ($_POST['confirm'] == __('NO')) {
-        printNotification(_DELCANCEL, 'warning');
+        printNotification(__('OPERATION_CANCELED'), 'warning');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
     }
 }
@@ -278,7 +278,7 @@ function move() {
         );
 
         if (! $tokenValid) {
-            printNotification(_TOKEN_INVALID, 'error');
+            printNotification(__('TOKEN_NO_VALID'), 'error');
             redirect('index.php?file=Forum&page=move&forum_id='. $forumId .'&thread_id='. $threadId, 2);
             return;
         }
@@ -404,11 +404,11 @@ function move() {
             );
         }
 
-        printNotification(_TOPICMOVED, 'success');
+        printNotification(__('TOPIC_MOVED'), 'success');
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $newForumId .'&thread_id='. $threadId, 2);
     }
     else if ($_POST['confirm'] == __('NO')) {
-        printNotification(_DELCANCEL, 'warning');
+        printNotification(__('OPERATION_CANCELED'), 'warning');
 
         redirect('index.php?file=Forum&page=viewtopic&forum_id='. $forumId .'&thread_id='. $threadId, 2);
     }
@@ -422,11 +422,11 @@ function lock() {
     // Check if user can lock Forum topic
     if (isForumAdministrator($forumId)) {
         if ($_GET['do'] == 'close') {
-            $message    = _TOPICLOCKED;
+            $message    = __('TOPIC_LOCKED');
             $closed     = 1;
         }
         else if ($_GET['do'] == 'open') {
-            $message    = _TOPICUNLOCKED;
+            $message    = __('TOPIC_UNLOCKED');
             $closed     = 0;
         }
 
@@ -459,7 +459,7 @@ function announce() {
         if (isset($announce)) {
             nkDB_update(FORUM_THREADS_TABLE, array('annonce' => $announce), 'id = '. $threadId);
 
-            printNotification(_TOPICMODIFIED, 'success');
+            printNotification(__('TOPIC_MODIFIED'), 'success');
         }
     }
     else
@@ -542,7 +542,7 @@ function mark() {
         }
     }
 
-    printNotification(_MESSAGESMARK, 'success');
+    printNotification(__('MESSAGES_MARK'), 'success');
     redirect('index.php?file=Forum', 2);
 }
 

@@ -76,7 +76,9 @@ function getAdminModulesMenuData() {
 
     natcasesort($data[1]);
 
-    if (array_key_exists($file, $data[1]) && $page == 'admin')
+    if (array_key_exists($file, $data[1])
+        && ($page == 'admin' || is_file('modules/'. $file .'/backend/'. $page .'.php'))
+    )
         $data[0] = ' current';
 
     return $data;
