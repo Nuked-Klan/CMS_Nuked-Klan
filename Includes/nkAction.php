@@ -412,7 +412,7 @@ function nkAction_edit() {
     $form['action'] = nkUrl_format($nkAction['moduleUriKey'], $file, $page, 'save', $nkAction['uriData'], true);
 
     if ($nkTemplate['interface'] == 'backend')
-        $form['labelFormat'] = '<b>%s :</b>&nbsp;';
+        $form['labelFormat'] = '%s :&nbsp;';
 
     if ($nkTemplate['interface'] == 'backend' && $page == 'setting')
         nkAction_editBackendSetting($form);
