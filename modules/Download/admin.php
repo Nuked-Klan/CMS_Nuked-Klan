@@ -195,8 +195,11 @@ function send_file() {
 
         require_once 'Includes/nkSitemap.php';
 
-        if (! nkSitemap_write())
+        if (! nkSitemap_write()) {
+            printNotification(__('WRITE_SITEMAP_FAILED'), 'error');
+            redirect('index.php?file=Download&page=admin', 5);
             return;
+        }
 
         setPreview('index.php?file=Download&op=description&dl_id='. $id, 'index.php?file=Download&page=admin');
     } else {

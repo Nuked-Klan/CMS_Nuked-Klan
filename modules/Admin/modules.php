@@ -96,8 +96,11 @@ function desactive($mid)
 
     require_once 'Includes/nkSitemap.php';
 
-    if (! nkSitemap_write())
+    if (! nkSitemap_write()) {
+        printNotification(__('WRITE_SITEMAP_FAILED'), 'error');
+        redirect('index.php?file=Admin&page=modules', 5);
         return;
+    }
 
     redirect("index.php?file=Admin&page=modules", 2);
 }
@@ -120,8 +123,11 @@ function active($mid)
 
     require_once 'Includes/nkSitemap.php';
 
-    if (! nkSitemap_write())
+    if (! nkSitemap_write()) {
+        printNotification(__('WRITE_SITEMAP_FAILED'), 'error');
+        redirect('index.php?file=Admin&page=modules', 5);
         return;
+    }
 
     redirect("index.php?file=Admin&page=modules", 2);
 }
@@ -144,8 +150,11 @@ function update_module($mid, $niveau, $level)
 
     require_once 'Includes/nkSitemap.php';
 
-    if (! nkSitemap_write())
+    if (! nkSitemap_write()) {
+        printNotification(__('WRITE_SITEMAP_FAILED'), 'error');
+        redirect('index.php?file=Admin&page=modules', 5);
         return;
+    }
 
     redirect("index.php?file=Admin&page=modules", 2);
 }

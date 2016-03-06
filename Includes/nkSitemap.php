@@ -102,10 +102,6 @@ function nkSitemap_write() {
             return true;
     }
 
-    // TODO : Translate
-    printNotification('Update sitemap failed', 'error');
-    redirect('index.php?file=Admin&page=filesystem&op=files', 2);
-
     return false;
 }
 

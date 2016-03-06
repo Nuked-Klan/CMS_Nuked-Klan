@@ -473,6 +473,8 @@ return array(
     'CT_BAD_TOKEN'      => 'Token incorrect !<br />Veuillez utiliser le formulaire.',
     'CT_BAD_JS'         => 'La validation javascript a échouée !<br />Veuillez activer javascript.',
     'CT_BAD_FIELD'      => 'La validation antiRobot a échouée !<br />Veuillez utiliser le formulaire.',
+    // nkSitemap_write - Includes/nkSitemap.php
+    'WRITE_SITEMAP_FAILED' => 'Impossible d\'écrire le fichier sitemap.xml dans le dossier contenant Nuked-Klan<br/>Veuillez mettre manuellement le CHMOD <strong>0755</strong> sur ce dossier.',
     // nkUpload_check - Includes/nkUpload.php
     'NO_UPLOADABLE_FILE' => 'Ce type de fichier n\'est pas autorisé !',
     'UPLOAD_FILE_TOO_BIG' => 'Votre fichier est trop grand, uniquement les fichiers de moins de %d Ko sont autorisées',

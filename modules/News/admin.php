@@ -292,8 +292,11 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $url
 
     require_once 'Includes/nkSitemap.php';
 
-    if (! nkSitemap_write())
+    if (! nkSitemap_write()) {
+        printNotification(__('WRITE_SITEMAP_FAILED'), 'error');
+        redirect('index.php?file=News&page=admin', 5);
         return;
+    }
 
     setPreview('index.php?file=News&op=suite&news_id='. $id, 'index.php?file=News&page=admin');
 }

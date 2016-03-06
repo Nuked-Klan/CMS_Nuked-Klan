@@ -466,6 +466,8 @@ return array(
     'CT_BAD_TOKEN'      => 'Bad token !<br />Please use the form.',
     'CT_BAD_JS'         => 'Javascript validation failed !<br /> Please enable javascript.',
     'CT_BAD_FIELD'      => 'NoBot validation failed !<br /> Please use the form.',
+    // nkSitemap_write - Includes/nkSitemap.php
+    'WRITE_SITEMAP_FAILED' => 'Can\'t write sitemap.fml file in Nuked-Klan directory<br/>Please update manually CHMOD <strong>0755</strong> on this directory.',
     // nkUpload_check - Includes/nkUpload.php
     'NO_UPLOADABLE_FILE' => 'This file type is not allowed !',
     'UPLOAD_FILE_TOO_BIG' => 'Your file is too large, file size is limited to %d KB',
