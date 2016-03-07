@@ -110,16 +110,16 @@ function match(){
         $war_id = '';
     }
 
-    $status = $team = $game = $adv_name = $adv_url = $pays_adv = $type = $style = $jour = $mois = $an = $heure = $map = $score_team = $score_adv = $tscore_team = $tscore_adv = $report = $url_league = '';
+    $status = $team = $game = $adv_name = $adv_url = $pays_adv = $type = $style = $jour = $mois = $an = $heure = $score_team = $score_adv = $tscore_team = $tscore_adv = $report = $url_league = '';
 
     if ($_REQUEST['do'] == "edit") {
         $sql = mysql_query("SELECT etat, team, game, adversaire, url_adv, pays_adv, image_adv, type, style, date_jour, date_mois, date_an, heure, map, score_team, score_adv, tscore_team, tscore_adv, report, url_league FROM " . WARS_TABLE . " WHERE warid='".$war_id."'");
         list($status, $team, $game, $adv_name, $adv_url, $pays_adv, $logo_adv, $type, $style, $jour, $mois, $an, $heure, $map, $score_team, $score_adv, $tscore_team, $tscore_adv, $report, $url_league) = mysql_fetch_array($sql);
         $adv_name = nkHtmlSpecialChars($adv_name);
-        $map = explode('|', $map);
+        $mapList = explode('|', $map);
         $score_team = explode('|', $score_team);
         $score_adv = explode('|', $score_adv);
-        $nbr = count($map);
+        $nbr = count($mapList);
         $_REQUEST['game'] = $game;
         $adminTitle = _EDITTHISMATCH;
     }
@@ -144,11 +144,13 @@ function match(){
     }
     else if ($_REQUEST['do'] == "add"){
         $action = "add_war";
+        $mapList = array();
+
         if(array_key_exists('nbr', $_REQUEST)){
             $nbr = $_REQUEST['nbr'];
         }
         else{
-            $nbr = '';
+            $nbr = 0;
         }
     }
 
@@ -317,13 +319,57 @@ function match(){
         echo "<option value=\"" . $filename . "\" " . $checked5 . ">" . $country . "</option>\n";
     }
 
-    echo "</select><input type=\"hidden\" name=\"game\" value=\"".$_REQUEST['game']."\"/></td></tr></table>\n"
+    echo "</select><input type=\"hidden\" name=\"game\" value=\"".$_REQUEST['game']."\"/>"
+    . "<input type=\"hidden\" name=\"nbr\" value=\"" . (string) $nbr . "\" /></td></tr></table>\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
     . "<tr><td align=\"center\"><h5>" . _MATCH . "</h5></td></tr>\n"
-    . "<tr><td><b>" . _TYPE . " : </b><input type=\"text\" name=\"type\" maxlength=\"100\" size=\"20\" value=\"" . $type . "\" />&nbsp;&nbsp;<b>" . _STYLE . " : </b><input type=\"text\" name=\"style\" maxlength=\"100\" size=\"20\" value=\"" . $style . "\" /></td></tr>\n"
-    . "<input type=\"hidden\" name=\"nbr\" value=\"" . $nbr . "\" />\n";
+    . "<tr><td><b>" . _TYPE . " : </b><input type=\"text\" name=\"type\" maxlength=\"100\" size=\"20\" value=\"" . $type . "\" />&nbsp;&nbsp;<b>" . _STYLE . " : </b><input type=\"text\" name=\"style\" maxlength=\"100\" size=\"20\" value=\"" . $style . "\" /></td></tr>\n";
 
-    $sql3 = mysql_query("SELECT map FROM " . GAMES_TABLE . " WHERE id=".mysql_real_escape_string($_REQUEST['game']) ." ORDER BY name");
+    $dbrGameMaps = nkDB_selectMany(
+        'SELECT id, name
+        FROM '. GAMES_MAP_TABLE .'
+        WHERE game = '. nkDB_escape($_REQUEST['game']),
+        array('name')
+    );
+
+    for ($i = 1; $i <= $nbr; $i++) {
+        echo '<tr><td><b>Map n° '. $i .': </b></td></tr><tr><td><select name="map_'. $i .'">' ."\n";
+
+        foreach ($dbrGameMaps as $map) {
+            $map['name'] = printSecuTags($map['name']);
+
+            if ($map['id'] == $mapList[$i - 1])
+                $checked3 = ' selected="selected"';
+            else
+                $checked3 = '';
+
+            if ($map['name'] != '')
+                echo '<option value="'. $map['id'] .'"'. $checked3 .'>'. $map['name'] .'</option>' ."\n";
+        }
+
+        if (is_array($score_team)) {
+            $scoreTeam = $score_team[$i - 1];
+        }
+        else {
+            $scoreTeam = 0;
+        }
+
+        if (is_array($score_adv)) {
+            $scoreAdv = $score_adv[$i - 1];
+        }
+        else {
+            $scoreAdv =  0;
+        }
+
+        echo "</select>"
+            . "</td></tr><tr><td><b>" . _OURSCORE . " : </b>"
+            . "<input type=\"text\" name=\"score_team". $i ."\" maxlength=\"10\" size=\"5\" value=\"". $scoreTeam ."\" />"
+            . "&nbsp;&nbsp;<b>" . _OPPSCORE . " : </b>"
+            . "<input type=\"text\" name=\"score_adv". $i ."\" maxlength=\"10\" size=\"5\" value=\"". $scoreAdv ."\" />"
+            . "</td></tr>\n";
+    }
+
+    /*$sql3 = mysql_query("SELECT map FROM " . GAMES_TABLE . " WHERE id=".mysql_real_escape_string($_REQUEST['game']) ." ORDER BY name");
     list($mapss) = mysql_fetch_array($sql3);
     $mapss = explode('|', $mapss);
     for($maps = 1; $maps <= $nbr; $maps++){
@@ -359,12 +405,13 @@ function match(){
 
         echo "</select>";
         echo "</td></tr><tr><td><b>" . _OURSCORE . " : </b><input type=\"text\" name=\"score_team".$maps."\" maxlength=\"10\" size=\"5\" value=\"" . $scoreTeam . "\" />&nbsp;&nbsp;<b>" . _OPPSCORE . " : </b><input type=\"text\" name=\"score_adv".$maps."\" maxlength=\"10\" size=\"5\" value=\"" . $scoreAdv . "\" /></td></tr>\n";
-    }
+    }*/
 
-    echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
-            . "<tr><td align=\"center\"><h5>" . _REPORT . "</h5></td></tr>\n"
-            . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"report\" cols=\"60\" rows=\"10\">" . $report . "</textarea></td></tr>\n"
-            . "<tr><td align=\"center\"><b>" . _URLREPORT . " :</b> <input type=\"text\" name=\"url_league\" size=\"35\" maxlength=\"200\" value=\"" . $url_league . "\" /></td></tr></table>\n";
+    echo "</table>\n"
+        . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
+        . "<tr><td align=\"center\"><h5>" . _REPORT . "</h5></td></tr>\n"
+        . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"report\" cols=\"60\" rows=\"10\">" . $report . "</textarea></td></tr>\n"
+        . "<tr><td align=\"center\"><b>" . _URLREPORT . " :</b> <input type=\"text\" name=\"url_league\" size=\"35\" maxlength=\"200\" value=\"" . $url_league . "\" /></td></tr></table>\n";
 
     if ($_REQUEST['do'] == "edit"){
         $sql4 = mysql_query("SELECT id FROM " . WARS_FILES_TABLE . " WHERE module = 'Wars' AND im_id = '" . $war_id ."'");
@@ -381,7 +428,7 @@ function match(){
             . "</form><br /></div></div>\n";
 }
 
-function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage, $upImage){
+function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage){
     global $nuked, $user;
 
     $autor = $user[2];
@@ -391,20 +438,21 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
     $type = mysql_real_escape_string(stripslashes($type));
     $style = mysql_real_escape_string(stripslashes($style));
 
+    $mapList = $scoreTeamList = $scoreAdvList = array();
+    $tscore_team = $tscore_adv = 0;
+    $end = $_REQUEST['nbr'] + 1;
 
-    for($maps =1; $maps < $_REQUEST['nbr']; $maps++){
-        $map .= ''.str_replace("|", "&#124;",$_REQUEST['map_'.$maps.'']).'|';
-        $score_team .= ''.str_replace("|", "&#124;",$_REQUEST['score_team'.$maps.'']).'|';
-        $tscore_team += $_REQUEST['score_team'.$maps.''];
-        $score_adv .= ''.str_replace("|", "&#124;",$_REQUEST['score_adv'.$maps.'']).'|';
-        $tscore_adv += $_REQUEST['score_adv'.$maps.''];
+    for ($i = 1; $i < $end; $i++){
+        $mapList[]       = $_REQUEST['map_'. $i];
+        $scoreTeamList[] = str_replace('|', '&#124;', $_REQUEST['score_team'. $i]);
+        $tscore_team    += $_REQUEST['score_team'. $i];
+        $scoreAdvList[]  = str_replace('|', '&#124;', $_REQUEST['score_adv'. $i]);
+        $tscore_adv     += $_REQUEST['score_adv'. $i];
     }
 
-    $map .= ''.str_replace("|", "&#124;",$_REQUEST['map_'.$_REQUEST['nbr'].'']).'';
-    $score_team .= ''.str_replace("|", "&#124;",$_REQUEST['score_team'.$_REQUEST['nbr'].'']).'';
-    $tscore_team += $_REQUEST['score_team'.$_REQUEST['nbr'].''];
-    $score_adv .= ''.str_replace("|", "&#124;",$_REQUEST['score_adv'.$_REQUEST['nbr'].'']).'';
-    $tscore_adv += $_REQUEST['score_adv'.$_REQUEST['nbr'].''];
+    $map        = implode('|', $mapList);
+    $score_team = implode('|', $scoreTeamList);
+    $score_adv  = implode('|', $scoreAdvList);
 
     if ($url_adv != "" && !preg_match("`http://`i", $url_adv)){
         $url_adv = "http://" . $url_adv;
@@ -413,7 +461,7 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
     if ($url_league != "" && !preg_match("`http://`i", $url_league)){
         $url_league = "http://" . $url_league;
     }
-    
+
     //Upload du logo adv
     $filename = $_FILES['upImage']['name'];
     if ($filename != "") {
@@ -459,7 +507,7 @@ function del_war($war_id){
     setPreview('index.php?file=Wars', 'index.php?file=Wars&page=admin');
 }
 
-function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage, $upImage){
+function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage){
     global $nuked, $user;
 
     $report = nkHtmlEntityDecode($report);
@@ -468,19 +516,21 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
     $type = mysql_real_escape_string(stripslashes($type));
     $style = mysql_real_escape_string(stripslashes($style));
 
-    for($maps =1; $maps < $_REQUEST['nbr']; $maps++){
-        $map .= ''.str_replace("|", "&#124;",$_REQUEST['map_'.$maps.'']).'|';
-        $score_team .= ''.str_replace("|", "&#124;",$_REQUEST['score_team'.$maps.'']).'|';
-        $tscore_team += $_REQUEST['score_team'.$maps.''];
-        $score_adv .= ''.str_replace("|", "&#124;",$_REQUEST['score_adv'.$maps.'']).'|';
-        $tscore_adv += $_REQUEST['score_adv'.$maps.''];
+    $mapList = $scoreTeamList = $scoreAdvList = array();
+    $tscore_team = $tscore_adv = 0;
+    $end = $_REQUEST['nbr'] + 1;
+
+    for ($i = 1; $i < $end; $i++){
+        $mapList[]       = $_REQUEST['map_'. $i];
+        $scoreTeamList[] = str_replace('|', '&#124;', $_REQUEST['score_team'. $i]);
+        $tscore_team    += $_REQUEST['score_team'. $i];
+        $scoreAdvList[]  = str_replace('|', '&#124;', $_REQUEST['score_adv'. $i]);
+        $tscore_adv     += $_REQUEST['score_adv'. $i];
     }
 
-    $map .= ''.str_replace("|", "&#124;",$_REQUEST['map_'.$_REQUEST['nbr'].'']).'';
-    $score_team .= ''.str_replace("|", "&#124;",$_REQUEST['score_team'.$_REQUEST['nbr'].'']).'';
-    $tscore_team += $_REQUEST['score_team'.$_REQUEST['nbr'].''];
-    $score_adv .= ''.str_replace("|", "&#124;",$_REQUEST['score_adv'.$_REQUEST['nbr'].'']).'';
-    $tscore_adv += $_REQUEST['score_adv'.$_REQUEST['nbr'].''];
+    $map        = implode('|', $mapList);
+    $score_team = implode('|', $scoreTeamList);
+    $score_adv  = implode('|', $scoreAdvList);
 
     if ($url_adv != "" && !preg_match("`http://`i", $url_adv)){
         $url_adv = "http://" . $url_adv;
@@ -830,7 +880,7 @@ switch ($GLOBALS['op']){
         break;
 
     case "add_war":
-        add_war($_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
+        add_war($_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league'], $_REQUEST['urlImage']);
         break;
 
     case "del_war":
@@ -838,7 +888,7 @@ switch ($GLOBALS['op']){
         break;
 
     case "do_edit":
-        do_edit($_REQUEST['war_id'], $_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
+        do_edit($_REQUEST['war_id'], $_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league'], $_REQUEST['urlImage']);
         break;
 
     case "main_file":
