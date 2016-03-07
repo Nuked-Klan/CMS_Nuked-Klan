@@ -25,6 +25,8 @@ while ($dbrArticle = mysql_fetch_assoc($dbeArticle)) {
     $i++;
 }
 
+$classUnikCenter = '';
+
 if($this->get('cfg')->get('blockArticle.fullPage') == 1){
     $classUnikCenter = 'class="RL_blockUnikCenter'.count($arrayTemp).' RL_blockUnikCenterFull"';
 }
