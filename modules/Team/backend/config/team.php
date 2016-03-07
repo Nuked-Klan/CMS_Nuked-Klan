@@ -60,15 +60,13 @@ function getTeamFormCfg() {
                 'label'             => __('TAG_PREFIX'),
                 'type'              => 'text',
                 'size'              => 10,
-                'dataType'          => 'text',
-                'required'          => true
+                'dataType'          => 'text'
             ),
             'tag2' => array(
                 'label'             => __('TAG_SUFFIX'),
                 'type'              => 'text',
                 'size'              => 10,
-                'dataType'          => 'text',
-                'required'          => true
+                'dataType'          => 'text'
             ),
             'coverage' => array(
                 'label'             => __('IMAGE'),

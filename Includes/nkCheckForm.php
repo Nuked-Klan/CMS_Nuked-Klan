@@ -86,6 +86,11 @@ function nkCheckForm(&$form, $fields, &$validData = null) {
                     $form['items'][$form['items'][$field]['uploadField']]['urlField'] = $field;
 
                 if (isset($form['items'][$field]['uploadField']) && isset($form['items'][$form['items'][$field]['uploadField']])) {
+                    if (! isset($form['items'][$form['items'][$field]['uploadField']]['required'])
+                        || ! is_bool($form['items'][$form['items'][$field]['uploadField']]['required'])
+                    )
+                        $form['items'][$form['items'][$field]['uploadField']]['required'] = false;
+
                     if (! nkCheckForm_checkFormInput(
                         $form['items'][$field]['uploadField'],
                         $form['items'][$form['items'][$field]['uploadField']],
@@ -96,6 +101,9 @@ function nkCheckForm(&$form, $fields, &$validData = null) {
 
                     //if (isset($form['items'][$field]['uploadValue']))
                     //    continue;
+
+                    if ($validData !== null && array_key_exists($fieldName, $validData))
+                        continue;
                 }
 
                 if (! nkCheckForm_checkFormInput($fieldName, $form['items'][$field], $form, $validData))
