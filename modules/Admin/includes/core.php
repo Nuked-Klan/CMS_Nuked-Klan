@@ -138,6 +138,13 @@ function saveUserAction($action) {
  * @param void
  */
 function setPreview($previewUrl, $redirect) {
+    $previewToken = $_SESSION['previewToken'] = sha1(rand()) . sha1(uniqid(rand(), true));
+
+    if (strpos($previewUrl, '?'))
+        $previewUrl .= '&previewToken='. $previewToken;
+    else
+        $previewUrl .= '?previewToken='. $previewToken;
+
     nkTemplate_addJS('setTimeout(function(){screenon("'. $previewUrl .'", "'. $redirect .'");},"3000");' ."\n");
 }
 

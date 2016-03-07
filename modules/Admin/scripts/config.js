@@ -1,6 +1,6 @@
 // JavaScript Document
 
-var xtralink = 'non';
+var previewRedirectUrl = 'none';
 
 function maFonctionAjax(texte){
 	var OAjax;
@@ -20,21 +20,25 @@ function maFonctionAjax(texte){
 	$(document).trigger('close.facebox');
 }
 
-function screenon(lien,lien2){
-	xtralink = lien2;
-	//document.getElementById('iframe').innerHTML = '<iframe style="border: 0" width="100%" height="80%" src="'+lien+'"></iframe>';
-	if (condition_js == 1) {
+// Display frontend preview in administration if enabled
+function screenon(previewUrl, redirectUrl) {
+    previewRedirectUrl = redirectUrl;
+
+    if (frontendPreview == 'off') {
         screenoff();
     }
     else {
-        document.getElementById('iframe').innerHTML = '<iframe style="border: 0" width="100%" height="80%" src="'+lien+'"></iframe>';
-        document.getElementById("screen").style.display="block";
+        $('#iframe').html('<iframe style="border: 0" width="100%" height="80%" src="' + previewUrl + '"></iframe>');
+        $('#screen').css('display', 'block');
     }
 }
 
+// Remove frontend preview in administration and redirect if needed
 function screenoff(){
-	document.getElementById('screen').style.display='none';
-	if (xtralink != 'non') window.location = xtralink;
+    $('#screen').css('display', 'none');
+
+    if (previewRedirectUrl != 'none')
+        window.location = previewRedirectUrl;
 }
 
 function maFonctionAjax2(texte,type){

@@ -116,7 +116,7 @@ function nkTemplate_adminInit($module) {
     nkTemplate_addJSFile('modules/Admin/scripts/simpla.jquery.configuration.js');
 
     nkTemplate_addJS(
-        'var condition_js = "'. (($nuked['screen'] == 'off') ? 1 : 0) .'";
+        'var frontendPreview = "'. $nuked['screen'] .'";
         var lang_nuked = "'. $language .'";',
         'beforeLibs'
     );

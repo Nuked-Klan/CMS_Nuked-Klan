@@ -69,8 +69,14 @@ if ($_SESSION['admin'] == true
     && (! ($GLOBALS['file'] == 'Stats' && $GLOBALS['page'] == 'admin' && $GLOBALS['op'] == 'statsPopup'))
     && (! ($GLOBALS['file'] == 'Textbox' && $GLOBALS['page'] == 'index' && $GLOBALS['op'] == 'ajax'))
 ) {
-    $_SESSION['admin'] = false;
+    if (! (isset($_GET['previewToken'], $_SESSION['previewToken']) && $_GET['previewToken'] == $_SESSION['previewToken'])
+        || ! isset($_GET['previewToken'])
+    ) {
+        $_SESSION['admin'] = false;
+    }
 }
+
+unset($_SESSION['previewToken']);
 
 
 /**
