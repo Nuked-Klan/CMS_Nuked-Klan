@@ -1236,11 +1236,9 @@ function translate($languageFile) {
 
     if (in_array($languageFile, $loaded)) return;
 
-    ob_start(); // TODO : Remove this line later, only for hide huge ugly notice block :S
     $newArrayModLang = include_once $languageFile;
-    ob_end_clean(); // TODO : Remove this line later, only for hide huge ugly notice block :S
 
-    if (defined('NK_DEBUG') && is_array($newArrayModLang)) {
+    if (defined('DEVELOPMENT') && DEVELOPMENT && is_array($newArrayModLang)) {
         foreach ($newArrayModLang as $alias => $i18n) {
             if (array_key_exists($alias, $arrayModLang))
                 trigger_error($alias .' translation is already defined.', E_USER_NOTICE);

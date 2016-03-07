@@ -2,8 +2,7 @@
 /**
  * nkDebug.php
  *
- * Write PHP errors log. Add sql errors in Javascript console of web browser.
- * Only for development.
+ * Write PHP & Sql errors log. Only for development.
  *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
@@ -11,10 +10,13 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-register_shutdown_function('nkDebug_writeErrorLog', dirname(__FILE__) .'/../');
-set_error_handler('nkDebug_errorHandler', E_ALL);
+/**
+ * Initialisation of nkError global vars
+ */
+$GLOBALS['nkError'] = array();
 
-$GLOBALS['nk_error'] = array();
+register_shutdown_function('nkDebug_writeLog', dirname(__FILE__) .'/../');
+set_error_handler('nkDebug_errorHandler', E_ALL);
 
 
 /**
@@ -28,7 +30,7 @@ $GLOBALS['nk_error'] = array();
  * @return void
  */
 function nkDebug_errorHandler($no, $str, $file, $line) {
-    $GLOBALS['nk_error'][] = nkDebug_getErrorName($no) .': '. strip_tags($str) .' in '. $file .' on line '. $line;
+    $GLOBALS['nkError'][] = nkDebug_getErrorName($no) .': '. strip_tags($str) .' in '. $file .' on line '. $line;
 
     return false;
 }
@@ -68,36 +70,60 @@ function nkDebug_getErrorName($no) {
 }
 
 /**
- * Write errors in log file.
+ * Write / append all log file.
  *
  * @param string $path : The root path of CMS directory.
  * @return void
  */
-function nkDebug_writeErrorLog($path) {
-    $content = '';
+function nkDebug_writeLog($path) {
+    $header = 'Url : '. basename($_SERVER['REQUEST_URI']) ."\n";
 
     if (is_file($path .'.git/refs/heads/develop_1.8'))
-        $content .= 'Commit : '. file_get_contents($path .'.git/refs/heads/develop_1.8');
+        $header .= 'Commit : '. file_get_contents($path .'.git/refs/heads/develop_1.8');
 
-    $content .= utf8_decode(implode("\n", $GLOBALS['nk_error'])) ."\n\n";
-
-    file_put_contents($path .'error.log', $content, FILE_APPEND);
+    nkDebug_writePhpErrorLog($header, $path);
+    nkDebug_writeSqlErrorLog($header, $path);
 }
 
 /**
- * Write sql errors in Javascript console of web browser.
+ * Write errors in log file.
  *
- * @param void
+ * @param string $header : Contains header log content of context. (Url, and if exist commit ID)
+ * @param string $path : The root path of CMS directory.
  * @return void
  */
-function nkDebug_sqlErrors() {
+function nkDebug_writePhpErrorLog($header, $path) {
+    file_put_contents(
+        $path .'error.log',
+        $header . utf8_decode(implode("\n", $GLOBALS['nkError'])) ."\n\n",
+        FILE_APPEND
+    );
+}
+
+/**
+ * Write errors in log file.
+ *
+ * @param string $header : Contains header log content of context. (Url, and if exist commit ID)
+ * @param string $path : The root path of CMS directory.
+ * @return void
+ */
+function nkDebug_writeSqlErrorLog($header, $path) {
+    $content = $header;
+
     foreach ($GLOBALS['nkDB']['status'] as $sqlQuery) {
-        if ($sqlQuery[1] != 'ok') {
-            echo '<script type="text/javascript">console.log(\''. addslashes('Query : '. str_replace(array("\n", "\r", "\t"), '', $sqlQuery[0])) .'\');</script>'
-                . '<script type="text/javascript">console.log(\''. addslashes('Error : '. str_replace(array("\n", "\r", "\t"), '', $sqlQuery[1])) .'\');</script>'
-                . '<script type="text/javascript">console.log("\n");</script>';
-        }
+        $query = str_replace(array("\n", "\r", "\t"), '', $sqlQuery[0]);
+        $query = str_replace('    ', ' ', $query);
+
+        $content .= 'Query : '. $query ."\n"
+            . 'Time : '. round($sqlQuery[2] * 1000, 1) .'ms' ."\n";
+
+        if ($sqlQuery[1] != 'ok')
+            $content .= 'Error : '. str_replace(array("\n", "\r", "\t"), '', $sqlQuery[1]) ."\n";
+
+        $content .= "\n";
     }
+
+    file_put_contents($path .'sql.log', $content, FILE_APPEND);
 }
 
 ?>

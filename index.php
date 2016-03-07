@@ -10,14 +10,14 @@
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
  */
 
-define('DEVELOPMENT', 1);
+define('DEVELOPMENT', true);
 
 
 // Permet de s'assurer que tous les scripts passe bien par l'index du CMS
 define('INDEX_CHECK', 1);
 ini_set('default_charset', 'ISO8859-1');
 
-if (defined('DEVELOPMENT'))
+if (defined('DEVELOPMENT') && DEVELOPMENT)
     require_once 'Includes/nkDebug.php';
 
 require_once 'Includes/fatal_errors.php';
@@ -137,9 +137,5 @@ else {
 }
 
 nkDB_disconnect();
-
-
-if (defined('DEVELOPMENT') && in_array(nkTemplate_getPageDesign(), array('fullPage', 'nudePage')))
-    nkDebug_sqlErrors();
 
 ?>
