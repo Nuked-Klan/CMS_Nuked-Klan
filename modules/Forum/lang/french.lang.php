@@ -1,8 +1,5 @@
 <?php
 
-define("_FTODAY","aujourd'hui à");
-define("_FYESTERDAY","hier à");
-define("_INDEXFORUM","Index du Forum");
 define("_PAGES","Pages");
 define("_SMILEY","Smilies");
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
@@ -28,14 +25,10 @@ define("_VISITFORUMS","Visiter les Forums");
 define("_LISTSMILIES","Liste des smilies");
 define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
 define("_NOTEXTRESUME","Aucun aperçu disponible...");
-define("_MODOS","Modérateurs");
 define("_NONEXIST","n'existe pas dans la base de données.");
 define("_ADDMODO","Ajouter un modérateur");
 define("_DELOLDMESSAGES","Supprimer les anciens sujets du Forum depuis le :");
 define("_PERMALINK","Permalien");
-
-// Main
-define("_SEEMODO","Voir le profil de ");
 
 // Viewforum
 define('_BAD_FORUM_ID', 'L\'ID que vous avez utilisé n\'est pas correct.');
@@ -77,6 +70,14 @@ return array(
     // modules/Forum/post.php
     // views/frontend/modules/Forum/post.php
     'MESSAGE'           => 'Message',
+    // modules/Forum/core.php
+    // modules/Forum/backend/config/forum.php
+    'MODERATOR'         => array('Modérateur', 'Modérateurs'),
+    // modules/Forum/core.php
+    'SEE_MODERATOR'     => 'Voir le profil de ',
+    'FORUM_INDEX'       => 'Index du Forum',
+    'FTODAY'            => 'aujourd\'hui à',
+    'FYESTERDAY'        => 'hier à',
     // modules/Forum/index.php
     'CONFIRM_DELETE_FILE' => 'Etes-vous sûr de vouloir supprimer ce fichier ?',
     'FILE_DELETED'      => 'Fichier joint supprimé avec succès.',
@@ -193,7 +194,6 @@ return array(
     'LEVEL_POST'        => 'Niveau d\'utilisation',
     'LEVEL_POLL'        => 'Niveau sondage',
     'LEVEL_VOTE'        => 'Niveau vote',
-    'MODERATOR'         => 'Modérateur',
     'ADD_THIS_FORUM'    => 'Ajouter ce Forum',
     'MODIFY_THIS_FORUM' => 'Modifier ce Forum',
     // modules/Forum/backend/config/forumCategory.php

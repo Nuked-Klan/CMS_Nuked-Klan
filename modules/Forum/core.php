@@ -138,8 +138,7 @@ function getModeratorsLegend($forumId) {
     $result             = '';
 
     if ($forumModeratorList) {
-        $result  = ($nbModerator > 1) ? _MODOS : __('MODERATOR');
-        $result .= ': ';
+        $result  = _n('MODERATOR', $nbModerator) .': ';
 
         foreach ($forumModeratorList as $forumModerator) {
             $style = '';
@@ -160,7 +159,7 @@ function getModeratorsLegend($forumId) {
             }
 
             $result .= '<a href="index.php?file=Members&amp;op=detail&amp;autor='. urlencode($forumModerator['pseudo'])
-                . '" alt="'. _SEEMODO .' '. $forumModerator['pseudo'] .'" title="'. _SEEMODO .' '. $forumModerator['pseudo'] .'"'
+                . '" alt="'. __('SEE_MODERATOR') .' '. $forumModerator['pseudo'] .'" title="'. __('SEE_MODERATOR') .' '. $forumModerator['pseudo'] .'"'
                 . $style .'><b>'. $forumModerator['pseudo'] .'</b></a>';
         }
     }
@@ -410,7 +409,7 @@ function nkForumNickname($data) {
  * @return string : The HTML code for breadcrumb.
  */
 function getForumBreadcrump($catName = '', $catId, $forumName = '', $forumId = 0) {
-    $breadcrumb = '<a href="index.php?file=Forum"><strong>'. _INDEXFORUM .'</strong></a>&nbsp;';
+    $breadcrumb = '<a href="index.php?file=Forum"><strong>'. __('FORUM_INDEX') .'</strong></a>&nbsp;';
 
     if ($forumName == '') {
         if ($catName != '')
@@ -438,12 +437,12 @@ function getForumBreadcrump($catName = '', $catId, $forumName = '', $forumId = 0
  */
 function formatForumMessageDate($date) {
     if (strftime('%d %m %Y', time()) ==  strftime('%d %m %Y', $date)) {
-        return _FTODAY .'&nbsp;'. strftime('%H:%M', $date);
+        return __('FTODAY') .'&nbsp;'. strftime('%H:%M', $date);
     }
     else if (strftime('%d', $date) == (strftime('%d', time()) - 1)
         && strftime('%m %Y', time()) == strftime('%m %Y', $date)
     ) {
-        return _FYESTERDAY .'&nbsp;'. strftime('%H:%M', $date);
+        return __('FYESTERDAY') .'&nbsp;'. strftime('%H:%M', $date);
     }
     else
         return nkDate($date);
