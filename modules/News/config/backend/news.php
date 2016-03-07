@@ -21,7 +21,7 @@ $newsList = array(
         'title'     => array('label' => _TITLE),
         'catName'   => array('label' => _CAT),
         'date'      => array('label' => _DATE),
-        'auteur'    => array('label' => _AUTHOR)
+        'auteur'    => array('label' => __('AUTHOR'))
     ),
     'edit' => array(
         'op'                => 'editNews',

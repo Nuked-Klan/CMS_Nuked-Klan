@@ -360,7 +360,7 @@ function description($sid)
 
     if ($autor != "")
     {
-        echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _AUTHOR . " :</b>  " . $autor . "</td></tr>\n";
+        echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . __('AUTHOR') . " :</b>  " . $autor . "</td></tr>\n";
     }
 
     echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _ADDTHE . " :</b>  " . $date . "</td></tr>\n"

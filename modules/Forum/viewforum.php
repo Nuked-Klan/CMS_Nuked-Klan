@@ -86,7 +86,7 @@ function formatInfobulleContent() {
     $texte = strip_tags($txt);
 
     if (!preg_match("`[a-zA-Z0-9\?\.]`i", $texte)) {
-       $texte = _NOTEXTRESUME;
+       $texte = __('NO_TEXT_RESUME');
     }
 
     if (strlen($texte) > 150) {

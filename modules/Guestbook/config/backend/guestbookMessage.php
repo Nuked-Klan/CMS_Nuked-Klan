@@ -13,7 +13,7 @@ $guestbookMessageList = array(
     ),
     'fields' => array(
         'date'          => array('label' => _DATE),
-        'name'          => array('label' => _AUTHOR),
+        'name'          => array('label' => __('AUTHOR')),
         'host'          => array('label' => _IP)
     ),
     'edit' => array(

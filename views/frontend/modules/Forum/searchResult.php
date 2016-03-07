@@ -2,22 +2,22 @@
 <div id="nkForumWrapper">
     <div id="nkForumInfos">
         <div>
-            <h2><?php echo _FSEARCHRESULT ?></h2>
-            <p><?php echo $nbResult ?>&nbsp;<?php echo _FSEARCHFOUND ?>&nbsp;<strong><?php echo $cleanedQuery ?></strong></p>
+            <h2><?php echo __('FSEARCH_RESULT') ?></h2>
+            <p><?php echo $nbResult ?>&nbsp;<?php echo __('FSEARCH_FOUND') ?>&nbsp;<strong><?php echo $cleanedQuery ?></strong></p>
         </div>
     </div>
     <div id="nkForumBreadcrumb">
-        <a href="index.php?file=Forum"><strong><?php echo _INDEXFORUM ?></strong></a>&nbsp;->&nbsp;<a href="index.php?file=Forum&amp;page=search"><strong><?php echo __('SEARCH') ?></strong></a>
+        <a href="index.php?file=Forum"><strong><?php echo __('FORUM_INDEX') ?></strong></a>&nbsp;->&nbsp;<a href="index.php?file=Forum&amp;page=search"><strong><?php echo __('SEARCH') ?></strong></a>
     </div>
 <?php echo $pagination ?>
     <div class="nkForumCat">
         <div class="nkForumCatWrapper">
             <div class="nkForumCatHead nkBgColor3">
                 <div>
-                    <div class="nkForumSearchCell"><?php echo _FORUMS ?></div>
+                    <div class="nkForumSearchCell"><?php echo __('FORUMS') ?></div>
                     <div class="nkForumSearchCell"><?php echo __('SUBJECTS') ?></div>
-                    <div class="nkForumSearchCell"><?php echo _AUTHOR ?></div>
-                    <div class="nkForumSearchCell"><?php echo _DATE ?></div>
+                    <div class="nkForumSearchCell"><?php echo __('AUTHOR') ?></div>
+                    <div class="nkForumSearchCell"><?php echo __('DATE') ?></div>
                 </div>
             </div>
             <div class="nkForumCatContent nkBgColor2">
@@ -55,13 +55,13 @@
                     <div class="nkForumSearchTopicCell nkBorderColor1">
 <?php
         if ($query != '') :
-            echo _FNOSEARCHFOUND .' <strong><i>'. $cleanedQuery .'</i></strong>';
+            echo __('FNO_SEARCH_FOUND') .' <strong><i>'. $cleanedQuery .'</i></strong>';
         elseif ($authorSought != '') :
-            echo _FNOSEARCHFOUND .' <strong><i>'. printSecutags($authorSought) .'</i></strong>';
+            echo __('FNO_SEARCH_FOUND') .' <strong><i>'. printSecutags($authorSought) .'</i></strong>';
         elseif ($dateMax > 0) :
-            echo _FNOLASTVISITMESS;
+            echo __('FNO_LAST_VISIT_MESSAGE');
         else :
-            echo _FNOSEARCHRESULT;
+            echo __('FNO_SEARCH_RESULT');
         endif
 ?>
                     </div>

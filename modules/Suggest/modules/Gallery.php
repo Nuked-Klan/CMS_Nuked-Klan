@@ -95,7 +95,7 @@ function form($content, $sug_id){
     }
 
     echo "</select></td></tr>\n"
-            . "<tr><td><b>" . _AUTHOR . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" value=\"" . $autor . "\" /></td></tr>\n";
+            . "<tr><td><b>" . __('AUTHOR') . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" value=\"" . $autor . "\" /></td></tr>\n";
 
     $button = $botton = '';
 

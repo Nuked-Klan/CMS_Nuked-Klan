@@ -56,7 +56,7 @@ function post_message(){
     echo '<br /><form method="post" action="index.php?file=Userbox&amp;op=send_message">'
          .'<table style="margin: auto;text-align:left;width: 98%">'
          .'<tr><td align="center"><big><b>'._POSTMESS.'</b></big><br /><br /></td></tr>'
-         .'<tr><td><b>'._AUTHOR.' :</b> '.$user[2].'</td></tr>'
+         .'<tr><td><b>'.__('AUTHOR').' :</b> '.$user[2].'</td></tr>'
          .'<tr><td><b>'._USERFOR.' :</b> ';
 
     if (!empty($_REQUEST['for']) && !empty($pseudo)){

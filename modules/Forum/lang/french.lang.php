@@ -1,30 +1,24 @@
 <?php
+/**
+ * french.lang.php
+ *
+ * French translation file of Forum module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
+/*
 define("_PAGES","Pages");
 define("_SMILEY","Smilies");
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
-define("_MOVETOPIC","Déplacer vers le forum");
 define("_CANCEL","Annuler");
-define("_FSEARCHRESULT","Résultats de la recherche");
-define("_SEARCHING","Rechercher");
-define("_FSEARCHFOUND","réponse(s) trouvée(s) pour");
-define("_FNOSEARCHFOUND","Aucune réponse trouvée pour");
-define("_FNOLASTVISITMESS","Aucun message posté depuis votre dernière visite");
-define("_FNOSEARCHRESULT","Aucune réponse trouvée pour vos critères de recherche");
-define("_KEYWORDS","Mots clés");
-define("_MATCHEXACT","Rechercher l'expression");
-define("_MATCHOR","Rechercher n'importe lequel de ces termes");
-define("_MATCHAND","Rechercher tous les termes");
-define("_BOTH","Tous les deux");
-define("_SEARCHINTO","Recherche dans");
-define("_NBANSWERS","Nombre de réponses");
-define("_3CHARSMIN","Vous devez entrer plus de 2 caractères");
-define("_NOWORDSTOSEARCH","Veuillez entrer une expression a rechercher");
-define("_VISITFORUMS","Visiter les Forums");
 define("_LISTSMILIES","Liste des smilies");
 define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
-define("_NOTEXTRESUME","Aucun aperçu disponible...");
 define("_NONEXIST","n'existe pas dans la base de données.");
 define("_ADDMODO","Ajouter un modérateur");
 define("_DELOLDMESSAGES","Supprimer les anciens sujets du Forum depuis le :");
@@ -39,14 +33,7 @@ define('_CREATED_BY', 'Cr&eacute;&eacute; par');
 define("_NONAME","Vous n'avez pas entré de nom !");
 define("_INCORRECT_ORDER","L'ordre ne contient pas que des entiers !");
 define("_INCORRECT_RANK_MESSAGE","Le seuil de message du rang ne contient pas que des entiers !");
-
-
-// core.php
-//define("_MODO","Modérateur");
-//define("_MODERATEUR","Modérateur");
-
-//define("_FORUMS","Forums");
-//define("_FORUM","Forum");
+*/
 
 return array(
     // modules/Forum/poll.php
@@ -73,6 +60,9 @@ return array(
     // modules/Forum/core.php
     // modules/Forum/backend/config/forum.php
     'MODERATOR'         => array('Modérateur', 'Modérateurs'),
+    // modules/Forum/search.php
+    // modules/Forum/viewforum.php
+    'NO_TEXT_RESUME'    => 'Aucun aperçu disponible...',
     // modules/Forum/core.php
     'SEE_MODERATOR'     => 'Voir le profil de ',
     'FORUM_INDEX'       => 'Index du Forum',
@@ -118,29 +108,24 @@ return array(
     'MESSAGE_SEND'      => 'Message envoyé avec succès.',
     'EDIT_BY'           => 'Edité par',
     'MESSAGE_MODIFIED'  => 'Message modifié avec succès.',
-    
     'EMAIL_REPLY_NOTIFY' => 'Il y a eu une réponse a ce message :',
-    
-    
     'CONFIRM_DELETE_POST' => 'Etes-vous sûr de vouloir supprimer ce message ?',
     'FORUM_POST_DELETED' => 'Message supprimé avec succès.',
+    // modules/Forum/search.php
+    '3_CHARS_MIN'       => 'Vous devez entrer plus de 2 caractères',
+    'NO_WORDS_TO_SEARCH' => 'Veuillez entrer une expression a rechercher',
     // modules/Forum/viewtopic.php
     'IS_ONLINE'         => 'En ligne !',
     'REGISTERED'        => 'Inscrit(e) le',
     'IP'                => 'Ip',
     'LAST_THREAD'       => 'Sujet précédent',
     'NEXT_THREAD'       => 'Sujet suivant',
-    
     // modules/Forum/config/forumPoll.php
     'QUESTION'          => 'Question',
     'ADD_THIS_POLL'     => 'Ajouter ce sondage',
     'MODIF_THIS_POLL'   => 'Modifier ce sondage',
-    
-    
-    
     // modules/Forum/backend/config/prune.php
     'FORUM'             => array('Forum', 'Forums'),
-    
     // modules/Forum/backend/category.php
     // modules/Forum/backend/index.php
     // modules/Forum/backend/prune.php
@@ -251,6 +236,8 @@ return array(
     // views/frontend/modules/Forum/post.php
     // views/frontend/modules/Forum/viewForum.php
     'ANNOUNCEMENT'      => 'Annonce',
+    // views/frontend/modules/Forum/block.php
+    'VISIT_FORUMS'      => 'Visiter les Forums',
     // views/frontend/modules/Forum/editPoll.php
     'POST_SURVEY'       => 'Poster un sondage',
     // views/frontend/modules/Forum/main.php
@@ -270,6 +257,8 @@ return array(
     'VIEW_LAST_VISIT_MESS' => 'Voir les nouveaux messages depuis votre dernière visite',
     'NEW_POST_LAST_VISIT' => 'Nouveaux messages depuis votre dernière visite',
     'NO_POST_LAST_VISIT' => 'Pas de nouveaux messages depuis votre dernière visite',
+    // views/frontend/modules/Forum/moveThread.php
+    'MOVE_TOPIC_TO'     => 'Déplacer vers le forum',
     // views/frontend/modules/Forum/post.php
     'NICKNAME'          => 'Pseudo',
     // TODO : Use login & logout in main translation file
@@ -285,6 +274,21 @@ return array(
     'KO'                => 'Ko',
     'MAXIMUM_FILE_SIZE' => 'Taille maximale',
     'PREVIOUS_MESSAGES' => 'Message(s) pr&eacutec&eacutedent(s)',
+    // views/frontend/modules/Forum/searchForm.php
+    'SEARCHING'         => 'Rechercher',
+    'KEYWORDS'          => 'Mots clés',
+    'MATCH_OR'          => 'Rechercher n\'importe lequel de ces termes',
+    'MATCH_AND'         => 'Rechercher tous les termes',
+    'MATCH_EXACT'       => 'Rechercher l\'expression',
+    'SEARCH_INTO'       => 'Recherche dans',
+    'BOTH'              => 'Tous les deux',
+    'NB_ANSWERS'        => 'Nombre de réponses',
+    // views/frontend/modules/Forum/searchResult.php
+    'FSEARCH_RESULT'    => 'Résultats de la recherche',
+    'FSEARCH_FOUND'     => 'réponse(s) trouvée(s) pour',
+    'FNO_SEARCH_FOUND'  => 'Aucune réponse trouvée pour',
+    'FNO_LAST_VISIT_MESSAGE' => 'Aucun message posté depuis votre dernière visite',
+    'FNO_SEARCH_RESULT' => 'Aucune réponse trouvée pour vos critères de recherche',
     // views/frontend/modules/Forum/viewForum.php
     'NEW'               => 'Nouveau',
     'MARK_SUBJECT_READ' => 'Marquer tous les sujets comme lus',
@@ -328,8 +332,7 @@ return array(
     'TOPIC_DOWN'        => 'Mettre en sujet',
     'TOPIC_UP'          => 'Mettre en annonce',
     'TOPIC_DELETE'      => 'Supprimer ce sujet',
-    'TOPIC_MOVE'        => 'Déplacer ce sujet',
-    
+    'TOPIC_MOVE'        => 'Déplacer ce sujet'
 );
 
 ?>

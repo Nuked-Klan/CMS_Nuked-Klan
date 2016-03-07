@@ -35,7 +35,7 @@ function add_screen()
 
     select_cat();
 
-    echo "</select></td></tr><tr><td><b>" . _AUTHOR . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" /></td></tr>\n";
+    echo "</select></td></tr><tr><td><b>" . __('AUTHOR') . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" /></td></tr>\n";
 
     echo "</td></tr><tr><td><b>" . _DESCR . " :</b></td></tr>\n"
     . "<tr><td><textarea class=\"editor\" id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\"></textarea></td></tr>\n"
@@ -479,7 +479,7 @@ function edit_screen($sid)
 
     select_cat();
 
-    echo "</select></td></tr><tr><td><b>" . _AUTHOR . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" value=\"" . $autor . "\" /></td></tr>\n";
+    echo "</select></td></tr><tr><td><b>" . __('AUTHOR') . " :</b> <input type=\"text\" name=\"auteur\" size=\"30\" value=\"" . $autor . "\" /></td></tr>\n";
 
     echo "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
     . "<tr><td><textarea class=\"editor\" id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\" onselect=\"storeCaret('img_texte');\" onclick=\"storeCaret('img_texte');\" onkeyup=\"storeCaret('img_texte');\">" . $description . "</textarea></td></tr>\n"

@@ -21,7 +21,7 @@ $articleList = array(
         'title'     => array('label' => _TITLE),
         'secname'   => array('label' => _CAT),
         'date'      => array('label' => _DATE),
-        'author'    => array('label' => _AUTHOR)
+        'author'    => array('label' => __('AUTHOR'))
     ),
     'edit' => array(
         'op'                => 'editArticle',

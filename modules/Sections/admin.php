@@ -92,10 +92,10 @@ function main(){
     }
 
     if ($_REQUEST['orderby'] == "author"){
-        echo "<b>" . _AUTHOR . "</b> | ";
+        echo "<b>" . __('AUTHOR') . "</b> | ";
     }
     else{
-        echo "<a href=\"index.php?file=Sections&amp;page=admin&amp;orderby=author\">" . _AUTHOR . "</a> | ";
+        echo "<a href=\"index.php?file=Sections&amp;page=admin&amp;orderby=author\">" . __('AUTHOR') . "</a> | ";
     }
 
     if ($_REQUEST['orderby'] == "cat"){
@@ -119,7 +119,7 @@ function main(){
             . "<td style=\"width: 25%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
             . "<td style=\"width: 25%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
             . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
-            . "<td style=\"width: 20%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+            . "<td style=\"width: 20%;\" align=\"center\"><b>" . __('AUTHOR') . "</b></td>\n"
             . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
             . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 

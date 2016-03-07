@@ -68,11 +68,11 @@ function index()
     }
     if ($_REQUEST['orderby'] == "auteur")
     {
-        echo " | <b>" . _AUTHOR . "</b>";
+        echo " | <b>" . __('AUTHOR') . "</b>";
     }
     else
     {
-        echo " | <a href=\"index.php?file=Archives&amp;orderby=auteur\">" . _AUTHOR . "</a>";
+        echo " | <a href=\"index.php?file=Archives&amp;orderby=auteur\">" . __('AUTHOR') . "</a>";
     }
 
     echo "</td></tr></table>\n";
@@ -88,7 +88,7 @@ function index()
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SUBJET . "</b></td>\n"
     . "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
-    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+    . "<td style=\"width: 15%;\" align=\"center\"><b>" . __('AUTHOR') . "</b></td>\n"
     . "<td style=\"width: 10%;\" align=\"center\"><b>" . _OPTION . "&nbsp;</b></td></tr>\n";
 
     $sql_nb = mysql_query("SELECT nid FROM " . NEWS_CAT_TABLE);
@@ -223,11 +223,11 @@ function sujet($cat_id)
     }
     if ($_REQUEST['orderby'] == "auteur")
     {
-        echo "<b>" . _AUTHOR . "</b>";
+        echo "<b>" . __('AUTHOR') . "</b>";
     }
     else
     {
-        echo "<a href=\"index.php?file=Archives&amp;op=sujet&amp;cat_id=" . $cat_id . "&amp;orderby=auteur\">" . _AUTHOR . "</a>";
+        echo "<a href=\"index.php?file=Archives&amp;op=sujet&amp;cat_id=" . $cat_id . "&amp;orderby=auteur\">" . __('AUTHOR') . "</a>";
     }
 
     echo "</td></tr></table>\n";
@@ -243,7 +243,7 @@ function sujet($cat_id)
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SUBJET . "</b></td>\n"
     . "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
-    . "<td style=\"width: 15%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+    . "<td style=\"width: 15%;\" align=\"center\"><b>" . __('AUTHOR') . "</b></td>\n"
     . "<td style=\"width: 10%;\" align=\"center\"><b>" . _OPTION . "&nbsp;</b></td></tr>\n";
 
     if ($_REQUEST['orderby'] == "titre")

@@ -1,31 +1,25 @@
 <?php
+/**
+ * english.lang.php
+ *
+ * English translation file of Forum module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
+/*
 define("_PAGES","Pages");
 define("_TOPICMODIFIED","Topic was successfully modified.");
 define("_SMILEY","Smilies");
 define("_NOTITLE","Please enter a title!");
 define("_NOTEXT","Please enter a text!");
-define("_MOVETOPIC","Move topic to");
 define("_CANCEL","Cancel");
-define("_FSEARCHRESULT","Search Results");
-define("_SEARCHING","Search");
-define("_FSEARCHFOUND","matches for");
-define("_FNOSEARCHFOUND","No matches were found for");
-define("_FNOLASTVISITMESS","No new posts since your last visit");
-define("_FNOSEARCHRESULT","No matches were found for your search criteria");
-define("_KEYWORDS","Keywords");
-define("_MATCHOR","Search for any terms of these terms");
-define("_MATCHAND","Search for all terms");
-define("_MATCHEXACT","Search expression");
-define("_BOTH","Both");
-define("_SEARCHINTO","Search into");
-define("_NBANSWERS","Number of results");
-define("_NOWORDSTOSEARCH","You must enter a word or an expression to search");
-define("_3CHARSMIN","You must enter at least 3 characters");
-define("_VISITFORUMS","Visit Forums");
 define("_LISTSMILIES","Smilies List");
 define("_UPLOADFAILED","Uploading of file failed!!!");
-define("_NOTEXTRESUME","No resume available...");
 define("_ADDMODO","Add a moderator");
 define("_DELOLDMESSAGES","Delete old forum threads since the:");
 define("_PERMALINK","Permalink");
@@ -39,15 +33,7 @@ define('_CREATED_BY', 'Created by');
 define("_NONAME","Please enter a name!");
 define("_INCORRECT_ORDER","The order does not consist of all digits !");
 define("_INCORRECT_RANK_MESSAGE","The rank of the message threshold does not consist of all digits !");
-
-
-
-// core.php
-//define("_MODO","Moderator");
-//define("_MODERATEUR","Moderator");
-
-//define("_FORUMS","Forums");
-//define("_FORUM","Forum");
+*/
 
 return array(
     // modules/Forum/poll.php
@@ -74,6 +60,9 @@ return array(
     // modules/Forum/core.php
     // modules/Forum/backend/config/forum.php
     'MODERATOR'         => array('Moderator', 'Moderators'),
+    // modules/Forum/search.php
+    // modules/Forum/viewforum.php
+    'NO_TEXT_RESUME'    => 'No resume available...',
     // modules/Forum/core.php
     'SEE_MODERATOR'     => 'See profile of ',
     'FORUM_INDEX'       => 'Forum Index',
@@ -120,26 +109,23 @@ return array(
     'EDIT_BY'           => 'Edited by',
     'MESSAGE_MODIFIED'  => 'Post was successfully updated.',
     'EMAIL_REPLY_NOTIFY' => 'There has been a reply to this topic:',
-    
-    
     'CONFIRM_DELETE_POST' => 'Remove this post?',
     'FORUM_POST_DELETED' => 'Post was successfully removed.',
+    // modules/Forum/search.php
+    '3_CHARS_MIN'       => 'You must enter at least 3 characters',
+    'NO_WORDS_TO_SEARCH' => 'You must enter a word or an expression to search',
     // modules/Forum/viewtopic.php
     'IS_ONLINE'         => 'Online !',
     'REGISTERED'        => 'Joined',
     'IP'                => 'Ip',
     'LAST_THREAD'       => 'Previous topic',
     'NEXT_THREAD'       => 'Next topic',
-    
     // modules/Forum/config/forumPoll.php
     'QUESTION'          => 'Question',
     'ADD_THIS_POLL'     => 'Add this poll',
     'MODIF_THIS_POLL'   => 'Modify this poll',
-    
-    
     // modules/Forum/backend/config/prune.php
     'FORUM'             => array('Forum', 'Forums'),
-    
     // modules/Forum/backend/category.php
     // modules/Forum/backend/index.php
     // modules/Forum/backend/prune.php
@@ -178,7 +164,6 @@ return array(
     'ACTION_ADD_MODERATOR'    => 'have added the moderator',
     'ACTION_EDIT_MODERATOR'   => 'have modified the moderator',
     'ACTION_DELETE_MODERATOR' => 'have deleted the moderator',
-    
     // modules/Forum/backend/rank.php
     'ACTION_ADD_FORUM_RANK'  => 'has added the forum rank',
     'ACTION_EDIT_FORUM_RANK' => 'has modified the forum rank',
@@ -251,6 +236,8 @@ return array(
     // views/frontend/modules/Forum/post.php
     // views/frontend/modules/Forum/viewForum.php
     'ANNOUNCEMENT'      => 'Announcement',
+    // views/frontend/modules/Forum/block.php
+    'VISIT_FORUMS'      => 'Visit Forums',
     // views/frontend/modules/Forum/editPoll.php
     'POST_SURVEY'       => 'Post a poll',
     // views/frontend/modules/Forum/main.php
@@ -270,6 +257,8 @@ return array(
     'VIEW_LAST_VISIT_MESS' => 'View all new posts since last visit',
     'NEW_POST_LAST_VISIT' => 'New posts',
     'NO_POST_LAST_VISIT' => 'No new posts',
+    // views/frontend/modules/Forum/moveThread.php
+    'MOVE_TOPIC_TO'     => 'Move topic to',
     // views/frontend/modules/Forum/post.php
     'NICKNAME'          => 'Nickname',
     // TODO : Use login & logout in main translation file
@@ -285,6 +274,21 @@ return array(
     'KO'                => 'KB',
     'MAXIMUM_FILE_SIZE' => 'Maximum file size',
     'PREVIOUS_MESSAGES' => 'Previous post(s)',
+    // views/frontend/modules/Forum/searchForm.php
+    'SEARCHING'         => 'Search',
+    'KEYWORDS'          => 'Keywords',
+    'MATCH_OR'          => 'Search for any terms of these terms',
+    'MATCH_AND'         => 'Search for all terms',
+    'MATCH_EXACT'       => 'Search expression',
+    'SEARCH_INTO'       => 'Search into',
+    'BOTH'              => 'Both',
+    'NB_ANSWERS'        => 'Number of results',
+    // views/frontend/modules/Forum/searchResult.php
+    'FSEARCH_RESULT'    => 'Search Results',
+    'FSEARCH_FOUND'     => 'matches for',
+    'FNO_SEARCH_FOUND'  => 'No matches were found for',
+    'FNO_LAST_VISIT_MESSAGE' => 'No new posts since your last visit',
+    'FNO_SEARCH_RESULT' => 'No matches were found for your search criteria',
     // views/frontend/modules/Forum/viewForum.php
     'NEW'               => 'New',
     'MARK_SUBJECT_READ' => 'Mark all topics as read',
@@ -328,9 +332,7 @@ return array(
     'TOPIC_DOWN'        => 'Unsticky Thread',
     'TOPIC_UP'          => 'Sticky Thread',
     'TOPIC_DELETE'      => 'Remove this topic',
-    'TOPIC_MOVE'        => 'Move this topic',
-    
-    
+    'TOPIC_MOVE'        => 'Move this topic'
 );
 
 ?>

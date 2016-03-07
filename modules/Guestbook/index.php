@@ -52,7 +52,7 @@ function post_book()
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big></div><br />\n"
     . "<form method=\"post\" action=\"index.php?file=Guestbook&amp;op=send_book\">\n"
     . "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
-    . "<tr><td><b>" . _AUTHOR . " :</b></td><td>";
+    . "<tr><td><b>" . __('AUTHOR') . " :</b></td><td>";
     if ($user) echo '<b>' . $user[2] . '</b></td></tr>'; else echo "<input id=\"guest_name\" type=\"text\" name=\"name\" value=\"\" size=\"20\" maxlength=\"30\" /></td></tr>\n";
     echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
     echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
@@ -172,7 +172,7 @@ function index()
 
     echo "<table style=\"background: " . $bgcolor3 . ";margin:auto\" width=\"98%\" cellpadding=\"3\" cellspacing=\"1\">\n"
     . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
-    . "<td style=\"width: 30%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+    . "<td style=\"width: 30%;\" align=\"center\"><b>" . __('AUTHOR') . "</b></td>\n"
     . "<td style=\"width: 70%;\" align=\"center\"><b>" . _COMMENT . "</b></td></tr>\n";
 
     $sql2 = mysql_query("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");

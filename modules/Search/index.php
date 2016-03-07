@@ -48,7 +48,7 @@ function index(){
 			. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchor\" " . $checked1 . " />" . _MATCHOR . "<br />\n"
 			. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchand\" " . $checked2 . " />" . _MATCHAND . "<br />\n"
 			. "<input type=\"radio\" class=\"checkbox\" name=\"searchtype\" value=\"matchexact\" " . $checked3 . " />" . _MATCHEXACT . "</td></tr>\n"
-			. "<tr style=\"background: " . $bgcolor2 . ";\"><td><b>" . _AUTHOR . " :</b></td><td>&nbsp;<input type=\"text\" size=\"30\" id=\"autor\" name=\"autor\"  value=\"" . printSecuTags($_REQUEST['autor']) . "\" /></td></tr>\n"
+			. "<tr style=\"background: " . $bgcolor2 . ";\"><td><b>" . __('AUTHOR') . " :</b></td><td>&nbsp;<input type=\"text\" size=\"30\" id=\"autor\" name=\"autor\"  value=\"" . printSecuTags($_REQUEST['autor']) . "\" /></td></tr>\n"
 			. "<tr style=\"background: " . $bgcolor2 . ";\"><td><b>" . _COLUMN . " :</b> </td><td>&nbsp;<select name=\"module\"><option value=\"\">" . _SALL . "</option>\n";
 
     $path = "modules/Search/rubriques/";

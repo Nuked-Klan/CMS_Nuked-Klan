@@ -27,7 +27,7 @@ function prepareForumSearchResultRow($forumMsg) {
     $forumMsg['cleanedText'] = strip_tags($forumMsg['txt']);
 
     if (! preg_match('`[a-zA-Z0-9\?\.]`', $forumMsg['cleanedText'])) {
-        $forumMsg['cleanedText'] = _NOTEXTRESUME;
+        $forumMsg['cleanedText'] = __('NO_TEXT_RESUME');
     }
     else {
         if (strlen($forumMsg['cleanedText']) > 150)
@@ -133,7 +133,7 @@ function displayForumSearchResult() {
     else if (($query != '' && strlen($query) < 3)
         || ($author != '' && strlen($author) < 3)
     ) {
-        printNotification(_3CHARSMIN, 'warning');
+        printNotification(__('3_CHARS_MIN'), 'warning');
         redirect('index.php?file=Forum&page=search', 2);
         return;
     }
@@ -200,7 +200,7 @@ function displayForumSearchResult() {
     }
     // Empty author and sought words length
     else {
-        printNotification(_NOWORDSTOSEARCH, 'warning');
+        printNotification(__('NO_WORDS_TO_SEARCH'), 'warning');
         redirect('index.php?file=Forum&page=search', 2);
         return;
     }

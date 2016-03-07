@@ -31,7 +31,7 @@ function edit_book($gid)
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=modif_book\" onsubmit=\"backslash('guest_text');\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
-    . "<tr><td><b>" . _AUTHOR . " :</b></td><td>" . $name . "</td></tr>\n"
+    . "<tr><td><b>" . __('AUTHOR') . " :</b></td><td>" . $name . "</td></tr>\n"
     . "<tr><td><b>" . _MAIL . " : </b></td><td><input type=\"text\" name=\"email\" size=\"40\" value=\"" . $email . "\" /></td></tr>\n"
     . "<tr><td><b>" . _URL . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $url . "\" /></td></tr>\n";
 
@@ -120,7 +120,7 @@ function main()
     echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     . "<tr>\n"
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
-    . "<td style=\"width: 25%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
+    . "<td style=\"width: 25%;\" align=\"center\"><b>" . __('AUTHOR') . "</b></td>\n"
     . "<td style=\"width: 25%;\" align=\"center\"><b>" . _IP . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";

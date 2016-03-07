@@ -129,7 +129,7 @@ function com_index($module, $im_id){
     echo '<h3 style="text-align: center">' . _LAST4COMS . '</h3>
     <table style="background:'.$bgcolor3.';margin:5px" width="98%" cellpadding="3" cellspacing="1">
         <tr style="background:'.$bgcolor3.';">
-            <td style="width:30%;text-align:center"><b>'._AUTHOR.'</b></td>
+            <td style="width:30%;text-align:center"><b>'.__('AUTHOR').'</b></td>
             <td style="width:70%;text-align:center"><b>'._COMMENT.'</b></td>
         </tr>';
 

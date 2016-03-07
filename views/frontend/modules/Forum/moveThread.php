@@ -1,6 +1,6 @@
         <form action="index.php?file=Forum&amp;op=move&amp;forum_id=<?php echo $forumId ?>&amp;thread_id=<?php echo $threadId ?>" method="post">
             <div id="nkAlertWarning" class="nkAlert">
-                <span class="nkAlertSubTitle"><?php echo _MOVETOPIC ?> : </span>
+                <span class="nkAlertSubTitle"><?php echo __('MOVE_TOPIC_TO') ?> : </span>
                 <select name="newforum">
 <?php
     foreach ($options as $value => $name) :

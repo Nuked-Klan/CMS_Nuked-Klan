@@ -2,7 +2,7 @@
 /**
  * french.lang.php
  *
- * French translation file of Games module
+ * French translation file of Game module
  *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers

@@ -4,7 +4,7 @@
 <table style="background: <?php echo $bgcolor3 ?>;" border="0" width="100%" cellspacing="1" cellpadding="4">
     <tr style="background: <?php echo $bgcolor3 ?>;">
         <td style="width: 35%;" align="center"><b><?php echo __('SUBJECTS') ?></b></td>
-        <td style="width: 15%;" align="center"><b><?php echo _AUTHOR ?></b></td>
+        <td style="width: 15%;" align="center"><b><?php echo __('AUTHOR') ?></b></td>
         <td style="width: 10%;text-transform: capitalize;" align="center"><b><?php echo __('ANSWERS') ?></b></td>
         <td style="width: 10%;text-transform: capitalize;" align="center"><b><?php echo __('VIEWS') ?></b></td>
         <td style="width: 30%;" align="center"><b><?php echo __('LAST_POST') ?></b></td>
@@ -54,7 +54,7 @@
     endforeach
 ?>
 </table>
-<div style="text-align: right;">&#187; <a href="index.php?file=Forum"><small><?php echo _VISITFORUMS ?></small></a></div>
+<div style="text-align: right;">&#187; <a href="index.php?file=Forum"><small><?php echo __('VISIT_FORUMS') ?></small></a></div>
 <?php
     else :
 ?>
@@ -77,7 +77,7 @@
         if (strlen($dbrForumThread['titre']) > 40)
             $titre_topic = '<a href="'. $postUrl .'" title="'. $title .' ( '. $author .' )"><b>'. printSecuTags(substr($dbrForumThread['titre'], 0, 40)) .'...</b></a>';
         else
-            $titre_topic = '<a href="'. $postUrl .'" title="'. _BY .'&nbsp;'. $author .'"><b>'. $title .'</b></a>';
+            $titre_topic = '<a href="'. $postUrl .'" title="'. __('BY') .'&nbsp;'. $author .'"><b>'. $title .'</b></a>';
 
 ?>
 
@@ -88,7 +88,7 @@
     endforeach
 ?>
 </table>
-<div style="text-align: right;">&#187; <a href="index.php?file=Forum"><small><?php echo _VISITFORUMS ?></small></a></div>&nbsp;
+<div style="text-align: right;">&#187; <a href="index.php?file=Forum"><small><?php echo __('VISIT_FORUMS') ?></small></a></div>&nbsp;
 <?php
     endif
 ?>

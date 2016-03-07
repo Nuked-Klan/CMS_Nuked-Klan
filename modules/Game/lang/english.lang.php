@@ -2,7 +2,7 @@
 /**
  * english.lang.php
  *
- * English translation file of Games module
+ * English translation file of Game module
  *
  * @version     1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
