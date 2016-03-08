@@ -83,7 +83,6 @@ define("_DBUSER","User");
 define("_DBPASS","Password");
 define("_DBPREFIX","Prefix");
 define("_DBNAME","Database's name");
-define("_SITEURL","Website's url");
 define("_CHMOD","before continuing, please change the access permissions<br /> of the files : conf.inc.php and install.php (or update.php)");
 define("_NEXT","Next");
 define("_RETRY","Retry");
@@ -167,7 +166,6 @@ define("_CYAN","Cyan");
 define("_INDIGO","Indigo");
 define("_WHITE","White");
 define("_BLACK","Black");
-define("_SIZE","Size");
 define("_POLICE","Police");
 define("_HASWROTE","has written");
 define("_PAGE","Page");
@@ -179,36 +177,18 @@ define("_ADMINBLOCK","Manage Blocks");
 define("_TITREACTU","View the feed title");
 define("_NBRRSS","Number of links displayed");
 
-define("_BLOCK","Block");
-define("_POSITION","Position");
-define("_TYPE","Type");
-define("_LEVEL","Level");
-define("_LEFT","Left");
-define("_RIGHT","Right");
-define("_CENTERBLOCK","Center");
-define("_FOOTERBLOCK","Footer");
-define("_OFF","Unactive");
-define("_HTMLBLOCK","Html Block");
-define("_MODBLOCK","Module Block");
-define("_PAGESELECT","Select the pages where you wish the block to be displayed");
-define("_MODIFBLOCK","Modify this block ");
 define("_THEREISNOW","There are currently");
 define("_MEMBER","Member");
-define("_ADMIN","Admin");
 define("_ONLINE","online.");
-define("_YOUVE","You have");
 define("_MESS","message");
 define("_NOMEMBERONLINE","No members are online");
 define("_MEMBERONLINE","Members online");
 define("_SENDMESS","Send him a private message ?");
 define("_LOGIN","Login");
-define("_NICK","Nick");
-define("_PASSWORD","Pass");
 define("_SAVE","Save");
 define("_REGISTER","Registration");
 define("_FORGETPASS"," Lost your Pass");
 define("_ACCOUNT","Account");
-define("_MEMBERS","Members");
 define("_ADMINS","Admins");
 define("_LASTMEMBER","Last");
 define("_ONLINES","On line");
@@ -248,13 +228,6 @@ define("_TYPESECCODE","Retype the security code");
 define("_BADCODECONFIRM","Error : the Security Code is not correct !");
 define('_MSGCAPTCHA', 'You have made too many attempts, captcha is activate!');
 
-
-define("_1JOUR","1 day");
-define("_7JOUR","1 week");
-define("_1MOIS","1 month");
-define("_1AN","1 year");
-define("_AVIE","Forever");
-
 define("_ETAPE2","Stage 2");
 define("_CHOIX","Explenation");
 
@@ -279,7 +252,6 @@ define("_NEWNKNEWRELEASE",'New stuff from nuked klan '._NKVERSION);
 define("_SECURITE1","This new version has renewed it's security system. We have modernised everything between uploads, password encryption and cookies. <br /> In addition, a signature system has been established, so if you install a dangerous module, we will notify you. We also set up a automatic update system that downloads and installs nuked klan patches whenever a vulnerability is discovered. <br /> We also inform you of the latest news on nuked klan without sending you an email if you chose to accept it ...");
 define("_OPTIMISATION","Optimisation");
 define("_OPTIMISATION1","Some other features have been added but as we didn't want to make a major update you will have to wait for our next version (which will be released soon)");
-define("_ADMINISTRATION","Administration");
 define("_ADMINISTRATION1","In order to make a modern and usable admin pannel we prefered starting it from 'scratch' allowing us to connect your website to our servers to allow you more flexebility. You will not have to bother for any hackers as we will warn you how and when to fight them thank to our new artificial intelligence administration.");
 define("_BANTEMP","Temporary Ban");
 define("_BANTEMP1","A system of temporary ban has been put in place, you get the choice of banning users 1 day, 7 days, 1 month, 1 year or permanently.");
@@ -356,8 +328,45 @@ define("_ORDERBY","Order by");
 define("_NONICK","Please enter your nick !");
 define("_IMAGE","Picture");
 
-define("_NONE","None");
-define("_TITLE","Title");
+// For 1.7.x compatibility
+
+// Common
+define('_NONE', 'None');
+define('_TITLE', 'Title');
+define('_COLOR', 'Color');
+define("_ADMIN","Admin");
+define("_ADMINISTRATION","Administration");
+define("_MEMBERS","Members");
+define("_SITEURL","Website's url");
+define("_NICK","Nick");
+define("_PASSWORD","Pass");
+define("_YOUVE","You have");
+define("_MODULE","Module");
+
+// Block management
+define("_BLOCK","Block");
+define("_POSITION","Position");
+define("_TYPE","Type");
+define("_LEVEL","Level");
+define("_LEFT","Left");
+define("_RIGHT","Right");
+define("_CENTERBLOCK","Center");
+define("_FOOTERBLOCK","Footer");
+define("_OFF","Unactive");
+define("_HTMLBLOCK","Html Block");
+define("_MODBLOCK","Module Block");
+define("_PAGESELECT","Select the pages where you wish the block to be displayed");
+define("_MODIFBLOCK","Modify this block ");
+
+// bbcode
+define("_SIZE","Size");
+
+// ban
+define("_1JOUR","1 day");
+define("_7JOUR","1 week");
+define("_1MOIS","1 month");
+define("_1AN","1 year");
+define("_AVIE","Forever");
 
 return array(
     // common

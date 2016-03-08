@@ -79,7 +79,6 @@ define("_DBUSER","User");
 define("_DBPASS","Password");
 define("_DBPREFIX","Prefix");
 define("_DBNAME","Nom de la Base");
-define("_SITEURL","URL du Site");
 define("_CHMOD","Avant de continuer, assurez-vous d'avoir accordé les droits en écriture<br />sur les fichiers install.php ou update.php");
 define("_NEXT","Suivant");
 define("_RETRY","Réessayer");
@@ -163,7 +162,6 @@ define("_CYAN","Cyan");
 define("_INDIGO","Indigo");
 define("_WHITE","Blanc");
 define("_BLACK","Noir");
-define("_SIZE","Taille");
 define("_POLICE","Police");
 define("_HASWROTE","a écrit");
 define("_PAGE","Page");
@@ -175,36 +173,18 @@ define("_ADMINBLOCK","Gestion des Blocks");
 define("_TITREACTU","Afficher le titre du flux");
 define("_NBRRSS","Nombre de lien affiché");
 
-define("_BLOCK","Block");
-define("_POSITION","Position");
-define("_TYPE","Type");
-define("_LEVEL","Niveau");
-define("_LEFT","Gauche");
-define("_RIGHT","Droite");
-define("_CENTERBLOCK","Centre");
-define("_FOOTERBLOCK","Bas");
-define("_OFF","Désactivé");
-define("_HTMLBLOCK","Ce block est en HTML");
-define("_MODBLOCK","Block d'un module");
-define("_PAGESELECT","Sélectionnez les pages où vous souhaitez que le block s'affiche");
-define("_MODIFBLOCK","Modifier ce block");
 define("_THEREISNOW","Il y a actuellement");
 define("_MEMBER","Membre");
-define("_ADMIN","Admin");
 define("_ONLINE","en ligne.");
-define("_YOUVE","Vous avez");
 define("_MESS","message(s)");
 define("_NOMEMBERONLINE","Aucun membre en ligne");
 define("_MEMBERONLINE","Membres en ligne");
 define("_SENDMESS","Lui envoyer un message privé ?");
 define("_LOGIN","Login");
-define("_NICK","Pseudo");
-define("_PASSWORD","Pass");
 define("_SAVE","Enregistré");
 define("_REGISTER","S'enregistrer");
 define("_FORGETPASS","Perdu votre Pass");
 define("_ACCOUNT","Compte");
-define("_MEMBERS","Membres");
 define("_ADMINS","Admins");
 define("_LASTMEMBER","Dernier");
 define("_ONLINES","En ligne");
@@ -213,7 +193,6 @@ define("_NOTREAD","Nouveau(x)");
 define("_READ","Archivé(s)");
 define("_MODIFMENU","Modifier le menu");
 define("_URL","URL");
-define("_MODULE","Module");
 define("_NOMOD","Aucun");
 define("_COMMENT","Commentaire");
 define("_INSERT","Insert");
@@ -246,12 +225,6 @@ define("_TYPESECCODE","Recopiez le code ci-dessus");
 define("_BADCODECONFIRM","Le code de sécurité ne correspond pas !");
 define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, le captcha est d&eacute;sormais actif !');
 
-define("_1JOUR","1 jour");
-define("_7JOUR","1 semaine");
-define("_1MOIS","1 mois");
-define("_1AN","1 an");
-define("_AVIE","A vie");
-
 define("_ETAPE2","Etape 2");
 define("_CHOIX","Explication");
 
@@ -275,7 +248,7 @@ define("_NEWNKNEWRELEASE",'Nouveautés Nuked Klan '._NKVERSION);
 define("_SECURITE1","Cette nouvelle version a retravaillé entièrement la sécurité, les injections SQL et hexadécimales ou même par cookie, upload, et même les mots de passe qui ne sont plus en md5.<br /> De plus, un système de signature a été mise en place, ainsi si vous installez un module dangereux, nous pourrons vous avertir. Nous avons mis en place aussi un système de mise à jour automatique. Dès qu'une faille est découverte, elle est corrigée immédiatement sans que vous vous en aperceviez.<br /> Nous pouvons aussi vous envoyer des messages depuis le site officiel, afin de vous avertir, informer ou autre...");
 define("_OPTIMISATION","Optimisation");
 define("_OPTIMISATION1","Nous avons optimisé quelques codes comme le système de pagination afin de rendre légérement moins lourd votre site, cependant nous n'avons pu optimisé tout le code ne s'agissant que d'une mise à jour 1.7.X.");
-define("_ADMINISTRATION","Administration");
+
 define("_ADMINISTRATION1","Afin de réaliser une administration de notre époque, nous avons préféré repartir de zéro, et concevoir un système dans lequel administrateurs, utilisateurs,
 		machines, et sites officiels seraient reliés.
 		Pour cela, nous avons mis en place des systèmes de communication comme les notifications, les actions, les discussions admin, mais aussi les signatures des modules
@@ -362,9 +335,45 @@ define("_ORDERBY","Classer par");
 define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_IMAGE","Image");
 
-define("_NONE","Aucun");
-define("_TITLE","Titre");
-define("_COLOR","Couleurs");
+// For 1.7.x compatibility
+
+// Common
+define('_NONE', 'Aucun');
+define('_TITLE', 'Titre');
+define('_COLOR', 'Couleurs');
+define("_ADMIN","Admin");
+define("_ADMINISTRATION","Administration");
+define("_MEMBERS","Membres");
+define("_SITEURL","URL du Site");
+define("_NICK","Pseudo");
+define("_PASSWORD","Pass");
+define("_YOUVE","Vous avez");
+define("_MODULE","Module");
+
+// Block management
+define("_BLOCK","Blocs");
+define("_POSITION","Position");
+define("_TYPE","Type");
+define("_LEVEL","Niveau");
+define("_LEFT","Gauche");
+define("_RIGHT","Droite");
+define("_CENTERBLOCK","Centre");
+define("_FOOTERBLOCK","Bas");
+define("_OFF","Désactivé");
+define("_HTMLBLOCK","Ce block est en HTML");
+define("_MODBLOCK","Blocs d'un module");
+define("_PAGESELECT","Sélectionnez les pages où vous souhaitez que le block s'affiche");
+define("_MODIFBLOCK","Modifier ce block");
+
+// bbcode
+define("_SIZE","Taille");
+
+// banishmentMessage
+define("_1JOUR","1 jour");
+define("_7JOUR","1 semaine");
+define("_1MOIS","1 mois");
+define("_1AN","1 an");
+define("_AVIE","A vie");
 
 return array(
     // common

@@ -7,7 +7,6 @@ define("_YOURACCOUNT","Your Account");
 define("_INFO","Infos");
 define("_PROFIL","Profile");
 define("_THEME","Theme");
-define("_YOUVE","You have");
 define("_MESS","message(s)");
 define("_MESSNOTREAD","not read");
 define("_NOTREADAND","not read and");

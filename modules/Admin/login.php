@@ -14,7 +14,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 global $page, $user, $visiteur, $language;
 
 translate('modules/Admin/lang/'. $language .'.lang.php');
-translate('modules/User/lang/'. $language .'.lang.php');
+
 require_once 'Includes/hash.php';
 require_once 'modules/Admin/includes/core.php';
 
