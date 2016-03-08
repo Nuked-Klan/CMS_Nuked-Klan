@@ -523,7 +523,7 @@ function nkHandle_bannedUser() {
             nkDB_delete(BANNED_TABLE, '`ip` LIKE \'%'. nkDB_escape($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName));
 
             // Notification dans l'administration
-            saveNotification($userName . _BANFINISHED, NOTIFICATION_WARNING);
+            saveNotification($userName . __('BAN_FINISHED'), NOTIFICATION_WARNING);
         }
         // Sinon on met a jour l'IP
         else {

@@ -113,7 +113,7 @@ echo '</table>'."\n"
 echo '<tr style="background: ' . $bgcolor2 . '"><td>&nbsp;' . _MEMBERSRECORD . '</td><td align="center">' . $nb_us . '</td></tr>'."\n";
 
 if (nivo_mod('News') != -1) {
-    echo '<tr style="background: ' . $bgcolor1 . '"><td>&nbsp;' . _NEWSINDB . '</td><td align="center">' . $nb_nw . '</td></tr>'."\n";
+    echo '<tr style="background: ' . $bgcolor1 . '"><td>&nbsp;' . _SNEWSINDB . '</td><td align="center">' . $nb_nw . '</td></tr>'."\n";
 }
 if (nivo_mod('Sections') != -1) {
     echo '<tr style="background: ' . $bgcolor2 . '"><td>&nbsp;' . _ARTSINDB . '</td><td align="center">' . $nb_sc . '</td></tr>'."\n";

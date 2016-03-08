@@ -1,6 +1,9 @@
 <?php
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
+// For 1.7.x compatibility
+
+// install / update
 define('_NKVERSION', '1.8');
 define("_WELCOMEINSTALL",'Bienvenue sur Nuked-Klan '._NKVERSION);
 define("_GUIDEINSTALL","L'assistant va vous guider à travers les étapes de l'installation de votre portail...<br /><br /><b>Merci de laisser le copyleft sur votre site pour respecter la licence GNU.</b>");
@@ -14,45 +17,6 @@ define('_DIRECTORY_NOT_WRITEABLE', "Impossible d'&eacute;crire dans le r&eacute;
 define("_INSTALLPROGRESS","Installation en cours...");
 define("_CREATES",".....Crée");
 define("_MODIFS",".....Modifiée");
-define("_LATESTWAR","Derniers Matchs");
-define("_NEXTWAR","Prochains Matchs");
-define("_IRCAWARD","Irc Awards");
-define("_SERVERMONITOR","Serveur monitor");
-define("_PREFS","Préférences");
-define("_LOGOUT","Déconnexion");
-define("_BLOGIN","Connexion");
-define("_NAV","Menu");
-define("_NAVHOME","Accueil");
-define("_NAVNEWS","News");
-define("_NAVFORUM","Forum");
-define("_NAVDOWNLOAD","Téléchargements");
-define("_NAVTEAM","Team");
-define("_NAVMEMBERS","Membres");
-define("_NAVDEFY","Nous Défier");
-define("_NAVRECRUIT","Recrutement");
-define("_NAVART","Articles");
-define("_NAVSERVER","Serveurs");
-define("_NAVLINKS","Liens Web");
-define("_NAVCALENDAR","Calendrier");
-define("_NAVGALLERY","Galerie");
-define("_NAVMATCHS","Matchs");
-define("_NAVARCHIV","Archives");
-define("_NAVIRC","IrC");
-define("_NAVGUESTBOOK","Livre d\'Or");
-define("_NAVSEARCH","Recherche");
-define("_NAVSTRATS","Stratégies");
-define("_NAVACCOUNT","Compte");
-define("_NAVADMIN","Administration");
-define("_BLOKLOGIN","Login");
-define("_BLOKSEARCH","Recherche");
-define("_BLOKSHOUT","Tribune libre");
-define("_BLOKSTATS","Stats");
-define("_BESTMOD","Le meilleur MOD pour Half-Life");
-define("_LIKENK","Aimez-vous Nuked-klan ?");
-define("_ROXX","Ca déchire, continuez !");
-define("_NOTBAD","Mouais, pas mal...");
-define("_SHIET","C\'est naze, arrêtez-vous !");
-define("_WHATSNK","C\'est quoi Nuked-Klan ?");
 define("_INSERTFIELD","Installation de la base de données terminée !");
 define("_INSERTFINISH","Terminé !");
 define("_GODCONF","Configuration de l'administrateur");
@@ -69,8 +33,8 @@ define("_REDIRECT","Vous allez être redirigé vers la page d'accueil de votre sit
 define("_CLICIFNO","Cliquez ici si rien ne se passe");
 define("_ERRORCHMOD","Veuillez supprimer les fichiers <b>install.php</b> et <b>update.php</b> de votre FTP !<br />Modifiez également l'attribut en CHMOD 777 des répertoires :<br /><br /><b>- images/icones/<br />- upload/Download/<br />- upload/Forum/<br />- upload/Gallery/<br />- upload/News/<br />- upload/Suggest/<br />- upload/User/<br />- upload/Wars/</b>");
 define("_GOHOME","Cliquez ici pour aller sur votre site.");
-define("_FIRSTNEWSTITLE",'Bienvenue sur votre site NuKed-KlaN '._NKVERSION);
-define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.");
+//define("_FIRSTNEWSTITLE",'Bienvenue sur votre site NuKed-KlaN '._NKVERSION);
+//define("_FIRSTNEWSCONTENT","Bienvenue sur votre site NuKed-KlaN, votre installation s\'est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l\'install. En cas de problèmes, veuillez le signaler sur  <a href=\"http://www.nuked-klan.org\">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.");
 define("_DBHOST","Host MySQL");
 define("_DBUSER","User");
 define("_DBPASS","Password");
@@ -84,129 +48,6 @@ define("_ERRORCONNECTDB","Impossible de se connecter à la base de données, assur
 define("_BADCHMOD","Impossible d'écrire dans le fichier <b>conf.inc.php</b>, vérifiez les droits en écriture (CHMOD) !");
 define("_CLICNEXTTOINSTALL","Cliquez sur suivant pour continuer l'installation");
 define("_CLICNEXTTOUPGRADE","Cliquez sur suivant pour continuer la mise à jour");
-define("_MOVEUP","Monter");
-define("_MOVEDOWN","Descendre");
-define("_BBCLOSE","Fermer&nbsp;les&nbsp;balises");
-define("_BBHELP","Aides BBcode");
-
-define("_JAN","Janvier");
-define("_FEB","Février");
-define("_MAR","Mars");
-define("_APR","Avril");
-define("_MAY","Mai");
-define("_JUN","Juin");
-define("_JUL","Juillet");
-define("_AUG","Août");
-define("_SEP","Septembre");
-define("_OCT","Octobre");
-define("_NOV","Novembre");
-define("_DEC","Décembre");
-define("_WELCOME","Bienvenue");
-define("_NEWSPOSTBY","Postée par");
-define("_AT","à");
-define("_THE","le");
-define("_BY","par");
-define("_NEWSCOMMENT","Commentaires");
-define("_BANFINISHED"," n'est plus banni, sa période est arrivée à expiration: [<a href=\"index.php?file=Admin&page=user&op=main_ip\">Lien</a>].");
-define("_ENTERSITEURL","Entrez l\'url de votre site");
-define("_ENTERSITENAME","Entrez le nom de votre site");
-define("_ENTERIMGURL","Entrez l\'url de votre image");
-define("_ENTERFLASHURL","Entrez l\'url de votre animation flash");
-define("_ENTERWIDTH","Entrez la largeur");
-define("_ENTERHEIGHT","Entrez la longueur");
-define("_ENTERTEXT","Entrez votre texte");
-define("_TAPEYOURTEXT","Tapez votre texte ici");
-define("_ENTERMAIL","Entrez l\'email");
-define("_TEXT","Texte");
-define("_QUOTE","Citation");
-define("_LIST","Liste");
-define("_BOLD","Gras");
-define("_ITAL","Italique");
-define("_UNDERLINE","Souligné");
-define("_BBOLD","Gras (Alt + b)");
-define("_BITAL","Italique (Alt + i)");
-define("_BCENTER","Centré (Alt + c)");
-define("_BUNDERLINE","Souligné (Alt + u)");
-define("_BSCREEN","Image (Alt + g)");
-define("_BFLASH","Flash (Alt + s)");
-define("_BURL","URL (Alt + w)");
-define("_BLIST","Liste (Alt + l)");
-define("_BQUOTE","Citation (Alt + q)");
-define("_BCODE","Code (Alt + p)");
-define("_BMAIL","Email (Alt + m)");
-define("_RED","Rouge");
-define("_DARKRED","Rouge foncé");
-define("_BLUE","Bleu");
-define("_DARKBLUE","Bleu foncé");
-define("_ORANGE","Orange");
-define("_BROWN","Marron");
-define("_YELLOW","Jaune");
-define("_GREEN","Vert");
-define("_VIOLET","Violet");
-define("_OLIVE","Olive");
-define("_CYAN","Cyan");
-define("_INDIGO","Indigo");
-define("_WHITE","Blanc");
-define("_BLACK","Noir");
-define("_POLICE","Police");
-define("_HASWROTE","a écrit");
-define("_PAGE","Page");
-define("_PREVIOUSPAGE","Page Précédente");
-define("_NEXTPAGE","Page Suivante");
-
-define("_HELP","Aides");
-define("_ADMINBLOCK","Gestion des Blocks");
-define("_TITREACTU","Afficher le titre du flux");
-define("_NBRRSS","Nombre de lien affiché");
-
-define("_THEREISNOW","Il y a actuellement");
-define("_MEMBER","Membre");
-define("_ONLINE","en ligne.");
-define("_NOMEMBERONLINE","Aucun membre en ligne");
-define("_MEMBERONLINE","Membres en ligne");
-define("_SENDMESS","Lui envoyer un message privé ?");
-define("_LOGIN","Login");
-define("_SAVE","Enregistré");
-define("_REGISTER","S'enregistrer");
-define("_FORGETPASS","Perdu votre Pass");
-define("_ADMINS","Admins");
-define("_LASTMEMBER","Dernier");
-define("_ONLINES","En ligne");
-define("_MESSPV","Messages privés");
-define("_NOTREAD","Nouveau(x)");
-define("_READ","Archivé(s)");
-define("_MODIFMENU","Modifier le menu");
-define("_URL","URL");
-define("_NOMOD","Aucun");
-define("_COMMENT","Commentaire");
-define("_INSERT","Insert");
-define("_NEWPAGE","New page");
-define("_PAGEPOLL","Vous êtes actuellement sur la page des sondages");
-define("_RESULT","Résultats");
-define("_OTHERPOLL","Autres Sondages");
-define("_NOPOLL","Il n'y a pas encore de Sondage");
-define("_POLL","Sondage");
-define("_POLLID","ID du Sondage");
-define("_THEREWAS","Il y a eu");
-define("_VOTE","vote(s)");
-define("_ATTHISPOLL","à ce sondage");
-define("_SUGGEST","Suggestion");
-define("_ONESUGGEST","Une suggestion ?");
-//define("_GOTO_PRIVATE_MESSAGES", "Cliquez ici pour consulter votre messagerie");
-define("_CLICK_TO_CLOSE", "Cliquer pour fermer ce messsage");
-define("_MORESMILIES","Tous les smilies");
-define("_BLOKPARTNERS","Partenaires");
-define("_TMAIL","Email");
-define("_SHOWAVATAR","Voir l'avatar");
-define("_REQUIRED","obligatoire");
-define("_OPTIONAL","optionnel");
-define("_BTHEMESELECT", "Choix du thème");
-
-// PATCH CAPTCHA
-define("_SECURITYCODE","Code de sécurité");
-define("_TYPESECCODE","Recopiez le code ci-dessus");
-define("_BADCODECONFIRM","Le code de sécurité ne correspond pas !");
-define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, le captcha est d&eacute;sormais actif !');
 
 define("_ETAPE2","Etape 2");
 define("_CHOIX","Explication");
@@ -304,22 +145,6 @@ define('_BADHOSTING', 'Votre hébergement n\'est pas compatible avec la nouvelle 
 define('_CONTINUE', 'Continuer');
 define('_EDITCONFIG', 'Mise à jour de la configuration');
 
-define('_HTMLNOCORRECT', 'Le code HTML est mal formaté');
-define('REMOVE_INSTALL_FILES', 'Veuillez supprimer les fichiers install.php ou update.php &agrave; la racine de votre FTP.');
-define("_DATE","Date");
-
-
-
-define("_EDIT","Editer");
-define("_DEL","Supprimer");
-define("_PREFUPDATED","Préférences modifiées avec succès");
-define("_MORE","Suite");
-define("_ORDERBY","Classer par");
-define("_NONICK","Vous n\'avez pas entré votre pseudo !");
-define("_IMAGE","Image");
-
-// For 1.7.x compatibility
-
 // Common
 define('_NONE', 'Aucun');
 define('_TITLE', 'Titre');
@@ -338,7 +163,47 @@ define("_ACCOUNT","Compte");
 define("_3TYPEMIN","3 caractères Minimum pour le Pseudo");
 define("_4TYPEMIN","4 caractères Minimum pour le Mot de passe");
 define("_PASSFAILED","Vous n\'avez pas saisi le même mot de passe");
-define("_OTHERNICK","Autre pseudo");// que pour l'install?
+define("_AT","à");
+define("_THE","le");
+define("_BY","par");
+define("_DATE","Date");
+define("_URL","URL");
+define("_COMMENT","Commentaire");
+define("_RESULT","Résultats");
+define("_REQUIRED","obligatoire");
+define("_OPTIONAL","optionnel");
+define("_EDIT","Editer");
+define("_DEL","Supprimer");
+define("_MORE","Suite");
+define("_ORDERBY","Classer par");
+define("_IMAGE","Image");
+define("_NONICK","Vous n\'avez pas entré votre pseudo !");
+define("_HELP","Aides");
+
+// menu
+define("_NAV","Menu");
+define("_NAVHOME","Accueil");
+define("_NAVNEWS","News");
+define("_NAVFORUM","Forum");
+define("_NAVDOWNLOAD","Téléchargements");
+define("_NAVTEAM","Team");
+define("_NAVMEMBERS","Membres");
+define("_NAVDEFY","Nous Défier");
+define("_NAVRECRUIT","Recrutement");
+define("_NAVART","Articles");
+define("_NAVSERVER","Serveurs");
+define("_NAVLINKS","Liens Web");
+define("_NAVCALENDAR","Calendrier");
+define("_NAVGALLERY","Galerie");
+define("_NAVMATCHS","Matchs");
+define("_NAVARCHIV","Archives");
+define("_NAVIRC","IrC");
+define("_NAVGUESTBOOK","Livre d\'Or");
+define("_NAVSEARCH","Recherche");
+define("_NAVSTRATS","Stratégies");
+define("_NAVACCOUNT","Compte");
+define("_NAVADMIN","Administration");
+define("_MEMBER","Membre");
 
 // Block management
 define("_BLOCK","Blocs");
@@ -358,13 +223,147 @@ define("_MODIFBLOCK","Modifier ce block");
 // bbcode
 define("_SIZE","Taille");
 define("_CODE","Code");
+define("_ENTERSITEURL","Entrez l\'url de votre site");
+define("_ENTERSITENAME","Entrez le nom de votre site");
+define("_ENTERIMGURL","Entrez l\'url de votre image");
+define("_ENTERFLASHURL","Entrez l\'url de votre animation flash");
+define("_ENTERWIDTH","Entrez la largeur");
+define("_ENTERHEIGHT","Entrez la longueur");
+define("_ENTERTEXT","Entrez votre texte");
+define("_TAPEYOURTEXT","Tapez votre texte ici");
+define("_ENTERMAIL","Entrez l\'email");
+define("_TEXT","Texte");
+define("_QUOTE","Citation");
+define("_LIST","Liste");
+define("_BOLD","Gras");
+define("_ITAL","Italique");
+define("_UNDERLINE","Souligné");
+define("_BBOLD","Gras (Alt + b)");
+define("_BITAL","Italique (Alt + i)");
+define("_BCENTER","Centré (Alt + c)");
+define("_BUNDERLINE","Souligné (Alt + u)");
+define("_BSCREEN","Image (Alt + g)");
+define("_BFLASH","Flash (Alt + s)");
+define("_BURL","URL (Alt + w)");
+define("_BLIST","Liste (Alt + l)");
+define("_BQUOTE","Citation (Alt + q)");
+define("_BCODE","Code (Alt + p)");
+define("_BMAIL","Email (Alt + m)");
+define("_RED","Rouge");
+define("_DARKRED","Rouge foncé");
+define("_BLUE","Bleu");
+define("_DARKBLUE","Bleu foncé");
+define("_ORANGE","Orange");
+define("_BROWN","Marron");
+define("_YELLOW","Jaune");
+define("_GREEN","Vert");
+define("_VIOLET","Violet");
+define("_OLIVE","Olive");
+define("_CYAN","Cyan");
+define("_INDIGO","Indigo");
+define("_WHITE","Blanc");
+define("_BLACK","Noir");
+define("_POLICE","Police");
+define("_HASWROTE","a écrit");
+define("_BBCLOSE","Fermer&nbsp;les&nbsp;balises");
+define("_BBHELP","Aides BBcode");
 
-// banishmentMessage
-define("_1JOUR","1 jour");
-define("_7JOUR","1 semaine");
-define("_1MOIS","1 mois");
-define("_1AN","1 an");
-define("_AVIE","A vie");
+// block_center.php
+define("_BLOKLOGIN","Login");
+define("_BLOKSEARCH","Recherche");
+define("_BLOKSHOUT","Tribune libre");
+define("_BLOKSTATS","Stats");
+define("_LATESTWAR","Derniers Matchs");
+define("_NEXTWAR","Prochains Matchs");
+define("_IRCAWARD","Irc Awards");
+define("_SERVERMONITOR","Serveur monitor");
+
+// block_event.php
+define("_JAN","Janvier");
+define("_FEB","Février");
+define("_MAR","Mars");
+define("_APR","Avril");
+define("_MAY","Mai");
+define("_JUN","Juin");
+define("_JUL","Juillet");
+define("_AUG","Août");
+define("_SEP","Septembre");
+define("_OCT","Octobre");
+define("_NOV","Novembre");
+define("_DEC","Décembre");
+
+// block_login.php
+define("_LOGOUT","Déconnexion");
+define("_BLOGIN","Connexion");
+define("_WELCOME","Bienvenue");
+define("_LOGIN","Login");
+define("_SAVE","Enregistré");
+define("_REGISTER","S'enregistrer");
+define("_FORGETPASS","Perdu votre Pass");
+define("_ADMINS","Admins");
+define("_LASTMEMBER","Dernier");
+define("_MESSPV","Messages privés");
+define("_NOTREAD","Nouveau(x)");
+define("_READ","Archivé(s)");
+
+// block_rss.php
+define("_TITREACTU","Afficher le titre du flux");
+define("_NBRRSS","Nombre de lien affiché");
+
+// block_survey.php
+define("_OTHERPOLL","Autres Sondages");
+define("_POLL","Sondage");
+define("_VOTE","vote(s)");
+
+// block_theme.php
+define("_BTHEMESELECT", "Choix du thème");
+
+// news
+define("_NEWSPOSTBY","Postée par");
+define("_NEWSCOMMENT","Commentaires");
+
+// pagination
+define("_PAGE","Page");
+define("_PREVIOUSPAGE","Page Précédente");
+define("_NEXTPAGE","Page Suivante");
+
+// captcha
+define('_MSGCAPTCHA', 'Vous avez fait trop de tentatives, le captcha est d&eacute;sormais actif !');
+
+// secu_html
+define('_HTMLNOCORRECT', 'Le code HTML est mal formaté');
+
+// admin
+define("_PREFS","Préférences");
+define("_MOVEUP","Monter");
+define("_MOVEDOWN","Descendre");
+define("_NEWPAGE","New page");
+define("_PREFUPDATED","Préférences modifiées avec succès");
+
+//define("_ADMINBLOCK","Gestion des Blocks");
+//define("_THEREISNOW","Il y a actuellement");
+//define("_ONLINE","en ligne.");
+//define("_NOMEMBERONLINE","Aucun membre en ligne");
+//define("_MEMBERONLINE","Membres en ligne");
+//define("_SENDMESS","Lui envoyer un message privé ?");
+//define("_ONLINES","En ligne");
+//define("_MODIFMENU","Modifier le menu");
+//define("_NOMOD","Aucun");
+//define("_INSERT","Insert");
+//define("_PAGEPOLL","Vous êtes actuellement sur la page des sondages");
+//define("_NOPOLL","Il n'y a pas encore de Sondage");
+//define("_POLLID","ID du Sondage");
+//define("_THEREWAS","Il y a eu");
+//define("_ATTHISPOLL","à ce sondage");
+
+define("_SUGGEST","Suggestion");
+//define("_ONESUGGEST","Une suggestion ?");
+
+//define("_GOTO_PRIVATE_MESSAGES", "Cliquez ici pour consulter votre messagerie");
+//define("_CLICK_TO_CLOSE", "Cliquer pour fermer ce messsage");
+//define("_MORESMILIES","Tous les smilies");
+//define("_BLOKPARTNERS","Partenaires");
+//define("_TMAIL","Email");
 
 return array(
     // common
@@ -433,6 +432,16 @@ return array(
     'LINKS_RSS_TITLE'   => 'Les %d derniers liens',
     'GALLERY_RSS_TITLE' => 'Les %d derniéres images',
     'FORUM_RSS_TITLE'   => 'Les %d derniers sujets',
+
+    // ban.php
+    // nkHandle_bannedUser function (nuked.php)
+    'BAN_FINISHED'      => ' n\'est plus banni, sa période est arrivée à expiration: [<a href="index.php?file=Admin&page=user&op=main_ip">Lien</a>].',
+    // ban.php
+    '1DAY'              => '1 jour',
+    '7DAY'              => '1 semaine',
+    '1MONTH'            => '1 mois',
+    '1YEAR'             => '1 an',
+    'FOREVER'           => 'A vie',
 
     // adminInit function (nuked.php)
     'MODULE_OFF'        => 'Désolé, ce module n\'est pas activé !',
@@ -507,6 +516,8 @@ return array(
     'CLOSE_WINDOW'      => 'Fermer la fenêtre',
     // views/frontend/nkAlert/nkInstallDirTrue.php
     'REMOVE_DIR_INST'   => 'Veuillez supprimer le dossier d\'installation de Nuked-Klan (/INSTALL/)',
+    // views/frontend/nkAlert/nkInstallFileTrue.php
+    'REMOVE_INSTALL_FILES' => 'Veuillez supprimer les fichiers install.php ou update.php &agrave; la racine de votre FTP.',
     // views/frontend/nkAlert/nkNewPrivateMsg.php
     'NEW_PRIVATE_MESSAGE' => array(1 => 'Vous avez reçu %d nouveau message', 2 => 'Vous avez reçu %d nouveaux messages'),
     'GO_TO_PRIVATE_MESSAGES' => 'Cliquez ici pour consulter votre messagerie',

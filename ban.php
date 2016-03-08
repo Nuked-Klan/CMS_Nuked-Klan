@@ -43,7 +43,7 @@ if (nkDB_numrows() > 0) {
         setcookie('ip_ban', '', $time - 3600);
 
         // On notifie dans l'administration
-        saveNotification($dbrBanned['pseudo'] . _BANFINISHED, NOTIFICATION_WARNING);
+        saveNotification($dbrBanned['pseudo'] . __('BAN_FINISHED'), NOTIFICATION_WARNING);
 
         // On redirige vers le site
         redirect('index.php');
@@ -52,11 +52,11 @@ if (nkDB_numrows() > 0) {
     // Sinon on prolongue la durée de vie du cookie.
     setcookie('ip_ban', $_GET['ip_ban'], $time + 9999999, '', '', '');
 
-    if ($dbrBanned['dure'] == 0) $duration = _AVIE;
-    else if ($dbrBanned['dure'] == 86400) $duration = _1JOUR;
-    else if ($dbrBanned['dure'] == 604800) $duration = _7JOUR;
-    else if ($dbrBanned['dure'] == 2678400) $duration = _1MOIS;
-    else if ($dbrBanned['dure'] == 31708800) $duration = _1AN;
+    if ($dbrBanned['dure'] == 0) $duration = __('FOREVER');
+    else if ($dbrBanned['dure'] == 86400) $duration = __('1DAY');
+    else if ($dbrBanned['dure'] == 604800) $duration = __('7JOUR');
+    else if ($dbrBanned['dure'] == 2678400) $duration = __('1MONTH');
+    else if ($dbrBanned['dure'] == 31708800) $duration = __('1YEAR');
 
     nkTemplate_setBgColors();
     nkTemplate_setPageDesign('nudePage');

@@ -11,7 +11,7 @@ define("_PAGEVIEWS","Pages visitées");
 define("_OTHERSTATS","Autres Statistiques");
 define("_COUNT","Compteur");
 define("_MEMBERSRECORD","Membres enregistrés");
-define("_NEWSINDB","News publiées");
+define("_SNEWSINDB","News publiées");
 define("_ARTSINDB","Articles publiés");
 define("_FILESINDB","Fichiers enregistrés");
 define("_LINKSINDB","Liens enregistrés");

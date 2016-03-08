@@ -34,7 +34,7 @@ if ($active == 3 || $active == 4)
     {
         $sql_news = mysql_query("SELECT id FROM " . NEWS_TABLE);
         $nb_news = mysql_num_rows($sql_news);
-        echo "&nbsp;<b><big>·</big></b>&nbsp;<b>" . $nb_news . "</b> " . _NEWSINDB . "<br />\n";
+        echo "&nbsp;<b><big>·</big></b>&nbsp;<b>" . $nb_news . "</b> " . _SNEWSINDB . "<br />\n";
     }
 
     if (nivo_mod("Download") != -1)

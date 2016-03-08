@@ -12,7 +12,7 @@ define("_PAGEVIEWS","Pages visited");
 define("_OTHERSTATS","Miscellaneous Statistics");
 define("_COUNT","Count");
 define("_MEMBERSRECORD","Registered Users");
-define("_NEWSINDB","Published News");
+define("_SNEWSINDB","Published News");
 define("_ARTSINDB","Published Articles");
 define("_FILESINDB","Registered Files");
 define("_LINKSINDB","Registered Links");
