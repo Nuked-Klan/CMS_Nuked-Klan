@@ -7,7 +7,7 @@
  * @version 1.8
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
  */
 
 class confInc {
@@ -106,7 +106,7 @@ class confInc {
             . ' * @version     1.8' ."\n"
             . ' * @link http://www.nuked-klan.org Clan Management System for Gamers' ."\n"
             . ' * @license http://opensource.org/licenses/gpl-license.php GNU Public License' ."\n"
-            . ' * @copyright 2001-2015 Nuked-Klan (Registred Trademark)' ."\n"
+            . ' * @copyright 2001-2016 Nuked-Klan (Registred Trademark)' ."\n"
             . ' */' ."\n\n";
 
         if (array_key_exists('nk_version', $this->_data))
