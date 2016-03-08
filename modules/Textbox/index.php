@@ -17,7 +17,10 @@ translate('modules/Textbox/lang/'. $language .'.lang.php');
 
 
 function index() {
-    global $nuked, $user, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $level_access, $level_admin, $visiteur;
+    global $nuked, $user, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $visiteur;
+
+    $level_access = nivo_mod("Textbox");
+    $level_admin = admin_mod("Textbox");
 
     if ($visiteur >= $level_access && $level_access > -1) {
         $nb_mess = $nuked['max_shout'];
@@ -174,7 +177,9 @@ function cesure_href($matches) {
 }
 
 function ajax() {
-    global $nuked, $user, $visiteur, $language, $bgcolor1, $bgcolor2, $level_admin;
+    global $nuked, $user, $visiteur, $language, $bgcolor1, $bgcolor2;
+
+    $level_admin = admin_mod("Textbox");
 
     header('Content-type: text/html; charset=iso-8859-1');
     nkTemplate_setPageDesign('none');
