@@ -20,8 +20,11 @@ $sqlErrorTableCfg = array(
     'fields' => array(
         'id'    => array('type' => 'int(11)',     'null' => false, 'autoIncrement' => true),
         'date'  => array('type' => 'varchar(30)', 'null' => false, 'default' => '\'0\''),
-        'lien'  => array('type' => 'text',        'null' => false),
-        'texte' => array('type' => 'text',        'null' => false)
+        'url'   => array('type' => 'text',        'null' => false),
+        'error' => array('type' => 'text',        'null' => false),
+        'code'  => array('type' => 'smallint(5)', 'null' => false, 'unsigned' => true),
+        'line'  => array('type' => 'smallint(5)', 'null' => false, 'unsigned' => true),
+        'file'  => array('type' => 'text',        'null' => false)
     ),
     'primaryKey' => array('id'),
     'engine' => 'MyISAM'
@@ -50,7 +53,37 @@ if ($process == 'drop' && $dbTable->tableExist())
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // install / update 1.7.9 RC1
-if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist()))
+$sqlErrorTableCreated = false;
+
+if ($process == 'install' || ($process == 'update' && ! $dbTable->tableExist())) {
     $dbTable->createTable($sqlErrorTableCfg);
+
+    $sqlErrorTableCreated = true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Table update
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+if ($process == 'update') {
+    if ($sqlErrorTableCreated)
+        return;
+
+    // install / update 1.8
+    if ($dbTable->fieldExist('lien'))
+        $dbTable->modifyField('lien', array_merge(array('newField' => 'url'), $sqlErrorTableCfg['fields']['url']));
+
+    if ($dbTable->fieldExist('texte'))
+        $dbTable->modifyField('texte', array_merge(array('newField' => 'error'), $sqlErrorTableCfg['fields']['error']));
+
+    if (! $dbTable->fieldExist('code'))
+        $dbTable->addField('code', $sqlErrorTableCfg['fields']['code']);
+
+    if (! $dbTable->fieldExist('line'))
+        $dbTable->addField('line', $sqlErrorTableCfg['fields']['line']);
+
+    if (! $dbTable->fieldExist('file'))
+        $dbTable->addField('file', $sqlErrorTableCfg['fields']['file']);
+}
 
 ?>

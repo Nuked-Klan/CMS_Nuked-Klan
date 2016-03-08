@@ -447,9 +447,34 @@ function nkDB_execute($sql) {
         $GLOBALS['nkDB']['status'][count($GLOBALS['nkDB']['querys']) - 1] = array($sql, 'ok', $sqlTime);
     }
     else {
-        $GLOBALS['nkDB']['status'][count($GLOBALS['nkDB']['querys']) - 1] = array($sql, mysql_error(), 0);
-
+        $error = mysql_error();
+        $GLOBALS['nkDB']['status'][count($GLOBALS['nkDB']['querys']) - 1] = array($sql, $error, 0);
         $GLOBALS['nkDB']['queryError'] = true;
+
+        $errline = 0;
+        $errfile = '';
+
+        foreach (debug_backtrace(false) as $k => $backtrace) {
+            if (strpos($backtrace['function'], 'nkDB_') !== 0)
+                break;
+
+            $errfile = $backtrace['file'];
+            $errline = $backtrace['line'];
+        }
+
+        nkDB_insert(SQL_ERROR_TABLE, array(
+            'date'  => time(),
+            'url'   => basename($_SERVER['REQUEST_URI']),
+            'code'  => mysql_errno(),
+            'line'  => $errline,
+            'file'  => $errfile,
+            'error' => $error
+        ));
+
+        saveNotification(
+            __('SQL_ERROR_DETECTED') .' : [<a href="index.php?file=Admin&page=erreursql">'. __('LINK') .'</a>].',
+            NOTIFICATION_WARNING
+        );
     }
 
     $GLOBALS['nkDB']['totalTime'] += $sqlTime;

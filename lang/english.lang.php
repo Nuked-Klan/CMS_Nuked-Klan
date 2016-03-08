@@ -102,10 +102,6 @@ define("_MOVEDOWN","Move down");
 define("_BBCLOSE","close tags");
 define("_BBHELP","BBcode Help");
 
-define("_ERRORSQLDEDECTED","A SQL error have been detected");
-define("_SQLFILE",", file :");
-define("_SQLLINE",", line :");
-
 define("_JAN","January");
 define("_FEB","February");
 define("_MAR","March");
@@ -135,7 +131,6 @@ define("_ENTERTEXT","Enter the text");
 define("_TAPEYOURTEXT","write your text here");
 define("_ENTERMAIL","Enter email adress");
 define("_TEXT","Text");
-define("_CODE","Code");
 define("_QUOTE","Quote");
 define("_LIST","List");
 define("_BOLD","Bold");
@@ -215,7 +210,6 @@ define("_ONESUGGEST","submit a suggest ?");
 define("_CLICK_TO_CLOSE", "Clic to close this message");
 define("_MORESMILIES","All smilies");
 define("_BLOKPARTNERS","Partners");
-define("_TLINK","Links");
 define("_TMAIL","Mail");
 define("_SHOWAVATAR","Show avatar");
 define("_REQUIRED","required");
@@ -342,6 +336,7 @@ define("_NICK","Nick");
 define("_PASSWORD","Pass");
 define("_YOUVE","You have");
 define("_MODULE","Module");
+define("_TLINK","Links");
 
 // Block management
 define("_BLOCK","Block");
@@ -360,6 +355,7 @@ define("_MODIFBLOCK","Modify this block ");
 
 // bbcode
 define("_SIZE","Size");
+define("_CODE","Code");
 
 // ban
 define("_1JOUR","1 day");
@@ -394,6 +390,10 @@ return array(
     'RESULT'            => 'Results',
     'QUOTE'             => 'Quote',
     'AUTHOR'            => 'Author',
+    'FILE'              => 'file',
+    'LINE'              => 'line',
+    'LINK'              => 'Link',
+    'CODE'              => 'Code',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
@@ -475,6 +475,8 @@ return array(
     'CT_BAD_TOKEN'      => 'Bad token !<br />Please use the form.',
     'CT_BAD_JS'         => 'Javascript validation failed !<br /> Please enable javascript.',
     'CT_BAD_FIELD'      => 'NoBot validation failed !<br /> Please use the form.',
+    // nkDB_execute - Includes/nkDB/*
+    'SQL_ERROR_DETECTED' => 'A SQL error have been detected',
     // nkSitemap_write - Includes/nkSitemap.php
     'WRITE_SITEMAP_FAILED' => 'Can\'t write sitemap.fml file in Nuked-Klan directory<br/>Please update manually CHMOD <strong>0755</strong> on this directory.',
     // nkUpload_check - Includes/nkUpload.php

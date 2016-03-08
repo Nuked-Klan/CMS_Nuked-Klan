@@ -40,20 +40,27 @@ function main()
 
     nkAdminMenu();
 
-    echo "<table><tr><td><b>" . _DATE . "</b>\n"
-    ."</td><td><b>" . _URL . "</b>\n"
-    ."</td><td><b>" . _INFORMATION . "</b>\n"
-    ."</td></tr>\n";
+    echo '<table><tr><td><b>', __('DATE'), '</b>', "\n"
+        , '</td><td><b>', __('URL'), '</b>', "\n"
+        , '</td><td style="text-transform:capitalize;"><b>', __('FILE'), '</b>', "\n"
+        , '</td><td style="text-transform:capitalize;"><b>', __('LINE'), '</b>', "\n"
+        , '</td></tr>', "\n";
 
-    $sql = mysql_query("SELECT date, lien, texte  FROM " . $nuked['prefix'] . "_erreursql ORDER BY date DESC");
-    while (list($date, $lien, $texte) = mysql_fetch_array($sql))
-    {
-        $date = nkDate($date);
+    $dbrSqlError = nkDB_selectMany(
+        'SELECT `date`, `url`, `error`, `code`, `line`, `file`
+        FROM '. SQL_ERROR_TABLE,
+        array('date'), 'DESC'
+    );
 
-        echo "<tr><td>" . $date . "</td>\n"
-        . "<td><a href=\"" . $nuked['url'] . $lien . "\">" . $lien . "</a></td>\n"
-        . "<td>" . $texte . "</td></tr>\n";
+    foreach ($dbrSqlError as $sqlError) {
+        echo '<tr><td>', nkDate($sqlError['date']), '</td>', "\n"
+            , '<td><a href="', $sqlError['url'], '">', $sqlError['url'], '</a></td>', "\n"
+            , '<td>', $sqlError['file'], '</td>', "\n"
+            , '<td>', $sqlError['line'], '</td></tr>', "\n"
+            , '<tr><td colspan="4">', __('CODE'), ' : ', $sqlError['code'], '<br/>'
+            , $sqlError['error'], '</td></tr>', "\n";
     }
+
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
@@ -62,7 +69,7 @@ function delete()
     global $user, $nuked, $visiteur;
 
     if ($visiteur == '9')
-        $sql3 = mysql_query("DELETE FROM ". $nuked['prefix'] ."_erreursql");
+        $sql3 = mysql_query("DELETE FROM ". SQL_ERROR_TABLE);
 
     saveUserAction(_ACTIONVIDERSQL);
 

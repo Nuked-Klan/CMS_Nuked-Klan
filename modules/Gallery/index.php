@@ -75,7 +75,7 @@ function cat($cat)
                 $source = $thb->GetOrigine();
                 // Lance le redimensionenemt
                 $thb->doThb();
-                if ($thumb) $sql_insert = mysql_query ("UPDATE " . $nuked['prefix'] . "_gallery SET url2 = '" . $thumb . "' WHERE sid = '" . $sid . "'");
+                if ($thumb) $sql_insert = mysql_query("UPDATE " . $nuked['prefix'] . "_gallery SET url2 = '" . $thumb . "' WHERE sid = '" . $sid . "'");
                 $image = $thumb;
             }
             if (!$image) $image = $url;

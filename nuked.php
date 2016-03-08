@@ -425,23 +425,11 @@ function session_read($id) {
 function session_write($id, $data) {
     connect();
 
-    $dbiSession = nkDB_insert(TMPSES_TABLE, array(
+    return nkDB_replace(TMPSES_TABLE, array(
         'session_id'    => $id,
         'session_start' => time(),
         'session_vars'  => $data
     ));
-
-    $dbuSession = false;
-
-    if ($dbiSession === false || nkDB_insertId() == 0) {
-        $dbuSession = nkDB_update(TMPSES_TABLE, array(
-                'session_vars' => $data
-            ),
-            'session_id = '. nkDB_escape($id)
-        );
-    }
-
-    return ($dbiSession !== false || $dbuSession !== false);
 }
 
 // DELETE PHP SESSION
@@ -1682,38 +1670,6 @@ function getBrowser(){
     }
 
     return $browser;
-}
-
-// TODO : Bug #82 Sql error handler don't work
-function erreursql($errno, $errstr, $errfile, $errline, $errcontext) {
-    global $user, $nuked, $language;
-
-    switch ($errno){
-        case E_WARNING:
-            break;
-        case 8192:
-            break;
-        case 8:
-            break;
-        default:
-            $content = ob_get_clean();
-            // CONNECT TO DB AND OPEN SESSION PHP
-            if(file_exists('conf.inc.php')) include ('conf.inc.php');
-            connect();
-            session_name('nuked');
-            session_start();
-            if (session_id() == '') exit(ERROR_SESSION);
-            $date = time();
-            echo ERROR_SQL;
-            $texte = _TYPE . ': ' . $errno . _SQLFILE . $errfile . _SQLLINE . $errline;
-            $upd = nkDB_execute("INSERT INTO " . $nuked['prefix'] . "_erreursql  (`date` , `lien` , `texte`)  VALUES ('" . $date . "', '" . mysql_escape_string($_SERVER["REQUEST_URI"]) . "', '" . $texte . "')");
-
-            saveNotification(_ERRORSQLDEDECTED .' : [<a href="index.php?file=Admin&page=erreursql">'. _TLINK .'</a>].', NOTIFICATION_WARNING);
-            exit();
-            break;
-    }
-    /* Ne pas exécuter le gestionnaire interne de PHP */
-    return true;
 }
 
 /**

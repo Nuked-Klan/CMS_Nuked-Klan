@@ -32,8 +32,11 @@ require_once 'nuked.php';
 if ($nuked['time_generate'] == 'on')
     $microTime = microtime(true);
 
-// GESTION DES ERREURS SQL - SQL ERROR MANAGEMENT
-if(ini_get('set_error_handler')) set_error_handler('erreursql');
+
+/**
+ * Init translation
+ */
+translate('lang/'. $language .'.lang.php');
 
 
 if ($nuked['stats_share'] == 1) {
@@ -76,14 +79,8 @@ if ($_SESSION['admin'] == true
     }
 }
 
-unset($_SESSION['previewToken']);
-
-
-/**
- * Init translation
- */
-translate('lang/'. $language .'.lang.php');
-
+if (isset($_GET['previewToken']))
+    unset($_SESSION['previewToken']);
 
 // If website is closed
 if ($nuked['nk_status'] == 'closed'

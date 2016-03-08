@@ -30,7 +30,7 @@ define('DEFY_TABLE', $db_prefix . '_defie');
 define('DISCUSSION_TABLE', $db_prefix . '_discussion');
 define('DOWNLOAD_TABLE', $db_prefix . '_downloads');
 define('DOWNLOAD_CAT_TABLE', $db_prefix . '_downloads_cat');
-
+define('SQL_ERROR_TABLE', $db_prefix . '_erreursql');
 define('FORUM_TABLE', $db_prefix . '_forums');
 define('FORUM_CAT_TABLE', $db_prefix . '_forums_cat');
 define('FORUM_MESSAGES_TABLE', $db_prefix . '_forums_messages');

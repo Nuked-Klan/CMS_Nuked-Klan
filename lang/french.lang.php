@@ -98,10 +98,6 @@ define("_MOVEDOWN","Descendre");
 define("_BBCLOSE","Fermer&nbsp;les&nbsp;balises");
 define("_BBHELP","Aides BBcode");
 
-define("_ERRORSQLDEDECTED","Une erreur SQL a été détectée");
-define("_SQLFILE",", fichier :");
-define("_SQLLINE",", ligne :");
-
 define("_JAN","Janvier");
 define("_FEB","Février");
 define("_MAR","Mars");
@@ -131,7 +127,6 @@ define("_ENTERTEXT","Entrez votre texte");
 define("_TAPEYOURTEXT","Tapez votre texte ici");
 define("_ENTERMAIL","Entrez l\'email");
 define("_TEXT","Texte");
-define("_CODE","Code");
 define("_QUOTE","Citation");
 define("_LIST","Liste");
 define("_BOLD","Gras");
@@ -212,7 +207,6 @@ define("_ONESUGGEST","Une suggestion ?");
 define("_CLICK_TO_CLOSE", "Cliquer pour fermer ce messsage");
 define("_MORESMILIES","Tous les smilies");
 define("_BLOKPARTNERS","Partenaires");
-define("_TLINK","Lien");
 define("_TMAIL","Email");
 define("_SHOWAVATAR","Voir l'avatar");
 define("_REQUIRED","obligatoire");
@@ -349,6 +343,7 @@ define("_NICK","Pseudo");
 define("_PASSWORD","Pass");
 define("_YOUVE","Vous avez");
 define("_MODULE","Module");
+define("_TLINK","Lien");
 
 // Block management
 define("_BLOCK","Blocs");
@@ -367,6 +362,7 @@ define("_MODIFBLOCK","Modifier ce block");
 
 // bbcode
 define("_SIZE","Taille");
+define("_CODE","Code");
 
 // banishmentMessage
 define("_1JOUR","1 jour");
@@ -401,6 +397,10 @@ return array(
     'RESULT'            => 'Résultats',
     'QUOTE'             => 'Citation',
     'AUTHOR'            => 'Auteur',
+    'FILE'              => 'fichier',
+    'LINE'              => 'ligne',
+    'LINK'              => 'Lien',
+    'CODE'              => 'Code',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',
@@ -482,6 +482,8 @@ return array(
     'CT_BAD_TOKEN'      => 'Token incorrect !<br />Veuillez utiliser le formulaire.',
     'CT_BAD_JS'         => 'La validation javascript a échouée !<br />Veuillez activer javascript.',
     'CT_BAD_FIELD'      => 'La validation antiRobot a échouée !<br />Veuillez utiliser le formulaire.',
+    // nkDB_execute - Includes/nkDB/*
+    'SQL_ERROR_DETECTED' => 'Une erreur SQL a été détectée',
     // nkSitemap_write - Includes/nkSitemap.php
     'WRITE_SITEMAP_FAILED' => 'Impossible d\'écrire le fichier sitemap.xml dans le dossier contenant Nuked-Klan<br/>Veuillez mettre manuellement le CHMOD <strong>0755</strong> sur ce dossier.',
     // nkUpload_check - Includes/nkUpload.php
