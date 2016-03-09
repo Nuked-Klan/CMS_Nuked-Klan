@@ -11,7 +11,7 @@ return array(
     ),
     __('DELETE_ALL_MESSAGE') => array(
         'img'   => 'modules/Admin/images/icons/remove_from_database.png',
-        'jsConfirmation' => 'delall'
+        'jsConfirmation' => 'deleteAllShoutboxMsg'
     )
 );
 

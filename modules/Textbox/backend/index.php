@@ -80,13 +80,13 @@ function deleteAllShoutboxMessage() {
 
     printNotification(__('ALL_SHOUTBOX_MESSAGE_DELETED'), 'success');
 
-    redirect('index.php?file=Textbox&page=admin', 2);
+    redirect('index.php?admin=Textbox', 2);
 }
 
 
 if (in_array($GLOBALS['op'], array('index', 'edit'))) {
     nkTemplate_addJS(
-        "function delall() {\n"
+        "function deleteAllShoutboxMsg() {\n"
         . "if (confirm('". __('CONFIRM_TO_DELETE_ALL_SHOUTBOX_MESSAGE') ."')){\n"
         . "document.location.href = 'index.php?admin=Textbox&op=deleteAllMsg';}\n"
         . "}\n"

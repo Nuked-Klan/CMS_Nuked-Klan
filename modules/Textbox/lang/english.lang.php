@@ -9,14 +9,12 @@ define("_NOTEXT","Please enter a text!");
 //Resctriction to logged users
 define("_NONICKNAME","Log in to post a message !");
 // End
-define("_YOURMESS","");
 define("_REFRESH","Refresh");
 define("_SEEARCHIVES","See archives");
 define("_SHOUTSUCCES","Message was successfully posted.");
 define("_NOFLOOD","No flood! Please wait a moment...");
 define("_THEREIS","There are");
 define("_SHOUTINDB","messages in the database");
-define("_SMILEY","Add a smilies");
 define("_LISTSMILIES","Smilies List");
 define("_DELETETEXT","You are about to remove the message of");
 define("_FRANCE", "France");
@@ -32,6 +30,12 @@ define("_THANKSFORPOST","Thank you for your participation!");
 define("_LOADINGERRORS","Unable to load the block!");
 
 return array(
+    // modules/Textbox/index.php
+    // views/frontend/modules/Textbox/block.php
+    'ADD_SMILEY'        => 'Add a smilies',
+    // views/frontend/modules/Textbox/block.php
+    'YOUR_NICK'         => 'Your nickname',
+    'YOUR_MESSAGE'      => 'Your message',
     // modules/Textbox/backend/index.php
     // modules/Textbox/backend/setting.php
     'ADMIN_SHOUTBOX'    => 'Shoutbox Administration',

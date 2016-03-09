@@ -740,6 +740,8 @@ function nkAction_delete() {
 
     $tsKeyDataName = nkAction_getDataNameTranslationKey();
 
+    $dbrTable = false;
+
     if ($nkTemplate['interface'] == 'backend'
         && $nkAction['titleField_dbTable'] !== null
         && translationExist('ACTION_DELETE_'. $tsKeyDataName)
@@ -764,7 +766,7 @@ function nkAction_delete() {
     if (function_exists($postDeleteFunct = 'postDelete'. $nkAction['ucf_dataName'] .'Data'))
         $postDeleteFunct($nkAction['id']);
 
-    if ($nkTemplate['interface'] == 'backend')
+    if ($nkTemplate['interface'] == 'backend' && $dbrTable !== false)
         nkAction_saveUserAction('DELETE_'. $tsKeyDataName, $dbrTable);
 
     printNotification(nkAction_getSuccessMsg('delete', $tsKeyDataName), 'success');

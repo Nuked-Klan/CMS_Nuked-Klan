@@ -15,7 +15,6 @@ define("_SHOUTSUCCES","Message envoyé avec succès.");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
 define("_THEREIS","Il y a");
 define("_SHOUTINDB","messages dans la base de données");
-define("_SMILEY","Ajouter un smilies");
 define("_LISTSMILIES","Liste des smilies");
 define("_DELETETEXT","Vous êtes sur le point de supprimer le message de");
 define("_FRANCE", "France");
@@ -31,6 +30,12 @@ define("_THANKSFORPOST","Merci de votre participation !");
 define("_LOADINGERRORS","Impossible de charger le block !");
 
 return array(
+    // modules/Textbox/index.php
+    // views/frontend/modules/Textbox/block.php
+    'ADD_SMILEY'        => 'Ajouter un smilies',
+    // views/frontend/modules/Textbox/block.php
+    'YOUR_NICK'         => 'Votre pseudo',
+    'YOUR_MESSAGE'      => 'Votre message',
     // modules/Textbox/backend/index.php
     // modules/Textbox/backend/setting.php
     'ADMIN_SHOUTBOX'    => 'Administration Tribune Libre',

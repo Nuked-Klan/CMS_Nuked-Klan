@@ -42,8 +42,8 @@ function index() {
             echo "<script type=\"text/javascript\">\n"
             . "<!--\n"
             . "\n"
-            . "if ('function' != typeof(del_shout)){\n"
-            . "function del_shout(pseudo, id)\n"
+            . "if ('function' != typeof(deleteShoutboxMsg)){\n"
+            . "function deleteShoutboxMsg(pseudo, id)\n"
             . "{\n"
             . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
             . "{document.location.href = 'index.php?admin=Textbox&op=delete&id='+id;}\n"
@@ -98,7 +98,7 @@ function index() {
 
             if ($visiteur >= $level_admin && $level_admin > -1) {
                 $admin = "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><span class=\"nkButton icon alone pin small\" title=\"" . $ip . "\"></span><a href=\"index.php?admin=Textbox&amp;op=edit&amp;id=" . $mid . "\" class=\"nkButton icon alone edit small\" title=\"" . __('EDIT_THIS_SHOUTBOX_MESSAGE') . "\"></a>"
-                . "&nbsp;<a href=\"javascript:del_shout('" . addslashes($auteur) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></a></div></div>";
+                . "&nbsp;<a href=\"javascript:deleteShoutboxMsg('" . addslashes($auteur) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></a></div></div>";
             }
             else {
                 $admin = "";
@@ -135,7 +135,7 @@ function smilies() {
     global $bgcolor3;
 
     nkTemplate_setPageDesign('nudePage');
-    nkTemplate_setTitle(_SMILEY);
+    nkTemplate_setTitle(__('ADD_SMILEY'));
     nkTemplate_addJSFile('media/js/smilies.js');
 
     echo "<script type=\"text/javascript\">\n"
@@ -280,7 +280,7 @@ function ajax() {
             . "<div>" . $pays . "<strong>" . $url_auteur . "</strong>\n";
             if ($visiteur >= $level_admin) {
                 echo "<div class=\"nkFloatRight\">\n"
-                . "<a href=\"javascript:del_shout('" . $messageAuthor . "', '" . $id . "');\">\n"
+                . "<a href=\"javascript:deleteShoutboxMsg('" . $messageAuthor . "', '" . $id . "');\">\n"
                 . "<div class=\"nkIconOnline nkIconOnlineRed\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></div>\n"
                 . "</a>". $online ."\n"
                 . "</div><br /><span class=\"nkShootDate\">" . $date_jour . "<span></div>\n";
@@ -297,7 +297,7 @@ function ajax() {
             . "<div>" . $pays . "&lsaquo;<strong>" . $url_auteur . "</strong>&rsaquo;" . $block_text . "\n";
             if ($visiteur >= $level_admin) {
                 echo "<div class=\"nkInlineBlock nkFloatRight\" style=\"margin-right:6px;\">\n"
-                . "<a href=\"javascript:del_shout('" . $messageAuthor . "', '" . $id . "');\">\n"
+                . "<a href=\"javascript:deleteShoutboxMsg('" . $messageAuthor . "', '" . $id . "');\">\n"
                 . "<div class=\"nkIconOnline nkIconOnlineRed\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></div>\n"
                 . "</a>". $online ."\n"
                 . "</div></div></div>\n";
@@ -323,26 +323,26 @@ function submit() {
         if (initCaptcha() && ! validCaptchaCode())
             return;
 
-        $_REQUEST = array_map('stripslashes', $_REQUEST);
+        $_POST = array_map('stripslashes', $_POST);
 
         if ($user) {
             $pseudo = $user[2];
         }
         else {
-            $_REQUEST['auteur'] =  utf8_decode($_REQUEST['auteur']);
-            $_REQUEST['auteur'] = nkHtmlEntities($_REQUEST['auteur'], ENT_QUOTES);
-            $_REQUEST['auteur'] = checkNickname($_REQUEST['auteur']);
+            $_POST['auteur'] =  utf8_decode($_POST['auteur']);
+            $_POST['auteur'] = nkHtmlEntities($_POST['auteur'], ENT_QUOTES);
+            $_POST['auteur'] = checkNickname($_POST['auteur']);
 
-            if (($error = getCheckNicknameError($_REQUEST['auteur'])) !== false) {
+            if (($error = getCheckNicknameError($_POST['auteur'])) !== false) {
                 printNotification(nkHtmlEntities($error), 'error');
 
-                if (! isset($_REQUEST['ajax']))
+                if (! isset($_POST['ajax']))
                     redirect($redirection, 2);
 
                 return;
             }
 
-            $pseudo = $_REQUEST['auteur'];
+            $pseudo = $_POST['auteur'];
         }
 
         if ($visiteur == 0) {
@@ -355,38 +355,38 @@ function submit() {
 
         $date = time();
 
-        $_REQUEST['texte'] = utf8_decode($_REQUEST['texte']);
+        $_POST['texte'] = utf8_decode($_POST['texte']);
 
         if ($visiteur == 0
             && $user_ip == $dbrLastTextboxMsg['ip']
-            && $date < ($dbrLastTextboxMsg['date'] + 5)
+            && $date < ($dbrLastTextboxMsg['date'] + 60)
         ) {
             printNotification(nkHtmlEntities(_NOFLOOD), 'error');
 
-            if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
+            if (! isset($_POST['ajax'])) redirect($redirection, 2);
         }
-        else if ($_REQUEST['texte'] != '') {
+        else if ($_POST['texte'] != '') {
             nkDB_insert(TEXTBOX_TABLE, array(
                 'auteur' => $pseudo,
                 'ip'     => $user_ip,
-                'texte'  => $_REQUEST['texte'],
+                'texte'  => $_POST['texte'],
                 'date'   => $date
             ));
 
             printNotification(nkHtmlEntities(_SHOUTSUCCES), 'success');
 
-            if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
+            if (! isset($_POST['ajax'])) redirect($redirection, 2);
         }
         else {
             printNotification(nkHtmlEntities(_NOTEXT), 'error');
 
-            if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
+            if (! isset($_POST['ajax'])) redirect($redirection, 2);
         }
     }
     else {
         printNotification(nkHtmlEntities(__('NO_ENTRANCE')), 'error');
 
-        if (! isset($_REQUEST['ajax'])) redirect($redirection, 2);
+        if (! isset($_POST['ajax'])) redirect($redirection, 2);
     }
 }
 
@@ -398,9 +398,9 @@ switch ($GLOBALS['op']) {
         break;
 
     case 'submit' :
-        if (! isset($_REQUEST['ajax'])) opentable();
+        if (! isset($_POST['ajax'])) opentable();
         submit();
-        if (! isset($_REQUEST['ajax'])) closetable();
+        if (! isset($_POST['ajax'])) closetable();
         break;
 
     case 'ajax' :

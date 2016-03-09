@@ -98,8 +98,8 @@ function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail) {
 if ($GLOBALS['visiteur'] >= nivo_mod('Textbox')) :
 ?>
 
-if ('function' != typeof(del_shout)){
-    function del_shout(pseudo, id) {
+if ('function' != typeof(deleteAllShoutboxMsg)){
+    function deleteShoutboxMsg(pseudo, id) {
         if (confirm('<?php echo _DELETETEXT ?> '+pseudo+' ! <?php echo _CONFIRM ?>')) {
             document.location.href = 'index.php?admin=Textbox&op=delete&id='+id;
         }
@@ -124,7 +124,7 @@ endif
     </tr>
 </table>
 <script type="text/javascript">maj_shoutbox();</script>
-<div id="affichetextbox"></div>
+<div id="affichetextbox" class="nkAlignCenter"></div>
 <div>
 <?php
 if ($captcha === true)
@@ -137,13 +137,25 @@ if ($GLOBALS['visiteur'] >= nivo_mod('Textbox')) :
 
     <form class="textboxForm" method="post" onsubmit="<?php echo $onsubmit ?>" action="">
         <div style="text-align: center;">
-            <input id="textbox_auteur" type="hidden" name="auteur" value="<?php echo $GLOBALS['user']['name'] ?>" />
+            <div style="margin-bottom:3px;">
+<?php
+        //if ($GLOBALS['visiteur'] > 0) :
+?>
+                <input id="textbox_auteur" type="hidden" name="auteur" value="<?php echo $GLOBALS['user']['name'] ?>" />
+<?php
+        /*else :
+?>
+                <input id="textbox_auteur" type="text" name="auteur" value="<?php echo __('YOUR_NICK') ?>" style="width:50%;" onclick="if(this.value=='<?php echo __('YOUR_NICK') ?>'){this.value=''}" />
+<?php
+        endif*/
+?>
+            </div>
             <div class="nkButton-container" style="margin:10px;">
                 <div class="nkButton-group">
-                    <a class="nkButton icon add alone" href="#" onclick="javascript:window.open('index.php?file=Textbox&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)" title="<?php echo _SMILEY ?>"></a>
+                    <a class="nkButton icon add alone" href="#" onclick="javascript:window.open('index.php?file=Textbox&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)" title="<?php echo __('ADD_SMILEY') ?>"></a>
                     <a class="nkButton icon log alone" href="index.php?file=Textbox" title="<?php echo _SEEARCHIVES ?>"></a>
                 </div>
-                <input id="textbox_texte" type="text" name="texte" style="width:70%;" value="<?php echo _YOURMESS ?>" onclick="if(this.value=='<?php echo _YOURMESS ?>'){this.value=''}" />
+                <input id="textbox_texte" type="text" name="texte" style="width:70%;" value="<?php echo __('YOUR_MESSAGE') ?>" onclick="if(this.value=='<?php echo __('YOUR_MESSAGE') ?>'){this.value=''}" />
                 <?php if ($captcha) echo create_captcha() ?>
                 <input class="nkButton" type="submit" value="<?php echo __('SEND') ?>" />
             </div>
@@ -154,13 +166,25 @@ if ($GLOBALS['visiteur'] >= nivo_mod('Textbox')) :
 ?>
     <form class="textboxForm" method="post" onsubmit="<?php echo $onsubmit ?>" action="">
         <div style="text-align: center;">
-            <input id="textbox_auteur" type="hidden" name="auteur" value="<?php echo $GLOBALS['user']['name'] ?>" />
-            <input id="textbox_texte" type="text" name="texte" value="<?php echo _YOURMESS ?>" style="width:90%;" onclick="if(this.value=='<?php echo _YOURMESS ?>'){this.value=''}" /><br />
+            <div style="margin-bottom:3px;">
+<?php
+        //if ($GLOBALS['visiteur'] > 0) :
+?>
+                <input id="textbox_auteur" type="hidden" name="auteur" value="<?php echo $GLOBALS['user']['name'] ?>" />
+<?php
+        /*else :
+?>
+                <input id="textbox_auteur" type="text" name="auteur" value="<?php echo __('YOUR_NICK') ?>" style="width:50%;" onclick="if(this.value=='<?php echo __('YOUR_NICK') ?>'){this.value=''}" />
+<?php
+        endif*/
+?>
+            </div>
+            <input id="textbox_texte" type="text" name="texte" value="<?php echo __('YOUR_MESSAGE') ?>" style="width:90%;" onclick="if(this.value=='<?php echo __('YOUR_MESSAGE') ?>'){this.value=''}" /><br />
             <?php if ($captcha) echo create_captcha() ?>
             <div class="nkButton-container" style="margin:5px;">
                 <input class="nkButton" type="submit" value="<?php echo __('SEND') ?>"/>
                 <div class="nkButton-group">
-                    <a class="nkButton icon add alone" href="#" onclick="javascript:window.open('index.php?file=Textbox&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)" title="<?php echo _SMILEY ?>"></a>
+                    <a class="nkButton icon add alone" href="#" onclick="javascript:window.open('index.php?file=Textbox&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)" title="<?php echo __('ADD_SMILEY') ?>"></a>
                     <a class="nkButton icon log alone" href="index.php?file=Textbox" title="<?php echo _SEEARCHIVES ?>"></a>
                 </div>
             </div>

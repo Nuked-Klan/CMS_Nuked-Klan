@@ -21,17 +21,12 @@ nkAction_setParams(array(
 ));
 
 if ($GLOBALS['op'] != 'save') {
-    echo "<script type=\"text/javascript\">\n"
-        . "<!--\n"
-        . "\n"
-        . "function delall()\n"
-        . "{\n"
-        . "if (confirm('". __('CONFIRM_TO_DELETE_ALL_SHOUTBOX_MESSAGE') ."'))\n"
-        . "{document.location.href = 'index.php?admin=Textbox&op=deleteAllMsg';}\n"
+    nkTemplate_addJS(
+        "function deleteAllShoutboxMsg() {\n"
+        . "if (confirm('". __('CONFIRM_TO_DELETE_ALL_SHOUTBOX_MESSAGE') ."')){\n"
+        . "document.location.href = 'index.php?admin=Textbox&op=deleteAllMsg';}\n"
         . "}\n"
-        . "\n"
-        . "// -->\n"
-        . "</script>\n";
+    );
 }
 
 // Action handle
