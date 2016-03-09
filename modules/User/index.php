@@ -1098,6 +1098,7 @@ function update(){
         return;
     }
 
+    require_once 'Includes/nkUpload.php';
     require_once 'Includes/nkUserSocial.php';
 
     $data = array();
@@ -1191,61 +1192,38 @@ function update(){
     $data['signature'] = stripslashes($data['signature']);
     $data['game']      = stripslashes($_POST['game']);
     $data['country']   = stripslashes($_POST['country']);
-    $_POST['avatar']   = stripslashes($_POST['avatar']);
 
     $data['game']    = nkHtmlEntities($data['game']);
     $data['country'] = nkHtmlEntities($data['country']);
-    $_POST['avatar'] = nkHtmlEntities($_POST['avatar']);
 
     if (! empty($_POST['url']) && stripos($_POST['url'], 'http://') === false)
         $_POST['url'] = 'http://'. $_POST['url'];
 
-    $filename = $_FILES['fichiernom']['name'];
-    $filesize = $_FILES['fichiernom']['size'];
+    //Upload du fichier
+    if ($_FILES['fichiernom']['name'] != '') {
+        list($data['avatar'], $uploadError, $avatarExt) = nkUpload_check('fichiernom', array(
+            'fileType'   => 'image',
+            'uploadDir'  => 'upload/User',
+            'fileRename' => true,
+            'fileSize'   => 100000
+        ));
 
-    if ($filename != "" && $filesize <= 100000){
-        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-
-        if (in_array($ext, array("jpg", "jpeg", "gif", "png"))){
-            $data['avatar'] = "upload/User/" . time() . "." . $ext;
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $data['avatar'])) {
-                printNotification('Upload file failed !!!', 'error');
-                return;
-            }
-            @chmod ($data['avatar'], 0644);
-        }
-        else{
-            printNotification(_BADFILEFORMAT, 'error');
-            redirect("index.php?file=User&op=edit_account", 5);
-            closetable();
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=User&op=edit_account', 5);
             return;
         }
     }
-    else if ($filename != ""){
-        printNotification(sprintf(__('UPLOAD_IMAGE_TOO_BIG'), 100), 'error');
-        redirect("index.php?file=User&op=edit_account", 5);
-        closetable();
-        return;
-    }
-    else if ($_POST['avatar'] != ""){
-        $ext = strrchr($_POST['avatar'], '.');
-        $ext = substr($ext, 1);
+    else if ($_POST['avatar'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['avatar'], '.'), 1));
 
-        if (! preg_match("`.php`i", $_POST['avatar'])
-            && ! preg_match("`.htm`i", $_POST['avatar'])
-            && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))
-        ){
-            $data['avatar'] = $_POST['avatar'];
-        }
-        else{
-            printNotification(_BADFILEFORMAT, 'error');
-            redirect("index.php?file=User&op=edit_account", 5);
-            closetable();
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=User&op=edit_account', 5);
             return;
         }
-    }
-    else{
-        $data['avatar'] = '';
+
+        $data['avatar'] = nkHtmlEntities(stripslashes($_POST['avatar']));
     }
 
     if (! file_exists("images/flags/".$data['country'].""))
@@ -1266,6 +1244,8 @@ function update(){
 function update_pref() {
     global $user;
 
+    require_once 'Includes/nkUpload.php';
+
     $data = array(
         'prenom'      => nkHtmlEntities(stripslashes($_POST['prenom'])),
         'ville'       => nkHtmlEntities(stripslashes($_POST['ville'])),
@@ -1279,46 +1259,34 @@ function update_pref() {
         'souris'      => nkHtmlEntities(stripslashes($_POST['souris'])),
         'clavier'     => nkHtmlEntities(stripslashes($_POST['clavier'])),
         'connexion'   => nkHtmlEntities(stripslashes($_POST['connexion'])),
-        'system'      => nkHtmlEntities(stripslashes($_POST['osystem'])),
-        'photo'       => nkHtmlEntities(stripslashes($_POST['photo']))
+        'system'      => nkHtmlEntities(stripslashes($_POST['osystem']))
     );
 
-    $filename = $_FILES['fichiernom']['name'];
-    $filesize = $_FILES['fichiernom']['size'];
+    //Upload du fichier
+    if ($_FILES['fichiernom']['name'] != '') {
+        list($data['photo'], $uploadError, $imageExt) = nkUpload_check('fichiernom', array(
+            'fileType'   => 'image',
+            'uploadDir'  => 'upload/User',
+            'fileRename' => true,
+            'fileSize'   => 100000
+        ));
 
-    if ($filename != "" && $filesize <= 100000){
-        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-
-        if (in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
-            $data['photo'] = "upload/User/" . time() . "." . $ext;
-
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $data['photo'])) {
-                printNotification('Upload file failed !!!', 'error');
-                return;
-            }
-
-            @chmod ($data['photo'], 0644);
-        }
-        else{
-            printNotification(_BADFILEFORMAT, 'error');
-            redirect("index.php?file=User&op=edit_pref", 5);
-            closetable();
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=User&op=edit_pref', 5);
             return;
         }
     }
-    else if ($data['photo'] != ""){
-        $ext = strrchr($data['photo'], '.');
-        $ext = substr($ext, 1);
+    else if ($_POST['photo'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['photo'], '.'), 1));
 
-        if (preg_match("`.php`i", $data['photo'])
-            || preg_match("`.htm`i", $data['photo'])
-            || ! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))
-        ) {
-            printNotification(_BADFILEFORMAT, 'error');
-            redirect("index.php?file=User&op=edit_pref", 5);
-            closetable();
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=User&op=edit_pref', 5);
             return;
         }
+
+        $data['photo'] = nkHtmlEntities(stripslashes($_POST['photo']));
     }
 
     if ($_POST['an'] < date('Y')) {
