@@ -130,9 +130,11 @@ function add_smiley()
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=smilies\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
-function send_smiley($nom, $code, $url, $fichiernom)
+function send_smiley($nom, $code)
 {
     global $nuked, $user;
+
+    require_once 'Includes/nkUpload.php';
 
     if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
     {
@@ -142,35 +144,37 @@ function send_smiley($nom, $code, $url, $fichiernom)
     }
 
     $nom = mysql_real_escape_string(stripslashes($nom));
-    $filename = $_FILES['fichiernom']['name'];
 
-    if ($filename != "")
-    {
-        $ext = strrchr($filename, ".");
-        $ext = substr($ext, 1);
+    $smileyUrl = '';
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
-        {
-            $url_image = "images/icones/" . $filename;
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else
-        {
-            printNotification('No image file !', 'error');
-            redirect("index.php?file=Admin&page=smilies&op=add_smiley", 2);
+    if ($_FILES['fichiernom']['name'] != '') {
+        list($smileyUrl, $uploadError, $smileyExt) = nkUpload_check('fichiernom', array(
+            'fileType'  => 'image',
+            'uploadDir' => 'images/icones',
+            //'fileSize'  => 100000
+        ));
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Admin&page=smilies&op=add_smiley', 2);
             return;
         }
+
+        $smileyUrl = basename($smileyUrl);
     }
-    else
-    {
-        $filename = $url;
+    else if ($_POST['url'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['url'], '.'), 1));
+
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=Admin&page=smilies&op=add_smiley', 2);
+            return;
+        }
+
+        $smileyUrl = $_POST['url'];
     }
 
-    $sql = mysql_query("INSERT INTO " . SMILIES_TABLE . " ( `id` , `code` , `url` , `name` ) VALUES ( '' , '" . $code . "' , '" . $filename . "' , '" . $nom . "')");
+    $sql = mysql_query("INSERT INTO " . SMILIES_TABLE . " ( `id` , `code` , `url` , `name` ) VALUES ( '' , '" . $code . "' , '" . $smileyUrl . "' , '" . $nom . "')");
 
     saveUserAction(_ACTIONADDSMILEY .': '. $nom);
 
@@ -242,13 +246,14 @@ function edit_smiley($smiley_id)
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Admin&amp;page=smilies\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
-function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
+function modif_smiley($smiley_id, $nom, $code)
 {
     global $nuked, $user;
 
+    require_once 'Includes/nkUpload.php';
+
     $nom = mysql_real_escape_string(stripslashes($nom));
-    $filename = $_FILES['fichiernom']['name'];
-    
+
     if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
     {
         printNotification(_SMILEYNOTAUTHORIZE, 'error');
@@ -256,33 +261,36 @@ function modif_smiley($smiley_id, $nom, $code, $url, $fichiernom)
         return;
     }
 
-    if ($filename != "")
-    {
-        $ext = strrchr($filename, ".");
-        $ext = substr($filename, 1);
+    $smileyUrl = '';
 
-        if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext)))
-        {
-            $url_image = "images/icones/" . $filename;
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
-                echo "<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />";
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else
-        {
-            printNotification('No image file !', 'error');
-            redirect("index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id=" . $smiley_id, 2);
+    if ($_FILES['fichiernom']['name'] != '') {
+        list($smileyUrl, $uploadError, $smileyExt) = nkUpload_check('fichiernom', array(
+            'fileType'  => 'image',
+            'uploadDir' => 'images/icones',
+            //'fileSize'  => 100000
+        ));
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id='. $smiley_id, 2);
             return;
         }
+
+        $smileyUrl = basename($smileyUrl);
     }
-    else
-    {
-        $filename = $url;
+    else if ($_POST['url'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['url'], '.'), 1));
+
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id='. $smiley_id, 2);
+            return;
+        }
+
+        $smileyUrl = $_POST['url'];
     }
 
-    $sql = mysql_query("UPDATE " . SMILIES_TABLE . " SET code = '" . $code . "', url = '" . $filename . "', name = '" . $nom . "' WHERE id = '" . $smiley_id . "'");
+    $sql = mysql_query("UPDATE " . SMILIES_TABLE . " SET code = '" . $code . "', url = '" . $smileyUrl . "', name = '" . $nom . "' WHERE id = '" . $smiley_id . "'");
 
     saveUserAction(_ACTIONMODIFSMILEY .': '. $nom);
 
@@ -330,7 +338,7 @@ switch ($GLOBALS['op'])
         break;
 
     case "send_smiley":
-        send_smiley($_REQUEST['nom'], $_REQUEST['code'], $_REQUEST['url'], $_REQUEST['fichiernom']);
+        send_smiley($_REQUEST['nom'], $_REQUEST['code']);
         break;
 
     case "edit_smiley":
@@ -338,7 +346,7 @@ switch ($GLOBALS['op'])
         break;
 
     case "modif_smiley":
-        modif_smiley($_REQUEST['smiley_id'], $_REQUEST['nom'], $_REQUEST['code'], $_REQUEST['url'], $_REQUEST['fichiernom']);
+        modif_smiley($_REQUEST['smiley_id'], $_REQUEST['nom'], $_REQUEST['code']);
         break;
 
     case "del_smiley":
