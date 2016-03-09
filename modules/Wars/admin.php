@@ -428,8 +428,10 @@ function match(){
             . "</form><br /></div></div>\n";
 }
 
-function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage){
+function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league){
     global $nuked, $user;
+
+    require_once 'Includes/nkUpload.php';
 
     $autor = $user[2];
     $report = nkHtmlEntityDecode($report);
@@ -463,30 +465,34 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
     }
 
     //Upload du logo adv
-    $filename = $_FILES['upImage']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $imageUrl = '';
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Wars/" . $filename;
-            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'error');
-                redirect('index.php?file=Wars&page=admin&op=match&do=add', 2);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'error');
+    if ($_FILES['upImage']['name'] != '') {
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('upImage', array(
+            'fileType'  => 'image',
+            'uploadDir' => 'upload/Wars',
+            //'fileSize'  => 100000
+        ));
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
             redirect('index.php?file=Wars&page=admin&op=match&do=add', 2);
             return;
         }
     }
-    else {
-        $url_image = $urlImage;
+    else if ($_POST['urlImage'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
+
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=Wars&page=admin&op=match&do=add', 2);
+            return;
+        }
+
+        $imageUrl = $_POST['urlImage'];
     }
 
-    $add = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `image_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $url_image ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
+    $add = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `image_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $imageUrl ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
 
     saveUserAction(_ACTIONADDWAR .'.');
 
@@ -507,8 +513,10 @@ function del_war($war_id){
     setPreview('index.php?file=Wars', 'index.php?file=Wars&page=admin');
 }
 
-function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league, $urlImage){
+function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire, $url_adv, $country, $type, $style, $report, $url_league){
     global $nuked, $user;
+
+    require_once 'Includes/nkUpload.php';
 
     $report = nkHtmlEntityDecode($report);
     $adversaire = mysql_real_escape_string(stripslashes($adversaire));
@@ -541,30 +549,34 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
     }
 
     //Upload du logo adv
-    $filename = $_FILES['upImage']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $imageUrl = '';
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/Wars/" . $filename;
-            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'error');
-                redirect('index.php?file=Wars&page=admin&op=match&do=edit&war_id='. $war_id, 2);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'error');
+    if ($_FILES['upImage']['name'] != '') {
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('upImage', array(
+            'fileType'  => 'image',
+            'uploadDir' => 'upload/Wars',
+            //'fileSize'  => 100000
+        ));
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
             redirect('index.php?file=Wars&page=admin&op=match&do=edit&war_id='. $war_id, 2);
             return;
         }
     }
-    else {
-        $url_image = $urlImage;
+    else if ($_POST['urlImage'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
+
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=Wars&page=admin&op=match&do=edit&war_id='. $war_id, 2);
+            return;
+        }
+
+        $imageUrl = $_POST['urlImage'];
     }
 
-    $upd = mysql_query("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', image_adv = '" . $url_image . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
+    $upd = mysql_query("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', image_adv = '" . $imageUrl . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
 
     saveUserAction(_ACTIONMODIFWAR .'.');
 
@@ -671,127 +683,118 @@ function edit_file($fid){
         . "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.close()\"><b>" . __('CLOSE_WINDOW') . "</b></a></div></form>";
 }
 
-function send_file($im_id, $file_type, $url_file, $fichiernom, $ecrase_screen){
+function send_file($im_id, $file_type){
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
-    if ($_FILES['fichiernom']['name'] != "" || $url_file != ""){
-        $racine_up = "upload/Wars/";
-        $filename = $_FILES['fichiernom']['name'];
-        $file_url = $racine_up . $filename;
+    require_once 'Includes/nkUpload.php';
 
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if ($_FILES['fichiernom']['name'] != '' || $_POST['url_file'] != '') {
+        $fileCfg = array(
+            'uploadDir' => 'upload/Wars',
+            //'fileSize'  => 100000,
+            'overwriteField' => true,
+        );
 
-        if (!is_file($file_url) || $ecrase_screen == 1){
-            if($filename != "" && $file_type == "screen"){
-                if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
-                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
-                        printNotification('Upload file failed !!!', 'error');
-                        return;
-                    }
+        if ($file_type == 'demo')
+            $fileCfg['fileType'] = 'no-html-php';
+        else
+            $fileCfg['fileType'] = 'image';
 
-                    @chmod ($file_url, 0644);
-                }
-                else{
-                    printNotification('No image file !!!', 'error');
-                    redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 2);
-                    return;
-                }
+        if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
+            $fileCfg['overwrite'] = true;
+        else
+            $fileCfg['overwrite'] = false;
+
+        $fileUrl = '';
+
+        if ($_FILES['fichiernom']['name'] != '' && in_array($file_type, array('demo', 'screen'))) {
+            list($fileUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', $fileCfg);
+
+            if ($uploadError !== false) {
+                printNotification($uploadError, 'error');
+                redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
+                return;
             }
-            else if($filename != "" && $file_type == "demo"){
-                if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess"){
-                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
-                        printNotification('Upload file failed !!!', 'error');
-                        return;
-                    }
-
-                    @chmod ($file_url, 0644);
-                }
-                else{
-                    printNotification('No image file !!!', 'error');
-                    echo "<br /><br /><div style=\"text-align: center;\">Unauthorized file !!!</div><br /><br />";
-                    redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 2);
-                    return;
-                }
-            }
-            else{
-                $file_url = $url_file;
-            }
-
-            $add = mysql_query("INSERT INTO " . WARS_FILES_TABLE . " ( `id` , `module` , `im_id` , `type` , `url` ) VALUES ( '' , 'Wars' , '" . $im_id . "' , '" . $file_type . "' , '" . $file_url . "' )");
-
-            printNotification(_FILEADD, 'success');
-            redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
         }
-        else{
-            printNotification(_DEJAFILE .'<br />'. _REPLACEIT, 'warning');
-            redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 3);
+        else if ($_POST['url_file'] != '') {
+            $ext = strtolower(substr(strrchr($_POST['url_file'], '.'), 1));
+
+            if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+                printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+                redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
+                return;
+            }
+
+            $fileUrl = $_POST['url_file'];
         }
+
+        $add = mysql_query("INSERT INTO " . WARS_FILES_TABLE . " ( `id` , `module` , `im_id` , `type` , `url` ) VALUES ( '' , 'Wars' , '" . $im_id . "' , '" . $file_type . "' , '" . $fileUrl . "' )");
+
+        printNotification(_FILEADD, 'success');
+        redirect('index.php?file=Wars&page=admin&op=main_file&im_id='. $im_id, 2);
     }
     else{
         printNotification(_SPECIFY, 'error');
-        redirect("index.php?file=Wars&page=admin&op=add_file&im_id=" . $im_id, 3);
+        redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
     }
 }
 
-function modif_file($im_id, $fid, $file_type, $url_file, $fichiernom, $ecrase_screen){
+function modif_file($im_id, $fid, $file_type){
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
-    if ($_FILES['fichiernom']['name'] != ""){
-        $racine_up = "upload/Wars/";
-        $filename = $_FILES['fichiernom']['name'];
-        $file_url = $racine_up . $filename;
+    require_once 'Includes/nkUpload.php';
 
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    if ($_FILES['fichiernom']['name'] != '' || $_POST['url_file'] != '') {
+        $fileCfg = array(
+            'uploadDir' => 'upload/Wars',
+            //'fileSize'  => 100000
+            'overwriteField' => true,
+        );
 
-        if (!is_file($file_url) || $ecrase_screen == 1){
-            if($filename != "" && $file_type == "screen"){
-                if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))){
-                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
-                        printNotification('Upload file failed !!!', 'error');
-                        return;
-                    }
+        if ($file_type == 'demo')
+            $fileCfg['fileType'] = 'no-html-php';
+        else
+            $fileCfg['fileType'] = 'image';
 
-                    @chmod ($file_url, 0644);
-                }
-                else{
-                    printNotification('No image file !!!', 'error');
-                    redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
-                    return;
-                }
-            }
-            else if($filename != "" && $file_type == "demo"){
-                if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess"){
-                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $file_url)) {
-                        printNotification('Upload file failed !!!', 'error');
-                        return;
-                    }
+        if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
+            $fileCfg['overwrite'] = true;
+        else
+            $fileCfg['overwrite'] = false;
 
-                    @chmod ($file_url, 0644);
-                }
-                else{
-                    printNotification('Unauthorized file !!!', 'error');
-                    redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
-                    return;
-                }
+        $fileUrl = '';
+
+        if ($_FILES['fichiernom']['name'] != '' && in_array($file_type, array('demo', 'screen'))) {
+            list($fileUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', $fileCfg);
+
+            if ($uploadError !== false) {
+                printNotification($uploadError, 'error');
+                redirect('index.php?file=Wars&page=admin&op=edit_file&fid='. $fid, 3);
+                return;
             }
         }
-        else{
-            printNotification(_DEJAFILE .'<br />'. _REPLACEIT, 'warning');
-            redirect("index.php?file=Wars&page=admin&op=edit_file&fid=" . $fid, 3);
-            return;
+        else if ($_POST['url_file'] != '') {
+            $ext = strtolower(substr(strrchr($_POST['url_file'], '.'), 1));
+
+            if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+                printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+                redirect('index.php?file=Wars&page=admin&op=edit_file&fid='. $fid, 3);
+                return;
+            }
+
+            $fileUrl = $_POST['url_file'];
         }
 
+        $upd = mysql_query("UPDATE " . WARS_FILES_TABLE . " SET type = '" . $file_type . "' , url = '" . $fileUrl . "' WHERE id = '" . $fid . "'");
+
+        printNotification(_FILEADD, 'success');
+        redirect('index.php?file=Wars&page=admin&op=main_file&im_id='. $im_id, 2);
     }
     else{
-        $file_url = $url_file;
+        printNotification(_SPECIFY, 'error');
+        redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
     }
-
-    $upd = mysql_query("UPDATE " . WARS_FILES_TABLE . " SET type = '" . $file_type . "' , url = '" . $file_url . "' WHERE id = '" . $fid . "'");
-
-    printNotification(_FILEADD, 'success');
-    redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
 }
 
 function del_file($fid){
@@ -880,7 +883,7 @@ switch ($GLOBALS['op']){
         break;
 
     case "add_war":
-        add_war($_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league'], $_REQUEST['urlImage']);
+        add_war($_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league']);
         break;
 
     case "del_war":
@@ -888,7 +891,7 @@ switch ($GLOBALS['op']){
         break;
 
     case "do_edit":
-        do_edit($_REQUEST['war_id'], $_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league'], $_REQUEST['urlImage']);
+        do_edit($_REQUEST['war_id'], $_REQUEST['etat'], $_REQUEST['team'], $_REQUEST['game'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['adversaire'], $_REQUEST['url_adv'], $_REQUEST['country'], $_REQUEST['type'], $_REQUEST['style'], $_REQUEST['report'], $_REQUEST['url_league']);
         break;
 
     case "main_file":
@@ -904,11 +907,11 @@ switch ($GLOBALS['op']){
         break;
 
     case "send_file":
-        send_file($_REQUEST['im_id'], $_REQUEST['file_type'], $_REQUEST['url_file'], $_REQUEST['fichiernom'], $_REQUEST['ecrase_screen']);
+        send_file($_REQUEST['im_id'], $_REQUEST['file_type']);
         break;
 
     case "modif_file":
-        modif_file($_REQUEST['im_id'], $_REQUEST['fid'], $_REQUEST['file_type'], $_REQUEST['url_file'], $_REQUEST['fichiernom'], $_REQUEST['ecrase_screen']);
+        modif_file($_REQUEST['im_id'], $_REQUEST['fid'], $_REQUEST['file_type']);
         break;
 
     case "del_file":
