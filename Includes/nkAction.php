@@ -479,20 +479,20 @@ function nkAction_saveBackendSetting($form, $fields) {
 
     if (is_array($form['token']) && ! isset($form['token']['refererData'])) {
         $form['token']['refererData'] = array(
-            nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp'])
+            nkUrl_format($nkAction['moduleUriKey'], $file, $page)
         );
     }
 
     $data = array();
 
     if (! nkCheckForm($form, $fields, $data)) {
-        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp']), 2);
+        redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page), 2);
         return;
     }
 
     if (function_exists($postCheckformValidationFunct = 'postCheckform'. $nkAction['ucf_dataName'] .'Validation')) {
         if (! $postCheckformValidationFunct()) {
-            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp']), 2);
+            redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page), 2);
             return;
         }
     }
