@@ -34,6 +34,7 @@ if ($visiteur >= 2) {
         if (nkDB_numRows() == 1 && Check_Hash($_POST['admin_password'], $dbrUser['pass'])) {
             if ($_POST['formulaire'] == 0 && $_SERVER['HTTP_REFERER'] != '') {
                 list(, $redirect) = explode('?', $_SERVER['HTTP_REFERER']);
+
                 if ($redirect == 'file=Admin&page=login') $redirect = 'file=Admin';
                 $url = 'index.php?'. $redirect;
             }

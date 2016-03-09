@@ -8,20 +8,22 @@
             $link = 'javascript:'. $linkData['jsConfirmation'] .'();';
         }
         else {
-            $link = 'admin='. $module;
+            $linkUri = 'admin='. $module;
 
             if (isset($linkData['uri'])) {
                 foreach ($linkData['uri'] as $k => $v)
-                    $link .= '&amp;'. $k.'='. $v;
+                    $linkUri .= '&amp;'. $k.'='. $v;
             }
 
-            if (str_replace('&amp;', '&', $link) == $_SERVER['QUERY_STRING'])
+            if (str_replace('&amp;', '&', $linkUri) == $_SERVER['QUERY_STRING'])
                 $class = 'class="nkClassActive"';
+
+            $link = 'index.php?'. $linkUri;
         }
 
 ?>
             <li <?php echo $class ?>>
-                <a class="shortcut-button" href="index.php?<?php echo $link ?>">
+                <a class="shortcut-button" href="<?php echo $link ?>">
                     <img src="<?php echo $linkData['img'] ?>" alt="icon" />
                     <span><?php echo $label ?></span>
                 </a>

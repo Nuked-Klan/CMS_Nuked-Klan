@@ -46,7 +46,7 @@ function index() {
             . "function del_shout(pseudo, id)\n"
             . "{\n"
             . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-            . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
+            . "{document.location.href = 'index.php?admin=Textbox&op=delete&id='+id;}\n"
             . "}\n"
             . "}\n"
             . "\n"
@@ -97,7 +97,7 @@ function index() {
             $bg = ($j++ % 2 == 1) ? $bgcolor1 : $bgcolor2;
 
             if ($visiteur >= $level_admin && $level_admin > -1) {
-                $admin = "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><span class=\"nkButton icon alone pin small\" title=\"" . $ip . "\"></span><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $mid . "\" class=\"nkButton icon alone edit small\" title=\"" . __('EDIT_THIS_SHOUTBOX_MESSAGE') . "\"></a>"
+                $admin = "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><span class=\"nkButton icon alone pin small\" title=\"" . $ip . "\"></span><a href=\"index.php?admin=Textbox&amp;op=edit&amp;id=" . $mid . "\" class=\"nkButton icon alone edit small\" title=\"" . __('EDIT_THIS_SHOUTBOX_MESSAGE') . "\"></a>"
                 . "&nbsp;<a href=\"javascript:del_shout('" . addslashes($auteur) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></a></div></div>";
             }
             else {
@@ -181,20 +181,6 @@ function ajax() {
     nkTemplate_setPageDesign('none');
 
     require("modules/Textbox/config.php");
-
-    /*if ($visiteur >= $level_admin) {
-        echo "<script type=\"text/javascript\">\n"
-        . "<!--\n"
-        . "\n"
-        . "function del_shout(pseudo, id)\n"
-        . "{\n"
-        . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-        . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
-        . "}\n"
-        . "\n"
-        . "// -->\n"
-        . "</script>\n";
-    }*/
 
     $active = 2;
     $width = $box_width;
@@ -327,7 +313,7 @@ function ajax() {
 }
 
 function submit() {
-    global $visiteur, $user;
+    global $visiteur, $user, $user_ip;
 
     $redirection = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : 'index.php';
     $level_access = nivo_mod('Textbox');
