@@ -6,8 +6,6 @@ if (!defined("INDEX_CHECK"))
 define("_GUESTBOOK","Livre d'or");
 define("_MAIL","Email");
 
-define("_COMMENT","Commentaire");
-
 define("_CANCEL","Annuler");
 
 define("_MODIF","Modifier");

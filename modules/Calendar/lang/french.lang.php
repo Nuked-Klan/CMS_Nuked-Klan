@@ -3,18 +3,7 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_JAN","Janvier");
-define("_FEB","Février");
-define("_MAR","Mars");
-define("_APR","Avril");
-define("_MAY","Mai");
-define("_JUN","Juin");
-define("_JUL","Juillet");
-define("_AUG","Août");
-define("_SEP","Septembre");
-define("_OCT","Octobre");
-define("_NOV","Novembre");
-define("_DEC","Décembre");
+
 define("_ALERT1","Entrez la durée pour un évènement récurrent.");
 define("_ALERT2","Entrez un titre pour l'évènement.");
 define("_ALERT3","Entrez un texte de description pour l'évènement.");
@@ -42,9 +31,7 @@ define("_VS","vs");
 define("_STYLE","Style");
 
 define("_MAPS","Maps");
-define("_COMMENT","Commentaire");
 define("_ADDEDBY","Ajouté par");
-define("_DESCR","Description");
 
 define("_MATCHDAY","Il y a un match aujourd'hui !!!");
 define("_GOSEE","Va voir");
@@ -79,7 +66,6 @@ define("_MODIFTHISEVENT","Modifier cet évènement");
 define("_EVENTMODIF","Evènement modifié avec succès.");
 define("_NOEVENT","Aucun évènement dans la base de données");
 define("_SHOWBIRTHDAY","Afficher les anniversaires");
-define("_OFF","Désactivé");
 define("_SHOWALL","Tous");
 define("_SHOWTEAM","Team");
 define("_SHOWADMIN","Admin");

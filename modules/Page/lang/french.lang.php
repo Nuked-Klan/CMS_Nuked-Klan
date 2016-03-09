@@ -27,7 +27,6 @@ define("_PAGEADD","Page ajoutée avec succès");
 define("_PAGEMODIF","Page modifiée avec succès");
 define("_BADFILEFORMAT","Erreur : Le fichier ne correspond pas au type de page sélectionné !");
 define("_PAGEDELETE","Page supprimée avec succès");
-define("_PREFS","Préférences");
 define("_PAGEINDEX","Page par défaut");
 define("_UPLOADPAGE","Uploader la page sur le serveur");
 define("_ADDMENU","Ajouter au menu");

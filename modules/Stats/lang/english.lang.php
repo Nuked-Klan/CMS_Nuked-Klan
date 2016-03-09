@@ -77,7 +77,7 @@ define("_NBLINKS","Links");
 define("_STATSBLOCK","Stats");
 define("_TOPBLOCK","Top10");
 
-define("_DELETE","You are about to delete the visitor's stats, are you sure?");
+//define("_DELETE","You are about to delete the visitor's stats, are you sure?");
 define("_ADMINSTATS","Stats management");
 define("_VIDERSTATS","Delete the information on visitor");
 define("_VIDER","The visitor''s stats have been deleted.");

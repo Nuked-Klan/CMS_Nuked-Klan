@@ -49,7 +49,6 @@ define("_HASTOPLAY","Next Match");
 
 define("_COUNTRY","Country");
 define("_GAME","Game");
-define("_NAME","Name");
 define("_HOUR","Hour");
 define("_STYLE","Style");
 define("_OURSCORE","Our Score");

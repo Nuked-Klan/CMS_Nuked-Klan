@@ -8,8 +8,6 @@ if (!defined("INDEX_CHECK"))
 define("_GUESTBOOK","Guestbook");
 define("_MAIL","Email");
 
-define("_COMMENT","Comment");
-
 define("_CANCEL","Cancel");
 
 define("_MODIF","Modify");

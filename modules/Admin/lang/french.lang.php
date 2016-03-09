@@ -7,7 +7,7 @@ define("_SPECCNOTALLOW","Caractères spéciaux interdits pour le nom des cookies !
 define("_WAIT", "non catalogué");
 define("_FAILLE", "faille détéctée");
 define("_PIRATE", "tentative de piratage");
-define("_VALID", "Sans danger");
+//define("_VALID", "Sans danger");
 define("_UPDATE", "Mettre à jour");
 define("_PAGEACCESS","Vous ne pouvez pas accéder à cette page directement");
 define("_BLOCKADMIN","Gestion des Blocks");
@@ -49,7 +49,7 @@ define("_ADMINMODULE","Administration des modules");
 define("_PREFGEN","Préférences Générales");
 define("_CLICTOHELP","Cliquez sur l'icône ? pour obtenir de l'aide");
 define("_CHECKUPDATE","Mises à jour de Nk");
-define("_NAME","Nom");
+
 define("_LEVEL1","niveau 1");
 define("_LEVEL2","niveau 2");
 define("_LEVEL9","niveau 9");
@@ -391,7 +391,7 @@ define("_LIGNE1","Ligne 1");
 define("_LIGNE2","Ligne 2:");
 define("_LIGNE3","Ligne 3:");
 define("_LIGNE4","Ligne 4:");
-define("_STYLE", "Liste des styles prédéfinis de l'éditeur");
+//define("_STYLE", "Liste des styles prédéfinis de l'éditeur");
 define("_Taille","Taille");
 define("_Couleur","Couleur");
 define("_Gras","Gras");
@@ -462,8 +462,20 @@ define('_DELETE_CONFIRM', 'Vous êtes sur le point de supprimer');
 //define("_SEARCH","Recherche");
 //define("_OK","Ok");
 
+// category
+define("_CATMANAGEMENT","Gestion des catégories");
+define("_ADDCAT","Ajouter une Catégorie");
+define("_EDITTHISCAT","Editer cette Catégorie");
+define("_DELTHISCAT","Supprimer cette Catégorie");
 define("_NOCATINDB","Aucune catégorie dans la base de données");
+define("_CREATECAT","Créer une Catégorie");
+define("_MODIFTHISCAT","Modifier cette Catégorie");
+define("_CATADD","Catégorie ajoutée avec succès.");
+define("_CATMODIF","Catégorie modifiée avec succès.");
+define("_CATDEL","Catégorie supprimée avec succès.");
+define("_CATPARENT","Catégorie Principale");
 
+// rank
 define("_RANKMANAGEMENT","Gestion des Rangs");
 define("_ADDRANK","Ajouter un Rang");
 define("_EDITTHISRANK","Editer ce rang");

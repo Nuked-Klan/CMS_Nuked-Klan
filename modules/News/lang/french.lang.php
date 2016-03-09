@@ -13,35 +13,24 @@ define("_YNICK","Votre Pseudo");
 define("_FMAIL","Email de votre ami(e)");
 define("_YCOMMENT","Commentaire");
 define("_YOUSUBMIT","Vous allez envoyer à votre ami(e) la news");
-define("_BADMAIL","Adresse email non valide !");
 define("_SENDFMAIL","News envoyée avec succès.");
 define("_READNEWS","vous invite à lire la news :");
 define("_NEWSURL","L'URL de cette news est :");
 
 define("_ADMINNEWS","Administration des News");
 define("_DELETENEWS","Vous êtes sur le point de supprimer");
-define("_CAT","Catégorie");
 
 
 define("_EDITTHISNEWS","Editer cette News");
 define("_DELTHISNEWS","Supprimer cette News");
 define("_ADDNEWS","Ajouter une news");
-define("_CATMANAGEMENT","Gestion des catégories");
 define("_NONEWSINDB","Aucune news dans la base de données");
 
 define("_NEWSADD","News ajoutée avec succès.");
 define("_MODIFTHISNEWS","Modifier cette News");
 define("_NEWSMODIF","News modifiée avec succès.");
 define("_NEWSDEL","News supprimée avec succès.");
-define("_EDITTHISCAT","Editer cette Catégorie");
-define("_DELTHISCAT","Supprimer cette Catégorie");
-define("_ADDCAT","Ajouter une Catégorie");
-define("_DESCR","Description");
-define("_CREATECAT","Créer une Catégorie");
-define("_CATADD","Catégorie ajoutée avec succès.");
-define("_MODIFTHISCAT","Modifier cette Catégorie");
-define("_CATMODIF","Catégorie modifiée avec succès.");
-define("_CATDEL","Catégorie supprimée avec succès.");
+
 define("_PUBLISH","Publier");
 define("_NOW","Maintenant");
 define("_NHOURS","Heures");

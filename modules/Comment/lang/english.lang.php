@@ -6,13 +6,11 @@ if (!defined("INDEX_CHECK"))
 
 define("_VIEWCOMMENT","View all comments");
 define("_POSTCOMMENT","Post a comment");
-define("_NOCOMMENT","No comments in the database");
+if (! defined("_NOCOMMENT")) define("_NOCOMMENT","No comments in the database");
 define("_POSTEDBY","Posted by");
 define("_POSTED","Posted");
-define("_COMMENT","Comment");
 define("_COMMENTS","Comments");
-define("_MESSAGE","Message");
-define("_NICK","Nick");
+if (! defined("_MESSAGE")) define("_MESSAGE","Message");
 define("_SEND_COM","Submit your comment");
 
 
@@ -24,7 +22,7 @@ define("_THXCOM", "Thank you for your participation");
 define("_LAST4COMS","The last 4 comments");
 
 define("_ADMINCOMMENT","Comments Administration");
-define("_MODULE","Module");
+if (! defined("_MODULE")) define("_MODULE","Module");
 
 
 define("_MODIF","Modify");

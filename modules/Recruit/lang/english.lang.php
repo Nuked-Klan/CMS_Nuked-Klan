@@ -5,10 +5,8 @@ define("_IDESAGREE","I disagree");
 define("_NOLASTNAME","Please enter your first name!");
 define("_NOAGE","Please enter your age!");
 define("_BADAGE","Age is invalid. Please enter a number !");
-define("_BADMAIL","Email address is invalid!");
 define("_NOICQ","Please enter your instant messenger address!");
 define("_NOCITY","Please enter your city!");
-define("_NICK","Nick");
 define("_FIRSTNAME","First name");
 define("_AGE","Age");
 define("_MAIL","Email");
@@ -33,7 +31,6 @@ define("_WEEKEND","Week-end");
 define("_HOLIDAY","Holiday");
 define("_THREE","Three");
 define("_OTHER","Other");
-define("_COMMENT","Comment");
 
 
 define("_SENDRECRUIT","Recruitment request was successfully sent.");
@@ -54,7 +51,6 @@ define("_CLOSE","Closed");
 define("_MAILAVERT","Be notified via email");
 define("_INBOXAVERT","Be notified via private message");
 define("_CHARTE","Charter");
-define("_PREFUPDATE","Preferences were successfully modified.");
 define("_NORECRUIT","No recruitment request in the database");
 define("_NOTDEM","You have received a recruitment request");
 

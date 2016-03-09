@@ -17,7 +17,6 @@ define("_ARTDB","Articles");
 define("_SECDB","Catégories");
 define("_INDATABASE","dans la base de données");
 define("_READSART","Lectures");
-define("_PAGE","Page");
 define("_NOARTS","Aucun article dans cette catégorie");
 
 define("_WORDINTEXT","mots dans ce texte");
@@ -26,7 +25,6 @@ define("_TOP10ART","Le Top 10");
 define("_LAST10ART","Les nouveautés");
 define("_NOARTINDB","Aucun article dans la base de données");
 
-define("_NAME","Nom");
 define("_NOTE","Note");
 define("_SITE","Site");
 define("_TOPFILE","Popularité");
@@ -44,26 +42,15 @@ define("_DELETEART","Vous êtes sur le point de supprimer");
 
 define("_ID","Id");
 define("_TEXT","Texte");
-define("_CAT","Catégorie");
-define("_DESCR","Description");
 define("_EDITTHISART","Editer cet article");
 define("_DELTHISART","Supprimer cet article");
 define("_ADDART","Ajouter un article");
-define("_CATMANAGEMENT","Gestion des catégories");
 define("_PAGEBREAK","Si vous voulez plusieurs pages, vous pouvez écrire <b>(--pagebreak--)</b> où vous voulez un saut de page.");
 define("_ARTADD","Article ajouté avec succès.");
 define("_MODIFTHISART","Modifier cet article");
 define("_ARTMODIF","Article modifié avec succès.");
 define("_ARTDEL","Article supprimé avec succès.");
-define("_EDITTHISCAT","Editer cette Catégorie");
-define("_DELTHISCAT","Supprimer cette Catégorie");
-define("_ADDCAT","Ajouter une Catégorie");
-define("_CREATECAT","Créer une Catégorie");
-define("_CATADD","Catégorie ajoutée avec succès.");
-define("_MODIFTHISCAT","Modifier cette Catégorie");
-define("_CATMODIF","Catégorie modifiée avec succès.");
-define("_CATDEL","Catégorie supprimée avec succès.");
-define("_CATPARENT","Catégorie Principale");
+
 define("_NONE","Aucune");
 define("_SECTIONSPG","Nombre d'articles par page");
 

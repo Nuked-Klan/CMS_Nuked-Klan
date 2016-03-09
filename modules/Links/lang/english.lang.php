@@ -15,7 +15,6 @@ define("_INDATABASE","in the database");
 define("_ADDTHE","Added on");
 
 define("_HITS","Hits");
-define("_NAME","Name");
 define("_NOTE","Note");
 define("_SITE","Site");
 define("_WEBMASTER","Webmaster");
@@ -27,10 +26,6 @@ define("_LINKCOMMENT","Comment");
 define("_LINKVOTE","Votes");
 define("_SEEDECS","View details");
 
-
-
-define("_DESCR","Description");
-define("_CAT","Category");
 define("_VISIT","Visited");
 define("_TIMES","times");
 define("_VISITTHISSITE","Visit this Website");
@@ -66,18 +61,9 @@ define("_CREATE","Create");
 define("_LINKADD","Link was successfully added.");
 define("_LINKMODIF","Link was successfully modified.");
 define("_LINKDEL","Link was successfully removed.");
-define("_CATMANAGEMENT","categorys Management");
-define("_CATPARENT","Main Category");
 define("_NONE","None");
 define("_NOCOUNTRY","None");
-define("_EDITTHISCAT","Edit this Category");
-define("_DELTHISCAT","Remove this Category");
-define("_ADDCAT","Add a Category");
-define("_CREATECAT","Create Category");
-define("_CATADD","Category was successfully added.");
-define("_MODIFTHISCAT","Modifiy this Category");
-define("_CATMODIF","Category was successfully modified.");
-define("_CATDEL","Category was successfully removed.");
+
 define("_NUMBERLINK","Number of links per page");
 
 

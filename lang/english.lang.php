@@ -156,7 +156,7 @@ define("_3TYPEMIN","3 characters Minimum for the nickname");
 define("_4TYPEMIN","4 caracters Minimum for the password");
 define("_PASSFAILED","Please re-enter the same password in both fields");
 define("_AT","@");
-define("_THE","on");
+define("_THE","on");// define("_THE","the"); ?
 define("_BY","by");
 define("_DATE","Date");
 define("_URL","Url");
@@ -171,6 +171,10 @@ define("_ORDERBY","Order by");
 define("_IMAGE","Picture");
 define("_NONICK","Please enter your nick !");
 define("_HELP","Help");
+define("_DESCR","Description");
+define("_CAT","Category");
+define("_NAME","Name");
+define("_BADMAIL","Invalid email address!");
 
 // Menu
 define("_NAV","Menu");

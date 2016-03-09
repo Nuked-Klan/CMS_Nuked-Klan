@@ -17,7 +17,6 @@ define("_ARTDB","Articles");
 define("_SECDB","Sections");
 define("_INDATABASE","in the database");
 define("_READSART","readings");
-define("_PAGE","Page");
 define("_NOARTS","No articles in this section");
 
 
@@ -27,7 +26,6 @@ define("_TOP10ART","Top 10 Articles");
 define("_LAST10ART","Newest Articles");
 define("_NOARTINDB","No article in the database");
 
-define("_NAME","Name");
 define("_NOTE","Note");
 define("_SITE","Site");
 define("_TOPFILE","Popular");
@@ -47,26 +45,15 @@ define("_DELETEART","You are about to remove");
 
 define("_ID","Id");
 define("_TEXT","Text");
-define("_CAT","Category");
-define("_DESCR","Description");
 define("_EDITTHISART","Edit this article");
 define("_DELTHISART","Remove this article");
 define("_ADDART","Add an article");
-define("_CATMANAGEMENT","categorys Management");
 define("_PAGEBREAK","If you want several pages, you can write <b>(--pagebreak--)</b> where you want a page break.");
 define("_ARTADD","Article was successfully added.");
 define("_MODIFTHISART","Modify this article.");
 define("_ARTMODIF","Article was successfully modified.");
 define("_ARTDEL","Article was successfully removed.");
-define("_EDITTHISCAT","Edit this Category");
-define("_DELTHISCAT","Remove this Category");
-define("_ADDCAT","Add a Category");
-define("_CREATECAT","Create Category");
-define("_CATADD","Category was successfully added.");
-define("_MODIFTHISCAT","Modify this Category");
-define("_CATMODIF","Category was successfully modified.");
-define("_CATDEL","Category was successfully removed.");
-define("_CATPARENT","Main Category");
+
 define("_NONE","None");
 define("_SECTIONSPG","Number of articles per page");
 

@@ -5,10 +5,8 @@ define("_IDESAGREE","Je refuse");
 define("_NOLASTNAME","Vous n\'avez pas entré votre prénom !");
 define("_NOAGE","Vous n\'avez pas entré votre age !");
 define("_BADAGE","Vous avez mal saisi votre age, veuillez saisir un nombre !");
-define("_BADMAIL","Adresse email non valide !");
 define("_NOICQ","Vous n\'avez pas entré votre messagerie instantanée !");
 define("_NOCITY","Vous n\'avez pas entré votre ville !");
-define("_NICK","Pseudo");
 define("_FIRSTNAME","Prénom");
 define("_AGE","Age");
 define("_MAIL","Email");
@@ -33,7 +31,6 @@ define("_WEEKEND","Les Week-ends");
 define("_HOLIDAY","Les vacances");
 define("_THREE","Les Trois");
 define("_OTHER","Autres");
-define("_COMMENT","Commentaire");
 
 
 define("_SENDRECRUIT","Votre demande de recrutement a été prise en compte");
@@ -52,7 +49,6 @@ define("_CLOSE","Fermé");
 define("_MAILAVERT","Etre averti par email");
 define("_INBOXAVERT","Etre averti par message privé");
 define("_CHARTE","Charte");
-define("_PREFUPDATE","Préférences modifiées avec succès.");
 define("_NORECRUIT","Aucune demande de recrutement dans la base de données");
 define("_NOTDEM","Vous avez reçu une demande de recrutement");
 define("_ACTIONPREFREC","a modifié les préférences du module recrutement");

@@ -15,7 +15,6 @@ define("_INDATABASE","dans la base de données");
 define("_ADDTHE","Ajouté le");
 
 define("_HITS","Visites");
-define("_NAME","Nom");
 define("_NOTE","Note");
 define("_SITE","Site");
 define("_WEBMASTER","Webmaster");
@@ -27,9 +26,6 @@ define("_LINKCOMMENT","Commentaire(s)");
 define("_LINKVOTE","Vote(s)");
 define("_SEEDECS","Voir les détails");
 
-
-define("_DESCR","Description");
-define("_CAT","Catégorie");
 define("_VISIT","Visité");
 define("_TIMES","fois");
 define("_VISITTHISSITE","Visiter ce site");
@@ -63,18 +59,9 @@ define("_CREATE","Création");
 define("_LINKADD","Lien ajouté avec succès.");
 define("_LINKMODIF","Lien modifié avec succès.");
 define("_LINKDEL","Lien effacé avec succès.");
-define("_CATMANAGEMENT","Gestion des catégories");
-define("_CATPARENT","Catégorie Principale");
 define("_NONE","Aucune");
 define("_NOCOUNTRY","Aucun");
-define("_EDITTHISCAT","Editer cette Catégorie");
-define("_DELTHISCAT","Supprimer cette Catégorie");
-define("_ADDCAT","Ajouter une Catégorie");
-define("_CREATECAT","Créer une Catégorie");
-define("_CATADD","Catégorie ajoutée avec succès.");
-define("_MODIFTHISCAT","Modifier cette Catégorie");
-define("_CATMODIF","Catégorie modifiée avec succès.");
-define("_CATDEL","Catégorie supprimée avec succès.");
+
 define("_NUMBERLINK","Nombre de liens par page");
 
 define("_BROKENLINKS","Liens Morts");

@@ -3,18 +3,7 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
-define("_JAN","January");
-define("_FEB","February");
-define("_MAR","March");
-define("_APR","April");
-define("_MAY","May");
-define("_JUN","June");
-define("_JUL","July");
-define("_AUG","August");
-define("_SEP","September");
-define("_OCT","October");
-define("_NOV","November");
-define("_DEC","December");
+
 define("_ALERT1","Enter the duration for a recurring event.");
 define("_ALERT2","Enter a title for the event.");
 define("_ALERT3","Enter a description for the event.");
@@ -42,9 +31,7 @@ define("_VS","vs");
 define("_STYLE","Style");
 
 define("_MAPS","Maps");
-define("_COMMENT","Comment");
 define("_ADDEDBY","Added by");
-define("_DESCR","Description");
 
 define("_MATCHDAY","There is a match today  !!!");
 define("_GOSEE","Go to see");
@@ -79,7 +66,6 @@ define("_MODIFTHISEVENT","Modify this event");
 define("_EVENTMODIF","Event was successfully modified.");
 define("_NOEVENT","No events in the database");
 define("_SHOWBIRTHDAY","Show Birthdays");
-define("_OFF","Off");
 define("_SHOWALL","All");
 define("_SHOWTEAM","Team");
 define("_SHOWADMIN","Admin");

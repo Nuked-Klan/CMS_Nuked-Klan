@@ -14,35 +14,24 @@ define("_YNICK","Your Nickname");
 define("_FMAIL","Your Friend's E-mail");
 define("_YCOMMENT","Comment");
 define("_YOUSUBMIT","You will send the news to your friend");
-define("_BADMAIL","Email address is invalid!");
 define("_SENDFMAIL","News was successfully sent.");
 define("_READNEWS","invites you to read the news:");
 define("_NEWSURL","The URL for this news is:");
 
 define("_ADMINNEWS","News Administration");
 define("_DELETENEWS","You are about to remove");
-define("_CAT","Category");
 
 
 define("_EDITTHISNEWS","Edit this News");
 define("_DELTHISNEWS","Remove this News");
 define("_ADDNEWS","Add news");
-define("_CATMANAGEMENT","categorys Management");
 define("_NONEWSINDB","No news in the database");
 
 define("_NEWSADD","News was successfully added.");
 define("_MODIFTHISNEWS","Modify this News");
 define("_NEWSMODIF","News was successfully modified.");
 define("_NEWSDEL","News was successfully removed.");
-define("_EDITTHISCAT","Edit this Category");
-define("_DELTHISCAT","Remove this Category");
-define("_ADDCAT","Add a Category");
-define("_DESCR","Description");
-define("_CREATECAT","Create Category");
-define("_CATADD","Category was successfully added.");
-define("_MODIFTHISCAT","Modify this Category");
-define("_CATMODIF","Category was successfully modified.");
-define("_CATDEL","Category was successfully removed.");
+
 define("_PUBLISH","Publish");
 define("_NOW","Now");
 define("_NHOURS","Hours");

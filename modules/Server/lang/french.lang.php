@@ -14,7 +14,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 define("_ON","sur");
 define("_MOREINFOS","+ d'infos");
 define("_SEVERDOWN","Serveur Down...");
-define("_NAME","Nom");
 
 define("_MAP","Map");
 define("_PLAYER","Joueurs");
@@ -32,7 +31,6 @@ define("_SERVERTYPE","Type de serveur");
 define("_SERVERRULES","Serveur Rules");
 define("_SERVERVERSION","Version");
 define("_PLAYERID","Id");
-define("_NICK","Pseudo");
 define("_SCORE","Score");
 define("_FRAG","Frags");
 define("_HONOR","Honeur");

@@ -11,7 +11,6 @@ define("_THEREIS","There are");
 define("_NBCAT","Catégories");
 define("_INDATABASE","in database");
 define("_FILES","Files");
-define("_SIZE","Size");
 
 define("_HITS","Hits");
 define("_KO","KB");
@@ -19,8 +18,6 @@ define("_MO","MB");
 define("_MAX","Max");
 
 define("_DOWNFILE","Download this File");
-define("_CAT","Category");
-define("_DESCR","Description");
 define("_DOWNLOADED","Download");
 define("_SEEN","Hit");
 define("_TIMES","times");
@@ -43,7 +40,6 @@ define("_LIEN3","Link 3");
 define("_THXBROKENLINK","Thank you for having informed us of this broken link");
 define("_INDICATELINK","Report broken link");
 
-define("_NAME","Name");
 define("_NOTE","Note");
 define("_SITE","Site");
 define("_CLICHERE","Click here");
@@ -72,21 +68,10 @@ define("_FILEEDIT","File was successfully modified.");
 define("_DELETEFILE","You are about to remove");
 
 
-define("_DELETE","Remove");
 define("_ADDFILE","Add File");
 define("_EDITTHISFILE","Edit this File");
 define("_DELTHISFILE","Remove this File");
-define("_CATMANAGEMENT","Categories Management");
-define("_CATPARENT","Main Category");
 define("_NONE","None");
-define("_EDITTHISCAT","Edit this Category");
-define("_DELTHISCAT","Remove this Category");
-define("_ADDCAT","Add Category");
-define("_CREATECAT","Create Category");
-define("_CATADD","Category was successfully added.");
-define("_MODIFTHISCAT","Modify this Category");
-define("_CATMODIF","Category was successfully modified.");
-define("_CATDEL","Category was successfully removed.");
 define("_BROKENLINKS","Brokens Links");
 define("_ERASE","Remove");
 define("_ERASEFROMLIST","Remove from list");

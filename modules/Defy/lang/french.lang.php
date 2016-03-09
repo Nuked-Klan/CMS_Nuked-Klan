@@ -7,9 +7,7 @@ define("_DEFY","Demande de Match");
 define("_IAGREE","J'accepte");
 define("_IDESAGREE","Je refuse");
 define("_NOCLAN","Vous n\'avez pas entré votre clan !");
-define("_BADMAIL","Adresse email non valide !");
 define("_NOICQ","Vous n\'avez pas entré votre messagerie instantané !");
-define("_NICK","Pseudo");
 define("_CLAN","Clan");
 define("_COUNTRY","Pays");
 define("_GAME","Jeu");
@@ -22,7 +20,6 @@ define("_HOUR","Heure");
 define("_SERVER","Serveur");
 
 define("_MAP","Map");
-define("_COMMENT","Commentaire");
 
 define("_MATCH","Match");
 
@@ -39,7 +36,6 @@ define("_EDITPREF","Modifier les Préférences");
 define("_MAILAVERT","Etre averti par email");
 define("_INBOXAVERT","Etre averti par message privé");
 define("_CHARTE","Charte");
-define("_PREFUPDATE","Préférences modifiées avec succès.");
 define("_NODEFY","Aucun défi dans la base de données");
 define("_NOTDEF","Vous avez reçu un défi");
 define("_ACTIONDELDEFY","a supprimé un défi de");

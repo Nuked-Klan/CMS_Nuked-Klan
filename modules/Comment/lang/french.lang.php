@@ -5,13 +5,11 @@ if (!defined("INDEX_CHECK"))
 }
 define("_POSTCOMMENT","Poster un commentaire");
 define("_VIEWCOMMENT","Consulter tous les commentaires");
-define("_NOCOMMENT","Aucun commentaire dans la base de données");
+if (! defined("_NOCOMMENT")) define("_NOCOMMENT","Aucun commentaire dans la base de données");
 define("_POSTEDBY","Posté par");
 define("_POSTED","Posté");
-define("_COMMENT","Commentaire");
 define("_COMMENTS","Commentaires");
-define("_MESSAGE","Message");
-define("_NICK","Pseudo");
+if (! defined("_MESSAGE")) define("_MESSAGE","Message");
 define("_SEND_COM","Soumettre votre commentaire");
 
 
@@ -23,7 +21,7 @@ define("_THXCOM", "Merci de votre participation");
 define("_LAST4COMS","Les 4 derniers commentaires");
 
 define("_ADMINCOMMENT","Administration des Commentaires");
-define("_MODULE","Module");
+if (! defined("_MODULE")) define("_MODULE","Module");
 
 
 define("_MODIF","Modifier");

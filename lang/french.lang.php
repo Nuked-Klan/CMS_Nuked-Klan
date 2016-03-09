@@ -179,6 +179,10 @@ define("_ORDERBY","Classer par");
 define("_IMAGE","Image");
 define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_HELP","Aides");
+define("_DESCR","Description");
+define("_CAT","Catégorie");
+define("_NAME","Nom");
+define("_BADMAIL","Adresse email non valide !");
 
 // menu
 define("_NAV","Menu");

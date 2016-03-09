@@ -7,9 +7,7 @@ define("_DEFY","War Request");
 define("_IAGREE","I agree");
 define("_IDESAGREE","I disagree");
 define("_NOCLAN","Please enter your clan name!");
-define("_BADMAIL","Invalid email address!");
 define("_NOICQ","Please enter your instant messenger address!");
-define("_NICK","Nick");
 define("_CLAN","Clan");
 define("_COUNTRY","Country");
 define("_GAME","Game");
@@ -22,7 +20,6 @@ define("_HOUR","Hour");
 define("_SERVER","Server");
 
 define("_MAP","Map");
-define("_COMMENT","Comment");
 
 define("_MATCH","Match");
 
@@ -41,7 +38,6 @@ define("_EDITPREF","Modify Preferences");
 define("_MAILAVERT","Be notified via email");
 define("_INBOXAVERT","Be notified via private message");
 define("_CHARTE","Charter");
-define("_PREFUPDATE","Preferences was successfully modified.");
 define("_NODEFY","No war request in the database");
 define("_NOTDEF","You have received a defy");
 define("_ACTIONDELDEFY","has deleted a defy by");

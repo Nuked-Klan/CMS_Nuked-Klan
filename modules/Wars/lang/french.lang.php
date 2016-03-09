@@ -49,7 +49,6 @@ define("_HASTOPLAY","A jouer");
 
 define("_COUNTRY","Pays");
 define("_GAME","Jeu");
-define("_NAME","Nom");
 define("_HOUR","Heure");
 define("_STYLE","Style");
 define("_OURSCORE","Notre Score");

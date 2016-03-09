@@ -131,7 +131,7 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
 
     saveUserAction(_ACTIONPREFREC .'.');
 
-    printNotification(_PREFUPDATE, 'success');
+    printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Recruit&page=admin", 2);
 }
 

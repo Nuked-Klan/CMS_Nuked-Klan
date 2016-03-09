@@ -24,7 +24,6 @@ define("_PREF","Preferences");
 define("_INFOPERSO","Profile");
 define("_THEMESELECT","Theme Select");
 define("_YOURSTATS","Your Stats");
-define("_NAME","Name");
 
 define("_COUNT","counter");
 define("_POSTPV","Send private message");

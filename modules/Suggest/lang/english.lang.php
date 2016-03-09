@@ -16,8 +16,6 @@ define('_NOCONTENT','You forgot to fill in required fields');
 define("_ADMINSUGGEST","Suggestions Administration");
 
 define("_SUGGESTID","ID");
-define("_CAT","Category");
-define("_NICK","Nick");
 
 define("_SEESUGGEST","View this suggestion");
 
@@ -40,8 +38,6 @@ define("_REMOVE","Delete");
 define("_DELETESUG","You are about to remove the suggestion");
 
 define("_TEXT","Text");
-define("_DESCR","Description");
-define("_SIZE","Size");
 
 define("_MO","MB");
 define("_SUBJECT","Subject");

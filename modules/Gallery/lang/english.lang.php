@@ -14,7 +14,6 @@ define("_NOSCREENINDB","No image in database");
 define("_LASTIMG","Previous Image");
 define("_NEXTIMG","Next Image");
 
-define("_DESCR","Description");
 define("_THEREIS","There are");
 define("_SCREENINDB","images");
 define("_NBCAT","categorys");
@@ -26,7 +25,6 @@ define("_INDEXGALLERY","Index");
 define("_DOWNFILE","Download this File");
 define("_FILENAME","Filename");
 
-define("_NAME","Name");
 define("_NOTE","Note");
 define("_TOPFILE","Popularity");
 
@@ -37,7 +35,6 @@ define("_LASTADD","Last added on");
 
 define("_ADMINGALLERY","Gallery Administration");
 
-define("_CAT","Category");
 define("_URLIMG2","Thumbnail's Url");
 define("_URLIMG","Image's url");
 define("_URLFILE","File's url");
@@ -56,17 +53,8 @@ define("_DELTHISSCREEN","Remove this image");
 define("_MODIFTHISSCREEN","Modify this image");
 define("_SCREENDELETE","You are about to remove ");
 
-define("_CATMANAGEMENT","categorys Management");
-define("_CATPARENT","Main Category");
 define("_NONE","None");
-define("_EDITTHISCAT","Edit this Category");
-define("_DELTHISCAT","Remove this Category");
-define("_ADDCAT","Add a Category");
-define("_CREATECAT","Create a Category");
-define("_CATADD","Category was successfully added.");
-define("_MODIFTHISCAT","Modify this Category");
-define("_CATMODIF","Category was successfully modified.");
-define("_CATDEL","Category was successfully removed.");
+
 define("_GALLERYTITLE","Gallery's title");
 define("_NUMBERIMG","Number of images per page");
 define("_NUMBERIMG2","Number of images per line");

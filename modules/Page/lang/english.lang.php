@@ -27,7 +27,6 @@ define("_PAGEADD","Page added successfully.");
 define("_PAGEMODIF","Page modified successfully.");
 define("_PAGEDELETE","Page removed successfully.");
 define("_BADFILEFORMAT","Error : Bad page file type !");
-define("_PREFS","Preferences");
 define("_PAGEINDEX","Main Page");
 
 define("_UPLOADPAGE","Upload the page onto the server");

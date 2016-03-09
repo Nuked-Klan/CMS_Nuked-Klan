@@ -49,7 +49,6 @@ define("_PREFGEN","General preferences");
 define("_CLICTOHELP","Click on the icon ? to obtain some assistance");
 define("_CHECKUPDATE","Nuked-klan update");
 
-define("_NAME","Name");
 define("_LEVEL1","level 1");
 define("_LEVEL2","level 2");
 define("_LEVEL9","level 9");
@@ -560,7 +559,7 @@ define("_LIGNE1","Line 1");
 define("_LIGNE2","Line 2:");
 define("_LIGNE3","Line 3:");
 define("_LIGNE4","Line 4:");
-define("_STYLE", "Liste of editor style");
+//define("_STYLE", "Liste of editor style");
 define("_Taille","Size");
 define("_Couleur","Color");
 define("_Gras","Weight");
@@ -630,8 +629,20 @@ define('_DELETE_CONFIRM', 'You are about to remove');
 //define("_SEARCH","Search");
 //define("_OK","Ok");
 
+// category
+define("_CATMANAGEMENT","Categories Management");
+define("_ADDCAT","Add Category");
+define("_EDITTHISCAT","Edit this Category");
+define("_DELTHISCAT","Remove this Category");
 define("_NOCATINDB","No category in the database");
+define("_CREATECAT","Create Category");
+define("_MODIFTHISCAT","Modify this Category");
+define("_CATADD","Category was successfully added.");
+define("_CATMODIF","Category was successfully modified.");
+define("_CATDEL","Category was successfully removed.");
+define("_CATPARENT","Main Category");
 
+// rank
 define("_RANKMANAGEMENT","Ranks Management");
 define("_ADDRANK","Add Rank");
 define("_EDITTHISRANK","Edit this rank");

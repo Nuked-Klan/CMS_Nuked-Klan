@@ -76,7 +76,7 @@ define("_NBDOWNLOAD","Downloads");
 define("_NBLINKS","Liens");
 define("_STATSBLOCK","Stats");
 define("_TOPBLOCK","Top10");
-define("_DELETE","Vous êtes sur le point de supprimer les stats visiteurs, êtes vous sure?");
+//define("_DELETE","Vous êtes sur le point de supprimer les stats visiteurs, êtes vous sure?");
 define("_ADMINSTATS","Administration des stats");
 define("_VIDERSTATS","Supprimer les données sur les visiteurs");
 define("_VIDER","Les stats visiteurs ont bien été supprimé.");

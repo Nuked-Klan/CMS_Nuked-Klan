@@ -188,7 +188,7 @@ function update_pref($defie_mail, $defie_inbox, $defie_charte) {
 
     saveUserAction(_ACTIONPREFDEFY .'.');
 
-    printNotification(_PREFUPDATE, 'success');
+    printNotification(_PREFUPDATED, 'success');
     redirect('index.php?file=Defy&page=admin', 2);
 }
 

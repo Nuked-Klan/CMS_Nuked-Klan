@@ -14,8 +14,6 @@ define('_NOCONTENT','Vous avez oublié de remplir des champs obligatoires');
 define("_ADMINSUGGEST","Demande en Attente");
 
 define("_SUGGESTID","ID");
-define("_CAT","Catégorie");
-define("_NICK","Pseudo");
 
 define("_SEESUGGEST","Voir cette suggestion");
 
@@ -37,9 +35,6 @@ define("_GALLERY","Galerie Photos");
 define("_SUG","Proposer");
 define("_REMOVE","Supprimer");
 define("_DELETESUG","Vous êtes sur le point de supprimer la suggestion");
-
-define("_DESCR","Description");
-define("_SIZE","Taille");
 
 define("_MO","Mo");
 define("_SUBJECT","Sujet");

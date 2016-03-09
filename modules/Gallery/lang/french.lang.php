@@ -12,7 +12,6 @@ define("_NOSCREENINDB","Aucune image dans la base de données");
 define("_LASTIMG","Image Précédente");
 define("_NEXTIMG","Image Suivante");
 
-define("_DESCR","Description");
 define("_THEREIS","Il y a");
 define("_SCREENINDB","images");
 define("_NBCAT","catégories");
@@ -24,7 +23,6 @@ define("_INDEXGALLERY","Index");
 define("_DOWNFILE","Télécharger ce fichier");
 define("_FILENAME","Nom du fichier");
 
-define("_NAME","Nom");
 define("_NOTE","Note");
 define("_TOPFILE","Popularité");
 define("_SEEN","Vu");
@@ -34,7 +32,6 @@ define("_LASTADD","Dernière ajoutée le");
 
 define("_ADMINGALLERY","Administration Galerie");
 
-define("_CAT","Catégorie");
 define("_URLIMG2","Url de la Vignette");
 define("_URLIMG","Url de l'image");
 define("_URLFILE","Url du fichier");
@@ -53,17 +50,8 @@ define("_DELTHISSCREEN","Supprimer cette image");
 define("_MODIFTHISSCREEN","Modifier cette image");
 define("_SCREENDELETE","Vous êtes sur le point de supprimer");
 
-define("_CATMANAGEMENT","Gestion des catégories");
-define("_CATPARENT","Catégorie Principale");
 define("_NONE","Aucune");
-define("_EDITTHISCAT","Editer cette Catégorie");
-define("_DELTHISCAT","Supprimer cette Catégorie");
-define("_ADDCAT","Ajouter une Catégorie");
-define("_CREATECAT","Créer une Catégorie");
-define("_CATADD","Catégorie ajoutée avec succès.");
-define("_MODIFTHISCAT","Modifier cette Catégorie");
-define("_CATMODIF","Catégorie modifiée avec succès.");
-define("_CATDEL","Catégorie supprimée avec succès.");
+
 define("_GALLERYTITLE","Titre de la Galerie");
 define("_NUMBERIMG","Nombre d'images par page");
 define("_NUMBERIMG2","Nombre d'images par ligne");
