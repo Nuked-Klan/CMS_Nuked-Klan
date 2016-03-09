@@ -220,8 +220,10 @@ function add(){
             . "</form><br /></div></div>\n";
 }
 
-function do_add($titre, $texte, $cat, $urlImage, $upImage){
+function do_add($titre, $texte, $cat){
     global $nuked, $user;
+
+    require_once 'Includes/nkUpload.php';
 
     $titre = mysql_real_escape_string(stripslashes($titre));
 
@@ -237,30 +239,34 @@ function do_add($titre, $texte, $cat, $urlImage, $upImage){
         $auteur_id = $user[0];
 
         //Upload du fichier
-        $filename = $_FILES['upImage']['name'];
-        if ($filename != "") {
-            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $coverageUrl = '';
 
-            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-                $url_image = "upload/Sections/" . $filename;
-                if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                    printNotification(_UPLOADFILEFAILED, 'error');
-                    redirect('index.php?file=Sections&page=admin&op=add', 2);
-                    return;
-                }
-                @chmod ($url_image, 0644);
-            }
-            else {
-                printNotification(_NOIMAGEFILE, 'error');
+        if ($_FILES['upImage']['name'] != '') {
+            list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', array(
+                'fileType'  => 'image',
+                'uploadDir' => 'upload/Sections',
+                //'fileSize'  => 100000
+            ));
+
+            if ($uploadError !== false) {
+                printNotification($uploadError, 'error');
                 redirect('index.php?file=Sections&page=admin&op=add', 2);
                 return;
             }
         }
-        else {
-            $url_image = $urlImage;
+        else if ($_POST['urlImage'] != '') {
+            $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
+
+            if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+                printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+                redirect('index.php?file=Sections&page=admin&op=add', 2);
+                return;
+            }
+
+            $coverageUrl = $_POST['urlImage'];
         }
 
-        $sql = mysql_query("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `coverage` , `autor` , `autor_id`, `counter` , `date`) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $texte . "' , '" . $url_image . "' , '" . $auteur . "' , '" . $auteur_id . "' , '' , '" . $date . "' )");
+        $sql = mysql_query("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `coverage` , `autor` , `autor_id`, `counter` , `date`) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $texte . "' , '" . $coverageUrl . "' , '" . $auteur . "' , '" . $auteur_id . "' , '' , '" . $date . "' )");
 
         saveUserAction(_ACTIONADDSEC .': '. $titre .'.');
 
@@ -322,8 +328,10 @@ function edit($art_id){
             . "</form><br /></div></div>\n";
 }
 
-function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
+function do_edit($art_id, $titre, $texte, $cat){
     global $nuked, $user;
+
+    require_once 'Includes/nkUpload.php';
 
     $titre = mysql_real_escape_string(stripslashes($titre));
 
@@ -336,30 +344,32 @@ function do_edit($art_id, $titre, $texte, $cat, $urlImage, $upImage){
         $texte = mysql_real_escape_string(stripslashes($texte));
 
         //Upload du fichier
-        $filename = $_FILES['upImage']['name'];
-        if ($filename != "") {
-            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if ($_FILES['upImage']['name'] != '') {
+            list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', array(
+                'fileType'  => 'image',
+                'uploadDir' => 'upload/Sections',
+                //'fileSize'  => 100000
+            ));
 
-            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-                $url_image = "upload/Sections/" . $filename;
-                if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                    printNotification(_UPLOADFILEFAILED, 'error');
-                    redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
-                    return;
-                }
-                @chmod ($url_image, 0644);
-            }
-            else {
-                printNotification(_NOIMAGEFILE, 'error');
+            if ($uploadError !== false) {
+                printNotification($uploadError, 'error');
                 redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
                 return;
             }
         }
-        else {
-            $url_image = $urlImage;
+        else if ($_POST['urlImage'] != '') {
+            $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
+
+            if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+                printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+                redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
+                return;
+            }
+
+            $coverageUrl = $_POST['urlImage'];
         }
 
-        $upd = mysql_query("UPDATE " . SECTIONS_TABLE . " SET secid = '" . $cat . "', title = '" . $titre . "', coverage = '" . $url_image . "', content = '" . $texte . "' WHERE artid = '" . $art_id . "'");
+        $upd = mysql_query("UPDATE " . SECTIONS_TABLE . " SET secid = '" . $cat . "', title = '" . $titre . "', coverage = '" . $coverageUrl . "', content = '" . $texte . "' WHERE artid = '" . $art_id . "'");
 
         saveUserAction(_ACTIONMODIFSEC .': '. $titre .'.');
 
@@ -712,13 +722,13 @@ switch ($GLOBALS['op']) {
         add();
         break;
     case "do_add":
-        do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['cat'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
+        do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['cat']);
         break;
     case "edit":
         edit($_REQUEST['artid']);
         break;
     case "do_edit":
-        do_edit($_REQUEST['artid'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['cat'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
+        do_edit($_REQUEST['artid'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['cat']);
         break;
     case "del":
         del($_REQUEST['artid']);
