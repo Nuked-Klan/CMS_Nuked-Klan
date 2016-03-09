@@ -483,7 +483,9 @@ function nkAction_saveBackendSetting($form, $fields) {
         );
     }
 
-    if (! nkCheckForm($form, $fields)) {
+    $data = array();
+
+    if (! nkCheckForm($form, $fields, $data)) {
         redirect(nkUrl_format($nkAction['moduleUriKey'], $file, $page, $nkAction['editOp']), 2);
         return;
     }
@@ -495,9 +497,9 @@ function nkAction_saveBackendSetting($form, $fields) {
         }
     }
 
-    foreach ($fields as $field) {
-        if (isset($nuked[$field], $_POST[$field]) && $nuked[$field] != $_POST[$field])
-            nkDB_update(CONFIG_TABLE, array('value' => $_POST[$field]), 'name = '. nkDB_escape($field));
+    foreach ($data as $fieldName => $fieldValue) {
+        if (isset($nuked[$fieldName]) && $nuked[$fieldName] != $fieldValue)
+            nkDB_update(CONFIG_TABLE, array('value' => $fieldValue), 'name = '. nkDB_escape($fieldName));
     }
 
     $moduleNameConst = strtoupper($file) .'_MODNAME';
