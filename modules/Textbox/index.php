@@ -13,11 +13,13 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 global $language;
 
+nkTemplate_moduleInit('Textbox');
+
 translate('modules/Textbox/lang/'. $language .'.lang.php');
 
 
 function index() {
-    global $nuked, $user, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $visiteur;
+    global $nuked, $user, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $visiteur, $p;
 
     $level_access = nivo_mod("Textbox");
     $level_admin = admin_mod("Textbox");
@@ -28,21 +30,37 @@ function index() {
         $sql = mysql_query("SELECT id FROM " . TEXTBOX_TABLE);
         $count = mysql_num_rows($sql);
 
-        if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-        $start = $_REQUEST['p'] * $nb_mess - $nb_mess;
+        $start = $p * $nb_mess - $nb_mess;
 
-        echo "<div class=\"nkAlignCenter\"><h1>" . _SHOUTBOX . "</h1></div>\n";
+        $pagination = number($count, $nb_mess, 'index.php?file=Textbox', true);
 
-        if ($count > $nb_mess)
-            number($count, $nb_mess, "index.php?file=Textbox");
+        echo "<div class=\"nkAlignCenter\"><h1>" . _SHOUTBOX . "</h1></div>\n"
+            . $pagination
+            ."<div id=\"nkTextboxWrapper\">\n";
 
-        echo "<div id=\"nkTextboxWrapper\">\n";
+        if ($visiteur >= $level_admin && $level_admin > -1) {
+            echo "<script type=\"text/javascript\">\n"
+            . "<!--\n"
+            . "\n"
+            . "if ('function' != typeof(del_shout)){\n"
+            . "function del_shout(pseudo, id)\n"
+            . "{\n"
+            . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+            . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
+            . "}\n"
+            . "}\n"
+            . "\n"
+            . "// -->\n"
+            . "</script>\n";
+        }
 
         $sql2 = mysql_query(
             "SELECT id, auteur, ip, texte, date
             FROM " . TEXTBOX_TABLE . "
             ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess
         );
+
+        $j = 0;
 
         while (list($mid, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql2)) {
             $texte = printSecuTags($texte);
@@ -76,29 +94,10 @@ function index() {
             $pays = ($country) ? '<img src="images/flags/' . $country . '" alt="' . $country . '" style="margin-right:2px;"/>' : '';
             $url_auteur = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '"'. $style .'>' . $auteur . '</a>';
 
-            if ($j == 0) {
-                $bg = $bgcolor2;
-                $j++;
-            }
-            else {
-                $bg = $bgcolor1;
-                $j = 0;
-            }
+            $bg = ($j++ % 2 == 1) ? $bgcolor1 : $bgcolor2;
 
             if ($visiteur >= $level_admin && $level_admin > -1) {
-                echo "<script type=\"text/javascript\">\n"
-                . "<!--\n"
-                . "\n"
-                . "function del_shout(pseudo, id)\n"
-                . "{\n"
-                . "if (confirm('" . '_DELETETEXT' . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-                . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
-                . "}\n"
-                . "\n"
-                . "// -->\n"
-                . "</script>\n";
-
-                $admin = "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><span class=\"nkButton icon alone pin small\" title=\"" . $ip . "\"></span><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $mid . "\" class=\"nkButton icon alone edit small\" title=\"" . _EDITTHISMESS . "\"></a>"
+                $admin = "<div style=\"text-align: right;\"><div class=\"nkButton-group\"><span class=\"nkButton icon alone pin small\" title=\"" . $ip . "\"></span><a href=\"index.php?file=Textbox&amp;page=admin&amp;op=edit_shout&amp;mid=" . $mid . "\" class=\"nkButton icon alone edit small\" title=\"" . __('EDIT_THIS_SHOUTBOX_MESSAGE') . "\"></a>"
                 . "&nbsp;<a href=\"javascript:del_shout('" . addslashes($auteur) . "', '" . $mid . "');\" class=\"nkButton icon alone remove small danger\" title=\"" . __('DELETE_THIS_SHOUTBOX_MESSAGE') . "\"></a></div></div>";
             }
             else {
@@ -114,12 +113,9 @@ function index() {
 
         if ($count == 0) echo "<div class=\"nkAlignCenter\">" . _NOMESS . "</div>\n";
 
-        echo "</div>";
-
-        if ($count > $nb_mess)
-            number($count, $nb_mess, "index.php?file=Textbox");
-
-        echo "<br /><div class=\"nkAlignCenter\"><small><i>( " . _THEREIS . "&nbsp;" . $count . "&nbsp;" . _SHOUTINDB . " )</i></small></div><br />\n";
+        echo "</div>"
+            . $pagination
+            . "<br /><div class=\"nkAlignCenter\"><small><i>( " . _THEREIS . "&nbsp;" . $count . "&nbsp;" . _SHOUTINDB . " )</i></small></div><br />\n";
     }
     else if ($level_access == -1) {
         // On affiche le message qui previent l'utilisateur que le module est désactivé
@@ -186,19 +182,19 @@ function ajax() {
 
     require("modules/Textbox/config.php");
 
-    if ($visiteur >= $level_admin) {
+    /*if ($visiteur >= $level_admin) {
         echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
         . "\n"
         . "function del_shout(pseudo, id)\n"
         . "{\n"
-        . "if (confirm('" . '_DELETETEXT' . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+        . "if (confirm('" . _DELETETEXT . " '+pseudo+' ! " . _CONFIRM . "'))\n"
         . "{document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;}\n"
         . "}\n"
         . "\n"
         . "// -->\n"
         . "</script>\n";
-    }
+    }*/
 
     $active = 2;
     $width = $box_width;
@@ -206,9 +202,6 @@ function ajax() {
     $max_chars = $max_string;
     $mess_max = $max_texte;
     $pseudo_max = $max_pseudo;
-    $level_admin = admin_mod('Textbox');
-    $level_mod = nivo_mod('Textbox');
-
     $nb_messages = 40;
 
     $sql = mysql_query('SELECT count(id) FROM '.TEXTBOX_TABLE.' ');
@@ -228,11 +221,18 @@ function ajax() {
 
         // On coupe les mots trop longs
         $text = explode(' ', $texte);
-        for($i = 0;$i < count($text);$i++) {
+        $nbWords = count($text);
+
+        for ($i = 0; $i < $nbWords; $i++) {
             $text[$i] = " " . $text[$i];
 
-            if (strlen($text[$i]) > $max_chars && !preg_match("`http:`i", $text[$i]) && !preg_match("`www\.`i", $text[$i]) && !preg_match("`@`i", $text[$i]) && !preg_match("`ftp\.`i", $text[$i]))
-            $text[$i] = '<span title="' . $text[$i] . '">' . substr($text[$i], 0, $max_chars) . '...</span>';
+            if (strlen($text[$i]) > $max_chars
+                && ! preg_match("`http:`i", $text[$i])
+                && ! preg_match("`www\.`i", $text[$i])
+                && ! preg_match("`@`i", $text[$i])
+                && ! preg_match("`ftp\.`i", $text[$i])
+            )
+                $text[$i] = '<span title="' . $text[$i] . '">' . substr($text[$i], 0, $max_chars) . '...</span>';
 
             $text[$i] = preg_replace_callback('`((https?|ftp)://\S+)`', 'cesure_href', $text[$i]); 
             $block_text .= $text[$i];

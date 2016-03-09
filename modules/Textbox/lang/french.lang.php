@@ -17,7 +17,7 @@ define("_THEREIS","Il y a");
 define("_SHOUTINDB","messages dans la base de données");
 define("_SMILEY","Ajouter un smilies");
 define("_LISTSMILIES","Liste des smilies");
-//define("_DELETETEXT","Vous êtes sur le point de supprimer le message de");
+define("_DELETETEXT","Vous êtes sur le point de supprimer le message de");
 define("_FRANCE", "France");
 define("_BELGIUM", "Belgique");
 define("_SPAIN", "Espagne");

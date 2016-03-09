@@ -98,9 +98,11 @@ function maFonctionAjax(auteur,texte, ctToken, ctScript, ctEmail) {
 if ($GLOBALS['visiteur'] >= nivo_mod('Textbox')) :
 ?>
 
-function del_shout(pseudo, id) {
-    if (confirm('<?php echo '_DELETETEXT' ?> '+pseudo+' ! <?php echo _CONFIRM ?>')) {
-        document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;
+if ('function' != typeof(del_shout)){
+    function del_shout(pseudo, id) {
+        if (confirm('<?php echo _DELETETEXT ?> '+pseudo+' ! <?php echo _CONFIRM ?>')) {
+            document.location.href = 'index.php?file=Textbox&page=admin&op=del_shout&mid='+id;
+        }
     }
 }
 <?php

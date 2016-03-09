@@ -39,6 +39,9 @@ require_once 'Includes/constants.php';
 $GLOBALS['file'] = nkHandle_module();
 $GLOBALS['op']   = nkHandle_op();
 
+// Pagination
+$GLOBALS['p'] = nkHandle_pageNumber();
+
 // $theme & $language VALUE.
 $theme    = nkHandle_theme();
 $language = nkHandle_language();
@@ -181,6 +184,23 @@ function nkHandle_op() {
         return $op;
 
     return 'index';
+}
+
+/**
+ * Get current page number for pagination.
+ *
+ * @param void
+ * @return int : The current page number.
+ */
+function nkHandle_pageNumber() {
+    $p = 1;
+
+    if (isset($_POST['p']))
+        $p = max(1, (int) $_POST['p']);
+    else if (isset($_GET['p']))
+        $p = max(1, (int) $_GET['p']);
+
+    return $p;
 }
 
 /**
@@ -969,55 +989,51 @@ function redirect($url, $delay = 0) {
 
 // DISPLAYS THE NUMBER OF PAGES
 function number($count, $each, $link, $return = false) {
+    global $p;
 
-    if(array_key_exists('p', $_REQUEST)){
-        $current = $_REQUEST['p'];
-    }
-    else{
-        $current = '';
-    }
+    $output = '';
 
+    if ($each > 0 && $count > $each) {
+        if ($count <= 0) $count = 1;
 
-    if ($each > 0){
-        if ($count <= 0)     $count   = 1;
-        if (empty($current)) $current = 1; // On renormalise la page courante...
         // Calcul du nombre de pages
         $n = ceil($count / intval($each)); // on arrondit a  l'entier sup.
         // Debut de la chaine d'affichage
         $output = '<b class="pgtitle">' . _PAGE . ' :</b> ';
 
         for ($i = 1; $i <= $n; $i++){
-            if ($i == $current){
-                $output .= sprintf('<b class="pgactuel">%d</b> ',$i    );
+            if ($i == $p){
+                $output .= sprintf('<b class="pgactuel">%d</b> ', $i);
             }
             // On est autour de la page actuelle : on affiche
-            elseif (abs($i - $current) <= 4){
-                $output .= sprintf('<a href="' . $link . '&amp;p=%d" class="pgnumber">%d</a> ',$i, $i);
+            elseif (abs($i - $p) <= 4){
+                $output .= sprintf('<a href="' . $link . '&amp;p=%d" class="pgnumber">%d</a> ', $i, $i);
             }
             // On affiche quelque chose avant d'omettre les pages inutiles
             else{
                 // On est avant la page courante
-                if (!isset($first_done) && $i < $current){
-                    $output .= sprintf('...<a href="' . $link . '&amp;p=%d" title="' . _PREVIOUSPAGE . '" class="pgback">&laquo;</a> ',$current-1);
+                if (!isset($first_done) && $i < $p){
+                    $output .= sprintf('...<a href="' . $link . '&amp;p=%d" title="' . _PREVIOUSPAGE . '" class="pgback">&laquo;</a> ',$p-1);
                     $first_done = true;
                 }
                 // Apres la page courante
-                elseif (!isset($last_done) && $i > $current){
-                    $output .= sprintf('<a href="' . $link . '&amp;p=%d" title="' . _NEXTPAGE . '" class="pgnext">&raquo;</a>... ',$current+1);
+                elseif (!isset($last_done) && $i > $p){
+                    $output .= sprintf('<a href="' . $link . '&amp;p=%d" title="' . _NEXTPAGE . '" class="pgnext">&raquo;</a>... ',$p+1);
                     $last_done = true;
                 }
                 // On a depasse les cas qui nous interessent : inutile de continuer
-                elseif ($i > $current)
+                elseif ($i > $p)
                     break;
             }
         }
-        $output .= '<br />';
 
-        if ($return)
-            return $output;
-        else
-            echo $output;
+        $output .= '<br />';
     }
+
+    if ($return)
+        return $output;
+    else
+        echo $output;
 }
 
 /**
