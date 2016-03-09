@@ -241,9 +241,10 @@ function add() {
         . "</form><br /></div></div>\n";
 }
 
-function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $urlImage, $upImage) {
+function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
     global $nuked, $user;
 
+    require_once 'Includes/nkUpload.php';
 
     $table = explode(':', $heure, 2);
 
@@ -259,30 +260,34 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $url
     $auteur_id = $user[0];
 
     //Upload du fichier
-    $filename = $_FILES['upImage']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $coverageUrl = '';
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/News/" . $filename;
-            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'error');
-                redirect('index.php?file=News&page=admin&op=add', 2);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'error');
+    if ($_FILES['upImage']['name'] != '') {
+        list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', array(
+            'fileType'  => 'image',
+            'uploadDir' => 'upload/News',
+            //'fileSize'  => 100000
+        ));
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
             redirect('index.php?file=News&page=admin&op=add', 2);
             return;
         }
     }
-    else {
-        $url_image = $urlImage;
+    else if ($_POST['urlImage'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
+
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=News&page=admin&op=add', 2);
+            return;
+        }
+
+        $coverageUrl = $_POST['urlImage'];
     }
 
-    $sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `coverage` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $url_image . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
+    $sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `coverage` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $coverageUrl . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
 
     $id = nkDB_insertId();
 
@@ -388,8 +393,10 @@ function edit($news_id) {
         . "</form><br /></div></div>\n";
 }
 
-function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $urlImage, $upImage) {
+function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
     global $nuked, $user;
+
+    require_once 'Includes/nkUpload.php';
 
     $table = explode(':', $heure, 2);
     $date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
@@ -401,30 +408,34 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
     $suite = mysql_real_escape_string(stripslashes($suite));
 
     //Upload du fichier
-    $filename = $_FILES['upImage']['name'];
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $coverageUrl = '';
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/News/" . $filename;
-            if (! move_uploaded_file($_FILES['upImage']['tmp_name'], $url_image)) {
-                printNotification(_UPLOADFILEFAILED, 'error');
-                redirect('index.php?file=News&page=admin&op=edit&news_id='. $news_id, 2);
-                return;
-            }
-            @chmod ($url_image, 0644);
-        }
-        else {
-            printNotification(_NOIMAGEFILE, 'error');
+    if ($_FILES['upImage']['name'] != '') {
+        list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', array(
+            'fileType'  => 'image',
+            'uploadDir' => 'upload/News',
+            //'fileSize'  => 100000
+        ));
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
             redirect('index.php?file=News&page=admin&op=edit&news_id='. $news_id, 2);
             return;
         }
     }
-    else {
-        $url_image = $urlImage;
+    else if ($_POST['urlImage'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
+
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=News&page=admin&op=edit&news_id='. $news_id, 2);
+            return;
+        }
+
+        $coverageUrl = $_POST['urlImage'];
     }
 
-    $upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', coverage = '" . $url_image . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
+    $upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', coverage = '" . $coverageUrl . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
 
     saveUserAction(_ACTIONMODIFNEWS .': '. $titre .'.');
 
@@ -509,35 +520,44 @@ function add_cat() {
         . "</form><br /></div></div>\n";
 }
 
-function send_cat($titre, $description, $image, $fichiernom) {
+function send_cat($titre, $description) {
     global $nuked, $user;
 
-    $filename = $_FILES['fichiernom']['name'];
+    require_once 'Includes/nkUpload.php';
 
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    //Upload du fichier
+    $imageUrl = '';
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-            $url_image = "upload/News/" . $filename;
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
-                printNotification('Upload file failed !!!', 'error');
-                return;
-            }
-            @chmod ($url_image, 0644);
-        } else {
-            printNotification('No image file !!!', 'error');
-            redirect("index.php?file=News&page=admin&op=add_cat", 2);
+    if ($_FILES['fichiernom']['name'] != '') {
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', array(
+            'fileType'  => 'image',
+            'uploadDir' => 'upload/News',
+            //'fileSize'  => 100000
+        ));
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=News&page=admin&op=add_cat', 2);
             return;
         }
-    } else {
-        $url_image = $image;
+    }
+    else if ($_POST['image'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['image'], '.'), 1));
+
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=News&page=admin&op=add_cat', 2);
+            return;
+        }
+
+        $imageUrl = $_POST['image'];
     }
 
     $titre = mysql_real_escape_string(stripslashes($titre));
     $description = secu_html(nkHtmlEntityDecode($description));
     $description = mysql_real_escape_string(stripslashes($description));
 
-    $sql = mysql_query("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url_image . "' )");
+    $sql = mysql_query("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $imageUrl . "' )");
 
     saveUserAction(_ACTIONADDCATNEWS .': '. $titre .'.');
 
@@ -575,35 +595,44 @@ function edit_cat($cid) {
 
 }
 
-function modif_cat($cid, $titre, $description, $image, $fichiernom) {
+function modif_cat($cid, $titre, $description) {
     global $nuked, $user;
 
-    $filename = $_FILES['fichiernom']['name'];
+    require_once 'Includes/nkUpload.php';
 
-    if ($filename != "") {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    //Upload du fichier
+    $imageUrl = '';
 
-        if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
-            $url_image = "upload/News/" . $filename;
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image)) {
-                printNotification('Upload file failed !!!', 'error');
-                return;
-            }
-            @chmod ($url_image, 0644);
-        } else {
-            printNotification('No image file !!!', 'error');
-            redirect("index.php?file=News&page=admin&op=edit_cat&cid=" . $cid, 2);
+    if ($_FILES['fichiernom']['name'] != '') {
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', array(
+            'fileType'  => 'image',
+            'uploadDir' => 'upload/News',
+            //'fileSize'  => 100000
+        ));
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=News&page=admin&op=edit_cat&cid='. $cid, 2);
             return;
         }
-    } else {
-        $url_image = $image;
+    }
+    else if ($_POST['image'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['image'], '.'), 1));
+
+        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=News&page=admin&op=edit_cat&cid='. $cid, 2);
+            return;
+        }
+
+        $imageUrl = $_POST['image'];
     }
 
     $titre = mysql_real_escape_string(stripslashes($titre));
     $description = secu_html(nkHtmlEntityDecode($description));
     $description = mysql_real_escape_string(stripslashes($description));
 
-    $sql = mysql_query("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $url_image . "' WHERE nid = '" . $cid . "'");
+    $sql = mysql_query("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $imageUrl . "' WHERE nid = '" . $cid . "'");
 
     saveUserAction(_ACTIONEDITCATNEWS .': '. $titre .'.');
 
@@ -719,11 +748,11 @@ switch ($GLOBALS['op']) {
         break;
 
     case "do_add":
-        do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
+        do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure']);
         break;
 
     case "do_edit":
-        do_edit($_REQUEST['news_id'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['urlImage'], $_REQUEST['upImage']);
+        do_edit($_REQUEST['news_id'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure']);
         break;
 
     case "main":
@@ -731,7 +760,7 @@ switch ($GLOBALS['op']) {
         break;
 
     case "send_cat":
-        send_cat($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_FILES['fichiernom']);
+        send_cat($_REQUEST['titre'], $_REQUEST['description']);
         break;
 
     case "add_cat":
@@ -747,7 +776,7 @@ switch ($GLOBALS['op']) {
         break;
 
     case "modif_cat":
-        modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['image'], $_FILES['fichiernom']);
+        modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['description']);
         break;
 
     case "del_cat":
