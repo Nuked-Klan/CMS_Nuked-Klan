@@ -166,7 +166,7 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 form.nkForm label{display:inline-block;}
 form.nkForm>div{padding:10px;line-height:1.3em;}
 form.nkForm>div.alt-row{background:#f3f3f3;}
-form.nkForm>div.nkFormActionLinks{border-top:1px solid #ddd;text-align:center;}
+form.nkForm>div.nkFormActionLinks{border-top:1px solid #ddd;text-align:center;line-height:normal;}
 form.nkForm>div>div.nkFormInputCell{display:inline-block;}
 
 /* nkList */

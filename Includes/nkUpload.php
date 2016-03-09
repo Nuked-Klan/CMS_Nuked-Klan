@@ -90,7 +90,7 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if ($filename == '.htaccess')
         return array('', __('NO_UPLOADABLE_FILE'), '');
 
-    if (is_int($params['fileSize']) && $params['fileSize'] < $filesize / 1000) {
+    if (is_int($params['fileSize']) && $params['fileSize'] < $filesize) {
         if ($params['fileType'] == 'image')
             $error = __('UPLOAD_IMAGE_TOO_BIG');
         else
@@ -125,7 +125,10 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
         $path .= '.'. $extension;
 
     if (! $params['overwrite'] && is_file($path)) {
-        $error = __('FILE_ALREADY_EXIST');
+        if (array_key_exists('fileExistError', $params))
+            $error = $params['fileExistError'];
+        else
+            $error = __('FILE_ALREADY_EXIST');
 
         if (array_key_exists('overwriteField', $params)) {
             if (! array_key_exists('overwriteLabel', $params))

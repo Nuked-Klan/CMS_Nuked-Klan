@@ -29,7 +29,7 @@
             if ((is_file('themes/'. $theme .'/images/reply.png')))
                 $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'"><img style="border: 0;" src="themes/'. $theme .'/images/reply.png" alt="" title="'. __('REPLY') .'" /></a>';
             else
-                $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'" class="nkButton icon chat">'. _('REPLY') .'</a>';
+                $replyToTopic = '<a href="index.php?file=Forum&amp;page=post&amp;forum_id='. $forumId .'&amp;thread_id='. $threadId .'" class="nkButton icon chat">'. __('REPLY') .'</a>';
 
             echo $replyToTopic;
         endif;

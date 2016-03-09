@@ -172,7 +172,7 @@ function getAuthorInfo($topicMessage) {
 
     // On détermine si le visiteur est un administrateur et on lui affiche l'IP du posteur
     if ($forumAdmin)
-        $authorInfo['displayUserIp'] = _('IP') .' : '. $topicMessage['auteur_ip'];
+        $authorInfo['displayUserIp'] = __('IP') .' : '. $topicMessage['auteur_ip'];
 
     // Store author info
     $formatedAuthorInfo[$topicMessage['auteur_id']] = $authorInfo;
