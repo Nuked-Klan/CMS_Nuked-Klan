@@ -12,7 +12,7 @@ if (!defined("INDEX_CHECK")){
 function form($content, $sug_id){
     global $page, $nuked, $user;
 
-    if ($content != ""){
+    if (is_array($content)) {
         $titre = "<strong>" . _VALIDNEWS . "</strong>";
         $action = "index.php?file=Suggest&amp;page=admin&amp;op=valid_suggest&amp;module=News";
         $autor = $content[2];
@@ -37,8 +37,14 @@ function form($content, $sug_id){
     else{
         $titre = "<a href=\"index.php?file=News\" style=\"text-decoration:none\"><strong>" . _NEWS . "</strong></a> &gt; <strong>" . _SUG . "</strong>";
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=News";
-        $autor = $user[2];
-        $autor_id = $user[0];
+
+        if ($user) {
+            $autor = $user[2];
+            $autor_id = $user[0];
+        }
+        else
+            $autor = $autor_id = '';
+
         $date = time();
         $refuse = "</div></form><br />\n";
     }
@@ -52,11 +58,9 @@ function form($content, $sug_id){
     $sql = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
     while (list($nid, $cat_name) = mysql_fetch_array($sql)){
         $cat_name = printSecuTags($cat_name);
+        $selected = "";
 
-        if ($content){
-            if ($cat_name == $content[5]) $selected = "selected=\"selected\"";
-            else $selected = "";
-        }
+        if ($content && $cat_name == $content[5]) $selected = "selected=\"selected\"";
 
         echo "<option value=\"" . $nid . "\" " . $selected . ">" . $cat_name . "</option>\n";
     }
@@ -67,15 +71,16 @@ function form($content, $sug_id){
     
     echo $page == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
     
-    echo " name=\"texte\" cols=\"65\" rows=\"12\">" . $content[1] . "</textarea></td></tr>\n";
+    echo " name=\"texte\" cols=\"65\" rows=\"12\">" . $content[1] . "</textarea></td></tr>\n"
+        . "<tr><td>&nbsp;\n";
 
     if (initCaptcha()) echo create_captcha();
 
-    echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
-            . "<input type=\"hidden\" name=\"auteur\" value=\"" . $autor . "\" />\n"
-            . "<input type=\"hidden\" name=\"auteur_id\" value=\"" . $autor_id . "\" />\n"
-            . "<input type=\"hidden\" name=\"date\" value=\"" . $date . "\" /></td></tr>\n"
-            . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
+    echo "<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
+        . "<input type=\"hidden\" name=\"auteur\" value=\"" . $autor . "\" />\n"
+        . "<input type=\"hidden\" name=\"auteur_id\" value=\"" . $autor_id . "\" />\n"
+        . "<input type=\"hidden\" name=\"date\" value=\"" . $date . "\" /></td></tr>\n"
+        . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
 }
 
 function make_array($data){

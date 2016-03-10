@@ -17,7 +17,7 @@ function form($content, $sug_id){
 
     include("modules/Suggest/config.php");
 
-    if ($content != ""){
+    if (is_array($content)) {
         $titre = "<strong>" . _VALIDIMG . "</strong>";
         $action = "index.php?file=Suggest&amp;page=admin&op=valid_suggest&amp;module=Gallery";
         $autor = $content[6];
@@ -54,12 +54,11 @@ function form($content, $sug_id){
                     . _SUGGESTIMG . " ]";
 
         $action = "index.php?file=Suggest&amp;op=add_sug&amp;module=Gallery";
-        if(array_key_exists(2, $user)){
+
+        if ($user)
             $autor = $user[2];
-        }
-        else{
+        else
             $autor = '';
-        }
 
         $refuse = "</div></form><br />\n";
     }
@@ -118,12 +117,13 @@ function form($content, $sug_id){
     }
 
     echo "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" value=\"" . $content[2] . "\" size=\"45\" /></td></tr>\n"
-            . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" value=\"" . $content[5] . "\" size=\"45\" /> " . $botton . "</td></tr>\n";
+        . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" value=\"" . $content[5] . "\" size=\"45\" /> " . $botton . "</td></tr>\n"
+        . "<tr><td>&nbsp;\n";
 
     if (initCaptcha()) echo create_captcha();
 
-    echo "<tr><td>&nbsp;<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" /></td></tr>\n"
-            . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
+    echo "<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" /></td></tr>\n"
+        . "</table><div style=\"text-align: center;\"><br /><input style=\"margin-right:10px\" class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
 }
 
 function make_array($data){

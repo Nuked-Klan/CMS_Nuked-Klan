@@ -17,7 +17,7 @@ function form($content, $sug_id){
 
     include "modules/Suggest/config.php";
 
-    if ($content != ""){
+    if (is_array($content)) {
         $titre = "<strong>" . _VALIDDOWNLOAD . "</strong>";
         $action = "index.php?file=Suggest&amp;page=admin&amp;op=valid_suggest&amp;module=Download";
         $date = $content[5];
@@ -50,6 +50,11 @@ function form($content, $sug_id){
         $content = array("", "", "", "", "http://", "", "", "http://", "", "http://");
 
         $refuse = "</div></form><br />\n";
+
+        if ($user)
+            $content[6] = $user[2];
+        else
+            $content[6] = '';
     }
 
     echo "<br /><div style=\"text-align: center;\">" . $titre . "</div><br />\n"
@@ -94,7 +99,7 @@ function form($content, $sug_id){
 
     echo $page == 'admin' ? 'class="editor" ' : 'id="e_advanced" ';
 
-    echo " id=\"download_texte\" name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n";
+    echo " name=\"description\" rows=\"10\" cols=\"65\">" . $content[2] . "</textarea></td></tr>\n";
 
     if ($upload_dl == "off") echo "<tr><td><b>" . _SIZE . " :</b> <input type=\"text\" name=\"taille\" size=\"10\" value=\"" . $content[3] . "\" /> (" . _KO . ")</td></tr>\n";
     echo "<tr><td><b>" . _COMPATIBLE . " :</b> <input type=\"text\" name=\"comp\" size=\"45\" value=\"" . $content[8] . "\" /></td></tr>\n";
@@ -120,11 +125,13 @@ function form($content, $sug_id){
         echo "<tr><td>&nbsp;</td></tr>\n";
     }
 
+    echo "</table>\n";
+
     if (initCaptcha()) echo create_captcha();
 
-    echo "</table><input type=\"hidden\" name=\"date\" value=\"" . $date . "\" />\n"
-            . "<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" style=\"margin-right:10px\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
+    echo "<input type=\"hidden\" name=\"date\" value=\"" . $date . "\" />\n"
+        . "<input type=\"hidden\" name=\"sug_id\" value=\"" . $sug_id . "\" />\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" style=\"margin-right:10px\" type=\"submit\" value=\"" . __('SEND') . "\" />" . $refuse;
 }
 
 function make_array($data){
