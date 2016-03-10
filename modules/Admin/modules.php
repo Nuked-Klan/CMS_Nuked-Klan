@@ -20,7 +20,7 @@ function edit_module($mid)
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT id, nom, niveau, admin FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
-    list($mid, $nom, $niveau, $level) = mysql_fetch_array($sql);
+    list($mid, $nom, $niveau, $level) = nkDB_fetchArray($sql);
 
     if ($niveau > -1 && $level > -1)
     {
@@ -84,7 +84,7 @@ function desactive($mid)
     $mid = mysql_real_escape_string(stripslashes($mid));
 
     $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
-    list($nom) = mysql_fetch_array($sql2);
+    list($nom) = nkDB_fetchArray($sql2);
     $sql = nkDB_execute("UPDATE " . MODULES_TABLE . " SET niveau = -1, admin = -1 WHERE id = '" . $mid . "'");
 
     if (in_array($nom, explode('|', $nuked['rssFeed'])))
@@ -111,7 +111,7 @@ function active($mid)
 
     $mid = mysql_real_escape_string(stripslashes($mid));
     $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
-    list($nom) = mysql_fetch_array($sql2);
+    list($nom) = nkDB_fetchArray($sql2);
     $sql = nkDB_execute("UPDATE " . MODULES_TABLE . " SET niveau = 0, admin = 2 WHERE id = '" . $mid . "'");
 
     if (in_array($nom, explode('|', $nuked['rssFeed'])))
@@ -139,7 +139,7 @@ function update_module($mid, $niveau, $level)
     $mid = mysql_real_escape_string(stripslashes($mid));
 
     $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
-    list($nom) = mysql_fetch_array($sql2);
+    list($nom) = nkDB_fetchArray($sql2);
     $niveau = mysql_real_escape_string(stripslashes($niveau));
     $level = mysql_real_escape_string(stripslashes($level));
     $sql = nkDB_execute("UPDATE " . MODULES_TABLE . " SET niveau = '" . $niveau . "', admin = '" . $level . "' WHERE id = '" . $mid . "'");
@@ -202,7 +202,7 @@ function main()
 
     $mod = array();
     $sql = nkDB_execute("SELECT id, nom, niveau, admin FROM " . MODULES_TABLE . " ORDER BY nom");
-    while (list($mid, $nom, $niveau, $admin) = mysql_fetch_array($sql))
+    while (list($mid, $nom, $niveau, $admin) = nkDB_fetchArray($sql))
     {
         $moduleNameConst = strtoupper($nom) .'_MODNAME';
 

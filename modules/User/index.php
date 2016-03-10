@@ -35,7 +35,7 @@ function index(){
                 . '<a href="index.php?file=User&amp;op=logout">' . _USERLOGOUT . '</a></b></div><br />',"\n";
 
         $sql3 = nkDB_execute('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $user[0] . '"');
-        $user_data = mysql_fetch_array($sql3);
+        $user_data = nkDB_fetchArray($sql3);
 
         $last_used = $user_data['last_used'] > 0 ? nkDate($user_data['last_used']) : 'N/A';
         $website = !$user_data['url'] ? 'N/A' : $user_data['url'];
@@ -99,7 +99,7 @@ function index(){
             $iforum = 0;
             $sql_forum = nkDB_execute("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
             $j = 0;
-            while (list($mid, $subject, $date, $tid, $fid) = mysql_fetch_array($sql_forum)){
+            while (list($mid, $subject, $date, $tid, $fid) = nkDB_fetchArray($sql_forum)){
                 $subject = nkHtmlEntities($subject);
                 $subject = nk_CSS($subject);
                 $date = nkDate($date);
@@ -151,7 +151,7 @@ function index(){
         else{
             $icom = 0;
             $sql_com = nkDB_execute("SELECT im_id, titre, module, date FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
-            while (list($im_id, $titre, $module, $date) = mysql_fetch_array($sql_com)){
+            while (list($im_id, $titre, $module, $date) = nkDB_fetchArray($sql_com)){
                 $titre = nkHtmlEntities($titre);
                 $titre = nk_CSS($titre);
 
@@ -329,7 +329,7 @@ function reg_screen(){
                     . "<tr><td><b>" . _GAME . "</b> (" . _OPTIONAL . ")</td><td><select name=\"game\">\n";
 
             $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-            while (list($game_id, $nom) = mysql_fetch_array($sql)){
+            while (list($game_id, $nom) = nkDB_fetchArray($sql)){
                 $nom = nkHtmlEntities($nom);
                 echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
             }
@@ -456,7 +456,7 @@ function edit_account(){
             . "<tr><td><b>" . _GAME . " :</b></td><td><select name=\"game\">\n";
 
     $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-    while (list($game_id, $nom) = mysql_fetch_array($sql)){
+    while (list($game_id, $nom) = nkDB_fetchArray($sql)){
         if ($dbrUser['game'] == $game_id){
             $checked1 = "selected=\"selected\"";;
         }
@@ -1109,7 +1109,7 @@ function update(){
     $_POST['mail'] = nkHtmlEntities($_POST['mail']);
 
     $sql = nkDB_execute("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-    list($old_pseudo, $old_mail, $old_pass) = mysql_fetch_array($sql);
+    list($old_pseudo, $old_mail, $old_pass) = nkDB_fetchArray($sql);
 
     if ($_POST['nick'] != $old_pseudo){
         $_POST['nick'] = checkNickname($_POST['nick']);
@@ -1584,7 +1584,7 @@ function validation() {
 
     if ($nuked['validation'] == 'mail') {
         $sql = nkDB_execute('SELECT niveau FROM ' . USER_TABLE . ' WHERE id = "' . $_REQUEST['id_user'] . '"');
-        list($niveau) = mysql_fetch_array($sql);
+        list($niveau) = nkDB_fetchArray($sql);
 
         if ($niveau > 0) {
             printNotification(_ALREADYVALID, 'warning');

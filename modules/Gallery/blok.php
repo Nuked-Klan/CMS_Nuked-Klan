@@ -28,7 +28,7 @@ if ($active == 3 || $active == 4)
     . "<tr style=\"background: " . $bgcolor1 . ";\">";
 
     $sql = nkDB_execute("SELECT sid, titre, url, url2 FROM " . GALLERY_TABLE . " ORDER BY sid DESC LIMIT 0, 3");
-    while (list($sid, $titre, $url, $url2) = mysql_fetch_array($sql))
+    while (list($sid, $titre, $url, $url2) = nkDB_fetchArray($sql))
     {
         if ($url2 != "")
         {
@@ -57,7 +57,7 @@ if ($active == 3 || $active == 4)
 else
 {
     $sql = nkDB_execute("SELECT sid, titre, url, url2 FROM " . GALLERY_TABLE . " ORDER BY sid DESC LIMIT 0, 1");
-    list($sid, $titre, $url, $url2) = mysql_fetch_array($sql);
+    list($sid, $titre, $url, $url2) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
 
     if ($url2 != "")

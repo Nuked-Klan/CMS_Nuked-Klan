@@ -37,11 +37,11 @@ function main(){
 
     $sql = nkDB_execute("SELECT id, pseudo, send, mail, clan, game FROM " . DEFY_TABLE . " ORDER BY id DESC");
     $count = mysql_num_rows($sql);
-    while (list($did, $pseudo, $date, $mail, $clan, $game) = mysql_fetch_array($sql)){
+    while (list($did, $pseudo, $date, $mail, $clan, $game) = nkDB_fetchArray($sql)){
         $date = nkDate($date);
 
         $sql2 = nkDB_execute("SELECT name FROM " . GAMES_TABLE . " WHERE id='" . $game . "'");
-        list($game_name) = mysql_fetch_array($sql2);
+        list($game_name) = nkDB_fetchArray($sql2);
         $game_name = printSecuTags($game_name);
 
         echo "<tr>"
@@ -82,11 +82,11 @@ function view($did) {
         . "<table width=\"90%\" style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr><td>\n";
 
     $sql = nkDB_execute("SELECT pseudo, clan, mail, icq, irc, url, pays, date, heure, serveur, game, type, map, comment FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
-    list($pseudo, $clan, $mail, $icq, $irc, $url, $country, $date, $heure, $serveur, $game, $type, $map, $comment) = mysql_fetch_array($sql);
+    list($pseudo, $clan, $mail, $icq, $irc, $url, $country, $date, $heure, $serveur, $game, $type, $map, $comment) = nkDB_fetchArray($sql);
     list ($pays, $ext) = explode ('.', $country);
 
     $sql2 = nkDB_execute("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
-    list($game_name) = mysql_fetch_array($sql2);
+    list($game_name) = nkDB_fetchArray($sql2);
     $game_name = printSecuTags($game_name);
 
     echo "<b>" . _NICK . " : </b>" . $pseudo . "<br />\n"
@@ -111,7 +111,7 @@ function del($did) {
     global $nuked, $user;
 
     $sql = nkDB_execute("SELECT pseudo FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
-    list($pseudo) = mysql_fetch_array($sql);
+    list($pseudo) = nkDB_fetchArray($sql);
 
     $del = nkDB_execute("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
 
@@ -125,13 +125,13 @@ function transfert($did) {
     global $nuked, $user;
 
     $sql = nkDB_execute("SELECT pseudo, clan, url, pays, date, heure, game, type, map FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
-    list($pseudo, $clan, $url, $pays, $date, $heure, $game, $type, $map) = mysql_fetch_array($sql);
+    list($pseudo, $clan, $url, $pays, $date, $heure, $game, $type, $map) = nkDB_fetchArray($sql);
     list($date_jour, $date_mois, $date_an) = explode('-', $date);
 
     $insert = nkDB_execute("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` , `tscore_team` , `tscore_adv` , `score_team` , `score_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '0' , '' , '" . mysql_real_escape_string($game) . "' , '" . mysql_real_escape_string($clan) . "' , '" . mysql_real_escape_string($url) . "' , '" . mysql_real_escape_string($pays) . "' , '" . mysql_real_escape_string($type) . "' , '' , '" . mysql_real_escape_string($date_jour) . "' , '" .mysql_real_escape_string($date_mois) . "' , '" . mysql_real_escape_string($date_an) . "' , '" . mysql_real_escape_string($heure) . "' , '" . mysql_real_escape_string($map) . "' , '' , '' , '' , '' , '' , '" . $user[2] . "' , '' , '' , '' )");
 
     $sql_match = nkDB_execute("SELECT warid FROM " . WARS_TABLE . " WHERE adversaire = '" . $clan . "'");
-    list($warid) = mysql_fetch_array($sql_match);
+    list($warid) = nkDB_fetchArray($sql_match);
 
     $del = nkDB_execute("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
 
@@ -163,7 +163,7 @@ function edit_pref() {
 
     $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
     $checked = '';
-    while (list($id_user, $pseudo) = mysql_fetch_array($sql2)) {
+    while (list($id_user, $pseudo) = nkDB_fetchArray($sql2)) {
         if ($nuked['defie_inbox'] == $id_user) {
             $checked = "selected=\"selected\"";
         }

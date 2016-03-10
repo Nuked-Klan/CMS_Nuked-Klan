@@ -19,7 +19,7 @@ function edit_com($cid){
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT autor, autor_id, titre, comment, autor_ip FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
-    list($auteur, $autor_id, $titre, $texte, $ip) = mysql_fetch_array($sql);
+    list($auteur, $autor_id, $titre, $texte, $ip) = nkDB_fetchArray($sql);
     $auteur = nkHtmlSpecialChars($auteur);
 
     $titre = nkHtmlEntities($titre);
@@ -30,7 +30,7 @@ function edit_com($cid){
     }
 
     if($autor_id != "" && $test > 0){
-        list($autor) = mysql_fetch_array($sql_member);
+        list($autor) = nkDB_fetchArray($sql_member);
     }
     else{
         $autor = $auteur;
@@ -125,7 +125,7 @@ function main(){
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, im_id, date, autor, autor_id, module FROM " . COMMENT_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_com);
-    while (list($id, $im_id, $date, $auteur, $autor_id, $module) = mysql_fetch_array($sql)){
+    while (list($id, $im_id, $date, $auteur, $autor_id, $module) = nkDB_fetchArray($sql)){
         $date = nkDate($date);
         $auteur = nkHtmlSpecialChars($auteur);
 
@@ -135,7 +135,7 @@ function main(){
         }
 
         if($autor_id != "" && $test > 0){
-            list($autor) = mysql_fetch_array($sql_member);
+            list($autor) = nkDB_fetchArray($sql_member);
         }
         else{
             $autor = $auteur;
@@ -195,7 +195,7 @@ function module_com(){
 
     $sql = nkDB_execute("SELECT module, active FROM " . COMMENT_MODULES_TABLE);
 
-    while(list($module, $active) = mysql_fetch_array($sql)){
+    while(list($module, $active) = nkDB_fetchArray($sql)){
     ?>
         <tr><td><b><?php echo $module; ?>:</b></td><td>
     <?php if( $active == 0){

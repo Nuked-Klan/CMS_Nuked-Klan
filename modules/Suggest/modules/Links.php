@@ -60,7 +60,7 @@ function form($content, $sug_id){
             . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
 
     $sql = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($cid, $titre) = mysql_fetch_array($sql)){
+    while (list($cid, $titre) = nkDB_fetchArray($sql)){
         $titre = printSecuTags($titre);
 
         if ($content && $cid == $content[3]){
@@ -72,7 +72,7 @@ function form($content, $sug_id){
         echo "<option value=\"" . $cid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
         $sql2 = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
-        while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)){
+        while (list($s_cid, $s_titre) = nkDB_fetchArray($sql2)){
             $s_titre = printSecuTags($s_titre);
 
             if ($content){
@@ -151,7 +151,7 @@ function send($data){
 
     $upd = nkDB_execute("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` ) VALUES ( '' , '" . $date . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['url'] . "' , '" . $data['cat'] . "' , '" . $data['webmaster'] . "' , ' " . $data['country'] . "' , '' )");
     $sql = nkDB_execute("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date='".$date."'");
-    list($link_id) = mysql_fetch_array($sql);
+    list($link_id) = nkDB_fetchArray($sql);
 
     setPreview('index.php?file=Links&op=description&link_id='. $link_id, 'index.php?file=Suggest&page=admin');
 }

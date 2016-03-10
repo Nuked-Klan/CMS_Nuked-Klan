@@ -60,7 +60,7 @@ function index(){
         $nb_team = mysql_num_rows($sql2);
 
         if (!$_REQUEST['tid'] && $nb_team > 1){
-            while (list($team_name, $team) = mysql_fetch_array($sql2)){
+            while (list($team_name, $team) = nkDB_fetchArray($sql2)){
                 if ($team_name != ''){
                     $team_name = printSecuTags($team_name);
                 }
@@ -83,7 +83,7 @@ function index(){
                 $count = mysql_num_rows($sql6);
 
                 $sql4 = nkDB_execute('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM '.WARS_TABLE.' WHERE etat = 1 AND team = '.$team.' ORDER BY date_an DESC, date_mois DESC, date_jour DESC LIMIT 0, 10');
-                while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4)){
+                while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = nkDB_fetchArray($sql4)){
                     $adv_name = printSecuTags($adv_name);
                     $type = printSecuTags($type);
                     $style = printSecuTags($style);
@@ -117,7 +117,7 @@ function index(){
                     }
 
                     $sql5 = nkDB_execute('SELECT name, icon FROM ' . GAMES_TABLE . ' WHERE id = \'' . $game . '\' ');
-                    list($game_name, $icon) = mysql_fetch_array($sql5);
+                    list($game_name, $icon) = nkDB_fetchArray($sql5);
                     $game_name = printSecuTags($game_name);
 
                     if ($icon != '' && is_file($icon)){
@@ -173,7 +173,7 @@ function index(){
 
             if ($_REQUEST['tid'] != ''){
                 $sql6 = nkDB_execute('SELECT titre FROM ' . TEAM_TABLE . ' WHERE cid = \'' . $_REQUEST['tid'] . '\' ');
-                list($team_name, $team) = mysql_fetch_array($sql6);
+                list($team_name, $team) = nkDB_fetchArray($sql6);
                 $team_name = printSecuTags($team_name);
                 $and = 'AND team = \'' . $_REQUEST['tid'] . '\' ';
                 $sql7 = nkDB_execute('SELECT warid FROM ' . WARS_TABLE . ' WHERE etat = 1 AND team = \'' . $_REQUEST['tid'] . '\' ');
@@ -267,7 +267,7 @@ function index(){
             <td style="width: 10%;text-align:center;"><b>' . _DETAILS . '</b></td></tr>';
 
             $sql4 = nkDB_execute('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 1 ' . $and . $order . ' LIMIT ' . $start . ',' . $nb_wars.' ');
-            while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4)){
+            while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = nkDB_fetchArray($sql4)){
                 $adv_name = printSecuTags($adv_name);
                 $type = printSecuTags($type);
                 $style = printSecuTags($style);
@@ -301,7 +301,7 @@ function index(){
                 }
 
                 $sql5 = nkDB_execute('SELECT name, icon FROM ' . GAMES_TABLE . ' WHERE id = \'' . $game . '\' ');
-                list($game_name, $icon) = mysql_fetch_array($sql5);
+                list($game_name, $icon) = nkDB_fetchArray($sql5);
                 $game_name = printSecuTags($game_name);
 
                 if ($icon != '' && is_file($icon)){
@@ -368,7 +368,7 @@ function index(){
 
             $sql4x = nkDB_execute('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 0  LIMIT ' . $start . ',' . $nb_wars.' ');
             $j = 0;
-            while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = mysql_fetch_array($sql4x)){
+            while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = nkDB_fetchArray($sql4x)){
                 $adv_name = printSecuTags($adv_name);
                 $type = printSecuTags($type);
                 $style = printSecuTags($style);
@@ -402,7 +402,7 @@ function index(){
                 }
 
                 $sql5 = nkDB_execute('SELECT name, icon FROM ' . GAMES_TABLE . ' WHERE id = \'' . $game . '\' ');
-                list($game_name, $icon) = mysql_fetch_array($sql5);
+                list($game_name, $icon) = nkDB_fetchArray($sql5);
                 $game_name = printSecuTags($game_name);
 
                 if ($icon != '' && is_file($icon)){
@@ -456,7 +456,7 @@ function detail($war_id){
     if(mysql_num_rows($sql) <= 0)
         redirect('index.php?file=404');
 
-    list($team, $adv_name, $adv_url, $pays_adv, $jour, $mois, $an, $type, $style, $tscore_team, $tscore_adv, $map, $score_team, $score_adv, $report, $auteur, $url_league, $etat) = mysql_fetch_array($sql);
+    list($team, $adv_name, $adv_url, $pays_adv, $jour, $mois, $an, $type, $style, $tscore_team, $tscore_adv, $map, $score_team, $score_adv, $report, $auteur, $url_league, $etat) = nkDB_fetchArray($sql);
     list ($pays, $ext) = explode ('.', $pays_adv);
 
     $adv_name = printSecuTags($adv_name);
@@ -477,7 +477,7 @@ function detail($war_id){
 
     if ($team > 0){
         $sql_team = nkDB_execute('SELECT titre FROM ' . TEAM_TABLE . ' WHERE cid = \'' . $team . '\' ');
-        list($team_name) = mysql_fetch_array($sql_team);
+        list($team_name) = nkDB_fetchArray($sql_team);
         $team_name = printSecuTags($team_name);
     }
     else{
@@ -570,7 +570,7 @@ function detail($war_id){
     if ($nb_screen > 0){
         echo '<tr style="background: ' . $bgcolor1 . ';"><td style="border: 1px dashed ' . $bgcolor3 . ';">';
 
-        while (list($url) = mysql_fetch_array($sql_screen)){
+        while (list($url) = nkDB_fetchArray($sql_screen)){
             echo '<a href="' . $url . '" rel="shadowbox"><img src="' . $url . '" alt="" style="max-width:150px;max-height:150px;margin:10px" /></a>';
         }
 
@@ -584,7 +584,7 @@ function detail($war_id){
         $l = 1;
         echo '<tr style="background: ' . $bgcolor2 . ';"><td><table style="text-align:center;">';
 
-        while (list($url) = mysql_fetch_array($sql_demo)){
+        while (list($url) = nkDB_fetchArray($sql_demo)){
             if ($nb_demo > 1){
                 $demos = $l . '/' . $nb_demo;
             }
@@ -607,7 +607,7 @@ function detail($war_id){
         WHERE module = \'wars\''
     );
 
-    list($active) = mysql_fetch_array($sql);
+    list($active) = nkDB_fetchArray($sql);
 
     if($active ==1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1){
     echo '<table style="margin-left: auto;margin-right: auto;text-align: left;" width="80%" border="0" cellspacing="3" cellpadding="3"><tr style="background: ' . $bgcolor1 . ';"><td style="border: 1px dashed ' . $bgcolor3 . ';">';

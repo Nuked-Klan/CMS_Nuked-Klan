@@ -20,7 +20,7 @@ function edit_book($gid)
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT name, comment, email, url FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
-    list($name, $comment, $email, $url) = mysql_fetch_array($sql);
+    list($name, $comment, $email, $url) = nkDB_fetchArray($sql);
 
     $url = nkHtmlEntities($url);
 
@@ -126,7 +126,7 @@ function main()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, date, name, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
-    while (list($id, $date, $name, $ip) = mysql_fetch_array($sql))
+    while (list($id, $date, $name, $ip) = nkDB_fetchArray($sql))
     {
         $date = nkDate($date);
         $name = nk_CSS($name);

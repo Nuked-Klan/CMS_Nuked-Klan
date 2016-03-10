@@ -18,7 +18,7 @@ function affich_block_survey($blok){
         else $where = 'ORDER BY sid DESC LIMIT 0, 1';
 
         $sql = nkDB_execute('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ' . $where);
-        list($poll_id, $titre) = mysql_fetch_array($sql);
+        list($poll_id, $titre) = nkDB_fetchArray($sql);
         $titre = printSecuTags($titre);
 
         $blok['content'] = '<form action="index.php?file=Survey&amp;op=update_sondage" method="post">'."\n"
@@ -26,7 +26,7 @@ function affich_block_survey($blok){
         . '<b>' . $titre . '</b><br /><p style="text-align: left" >'."\n";
 
         $sql2 = nkDB_execute('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = \'' . $poll_id . '\' ORDER BY voteID ASC');
-        while (list($voteid, $optiontext) = mysql_fetch_array($sql2)){
+        while (list($voteid, $optiontext) = nkDB_fetchArray($sql2)){
             $optiontext = printSecuTags($optiontext);
 
             $blok['content'] .= '<input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '<br />'."\n";
@@ -44,7 +44,7 @@ function edit_block_survey($bid){
     global $nuked, $language;
 
     $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
-    list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
+    list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = nkDB_fetchArray($sql);
 
     $titre = printSecuTags($titre);
 
@@ -81,7 +81,7 @@ function edit_block_survey($bid){
             , '<option>9</option></select></td></tr><tr><td colspan="4"><b>' , _POLL , ' :</b>&nbsp;<select name="content">',"\n";
 
     $sql2 = nkDB_execute('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
-    while (list($survey_id, $survey_title) = mysql_fetch_array($sql2)){
+    while (list($survey_id, $survey_title) = nkDB_fetchArray($sql2)){
         $survey_title = printSecuTags($survey_title);
 
         if ($survey_id == $content) $checked3 = "selected=\"selected\"";

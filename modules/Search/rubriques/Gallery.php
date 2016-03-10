@@ -46,7 +46,7 @@ $nb_img = mysql_num_rows($sql_img);
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_img > 0){
-    while (list($img_id, $img_titre, $img_date) = mysql_fetch_array($sql_img)){
+    while (list($img_id, $img_titre, $img_date) = nkDB_fetchArray($sql_img)){
         $img_titre = nkHtmlEntities($img_titre);
         $img_date = nkDate($img_date);
         if ($img_date) $img_date = " - " . _ADDED . " " . $img_date;

@@ -145,7 +145,7 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
             printNotification(_SCREENADD, 'success');
 
             $sqls = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE date = '" . $date . "' AND titre='" . $titre . "'");
-            list($sid) = mysql_fetch_array($sqls);
+            list($sid) = nkDB_fetchArray($sqls);
 
             setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Gallery&page=admin');
         }
@@ -167,7 +167,7 @@ function del_screen($sid)
     global $nuked, $user;
 
     $sqls = nkDB_execute("SELECT titre FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
-    list($titre) = mysql_fetch_array($sqls);
+    list($titre) = nkDB_fetchArray($sqls);
     $titre = mysql_real_escape_string($titre);
     $sql = nkDB_execute("DELETE FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $sid . "' AND module = 'Gallery'");
@@ -380,7 +380,7 @@ function main()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT G.sid, G.titre, G.cat, G.url, G.date, GC.parentid, GC.titre FROM " . GALLERY_TABLE . " AS G LEFT JOIN " . GALLERY_CAT_TABLE . " AS GC ON GC.cid = G.cat ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_img_guest."");
-    while (list($sid, $titre, $cat, $url, $date, $parentid, $namecat) = mysql_fetch_array($sql))
+    while (list($sid, $titre, $cat, $url, $date, $parentid, $namecat) = nkDB_fetchArray($sql))
     {
 
         $titre = printSecuTags($titre);
@@ -397,7 +397,7 @@ function main()
         else
         {
             $sql3 = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "' ORDER BY position, titre");
-            list($parentcat) = mysql_fetch_array($sql3);
+            list($parentcat) = nkDB_fetchArray($sql3);
             $categorie = "$parentcat -> $namecat";
             $categorie = printSecuTags($categorie);
         }
@@ -432,7 +432,7 @@ function edit_screen($sid)
     include("modules/Gallery/config.php");
 
     $sql = nkDB_execute("SELECT cat, titre, description, autor, url, url2, url_file FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
-    list($cat, $titre, $description, $autor, $url, $url2, $url_file) = mysql_fetch_array($sql);
+    list($cat, $titre, $description, $autor, $url, $url2, $url_file) = nkDB_fetchArray($sql);
 
     if ($url2 != "")
     {
@@ -456,7 +456,7 @@ function edit_screen($sid)
     if ($cat > 0)
     {
         $sql2 = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
-        list($cat_name) = mysql_fetch_array($sql2);
+        list($cat_name) = nkDB_fetchArray($sql2);
         $cat_name = printSecuTags($cat_name);
     }
     else
@@ -531,7 +531,7 @@ function main_cat()
 
     if ($nbcat > 0)
     {
-        while (list($cid, $titre, $parentid, $position) = mysql_fetch_array($sql))
+        while (list($cid, $titre, $parentid, $position) = nkDB_fetchArray($sql))
         {
             $titre = printSecuTags($titre);
 
@@ -542,7 +542,7 @@ function main_cat()
             if ($parentid > 0)
             {
                 $sql2 = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-                list($pnomcat) = mysql_fetch_array($sql2);
+                list($pnomcat) = nkDB_fetchArray($sql2);
                 $pnomcat = printSecuTags($pnomcat);
 
                 echo "<i>" . $pnomcat . "</i>";
@@ -582,7 +582,7 @@ function add_cat()
     . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\"><option value=\"0\">" . _NONE . "</option>\n";
 
     $sql = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($cid, $nomcat) = mysql_fetch_array($sql))
+    while (list($cid, $nomcat) = nkDB_fetchArray($sql))
     {
         $nomcat = printSecuTags($nomcat);
 
@@ -619,7 +619,7 @@ function send_cat($titre, $description, $parentid, $position)
         printNotification(_CATADD, 'success');
 
         $sqlq = nkDB_execute("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid='".$parentid."' AND titre='".$titre."'");
-        list($cid) = mysql_fetch_array($sqlq);
+        list($cid) = nkDB_fetchArray($sqlq);
 
         setPreview('index.php?file=Gallery&op=categorie&cat='. $cid, 'index.php?file=Gallery&page=admin&op=main_cat');
     }
@@ -630,7 +630,7 @@ function edit_cat($cid)
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT titre, description, parentid, position FROM " . GALLERY_CAT_TABLE . " WHERE cid='".$cid."'");
-    list($titre, $description, $parentid, $position) = mysql_fetch_array($sql);
+    list($titre, $description, $parentid, $position) = nkDB_fetchArray($sql);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
@@ -645,7 +645,7 @@ function edit_cat($cid)
     if ($parentid > 0)
     {
         $sql2 = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-        list($pnomcat) = mysql_fetch_array($sql2);
+        list($pnomcat) = nkDB_fetchArray($sql2);
         $pnomcat = printSecuTags($pnomcat);
 
         echo "<option value=\"" . $parentid . "\">" . $pnomcat . "</option>\n";
@@ -654,7 +654,7 @@ function edit_cat($cid)
     echo "<option value=\"0\">" . _NONE . "</option>\n";
 
     $sql3 = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($catid, $nomcat) = mysql_fetch_array($sql3))
+    while (list($catid, $nomcat) = nkDB_fetchArray($sql3))
     {
         $nomcat = printSecuTags($nomcat);
 
@@ -701,14 +701,14 @@ function select_cat()
     global $nuked;
 
     $sql = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($cid, $titre) = mysql_fetch_array($sql))
+    while (list($cid, $titre) = nkDB_fetchArray($sql))
     {
         $titre = printSecuTags($titre);
 
         echo "<option value=\"" . $cid . "\">* " . $titre . "</option>\n";
 
         $sql2 = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
-        while (list($s_cid, $s_titre) = mysql_fetch_array($sql2))
+        while (list($s_cid, $s_titre) = nkDB_fetchArray($sql2))
         {
             $s_titre = printSecuTags($s_titre);
 
@@ -723,7 +723,7 @@ function del_cat($cid)
     global $nuked, $user;
 
     $sqlq = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid='".$cid."'");
-    list($titre) = mysql_fetch_array($sqlq);
+    list($titre) = nkDB_fetchArray($sqlq);
     $titre = mysql_real_escape_string($titre);
     $sql = nkDB_execute("DELETE FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     $sql = nkDB_execute("UPDATE " . GALLERY_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
@@ -776,7 +776,7 @@ function modif_position($cid, $method)
     global $nuked, $user;
 
     $sqlq = nkDB_execute("SELECT titre, position FROM " . GALLERY_CAT_TABLE . " WHERE cid='".$cid."'");
-    list($titre, $position) = mysql_fetch_array($sqlq);
+    list($titre, $position) = nkDB_fetchArray($sqlq);
     if ($position <=0 AND $method == "up")
     {
         printNotification(_CATERRORPOS, 'error');

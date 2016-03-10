@@ -42,7 +42,7 @@ function index(){
         $sql_cat = nkDB_execute("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = 0 ORDER BY position, secname");
         $test = 0;
         $last_cid = '';
-        while (list($secid, $secname, $description) = mysql_fetch_array($sql_cat)){
+        while (list($secid, $secname, $description) = nkDB_fetchArray($sql_cat)){
             $secname = printSecuTags($secname);
 
             if ($secid != $last_cid){
@@ -72,7 +72,7 @@ function index(){
 
                 if ($nb_subcat > 0){
                     $t = 0;
-                    while (list($sub_cat_id, $sub_cat_titre) = mysql_fetch_array($sql_subcat)){
+                    while (list($sub_cat_id, $sub_cat_titre) = nkDB_fetchArray($sql_subcat)){
                         $sub_cat_titre = printSecuTags($sub_cat_titre);
                         $t++;
                         if ($t <= 3) echo "<small><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $sub_cat_id . "\">" . $sub_cat_titre . "</a></small>&nbsp;&nbsp;";
@@ -124,7 +124,7 @@ function categorie($secid){
 
     if ($parentid > 0){
         $sql_parent = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
-        list($parent_titre) = mysql_fetch_array($sql_parent);
+        list($parent_titre) = nkDB_fetchArray($sql_parent);
         $parent_titre = printSecuTags($parent_titre);
 
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Sections\" style=\"text-decoration:none\"><big><b>" . _SECTIONS . "</b></big></b></a> &gt; <a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $parentid . "\" style=\"text-decoration:none\"><big><b>" . $parent_titre . "</b></big></a> &gt; <big><b>" . $secname . "</b></big></div><br />\n";
@@ -140,7 +140,7 @@ function categorie($secid){
     if ($nb_subcat > 0){
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"15\" cellpadding=\"5\">\n";
 
-        while (list($catid, $parentcat, $parentdesc) = mysql_fetch_array($sql_subcat)){
+        while (list($catid, $parentcat, $parentdesc) = nkDB_fetchArray($sql_subcat)){
 
             $parentcat = printSecuTags($parentcat);
 
@@ -204,7 +204,7 @@ function article($artid){
     else if ($parentid > 0)
     {
         $sql3 = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
-        list($parent_name) = mysql_fetch_array($sql3);
+        list($parent_name) = nkDB_fetchArray($sql3);
         $parent_name = printSecuTags($parent_name);
 
         $category = "<a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $parentid . "\">" . $parent_name . "</a> -&gt; <a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\">" . $secname . "</a>";
@@ -278,7 +278,7 @@ function article($artid){
         WHERE module = \'sections\''
     );
 
-    list($active) = mysql_fetch_array($sql);
+    list($active) = nkDB_fetchArray($sql);
 
     if($active == 1 && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
         echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
@@ -332,7 +332,7 @@ function article($artid){
         WHERE module = \'sections\''
     );
 
-    list($active) = mysql_fetch_array($sql);
+    list($active) = nkDB_fetchArray($sql);
 
     if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1){
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
@@ -469,7 +469,7 @@ function classe(){
                 }
 
                 mysql_data_seek($sqlhot, 0);
-                while (list($id_hot) = mysql_fetch_array($sqlhot)){
+                while (list($id_hot) = nkDB_fetchArray($sqlhot)){
                     if ($artid == $id_hot && $nb_art > 1 && $counter > 9) $att .= "&nbsp;&nbsp;" . _HOT;
                 }
 
@@ -507,7 +507,7 @@ function classe(){
                     WHERE module = \'sections\''
                 );
 
-                list($active) = mysql_fetch_array($sql);
+                list($active) = nkDB_fetchArray($sql);
 
                 if($active == 1 && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1)
                     vote_index("Sections", $artid);

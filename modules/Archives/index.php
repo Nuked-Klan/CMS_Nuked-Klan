@@ -116,7 +116,7 @@ function index()
     }
 
     $j = 0;
-    while (list($news_id, $titre, $autor, $autor_id, $date, $cat) = mysql_fetch_array($sql2))
+    while (list($news_id, $titre, $autor, $autor_id, $date, $cat) = nkDB_fetchArray($sql2))
     {
         $date = nkDate($date);
 
@@ -145,7 +145,7 @@ function index()
         if ($cat != "")
         {
             $sql3 = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
-            list($categorie) = mysql_fetch_array($sql3);
+            list($categorie) = nkDB_fetchArray($sql3);
             $categorie = nkHtmlEntities($categorie);
 
             echo "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Archives&amp;op=sujet&amp;cat_id=" . $cat . "\" title= \"" . _SEENEWS . "&nbsp;" . $categorie . "\">" . $categorie . "</a></td>\n";
@@ -263,7 +263,7 @@ function sujet($cat_id)
         $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY id DESC LIMIT " . $start . ", " . $nb_news."");
     }
 
-    while (list($news_id, $titre, $autor, $autor_id, $date, $cat) = mysql_fetch_array($sql2))
+    while (list($news_id, $titre, $autor, $autor_id, $date, $cat) = nkDB_fetchArray($sql2))
     {
 
         $date = nkDate($date);
@@ -291,7 +291,7 @@ function sujet($cat_id)
         echo "<tr style=\"background: ". $bg . "\"><td style=\"width: 30%;\">" . $title . "</td>\n";
 
         $sql3 = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
-        list($categorie) = mysql_fetch_array($sql3);
+        list($categorie) = nkDB_fetchArray($sql3);
         $categorie = nkHtmlEntities($categorie);
 
         echo "<td style=\"width: 20%;\" align=\"center\"><i>" . $categorie . "</i></td>\n"

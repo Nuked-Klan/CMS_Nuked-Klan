@@ -53,7 +53,7 @@ function main()
         LIMIT " . $start . ", " . $nbActions
     );
 
-    while (list($date, $author, $texte) = mysql_fetch_array($sql))
+    while (list($date, $author, $texte) = nkDB_fetchArray($sql))
     {
         $date = nkDate($date);
 
@@ -74,7 +74,7 @@ function main()
     $theday = time();
     $compteur = 0;
     $delete = nkDB_execute("SELECT id, date  FROM " . ACTION_TABLE . " ORDER BY date DESC");
-    while (list($id, $date) = mysql_fetch_array($delete))
+    while (list($id, $date) = nkDB_fetchArray($delete))
     {
         $limit_time = $date + 1209600;
 

@@ -62,7 +62,7 @@ function index() {
 
         $j = 0;
 
-        while (list($mid, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql2)) {
+        while (list($mid, $auteur, $ip, $texte, $date) = nkDB_fetchArray($sql2)) {
             $texte = printSecuTags($texte);
             $texte = nk_CSS($texte);
 
@@ -84,7 +84,7 @@ function index() {
                 WHERE U.pseudo = '. nkDB_escape($auteur)
             );
 
-            list($country, $rank_color) = mysql_fetch_array($sql_aut);
+            list($country, $rank_color) = nkDB_fetchArray($sql_aut);
 
             if ($rank_color != '')
                 $style = ' style="color:#'. $rank_color .'"';
@@ -156,7 +156,7 @@ function smilies() {
     . "<tr style=\"background: $bgcolor3;\"><td align=\"center\"><b>" . _CODE . "</b></td><td align=\"center\"><b>" . _IMAGE . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
-    while (list($code, $url, $name) = mysql_fetch_array($sql))
+    while (list($code, $url, $name) = nkDB_fetchArray($sql))
     {
         $name = printSecuTags($name);
         $code = printSecuTags($code);
@@ -191,13 +191,13 @@ function ajax() {
     $nb_messages = 40;
 
     $sql = nkDB_execute('SELECT count(id) FROM '.TEXTBOX_TABLE.' ');
-    list($index_limit) = mysql_fetch_array($sql);
+    list($index_limit) = nkDB_fetchArray($sql);
     $index_start = $index_limit - $nb_messages;
     $index_start = $index_start < 0 ? 0 : $index_start;
 
     $sql = nkDB_execute("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id ASC LIMIT ".$index_start.", ".$index_limit." ");
     $counterBgColor = 0;
-    while (list($id, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql)) {
+    while (list($id, $auteur, $ip, $texte, $date) = nkDB_fetchArray($sql)) {
         // On coupe le texte si trop long
         if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . '...';
 
@@ -246,7 +246,7 @@ function ajax() {
             WHERE U.pseudo = '. nkDB_escape($auteur)
         );
 
-        list($user_id, $country, $avatar, $niveau, $rank_color) = mysql_fetch_array($sql_aut);
+        list($user_id, $country, $avatar, $niveau, $rank_color) = nkDB_fetchArray($sql_aut);
         $test_aut = mysql_num_rows($sql_aut);
 
         if ($rank_color != '')

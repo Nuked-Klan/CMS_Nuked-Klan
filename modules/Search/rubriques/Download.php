@@ -48,7 +48,7 @@ $nb_dl = mysql_num_rows($sql_dl);
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_dl > 0){
-    while (list($dl_id, $dl_titre, $dl_date) = mysql_fetch_array($sql_dl)){
+    while (list($dl_id, $dl_titre, $dl_date) = nkDB_fetchArray($sql_dl)){
         $dl_titre = nkHtmlEntities($dl_titre);
         $dl_date = nkDate($dl_date);
         $tab['module'][] = $modname;

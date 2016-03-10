@@ -52,7 +52,7 @@ function main(){
     $count = mysql_num_rows($sql);
     $l = 0;
 
-    while (list($id, $titre, $nom, $email, $date) = mysql_fetch_array($sql)){
+    while (list($id, $titre, $nom, $email, $date) = nkDB_fetchArray($sql)){
         $day = nkDate($date);
         $l++;
 
@@ -78,7 +78,7 @@ function view($mid){
     global $nuked, $language;
 
     $sql = nkDB_execute('SELECT titre, message, nom, ip, email, date FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
-    list($titre, $message, $nom, $ip, $email, $date) = mysql_fetch_array($sql);
+    list($titre, $message, $nom, $ip, $email, $date) = nkDB_fetchArray($sql);
 
     $day = nkDate($date);
 

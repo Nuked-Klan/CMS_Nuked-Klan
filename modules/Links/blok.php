@@ -27,18 +27,18 @@ if ($active == 3 || $active == 4){
 
     $i = 0;
     $sql = nkDB_execute('SELECT id, titre, date, cat FROM ' . LINKS_TABLE . ' ORDER BY date DESC LIMIT 0, 10');
-    while (list($link_id, $titre, $date, $cat) = mysql_fetch_array($sql)){
+    while (list($link_id, $titre, $date, $cat) = nkDB_fetchArray($sql)){
         $titre = printSecuTags($titre);
         $date = nkDate($date);
 
         $sql4 = nkDB_execute('SELECT titre, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
-        list($cat_name, $parentid) = mysql_fetch_array($sql4);
+        list($cat_name, $parentid) = nkDB_fetchArray($sql4);
         $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0) $category = '';
         else if ($parentid > 0){
             $sql5 = nkDB_execute('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
-            list($parent_name) = mysql_fetch_array($sql5);
+            list($parent_name) = nkDB_fetchArray($sql5);
 
             $category = printSecuTags($parent_name) . ' - ' . $cat_name;
         }
@@ -55,15 +55,15 @@ if ($active == 3 || $active == 4){
 
     $l = 0;
     $sql3 = nkDB_execute('SELECT id, titre, cat FROM ' . LINKS_TABLE . ' ORDER BY count DESC LIMIT 0, 10');
-    while (list($tlink_id, $ttitre, $tcat) = mysql_fetch_array($sql3)){
+    while (list($tlink_id, $ttitre, $tcat) = nkDB_fetchArray($sql3)){
         $sql4 = nkDB_execute('SELECT titre, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $tcat);
-        list($tcat_name, $tparentid) = mysql_fetch_array($sql4);
+        list($tcat_name, $tparentid) = nkDB_fetchArray($sql4);
         $tcat_name = printSecuTags($tcat_name);
 
         if ($tcat == 0) $tcategory = '';
         else if ($parentid > 0){
             $sql5 = nkDB_execute('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $tparentid);
-            list($tparent_name) = mysql_fetch_array($sql5);
+            list($tparent_name) = nkDB_fetchArray($sql5);
             $tparent_name = printSecuTags($tparent_name);
 
             $tcategory = $tparent_name . ' - ' . $tcat_name;
@@ -84,7 +84,7 @@ if ($active == 3 || $active == 4){
 else{
     $i = 0;
     $sql = nkDB_execute('SELECT id, titre, date FROM ' . LINKS_TABLE . ' ORDER BY date DESC LIMIT 0, 10');
-    while (list($link_id, $titre, $date) = mysql_fetch_array($sql)){
+    while (list($link_id, $titre, $date) = nkDB_fetchArray($sql)){
         $i++;
         echo '<b>' . $i . ' . <a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '">' . printSecuTags($titre) . '</a></b> (' . nkDate($date) . ')<br />'."\n";
     }

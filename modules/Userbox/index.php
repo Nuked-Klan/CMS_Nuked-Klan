@@ -37,7 +37,7 @@ function post_message(){
 
     if (!empty($_REQUEST['for']) && preg_match("`^[a-zA-Z0-9]+$`", $_REQUEST['for'])){
         $sql = nkDB_execute("SELECT pseudo FROM ".USER_TABLE." WHERE id = '{$_REQUEST['for']}'");
-        list($pseudo) = mysql_fetch_array($sql);
+        list($pseudo) = nkDB_fetchArray($sql);
     }
 
     if (!empty($_REQUEST['titre'])){
@@ -90,7 +90,7 @@ function send_message($titre, $user_for, $message){
 		}
 		else {
 			$flood = nkDB_execute("SELECT date FROM " . USERBOX_TABLE . " WHERE user_from = '" . $user[0] . "' ORDER BY date DESC LIMIT 0, 1");
-			list($flood_date) = mysql_fetch_array($flood);
+			list($flood_date) = nkDB_fetchArray($flood);
 			$anti_flood = $flood_date + $nuked['post_flood'];
 			$date = time();
 			
@@ -136,7 +136,7 @@ function show_message($mid){
         if(strlen($row['titre']) >= 50) $row['titre'] = substr($row['titre'], 0, 47)."...";
 
         $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
-        list($pseudo) = mysql_fetch_array($sql_member);
+        list($pseudo) = nkDB_fetchArray($sql_member);
 
         echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
                 <tr style="background:'.$bgcolor3.';"><td>'._OF.'  <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($pseudo).'"><b>'.$pseudo.'</b></a> '._THE.'&nbsp;'.$row['date'].'</td></tr>
@@ -219,7 +219,7 @@ function del_message_form($mid, $del_oui){
                 $row['date'] = nkDate($row['date']);
 
                 $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
-                list($pseudo) = mysql_fetch_array($sql_member);
+                list($pseudo) = nkDB_fetchArray($sql_member);
 
                 echo '<b><big>·</big></b>&nbsp;'._OF.'&nbsp;'.$pseudo.' ( '.$row['date'].' )<br />
                 <input type="hidden" name="mid[]" value="'.$titi.'" />';
@@ -261,7 +261,7 @@ function index(){
             $row['titre'] = printSecuTags($row['titre']);
 
             $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
-            list($pseudo) = mysql_fetch_array($sql_member);
+            list($pseudo) = nkDB_fetchArray($sql_member);
 
             $etat = ($row['status'] == 1) ? _READ : _NOTREAD;
 

@@ -46,7 +46,7 @@ function post_book()
     if ($user)
     {
         $sql = nkDB_execute("SELECT url, email FROM " . USER_TABLE . " WHERE pseudo = '" . $user[2] . "'");
-        list($url, $mail) = mysql_fetch_array($sql);
+        list($url, $mail) = nkDB_fetchArray($sql);
     }
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big></div><br />\n"
@@ -104,7 +104,7 @@ function send_book($name, $email, $url, $comment)
     }
 
     $sql2 = nkDB_execute("SELECT date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT 0, 1");
-    list($flood_date, $flood_ip) = mysql_fetch_array($sql2);
+    list($flood_date, $flood_ip) = nkDB_fetchArray($sql2);
 
     $anti_flood = $flood_date + 60;
 
@@ -177,7 +177,7 @@ function index()
 
     $sql2 = nkDB_execute("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
     $j = 0;
-    while (list($id, $name, $comment, $email, $url, $date, $ip) = mysql_fetch_array($sql2))
+    while (list($id, $name, $comment, $email, $url, $date, $ip) = nkDB_fetchArray($sql2))
     {
         $date = nkDate($date);
 

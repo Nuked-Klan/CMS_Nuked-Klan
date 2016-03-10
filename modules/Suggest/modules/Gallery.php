@@ -70,7 +70,7 @@ function form($content, $sug_id){
             . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
 
     $sql = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($cid, $titre) = mysql_fetch_array($sql)){
+    while (list($cid, $titre) = nkDB_fetchArray($sql)){
         $titre = printSecuTags($titre);
 
         if ($content && $cid == $content[4]){
@@ -82,7 +82,7 @@ function form($content, $sug_id){
         echo "<option value=\"" . $cid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
         $sql2 = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
-        while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)){
+        while (list($s_cid, $s_titre) = nkDB_fetchArray($sql2)){
             $s_titre = printSecuTags($s_titre);
 
             if ($content){
@@ -212,7 +212,7 @@ function send($data){
 
         $upd = nkDB_execute("INSERT INTO " . GALLERY_TABLE . " ( `sid` , `titre` , `description` , `url` , `url2` , `url_file` , `cat`, `date` , `autor` ) VALUES ( '' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $url_img . "' , '" . $data['url2'] . "' , '" . $data['url_file'] . "' , '" . $data['cat'] . "' , '" . $date . "' , '" . $data['auteur'] . "' )");
         $sqls = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE date = '" . $date . "' AND titre='" . $data['titre'] . "'");
-        list($sid) = mysql_fetch_array($sqls);
+        list($sid) = nkDB_fetchArray($sqls);
         setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Suggest&page=admin');
 }
 ?>

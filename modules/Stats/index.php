@@ -50,7 +50,7 @@ $sql = nkDB_execute('SELECT
     (SELECT COUNT(sid) FROM ' . GALLERY_TABLE . ') AS nb_gl,
     (SELECT COUNT(warid) FROM ' . WARS_TABLE . ') AS nb_wr,
     (SELECT SUM(count) FROM ' . STATS_TABLE . ') AS count');
-list($nb_us, $nb_nw, $nb_sc, $nb_cm, $nb_gt, $nb_dl, $nb_lk, $nb_gl, $nb_wr, $counter) = mysql_fetch_array($sql);
+list($nb_us, $nb_nw, $nb_sc, $nb_cm, $nb_gt, $nb_dl, $nb_lk, $nb_gl, $nb_wr, $counter) = nkDB_fetchArray($sql);
 
 echo '<div style="text-align: center"><br />' . _WERECEICED . '&nbsp;' . $counter . '&nbsp;' . _PAGESEE . '&nbsp;' . nkDate($nuked['date_install'], TRUE) . '.<br /><br /><h3>' . _PAGEVIEWS . '</h3></div>'."\n"
     . '<table style="margin: auto; background: ' . $bgcolor2 . '; border: 1px solid ' . $bgcolor3 . '" width="80%" cellpadding="2" cellspacing="1">'."\n"
@@ -69,7 +69,7 @@ echo '<div style="text-align: center"><br />' . _WERECEICED . '&nbsp;' . $counte
 $nb = 0;
 $sql2 = nkDB_execute('SELECT nom, count FROM ' . STATS_TABLE . ' ORDER BY count DESC');
 $j = 0;
-while (list($page, $count) = mysql_fetch_array($sql2)) {
+while (list($page, $count) = nkDB_fetchArray($sql2)) {
     if (nivo_mod($page) != -1) {
         $nb++;
 

@@ -90,7 +90,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
                 $imembers = 0;
                 $sql_last = nkDB_execute("SELECT ip, user_id, browser, os, date FROM " . STATS_VISITOR_TABLE . " " . $where . " ORDER BY date DESC LIMIT 0, 10");
-                while (list($v_ip, $v_user_id, $v_browser, $v_os, $v_date) = mysql_fetch_array($sql_last)) {
+                while (list($v_ip, $v_user_id, $v_browser, $v_os, $v_date) = nkDB_fetchArray($sql_last)) {
                     $imembers++;
 
                     $v_hours = strftime('%H:%M', $v_date);
@@ -108,7 +108,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
                     if (!empty($v_user_id)) {
                         $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE  id = '" . $v_user_id . "'");
-                        list($pseudo) = mysql_fetch_array($sql_member);
+                        list($pseudo) = nkDB_fetchArray($sql_member);
                         $v_pseudo = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($pseudo) . '">' . $pseudo . '</a>';
                     }
                     else {
@@ -148,7 +148,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
             $inav = 0;
             $sql2 = nkDB_execute("SELECT browser, COUNT(*) AS total FROM " . STATS_VISITOR_TABLE . " " . $where . " GROUP BY browser ORDER BY total DESC");
-            while (list($browser) = mysql_fetch_array($sql2)) {
+            while (list($browser) = nkDB_fetchArray($sql2)) {
                 $inav++;
 
                 $and = empty($where) ? "WHERE browser = '" . $browser . "'" : $where . " AND browser = '" . $browser . "'";
@@ -197,7 +197,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
             $ios = 0;
             $sql4 = nkDB_execute("SELECT os, COUNT(*) AS total FROM " . STATS_VISITOR_TABLE . " " . $where . " GROUP BY os ORDER BY total DESC");
-            while (list($os) = mysql_fetch_array($sql4)) {
+            while (list($os) = nkDB_fetchArray($sql4)) {
                 $ios++;
 
                 $and1 = (empty($where)) ? "WHERE os = '" . $os . "'" : $where . " AND os = '" . $os . "'";
@@ -246,7 +246,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
             $ihost = 0;
             $sql6 = nkDB_execute("SELECT host, COUNT(*) AS total FROM " . STATS_VISITOR_TABLE . " " . $where . " GROUP BY host ORDER BY total DESC LIMIT 0, 10");
-            while (list($host) = mysql_fetch_array($sql6)) {
+            while (list($host) = nkDB_fetchArray($sql6)) {
                 $ihost++;
 
                 $and2 = empty($where) ? "WHERE host = '" . $host . "'" : $where . " AND host = '" . $host . "'";
@@ -303,7 +303,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
             $iref = 0;
             $sql8 = nkDB_execute("SELECT referer, COUNT(*) AS total FROM " . STATS_VISITOR_TABLE . " " . $where2 . " GROUP BY referer ORDER BY total DESC LIMIT 0, 10");
-            while (list($referer) = mysql_fetch_array($sql8)) {
+            while (list($referer) = nkDB_fetchArray($sql8)) {
                 $iref++;
 
                 $and3 = empty($where) ? "WHERE referer = '" . $referer . "'" : $where . " AND referer = '" . $referer . "'";
@@ -358,7 +358,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                 if (!empty($_REQUEST['oday']) && !empty($_REQUEST['omonth'])) {
                     echo '<select name="oday">';
                     $sql10 = nkDB_execute("SELECT day FROM " . STATS_VISITOR_TABLE . " WHERE month = '" . $_REQUEST['omonth'] . "' AND year = '" . $_REQUEST['oyear'] . "' GROUP BY day ORDER BY day");
-                    while (list($newday) = mysql_fetch_array($sql10)) {
+                    while (list($newday) = nkDB_fetchArray($sql10)) {
                         $selected = ($_REQUEST['oday'] == $newday) ? 'selected="selected"' : '';
 
                         echo '<option value="' . $newday . '" ' . $selected . '>' . $newday . '</option>'."\n";
@@ -369,7 +369,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                 if (!empty($_REQUEST['omonth'])) {
                     echo '<select name="omonth">';
                     $sql10 = nkDB_execute("SELECT month FROM " . STATS_VISITOR_TABLE . " WHERE year = '" . $_REQUEST['oyear'] . "' GROUP BY month ORDER BY month");
-                    while (list($newmonth) = mysql_fetch_array($sql10)) {
+                    while (list($newmonth) = nkDB_fetchArray($sql10)) {
                         $selected1 = ($_REQUEST['omonth'] == $newmonth) ? 'selected="selected"' : '';
 
                         echo '<option value="' . $newmonth . '" ' . $selected1 . '>' . $newmonth . '</option>'."\n";
@@ -379,7 +379,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
 
                 echo '<select name="oyear">';
                 $sql10 = nkDB_execute("SELECT year FROM " . STATS_VISITOR_TABLE . " GROUP BY year ORDER BY year");
-                while (list($newyear) = mysql_fetch_array($sql10)) {
+                while (list($newyear) = nkDB_fetchArray($sql10)) {
                     $selected2 = ($_REQUEST['oyear'] == $newyear) ? 'selected="selected"' : '';
 
                     echo '<option value="' . $newyear . '" ' . $selected2 . '>' . $newyear . '</option>'."\n";
@@ -437,7 +437,7 @@ function view_all() {
 
     $i = 0;
     $sql = nkDB_execute("SELECT ip, user_id, browser, host, referer, os, date FROM " . STATS_VISITOR_TABLE . " WHERE day = '" . $_REQUEST['oday'] . "' AND month = '" . $_REQUEST['omonth'] . "' AND year = '" . $_REQUEST['oyear'] . "' ORDER BY date");
-    while (list($ip, $user_id, $browser, $host, $referer, $os, $date) = mysql_fetch_array($sql)) {
+    while (list($ip, $user_id, $browser, $host, $referer, $os, $date) = nkDB_fetchArray($sql)) {
 
         $host = nkHtmlEntities($host);
         $i++;
@@ -461,7 +461,7 @@ function view_all() {
 
         if (!empty($user_id)) {
             $sql_member = nkDB_execute('SELECT pseudo FROM ' . USER_TABLE . ' WHERE  id = "' . $user_id . '"');
-            list($pseudo) = mysql_fetch_array($sql_member);
+            list($pseudo) = nkDB_fetchArray($sql_member);
             $v_pseudo = '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($pseudo) .'" onclick="window.open(this.href); return false;">' . $pseudo . '</a>';
         }
         else {
@@ -528,7 +528,7 @@ function view_referer()
 
     $iref = 0;
     $sql8 = nkDB_execute("SELECT referer, COUNT(*) AS total FROM " . STATS_VISITOR_TABLE . " " . $where2 . " GROUP BY referer ORDER BY total DESC");
-    while (list($referer) = mysql_fetch_array($sql8)) {
+    while (list($referer) = nkDB_fetchArray($sql8)) {
         $iref++;
 
         $and = (empty($where)) ? "WHERE referer = '" . $referer . "'" : $where . " AND referer = '" . $referer . "'";
@@ -605,7 +605,7 @@ function view_host()
 
     $ihost = 0;
     $sql = nkDB_execute("SELECT host, COUNT(*) AS total FROM " . STATS_VISITOR_TABLE . " " . $where . " GROUP BY host ORDER BY total DESC");
-    while (list($host) = mysql_fetch_array($sql))
+    while (list($host) = nkDB_fetchArray($sql))
     {
         $ihost++;
         $and = (empty($where)) ? "WHERE host = '" . $host . "'" : $where . " AND host = '" . $host . "'";

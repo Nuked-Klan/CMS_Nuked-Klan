@@ -78,7 +78,7 @@ function formatTopicRow($forumTopic) {
 /*
 function formatInfobulleContent() {
     $sql8 = nkDB_execute("SELECT txt FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $forumthread['id'] . "' ORDER BY id LIMIT 0, 1");
-    list($txt) = mysql_fetch_array($sql8);
+    list($txt) = nkDB_fetchArray($sql8);
 
     $txt = str_replace("\r", "", $txt);
     $txt = str_replace("\n", " ", $txt);

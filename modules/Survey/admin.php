@@ -54,7 +54,7 @@ function send_sondage($titre, $option, $niveau) {
 
     $sql = nkDB_execute("INSERT INTO " . SURVEY_TABLE . " ( `sid` , `titre` , `date` , `niveau` ) VALUES ( '' , '" . $titre . "' , '" . $time . "' , '" . $niveau . "' )");
     $sql2 = nkDB_execute("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "'");
-    list($poll_id) = mysql_fetch_array($sql2);
+    list($poll_id) = nkDB_fetchArray($sql2);
 
     for ($r = 0; $r < 13; $r++) {
         $vid = $r + 1;
@@ -71,7 +71,7 @@ function send_sondage($titre, $option, $niveau) {
     printNotification(_POLLADD, 'success');
 
     $sql = nkDB_execute("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "' AND date='".$time."'");
-    list($poll_id) = mysql_fetch_array($sql);
+    list($poll_id) = nkDB_fetchArray($sql);
 
     setPreview('index.php?file=Survey&op=sondage&poll_id='. $poll_id, 'index.php?file=Survey&page=admin');
 }
@@ -80,7 +80,7 @@ function del_sondage($poll_id) {
     global $nuked, $user;
 
     $sql = nkDB_execute("SELECT titre FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
-    list($titre) = mysql_fetch_array($sql);
+    list($titre) = nkDB_fetchArray($sql);
     $titre = mysql_real_escape_string(stripslashes($titre));
     $sql = nkDB_execute("DELETE FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
     $sql2 = nkDB_execute("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "'");
@@ -96,7 +96,7 @@ function edit_sondage($poll_id) {
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT titre, niveau FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
-    list($titre, $niveau) = mysql_fetch_array($sql);
+    list($titre, $niveau) = nkDB_fetchArray($sql);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _ADMINPOLL . "</h3>\n"
@@ -110,7 +110,7 @@ function edit_sondage($poll_id) {
 
     $sql2 = nkDB_execute("SELECT optionText FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' ORDER BY voteID ASC");
     $r = 0;
-    while (list($optiontext) = mysql_fetch_array($sql2)) {
+    while (list($optiontext) = nkDB_fetchArray($sql2)) {
         $r++;
         echo "<tr><td align=\"right\">" . _CHOICE . "&nbsp;" . $r . " : <input type=\"text\" name=\"option[" . $r . "]\" size=\"40\" value=\"" . $optiontext . "\" /></td></tr>\n";
     } 
@@ -149,7 +149,7 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
     if (!empty($newoption)) {
         $newoption = mysql_real_escape_string(stripslashes($newoption));
         $sql2 = nkDB_execute("SELECT voteID FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' ORDER BY voteID DESC LIMIT 0, 1");
-        list($voteID) = mysql_fetch_array($sql2);
+        list($voteID) = nkDB_fetchArray($sql2);
         $s = $voteID + 1;
         $sql3 = nkDB_execute("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $newoption . "' , '' , '" . $s . "' )");
     }
@@ -194,7 +194,7 @@ function main(){
 
     $sql = nkDB_execute('SELECT sid, titre, date, niveau FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
     $count = mysql_num_rows($sql);
-    while (list($poll_id, $titre, $date, $niveau) = mysql_fetch_array($sql)) {
+    while (list($poll_id, $titre, $date, $niveau) = nkDB_fetchArray($sql)) {
         $date = nkDate($date);
         $titre = printSecuTags($titre);
 

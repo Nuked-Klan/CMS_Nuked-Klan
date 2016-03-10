@@ -48,7 +48,7 @@ function main()
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
-    while (list($smiley_id, $code, $url, $name) = mysql_fetch_array($sql))
+    while (list($smiley_id, $code, $url, $name) = nkDB_fetchArray($sql))
     {
         $name = nkHtmlEntities($name);
 
@@ -187,7 +187,7 @@ function edit_smiley($smiley_id)
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT code, url, name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
-    list($code, $url, $name) = mysql_fetch_array($sql);
+    list($code, $url, $name) = nkDB_fetchArray($sql);
 
     echo "<script type=\"text/javascript\">\n"
     . "<!--\n"
@@ -303,7 +303,7 @@ function del_smiley($smiley_id)
     global $nuked,$user;
 
     $sql2 = nkDB_execute("SELECT name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
-    list($name) = mysql_fetch_array($sql2);
+    list($name) = nkDB_fetchArray($sql2);
     $sql = nkDB_execute("DELETE FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
 
     saveUserAction(_ACTIONDELSMILEY .': '. $name);

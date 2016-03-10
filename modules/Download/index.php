@@ -44,7 +44,7 @@ function index()  {
 
         $test = 0;
         $last_cid = '';
-        while (list($cid, $titre, $description) = mysql_fetch_array($sql_cat)) {
+        while (list($cid, $titre, $description) = nkDB_fetchArray($sql_cat)) {
             $titre = printSecuTags($titre);
 
             $description = icon($description);
@@ -74,7 +74,7 @@ function index()  {
                 $t = 0;
                 $sql_subcat = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' AND " . $visiteur . " >= level ORDER BY position, titre LIMIT 0, 4");
 
-                while (list($sub_cat_id, $sub_cat_titre) = mysql_fetch_array($sql_subcat)) {
+                while (list($sub_cat_id, $sub_cat_titre) = nkDB_fetchArray($sql_subcat)) {
                     $sub_cat_titre = printSecuTags($sub_cat_titre);
                     $t++;
                     if ($t <= 3) echo "<small><a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $sub_cat_id . "\">" . $sub_cat_titre . "</a></small>&nbsp;&nbsp;";
@@ -119,7 +119,7 @@ function categorie($cat) {
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
-    list($cat_titre, $cat_desc, $parentid, $level) = mysql_fetch_array($sql);
+    list($cat_titre, $cat_desc, $parentid, $level) = nkDB_fetchArray($sql);
     $cat_titre = printSecuTags($cat_titre);
 
     $cat_desc = icon($cat_desc);
@@ -127,7 +127,7 @@ function categorie($cat) {
     if ($visiteur >= $level) {
         if ($parentid > 0) {
             $sql_parent = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-            list($parent_titre) = mysql_fetch_array($sql_parent);
+            list($parent_titre) = nkDB_fetchArray($sql_parent);
             $parent_titre = printSecuTags($parent_titre);
 
             echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b>" . _DOWNLOAD . "</b></big></a> &gt; <a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $parentid . "\" style=\"text-decoration:none\"><big><b>" . $parent_titre . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n";
@@ -142,7 +142,7 @@ function categorie($cat) {
         if ($nb_subcat > 0) {
             echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"15\" cellpadding=\"5\">\n";
 
-            while (list($catid, $parentcat, $parentdesc) = mysql_fetch_array($sql_subcat)) {
+            while (list($catid, $parentcat, $parentdesc) = nkDB_fetchArray($sql_subcat)) {
 
                 $parentcat = printSecuTags($parentcat);
 
@@ -194,7 +194,7 @@ function popup($dl_id) {
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
-    list($titre, $dl_url, $dl_url2, $dl_url3) = mysql_fetch_array($sql);
+    list($titre, $dl_url, $dl_url2, $dl_url3) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
 
     echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"95%\" cellspacing=\"3\" cellpadding=\"3\">\n"
@@ -221,7 +221,7 @@ function do_dl($dl_id, $nb) {
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
-    list($dl_url1, $dl_url2, $dl_url3, $count, $level) = mysql_fetch_array($sql);
+    list($dl_url1, $dl_url2, $dl_url3, $count, $level) = nkDB_fetchArray($sql);
 
     if ($visiteur >= $level) {
         nkTemplate_setPageDesign('none');
@@ -270,7 +270,7 @@ function description($dl_id) {
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
-    list($dl_id, $titre, $date, $taille, $comment, $cat, $count, $level, $hit, $edit, $screen, $autor, $url_autor, $comp, $url) = mysql_fetch_array($sql);
+    list($dl_id, $titre, $date, $taille, $comment, $cat, $count, $level, $hit, $edit, $screen, $autor, $url_autor, $comp, $url) = nkDB_fetchArray($sql);
 
     $titre = printSecuTags($titre);
     $autor = printSecuTags($autor);
@@ -320,14 +320,14 @@ function description($dl_id) {
 
     if ($visiteur >= $level) {
         $sql2 = nkDB_execute("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
-        list($cat_name, $parentid) = mysql_fetch_array($sql2);
+        list($cat_name, $parentid) = nkDB_fetchArray($sql2);
         $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0) {
             $category = "N/A";
         } else if ($parentid > 0) {
             $sql3 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-            list($parent_name) = mysql_fetch_array($sql3);
+            list($parent_name) = nkDB_fetchArray($sql3);
             $parent_name = printSecuTags($parent_name);
 
             $category = "<a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $parentid . "\">" . $parent_name . "</a> -&gt; <a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $cat . "\">" . $cat_name . "</a>";
@@ -393,7 +393,7 @@ function description($dl_id) {
             WHERE module = \'download\''
         );
 
-        list($active) = mysql_fetch_array($sql);
+        list($active) = nkDB_fetchArray($sql);
 
         if ($active == 1  && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1) {
             echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
@@ -415,7 +415,7 @@ function description($dl_id) {
             WHERE module = \'download\''
         );
 
-        list($active) = mysql_fetch_array($sql);
+        list($active) = nkDB_fetchArray($sql);
 
         if($active == 1  && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
             echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"80%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\"><tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
@@ -540,14 +540,14 @@ function classe()
 
         $seek = mysql_data_seek($sql, $start);
         for ($i = 0;$i < $nb_download;$i++) {
-            if (list($dl_id, $titre, $description, $taille, $type, $count, $date, $url, $screen) = mysql_fetch_array($sql)) {
+            if (list($dl_id, $titre, $description, $taille, $type, $count, $date, $url, $screen) = nkDB_fetchArray($sql)) {
                 $newsdate = time() - 604800;
                 $att = "";
 
                 if ($date!="" && $date > $newsdate) $att = "&nbsp;&nbsp;" . _NEW;
 
                 mysql_data_seek($sqlhot, 0);
-                while (list($id_hot) = mysql_fetch_array($sqlhot)) {
+                while (list($id_hot) = nkDB_fetchArray($sqlhot)) {
                     if ($dl_id == $id_hot && $nb_dl > 1 && $count > 9) $att .= "&nbsp;&nbsp;" . _HOT;
                 }
 
@@ -592,7 +592,7 @@ function classe()
                 $nb_comment = mysql_num_rows($sql_com_dl);
 
                 $sql_cat = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $type . "'");
-                list($name_cat_dl) = mysql_fetch_array($sql_cat);
+                list($name_cat_dl) = nkDB_fetchArray($sql_cat);
                 $name_cat_dl = stripslashes($name_cat_dl);
                 $name_cat_dl = printSecuTags($name_cat_dl);
                 $category = "" . $name_cat_dl . "";
@@ -621,7 +621,7 @@ function classe()
                         WHERE module = \'download\''
                     );
 
-                    list($active) = mysql_fetch_array($sql);
+                    list($active) = nkDB_fetchArray($sql);
 
                     if ($active == 1  && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1) {
                         echo "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»\n";

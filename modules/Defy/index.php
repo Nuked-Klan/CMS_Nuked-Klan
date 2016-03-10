@@ -134,7 +134,7 @@ function form(){
             . "<tr><td style=\"width: 20%;\"><b>" . _GAME . " : </b></td><td><select name=\"game\">\n";
 
     $sql = nkDB_execute('SELECT id, name FROM ' . GAMES_TABLE . ' ORDER BY name');
-    while (list($game_id, $nom) = mysql_fetch_array($sql)){
+    while (list($game_id, $nom) = nkDB_fetchArray($sql)){
         $nom = printSecuTags($nom);
         echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
     }

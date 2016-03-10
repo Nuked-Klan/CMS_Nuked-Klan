@@ -49,7 +49,7 @@ function main()
 
     $sql = nkDB_execute("SELECT id, titre, auteur, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " ORDER BY date_an DESC, date_mois DESC, date_jour DESC");
     $count = mysql_num_rows($sql);
-    while (list($eid, $titre, $auteur, $jour, $mois, $an, $heure) = mysql_fetch_array($sql))
+    while (list($eid, $titre, $auteur, $jour, $mois, $an, $heure) = nkDB_fetchArray($sql))
     {
         $titre = printSecuTags($titre);
 
@@ -130,7 +130,7 @@ function edit($eid)
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT id, titre, description, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
-    list($eid, $titre, $description, $jour, $mois, $an, $heure) = mysql_fetch_array($sql);
+    list($eid, $titre, $description, $jour, $mois, $an, $heure) = nkDB_fetchArray($sql);
     $titre = nkHtmlSpecialChars($titre);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -173,7 +173,7 @@ function del($eid)
     global $nuked, $user;
 
     $sql = nkDB_execute("SELECT titre FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
-    list($titre) = mysql_fetch_array($sql);
+    list($titre) = nkDB_fetchArray($sql);
     $del = nkDB_execute("DELETE FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
 
     saveUserAction(_ACTIONDELCAL .': '. $titre);

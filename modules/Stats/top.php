@@ -33,7 +33,7 @@ if (nivo_mod('Download') != -1) {
     if ($nb_dl > 0) {
         $idl = 0;
         $j = 0;
-        while (list($dl_id, $dl_titre, $dl_count) = mysql_fetch_array($sql)) {
+        while (list($dl_id, $dl_titre, $dl_count) = nkDB_fetchArray($sql)) {
             $idl++;
 
             if ($j == 0) {
@@ -75,7 +75,7 @@ if (nivo_mod('Links') != -1) {
     if ($nb_link > 0) {
         $ilink = 0;
         $j1 = 0;
-        while (list($link_id, $link_titre, $link_count) = mysql_fetch_array($sql2)) {
+        while (list($link_id, $link_titre, $link_count) = nkDB_fetchArray($sql2)) {
             $ilink++;
 
             if ($j1 == 0) {
@@ -117,7 +117,7 @@ if (nivo_mod('Sections') != -1) {
     if ($nb_art > 0) {
         $iart = 0;
         $j2 = 0;
-        while (list($art_id, $art_titre, $art_count) = mysql_fetch_array($sql3)) {
+        while (list($art_id, $art_titre, $art_count) = nkDB_fetchArray($sql3)) {
             $iart++;
 
             if ($j2 == 0) {
@@ -159,7 +159,7 @@ if (nivo_mod('Forum') != -1) {
     if ($nb_topic > 0) {
         $itopic = 0;
         $j3 = 0;
-        while (list($tid, $fid, $topic_titre, $views) = mysql_fetch_array($sql4)) {
+        while (list($tid, $fid, $topic_titre, $views) = nkDB_fetchArray($sql4)) {
             $itopic++;
 
             if ($j3 == 0) {
@@ -194,7 +194,7 @@ if (nivo_mod('Forum') != -1) {
 
     $iuserf = 0;
     $j4 = 0;
-    while (list($pseudof, $userfcount) = mysql_fetch_array($sql5)) {
+    while (list($pseudof, $userfcount) = nkDB_fetchArray($sql5)) {
         $iuserf++;
 
         if ($j4 == 0) {

@@ -57,7 +57,7 @@ function select_mod($mod)
     global $nuked;
 
     $sql = nkDB_execute('SELECT nom FROM ' . MODULES_TABLE . ' ORDER BY nom');
-    while (list($nom) = mysql_fetch_array($sql))
+    while (list($nom) = nkDB_fetchArray($sql))
     {
         if ($mod == $nom) $checked = 'selected="selected"';
         else $checked = '';
@@ -407,7 +407,7 @@ function save_config()
         nkDB_execute('UPDATE ' . USER_TABLE . ' SET user_theme = ""');
 
     $sql = nkDB_execute("SELECT name, value  FROM " . CONFIG_TABLE);
-    while (list($config_name, $config_value) = mysql_fetch_array($sql))
+    while (list($config_name, $config_value) = nkDB_fetchArray($sql))
     {
         $default_config[$config_name] = $config_value;
         $new[$config_name] = (isset($_REQUEST[$config_name])) ? $_REQUEST[$config_name] : $default_config[$config_name];

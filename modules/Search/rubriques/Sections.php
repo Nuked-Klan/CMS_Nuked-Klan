@@ -46,7 +46,7 @@ $nb_art = mysql_num_rows($sql_art);
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_art > 0){
-    while (list($art_id, $art_titre, $art_date) = mysql_fetch_array($sql_art)){
+    while (list($art_id, $art_titre, $art_date) = nkDB_fetchArray($sql_art)){
         $art_titre = nkHtmlEntities($art_titre);
         $art_date = nkDate($art_date);
         $tab['module'][] = $modname;

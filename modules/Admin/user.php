@@ -20,7 +20,7 @@ function select_team() {
 
     $sql = nkDB_execute("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
 
-    while (list($cid, $titre) = mysql_fetch_array($sql)) {
+    while (list($cid, $titre) = nkDB_fetchArray($sql)) {
         $titre = printSecuTags($titre);
 
         echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
@@ -34,7 +34,7 @@ function select_rank() {
 
     $sql = nkDB_execute("SELECT id, titre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
 
-    while (list($rid, $titre) = mysql_fetch_array($sql)) {
+    while (list($rid, $titre) = nkDB_fetchArray($sql)) {
         $titre = nkHtmlEntities($titre);
 
         echo "<option value=\"" . $rid . "\">" . $titre . "</option>\n";
@@ -154,7 +154,7 @@ function add_user() {
     . "<tr><td><b>" . __('GAME') . " :</b></td><td><select name=\"game\">\n";
 
     $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-    while (list($game_id, $nom) = mysql_fetch_array($sql))
+    while (list($game_id, $nom) = nkDB_fetchArray($sql))
     {
         $nom = printSecuTags($nom);
 
@@ -303,7 +303,7 @@ function edit_user($id_user) {
     . "<tr><td><b>" . __('GAME') . " :</b></td><td><select name=\"game\">\n";
 
     $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-    while (list($game_id, $nom) = mysql_fetch_array($sql))
+    while (list($game_id, $nom) = nkDB_fetchArray($sql))
     {
         $nom = printSecuTags($nom);
 
@@ -602,7 +602,7 @@ function del_user($id_user)
     global $nuked, $user;
 
     $sql = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-    list($nick) = mysql_fetch_array($sql);
+    list($nick) = nkDB_fetchArray($sql);
     $nick = mysql_real_escape_string($nick);
     $del1 = nkDB_execute("DELETE FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
     $del2 = nkDB_execute("DELETE FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $id_user . "'");
@@ -745,7 +745,7 @@ function main()
 
     $req = "SELECT UT.id, UT.pseudo, UT.niveau, UT.date, ST.last_used FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 " . $and . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_membres;
     $sql = nkDB_execute($req);
-    while (list($id_user, $pseudo, $niveau, $date, $last_used) = mysql_fetch_array($sql))
+    while (list($id_user, $pseudo, $niveau, $date, $last_used) = nkDB_fetchArray($sql))
     {
         $date = nkDate($date);
         $last_used == '' ? $last_used = '-' : $last_used = nkDate($last_used);
@@ -829,7 +829,7 @@ function main_ip()
 
     if ($nbip > 0)
     {
-        while (list($ip_id, $ip, $pseudo, $email) = mysql_fetch_array($sql))
+        while (list($ip_id, $ip, $pseudo, $email) = nkDB_fetchArray($sql))
         {
             $pseudo = nkHtmlEntities($pseudo);
 
@@ -884,7 +884,7 @@ function edit_ip($ip_id)
     global $language;
 
     $sql = nkDB_execute("SELECT ip, pseudo, email, dure, texte FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
-    list($ip, $pseudo, $email, $dure, $text_ban) = mysql_fetch_array($sql);
+    list($ip, $pseudo, $email, $dure, $text_ban) = nkDB_fetchArray($sql);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _USERADMIN . "</h3>\n"
@@ -956,7 +956,7 @@ function del_ip($ip_id)
 {
     global $nuked, $user;
         $sql2 = nkDB_execute("SELECT pseudo FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
-    list($pseudo) = mysql_fetch_array($sql2);
+    list($pseudo) = nkDB_fetchArray($sql2);
     $pseudo = mysql_real_escape_string($pseudo);
     $sql = nkDB_execute("DELETE FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
 
@@ -972,7 +972,7 @@ function validation($id_user)
 
     $date2 = nkDate(time());
     $sql = nkDB_execute("SELECT pseudo, mail FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-    list($pseudo, $mail) = mysql_fetch_array($sql);
+    list($pseudo, $mail) = nkDB_fetchArray($sql);
 
     $upd = nkDB_execute("UPDATE " . USER_TABLE . " SET niveau = 1 WHERE id = '" . $id_user . "'");
 
@@ -1027,7 +1027,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     $sql = nkDB_execute("SELECT id, pseudo, mail, date FROM " . USER_TABLE . " WHERE niveau = 0 ORDER BY date");
     $nb_user = mysql_num_rows($sql);
     $compteur = 0;
-    while (list($id_user, $pseudo, $mail, $date) = mysql_fetch_array($sql))
+    while (list($id_user, $pseudo, $mail, $date) = nkDB_fetchArray($sql))
     {
         if ($nuked['validation'] == "admin")
         {

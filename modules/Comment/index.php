@@ -149,7 +149,7 @@ function com_index($module, $im_id){
             $test = mysql_num_rows($sql_member);
         }
 
-        if(!empty($row['autor_id']) && $test > 0) list($avatar, $country) = mysql_fetch_array($sql_member);
+        if(!empty($row['autor_id']) && $test > 0) list($avatar, $country) = nkDB_fetchArray($sql_member);
 
         if(empty($avatar)) $avatar = "modules/Comment/images/noavatar.png";
         if(empty($country)) $country = "France.gif";
@@ -467,7 +467,7 @@ function del_comment($cid){
 
     if ($visiteur >= $level_admin){
         $sql = nkDB_execute("SELECT module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
-        list($module, $im_id) = mysql_fetch_array($sql);
+        list($module, $im_id) = nkDB_fetchArray($sql);
 
         $del = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
 
@@ -526,7 +526,7 @@ function edit_comment($cid){
         nkTemplate_setTitle(_POSTCOMMENT);
 
         $sql = nkDB_execute("SELECT autor, autor_id, titre, comment, autor_ip, module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
-        list($auteur, $autor_id, $titre, $texte, $ip, $module, $im_id) = mysql_fetch_array($sql);
+        list($auteur, $autor_id, $titre, $texte, $ip, $module, $im_id) = nkDB_fetchArray($sql);
 
         $titre = nkHtmlEntities($titre);
 

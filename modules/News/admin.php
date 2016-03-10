@@ -113,11 +113,11 @@ function main() {
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, cat, date FROM " . NEWS_TABLE . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_news);
-    while (list($news_id, $titre, $autor, $autor_id, $cat, $date) = mysql_fetch_array($sql2)) {
+    while (list($news_id, $titre, $autor, $autor_id, $cat, $date) = nkDB_fetchArray($sql2)) {
         $date = nkDate($date);
 
         $sql3 = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat. "'");
-        list($categorie) = mysql_fetch_array($sql3);
+        list($categorie) = nkDB_fetchArray($sql3);
         $categorie = printSecuTags($categorie);
 
         if ($autor_id != "") {
@@ -126,7 +126,7 @@ function main() {
         }
 
         if ($autor_id != "" && $test > 0) {
-            list($_REQUEST['auteur']) = mysql_fetch_array($sql4);
+            list($_REQUEST['auteur']) = nkDB_fetchArray($sql4);
         } else {
             $_REQUEST['auteur'] = $autor;
         }
@@ -310,10 +310,10 @@ function edit($news_id) {
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT titre, coverage, texte, suite, date, cat FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
-    list($titre, $coverage, $texte, $suite, $date, $cat) = mysql_fetch_array($sql);
+    list($titre, $coverage, $texte, $suite, $date, $cat) = nkDB_fetchArray($sql);
 
     $sql2 = nkDB_execute("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
-    list($cid, $categorie) = mysql_fetch_array($sql2);
+    list($cid, $categorie) = nkDB_fetchArray($sql2);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _EDITTHISNEWS . "</h3>\n"
@@ -447,7 +447,7 @@ function do_del($news_id) {
     global $nuked, $user;
 
     $sqls = nkDB_execute("SELECT titre FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
-    list($titre) = mysql_fetch_array($sqls);
+    list($titre) = nkDB_fetchArray($sqls);
     $titre = mysql_real_escape_string(stripslashes($titre));
     $del = nkDB_execute("DELETE FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . "  WHERE im_id = '" . $news_id . "' AND module = 'news'");
@@ -489,7 +489,7 @@ function main_cat() {
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
-    while (list($cid, $titre) = mysql_fetch_array($sql)) {
+    while (list($cid, $titre) = nkDB_fetchArray($sql)) {
         $titre = printSecuTags($titre);
 
     echo "<tr>\n"
@@ -569,7 +569,7 @@ function edit_cat($cid) {
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT titre, description, image FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
-    list($titre, $description, $image) = mysql_fetch_array($sql);
+    list($titre, $description, $image) = nkDB_fetchArray($sql);
 
     $description = editPhpCkeditor($description);
 
@@ -644,7 +644,7 @@ function select_news_cat() {
     global $nuked;
 
     $sql = nkDB_execute("SELECT nid, titre FROM " . NEWS_CAT_TABLE);
-    while (list($cid, $titre) = mysql_fetch_array($sql)) {
+    while (list($cid, $titre) = nkDB_fetchArray($sql)) {
         $titre = printSecuTags($titre);
         echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
     }
@@ -654,7 +654,7 @@ function del_cat($cid) {
     global $nuked, $user;
 
     $sqlq = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
-    list($titre) = mysql_fetch_array($sqlq);
+    list($titre) = nkDB_fetchArray($sqlq);
     $titre = mysql_real_escape_string(stripslashes($titre));
     $sql = nkDB_execute("DELETE FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
 

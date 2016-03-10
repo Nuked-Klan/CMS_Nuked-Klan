@@ -24,7 +24,7 @@ if ($active == 3 || $active == 4){
     $sql = nkDB_execute('SELECT warid, pays_adv, adversaire, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 1 ORDER BY date_an DESC, date_mois DESC, date_jour DESC LIMIT 0, 10');
     $nbwar = mysql_num_rows($sql);
 
-    while (list($war_id, $pays_adv, $adv_name, $score_team, $score_adv) = mysql_fetch_array($sql)){
+    while (list($war_id, $pays_adv, $adv_name, $score_team, $score_adv) = nkDB_fetchArray($sql)){
         $adv_name = printSecuTags($adv_name);
         list ($pays, $ext) = explode ('.', $pays_adv);
 
@@ -54,7 +54,7 @@ if ($active == 3 || $active == 4){
     $m = date('m');
     $y = date('Y');
 
-    while (list($war_id2, $pays_adv2, $adv_name2, $d2, $m2, $y2) = mysql_fetch_array($sql2)){
+    while (list($war_id2, $pays_adv2, $adv_name2, $d2, $m2, $y2) = nkDB_fetchArray($sql2)){
 		$adv_name2 = printSecuTags($adv_name2);
 		list ($pays2, $ext2) = explode ('.', $pays_adv2);
 
@@ -85,7 +85,7 @@ else{
 			<tr><td colspan="2"><span style="text-decoration: underline"><b>'._LATESTWAR.' :</b></span></td></tr><tr><td colspan="2">&nbsp;</td></tr>';
 
     $sql = nkDB_execute('SELECT warid, pays_adv, adversaire, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 1 ORDER BY date_an DESC, date_mois DESC, date_jour DESC LIMIT 0, 5');
-    while (list($war_id, $pays_adv, $adv_name, $score_team, $score_adv) = mysql_fetch_array($sql)){
+    while (list($war_id, $pays_adv, $adv_name, $score_team, $score_adv) = nkDB_fetchArray($sql)){
         $adv_name = printSecuTags($adv_name);
         list ($pays, $ext) = explode ('.', $pays_adv);
 
@@ -115,7 +115,7 @@ else{
 
 		echo '<tr><td colspan="2">&nbsp;</td></tr><tr><td colspan="2"><span style="text-decoration: underline"><b>'._NEXTWAR.' :</b></span></td></tr><tr><td colspan="2">&nbsp;</td></tr>';
 
-        while (list($war_id2, $pays_adv2, $adv_name2, $d2, $m2, $y2) = mysql_fetch_array($sql2)){
+        while (list($war_id2, $pays_adv2, $adv_name2, $d2, $m2, $y2) = nkDB_fetchArray($sql2)){
             $adv_name2 = printSecuTags($adv_name2);
             list ($pays2, $ext2) = explode ('.', $pays_adv2);
 

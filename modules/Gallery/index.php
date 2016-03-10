@@ -33,7 +33,7 @@ function cat($cat)
         echo "<table width=\"100%\" cellspacing=\"5\" cellpadding=\"0\" border=\"0\">\n";
 
         $sql = nkDB_execute("SELECT cid, titre, description FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "' ORDER BY position, titre");
-        while (list($catid, $parentcat, $parentdesc) = mysql_fetch_array($sql))
+        while (list($catid, $parentcat, $parentdesc) = nkDB_fetchArray($sql))
         {
 
             $parentcat = printSecuTags($parentcat);
@@ -42,7 +42,7 @@ function cat($cat)
 
             $sql_img = nkDB_execute("SELECT sid, url, url2, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $catid . "' ORDER BY sid DESC");
             $nb_imgcat = mysql_num_rows($sql_img);
-            list($sid, $url, $url2, $date) = mysql_fetch_array($sql_img);
+            list($sid, $url, $url2, $date) = nkDB_fetchArray($sql_img);
 
             if ($url2 != "" && $url2 != "http://")
             {
@@ -165,7 +165,7 @@ function categorie($cat)
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
-    list($cat_titre, $cat_desc, $parentid) = mysql_fetch_array($sql);
+    list($cat_titre, $cat_desc, $parentid) = nkDB_fetchArray($sql);
 
     $cat_titre = printSecuTags($cat_titre);
     $cat_desc = icon($cat_desc);
@@ -173,7 +173,7 @@ function categorie($cat)
     if ($parentid > 0)
     {
         $sql_parent = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-        list($parent_titre) = mysql_fetch_array($sql_parent);
+        list($parent_titre) = nkDB_fetchArray($sql_parent);
         $parent_titre = printSecuTags($parent_titre);
 
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Gallery\" style=\"text-decoration:none\"><big><b>" . $title . "</b></big></a> &gt; <a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $parentid . "\" style=\"text-decoration:none\"><big><b>" . $parent_titre . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n";
@@ -221,7 +221,7 @@ function description($sid)
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
-    list($cat, $titre, $description, $autor, $url, $url_file, $date, $count) = mysql_fetch_array($sql);
+    list($cat, $titre, $description, $autor, $url, $url_file, $date, $count) = nkDB_fetchArray($sql);
 
     $titre = printSecuTags($titre);
     $autor = nkHtmlEntities($autor);
@@ -246,7 +246,7 @@ function description($sid)
     }
 
     $sql2 = nkDB_execute("SELECT titre, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
-    list($cat_name, $parentid) = mysql_fetch_array($sql2);
+    list($cat_name, $parentid) = nkDB_fetchArray($sql2);
     $cat_name = printSecuTags($cat_name);
 
     if ($cat == 0)
@@ -256,7 +256,7 @@ function description($sid)
     else if ($parentid > 0)
     {
         $sql3 = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-        list($parent_name) = mysql_fetch_array($sql3);
+        list($parent_name) = nkDB_fetchArray($sql3);
         $parent_name = printSecuTags($parent_name);
 
         $category = "<a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $parentid . "\">" . $parent_name . "</a> -&gt; <a href=\"index.php?file=Gallery&amp;op=categorie&amp;cat=" . $cat . "\">" . $cat_name . "</a>";
@@ -270,39 +270,39 @@ function description($sid)
     if ($_REQUEST['orderby'] == "name")
     {
         $sql_next = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND titre > '" . $titre . "' ORDER BY titre LIMIT 0, 1");
-        list($nextid) = mysql_fetch_array($sql_next);
+        list($nextid) = nkDB_fetchArray($sql_next);
 
         $sql_last = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND titre < '" . $titre . "' ORDER BY titre DESC LIMIT 0, 1");
-        list($lastid) = mysql_fetch_array($sql_last);
+        list($lastid) = nkDB_fetchArray($sql_last);
     }
     else if ($_REQUEST['orderby'] == "count")
     {
         $sql_next = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND count < '" . $count . "' ORDER BY count DESC LIMIT 0, 1");
-        list($nextid) = mysql_fetch_array($sql_next);
+        list($nextid) = nkDB_fetchArray($sql_next);
 
         $sql_last = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND count > '" . $count . "' ORDER BY count LIMIT 0, 1");
-        list($lastid) = mysql_fetch_array($sql_last);
+        list($lastid) = nkDB_fetchArray($sql_last);
     }
     else if ($_REQUEST['orderby'] == "note" && nivo_mod('Vote') > -1)
     {
         $sql_note = nkDB_execute("SELECT AVG(vote) FROM " . VOTE_TABLE . " WHERE vid = '" . $sid . "' AND module = 'Gallery'");
-        list($note) = mysql_fetch_array($sql_note);
+        list($note) = nkDB_fetchArray($sql_note);
 
         $sql_next = nkDB_execute("SELECT L.sid, AVG(V.vote) AS note FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' WHERE L.cat = '" . $cat . "' GROUP BY L.sid HAVING note < '" . $note . "' ORDER BY note DESC LIMIT 0, 1");
-        list($nextid) = mysql_fetch_array($sql_next);
+        list($nextid) = nkDB_fetchArray($sql_next);
 
         $sql_last = nkDB_execute("SELECT L.sid, AVG(V.vote) AS note FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' WHERE L.cat = '" . $cat . "' GROUP BY L.sid HAVING note > '" . $note . "' ORDER BY note LIMIT 0, 1");
-        list($lastid) = mysql_fetch_array($sql_last);
+        list($lastid) = nkDB_fetchArray($sql_last);
     }
     else
     {
         $_REQUEST['orderby'] = "news";
 
         $sql_next = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND sid < '" . $sid . "' ORDER BY sid DESC LIMIT 0, 1");
-        list($nextid) = mysql_fetch_array($sql_next);
+        list($nextid) = nkDB_fetchArray($sql_next);
 
         $sql_last = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND sid > '" . $sid . "' ORDER BY sid LIMIT 0, 1");
-        list($lastid) = mysql_fetch_array($sql_last);
+        list($lastid) = nkDB_fetchArray($sql_last);
     }
 
     $prev = $next = '';
@@ -373,7 +373,7 @@ function description($sid)
         WHERE module = \'gallery\''
     );
 
-    list($active) = mysql_fetch_array($sql);
+    list($active) = nkDB_fetchArray($sql);
 
     if($active == 1 && $visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
         echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\">";
@@ -390,7 +390,7 @@ function description($sid)
         WHERE module = \'gallery\''
     );
 
-    list($active) = mysql_fetch_array($sql);
+    list($active) = nkDB_fetchArray($sql);
 
     if($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
     {
@@ -437,7 +437,7 @@ function index()
         echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td>";
 
         $sql_cat = nkDB_execute("SELECT cid, titre, description FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '0' ORDER BY position, titre");
-        while (list($cid, $titre, $description) = mysql_fetch_array($sql_cat))
+        while (list($cid, $titre, $description) = nkDB_fetchArray($sql_cat))
         {
 
             $titre = printSecuTags($titre);

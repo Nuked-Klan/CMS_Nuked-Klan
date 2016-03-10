@@ -48,7 +48,7 @@ $nb_news = mysql_num_rows($sql_news);
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_news > 0){
-    while (list($news_id, $news_auteur, $news_titre, $news_date) = mysql_fetch_array($sql_news)){
+    while (list($news_id, $news_auteur, $news_titre, $news_date) = nkDB_fetchArray($sql_news)){
         $news_date = nkDate($news_date);
         $news_titre = nkHtmlEntities($news_titre);
         $tab['module'][] = $modname;

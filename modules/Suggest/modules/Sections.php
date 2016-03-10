@@ -66,7 +66,7 @@ function form($content, $sug_id)
     . "<tr><td><b>" . _CAT . " :</b> <select name=\"secid\"><option value=\"0\">* " . _NONE . "</option>\n";
 
     $sql = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, secname");
-    while (list($secid, $titre) = mysql_fetch_array($sql))
+    while (list($secid, $titre) = nkDB_fetchArray($sql))
     {
         $titre = printSecuTags($titre);
 
@@ -79,7 +79,7 @@ function form($content, $sug_id)
         echo "<option value=\"" . $secid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
         $sql2 = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = '" . $secid . "' ORDER BY position, secname");
-        while (list($s_cid, $s_titre) = mysql_fetch_array($sql2))
+        while (list($s_cid, $s_titre) = nkDB_fetchArray($sql2))
         {
             $s_titre = printSecuTags($s_titre);
 
@@ -154,7 +154,7 @@ function send($data)
 
     $upd = nkDB_execute("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `autor` , `autor_id`, `counter` , `date` ) VALUES ( '' , '" . $data['secid'] . "' , '" . $data['title'] . "' , '" . $data['texte'] . "' , '" . $autor . "' , '" . $autor_id . "' , '' , '" . $date. "' )");
     $sql2 = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE . " WHERE title = '" . $data['title'] . "' AND date='".$date."'");
-        list($artid) = mysql_fetch_array($sql2);
+        list($artid) = nkDB_fetchArray($sql2);
 
         setPreview('index.php?file=Sections&op=article&artid='. $artid, 'index.php?file=Suggest&page=admin');
 }

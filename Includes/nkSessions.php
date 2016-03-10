@@ -101,7 +101,7 @@ function nkSessions_secureUser() {
     if (isset($_REQUEST['file']) && isset($_REQUEST['thread_id']) && $_REQUEST['file'] == 'Forum' && is_numeric($_REQUEST['thread_id']) && $_REQUEST['thread_id'] > 0 && $userSecure > 0) {
         $select_thread = "SELECT MAX(id) FROM " . FORUM_MESSAGES_TABLE . " WHERE date > '" . $GLOBALS['last_used'] . "' AND thread_id = '" . $_REQUEST['thread_id'] . "' ";
         $sql_thread = nkDB_execute($select_thread);
-        list($max_mess_id) = mysql_fetch_array($sql_thread);
+        list($max_mess_id) = nkDB_fetchArray($sql_thread);
 
         if ($max_mess_id > 0) {
             if (isset($_REQUEST[$cookie_forum]) && !empty($_REQUEST[$cookie_forum])){

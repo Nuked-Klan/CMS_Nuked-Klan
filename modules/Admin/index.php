@@ -178,7 +178,7 @@ function main() {
                                 <div>
                                 <?php
                                     $sqlLastVisit = nkDB_execute("SELECT UT.id, UT.pseudo, UT.niveau, ST.last_used FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 ORDER BY ST.last_used DESC LIMIT 0, 6 ");
-                                    while (list($idLastUsed, $pseudoLastused, $niveauLastUsed, $lastUsed) = mysql_fetch_array($sqlLastVisit))
+                                    while (list($idLastUsed, $pseudoLastused, $niveauLastUsed, $lastUsed) = nkDB_fetchArray($sqlLastVisit))
                                     {
                                         $lastUsed == '' ? $lastUsed = '-' : $lastUsed = nkDate($lastUsed);
                                     
@@ -203,7 +203,7 @@ function main() {
                                     $countComment = mysql_num_rows($sqlLastComment);
                                 
                                 if($countComment != 0){
-                                    while (list($lastModuleComment, $modIdComment, $lastCommentAuthor, $lastCommentDate) = mysql_fetch_array($sqlLastComment))
+                                    while (list($lastModuleComment, $modIdComment, $lastCommentAuthor, $lastCommentDate) = nkDB_fetchArray($sqlLastComment))
                                     {
                                         $lastCommentDate = nkDate($lastCommentDate);
                                     
@@ -244,7 +244,7 @@ function main() {
                                         (SELECT COUNT(id) FROM ' . USER_TABLE . ') AS nb_us,
                                         (SELECT COUNT(id) FROM ' . FORUM_MESSAGES_TABLE . ') AS nb_mess,
                                         (SELECT SUM(count) FROM ' . STATS_TABLE . ') AS count');
-                                    list($nbUser, $nbPost, $visitCounter) = mysql_fetch_array($sqlStats);
+                                    list($nbUser, $nbPost, $visitCounter) = nkDB_fetchArray($sqlStats);
 
                                     $nb = nbvisiteur();
                                 ?> 
@@ -310,7 +310,7 @@ function main() {
                             LIMIT 0, 4"
                         );
 
-                        while ($action = mysql_fetch_array($sql_act)) {
+                        while ($action = nkDB_fetchArray($sql_act)) {
                             $action['date'] = nkDate($action['date']);
 
                             echo '<div style="font-size: 12px; margin-bottom:5px;"><em>'
@@ -328,7 +328,7 @@ function main() {
         <!-- Start Notifications -->
         <?php
             $sql2 = nkDB_execute('SELECT id, type, texte  FROM ' . NOTIFICATIONS_TABLE . ' ORDER BY date DESC LIMIT 0, 4');
-            while (list($id, $type, $texte) = mysql_fetch_array($sql2))
+            while (list($id, $type, $texte) = nkDB_fetchArray($sql2))
             {
                 if($type == 4)
                 {

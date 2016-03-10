@@ -84,7 +84,7 @@ function index(){
 
             if (!$result) echo mysql_error() . ": " . mysql_errno();
 
-            while ($tmp = mysql_fetch_array($result)){
+            while ($tmp = nkDB_fetchArray($result)){
                 if (strcmp($tmp['adversaire'] , "") != 0){
                     $tmp['adversaire'] = printSecuTags($tmp['adversaire']);
                     $this->month_data[$tmp['date_jour']]['id'][] = $tmp["warid"];
@@ -98,7 +98,7 @@ function index(){
 
             if (!$data2) echo mysql_error() . ": " . mysql_errno();
 
-            while ($cmp = mysql_fetch_array($data2)){
+            while ($cmp = nkDB_fetchArray($data2)){
                 if (strcmp($cmp['titre'] , "") != 0){
                     $cmp['titre'] = printSecuTags($cmp['titre']);
                     $this->month_data[$cmp['date_jour']]['id'][] = $cmp['id'];
@@ -121,7 +121,7 @@ function index(){
 
                 if (!$data3) echo mysql_error() . ": " . mysql_errno();
 
-                while ($amp = mysql_fetch_array($data3)){
+                while ($amp = nkDB_fetchArray($data3)){
                     if (!empty($amp['age'])){
                         list ($jour, $mois, $an) = explode ('/', $amp['age']);
 
@@ -324,10 +324,10 @@ function show_event(){
 
     if ($_REQUEST['type'] == "birthday" && ctype_alnum($_REQUEST['eid'])) {
         $sql = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $_REQUEST['eid'] . "'");
-        list($pseudo) = mysql_fetch_array($sql);
+        list($pseudo) = nkDB_fetchArray($sql);
 
         $sql2 = nkDB_execute("SELECT prenom, age FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $_REQUEST['eid'] . "'");
-        list($prenom, $birthday) = mysql_fetch_array($sql2);
+        list($prenom, $birthday) = nkDB_fetchArray($sql2);
 
         list ($jour, $mois, $an) = explode ('/', $birthday);
         $age = $_REQUEST['y'] - $an;
@@ -345,13 +345,13 @@ function show_event(){
     }elseif ($_REQUEST['type'] == "match" && is_numeric($_REQUEST['eid'])){
         $sql = nkDB_execute("SELECT warid, etat, team, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv, report FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['eid'] . "'");
         $nb_match = mysql_num_rows($sql);
-        list($warid, $etat, $team, $adv_name, $type_match, $jour, $mois, $an, $heure, $style, $score_team, $score_adv, $report) = mysql_fetch_array($sql);
+        list($warid, $etat, $team, $adv_name, $type_match, $jour, $mois, $an, $heure, $style, $score_team, $score_adv, $report) = nkDB_fetchArray($sql);
 
         $adv_name = printSecuTags($adv_name);
 
         if ($team > 0){
             $sql2 = nkDB_execute("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
-            list($team_name) = mysql_fetch_array($sql2);
+            list($team_name) = nkDB_fetchArray($sql2);
         }else{
             $team_name = $nuked['name'];
         }
@@ -392,7 +392,7 @@ function show_event(){
 
         if($user && $etat != 1){
             $sql_dispo = nkDB_execute("SELECT team FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-            list($user_team) = mysql_fetch_array($sql_dispo);
+            list($user_team) = nkDB_fetchArray($sql_dispo);
             if ($user_team > 0 || $user[1] > 1) dispo($warid, $_REQUEST['type']);
         }
 
@@ -401,7 +401,7 @@ function show_event(){
     }else if (is_numeric($_REQUEST['eid'])){
 
         $sql = nkDB_execute("SELECT titre, description, date_jour, date_mois, date_an, heure, auteur FROM " . CALENDAR_TABLE . " WHERE id = '" . $_REQUEST['eid'] . "'");
-        list($titre, $description, $jour, $mois, $an, $heure, $auteur) = mysql_fetch_array($sql);
+        list($titre, $description, $jour, $mois, $an, $heure, $auteur) = nkDB_fetchArray($sql);
 
         $description = icon($description);
 
@@ -424,7 +424,7 @@ function dispo($warid, $type){
     global $user, $nuked;
 
     $sql1 = nkDB_execute("SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $warid . "'");
-    list($actual_dispo, $not_dipso) = mysql_fetch_array($sql1);
+    list($actual_dispo, $not_dipso) = nkDB_fetchArray($sql1);
 
     echo "<tr><td><b>" . _LINEUP . " :</b><br /><small>" . _FREE . " : ";
 
@@ -434,7 +434,7 @@ function dispo($warid, $type){
     for($i = 0;$i <= $nb_dispo;$i++){
         if ($pseudos[$i] == $user[0]) $selected = 1;
         $sql2 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos[$i] . "'");
-        list($pseudo) = mysql_fetch_array($sql2);
+        list($pseudo) = nkDB_fetchArray($sql2);
         if ($i > 0) echo ", ";
         echo "<b>" . $pseudo . "</b>";
     }
@@ -447,7 +447,7 @@ function dispo($warid, $type){
     for($l = 0;$l <= $nb_no_dispo;$l++){
         if ($pseudos2[$l] == $user[0]) $selected = 1;
         $sql3 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos2[$l] . "'");
-        list($pseudo2) = mysql_fetch_array($sql3);
+        list($pseudo2) = nkDB_fetchArray($sql3);
         if ($l > 0) echo ", ";
         echo "<b>" . $pseudo2 . "</b>";
     }
@@ -500,7 +500,7 @@ function del_dispo(){
 
     $sql = "SELECT * FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
     $req = nkDB_execute($sql);
-    $data = mysql_fetch_array($req);
+    $data = nkDB_fetchArray($req);
 
     $list = explode("|", $data['dispo']);
     $new_dispo = cleanList($user[0], $list);

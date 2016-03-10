@@ -81,7 +81,7 @@ function optimise()
     $result = nkDB_execute($local_query);
     if (is_resource($result) && mysql_num_rows($result))
     {
-        while ($row = mysql_fetch_array($result))
+        while ($row = nkDB_fetchArray($result))
         {
             $tot_data = $row['Data_length'];
             $tot_idx = $row['Index_length'];

@@ -55,7 +55,7 @@ if ($active == 3 || $active == 4)
         if ($teamMember['rang'] != "" && $teamMember['rang'] > 0)
         {
             $sql_rank = nkDB_execute("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $teamMember['rang'] . "'");
-            list($rank_name) = mysql_fetch_array($sql_rank);
+            list($rank_name) = nkDB_fetchArray($sql_rank);
             $rank_name = nkHtmlEntities($rank_name);
         }
         else
@@ -90,7 +90,7 @@ else
 
     $userSocialImgCfg = nkUserSocial_getImgConfig();
 
-    while (list($pseudo, $email, $country) = mysql_fetch_array($sql)) {
+    while (list($pseudo, $email, $country) = nkDB_fetchArray($sql)) {
         list($pays, $ext) = explode ('.', $country);
 
         $nick_team = $nuked['tag_pre'] . $pseudo . $nuked['tag_suf'];

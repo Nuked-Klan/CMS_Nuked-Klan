@@ -37,7 +37,7 @@ function index()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT  bid, active, position, titre, nivo FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
-    while (list($bid, $activ, $position, $titre, $nivo) = mysql_fetch_array($sql))
+    while (list($bid, $activ, $position, $titre, $nivo) = nkDB_fetchArray($sql))
     {
         $titre = nkHtmlEntities($titre);
 
@@ -62,7 +62,7 @@ function edit_menu($bid)
     global $nuked, $user, $language;
 
     $sql = nkDB_execute("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
-    list($titre, $content) = mysql_fetch_array($sql);
+    list($titre, $content) = nkDB_fetchArray($sql);
     $titre = nkHtmlEntities($titre);
 
     echo "<script type=\"text/javascript\">\n"
@@ -201,7 +201,7 @@ function edit_line($bid, $lid)
     global $nuked, $user, $language;
 
     $sql = nkDB_execute("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
-    list($titre, $content) = mysql_fetch_array($sql);
+    list($titre, $content) = nkDB_fetchArray($sql);
     $titre = strip_tags($titre);
     $titre = nkHtmlEntities($titre);
 
@@ -351,7 +351,7 @@ function send_line($bid, $lid)
     global $nuked, $user, $b, $i, $u, $puce, $cid;
 
     $sql = nkDB_execute("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $_REQUEST['bid'] . "'");
-    list($titre, $content) = mysql_fetch_array($sql);
+    list($titre, $content) = nkDB_fetchArray($sql);
 
     if ($_REQUEST['niveau'] != "")
     {

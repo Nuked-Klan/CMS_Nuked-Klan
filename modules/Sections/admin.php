@@ -138,7 +138,7 @@ function main(){
         }
 
         if ($autor_id != "" && $test > 0){
-            list($auteur) = mysql_fetch_array($sql4);
+            list($auteur) = nkDB_fetchArray($sql4);
         }
         else{
             $auteur = $autor;
@@ -152,7 +152,7 @@ function main(){
         }
         else{
             $sql3 = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
-            list($parentcat) = mysql_fetch_array($sql3);
+            list($parentcat) = nkDB_fetchArray($sql3);
             $categorie = $parentcat . "->" . $namecat;
             $categorie = printSecuTags($categorie);
         }
@@ -273,7 +273,7 @@ function do_add($titre, $texte, $cat){
         printNotification(_ARTADD, 'success');
 
         $sql2 = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE . " WHERE title = '" . $titre . "' AND date='".$date."'");
-        list($artid) = mysql_fetch_array($sql2);
+        list($artid) = nkDB_fetchArray($sql2);
 
         setPreview('index.php?file=Sections&op=article&artid='. $artid, 'index.php?file=Sections&page=admin');
     }
@@ -283,7 +283,7 @@ function edit($art_id){
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT title, content, coverage, secid FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
-    list($titre, $texte, $coverage, $cat) = mysql_fetch_array($sql);
+    list($titre, $texte, $coverage, $cat) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
 
     if ($cat == 0 || !$cat){
@@ -293,7 +293,7 @@ function edit($art_id){
     else{
         $cid = $cat;
         $sql2 = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cat . "'");
-        list($cid, $categorie) = mysql_fetch_array($sql2);
+        list($cid, $categorie) = nkDB_fetchArray($sql2);
         $categorie = printSecuTags($categorie);
     }
 
@@ -382,7 +382,7 @@ function del($art_id){
     global $nuked, $user;
 
     $sql = nkDB_execute("SELECT title FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
-    list($titre) = mysql_fetch_array($sql);
+    list($titre) = nkDB_fetchArray($sql);
     $titre = mysql_real_escape_string(stripslashes($titre));
     $del = nkDB_execute("DELETE FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $art_id . "' AND module = 'Sections'");
@@ -440,7 +440,7 @@ function main_cat(){
 
             if ($parentid > 0){
                 $sql2 = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
-                list($pnomcat) = mysql_fetch_array($sql2);
+                list($pnomcat) = nkDB_fetchArray($sql2);
                 $pnomcat = printSecuTags($pnomcat);
 
                 echo "<i>" . $pnomcat . "</i>";
@@ -478,7 +478,7 @@ function add_cat(){
             . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\"><option value=\"0\">" . _NONE . "</option>\n";
 
     $sql = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " where parentid = 0 ORDER BY position, secname");
-    while (list($secid, $nomcat) = mysql_fetch_array($sql)){
+    while (list($secid, $nomcat) = nkDB_fetchArray($sql)){
         $nomcat = printSecuTags($nomcat);
 
         echo "<option value=\"" . $secid . "\">" . $nomcat . "</option>\n";
@@ -513,7 +513,7 @@ function send_cat($parentid, $titre, $description, $position){
         printNotification(_CATADD, 'success');
 
         $sql = nkDB_execute("SELECT secid FROM " . SECTIONS_CAT_TABLE . " WHERE secname = '" . $titre . "' AND parentid='" . $parentid . "'");
-        list($secid) = mysql_fetch_array($sql);
+        list($secid) = nkDB_fetchArray($sql);
 
         setPreview('index.php?file=Sections&op=categorie&secid='. $secid, 'index.php?file=Sections&page=admin&op=main_cat');
     }
@@ -523,7 +523,7 @@ function edit_cat($cid){
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT secname, parentid, description, position FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
-    list($titre, $parentid, $description, $position) = mysql_fetch_array($sql);
+    list($titre, $parentid, $description, $position) = nkDB_fetchArray($sql);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
@@ -537,7 +537,7 @@ function edit_cat($cid){
 
     if ($parentid > 0){
         $sql2 = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
-        list($pcid, $pnomcat) = mysql_fetch_array($sql2);
+        list($pcid, $pnomcat) = nkDB_fetchArray($sql2);
         $pnomcat = printSecuTags($pnomcat);
 
         echo "<option value=\"" . $pcid . "\">" . $pnomcat . "</option>\n";
@@ -546,7 +546,7 @@ function edit_cat($cid){
     echo "<option value=\"0\">" . _NONE . "</option>\n";
 
     $sql3 = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, secname");
-    while (list($catid, $nomcat) = mysql_fetch_array($sql3)){
+    while (list($catid, $nomcat) = nkDB_fetchArray($sql3)){
         $nomcat = printSecuTags($nomcat);
 
         if ($nomcat != $secname){
@@ -594,13 +594,13 @@ function select_art_cat(){
     echo "<option value=\"0\">* " . _NONE . "</option>\n";
 
     $sql = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, secname");
-    while (list($secid, $secname) = mysql_fetch_array($sql)){
+    while (list($secid, $secname) = nkDB_fetchArray($sql)){
         $secname = printSecuTags($secname);
 
         echo "<option value=\"" . $secid . "\">* " . $secname . "</option>\n";
 
         $sql2 = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = '" . $secid . "' ORDER BY position, secname");
-        while (list($s_secid, $s_titre) = mysql_fetch_array($sql2)){
+        while (list($s_secid, $s_titre) = nkDB_fetchArray($sql2)){
             $s_titre = printSecuTags($s_titre);
 
             echo "<option value=\"" . $s_secid . "\">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
@@ -612,7 +612,7 @@ function del_cat($cid){
     global $nuked, $user;
 
     $sql = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
-    list($titre) = mysql_fetch_array($sql);
+    list($titre) = nkDB_fetchArray($sql);
     $titre = mysql_real_escape_string(stripslashes($titre));
     $sql = nkDB_execute("DELETE FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     $sql = nkDB_execute("UPDATE " . SECTIONS_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
@@ -660,7 +660,7 @@ function modif_position($cid, $method){
     global $nuked, $user;
 
     $sql = nkDB_execute("SELECT secname, position FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
-    list($titre, $position) = mysql_fetch_array($sql);
+    list($titre, $position) = nkDB_fetchArray($sql);
     if ($position <= 0 AND $method == "up"){
         printNotification(_CATERRORPOS, 'error');
         redirect("index.php?file=Sections&page=admin&op=main_cat", 2);

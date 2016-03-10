@@ -38,12 +38,12 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 
     $sql = nkDB_execute("SELECT id, pseudo, prenom, mail, game, date FROM " . RECRUIT_TABLE . " ORDER BY id DESC");
     $count = mysql_num_rows($sql);
-    while (list($rid, $pseudo, $prenom, $mail, $game, $date) = mysql_fetch_array($sql))
+    while (list($rid, $pseudo, $prenom, $mail, $game, $date) = nkDB_fetchArray($sql))
     {
         $date = strftime("%x", $date);
 
         $sql2 = nkDB_execute("SELECT name FROM " . GAMES_TABLE . " WHERE id='$game'");
-        list($game_name) = mysql_fetch_array($sql2);
+        list($game_name) = nkDB_fetchArray($sql2);
         $game_name = nkHtmlEntities($game_name);
 
 
@@ -95,7 +95,7 @@ echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;o
 . "<tr><td><b>" . _INBOXAVERT . "</b> : <select name=\"recrute_inbox\"><option value=\"\">" . _OFF . "</option>\n";
 
     $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
-    while (list($id_user, $pseudo) = mysql_fetch_array($sql2))
+    while (list($id_user, $pseudo) = nkDB_fetchArray($sql2))
     {
         if ($nuked['recrute_inbox'] == $id_user)
         {
@@ -159,11 +159,11 @@ function view($rid)
 . "<div class=\"tab-content\" id=\"tab2\"><table width=\"90%\" style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr><td>\n";
 
     $sql = nkDB_execute("SELECT pseudo, prenom, age, mail, icq, country, game, `connection`, experience, dispo, comment FROM " . RECRUIT_TABLE . " WHERE id = '" . $rid . "'");
-    list($pseudo, $prenom, $age, $mail, $icq, $country, $game, $connection, $experience, $dispo, $comment) = mysql_fetch_array($sql);
+    list($pseudo, $prenom, $age, $mail, $icq, $country, $game, $connection, $experience, $dispo, $comment) = nkDB_fetchArray($sql);
     list ($pays, $ext) = explode ('.', $country);
 
     $sql2 = nkDB_execute("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
-    list($game_name) = mysql_fetch_array($sql2);
+    list($game_name) = nkDB_fetchArray($sql2);
     $game_name = nkHtmlEntities($game_name);
 
     echo "<b>" . _NICK . " : </b>" . $pseudo . "<br />\n"

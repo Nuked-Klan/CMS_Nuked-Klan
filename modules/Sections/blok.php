@@ -29,12 +29,12 @@ if ($active == 3 || $active == 4){
 
     $i = 0;
     $sql = nkDB_execute("SELECT artid, title, date, secid FROM " . SECTIONS_TABLE . " ORDER BY artid DESC LIMIT 0, 10");
-    while (list($id, $titre, $date, $cat) = mysql_fetch_array($sql)){
+    while (list($id, $titre, $date, $cat) = nkDB_fetchArray($sql)){
         $titre = printSecuTags($titre);
         $date = nkDate($date);
 
         $sql4 = nkDB_execute("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cat . "'");
-        list($cat_name, $parentid) = mysql_fetch_array($sql4);
+        list($cat_name, $parentid) = nkDB_fetchArray($sql4);
         $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0){
@@ -42,7 +42,7 @@ if ($active == 3 || $active == 4){
         }
         else if ($parentid > 0){
             $sql5 = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
-            list($parent_name) = mysql_fetch_array($sql5);
+            list($parent_name) = nkDB_fetchArray($sql5);
             $parent_name = printSecuTags($parent_name);
 
             $category = $parent_name . " - " . $cat_name;
@@ -62,9 +62,9 @@ if ($active == 3 || $active == 4){
 
     $l = 0;
     $sql3 = nkDB_execute("SELECT artid, title, counter, secid FROM " . SECTIONS_TABLE . " ORDER BY counter DESC LIMIT 0, 10");
-    while (list($tartid, $ttitre, $tcount, $tcat) = mysql_fetch_array($sql3)){
+    while (list($tartid, $ttitre, $tcount, $tcat) = nkDB_fetchArray($sql3)){
         $sql4 = nkDB_execute("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $tcat . "'");
-        list($tcat_name, $tparentid) = mysql_fetch_array($sql4);
+        list($tcat_name, $tparentid) = nkDB_fetchArray($sql4);
         $tcat_name = printSecuTags($tcat_name);
 
         if ($tcat == 0){
@@ -72,7 +72,7 @@ if ($active == 3 || $active == 4){
         }
         else if ($tparentid > 0){
             $sql5 = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $tparentid . "'");
-            list($tparent_name) = mysql_fetch_array($sql5);
+            list($tparent_name) = nkDB_fetchArray($sql5);
             $tparent_name = printSecuTags($tparent_name);
 
             $tcategory = $tparent_name . " - " . $tcat_name;
@@ -93,7 +93,7 @@ if ($active == 3 || $active == 4){
 else{
     $i = 0;
     $sql = nkDB_execute("SELECT artid, title, date FROM " . SECTIONS_TABLE . " ORDER BY date DESC LIMIT 0, 10");
-    while (list($id, $titre, $date) = mysql_fetch_array($sql)){
+    while (list($id, $titre, $date) = nkDB_fetchArray($sql)){
         $titre = printSecuTags($titre);
         $date = strftime("%x", $date);
         $i++;

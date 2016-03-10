@@ -19,7 +19,7 @@ translate('modules/Stats/lang/'. $language .'.lang.php');
 if ($active == 3 || $active == 4)
 {
     $sql = nkDB_execute("SELECT SUM(count) FROM " . STATS_TABLE . " WHERE type = 'pages'");
-    list($counter) = mysql_fetch_array($sql);
+    list($counter) = nkDB_fetchArray($sql);
 
     $date_install = nkDate($nuked['date_install']);
 
@@ -56,7 +56,7 @@ if ($active == 3 || $active == 4)
 else
 {
     $sql = nkDB_execute("SELECT SUM(count) FROM " . STATS_TABLE . " WHERE type = 'pages'");
-    list($counter) = mysql_fetch_array($sql);
+    list($counter) = nkDB_fetchArray($sql);
 
     $date_install = nkDate($nuked['date_install']);
 

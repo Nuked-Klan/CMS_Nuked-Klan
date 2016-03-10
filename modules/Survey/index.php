@@ -26,7 +26,7 @@ function sondage($poll_id) {
         echo '<br /><div style="text-align: center;"><big><b>' . _POLLOF . '</b></big></div><br />';
 
         $sql = nkDB_execute('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
-        list($titre) = mysql_fetch_array($sql);
+        list($titre) = nkDB_fetchArray($sql);
         $titre = printSecuTags($titre);
 
         echo "<form method=\"post\" action=\"index.php?file=Survey&amp;op=update_sondage\">\n"
@@ -34,7 +34,7 @@ function sondage($poll_id) {
         . "<tr><td align=\"center\"><b>" . $titre . "</b></td></tr>\n";
 
         $sql2 = nkDB_execute('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
-        while (list($voteid, $optiontext) = mysql_fetch_array($sql2)) {
+        while (list($voteid, $optiontext) = nkDB_fetchArray($sql2)) {
             $optiontext = printSecuTags($optiontext);
 
             echo '<tr><td><input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '</td></tr>';
@@ -90,7 +90,7 @@ function update_sondage($poll_id, $voteID) {
     if (!empty($voteID) && is_numeric($voteID) && is_numeric($poll_id)) {
         if (verif_check($poll_id) == 0) {
             $sql = nkDB_execute('SELECT niveau FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
-            list($niveau) = mysql_fetch_array($sql);
+            list($niveau) = nkDB_fetchArray($sql);
 
             if ($visiteur >= $niveau) {
                 $upd = nkDB_execute('UPDATE ' . SURVEY_DATA_TABLE . ' SET optionCount = optionCount + 1 WHERE voteID = ' . $voteID . ' AND sid = ' . $poll_id);
@@ -148,7 +148,7 @@ function affich_res($poll_id) {
     if(!empty($poll_id) && is_numeric($poll_id)) {
 
         $sql = nkDB_execute('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid=' . $poll_id);
-        list($titre) = mysql_fetch_array($sql);
+        list($titre) = nkDB_fetchArray($sql);
         $titre = printSecuTags($titre);
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _POLLOF . "</b></big></div>\n"
@@ -157,12 +157,12 @@ function affich_res($poll_id) {
 
         $sql2 = nkDB_execute('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
         $nbcount = 0;
-        while (list($option_count) = mysql_fetch_array($sql2)) {
+        while (list($option_count) = nkDB_fetchArray($sql2)) {
             $nbcount = $nbcount + $option_count;
         }
 
         $sql3 = nkDB_execute('SELECT optionCount, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
-        while (list($optioncount, $optiontext) = mysql_fetch_array($sql3)) {
+        while (list($optioncount, $optiontext) = nkDB_fetchArray($sql3)) {
             $optiontext = printSecuTags($optiontext);
 
             if ($nbcount <> 0) {
@@ -198,7 +198,7 @@ function affich_res($poll_id) {
             WHERE module = \'survey\''
         );
 
-        list($active) = mysql_fetch_array($sql);
+        list($active) = nkDB_fetchArray($sql);
 
         if ($active == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
             echo '<tr><td>';
@@ -232,14 +232,14 @@ function index_sondage() {
     . "<td align=\"center\"><b>&nbsp;</b></td></tr>\n";
 
     $sql = nkDB_execute('SELECT sid, titre, date FROM ' . SURVEY_TABLE . ' ORDER BY date DESC');
-    while (list($poll_id, $titre, $date) = mysql_fetch_array($sql)) {
+    while (list($poll_id, $titre, $date) = nkDB_fetchArray($sql)) {
         $titre = printSecuTags($titre);
         $date = nkDate($date);
 
         $sql2 = nkDB_execute('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
         $nbvote = 0;
         $j = 0;
-        while (list($option_count) = mysql_fetch_array($sql2)) {
+        while (list($option_count) = nkDB_fetchArray($sql2)) {
             $nbvote = $nbvote + $option_count;
         }
 

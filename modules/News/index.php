@@ -135,7 +135,7 @@ function index_comment($news_id) {
         WHERE module = \'news\''
     );
 
-    $row = mysql_fetch_array($sql);
+    $row = nkDB_fetchArray($sql);
 
     if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
         include_once 'modules/Comment/index.php';
@@ -164,7 +164,7 @@ function suite($news_id) {
         WHERE module = \'news\''
     );
 
-    $row = mysql_fetch_array($sql);
+    $row = nkDB_fetchArray($sql);
 
     if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
         include_once 'modules/Comment/index.php';
@@ -261,7 +261,7 @@ function sendfriend($news_id) {
     echo '<script type="text/javascript">function verifchamps(){if(document.getElementById(\'sf_pseudo\').value.length == 0){alert(\''._NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''._BADMAIL.'\');return false;}return true;}</script>';
 
     $sql = nkDB_execute("SELECT titre FROM ".NEWS_TABLE." WHERE id = '$news_id'");
-    list($title) = mysql_fetch_array($sql);
+    list($title) = nkDB_fetchArray($sql);
 
     echo '<form method="post" action="index.php?file=News" onsubmit="return verifchamps()">
             <table style="margin:0 auto;text-align:left;" width="60%" cellspacing="1" cellpadding="1" border="0">

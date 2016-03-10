@@ -37,14 +37,14 @@ function main(){
     $sql = nkDB_execute("SELECT id, module, date, user_id FROM " . SUGGEST_TABLE . " ORDER BY module, date");
     $count = mysql_num_rows($sql);
     
-    while (list($sug_id, $mod_name, $date, $id_user) = mysql_fetch_array($sql)){
+    while (list($sug_id, $mod_name, $date, $id_user) = nkDB_fetchArray($sql)){
         $date = nkDate($date);
 
         $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
         $nb_user = mysql_num_rows($sql2);
 
         if ($nb_user > 0){
-            list($user_for, $pseudo) = mysql_fetch_array($sql2);
+            list($user_for, $pseudo) = nkDB_fetchArray($sql2);
         }
         else{
             $pseudo = __('VISITOR') . ' (' . $id_user . ')';
@@ -69,7 +69,7 @@ function show_suggest($sug_id){
     global $nuked, $language;
 
     $sql = nkDB_execute("SELECT module, date, user_id, proposition FROM " . SUGGEST_TABLE . " WHERE id = '" . intval($sug_id) . "'");
-    list($mod_name, $date, $id_user, $proposition) = mysql_fetch_array($sql);
+    list($mod_name, $date, $id_user, $proposition) = nkDB_fetchArray($sql);
     $date = nkDate($date);
     $content = explode('|', $proposition);
 
@@ -77,7 +77,7 @@ function show_suggest($sug_id){
     $nb_user = mysql_num_rows($sql2);
 
     if ($nb_user > 0){
-        list($user_for, $pseudo) = mysql_fetch_array($sql2);
+        list($user_for, $pseudo) = nkDB_fetchArray($sql2);
     }
     else{
         $pseudo = __('VISITOR') . " (" . $id_user . ")";
@@ -113,7 +113,7 @@ function del($sug_id){
     global $nuked, $user, $language;
 
     $sql = nkDB_execute("SELECT user_id, module, proposition FROM " . SUGGEST_TABLE . " WHERE id='" . intval($sug_id) . "' ");
-    list($for, $module, $data) = mysql_fetch_array($sql);
+    list($for, $module, $data) = nkDB_fetchArray($sql);
 
     if(!empty($module))
         include("modules/Suggest/modules/" . $module . ".php");

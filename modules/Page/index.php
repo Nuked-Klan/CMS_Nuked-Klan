@@ -33,7 +33,7 @@ else {
 }
 
 if ($count > 0) {
-    list($pid, $titre, $niveau, $content, $url, $type, $show_title, $members) = mysql_fetch_array($sql);
+    list($pid, $titre, $niveau, $content, $url, $type, $show_title, $members) = nkDB_fetchArray($sql);
     $content = stripslashes($content);
     $titre = stripslashes($titre);
     

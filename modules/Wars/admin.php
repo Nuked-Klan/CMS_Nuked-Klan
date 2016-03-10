@@ -50,7 +50,7 @@ function main(){
 
     $sql = nkDB_execute("SELECT warid, team, adversaire, url_adv, etat, date_jour, date_mois, date_an FROM " . WARS_TABLE . " ORDER BY etat, date_an DESC, date_mois DESC, date_jour DESC");
     $count = mysql_num_rows($sql);
-    while (list($war_id, $team, $adv_name, $adv_url, $status, $jour, $mois, $an) = mysql_fetch_array($sql)){
+    while (list($war_id, $team, $adv_name, $adv_url, $status, $jour, $mois, $an) = nkDB_fetchArray($sql)){
         $adv_name = printSecuTags($adv_name);
 
         if ($status > 0){
@@ -62,7 +62,7 @@ function main(){
 
         if ($team > 0){
             $sql2 = nkDB_execute("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
-            list($team_name) = mysql_fetch_array($sql2);
+            list($team_name) = nkDB_fetchArray($sql2);
             $team_name = printSecuTags($team_name);
         }
         else{
@@ -114,7 +114,7 @@ function match(){
 
     if ($_REQUEST['do'] == "edit") {
         $sql = nkDB_execute("SELECT etat, team, game, adversaire, url_adv, pays_adv, image_adv, type, style, date_jour, date_mois, date_an, heure, map, score_team, score_adv, tscore_team, tscore_adv, report, url_league FROM " . WARS_TABLE . " WHERE warid='".$war_id."'");
-        list($status, $team, $game, $adv_name, $adv_url, $pays_adv, $logo_adv, $type, $style, $jour, $mois, $an, $heure, $map, $score_team, $score_adv, $tscore_team, $tscore_adv, $report, $url_league) = mysql_fetch_array($sql);
+        list($status, $team, $game, $adv_name, $adv_url, $pays_adv, $logo_adv, $type, $style, $jour, $mois, $an, $heure, $map, $score_team, $score_adv, $tscore_team, $tscore_adv, $report, $url_league) = nkDB_fetchArray($sql);
         $adv_name = nkHtmlSpecialChars($adv_name);
         $mapList = explode('|', $map);
         $score_team = explode('|', $score_team);
@@ -173,7 +173,7 @@ function match(){
                 . "<tr><td align=\"center\"><b>" . _GAME . " : </b><select name=\"game\">\n";
 
         $sql3 = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
-        while (list($id, $name) = mysql_fetch_array($sql3)){
+        while (list($id, $name) = nkDB_fetchArray($sql3)){
             $name = printSecuTags($name);
 
             if ($id == $game){
@@ -201,7 +201,7 @@ function match(){
             . "</select>&nbsp;&nbsp;<b>" . _TEAM . " : </b><select name=\"team\"><option value=\"\">" . _NONE . "</option>\n";
 
     $sql2 = nkDB_execute("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
-    while (list($cid, $titre) = mysql_fetch_array($sql2)){
+    while (list($cid, $titre) = nkDB_fetchArray($sql2)){
         $titre = nkHtmlEntities($titre);
 
         if ($cid == $team){
@@ -370,7 +370,7 @@ function match(){
     }
 
     /*$sql3 = nkDB_execute("SELECT map FROM " . GAMES_TABLE . " WHERE id=".mysql_real_escape_string($_REQUEST['game']) ." ORDER BY name");
-    list($mapss) = mysql_fetch_array($sql3);
+    list($mapss) = nkDB_fetchArray($sql3);
     $mapss = explode('|', $mapss);
     for($maps = 1; $maps <= $nbr; $maps++){
         $mapis = $mapss;
@@ -610,7 +610,7 @@ function main_file($im_id){
             . "<td align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, type, url FROM " . WARS_FILES_TABLE . " WHERE module = 'Wars' AND im_id = '" . $im_id . "'");
-    while (list($fid, $type, $url) = mysql_fetch_array($sql)){
+    while (list($fid, $type, $url) = nkDB_fetchArray($sql)){
         if ($type == "screen"){
             $typename = _IMG;
         }
@@ -658,7 +658,7 @@ function edit_file($fid){
     nkTemplate_setTitle(_ADMINMATCH);
 
     $sql = nkDB_execute("SELECT im_id, type, url FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
-    list($im_id, $type, $url) = mysql_fetch_array($sql);
+    list($im_id, $type, $url) = nkDB_fetchArray($sql);
 
     if ($type == "screen"){
         $typename = _IMG;
@@ -802,7 +802,7 @@ function del_file($fid){
     nkTemplate_setTitle(_ADMINMATCH);
 
     $sql = nkDB_execute("SELECT im_id FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
-    list($im_id) = mysql_fetch_array($sql);
+    list($im_id) = nkDB_fetchArray($sql);
 
     $del = nkDB_execute("DELETE FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
 

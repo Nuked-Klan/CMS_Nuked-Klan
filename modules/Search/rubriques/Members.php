@@ -40,7 +40,7 @@ $nb_mb = mysql_num_rows($sql_mb);
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 
 if ($nb_mb > 0){
-    while (list($pseudo, $mb_date) = mysql_fetch_array($sql_mb)){
+    while (list($pseudo, $mb_date) = nkDB_fetchArray($sql_mb)){
         $mb_date = nkDate($mb_date);
         $tab['module'][] = $modname;
         $tab['title'][] = "<b>" . $pseudo . "</b> - " . _MEMBERREG . "&nbsp;" . $mb_date;

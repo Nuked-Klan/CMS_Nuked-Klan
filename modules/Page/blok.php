@@ -16,7 +16,7 @@ global $nuked;
 
 $i = 0;
 $sql = nkDB_execute("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
-while (list($titre) = mysql_fetch_array($sql))
+while (list($titre) = nkDB_fetchArray($sql))
 {
     $titre = stripslashes($titre);
     $titre = htmlspecialchars($titre);

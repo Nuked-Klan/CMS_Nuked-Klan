@@ -29,7 +29,7 @@ function affich_block_roster($blok){
     $blok['content'] .= '<table style="width:100%;" cellspacing="0" cellpadding="1">'."\n";
 
     $sql = nkDB_execute('SELECT pseudo, mail, country FROM ' . USER_TABLE . ' ' . $where . ' ORDER BY ordre, pseudo');
-    while (list($pseudo, $mail, $country) = mysql_fetch_array($sql)){
+    while (list($pseudo, $mail, $country) = nkDB_fetchArray($sql)){
         list ($pays, $ext) = explode('.', $country);
 
         $nick_team = $nuked['tag_pre'] . $pseudo . $nuked['tag_suf'];
@@ -54,7 +54,7 @@ function edit_block_roster($bid){
     global $nuked, $language;
 
     $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
-    list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
+    list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = nkDB_fetchArray($sql);
     
     $titre = printSecuTags($titre);
 
@@ -89,7 +89,7 @@ function edit_block_roster($bid){
 			, '<option>9</option></select></td></tr><tr><td colspan="4"><b>' , _TEAM , ' :</b>&nbsp;<select name="content"><option value="">' , _INFOALL , '</option>',"\n";
 
     $sql2 = nkDB_execute('SELECT cid, titre FROM ' . TEAM_TABLE . ' ORDER BY ordre, titre');
-    while (list($team_id, $team) = mysql_fetch_array($sql2)){
+    while (list($team_id, $team) = nkDB_fetchArray($sql2)){
         $team = printSecuTags($team);
 
         if ($team_id == $content) $checked3 = 'selected="selected"';

@@ -41,7 +41,7 @@ function affich_block_login($blok){
 			$blok['content'] = '<div style="text-align: center;">' . _WELCOME . ', <b>' . $user[2] . '</b><br /><br />'."\n";
 			if ($avatar != 'off'){
 				$sql_avatar=nkDB_execute('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $user[0] . '\' ');
-				list($avatar_url) = mysql_fetch_array($sql_avatar);
+				list($avatar_url) = nkDB_fetchArray($sql_avatar);
 				if($avatar_url) $blok['content'] .= '<img src="' . $avatar_url . '" style="border:1px ' . $bgcolor3 . ' dashed; width:100px; background:' . $bgcolor1 . '; padding:2px;" alt="' . $user[2] . ' avatar" /><br /><br />';
 			}
 			$blok['content'] .= '<a href="index.php?file=User">' . _ACCOUNT . '</a> / <a href="index.php?file=User&amp;op=logout">' . _LOGOUT . '</a></div>'."\n";
@@ -86,7 +86,7 @@ function affich_block_login($blok){
         $nb_admin = mysql_num_rows($sql_admin);
 
         $sql_lastmember = nkDB_execute('SELECT pseudo FROM ' . USER_TABLE . ' ORDER BY date DESC LIMIT 0, 1');
-        list($lastmember) = mysql_fetch_array($sql_lastmember);
+        list($lastmember) = nkDB_fetchArray($sql_lastmember);
 
         $blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _ADMINS . ' : <b>' . $nb_admin . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBERS . ' :'
         . '&nbsp;<b>' . $nb_users . '</b> [<a href="index.php?file=Members">' . _LIST . '</a>]<br />'."\n"
@@ -104,7 +104,7 @@ function affich_block_login($blok){
 
     	if ($nb[1] > 0){
 			$sql4 = nkDB_execute('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type BETWEEN 1 AND 2 ORDER BY date');
-			while (list($nom) = mysql_fetch_array($sql4)){
+			while (list($nom) = nkDB_fetchArray($sql4)){
 				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';
 			}
 			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
@@ -115,7 +115,7 @@ function affich_block_login($blok){
 		if ($nb[2] > 0) {
             $admin_online = '';
 			$sql5 = nkDB_execute('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
-			while (list($name) = mysql_fetch_array($sql5)){
+			while (list($name) = nkDB_fetchArray($sql5)){
 				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
 			}	
 			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
@@ -141,7 +141,7 @@ function edit_block_login($bid){
     global $nuked, $language;
 
     $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
-    list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
+    list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
 
     if(!empty($content)){
