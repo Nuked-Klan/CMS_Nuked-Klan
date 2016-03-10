@@ -35,7 +35,7 @@ function DeleteGlobalVars(){
  * @param mixed var
  * @return void
  */
-function SecureVar($value) {
+function secureVar($value) {
     if (is_array($value)) {
         foreach ($value as $k => $v)
             $value[$k] = SecureVar($value[$k]);
@@ -97,9 +97,9 @@ unset($getId, $size);
 
 // FONCTION DE SUBSTITUTION POUR MAGIC_QUOTE_GPC
 DeleteGlobalVars();
-$_GET       = array_map('SecureVar', $_GET);
-$_POST      = array_map('SecureVar', $_POST);
-$_COOKIE    = array_map('SecureVar', $_COOKIE);
+$_GET       = array_map('secureVar', $_GET);
+$_POST      = array_map('secureVar', $_POST);
+$_COOKIE    = array_map('secureVar', $_COOKIE);
 $_REQUEST   = array_merge($_COOKIE, $_POST, $_GET);
 
 // POUR LA COMPATIBILITE DES ANCIENS THEMES ET MODULES - FOR COMPATIBITY WITH ALL OLD MODULE AND THEME
@@ -113,53 +113,5 @@ if (defined('COMPATIBILITY_MODE') && COMPATIBILITY_MODE == true) {
     if (isset($_REQUEST['nuked_nude']))
         $_REQUEST['nuked_nude'] = & $GLOBALS['nuked_nude'];
 }
-
-
-// UPLOAD PROTECTION
-/*
-// TODO : Update module with nkUpload librairy
-if (! empty($_FILES)) {
-    $nkModules = array(
-        'Admin', 'Forum', 'Suggest', 'User', 'Gallery', 'News', 'Download',
-        'Sections', 'Wars'
-    );
-
-    // TODO : Get cleaned $_REQUEST['file'] value !!!
-    if (! in_array($_REQUEST['file'], $nkModules)) {
-        foreach ($_FILES as $k => $v) {
-            if ($_FILES[$k]['error'] !== UPLOAD_ERR_OK)
-                continue;
-
-            $ext = strrchr($_FILES[$k]['name'], '.');
-
-            $_FILES[$k]['name'] = substr(md5(uniqid()), rand(0, 20), 10) . $ext;
-
-            $sfile = new finfo(FILEINFO_MIME);
-            $mime  = $sfile->file($_FILES[$k]['tmp_name']);
-
-            if (stripos($ext, 'php') !== false || stripos($mime, 'php') !== false) {
-                //@unlink($_FILES[$k]['tmp_name']);
-                die(NO_UPLOAD_PHP_FILE);
-            }
-            else if (stripos($ext, 'htm') !== false || stripos($mime, 'htm') !== false) {
-                //@unlink($_FILES[$k]['tmp_name']);
-                die(NO_UPLOAD_HTML_FILE);
-            }
-            else if (stripos($ext, 'htaccess') !== false || stripos($mime, 'htaccess') !== false) {
-                //@unlink($_FILES[$k]['tmp_name']);
-                die(NO_UPLOAD_HTACCESS_FILE);
-            }
-
-            unset($ext, $sfile, $mime);
-        }
-    }
-
-    unset($nkModules);
-}
-
-*/
-
-//register_shutdown_function(create_function('', 'var_dump($_GET, $_POST, $_REQUEST);return false;'));
-
 
 ?>
