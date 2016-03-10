@@ -24,9 +24,6 @@ define("_DOWNLOADDEMO","Download Demo");
 
 
 define("_UPFILE","Upload file to server");
-define("_REPLACE","Overwrite");
-define("_DEJAFILE","A file with the same name already exists on your ftp");
-define("_REPLACEIT","To overwrite it please check the box \""._REPLACE."\"");
 define("_NOMBRE","Numbers of map");
 define("_SCORE","Score of map");
 define("_NEXTMATCHES","Next Wars");

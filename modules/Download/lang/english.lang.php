@@ -79,11 +79,7 @@ define("_FILEERASED","File was successfully removed from the list.");
 define("_ERASEALLLIST","You are about to remove all deads links from list, continue ?");
 define("_ERASELIST","Clear broken links list");
 define("_LISTERASED","Broken links list successfully cleared.");
-define("_REPLACE","Overwrite");
-define("_DEJAFILE","A file with the same name already exists on your ftp");
-define("_DEJASCREEN","A image with the same name already exists on your ftp");
 define("_URLORTITLEFAILDED","Url or/and title missing!");
-define("_REPLACEIT","To overwrite it please check the box \""._REPLACE."\"");
 define("_NUMBERFILE","Number of files per page");
 define("_HIDEDESC","Hide the empty fields in the description");
 
@@ -98,4 +94,11 @@ define("_ACTIONPOSMODIFCATDL","has modified the position of the download categor
 define("_ACTIONDELCATDL","has deleted the download category");
 define("_ACTIONMODIFPREFDL","has modified the preference of download module");
 define("_CATERRORPOS","Impossible the position will be lower than zero.");
+
+return array(
+    // modules/Download/admin.php
+    'UPLOAD_SCREENSHOT_FAILED' => 'Upload image failed !',
+    'SCREENSHOT_ALREADY_EXIST' => 'A image with the same name already exists on your ftp',
+);
+
 ?>

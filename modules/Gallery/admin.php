@@ -41,7 +41,7 @@ function add_screen()
     . "<tr><td><textarea class=\"editor\" id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\"></textarea></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _URLIMG . " :</b> <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . _REPLACE . "</td></tr>\n"
+    . "<tr><td><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . __('OVERWRITE') . "</td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" size=\"46\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
     . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
@@ -151,7 +151,7 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
         }
         else
         {
-            printNotification(_DEJASCREEN .'<br />'. _REPLACEIT, 'warning', array('backLinkUrl' => 'javascript:history.back()'));
+            printNotification(_DEJASCREEN .'<br />'. __('REPLACE_FILE'), 'warning', array('backLinkUrl' => 'javascript:history.back()'));
         }
     }
     else
@@ -218,7 +218,7 @@ function modif_img($sid, $titre, $description, $auteur, $fichiernom, $maxi, $cat
     }
     else
     {
-        printNotification(_DEJASCREEN .'<br />'. _REPLACEIT, 'warning', array('backLinkUrl' => 'javascript:history.back()'));
+        printNotification(_DEJASCREEN .'<br />'. __('REPLACE_FILE'), 'warning', array('backLinkUrl' => 'javascript:history.back()'));
         return;
     }
 }
@@ -485,7 +485,7 @@ function edit_screen($sid)
     . "<tr><td><textarea class=\"editor\" id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\" onselect=\"storeCaret('img_texte');\" onclick=\"storeCaret('img_texte');\" onkeyup=\"storeCaret('img_texte');\">" . $description . "</textarea></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _URLIMG . " :</b> <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"200\" value=\"" . $url . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . _REPLACE . "</td></tr>\n"
+    . "<tr><td><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . __('OVERWRITE') . "</td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" size=\"46\" maxlength=\"200\" value=\"" . $url2 . "\" /></td></tr>\n"
     . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"" . $url_file . "\" /></td></tr>\n"

@@ -45,7 +45,7 @@ function add_file() {
     select_cat();
 
     echo "</select></td></tr>\n"
-        . "<tr><td align=\"left\" colspan=\"2\"><b>" . _AUTOR . " :</b> <input type=\"text\" name=\"autor\" size=\"40\" /></td></tr>\n"
+        . "<tr><td align=\"left\" colspan=\"2\"><b>" . __('AUTHOR') . " :</b> <input type=\"text\" name=\"autor\" size=\"40\" /></td></tr>\n"
         . "<tr><td align=\"left\"><b>" . _SITE . " :</b> <input type=\"text\" name=\"site\" size=\"55\" value=\"http://\" /></td></tr>\n"
         . "<tr><td align=\"center\">\n";
 
@@ -71,10 +71,10 @@ function add_file() {
         . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"http://\" /></td></tr>\n"
         . "<tr><td><b>" . _URL2 . " :</b> <input type=\"text\" name=\"url2\" size=\"55\" value=\"http://\" /></td></tr>\n"
         . "<tr><td><b>" . _URL3 . " :</b> <input type=\"text\" name=\"url3\" size=\"55\" value=\"http://\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
+        . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"42\" value=\"http://\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
+        . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
@@ -82,7 +82,13 @@ function add_file() {
 function send_file() {
     global $nuked, $user;
 
-    $arrayRequest = array('date', 'size', 'titre', 'description', 'cat', 'url', 'url2', 'url3', 'level', 'autor', 'site', 'comp', 'screen', 'screen2', 'copy', 'ecrase_file', 'ecrase_screen');
+    require_once 'Includes/nkUpload.php';
+
+    $arrayRequest = array(
+        'date', 'size', 'titre', 'description', 'cat',
+        'url', 'url2', 'url3', 'level', 'autor', 'site',
+        'comp', 'screen'
+    );
 
     foreach($arrayRequest as $key){
         if(array_key_exists($key, $_REQUEST)){
@@ -94,10 +100,10 @@ function send_file() {
     }
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = nkDB_realEscapeString(stripslashes($description));
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-    $autor = nkDB_realEscapeString(stripslashes($autor));
-    $comp = nkDB_realEscapeString(stripslashes($comp));
+    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = mysql_real_escape_string(stripslashes($titre));
+    $autor = mysql_real_escape_string(stripslashes($autor));
+    $comp = mysql_real_escape_string(stripslashes($comp));
 
     $date = time();
     $taille = str_replace(",", ".", $size);
@@ -106,86 +112,89 @@ function send_file() {
     if ($url == "http://") $url = "";
     if ($url2 == "http://") $url2 = "";
     if ($url3 == "http://") $url3 = "";
-    if ($screen == "http://") $screen = "";
+
+    if ($screen == "http://")
+        $screenshotUrl = '';
+    else
+        $screenshotUrl = $screen;
 
     if ($site != "" && !preg_match("`http://`i", $site)) {
         $site = "http://" . $site;
     }
 
-    $racine_up = "upload/Download/";
-    $racine_down = "";
+    $racine_up = 'upload/Download';
 
-    $deja_file = $deja_screen = '';
+    //Upload du fichier
+    $uploadFileError = $uploadScreenshotError = false;
+    $fileUrl = '';
 
-    if ($_FILES['copy']['name'] != "") {
-        $filename = $_FILES['copy']['name'];
-        $filesize = $_FILES['copy']['size'];
-        $taille = $filesize / 1024;
-        $taille = (round($taille * 100)) / 100;
-        $url_file = $racine_up . $filename;
+    if ($_FILES['copy']['name'] != '') {
+        $fileCfg = array(
+            'tsKeyDataName' => 'FILE',
+            'fileType'  => 'no-html-php',
+            'uploadDir' => $racine_up,
+            //'fileSize'  => 100000
+        );
 
-        if (!is_file($url_file) || $ecrase_file == 1) {
-            if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess") {
-                if (! move_uploaded_file($_FILES['copy']['tmp_name'], $url_file)) {
-                    printNotification('Upload file failed !!!', 'error');
-                    return;
-                }
-                @chmod ($url_file, 0644);
-            } else {
-                printNotification('Unauthorized file !!!', 'error');
-                redirect("index.php?file=Download&page=admin&op=add_file", 2);
-                return;
-            }
-        } else {
-            $deja_file = 1;
+        if (isset($_POST['ecrase_file']) && $_POST['ecrase_file'] == 1)
+            $fileCfg['overwrite'] = true;
+        else
+            $fileCfg['overwrite'] = false;
+
+        list($fileUrl, $uploadFileError, $fileExt) = nkUpload_check('copy', $fileCfg);
+
+        if ($uploadFileError === false) {
+            if ($url == '') $url = $fileUrl;
+            else if ($url2 == '') $url2 = $fileUrl;
+            else if ($url3 == '') $url3 = $fileUrl;
+            else $url = $fileUrl;
         }
-
-        $url_full = $racine_down . $url_file;
-        $url_full = $url_file;
-
-        if ($url == "") $url = $url_full;
-        else if ($url2 == "") $url2 = $url_full;
-        else if ($url3 == "") $url3 = $url_full;
-        else $url = $url_full;
+        else if ($uploadFileError !== __('FILE_ALREADY_EXIST')) {
+            printNotification($uploadFileError, 'error');
+            redirect('index.php?file=Download&page=admin', 5);
+            return;
+        }
     }
 
-    if ($_FILES['screen2']['name'] != "") {
-        $screenname = $_FILES['screen2']['name'];
-        $ext = pathinfo($_FILES['screen2']['name'], PATHINFO_EXTENSION);
-        $filename2 = str_replace($ext, "", $screenname);
-        $url_screen = $racine_up . $filename2 . $ext;
+    if ($_FILES['screen2']['name'] != '') {
+        $screenshotCfg = array(
+            'tsKeyDataName' => 'SCREENSHOT',
+            'fileType'  => 'image',
+            'uploadDir' => $racine_up,
+            //'fileSize'  => 100000
+        );
 
-        if (!is_file($url_screen) || $ecrase_screen == 1) {
-            if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
-                if (! move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen)) {
-                    printNotification('Upload screen failed !!!', 'error');
-                    return;
-                }
-                @chmod ($url_screen, 0644);
-            } else {
-                printNotification('No image file !!!', 'error');
-                redirect("index.php?file=Download&page=admin&op=add_file", 2);
-                return;
-            }
-        } else {
-            $deja_screen = 1;
+        if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
+            $screenshotCfg['overwrite'] = true;
+        else
+            $screenshotCfg['overwrite'] = false;
+
+        list($screenshotUrl, $uploadScreenshotError, $screenshotExt) = nkUpload_check('screen2', $screenshotCfg);
+
+        if ($uploadScreenshotError !== false && $uploadScreenshotError !== __('SCREENSHOT_ALREADY_EXIST')) {
+            printNotification($uploadScreenshotError, 'error');
+            redirect('index.php?file=Download&page=admin', 5);
+            return;
         }
-
-        $url_full_screen = $racine_down . $url_screen;
-        $screen = $url_full_screen;
     }
 
-    if ($deja_file == 1 || $deja_screen == 1) {
-        $message = '';
+    if ($uploadFileError !== false || $uploadScreenshotError !== false) {
+        $error = array();
 
-        if ($deja_file == 1) $message .= _DEJAFILE;
-        if ($deja_screen == 1) $message .= '&nbsp;'. _DEJASCREEN;
+        if ($uploadFileError)
+            $error[] = $uploadFileError;
 
-        $message .= '<br />'. _REPLACEIT;
+        if ($uploadScreenshotError)
+            $error[] = $uploadScreenshotError;
 
-        printNotification($message, 'error', array('backLinkUrl' => 'javascript:history.back()'));
-    } else if ($url != "" && $titre != "") {
-        $sql = nkDB_execute("INSERT INTO " . DOWNLOAD_TABLE . " ( `date` , `taille` , `titre` , `description` , `type` , `url` , `url2`  , `url3` , `level`, `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $date . "' , '" . $taille . "' , '" . $titre . "' , '" . $description . "' , '" . $cat . "' , '" . $url . "' , '" . $url2 . "' , '" . $url3 . "' , '" . $level ."' , '" . $autor . "' , '" . $site . "' , '" . $comp . "' , '" . $screen . "' )");
+        printNotification(
+            implode('&nbsp;', $error) .'<br />'. __('REPLACE_FILE'),
+            'error',
+            array('backLinkUrl' => 'javascript:history.back()')
+        );
+    }
+    else if ($url != '' && $titre != '') {
+        $sql = mysql_query("INSERT INTO " . DOWNLOAD_TABLE . " ( `date` , `taille` , `titre` , `description` , `type` , `url` , `url2`  , `url3` , `level`, `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $date . "' , '" . $taille . "' , '" . $titre . "' , '" . $description . "' , '" . $cat . "' , '" . $url . "' , '" . $url2 . "' , '" . $url3 . "' , '" . $level ."' , '" . $autor . "' , '" . $site . "' , '" . $comp . "' , '" . $screenshotUrl . "' )");
 
         $id = nkDB_insertId();
 
@@ -202,7 +211,8 @@ function send_file() {
         }
 
         setPreview('index.php?file=Download&op=description&dl_id='. $id, 'index.php?file=Download&page=admin');
-    } else {
+    }
+    else {
         printNotification(_URLORTITLEFAILDED, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     }
 }
@@ -210,12 +220,12 @@ function send_file() {
 function del_file($did) {
     global $nuked, $user;
 
-    $sql = nkDB_execute("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
-    list($titre) = nkDB_fetchArray($sql);
-    $titre = nkDB_realEscapeString($titre);
-    $sql = nkDB_execute("DELETE FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
-    $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $did . "' AND module = 'Download'");
-    $del_vote = nkDB_execute("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $did . "' AND module = 'Download'");
+    $sql = mysql_query("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
+    list($titre) = mysql_fetch_array($sql);
+    $titre = mysql_real_escape_string($titre);
+    $sql = mysql_query("DELETE FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
+    $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $did . "' AND module = 'Download'");
+    $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $did . "' AND module = 'Download'");
 
     saveUserAction(_ACTIONDELDL .': '. $titre);
     printNotification(_FILEDEL, 'success');
@@ -225,8 +235,8 @@ function del_file($did) {
 function edit_file($did) {
     global $nuked, $language;
 
-    $sql = nkDB_execute("SELECT titre, description, type, taille, url, url2, url3, count, level, screen, autor, url_autor, comp  FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
-    list($titre, $description, $cat, $taille, $url, $url2, $url3, $count, $level, $screen, $autor, $url_autor, $comp) = nkDB_fetchArray($sql);
+    $sql = mysql_query("SELECT titre, description, type, taille, url, url2, url3, count, level, screen, autor, url_autor, comp  FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
+    list($titre, $description, $cat, $taille, $url, $url2, $url3, $count, $level, $screen, $autor, $url_autor, $comp) = mysql_fetch_array($sql);
 
     $upload_max_filesize = @ini_get('upload_max_filesize');
     $file_uploads = @ini_get('file_uploads');
@@ -245,8 +255,8 @@ function edit_file($did) {
         $cat_name = _NONE;
     } else {
         $cid = $cat;
-        $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
-        list($cat_name) = nkDB_fetchArray($sql2);
+        $sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+        list($cat_name) = mysql_fetch_array($sql2);
         $cat_name = printSecuTags($cat_name);
     }
 
@@ -263,7 +273,7 @@ function edit_file($did) {
     select_cat();
 
     echo "</select></td></tr>\n"
-        . "<tr><td align=\"left\" colspan=\"2\"><b>" . _AUTOR . " :</b> <input type=\"text\" name=\"autor\" size=\"40\" value=\"" . $autor . "\" /></td></tr>\n"
+        . "<tr><td align=\"left\" colspan=\"2\"><b>" . __('AUTHOR') . " :</b> <input type=\"text\" name=\"autor\" size=\"40\" value=\"" . $autor . "\" /></td></tr>\n"
         . "<tr><td align=\"left\"><b>" . _SITE . " :</b> <input type=\"text\" name=\"site\" size=\"55\" value=\"" . $url_autor . "\" /></td></tr>\n"
         . "<tr><td align=\"center\">\n";
 
@@ -289,10 +299,10 @@ function edit_file($did) {
         . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $url . "\" /></td></tr>\n"
         . "<tr><td><b>" . _URL2 . " :</b> <input type=\"text\" name=\"url2\" size=\"55\" value=\"" . $url2 . "\" /></td></tr>\n"
         . "<tr><td><b>" . _URL3 . " :</b> <input type=\"text\" name=\"url3\" size=\"55\" value=\"" . $url3 . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
+        . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"42\" value=\"" . $screen . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "</td></tr>\n"
+        . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
         . "<tr><td>&nbsp;<input type=\"hidden\" name=\"did\" value=\"" . $did . "\" /></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 
@@ -301,7 +311,13 @@ function edit_file($did) {
 function modif_file() {
     global $nuked, $user;
 
-    $arrayRequest = array('did', 'date', 'taille', 'titre', 'description', 'cat', 'count', 'url', 'url2', 'url3', 'level', 'autor', 'site', 'comp', 'screen', 'screen2', 'copy', 'ecrase_file', 'ecrase_screen');
+    require_once 'Includes/nkUpload.php';
+
+    $arrayRequest = array(
+        'did', 'date', 'taille', 'titre', 'description', 'cat',
+        'count', 'url', 'url2', 'url3', 'level', 'autor', 'site',
+        'comp', 'screen'
+    );
 
     foreach($arrayRequest as $key){
         if(array_key_exists($key, $_REQUEST)){
@@ -313,10 +329,10 @@ function modif_file() {
     }
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = nkDB_realEscapeString(stripslashes($description));
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-    $autor = nkDB_realEscapeString(stripslashes($autor));
-    $comp = nkDB_realEscapeString(stripslashes($comp));
+    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = mysql_real_escape_string(stripslashes($titre));
+    $autor = mysql_real_escape_string(stripslashes($autor));
+    $comp = mysql_real_escape_string(stripslashes($comp));
 
     $day = time();
     $taille = str_replace(",", ".", $taille);
@@ -325,92 +341,96 @@ function modif_file() {
     if ($url == "http://") $url = "";
     if ($url2 == "http://") $url2 = "";
     if ($url3 == "http://") $url3 = "";
-    if ($screen == "http://") $screen = "";
+
+    if ($screen == "http://")
+        $screenshotUrl = '';
+    else
+        $screenshotUrl = $screen;
 
     if ($site != "" && !preg_match("`http://`i", $site)) {
         $site = "http://" . $site;
     }
 
-    $racine_up = "upload/Download/";
-    $racine_down = "";
+    $racine_up = 'upload/Download';
 
-    if ($_FILES['copy']['name'] != "") {
-        $filename = $_FILES['copy']['name'];
-        $filesize = $_FILES['copy']['size'];
-        $taille = $filesize / 1024;
-        $taille = (round($taille * 100)) / 100;
-        $url_file = $racine_up . $filename;
+    //Upload du fichier
+    $uploadFileError = $uploadScreenshotError = false;
+    $fileUrl = '';
 
-        if (!is_file($url_file) || $ecrase_file == 1) {
-            if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && $filename != ".htaccess") {
-                if (! move_uploaded_file($_FILES['copy']['tmp_name'], $url_file)) {
-                    printNotification('Upload file failed !!!', 'error');
-                    return;
-                }
-                @chmod ($url_file, 0644);
-            } else {
-                printNotification('Unauthorized file !!!', 'error');
-                redirect("index.php?file=Download&page=admin&op=edit_file&did=" . $did, 2);
-                return;
-            }
-        } else {
-            $deja_file = 1;
+    if ($_FILES['copy']['name'] != '') {
+        $fileCfg = array(
+            'tsKeyDataName' => 'FILE',
+            'fileType'  => 'no-html-php',
+            'uploadDir' => $racine_up,
+            //'fileSize'  => 100000
+        );
+
+        if (isset($_POST['ecrase_file']) && $_POST['ecrase_file'] == 1)
+            $fileCfg['overwrite'] = true;
+        else
+            $fileCfg['overwrite'] = false;
+
+        list($fileUrl, $uploadFileError, $fileExt) = nkUpload_check('copy', $fileCfg);
+
+        if ($uploadFileError === false) {
+            if ($url == '') $url = $fileUrl;
+            else if ($url2 == '') $url2 = $fileUrl;
+            else if ($url3 == '') $url3 = $fileUrl;
+            else $url = $fileUrl;
         }
-
-        $url_full = $racine_down . $url_file;
-        $url_full = $url_file;
-
-        if ($url == "") $url = $url_full;
-        else if ($url2 == "") $url2 = $url_full;
-        else if ($url3 == "") $url3 = $url_full;
-        else $url = $url_full;
+        else if ($uploadFileError !== __('FILE_ALREADY_EXIST')) {
+            printNotification($uploadFileError, 'error');
+            redirect('index.php?file=Download&page=admin&op=edit_file&did='. $did, 5);
+            return;
+        }
     }
 
-    if ($_FILES['screen2']['name'] && $url) {
+    if ($_FILES['screen2']['name'] != '') {
+        $screenshotCfg = array(
+            'tsKeyDataName' => 'SCREENSHOT',
+            'fileType'  => 'image',
+            'uploadDir' => $racine_up,
+            //'fileSize'  => 100000
+        );
 
-        $screenname = $_FILES['screen2']['name'];
-        $ext = strrchr($screenname, ".");
-        $ext = substr($screenname, 1);
-        $filename2 = str_replace($ext, "", $screenname);
-        $url_screen = $racine_up . $filename2 . $ext;
+        if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
+            $screenshotCfg['overwrite'] = true;
+        else
+            $screenshotCfg['overwrite'] = false;
 
-        if (!is_file($url_screen) || $ecrase_screen == 1) {
-            if (!preg_match("`\.php`i", $screenname) && !preg_match("`\.htm`i", $screenname) && !preg_match("`\.[a-z]htm`i", $screenname) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
-                if (! move_uploaded_file($_FILES['screen2']['tmp_name'], $url_screen)) {
-                    printNotification('Upload screen failed !!!', 'error');
-                    return;
-                }
-                @chmod ($url_screen, 0644);
-            } else {
-                printNotification('No image file !!!', 'error');
-                redirect("index.php?file=Download&page=admin&op=edit_file&did=" . $did, 2);
-                return;
-            }
-        } else {
-            $deja_screen = 1;
+        list($screenshotUrl, $uploadScreenshotError, $screenshotExt) = nkUpload_check('screen2', $screenshotCfg);
+
+        if ($uploadScreenshotError !== false && $uploadScreenshotError !== __('SCREENSHOT_ALREADY_EXIST')) {
+            printNotification($uploadScreenshotError, 'error');
+            redirect('index.php?file=Download&page=admin&op=edit_file&did='. $did, 5);
+            return;
         }
-
-        $url_full_screen = $racine_down . $url_screen;
-        $screen = $url_full_screen;
     }
 
-    if ($deja_file == 1 || $deja_screen == 1) {
-        $message = '';
+    if ($uploadFileError !== false || $uploadScreenshotError !== false) {
+        $error = array();
 
-        if ($deja_file == 1) $message .= _DEJAFILE;
-        if ($deja_screen == 1) $message .= '&nbsp;'. _DEJASCREEN;
+        if ($uploadFileError)
+            $error[] = $uploadFileError;
 
-        $message .= '<br />'. _REPLACEIT;
+        if ($uploadScreenshotError)
+            $error[] = $uploadScreenshotError;
 
-        printNotification($message, 'error', array('backLinkUrl' => 'javascript:history.back()'));
-    } else if ($url != "" && $titre != "") {
-        $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', type = '" . $cat . "', count = '" . $count . "', url = '" . $url . "', url2 = '" . $url2 . "', url3 = '" . $url3 . "', taille = '" . $taille . "', level = '" . $level . "', edit = '" . $day . "', autor = '" . $autor . "', url_autor = '" . $site . "', comp = '" . $comp . "', screen = '" . $screen . "' WHERE id = '" . $did . "'");
+        printNotification(
+            implode('&nbsp;', $error) .'<br />'. __('REPLACE_FILE'),
+            'error',
+            array('backLinkUrl' => 'javascript:history.back()')
+        );
+    }
+    else if ($url != '' && $titre != '') {
+        $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', type = '" . $cat . "', count = '" . $count . "', url = '" . $url . "', url2 = '" . $url2 . "', url3 = '" . $url3 . "', taille = '" . $taille . "', level = '" . $level . "', edit = '" . $day . "', autor = '" . $autor . "', url_autor = '" . $site . "', comp = '" . $comp . "', screen = '" . $screenshotUrl . "' WHERE id = '" . $did . "'");
 
         saveUserAction(_ACTIONMODIFDL .': '. $titre);
 
         printNotification(_FILEEDIT, 'success');
         setPreview('index.php?file=Download&op=description&dl_id='.$did, 'index.php?file=Download&page=admin');
-    } else {
+    }
+    else {
         printNotification(_URLORTITLEFAILDED, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     }
 }
@@ -456,11 +476,11 @@ function main_broken() {
 
     $i = 0;
     $l = 0;
-    $sql = nkDB_execute("SELECT id, titre, url, broke FROM " . DOWNLOAD_TABLE . " WHERE broke > 0 ORDER BY broke DESC, type");
-    $nb_broke = nkDB_numRows($sql);
+    $sql = mysql_query("SELECT id, titre, url, broke FROM " . DOWNLOAD_TABLE . " WHERE broke > 0 ORDER BY broke DESC, type");
+    $nb_broke = mysql_num_rows($sql);
 
     if ($nb_broke > 0) {
-        while (list($did, $titre, $url, $broke) = nkDB_fetchArray($sql)) {
+        while (list($did, $titre, $url, $broke) = mysql_fetch_array($sql)) {
             $titre = printSecuTags($titre);
             $l++;
 
@@ -483,10 +503,10 @@ function main_broken() {
 function del_broke($did) {
     global $nuked, $user;
 
-    $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
-    list($titre) = nkDB_fetchArray($sql2);
-    $titre = nkDB_realEscapeString($titre);
-    $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0 WHERE id = '" . $did . "'");
+    $sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
+    list($titre) = mysql_fetch_array($sql2);
+    $titre = mysql_real_escape_string($titre);
+    $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0 WHERE id = '" . $did . "'");
 
     saveUserAction(_ACTION1BROKEDL .': '. $titre);
 
@@ -496,7 +516,7 @@ function del_broke($did) {
 
 function del_broken() {
     global $nuked, $user;
-    $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0");
+    $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0");
 
     saveUserAction(_ACTIONALLBROKEDL .'.');
 
@@ -509,8 +529,8 @@ function main() {
 
     $nb_download = 30;
 
-    $sql3 = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE);
-    $nb_dl = nkDB_numRows($sql3);
+    $sql3 = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE);
+    $nb_dl = mysql_num_rows($sql3);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -601,8 +621,8 @@ function main() {
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
     $i = 0;
-    $sql = nkDB_execute("SELECT D.id, D.type, D.titre, D.url, D.date, DC.parentid, DC.titre  FROM " . DOWNLOAD_TABLE . " AS D LEFT JOIN " . DOWNLOAD_CAT_TABLE . " AS DC ON DC.cid = D.type ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_download);
-    while (list($did, $cat, $titre, $url, $date, $parentid, $namecat) = nkDB_fetchArray($sql)) {
+    $sql = mysql_query("SELECT D.id, D.type, D.titre, D.url, D.date, DC.parentid, DC.titre  FROM " . DOWNLOAD_TABLE . " AS D LEFT JOIN " . DOWNLOAD_CAT_TABLE . " AS DC ON DC.cid = D.type ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_download);
+    while (list($did, $cat, $titre, $url, $date, $parentid, $namecat) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
 
         $date = nkDate($date);
@@ -612,8 +632,8 @@ function main() {
         } else if ($parentid == 0) {
             $categorie = $namecat;
         } else {
-            $sql3 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-            list($parentcat) = nkDB_fetchArray($sql3);
+            $sql3 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+            list($parentcat) = mysql_fetch_array($sql3);
             $categorie = $parentcat . " -> " . $namecat;
             $categorie = printSecuTags($categorie);
         }
@@ -675,11 +695,11 @@ function main_cat() {
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
     $i = 0;
-    $sql = nkDB_execute("SELECT cid, titre, parentid, position FROM " . DOWNLOAD_CAT_TABLE . " ORDER BY parentid, position");
-    $nbcat = nkDB_numRows($sql);
+    $sql = mysql_query("SELECT cid, titre, parentid, position FROM " . DOWNLOAD_CAT_TABLE . " ORDER BY parentid, position");
+    $nbcat = mysql_num_rows($sql);
 
     if ($nbcat > 0) {
-        while (list($cid, $titre, $parentid, $position) = nkDB_fetchArray($sql)) {
+        while (list($cid, $titre, $parentid, $position) = mysql_fetch_array($sql)) {
             $titre = printSecuTags($titre);
 
             echo "<tr>\n"
@@ -687,8 +707,8 @@ function main_cat() {
             . "<td style=\"width: 35%;\" align=\"center\">\n";
 
             if ($parentid > 0) {
-                $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-                list($pnomcat) = nkDB_fetchArray($sql2);
+                $sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+                list($pnomcat) = mysql_fetch_array($sql2);
                 $pnomcat = printSecuTags($pnomcat);
 
                 echo "<i>" . $pnomcat . "</i>";
@@ -722,8 +742,8 @@ function add_cat() {
         . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
         . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\"><option value=\"0\">" . _NONE . "</option>\n";
 
-    $sql = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($cid, $nomcat) = nkDB_fetchArray($sql)) {
+    $sql = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    while (list($cid, $nomcat) = mysql_fetch_array($sql)) {
         $nomcat = printSecuTags($nomcat);
 
         echo "<option value=\"" . $cid . "\">" . $nomcat . "</option>\n";
@@ -751,17 +771,17 @@ function send_cat($titre, $description, $parentid, $level, $position) {
     global $nuked, $user;
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = mysql_real_escape_string(stripslashes($titre));
+    $description = mysql_real_escape_string(stripslashes($description));
 
-    $sql = nkDB_execute("INSERT INTO " . DOWNLOAD_CAT_TABLE . " ( `parentid` , `titre` , `description` , `level` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $level . "' , '" . $position . "' )");
+    $sql = mysql_query("INSERT INTO " . DOWNLOAD_CAT_TABLE . " ( `parentid` , `titre` , `description` , `level` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $level . "' , '" . $position . "' )");
 
     saveUserAction(_ACTIONADDCATDL .': '. $titre);
 
     printNotification(_CATADD, 'success');
 
-    $sql2 = nkDB_execute("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
-    list($did) = nkDB_fetchArray($sql2);
+    $sql2 = mysql_query("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
+    list($did) = mysql_fetch_array($sql2);
 
     setPreview('index.php?file=Download&op=categorie&cat='. $did, 'index.php?file=Download&page=admin&op=main_cat');
 }
@@ -769,8 +789,8 @@ function send_cat($titre, $description, $parentid, $level, $position) {
 function edit_cat($cid) {
     global $nuked, $language;
 
-    $sql = nkDB_execute("SELECT titre, description, parentid, level, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    list($titre, $description, $parentid, $level, $position) = nkDB_fetchArray($sql);
+    $sql = mysql_query("SELECT titre, description, parentid, level, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    list($titre, $description, $parentid, $level, $position) = mysql_fetch_array($sql);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
@@ -783,8 +803,8 @@ function edit_cat($cid) {
         . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\">\n";
 
     if ($parentid > 0) {
-        $sql2 = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-        list($pcid, $pnomcat) = nkDB_fetchArray($sql2);
+        $sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+        list($pcid, $pnomcat) = mysql_fetch_array($sql2);
 
         $pnomcat = printSecuTags($pnomcat);
 
@@ -793,8 +813,8 @@ function edit_cat($cid) {
 
     echo "<option value=\"0\">" . _NONE . "</option>\n";
 
-    $sql3 = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($catid, $nomcat) = nkDB_fetchArray($sql3)) {
+    $sql3 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    while (list($catid, $nomcat) = mysql_fetch_array($sql3)) {
         $nomcat = printSecuTags($nomcat);
 
         if ($nomcat != $titre) {
@@ -826,16 +846,16 @@ function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
     global $nuked, $user;
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = mysql_real_escape_string(stripslashes($titre));
+    $description = mysql_real_escape_string(stripslashes($description));
 
-    $sql = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', level = '" . $level . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
-    $sql_file = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cid . "'");
-    $sql_cat = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET level = '" . $level . "' WHERE parentid = '" . $cid . "'");
+    $sql = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', level = '" . $level . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
+    $sql_file = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cid . "'");
+    $sql_cat = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET level = '" . $level . "' WHERE parentid = '" . $cid . "'");
 
-    $sql_cat = nkDB_execute("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "'");
-    while (list($cat_id) = nkDB_fetchArray($sql_cat)) {
-        $sql_file2 = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cat_id . "'");
+    $sql_cat = mysql_query("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "'");
+    while (list($cat_id) = mysql_fetch_array($sql_cat)) {
+        $sql_file2 = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cat_id . "'");
     }
 
     saveUserAction(_ACTIONMODIFCATDL .': '. $titre);
@@ -847,14 +867,14 @@ function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
 function select_cat() {
     global $nuked;
 
-    $sql = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($cid, $titre) = nkDB_fetchArray($sql)) {
+    $sql = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    while (list($cid, $titre) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
 
         echo "<option value=\"" . $cid . "\">* " . $titre . "</option>\n";
 
-        $sql2 = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
-        while (list($s_cid, $s_titre) = nkDB_fetchArray($sql2)) {
+        $sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
+        while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)) {
             $s_titre = printSecuTags($s_titre);
 
             echo "<option value=\"" . $s_cid . "\">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
@@ -865,11 +885,11 @@ function select_cat() {
 
 function del_cat($cid) {
     global $nuked, $user;
-    $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    list($titre) = nkDB_fetchArray($sql2);
-    $sql = nkDB_execute("DELETE FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    $sql = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
-    $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET type = 0 WHERE type = '" . $cid . "'");
+    $sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    list($titre) = mysql_fetch_array($sql2);
+    $sql = mysql_query("DELETE FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    $sql = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
+    $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET type = 0 WHERE type = '" . $cid . "'");
 
     saveUserAction(_ACTIONDELCATDL .': '. $titre);
 
@@ -910,8 +930,8 @@ function change_pref($max_download, $hide_download) {
 
     if ($hide_download != "on") $hide_download = "off";
 
-    $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_download . "' WHERE name = 'max_download'");
-    $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $hide_download . "' WHERE name = 'hide_download'");
+    $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_download . "' WHERE name = 'max_download'");
+    $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $hide_download . "' WHERE name = 'hide_download'");
 
     saveUserAction(_ACTIONMODIFPREFDL .'.');
 
@@ -922,16 +942,16 @@ function change_pref($max_download, $hide_download) {
 function modif_position($cid, $method) {
     global $nuked, $user;
 
-    $sql2 = nkDB_execute("SELECT titre, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    list($titre, $position) = nkDB_fetchArray($sql2);
+    $sql2 = mysql_query("SELECT titre, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    list($titre, $position) = mysql_fetch_array($sql2);
     if ($position <=0 AND $method == "up") {
         printNotification(_CATERRORPOS, 'error');
         redirect("index.php?file=Download&page=admin&op=main_cat", 2);
         return;
     }
 
-    if ($method == "up") $upd = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
-    else if ($method == "down") $upd = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
+    if ($method == "up") $upd = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
+    else if ($method == "down") $upd = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
 
     saveUserAction(_ACTIONPOSMODIFCATDL .': '. $titre);
 

@@ -76,11 +76,7 @@ define("_FILEERASED","Fichier effacé de la liste avec succès.");
 define("_ERASEALLLIST","Vous êtes sur le point de vider toute la liste des liens morts, continuer ?");
 define("_ERASELIST","Vider la liste des liens morts");
 define("_LISTERASED","La liste des liens morts a été vidée avec succès.");
-define("_REPLACE","Ecraser");
-define("_DEJAFILE","Un fichier portant le même nom est déjà présent sur votre ftp");
-define("_DEJASCREEN","Une capture d'écran portant le même nom est déjà présente sur votre ftp");
 define("_URLORTITLEFAILDED","Vous n'avez pas indiqué d'url et/ou de titre !");
-define("_REPLACEIT","Pour le(s) remplacer veuillez cocher la case \""._REPLACE."\"");
 define("_NUMBERFILE","Nombre de fichiers par page");
 define("_HIDEDESC","Cacher les champs vides de la description");
 define("_ACTIONADDDL","a ajouté le fichier");
@@ -94,4 +90,11 @@ define("_ACTIONDELCATDL","a supprimé la catégorie téléchargement");
 define("_ACTIONMODIFPREFDL","a modifié les préférences du module téléchargement");
 define("_ACTIONPOSMODIFCATDL","a modifié la position de la catégorie téléchargement");
 define("_CATERRORPOS","Impossible la position serait inférieur à zéro.");
+
+return array(
+    // modules/Download/admin.php
+    'UPLOAD_SCREENSHOT_FAILED' => 'Le Téléchargement de la capture d\'écran a échoué !',
+    'SCREENSHOT_ALREADY_EXIST' => 'Une capture d\'écran portant le même nom est déjà présente sur votre ftp',
+);
+
 ?>

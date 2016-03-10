@@ -23,9 +23,6 @@ define("_DOWNLOADDEMO","Télécharger Démo");
 
 
 define("_UPFILE","Uploader le fichier sur le serveur");
-define("_REPLACE","Ecraser");
-define("_DEJAFILE","Un fichier portant le même nom est déjà présent sur votre ftp");
-define("_REPLACEIT","Pour le(s) remplacer veuillez cocher la case \""._REPLACE."\"");
 define("_MATCHDAY","Il y a un match aujourd'hui !!!");
 define("_GOWARS","voir tous les matches");
 define("_GOCALENDAR","voir le calendrier");

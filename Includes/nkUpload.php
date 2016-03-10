@@ -68,6 +68,13 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if (! isset($params['renameExtension']) || ! is_array($params['renameExtension']))
         $params['renameExtension'] = array();
 
+    if (! isset($params['tsKeyDataName'])) {
+        if ($params['fileType'] == 'image')
+            $params['tsKeyDataName'] = 'IMAGE';
+        else
+            $params['tsKeyDataName'] = 'FILE';
+    }
+
     if (is_array($_FILES[$fieldName]['error'])) {
         if ($fileNumber !== null && array_key_exists($fileNumber, $_FILES[$fieldName]['error'])) {
             $phpError    = $_FILES[$fieldName]['error'][$fileNumber];
@@ -86,28 +93,21 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     }
 
     if ($phpError !== UPLOAD_ERR_OK)
-        return array('', nkUpload_getPhpError($params['fileType'], $phpError), '');
+        return array('', nkUpload_getTranslatedError($params['tsKeyDataName'], 'UPLOAD_%s_FAILED'), '');
 
     $filename = trim($filename);
 
     if ($filename == '.htaccess')
-        return array('', __('NO_UPLOADABLE_FILE'), '');
+        return array('', __('UPLOAD_HTACCESS_PROHIBITED'), '');
 
-    if (is_int($params['fileSize']) && $params['fileSize'] < $filesize) {
-        if ($params['fileType'] == 'image')
-            $error = __('UPLOAD_IMAGE_TOO_BIG');
-        else
-            $error = __('UPLOAD_FILE_TOO_BIG');
-
-        return array('', sprintf($error, $params['fileSize']), '');
-    }
+    if (is_int($params['fileSize']) && $params['fileSize'] < $filesize)
+        return array('', sprintf(nkUpload_getTranslatedError($params['tsKeyDataName'], 'UPLOAD_%s_TOO_BIG'), $params['fileSize']), '');
 
     $realFilename = pathinfo($filename, PATHINFO_FILENAME);
-    $extension    = pathinfo($filename, PATHINFO_EXTENSION );
+    $extension    = pathinfo($filename, PATHINFO_EXTENSION);
 
     if ($params['allowedExtension'] && ! in_array($extension, $params['allowedExtension']))
-        return array('', __('NO_UPLOADABLE_FILE'), '');
-        // printNotification('Error : No authorized file !', 'error');
+        return array('', sprintf(nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_EXTENSION'), $extension), '');
 
     if ($params['renameExtension']) {
         foreach ($params['renameExtension'] as $searchedExt => $replaceExt) {
@@ -116,18 +116,24 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
         }
     }
 
-    if ($params['fileRename'])
+    if ($params['fileRename']) {
         $realFilename = substr(md5(uniqid()), rand(0, 20), 10);
-    else
+    }
+    else {
         $realFilename = nkUpload_cleanFilename($realFilename);
+
+        if (isset($params['strtolowerFilename']) && $params['strtolowerFilename'])
+            $realFilename = strtolower($realFilename);
+    }
 
     if ($params['fileType'] == 'image') {
         if (! nkUpload_checkImage($tmpFilename, $extension))
-            return array('', __('BAD_IMAGE_FORMAT'), '');
+            return array('', nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_FORMAT'), '');
     }
+    // TODO Rewrite this
     else if ($params['fileType'] == 'no-html-php') {
-        if (! nkUpload_checkFileType($tmpFilename, $extension))
-            return array('', __('NO_UPLOADABLE_FILE'), '');
+        if (nkUpload_checkFileType($tmpFilename, $extension))
+            return array('', sprintf(nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_EXTENSION'), $extension), '');
     }
 
     $path = rtrim($params['uploadDir'], '/') .'/'. $realFilename;
@@ -135,24 +141,11 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if ($extension != '')
         $path .= '.'. $extension;
 
-    if (! $params['overwrite'] && is_file($path)) {
-        if (array_key_exists('fileExistError', $params))
-            $error = $params['fileExistError'];
-        else
-            $error = __('FILE_ALREADY_EXIST');
-
-        if (array_key_exists('overwriteField', $params)) {
-            if (! array_key_exists('overwriteLabel', $params))
-                $params['overwriteLabel'] = __('OVERWRITE');
-
-            $error .= ' '. sprintf(__('REPLACE_FILE'), $params['overwriteLabel']);
-        }
-
-        return array('', $error, '');
-    }
+    if (! $params['overwrite'] && is_file($path))
+        return array('', nkUpload_getTranslatedError($params['tsKeyDataName'], '%s_ALREADY_EXIST'), '');
 
     if (! move_uploaded_file($tmpFilename, $path))
-        return array('', __('UPLOAD_FILE_FAILED'), '');
+        return array('', nkUpload_getTranslatedError($params['tsKeyDataName'], 'UPLOAD_%s_FAILED'), '');
 
     @chmod($path, 0644);
 
@@ -160,12 +153,29 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
 }
 
 /**
+ * Return upload error translation of current data.
+ *
+ * @param string $tsKeyDataName : The translation name of current data.
+ * @param string $format : The translation key format.
+ * @return string : The upload error translation.
+ */
+function nkUpload_getTranslatedError($tsKeyDataName, $format) {
+    $tsActionKey = sprintf($format, $tsKeyDataName);
+
+    if (translationExist($tsActionKey))
+        return __($tsActionKey);
+    else
+        return __(sprintf($format, 'FILE'));
+}
+
+
+/**
  * Return internal PHP upload error.
  *
  * @param string $fileType : The type of allowed upload.
  * @param int $error : The error value contain in $_FILES[$filename]['error'].
  * @return string : Return internal PHP upload error message.
- */
+ * /
 // TODO : Translate error message.
 function nkUpload_getPhpError($fileType, $error) {
     switch ($error) {
@@ -216,7 +226,7 @@ function nkUpload_getPhpError($fileType, $error) {
     }
 
     return $message; 
-}
+}*/
 
 /**
  * Check a uploaded image.

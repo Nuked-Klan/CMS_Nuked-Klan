@@ -175,6 +175,9 @@ define("_DESCR","Description");
 define("_CAT","Category");
 define("_NAME","Name");
 define("_BADMAIL","Invalid email address!");
+define("_REPLACE","Overwrite");
+define("_REPLACEIT","To overwrite it please check the box \""._REPLACE."\"");
+define("_AUTOR", "Author");
 
 // Menu
 define("_NAV","Menu");
@@ -488,16 +491,19 @@ return array(
     // nkSitemap_write - Includes/nkSitemap.php
     'WRITE_SITEMAP_FAILED' => 'Can\'t write sitemap.fml file in Nuked-Klan directory<br/>Please update manually CHMOD <strong>0755</strong> on this directory.',
     // nkUpload_check - Includes/nkUpload.php
-    'NO_UPLOADABLE_FILE' => 'This file type is not allowed !',
-    'UPLOAD_FILE_TOO_BIG' => 'Your file is too large, file size is limited to %d KB',
-    'UPLOAD_IMAGE_TOO_BIG' => 'Your image is too large, image size is limited to %d KB',
-    'BAD_IMAGE_FORMAT'   => 'Bad image file type!!! Only jpg, png or gif are authorized',
     'UPLOAD_DIRECTORY_NO_EXIST' => 'The upload directory don\'t exist !',
     'UPLOAD_DIRECTORY_NO_WRITEABLE' => 'The upload directory isn\'t writeable !',
-    'FILE_ALREADY_EXIST' => 'A file with the same name already exists on your ftp.',
-    'REPLACE_FILE'      => 'To overwrite it please check the box "%s"',
-    'OVERWRITE'         => 'Overwrite',
+    'UPLOAD_IMAGE_FAILED' => 'Upload image failed !',
     'UPLOAD_FILE_FAILED' => 'Upload file failed !',
+    'UPLOAD_HTACCESS_PROHIBITED' => 'Upload .htaccess file is prohibited !',
+    'UPLOAD_IMAGE_TOO_BIG' => 'Your image is too large, image size is limited to %d KB',
+    'UPLOAD_FILE_TOO_BIG' => 'Your file is too large, file size is limited to %d KB',
+    'BAD_FILE_EXTENSION' => 'File extension is not allowed (%s)',
+    'BAD_IMAGE_FORMAT'   => 'Bad image file type!!! Only jpg, png or gif are authorized',
+    'IMAGE_ALREADY_EXIST' => 'A image with the same name already exists on your ftp.',
+    'FILE_ALREADY_EXIST' => 'A file with the same name already exists on your ftp.',
+    'REPLACE_FILE'      => 'To overwrite it please check the box "Overwrite"',
+    'OVERWRITE'         => 'Overwrite',
     // nkUserSocial_getLinkTitle - Includes/nkUserSocial.php
     'SEND_EMAIL'        => 'Send email',
     'SEE_HOME_PAGE'     => 'View user\'s website %s',

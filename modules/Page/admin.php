@@ -192,61 +192,53 @@ function add()
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISPAGE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">".__('BACK')."</a></div></form><br /></div></div>\n";
 }
 
-function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_title, $members)
+function do_add($titre, $type, $niveau, $content, $menu, $show_title, $members)
 {
     global $nuked;
 
-    if (isset($members) AND is_array($members))
-    {
-        foreach($members AS $users)
-        {
-            $userslist .= $users . '|';
-        }
-    }
-    
-    if ($_FILES['pagefile']['name'] != "")
-    {
-        $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
-        $a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
-        $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-        $filename = str_replace(" ", "_", $_FILES['pagefile']['name']);
-        $filename = str_replace("'", "_", $filename);
-        $filename = str_replace("\"", "_", $filename);
-        $filename = strtr($filename, $a, $b);
-        $filename = strtolower($filename);
+    require_once 'Includes/nkUpload.php';
 
-        $f = explode(".", $filename);
-        $end = count($f) - 1;
-        $ext = $f[$end];
+    $userslist = array();
 
-        if ($ext == "htm") $ext = "html";
+    if (isset($members) AND is_array($members) && $members)
+        $userslist = implode('|', $members);
 
-        if ($ext == $type)
-        {
-            $url_file = "modules/Page/" . $type . "/" . $filename;
-            if (! move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file)) {
-                printNotification('Upload page failed !!!', 'error');
-                return;
-            }
-        }
-        else
-        {
-            printNotification(_BADFILEFORMAT, 'error');
-            redirect("index.php?file=Page&page=admin&op=add", 5);
-            closetable();
+    // $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
+    // $filename = strtolower($filename);
+
+    //Upload du fichier
+    $pageUrl = '';
+
+    if ($_FILES['pagefile']['name'] != '' && in_array($type, array('html', 'php'))) {
+        $pageCfg = array(
+            'fileType'  => 'all',
+            'uploadDir' => 'modules/Page/'. $type,
+            //'fileSize'  => 100000
+            'strtolowerFilename' => true,
+            'allowedExtension' => array($type),
+            'renameExtension' => array(
+                'htm' => 'html'
+            )
+        );
+
+        list($pageUrl, $uploadError, $pageExt) = nkUpload_check('pagefile', $pageCfg);
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Page&page=admin&op=add', 5);
             return;
         }
     }
-    else if ($url != "" && !ereg("." . $type, $url))// TODO : ereg deprecated
-    {
-        printNotification(_BADFILEFORMAT, 'error');
-        redirect("index.php?file=Page&page=admin&op=add", 5);
-        closetable();
-        return;
-    }
-    else
-    {
-            $filename = $url;
+    else if ($_POST['url'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['url'], '.'), 1));
+
+        if ($ext != $type) {
+            //printNotification(__('BAD_FILE_FORMAT'), 'error');
+            redirect('index.php?file=Page&page=admin&op=add', 5);
+            return;
+        }
+
+        $pageUrl = $_POST['url'];
     }
 
     $content = html_entity_decode($content);
@@ -257,32 +249,32 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
     $title = str_replace("'", "_", $title);
     $title = str_replace("\"", "_", $title);
     $title = strtr($title, $a1, $b1);
-    
+
     $show_title = (isset($show_title)) ? 1 : 0;
 
-    $sql = nkDB_execute("INSERT INTO " . PAGE_TABLE . " ( `id` , `niveau` , `titre` , `content` , `url` , `type` , `show_title` , `members` ) VALUES ( '', '" . $niveau . "' , '" . $title . "' , '" . $content . "' , '" . $filename . "' , '" . $type . "' , '" . $show_title . "' , '" . $userslist . "' )");
+    $sql = nkDB_execute("INSERT INTO " . PAGE_TABLE . " ( `id` , `niveau` , `titre` , `content` , `url` , `type` , `show_title` , `members` ) VALUES ( '', '" . $niveau . "' , '" . $title . "' , '" . $content . "' , '" . $pageUrl . "' , '" . $type . "' , '" . $show_title . "' , '" . $userslist . "' )");
 
     if ($menu != "")
     {
-            $sql_menu = nkDB_execute("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
-            list($content) = nkDB_fetchArray($sql_menu);
-            $content = stripslashes($content);
-            $url_page = "index.php?file=Page&name=" . $title;
+        $sql_menu = nkDB_execute("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
+        list($content) = nkDB_fetchArray($sql_menu);
+        $content = stripslashes($content);
+        $url_page = "index.php?file=Page&name=" . $title;
 
-            $link = explode('NEWLINE', $content);
-            $new_line = $url_page . "|" . $title . "||||";
-            $count = count($link);
-            $link[$count] = $new_line;
+        $link = explode('NEWLINE', $content);
+        $new_line = $url_page . "|" . $title . "||||";
+        $count = count($link);
+        $link[$count] = $new_line;
 
-            $content = implode('NEWLINE', $link);
-            $content = addslashes($content);
-            $sql = nkDB_execute("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
+        $content = implode('NEWLINE', $link);
+        $content = addslashes($content);
+        $sql = nkDB_execute("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
 
-            $url_redirect = "index.php?file=Admin&page=menu&op=edit_line&bid=" . $menu . "&lid=" . $count;
+        $url_redirect = "index.php?file=Admin&page=menu&op=edit_line&bid=" . $menu . "&lid=" . $count;
     }
     else
     {
-            $url_redirect = "index.php?file=Page&page=admin";
+        $url_redirect = "index.php?file=Page&page=admin";
     }
 
     printNotification(_PAGEADD, 'success');
@@ -412,63 +404,55 @@ function edit($page_id)
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISPAGE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">".__('BACK')."</a></div></form><br /></div></div>\n";
 }
 
-function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_title, $members)
+function do_edit($page_id, $titre, $type, $niveau, $content, $menu, $show_title, $members)
 {
     global $nuked;
 
-    if (isset($members) AND is_array($members))
-    {
-        foreach($members AS $users)
-        {
-            $userslist .= $users . '|';
-        }
-    }
-    
-    if ($_FILES['pagefile']['name'] != "")
-    {
-        $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
-        $a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
-        $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-        $filename = str_replace(" ", "_", $_FILES['pagefile']['name']);
-        $filename = str_replace("'", "_", $filename);
-        $filename = str_replace("\"", "_", $filename);
-        $filename = strtr($filename, $a, $b);
-        $filename = strtolower($filename);
+    require_once 'Includes/nkUpload.php';
 
-        $f = explode(".", $filename);
-        $end = count($f) - 1;
-        $ext = $f[$end];
+    $userslist = array();
 
-        if ($ext == "htm") $ext = "html";
+    if (isset($members) AND is_array($members) && $members)
+        $userslist = implode('|', $members);
 
-        if ($ext == $type)
-        {
-            $url_file = "modules/Page/" . $type . "/" . $filename;
-            if (! move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file)) {
-                printNotification('Upload page failed !!!', 'error');
-                return;
-            }
-        }
-        else
-        {
-            printNotification(_BADFILEFORMAT, 'error');
-            redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
-            closetable();
+    // $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
+    // $filename = strtolower($filename);
+
+    //Upload du fichier
+    $pageUrl = '';
+
+    if ($_FILES['pagefile']['name'] != '' && in_array($type, array('html', 'php'))) {
+        $pageCfg = array(
+            'fileType'  => 'all',
+            'uploadDir' => 'modules/Page/'. $type,
+            //'fileSize'  => 100000
+            'strtolowerFilename' => true,
+            'allowedExtension' => array($type),
+            'renameExtension' => array(
+                'htm' => 'html'
+            )
+        );
+
+        list($pageUrl, $uploadError, $pageExt) = nkUpload_check('pagefile', $pageCfg);
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Page&amp;page=admin&op=edit&page_id='. $page_id, 5);
             return;
         }
     }
-    else if ($url != "" && !ereg("." . $type, $url))
-    {
-        printNotification(_BADFILEFORMAT, 'error');
-        redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
-        closetable();
-        return;
+    else if ($_POST['url'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['url'], '.'), 1));
+
+        if ($ext != $type) {
+            //printNotification(__('BAD_FILE_FORMAT'), 'error');
+            redirect('index.php?file=Page&amp;page=admin&op=edit&page_id='. $page_id, 5);
+            return;
+        }
+
+        $pageUrl = $_POST['url'];
     }
-    else
-    {
-        $filename = $url;
-    }
-    
+
     $content = html_entity_decode($content);
     $content = nkDB_realEscapeString(stripslashes($content));
     $a1 = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
@@ -477,10 +461,10 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
     $title = str_replace("'", "_", $title);
     $title = str_replace("\"", "_", $title);
     $title = strtr($title, $a1, $b1);
-    
+
     $show_title = (isset($show_title)) ? 1 : 0;
 
-    $upd = nkDB_execute("UPDATE " . PAGE_TABLE . " SET titre = '" . $title . "', content = '" . $content . "', url = '" . $filename . "', niveau = '" . $niveau . "', type = '" . $type . "', show_title = '" . $show_title . "', members = '" . $userslist . "' WHERE id = '" . $page_id . "'");
+    $upd = nkDB_execute("UPDATE " . PAGE_TABLE . " SET titre = '" . $title . "', content = '" . $content . "', url = '" . $pageUrl . "', niveau = '" . $niveau . "', type = '" . $type . "', show_title = '" . $show_title . "', members = '" . $userslist . "' WHERE id = '" . $page_id . "'");
 
     if ($menu != "")
     {
@@ -502,16 +486,11 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
     }
     else
     {
-            $url_redirect = "index.php?file=Page&page=admin";
+        $url_redirect = "index.php?file=Page&page=admin";
     }
 
-    printNotification(_PAGEADD, 'success');
-    echo "<div class=\"notification success png_bg\">\n"
-        . "<div>\n"
-        . "" . _PAGEMODIF . "\n"
-        . "</div>\n"
-        . "</div>\n";
-        redirect($url_redirect, 2);
+    printNotification(_PAGEMODIF, 'success');
+    redirect($url_redirect, 2);
 }
 
 function del($page_id)
@@ -635,7 +614,7 @@ switch($GLOBALS['op']) {
     break;
 
     case "do_edit":
-    do_edit($_REQUEST['page_id'], $_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['url'], $_REQUEST['pagefile'], $_REQUEST['menu'], $_REQUEST['show_title'], $_REQUEST['members']);
+    do_edit($_REQUEST['page_id'], $_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['menu'], $_REQUEST['show_title'], $_REQUEST['members']);
     break;
 
     case "edit":
@@ -643,7 +622,7 @@ switch($GLOBALS['op']) {
     break;
 
     case "do_add":
-    do_add($_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['url'], $_REQUEST['pagefile'], $_REQUEST['menu'], $_REQUEST['show_title'], $_REQUEST['members']);
+    do_add($_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['menu'], $_REQUEST['show_title'], $_REQUEST['members']);
     break;
 
     case "main_pref":

@@ -183,6 +183,9 @@ define("_DESCR","Description");
 define("_CAT","Catégorie");
 define("_NAME","Nom");
 define("_BADMAIL","Adresse email non valide !");
+define("_REPLACE","Ecraser");
+define("_REPLACEIT","Pour la remplacer veuillez cocher la case \""._REPLACE."\"");
+//define("_AUTOR", "Auteur");
 
 // menu
 define("_NAV","Menu");
@@ -495,16 +498,19 @@ return array(
     // nkSitemap_write - Includes/nkSitemap.php
     'WRITE_SITEMAP_FAILED' => 'Impossible d\'écrire le fichier sitemap.xml dans le dossier contenant Nuked-Klan<br/>Veuillez mettre manuellement le CHMOD <strong>0755</strong> sur ce dossier.',
     // nkUpload_check - Includes/nkUpload.php
-    'NO_UPLOADABLE_FILE' => 'Ce type de fichier n\'est pas autorisé !',
-    'UPLOAD_FILE_TOO_BIG' => 'Votre fichier est trop grand, uniquement les fichiers de moins de %d Ko sont autorisées',
-    'UPLOAD_IMAGE_TOO_BIG' => 'Votre image est trop grande, uniquement les images de moins de %d Ko sont autorisées',
-    'BAD_IMAGE_FORMAT'  => 'Mauvais format d\'image, uniquement les images aux formats jpg, png ou gif sont autorisées',
     'UPLOAD_DIRECTORY_NO_EXIST' => 'Le dossier d\'upload n\'existe pas !',
     'UPLOAD_DIRECTORY_NO_WRITEABLE' => 'Le dossier d\'upload n\'a pas les droits d\'écriture !',
-    'FILE_ALREADY_EXIST' => 'Un fichier portant le même nom est déjà présent sur votre ftp.',
-    'REPLACE_FILE'      => 'Pour le(s) remplacer veuillez cocher la case "%s"',
-    'OVERWRITE'         => 'Ecraser',
+    'UPLOAD_IMAGE_FAILED' => 'Le Téléchargement de l\'image a échoué !',
     'UPLOAD_FILE_FAILED' => 'Le Téléchargement du fichier a échoué !',
+    'UPLOAD_HTACCESS_PROHIBITED' => 'Le Téléchargement de fichier .htaccess est interdit !',
+    'UPLOAD_IMAGE_TOO_BIG' => 'Votre image est trop grande, uniquement les images de moins de %d Ko sont autorisées',
+    'UPLOAD_FILE_TOO_BIG' => 'Votre fichier est trop grand, uniquement les fichiers de moins de %d Ko sont autorisées',
+    'BAD_FILE_EXTENSION' => 'L\'extension du fichier n\'est pas autorisé (%s)',
+    'BAD_IMAGE_FORMAT'  => 'Mauvais format d\'image, uniquement les images aux formats jpg, png ou gif sont autorisées',
+    'IMAGE_ALREADY_EXIST' => 'Une image portant le même nom est déjà présente sur votre ftp.',
+    'FILE_ALREADY_EXIST' => 'Un fichier portant le même nom est déjà présent sur votre ftp.',
+    'REPLACE_FILE'      => 'Pour le(s) remplacer veuillez cocher la case "Ecraser"',
+    'OVERWRITE'         => 'Ecraser',
     // nkUserSocial_getLinkTitle - Includes/nkUserSocial.php
     'SEND_EMAIL'        => 'Lui envoyer un email',
     'SEE_HOME_PAGE'     => 'Voir le site web de %s',

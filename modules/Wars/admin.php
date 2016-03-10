@@ -646,7 +646,7 @@ function add_file($im_id){
     echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=send_file\" enctype=\"multipart/form-data\">\n"
         . "<div style=\"text-align: center;\"><br /><big><b>" . _ADDFILE . "</b></big></div>\n"
         . "<div><br /><b>" . _URL . " :</b> <input type=\"text\" size=\"40\" name=\"url_file\" /><br />\n"
-        . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "<br />\n"
+        . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "<br />\n"
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\">" . _IMG . "</option><option value=\"demo\">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . __('SEND') . "\" /></div>\n"
@@ -676,7 +676,7 @@ function edit_file($fid){
     echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=modif_file\" enctype=\"multipart/form-data\">\n"
         . "<div style=\"text-align: center;\"><br /><big><b>" . _ADDFILE . "</b></big></div>\n"
         . "<div><br /><b>" . _URL . " :</b> <input type=\"text\" size=\"40\" name=\"url_file\" value=\"" . $url . "\" /><br />\n"
-        . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . _REPLACE . "<br />\n"
+        . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "<br />\n"
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\" " . $checked1 . ">" . _IMG . "</option><option value=\"demo\" " . $checked2 . ">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /><input type=\"hidden\" name=\"fid\" value=\"" . $fid . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . __('SEND') . "\" /></div>\n"
@@ -693,7 +693,6 @@ function send_file($im_id, $file_type){
         $fileCfg = array(
             'uploadDir' => 'upload/Wars',
             //'fileSize'  => 100000,
-            'overwriteField' => true,
         );
 
         if ($file_type == 'demo')
@@ -712,6 +711,9 @@ function send_file($im_id, $file_type){
             list($fileUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', $fileCfg);
 
             if ($uploadError !== false) {
+                if ($uploadError == __('FILE_ALREADY_EXIST'))
+                    $uploadError .= '<br />'. __('REPLACE_FILE');
+
                 printNotification($uploadError, 'error');
                 redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
                 return;
@@ -750,7 +752,6 @@ function modif_file($im_id, $fid, $file_type){
         $fileCfg = array(
             'uploadDir' => 'upload/Wars',
             //'fileSize'  => 100000
-            'overwriteField' => true,
         );
 
         if ($file_type == 'demo')
@@ -769,6 +770,9 @@ function modif_file($im_id, $fid, $file_type){
             list($fileUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', $fileCfg);
 
             if ($uploadError !== false) {
+                if ($uploadError == __('FILE_ALREADY_EXIST'))
+                    $uploadError .= '<br />'. __('REPLACE_FILE');
+
                 printNotification($uploadError, 'error');
                 redirect('index.php?file=Wars&page=admin&op=edit_file&fid='. $fid, 3);
                 return;
