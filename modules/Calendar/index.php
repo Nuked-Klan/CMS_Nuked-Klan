@@ -344,7 +344,7 @@ function show_event(){
 
     }elseif ($_REQUEST['type'] == "match" && is_numeric($_REQUEST['eid'])){
         $sql = nkDB_execute("SELECT warid, etat, team, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv, report FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['eid'] . "'");
-        $nb_match = mysql_num_rows($sql);
+        $nb_match = nkDB_numRows($sql);
         list($warid, $etat, $team, $adv_name, $type_match, $jour, $mois, $an, $heure, $style, $score_team, $score_adv, $report) = nkDB_fetchArray($sql);
 
         $adv_name = printSecuTags($adv_name);

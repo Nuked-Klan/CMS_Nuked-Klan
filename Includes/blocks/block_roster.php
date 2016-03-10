@@ -20,7 +20,7 @@ function affich_block_roster($blok){
     }
     else{
 		$sql_team = nkDB_execute("SELECT cid FROM " . TEAM_TABLE);
-		$nb_team = mysql_num_rows($sql_team);
+		$nb_team = nkDB_numRows($sql_team);
 		
 		if ($nb_team > 0) $where = 'WHERE team > 0 OR team2 > 0 OR team3 > 0'; 
 		else $where = 'WHERE niveau > 1'; 

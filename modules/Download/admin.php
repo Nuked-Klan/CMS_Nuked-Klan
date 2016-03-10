@@ -457,7 +457,7 @@ function main_broken() {
     $i = 0;
     $l = 0;
     $sql = nkDB_execute("SELECT id, titre, url, broke FROM " . DOWNLOAD_TABLE . " WHERE broke > 0 ORDER BY broke DESC, type");
-    $nb_broke = mysql_num_rows($sql);
+    $nb_broke = nkDB_numRows($sql);
 
     if ($nb_broke > 0) {
         while (list($did, $titre, $url, $broke) = nkDB_fetchArray($sql)) {
@@ -510,7 +510,7 @@ function main() {
     $nb_download = 30;
 
     $sql3 = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE);
-    $nb_dl = mysql_num_rows($sql3);
+    $nb_dl = nkDB_numRows($sql3);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -676,7 +676,7 @@ function main_cat() {
 
     $i = 0;
     $sql = nkDB_execute("SELECT cid, titre, parentid, position FROM " . DOWNLOAD_CAT_TABLE . " ORDER BY parentid, position");
-    $nbcat = mysql_num_rows($sql);
+    $nbcat = nkDB_numRows($sql);
 
     if ($nbcat > 0) {
         while (list($cid, $titre, $parentid, $position) = nkDB_fetchArray($sql)) {

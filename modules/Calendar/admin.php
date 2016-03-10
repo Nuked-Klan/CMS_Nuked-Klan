@@ -48,7 +48,7 @@ function main()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, titre, auteur, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " ORDER BY date_an DESC, date_mois DESC, date_jour DESC");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     while (list($eid, $titre, $auteur, $jour, $mois, $an, $heure) = nkDB_fetchArray($sql))
     {
         $titre = printSecuTags($titre);

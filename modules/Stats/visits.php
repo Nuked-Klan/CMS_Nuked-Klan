@@ -69,10 +69,10 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
         }
 
         $sql = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $where);
-        $visites = mysql_num_rows($sql);
+        $visites = nkDB_numRows($sql);
 
         $sql1 = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $where2);
-        $visites2 = mysql_num_rows($sql1);
+        $visites2 = nkDB_numRows($sql1);
 
         if ($visites > 0) {
             echo '<div style="text-align: center">' . _WERECEICED . ' <b>' . $visites . '</b> ' . $otext . '</div><br />'."\n";
@@ -156,7 +156,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                 $browsername = ($browser == 'Autres') ? _OTHERS : ($browser == 'Moteurs de recherche') ? _SEARCHENGINE : $browser;
 
                 $sql3 = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $and);
-                $bcount = mysql_num_rows($sql3);
+                $bcount = nkDB_numRows($sql3);
 
                 $etat = round(($bcount * 100) / $visites);
 
@@ -203,7 +203,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                 $and1 = (empty($where)) ? "WHERE os = '" . $os . "'" : $where . " AND os = '" . $os . "'";
 
                 $sql5 = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $and1);
-                $oscount = mysql_num_rows($sql5);
+                $oscount = nkDB_numRows($sql5);
 
                 $etat1 = round(($oscount * 100) / $visites);
 
@@ -252,7 +252,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                 $and2 = empty($where) ? "WHERE host = '" . $host . "'" : $where . " AND host = '" . $host . "'";
 
                 $sql7 = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $and2);
-                $hostcount = mysql_num_rows($sql7);
+                $hostcount = nkDB_numRows($sql7);
 
                 $etat2 = round(($hostcount * 100) / $visites);
 
@@ -309,7 +309,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
                 $and3 = empty($where) ? "WHERE referer = '" . $referer . "'" : $where . " AND referer = '" . $referer . "'";
 
                 $sql9 = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $and3);
-                $refcount = mysql_num_rows($sql9);
+                $refcount = nkDB_numRows($sql9);
 
                 $etat3 = round(($refcount * 100) / $visites2);
 
@@ -514,7 +514,7 @@ function view_referer()
     }
 
     $sql_v = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $where2);
-    $visites = mysql_num_rows($sql_v);
+    $visites = nkDB_numRows($sql_v);
 
     nkTemplate_setTitle(_REFERER . $date_title);
 
@@ -534,7 +534,7 @@ function view_referer()
         $and = (empty($where)) ? "WHERE referer = '" . $referer . "'" : $where . " AND referer = '" . $referer . "'";
 
         $sql = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $and);
-        $refcount = mysql_num_rows($sql);
+        $refcount = nkDB_numRows($sql);
 
         $etat = round(($refcount * 100) / $visites);
 
@@ -591,7 +591,7 @@ function view_host()
     }
 
     $sql_v = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $where);
-    $visites = mysql_num_rows($sql_v);
+    $visites = nkDB_numRows($sql_v);
 
     nkTemplate_setTitle(_HOST . $date_title);
 
@@ -611,7 +611,7 @@ function view_host()
         $and = (empty($where)) ? "WHERE host = '" . $host . "'" : $where . " AND host = '" . $host . "'";
 
         $sql2 = nkDB_execute("SELECT id FROM " . STATS_VISITOR_TABLE . " " . $and);
-        $hostcount = mysql_num_rows($sql2);
+        $hostcount = nkDB_numRows($sql2);
 
         $etat = round(($hostcount * 100) / $visites);
 

@@ -126,7 +126,7 @@ function displayForumSearchResult() {
             ORDER BY M.date DESC';
 
         $result   = nkDB_execute($sql);
-        $nbResult = mysql_num_rows($result);
+        $nbResult = nkDB_numRows($result);
     }
     // TODO : Check pattern character
     // Check author and sought words length
@@ -196,7 +196,7 @@ function displayForumSearchResult() {
             ORDER BY M.date DESC';
 
         $result   = nkDB_execute($sql);
-        $nbResult = mysql_num_rows($result);
+        $nbResult = nkDB_numRows($result);
     }
     // Empty author and sought words length
     else {

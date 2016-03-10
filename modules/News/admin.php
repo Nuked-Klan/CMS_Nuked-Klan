@@ -21,7 +21,7 @@ function main() {
     $nb_news = 30;
 
     $sql = nkDB_execute("SELECT id FROM " . NEWS_TABLE);
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -122,7 +122,7 @@ function main() {
 
         if ($autor_id != "") {
             $sql4 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-            $test = mysql_num_rows($sql4);
+            $test = nkDB_numRows($sql4);
         }
 
         if ($autor_id != "" && $test > 0) {

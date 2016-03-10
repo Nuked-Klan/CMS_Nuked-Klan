@@ -474,7 +474,7 @@ foreach($modules as $value)
         }
 
         $sql = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE nom = '" . $temp[1] . "' AND admin = -1 AND niveau = -1");
-        $count = mysql_num_rows($sql);
+        $count = nkDB_numRows($sql);
 
         if (is_file("modules/" . $temp[1] . "/index.php") && $count == 0)
         {

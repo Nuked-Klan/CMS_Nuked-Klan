@@ -77,7 +77,7 @@ function sendmail(){
     $contact_flood = $nuked['contact_flood'] * 60;
 
     $sql = nkDB_execute("SELECT date FROM " . CONTACT_TABLE . " WHERE ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     list($flood_date) = nkDB_fetchArray($sql);
     $anti_flood = $flood_date + $contact_flood;
 

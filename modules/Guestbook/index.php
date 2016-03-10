@@ -152,7 +152,7 @@ function index()
     $nb_mess_guest = $nuked['mess_guest_page'];
 
     $sql = nkDB_execute("SELECT id FROM " . GUESTBOOK_TABLE);
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];

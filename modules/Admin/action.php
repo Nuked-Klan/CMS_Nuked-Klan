@@ -22,7 +22,7 @@ function main()
     $nbActions = 50;
 
     $sqlNbActions = nkDB_execute("SELECT id FROM " . ACTION_TABLE);
-    $count = mysql_num_rows($sqlNbActions);
+    $count = nkDB_numRows($sqlNbActions);
 
     if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
     $start = $_REQUEST['p'] * $nbActions - $nbActions;

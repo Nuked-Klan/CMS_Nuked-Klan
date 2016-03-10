@@ -26,7 +26,7 @@ function cat($cat)
     $counter = 0;
 
     $sql = nkDB_execute('SELECT cid, titre, description FROM ' . GALLERY_CAT_TABLE . ' WHERE parentid = ' . $cat);
-    $nb_subcat = mysql_num_rows($sql);
+    $nb_subcat = nkDB_numRows($sql);
 
     if ($nb_subcat > 0)
     {
@@ -41,7 +41,7 @@ function cat($cat)
             $parentdesc = icon($parentdesc);
 
             $sql_img = nkDB_execute("SELECT sid, url, url2, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $catid . "' ORDER BY sid DESC");
-            $nb_imgcat = mysql_num_rows($sql_img);
+            $nb_imgcat = nkDB_numRows($sql_img);
             list($sid, $url, $url2, $date) = nkDB_fetchArray($sql_img);
 
             if ($url2 != "" && $url2 != "http://")
@@ -162,7 +162,7 @@ function categorie($cat)
 
     $sql = nkDB_execute("SELECT titre, description, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
 
-    if(mysql_num_rows($sql) <= 0)
+    if(nkDB_numRows($sql) <= 0)
         redirect("index.php?file=404");
 
     list($cat_titre, $cat_desc, $parentid) = nkDB_fetchArray($sql);
@@ -218,7 +218,7 @@ function description($sid)
 
     $sql = nkDB_execute("SELECT cat, titre, description, autor, url, url_file, date, count FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
 
-    if(mysql_num_rows($sql) <= 0)
+    if(nkDB_numRows($sql) <= 0)
         redirect("index.php?file=404");
 
     list($cat, $titre, $description, $autor, $url, $url_file, $date, $count) = nkDB_fetchArray($sql);
@@ -427,10 +427,10 @@ function index()
     . "<a href=\"index.php?file=Suggest&amp;module=Gallery\" style=\"text-decoration: underline\">" . _SUGGESTIMG . "</a> ]</div><br />\n";
 
     $sql_nbimages = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . "");
-    $nb_images = mysql_num_rows($sql_nbimages);
+    $nb_images = nkDB_numRows($sql_nbimages);
 
     $sql_nbcat = nkDB_execute("SELECT cid FROM " . GALLERY_CAT_TABLE . "");
-    $nb_cat = mysql_num_rows($sql_nbcat);
+    $nb_cat = nkDB_numRows($sql_nbcat);
 
     if ($nb_cat > 0)
     {
@@ -444,14 +444,14 @@ function index()
             $description = icon($description);
 
             $sql_img = nkDB_execute("SELECT sid, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $cid . "' ORDER BY sid DESC LIMIT 0, 1");
-            $nb_imgcat = mysql_num_rows($sql_img);
+            $nb_imgcat = nkDB_numRows($sql_img);
             list($sid, $date) = nkDB_fetchRow($sql_img);
 
             $sql_img_tt = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . ", " . GALLERY_CAT_TABLE . " WHERE cat = cid AND (parentid = '" . $cid . "' OR cid = '" . $cid . "')");
-            $nb_imgcat_tt = mysql_num_rows($sql_img_tt);
+            $nb_imgcat_tt = nkDB_numRows($sql_img_tt);
 
             $sql_nbcat = nkDB_execute("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cid . "'");
-            $nb_nbcat = mysql_num_rows($sql_nbcat);
+            $nb_nbcat = nkDB_numRows($sql_nbcat);
 
             if ($date != "")
             {
@@ -519,7 +519,7 @@ function classe()
     if ($cat > 0)
     {
         $sql = nkDB_execute("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "'");
-        $nb_subcat = mysql_num_rows($sql);
+        $nb_subcat = nkDB_numRows($sql);
     }
     else
     {
@@ -592,7 +592,7 @@ function classe()
     }
 
     $sql = nkDB_execute("SELECT L.sid, L.titre, L.url, L.url2, L.date, AVG(V.vote) AS note  FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' " . $where . " GROUP BY L.sid " . $order);
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
 
     if ($count > 1 && $cat != "")
     {

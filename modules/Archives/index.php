@@ -25,7 +25,7 @@ function index()
     $day = time();
 
     $sql = nkDB_execute("SELECT date FROM " . NEWS_TABLE . " ORDER BY date DESC");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -92,7 +92,7 @@ function index()
     . "<td style=\"width: 10%;\" align=\"center\"><b>" . _OPTION . "&nbsp;</b></td></tr>\n";
 
     $sql_nb = nkDB_execute("SELECT nid FROM " . NEWS_CAT_TABLE);
-    $nbsujet = mysql_num_rows($sql_nb);
+    $nbsujet = nkDB_numRows($sql_nb);
 
     if ($_REQUEST['orderby'] == "titre")
     {
@@ -193,7 +193,7 @@ function sujet($cat_id)
     $day = time();
 
     $sql = nkDB_execute("SELECT cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' ORDER BY date DESC");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
 
     if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
     $start = $_REQUEST['p'] * $nb_news - $nb_news;

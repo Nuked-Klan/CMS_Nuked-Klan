@@ -22,7 +22,7 @@ if ($active == 3 || $active == 4){
 			<br /><br /><table width="180" cellspacing="1" cellpadding="0">';
 
     $sql = nkDB_execute('SELECT warid, pays_adv, adversaire, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE etat = 1 ORDER BY date_an DESC, date_mois DESC, date_jour DESC LIMIT 0, 10');
-    $nbwar = mysql_num_rows($sql);
+    $nbwar = nkDB_numRows($sql);
 
     while (list($war_id, $pays_adv, $adv_name, $score_team, $score_adv) = nkDB_fetchArray($sql)){
         $adv_name = printSecuTags($adv_name);
@@ -42,13 +42,13 @@ if ($active == 3 || $active == 4){
 				<td style="width: 40%;background: '.$color.';color: #FFFFFF;text-align:center;"><b>' . $score_team . '/' . $score_adv . '</b></td></tr>';
     }
 
-	if (mysql_num_rows($sql) == NULL) echo '<tr><td colspan="2" style="text-align:center;">' . _NOMATCH . '</td></tr>';
+	if (nkDB_numRows($sql) == NULL) echo '<tr><td colspan="2" style="text-align:center;">' . _NOMATCH . '</td></tr>';
 
     echo '</table></td><td style="width: 10%;">&nbsp;</td><td style="width: 45%;vertical-align:top;"><a href="index.php?file=Calendar"><b><big>' . _NEXTWAR . '</big></b></a>
 			<br /><br /><table width="180" cellspacing="1" cellpadding="0">';
 
     $sql2 = nkDB_execute('SELECT warid, pays_adv, adversaire, date_jour, date_mois, date_an FROM ' . WARS_TABLE . ' WHERE etat = 0 ORDER BY date_an, date_mois, date_jour LIMIT 0, 10');
-    $nbwar2 = mysql_num_rows($sql2);
+    $nbwar2 = nkDB_numRows($sql2);
 
     $d = date('d');
     $m = date('m');
@@ -73,7 +73,7 @@ if ($active == 3 || $active == 4){
 				<td style="width: 40%;text-align:center;">' . $date . '</td></tr>';
     }
 
-	if (mysql_num_rows($sql2) == NULL) echo '<tr><td colspan="2" style="text-align:center;">' . _NOMATCH . '</td></tr>';
+	if (nkDB_numRows($sql2) == NULL) echo '<tr><td colspan="2" style="text-align:center;">' . _NOMATCH . '</td></tr>';
 
     echo '</table></td></tr><tr><td style="width: 45%;text-align:right;"><a href="index.php?file=Wars"><small>+ ' . _GOWARS . '</small></a></td>
 			<td style="width: 10%;"></td><td style="width: 45%;text-align:right;"><a href="index.php?file=Calendar"><small>+ ' . _GOCALENDAR . '</small></a></td></tr></table><br />';
@@ -103,10 +103,10 @@ else{
 				<td style="width: 100px;background: ' . $color . ';text-align:center;"><b>' . $score_team . '/' . $score_adv . '</b></td></tr>';
     }
 
-	if (mysql_num_rows($sql) == NULL) echo '<tr><td colspan="2" style="text-align:center;"><em>' . _NOMATCH . '</em></td></tr>';
+	if (nkDB_numRows($sql) == NULL) echo '<tr><td colspan="2" style="text-align:center;"><em>' . _NOMATCH . '</em></td></tr>';
 
     $sql2 = nkDB_execute('SELECT warid, pays_adv, adversaire, date_jour, date_mois, date_an FROM ' . WARS_TABLE . ' WHERE etat = 0 ORDER BY date_an, date_mois, date_jour LIMIT 0, 5');
-    $do_affich_bl = mysql_num_rows($sql2);
+    $do_affich_bl = nkDB_numRows($sql2);
 
     if ($do_affich_bl > 0){
 		$d = date('d');

@@ -33,7 +33,7 @@ function index(){
     }
 
     $sql_nbnews = nkDB_execute("SELECT id FROM ".NEWS_TABLE." $where");
-    $nb_news = mysql_num_rows($sql_nbnews);
+    $nb_news = nkDB_numRows($sql_nbnews);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -53,7 +53,7 @@ function index(){
 
     $sql = nkDB_execute("SELECT id, auteur, auteur_id, date, titre, coverage, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
 
-    if (mysql_num_rows($sql) <= 0) {
+    if (nkDB_numRows($sql) <= 0) {
         echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
     }
 
@@ -61,7 +61,7 @@ function index(){
         $TabNews['titre'] = printSecuTags($TabNews['titre']);
 
         $sql2 = nkDB_execute("SELECT im_id FROM ".COMMENT_TABLE." WHERE im_id = '{$TabNews['id']}' AND module = 'news'");
-        $nb_comment = mysql_num_rows($sql2);
+        $nb_comment = nkDB_numRows($sql2);
 
         $sql3 = nkDB_execute("SELECT titre, image FROM ".NEWS_CAT_TABLE." WHERE nid = '{$TabNews['cat']}'");
         $TabCat = nkDB_fetchAssoc($sql3);

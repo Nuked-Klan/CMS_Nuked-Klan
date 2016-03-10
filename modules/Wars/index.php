@@ -23,14 +23,14 @@ function index(){
     opentable();
 
     $sql = nkDB_execute('SELECT warid FROM '.WARS_TABLE.' WHERE etat = 1');
-    $nb_matchs = mysql_num_rows($sql);
+    $nb_matchs = nkDB_numRows($sql);
 
     if ($nb_matchs > 0){
         $sql_victory = nkDB_execute('SELECT warid FROM '.WARS_TABLE.' WHERE etat = 1 AND tscore_team > tscore_adv');
-        $nb_victory = mysql_num_rows($sql_victory);
+        $nb_victory = nkDB_numRows($sql_victory);
 
         $sql_defeat = nkDB_execute('SELECT warid FROM '.WARS_TABLE.' WHERE etat = 1 AND tscore_adv > tscore_team');
-        $nb_defeat = mysql_num_rows($sql_defeat);
+        $nb_defeat = nkDB_numRows($sql_defeat);
 
         $nb_nul = $nb_matchs - ($nb_victory + $nb_defeat);
     }
@@ -57,7 +57,7 @@ function index(){
     }
     else{
         $sql2 = nkDB_execute('SELECT A.titre, B.team FROM '.TEAM_TABLE.' AS A LEFT JOIN '.WARS_TABLE.' AS B ON A.cid = B.team WHERE B.etat = 1 GROUP BY B.team ORDER BY A.ordre, A.titre');
-        $nb_team = mysql_num_rows($sql2);
+        $nb_team = nkDB_numRows($sql2);
 
         if (!$_REQUEST['tid'] && $nb_team > 1){
             while (list($team_name, $team) = nkDB_fetchArray($sql2)){
@@ -80,7 +80,7 @@ function index(){
                         <td style="width: 10%;text-align:center;"><b>'._DETAILS.'</b></td></tr>';
 
                 $sql6 = nkDB_execute('SELECT warid FROM '.WARS_TABLE.' WHERE etat = 1 AND team = \''.$team.'\' ');
-                $count = mysql_num_rows($sql6);
+                $count = nkDB_numRows($sql6);
 
                 $sql4 = nkDB_execute('SELECT warid, adversaire, url_adv, pays_adv, type, style, game, date_jour, date_mois, date_an, tscore_team, tscore_adv FROM '.WARS_TABLE.' WHERE etat = 1 AND team = '.$team.' ORDER BY date_an DESC, date_mois DESC, date_jour DESC LIMIT 0, 10');
                 while (list($war_id, $adv_name, $adv_url, $pays_adv, $type, $style, $game, $jour, $mois, $an, $score_team, $score_adv) = nkDB_fetchArray($sql4)){
@@ -177,7 +177,7 @@ function index(){
                 $team_name = printSecuTags($team_name);
                 $and = 'AND team = \'' . $_REQUEST['tid'] . '\' ';
                 $sql7 = nkDB_execute('SELECT warid FROM ' . WARS_TABLE . ' WHERE etat = 1 AND team = \'' . $_REQUEST['tid'] . '\' ');
-                $count = mysql_num_rows($sql7);
+                $count = nkDB_numRows($sql7);
             }
             else{
                 $team_name = $nuked['name'];
@@ -352,7 +352,7 @@ function index(){
 
     if (array_key_exists('p', $_REQUEST) && $_REQUEST['p'] == 1 OR !array_key_exists('p', $_REQUEST)){
         $sqlx = nkDB_execute("SELECT warid FROM " . WARS_TABLE . " WHERE etat = 0");
-        $nb_matchs2 = mysql_num_rows($sqlx);
+        $nb_matchs2 = nkDB_numRows($sqlx);
 
         if ($nb_matchs2 > 0){
             echo '<br /><div style="text-align: center;"><big><b>' . _NEXTMATCHES . '</b></big></div><br />';
@@ -453,7 +453,7 @@ function detail($war_id){
 
     $sql = nkDB_execute('SELECT team, adversaire, url_adv, pays_adv, date_jour, date_mois, date_an, type, style, tscore_team, tscore_adv, map, score_adv, score_team, report, auteur, url_league, etat FROM ' . WARS_TABLE . ' WHERE warid = \'' . $war_id . '\' ');
 
-    if(mysql_num_rows($sql) <= 0)
+    if(nkDB_numRows($sql) <= 0)
         redirect('index.php?file=404');
 
     list($team, $adv_name, $adv_url, $pays_adv, $jour, $mois, $an, $type, $style, $tscore_team, $tscore_adv, $map, $score_team, $score_adv, $report, $auteur, $url_league, $etat) = nkDB_fetchArray($sql);
@@ -565,7 +565,7 @@ function detail($war_id){
     }
 
     $sql_screen = nkDB_execute('SELECT url FROM ' . WARS_FILES_TABLE . ' WHERE module = \'Wars\' AND type = \'screen\' AND im_id = \'' . $war_id . '\' ');
-    $nb_screen = mysql_num_rows($sql_screen);
+    $nb_screen = nkDB_numRows($sql_screen);
 
     if ($nb_screen > 0){
         echo '<tr style="background: ' . $bgcolor1 . ';"><td style="border: 1px dashed ' . $bgcolor3 . ';">';
@@ -578,7 +578,7 @@ function detail($war_id){
     }
 
     $sql_demo = nkDB_execute('SELECT url FROM ' . WARS_FILES_TABLE . ' WHERE module = \'Wars\' AND type = \'demo\' AND im_id = \'' . $war_id . '\' ');
-    $nb_demo = mysql_num_rows($sql_demo);
+    $nb_demo = nkDB_numRows($sql_demo);
 
     if ($nb_demo > 0){
         $l = 1;

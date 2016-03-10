@@ -35,13 +35,13 @@ function main(){
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, module, date, user_id FROM " . SUGGEST_TABLE . " ORDER BY module, date");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     
     while (list($sug_id, $mod_name, $date, $id_user) = nkDB_fetchArray($sql)){
         $date = nkDate($date);
 
         $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-        $nb_user = mysql_num_rows($sql2);
+        $nb_user = nkDB_numRows($sql2);
 
         if ($nb_user > 0){
             list($user_for, $pseudo) = nkDB_fetchArray($sql2);
@@ -74,7 +74,7 @@ function show_suggest($sug_id){
     $content = explode('|', $proposition);
 
     $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-    $nb_user = mysql_num_rows($sql2);
+    $nb_user = nkDB_numRows($sql2);
 
     if ($nb_user > 0){
         list($user_for, $pseudo) = nkDB_fetchArray($sql2);

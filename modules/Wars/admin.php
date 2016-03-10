@@ -49,7 +49,7 @@ function main(){
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT warid, team, adversaire, url_adv, etat, date_jour, date_mois, date_an FROM " . WARS_TABLE . " ORDER BY etat, date_an DESC, date_mois DESC, date_jour DESC");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     while (list($war_id, $team, $adv_name, $adv_url, $status, $jour, $mois, $an) = nkDB_fetchArray($sql)){
         $adv_name = printSecuTags($adv_name);
 
@@ -415,7 +415,7 @@ function match(){
 
     if ($_REQUEST['do'] == "edit"){
         $sql4 = nkDB_execute("SELECT id FROM " . WARS_FILES_TABLE . " WHERE module = 'Wars' AND im_id = '" . $war_id ."'");
-        $nb_file = mysql_num_rows($sql4);
+        $nb_file = nkDB_numRows($sql4);
 
         if ($nb_file > 0) {
             echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;page=admin&amp;op=main_file&amp;im_id=" . $war_id . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDMODFILE . "</a></div>\n";

@@ -74,7 +74,7 @@ function verif_check($poll_id) {
         $verifip = 1;
     } else {
         $sql = nkDB_execute('SELECT sid FROM ' . SURVEY_CHECK_TABLE . ' WHERE (pseudo = "' . $username . '" OR ip = "' . $user_ip . '") AND sid = ' . $poll_id);
-        $verifip = mysql_num_rows($sql);
+        $verifip = nkDB_numRows($sql);
     }
     return $verifip;
 }

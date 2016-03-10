@@ -80,7 +80,7 @@ function main()
     $nb_mess_guest = "30";
 
     $sql2 = nkDB_execute("SELECT id FROM " . GUESTBOOK_TABLE);
-    $count = mysql_num_rows($sql2);
+    $count = nkDB_numRows($sql2);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];

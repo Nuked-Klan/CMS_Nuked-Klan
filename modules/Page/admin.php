@@ -50,7 +50,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 
 $i = 0;
 $sql = nkDB_execute("SELECT id, titre, url, type FROM " . PAGE_TABLE . " ORDER BY titre");
-$nb_page = mysql_num_rows($sql);
+$nb_page = nkDB_numRows($sql);
 
 while (list($page_id, $titre, $url, $type) = nkDB_fetchArray($sql))
 { 

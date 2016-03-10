@@ -22,11 +22,11 @@ opentable();
 
 if ($name != "") {
     $sql = nkDB_execute("SELECT id, titre, niveau, content, url, type, show_title, members FROM " . PAGE_TABLE . " WHERE titre = '" . $name . "'");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
 }
 else if ($nuked['index_page'] != "") {
     $sql = nkDB_execute("SELECT id, titre, niveau, content, url, type, show_title, members FROM " . PAGE_TABLE . " WHERE titre = '" . $nuked['index_page'] . "'");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
 }
 else {
     $count = 0;	

@@ -43,7 +43,7 @@ $searchLevelAccess = max($visiteur, 1);
 $req = "SELECT id, titre, date FROM " . DOWNLOAD_TABLE . " WHERE level <= '" . $searchLevelAccess . "' AND " . $and . " ORDER BY id DESC";
 $sql_dl = nkDB_execute($req);
 
-$nb_dl = mysql_num_rows($sql_dl);
+$nb_dl = nkDB_numRows($sql_dl);
 
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 

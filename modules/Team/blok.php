@@ -34,7 +34,7 @@ if ($active == 3 || $active == 4)
     echo "<td style=\"width: 15%;\" align=\"center\"><b>" . __('RANK') . "</b></td></tr>\n";
 
     $sql_team = nkDB_execute("SELECT cid FROM " . TEAM_TABLE);
-    $nb_team = mysql_num_rows($sql_team);
+    $nb_team = nkDB_numRows($sql_team);
 
     if ($nb_team > 0) $where = "WHERE team > 0"; else $where = "WHERE niveau > 1";
 
@@ -82,7 +82,7 @@ else
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"1\">\n";
 
     $sql_team = nkDB_execute("SELECT cid FROM " . TEAM_TABLE);
-    $nb_team = mysql_num_rows($sql_team);
+    $nb_team = nkDB_numRows($sql_team);
 
     if ($nb_team > 0) $where = "WHERE team > 0"; else $where = "WHERE niveau > 1";
 

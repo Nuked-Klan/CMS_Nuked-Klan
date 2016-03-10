@@ -200,7 +200,7 @@ function main() {
                                 <div>
                                 <?php
                                     $sqlLastComment = nkDB_execute("SELECT module, im_id, autor, date FROM " . COMMENT_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
-                                    $countComment = mysql_num_rows($sqlLastComment);
+                                    $countComment = nkDB_numRows($sqlLastComment);
                                 
                                 if($countComment != 0){
                                     while (list($lastModuleComment, $modIdComment, $lastCommentAuthor, $lastCommentDate) = nkDB_fetchArray($sqlLastComment))

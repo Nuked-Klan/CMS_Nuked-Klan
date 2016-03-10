@@ -49,7 +49,7 @@ function main(){
     . '<td style="width: 10%;text-align:center;" ><b>' . _DEL . '</b></td></tr>'."\n";
 
     $sql = nkDB_execute('SELECT id, titre, nom, email, date FROM ' . CONTACT_TABLE . ' ORDER BY id');
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     $l = 0;
 
     while (list($id, $titre, $nom, $email, $date) = nkDB_fetchArray($sql)){

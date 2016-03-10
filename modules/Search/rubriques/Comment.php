@@ -39,7 +39,7 @@ else if ($main != ""){
 $req = "SELECT module,  im_id, autor, titre, date FROM " . COMMENT_TABLE . " WHERE " . $and . " ORDER BY id DESC";
 $sql_com = nkDB_execute($req);
 
-$nb_com = mysql_num_rows($sql_com);
+$nb_com = nkDB_numRows($sql_com);
 
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 

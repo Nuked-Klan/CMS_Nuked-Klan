@@ -41,7 +41,7 @@ else if ($main != ""){
 $req = "SELECT sid, titre, date FROM " . GALLERY_TABLE . " WHERE " . $and . " ORDER BY sid DESC";
 $sql_img = nkDB_execute($req);
 
-$nb_img = mysql_num_rows($sql_img);
+$nb_img = nkDB_numRows($sql_img);
 
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 

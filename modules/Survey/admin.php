@@ -193,7 +193,7 @@ function main(){
         . "<td align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute('SELECT sid, titre, date, niveau FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     while (list($poll_id, $titre, $date, $niveau) = nkDB_fetchArray($sql)) {
         $date = nkDate($date);
         $titre = printSecuTags($titre);

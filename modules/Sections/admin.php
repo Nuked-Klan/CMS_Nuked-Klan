@@ -21,7 +21,7 @@ function main(){
     $nb_max = 30;
 
     $sql3 = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE);
-    $nb_art = mysql_num_rows($sql3);
+    $nb_art = nkDB_numRows($sql3);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -134,7 +134,7 @@ function main(){
 
         if ($autor_id != ""){
             $sql4 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-            $test = mysql_num_rows($sql4);
+            $test = nkDB_numRows($sql4);
         }
 
         if ($autor_id != "" && $test > 0){
@@ -428,7 +428,7 @@ function main_cat(){
             . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT secid, secname, parentid, position FROM " . SECTIONS_CAT_TABLE . " ORDER BY parentid, position");
-    $nbcat = mysql_num_rows($sql);
+    $nbcat = nkDB_numRows($sql);
     if ($nbcat > 0){
         while (list($cid, $titre, $parentid, $position) = nkDB_fetchRow($sql))
         {

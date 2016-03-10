@@ -35,7 +35,7 @@ function affich_block_suggest($blok){
         $temp = explode('|', $modules[$i]);
 
         $sql = nkDB_execute('SELECT id FROM ' . SUGGEST_TABLE . ' WHERE module = \'' . $temp[1] . '\' ');
-        $nb_sug = mysql_num_rows($sql);
+        $nb_sug = nkDB_numRows($sql);
 
         $level_access = nivo_mod($temp[1]);
         $level_admin = admin_mod($temp[1]);

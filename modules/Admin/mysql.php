@@ -79,7 +79,7 @@ function optimise()
     $tot_all = 0;
     $local_query = 'SHOW TABLE STATUS FROM `' . $global['db_name'] . '`';
     $result = nkDB_execute($local_query);
-    if (is_resource($result) && mysql_num_rows($result))
+    if (is_resource($result) && nkDB_numRows($result))
     {
         while ($row = nkDB_fetchArray($result))
         {

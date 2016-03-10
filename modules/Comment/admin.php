@@ -26,7 +26,7 @@ function edit_com($cid){
 
     if($autor_id != ""){
         $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-        $test = mysql_num_rows($sql_member);
+        $test = nkDB_numRows($sql_member);
     }
 
     if($autor_id != "" && $test > 0){
@@ -84,7 +84,7 @@ function main(){
     $nb_com = 30;
 
     $sql2 = nkDB_execute("SELECT id FROM " . COMMENT_TABLE);
-    $count = mysql_num_rows($sql2);
+    $count = nkDB_numRows($sql2);
 
     if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
     $start = $_REQUEST['p'] * $nb_com - $nb_com;
@@ -131,7 +131,7 @@ function main(){
 
         if($autor_id != ""){
             $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
-            $test = mysql_num_rows($sql_member);
+            $test = nkDB_numRows($sql_member);
         }
 
         if($autor_id != "" && $test > 0){

@@ -49,7 +49,7 @@ function NbComment($im_id, $module){
     $im_id = mysql_real_escape_string(stripslashes($im_id));
     $module = mysql_real_escape_string(stripslashes($module));
     $Sql = nkDB_execute("SELECT id FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module'");
-    return mysql_num_rows($Sql);
+    return nkDB_numRows($Sql);
 }
 
 function com_index($module, $im_id){
@@ -134,7 +134,7 @@ function com_index($module, $im_id){
         </tr>';
 
     $sql = nkDB_execute("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     $j = 0;
     while($row = nkDB_fetchAssoc($sql)){
         $test = 0;
@@ -146,7 +146,7 @@ function com_index($module, $im_id){
 
         if(!empty($row['autor_id'])){
             $sql_member = nkDB_execute("SELECT avatar, country FROM ".USER_TABLE." WHERE id = '{$row['autor_id']}'");
-            $test = mysql_num_rows($sql_member);
+            $test = nkDB_numRows($sql_member);
         }
 
         if(!empty($row['autor_id']) && $test > 0) list($avatar, $country) = nkDB_fetchArray($sql_member);
@@ -259,7 +259,7 @@ function view_com($module, $im_id){
     echo '<script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&op=del_comment&cid=\'+id;}}</script>';
 
     $sql = nkDB_execute("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC");
-    if (mysql_num_rows($sql) != 0){
+    if (nkDB_numRows($sql) != 0){
 
         while($row = nkDB_fetchAssoc($sql)):
 

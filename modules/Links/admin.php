@@ -202,7 +202,7 @@ function main(){
     $nb_liens = 30;
 
     $sql3 = nkDB_execute("SELECT id FROM " . LINKS_TABLE . "");
-    $nb_lk = mysql_num_rows($sql3);
+    $nb_lk = nkDB_numRows($sql3);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -355,7 +355,7 @@ function main_cat(){
             . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT cid, titre, parentid, position FROM " . LINKS_CAT_TABLE . " ORDER BY parentid, position");
-    $nbcat = mysql_num_rows($sql);
+    $nbcat = nkDB_numRows($sql);
     if ($nbcat > 0){
         while (list($cid, $titre, $parentid, $position) = nkDB_fetchArray($sql)){
             $titre = printSecuTags($titre);
@@ -624,7 +624,7 @@ function main_broken(){
     $i = 0;
     $l = 0;
     $sql = nkDB_execute("SELECT id, titre, url, broke FROM " . LINKS_TABLE . " WHERE broke > 0 ORDER BY broke DESC, cat");
-    $nb_broke = mysql_num_rows($sql);
+    $nb_broke = nkDB_numRows($sql);
 
     if ($nb_broke > 0){
         while (list($link_id, $titre, $url, $broke) = nkDB_fetchArray($sql)){

@@ -36,7 +36,7 @@ function main(){
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, pseudo, send, mail, clan, game FROM " . DEFY_TABLE . " ORDER BY id DESC");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     while (list($did, $pseudo, $date, $mail, $clan, $game) = nkDB_fetchArray($sql)){
         $date = nkDate($date);
 

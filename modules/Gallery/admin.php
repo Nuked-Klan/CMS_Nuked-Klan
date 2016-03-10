@@ -279,7 +279,7 @@ function main()
     $nb_img_guest = 30;
 
     $sql3 = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE);
-    $count = mysql_num_rows($sql3);
+    $count = nkDB_numRows($sql3);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -527,7 +527,7 @@ function main_cat()
     . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT cid, titre, parentid, position FROM " . GALLERY_CAT_TABLE . " ORDER BY parentid, position");
-    $nbcat = mysql_num_rows($sql);
+    $nbcat = nkDB_numRows($sql);
 
     if ($nbcat > 0)
     {

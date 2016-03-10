@@ -43,7 +43,7 @@ $searchLevelAccess = max($visiteur, 1);
 $req = "SELECT M.id, M.thread_id, M.titre, M.forum_id, M.date, M.auteur FROM " . FORUM_MESSAGES_TABLE . " AS M, " . FORUM_TABLE . " AS F, " . FORUM_CAT_TABLE . " AS FC WHERE F.id=M.forum_id AND F.cat=FC.id AND FC.niveau <= '" . $searchLevelAccess . "' AND F.level <= '" . $searchLevelAccess . "' AND " . $and . " ORDER BY M.id DESC";
 $sql_forum = nkDB_execute($req);
 
-$nb_mess = mysql_num_rows($sql_forum);
+$nb_mess = nkDB_numRows($sql_forum);
 
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 
@@ -54,7 +54,7 @@ if ($nb_mess > 0){
         $subject = nk_CSS($subject);
 
         $sql_page = nkDB_execute("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $tid . "'");
-        $nb_rep = mysql_num_rows($sql_page);
+        $nb_rep = nkDB_numRows($sql_page);
         if ($nb_rep > $nuked['mess_forum_page']){
             $topicpages = $nb_rep / $nuked['mess_forum_page'];
             $topicpages = ceil($topicpages);

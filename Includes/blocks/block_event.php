@@ -97,11 +97,11 @@ function affich_block_event($blok){
             $heure2 = '';
 
             $sql1 = nkDB_execute('SELECT titre, date_jour, date_mois, date_an, heure, auteur FROM ' . CALENDAR_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \'' . $month . '\' AND date_jour = \'' . $event_date . '\' ORDER BY heure');
-            $nb_event = mysql_num_rows($sql1);
+            $nb_event = nkDB_numRows($sql1);
 
             if (defined("WARS_TABLE")){
                 $sql2 = nkDB_execute('SELECT * FROM ' . WARS_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \'' . $month . '\' AND date_jour = \'' . $event_date . '\' ');
-                $nb_match = mysql_num_rows($sql2);
+                $nb_match = nkDB_numRows($sql2);
             }
             else{
                 $nb_match = 0;
@@ -124,7 +124,7 @@ function affich_block_event($blok){
                     }
 
                     $sql_test = nkDB_execute('SELECT pseudo FROM ' . USER_TABLE . ' WHERE id = \'' . $tuid . '\' '. $and);
-                    $test = mysql_num_rows($sql_test);
+                    $test = nkDB_numRows($sql_test);
 
                     if ($tmois == $month && $tjour == $event_date && $test > 0){
                         $nb_birthday++;

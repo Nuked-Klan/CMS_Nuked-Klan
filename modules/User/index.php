@@ -59,7 +59,7 @@ function index(){
                 . '<tr style="background: '. $bgcolor3 . '"><td align="center"><b>' . _MESSPV . '</b></td></tr>',"\n";
 
         $sql2 = nkDB_execute('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = "' . $user[0] . '" AND status = 1');
-        $nb_mess_lu = mysql_num_rows($sql2);
+        $nb_mess_lu = nkDB_numRows($sql2);
 
         $msg_not_read = ($user[5] > 0) ? '<a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>' : '<b>' . $user[5] . '</b>';
 
@@ -77,10 +77,10 @@ function index(){
                 . '<tr style="background: '. $bgcolor3 . '"><td align="center"><b>' . _NAME . '</b></td><td align="center"><b>' . _COUNT . '</b></td></tr>',"\n";
 
         $sql4 = nkDB_execute("SELECT id FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "'");
-        $nb_comment = mysql_num_rows($sql4);
+        $nb_comment = nkDB_numRows($sql4);
 
         $sql5 = nkDB_execute("SELECT id FROM " . SUGGEST_TABLE . " WHERE user_id = '" . $user[0] . "'");
-        $nb_suggest = mysql_num_rows($sql5);
+        $nb_suggest = nkDB_numRows($sql5);
 
         echo "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _MESSINFORUM . "</td><td align=\"center\">" . $user_data['count'] . "</td></tr>\n"
                 . "<tr style=\"background: ". $bgcolor1 . "\"><td>" . _USERCOMMENT . "</td><td align=\"center\">" . $nb_comment . "</td></tr>\n"
@@ -116,7 +116,7 @@ function index(){
                 }
 
                 $sql_page = nkDB_execute("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $tid . "'");
-                $nb_rep = mysql_num_rows($sql_page);
+                $nb_rep = nkDB_numRows($sql_page);
 
                 if ($nb_rep > $nuked['mess_forum_page']){
                     $topicpages = $nb_rep / $nuked['mess_forum_page'];
@@ -844,7 +844,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     do{
         $user_id = substr(sha1(uniqid()), 0, 20);
         $sql = nkDB_execute('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $user_id . '\'');
-    } while (mysql_num_rows($sql) != 0);
+    } while (nkDB_numRows($sql) != 0);
 
     $email = mysql_real_escape_string(stripslashes($email));
     $email = nkHtmlEntities($email);
@@ -874,7 +874,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     $del = nkDB_execute('DELETE FROM ' . FORUM_READ_TABLE . ' WHERE user_id = "' . $user_id . '"');
 
     $result = nkDB_execute('SELECT id, forum_id FROM ' . FORUM_THREADS_TABLE);
-    $nbtopics = mysql_num_rows($result);
+    $nbtopics = nkDB_numRows($result);
 
     if ($nbtopics > 0) {
         while (list($thread_id, $forum_id) = nkDB_fetchRow($result)) {
@@ -961,7 +961,7 @@ function login($pseudo, $pass, $remember_me){
                  WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
     $dbeLogin = nkDB_execute($dbsLogin);
 
-    $checkLogin = mysql_num_rows($dbeLogin);
+    $checkLogin = nkDB_numRows($dbeLogin);
 
     if($checkLogin > 0){
         // Un utilisateur pour ce pseudo a été trouvé
@@ -1351,7 +1351,7 @@ function envoi_mail($email){
     }
 
     $sql = nkDB_execute('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     $data = nkDB_fetchAssoc($sql);
 
     if($count > 0){
@@ -1407,7 +1407,7 @@ function envoi_pass($email, $token){
     }
 
     $sql = nkDB_execute('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     $data = nkDB_fetchAssoc($sql);
 
     if($count > 0){

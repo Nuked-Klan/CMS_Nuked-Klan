@@ -37,7 +37,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, pseudo, prenom, mail, game, date FROM " . RECRUIT_TABLE . " ORDER BY id DESC");
-    $count = mysql_num_rows($sql);
+    $count = nkDB_numRows($sql);
     while (list($rid, $pseudo, $prenom, $mail, $game, $date) = nkDB_fetchArray($sql))
     {
         $date = strftime("%x", $date);

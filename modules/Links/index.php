@@ -32,10 +32,10 @@ function index(){
     . '<a href="index.php?file=Suggest&amp;module=Links">' . _SUGGESTLINK . '</a> ]</div>'."\n";
 
     $sql = nkDB_execute('SELECT id FROM ' . LINKS_TABLE);
-    $nb_links = mysql_num_rows($sql);
+    $nb_links = nkDB_numRows($sql);
 
     $sql_nbcat = nkDB_execute('SELECT cid FROM ' . LINKS_CAT_TABLE);
-    $nb_cat = mysql_num_rows($sql_nbcat);
+    $nb_cat = nkDB_numRows($sql_nbcat);
     if ($nb_cat > 0){
         echo '<table style="margin: auto" cellspacing="15" cellpadding="5">'."\n";
 
@@ -52,7 +52,7 @@ function index(){
                 echo '<td valign="top"><img src="modules/Links/images/fleche.gif" alt="" /><a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $cid . '"><b>' . printSecuTags($titre) . '</b></a>';
 
                 $sql2 = nkDB_execute('SELECT cat FROM ' . LINKS_TABLE . ' WHERE cat = ' . $cid);
-                $nb_lk = mysql_num_rows($sql2);
+                $nb_lk = nkDB_numRows($sql2);
 
                 if ($nb_lk > 0) echo '<small>&nbsp;(' . $nb_lk . ')</small>'."\n";
                 if (!empty($description)) echo '<div>' . $description . '</div>'."\n";
@@ -100,7 +100,7 @@ function categorie($cat){
 
     $sql = nkDB_execute('SELECT titre, description, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
 
-    if(mysql_num_rows($sql) <= 0)
+    if(nkDB_numRows($sql) <= 0)
         redirect('index.php?file=404');
 
     list($cat_titre, $cat_desc, $parentid) = nkDB_fetchArray($sql);
@@ -119,7 +119,7 @@ function categorie($cat){
     }
 
     $sql3 = nkDB_execute('SELECT cid, titre, description  FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = ' . $cat . ' ORDER BY position, titre');
-    $nb_subcat = mysql_num_rows($sql3);
+    $nb_subcat = nkDB_numRows($sql3);
     $count = 0;
 
     if ($nb_subcat > 0){
@@ -129,7 +129,7 @@ function categorie($cat){
             $parentdesc = icon($parentdesc);
 
             $sql_nbcat = nkDB_execute('SELECT id FROM ' . LINKS_TABLE . ' WHERE cat = ' . $catid);
-            $nb_lkcat = mysql_num_rows($sql_nbcat);
+            $nb_lkcat = nkDB_numRows($sql_nbcat);
 
             if ($catid != $last_catid){
                 $count++;
@@ -168,7 +168,7 @@ function do_link($link_id){
     nkTemplate_setPageDesign('none');
 
     $sql = nkDB_execute('SELECT url, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
-    if(mysql_num_rows($sql) <= 0){
+    if(nkDB_numRows($sql) <= 0){
         redirect('index.php?file=404');
     }
     else{
@@ -196,7 +196,7 @@ function description($link_id){
     global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3;
 
     $sql = nkDB_execute('SELECT id, date, titre, description, webmaster, country, cat, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
-    if(mysql_num_rows($sql) <= 0){
+    if(nkDB_numRows($sql) <= 0){
         redirect('index.php?file=404');
     }
     else{
@@ -372,7 +372,7 @@ function classe(){
     }
 
     $sql = nkDB_execute('SELECT L.id, L.date, L.titre, L.description, L.count, L.country, AVG(V.vote) AS note  FROM ' . LINKS_TABLE . ' AS L LEFT JOIN ' . VOTE_TABLE . ' AS V ON L.id = V.vid AND V.module = \'Links\' ' . $where . ' GROUP BY L.id ' . $order);
-    $nb_lk = mysql_num_rows($sql);
+    $nb_lk = nkDB_numRows($sql);
 
     if ($nb_lk > 1 && !empty($cat)){
         echo '<table style="margin: auto" width="90%">'."\n"

@@ -538,7 +538,7 @@ function do_user() {
 
     do {
         $userId = sha1(uniqid());
-    } while (mysql_num_rows(nkDB_execute('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $userId . '\' LIMIT 1')) != 0);
+    } while (nkDB_numRows(nkDB_execute('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $userId . '\' LIMIT 1')) != 0);
 
     $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
@@ -636,7 +636,7 @@ function main()
     $nb_membres = 30;
 
     $sql3 = nkDB_execute("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
-    $count = mysql_num_rows($sql3);
+    $count = nkDB_numRows($sql3);
 
     if (! array_key_exists('p', $_REQUEST) || ! $_REQUEST['p']) $_REQUEST['p'] = 1;
     $start = $_REQUEST['p'] * $nb_membres - $nb_membres;
@@ -825,7 +825,7 @@ function main_ip()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT id, ip, pseudo, email FROM " . BANNED_TABLE . " ORDER BY id DESC");
-    $nbip = mysql_num_rows($sql);
+    $nbip = nkDB_numRows($sql);
 
     if ($nbip > 0)
     {
@@ -1025,7 +1025,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 
     $theday = time();
     $sql = nkDB_execute("SELECT id, pseudo, mail, date FROM " . USER_TABLE . " WHERE niveau = 0 ORDER BY date");
-    $nb_user = mysql_num_rows($sql);
+    $nb_user = nkDB_numRows($sql);
     $compteur = 0;
     while (list($id_user, $pseudo, $mail, $date) = nkDB_fetchArray($sql))
     {

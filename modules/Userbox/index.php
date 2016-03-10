@@ -81,7 +81,7 @@ function send_message($titre, $user_for, $message){
 	else {
 		if (!empty($user_for) && ctype_alnum($user_for)) {
 			$sql2 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '$user_for'");
-			$nb = mysql_num_rows($sql2);
+			$nb = nkDB_numRows($sql2);
 		}
 		else $nb = 0;
 		
@@ -159,7 +159,7 @@ function del_message($mid){
     global $user, $nuked;
 
     $sql = nkDB_execute("SELECT mid FROM " . USERBOX_TABLE . " WHERE  mid = '$mid' AND user_for = '{$user[0]}'");
-    $nbr = mysql_num_rows($sql);
+    $nbr = nkDB_numRows($sql);
 
     if($nbr > 0){
         $sql = nkDB_execute("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '$mid' AND user_for = '{$user[0]}'");
@@ -178,7 +178,7 @@ function del_message_form($mid, $del_oui){
     if ($del_oui == 'ok'){
 
         $sql = nkDB_execute("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");
-        $nb_mess = mysql_num_rows($sql);
+        $nb_mess = nkDB_numRows($sql);
         $get_mid = 0;
 
         while ($nb_mess > $get_mid && $nb_mess <> ""){
@@ -203,7 +203,7 @@ function del_message_form($mid, $del_oui){
         }
 
         $sql = nkDB_execute("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");
-        $nb_mess = mysql_num_rows($sql);
+        $nb_mess = nkDB_numRows($sql);
 
         echo '<form method="post" action="index.php?file=Userbox&amp;op=del_message_form&amp;del_oui=ok">
                 <div style="text-align:center;"><br /><br /><b>'._DELETEMESSAGES.' :</b><br /><br />';
@@ -251,7 +251,7 @@ function index(){
                 <td align="center"><b>'._READMESS.'</b></td></tr>';
 
         $sql = nkDB_execute("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY date DESC");
-        $nb_mess = mysql_num_rows($sql);
+        $nb_mess = nkDB_numRows($sql);
         $i = 0;
         $j = 0;
         while($row = nkDB_fetchAssoc($sql)){

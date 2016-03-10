@@ -41,7 +41,7 @@ else if ($main != ""){
 $req = "SELECT id, titre, date FROM " . LINKS_TABLE . " WHERE " . $and . " ORDER BY id DESC";
 $sql_lk = nkDB_execute($req);
 
-$nb_lk = mysql_num_rows($sql_lk);
+$nb_lk = nkDB_numRows($sql_lk);
 
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 

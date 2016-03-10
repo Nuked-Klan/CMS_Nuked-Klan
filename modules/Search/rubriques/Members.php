@@ -35,7 +35,7 @@ else{
 $req = "SELECT pseudo, date FROM " . USER_TABLE . " WHERE " . $and. " AND niveau > 0 ORDER BY pseudo";
 $sql_mb = nkDB_execute($req);
 
-$nb_mb = mysql_num_rows($sql_mb);
+$nb_mb = nkDB_numRows($sql_mb);
 
 $tab = array('module' => array(), 'title' => array(), 'link' => array());
 

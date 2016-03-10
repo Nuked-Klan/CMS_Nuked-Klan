@@ -31,10 +31,10 @@ function index(){
             . "<a href=\"index.php?file=Suggest&amp;module=Sections\" style=\"text-decoration: underline\">" . _SUGGESTART . "</a> ]</div>\n";
 
     $sql = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE);
-    $nb_arts = mysql_num_rows($sql);
+    $nb_arts = nkDB_numRows($sql);
 
     $sql_nbcat = nkDB_execute("SELECT secid FROM " . SECTIONS_CAT_TABLE);
-    $nb_cat = mysql_num_rows($sql_nbcat);
+    $nb_cat = nkDB_numRows($sql_nbcat);
 
     if ($nb_cat > 0){
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"15\" cellpadding=\"5\">\n";
@@ -54,7 +54,7 @@ function index(){
                 echo "<td valign=\"top\"><img src=\"modules/Sections/images/fleche.gif\" alt=\"\" /><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\"><b>" . $secname . "</b></a>";
 
                 $sql2 = nkDB_execute("SELECT secid FROM " . SECTIONS_TABLE . "  WHERE secid = '" . $secid . "'");
-                $nb_art = mysql_num_rows($sql2);
+                $nb_art = nkDB_numRows($sql2);
 
                 if ($nb_art > 0){
                     echo "<small>&nbsp;(" . $nb_art . ")</small>\n";
@@ -68,7 +68,7 @@ function index(){
                 }
 
                 $sql_subcat = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname LIMIT 0, 4");
-                $nb_subcat = mysql_num_rows($sql_subcat);
+                $nb_subcat = nkDB_numRows($sql_subcat);
 
                 if ($nb_subcat > 0){
                     $t = 0;
@@ -112,7 +112,7 @@ function categorie($secid){
 
     $sql = nkDB_execute("SELECT secname, description, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $secid . "'");
 
-    if(mysql_num_rows($sql) <= 0)
+    if(nkDB_numRows($sql) <= 0)
         redirect("index.php?file=404");
 
     list($secname, $description, $parentid) = nkDB_fetchRow($sql);
@@ -120,7 +120,7 @@ function categorie($secid){
     $secname = printSecuTags($secname);
 
     $sql2 = nkDB_execute("SELECT * FROM " . SECTIONS_TABLE . " WHERE secid = '" . $secid . "'");
-    $nb_art = mysql_num_rows($sql2);
+    $nb_art = nkDB_numRows($sql2);
 
     if ($parentid > 0){
         $sql_parent = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
@@ -134,7 +134,7 @@ function categorie($secid){
     }
 
     $sql_subcat = nkDB_execute("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname");
-    $nb_subcat = mysql_num_rows($sql_subcat);
+    $nb_subcat = nkDB_numRows($sql_subcat);
     $count = 0;
 
     if ($nb_subcat > 0){
@@ -145,7 +145,7 @@ function categorie($secid){
             $parentcat = printSecuTags($parentcat);
 
             $sql_nbcat = nkDB_execute("SELECT secid FROM " . SECTIONS_TABLE . " WHERE secid = '" . $catid . "'");
-            $nb_artcat = mysql_num_rows($sql_nbcat);
+            $nb_artcat = nkDB_numRows($sql_nbcat);
 
             if ($catid != $last_catid){
                 $count++;
@@ -189,7 +189,7 @@ function article($artid){
 
     $sql = nkDB_execute("SELECT artid, secid, title, content, coverage, autor, autor_id, counter, date FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
 
-    if(mysql_num_rows($sql) <= 0)
+    if(nkDB_numRows($sql) <= 0)
         redirect("index.php?file=404");
 
     list($artid, $secid, $title, $content, $coverage, $autor, $autor_id, $counter, $date) = nkDB_fetchRow($sql);
@@ -413,7 +413,7 @@ function classe(){
 
     $sql = nkDB_execute("SELECT S.artid, S.title, S.date, S.counter, S.content, S.coverage, AVG(V.vote) AS note  FROM " . SECTIONS_TABLE . " AS S LEFT JOIN " . VOTE_TABLE . " AS V ON S.artid = V.vid AND V.module = 'Sections' " . $where . " GROUP BY S.artid " . $order);
     
-    $nb_art = mysql_num_rows($sql);
+    $nb_art = nkDB_numRows($sql);
 
     if ($nb_art > 1 && $sid != ""){
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\">\n"

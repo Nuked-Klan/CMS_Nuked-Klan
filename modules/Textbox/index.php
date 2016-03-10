@@ -28,7 +28,7 @@ function index() {
         $nb_mess = $nuked['max_shout'];
 
         $sql = nkDB_execute("SELECT id FROM " . TEXTBOX_TABLE);
-        $count = mysql_num_rows($sql);
+        $count = nkDB_numRows($sql);
 
         $start = $p * $nb_mess - $nb_mess;
 
@@ -247,7 +247,7 @@ function ajax() {
         );
 
         list($user_id, $country, $avatar, $niveau, $rank_color) = nkDB_fetchArray($sql_aut);
-        $test_aut = mysql_num_rows($sql_aut);
+        $test_aut = nkDB_numRows($sql_aut);
 
         if ($rank_color != '')
             $style = ' style="color:#'. $rank_color .'"';
@@ -257,7 +257,7 @@ function ajax() {
         $pays = ($country) ? '<img src="images/flags/' . $country . '" alt="' . $country . '" style="margin-right:2px;"/>' : '';
 
         $sql_on = nkDB_execute("SELECT user_id FROM " . NBCONNECTE_TABLE . " WHERE username = '" . $auteur . "' ORDER BY date");
-        $count_ok = mysql_num_rows($sql_on);
+        $count_ok = nkDB_numRows($sql_on);
 
         $online = (isset($user_id) && $count_ok == 1) ? '<div class="nkIconOnline nkIconOnlineGreen" title="Online !"></div>' : '<div class="nkIconOnline nkIconOnlineGrey" title="Offline"></div>';
 
