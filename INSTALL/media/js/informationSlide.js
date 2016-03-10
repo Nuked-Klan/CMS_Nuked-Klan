@@ -1,6 +1,6 @@
 var nbInfo,
     currentInfo = 1,
-    delay       = 15000,
+    delay       = 45000,
     infoHeight  = [];
 
 function infoSlide() {
