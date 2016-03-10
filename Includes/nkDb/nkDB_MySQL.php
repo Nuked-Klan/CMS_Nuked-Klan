@@ -541,4 +541,29 @@ function nkDB_getNbExecutedQuery() {
     return count($GLOBALS['nkDB']['querys']);
 }
 
+/* Substitute function of mysql librairy */
+
+function nkDB_fetchArray($ressource, $resultType = MYSQL_BOTH) {
+    return mysql_fetch_array($ressource, $resultType);
+}
+
+function nkDB_fetchAssoc($ressource) {
+    return mysql_fetch_assoc($ressource);
+}
+
+function nkDB_fetchRow($ressource) {
+    return mysql_fetch_row($ressource);
+}
+
+function nkDB_dataSeek($ressource, $rowNumber) {
+    return mysql_data_seek($ressource, $rowNumber);
+}
+
+function nkDB_realEscapeString($ressource, $linkIdentifier = NULL) {
+    if ($GLOBALS['nkDB']['connectionError'])
+        return '';
+
+    return mysql_real_escape_string($ressource, $GLOBALS['nkDB']['connection']);
+}
+
 ?>
