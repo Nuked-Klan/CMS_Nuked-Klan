@@ -108,7 +108,9 @@ function add_sug($data){
         include('modules/Suggest/modules/' . $_REQUEST['module'] . '.php');
     }
 
-    $content = make_array($data);
+    if (($content = make_array($data)) === false)
+        return;
+
     $content = mysql_real_escape_string(stripslashes($content));
 
     if(strlen($content) <= 30){

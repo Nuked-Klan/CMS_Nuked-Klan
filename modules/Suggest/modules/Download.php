@@ -15,7 +15,7 @@ translate("modules/Download/lang/" . $language . ".lang.php");
 function form($content, $sug_id){
     global $page, $op, $nuked, $user;
 
-    include("modules/Suggest/config.php");
+    include "modules/Suggest/config.php";
 
     if ($content != ""){
         $titre = "<strong>" . _VALIDDOWNLOAD . "</strong>";
@@ -86,7 +86,7 @@ function form($content, $sug_id){
     if($op == "show_suggest" && $content[4] != ""){$botton = "<input type=\"button\" name=\"bscreen\" value=\"" . _DOWNLOAD . "\" Onclick=\"window.open('$content[4]', 'download','width=100,height=100');\" /></input>";}
 
     echo "</select></td></tr>\n"
-            . "<tr><td><b>" . _AUTOR . " :</b> <input type=\"text\" name=\"autor\" size=\"40\" value=\"" . $content[6] . "\" /></td></tr>\n"
+            . "<tr><td><b>" . __('AUTHOR') . " :</b> <input type=\"text\" name=\"autor\" size=\"40\" value=\"" . $content[6] . "\" /></td></tr>\n"
             . "<tr><td><b>" . _SITE . " :</b> <input type=\"text\" name=\"site\" size=\"55\" value=\"" . $content[7] . "\" /></td></tr>\n";
 
     echo "<tr><td><b>" . _DESCR . " :</b><br />\n"
@@ -130,6 +130,10 @@ function form($content, $sug_id){
 function make_array($data){
     include("modules/Suggest/config.php");
 
+    if (! isset($data['taille'])) $data['taille'] = '';
+    if (! isset($data['url'])) $data['url'] = '';
+    if (! isset($data['screen'])) $data['screen'] = '';
+
     $data['titre'] = printSecuTags($data['titre']);
     $data['cat'] = printSecuTags($data['cat']);
     $data['taille'] = nkHtmlEntities($data['taille']);
@@ -157,56 +161,65 @@ function make_array($data){
         $data['url'] = "http://" . $data['url'];
     }
 
-    $url_file = upload($_FILES['fichiernom'], $data['url'], $upload_dl, $file_filter, $file_filtre, $rep_dl);
-    $url_img = upload($_FILES['imagenom'], $data['screen'], $upload_img, $file_filter, $file_filtre, $rep_dl_screen);
+    $url_file = upload('fichiernom', $data['url'], $upload_dl, $file_filter, $file_filtre, $rep_dl);
+    if ($url_file === false) return false;
+    $url_img = upload('imagenom', $data['screen'], $upload_img, $file_filter, $file_filtre, $rep_dl_screen);
+    if ($url_img === false) return false;
 
     $content = $data['titre'] . "|" . $data['cat'] . "|" . $data['description'] . "|" . $data['taille'] . "|" . $url_file . "|" . $data['date'] . "|" . $data['autor'] . "|" . $data['site'] . "|" . $data['comp'] . "|" . $url_img;
     return $content;
 }
 
-function upload($file = "", $url = "", $upload_dl, $file_filter, $file_filtre, $rep_dl){
-    $filename = $file['name'];
+function upload($filename = '', $url = '', $upload_dl, $file_filter, $file_filtre, $rep_dl){
+    require_once 'Includes/nkUpload.php';
 
-    if ($filename != "" && $upload_dl == "on"){
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $fileUrl = '';
 
-        if ($file_filter == "on" && !in_array(strtolower($ext), $file_filtre)){
-            printNotification('Error : No authorized file !', 'error');
-            closetable();
-            redirect("index.php?file=Suggest&module=Download", 3);
-            return;
-         }
+    if ($upload_dl == 'on' && $_FILES[$filename]['name'] != '') {
+        $fileCfg = array(
+            'fileType'  => 'all',
+            'uploadDir' => $rep_dl,
+            //'fileSize'  => 100000
+            'fileRename' => true,
+            'renameExtension' => array(
+                'php' => 'txt',
+                'htm' => 'txt'
+            )
+        );
 
-        if (preg_match("`php`i", $ext) || preg_match("`htm`i", $ext)) $ext = "txt";
+        if ($file_filter == 'on')
+            $fileCfg['allowedExt'] = $file_filtre;
 
-        $url_file = $rep_dl . time() . "." . $ext;
-        // TODO : Do better !
-        if (! move_uploaded_file($file['tmp_name'], $url_file)) {
-            printNotification('Upload file failed !!!', 'error');
-            return;
+        list($fileUrl, $uploadError, $fileExt) = nkUpload_check($filename, $fileCfg);
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Suggest&module=Download', 3);
+            return false;
         }
-        @chmod ($url_file, 0644);
     }
-    else{
-        $url_file = $url;
+    else {
+        $fileUrl = $url;
     }
 
-    return $url_file;
+    return $fileUrl;
 }
 
-function move($upload_dl, $url = "", $rep_dl, $rep_dl_ok){
-    if ($upload_dl == "on" && !preg_match("`http://`i", $url) && $rep_dl != $rep_dl_ok && stripos($rep_dl, $url)){
+function move($upload_dl, $url = '', $rep_dl, $rep_dl_ok){
+    if ($upload_dl == 'on'
+        && stripos($url, 'http://') === false
+        && $rep_dl != $rep_dl_ok
+        && stripos($url, $rep_dl) !== false
+    ){
         $url_ok = str_replace($rep_dl, $rep_dl_ok, $url);
-        $url_dest = $url_ok;
-
-        $is_ok = @rename($url, $url_dest);
+        $is_ok  = @rename($url, $url_ok);
 
         if ($is_ok){
             if (is_file($url)){
                 @chmod($url, 0666);
                 @unlink($url);
             }
-            $url_file = $url_dest;
+            $url_file = $url_ok;
         }
         else{
             $url_file = $url;
@@ -231,7 +244,11 @@ function send($data){
     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
     $data['autor'] = mysql_real_escape_string(stripslashes($data['autor']));
     $data['comp'] = mysql_real_escape_string(stripslashes($data['comp']));
-    $data['taille'] = str_replace(",", ".", $data['taille']);
+
+    if (isset($data['taille']))
+        $data['taille'] = str_replace(",", ".", $data['taille']);
+    else
+        $data['taille'] = '';
 
     if ($data['site'] == "http://") $data['site'] = "";
     if ($data['screen'] == "http://") $data['screen'] = "";
@@ -239,9 +256,9 @@ function send($data){
     if ($data['site'] != "" && !preg_match("`http://`i", $data['site'])) $data['site'] = "http://" . $data['site'];
 
     $url_file = move($upload_dl, $data['url'], $rep_dl, $rep_dl_ok);
-    $url_img = move($upload_dl_screen, $data['screen'], $rep_dl_screen, $rep_dl_screen_ok);
+    $url_img = move($upload_img, $data['screen'], $rep_dl_screen, $rep_dl_screen_ok);
 
-    $upd = mysql_query("INSERT INTO " . DOWNLOAD_TABLE . "  ( `date` , `taille` , `titre` , `description` , `type` , `url`  , `url2` ,  `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $data['date'] . "' , '" . $data['taille'] . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['cat'] . "' , '" . $url_file . "' , '" . $data['url2'] . "' , '" . $data['autor'] . "' , '" . $data['site'] . "' , '" . $data['comp'] . "' , '" . $url_img . "' )");
+    $upd = mysql_query("INSERT INTO " . DOWNLOAD_TABLE . "  ( `date` , `taille` , `titre` , `description` , `type` , `url` ,  `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $data['date'] . "' , '" . $data['taille'] . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['cat'] . "' , '" . $url_file . "' , '" . $data['autor'] . "' , '" . $data['site'] . "' , '" . $data['comp'] . "' , '" . $url_img . "' )");
 
     $sql = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE date = '" . $data['date'] . "' AND titre = '" . $data['titre'] . "'");
     list($id) = mysql_fetch_array($sql);
@@ -255,4 +272,5 @@ function del_suggest($data){
     @unlink($data[9]);
     //var_dump($data);
 }
+
 ?>

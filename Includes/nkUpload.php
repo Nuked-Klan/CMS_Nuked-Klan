@@ -34,7 +34,7 @@ $GLOBALS['nkUpload'] = array(
  *   - fileSize : The maximum size allowed for a upload file. (in byte)
  *   - fileRename : If true, rename the file with a random hash.
  *        If false, the filename is cleaning.
- *   - allowedExt : Array of file extension list allowed for upload process.
+ *   - allowedExtension : Array of file extension list allowed for upload process.
  * @return array : A numerical indexed array with :
  *         - The path of uploaded file.
  *         - The error message if existing or false.
@@ -62,8 +62,11 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if (! isset($params['fileRename']))
         $params['fileRename'] = false;
 
-    if (! isset($params['allowedExt']) || ! is_array($params['allowedExt']) || empty($params['allowedExt']))
-        $params['allowedExt'] = null;
+    if (! isset($params['allowedExtension']) || ! is_array($params['allowedExtension']))
+        $params['allowedExtension'] = array();
+
+    if (! isset($params['renameExtension']) || ! is_array($params['renameExtension']))
+        $params['renameExtension'] = array();
 
     if (is_array($_FILES[$fieldName]['error'])) {
         if ($fileNumber !== null && array_key_exists($fileNumber, $_FILES[$fieldName]['error'])) {
@@ -102,8 +105,16 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     $realFilename = pathinfo($filename, PATHINFO_FILENAME);
     $extension    = pathinfo($filename, PATHINFO_EXTENSION );
 
-    if ($params['allowedExt'] !== null && ! in_array($extension, $params['allowedExt']))
+    if ($params['allowedExtension'] && ! in_array($extension, $params['allowedExtension']))
         return array('', __('NO_UPLOADABLE_FILE'), '');
+        // printNotification('Error : No authorized file !', 'error');
+
+    if ($params['renameExtension']) {
+        foreach ($params['renameExtension'] as $searchedExt => $replaceExt) {
+            if (stripos($extension, $searchedExt) !== false)
+                $extension = $replaceExt;
+        }
+    }
 
     if ($params['fileRename'])
         $realFilename = substr(md5(uniqid()), rand(0, 20), 10);
@@ -114,12 +125,12 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
         if (! nkUpload_checkImage($tmpFilename, $extension))
             return array('', __('BAD_IMAGE_FORMAT'), '');
     }
-    else if ($params['fileType'] != 'no-html-php') {
+    else if ($params['fileType'] == 'no-html-php') {
         if (! nkUpload_checkFileType($tmpFilename, $extension))
             return array('', __('NO_UPLOADABLE_FILE'), '');
     }
 
-    $path = $params['uploadDir'] .'/'. $realFilename;
+    $path = rtrim($params['uploadDir'], '/') .'/'. $realFilename;
 
     if ($extension != '')
         $path .= '.'. $extension;
