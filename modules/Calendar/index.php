@@ -473,7 +473,7 @@ function add_dispo($dispo){
 
     $sql = "SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
     $req = nkDB_execute($sql);
-    $data = mysql_fetch_assoc($req);
+    $data = nkDB_fetchAssoc($req);
 
     if ($data['dispo'] != "") $sep1 = "|";
     if ($data['pas_dispo'] != "") $sep2 = "|";

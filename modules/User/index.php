@@ -965,7 +965,7 @@ function login($pseudo, $pass, $remember_me){
 
     if($checkLogin > 0){
         // Un utilisateur pour ce pseudo a été trouvé
-        $dbrLogin = mysql_fetch_assoc($dbeLogin);
+        $dbrLogin = nkDB_fetchAssoc($dbeLogin);
 
         if($dbrLogin['nbErrors'] >= 2){
             // Si un visiteur a fait 3 mauvais login
@@ -1352,7 +1352,7 @@ function envoi_mail($email){
 
     $sql = nkDB_execute('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
     $count = mysql_num_rows($sql);
-    $data = mysql_fetch_assoc($sql);
+    $data = nkDB_fetchAssoc($sql);
 
     if($count > 0){
         if($data['token'] != null && (time() - $data['token_time']) < 3600){
@@ -1408,7 +1408,7 @@ function envoi_pass($email, $token){
 
     $sql = nkDB_execute('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
     $count = mysql_num_rows($sql);
-    $data = mysql_fetch_assoc($sql);
+    $data = nkDB_fetchAssoc($sql);
 
     if($count > 0){
         if($data['token'] != null && (time() - $data['token_time']) < 3600){

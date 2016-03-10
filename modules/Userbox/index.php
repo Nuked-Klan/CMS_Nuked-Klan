@@ -21,7 +21,7 @@ function select_user(){
     global $nuked;
 
     $sql = nkDB_execute('SELECT id, pseudo, niveau FROM '.USER_TABLE.' WHERE niveau > 0 ORDER BY niveau DESC, pseudo');
-    while($row = mysql_fetch_assoc($sql)){
+    while($row = nkDB_fetchAssoc($sql)){
 
         if ($row['niveau'] == 9) $nivo = "****";
         elseif ($row['niveau'] > 2) $nivo = "**";
@@ -125,7 +125,7 @@ function show_message($mid){
     echo '<br /><div style="text-align:center;"><big><b>'._PRIVATEMESS.'</b></big></div><br /><br />';
 
     $sql2 = nkDB_execute("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $_REQUEST['mid'] . "' AND user_for = '" . $user[0] . "'");
-    $row = mysql_fetch_assoc($sql2);
+    $row = nkDB_fetchAssoc($sql2);
 
     $row['titre'] = printSecuTags($row['titre']);
 
@@ -215,7 +215,7 @@ function del_message_form($mid, $del_oui){
 
             if ($titi){
                 $sql_mess = nkDB_execute("SELECT user_from, date FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' AND mid = '{$titi}'");
-                $row = mysql_fetch_assoc($sql_mess);
+                $row = nkDB_fetchAssoc($sql_mess);
                 $row['date'] = nkDate($row['date']);
 
                 $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
@@ -254,7 +254,7 @@ function index(){
         $nb_mess = mysql_num_rows($sql);
         $i = 0;
         $j = 0;
-        while($row = mysql_fetch_assoc($sql)){
+        while($row = nkDB_fetchAssoc($sql)){
 
             $row['date'] = nkDate($row['date']);
 

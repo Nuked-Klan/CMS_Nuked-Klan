@@ -57,14 +57,14 @@ function index(){
         echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
     }
 
-    while ($TabNews = mysql_fetch_assoc($sql)) {
+    while ($TabNews = nkDB_fetchAssoc($sql)) {
         $TabNews['titre'] = printSecuTags($TabNews['titre']);
 
         $sql2 = nkDB_execute("SELECT im_id FROM ".COMMENT_TABLE." WHERE im_id = '{$TabNews['id']}' AND module = 'news'");
         $nb_comment = mysql_num_rows($sql2);
 
         $sql3 = nkDB_execute("SELECT titre, image FROM ".NEWS_CAT_TABLE." WHERE nid = '{$TabNews['cat']}'");
-        $TabCat = mysql_fetch_assoc($sql3);
+        $TabCat = nkDB_fetchAssoc($sql3);
 
         $data['date'] = nkDate($TabNews['date']);
         $data['date_timestamp'] = $TabNews['date'];
@@ -186,7 +186,7 @@ function sujet(){
             <table cellspacing="0" cellpadding="3" border="0">';
 
     $sql = nkDB_execute("SELECT nid, titre, description, image FROM ".NEWS_CAT_TABLE." ORDER BY titre");
-    while ($row = mysql_fetch_assoc($sql)) {
+    while ($row = nkDB_fetchAssoc($sql)) {
 
         $row['titre'] = printSecuTags($row['titre']);
 
@@ -216,7 +216,7 @@ function pdf($news_id) {
     else setlocale (LC_TIME, $language);
 
     $sql = nkDB_execute("SELECT auteur, auteur_id, date, titre, texte, suite FROM ".NEWS_TABLE." WHERE id = '$news_id'");
-    $row = mysql_fetch_assoc($sql);
+    $row = nkDB_fetchAssoc($sql);
 
     $heure = strftime("%H:%M", $row['date']);
     $text = $row['texte'].'<br><br>'.$row['suite'];

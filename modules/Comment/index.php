@@ -136,7 +136,7 @@ function com_index($module, $im_id){
     $sql = nkDB_execute("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
     $count = mysql_num_rows($sql);
     $j = 0;
-    while($row = mysql_fetch_assoc($sql)){
+    while($row = nkDB_fetchAssoc($sql)){
         $test = 0;
         $row['date']  = nkDate($row['date']);
         $row['titre'] = nkHtmlEntities($row['titre']);
@@ -261,7 +261,7 @@ function view_com($module, $im_id){
     $sql = nkDB_execute("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC");
     if (mysql_num_rows($sql) != 0){
 
-        while($row = mysql_fetch_assoc($sql)):
+        while($row = nkDB_fetchAssoc($sql)):
 
             $row['date'] = nkDate($row['date']);
             $row['titre'] = nkHtmlEntities($row['titre']);
