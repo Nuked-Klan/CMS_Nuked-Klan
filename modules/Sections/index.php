@@ -446,7 +446,7 @@ function classe(){
 
         $sqlhot = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE . " ORDER BY counter DESC LIMIT 0, 10");
 
-        $seek = mysql_data_seek($sql, $start);
+        $seek = nkDB_dataSeek($sql, $start);
         for($i = 0;$i < $nb_max;$i++){
             if (list($artid, $title, $date, $counter, $content, $coverage) = nkDB_fetchRow($sql)){
                 $title = printSecuTags($title);
@@ -468,7 +468,7 @@ function classe(){
                     $texte = "";
                 }
 
-                mysql_data_seek($sqlhot, 0);
+                nkDB_dataSeek($sqlhot, 0);
                 while (list($id_hot) = nkDB_fetchArray($sqlhot)){
                     if ($artid == $id_hot && $nb_art > 1 && $counter > 9) $att .= "&nbsp;&nbsp;" . _HOT;
                 }

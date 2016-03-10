@@ -409,7 +409,7 @@ function classe(){
 
         $sqlhot = nkDB_execute('SELECT id FROM ' . LINKS_TABLE . ' ORDER BY count DESC LIMIT 0, 10');
 
-        $seek = mysql_data_seek($sql, $start);
+        $seek = nkDB_dataSeek($sql, $start);
         for($i = 0;$i < $nb_liens;$i++){
             if (list($link_id, $date, $titre, $description, $count, $country) = nkDB_fetchArray($sql)){
                 $titre = printSecuTags($titre);
@@ -430,7 +430,7 @@ function classe(){
                 else
                     $texte = '';
 
-                mysql_data_seek($sqlhot, 0);
+                nkDB_dataSeek($sqlhot, 0);
                 while (list($id_hot) = nkDB_fetchArray($sqlhot)){
                     if ($link_id == $id_hot && $nb_lk > 1 && $count > 9) $att .= '&nbsp;&nbsp;' . _HOT;
                 }

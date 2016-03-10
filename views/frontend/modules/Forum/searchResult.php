@@ -24,7 +24,7 @@
 
 <?php
     if ($nbResult > 0) :
-        mysql_data_seek($result, $start);
+        nkDB_dataSeek($result, $start);
 
         for ($i = 0; $i < $limit; $i++) {
             if ($forumMsg = nkDB_fetchRow($result)) {

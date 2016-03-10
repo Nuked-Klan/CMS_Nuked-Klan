@@ -672,7 +672,7 @@ function classe()
 
         $l = 0;
         $pourcent = 100 / $nb_img_line;
-        $seek = mysql_data_seek($sql, $start);
+        $seek = nkDB_dataSeek($sql, $start);
         $last_sid = '';
         for($i = 0;$i < $nb_img_guest;$i++)
         {

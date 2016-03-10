@@ -538,7 +538,7 @@ function classe()
 
         $sqlhot = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE . " ORDER BY count DESC LIMIT 0, 10");
 
-        $seek = mysql_data_seek($sql, $start);
+        $seek = nkDB_dataSeek($sql, $start);
         for ($i = 0;$i < $nb_download;$i++) {
             if (list($dl_id, $titre, $description, $taille, $type, $count, $date, $url, $screen) = nkDB_fetchArray($sql)) {
                 $newsdate = time() - 604800;
@@ -546,7 +546,7 @@ function classe()
 
                 if ($date!="" && $date > $newsdate) $att = "&nbsp;&nbsp;" . _NEW;
 
-                mysql_data_seek($sqlhot, 0);
+                nkDB_dataSeek($sqlhot, 0);
                 while (list($id_hot) = nkDB_fetchArray($sqlhot)) {
                     if ($dl_id == $id_hot && $nb_dl > 1 && $count > 9) $att .= "&nbsp;&nbsp;" . _HOT;
                 }
