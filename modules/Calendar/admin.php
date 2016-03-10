@@ -113,8 +113,8 @@ function do_add($description, $titre, $heure, $date_an, $date_mois, $date_jour)
     global $nuked, $user;
 
     $description = nkHtmlEntityDecode($description);
-    $description = mysql_real_escape_string(stripslashes($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     $sql = nkDB_execute("INSERT INTO " . CALENDAR_TABLE . " ( `id` , `titre` , `description` , `date_jour` , `date_mois` , `date_an` , `heure` , `auteur` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $date_jour . "' , '" . $date_mois . "' , '" . $date_an . "' , '" . $heure . "' , '" . $user[2] . "' )");
 
@@ -156,8 +156,8 @@ function do_edit($eid, $description, $titre, $heure, $date_an, $date_mois, $date
     global $nuked, $user;
 
     $description = nkHtmlEntityDecode($description);
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
     $upd = nkDB_execute("UPDATE " . CALENDAR_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', date_jour = '" . $date_jour . "', date_mois = '" . $date_mois . "', date_an = '" . $date_an . "', heure = '" . $heure . "' WHERE id = '" . $eid . "'");
 

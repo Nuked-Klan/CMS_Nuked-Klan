@@ -128,10 +128,10 @@ function mod_search(){
             return;
         }
 
-        $main = mysql_real_escape_string(stripslashes($main));
+        $main = nkDB_realEscapeString(stripslashes($main));
         $autor = nkHtmlEntities($autor, ENT_QUOTES);
 	    $autor = nk_CSS($autor);
-        $autor = mysql_real_escape_string(stripslashes($autor));
+        $autor = nkDB_realEscapeString(stripslashes($autor));
         $search = explode(" ", $main);
         $i = 0;
 

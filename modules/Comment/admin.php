@@ -56,8 +56,8 @@ function modif_com($cid, $titre, $texte){
     global $nuked, $user;
 
     $texte = secu_html(nkHtmlEntityDecode($texte));
-    $texte = mysql_real_escape_string(stripslashes($texte));
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $texte = nkDB_realEscapeString(stripslashes($texte));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     $sql = nkDB_execute("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
 

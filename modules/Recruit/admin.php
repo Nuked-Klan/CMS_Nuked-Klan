@@ -122,7 +122,7 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
     global $nuked, $user;
 
     $recrute_charte = nkHtmlEntityDecode($recrute_charte);
-    $recrute_charte = mysql_real_escape_string(stripslashes($recrute_charte));
+    $recrute_charte = nkDB_realEscapeString(stripslashes($recrute_charte));
 
     $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute . "' WHERE name = 'recrute'");
     $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_charte . "' WHERE name = 'recrute_charte'");

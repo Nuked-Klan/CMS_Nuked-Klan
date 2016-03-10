@@ -411,7 +411,7 @@ function save_config()
     {
         $default_config[$config_name] = $config_value;
         $new[$config_name] = (isset($_REQUEST[$config_name])) ? $_REQUEST[$config_name] : $default_config[$config_name];
-        $new_value = mysql_real_escape_string(stripslashes($new[$config_name]));
+        $new_value = nkDB_realEscapeString(stripslashes($new[$config_name]));
         $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $new_value . "' WHERE name = '" . $config_name . "'");
     }
 

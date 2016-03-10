@@ -603,7 +603,7 @@ function del_user($id_user)
 
     $sql = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
     list($nick) = nkDB_fetchArray($sql);
-    $nick = mysql_real_escape_string($nick);
+    $nick = nkDB_realEscapeString($nick);
     $del1 = nkDB_execute("DELETE FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
     $del2 = nkDB_execute("DELETE FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $id_user . "'");
     $del3 = nkDB_execute("DELETE FROM " . USERBOX_TABLE . " WHERE user_for = '" . $id_user . "'");
@@ -914,8 +914,8 @@ function edit_ip($ip_id)
 function send_ip($ip, $pseudo, $email, $dure, $texte)
 {
     global $nuked, $user;
-    $pseudo = mysql_real_escape_string(stripslashes($pseudo));
-    $texte = mysql_real_escape_string(stripslashes($texte));
+    $pseudo = nkDB_realEscapeString(stripslashes($pseudo));
+    $texte = nkDB_realEscapeString(stripslashes($texte));
     if($dure == 0 || $dure ==86400 ||$dure ==604800 ||$dure ==2678400 ||$dure == 31708800)
     {
         $sql = nkDB_execute("INSERT INTO " . BANNED_TABLE . " ( `id` , `ip` , `pseudo` , `email` ,`date` ,`dure` , `texte` ) VALUES ( '' , '" . $ip . "' , '" . $pseudo . "' , '" . $email . "', '" . time() . "' , '" . $dure . "' , '" . $texte . "' )");
@@ -934,8 +934,8 @@ function send_ip($ip, $pseudo, $email, $dure, $texte)
 function modif_ip($ip_id, $ip, $pseudo, $email, $dure, $texte)
 {
     global $nuked, $user;
-    $pseudo = mysql_real_escape_string(stripslashes($pseudo));
-    $texte = mysql_real_escape_string(stripslashes($texte));
+    $pseudo = nkDB_realEscapeString(stripslashes($pseudo));
+    $texte = nkDB_realEscapeString(stripslashes($texte));
 
     if($dure == 0 || $dure ==86400 ||$dure ==604800 ||$dure ==2678400 ||$dure == 31708800)
     {
@@ -957,7 +957,7 @@ function del_ip($ip_id)
     global $nuked, $user;
         $sql2 = nkDB_execute("SELECT pseudo FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
     list($pseudo) = nkDB_fetchArray($sql2);
-    $pseudo = mysql_real_escape_string($pseudo);
+    $pseudo = nkDB_realEscapeString($pseudo);
     $sql = nkDB_execute("DELETE FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
 
     saveUserAction(_ACTIONSUPBAN .': '. $pseudo);

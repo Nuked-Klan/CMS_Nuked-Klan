@@ -387,7 +387,7 @@ function send_line($bid, $lid)
 
     if ($_REQUEST['line'] != $lid) $content = move($lid, $_REQUEST['line'], $content);
 
-    $content = mysql_real_escape_string(stripslashes($content));
+    $content = nkDB_realEscapeString(stripslashes($content));
 
     $sql = nkDB_execute("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $_REQUEST['bid'] . "'");
 

@@ -247,10 +247,10 @@ function send($data){
     include("modules/Suggest/config.php");
 
     $data['description'] = nkHtmlEntityDecode($data['description']);
-    $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
-    $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
-    $data['autor'] = mysql_real_escape_string(stripslashes($data['autor']));
-    $data['comp'] = mysql_real_escape_string(stripslashes($data['comp']));
+    $data['titre'] = nkDB_realEscapeString(stripslashes($data['titre']));
+    $data['description'] = nkDB_realEscapeString(stripslashes($data['description']));
+    $data['autor'] = nkDB_realEscapeString(stripslashes($data['autor']));
+    $data['comp'] = nkDB_realEscapeString(stripslashes($data['comp']));
 
     if (isset($data['taille']))
         $data['taille'] = str_replace(",", ".", $data['taille']);

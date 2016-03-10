@@ -145,9 +145,9 @@ function send($data){
 
     $date = time();
     $data['description'] = nkHtmlEntityDecode($data['description']);
-    $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
-    $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
-    $data['webmaster'] = mysql_real_escape_string(stripslashes($data['webmaster']));
+    $data['titre'] = nkDB_realEscapeString(stripslashes($data['titre']));
+    $data['description'] = nkDB_realEscapeString(stripslashes($data['description']));
+    $data['webmaster'] = nkDB_realEscapeString(stripslashes($data['webmaster']));
 
     $upd = nkDB_execute("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` ) VALUES ( '' , '" . $date . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['url'] . "' , '" . $data['cat'] . "' , '" . $data['webmaster'] . "' , ' " . $data['country'] . "' , '' )");
     $sql = nkDB_execute("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date='".$date."'");

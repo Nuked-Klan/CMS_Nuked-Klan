@@ -103,7 +103,7 @@ function send_block($titre, $type, $nivo, $pages)
         $pages = implode('|', $pages);
     }
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $t = explode('|', $type);
 
     if ($t[0] == 'm')
@@ -116,10 +116,10 @@ function send_block($titre, $type, $nivo, $pages)
         $type = $t[1];
         $module = '';
     }
-    $module = mysql_real_escape_string(stripslashes($module));
-    $type = mysql_real_escape_string(stripslashes($type));
-    $nivo = mysql_real_escape_string(stripslashes($nivo));
-    $pages = mysql_real_escape_string(stripslashes($pages));
+    $module = nkDB_realEscapeString(stripslashes($module));
+    $type = nkDB_realEscapeString(stripslashes($type));
+    $nivo = nkDB_realEscapeString(stripslashes($nivo));
+    $pages = nkDB_realEscapeString(stripslashes($pages));
 
     $sql = nkDB_execute("INSERT INTO " . BLOCK_TABLE . " ( `bid` , `active` , `position` , `module` , `titre` , `content` , `type` , `nivo` , `page` ) VALUES ( '' , '0' , '' , '" . $module . "' , '" . $titre . "' , '' , '" . $type . "' , '" . $nivo . "' , '" . $pages . "' )");
 
@@ -136,7 +136,7 @@ function del_block($bid)
 {
     global $nuked, $user;
 
-    $bid = mysql_real_escape_string(stripslashes($bid));
+    $bid = nkDB_realEscapeString(stripslashes($bid));
 
     $sql2 = nkDB_execute("SELECT titre FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
     list($titre) = nkDB_fetchArray($sql2);
@@ -223,7 +223,7 @@ function edit_block($bid)
 {
     global $nuked;
 
-    $bid = mysql_real_escape_string(stripslashes($bid));
+    $bid = nkDB_realEscapeString(stripslashes($bid));
 
     $sql = nkDB_execute("SELECT type FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
     list($type) = nkDB_fetchArray($sql);
@@ -253,8 +253,8 @@ function modif_block($data)
         $data['content'] = '';
     }
 
-    $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
-    $data['content'] = mysql_real_escape_string(stripslashes($data['content']));
+    $data['titre'] = nkDB_realEscapeString(stripslashes($data['titre']));
+    $data['content'] = nkDB_realEscapeString(stripslashes($data['content']));
 
     if (array_key_exists('module', $data) && $data['module'] != '')
     {

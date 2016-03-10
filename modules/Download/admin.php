@@ -94,10 +94,10 @@ function send_file() {
     }
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = mysql_real_escape_string(stripslashes($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $autor = mysql_real_escape_string(stripslashes($autor));
-    $comp = mysql_real_escape_string(stripslashes($comp));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $autor = nkDB_realEscapeString(stripslashes($autor));
+    $comp = nkDB_realEscapeString(stripslashes($comp));
 
     $date = time();
     $taille = str_replace(",", ".", $size);
@@ -212,7 +212,7 @@ function del_file($did) {
 
     $sql = nkDB_execute("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
     list($titre) = nkDB_fetchArray($sql);
-    $titre = mysql_real_escape_string($titre);
+    $titre = nkDB_realEscapeString($titre);
     $sql = nkDB_execute("DELETE FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $did . "' AND module = 'Download'");
     $del_vote = nkDB_execute("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $did . "' AND module = 'Download'");
@@ -313,10 +313,10 @@ function modif_file() {
     }
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = mysql_real_escape_string(stripslashes($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $autor = mysql_real_escape_string(stripslashes($autor));
-    $comp = mysql_real_escape_string(stripslashes($comp));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $autor = nkDB_realEscapeString(stripslashes($autor));
+    $comp = nkDB_realEscapeString(stripslashes($comp));
 
     $day = time();
     $taille = str_replace(",", ".", $taille);
@@ -485,7 +485,7 @@ function del_broke($did) {
 
     $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
     list($titre) = nkDB_fetchArray($sql2);
-    $titre = mysql_real_escape_string($titre);
+    $titre = nkDB_realEscapeString($titre);
     $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0 WHERE id = '" . $did . "'");
 
     saveUserAction(_ACTION1BROKEDL .': '. $titre);
@@ -751,8 +751,8 @@ function send_cat($titre, $description, $parentid, $level, $position) {
     global $nuked, $user;
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
     $sql = nkDB_execute("INSERT INTO " . DOWNLOAD_CAT_TABLE . " ( `parentid` , `titre` , `description` , `level` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $level . "' , '" . $position . "' )");
 
@@ -826,8 +826,8 @@ function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
     global $nuked, $user;
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
     $sql = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', level = '" . $level . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
     $sql_file = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cid . "'");

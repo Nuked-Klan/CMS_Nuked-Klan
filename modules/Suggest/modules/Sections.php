@@ -147,9 +147,9 @@ function send($data)
         $autor_id = $user[0];
     }
 
-    $data['title'] = mysql_real_escape_string(stripslashes($data['title']));
+    $data['title'] = nkDB_realEscapeString(stripslashes($data['title']));
     $data['texte'] = nkHtmlEntityDecode($data['texte']);
-    $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
+    $data['texte'] = nkDB_realEscapeString(stripslashes($data['texte']));
     $date = time();
 
     $upd = nkDB_execute("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `autor` , `autor_id`, `counter` , `date` ) VALUES ( '' , '" . $data['secid'] . "' , '" . $data['title'] . "' , '" . $data['texte'] . "' , '" . $autor . "' , '" . $autor_id . "' , '' , '" . $date. "' )");

@@ -111,7 +111,7 @@ function add_sug($data){
     if (($content = make_array($data)) === false)
         return;
 
-    $content = mysql_real_escape_string(stripslashes($content));
+    $content = nkDB_realEscapeString(stripslashes($content));
 
     if(strlen($content) <= 30){
         printNotification(_NOCONTENT, 'error');

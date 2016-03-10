@@ -73,9 +73,9 @@ function add($titre, $description, $webmaster, $country, $cat, $url){
 
     $date = time();
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = mysql_real_escape_string(stripslashes($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $webmaster = mysql_real_escape_string(stripslashes($webmaster));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $webmaster = nkDB_realEscapeString(stripslashes($webmaster));
 
     if ($url != "" && !preg_match("`http://`i", $url)){
         $url = "http://" . $url;
@@ -98,7 +98,7 @@ function del($link_id){
 
     $sql = nkDB_execute("SELECT titre FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
     list($titre) = nkDB_fetchArray($sql);
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $sql = nkDB_execute("DELETE FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $link_id . "' AND module = 'Links'");
     $del_vote = nkDB_execute("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $link_id . "' AND module = 'Links'");
@@ -180,9 +180,9 @@ function modif_link($link_id, $titre, $description, $webmaster, $country, $cat, 
     global $nuked, $user;
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = mysql_real_escape_string(stripslashes($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $webmaster = mysql_real_escape_string(stripslashes($webmaster));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $webmaster = nkDB_realEscapeString(stripslashes($webmaster));
 
     if ($url != "" && !preg_match("`http://`i", $url)){
         $url = "http://" . $url;
@@ -419,8 +419,8 @@ function send_cat($titre, $description, $parentid, $position){
     global $nuked, $user;
 
     $description = nkHtmlEntityDecode($description);
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
     $sql = nkDB_execute("INSERT INTO " . LINKS_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $position . "' )");
 
@@ -485,8 +485,8 @@ function modif_cat($cid, $titre, $description, $parentid, $position){
     global $nuked, $user;
 
     $description = nkHtmlEntityDecode($description);
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
     $sql = nkDB_execute("UPDATE " . LINKS_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
 
@@ -520,7 +520,7 @@ function del_cat($cid){
 
     $sqlc = nkDB_execute("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     list($titre) = nkDB_fetchArray($sqlc);
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $sql = nkDB_execute("DELETE FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     $sql = nkDB_execute("UPDATE " . LINKS_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
     $sql = nkDB_execute("UPDATE " . LINKS_TABLE . " SET cat = 0 WHERE cat = '" . $cid . "'");
@@ -567,7 +567,7 @@ function modif_position($cid, $method){
 
     $sqlc = nkDB_execute("SELECT titre, position FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     list($titre, $position) = nkDB_fetchArray($sqlc);
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     if ($position <=0 AND $method == "up"){
         printNotification(_CATERRORPOS, 'error');
         redirect("index.php?file=Links&page=admin&op=main_cat", 2);

@@ -128,7 +128,7 @@ function transfert($did) {
     list($pseudo, $clan, $url, $pays, $date, $heure, $game, $type, $map) = nkDB_fetchArray($sql);
     list($date_jour, $date_mois, $date_an) = explode('-', $date);
 
-    $insert = nkDB_execute("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` , `tscore_team` , `tscore_adv` , `score_team` , `score_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '0' , '' , '" . mysql_real_escape_string($game) . "' , '" . mysql_real_escape_string($clan) . "' , '" . mysql_real_escape_string($url) . "' , '" . mysql_real_escape_string($pays) . "' , '" . mysql_real_escape_string($type) . "' , '' , '" . mysql_real_escape_string($date_jour) . "' , '" .mysql_real_escape_string($date_mois) . "' , '" . mysql_real_escape_string($date_an) . "' , '" . mysql_real_escape_string($heure) . "' , '" . mysql_real_escape_string($map) . "' , '' , '' , '' , '' , '' , '" . $user[2] . "' , '' , '' , '' )");
+    $insert = nkDB_execute("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` , `tscore_team` , `tscore_adv` , `score_team` , `score_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '0' , '' , '" . nkDB_realEscapeString($game) . "' , '" . nkDB_realEscapeString($clan) . "' , '" . nkDB_realEscapeString($url) . "' , '" . nkDB_realEscapeString($pays) . "' , '" . nkDB_realEscapeString($type) . "' , '' , '" . nkDB_realEscapeString($date_jour) . "' , '" .nkDB_realEscapeString($date_mois) . "' , '" . nkDB_realEscapeString($date_an) . "' , '" . nkDB_realEscapeString($heure) . "' , '" . nkDB_realEscapeString($map) . "' , '' , '' , '' , '' , '' , '" . $user[2] . "' , '' , '' , '' )");
 
     $sql_match = nkDB_execute("SELECT warid FROM " . WARS_TABLE . " WHERE adversaire = '" . $clan . "'");
     list($warid) = nkDB_fetchArray($sql_match);
@@ -180,7 +180,7 @@ function update_pref($defie_mail, $defie_inbox, $defie_charte) {
     global $nuked, $user;
 
     $defie_charte = nkHtmlEntityDecode($defie_charte);
-    $defie_charte = mysql_real_escape_string(stripslashes($defie_charte));
+    $defie_charte = nkDB_realEscapeString(stripslashes($defie_charte));
 
     $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");
     $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_mail . "' WHERE name = 'defie_mail'");

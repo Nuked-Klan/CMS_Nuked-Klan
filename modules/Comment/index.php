@@ -46,8 +46,8 @@ function checkCommentStatus($module, $imId) {
 }
 
 function NbComment($im_id, $module){
-    $im_id = mysql_real_escape_string(stripslashes($im_id));
-    $module = mysql_real_escape_string(stripslashes($module));
+    $im_id = nkDB_realEscapeString(stripslashes($im_id));
+    $module = nkDB_realEscapeString(stripslashes($module));
     $Sql = nkDB_execute("SELECT id FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module'");
     return nkDB_numRows($Sql);
 }
@@ -254,7 +254,7 @@ function view_com($module, $im_id){
 
     $level_access = nivo_mod("Comment");
     $level_admin = admin_mod("Comment");
-    $module = mysql_real_escape_string($module);
+    $module = nkDB_realEscapeString($module);
 
     echo '<script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&op=del_comment&cid=\'+id;}}</script>';
 
@@ -279,7 +279,7 @@ function view_com($module, $im_id){
             echo '<table style="width:90%;margin:0px auto;" cellspacing="0" cellpadding="0"><tr><td style="width:90%;"><b>'.$titre.'</b>';
 
             if ($visiteur >= $level_admin && $level_admin > -1){
-                echo '&nbsp;('.$row['autor_ip'].') <a href="index.php?file=Comment&amp;op=edit_comment&amp;cid='.$row['id'].'"><img style="border:none;" src="images/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a><a href="javascript:delmess(\''.mysql_real_escape_string($row['autor']).'\', \''.$row['id'].'\');"><img style="border:none;" src="images/del.gif" alt="" title="'._DELTHISCOM.'"></a>';
+                echo '&nbsp;('.$row['autor_ip'].') <a href="index.php?file=Comment&amp;op=edit_comment&amp;cid='.$row['id'].'"><img style="border:none;" src="images/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a><a href="javascript:delmess(\''.nkDB_realEscapeString($row['autor']).'\', \''.$row['id'].'\');"><img style="border:none;" src="images/del.gif" alt="" title="'._DELTHISCOM.'"></a>';
             }
 
             echo '</td></tr><tr><td><img src="images/posticon.gif" alt="" />&nbsp;'._POSTEDBY.'&nbsp;'.$autor.'&nbsp;'._THE.'&nbsp;'.$row['date'].'<br /><br />'.$row['comment'].'<br /><hr style="height:1px;color:'.$bgcolor3.';" /></td></tr></table>';
@@ -429,15 +429,15 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         }
 
         $texte = secu_html(nkHtmlEntityDecode($texte));
-        $titre = mysql_real_escape_string(stripslashes($titre));
+        $titre = nkDB_realEscapeString(stripslashes($titre));
         $texte = stripslashes($texte);
-        $module = mysql_real_escape_string($module);
+        $module = nkDB_realEscapeString($module);
 
         if (strlen($titre) > 40){
              $titre = substr($titre, 0, 40) . "...";
         }
 
-        $add = nkDB_execute("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . mysql_real_escape_string($texte) . "' , '" . $date . "' , '" . $user_ip . "')");
+        $add = nkDB_execute("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . nkDB_realEscapeString($texte) . "' , '" . $date . "' , '" . $user_ip . "')");
         printNotification(_COMMENTADD, 'success');
 
         if ($module == "news"){

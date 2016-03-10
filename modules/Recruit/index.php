@@ -199,16 +199,16 @@ if ($nuked['recrute'] > 0)
 
         $comment = secu_html(nkHtmlEntityDecode($comment));
 
-        $pseudo = mysql_real_escape_string(stripslashes($pseudo));
-        $prenom = mysql_real_escape_string(stripslashes($prenom));
+        $pseudo = nkDB_realEscapeString(stripslashes($pseudo));
+        $prenom = nkDB_realEscapeString(stripslashes($prenom));
         $age = intval($age);
-        $mail = mysql_real_escape_string(stripslashes($mail));
-        $icq = mysql_real_escape_string(stripslashes($icq));
-        $country = mysql_real_escape_string(stripslashes($country));
-        $connex = mysql_real_escape_string(stripslashes($connex));
-        $exp = mysql_real_escape_string(stripslashes($exp));
-        $dispo = mysql_real_escape_string(stripslashes($dispo));
-        $comment = mysql_real_escape_string(stripslashes($comment));
+        $mail = nkDB_realEscapeString(stripslashes($mail));
+        $icq = nkDB_realEscapeString(stripslashes($icq));
+        $country = nkDB_realEscapeString(stripslashes($country));
+        $connex = nkDB_realEscapeString(stripslashes($connex));
+        $exp = nkDB_realEscapeString(stripslashes($exp));
+        $dispo = nkDB_realEscapeString(stripslashes($dispo));
+        $comment = nkDB_realEscapeString(stripslashes($comment));
 
         $pseudo = nkHtmlEntities($pseudo);
         $prenom = nkHtmlEntities($prenom);

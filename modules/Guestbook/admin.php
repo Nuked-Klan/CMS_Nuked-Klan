@@ -46,7 +46,7 @@ function modif_book($gid, $comment, $email, $url)
     global $nuked, $user;
 
     $comment = nkHtmlEntityDecode($comment);
-    $comment = mysql_real_escape_string(stripslashes($comment));
+    $comment = nkDB_realEscapeString(stripslashes($comment));
 
     if (!empty($url) && !is_int(stripos($url, 'http://')))
     {

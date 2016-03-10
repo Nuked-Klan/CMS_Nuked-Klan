@@ -107,7 +107,7 @@ function affich_block_login($blok){
 			while (list($nom) = nkDB_fetchArray($sql4)){
 				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';
 			}
-			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(mysql_real_escape_string($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
+			$user_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(nkDB_realEscapeString($user_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 		} else {
 			$user_list = '';
     	}
@@ -118,7 +118,7 @@ function affich_block_login($blok){
 			while (list($name) = nkDB_fetchArray($sql5)){
 				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
 			}	
-			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(mysql_real_escape_string($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
+			$admin_list = '&nbsp;[<a href="#" onmouseover="AffBulle(\'&nbsp;&nbsp;' . __('WHO_IS_ONLINE') . '\', \'' . nkHtmlEntities(nkDB_realEscapeString($admin_online), ENT_NOQUOTES) . '\', 150)" onmouseout="HideBulle()">' . _LIST . '</a>]';
 		} else{
 			$admin_list = '';
 		}

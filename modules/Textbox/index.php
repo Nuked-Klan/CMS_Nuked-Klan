@@ -272,7 +272,7 @@ function ajax() {
         $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '"' . $style . ' title="' . $date_jour . '">' . $auteurDisplay . '</a>' : $auteurDisplay;
         $avatarDisplay = ($avatar != '') ? '<img src="' . $avatar . '" class="nkFloatLeft nkShootAvatar nkBorderColor2" />' : '<img src="modules/User/images/noavatar.png" alt="noavatar" class="nkFloatLeft nkShootAvatar nkBorderColor2" />';
         $post_time =strftime("%H:%M:%S", $date);
-        $messageAuthor = mysql_real_escape_string(stripslashes($auteur));
+        $messageAuthor = nkDB_realEscapeString(stripslashes($auteur));
 
         if ($nuked['textbox_avatar'] == 'on') {
             echo "<div class=\"nkShootboxRow nkBorderColor2\">\n"

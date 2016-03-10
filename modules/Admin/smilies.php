@@ -57,7 +57,7 @@ function main()
         . "<td style=\"width: 25%;\" align=\"center\">" . $name . "</td>\n"
         . "<td style=\"width: 20%;\" align=\"center\">" . $code . "</td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Admin&amp;page=smilies&amp;op=edit_smiley&amp;smiley_id=" . $smiley_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _SMILEYEDIT . "\" /></a></td>\n"
-        . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:delsmiley('" . mysql_real_escape_string($name) . "', '" . $smiley_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _SMILEYDEL . "\" /></a></td></tr>\n";
+        . "<td style=\"width: 20%;\" align=\"center\"><a href=\"javascript:delsmiley('" . nkDB_realEscapeString($name) . "', '" . $smiley_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _SMILEYDEL . "\" /></a></td></tr>\n";
     }
 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
@@ -143,7 +143,7 @@ function send_smiley($nom, $code)
         return;
     }
 
-    $nom = mysql_real_escape_string(stripslashes($nom));
+    $nom = nkDB_realEscapeString(stripslashes($nom));
 
     $smileyUrl = '';
 
@@ -252,7 +252,7 @@ function modif_smiley($smiley_id, $nom, $code)
 
     require_once 'Includes/nkUpload.php';
 
-    $nom = mysql_real_escape_string(stripslashes($nom));
+    $nom = nkDB_realEscapeString(stripslashes($nom));
 
     if (($nom == $code) || (strpos($code,'"')!==false) || (strpos($code,"'")!==false) || (strpos($nom,'"')!==false) || (strpos($nom,"'")!==false))
     {

@@ -250,7 +250,7 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
     }
 
     $content = html_entity_decode($content);
-    $content = mysql_real_escape_string(stripslashes($content));
+    $content = nkDB_realEscapeString(stripslashes($content));
     $a1 = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
     $b1 = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
     $title = str_replace(" ", "_", $titre);
@@ -470,7 +470,7 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
     }
     
     $content = html_entity_decode($content);
-    $content = mysql_real_escape_string(stripslashes($content));
+    $content = nkDB_realEscapeString(stripslashes($content));
     $a1 = "ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
     $b1 = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
     $title = str_replace(" ", "_", $titre);

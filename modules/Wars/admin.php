@@ -369,7 +369,7 @@ function match(){
             . "</td></tr>\n";
     }
 
-    /*$sql3 = nkDB_execute("SELECT map FROM " . GAMES_TABLE . " WHERE id=".mysql_real_escape_string($_REQUEST['game']) ." ORDER BY name");
+    /*$sql3 = nkDB_execute("SELECT map FROM " . GAMES_TABLE . " WHERE id=".nkDB_realEscapeString($_REQUEST['game']) ." ORDER BY name");
     list($mapss) = nkDB_fetchArray($sql3);
     $mapss = explode('|', $mapss);
     for($maps = 1; $maps <= $nbr; $maps++){
@@ -435,10 +435,10 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
 
     $autor = $user[2];
     $report = nkHtmlEntityDecode($report);
-    $adversaire = mysql_real_escape_string(stripslashes($adversaire));
-    $report = mysql_real_escape_string(stripslashes($report));
-    $type = mysql_real_escape_string(stripslashes($type));
-    $style = mysql_real_escape_string(stripslashes($style));
+    $adversaire = nkDB_realEscapeString(stripslashes($adversaire));
+    $report = nkDB_realEscapeString(stripslashes($report));
+    $type = nkDB_realEscapeString(stripslashes($type));
+    $style = nkDB_realEscapeString(stripslashes($style));
 
     $mapList = $scoreTeamList = $scoreAdvList = array();
     $tscore_team = $tscore_adv = 0;
@@ -519,10 +519,10 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
     require_once 'Includes/nkUpload.php';
 
     $report = nkHtmlEntityDecode($report);
-    $adversaire = mysql_real_escape_string(stripslashes($adversaire));
-    $report = mysql_real_escape_string(stripslashes($report));
-    $type = mysql_real_escape_string(stripslashes($type));
-    $style = mysql_real_escape_string(stripslashes($style));
+    $adversaire = nkDB_realEscapeString(stripslashes($adversaire));
+    $report = nkDB_realEscapeString(stripslashes($report));
+    $type = nkDB_realEscapeString(stripslashes($type));
+    $style = nkDB_realEscapeString(stripslashes($style));
 
     $mapList = $scoreTeamList = $scoreAdvList = array();
     $tscore_team = $tscore_adv = 0;

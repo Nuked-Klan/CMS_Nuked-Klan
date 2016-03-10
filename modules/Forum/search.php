@@ -110,7 +110,7 @@ function displayForumSearchResult() {
 
     $author = trim($author);
 
-    $query = mysql_real_escape_string(stripslashes($query));
+    $query = nkDB_realEscapeString(stripslashes($query));
     $query = trim($query);
 
     // Get unread last Forum post since last connection
@@ -143,7 +143,7 @@ function displayForumSearchResult() {
         if ($author != '') {
             $author = nk_CSS($author);
             $author = nkHtmlEntities($author, ENT_QUOTES);
-            $and .= '(M.auteur LIKE \'%'. mysql_real_escape_string($author) .'%\')';
+            $and .= '(M.auteur LIKE \'%'. nkDB_realEscapeString($author) .'%\')';
 
             if ($query != '') $and .= ' AND ';
         }

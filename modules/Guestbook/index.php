@@ -120,13 +120,13 @@ function send_book($name, $email, $url, $comment)
     {
         $date = time();
         $comment = secu_html(nkHtmlEntityDecode($comment));
-        $comment = mysql_real_escape_string(stripslashes($comment));
-        $pseudo = mysql_real_escape_string(stripslashes($pseudo));
-        $email = mysql_real_escape_string(stripslashes($email));
+        $comment = nkDB_realEscapeString(stripslashes($comment));
+        $pseudo = nkDB_realEscapeString(stripslashes($pseudo));
+        $email = nkDB_realEscapeString(stripslashes($email));
 
         if (!empty($url) && !is_int(stripos($url, 'http://')))
         {
-            $url = "http://" . mysql_real_escape_string(stripslashes($url));
+            $url = "http://" . nkDB_realEscapeString(stripslashes($url));
         }
 
         $sql = nkDB_execute("INSERT INTO " . GUESTBOOK_TABLE . " ( `id` , `name` , `email` , `url` , `date` , `host` , `comment` ) VALUES ( '' , '" . $pseudo . "' , '" . $email . "' , '" . $url . "' , '" . $date . "' , '" . $user_ip . "' , '" . $comment . "' )");

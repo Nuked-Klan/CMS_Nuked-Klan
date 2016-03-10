@@ -102,9 +102,9 @@ function send_message($titre, $user_for, $message){
 			}
 			
 			$message = secu_html(nkHtmlEntityDecode($message));
-			$titre = mysql_real_escape_string(stripslashes($titre));
-			$message = mysql_real_escape_string(stripslashes($message));
-			$user_for = mysql_real_escape_string(stripslashes($user_for));
+			$titre = nkDB_realEscapeString(stripslashes($titre));
+			$message = nkDB_realEscapeString(stripslashes($message));
+			$user_for = nkDB_realEscapeString(stripslashes($user_for));
 			$titre = nkHtmlEntities($titre);
 			
 			$sql = nkDB_execute("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");

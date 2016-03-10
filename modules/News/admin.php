@@ -253,9 +253,9 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
     $texte = secu_html(nkHtmlEntityDecode($texte));
     $suite = secu_html(nkHtmlEntityDecode($suite));
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $texte = mysql_real_escape_string(stripslashes($texte));
-    $suite = mysql_real_escape_string(stripslashes($suite));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $texte = nkDB_realEscapeString(stripslashes($texte));
+    $suite = nkDB_realEscapeString(stripslashes($suite));
     $auteur = $user[2];
     $auteur_id = $user[0];
 
@@ -402,10 +402,10 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
     $date = mktime ($table[0], $table[1], 0, $mois, $jour, $annee) ;
 
     $texte = secu_html(nkHtmlEntityDecode($texte));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $texte = mysql_real_escape_string(stripslashes($texte));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $texte = nkDB_realEscapeString(stripslashes($texte));
     $suite = secu_html(nkHtmlEntityDecode($suite));
-    $suite = mysql_real_escape_string(stripslashes($suite));
+    $suite = nkDB_realEscapeString(stripslashes($suite));
 
     //Upload du fichier
     $coverageUrl = '';
@@ -448,7 +448,7 @@ function do_del($news_id) {
 
     $sqls = nkDB_execute("SELECT titre FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
     list($titre) = nkDB_fetchArray($sqls);
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $del = nkDB_execute("DELETE FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . "  WHERE im_id = '" . $news_id . "' AND module = 'news'");
 
@@ -553,9 +553,9 @@ function send_cat($titre, $description) {
         $imageUrl = $_POST['image'];
     }
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
     $sql = nkDB_execute("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $imageUrl . "' )");
 
@@ -628,9 +628,9 @@ function modif_cat($cid, $titre, $description) {
         $imageUrl = $_POST['image'];
     }
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
     $sql = nkDB_execute("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $imageUrl . "' WHERE nid = '" . $cid . "'");
 
@@ -655,7 +655,7 @@ function del_cat($cid) {
 
     $sqlq = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
     list($titre) = nkDB_fetchArray($sqlq);
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $sql = nkDB_execute("DELETE FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
 
     saveUserAction(_ACTIONDELCATNEWS .': '. $titre .'.');

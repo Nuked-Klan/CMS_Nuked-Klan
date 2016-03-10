@@ -801,7 +801,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
     $pseudo = checkNickname($pseudo);
 
-    $mail = mysql_real_escape_string(stripslashes($mail));
+    $mail = nkDB_realEscapeString(stripslashes($mail));
     $mail = nkHtmlEntities($mail);
 
     if (($error = getCheckNicknameError($pseudo)) !== false) {
@@ -846,7 +846,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         $sql = nkDB_execute('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $user_id . '\'');
     } while (nkDB_numRows($sql) != 0);
 
-    $email = mysql_real_escape_string(stripslashes($email));
+    $email = nkDB_realEscapeString(stripslashes($email));
     $email = nkHtmlEntities($email);
 
     if ($nuked['validation'] == "auto"){
@@ -1363,7 +1363,7 @@ function envoi_mail($email){
         }
         elseif($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)){
             $new_token = uniqid();
-            nkDB_execute('UPDATE '.USER_TABLE.' SET token = \''.$new_token.'\', token_time = \''.time().'\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
+            nkDB_execute('UPDATE '.USER_TABLE.' SET token = \''.$new_token.'\', token_time = \''.time().'\' WHERE mail = \''.nkDB_realEscapeString($email).'\' ');
 
             $link = '<a href="'.$nuked['url'].'/index.php?file=User&op=envoi_pass&email='.$email.'&token='.$new_token.'">'.$nuked['url'].'/index.php?file=User&op=envoi_pass&email='.$email.'&token='.$new_token.'</a>';
 
@@ -1427,7 +1427,7 @@ function envoi_pass($email, $token){
 
                 $new_pass = nk_hash($new_pass);
 
-                nkDB_execute('UPDATE '.USER_TABLE.' SET pass = \''.$new_pass.'\', token = \'null\', token_time = \'0\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
+                nkDB_execute('UPDATE '.USER_TABLE.' SET pass = \''.$new_pass.'\', token = \'null\', token_time = \'0\' WHERE mail = \''.nkDB_realEscapeString($email).'\' ');
 
                 printNotification(_NEWPASSSEND, 'success');
                 redirect("index.php?file=User&op=login_screen", 3);

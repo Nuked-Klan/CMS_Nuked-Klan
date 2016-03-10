@@ -81,7 +81,7 @@ function desactive($mid)
 {
     global $nuked, $user;
 
-    $mid = mysql_real_escape_string(stripslashes($mid));
+    $mid = nkDB_realEscapeString(stripslashes($mid));
 
     $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = nkDB_fetchArray($sql2);
@@ -109,7 +109,7 @@ function active($mid)
 {
     global $nuked, $user;
 
-    $mid = mysql_real_escape_string(stripslashes($mid));
+    $mid = nkDB_realEscapeString(stripslashes($mid));
     $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = nkDB_fetchArray($sql2);
     $sql = nkDB_execute("UPDATE " . MODULES_TABLE . " SET niveau = 0, admin = 2 WHERE id = '" . $mid . "'");
@@ -136,12 +136,12 @@ function update_module($mid, $niveau, $level)
 {
     global $nuked, $user;
 
-    $mid = mysql_real_escape_string(stripslashes($mid));
+    $mid = nkDB_realEscapeString(stripslashes($mid));
 
     $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = nkDB_fetchArray($sql2);
-    $niveau = mysql_real_escape_string(stripslashes($niveau));
-    $level = mysql_real_escape_string(stripslashes($level));
+    $niveau = nkDB_realEscapeString(stripslashes($niveau));
+    $level = nkDB_realEscapeString(stripslashes($level));
     $sql = nkDB_execute("UPDATE " . MODULES_TABLE . " SET niveau = '" . $niveau . "', admin = '" . $level . "' WHERE id = '" . $mid . "'");
 
     saveUserAction(_ACTIONMODIFMOD .': '. $nom);

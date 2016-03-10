@@ -177,9 +177,9 @@ function send($data){
     include("modules/Suggest/config.php");
 
     $data['description'] = nkHtmlEntityDecode($data['description']);
-    $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
-    $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
-    $data['auteur'] = mysql_real_escape_string(stripslashes($data['auteur']));
+    $data['titre'] = nkDB_realEscapeString(stripslashes($data['titre']));
+    $data['description'] = nkDB_realEscapeString(stripslashes($data['description']));
+    $data['auteur'] = nkDB_realEscapeString(stripslashes($data['auteur']));
     $date = time();
 
     if ($upload_img == 'on'

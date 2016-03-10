@@ -50,7 +50,7 @@ function send_sondage($titre, $option, $niveau) {
     global $nuked, $user;
 
     $time = time();
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     $sql = nkDB_execute("INSERT INTO " . SURVEY_TABLE . " ( `sid` , `titre` , `date` , `niveau` ) VALUES ( '' , '" . $titre . "' , '" . $time . "' , '" . $niveau . "' )");
     $sql2 = nkDB_execute("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "'");
@@ -59,7 +59,7 @@ function send_sondage($titre, $option, $niveau) {
     for ($r = 0; $r < 13; $r++) {
         $vid = $r + 1;
         $options = $option[$r];
-        $options = mysql_real_escape_string(stripslashes($options));
+        $options = nkDB_realEscapeString(stripslashes($options));
 
         if (!empty($options)) {
             $sql3 = nkDB_execute("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $options . "' , '' , '" . $vid . "' )");
@@ -81,7 +81,7 @@ function del_sondage($poll_id) {
 
     $sql = nkDB_execute("SELECT titre FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
     list($titre) = nkDB_fetchArray($sql);
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $sql = nkDB_execute("DELETE FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
     $sql2 = nkDB_execute("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $poll_id . "' AND module = 'Survey'");
@@ -131,13 +131,13 @@ function edit_sondage($poll_id) {
 function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
     global $nuked, $user;
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     $sql = nkDB_execute("UPDATE " . SURVEY_TABLE . " SET titre = '" . $titre . "' , niveau = '" . $niveau . "' WHERE sid = '" . $poll_id . "'");
 
     for ($r = 0; $r < 13; $r++) {
         $options = $option[$r];
-        $options = mysql_real_escape_string(stripslashes($options));
+        $options = nkDB_realEscapeString(stripslashes($options));
 
         if (!empty($options)) {
             $upd = nkDB_execute("UPDATE " . SURVEY_DATA_TABLE . " SET optionText = '" . $options . "' WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
@@ -147,7 +147,7 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
     } 
 
     if (!empty($newoption)) {
-        $newoption = mysql_real_escape_string(stripslashes($newoption));
+        $newoption = nkDB_realEscapeString(stripslashes($newoption));
         $sql2 = nkDB_execute("SELECT voteID FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' ORDER BY voteID DESC LIMIT 0, 1");
         list($voteID) = nkDB_fetchArray($sql2);
         $s = $voteID + 1;

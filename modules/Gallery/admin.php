@@ -132,10 +132,10 @@ function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $u
                 }
             }
 
-            $titre = mysql_real_escape_string(stripslashes($titre));
+            $titre = nkDB_realEscapeString(stripslashes($titre));
             $description = nkHtmlEntityDecode($description);
-            $description = mysql_real_escape_string(stripslashes($description));
-            $auteur = mysql_real_escape_string(stripslashes($auteur));
+            $description = nkDB_realEscapeString(stripslashes($description));
+            $auteur = nkDB_realEscapeString(stripslashes($auteur));
             $date = time();
 
             $sql = nkDB_execute("INSERT INTO " . GALLERY_TABLE . " ( `sid` , `titre` , `description` , `url` , `url2` , `url_file` , `cat` , `date` , `autor` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $url2 . "' , '" . $url_file . "' , '" . $cat . "' , '" . $date . "' , '" . $auteur . "')");
@@ -168,7 +168,7 @@ function del_screen($sid)
 
     $sqls = nkDB_execute("SELECT titre FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
     list($titre) = nkDB_fetchArray($sqls);
-    $titre = mysql_real_escape_string($titre);
+    $titre = nkDB_realEscapeString($titre);
     $sql = nkDB_execute("DELETE FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $sid . "' AND module = 'Gallery'");
     $del_vote = nkDB_execute("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $sid . "' AND module = 'Gallery'");
@@ -185,10 +185,10 @@ function modif_img($sid, $titre, $description, $auteur, $fichiernom, $maxi, $cat
 
     include("modules/Gallery/config.php");
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $description = nkHtmlEntityDecode($description);
-    $description = mysql_real_escape_string(stripslashes($description));
-    $auteur = mysql_real_escape_string(stripslashes($auteur));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $auteur = nkDB_realEscapeString(stripslashes($auteur));
 
     if ($_FILES['fichiernom']['name'] != "")
     {
@@ -600,7 +600,7 @@ function send_cat($titre, $description, $parentid, $position)
 {
     global $nuked, $user;
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     if (empty($titre))
     {
@@ -610,7 +610,7 @@ function send_cat($titre, $description, $parentid, $position)
     else
     {
         $description = nkHtmlEntityDecode($description);
-        $description = mysql_real_escape_string(stripslashes($description));
+        $description = nkDB_realEscapeString(stripslashes($description));
 
         $sql = nkDB_execute("INSERT INTO " . GALLERY_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ('" . $parentid . "', '" . $titre . "', '" . $description . "', '" . $position . "')");
 
@@ -675,7 +675,7 @@ function modif_cat($cid, $titre, $description, $parentid, $position)
 {
     global $nuked, $user;
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     if (empty($titre))
     {
@@ -685,7 +685,7 @@ function modif_cat($cid, $titre, $description, $parentid, $position)
     else
     {
         $description = nkHtmlEntityDecode($description);
-        $description = mysql_real_escape_string(stripslashes($description));
+        $description = nkDB_realEscapeString(stripslashes($description));
 
         $sql = nkDB_execute("UPDATE " . GALLERY_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
 
@@ -724,7 +724,7 @@ function del_cat($cid)
 
     $sqlq = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid='".$cid."'");
     list($titre) = nkDB_fetchArray($sqlq);
-    $titre = mysql_real_escape_string($titre);
+    $titre = nkDB_realEscapeString($titre);
     $sql = nkDB_execute("DELETE FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     $sql = nkDB_execute("UPDATE " . GALLERY_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
     $sql = nkDB_execute("UPDATE " . GALLERY_TABLE . " SET cat = 0 WHERE cat = '" . $cid . "'");

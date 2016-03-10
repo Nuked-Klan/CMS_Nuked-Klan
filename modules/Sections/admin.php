@@ -225,7 +225,7 @@ function do_add($titre, $texte, $cat){
 
     require_once 'Includes/nkUpload.php';
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     if (empty($titre)){
         printNotification(_TITLEARTFORGOT, 'error');
@@ -233,7 +233,7 @@ function do_add($titre, $texte, $cat){
     }
     else {
         $texte = secu_html(nkHtmlEntityDecode($texte));
-        $texte = mysql_real_escape_string(stripslashes($texte));
+        $texte = nkDB_realEscapeString(stripslashes($texte));
         $date = time();
         $auteur = $user[2];
         $auteur_id = $user[0];
@@ -333,7 +333,7 @@ function do_edit($art_id, $titre, $texte, $cat){
 
     require_once 'Includes/nkUpload.php';
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     if (empty($titre)){
         printNotification(_TITLEARTFORGOT, 'error');
@@ -341,7 +341,7 @@ function do_edit($art_id, $titre, $texte, $cat){
     }
     else{
         $texte = secu_html(nkHtmlEntityDecode($texte));
-        $texte = mysql_real_escape_string(stripslashes($texte));
+        $texte = nkDB_realEscapeString(stripslashes($texte));
 
         //Upload du fichier
         if ($_FILES['upImage']['name'] != '') {
@@ -383,7 +383,7 @@ function del($art_id){
 
     $sql = nkDB_execute("SELECT title FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
     list($titre) = nkDB_fetchArray($sql);
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $del = nkDB_execute("DELETE FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
     $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $art_id . "' AND module = 'Sections'");
     $del_vote = nkDB_execute("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $art_id . "' AND module = 'Sections'");
@@ -495,7 +495,7 @@ function add_cat(){
 function send_cat($parentid, $titre, $description, $position){
     global $nuked, $user;
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     if (empty($titre)){
         printNotification(_TITLECATFORGOT, 'error');
@@ -503,7 +503,7 @@ function send_cat($parentid, $titre, $description, $position){
     }
     else {
         $description = secu_html(nkHtmlEntityDecode($description));
-        $description = mysql_real_escape_string(stripslashes($description));
+        $description = nkDB_realEscapeString(stripslashes($description));
         $position = intval($position);
 
         $sql = nkDB_execute("INSERT INTO " . SECTIONS_CAT_TABLE . " ( `parentid` , `secname` , `description`, `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description. "' , '" . $position ."' )");
@@ -568,7 +568,7 @@ function edit_cat($cid){
 function modif_cat($cid, $parentid, $titre, $description, $position){
     global $nuked, $user;
 
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
 
     if (empty($titre)){
         printNotification(_TITLECATFORGOT, 'error');
@@ -576,7 +576,7 @@ function modif_cat($cid, $parentid, $titre, $description, $position){
         redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
     } else {
         $description = secu_html(nkHtmlEntityDecode($description));
-        $description = mysql_real_escape_string(stripslashes($description));
+        $description = nkDB_realEscapeString(stripslashes($description));
         $position = intval($position);
 
         $sql = nkDB_execute("UPDATE " . SECTIONS_CAT_TABLE . " SET parentid = '" . $parentid . "', secname = '" . $titre . "', description = '" . $description. "', position = '" . $position . "' WHERE secid = '" . $cid . "'");
@@ -613,7 +613,7 @@ function del_cat($cid){
 
     $sql = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     list($titre) = nkDB_fetchArray($sql);
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     $sql = nkDB_execute("DELETE FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     $sql = nkDB_execute("UPDATE " . SECTIONS_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
     $sql = nkDB_execute("UPDATE " . SECTIONS_TABLE . " SET secid = 0 WHERE secid = '" . $cid . "'");
@@ -666,7 +666,7 @@ function modif_position($cid, $method){
         redirect("index.php?file=Sections&page=admin&op=main_cat", 2);
         return;
     }
-    $titre = mysql_real_escape_string(stripslashes($titre));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
     if ($method == "up") $upd = nkDB_execute("UPDATE " . SECTIONS_CAT_TABLE . " SET position = position - 1 WHERE secid = '" . $cid . "'");
     else if ($method == "down") $upd = nkDB_execute("UPDATE " . SECTIONS_CAT_TABLE . " SET position = position + 1 WHERE secid = '" . $cid . "'");
 
