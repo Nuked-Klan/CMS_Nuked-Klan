@@ -15,9 +15,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 if (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) == 'fr') {
     // globals.php
     define('WAYTODO', 'Qu\'essayez vous de faire ?');
-    define('ID_MUST_INTEGRER', 'Erreur : %s doit être un nombre !');
-    define('NO_UPLOAD_PHP_FILE', 'Uploader un fichier PHP n\'est pas autorisé !!');
-    define('NO_UPLOAD_HTACCESS_FILE', 'Uploader un fichier HTACCESS n\'est pas autorisé !!');
+    define('ID_MUST_INTEGER', 'Erreur : %s doit être un entier !');
     // nuked.php
     define('THEME_NOTFOUND','Erreur fatale : Impossible de trouver le thème');
     define('WEBSITE_CLOSED','Ce site est momentanément fermé, merci de réessayer plus tard');
@@ -32,9 +30,7 @@ if (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) == 'fr') {
 else {
     // globals.php
     define('WAYTODO', 'What are you trying to do ?');
-    define('ID_MUST_INTEGRER', 'Error : %s must be a number !');
-    define('NO_UPLOAD_PHP_FILE', 'Upload a PHP file isn\'t autorised !!');
-    define('NO_UPLOAD_HTACCESS_FILE', 'Upload a HTACCESS file isn\'t autorised !!');
+    define('ID_MUST_INTEGER', 'Error : %s must be a integer !');
     // nuked.php
     define('THEME_NOTFOUND','Fatal error : No theme found');
     define('WEBSITE_CLOSED', 'Sorry, this website is momently closed, Please try again later.');

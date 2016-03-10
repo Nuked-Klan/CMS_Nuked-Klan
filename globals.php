@@ -75,7 +75,7 @@ for ($i = 0; $i < $size; $i++) {
 unset($queryString, $badString);
 
 
-// INTEGRER ID CHECK
+// INTEGER ID CHECK
 // TODO : Use a unique ID
 $getId = array(
     'cat_id', 'cat', 'forum_id', 'thread_id', 'game',// 'id',
@@ -89,7 +89,7 @@ $size = count($getId);
 
 for ($i = 0; $i < $size; $i++) {
     if (isset($_GET[$getId[$i]]) && ! empty($_GET[$getId[$i]]) && ! ctype_digit($_GET[$getId[$i]]))
-        die(sprintf(ID_MUST_INTEGRER, $getId[$i]));
+        die(sprintf(ID_MUST_INTEGER, $getId[$i]));
 }
 
 unset($getId, $size);
