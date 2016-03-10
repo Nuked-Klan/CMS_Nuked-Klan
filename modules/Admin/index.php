@@ -153,7 +153,7 @@ function main() {
                                 <div>
                                 <?php
                                     $sqlUser=nkDB_execute("SELECT pseudo, date, id, country FROM " . USER_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
-                                    while (list($userPseudo, $regiterDate, $userId, $userCountry)=mysql_fetch_row($sqlUser)) {
+                                    while (list($userPseudo, $regiterDate, $userId, $userCountry)=nkDB_fetchRow($sqlUser)) {
                                     
                                     $userPseudo = stripslashes($userPseudo);
                                     $regiterDate = nkDate($regiterDate);

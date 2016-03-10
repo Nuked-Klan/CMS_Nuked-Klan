@@ -124,7 +124,7 @@ function main(){
             . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
     $sql = nkDB_execute("SELECT S.artid, S.title, S.autor, S.autor_id, S.secid, S.date, SC.parentid, SC.secname FROM " . SECTIONS_TABLE . " AS S LEFT JOIN " . SECTIONS_CAT_TABLE . " AS SC ON SC.secid = S.secid ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_max."");
-    while (list($art_id, $titre, $autor, $autor_id, $cat, $date, $parentid, $namecat) = mysql_fetch_row($sql)){
+    while (list($art_id, $titre, $autor, $autor_id, $cat, $date, $parentid, $namecat) = nkDB_fetchRow($sql)){
 
         if ($date) $date = nkDate($date);
 
@@ -430,7 +430,7 @@ function main_cat(){
     $sql = nkDB_execute("SELECT secid, secname, parentid, position FROM " . SECTIONS_CAT_TABLE . " ORDER BY parentid, position");
     $nbcat = mysql_num_rows($sql);
     if ($nbcat > 0){
-        while (list($cid, $titre, $parentid, $position) = mysql_fetch_row($sql))
+        while (list($cid, $titre, $parentid, $position) = nkDB_fetchRow($sql))
         {
             $titre = printSecuTags($titre);
 

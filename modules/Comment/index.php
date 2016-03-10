@@ -415,7 +415,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         }
 
         $flood = nkDB_execute("SELECT date FROM " . COMMENT_TABLE . " WHERE autor = '" . $autor . "' OR autor_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
-        list($flood_date) = mysql_fetch_row($flood);
+        list($flood_date) = nkDB_fetchRow($flood);
         $anti_flood = $flood_date + $nuked['post_flood'];
 
         $date = time();

@@ -1084,7 +1084,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 function delModerator($idUser)
 {
     $resultQuery = nkDB_execute("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $idUser . "%'");
-    while (list($forumID, $listModos) = mysql_fetch_row($resultQuery))
+    while (list($forumID, $listModos) = nkDB_fetchRow($resultQuery))
     {
         if (is_int(strpos($listModos, '|'))) //Multiple moderators in this category
         {

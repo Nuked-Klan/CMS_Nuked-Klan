@@ -877,7 +877,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     $nbtopics = mysql_num_rows($result);
 
     if ($nbtopics > 0) {
-        while (list($thread_id, $forum_id) = mysql_fetch_row($result)) {
+        while (list($thread_id, $forum_id) = nkDB_fetchRow($result)) {
             $sql = nkDB_execute("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user_id . "' , '" . $thread_id . "' , '" . $forum_id . "' )");
         }
     }
@@ -1611,7 +1611,7 @@ function validation() {
 function delModerator($idUser)
 {
     $resultQuery = nkDB_execute("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $idUser . "%'");
-    while (list($forumID, $listModos) = mysql_fetch_row($resultQuery))
+    while (list($forumID, $listModos) = nkDB_fetchRow($resultQuery))
     {
         if (is_int(strpos($listModos, '|'))) //Multiple moderators in this category
         {
@@ -1648,7 +1648,7 @@ function del_account($pass){
         $escapeUserId = nkDB_escape($user['id']);
 
         $sql = nkDB_execute('SELECT pass FROM '. USER_TABLE .' WHERE id = '. $escapeUserId);
-        $dbpass = mysql_fetch_row($sql);
+        $dbpass = nkDB_fetchRow($sql);
         if (Check_Hash($pass, $dbpass[0])){
             $del1 = delModerator($user['id']);
 

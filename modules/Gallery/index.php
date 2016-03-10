@@ -445,7 +445,7 @@ function index()
 
             $sql_img = nkDB_execute("SELECT sid, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $cid . "' ORDER BY sid DESC LIMIT 0, 1");
             $nb_imgcat = mysql_num_rows($sql_img);
-            list($sid, $date) = mysql_fetch_row($sql_img);
+            list($sid, $date) = nkDB_fetchRow($sql_img);
 
             $sql_img_tt = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . ", " . GALLERY_CAT_TABLE . " WHERE cat = cid AND (parentid = '" . $cid . "' OR cid = '" . $cid . "')");
             $nb_imgcat_tt = mysql_num_rows($sql_img_tt);
@@ -676,7 +676,7 @@ function classe()
         $last_sid = '';
         for($i = 0;$i < $nb_img_guest;$i++)
         {
-            if (list($sid, $titre, $url, $url2, $date) = mysql_fetch_row($sql))
+            if (list($sid, $titre, $url, $url2, $date) = nkDB_fetchRow($sql))
             {
                 if ($url2 != "" && $url2 != "http://")
                 {

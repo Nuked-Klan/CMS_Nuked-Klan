@@ -115,7 +115,7 @@ function categorie($secid){
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
-    list($secname, $description, $parentid) = mysql_fetch_row($sql);
+    list($secname, $description, $parentid) = nkDB_fetchRow($sql);
 
     $secname = printSecuTags($secname);
 
@@ -192,10 +192,10 @@ function article($artid){
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
-    list($artid, $secid, $title, $content, $coverage, $autor, $autor_id, $counter, $date) = mysql_fetch_row($sql);
+    list($artid, $secid, $title, $content, $coverage, $autor, $autor_id, $counter, $date) = nkDB_fetchRow($sql);
 
     $sql2 = nkDB_execute("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . "  WHERE secid = '" . $secid . "'");
-    list($secname, $parentid) = mysql_fetch_row($sql2);
+    list($secname, $parentid) = nkDB_fetchRow($sql2);
     $secname = printSecuTags($secname);
 
     if ($secid == 0){
@@ -448,7 +448,7 @@ function classe(){
 
         $seek = mysql_data_seek($sql, $start);
         for($i = 0;$i < $nb_max;$i++){
-            if (list($artid, $title, $date, $counter, $content, $coverage) = mysql_fetch_row($sql)){
+            if (list($artid, $title, $date, $counter, $content, $coverage) = nkDB_fetchRow($sql)){
                 $title = printSecuTags($title);
                 $newsdate = time() - 604800;
                 $att = "";
@@ -536,7 +536,7 @@ function pdf($artid) {
     nkTemplate_setPageDesign('none');
 
     $sql = nkDB_execute("SELECT title, content FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
-    list($title, $text) = mysql_fetch_row($sql);
+    list($title, $text) = nkDB_fetchRow($sql);
 
     $text = "<br />" . $text;
 

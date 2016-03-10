@@ -27,7 +27,7 @@
         mysql_data_seek($result, $start);
 
         for ($i = 0; $i < $limit; $i++) {
-            if ($forumMsg = mysql_fetch_row($result)) {
+            if ($forumMsg = nkDB_fetchRow($result)) {
                 $forumMsg = prepareForumSearchResultRow($forumMsg);
 ?>
                 <div>
