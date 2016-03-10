@@ -140,31 +140,29 @@ function make_array($data){
     $data['description'] = str_replace("|", "&#124;", $data['description']);
     $data['auteur'] = str_replace("|", "&#124;", $data['auteur']);
 
-    $filename = $_FILES['fichiernom']['name'];
-    $filename = str_replace(" ", "_", $filename);
+    require_once 'Includes/nkUpload.php';
 
-    if ($filename != "" && $upload_img == "on"){
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $imageUrl = '';
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG"){
-            $url_file = $rep_img . time() . "." . $ext;
+    if ($upload_img == 'on' && $_FILES['fichiernom']['name'] != '') {
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', array(
+            'fileType'  => 'image',
+            'uploadDir' => $rep_img,
+            //'fileSize'  => 100000
+            'fileRename' => true
+        ));
 
-            // TODO : Do better !
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_file)) {
-                printNotification('Upload file failed !!!', 'error');
-                return;
-            }
-            @chmod ($url_file, 0644);
-        }
-        else{
-            $url_file = "Error : no image file !";
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Suggest&module=Gallery', 3);
+            return false;
         }
     }
-    else{
-        $url_file = $data['url'];
+    else {
+        $imageUrl = $data['url'];
     }
 
-    $content = $data['titre'] . "|" . $url_file . "|" . $data['url2'] . "|" . $data['description'] . "|" . $data['cat'] . "|" . $data['url_file'] . "|" . $data['auteur'];
+    $content = $data['titre'] . "|" . $imageUrl . "|" . $data['url2'] . "|" . $data['description'] . "|" . $data['cat'] . "|" . $data['url_file'] . "|" . $data['auteur'];
     return $content;
 }
 
@@ -184,7 +182,11 @@ function send($data){
     $data['auteur'] = mysql_real_escape_string(stripslashes($data['auteur']));
     $date = time();
 
-    if ($upload_img == "on" && !preg_match("`http://`i", $data['url']) && $rep_img != $rep_img_ok && stripos($rep_img, $data['url'])){
+    if ($upload_img == 'on'
+        && stripos($url, 'http://') === false
+        && $rep_dl != $rep_dl_ok
+        && stripos($data['url'], $rep_img) !== false
+    ){
         $url_ok = str_replace($rep_img, $rep_img_ok, $data['url']);
         $url_dest = $url_ok;
 

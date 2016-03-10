@@ -31,7 +31,7 @@ $rep_dl_screen_ok = 'upload/Download/screen/';
 $rep_img = 'upload/Suggest/';
 
 // Repertoire de destination pour les images validées
-$rep_img_ok = 'upload/Download/';
+$rep_img_ok = 'upload/Gallery/';
 
 // Repertoire de destination pour les suggestions de thèmes
 $rep_theme = 'upload/Suggest/';
