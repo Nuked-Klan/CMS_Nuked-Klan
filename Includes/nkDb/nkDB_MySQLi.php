@@ -1,6 +1,6 @@
 <?php
 /**
- * nkDB_MySQL.php
+ * nkDB_MySQLi.php
  *
  * 
  *
@@ -17,7 +17,7 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
  */
 $GLOBALS['nkDB'] = array(
     'params'            => array(),
-    'database'          => 'MySQL',
+    'database'          => 'MySQLi',
     'querys'            => array(),
     'connectionError'   => false,
     'queryError'        => false,
@@ -43,17 +43,27 @@ function nkDB_init($data) {
  * Connection to database
  *
  * @param void
- * @return bool : Status of MySQL database connection
+ * @return bool : Status of MySQLi database connection
  */
 function nkDB_connect() {
     if ($GLOBALS['nkDB']['connectionError'])
         return false;
 
-    // Open a persistency or normal connection to a MySQL Server
+    // replace localhost by 127.0.0.1
+
+    // Open a persistency or normal connection to a MySQLi Server
     if (isset($GLOBALS['nkDB']['params']['persistency']) && $GLOBALS['nkDB']['params']['persistency'])
-        $GLOBALS['nkDB']['connection'] = mysql_pconnect($GLOBALS['nkDB']['params']['db_host'], $GLOBALS['nkDB']['params']['db_user'], $GLOBALS['nkDB']['params']['db_pass']);
+        $host = 'p:'. $GLOBALS['nkDB']['params']['db_host'];
     else
-        $GLOBALS['nkDB']['connection'] = @mysql_connect($GLOBALS['nkDB']['params']['db_host'], $GLOBALS['nkDB']['params']['db_user'], $GLOBALS['nkDB']['params']['db_pass']);
+        $host = $GLOBALS['nkDB']['params']['db_host'];
+
+    $GLOBALS['nkDB']['connection'] = mysqli_connect(
+        $host,
+        $GLOBALS['nkDB']['params']['db_user'],
+        $GLOBALS['nkDB']['params']['db_pass'],
+        $GLOBALS['nkDB']['params']['db_name']
+        // port 3306
+    );
 
     // If the connection isn't etablished, add error and stop connect process.
     if ($GLOBALS['nkDB']['connection'] === false) {
@@ -62,24 +72,17 @@ function nkDB_connect() {
         return false;
     }
 
-    // Select the MySQL database
-    $db = mysql_select_db($GLOBALS['nkDB']['params']['db_name'], $GLOBALS['nkDB']['connection']);
-
-    // If failed, update connectionError status
-    if (! $db)
-        $GLOBALS['nkDB']['connectionError'] = true;
-
     nkDB_execute('SET NAMES \'latin1\'');
 
-    return $db;
+    return $GLOBALS['nkDB']['connection'];
 }
 
 /**
- * Get error of MySQL database connection
+ * Get error of MySQLi database connection
  *
  * @param void
- * @return string : The language define used for error of MySQL database connection
- */
+ * @return string : The language define used for error of MySQLi database connection
+ * /
 function nkDB_getConnectError() {
     $mysqlErrno = mysql_errno();
 
@@ -93,30 +96,30 @@ function nkDB_getConnectError() {
         return 'DB_CHARSET_ERROR';
     else
         return mysql_error();
-}
+}*/
 
 /**
- * Disconnect to MySQL database
+ * Disconnect to MySQLi database
  *
  * @param void
  * @return void
  */
 function nkDB_disconnect() {
     if ($GLOBALS['nkDB']['connection'])
-        mysql_close($GLOBALS['nkDB']['connection']);
+        mysqli_close($GLOBALS['nkDB']['connection']);
 }
 
 /**
- * Show version of MySQL  server
+ * Show version of MySQLi  server
  *
  * @param void
- * @return string : Version of MySQL server
+ * @return string : Version of MySQLi server
  */
 function nkDB_show_version() {
     if ($GLOBALS['nkDB']['connectionError'])
         return '';
 
-    return mysql_get_server_info();
+    return mysqli_get_server_info();
 }
 
 /**
@@ -142,7 +145,7 @@ function nkDB_selectOne($query, $order = false, $dir = 'ASC', $limit = false, $o
     $ressource = nkDB_execute($sql);
 
     if ($ressource)
-        $result = mysql_fetch_assoc($ressource);
+        $result = mysqli_fetch_assoc($ressource);
 
     return $result;
 }
@@ -171,7 +174,7 @@ function nkDB_selectMany($query, $order = false, $dir = 'ASC', $limit = false, $
 
     if ($ressource) {
         // Build the numeric indexed array of rows of query data
-        while ($data = mysql_fetch_assoc($ressource))
+        while ($data = mysqli_fetch_assoc($ressource))
             $result[] = $data;
     }
 
@@ -225,7 +228,7 @@ function nkDB_formatSelectQuery($query, $order, $dir, $limit, $offset) {
  * Get the row_count for a query.
  * By default, the latest select query is used
  *
- * @param mixed $ressource : The MySQL Ressource pointer returned by a query. If false, the latest ressource is used
+ * @param mixed $ressource : The MySQLi Ressource pointer returned by a query. If false, the latest ressource is used
  *        So you don't need to specify this parameter if used immediatly after the select query
  * @return int : Number of rows returned by the query
  */
@@ -236,7 +239,7 @@ function nkDB_numRows($ressource = false) {
     if (! $ressource)
         $ressource = $GLOBALS['nkDB']['latestRessource'];
 
-    return (int) mysql_num_rows($ressource);
+    return (int) mysqli_num_rows($ressource);
 }
 
 /**
@@ -244,7 +247,7 @@ function nkDB_numRows($ressource = false) {
  * By default, the latest select query is used
  * Note : The SELECT clause is not need if query is defined
  *
- * @param mixed $query : The MySQL query. If false, the latest ressource is used
+ * @param mixed $query : The MySQLi query. If false, the latest ressource is used
  *        So you don't need to specify this parameter if used immediatly after the select query
  * @return int : Total of rows returned by the query
  */
@@ -311,7 +314,7 @@ function nkDB_insert($table, $data) {
  */
 function nkDB_insertId() {
     if ($GLOBALS['nkDB']['latestRessource'])
-        return mysql_insert_id($GLOBALS['nkDB']['connection']);
+        return mysqli_insert_id($GLOBALS['nkDB']['connection']);
     else
         return false;
 }
@@ -405,7 +408,7 @@ function nkDB_update($table, $data, $where) {
  */
 function nkDB_affectedRows() {
     if ($GLOBALS['nkDB']['latestRessource'])
-        return mysql_affected_rows($GLOBALS['nkDB']['connection']);
+        return mysqli_affected_rows($GLOBALS['nkDB']['connection']);
     else
         return false;
 }
@@ -440,14 +443,14 @@ function nkDB_execute($sql) {
     $GLOBALS['nkDB']['querys'][] = $sql;
 
     $sqlStart   = microtime(true);
-    $ressource  = mysql_query($sql);
+    $ressource  = mysqli_query($GLOBALS['nkDB']['connection'], $sql);
     $sqlTime    = microtime(true) - $sqlStart;
 
     if ($ressource !== false) {
         $GLOBALS['nkDB']['status'][count($GLOBALS['nkDB']['querys']) - 1] = array($sql, 'ok', $sqlTime);
     }
     else {
-        $error = mysql_error();
+        $error = mysqli_error($GLOBALS['nkDB']['connection']);
         $GLOBALS['nkDB']['status'][count($GLOBALS['nkDB']['querys']) - 1] = array($sql, $error, 0);
         $GLOBALS['nkDB']['queryError'] = true;
 
@@ -511,7 +514,7 @@ function nkDB_escape($value, $noQuote = false) {
             $value[$key] = nkDB_escape($val);
     }
     else {
-        $value = mysql_real_escape_string($value, $GLOBALS['nkDB']['connection']);
+        $value = mysqli_real_escape_string($GLOBALS['nkDB']['connection'], $value);
         $value = str_replace('`', '\`', $value);
     }
 
@@ -543,27 +546,29 @@ function nkDB_getNbExecutedQuery() {
 
 /* Substitute function of mysql librairy */
 
-function nkDB_fetchArray($ressource, $resultType = MYSQL_BOTH) {
-    return mysql_fetch_array($ressource, $resultType);
+function nkDB_fetchArray($ressource, $resultType = MYSQLI_BOTH) {
+    return mysqli_fetch_array($ressource, $resultType);
 }
 
 function nkDB_fetchAssoc($ressource) {
-    return mysql_fetch_assoc($ressource);
+    return mysqli_fetch_assoc($ressource);
 }
 
 function nkDB_fetchRow($ressource) {
-    return mysql_fetch_row($ressource);
+    return mysqli_fetch_row($ressource);
 }
 
 function nkDB_dataSeek($ressource, $rowNumber) {
-    return mysql_data_seek($ressource, $rowNumber);
+    return mysqli_data_seek($ressource, $rowNumber);
 }
 
 function nkDB_realEscapeString($str, $linkIdentifier = NULL) {
     if ($GLOBALS['nkDB']['connectionError'])
         return '';
 
-    return mysql_real_escape_string($str, $GLOBALS['nkDB']['connection']);
+    return mysqli_real_escape_string($GLOBALS['nkDB']['connection'], $str);
 }
+
+// mysqli_free_result($result);
 
 ?>
