@@ -185,7 +185,7 @@ define("_NAME","Nom");
 define("_BADMAIL","Adresse email non valide !");
 define("_REPLACE","Ecraser");
 define("_REPLACEIT","Pour la remplacer veuillez cocher la case \""._REPLACE."\"");
-//define("_AUTOR", "Auteur");
+define("_AUTOR", "Auteur");
 
 // menu
 define("_NAV","Menu");

@@ -364,7 +364,7 @@ function description($dl_id) {
 
         if ($cat > 0 || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _CAT . " :</b> " . $category . "</td></tr>\n";
 
-        if ($autor != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _AUTOR . " :</b> " . $author . "</td></tr>\n";
+        if ($autor != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . __('AUTHOR') . " :</b> " . $author . "</td></tr>\n";
 
         if ($url_autor != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SITE . " :</b> " . $home_autor . "</td></tr>\n";
 
