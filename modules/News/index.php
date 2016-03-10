@@ -32,7 +32,7 @@ function index(){
         $where = "WHERE $day >= date";
     }
 
-    $sql_nbnews = mysql_query("SELECT id FROM ".NEWS_TABLE." $where");
+    $sql_nbnews = nkDB_execute("SELECT id FROM ".NEWS_TABLE." $where");
     $nb_news = mysql_num_rows($sql_nbnews);
 
     if(array_key_exists('p', $_REQUEST)){
@@ -51,7 +51,7 @@ function index(){
         $WhereNews = "WHERE $day >= date ORDER BY date DESC LIMIT $start, $max_news";
     }
 
-    $sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, coverage, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
+    $sql = nkDB_execute("SELECT id, auteur, auteur_id, date, titre, coverage, texte, suite, cat FROM ".NEWS_TABLE." $WhereNews");
 
     if (mysql_num_rows($sql) <= 0) {
         echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
@@ -60,10 +60,10 @@ function index(){
     while ($TabNews = mysql_fetch_assoc($sql)) {
         $TabNews['titre'] = printSecuTags($TabNews['titre']);
 
-        $sql2 = mysql_query("SELECT im_id FROM ".COMMENT_TABLE." WHERE im_id = '{$TabNews['id']}' AND module = 'news'");
+        $sql2 = nkDB_execute("SELECT im_id FROM ".COMMENT_TABLE." WHERE im_id = '{$TabNews['id']}' AND module = 'news'");
         $nb_comment = mysql_num_rows($sql2);
 
-        $sql3 = mysql_query("SELECT titre, image FROM ".NEWS_CAT_TABLE." WHERE nid = '{$TabNews['cat']}'");
+        $sql3 = nkDB_execute("SELECT titre, image FROM ".NEWS_CAT_TABLE." WHERE nid = '{$TabNews['cat']}'");
         $TabCat = mysql_fetch_assoc($sql3);
 
         $data['date'] = nkDate($TabNews['date']);
@@ -129,7 +129,7 @@ function index_comment($news_id) {
 
     index();
 
-    $sql = mysql_query(
+    $sql = nkDB_execute(
         'SELECT active
         FROM '. COMMENT_MODULES_TABLE .'
         WHERE module = \'news\''
@@ -158,7 +158,7 @@ function suite($news_id) {
 
     index();
 
-    $sql = mysql_query(
+    $sql = nkDB_execute(
         'SELECT active
         FROM '. COMMENT_MODULES_TABLE .'
         WHERE module = \'news\''
@@ -185,7 +185,7 @@ function sujet(){
     echo '<br /><div style="text-align:center;"><big><b>'._SUBJECTNEWS.'</b></big></div><br /><br />
             <table cellspacing="0" cellpadding="3" border="0">';
 
-    $sql = mysql_query("SELECT nid, titre, description, image FROM ".NEWS_CAT_TABLE." ORDER BY titre");
+    $sql = nkDB_execute("SELECT nid, titre, description, image FROM ".NEWS_CAT_TABLE." ORDER BY titre");
     while ($row = mysql_fetch_assoc($sql)) {
 
         $row['titre'] = printSecuTags($row['titre']);
@@ -215,7 +215,7 @@ function pdf($news_id) {
     else if ($language == "french") setlocale (LC_TIME, "fr_FR");
     else setlocale (LC_TIME, $language);
 
-    $sql = mysql_query("SELECT auteur, auteur_id, date, titre, texte, suite FROM ".NEWS_TABLE." WHERE id = '$news_id'");
+    $sql = nkDB_execute("SELECT auteur, auteur_id, date, titre, texte, suite FROM ".NEWS_TABLE." WHERE id = '$news_id'");
     $row = mysql_fetch_assoc($sql);
 
     $heure = strftime("%H:%M", $row['date']);
@@ -260,7 +260,7 @@ function sendfriend($news_id) {
 
     echo '<script type="text/javascript">function verifchamps(){if(document.getElementById(\'sf_pseudo\').value.length == 0){alert(\''._NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''._BADMAIL.'\');return false;}return true;}</script>';
 
-    $sql = mysql_query("SELECT titre FROM ".NEWS_TABLE." WHERE id = '$news_id'");
+    $sql = nkDB_execute("SELECT titre FROM ".NEWS_TABLE." WHERE id = '$news_id'");
     list($title) = mysql_fetch_array($sql);
 
     echo '<form method="post" action="index.php?file=News" onsubmit="return verifchamps()">

@@ -47,7 +47,7 @@ function main()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, titre, auteur, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " ORDER BY date_an DESC, date_mois DESC, date_jour DESC");
+    $sql = nkDB_execute("SELECT id, titre, auteur, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " ORDER BY date_an DESC, date_mois DESC, date_jour DESC");
     $count = mysql_num_rows($sql);
     while (list($eid, $titre, $auteur, $jour, $mois, $an, $heure) = mysql_fetch_array($sql))
     {
@@ -116,7 +116,7 @@ function do_add($description, $titre, $heure, $date_an, $date_mois, $date_jour)
     $description = mysql_real_escape_string(stripslashes($description));
     $titre = mysql_real_escape_string(stripslashes($titre));
 
-    $sql = mysql_query("INSERT INTO " . CALENDAR_TABLE . " ( `id` , `titre` , `description` , `date_jour` , `date_mois` , `date_an` , `heure` , `auteur` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $date_jour . "' , '" . $date_mois . "' , '" . $date_an . "' , '" . $heure . "' , '" . $user[2] . "' )");
+    $sql = nkDB_execute("INSERT INTO " . CALENDAR_TABLE . " ( `id` , `titre` , `description` , `date_jour` , `date_mois` , `date_an` , `heure` , `auteur` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $date_jour . "' , '" . $date_mois . "' , '" . $date_an . "' , '" . $heure . "' , '" . $user[2] . "' )");
 
     saveUserAction(_ACTIONADDCAL .': '. $titre);
 
@@ -129,7 +129,7 @@ function edit($eid)
 {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT id, titre, description, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
+    $sql = nkDB_execute("SELECT id, titre, description, date_jour, date_mois, date_an, heure FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
     list($eid, $titre, $description, $jour, $mois, $an, $heure) = mysql_fetch_array($sql);
     $titre = nkHtmlSpecialChars($titre);
 
@@ -159,7 +159,7 @@ function do_edit($eid, $description, $titre, $heure, $date_an, $date_mois, $date
     $titre = mysql_real_escape_string(stripslashes($titre));
     $description = mysql_real_escape_string(stripslashes($description));
 
-    $upd = mysql_query("UPDATE " . CALENDAR_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', date_jour = '" . $date_jour . "', date_mois = '" . $date_mois . "', date_an = '" . $date_an . "', heure = '" . $heure . "' WHERE id = '" . $eid . "'");
+    $upd = nkDB_execute("UPDATE " . CALENDAR_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', date_jour = '" . $date_jour . "', date_mois = '" . $date_mois . "', date_an = '" . $date_an . "', heure = '" . $heure . "' WHERE id = '" . $eid . "'");
 
     saveUserAction(_ACTIONMODIFCAL .': '. $titre);
 
@@ -172,9 +172,9 @@ function del($eid)
 {
     global $nuked, $user;
 
-    $sql = mysql_query("SELECT titre FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
+    $sql = nkDB_execute("SELECT titre FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
     list($titre) = mysql_fetch_array($sql);
-    $del = mysql_query("DELETE FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
+    $del = nkDB_execute("DELETE FROM " . CALENDAR_TABLE . " WHERE id = '" . $eid . "'");
 
     saveUserAction(_ACTIONDELCAL .': '. $titre);
 
@@ -244,7 +244,7 @@ function change_pref($birthday)
 {
     global $nuked;
 
-    $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $birthday . "' WHERE name = 'birthday'");
+    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $birthday . "' WHERE name = 'birthday'");
 
     saveUserAction(_ACTIONPREFUPCAL .'.');
 

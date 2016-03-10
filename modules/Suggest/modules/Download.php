@@ -63,7 +63,7 @@ function form($content, $sug_id){
             . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" value=\"" . $content[0] . "\" /></td></tr>"
             . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
 
-    $sql = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    $sql = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($cid, $titre) = mysql_fetch_array($sql)){
         $titre = printSecuTags($titre);
 
@@ -74,7 +74,7 @@ function form($content, $sug_id){
 
         echo "<option value=\"" . $cid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
-        $sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
+        $sql2 = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
         while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)){
             $s_titre = printSecuTags($s_titre);
 
@@ -265,9 +265,9 @@ function send($data){
     $url_file = move($upload_dl, $data['url'], $rep_dl, $rep_dl_ok);
     $url_img = move($upload_img, $data['screen'], $rep_dl_screen, $rep_dl_screen_ok);
 
-    $upd = mysql_query("INSERT INTO " . DOWNLOAD_TABLE . "  ( `date` , `taille` , `titre` , `description` , `type` , `url` ,  `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $data['date'] . "' , '" . $data['taille'] . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['cat'] . "' , '" . $url_file . "' , '" . $data['autor'] . "' , '" . $data['site'] . "' , '" . $data['comp'] . "' , '" . $url_img . "' )");
+    $upd = nkDB_execute("INSERT INTO " . DOWNLOAD_TABLE . "  ( `date` , `taille` , `titre` , `description` , `type` , `url` ,  `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $data['date'] . "' , '" . $data['taille'] . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['cat'] . "' , '" . $url_file . "' , '" . $data['autor'] . "' , '" . $data['site'] . "' , '" . $data['comp'] . "' , '" . $url_img . "' )");
 
-    $sql = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE date = '" . $data['date'] . "' AND titre = '" . $data['titre'] . "'");
+    $sql = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE date = '" . $data['date'] . "' AND titre = '" . $data['titre'] . "'");
     list($id) = mysql_fetch_array($sql);
 
     setPreview('index.php?file=Download&op=description&dl_id='. $id, 'index.php?file=Suggest&page=admin');

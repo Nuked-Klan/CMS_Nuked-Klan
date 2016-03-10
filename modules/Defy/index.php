@@ -133,7 +133,7 @@ function form(){
             . "<tr><td style=\"width: 20%;\"><b>" . _HOUR . " : </b></td><td><input type=\"text\" name=\"heure\" value=\"" . $hour . "\" size=\"6\" /></td></tr>\n"
             . "<tr><td style=\"width: 20%;\"><b>" . _GAME . " : </b></td><td><select name=\"game\">\n";
 
-    $sql = mysql_query('SELECT id, name FROM ' . GAMES_TABLE . ' ORDER BY name');
+    $sql = nkDB_execute('SELECT id, name FROM ' . GAMES_TABLE . ' ORDER BY name');
     while (list($game_id, $nom) = mysql_fetch_array($sql)){
         $nom = printSecuTags($nom);
         echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
@@ -192,7 +192,7 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
     $type = printSecuTags($type);
     $map = printSecuTags($map);
 
-    $sql = mysql_query("INSERT INTO " . DEFY_TABLE . " ( `id` , `send` , `pseudo` , `clan` , `mail` , `icq` , `irc` , `url` , `pays` , `date` , `heure` , `serveur` , `game` , `type` , `map` , `comment` ) VALUES ( '' , '" . $time . "' , '" . $pseudo . "' , '" . $clan . "' , '" . $mail . "' , '" . $icq . "' , '" . $irc . "' , '" . $url . "' , '" . $country . "' , '" . $date . "' , '" . $heure . "' , '" . $serveur . "' , '" . $game . "' , '" . $type . "' , '" . $map . "' , '" . $comment . "' )");
+    $sql = nkDB_execute("INSERT INTO " . DEFY_TABLE . " ( `id` , `send` , `pseudo` , `clan` , `mail` , `icq` , `irc` , `url` , `pays` , `date` , `heure` , `serveur` , `game` , `type` , `map` , `comment` ) VALUES ( '' , '" . $time . "' , '" . $pseudo . "' , '" . $clan . "' , '" . $mail . "' , '" . $icq . "' , '" . $irc . "' , '" . $url . "' , '" . $country . "' , '" . $date . "' , '" . $heure . "' , '" . $serveur . "' , '" . $game . "' , '" . $type . "' , '" . $map . "' , '" . $comment . "' )");
 
     saveNotification(_NOTDEF .': [<a href="index.php?file=Defy&page=admin">'. _TLINK .'</a>].');
 
@@ -209,7 +209,7 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
     }
 
     if (!empty($inbox)){
-        $sql2 = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $time . "' , '0' )");
+        $sql2 = nkDB_execute("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $time . "' , '0' )");
     }
 
     printNotification(_SENDMAIL, 'success');

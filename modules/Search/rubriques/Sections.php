@@ -39,7 +39,7 @@ else if ($main != ""){
 }
 
 $req = "SELECT artid, title, date FROM " . SECTIONS_TABLE . " WHERE " . $and . " ORDER BY artid DESC";
-$sql_art = mysql_query($req);
+$sql_art = nkDB_execute($req);
 
 $nb_art = mysql_num_rows($sql_art);
 

@@ -28,7 +28,7 @@ if (nivo_mod('Download') != -1) {
     . '<td style="width: 60%" align="center"><b>' . _NOM . '</b></td>'."\n"
     . '<td style="width: 30%" align="center"><b>' . _DOWNLOADCOUNT . '</b></td></tr>'."\n";
 
-    $sql = mysql_query("SELECT id, titre, count FROM " . DOWNLOAD_TABLE . " ORDER BY count DESC LIMIT 0, 10");
+    $sql = nkDB_execute("SELECT id, titre, count FROM " . DOWNLOAD_TABLE . " ORDER BY count DESC LIMIT 0, 10");
     $nb_dl = mysql_num_rows($sql);
     if ($nb_dl > 0) {
         $idl = 0;
@@ -70,7 +70,7 @@ if (nivo_mod('Links') != -1) {
     . '<td style="width: 60%" align="center"><b>' . _NOM . '</b></td>'."\n"
     . '<td style="width: 30%" align="center"><b>' . _VISITCOUNT . '</b></td></tr>'."\n";
 
-    $sql2 = mysql_query("SELECT id, titre, count FROM " . LINKS_TABLE . " ORDER BY count DESC LIMIT 0, 10");
+    $sql2 = nkDB_execute("SELECT id, titre, count FROM " . LINKS_TABLE . " ORDER BY count DESC LIMIT 0, 10");
     $nb_link = mysql_num_rows($sql2);
     if ($nb_link > 0) {
         $ilink = 0;
@@ -112,7 +112,7 @@ if (nivo_mod('Sections') != -1) {
     . '<td style="width: 60%" align="center"><b>' . _NOM . '</b></td>'."\n"
     . '<td style="width: 30%" align="center"><b>' . _READCOUNT . '</b></td></tr>'."\n";
 
-    $sql3 = mysql_query("SELECT artid, title, counter FROM " . SECTIONS_TABLE . " ORDER BY counter DESC LIMIT 0, 10");
+    $sql3 = nkDB_execute("SELECT artid, title, counter FROM " . SECTIONS_TABLE . " ORDER BY counter DESC LIMIT 0, 10");
     $nb_art = mysql_num_rows($sql3);
     if ($nb_art > 0) {
         $iart = 0;
@@ -154,7 +154,7 @@ if (nivo_mod('Forum') != -1) {
     . '<td style="width: 60%" align="center"><b>' . _NOM . '</b></td>'."\n"
     . '<td style="width: 30%" align="center"><b>' . _READCOUNT . '</b></td></tr>'."\n";
 
-    $sql4 = mysql_query("SELECT id, forum_id, titre, view FROM " . FORUM_THREADS_TABLE . " ORDER BY view DESC LIMIT 0, 10");
+    $sql4 = nkDB_execute("SELECT id, forum_id, titre, view FROM " . FORUM_THREADS_TABLE . " ORDER BY view DESC LIMIT 0, 10");
     $nb_topic = mysql_num_rows($sql4);
     if ($nb_topic > 0) {
         $itopic = 0;
@@ -190,7 +190,7 @@ if (nivo_mod('Forum') != -1) {
     . '<td style="width: 60%" align="center"><b>' . _PSEUDO . '</b></td>'."\n"
     . '<td style="width: 30%" align="center"><b>' . _POSTCOUNT . '</b></td></tr>'."\n";
 
-    $sql5 = mysql_query("SELECT pseudo, count FROM " . USER_TABLE . " ORDER BY count DESC LIMIT 0, 10");
+    $sql5 = nkDB_execute("SELECT pseudo, count FROM " . USER_TABLE . " ORDER BY count DESC LIMIT 0, 10");
 
     $iuserf = 0;
     $j4 = 0;

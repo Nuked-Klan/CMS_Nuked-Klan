@@ -52,8 +52,8 @@ function send_sondage($titre, $option, $niveau) {
     $time = time();
     $titre = mysql_real_escape_string(stripslashes($titre));
 
-    $sql = mysql_query("INSERT INTO " . SURVEY_TABLE . " ( `sid` , `titre` , `date` , `niveau` ) VALUES ( '' , '" . $titre . "' , '" . $time . "' , '" . $niveau . "' )");
-    $sql2 = mysql_query("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "'");
+    $sql = nkDB_execute("INSERT INTO " . SURVEY_TABLE . " ( `sid` , `titre` , `date` , `niveau` ) VALUES ( '' , '" . $titre . "' , '" . $time . "' , '" . $niveau . "' )");
+    $sql2 = nkDB_execute("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "'");
     list($poll_id) = mysql_fetch_array($sql2);
 
     for ($r = 0; $r < 13; $r++) {
@@ -62,7 +62,7 @@ function send_sondage($titre, $option, $niveau) {
         $options = mysql_real_escape_string(stripslashes($options));
 
         if (!empty($options)) {
-            $sql3 = mysql_query("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $options . "' , '' , '" . $vid . "' )");
+            $sql3 = nkDB_execute("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $options . "' , '' , '" . $vid . "' )");
         }
     }
 
@@ -70,7 +70,7 @@ function send_sondage($titre, $option, $niveau) {
 
     printNotification(_POLLADD, 'success');
 
-    $sql = mysql_query("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "' AND date='".$time."'");
+    $sql = nkDB_execute("SELECT sid FROM " . SURVEY_TABLE . " WHERE titre = '" . $titre . "' AND date='".$time."'");
     list($poll_id) = mysql_fetch_array($sql);
 
     setPreview('index.php?file=Survey&op=sondage&poll_id='. $poll_id, 'index.php?file=Survey&page=admin');
@@ -79,12 +79,12 @@ function send_sondage($titre, $option, $niveau) {
 function del_sondage($poll_id) {
     global $nuked, $user;
 
-    $sql = mysql_query("SELECT titre FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
+    $sql = nkDB_execute("SELECT titre FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
     list($titre) = mysql_fetch_array($sql);
     $titre = mysql_real_escape_string(stripslashes($titre));
-    $sql = mysql_query("DELETE FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
-    $sql2 = mysql_query("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "'");
-    $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $poll_id . "' AND module = 'Survey'");
+    $sql = nkDB_execute("DELETE FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
+    $sql2 = nkDB_execute("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "'");
+    $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $poll_id . "' AND module = 'Survey'");
 
     saveUserAction(_ACTIONDELSUR .': '. $titre .'.');
 
@@ -95,7 +95,7 @@ function del_sondage($poll_id) {
 function edit_sondage($poll_id) {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT titre, niveau FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
+    $sql = nkDB_execute("SELECT titre, niveau FROM " . SURVEY_TABLE . " WHERE sid = '" . $poll_id . "'");
     list($titre, $niveau) = mysql_fetch_array($sql);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -108,7 +108,7 @@ function edit_sondage($poll_id) {
         . "<tr><td align=\"right\"><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"40\" value=\"" . $titre . "\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n";
 
-    $sql2 = mysql_query("SELECT optionText FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' ORDER BY voteID ASC");
+    $sql2 = nkDB_execute("SELECT optionText FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' ORDER BY voteID ASC");
     $r = 0;
     while (list($optiontext) = mysql_fetch_array($sql2)) {
         $r++;
@@ -133,25 +133,25 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
 
     $titre = mysql_real_escape_string(stripslashes($titre));
 
-    $sql = mysql_query("UPDATE " . SURVEY_TABLE . " SET titre = '" . $titre . "' , niveau = '" . $niveau . "' WHERE sid = '" . $poll_id . "'");
+    $sql = nkDB_execute("UPDATE " . SURVEY_TABLE . " SET titre = '" . $titre . "' , niveau = '" . $niveau . "' WHERE sid = '" . $poll_id . "'");
 
     for ($r = 0; $r < 13; $r++) {
         $options = $option[$r];
         $options = mysql_real_escape_string(stripslashes($options));
 
         if (!empty($options)) {
-            $upd = mysql_query("UPDATE " . SURVEY_DATA_TABLE . " SET optionText = '" . $options . "' WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
+            $upd = nkDB_execute("UPDATE " . SURVEY_DATA_TABLE . " SET optionText = '" . $options . "' WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
         } else {
-            $del = mysql_query("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
+            $del = nkDB_execute("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
         } 
     } 
 
     if (!empty($newoption)) {
         $newoption = mysql_real_escape_string(stripslashes($newoption));
-        $sql2 = mysql_query("SELECT voteID FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' ORDER BY voteID DESC LIMIT 0, 1");
+        $sql2 = nkDB_execute("SELECT voteID FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' ORDER BY voteID DESC LIMIT 0, 1");
         list($voteID) = mysql_fetch_array($sql2);
         $s = $voteID + 1;
-        $sql3 = mysql_query("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $newoption . "' , '' , '" . $s . "' )");
+        $sql3 = nkDB_execute("INSERT INTO " . SURVEY_DATA_TABLE . " ( `sid` , `optionText` , `optionCount` , `voteID` ) VALUES ( '" . $poll_id . "' , '" . $newoption . "' , '' , '" . $s . "' )");
     }
 
     saveUserAction(_ACTIONMODIFSUR .': '. $titre .'.');
@@ -192,7 +192,7 @@ function main(){
         . "<td align=\"center\"><b>" . _EDIT . "</b></td>\n"
         . "<td align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query('SELECT sid, titre, date, niveau FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
+    $sql = nkDB_execute('SELECT sid, titre, date, niveau FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
     $count = mysql_num_rows($sql);
     while (list($poll_id, $titre, $date, $niveau) = mysql_fetch_array($sql)) {
         $date = nkDate($date);
@@ -236,7 +236,7 @@ function main_pref() {
 function change_pref($sond_delay) {
     global $nuked, $user;
 
-    $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $sond_delay . "' WHERE name = 'sond_delay'");
+    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $sond_delay . "' WHERE name = 'sond_delay'");
 
     saveUserAction(_ACTIONCONFSUR .'.');
 

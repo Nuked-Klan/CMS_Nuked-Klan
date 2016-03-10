@@ -55,7 +55,7 @@ function form($content, $sug_id){
             . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . $content[0] . "\" /></td></tr>\n"
             . "<tr><td><b>" . _SUBJECT . " :</b> <select name=\"cat\">\n";
 
-    $sql = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
+    $sql = nkDB_execute("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
     while (list($nid, $cat_name) = mysql_fetch_array($sql)){
         $cat_name = printSecuTags($cat_name);
         $selected = "";
@@ -118,8 +118,8 @@ function send($data){
     $data['titre'] = mysql_real_escape_string(stripslashes($data['titre']));
     $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
 
-    $add = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '' , '" . $data['cat'] . "' , '" . $data['titre'] . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $data['texte'] . "' , '' , '" . $data['date'] . "')");
-    $sqls = mysql_query("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date = '".$data['date']."'");
+    $add = nkDB_execute("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '' , '" . $data['cat'] . "' , '" . $data['titre'] . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $data['texte'] . "' , '' , '" . $data['date'] . "')");
+    $sqls = nkDB_execute("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date = '".$data['date']."'");
     list($news_id) = mysql_fetch_array($sqls);
 
     setPreview('index.php?file=News&op=suite&news_id='. $news_id, 'index.php?file=Suggest&page=admin');

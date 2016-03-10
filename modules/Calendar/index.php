@@ -80,7 +80,7 @@ function index(){
             }
 
             $query = "SELECT warid, date_jour, adversaire FROM " . WARS_TABLE . " WHERE date_mois = '" . $this->month_number . "' AND date_an = '" . $this->year . "' ORDER BY date_jour";
-            $result = mysql_query($query);
+            $result = nkDB_execute($query);
 
             if (!$result) echo mysql_error() . ": " . mysql_errno();
 
@@ -94,7 +94,7 @@ function index(){
             }
 
             $query2 = "SELECT id, date_jour, titre FROM " . CALENDAR_TABLE . " WHERE date_mois = '" . $this->month_number . "' AND date_an = '" . $this->year . "'  ORDER BY date_jour";
-            $data2 = mysql_query($query2);
+            $data2 = nkDB_execute($query2);
 
             if (!$data2) echo mysql_error() . ": " . mysql_errno();
 
@@ -117,7 +117,7 @@ function index(){
                 }
 
                 $query3 = "SELECT user_id, age, pseudo FROM " . USER_DETAIL_TABLE . " INNER JOIN " . USER_TABLE . " ON user_id = id " . $where;
-                $data3 = mysql_query($query3);
+                $data3 = nkDB_execute($query3);
 
                 if (!$data3) echo mysql_error() . ": " . mysql_errno();
 
@@ -323,10 +323,10 @@ function show_event(){
     nkTemplate_setPageDesign('nudePage');
 
     if ($_REQUEST['type'] == "birthday" && ctype_alnum($_REQUEST['eid'])) {
-        $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $_REQUEST['eid'] . "'");
+        $sql = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $_REQUEST['eid'] . "'");
         list($pseudo) = mysql_fetch_array($sql);
 
-        $sql2 = mysql_query("SELECT prenom, age FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $_REQUEST['eid'] . "'");
+        $sql2 = nkDB_execute("SELECT prenom, age FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $_REQUEST['eid'] . "'");
         list($prenom, $birthday) = mysql_fetch_array($sql2);
 
         list ($jour, $mois, $an) = explode ('/', $birthday);
@@ -343,14 +343,14 @@ function show_event(){
         . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><b><a href=\"#\" onclick=\"self.close()\">" . __('CLOSE_WINDOW') . "</a></b></td></tr></table>";
 
     }elseif ($_REQUEST['type'] == "match" && is_numeric($_REQUEST['eid'])){
-        $sql = mysql_query("SELECT warid, etat, team, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv, report FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['eid'] . "'");
+        $sql = nkDB_execute("SELECT warid, etat, team, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv, report FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['eid'] . "'");
         $nb_match = mysql_num_rows($sql);
         list($warid, $etat, $team, $adv_name, $type_match, $jour, $mois, $an, $heure, $style, $score_team, $score_adv, $report) = mysql_fetch_array($sql);
 
         $adv_name = printSecuTags($adv_name);
 
         if ($team > 0){
-            $sql2 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
+            $sql2 = nkDB_execute("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
             list($team_name) = mysql_fetch_array($sql2);
         }else{
             $team_name = $nuked['name'];
@@ -391,7 +391,7 @@ function show_event(){
         echo "</td></tr><tr><td>&nbsp;</td></tr>\n";
 
         if($user && $etat != 1){
-            $sql_dispo = mysql_query("SELECT team FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+            $sql_dispo = nkDB_execute("SELECT team FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
             list($user_team) = mysql_fetch_array($sql_dispo);
             if ($user_team > 0 || $user[1] > 1) dispo($warid, $_REQUEST['type']);
         }
@@ -400,7 +400,7 @@ function show_event(){
 
     }else if (is_numeric($_REQUEST['eid'])){
 
-        $sql = mysql_query("SELECT titre, description, date_jour, date_mois, date_an, heure, auteur FROM " . CALENDAR_TABLE . " WHERE id = '" . $_REQUEST['eid'] . "'");
+        $sql = nkDB_execute("SELECT titre, description, date_jour, date_mois, date_an, heure, auteur FROM " . CALENDAR_TABLE . " WHERE id = '" . $_REQUEST['eid'] . "'");
         list($titre, $description, $jour, $mois, $an, $heure, $auteur) = mysql_fetch_array($sql);
 
         $description = icon($description);
@@ -423,7 +423,7 @@ function show_event(){
 function dispo($warid, $type){
     global $user, $nuked;
 
-    $sql1 = mysql_query("SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $warid . "'");
+    $sql1 = nkDB_execute("SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $warid . "'");
     list($actual_dispo, $not_dipso) = mysql_fetch_array($sql1);
 
     echo "<tr><td><b>" . _LINEUP . " :</b><br /><small>" . _FREE . " : ";
@@ -433,7 +433,7 @@ function dispo($warid, $type){
 
     for($i = 0;$i <= $nb_dispo;$i++){
         if ($pseudos[$i] == $user[0]) $selected = 1;
-        $sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos[$i] . "'");
+        $sql2 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos[$i] . "'");
         list($pseudo) = mysql_fetch_array($sql2);
         if ($i > 0) echo ", ";
         echo "<b>" . $pseudo . "</b>";
@@ -446,7 +446,7 @@ function dispo($warid, $type){
 
     for($l = 0;$l <= $nb_no_dispo;$l++){
         if ($pseudos2[$l] == $user[0]) $selected = 1;
-        $sql3 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos2[$l] . "'");
+        $sql3 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $pseudos2[$l] . "'");
         list($pseudo2) = mysql_fetch_array($sql3);
         if ($l > 0) echo ", ";
         echo "<b>" . $pseudo2 . "</b>";
@@ -472,7 +472,7 @@ function add_dispo($dispo){
     nkTemplate_setTitle(_MATCH);
 
     $sql = "SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
-    $req = mysql_query($sql);
+    $req = nkDB_execute($sql);
     $data = mysql_fetch_assoc($req);
 
     if ($data['dispo'] != "") $sep1 = "|";
@@ -484,7 +484,7 @@ function add_dispo($dispo){
     if ($dispo == 1) $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] . "'";
     else if ($dispo == 2) $sql = "UPDATE " . WARS_TABLE . " SET pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] ."'";
 
-    mysql_query($sql);
+    nkDB_execute($sql);
 
     printNotification(_UPDATEAVAILLABLE, 'success');
 
@@ -499,7 +499,7 @@ function del_dispo(){
     nkTemplate_setTitle(_MATCH);
 
     $sql = "SELECT * FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
-    $req = mysql_query($sql);
+    $req = nkDB_execute($sql);
     $data = mysql_fetch_array($req);
 
     $list = explode("|", $data['dispo']);
@@ -509,7 +509,7 @@ function del_dispo(){
     $new_pas_dispo = cleanList($user[0], $list);
 
     $sql = "UPDATE " . WARS_TABLE . " SET dispo = '" . $new_dispo . "', pas_dispo = '" . $new_pas_dispo . "' WHERE warid = '" . $_REQUEST['war_id'] . "'";
-    mysql_query($sql);
+    nkDB_execute($sql);
 
     printNotification(_UPDATEAVAILLABLE, 'success');
 

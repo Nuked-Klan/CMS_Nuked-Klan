@@ -131,7 +131,7 @@ function add_sug($data){
         $author = $user_ip;
     }
 
-    $sql = mysql_query("INSERT INTO " . SUGGEST_TABLE . " ( `id` , `module` , `user_id` , `proposition` , `date` ) VALUES ( '' , '" . $_REQUEST['module'] . "' , '" . $author . "' , '" . $content . "' , '" . $date . "' )");
+    $sql = nkDB_execute("INSERT INTO " . SUGGEST_TABLE . " ( `id` , `module` , `user_id` , `proposition` , `date` ) VALUES ( '' , '" . $_REQUEST['module'] . "' , '" . $author . "' , '" . $content . "' , '" . $date . "' )");
 
     saveNotification(_NOTSUG .' : [<a href="index.php?file=Suggest&page=admin">'. _TLINK .'</a>].');
 

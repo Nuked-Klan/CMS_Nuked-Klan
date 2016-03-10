@@ -19,7 +19,7 @@ function affich_block_roster($blok){
         $where = 'WHERE team = \'' . $team_id . '\' OR team2 = \'' . $team_id . '\' OR team3 = \'' . $team_id . '\' ';
     }
     else{
-		$sql_team = mysql_query("SELECT cid FROM " . TEAM_TABLE);
+		$sql_team = nkDB_execute("SELECT cid FROM " . TEAM_TABLE);
 		$nb_team = mysql_num_rows($sql_team);
 		
 		if ($nb_team > 0) $where = 'WHERE team > 0 OR team2 > 0 OR team3 > 0'; 
@@ -28,7 +28,7 @@ function affich_block_roster($blok){
 
     $blok['content'] .= '<table style="width:100%;" cellspacing="0" cellpadding="1">'."\n";
 
-    $sql = mysql_query('SELECT pseudo, mail, country FROM ' . USER_TABLE . ' ' . $where . ' ORDER BY ordre, pseudo');
+    $sql = nkDB_execute('SELECT pseudo, mail, country FROM ' . USER_TABLE . ' ' . $where . ' ORDER BY ordre, pseudo');
     while (list($pseudo, $mail, $country) = mysql_fetch_array($sql)){
         list ($pays, $ext) = explode('.', $country);
 
@@ -53,7 +53,7 @@ function affich_block_roster($blok){
 function edit_block_roster($bid){
     global $nuked, $language;
 
-    $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+    $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     
     $titre = printSecuTags($titre);
@@ -88,7 +88,7 @@ function edit_block_roster($bid){
 			, '<option>8</option>',"\n"
 			, '<option>9</option></select></td></tr><tr><td colspan="4"><b>' , _TEAM , ' :</b>&nbsp;<select name="content"><option value="">' , _INFOALL , '</option>',"\n";
 
-    $sql2 = mysql_query('SELECT cid, titre FROM ' . TEAM_TABLE . ' ORDER BY ordre, titre');
+    $sql2 = nkDB_execute('SELECT cid, titre FROM ' . TEAM_TABLE . ' ORDER BY ordre, titre');
     while (list($team_id, $team) = mysql_fetch_array($sql2)){
         $team = printSecuTags($team);
 

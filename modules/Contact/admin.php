@@ -48,7 +48,7 @@ function main(){
     . '<td style="width: 10%;text-align:center;" ><b>' . _READMESS . '</b></td>'."\n"
     . '<td style="width: 10%;text-align:center;" ><b>' . _DEL . '</b></td></tr>'."\n";
 
-    $sql = mysql_query('SELECT id, titre, nom, email, date FROM ' . CONTACT_TABLE . ' ORDER BY id');
+    $sql = nkDB_execute('SELECT id, titre, nom, email, date FROM ' . CONTACT_TABLE . ' ORDER BY id');
     $count = mysql_num_rows($sql);
     $l = 0;
 
@@ -77,7 +77,7 @@ function main(){
 function view($mid){
     global $nuked, $language;
 
-    $sql = mysql_query('SELECT titre, message, nom, ip, email, date FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
+    $sql = nkDB_execute('SELECT titre, message, nom, ip, email, date FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
     list($titre, $message, $nom, $ip, $email, $date) = mysql_fetch_array($sql);
 
     $day = nkDate($date);
@@ -114,7 +114,7 @@ function view($mid){
 function del($mid){
     global $nuked, $user;
 
-    $sql = mysql_query('DELETE FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
+    $sql = nkDB_execute('DELETE FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
 
     saveUserAction(_ACTIONDELCONTACT);
 
@@ -147,8 +147,8 @@ function main_pref()
 function change_pref($contact_mail, $contact_flood){
     global $nuked, $user;
 
-    $upd1 = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_mail . '\' WHERE name = \'contact_mail\'');
-    $upd2 = mysql_query('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_flood . '\' WHERE name = \'contact_flood\'');
+    $upd1 = nkDB_execute('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_mail . '\' WHERE name = \'contact_mail\'');
+    $upd2 = nkDB_execute('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_flood . '\' WHERE name = \'contact_flood\'');
 
     saveUserAction(_ACTIONPREFCONT);
 

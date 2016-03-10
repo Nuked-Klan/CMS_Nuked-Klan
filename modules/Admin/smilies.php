@@ -47,7 +47,7 @@ function main()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
+    $sql = nkDB_execute("SELECT id, code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($smiley_id, $code, $url, $name) = mysql_fetch_array($sql))
     {
         $name = nkHtmlEntities($name);
@@ -174,7 +174,7 @@ function send_smiley($nom, $code)
         $smileyUrl = $_POST['url'];
     }
 
-    $sql = mysql_query("INSERT INTO " . SMILIES_TABLE . " ( `id` , `code` , `url` , `name` ) VALUES ( '' , '" . $code . "' , '" . $smileyUrl . "' , '" . $nom . "')");
+    $sql = nkDB_execute("INSERT INTO " . SMILIES_TABLE . " ( `id` , `code` , `url` , `name` ) VALUES ( '' , '" . $code . "' , '" . $smileyUrl . "' , '" . $nom . "')");
 
     saveUserAction(_ACTIONADDSMILEY .': '. $nom);
 
@@ -186,7 +186,7 @@ function edit_smiley($smiley_id)
 {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
+    $sql = nkDB_execute("SELECT code, url, name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
     list($code, $url, $name) = mysql_fetch_array($sql);
 
     echo "<script type=\"text/javascript\">\n"
@@ -290,7 +290,7 @@ function modif_smiley($smiley_id, $nom, $code)
         $smileyUrl = $_POST['url'];
     }
 
-    $sql = mysql_query("UPDATE " . SMILIES_TABLE . " SET code = '" . $code . "', url = '" . $smileyUrl . "', name = '" . $nom . "' WHERE id = '" . $smiley_id . "'");
+    $sql = nkDB_execute("UPDATE " . SMILIES_TABLE . " SET code = '" . $code . "', url = '" . $smileyUrl . "', name = '" . $nom . "' WHERE id = '" . $smiley_id . "'");
 
     saveUserAction(_ACTIONMODIFSMILEY .': '. $nom);
 
@@ -302,9 +302,9 @@ function del_smiley($smiley_id)
 {
     global $nuked,$user;
 
-    $sql2 = mysql_query("SELECT name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
+    $sql2 = nkDB_execute("SELECT name FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
     list($name) = mysql_fetch_array($sql2);
-    $sql = mysql_query("DELETE FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
+    $sql = nkDB_execute("DELETE FROM " . SMILIES_TABLE . " WHERE id = '" . $smiley_id . "'");
 
     saveUserAction(_ACTIONDELSMILEY .': '. $name);
 

@@ -41,7 +41,7 @@ else if ($main != ""){
 
 $searchLevelAccess = max($visiteur, 1);
 $req = "SELECT id, titre, date FROM " . DOWNLOAD_TABLE . " WHERE level <= '" . $searchLevelAccess . "' AND " . $and . " ORDER BY id DESC";
-$sql_dl = mysql_query($req);
+$sql_dl = nkDB_execute($req);
 
 $nb_dl = mysql_num_rows($sql_dl);
 

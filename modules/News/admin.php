@@ -20,7 +20,7 @@ function main() {
 
     $nb_news = 30;
 
-    $sql = mysql_query("SELECT id FROM " . NEWS_TABLE);
+    $sql = nkDB_execute("SELECT id FROM " . NEWS_TABLE);
     $count = mysql_num_rows($sql);
 
     if(array_key_exists('p', $_REQUEST)){
@@ -112,16 +112,16 @@ function main() {
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, cat, date FROM " . NEWS_TABLE . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_news);
+    $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, cat, date FROM " . NEWS_TABLE . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_news);
     while (list($news_id, $titre, $autor, $autor_id, $cat, $date) = mysql_fetch_array($sql2)) {
         $date = nkDate($date);
 
-        $sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat. "'");
+        $sql3 = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat. "'");
         list($categorie) = mysql_fetch_array($sql3);
         $categorie = printSecuTags($categorie);
 
         if ($autor_id != "") {
-            $sql4 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+            $sql4 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
             $test = mysql_num_rows($sql4);
         }
 
@@ -287,7 +287,7 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
         $coverageUrl = $_POST['urlImage'];
     }
 
-    $sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `coverage` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $coverageUrl . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
+    $sql = nkDB_execute("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `coverage` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $coverageUrl . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
 
     $id = nkDB_insertId();
 
@@ -309,10 +309,10 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
 function edit($news_id) {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT titre, coverage, texte, suite, date, cat FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
+    $sql = nkDB_execute("SELECT titre, coverage, texte, suite, date, cat FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
     list($titre, $coverage, $texte, $suite, $date, $cat) = mysql_fetch_array($sql);
 
-    $sql2 = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
+    $sql2 = nkDB_execute("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
     list($cid, $categorie) = mysql_fetch_array($sql2);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -435,7 +435,7 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
         $coverageUrl = $_POST['urlImage'];
     }
 
-    $upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', coverage = '" . $coverageUrl . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
+    $upd = nkDB_execute("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', coverage = '" . $coverageUrl . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
 
     saveUserAction(_ACTIONMODIFNEWS .': '. $titre .'.');
 
@@ -446,11 +446,11 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
 function do_del($news_id) {
     global $nuked, $user;
 
-    $sqls = mysql_query("SELECT titre FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
+    $sqls = nkDB_execute("SELECT titre FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
     list($titre) = mysql_fetch_array($sqls);
     $titre = mysql_real_escape_string(stripslashes($titre));
-    $del = mysql_query("DELETE FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
-    $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . "  WHERE im_id = '" . $news_id . "' AND module = 'news'");
+    $del = nkDB_execute("DELETE FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
+    $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . "  WHERE im_id = '" . $news_id . "' AND module = 'news'");
 
     saveUserAction(_ACTIONDELNEWS .': '. $titre .'.');
 
@@ -488,7 +488,7 @@ function main_cat() {
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
+    $sql = nkDB_execute("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " ORDER BY titre");
     while (list($cid, $titre) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
 
@@ -557,7 +557,7 @@ function send_cat($titre, $description) {
     $description = secu_html(nkHtmlEntityDecode($description));
     $description = mysql_real_escape_string(stripslashes($description));
 
-    $sql = mysql_query("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $imageUrl . "' )");
+    $sql = nkDB_execute("INSERT INTO " . NEWS_CAT_TABLE . " ( `nid` , `titre` , `description` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $imageUrl . "' )");
 
     saveUserAction(_ACTIONADDCATNEWS .': '. $titre .'.');
 
@@ -568,7 +568,7 @@ function send_cat($titre, $description) {
 function edit_cat($cid) {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT titre, description, image FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
+    $sql = nkDB_execute("SELECT titre, description, image FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
     list($titre, $description, $image) = mysql_fetch_array($sql);
 
     $description = editPhpCkeditor($description);
@@ -632,7 +632,7 @@ function modif_cat($cid, $titre, $description) {
     $description = secu_html(nkHtmlEntityDecode($description));
     $description = mysql_real_escape_string(stripslashes($description));
 
-    $sql = mysql_query("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $imageUrl . "' WHERE nid = '" . $cid . "'");
+    $sql = nkDB_execute("UPDATE " . NEWS_CAT_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', image = '" . $imageUrl . "' WHERE nid = '" . $cid . "'");
 
     saveUserAction(_ACTIONEDITCATNEWS .': '. $titre .'.');
 
@@ -643,7 +643,7 @@ function modif_cat($cid, $titre, $description) {
 function select_news_cat() {
     global $nuked;
 
-    $sql = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE);
+    $sql = nkDB_execute("SELECT nid, titre FROM " . NEWS_CAT_TABLE);
     while (list($cid, $titre) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
         echo "<option value=\"" . $cid . "\">" . $titre . "</option>\n";
@@ -653,10 +653,10 @@ function select_news_cat() {
 function del_cat($cid) {
     global $nuked, $user;
 
-    $sqlq = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
+    $sqlq = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
     list($titre) = mysql_fetch_array($sqlq);
     $titre = mysql_real_escape_string(stripslashes($titre));
-    $sql = mysql_query("DELETE FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
+    $sql = nkDB_execute("DELETE FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
 
     saveUserAction(_ACTIONDELCATNEWS .': '. $titre .'.');
 
@@ -687,8 +687,8 @@ function main_pref() {
 function change_pref($max_news, $max_archives) {
     global $nuked, $user;
 
-    $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_news . "' WHERE name = 'max_news'");
-    $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_archives . "' WHERE name = 'max_archives'");
+    $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_news . "' WHERE name = 'max_news'");
+    $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_archives . "' WHERE name = 'max_archives'");
 
     saveUserAction(_ACTIONPREFNEWS .'.');
 

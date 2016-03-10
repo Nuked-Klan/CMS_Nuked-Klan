@@ -146,7 +146,7 @@ if ($nuked['recrute'] > 0)
 
         echo "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _GAME . " : </b></td><td><select name=\"game\">\n";
 
-        $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+        $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($game_id, $nom) = mysql_fetch_array($sql))
         {
             $nom = nkHtmlEntities($nom);
@@ -219,7 +219,7 @@ if ($nuked['recrute'] > 0)
         $exp = nkHtmlEntities($exp);
         $dispo = nkHtmlEntities($dispo);
 
-        $sql = mysql_query("INSERT INTO " . RECRUIT_TABLE . " ( `id` , `date` , `pseudo` , `prenom` , `age` , `mail` , `icq` , `country` , `game` , `connection` , `experience` , `dispo` , `comment` ) VALUES ( '' , '" . $date . "' , '" . $pseudo . "' , '" . $prenom . "' , '" . $age . "' , '" . $mail . "' , '" . $icq . "' , '" . $country . "' , '" . $game . "' , '" . $connex . "' , '" . $exp . "' , '" . $dispo . "' , '" . $comment. "' )");
+        $sql = nkDB_execute("INSERT INTO " . RECRUIT_TABLE . " ( `id` , `date` , `pseudo` , `prenom` , `age` , `mail` , `icq` , `country` , `game` , `connection` , `experience` , `dispo` , `comment` ) VALUES ( '' , '" . $date . "' , '" . $pseudo . "' , '" . $prenom . "' , '" . $age . "' , '" . $mail . "' , '" . $icq . "' , '" . $country . "' , '" . $game . "' , '" . $connex . "' , '" . $exp . "' , '" . $dispo . "' , '" . $comment. "' )");
 
         saveNotification(_NOTDEM .': [<a href="index.php?file=Recruit&page=admin">'. _TLINK .'</a>].');
 
@@ -237,7 +237,7 @@ if ($nuked['recrute'] > 0)
         }
         if ($inbox != "")
         {
-            $sql2 = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $date . "' , '0' )");
+            $sql2 = nkDB_execute("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $date . "' , '0' )");
         }
 
         printNotification(_SENDRECRUIT, 'success');

@@ -34,7 +34,7 @@ function index(){
                 . '<a href="index.php?file=User&amp;op=change_theme">' . _THEMESELECT . '</a> | ',"\n"
                 . '<a href="index.php?file=User&amp;op=logout">' . _USERLOGOUT . '</a></b></div><br />',"\n";
 
-        $sql3 = mysql_query('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $user[0] . '"');
+        $sql3 = nkDB_execute('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $user[0] . '"');
         $user_data = mysql_fetch_array($sql3);
 
         $last_used = $user_data['last_used'] > 0 ? nkDate($user_data['last_used']) : 'N/A';
@@ -58,7 +58,7 @@ function index(){
                 . '<table style="margin: auto;text-align: left;background: ' . $bgcolor2 . ';border: 1px solid ' . $bgcolor3 . '" width="75%" cellpadding="2" cellspacing="1">',"\n"
                 . '<tr style="background: '. $bgcolor3 . '"><td align="center"><b>' . _MESSPV . '</b></td></tr>',"\n";
 
-        $sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = "' . $user[0] . '" AND status = 1');
+        $sql2 = nkDB_execute('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = "' . $user[0] . '" AND status = 1');
         $nb_mess_lu = mysql_num_rows($sql2);
 
         $msg_not_read = ($user[5] > 0) ? '<a href="index.php?file=Userbox"><b>' . $user[5] . '</b></a>' : '<b>' . $user[5] . '</b>';
@@ -76,10 +76,10 @@ function index(){
                 . '<table style="margin: auto;text-align: left;background: ' . $bgcolor2 . ';border: 1px solid ' . $bgcolor3 . '" width="75%" cellpadding="2" cellspacing="1">',"\n"
                 . '<tr style="background: '. $bgcolor3 . '"><td align="center"><b>' . _NAME . '</b></td><td align="center"><b>' . _COUNT . '</b></td></tr>',"\n";
 
-        $sql4 = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "'");
+        $sql4 = nkDB_execute("SELECT id FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "'");
         $nb_comment = mysql_num_rows($sql4);
 
-        $sql5 = mysql_query("SELECT id FROM " . SUGGEST_TABLE . " WHERE user_id = '" . $user[0] . "'");
+        $sql5 = nkDB_execute("SELECT id FROM " . SUGGEST_TABLE . " WHERE user_id = '" . $user[0] . "'");
         $nb_suggest = mysql_num_rows($sql5);
 
         echo "<tr style=\"background: ". $bgcolor2 . "\"><td>" . _MESSINFORUM . "</td><td align=\"center\">" . $user_data['count'] . "</td></tr>\n"
@@ -97,7 +97,7 @@ function index(){
         }
         else{
             $iforum = 0;
-            $sql_forum = mysql_query("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
+            $sql_forum = nkDB_execute("SELECT id, titre, date, thread_id, forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE auteur_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
             $j = 0;
             while (list($mid, $subject, $date, $tid, $fid) = mysql_fetch_array($sql_forum)){
                 $subject = nkHtmlEntities($subject);
@@ -115,7 +115,7 @@ function index(){
                     $j = 0;
                 }
 
-                $sql_page = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $tid . "'");
+                $sql_page = nkDB_execute("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $tid . "'");
                 $nb_rep = mysql_num_rows($sql_page);
 
                 if ($nb_rep > $nuked['mess_forum_page']){
@@ -150,7 +150,7 @@ function index(){
         }
         else{
             $icom = 0;
-            $sql_com = mysql_query("SELECT im_id, titre, module, date FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
+            $sql_com = nkDB_execute("SELECT im_id, titre, module, date FROM " . COMMENT_TABLE . " WHERE autor_id = '" . $user[0] . "' ORDER BY id DESC LIMIT 0, 10");
             while (list($im_id, $titre, $module, $date) = mysql_fetch_array($sql_com)){
                 $titre = nkHtmlEntities($titre);
                 $titre = nk_CSS($titre);
@@ -328,7 +328,7 @@ function reg_screen(){
             echo "</select></td></tr>\n"
                     . "<tr><td><b>" . _GAME . "</b> (" . _OPTIONAL . ")</td><td><select name=\"game\">\n";
 
-            $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+            $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
             while (list($game_id, $nom) = mysql_fetch_array($sql)){
                 $nom = nkHtmlEntities($nom);
                 echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
@@ -455,7 +455,7 @@ function edit_account(){
     echo "</select></td></tr>"
             . "<tr><td><b>" . _GAME . " :</b></td><td><select name=\"game\">\n";
 
-    $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+    $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
     while (list($game_id, $nom) = mysql_fetch_array($sql)){
         if ($dbrUser['game'] == $game_id){
             $checked1 = "selected=\"selected\"";;
@@ -843,7 +843,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 
     do{
         $user_id = substr(sha1(uniqid()), 0, 20);
-        $sql = mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $user_id . '\'');
+        $sql = nkDB_execute('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $user_id . '\'');
     } while (mysql_num_rows($sql) != 0);
 
     $email = mysql_real_escape_string(stripslashes($email));
@@ -859,7 +859,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         $country = "France.gif";
     }
     $date2 = nkDate(time());
-    $add = mysql_query(
+    $add = nkDB_execute(
         "INSERT INTO ". USER_TABLE ."
         (`id`, `pseudo`, `mail`, `email`, `pass`, `niveau`, `date`, `signature`, `game`, `country`, `xfire`, `facebook`, `origin`, `steam`, `twitter`, `skype`)
         VALUES
@@ -869,16 +869,16 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     // Mark read all topics in the forum
     $_COOKIE['cookie_forum'] = '';
     $req = 'UPDATE ' . SESSIONS_TABLE . ' SET last_used = date WHERE user_id = "' . $user_id . '"';
-    $sql = mysql_query($req);
+    $sql = nkDB_execute($req);
 
-    $del = mysql_query('DELETE FROM ' . FORUM_READ_TABLE . ' WHERE user_id = "' . $user_id . '"');
+    $del = nkDB_execute('DELETE FROM ' . FORUM_READ_TABLE . ' WHERE user_id = "' . $user_id . '"');
 
-    $result = mysql_query('SELECT id, forum_id FROM ' . FORUM_THREADS_TABLE);
+    $result = nkDB_execute('SELECT id, forum_id FROM ' . FORUM_THREADS_TABLE);
     $nbtopics = mysql_num_rows($result);
 
     if ($nbtopics > 0) {
         while (list($thread_id, $forum_id) = mysql_fetch_row($result)) {
-            $sql = mysql_query("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user_id . "' , '" . $thread_id . "' , '" . $forum_id . "' )");
+            $sql = nkDB_execute("INSERT INTO " . FORUM_READ_TABLE . " ( `id` , `user_id` , `thread_id` , `forum_id` ) VALUES ( '' , '" . $user_id . "' , '" . $thread_id . "' , '" . $forum_id . "' )");
         }
     }
     // End
@@ -959,7 +959,7 @@ function login($pseudo, $pass, $remember_me){
     $dbsLogin = 'SELECT id, pass AS dbPass, user_theme AS userTemplate, user_langue AS userLang, niveau AS level, erreur AS nbErrors
                  FROM '.USER_TABLE.'
                  WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
-    $dbeLogin = mysql_query($dbsLogin);
+    $dbeLogin = nkDB_execute($dbsLogin);
 
     $checkLogin = mysql_num_rows($dbeLogin);
 
@@ -989,7 +989,7 @@ function login($pseudo, $pass, $remember_me){
                 $dbuUser = 'UPDATE '.USER_TABLE.'
                             SET erreur = "'.$newNbErrors.'"
                             WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
-                mysql_query($dbuUser);
+                nkDB_execute($dbuUser);
                 redirect('index.php?file=User&op=login_screen&error=2');
             }
             else{
@@ -997,7 +997,7 @@ function login($pseudo, $pass, $remember_me){
                 $dbuUser = 'UPDATE '.USER_TABLE.'
                             SET erreur = "0"
                             WHERE pseudo = "'.htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1').'" ';
-                mysql_query($dbuUser);
+                nkDB_execute($dbuUser);
                 nkSessions_createNewSession($dbrLogin['id'], $remember_me);
             }
 
@@ -1108,7 +1108,7 @@ function update(){
     $_POST['mail'] = stripslashes($_POST['mail']);
     $_POST['mail'] = nkHtmlEntities($_POST['mail']);
 
-    $sql = mysql_query("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+    $sql = nkDB_execute("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
     list($old_pseudo, $old_mail, $old_pass) = mysql_fetch_array($sql);
 
     if ($_POST['nick'] != $old_pseudo){
@@ -1350,7 +1350,7 @@ function envoi_mail($email){
         return;
     }
 
-    $sql = mysql_query('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
+    $sql = nkDB_execute('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
     $count = mysql_num_rows($sql);
     $data = mysql_fetch_assoc($sql);
 
@@ -1363,7 +1363,7 @@ function envoi_mail($email){
         }
         elseif($data['token'] == null || ($data['token'] != null && (time() - $data['token_time']) > 3600)){
             $new_token = uniqid();
-            mysql_query('UPDATE '.USER_TABLE.' SET token = \''.$new_token.'\', token_time = \''.time().'\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
+            nkDB_execute('UPDATE '.USER_TABLE.' SET token = \''.$new_token.'\', token_time = \''.time().'\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
 
             $link = '<a href="'.$nuked['url'].'/index.php?file=User&op=envoi_pass&email='.$email.'&token='.$new_token.'">'.$nuked['url'].'/index.php?file=User&op=envoi_pass&email='.$email.'&token='.$new_token.'</a>';
 
@@ -1406,7 +1406,7 @@ function envoi_pass($email, $token){
         return;
     }
 
-    $sql = mysql_query('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
+    $sql = nkDB_execute('SELECT pseudo, token, token_time FROM '.USER_TABLE.' WHERE mail = \''.$email.'\' ');
     $count = mysql_num_rows($sql);
     $data = mysql_fetch_assoc($sql);
 
@@ -1427,7 +1427,7 @@ function envoi_pass($email, $token){
 
                 $new_pass = nk_hash($new_pass);
 
-                mysql_query('UPDATE '.USER_TABLE.' SET pass = \''.$new_pass.'\', token = \'null\', token_time = \'0\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
+                nkDB_execute('UPDATE '.USER_TABLE.' SET pass = \''.$new_pass.'\', token = \'null\', token_time = \'0\' WHERE mail = \''.mysql_real_escape_string($email).'\' ');
 
                 printNotification(_NEWPASSSEND, 'success');
                 redirect("index.php?file=User&op=login_screen", 3);
@@ -1556,7 +1556,7 @@ function modif_theme(){
         setcookie($cookie_theme, $_REQUEST['user_theme'], $timelimit);
 
         if ($user){
-            $upd = mysql_query("UPDATE " . USER_TABLE . " SET user_theme = '" . $_REQUEST['user_theme'] . "' WHERE id = '" . $user[0] . "'");
+            $upd = nkDB_execute("UPDATE " . USER_TABLE . " SET user_theme = '" . $_REQUEST['user_theme'] . "' WHERE id = '" . $user[0] . "'");
         }
     }
 
@@ -1572,7 +1572,7 @@ function modif_langue(){
         setcookie($cookie_langue, $_REQUEST['user_langue'], $timelimit);
 
         if ($user){
-            $upd = mysql_query("UPDATE " . USER_TABLE . " SET user_langue = '" . $_REQUEST['user_langue'] . "' WHERE id = '" . $user[0] . "'");
+            $upd = nkDB_execute("UPDATE " . USER_TABLE . " SET user_langue = '" . $_REQUEST['user_langue'] . "' WHERE id = '" . $user[0] . "'");
         }
     }
 
@@ -1583,7 +1583,7 @@ function validation() {
     global $user, $nuked;
 
     if ($nuked['validation'] == 'mail') {
-        $sql = mysql_query('SELECT niveau FROM ' . USER_TABLE . ' WHERE id = "' . $_REQUEST['id_user'] . '"');
+        $sql = nkDB_execute('SELECT niveau FROM ' . USER_TABLE . ' WHERE id = "' . $_REQUEST['id_user'] . '"');
         list($niveau) = mysql_fetch_array($sql);
 
         if ($niveau > 0) {
@@ -1591,7 +1591,7 @@ function validation() {
             redirect('index.php?file=User', 3);
         }
         else {
-            $upd = mysql_query('UPDATE ' . USER_TABLE . ' SET niveau = 1 WHERE id = "' . $_REQUEST['id_user'] . '"');
+            $upd = nkDB_execute('UPDATE ' . USER_TABLE . ' SET niveau = 1 WHERE id = "' . $_REQUEST['id_user'] . '"');
 
             printNotification(_VALIDUSER, 'success');
             redirect('index.php?file=User&op=login_screen', 3);
@@ -1610,7 +1610,7 @@ function validation() {
  */
 function delModerator($idUser)
 {
-    $resultQuery = mysql_query("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $idUser . "%'");
+    $resultQuery = nkDB_execute("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $idUser . "%'");
     while (list($forumID, $listModos) = mysql_fetch_row($resultQuery))
     {
         if (is_int(strpos($listModos, '|'))) //Multiple moderators in this category
@@ -1622,14 +1622,14 @@ function delModerator($idUser)
             {
                 unset($tmpListModos[$tmpKey]);
                 $tmpListModos = implode('|', $tmpListModos);
-                $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $tmpListModos . "' WHERE id = '" . $forumID . "'");
+                $updateQuery = nkDB_execute("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $tmpListModos . "' WHERE id = '" . $forumID . "'");
             }
         }
         else
         {
             if ($idUser == $listModos) // Only one moderator in this category
             {
-                $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '' WHERE id = '" . $forumID . "'");
+                $updateQuery = nkDB_execute("UPDATE " . FORUM_TABLE . " SET moderateurs = '' WHERE id = '" . $forumID . "'");
             }
             // Else, no moderator in this category
         }
@@ -1647,7 +1647,7 @@ function del_account($pass){
     if ($pass != "" && $nuked['user_delete'] == "on"){
         $escapeUserId = nkDB_escape($user['id']);
 
-        $sql = mysql_query('SELECT pass FROM '. USER_TABLE .' WHERE id = '. $escapeUserId);
+        $sql = nkDB_execute('SELECT pass FROM '. USER_TABLE .' WHERE id = '. $escapeUserId);
         $dbpass = mysql_fetch_row($sql);
         if (Check_Hash($pass, $dbpass[0])){
             $del1 = delModerator($user['id']);

@@ -34,13 +34,13 @@ function main(){
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . _NICK . "</b></td>\n"
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, module, date, user_id FROM " . SUGGEST_TABLE . " ORDER BY module, date");
+    $sql = nkDB_execute("SELECT id, module, date, user_id FROM " . SUGGEST_TABLE . " ORDER BY module, date");
     $count = mysql_num_rows($sql);
     
     while (list($sug_id, $mod_name, $date, $id_user) = mysql_fetch_array($sql)){
         $date = nkDate($date);
 
-        $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+        $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
         $nb_user = mysql_num_rows($sql2);
 
         if ($nb_user > 0){
@@ -68,12 +68,12 @@ function main(){
 function show_suggest($sug_id){
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT module, date, user_id, proposition FROM " . SUGGEST_TABLE . " WHERE id = '" . intval($sug_id) . "'");
+    $sql = nkDB_execute("SELECT module, date, user_id, proposition FROM " . SUGGEST_TABLE . " WHERE id = '" . intval($sug_id) . "'");
     list($mod_name, $date, $id_user, $proposition) = mysql_fetch_array($sql);
     $date = nkDate($date);
     $content = explode('|', $proposition);
 
-    $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+    $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
     $nb_user = mysql_num_rows($sql2);
 
     if ($nb_user > 0){
@@ -102,7 +102,7 @@ function valid_suggest($data){
     require("modules/Suggest/modules/" . $_REQUEST['module'] . ".php");
     send($data);
 
-    $del = mysql_query("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $data['sug_id'] . "'");
+    $del = nkDB_execute("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $data['sug_id'] . "'");
 
     saveUserAction(_ACTIONVALIDSUG .': '. $data['titre'] .'.');
 
@@ -112,19 +112,19 @@ function valid_suggest($data){
 function del($sug_id){
     global $nuked, $user, $language;
 
-    $sql = mysql_query("SELECT user_id, module, proposition FROM " . SUGGEST_TABLE . " WHERE id='" . intval($sug_id) . "' ");
+    $sql = nkDB_execute("SELECT user_id, module, proposition FROM " . SUGGEST_TABLE . " WHERE id='" . intval($sug_id) . "' ");
     list($for, $module, $data) = mysql_fetch_array($sql);
 
     if(!empty($module))
         include("modules/Suggest/modules/" . $module . ".php");
 
-    $sql = mysql_query("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $sug_id . "'");
+    $sql = nkDB_execute("DELETE FROM " . SUGGEST_TABLE . " WHERE id = '" . $sug_id . "'");
 
     saveUserAction(_ACTIONDELSUG .'.');
 
     //Envoi du MP de refus
     if ($for != "" && preg_match("`^[a-zA-Z0-9]+$`", $for) && isset($_REQUEST['subject']) && isset($_REQUEST['corps'])){
-        $sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $user[0] . "' , '" . $for . "' , '" . $_REQUEST['subject'] . "' , '" . $_REQUEST['corps'] . "' , '" . time() . "' , '0' )");
+        $sql = nkDB_execute("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $user[0] . "' , '" . $for . "' , '" . $_REQUEST['subject'] . "' , '" . $_REQUEST['corps'] . "' , '" . time() . "' , '0' )");
     }
 
     printNotification(_SUGGESTDEL, 'success');
@@ -181,7 +181,7 @@ function change_pref($suggest_avert){
         $suggest_avert = "off";
     }
 
-    $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $suggest_avert . "' WHERE name = 'suggest_avert'");
+    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $suggest_avert . "' WHERE name = 'suggest_avert'");
 
     saveUserAction(_ACTIONCONFSUG .'.');
 

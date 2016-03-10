@@ -59,7 +59,7 @@ function form($content, $sug_id){
             . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" value=\"" . $content[0] . "\" size=\"40\" /></td></tr>\n"
             . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
 
-    $sql = mysql_query("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    $sql = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($cid, $titre) = mysql_fetch_array($sql)){
         $titre = printSecuTags($titre);
 
@@ -71,7 +71,7 @@ function form($content, $sug_id){
 
         echo "<option value=\"" . $cid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
-        $sql2 = mysql_query("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
+        $sql2 = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
         while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)){
             $s_titre = printSecuTags($s_titre);
 
@@ -149,8 +149,8 @@ function send($data){
     $data['description'] = mysql_real_escape_string(stripslashes($data['description']));
     $data['webmaster'] = mysql_real_escape_string(stripslashes($data['webmaster']));
 
-    $upd = mysql_query("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` ) VALUES ( '' , '" . $date . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['url'] . "' , '" . $data['cat'] . "' , '" . $data['webmaster'] . "' , ' " . $data['country'] . "' , '' )");
-    $sql = mysql_query("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date='".$date."'");
+    $upd = nkDB_execute("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` ) VALUES ( '' , '" . $date . "' , '" . $data['titre'] . "' , '" . $data['description'] . "' , '" . $data['url'] . "' , '" . $data['cat'] . "' , '" . $data['webmaster'] . "' , ' " . $data['country'] . "' , '' )");
+    $sql = nkDB_execute("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $data['titre'] . "' AND date='".$date."'");
     list($link_id) = mysql_fetch_array($sql);
 
     setPreview('index.php?file=Links&op=description&link_id='. $link_id, 'index.php?file=Suggest&page=admin');

@@ -19,7 +19,7 @@ function edit_book($gid)
 {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT name, comment, email, url FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
+    $sql = nkDB_execute("SELECT name, comment, email, url FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
     list($name, $comment, $email, $url) = mysql_fetch_array($sql);
 
     $url = nkHtmlEntities($url);
@@ -53,7 +53,7 @@ function modif_book($gid, $comment, $email, $url)
         $url = "http://" . $url;
     }
 
-    $sql = mysql_query("UPDATE " . GUESTBOOK_TABLE . " SET email = '" . $email . "', url = '" . $url . "', comment = '" . $comment . "' WHERE id = '" . $gid . "'");
+    $sql = nkDB_execute("UPDATE " . GUESTBOOK_TABLE . " SET email = '" . $email . "', url = '" . $url . "', comment = '" . $comment . "' WHERE id = '" . $gid . "'");
 
     saveUserAction(_ACTIONMODIFBOOK .'.');
 
@@ -65,7 +65,7 @@ function del_book($gid)
 {
     global $nuked, $user;
 
-    $sql = mysql_query("DELETE FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
+    $sql = nkDB_execute("DELETE FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
 
     saveUserAction(_ACTIONDELBOOK .'.');
 
@@ -79,7 +79,7 @@ function main()
 
     $nb_mess_guest = "30";
 
-    $sql2 = mysql_query("SELECT id FROM " . GUESTBOOK_TABLE);
+    $sql2 = nkDB_execute("SELECT id FROM " . GUESTBOOK_TABLE);
     $count = mysql_num_rows($sql2);
 
     if(array_key_exists('p', $_REQUEST)){
@@ -125,7 +125,7 @@ function main()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, date, name, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
+    $sql = nkDB_execute("SELECT id, date, name, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
     while (list($id, $date, $name, $ip) = mysql_fetch_array($sql))
     {
         $date = nkDate($date);
@@ -178,7 +178,7 @@ function change_pref($mess_guest_page)
 {
     global $nuked, $user;
 
-    $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $mess_guest_page . "' WHERE name = 'mess_guest_page'");
+    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $mess_guest_page . "' WHERE name = 'mess_guest_page'");
 
     saveUserAction(_ACTIONPREFBOOK .'.');
 

@@ -125,7 +125,7 @@ function displayForumSearchResult() {
             '. $where . ' M.date > '. $dateMax .'
             ORDER BY M.date DESC';
 
-        $result   = mysql_query($sql);
+        $result   = nkDB_execute($sql);
         $nbResult = mysql_num_rows($result);
     }
     // TODO : Check pattern character
@@ -195,7 +195,7 @@ function displayForumSearchResult() {
             '. $where .' '. $and .'
             ORDER BY M.date DESC';
 
-        $result   = mysql_query($sql);
+        $result   = nkDB_execute($sql);
         $nbResult = mysql_num_rows($result);
     }
     // Empty author and sought words length

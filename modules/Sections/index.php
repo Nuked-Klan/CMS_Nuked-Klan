@@ -30,16 +30,16 @@ function index(){
             . "<a href=\"index.php?file=Sections&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPART . "</a> | "
             . "<a href=\"index.php?file=Suggest&amp;module=Sections\" style=\"text-decoration: underline\">" . _SUGGESTART . "</a> ]</div>\n";
 
-    $sql = mysql_query("SELECT artid FROM " . SECTIONS_TABLE);
+    $sql = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE);
     $nb_arts = mysql_num_rows($sql);
 
-    $sql_nbcat = mysql_query("SELECT secid FROM " . SECTIONS_CAT_TABLE);
+    $sql_nbcat = nkDB_execute("SELECT secid FROM " . SECTIONS_CAT_TABLE);
     $nb_cat = mysql_num_rows($sql_nbcat);
 
     if ($nb_cat > 0){
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"15\" cellpadding=\"5\">\n";
 
-        $sql_cat = mysql_query("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = 0 ORDER BY position, secname");
+        $sql_cat = nkDB_execute("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = 0 ORDER BY position, secname");
         $test = 0;
         $last_cid = '';
         while (list($secid, $secname, $description) = mysql_fetch_array($sql_cat)){
@@ -53,7 +53,7 @@ function index(){
 
                 echo "<td valign=\"top\"><img src=\"modules/Sections/images/fleche.gif\" alt=\"\" /><a href=\"index.php?file=Sections&amp;op=categorie&amp;secid=" . $secid . "\"><b>" . $secname . "</b></a>";
 
-                $sql2 = mysql_query("SELECT secid FROM " . SECTIONS_TABLE . "  WHERE secid = '" . $secid . "'");
+                $sql2 = nkDB_execute("SELECT secid FROM " . SECTIONS_TABLE . "  WHERE secid = '" . $secid . "'");
                 $nb_art = mysql_num_rows($sql2);
 
                 if ($nb_art > 0){
@@ -67,7 +67,7 @@ function index(){
                     echo "<br />";
                 }
 
-                $sql_subcat = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname LIMIT 0, 4");
+                $sql_subcat = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname LIMIT 0, 4");
                 $nb_subcat = mysql_num_rows($sql_subcat);
 
                 if ($nb_subcat > 0){
@@ -110,7 +110,7 @@ function categorie($secid){
 
     opentable();
 
-    $sql = mysql_query("SELECT secname, description, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $secid . "'");
+    $sql = nkDB_execute("SELECT secname, description, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $secid . "'");
 
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
@@ -119,11 +119,11 @@ function categorie($secid){
 
     $secname = printSecuTags($secname);
 
-    $sql2 = mysql_query("SELECT * FROM " . SECTIONS_TABLE . " WHERE secid = '" . $secid . "'");
+    $sql2 = nkDB_execute("SELECT * FROM " . SECTIONS_TABLE . " WHERE secid = '" . $secid . "'");
     $nb_art = mysql_num_rows($sql2);
 
     if ($parentid > 0){
-        $sql_parent = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
+        $sql_parent = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
         list($parent_titre) = mysql_fetch_array($sql_parent);
         $parent_titre = printSecuTags($parent_titre);
 
@@ -133,7 +133,7 @@ function categorie($secid){
         echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Sections\" style=\"text-decoration:none\"><big><b>" . _SECTIONS . "</b></big></a> &gt; <big><b>" . $secname . "</b></big></div><br />\n";
     }
 
-    $sql_subcat = mysql_query("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname");
+    $sql_subcat = nkDB_execute("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname");
     $nb_subcat = mysql_num_rows($sql_subcat);
     $count = 0;
 
@@ -144,7 +144,7 @@ function categorie($secid){
 
             $parentcat = printSecuTags($parentcat);
 
-            $sql_nbcat = mysql_query("SELECT secid FROM " . SECTIONS_TABLE . " WHERE secid = '" . $catid . "'");
+            $sql_nbcat = nkDB_execute("SELECT secid FROM " . SECTIONS_TABLE . " WHERE secid = '" . $catid . "'");
             $nb_artcat = mysql_num_rows($sql_nbcat);
 
             if ($catid != $last_catid){
@@ -184,17 +184,17 @@ function article($artid){
     opentable();
 
     if ((array_key_exists('p', $_REQUEST) && $_REQUEST['p'] == 1) OR (array_key_exists('p', $_REQUEST) && $_REQUEST['p'] == "")){
-        $upd = mysql_query("UPDATE " . SECTIONS_TABLE . "  SET counter = counter + 1 WHERE artid = '" . $artid . "'");
+        $upd = nkDB_execute("UPDATE " . SECTIONS_TABLE . "  SET counter = counter + 1 WHERE artid = '" . $artid . "'");
     }
 
-    $sql = mysql_query("SELECT artid, secid, title, content, coverage, autor, autor_id, counter, date FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
+    $sql = nkDB_execute("SELECT artid, secid, title, content, coverage, autor, autor_id, counter, date FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
 
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
 
     list($artid, $secid, $title, $content, $coverage, $autor, $autor_id, $counter, $date) = mysql_fetch_row($sql);
 
-    $sql2 = mysql_query("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . "  WHERE secid = '" . $secid . "'");
+    $sql2 = nkDB_execute("SELECT secname, parentid FROM " . SECTIONS_CAT_TABLE . "  WHERE secid = '" . $secid . "'");
     list($secname, $parentid) = mysql_fetch_row($sql2);
     $secname = printSecuTags($secname);
 
@@ -203,7 +203,7 @@ function article($artid){
     }
     else if ($parentid > 0)
     {
-        $sql3 = mysql_query("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
+        $sql3 = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
         list($parent_name) = mysql_fetch_array($sql3);
         $parent_name = printSecuTags($parent_name);
 
@@ -272,7 +272,7 @@ function article($artid){
 
     echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _READSART . " :</b> " . $counter . "</td></tr>\n";
 
-    $sql = mysql_query(
+    $sql = nkDB_execute(
         'SELECT active
         FROM '. VOTE_MODULES_TABLE .'
         WHERE module = \'sections\''
@@ -326,7 +326,7 @@ function article($artid){
 
     echo "<br /><div style=\"text-align: center;\">" . $previous_page. "&nbsp;&nbsp;" . $next_page . "</div></td></tr></table><br />\n";
 
-    $sql = mysql_query(
+    $sql = nkDB_execute(
         'SELECT active
         FROM '. COMMENT_MODULES_TABLE .'
         WHERE module = \'sections\''
@@ -411,7 +411,7 @@ function classe(){
         $order = "ORDER BY S.artid DESC";
     }
 
-    $sql = mysql_query("SELECT S.artid, S.title, S.date, S.counter, S.content, S.coverage, AVG(V.vote) AS note  FROM " . SECTIONS_TABLE . " AS S LEFT JOIN " . VOTE_TABLE . " AS V ON S.artid = V.vid AND V.module = 'Sections' " . $where . " GROUP BY S.artid " . $order);
+    $sql = nkDB_execute("SELECT S.artid, S.title, S.date, S.counter, S.content, S.coverage, AVG(V.vote) AS note  FROM " . SECTIONS_TABLE . " AS S LEFT JOIN " . VOTE_TABLE . " AS V ON S.artid = V.vid AND V.module = 'Sections' " . $where . " GROUP BY S.artid " . $order);
     
     $nb_art = mysql_num_rows($sql);
 
@@ -444,7 +444,7 @@ function classe(){
 
         echo "<br />";
 
-        $sqlhot = mysql_query("SELECT artid FROM " . SECTIONS_TABLE . " ORDER BY counter DESC LIMIT 0, 10");
+        $sqlhot = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE . " ORDER BY counter DESC LIMIT 0, 10");
 
         $seek = mysql_data_seek($sql, $start);
         for($i = 0;$i < $nb_max;$i++){
@@ -501,7 +501,7 @@ function classe(){
 
                 echo "<tr style=\"background: " . $bgcolor1 . ";\"><td colspan=\"2\">&nbsp;<b>" . _READSART . " :</b> " . $counter . "&nbsp;";
 
-                $sql = mysql_query(
+                $sql = nkDB_execute(
                     'SELECT active
                     FROM '. VOTE_MODULES_TABLE .'
                     WHERE module = \'sections\''
@@ -535,7 +535,7 @@ function pdf($artid) {
 
     nkTemplate_setPageDesign('none');
 
-    $sql = mysql_query("SELECT title, content FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
+    $sql = nkDB_execute("SELECT title, content FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
     list($title, $text) = mysql_fetch_row($sql);
 
     $text = "<br />" . $text;

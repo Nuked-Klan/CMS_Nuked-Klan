@@ -30,16 +30,16 @@ function index()  {
         . "<a href=\"index.php?file=Download&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _POPULAR . "</a> | "
         . "<a href=\"index.php?file=Suggest&amp;module=Download\" style=\"text-decoration: underline\">" . _SUGGESTFILE . "</a> ]</div>\n";
 
-    $sql_nbcat = mysql_query("SELECT cid FROM " . DOWNLOAD_CAT_TABLE);
+    $sql_nbcat = nkDB_execute("SELECT cid FROM " . DOWNLOAD_CAT_TABLE);
     $nb_cat = mysql_num_rows($sql_nbcat);
 
-    $sql = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE);
+    $sql = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE);
     $nb_download = mysql_num_rows($sql);
 
     if ($nb_cat > 0) {
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"15\" cellpadding=\"5\">\n";
 
-        $sql_cat = mysql_query("SELECT cid, titre, description FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 AND " . $visiteur . " >= level ORDER BY position, titre");
+        $sql_cat = nkDB_execute("SELECT cid, titre, description FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 AND " . $visiteur . " >= level ORDER BY position, titre");
         $nb_subcat = mysql_num_rows($sql_cat);
 
         $test = 0;
@@ -58,7 +58,7 @@ function index()  {
 
                 echo "<td valign=\"top\"><img src=\"modules/Download/images/fleche.gif\" alt=\"\" /><a href=\"index.php?file=Download&amp;op=categorie&amp;cat=" . $cid . "\"><b>" . $titre . "</b></a>";
 
-                $sql2 = mysql_query("SELECT type FROM " . DOWNLOAD_TABLE . " WHERE type = '" . $cid . "'");
+                $sql2 = nkDB_execute("SELECT type FROM " . DOWNLOAD_TABLE . " WHERE type = '" . $cid . "'");
                 $nb_dl = mysql_num_rows($sql2);
 
                 if ($nb_dl > 0) {
@@ -72,7 +72,7 @@ function index()  {
                 }
 
                 $t = 0;
-                $sql_subcat = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' AND " . $visiteur . " >= level ORDER BY position, titre LIMIT 0, 4");
+                $sql_subcat = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' AND " . $visiteur . " >= level ORDER BY position, titre LIMIT 0, 4");
 
                 while (list($sub_cat_id, $sub_cat_titre) = mysql_fetch_array($sql_subcat)) {
                     $sub_cat_titre = printSecuTags($sub_cat_titre);
@@ -114,7 +114,7 @@ function categorie($cat) {
 
     $nb_download = $nuked['max_download'];
 
-    $sql = mysql_query("SELECT titre, description, parentid, level FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+    $sql = nkDB_execute("SELECT titre, description, parentid, level FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
 
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
@@ -126,7 +126,7 @@ function categorie($cat) {
 
     if ($visiteur >= $level) {
         if ($parentid > 0) {
-            $sql_parent = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+            $sql_parent = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($parent_titre) = mysql_fetch_array($sql_parent);
             $parent_titre = printSecuTags($parent_titre);
 
@@ -135,7 +135,7 @@ function categorie($cat) {
             echo "<br /><div style=\"text-align: center;\"><a href=\"index.php?file=Download\" style=\"text-decoration:none\"><big><b>" . _DOWNLOAD . "</b></big></a> &gt; <big><b>" . $cat_titre . "</b></big></div><br />\n";
         }
 
-        $sql_subcat = mysql_query("SELECT cid, titre, description FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cat . "' AND " . $visiteur . " >= level ORDER BY position, titre");
+        $sql_subcat = nkDB_execute("SELECT cid, titre, description FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cat . "' AND " . $visiteur . " >= level ORDER BY position, titre");
         $nb_subcat = mysql_num_rows($sql_subcat);
         $count = 0;
 
@@ -148,7 +148,7 @@ function categorie($cat) {
 
                 $parentdesc = icon($parentdesc);
 
-                $sql_nbcat = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE type = '" . $catid . "'");
+                $sql_nbcat = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE . " WHERE type = '" . $catid . "'");
                 $nb_dlcat = mysql_num_rows($sql_nbcat);
 
                 if ($catid != $last_catid) {
@@ -189,7 +189,7 @@ function popup($dl_id) {
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_DOWNLOAD .' - '. $titre);
 
-    $sql = mysql_query("SELECT titre, url, url2, url3 FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
+    $sql = nkDB_execute("SELECT titre, url, url2, url3 FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
 
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
@@ -216,7 +216,7 @@ function popup($dl_id) {
 function do_dl($dl_id, $nb) {
     global $visiteur;
 
-    $sql = mysql_query("SELECT url, url2, url3, count, level FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
+    $sql = nkDB_execute("SELECT url, url2, url3, count, level FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
 
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
@@ -227,7 +227,7 @@ function do_dl($dl_id, $nb) {
         nkTemplate_setPageDesign('none');
 
         $new_count = $count + 1;
-        $upd = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET count = '" . $new_count . "' WHERE id = '" . $dl_id . "'");
+        $upd = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET count = '" . $new_count . "' WHERE id = '" . $dl_id . "'");
 
         if ($nb == 2) {
             $dl_url = $dl_url2;
@@ -249,7 +249,7 @@ function do_dl($dl_id, $nb) {
 function broken($dl_id) {
     global $nuked;
 
-    $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET broke = broke + 1 WHERE id = '" . $dl_id . "'");
+    $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET broke = broke + 1 WHERE id = '" . $dl_id . "'");
 
     printNotification(_THXBROKENLINK, 'success');
     redirect("index.php?file=Download", 2);
@@ -263,9 +263,9 @@ function description($dl_id) {
     nkTemplate_addJSFile('media/shadowbox/shadowbox.js');
     nkTemplate_addJS('Shadowbox.init();');
 
-    $upd = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET hit = hit + 1 WHERE id = '" . $dl_id . "'");
+    $upd = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET hit = hit + 1 WHERE id = '" . $dl_id . "'");
 
-    $sql = mysql_query("SELECT id, titre, date, taille, description, type, count, level, hit, edit, screen, autor, url_autor, comp, url FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
+    $sql = nkDB_execute("SELECT id, titre, date, taille, description, type, count, level, hit, edit, screen, autor, url_autor, comp, url FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $dl_id . "'");
 
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
@@ -319,14 +319,14 @@ function description($dl_id) {
     else $filename = "N/A";
 
     if ($visiteur >= $level) {
-        $sql2 = mysql_query("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+        $sql2 = nkDB_execute("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
         list($cat_name, $parentid) = mysql_fetch_array($sql2);
         $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0) {
             $category = "N/A";
         } else if ($parentid > 0) {
-            $sql3 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+            $sql3 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($parent_name) = mysql_fetch_array($sql3);
             $parent_name = printSecuTags($parent_name);
 
@@ -387,7 +387,7 @@ function description($dl_id) {
 
         echo "<tr style=\"background: " . $bgcolor2 . ";\"><td>&nbsp;</td></tr>";
 
-        $sql = mysql_query(
+        $sql = nkDB_execute(
             'SELECT active
             FROM '. VOTE_MODULES_TABLE .'
             WHERE module = \'download\''
@@ -409,7 +409,7 @@ function description($dl_id) {
         echo "</table>\n"
             . "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _DOWNFILE . "\" onclick=\"javascript:window.open('index.php?file=Download&amp;op=popup&amp;dl_id=" . $dl_id . "','download','toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=360,height=200,top=30,left=0')\" /></div><br />\n";
 
-        $sql = mysql_query(
+        $sql = nkDB_execute(
             'SELECT active
             FROM '. COMMENT_MODULES_TABLE .'
             WHERE module = \'download\''
@@ -504,7 +504,7 @@ function classe()
         $order = "ORDER BY D.date DESC";
     }
 
-    $sql = mysql_query("SELECT DISTINCT D.id, D.titre, D.description, D.taille, D.type, D.count, D.date, D.url, D.screen, avg(V.vote) AS note FROM " . DOWNLOAD_TABLE . " AS D LEFT JOIN " . VOTE_TABLE . " AS V ON D.id = V.vid AND V.module = 'Download' WHERE " . $visiteur . " >= D.level " . $and . " GROUP BY D.id " . $order);
+    $sql = nkDB_execute("SELECT DISTINCT D.id, D.titre, D.description, D.taille, D.type, D.count, D.date, D.url, D.screen, avg(V.vote) AS note FROM " . DOWNLOAD_TABLE . " AS D LEFT JOIN " . VOTE_TABLE . " AS V ON D.id = V.vid AND V.module = 'Download' WHERE " . $visiteur . " >= D.level " . $and . " GROUP BY D.id " . $order);
     $nb_dl = mysql_num_rows($sql);
 
     if ($nb_dl > 0) {
@@ -536,7 +536,7 @@ function classe()
 
         echo "<br />";
 
-        $sqlhot = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE . " ORDER BY count DESC LIMIT 0, 10");
+        $sqlhot = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE . " ORDER BY count DESC LIMIT 0, 10");
 
         $seek = mysql_data_seek($sql, $start);
         for ($i = 0;$i < $nb_download;$i++) {
@@ -588,10 +588,10 @@ function classe()
                 }
 
                 // ----- Affiche le nombre de commentaires -----
-                $sql_com_dl = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE im_id = '" . $dl_id . "' AND module = 'Download'");
+                $sql_com_dl = nkDB_execute("SELECT id FROM " . COMMENT_TABLE . " WHERE im_id = '" . $dl_id . "' AND module = 'Download'");
                 $nb_comment = mysql_num_rows($sql_com_dl);
 
-                $sql_cat = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $type . "'");
+                $sql_cat = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $type . "'");
                 list($name_cat_dl) = mysql_fetch_array($sql_cat);
                 $name_cat_dl = stripslashes($name_cat_dl);
                 $name_cat_dl = printSecuTags($name_cat_dl);
@@ -615,7 +615,7 @@ function classe()
                     . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _FILECOMMENT . " :</b> " . $nb_comment . "</td></tr>\n"
                     . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n";
 
-                    $sql = mysql_query(
+                    $sql = nkDB_execute(
                         'SELECT active
                         FROM '. VOTE_MODULES_TABLE .'
                         WHERE module = \'download\''

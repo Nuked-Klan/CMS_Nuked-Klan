@@ -81,13 +81,13 @@ function add($titre, $description, $webmaster, $country, $cat, $url){
         $url = "http://" . $url;
     }
 
-    $sql = mysql_query("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` , `broke` ) VALUES ( '' , '" . $date . "' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $cat . "' , '" . $webmaster ."' , '" . $country . "' , '' , '' )");
+    $sql = nkDB_execute("INSERT INTO " . LINKS_TABLE . " ( `id` , `date` , `titre` , `description` , `url` , `cat` , `webmaster`, `country`, `count` , `broke` ) VALUES ( '' , '" . $date . "' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $cat . "' , '" . $webmaster ."' , '" . $country . "' , '' , '' )");
 
     saveUserAction(_ACTIONADDLINK .': '. $titre);
 
     printNotification(_LINKADD, 'success');
 
-    $sql = mysql_query("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $titre . "' AND date='".$date."'");
+    $sql = nkDB_execute("SELECT id FROM " . LINKS_TABLE . " WHERE titre = '" . $titre . "' AND date='".$date."'");
     list($link_id) = mysql_fetch_array($sql);
 
     setPreview('index.php?file=Links&op=description&link_id='. $link_id, 'index.php?file=Links&page=admin');
@@ -96,12 +96,12 @@ function add($titre, $description, $webmaster, $country, $cat, $url){
 function del($link_id){
     global $nuked, $user;
 
-    $sql = mysql_query("SELECT titre FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
+    $sql = nkDB_execute("SELECT titre FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
     list($titre) = mysql_fetch_array($sql);
     $titre = mysql_real_escape_string(stripslashes($titre));
-    $sql = mysql_query("DELETE FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
-    $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $link_id . "' AND module = 'Links'");
-    $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $link_id . "' AND module = 'Links'");
+    $sql = nkDB_execute("DELETE FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
+    $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $link_id . "' AND module = 'Links'");
+    $del_vote = nkDB_execute("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $link_id . "' AND module = 'Links'");
 
     saveUserAction(_ACTIONDELLINK .': '. $titre);
 
@@ -112,7 +112,7 @@ function del($link_id){
 function edit_link($link_id){
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT titre, description, webmaster, country, cat, url, count FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
+    $sql = nkDB_execute("SELECT titre, description, webmaster, country, cat, url, count FROM " . LINKS_TABLE . " WHERE id = '" . $link_id . "'");
     list($titre, $description, $webmaster, $pays, $cat, $url, $count) = mysql_fetch_array($sql);
 
     if ($cat == 0 || !$cat){
@@ -121,7 +121,7 @@ function edit_link($link_id){
     }
     else{
         $cid = $cat;
-        $sql2 = mysql_query("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+        $sql2 = nkDB_execute("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cat . "'");
         list($cat_name) = mysql_fetch_array($sql2);
         $cat_name = printSecuTags($cat_name);
     }
@@ -188,7 +188,7 @@ function modif_link($link_id, $titre, $description, $webmaster, $country, $cat, 
         $url = "http://" . $url;
     }
 
-    $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', webmaster = '" . $webmaster . "', country = '" . $country . "', cat = '" . $cat . "', count = '" . $count. "', url = '" . $url . "' WHERE id = '" . $link_id . "'");
+    $sql = nkDB_execute("UPDATE " . LINKS_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', webmaster = '" . $webmaster . "', country = '" . $country . "', cat = '" . $cat . "', count = '" . $count. "', url = '" . $url . "' WHERE id = '" . $link_id . "'");
 
     saveUserAction(_ACTIONEDITLINK .': '. $titre);
 
@@ -201,7 +201,7 @@ function main(){
 
     $nb_liens = 30;
 
-    $sql3 = mysql_query("SELECT id FROM " . LINKS_TABLE . "");
+    $sql3 = nkDB_execute("SELECT id FROM " . LINKS_TABLE . "");
     $nb_lk = mysql_num_rows($sql3);
 
     if(array_key_exists('p', $_REQUEST)){
@@ -279,7 +279,7 @@ function main(){
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT L.id, L.titre, L.cat, L.url, L.date, LC.titre, LC.parentid FROM " . LINKS_TABLE . " AS L LEFT JOIN " . LINKS_CAT_TABLE . " AS LC ON LC.cid = L.cat ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_liens."");
+    $sql = nkDB_execute("SELECT L.id, L.titre, L.cat, L.url, L.date, LC.titre, LC.parentid FROM " . LINKS_TABLE . " AS L LEFT JOIN " . LINKS_CAT_TABLE . " AS LC ON LC.cid = L.cat ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_liens."");
     while (list($link_id, $titre, $cat, $url, $date, $namecat, $parentid) = mysql_fetch_array($sql)){
         $date = nkDate($date);
 
@@ -288,7 +288,7 @@ function main(){
         else if ($parentid == 0)
             $categorie = printSecuTags($namecat);
         else{
-            $sql3 = mysql_query("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+            $sql3 = nkDB_execute("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($parentcat) = mysql_fetch_array($sql3);
             $categorie = $parentcat . "->" . $namecat;
             $categorie = printSecuTags($categorie);
@@ -354,7 +354,7 @@ function main_cat(){
             . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
             . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT cid, titre, parentid, position FROM " . LINKS_CAT_TABLE . " ORDER BY parentid, position");
+    $sql = nkDB_execute("SELECT cid, titre, parentid, position FROM " . LINKS_CAT_TABLE . " ORDER BY parentid, position");
     $nbcat = mysql_num_rows($sql);
     if ($nbcat > 0){
         while (list($cid, $titre, $parentid, $position) = mysql_fetch_array($sql)){
@@ -365,7 +365,7 @@ function main_cat(){
                     . "<td style=\"width: 35%;\" align=\"center\">\n";
 
             if ($parentid > 0){
-                $sql2 = mysql_query("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+                $sql2 = nkDB_execute("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
                 list($pnomcat) = mysql_fetch_array($sql2);
                 $pnomcat = printSecuTags($pnomcat);
 
@@ -401,7 +401,7 @@ function add_cat(){
             . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
             . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\"><option value=\"0\">" . _NONE . "</option>\n";
 
-    $sql = mysql_query("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    $sql = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($cid, $nomcat) = mysql_fetch_array($sql)){
         $nomcat = printSecuTags($nomcat);
 
@@ -422,13 +422,13 @@ function send_cat($titre, $description, $parentid, $position){
     $titre = mysql_real_escape_string(stripslashes($titre));
     $description = mysql_real_escape_string(stripslashes($description));
 
-    $sql = mysql_query("INSERT INTO " . LINKS_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $position . "' )");
+    $sql = nkDB_execute("INSERT INTO " . LINKS_CAT_TABLE . " ( `parentid` , `titre` , `description` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $position . "' )");
 
     saveUserAction(_ACTIONADDCATLINK .': '. $titre);
 
     printNotification(_CATADD, 'success');
 
-    $sqlc = mysql_query("SELECT cid FROM " . LINKS_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
+    $sqlc = nkDB_execute("SELECT cid FROM " . LINKS_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
     list($cid) = mysql_fetch_array($sqlc);
 
     setPreview('index.php?file=Links&op=categorie&cat='. $cid, 'index.php?file=Links&page=admin&op=main_cat');
@@ -437,7 +437,7 @@ function send_cat($titre, $description, $parentid, $position){
 function edit_cat($cid){
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT parentid, titre, description, position FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    $sql = nkDB_execute("SELECT parentid, titre, description, position FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     list($parentid, $titre, $description, $position) = mysql_fetch_array($sql);
 
     $titre = printSecuTags($titre);
@@ -453,7 +453,7 @@ function edit_cat($cid){
             . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\">\n";
 
     if ($parentid > 0){
-        $sql2 = mysql_query("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+        $sql2 = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
         list($pcid, $pnomcat) = mysql_fetch_array($sql2);
 
         $pnomcat = printSecuTags($pnomcat);
@@ -463,7 +463,7 @@ function edit_cat($cid){
 
     echo "<option value=\"0\">" . _NONE . "</option>\n";
 
-    $sql3 = mysql_query("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    $sql3 = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($catid, $nomcat) = mysql_fetch_array($sql3)){
         $nomcat = printSecuTags($nomcat);
 
@@ -488,7 +488,7 @@ function modif_cat($cid, $titre, $description, $parentid, $position){
     $titre = mysql_real_escape_string(stripslashes($titre));
     $description = mysql_real_escape_string(stripslashes($description));
 
-    $sql = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
+    $sql = nkDB_execute("UPDATE " . LINKS_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
 
     saveUserAction(_ACTIONMODIFCATLINK .': '. $titre);
 
@@ -499,13 +499,13 @@ function modif_cat($cid, $titre, $description, $parentid, $position){
 function select_cat(){
     global $nuked;
 
-    $sql = mysql_query("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    $sql = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($cid, $titre) = mysql_fetch_array($sql)){
         $titre = printSecuTags($titre);
 
         echo "<option value=\"" . $cid . "\">* " . $titre . "</option>\n";
 
-        $sql2 = mysql_query("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
+        $sql2 = nkDB_execute("SELECT cid, titre FROM " . LINKS_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
         while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)){
             $s_titre = printSecuTags($s_titre);
 
@@ -518,12 +518,12 @@ function select_cat(){
 function del_cat($cid){
     global $nuked, $user;
 
-    $sqlc = mysql_query("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    $sqlc = nkDB_execute("SELECT titre FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     list($titre) = mysql_fetch_array($sqlc);
     $titre = mysql_real_escape_string(stripslashes($titre));
-    $sql = mysql_query("DELETE FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    $sql = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
-    $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET cat = 0 WHERE cat = '" . $cid . "'");
+    $sql = nkDB_execute("DELETE FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    $sql = nkDB_execute("UPDATE " . LINKS_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
+    $sql = nkDB_execute("UPDATE " . LINKS_TABLE . " SET cat = 0 WHERE cat = '" . $cid . "'");
 
     saveUserAction(_ACTIONDELCATLINK .': '. $titre);
 
@@ -554,7 +554,7 @@ function main_pref(){
 function change_pref($max_liens){
     global $nuked, $user;
 
-    $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_liens . "' WHERE name = 'max_liens'");
+    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_liens . "' WHERE name = 'max_liens'");
 
     saveUserAction(_ACTIONCONFLINK);
 
@@ -565,7 +565,7 @@ function change_pref($max_liens){
 function modif_position($cid, $method){
     global $nuked, $user;
 
-    $sqlc = mysql_query("SELECT titre, position FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    $sqlc = nkDB_execute("SELECT titre, position FROM " . LINKS_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     list($titre, $position) = mysql_fetch_array($sqlc);
     $titre = mysql_real_escape_string(stripslashes($titre));
     if ($position <=0 AND $method == "up"){
@@ -573,8 +573,8 @@ function modif_position($cid, $method){
         redirect("index.php?file=Links&page=admin&op=main_cat", 2);
         return;
     }
-    if ($method == "up") $upd = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
-    else if ($method == "down") $upd = mysql_query("UPDATE " . LINKS_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
+    if ($method == "up") $upd = nkDB_execute("UPDATE " . LINKS_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
+    else if ($method == "down") $upd = nkDB_execute("UPDATE " . LINKS_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
 
     saveUserAction(_ACTIONPOSLINK .': '. $titre);
 
@@ -623,7 +623,7 @@ function main_broken(){
 
     $i = 0;
     $l = 0;
-    $sql = mysql_query("SELECT id, titre, url, broke FROM " . LINKS_TABLE . " WHERE broke > 0 ORDER BY broke DESC, cat");
+    $sql = nkDB_execute("SELECT id, titre, url, broke FROM " . LINKS_TABLE . " WHERE broke > 0 ORDER BY broke DESC, cat");
     $nb_broke = mysql_num_rows($sql);
 
     if ($nb_broke > 0){
@@ -652,7 +652,7 @@ function main_broken(){
 function del_broke($link_id){
     global $nuked, $user;
 
-    $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET broke = 0 WHERE id = '" . $link_id . "'");
+    $sql = nkDB_execute("UPDATE " . LINKS_TABLE . " SET broke = 0 WHERE id = '" . $link_id . "'");
 
     saveUserAction(_ACTION1BROKELINK);
 
@@ -663,7 +663,7 @@ function del_broke($link_id){
 function del_broken(){
     global $nuked, $user;
 
-    $sql = mysql_query("UPDATE " . LINKS_TABLE . " SET broke = 0");
+    $sql = nkDB_execute("UPDATE " . LINKS_TABLE . " SET broke = 0");
 
     saveUserAction(_ACTIONALLBROKELINK);
 

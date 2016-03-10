@@ -20,7 +20,7 @@ translate('modules/Userbox/lang/'. $language .'.lang.php');
 function select_user(){
     global $nuked;
 
-    $sql = mysql_query('SELECT id, pseudo, niveau FROM '.USER_TABLE.' WHERE niveau > 0 ORDER BY niveau DESC, pseudo');
+    $sql = nkDB_execute('SELECT id, pseudo, niveau FROM '.USER_TABLE.' WHERE niveau > 0 ORDER BY niveau DESC, pseudo');
     while($row = mysql_fetch_assoc($sql)){
 
         if ($row['niveau'] == 9) $nivo = "****";
@@ -36,7 +36,7 @@ function post_message(){
     define('EDITOR_CHECK', 1);
 
     if (!empty($_REQUEST['for']) && preg_match("`^[a-zA-Z0-9]+$`", $_REQUEST['for'])){
-        $sql = mysql_query("SELECT pseudo FROM ".USER_TABLE." WHERE id = '{$_REQUEST['for']}'");
+        $sql = nkDB_execute("SELECT pseudo FROM ".USER_TABLE." WHERE id = '{$_REQUEST['for']}'");
         list($pseudo) = mysql_fetch_array($sql);
     }
 
@@ -80,7 +80,7 @@ function send_message($titre, $user_for, $message){
 	}
 	else {
 		if (!empty($user_for) && ctype_alnum($user_for)) {
-			$sql2 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '$user_for'");
+			$sql2 = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '$user_for'");
 			$nb = mysql_num_rows($sql2);
 		}
 		else $nb = 0;
@@ -89,7 +89,7 @@ function send_message($titre, $user_for, $message){
 			printNotification(_UNKNOWMEMBER, 'error', array('backLinkUrl' => 'javascript:history.back()'));
 		}
 		else {
-			$flood = mysql_query("SELECT date FROM " . USERBOX_TABLE . " WHERE user_from = '" . $user[0] . "' ORDER BY date DESC LIMIT 0, 1");
+			$flood = nkDB_execute("SELECT date FROM " . USERBOX_TABLE . " WHERE user_from = '" . $user[0] . "' ORDER BY date DESC LIMIT 0, 1");
 			list($flood_date) = mysql_fetch_array($flood);
 			$anti_flood = $flood_date + $nuked['post_flood'];
 			$date = time();
@@ -107,7 +107,7 @@ function send_message($titre, $user_for, $message){
 			$user_for = mysql_real_escape_string(stripslashes($user_for));
 			$titre = nkHtmlEntities($titre);
 			
-			$sql = mysql_query("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
+			$sql = nkDB_execute("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '{$user[0]}' , '$user_for' , '$titre' , '$message' , '$date' , '0' )");
 
 			printNotification(_MESSSEND, 'success');
 			redirect("index.php?file=Userbox", 2);
@@ -120,11 +120,11 @@ function show_message($mid){
 
     echo '<script type="text/javascript">function del_mess(pseudo, id){if (confirm(\''._DELETEMESS.' \'+pseudo+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Userbox&op=del_message&mid=\'+id;}}</script>';
 
-    $sql = mysql_query("UPDATE " . USERBOX_TABLE . " SET status = 1 WHERE mid = '$mid' AND user_for = '{$user[0]}'");
+    $sql = nkDB_execute("UPDATE " . USERBOX_TABLE . " SET status = 1 WHERE mid = '$mid' AND user_for = '{$user[0]}'");
 
     echo '<br /><div style="text-align:center;"><big><b>'._PRIVATEMESS.'</b></big></div><br /><br />';
 
-    $sql2 = mysql_query("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $_REQUEST['mid'] . "' AND user_for = '" . $user[0] . "'");
+    $sql2 = nkDB_execute("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $_REQUEST['mid'] . "' AND user_for = '" . $user[0] . "'");
     $row = mysql_fetch_assoc($sql2);
 
     $row['titre'] = printSecuTags($row['titre']);
@@ -135,7 +135,7 @@ function show_message($mid){
 
         if(strlen($row['titre']) >= 50) $row['titre'] = substr($row['titre'], 0, 47)."...";
 
-        $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
+        $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
         list($pseudo) = mysql_fetch_array($sql_member);
 
         echo '<table style="margin:0 auto;text-align:left;background:'.$bgcolor3.';" width="90%" cellspacing="1" cellpadding="4">
@@ -158,11 +158,11 @@ function show_message($mid){
 function del_message($mid){
     global $user, $nuked;
 
-    $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE  mid = '$mid' AND user_for = '{$user[0]}'");
+    $sql = nkDB_execute("SELECT mid FROM " . USERBOX_TABLE . " WHERE  mid = '$mid' AND user_for = '{$user[0]}'");
     $nbr = mysql_num_rows($sql);
 
     if($nbr > 0){
-        $sql = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '$mid' AND user_for = '{$user[0]}'");
+        $sql = nkDB_execute("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '$mid' AND user_for = '{$user[0]}'");
 
         printNotification(_MESSDEL, 'success');
     }
@@ -177,7 +177,7 @@ function del_message_form($mid, $del_oui){
 
     if ($del_oui == 'ok'){
 
-        $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");
+        $sql = nkDB_execute("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");
         $nb_mess = mysql_num_rows($sql);
         $get_mid = 0;
 
@@ -186,7 +186,7 @@ function del_message_form($mid, $del_oui){
             $get_mid++;
 
             if($titi){
-                $del = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '{$titi}'");
+                $del = nkDB_execute("DELETE FROM " . USERBOX_TABLE . " WHERE mid = '{$titi}'");
             }
         }
 
@@ -202,7 +202,7 @@ function del_message_form($mid, $del_oui){
             return;
         }
 
-        $sql = mysql_query("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");
+        $sql = nkDB_execute("SELECT mid FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY mid");
         $nb_mess = mysql_num_rows($sql);
 
         echo '<form method="post" action="index.php?file=Userbox&amp;op=del_message_form&amp;del_oui=ok">
@@ -214,11 +214,11 @@ function del_message_form($mid, $del_oui){
             $get_mid++;
 
             if ($titi){
-                $sql_mess = mysql_query("SELECT user_from, date FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' AND mid = '{$titi}'");
+                $sql_mess = nkDB_execute("SELECT user_from, date FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' AND mid = '{$titi}'");
                 $row = mysql_fetch_assoc($sql_mess);
                 $row['date'] = nkDate($row['date']);
 
-                $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
+                $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
                 list($pseudo) = mysql_fetch_array($sql_member);
 
                 echo '<b><big>·</big></b>&nbsp;'._OF.'&nbsp;'.$pseudo.' ( '.$row['date'].' )<br />
@@ -250,7 +250,7 @@ function index(){
                 <td align="center"><b>'._STATUS.'</b></td>
                 <td align="center"><b>'._READMESS.'</b></td></tr>';
 
-        $sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY date DESC");
+        $sql = nkDB_execute("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY date DESC");
         $nb_mess = mysql_num_rows($sql);
         $i = 0;
         $j = 0;
@@ -260,7 +260,7 @@ function index(){
 
             $row['titre'] = printSecuTags($row['titre']);
 
-            $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
+            $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
             list($pseudo) = mysql_fetch_array($sql_member);
 
             $etat = ($row['status'] == 1) ? _READ : _NOTREAD;

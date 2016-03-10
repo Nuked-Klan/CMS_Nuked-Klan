@@ -27,7 +27,7 @@ if ($active == 3 || $active == 4)
     echo"<table style=\"margin-left:auto; margin-right:auto; text-align:left;\" cellpadding=\"10\" cellspacing=\"10\" border=\"0\">\n"
     . "<tr style=\"background: " . $bgcolor1 . ";\">";
 
-    $sql = mysql_query("SELECT sid, titre, url, url2 FROM " . GALLERY_TABLE . " ORDER BY sid DESC LIMIT 0, 3");
+    $sql = nkDB_execute("SELECT sid, titre, url, url2 FROM " . GALLERY_TABLE . " ORDER BY sid DESC LIMIT 0, 3");
     while (list($sid, $titre, $url, $url2) = mysql_fetch_array($sql))
     {
         if ($url2 != "")
@@ -56,7 +56,7 @@ if ($active == 3 || $active == 4)
 }
 else
 {
-    $sql = mysql_query("SELECT sid, titre, url, url2 FROM " . GALLERY_TABLE . " ORDER BY sid DESC LIMIT 0, 1");
+    $sql = nkDB_execute("SELECT sid, titre, url, url2 FROM " . GALLERY_TABLE . " ORDER BY sid DESC LIMIT 0, 1");
     list($sid, $titre, $url, $url2) = mysql_fetch_array($sql);
     $titre = printSecuTags($titre);
 

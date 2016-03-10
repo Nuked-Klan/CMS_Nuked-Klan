@@ -27,7 +27,7 @@ function index() {
     if ($visiteur >= $level_access && $level_access > -1) {
         $nb_mess = $nuked['max_shout'];
 
-        $sql = mysql_query("SELECT id FROM " . TEXTBOX_TABLE);
+        $sql = nkDB_execute("SELECT id FROM " . TEXTBOX_TABLE);
         $count = mysql_num_rows($sql);
 
         $start = $p * $nb_mess - $nb_mess;
@@ -54,7 +54,7 @@ function index() {
             . "</script>\n";
         }
 
-        $sql2 = mysql_query(
+        $sql2 = nkDB_execute(
             "SELECT id, auteur, ip, texte, date
             FROM " . TEXTBOX_TABLE . "
             ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess
@@ -76,7 +76,7 @@ function index() {
 
             $auteur = nk_CSS($auteur);
 
-            $sql_aut = mysql_query(
+            $sql_aut = nkDB_execute(
                 'SELECT U.country, TM.color
                 FROM '. USER_TABLE .' AS U
                 LEFT JOIN '. TEAM_RANK_TABLE .' AS TM
@@ -155,7 +155,7 @@ function smilies() {
     . "<table width=\"100%\" cellpadding=\"3\" cellspacing=\"0\"><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
     . "<tr style=\"background: $bgcolor3;\"><td align=\"center\"><b>" . _CODE . "</b></td><td align=\"center\"><b>" . _IMAGE . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
+    $sql = nkDB_execute("SELECT code, url, name FROM " . SMILIES_TABLE . " ORDER BY id");
     while (list($code, $url, $name) = mysql_fetch_array($sql))
     {
         $name = printSecuTags($name);
@@ -190,7 +190,7 @@ function ajax() {
     $pseudo_max = $max_pseudo;
     $nb_messages = 40;
 
-    $sql = mysql_query('SELECT count(id) FROM '.TEXTBOX_TABLE.' ');
+    $sql = nkDB_execute('SELECT count(id) FROM '.TEXTBOX_TABLE.' ');
     list($index_limit) = mysql_fetch_array($sql);
     $index_start = $index_limit - $nb_messages;
     $index_start = $index_start < 0 ? 0 : $index_start;
@@ -256,7 +256,7 @@ function ajax() {
 
         $pays = ($country) ? '<img src="images/flags/' . $country . '" alt="' . $country . '" style="margin-right:2px;"/>' : '';
 
-        $sql_on = mysql_query("SELECT user_id FROM " . NBCONNECTE_TABLE . " WHERE username = '" . $auteur . "' ORDER BY date");
+        $sql_on = nkDB_execute("SELECT user_id FROM " . NBCONNECTE_TABLE . " WHERE username = '" . $auteur . "' ORDER BY date");
         $count_ok = mysql_num_rows($sql_on);
 
         $online = (isset($user_id) && $count_ok == 1) ? '<div class="nkIconOnline nkIconOnlineGreen" title="Online !"></div>' : '<div class="nkIconOnline nkIconOnlineGrey" title="Offline"></div>';

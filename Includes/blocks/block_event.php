@@ -96,11 +96,11 @@ function affich_block_event($blok){
             $txt = '';
             $heure2 = '';
 
-            $sql1 = mysql_query('SELECT titre, date_jour, date_mois, date_an, heure, auteur FROM ' . CALENDAR_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \'' . $month . '\' AND date_jour = \'' . $event_date . '\' ORDER BY heure');
+            $sql1 = nkDB_execute('SELECT titre, date_jour, date_mois, date_an, heure, auteur FROM ' . CALENDAR_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \'' . $month . '\' AND date_jour = \'' . $event_date . '\' ORDER BY heure');
             $nb_event = mysql_num_rows($sql1);
 
             if (defined("WARS_TABLE")){
-                $sql2 = mysql_query('SELECT * FROM ' . WARS_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \'' . $month . '\' AND date_jour = \'' . $event_date . '\' ');
+                $sql2 = nkDB_execute('SELECT * FROM ' . WARS_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \'' . $month . '\' AND date_jour = \'' . $event_date . '\' ');
                 $nb_match = mysql_num_rows($sql2);
             }
             else{
@@ -109,7 +109,7 @@ function affich_block_event($blok){
 
             $nb_birthday = 0;
             if ($nuked['birthday'] != 'off'){
-                $sql3 = mysql_query('SELECT user_id, age FROM ' . USER_DETAIL_TABLE);
+                $sql3 = nkDB_execute('SELECT user_id, age FROM ' . USER_DETAIL_TABLE);
                 while (list($tuid, $tage) = mysql_fetch_array($sql3)){
                     list ($tjour, $tmois, $tan) = explode ('/', $tage);
 
@@ -123,7 +123,7 @@ function affich_block_event($blok){
                         $and = '';
                     }
 
-                    $sql_test = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' WHERE id = \'' . $tuid . '\' '. $and);
+                    $sql_test = nkDB_execute('SELECT pseudo FROM ' . USER_TABLE . ' WHERE id = \'' . $tuid . '\' '. $and);
                     $test = mysql_num_rows($sql_test);
 
                     if ($tmois == $month && $tjour == $event_date && $test > 0){
@@ -137,7 +137,7 @@ function affich_block_event($blok){
                         $titre1 = printSecuTags($titre1);
 
                     if (defined("WARS_TABLE")){
-                        $sql = mysql_query('SELECT etat, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \''. $month . '\' AND date_jour = \'' . $event_date . '\' AND heure >= \'' . $heure2 . '\' AND heure < \'' . $heure1 . '\' ORDER BY heure');
+                        $sql = nkDB_execute('SELECT etat, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \''. $month . '\' AND date_jour = \'' . $event_date . '\' AND heure >= \'' . $heure2 . '\' AND heure < \'' . $heure1 . '\' ORDER BY heure');
                         while (list($etat, $adv_name, $type_match, $jour, $mois, $an, $heure, $style, $score_team, $score_adv) = mysql_fetch_array($sql)){
                             if ($etat == 1){
                                 if ($score_team < $score_adv){
@@ -170,7 +170,7 @@ function affich_block_event($blok){
                 }
 
                 if (defined("WARS_TABLE")){
-                    $sql = mysql_query('SELECT etat, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \'' . $month . '\' AND date_jour = \'' . $event_date . '\' AND heure >= \'' . $heure2 . '\' ORDER BY heure');
+                    $sql = nkDB_execute('SELECT etat, adversaire, type, date_jour, date_mois, date_an, heure, style, tscore_team, tscore_adv FROM ' . WARS_TABLE . ' WHERE date_an = \'' . $year . '\' AND date_mois = \'' . $month . '\' AND date_jour = \'' . $event_date . '\' AND heure >= \'' . $heure2 . '\' ORDER BY heure');
                     while (list($etat, $adv_name, $type_match, $jour, $mois, $an, $heure, $style, $score_team, $score_adv) = mysql_fetch_array($sql)){
                         if ($etat == 1 && $score_team != "" && $score_adv != ""){
                             if ($score_team < $score_adv){
@@ -196,7 +196,7 @@ function affich_block_event($blok){
                 }
 
                 if ($nb_birthday > 0){
-                    $sql4 = mysql_query('SELECT user_id, prenom, age FROM ' . USER_DETAIL_TABLE);
+                    $sql4 = nkDB_execute('SELECT user_id, prenom, age FROM ' . USER_DETAIL_TABLE);
                     while (list($id_user, $prenom, $birthday) = mysql_fetch_array($sql4)){
 
                         if ($birthday != ""){
@@ -213,7 +213,7 @@ function affich_block_event($blok){
                                     $age = $age-1;
                                 }
 								
-                                $sql5 = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' WHERE id = \'' . $id_user . '\' ' . $and);
+                                $sql5 = nkDB_execute('SELECT pseudo FROM ' . USER_TABLE . ' WHERE id = \'' . $id_user . '\' ' . $and);
                                 list($pseudo) = mysql_fetch_array($sql5);
 
                                 if ($prenom != ""){
@@ -249,7 +249,7 @@ function affich_block_event($blok){
 function edit_block_event($bid){
     global $nuked, $language;
 
-    $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+    $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     $titre = printSecuTags($titre);
 

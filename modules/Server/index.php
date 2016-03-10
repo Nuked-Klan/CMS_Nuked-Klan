@@ -22,7 +22,7 @@ opentable();
 function index() {
     global $bgcolor1, $bgcolor2, $bgcolor3, $nuked;
 
-    $sql = mysql_query("SELECT cid, titre, description FROM " . SERVER_CAT_TABLE . " ORDER BY titre");
+    $sql = nkDB_execute("SELECT cid, titre, description FROM " . SERVER_CAT_TABLE . " ORDER BY titre");
     while ($row = mysql_fetch_assoc($sql)) {
         $row['titre'] = printSecuTags($row['titre']);
         $serverlist = null;
@@ -32,7 +32,7 @@ function index() {
             . "<tr><td align=\"center\">" . $row['description'] . "</td></tr></table>\n";
 
         $test = 0;
-        $sql2 = mysql_query("SELECT sid, game, ip, port, pass FROM " . SERVER_TABLE . " WHERE cat = '" . $row['cid'] . "' ORDER BY sid");
+        $sql2 = nkDB_execute("SELECT sid, game, ip, port, pass FROM " . SERVER_TABLE . " WHERE cat = '" . $row['cid'] . "' ORDER BY sid");
         while($raw = mysql_fetch_assoc($sql2)) {
             $test++;
             $serverlist[] = array($raw['ip'], $raw['port'], $raw['pass'], $raw['sid'], $raw['game']);
@@ -170,7 +170,7 @@ function server($server_id) {
     global $nuked, $address, $port, $game, $sgame, $sortby, $bgcolor1, $bgcolor2, $bgcolor3;
 
     if (!empty($server_id)) {
-        $sql = mysql_query("SELECT game, ip, port, pass FROM " . SERVER_TABLE . " WHERE sid = '" . $server_id . "'");
+        $sql = nkDB_execute("SELECT game, ip, port, pass FROM " . SERVER_TABLE . " WHERE sid = '" . $server_id . "'");
         $row = mysql_fetch_assoc($sql);
     } else if (!empty($address) && !empty($port)) {
         $address = printSecuTags($row['ip']);

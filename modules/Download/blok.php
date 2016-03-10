@@ -29,21 +29,21 @@ if ($active == 3 || $active == 4) {
        . "<tr><td style=\"width: 45%;\" valign=\"top\"><a href=\"index.php?file=Download&amp;op=classe&amp;orderby=news\"><big><b>" . _LASTDOWN . "</b></big></a><br /><br />\n";
 
     $i = 0;
-    $sql = mysql_query("SELECT id, titre, date, type, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY id DESC LIMIT 0, 10");
+    $sql = nkDB_execute("SELECT id, titre, date, type, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY id DESC LIMIT 0, 10");
     while (list($dl_id, $titre, $date, $cat, $description) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
         $date = nkDate($date);
         $description = strip_tags($description);
         $description = strlen($description > 150) ? substr($description, 0, 147) . '..' : $description;
 
-        $sql4 = mysql_query("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+        $sql4 = nkDB_execute("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
         list($cat_name, $parentid) = mysql_fetch_array($sql4);
         $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0) {
             $category = "";
         } else if ($parentid > 0) {
-            $sql5 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+            $sql5 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($parent_name) = mysql_fetch_array($sql5);
             $parent_name = printSecuTags($parent_name);
 
@@ -62,9 +62,9 @@ if ($active == 3 || $active == 4) {
     echo "</td><td style=\"width: 10%;\">&nbsp;</td><td style=\"width: 45%;\" align=\"left\" valign=\"top\"><a href=\"index.php?file=Download&amp;op=classe&amp;orderby=count\"><big><b>" . _TOPDOWN . "</b></big></a><br /><br />\n";
 
     $l = 0;
-    $sql3 = mysql_query("SELECT id, titre, count, type, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY count DESC LIMIT 0, 10");
+    $sql3 = nkDB_execute("SELECT id, titre, count, type, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY count DESC LIMIT 0, 10");
     while (list($tdl_id, $ttitre, $tcount, $tcat, $tdesc) = mysql_fetch_array($sql3)) {
-        $sql4 = mysql_query("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $tcat . "'");
+        $sql4 = nkDB_execute("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $tcat . "'");
         list($tcat_name, $tparentid) = mysql_fetch_array($sql4);
         $tcat_name = printSecuTags($tcat_name);
         $tdesc = strip_tags($tdesc);
@@ -73,7 +73,7 @@ if ($active == 3 || $active == 4) {
         if ($tcat == 0) {
             $tcategory = "";
         } else if ($tparentid > 0) {
-            $sql5 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $tparentid . "'");
+            $sql5 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $tparentid . "'");
             list($tparent_name) = mysql_fetch_array($sql5);
             $tparent_name = printSecuTags($tparent_name);
 
@@ -93,7 +93,7 @@ if ($active == 3 || $active == 4) {
        . "<td style=\"width: 10%;\"></td><td style=\"width: 45%;\" align=\"right\"><a href=\"index.php?file=Download&amp;op=classe&amp;orderby=count\"><small>+ " . _MORETOP . "</small></a></td></tr></table>\n";
 } else {
     $i = 0;
-    $sql = mysql_query("SELECT id, titre, date, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY date DESC LIMIT 0, 10");
+    $sql = nkDB_execute("SELECT id, titre, date, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY date DESC LIMIT 0, 10");
     while (list($dl_id, $titre, $date, $description) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
         $description = strip_tags($description);

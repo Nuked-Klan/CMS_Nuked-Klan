@@ -65,7 +65,7 @@ function form($content, $sug_id)
     . "<tr><td><b>" . _TITLE . "</b> : <input type=\"text\" name=\"title\" size=\"45\" value=\"" . $content[0] . "\" /></td></tr>\n"
     . "<tr><td><b>" . _CAT . " :</b> <select name=\"secid\"><option value=\"0\">* " . _NONE . "</option>\n";
 
-    $sql = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, secname");
+    $sql = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, secname");
     while (list($secid, $titre) = mysql_fetch_array($sql))
     {
         $titre = printSecuTags($titre);
@@ -78,7 +78,7 @@ function form($content, $sug_id)
 
         echo "<option value=\"" . $secid . "\" " . $selected . ">* " . $titre . "</option>\n";
 
-        $sql2 = mysql_query("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = '" . $secid . "' ORDER BY position, secname");
+        $sql2 = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE parentid = '" . $secid . "' ORDER BY position, secname");
         while (list($s_cid, $s_titre) = mysql_fetch_array($sql2))
         {
             $s_titre = printSecuTags($s_titre);
@@ -152,8 +152,8 @@ function send($data)
     $data['texte'] = mysql_real_escape_string(stripslashes($data['texte']));
     $date = time();
 
-    $upd = mysql_query("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `autor` , `autor_id`, `counter` , `date` ) VALUES ( '' , '" . $data['secid'] . "' , '" . $data['title'] . "' , '" . $data['texte'] . "' , '" . $autor . "' , '" . $autor_id . "' , '' , '" . $date. "' )");
-    $sql2 = mysql_query("SELECT artid FROM " . SECTIONS_TABLE . " WHERE title = '" . $data['title'] . "' AND date='".$date."'");
+    $upd = nkDB_execute("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `autor` , `autor_id`, `counter` , `date` ) VALUES ( '' , '" . $data['secid'] . "' , '" . $data['title'] . "' , '" . $data['texte'] . "' , '" . $autor . "' , '" . $autor_id . "' , '' , '" . $date. "' )");
+    $sql2 = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE . " WHERE title = '" . $data['title'] . "' AND date='".$date."'");
         list($artid) = mysql_fetch_array($sql2);
 
         setPreview('index.php?file=Sections&op=article&artid='. $artid, 'index.php?file=Suggest&page=admin');

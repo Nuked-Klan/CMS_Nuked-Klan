@@ -76,7 +76,7 @@ function sendmail(){
     $date = nkDate($time);
     $contact_flood = $nuked['contact_flood'] * 60;
 
-    $sql = mysql_query("SELECT date FROM " . CONTACT_TABLE . " WHERE ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
+    $sql = nkDB_execute("SELECT date FROM " . CONTACT_TABLE . " WHERE ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
     $count = mysql_num_rows($sql);
     list($flood_date) = mysql_fetch_array($sql);
     $anti_flood = $flood_date + $contact_flood;
@@ -110,7 +110,7 @@ function sendmail(){
         
         if($user) $name = $user[2];
 
-        $add = mysql_query("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
+        $add = nkDB_execute("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
 
         saveNotification(_NOTCON .': [<a href="index.php?file=Contact&page=admin">'. _TLINK .'</a>].');
 

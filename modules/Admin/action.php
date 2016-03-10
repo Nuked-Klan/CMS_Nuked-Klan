@@ -21,7 +21,7 @@ function main()
 
     $nbActions = 50;
 
-    $sqlNbActions = mysql_query("SELECT id FROM " . ACTION_TABLE);
+    $sqlNbActions = nkDB_execute("SELECT id FROM " . ACTION_TABLE);
     $count = mysql_num_rows($sqlNbActions);
 
     if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
@@ -46,7 +46,7 @@ function main()
     . '</td><td><b>' . _INFORMATION . '</b>',"\n"
     . '</td></tr>',"\n";
 
-    $sql = mysql_query(
+    $sql = nkDB_execute(
         "SELECT date, author, action
         FROM ". ACTION_TABLE ."
         ORDER BY date DESC
@@ -73,14 +73,14 @@ function main()
     echo '<div style="text-align: center"><br /><a class="buttonLink" href="index.php?file=Admin">' . __('BACK') . '</a></div></form><br /></div></div>',"\n";
     $theday = time();
     $compteur = 0;
-    $delete = mysql_query("SELECT id, date  FROM " . ACTION_TABLE . " ORDER BY date DESC");
+    $delete = nkDB_execute("SELECT id, date  FROM " . ACTION_TABLE . " ORDER BY date DESC");
     while (list($id, $date) = mysql_fetch_array($delete))
     {
         $limit_time = $date + 1209600;
 
         if ($limit_time < $theday)
         {
-            $del = mysql_query("DELETE FROM " . ACTION_TABLE . " WHERE id = '" . $id . "'");
+            $del = nkDB_execute("DELETE FROM " . ACTION_TABLE . " WHERE id = '" . $id . "'");
             $compteur++;
         }
     }

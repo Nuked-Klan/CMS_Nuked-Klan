@@ -18,14 +18,14 @@ if (! adminInit('Comment'))
 function edit_com($cid){
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
+    $sql = nkDB_execute("SELECT autor, autor_id, titre, comment, autor_ip FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
     list($auteur, $autor_id, $titre, $texte, $ip) = mysql_fetch_array($sql);
     $auteur = nkHtmlSpecialChars($auteur);
 
     $titre = nkHtmlEntities($titre);
 
     if($autor_id != ""){
-        $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+        $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
         $test = mysql_num_rows($sql_member);
     }
 
@@ -59,7 +59,7 @@ function modif_com($cid, $titre, $texte){
     $texte = mysql_real_escape_string(stripslashes($texte));
     $titre = mysql_real_escape_string(stripslashes($titre));
 
-    $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
+    $sql = nkDB_execute("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
 
     saveUserAction(_ACTIONMODIFCOM .'.');
 
@@ -70,7 +70,7 @@ function modif_com($cid, $titre, $texte){
 function del_com($cid){
     global $nuked, $user;
 
-    $sql = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
+    $sql = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
 
     saveUserAction(_ACTIONDELCOM .'.');
 
@@ -83,7 +83,7 @@ function main(){
 
     $nb_com = 30;
 
-    $sql2 = mysql_query("SELECT id FROM " . COMMENT_TABLE);
+    $sql2 = nkDB_execute("SELECT id FROM " . COMMENT_TABLE);
     $count = mysql_num_rows($sql2);
 
     if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
@@ -124,13 +124,13 @@ function main(){
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, im_id, date, autor, autor_id, module FROM " . COMMENT_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_com);
+    $sql = nkDB_execute("SELECT id, im_id, date, autor, autor_id, module FROM " . COMMENT_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_com);
     while (list($id, $im_id, $date, $auteur, $autor_id, $module) = mysql_fetch_array($sql)){
         $date = nkDate($date);
         $auteur = nkHtmlSpecialChars($auteur);
 
         if($autor_id != ""){
-            $sql_member = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
+            $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $autor_id . "'");
             $test = mysql_num_rows($sql_member);
         }
 
@@ -163,13 +163,13 @@ function main(){
 function module_send_com($news, $download, $sections, $links, $wars, $gallery, $survey){
     global $nuked, $user;
 
-    $sql1 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $news . "' WHERE module = 'news'");
-    $sql2 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $download . "' WHERE module = 'download'");
-    $sql3 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $sections . "' WHERE module = 'sections'");
-    $sql4 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $links . "' WHERE module = 'links'");
-    $sql5 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $wars . "' WHERE module = 'wars'");
-    $sql6 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $gallery . "' WHERE module = 'gallery'");
-    $sql7 = mysql_query("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $survey . "' WHERE module = 'survey'");
+    $sql1 = nkDB_execute("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $news . "' WHERE module = 'news'");
+    $sql2 = nkDB_execute("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $download . "' WHERE module = 'download'");
+    $sql3 = nkDB_execute("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $sections . "' WHERE module = 'sections'");
+    $sql4 = nkDB_execute("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $links . "' WHERE module = 'links'");
+    $sql5 = nkDB_execute("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $wars . "' WHERE module = 'wars'");
+    $sql6 = nkDB_execute("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $gallery . "' WHERE module = 'gallery'");
+    $sql7 = nkDB_execute("UPDATE " . COMMENT_MODULES_TABLE . " SET active = '" . $survey . "' WHERE module = 'survey'");
 
     saveUserAction(_ACTIONMODIFCOMMOD .'.');
 
@@ -193,7 +193,7 @@ function module_com(){
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n"
             . "<tr><td><b>" . _LISTI . " : </b></td><td></td></tr>\n";
 
-    $sql = mysql_query("SELECT module, active FROM " . COMMENT_MODULES_TABLE);
+    $sql = nkDB_execute("SELECT module, active FROM " . COMMENT_MODULES_TABLE);
 
     while(list($module, $active) = mysql_fetch_array($sql)){
     ?>

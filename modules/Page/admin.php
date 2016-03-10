@@ -49,7 +49,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 . "<td style=\"width: 15%;text-align: center;\"><b>" . _DEL . "</b></td></tr>\n";
 
 $i = 0;
-$sql = mysql_query("SELECT id, titre, url, type FROM " . PAGE_TABLE . " ORDER BY titre");
+$sql = nkDB_execute("SELECT id, titre, url, type FROM " . PAGE_TABLE . " ORDER BY titre");
 $nb_page = mysql_num_rows($sql);
 
 while (list($page_id, $titre, $url, $type) = mysql_fetch_array($sql))
@@ -121,7 +121,7 @@ function add()
     . "<option>9</option></select>\n"
     . "<span style=\"margin-left:30px;\"><b>" . _MEMBERSAUTORIZ ." :</b> <select style=\"vertical-align:middle\" multiple=\"multiple\" name=\"members[]\">\n";
     
-    $sql_list = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");
+    $sql_list = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");
     
     while(list($mid, $pseudo) = mysql_fetch_array($sql_list))
     {
@@ -180,7 +180,7 @@ function add()
     . "<tr><td><b>" . _ADDMENU . " :</b> <select name=\"menu\"><option value=\"\">". _NOFILE ."</option>\n";
     
 
-    $sql_menu = mysql_query("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
+    $sql_menu = nkDB_execute("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
     while (list($bid, $menu) = mysql_fetch_array($sql_menu))
     {
         echo "<option value=\"" . $bid . "\">" . $menu . "</option>\n";
@@ -260,11 +260,11 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
     
     $show_title = (isset($show_title)) ? 1 : 0;
 
-    $sql = mysql_query("INSERT INTO " . PAGE_TABLE . " ( `id` , `niveau` , `titre` , `content` , `url` , `type` , `show_title` , `members` ) VALUES ( '', '" . $niveau . "' , '" . $title . "' , '" . $content . "' , '" . $filename . "' , '" . $type . "' , '" . $show_title . "' , '" . $userslist . "' )");
+    $sql = nkDB_execute("INSERT INTO " . PAGE_TABLE . " ( `id` , `niveau` , `titre` , `content` , `url` , `type` , `show_title` , `members` ) VALUES ( '', '" . $niveau . "' , '" . $title . "' , '" . $content . "' , '" . $filename . "' , '" . $type . "' , '" . $show_title . "' , '" . $userslist . "' )");
 
     if ($menu != "")
     {
-            $sql_menu = mysql_query("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
+            $sql_menu = nkDB_execute("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
             list($content) = mysql_fetch_array($sql_menu);
             $content = stripslashes($content);
             $url_page = "index.php?file=Page&name=" . $title;
@@ -276,7 +276,7 @@ function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_
 
             $content = implode('NEWLINE', $link);
             $content = addslashes($content);
-            $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
+            $sql = nkDB_execute("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
 
             $url_redirect = "index.php?file=Admin&page=menu&op=edit_line&bid=" . $menu . "&lid=" . $count;
     }
@@ -293,7 +293,7 @@ function edit($page_id)
 {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT niveau, titre, content, url, type, show_title, members FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
+    $sql = nkDB_execute("SELECT niveau, titre, content, url, type, show_title, members FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
     list($niveau, $titre, $content, $url, $type, $show_title, $members) = mysql_fetch_array($sql);
     $content = stripslashes($content);
 
@@ -340,7 +340,7 @@ function edit($page_id)
     
     $user_array = explode('|', $members);
     
-    $sql_list = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");		
+    $sql_list = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");		
     while(list($mid, $pseudo) = mysql_fetch_array($sql_list))
     {
         $sel = (in_array($mid, $user_array)) ? 'selected="selected"' : '';
@@ -400,7 +400,7 @@ function edit($page_id)
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _ADDMENU . " :</b> <select name=\"menu\"><option value=\"\">". _NOFILE ."</option>\n";
     
-    $sql_menu = mysql_query("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
+    $sql_menu = nkDB_execute("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
     while (list($bid, $menu) = mysql_fetch_array($sql_menu))
     {
         echo "<option value=\"" . $bid . "\">" . $menu . "</option>\n";
@@ -480,11 +480,11 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
     
     $show_title = (isset($show_title)) ? 1 : 0;
 
-    $upd = mysql_query("UPDATE " . PAGE_TABLE . " SET titre = '" . $title . "', content = '" . $content . "', url = '" . $filename . "', niveau = '" . $niveau . "', type = '" . $type . "', show_title = '" . $show_title . "', members = '" . $userslist . "' WHERE id = '" . $page_id . "'");
+    $upd = nkDB_execute("UPDATE " . PAGE_TABLE . " SET titre = '" . $title . "', content = '" . $content . "', url = '" . $filename . "', niveau = '" . $niveau . "', type = '" . $type . "', show_title = '" . $show_title . "', members = '" . $userslist . "' WHERE id = '" . $page_id . "'");
 
     if ($menu != "")
     {
-        $sql_menu = mysql_query("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
+        $sql_menu = nkDB_execute("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
         list($content) = mysql_fetch_array($sql_menu);
         $content = stripslashes($content);
         $url_page = "index.php?file=Page&name=" . $title;
@@ -496,7 +496,7 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $m
 
         $content = implode('NEWLINE', $link);
         $content = addslashes($content);
-        $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
+        $sql = nkDB_execute("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
 
         $url_redirect = "index.php?file=Admin&page=menu&op=edit_line&bid=" . $menu . "&lid=" . $count;
     }
@@ -518,7 +518,7 @@ function del($page_id)
 {
     global  $nuked;
 
-    $del = mysql_query("DELETE FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
+    $del = nkDB_execute("DELETE FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
 
     printNotification(_PAGEDELETE, 'success');
     redirect("index.php?file=Page&page=admin",2);
@@ -542,7 +542,7 @@ function main_pref()
     . "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
     . "<tr><td>" . _PAGEINDEX . " :</td><td><select name=\"index_page\"><option value=\"\">" . _NONE . "</option>\n";
 
-    $sql = mysql_query("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
+    $sql = nkDB_execute("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
     while (list($titre) = mysql_fetch_array($sql))
     { 
         if ($titre == $nuked['index_page']) $selected = "selected=\"selected\"";
@@ -560,7 +560,7 @@ function change_pref($index_page)
 {
     global $nuked;
 
-    $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $index_page . "' WHERE name = 'index_page'");
+    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $index_page . "' WHERE name = 'index_page'");
 
     printNotification(_PREFUPDATED, 'success');
     redirect("index.php?file=Page&page=admin", 2);

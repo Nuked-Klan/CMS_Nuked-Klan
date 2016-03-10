@@ -56,7 +56,7 @@ function select_mod($mod)
 {
     global $nuked;
 
-    $sql = mysql_query('SELECT nom FROM ' . MODULES_TABLE . ' ORDER BY nom');
+    $sql = nkDB_execute('SELECT nom FROM ' . MODULES_TABLE . ' ORDER BY nom');
     while (list($nom) = mysql_fetch_array($sql))
     {
         if ($mod == $nom) $checked = 'selected="selected"';
@@ -404,15 +404,15 @@ function save_config()
     $_REQUEST['footmessage'] = nkHtmlEntityDecode($_REQUEST['footmessage']);
 
     if($_REQUEST['theme'] !== $nuked['theme'])
-        mysql_query('UPDATE ' . USER_TABLE . ' SET user_theme = ""');
+        nkDB_execute('UPDATE ' . USER_TABLE . ' SET user_theme = ""');
 
-    $sql = mysql_query("SELECT name, value  FROM " . CONFIG_TABLE);
+    $sql = nkDB_execute("SELECT name, value  FROM " . CONFIG_TABLE);
     while (list($config_name, $config_value) = mysql_fetch_array($sql))
     {
         $default_config[$config_name] = $config_value;
         $new[$config_name] = (isset($_REQUEST[$config_name])) ? $_REQUEST[$config_name] : $default_config[$config_name];
         $new_value = mysql_real_escape_string(stripslashes($new[$config_name]));
-        $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $new_value . "' WHERE name = '" . $config_name . "'");
+        $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $new_value . "' WHERE name = '" . $config_name . "'");
     }
 
     saveUserAction(_ACTIONSETTING);

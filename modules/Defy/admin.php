@@ -35,12 +35,12 @@ function main(){
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _MAIL . "</b></td>\n"
         . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, pseudo, send, mail, clan, game FROM " . DEFY_TABLE . " ORDER BY id DESC");
+    $sql = nkDB_execute("SELECT id, pseudo, send, mail, clan, game FROM " . DEFY_TABLE . " ORDER BY id DESC");
     $count = mysql_num_rows($sql);
     while (list($did, $pseudo, $date, $mail, $clan, $game) = mysql_fetch_array($sql)){
         $date = nkDate($date);
 
-        $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id='" . $game . "'");
+        $sql2 = nkDB_execute("SELECT name FROM " . GAMES_TABLE . " WHERE id='" . $game . "'");
         list($game_name) = mysql_fetch_array($sql2);
         $game_name = printSecuTags($game_name);
 
@@ -81,11 +81,11 @@ function view($did) {
         . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin&amp;op=transfert&amp;did=" . $did . "\">" . _TRANSFERT . "</a></div><br />\n"
         . "<table width=\"90%\" style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr><td>\n";
 
-    $sql = mysql_query("SELECT pseudo, clan, mail, icq, irc, url, pays, date, heure, serveur, game, type, map, comment FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
+    $sql = nkDB_execute("SELECT pseudo, clan, mail, icq, irc, url, pays, date, heure, serveur, game, type, map, comment FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
     list($pseudo, $clan, $mail, $icq, $irc, $url, $country, $date, $heure, $serveur, $game, $type, $map, $comment) = mysql_fetch_array($sql);
     list ($pays, $ext) = explode ('.', $country);
 
-    $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
+    $sql2 = nkDB_execute("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
     list($game_name) = mysql_fetch_array($sql2);
     $game_name = printSecuTags($game_name);
 
@@ -110,10 +110,10 @@ function view($did) {
 function del($did) {
     global $nuked, $user;
 
-    $sql = mysql_query("SELECT pseudo FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
+    $sql = nkDB_execute("SELECT pseudo FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
     list($pseudo) = mysql_fetch_array($sql);
 
-    $del = mysql_query("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
+    $del = nkDB_execute("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
 
     saveUserAction(_ACTIONDELDEFY .' '. $pseudo);
 
@@ -124,16 +124,16 @@ function del($did) {
 function transfert($did) {
     global $nuked, $user;
 
-    $sql = mysql_query("SELECT pseudo, clan, url, pays, date, heure, game, type, map FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
+    $sql = nkDB_execute("SELECT pseudo, clan, url, pays, date, heure, game, type, map FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
     list($pseudo, $clan, $url, $pays, $date, $heure, $game, $type, $map) = mysql_fetch_array($sql);
     list($date_jour, $date_mois, $date_an) = explode('-', $date);
 
-    $insert = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` , `tscore_team` , `tscore_adv` , `score_team` , `score_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '0' , '' , '" . mysql_real_escape_string($game) . "' , '" . mysql_real_escape_string($clan) . "' , '" . mysql_real_escape_string($url) . "' , '" . mysql_real_escape_string($pays) . "' , '" . mysql_real_escape_string($type) . "' , '' , '" . mysql_real_escape_string($date_jour) . "' , '" .mysql_real_escape_string($date_mois) . "' , '" . mysql_real_escape_string($date_an) . "' , '" . mysql_real_escape_string($heure) . "' , '" . mysql_real_escape_string($map) . "' , '' , '' , '' , '' , '' , '" . $user[2] . "' , '' , '' , '' )");
+    $insert = nkDB_execute("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` , `tscore_team` , `tscore_adv` , `score_team` , `score_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '0' , '' , '" . mysql_real_escape_string($game) . "' , '" . mysql_real_escape_string($clan) . "' , '" . mysql_real_escape_string($url) . "' , '" . mysql_real_escape_string($pays) . "' , '" . mysql_real_escape_string($type) . "' , '' , '" . mysql_real_escape_string($date_jour) . "' , '" .mysql_real_escape_string($date_mois) . "' , '" . mysql_real_escape_string($date_an) . "' , '" . mysql_real_escape_string($heure) . "' , '" . mysql_real_escape_string($map) . "' , '' , '' , '' , '' , '' , '" . $user[2] . "' , '' , '' , '' )");
 
-    $sql_match = mysql_query("SELECT warid FROM " . WARS_TABLE . " WHERE adversaire = '" . $clan . "'");
+    $sql_match = nkDB_execute("SELECT warid FROM " . WARS_TABLE . " WHERE adversaire = '" . $clan . "'");
     list($warid) = mysql_fetch_array($sql_match);
 
-    $del = mysql_query("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
+    $del = nkDB_execute("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
 
     saveUserAction(_ACTIONTRANDEFY .' '. $pseudo);
 
@@ -161,7 +161,7 @@ function edit_pref() {
         . "<tr><td><b>" . _MAILAVERT . "</b> : <input type=\"text\" size=\"30\" name=\"defie_mail\" value=\"" . $nuked['defie_mail'] . "\" /></td></tr>\n"
         . "<tr><td><b>" . _INBOXAVERT . "</b> : <select name=\"defie_inbox\"><option value=\"\">" . _OFF . "</option>\n";
 
-    $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
+    $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
     $checked = '';
     while (list($id_user, $pseudo) = mysql_fetch_array($sql2)) {
         if ($nuked['defie_inbox'] == $id_user) {
@@ -182,9 +182,9 @@ function update_pref($defie_mail, $defie_inbox, $defie_charte) {
     $defie_charte = nkHtmlEntityDecode($defie_charte);
     $defie_charte = mysql_real_escape_string(stripslashes($defie_charte));
 
-    $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");
-    $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_mail . "' WHERE name = 'defie_mail'");
-    $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_inbox . "' WHERE name = 'defie_inbox'");
+    $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");
+    $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_mail . "' WHERE name = 'defie_mail'");
+    $upd3 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_inbox . "' WHERE name = 'defie_inbox'");
 
     saveUserAction(_ACTIONPREFDEFY .'.');
 

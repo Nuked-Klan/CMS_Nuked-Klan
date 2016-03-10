@@ -31,15 +31,15 @@ function index(){
     . '<a href="index.php?file=Links&amp;op=classe&amp;orderby=count">' . _TOPLINKS . '</a> | '
     . '<a href="index.php?file=Suggest&amp;module=Links">' . _SUGGESTLINK . '</a> ]</div>'."\n";
 
-    $sql = mysql_query('SELECT id FROM ' . LINKS_TABLE);
+    $sql = nkDB_execute('SELECT id FROM ' . LINKS_TABLE);
     $nb_links = mysql_num_rows($sql);
 
-    $sql_nbcat = mysql_query('SELECT cid FROM ' . LINKS_CAT_TABLE);
+    $sql_nbcat = nkDB_execute('SELECT cid FROM ' . LINKS_CAT_TABLE);
     $nb_cat = mysql_num_rows($sql_nbcat);
     if ($nb_cat > 0){
         echo '<table style="margin: auto" cellspacing="15" cellpadding="5">'."\n";
 
-        $sql_cat = mysql_query('SELECT cid, titre, description FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = 0 ORDER BY position, titre');
+        $sql_cat = nkDB_execute('SELECT cid, titre, description FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = 0 ORDER BY position, titre');
         $test = 0;
         $last_cid = 0;
         while (list($cid, $titre, $description) = mysql_fetch_array($sql_cat)){
@@ -51,7 +51,7 @@ function index(){
 
                 echo '<td valign="top"><img src="modules/Links/images/fleche.gif" alt="" /><a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $cid . '"><b>' . printSecuTags($titre) . '</b></a>';
 
-                $sql2 = mysql_query('SELECT cat FROM ' . LINKS_TABLE . ' WHERE cat = ' . $cid);
+                $sql2 = nkDB_execute('SELECT cat FROM ' . LINKS_TABLE . ' WHERE cat = ' . $cid);
                 $nb_lk = mysql_num_rows($sql2);
 
                 if ($nb_lk > 0) echo '<small>&nbsp;(' . $nb_lk . ')</small>'."\n";
@@ -59,7 +59,7 @@ function index(){
                 else echo '<br />';
 
                 $t = 0;
-                $sql_subcat = mysql_query('SELECT cid, titre FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = ' . $cid . ' ORDER BY position, titre LIMIT 0, 4');
+                $sql_subcat = nkDB_execute('SELECT cid, titre FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = ' . $cid . ' ORDER BY position, titre LIMIT 0, 4');
                 while (list($sub_cat_id, $sub_cat_titre) = mysql_fetch_array($sql_subcat)){
                     $sub_cat_titre = printSecuTags($sub_cat_titre);
                     $t++;
@@ -98,7 +98,7 @@ function categorie($cat){
 
     opentable();
 
-    $sql = mysql_query('SELECT titre, description, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
+    $sql = nkDB_execute('SELECT titre, description, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
 
     if(mysql_num_rows($sql) <= 0)
         redirect('index.php?file=404');
@@ -109,7 +109,7 @@ function categorie($cat){
     $cat_desc = icon($cat_desc);
 
     if ($parentid > 0){
-        $sql_parent = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
+        $sql_parent = nkDB_execute('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
         list($parent_titre) = mysql_fetch_array($sql_parent);
 
         echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <a href="index.php?file=Links&amp;op=categorie&amp;cat=' . $parentid . '" style="text-decoration:none"><big><b>' . nkHtmlEntities($parent_titre) . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
@@ -118,7 +118,7 @@ function categorie($cat){
         echo '<br /><div style="text-align: center"><a href="index.php?file=Links" style="text-decoration:none"><big><b>' . _WEBLINKS . '</b></big></a> &gt; <big><b>' . $cat_titre . '</b></big></div><br />'."\n";
     }
 
-    $sql3 = mysql_query('SELECT cid, titre, description  FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = ' . $cat . ' ORDER BY position, titre');
+    $sql3 = nkDB_execute('SELECT cid, titre, description  FROM ' . LINKS_CAT_TABLE . ' WHERE parentid = ' . $cat . ' ORDER BY position, titre');
     $nb_subcat = mysql_num_rows($sql3);
     $count = 0;
 
@@ -128,7 +128,7 @@ function categorie($cat){
         while (list($catid, $parentcat, $parentdesc) = mysql_fetch_array($sql3)){
             $parentdesc = icon($parentdesc);
 
-            $sql_nbcat = mysql_query('SELECT id FROM ' . LINKS_TABLE . ' WHERE cat = ' . $catid);
+            $sql_nbcat = nkDB_execute('SELECT id FROM ' . LINKS_TABLE . ' WHERE cat = ' . $catid);
             $nb_lkcat = mysql_num_rows($sql_nbcat);
 
             if ($catid != $last_catid){
@@ -167,7 +167,7 @@ function categorie($cat){
 function do_link($link_id){
     nkTemplate_setPageDesign('none');
 
-    $sql = mysql_query('SELECT url, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
+    $sql = nkDB_execute('SELECT url, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
     if(mysql_num_rows($sql) <= 0){
         redirect('index.php?file=404');
     }
@@ -175,7 +175,7 @@ function do_link($link_id){
         list($link_url, $count) = mysql_fetch_array($sql);
         $new_count = $count + 1;
 
-        $upd = mysql_query('UPDATE ' . LINKS_TABLE . ' SET count = ' . $new_count . ' WHERE id = ' . $link_id);
+        $upd = nkDB_execute('UPDATE ' . LINKS_TABLE . ' SET count = ' . $new_count . ' WHERE id = ' . $link_id);
 
         redirect($link_url);
     }
@@ -184,7 +184,7 @@ function do_link($link_id){
 function broken($link_id){
     global $nuked;
 
-    $sql = mysql_query('UPDATE ' . LINKS_TABLE . ' SET broke = broke + 1 WHERE id = ' . $link_id);
+    $sql = nkDB_execute('UPDATE ' . LINKS_TABLE . ' SET broke = broke + 1 WHERE id = ' . $link_id);
 
     opentable();
     printNotification(_THXBROKENLINK, 'success');
@@ -195,7 +195,7 @@ function broken($link_id){
 function description($link_id){
     global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3;
 
-    $sql = mysql_query('SELECT id, date, titre, description, webmaster, country, cat, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
+    $sql = nkDB_execute('SELECT id, date, titre, description, webmaster, country, cat, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
     if(mysql_num_rows($sql) <= 0){
         redirect('index.php?file=404');
     }
@@ -205,13 +205,13 @@ function description($link_id){
         $titre = printSecuTags($titre);
         $description = icon($description);
 
-        $sql2 = mysql_query('SELECT titre, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
+        $sql2 = nkDB_execute('SELECT titre, parentid FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $cat);
         list($cat_name, $parentid) = mysql_fetch_array($sql2);
         $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0) $category = _NONE;
         else if ($parentid > 0){
-            $sql3 = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
+            $sql3 = nkDB_execute('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
             list($parent_name) = mysql_fetch_array($sql3);
             $parent_name = printSecuTags($parent_name);
 
@@ -273,7 +273,7 @@ function description($link_id){
 
         echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _VISIT . ' :</b> ' . $count . '&nbsp;' . _TIMES . '</td></tr>'."\n";
 
-        $sql = mysql_query(
+        $sql = nkDB_execute(
             'SELECT active
             FROM '. VOTE_MODULES_TABLE .'
             WHERE module = \'links\''
@@ -292,7 +292,7 @@ function description($link_id){
         echo '</table>'."\n"
         . '<div style="text-align: center"><br /><input type="button" value="' . _VISITTHISSITE . '" onclick="window.open(\'index.php?file=Links&amp;op=do_link&amp;link_id=' . $link_id . '\')" /></div><br />';
 
-        $sql = mysql_query(
+        $sql = nkDB_execute(
             'SELECT active
             FROM '. COMMENT_MODULES_TABLE .'
             WHERE module = \'links\''
@@ -371,7 +371,7 @@ function classe(){
         $order = ' ORDER BY L.id DESC ';
     }
 
-    $sql = mysql_query('SELECT L.id, L.date, L.titre, L.description, L.count, L.country, AVG(V.vote) AS note  FROM ' . LINKS_TABLE . ' AS L LEFT JOIN ' . VOTE_TABLE . ' AS V ON L.id = V.vid AND V.module = \'Links\' ' . $where . ' GROUP BY L.id ' . $order);
+    $sql = nkDB_execute('SELECT L.id, L.date, L.titre, L.description, L.count, L.country, AVG(V.vote) AS note  FROM ' . LINKS_TABLE . ' AS L LEFT JOIN ' . VOTE_TABLE . ' AS V ON L.id = V.vid AND V.module = \'Links\' ' . $where . ' GROUP BY L.id ' . $order);
     $nb_lk = mysql_num_rows($sql);
 
     if ($nb_lk > 1 && !empty($cat)){
@@ -407,7 +407,7 @@ function classe(){
 
         echo '<br />';
 
-        $sqlhot = mysql_query('SELECT id FROM ' . LINKS_TABLE . ' ORDER BY count DESC LIMIT 0, 10');
+        $sqlhot = nkDB_execute('SELECT id FROM ' . LINKS_TABLE . ' ORDER BY count DESC LIMIT 0, 10');
 
         $seek = mysql_data_seek($sql, $start);
         for($i = 0;$i < $nb_liens;$i++){

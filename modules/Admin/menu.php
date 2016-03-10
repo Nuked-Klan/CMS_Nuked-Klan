@@ -36,7 +36,7 @@ function index()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _LEVEL . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT  bid, active, position, titre, nivo FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
+    $sql = nkDB_execute("SELECT  bid, active, position, titre, nivo FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
     while (list($bid, $activ, $position, $titre, $nivo) = mysql_fetch_array($sql))
     {
         $titre = nkHtmlEntities($titre);
@@ -61,7 +61,7 @@ function edit_menu($bid)
 {
     global $nuked, $user, $language;
 
-    $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+    $sql = nkDB_execute("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
     list($titre, $content) = mysql_fetch_array($sql);
     $titre = nkHtmlEntities($titre);
 
@@ -200,7 +200,7 @@ function edit_line($bid, $lid)
 {
     global $nuked, $user, $language;
 
-    $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+    $sql = nkDB_execute("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
     list($titre, $content) = mysql_fetch_array($sql);
     $titre = strip_tags($titre);
     $titre = nkHtmlEntities($titre);
@@ -350,7 +350,7 @@ function send_line($bid, $lid)
 {
     global $nuked, $user, $b, $i, $u, $puce, $cid;
 
-    $sql = mysql_query("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $_REQUEST['bid'] . "'");
+    $sql = nkDB_execute("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $_REQUEST['bid'] . "'");
     list($titre, $content) = mysql_fetch_array($sql);
 
     if ($_REQUEST['niveau'] != "")
@@ -389,7 +389,7 @@ function send_line($bid, $lid)
 
     $content = mysql_real_escape_string(stripslashes($content));
 
-    $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $_REQUEST['bid'] . "'");
+    $sql = nkDB_execute("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $_REQUEST['bid'] . "'");
 
     saveUserAction(_ACTIONMODIFMENU .': '. $titre);
 
@@ -473,7 +473,7 @@ foreach($modules as $value)
     $checked = "";
         }
 
-        $sql = mysql_query("SELECT nom FROM " . MODULES_TABLE . " WHERE nom = '" . $temp[1] . "' AND admin = -1 AND niveau = -1");
+        $sql = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE nom = '" . $temp[1] . "' AND admin = -1 AND niveau = -1");
         $count = mysql_num_rows($sql);
 
         if (is_file("modules/" . $temp[1] . "/index.php") && $count == 0)

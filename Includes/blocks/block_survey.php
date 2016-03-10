@@ -17,7 +17,7 @@ function affich_block_survey($blok){
         if ($survey_id != '') $where = 'WHERE sid = \'' . $survey_id . '\' ';
         else $where = 'ORDER BY sid DESC LIMIT 0, 1';
 
-        $sql = mysql_query('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ' . $where);
+        $sql = nkDB_execute('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ' . $where);
         list($poll_id, $titre) = mysql_fetch_array($sql);
         $titre = printSecuTags($titre);
 
@@ -25,7 +25,7 @@ function affich_block_survey($blok){
         . '<div style="text-align: center">'."\n"
         . '<b>' . $titre . '</b><br /><p style="text-align: left" >'."\n";
 
-        $sql2 = mysql_query('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = \'' . $poll_id . '\' ORDER BY voteID ASC');
+        $sql2 = nkDB_execute('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = \'' . $poll_id . '\' ORDER BY voteID ASC');
         while (list($voteid, $optiontext) = mysql_fetch_array($sql2)){
             $optiontext = printSecuTags($optiontext);
 
@@ -43,7 +43,7 @@ function affich_block_survey($blok){
 function edit_block_survey($bid){
     global $nuked, $language;
 
-    $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+    $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
 
     $titre = printSecuTags($titre);
@@ -80,7 +80,7 @@ function edit_block_survey($bid){
             , '<option>8</option>',"\n"
             , '<option>9</option></select></td></tr><tr><td colspan="4"><b>' , _POLL , ' :</b>&nbsp;<select name="content">',"\n";
 
-    $sql2 = mysql_query('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
+    $sql2 = nkDB_execute('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
     while (list($survey_id, $survey_title) = mysql_fetch_array($sql2)){
         $survey_title = printSecuTags($survey_title);
 

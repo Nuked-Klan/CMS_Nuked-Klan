@@ -152,7 +152,7 @@ function main() {
                                 <h5><?php echo _LASTMEMBERS; ?></h5>
                                 <div>
                                 <?php
-                                    $sqlUser=mysql_query("SELECT pseudo, date, id, country FROM " . USER_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
+                                    $sqlUser=nkDB_execute("SELECT pseudo, date, id, country FROM " . USER_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
                                     while (list($userPseudo, $regiterDate, $userId, $userCountry)=mysql_fetch_row($sqlUser)) {
                                     
                                     $userPseudo = stripslashes($userPseudo);
@@ -177,7 +177,7 @@ function main() {
                                 <h5><?php echo _LASTVISITS; ?></h5>
                                 <div>
                                 <?php
-                                    $sqlLastVisit = mysql_query("SELECT UT.id, UT.pseudo, UT.niveau, ST.last_used FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 ORDER BY ST.last_used DESC LIMIT 0, 6 ");
+                                    $sqlLastVisit = nkDB_execute("SELECT UT.id, UT.pseudo, UT.niveau, ST.last_used FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 ORDER BY ST.last_used DESC LIMIT 0, 6 ");
                                     while (list($idLastUsed, $pseudoLastused, $niveauLastUsed, $lastUsed) = mysql_fetch_array($sqlLastVisit))
                                     {
                                         $lastUsed == '' ? $lastUsed = '-' : $lastUsed = nkDate($lastUsed);
@@ -199,7 +199,7 @@ function main() {
                                 <h5><?php echo _LASTCOMMENTS; ?></h5>
                                 <div>
                                 <?php
-                                    $sqlLastComment = mysql_query("SELECT module, im_id, autor, date FROM " . COMMENT_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
+                                    $sqlLastComment = nkDB_execute("SELECT module, im_id, autor, date FROM " . COMMENT_TABLE . " ORDER BY date DESC LIMIT 0, 6 ");
                                     $countComment = mysql_num_rows($sqlLastComment);
                                 
                                 if($countComment != 0){
@@ -240,7 +240,7 @@ function main() {
                                 <h5><?php echo __('STATS'); ?></h5>
                                 <div>
                                 <?php
-                                    $sqlStats = mysql_query('SELECT
+                                    $sqlStats = nkDB_execute('SELECT
                                         (SELECT COUNT(id) FROM ' . USER_TABLE . ') AS nb_us,
                                         (SELECT COUNT(id) FROM ' . FORUM_MESSAGES_TABLE . ') AS nb_mess,
                                         (SELECT SUM(count) FROM ' . STATS_TABLE . ') AS count');
@@ -303,7 +303,7 @@ function main() {
                         <h4><a href="index.php?file=Admin&amp;page=action"><?php echo _VIEWACTIONS; ?></a></h4>
                         <p>
                         <?php
-                        $sql_act = mysql_query(
+                        $sql_act = nkDB_execute(
                             "SELECT date, author, action
                             FROM " . ACTION_TABLE . "
                             ORDER BY date DESC
@@ -327,7 +327,7 @@ function main() {
 
         <!-- Start Notifications -->
         <?php
-            $sql2 = mysql_query('SELECT id, type, texte  FROM ' . NOTIFICATIONS_TABLE . ' ORDER BY date DESC LIMIT 0, 4');
+            $sql2 = nkDB_execute('SELECT id, type, texte  FROM ' . NOTIFICATIONS_TABLE . ' ORDER BY date DESC LIMIT 0, 4');
             while (list($id, $type, $texte) = mysql_fetch_array($sql2))
             {
                 if($type == 4)

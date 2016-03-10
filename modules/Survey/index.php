@@ -25,7 +25,7 @@ function sondage($poll_id) {
 
         echo '<br /><div style="text-align: center;"><big><b>' . _POLLOF . '</b></big></div><br />';
 
-        $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
+        $sql = nkDB_execute('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
         list($titre) = mysql_fetch_array($sql);
         $titre = printSecuTags($titre);
 
@@ -33,7 +33,7 @@ function sondage($poll_id) {
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"4\" border=\"0\">\n"
         . "<tr><td align=\"center\"><b>" . $titre . "</b></td></tr>\n";
 
-        $sql2 = mysql_query('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
+        $sql2 = nkDB_execute('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
         while (list($voteid, $optiontext) = mysql_fetch_array($sql2)) {
             $optiontext = printSecuTags($optiontext);
 
@@ -68,12 +68,12 @@ function verif_check($poll_id) {
     if (!empty($user[2])) $username = $user[2];
     else $username = 'not_member';
 
-    $del = mysql_query('DELETE FROM ' . SURVEY_CHECK_TABLE . ' WHERE heurelimite < ' . $time);
+    $del = nkDB_execute('DELETE FROM ' . SURVEY_CHECK_TABLE . ' WHERE heurelimite < ' . $time);
 
     if (isset($user_pool_id) && $user_pool_id == $poll_id) {
         $verifip = 1;
     } else {
-        $sql = mysql_query('SELECT sid FROM ' . SURVEY_CHECK_TABLE . ' WHERE (pseudo = "' . $username . '" OR ip = "' . $user_ip . '") AND sid = ' . $poll_id);
+        $sql = nkDB_execute('SELECT sid FROM ' . SURVEY_CHECK_TABLE . ' WHERE (pseudo = "' . $username . '" OR ip = "' . $user_ip . '") AND sid = ' . $poll_id);
         $verifip = mysql_num_rows($sql);
     }
     return $verifip;
@@ -89,12 +89,12 @@ function update_sondage($poll_id, $voteID) {
 
     if (!empty($voteID) && is_numeric($voteID) && is_numeric($poll_id)) {
         if (verif_check($poll_id) == 0) {
-            $sql = mysql_query('SELECT niveau FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
+            $sql = nkDB_execute('SELECT niveau FROM ' . SURVEY_TABLE . ' WHERE sid = ' . $poll_id);
             list($niveau) = mysql_fetch_array($sql);
 
             if ($visiteur >= $niveau) {
-                $upd = mysql_query('UPDATE ' . SURVEY_DATA_TABLE . ' SET optionCount = optionCount + 1 WHERE voteID = ' . $voteID . ' AND sid = ' . $poll_id);
-                $sql = mysql_query('INSERT INTO ' . SURVEY_CHECK_TABLE . ' ( `ip` , `pseudo` , `heurelimite` , `sid` ) VALUES ( "' . $user_ip . '" , "' . $user[2] . '", "' . $time . '" , "' . $poll_id . '")');
+                $upd = nkDB_execute('UPDATE ' . SURVEY_DATA_TABLE . ' SET optionCount = optionCount + 1 WHERE voteID = ' . $voteID . ' AND sid = ' . $poll_id);
+                $sql = nkDB_execute('INSERT INTO ' . SURVEY_CHECK_TABLE . ' ( `ip` , `pseudo` , `heurelimite` , `sid` ) VALUES ( "' . $user_ip . '" , "' . $user[2] . '", "' . $time . '" , "' . $poll_id . '")');
                 setcookie($cookiename . '_user_pool_' . $poll_id, $poll_id, $time);
 
                 redirect('index.php?file=Survey&op=vote_message&poll_id=' . $poll_id, 0);
@@ -147,7 +147,7 @@ function affich_res($poll_id) {
 
     if(!empty($poll_id) && is_numeric($poll_id)) {
 
-        $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid=' . $poll_id);
+        $sql = nkDB_execute('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid=' . $poll_id);
         list($titre) = mysql_fetch_array($sql);
         $titre = printSecuTags($titre);
 
@@ -155,13 +155,13 @@ function affich_res($poll_id) {
         . "<div style=\"text-align: center;\"><br /><b>$titre</b></div><br />\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n";
 
-        $sql2 = mysql_query('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
+        $sql2 = nkDB_execute('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
         $nbcount = 0;
         while (list($option_count) = mysql_fetch_array($sql2)) {
             $nbcount = $nbcount + $option_count;
         }
 
-        $sql3 = mysql_query('SELECT optionCount, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
+        $sql3 = nkDB_execute('SELECT optionCount, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
         while (list($optioncount, $optiontext) = mysql_fetch_array($sql3)) {
             $optiontext = printSecuTags($optiontext);
 
@@ -192,7 +192,7 @@ function affich_res($poll_id) {
         echo "</table><table style=\"margin-left: auto;margin-right: auto;text-align: left;width:90%;\" border=\"0\">\n"
         . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _TOTALVOTE . " : </b>" . $nbcount . "</td></tr>\n";
 
-        $sql = mysql_query(
+        $sql = nkDB_execute(
             'SELECT active
             FROM '. COMMENT_MODULES_TABLE .'
             WHERE module = \'survey\''
@@ -231,12 +231,12 @@ function index_sondage() {
     . "<td align=\"center\"><b>" . _DATE . "</b></td>\n"
     . "<td align=\"center\"><b>&nbsp;</b></td></tr>\n";
 
-    $sql = mysql_query('SELECT sid, titre, date FROM ' . SURVEY_TABLE . ' ORDER BY date DESC');
+    $sql = nkDB_execute('SELECT sid, titre, date FROM ' . SURVEY_TABLE . ' ORDER BY date DESC');
     while (list($poll_id, $titre, $date) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
         $date = nkDate($date);
 
-        $sql2 = mysql_query('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
+        $sql2 = nkDB_execute('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
         $nbvote = 0;
         $j = 0;
         while (list($option_count) = mysql_fetch_array($sql2)) {

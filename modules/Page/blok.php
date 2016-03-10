@@ -15,7 +15,7 @@ global $nuked;
 
 
 $i = 0;
-$sql = mysql_query("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
+$sql = nkDB_execute("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
 while (list($titre) = mysql_fetch_array($sql))
 {
     $titre = stripslashes($titre);

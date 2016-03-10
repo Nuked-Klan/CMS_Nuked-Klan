@@ -45,7 +45,7 @@ function main()
     . "</div></div>\n"
     . "<div class=\"tab-content\" id=\"tab2\" style=\"width: " . $width_div . "%; margin: auto\"><br /><br />\n";
 
-    $sql = mysql_query('SELECT
+    $sql = nkDB_execute('SELECT
         (SELECT COUNT(id) FROM ' . USER_TABLE . ') AS nb_us,
         (SELECT COUNT(id) FROM ' . NEWS_TABLE . ') AS nb_nw,
         (SELECT COUNT(artid) FROM ' . SECTIONS_TABLE . ') AS nb_sc,
@@ -73,7 +73,7 @@ function main()
         . '</td></tr>'."\n";
 
     $nb = 0;
-    $sql2 = mysql_query('SELECT nom, count FROM ' . STATS_TABLE . ' ORDER BY count DESC');
+    $sql2 = nkDB_execute('SELECT nom, count FROM ' . STATS_TABLE . ' ORDER BY count DESC');
     while (list($page, $count) = mysql_fetch_array($sql2)) {
         if (nivo_mod($page) != -1) {
             $nb++;
@@ -159,7 +159,7 @@ function del()
 {
     global $nuked, $user;
 
-    $sql = mysql_query('DELETE FROM ' . $nuked['prefix'] . '_stats_visitor');
+    $sql = nkDB_execute('DELETE FROM ' . $nuked['prefix'] . '_stats_visitor');
 
     saveUserAction(_ACTIONDELSTATS);
 

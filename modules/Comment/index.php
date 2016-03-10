@@ -48,7 +48,7 @@ function checkCommentStatus($module, $imId) {
 function NbComment($im_id, $module){
     $im_id = mysql_real_escape_string(stripslashes($im_id));
     $module = mysql_real_escape_string(stripslashes($module));
-    $Sql = mysql_query("SELECT id FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module'");
+    $Sql = nkDB_execute("SELECT id FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module'");
     return mysql_num_rows($Sql);
 }
 
@@ -133,7 +133,7 @@ function com_index($module, $im_id){
             <td style="width:70%;text-align:center"><b>'._COMMENT.'</b></td>
         </tr>';
 
-    $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
+    $sql = nkDB_execute("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
     $count = mysql_num_rows($sql);
     $j = 0;
     while($row = mysql_fetch_assoc($sql)){
@@ -145,7 +145,7 @@ function com_index($module, $im_id){
         $texte = (!empty($row['titre'])) ? '<b>'.$row['titre'].'</b><br /><br />'.$row['comment'] : $row['comment'];
 
         if(!empty($row['autor_id'])){
-            $sql_member = mysql_query("SELECT avatar, country FROM ".USER_TABLE." WHERE id = '{$row['autor_id']}'");
+            $sql_member = nkDB_execute("SELECT avatar, country FROM ".USER_TABLE." WHERE id = '{$row['autor_id']}'");
             $test = mysql_num_rows($sql_member);
         }
 
@@ -258,7 +258,7 @@ function view_com($module, $im_id){
 
     echo '<script type="text/javascript">function delmess(autor, id){if (confirm(\''._DELCOMMENT.' \'+autor+\' ! '._CONFIRM.'\')){document.location.href = \'index.php?file=Comment&op=del_comment&cid=\'+id;}}</script>';
 
-    $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC");
+    $sql = nkDB_execute("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC");
     if (mysql_num_rows($sql) != 0){
 
         while($row = mysql_fetch_assoc($sql)):
@@ -414,7 +414,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
             $autor_id="";
         }
 
-        $flood = mysql_query("SELECT date FROM " . COMMENT_TABLE . " WHERE autor = '" . $autor . "' OR autor_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
+        $flood = nkDB_execute("SELECT date FROM " . COMMENT_TABLE . " WHERE autor = '" . $autor . "' OR autor_ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
         list($flood_date) = mysql_fetch_row($flood);
         $anti_flood = $flood_date + $nuked['post_flood'];
 
@@ -437,7 +437,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
              $titre = substr($titre, 0, 40) . "...";
         }
 
-        $add = mysql_query("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . mysql_real_escape_string($texte) . "' , '" . $date . "' , '" . $user_ip . "')");
+        $add = nkDB_execute("INSERT INTO " . COMMENT_TABLE . " ( `id` , `module` , `im_id` , `autor` , `autor_id` , `titre` , `comment` , `date` , `autor_ip` ) VALUES ( '' , '" . $module . "' , '" . $im_id . "' , '" . $autor . "' , '" . $autor_id . "' , '" . $titre . "' , '" . mysql_real_escape_string($texte) . "' , '" . $date . "' , '" . $user_ip . "')");
         printNotification(_COMMENTADD, 'success');
 
         if ($module == "news"){
@@ -466,10 +466,10 @@ function del_comment($cid){
     $level_admin = admin_mod("Comment");
 
     if ($visiteur >= $level_admin){
-        $sql = mysql_query("SELECT module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
+        $sql = nkDB_execute("SELECT module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
         list($module, $im_id) = mysql_fetch_array($sql);
 
-        $del = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
+        $del = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
 
         printNotification(_COMMENTDEL, 'success');
 
@@ -498,7 +498,7 @@ function modif_comment($cid, $titre, $texte, $module, $im_id){
     $texte = secu_html(nkHtmlEntityDecode($texte));
 
     if ($visiteur >= $level_admin){
-        $sql = mysql_query("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
+        $sql = nkDB_execute("UPDATE " . COMMENT_TABLE . " SET titre = '" . $titre . "', comment = '" . $texte . "' WHERE id = '" . $cid . "'");
 
         printNotification(_COMMENTMODIF, 'success');
 
@@ -525,7 +525,7 @@ function edit_comment($cid){
     if ($visiteur >= $level_admin){
         nkTemplate_setTitle(_POSTCOMMENT);
 
-        $sql = mysql_query("SELECT autor, autor_id, titre, comment, autor_ip, module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
+        $sql = nkDB_execute("SELECT autor, autor_id, titre, comment, autor_ip, module, im_id FROM " . COMMENT_TABLE . " WHERE id = '" . $cid . "'");
         list($auteur, $autor_id, $titre, $texte, $ip, $module, $im_id) = mysql_fetch_array($sql);
 
         $titre = nkHtmlEntities($titre);

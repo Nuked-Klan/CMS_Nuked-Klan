@@ -48,7 +48,7 @@ function main(){
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT warid, team, adversaire, url_adv, etat, date_jour, date_mois, date_an FROM " . WARS_TABLE . " ORDER BY etat, date_an DESC, date_mois DESC, date_jour DESC");
+    $sql = nkDB_execute("SELECT warid, team, adversaire, url_adv, etat, date_jour, date_mois, date_an FROM " . WARS_TABLE . " ORDER BY etat, date_an DESC, date_mois DESC, date_jour DESC");
     $count = mysql_num_rows($sql);
     while (list($war_id, $team, $adv_name, $adv_url, $status, $jour, $mois, $an) = mysql_fetch_array($sql)){
         $adv_name = printSecuTags($adv_name);
@@ -61,7 +61,7 @@ function main(){
         }
 
         if ($team > 0){
-            $sql2 = mysql_query("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
+            $sql2 = nkDB_execute("SELECT titre FROM " . TEAM_TABLE . " WHERE cid = '" . $team . "'");
             list($team_name) = mysql_fetch_array($sql2);
             $team_name = printSecuTags($team_name);
         }
@@ -113,7 +113,7 @@ function match(){
     $status = $team = $game = $adv_name = $adv_url = $pays_adv = $type = $style = $jour = $mois = $an = $heure = $score_team = $score_adv = $tscore_team = $tscore_adv = $report = $url_league = '';
 
     if ($_REQUEST['do'] == "edit") {
-        $sql = mysql_query("SELECT etat, team, game, adversaire, url_adv, pays_adv, image_adv, type, style, date_jour, date_mois, date_an, heure, map, score_team, score_adv, tscore_team, tscore_adv, report, url_league FROM " . WARS_TABLE . " WHERE warid='".$war_id."'");
+        $sql = nkDB_execute("SELECT etat, team, game, adversaire, url_adv, pays_adv, image_adv, type, style, date_jour, date_mois, date_an, heure, map, score_team, score_adv, tscore_team, tscore_adv, report, url_league FROM " . WARS_TABLE . " WHERE warid='".$war_id."'");
         list($status, $team, $game, $adv_name, $adv_url, $pays_adv, $logo_adv, $type, $style, $jour, $mois, $an, $heure, $map, $score_team, $score_adv, $tscore_team, $tscore_adv, $report, $url_league) = mysql_fetch_array($sql);
         $adv_name = nkHtmlSpecialChars($adv_name);
         $mapList = explode('|', $map);
@@ -172,7 +172,7 @@ function match(){
                 . "<tr><td align=\"center\"><input type=\"text\" name=\"nbr\" maxlength=\"2\" size=\"10\" value=\"0\" /></td></tr>\n"
                 . "<tr><td align=\"center\"><b>" . _GAME . " : </b><select name=\"game\">\n";
 
-        $sql3 = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+        $sql3 = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($id, $name) = mysql_fetch_array($sql3)){
             $name = printSecuTags($name);
 
@@ -200,7 +200,7 @@ function match(){
             . "<option value=\"0\" " . $checked2 . ">" . _HASTOPLAY . "</option>\n"
             . "</select>&nbsp;&nbsp;<b>" . _TEAM . " : </b><select name=\"team\"><option value=\"\">" . _NONE . "</option>\n";
 
-    $sql2 = mysql_query("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
+    $sql2 = nkDB_execute("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
     while (list($cid, $titre) = mysql_fetch_array($sql2)){
         $titre = nkHtmlEntities($titre);
 
@@ -369,7 +369,7 @@ function match(){
             . "</td></tr>\n";
     }
 
-    /*$sql3 = mysql_query("SELECT map FROM " . GAMES_TABLE . " WHERE id=".mysql_real_escape_string($_REQUEST['game']) ." ORDER BY name");
+    /*$sql3 = nkDB_execute("SELECT map FROM " . GAMES_TABLE . " WHERE id=".mysql_real_escape_string($_REQUEST['game']) ." ORDER BY name");
     list($mapss) = mysql_fetch_array($sql3);
     $mapss = explode('|', $mapss);
     for($maps = 1; $maps <= $nbr; $maps++){
@@ -414,7 +414,7 @@ function match(){
         . "<tr><td align=\"center\"><b>" . _URLREPORT . " :</b> <input type=\"text\" name=\"url_league\" size=\"35\" maxlength=\"200\" value=\"" . $url_league . "\" /></td></tr></table>\n";
 
     if ($_REQUEST['do'] == "edit"){
-        $sql4 = mysql_query("SELECT id FROM " . WARS_FILES_TABLE . " WHERE module = 'Wars' AND im_id = '" . $war_id ."'");
+        $sql4 = nkDB_execute("SELECT id FROM " . WARS_FILES_TABLE . " WHERE module = 'Wars' AND im_id = '" . $war_id ."'");
         $nb_file = mysql_num_rows($sql4);
 
         if ($nb_file > 0) {
@@ -492,7 +492,7 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
         $imageUrl = $_POST['urlImage'];
     }
 
-    $add = mysql_query("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `image_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $imageUrl ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
+    $add = nkDB_execute("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `image_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` ,  `score_team` , `score_adv` , `tscore_team` , `tscore_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '" . $etat . "' , '" . $team . "' , '" . $game . "' , '" . $adversaire . "' , '" . $url_adv . "' , '" . $country ."' , '" . $imageUrl ."' , '" . $type. "' , '" . $style . "' , '" . $jour . "' , '" . $mois . "' , '" . $annee . "' , '" . $heure . "' , '" . $map . "' , '" . $score_team . "' , '" . $score_adv . "' , '" . $tscore_team . "' , '" . $tscore_adv . "' , '" . $report . "' , '" . $autor . "' , '" . $url_league . "' , '' , '' )");
 
     saveUserAction(_ACTIONADDWAR .'.');
 
@@ -503,9 +503,9 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
 function del_war($war_id){
     global $nuked, $user;
 
-    $del = mysql_query("DELETE FROM " . WARS_TABLE . " WHERE warid = '" . $war_id . "'");
-    $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
-    $del_file = mysql_query("DELETE FROM " . WARS_FILES_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
+    $del = nkDB_execute("DELETE FROM " . WARS_TABLE . " WHERE warid = '" . $war_id . "'");
+    $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
+    $del_file = nkDB_execute("DELETE FROM " . WARS_FILES_TABLE . " WHERE im_id = '" . $war_id . "' AND module = 'Wars'");
 
     saveUserAction(_ACTIONDELWAR .'.');
 
@@ -576,7 +576,7 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
         $imageUrl = $_POST['urlImage'];
     }
 
-    $upd = mysql_query("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', image_adv = '" . $imageUrl . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
+    $upd = nkDB_execute("UPDATE " . WARS_TABLE . " SET etat = '" . $etat . "', team = '" . $team . "', game = '" . $game . "', adversaire = '" . $adversaire . "', url_adv = '" . $url_adv . "', pays_adv = '" . $country . "', image_adv = '" . $imageUrl . "', type = '" . $type . "', style = '" . $style . "', date_jour = '" . $jour . "', date_mois = '" . $mois . "', date_an = '" . $annee . "', heure = '" . $heure . "', map = '" . $map . "', score_team = '" . $score_team . "', score_adv = '" . $score_adv . "', tscore_team = '" . $tscore_team . "', tscore_adv = '" . $tscore_adv . "', report = '" . $report . "', url_league = '" . $url_league . "' WHERE warid = '" . $war_id . "'");
 
     saveUserAction(_ACTIONMODIFWAR .'.');
 
@@ -609,7 +609,7 @@ function main_file($im_id){
             . "<td align=\"center\"><b>" . _EDIT . "</b></td>\n"
             . "<td align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, type, url FROM " . WARS_FILES_TABLE . " WHERE module = 'Wars' AND im_id = '" . $im_id . "'");
+    $sql = nkDB_execute("SELECT id, type, url FROM " . WARS_FILES_TABLE . " WHERE module = 'Wars' AND im_id = '" . $im_id . "'");
     while (list($fid, $type, $url) = mysql_fetch_array($sql)){
         if ($type == "screen"){
             $typename = _IMG;
@@ -657,7 +657,7 @@ function edit_file($fid){
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
-    $sql = mysql_query("SELECT im_id, type, url FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
+    $sql = nkDB_execute("SELECT im_id, type, url FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
     list($im_id, $type, $url) = mysql_fetch_array($sql);
 
     if ($type == "screen"){
@@ -729,7 +729,7 @@ function send_file($im_id, $file_type){
             $fileUrl = $_POST['url_file'];
         }
 
-        $add = mysql_query("INSERT INTO " . WARS_FILES_TABLE . " ( `id` , `module` , `im_id` , `type` , `url` ) VALUES ( '' , 'Wars' , '" . $im_id . "' , '" . $file_type . "' , '" . $fileUrl . "' )");
+        $add = nkDB_execute("INSERT INTO " . WARS_FILES_TABLE . " ( `id` , `module` , `im_id` , `type` , `url` ) VALUES ( '' , 'Wars' , '" . $im_id . "' , '" . $file_type . "' , '" . $fileUrl . "' )");
 
         printNotification(_FILEADD, 'success');
         redirect('index.php?file=Wars&page=admin&op=main_file&im_id='. $im_id, 2);
@@ -786,7 +786,7 @@ function modif_file($im_id, $fid, $file_type){
             $fileUrl = $_POST['url_file'];
         }
 
-        $upd = mysql_query("UPDATE " . WARS_FILES_TABLE . " SET type = '" . $file_type . "' , url = '" . $fileUrl . "' WHERE id = '" . $fid . "'");
+        $upd = nkDB_execute("UPDATE " . WARS_FILES_TABLE . " SET type = '" . $file_type . "' , url = '" . $fileUrl . "' WHERE id = '" . $fid . "'");
 
         printNotification(_FILEADD, 'success');
         redirect('index.php?file=Wars&page=admin&op=main_file&im_id='. $im_id, 2);
@@ -801,10 +801,10 @@ function del_file($fid){
     nkTemplate_setPageDesign('nudePage');
     nkTemplate_setTitle(_ADMINMATCH);
 
-    $sql = mysql_query("SELECT im_id FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
+    $sql = nkDB_execute("SELECT im_id FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
     list($im_id) = mysql_fetch_array($sql);
 
-    $del = mysql_query("DELETE FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
+    $del = nkDB_execute("DELETE FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
 
     printNotification(_FILEDEL, 'success');
     redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
@@ -833,7 +833,7 @@ function main_pref(){
 function change_pref($max_wars){
     global $nuked, $user;
 
-    $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_wars . "' WHERE name = 'max_wars'");
+    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_wars . "' WHERE name = 'max_wars'");
 
     saveUserAction(_ACTIONCONFWAR .'.');
 

@@ -18,35 +18,35 @@ translate('modules/Stats/lang/'. $language .'.lang.php');
 
 if ($active == 3 || $active == 4)
 {
-    $sql = mysql_query("SELECT SUM(count) FROM " . STATS_TABLE . " WHERE type = 'pages'");
+    $sql = nkDB_execute("SELECT SUM(count) FROM " . STATS_TABLE . " WHERE type = 'pages'");
     list($counter) = mysql_fetch_array($sql);
 
     $date_install = nkDate($nuked['date_install']);
 
     echo "<div style=\"text-align: center;\">" . _WERECEICED . "&nbsp;" . $counter . "&nbsp;" . _PAGESEE . "&nbsp;" . $date_install . ".</div><br />\n";
 
-    $sql_users = mysql_query("SELECT id FROM " . USER_TABLE);
+    $sql_users = nkDB_execute("SELECT id FROM " . USER_TABLE);
     $nb_users = mysql_num_rows($sql_users);
 
     echo "&nbsp;<b><big>·</big></b>&nbsp;<b>" . $nb_users . "</b> " . _MEMBERSRECORD . "<br />\n";
 
     if (nivo_mod("News") != -1)
     {
-        $sql_news = mysql_query("SELECT id FROM " . NEWS_TABLE);
+        $sql_news = nkDB_execute("SELECT id FROM " . NEWS_TABLE);
         $nb_news = mysql_num_rows($sql_news);
         echo "&nbsp;<b><big>·</big></b>&nbsp;<b>" . $nb_news . "</b> " . _SNEWSINDB . "<br />\n";
     }
 
     if (nivo_mod("Download") != -1)
     {
-        $sql_dl = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE);
+        $sql_dl = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE);
         $nb_downloads = mysql_num_rows($sql_dl);
         echo "&nbsp;<b><big>·</big></b>&nbsp;<b>" . $nb_downloads . "</b> " . _FILESINDB . "<br />\n";
     }
 
     if (nivo_mod("Links") != -1)
     {
-        $sql_links = mysql_query("SELECT id FROM " . LINKS_TABLE);
+        $sql_links = nkDB_execute("SELECT id FROM " . LINKS_TABLE);
         $nb_liens = mysql_num_rows($sql_links);
         echo "&nbsp;<b><big>·</big></b>&nbsp;<b>" . $nb_liens . "</b> " . _LINKSINDB . "<br /><br />\n";
     }
@@ -55,12 +55,12 @@ if ($active == 3 || $active == 4)
 }
 else
 {
-    $sql = mysql_query("SELECT SUM(count) FROM " . STATS_TABLE . " WHERE type = 'pages'");
+    $sql = nkDB_execute("SELECT SUM(count) FROM " . STATS_TABLE . " WHERE type = 'pages'");
     list($counter) = mysql_fetch_array($sql);
 
     $date_install = nkDate($nuked['date_install']);
 
-    $sql_users = mysql_query("SELECT id FROM " . USER_TABLE);
+    $sql_users = nkDB_execute("SELECT id FROM " . USER_TABLE);
     $nb_users = mysql_num_rows($sql_users);
 
     echo "<div style=\"text-align: center;\">" . _PAGESEE . "<br />" . $date_install . " : " . $counter . "</div>\n"
@@ -69,21 +69,21 @@ else
 
     if (nivo_mod("News") != -1)
     {
-        $sql_news = mysql_query("SELECT id FROM " . NEWS_TABLE);
+        $sql_news = nkDB_execute("SELECT id FROM " . NEWS_TABLE);
         $nb_news = mysql_num_rows($sql_news);
         echo "&nbsp;<b><big>·</big></b>&nbsp;" . _NBNEWS . " : <b>" . $nb_news . "</b><br />\n";
     }
 
     if (nivo_mod("Download") != -1)
     {
-        $sql_dl = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE);
+        $sql_dl = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE);
         $nb_downloads = mysql_num_rows($sql_dl);
         echo "&nbsp;<b><big>·</big></b>&nbsp;" . _NBDOWNLOAD . " : <b>" . $nb_downloads . "</b><br />\n";
     }
 
     if (nivo_mod("Links") != -1)
     {
-        $sql_links = mysql_query("SELECT id FROM " . LINKS_TABLE);
+        $sql_links = nkDB_execute("SELECT id FROM " . LINKS_TABLE);
         $nb_liens = mysql_num_rows($sql_links);
         echo "&nbsp;<b><big>·</big></b>&nbsp;" . _NBLINKS . " : <b>" . $nb_liens . "</b><br />\n";
     }

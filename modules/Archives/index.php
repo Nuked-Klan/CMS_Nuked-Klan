@@ -24,7 +24,7 @@ function index()
     $nb_news = $nuked['max_archives'];
     $day = time();
 
-    $sql = mysql_query("SELECT date FROM " . NEWS_TABLE . " ORDER BY date DESC");
+    $sql = nkDB_execute("SELECT date FROM " . NEWS_TABLE . " ORDER BY date DESC");
     $count = mysql_num_rows($sql);
 
     if(array_key_exists('p', $_REQUEST)){
@@ -91,28 +91,28 @@ function index()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . __('AUTHOR') . "</b></td>\n"
     . "<td style=\"width: 10%;\" align=\"center\"><b>" . _OPTION . "&nbsp;</b></td></tr>\n";
 
-    $sql_nb = mysql_query("SELECT nid FROM " . NEWS_CAT_TABLE);
+    $sql_nb = nkDB_execute("SELECT nid FROM " . NEWS_CAT_TABLE);
     $nbsujet = mysql_num_rows($sql_nb);
 
     if ($_REQUEST['orderby'] == "titre")
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE '" . $day . "' >= date ORDER BY titre LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE '" . $day . "' >= date ORDER BY titre LIMIT " . $start . ", " . $nb_news."");
     }
     else if ($_REQUEST['orderby'] == "date")
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE '" . $day . "' >= date ORDER BY date DESC LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE '" . $day . "' >= date ORDER BY date DESC LIMIT " . $start . ", " . $nb_news."");
     }
     else if ($_REQUEST['orderby'] == "auteur")
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE " . $day . " >= date ORDER BY auteur LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE " . $day . " >= date ORDER BY auteur LIMIT " . $start . ", " . $nb_news."");
     }
     else if ($_REQUEST['orderby'] == "sujet")
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE " . $day . " >= date ORDER BY cat LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE " . $day . " >= date ORDER BY cat LIMIT " . $start . ", " . $nb_news."");
     }
     else
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE " . $day . " >= date ORDER BY id DESC LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE " . $day . " >= date ORDER BY id DESC LIMIT " . $start . ", " . $nb_news."");
     }
 
     $j = 0;
@@ -144,7 +144,7 @@ function index()
 
         if ($cat != "")
         {
-            $sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
+            $sql3 = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
             list($categorie) = mysql_fetch_array($sql3);
             $categorie = nkHtmlEntities($categorie);
 
@@ -192,7 +192,7 @@ function sujet($cat_id)
     $nb_news = $nuked['max_archives'];
     $day = time();
 
-    $sql = mysql_query("SELECT cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' ORDER BY date DESC");
+    $sql = nkDB_execute("SELECT cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' ORDER BY date DESC");
     $count = mysql_num_rows($sql);
 
     if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
@@ -248,19 +248,19 @@ function sujet($cat_id)
 
     if ($_REQUEST['orderby'] == "titre")
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY titre LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY titre LIMIT " . $start . ", " . $nb_news."");
     }
     else if ($_REQUEST['orderby'] == "date")
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY date DESC LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY date DESC LIMIT " . $start . ", " . $nb_news."");
     }
     else if ($_REQUEST['orderby'] == "auteur")
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY auteur LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY auteur LIMIT " . $start . ", " . $nb_news."");
     }
     else
     {
-        $sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY id DESC LIMIT " . $start . ", " . $nb_news."");
+        $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY id DESC LIMIT " . $start . ", " . $nb_news."");
     }
 
     while (list($news_id, $titre, $autor, $autor_id, $date, $cat) = mysql_fetch_array($sql2))
@@ -290,7 +290,7 @@ function sujet($cat_id)
 
         echo "<tr style=\"background: ". $bg . "\"><td style=\"width: 30%;\">" . $title . "</td>\n";
 
-        $sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
+        $sql3 = nkDB_execute("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
         list($categorie) = mysql_fetch_array($sql3);
         $categorie = nkHtmlEntities($categorie);
 

@@ -78,7 +78,7 @@ function optimise()
     $tot_idx = 0;
     $tot_all = 0;
     $local_query = 'SHOW TABLE STATUS FROM `' . $global['db_name'] . '`';
-    $result = mysql_query($local_query);
+    $result = nkDB_execute($local_query);
     if (is_resource($result) && mysql_num_rows($result))
     {
         while ($row = mysql_fetch_array($result))
@@ -93,7 +93,7 @@ function optimise()
             $total_gain += $gain;
             $gain = round ($gain, 3);
             $local_query = "OPTIMIZE TABLE " . $row[0];
-            $resultat = mysql_query($local_query);
+            $resultat = nkDB_execute($local_query);
 
 
             if ($gain == 0) $statut = _NOOPTIMIZE;

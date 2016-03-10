@@ -19,7 +19,7 @@ function edit_module($mid)
 {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT id, nom, niveau, admin FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
+    $sql = nkDB_execute("SELECT id, nom, niveau, admin FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($mid, $nom, $niveau, $level) = mysql_fetch_array($sql);
 
     if ($niveau > -1 && $level > -1)
@@ -83,9 +83,9 @@ function desactive($mid)
 
     $mid = mysql_real_escape_string(stripslashes($mid));
 
-    $sql2 = mysql_query("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
+    $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = mysql_fetch_array($sql2);
-    $sql = mysql_query("UPDATE " . MODULES_TABLE . " SET niveau = -1, admin = -1 WHERE id = '" . $mid . "'");
+    $sql = nkDB_execute("UPDATE " . MODULES_TABLE . " SET niveau = -1, admin = -1 WHERE id = '" . $mid . "'");
 
     if (in_array($nom, explode('|', $nuked['rssFeed'])))
         updateModuleRssList($nom, 'disabled');
@@ -110,9 +110,9 @@ function active($mid)
     global $nuked, $user;
 
     $mid = mysql_real_escape_string(stripslashes($mid));
-    $sql2 = mysql_query("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
+    $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = mysql_fetch_array($sql2);
-    $sql = mysql_query("UPDATE " . MODULES_TABLE . " SET niveau = 0, admin = 2 WHERE id = '" . $mid . "'");
+    $sql = nkDB_execute("UPDATE " . MODULES_TABLE . " SET niveau = 0, admin = 2 WHERE id = '" . $mid . "'");
 
     if (in_array($nom, explode('|', $nuked['rssFeed'])))
         updateModuleRssList($nom, 'enabled');
@@ -138,11 +138,11 @@ function update_module($mid, $niveau, $level)
 
     $mid = mysql_real_escape_string(stripslashes($mid));
 
-    $sql2 = mysql_query("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
+    $sql2 = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " WHERE id = '" . $mid . "'");
     list($nom) = mysql_fetch_array($sql2);
     $niveau = mysql_real_escape_string(stripslashes($niveau));
     $level = mysql_real_escape_string(stripslashes($level));
-    $sql = mysql_query("UPDATE " . MODULES_TABLE . " SET niveau = '" . $niveau . "', admin = '" . $level . "' WHERE id = '" . $mid . "'");
+    $sql = nkDB_execute("UPDATE " . MODULES_TABLE . " SET niveau = '" . $niveau . "', admin = '" . $level . "' WHERE id = '" . $mid . "'");
 
     saveUserAction(_ACTIONMODIFMOD .': '. $nom);
 
@@ -201,7 +201,7 @@ function main()
 . "<td style=\"width: 20%;\" align=\"center\"><b>" . _EDIT . "</b></td></tr>\n";
 
     $mod = array();
-    $sql = mysql_query("SELECT id, nom, niveau, admin FROM " . MODULES_TABLE . " ORDER BY nom");
+    $sql = nkDB_execute("SELECT id, nom, niveau, admin FROM " . MODULES_TABLE . " ORDER BY nom");
     while (list($mid, $nom, $niveau, $admin) = mysql_fetch_array($sql))
     {
         $moduleNameConst = strtoupper($nom) .'_MODNAME';

@@ -25,14 +25,14 @@ function cat($cat)
 
     $counter = 0;
 
-    $sql = mysql_query('SELECT cid, titre, description FROM ' . GALLERY_CAT_TABLE . ' WHERE parentid = ' . $cat);
+    $sql = nkDB_execute('SELECT cid, titre, description FROM ' . GALLERY_CAT_TABLE . ' WHERE parentid = ' . $cat);
     $nb_subcat = mysql_num_rows($sql);
 
     if ($nb_subcat > 0)
     {
         echo "<table width=\"100%\" cellspacing=\"5\" cellpadding=\"0\" border=\"0\">\n";
 
-        $sql = mysql_query("SELECT cid, titre, description FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "' ORDER BY position, titre");
+        $sql = nkDB_execute("SELECT cid, titre, description FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "' ORDER BY position, titre");
         while (list($catid, $parentcat, $parentdesc) = mysql_fetch_array($sql))
         {
 
@@ -40,7 +40,7 @@ function cat($cat)
 
             $parentdesc = icon($parentdesc);
 
-            $sql_img = mysql_query("SELECT sid, url, url2, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $catid . "' ORDER BY sid DESC");
+            $sql_img = nkDB_execute("SELECT sid, url, url2, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $catid . "' ORDER BY sid DESC");
             $nb_imgcat = mysql_num_rows($sql_img);
             list($sid, $url, $url2, $date) = mysql_fetch_array($sql_img);
 
@@ -75,7 +75,7 @@ function cat($cat)
                 $source = $thb->GetOrigine();
                 // Lance le redimensionenemt
                 $thb->doThb();
-                if ($thumb) $sql_insert = mysql_query("UPDATE " . $nuked['prefix'] . "_gallery SET url2 = '" . $thumb . "' WHERE sid = '" . $sid . "'");
+                if ($thumb) $sql_insert = nkDB_execute("UPDATE " . $nuked['prefix'] . "_gallery SET url2 = '" . $thumb . "' WHERE sid = '" . $sid . "'");
                 $image = $thumb;
             }
             if (!$image) $image = $url;
@@ -160,7 +160,7 @@ function categorie($cat)
         $title = _GALLERY;
     }
 
-    $sql = mysql_query("SELECT titre, description, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+    $sql = nkDB_execute("SELECT titre, description, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
 
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
@@ -172,7 +172,7 @@ function categorie($cat)
 
     if ($parentid > 0)
     {
-        $sql_parent = mysql_query("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+        $sql_parent = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
         list($parent_titre) = mysql_fetch_array($sql_parent);
         $parent_titre = printSecuTags($parent_titre);
 
@@ -214,9 +214,9 @@ function description($sid)
 
     opentable();
 
-    $upd = mysql_query("UPDATE " . GALLERY_TABLE . " SET count = count + 1 WHERE sid = '" . $sid . "'");
+    $upd = nkDB_execute("UPDATE " . GALLERY_TABLE . " SET count = count + 1 WHERE sid = '" . $sid . "'");
 
-    $sql = mysql_query("SELECT cat, titre, description, autor, url, url_file, date, count FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
+    $sql = nkDB_execute("SELECT cat, titre, description, autor, url, url_file, date, count FROM " . GALLERY_TABLE . " WHERE sid = '" . $sid . "'");
 
     if(mysql_num_rows($sql) <= 0)
         redirect("index.php?file=404");
@@ -245,7 +245,7 @@ function description($sid)
         $button = "<br />\n";
     }
 
-    $sql2 = mysql_query("SELECT titre, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+    $sql2 = nkDB_execute("SELECT titre, parentid FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $cat . "'");
     list($cat_name, $parentid) = mysql_fetch_array($sql2);
     $cat_name = printSecuTags($cat_name);
 
@@ -255,7 +255,7 @@ function description($sid)
     }
     else if ($parentid > 0)
     {
-        $sql3 = mysql_query("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+        $sql3 = nkDB_execute("SELECT titre FROM " . GALLERY_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
         list($parent_name) = mysql_fetch_array($sql3);
         $parent_name = printSecuTags($parent_name);
 
@@ -269,39 +269,39 @@ function description($sid)
 
     if ($_REQUEST['orderby'] == "name")
     {
-        $sql_next = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND titre > '" . $titre . "' ORDER BY titre LIMIT 0, 1");
+        $sql_next = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND titre > '" . $titre . "' ORDER BY titre LIMIT 0, 1");
         list($nextid) = mysql_fetch_array($sql_next);
 
-        $sql_last = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND titre < '" . $titre . "' ORDER BY titre DESC LIMIT 0, 1");
+        $sql_last = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND titre < '" . $titre . "' ORDER BY titre DESC LIMIT 0, 1");
         list($lastid) = mysql_fetch_array($sql_last);
     }
     else if ($_REQUEST['orderby'] == "count")
     {
-        $sql_next = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND count < '" . $count . "' ORDER BY count DESC LIMIT 0, 1");
+        $sql_next = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND count < '" . $count . "' ORDER BY count DESC LIMIT 0, 1");
         list($nextid) = mysql_fetch_array($sql_next);
 
-        $sql_last = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND count > '" . $count . "' ORDER BY count LIMIT 0, 1");
+        $sql_last = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND count > '" . $count . "' ORDER BY count LIMIT 0, 1");
         list($lastid) = mysql_fetch_array($sql_last);
     }
     else if ($_REQUEST['orderby'] == "note" && nivo_mod('Vote') > -1)
     {
-        $sql_note = mysql_query("SELECT AVG(vote) FROM " . VOTE_TABLE . " WHERE vid = '" . $sid . "' AND module = 'Gallery'");
+        $sql_note = nkDB_execute("SELECT AVG(vote) FROM " . VOTE_TABLE . " WHERE vid = '" . $sid . "' AND module = 'Gallery'");
         list($note) = mysql_fetch_array($sql_note);
 
-        $sql_next = mysql_query("SELECT L.sid, AVG(V.vote) AS note FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' WHERE L.cat = '" . $cat . "' GROUP BY L.sid HAVING note < '" . $note . "' ORDER BY note DESC LIMIT 0, 1");
+        $sql_next = nkDB_execute("SELECT L.sid, AVG(V.vote) AS note FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' WHERE L.cat = '" . $cat . "' GROUP BY L.sid HAVING note < '" . $note . "' ORDER BY note DESC LIMIT 0, 1");
         list($nextid) = mysql_fetch_array($sql_next);
 
-        $sql_last = mysql_query("SELECT L.sid, AVG(V.vote) AS note FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' WHERE L.cat = '" . $cat . "' GROUP BY L.sid HAVING note > '" . $note . "' ORDER BY note LIMIT 0, 1");
+        $sql_last = nkDB_execute("SELECT L.sid, AVG(V.vote) AS note FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' WHERE L.cat = '" . $cat . "' GROUP BY L.sid HAVING note > '" . $note . "' ORDER BY note LIMIT 0, 1");
         list($lastid) = mysql_fetch_array($sql_last);
     }
     else
     {
         $_REQUEST['orderby'] = "news";
 
-        $sql_next = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND sid < '" . $sid . "' ORDER BY sid DESC LIMIT 0, 1");
+        $sql_next = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND sid < '" . $sid . "' ORDER BY sid DESC LIMIT 0, 1");
         list($nextid) = mysql_fetch_array($sql_next);
 
-        $sql_last = mysql_query("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND sid > '" . $sid . "' ORDER BY sid LIMIT 0, 1");
+        $sql_last = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE cat = '" . $cat . "' AND sid > '" . $sid . "' ORDER BY sid LIMIT 0, 1");
         list($lastid) = mysql_fetch_array($sql_last);
     }
 
@@ -367,7 +367,7 @@ function description($sid)
     . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _FILENAME . " :</b> " . $name . "</td></tr>\n"
     . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SEEN . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n";
 
-    $sql = mysql_query(
+    $sql = nkDB_execute(
         'SELECT active
         FROM '. VOTE_MODULES_TABLE .'
         WHERE module = \'gallery\''
@@ -384,7 +384,7 @@ function description($sid)
 
     echo "</table>" . $button."\n";
 
-    $sql = mysql_query(
+    $sql = nkDB_execute(
         'SELECT active
         FROM '. COMMENT_MODULES_TABLE .'
         WHERE module = \'gallery\''
@@ -426,31 +426,31 @@ function index()
     . "<a href=\"index.php?file=Gallery&amp;op=classe&amp;orderby=count\" style=\"text-decoration: underline\">" . _TOPIMG . "</a> | "
     . "<a href=\"index.php?file=Suggest&amp;module=Gallery\" style=\"text-decoration: underline\">" . _SUGGESTIMG . "</a> ]</div><br />\n";
 
-    $sql_nbimages = mysql_query("SELECT sid FROM " . GALLERY_TABLE . "");
+    $sql_nbimages = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . "");
     $nb_images = mysql_num_rows($sql_nbimages);
 
-    $sql_nbcat = mysql_query("SELECT cid FROM " . GALLERY_CAT_TABLE . "");
+    $sql_nbcat = nkDB_execute("SELECT cid FROM " . GALLERY_CAT_TABLE . "");
     $nb_cat = mysql_num_rows($sql_nbcat);
 
     if ($nb_cat > 0)
     {
         echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td>";
 
-        $sql_cat = mysql_query("SELECT cid, titre, description FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '0' ORDER BY position, titre");
+        $sql_cat = nkDB_execute("SELECT cid, titre, description FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '0' ORDER BY position, titre");
         while (list($cid, $titre, $description) = mysql_fetch_array($sql_cat))
         {
 
             $titre = printSecuTags($titre);
             $description = icon($description);
 
-            $sql_img = mysql_query("SELECT sid, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $cid . "' ORDER BY sid DESC LIMIT 0, 1");
+            $sql_img = nkDB_execute("SELECT sid, date FROM " . GALLERY_TABLE . " WHERE cat = '" . $cid . "' ORDER BY sid DESC LIMIT 0, 1");
             $nb_imgcat = mysql_num_rows($sql_img);
             list($sid, $date) = mysql_fetch_row($sql_img);
 
-            $sql_img_tt = mysql_query("SELECT sid FROM " . GALLERY_TABLE . ", " . GALLERY_CAT_TABLE . " WHERE cat = cid AND (parentid = '" . $cid . "' OR cid = '" . $cid . "')");
+            $sql_img_tt = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . ", " . GALLERY_CAT_TABLE . " WHERE cat = cid AND (parentid = '" . $cid . "' OR cid = '" . $cid . "')");
             $nb_imgcat_tt = mysql_num_rows($sql_img_tt);
 
-            $sql_nbcat = mysql_query("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cid . "'");
+            $sql_nbcat = nkDB_execute("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cid . "'");
             $nb_nbcat = mysql_num_rows($sql_nbcat);
 
             if ($date != "")
@@ -518,7 +518,7 @@ function classe()
 
     if ($cat > 0)
     {
-        $sql = mysql_query("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "'");
+        $sql = nkDB_execute("SELECT cid FROM " . GALLERY_CAT_TABLE . " WHERE parentid = '" . $cat . "'");
         $nb_subcat = mysql_num_rows($sql);
     }
     else
@@ -591,7 +591,7 @@ function classe()
         $order = "ORDER BY L.sid DESC";
     }
 
-    $sql = mysql_query("SELECT L.sid, L.titre, L.url, L.url2, L.date, AVG(V.vote) AS note  FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' " . $where . " GROUP BY L.sid " . $order);
+    $sql = nkDB_execute("SELECT L.sid, L.titre, L.url, L.url2, L.date, AVG(V.vote) AS note  FROM " . GALLERY_TABLE . " AS L LEFT JOIN " . VOTE_TABLE . " AS V ON L.sid = V.vid AND V.module = 'Gallery' " . $where . " GROUP BY L.sid " . $order);
     $count = mysql_num_rows($sql);
 
     if ($count > 1 && $cat != "")

@@ -41,7 +41,7 @@ else if ($main != ""){
 }
 
 $req = "SELECT id, auteur, titre, date FROM " . NEWS_TABLE . " WHERE '" . $day . "' >= date AND " . $and . " ORDER BY id DESC";
-$sql_news = mysql_query($req);
+$sql_news = nkDB_execute($req);
 
 $nb_news = mysql_num_rows($sql_news);
 

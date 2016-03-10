@@ -18,7 +18,7 @@ if (! adminInit('Admin', SUPER_ADMINISTRATOR_ACCESS))
 function select_team() {
     echo "<option value=\"\">". __('NONE') ."</option>\n";
 
-    $sql = mysql_query("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
+    $sql = nkDB_execute("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
 
     while (list($cid, $titre) = mysql_fetch_array($sql)) {
         $titre = printSecuTags($titre);
@@ -32,7 +32,7 @@ function select_rank() {
 
     echo "<option value=\"\">" . _NORANK . "</option>\n";
 
-    $sql = mysql_query("SELECT id, titre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
+    $sql = nkDB_execute("SELECT id, titre FROM " . TEAM_RANK_TABLE . " ORDER BY ordre, titre");
 
     while (list($rid, $titre) = mysql_fetch_array($sql)) {
         $titre = nkHtmlEntities($titre);
@@ -153,7 +153,7 @@ function add_user() {
     echo "</select></td></tr>\n"
     . "<tr><td><b>" . __('GAME') . " :</b></td><td><select name=\"game\">\n";
 
-    $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+    $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
     while (list($game_id, $nom) = mysql_fetch_array($sql))
     {
         $nom = printSecuTags($nom);
@@ -302,7 +302,7 @@ function edit_user($id_user) {
     echo "</select></td></tr>\n"
     . "<tr><td><b>" . __('GAME') . " :</b></td><td><select name=\"game\">\n";
 
-    $sql = mysql_query("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
+    $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
     while (list($game_id, $nom) = mysql_fetch_array($sql))
     {
         $nom = printSecuTags($nom);
@@ -538,7 +538,7 @@ function do_user() {
 
     do {
         $userId = sha1(uniqid());
-    } while (mysql_num_rows(mysql_query('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $userId . '\' LIMIT 1')) != 0);
+    } while (mysql_num_rows(nkDB_execute('SELECT * FROM ' . USER_TABLE . ' WHERE id=\'' . $userId . '\' LIMIT 1')) != 0);
 
     $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
@@ -601,12 +601,12 @@ function del_user($id_user)
 {
     global $nuked, $user;
 
-    $sql = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+    $sql = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
     list($nick) = mysql_fetch_array($sql);
     $nick = mysql_real_escape_string($nick);
-    $del1 = mysql_query("DELETE FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
-    $del2 = mysql_query("DELETE FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $id_user . "'");
-    $del3 = mysql_query("DELETE FROM " . USERBOX_TABLE . " WHERE user_for = '" . $id_user . "'");
+    $del1 = nkDB_execute("DELETE FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+    $del2 = nkDB_execute("DELETE FROM " . USER_DETAIL_TABLE . " WHERE user_id = '" . $id_user . "'");
+    $del3 = nkDB_execute("DELETE FROM " . USERBOX_TABLE . " WHERE user_for = '" . $id_user . "'");
     $del4 = delModerator($id_user);
 
     saveUserAction(_ACTIONDELUSER .': '. $nick);
@@ -635,7 +635,7 @@ function main()
 
     $nb_membres = 30;
 
-    $sql3 = mysql_query("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
+    $sql3 = nkDB_execute("SELECT UT.id FROM " . USER_TABLE . " as UT WHERE UT.niveau > 0 " . $and);
     $count = mysql_num_rows($sql3);
 
     if (! array_key_exists('p', $_REQUEST) || ! $_REQUEST['p']) $_REQUEST['p'] = 1;
@@ -744,7 +744,7 @@ function main()
     . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
     $req = "SELECT UT.id, UT.pseudo, UT.niveau, UT.date, ST.last_used FROM " . USER_TABLE . " as UT LEFT OUTER JOIN " . SESSIONS_TABLE . " as ST ON UT.id=ST.user_id WHERE UT.niveau > 0 " . $and . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_membres;
-    $sql = mysql_query($req);
+    $sql = nkDB_execute($req);
     while (list($id_user, $pseudo, $niveau, $date, $last_used) = mysql_fetch_array($sql))
     {
         $date = nkDate($date);
@@ -824,7 +824,7 @@ function main_ip()
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, ip, pseudo, email FROM " . BANNED_TABLE . " ORDER BY id DESC");
+    $sql = nkDB_execute("SELECT id, ip, pseudo, email FROM " . BANNED_TABLE . " ORDER BY id DESC");
     $nbip = mysql_num_rows($sql);
 
     if ($nbip > 0)
@@ -883,7 +883,7 @@ function edit_ip($ip_id)
 {
     global $language;
 
-    $sql = mysql_query("SELECT ip, pseudo, email, dure, texte FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
+    $sql = nkDB_execute("SELECT ip, pseudo, email, dure, texte FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
     list($ip, $pseudo, $email, $dure, $text_ban) = mysql_fetch_array($sql);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -918,7 +918,7 @@ function send_ip($ip, $pseudo, $email, $dure, $texte)
     $texte = mysql_real_escape_string(stripslashes($texte));
     if($dure == 0 || $dure ==86400 ||$dure ==604800 ||$dure ==2678400 ||$dure == 31708800)
     {
-        $sql = mysql_query("INSERT INTO " . BANNED_TABLE . " ( `id` , `ip` , `pseudo` , `email` ,`date` ,`dure` , `texte` ) VALUES ( '' , '" . $ip . "' , '" . $pseudo . "' , '" . $email . "', '" . time() . "' , '" . $dure . "' , '" . $texte . "' )");
+        $sql = nkDB_execute("INSERT INTO " . BANNED_TABLE . " ( `id` , `ip` , `pseudo` , `email` ,`date` ,`dure` , `texte` ) VALUES ( '' , '" . $ip . "' , '" . $pseudo . "' , '" . $email . "', '" . time() . "' , '" . $dure . "' , '" . $texte . "' )");
     }
     else
     {
@@ -939,7 +939,7 @@ function modif_ip($ip_id, $ip, $pseudo, $email, $dure, $texte)
 
     if($dure == 0 || $dure ==86400 ||$dure ==604800 ||$dure ==2678400 ||$dure == 31708800)
     {
-    $sql = mysql_query("UPDATE " . BANNED_TABLE . " SET ip = '" . $ip . "', pseudo = '" . $pseudo . "', email = '" . $email . "', dure = '" . $dure . "', texte = '" . $texte . "' WHERE id = '" . $ip_id . "'");
+    $sql = nkDB_execute("UPDATE " . BANNED_TABLE . " SET ip = '" . $ip . "', pseudo = '" . $pseudo . "', email = '" . $email . "', dure = '" . $dure . "', texte = '" . $texte . "' WHERE id = '" . $ip_id . "'");
     }
     else
     {
@@ -955,10 +955,10 @@ function modif_ip($ip_id, $ip, $pseudo, $email, $dure, $texte)
 function del_ip($ip_id)
 {
     global $nuked, $user;
-        $sql2 = mysql_query("SELECT pseudo FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
+        $sql2 = nkDB_execute("SELECT pseudo FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
     list($pseudo) = mysql_fetch_array($sql2);
     $pseudo = mysql_real_escape_string($pseudo);
-    $sql = mysql_query("DELETE FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
+    $sql = nkDB_execute("DELETE FROM " . BANNED_TABLE . " WHERE id = '" . $ip_id . "'");
 
     saveUserAction(_ACTIONSUPBAN .': '. $pseudo);
 
@@ -971,10 +971,10 @@ function validation($id_user)
     global $nuked;
 
     $date2 = nkDate(time());
-    $sql = mysql_query("SELECT pseudo, mail FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
+    $sql = nkDB_execute("SELECT pseudo, mail FROM " . USER_TABLE . " WHERE id = '" . $id_user . "'");
     list($pseudo, $mail) = mysql_fetch_array($sql);
 
-    $upd = mysql_query("UPDATE " . USER_TABLE . " SET niveau = 1 WHERE id = '" . $id_user . "'");
+    $upd = nkDB_execute("UPDATE " . USER_TABLE . " SET niveau = 1 WHERE id = '" . $id_user . "'");
 
 $subject = $nuked['name'] . " : " . _REGISTRATION . ", " . $date2;
 $corps = $pseudo . ", " . _VALIDREGISTRATION . "\r\n" . $nuked['url'] . "/index.php?file=User&op=login_screen\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
@@ -1024,7 +1024,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
     $theday = time();
-    $sql = mysql_query("SELECT id, pseudo, mail, date FROM " . USER_TABLE . " WHERE niveau = 0 ORDER BY date");
+    $sql = nkDB_execute("SELECT id, pseudo, mail, date FROM " . USER_TABLE . " WHERE niveau = 0 ORDER BY date");
     $nb_user = mysql_num_rows($sql);
     $compteur = 0;
     while (list($id_user, $pseudo, $mail, $date) = mysql_fetch_array($sql))
@@ -1043,7 +1043,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
         if ($limit_time < $theday)
         {
             $compteur++;
-            $del = mysql_query("DELETE FROM " . USER_TABLE . " WHERE niveau = 0 AND id = '" . $id_user . "'");
+            $del = nkDB_execute("DELETE FROM " . USER_TABLE . " WHERE niveau = 0 AND id = '" . $id_user . "'");
         }
 
 
@@ -1083,7 +1083,7 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
     */
 function delModerator($idUser)
 {
-    $resultQuery = mysql_query("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $idUser . "%'");
+    $resultQuery = nkDB_execute("SELECT id,moderateurs FROM " . FORUM_TABLE . " WHERE moderateurs LIKE '%" . $idUser . "%'");
     while (list($forumID, $listModos) = mysql_fetch_row($resultQuery))
     {
         if (is_int(strpos($listModos, '|'))) //Multiple moderators in this category
@@ -1094,14 +1094,14 @@ function delModerator($idUser)
             {
                 unset($tmpListModos[$tmpKey]);
                 $tmpListModos = implode('|', $tmpListModos);
-                $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $tmpListModos . "' WHERE id = '" . $forumID . "'");
+                $updateQuery = nkDB_execute("UPDATE " . FORUM_TABLE . " SET moderateurs = '" . $tmpListModos . "' WHERE id = '" . $forumID . "'");
             }
         }
         else
         {
             if ($idUser == $listModos) // Only one moderator in this category
             {
-                $updateQuery = mysql_query("UPDATE " . FORUM_TABLE . " SET moderateurs = '' WHERE id = '" . $forumID . "'");
+                $updateQuery = nkDB_execute("UPDATE " . FORUM_TABLE . " SET moderateurs = '' WHERE id = '" . $forumID . "'");
             }
             // Else, no moderator in this category
         }

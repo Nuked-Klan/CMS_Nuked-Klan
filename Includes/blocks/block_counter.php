@@ -10,7 +10,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 function affich_block_counter($blok){
     global $nuked;
 
-    $sql = mysql_query('SELECT count FROM ' . STATS_TABLE . ' WHERE type = "pages"');
+    $sql = nkDB_execute('SELECT count FROM ' . STATS_TABLE . ' WHERE type = "pages"');
     while (list($count) = mysql_fetch_array($sql))
     {
         $visites = $visites + $count;
@@ -38,7 +38,7 @@ function affich_block_counter($blok){
 function edit_block_counter($bid){
     global $nuked, $language;
 
-    $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+    $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     $titre = printSecuTags($titre);
 

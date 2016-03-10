@@ -40,7 +40,7 @@ function affich_block_login($blok){
 		else{
 			$blok['content'] = '<div style="text-align: center;">' . _WELCOME . ', <b>' . $user[2] . '</b><br /><br />'."\n";
 			if ($avatar != 'off'){
-				$sql_avatar=mysql_query('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $user[0] . '\' ');
+				$sql_avatar=nkDB_execute('SELECT avatar FROM ' . USER_TABLE . ' WHERE id = \'' . $user[0] . '\' ');
 				list($avatar_url) = mysql_fetch_array($sql_avatar);
 				if($avatar_url) $blok['content'] .= '<img src="' . $avatar_url . '" style="border:1px ' . $bgcolor3 . ' dashed; width:100px; background:' . $bgcolor1 . '; padding:2px;" alt="' . $user[2] . ' avatar" /><br /><br />';
 			}
@@ -52,7 +52,7 @@ function affich_block_login($blok){
     if ($messpv != 'off' && (array_key_exists(0, $user) && $user[0] != '')) {
 		if ($c > 0) $blok['content'] .= '<hr style="height: 1px;" />'."\n";
 
-        $sql2 = mysql_query('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
+        $sql2 = nkDB_execute('SELECT mid FROM ' . USERBOX_TABLE . ' WHERE user_for = \'' . $user[0] . '\' AND status = 1');
         $nb_mess_lu = mysql_num_rows($sql2);
 
         $blok['content'] .= '&nbsp;<img width="14" height="12" src="images/message.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MESSPV . '</b></span><br />'."\n";
@@ -79,13 +79,13 @@ function affich_block_login($blok){
 
         $blok['content'] .= '&nbsp;<img width="16" height="13" src="images/memberslist.gif" alt="" />&nbsp;<span style="text-decoration: underline"><b>' . _MEMBERS . '</b></span><br />'."\n";
 
-        $sql_users = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau < 3');
+        $sql_users = nkDB_execute('SELECT id FROM ' . USER_TABLE . ' WHERE niveau < 3');
         $nb_users = mysql_num_rows($sql_users);
 
-        $sql_admin = mysql_query('SELECT id FROM ' . USER_TABLE . ' WHERE niveau > 2');
+        $sql_admin = nkDB_execute('SELECT id FROM ' . USER_TABLE . ' WHERE niveau > 2');
         $nb_admin = mysql_num_rows($sql_admin);
 
-        $sql_lastmember = mysql_query('SELECT pseudo FROM ' . USER_TABLE . ' ORDER BY date DESC LIMIT 0, 1');
+        $sql_lastmember = nkDB_execute('SELECT pseudo FROM ' . USER_TABLE . ' ORDER BY date DESC LIMIT 0, 1');
         list($lastmember) = mysql_fetch_array($sql_lastmember);
 
         $blok['content'] .= '&nbsp;<b><big>·</big></b>&nbsp;' . _ADMINS . ' : <b>' . $nb_admin . '</b><br />&nbsp;<b><big>·</big></b>&nbsp;' . _MEMBERS . ' :'
@@ -103,7 +103,7 @@ function affich_block_login($blok){
     	$nb = nbvisiteur();
 
     	if ($nb[1] > 0){
-			$sql4 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type BETWEEN 1 AND 2 ORDER BY date');
+			$sql4 = nkDB_execute('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type BETWEEN 1 AND 2 ORDER BY date');
 			while (list($nom) = mysql_fetch_array($sql4)){
 				   $user_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $nom . '</b><br />';
 			}
@@ -114,7 +114,7 @@ function affich_block_login($blok){
 
 		if ($nb[2] > 0) {
             $admin_online = '';
-			$sql5 = mysql_query('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
+			$sql5 = nkDB_execute('SELECT username FROM ' . NBCONNECTE_TABLE . ' WHERE type > 2 ORDER BY date');
 			while (list($name) = mysql_fetch_array($sql5)){
 				   $admin_online .= '&nbsp;<b><big>·</big></b>&nbsp;<b>' . $name . '</b><br />';
 			}	
@@ -140,7 +140,7 @@ function affich_block_login($blok){
 function edit_block_login($bid){
     global $nuked, $language;
 
-    $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+    $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
     $titre = printSecuTags($titre);
 

@@ -39,7 +39,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys'] != -1) {
 
 echo '[ <a href="index.php?file=Stats&amp;page=top">' . _TOP . '</a> ]</div>'."\n";
 
-$sql = mysql_query('SELECT
+$sql = nkDB_execute('SELECT
     (SELECT COUNT(id) FROM ' . USER_TABLE . ') AS nb_us,
     (SELECT COUNT(id) FROM ' . NEWS_TABLE . ') AS nb_nw,
     (SELECT COUNT(artid) FROM ' . SECTIONS_TABLE . ') AS nb_sc,
@@ -67,7 +67,7 @@ echo '<div style="text-align: center"><br />' . _WERECEICED . '&nbsp;' . $counte
     . '</td></tr>'."\n";
 
 $nb = 0;
-$sql2 = mysql_query('SELECT nom, count FROM ' . STATS_TABLE . ' ORDER BY count DESC');
+$sql2 = nkDB_execute('SELECT nom, count FROM ' . STATS_TABLE . ' ORDER BY count DESC');
 $j = 0;
 while (list($page, $count) = mysql_fetch_array($sql2)) {
     if (nivo_mod($page) != -1) {

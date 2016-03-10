@@ -121,9 +121,9 @@ function send_block($titre, $type, $nivo, $pages)
     $nivo = mysql_real_escape_string(stripslashes($nivo));
     $pages = mysql_real_escape_string(stripslashes($pages));
 
-    $sql = mysql_query("INSERT INTO " . BLOCK_TABLE . " ( `bid` , `active` , `position` , `module` , `titre` , `content` , `type` , `nivo` , `page` ) VALUES ( '' , '0' , '' , '" . $module . "' , '" . $titre . "' , '' , '" . $type . "' , '" . $nivo . "' , '" . $pages . "' )");
+    $sql = nkDB_execute("INSERT INTO " . BLOCK_TABLE . " ( `bid` , `active` , `position` , `module` , `titre` , `content` , `type` , `nivo` , `page` ) VALUES ( '' , '0' , '' , '" . $module . "' , '" . $titre . "' , '' , '" . $type . "' , '" . $nivo . "' , '" . $pages . "' )");
 
-    $sql2 = mysql_query("SELECT bid FROM " . BLOCK_TABLE . " WHERE titre = '" . $titre . "' AND type = '" . $type . "'");
+    $sql2 = nkDB_execute("SELECT bid FROM " . BLOCK_TABLE . " WHERE titre = '" . $titre . "' AND type = '" . $type . "'");
     list($bid) = mysql_fetch_array($sql2);
 
     saveUserAction(_ACTIONADDBLOCK .': '. $titre);
@@ -138,9 +138,9 @@ function del_block($bid)
 
     $bid = mysql_real_escape_string(stripslashes($bid));
 
-    $sql2 = mysql_query("SELECT titre FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+    $sql2 = nkDB_execute("SELECT titre FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
     list($titre) = mysql_fetch_array($sql2);
-    $sql = mysql_query("DELETE FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+    $sql = nkDB_execute("DELETE FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
 
     saveUserAction(_ACTIONDELBLOCK .': '. $titre);
 
@@ -152,7 +152,7 @@ function select_mod2($mod)
 {
     global $nuked;
 
-    $sql = mysql_query("SELECT nom FROM " . MODULES_TABLE . " ORDER BY nom");
+    $sql = nkDB_execute("SELECT nom FROM " . MODULES_TABLE . " ORDER BY nom");
     $mod = explode('|', $mod);
     while (list($nom) = mysql_fetch_array($sql))
     {
@@ -225,7 +225,7 @@ function edit_block($bid)
 
     $bid = mysql_real_escape_string(stripslashes($bid));
 
-    $sql = mysql_query("SELECT type FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+    $sql = nkDB_execute("SELECT type FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
     list($type) = mysql_fetch_array($sql);
 
     include_once('Includes/blocks/block_' . $type . '.php');
@@ -265,7 +265,7 @@ function modif_block($data)
         $module = '';
     }
 
-    $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET active = '" . $data['active'] . "', position = '" . $data['position'] . "', module = '" . $module . "', titre = '" . $data['titre'] . "', content = '" . $data['content'] . "', type = '" . $data['type'] . "', nivo = '" . $data['nivo'] . "', page = '" . $data['pages'] . "' WHERE bid = '" . $data['bid'] . "'");
+    $sql = nkDB_execute("UPDATE " . BLOCK_TABLE . " SET active = '" . $data['active'] . "', position = '" . $data['position'] . "', module = '" . $module . "', titre = '" . $data['titre'] . "', content = '" . $data['content'] . "', type = '" . $data['type'] . "', nivo = '" . $data['nivo'] . "', page = '" . $data['pages'] . "' WHERE bid = '" . $data['bid'] . "'");
 
     saveUserAction(_ACTIONMODIFBLOCK .': '. $data['titre']);
 
@@ -277,7 +277,7 @@ function modif_position_block($bid, $method)
 {
     global $nuked;
 
-    $sql2 = mysql_query("SELECT titre, position FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+    $sql2 = nkDB_execute("SELECT titre, position FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
     list($titre, $position) = mysql_fetch_array($sql2);
 
     if ($method == 'up')
@@ -294,7 +294,7 @@ function modif_position_block($bid, $method)
         $position = 0;
     }
 
-    $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET position = '" . $position . "' WHERE bid = '" . $bid . "'");
+    $sql = nkDB_execute("UPDATE " . BLOCK_TABLE . " SET position = '" . $position . "' WHERE bid = '" . $bid . "'");
 
     saveUserAction(_ACTIONPOSBLOCK .': '. $titre);
 
@@ -337,7 +337,7 @@ function main()
     . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT active, position, titre, module, content, type, nivo, bid FROM " . BLOCK_TABLE . " ORDER BY active DESC, position, nivo");
+    $sql = nkDB_execute("SELECT active, position, titre, module, content, type, nivo, bid FROM " . BLOCK_TABLE . " ORDER BY active DESC, position, nivo");
     while (list($active, $position, $titre, $module, $content, $type, $nivo, $bid) = mysql_fetch_array($sql))
     {
         $titre = printSecuTags($titre);

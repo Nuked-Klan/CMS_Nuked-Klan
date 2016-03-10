@@ -33,7 +33,7 @@ if ($active == 3 || $active == 4)
 
     echo "<td style=\"width: 15%;\" align=\"center\"><b>" . __('RANK') . "</b></td></tr>\n";
 
-    $sql_team = mysql_query("SELECT cid FROM " . TEAM_TABLE);
+    $sql_team = nkDB_execute("SELECT cid FROM " . TEAM_TABLE);
     $nb_team = mysql_num_rows($sql_team);
 
     if ($nb_team > 0) $where = "WHERE team > 0"; else $where = "WHERE niveau > 1";
@@ -54,7 +54,7 @@ if ($active == 3 || $active == 4)
 
         if ($teamMember['rang'] != "" && $teamMember['rang'] > 0)
         {
-            $sql_rank = mysql_query("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $teamMember['rang'] . "'");
+            $sql_rank = nkDB_execute("SELECT titre FROM " . TEAM_RANK_TABLE . " WHERE id = '" . $teamMember['rang'] . "'");
             list($rank_name) = mysql_fetch_array($sql_rank);
             $rank_name = nkHtmlEntities($rank_name);
         }
@@ -81,12 +81,12 @@ else
 {
     echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"1\">\n";
 
-    $sql_team = mysql_query("SELECT cid FROM " . TEAM_TABLE);
+    $sql_team = nkDB_execute("SELECT cid FROM " . TEAM_TABLE);
     $nb_team = mysql_num_rows($sql_team);
 
     if ($nb_team > 0) $where = "WHERE team > 0"; else $where = "WHERE niveau > 1";
 
-    $sql = mysql_query("SELECT pseudo, email, country FROM " . USER_TABLE . " " . $where . " ORDER BY ordre, pseudo");
+    $sql = nkDB_execute("SELECT pseudo, email, country FROM " . USER_TABLE . " " . $where . " ORDER BY ordre, pseudo");
 
     $userSocialImgCfg = nkUserSocial_getImgConfig();
 

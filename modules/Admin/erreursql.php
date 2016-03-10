@@ -69,7 +69,7 @@ function delete()
     global $user, $nuked, $visiteur;
 
     if ($visiteur == '9')
-        $sql3 = mysql_query("DELETE FROM ". SQL_ERROR_TABLE);
+        $sql3 = nkDB_execute("DELETE FROM ". SQL_ERROR_TABLE);
 
     saveUserAction(_ACTIONVIDERSQL);
 

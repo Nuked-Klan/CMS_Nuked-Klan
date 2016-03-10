@@ -34,7 +34,7 @@ function affich_block_suggest($blok){
     for($i=0; $i<$size; $i++){
         $temp = explode('|', $modules[$i]);
 
-        $sql = mysql_query('SELECT id FROM ' . SUGGEST_TABLE . ' WHERE module = \'' . $temp[1] . '\' ');
+        $sql = nkDB_execute('SELECT id FROM ' . SUGGEST_TABLE . ' WHERE module = \'' . $temp[1] . '\' ');
         $nb_sug = mysql_num_rows($sql);
 
         $level_access = nivo_mod($temp[1]);
@@ -64,7 +64,7 @@ function affich_block_suggest($blok){
 function edit_block_suggest($bid){
     global $nuked, $language;
 
-    $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
+    $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
 
     $titre = printSecuTags($titre);

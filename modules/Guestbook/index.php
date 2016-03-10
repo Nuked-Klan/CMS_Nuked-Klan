@@ -45,7 +45,7 @@ function post_book()
 
     if ($user)
     {
-        $sql = mysql_query("SELECT url, email FROM " . USER_TABLE . " WHERE pseudo = '" . $user[2] . "'");
+        $sql = nkDB_execute("SELECT url, email FROM " . USER_TABLE . " WHERE pseudo = '" . $user[2] . "'");
         list($url, $mail) = mysql_fetch_array($sql);
     }
 
@@ -103,7 +103,7 @@ function send_book($name, $email, $url, $comment)
         return;
     }
 
-    $sql2 = mysql_query("SELECT date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT 0, 1");
+    $sql2 = nkDB_execute("SELECT date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT 0, 1");
     list($flood_date, $flood_ip) = mysql_fetch_array($sql2);
 
     $anti_flood = $flood_date + 60;
@@ -129,7 +129,7 @@ function send_book($name, $email, $url, $comment)
             $url = "http://" . mysql_real_escape_string(stripslashes($url));
         }
 
-        $sql = mysql_query("INSERT INTO " . GUESTBOOK_TABLE . " ( `id` , `name` , `email` , `url` , `date` , `host` , `comment` ) VALUES ( '' , '" . $pseudo . "' , '" . $email . "' , '" . $url . "' , '" . $date . "' , '" . $user_ip . "' , '" . $comment . "' )");
+        $sql = nkDB_execute("INSERT INTO " . GUESTBOOK_TABLE . " ( `id` , `name` , `email` , `url` , `date` , `host` , `comment` ) VALUES ( '' , '" . $pseudo . "' , '" . $email . "' , '" . $url . "' , '" . $date . "' , '" . $user_ip . "' , '" . $comment . "' )");
 
         printNotification(_POSTADD, 'success');
         redirect("index.php?file=Guestbook", 2);
@@ -151,7 +151,7 @@ function index()
 
     $nb_mess_guest = $nuked['mess_guest_page'];
 
-    $sql = mysql_query("SELECT id FROM " . GUESTBOOK_TABLE);
+    $sql = nkDB_execute("SELECT id FROM " . GUESTBOOK_TABLE);
     $count = mysql_num_rows($sql);
 
     if(array_key_exists('p', $_REQUEST)){
@@ -175,7 +175,7 @@ function index()
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . __('AUTHOR') . "</b></td>\n"
     . "<td style=\"width: 70%;\" align=\"center\"><b>" . _COMMENT . "</b></td></tr>\n";
 
-    $sql2 = mysql_query("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
+    $sql2 = nkDB_execute("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
     $j = 0;
     while (list($id, $name, $comment, $email, $url, $date, $ip) = mysql_fetch_array($sql2))
     {

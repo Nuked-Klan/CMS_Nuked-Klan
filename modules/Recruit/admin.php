@@ -36,13 +36,13 @@ echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 . "<td style=\"width: 20%;\" align=\"center\"><b>" . _MAIL . "</b></td>\n"
 . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT id, pseudo, prenom, mail, game, date FROM " . RECRUIT_TABLE . " ORDER BY id DESC");
+    $sql = nkDB_execute("SELECT id, pseudo, prenom, mail, game, date FROM " . RECRUIT_TABLE . " ORDER BY id DESC");
     $count = mysql_num_rows($sql);
     while (list($rid, $pseudo, $prenom, $mail, $game, $date) = mysql_fetch_array($sql))
     {
         $date = strftime("%x", $date);
 
-        $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id='$game'");
+        $sql2 = nkDB_execute("SELECT name FROM " . GAMES_TABLE . " WHERE id='$game'");
         list($game_name) = mysql_fetch_array($sql2);
         $game_name = nkHtmlEntities($game_name);
 
@@ -94,7 +94,7 @@ echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;o
 . "<tr><td><b>" . _MAILAVERT . "</b> : <input type=\"text\" size=\"30\" name=\"recrute_mail\" value=\"" . $nuked['recrute_mail'] . "\" /></td></tr>\n"
 . "<tr><td><b>" . _INBOXAVERT . "</b> : <select name=\"recrute_inbox\"><option value=\"\">" . _OFF . "</option>\n";
 
-    $sql2 = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
+    $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
     while (list($id_user, $pseudo) = mysql_fetch_array($sql2))
     {
         if ($nuked['recrute_inbox'] == $id_user)
@@ -124,10 +124,10 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
     $recrute_charte = nkHtmlEntityDecode($recrute_charte);
     $recrute_charte = mysql_real_escape_string(stripslashes($recrute_charte));
 
-    $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute . "' WHERE name = 'recrute'");
-    $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_charte . "' WHERE name = 'recrute_charte'");
-    $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_mail . "' WHERE name = 'recrute_mail'");
-    $upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_inbox . "' WHERE name = 'recrute_inbox'");
+    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute . "' WHERE name = 'recrute'");
+    $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_charte . "' WHERE name = 'recrute_charte'");
+    $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_mail . "' WHERE name = 'recrute_mail'");
+    $upd3 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_inbox . "' WHERE name = 'recrute_inbox'");
 
     saveUserAction(_ACTIONPREFREC .'.');
 
@@ -158,11 +158,11 @@ function view($rid)
 . "</div></div>\n"
 . "<div class=\"tab-content\" id=\"tab2\"><table width=\"90%\" style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\"><tr><td>\n";
 
-    $sql = mysql_query("SELECT pseudo, prenom, age, mail, icq, country, game, `connection`, experience, dispo, comment FROM " . RECRUIT_TABLE . " WHERE id = '" . $rid . "'");
+    $sql = nkDB_execute("SELECT pseudo, prenom, age, mail, icq, country, game, `connection`, experience, dispo, comment FROM " . RECRUIT_TABLE . " WHERE id = '" . $rid . "'");
     list($pseudo, $prenom, $age, $mail, $icq, $country, $game, $connection, $experience, $dispo, $comment) = mysql_fetch_array($sql);
     list ($pays, $ext) = explode ('.', $country);
 
-    $sql2 = mysql_query("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
+    $sql2 = nkDB_execute("SELECT name FROM " . GAMES_TABLE . " WHERE id = '" . $game . "'");
     list($game_name) = mysql_fetch_array($sql2);
     $game_name = nkHtmlEntities($game_name);
 
@@ -186,7 +186,7 @@ function del($rid)
 {
     global $nuked, $user;
 
-    $del = mysql_query("DELETE FROM " . RECRUIT_TABLE . " WHERE id = '" . $rid ."'");
+    $del = nkDB_execute("DELETE FROM " . RECRUIT_TABLE . " WHERE id = '" . $rid ."'");
 
     saveUserAction(_ACTIONDELREC .'.');
 
