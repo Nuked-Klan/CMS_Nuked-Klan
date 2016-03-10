@@ -22,12 +22,14 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
  * @return string XML code
  */
 function nkSitemap_addUrlNode($module, $priority, $lastmod = false, $changefreq = false) {
+    global $nuked;
+
     $xml = "\t" .'<url>' ."\r\n"
         . "\t\t" .'<loc>'. $nuked['url'] .'/index.php?file='. $module .'</loc>' ."\r\n"
         . "\t\t" .'<priority>'. $priority .'</priority>' ."\r\n";
 
     if ($lastmod !== false)
-        $xml .= "\t\t" .'<lastmod>'. $Last .'</lastmod>' ."\r\n";
+        $xml .= "\t\t" .'<lastmod>'. $lastmod .'</lastmod>' ."\r\n";
 
     if ($changefreq !== false)
         $xml .= "\t\t" .'<changefreq>daily</changefreq>' ."\r\n";
@@ -61,29 +63,31 @@ function nkSitemap_getContent() {
     foreach ($moduleList as $module) {
         $lastmod = date('Y-m-d');
 
-        switch ($module['nom']) {
+        switch ($module) {
             case 'News':
                 //$dbrNews = nkDB_execute('SELECT date FROM '. NEWS_TABLE, array('date'), 'DESC', 1);
                 //$lastmod = $dbrNews['date'];
-                $xml .= nkSitemap_addUrlNode($module['nom'], 0.8, $lastmod, 'daily');
+                $xml .= nkSitemap_addUrlNode($module, 0.8, $lastmod, 'daily');
                 break;
 
             case 'Forum':
-                $xml .= nkSitemap_addUrlNode($module['nom'], 0.4, $lastmod, 'always');
+                $xml .= nkSitemap_addUrlNode($module, 0.4, $lastmod, 'always');
                 break;
 
             case 'Download':
                 //$dbrDownload = nkDB_execute('SELECT date FROM '. DOWNLOAD_TABLE, array('date'), 'DESC', 1);
                 //$lastmod = $dbrDownload['date'];
-                $xml .= nkSitemap_addUrlNode($module['nom'], 0.5, $lastmod, 'weekly');
+                $xml .= nkSitemap_addUrlNode($module, 0.5, $lastmod, 'weekly');
                 break;
 
             default:
-                $xml .= nkSitemap_addUrlNode($module['nom'], 0.5);
+                $xml .= nkSitemap_addUrlNode($module, 0.5);
         }
     }
 
     $xml .= '</urlset>' ."\r\n";
+
+    return $xml;
 }
 
 /**
@@ -95,7 +99,7 @@ function nkSitemap_getContent() {
 function nkSitemap_write() {
     if (is_writable('sitemap.xml')) {
         $xml       = chr(0xEF) . chr(0xBB)  . chr(0xBF) . utf8_encode(nkSitemap_getContent());
-        $xmlLength = mb_strlen($xml, 'UTF-8');
+        $xmlLength = strlen($xml);
         $result    = file_put_contents('sitemap.xml', $xml);
 
         if ($result !== false && $result === $xmlLength)
