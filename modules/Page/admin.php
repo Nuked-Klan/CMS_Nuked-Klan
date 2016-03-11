@@ -98,7 +98,7 @@ function add()
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
     . "<tr><td><b>" . _PAGENAME . " : </b> <input type=\"text\" name=\"titre\" maxlength=\"50\" size=\"30\" /><span style=\"margin-left:30px;\"><b>" . _SHOWTITLE . " :</b>\n";
 
-    checkboxButton('show_title', 'show_title', $show_title, false);
+    checkboxButton('show_title', 'show_title', 0, false);
 
     echo "</span></td></tr>\n"
     . "<tr><td style=\"vertical-align:middle\"><b>" . _PAGETYPE . " :</b>\n"
@@ -132,53 +132,42 @@ function add()
     . "<tr><td><big><b>" . _CONTENT . " :</b></big></td></tr>\n"
     . "<tr><td align=\"center\"><textarea class=\"editor\" id=\"contents\" name=\"content\" cols=\"85\" rows=\"20\"></textarea></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
-    . "<tr><td><b>"._PAGEFILE." :</b> <select name=\"url\"><option value=\"\">". _NOFILE ."</option><option value=\"\">* HTML</option>\n";
-    
-    $rep = Array();
-    $handle = @opendir("modules/Page/html/");
-    while (false !== ($f = readdir($handle)))
-    {
-        if ($f != ".." && $f != ".")
-        {
-            $rep[] = $f;
-        }
+    . "<tr><td><b>"._PAGEFILE." :</b> <select name=\"url\"><option value=\"\">". _NOFILE ."</option>\n";
+
+    $options = '';
+    $rep = scandir('modules/Page/html');
+    $rep = array_diff($rep, array('.', '..'));
+    sort($rep);
+
+    foreach ($rep as $filename) {
+        $extension = strtolower(substr(strrchr($filename, '.'), 1));
+
+        if ($extension == 'html')
+            $options .= '<option value="'. $filename .'">&nbsp;&nbsp;&nbsp;'. $filename .'</option>' ."\n";
     }
 
-    closedir($handle);
-    sort ($rep);
-    reset ($rep);
+    if ($options !='')
+        echo '<optgroup label="* HTML">'. $options .'</optgroup>';
 
-    while (list ($key, $filename) = each ($rep)) 
-    {
-            echo "<option value=\"" . $filename . "\">&nbsp;&nbsp;&nbsp;" . $filename . "</option>\n";
-    } 
+    $options = '';
+    $rep = scandir('modules/Page/php');
+    $rep = array_diff($rep, array('.', '..', 'index.html'));
+    sort($rep);
 
-    echo "<option value=\"\">* PHP</option>\n";
+    foreach ($rep as $filename) {
+        $extension = strtolower(substr(strrchr($filename, '.'), 1));
 
-    $rep2 = Array();
-    $handle2 = @opendir("modules/Page/php/");
-    while (false !== ($f2 = readdir($handle2)))
-    {
-        if ($f2 != ".." && $f2 != ".")
-        {
-            $rep2[] = $f2;
-        }
+        if ($extension == 'html')
+            $options .= '<option value="'. $filename .'">&nbsp;&nbsp;&nbsp;'. $filename .'</option>' ."\n";
     }
 
-    closedir($handle2);
-    sort ($rep2);
-    reset ($rep2);
-
-    while (list ($key2, $filename2) = each ($rep2)) 
-    {
-            echo "<option value=\"" . $filename2 . "\">&nbsp;&nbsp;&nbsp;" . $filename2 . "</option>\n";
-    } 
+    if ($options !='')
+        echo '<optgroup label="* PHP">'. $options .'</optgroup>';
 
     echo "</select></td></tr>\n"
     . "<tr><td><b>" . _UPLOADPAGE . " : </b><input type=\"file\" size=\"40\" name=\"pagefile\" /></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _ADDMENU . " :</b> <select name=\"menu\"><option value=\"\">". _NOFILE ."</option>\n";
-    
 
     $sql_menu = nkDB_execute("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
     while (list($bid, $menu) = nkDB_fetchArray($sql_menu))
@@ -204,19 +193,16 @@ function do_add($titre, $type, $niveau, $content, $menu, $show_title, $members)
         $userslist = implode('|', $members);
 
     // $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
-    // $filename = strtolower($filename);
 
     //Upload du fichier
     $pageUrl = '';
 
     if ($_FILES['pagefile']['name'] != '' && in_array($type, array('html', 'php'))) {
         $pageCfg = array(
-            'fileType'  => 'all',
-            'uploadDir' => 'modules/Page/'. $type,
-            //'fileSize'  => 100000
-            'strtolowerFilename' => true,
-            'allowedExtension' => array($type),
-            'renameExtension' => array(
+            'uploadDir'             => 'modules/Page/'. $type,
+            'strtolowerFilename'    => true,
+            'allowedExtension'      => array($type),
+            'renameExtension'       => array(
                 'htm' => 'html'
             )
         );
@@ -295,8 +281,11 @@ function edit($page_id)
     if ($type == "php") $selected2 = "selected=\"selected\""; 
     else $selected2 = "";
 
-    if ($show_title == 1) $checked_show = true;
-    
+    if ($show_title == 1)
+        $checked_show = true;
+    else
+        $checked_show = false;
+
         echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>Editer une Page</h3>\n"
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
@@ -344,48 +333,48 @@ function edit($page_id)
     . "<tr><td align=\"center\"><textarea class=\"editor\" id=\"contents\" name=\"content\" cols=\"85\" rows=\"20\">" . $content . "</textarea></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>"._PAGEFILE." :</b> <select name=\"url\"><option value=\"\">". _NOFILE ."</option><option value=\"\">* HTML</option>\n";
-    
-    $rep = Array();
-    $handle = @opendir("modules/Page/html/");
-    while (false !== ($f = readdir($handle)))
-    {
-        if ($f != ".." && $f != ".")
-        {
-            $rep[] = $f;
+
+    $options = '';
+    $rep = scandir('modules/Page/html');
+    $rep = array_diff($rep, array('.', '..'));
+    sort($rep);
+
+    foreach ($rep as $filename) {
+        $extension = strtolower(substr(strrchr($filename, '.'), 1));
+
+        if ($extension == 'html') {
+            if ($filename == $url)
+                $selected = ' selected="selected"';
+            else
+                $selected = '';
+
+            $options .= '<option value="'. $filename .'"'. $selected .'>&nbsp;&nbsp;&nbsp;'. $filename .'</option>' ."\n";
         }
     }
 
-    closedir($handle);
-    sort ($rep);
-    reset ($rep);
+    if ($options !='')
+        echo '<optgroup label="* HTML">'. $options .'</optgroup>';
 
-    while (list ($key, $filename) = each ($rep)) 
-    {
-        if ($filename == $url)  $selected3 = "selected=\"selected\""; else $selected3 = "";
-        echo "<option value=\"" . $filename . "\" " . $selected3 . ">&nbsp;&nbsp;&nbsp;" . $filename . "</option>\n";
-    } 
+    $options = '';
+    $rep = scandir('modules/Page/php');
+    $rep = array_diff($rep, array('.', '..', 'index.html'));
+    sort($rep);
 
-    echo "<option value=\"\">* PHP</option>\n";
+    foreach ($rep as $filename) {
+        $extension = strtolower(substr(strrchr($filename, '.'), 1));
 
-    $rep2 = Array();
-    $handle2 = @opendir("modules/Page/php/");
-    while (false !== ($f2 = readdir($handle2)))
-    {
-        if ($f2 != ".." && $f2 != ".")
-        {
-            $rep2[] = $f2;
+        if ($extension == 'html') {
+            if ($filename == $url)
+                $selected = ' selected="selected"';
+            else
+                $selected = '';
+
+            $options .= '<option value="'. $filename .'"'. $selected .'>&nbsp;&nbsp;&nbsp;'. $filename .'</option>' ."\n";
         }
     }
 
-    closedir($handle2);
-    sort ($rep2);
-    reset ($rep2);
-
-    while (list ($key2, $filename2) = each ($rep2)) 
-    {
-        if ($filename2 == $url)  $selected4 = "selected=\"selected\""; else $selected4 = "";		
-        echo "<option value=\"" . $filename2 . "\" " . $selected4 . ">&nbsp;&nbsp;&nbsp;" . $filename2 . "</option>\n";
-    } 
+    if ($options !='')
+        echo '<optgroup label="* PHP">'. $options .'</optgroup>';
 
     echo "</select></td></tr>\n"
     . "<tr><td><b>" . _UPLOADPAGE . " : </b><input type=\"file\" size=\"40\" name=\"pagefile\" /></td></tr>\n"
@@ -416,19 +405,16 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $menu, $show_title,
         $userslist = implode('|', $members);
 
     // $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
-    // $filename = strtolower($filename);
 
     //Upload du fichier
     $pageUrl = '';
 
     if ($_FILES['pagefile']['name'] != '' && in_array($type, array('html', 'php'))) {
         $pageCfg = array(
-            'fileType'  => 'all',
-            'uploadDir' => 'modules/Page/'. $type,
-            //'fileSize'  => 100000
-            'strtolowerFilename' => true,
-            'allowedExtension' => array($type),
-            'renameExtension' => array(
+            'uploadDir'             => 'modules/Page/'. $type,
+            'strtolowerFilename'    => true,
+            'allowedExtension'      => array($type),
+            'renameExtension'       => array(
                 'htm' => 'html'
             )
         );

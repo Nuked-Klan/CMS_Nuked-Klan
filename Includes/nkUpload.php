@@ -50,10 +50,6 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if (! is_writable($params['uploadDir']))
         return array('', __('UPLOAD_DIRECTORY_NO_WRITEABLE'), '');
 
-    // TODO A VIRER
-    if (! isset($params['fileType']) || ! in_array($params['fileType'], array('image', 'no-html-php', 'all')))
-        $params['fileType'] = 'no-html-php';
-
     if (! array_key_exists('fileSize', $params))
         $params['fileSize'] = null;
 
@@ -65,6 +61,9 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
 
     if (! isset($params['allowedExtension']) || ! is_array($params['allowedExtension']))
         $params['allowedExtension'] = array();
+
+    if (! isset($params['disallowedExtension']) || ! is_array($params['disallowedExtension']))
+        $params['disallowedExtension'] = array();
 
     if ($params['allowedExtension'] && ! array_diff($params['allowedExtension'], array('jpg', 'png', 'gif', 'bmp')))
         $uploadImage = true;
@@ -112,8 +111,10 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     $realFilename = pathinfo($filename, PATHINFO_FILENAME);
     $extension    = pathinfo($filename, PATHINFO_EXTENSION);
 
-    if ($params['allowedExtension'] && ! in_array($extension, $params['allowedExtension']))
-        return array('', sprintf(nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_EXTENSION'), $extension), '');
+    if ($params['allowedExtension'] && ! in_array($extension, $params['allowedExtension'])) {
+        $extDisplay = ($extension) ? '('. $extension .')' : '';
+        return array('', sprintf(nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_EXTENSION'), $extDisplay), '');
+    }
 
     if ($params['renameExtension']) {
         foreach ($params['renameExtension'] as $searchedExt => $replaceExt) {
@@ -136,10 +137,29 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
         if (! nkUpload_checkImage($tmpFilename, $extension))
             return array('', nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_FORMAT'), '');
     }
-    // TODO Rewrite this
-    else if ($params['fileType'] == 'no-html-php') {
-        if (nkUpload_checkFileType($tmpFilename, $extension))
-            return array('', sprintf(nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_EXTENSION'), $extension), '');
+    else {
+        if ($params['disallowedExtension']) {
+            $mime = nkUpload_getMimeType($tmpFilename);
+            $extensionError = false;
+
+            // Check and protect against dangerous extension if disallowed :
+            // .php .phtml .php3 .php4 .php5 .phps & .html .htm
+            foreach (array('php', 'htm') as $badExtension) {
+                foreach ($params['disallowedExtension'] as $disallowedExtension) {
+                    if (stripos($disallowedExtension, $badExtension) !== false
+                        && stripos($extension, $badExtension) !== false
+                        && stripos($mime, $badExtension) !== false
+                    ) {
+                        $extensionError = true;
+                    }
+                }
+            }
+
+            if ($extensionError || in_array($extension, $params['disallowedExtension'])) {
+                $extDisplay = ($extension) ? '('. $extension .')' : '';
+                return array('', sprintf(nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_EXTENSION'), $extDisplay), '');
+            }
+        }
     }
 
     $path = rtrim($params['uploadDir'], '/') .'/'. $realFilename;
@@ -265,22 +285,17 @@ function nkUpload_checkImage($tmpFilename, &$ext) {
 }
 
 /**
- * Check a uploaded file.
+ * Get MIME type of uploaded file.
  *
  * @param string $tmpFilename : The path of uploaded file in temporary directory.
- * @param string $fileType : The type of allowed upload.
- * @return bool : Return true if uploaded file isn't a html and php file, false also
+ * @return string
  */
-function nkUpload_checkFileType($tmpFilename, $ext) {
+function nkUpload_getMimeType($tmpFilename) {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mime  = finfo_file($finfo, $tmpFilename);
     finfo_close($finfo);
 
-    return in_array($mime, array('text/html', 'text/x-php'))
-        // .html .htm
-        || strpos($ext, 'htm') !== false
-        // .php .phtml .php3 .php4 .php5 .phps
-        || strpos($ext, 'php') !== false;
+    return $mime;
 }
 
 /**

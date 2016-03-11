@@ -184,18 +184,17 @@ function upload($filename = '', $url = '', $upload_dl, $file_filter, $file_filtr
 
     if ($upload_dl == 'on' && $_FILES[$filename]['name'] != '') {
         $fileCfg = array(
-            'fileType'  => 'all',
-            'uploadDir' => $rep_dl,
-            //'fileSize'  => 100000
-            'fileRename' => true,
-            'renameExtension' => array(
+            'disallowedExtension'   => array('php', 'html'),
+            'uploadDir'             => $rep_dl,
+            'fileRename'            => true,
+            'renameExtension'       => array(
                 'php' => 'txt',
                 'htm' => 'txt'
             )
         );
 
         if ($file_filter == 'on')
-            $fileCfg['allowedExt'] = $file_filtre;
+            $fileCfg['allowedExtension'] = $file_filtre;
 
         list($fileUrl, $uploadError, $fileExt) = nkUpload_check($filename, $fileCfg);
 

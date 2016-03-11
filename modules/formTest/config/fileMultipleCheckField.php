@@ -9,7 +9,7 @@ $form = array(
             'label'             => 'Upload 1',
             'name'              => 'fichier[]',
             'type'              => 'file',
-            'fileType'          => 'no-html-php',
+            'disallowedExtension'   => array('php', 'html'),
             'uploadDir'         => 'modules/formTest/upload',
             'multiple'          => true
         ),
@@ -17,7 +17,7 @@ $form = array(
             'label'             => 'Upload 2',
             'name'              => 'fichier[]',
             'type'              => 'file',
-            'fileType'          => 'no-html-php',
+            'disallowedExtension'   => array('php', 'html'),
             'uploadDir'         => 'modules/formTest/upload',
             'multiple'          => true
         ),
@@ -25,7 +25,7 @@ $form = array(
             'label'             => 'Upload 3',
             'name'              => 'fichier[]',
             'type'              => 'file',
-            'fileType'          => 'no-html-php',
+            'disallowedExtension'   => array('php', 'html'),
             'uploadDir'         => 'modules/formTest/upload',
             'multiple'          => true
         ),

@@ -130,10 +130,9 @@ function send_file() {
 
     if ($_FILES['copy']['name'] != '') {
         $fileCfg = array(
-            'tsKeyDataName' => 'FILE',
-            'fileType'  => 'no-html-php',
-            'uploadDir' => $racine_up,
-            //'fileSize'  => 100000
+            'tsKeyDataName'         => 'FILE',
+            'disallowedExtension'   => array('php', 'html'),
+            'uploadDir'             => $racine_up
         );
 
         if (isset($_POST['ecrase_file']) && $_POST['ecrase_file'] == 1)
@@ -358,10 +357,9 @@ function modif_file() {
 
     if ($_FILES['copy']['name'] != '') {
         $fileCfg = array(
-            'tsKeyDataName' => 'FILE',
-            'fileType'  => 'no-html-php',
-            'uploadDir' => $racine_up,
-            //'fileSize'  => 100000
+            'tsKeyDataName'         => 'FILE',
+            'disallowedExtension'   => array('php', 'html'),
+            'uploadDir'             => $racine_up
         );
 
         if (isset($_POST['ecrase_file']) && $_POST['ecrase_file'] == 1)

@@ -505,7 +505,7 @@ return array(
     'UPLOAD_HTACCESS_PROHIBITED' => 'Le Téléchargement de fichier .htaccess est interdit !',
     'UPLOAD_IMAGE_TOO_BIG' => 'Votre image est trop grande, uniquement les images de moins de %d Ko sont autorisées',
     'UPLOAD_FILE_TOO_BIG' => 'Votre fichier est trop grand, uniquement les fichiers de moins de %d Ko sont autorisées',
-    'BAD_FILE_EXTENSION' => 'L\'extension du fichier n\'est pas autorisé (%s)',
+    'BAD_FILE_EXTENSION' => 'L\'extension du fichier n\'est pas autorisé %s',
     'BAD_IMAGE_FORMAT'  => 'Mauvais format d\'image, uniquement les images aux formats jpg, png ou gif sont autorisées',
     'IMAGE_ALREADY_EXIST' => 'Une image portant le même nom est déjà présente sur votre ftp.',
     'FILE_ALREADY_EXIST' => 'Un fichier portant le même nom est déjà présent sur votre ftp.',

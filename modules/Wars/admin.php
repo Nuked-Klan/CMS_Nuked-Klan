@@ -697,7 +697,7 @@ function send_file($im_id, $file_type){
         );
 
         if ($file_type == 'demo')
-            $fileCfg['fileType'] = 'no-html-php';
+            $fileCfg['disallowedExtension'] = array('php', 'html');
         else
             $fileCfg['allowedExtension'] = array('jpg', 'jpeg', 'png', 'gif');
 
@@ -755,7 +755,7 @@ function modif_file($im_id, $fid, $file_type){
         );
 
         if ($file_type == 'demo')
-            $fileCfg['fileType'] = 'no-html-php';
+            $fileCfg['disallowedExtension'] = array('php', 'html');
         else
             $fileCfg['allowedExtension'] = array('jpg', 'jpeg', 'png', 'gif');
 

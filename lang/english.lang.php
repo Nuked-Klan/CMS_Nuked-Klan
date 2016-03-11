@@ -498,7 +498,7 @@ return array(
     'UPLOAD_HTACCESS_PROHIBITED' => 'Upload .htaccess file is prohibited !',
     'UPLOAD_IMAGE_TOO_BIG' => 'Your image is too large, image size is limited to %d KB',
     'UPLOAD_FILE_TOO_BIG' => 'Your file is too large, file size is limited to %d KB',
-    'BAD_FILE_EXTENSION' => 'File extension is not allowed (%s)',
+    'BAD_FILE_EXTENSION' => 'File extension is not allowed %s',
     'BAD_IMAGE_FORMAT'   => 'Bad image file type!!! Only jpg, png or gif are authorized',
     'IMAGE_ALREADY_EXIST' => 'A image with the same name already exists on your ftp.',
     'FILE_ALREADY_EXIST' => 'A file with the same name already exists on your ftp.',

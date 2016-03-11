@@ -21,9 +21,10 @@ include 'modules/Gallery/config.php';
 
 function cat($cat)
 {
-    global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $img_cat, $img_none, $image_resize, $image_gd;
+    global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $img_cat, $img_none, $image_resize, $image_gd, $rep_img, $rep_img_gd, $img_screen1;
 
     $counter = 0;
+    $last_catid = null;
 
     $sql = nkDB_execute('SELECT cid, titre, description FROM ' . GALLERY_CAT_TABLE . ' WHERE parentid = ' . $cat);
     $nb_subcat = nkDB_numRows($sql);
@@ -54,6 +55,8 @@ function cat($cat)
                 $org = $rep_img;
                 $dest = $rep_img_gd;
                 $name = str_replace ($org,'',$url);
+
+                require_once 'Includes/miniature.php';
 
                 // instanciation de l'objet
                 $thb = new thb;
