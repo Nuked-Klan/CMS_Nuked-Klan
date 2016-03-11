@@ -4,16 +4,14 @@ if (!defined("INDEX_CHECK"))
 	exit('You can\'t run this file alone.');
 }
 define("_GUESTBOOK","Livre d'or");
-define("_MAIL","Email");
 
 define("_CANCEL","Annuler");
 
-define("_MODIF","Modifier");
 define("_NOTEXT","Vous n'avez pas entré votre texte !");
 define("_POSTADD","Votre message a bien été ajouté");
 define("_POSTEDIT","Message modifié avec succès.");
 define("_SIGNGUESTBOOK","Signer le Livre d'Or");
-define("_POSTED","Posté");
+define("_GPOSTED","Posté");
 
 
 define("_THEREIS","Il y a");
@@ -27,8 +25,6 @@ define("_ADMINGUESTBOOK","Administration Livre D'or");
 define("_POSTDELETE","Message supprimé avec succès.");
 define("_SIGNDELETE","Vous êtes sur le point de supprimer le message de");
 
-
-define("_IP","Ip");
 define("_EDITTHISPOST","Editer ce message");
 define("_DELTHISPOST","Supprimer ce message");
 define("_GUESTBOOKPG","Nombre de messages par page");

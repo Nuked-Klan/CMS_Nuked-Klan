@@ -30,7 +30,6 @@ define("_TOPFILE","Popularity");
 
 define("_SEEN","Hit");
 define("_TIMES","times");
-define("_ADDTHE","Added on");
 define("_LASTADD","Last added on");
 
 define("_ADMINGALLERY","Gallery Administration");

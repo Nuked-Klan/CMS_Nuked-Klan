@@ -19,7 +19,6 @@ define("_DOWNFILE","Télécharger ce fichier");
 define("_DOWNLOADED","Téléchargé");
 define("_SEEN","Vu");
 define("_TIMES","fois");
-define("_ADDTHE","Ajouté le");
 define("_EDITTHE","Modifié le");
 define("_CAPTURE","Capture d'écran");
 define("_COMPATIBLE","Compatibilité");

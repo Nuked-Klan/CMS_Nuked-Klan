@@ -6,16 +6,14 @@ if (!defined("INDEX_CHECK"))
 
 
 define("_GUESTBOOK","Guestbook");
-define("_MAIL","Email");
 
 define("_CANCEL","Cancel");
 
-define("_MODIF","Modify");
 define("_NOTEXT","Please enter a text!");
 define("_POSTADD","Message was successfully added");
 define("_POSTEDIT","Message was successfully modified.");
 define("_SIGNGUESTBOOK","Sign the Guestbook");
-define("_POSTED","Posted");
+define("_GPOSTED","Posted");
 
 
 define("_THEREIS","There are");
@@ -30,8 +28,6 @@ define("_ADMINGUESTBOOK","Guestbook Administration");
 define("_POSTDELETE","Message was successfully removed.");
 define("_SIGNDELETE","You are about to remove the message by");
 
-
-define("_IP","Ip");
 define("_EDITTHISPOST","Edit this message");
 define("_DELTHISPOST","Remove this message");
 define("_GUESTBOOKPG","Number of messages per page");

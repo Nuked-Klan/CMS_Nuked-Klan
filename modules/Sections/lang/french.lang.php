@@ -28,7 +28,6 @@ define("_NOARTINDB","Aucun article dans la base de données");
 define("_NOTE","Note");
 define("_SITE","Site");
 define("_TOPFILE","Popularité");
-define("_ADDTHE","Ajouté le");
 define("_MORETOP","la suite du classement");
 define("_MORELAST","la suite des nouveautés");
 define("_HOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");

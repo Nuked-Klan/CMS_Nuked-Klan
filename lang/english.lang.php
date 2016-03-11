@@ -178,6 +178,9 @@ define("_BADMAIL","Invalid email address!");
 define("_REPLACE","Overwrite");
 define("_REPLACEIT","To overwrite it please check the box \""._REPLACE."\"");
 define("_AUTOR", "Author");
+define("_COUNTRY","Country");
+define("_ADDTHE","Added on");
+define("_MAIL","Mail");
 
 // Menu
 define("_NAV","Menu");

@@ -43,7 +43,6 @@ define("_STATUS","Status");
 define("_FINISH","Finished Match");
 define("_HASTOPLAY","Next Match");
 
-define("_COUNTRY","Country");
 define("_GAME","Game");
 define("_HOUR","Hour");
 define("_STYLE","Style");

@@ -186,6 +186,9 @@ define("_BADMAIL","Adresse email non valide !");
 define("_REPLACE","Ecraser");
 define("_REPLACEIT","Pour la remplacer veuillez cocher la case \""._REPLACE."\"");
 define("_AUTOR", "Auteur");
+define("_COUNTRY","Pays");
+define("_ADDTHE","Ajouté le");
+define("_MAIL","Email");
 
 // menu
 define("_NAV","Menu");

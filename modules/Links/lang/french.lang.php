@@ -12,21 +12,18 @@ define("_SUGGESTLINK","Proposer");
 define("_THEREIS","Il y a");
 define("_NBCAT","Catégories");
 define("_INDATABASE","dans la base de données");
-define("_ADDTHE","Ajouté le");
 
 define("_HITS","Visites");
 define("_NOTE","Note");
 define("_SITE","Site");
 define("_WEBMASTER","Webmaster");
-define("_COUNTRY","Pays");
 define("_TOPFILE","Popularité");
 define("_CLASSBY","Classer par");
-define("_ADDTHE","Ajouté le");
 define("_LINKCOMMENT","Commentaire(s)");
 define("_LINKVOTE","Vote(s)");
 define("_SEEDECS","Voir les détails");
 
-define("_VISIT","Visité");
+define("_VISITED","Visité");
 define("_TIMES","fois");
 define("_VISITTHISSITE","Visiter ce site");
 define("_NOLINKS","Aucun lien pour cette catégorie");
@@ -59,7 +56,6 @@ define("_CREATE","Création");
 define("_LINKADD","Lien ajouté avec succès.");
 define("_LINKMODIF","Lien modifié avec succès.");
 define("_LINKDEL","Lien effacé avec succès.");
-define("_NONE","Aucune");
 define("_NOCOUNTRY","Aucun");
 
 define("_NUMBERLINK","Nombre de liens par page");

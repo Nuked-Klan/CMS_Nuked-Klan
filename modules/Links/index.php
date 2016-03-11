@@ -209,7 +209,7 @@ function description($link_id){
         list($cat_name, $parentid) = nkDB_fetchArray($sql2);
         $cat_name = printSecuTags($cat_name);
 
-        if ($cat == 0) $category = _NONE;
+        if ($cat == 0) $category = __('NONE_CATEGORY');
         else if ($parentid > 0){
             $sql3 = nkDB_execute('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = ' . $parentid);
             list($parent_name) = nkDB_fetchArray($sql3);
@@ -271,7 +271,7 @@ function description($link_id){
             echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _COUNTRY . ' :</b> ' . $pays . '</td></tr>'."\n";
         }
 
-        echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _VISIT . ' :</b> ' . $count . '&nbsp;' . _TIMES . '</td></tr>'."\n";
+        echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _VISITED . ' :</b> ' . $count . '&nbsp;' . _TIMES . '</td></tr>'."\n";
 
         $sql = nkDB_execute(
             'SELECT active

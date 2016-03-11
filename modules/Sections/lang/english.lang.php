@@ -29,7 +29,6 @@ define("_NOARTINDB","No article in the database");
 define("_NOTE","Note");
 define("_SITE","Site");
 define("_TOPFILE","Popular");
-define("_ADDTHE","Added on");
 define("_MORETOP","more downloads");
 define("_MORELAST","more downloads");
 define("_HOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");

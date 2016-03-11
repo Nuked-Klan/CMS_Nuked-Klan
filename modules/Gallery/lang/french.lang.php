@@ -27,7 +27,6 @@ define("_NOTE","Note");
 define("_TOPFILE","Popularité");
 define("_SEEN","Vu");
 define("_TIMES","fois");
-define("_ADDTHE","Ajouté le");
 define("_LASTADD","Dernière ajoutée le");
 
 define("_ADMINGALLERY","Administration Galerie");

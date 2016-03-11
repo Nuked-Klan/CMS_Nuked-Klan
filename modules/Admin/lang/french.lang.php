@@ -113,10 +113,8 @@ define("_OPENED","Ouvert");
 define("_CLOSED","Fermé");
 
 define("_PREFUSER","Préférence de");
-define("_MAIL","Email");
 define("_PUBLIC","publique");
 
-define("_COUNTRY","Pays");
 define("_MODIFCONFIG","Modifier la config");
 define("_USERCONFIG","Paramètres d'affichage");
 define("_ACTIONMODIFUSER","a modifié la config de user");

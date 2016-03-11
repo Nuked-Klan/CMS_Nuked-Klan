@@ -21,7 +21,6 @@ define("_DOWNFILE","Download this File");
 define("_DOWNLOADED","Download");
 define("_SEEN","Hit");
 define("_TIMES","times");
-define("_ADDTHE","Added on");
 define("_EDITTHE","Edit");
 define("_CAPTURE","Screen capture");
 define("_COMPATIBLE","Compatibilities");

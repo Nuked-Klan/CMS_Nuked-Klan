@@ -66,7 +66,7 @@ function post_book()
     closetable();
 }
 
-function send_book($name, $email, $url, $comment)
+function send_book($email, $url, $comment)
 {
     global $user, $nuked, $user_ip;
 
@@ -82,7 +82,7 @@ function send_book($name, $email, $url, $comment)
     }
     else
     {
-        $pseudo = checkNickname($name);
+        $pseudo = checkNickname($_REQUEST['name']);
         $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
 
         if (($error = getCheckNicknameError($pseudo)) !== false) {
@@ -252,7 +252,7 @@ function index()
             echo "<br />Ip : " . $ip;
         }
 
-        echo "</td><td style=\"width: 70%;\"><img src=\"images/posticon.gif\" alt=\"\" /><small> " . _POSTED . " : " . $date . "</small>\n"
+        echo "</td><td style=\"width: 70%;\"><img src=\"images/posticon.gif\" alt=\"\" /><small> " . _GPOSTED . " : " . $date . "</small>\n"
         . "<br /><br />" . $comment . "<br /><br /></td></tr>\n"
         . "<tr style=\"background: " . $bg . ";\"><td style=\"width: 30%;\">&nbsp;</td><td style=\"width: 70%;\"><div class=\"nkButton-group\">" . $usermail . $website . $admin . "</div></td></tr>\n";
     }
@@ -281,7 +281,7 @@ switch ($GLOBALS['op'])
         break;
 
     case "send_book":
-        send_book($_REQUEST['name'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['comment']);
+        send_book($_REQUEST['email'], $_REQUEST['url'], $_REQUEST['comment']);
         break;
 
     default:

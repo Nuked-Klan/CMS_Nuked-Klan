@@ -110,10 +110,8 @@ define("_OPENED","Open");
 define("_CLOSED","Closed");
 
 define("_PREFUSER","Preference of");
-define("_MAIL","email");
 define("_PUBLIC","public");
 
-define("_COUNTRY","Country");
 define("_MODIFCONFIG","Update Config");
 define("_USERCONFIG","Display parameters");
 define("_ACTIONMODIFUSER","has updates user config");
