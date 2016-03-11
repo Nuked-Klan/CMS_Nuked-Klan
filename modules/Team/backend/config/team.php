@@ -80,7 +80,7 @@ function getTeamFormCfg() {
             'uploadCoverage' => array(
                 'label'             => __('UPLOAD_IMAGE'),
                 'type'              => 'file',
-                'fileType'          => 'image',
+                'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
                 'uploadDir'         => 'upload/Team/coverage'
             ),
             'imageNotification' => array(
@@ -95,7 +95,7 @@ function getTeamFormCfg() {
             'uploadImage' => array(
                 'label'             => __('UPLOAD_IMAGE'),
                 'type'              => 'file',
-                'fileType'          => 'image',
+                'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
                 'uploadDir'         => 'upload/Team'
             ),
             'game' => array(

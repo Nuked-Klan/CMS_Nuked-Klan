@@ -50,6 +50,7 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if (! is_writable($params['uploadDir']))
         return array('', __('UPLOAD_DIRECTORY_NO_WRITEABLE'), '');
 
+    // TODO A VIRER
     if (! isset($params['fileType']) || ! in_array($params['fileType'], array('image', 'no-html-php', 'all')))
         $params['fileType'] = 'no-html-php';
 
@@ -65,11 +66,16 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
     if (! isset($params['allowedExtension']) || ! is_array($params['allowedExtension']))
         $params['allowedExtension'] = array();
 
+    if ($params['allowedExtension'] && ! array_diff($params['allowedExtension'], array('jpg', 'png', 'gif', 'bmp')))
+        $uploadImage = true;
+    else
+        $uploadImage = false;
+
     if (! isset($params['renameExtension']) || ! is_array($params['renameExtension']))
         $params['renameExtension'] = array();
 
     if (! isset($params['tsKeyDataName'])) {
-        if ($params['fileType'] == 'image')
+        if ($uploadImage)
             $params['tsKeyDataName'] = 'IMAGE';
         else
             $params['tsKeyDataName'] = 'FILE';
@@ -126,7 +132,7 @@ function nkUpload_check($fieldName, $params = array(), $fileNumber = null) {
             $realFilename = strtolower($realFilename);
     }
 
-    if ($params['fileType'] == 'image') {
+    if ($uploadImage) {
         if (! nkUpload_checkImage($tmpFilename, $extension))
             return array('', nkUpload_getTranslatedError($params['tsKeyDataName'], 'BAD_%s_FORMAT'), '');
     }

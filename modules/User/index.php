@@ -1200,13 +1200,15 @@ function update(){
         $_POST['url'] = 'http://'. $_POST['url'];
 
     //Upload du fichier
+    $avatarCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'upload/User',
+        'fileRename'        => true,
+        'fileSize'          => 100000
+    );
+
     if ($_FILES['fichiernom']['name'] != '') {
-        list($data['avatar'], $uploadError, $avatarExt) = nkUpload_check('fichiernom', array(
-            'fileType'   => 'image',
-            'uploadDir'  => 'upload/User',
-            'fileRename' => true,
-            'fileSize'   => 100000
-        ));
+        list($data['avatar'], $uploadError, $avatarExt) = nkUpload_check('fichiernom', $avatarCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -1217,7 +1219,7 @@ function update(){
     else if ($_POST['avatar'] != '') {
         $ext = strtolower(substr(strrchr($_POST['avatar'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $avatarCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=User&op=edit_account', 5);
             return;
@@ -1263,13 +1265,15 @@ function update_pref() {
     );
 
     //Upload du fichier
+    $photoCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'upload/User',
+        'fileRename'        => true,
+        'fileSize'          => 100000
+    );
+
     if ($_FILES['fichiernom']['name'] != '') {
-        list($data['photo'], $uploadError, $imageExt) = nkUpload_check('fichiernom', array(
-            'fileType'   => 'image',
-            'uploadDir'  => 'upload/User',
-            'fileRename' => true,
-            'fileSize'   => 100000
-        ));
+        list($data['photo'], $uploadError, $imageExt) = nkUpload_check('fichiernom', $photoCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -1280,7 +1284,7 @@ function update_pref() {
     else if ($_POST['photo'] != '') {
         $ext = strtolower(substr(strrchr($_POST['photo'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $photoCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=User&op=edit_pref', 5);
             return;

@@ -147,12 +147,13 @@ function send_smiley($nom, $code)
 
     $smileyUrl = '';
 
+    $smileyCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'images/icones'
+    );
+
     if ($_FILES['fichiernom']['name'] != '') {
-        list($smileyUrl, $uploadError, $smileyExt) = nkUpload_check('fichiernom', array(
-            'fileType'  => 'image',
-            'uploadDir' => 'images/icones',
-            //'fileSize'  => 100000
-        ));
+        list($smileyUrl, $uploadError, $smileyExt) = nkUpload_check('fichiernom', $smileyCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -165,7 +166,7 @@ function send_smiley($nom, $code)
     else if ($_POST['url'] != '') {
         $ext = strtolower(substr(strrchr($_POST['url'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $smileyCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=Admin&page=smilies&op=add_smiley', 2);
             return;
@@ -263,12 +264,13 @@ function modif_smiley($smiley_id, $nom, $code)
 
     $smileyUrl = '';
 
+    $smileyCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'images/icones'
+    );
+
     if ($_FILES['fichiernom']['name'] != '') {
-        list($smileyUrl, $uploadError, $smileyExt) = nkUpload_check('fichiernom', array(
-            'fileType'  => 'image',
-            'uploadDir' => 'images/icones',
-            //'fileSize'  => 100000
-        ));
+        list($smileyUrl, $uploadError, $smileyExt) = nkUpload_check('fichiernom', $smileyCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -281,7 +283,7 @@ function modif_smiley($smiley_id, $nom, $code)
     else if ($_POST['url'] != '') {
         $ext = strtolower(substr(strrchr($_POST['url'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $smileyCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=Admin&page=smilies&op=edit_smiley&smiley_id='. $smiley_id, 2);
             return;

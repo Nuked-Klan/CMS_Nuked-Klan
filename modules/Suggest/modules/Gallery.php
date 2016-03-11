@@ -146,10 +146,9 @@ function make_array($data){
 
     if ($upload_img == 'on' && $_FILES['fichiernom']['name'] != '') {
         list($imageUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', array(
-            'fileType'  => 'image',
-            'uploadDir' => $rep_img,
-            //'fileSize'  => 100000
-            'fileRename' => true
+            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+            'uploadDir'         => $rep_img,
+            'fileRename'        => true
         ));
 
         if ($uploadError !== false) {

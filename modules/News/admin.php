@@ -262,12 +262,13 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
     //Upload du fichier
     $coverageUrl = '';
 
+    $coverageCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'upload/News'
+    );
+
     if ($_FILES['upImage']['name'] != '') {
-        list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', array(
-            'fileType'  => 'image',
-            'uploadDir' => 'upload/News',
-            //'fileSize'  => 100000
-        ));
+        list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', $coverageCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -278,7 +279,7 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
     else if ($_POST['urlImage'] != '') {
         $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $coverageCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=News&page=admin&op=add', 2);
             return;
@@ -410,12 +411,13 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
     //Upload du fichier
     $coverageUrl = '';
 
+    $coverageCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'upload/News'
+    );
+
     if ($_FILES['upImage']['name'] != '') {
-        list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', array(
-            'fileType'  => 'image',
-            'uploadDir' => 'upload/News',
-            //'fileSize'  => 100000
-        ));
+        list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', $coverageCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -426,7 +428,7 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
     else if ($_POST['urlImage'] != '') {
         $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $coverageCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=News&page=admin&op=edit&news_id='. $news_id, 2);
             return;
@@ -528,12 +530,13 @@ function send_cat($titre, $description) {
     //Upload du fichier
     $imageUrl = '';
 
+    $imageCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'upload/News'
+    );
+
     if ($_FILES['fichiernom']['name'] != '') {
-        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', array(
-            'fileType'  => 'image',
-            'uploadDir' => 'upload/News',
-            //'fileSize'  => 100000
-        ));
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', $imageCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -544,7 +547,7 @@ function send_cat($titre, $description) {
     else if ($_POST['image'] != '') {
         $ext = strtolower(substr(strrchr($_POST['image'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $imageCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=News&page=admin&op=add_cat', 2);
             return;
@@ -603,12 +606,13 @@ function modif_cat($cid, $titre, $description) {
     //Upload du fichier
     $imageUrl = '';
 
+    $imageCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'upload/News'
+    );
+
     if ($_FILES['fichiernom']['name'] != '') {
-        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', array(
-            'fileType'  => 'image',
-            'uploadDir' => 'upload/News',
-            //'fileSize'  => 100000
-        ));
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('fichiernom', $imageCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -619,7 +623,7 @@ function modif_cat($cid, $titre, $description) {
     else if ($_POST['image'] != '') {
         $ext = strtolower(substr(strrchr($_POST['image'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $imageCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=News&page=admin&op=edit_cat&cid='. $cid, 2);
             return;

@@ -69,9 +69,8 @@ function send_screen($titre, $description, $auteur, $cat, $url, $url2, $url_file
     //Upload du fichier
     if ($_FILES['fichiernom']['name'] != '') {
         $imageCfg = array(
-            'fileType'  => 'image',
-            'uploadDir' => $rep_img,
-            //'fileSize'  => 100000
+            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+            'uploadDir'         => $rep_img
         );
 
         if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
@@ -213,9 +212,8 @@ function modif_img($sid, $titre, $description, $auteur, $cat, $url, $url2, $url_
     //Upload du fichier
     if ($_FILES['fichiernom']['name'] != '') {
         $imageCfg = array(
-            'fileType'  => 'image',
-            'uploadDir' => $rep_img,
-            //'fileSize'  => 100000
+            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+            'uploadDir'         => $rep_img
         );
 
         if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)

@@ -158,10 +158,9 @@ function send_file() {
 
     if ($_FILES['screen2']['name'] != '') {
         $screenshotCfg = array(
-            'tsKeyDataName' => 'SCREENSHOT',
-            'fileType'  => 'image',
-            'uploadDir' => $racine_up,
-            //'fileSize'  => 100000
+            'tsKeyDataName'     => 'SCREENSHOT',
+            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+            'uploadDir'         => $racine_up
         );
 
         if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
@@ -387,10 +386,9 @@ function modif_file() {
 
     if ($_FILES['screen2']['name'] != '') {
         $screenshotCfg = array(
-            'tsKeyDataName' => 'SCREENSHOT',
-            'fileType'  => 'image',
-            'uploadDir' => $racine_up,
-            //'fileSize'  => 100000
+            'tsKeyDataName'     => 'SCREENSHOT',
+            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+            'uploadDir'         => $racine_up
         );
 
         if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)

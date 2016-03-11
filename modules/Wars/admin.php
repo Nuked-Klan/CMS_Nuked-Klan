@@ -467,12 +467,13 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
     //Upload du logo adv
     $imageUrl = '';
 
+    $imageCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'upload/Wars'
+    );
+
     if ($_FILES['upImage']['name'] != '') {
-        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('upImage', array(
-            'fileType'  => 'image',
-            'uploadDir' => 'upload/Wars',
-            //'fileSize'  => 100000
-        ));
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('upImage', $imageCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -483,7 +484,7 @@ function add_war($etat, $team, $game, $jour, $mois, $annee, $heure, $adversaire,
     else if ($_POST['urlImage'] != '') {
         $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $imageCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=Wars&page=admin&op=match&do=add', 2);
             return;
@@ -551,12 +552,13 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
     //Upload du logo adv
     $imageUrl = '';
 
+    $imageCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'upload/Wars'
+    );
+
     if ($_FILES['upImage']['name'] != '') {
-        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('upImage', array(
-            'fileType'  => 'image',
-            'uploadDir' => 'upload/Wars',
-            //'fileSize'  => 100000
-        ));
+        list($imageUrl, $uploadError, $imageExt) = nkUpload_check('upImage', $imageCfg);
 
         if ($uploadError !== false) {
             printNotification($uploadError, 'error');
@@ -567,7 +569,7 @@ function do_edit($war_id, $etat, $team, $game, $jour, $mois, $annee, $heure, $ad
     else if ($_POST['urlImage'] != '') {
         $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
 
-        if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+        if (! in_array($ext, $imageCfg['allowedExtension'])) {
             printNotification(__('BAD_IMAGE_FORMAT'), 'error');
             redirect('index.php?file=Wars&page=admin&op=match&do=edit&war_id='. $war_id, 2);
             return;
@@ -691,14 +693,13 @@ function send_file($im_id, $file_type){
 
     if ($_FILES['fichiernom']['name'] != '' || $_POST['url_file'] != '') {
         $fileCfg = array(
-            'uploadDir' => 'upload/Wars',
-            //'fileSize'  => 100000,
+            'uploadDir' => 'upload/Wars'
         );
 
         if ($file_type == 'demo')
             $fileCfg['fileType'] = 'no-html-php';
         else
-            $fileCfg['fileType'] = 'image';
+            $fileCfg['allowedExtension'] = array('jpg', 'jpeg', 'png', 'gif');
 
         if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
             $fileCfg['overwrite'] = true;
@@ -750,14 +751,13 @@ function modif_file($im_id, $fid, $file_type){
 
     if ($_FILES['fichiernom']['name'] != '' || $_POST['url_file'] != '') {
         $fileCfg = array(
-            'uploadDir' => 'upload/Wars',
-            //'fileSize'  => 100000
+            'uploadDir' => 'upload/Wars'
         );
 
         if ($file_type == 'demo')
             $fileCfg['fileType'] = 'no-html-php';
         else
-            $fileCfg['fileType'] = 'image';
+            $fileCfg['allowedExtension'] = array('jpg', 'jpeg', 'png', 'gif');
 
         if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
             $fileCfg['overwrite'] = true;

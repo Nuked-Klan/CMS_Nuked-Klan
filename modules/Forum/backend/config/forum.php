@@ -74,7 +74,7 @@ function getForumFormCfg() {
             'uploadImage' => array(
                 'label'             => __('UPLOAD_IMAGE'),
                 'type'              => 'file',
-                'fileType'          => 'image',
+                'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
                 'uploadDir'         => 'upload/Forum/cat'
             ),
             'niveau' => array(

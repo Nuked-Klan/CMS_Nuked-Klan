@@ -241,12 +241,13 @@ function do_add($titre, $texte, $cat){
         //Upload du fichier
         $coverageUrl = '';
 
+        $coverageCfg = array(
+            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+            'uploadDir'         => 'images/Sections'
+        );
+
         if ($_FILES['upImage']['name'] != '') {
-            list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', array(
-                'fileType'  => 'image',
-                'uploadDir' => 'upload/Sections',
-                //'fileSize'  => 100000
-            ));
+            list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', $coverageCfg);
 
             if ($uploadError !== false) {
                 printNotification($uploadError, 'error');
@@ -257,7 +258,7 @@ function do_add($titre, $texte, $cat){
         else if ($_POST['urlImage'] != '') {
             $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
 
-            if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            if (! in_array($ext, $coverageCfg['allowedExtension'])) {
                 printNotification(__('BAD_IMAGE_FORMAT'), 'error');
                 redirect('index.php?file=Sections&page=admin&op=add', 2);
                 return;
@@ -344,12 +345,15 @@ function do_edit($art_id, $titre, $texte, $cat){
         $texte = nkDB_realEscapeString(stripslashes($texte));
 
         //Upload du fichier
+        $coverageUrl = '';
+
+        $coverageCfg = array(
+            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+            'uploadDir'         => 'images/Sections'
+        );
+
         if ($_FILES['upImage']['name'] != '') {
-            list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', array(
-                'fileType'  => 'image',
-                'uploadDir' => 'upload/Sections',
-                //'fileSize'  => 100000
-            ));
+            list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', $coverageCfg);
 
             if ($uploadError !== false) {
                 printNotification($uploadError, 'error');
@@ -360,7 +364,7 @@ function do_edit($art_id, $titre, $texte, $cat){
         else if ($_POST['urlImage'] != '') {
             $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
 
-            if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            if (! in_array($ext, $coverageCfg['allowedExtension'])) {
                 printNotification(__('BAD_IMAGE_FORMAT'), 'error');
                 redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
                 return;
