@@ -35,8 +35,8 @@ function checkCommentStatus($module, $imId) {
             $tableIdName = 'id';
 
         $nbComment = nkDB_totalNumRows(
-            'FROM '. nkDB_escape(constant($tableConstName), true) .'
-            WHERE '. nkDB_escape($tableIdName, true) .' = '. intval($imId)
+            'FROM '. nkDB_quote(constant($tableConstName), true) .'
+            WHERE '. nkDB_quote($tableIdName, true) .' = '. intval($imId)
         );
 
         return ($nbComment > 0);

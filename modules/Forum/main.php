@@ -98,8 +98,8 @@ function getForumReadStatusImg($forumId, $nbTopicsInForum) {
         $dbrForumRead = nkDB_selectOne(
             'SELECT forum_id
             FROM '. FORUM_READ_TABLE .'
-            WHERE user_id = '. nkDB_escape($user['id']) .'
-            AND forum_id LIKE \'%,'. nkDB_escape($forumId, true) .',%\''
+            WHERE user_id = '. nkDB_quote($user['id']) .'
+            AND forum_id LIKE \'%,'. nkDB_quote($forumId, true) .',%\''
         );
 
         if ($nbTopicsInForum > 0 && strrpos($dbrForumRead['forum_id'], ','. $forumId .',') === false)

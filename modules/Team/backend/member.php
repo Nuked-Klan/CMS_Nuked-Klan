@@ -94,7 +94,7 @@ function postCheckformTeamMemberValidation($data, $id) {
     if ($id === null) {
         $check = nkDB_totalNumRows(
             'FROM '. TEAM_MEMBERS_TABLE .'
-            WHERE userId = '. nkDB_escape($data['userId']) .'
+            WHERE userId = '. nkDB_quote($data['userId']) .'
             AND team = '. (int) $data['team']
         );
 

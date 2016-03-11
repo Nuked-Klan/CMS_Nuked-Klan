@@ -431,7 +431,7 @@ function session_read($id) {
     $dbsSession = nkDB_selectOne(
         'SELECT session_vars
         FROM '. TMPSES_TABLE .'
-        WHERE session_id = '. nkDB_escape($id)
+        WHERE session_id = '. nkDB_quote($id)
     );
 
     if ($dbsSession && array_key_exists('session_vars', $dbsSession))
@@ -456,7 +456,7 @@ function session_write($id, $data) {
 function session_delete($id) {
     connect();
 
-    return nkDB_delete(TMPSES_TABLE, 'session_id = '. nkDB_escape($id));
+    return nkDB_delete(TMPSES_TABLE, 'session_id = '. nkDB_quote($id));
 }
 
 // KILL DEAD SESSION
@@ -505,7 +505,7 @@ function nkHandle_bannedUser() {
     $ip_dyn = substr($user_ip, 0, -1);
 
     // Condition SQL : IP dynamique ou compte
-    $where_query = '`ip` LIKE \'%'. nkDB_escape($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName);
+    $where_query = '`ip` LIKE \'%'. nkDB_quote($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName);
 
     // Recherche d'un banissement
     $ban = nkDB_selectMany(
@@ -530,7 +530,7 @@ function nkHandle_bannedUser() {
         // On verifie l'adresse IP du cookie et l'adresse IP actuelle
         if($ip_dyn2 == $ip_dyn) {
             // On verifie l'existance du bannissement, si resultat positif, on fait un nouveau ban
-            if (nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE `ip` LIKE \'%'. nkDB_escape($ip_dyn2, true) .'%\'') > 0)
+            if (nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE `ip` LIKE \'%'. nkDB_quote($ip_dyn2, true) .'%\'') > 0)
                 $bannedIp = $user_ip;
         }
     }
@@ -540,7 +540,7 @@ function nkHandle_bannedUser() {
         // Recherche banissement depasse
         if ($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
             // Suppression bannissement
-            nkDB_delete(BANNED_TABLE, '`ip` LIKE \'%'. nkDB_escape($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName));
+            nkDB_delete(BANNED_TABLE, '`ip` LIKE \'%'. nkDB_quote($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName));
 
             // Notification dans l'administration
             saveNotification($userName . __('BAN_FINISHED'), NOTIFICATION_WARNING);
@@ -1061,9 +1061,9 @@ function nbvisiteur() {
 
     if ($user_ip != '') {
         if ($user)
-            $whereClause = 'user_id = '. nkDB_escape($user['id']);
+            $whereClause = 'user_id = '. nkDB_quote($user['id']);
         else
-            $whereClause = 'IP = '. nkDB_escape($user_ip);
+            $whereClause = 'IP = '. nkDB_quote($user_ip);
 
         $connectData = array(
             'date'      => $limit,
@@ -1077,7 +1077,7 @@ function nbvisiteur() {
             nkDB_update(NBCONNECTE_TABLE, $connectData, $whereClause);
         }
         else {
-            nkDB_delete(NBCONNECTE_TABLE, 'IP = '. nkDB_escape($user_ip));
+            nkDB_delete(NBCONNECTE_TABLE, 'IP = '. nkDB_quote($user_ip));
 
             $connectData['IP']      = $user_ip;
             $connectData['user_id'] = ($user) ? $user['id'] : '';
@@ -1111,7 +1111,7 @@ function nivo_mod($moduleName) {
     $dbsModules = nkDB_selectOne(
         'SELECT niveau
         FROM '. MODULES_TABLE .'
-        WHERE nom = '. nkDB_escape($moduleName)
+        WHERE nom = '. nkDB_quote($moduleName)
     );
 
     $moduleUserLevelList[$moduleName] = (isset($dbsModules['niveau'])) ? $dbsModules['niveau'] : false;
@@ -1135,7 +1135,7 @@ function admin_mod($moduleName) {
     $dbsModules = nkDB_selectOne(
         'SELECT admin
         FROM '. MODULES_TABLE .'
-        WHERE nom = '. nkDB_escape($moduleName)
+        WHERE nom = '. nkDB_quote($moduleName)
     );
 
     $moduleAdminLevelList[$moduleName] = (isset($dbsModules['admin'])) ? $dbsModules['admin'] : false;
@@ -1319,7 +1319,7 @@ function translationExist($str) {
 function compteur($module) {
     nkDB_update(STATS_TABLE,
         array('count' => array('count + 1', 'no-escape')),
-        'type = \'pages\' AND nom = '. nkDB_escape($module)
+        'type = \'pages\' AND nom = '. nkDB_quote($module)
     );
 }
 
@@ -1385,11 +1385,11 @@ function visits() {
     $visitLimit = $time + $timeVisit;
 
     if ($user) {
-        $whereClause = 'user_id = '. nkDB_escape($user['id']);
+        $whereClause = 'user_id = '. nkDB_quote($user['id']);
         $userId = $user['id'];
     }
     else {
-        $whereClause = 'ip = '. nkDB_escape($user_ip);
+        $whereClause = 'ip = '. nkDB_quote($user_ip);
         $userId = '';
     }
 
@@ -1403,7 +1403,7 @@ function visits() {
     if (! empty($dbsVisitorStats) && $dbsVisitorStats['id'] && $dbsVisitorStats['date'] > $time) {
         nkDB_update(STATS_VISITOR_TABLE,
             array('date' => $visitLimit),
-            'id = '. nkDB_escape($dbsVisitorStats['id'])
+            'id = '. nkDB_quote($dbsVisitorStats['id'])
         );
     }
     else {
@@ -1480,7 +1480,7 @@ function checkNickname($nickname = '', $oldNickname = '') {
     if (empty($nickname) || preg_match('`[\$\^\(\)\'"?%#<>,;:]`', $nickname))
         return 'error1';
 
-    $escapeNickname = nkDB_escape($nickname);
+    $escapeNickname = nkDB_quote($nickname);
 
     if ($nickname != $oldNickname) {
         $isUsed = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE pseudo = '. $escapeNickname);
@@ -1551,7 +1551,7 @@ function checkEmail($email = '', $checkRegistred = false) {
     if (! preg_match('/.+@.+\..+/', $email))
         return 'error1';
 
-    $escapeEmail = nkDB_escape($email);
+    $escapeEmail = nkDB_quote($email);
 
     $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE email = '. $escapeEmail);
 

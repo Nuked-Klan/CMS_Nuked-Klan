@@ -38,7 +38,7 @@ function vote_index($module, $imId) {
 
     $dbrVote = nkDB_selectMany(
         'SELECT vote FROM '. VOTE_TABLE .'
-        WHERE vid = '. $imId .' AND module = '. nkDB_escape($module)
+        WHERE vid = '. $imId .' AND module = '. nkDB_quote($module)
     );
 
     $nbVote = nkDB_numRows();
@@ -105,8 +105,8 @@ function checkVoteStatus($module, $imId) {
             $tableIdName = 'id';
 
         $nbVoteModuleData = nkDB_totalNumRows(
-            'FROM '. nkDB_escape(constant($tableConstName), true) .'
-            WHERE '. nkDB_escape($tableIdName, true) .' = '. intval($imId)
+            'FROM '. nkDB_quote(constant($tableConstName), true) .'
+            WHERE '. nkDB_quote($tableIdName, true) .' = '. intval($imId)
         );
 
         if ($nbVoteModuleData > 0) {
@@ -136,8 +136,8 @@ function checkAlreadyVote($module, $imId) {
     $nbVote = nkDB_totalNumRows(
         'FROM '. VOTE_TABLE .'
         WHERE vid = '. $imId .'
-        AND module = '. nkDB_escape($module) .'
-        AND ip = '. nkDB_escape($user_ip)
+        AND module = '. nkDB_quote($module) .'
+        AND ip = '. nkDB_quote($user_ip)
     );
 
     return ($nbVote > 0);

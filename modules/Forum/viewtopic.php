@@ -99,7 +99,7 @@ function getAuthorInfo($topicMessage) {
     $dbrOnlineConnect = nkDB_selectOne(
         'SELECT user_id
         FROM '. NBCONNECTE_TABLE .'
-        WHERE user_id = '. nkDB_escape($topicMessage['auteur_id'])
+        WHERE user_id = '. nkDB_quote($topicMessage['auteur_id'])
     );
 
     // Get game data of author game
@@ -125,7 +125,7 @@ function getAuthorInfo($topicMessage) {
         'SELECT pref_1 AS gameUserPref1, pref_2 AS gameUserPref2, pref_3 AS gameUserPref3,
         pref_4 AS gameUserPref4, pref_5 AS gameUserPref5
         FROM '. USER_DETAIL_TABLE .'
-        WHERE user_id = '. nkDB_escape($topicMessage['auteur_id'])
+        WHERE user_id = '. nkDB_quote($topicMessage['auteur_id'])
     );
 
     if ($dbrUserDetail)
@@ -280,7 +280,7 @@ if ($user) {
     $dbrUserForumRead = nkDB_selectOne(
         'SELECT user_id, thread_id, forum_id
         FROM '. FORUM_READ_TABLE .'
-        WHERE user_id = '. nkDB_escape($user['id'])
+        WHERE user_id = '. nkDB_quote($user['id'])
     );
 
     if (! $dbrUserForumRead
@@ -380,7 +380,7 @@ if ($dbrCurrentTopic['sondage'] == 1) {
         $userPolled = nkDB_totalNumRows(
             'FROM '. FORUM_VOTE_TABLE .'
             WHERE poll_id = '. $dbrTopicPoll['id'] .'
-            AND author_id = '. nkDB_escape($user['id'])
+            AND author_id = '. nkDB_quote($user['id'])
         );
 
         if ($user && $userPolled > 0 || (isset($_GET['vote']) && $_GET['vote'] == 'view'))
@@ -422,7 +422,7 @@ if ($user && $user['id'] != '') {
     $notify = nkDB_totalNumRows(
         'FROM '. FORUM_MESSAGES_TABLE .'
         WHERE thread_id = '. $threadId .' AND emailnotify = 1
-        AND auteur_id = '. nkDB_escape($user['id'])
+        AND auteur_id = '. nkDB_quote($user['id'])
     );
 }
 

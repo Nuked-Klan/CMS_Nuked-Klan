@@ -25,7 +25,7 @@ function displayUserGamePrefFields($userGamePref) {
         'SELECT T.game
         FROM '. TEAM_MEMBERS_TABLE.' AS TM
         LEFT JOIN '. TEAM_TABLE .' AS T ON T.cid = TM.team
-        WHERE TM.userId = '. nkDB_escape($user['id'])
+        WHERE TM.userId = '. nkDB_quote($user['id'])
     );
 
     $nbTeam = nkDB_numRows();
@@ -43,7 +43,7 @@ function displayUserGamePrefFields($userGamePref) {
             'SELECT game, pref_1, pref_2, pref_3, pref_4, pref_5
             FROM '. GAMES_PREFS_TABLE .'
             WHERE game IN ('. $sqlIn .')
-            AND user_id = '. nkDB_escape($user['id'])
+            AND user_id = '. nkDB_quote($user['id'])
         );
 
         foreach ($dbrTeam as $team) {
@@ -77,7 +77,7 @@ function displayUserGamePrefFields($userGamePref) {
             'SELECT G.titre, G.pref_1, G.pref_2, G.pref_3, G.pref_4, G.pref_5, G.gameFile
             FROM '. GAMES_TABLE .' AS G
             LEFT JOIN '. USER_TABLE .' AS U ON U.game = G.id
-            WHERE U.id = '. nkDB_escape($user['id'])
+            WHERE U.id = '. nkDB_quote($user['id'])
         );
 
         if ($dbrGame['gameFile'] != '')

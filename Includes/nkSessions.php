@@ -94,7 +94,7 @@ function nkSessions_secureUser() {
     $dbrUser = nkDB_selectOne(
         'SELECT niveau, pseudo
         FROM '. USER_TABLE .'
-        WHERE id = '. nkDB_escape($userId)
+        WHERE id = '. nkDB_quote($userId)
     );
 
     /*
@@ -117,7 +117,7 @@ function nkSessions_secureUser() {
 
     $nbNewPM = nkDB_totalNumRows(
         'FROM '. USERBOX_TABLE .'
-        WHERE user_for = '. nkDB_escape($userId) .' AND status = 0'
+        WHERE user_for = '. nkDB_quote($userId) .' AND status = 0'
     );
 
     return array(
@@ -166,7 +166,7 @@ function nkSessions_userSessionCheck() {
         $dbrSessions = nkDB_selectOne(
             'SELECT date, ip, last_used
             FROM '. SESSIONS_TABLE .'
-            WHERE id = '. nkDB_escape($sessionId) .' AND user_id = '. nkDB_escape($userId)
+            WHERE id = '. nkDB_quote($sessionId) .' AND user_id = '. nkDB_escape($userId)
         );
 
         $userSecure = nkDB_numRows();
@@ -177,14 +177,14 @@ function nkSessions_userSessionCheck() {
         if ($userSecure == 1) {
             $GLOBALS['last_used'] = $dbrSessions['last_used'];
 
-            nkDB_update(SESSIONS_TABLE, array('last_used' => $time), 'id = '. nkDB_escape($sessionId));
+            nkDB_update(SESSIONS_TABLE, array('last_used' => $time), 'id = '. nkDB_quote($sessionId));
 
             return true;
         }
         // Incorrect session information
         else {
             nkDB_delete(SESSIONS_TABLE,
-                'id = '. nkDB_escape($sessionId) .' OR user_id = '. nkDB_escape($userId)
+                'id = '. nkDB_quote($sessionId) .' OR user_id = '. nkDB_escape($userId)
             );
         }
     }
@@ -232,7 +232,7 @@ function nkSessions_createNewSession($userId, $rememberMe) {
         nkDB_selectOne(
             'SELECT id
             FROM '. SESSIONS_TABLE .'
-            WHERE id = '. nkDB_escape($sessionId)
+            WHERE id = '. nkDB_quote($sessionId)
         );
 
     } while (nkDB_numRows() !== 0);
@@ -245,7 +245,7 @@ function nkSessions_createNewSession($userId, $rememberMe) {
             'date'      => $time,
             'ip'        => $user_ip
         ),
-        'user_id = '. nkDB_escape($userId)
+        'user_id = '. nkDB_quote($userId)
     );
 
     $dbiSessions = true;
@@ -271,7 +271,7 @@ function nkSessions_createNewSession($userId, $rememberMe) {
         }
     }
     else {
-        nkDB_delete(SESSIONS_TABLE, 'user_id = '. nkDB_escape($userId));
+        nkDB_delete(SESSIONS_TABLE, 'user_id = '. nkDB_quote($userId));
     }
 }
 
@@ -282,7 +282,7 @@ function nkSessions_createNewSession($userId, $rememberMe) {
  * @return void
  */
 function nkSessions_stopSession($userId) {
-    nkDB_update(SESSIONS_TABLE, array('ip' => ''), 'user_id = '. nkDB_escape($userId));
+    nkDB_update(SESSIONS_TABLE, array('ip' => ''), 'user_id = '. nkDB_quote($userId));
 
     nkSessions_resetUserCookie();
 

@@ -328,7 +328,7 @@ function match(){
     $dbrGameMaps = nkDB_selectMany(
         'SELECT id, name
         FROM '. GAMES_MAP_TABLE .'
-        WHERE game = '. nkDB_escape($_REQUEST['game']),
+        WHERE game = '. nkDB_quote($_REQUEST['game']),
         array('name')
     );
 

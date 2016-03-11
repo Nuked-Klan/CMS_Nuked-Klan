@@ -71,7 +71,7 @@ function preDeleteForumData($id) {
     $dbrForumThreads = nkDB_selectMany(
         'SELECT id, sondage
         FROM '. FORUM_THREADS_TABLE .'
-        WHERE forum_id = '. nkDB_escape($id)
+        WHERE forum_id = '. nkDB_quote($id)
     );
 
     foreach ($dbrForumThreads as $forumThreads) {
@@ -79,17 +79,17 @@ function preDeleteForumData($id) {
             $dbrForumPoll = nkDB_selectOne(
                 'SELECT id
                 FROM '. FORUM_POLL_TABLE .'
-                WHERE thread_id = '. nkDB_escape($forumThreads['id'])
+                WHERE thread_id = '. nkDB_quote($forumThreads['id'])
             );
 
-            nkDB_delete(FORUM_POLL_TABLE, 'id = '. nkDB_escape($dbrForumPoll['id']));
-            nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
-            nkDB_delete(FORUM_VOTE_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
+            nkDB_delete(FORUM_POLL_TABLE, 'id = '. nkDB_quote($dbrForumPoll['id']));
+            nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_quote($dbrForumPoll['id']));
+            nkDB_delete(FORUM_VOTE_TABLE, 'poll_id = '. nkDB_quote($dbrForumPoll['id']));
         }
     }
 
-    nkDB_delete(FORUM_THREADS_TABLE, 'forum_id = '. nkDB_escape($id));
-    nkDB_delete(FORUM_MESSAGES_TABLE, 'forum_id = '. nkDB_escape($id));
+    nkDB_delete(FORUM_THREADS_TABLE, 'forum_id = '. nkDB_quote($id));
+    nkDB_delete(FORUM_MESSAGES_TABLE, 'forum_id = '. nkDB_quote($id));
 }
 
 

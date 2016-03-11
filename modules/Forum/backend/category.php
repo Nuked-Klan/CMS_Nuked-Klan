@@ -84,7 +84,7 @@ function preSaveForumCategoryData($id, $forumCategory) {
         nkDB_update(FORUM_TABLE, array(
                 'niveau' => $forumCategory['niveau']
             ),
-            'cat = '. nkDB_escape($id)
+            'cat = '. nkDB_quote($id)
         );
     }
 }

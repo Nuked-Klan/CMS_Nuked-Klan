@@ -34,7 +34,7 @@ if (! function_exists('getForumOptions')) {
                 $dbrForum = nkDB_selectMany(
                     'SELECT id, nom
                     FROM '. FORUM_TABLE .'
-                    WHERE cat = '. nkDB_escape($forumCat['id']),
+                    WHERE cat = '. nkDB_quote($forumCat['id']),
                     array('ordre', 'nom')
                 );
 
@@ -53,7 +53,7 @@ if (! function_exists('getForumOptions')) {
                 $dbrForum = nkDB_selectMany(
                     'SELECT id, nom
                     FROM '. FORUM_TABLE .'
-                    WHERE cat = '. nkDB_escape($forumCat['id']),
+                    WHERE cat = '. nkDB_quote($forumCat['id']),
                     array('ordre', 'nom')
                 );
 

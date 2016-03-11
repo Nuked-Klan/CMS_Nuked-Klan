@@ -50,7 +50,7 @@ function checkForumPollAccess() {
     $dbrForumThread = nkDB_selectOne(
         'SELECT auteur_id'. $fields .'
         FROM '. FORUM_THREADS_TABLE .'
-        WHERE id = '. nkDB_escape($threadId)
+        WHERE id = '. nkDB_quote($threadId)
     );
 
     if (! $dbrForumThread) {
@@ -150,7 +150,7 @@ function prepareFormForEditForumPoll(&$form, $forumPoll, $id) {
     $dbrForumPollOptions = nkDB_selectMany(
         'SELECT id, option_text
         FROM '. FORUM_OPTIONS_TABLE .'
-        WHERE poll_id = '. nkDB_escape($id),
+        WHERE poll_id = '. nkDB_quote($id),
         array('id')
     );
 
@@ -382,7 +382,7 @@ function addUserVote() {
             if ($visiteur >= $dbrForum['level_vote']) {
                 $alreadyVote = nkDB_totalNumRows(
                     'FROM '. FORUM_VOTE_TABLE .'
-                    WHERE author_id = '. nkDB_escape($user['id']) .'
+                    WHERE author_id = '. nkDB_quote($user['id']) .'
                     AND poll_id = '. $pollId
                 );
 

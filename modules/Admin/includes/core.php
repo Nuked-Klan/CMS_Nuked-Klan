@@ -14,7 +14,7 @@ function getUserAvatar() {
     $dbrUser = nkDB_selectOne(
         'SELECT avatar
         FROM '. USER_TABLE .'
-        WHERE id = '. nkDB_escape($user['id'])
+        WHERE id = '. nkDB_quote($user['id'])
     );
 
     if ($dbrUser['avatar'] != '')
@@ -58,7 +58,7 @@ function getAdminModulesMenuData($type = 'standard') {
     $dbrModules = nkDB_selectMany(
         'SELECT `nom`
         FROM `'. MODULES_TABLE .'`
-        WHERE \''. $visiteur .'\' >= admin AND niveau > -1 AND admin > -1 AND type = '. nkDB_escape($type),
+        WHERE \''. $visiteur .'\' >= admin AND niveau > -1 AND admin > -1 AND type = '. nkDB_quote($type),
         array('nom')
     );
 

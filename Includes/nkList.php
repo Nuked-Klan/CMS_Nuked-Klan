@@ -389,7 +389,7 @@ function nkList_checkAutocompleteData(&$config) {
         if ($search != '' ) {
             if ($nkList['inputMode'] == 'sql') {
                 $nkList['sqlClause']['where'] = ' AND ('. $config['autocomplete']['field'] .
-                    ' LIKE "%'. nkDB_escape($search, true) .'%" )';
+                    ' LIKE "%'. nkDB_quote($search, true) .'%" )';
             }
 
             $nkList['sortUrl']          .= '&amp;search='. $search;

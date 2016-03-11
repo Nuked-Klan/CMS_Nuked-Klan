@@ -108,7 +108,7 @@ function teamList() {
         FROM '. TEAM_TABLE;
 
     if (array_key_exists('cid', $_REQUEST) && $_REQUEST['cid'] != '')
-        $sql .= ' WHERE cid = '. nkDB_escape($_REQUEST['cid']);
+        $sql .= ' WHERE cid = '. nkDB_quote($_REQUEST['cid']);
 
     $teamList = nkDB_selectMany($sql, array('ordre', 'titre'));
     $nbTeam   = nkDB_numRows();
@@ -189,7 +189,7 @@ function teamMemberDetail() {
     $teamMember = nkDB_selectOne(
         'SELECT id, game, country AS countryImg'. $userSocialFields .'
         FROM '. USER_TABLE .'
-        WHERE pseudo = '. nkDB_escape($author)
+        WHERE pseudo = '. nkDB_quote($author)
     );
 
     if (nkDB_numRows() == 0) {

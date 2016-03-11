@@ -370,7 +370,7 @@ function nkAction_commonEdit(&$form) {
             $data = nkDB_selectOne(
                 'SELECT *
                 FROM '. $nkAction['tableName'] .'
-                WHERE '. $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id'])
+                WHERE '. $nkAction['tableId'] .' = '. nkDB_quote($nkAction['id'])
             );
 
             if (! $data) {
@@ -499,7 +499,7 @@ function nkAction_saveBackendSetting($form, $fields) {
 
     foreach ($data as $fieldName => $fieldValue) {
         if (isset($nuked[$fieldName]) && $nuked[$fieldName] != $fieldValue)
-            nkDB_update(CONFIG_TABLE, array('value' => $fieldValue), 'name = '. nkDB_escape($fieldName));
+            nkDB_update(CONFIG_TABLE, array('value' => $fieldValue), 'name = '. nkDB_quote($fieldName));
     }
 
     $moduleNameConst = strtoupper($file) .'_MODNAME';
@@ -606,7 +606,7 @@ function nkAction_commonSave($form, $fields) {
             $updateDataFunct($data);
         }
         else {
-            nkDB_update($nkAction['tableName'], $data, $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id']));
+            nkDB_update($nkAction['tableName'], $data, $nkAction['tableId'] .' = '. nkDB_quote($nkAction['id']));
         }
 
         $nkAction['saveAction'] = 'update';
@@ -749,7 +749,7 @@ function nkAction_delete() {
         $dbrTable = nkDB_selectOne(
             'SELECT '. $nkAction['titleField_dbTable'] .'
             FROM '. $nkAction['tableName'] .'
-            WHERE '. $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id'])
+            WHERE '. $nkAction['tableId'] .' = '. nkDB_quote($nkAction['id'])
         );
     }
 
@@ -760,7 +760,7 @@ function nkAction_delete() {
         $deleteDataFunct($nkAction['id']);
     }
     else {
-        nkDB_delete($nkAction['tableName'], $nkAction['tableId'] .' = '. nkDB_escape($nkAction['id']));
+        nkDB_delete($nkAction['tableName'], $nkAction['tableId'] .' = '. nkDB_quote($nkAction['id']));
     }
 
     if (function_exists($postDeleteFunct = 'postDelete'. $nkAction['ucf_dataName'] .'Data'))

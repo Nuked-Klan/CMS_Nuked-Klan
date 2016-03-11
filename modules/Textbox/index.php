@@ -81,7 +81,7 @@ function index() {
                 FROM '. USER_TABLE .' AS U
                 LEFT JOIN '. TEAM_RANK_TABLE .' AS TM
                 ON TM.id = U.rang
-                WHERE U.pseudo = '. nkDB_escape($auteur)
+                WHERE U.pseudo = '. nkDB_quote($auteur)
             );
 
             list($country, $rank_color) = nkDB_fetchArray($sql_aut);
@@ -243,7 +243,7 @@ function ajax() {
             FROM '. USER_TABLE .' AS U
             LEFT JOIN '. TEAM_RANK_TABLE .' AS TM
             ON TM.id = U.rang
-            WHERE U.pseudo = '. nkDB_escape($auteur)
+            WHERE U.pseudo = '. nkDB_quote($auteur)
         );
 
         list($user_id, $country, $avatar, $niveau, $rank_color) = nkDB_fetchArray($sql_aut);

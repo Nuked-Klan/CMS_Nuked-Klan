@@ -53,23 +53,23 @@ function doPrune() {
 
     if (strpos($_POST['prune_id'], 'cat_') === 0) {
         $cat = str_replace('cat_', '', $_POST['prune_id']);
-        $and = 'AND cat = '. nkDB_escape($cat);
+        $and = 'AND cat = '. nkDB_quote($cat);
 
         $dbrForumCat = nkDB_selectMany(
             'SELECT nom
             FROM '. FORUM_CAT_TABLE .'
-            WHERE id = '. nkDB_escape($cat)
+            WHERE id = '. nkDB_quote($cat)
         );
 
         $name = $dbrForumCat['nom'];
     }
     else if ($_POST['prune_id'] != '') {
-        $and = 'AND forum_id = '. nkDB_escape($_POST['prune_id']);
+        $and = 'AND forum_id = '. nkDB_quote($_POST['prune_id']);
 
         $dbrForum = nkDB_selectMany(
             'SELECT nom
             FROM '. FORUM_TABLE .'
-            WHERE id = '. nkDB_escape($_POST['prune_id'])
+            WHERE id = '. nkDB_quote($_POST['prune_id'])
         );
 
         $name = $dbrForum['nom'];
@@ -90,16 +90,16 @@ function doPrune() {
             $dbrForumPoll = nkDB_selectMany(
                 'SELECT id
                 FROM '. FORUM_POLL_TABLE .'
-                WHERE thread_id = '. nkDB_escape($forumThreads['id'])
+                WHERE thread_id = '. nkDB_quote($forumThreads['id'])
             );
 
-            nkDB_delete(FORUM_POLL_TABLE, 'id = '. nkDB_escape($dbrForumPoll['id']));
-            nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
-            nkDB_delete(FORUM_VOTE_TABLE, 'poll_id = '. nkDB_escape($dbrForumPoll['id']));
+            nkDB_delete(FORUM_POLL_TABLE, 'id = '. nkDB_quote($dbrForumPoll['id']));
+            nkDB_delete(FORUM_OPTIONS_TABLE, 'poll_id = '. nkDB_quote($dbrForumPoll['id']));
+            nkDB_delete(FORUM_VOTE_TABLE, 'poll_id = '. nkDB_quote($dbrForumPoll['id']));
         }
 
-        nkDB_delete(FORUM_MESSAGES_TABLE, 'thread_id = '. nkDB_escape($forumThreads['id']));
-        nkDB_delete(FORUM_THREADS_TABLE, 'id = '. nkDB_escape($forumThreads['id']));
+        nkDB_delete(FORUM_MESSAGES_TABLE, 'thread_id = '. nkDB_quote($forumThreads['id']));
+        nkDB_delete(FORUM_THREADS_TABLE, 'id = '. nkDB_quote($forumThreads['id']));
     }
 
     saveUserAction(__('ACTION_PRUNE_FORUM') .': '. $name);

@@ -29,7 +29,7 @@ function getUserForumReadData() {
     $dbrUserForumRead = nkDB_selectOne(
         'SELECT thread_id, forum_id
         FROM '. FORUM_READ_TABLE .'
-        WHERE user_id = '. nkDB_escape($user['id'])
+        WHERE user_id = '. nkDB_quote($user['id'])
     );
 
     return $dbrUserForumRead;
@@ -103,7 +103,7 @@ function getForumMessageUrl($forumId, $threadId, $messId, $nbMessages = false, $
     if ($nbMessages === false) {
         $nbMessages = nkDB_totalNumRows(
             'FROM '. FORUM_MESSAGES_TABLE .'
-            WHERE thread_id = '. nkDB_escape($threadId)
+            WHERE thread_id = '. nkDB_quote($threadId)
         );
     }
 

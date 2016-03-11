@@ -142,7 +142,7 @@ function getForumTopicIcon($forumTopic) {
     if ($user) {
         $user_visitx = nkDB_totalNumRows(
             'FROM '. FORUM_READ_TABLE .'
-            WHERE user_id = '. nkDB_escape($user['id']) .'
+            WHERE user_id = '. nkDB_quote($user['id']) .'
             AND `thread_id` LIKE \'%,'. $forumTopic['id'] .',%\''
         );
     }

@@ -205,7 +205,7 @@ function edit_user($id_user) {
         '. $userSocialFields .'
         FROM '. USER_TABLE .' AS U
         LEFT JOIN '. TEAM_RANK_TABLE .' AS TR ON TR.id = U.rang
-        WHERE U.id = '. nkDB_escape($id_user)
+        WHERE U.id = '. nkDB_quote($id_user)
     );
 
     $dbrTeam = nkDB_selectMany(
@@ -213,7 +213,7 @@ function edit_user($id_user) {
         FROM '. TEAM_MEMBERS_TABLE.' AS TM
         INNER JOIN '. TEAM_TABLE .' AS T ON T.cid = TM.team
         INNER JOIN '. TEAM_RANK_TABLE .' AS TR ON TR.id = TM.rank
-        WHERE TM.userId = '. nkDB_escape($id_user)
+        WHERE TM.userId = '. nkDB_quote($id_user)
     );
 
     echo '<script type="text/javascript">' ."\n"
@@ -406,7 +406,7 @@ function update_user($userId) {
     $dbrUser = nkDB_selectOne(
         'SELECT pseudo
         FROM '. USER_TABLE .'
-        WHERE id = '. nkDB_escape($userId)
+        WHERE id = '. nkDB_quote($userId)
     );
 
     $_POST['nick'] = checkNickname($_POST['nick'], $dbrUser['pseudo']);
@@ -472,7 +472,7 @@ function update_user($userId) {
         }
     }
 
-    nkDB_update(USER_TABLE, $data, 'id = '. nkDB_escape($userId));
+    nkDB_update(USER_TABLE, $data, 'id = '. nkDB_quote($userId));
 
     if ($teamDataCheck) {
         for ($n = 0; $n < $_POST['nbTeam']; $n++) {
@@ -482,7 +482,7 @@ function update_user($userId) {
             ) {
                 $check = nkDB_totalNumRows(
                     'FROM '. TEAM_MEMBERS_TABLE .'
-                    WHERE userId = '. nkDB_escape($userId) .'
+                    WHERE userId = '. nkDB_quote($userId) .'
                     AND team = '. (int) $_POST['team'][$n]
                 );
 
@@ -491,7 +491,7 @@ function update_user($userId) {
                             'team'   => $_POST['team'][$n],
                             'rank'   => $_POST['teamRank'][$n]
                         ),
-                        'userId = '. nkDB_escape($userId)
+                        'userId = '. nkDB_quote($userId)
                     );
                 }
                 else {

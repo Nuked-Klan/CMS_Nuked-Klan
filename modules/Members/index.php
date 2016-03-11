@@ -44,7 +44,7 @@ function membersList() {
         $and = 'AND U.pseudo NOT REGEXP \'^[a-zA-Z].\'';
     }
     else if ($currentLetter != '' && preg_match('`^[A-Z]+$`', $currentLetter)) {
-        $and = 'AND U.pseudo LIKE \''. nkDB_escape($currentLetter, true) .'%\'';
+        $and = 'AND U.pseudo LIKE \''. nkDB_quote($currentLetter, true) .'%\'';
     }
     else {
         $and = '';
@@ -160,7 +160,7 @@ function memberDetail() {
         'SELECT U.id, U.date, U.game, U.country AS countryImg, S.last_used'. $userSocialFields .'
         FROM '. USER_TABLE .' AS U
         LEFT OUTER JOIN '. SESSIONS_TABLE .' AS S ON U.id = S.user_id
-        WHERE U.pseudo = '. nkDB_escape($author)
+        WHERE U.pseudo = '. nkDB_quote($author)
     );
 
     if (nkDB_numRows() !== 1) {

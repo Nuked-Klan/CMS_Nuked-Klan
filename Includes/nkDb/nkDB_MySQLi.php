@@ -296,7 +296,7 @@ function nkDB_insert($table, $data) {
                 $values[$i] = $values[$i][0];
         }
         else {
-            $values[$i] = nkDB_escape($values[$i]);
+            $values[$i] = nkDB_quote($values[$i]);
         }
     }
 
@@ -345,7 +345,7 @@ function nkDB_replace($table, $data) {
                 $values[$i] = $values[$i][0];
         }
         else {
-            $values[$i] = nkDB_escape($values[$i]);
+            $values[$i] = nkDB_quote($values[$i]);
         }
     }
 
@@ -389,7 +389,7 @@ function nkDB_update($table, $data, $where) {
                 $sql .= $values[$i][0];
         }
         else {
-            $sql .= nkDB_escape($values[$i]);
+            $sql .= nkDB_quote($values[$i]);
         }
 
         $separator = ', ';
@@ -505,13 +505,13 @@ function nkDB_queryError() {
  * @param bool $noQuote : If value is enclosed into single quote
  * @return string : The escaped string
  */
-function nkDB_escape($value, $noQuote = false) {
+function nkDB_quote($value, $noQuote = false) {
     if ($GLOBALS['nkDB']['connectionError'])
         return '';
 
     if (is_array($value)) {
         foreach ($value as $key => $val)
-            $value[$key] = nkDB_escape($val);
+            $value[$key] = nkDB_quote($val);
     }
     else {
         $value = mysqli_real_escape_string($GLOBALS['nkDB']['connection'], $value);

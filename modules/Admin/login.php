@@ -28,7 +28,7 @@ if ($visiteur >= 2) {
         $dbrUser = nkDB_selectOne(
             'SELECT pass
             FROM '. USER_TABLE .'
-            WHERE id = '. nkDB_escape($user['id'])
+            WHERE id = '. nkDB_quote($user['id'])
         );
 
         if (nkDB_numRows() == 1 && Check_Hash($_POST['admin_password'], $dbrUser['pass'])) {

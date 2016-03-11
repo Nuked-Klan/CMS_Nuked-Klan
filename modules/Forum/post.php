@@ -68,7 +68,7 @@ return false;
     $dbrForumMessage = nkDB_selectOne(
         'SELECT date
         FROM '. FORUM_MESSAGES_TABLE .'
-        WHERE auteur = '. nkDB_escape($username) .' OR auteur_ip = '. nkDB_escape($user_ip),
+        WHERE auteur = '. nkDB_quote($username) .' OR auteur_ip = '. nkDB_escape($user_ip),
         array('date'), 'DESC', 1
     );
 
@@ -146,8 +146,8 @@ function updateForumReadTable($forumId, $threadId) {
     $dbrForumRead = nkDB_selectMany(
         'SELECT thread_id, forum_id, user_id
         FROM '. FORUM_READ_TABLE .'
-        WHERE thread_id LIKE \'%,'. nkDB_escape($threadId, true) .',%\'
-        OR forum_id LIKE \'%,'. nkDB_escape($forumId, true) .',%\''
+        WHERE thread_id LIKE \'%,'. nkDB_quote($threadId, true) .',%\'
+        OR forum_id LIKE \'%,'. nkDB_quote($forumId, true) .',%\''
     );
 
     $update = array();
@@ -478,7 +478,7 @@ function saveForumPost() {
 
     // Update user Forum post stats
     if ($user)
-        nkDB_update(USER_TABLE, array('count' => array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
+        nkDB_update(USER_TABLE, array('count' => array('count + 1', 'no-escape')), 'id = '. nkDB_quote($user['id']));
 
     // Redirect to Forum poll form or to Forum topic
     if ($sondage == 1)
@@ -700,7 +700,7 @@ function replyForumPost() {
         ON U.id = FM.auteur_id
         WHERE FM.thread_id = '. $threadId .'
         AND FM.emailnotify = 1
-        AND FM.auteur_id != '. nkDB_escape($authorId) .'
+        AND FM.auteur_id != '. nkDB_quote($authorId) .'
         GROUP BY FM.auteur_id'
     );
 
@@ -722,7 +722,7 @@ function replyForumPost() {
 
     // Update user Forum post stats
     if ($user)
-        nkDB_update(USER_TABLE, array('count' =>array('count + 1', 'no-escape')), 'id = '. nkDB_escape($user['id']));
+        nkDB_update(USER_TABLE, array('count' =>array('count + 1', 'no-escape')), 'id = '. nkDB_quote($user['id']));
 
     list($url) = getForumMessageUrl($forumId, $threadId, $messId, $dbrForum['nbReplies'] + 2);
 

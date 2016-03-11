@@ -23,12 +23,12 @@ if (filter_var($_GET['ip_ban'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FL
 
 translate('lang/'. $language .'.lang.php');
 
-$escapeBannedIp = nkDB_escape($_GET['ip_ban']);
+$escapeBannedIp = nkDB_quote($_GET['ip_ban']);
 
 $dbrBanned = nkDB_selectOne(
     'SELECT texte, date, dure, pseudo
     FROM '. BANNED_TABLE .'
-    WHERE ip = '. $escapeBannedIp .' OR pseudo = '. nkDB_escape($_GET['user'])
+    WHERE ip = '. $escapeBannedIp .' OR pseudo = '. nkDB_quote($_GET['user'])
 );
 
 $time = time();

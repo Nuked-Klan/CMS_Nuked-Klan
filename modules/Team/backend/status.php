@@ -38,7 +38,7 @@ function postCheckformTeamStatusValidation($data, $id) {
     if ($id === null) {
         $check = nkDB_totalNumRows(
             'FROM '. TEAM_STATUS_TABLE .'
-            WHERE name = '. nkDB_escape($data['name'])
+            WHERE name = '. nkDB_quote($data['name'])
         );
 
         if ($check >= 1) {

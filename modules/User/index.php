@@ -368,7 +368,7 @@ function edit_account(){
     $dbrUser = nkDB_selectOne(
         'SELECT pseudo, mail, avatar, signature, country, rang, game'. $userSocialFields .'
         FROM '. USER_TABLE .'
-        WHERE id = '. nkDB_escape($user['id'])
+        WHERE id = '. nkDB_quote($user['id'])
     );
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
@@ -475,7 +475,7 @@ function edit_account(){
         ON T.cid = TM.team
         INNER JOIN '. TEAM_RANK_TABLE .' AS TR
         ON TR.id = TM.rank
-        WHERE TM.userId = '. nkDB_escape($user['id'])
+        WHERE TM.userId = '. nkDB_quote($user['id'])
     );
 
     if ($dbrTeam) {
@@ -1178,7 +1178,7 @@ function update(){
             FROM '. TEAM_MEMBERS_TABLE .' AS TM
             INNER JOIN '. TEAM_RANK_TABLE .' AS TR
             ON TR.id = TM.rank
-            WHERE TM.userId = '. nkDB_escape($user['id'])
+            WHERE TM.userId = '. nkDB_quote($user['id'])
         );
 
         $_POST['rang'] = (int) $_POST['rang'];
@@ -1237,7 +1237,7 @@ function update(){
         }
     }
 
-    nkDB_update(USER_TABLE, $data, 'id = '. nkDB_escape($user['id']));
+    nkDB_update(USER_TABLE, $data, 'id = '. nkDB_quote($user['id']));
 
     printNotification(_INFOMODIF, 'success');
     redirect("index.php?file=User", 1);
@@ -1649,7 +1649,7 @@ function del_account($pass){
     global $user, $nuked;
 
     if ($pass != "" && $nuked['user_delete'] == "on"){
-        $escapeUserId = nkDB_escape($user['id']);
+        $escapeUserId = nkDB_quote($user['id']);
 
         $sql = nkDB_execute('SELECT pass FROM '. USER_TABLE .' WHERE id = '. $escapeUserId);
         $dbpass = nkDB_fetchRow($sql);

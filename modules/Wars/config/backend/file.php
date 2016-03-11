@@ -5,7 +5,7 @@
 // Define the list of match file
 $matchFileList = array(
     'classPrefix' => 'matchFile',
-    'sqlQuery' => 'SELECT id, type, url FROM '. WARS_FILES_TABLE .' WHERE module = \'Wars\' AND im_id = %s',// Replace by nkDB_escape($im_id)
+    'sqlQuery' => 'SELECT id, type, url FROM '. WARS_FILES_TABLE .' WHERE module = \'Wars\' AND im_id = %s',// Replace by nkDB_quote($im_id)
     'fields' => array(
         'type'      => array('label' => _TYPE)
     ),

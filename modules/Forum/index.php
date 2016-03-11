@@ -111,7 +111,7 @@ function notify() {
         if (isset($notify)) {
             nkDB_update(FORUM_MESSAGES_TABLE,
                 array('emailnotify' => $notify),
-                'thread_id = '. $threadId .' AND auteur_id = '. nkDB_escape($user['id'])
+                'thread_id = '. $threadId .' AND auteur_id = '. nkDB_quote($user['id'])
             );
 
             printNotification($message, 'info');
@@ -505,14 +505,14 @@ function mark() {
         else {
             setcookie($cookie_forum, '');
 
-            nkDB_update(SESSIONS_TABLE, array('last_used' => array('date', 'no-escape')), 'user_id = '. nkDB_escape($user['id']));
+            nkDB_update(SESSIONS_TABLE, array('last_used' => array('date', 'no-escape')), 'user_id = '. nkDB_quote($user['id']));
         }*/
 
         // On veut modifier la chaine thread_id et forum_id
         $dbrForumRead = nkDB_selectOne(
             'SELECT thread_id, forum_id
             FROM '. FORUM_READ_TABLE .'
-            WHERE user_id = '. nkDB_escape($user['id'])
+            WHERE user_id = '. nkDB_quote($user['id'])
         );
 
         $sql = 'SELECT id, forum_id
