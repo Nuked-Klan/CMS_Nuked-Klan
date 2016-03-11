@@ -52,7 +52,7 @@ function main() {
 
         nkAdminMenu(1);
 
-    if(!array_key_exists('ordreby', $_REQUEST)){
+    if (! array_key_exists('orderby', $_REQUEST)){
         $order_by = 'date DESC';
     } else if ($_REQUEST['orderby'] == "date") {
         $order_by = "date DESC";
@@ -69,25 +69,25 @@ function main() {
     echo "<table width=\"100%\" cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n"
         . "<tr><td align=\"right\">" . _ORDERBY . " : ";
 
-    if ((array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "date") || !array_key_exists('ordreby', $_REQUEST)) {
+    if ((array_key_exists('orderby', $_REQUEST) && $_REQUEST['orderby'] == "date") || ! array_key_exists('orderby', $_REQUEST)) {
         echo "<b>" . _DATE . "</b> | ";
     } else {
         echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=date\">" . _DATE . "</a> | ";
     }
 
-    if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "title") {
+    if (array_key_exists('orderby', $_REQUEST) && $_REQUEST['orderby'] == "title") {
         echo "<b>" . _TITLE . "</b> | ";
     } else {
         echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=title\">" . _TITLE . "</a> | ";
     }
 
-    if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "author") {
+    if (array_key_exists('orderby', $_REQUEST) && $_REQUEST['orderby'] == "author") {
         echo "<b>" . __('AUTHOR') . "</b> | ";
     } else {
         echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=author\">" . __('AUTHOR') . "</a> | ";
     }
 
-    if (array_key_exists('ordreby', $_REQUEST) && $_REQUEST['orderby'] == "cat") {
+    if (array_key_exists('orderby', $_REQUEST) && $_REQUEST['orderby'] == "cat") {
         echo "<b>" . _CAT . "</b>";
     } else {
         echo "<a href=\"index.php?file=News&amp;page=admin&amp;orderby=cat\">" . _CAT . "</a>";

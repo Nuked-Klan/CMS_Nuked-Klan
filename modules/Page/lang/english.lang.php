@@ -21,7 +21,7 @@ define("_ADDTHISPAGE","Add this Page");
 define("_MODIFTHISPAGE","Modify this Page");
 define("_ADDPAGE","Add Page");
 define("_NOFILE","None");
-define("_NONE","None");
+define("_NONE_PAGE","None");
 
 define("_PAGEADD","Page added successfully.");
 define("_PAGEMODIF","Page modified successfully.");

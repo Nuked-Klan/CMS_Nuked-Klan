@@ -181,16 +181,16 @@ function add()
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISPAGE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">".__('BACK')."</a></div></form><br /></div></div>\n";
 }
 
-function do_add($titre, $type, $niveau, $content, $menu, $show_title, $members)
+function do_add($titre, $type, $niveau, $content, $menu)
 {
     global $nuked;
 
     require_once 'Includes/nkUpload.php';
 
-    $userslist = array();
+    $userslist = '';
 
-    if (isset($members) AND is_array($members) && $members)
-        $userslist = implode('|', $members);
+    if (isset($_REQUEST['members']) AND is_array($_REQUEST['members']) && $_REQUEST['members'])
+        $userslist = implode('|', $_REQUEST['members']);
 
     // $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
 
@@ -236,7 +236,10 @@ function do_add($titre, $type, $niveau, $content, $menu, $show_title, $members)
     $title = str_replace("\"", "_", $title);
     $title = strtr($title, $a1, $b1);
 
-    $show_title = (isset($show_title)) ? 1 : 0;
+    if (isset($_REQUEST['show_title']) && $_REQUEST['show_title'] == 'on')
+        $show_title = 1;
+    else
+        $show_title = 0;
 
     $sql = nkDB_execute("INSERT INTO " . PAGE_TABLE . " ( `id` , `niveau` , `titre` , `content` , `url` , `type` , `show_title` , `members` ) VALUES ( '', '" . $niveau . "' , '" . $title . "' , '" . $content . "' , '" . $pageUrl . "' , '" . $type . "' , '" . $show_title . "' , '" . $userslist . "' )");
 
@@ -393,16 +396,16 @@ function edit($page_id)
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISPAGE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Page&amp;page=admin\">".__('BACK')."</a></div></form><br /></div></div>\n";
 }
 
-function do_edit($page_id, $titre, $type, $niveau, $content, $menu, $show_title, $members)
+function do_edit($page_id, $titre, $type, $niveau, $content, $menu)
 {
     global $nuked;
 
     require_once 'Includes/nkUpload.php';
 
-    $userslist = array();
+    $userslist = '';
 
-    if (isset($members) AND is_array($members) && $members)
-        $userslist = implode('|', $members);
+    if (isset($_REQUEST['members']) AND is_array($_REQUEST['members']) && $_REQUEST['members'])
+        $userslist = implode('|', $_REQUEST['members']);
 
     // $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
 
@@ -448,7 +451,10 @@ function do_edit($page_id, $titre, $type, $niveau, $content, $menu, $show_title,
     $title = str_replace("\"", "_", $title);
     $title = strtr($title, $a1, $b1);
 
-    $show_title = (isset($show_title)) ? 1 : 0;
+    if (isset($_REQUEST['show_title']) && $_REQUEST['show_title'] == 'on')
+        $show_title = 1;
+    else
+        $show_title = 0;
 
     $upd = nkDB_execute("UPDATE " . PAGE_TABLE . " SET titre = '" . $title . "', content = '" . $content . "', url = '" . $pageUrl . "', niveau = '" . $niveau . "', type = '" . $type . "', show_title = '" . $show_title . "', members = '" . $userslist . "' WHERE id = '" . $page_id . "'");
 
@@ -505,7 +511,7 @@ function main_pref()
     echo "<form method=\"post\" action=\"index.php?file=Page&amp;page=admin&amp;op=change_pref\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
     . "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
-    . "<tr><td>" . _PAGEINDEX . " :</td><td><select name=\"index_page\"><option value=\"\">" . _NONE . "</option>\n";
+    . "<tr><td>" . _PAGEINDEX . " :</td><td><select name=\"index_page\"><option value=\"\">" . _NONE_PAGE . "</option>\n";
 
     $sql = nkDB_execute("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
     while (list($titre) = nkDB_fetchArray($sql))
@@ -600,7 +606,7 @@ switch($GLOBALS['op']) {
     break;
 
     case "do_edit":
-    do_edit($_REQUEST['page_id'], $_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['menu'], $_REQUEST['show_title'], $_REQUEST['members']);
+    do_edit($_REQUEST['page_id'], $_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['menu']);
     break;
 
     case "edit":
@@ -608,7 +614,7 @@ switch($GLOBALS['op']) {
     break;
 
     case "do_add":
-    do_add($_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['menu'], $_REQUEST['show_title'], $_REQUEST['members']);
+    do_add($_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['menu']);
     break;
 
     case "main_pref":

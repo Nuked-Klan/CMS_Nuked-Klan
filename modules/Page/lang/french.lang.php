@@ -22,7 +22,7 @@ define("_MODIFTHISPAGE","Modifier cette Page");
 define("_ADDPAGE","Ajouter une Page");
 
 define("_NOFILE","Aucun");
-define("_NONE","Aucune");
+define("_NONE_PAGE","Aucune");
 define("_PAGEADD","Page ajoutée avec succès");
 define("_PAGEMODIF","Page modifiée avec succès");
 define("_BADFILEFORMAT","Erreur : Le fichier ne correspond pas au type de page sélectionné !");
