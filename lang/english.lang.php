@@ -395,6 +395,7 @@ return array(
     'LINE'              => 'line',
     'LINK'              => 'Link',
     'CODE'              => 'Code',
+    'NONE_CATEGORY'     => 'None',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

@@ -433,7 +433,7 @@ function main()
 
         if ($cat == "0")
         {
-            $categorie = _NONE;
+            $categorie = __('NONE_CATEGORY');
         }
         else if ($parentid == 0)
         {
@@ -506,7 +506,7 @@ function edit_screen($sid)
     }
     else
     {
-        $cat_name = _NONE;
+        $cat_name = __('NONE_CATEGORY');
     }
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -594,7 +594,7 @@ function main_cat()
             }
             else
             {
-                echo _NONE;
+                echo __('NONE_CATEGORY');
             }
 
             echo "</td><td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=Gallery&amp;page=admin&amp;op=modif_position&amp;cid=" . $cid . "&amp;method=down\" title=\"" . _MOVEDOWN . "\">&lt;</a>"
@@ -605,7 +605,7 @@ function main_cat()
     }
     else
     {
-        echo "<tr><td align=\"center\" colspan=\"5\">" . _NONE . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
+        echo "<tr><td align=\"center\" colspan=\"5\">" . __('NONE_CATEGORY') . "&nbsp;" . _CAT . "&nbsp;" . _INDATABASE . "</td></tr>\n";
     }
 
     echo "</table><div style=\"text-align: center;\"><br /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin&amp;op=add_cat\">" . _ADDCAT . "</a><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . __('BACK') . "</a></div>\n"
@@ -624,7 +624,7 @@ function add_cat()
     . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Gallery&amp;page=admin&amp;op=send_cat\">\n"
     . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
     . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
-    . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\"><option value=\"0\">" . _NONE . "</option>\n";
+    . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\"><option value=\"0\">" . __('NONE_CATEGORY') . "</option>\n";
 
     $sql = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($cid, $nomcat) = nkDB_fetchArray($sql))
@@ -696,7 +696,7 @@ function edit_cat($cid)
         echo "<option value=\"" . $parentid . "\">" . $pnomcat . "</option>\n";
     }
 
-    echo "<option value=\"0\">" . _NONE . "</option>\n";
+    echo "<option value=\"0\">" . __('NONE_CATEGORY') . "</option>\n";
 
     $sql3 = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($catid, $nomcat) = nkDB_fetchArray($sql3))
@@ -760,7 +760,7 @@ function select_cat()
             echo"<option value=\"" . $s_cid . "\">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
         }
     }
-    echo "<option value=\"0\">* " . _NONE . "</option>\n";
+    echo "<option value=\"0\">* " . __('NONE_CATEGORY') . "</option>\n";
 }
 
 function del_cat($cid)

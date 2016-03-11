@@ -44,7 +44,6 @@ define("_DELETEART","You are about to remove");
 
 
 define("_ID","Id");
-define("_TEXT","Text");
 define("_EDITTHISART","Edit this article");
 define("_DELTHISART","Remove this article");
 define("_ADDART","Add an article");
@@ -54,7 +53,6 @@ define("_MODIFTHISART","Modify this article.");
 define("_ARTMODIF","Article was successfully modified.");
 define("_ARTDEL","Article was successfully removed.");
 
-define("_NONE","None");
 define("_SECTIONSPG","Number of articles per page");
 
 

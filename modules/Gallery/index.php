@@ -254,7 +254,7 @@ function description($sid)
 
     if ($cat == 0)
     {
-        $category = _NONE;
+        $category = __('NONE_CATEGORY');
     }
     else if ($parentid > 0)
     {

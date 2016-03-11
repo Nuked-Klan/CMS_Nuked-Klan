@@ -53,8 +53,6 @@ define("_DELTHISSCREEN","Remove this image");
 define("_MODIFTHISSCREEN","Modify this image");
 define("_SCREENDELETE","You are about to remove ");
 
-define("_NONE","None");
-
 define("_GALLERYTITLE","Gallery's title");
 define("_NUMBERIMG","Number of images per page");
 define("_NUMBERIMG2","Number of images per line");

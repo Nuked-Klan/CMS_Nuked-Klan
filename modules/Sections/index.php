@@ -199,7 +199,7 @@ function article($artid){
     $secname = printSecuTags($secname);
 
     if ($secid == 0){
-        $category = _NONE;
+        $category = __('NONE_CATEGORY');
     }
     else if ($parentid > 0)
     {

@@ -41,7 +41,6 @@ define("_DELETEART","Vous êtes sur le point de supprimer");
 
 
 define("_ID","Id");
-define("_TEXT","Texte");
 define("_EDITTHISART","Editer cet article");
 define("_DELTHISART","Supprimer cet article");
 define("_ADDART","Ajouter un article");
@@ -51,7 +50,6 @@ define("_MODIFTHISART","Modifier cet article");
 define("_ARTMODIF","Article modifié avec succès.");
 define("_ARTDEL","Article supprimé avec succès.");
 
-define("_NONE","Aucune");
 define("_SECTIONSPG","Nombre d'articles par page");
 
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> saut de page </i>-----</b><br />");

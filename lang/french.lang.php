@@ -403,6 +403,7 @@ return array(
     'LINE'              => 'ligne',
     'LINK'              => 'Lien',
     'CODE'              => 'Code',
+    'NONE_CATEGORY'     => 'Aucune',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

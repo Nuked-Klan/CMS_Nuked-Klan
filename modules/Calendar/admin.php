@@ -43,7 +43,7 @@ function main()
     . "<tr>\n"
     . "<td style=\"width: 25%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
     . "<td style=\"width: 25%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\"><b>" . _AUTEUR . "</b></td>\n"
+    . "<td style=\"width: 20%;\" align=\"center\"><b>" . __('AUTHOR') . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
     . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
