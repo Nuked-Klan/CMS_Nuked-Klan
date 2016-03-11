@@ -17,15 +17,14 @@ if (! adminInit('Admin', ADMINISTRATOR_ACCESS))
 
 function main()
 {
-    global $user, $nuked, $language;
+    global $user, $nuked, $language, $p;
 
     $nbActions = 50;
 
     $sqlNbActions = nkDB_execute("SELECT id FROM " . ACTION_TABLE);
     $count = nkDB_numRows($sqlNbActions);
 
-    if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-    $start = $_REQUEST['p'] * $nbActions - $nbActions;
+    $start = $p * $nbActions - $nbActions;
 
     echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
     . '<div class="content-box-header"><h3>' . _ADMINACTION . '</h3>',"\n"

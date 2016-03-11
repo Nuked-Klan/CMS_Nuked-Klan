@@ -81,9 +81,10 @@ function edit_block_center($bid){
     else if ($active == 4) $checked4 = 'selected="selected"';
     else $checked0 = 'selected="selected"';
 
-    $mod = explode("|", $content);
-    $mod1 = $mod[0];
-    $mod2 = $mod[1];
+    $mod1 = $mod2 = '';
+
+    if ($content != '')
+        list($mod1, $mod2) = explode('|', $content);
 
     echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
 			, '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"

@@ -93,11 +93,13 @@ function nkDebug_writeLog($path) {
  * @return void
  */
 function nkDebug_writePhpErrorLog($header, $path) {
-    file_put_contents(
-        $path .'error.log',
-        $header . utf8_decode(implode("\n", $GLOBALS['nkError'])) ."\n\n",
-        FILE_APPEND
-    );
+    if (isset($GLOBALS['nkError'])) {
+        file_put_contents(
+            $path .'error.log',
+            $header . utf8_decode(implode("\n", $GLOBALS['nkError'])) ."\n\n",
+            FILE_APPEND
+        );
+    }
 }
 
 /**

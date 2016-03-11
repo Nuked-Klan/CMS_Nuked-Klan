@@ -27,7 +27,7 @@ if ($i == 32) $selected6 = "selected=\"selected\""; else $selected6 = "";
 
 ob_start();
 phpinfo($i);
-$info .= ob_get_contents();
+$info = ob_get_contents();
 ob_end_clean();
 preg_match_all("=<body[^>]*>(.*)</body>=siU", $info, $a);
 $php_info = $a[1][0];

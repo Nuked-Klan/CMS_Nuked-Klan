@@ -39,7 +39,6 @@ define("_EDITTHISMATCH","Edit this Match");
 define("_DELTHISMATCH","Remove this Match");
 define("_ADDMATCH","Add a match");
 define("_TEAM","Team");
-define("_NONE","None");
 define("_STATUS","Status");
 define("_FINISH","Finished Match");
 define("_HASTOPLAY","Next Match");
@@ -77,4 +76,10 @@ define("_ACTIONADDWAR","has added a war");
 define("_ACTIONDELWAR","has deleted a war");
 define("_ACTIONMODIFWAR","has modified a war");
 define("_ACTIONCONFWAR","has modified the preference of wars module");
+
+return array(
+    // modules/Wars/admin.php
+    'NONE_TEAM' => 'None',
+);
+
 ?>

@@ -208,10 +208,10 @@ function edit_line($bid, $lid)
     if ($content) $link = explode('NEWLINE', $content);
     list($module, $title, $comment, $niveau, $blank) = explode('|', $link[$lid]);
 
-if ($lid != "") $selected0 = "";
-else $selected0 = "selected=\"selected\"";
+    if ($lid != "") $selected0 = "";
+    else $selected0 = "selected=\"selected\"";
 
-    if ($blank == true) $checked = true; else $checked = false;
+    if ($blank == 1) $checked = true; else $checked = false;
     if (preg_match("`<b>`i", $title)) $chk1 = true; else $chk1 = false;
     if (preg_match("`<i>`i", $title)) $chk2 = true; else $chk2 = false;
     if (preg_match("`underline`i", $title)) $chk3 = true; else $chk3 = false;
@@ -348,31 +348,47 @@ else $selected0 = "selected=\"selected\"";
 
 function send_line($bid, $lid)
 {
-    global $nuked, $user, $b, $i, $u, $puce, $cid;
+    global $nuked, $user;
 
     $sql = nkDB_execute("SELECT titre, content FROM " . BLOCK_TABLE . " WHERE bid = '" . $_REQUEST['bid'] . "'");
     list($titre, $content) = nkDB_fetchArray($sql);
 
-    if ($_REQUEST['niveau'] != "")
+    if (isset($_REQUEST['niveau']) && $_REQUEST['niveau'] != "")
     {
-        if ($_REQUEST['b'] == true) $_REQUEST['title'] = "<b>" . $_REQUEST['title'] . "</b>";
-        if ($_REQUEST['i'] == true) $_REQUEST['title'] = "<i>" . $_REQUEST['title'] . "</i>";
-        if ($_REQUEST['u'] == true) $_REQUEST['title'] = "<span style=\"text-decoration: underline;\">" . $_REQUEST['title'] . "</span>";
-        if ($_REQUEST['color'] != "") $_REQUEST['title'] = "<span style=\"color: #" . $_REQUEST['color']. ";\">" . $_REQUEST['title'] . "</span>";
+        if (isset($_REQUEST['b']) && $_REQUEST['b'] == 'on')
+            $_REQUEST['title'] = "<b>" . $_REQUEST['title'] . "</b>";
 
-        if ($_REQUEST['puce'] != "" && $_REQUEST['puce'] != "none.gif") $_REQUEST['title'] = "<img src=\"images/puces/" . $_REQUEST['puce'] . "\" style=\"border: 0;\" alt=\"\" />" . $_REQUEST['title'];
+        if (isset($_REQUEST['i']) && $_REQUEST['i'] == 'on')
+            $_REQUEST['title'] = "<i>" . $_REQUEST['title'] . "</i>";
+
+        if (isset($_REQUEST['u']) && $_REQUEST['u'] == 'on')
+            $_REQUEST['title'] = "<span style=\"text-decoration: underline;\">" . $_REQUEST['title'] . "</span>";
+
+        if ($_REQUEST['color'] != "")
+            $_REQUEST['title'] = "<span style=\"color: #" . $_REQUEST['color']. ";\">" . $_REQUEST['title'] . "</span>";
+
+        if ($_REQUEST['puce'] != "" && $_REQUEST['puce'] != "none.gif")
+            $_REQUEST['title'] = "<img src=\"images/puces/" . $_REQUEST['puce'] . "\" style=\"border: 0;\" alt=\"\" />" . $_REQUEST['title'];
 
         if ($content) $link = explode('NEWLINE', $content);
-        if ($_REQUEST['url'] == "http://" || $_REQUEST['url'] == "") $_REQUEST['url'] = $_REQUEST['module'];
 
-        $new_line = $_REQUEST['url'] . "|" . $_REQUEST['title'] . "|" . $_REQUEST['comment'] . "|" . $_REQUEST['niveau'] . "|" . $_REQUEST['blank'] . "|";
+        if ($_REQUEST['url'] == "http://" || $_REQUEST['url'] == "")
+            $_REQUEST['url'] = $_REQUEST['module'];
+
+        if (isset($_REQUEST['blank']) && $_REQUEST['blank'] == 'on')
+            $blank = '1';
+        else
+            $blank = '';
+
+        $new_line = $_REQUEST['url'] . "|" . $_REQUEST['title'] . "|" . $_REQUEST['comment'] . "|" . $_REQUEST['niveau'] . "|" . $blank . "|";
+
         $count = count($link);
         if ($lid == "") $lid = $count;
         $link[$lid] = $new_line;
         if ($link) $content = implode('NEWLINE', $link);
     }
 
-    if ($_REQUEST['cid'])
+    if (isset($_REQUEST['cid']) && is_array($_REQUEST['cid']) && $_REQUEST['cid'])
     {
         $link = explode('NEWLINE', $content);
         $i = 0;
@@ -393,7 +409,7 @@ function send_line($bid, $lid)
 
     saveUserAction(_ACTIONMODIFMENU .': '. $titre);
 
-    if ($_REQUEST['cid'])
+    if (isset($_REQUEST['cid']) && $_REQUEST['cid'])
     {
         printNotification(_LINEDELETED, 'success');
     }

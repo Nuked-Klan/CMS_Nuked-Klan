@@ -84,8 +84,11 @@ function edit_block_rss($bid){
     $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
-	
-	list($url, $titreactu, $puce, $nbr) = explode('|', $content);
+
+    $checked0 = $checked1 = $checked2 = $checked3 = $checked4 = $url = $titreactu = $puce = $nbr = '';
+
+    if ($content != '')
+        list($url, $titreactu, $puce, $nbr) = explode('|', $content);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';

@@ -198,7 +198,7 @@ function match(){
             . "<tr><td align=\"center\"><b>" . _STATUS . " :</b> <select name=\"etat\">\n"
             . "<option value=\"1\" " . $checked1 . ">" . _FINISH . "</option>\n"
             . "<option value=\"0\" " . $checked2 . ">" . _HASTOPLAY . "</option>\n"
-            . "</select>&nbsp;&nbsp;<b>" . _TEAM . " : </b><select name=\"team\"><option value=\"\">" . _NONE . "</option>\n";
+            . "</select>&nbsp;&nbsp;<b>" . _TEAM . " : </b><select name=\"team\"><option value=\"\">" . __('NONE_TEAM') . "</option>\n";
 
     $sql2 = nkDB_execute("SELECT cid, titre FROM " . TEAM_TABLE . " ORDER BY ordre, titre");
     while (list($cid, $titre) = nkDB_fetchArray($sql2)){

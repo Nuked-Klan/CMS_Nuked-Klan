@@ -305,7 +305,7 @@ define("_MESSPV","Private message");
 define("_NOTREAD","Unread");
 define("_READ","Read");
 define("_SHOWAVATAR","Show avatar");
-define("_SHOWAVATAR","Voir l'avatar");
+
 
 // block_rss.php
 define("_TITREACTU","View the feed title");

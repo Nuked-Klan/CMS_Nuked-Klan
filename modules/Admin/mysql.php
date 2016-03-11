@@ -74,12 +74,11 @@ function optimise()
     . "<td style=\"width: 20%;\" align=\"center\"><b>" . _SPACESAVED . "</b></td></tr>\n";
 
     $db_clean = $global['db_name'];
-    $tot_data = 0;
-    $tot_idx = 0;
-    $tot_all = 0;
+    $tot_data = $tot_idx = $tot_all = $total_gain = 0;
     $local_query = 'SHOW TABLE STATUS FROM `' . $global['db_name'] . '`';
     $result = nkDB_execute($local_query);
-    if (is_resource($result) && nkDB_numRows($result))
+
+    if ($result !== false && nkDB_numRows($result) > 0)
     {
         while ($row = nkDB_fetchArray($result))
         {
@@ -92,20 +91,21 @@ function optimise()
             $gain = $gain / 1024 ;
             $total_gain += $gain;
             $gain = round ($gain, 3);
-            $local_query = "OPTIMIZE TABLE " . $row[0];
+            $local_query = 'OPTIMIZE TABLE `'. $row[0] .'`';
             $resultat = nkDB_execute($local_query);
 
 
             if ($gain == 0) $statut = _NOOPTIMIZE;
-    else $statut = "<b>" . _OPTIMIZE . "</b>";
+            else $statut = "<b>" . _OPTIMIZE . "</b>";
 
-    echo "<tr>\n"
-    . "<td style=\"width: 35%;\">" . $row[0] . "</td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\">" . $total . " Kb</td>\n"
-    . "<td style=\"width: 25%;\" align=\"center\">" . $statut . "</td>\n"
-    . "<td style=\"width: 20%;\" align=\"center\">" . $gain . " Kb</td></tr>\n";
+            echo "<tr>\n"
+                . "<td style=\"width: 35%;\">" . $row[0] . "</td>\n"
+                . "<td style=\"width: 20%;\" align=\"center\">" . $total . " Kb</td>\n"
+                . "<td style=\"width: 25%;\" align=\"center\">" . $statut . "</td>\n"
+                . "<td style=\"width: 20%;\" align=\"center\">" . $gain . " Kb</td></tr>\n";
         }
     }
+
     echo "</table><br />";
 
     $total_gain = round ($total_gain, 3);

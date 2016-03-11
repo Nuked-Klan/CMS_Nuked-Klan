@@ -312,6 +312,7 @@ define("_LASTMEMBER","Dernier");
 define("_MESSPV","Messages privés");
 define("_NOTREAD","Nouveau(x)");
 define("_READ","Archivé(s)");
+define("_SHOWAVATAR","Voir l'avatar");
 
 // block_rss.php
 define("_TITREACTU","Afficher le titre du flux");
