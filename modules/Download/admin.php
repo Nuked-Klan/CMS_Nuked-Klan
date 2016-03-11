@@ -100,10 +100,10 @@ function send_file() {
     }
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = mysql_real_escape_string(stripslashes($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $autor = mysql_real_escape_string(stripslashes($autor));
-    $comp = mysql_real_escape_string(stripslashes($comp));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $autor = nkDB_realEscapeString(stripslashes($autor));
+    $comp = nkDB_realEscapeString(stripslashes($comp));
 
     $date = time();
     $taille = str_replace(",", ".", $size);
@@ -194,7 +194,7 @@ function send_file() {
         );
     }
     else if ($url != '' && $titre != '') {
-        $sql = mysql_query("INSERT INTO " . DOWNLOAD_TABLE . " ( `date` , `taille` , `titre` , `description` , `type` , `url` , `url2`  , `url3` , `level`, `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $date . "' , '" . $taille . "' , '" . $titre . "' , '" . $description . "' , '" . $cat . "' , '" . $url . "' , '" . $url2 . "' , '" . $url3 . "' , '" . $level ."' , '" . $autor . "' , '" . $site . "' , '" . $comp . "' , '" . $screenshotUrl . "' )");
+        $sql = nkDB_execute("INSERT INTO " . DOWNLOAD_TABLE . " ( `date` , `taille` , `titre` , `description` , `type` , `url` , `url2`  , `url3` , `level`, `autor` , `url_autor`  , `comp` , `screen` )  VALUES ( '" . $date . "' , '" . $taille . "' , '" . $titre . "' , '" . $description . "' , '" . $cat . "' , '" . $url . "' , '" . $url2 . "' , '" . $url3 . "' , '" . $level ."' , '" . $autor . "' , '" . $site . "' , '" . $comp . "' , '" . $screenshotUrl . "' )");
 
         $id = nkDB_insertId();
 
@@ -220,12 +220,12 @@ function send_file() {
 function del_file($did) {
     global $nuked, $user;
 
-    $sql = mysql_query("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
-    list($titre) = mysql_fetch_array($sql);
-    $titre = mysql_real_escape_string($titre);
-    $sql = mysql_query("DELETE FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
-    $del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $did . "' AND module = 'Download'");
-    $del_vote = mysql_query("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $did . "' AND module = 'Download'");
+    $sql = nkDB_execute("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
+    list($titre) = nkDB_fetchArray($sql);
+    $titre = nkDB_realEscapeString($titre);
+    $sql = nkDB_execute("DELETE FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
+    $del_com = nkDB_execute("DELETE FROM " . COMMENT_TABLE . " WHERE im_id = '" . $did . "' AND module = 'Download'");
+    $del_vote = nkDB_execute("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $did . "' AND module = 'Download'");
 
     saveUserAction(_ACTIONDELDL .': '. $titre);
     printNotification(_FILEDEL, 'success');
@@ -235,8 +235,8 @@ function del_file($did) {
 function edit_file($did) {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT titre, description, type, taille, url, url2, url3, count, level, screen, autor, url_autor, comp  FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
-    list($titre, $description, $cat, $taille, $url, $url2, $url3, $count, $level, $screen, $autor, $url_autor, $comp) = mysql_fetch_array($sql);
+    $sql = nkDB_execute("SELECT titre, description, type, taille, url, url2, url3, count, level, screen, autor, url_autor, comp  FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
+    list($titre, $description, $cat, $taille, $url, $url2, $url3, $count, $level, $screen, $autor, $url_autor, $comp) = nkDB_fetchArray($sql);
 
     $upload_max_filesize = @ini_get('upload_max_filesize');
     $file_uploads = @ini_get('file_uploads');
@@ -255,8 +255,8 @@ function edit_file($did) {
         $cat_name = _NONE;
     } else {
         $cid = $cat;
-        $sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
-        list($cat_name) = mysql_fetch_array($sql2);
+        $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
+        list($cat_name) = nkDB_fetchArray($sql2);
         $cat_name = printSecuTags($cat_name);
     }
 
@@ -329,10 +329,10 @@ function modif_file() {
     }
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $description = mysql_real_escape_string(stripslashes($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $autor = mysql_real_escape_string(stripslashes($autor));
-    $comp = mysql_real_escape_string(stripslashes($comp));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $autor = nkDB_realEscapeString(stripslashes($autor));
+    $comp = nkDB_realEscapeString(stripslashes($comp));
 
     $day = time();
     $taille = str_replace(",", ".", $taille);
@@ -423,7 +423,7 @@ function modif_file() {
         );
     }
     else if ($url != '' && $titre != '') {
-        $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', type = '" . $cat . "', count = '" . $count . "', url = '" . $url . "', url2 = '" . $url2 . "', url3 = '" . $url3 . "', taille = '" . $taille . "', level = '" . $level . "', edit = '" . $day . "', autor = '" . $autor . "', url_autor = '" . $site . "', comp = '" . $comp . "', screen = '" . $screenshotUrl . "' WHERE id = '" . $did . "'");
+        $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', type = '" . $cat . "', count = '" . $count . "', url = '" . $url . "', url2 = '" . $url2 . "', url3 = '" . $url3 . "', taille = '" . $taille . "', level = '" . $level . "', edit = '" . $day . "', autor = '" . $autor . "', url_autor = '" . $site . "', comp = '" . $comp . "', screen = '" . $screenshotUrl . "' WHERE id = '" . $did . "'");
 
         saveUserAction(_ACTIONMODIFDL .': '. $titre);
 
@@ -476,11 +476,11 @@ function main_broken() {
 
     $i = 0;
     $l = 0;
-    $sql = mysql_query("SELECT id, titre, url, broke FROM " . DOWNLOAD_TABLE . " WHERE broke > 0 ORDER BY broke DESC, type");
-    $nb_broke = mysql_num_rows($sql);
+    $sql = nkDB_execute("SELECT id, titre, url, broke FROM " . DOWNLOAD_TABLE . " WHERE broke > 0 ORDER BY broke DESC, type");
+    $nb_broke = nkDB_numRows($sql);
 
     if ($nb_broke > 0) {
-        while (list($did, $titre, $url, $broke) = mysql_fetch_array($sql)) {
+        while (list($did, $titre, $url, $broke) = nkDB_fetchArray($sql)) {
             $titre = printSecuTags($titre);
             $l++;
 
@@ -503,10 +503,10 @@ function main_broken() {
 function del_broke($did) {
     global $nuked, $user;
 
-    $sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
-    list($titre) = mysql_fetch_array($sql2);
-    $titre = mysql_real_escape_string($titre);
-    $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0 WHERE id = '" . $did . "'");
+    $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_TABLE . " WHERE id = '" . $did . "'");
+    list($titre) = nkDB_fetchArray($sql2);
+    $titre = nkDB_realEscapeString($titre);
+    $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0 WHERE id = '" . $did . "'");
 
     saveUserAction(_ACTION1BROKEDL .': '. $titre);
 
@@ -516,7 +516,7 @@ function del_broke($did) {
 
 function del_broken() {
     global $nuked, $user;
-    $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0");
+    $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET broke = 0");
 
     saveUserAction(_ACTIONALLBROKEDL .'.');
 
@@ -529,8 +529,8 @@ function main() {
 
     $nb_download = 30;
 
-    $sql3 = mysql_query("SELECT id FROM " . DOWNLOAD_TABLE);
-    $nb_dl = mysql_num_rows($sql3);
+    $sql3 = nkDB_execute("SELECT id FROM " . DOWNLOAD_TABLE);
+    $nb_dl = nkDB_numRows($sql3);
 
     if(array_key_exists('p', $_REQUEST)){
         $page = $_REQUEST['p'];
@@ -621,8 +621,8 @@ function main() {
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
     $i = 0;
-    $sql = mysql_query("SELECT D.id, D.type, D.titre, D.url, D.date, DC.parentid, DC.titre  FROM " . DOWNLOAD_TABLE . " AS D LEFT JOIN " . DOWNLOAD_CAT_TABLE . " AS DC ON DC.cid = D.type ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_download);
-    while (list($did, $cat, $titre, $url, $date, $parentid, $namecat) = mysql_fetch_array($sql)) {
+    $sql = nkDB_execute("SELECT D.id, D.type, D.titre, D.url, D.date, DC.parentid, DC.titre  FROM " . DOWNLOAD_TABLE . " AS D LEFT JOIN " . DOWNLOAD_CAT_TABLE . " AS DC ON DC.cid = D.type ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_download);
+    while (list($did, $cat, $titre, $url, $date, $parentid, $namecat) = nkDB_fetchArray($sql)) {
         $titre = printSecuTags($titre);
 
         $date = nkDate($date);
@@ -632,8 +632,8 @@ function main() {
         } else if ($parentid == 0) {
             $categorie = $namecat;
         } else {
-            $sql3 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-            list($parentcat) = mysql_fetch_array($sql3);
+            $sql3 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+            list($parentcat) = nkDB_fetchArray($sql3);
             $categorie = $parentcat . " -> " . $namecat;
             $categorie = printSecuTags($categorie);
         }
@@ -695,11 +695,11 @@ function main_cat() {
         . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
     $i = 0;
-    $sql = mysql_query("SELECT cid, titre, parentid, position FROM " . DOWNLOAD_CAT_TABLE . " ORDER BY parentid, position");
-    $nbcat = mysql_num_rows($sql);
+    $sql = nkDB_execute("SELECT cid, titre, parentid, position FROM " . DOWNLOAD_CAT_TABLE . " ORDER BY parentid, position");
+    $nbcat = nkDB_numRows($sql);
 
     if ($nbcat > 0) {
-        while (list($cid, $titre, $parentid, $position) = mysql_fetch_array($sql)) {
+        while (list($cid, $titre, $parentid, $position) = nkDB_fetchArray($sql)) {
             $titre = printSecuTags($titre);
 
             echo "<tr>\n"
@@ -707,8 +707,8 @@ function main_cat() {
             . "<td style=\"width: 35%;\" align=\"center\">\n";
 
             if ($parentid > 0) {
-                $sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-                list($pnomcat) = mysql_fetch_array($sql2);
+                $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+                list($pnomcat) = nkDB_fetchArray($sql2);
                 $pnomcat = printSecuTags($pnomcat);
 
                 echo "<i>" . $pnomcat . "</i>";
@@ -742,8 +742,8 @@ function add_cat() {
         . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
         . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\"><option value=\"0\">" . _NONE . "</option>\n";
 
-    $sql = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($cid, $nomcat) = mysql_fetch_array($sql)) {
+    $sql = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    while (list($cid, $nomcat) = nkDB_fetchArray($sql)) {
         $nomcat = printSecuTags($nomcat);
 
         echo "<option value=\"" . $cid . "\">" . $nomcat . "</option>\n";
@@ -771,17 +771,17 @@ function send_cat($titre, $description, $parentid, $level, $position) {
     global $nuked, $user;
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
-    $sql = mysql_query("INSERT INTO " . DOWNLOAD_CAT_TABLE . " ( `parentid` , `titre` , `description` , `level` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $level . "' , '" . $position . "' )");
+    $sql = nkDB_execute("INSERT INTO " . DOWNLOAD_CAT_TABLE . " ( `parentid` , `titre` , `description` , `level` , `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description . "' , '" . $level . "' , '" . $position . "' )");
 
     saveUserAction(_ACTIONADDCATDL .': '. $titre);
 
     printNotification(_CATADD, 'success');
 
-    $sql2 = mysql_query("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
-    list($did) = mysql_fetch_array($sql2);
+    $sql2 = nkDB_execute("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE titre = '" . $titre . "' AND parentid = '" . $parentid . "'");
+    list($did) = nkDB_fetchArray($sql2);
 
     setPreview('index.php?file=Download&op=categorie&cat='. $did, 'index.php?file=Download&page=admin&op=main_cat');
 }
@@ -789,8 +789,8 @@ function send_cat($titre, $description, $parentid, $level, $position) {
 function edit_cat($cid) {
     global $nuked, $language;
 
-    $sql = mysql_query("SELECT titre, description, parentid, level, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    list($titre, $description, $parentid, $level, $position) = mysql_fetch_array($sql);
+    $sql = nkDB_execute("SELECT titre, description, parentid, level, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    list($titre, $description, $parentid, $level, $position) = nkDB_fetchArray($sql);
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
@@ -803,8 +803,8 @@ function edit_cat($cid) {
         . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\">\n";
 
     if ($parentid > 0) {
-        $sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
-        list($pcid, $pnomcat) = mysql_fetch_array($sql2);
+        $sql2 = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
+        list($pcid, $pnomcat) = nkDB_fetchArray($sql2);
 
         $pnomcat = printSecuTags($pnomcat);
 
@@ -813,8 +813,8 @@ function edit_cat($cid) {
 
     echo "<option value=\"0\">" . _NONE . "</option>\n";
 
-    $sql3 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($catid, $nomcat) = mysql_fetch_array($sql3)) {
+    $sql3 = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    while (list($catid, $nomcat) = nkDB_fetchArray($sql3)) {
         $nomcat = printSecuTags($nomcat);
 
         if ($nomcat != $titre) {
@@ -846,16 +846,16 @@ function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
     global $nuked, $user;
 
     $description = secu_html(nkHtmlEntityDecode($description));
-    $titre = mysql_real_escape_string(stripslashes($titre));
-    $description = mysql_real_escape_string(stripslashes($description));
+    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
 
-    $sql = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', level = '" . $level . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
-    $sql_file = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cid . "'");
-    $sql_cat = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET level = '" . $level . "' WHERE parentid = '" . $cid . "'");
+    $sql = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = '" . $parentid . "', titre = '" . $titre . "', description = '" . $description . "', level = '" . $level . "', position = '" . $position . "' WHERE cid = '" . $cid . "'");
+    $sql_file = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cid . "'");
+    $sql_cat = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET level = '" . $level . "' WHERE parentid = '" . $cid . "'");
 
-    $sql_cat = mysql_query("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "'");
-    while (list($cat_id) = mysql_fetch_array($sql_cat)) {
-        $sql_file2 = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cat_id . "'");
+    $sql_cat = nkDB_execute("SELECT cid FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "'");
+    while (list($cat_id) = nkDB_fetchArray($sql_cat)) {
+        $sql_file2 = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET level = '" . $level . "' WHERE type = '" . $cat_id . "'");
     }
 
     saveUserAction(_ACTIONMODIFCATDL .': '. $titre);
@@ -867,14 +867,14 @@ function modif_cat($cid, $titre, $description, $parentid, $level, $position) {
 function select_cat() {
     global $nuked;
 
-    $sql = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
-    while (list($cid, $titre) = mysql_fetch_array($sql)) {
+    $sql = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
+    while (list($cid, $titre) = nkDB_fetchArray($sql)) {
         $titre = printSecuTags($titre);
 
         echo "<option value=\"" . $cid . "\">* " . $titre . "</option>\n";
 
-        $sql2 = mysql_query("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
-        while (list($s_cid, $s_titre) = mysql_fetch_array($sql2)) {
+        $sql2 = nkDB_execute("SELECT cid, titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE parentid = '" . $cid . "' ORDER BY position, titre");
+        while (list($s_cid, $s_titre) = nkDB_fetchArray($sql2)) {
             $s_titre = printSecuTags($s_titre);
 
             echo "<option value=\"" . $s_cid . "\">&nbsp;&nbsp;&nbsp;" . $s_titre . "</option>\n";
@@ -885,11 +885,11 @@ function select_cat() {
 
 function del_cat($cid) {
     global $nuked, $user;
-    $sql2 = mysql_query("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    list($titre) = mysql_fetch_array($sql2);
-    $sql = mysql_query("DELETE FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    $sql = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
-    $sql = mysql_query("UPDATE " . DOWNLOAD_TABLE . " SET type = 0 WHERE type = '" . $cid . "'");
+    $sql2 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    list($titre) = nkDB_fetchArray($sql2);
+    $sql = nkDB_execute("DELETE FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    $sql = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET parentid = 0 WHERE parentid = '" . $cid . "'");
+    $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET type = 0 WHERE type = '" . $cid . "'");
 
     saveUserAction(_ACTIONDELCATDL .': '. $titre);
 
@@ -930,8 +930,8 @@ function change_pref($max_download, $hide_download) {
 
     if ($hide_download != "on") $hide_download = "off";
 
-    $upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_download . "' WHERE name = 'max_download'");
-    $upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $hide_download . "' WHERE name = 'hide_download'");
+    $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_download . "' WHERE name = 'max_download'");
+    $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $hide_download . "' WHERE name = 'hide_download'");
 
     saveUserAction(_ACTIONMODIFPREFDL .'.');
 
@@ -942,16 +942,16 @@ function change_pref($max_download, $hide_download) {
 function modif_position($cid, $method) {
     global $nuked, $user;
 
-    $sql2 = mysql_query("SELECT titre, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
-    list($titre, $position) = mysql_fetch_array($sql2);
+    $sql2 = nkDB_execute("SELECT titre, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
+    list($titre, $position) = nkDB_fetchArray($sql2);
     if ($position <=0 AND $method == "up") {
         printNotification(_CATERRORPOS, 'error');
         redirect("index.php?file=Download&page=admin&op=main_cat", 2);
         return;
     }
 
-    if ($method == "up") $upd = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
-    else if ($method == "down") $upd = mysql_query("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
+    if ($method == "up") $upd = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
+    else if ($method == "down") $upd = nkDB_execute("UPDATE " . DOWNLOAD_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");
 
     saveUserAction(_ACTIONPOSMODIFCATDL .': '. $titre);
 

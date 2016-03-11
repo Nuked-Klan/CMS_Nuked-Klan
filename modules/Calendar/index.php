@@ -82,8 +82,6 @@ function index(){
             $query = "SELECT warid, date_jour, adversaire FROM " . WARS_TABLE . " WHERE date_mois = '" . $this->month_number . "' AND date_an = '" . $this->year . "' ORDER BY date_jour";
             $result = nkDB_execute($query);
 
-            if (!$result) echo mysql_error() . ": " . mysql_errno();
-
             while ($tmp = nkDB_fetchArray($result)){
                 if (strcmp($tmp['adversaire'] , "") != 0){
                     $tmp['adversaire'] = printSecuTags($tmp['adversaire']);
@@ -95,8 +93,6 @@ function index(){
 
             $query2 = "SELECT id, date_jour, titre FROM " . CALENDAR_TABLE . " WHERE date_mois = '" . $this->month_number . "' AND date_an = '" . $this->year . "'  ORDER BY date_jour";
             $data2 = nkDB_execute($query2);
-
-            if (!$data2) echo mysql_error() . ": " . mysql_errno();
 
             while ($cmp = nkDB_fetchArray($data2)){
                 if (strcmp($cmp['titre'] , "") != 0){
@@ -118,8 +114,6 @@ function index(){
 
                 $query3 = "SELECT user_id, age, pseudo FROM " . USER_DETAIL_TABLE . " INNER JOIN " . USER_TABLE . " ON user_id = id " . $where;
                 $data3 = nkDB_execute($query3);
-
-                if (!$data3) echo mysql_error() . ": " . mysql_errno();
 
                 while ($amp = nkDB_fetchArray($data3)){
                     if (!empty($amp['age'])){
