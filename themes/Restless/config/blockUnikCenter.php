@@ -12,12 +12,12 @@ $dbsArticle = 'SELECT coverage as image, title, date, artid, autor
                  ORDER BY date DESC
                  LIMIT 0, '.$maxElements;
 
-$dbeArticle = mysql_query($dbsArticle) or die(mysql_error());
+$dbeArticle = nkDB_execute($dbsArticle) or die(mysql_error());
 
 $arrayTemp = array();
 $i = 0;
 
-while ($dbrArticle = mysql_fetch_assoc($dbeArticle)) {
+while ($dbrArticle = nkDB_fetchAssoc($dbeArticle)) {
     $arrayTemp[$i]['image'] = empty($dbrArticle['image']) ? 'themes/Restless/images/no_image_articles.png' : $dbrArticle['image'];
     $arrayTemp[$i]['title'] = $dbrArticle['title'];
     $arrayTemp[$i]['postedBy'] = POSTEDBY.' '.$dbrArticle['autor'].' '.THE.' '.date('d/m/Y', $dbrArticle['date']);

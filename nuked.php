@@ -505,7 +505,7 @@ function nkHandle_bannedUser() {
     $ip_dyn = substr($user_ip, 0, -1);
 
     // Condition SQL : IP dynamique ou compte
-    $where_query = '`ip` LIKE \'%'. nkDB_quote($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName);
+    $where_query = '`ip` LIKE \'%'. nkDB_quote($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_quote($userName);
 
     // Recherche d'un banissement
     $ban = nkDB_selectMany(
@@ -540,7 +540,7 @@ function nkHandle_bannedUser() {
         // Recherche banissement depasse
         if ($ban['dure'] != 0 && ($ban['date'] + $ban['dure']) < time()) {
             // Suppression bannissement
-            nkDB_delete(BANNED_TABLE, '`ip` LIKE \'%'. nkDB_quote($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_escape($userName));
+            nkDB_delete(BANNED_TABLE, '`ip` LIKE \'%'. nkDB_quote($ip_dyn, true) .'%\' OR `pseudo` = '. nkDB_quote($userName));
 
             // Notification dans l'administration
             saveNotification($userName . __('BAN_FINISHED'), NOTIFICATION_WARNING);

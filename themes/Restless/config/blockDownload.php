@@ -9,12 +9,12 @@ $dbsDownload = 'SELECT id, titre, count
                  ORDER BY date DESC
                  LIMIT 0, '.$this->get('cfg')->get('blockDownload.nbItems').' ';
 
-$dbeDownload = mysql_query($dbsDownload) or die(mysql_error());
+$dbeDownload = nkDB_execute($dbsDownload) or die(mysql_error());
 
 $arrayTemp = array();
 $i = 0;
 
-while ($dbrDownload = mysql_fetch_assoc($dbeDownload)) {
+while ($dbrDownload = nkDB_fetchAssoc($dbeDownload)) {
     $arrayTemp[$i]['title'] = $dbrDownload['titre'];
     $arrayTemp[$i]['link'] = 'index.php?file=Download&op=description&dl_id='.$dbrDownload['id'];
     $arrayTemp[$i]['count'] = $dbrDownload['count'];

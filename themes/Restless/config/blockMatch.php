@@ -14,12 +14,12 @@ $dbsMatch = 'SELECT A.warid, A.etat, A.pays_adv AS country, A.adversaire AS oppo
              ON C.id = A.game
              ORDER BY date DESC
              LIMIT 0, '.$this->get('nbMatchs');
-$dbeMatch = mysql_query($dbsMatch);
+$dbeMatch = nkDB_execute($dbsMatch);
 
 $arrayTemp = array();
 $i = 0;
 
-while ($row = mysql_fetch_assoc($dbeMatch)) {
+while ($row = nkDB_fetchAssoc($dbeMatch)) {
     $arrayTemp[$i]['icon'] = $row['icon'];
     $arrayTemp[$i]['flag'] = 'images/flags/'.$row['country'];
     $arrayTemp[$i]['matchLink'] = 'index.php?file=Wars&amp;op=detail&amp;war_id='.$row['warid'];

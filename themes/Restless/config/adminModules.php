@@ -3,7 +3,7 @@
 $dbsModules = 'SELECT nom
                FROM '.MODULES_TABLE.'
                WHERE niveau >= 0';
-$dbeModules = mysql_query($dbsModules);
+$dbeModules = nkDB_execute($dbsModules);
 
 $arrayTemp = array(
     'User' => array(
@@ -15,7 +15,7 @@ $arrayTemp = array(
     )
 );
 
-while($dbrModules = mysql_fetch_assoc($dbeModules)){
+while($dbrModules = nkDB_fetchAssoc($dbeModules)){
     if($dbrModules['nom'] != 'Comment' && $dbrModules['nom'] != 'Vote') {
         $name = $dbrModules['nom'];
         if (defined('MODULE_'.strtoupper($dbrModules['nom']))) {

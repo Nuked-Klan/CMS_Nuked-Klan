@@ -69,9 +69,9 @@ if($this->get('currentAdminBlock') == 'TopMatch'){
                       LEFT JOIN '.TEAM_TABLE.' AS B
                       ON B.cid = A.team
                       ORDER BY date DESC';
-    $dbeTopMatchCat = mysql_query($dbsTopMatchCat);
+    $dbeTopMatchCat = nkDB_execute($dbsTopMatchCat);
 
-    while ($dbrTopMatchCat = mysql_fetch_assoc($dbeTopMatchCat)) {
+    while ($dbrTopMatchCat = nkDB_fetchAssoc($dbeTopMatchCat)) {
         $selected = null;
 
         if($currentId == $dbrTopMatchCat['id']){
@@ -120,9 +120,9 @@ if ($galleryBlock === true) {
     $dbsGalleryCat = 'SELECT cid AS id, titre AS name
                       FROM '.GALLERY_CAT_TABLE.'
                       ORDER BY name';
-    $dbeGalleryCat = mysql_query($dbsGalleryCat);
+    $dbeGalleryCat = nkDB_execute($dbsGalleryCat);
 
-    while ($dbrGalleryCat = mysql_fetch_assoc($dbeGalleryCat)) {
+    while ($dbrGalleryCat = nkDB_fetchAssoc($dbeGalleryCat)) {
         $selected = null;
 
         if($this->get('cfg')->get('blockGallery.catId') == $dbrGalleryCat['id']){

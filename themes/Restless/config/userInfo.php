@@ -13,9 +13,9 @@ $dbsUser = 'SELECT avatar, (SELECT count(mid)
                               WHERE user_for="'.$GLOBALS['user'][0].'" AND status="") AS nbMessages
             FROM '.USER_TABLE.'
             WHERE id="'.$GLOBALS['user'][0].'" ';
-$dbeUSer = mysql_query($dbsUser);
+$dbeUSer = nkDB_execute($dbsUser);
 
-$dbrUser = mysql_fetch_assoc($dbeUSer);
+$dbrUser = nkDB_fetchAssoc($dbeUSer);
 
 if(!empty($dbrUser['avatar'])) {
     $this->assign('avatar', $dbrUser['avatar']);

@@ -68,7 +68,7 @@ return false;
     $dbrForumMessage = nkDB_selectOne(
         'SELECT date
         FROM '. FORUM_MESSAGES_TABLE .'
-        WHERE auteur = '. nkDB_quote($username) .' OR auteur_ip = '. nkDB_escape($user_ip),
+        WHERE auteur = '. nkDB_quote($username) .' OR auteur_ip = '. nkDB_quote($user_ip),
         array('date'), 'DESC', 1
     );
 

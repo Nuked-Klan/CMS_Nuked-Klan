@@ -2,12 +2,12 @@
 $dbsModules = 'SELECT nom
            FROM '.MODULES_TABLE.'
            WHERE niveau >= 0';
-$dbeModules = mysql_query($dbsModules);
+$dbeModules = nkDB_execute($dbsModules);
 
 $arrayFullPage = array();
 $arraySlider = array();
 
-while($dbrModules = mysql_fetch_assoc($dbeModules)){
+while($dbrModules = nkDB_fetchAssoc($dbeModules)){
     if(array_key_exists('module'.$dbrModules['nom'].'FullPage', $_REQUEST)){
         $arrayFullPage[] = $dbrModules['nom'];
     }

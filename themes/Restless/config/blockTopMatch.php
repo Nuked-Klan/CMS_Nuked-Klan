@@ -18,9 +18,9 @@ $dbsTopMatch = 'SELECT A.warid, A.etat AS state, A.image_adv AS opponentLogo, A.
                 ORDER BY date DESC
                 LIMIT 0, 1';
 
-$dbeTopMatch = mysql_query($dbsTopMatch);
+$dbeTopMatch = nkDB_execute($dbsTopMatch);
 
-$dbrTopMatch = mysql_fetch_assoc($dbeTopMatch);
+$dbrTopMatch = nkDB_fetchAssoc($dbeTopMatch);
 
 $noImage = 'themes/Restless/images/no_image_topmatch.png';
 

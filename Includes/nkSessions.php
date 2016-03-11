@@ -166,7 +166,7 @@ function nkSessions_userSessionCheck() {
         $dbrSessions = nkDB_selectOne(
             'SELECT date, ip, last_used
             FROM '. SESSIONS_TABLE .'
-            WHERE id = '. nkDB_quote($sessionId) .' AND user_id = '. nkDB_escape($userId)
+            WHERE id = '. nkDB_quote($sessionId) .' AND user_id = '. nkDB_quote($userId)
         );
 
         $userSecure = nkDB_numRows();
@@ -184,7 +184,7 @@ function nkSessions_userSessionCheck() {
         // Incorrect session information
         else {
             nkDB_delete(SESSIONS_TABLE,
-                'id = '. nkDB_quote($sessionId) .' OR user_id = '. nkDB_escape($userId)
+                'id = '. nkDB_quote($sessionId) .' OR user_id = '. nkDB_quote($userId)
             );
         }
     }

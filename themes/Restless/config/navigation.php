@@ -7,8 +7,8 @@ $maxEntries = 6;
 $levelAccess = array_key_exists(1, $GLOBALS['user']) ? $GLOBALS['user'][1] : 0;
 
 $dbsMenu = 'SELECT content FROM '.BLOCK_TABLE.' WHERE `type`="menu" AND `bid` = "'.$id.'" ';
-$dbeMenu = mysql_query($dbsMenu) or die (mysql_error());
-$dbrMenu = mysql_fetch_assoc($dbeMenu);
+$dbeMenu = nkDB_execute($dbsMenu) or die (mysql_error());
+$dbrMenu = nkDB_fetchAssoc($dbeMenu);
 
 $menuRow = explode('NEWLINE', $dbrMenu['content']);
 

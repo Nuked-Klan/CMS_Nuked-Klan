@@ -20,7 +20,7 @@ $tpl->assign('cfg', new iniConfigTool('themes/Restless/config.ini'));
 if($tpl->get('cfg')->get('general.createSql') != 1){
     $dbiMenu = "INSERT INTO `" . $db_prefix . "_block` VALUES
                             ('', 0, 0, '', 'Menu Restless', '|" . _NAVCONTENT . "||0||NEWLINE[News]|" . _NAVNEWS . "||0||NEWLINE[Archives]|" . _NAVARCHIV . "||0||NEWLINE[Sections]|" . _NAVART . "||0||NEWLINE[Calendar]|" . _NAVCALENDAR . "||0||NEWLINE[Stats]|" . _NAVSTATS . "||0||NEWLINE|" . _NAVCOMMUNITY . "||0||NEWLINE[Forum]|" . _NAVFORUM . "||0||NEWLINE[Guestbook]|" . _NAVGUESTBOOK . "||0||NEWLINE[Irc]|" . _NAVIRC . "||0||NEWLINE[Members]|" . _NAVMEMBERS . "||0||NEWLINE[Contact]|" . _NAVCONTACTUS . "||0||NEWLINE|" . _NAVMEDIAS . "||0||NEWLINE[Download]|" . _NAVDOWNLOAD . "||0||NEWLINE[Gallery]|" . _NAVGALLERY . "||0||NEWLINE[Links]|" . _NAVLINKS . "||0||NEWLINE|" . _NAVGAMES . "||0||NEWLINE[Team]|" . _NAVTEAM . "||0||NEWLINE[Defy]|" . _NAVDEFY . "||0||NEWLINE[Recruit]|" . _NAVRECRUIT . "||0||NEWLINE[Server]|" . _NAVSERVER . "||0||NEWLINE[Wars]|" . _NAVMATCHS . "||0||NEWLINE|" . _MEMBER . "||1||NEWLINE[User]|" . _NAVACCOUNT . "||1||NEWLINE[Admin]|" . _NAVADMIN . "||2||', 'menu', 0, 'Tous');";
-    $dbeMenu = mysql_query($dbiMenu);
+    $dbeMenu = nkDB_execute($dbiMenu);
 
     $tpl->get('cfg')->set('general.createSql', 1);
     $tpl->get('cfg')->save();

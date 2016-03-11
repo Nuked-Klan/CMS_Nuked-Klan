@@ -21,12 +21,12 @@ $dbsGallery = 'SELECT sid, titre, url, url2
                '.$where.'
                ORDER BY date DESC
                LIMIT 0, '.$this->get('blockGalleryNbItems');
-$dbeGallery = mysql_query($dbsGallery) or die(mysql_error());
+$dbeGallery = nkDB_execute($dbsGallery) or die(mysql_error());
 
 $arrayTemp = array();
 $i = 0;
 
-while ($dbrGallery = mysql_fetch_assoc($dbeGallery)) {
+while ($dbrGallery = nkDB_fetchAssoc($dbeGallery)) {
     $src = $biSrc = 'themes/Restless/images/no_image_gallery.png';
     if(!empty($dbrGallery['url'])){
         $src = $bigSrc = $dbrGallery['url'];

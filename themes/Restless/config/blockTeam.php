@@ -8,11 +8,11 @@ $dbsTeam = 'SELECT CONCAT(\'index.php?file=Team&cid=\', cid) AS link, titre AS n
             FROM '.TEAM_TABLE.'
             ORDER BY ordre, name';
 
-$dbeTeam = mysql_query($dbsTeam);
+$dbeTeam = nkDB_execute($dbsTeam);
 
 $arrayTemp = array();
 $i = 0;
-while($dbrTeam = mysql_fetch_assoc($dbeTeam)){
+while($dbrTeam = nkDB_fetchAssoc($dbeTeam)){
     $arrayTemp[$i] = $dbrTeam;
     $i++;
 }

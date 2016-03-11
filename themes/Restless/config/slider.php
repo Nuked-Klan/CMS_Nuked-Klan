@@ -11,9 +11,9 @@ if($this->get('cfg')->get('blockTopMatch.active') != 1){
 $dbsSlider = 'SELECT id, titre, coverage
               FROM '.NEWS_TABLE.'
               WHERE coverage != "" ';
-$dbeSlider = mysql_query($dbsSlider);
+$dbeSlider = nkDB_execute($dbsSlider);
 
-while ($dbrSlider = mysql_fetch_assoc($dbeSlider)) {
+while ($dbrSlider = nkDB_fetchAssoc($dbeSlider)) {
     $arrayTemp[$i]['link'] = 'index.php?file=News&amp;op=index_comment&news_id='.$dbrSlider['id'];
     $arrayTemp[$i]['title'] = $dbrSlider['titre'];
     $arrayTemp[$i]['src'] = $dbrSlider['coverage'];
