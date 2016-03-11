@@ -49,117 +49,135 @@ function add_screen()
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
-function send_screen($titre, $description, $auteur, $fichiernom, $maxi, $cat, $url, $url2, $url_file, $ecrase_screen)
+function send_screen($titre, $description, $auteur, $cat, $url, $url2, $url_file)
 {
     global $nuked, $user;
+
+    require_once 'Includes/nkUpload.php';
     include("modules/Gallery/config.php");
 
     if ($url == "http://") $url = "";
     if ($url2 == "http://") $url2 = "";
     if ($url_file == "http://") $url_file = "";
 
-    if ($_FILES['fichiernom']['name'] != "" || $url != "")
-    {
-        if ($_FILES['fichiernom']['name'] != "")
-        {
-            $filename = $_FILES['fichiernom']['name'];
-            $filename = str_replace(" ", "_", $filename);
-            $url_screen = $rep_img . $filename;
-            $url = $url_screen;
-        }
-        else
-        {
-            $filename = substr(strrchr($url, '/'), 1 );
-        }
-
-
-        if (($_FILES['fichiernom']['name'] == "" && $url != "") || (!is_file($url_screen) || ( $ecrase_screen == 1 && is_file($url_screen))))
-        {
-            if ($_FILES['fichiernom']['name'] != "" && (!is_file($url_screen) || ( $ecrase_screen == 1 && is_file($url_screen))))
-            {
-                $ext = pathinfo($filename, PATHINFO_EXTENSION);
-
-                if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
-                {
-                    if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_screen)) {
-                        printNotification('Upload file failed !!!', 'error');
-                        return;
-                    }
-
-                    @chmod ($url_screen, 0644);
-                }
-                else
-                {
-                    printNotification('No image file !!!', 'error');
-                    redirect("index.php?file=Gallery&page=admin&op=add_screen", 2);
-                    return;
-                }
-            }
-
-            if ($url2 == "" && $image_gd == "on" && @extension_loaded('gd') && !preg_match("`http://`i", $url) && is_file($url))
-            {
-                $size = @getimagesize($url);
-
-                if ($size && $size[0] > $img_screen1)
-                {
-                    $f = explode(".", $filename);
-                    $end = count($f) - 1;
-                    $ext = $f[$end];
-                    $file_name = str_ireplace("." . $ext, "", $filename);
-
-                    if (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext)) $src = @imagecreatefromjpeg($url);
-                    if (preg_match("`png`i", $ext)) $src = @imagecreatefrompng($url);
-                    if (preg_match("`gif`i", $ext)) $src = @imagecreatefromgif($url);
-                    if (preg_match("`bmp`i", $ext)) $src = @imagecreatefromwbmp($url);
-
-                    $img = @imagecreatetruecolor($img_screen1, round(($img_screen1/$size[0])*$size[1]));
-                    if (!$img) $img = @imagecreate($img_screen1, round(($img_screen1/$size[0])*$size[1]));
-
-                    @imagecopyresampled($img, $src, 0, 0, 0, 0, $img_screen1, round($size[1]*($img_screen1/$size[0])), $size[0], $size[1]);
-
-                    $temp = $rep_img_gd . $file_name . "_tmb." . $ext;
-                    if (is_file($temp)) $miniature = $rep_img_gd . time() . $file_name . "_tmb." . $ext;
-                    else  $miniature = $temp;
-
-                    if (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext)) @ImageJPEG($img, $miniature);
-                    if (preg_match("`png`i", $ext)) @ImagePNG($img, $miniature);
-                    if (preg_match("`bmp`i", $ext)) @imagewbmp($img, $miniature);
-
-                    if (preg_match("`gif`i", $ext) && @function_exists("imagegif")) @ImageGIF($img, $miniature);
-                    else @ImageJPEG($img, $miniature);
-
-                    if (is_file($miniature)) $url2 = $miniature;
-                }
-            }
-
-            $titre = nkDB_realEscapeString(stripslashes($titre));
-            $description = nkHtmlEntityDecode($description);
-            $description = nkDB_realEscapeString(stripslashes($description));
-            $auteur = nkDB_realEscapeString(stripslashes($auteur));
-            $date = time();
-
-            $sql = nkDB_execute("INSERT INTO " . GALLERY_TABLE . " ( `sid` , `titre` , `description` , `url` , `url2` , `url_file` , `cat` , `date` , `autor` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $url2 . "' , '" . $url_file . "' , '" . $cat . "' , '" . $date . "' , '" . $auteur . "')");
-
-            saveUserAction(_ACTIONADDGAL .': '. $titre);
-
-            printNotification(_SCREENADD, 'success');
-
-            $sqls = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE date = '" . $date . "' AND titre='" . $titre . "'");
-            list($sid) = nkDB_fetchArray($sqls);
-
-            setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Gallery&page=admin');
-        }
-        else
-        {
-            printNotification(_DEJASCREEN .'<br />'. __('REPLACE_FILE'), 'warning', array('backLinkUrl' => 'javascript:history.back()'));
-        }
-    }
-    else
-    {
+    if ($_FILES['fichiernom']['name'] == '' && $url == '') {
         printNotification(_SPECIFY, 'error');
-        redirect("index.php?file=Gallery&page=admin&op=add_screen", 3);
+        redirect('index.php?file=Gallery&page=admin&op=add_screen', 3);
+        return;
     }
 
+    //Upload du fichier
+    if ($_FILES['fichiernom']['name'] != '') {
+        $imageCfg = array(
+            'fileType'  => 'image',
+            'uploadDir' => $rep_img,
+            //'fileSize'  => 100000
+        );
+
+        if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
+            $imageCfg['overwrite'] = true;
+        else
+            $imageCfg['overwrite'] = false;
+
+        list($url, $uploadError, $imageExt) = nkUpload_check('fichiernom', $imageCfg);
+
+        if ($uploadError !== false) {
+            if ($uploadError == __('FILE_ALREADY_EXIST')) {
+                printNotification(
+                    $uploadError . '<br />'. __('REPLACE_FILE'),
+                    'warning',
+                    array('backLinkUrl' => 'javascript:history.back()')
+                );
+            }
+            else {
+                printNotification($uploadError, 'error');
+                redirect('index.php?file=Gallery&page=admin&op=add_screen', 3);
+            }
+
+            return;
+        }
+    }
+
+    if ($url != '') {
+        if ($url2 == ''
+            && $image_gd == 'on'
+            && @extension_loaded('gd')
+            && stripos($url, 'http://') === false
+            && is_file($url)
+        ) {
+            $imgInfo = @getimagesize($url);
+
+            if ($imgInfo && $imgInfo[0] > $img_screen1) {
+                $filename = substr(strrchr($url, '/'), 1);
+                $f = explode('.', $filename);
+                $ext = array_pop($f);
+                $file_name = implode('.', $f);
+
+                if ($imgInfo[2] == IMAGETYPE_JPEG) {
+                    if (! in_array($ext, array('jpg', 'jpeg'))) $ext = 'jpg';
+
+                    $src = @imagecreatefromjpeg($url);
+                }
+                else if ($imgInfo[2] == IMAGETYPE_GIF) {
+                    if ($ext != 'gif') $ext = 'gif';
+
+                    $src = @imagecreatefromgif($url);
+                }
+                else if ($imgInfo[2] == IMAGETYPE_PNG) {
+                    if ($ext != 'png') $ext = 'png';
+
+                    $src = @imagecreatefrompng($url);
+                }
+                else if ($imgInfo[2] == IMAGETYPE_BMP) {// TODO : Or IMAGETYPE_WBMP ?
+                    if ($ext != 'bmp') $ext = 'bmp';
+
+                    // http://php.net/manual/fr/function.imagecreatefromwbmp.php
+                    $src = @imagecreatefromwbmp($url);
+                }
+
+                $height = round(($img_screen1 / $imgInfo[0]) * $imgInfo[1]);
+
+                $img = @imagecreatetruecolor($img_screen1, $height);
+
+                if (! $img) $img = @imagecreate($img_screen1, $height);
+
+                @imagecopyresampled($img, $src, 0, 0, 0, 0, $img_screen1, $height, $imgInfo[0], $imgInfo[1]);
+
+                $miniature = $rep_img_gd . $file_name .'_tmb.'. $ext;
+
+                if (is_file($miniature))
+                    $miniature = $rep_img_gd . time() . $file_name .'_tmb.'. $ext;
+
+                if ($imgInfo[2] == IMAGETYPE_JPEG) @ImageJPEG($img, $miniature);
+                if ($imgInfo[2] == IMAGETYPE_PNG) @ImagePNG($img, $miniature);
+                if ($imgInfo[2] == IMAGETYPE_PNG) @imagewbmp($img, $miniature);
+
+                if ($imgInfo[2] == IMAGETYPE_GIF && @function_exists('imagegif'))
+                    @ImageGIF($img, $miniature);
+                else
+                    @ImageJPEG($img, $miniature);
+
+                if (is_file($miniature)) $url2 = $miniature;
+            }
+        }
+
+        $titre = nkDB_realEscapeString(stripslashes($titre));
+        $description = nkHtmlEntityDecode($description);
+        $description = nkDB_realEscapeString(stripslashes($description));
+        $auteur = nkDB_realEscapeString(stripslashes($auteur));
+        $date = time();
+
+        $sql = nkDB_execute("INSERT INTO " . GALLERY_TABLE . " ( `sid` , `titre` , `description` , `url` , `url2` , `url_file` , `cat` , `date` , `autor` ) VALUES ( '' , '" . $titre . "' , '" . $description . "' , '" . $url . "' , '" . $url2 . "' , '" . $url_file . "' , '" . $cat . "' , '" . $date . "' , '" . $auteur . "')");
+
+        saveUserAction(_ACTIONADDGAL .': '. $titre);
+
+        printNotification(_SCREENADD, 'success');
+
+        $sqls = nkDB_execute("SELECT sid FROM " . GALLERY_TABLE . " WHERE date = '" . $date . "' AND titre='" . $titre . "'");
+        list($sid) = nkDB_fetchArray($sqls);
+
+        setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Gallery&page=admin');
+    }
 }
 
 function del_screen($sid)
@@ -179,97 +197,126 @@ function del_screen($sid)
     redirect("index.php?file=Gallery&page=admin", 1);
 }
 
-function modif_img($sid, $titre, $description, $auteur, $fichiernom, $maxi, $cat, $url, $url2, $url_file, $ecrase_screen)
+function modif_img($sid, $titre, $description, $auteur, $cat, $url, $url2, $url_file)
 {
     global $nuked, $user;
 
+    require_once 'Includes/nkUpload.php';
     include("modules/Gallery/config.php");
 
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-    $description = nkHtmlEntityDecode($description);
-    $description = nkDB_realEscapeString(stripslashes($description));
-    $auteur = nkDB_realEscapeString(stripslashes($auteur));
+    if ($_FILES['fichiernom']['name'] == '' && $url == '') {
+        printNotification(_SPECIFY, 'error');
+        redirect('index.php?file=Gallery&page=admin&op=edit_screen&sid='. $sid, 3);
+        return;
+    }
 
-    if ($_FILES['fichiernom']['name'] != "")
-    {
-    $img_name = $_FILES['fichiernom']['name'];
-    $img_name = str_replace(" ", "_", $img_name);
-    $img_url = $rep_img . $img_name;
+    //Upload du fichier
+    if ($_FILES['fichiernom']['name'] != '') {
+        $imageCfg = array(
+            'fileType'  => 'image',
+            'uploadDir' => $rep_img,
+            //'fileSize'  => 100000
+        );
 
-    if (!is_file($img_url) || $ecrase_screen == 1)
-    {
-        $ext = pathinfo($img_name, PATHINFO_EXTENSION);
+        if (isset($_POST['ecrase_screen']) && $_POST['ecrase_screen'] == 1)
+            $imageCfg['overwrite'] = true;
+        else
+            $imageCfg['overwrite'] = false;
 
-        if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG")
-        {
-            if (! move_uploaded_file($_FILES['fichiernom']['tmp_name'], $img_url)) {
-                printNotification('Upload file failed !!!', 'error');
-                return;
+        list($url, $uploadError, $imageExt) = nkUpload_check('fichiernom', $imageCfg);
+
+        if ($uploadError !== false) {
+            if ($uploadError == __('FILE_ALREADY_EXIST')) {
+                printNotification(
+                    $uploadError . '<br />'. __('REPLACE_FILE'),
+                    'warning',
+                    array('backLinkUrl' => 'javascript:history.back()')
+                );
+            }
+            else {
+                printNotification($uploadError, 'error');
+                redirect('index.php?file=Gallery&page=admin&op=edit_screen&sid='. $sid, 3);
             }
 
-            @chmod ($img_url, 0644);
-        }
-        else
-        {
-            printNotification('No image file !!!', 'error');
-            redirect("index.php?file=Gallery&page=admin&op=edit_screen&sid=" . $sid, 2);
             return;
         }
     }
-    else
-    {
-        printNotification(_DEJASCREEN .'<br />'. __('REPLACE_FILE'), 'warning', array('backLinkUrl' => 'javascript:history.back()'));
-        return;
+
+    if ($url != '') {
+        if ($url2 == ''
+            && $image_gd == 'on'
+            && @extension_loaded('gd')
+            && stripos($url, 'http://') === false
+            && is_file($url)
+        ) {
+            $imgInfo = @getimagesize($url);
+
+            if ($imgInfo && $imgInfo[0] > $img_screen1) {
+                $filename = substr(strrchr($url, '/'), 1);
+                $f = explode('.', $filename);
+                $ext = array_pop($f);
+                $file_name = implode('.', $f);
+
+                if ($imgInfo[2] == IMAGETYPE_JPEG) {
+                    if (! in_array($ext, array('jpg', 'jpeg'))) $ext = 'jpg';
+
+                    $src = @imagecreatefromjpeg($url);
+                }
+                else if ($imgInfo[2] == IMAGETYPE_GIF) {
+                    if ($ext != 'gif') $ext = 'gif';
+
+                    $src = @imagecreatefromgif($url);
+                }
+                else if ($imgInfo[2] == IMAGETYPE_PNG) {
+                    if ($ext != 'png') $ext = 'png';
+
+                    $src = @imagecreatefrompng($url);
+                }
+                else if ($imgInfo[2] == IMAGETYPE_BMP) {// TODO : Or IMAGETYPE_WBMP ?
+                    if ($ext != 'bmp') $ext = 'bmp';
+
+                    // http://php.net/manual/fr/function.imagecreatefromwbmp.php
+                    $src = @imagecreatefromwbmp($url);
+                }
+
+                $height = round(($img_screen1 / $imgInfo[0]) * $imgInfo[1]);
+
+                $img = @imagecreatetruecolor($img_screen1, $height);
+
+                if (! $img) $img = @imagecreate($img_screen1, $height);
+
+                @imagecopyresampled($img, $src, 0, 0, 0, 0, $img_screen1, $height, $imgInfo[0], $imgInfo[1]);
+
+                $miniature = $rep_img_gd . $file_name .'_tmb.'. $ext;
+
+                if (is_file($miniature))
+                    $miniature = $rep_img_gd . time() . $file_name .'_tmb.'. $ext;
+
+                if ($imgInfo[2] == IMAGETYPE_JPEG) @ImageJPEG($img, $miniature);
+                if ($imgInfo[2] == IMAGETYPE_PNG) @ImagePNG($img, $miniature);
+                if ($imgInfo[2] == IMAGETYPE_PNG) @imagewbmp($img, $miniature);
+
+                if ($imgInfo[2] == IMAGETYPE_GIF && @function_exists('imagegif'))
+                    @ImageGIF($img, $miniature);
+                else
+                    @ImageJPEG($img, $miniature);
+
+                if (is_file($miniature)) $url2 = $miniature;
+            }
+        }
+
+        $titre = nkDB_realEscapeString(stripslashes($titre));
+        $description = nkHtmlEntityDecode($description);
+        $description = nkDB_realEscapeString(stripslashes($description));
+        $auteur = nkDB_realEscapeString(stripslashes($auteur));
+
+        $sql = nkDB_execute("UPDATE " . GALLERY_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', autor = '" . $auteur . "', url = '" . $url . "', url2 = '" . $url2 . "', url_file = '" . $url_file . "', cat = '" . $cat . "' WHERE sid = '" . $sid . "'");
+
+        saveUserAction(_ACTIONMODIFGAL .': '. $titre);
+
+        printNotification(_SCREENMODIF, 'success');
+        setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Gallery&page=admin');
     }
-}
-else
-{
-    $img_url = $url;
-    $img_name = substr(strrchr($img_url, '/'), 1 );
-}
-
-if ($url2 == "" && $image_gd == "on" && @extension_loaded('gd') && !preg_match("`http://`i", $img_url) && is_file($img_url))
-{
-    $size = @getimagesize($img_url);
-
-    if ($size[0] > $img_screen1)
-    {
-        $f = explode(".", $img_name);
-        $end = count($f) - 1;
-        $ext = $f[$end];
-        $file_name = preg_replace("." . $ext, "", $img_name);
-
-        if (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext)) $src = @imagecreatefromjpeg($img_url);
-        if (preg_match("`png`i", $ext)) $src = @imagecreatefrompng($img_url);
-        if (preg_match("`gif`i", $ext)) $src = @imagecreatefromgif($img_url);
-        if (preg_match("`bmp`i", $ext)) $src = @imagecreatefromwbmp($img_url);
-
-        $img = @imagecreatetruecolor($img_screen1, round(($img_screen1/$size[0])*$size[1]));
-        if (!$img) $img = @imagecreate($img_screen1, round(($img_screen1/$size[0])*$size[1]));
-
-        @imagecopyresampled($img, $src, 0, 0, 0, 0, $img_screen1, round($size[1]*($img_screen1/$size[0])), $size[0], $size[1]);
-
-        $temp = $rep_img_gd . $file_name . "_tmb." . $ext;
-        if (is_file($temp)) $miniature = $rep_img_gd . time() . $file_name . "_tmb." . $ext;
-        else  $miniature = $temp;
-
-        if (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext)) @ImageJPEG($img, $miniature);
-        if (preg_match("`png`i", $ext)) @ImagePNG($img, $miniature);
-        if (preg_match("`bmp`i", $ext)) @imagewbmp($img, $miniature);
-
-        if (preg_match("`gif`i", $ext) && @function_exists("imagegif")) @ImageGIF($img, $miniature);
-        else @ImageJPEG($img, $miniature);
-
-        if (is_file($miniature)) $url2 = $miniature;
-    }
-}
-
-    $sql = nkDB_execute("UPDATE " . GALLERY_TABLE . " SET titre = '" . $titre . "', description = '" . $description . "', autor = '" . $auteur . "', url = '" . $img_url . "', url2 = '" . $url2 . "', url_file = '" . $url_file . "', cat = '" . $cat . "' WHERE sid = '" . $sid . "'");
-
-    saveUserAction(_ACTIONMODIFGAL .': '. $titre);
-
-    printNotification(_SCREENMODIF, 'success');
-    setPreview('index.php?file=Gallery&op=description&sid='. $sid .'&orderby=news', 'index.php?file=Gallery&page=admin');
 }
 
 function main()
@@ -840,7 +887,7 @@ switch ($GLOBALS['op']) {
         break;
 
     case "send_screen":
-        send_screen($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['auteur'], $_REQUEST['fichiernom'], $_REQUEST['maxi'], $_REQUEST['cat'], $_REQUEST['url'], $_REQUEST['url2'], $_REQUEST['url_file'], $_REQUEST['ecrase_screen']);
+        send_screen($_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['auteur'], $_REQUEST['cat'], $_REQUEST['url'], $_REQUEST['url2'], $_REQUEST['url_file']);
         break;
 
     case "edit_screen":
@@ -848,7 +895,7 @@ switch ($GLOBALS['op']) {
         break;
 
     case "modif_img":
-        modif_img($_REQUEST['sid'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['auteur'], $_REQUEST['fichiernom'], $_REQUEST['maxi'], $_REQUEST['cat'], $_REQUEST['url'], $_REQUEST['url2'], $_REQUEST['url_file'], $_REQUEST['ecrase_screen']);
+        modif_img($_REQUEST['sid'], $_REQUEST['titre'], $_REQUEST['description'], $_REQUEST['auteur'], $_REQUEST['cat'], $_REQUEST['url'], $_REQUEST['url2'], $_REQUEST['url_file']);
         break;
 
     case "send_cat":
