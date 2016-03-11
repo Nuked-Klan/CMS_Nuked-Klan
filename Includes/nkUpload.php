@@ -22,19 +22,21 @@ $GLOBALS['nkUpload'] = array(
 
 /**
  * Check a uploaded file.
+ * NOTE : Upload a .htaccess file is not allowed.
  *
  * @param string $fieldName : The name attribute of input file.
  * @param array $params : The list of upload parameters
- *   - fileType : The type of allowed upload.
- *        `image` to allow upload image (jpg, jpeg, png & gif)
- *        `no-html-php` to allow all upload file whithout html and php files.
- *        `all` to allow all upload files.
- *        Note : Upload a .htaccess file isn't allowed.
- *   - uploadDir : The path where the uploaded file is moved.
- *   - fileSize : The maximum size allowed for a upload file. (in byte)
- *   - fileRename : If true, rename the file with a random hash.
- *        If false, the filename is cleaning.
- *   - allowedExtension : Array of file extension list allowed for upload process.
+ *   - uploadDir (string) : The path where the uploaded file is moved.
+ *   - fileSize (int) : The maximum size allowed for a upload file. (in byte)
+ *   - overwrite (bool) : If true and file exist, ovewrite it, return error message also.
+ *   - fileRename (bool) : If true, rename the file with a random hash.
+ *                         If false, the filename is cleaning.
+ *   - allowedExtension (array) : List of file extension allowed for upload process.
+ *   - disallowedExtension (array) : List of file extension disallowed for upload process.
+ *                                   NOTE : php and html files have a MIME type check only.
+ *   - renameExtension (bool) : If true, generate a random filename.
+ *   - tsKeyDataName (string) : The translation name of current data.
+ *   - strtolowerFilename (bool) : If true, apply strtolower on filename.
  * @return array : A numerical indexed array with :
  *         - The path of uploaded file.
  *         - The error message if existing or false.
