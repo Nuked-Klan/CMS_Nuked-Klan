@@ -9,7 +9,6 @@ define("_POLLLIST","Liste des Sondages");
 define("_VOTESUCCES","Votre vote a bien été pris en compte.");
 define("_ALREADYVOTE","Désolé vous avez déjà Voté !");
 define("_THEREWAS","il y a eu");
-define("_VOTE","vote(s)");
 define("_ATTHISPOLL","à ce sondage");
 define("_SENDVOTE","Votez");
 define("_CHOICE","choix");
@@ -22,7 +21,6 @@ define("_NOOPTION","Vous n'avez pas coché de réponse");
 
 define("_ADMINPOLL","Administration des Sondages");
 
-define("_LEVEL","Niveau");
 define("_ADDTHISPOLL","Ajouter ce Sondage");
 define("_POLLADD","Sondage ajouté avec succès.");
 define("_POLLDEL","Sondage supprimé avec succès.");

@@ -128,7 +128,7 @@ function edit_sondage($poll_id) {
         . "<a class=\"buttonLink\" href=\"index.php?file=Survey&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
-function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
+function modif_sondage($poll_id, $titre, $newoption, $niveau) {
     global $nuked, $user;
 
     $titre = nkDB_realEscapeString(stripslashes($titre));
@@ -136,10 +136,11 @@ function modif_sondage($poll_id, $titre, $option, $newoption, $niveau) {
     $sql = nkDB_execute("UPDATE " . SURVEY_TABLE . " SET titre = '" . $titre . "' , niveau = '" . $niveau . "' WHERE sid = '" . $poll_id . "'");
 
     for ($r = 0; $r < 13; $r++) {
-        $options = $option[$r];
-        $options = nkDB_realEscapeString(stripslashes($options));
+        if (isset($_REQUEST['option'][$r])
+        && $_REQUEST['option'][$r] != '') {
+            $options = $_REQUEST['option'][$r];
+            $options = nkDB_realEscapeString(stripslashes($options));
 
-        if (!empty($options)) {
             $upd = nkDB_execute("UPDATE " . SURVEY_DATA_TABLE . " SET optionText = '" . $options . "' WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
         } else {
             $del = nkDB_execute("DELETE FROM " . SURVEY_DATA_TABLE . " WHERE sid = '" . $poll_id . "' AND voteID = '" . $r . "'");
@@ -295,7 +296,7 @@ switch ($GLOBALS['op']) {
         break;
 
     case 'modif_sondage':
-        modif_sondage($_REQUEST['poll_id'], $_REQUEST['titre'], $_REQUEST['option'], $_REQUEST['newoption'], $_REQUEST['niveau']);
+        modif_sondage($_REQUEST['poll_id'], $_REQUEST['titre'], $_REQUEST['newoption'], $_REQUEST['niveau']);
         break;
 
     case 'main_pref':

@@ -11,7 +11,6 @@ define("_POLLLIST","Survey List");
 define("_VOTESUCCES","Vote was successfully added.");
 define("_ALREADYVOTE","Sorry you already voted!!!");
 define("_THEREWAS","There are");
-define("_VOTE","vote");
 define("_ATTHISPOLL","to this survey");
 define("_SENDVOTE","Vote");
 
@@ -25,7 +24,6 @@ define("_NOOPTION","You haven't selected any option");
 
 define("_ADMINPOLL","Survey Administration");
 
-define("_LEVEL","Level");
 define("_ADDTHISPOLL","Add this Survey");
 define("_POLLADD","Survey was successfully added.");
 define("_POLLDEL","Survey was successfully removed.");
