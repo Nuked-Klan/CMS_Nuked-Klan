@@ -217,7 +217,7 @@ function main() {
                                     if ($lastModuleComment == "match")    $commentLink = "index.php?file=Wars&amp;op=detail&amp;war_id=" . $modIdComment ."";
                                 ?> 
                                     <div>
-                                        <span><strong><?php echo $lastCommentAuthor;?></strong>&nbsp;<?php echo _HAS_COMMENTED_MOD;?>&nbsp;<a href="<?php echo $commentLink;?>" title="<?php echo _POSTED;?>&nbsp;<?php echo $lastCommentDate;?>"><?php echo $lastModuleComment; ?></a>
+                                        <span><strong><?php echo $lastCommentAuthor;?></strong>&nbsp;<?php echo _HAS_COMMENTED_MOD;?>&nbsp;<a href="<?php echo $commentLink;?>" title="<?php echo _POSTED_THE;?>&nbsp;<?php echo $lastCommentDate;?>"><?php echo $lastModuleComment; ?></a>
                                         </span>
                                     </div>                      
                                 <?php

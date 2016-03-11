@@ -24,8 +24,6 @@ define("_LAST4COMS","The last 4 comments");
 define("_ADMINCOMMENT","Comments Administration");
 if (! defined("_MODULE")) define("_MODULE","Module");
 
-
-define("_MODIF","Modify");
 define("_EDITTHISCOM","Edit this comment");
 define("_DELTHISCOM","Remove this comment");
 define("_DELCOMMENT","You are about to remove the comment of");

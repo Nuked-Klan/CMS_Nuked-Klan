@@ -193,6 +193,7 @@ define("_ALL","Tous");
 define("_CONFIRM_TO_DELETE","Vous êtes sur le point de supprimer");
 define("_MO","Mo");
 define("_KO","Ko");
+define("_MODIF","Modifier");
 
 // menu
 define("_NAV","Menu");

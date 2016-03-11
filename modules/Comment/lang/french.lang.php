@@ -23,8 +23,6 @@ define("_LAST4COMS","Les 4 derniers commentaires");
 define("_ADMINCOMMENT","Administration des Commentaires");
 if (! defined("_MODULE")) define("_MODULE","Module");
 
-
-define("_MODIF","Modifier");
 define("_EDITTHISCOM","Editer ce commentaire");
 define("_DELTHISCOM","Supprimer ce commentaire");
 define("_DELCOMMENT","Vous êtes sur le point de supprimer le commentaire de");

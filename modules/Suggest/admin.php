@@ -174,12 +174,13 @@ function main_pref(){
             . "<a class=\"buttonLink\" href=\"index.php?file=Suggest&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>";
 }
 
-function change_pref($suggest_avert){
+function change_pref(){
     global $nuked, $user;
 
-    if ($suggest_avert != 'on'){
-        $suggest_avert = "off";
-    }
+    if (isset($_REQUEST['suggest_avert']) && $_REQUEST['suggest_avert'] == 'on')
+        $suggest_avert = 'on';
+    else
+        $suggest_avert = 'off';
 
     $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $suggest_avert . "' WHERE name = 'suggest_avert'");
 
@@ -256,7 +257,7 @@ switch ($GLOBALS['op']) {
     break;
 
     case "change_pref":
-    change_pref($_REQUEST['suggest_avert']);
+    change_pref();
     break;
 
     default:

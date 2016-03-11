@@ -79,15 +79,14 @@ function del_com($cid){
 }
 
 function main(){
-    global $nuked, $language;
+    global $nuked, $language, $p;
 
     $nb_com = 30;
 
     $sql2 = nkDB_execute("SELECT id FROM " . COMMENT_TABLE);
     $count = nkDB_numRows($sql2);
 
-    if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-    $start = $_REQUEST['p'] * $nb_com - $nb_com;
+    $start = $p * $nb_com - $nb_com;
 
     echo "<script type=\"text/javascript\">\n"
             . "<!--\n"
@@ -195,12 +194,19 @@ function module_com(){
 
     $sql = nkDB_execute("SELECT module, active FROM " . COMMENT_MODULES_TABLE);
 
-    while(list($module, $active) = nkDB_fetchArray($sql)){
+    while (list($module, $active) = nkDB_fetchArray($sql)){
+        $moduleNameConst = strtoupper($module) .'_MODNAME';
+
+        if (translationExist($moduleNameConst))
+            $moduleName = __($moduleNameConst);
+        else
+            $moduleName = $module;
+
     ?>
-        <tr><td><b><?php echo $module; ?>:</b></td><td>
+        <tr><td><b><?php echo $moduleName ?>:</b></td><td>
     <?php if( $active == 0){
     ?>
-            <select name="<?php echo $module; ?>">
+            <select name="<?php echo $moduleName ?>">
                 <option value="0"><?php echo _DESACTIVER; ?></option>
                 <option value="1"><?php echo _ACTIVER; ?></option>
             </select></td></tr>
@@ -208,16 +214,16 @@ function module_com(){
         }
         else{
     ?>
-            <select name="<?php echo $module; ?>">
+            <select name="<?php echo $moduleName ?>">
                 <option value="1"><?php echo _ACTIVER; ?></option>
                 <option value="0"><?php echo _DESACTIVER; ?></option>
             </select></td></tr>
     <?php
         }
-    }	
-    echo "<tr><td align=\"center\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" />\n"
-            . "</td></tr></table>\n"
-            . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
+    }
+
+    echo "</table>\n"
+        . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _MODIF . "\" /><a class=\"buttonLink\" href=\"javascript:history.back();\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
 function nkAdminMenu($tab = 1) {

@@ -47,7 +47,6 @@ define("_GAME","Jeu");
 define("_AVATAR","Avatar");
 define("_SEEAVATAR","Voir les avatars");
 define("_SIGN","Signature");
-define("_MODIF","Modifier");
 define("_YOURPREF","Vos Préférences");
 define("_LASTNAME","Prénom");
 define("_BIRTHDAY","Date de naissance");

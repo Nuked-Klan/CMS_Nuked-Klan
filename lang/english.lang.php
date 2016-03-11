@@ -185,6 +185,7 @@ define("_ALL","All");
 define("_CONFIRM_TO_DELETE","You are about to remove");
 define("_MO","MB");
 define("_KO","KB");
+define("_MODIF","Modify");
 
 // Menu
 define("_NAV","Menu");

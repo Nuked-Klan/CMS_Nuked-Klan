@@ -27,7 +27,6 @@ define("_USER","User");
 
 define("_DELBLOCK","Vous êtes sur le point de supprimer");
 
-define("_MODIF","Modifier");
 define("_DELETE","Supprimer");
 define("_BLOCKDOWN","Descendre ce Block");
 define("_BLOCKUP","Monter ce Block");
@@ -440,7 +439,7 @@ define("_LASTVISITS","Derni&egrave;res visites");
 define("_LASTCOMMENTS","Derniers commentaires");
 define("_NOCOMMENT","Aucun commentaire dans la base de donn&eacute;e");
 define("_HAS_COMMENTED_MOD","a comment&eacute; le module");
-define("_POSTED","Post&eacute; le");
+define("_POSTED_THE","Post&eacute; le");
 define("_SEEMORE","Voir plus...");
 define("_TOTALMEMBERS","Membres enregistr&eacute;s");
 define("_TOTALFORUMMESSAGES","Messages dans le Forum");

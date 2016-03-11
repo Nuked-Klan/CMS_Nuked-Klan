@@ -26,7 +26,6 @@ define("_DELBLOCK","You are about to remove");
 
 define("_OFF","Unactive");
 
-define("_MODIF","Modify");
 define("_DELETE","Remove");
 define("_BLOCKDOWN","Go down this block");
 define("_BLOCKUP","Go up this block");
@@ -607,7 +606,7 @@ define("_LASTVISITS","Last visits");
 define("_LASTCOMMENTS","Last comments");
 define("_NOCOMMENT","No comments in the database");
 define("_HAS_COMMENTED_MOD","has commented the module");
-define("_POSTED","Posted the");
+define("_POSTED_THE","Posted the");
 define("_SEEMORE","See more...");
 define("_TOTALMEMBERS","Registered users");
 define("_TOTALFORUMMESSAGES","Posts in the forum");

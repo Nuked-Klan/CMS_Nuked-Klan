@@ -921,10 +921,13 @@ function main_pref() {
         . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
 
-function change_pref($max_download, $hide_download) {
+function change_pref($max_download) {
     global $nuked, $user;
 
-    if ($hide_download != "on") $hide_download = "off";
+    if (isset($_REQUEST['hide_download']) && $_REQUEST['hide_download'] == 'on')
+        $hide_download = 'on';
+    else
+        $hide_download = 'off';
 
     $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_download . "' WHERE name = 'max_download'");
     $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $hide_download . "' WHERE name = 'hide_download'");
@@ -1066,7 +1069,7 @@ switch ($GLOBALS['op']) {
         break;
 
     case "change_pref":
-        change_pref($_REQUEST['max_download'], $_REQUEST['hide_download']);
+        change_pref($_REQUEST['max_download']);
         break;
 
     case "modif_position":
