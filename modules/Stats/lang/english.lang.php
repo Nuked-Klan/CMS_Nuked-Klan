@@ -5,7 +5,7 @@ if (!defined("INDEX_CHECK"))
 }
 define("_STATSSITE","Statistics");
 define("_ANALYS","Visits analyze");
-define("_TOP","View Top 10");
+define("_VIEW_TOP_10","View Top 10");
 define("_WERECEICED","There has been");
 define("_PAGESEE","pages views since");
 define("_PAGEVIEWS","Pages visited");
@@ -41,7 +41,6 @@ define("_POSTCOUNT","Messages");
 define("_ODAY","Daily");
 define("_OMONTH","Monthly");
 define("_OYEAR","Annual");
-define("_ALL","All");
 define("_ON","on the");
 define("_EN","in");
 define("_VISITORS","visitors");

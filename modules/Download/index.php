@@ -342,7 +342,7 @@ function description($dl_id) {
                 . "\n"
                 . "function deldown(titre, id)\n"
                 . "{\n"
-                . "if (confirm('" . _DELETEFILE . " '+titre+' ! " . _CONFIRM . "'))\n"
+                . "if (confirm('" . _CONFIRM_TO_DELETE . " '+titre+' ! " . _CONFIRM . "'))\n"
                 . "{document.location.href = 'index.php?file=Download&page=admin&op=del_file&did='+id;}\n"
                 . "}\n"
                 . "\n"

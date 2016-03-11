@@ -67,7 +67,7 @@ function form($content, $sug_id){
             . "<form method=\"post\" action=\"" . $action . "\" enctype=\"multipart/form-data\">\n"
             . "<table style=\"margin: auto; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
             . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" value=\"" . $content[0] . "\" size=\"40\" /></td></tr>\n"
-            . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . _NONE . "</option>\n";
+            . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\"><option value=\"0\">* " . __('NONE_CATEGORY') . "</option>\n";
 
     $sql = nkDB_execute("SELECT cid, titre FROM " . GALLERY_CAT_TABLE . " WHERE parentid = 0 ORDER BY position, titre");
     while (list($cid, $titre) = nkDB_fetchArray($sql)){
@@ -117,7 +117,7 @@ function form($content, $sug_id){
     }
 
     echo "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" value=\"" . $content[2] . "\" size=\"45\" /></td></tr>\n"
-        . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" value=\"" . $content[5] . "\" size=\"45\" /> " . $botton . "</td></tr>\n"
+        . "<tr><td><b>" . _FILE_URL . " :</b> <input type=\"text\" name=\"url_file\" value=\"" . $content[5] . "\" size=\"45\" /> " . $botton . "</td></tr>\n"
         . "<tr><td>&nbsp;\n";
 
     if (initCaptcha()) echo create_captcha();

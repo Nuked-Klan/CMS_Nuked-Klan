@@ -13,8 +13,6 @@ define("_INDATABASE","in database");
 define("_FILES","Files");
 
 define("_HITS","Hits");
-define("_KO","KB");
-define("_MO","MB");
 define("_MAX","Max");
 
 define("_DOWNFILE","Download this File");
@@ -64,13 +62,11 @@ define("_FILEADD","File was successfully added.");
 define("_FILEDEL","File was successfully removed.");
 define("_MODIFFILE","Modify this File");
 define("_FILEEDIT","File was successfully modified.");
-define("_DELETEFILE","You are about to remove");
 
 
 define("_ADDFILE","Add File");
 define("_EDITTHISFILE","Edit this File");
 define("_DELTHISFILE","Remove this File");
-define("_NONE","None");
 define("_BROKENLINKS","Brokens Links");
 define("_ERASE","Remove");
 define("_ERASEFROMLIST","Remove from list");

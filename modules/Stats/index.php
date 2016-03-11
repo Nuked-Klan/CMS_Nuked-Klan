@@ -37,7 +37,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys'] != -1) {
     echo '[ <a href="index.php?file=Stats&amp;page=visits">' . _ANALYS . '</a> ] - ';
 }
 
-echo '[ <a href="index.php?file=Stats&amp;page=top">' . _TOP . '</a> ]</div>'."\n";
+echo '[ <a href="index.php?file=Stats&amp;page=top">' . _VIEW_TOP_10 . '</a> ]</div>'."\n";
 
 $sql = nkDB_execute('SELECT
     (SELECT COUNT(id) FROM ' . USER_TABLE . ') AS nb_us,

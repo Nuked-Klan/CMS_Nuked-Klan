@@ -3,7 +3,6 @@ if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
-define("_SUGGEST","Suggestions");
 define("_SELECTMOD","Sélectionnez une rubrique");
 define("_YOURSUGGEST","Votre proposition a bien été enregistrée");
 define("_THXPART","Merci de votre participation");
@@ -27,23 +26,15 @@ define("_VALIDLINK","Valider un lien");
 define("_VALIDNEWS","Valider une news");
 define("_VALIDART","Valider un article");
 define("_VALIDIMG","Valider une image");
-define("_DOWNLOAD","Téléchargements");
-define("_LINK","Liens Web");
 define("_NEWS","News");
-define("_SECTIONS","Articles");
-define("_GALLERY","Galerie Photos");
 define("_SUG","Proposer");
 define("_REMOVE","Supprimer");
 define("_DELETESUG","Vous êtes sur le point de supprimer la suggestion");
 
-define("_MO","Mo");
 define("_SUBJECT","Sujet");
 define("_PAGEBREACK","Si vous voulez plusieurs pages, vous pouvez écrire <b>(--pagebreak--)</b> où vous voulez un saut de page.");
-define("_URLIMG2","Url de la Vignette");
-define("_URLIMG","Url de l'image");
-define("_URLFILE","Url du fichier");
+define("_FILE_URL","Url du fichier");
 define("_NOSUGGEST","Aucune suggestion dans la base de donnés");
-define("_SUGGESTMAIL","Etre averti par email des nouvelles suggestions");
 define("_RCORPS","Raison");
 define("_RSUBJECT","Titre");
 define("_RMOTIF","Page de refus d'une suggestion");

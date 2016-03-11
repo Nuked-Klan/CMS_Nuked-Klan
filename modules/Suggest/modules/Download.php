@@ -87,8 +87,13 @@ function form($content, $sug_id){
         }
     }
 
-    if($op == "show_suggest" && $content[9] != ""){$button = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[9]', 'screen','width=1024,height=768');\" /></input>";}
-    if($op == "show_suggest" && $content[4] != ""){$botton = "<input type=\"button\" name=\"bscreen\" value=\"" . _DOWNLOAD . "\" Onclick=\"window.open('$content[4]', 'download','width=100,height=100');\" /></input>";}
+    $button1 = $button2 = '';
+
+    if ($op == "show_suggest" && $content[9] != "")
+        $button1 = "<input type=\"button\" name=\"bscreen\" value=\"" . _VIEW . "\" Onclick=\"window.open('$content[9]', 'screen','width=1024,height=768');\" /></input>";
+
+    if ($op == "show_suggest" && $content[4] != "")
+        $button2 = "<input type=\"button\" name=\"bscreen\" value=\"" . _DOWNLOAD . "\" Onclick=\"window.open('$content[4]', 'download','width=100,height=100');\" /></input>";
 
     echo "</select></td></tr>\n"
             . "<tr><td><b>" . __('AUTHOR') . " :</b> <input type=\"text\" name=\"autor\" size=\"40\" value=\"" . $content[6] . "\" /></td></tr>\n"
@@ -105,7 +110,7 @@ function form($content, $sug_id){
     echo "<tr><td><b>" . _COMPATIBLE . " :</b> <input type=\"text\" name=\"comp\" size=\"45\" value=\"" . $content[8] . "\" /></td></tr>\n";
 
     if ($sug_id != ""){
-        echo "<tr><td><b>" . _URL . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $content[4] . "\"> " . $botton . "</td></tr>\n";
+        echo "<tr><td><b>" . _URL . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $content[4] . "\"> " . $button2 . "</td></tr>\n";
     }
     else{
         echo "<tr><td>&nbsp;</td></tr>\n";
@@ -116,7 +121,7 @@ function form($content, $sug_id){
         echo "<tr><td>&nbsp;</td></tr>\n";
     }
     if ($sug_id != ""){
-        echo "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"55\" value=\"" . $content[9] . "\"> " . $button . "</td></tr>\n";
+        echo "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"55\" value=\"" . $content[9] . "\"> " . $button1 . "</td></tr>\n";
     }
     else{
         if ($upload_img == "off") echo "<tr><td align=\"left\"><b>" . _CAPTURE . " :</b>  <input type=\"text\" name=\"screen\" size=\"45\" value=\"http://\" /></td></tr>\n";

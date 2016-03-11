@@ -4,7 +4,7 @@ if (!defined("INDEX_CHECK")){
 }
 define("_STATSSITE","Statistiques");
 define("_ANALYS","Analyse des visites");
-define("_TOP","Voir les Top 10");
+define("_VIEW_TOP_10","Voir les Top 10");
 define("_WERECEICED","Il y a eu");
 define("_PAGESEE","pages vues depuis le");
 define("_PAGEVIEWS","Pages visitées");
@@ -40,7 +40,6 @@ define("_POSTCOUNT","Messages");
 define("_ODAY","Journalier");
 define("_OMONTH","Mensuel");
 define("_OYEAR","Annuel");
-define("_ALL","Tous");
 define("_ON","le");
 define("_EN","en");
 define("_VISITORS","visiteurs");

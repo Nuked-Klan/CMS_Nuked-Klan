@@ -39,7 +39,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
         . '[ <a href="index.php?file=Stats&amp;page=visits&amp;oday=' . $day . '&amp;omonth=' . $month . '&amp;oyear=' . $year . '">' . _ODAY . '</a> | '
         . '<a href="index.php?file=Stats&amp;page=visits&amp;omonth=' . $month . '&amp;oyear=' . $year . '">' . _OMONTH . '</a> | '
         . '<a href="index.php?file=Stats&amp;page=visits&amp;oyear=' . $year . '">' . _OYEAR . '</a> | '
-        . '<a href="index.php?file=Stats&amp;page=visits">' . _ALL . '</a> ]</div><br />'."\n";
+        . '<a href="index.php?file=Stats&amp;page=visits">' . __('ALL') . '</a> ]</div><br />'."\n";
 
         if (!empty($_REQUEST['oday']) && !empty($_REQUEST['omonth']) && !empty($_REQUEST['oyear'])) {
             $where = "WHERE day = '" . $_REQUEST['oday'] . "' AND month = '" . $_REQUEST['omonth'] . "' AND year = '" . $_REQUEST['oyear'] . "'";

@@ -189,6 +189,10 @@ define("_AUTOR", "Auteur");
 define("_COUNTRY","Pays");
 define("_ADDTHE","Ajouté le");
 define("_MAIL","Email");
+define("_ALL","Tous");
+define("_CONFIRM_TO_DELETE","Vous êtes sur le point de supprimer");
+define("_MO","Mo");
+define("_KO","Ko");
 
 // menu
 define("_NAV","Menu");

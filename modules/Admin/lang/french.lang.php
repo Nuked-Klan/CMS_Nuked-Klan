@@ -25,7 +25,6 @@ define("_BLOCKMODIF","Block modifié avec succès.");
 define("_TEAM","Team");
 define("_USER","User");
 
-define("_ALL","Tous");
 define("_DELBLOCK","Vous êtes sur le point de supprimer");
 
 define("_MODIF","Modifier");
@@ -314,7 +313,6 @@ define("_VIDERSQL","Supprimer la liste");
 
 
 define("_INFORMATION","Information");
-define("_DELETEFILE","Vous êtes sur le point de supprimer");
 define("_ERRORBDD","Erreurs SQL");
 define("_SQLERRORDELETED","La liste des erreurs SQL repérées a été détruite.");
 
@@ -399,7 +397,6 @@ define("_APERCU","Aperçu des styles:");
 define("_TOP","Haut");
 define("_BOTTOM","Bas");
 define("_SCREENHOT","Affichage du popup preview");
-define("_LISTERASED","Liste des liens morts effacée avec succès.");
 define("_CHANGEEDIT", "Modification effectuée avec succès.");
 define("_DELSTYLE","Suppression effectuée avec succès.");
 define("_ACTIONADDSTYLE","a ajouté un style à l'éditeur.");

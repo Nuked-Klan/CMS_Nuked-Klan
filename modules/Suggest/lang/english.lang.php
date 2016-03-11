@@ -5,7 +5,6 @@ if (!defined("INDEX_CHECK")){
 
 
 
-define("_SUGGEST","Suggestions");
 define("_SELECTMOD","Select a suggestion type");
 define("_YOURSUGGEST","Your suggestion was stored");
 define("_THXPART","Thank you for your participation");
@@ -28,24 +27,15 @@ define("_VALIDDOWNLOAD","Validate Download");
 define("_VALIDNEWS","Validate News");
 define("_VALIDART","Validate Article");
 define("_VALIDIMG","Validate Image");
-define("_DOWNLOAD","Download");
-define("_LINK","Web Links");
 define("_NEWS","News");
-define("_SECTIONS","Sections");
-define("_GALLERY","Image Gallery");
 define("_SUG","Suggest");
 define("_REMOVE","Delete");
 define("_DELETESUG","You are about to remove the suggestion");
 
-
-define("_MO","MB");
 define("_SUBJECT","Subject");
 define("_PAGEBREACK","If you want several pages, you can write <b>(--pagebreak--)</b> where you want a page break.");
-define("_URLIMG2","Thumbnail's Url");
-define("_URLIMG","Image's url");
-define("_URLFILE","Files's url");
+define("_FILE_URL","File's url");
 define("_NOSUGGEST","No suggestions in the database");
-define("_SUGGESTMAIL","Be informed of new suggestions by email");
 
 define("_RCORPS","Reason");
 define("_RSUBJECT","Title");

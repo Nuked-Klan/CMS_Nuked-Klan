@@ -181,6 +181,10 @@ define("_AUTOR", "Author");
 define("_COUNTRY","Country");
 define("_ADDTHE","Added on");
 define("_MAIL","Mail");
+define("_ALL","All");
+define("_CONFIRM_TO_DELETE","You are about to remove");
+define("_MO","MB");
+define("_KO","KB");
 
 // Menu
 define("_NAV","Menu");

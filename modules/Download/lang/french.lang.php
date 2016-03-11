@@ -12,8 +12,6 @@ define("_NBCAT","Catégories");
 define("_INDATABASE","dans la base de données");
 define("_FILES","Fichiers");
 define("_HITS","Hits");
-define("_KO","Ko");
-define("_MO","Mo");
 define("_MAX","Max");
 define("_DOWNFILE","Télécharger ce fichier");
 define("_DOWNLOADED","Téléchargé");
@@ -61,13 +59,11 @@ define("_FILEADD","Fichier ajouté avec succès.");
 define("_FILEDEL","Fichier effacé avec succès.");
 define("_MODIFFILE","Modifier ce Fichier");
 define("_FILEEDIT","Fichier Modifié avec succès.");
-define("_DELETEFILE","Vous êtes sur le point de supprimer");
 
 
 define("_ADDFILE","Ajouter un Fichier");
 define("_EDITTHISFILE","Editer ce Fichier");
 define("_DELTHISFILE","Supprimer ce Fichier");
-define("_NONE","Aucune");
 define("_BROKENLINKS","Liens Morts");
 define("_ERASE","Effacer");
 define("_ERASEFROMLIST","Effacer de la liste");

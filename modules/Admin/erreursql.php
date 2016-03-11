@@ -24,7 +24,7 @@ function main()
     ."\n"
     . "function delfile()\n"
     . "{\n"
-    . "if (confirm('" . _DELETEFILE . " " . _VIDERSQL . " ! " . _CONFIRM . "'))\n"
+    . "if (confirm('" . _CONFIRM_TO_DELETE . " " . _VIDERSQL . " ! " . _CONFIRM . "'))\n"
     . "{document.location.href = 'index.php?file=Admin&page=erreursql&op=delete';}\n"
     . "}\n"
     . "\n"

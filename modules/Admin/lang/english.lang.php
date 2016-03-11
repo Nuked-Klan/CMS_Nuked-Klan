@@ -22,7 +22,6 @@ define("_BLOCKMODIF","Block was successfully modified.");
 define("_TEAM","Team");
 define("_USER","User");
 
-define("_ALL","All");
 define("_DELBLOCK","You are about to remove");
 
 define("_OFF","Unactive");
@@ -314,7 +313,6 @@ define("_VIDERSQL","Delete the list");
 
 
 define("_INFORMATION","Information");
-define("_DELETEFILE","You are about to remove");
 define("_ERRORBDD","SQL Error");
 define("_SQLERRORDELETED","The list of SQL errors identified was destroyed.");
 
@@ -567,7 +565,6 @@ define("_APERCU","Preview styles:");
 define("_TOP","Top");
 define("_BOTTOM","Bottom");
 define("_SCREENHOT","Screen of the preview popup");
-define("_LISTERASED","Success of delete list.");
 define("_CHANGEEDIT", "Success of modification.");
 define("_DELSTYLE","Success delete.");
 define("_ACTIONADDSTYLE","have add a style of editor.");
