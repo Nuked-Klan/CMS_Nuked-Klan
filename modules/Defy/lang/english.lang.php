@@ -17,7 +17,6 @@ define("_IDESAGREE","I disagree");
 define("_NOCLAN","Please enter your clan name!");
 define("_NOICQ","Please enter your instant messenger address!");
 define("_CLAN","Clan");
-define("_GAME","Game");
 define("_ICQMSN","Messenger");
 define("_CHANIRC","IRC Channel");
 define("_WEBSITE","Website");

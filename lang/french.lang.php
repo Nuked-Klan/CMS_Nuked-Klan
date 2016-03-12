@@ -195,6 +195,8 @@ define("_MO","Mo");
 define("_KO","Ko");
 define("_MODIF","Modifier");
 define("_TEAM","Team");
+define("_CANCEL","Annuler");
+define("_GAME","Jeu");
 
 // menu
 define("_NAV","Menu");

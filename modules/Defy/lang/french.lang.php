@@ -17,7 +17,6 @@ define("_IDESAGREE","Je refuse");
 define("_NOCLAN","Vous n\'avez pas entré votre clan !");
 define("_NOICQ","Vous n\'avez pas entré votre messagerie instantané !");
 define("_CLAN","Clan");
-define("_GAME","Jeu");
 define("_ICQMSN","Icq/Msn");
 define("_CHANIRC","Channel IrC");
 define("_WEBSITE","Site Web");

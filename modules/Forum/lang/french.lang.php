@@ -16,7 +16,6 @@ define("_PAGES","Pages");
 define("_SMILEY","Smilies");
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
-define("_CANCEL","Annuler");
 define("_LISTSMILIES","Liste des smilies");
 define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
 define("_NONEXIST","n'existe pas dans la base de données.");

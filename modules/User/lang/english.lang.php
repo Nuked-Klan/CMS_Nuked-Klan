@@ -52,7 +52,6 @@ define("_BADOLDPASS","Bad old password!");
 define("_DATAFAILED","You introduced erroneous data.");
 define("_PASSFIELD","Enter password fields only to update them");
 define("_REGISTERSUCCES","Registering in progres");
-define("_GAME","Game");
 define("_AVATAR","Avatar");
 define("_SEEAVATAR","View avatars");
 define("_SIGN","Signature");
@@ -126,7 +125,6 @@ define("_VALIDUSER","Your account is now validated, you can login with your nick
 
 define("_BADFILEFORMAT","Bad image file type!!! Only gif or jpg are authorized");
 define("_NEWUSERREGISTRATION","New User Registration");
-define("_CANCEL","Cancel");
 define("_DELMYACCOUNT","Remove my account");
 define("_REMOVECONFIRM","Are you sure you want to remove your account?");
 define("_BADPASSWORD","Bad password!");

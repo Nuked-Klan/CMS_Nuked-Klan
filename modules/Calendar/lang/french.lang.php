@@ -54,7 +54,7 @@ define("_BIRTHDAY","Anniversaire");
 define("_BIRTHDAYTEXT","Joyeux anniversaire à");
 define("_BIRTHDAYTEXTSUITE","qui fête ses");
 define("_YEARSOLD","ans");
-define("_SUBMIT","Go");
+define("_CSUBMIT","Go");
 define("_ADMINCAL","Administration Calendrier");
 define("_EDITTHISEVENT","Editer cet évènement");
 define("_DELTHISEVENT","Supprimer cet évènement");

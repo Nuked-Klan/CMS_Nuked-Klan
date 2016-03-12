@@ -13,8 +13,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_GUESTBOOK","Guestbook");
 
-define("_CANCEL","Cancel");
-
 define("_NOTEXT","Please enter a text!");
 define("_POSTADD","Message was successfully added");
 define("_POSTEDIT","Message was successfully modified.");

@@ -51,7 +51,6 @@ define("_ADDMATCH","Add a match");
 define("_FINISH","Finished Match");
 define("_HASTOPLAY","Next Match");
 
-define("_GAME","Game");
 define("_HOUR","Hour");
 define("_STYLE","Style");
 define("_OURSCORE","Our Score");
@@ -69,7 +68,6 @@ define("_ADDFILE","Add an attached file");
 define("_ADDMODFILE","Add/Edit attached files");
 define("_IMG","Screenshot");
 define("_DEMO","Demo");
-define("_CANCEL","Cancel");
 
 define("_FILEADD","Attached File was successfully added.");
 define("_FILEDEL","Attached File was successfully removed.");

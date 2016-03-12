@@ -48,7 +48,6 @@ define("_RSUBJECT","Titre");
 define("_RMOTIF","Page de refus d'une suggestion");
 define("_REFUS2","Refus de votre suggestion");
 define("_REFUS","Votre suggestion a malheureusement été refusée.<br />Merci de votre participation.<br />");
-define("_CANCEL","Annuler");
 define("_NOTSUG","Vous avez reçu une suggestion");
 
 define("_ACTIONVALIDSUG","a validé la suggestion");

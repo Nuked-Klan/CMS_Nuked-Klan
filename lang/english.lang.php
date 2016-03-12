@@ -187,6 +187,8 @@ define("_MO","MB");
 define("_KO","KB");
 define("_MODIF","Modify");
 define("_TEAM","Team");
+define("_CANCEL","Cancel");
+define("_GAME","Game");
 
 // Menu
 define("_NAV","Menu");

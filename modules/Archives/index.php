@@ -19,7 +19,7 @@ compteur('Archives');
 
 function index()
 {
-    global $bgcolor1, $bgcolor2, $bgcolor3, $nuked;
+    global $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $p;
 
     $nb_news = $nuked['max_archives'];
     $day = time();
@@ -27,13 +27,7 @@ function index()
     $sql = nkDB_execute("SELECT date FROM " . NEWS_TABLE . " ORDER BY date DESC");
     $count = nkDB_numRows($sql);
 
-    if(array_key_exists('p', $_REQUEST)){
-        $page = $_REQUEST['p'];
-    }
-    else{
-        $page = 1;
-    }
-    $start = $page * $nb_news - $nb_news;
+    $start = $p * $nb_news - $nb_news;
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _ARCHIVE . "</b></big></div><br />\n"
     . "<table width=\"100%\"><tr><td align=\"right\">" . _ORDERBY . " : ";
@@ -187,7 +181,7 @@ function index()
 
 function sujet($cat_id)
 {
-    global $bgcolor1, $bgcolor2, $bgcolor3, $nuked;
+    global $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $p;
 
     $nb_news = $nuked['max_archives'];
     $day = time();
@@ -195,16 +189,16 @@ function sujet($cat_id)
     $sql = nkDB_execute("SELECT cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' ORDER BY date DESC");
     $count = nkDB_numRows($sql);
 
-    if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
-    $start = $_REQUEST['p'] * $nb_news - $nb_news;
+    $start = $p * $nb_news - $nb_news;
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _ARCHIVE . "</b></big></div><br />\n"
     . "<table width=\"100%\"><tr><td align=\"right\">" . _ORDERBY . " : ";
 
-    if (!$_REQUEST['orderby'])
+    if (! isset($_REQUEST['orderby']))
     {
         $_REQUEST['orderby'] = "date";
     }
+
     if ($_REQUEST['orderby'] == "date")
     {
         echo "<b>" . _DATE . "</b> | ";
@@ -262,6 +256,8 @@ function sujet($cat_id)
     {
         $sql2 = nkDB_execute("SELECT id, titre, auteur, auteur_id, date, cat FROM " . NEWS_TABLE . " WHERE cat = '" . $cat_id . "' AND '" . $day . "' >= date ORDER BY id DESC LIMIT " . $start . ", " . $nb_news."");
     }
+
+    $j = 0;
 
     while (list($news_id, $titre, $autor, $autor_id, $date, $cat) = nkDB_fetchArray($sql2))
     {

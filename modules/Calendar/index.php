@@ -297,7 +297,7 @@ function index(){
         $oyear++;
     }
 
-    echo "</select>&nbsp;&nbsp;<input type=\"submit\" value=\"" . _SUBMIT . "\" /></div></form>\n";
+    echo "</select>&nbsp;&nbsp;<input type=\"submit\" value=\"" . _CSUBMIT . "\" /></div></form>\n";
 
     echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;border: 1px solid " . $bgcolor3 . ";\" width=\"95%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n"
     . "<tr><td><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\"><tr><td style=\"background: #FFFFFF;\">\n";

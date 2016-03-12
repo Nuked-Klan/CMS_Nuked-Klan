@@ -25,7 +25,6 @@ define("_EXECTHISFILE","Cochez Exécutez ce programme à partir de son emplacement
 define("_SERVERDETAIL","Serveur en détails");
 define("_ADDRESS","Adresse");
 define("_NBPLAYER","Nb de joueurs");
-define("_GAME","Game");
 define("_SYSTEMOS","Système Os");
 define("_SERVERTYPE","Type de serveur");
 define("_SERVERRULES","Serveur Rules");

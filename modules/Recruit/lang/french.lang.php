@@ -22,7 +22,6 @@ define("_NOCITY","Vous n\'avez pas entré votre ville !");
 define("_FIRSTNAME","Prénom");
 define("_AGE","Age");
 define("_ICQMSN","Icq/Msn");
-define("_GAME","Jeu");
 define("_CONNECT","Connexion");
 define("_56K","56K");
 define("_NUMERIS","128K");

@@ -34,7 +34,6 @@ define("_MESSAGESDEL","Messages supprimés avec succès.");
 
 define("_CLEARSUCCES","effacé avec succès.");
 define("_DELCONFIRM","Confirmer");
-define("_CANCEL","Annuler");
 define("_DELBOX","Sup");
 define("_FROM","Provenant de");
 

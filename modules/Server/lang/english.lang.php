@@ -24,7 +24,6 @@ define("_SSEARCH","Search");
 define("_SERVERDETAIL","Server details");
 define("_ADDRESS","Address");
 define("_NBPLAYER","Players");
-define("_GAME","Game");
 define("_SYSTEMOS","OS System");
 define("_SERVERTYPE","Server Type");
 define("_SERVERRULES","Server Rules");

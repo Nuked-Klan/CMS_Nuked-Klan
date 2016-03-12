@@ -17,7 +17,6 @@ define("_TOPICMODIFIED","Topic was successfully modified.");
 define("_SMILEY","Smilies");
 define("_NOTITLE","Please enter a title!");
 define("_NOTEXT","Please enter a text!");
-define("_CANCEL","Cancel");
 define("_LISTSMILIES","Smilies List");
 define("_UPLOADFAILED","Uploading of file failed!!!");
 define("_ADDMODO","Add a moderator");
