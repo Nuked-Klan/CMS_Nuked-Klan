@@ -477,10 +477,15 @@ function session_gc($maxlife) {
 function connect() {
     global $global;
 
-    if (! is_file($dbLayer = 'Includes/nkDb/nkDB_'. $global['db_type'] .'.php'))
-        exit(ERROR_DB_LAYER);
+    static $layerLoaded = false;
 
-    require_once $dbLayer;
+    if (! $layerLoaded) {
+        if (! is_file($dbLayer = dirname(__FILE__) .'/Includes/nkDb/nkDB_'. $global['db_type'] .'.php'))
+            exit(ERROR_DB_LAYER);
+
+        require_once $dbLayer;
+        $layerLoaded = true;
+    }
 
     nkDB_init($global);
 
