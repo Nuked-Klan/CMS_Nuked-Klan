@@ -1,5 +1,5 @@
 <div id="RL_loginPopupContainer">
-    <form method="post" action="index.php?file=User&amp;op=login&amp;nuked_nude=index">
+    <form method="post" action="index.php?file=User&amp;op=login">
         <p>
             {{*_LOGINUSER}}
         </p>
