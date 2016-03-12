@@ -4,6 +4,25 @@
                 <h1><?php echo ($process == 'install') ? $i18n['INSTALL_'. $type] : $i18n['UPDATE_'. $type] ?></h1>
                 <form method="post" action="index.php?action=saveDbConfiguration" id="dbConfigurationForm" class="form">
                     <h2><?php echo $i18n['CONFIG'] ?></h2>
+                    <div id="dbTypeBox">
+                        <label for="dbType"><?php echo $i18n['DB_TYPE'] ?></label> :&nbsp;
+                        <select id="dbType" name="db_type">
+<?php
+    foreach ($databaseTypeList as $dbTypeName) :
+?>
+                            <option value="<?php echo $dbTypeName ?>"<?php selected($dbTypeName, $dbType) ?>><?php echo $dbTypeName ?></option>
+<?php
+    endforeach
+?>
+                        </select>
+                    </div>
+<?php
+    if ($assist == 'yes') :
+?>
+                    <p id="dbTypeInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><?php echo $i18n['INSTALL_DB_TYPE'] ?></p>
+<?php
+    endif
+?>
                     <div id="dbHostBox">
                         <label for="dbHost"><?php printf($i18n['DB_HOST'], 'MySQL') ?></label>
                         <input type="text" name="db_host" id="dbHost" value="<?php echo $dbHost ?>"<?php disabled($process, 'update') ?> />
@@ -63,25 +82,6 @@
 ?>
                     <p><input type="checkbox" id="advanced" name="advanced" />&nbsp;<label id="advancedLabel" for="advanced"><?php echo $i18n['ADVANCED_PARAMETERS'] ?></label></p>
                     <div id="advancedBox">
-                        <p>
-                            <label for="dbType"><?php echo $i18n['DB_TYPE'] ?></label>
-                            <select id="dbType" name="db_type">
-<?php
-    foreach ($databaseTypeList as $k => $v) :
-?>
-                                <option value="<?php echo $k ?>"<?php selected($k, $dbType) ?>><?php echo $v ?></option>
-<?php
-    endforeach
-?>
-                            </select>
-                        </p>
-<?php
-    if ($assist == 'yes') :
-?>
-                        <p id="dbTypeInfo"><img class="infoLogo" src="media/images/info.png" alt="" /><?php echo $i18n['INSTALL_DB_TYPE'] ?></p>
-<?php
-    endif
-?>
                         <div id="dbPortBox">
                             <label for="dbPort"><?php echo $i18n['DB_PORT'] ?></label>
                             <input type="text" name="db_port" id="dbPort" maxlength="5" value="<?php echo $dbPort ?>"<?php disabled($process, 'update') ?> />
@@ -104,9 +104,8 @@
     endif
 ?>
                     </div>
-
 */ ?>
-                    <input type="hidden" name="db_type" id="dbType" value="MySQL" />
+
                     <div id="notification"></div>
                     <div id="links">
                         <input type="submit" name="submit" value="<?php echo $i18n['SUBMIT'] ?>" />

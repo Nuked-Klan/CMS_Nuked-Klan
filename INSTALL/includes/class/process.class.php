@@ -321,16 +321,16 @@ class process {
      * Set database configuration (assisted or not)
      */
     public function setDbConfiguration() {
-        $this->_session['db_type'] = 'MySQL';
+        //$this->_session['db_type'] = 'MySQL';
 
         $this->_view = new view('setDbConfiguration');
 
         $this->_view->process           = $this->_session['process'];
         $this->_view->assist            = $this->_session['assist'];
-        //$this->_view->databaseTypeList  = db::getDatabaseTypeList();
+        $this->_view->databaseTypeList  = db::getDatabaseTypeList();
 
         $dbHost = $dbUser = $dbName = '';
-        //$dbType       = 'MySQL';
+        $dbType       = 'MySQL';
         //$dbPersistent = false;
 
         if ($this->_session['process'] == 'update') {
@@ -343,16 +343,16 @@ class process {
             $dbUser = $global['db_user'];
             $dbName = $global['db_name'];
 
-            //if (isset($global['db_type'])) $dbType = $global['db_type'];
+            if (isset($global['db_type'])) $dbType = $global['db_type'];
             //if (isset($global['db_port'])) $dbPort = $global['db_port'];
             //if (isset($global['db_persistent'])) $dbPersistent = $global['db_persistent'];
         }
 
-        $this->_view->dbHost        = $dbHost;
-        $this->_view->dbUser        = $dbUser;
-        $this->_view->dbName        = $dbName;
-        $this->_view->dbPrefix      = isset($db_prefix) ? $db_prefix : 'nuked';
-        //$this->_view->databaseType  = $dbType;
+        $this->_view->dbHost    = $dbHost;
+        $this->_view->dbUser    = $dbUser;
+        $this->_view->dbName    = $dbName;
+        $this->_view->dbPrefix  = isset($db_prefix) ? $db_prefix : 'nuked';
+        $this->_view->dbType    = $dbType;
         //$this->_view->persistent    = $dbPersistent;
 
         //if (! isset($dbPort))
@@ -437,7 +437,7 @@ class process {
             $this->_session['db_user']          = $_POST['db_user'];
             $this->_session['db_pass']          = $_POST['db_pass'];
             $this->_session['db_name']          = $_POST['db_name'];
-            //$this->_session['db_type']          = $_POST['db_type'];
+            $this->_session['db_type']          = $_POST['db_type'];
             //$this->_session['db_port']          = ($_POST['db_port'] != '') ? $_POST['db_port'] : '';
             //$this->_session['db_persistent']    = $_POST['db_persistent'];
             $this->_session['db_prefix']        = $_POST['db_prefix'];
@@ -455,7 +455,7 @@ class process {
             $this->_session['db_user']          = $global['db_user'];
             $this->_session['db_pass']          = $global['db_pass'];
             $this->_session['db_name']          = $global['db_name'];
-            //$this->_session['db_type']          = $global['db_type'];
+            $this->_session['db_type']          = $global['db_type'];
             //$this->_session['db_port']          = $global['db_port'];
             //$this->_session['db_persistent']    = $global['db_persistent'];
             $this->_session['db_prefix']        = $db_prefix;
@@ -505,8 +505,6 @@ class process {
      * Create or update a database table
      */
     public function runTableProcessAction() {
-        $this->_session['db_type'] = 'MySQL';
-
         $this->_db = db::getInstance()->load($this->_session);
 
         $result = $error = '';

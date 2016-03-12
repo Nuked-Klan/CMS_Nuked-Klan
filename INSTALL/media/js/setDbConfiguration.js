@@ -181,26 +181,26 @@ $(document).ready(function() {
     $('#dbPrefix').blur(function() { checkConfigDbPrefix($(this)); });
     $('#dbName').blur(function() { checkConfigDbName($(this)); });
 
-/*
-    $(*'#dbType').change(function() {
-        var dbType = $(this).val();
+    $('#dbType').change(function() {
+        var dbType = $(this).val()
+        infoImg = '<img class="infoLogo" src="media/images/info.png" alt="" />';
 
         $('#dbHostBox label').html(i18n.db_host.replace(/%s/, dbType));
 
         if (document.getElementById('dbHostInfo'))
-        $('#dbHostInfo').html(i18n.install_db_host.replace(/%s/, dbType));
+            $('#dbHostInfo').html(infoImg + i18n.install_db_host.replace(/%s/, dbType));
 
         if (document.getElementById('dbUserInfo'))
-        $('#dbUserInfo').html(i18n.install_db_user.replace(/%s/, dbType));
+            $('#dbUserInfo').html(infoImg + i18n.install_db_user.replace(/%s/, dbType));
 
         if (document.getElementById('dbPasswordInfo'))
-        $('#dbPasswordInfo').html(i18n.install_db_password.replace(/%s/, dbType));
+            $('#dbPasswordInfo').html(infoImg + i18n.install_db_password.replace(/%s/, dbType));
 
         if (document.getElementById('dbPrefixInfo'))
-        $('#dbPrefixInfo').html(i18n.install_db_prefix.replace(/%s/, dbType));
+            $('#dbPrefixInfo').html(infoImg + i18n.install_db_prefix.replace(/%s/, dbType));
 
         if (document.getElementById('dbNameInfo'))
-        $('#dbNameInfo').html(i18n.install_db_name.replace(/%s/, dbType));
+            $('#dbNameInfo').html(infoImg + i18n.install_db_name.replace(/%s/, dbType));
     });
 
     $('#dbPort').blur(function() { checkConfigDbport($(this)); });
@@ -216,5 +216,5 @@ $(document).ready(function() {
             $('#advancedBox').css('display', 'block');
         }
     });
-*/
+
 });

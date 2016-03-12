@@ -476,7 +476,7 @@ return array(
     'INSTALL_DB_NAME'       => 'This is the name of your %s database, often you need to go in the administration of your hosting to create a database, but sometimes it sure is already provided in your registration email hosting .',
     'ADVANCED_PARAMETERS'   => 'Advanced parameters',
     'DB_TYPE'               => 'Database type',
-    //'INSTALL_DB_TYPE'       => '',
+    'INSTALL_DB_TYPE'       => 'This is your database type you want to use for Nuked-Klan.',
     'DB_PORT'               => 'Port',
     //'INSTALL_DB_PORT'       => '',
     'DB_PERSISTENT'         => 'Persistent connection',

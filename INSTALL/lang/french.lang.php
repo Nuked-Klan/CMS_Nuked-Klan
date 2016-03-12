@@ -476,7 +476,7 @@ return array(
     'INSTALL_DB_NAME'       => 'Il s\'agit du nom de votre base de données %s, souvent vous devez vous rendre dans l\'administration de votre hébergement pour créer une base de données, mais parfois celle-ci vous est déjà fournie dans le mail d\'inscription de votre hébergement.',
     'ADVANCED_PARAMETERS'   => 'Paramètre avancés',
     'DB_TYPE'               => 'Type de base de données',
-    //'INSTALL_DB_TYPE'       => '',
+    'INSTALL_DB_TYPE'       => 'Il s\'agit du type de base de données que vous souhaitez utiliser pour Nuked-Klan.',
     'DB_PORT'               => 'Port',
     //'INSTALL_DB_PORT'       => '',
     'DB_PERSISTENT'         => 'Connexion persistante',
