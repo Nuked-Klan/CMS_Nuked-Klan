@@ -611,6 +611,8 @@ function main_file($im_id){
             . "<td align=\"center\"><b>" . _EDIT . "</b></td>\n"
             . "<td align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
+    $j = 0;
+
     $sql = nkDB_execute("SELECT id, type, url FROM " . WARS_FILES_TABLE . " WHERE module = 'Wars' AND im_id = '" . $im_id . "'");
     while (list($fid, $type, $url) = nkDB_fetchArray($sql)){
         if ($type == "screen"){
@@ -661,6 +663,8 @@ function edit_file($fid){
 
     $sql = nkDB_execute("SELECT im_id, type, url FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
     list($im_id, $type, $url) = nkDB_fetchArray($sql);
+
+    $checked1 = $checked2 = '';
 
     if ($type == "screen"){
         $typename = _IMG;
@@ -723,7 +727,7 @@ function send_file($im_id, $file_type){
         else if ($_POST['url_file'] != '') {
             $ext = strtolower(substr(strrchr($_POST['url_file'], '.'), 1));
 
-            if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            if (isset($fileCfg['allowedExtension']) && ! in_array($ext, $fileCfg['allowedExtension'])) {
                 printNotification(__('BAD_IMAGE_FORMAT'), 'error');
                 redirect('index.php?file=Wars&page=admin&op=add_file&im_id='. $im_id, 3);
                 return;
@@ -781,7 +785,7 @@ function modif_file($im_id, $fid, $file_type){
         else if ($_POST['url_file'] != '') {
             $ext = strtolower(substr(strrchr($_POST['url_file'], '.'), 1));
 
-            if (! in_array($ext, array('jpg', 'jpeg', 'gif', 'png'))) {
+            if (isset($fileCfg['allowedExtension']) && ! in_array($ext, $fileCfg['allowedExtension'])) {
                 printNotification(__('BAD_IMAGE_FORMAT'), 'error');
                 redirect('index.php?file=Wars&page=admin&op=edit_file&fid='. $fid, 3);
                 return;

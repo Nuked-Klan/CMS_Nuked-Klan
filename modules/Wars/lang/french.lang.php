@@ -38,8 +38,6 @@ define("_DELETEMATCH","Vous êtes sur le point de supprimer le match vs");
 define("_EDITTHISMATCH","Editer ce Match");
 define("_DELTHISMATCH","Supprimer ce Match");
 define("_ADDMATCH","Ajouter un match");
-define("_TEAM","Team");
-define("_STATUS","Statut");
 define("_FINISH","Terminé");
 define("_HASTOPLAY","A jouer");
 

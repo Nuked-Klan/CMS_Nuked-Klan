@@ -19,7 +19,7 @@ define("_MAP","Map");
 define("_PLAYER","Joueurs");
 define("_NOSERVER","Aucun serveur pour cette catégorie");
 define("_SERVERINFOS","Infos sur un serveur");
-define("_SEARCH","Chercher");
+define("_SSEARCH","Chercher");
 define("_EXECTHISFILE","Cochez Exécutez ce programme à partir de son emplacement actuel et cliquez sur ok pour rejoindre le serveur");
 
 define("_SERVERDETAIL","Serveur en détails");

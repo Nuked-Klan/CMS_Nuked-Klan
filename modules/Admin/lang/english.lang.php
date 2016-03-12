@@ -19,7 +19,6 @@ define("_CREATEBLOCK","Create block");
 define("_BLOCKSUCCES","Block was successfully added.");
 define("_BLOCKCLEAR","Block was successfully removed.");
 define("_BLOCKMODIF","Block was successfully modified.");
-define("_TEAM","Team");
 define("_USER","User");
 
 define("_DELBLOCK","You are about to remove");
@@ -620,7 +619,6 @@ define('_SORTASC', 'Sorted in ascending order');
 define('_SORTDESC', 'Sorted in descending order');
 define('_DELETE_CONFIRM', 'You are about to remove');
 //define("_DELBOX","Del");
-//define("_SEARCH","Search");
 //define("_OK","Ok");
 
 // category

@@ -69,11 +69,11 @@ function edit_pref()
 
     if ($nuked['recrute'] == 1)
     {
-        $etat = _OPEN;
+        $etat = _RECRUIT_OPEN;
     } 
     else
     {
-        $etat = _CLOSE;
+        $etat = _RECRUIT_CLOSE;
     } 
     
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
@@ -89,8 +89,8 @@ echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;o
 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 . "<tr><td><b>" . _RECRUTE . "</b> : <select name=\"recrute\">\n"
 . "<option value=\"" . $nuked['recrute'] . "\">" . $etat . "</option>\n"
-. "<option value=\"1\">" . _OPEN . "</option>\n"
-. "<option value=\"0\">" . _CLOSE . "</option></select></td></tr>\n"
+. "<option value=\"1\">" . _RECRUIT_OPEN . "</option>\n"
+. "<option value=\"0\">" . _RECRUIT_CLOSE . "</option></select></td></tr>\n"
 . "<tr><td><b>" . _MAILAVERT . "</b> : <input type=\"text\" size=\"30\" name=\"recrute_mail\" value=\"" . $nuked['recrute_mail'] . "\" /></td></tr>\n"
 . "<tr><td><b>" . _INBOXAVERT . "</b> : <select name=\"recrute_inbox\"><option value=\"\">" . _OFF . "</option>\n";
 

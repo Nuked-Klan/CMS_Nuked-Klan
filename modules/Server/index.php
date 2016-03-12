@@ -162,7 +162,7 @@ function index() {
         . "<option value=\"NWN\">Neverwinter Nights</option>\n"
         . "<option value=\"AA\">America's Army</option>\n"
         . "<option value=\"BTF1942\">Battlefield 1942</option></select>\n"
-        . "&nbsp;<input type=\"submit\" value=\"" . _SEARCH . "\" /></td></tr></table></form><br />";
+        . "&nbsp;<input type=\"submit\" value=\"" . _SSEARCH . "\" /></td></tr></table></form><br />";
 
 } 
 

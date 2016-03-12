@@ -19,7 +19,7 @@ define("_MAP","Map");
 define("_PLAYER","Players");
 define("_NOSERVER","No Servers in this Category");
 define("_SERVERINFOS","Server Search");
-define("_SEARCH","Search");
+define("_SSEARCH","Search");
 
 define("_SERVERDETAIL","Server details");
 define("_ADDRESS","Address");
