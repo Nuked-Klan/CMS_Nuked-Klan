@@ -1,5 +1,15 @@
 <?php
-defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
+/**
+ * english.lang.php
+ *
+ * English translation file of Download module
+ *
+ * @version     1.8
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2016 Nuked-Klan (Registred Trademark)
+ */
+defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_NEWSFILE","New");
 define("_POPULAR","Popular");
