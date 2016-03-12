@@ -28,7 +28,7 @@ define('_ADMINCONTACT','Contact the Administration');
 define('_DELETEMESSAGEFROM','You are about to remove the message from');
 define('_LISTMAIL','Message List');
 define('_READMESS','Read');
-define('_FROM','From');
+define('_CFROM','From');
 define('_NOMESSINDB','No messages in the database');
 define('_READTHISMESS','Read this message');
 define('_DELTHISMESS','Remove this message');

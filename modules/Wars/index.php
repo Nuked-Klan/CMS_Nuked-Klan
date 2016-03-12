@@ -552,7 +552,7 @@ function detail($war_id){
     echo '<tr style="background: ' . $bgcolor2 . ';"><td>&nbsp;</td></tr>';
 
     if ($report != ''){
-        if ($etat == 0) $xtitle = _DETAILS2 . ' ' . _FROM; else $xtitle = _REPORTBY;
+        if ($etat == 0) $xtitle = _DETAILS2 . ' ' . _WFROM; else $xtitle = _REPORTBY;
 
         echo '<tr><td style="background: ' . $bgcolor2 . ';border: 1px dashed ' . $bgcolor3 . ';"><b>' . $xtitle . ' <a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '">' . $auteur . '</a> : </b></td></tr>
                 <tr style="background: ' . $bgcolor1 . ';"><td style="border: 1px dashed ' . $bgcolor3 . ';">' . $report;

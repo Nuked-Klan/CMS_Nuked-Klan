@@ -100,7 +100,7 @@ function view($did) {
         . "<b>" . _HOUR . " : </b>" . $heure . "<br />\n"
         . "<b>" . _SERVER . " : </b>" . $serveur . "<br />\n"
         . "<b>" . _GAME . " : </b>" . $game_name . "<br />\n"
-        . "<b>" . _MATCH . " : </b>" . $type . "<br />\n"
+        . "<b>" . _DMATCH . " : </b>" . $type . "<br />\n"
         . "<b>" . _MAP . " : </b>" . $map . "<br /><br />\n"
         . "<b>" . _COMMENT . " : </b>" . $comment . "<br /><br />\n"
         . "</td></tr></table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _REMOVE . "\" onclick=\"javascript:del_defie('" . addslashes($pseudo) . "', '" . $did . "');\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . __('BACK') . "</a></div>\n"

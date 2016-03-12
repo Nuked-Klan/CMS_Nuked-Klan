@@ -26,7 +26,7 @@ define("_SERVER","Server");
 
 define("_MAP","Map");
 
-define("_MATCH","Match");
+define("_DMATCH","Match");
 
 define("_SENDMAIL","War request was successfully sent");
 define("_NEWDEFY","sent a new match request :");

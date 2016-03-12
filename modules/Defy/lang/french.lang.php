@@ -26,7 +26,7 @@ define("_SERVER","Serveur");
 
 define("_MAP","Map");
 
-define("_MATCH","Match");
+define("_DMATCH","Match");
 
 define("_SENDMAIL","Votre demande de match a été prise en compte");
 define("_NEWDEFY","a envoyé un nouveau défie :");

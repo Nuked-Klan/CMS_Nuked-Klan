@@ -35,7 +35,7 @@ define("_MATCHDAY","Il y a un match aujourd'hui !!!");
 define("_GOWARS","voir tous les matches");
 define("_GOCALENDAR","voir le calendrier");
 define("_DETAILS2","Commentaire");
-define("_FROM","de");
+define("_WFROM","de");
 
 define("_ADMINMATCH","Administration des Matches");
 

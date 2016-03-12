@@ -104,7 +104,7 @@ function view($mid){
     . '<img style="border: 0" src="help/help.gif" alt="" title="' . _HELP . '" /></a>'."\n"
     . '</div></div>'."\n"
     . '<div class="tab-content" id="tab2"><table style="margin: auto;text-align: left" width="90%" cellspacing="1" cellpadding="4">'."\n"
-    . '<tr><td>' . _FROM . '  <a href="mailto:' . $email . '"><b>' . $nom . '</b></a> (IP : ' . $ip . ') ' . _THE . ' ' . $day . '</td></tr>'."\n"
+    . '<tr><td>' . _CFROM . '  <a href="mailto:' . $email . '"><b>' . $nom . '</b></a> (IP : ' . $ip . ') ' . _THE . ' ' . $day . '</td></tr>'."\n"
     . '<tr><td><b>' . _YSUBJECT . ' :</b> ' . $titre . '</td></tr>'."\n"
     . '<tr><td><br />' . $message . '</td></tr></table>'."\n"
     . '<div style="text-align: center"><br /><input class="button" type="button" value="' . _DELTHISMESS . '" onclick="javascript:delmail(\'' . $name . '\', \'' . $mid . '\');" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . __('BACK') . '</a>'."\n"

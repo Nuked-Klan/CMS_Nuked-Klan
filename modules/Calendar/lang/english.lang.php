@@ -33,8 +33,8 @@ define("_CLICKON","Click on the event for more information");
 define("_PREVMONTH","Previous month");
 define("_NEXTMONTH","Next month");
 define("_EVENT","Event");
-define("_MATCH","Match");
-define("_VS","vs");
+define("_CMATCH","Match");
+define("_CVS","vs");
 define("_STYLE","Style");
 
 define("_MAPS","Maps");

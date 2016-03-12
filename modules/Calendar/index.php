@@ -86,7 +86,7 @@ function index(){
                 if (strcmp($tmp['adversaire'] , "") != 0){
                     $tmp['adversaire'] = printSecuTags($tmp['adversaire']);
                     $this->month_data[$tmp['date_jour']]['id'][] = $tmp["warid"];
-                    $this->month_data[$tmp['date_jour']]['event_title'][] = "<span title=\"" . _MATCH . "&nbsp;" . _VS . "&nbsp;" . $tmp['adversaire'] . "\">" . _MATCH . "</span>";
+                    $this->month_data[$tmp['date_jour']]['event_title'][] = "<span title=\"" . _CMATCH . "&nbsp;" . _CVS . "&nbsp;" . $tmp['adversaire'] . "\">" . _CMATCH . "</span>";
                     $this->month_data[$tmp['date_jour']]['event_type'][] = "match";
                 }
             }
@@ -360,10 +360,10 @@ function show_event(){
 
         $date = ($language == "french") ? $jour . "/" . $mois . "/" . $an : $mois . "/" . $jour . "/" . $an;
 
-        nkTemplate_setTitle($team_name .'&nbsp;'. _VS .'&nbsp;'. $adv_name);
+        nkTemplate_setTitle($team_name .'&nbsp;'. _CVS .'&nbsp;'. $adv_name);
 
         echo "<table width=\"100%\" cellpadding=\"1\" cellspacing=\"0\">\n"
-        . "<tr><td align=\"center\"><big><b>" . $team_name . "&nbsp;" . _VS . "&nbsp;" . $adv_name . "</b></big></td></tr><tr><td>&nbsp;</td></tr>\n"
+        . "<tr><td align=\"center\"><big><b>" . $team_name . "&nbsp;" . _CVS . "&nbsp;" . $adv_name . "</b></big></td></tr><tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _DATE . " :</b> " . $date . " " . $heure . "</td></tr>\n"
         . "<tr><td><b>" . _TYPE . " :</b> " . $type_match . "</td></tr>\n"
         . "<tr><td><b>" . _STYLE . " :</b> " . $style . "</td></tr>\n";
@@ -463,7 +463,7 @@ function add_dispo($dispo){
     global $user;
 
     nkTemplate_setPageDesign('nudePage');
-    nkTemplate_setTitle(_MATCH);
+    nkTemplate_setTitle(_CMATCH);
 
     $sql = "SELECT dispo, pas_dispo FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
     $req = nkDB_execute($sql);
@@ -490,7 +490,7 @@ function del_dispo(){
     global $user;
 
     nkTemplate_setPageDesign('nudePage');
-    nkTemplate_setTitle(_MATCH);
+    nkTemplate_setTitle(_CMATCH);
 
     $sql = "SELECT * FROM " . WARS_TABLE . " WHERE warid = '" . $_REQUEST['war_id'] . "'";
     $req = nkDB_execute($sql);
