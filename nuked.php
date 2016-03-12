@@ -477,7 +477,10 @@ function session_gc($maxlife) {
 function connect() {
     global $global;
 
-    require_once 'Includes/nkDb/nkDB_MySQL.php';
+    if (! is_file($dbLayer = 'Includes/nkDb/nkDB_'. $global['db_type'] .'.php'))
+        exit(ERROR_DB_LAYER);
+
+    require_once $dbLayer;
 
     nkDB_init($global);
 
