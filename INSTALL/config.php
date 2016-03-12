@@ -30,12 +30,21 @@ return array(
 
     // Sets upload directory list
     'uploadDir' => array(
+        'images/icones',
         'upload/Download',
         'upload/Forum',
+        'upload/Forum/cat',
+        'upload/Forum/rank',
         'upload/Gallery',
         'upload/News',
+        'upload/Sections',
         'upload/Suggest',
+        'upload/Team',
+        'upload/Team/coverage',
+        'upload/Tinymce',
+        'upload/Tinymce/thumbnail',
         'upload/User',
+        'upload/User/Rank',
         'upload/Wars'
     ),
 
@@ -72,7 +81,8 @@ return array(
     'deprecatedFiles' => array(
         'captcha.php',
         'Includes/font/',
-        'Includes/version.php'
+        'Includes/version.php',
+        'modules/Textbox/submit.php'
     )
 );
 

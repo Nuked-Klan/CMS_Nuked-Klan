@@ -15,7 +15,7 @@ class confInc {
     /*
      * Sets config database data list
      */
-    static private $_dbDataConfig = array('db_host', 'db_user', 'db_pass', 'db_name');
+    static private $_dbDataConfig = array('db_host', 'db_user', 'db_pass', 'db_name', 'db_type');
 
     /*
      * Sets to create copy of conf.inc or not

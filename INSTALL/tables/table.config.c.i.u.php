@@ -256,7 +256,6 @@ if ($process == 'install') {
         (\'forum_display_modos\', \'on\'),
         (\'textbox_avatar\', \'on\'),
         (\'user_social_level\', \'0\'),
-        (\'sp_version\', \'off\'),
         (\'index_page\', \'\'),
         (\'editor_type\', \'cke\'),
         (\'rssFeed\', \'news|sections|download|links|gallery|forum\');';
@@ -352,7 +351,6 @@ if ($process == 'update') {
     addDefaultCfgValue('forum_display_modos', 'on');
     addDefaultCfgValue('textbox_avatar', 'on');
     addDefaultCfgValue('user_social_level', 0);
-    addDefaultCfgValue('sp_version', 'off');
     addDefaultCfgValue('index_page', '');
     addDefaultCfgValue('editor_type', 'cke');
     addDefaultCfgValue('rssFeed', 'news|sections|download|links|gallery|forum');

@@ -25,7 +25,7 @@ $rep_dl_ok = 'upload/Download/';
 $rep_dl_screen = 'upload/Suggest/';
 
 // Repertoire de destination pour les captures de  downloads validées
-$rep_dl_screen_ok = 'upload/Download/screen/';
+$rep_dl_screen_ok = 'upload/Download/';
 
 // Repertoire de destination pour les images
 $rep_img = 'upload/Suggest/';
