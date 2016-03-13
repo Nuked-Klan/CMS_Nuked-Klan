@@ -932,8 +932,12 @@ function secu_html($texte, $returnError = false){
     }
 
     $allowedTags = array(
-        'p','h1','h2','h3','h4','h5','h6','img','strong','s','em','u','strike','sub','sup','ol','ul','li','blockquote','div','br','a','table','caption','thead','tr','td','th','tbody','hr','span','big','small','tt','code','kbd','samp','var','del','ins','cite','q','pre','address', 'object', 'param', 'embed'
-        );
+        'p','h1','h2','h3','h4','h5','h6','img','strong','s','em',
+        'u','strike','sub','sup','ol','ul','li','blockquote','div',
+        'br','a','table','caption','thead','tr','td','th','tbody',
+        'hr','span','big','small','tt','code','kbd','samp','var',
+        'del','ins','cite','q','pre','address','object','param','embed'
+    );
 
     if($nuked['video_editeur'] == 'on'){
         $allowedTags[] = 'object';
@@ -960,6 +964,7 @@ function secu_html($texte, $returnError = false){
         }
     }
     $bad = $bad | count($TagList) > 1;
+
     if ($bad){
         if ($returnError)
             return false;
@@ -1971,6 +1976,12 @@ function str2htmlEntities($str) {
     $t = array_map(function($n) { return "&#$n;"; }, $t);
 
     return implode('', $t);
+}
+
+function nkDump($str) {
+    echo '<pre>';
+    var_dump($str);
+    echo '<pre>';
 }
 
 ?>

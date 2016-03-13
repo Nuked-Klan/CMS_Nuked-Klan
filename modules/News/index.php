@@ -19,14 +19,18 @@ compteur('News');
 
 function index(){
 
-    global $op, $nuked, $language, $theme;
+    global $op, $nuked, $language, $theme, $p;
 
     $max_news = $nuked['max_news'];
     $day = time();
 
     if ($op == 'categorie') {
+        $_REQUEST['cat_id'] = (int) $_REQUEST['cat_id'];
+
         $where = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date";
     } elseif ($op == 'suite' || $op == 'index_comment') {
+        $_REQUEST['news_id'] = (int) $_REQUEST['news_id'];
+
         $where = "WHERE id = '{$_REQUEST['news_id']}' AND $day >= date";
     } else {
         $where = "WHERE $day >= date";
@@ -35,13 +39,7 @@ function index(){
     $sql_nbnews = nkDB_execute("SELECT id FROM ".NEWS_TABLE." $where");
     $nb_news = nkDB_numRows($sql_nbnews);
 
-    if(array_key_exists('p', $_REQUEST)){
-        $page = $_REQUEST['p'];
-    }
-    else{
-        $page = 1;
-    }
-    $start = $page * $max_news - $max_news;
+    $start = $p * $max_news - $max_news;
 
     if ($op == 'categorie') {
         $WhereNews = "WHERE cat = '{$_REQUEST['cat_id']}' AND $day >= date ORDER BY date DESC LIMIT $start, $max_news";
@@ -117,6 +115,8 @@ function index_comment($news_id) {
 
     global $user, $visiteur, $nuked;
 
+    $news_id = (int) $news_id;
+
     if( $visiteur >= admin_mod("News")){
         echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
         <div style="text-align:right; margin:10px;">
@@ -146,6 +146,8 @@ function index_comment($news_id) {
 function suite($news_id) {
     global $user, $visiteur, $nuked;
 
+    $news_id = (int) $news_id;
+
     if ($visiteur >= admin_mod("News")) {
         echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
         <div style="text-align:right; margin:10px;">
@@ -173,7 +175,7 @@ function suite($news_id) {
 
 }
 
-function categorie($cat_id){
+function categorie(){
     index();
 }
 
@@ -207,6 +209,8 @@ function sujet(){
 
 function pdf($news_id) {
     global $nuked, $language;
+
+    $news_id = (int) $news_id;
 
     nkTemplate_setPageDesign('none');
 
@@ -256,9 +260,23 @@ function pdf($news_id) {
 function sendfriend($news_id) {
     global $nuked, $user;
 
+    $news_id = (int) $news_id;
+
     opentable();
 
-    echo '<script type="text/javascript">function verifchamps(){if(document.getElementById(\'sf_pseudo\').value.length == 0){alert(\''._NONICK.'\');return false;}if(document.REQUESTElementById(\'sf_mail\').value.indexOf(\'@\') == -1){alert(\''._BADMAIL.'\');return false;}return true;}</script>';
+    echo '<script type="text/javascript">
+        function verifchamps(){
+            if(document.getElementById(\'sf_pseudo\').value.length == 0){
+                alert(\''._NONICK.'\');
+                return false;
+            }
+            if(document.getElementById(\'sf_mail\').value.indexOf(\'@\') == -1){
+                alert(\''._BADMAIL.'\');
+                return false;
+            }
+            return true;
+        }
+        </script>';
 
     $sql = nkDB_execute("SELECT titre FROM ".NEWS_TABLE." WHERE id = '$news_id'");
     list($title) = nkDB_fetchArray($sql);
@@ -269,11 +287,12 @@ function sendfriend($news_id) {
             <b>'.$title.'</b><br /><br /></td></tr><tr><td align="left">
             <b>'._NYNICK.' : </b>&nbsp;<input type="text" id="sf_pseudo" name="pseudo" value=""'.$user[2].'" size="20" /></td></tr>
             <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
-            <tr><td><b>'._NYCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
+            <tr><td><b>'._NYCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>
+            <tr><td align="center">';
 
     if (initCaptcha()) echo create_captcha();
 
-    echo '<tr><td align="center"><input type="hidden" name="op" value="sendnews" />
+    echo '<input type="hidden" name="op" value="sendnews" />
             <input type="hidden" name="news_id" value="'.$news_id.'" />
             <input type="hidden" name="title" value="'.$title.'" />
             <input class="nkButton" type="submit" value="'.__('SEND').'" /></td></tr></table></form><br />';
@@ -284,8 +303,20 @@ function sendfriend($news_id) {
 function sendnews($title, $news_id, $comment, $mail, $pseudo) {
     global $nuked, $user_ip;
 
+    $news_id = (int) $news_id;
+
     if (initCaptcha() && ! validCaptchaCode())
         return;
+
+    if ($pseudo == '' || ctype_space($pseudo)) {
+        printNotification(stripslashes(_NONICK), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    if ($mail == '' || ctype_space($mail)) {
+        printNotification(stripslashes(_BADMAIL), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
 
     $date2 = time();
     $date2 = nkDate($date2);
@@ -321,7 +352,7 @@ switch ($GLOBALS['op']) {
     break;
 
     case'categorie':
-    categorie($_REQUEST['cat_id']);
+    categorie();
     break;
 
     case'sujet':

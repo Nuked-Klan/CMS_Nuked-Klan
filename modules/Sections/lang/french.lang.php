@@ -13,7 +13,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_INDEXSECTIONS","Index");
 define("_DEF","Défaut");
-define("_COMMENTS","Commentaires");
 define("_SPDF","Format pdf imprimable");
 define("_SECTIONS","Articles");
 define("_SUGGESTART","Proposer");

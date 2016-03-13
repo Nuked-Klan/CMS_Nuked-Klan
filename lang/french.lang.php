@@ -202,7 +202,9 @@ define("_NBCAT","catégories");
 define("_INDATABASE","dans la base de données");
 define("_NOTE","Note");
 define("_NOTEXT","Vous n\'avez pas entré de texte !");
-//define("_NOTITLE","Vous n\'avez pas entré de titre !");
+define("_NOTITLE","Vous n\'avez pas entré de titre !");
+define("_BADTIME","Vous n\'avez pas entré un horaire correct !");
+//define("_BADDATE","Vous n\'avez pas entré une date correcte !");
 
 // menu
 define("_NAV","Menu");

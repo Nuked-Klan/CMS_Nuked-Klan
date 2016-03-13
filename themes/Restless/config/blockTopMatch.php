@@ -36,8 +36,6 @@ if(empty($dbrTopMatch['teamName'])){
     $dbrTopMatch['teamName'] = 'N/A';
 }
 
-$dbrTopMatch['map'] = 'N/A';
-
 if ($dbrTopMatch['map'] != '') {
     $dbrGameMaps = nkDB_selectMany(
         'SELECT name
@@ -49,6 +47,8 @@ if ($dbrTopMatch['map'] != '') {
         $dbrTopMatch['map'] = implode(', ', array_column($dbrGameMaps, 'name'));
     }
 }
+
+if ($dbrTopMatch['map'] == '') $dbrTopMatch['map'] = 'N/A';
 
 $dbrTopMatch['link'] = 'index.php?file=Wars&op=detail&war_id='.$dbrTopMatch['warid'];;
 

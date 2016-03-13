@@ -1,4 +1,4 @@
-<div id="RL_sliderWrapper" {{data}} data-width="{{elementWidth}}">
+<div id="RL_sliderWrapper" data-width="{{elementWidth}}">
     @if({{nbSliderImages}} > 0)
         @if({{nbSliderImages}} > 1)
             <div id="RL_sliderNav">

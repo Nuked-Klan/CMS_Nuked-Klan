@@ -194,7 +194,10 @@ define("_NBCAT","categorys");
 define("_INDATABASE","in the database");
 define("_NOTE","Note");
 define("_NOTEXT","Please enter a text!");
-//define("_NOTITLE","Please enter a title!");
+define("_NOTITLE","Please enter a title!");
+define("_BADTIME","Please enter a correct time!");
+//define("_BADDATE","Please enter a correct date!");
+
 // Menu
 define("_NAV","Menu");
 define("_NAVHOME","Home");

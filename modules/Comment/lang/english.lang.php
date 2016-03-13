@@ -20,9 +20,6 @@ define("_COMMENTS","Comments");
 if (! defined("_MESSAGE")) define("_MESSAGE","Message");
 define("_SEND_COM","Submit your comment");
 
-
-define("_NOTITLE","Please enter a title!");
-
 define("_COMMENTADD","Your comment was successfully added.");
 define("_CAPTCHACOM", "You do not copy the security code");
 define("_THXCOM", "Thank you for your participation");
