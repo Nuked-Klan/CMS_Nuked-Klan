@@ -21,7 +21,6 @@ define("_NEWS","News");
 define("_SUBNEWS","Subjets");
 define("_NEWSINDB","News in  thedatabase");
 define("_NONEWS","There are no News yet in the Archives");
-
 define("_APDF","PDF print format ");
 define("_AFSEND","Send news to a Friend");
 ?>

@@ -183,6 +183,8 @@ function sujet($cat_id)
 {
     global $bgcolor1, $bgcolor2, $bgcolor3, $nuked, $p;
 
+    $cat_id = (int) $cat_id;
+
     $nb_news = $nuked['max_archives'];
     $day = time();
 
