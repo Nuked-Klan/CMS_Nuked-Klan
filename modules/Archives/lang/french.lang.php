@@ -15,7 +15,7 @@ define("_ARCHIVE","Archives des News");
 define("_SUGGESTNEWS","Proposer une News");
 define("_SUBJET","Sujet");
 define("_OPTION","Options");
-define("_SEENEWS","Voir les news");
+define("_ASEENEWS","Voir les news");
 define("_DETAILAUTHOR","Voir les détails de");
 define("_NEWS","News");
 define("_SUBNEWS","Sujets");
@@ -23,5 +23,5 @@ define("_NEWSINDB","news dans la base de données");
 define("_NONEWS","Il n'y a pas encore de News dans les Archives");
 
 define("_APDF","Format pdf imprimable");
-define("_FSEND","Envoyer une news à un(e) ami(e)");
+define("_AFSEND","Envoyer une news à un(e) ami(e)");
 ?>

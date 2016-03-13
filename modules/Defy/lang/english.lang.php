@@ -21,10 +21,10 @@ define("_ICQMSN","Messenger");
 define("_CHANIRC","IRC Channel");
 define("_WEBSITE","Website");
 
-define("_HOUR","Hour");
+define("_DHOUR","Hour");
 define("_SERVER","Server");
 
-define("_MAP","Map");
+define("_DMAP","Map");
 
 define("_DMATCH","Match");
 
@@ -34,7 +34,7 @@ define("_NEWDEFY","sent a new match request :");
 
 
 define("_TRANSFERT","Add this next match");
-define("_DELETEMATCH","You are about to remove the war request by");
+define("_DDELETEMATCH","You are about to remove the war request by");
 
 define("_REMOVE","Remove");
 define("_DEFIEDELETE","War Request was successfully removed.");

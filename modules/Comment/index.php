@@ -421,7 +421,7 @@ function post_comment($im_id, $module, $titre, $texte, $pseudo) {
         $date = time();
 
         if ($date < $anti_flood && $user[1] < admin_mod("Comment")){
-            printNotification(_NOFLOOD, 'error');
+            printNotification(_CNOFLOOD, 'error');
             $url = "index.php?file=Comment&op=view_com&im_id=" . $im_id . "&module=" . $module;
             redirect($url, 2);
             closetable();

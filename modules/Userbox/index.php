@@ -95,7 +95,7 @@ function send_message($titre, $user_for, $message){
 			$date = time();
 			
 			if ($date < $anti_flood){
-				printNotification(_NOFLOOD, 'error');
+				printNotification(_UNOFLOOD, 'error');
 				redirect('index.php?file=Userbox', 2);
 				closetable();
 				return;
@@ -263,7 +263,7 @@ function index(){
             $sql_member = nkDB_execute("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '{$row['user_from']}'");
             list($pseudo) = nkDB_fetchArray($sql_member);
 
-            $etat = ($row['status'] == 1) ? _READ : _NOTREAD;
+            $etat = ($row['status'] == 1) ? _UREAD : _UNOTREAD;
 
             if ($j == 0){
                 $bg = $bgcolor2;

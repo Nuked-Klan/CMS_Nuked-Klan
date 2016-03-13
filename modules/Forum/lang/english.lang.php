@@ -15,8 +15,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 define("_PAGES","Pages");
 define("_TOPICMODIFIED","Topic was successfully modified.");
 define("_SMILEY","Smilies");
-define("_NOTITLE","Please enter a title!");
-define("_NOTEXT","Please enter a text!");
 define("_LISTSMILIES","Smilies List");
 define("_UPLOADFAILED","Uploading of file failed!!!");
 define("_ADDMODO","Add a moderator");
@@ -94,7 +92,7 @@ return array(
     'FORUM_POLL_DELETED' => 'Poll was successfully removed.',
     'FORUM_POLL_NO_EXIST' => 'Sorry, this forum poll does not exist or was removed',
     'VOTE_SUCCES'       => 'Vote was successfully added.',
-    'ALREADY_VOTE'      => 'Sorry, you have already voted!!!',
+    'ALREADY_VOTE_FORUM' => 'Sorry, you have already voted!!!',
     'BAD_VOTE_LEVEL'    => 'Sorry, you don\'t have the permission to vote!',
     'ONLY_MEMBERS_VOTE' => 'Sorry, only website members are allowed to vote!',
     'NO_OPTION'         => 'You haven\'t selected any option',

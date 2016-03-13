@@ -112,7 +112,7 @@ function send_book($email, $url, $comment)
 
     if ($user_ip == $flood_ip && $date < $anti_flood)
     {
-        printNotification(_NOFLOOD, 'error');
+        printNotification(_GNOFLOOD, 'error');
         redirect("index.php?file=Guestbook", 2);
         closetable();
     }

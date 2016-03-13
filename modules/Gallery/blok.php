@@ -39,17 +39,18 @@ if ($active == 3 || $active == 4)
             $img = $url;
         }
 
-        if (!preg_match("`%20`i", $img)) list($w, $h, $t, $a) = @getimagesize($img);
-        if ($w != "" && $w <= $img_screen1) $width = "width=\"" . $w . "\"";
-        else $width = "width=\"" . $img_screen1 . "\"";
-        $image = "<img style=\"border: 1px solid #000000;\" src=\"" . $img . "\" " . $width . " alt=\"" . $titre . "\" title=\"" .  _CLICTOSCREEN . "\" />";
-
         $titre = printSecuTags($titre);
 
-        if ($img != "")
-        {
-            echo" <td style=\"border: 1px dashed " . $bgcolor3 . ";\" align=\"center\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a><br />\n"
-            . "<a href=\"" . $url . "\" rel=\"shadowbox\" title=\"" . $titre . "\">" . $image . "</a></td>\n";
+        if ($img != "") {
+            if (!preg_match("`%20`i", $img)) list($w, $h, $t, $a) = @getimagesize($img);
+
+            if ($w != "" && $w <= $img_screen1)
+                $width = "width=\"" . $w . "\"";
+            else
+                $width = "width=\"" . $img_screen1 . "\"";
+
+            echo " <td style=\"border: 1px dashed " . $bgcolor3 . ";\" align=\"center\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a><br />\n"
+            . "<a href=\"" . $url . "\" rel=\"shadowbox\" title=\"" . $titre . "\"><img style=\"border: 1px solid #000000;\" src=\"" . $img . "\" " . $width . " alt=\"" . $titre . "\" title=\"" .  _CLICTOSCREEN . "\" /></a></td>\n";
         }
     }
     echo "</tr></table>\n";
@@ -69,15 +70,17 @@ else
         $img = $url;
     }
 
-    if (!preg_match("`%20`i", $img)) list($w, $h, $t, $a) = @getimagesize($img);
-    if ($w != "" && $w <= $img_screen1) $width = "width=\"" . $w . "\"";
-    else $width = "width=\"" . $img_screen1 . "\"";
-    $image = "<img style=\"border: 1px solid #000000;\" src=\"" . $img . "\" " . $width . " alt=\"" . $titre . "\" title=\"" .  _CLICTOSCREEN . "\" />";
+    if ( $img != "") {
+        if (!preg_match("`%20`i", $img)) list($w, $h, $t, $a) = @getimagesize($img);
 
-    if ( $img != "")
-    {
+        if ($w != "" && $w <= $img_screen1)
+            $width = "width=\"" . $w . "\"";
+        else
+            $width = "width=\"" . $img_screen1 . "\"";
+
         echo "<div style=\"text-align: center;\"><a href=\"index.php?file=Gallery&amp;op=description&amp;sid=" . $sid . "\"><b>" . $titre . "</b></a></div>\n"
-        . "<div style=\"text-align: center;\"><a href=\"" . $url . "\" rel=\"shadowbox\" title=\"" . $titre . "\">" . $image . "</a></div>\n";
+        . "<div style=\"text-align: center;\"><a href=\"" . $url . "\" rel=\"shadowbox\" title=\"" . $titre . "\">"
+        . "<img style=\"border: 1px solid #000000;\" src=\"" . $img . "\" " . $width . " alt=\"" . $titre . "\" title=\"" .  _CLICTOSCREEN . "\" /></a></div>\n";
     }
 }
 ?>

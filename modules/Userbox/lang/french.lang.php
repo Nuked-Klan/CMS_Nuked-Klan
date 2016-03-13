@@ -40,11 +40,11 @@ define("_FROM","Provenant de");
 define("_SEEDETAILUSER","Voir les détails de l'auteur");
 define("_READMESS","Lire message");
 define("_STATUS","Status");
-define("_READ","Lu");
-define("_NOTREAD","Non lu");
+define("_UREAD","Lu");
+define("_UNOTREAD","Non lu");
 define("_CHECKALL","Tout Cocher");
 define("_UNCHECKALL","Tout Décocher");
 define("_NOMESSPV","Vous n'avez pas de message...");
 define("_SENDNEWMESS","Nouveau");
-define("_NOFLOOD","Vous avez déja posté un email il y'a moins de " . $nuked['post_flood'] . " secondes,<br />veuillez patienter avant de renvoyer un autre email...");
+define("_UNOFLOOD","Vous avez déja posté un email il y'a moins de " . $nuked['post_flood'] . " secondes,<br />veuillez patienter avant de renvoyer un autre email...");
 ?>

@@ -13,7 +13,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_GUESTBOOK","Guestbook");
 
-define("_NOTEXT","Please enter a text!");
 define("_POSTADD","Message was successfully added");
 define("_POSTEDIT","Message was successfully modified.");
 define("_SIGNGUESTBOOK","Sign the Guestbook");
@@ -23,7 +22,7 @@ define("_SIGNINDB","signatures in the Guestbook");
 
 
 define("_NOSIGN","There are yet no signatures");
-define("_NOFLOOD","Do not flood! Please wait a moment...");
+define("_GNOFLOOD","Do not flood! Please wait a moment...");
 
 define("_ADMINGUESTBOOK","Guestbook Administration");
 

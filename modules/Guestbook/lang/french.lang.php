@@ -13,8 +13,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_GUESTBOOK","Livre d'or");
 
-
-define("_NOTEXT","Vous n'avez pas entré votre texte !");
 define("_POSTADD","Votre message a bien été ajouté");
 define("_POSTEDIT","Message modifié avec succès.");
 define("_SIGNGUESTBOOK","Signer le Livre d'Or");
@@ -23,7 +21,7 @@ define("_GPOSTED","Posté");
 define("_SIGNINDB","signatures dans le livre d'or");
 
 define("_NOSIGN","Il n'y a pas encore de message");
-define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
+define("_GNOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
 
 define("_ADMINGUESTBOOK","Administration Livre D'or");
 

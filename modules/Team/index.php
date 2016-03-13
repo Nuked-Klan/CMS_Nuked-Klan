@@ -70,7 +70,7 @@ function prepareTeamMemberData(&$teamMember, $team) {
     $teamMember['fullName'] = $team['tag'] . $teamMember['nickname'] . $team['tag2'];
     $teamMember['nickname'] = nkHtmlEntityDecode($teamMember['nickname']);
 
-    if ($teamMember['rank'] != '' && $teamMember['rank'] > 0) {
+    if (isset($teamMember['rank']) && $teamMember['rank'] != '' && $teamMember['rank'] > 0) {
         $dbrTeamRank = nkDB_selectOne(
             'SELECT titre
             FROM '. TEAM_RANK_TABLE .'
@@ -104,6 +104,8 @@ function prepareTeamMemberData(&$teamMember, $team) {
  * @return void
  */
 function teamList() {
+    global $nuked;
+
     $sql = 'SELECT cid, titre, tag, tag2, game, coverage
         FROM '. TEAM_TABLE;
 

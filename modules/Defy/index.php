@@ -130,7 +130,7 @@ function form(){
             . "<tr><td style=\"width: 20%;\"><b>" . _CHANIRC . " : </b></td><td><input type=\"text\" name=\"irc\" size=\"25\" /></td></tr>\n"
             . "<tr><td style=\"width: 20%;\"><b>" . _WEBSITE . " : </b></td><td><input type=\"text\" name=\"url\" value=\"http://\" size=\"30\" /></td></tr>\n"
             . "<tr><td style=\"width: 20%;\"><b>" . _DATE . " : </b></td><td><input type=\"text\" name=\"date\" value=\"" . $date . "\" size=\"15\" /></td></tr>\n"
-            . "<tr><td style=\"width: 20%;\"><b>" . _HOUR . " : </b></td><td><input type=\"text\" name=\"heure\" value=\"" . $hour . "\" size=\"6\" /></td></tr>\n"
+            . "<tr><td style=\"width: 20%;\"><b>" . _DHOUR . " : </b></td><td><input type=\"text\" name=\"heure\" value=\"" . $hour . "\" size=\"6\" /></td></tr>\n"
             . "<tr><td style=\"width: 20%;\"><b>" . _GAME . " : </b></td><td><select name=\"game\">\n";
 
     $sql = nkDB_execute('SELECT id, name FROM ' . GAMES_TABLE . ' ORDER BY name');
@@ -141,7 +141,7 @@ function form(){
 
     echo "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _SERVER . " : </b></td><td><input type=\"text\" name=\"serveur\" value=\"" . $server_ip . "\" size=\"30\" /></td></tr>\n"
             . "<tr><td style=\"width: 20%;\"><b>" . _TYPE . " : </b></td><td><input type=\"text\" name=\"type\" value=\"\" size=\"20\" /></td></tr>\n"
-            . "<tr><td style=\"width: 20%;\"><b>" . _MAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
+            . "<tr><td style=\"width: 20%;\"><b>" . _DMAP . " : </b></td><td><input type=\"text\" name=\"map\" value=\"\" size=\"20\" /></td></tr>\n"
             . "<tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
             
     echo "<tr><td colspan=\"2\" align=\"center\">";

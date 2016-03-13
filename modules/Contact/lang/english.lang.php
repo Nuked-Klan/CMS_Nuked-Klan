@@ -13,10 +13,10 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define('_CONTACT','Contact Form');
 define('_CONTACTFORM','Please fill out the form in order to contact us.');
-define('_YNICK','Your name');
+define('_CYNICK','Your name');
 define('_YMAIL','Your E-mail');
 define('_YSUBJECT','Topic');
-define('_YCOMMENT','The message');
+define('_CYCOMMENT','The message');
 define('_NOCONTENT','You forgot to fill in required fields');
 //define('_NONICK','Please enter your name !');
 define('_NOSUBJECT','Please enter the topic !');

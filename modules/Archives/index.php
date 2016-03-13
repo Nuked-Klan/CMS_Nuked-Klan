@@ -142,7 +142,7 @@ function index()
             list($categorie) = nkDB_fetchArray($sql3);
             $categorie = nkHtmlEntities($categorie);
 
-            echo "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Archives&amp;op=sujet&amp;cat_id=" . $cat . "\" title= \"" . _SEENEWS . "&nbsp;" . $categorie . "\">" . $categorie . "</a></td>\n";
+            echo "<td style=\"width: 20%;\" align=\"center\"><a href=\"index.php?file=Archives&amp;op=sujet&amp;cat_id=" . $cat . "\" title= \"" . _ASEENEWS . "&nbsp;" . $categorie . "\">" . $categorie . "</a></td>\n";
         }
         else
         {
@@ -162,7 +162,7 @@ function index()
         echo "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">"
         . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _APDF . "\" /></a>"
-        . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a></td></tr>\n";
+        . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _AFSEND . "\" /></a></td></tr>\n";
     }
 
     if ($count == 0)
@@ -304,7 +304,7 @@ function sujet($cat_id)
         echo "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">"
         . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _APDF . "\" /></a>"
-        . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a></td></tr>\n";
+        . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _AFSEND . "\" /></a></td></tr>\n";
     }
 
     if ($count == 0)

@@ -15,12 +15,12 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 //Resctriction to logged users
 define("_NONICKNAME","Identifiez vous pour pouvoir poster un message !");
 // End
-define("_NOTEXT","Vous n\'avez pas entré de texte !");
+
 define("_YOURMESS","");
 define("_REFRESH","Rafraîchir");
 define("_SEEARCHIVES","Voir les archives");
 define("_SHOUTSUCCES","Message envoyé avec succès.");
-define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
+define("_TNOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
 define("_SHOUTINDB","messages dans la base de données");
 define("_LISTSMILIES","Liste des smilies");
 define("_DELETETEXT","Vous êtes sur le point de supprimer le message de");

@@ -11,7 +11,6 @@
  */
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
-define("_NOTEXT","Please enter a text!");
 // define("_NONICKNAME","Please enter your nickname!");
 //Resctriction to logged users
 define("_NONICKNAME","Log in to post a message !");
@@ -19,7 +18,7 @@ define("_NONICKNAME","Log in to post a message !");
 define("_REFRESH","Refresh");
 define("_SEEARCHIVES","See archives");
 define("_SHOUTSUCCES","Message was successfully posted.");
-define("_NOFLOOD","No flood! Please wait a moment...");
+define("_TNOFLOOD","No flood! Please wait a moment...");
 define("_SHOUTINDB","messages in the database");
 define("_LISTSMILIES","Smilies List");
 define("_DELETETEXT","You are about to remove the message of");

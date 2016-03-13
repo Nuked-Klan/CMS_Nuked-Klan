@@ -22,7 +22,6 @@ define("_SEND_COM","Soumettre votre commentaire");
 
 
 define("_NOTITLE","Vous n\'avez pas entré de titre !");
-define("_NOTEXT","Vous n\'avez pas entré de texte !");
 define("_COMMENTADD","Votre commentaire a bien été enregistré");
 define("_CAPTCHACOM", "Vous n\'avez pas recopié le code de sécurité !");
 define("_THXCOM", "Merci de votre participation");
@@ -37,7 +36,7 @@ define("_DELCOMMENT","Vous êtes sur le point de supprimer le commentaire de");
 
 define("_COMMENTDEL","Commentaire effacé avec succès.");
 define("_COMMENTMODIF","Commentaire modifié avec succès.");
-define("_NOFLOOD","Vous avez déjà posté un message il y a peu de temps, veuillez patienter quelques instants...");
+define("_CNOFLOOD","Vous avez déjà posté un message il y a peu de temps, veuillez patienter quelques instants...");
 define("_ACTIONMODIFCOM","a modifié un commentaire");
 define("_ACTIONDELCOM","a supprimé un commentaire");
 define("_ACTIONMODIFCOMMOD","a modifié la liste des modules commentés");

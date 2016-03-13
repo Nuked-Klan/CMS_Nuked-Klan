@@ -408,7 +408,7 @@ function addUserVote() {
                     printNotification(__('VOTE_SUCCES'), 'success');
                 }
                 else {
-                    printNotification(__('ALREADY_VOTE'), 'warning');
+                    printNotification(__('ALREADY_VOTE_FORUM'), 'warning');
                 }
             }
             else {

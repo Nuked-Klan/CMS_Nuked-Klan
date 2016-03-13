@@ -46,10 +46,10 @@ function index(){
     echo '<div style="width: 80%; margin: auto">
     <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
     <p style="text-align: center; margin-bottom: 20px"><big><b>' . _CONTACT . '</b></big><br /><em>' . _CONTACTFORM . '</em></p>
-    <p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _YNICK . ' : </label>&nbsp;' . $input_user . '</p>
+    <p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _CYNICK . ' : </label>&nbsp;' . $input_user . '</p>
     <p><label for="ns_email" style="float: left; width: 20%; font-weight: bold">' . _YMAIL . ' : </label>&nbsp;<input id="ns_email" type="text" name="mail" value="" style="width: 50%" /></p>
     <p><label for="ns_sujet" style="float: left; width: 20%; font-weight: bold">' . _YSUBJECT . ' : </label>&nbsp;<input id="ns_sujet" type="text" name="sujet" value="" style="width: 50%" /></p>
-    <p style="font-weight: bold; margin-top: 10px">' . _YCOMMENT . ' : <br /><textarea id="e_basic" name="corps" cols="60" rows="12"></textarea></p>';
+    <p style="font-weight: bold; margin-top: 10px">' . _CYCOMMENT . ' : <br /><textarea id="e_basic" name="corps" cols="60" rows="12"></textarea></p>';
 
     // Affichage du Captcha.
     echo '<div style="text-align: center">',"\n";

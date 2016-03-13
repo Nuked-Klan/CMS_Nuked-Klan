@@ -267,9 +267,9 @@ function sendfriend($news_id) {
             <table style="margin:0 auto;text-align:left;" width="60%" cellspacing="1" cellpadding="1" border="0">
             <tr><td align="center"><br /><big><b>'._FSEND.'</b></big><br /><br />'._YOUSUBMIT.' :<br /><br />
             <b>'.$title.'</b><br /><br /></td></tr><tr><td align="left">
-            <b>'._YNICK.' : </b>&nbsp;<input type="text" id="sf_pseudo" name="pseudo" value=""'.$user[2].'" size="20" /></td></tr>
+            <b>'._NYNICK.' : </b>&nbsp;<input type="text" id="sf_pseudo" name="pseudo" value=""'.$user[2].'" size="20" /></td></tr>
             <tr><td><b>'._FMAIL.' : </b>&nbsp;<input type="text" id="sf_mail" name="mail" value="mail@gmail.com" size="25" /></td></tr>
-            <tr><td><b>'._YCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
+            <tr><td><b>'._NYCOMMENT.' : </b><br /><textarea name="comment" style="width:100%;" rows="10"></textarea></td></tr>';
 
     if (initCaptcha()) echo create_captcha();
 
@@ -293,7 +293,7 @@ function sendnews($title, $news_id, $comment, $mail, $pseudo) {
     $pseudo = trim($pseudo);
 
     $subject = $nuked['name'].', '.$date2;
-    $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._YCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
+    $corps = $pseudo." (IP : $user_ip) "._READNEWS." $title, "._NEWSURL."\r\n{$nuked['url']}/index.php?file=News&op=index_comment&news_id=$news_id\r\n\r\n"._NYCOMMENT." : $comment\r\n\r\n\r\n{$nuked['name']} - {$nuked['slogan']}";
     $from = "From: {$nuked['name']} <{$nuked['mail']}>\r\nReply-To: ".$nuked['mail'];
 
     $subject = @nkHtmlEntityDecode($subject);

@@ -193,7 +193,8 @@ define("_THEREIS","There are");
 define("_NBCAT","categorys");
 define("_INDATABASE","in the database");
 define("_NOTE","Note");
-
+define("_NOTEXT","Please enter a text!");
+//define("_NOTITLE","Please enter a title!");
 // Menu
 define("_NAV","Menu");
 define("_NAVHOME","Home");

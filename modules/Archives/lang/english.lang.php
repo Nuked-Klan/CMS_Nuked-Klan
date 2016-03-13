@@ -15,7 +15,7 @@ define("_ARCHIVE","News Archives");
 define("_SUGGESTNEWS","Submit News");
 define("_SUBJET","Subject");
 define("_OPTION","Options");
-define("_SEENEWS","View the news");
+define("_ASEENEWS","View the news");
 define("_DETAILAUTHOR","View the details of");
 define("_NEWS","News");
 define("_SUBNEWS","Subjets");
@@ -23,5 +23,5 @@ define("_NEWSINDB","News in  thedatabase");
 define("_NONEWS","There are no News yet in the Archives");
 
 define("_APDF","PDF print format ");
-define("_FSEND","Send news to a Friend");
+define("_AFSEND","Send news to a Friend");
 ?>

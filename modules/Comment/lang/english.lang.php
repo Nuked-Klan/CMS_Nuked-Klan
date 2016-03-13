@@ -22,7 +22,7 @@ define("_SEND_COM","Submit your comment");
 
 
 define("_NOTITLE","Please enter a title!");
-define("_NOTEXT","Please enter a text!");
+
 define("_COMMENTADD","Your comment was successfully added.");
 define("_CAPTCHACOM", "You do not copy the security code");
 define("_THXCOM", "Thank you for your participation");
@@ -37,7 +37,7 @@ define("_DELCOMMENT","You are about to remove the comment of");
 
 define("_COMMENTDEL","Comment was successfully removed.");
 define("_COMMENTMODIF","Comment was successfully modified.");
-define("_NOFLOOD","You have already submitted a post very recently, please wait a bit...");
+define("_CNOFLOOD","You have already submitted a post very recently, please wait a bit...");
 define("_ACTIONMODIFCOM","has modified a comment");
 define("_ACTIONDELCOM","has deleted a comment");
 

@@ -14,8 +14,6 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 /*
 define("_PAGES","Pages");
 define("_SMILEY","Smilies");
-define("_NOTITLE","Vous n\'avez pas entré de titre !");
-define("_NOTEXT","Vous n\'avez pas entré de texte !");
 define("_LISTSMILIES","Liste des smilies");
 define("_UPLOADFAILED","Impossible d'uploader ce fichier !!!");
 define("_NONEXIST","n'existe pas dans la base de données.");
@@ -94,7 +92,7 @@ return array(
     'FORUM_POLL_DELETED' => 'Sondage supprimé avec succès.',
     'FORUM_POLL_NO_EXIST' => 'Désolé ce sondage n\'existe pas ou a été supprimé',
     'VOTE_SUCCES'       => 'Votre vote a bien été pris en compte.',
-    'ALREADY_VOTE'      => 'Désolé vous avez déjà Voté !!',
+    'ALREADY_VOTE_FORUM' => 'Désolé vous avez déjà Voté !!',
     'BAD_VOTE_LEVEL'    => 'Désolé vous n\'avez pas le niveau requis pour voter !!',
     'ONLY_MEMBERS_VOTE' => 'Désolé seul les membres peuvent voter !!',
     'NO_OPTION'         => 'Vous n\'avez pas cocher de réponse',

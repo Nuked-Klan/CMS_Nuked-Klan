@@ -201,6 +201,8 @@ define("_THEREIS","Il y a");
 define("_NBCAT","catégories");
 define("_INDATABASE","dans la base de données");
 define("_NOTE","Note");
+define("_NOTEXT","Vous n\'avez pas entré de texte !");
+//define("_NOTITLE","Vous n\'avez pas entré de titre !");
 
 // menu
 define("_NAV","Menu");

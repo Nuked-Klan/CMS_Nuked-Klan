@@ -361,7 +361,7 @@ function submit() {
             && $user_ip == $dbrLastTextboxMsg['ip']
             && $date < ($dbrLastTextboxMsg['date'] + 60)
         ) {
-            printNotification(nkHtmlEntities(_NOFLOOD), 'error');
+            printNotification(nkHtmlEntities(_TNOFLOOD), 'error');
 
             if (! isset($_POST['ajax'])) redirect($redirection, 2);
         }
