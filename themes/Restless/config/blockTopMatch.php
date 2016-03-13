@@ -36,8 +36,19 @@ if(empty($dbrTopMatch['teamName'])){
     $dbrTopMatch['teamName'] = 'N/A';
 }
 
-$dbrTopMatch['map'] = explode('|', $dbrTopMatch['map']);
-$dbrTopMatch['map'] = implode(', ', $dbrTopMatch['map']);
+$dbrTopMatch['map'] = 'N/A';
+
+if ($dbrTopMatch['map'] != '') {
+    $dbrGameMaps = nkDB_selectMany(
+        'SELECT name
+        FROM '. GAMES_MAP_TABLE .'
+        WHERE id IN ('. str_replace('|', ',', $dbrTopMatch['map']) .')'
+    );
+
+    if ($dbrGameMaps) {
+        $dbrTopMatch['map'] = implode(', ', array_column($dbrGameMaps, 'name'));
+    }
+}
 
 $dbrTopMatch['link'] = 'index.php?file=Wars&op=detail&war_id='.$dbrTopMatch['warid'];;
 
