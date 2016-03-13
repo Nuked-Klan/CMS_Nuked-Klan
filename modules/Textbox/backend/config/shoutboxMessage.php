@@ -14,7 +14,7 @@ function getShoutboxMessageListCfg() {
         'fields' => array(
             'date'      => array('label' => __('DATE')),
             'auteur'    => array('label' => __('NICKNAME')),
-            'ip'        => array('label' => __('IP'))
+            'ip'        => array('label' => __('IP_ADRESS'))
         ),
         'edit' => array(),
         'delete' => array(

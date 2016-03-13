@@ -10,11 +10,12 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 function affich_block_counter($blok){
     global $nuked;
 
+    $visites = 0;
+
     $sql = nkDB_execute('SELECT count FROM ' . STATS_TABLE . ' WHERE type = "pages"');
+
     while (list($count) = nkDB_fetchArray($sql))
-    {
-        $visites = $visites + $count;
-    }
+        $visites += $count;
 
     $nb_digits = max(strlen($visites), 8);
     $visites = substr('0000000000' . $visites, - $nb_digits);
@@ -41,6 +42,8 @@ function edit_block_counter($bid){
     $sql = nkDB_execute('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
+
+    $checked0 = $checked1 = $checked2 = '';
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';

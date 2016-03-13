@@ -1252,8 +1252,8 @@ function translate($languageFile) {
 
     if (defined('DEVELOPMENT') && DEVELOPMENT && is_array($newArrayModLang)) {
         foreach ($newArrayModLang as $alias => $i18n) {
-            if (array_key_exists($alias, $arrayModLang))
-                trigger_error($alias .' translation is already defined.', E_USER_NOTICE);
+            if (array_key_exists($alias, $arrayModLang) && $arrayModLang[$alias] != $i18n)
+                trigger_error($alias .' translation is modified.', E_USER_NOTICE);
         }
     }
 

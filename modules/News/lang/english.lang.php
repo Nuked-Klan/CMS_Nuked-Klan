@@ -50,8 +50,8 @@ define("_NMONTH","MONTH");
 define("_NUMBERARCHIVE","Number of news per archive page");
 define("_NUMBERNEWS","Number of news per news page");
 
-define("_URLIMG","Image's url");
-define("_UPIMG","Upload image");
+define("_NURLIMG","Image's url");
+define("_NUPIMG","Upload image");
 
 
 define("_ACTIONADDNEWS","has added the news");

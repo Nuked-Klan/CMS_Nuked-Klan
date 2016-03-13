@@ -569,7 +569,7 @@ function modif_position($cid, $method){
     list($titre, $position) = nkDB_fetchArray($sqlc);
     $titre = nkDB_realEscapeString(stripslashes($titre));
     if ($position <=0 AND $method == "up"){
-        printNotification(_CATERRORPOS, 'error');
+        printNotification(_LCATERRORPOS, 'error');
         redirect("index.php?file=Links&page=admin&op=main_cat", 2);
         return;
     }
@@ -596,7 +596,7 @@ function main_broken(){
             . "\n"
             . "function delbroke()\n"
             . "{\n"
-            . "if (confirm('" . _ERASEALLLIST . "'))\n"
+            . "if (confirm('" . _LERASEALLLIST . "'))\n"
             . "{document.location.href = 'index.php?file=Links&page=admin&op=del_broken';}\n"
             . "}\n"
             . "\n"
@@ -604,7 +604,7 @@ function main_broken(){
             . "</script>\n";
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-            . "<div class=\"content-box-header\"><h3>" . _BROKENLINKS . "</h3>\n"
+            . "<div class=\"content-box-header\"><h3>" . _LBROKENLINKS . "</h3>\n"
             . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Links.php\" rel=\"modal\">\n"
             . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
             . "</div></div>\n"
@@ -617,7 +617,7 @@ function main_broken(){
             . "<td style=\"width: 10%;\" align=\"center\"><b>#</b></td>\n"
             . "<td style=\"width: 35%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
             . "<td style=\"width: 10%;\" align=\"center\"><b>X</b></td>\n"
-            . "<td style=\"width: 15%;\" align=\"center\"><b>" . _ERASE . "</b></td>\n"
+            . "<td style=\"width: 15%;\" align=\"center\"><b>" . _LERASE . "</b></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
             . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
 
@@ -636,7 +636,7 @@ function main_broken(){
                     . "<td style=\"width: 10%;\" align=\"center\">" . $l . "</td>\n"
                     . "<td style=\"width: 35%;\"><a href=\"" . $url . "\" title=\"" . $url . "\" onclick=\"window.open(this.href); return false;\"><b>" . $titre . "</b></a></td>\n"
                     . "<td style=\"width: 10%;\" align=\"center\">" . $broke . "</td>\n"
-                    . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=del_broke&amp;link_id=" . $link_id. "\"><img style=\"border: 0;\" src=\"modules/Links/images/del.gif\" alt=\"\" title=\"" . _ERASEFROMLIST . "\" /></a></td>\n"
+                    . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=del_broke&amp;link_id=" . $link_id. "\"><img style=\"border: 0;\" src=\"modules/Links/images/del.gif\" alt=\"\" title=\"" . _LERASEFROMLIST . "\" /></a></td>\n"
                     . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Links&amp;page=admin&amp;op=edit_link&amp;link_id=" . $link_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISLINK . "\" /></a></td>\n"
                     . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:del_link('" . addslashes($titre) . "', '" . $link_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISLINK . "\" /></a></td></tr>\n";
         }
@@ -645,7 +645,7 @@ function main_broken(){
         echo "<tr><td align=\"center\" colspan=\"6\">" . _NOLINKINDB . "</td></tr>\n";
     }
 
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"javascript:delbroke();\">" . _ERASELIST . "</a>\n"
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"javascript:delbroke();\">" . _LERASELIST . "</a>\n"
             . "<a class=\"buttonLink\" href=\"index.php?file=Links&amp;page=admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
@@ -699,7 +699,7 @@ function nkAdminMenu($tab = 1) {
             <li <?php echo ($tab == 4 ? $class : ''); ?>>
                 <a class="shortcut-button" href="index.php?file=Links&amp;page=admin&amp;op=main_broken">
                     <img src="modules/Admin/images/icons/remove_link.png" alt="icon" />
-                    <span><?php echo _BROKENLINKS; ?></span>
+                    <span><?php echo _LBROKENLINKS; ?></span>
                 </a>
             </li>
             <li <?php echo ($tab == 5 ? $class : ''); ?>>

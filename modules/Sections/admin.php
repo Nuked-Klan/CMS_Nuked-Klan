@@ -502,7 +502,7 @@ function send_cat($parentid, $titre, $description, $position){
     $titre = nkDB_realEscapeString(stripslashes($titre));
 
     if (empty($titre)){
-        printNotification(_TITLECATFORGOT, 'error');
+        printNotification(_STITLECATFORGOT, 'error');
         redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
     }
     else {
@@ -575,7 +575,7 @@ function modif_cat($cid, $parentid, $titre, $description, $position){
     $titre = nkDB_realEscapeString(stripslashes($titre));
 
     if (empty($titre)){
-        printNotification(_TITLECATFORGOT, 'error');
+        printNotification(_STITLECATFORGOT, 'error');
 
         redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
     } else {
@@ -666,7 +666,7 @@ function modif_position($cid, $method){
     $sql = nkDB_execute("SELECT secname, position FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     list($titre, $position) = nkDB_fetchArray($sql);
     if ($position <= 0 AND $method == "up"){
-        printNotification(_CATERRORPOS, 'error');
+        printNotification(_SCATERRORPOS, 'error');
         redirect("index.php?file=Sections&page=admin&op=main_cat", 2);
         return;
     }

@@ -11,6 +11,8 @@
  */
 defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
+global $language, $bgcolor3;
+
 translate('modules/News/lang/'. $language .'.lang.php');
 
 

@@ -197,6 +197,10 @@ define("_MODIF","Modifier");
 define("_TEAM","Team");
 define("_CANCEL","Annuler");
 define("_GAME","Jeu");
+define("_THEREIS","Il y a");
+define("_NBCAT","catégories");
+define("_INDATABASE","dans la base de données");
+define("_NOTE","Note");
 
 // menu
 define("_NAV","Menu");

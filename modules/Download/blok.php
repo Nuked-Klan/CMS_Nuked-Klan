@@ -89,8 +89,8 @@ if ($active == 3 || $active == 4) {
         if ($tcategory != "") echo $tcategory . "<br />\n";
     }
 
-    echo "</td></tr><tr><td style=\"width: 45%;\" align=\"right\"><a href=\"index.php?file=Download&amp;op=classe&amp;orderby=news\"><small>+ " . _MORELAST . "</small></a></td>\n"
-       . "<td style=\"width: 10%;\"></td><td style=\"width: 45%;\" align=\"right\"><a href=\"index.php?file=Download&amp;op=classe&amp;orderby=count\"><small>+ " . _MORETOP . "</small></a></td></tr></table>\n";
+    echo "</td></tr><tr><td style=\"width: 45%;\" align=\"right\"><a href=\"index.php?file=Download&amp;op=classe&amp;orderby=news\"><small>+ " . _DMORELAST . "</small></a></td>\n"
+       . "<td style=\"width: 10%;\"></td><td style=\"width: 45%;\" align=\"right\"><a href=\"index.php?file=Download&amp;op=classe&amp;orderby=count\"><small>+ " . _DMORETOP . "</small></a></td></tr></table>\n";
 } else {
     $i = 0;
     $sql = nkDB_execute("SELECT id, titre, date, description FROM " . DOWNLOAD_TABLE . " WHERE " . $visiteur . " >= level ORDER BY date DESC LIMIT 0, 10");

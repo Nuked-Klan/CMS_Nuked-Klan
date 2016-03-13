@@ -45,6 +45,8 @@ function edit_block_language($bid){
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
 
+    $checked0 = $checked1 = $checked2 = '';
+
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';
     else $checked0 = 'selected="selected"';

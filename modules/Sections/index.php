@@ -262,7 +262,7 @@ function article($artid){
             . "<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n"
             . "<tr><td style=\"width: 5%;\">&nbsp;</td>\n"
             . "<td style=\"width: 90%;\" align=\"center\"><big><b>" . $title . "</b></big></td>\n"
-            . "<td style=\"width: 5%;\" align=\"center\"><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Sections&amp;op=pdf&amp;artid=" . $artid . "','projet','toolbar=yes,location=no,directories=no,scrollbars=yes,resizable=yes')\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a></td></tr></table></td></tr>\n"
+            . "<td style=\"width: 5%;\" align=\"center\"><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Sections&amp;op=pdf&amp;artid=" . $artid . "','projet','toolbar=yes,location=no,directories=no,scrollbars=yes,resizable=yes')\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _SPDF . "\" /></a></td></tr></table></td></tr>\n"
             . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _CAT . " :</b> " . $category . "</td></tr>\n"
             . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _ADDTHE . " :</b> " . $date . "</td></tr>\n";
 
@@ -422,8 +422,8 @@ function classe(){
         if ($_REQUEST['orderby'] == "news") echo "<b>" . _DATE . "</b> | ";
         else echo "<a href=\"index.php?file=Sections&amp;op=" . $op . "&amp;orderby=news&amp;secid=" . $sid . "\">" . _DATE . "</a> | ";
 
-        if ($_REQUEST['orderby'] == "count") echo "<b>" . _TOPFILE . "</b> | ";
-        else echo "<a href=\"index.php?file=Sections&amp;op=" . $op . "&amp;orderby=count&amp;secid=" . $sid . "\">" . _TOPFILE . "</a> | ";
+        if ($_REQUEST['orderby'] == "count") echo "<b>" . _STOPFILE . "</b> | ";
+        else echo "<a href=\"index.php?file=Sections&amp;op=" . $op . "&amp;orderby=count&amp;secid=" . $sid . "\">" . _STOPFILE . "</a> | ";
 
         if ($_REQUEST['orderby'] == "name") echo "<b>" . _NAME . "</b> | ";
         else echo"    <a href=\"index.php?file=Sections&amp;op=" . $op . "&amp;orderby=name&amp;secid=" . $sid . "\">" . _NAME . "</a> | ";
@@ -470,7 +470,7 @@ function classe(){
 
                 nkDB_dataSeek($sqlhot, 0);
                 while (list($id_hot) = nkDB_fetchArray($sqlhot)){
-                    if ($artid == $id_hot && $nb_art > 1 && $counter > 9) $att .= "&nbsp;&nbsp;" . _HOT;
+                    if ($artid == $id_hot && $nb_art > 1 && $counter > 9) $att .= "&nbsp;&nbsp;" . _SHOT;
                 }
 
                 if ($date != "") $alt = "title=\"" . _ADDTHE . "&nbsp;" . nkDate($date) . "\"";
@@ -493,7 +493,7 @@ function classe(){
 
                         echo "<td style=\"width: 100%;\">" .  $img . " <a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "\" style=\"text-decoration: none\"><big><b>" . $title . "</b></big></a>" . $att . "</td>\n"
                         . "<td><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Sections&amp;op=pdf&amp;artid=" . $artid . "','projet','toolbar=yes,location=no,directories=no,scrollbars=yes,resizable=yes')\">"
-                        . "<img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a></td></tr>\n";
+                        . "<img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _SPDF . "\" /></a></td></tr>\n";
 
                 if ($texte != ""){
                     echo "<tr><td colspan=\"2\">" . $texte . "</td></tr>\n";

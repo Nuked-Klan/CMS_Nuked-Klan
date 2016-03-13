@@ -11,15 +11,14 @@
  */
 defined('INDEX_CHECK') or exit('You can\'t run this file alone.');
 
-global $nuked, $language, $bgcolor2, $bgcolor3;
+global $nuked, $theme, $language, $visiteur, $bgcolor2, $bgcolor3;
 
 translate('modules/Team/lang/'. $language .'.lang.php');
 
+require_once 'Includes/nkUserSocial.php';
 
 if ($active == 3 || $active == 4)
 {
-    require_once 'Includes/nkUserSocial.php';
-
     echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
         . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
         . "<td style=\"width: 35%;\" align=\"center\">&nbsp;<b>" . __('NICK') . "</b></td>\n";
@@ -88,7 +87,15 @@ else
 
     $sql = nkDB_execute("SELECT pseudo, email, country FROM " . USER_TABLE . " " . $where . " ORDER BY ordre, pseudo");
 
-    $userSocialImgCfg = nkUserSocial_getImgConfig();
+    if (is_file($themeImg = 'themes/'. $theme .'/images/email.png'))
+        $emailImg = $themeImg;
+    else
+        $emailImg = 'images/user/email.png';
+
+    if (is_file($themeImg = 'themes/'. $theme .'/images/emailna.png'))
+        $emailNaImg = $themeImg;
+    else
+        $emailNaImg = 'images/user/emailna.png';
 
     while (list($pseudo, $email, $country) = nkDB_fetchArray($sql)) {
         list($pays, $ext) = explode ('.', $country);
@@ -100,14 +107,15 @@ else
         . "<td style=\"width: 20%;\" align=\"center\">";
 
         if ($visiteur >= $nuked['user_social_level'] && $email != '') {
-            return '<a href="'. str2htmlEntities('mailto:'. $email) .'"><img class="nkNoBorder" src="'. $imgConfig['email'] .'" alt="" title="'. __('SEND_EMAIL') .'" /></a>';
+            echo '<a href="'. str2htmlEntities('mailto:'. $email) .'"><img class="nkNoBorder" src="'. $emailImg .'" alt="" title="'. __('SEND_EMAIL') .'" /></a>';
         }
         else {
-            return '<img class="nkNoBorder" src="images/user/'. $imgConfig['emailna'] .'.png" alt="" />';
+            echo '<img class="nkNoBorder" src="images/user/'. $emailNaImg .'.png" alt="" />';
         }
 
         echo "</td></tr>\n";
     }
+
     echo "</table>\n";
 }
 

@@ -35,12 +35,11 @@ define("_NEXTMONTH","Next month");
 define("_EVENT","Event");
 define("_CMATCH","Match");
 define("_CVS","vs");
-define("_STYLE","Style");
+define("_CSTYLE","Style");
 
-define("_MAPS","Maps");
 define("_ADDEDBY","Added by");
 
-define("_MATCHDAY","There is a match today  !!!");
+//define("_MATCHDAY","There is a match today  !!!");
 define("_GOSEE","Go to see");
 define("_LINEUP","Line Up");
 define("_FREE","Available");

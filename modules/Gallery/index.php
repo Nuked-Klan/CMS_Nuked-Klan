@@ -241,7 +241,7 @@ function description($sid)
 
     if ($url_file != "")
     {
-        $button = "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _DOWNFILE . "\" onclick=\"window.open('" . $url_file . "')\" /></div><br />\n";
+        $button = "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _GDOWNFILE . "\" onclick=\"window.open('" . $url_file . "')\" /></div><br />\n";
     }
     else
     {
@@ -367,8 +367,8 @@ function description($sid)
     }
 
     echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _ADDTHE . " :</b>  " . $date . "</td></tr>\n"
-    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _FILENAME . " :</b> " . $name . "</td></tr>\n"
-    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SEEN . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n";
+    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _GFILENAME . " :</b> " . $name . "</td></tr>\n"
+    . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _GSEEN . " :</b> " . $count . "&nbsp;" . _GTIMES . "</td></tr>\n";
 
     $sql = nkDB_execute(
         'SELECT active
@@ -623,11 +623,11 @@ function classe()
 
         if ($_REQUEST['orderby'] == "count")
         {
-            echo "<b>" . _TOPFILE . "</b> | ";
+            echo "<b>" . _GTOPFILE . "</b> | ";
         }
         else
         {
-            echo "<a href=\"index.php?file=Gallery&amp;op=" . $op . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _TOPFILE . "</a> | ";
+            echo "<a href=\"index.php?file=Gallery&amp;op=" . $op . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _GTOPFILE . "</a> | ";
         }
 
         if ($_REQUEST['orderby'] == "note" && nivo_mod('Vote') > -1)

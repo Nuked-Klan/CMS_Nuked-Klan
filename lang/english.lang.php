@@ -189,6 +189,10 @@ define("_MODIF","Modify");
 define("_TEAM","Team");
 define("_CANCEL","Cancel");
 define("_GAME","Game");
+define("_THEREIS","There are");
+define("_NBCAT","categorys");
+define("_INDATABASE","in the database");
+define("_NOTE","Note");
 
 // Menu
 define("_NAV","Menu");

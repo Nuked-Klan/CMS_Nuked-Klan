@@ -13,22 +13,19 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_NEWSFILE","New");
 define("_POPULAR","Popular");
-define("_TOPFILE","Popularity");
+define("_DTOPFILE","Popularity");
 define("_SUGGESTFILE","Suggest");
-define("_SEEDECS","View the details");
+//define("_SEEDECS","View the details");
 define("_DOWNLOAD","Downloads");
-define("_THEREIS","There are");
-define("_NBCAT","Catégories");
-define("_INDATABASE","in database");
 define("_FILES","Files");
 
-define("_HITS","Hits");
+//define("_HITS","Hits");
 define("_MAX","Max");
 
-define("_DOWNFILE","Download this File");
+define("_DDOWNFILE","Download this File");
 define("_DOWNLOADED","Download");
-define("_SEEN","Hit");
-define("_TIMES","times");
+define("_DSEEN","Hit");
+define("_DTIMES","times");
 define("_EDITTHE","Edit");
 define("_CAPTURE","Screen capture");
 define("_COMPATIBLE","Compatibilities");
@@ -44,45 +41,43 @@ define("_LIEN1","Link 1");
 define("_LIEN2","Link 2");
 define("_LIEN3","Link 3");
 
-define("_THXBROKENLINK","Thank you for having informed us of this broken link");
-define("_INDICATELINK","Report broken link");
+define("_DTHXBROKENLINK","Thank you for having informed us of this broken link");
+define("_DINDICATELINK","Report broken link");
 
-define("_NOTE","Note");
 define("_SITE","Site");
 define("_CLICHERE","Click here");
 define("_EXT","File type");
-define("_FILENAME","File name");
-define("_MORETOP","more downloads");
-define("_MORELAST","more downloads");
-define("_HOT","<font color=\"red\"><b><i>Hot!</i></b></font>");
-define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
+define("_DFILENAME","File name");
+define("_DMORETOP","more downloads");
+define("_DMORELAST","more downloads");
+define("_DHOT","<span style=\"color: red;\"><b><i>Hot!</i></b></font>");
+define("_DNEW","<span style=\"color: red;\"><b><i>New!</i></b></font>");
 
 
 
 define("_ADMINDOWN","Downloads Administration");
-define("_CREATE","Create");
-define("_UPFILE","Upload the file onto the server");
-define("_UPIMG","Upload the image onto the server");
+define("_DUPFILE","Upload the file onto the server");
+define("_DUPIMG","Upload the image onto the server");
 
-define("_URLFILE","Url 1");
+define("_DURLFILE","Url 1");
 define("_URL2","Url 2");
 define("_URL3","Url 3");
 define("_ADDTHISFILE","Add this File");
-define("_FILEADD","File was successfully added.");
-define("_FILEDEL","File was successfully removed.");
+define("_DFILEADD","File was successfully added.");
+define("_DFILEDEL","File was successfully removed.");
 define("_MODIFFILE","Modify this File");
 define("_FILEEDIT","File was successfully modified.");
 
 
-define("_ADDFILE","Add File");
+define("_DADDFILE","Add File");
 define("_EDITTHISFILE","Edit this File");
 define("_DELTHISFILE","Remove this File");
-define("_BROKENLINKS","Brokens Links");
-define("_ERASE","Remove");
-define("_ERASEFROMLIST","Remove from list");
+define("_DBROKENLINKS","Brokens Links");
+define("_DERASE","Remove");
+define("_DERASEFROMLIST","Remove from list");
 define("_FILEERASED","File was successfully removed from the list.");
-define("_ERASEALLLIST","You are about to remove all deads links from list, continue ?");
-define("_ERASELIST","Clear broken links list");
+define("_DERASEALLLIST","You are about to remove all deads links from list, continue ?");
+define("_DERASELIST","Clear broken links list");
 define("_LISTERASED","Broken links list successfully cleared.");
 define("_URLORTITLEFAILDED","Url or/and title missing!");
 define("_NUMBERFILE","Number of files per page");
@@ -98,7 +93,7 @@ define("_ACTIONMODIFCATDL","has modified the download category");
 define("_ACTIONPOSMODIFCATDL","has modified the position of the download category");
 define("_ACTIONDELCATDL","has deleted the download category");
 define("_ACTIONMODIFPREFDL","has modified the preference of download module");
-define("_CATERRORPOS","Impossible the position will be lower than zero.");
+define("_DCATERRORPOS","Impossible the position will be lower than zero.");
 
 return array(
     // modules/Download/admin.php

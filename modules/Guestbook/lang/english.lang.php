@@ -19,8 +19,6 @@ define("_POSTEDIT","Message was successfully modified.");
 define("_SIGNGUESTBOOK","Sign the Guestbook");
 define("_GPOSTED","Posted");
 
-
-define("_THEREIS","There are");
 define("_SIGNINDB","signatures in the Guestbook");
 
 

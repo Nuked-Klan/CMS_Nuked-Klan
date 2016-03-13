@@ -344,9 +344,9 @@ function listPlayers($server_id, $address, $port, $game, $password, $players, $k
 
         if ($keys['score']) {
             if ($cursort != 'score') {
-                $result .= "<td><b><a href=\"index.php?file=Server&amp;op=server&amp;address=" . $address . "&amp;port=" . $port . "&amp;game=" . $game . "&amp;server_id=" . $server_id . "&amp;password=" . $password . "&amp;sortby=score\" style=\"text-decoration: underline\">" . _SCORE . "</a></b></td>\n";
+                $result .= "<td><b><a href=\"index.php?file=Server&amp;op=server&amp;address=" . $address . "&amp;port=" . $port . "&amp;game=" . $game . "&amp;server_id=" . $server_id . "&amp;password=" . $password . "&amp;sortby=score\" style=\"text-decoration: underline\">" . _SSCORE . "</a></b></td>\n";
             } else {
-                $result .= "<td><b>" . _SCORE . "</b></td>\n";
+                $result .= "<td><b>" . _SSCORE . "</b></td>\n";
             } 
         } 
 
@@ -415,7 +415,7 @@ function listPlayers($server_id, $address, $port, $game, $password, $players, $k
         $result .= "</table>\n";
     } else {
         $result = "<table style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";\" width=\"350\" cellpadding=\"2\" cellspacing=\"1\">\n"
-        . "<tr style=\"background: ". $bgcolor3 . "\"><td>&nbsp;&nbsp;<b>" . _NICK . "</b></td><td><b>" . _SCORE . "</b></td></tr>\n"
+        . "<tr style=\"background: ". $bgcolor3 . "\"><td>&nbsp;&nbsp;<b>" . _NICK . "</b></td><td><b>" . _SSCORE . "</b></td></tr>\n"
         . "<tr><td colspan=\"2\" align=\"center\">" . _NOPLAYERS . "</td></tr></table>\n";
     } 
     return $result;

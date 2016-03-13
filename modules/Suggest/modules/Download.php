@@ -116,7 +116,7 @@ function form($content, $sug_id){
         echo "<tr><td>&nbsp;</td></tr>\n";
 
         if ($upload_dl == "off") echo "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URL . " :</b> <input type=\"text\" name=\"url\" size=\"55\"value=\"http://\" /></td></tr>\n";
-        else echo "<tr><td align=\"left\"><b>" . _UPFILE . " :</b> <input type=\"file\" name=\"fichiernom\" /></td></tr>\n";
+        else echo "<tr><td align=\"left\"><b>" . _DUPFILE . " :</b> <input type=\"file\" name=\"fichiernom\" /></td></tr>\n";
 
         echo "<tr><td>&nbsp;</td></tr>\n";
     }

@@ -20,8 +20,6 @@ define("_POSTEDIT","Message modifié avec succès.");
 define("_SIGNGUESTBOOK","Signer le Livre d'Or");
 define("_GPOSTED","Posté");
 
-
-define("_THEREIS","Il y a");
 define("_SIGNINDB","signatures dans le livre d'or");
 
 define("_NOSIGN","Il n'y a pas encore de message");

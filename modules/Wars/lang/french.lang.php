@@ -30,8 +30,8 @@ define("_OFFICIALREPORT","Rapport officiel");
 define("_DOWNLOADDEMO","Télécharger Démo");
 
 
-define("_UPFILE","Uploader le fichier sur le serveur");
-define("_MATCHDAY","Il y a un match aujourd'hui !!!");
+define("_WUPFILE","Uploader le fichier sur le serveur");
+//define("_MATCHDAY","Il y a un match aujourd'hui !!!");
 define("_GOWARS","voir tous les matches");
 define("_GOCALENDAR","voir le calendrier");
 define("_DETAILS2","Commentaire");
@@ -62,13 +62,13 @@ define("_URLREPORT","Url du rapport officiel");
 define("_MATCHADD","Match ajouté avec succès.");
 define("_MATCHDEL","Match supprimé avec succès.");
 define("_MATCHMODIF","Match modifié avec succès.");
-define("_ADDFILE","Ajouter un fichier joint");
+define("_WADDFILE","Ajouter un fichier joint");
 define("_ADDMODFILE","Ajouter/Editer des fichiers joints");
 define("_IMG","Screenshot");
 define("_DEMO","Démo");
 
-define("_FILEADD","Fichier ajouté avec succès.");
-define("_FILEDEL","Fichier supprimé avec succès.");
+define("_WFILEADD","Fichier ajouté avec succès.");
+define("_WFILEDEL","Fichier supprimé avec succès.");
 define("_FILEMODIF","Fichier modifié avec succès.");
 define("_EDITFILE","Editer ce fichier joint");
 define("_DELETEFILE","Supprimer ce fichier joint");

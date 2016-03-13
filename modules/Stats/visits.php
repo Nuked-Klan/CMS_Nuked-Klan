@@ -46,14 +46,14 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
             $where2 = $where . "AND referer NOT LIKE '" . $nuked['url'] . "%' AND referer != ''";
 
             $otext = _VISITORS . '&nbsp;';
-            $otext .= ($_REQUEST['oday'] == $day) ? _TODAY : _ON . '&nbsp;' . $_REQUEST['oday'] . '/' . $_REQUEST['omonth'] . '/' . $_REQUEST['oyear'];
+            $otext .= ($_REQUEST['oday'] == $day) ? _TODAY : _ON_THE . '&nbsp;' . $_REQUEST['oday'] . '/' . $_REQUEST['omonth'] . '/' . $_REQUEST['oyear'];
         }
         else if (!empty($_REQUEST['omonth']) && !empty($_REQUEST['oyear'])) {
             $where = "WHERE month = '" . $_REQUEST['omonth'] . "' AND year = '" . $_REQUEST['oyear'] . "'";
             $where2 = $where . "AND referer NOT LIKE '" . $nuked['url'] . "%' AND referer != ''";
 
             $otext = _VISITORS . '&nbsp;';
-            $otext .= ($_REQUEST['omonth'] == $month) ? _THISMONTH : _ON . '&nbsp;' . $_REQUEST['omonth'] . '/' . $_REQUEST['oyear'];
+            $otext .= ($_REQUEST['omonth'] == $month) ? _THISMONTH : _ON_THE . '&nbsp;' . $_REQUEST['omonth'] . '/' . $_REQUEST['oyear'];
         }
         else if (!empty($_REQUEST['oyear'])) {
             $where = "WHERE year='" . $_REQUEST['oyear'] . "'";
@@ -181,7 +181,7 @@ if ($visiteur >= $nuked['level_analys'] && $nuked['level_analys']!= -1) {
             }
             // End browsers
 
-            echo '</table><br /><h3 style="text-align: center; margin-bottom: 10px">' . _SYSTEMOS . '</h3>'."\n"
+            echo '</table><br /><h3 style="text-align: center; margin-bottom: 10px">' . _SSYSTEMOS . '</h3>'."\n"
             . '<table style="margin: auto; background: ' . $bgcolor2 . '; border: 1px solid ' . $bgcolor3 . '" width="80%" cellpadding="2" cellspacing="1">'."\n"
             . '<tr style="background: ' . $bgcolor3 . '">'."\n"
             . '<td style="width: 5%" align="center"><b>#</b></td>'."\n"

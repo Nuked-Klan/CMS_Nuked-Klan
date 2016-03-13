@@ -420,7 +420,7 @@ function match(){
         if ($nb_file > 0) {
             echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;page=admin&amp;op=main_file&amp;im_id=" . $war_id . "','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDMODFILE . "</a></div>\n";
         } else {
-            echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;page=admin&amp;op=add_file&amp;im_id=" . $war_id ."','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _ADDFILE . "</a></div>\n";
+            echo "<div style=\"text-align: center;\"><br /><a href=\"#\" onclick=\"javascript:window.open('index.php?file=Wars&amp;page=admin&amp;op=add_file&amp;im_id=" . $war_id ."','popup','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=350,height=340,top=30,left=0');return(false)\">" . _WADDFILE . "</a></div>\n";
         } 
     } 
 
@@ -604,7 +604,7 @@ function main_file($im_id){
             . "// -->\n"
             . "</script>\n";
 
-    echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Wars&amp;page=admin&amp;op=add_file&amp;im_id=" . $im_id . "\"><b>" . _ADDFILE . "</b></a> ]<br /><br /></div>\n"
+    echo "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Wars&amp;page=admin&amp;op=add_file&amp;im_id=" . $im_id . "\"><b>" . _WADDFILE . "</b></a> ]<br /><br /></div>\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"100%\" cellpadding=\"2\" cellspacing=\"1\">\n"
             . "<tr style=\"background: ". $bgcolor3 . "\">\n"
             . "<td align=\"center\"><b>" . _TYPE . "</b></td>\n"
@@ -648,9 +648,9 @@ function add_file($im_id){
     nkTemplate_setTitle(_ADMINMATCH);
 
     echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=send_file\" enctype=\"multipart/form-data\">\n"
-        . "<div style=\"text-align: center;\"><br /><big><b>" . _ADDFILE . "</b></big></div>\n"
+        . "<div style=\"text-align: center;\"><br /><big><b>" . _WADDFILE . "</b></big></div>\n"
         . "<div><br /><b>" . _URL . " :</b> <input type=\"text\" size=\"40\" name=\"url_file\" /><br />\n"
-        . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "<br />\n"
+        . "<br /><b>" . _WUPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "<br />\n"
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\">" . _IMG . "</option><option value=\"demo\">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . __('SEND') . "\" /></div>\n"
@@ -680,9 +680,9 @@ function edit_file($fid){
     }
 
     echo "<form method=\"post\" action=\"index.php?file=Wars&amp;page=admin&amp;op=modif_file\" enctype=\"multipart/form-data\">\n"
-        . "<div style=\"text-align: center;\"><br /><big><b>" . _ADDFILE . "</b></big></div>\n"
+        . "<div style=\"text-align: center;\"><br /><big><b>" . _WADDFILE . "</b></big></div>\n"
         . "<div><br /><b>" . _URL . " :</b> <input type=\"text\" size=\"40\" name=\"url_file\" value=\"" . $url . "\" /><br />\n"
-        . "<br /><b>" . _UPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "<br />\n"
+        . "<br /><b>" . _WUPFILE . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "<br />\n"
         . "<b>" . _TYPE . " :</b> <select name=\"file_type\"><option value=\"screen\" " . $checked1 . ">" . _IMG . "</option><option value=\"demo\" " . $checked2 . ">" . _DEMO . "</option></select><br />\n"
         . "<input type=\"hidden\" name=\"im_id\" value=\"" . $im_id . "\" /><input type=\"hidden\" name=\"fid\" value=\"" . $fid . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . __('SEND') . "\" /></div>\n"
@@ -738,7 +738,7 @@ function send_file($im_id, $file_type){
 
         $add = nkDB_execute("INSERT INTO " . WARS_FILES_TABLE . " ( `id` , `module` , `im_id` , `type` , `url` ) VALUES ( '' , 'Wars' , '" . $im_id . "' , '" . $file_type . "' , '" . $fileUrl . "' )");
 
-        printNotification(_FILEADD, 'success');
+        printNotification(_WFILEADD, 'success');
         redirect('index.php?file=Wars&page=admin&op=main_file&im_id='. $im_id, 2);
     }
     else{
@@ -814,7 +814,7 @@ function del_file($fid){
 
     $del = nkDB_execute("DELETE FROM " . WARS_FILES_TABLE . " WHERE id = '" . $fid . "'");
 
-    printNotification(_FILEDEL, 'success');
+    printNotification(_WFILEDEL, 'success');
     redirect("index.php?file=Wars&page=admin&op=main_file&im_id=" . $im_id, 2);
 }
 

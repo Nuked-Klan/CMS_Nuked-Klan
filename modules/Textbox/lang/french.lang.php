@@ -21,7 +21,6 @@ define("_REFRESH","Rafraîchir");
 define("_SEEARCHIVES","Voir les archives");
 define("_SHOUTSUCCES","Message envoyé avec succès.");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
-define("_THEREIS","Il y a");
 define("_SHOUTINDB","messages dans la base de données");
 define("_LISTSMILIES","Liste des smilies");
 define("_DELETETEXT","Vous êtes sur le point de supprimer le message de");
@@ -59,7 +58,7 @@ return array(
     'DELETE_ALL_MESSAGE' => 'Supprimer tous les messages',
     // modules/Textbox/backend/config/shoutboxMessage.php
     'NICKNAME'          => 'Pseudo',
-    'IP'                => 'Adresse Ip',
+    'IP_ADRESS'         => 'Adresse Ip',
     'EDIT_THIS_SHOUTBOX_MESSAGE' => 'Editer ce message',
     'DELETE_THIS_SHOUTBOX_MESSAGE' => 'Supprimer ce message',
     'CONFIRM_TO_DELETE_SHOUTBOX_MESSAGE' => 'Vous êtes sur le point de supprimer le message de %s ! Confirmer',

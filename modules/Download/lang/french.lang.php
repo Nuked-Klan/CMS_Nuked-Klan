@@ -13,20 +13,17 @@ defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_NEWSFILE","Nouveaux");
 define("_POPULAR","Populaires");
-define("_TOPFILE","Popularité");
+define("_DTOPFILE","Popularité");
 define("_SUGGESTFILE","Proposer");
-define("_SEEDECS","Voir les détails");
+//define("_SEEDECS","Voir les détails");
 define("_DOWNLOAD","Téléchargements");
-define("_THEREIS","Il y a");
-define("_NBCAT","Catégories");
-define("_INDATABASE","dans la base de données");
 define("_FILES","Fichiers");
-define("_HITS","Hits");
+//define("_HITS","Hits");
 define("_MAX","Max");
-define("_DOWNFILE","Télécharger ce fichier");
+define("_DDOWNFILE","Télécharger ce fichier");
 define("_DOWNLOADED","Téléchargé");
-define("_SEEN","Vu");
-define("_TIMES","fois");
+define("_DSEEN","Vu");
+define("_DTIMES","fois");
 define("_EDITTHE","Modifié le");
 define("_CAPTURE","Capture d'écran");
 define("_COMPATIBLE","Compatibilité");
@@ -42,44 +39,42 @@ define("_LIEN1","Lien 1");
 define("_LIEN2","Lien 2");
 define("_LIEN3","Lien 3");
 
-define("_THXBROKENLINK","Merci de nous avoir signalé ce lien mort.");
-define("_INDICATELINK","Signaler ce lien mort");
+define("_DTHXBROKENLINK","Merci de nous avoir signalé ce lien mort.");
+define("_DINDICATELINK","Signaler ce lien mort");
 
-define("_NOTE","Note");
 define("_SITE","Site");
 define("_CLICHERE","Cliquez ici");
 define("_EXT","Type de fichier");
-define("_FILENAME","Nom du fichier");
-define("_MORETOP","la suite du classement");
-define("_MORELAST","la suite des nouveautés");
-define("_HOT","<font color=\"red\"><b><i>Hot!</i></b></font>");
-define("_NEW","<font color=\"red\"><b><i>New!</i></b></font>");
+define("_DFILENAME","Nom du fichier");
+define("_DMORETOP","la suite du classement");
+define("_DMORELAST","la suite des nouveautés");
+define("_DHOT","<span style=\"color: red;\"><b><i>Hot!</i></b></font>");
+define("_DNEW","<span style=\"color: red;\"><b><i>New!</i></b></font>");
 
 
 define("_ADMINDOWN","Administration Téléchargements");
-define("_CREATE","Creation");
-define("_UPFILE","Uploader le fichier sur le serveur");
-define("_UPIMG","Uploader l'image sur le serveur");
+define("_DUPFILE","Uploader le fichier sur le serveur");
+define("_DUPIMG","Uploader l'image sur le serveur");
 
-define("_URLFILE","Url 1");
+define("_DURLFILE","Url 1");
 define("_URL2","Url 2");
 define("_URL3","Url 3");
 define("_ADDTHISFILE","Ajouter ce Fichier");
-define("_FILEADD","Fichier ajouté avec succès.");
-define("_FILEDEL","Fichier effacé avec succès.");
+define("_DFILEADD","Fichier ajouté avec succès.");
+define("_DFILEDEL","Fichier effacé avec succès.");
 define("_MODIFFILE","Modifier ce Fichier");
 define("_FILEEDIT","Fichier Modifié avec succès.");
 
 
-define("_ADDFILE","Ajouter un Fichier");
+define("_DADDFILE","Ajouter un Fichier");
 define("_EDITTHISFILE","Editer ce Fichier");
 define("_DELTHISFILE","Supprimer ce Fichier");
-define("_BROKENLINKS","Liens Morts");
-define("_ERASE","Effacer");
-define("_ERASEFROMLIST","Effacer de la liste");
+define("_DBROKENLINKS","Liens Morts");
+define("_DERASE","Effacer");
+define("_DERASEFROMLIST","Effacer de la liste");
 define("_FILEERASED","Fichier effacé de la liste avec succès.");
-define("_ERASEALLLIST","Vous êtes sur le point de vider toute la liste des liens morts, continuer ?");
-define("_ERASELIST","Vider la liste des liens morts");
+define("_DERASEALLLIST","Vous êtes sur le point de vider toute la liste des liens morts, continuer ?");
+define("_DERASELIST","Vider la liste des liens morts");
 define("_LISTERASED","La liste des liens morts a été vidée avec succès.");
 define("_URLORTITLEFAILDED","Vous n'avez pas indiqué d'url et/ou de titre !");
 define("_NUMBERFILE","Nombre de fichiers par page");
@@ -94,7 +89,7 @@ define("_ACTIONMODIFCATDL","a modifié la catégorie téléchargement");
 define("_ACTIONDELCATDL","a supprimé la catégorie téléchargement");
 define("_ACTIONMODIFPREFDL","a modifié les préférences du module téléchargement");
 define("_ACTIONPOSMODIFCATDL","a modifié la position de la catégorie téléchargement");
-define("_CATERRORPOS","Impossible la position serait inférieur à zéro.");
+define("_DCATERRORPOS","Impossible la position serait inférieur à zéro.");
 
 return array(
     // modules/Download/admin.php

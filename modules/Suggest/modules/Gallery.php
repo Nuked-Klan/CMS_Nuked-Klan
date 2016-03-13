@@ -113,7 +113,7 @@ function form($content, $sug_id){
     }
     else{
             echo "<tr><td><b>" . _URLIMG . " :</b> <input type=\"text\" name=\"url\" size=\"49\" value=\"http://\" /></td></tr>\n";
-            if ($upload_img == "on") echo "<tr><td align=\"left\"><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" /></td></tr><tr><td>&nbsp;</td></tr>\n";
+            if ($upload_img == "on") echo "<tr><td align=\"left\"><b>" . _GUPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" /></td></tr><tr><td>&nbsp;</td></tr>\n";
     }
 
     echo "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" value=\"" . $content[2] . "\" size=\"45\" /></td></tr>\n"

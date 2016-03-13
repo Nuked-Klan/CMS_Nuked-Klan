@@ -10,7 +10,7 @@ if (preg_match("`block_roster.php`i", $_SERVER['PHP_SELF'])){
 } 
 
 function affich_block_roster($blok){
-    global $nuked;
+    global $nuked, $theme;
 
     $team_id = $blok['content'];
     $blok['content'] = '';

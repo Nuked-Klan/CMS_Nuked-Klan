@@ -77,6 +77,8 @@ function edit_block_center($bid){
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
 
+    $checked0 = $checked3 = $checked4 = '';
+
     if ($active == 3) $checked3 = 'selected="selected"';
     else if ($active == 4) $checked4 = 'selected="selected"';
     else $checked0 = 'selected="selected"';
@@ -158,6 +160,7 @@ function select_module($mod){
 }
 
 function inc_bl1($mod1, $bid){
+    $active = 1;
     ob_start();
     print eval("\$bid = \"$bid\";");
     print eval(' include("modules/" . $mod1 . "/blok.php"); ');
@@ -167,6 +170,7 @@ function inc_bl1($mod1, $bid){
 }
 
 function inc_bl2($mod2){
+    $active = 1;
     ob_start();
     print eval(' include("modules/" . $mod2 . "/blok.php"); ');
     $blok_content = ob_get_contents();

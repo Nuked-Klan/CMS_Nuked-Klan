@@ -49,8 +49,8 @@ define("_NMONTHS","Mois");
 define("_NMONTH","MOIS");
 define("_NUMBERARCHIVE","Nombre de news par page dans les archives");
 define("_NUMBERNEWS","Nombre de news par page en page d'accueil");
-define("_URLIMG","Url de l'image");
-define("_UPIMG","Uploader l'image");
+define("_NURLIMG","Url de l'image");
+define("_NUPIMG","Uploader l'image");
 
 
 define("_ACTIONADDNEWS","a ajouté la news");

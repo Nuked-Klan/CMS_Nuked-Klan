@@ -12,18 +12,15 @@
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_INDEXSECTIONS","Index");
-define("_CLASSBY","Trier par");
 define("_DEF","Défaut");
 define("_COMMENTS","Commentaires");
-define("_PDF","Format pdf imprimable");
+define("_SPDF","Format pdf imprimable");
 define("_SECTIONS","Articles");
 define("_SUGGESTART","Proposer");
 define("_TOPART","Populaires");
 define("_NEWSART","Nouveaux");
-define("_THEREIS","Il y a");
 define("_ARTDB","Articles");
 define("_SECDB","Catégories");
-define("_INDATABASE","dans la base de données");
 define("_READSART","Lectures");
 define("_NOARTS","Aucun article dans cette catégorie");
 
@@ -33,13 +30,11 @@ define("_TOP10ART","Le Top 10");
 define("_LAST10ART","Les nouveautés");
 define("_NOARTINDB","Aucun article dans la base de données");
 
-define("_NOTE","Note");
-define("_SITE","Site");
-define("_TOPFILE","Popularité");
-define("_MORETOP","la suite du classement");
-define("_MORELAST","la suite des nouveautés");
-define("_HOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");
-define("_NEW","<span style=\"color: red;\"><b><i>New!</i></b></span>");
+define("_STOPFILE","Popularité");
+define("_SMORETOP","la suite du classement");
+define("_SMORELAST","la suite des nouveautés");
+define("_SHOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");
+define("_SNEW","<span style=\"color: red;\"><b><i>New!</i></b></span>");
 
 define("_ADMINSECTIONS","Administration Articles");
 
@@ -60,8 +55,8 @@ define("_ARTDEL","Article supprimé avec succès.");
 define("_SECTIONSPG","Nombre d'articles par page");
 
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> saut de page </i>-----</b><br />");
-define("_CATERRORPOS","La position est déjà à 0, Impossible de monter la position");
-define('_TITLECATFORGOT', 'Le titre de la catégorie est manquant');
+define("_SCATERRORPOS","Impossible la position serait inférieur à zéro.");
+define('_STITLECATFORGOT', 'Le titre de la catégorie est manquant');
 define('_TITLEARTFORGOT', 'Le titre de l\'article est manquant');
 
 define("_ACTIONADDSEC","a ajouté l\'article");

@@ -155,8 +155,8 @@ function affich_block_event($blok){
                             }
 
                             if ($heure) $txt .= '<b>' . $heure . '</b><br />';
-                            $txt .= _MATCH . '&nbsp:' . $type_match;
-                            if ($adv_name) $txt .= _VS . '&nbsp;' . $adv_name;
+                            $txt .= _CMATCH . '&nbsp:' . $type_match;
+                            if ($adv_name) $txt .= _CVS . '&nbsp;' . $adv_name;
                             if ($scores)$txt .= '<br />' . $scores;
                             $txt .= '<br />';
                         }
@@ -188,8 +188,8 @@ function affich_block_event($blok){
                         }
 
                         if ($heure) $txt .= '<b>' . $heure . '</b><br />';
-                        $txt .= _MATCH . '&nbsp;' . $type_match;
-                        if ($adv_name) $txt .= '&nbsp;' . _VS . '&nbsp;' . $adv_name;
+                        $txt .= _CMATCH . '&nbsp;' . $type_match;
+                        if ($adv_name) $txt .= '&nbsp;' . _CVS . '&nbsp;' . $adv_name;
                         if ($scores)$txt .= '<br />' . $scores;
                         $txt .= '<br /><br />';
                     }
@@ -234,7 +234,7 @@ function affich_block_event($blok){
                 . '<a href="index.php?file=Calendar&amp;m=' . $month . '&amp;y=' . $year . '">'. $bd . $dayarray['mday'] . $bf . '</a></td>'."\n";
             }
             else{
-                $blok['content'] .= '<td align="center"><span style="text-align: center;">' . $bd . $dayarray[mday] . $bf . '</span></td>'."\n";
+                $blok['content'] .= '<td align="center"><span style="text-align: center;">' . $bd . $dayarray['mday'] . $bf . '</span></td>'."\n";
             }
 
             $start += ADAY;

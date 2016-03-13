@@ -12,18 +12,15 @@
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_INDEXSECTIONS","Index");
-define("_CLASSBY","Sort by");
 define("_DEF","Id");
 define("_COMMENTS","Comments");
-define("_PDF","PDF print format");
+define("_SPDF","PDF print format");
 define("_SECTIONS","Sections");
 define("_SUGGESTART","Suggest");
 define("_TOPART","Popular");
 define("_NEWSART","New");
-define("_THEREIS","There are");
 define("_ARTDB","Articles");
 define("_SECDB","Sections");
-define("_INDATABASE","in the database");
 define("_READSART","readings");
 define("_NOARTS","No articles in this section");
 
@@ -34,13 +31,11 @@ define("_TOP10ART","Top 10 Articles");
 define("_LAST10ART","Newest Articles");
 define("_NOARTINDB","No article in the database");
 
-define("_NOTE","Note");
-define("_SITE","Site");
-define("_TOPFILE","Popular");
-define("_MORETOP","more downloads");
-define("_MORELAST","more downloads");
-define("_HOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");
-define("_NEW","<span style=\"color: red;\"><b><i>New!</i></b></span>");
+define("_STOPFILE","Popular");
+define("_SMORETOP","more downloads");
+define("_SMORELAST","more downloads");
+define("_SHOT","<span style=\"color: red;\"><b><i>Hot!</i></b></span>");
+define("_SNEW","<span style=\"color: red;\"><b><i>New!</i></b></span>");
 
 
 
@@ -64,8 +59,8 @@ define("_SECTIONSPG","Number of articles per page");
 
 
 define("_PAGEB","<div style=\"text-align: center;\"><br /><b>-----<i> pagebreak </i>-----</b></div>");
-define("_CATERRORPOS","The position is already at 0, Unable to mount position");
-define('_TITLECATFORGOT', 'The title of the category is missing');
+define("_SCATERRORPOS","Impossible the position will be lower than zero.");
+define('_STITLECATFORGOT', 'The title of the category is missing');
 define('_TITLEARTFORGOT', 'The title of the article is missing');
 
 define("_ACTIONADDSEC","has added the article");

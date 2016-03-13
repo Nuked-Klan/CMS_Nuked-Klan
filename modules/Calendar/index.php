@@ -366,7 +366,7 @@ function show_event(){
         . "<tr><td align=\"center\"><big><b>" . $team_name . "&nbsp;" . _CVS . "&nbsp;" . $adv_name . "</b></big></td></tr><tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _DATE . " :</b> " . $date . " " . $heure . "</td></tr>\n"
         . "<tr><td><b>" . _TYPE . " :</b> " . $type_match . "</td></tr>\n"
-        . "<tr><td><b>" . _STYLE . " :</b> " . $style . "</td></tr>\n";
+        . "<tr><td><b>" . _CSTYLE . " :</b> " . $style . "</td></tr>\n";
 
         if ($etat > 0){
             echo "</td></tr><tr><td><b>" . _RESULT . " : </b>";

@@ -187,7 +187,7 @@ function broken($link_id){
     $sql = nkDB_execute('UPDATE ' . LINKS_TABLE . ' SET broke = broke + 1 WHERE id = ' . $link_id);
 
     opentable();
-    printNotification(_THXBROKENLINK, 'success');
+    printNotification(_LTHXBROKENLINK, 'success');
     closetable();
     redirect('index.php?file=Links', 2);
 }
@@ -271,7 +271,7 @@ function description($link_id){
             echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _COUNTRY . ' :</b> ' . $pays . '</td></tr>'."\n";
         }
 
-        echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _VISITED . ' :</b> ' . $count . '&nbsp;' . _TIMES . '</td></tr>'."\n";
+        echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _VISITED . ' :</b> ' . $count . '&nbsp;' . _LTIMES . '</td></tr>'."\n";
 
         $sql = nkDB_execute(
             'SELECT active
@@ -288,7 +288,7 @@ function description($link_id){
         }
 
         if ($visiteur > 0) echo '<tr style="background: ' . $bgcolor2 . '"><td>&nbsp;</td></tr>'."\n"
-        . '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><img src="modules/Links/images/warning.gif" alt="" /> [ <a href="index.php?file=Links&amp;op=broken&amp;link_id=' . $link_id . '">' . _INDICATELINK . '</a> ]</td></tr>';
+        . '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><img src="modules/Links/images/warning.gif" alt="" /> [ <a href="index.php?file=Links&amp;op=broken&amp;link_id=' . $link_id . '">' . _LINDICATELINK . '</a> ]</td></tr>';
         echo '</table>'."\n"
         . '<div style="text-align: center"><br /><input type="button" value="' . _VISITTHISSITE . '" onclick="window.open(\'index.php?file=Links&amp;op=do_link&amp;link_id=' . $link_id . '\')" /></div><br />';
 
@@ -380,8 +380,8 @@ function classe(){
 
         if ($_REQUEST['orderby'] == 'news') echo '<b>' . _DATE . '</b> | ';
         else echo '<a href="index.php?file=Links&amp;op=' . $op . '&amp;orderby=news&amp;cat=' . $cat . '">' . _DATE . '</a> | ';
-        if ($_REQUEST['orderby'] == 'count') echo '<b>' . _TOPFILE . '</b> | ';
-        else echo '<a href="index.php?file=Links&amp;op=' . $op . '&amp;orderby=count&amp;cat=' . $cat . '">' . _TOPFILE . '</a> | ';
+        if ($_REQUEST['orderby'] == 'count') echo '<b>' . _LTOPFILE . '</b> | ';
+        else echo '<a href="index.php?file=Links&amp;op=' . $op . '&amp;orderby=count&amp;cat=' . $cat . '">' . _LTOPFILE . '</a> | ';
         if ($_REQUEST['orderby'] == 'name') echo '<b>' . _NAME . '</b> | ';
         else echo '<a href="index.php?file=Links&amp;op=' . $op . '&amp;orderby=name&amp;cat=' . $cat . '">' . _NAME . '</a> | ';
         if ($_REQUEST['orderby'] == 'note') echo '<b>' . _NOTE . '</b>';
@@ -432,7 +432,7 @@ function classe(){
 
                 nkDB_dataSeek($sqlhot, 0);
                 while (list($id_hot) = nkDB_fetchArray($sqlhot)){
-                    if ($link_id == $id_hot && $nb_lk > 1 && $count > 9) $att .= '&nbsp;&nbsp;' . _HOT;
+                    if ($link_id == $id_hot && $nb_lk > 1 && $count > 9) $att .= '&nbsp;&nbsp;' . _LHOT;
                 }
 
                 if (!empty($date)) $alt = 'title="' . _ADDTHE . '&nbsp;' . nkDate($date) . '"';

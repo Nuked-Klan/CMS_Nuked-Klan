@@ -251,7 +251,7 @@ function broken($dl_id) {
 
     $sql = nkDB_execute("UPDATE " . DOWNLOAD_TABLE . " SET broke = broke + 1 WHERE id = '" . $dl_id . "'");
 
-    printNotification(_THXBROKENLINK, 'success');
+    printNotification(_DTHXBROKENLINK, 'success');
     redirect("index.php?file=Download", 2);
 }
 
@@ -372,14 +372,14 @@ function description($dl_id) {
 
         if ($edit != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _EDITTHE . " :</b> " . $edition . "</td></tr>\n";
 
-        echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
-        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SEEN . " :</b> " . $hit . "&nbsp;" . _TIMES . "</td></tr>\n";
+        echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _DTIMES . "</td></tr>\n"
+        . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _DSEEN . " :</b> " . $hit . "&nbsp;" . _DTIMES . "</td></tr>\n";
 
         if ($taille != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _SIZE . " :</b> " . $size . "</td></tr>\n";
 
         if ($ext != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _EXT . " :</b> " . $extension . "</td></tr>\n";
 
-        if ($name != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _FILENAME . " :</b> " . $filename . "</td></tr>\n";
+        if ($name != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _DFILENAME . " :</b> " . $filename . "</td></tr>\n";
 
         if ($comp != "" || $nuked['hide_download'] == "off") echo "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><b>" . _COMPATIBLE . " :</b> " . $compatible . "</td></tr>\n";
 
@@ -403,11 +403,11 @@ function description($dl_id) {
 
         if ($visiteur > 0) {
             echo "<tr style=\"background: " . $bgcolor2 . ";\"><td>&nbsp;</td></tr>\n"
-                . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><img src=\"modules/Download/images/warning.gif\" alt=\"\" /> [ <a href=\"index.php?file=Download&amp;op=broken&amp;dl_id=" . $dl_id . "\">" . _INDICATELINK . "</a> ]</td></tr>\n";
+                . "<tr style=\"background: " . $bgcolor1 . ";\"><td style=\"border: 1px dashed " . $bgcolor3 . ";\"><img src=\"modules/Download/images/warning.gif\" alt=\"\" /> [ <a href=\"index.php?file=Download&amp;op=broken&amp;dl_id=" . $dl_id . "\">" . _DINDICATELINK . "</a> ]</td></tr>\n";
         }
 
         echo "</table>\n"
-            . "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _DOWNFILE . "\" onclick=\"javascript:window.open('index.php?file=Download&amp;op=popup&amp;dl_id=" . $dl_id . "','download','toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=360,height=200,top=30,left=0')\" /></div><br />\n";
+            . "<br /><div style=\"text-align: center;\"><input type=\"button\" value=\"" . _DDOWNFILE . "\" onclick=\"javascript:window.open('index.php?file=Download&amp;op=popup&amp;dl_id=" . $dl_id . "','download','toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=360,height=200,top=30,left=0')\" /></div><br />\n";
 
         $sql = nkDB_execute(
             'SELECT active
@@ -515,8 +515,8 @@ function classe()
             if ($_REQUEST['orderby'] == "news") echo "<b>" . _DATE . "</b> | ";
             else echo "<a href=\"index.php?file=Download&amp;op=" . $op . "&amp;orderby=news&amp;cat=" . $cat . "\">" . _DATE . "</a> | ";
 
-            if ($_REQUEST['orderby'] == "count") echo "<b>" . _TOPFILE . "</b> | ";
-            else echo"<a href=\"index.php?file=Download&amp;op=" . $op . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _TOPFILE . "</a> | ";
+            if ($_REQUEST['orderby'] == "count") echo "<b>" . _DTOPFILE . "</b> | ";
+            else echo"<a href=\"index.php?file=Download&amp;op=" . $op . "&amp;orderby=count&amp;cat=" . $cat . "\">" . _DTOPFILE . "</a> | ";
 
             if ($_REQUEST['orderby'] == "name") echo "<b>" . _NAME . "</b> | ";
             else echo "<a href=\"index.php?file=Download&amp;op=" . $op . "&amp;orderby=name&amp;cat=" . $cat . "\">" . _NAME . "</a> | ";
@@ -548,7 +548,7 @@ function classe()
 
                 nkDB_dataSeek($sqlhot, 0);
                 while (list($id_hot) = nkDB_fetchArray($sqlhot)) {
-                    if ($dl_id == $id_hot && $nb_dl > 1 && $count > 9) $att .= "&nbsp;&nbsp;" . _HOT;
+                    if ($dl_id == $id_hot && $nb_dl > 1 && $count > 9) $att .= "&nbsp;&nbsp;" . _DHOT;
                 }
 
                 $extension = strrchr($url, '.');
@@ -613,7 +613,7 @@ function classe()
                     . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _CAT . " :</b> " . $category . "</td></tr>\n"
                     . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _SIZE . " :</b> " . $taille . "</td></tr>\n"
                     . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _FILECOMMENT . " :</b> " . $nb_comment . "</td></tr>\n"
-                    . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n";
+                    . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _DOWNLOADED . " :</b> " . $count . "&nbsp;" . _DTIMES . "</td></tr>\n";
 
                     $sql = nkDB_execute(
                         'SELECT active

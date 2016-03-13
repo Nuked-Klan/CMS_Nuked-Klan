@@ -29,7 +29,7 @@ function add_file() {
     }
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _ADDFILE . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _DADDFILE . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
@@ -68,13 +68,13 @@ function add_file() {
         . "<option>9</option></select></td></tr>\n"
         . "<tr><td><b>" . _COMPATIBLE . " :</b> <input type=\"text\" name=\"comp\" size=\"45\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
-        . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"http://\" /></td></tr>\n"
+        . "<tr><td><b>" . _DURLFILE . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"http://\" /></td></tr>\n"
         . "<tr><td><b>" . _URL2 . " :</b> <input type=\"text\" name=\"url2\" size=\"55\" value=\"http://\" /></td></tr>\n"
         . "<tr><td><b>" . _URL3 . " :</b> <input type=\"text\" name=\"url3\" size=\"55\" value=\"http://\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
+        . "<tr><td><b>" . _DUPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"42\" value=\"http://\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
+        . "<tr><td><b>" . _DUPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDTHISFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
@@ -198,7 +198,7 @@ function send_file() {
 
         saveUserAction(_ACTIONADDDL .': '. $titre);
 
-        printNotification(_FILEADD, 'success');
+        printNotification(_DFILEADD, 'success');
 
         require_once 'Includes/nkSitemap.php';
 
@@ -226,7 +226,7 @@ function del_file($did) {
     $del_vote = nkDB_execute("DELETE FROM " . VOTE_TABLE . " WHERE vid = '" . $did . "' AND module = 'Download'");
 
     saveUserAction(_ACTIONDELDL .': '. $titre);
-    printNotification(_FILEDEL, 'success');
+    printNotification(_DFILEDEL, 'success');
     redirect("index.php?file=Download&page=admin", 2);
 }
 
@@ -294,13 +294,13 @@ function edit_file($did) {
         . "<option>9</option></select></td></tr>\n"
         . "<tr><td><b>" . _COMPATIBLE . " :</b> <input type=\"text\" name=\"comp\" size=\"45\" value=\"" . $comp . "\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
-        . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $url . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _DURLFILE . " :</b> <input type=\"text\" name=\"url\" size=\"55\" value=\"" . $url . "\" /></td></tr>\n"
         . "<tr><td><b>" . _URL2 . " :</b> <input type=\"text\" name=\"url2\" size=\"55\" value=\"" . $url2 . "\" /></td></tr>\n"
         . "<tr><td><b>" . _URL3 . " :</b> <input type=\"text\" name=\"url3\" size=\"55\" value=\"" . $url3 . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
+        . "<tr><td><b>" . _DUPFILE . " :</b>&nbsp;" . $upload_status . " <input type=\"file\" name=\"copy\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_file\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
         . "<tr><td>&nbsp;</td></tr>\n"
         . "<tr><td><b>" . _CAPTURE . " :</b> <input type=\"text\" name=\"screen\" size=\"42\" value=\"" . $screen . "\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
+        . "<tr><td><b>" . _DUPIMG . " :</b> <input type=\"file\" name=\"screen2\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" /> " . __('OVERWRITE') . "</td></tr>\n"
         . "<tr><td>&nbsp;<input type=\"hidden\" name=\"did\" value=\"" . $did . "\" /></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFFILE . "\" /><a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 
@@ -444,7 +444,7 @@ function main_broken() {
         . "	}\n"
         . "\n"
         . "	function delbroke() {\n"
-        . "		if (confirm('" . _ERASEALLLIST . "')) {\n"
+        . "		if (confirm('" . _DERASEALLLIST . "')) {\n"
         . "			document.location.href = 'index.php?file=Download&page=admin&op=del_broken';\n"
         . "		}\n"
         . "	}\n"
@@ -453,7 +453,7 @@ function main_broken() {
         . "</script>\n";
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-        . "<div class=\"content-box-header\"><h3>" . _BROKENLINKS . "</h3>\n"
+        . "<div class=\"content-box-header\"><h3>" . _DBROKENLINKS . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Download.php\" rel=\"modal\">\n"
         . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
         . "</div></div>\n"
@@ -466,7 +466,7 @@ function main_broken() {
         . "<td style=\"width: 10%;\" align=\"center\"><b>#</b></td>\n"
         . "<td colspan=\"2\" style=\"width: 35%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
         . "<td style=\"width: 10%;\" align=\"center\"><b>X</b></td>\n"
-        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _ERASE . "</b></td>\n"
+        . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DERASE . "</b></td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
         . "<td style=\"width: 15%;\" align=\"center\"><b>" . _DELETE . "</b></td></tr>\n";
 
@@ -484,7 +484,7 @@ function main_broken() {
                 . "<td style=\"width: 10%;\" align=\"center\">" . $l . "</td>\n"
                 . "<td style=\"width: 30%;\"><b>" . $titre . "</b></td><td style=\"width: 5%;\" align=\"center\"><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"modules/Download/images/download.gif\" alt=\"\" title=\"" . $url . "\" /></a></td>\n"
                 . "<td style=\"width: 10%;\" align=\"center\">" . $broke . "</td>\n"
-                . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Download&amp;page=admin&amp;op=del_broke&amp;did=" . $did. "\"><img style=\"border: 0;\" src=\"modules/Download/images/del.gif\" alt=\"\" title=\"" . _ERASEFROMLIST . "\" /></a></td>\n"
+                . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Download&amp;page=admin&amp;op=del_broke&amp;did=" . $did. "\"><img style=\"border: 0;\" src=\"modules/Download/images/del.gif\" alt=\"\" title=\"" . _DERASEFROMLIST . "\" /></a></td>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><a href=\"index.php?file=Download&amp;page=admin&amp;op=edit_file&amp;did=" . $did . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISFILE . "\" /></a></td>\n"
                 . "<td style=\"width: 15%;\" align=\"center\"><a href=\"javascript:delfile('" . addslashes($titre) . "', '" . $did . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISFILE . "\" /></a></td></tr>\n";
         }
@@ -492,7 +492,7 @@ function main_broken() {
         echo "<tr><td align=\"center\" colspan=\"6\">" . _NODOWNLOADINDB . "</td></tr>\n";
     }
 
-    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"javascript:delbroke();\">" . _ERASELIST . "</a>\n"
+    echo "</table><br /><div style=\"text-align: center;\"><a class=\"buttonLink\" href=\"javascript:delbroke();\">" . _DERASELIST . "</a>\n"
         . "<a class=\"buttonLink\" href=\"index.php?file=Download&amp;page=admin\">" . __('BACK') . "</a></div><br /></div></div>\n";
 }
 
@@ -944,7 +944,7 @@ function modif_position($cid, $method) {
     $sql2 = nkDB_execute("SELECT titre, position FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cid . "'");
     list($titre, $position) = nkDB_fetchArray($sql2);
     if ($position <=0 AND $method == "up") {
-        printNotification(_CATERRORPOS, 'error');
+        printNotification(_DCATERRORPOS, 'error');
         redirect("index.php?file=Download&page=admin&op=main_cat", 2);
         return;
     }
@@ -975,7 +975,7 @@ function nkAdminMenu($tab = 1)
             <li <?php echo ($tab == 2 ? $class : ''); ?>>
                 <a class="shortcut-button" href="index.php?file=Download&amp;page=admin&amp;op=add_file">
                     <img src="modules/Admin/images/icons/add_page.png" alt="icon" />
-                    <span><?php echo _ADDFILE; ?></span>
+                    <span><?php echo _DADDFILE; ?></span>
                 </a>
             </li>
             <li <?php echo ($tab == 3 ? $class : ''); ?>>
@@ -987,7 +987,7 @@ function nkAdminMenu($tab = 1)
             <li <?php echo ($tab == 4 ? $class : ''); ?>>
                 <a class="shortcut-button" href="index.php?file=Download&amp;page=admin&amp;op=main_broken">
                     <img src="modules/Admin/images/icons/pages_warning.png" alt="icon" />
-                    <span><?php echo _BROKENLINKS; ?></span>
+                    <span><?php echo _DBROKENLINKS; ?></span>
                 </a>
             </li>
             <li <?php echo ($tab == 5 ? $class : ''); ?>>

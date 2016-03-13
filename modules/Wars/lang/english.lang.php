@@ -22,7 +22,6 @@ define("_LOGOADV","Opponent's logo");
 
 
 define("_DETAILS","Report");
-define("_THEREIS","There are");
 define("_MATCHSINDB","Matches in the database");
 define("_MATCH","Match");
 define("_MATCHES","Matches");
@@ -33,7 +32,7 @@ define("_OFFICIALREPORT","Official Report");
 define("_DOWNLOADDEMO","Download Demo");
 
 
-define("_UPFILE","Upload file to server");
+define("_WUPFILE","Upload file to server");
 define("_NOMBRE","Numbers of map");
 define("_SCORE","Score of map");
 define("_NEXTMATCHES","Next Wars");
@@ -64,13 +63,13 @@ define("_URLREPORT","Url of Official Report");
 define("_MATCHADD","Match was successfully added.");
 define("_MATCHDEL","Match was successfully removed.");
 define("_MATCHMODIF","Match was successfully modified.");
-define("_ADDFILE","Add an attached file");
+define("_WADDFILE","Add an attached file");
 define("_ADDMODFILE","Add/Edit attached files");
 define("_IMG","Screenshot");
 define("_DEMO","Demo");
 
-define("_FILEADD","Attached File was successfully added.");
-define("_FILEDEL","Attached File was successfully removed.");
+define("_WFILEADD","Attached File was successfully added.");
+define("_WFILEDEL","Attached File was successfully removed.");
 define("_FILEMODIF","Attached File was successfully modified.");
 define("_EDITFILE","Edit this attached file");
 define("_DELETEFILE","Remove this attached file");

@@ -20,7 +20,6 @@ define("_REFRESH","Refresh");
 define("_SEEARCHIVES","See archives");
 define("_SHOUTSUCCES","Message was successfully posted.");
 define("_NOFLOOD","No flood! Please wait a moment...");
-define("_THEREIS","There are");
 define("_SHOUTINDB","messages in the database");
 define("_LISTSMILIES","Smilies List");
 define("_DELETETEXT","You are about to remove the message of");
@@ -58,7 +57,7 @@ return array(
     'DELETE_ALL_MESSAGE' => 'Remove all messages',
     // modules/Textbox/backend/config/shoutboxMessage.php
     'NICKNAME'          => 'Nickname',
-    'IP'                => 'IP Address',
+    'IP_ADRESS'         => 'IP Address',
     'EDIT_THIS_SHOUTBOX_MESSAGE' => 'Edit this message',
     'DELETE_THIS_SHOUTBOX_MESSAGE' => 'Remove this message',
     'CONFIRM_TO_DELETE_SHOUTBOX_MESSAGE' => 'You are about to remove the message of %s ! Confirm',

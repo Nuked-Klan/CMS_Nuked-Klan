@@ -41,10 +41,10 @@ function add_screen()
     . "<tr><td><textarea class=\"editor\" id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\"></textarea></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _URLIMG . " :</b> <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . __('OVERWRITE') . "</td></tr>\n"
+    . "<tr><td><b>" . _GUPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . __('OVERWRITE') . "</td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" size=\"46\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
-    . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
+    . "<tr><td><b>" . _GURLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"http://\" /></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr></table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _ADDSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
@@ -530,10 +530,10 @@ function edit_screen($sid)
     . "<tr><td><textarea class=\"editor\" id=\"img_texte\" name=\"description\" cols=\"66\" rows=\"10\" onselect=\"storeCaret('img_texte');\" onclick=\"storeCaret('img_texte');\" onkeyup=\"storeCaret('img_texte');\">" . $description . "</textarea></td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _URLIMG . " :</b> <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"200\" value=\"" . $url . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _UPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . __('OVERWRITE') . "</td></tr>\n"
+    . "<tr><td><b>" . _GUPIMG . " :</b><br /><input type=\"file\" name=\"fichiernom\" />&nbsp;<input class=\"checkbox\" type=\"checkbox\" name=\"ecrase_screen\" value=\"1\" />&nbsp;" . __('OVERWRITE') . "</td></tr>\n"
     . "<tr><td>&nbsp;</td></tr>\n"
     . "<tr><td><b>" . _URLIMG2 . " :</b> <input type=\"text\" name=\"url2\" size=\"46\" maxlength=\"200\" value=\"" . $url2 . "\" /></td></tr>\n"
-    . "<tr><td><b>" . _URLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"" . $url_file . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _GURLFILE . " :</b> <input type=\"text\" name=\"url_file\" size=\"51\" maxlength=\"200\" value=\"" . $url_file . "\" /></td></tr>\n"
     . "<tr><td>&nbsp;<input type=\"hidden\" name=\"sid\" value=\"" . $sid . "\" /></td></tr></table>\n"
     . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISSCREEN . "\" /><a class=\"buttonLink\" href=\"index.php?file=Gallery&amp;page=admin\">" . __('BACK') . "</a></div></form><br /></div></div>\n";
 }
@@ -649,7 +649,7 @@ function send_cat($titre, $description, $parentid, $position)
 
     if (empty($titre))
     {
-        printNotification(_TITLECATFORGOT, 'error');
+        printNotification(_GTITLECATFORGOT, 'error');
         redirect("index.php?file=Gallery&page=admin&op=main_cat", 4);
     }
     else
@@ -824,9 +824,9 @@ function modif_position($cid, $method)
     list($titre, $position) = nkDB_fetchArray($sqlq);
     if ($position <=0 AND $method == "up")
     {
-        printNotification(_CATERRORPOS, 'error');
+        printNotification(_GCATERRORPOS, 'error');
         redirect("index.php?file=Gallery&page=admin&op=main_cat", 2);
-        exit();
+        return;
     }
     if ($method == "up") $upd = nkDB_execute("UPDATE " . GALLERY_CAT_TABLE . " SET position = position - 1 WHERE cid = '" . $cid . "'");
     else if ($method == "down") $upd = nkDB_execute("UPDATE " . GALLERY_CAT_TABLE . " SET position = position + 1 WHERE cid = '" . $cid . "'");

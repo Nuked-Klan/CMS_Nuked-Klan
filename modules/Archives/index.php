@@ -161,7 +161,7 @@ function index()
 
         echo "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">"
-        . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>"
+        . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _APDF . "\" /></a>"
         . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a></td></tr>\n";
     }
 
@@ -303,7 +303,7 @@ function sujet($cat_id)
 
         echo "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">"
-        . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _PDF . "\" /></a>"
+        . "<a href=\"index.php?file=News&amp;op=pdf&amp;news_id=" . $news_id . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"images/pdf.gif\" alt=\"\" title=\"" . _APDF . "\" /></a>"
         . "&nbsp;<a href=\"index.php?file=News&amp;op=sendfriend&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/friend.gif\" alt=\"\" title=\"" . _FSEND . "\" /></a></td></tr>\n";
     }
 

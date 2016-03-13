@@ -515,8 +515,8 @@ function add_cat() {
         . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=send_cat\" enctype=\"multipart/form-data\">\n"
         . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
         . "<tr><td><b>" . _TITLE . " : </b><input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
-        . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" /></td></tr>\n"
-        . "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
+        . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _NURLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" /></td></tr>\n"
+        . "<tr><td><b>" . _NUPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\"></textarea></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div></div>\n";
@@ -584,14 +584,14 @@ function edit_cat($cid) {
         . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
         . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
         . "<tr><td><b>" . _TITLE . " : </b><input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
-        . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" value=\"" . $image . "\" />\n";
+        . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _NURLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" value=\"" . $image . "\" />\n";
 
     if ($image != ""){
     echo "<img src=\"" . $image . "\" title=\"" . $titre . "\" style=\"margin-left:20px; width:50px; height:50px; vertical-align:middle;\" />\n";
     }
 
     echo "</td></tr>\n"
-        . "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
+        . "<tr><td><b>" . _NUPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
         . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _DESCR . " : </b><br /><textarea class=\"editor\" name=\"description\" cols=\"65\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
         . "</table><div style=\"text-align: center;\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><br /><input class=\"button\" type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div>\n";
