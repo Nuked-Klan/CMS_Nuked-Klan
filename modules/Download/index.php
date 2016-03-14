@@ -281,22 +281,22 @@ function description($dl_id) {
     $date = nkDate($date);
 
     if ($edit != "") $edition = nkDate($edit);
-    else $edition = "N/A";
+    else $edition = __('NA');
 
     if ($screen != "") $capture = "<a href=\"" . $screen . "\" rel=\"shadowbox\" title=\"" . $titre . "\">" . _CLICHERE . "</a>";
-    else $capture = "N/A";
+    else $capture = __('NA');
 
     if ($autor != "") $author = $autor;
-    else $author = "N/A";
+    else $author = __('NA');
 
     if ($url_autor != "") $home_autor = "<a href=\"" . $url_autor . "\" onclick=\"window.open(this.href); return false;\">" . $url_autor . "</a>";
-    else $home_autor = "N/A";
+    else $home_autor = __('NA');
 
     if ($comp != "") $compatible = $comp;
-    else $compatible = "N/A";
+    else $compatible = __('NA');
 
     if ($comment != "") $description = $comment;
-    else $description = "N/A";
+    else $description = __('NA');
 
     if ($taille != "" && $taille < 1000) {
         $size = $taille . "&nbsp;" . _KO;
@@ -305,18 +305,18 @@ function description($dl_id) {
         $taille = (round($taille * 100)) / 100;
         $size = $taille. "&nbsp;" . _MO;
     } else {
-        $size = "N/A";
+        $size = __('NA');
     }
 
     $ext = strrchr($url, '.');
     $ext = substr($ext, 1);
     if ($ext != "" && !preg_match("`\?`i", $url) && !preg_match("`.html`i", $url) && !preg_match("`.htm`i", $url)) $extension = $ext;
-    else $extension = "N/A";
+    else $extension = __('NA');
 
     $name = strrchr($url, '/');
     $name = substr($name, 1);
     if ($name != "" && !preg_match("`\?`i", $url) && !preg_match("`.html`i", $url) && !preg_match("`.htm`i", $url)) $filename = $name;
-    else $filename = "N/A";
+    else $filename = __('NA');
 
     if ($visiteur >= $level) {
         $sql2 = nkDB_execute("SELECT titre, parentid FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $cat . "'");
@@ -324,7 +324,7 @@ function description($dl_id) {
         $cat_name = printSecuTags($cat_name);
 
         if ($cat == 0) {
-            $category = "N/A";
+            $category = __('NA');
         } else if ($parentid > 0) {
             $sql3 = nkDB_execute("SELECT titre FROM " . DOWNLOAD_CAT_TABLE . " WHERE cid = '" . $parentid . "'");
             list($parent_name) = nkDB_fetchArray($sql3);
@@ -584,7 +584,7 @@ function classe()
                     $taille = $taille / 1000;
                     $taille = $taille. "&nbsp;" . _MO;
                 } else {
-                    $taille = "N/A";
+                    $taille = __('NA');
                 }
 
                 // ----- Affiche le nombre de commentaires -----
@@ -596,7 +596,7 @@ function classe()
                 $name_cat_dl = stripslashes($name_cat_dl);
                 $name_cat_dl = printSecuTags($name_cat_dl);
                 $category = "" . $name_cat_dl . "";
-                if($category == "") $category = "N/A";
+                if($category == "") $category = __('NA');
 
                 if ($screen != "") {
                     $box = "<img style=\"cursor: pointer; overflow: auto; max-width: 160px; max-height: 120px; width: expression(this.scrollWidth >= 160? '160px' : 'auto'); height: expression(this.scrollHeight >= 120? '120px' : 'auto');\" src=\"" . checkimg($screen) . "\" onclick=\"document.location='index.php?file=Download&op=description&dl_id=" . $dl_id . "'\" border=\"0\" title=\"" . $titre . "\" alt=\"" . $titre . "\" />";

@@ -146,7 +146,7 @@ function index()
         }
         else
         {
-            echo "<td style=\"width: 20%;\" align=\"center\">N/A</td>\n";
+            echo "<td style=\"width: 20%;\" align=\"center\">". __('NA') ."</td>\n";
         }
 
         echo "<td style=\"width: 25%;\" align=\"center\">" . $date . "</td>\n"

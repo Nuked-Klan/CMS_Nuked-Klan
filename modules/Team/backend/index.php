@@ -39,7 +39,7 @@ nkAction_setParams(array(
  */
 function formatTeamRow($row, $nbData, $r, $functionData) {
     if ($row['gameName'] == '')
-        $row['gameName'] = 'N/A';
+        $row['gameName'] = __('NA');
 
     return $row;
 }

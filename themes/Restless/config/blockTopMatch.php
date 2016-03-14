@@ -33,7 +33,7 @@ if(empty($dbrTopMatch['opponentLogo'])){
 }
 
 if(empty($dbrTopMatch['teamName'])){
-    $dbrTopMatch['teamName'] = 'N/A';
+    $dbrTopMatch['teamName'] = __('NA');
 }
 
 if ($dbrTopMatch['map'] != '') {
@@ -48,7 +48,7 @@ if ($dbrTopMatch['map'] != '') {
     }
 }
 
-if ($dbrTopMatch['map'] == '') $dbrTopMatch['map'] = 'N/A';
+if ($dbrTopMatch['map'] == '') $dbrTopMatch['map'] = __('NA');
 
 $dbrTopMatch['link'] = 'index.php?file=Wars&op=detail&war_id='.$dbrTopMatch['warid'];;
 

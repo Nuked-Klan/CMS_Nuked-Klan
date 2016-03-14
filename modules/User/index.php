@@ -37,8 +37,8 @@ function index(){
         $sql3 = nkDB_execute('SELECT U.pseudo, U.url, U.mail, U.date, U.avatar, U.count, S.last_used FROM ' . USER_TABLE . ' AS U LEFT OUTER JOIN ' . SESSIONS_TABLE . ' AS S ON U.id = S.user_id WHERE U.id = "' . $user[0] . '"');
         $user_data = nkDB_fetchArray($sql3);
 
-        $last_used = $user_data['last_used'] > 0 ? nkDate($user_data['last_used']) : 'N/A';
-        $website = !$user_data['url'] ? 'N/A' : $user_data['url'];
+        $last_used = $user_data['last_used'] > 0 ? nkDate($user_data['last_used']) : __('NA');
+        $website = !$user_data['url'] ? __('NA') : $user_data['url'];
         $avatar = !$user_data['avatar'] ? 'modules/User/images/noavatar.png' : checkimg($user_data['avatar']);
 
         echo '<table style="margin:auto; background:' . $bgcolor2 . '; border:1px solid ' . $bgcolor3 . '; width:75%;" cellpadding="0" cellspacing="1">',"\n"

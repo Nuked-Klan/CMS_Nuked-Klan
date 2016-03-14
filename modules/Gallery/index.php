@@ -234,10 +234,10 @@ function description($sid)
     $name_enc = rawurlencode($name);
     $url = str_replace($name, $name_enc, $url);
 
-    if (!$name) $name = "N/A";
+    if (!$name) $name = __('NA');
 
     if ($date) $date = nkDate($date);
-    else $date = "N/A";
+    else $date = __('NA');
 
     if ($url_file != "")
     {

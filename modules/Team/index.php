@@ -80,7 +80,7 @@ function prepareTeamMemberData(&$teamMember, $team) {
         $teamMember['rankName'] = printSecuTags($dbrTeamRank['titre']);
     }
     else {
-        $teamMember['rankName'] = 'N/A';
+        $teamMember['rankName'] = __('NA');
     }
 
     $teamMember['memberUrl'] = 'index.php?file=Team&amp;op=detail&amp;autor='. urlencode($teamMember['nickname']);

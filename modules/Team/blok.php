@@ -59,7 +59,7 @@ if ($active == 3 || $active == 4)
         }
         else
         {
-            $rank_name = "N/A";
+            $rank_name = __('NA');
         }
 
         echo "<tr style=\"background: " . (($j++ % 2 == 1) ? $bgcolor1 : $bgcolor2) . ";\">\n"

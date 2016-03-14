@@ -23,7 +23,7 @@ while ($row = nkDB_fetchAssoc($dbeMatch)) {
     $arrayTemp[$i]['icon'] = $row['icon'];
     $arrayTemp[$i]['flag'] = 'images/flags/'.$row['country'];
     $arrayTemp[$i]['matchLink'] = 'index.php?file=Wars&amp;op=detail&amp;war_id='.$row['warid'];
-    $arrayTemp[$i]['teamName'] = empty($row['teamName']) ? 'N/A' : $row['teamName'];
+    $arrayTemp[$i]['teamName'] = empty($row['teamName']) ? __('NA') : $row['teamName'];
     $arrayTemp[$i]['opponentName'] = $row['opponentName'];
     $arrayTemp[$i]['score'] = $row['teamScore'].' - '.$row['opponentScore'];
     $arrayTemp[$i]['link'] = 'index.php?file=Wars&op=detail&war_id='.$row['warid'];

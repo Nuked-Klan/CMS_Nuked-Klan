@@ -66,7 +66,7 @@ function main(){
             $team_name = printSecuTags($team_name);
         }
         else{
-            $team_name = "N/A";
+            $team_name = __('NA');
         }
 
         if ($language == "french"){

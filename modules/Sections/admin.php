@@ -123,7 +123,7 @@ function main(){
         if ($date) $date = nkDate($date);
 
         if($autor==""){
-            $autor = "N/A";
+            $autor = __('NA');
         }
 
         if ($autor_id != ""){
