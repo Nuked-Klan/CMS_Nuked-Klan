@@ -165,12 +165,15 @@ function add() {
             alert(\''. _TITLENEWSFORGOT .'\');
             return false;
         }
-        if(! document.getElementById(\'newsHour\').value.match(/^(\d){1,2}:(\d){1,2}$/)){
-            alert(\''. _BADTIME .'\');
-            return false;
-        }
         if($.trim(getEditorContent(\'newsText\')) == ""){
             alert(\''. _TEXTNEWSFORGOT .'\');
+            return false;
+        }
+
+        newsHour = document.getElementById(\'newsHour\').value;
+
+        if (newsHour != "" && ! checkTimeValue(newsHour)){
+            alert(\''. _BADTIME .'\');
             return false;
         }
 
@@ -282,18 +285,21 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
 
     $hour = $minute = 0;
 
-    if (strpos($heure, ':') !== false) {
-        list($hour, $minute) = explode(':', $heure, 2);
-        $hour   = (int) $hour;
-        $minute = (int) $minute;
+    if ($heure != '') {
+        $timeArray = explode(':', $heure, 2);
+        $hour      = (isset($timeArray[0])) ? (int) $timeArray[0] : null;
+        $minute    = (isset($timeArray[1])) ? (int) $timeArray[1] : null;
 
-        if ($hour > 24 || $hour < 0 || $minute > 60 || $minute < 0) {
+        if ($hour === null || $minute === null || $hour > 24 || $hour < 0 || $minute > 60 || $minute < 0) {
             printNotification(_BADTIME, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
     }
 
-    $date = mktime($hour, $minute, 0, $mois, $jour, $annee) ;
+    if (($date = mktime($hour, $minute, 0, $mois, $jour, $annee)) === false) {
+        printNotification(_BADDATE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
 
     $auteur = $user[2];
     $auteur_id = $user[0];
@@ -372,12 +378,15 @@ function edit($news_id) {
             alert(\''. _TITLENEWSFORGOT .'\');
             return false;
         }
-        if(! document.getElementById(\'newsHour\').value.match(/^(\d){1,2}:(\d){1,2}$/)){
-            alert(\''. _BADTIME .'\');
-            return false;
-        }
         if($.trim(getEditorContent(\'newsText\')) == ""){
             alert(\''. _TEXTNEWSFORGOT .'\');
+            return false;
+        }
+
+        newsHour = document.getElementById(\'newsHour\').value;
+
+        if (newsHour != "" && ! checkTimeValue(newsHour)){
+            alert(\''. _BADTIME .'\');
             return false;
         }
 
@@ -493,18 +502,21 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
 
     $hour = $minute = 0;
 
-    if (strpos($heure, ':') !== false) {
-        list($hour, $minute) = explode(':', $heure, 2);
-        $hour   = (int) $hour;
-        $minute = (int) $minute;
+    if ($heure != '') {
+        $timeArray = explode(':', $heure, 2);
+        $hour      = (isset($timeArray[0])) ? (int) $timeArray[0] : null;
+        $minute    = (isset($timeArray[1])) ? (int) $timeArray[1] : null;
 
-        if ($hour > 24 || $hour < 0 || $minute > 60 || $minute < 0) {
+        if ($hour === null || $minute === null || $hour > 24 || $hour < 0 || $minute > 60 || $minute < 0) {
             printNotification(_BADTIME, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
     }
 
-    $date = mktime($hour, $minute, 0, $mois, $jour, $annee) ;
+    if (($date = mktime($hour, $minute, 0, $mois, $jour, $annee)) === false) {
+        printNotification(_BADDATE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
 
     //Upload du fichier
     $coverageUrl = '';
