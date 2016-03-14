@@ -30,9 +30,10 @@ function main() {
 
 function save_db()
 {
-    global $global, $nuked, $user;
+    global $global, $nuked, $user, $defaultHttpHeader;
 
     nkTemplate_setPageDesign('none');
+    $defaultHttpHeader = false;
 
     require("modules/Admin/class/iam_backup.php");
 

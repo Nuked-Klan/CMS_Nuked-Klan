@@ -154,7 +154,7 @@ class iam_backup
         return "Error. Database $this->dbname could not be selected.";
         }
 
-        $result = @mysql_query("show tables from $this->dbname");
+        $result = mysql_query("show tables from `$this->dbname`");
         while (list($table) = @mysql_fetch_row($result))
         {
         $newfile .= $this->_get_def($table);
