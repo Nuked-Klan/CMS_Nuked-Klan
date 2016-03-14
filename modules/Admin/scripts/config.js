@@ -98,3 +98,12 @@ function getEditorContent(id) {
 
     return $(textValue).text();
 }
+
+function isEmail(id) {
+    //if (document.getElementById(id).value.indexOf('@') == -1)
+    if (document.getElementById(id).value.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/))
+        return true;
+
+    return false;
+}
+

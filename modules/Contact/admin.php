@@ -56,17 +56,19 @@ function main(){
         $day = nkDate($date);
         $l++;
 
-        if (strlen($titre) > 45) $title = substr($titre, 0, 45) . '...';
-        else $title = $titre;
+        if (strlen($titre) > 45) $title = printSecuTags(substr($titre, 0, 45)) . '...';
+        else $title = printSecuTags($titre);
 
-        $name = addslashes($nom);
+        $nom   = printSecuTags($nom);
+        $email = printSecuTags($email);
+
         echo '<tr>'."\n"
         . '<td style="width: 10%;text-align:center;" >' . $l . '</td>'."\n"
         . '<td style="width: 30%;text-align:center;" >' . $title . '</td>'."\n"
         . '<td style="width: 20%;text-align:center;" ><a href="mailto:' . $email . '">' . $nom . '</a></td>'."\n"
         . '<td style="width: 20%;text-align:center;" >' . $day . '</td>'."\n"
         . '<td style="width: 10%;text-align:center;" ><a href="index.php?file=Contact&amp;page=admin&amp;op=view&amp;mid=' . $id . '"><img style="border: 0" src="images/report.gif" alt="" title="' . _READTHISMESS. '" /></a></td>'."\n"
-        . '<td style="width: 10%;text-align:center;" ><a href="javascript:delmail(\'' . $name . '\',\'' . $id . '\');"><img style="border: 0" src="images/del.gif" alt="" title="' . _DELTHISMESS . '" /></a></td></tr>'."\n";
+        . '<td style="width: 10%;text-align:center;" ><a href="javascript:delmail(\''. addslashes($nom) .'\',\'' . $id . '\');"><img style="border: 0" src="images/del.gif" alt="" title="' . _DELTHISMESS . '" /></a></td></tr>'."\n";
     }
 
     if ($count == 0) echo '<tr><td align="center" colspan="6">' . _NOMESSINDB . '</td></tr>'."\n";
@@ -77,6 +79,8 @@ function main(){
 function view($mid){
     global $nuked, $language;
 
+    $mid = (int) $mid;
+
     $sql = nkDB_execute('SELECT titre, message, nom, ip, email, date FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
     list($titre, $message, $nom, $ip, $email, $date) = nkDB_fetchArray($sql);
 
@@ -84,7 +88,9 @@ function view($mid){
 
     $message = str_replace('\r', '', $message);
     $message = str_replace('\n', '<br />', $message);
-    $name = addslashes($nom);
+
+    $nom   = printSecuTags($nom);
+    $email = printSecuTags($email);
 
     echo '<script type="text/javascript">'."\n"
     . '<!--'."\n"
@@ -107,14 +113,16 @@ function view($mid){
     . '<tr><td>' . _CFROM . '  <a href="mailto:' . $email . '"><b>' . $nom . '</b></a> (IP : ' . $ip . ') ' . _THE . ' ' . $day . '</td></tr>'."\n"
     . '<tr><td><b>' . _YSUBJECT . ' :</b> ' . $titre . '</td></tr>'."\n"
     . '<tr><td><br />' . $message . '</td></tr></table>'."\n"
-    . '<div style="text-align: center"><br /><input class="button" type="button" value="' . _DELTHISMESS . '" onclick="javascript:delmail(\'' . $name . '\', \'' . $mid . '\');" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . __('BACK') . '</a>'."\n"
+    . '<div style="text-align: center"><br /><input class="button" type="button" value="' . _DELTHISMESS . '" onclick="javascript:delmail(\'' . addslashes($nom) . '\', \'' . $mid . '\');" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . __('BACK') . '</a>'."\n"
     . '</div><br /></div></div>'."\n";
 }
 
 function del($mid){
     global $nuked, $user;
 
-    $sql = nkDB_execute('DELETE FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
+    $mid = (int) $mid;
+
+    nkDB_execute('DELETE FROM ' . CONTACT_TABLE . ' WHERE id = ' . $mid);
 
     saveUserAction(_ACTIONDELCONTACT);
 
@@ -126,6 +134,20 @@ function main_pref()
 {
     global $nuked, $language;
 
+    echo '<script type="text/javascript">
+    function checkContactSetting(){
+        if(! isEmail(\'contactEmail\')){
+            alert(\''. _CONTACT_EMAIL_INVALID .'\');
+            return false;
+        }
+        if(! document.getElementById(\'contactFlood\').value.match(/^\d+$/)){
+            alert(\''. _FLOOD_CONTACT_NO_INTEGER .'\');
+            return false;
+        }
+    return true;
+    }
+    </script>';
+
     echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
     . '<div class="content-box-header"><h3>' . _ADMINCONTACT . '</h3>',"\n"
     . '<div style="text-align:right"><a href="help/' . $language . '/Contact.php" rel="modal">',"\n"
@@ -135,11 +157,11 @@ function main_pref()
 
     nkAdminMenu(2);
 
-    echo '<form method="post" action="index.php?file=Contact&amp;page=admin&amp;op=change_pref">',"\n"
+    echo '<form onsubmit="return checkContactSetting()" method="post" action="index.php?file=Contact&amp;page=admin&amp;op=change_pref">',"\n"
     . '<table style="margin: auto;text-align: left" border="0" cellspacing="0" cellpadding="3">',"\n"
     . '<tr><td align="center"><big>' . _PREFS . '</big></td></tr>',"\n"
-    . '<tr><td>' . _EMAILCONTACT . ' : <input type="text" name="contact_mail" size="40" value="' . $nuked['contact_mail'] . '" /></td></tr>',"\n"
-    . '<tr><td>' . _FLOODCONTACT . ' : <input type="text" name="contact_flood" size="2" value="' . $nuked['contact_flood'] . '" /></td></tr></table>',"\n"
+    . '<tr><td>' . _EMAILCONTACT . ' : <input id="contactEmail" type="text" name="contact_mail" size="40" value="' . $nuked['contact_mail'] . '" /></td></tr>',"\n"
+    . '<tr><td>' . _FLOODCONTACT . ' : <input id="contactFlood" type="text" name="contact_flood" size="2" value="' . $nuked['contact_flood'] . '" /></td></tr></table>',"\n"
     . '<div style="text-align: center"><br /><input class="button" type="submit" value="' . __('SEND') . '" /><a class="buttonLink" href="index.php?file=Contact&amp;page=admin">' . __('BACK') . '</a><br />',"\n"
     . '</div></form><br /></div></div>',"\n";
 }
@@ -147,8 +169,18 @@ function main_pref()
 function change_pref($contact_mail, $contact_flood){
     global $nuked, $user;
 
-    $upd1 = nkDB_execute('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_mail . '\' WHERE name = \'contact_mail\'');
-    $upd2 = nkDB_execute('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_flood . '\' WHERE name = \'contact_flood\'');
+    $contact_mail = stripslashes($contact_mail);
+
+    if (($contact_mail = checkEmail($contact_mail, false, false)) === false) {
+        printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $contact_mail  = nkDB_realEscapeString($contact_mail);
+    $contact_flood = nkDB_realEscapeString(stripslashes($contact_flood));
+
+    nkDB_execute('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_mail . '\' WHERE name = \'contact_mail\'');
+    nkDB_execute('UPDATE ' . CONFIG_TABLE . ' SET value = \'' . $contact_flood . '\' WHERE name = \'contact_flood\'');
 
     saveUserAction(_ACTIONPREFCONT);
 

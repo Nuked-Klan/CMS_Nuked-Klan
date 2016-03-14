@@ -1556,7 +1556,7 @@ function getCheckNicknameError($result) {
  * @param string $email : The email to check.
  * @return string : Email string trimmed or error alias of email checking.
  */
-function checkEmail($email = '', $checkRegistred = false) {
+function checkEmail($email = '', $checkRegistred = false, $checkBanned = true) {
     global $user;
 
     $email = trim($email);
@@ -1568,9 +1568,11 @@ function checkEmail($email = '', $checkRegistred = false) {
 
     $escapeEmail = nkDB_quote($email);
 
-    $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE email = '. $escapeEmail);
+    if ($checkBanned) {
+        $isBanned = nkDB_totalNumRows('FROM '. BANNED_TABLE .' WHERE email = '. $escapeEmail);
 
-    if ($isBanned > 0) return 'error2';
+        if ($isBanned > 0) return 'error2';
+    }
 
     if ($checkRegistred) {
         $isUsed = nkDB_totalNumRows('FROM '. USER_TABLE .' WHERE mail = '. $escapeEmail);

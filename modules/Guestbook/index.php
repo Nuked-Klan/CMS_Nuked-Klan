@@ -22,36 +22,36 @@ function post_book()
 
     define('EDITOR_CHECK', 1);
 
-    opentable();
-
     ?>
     <script type="text/javascript">
         function trim(string){
             return string.replace(/(^\s*)|(\s*$)/g,'');
         }
 
-        function verifchamps(){
-            if (trim(document.getElementById('guest_name').value) == ""){
+        function checkGuestbookPost(){
+            if (document.getElementById('guest_name') && trim(document.getElementById('guest_name').value) == ""){
                 alert('<?php echo _NONICK; ?>');
                 return false;
             }
             if (document.getElementById('guest_mail').value.indexOf('@') == -1){
-                alert('<?php echo __('BAD_EMAIL') ?>');
+                alert('<?php echo addslashes(__('BAD_EMAIL')) ?>');
                 return false;
             }
+
+            return true;
         }
     </script>
     <?php
 
     if ($user)
     {
-        $sql = nkDB_execute("SELECT url, email FROM " . USER_TABLE . " WHERE pseudo = '" . $user[2] . "'");
+        $sql = nkDB_execute("SELECT url, email FROM " . USER_TABLE . " WHERE id = '" . $user['id'] . "'");
         list($url, $mail) = nkDB_fetchArray($sql);
     }
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big></div><br />\n"
-    . "<form method=\"post\" action=\"index.php?file=Guestbook&amp;op=send_book\">\n"
-    . "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
+    . "<form onsubmit=\"return checkGuestbookPost()\" method=\"post\" action=\"index.php?file=Guestbook&amp;op=send_book\">\n"
+    . "<table style=\"margin: auto; width: 98%; text-align: left;\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n"
     . "<tr><td><b>" . __('AUTHOR') . " :</b></td><td>";
     if ($user) echo '<b>' . $user[2] . '</b></td></tr>'; else echo "<input id=\"guest_name\" type=\"text\" name=\"name\" value=\"\" size=\"20\" maxlength=\"30\" /></td></tr>\n";
     echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
@@ -62,44 +62,42 @@ function post_book()
     echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
     . "<tr><td colspan=\"2\"><textarea id=\"e_basic\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
     . "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\"" . __('SEND') . "\" />&nbsp;<input type=\"button\" value=\"" . _CANCEL . "\" onclick=\"javascript:history.back()\" /></td></tr></table></form><br />\n";
-
-    closetable();
 }
 
-function send_book($email, $url, $comment)
+function send_book($comment)
 {
     global $user, $nuked, $user_ip;
-
-    opentable();
 
     // Verification code captcha
     if (initCaptcha() && ! validCaptchaCode())
         return;
 
-    if ($user[2] != "")
+    if ($user)
     {
         $pseudo = $user[2];
+
+        $sql = nkDB_execute("SELECT url, email FROM " . USER_TABLE . " WHERE id = '" . $user['id'] . "'");
+        list($url, $mail) = nkDB_fetchArray($sql);
     }
     else
     {
-        $pseudo = checkNickname($_REQUEST['name']);
+        $email = stripslashes($_REQUEST['email']);
+        $url   = stripslashes($_REQUEST['url']);
+
+        $pseudo = checkNickname(stripslashes($_REQUEST['name']));
         $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
 
         if (($error = getCheckNicknameError($pseudo)) !== false) {
-            printNotification($error, 'error');
-            redirect('index.php?file=Guestbook&op=post_book', 2);
-            closetable();
+            printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
     }
 
     $email = nkHtmlEntities($email);
-    $email = checkEmail($email);
+    $email = checkEmail(stripslashes($email));
 
     if (($error = getCheckEmailError($email)) !== false) {
-        printNotification($error, 'error');
-        redirect('index.php?file=Guestbook&op=post_book', 2);
-        closetable();
+        printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
         return;
     }
 
@@ -112,55 +110,50 @@ function send_book($email, $url, $comment)
 
     if ($user_ip == $flood_ip && $date < $anti_flood)
     {
-        printNotification(_GNOFLOOD, 'error');
+        printNotification(_GNOFLOOD, 'error');// TODO : Backlink ?
         redirect("index.php?file=Guestbook", 2);
-        closetable();
     }
     else if ($comment != "")
     {
+        if (!empty($url) && stripos($url, 'http://') === false)
+        {
+            $url = "http://" . $url;
+        }
+
         $date = time();
         $comment = secu_html(nkHtmlEntityDecode($comment));
         $comment = nkDB_realEscapeString(stripslashes($comment));
-        $pseudo = nkDB_realEscapeString(stripslashes($pseudo));
-        $email = nkDB_realEscapeString(stripslashes($email));
+        $pseudo  = nkDB_realEscapeString(stripslashes($pseudo));
+        $email   = nkDB_realEscapeString(stripslashes($email));
+        $url     = nkDB_realEscapeString($url);
+        $user_ip = nkDB_realEscapeString($user_ip);
 
-        if (!empty($url) && !is_int(stripos($url, 'http://')))
-        {
-            $url = "http://" . nkDB_realEscapeString(stripslashes($url));
-        }
-
-        $sql = nkDB_execute("INSERT INTO " . GUESTBOOK_TABLE . " ( `id` , `name` , `email` , `url` , `date` , `host` , `comment` ) VALUES ( '' , '" . $pseudo . "' , '" . $email . "' , '" . $url . "' , '" . $date . "' , '" . $user_ip . "' , '" . $comment . "' )");
+        nkDB_execute(
+            "INSERT INTO ". GUESTBOOK_TABLE ."
+            (`name`, `email`, `url`, `date`, `host`, `comment`)
+            VALUES
+            ('". $pseudo ."', '". $email ."', '". $url ."', '". $date ."', '". $user_ip ."', '". $comment ."')"
+        );
 
         printNotification(_POSTADD, 'success');
         redirect("index.php?file=Guestbook", 2);
-        closetable();
     }
     else
     {
-        printNotification(_NOTEXT, 'error');
-        redirect("index.php?file=Guestbook", 2);
-        closetable();
+        printNotification(_NOTEXT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
     }
 }
 
 function index()
 {
-    global $nuked, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $visiteur;
-
-    opentable();
+    global $nuked, $language, $bgcolor1, $bgcolor2, $bgcolor3, $user, $visiteur, $p;
 
     $nb_mess_guest = $nuked['mess_guest_page'];
 
     $sql = nkDB_execute("SELECT id FROM " . GUESTBOOK_TABLE);
     $count = nkDB_numRows($sql);
 
-    if(array_key_exists('p', $_REQUEST)){
-        $page = $_REQUEST['p'];
-    }
-    else{
-        $page = 1;
-    }
-    $start = $page * $nb_mess_guest - $nb_mess_guest;
+    $start = $p * $nb_mess_guest - $nb_mess_guest;
 
     echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big>\n"
     . "<br /><br />[ <a href=\"index.php?file=Guestbook&amp;op=post_book\">" . _SIGNGUESTBOOK . "</a> ]</div><br />\n";
@@ -168,6 +161,21 @@ function index()
     if ($count > $nb_mess_guest)
     {
         number($count, $nb_mess_guest, "index.php?file=Guestbook");
+    }
+
+    if ($visiteur >= admin_mod("Guestbook"))
+    {
+        echo "<script type=\"text/javascript\">\n"
+        . "<!--\n"
+        . "\n"
+        . "function delmess(pseudo, id)\n"
+        . "{\n"
+        . "if (confirm('" . _SIGNDELETE . " '+pseudo+' ! " . _CONFIRM . "'))\n"
+        . "{document.location.href = 'index.php?file=Guestbook&page=admin&op=del_book&gid='+id;}\n"
+        . "}\n"
+        . "\n"
+        . "// -->\n"
+        . "</script>\n";
     }
 
     echo "<table style=\"background: " . $bgcolor3 . ";margin:auto\" width=\"98%\" cellpadding=\"3\" cellspacing=\"1\">\n"
@@ -185,8 +193,6 @@ function index()
 
         $url = nk_CSS($url);
         $email = nk_CSS($email);
-
-        $comment = icon($comment);
 
         if (strlen($name) > 30)
         {
@@ -225,18 +231,6 @@ function index()
 
         if ($visiteur >= admin_mod("Guestbook"))
         {
-            echo "<script type=\"text/javascript\">\n"
-            . "<!--\n"
-            . "\n"
-            . "function delmess(pseudo, id)\n"
-            . "{\n"
-            . "if (confirm('" . _SIGNDELETE . " '+pseudo+' ! " . _CONFIRM . "'))\n"
-            . "{document.location.href = 'index.php?file=Guestbook&page=admin&op=del_book&gid='+id;}\n"
-            . "}\n"
-            . "\n"
-            . "// -->\n"
-            . "</script>\n";
-
             $admin = "<a class=\"nkButton icon alone small edit\" href=\"index.php?file=Guestbook&amp;page=admin&amp;op=edit_book&amp;gid=" . $id . "\"></a>"
             . "<a class=\"nkButton icon alone small remove danger\" href=\"javascript:delmess('" . addslashes($name) . "', '" . $id . "');\"></a>";
         }
@@ -270,9 +264,10 @@ function index()
     }
 
     echo "<br /><div style=\"text-align: center;\"><small><i>( " . _THEREIS . "&nbsp;" . $count . "&nbsp;" . _SIGNINDB . " )</i></small></div><br />\n";
-
-    closetable();
 }
+
+
+opentable();
 
 switch ($GLOBALS['op'])
 {
@@ -281,12 +276,14 @@ switch ($GLOBALS['op'])
         break;
 
     case "send_book":
-        send_book($_REQUEST['email'], $_REQUEST['url'], $_REQUEST['comment']);
+        send_book($_REQUEST['comment']);
         break;
 
     default:
         index();
         break;
 }
+
+closetable();
 
 ?>

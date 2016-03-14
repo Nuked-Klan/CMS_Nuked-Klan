@@ -12,28 +12,23 @@
 defined('INDEX_CHECK') or die('You can\'t run this file alone.');
 
 define("_GUESTBOOK","Livre d'or");
-
 define("_POSTADD","Votre message a bien été ajouté");
 define("_POSTEDIT","Message modifié avec succès.");
 define("_SIGNGUESTBOOK","Signer le Livre d'Or");
 define("_GPOSTED","Posté");
-
 define("_SIGNINDB","signatures dans le livre d'or");
-
 define("_NOSIGN","Il n'y a pas encore de message");
 define("_GNOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
-
 define("_ADMINGUESTBOOK","Administration Livre D'or");
-
 define("_POSTDELETE","Message supprimé avec succès.");
 define("_SIGNDELETE","Vous êtes sur le point de supprimer le message de");
-
 define("_EDITTHISPOST","Editer ce message");
 define("_DELTHISPOST","Supprimer ce message");
 define("_GUESTBOOKPG","Nombre de messages par page");
-
 define("_ACTIONMODIFBOOK","a modifié une signature du livre d\'or");
 define("_ACTIONDELBOOK","a supprimé une signature du livre d\'or");
 define("_ACTIONPREFBOOK","a modifié les préférences du livre d\'or");
+
+define('_NB_GUESTBOOK_MSG_NO_INTEGER', "Le nombre de messages par page doit être un entier.");
 
 ?>

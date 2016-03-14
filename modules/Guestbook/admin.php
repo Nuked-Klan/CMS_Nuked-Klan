@@ -19,20 +19,34 @@ function edit_book($gid)
 {
     global $nuked, $language;
 
+    $gid = (int) $gid;
+
     $sql = nkDB_execute("SELECT name, comment, email, url FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
     list($name, $comment, $email, $url) = nkDB_fetchArray($sql);
 
-    $url = nkHtmlEntities($url);
+    $url   = nkHtmlEntities($url);
+    $email = nkHtmlEntities($email);
+
+    echo '<script type="text/javascript">
+    function checkEditGuestbookMsg(){
+        if(! isEmail(\'guestbookMsgEmail\')){
+            alert(\''. addslashes(__('BAD_EMAIL')) .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
 
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _EDITTHISPOST . "</h3>\n"
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Guestbook.php\" rel=\"modal\">\n"
     . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
     . "</div></div>\n"
-    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=modif_book\" onsubmit=\"backslash('guest_text');\">\n"
+    . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=modif_book\" onsubmit=\"return checkEditGuestbookMsg()\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"2\"border=\"0\">\n"
     . "<tr><td><b>" . __('AUTHOR') . " :</b></td><td>" . $name . "</td></tr>\n"
-    . "<tr><td><b>" . _MAIL . " : </b></td><td><input type=\"text\" name=\"email\" size=\"40\" value=\"" . $email . "\" /></td></tr>\n"
+    . "<tr><td><b>" . _MAIL . " : </b></td><td><input id=\"guestbookMsgEmail\" type=\"text\" name=\"email\" size=\"40\" value=\"" . $email . "\" /></td></tr>\n"
     . "<tr><td><b>" . _URL . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" value=\"" . $url . "\" /></td></tr>\n";
 
     echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
@@ -45,15 +59,38 @@ function modif_book($gid, $comment, $email, $url)
 {
     global $nuked, $user;
 
-    $comment = nkHtmlEntityDecode($comment);
-    $comment = nkDB_realEscapeString(stripslashes($comment));
+    $gid = (int) $gid;
 
-    if (!empty($url) && !is_int(stripos($url, 'http://')))
+    $comment = stripslashes($comment);
+    $email   = stripslashes($email);
+    $url     = stripslashes($url);
+
+    $email = nkHtmlEntities($email);// TODO : Really need ?
+    $email = checkEmail($email);
+
+    if (($error = getCheckEmailError($email)) !== false) {
+        printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $comment = secu_html(nkHtmlEntityDecode($comment));
+
+    if (!empty($url) && stripos($url, 'http://') === false)
     {
         $url = "http://" . $url;
     }
 
-    $sql = nkDB_execute("UPDATE " . GUESTBOOK_TABLE . " SET email = '" . $email . "', url = '" . $url . "', comment = '" . $comment . "' WHERE id = '" . $gid . "'");
+    $email   = nkDB_realEscapeString($email);
+    $url     = nkDB_realEscapeString($url);
+    $comment = nkDB_realEscapeString($comment);
+
+    nkDB_execute(
+        "UPDATE ". GUESTBOOK_TABLE ."
+        SET email = '" . $email . "',
+        url = '" . $url . "',
+        comment = '" . $comment . "'
+        WHERE id = '" . $gid . "'"
+    );
 
     saveUserAction(_ACTIONMODIFBOOK .'.');
 
@@ -65,7 +102,9 @@ function del_book($gid)
 {
     global $nuked, $user;
 
-    $sql = nkDB_execute("DELETE FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
+    $gid = (int) $gid;
+
+    nkDB_execute("DELETE FROM " . GUESTBOOK_TABLE . " WHERE id = '" . $gid . "'");
 
     saveUserAction(_ACTIONDELBOOK .'.');
 
@@ -75,20 +114,14 @@ function del_book($gid)
 
 function main()
 {
-    global $nuked, $language;
+    global $nuked, $language, $p;
 
-    $nb_mess_guest = "30";
+    $nb_mess_guest = 30;
 
     $sql2 = nkDB_execute("SELECT id FROM " . GUESTBOOK_TABLE);
     $count = nkDB_numRows($sql2);
 
-    if(array_key_exists('p', $_REQUEST)){
-        $page = $_REQUEST['p'];
-    }
-    else{
-        $page = 1;
-    }
-    $start = $page * $nb_mess_guest - $nb_mess_guest;
+    $start = $p * $nb_mess_guest - $nb_mess_guest;
 
     echo "<script type=\"text/javascript\">\n"
     . "<!--\n"
@@ -158,6 +191,17 @@ function main_pref()
 {
     global $nuked, $language;
 
+    echo '<script type="text/javascript">
+    function checkGuestbookSetting(){
+        if(! document.getElementById(\'nbGuestbookMsg\').value.match(/^\d+$/)){
+            alert(\''. _NB_GUESTBOOK_MSG_NO_INTEGER .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Guestbook.php\" rel=\"modal\">\n"
@@ -167,9 +211,9 @@ function main_pref()
 
     nkAdminMenu(2);
 
-    echo "<form method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=change_pref\">\n"
+    echo "<form onsubmit=\"return checkGuestbookSetting()\" method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=change_pref\">\n"
     . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-    . "<tr><td>" . _GUESTBOOKPG . " :</td><td><input type=\"text\" name=\"mess_guest_page\" size=\"2\" value=\"" . $nuked['mess_guest_page'] . "\" /></td></tr>\n"
+    . "<tr><td>" . _GUESTBOOKPG . " :</td><td><input id=\"nbGuestbookMsg\" type=\"text\" name=\"mess_guest_page\" size=\"2\" value=\"" . $nuked['mess_guest_page'] . "\" /></td></tr>\n"
     . "</table><div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Guestbook&amp;page=admin\">" . __('BACK') . "</a></div>\n"
     . "</form><br /></div></div>\n";
 }

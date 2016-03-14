@@ -18,11 +18,10 @@ define('_YMAIL','Votre Email');
 define('_YSUBJECT','Objet');
 define('_CYCOMMENT','Votre message');
 define('_NOCONTENT','Vous avez oublié de remplir des champs obligatoires');
-//define('_NONICK','Vous n\'avez pas entré votre nom !');
+define('_CNONAME','Vous n\'avez pas entré votre nom !');
 define('_NOSUBJECT','Vous n\'avez pas entré de sujet !');
 define('_SENDCMAIL','Votre email a bien été envoyé, nous vous répondrons dans les plus brefs délais.');
 define('_FLOODCMAIL','Vous avez déja posté un mail il y\'a moins de ' . $nuked['contact_flood'] . ' minutes,<br />veuillez patienter avant de renvoyer un autre email...');
-
 define('_ADMINCONTACT','Administration Contact');
 define('_DELETEMESSAGEFROM','Vous êtes sur le point de supprimer le message de');
 define('_LISTMAIL','Liste des messages');
@@ -37,4 +36,8 @@ define('_FLOODCONTACT','Durée en minutes entre 2 messages (flood)');
 define('_NOTCON','Vous avez reçu un mail contact');
 define('_ACTIONDELCONTACT','a supprimé un mail contact reçu');
 define('_ACTIONPREFCONT','a modifié les préférences du module contact');
+
+// TODO
+define('_CONTACT_EMAIL_INVALID','');
+define('_FLOOD_CONTACT_NO_INTEGER','');
 ?>

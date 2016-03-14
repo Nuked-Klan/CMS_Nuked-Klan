@@ -22,12 +22,12 @@ function index(){
 
     echo '<script type="text/javascript">
     <!--
-    function verifchamps(){
-        if (document.getElementById(\'ns_pseudo\').value.length == 0){
-            alert(\'' . addslashes(_NONICK) . '\');
+    function checkContactForm(){
+        if (document.getElementById(\'ns_pseudo\') && document.getElementById(\'ns_pseudo\').value.length == 0){
+            alert(\'' . addslashes(_CNONAME) . '\');
             return false;
         }
-        if (document.getElementById(\'ns_email\').value.indexOf(\'@\') == -1){
+        if (! isEmail(\'ns_email\')){
             alert(\'' . addslashes(_BADMAIL) . '\');
             return false;
         }
@@ -44,7 +44,7 @@ function index(){
     $input_user = ($user) ? '<input id="ns_pseudo" type="text" name="nom" value="' . $user[2] . '" style="width: 50%" />' : '';
 
     echo '<div style="width: 80%; margin: auto">
-    <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return verifchamps()">
+    <form method="post" action="index.php?file=Contact&amp;op=sendmail" onsubmit="return checkContactForm()">
     <p style="text-align: center; margin-bottom: 20px"><big><b>' . _CONTACT . '</b></big><br /><em>' . _CONTACTFORM . '</em></p>
     <p><label for="ns_pseudo" style="float: left; width: 20%; font-weight: bold">' . _CYNICK . ' : </label>&nbsp;' . $input_user . '</p>
     <p><label for="ns_email" style="float: left; width: 20%; font-weight: bold">' . _YMAIL . ' : </label>&nbsp;<input id="ns_email" type="text" name="mail" value="" style="width: 50%" /></p>
@@ -66,51 +66,71 @@ function sendmail(){
     if (initCaptcha() && ! validCaptchaCode())
         return;
 
-    if (!$_REQUEST['mail'] || !$_REQUEST['sujet'] || !$_REQUEST['corps']){
-        printNotification(_NOCONTENT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
-        closetable();
+    if (! $user && (! isset($_REQUEST['nom']) || $_REQUEST['nom'] == '' || ctype_space($_REQUEST['nom']))) {
+        printNotification(stripslashes(_CNONAME), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    if ($_REQUEST['sujet'] == '' || ctype_space($_REQUEST['sujet'])) {
+        printNotification(stripslashes(_NOSUBJECT), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $_REQUEST['mail'] = stripslashes($_REQUEST['mail']);
+
+    if (($mail = checkEmail($_REQUEST['mail'], false, false)) === false) {
+        printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
         return;
     }
 
     $time = time();
     $date = nkDate($time);
     $contact_flood = $nuked['contact_flood'] * 60;
+    $escapeUserIp = nkDB_realEscapeString($user_ip);
 
-    $sql = nkDB_execute("SELECT date FROM " . CONTACT_TABLE . " WHERE ip = '" . $user_ip . "' ORDER BY date DESC LIMIT 0, 1");
+    $sql = nkDB_execute("SELECT date FROM " . CONTACT_TABLE . " WHERE ip = '" . $escapeUserIp . "' ORDER BY date DESC LIMIT 0, 1");
     $count = nkDB_numRows($sql);
     list($flood_date) = nkDB_fetchArray($sql);
     $anti_flood = $flood_date + $contact_flood;
 
     if ($count > 0 && $time < $anti_flood){
-        printNotification(_FLOODCMAIL, 'error');
+        printNotification(_FLOODCMAIL, 'error');// TODO : Backlink ?
         redirect("index.php", 3);
     }
     else{
-        $nom = trim($_REQUEST['nom']);
-        $mail = trim($_REQUEST['mail']);
-        $sujet = trim($_REQUEST['sujet']);
-        $corps = $_REQUEST['corps'];
+        $nom = trim(stripslashes($_REQUEST['nom']));
+        $sujet = trim(stripslashes($_REQUEST['sujet']));
+        $corps = stripslashes($_REQUEST['corps']);
+
         if($user) $nom = $user[2];
 
-        $subjet = stripslashes($sujet) . ", " . $date;
+        $subjet = $sujet . ", " . $date;
         $corp = $corps . "<p><em>IP : " . $user_ip . "</em><br />" . $nuked['name'] . " - " . $nuked['slogan'] . "</p>";
         $from = "From: " . $nom . " <" . $mail . ">\r\nReply-To: " . $mail . "\r\n";
         $from .= "Content-Type: text/html\r\n\r\n";
 
         if ($nuked['contact_mail'] != "") $email = $nuked['contact_mail'];
-        else $email = $nuked['mail'];    
+        else $email = $nuked['mail'];
         $corp = secu_html(nkHtmlEntityDecode($corp));
-    
+
         mail($email, $subjet, $corp, $from);
 
-        $name = nkHtmlEntities($nom, ENT_QUOTES);
+        $nom = nkHtmlEntities($nom, ENT_QUOTES);
         $email = nkHtmlEntities($mail, ENT_QUOTES);
         $subject = nkHtmlEntities($sujet, ENT_QUOTES);
         $text = secu_html(nkHtmlEntityDecode($corps, ENT_QUOTES));
-        
-        if($user) $name = $user[2];
 
-        $add = nkDB_execute("INSERT INTO " . CONTACT_TABLE . " ( `id` , `titre` , `message` , `email` , `nom` , `ip` , `date` ) VALUES ( '' , '" . $subject . "' , '" . $text . "' , '" . $email . "' , '" . $name . "' , '" . $user_ip . "' , '" . $time . "' )");
+        $nom     = nkDB_realEscapeString($nom);
+        $email   = nkDB_realEscapeString($email);
+        $subject = nkDB_realEscapeString($subject);
+        $text    = nkDB_realEscapeString($text);
+
+        nkDB_execute(
+            "INSERT INTO ". CONTACT_TABLE ."
+            (`titre`, `message`, `email`, `nom`, `ip`, `date`)
+            VALUES
+            ('". $subject ."', '". $text ."', '". $email ."', '". $nom ."', '". $escapeUserIp ."' , '". $time ."')"
+        );
 
         saveNotification(_NOTCON .': [<a href="index.php?file=Contact&page=admin">'. _TLINK .'</a>].');
 
@@ -123,7 +143,7 @@ opentable();
 
 switch($GLOBALS['op']){
     case 'sendmail':
-    sendmail($_REQUEST);
+    sendmail();
     break;
 
     case 'index':

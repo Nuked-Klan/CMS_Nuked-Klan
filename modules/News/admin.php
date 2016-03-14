@@ -738,7 +738,8 @@ function edit_cat($cid) {
             alert(\''. _NOTEXT .'\');
             return false;
         }
-    return true;
+
+        return true;
     }
     </script>';
 
@@ -874,7 +875,8 @@ function main_pref() {
             alert(\''. _NB_ARCHIVES_NO_INTEGER .'\');
             return false;
         }
-    return true;
+
+        return true;
     }
     </script>';
 
