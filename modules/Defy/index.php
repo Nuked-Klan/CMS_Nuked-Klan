@@ -222,6 +222,16 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
         $defyDate = $day .'-'. $month .'-'. $year;
     }
 
+    $url = trim($url);
+
+    if ($url == 'http://') {
+        $url = '';
+    }
+    else if ($url != '' && stripos($url, 'http://') === 0)
+    {
+        $url = "http://" . $url;
+    }
+
     $email = $nuked['defie_mail'];
     $inbox = $nuked['defie_inbox'];
     $time = time();

@@ -123,12 +123,17 @@ function view($did) {
     if (! $map) $map = __('NA');
     if (! $comment) $comment = __('NA');
 
+    if ($url)
+        $url = '<a href="'. $url .'" onclick="window.open(this.href); return false;">'. $url .'</a>';
+    else
+        $url = __('NA');
+
     echo "<b>" . _NICK . " : </b>" . $pseudo . "<br />\n"
         . "<b>" . _CLAN . " : </b>" . $clan . "<br />\n"
         . "<b>" . _MAIL . " : </b><a href=\"mailto:" . $mail . "\">" . $mail . "</a><br />\n"
         . "<b>" . _ICQMSN . " : </b>" . $icq . "<br />\n"
         . "<b>" . _CHANIRC . " : </b>" . $irc . "<br />\n"
-        . "<b>" . _URL . " : </b><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $url . "</a><br />\n"
+        . "<b>" . _URL . " : </b>" . $url . "<br />\n"
         . "<b>" . _COUNTRY . " : </b>" . $pays . "<br />\n"
         . "<b>" . _DATE . " : </b>" . $defyDate . "<br />\n"
         . "<b>" . _DHOUR . " : </b>" . $defyHour . "<br />\n"
