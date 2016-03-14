@@ -196,7 +196,7 @@ define("_NOTE","Note");
 define("_NOTEXT","Please enter a text!");
 define("_NOTITLE","Please enter a title!");
 define("_BADTIME","Please enter a correct time!");
-//define("_BADDATE","Please enter a correct date!");
+define("_BADDATE","Please enter a correct date!");
 
 // Menu
 define("_NAV","Menu");
@@ -415,6 +415,7 @@ return array(
     'LINK'              => 'Link',
     'CODE'              => 'Code',
     'NONE_CATEGORY'     => 'None',
+    'NA'                => 'N/A',
 
     // module name
     'ARCHIVES_MODNAME'  => 'Archives',

@@ -20,22 +20,14 @@ define("_CLAN","Clan");
 define("_ICQMSN","Messenger");
 define("_CHANIRC","IRC Channel");
 define("_WEBSITE","Website");
-
 define("_DHOUR","Hour");
 define("_SERVER","Server");
-
 define("_DMAP","Map");
-
 define("_DMATCH","Match");
-
 define("_SENDMAIL","War request was successfully sent");
 define("_NEWDEFY","sent a new match request :");
-
-
-
 define("_TRANSFERT","Add this next match");
 define("_DDELETEMATCH","You are about to remove the war request by");
-
 define("_REMOVE","Remove");
 define("_DEFIEDELETE","War Request was successfully removed.");
 define("_DEFIETRANSFERT","War was successfully added.");
@@ -48,4 +40,5 @@ define("_NOTDEF","You have received a defy");
 define("_ACTIONDELDEFY","has deleted a defy by");
 define("_ACTIONTRANDEFY","has accepted the defy by");
 define("_ACTIONPREFDEFY","has modified the preference of the defy module");
+
 ?>

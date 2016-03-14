@@ -61,6 +61,8 @@ function main(){
 function view($did) {
     global $nuked, $language;
 
+    $did = (int) $did;
+
     echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
         . "\n"
@@ -89,6 +91,38 @@ function view($did) {
     list($game_name) = nkDB_fetchArray($sql2);
     $game_name = printSecuTags($game_name);
 
+    $defyDate = $defyHour = __('NA');
+
+    if ($date) {
+        $dateArray = explode('-', $date, 3);
+
+        $day   = (isset($dateArray[0])) ? (int) $dateArray[0] : null;
+        $month = (isset($dateArray[1])) ? (int) $dateArray[1] : null;
+        $year = (isset($dateArray[2])) ? (int) $dateArray[2] : null;
+
+        if ($day !== null && $month !== null && $year !== null) {
+            if ($language == 'french')
+                $defyDate = $day .'-'. $month .'-'. $year;
+            else
+                $defyDate = $month .'-'. $day .'-'. $year;
+        }
+    }
+
+    if ($heure != '') {
+        $timeArray = explode(':', $heure, 2);
+        $hour      = (isset($timeArray[0])) ? (int) $timeArray[0] : null;
+        $minute    = (isset($timeArray[1])) ? (int) $timeArray[1] : null;
+
+        if (! ($hour === null || $minute === null || $hour > 24 || $hour < 0 || $minute > 60 || $minute < 0))
+            $defyHour = $hour .':'. sprintf("%'.02d\n", $minute);
+    }
+
+    if (! $irc) $irc = __('NA');
+    if (! $serveur) $serveur = __('NA');
+    if (! $type) $type = __('NA');
+    if (! $map) $map = __('NA');
+    if (! $comment) $comment = __('NA');
+
     echo "<b>" . _NICK . " : </b>" . $pseudo . "<br />\n"
         . "<b>" . _CLAN . " : </b>" . $clan . "<br />\n"
         . "<b>" . _MAIL . " : </b><a href=\"mailto:" . $mail . "\">" . $mail . "</a><br />\n"
@@ -96,8 +130,8 @@ function view($did) {
         . "<b>" . _CHANIRC . " : </b>" . $irc . "<br />\n"
         . "<b>" . _URL . " : </b><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $url . "</a><br />\n"
         . "<b>" . _COUNTRY . " : </b>" . $pays . "<br />\n"
-        . "<b>" . _DATE . " : </b>" . $date . "<br />\n"
-        . "<b>" . _DHOUR . " : </b>" . $heure . "<br />\n"
+        . "<b>" . _DATE . " : </b>" . $defyDate . "<br />\n"
+        . "<b>" . _DHOUR . " : </b>" . $defyHour . "<br />\n"
         . "<b>" . _SERVER . " : </b>" . $serveur . "<br />\n"
         . "<b>" . _GAME . " : </b>" . $game_name . "<br />\n"
         . "<b>" . _DMATCH . " : </b>" . $type . "<br />\n"
@@ -109,6 +143,8 @@ function view($did) {
 
 function del($did) {
     global $nuked, $user;
+
+    $did = (int) $did;
 
     $sql = nkDB_execute("SELECT pseudo FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
     list($pseudo) = nkDB_fetchArray($sql);
@@ -124,16 +160,42 @@ function del($did) {
 function transfert($did) {
     global $nuked, $user;
 
+    $did = (int) $did;
+
     $sql = nkDB_execute("SELECT pseudo, clan, url, pays, date, heure, game, type, map FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
     list($pseudo, $clan, $url, $pays, $date, $heure, $game, $type, $map) = nkDB_fetchArray($sql);
-    list($date_jour, $date_mois, $date_an) = explode('-', $date);
 
-    $insert = nkDB_execute("INSERT INTO " . WARS_TABLE . " ( `warid` , `etat` , `team` , `game` , `adversaire` , `url_adv` , `pays_adv` , `type` , `style` , `date_jour` , `date_mois` , `date_an` , `heure` , `map` , `tscore_team` , `tscore_adv` , `score_team` , `score_adv` , `report` , `auteur` , `url_league` , `dispo` , `pas_dispo` ) VALUES ( '' , '0' , '' , '" . nkDB_realEscapeString($game) . "' , '" . nkDB_realEscapeString($clan) . "' , '" . nkDB_realEscapeString($url) . "' , '" . nkDB_realEscapeString($pays) . "' , '" . nkDB_realEscapeString($type) . "' , '' , '" . nkDB_realEscapeString($date_jour) . "' , '" .nkDB_realEscapeString($date_mois) . "' , '" . nkDB_realEscapeString($date_an) . "' , '" . nkDB_realEscapeString($heure) . "' , '" . nkDB_realEscapeString($map) . "' , '' , '' , '' , '' , '' , '" . $user[2] . "' , '' , '' , '' )");
+    $date_jour = $date_mois = $date_an = '';
 
-    $sql_match = nkDB_execute("SELECT warid FROM " . WARS_TABLE . " WHERE adversaire = '" . $clan . "'");
-    list($warid) = nkDB_fetchArray($sql_match);
+    if ($date) {
+        $dateArray = explode('-', $date, 3);
 
-    $del = nkDB_execute("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
+        $date_jour   = (isset($dateArray[0])) ? (int) $dateArray[0] : '';
+        $date_mois = (isset($dateArray[1])) ? (int) $dateArray[1] : '';
+        $date_an = (isset($dateArray[2])) ? (int) $dateArray[2] : '';
+    }
+
+    $game      = nkDB_realEscapeString($game);
+    $clan      = nkDB_realEscapeString($clan);
+    $url       = nkDB_realEscapeString($url);
+    $pays      = nkDB_realEscapeString($pays);
+    $type      = nkDB_realEscapeString($type);
+    $date_jour = nkDB_realEscapeString($date_jour);
+    $date_mois = nkDB_realEscapeString($date_mois);
+    $date_an   = nkDB_realEscapeString($date_an);
+    $heure     = nkDB_realEscapeString($heure);
+    $map       = nkDB_realEscapeString($map);
+    $author    = nkDB_realEscapeString($user[2]);
+
+    nkDB_execute(
+        "INSERT INTO ". WARS_TABLE ."
+        (`team`, `game`, `adversaire`, `url_adv`, `pays_adv`, `type`, `date_jour`, `date_mois`, `date_an`, `heure`, `map`, `tscore_team`, `tscore_adv`, `score_team`, `score_adv`, `report`, `auteur`, `url_league`, `dispo`, `pas_dispo`)
+        VALUES
+        ('0', '". $game ."', '". $clan ."', '". $url ."', '". $pays ."', '". $type ."', '". $date_jour ."', '". $date_mois ."', '". $date_an ."', '". $heure ."', '". $map ."', '', '', '', '', '', '". $author ."', '', '', '')");
+
+    $warid = nkDB_insertId();
+
+    nkDB_execute("DELETE FROM " . DEFY_TABLE . " WHERE id = '" . $did . "'");
 
     saveUserAction(_ACTIONTRANDEFY .' '. $pseudo);
 
@@ -147,6 +209,17 @@ function edit_pref() {
 
     $charte = $nuked['defie_charte'];
 
+    echo '<script type="text/javascript">
+    function checkDefySetting(){
+        if(document.getElementById(\'defyEmail\').value.length > 0 && ! isEmail(\'defyEmail\')){
+            alert(\''. addslashes(__('BAD_EMAIL')) .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
         . "<div class=\"content-box-header\"><h3>" . _DEFY . "</h3>\n"
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Defy.php\" rel=\"modal\">\n"
@@ -156,9 +229,9 @@ function edit_pref() {
 
         nkAdminMenu(2);
 
-        echo "<form method=\"post\" action=\"index.php?file=Defy&amp;page=admin&amp;op=update_pref\">\n"
+        echo "<form onsubmit=\"return checkDefySetting()\" method=\"post\" action=\"index.php?file=Defy&amp;page=admin&amp;op=update_pref\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-        . "<tr><td><b>" . _MAILAVERT . "</b> : <input type=\"text\" size=\"30\" name=\"defie_mail\" value=\"" . $nuked['defie_mail'] . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _MAILAVERT . "</b> : <input id=\"defyEmail\" type=\"text\" size=\"30\" name=\"defie_mail\" value=\"" . $nuked['defie_mail'] . "\" /></td></tr>\n"
         . "<tr><td><b>" . _INBOXAVERT . "</b> : <select name=\"defie_inbox\"><option value=\"\">" . _OFF . "</option>\n";
 
     $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
@@ -171,7 +244,7 @@ function edit_pref() {
     }
     echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n";
 
-    echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea class=\"editor\" name=\"defie_charte\" cols=\"65\" rows=\"15\"\">" . $charte . "</textarea></td></tr></table>\n"
+    echo "<tr><td><b>" . _CHARTE . "</b> : <br /><textarea id=\"defyCharter\" class=\"editor\" name=\"defie_charte\" cols=\"65\" rows=\"15\"\">" . $charte . "</textarea></td></tr></table>\n"
         . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Defy&amp;page=admin\">" . __('BACK') . "</a></div>\n"
         . "</form><br /></div></div>\n";
 }
@@ -179,12 +252,24 @@ function edit_pref() {
 function update_pref($defie_mail, $defie_inbox, $defie_charte) {
     global $nuked, $user;
 
-    $defie_charte = nkHtmlEntityDecode($defie_charte);
-    $defie_charte = nkDB_realEscapeString(stripslashes($defie_charte));
+    $defie_mail   = stripslashes($defie_mail);
+    $defie_charte = stripslashes($defie_charte);
+    $defie_inbox  = stripslashes($defie_inbox);
 
-    $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");
-    $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_mail . "' WHERE name = 'defie_mail'");
-    $upd3 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_inbox . "' WHERE name = 'defie_inbox'");
+    if ($defie_mail && ($defie_mail = checkEmail($defie_mail, false, false)) === false) {
+        printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $defie_charte = secu_html(nkHtmlEntityDecode($defie_charte));
+
+    $defie_charte = nkDB_realEscapeString($defie_charte);
+    $defie_mail   = nkDB_realEscapeString($defie_mail);
+    $defie_inbox  = nkDB_realEscapeString($defie_inbox);
+
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_charte . "' WHERE name = 'defie_charte'");
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_mail . "' WHERE name = 'defie_mail'");
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $defie_inbox . "' WHERE name = 'defie_inbox'");
 
     saveUserAction(_ACTIONPREFDEFY .'.');
 

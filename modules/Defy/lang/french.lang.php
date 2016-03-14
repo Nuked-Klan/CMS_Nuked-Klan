@@ -20,20 +20,14 @@ define("_CLAN","Clan");
 define("_ICQMSN","Icq/Msn");
 define("_CHANIRC","Channel IrC");
 define("_WEBSITE","Site Web");
-
 define("_DHOUR","Heure");
 define("_SERVER","Serveur");
-
 define("_DMAP","Map");
-
 define("_DMATCH","Match");
-
 define("_SENDMAIL","Votre demande de match a été prise en compte");
 define("_NEWDEFY","a envoyé un nouveau défie :");
-
 define("_TRANSFERT","Ajouter ce match");
 define("_DDELETEMATCH","Vous êtes sur le point de supprimer le défi de");
-
 define("_REMOVE","Supprimer");
 define("_DEFIEDELETE","Demande de match supprimée avec succès.");
 define("_DEFIETRANSFERT","Match ajouté avec succès.");
@@ -46,4 +40,5 @@ define("_NOTDEF","Vous avez reçu un défi");
 define("_ACTIONDELDEFY","a supprimé un défi de");
 define("_ACTIONTRANDEFY","a accepté le défi de");
 define("_ACTIONPREFDEFY","a modifié les préférences du module défi");
+
 ?>
