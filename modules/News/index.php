@@ -208,11 +208,12 @@ function sujet(){
 }
 
 function pdf($news_id) {
-    global $nuked, $language;
+    global $nuked, $language, $defaultHttpHeader;
 
     $news_id = (int) $news_id;
 
     nkTemplate_setPageDesign('none');
+    $defaultHttpHeader = false;
 
     if ($language == "french" && strpos("WIN", PHP_OS)) setlocale (LC_TIME, "french");
     else if ($language == "french" && strpos("BSD", PHP_OS)) setlocale (LC_TIME, "fr_FR.ISO8859-1");

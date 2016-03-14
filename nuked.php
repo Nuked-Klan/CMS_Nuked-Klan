@@ -26,6 +26,8 @@ define('NK_HTML_DEFAULT_FLAGS', (ENT_COMPAT | ENT_HTML401));
 // Initialize main language array
 $arrayModLang = array();
 
+$defaultHttpHeader = true;
+
 // CONNECT TO DB.
 connect();
 

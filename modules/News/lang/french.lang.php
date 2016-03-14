@@ -57,5 +57,7 @@ define("_NOTIFIMAGECOVERAGE","L'image de couverture peut être utilis&eacute;e pa
 
 define("_NB_NEWS_NO_INTEGER","Le nombre de news par page en page d\'accueil doit être un entier.");
 define("_NB_ARCHIVES_NO_INTEGER","Le nombre de news par page dans les archives doit être un entier.");
-
+define('_NTITLECATFORGOT', 'Le titre de la catégorie news est manquant');
+define('_TITLENEWSFORGOT', "Le titre de la news est manquant");
+define('_TEXTNEWSFORGOT', "Le texte de la news est manquant");
 ?>

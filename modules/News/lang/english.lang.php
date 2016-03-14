@@ -57,5 +57,8 @@ define("_NOTIFIMAGECOVERAGE","Cover image can be use by your template in a slide
 
 define("_NB_NEWS_NO_INTEGER","Number of news per news page must be a integer.");
 define("_NB_ARCHIVES_NO_INTEGER","Number of news per archive page must be a integer.");
+define('_NTITLECATFORGOT', 'The title of the news category is missing');
+define('_TITLENEWSFORGOT', 'The title of the news is missing');
+define('_TEXTNEWSFORGOT', 'The text of the news is missing');
 
 ?>

@@ -108,16 +108,20 @@ function index(){
 function categorie($secid){
     global $nuked;
 
-    opentable();
+    $secid = (int) $secid;
 
     $sql = nkDB_execute("SELECT secname, description, parentid FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $secid . "'");
 
-    if(nkDB_numRows($sql) <= 0)
-        redirect("index.php?file=404");
+    if(nkDB_numRows($sql) <= 0) {
+        require_once 'modules/404/index.php';
+        return;
+    }
 
     list($secname, $description, $parentid) = nkDB_fetchRow($sql);
 
     $secname = printSecuTags($secname);
+
+    opentable();
 
     $sql2 = nkDB_execute("SELECT * FROM " . SECTIONS_TABLE . " WHERE secid = '" . $secid . "'");
     $nb_art = nkDB_numRows($sql2);
@@ -135,7 +139,7 @@ function categorie($secid){
 
     $sql_subcat = nkDB_execute("SELECT secid, secname, description FROM " . SECTIONS_CAT_TABLE . "  WHERE parentid = '" . $secid . "' ORDER BY position, secname");
     $nb_subcat = nkDB_numRows($sql_subcat);
-    $count = 0;
+    $count = $last_catid = 0;
 
     if ($nb_subcat > 0){
         echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"15\" cellpadding=\"5\">\n";
@@ -179,18 +183,22 @@ function categorie($secid){
 }
 
 function article($artid){
-    global $nuked, $user, $visiteur, $bgcolor3, $bgcolor2, $bgcolor1;
+    global $nuked, $user, $visiteur, $bgcolor3, $bgcolor2, $bgcolor1, $p;
+
+    $artid = (int) $artid;
 
     opentable();
 
-    if ((array_key_exists('p', $_REQUEST) && $_REQUEST['p'] == 1) OR (array_key_exists('p', $_REQUEST) && $_REQUEST['p'] == "")){
+    if ($p == 1){
         $upd = nkDB_execute("UPDATE " . SECTIONS_TABLE . "  SET counter = counter + 1 WHERE artid = '" . $artid . "'");
     }
 
     $sql = nkDB_execute("SELECT artid, secid, title, content, coverage, autor, autor_id, counter, date FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
 
-    if(nkDB_numRows($sql) <= 0)
-        redirect("index.php?file=404");
+    if(nkDB_numRows($sql) <= 0) {
+        require_once 'modules/404/index.php';
+        return;
+    }
 
     list($artid, $secid, $title, $content, $coverage, $autor, $autor_id, $counter, $date) = nkDB_fetchRow($sql);
 
@@ -228,12 +236,10 @@ function article($artid){
     // $contentpages = explode('<div style="page-break-after: always;"><span style="display: none;">&nbsp;</span></div>', $content);
     $contentpages = explode('<div style="page-break-after: always"><span style="display:none">&nbsp;</span></div>', $content);
     $pageno = count($contentpages);
-    if(!array_key_exists('p', $_REQUEST)){
-        $_REQUEST['p'] = '';
-    }
-    if ($_REQUEST['p'] == "" || $_REQUEST['p'] < 1) $_REQUEST['p'] = 1;
-    if ($_REQUEST['p'] > $pageno) $_REQUEST['p'] = $pageno;
-    $arrayelement = (int)$_REQUEST['p'];
+
+    if ($p > $pageno) $p = $pageno;
+
+    $arrayelement = $p;
     $arrayelement --;
 
     if ($date != "") $date = nkDate($date);
@@ -293,7 +299,7 @@ function article($artid){
         }
 
     if ($pageno > 1){
-        echo _PAGE . " : " . $_REQUEST['p'] . "/" . $pageno . "<br /><br />";
+        echo _PAGE . " : " . $p . "/" . $pageno . "<br /><br />";
     }
     else {
         echo "<br />";
@@ -301,13 +307,13 @@ function article($artid){
 
     echo $contentpages[$arrayelement];
 
-    if ($_REQUEST['p'] >= $pageno){
+    if ($p >= $pageno){
         $next_page = "";
     }
     else{
-        $next_pagenumber = $_REQUEST['p'] + 1;
+        $next_pagenumber = $p + 1;
 
-        if ($_REQUEST['p'] != 1){
+        if ($p != 1){
             $next_page .= "";
         }
 
@@ -315,11 +321,11 @@ function article($artid){
                             . "<a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "&amp;p=" . $next_pagenumber . "\"><img style=\"border: 0;\" src=\"modules/Sections/images/right.gif\" alt=\"\" title=\"" . _NEXTPAGE . "\" align=\"top\"></a>";
     }
 
-    if ($_REQUEST['p'] <= 1){
+    if ($p <= 1){
         $previous_page = "";
     }
     else{
-        $previous_pagenumber = $_REQUEST['p'] - 1;
+        $previous_pagenumber = $p - 1;
         $previous_page = "<a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "&amp;p=" . $previous_pagenumber . "\"><img style=\"border: 0;\" src=\"modules/Sections/images/left.gif\" alt=\"\" title=\"" . _PREVIOUSPAGE . "\"></a>"
                                 . "&nbsp;<a href=\"index.php?file=Sections&amp;op=article&amp;artid=" . $artid . "&amp;p=" . $previous_pagenumber . "\">" . _PREVIOUSPAGE . " (" . $previous_pagenumber . "/" . $pageno . ")</a>";
     }
@@ -346,13 +352,13 @@ function article($artid){
 }
 
 function classe(){
-    global $op, $nuked, $visiteur, $theme, $bgcolor1, $bgcolor2, $bgcolor3;
+    global $op, $nuked, $visiteur, $theme, $bgcolor1, $bgcolor2, $bgcolor3, $p;
 
     $arrayRequest = array('sid', 'nb_subcat');
 
     foreach ($arrayRequest as $key) {
         if(array_key_exists($key, $_REQUEST)){
-            ${$key} = $_REQUEST[$key];
+            ${$key} = (int) $_REQUEST[$key];
         }
         else{
             ${$key} = '';
@@ -382,13 +388,8 @@ function classe(){
     }
 
     $nb_max = $nuked['max_sections'];
-    if(array_key_exists('p', $_REQUEST)){
-        $page = $_REQUEST['p'];
-    }
-    else{
-        $page = 1;
-    }
-    $start = $page * $nb_max - $nb_max;
+
+    $start = $p * $nb_max - $nb_max;
 
     if ($sid != "") $where = "WHERE S.secid = '" . $sid . "'";
     else $where = "";
@@ -453,7 +454,7 @@ function classe(){
                 $newsdate = time() - 604800;
                 $att = "";
 
-                if ($date != "" && $date > $newsdate) $att = "&nbsp;&nbsp;" . _NEW;
+                if ($date != "" && $date > $newsdate) $att = "&nbsp;&nbsp;" . _SNEW;
 
                 if ($content != ""){
                     $content = preg_replace('#\r\n#', '', $content);
@@ -531,9 +532,12 @@ function classe(){
 }
 
 function pdf($artid) {
-    global $nuked;
+    global $nuked, $defaultHttpHeader;
+
+    $artid = (int) $artid;
 
     nkTemplate_setPageDesign('none');
+    $defaultHttpHeader = false;
 
     $sql = nkDB_execute("SELECT title, content FROM " . SECTIONS_TABLE . "  WHERE artid = '" . $artid . "'");
     list($title, $text) = nkDB_fetchRow($sql);

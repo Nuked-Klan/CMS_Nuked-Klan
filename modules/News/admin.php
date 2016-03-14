@@ -16,20 +16,14 @@ if (! adminInit('News'))
 
 
 function main() {
-    global $nuked, $language;
+    global $nuked, $language, $p;
 
     $nb_news = 30;
 
     $sql = nkDB_execute("SELECT id FROM " . NEWS_TABLE);
     $count = nkDB_numRows($sql);
 
-    if(array_key_exists('p', $_REQUEST)){
-        $page = $_REQUEST['p'];
-    }
-    else{
-        $page = 1;
-    }
-    $start = $page * $nb_news - $nb_news;
+    $start = $p * $nb_news - $nb_news;
 
     echo "<script type=\"text/javascript\">\n"
         . "<!--\n"
@@ -168,17 +162,17 @@ function add() {
     echo '<script type="text/javascript">
     function checkAddNews(){
         if(document.getElementById(\'newsTitle\').value.length == 0){
-            alert(\''. _NOTITLE .'\');
+            alert(\''. _TITLENEWSFORGOT .'\');
             return false;
         }
         if(! document.getElementById(\'newsHour\').value.match(/^(\d){1,2}:(\d){1,2}$/)){
             alert(\''. _BADTIME .'\');
             return false;
         }
-        /*if(document.getElementById(\'newsText\').value.length == 0){
-            alert(\''. _NOTEXT .'\');
+        if($.trim(getEditorContent(\'newsText\')) == ""){
+            alert(\''. _TEXTNEWSFORGOT .'\');
             return false;
-        }*/
+        }
 
         return true;
     }
@@ -286,10 +280,6 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
 
     $suite = secu_html(nkHtmlEntityDecode($suite));
 
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-    $texte = nkDB_realEscapeString(stripslashes($texte));
-    $suite = nkDB_realEscapeString(stripslashes($suite));
-
     $hour = $minute = 0;
 
     if (strpos($heure, ':') !== false) {
@@ -332,8 +322,14 @@ function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
             return;
         }
 
-        $coverageUrl = $_POST['urlImage'];
+        $coverageUrl = stripslashes($_POST['urlImage']);
     }
+
+    $cat         = (int) $cat;
+    $coverageUrl = nkDB_realEscapeString($coverageUrl);
+    $titre       = nkDB_realEscapeString(stripslashes($titre));
+    $texte       = nkDB_realEscapeString(stripslashes($texte));
+    $suite       = nkDB_realEscapeString(stripslashes($suite));
 
     nkDB_execute(
         "INSERT INTO ". NEWS_TABLE ."
@@ -373,18 +369,19 @@ function edit($news_id) {
     echo '<script type="text/javascript">
     function checkEditNews(){
         if(document.getElementById(\'newsTitle\').value.length == 0){
-            alert(\''. _NOTITLE .'\');
+            alert(\''. _TITLENEWSFORGOT .'\');
             return false;
         }
         if(! document.getElementById(\'newsHour\').value.match(/^(\d){1,2}:(\d){1,2}$/)){
             alert(\''. _BADTIME .'\');
             return false;
         }
-        /*if(document.getElementById(\'newsText\').value.length == 0){
-            alert(\''. _NOTEXT .'\');
+        if($.trim(getEditorContent(\'newsText\')) == ""){
+            alert(\''. _TEXTNEWSFORGOT .'\');
             return false;
-        }*/
-    return true;
+        }
+
+        return true;
     }
     </script>';
 
@@ -494,10 +491,6 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
 
     $suite = secu_html(nkHtmlEntityDecode($suite));
 
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-    $texte = nkDB_realEscapeString(stripslashes($texte));
-    $suite = nkDB_realEscapeString(stripslashes($suite));
-
     $hour = $minute = 0;
 
     if (strpos($heure, ':') !== false) {
@@ -537,8 +530,14 @@ function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $
             return;
         }
 
-        $coverageUrl = $_POST['urlImage'];
+        $coverageUrl = stripslashes($_POST['urlImage']);
     }
+
+    $cat         = (int) $cat;
+    $coverageUrl = nkDB_realEscapeString($coverageUrl);
+    $titre       = nkDB_realEscapeString(stripslashes($titre));
+    $texte       = nkDB_realEscapeString(stripslashes($texte));
+    $suite       = nkDB_realEscapeString(stripslashes($suite));
 
     nkDB_execute(
         "UPDATE ". NEWS_TABLE ."
@@ -624,7 +623,7 @@ function add_cat() {
     echo '<script type="text/javascript">
     function checkAddNewsCat(){
         if(document.getElementById(\'newsCatTitle\').value.length == 0){
-            alert(\''. _NOTITLE .'\');
+            alert(\''. _NTITLECATFORGOT .'\');
             return false;
         }
         if(document.getElementById(\'newsCatText\').value.length == 0){
@@ -674,9 +673,6 @@ function send_cat($titre, $description) {
         return;
     }
 
-    $titre       = nkDB_realEscapeString(stripslashes($titre));
-    $description = nkDB_realEscapeString(stripslashes($description));
-
     //Upload du fichier
     $imageUrl = '';
 
@@ -701,8 +697,12 @@ function send_cat($titre, $description) {
             return;
         }
 
-        $imageUrl = $_POST['image'];
+        $imageUrl = stripslashes($_POST['image']);
     }
+
+    $titre       = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $imageUrl    = nkDB_realEscapeString($imageUrl);
 
     nkDB_execute(
         "INSERT INTO ". NEWS_CAT_TABLE ."
@@ -725,12 +725,13 @@ function edit_cat($cid) {
     $sql = nkDB_execute("SELECT titre, description, image FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cid . "'");
     list($titre, $description, $image) = nkDB_fetchArray($sql);
 
+    $titre = printSecuTags($titre);
     $description = editPhpCkeditor($description);
 
     echo '<script type="text/javascript">
     function checkEditNewsCat(){
         if(document.getElementById(\'newsCatTitle\').value.length == 0){
-            alert(\''. _NOTITLE .'\');
+            alert(\''. _NTITLECATFORGOT .'\');
             return false;
         }
         if(document.getElementById(\'newsCatText\').value.length == 0){
@@ -789,9 +790,6 @@ function modif_cat($cid, $titre, $description) {
         return;
     }
 
-    $titre       = nkDB_realEscapeString(stripslashes($titre));
-    $description = nkDB_realEscapeString(stripslashes($description));
-
     //Upload du fichier
     $imageUrl = '';
 
@@ -816,8 +814,12 @@ function modif_cat($cid, $titre, $description) {
             return;
         }
 
-        $imageUrl = $_POST['image'];
+        $imageUrl = stripslashes($_POST['image']);
     }
+
+    $titre       = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $imageUrl    = nkDB_realEscapeString($imageUrl);
 
     nkDB_execute(
         "UPDATE ". NEWS_CAT_TABLE ."
@@ -905,6 +907,9 @@ function change_pref($max_news, $max_archives) {
         printNotification(stripslashes(_NB_ARCHIVES_NO_INTEGER), 'error', array('backLinkUrl' => 'javascript:history.back()'));
         return;
     }
+
+    $max_news     = (int) $max_news;
+    $max_archives = (int) $max_archives;
 
     nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_news . "' WHERE name = 'max_news'");
     nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_archives . "' WHERE name = 'max_archives'");

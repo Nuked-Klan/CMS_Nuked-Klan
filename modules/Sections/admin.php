@@ -16,20 +16,14 @@ if (! adminInit('Sections'))
 
 
 function main(){
-    global $nuked, $language;
+    global $nuked, $language, $p;
 
     $nb_max = 30;
 
     $sql3 = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE);
     $nb_art = nkDB_numRows($sql3);
 
-    if(array_key_exists('p', $_REQUEST)){
-        $page = $_REQUEST['p'];
-    }
-    else{
-        $page = 1;
-    }
-    $start = $page * $nb_max - $nb_max;
+    $start = $p * $nb_max - $nb_max;
 
     echo "<script type=\"text/javascript\">\n"
             ."<!--\n"
@@ -192,6 +186,21 @@ function main(){
 function add(){
     global $language;
 
+    echo '<script type="text/javascript">
+    function checkAddArticle(){
+        if(document.getElementById(\'articleTitle\').value.length == 0){
+            alert(\''. _TITLEARTFORGOT .'\');
+            return false;
+        }
+        if($.trim(getEditorContent(\'articleText\')) == ""){
+            alert(\''. _TEXTARTFORGOT .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _ADDART . "</h3>\n"
             . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
@@ -202,9 +211,9 @@ function add(){
             nkAdminMenu(2);
 
             echo "</div>\n"
-            . "<form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=do_add\" onsubmit=\"backslash('art_texte');\" enctype=\"multipart/form-data\">\n"
+            . "<form onsubmit=\"return checkAddArticle()\" method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=do_add\" enctype=\"multipart/form-data\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-            . "<tr><td><b>" . _TITLE . " :</b>&nbsp;<input id=\"art_titre\" type=\"text\" name=\"titre\" maxlength=\"100\" size=\"45\" /></td></tr>\n"
+            . "<tr><td><b>" . _TITLE . " :</b>&nbsp;<input id=\"articleTitle\" type=\"text\" name=\"titre\" maxlength=\"100\" size=\"45\" /></td></tr>\n"
             . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImage\" size=\"42\" /></td></tr>\n"
             . "<tr><td><b>" . _UPLOADIMAGE . " :</b> <input type=\"file\" name=\"upImage\" /></td></tr>\n"
             . "<tr><td><b>" . _CAT . " :</b> <select name=\"cat\">\n";
@@ -213,7 +222,7 @@ function add(){
 
     echo "</select></td></tr>\n";
 
-    echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" class=\"editor\" id=\"art_texte\" name=\"texte\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
+    echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" id=\"articleText\" name=\"texte\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
             . "</table>\n"
             . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _ADDART . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . __('BACK') . "</a>"
             . "</div>\n"
@@ -225,69 +234,87 @@ function do_add($titre, $texte, $cat){
 
     require_once 'Includes/nkUpload.php';
 
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-
-    if (empty($titre)){
-        printNotification(_TITLEARTFORGOT, 'error');
-        redirect("index.php?file=Sections&page=admin&op=add", 4);
+    if ($titre == '' || ctype_space($titre)) {
+        printNotification(_TITLEARTFORGOT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
     }
-    else {
-        $texte = secu_html(nkHtmlEntityDecode($texte));
-        $texte = nkDB_realEscapeString(stripslashes($texte));
-        $date = time();
-        $auteur = $user[2];
-        $auteur_id = $user[0];
 
-        //Upload du fichier
-        $coverageUrl = '';
+    $texte = nkHtmlEntityDecode($texte);
 
-        $coverageCfg = array(
-            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
-            'uploadDir'         => 'images/Sections'
-        );
-
-        if ($_FILES['upImage']['name'] != '') {
-            list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', $coverageCfg);
-
-            if ($uploadError !== false) {
-                printNotification($uploadError, 'error');
-                redirect('index.php?file=Sections&page=admin&op=add', 2);
-                return;
-            }
-        }
-        else if ($_POST['urlImage'] != '') {
-            $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
-
-            if (! in_array($ext, $coverageCfg['allowedExtension'])) {
-                printNotification(__('BAD_IMAGE_FORMAT'), 'error');
-                redirect('index.php?file=Sections&page=admin&op=add', 2);
-                return;
-            }
-
-            $coverageUrl = $_POST['urlImage'];
-        }
-
-        $sql = nkDB_execute("INSERT INTO " . SECTIONS_TABLE . " ( `artid` , `secid` , `title` , `content` , `coverage` , `autor` , `autor_id`, `counter` , `date`) VALUES ( '' , '" . $cat . "' , '" . $titre . "' , '" . $texte . "' , '" . $coverageUrl . "' , '" . $auteur . "' , '" . $auteur_id . "' , '' , '" . $date . "' )");
-
-        saveUserAction(_ACTIONADDSEC .': '. $titre .'.');
-
-        printNotification(_ARTADD, 'success');
-
-        $sql2 = nkDB_execute("SELECT artid FROM " . SECTIONS_TABLE . " WHERE title = '" . $titre . "' AND date='".$date."'");
-        list($artid) = nkDB_fetchArray($sql2);
-
-        setPreview('index.php?file=Sections&op=article&artid='. $artid, 'index.php?file=Sections&page=admin');
+    if ($texte == '' || ctype_space(strip_tags($texte))) {
+        printNotification(_TEXTARTFORGOT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
     }
+
+    $texte = secu_html($texte, true);
+
+    if ($texte === false) {
+        printNotification(_HTMLNOCORRECT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $date = time();
+    $auteur = $user[2];
+    $auteur_id = $user[0];
+
+    //Upload du fichier
+    $coverageUrl = '';
+
+    $coverageCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'images/Sections'
+    );
+
+    if ($_FILES['upImage']['name'] != '') {
+        list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', $coverageCfg);
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
+    }
+    else if ($_POST['urlImage'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
+
+        if (! in_array($ext, $coverageCfg['allowedExtension'])) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
+
+        $coverageUrl = stripslashes($_POST['urlImage']);
+    }
+
+    $cat         = (int) $cat;
+    $titre       = nkDB_realEscapeString(stripslashes($titre));
+    $texte       = nkDB_realEscapeString(stripslashes($texte));
+    $coverageUrl = nkDB_realEscapeString($coverageUrl);
+
+    nkDB_execute(
+        "INSERT INTO ". SECTIONS_TABLE ."
+        (`secid`, `title`, `content`, `coverage`, `autor`, `autor_id`, `date`)
+        VALUES
+        ('". $cat ."', '". $titre ."', '". $texte ."', '". $coverageUrl ."', '". $auteur ."', '". $auteur_id ."', '". $date ."')"
+    );
+
+    $id = nkDB_insertId();
+
+    saveUserAction(_ACTIONADDSEC .': '. $titre .'.');
+
+    printNotification(_ARTADD, 'success');
+
+    setPreview('index.php?file=Sections&op=article&artid='. $id, 'index.php?file=Sections&page=admin');
 }
 
 function edit($art_id){
     global $nuked, $language;
 
+    $art_id = (int) $art_id;
+
     $sql = nkDB_execute("SELECT title, content, coverage, secid FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
     list($titre, $texte, $coverage, $cat) = nkDB_fetchArray($sql);
     $titre = printSecuTags($titre);
 
-    if ($cat == 0 || !$cat){
+    if ($cat == 0 || ! $cat){
         $cid = 0;
         $categorie = __('NONE_CATEGORY');
     }
@@ -298,14 +325,29 @@ function edit($art_id){
         $categorie = printSecuTags($categorie);
     }
 
+    echo '<script type="text/javascript">
+    function checkEditArticle(){
+        if(document.getElementById(\'articleTitle\').value.length == 0){
+            alert(\''. _TITLEARTFORGOT .'\');
+            return false;
+        }
+        if($.trim(getEditorContent(\'articleText\')) == ""){
+            alert(\''. _TEXTARTFORGOT .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _EDITTHISART . "</h3>\n"
             . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
             . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
             . "</div></div>\n"
-            . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=do_edit\" onsubmit=\"backslash('art_texte');\" enctype=\"multipart/form-data\">\n"
+            . "<div class=\"tab-content\" id=\"tab2\"><form onsubmit=\"return checkEditArticle()\" method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=do_edit\" enctype=\"multipart/form-data\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-            . "<tr><td><b>" . _TITLE . " :</b>&nbsp;<input id=\"art_titre\" type=\"text\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . $titre . "\" /></td></tr>\n"
+            . "<tr><td><b>" . _TITLE . " :</b>&nbsp;<input id=\"articleTitle\" type=\"text\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . $titre . "\" /></td></tr>\n"
             . "<tr><td><b>" . _IMAGE . " :</b> <input type=\"text\" name=\"urlImage\" value=\"" . $coverage . "\" size=\"42\" />\n";
 
             if ($coverage != ""){
@@ -322,7 +364,7 @@ function edit($art_id){
 
     echo "</select></td></tr>\n";
 
-    echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" id=\"art_texte\" name=\"texte\" cols=\"70\" rows=\"15\" >" . $texte . "</textarea></td></tr>\n"
+    echo "<tr><td><b>" . _TEXT . " :</b><br /><textarea class=\"editor\" id=\"articleText\" name=\"texte\" cols=\"70\" rows=\"15\" >" . $texte . "</textarea></td></tr>\n"
             . "<tr><td>&nbsp;<input type=\"hidden\" name=\"artid\" value=\"" . $art_id . "\" /></td></tr></table>\n"
             . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . _MODIFTHISART . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . __('BACK') . "</a>"
             . "</div>\n"
@@ -334,56 +376,80 @@ function do_edit($art_id, $titre, $texte, $cat){
 
     require_once 'Includes/nkUpload.php';
 
-    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $art_id = (int) $art_id;
 
-    if (empty($titre)){
-        printNotification(_TITLEARTFORGOT, 'error');
-        redirect("index.php?file=Sections&page=admin&op=add", 4);
+    if ($titre == '' || ctype_space($titre)) {
+        printNotification(_TITLEARTFORGOT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
     }
-    else{
-        $texte = secu_html(nkHtmlEntityDecode($texte));
-        $texte = nkDB_realEscapeString(stripslashes($texte));
 
-        //Upload du fichier
-        $coverageUrl = '';
+    $texte = nkHtmlEntityDecode($texte);
 
-        $coverageCfg = array(
-            'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
-            'uploadDir'         => 'images/Sections'
-        );
-
-        if ($_FILES['upImage']['name'] != '') {
-            list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', $coverageCfg);
-
-            if ($uploadError !== false) {
-                printNotification($uploadError, 'error');
-                redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
-                return;
-            }
-        }
-        else if ($_POST['urlImage'] != '') {
-            $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
-
-            if (! in_array($ext, $coverageCfg['allowedExtension'])) {
-                printNotification(__('BAD_IMAGE_FORMAT'), 'error');
-                redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
-                return;
-            }
-
-            $coverageUrl = $_POST['urlImage'];
-        }
-
-        $upd = nkDB_execute("UPDATE " . SECTIONS_TABLE . " SET secid = '" . $cat . "', title = '" . $titre . "', coverage = '" . $coverageUrl . "', content = '" . $texte . "' WHERE artid = '" . $art_id . "'");
-
-        saveUserAction(_ACTIONMODIFSEC .': '. $titre .'.');
-
-        printNotification(_ARTMODIF, 'success');
-        setPreview('index.php?file=Sections&op=article&artid='. $art_id, 'index.php?file=Sections&page=admin');
+    if ($texte == '' || ctype_space(strip_tags($texte))) {
+        printNotification(_TEXTARTFORGOT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
     }
+
+    $texte = secu_html($texte, true);
+
+    if ($texte === false) {
+        printNotification(_HTMLNOCORRECT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    //Upload du fichier
+    $coverageUrl = '';
+
+    $coverageCfg = array(
+        'allowedExtension'  => array('jpg', 'jpeg', 'png', 'gif'),
+        'uploadDir'         => 'images/Sections'
+    );
+
+    if ($_FILES['upImage']['name'] != '') {
+        list($coverageUrl, $uploadError, $coverageExt) = nkUpload_check('upImage', $coverageCfg);
+
+        if ($uploadError !== false) {
+            printNotification($uploadError, 'error');
+            redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
+            return;
+        }
+    }
+    else if ($_POST['urlImage'] != '') {
+        $ext = strtolower(substr(strrchr($_POST['urlImage'], '.'), 1));
+
+        if (! in_array($ext, $coverageCfg['allowedExtension'])) {
+            printNotification(__('BAD_IMAGE_FORMAT'), 'error');
+            redirect('index.php?file=Sections&page=admin&op=edit&artid='. $art_id, 2);
+            return;
+        }
+
+        $coverageUrl = stripslashes($_POST['urlImage']);
+    }
+
+    $cat         = (int) $cat;
+    $titre       = nkDB_realEscapeString(stripslashes($titre));
+    $texte       = nkDB_realEscapeString(stripslashes($texte));
+    $coverageUrl = nkDB_realEscapeString($coverageUrl);
+
+    nkDB_execute(
+        "UPDATE ". SECTIONS_TABLE ."
+        SET secid = '" . $cat . "',
+        title = '" . $titre . "',
+        coverage = '" . $coverageUrl . "',
+        content = '" . $texte . "'
+        WHERE artid = '" . $art_id . "'"
+    );
+
+    saveUserAction(_ACTIONMODIFSEC .': '. $titre .'.');
+
+    printNotification(_ARTMODIF, 'success');
+    setPreview('index.php?file=Sections&op=article&artid='. $art_id, 'index.php?file=Sections&page=admin');
 }
 
 function del($art_id){
     global $nuked, $user;
+
+    $art_id = (int) $art_id;
 
     $sql = nkDB_execute("SELECT title FROM " . SECTIONS_TABLE . " WHERE artid = '" . $art_id . "'");
     list($titre) = nkDB_fetchArray($sql);
@@ -471,14 +537,29 @@ function main_cat(){
 function add_cat(){
     global $language, $nuked;
 
+    echo '<script type="text/javascript">
+    function checkAddArticleCat(){
+        if(document.getElementById(\'articleCatTitle\').value.length == 0){
+            alert(\''. _STITLECATFORGOT .'\');
+            return false;
+        }
+        if(! document.getElementById(\'articleCatPosition\').value.match(/^\d+$/)){
+            alert(\''. _SCATERRORPOS .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _ADDCAT . "</h3>\n"
             . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
             . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
             . "</div></div>\n"
-            . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=send_cat\">\n"
+            . "<div class=\"tab-content\" id=\"tab2\"><form onsubmit=\"return checkAddArticleCat()\" method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=send_cat\">\n"
             . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
-            . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
+            . "<tr><td><b>" . _TITLE . " :</b> <input id=\"articleCatTitle\" type=\"text\" name=\"titre\" size=\"30\" maxlength=\"40\" /></td></tr>\n"
             . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\"><option value=\"0\">" . __('NONE_CATEGORY') . "</option>\n";
 
     $sql = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " where parentid = 0 ORDER BY position, secname");
@@ -489,7 +570,7 @@ function add_cat(){
     }
 
     echo "</select></td></tr>\n"
-            . "<tr><td><b>" . _POSITION . " :</b> <input type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
+            . "<tr><td><b>" . _POSITION . " :</b> <input id=\"articleCatPosition\" type=\"text\" name=\"position\" size=\"2\" value=\"0\" /></td></tr>\n"
             . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
             . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\"></textarea></td></tr></table>\n"
             . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"send\" value=\"" . _CREATECAT . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin&amp;op=main_cat\">" . __('BACK') . "</a></div>\n"
@@ -499,28 +580,36 @@ function add_cat(){
 function send_cat($parentid, $titre, $description, $position){
     global $nuked, $user;
 
-    $titre = nkDB_realEscapeString(stripslashes($titre));
-
-    if (empty($titre)){
-        printNotification(_STITLECATFORGOT, 'error');
-        redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
+    if ($titre == '' || ctype_space($titre)) {
+        printNotification(_STITLECATFORGOT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
     }
-    else {
-        $description = secu_html(nkHtmlEntityDecode($description));
-        $description = nkDB_realEscapeString(stripslashes($description));
-        $position = intval($position);
 
-        $sql = nkDB_execute("INSERT INTO " . SECTIONS_CAT_TABLE . " ( `parentid` , `secname` , `description`, `position` ) VALUES ( '" . $parentid . "' , '" . $titre . "' , '" . $description. "' , '" . $position ."' )");
-
-        saveUserAction(_ACTIONADDCATSEC .': '. $titre .'.');
-
-        printNotification(_CATADD, 'success');
-
-        $sql = nkDB_execute("SELECT secid FROM " . SECTIONS_CAT_TABLE . " WHERE secname = '" . $titre . "' AND parentid='" . $parentid . "'");
-        list($secid) = nkDB_fetchArray($sql);
-
-        setPreview('index.php?file=Sections&op=categorie&secid='. $secid, 'index.php?file=Sections&page=admin&op=main_cat');
+    if ($position == '' || ! ctype_digit($position)) {
+        printNotification(_SCATERRORPOS, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
     }
+
+    $description = secu_html(nkHtmlEntityDecode($description));
+
+    $titre       = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $position    = (int) $position;
+    $parentid    = (int) $parentid;
+
+    nkDB_execute(
+        "INSERT INTO ". SECTIONS_CAT_TABLE ."
+        (`parentid`, `secname`, `description`, `position`)
+        VALUES ('". $parentid ."', '". $titre ."', '". $description ."', '". $position ."')"
+    );
+
+    $id = nkDB_insertId();
+
+    saveUserAction(_ACTIONADDCATSEC .': '. $titre .'.');
+
+    printNotification(_CATADD, 'success');
+
+    setPreview('index.php?file=Sections&op=categorie&secid='. $id, 'index.php?file=Sections&page=admin&op=main_cat');
 }
 
 function edit_cat($cid){
@@ -529,15 +618,34 @@ function edit_cat($cid){
     $sql = nkDB_execute("SELECT secname, parentid, description, position FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     list($titre, $parentid, $description, $position) = nkDB_fetchArray($sql);
 
+    $titre = printSecuTags($titre);
+
+    echo '<script type="text/javascript">
+    function checkEditArticleCat(){
+        if(document.getElementById(\'articleCatTitle\').value.length == 0){
+            alert(\''. _STITLECATFORGOT .'\');
+            return false;
+        }
+        if(! document.getElementById(\'articleCatPosition\').value.match(/^\d+$/)){
+            alert(\''. _SCATERRORPOS .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _EDITTHISCAT . "</h3>\n"
             . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
             . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
             . "</div></div>\n"
-            . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=modif_cat\">\n"
+            . "<div class=\"tab-content\" id=\"tab2\"><form onsubmit=\"return checkEditArticleCat()\" method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=modif_cat\">\n"
             . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
-            . "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
+            . "<tr><td><b>" . _TITLE . " :</b> <input id=\"articleCatTitle\" type=\"text\" name=\"titre\" size=\"30\" maxlength=\"40\" value=\"" . $titre . "\" /></td></tr>\n"
             . "<tr><td><b>" . _CATPARENT . " :</b> <select name=\"parentid\">\n";
+
+    $pnomcat = '';
 
     if ($parentid > 0){
         $sql2 = nkDB_execute("SELECT secid, secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $parentid . "'");
@@ -553,7 +661,7 @@ function edit_cat($cid){
     while (list($catid, $nomcat) = nkDB_fetchArray($sql3)){
         $nomcat = printSecuTags($nomcat);
 
-        if ($nomcat != $secname){
+        if ($nomcat != $pnomcat){
             echo "<option value=\"" . $catid . "\">" . $nomcat . "</option>\n";
         }
     }
@@ -561,7 +669,7 @@ function edit_cat($cid){
     $description = editPhpCkeditor($description);
 
     echo "</select></td></tr>\n"
-            . "<tr><td><b>" . _POSITION . " :</b> <input type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
+            . "<tr><td><b>" . _POSITION . " :</b> <input id=\"articleCatPosition\" type=\"text\" name=\"position\" size=\"2\" value=\"" . $position . "\" /></td></tr>\n"
             . "<tr><td><b>" . _DESCR . " :</b></td></tr>\n"
             . "<tr><td align=\"center\"><textarea class=\"editor\" name=\"description\" cols=\"60\" rows=\"10\">" . $description . "</textarea></td></tr>\n"
             . "<tr><td>&nbsp;<input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /></td></tr></table>\n"
@@ -572,24 +680,38 @@ function edit_cat($cid){
 function modif_cat($cid, $parentid, $titre, $description, $position){
     global $nuked, $user;
 
-    $titre = nkDB_realEscapeString(stripslashes($titre));
+    $cid = (int) $cid;
 
-    if (empty($titre)){
-        printNotification(_STITLECATFORGOT, 'error');
-
-        redirect("index.php?file=Sections&page=admin&op=main_cat", 4);
-    } else {
-        $description = secu_html(nkHtmlEntityDecode($description));
-        $description = nkDB_realEscapeString(stripslashes($description));
-        $position = intval($position);
-
-        $sql = nkDB_execute("UPDATE " . SECTIONS_CAT_TABLE . " SET parentid = '" . $parentid . "', secname = '" . $titre . "', description = '" . $description. "', position = '" . $position . "' WHERE secid = '" . $cid . "'");
-
-        saveUserAction(_ACTIONMODIFCATSEC .': '. $titre .'.');
-
-        printNotification(_CATMODIF, 'success');
-        setPreview('index.php?file=Sections&op=categorie&secid='. $cid, 'index.php?file=Sections&page=admin&op=main_cat');
+    if ($titre == '' || ctype_space($titre)) {
+        printNotification(_STITLECATFORGOT, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
     }
+
+    if ($position == '' || ! ctype_digit($position)) {
+        printNotification(_SCATERRORPOS, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $description = secu_html(nkHtmlEntityDecode($description));
+
+    $titre       = nkDB_realEscapeString(stripslashes($titre));
+    $description = nkDB_realEscapeString(stripslashes($description));
+    $position    = (int) $position;
+    $parentid    = (int) $parentid;
+
+    nkDB_execute(
+        "UPDATE ". SECTIONS_CAT_TABLE ."
+        SET parentid = '" . $parentid . "',
+        secname = '" . $titre . "',
+        description = '" . $description. "',
+        position = '" . $position . "'
+        WHERE secid = '" . $cid . "'"
+    );
+
+    saveUserAction(_ACTIONMODIFCATSEC .': '. $titre .'.');
+
+    printNotification(_CATMODIF, 'success');
+    setPreview('index.php?file=Sections&op=categorie&secid='. $cid, 'index.php?file=Sections&page=admin&op=main_cat');
 }
 
 function select_art_cat(){
@@ -615,6 +737,8 @@ function select_art_cat(){
 function del_cat($cid){
     global $nuked, $user;
 
+    $cid = (int) $cid;
+
     $sql = nkDB_execute("SELECT secname FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     list($titre) = nkDB_fetchArray($sql);
     $titre = nkDB_realEscapeString(stripslashes($titre));
@@ -631,6 +755,16 @@ function del_cat($cid){
 function main_pref(){
     global $nuked, $language;
 
+    echo '<script type="text/javascript">
+    function checkArticlesSetting(){
+        if(! document.getElementById(\'maxArticles\').value.match(/^\d+$/)){
+            alert(\''. _NB_ARTICLES_NO_INTEGER .'\');
+            return false;
+        }
+    return true;
+    }
+    </script>';
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
             . "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
             . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Sections.php\" rel=\"modal\">\n"
@@ -641,10 +775,10 @@ function main_pref(){
             nkAdminMenu(4);
 
             echo "</div>\n"
-            . "<form method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=change_pref\">\n"
+            . "<form onsubmit=\"return checkArticlesSetting()\" method=\"post\" action=\"index.php?file=Sections&amp;page=admin&amp;op=change_pref\">\n"
             . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
             . "<tr><td colspan=\"2\" align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
-            . "<tr><td>" . _SECTIONSPG . " :</td><td><input type=\"text\" name=\"max_sections\" size=\"2\" value=\"" . $nuked['max_sections'] . "\" /></td></tr></table>\n"
+            . "<tr><td>" . _SECTIONSPG . " :</td><td><input id=\"maxArticles\" type=\"text\" name=\"max_sections\" size=\"2\" value=\"" . $nuked['max_sections'] . "\" /></td></tr></table>\n"
             . "<div style=\"text-align: center;\"><br /><input class=\"button\" type=\"submit\" name=\"Submit\" value=\"" . __('SEND') . "\" /><a class=\"buttonLink\" href=\"index.php?file=Sections&amp;page=admin\">" . __('BACK') . "</a></div>\n"
             . "</form><br /></div></div>\n";
 }
@@ -652,7 +786,14 @@ function main_pref(){
 function change_pref($max_sections){
     global $nuked, $user;
 
-    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_sections . "' WHERE name = 'max_sections'");
+    if ($max_sections == '' || ! ctype_digit($max_sections)) {
+        printNotification(stripslashes(_NB_ARTICLES_NO_INTEGER), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $max_sections = (int) $max_sections;
+
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_sections . "' WHERE name = 'max_sections'");
 
     saveUserAction(_ACTIONCONFSEC .'.');
 
@@ -662,6 +803,8 @@ function change_pref($max_sections){
 
 function modif_position($cid, $method){
     global $nuked, $user;
+
+    $cid = (int) $cid;
 
     $sql = nkDB_execute("SELECT secname, position FROM " . SECTIONS_CAT_TABLE . " WHERE secid = '" . $cid . "'");
     list($titre, $position) = nkDB_fetchArray($sql);

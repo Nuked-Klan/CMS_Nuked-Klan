@@ -1,6 +1,6 @@
 <?php
 
-$where = null;
+$where = '';
 
 $idTopMatch = $this->get('cfg')->get('blockTopMatch.id');
 

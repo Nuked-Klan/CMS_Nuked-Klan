@@ -28,9 +28,7 @@ $articlesTableCfg = array(
         'autor'     => array('type' => 'varchar(30)',  'null' => false),
         'autor_id'  => array('type' => 'varchar(20)',  'null' => true,  'default' => '\'\''),
         'counter'   => array('type' => 'int(11)',      'null' => false, 'default' => '\'0\''),
-        'bbcodeoff' => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
-        'smileyoff' => array('type' => 'int(1)',       'null' => false, 'default' => '\'0\''),
-        'date'      => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\'')
+        'date'      => array('type' => 'varchar(12)',  'null' => false, 'default' => '\'\'')// TODO : Too low ?
     ),
     'primaryKey' => array('artid'),
     'index' => array(
@@ -125,6 +123,12 @@ if ($process == 'update') {
 
     if (! $dbTable->fieldExist('coverage'))
         $dbTable->addField('coverage', $articlesTableCfg['fields']['coverage']);
+
+    if ($dbTable->fieldExist('bbcodeoff'))
+        $dbTable->dropField('bbcodeoff');
+
+    if ($dbTable->fieldExist('smileyoff'))
+        $dbTable->dropField('smileyoff');
 
     // Update BBcode
     // update 1.7.9 RC1

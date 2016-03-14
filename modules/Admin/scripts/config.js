@@ -87,3 +87,14 @@ function del(id){
 	OAjax.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	OAjax.send('id='+id+'');
 }
+
+function getEditorContent(id) {
+    var textValue;
+
+    if (typeof CKEDITOR === "object")
+        textValue = CKEDITOR.instances[id].getData();
+    else if (typeof tinyMCE === "object")
+        textValue = tinyMCE.get(id).getContent();
+
+    return $(textValue).text();
+}

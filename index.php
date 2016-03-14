@@ -127,7 +127,7 @@ else {
         if (defined('NK_GZIP') && ini_get('zlib_output'))
             ob_start('ob_gzhandler');
     }
-    else
+    else if ($defaultHttpHeader)
         header('Content-Type: text/html;charset=ISO-8859-1');
 
     echo $content;
