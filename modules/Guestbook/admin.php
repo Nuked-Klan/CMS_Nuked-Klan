@@ -65,7 +65,7 @@ function modif_book($gid, $comment, $email, $url)
     $email   = stripslashes($email);
     $url     = stripslashes($url);
 
-    $email = nkHtmlEntities($email);// TODO : Really need ?
+    $email = nkHtmlEntities($email);
     $email = checkEmail($email);
 
     if (($error = getCheckEmailError($email)) !== false) {

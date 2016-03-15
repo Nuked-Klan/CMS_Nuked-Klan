@@ -20,10 +20,8 @@ nkAction_setParams(array(
     'dataName'              => 'voteModules',
     'tableName'             => VOTE_MODULES_TABLE,
     'onlyEditDbTable'       => true,
-    'title'                 => __('ADMIN_VOTE') // TODO : A finir
+    'title'                 => __('ADMIN_VOTE')
 ));
-
-// remplacer ACTION_MODIF_VOTE_MODULES par ACTION_EDIT_VOTE_MODULES
 
 
 /**
