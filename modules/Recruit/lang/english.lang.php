@@ -40,17 +40,10 @@ define("_WEEKEND","Week-end");
 define("_HOLIDAY","Holiday");
 define("_THREE","Three");
 define("_OTHER","Other");
-
-
 define("_SENDRECRUIT","Recruitment request was successfully sent.");
 define("_NEWRECRUIT","sent a recruitment request:");
 define("_RECRUITOFF","Sorry, recruitment is closed at the present time.");
-
-
-
-
 define("_DELETERECRUTE","You are about to remove the request of");
-
 define("_REMOVE","Remove");
 define("_RECRUITDELETE","Recruitment request was successfully removed.");
 define("_EDITPREF","Modify Preferences");
@@ -62,7 +55,7 @@ define("_INBOXAVERT","Be notified via private message");
 define("_CHARTE","Charter");
 define("_NORECRUIT","No recruitment request in the database");
 define("_NOTDEM","You have received a recruitment request");
-
 define("_ACTIONPREFREC","has modified preference of recruitment");
 define("_ACTIONDELREC","has delete a recruitement");
+
 ?>

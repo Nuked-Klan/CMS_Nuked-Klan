@@ -75,7 +75,18 @@ function edit_pref()
     {
         $etat = _RECRUIT_CLOSE;
     } 
-    
+
+    echo '<script type="text/javascript">
+    function checkRecruitSetting(){
+        if(document.getElementById(\'recruitEmail\').value.length > 0 && ! isEmail(\'recruitEmail\')){
+            alert(\''. addslashes(__('BAD_EMAIL')) .'\');
+            return false;
+        }
+
+        return true;
+    }
+    </script>';
+
     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
     . "<div class=\"content-box-header\"><h3>" . _PREFS . "</h3>\n"
     . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Recruit.php\" rel=\"modal\">\n"
@@ -85,13 +96,13 @@ function edit_pref()
 
     nkAdminMenu(2);
 
-echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;op=update_pref\" onsubmit=\"backslash('charte_recruit');\">\n"
+echo "<form method=\"post\" action=\"index.php?file=Recruit&amp;page=admin&amp;op=update_pref\" onsubmit=\"return checkRecruitSetting()\">\n"
 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 . "<tr><td><b>" . _RECRUTE . "</b> : <select name=\"recrute\">\n"
 . "<option value=\"" . $nuked['recrute'] . "\">" . $etat . "</option>\n"
 . "<option value=\"1\">" . _RECRUIT_OPEN . "</option>\n"
 . "<option value=\"0\">" . _RECRUIT_CLOSE . "</option></select></td></tr>\n"
-. "<tr><td><b>" . _MAILAVERT . "</b> : <input type=\"text\" size=\"30\" name=\"recrute_mail\" value=\"" . $nuked['recrute_mail'] . "\" /></td></tr>\n"
+. "<tr><td><b>" . _MAILAVERT . "</b> : <input id=\"recruitEmail\" type=\"text\" size=\"30\" name=\"recrute_mail\" value=\"" . $nuked['recrute_mail'] . "\" /></td></tr>\n"
 . "<tr><td><b>" . _INBOXAVERT . "</b> : <select name=\"recrute_inbox\"><option value=\"\">" . _OFF . "</option>\n";
 
     $sql2 = nkDB_execute("SELECT id, pseudo FROM " . USER_TABLE . " WHERE niveau > 1 ORDER BY niveau DESC");
@@ -121,13 +132,24 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
 {
     global $nuked, $user;
 
-    $recrute_charte = nkHtmlEntityDecode($recrute_charte);
-    $recrute_charte = nkDB_realEscapeString(stripslashes($recrute_charte));
+    $recrute_mail = stripslashes($recrute_mail);
 
-    $upd = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute . "' WHERE name = 'recrute'");
-    $upd1 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_charte . "' WHERE name = 'recrute_charte'");
-    $upd2 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_mail . "' WHERE name = 'recrute_mail'");
-    $upd3 = nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_inbox . "' WHERE name = 'recrute_inbox'");
+    if ($recrute_mail && ($recrute_mail = checkEmail($recrute_mail, false, false)) === false) {
+        printNotification(getCheckEmailError($recrute_mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        return;
+    }
+
+    $recrute_charte = secu_html(nkHtmlEntityDecode($recrute_charte));
+
+    $recrute        = nkDB_realEscapeString(stripslashes($recrute));
+    $recrute_charte = nkDB_realEscapeString(stripslashes($recrute_charte));
+    $recrute_mail   = nkDB_realEscapeString($recrute_mail);
+    $recrute_inbox  = nkDB_realEscapeString(stripslashes($recrute_inbox));
+
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute . "' WHERE name = 'recrute'");
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_charte . "' WHERE name = 'recrute_charte'");
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_mail . "' WHERE name = 'recrute_mail'");
+    nkDB_execute("UPDATE " . CONFIG_TABLE . " SET value = '" . $recrute_inbox . "' WHERE name = 'recrute_inbox'");
 
     saveUserAction(_ACTIONPREFREC .'.');
 
@@ -138,6 +160,8 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
 function view($rid)
 {
     global $nuked, $language;
+
+    $rid = (int) $rid;
 
     echo "<script type=\"text/javascript\">\n"
 . "<!--\n"
@@ -166,6 +190,8 @@ function view($rid)
     list($game_name) = nkDB_fetchArray($sql2);
     $game_name = nkHtmlEntities($game_name);
 
+    if (! $comment) $comment = __('NA');
+
     echo "<b>" . _NICK . " : </b>" . $pseudo . "<br />\n"
 . "<b>" . _FIRSTNAME . " : </b>" . $prenom . "<br />\n"
 . "<b>" . _AGE . " : </b>" . $age . "<br />\n"
@@ -186,7 +212,9 @@ function del($rid)
 {
     global $nuked, $user;
 
-    $del = nkDB_execute("DELETE FROM " . RECRUIT_TABLE . " WHERE id = '" . $rid ."'");
+    $rid = (int) $rid;
+
+    nkDB_execute("DELETE FROM " . RECRUIT_TABLE . " WHERE id = '" . $rid ."'");
 
     saveUserAction(_ACTIONDELREC .'.');
 

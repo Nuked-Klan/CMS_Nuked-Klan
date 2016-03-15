@@ -40,15 +40,10 @@ define("_WEEKEND","Les Week-ends");
 define("_HOLIDAY","Les vacances");
 define("_THREE","Les Trois");
 define("_OTHER","Autres");
-
-
 define("_SENDRECRUIT","Votre demande de recrutement a été prise en compte");
 define("_NEWRECRUIT","a envoyé une demande de recrutement :");
 define("_RECRUITOFF","Désolé, le recrutement est terminé à l'heure actuelle.");
-
-
 define("_DELETERECRUTE","Vous êtes sur le point de supprimer la demande de");
-
 define("_REMOVE","Supprimer");
 define("_RECRUITDELETE","Demande de recrutement supprimée avec succès.");
 define("_EDITPREF","Modifier les Préférences");
@@ -62,4 +57,5 @@ define("_NORECRUIT","Aucune demande de recrutement dans la base de données");
 define("_NOTDEM","Vous avez reçu une demande de recrutement");
 define("_ACTIONPREFREC","a modifié les préférences du module recrutement");
 define("_ACTIONDELREC","a supprimé une demande de recrutement");
+
 ?>

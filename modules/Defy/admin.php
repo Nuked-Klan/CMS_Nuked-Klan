@@ -262,7 +262,7 @@ function update_pref($defie_mail, $defie_inbox, $defie_charte) {
     $defie_inbox  = stripslashes($defie_inbox);
 
     if ($defie_mail && ($defie_mail = checkEmail($defie_mail, false, false)) === false) {
-        printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        printNotification(getCheckEmailError($defie_mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
         return;
     }
 

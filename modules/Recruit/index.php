@@ -29,7 +29,7 @@ if ($nuked['recrute'] > 0)
         {
             echo "<br /><table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
             . "<tr><td align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr>\n"
-            . "<tr><td>&nbsp;</td></tr><tr><td>" . nkHtmlEntityDecode($nuked['recrute_charte']) . "</td></tr></table>\n"
+            . "<tr><td>&nbsp;</td></tr><tr><td>" . $nuked['recrute_charte'] . "</td></tr></table>\n"
             . "<form method=\"post\" action=\"index.php?file=Recruit\">\n"
             . "<div style=\"text-align: center;\"><input type=\"hidden\" name=\"op\" value=\"form\" />\n"
             . "<input type=\"submit\" value=\"" . _IAGREE . "\" />&nbsp;<input type=\"button\" value=\"" . _IDESAGREE . "\" onclick=\"javascript:history.back()\" /></div></form>\n";
@@ -46,61 +46,45 @@ if ($nuked['recrute'] > 0)
 
         define('EDITOR_CHECK', 1);
 
-        echo "<script type=\"text/javascript\">\n"
-        ."<!--\n"
-        ."\n"
-        . "function verifchamps()\n"
-        . "{\n"
-        . "if (document.getElementById('recruit_pseudo').value.length == 0)\n"
-        . "{\n"
-        . "alert('" . _NONICK . "');\n"
-        . "return false;\n"
-        . "}\n"
-        . "\n"
-        . "if (document.getElementById('recruit_lastname').value.length == 0)\n"
-        . "{\n"
-        . "alert('" . _NOLASTNAME . "');\n"
-        . "return false;\n"
-        . "}\n"
-        . "\n"
-        . "if (document.getElementById('recruit_age').value.length == 0)\n"
-        . "{\n"
-        . "alert('" . _NOAGE . "');\n"
-        . "return false;\n"
-        . "}\n"
-        ."\n"
-        . "if (isNaN(document.getElementById('recruit_age').value))\n"
-        . "{\n"
-        . "alert('" . _BADAGE . "');\n"
-        . "return false;\n"
-        . "}\n"
-        ."\n"
-        ."if (document.getElementById('recruit_mail').value.indexOf('@') == -1)\n"
-        ."{\n"
-        ."alert('" . _BADMAIL . "');\n"
-        ."return false;\n"
-        ."}\n"
-        ."\n"
-        . "if (document.getElementById('recruit_icq').value.length == 0)\n"
-        . "{\n"
-        . "alert('" . _NOICQ . "');\n"
-        . "return false;\n"
-        . "}\n"
-        ."\n"
-        . "return true;\n"
-        . "}\n"
-        ."\n"
-        . "// -->\n"
-        . "</script>\n";
+    echo '<script type="text/javascript">
+    function checkAddRecruit(){
+        if (document.getElementById(\'recruit_pseudo\').value.length == 0){
+            alert(\''. _NONICK .'\');
+            return false;
+        }
+        if (document.getElementById(\'recruit_lastname\').value.length == 0){
+            alert(\''. _NOLASTNAME .'\');
+            return false;
+        }
+        if (document.getElementById(\'recruit_age\').value.length == 0) {
+            alert(\''. _NOAGE .'\');
+            return false;
+        }
+        if(! document.getElementById(\'recruit_age\').value.match(/^\d+$/)){
+            alert(\''. _BADAGE .'\');
+            return false;
+        }
+        if (! isEmail(\'recruit_mail\')){
+            alert(\''. _BADMAIL .'\');
+            return false;
+        }
+        if (document.getElementById(\'recruit_icq\').value.length == 0){
+            alert(\''. _NOICQ .'\');
+            return false;
+        }
 
-        if(array_key_exists(2, $user)){
+        return true;
+    }
+    </script>';
+
+    if($user){
             $userName = $user[2];
         }
         else{
             $userName = '';
         }
 
-        echo "<br /><form method=\"post\" action=\"index.php?file=Recruit\" onsubmit=\"return verifchamps();\">\n"
+        echo "<br /><form method=\"post\" action=\"index.php?file=Recruit\" onsubmit=\"return checkAddRecruit();\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" cellspacing=\"1\" cellpadding=\"1\" border=\"0\">\n"
         . "<tr><td colspan=\"2\" align=\"center\"><big><b>" . _RECRUIT . "</b></big></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
         . "<tr><td style=\"width: 20%;\"><b>" . _NICK . " : </b></td><td><input id=\"recruit_pseudo\" type=\"text\" name=\"pseudo\" value=\"" . $userName . "\" size=\"20\" /></td></tr>\n"
@@ -149,7 +133,7 @@ if ($nuked['recrute'] > 0)
         $sql = nkDB_execute("SELECT id, name FROM " . GAMES_TABLE . " ORDER BY name");
         while (list($game_id, $nom) = nkDB_fetchArray($sql))
         {
-            $nom = nkHtmlEntities($nom);
+            $nom = printSecuTags($nom);
             echo "<option value=\"" . $game_id . "\">" . $nom . "</option>\n";
         }
 
@@ -171,11 +155,13 @@ if ($nuked['recrute'] > 0)
         . "<option>" . _HOLIDAY . "</option>\n"
         . "<option>" . _THREE . "</option>\n"
         . "<option>" . _OTHER . "</option>\n"
-        . "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+        . "</select></td></tr><tr><td style=\"width: 20%;\"><b>" . _COMMENT . " : </b></td><td><textarea id=\"e_basic\" name=\"comment\" cols=\"60\" rows=\"10\"></textarea></td></tr>"
+        . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
+        . "<tr><td colspan=\"2\" align=\"center\">";
 
         if (initCaptcha()) echo create_captcha();
 
-        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . __('SEND') . "\" /><input type=\"hidden\" name=\"op\" value=\"send_recruit\" /></td></tr></table></form><br />\n";
+        echo "<input type=\"submit\" value=\"" . __('SEND') . "\" /><input type=\"hidden\" name=\"op\" value=\"send_recruit\" /></td></tr></table></form><br />\n";
     }
 
     function send_recruit($pseudo, $prenom, $age, $mail, $icq, $country, $game, $connex, $exp, $dispo, $comment)
@@ -186,9 +172,37 @@ if ($nuked['recrute'] > 0)
         if (initCaptcha() && ! validCaptchaCode())
             return;
 
-        if (!is_numeric($age)) {
+        // TODO Check if username is ban ?
+        if ($pseudo == '' || ctype_space($pseudo)) {
+            printNotification(stripslashes(_NONICK), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
+
+        if ($prenom == '' || ctype_space($prenom)) {
+            printNotification(stripslashes(_NOLASTNAME), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
+
+        if ($age == '') {
+            printNotification(_NOAGE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            closetable();
+            return;
+        }
+
+        if (! ctype_digit($age)) {
             printNotification(_BADAGE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             closetable();
+            return;
+        }
+
+        // TODO Check if email is ban ?
+        if (($mail = checkEmail($mail, false, false)) === false) {
+            printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
+
+        if ($icq == '' || ctype_space($icq)) {
+            printNotification(stripslashes(_NOICQ), 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
 
@@ -201,7 +215,6 @@ if ($nuked['recrute'] > 0)
 
         $pseudo = nkDB_realEscapeString(stripslashes($pseudo));
         $prenom = nkDB_realEscapeString(stripslashes($prenom));
-        $age = intval($age);
         $mail = nkDB_realEscapeString(stripslashes($mail));
         $icq = nkDB_realEscapeString(stripslashes($icq));
         $country = nkDB_realEscapeString(stripslashes($country));
@@ -209,6 +222,8 @@ if ($nuked['recrute'] > 0)
         $exp = nkDB_realEscapeString(stripslashes($exp));
         $dispo = nkDB_realEscapeString(stripslashes($dispo));
         $comment = nkDB_realEscapeString(stripslashes($comment));
+
+        $age = (int) $age;
 
         $pseudo = nkHtmlEntities($pseudo);
         $prenom = nkHtmlEntities($prenom);
@@ -219,7 +234,12 @@ if ($nuked['recrute'] > 0)
         $exp = nkHtmlEntities($exp);
         $dispo = nkHtmlEntities($dispo);
 
-        $sql = nkDB_execute("INSERT INTO " . RECRUIT_TABLE . " ( `id` , `date` , `pseudo` , `prenom` , `age` , `mail` , `icq` , `country` , `game` , `connection` , `experience` , `dispo` , `comment` ) VALUES ( '' , '" . $date . "' , '" . $pseudo . "' , '" . $prenom . "' , '" . $age . "' , '" . $mail . "' , '" . $icq . "' , '" . $country . "' , '" . $game . "' , '" . $connex . "' , '" . $exp . "' , '" . $dispo . "' , '" . $comment. "' )");
+        nkDB_execute(
+            "INSERT INTO ". RECRUIT_TABLE ."
+            (`date`, `pseudo`, `prenom`, `age`, `mail`, `icq`, `country`, `game`, `connection`, `experience`, `dispo`, `comment`)
+            VALUES
+            ('". $date ."', '". $pseudo ."', '". $prenom ."', '". $age ."', '". $mail ."', '". $icq ."', '". $country ."', '". $game ."', '". $connex ."', '". $exp ."', '". $dispo ."', '". $comment."')"
+        );
 
         saveNotification(_NOTDEM .': [<a href="index.php?file=Recruit&page=admin">'. _TLINK .'</a>].');
 
@@ -235,9 +255,15 @@ if ($nuked['recrute'] > 0)
         {
             mail($email, $subject, $corps, $from);
         }
+
         if ($inbox != "")
         {
-            $sql2 = nkDB_execute("INSERT INTO " . USERBOX_TABLE . " ( `mid` , `user_from` , `user_for` , `titre` , `message` , `date` , `status` ) VALUES ( '' , '" . $inbox . "' , '" . $inbox . "' , '" . $subject . "' , '" . $corps . "' , '" . $date . "' , '0' )");
+            nkDB_execute(
+                "INSERT INTO ". USERBOX_TABLE ."
+                (`user_from`, `user_for`, `titre`, `message`, `date`)
+                VALUES
+                ('". $inbox ."', '". $inbox ."', '". $subject ."', '". $corps ."', '". $date ."')"
+            );
         }
 
         printNotification(_SENDRECRUIT, 'success');
