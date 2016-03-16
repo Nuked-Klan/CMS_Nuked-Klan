@@ -171,9 +171,14 @@ function change_pref($contact_mail, $contact_flood){
 
     $contact_mail = stripslashes($contact_mail);
 
-    if (($contact_mail = checkEmail($contact_mail, false, false)) === false) {
-        printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
-        return;
+    if ($contact_mail) {
+        $contact_mail = nkHtmlEntities(nkHtmlEntityDecode($contact_mail));
+        $contact_mail = checkEmail($contact_mail, false, false);
+
+        if (($error = getCheckEmailError($contact_mail)) !== false) {
+            printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
     }
 
     $contact_mail  = nkDB_realEscapeString($contact_mail);

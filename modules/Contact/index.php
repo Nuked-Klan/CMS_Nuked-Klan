@@ -76,10 +76,12 @@ function sendmail(){
         return;
     }
 
-    $_REQUEST['mail'] = stripslashes($_REQUEST['mail']);
+    $mail = nkHtmlEntities(nkHtmlEntityDecode(stripslashes($_REQUEST['mail'])));
 
-    if (($mail = checkEmail($_REQUEST['mail'], false, false)) === false) {
-        printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+    $mail = checkEmail($mail, false, false);
+
+    if (($error = getCheckEmailError($mail)) !== false) {
+        printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
         return;
     }
 
@@ -116,7 +118,7 @@ function sendmail(){
         mail($email, $subjet, $corp, $from);
 
         $nom = nkHtmlEntities($nom, ENT_QUOTES);
-        $email = nkHtmlEntities($mail, ENT_QUOTES);
+        $email = nkHtmlEntities(nkHtmlEntityDecode(stripslashes($_REQUEST['mail'])), ENT_QUOTES);
         $subject = nkHtmlEntities($sujet, ENT_QUOTES);
         $text = secu_html(nkHtmlEntityDecode($corps, ENT_QUOTES));
 

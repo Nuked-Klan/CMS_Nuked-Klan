@@ -175,8 +175,13 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
     }
 
     // TODO Check if email is ban ?
-    if (($mail = checkEmail($mail, false, false)) === false) {
-        printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+    $mail = stripslashes($mail);
+    $mail = nkHtmlEntities(nkHtmlEntityDecode($mail));
+
+    $mail = checkEmail($mail, false, false);
+
+    if (($error = getCheckEmailError($mail)) !== false) {
+        printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
         return;
     }
 
@@ -240,7 +245,7 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
     $pseudo = nkDB_realEscapeString(stripslashes($pseudo));
     $clan = nkDB_realEscapeString(stripslashes($clan));
     $country = nkDB_realEscapeString(stripslashes($country));
-    $mail = nkDB_realEscapeString(stripslashes($mail));
+    $mail = nkDB_realEscapeString($mail);
     $icq = nkDB_realEscapeString(stripslashes($icq));
     $irc = nkDB_realEscapeString(stripslashes($irc));
     $url = nkDB_realEscapeString(stripslashes($url));
@@ -254,7 +259,6 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
     $pseudo = printSecuTags($pseudo);
     $clan = printSecuTags($clan);
     $country = nkHtmlEntities($country);
-    $mail = nkHtmlEntities($mail);
     $icq = nkHtmlEntities($icq);
     $irc = nkHtmlEntities($irc);
     $url = nkHtmlEntities($url);
@@ -275,12 +279,8 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
     $corps = $pseudo . " " . _NEWDEFY . "\r\n" . $nuked['url'] . "/index.php?file=Defy&page=admin\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
     $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
 
-    $subject = @nkHtmlEntityDecode($subject);
-    $corps = @nkHtmlEntityDecode($corps);
-    $from = @nkHtmlEntityDecode($from);
-
-    if (!empty($email)){
-        @mail($email, $subject, $corps, $from);
+    if (!empty($email)) {
+        @mail($email, @nkHtmlEntityDecode($subject), @nkHtmlEntityDecode($corps), @nkHtmlEntityDecode($from));
     }
 
     if (!empty($inbox)){
@@ -288,7 +288,7 @@ function send_defie($pseudo, $clan, $country, $mail, $icq, $irc, $url, $date, $h
             "INSERT INTO ". USERBOX_TABLE ."
             (`user_from`, `user_for`, `titre`, `message`, `date`
             VALUES
-            ('". $inbox ."', '". $inbox ."', '". $subject ."', '". $corps ."', '". $time ."')"
+            ('". nkDB_realEscapeString($inbox) ."', '". nkDB_realEscapeString($inbox) ."', '". nkDB_realEscapeString($subject) ."', '". nkDB_realEscapeString($corps) ."', '". $time ."')"
         );
     }
 

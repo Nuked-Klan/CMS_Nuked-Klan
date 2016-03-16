@@ -134,9 +134,14 @@ function update_pref($recrute_mail, $recrute_inbox, $recrute_charte, $recrute)
 
     $recrute_mail = stripslashes($recrute_mail);
 
-    if ($recrute_mail && ($recrute_mail = checkEmail($recrute_mail, false, false)) === false) {
-        printNotification(getCheckEmailError($recrute_mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
-        return;
+    if ($recrute_mail) {
+        $recrute_mail = nkHtmlEntities(nkHtmlEntityDecode($recrute_mail));
+        $recrute_mail = checkEmail($recrute_mail, false, false);
+
+        if (($error = getCheckEmailError($recrute_mail)) !== false) {
+            printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
     }
 
     $recrute_charte = secu_html(nkHtmlEntityDecode($recrute_charte));

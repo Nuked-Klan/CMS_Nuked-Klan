@@ -104,7 +104,7 @@ function nkUserSocial_getLinkUrl($userSocial, $url) {
     $url = sprintf($userSocial['format'], $url);
 
     if ($userSocial['protect'])
-        $url = str2htmlEntities($url);
+        $url = str2htmlEntities($url);// TODO : Check for double encode
 
     return $url;
 }

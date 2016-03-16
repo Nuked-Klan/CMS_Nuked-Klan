@@ -185,19 +185,22 @@ if ($nuked['recrute'] > 0)
 
         if ($age == '') {
             printNotification(_NOAGE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
-            closetable();
             return;
         }
 
         if (! ctype_digit($age)) {
             printNotification(_BADAGE, 'error', array('backLinkUrl' => 'javascript:history.back()'));
-            closetable();
             return;
         }
 
         // TODO Check if email is ban ?
-        if (($mail = checkEmail($mail, false, false)) === false) {
-            printNotification(getCheckEmailError($mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
+        $mail = stripslashes($mail);
+        $mail = nkHtmlEntities(nkHtmlEntityDecode($mail));
+
+        $mail = checkEmail($mail, false, false);
+
+        if (($error = getCheckEmailError($mail)) !== false) {
+            printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
 
@@ -215,7 +218,7 @@ if ($nuked['recrute'] > 0)
 
         $pseudo = nkDB_realEscapeString(stripslashes($pseudo));
         $prenom = nkDB_realEscapeString(stripslashes($prenom));
-        $mail = nkDB_realEscapeString(stripslashes($mail));
+        $mail = nkDB_realEscapeString($mail);
         $icq = nkDB_realEscapeString(stripslashes($icq));
         $country = nkDB_realEscapeString(stripslashes($country));
         $connex = nkDB_realEscapeString(stripslashes($connex));
@@ -227,7 +230,6 @@ if ($nuked['recrute'] > 0)
 
         $pseudo = nkHtmlEntities($pseudo);
         $prenom = nkHtmlEntities($prenom);
-        $mail = nkHtmlEntities($mail);
         $icq = nkHtmlEntities($icq);
         $country = nkHtmlEntities($country);
         $connex = nkHtmlEntities($connex);
@@ -247,13 +249,8 @@ if ($nuked['recrute'] > 0)
         $corps = $pseudo . " " . _NEWRECRUIT . "\r\n" . $nuked['url'] . "/index.php?file=Recruit&page=admin\r\n\r\n\r\n" . $nuked['name'] . " - " . $nuked['slogan'];
         $from = "From: " . $nuked['name'] . " <" . $nuked['mail'] . ">\r\nReply-To: " . $mail;
 
-        $subject = @nkHtmlEntityDecode($subject);
-        $corps = @nkHtmlEntityDecode($corps);
-        $from = @nkHtmlEntityDecode($from);
-
-        if ($email != "")
-        {
-            mail($email, $subject, $corps, $from);
+        if ($email != "") {
+            mail($email, @nkHtmlEntityDecode($subject), @nkHtmlEntityDecode($corps), @nkHtmlEntityDecode($from));
         }
 
         if ($inbox != "")
@@ -262,7 +259,7 @@ if ($nuked['recrute'] > 0)
                 "INSERT INTO ". USERBOX_TABLE ."
                 (`user_from`, `user_for`, `titre`, `message`, `date`)
                 VALUES
-                ('". $inbox ."', '". $inbox ."', '". $subject ."', '". $corps ."', '". $date ."')"
+                ('". nkDB_realEscapeString($inbox) ."', '". nkDB_realEscapeString($inbox) ."', '". nkDB_realEscapeString($subject) ."', '". nkDB_realEscapeString($corps) ."', '". $date ."')"
             );
         }
 

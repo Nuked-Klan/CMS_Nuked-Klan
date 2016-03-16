@@ -43,6 +43,8 @@ function post_book()
     </script>
     <?php
 
+    $url = $mail = '';
+
     if ($user)
     {
         $sql = nkDB_execute("SELECT url, email FROM " . USER_TABLE . " WHERE id = '" . $user['id'] . "'");
@@ -77,7 +79,7 @@ function send_book($comment)
         $pseudo = $user[2];
 
         $sql = nkDB_execute("SELECT url, email FROM " . USER_TABLE . " WHERE id = '" . $user['id'] . "'");
-        list($url, $mail) = nkDB_fetchArray($sql);
+        list($url, $email) = nkDB_fetchArray($sql);
     }
     else
     {
@@ -91,14 +93,14 @@ function send_book($comment)
             printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
             return;
         }
-    }
 
-    $email = nkHtmlEntities($email);
-    $email = checkEmail(stripslashes($email));
+        $email = nkHtmlEntities(nkHtmlEntityDecode($email));
+        $email = checkEmail($email);
 
-    if (($error = getCheckEmailError($email)) !== false) {
-        printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
-        return;
+        if (($error = getCheckEmailError($email)) !== false) {
+            printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
     }
 
     $sql2 = nkDB_execute("SELECT date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT 0, 1");
@@ -124,7 +126,7 @@ function send_book($comment)
         $comment = secu_html(nkHtmlEntityDecode($comment));
         $comment = nkDB_realEscapeString(stripslashes($comment));
         $pseudo  = nkDB_realEscapeString(stripslashes($pseudo));
-        $email   = nkDB_realEscapeString(stripslashes($email));
+        $email   = nkDB_realEscapeString($email);
         $url     = nkDB_realEscapeString($url);
         $user_ip = nkDB_realEscapeString($user_ip);
 

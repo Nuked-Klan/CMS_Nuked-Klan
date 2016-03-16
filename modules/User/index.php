@@ -801,8 +801,8 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
     $pseudo = nkHtmlEntities($pseudo, ENT_QUOTES);
     $pseudo = checkNickname($pseudo);
 
-    $mail = nkDB_realEscapeString(stripslashes($mail));
-    $mail = nkHtmlEntities($mail);
+    $email = nkDB_realEscapeString(stripslashes($email));
+    $email = nkHtmlEntities($email);
 
     if (($error = getCheckNicknameError($pseudo)) !== false) {
         printNotification($error, 'error');
@@ -811,7 +811,7 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         return;
     }
 
-    $mail = nkHtmlEntities($mail);
+    $mail = nkHtmlEntities(nkHtmlEntityDecode($mail));
     $mail = checkEmail($mail, $checkRegistred = true);
 
     if (($error = getCheckEmailError($mail)) !== false) {
@@ -1105,9 +1105,6 @@ function update(){
 
     $_POST['nick'] = nkHtmlEntities($_POST['nick'], ENT_QUOTES);
 
-    $_POST['mail'] = stripslashes($_POST['mail']);
-    $_POST['mail'] = nkHtmlEntities($_POST['mail']);
-
     $sql = nkDB_execute("SELECT pseudo, mail, pass FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
     list($old_pseudo, $old_mail, $old_pass) = nkDB_fetchArray($sql);
 
@@ -1133,7 +1130,8 @@ function update(){
     }
 
     if ($_POST['mail'] != $old_mail){
-        $_POST['mail'] = nkHtmlEntities($_POST['mail']);
+        $_POST['mail'] = stripslashes($_POST['mail']);
+        $_POST['mail'] = nkHtmlEntities(nkHtmlEntityDecode($_POST['mail']));
         $_POST['mail'] = checkEmail($_POST['mail'], $checkRegistred = true);
 
         if (($error = getCheckEmailError($_POST['mail'])) !== false) {

@@ -261,9 +261,14 @@ function update_pref($defie_mail, $defie_inbox, $defie_charte) {
     $defie_charte = stripslashes($defie_charte);
     $defie_inbox  = stripslashes($defie_inbox);
 
-    if ($defie_mail && ($defie_mail = checkEmail($defie_mail, false, false)) === false) {
-        printNotification(getCheckEmailError($defie_mail), 'error', array('backLinkUrl' => 'javascript:history.back()'));
-        return;
+    if ($defie_mail) {
+        $defie_mail = nkHtmlEntities(nkHtmlEntityDecode($defie_mail));
+        $defie_mail = checkEmail($defie_mail, false, false);
+
+        if (($error = getCheckEmailError($defie_mail)) !== false) {
+            printNotification($error, 'error', array('backLinkUrl' => 'javascript:history.back()'));
+            return;
+        }
     }
 
     $defie_charte = secu_html(nkHtmlEntityDecode($defie_charte));
